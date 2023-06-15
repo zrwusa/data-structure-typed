@@ -1,0 +1,75 @@
+{
+  "name": "data-structure-typed",
+  "version": "0.8.6",
+  "description": "Hash (CoordinateSet, CoordinateMap) Heap (MaxHeap, MinHeap) Binary Tree (AVL Tree, Binary Indexed Tree, Binary Search Tree, Segment Tree, Tree Multiset) Graph (Directed Graph, Undirected Graph) Linked List (Singly Linked List, Doubly Linked List) Matrix Priority Queue (Max Priority Queue, Min Priority Queue) Queue (Queue, Dequeue) Stack Trie",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zrwusa/data-structure-typed.git"
+  },
+  "keywords": [
+    "Hash",
+    "CoordinateSet",
+    "CoordinateMap",
+    "Heap",
+    "MaxHeap",
+    "MinHeap",
+    "Binary",
+    "Tree",
+    "AVL",
+    "Tree",
+    "Binary",
+    "Indexed",
+    "Tree",
+    "Binary",
+    "Search",
+    "Tree",
+    "Segment",
+    "Tree",
+    "Tree",
+    "Multiset",
+    "Graph",
+    "Directed",
+    "Graph",
+    "Undirected",
+    "Graph",
+    "Linked",
+    "List",
+    "Singly",
+    "Linked",
+    "List",
+    "Doubly",
+    "Linked",
+    "List",
+    "Matrix",
+    "Priority",
+    "Queue",
+    "Max",
+    "Priority",
+    "Queue",
+    "Min",
+    "Priority",
+    "Queue",
+    "Queue",
+    "Queue",
+    "Dequeue",
+    "Stack",
+    "Trie"
+  ],
+  "author": "Tyler Zeng",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zrwusa/data-structure-ts/issues"
+  },
+  "homepage": "https://github.com/zrwusa/data-structure-ts#readme",
+  "devDependencies": {
+    "@types/lodash": "^4.14.178",
+    "typescript": "^4.6.2"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}
