@@ -13,7 +13,7 @@
     "strict": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "declarationDir": "./dist/types",
+    "declarationDir": "./dist",
     "skipLibCheck": true
 
     //    "allowJs": true,
@@ -25,7 +25,8 @@
     //    "noEmit": true,
   },
   "include": [
-    "src"
+    "src",
+    "node_modules/data-structure-typed"
   ],
   "exclude": [
     "node_modules",
