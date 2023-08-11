@@ -9,6 +9,8 @@ npm-debug.*
 dist/
 .DS_Store
 __tests__/
+
+notes/
 #.expo/*
 #web-build/
 #.idea/

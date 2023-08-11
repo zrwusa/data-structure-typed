@@ -105,7 +105,6 @@ export class BST<T> extends BinaryTree<T> {
 
     override remove(id: BinaryTreeNodeId, ignoreCount?: boolean): BSTDeletedResult<T>[] {
         const bstDeletedResult: BSTDeletedResult<T>[] = [];
-
         if (!this.root) return bstDeletedResult;
 
         const curr: BSTNode<T> | null = this.get(id);
