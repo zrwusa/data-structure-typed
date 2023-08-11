@@ -1,7 +1,6 @@
 /**
  * @license MIT
- * @copyright 2020 Pablo Rios <zrwusa@gmail.com>
- *
+ * @copyright 2020 Tyler Zeng <zrwusa@gmail.com>
  * @class
  */
 export class Stack<T> {
@@ -13,6 +12,17 @@ export class Stack<T> {
      */
     constructor(elements?: T[]) {
         this._elements = Array.isArray(elements) ? elements : [];
+    }
+
+    /**
+     * Creates a stack from an existing array
+     * @public
+     * @static
+     * @param {array} [elements]
+     * @return {Stack}
+     */
+    static fromArray<T>(elements: T[]): Stack<T> {
+        return new Stack(elements);
     }
 
     /**
@@ -89,16 +99,5 @@ export class Stack<T> {
      */
     clone(): Stack<T> {
         return new Stack(this._elements.slice());
-    }
-
-    /**
-     * Creates a stack from an existing array
-     * @public
-     * @static
-     * @param {array} [elements]
-     * @return {Stack}
-     */
-    static fromArray<T>(elements: T[]): Stack<T> {
-        return new Stack(elements);
     }
 }

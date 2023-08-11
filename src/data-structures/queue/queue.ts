@@ -1,7 +1,6 @@
 /**
  * @license MIT
- * @copyright 2020 Pablo
- *
+ * @copyright 2020 Tyler Zeng <zrwusa@gmail.com>
  * @class
  */
 export class Queue<T> {
@@ -15,6 +14,17 @@ export class Queue<T> {
     constructor(elements?: T[]) {
         this._nodes = elements || [];
         this._offset = 0;
+    }
+
+    /**
+     * Creates a queue from an existing array.
+     * @public
+     * @static
+     * @param {array} elements
+     * @return {Queue}
+     */
+    static fromArray<T>(elements: T[]): Queue<T> {
+        return new Queue(elements);
     }
 
     /**
@@ -108,16 +118,5 @@ export class Queue<T> {
      */
     clone(): Queue<T> {
         return new Queue(this._nodes.slice(this._offset));
-    }
-
-    /**
-     * Creates a queue from an existing array.
-     * @public
-     * @static
-     * @param {array} elements
-     * @return {Queue}
-     */
-    static fromArray<T>(elements: T[]): Queue<T> {
-        return new Queue(elements);
     }
 }

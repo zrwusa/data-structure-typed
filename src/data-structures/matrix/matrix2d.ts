@@ -16,19 +16,8 @@ export class Matrix2D {
         }
     }
 
-    /**
-     * Return the matrix values
-     */
-    public get m(): number[][] {
-        return this._matrix
-    }
-
     public static get empty(): number[][] {
         return [[], [], []]
-    }
-
-    public get toVector(): Vector2D {
-        return new Vector2D(this._matrix[0][0], this._matrix[1][0])
     }
 
     /**
@@ -39,6 +28,17 @@ export class Matrix2D {
             [1, 0, 0],
             [0, 1, 0],
             [0, 0, 1]]
+    }
+
+    /**
+     * Return the matrix values
+     */
+    public get m(): number[][] {
+        return this._matrix
+    }
+
+    public get toVector(): Vector2D {
+        return new Vector2D(this._matrix[0][0], this._matrix[1][0])
     }
 
     public static add(matrix1: Matrix2D, matrix2: Matrix2D): Matrix2D {

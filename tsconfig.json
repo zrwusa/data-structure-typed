@@ -3,18 +3,17 @@
     "declaration": true,
     "outDir": "./dist",
     "module": "commonjs",
-    "target": "es6",
+    "target": "es5",
     "lib": [
-      "es6",
-      "dom",
-      "dom.iterable",
+//      "es2015",
       "esnext"
     ],
     "strict": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
     "declarationDir": "./dist",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+        "downlevelIteration": true,
 
     //    "allowJs": true,
     //    "allowSyntheticDefaultImports": true,
@@ -23,12 +22,16 @@
     //    "resolveJsonModule": true,
     //    "isolatedModules": true,
     //    "noEmit": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ]
   },
+
   "include": [
     "src",
-    "node_modules/data-structure-typed"
   ],
   "exclude": [
+//    "node_modules/data-structure-typed",
     "node_modules",
     "dist"
   ]

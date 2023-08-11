@@ -1,14 +1,5 @@
-import {
-    BinaryTree,
-    BinaryTreeNode,
-    BinaryTreeNodeId,
-    BinaryTreeNodePropertyName,
-    FamilyPosition,
-    LoopType,
-} from './binary-tree';
-
-export type BSTComparator = (a: BinaryTreeNodeId, b: BinaryTreeNodeId) => number;
-export type BSTDeletedResult<T> = { deleted: BSTNode<T> | null, needBalanced: BSTNode<T> | null };
+import type {BinaryTreeNodeId, BinaryTreeNodePropertyName, BSTComparator, BSTDeletedResult} from '../types';
+import {BinaryTree, BinaryTreeNode, FamilyPosition, LoopType,} from './binary-tree';
 
 export enum CP {lt = -1, eq = 0, gt = 1}
 
@@ -19,15 +10,6 @@ export class BSTNode<T> extends BinaryTreeNode<T> {
 }
 
 export class BST<T> extends BinaryTree<T> {
-    protected _comparator: BSTComparator = (a, b) => a - b;
-
-    protected _compare(a: BinaryTreeNodeId, b: BinaryTreeNodeId): CP {
-        const compared = this._comparator(a, b);
-        if (compared > 0) return CP.gt;
-        else if (compared < 0) return CP.lt;
-        else return CP.eq;
-    }
-
     constructor(options?: {
         comparator?: BSTComparator,
         loopType?: LoopType
@@ -373,8 +355,8 @@ export class BST<T> extends BinaryTree<T> {
             _height(this.root);
         } else {
             const stack: BSTNode<T>[] = [];
-            let node: BSTNode<T> | null | undefined = this.root, last: BSTNode<T> | null = null,
-                depths: Map<BSTNode<T>, number> = new Map();
+            let node: BSTNode<T> | null | undefined = this.root, last: BSTNode<T> | null = null;
+            const depths: Map<BSTNode<T>, number> = new Map();
 
             while (stack.length > 0 || node) {
                 if (node) {
@@ -385,8 +367,8 @@ export class BST<T> extends BinaryTree<T> {
                     if (!node.right || last === node.right) {
                         node = stack.pop();
                         if (node) {
-                            let left = node.left ? depths.get(node.left) ?? -1 : -1;
-                            let right = node.right ? depths.get(node.right) ?? -1 : -1;
+                            const left = node.left ? depths.get(node.left) ?? -1 : -1;
+                            const right = node.right ? depths.get(node.right) ?? -1 : -1;
                             if (Math.abs(left - right) > 1) return false;
                             depths.set(node, 1 + Math.max(left, right));
                             last = node;
@@ -398,6 +380,15 @@ export class BST<T> extends BinaryTree<T> {
         }
 
         return balanced;
+    }
+
+    protected _comparator: BSTComparator = (a, b) => a - b;
+
+    protected _compare(a: BinaryTreeNodeId, b: BinaryTreeNodeId): CP {
+        const compared = this._comparator(a, b);
+        if (compared > 0) return CP.gt;
+        else if (compared < 0) return CP.lt;
+        else return CP.eq;
     }
 
     // --- end additional functions

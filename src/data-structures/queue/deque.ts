@@ -50,7 +50,7 @@ export class ObjectDeque<T> {
 
     pollFirst() {
         if (!this._size) return;
-        let value = this.peekFirst();
+        const value = this.peekFirst();
         delete this._nodes[this._first];
         this._first++;
         this._size--;
@@ -63,7 +63,7 @@ export class ObjectDeque<T> {
 
     pollLast() {
         if (!this._size) return;
-        let value = this.peekLast();
+        const value = this.peekLast();
         delete this._nodes[this._last];
         this._last--;
         this._size--;

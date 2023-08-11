@@ -1,4 +1,4 @@
-export class CoordinateSet<V> extends Map<any, V> {
+export class CoordinateMap<V> extends Map<any, V> {
     private readonly _joint: string = '_';
 
     constructor(joint?: string) {

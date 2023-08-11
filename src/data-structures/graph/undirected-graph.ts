@@ -1,5 +1,6 @@
 import {arrayRemove} from '../../utils';
-import {AbstractEdge, AbstractGraph, AbstractVertex, VertexId} from './abstract-graph';
+import {AbstractEdge, AbstractGraph, AbstractVertex} from './abstract-graph';
+import type {VertexId} from '../types';
 
 export class UndirectedVertex extends AbstractVertex {
     constructor(id: VertexId) {
@@ -8,6 +9,11 @@ export class UndirectedVertex extends AbstractVertex {
 }
 
 export class UndirectedEdge extends AbstractEdge {
+    constructor(v1: VertexId, v2: VertexId, weight?: number) {
+        super(weight);
+        this._vertices = [v1, v2];
+    }
+
     private _vertices: [VertexId, VertexId];
 
     public get vertices() {
@@ -17,19 +23,14 @@ export class UndirectedEdge extends AbstractEdge {
     public set vertices(v: [VertexId, VertexId]) {
         this._vertices = v;
     }
-
-    constructor(v1: VertexId, v2: VertexId, weight?: number) {
-        super(weight);
-        this._vertices = [v1, v2];
-    }
 }
 
 export class UndirectedGraph<V extends UndirectedVertex, E extends UndirectedEdge> extends AbstractGraph<V, E> {
+    protected _edges: Map<V, E[]> = new Map();
+
     constructor() {
         super();
     }
-
-    protected _edges: Map<V, E[]> = new Map();
 
     getEdge(v1: V | null | VertexId, v2: V | null | VertexId): E | null {
         let edges: E[] | undefined = [];
@@ -74,11 +75,11 @@ export class UndirectedGraph<V extends UndirectedVertex, E extends UndirectedEdg
         const v1Edges = this._edges.get(vertex1);
         let removed: E | null = null;
         if (v1Edges) {
-            removed = arrayRemove<E>(v1Edges, e => e.vertices.includes(vertex2.id))[0] || null;
+            removed = arrayRemove<E>(v1Edges, (e: UndirectedEdge) => e.vertices.includes(vertex2.id))[0] || null;
         }
         const v2Edges = this._edges.get(vertex2);
         if (v2Edges) {
-            arrayRemove<E>(v2Edges, e => e.vertices.includes(vertex1.id));
+            arrayRemove<E>(v2Edges, (e: UndirectedEdge) => e.vertices.includes(vertex1.id));
         }
         return removed;
     }

@@ -5,6 +5,10 @@ export class BinaryIndexedTree {
         this._sumTree = new Array<number>(n + 1).fill(0);
     }
 
+    static lowBit(x: number) {
+        return x & (-x);
+    }
+
     update(i: number, delta: number) {
         while (i < this._sumTree.length) {
             this._sumTree[i] += delta;
@@ -25,9 +29,5 @@ export class BinaryIndexedTree {
         if (!(0 <= start && start <= end && end <= this._sumTree.length))
             throw 'Index out of bounds';
         return this.getPrefixSum(end) - this.getPrefixSum(start);
-    }
-
-    static lowBit(x: number) {
-        return x & (-x);
     }
 }

@@ -1,5 +1,4 @@
-type Direction = 'up' | 'right' | 'down' | 'left';
-type Turning = { [key in Direction]: Direction };
+import type {Direction, NavigatorParams, Turning} from '../types';
 
 export class Character {
     direction: Direction;
@@ -11,23 +10,12 @@ export class Character {
     }
 }
 
-interface NavigatorParams<T> {
-    matrix: T[][],
-    turning: Turning,
-    onMove: (cur: [number, number]) => void
-    init: {
-        cur: [number, number],
-        charDir: Direction,
-        VISITED: T,
-    }
-}
-
 export class Navigator<T = number> {
+    onMove: (cur: [number, number]) => void;
     private readonly _matrix: T[][];
     private readonly _cur: [number, number];
     private _character: Character;
     private readonly _VISITED: T;
-    onMove: (cur: [number, number]) => void;
 
     constructor({matrix, turning, onMove, init: {cur, charDir, VISITED}}: NavigatorParams<T>) {
         this._matrix = matrix;

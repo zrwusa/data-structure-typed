@@ -1,5 +1,6 @@
 import {arrayRemove} from '../../utils';
-import {AbstractEdge, AbstractGraph, AbstractVertex, VertexId} from './abstract-graph';
+import {AbstractEdge, AbstractGraph, AbstractVertex} from './abstract-graph';
+import type {IDirectedGraph, TopologicalStatus, VertexId} from '../types';
 
 export class DirectedVertex extends AbstractVertex {
     constructor(id: VertexId) {
@@ -34,25 +35,8 @@ export class DirectedEdge extends AbstractEdge {
     }
 }
 
-export interface I_DirectedGraph<V, E> {
-    incomingEdgesOf(vertex: V): E[];
-
-    outgoingEdgesOf(vertex: V): E[];
-
-    inDegreeOf(vertexOrId: V | VertexId): number;
-
-    outDegreeOf(vertexOrId: V | VertexId): number;
-
-    getEdgeSrc(e: E): V | null;
-
-    getEdgeDest(e: E): V | null;
-}
-
-// 0 means unknown, 1 means visiting, 2 means visited;
-export type TopologicalStatus = 0 | 1 | 2;
-
 // Strongly connected, One direction connected, Weakly connected
-export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> extends AbstractGraph<V, E> implements I_DirectedGraph<V, E> {
+export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> extends AbstractGraph<V, E> implements IDirectedGraph<V, E> {
 
     protected _outEdgeMap: Map<V, E[]> = new Map<V, E[]>();
 
@@ -120,12 +104,12 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
 
         const srcOutEdges = this._outEdgeMap.get(src);
         if (srcOutEdges) {
-            arrayRemove<E>(srcOutEdges, edge => edge.dest === dest.id);
+            arrayRemove<E>(srcOutEdges, (edge: DirectedEdge) => edge.dest === dest.id);
         }
 
         const destInEdges = this._inEdgeMap.get(dest);
         if (destInEdges) {
-            removed = arrayRemove<E>(destInEdges, edge => edge.src === src.id)[0] || null;
+            removed = arrayRemove<E>(destInEdges, (edge: DirectedEdge) => edge.src === src.id)[0] || null;
         }
         return removed;
     }
@@ -137,12 +121,12 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
         if (src && dest) {
             const srcOutEdges = this._outEdgeMap.get(src);
             if (srcOutEdges && srcOutEdges.length > 0) {
-                arrayRemove(srcOutEdges, edge => edge.src === src.id);
+                arrayRemove(srcOutEdges, (edge: DirectedEdge) => edge.src === src.id);
             }
 
             const destInEdges = this._inEdgeMap.get(dest);
             if (destInEdges && destInEdges.length > 0) {
-                removed = arrayRemove(destInEdges, edge => edge.dest === dest.id)[0];
+                removed = arrayRemove(destInEdges, (edge: DirectedEdge) => edge.dest === dest.id)[0];
             }
 
         }
@@ -194,7 +178,7 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
         return this.getVertex(e.dest);
     }
 
-    getDestinations(vertex: V | null): V[] {
+    getDestinations(vertex: V | VertexId | null): V[] {
         if (vertex === null) {
             return [];
         }
@@ -215,7 +199,7 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
      * when stored with adjacency list time: O(V+E)
      * when stored with adjacency matrix time: O(V^2)
      */
-    topologicalSort(): V[] | null {
+    topologicalSort(): (V | VertexId)[] | null {
         // vector<vector<int>> g;
         // vector<int> color;
         // int last;
@@ -247,14 +231,14 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
         // }
         // When judging whether there is a cycle in the undirected graph, all nodes with degree of **<= 1** are enqueued
         // When judging whether there is a cycle in the directed graph, all nodes with **in degree = 0** are enqueued
-        const statusMap: Map<V, TopologicalStatus> = new Map<V, TopologicalStatus>();
+        const statusMap: Map<V | VertexId, TopologicalStatus> = new Map<V, TopologicalStatus>();
         for (const entry of this._vertices) {
             statusMap.set(entry[1], 0);
         }
 
-        const sorted: V[] = [];
+        const sorted: (V | VertexId)[] = [];
         let hasCycle = false;
-        const dfs = (cur: V) => {
+        const dfs = (cur: V | VertexId) => {
             statusMap.set(cur, 1);
             const children = this.getDestinations(cur);
             for (const child of children) {

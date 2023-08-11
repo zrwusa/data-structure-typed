@@ -1,7 +1,15 @@
-export type SegmentTreeNodeVal = number;
+import type {SegmentTreeNodeVal} from '../types';
 
 export class SegmentTreeNode {
+    constructor(start: number, end: number, sum: number, val?: SegmentTreeNodeVal | null) {
+        this._start = start;
+        this._end = end;
+        this._sum = sum;
+        this._val = val || null;
+    }
+
     protected _start = 0;
+
     get start(): number {
         return this._start;
     }
@@ -11,6 +19,7 @@ export class SegmentTreeNode {
     }
 
     protected _end = 0;
+
     get end(): number {
         return this._end;
     }
@@ -20,6 +29,7 @@ export class SegmentTreeNode {
     }
 
     protected _val: SegmentTreeNodeVal | null = null;
+
     get val(): SegmentTreeNodeVal | null {
         return this._val;
     }
@@ -29,6 +39,7 @@ export class SegmentTreeNode {
     }
 
     protected _sum = 0;
+
     get sum(): number {
         return this._sum;
     }
@@ -38,6 +49,7 @@ export class SegmentTreeNode {
     }
 
     protected _left: SegmentTreeNode | null = null;
+
     get left(): SegmentTreeNode | null {
         return this._left;
     }
@@ -47,6 +59,7 @@ export class SegmentTreeNode {
     }
 
     protected _right: SegmentTreeNode | null = null;
+
     get right(): SegmentTreeNode | null {
         return this._right;
     }
@@ -54,23 +67,12 @@ export class SegmentTreeNode {
     set right(v: SegmentTreeNode | null) {
         this._right = v;
     }
-
-    constructor(start: number, end: number, sum: number, val?: SegmentTreeNodeVal | null) {
-        this._start = start;
-        this._end = end;
-        this._sum = sum;
-        this._val = val || null;
-    }
 }
 
 export class SegmentTree {
     protected _values: number[] = [];
     protected _start = 0;
     protected _end: number;
-    protected _root: SegmentTreeNode | null;
-    get root(): SegmentTreeNode | null {
-        return this._root;
-    }
 
     constructor(values: number[], start?: number, end?: number) {
         start = start || 0;
@@ -79,6 +81,12 @@ export class SegmentTree {
         this._start = start;
         this._end = end;
         this._root = this.build(start, end);
+    }
+
+    protected _root: SegmentTreeNode | null;
+
+    get root(): SegmentTreeNode | null {
+        return this._root;
     }
 
     build(start: number, end: number): SegmentTreeNode {

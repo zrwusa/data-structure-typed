@@ -74,9 +74,9 @@ export type DebounceOptions = {
 };
 
 export interface DebouncedFunction<F extends Procedure> {
-    (this: ThisParameterType<F>, ...args: Parameters<F>): void;
-
     cancel: () => void;
+
+    (this: ThisParameterType<F>, ...args: [...Parameters<F>]): void;
 }
 
 export type MonthKey =
@@ -123,10 +123,10 @@ export class TreeNode<T> {
         if (!this.children) {
             this.children = [];
         }
-        if (children instanceof Array) {
-            this.children = this.children.concat(children);
-        } else {
+        if (children instanceof TreeNode) {
             this.children.push(children);
+        } else {
+            this.children = this.children.concat(children);
         }
     }
 
@@ -155,4 +155,19 @@ export class TreeNode<T> {
 
 export type OrderType = 'InOrder' | 'PreOrder' | 'PostOrder'
 
+export type DeepProxy<T> = T extends (...args: any[]) => infer R
+    ? (...args: [...Parameters<T>]) => DeepProxy<R>
+    : T extends object
+        ? { [K in keyof T]: DeepProxy<T[K]> }
+        : T;
+
+export type DeepProxyOnChange = (target: any, property: string | symbol, value: any, receiver: any, descriptor: any, result: any) => void;
+
+export type DeepProxyOnGet = (target: any, property: string | symbol, value: any, receiver: any, descriptor: any, result: any) => void;
+
+export type CurryFunc<T> = T extends (...args: infer Args) => infer R
+    ? Args extends [infer Arg, ...infer RestArgs]
+        ? (arg: Arg) => CurryFunc<(...args: RestArgs) => R>
+        : R
+    : T;
 

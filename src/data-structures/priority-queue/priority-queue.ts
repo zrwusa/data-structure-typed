@@ -1,24 +1,7 @@
-export type PriorityQueueComparator<T> = (a: T, b: T) => number;
-
-export interface PriorityQueueOptions<T> {
-    nodes?: T[];
-    isFix?: boolean;
-    comparator: PriorityQueueComparator<T>;
-}
-
-export type PriorityQueueDFSOrderPattern = 'pre' | 'in' | 'post';
+import type {PriorityQueueComparator, PriorityQueueDFSOrderPattern, PriorityQueueOptions} from '../types';
 
 export class PriorityQueue<T = number> {
     protected nodes: T[] = [];
-
-    get size(): number {
-        return this.nodes.length;
-    }
-
-    protected readonly _comparator: PriorityQueueComparator<T> = (a: T, b: T) => {
-        const aKey = a as unknown as number, bKey = b as unknown as number;
-        return aKey - bKey;
-    };
 
     constructor(options: PriorityQueueOptions<T>) {
         const {nodes, comparator, isFix = true} = options;
@@ -31,64 +14,18 @@ export class PriorityQueue<T = number> {
         }
     }
 
-    protected _compare(a: number, b: number) {
-        return this._comparator(this.nodes[a], this.nodes[b]) > 0;
+    get size(): number {
+        return this.nodes.length;
     }
 
-    protected _swap(a: number, b: number) {
-        const temp = this.nodes[a];
-        this.nodes[a] = this.nodes[b];
-        this.nodes[b] = temp;
+    static heapify<T>(options: PriorityQueueOptions<T>) {
+        const heap = new PriorityQueue(options);
+        heap._fix();
+        return heap;
     }
 
-    protected _isValidIndex(index: number): boolean {
-        return index > -1 && index < this.nodes.length;
-    }
-
-    protected _getParent(child: number): number {
-        return Math.floor((child - 1) / 2);
-    }
-
-    protected _getLeft(parent: number): number {
-        return (2 * parent) + 1;
-    }
-
-    protected _getRight(parent: number): number {
-        return (2 * parent) + 2;
-    }
-
-    protected _getComparedChild(parent: number) {
-        let min = parent;
-        const left = this._getLeft(parent), right = this._getRight(parent);
-
-        if (left < this.size && this._compare(min, left)) {
-            min = left;
-        }
-        if (right < this.size && this._compare(min, right)) {
-            min = right;
-        }
-        return min;
-    }
-
-    protected _heapifyUp(start: number) {
-        while (start > 0 && this._compare(this._getParent(start), start)) {
-            const parent = this._getParent(start);
-            this._swap(start, parent);
-            start = parent;
-        }
-    }
-
-    protected _heapifyDown(start: number) {
-        let min = this._getComparedChild(start);
-        while (this._compare(start, min)) {
-            this._swap(min, start);
-            start = min;
-            min = this._getComparedChild(start);
-        }
-    }
-
-    protected _fix() {
-        for (let i = Math.floor(this.size / 2); i > -1; i--) this._heapifyDown(i);
+    static isPriorityQueueified<T>(options: Omit<PriorityQueueOptions<T>, 'isFix'>) {
+        return new PriorityQueue({...options, isFix: true}).isValid();
     }
 
     offer(node: T) {
@@ -194,14 +131,69 @@ export class PriorityQueue<T = number> {
         return visitedNode;
     }
 
-    static heapify<T>(options: PriorityQueueOptions<T>) {
-        const heap = new PriorityQueue(options);
-        heap._fix();
-        return heap;
+    protected readonly _comparator: PriorityQueueComparator<T> = (a: T, b: T) => {
+        const aKey = a as unknown as number, bKey = b as unknown as number;
+        return aKey - bKey;
+    };
+
+    protected _compare(a: number, b: number) {
+        return this._comparator(this.nodes[a], this.nodes[b]) > 0;
     }
 
-    static isPriorityQueueified<T>(options: Omit<PriorityQueueOptions<T>, 'isFix'>) {
-        return new PriorityQueue({...options, isFix: true}).isValid();
+    protected _swap(a: number, b: number) {
+        const temp = this.nodes[a];
+        this.nodes[a] = this.nodes[b];
+        this.nodes[b] = temp;
+    }
+
+    protected _isValidIndex(index: number): boolean {
+        return index > -1 && index < this.nodes.length;
+    }
+
+    protected _getParent(child: number): number {
+        return Math.floor((child - 1) / 2);
+    }
+
+    protected _getLeft(parent: number): number {
+        return (2 * parent) + 1;
+    }
+
+    protected _getRight(parent: number): number {
+        return (2 * parent) + 2;
+    }
+
+    protected _getComparedChild(parent: number) {
+        let min = parent;
+        const left = this._getLeft(parent), right = this._getRight(parent);
+
+        if (left < this.size && this._compare(min, left)) {
+            min = left;
+        }
+        if (right < this.size && this._compare(min, right)) {
+            min = right;
+        }
+        return min;
+    }
+
+    protected _heapifyUp(start: number) {
+        while (start > 0 && this._compare(this._getParent(start), start)) {
+            const parent = this._getParent(start);
+            this._swap(start, parent);
+            start = parent;
+        }
+    }
+
+    protected _heapifyDown(start: number) {
+        let min = this._getComparedChild(start);
+        while (this._compare(start, min)) {
+            this._swap(min, start);
+            start = min;
+            min = this._getComparedChild(start);
+        }
+    }
+
+    protected _fix() {
+        for (let i = Math.floor(this.size / 2); i > -1; i--) this._heapifyDown(i);
     }
 
     // --- end additional methods ---

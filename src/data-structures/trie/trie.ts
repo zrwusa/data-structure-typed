@@ -1,5 +1,13 @@
 export class TrieNode {
-    protected _children: Map<string, TrieNode> = new Map<string, TrieNode>();
+    protected _value;
+
+    constructor(v: string) {
+        this._value = v;
+        this._isEnd = false;
+        this._children = new Map<string, TrieNode>();
+    }
+
+    protected _children: Map<string, TrieNode>;
 
     get children(): Map<string, TrieNode> {
         return this._children;
@@ -9,7 +17,7 @@ export class TrieNode {
         this._children = v;
     }
 
-    protected _isEnd = false;
+    protected _isEnd: boolean;
 
     get isEnd(): boolean {
         return this._isEnd;
@@ -18,10 +26,28 @@ export class TrieNode {
     set isEnd(v: boolean) {
         this._isEnd = v;
     }
+
+    get val(): string {
+        return this._value;
+    }
+
+    set val(v: string) {
+        this._value = v;
+    }
 }
 
 export class Trie {
+    constructor(words?: string[]) {
+        this._root = new TrieNode('');
+        if (words) {
+            for (const i of words) {
+                this.put(i);
+            }
+        }
+    }
+
     protected _root: TrieNode;
+
     get root() {
         return this._root;
     }
@@ -30,16 +56,12 @@ export class Trie {
         this._root = v;
     }
 
-    constructor() {
-        this._root = new TrieNode();
-    }
-
-    put(input: string): boolean {
+    put(word: string): boolean {
         let cur = this._root;
-        for (const c of input) {
+        for (const c of word) {
             let nodeC = cur.children.get(c);
             if (!nodeC) {
-                nodeC = new TrieNode();
+                nodeC = new TrieNode(c);
                 cur.children.set(c, nodeC);
             }
             cur = nodeC;
@@ -47,7 +69,6 @@ export class Trie {
         cur.isEnd = true;
         return true;
     }
-
 
     has(input: string): boolean {
         let cur = this._root;
@@ -107,7 +128,7 @@ export class Trie {
     }
 
     /**
-     * Can present as a prefix or word
+     * Can present as a abs prefix or word
      * @param input
      */
     isPrefix(input: string): boolean {
@@ -120,6 +141,35 @@ export class Trie {
         return true;
     }
 
+    /**
+     * Check if the input string is the common prefix of all the words
+     * @param input
+     */
+    isCommonPrefix(input: string): boolean {
+        let commonPre = '';
+        const dfs = (cur: TrieNode) => {
+            commonPre += cur.val;
+            if (commonPre === input) return;
+            if (cur.isEnd) return;
+            if (cur && cur.children && cur.children.size === 1) dfs(Array.from(cur.children.values())[0]);
+            else return;
+        }
+        dfs(this._root);
+        return commonPre === input;
+    }
+
+    // Retrieve the longest common prefix of all the words
+    getLongestCommonPrefix(): string {
+        let commonPre = '';
+        const dfs = (cur: TrieNode) => {
+            commonPre += cur.val;
+            if (cur.isEnd) return;
+            if (cur && cur.children && cur.children.size === 1) dfs(Array.from(cur.children.values())[0]);
+            else return;
+        }
+        dfs(this._root);
+        return commonPre;
+    }
 
     getAll(prefix = ''): string[] {
         const words: string[] = [];

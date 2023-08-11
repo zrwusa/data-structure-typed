@@ -1,17 +1,8 @@
 import {PriorityQueue} from '../priority-queue';
-
-export interface HeapOptions<T> {
-    priority?: (element: T) => number;
-}
-
-export interface HeapItem<T> {
-    priority: number;
-    element: T | null;
-}
-
+import type {HeapItem, HeapOptions} from '../types';
 
 /**
- * @copyright 2021 Pablo Rios <zrwusa@gmail.com>
+ * @copyright 2021 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT
  *
  * @abstract

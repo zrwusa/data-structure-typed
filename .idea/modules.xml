@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/data-structure-ts.iml" filepath="$PROJECT_DIR$/.idea/data-structure-ts.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/data-structure-typed.iml" filepath="$PROJECT_DIR$/.idea/data-structure-typed.iml" />
     </modules>
   </component>
 </project>

@@ -1,4 +1,39 @@
-class Vector2D {
+export class Vector2D {
+    constructor(
+        public x: number = 0,
+        public y: number = 0,
+        public w: number = 1 // needed for matrix multiplication
+    ) {
+    }
+
+    /**
+     * Set x and y both to zero
+     */
+    public get isZero(): boolean {
+        return this.x === 0 && this.y === 0
+    }
+
+    /**
+     * The length / magnitude of the vector
+     */
+    public get length(): number {
+        return Math.sqrt((this.x * this.x) + (this.y * this.y))
+    }
+
+    /**
+     * The squared length of the vector
+     */
+    public get lengthSq(): number {
+        return (this.x * this.x) + (this.y * this.y)
+    }
+
+    /**
+     * Return the vector with rounded values
+     */
+    public get rounded(): Vector2D {
+        return new Vector2D(Math.round(this.x), Math.round(this.y))
+    }
+
     public static add(vector1: Vector2D, vector2: Vector2D): Vector2D {
         return new Vector2D(vector1.x + vector2.x, vector1.y + vector2.y)
     }
@@ -80,6 +115,22 @@ class Vector2D {
         return (vector1.x * vector2.x) + (vector1.y * vector2.y)
     }
 
+    // /**
+    //  * Transform vectors based on the current tranformation matrices: translation, rotation and scale
+    //  * @param vectors The vectors to transform
+    //  */
+    // public static transform(vector: Vector2D, transformation: Matrix2D): Vector2D {
+    //     return Matrix2D.multiplyByVector(transformation, vector)
+    // }
+
+    // /**
+    //  * Transform vectors based on the current tranformation matrices: translation, rotation and scale
+    //  * @param vectors The vectors to transform
+    //  */
+    // public static transformList(vectors: Vector2D[], transformation: Matrix2D): Vector2D[] {
+    //     return vectors.map(vector => Matrix2D.multiplyByVector(transformation, vector))
+    // }
+
     /**
      * The distance between this and the vector
      */
@@ -126,63 +177,12 @@ class Vector2D {
         return new Vector2D(randX, randY)
     }
 
-    // /**
-    //  * Transform vectors based on the current tranformation matrices: translation, rotation and scale
-    //  * @param vectors The vectors to transform
-    //  */
-    // public static transform(vector: Vector2D, transformation: Matrix2D): Vector2D {
-    //     return Matrix2D.multiplyByVector(transformation, vector)
-    // }
-
-    // /**
-    //  * Transform vectors based on the current tranformation matrices: translation, rotation and scale
-    //  * @param vectors The vectors to transform
-    //  */
-    // public static transformList(vectors: Vector2D[], transformation: Matrix2D): Vector2D[] {
-    //     return vectors.map(vector => Matrix2D.multiplyByVector(transformation, vector))
-    // }
-
-    constructor(
-        public x: number = 0,
-        public y: number = 0,
-        public w: number = 1 // needed for matrix multiplication
-    ) {
-    }
-
     /**
      * Check wether both x and y are zero
      */
     public zero(): void {
         this.x = 0
         this.y = 0
-    }
-
-    /**
-     * Set x and y both to zero
-     */
-    public get isZero(): boolean {
-        return this.x === 0 && this.y === 0
-    }
-
-    /**
-     * The length / magnitude of the vector
-     */
-    public get length(): number {
-        return Math.sqrt((this.x * this.x) + (this.y * this.y))
-    }
-
-    /**
-     * The squared length of the vector
-     */
-    public get lengthSq(): number {
-        return (this.x * this.x) + (this.y * this.y)
-    }
-
-    /**
-     * Return the vector with rounded values
-     */
-    public get rounded(): Vector2D {
-        return new Vector2D(Math.round(this.x), Math.round(this.y))
     }
 }
 

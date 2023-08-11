@@ -1,8 +1,5 @@
 import {BST, BSTNode} from './bst';
-import {BinaryTreeNodeId} from './binary-tree';
-
-export type TreeMultiSetDeletedResult<T> = { deleted: BSTNode<T> | null, needBalanced: BSTNode<T> | null };
-
+import type {BinaryTreeNodeId, TreeMultiSetDeletedResult} from '../types';
 
 export class TreeMultiSet<T> extends BST<T> {
     override createNode(id: BinaryTreeNodeId, val: T, count?: number): BSTNode<T> {

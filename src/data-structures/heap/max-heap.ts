@@ -1,10 +1,11 @@
 /**
- * @copyright 2020 Pablo Rios <zrwusa@gmail.com>
+ * @copyright 2020 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT
  */
 
-import {Heap, HeapItem, HeapOptions} from './heap';
+import {Heap} from './heap';
 import {PriorityQueue} from '../priority-queue';
+import type {HeapItem, HeapOptions} from '../types';
 
 /**
  * @class MaxHeap
