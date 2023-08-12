@@ -1,5 +1,7 @@
 # data-structure-typed
 
+Javascript Data Structure, TypeScript Data Structure Library
+
 ## install
 
 ### yarn
@@ -16,6 +18,8 @@ npm install data-structure-typed
 
 ## data structures
 
+Meticulously crafted to empower developers with a versatile set of essential data structures. Our library includes a wide range of data structures:
+Binary Tree, Binary Search Tree (BST), AVL Tree, Tree Multiset, Segment Tree, Binary Indexed Tree, Graph, Directed Graph, Undirected Graph, Linked List, Singly Linked List, Doubly Linked List, Queue, Object Deque, Array Deque, Stack, Hash, Coordinate Set, Coordinate Map, Heap, Priority Queue, Max Priority Queue, Min Priority Queue, Trie
 <table>
 <thead>
   <tr>
