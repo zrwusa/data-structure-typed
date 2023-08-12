@@ -2,7 +2,6 @@
  * @copyright 2030 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT
  */
-import type {TMapFunction, TTestFunction} from '../types';
 
 /**
  * The class which represents one link or node in a linked list
@@ -177,7 +176,11 @@ export class SinglyLinkedList<NodeData = any> {
      * ```
      * @param f A function to be applied to the val of each node
      */
-    public findNodeIndex(f: TTestFunction<NodeData>): ({
+    public findNodeIndex(f: (
+        data: NodeData,
+        index: number,
+        list: SinglyLinkedList<NodeData>,
+    ) => boolean): ({
         node: SinglyLinkedListNode<NodeData>,
         index: number,
     }) | undefined {
@@ -205,7 +208,11 @@ export class SinglyLinkedList<NodeData = any> {
      * ```
      * @param f Function to test val against
      */
-    public findNode(f: TTestFunction<NodeData>): SinglyLinkedListNode<NodeData> | undefined {
+    public findNode(f: (
+        data: NodeData,
+        index: number,
+        list: SinglyLinkedList<NodeData>,
+    ) => boolean): SinglyLinkedListNode<NodeData> | undefined {
         const nodeIndex = this.findNodeIndex(f);
         return nodeIndex !== undefined ? nodeIndex.node : undefined;
     }
@@ -218,7 +225,11 @@ export class SinglyLinkedList<NodeData = any> {
      * ```
      * @param f Function to test val against
      */
-    public find(f: TTestFunction<NodeData>): NodeData | undefined {
+    public find(f: (
+        data: NodeData,
+        index: number,
+        list: SinglyLinkedList<NodeData>,
+    ) => boolean): NodeData | undefined {
         const nodeIndex = this.findNodeIndex(f);
         return nodeIndex !== undefined ? nodeIndex.node.val : undefined;
     }
@@ -231,7 +242,11 @@ export class SinglyLinkedList<NodeData = any> {
      * ```
      * @param f Function to test val against
      */
-    public findIndex(f: TTestFunction<NodeData>): number {
+    public findIndex(f: (
+        data: NodeData,
+        index: number,
+        list: SinglyLinkedList<NodeData>,
+    ) => boolean): number {
         const nodeIndex = this.findNodeIndex(f);
         return nodeIndex !== undefined ? nodeIndex.index : -1;
     }
@@ -605,7 +620,11 @@ export class SinglyLinkedList<NodeData = any> {
      * @param f Function to execute for each element, taking up to three arguments.
      * @param reverse Indicates if the list should be walked in reverse order, default is false
      */
-    public forEach(f: TMapFunction<NodeData>, reverse = false): void {
+    public forEach(f: (
+        data: any,
+        index: number,
+        list: SinglyLinkedList<NodeData>,
+    ) => any, reverse = false): void {
         let currentIndex = reverse ? this.length - 1 : 0;
         let currentNode = reverse ? this.tail : this.head;
         const modifier = reverse ? -1 : 1;
@@ -627,7 +646,11 @@ export class SinglyLinkedList<NodeData = any> {
      * @param reverse Indicates if the list should be mapped in reverse order, default is false
      */
     // eslint-disable-next-line @typescript-eslint/ban-types
-    public map(f: TMapFunction<NodeData>, reverse = false): SinglyLinkedList<NodeData | {}> {
+    public map(f: (
+        data: any,
+        index: number,
+        list: SinglyLinkedList<NodeData>,
+    ) => any, reverse = false): SinglyLinkedList<NodeData | {}> {
         const list = new SinglyLinkedList();
         this.forEach((val, index) => list.append(f(val, index, this)), reverse);
         return list;
@@ -643,7 +666,11 @@ export class SinglyLinkedList<NodeData = any> {
      * @param reverse Indicates if the list should be filtered in reverse order, default is false
      */
     // eslint-disable-next-line @typescript-eslint/ban-types
-    public filter(f: TTestFunction<NodeData>, reverse = false): SinglyLinkedList<NodeData | {}> {
+    public filter(f: (
+        data: NodeData,
+        index: number,
+        list: SinglyLinkedList<NodeData>,
+    ) => boolean, reverse = false): SinglyLinkedList<NodeData | {}> {
         const list = new SinglyLinkedList();
         this.forEach((val, index) => {
             if (f(val, index, this)) {
