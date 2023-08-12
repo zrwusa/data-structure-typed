@@ -1,3 +1,7 @@
+/**
+ * @copyright 2030 Tyler Zeng <zrwusa@gmail.com>
+ * @license MIT
+ */
 import type {TMapFunction, TTestFunction} from '../types';
 
 /**

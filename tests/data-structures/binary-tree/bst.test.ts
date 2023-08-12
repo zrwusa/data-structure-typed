@@ -10,7 +10,9 @@ describe('bst-case6', () => {
 
         for (const i of arr) tree.put(i, i);
 
-        expect(tree.getCount()).toBe(16);
+        expect(tree.root).toBeInstanceOf(BSTNode);
+        if (tree.root) expect(tree.root.id).toBe(11);
+        expect(tree.count).toBe(16);
         expect(tree.has(6)).toBe(true);
 
         const node6 = tree.get(6);

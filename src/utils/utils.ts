@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import {AnyFunction} from '../data-structures/types';
+import {AnyFunction} from './types';
 
 export type JSONSerializable = {
     [key: string]: any

@@ -1,3 +1,7 @@
+/**
+ * @copyright 2030 Tyler Zeng <zrwusa@gmail.com>
+ * @license MIT
+ */
 export class TrieNode {
     protected _value;
 
@@ -114,8 +118,9 @@ export class Trie {
 
     // --- start additional methods ---
     /**
-     * Only can present as a prefix, not a word
-     * @param input
+     * The function checks if a given input string has an absolute prefix in a tree data structure.Only can present as a prefix, not a word
+     * @param {string} input - The input parameter is a string that represents the input value for the function.
+     * @returns a boolean value.
      */
     isAbsPrefix(input: string): boolean {
         let cur = this._root;
@@ -128,8 +133,9 @@ export class Trie {
     }
 
     /**
-     * Can present as a abs prefix or word
-     * @param input
+     * The function checks if a given input string is a prefix of any existing string in a tree structure.Can present as a abs prefix or word
+     * @param {string} input - The input parameter is a string that represents the prefix we want to check.
+     * @returns a boolean value.
      */
     isPrefix(input: string): boolean {
         let cur = this._root;
@@ -142,8 +148,10 @@ export class Trie {
     }
 
     /**
-     * Check if the input string is the common prefix of all the words
-     * @param input
+     * The function checks if the input string is a common prefix in a Trie data structure.Check if the input string is the common prefix of all the words
+     * @param {string} input - The input parameter is a string that represents the common prefix that we want to check for
+     * in the Trie data structure.
+     * @returns a boolean value indicating whether the input string is a common prefix in the Trie data structure.
      */
     isCommonPrefix(input: string): boolean {
         let commonPre = '';
@@ -158,7 +166,12 @@ export class Trie {
         return commonPre === input;
     }
 
-    // Retrieve the longest common prefix of all the words
+    /**
+     * The function `getLongestCommonPrefix` returns the longest common prefix among all the words stored in a Trie data
+     * structure.
+     * @returns The function `getLongestCommonPrefix` returns a string, which is the longest common prefix found in the
+     * Trie.
+     */
     getLongestCommonPrefix(): string {
         let commonPre = '';
         const dfs = (cur: TrieNode) => {
@@ -171,6 +184,12 @@ export class Trie {
         return commonPre;
     }
 
+    /**
+     * The `getAll` function returns an array of all words in a Trie data structure that start with a given prefix.
+     * @param [prefix] - The `prefix` parameter is a string that represents the prefix that we want to search for in the
+     * trie. It is an optional parameter, so if no prefix is provided, it will default to an empty string.
+     * @returns an array of strings.
+     */
     getAll(prefix = ''): string[] {
         const words: string[] = [];
 

@@ -2,15 +2,13 @@
  * @copyright 2030 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT
  */
+import {Thunk, ToThunkFn, TrlAsyncFn, TrlFn} from './types';
+
 export const THUNK_SYMBOL = Symbol('thunk')
 
 export const isThunk = (fnOrValue: any) => {
     return typeof fnOrValue === 'function' && fnOrValue.__THUNK__ === THUNK_SYMBOL
 }
-
-type ToThunkFn = () => ReturnType<TrlFn>;
-
-type Thunk = () => ReturnType<ToThunkFn> & { __THUNK__: typeof THUNK_SYMBOL };
 
 export const toThunk = (fn: ToThunkFn): Thunk => {
     const thunk = () => fn()
@@ -18,7 +16,6 @@ export const toThunk = (fn: ToThunkFn): Thunk => {
     return thunk
 }
 
-type TrlFn = (...args: any[]) => any;
 export const trampoline = (fn: TrlFn) => {
     const cont = (...args: [...Parameters<TrlFn>]) => toThunk(() => fn(...args))
 
@@ -36,7 +33,6 @@ export const trampoline = (fn: TrlFn) => {
     )
 }
 
-type TrlAsyncFn = (...args: any[]) => any;
 export const trampolineAsync = (fn: TrlAsyncFn) => {
     const cont = (...args: [...Parameters<TrlAsyncFn>]) => toThunk(() => fn(...args))
 

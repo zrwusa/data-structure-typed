@@ -1,3 +1,7 @@
+/**
+ * @copyright 2030 Tyler Zeng <zrwusa@gmail.com>
+ * @license MIT
+ */
 import type {DoublyLinkedListGetBy} from '../types';
 
 export class DoublyLinkedListNode<T> {
@@ -25,8 +29,10 @@ export class DoublyLinkedList<T> {
     }
 
     /**
-     * Adds a node at the beginning of the linked list
-     * @param val Value to be stored at the beginning of the linked list
+     * The function adds a new node with a given value to the beginning of a doubly linked list.
+     * @param {T} val - The `val` parameter represents the value of the element that you want to add to the beginning of
+     * the doubly linked list.
+     * @returns A boolean value is being returned.
      */
     offerFirst(val: T): boolean {
         const newNode = new DoublyLinkedListNode(val);
@@ -43,8 +49,10 @@ export class DoublyLinkedList<T> {
     }
 
     /**
-     * Adds a node to the end of the linked list
-     * @param val Value to be stored in the Doubly linked list node
+     * The function adds a new node with a given value to the end of a doubly linked list.
+     * @param {T} val - The `val` parameter represents the value of the element that you want to add to the end of the
+     * doubly linked list.
+     * @returns a boolean value, which is always true.
      */
     offerLast(val: T): boolean {
         const newNode = new DoublyLinkedListNode(val);
@@ -63,6 +71,14 @@ export class DoublyLinkedList<T> {
     peekFirst(): T | null;
     peekFirst(by: 'val'): T | null;
     peekFirst(by: 'node'): DoublyLinkedListNode<T> | null;
+    /**
+     * The `peekFirst` function returns the first node or value in a doubly linked list, depending on the specified
+     * parameter.
+     * @param {DoublyLinkedListGetBy} [by] - The "by" parameter is an optional parameter of type DoublyLinkedListGetBy. It
+     * is used to specify whether to return the first node, the value of the first node, or the first node itself.
+     * @returns The method `peekFirst` returns either the first node of the doubly linked list (`DoublyLinkedListNode<T>`),
+     * the value of the first node (`T`), or `null` depending on the value of the `by` parameter.
+     */
     peekFirst(by?: DoublyLinkedListGetBy): T | DoublyLinkedListNode<T> | null {
         switch (by) {
             case 'node':
@@ -77,6 +93,13 @@ export class DoublyLinkedList<T> {
     peekLast(): T | null;
     peekLast(by: 'val'): T | null;
     peekLast(by: 'node'): DoublyLinkedListNode<T> | null;
+    /**
+     * The `peekLast` function returns the last node or value in a doubly linked list.
+     * @param {DoublyLinkedListGetBy} [by=val] - The "by" parameter is an optional parameter of type DoublyLinkedListGetBy.
+     * It specifies whether to return the last node, the value of the last node, or both. The default value is 'val', which
+     * means that if no value is provided for the "by" parameter, the method
+     * @returns The method `peekLast` returns the last node, value, or null based on the specified `by` parameter.
+     */
     peekLast(by: DoublyLinkedListGetBy = 'val'): T | DoublyLinkedListNode<T> | null {
         switch (by) {
             case 'node':
@@ -92,7 +115,14 @@ export class DoublyLinkedList<T> {
     pollFirst(by: 'val'): T | null;
     pollFirst(by: 'node'): DoublyLinkedListNode<T> | null;
     /**
-     * Removes a node form the beginning of the linked list and will return the node val
+     * The function `pollFirst` removes and returns the first element of a doubly linked list, either as a node or its
+     * value, depending on the specified parameter.
+     * @param {DoublyLinkedListGetBy} [by=val] - The "by" parameter is an optional parameter of type DoublyLinkedListGetBy.
+     * It specifies the criteria by which the first element should be retrieved from the doubly linked list. The default
+     * value is 'val', which means the first element will be retrieved by its value. Other possible values for "by
+     * @returns The method `pollFirst` returns either the value of the first node in the doubly linked list, the first node
+     * itself, or null if the list is empty. The specific return type depends on the value of the `by` parameter. If `by`
+     * is set to 'node', the method returns the first node. If `by` is set to 'val', the method returns the value
      */
     pollFirst(by: DoublyLinkedListGetBy = 'val'): T | DoublyLinkedListNode<T> | null {
         if (this._size === 0) return null;
@@ -120,7 +150,14 @@ export class DoublyLinkedList<T> {
     pollLast(by: 'val'): T | null;
     pollLast(by: 'node'): DoublyLinkedListNode<T> | null;
     /**
-     * Removes a node at the end of the linked list and will return the node value
+     * The function `pollLast` removes and returns the last element in a doubly linked list, either as a node or its value,
+     * depending on the specified parameter.
+     * @param {DoublyLinkedListGetBy} [by=val] - The parameter "by" is of type DoublyLinkedListGetBy, which is an enum that
+     * can have two possible values: 'node' or 'val'. It determines the type of value that will be returned by the pollLast
+     * method. If 'node' is specified, the method will return the
+     * @returns The method `pollLast` returns either a `DoublyLinkedListNode<T>`, the value of the node (`T`), or `null`.
+     * The specific type that is returned depends on the value of the `by` parameter. If `by` is set to `'node'`, then a
+     * `DoublyLinkedListNode<T>` is returned. If `by` is set to `'
      */
     pollLast(by: DoublyLinkedListGetBy = 'val'): DoublyLinkedListNode<T> | T | null {
         if (this._size === 0) return null;
@@ -226,8 +263,12 @@ export class DoublyLinkedList<T> {
     }
 
     /**
-     * Removes a node at the specified index and returns its value.
-     * @param index Index at which the node has to be removed.
+     * The `remove` function removes an element at a specified index from a data structure, updating the links between
+     * nodes accordingly.
+     * @param {number} index - The index parameter represents the position of the element to be removed in the data
+     * structure. It is of type number.
+     * @returns The `remove` method returns the value of the removed element (`T`) if the removal is successful, or `null`
+     * if the index is out of bounds.
      */
     remove(index: number): T | null {
         if (index < 0 || index > this._size - 1) return null;

@@ -1,3 +1,7 @@
+/**
+ * @copyright 2030 Tyler Zeng <zrwusa@gmail.com>
+ * @license MIT
+ */
 import type {BinaryTreeNodeId, BinaryTreeNodePropertyName, BSTComparator, BSTDeletedResult} from '../types';
 import {BinaryTree, BinaryTreeNode, FamilyPosition, LoopType,} from './binary-tree';
 
@@ -27,6 +31,18 @@ export class BST<T> extends BinaryTree<T> {
         return val !== null ? new BSTNode<T>(id, val, count) : null;
     }
 
+    /**
+     * The `put` function inserts a new node into a binary search tree, updating the count and value of an existing node if
+     * the ID matches, and returns the inserted node.
+     * @param {BinaryTreeNodeId} id - The `id` parameter represents the identifier of the binary tree node. It is used to
+     * determine the position of the node in the binary search tree.
+     * @param {T | null} val - The `val` parameter represents the value to be stored in the binary search tree node. It can
+     * be of type `T` (the generic type) or `null`.
+     * @param {number} [count=1] - The `count` parameter represents the number of times the value should be inserted into
+     * the binary search tree. By default, it is set to 1, meaning that if no count is specified, the value will be
+     * inserted once.
+     * @returns The method `put` returns a `BSTNode<T>` object or `null`.
+     */
     override put(id: BinaryTreeNodeId, val: T | null, count: number = 1): BSTNode<T> | null {
         let inserted: BSTNode<T> | null = null;
         const newNode = this.createNode(id, val, count);

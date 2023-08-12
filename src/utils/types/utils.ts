@@ -171,3 +171,10 @@ export type CurryFunc<T> = T extends (...args: infer Args) => infer R
         : R
     : T;
 
+
+export type ToThunkFn = () => ReturnType<TrlFn>;
+const THUNK_SYMBOL = Symbol('thunk')
+export type Thunk = () => ReturnType<ToThunkFn> & { __THUNK__: typeof THUNK_SYMBOL };
+export type TrlFn = (...args: any[]) => any;
+export type TrlAsyncFn = (...args: any[]) => any;
+

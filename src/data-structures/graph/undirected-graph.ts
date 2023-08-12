@@ -1,3 +1,7 @@
+/**
+ * @copyright 2030 Tyler Zeng <zrwusa@gmail.com>
+ * @license MIT
+ */
 import {arrayRemove} from '../../utils';
 import {AbstractEdge, AbstractGraph, AbstractVertex} from './abstract-graph';
 import type {VertexId} from '../types';
@@ -32,6 +36,14 @@ export class UndirectedGraph<V extends UndirectedVertex, E extends UndirectedEdg
         super();
     }
 
+    /**
+     * The function `getEdge` returns the first edge that connects two vertices, or null if no such edge exists.
+     * @param {V | null | VertexId} v1 - The parameter `v1` represents either a vertex object (`V`) or a vertex ID
+     * (`VertexId`). It can also be `null`.
+     * @param {V | null | VertexId} v2 - The parameter `v2` represents a vertex or vertex ID. It can be of type `V` (vertex
+     * object), `null`, or `VertexId` (vertex ID).
+     * @returns an edge (E) or null.
+     */
     getEdge(v1: V | null | VertexId, v2: V | null | VertexId): E | null {
         let edges: E[] | undefined = [];
 
@@ -47,6 +59,11 @@ export class UndirectedGraph<V extends UndirectedVertex, E extends UndirectedEdg
         return edges ? edges[0] || null : null;
     }
 
+    /**
+     * The function adds an edge to a graph by connecting two vertices.
+     * @param {E} edge - The `edge` parameter is an object of type `E`, which represents an edge in a graph.
+     * @returns a boolean value.
+     */
     addEdge(edge: E): boolean {
         for (const end of edge.vertices) {
             const endVertex = this.getVertex(end);
@@ -63,6 +80,13 @@ export class UndirectedGraph<V extends UndirectedVertex, E extends UndirectedEdg
         return true;
     }
 
+    /**
+     * The function removes an edge between two vertices in a graph and returns the removed edge, or null if either of the
+     * vertices does not exist.
+     * @param {V | VertexId} v1 - The parameter `v1` represents either a vertex object (`V`) or a vertex ID (`VertexId`).
+     * @param {V | VertexId} v2 - V | VertexId: The second vertex or vertex ID of the edge to be removed.
+     * @returns the removed edge (E) if it exists, or null if either of the vertices (v1 or v2) does not exist.
+     */
     removeEdgeBetween(v1: V | VertexId, v2: V | VertexId): E | null {
 
         const vertex1: V | null = this.getVertex(v1);
@@ -84,11 +108,22 @@ export class UndirectedGraph<V extends UndirectedVertex, E extends UndirectedEdg
         return removed;
     }
 
-
+    /**
+     * The removeEdge function removes an edge between two vertices in a graph.
+     * @param {E} edge - The parameter "edge" is of type E, which represents an edge in a graph.
+     * @returns The method is returning either the removed edge (of type E) or null if the edge was not found.
+     */
     removeEdge(edge: E): E | null {
         return this.removeEdgeBetween(edge.vertices[0], edge.vertices[1]);
     }
 
+    /**
+     * The function `degreeOf` returns the degree of a vertex in a graph, which is the number of edges connected to that
+     * vertex.
+     * @param {VertexId | V} vertexOrId - The parameter `vertexOrId` can be either a `VertexId` or a `V`.
+     * @returns The function `degreeOf` returns the degree of a vertex in a graph. The degree of a vertex is the number of
+     * edges that are incident to that vertex.
+     */
     degreeOf(vertexOrId: VertexId | V): number {
         const vertex = this.getVertex(vertexOrId);
         if (vertex) {
@@ -98,6 +133,13 @@ export class UndirectedGraph<V extends UndirectedVertex, E extends UndirectedEdg
         }
     }
 
+    /**
+     * The function "edgesOf" returns an array of edges connected to a given vertex.
+     * @param {VertexId | V} vertexOrId - The parameter `vertexOrId` can be either a `VertexId` or a `V`.
+     * @returns an array of edges connected to the specified vertex. If the vertex exists in the graph, the function
+     * returns the array of edges connected to that vertex. If the vertex does not exist in the graph, the function returns
+     * an empty array.
+     */
     edgesOf(vertexOrId: VertexId | V): E[] {
         const vertex = this.getVertex(vertexOrId);
         if (vertex) {
@@ -107,6 +149,10 @@ export class UndirectedGraph<V extends UndirectedVertex, E extends UndirectedEdg
         }
     }
 
+    /**
+     * The function "edgeSet" returns an array of unique edges from a set of edges.
+     * @returns The method `edgeSet()` returns an array of type `E[]`.
+     */
     edgeSet(): E[] {
         const edgeSet: Set<E> = new Set();
         this._edges.forEach(edges => {
@@ -117,6 +163,12 @@ export class UndirectedGraph<V extends UndirectedVertex, E extends UndirectedEdg
         return [...edgeSet];
     }
 
+    /**
+     * The function "getEdgesOf" returns an array of edges connected to a given vertex or vertex ID.
+     * @param {V | VertexId} vertexOrId - The parameter `vertexOrId` can accept either a vertex object (`V`) or a vertex ID
+     * (`VertexId`).
+     * @returns an array of edges (E[]) that are connected to the specified vertex or vertex ID.
+     */
     getEdgesOf(vertexOrId: V | VertexId): E[] {
         const vertex = this.getVertex(vertexOrId);
         if (!vertex) {
@@ -125,6 +177,12 @@ export class UndirectedGraph<V extends UndirectedVertex, E extends UndirectedEdg
         return this._edges.get(vertex) || [];
     }
 
+    /**
+     * The function "getNeighbors" returns an array of neighboring vertices of a given vertex.
+     * @param {V | VertexId} vertexOrId - The parameter `vertexOrId` can be either a vertex object (`V`) or a vertex ID
+     * (`VertexId`).
+     * @returns an array of vertices (V[]).
+     */
     getNeighbors(vertexOrId: V | VertexId): V[] {
         const neighbors: V[] = [];
         const vertex = this.getVertex(vertexOrId);
@@ -140,6 +198,14 @@ export class UndirectedGraph<V extends UndirectedVertex, E extends UndirectedEdg
         return neighbors;
     }
 
+    /**
+     * The function "getEndsOfEdge" returns the vertices at the ends of a given edge, or null if the edge does not exist in
+     * the graph.
+     * @param {E} edge - The parameter "edge" is of type E, which represents an edge in a graph.
+     * @returns The function `getEndsOfEdge` returns an array containing two vertices `[V, V]` if the edge exists in the
+     * graph and both vertices are found. If the edge does not exist or one or both vertices are not found, it returns
+     * `null`.
+     */
     getEndsOfEdge(edge: E): [V, V] | null {
         if (!this.containsEdge(edge.vertices[0], edge.vertices[1])) {
             return null;
