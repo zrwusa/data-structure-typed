@@ -1,3 +1,7 @@
+/**
+ * @copyright 2030 Tyler Zeng <zrwusa@gmail.com>
+ * @license MIT
+ */
 export const THUNK_SYMBOL = Symbol('thunk')
 
 export const isThunk = (fnOrValue: any) => {
