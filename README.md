@@ -204,33 +204,32 @@ Binary Tree, Binary Search Tree (BST), AVL Tree, Tree Multiset, Segment Tree, Bi
 
 ![](src/data-structures/binary-tree/diagrams/avl-tree-inserting.gif)
 
-![](src/data-structures/binary-tree/diagrams/segment-tree.png)
 
 ![](src/data-structures/graph/diagrams/tarjan.webp)
 
-![](src/data-structures/graph/diagrams/adjacency-list.png)
+![](src/data-structures/graph/diagrams/adjacency-list.jpg)
 
-![](src/data-structures/graph/diagrams/adjacency-list-pros-cons.png)
+![](src/data-structures/graph/diagrams/adjacency-list-pros-cons.jpg)
 
-![](src/data-structures/graph/diagrams/adjacency-matrix.png)
+![](src/data-structures/graph/diagrams/adjacency-matrix.jpg)
 
-![](src/data-structures/graph/diagrams/adjacency-matrix-pros-cons.png)
+![](src/data-structures/graph/diagrams/adjacency-matrix-pros-cons.jpg)
 
-![](src/data-structures/graph/diagrams/dfs-can-do.png)
+![](src/data-structures/graph/diagrams/dfs-can-do.jpg)
 
-![](src/data-structures/graph/diagrams/edge-list.png)
+![](src/data-structures/graph/diagrams/edge-list.jpg)
 
-![](src/data-structures/graph/diagrams/edge-list-pros-cons.png)
+![](src/data-structures/graph/diagrams/edge-list-pros-cons.jpg)
 
-![](src/data-structures/graph/diagrams/max-flow.png)
+![](src/data-structures/graph/diagrams/max-flow.jpg)
 
-![](src/data-structures/graph/diagrams/mst.png)
+![](src/data-structures/graph/diagrams/mst.jpg)
 
-![](src/data-structures/graph/diagrams/tarjan-articulation-point-bridge.png)
+[//]: # (![]&#40;src/data-structures/graph/diagrams/tarjan-articulation-point-bridge.png&#41;)
 
-![](src/data-structures/graph/diagrams/tarjan-complicate-simple.png)
+[//]: # (![]&#40;src/data-structures/graph/diagrams/tarjan-complicate-simple.png&#41;)
 
-![](src/data-structures/graph/diagrams/tarjan-strongly-connected-component.png)
+[//]: # (![]&#40;src/data-structures/graph/diagrams/tarjan-strongly-connected-component.png&#41;)
 
 
 
