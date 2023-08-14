@@ -26,6 +26,11 @@ export abstract class AbstractEdge {
 
     static DEFAULT_EDGE_WEIGHT = 1;
 
+    /**
+     * The function is a protected constructor that initializes the weight and generates a unique hash code for an edge.
+     * @param {number} [weight] - The `weight` parameter is an optional number that represents the weight of the edge. If
+     * no weight is provided, it will default to the value of `AbstractEdge.DEFAULT_EDGE_WEIGHT`.
+     */
     protected constructor(weight?: number) {
         if (weight === undefined) weight = AbstractEdge.DEFAULT_EDGE_WEIGHT;
         this._weight = weight;

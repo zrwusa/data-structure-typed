@@ -14,11 +14,19 @@ import type {
     ResultsByProperty
 } from '../types';
 
+/* This enumeration defines the position of a node within a family tree composed of three associated nodes, where 'root' represents the root node of the family tree, 'left' represents the left child node, and 'right' represents the right child node. */
 export enum FamilyPosition {root, left, right}
 
+/**
+ * Enum representing different loop types.
+ *
+ * - `iterative`: Indicates the iterative loop type (with loops that use iterations).
+ * - `recursive`: Indicates the recursive loop type (with loops that call themselves).
+ */
 export enum LoopType { iterative = 1, recursive = 2}
 
 export class BinaryTreeNode<T> {
+
     constructor(id: BinaryTreeNodeId, val: T, count?: number) {
         this._id = id;
         this._val = val;
@@ -239,58 +247,17 @@ export class BinaryTree<T> {
     }
 
     /**
-     * The function inserts a new node into a binary tree as the left or right child of a given parent node.
-     * @param {BinaryTreeNode<T> | null} newNode - The `newNode` parameter is an instance of the `BinaryTreeNode` class or
-     * `null`. It represents the node that needs to be inserted into the binary tree.
-     * @param parent - The `parent` parameter is a BinaryTreeNode object representing the parent node to which the new node
-     * will be inserted as a child.
-     * @returns The method returns the newly inserted node, either as the left child or the right child of the parent node.
-     */
-    putTo(newNode: BinaryTreeNode<T> | null, parent: BinaryTreeNode<T> ) {
-        if (parent) {
-            if (parent.left === undefined) {
-                if (newNode) {
-                    newNode.parent = parent;
-                    newNode.familyPosition = FamilyPosition.left;
-                }
-                parent.left = newNode;
-                if (newNode !== null) {
-                    this.size++;
-                    this.count += newNode?.count ?? 0;
-                }
-
-                return parent.left;
-            } else if (parent.right === undefined) {
-                if (newNode) {
-                    newNode.parent = parent;
-                    newNode.familyPosition = FamilyPosition.right;
-                }
-                parent.right = newNode;
-                if (newNode !== null) {
-                    this.size++;
-                    this.count += newNode?.count ?? 0;
-                }
-                return parent.right;
-            } else {
-                return;
-            }
-        } else {
-            return;
-        }
-    }
-
-    /**
-     * The `put` function inserts a new node with a given ID and value into a binary tree, updating the count if the node
+     * The `add` function inserts a new node with a given ID and value into a binary tree, updating the count if the node
      * already exists.
      * @param {BinaryTreeNodeId} id - The id parameter is the identifier of the binary tree node. It is used to uniquely
      * identify each node in the binary tree.
      * @param {T} val - The value to be inserted into the binary tree.
      * @param {number} [count] - The `count` parameter is an optional parameter that specifies the number of times the
      * value should be inserted into the binary tree. If not provided, it defaults to 1.
-     * @returns The function `put` returns a `BinaryTreeNode<T>` object if a new node is inserted, or `null` if no new node
+     * @returns The function `add` returns a `BinaryTreeNode<T>` object if a new node is inserted, or `null` if no new node
      * is inserted, or `undefined` if the insertion fails.
      */
-    put(id: BinaryTreeNodeId, val: T, count?: number): BinaryTreeNode<T> | null | undefined {
+    add(id: BinaryTreeNodeId, val: T, count?: number): BinaryTreeNode<T> | null | undefined {
         count = count ?? 1;
 
         const _bfs = (root: BinaryTreeNode<T>, newNode: BinaryTreeNode<T> | null): BinaryTreeNode<T> | undefined | null => {
@@ -298,7 +265,7 @@ export class BinaryTree<T> {
             while (queue.length > 0) {
                 const cur = queue.shift();
                 if (cur) {
-                    const inserted = this.putTo(newNode, cur);
+                    const inserted = this.addTo(newNode, cur);
                     if (inserted !== undefined) return inserted;
                     if (cur.left) queue.push(cur.left);
                     if (cur.right) queue.push(cur.right);
@@ -333,13 +300,54 @@ export class BinaryTree<T> {
     }
 
     /**
-     * The `insertMany` function inserts multiple items into a binary tree and returns an array of the inserted nodes or
+     * The function inserts a new node into a binary tree as the left or right child of a given parent node.
+     * @param {BinaryTreeNode<T> | null} newNode - The `newNode` parameter is an instance of the `BinaryTreeNode` class or
+     * `null`. It represents the node that needs to be inserted into the binary tree.
+     * @param parent - The `parent` parameter is a BinaryTreeNode object representing the parent node to which the new node
+     * will be inserted as a child.
+     * @returns The method returns the newly inserted node, either as the left child or the right child of the parent node.
+     */
+    addTo(newNode: BinaryTreeNode<T> | null, parent: BinaryTreeNode<T>) {
+        if (parent) {
+            if (parent.left === undefined) {
+                if (newNode) {
+                    newNode.parent = parent;
+                    newNode.familyPosition = FamilyPosition.left;
+                }
+                parent.left = newNode;
+                if (newNode !== null) {
+                    this.size++;
+                    this.count += newNode?.count ?? 0;
+                }
+
+                return parent.left;
+            } else if (parent.right === undefined) {
+                if (newNode) {
+                    newNode.parent = parent;
+                    newNode.familyPosition = FamilyPosition.right;
+                }
+                parent.right = newNode;
+                if (newNode !== null) {
+                    this.size++;
+                    this.count += newNode?.count ?? 0;
+                }
+                return parent.right;
+            } else {
+                return;
+            }
+        } else {
+            return;
+        }
+    }
+
+    /**
+     * The `addMany` function inserts multiple items into a binary tree and returns an array of the inserted nodes or
      * null/undefined values.
      * @param {T[] | BinaryTreeNode<T>[]} data - The `data` parameter can be either an array of elements of type `T` or an
      * array of `BinaryTreeNode<T>` objects.
-     * @returns The function `insertMany` returns an array of `BinaryTreeNode<T>`, `null`, or `undefined` values.
+     * @returns The function `addMany` returns an array of `BinaryTreeNode<T>`, `null`, or `undefined` values.
      */
-    insertMany(data: T[] | BinaryTreeNode<T>[]): (BinaryTreeNode<T> | null | undefined)[] {
+    addMany(data: T[] | BinaryTreeNode<T>[]): (BinaryTreeNode<T> | null | undefined)[] {
         const inserted: (BinaryTreeNode<T> | null | undefined)[] = [];
         const map: Map<T | BinaryTreeNode<T>, number> = new Map();
 
@@ -351,28 +359,28 @@ export class BinaryTree<T> {
             const count = this._isDuplicatedVal ? 1 : map.get(item);
 
             if (item instanceof BinaryTreeNode) {
-                inserted.push(this.put(item.id, item.val, item.count));
+                inserted.push(this.add(item.id, item.val, item.count));
             } else if (typeof item === 'number' && !this._autoIncrementId) {
                 if (!this._isDuplicatedVal) {
                     if (map.get(item) !== undefined) {
-                        inserted.push(this.put(item, item, count));
+                        inserted.push(this.add(item, item, count));
                         map.delete(item);
                     }
                 } else {
-                    inserted.push(this.put(item, item, 1));
+                    inserted.push(this.add(item, item, 1));
                 }
             } else {
                 if (item !== null) {
                     if (!this._isDuplicatedVal) {
                         if (map.get(item) !== undefined) {
-                            inserted.push(this.put(++this._maxId, item, count));
+                            inserted.push(this.add(++this._maxId, item, count));
                             map.delete(item);
                         }
                     } else {
-                        inserted.push(this.put(++this._maxId, item, 1));
+                        inserted.push(this.add(++this._maxId, item, 1));
                     }
                 } else {
-                    inserted.push(this.put(Number.MAX_SAFE_INTEGER, item, 0));
+                    inserted.push(this.add(Number.MAX_SAFE_INTEGER, item, 0));
                 }
             }
         }
@@ -388,7 +396,7 @@ export class BinaryTree<T> {
      */
     fill(data: T[] | BinaryTreeNode<T>[]): boolean {
         this.clear();
-        return data.length === this.insertMany(data).length;
+        return data.length === this.addMany(data).length;
     }
 
     /**
@@ -718,6 +726,7 @@ export class BinaryTree<T> {
     }
 
     // --- start additional methods ---
+
     /**
      * The `isBST` function checks if a binary tree is a binary search tree.
      * @param {BinaryTreeNode<T> | null} [node] - The `node` parameter is an optional parameter of type `BinaryTreeNode<T>

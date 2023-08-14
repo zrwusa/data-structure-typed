@@ -14,6 +14,10 @@ export class BSTNode<T> extends BinaryTreeNode<T> {
 }
 
 export class BST<T> extends BinaryTree<T> {
+    /**
+     * The constructor function accepts an optional options object and sets the comparator property if provided.
+     * @param [options] - An optional object that can contain the following properties:
+     */
     constructor(options?: {
         comparator?: BSTComparator,
         loopType?: LoopType
@@ -32,7 +36,7 @@ export class BST<T> extends BinaryTree<T> {
     }
 
     /**
-     * The `put` function inserts a new node into a binary search tree, updating the count and value of an existing node if
+     * The `add` function inserts a new node into a binary search tree, updating the count and value of an existing node if
      * the ID matches, and returns the inserted node.
      * @param {BinaryTreeNodeId} id - The `id` parameter represents the identifier of the binary tree node. It is used to
      * determine the position of the node in the binary search tree.
@@ -41,9 +45,9 @@ export class BST<T> extends BinaryTree<T> {
      * @param {number} [count=1] - The `count` parameter represents the number of times the value should be inserted into
      * the binary search tree. By default, it is set to 1, meaning that if no count is specified, the value will be
      * inserted once.
-     * @returns The method `put` returns a `BSTNode<T>` object or `null`.
+     * @returns The method `add` returns a `BSTNode<T>` object or `null`.
      */
-    override put(id: BinaryTreeNodeId, val: T | null, count: number = 1): BSTNode<T> | null {
+    override add(id: BinaryTreeNodeId, val: T | null, count: number = 1): BSTNode<T> | null {
         let inserted: BSTNode<T> | null = null;
         const newNode = this.createNode(id, val, count);
         if (this.root === null) {
@@ -108,17 +112,44 @@ export class BST<T> extends BinaryTree<T> {
         return inserted;
     }
 
+    /**
+     * The `get` function returns the first node in a binary search tree that matches the given property value or name.
+     * @param {BinaryTreeNodeId | T} nodeProperty - The `nodeProperty` parameter can be either a `BinaryTreeNodeId` or a
+     * generic type `T`. It represents the value of the property that you want to search for in the binary search tree.
+     * @param {BinaryTreeNodePropertyName} [propertyName] - The `propertyName` parameter is an optional parameter that
+     * specifies the property name to use for searching the binary search tree nodes. If not provided, it defaults to
+     * `'id'`.
+     * @returns The method is returning a BSTNode<T> object or null.
+     */
     override get(nodeProperty: BinaryTreeNodeId | T, propertyName ?: BinaryTreeNodePropertyName): BSTNode<T> | null {
         propertyName = propertyName ?? 'id';
         return this.getNodes(nodeProperty, propertyName, true)[0] ?? null;
     }
 
+    /**
+     * The function returns the id of the rightmost node if the comparison between two values is less than, the id of the
+     * leftmost node if the comparison is greater than, and the id of the rightmost node otherwise.
+     * @returns The function `lastKey()` returns the ID of the rightmost node in a binary tree. If the comparison between
+     * the first two elements in the tree is less than, it returns the ID of the rightmost node. If the comparison is
+     * greater than, it returns the ID of the leftmost node. Otherwise, it also returns the ID of the rightmost node. If
+     * there are no nodes in
+     */
     lastKey() {
         if (this._compare(0, 1) === CP.lt) return this.getRightMost()?.id ?? 0;
         else if (this._compare(0, 1) === CP.gt) return this.getLeftMost()?.id ?? 0;
         else return this.getRightMost()?.id ?? 0;
     }
 
+    /**
+     * The `remove` function in this TypeScript code removes a node from a binary search tree and returns information about
+     * the deleted node and any nodes that need to be balanced.
+     * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier of the binary tree node that needs to be removed
+     * from the binary search tree.
+     * @param {boolean} [ignoreCount] - A boolean flag indicating whether to ignore the count of the node being removed. If
+     * set to true, the count of the node will not be considered and the node will be removed regardless of its count. If
+     * set to false or not provided, the count of the node will be taken into account and the
+     * @returns an array of `BSTDeletedResult<T>` objects.
+     */
     override remove(id: BinaryTreeNodeId, ignoreCount?: boolean): BSTDeletedResult<T>[] {
         const bstDeletedResult: BSTDeletedResult<T>[] = [];
         if (!this.root) return bstDeletedResult;
@@ -167,6 +198,19 @@ export class BST<T> extends BinaryTree<T> {
         return bstDeletedResult;
     }
 
+    /**
+     * The function `getNodes` returns an array of binary search tree nodes that match a given property value, with the
+     * option to specify the property name and whether to return only one node.
+     * @param {BinaryTreeNodeId | T} nodeProperty - The `nodeProperty` parameter can be either a `BinaryTreeNodeId` or a
+     * generic type `T`. It represents the property value that you want to search for in the binary search tree.
+     * @param {BinaryTreeNodePropertyName} [propertyName] - The `propertyName` parameter is an optional parameter that
+     * specifies the property of the nodes to compare with the `nodeProperty` parameter. If not provided, it defaults to
+     * `'id'`.
+     * @param {boolean} [onlyOne] - A boolean value indicating whether to return only one node that matches the given
+     * nodeProperty. If set to true, the function will stop traversing the tree and return the first matching node. If set
+     * to false or not provided, the function will return all nodes that match the given nodeProperty.
+     * @returns an array of BSTNode<T> objects.
+     */
     override getNodes(nodeProperty: BinaryTreeNodeId | T, propertyName ?: BinaryTreeNodePropertyName, onlyOne ?: boolean): BSTNode<T>[] {
         propertyName = propertyName ?? 'id';
         if (!this.root) return [];
@@ -208,6 +252,16 @@ export class BST<T> extends BinaryTree<T> {
     }
 
     // --- start additional functions
+    /**
+     * The `lesserSum` function calculates the sum of a specified property in all nodes with an ID less than a given ID in
+     * a binary search tree.
+     * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier of the binary tree node for which you want to
+     * calculate the lesser sum.
+     * @param {BinaryTreeNodePropertyName} [propertyName] - The `propertyName` parameter is an optional parameter that
+     * specifies the property of the binary tree node to use for calculating the sum. If not provided, it defaults to 'id'.
+     * @returns The function `lesserSum` returns a number, which represents the sum of the values of the nodes in the
+     * binary search tree that have a property value lesser than the given `id`.
+     */
     lesserSum(id: BinaryTreeNodeId, propertyName ?: BinaryTreeNodePropertyName): number {
         propertyName = propertyName ?? 'id';
         if (!this.root) return 0;
@@ -273,6 +327,18 @@ export class BST<T> extends BinaryTree<T> {
         return sum;
     }
 
+    /**
+     * The function `allGreaterNodesAdd` updates the value of a specified property for all nodes in a binary search tree
+     * that have a greater value than a given node.
+     * @param node - The `node` parameter is of type `BSTNode<T>`, which represents a node in a binary search tree. It
+     * contains properties such as `id` and `count`.
+     * @param {number} delta - The `delta` parameter is a number that represents the amount by which the property value of
+     * each node should be increased.
+     * @param {BinaryTreeNodePropertyName} [propertyName] - propertyName is an optional parameter that specifies the
+     * property of the BSTNode to be modified. It can be either 'id' or 'count'. If propertyName is not provided, it
+     * defaults to 'id'.
+     * @returns a boolean value.
+     */
     allGreaterNodesAdd(node: BSTNode<T>, delta: number, propertyName ?: BinaryTreeNodePropertyName): boolean {
         propertyName = propertyName ?? 'id';
         if (!this.root) return false;
@@ -319,6 +385,11 @@ export class BST<T> extends BinaryTree<T> {
         }
     }
 
+    /**
+     * The `balance` function takes a sorted array of nodes and builds a balanced binary search tree using either a
+     * recursive or iterative approach.
+     * @returns The `balance()` function returns a boolean value.
+     */
     balance(): boolean {
         const sorted = this.DFS('in', 'node'), n = sorted.length;
         this.clear();
@@ -329,7 +400,7 @@ export class BST<T> extends BinaryTree<T> {
                 if (l > r) return;
                 const m = l + Math.floor((r - l) / 2);
                 const midNode = sorted[m];
-                this.put(midNode.id, midNode.val, midNode.count);
+                this.add(midNode.id, midNode.val, midNode.count);
                 buildBalanceBST(l, m - 1);
                 buildBalanceBST(m + 1, r);
             };
@@ -345,7 +416,7 @@ export class BST<T> extends BinaryTree<T> {
                     if (l <= r) {
                         const m = l + Math.floor((r - l) / 2);
                         const midNode = sorted[m];
-                        this.put(midNode.id, midNode.val, midNode.count);
+                        this.add(midNode.id, midNode.val, midNode.count);
                         stack.push([m + 1, r]);
                         stack.push([l, m - 1]);
                     }
@@ -355,6 +426,11 @@ export class BST<T> extends BinaryTree<T> {
         }
     }
 
+    /**
+     * The function `isAVLBalanced` checks if a binary search tree is balanced according to the AVL tree property.
+     * @returns The function `isAVLBalanced()` returns a boolean value. It returns `true` if the binary search tree (BST)
+     * is balanced according to the AVL tree property, and `false` otherwise.
+     */
     isAVLBalanced(): boolean {
         if (!this.root) return true;
 
@@ -399,6 +475,14 @@ export class BST<T> extends BinaryTree<T> {
 
     protected _comparator: BSTComparator = (a, b) => a - b;
 
+    /**
+     * The function compares two binary tree node IDs using a comparator function and returns whether the first ID is
+     * greater than, less than, or equal to the second ID.
+     * @param {BinaryTreeNodeId} a - a is a BinaryTreeNodeId, which represents the identifier of a binary tree node.
+     * @param {BinaryTreeNodeId} b - The parameter "b" in the above code refers to a BinaryTreeNodeId.
+     * @returns a value of type CP (ComparisonResult). The possible return values are CP.gt (greater than), CP.lt (less
+     * than), or CP.eq (equal).
+     */
     protected _compare(a: BinaryTreeNodeId, b: BinaryTreeNodeId): CP {
         const compared = this._comparator(a, b);
         if (compared > 0) return CP.gt;

@@ -5,6 +5,12 @@
 export class BinaryIndexedTree {
     private readonly _sumTree: number[];
 
+    /**
+     * The constructor initializes an array with a specified length and fills it with zeros.
+     * @param {number} n - The parameter `n` represents the size of the array that will be used to store the sum tree. The
+     * sum tree is a binary tree data structure used to efficiently calculate the sum of a range of elements in an array.
+     * The size of the sum tree array is `n + 1` because
+     */
     constructor(n: number) {
         this._sumTree = new Array<number>(n + 1).fill(0);
     }

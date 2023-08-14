@@ -7,12 +7,26 @@ import {AbstractEdge, AbstractGraph, AbstractVertex} from './abstract-graph';
 import type {IDirectedGraph, TopologicalStatus, VertexId} from '../types';
 
 export class DirectedVertex extends AbstractVertex {
+    /**
+     * The constructor function initializes an object with a given id.
+     * @param {VertexId} id - The `id` parameter is the identifier for the vertex. It is used to uniquely identify the
+     * vertex within a graph or network.
+     */
     constructor(id: VertexId) {
         super(id);
     }
 }
 
 export class DirectedEdge extends AbstractEdge {
+    /**
+     * The constructor function initializes the source and destination vertices of an edge, with an optional weight.
+     * @param {VertexId} src - The `src` parameter is the source vertex ID. It represents the starting point of an edge in
+     * a graph.
+     * @param {VertexId} dest - The `dest` parameter is the identifier of the destination vertex. It represents the vertex
+     * to which an edge is directed.
+     * @param {number} [weight] - The `weight` parameter is an optional number that represents the weight of the edge
+     * between two vertices.
+     */
     constructor(src: VertexId, dest: VertexId, weight?: number) {
         super(weight);
         this._src = src;
@@ -299,41 +313,12 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
     /**
      * when stored with adjacency list time: O(V+E)
      * when stored with adjacency matrix time: O(V^2)
-     * The `topologicalSort` function performs a topological sort on a directed graph and returns the sorted vertices in
-     * reverse order, or null if the graph contains a cycle.
-     * @returns The function `topologicalSort()` returns an array of vertices in topological order if there is no cycle in
-     * the graph. If there is a cycle in the graph, it returns `null`.
+     * The `topologicalSort` function performs a topological sort on a graph and returns the sorted vertices in reverse
+     * order, or null if the graph contains a cycle.
+     * @returns The `topologicalSort()` function returns an array of vertices (`V[]`) in topological order if there is no
+     * cycle in the graph. If there is a cycle, it returns `null`.
      */
     topologicalSort(): V[] | null {
-        // vector<vector<int>> g;
-        // vector<int> color;
-        // int last;
-        // bool hasCycle;
-        //
-        // bool topo_sort() {
-        //     int n = g.size();
-        //     vector<int> degree(n, 0);
-        //     queue<int> q;
-        //     for (int i = 0; i < n; i++) {
-        //         degree[i] = g[i].size();
-        //         if (degree[i] <= 1) {
-        //             q.push(i);
-        //         }
-        //     }
-        //     int cnt = 0;
-        //     while (!q.empty()) {
-        //         cnt++;
-        //         int root = q.front();
-        //         q.pop();
-        //         for (auto child : g[root]) {
-        //             degree[child]--;
-        //             if (degree[child] == 1) {
-        //                 q.push(child);
-        //             }
-        //         }
-        //     }
-        //     return (cnt != n);
-        // }
         // When judging whether there is a cycle in the undirected graph, all nodes with degree of **<= 1** are enqueued
         // When judging whether there is a cycle in the directed graph, all nodes with **in degree = 0** are enqueued
         const statusMap: Map<V, TopologicalStatus> = new Map<V, TopologicalStatus>();
@@ -364,9 +349,8 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
             }
         }
 
-        if (hasCycle) {
-            return null;
-        }
+        if (hasCycle) return null;
+
         return sorted.reverse();
     }
 

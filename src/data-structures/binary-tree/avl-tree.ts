@@ -6,6 +6,12 @@ import {BST, BSTNode} from './bst';
 import type {AVLTreeDeleted, BinaryTreeNodeId} from '../types';
 
 export class AVLTreeNode<T> extends BSTNode<T> {
+    /**
+     * The function overrides the clone method of the AVLTreeNode class to create a new AVLTreeNode object with the same
+     * id, value, and count.
+     * @returns The method is returning a new instance of the AVLTreeNode class with the same id, val, and count values as
+     * the current instance.
+     */
     override clone(): AVLTreeNode<T> {
         return new AVLTreeNode<T>(this.id, this.val, this.count);
     }
@@ -18,9 +24,9 @@ export class AVLTree<T> extends BST<T> {
     }
 
     /**
-     * The function overrides the put method of a Binary Search Tree to insert a node with a given id and value, and then
+     * The function overrides the add method of a Binary Search Tree to insert a node with a given id and value, and then
      * balances the tree.
-     * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier of the binary tree node that we want to put or
+     * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier of the binary tree node that we want to add or
      * update in the AVL tree.
      * @param {T | null} val - The `val` parameter represents the value that you want to assign to the node with the given
      * `id`. It can be of type `T` (the generic type) or `null`.
@@ -29,8 +35,8 @@ export class AVLTree<T> extends BST<T> {
      * to `1`, indicating that the value should be inserted once.
      * @returns The method is returning either an AVLTreeNode<T> object or null.
      */
-    override put(id: BinaryTreeNodeId, val: T | null, count?: number): AVLTreeNode<T> | null {
-        const inserted = super.put(id, val, count);
+    override add(id: BinaryTreeNodeId, val: T | null, count?: number): AVLTreeNode<T> | null {
+        const inserted = super.add(id, val, count);
         if (inserted) this.balancePath(inserted);
         return inserted;
     }

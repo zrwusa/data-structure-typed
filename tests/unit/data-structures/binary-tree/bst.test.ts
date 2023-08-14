@@ -8,7 +8,7 @@ describe('bst-case6', () => {
 
         expect(tree).toBeInstanceOf(BST);
 
-        for (const i of arr) tree.put(i, i);
+        tree.addMany(arr);
 
         expect(tree.root).toBeInstanceOf(BSTNode);
         if (tree.root) expect(tree.root.id).toBe(11);

@@ -45,7 +45,7 @@ export class Trie {
         this._root = new TrieNode('');
         if (words) {
             for (const i of words) {
-                this.put(i);
+                this.add(i);
             }
         }
     }
@@ -60,7 +60,7 @@ export class Trie {
         this._root = v;
     }
 
-    put(word: string): boolean {
+    add(word: string): boolean {
         let cur = this._root;
         for (const c of word) {
             let nodeC = cur.children.get(c);

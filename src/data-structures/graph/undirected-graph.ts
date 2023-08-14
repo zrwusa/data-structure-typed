@@ -7,12 +7,25 @@ import {AbstractEdge, AbstractGraph, AbstractVertex} from './abstract-graph';
 import type {VertexId} from '../types';
 
 export class UndirectedVertex extends AbstractVertex {
+    /**
+     * The constructor function initializes an object with a given id.
+     * @param {VertexId} id - The `id` parameter is the identifier for the vertex. It is used to uniquely identify the
+     * vertex within a graph or network.
+     */
     constructor(id: VertexId) {
         super(id);
     }
 }
 
 export class UndirectedEdge extends AbstractEdge {
+    /**
+     * The constructor function initializes an instance of a class with two vertex IDs and an optional weight.
+     * @param {VertexId} v1 - The parameter `v1` is of type `VertexId` and represents the first vertex in the edge.
+     * @param {VertexId} v2 - The parameter `v2` is a `VertexId`, which represents the identifier of the second vertex in a
+     * graph.
+     * @param {number} [weight] - The `weight` parameter is an optional number that represents the weight of the edge
+     * between two vertices.
+     */
     constructor(v1: VertexId, v2: VertexId, weight?: number) {
         super(weight);
         this._vertices = [v1, v2];
