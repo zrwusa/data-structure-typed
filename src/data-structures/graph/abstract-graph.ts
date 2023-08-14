@@ -11,7 +11,7 @@ export class AbstractVertex {
         this._id = id;
     }
 
-    private _id: VertexId;
+    protected _id: VertexId;
 
     public get id(): VertexId {
         return this._id;

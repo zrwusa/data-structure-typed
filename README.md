@@ -16,6 +16,10 @@ yarn add data-structure-typed
 npm install data-structure-typed
 ```
 
+## api docs
+
+[api docs](https://data-structure-typed-docs.vercel.app/)
+
 ## data structures
 
 Meticulously crafted to empower developers with a versatile set of essential data structures. Our library includes a wide range of data structures:

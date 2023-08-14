@@ -1,4 +1,4 @@
-import {BST, BSTNode} from '../../../src';
+import {BST, BSTNode} from '../../../../src';
 
 describe('bst-case6', () => {
     it('should perform various operations on a Binary Search Tree', () => {

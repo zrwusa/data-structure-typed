@@ -158,7 +158,7 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
      * and `dest`, which represent the source and destination vertices of the edge, respectively.
      * @returns The method `removeEdge` returns the removed edge (`E`) if it exists, or `null` if the edge does not exist.
      */
-    removeEdge(edge: E): E | null {
+    removeEdge(edge: E ): E | null {
         let removed: E | null = null;
         const src = this.getVertex(edge.src);
         const dest = this.getVertex(edge.dest);
@@ -304,7 +304,7 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
      * @returns The function `topologicalSort()` returns an array of vertices in topological order if there is no cycle in
      * the graph. If there is a cycle in the graph, it returns `null`.
      */
-    topologicalSort(): (V | VertexId)[] | null {
+    topologicalSort(): V[] | null {
         // vector<vector<int>> g;
         // vector<int> color;
         // int last;
@@ -336,14 +336,14 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
         // }
         // When judging whether there is a cycle in the undirected graph, all nodes with degree of **<= 1** are enqueued
         // When judging whether there is a cycle in the directed graph, all nodes with **in degree = 0** are enqueued
-        const statusMap: Map<V | VertexId, TopologicalStatus> = new Map<V, TopologicalStatus>();
+        const statusMap: Map<V, TopologicalStatus> = new Map<V, TopologicalStatus>();
         for (const entry of this._vertices) {
             statusMap.set(entry[1], 0);
         }
 
-        const sorted: (V | VertexId)[] = [];
+        const sorted: (V)[] = [];
         let hasCycle = false;
-        const dfs = (cur: V | VertexId) => {
+        const dfs = (cur: V) => {
             statusMap.set(cur, 1);
             const children = this.getDestinations(cur);
             for (const child of children) {
