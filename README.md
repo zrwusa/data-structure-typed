@@ -22,9 +22,12 @@ npm install data-structure-typed
 
 <nav class="tsd-navigation"><a href="https://data-structure-typed-docs.vercel.app/modules.html" class="current"><span>data-<wbr/>structure-<wbr/>typed</span></a>
 <ul class="tsd-small-nested-navigation">
-<li><a href="https://data-structure-typed-docs.vercel.app/enums/CP.html"><span>CP</span></a></li>
-<li><a href="https://data-structure-typed-docs.vercel.app/enums/FamilyPosition.html"><span>Family<wbr/>Position</span></a></li>
-<li><a href="https://data-structure-typed-docs.vercel.app/enums/LoopType.html"><span>Loop<wbr/>Type</span></a></li>
+
+[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/enums/CP.html"><span>CP</span></a></li>)
+
+[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/enums/FamilyPosition.html"><span>Family<wbr/>Position</span></a></li>)
+
+[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/enums/LoopType.html"><span>Loop<wbr/>Type</span></a></li>)
 <li><a href="https://data-structure-typed-docs.vercel.app/classes/AVLTree.html"><span>AVLTree</span></a></li>
 <li><a href="https://data-structure-typed-docs.vercel.app/classes/AVLTreeNode.html"><span>AVLTree<wbr/>Node</span></a></li>
 <li><a href="https://data-structure-typed-docs.vercel.app/classes/AaTree.html"><span>Aa<wbr/>Tree</span></a></li>
