@@ -20,6 +20,60 @@ npm install data-structure-typed
 
 [api docs](https://data-structure-typed-docs.vercel.app/)
 
+<nav class="tsd-navigation"><a href="modules.html" class="current"><span>data-<wbr/>structure-<wbr/>typed</span></a>
+<ul class="tsd-small-nested-navigation">
+<li><a href="https://data-structure-typed-docs.vercel.app/enums/CP.html"><span>CP</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/enums/FamilyPosition.html"><span>Family<wbr/>Position</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/enums/LoopType.html"><span>Loop<wbr/>Type</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/AVLTree.html"><span>AVLTree</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/AVLTreeNode.html"><span>AVLTree<wbr/>Node</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/AaTree.html"><span>Aa<wbr/>Tree</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/AbstractEdge.html"><span>Abstract<wbr/>Edge</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/AbstractGraph.html"><span>Abstract<wbr/>Graph</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/AbstractVertex.html"><span>Abstract<wbr/>Vertex</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/ArrayDeque.html"><span>Array<wbr/>Deque</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/BST.html"><span>BST</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/BSTNode.html"><span>BSTNode</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/BTree.html"><span>BTree</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/BinaryIndexedTree.html"><span>Binary<wbr/>Indexed<wbr/>Tree</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/BinaryTree.html"><span>Binary<wbr/>Tree</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/BinaryTreeNode.html"><span>Binary<wbr/>Tree<wbr/>Node</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/Character.html"><span>Character</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/CoordinateMap.html"><span>Coordinate<wbr/>Map</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/CoordinateSet.html"><span>Coordinate<wbr/>Set</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/Deque.html"><span>Deque</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/DirectedEdge.html"><span>Directed<wbr/>Edge</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/DirectedGraph.html"><span>Directed<wbr/>Graph</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/DirectedVertex.html"><span>Directed<wbr/>Vertex</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/DoublyLinkedList.html"><span>Doubly<wbr/>Linked<wbr/>List</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/DoublyLinkedListNode.html"><span>Doubly<wbr/>Linked<wbr/>List<wbr/>Node</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/Heap.html"><span>Heap</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/Matrix2D.html"><span>Matrix2D</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/MatrixNTI2D.html"><span>MatrixNTI2D</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/MaxHeap.html"><span>Max<wbr/>Heap</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/MaxPriorityQueue.html"><span>Max<wbr/>Priority<wbr/>Queue</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/MinHeap.html"><span>Min<wbr/>Heap</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/MinPriorityQueue.html"><span>Min<wbr/>Priority<wbr/>Queue</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/Navigator.html"><span>Navigator</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/ObjectDeque.html"><span>Object<wbr/>Deque</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/PriorityQueue.html"><span>Priority<wbr/>Queue</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/Queue.html"><span>Queue</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/RBTree.html"><span>RBTree</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/SegmentTree.html"><span>Segment<wbr/>Tree</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/SegmentTreeNode.html"><span>Segment<wbr/>Tree<wbr/>Node</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/SinglyLinkedList.html"><span>Singly<wbr/>Linked<wbr/>List</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/SinglyLinkedListNode.html"><span>Singly<wbr/>Linked<wbr/>List<wbr/>Node</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/SplayTree.html"><span>Splay<wbr/>Tree</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/Stack.html"><span>Stack</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/TreeMultiSet.html"><span>Tree<wbr/>Multi<wbr/>Set</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/Trie.html"><span>Trie</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/TrieNode.html"><span>Trie<wbr/>Node</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/TwoThreeTree.html"><span>Two<wbr/>Three<wbr/>Tree</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/UndirectedEdge.html"><span>Undirected<wbr/>Edge</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/UndirectedGraph.html"><span>Undirected<wbr/>Graph</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/UndirectedVertex.html"><span>Undirected<wbr/>Vertex</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/Vector2D.html"><span>Vector2D</span></a></li></ul></nav>
+
 ## data structures
 
 Meticulously crafted to empower developers with a versatile set of essential data structures. Our library includes a wide range of data structures:
