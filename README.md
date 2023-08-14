@@ -18,9 +18,9 @@ npm install data-structure-typed
 
 ## api docs
 
-[api docs](https://data-structure-typed-docs.vercel.app/)
+[//]: # ([api docs]&#40;https://data-structure-typed-docs.vercel.app/&#41;)
 
-<nav class="tsd-navigation"><a href="modules.html" class="current"><span>data-<wbr/>structure-<wbr/>typed</span></a>
+<nav class="tsd-navigation"><a href="https://data-structure-typed-docs.vercel.app/modules.html" class="current"><span>data-<wbr/>structure-<wbr/>typed</span></a>
 <ul class="tsd-small-nested-navigation">
 <li><a href="https://data-structure-typed-docs.vercel.app/enums/CP.html"><span>CP</span></a></li>
 <li><a href="https://data-structure-typed-docs.vercel.app/enums/FamilyPosition.html"><span>Family<wbr/>Position</span></a></li>
