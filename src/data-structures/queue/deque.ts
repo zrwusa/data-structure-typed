@@ -1,5 +1,5 @@
 /**
- * @copyright 2030 Tyler Zeng <zrwusa@gmail.com>
+ * @copyright Tyler Zeng <zrwusa@gmail.com>
  * @license MIT
  */
 import {DoublyLinkedList} from '../linked-list';
@@ -28,7 +28,7 @@ export class ObjectDeque<T> {
         return this._size;
     }
 
-    offerFirst(value: T) {
+    addFirst(value: T) {
         if (this._size === 0) {
             const mid = Math.floor(this._capacity / 2);
             this._first = mid;
@@ -40,7 +40,7 @@ export class ObjectDeque<T> {
         this._size++;
     }
 
-    offerLast(value: T) {
+    addLast(value: T) {
         if (this._size === 0) {
             const mid = Math.floor(this._capacity / 2);
             this._first = mid;
@@ -98,11 +98,11 @@ export class ArrayDeque<T> {
     }
 
     /**
-     * The function "offerLast" adds a value to the end of an array.
+     * The function "addLast" adds a value to the end of an array.
      * @param {T} value - The value parameter represents the value that you want to add to the end of the array.
      * @returns The return value is the new length of the array after the value has been added.
      */
-    offerLast(value: T) {
+    addLast(value: T) {
         return this._nodes.push(value);
     }
 
@@ -124,12 +124,12 @@ export class ArrayDeque<T> {
     }
 
     /**
-     * The function "offerFirst" adds a value to the beginning of an array.
+     * The function "addFirst" adds a value to the beginning of an array.
      * @param {T} value - The value parameter represents the value that you want to add to the beginning of the array.
-     * @returns The return value of the `offerFirst` function is the new length of the array `_nodes` after adding the
+     * @returns The return value of the `addFirst` function is the new length of the array `_nodes` after adding the
      * `value` at the beginning.
      */
-    offerFirst(value: T) {
+    addFirst(value: T) {
         return this._nodes.unshift(value);
     }
 

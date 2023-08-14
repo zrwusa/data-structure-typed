@@ -1,5 +1,6 @@
 import { DirectedGraph, DirectedVertex, DirectedEdge } from '../../../../src';
 
+// TODO too few unit tests
 describe('DirectedGraph', () => {
     let graph: DirectedGraph<DirectedVertex, DirectedEdge>;
 

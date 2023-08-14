@@ -1,5 +1,5 @@
 /**
- * @copyright 2030 Tyler Zeng <zrwusa@gmail.com>
+ * @copyright Tyler Zeng <zrwusa@gmail.com>
  * @license MIT
  */
 import {arrayRemove, uuidV4} from '../../utils';
@@ -540,7 +540,7 @@ export abstract class AbstractGraph<V extends AbstractVertex, E extends Abstract
         }
 
         const heap = new PriorityQueue<{ id: number, val: V }>({comparator: (a, b) => a.id - b.id});
-        heap.offer({id: 0, val: srcVertex});
+        heap.add({id: 0, val: srcVertex});
 
         distMap.set(srcVertex, 0);
         preMap.set(srcVertex, null);
@@ -587,7 +587,7 @@ export abstract class AbstractGraph<V extends AbstractVertex, E extends Abstract
                                 const distSrcToNeighbor = distMap.get(neighbor);
                                 if (distSrcToNeighbor) {
                                     if (dist + weight < distSrcToNeighbor) {
-                                        heap.offer({id: dist + weight, val: neighbor});
+                                        heap.add({id: dist + weight, val: neighbor});
                                         preMap.set(neighbor, cur);
                                         distMap.set(neighbor, dist + weight);
                                     }

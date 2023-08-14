@@ -1,6 +1,6 @@
 /**
  * @license MIT
- * @copyright 2030 Tyler Zeng <zrwusa@gmail.com>
+ * @copyright Tyler Zeng <zrwusa@gmail.com>
  * @class
  */
 export class Stack<T> {

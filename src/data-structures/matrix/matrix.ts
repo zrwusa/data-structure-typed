@@ -1,5 +1,5 @@
 /**
- * @copyright 2030 Tyler Zeng <zrwusa@gmail.com>
+ * @copyright Tyler Zeng <zrwusa@gmail.com>
  * @license MIT
  */
 // todo need to be improved

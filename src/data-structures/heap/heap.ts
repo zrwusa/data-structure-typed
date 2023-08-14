@@ -1,5 +1,5 @@
 /**
- * @copyright 2030 Tyler Zeng <zrwusa@gmail.com>
+ * @copyright Tyler Zeng <zrwusa@gmail.com>
  * @license MIT
  */
 import {PriorityQueue} from '../priority-queue';
@@ -59,37 +59,37 @@ export abstract class Heap<T> {
     }
 
     /**
-     * The `offer` function adds an element to a priority queue with an optional priority value.
+     * The `add` function adds an element to a priority queue with an optional priority value.
      * @param {T} element - The `element` parameter represents the value that you want to add to the heap. It can be of any
      * type.
      * @param {number} [priority] - The `priority` parameter is an optional number that represents the priority of the
-     * element being offered to the heap. If the `element` parameter is a number, then the `priority` parameter is set to
+     * element being added to the heap. If the `element` parameter is a number, then the `priority` parameter is set to
      * the value of `element`. If the `element` parameter is not a number, then the
-     * @returns The `offer` method returns the instance of the `Heap` class.
+     * @returns The `add` method returns the instance of the `Heap` class.
      * @throws {Error} if priority is not a valid number
      */
-    offer(element: T, priority?: number): Heap<T> {
+    add(element: T, priority?: number): Heap<T> {
         if (typeof element === 'number') {
             priority = element;
         } else {
             if (priority === undefined) {
-                throw new Error('.offer expects a numeric priority');
+                throw new Error('.add expects a numeric priority');
             }
         }
 
         if (priority && Number.isNaN(+priority)) {
-            throw new Error('.offer expects a numeric priority');
+            throw new Error('.add expects a numeric priority');
         }
 
         if (Number.isNaN(+priority) && Number.isNaN(this._priorityCb(element))) {
             throw new Error(
-                '.offer expects a numeric priority '
+                '.add expects a numeric priority '
                 + 'or a constructor callback that returns a number'
             );
         }
 
         const _priority = !Number.isNaN(+priority) ? priority : this._priorityCb(element);
-        this._pq.offer({priority: _priority, element});
+        this._pq.add({priority: _priority, element});
         return this;
     }
 

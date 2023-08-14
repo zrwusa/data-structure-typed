@@ -1,5 +1,5 @@
 /**
- * @copyright 2030 Tyler Zeng <zrwusa@gmail.com>
+ * @copyright Tyler Zeng <zrwusa@gmail.com>
  * @license MIT
  */
 import type {PriorityQueueComparator, PriorityQueueDFSOrderPattern, PriorityQueueOptions} from '../types';
@@ -52,11 +52,11 @@ export class PriorityQueue<T = number> {
     }
 
     /**
-     * The "offer" function adds a node to the heap and ensures that the heap property is maintained.
+     * The "add" function adds a node to the heap and ensures that the heap property is maintained.
      * @param {T} node - The parameter "node" is of type T, which means it can be any data type. It represents the node
      * that needs to be added to the heap.
      */
-    offer(node: T) {
+    add(node: T) {
         this.nodes.push(node);
         this._heapifyUp(this.size - 1);
     }

@@ -11,6 +11,7 @@ dist/
 __tests__/
 
 notes/
+docs/
 #.expo/*
 #web-build/
 #.idea/

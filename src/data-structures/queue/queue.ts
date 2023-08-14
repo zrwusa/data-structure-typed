@@ -1,6 +1,6 @@
 /**
  * @license MIT
- * @copyright 2030 Tyler Zeng <zrwusa@gmail.com>
+ * @copyright Tyler Zeng <zrwusa@gmail.com>
  * @class
  */
 export class Queue<T> {
@@ -31,11 +31,11 @@ export class Queue<T> {
     }
 
     /**
-     * The offer function adds an element to the end of the queue and returns the updated queue.Adds an element at the back of the queue.
+     * The add function adds an element to the end of the queue and returns the updated queue.Adds an element at the back of the queue.
      * @param {T} element - The `element` parameter represents the element that you want to add to the queue.
-     * @returns The `offer` method is returning a `Queue<T>` object.
+     * @returns The `add` method is returning a `Queue<T>` object.
      */
-    offer(element: T): Queue<T> {
+    add(element: T): Queue<T> {
         this._nodes.push(element);
         return this;
     }

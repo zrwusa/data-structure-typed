@@ -1,5 +1,5 @@
 /**
- * @copyright 2030 Tyler Zeng <zrwusa@gmail.com>
+ * @copyright Tyler Zeng <zrwusa@gmail.com>
  * @license MIT
  */
 import type {DoublyLinkedListGetBy} from '../types';
@@ -34,7 +34,7 @@ export class DoublyLinkedList<T> {
      * the doubly linked list.
      * @returns A boolean value is being returned.
      */
-    offerFirst(val: T): boolean {
+    addFirst(val: T): boolean {
         const newNode = new DoublyLinkedListNode(val);
         if (this._size === 0) {
             this._first = newNode;
@@ -54,7 +54,7 @@ export class DoublyLinkedList<T> {
      * doubly linked list.
      * @returns a boolean value, which is always true.
      */
-    offerLast(val: T): boolean {
+    addLast(val: T): boolean {
         const newNode = new DoublyLinkedListNode(val);
         if (this._size === 0) {
             this._first = newNode;
@@ -247,8 +247,8 @@ export class DoublyLinkedList<T> {
      */
     insert(index: number, val: T): boolean {
         if (index < 0 || index > this._size) return false;
-        if (index === 0) return !!this.offerFirst(val);
-        if (index === this._size) return !!this.offerLast(val);
+        if (index === 0) return !!this.addFirst(val);
+        if (index === this._size) return !!this.addLast(val);
 
         const newNode = new DoublyLinkedListNode(val);
         const prevNode = this.get(index - 1, 'node');
