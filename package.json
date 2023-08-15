@@ -39,8 +39,8 @@
     "Min Priority Queue",
     "Trie"
   ],
-  "author": "Tyler Zeng",
-  "license": "ISC",
+  "author": "Tyler Zeng zrwusa@gmail.com",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/zrwusa/data-structure-typed/issues"
   },

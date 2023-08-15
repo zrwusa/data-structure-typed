@@ -1,9 +1,12 @@
 /**
- * @copyright Tyler Zeng <zrwusa@gmail.com>
- * @license MIT
+ * data-structure-typed
+ *
+ * @author Tyler Zeng
+ * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
+ * @license MIT License
  */
 
-import {trampoline} from '../../utils/trampoline';
+import {trampoline} from '../../utils';
 import type {
     BinaryTreeDeleted,
     BinaryTreeNodeId,

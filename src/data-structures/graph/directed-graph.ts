@@ -1,6 +1,9 @@
 /**
- * @copyright Tyler Zeng <zrwusa@gmail.com>
- * @license MIT
+ * data-structure-typed
+ *
+ * @author Tyler Zeng
+ * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
+ * @license MIT License
  */
 import {arrayRemove} from '../../utils';
 import {AbstractEdge, AbstractGraph, AbstractVertex} from './abstract-graph';
@@ -184,7 +187,7 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
 
             const destInEdges = this._inEdgeMap.get(dest);
             if (destInEdges && destInEdges.length > 0) {
-                removed = arrayRemove(destInEdges, (edge: DirectedEdge) => edge.dest === dest.id)[0];
+                removed = arrayRemove(destInEdges, (edge: E) => edge.dest === dest.id)[0];
             }
 
         }

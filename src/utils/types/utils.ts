@@ -1,3 +1,12 @@
+export type JSONSerializable = {
+    [key: string]: any
+}
+export type JSONValue = string | number | boolean | undefined | JSONObject;
+
+export interface JSONObject {
+    [key: string]: JSONValue;
+}
+
 export type AnyFunction<A extends any[] = any[], R = any> = (...args: A) => R;
 export type Primitive =
     | number
@@ -31,16 +40,6 @@ export type DeepLeavesWrap<T, TComplex> =
 
 
 type Json = null | string | number | boolean | Json [] | { [name: string]: Json }
-
-export type JSONSerializable = {
-    [key: string]: any
-}
-
-export type JSONValue = string | number | boolean | undefined | JSONObject;
-
-export interface JSONObject {
-    [key: string]: JSONValue;
-}
 
 export type TypeName<T> = T extends string
     ? 'string'
@@ -173,8 +172,7 @@ export type CurryFunc<T> = T extends (...args: infer Args) => infer R
 
 
 export type ToThunkFn = () => ReturnType<TrlFn>;
-const THUNK_SYMBOL = Symbol('thunk')
-export type Thunk = () => ReturnType<ToThunkFn> & { __THUNK__: typeof THUNK_SYMBOL };
+export type Thunk = () => ReturnType<ToThunkFn> & { __THUNK__: Symbol };
 export type TrlFn = (...args: any[]) => any;
 export type TrlAsyncFn = (...args: any[]) => any;
 

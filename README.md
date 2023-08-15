@@ -15,6 +15,13 @@ yarn add data-structure-typed
 ```bash
 npm install data-structure-typed
 ```
+## Online examples
+
+[Online Examples](https://data-structure-typed-examples.vercel.app)
+
+## Examples Repository
+
+[Example Repository](https://github.com/zrwusa/data-structure-typed-examples)
 
 ## api docs
 
