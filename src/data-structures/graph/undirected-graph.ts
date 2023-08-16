@@ -35,21 +35,38 @@ export class UndirectedEdge extends AbstractEdge {
     }
 
     private _vertices: [VertexId, VertexId];
-
-    public get vertices() {
+    get vertices() {
         return this._vertices;
     }
-
-    public set vertices(v: [VertexId, VertexId]) {
+    /**
+     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
+     */
+    getVertices() {
+        return this._vertices;
+    }
+    set vertices(v: [VertexId, VertexId]) {
         this._vertices = v;
     }
 }
 
 export class UndirectedGraph<V extends UndirectedVertex, E extends UndirectedEdge> extends AbstractGraph<V, E> {
-    protected _edges: Map<V, E[]> = new Map();
+    protected _edges: Map<V, E[]>;
+    get edges(): Map<V, E[]> {
+        return this._edges;
+    }
+    /**
+     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
+     */
+    getEdges(): Map<V, E[]> {
+        return this._edges;
+    }
+    protected set edges(v: Map<V, E[]>) {
+        this._edges = v;
+    }
 
     constructor() {
         super();
+        this._edges = new Map<V, E[]>();
     }
 
     /**
@@ -223,7 +240,7 @@ export class UndirectedGraph<V extends UndirectedVertex, E extends UndirectedEdg
      * `null`.
      */
     getEndsOfEdge(edge: E): [V, V] | null {
-        if (!this.containsEdge(edge.vertices[0], edge.vertices[1])) {
+        if (!this.hasEdge(edge.vertices[0], edge.vertices[1])) {
             return null;
         }
         const v1 = this.getVertex(edge.vertices[0]);

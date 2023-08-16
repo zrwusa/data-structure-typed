@@ -6,81 +6,88 @@
  * @license MIT License
  */
 
-/**
- * The class which represents one link or node in a linked list
- * ```ts
- * const node = new SinglyLinkedListNode(1, null, null, null);
- * ```
- */
-export class SinglyLinkedListNode<NodeData = any> {
-    constructor(
-        /** Data stored on the node */
-        public val: NodeData,
-        /** The previous node in the list */
-        public prev: SinglyLinkedListNode<NodeData> | null,
-        /** The next link in the list */
-        public next: SinglyLinkedListNode<NodeData> | null,
-        /** The list this node belongs to */
-        public list: SinglyLinkedList<NodeData> | null,
-    ) {
+
+/* The SinglyLinkedListNode class represents a node in a singly linked list and provides methods for inserting, removing,
+and accessing nodes. */
+export class SinglyLinkedListNode<NodeVal = any> {
+    protected _val: NodeVal;
+    get val(): NodeVal {
+        return this._val;
     }
 
-    /**
-     * Alias to .val
-     * ```ts
-     * new LinkedList(1, 2, 3).head.value; // 1
-     * ```
-     */
-    public get value() {
-        return this.val;
+    set val(value: NodeVal) {
+        this._val = value;
     }
 
-    /**
-     * Get the index of this node
-     * ```ts
-     * new LinkedList(1, 2, 3).head.index; // 0
-     * ```
-     */
-    public get index() {
+    protected _prev: SinglyLinkedListNode<NodeVal> | null;
+    get prev(): SinglyLinkedListNode<NodeVal> | null {
+        return this._prev;
+    }
+
+    set prev(value: SinglyLinkedListNode<NodeVal> | null) {
+        this._prev = value;
+    }
+
+    protected _next: SinglyLinkedListNode<NodeVal> | null
+    get next(): SinglyLinkedListNode<NodeVal> | null {
+        return this._next;
+    }
+
+    set next(value: SinglyLinkedListNode<NodeVal> | null) {
+        this._next = value;
+    }
+
+    protected _list: SinglyLinkedList<NodeVal> | null
+    get list(): SinglyLinkedList<NodeVal> | null {
+        return this._list;
+    }
+
+    set list(value: SinglyLinkedList<NodeVal> | null) {
+        this._list = value;
+    }
+
+    constructor(val: NodeVal, prev?: SinglyLinkedListNode<NodeVal> | null, next?: SinglyLinkedListNode<NodeVal> | null, list?: SinglyLinkedList<NodeVal> | null) {
+        this._val = val;
+        this._prev = prev || null;
+        this._next = next || null;
+        this._list = list || null;
+    }
+
+    get index() {
         if (!this.list) {
             return undefined;
         }
-        return this.list.findIndex((value) => value === this.value);
+        return this.list.findIndex((value) => value === this.val);
     }
 
     /**
-     * Insert a new node before this one
-     * ```ts
-     * new LinkedList(2, 3).head.insertBefore(1); // 1 <=> 2 <=> 3
-     * ```
-     * @param val Data to save in the node
+     * The `insertBefore` function inserts a new node with the given value before the current node in a singly linked list.
+     * @param {NodeVal} val - The parameter "val" is of type "NodeVal". It represents the value of the node that you want
+     * to insert before the current node.
+     * @returns The method is returning a SinglyLinkedList<NodeVal>.
      */
-    public insertBefore(val: NodeData): SinglyLinkedList<NodeData> {
+    insertBefore(val: NodeVal): SinglyLinkedList<NodeVal> {
         return this.list !== null
             ? this.list.insertBefore(this, val)
             : new SinglyLinkedList(val, this.val);
     }
 
     /**
-     * Insert new val after this node
-     * ```ts
-     * new LinkedList(1, 2).tail.insertAfter(3); // 1 <=> 2 <=> 3
-     * ```
-     * @param val Data to be saved in the node
+     * The function inserts a new node with the given value after the current node in a singly linked list.
+     * @param {NodeVal} val - The parameter `val` is the value of the node that you want to insert after the current node.
+     * @returns The method is returning a SinglyLinkedList<NodeVal>.
      */
-    public insertAfter(val: NodeData): SinglyLinkedList<NodeData> {
+    insertAfter(val: NodeVal): SinglyLinkedList<NodeVal> {
         return this.list !== null
             ? this.list.insertAfter(this, val)
             : new SinglyLinkedList(this.val, val);
     }
 
     /**
-     * Remove this node
-     * ```ts
-     * new LinkedList(1, 2, 3, 4).tail.remove(); // 1 <=> 2 <=> 3
-     * ```
+     * The `remove()` function removes a node from a singly linked list.
+     * @returns The remove() method is returning a SinglyLinkedListNode<NodeVal> object.
      */
-    public remove(): SinglyLinkedListNode<NodeData> {
+    remove(): SinglyLinkedListNode<NodeVal> {
         if (this.list === null) {
             throw new ReferenceError('Node does not belong to any list');
         }
@@ -88,27 +95,42 @@ export class SinglyLinkedListNode<NodeData = any> {
     }
 }
 
+export class SinglyLinkedList<NodeVal = any> {
 
-/**
- * A doubly linked list
- * ```ts
- * const list = new LinkedList(1, 2, 3);
- * const listFromArray = LinkedList.from([1, 2, 3]);
- * ```
- */
-export class SinglyLinkedList<NodeData = any> {
+    protected _head: SinglyLinkedListNode<NodeVal> | null;
+    get head(): SinglyLinkedListNode<NodeVal> | null {
+        return this._head;
+    }
+    set head(value: SinglyLinkedListNode<NodeVal> | null) {
+        this._head = value;
+    }
 
-    /** The head of the list, the first node */
-    public head: SinglyLinkedListNode<NodeData> | null;
-    /** The tail of the list, the last node */
-    public tail: SinglyLinkedListNode<NodeData> | null;
-    /** Internal size reference */
-    private size: number;
 
-    constructor(...args: NodeData[]) {
-        this.head = null;
-        this.tail = null;
-        this.size = 0;
+    protected _tail: SinglyLinkedListNode<NodeVal> | null;
+    get tail(): SinglyLinkedListNode<NodeVal> | null {
+        return this._tail;
+    }
+    set tail(value: SinglyLinkedListNode<NodeVal> | null) {
+        this._tail = value;
+    }
+
+    protected _size: number;
+    get size(): number {
+        return this._size;
+    }
+    set size(value: number) {
+        this._size = value;
+    }
+
+    /**
+     * The constructor initializes a linked list with the given arguments as nodes.
+     * @param {NodeVal[]} args - args is a rest parameter that allows the constructor to accept an arbitrary number of
+     * arguments of type NodeVal.
+     */
+    constructor(...args: NodeVal[]) {
+        this._head = null;
+        this._tail = null;
+        this._size = 0;
 
         for (let i = 0; i < arguments.length; i++) {
             this.append(args[i]);
@@ -116,49 +138,39 @@ export class SinglyLinkedList<NodeData = any> {
     }
 
     /**
-     * The length of the list
+     * The `from` function in TypeScript creates a new SinglyLinkedList instance from an iterable object.
+     * @param iterable - The `iterable` parameter is an object that can be iterated over, such as an array or a string. It
+     * contains a collection of elements of type `T`.
+     * @returns The method is returning a new instance of the SinglyLinkedList class.
      */
-    public get length(): number {
-        return this.size;
-    }
-
-    /**
-     * Convert any iterable to a new linked list
-     * ```javascript
-     * const array = [1, 2, 3];
-     * const list = LinkedList.from(array);
-     * ```
-     * @param iterable Any iterable datatype like Array or Map
-     */
-    public static from<T>(iterable: Iterable<T>): SinglyLinkedList<T> {
+    static from<T>(iterable: Iterable<T>): SinglyLinkedList<T> {
         return new SinglyLinkedList(...iterable);
     }
 
     /**
-     * Get the node val at a specified index, zero based
-     * ```ts
-     * new LinkedList(1, 2, 3).get(0); // 1
-     * ```
-     * @param index to retrieve val at
+     * The `get` function returns the value of a node at a given index in a data structure.
+     * @param {number} index - The index parameter is a number that represents the position of the node in the data
+     * structure.
+     * @returns The method is returning the value of the node at the specified index if the node exists, otherwise it
+     * returns undefined.
      */
-    public get(index: number): NodeData | undefined {
+    get(index: number): NodeVal | undefined {
         const node = this.getNode(index);
         return node !== undefined ? node.val : undefined;
     }
 
     /**
-     * Get the node at index, zero based
-     * ```ts
-     * new LinkedList(1, 2, 3).getNode(0);
-     * // { prev: null, val: 1, next: SinglyLinkedListNode }
-     * ```
+     * The function `getNode` returns the node at a given index in a singly linked list.
+     * @param {number} index - The `index` parameter is a number that represents the position of the node we want to
+     * retrieve from the linked list.
+     * @returns a SinglyLinkedListNode<NodeVal> object or undefined.
      */
-    public getNode(index: number): SinglyLinkedListNode<NodeData> | undefined {
-        if (this.head === null || index < 0 || index >= this.length) {
+    getNode(index: number): SinglyLinkedListNode<NodeVal> | undefined {
+        if (this.head === null || index < 0 || index >= this.size) {
             return undefined;
         }
-        const asc = index < this.length / 2;
-        const stopAt = asc ? index : this.length - index - 1;
+        const asc = index < this.size / 2;
+        const stopAt = asc ? index : this.size - index - 1;
         const nextNode = asc ? 'next' : 'prev';
         let currentNode = asc ? this.head : this.tail;
         // TODO after no-non-null-assertion not ensure the logic
@@ -171,26 +183,28 @@ export class SinglyLinkedList<NodeData = any> {
     }
 
     /**
-     * Return the first node and its index in the list that
-     * satisfies the testing function
-     * ```ts
-     * new LinkedList(1, 2, 3).findNodeIndex(val => val === 1);
-     * // { node: SinglyLinkedListNode, index: 0 }
-     * ```
-     * @param f A function to be applied to the val of each node
+     * The function `findNodeIndex` searches for a node in a singly linked list that satisfies a given condition and
+     * returns its index and the node itself.
+     * @param callbackFn - The callbackFn parameter is a function that takes three arguments: data, index, and list. It is
+     * used to determine whether a node in the singly linked list matches a certain condition. The function should return a
+     * boolean value indicating whether the condition is met for the given node.
+     * @returns The function `findNodeIndex` returns an object with two properties: `node` and `index`. The `node` property
+     * contains the node that matches the condition specified in the `callbackFn` function, and the `index` property
+     * contains the index of that node in the linked list. If no node matches the condition, the function returns
+     * `undefined`.
      */
-    public findNodeIndex(f: (
-        data: NodeData,
+    findNodeIndex(callbackFn: (
+        data: NodeVal,
         index: number,
-        list: SinglyLinkedList<NodeData>,
+        list: SinglyLinkedList<NodeVal>,
     ) => boolean): ({
-        node: SinglyLinkedListNode<NodeData>,
+        node: SinglyLinkedListNode<NodeVal>,
         index: number,
     }) | undefined {
         let currentIndex = 0;
         let currentNode = this.head;
         while (currentNode) {
-            if (f(currentNode.val, currentIndex, this)) {
+            if (callbackFn(currentNode.val, currentIndex, this)) {
                 return {
                     index: currentIndex,
                     node: currentNode,
@@ -203,67 +217,56 @@ export class SinglyLinkedList<NodeData = any> {
     }
 
     /**
-     * Returns the first node in the list that
-     * satisfies the provided testing function. Otherwise undefined is returned.
-     * ```ts
-     * new LinkedList(1, 2, 3).findNode(val => val === 1);
-     * // { prev: null, val: 1, next: SinglyLinkedListNode }
-     * ```
-     * @param f Function to test val against
+     * The findNode function searches for a node in a singly linked list based on a given callback function.
+     * @param callbackFn - A callback function that takes three parameters: data, index, and list. It returns a boolean
+     * value indicating whether the current node matches the desired criteria.
+     * @returns The function `findNode` returns a `SinglyLinkedListNode<NodeVal>` if a node satisfying the condition
+     * specified by the `callbackFn` is found in the linked list. If no such node is found, it returns `undefined`.
      */
-    public findNode(f: (
-        data: NodeData,
+    findNode(callbackFn: (
+        data: NodeVal,
         index: number,
-        list: SinglyLinkedList<NodeData>,
-    ) => boolean): SinglyLinkedListNode<NodeData> | undefined {
-        const nodeIndex = this.findNodeIndex(f);
+        list: SinglyLinkedList<NodeVal>,
+    ) => boolean): SinglyLinkedListNode<NodeVal> | undefined {
+        const nodeIndex = this.findNodeIndex(callbackFn);
         return nodeIndex !== undefined ? nodeIndex.node : undefined;
     }
 
     /**
-     * Returns the value of the first element in the list that
-     * satisfies the provided testing function. Otherwise undefined is returned.
-     * ```ts
-     * new LinkedList(1, 2, 3).find(val => val === 1); // 1
-     * ```
-     * @param f Function to test val against
+     * The `find` function in TypeScript searches for a node in a singly linked list based on a given callback function and
+     * returns the value of the found node.
+     * @param callbackFn - A callback function that takes three parameters: data, index, and list. It returns a boolean
+     * value indicating whether the condition is met for a particular node in the linked list.
+     * @returns The method `find` returns the `NodeVal` value of the first node in the linked list that satisfies the
+     * condition specified by the `callbackFn` function. If no node satisfies the condition, it returns `undefined`.
      */
-    public find(f: (
-        data: NodeData,
+    find(callbackFn: (
+        data: NodeVal,
         index: number,
-        list: SinglyLinkedList<NodeData>,
-    ) => boolean): NodeData | undefined {
-        const nodeIndex = this.findNodeIndex(f);
+        list: SinglyLinkedList<NodeVal>,
+    ) => boolean): NodeVal | undefined {
+        const nodeIndex = this.findNodeIndex(callbackFn);
         return nodeIndex !== undefined ? nodeIndex.node.val : undefined;
     }
 
     /**
-     * Returns the index of the first node in the list that
-     * satisfies the provided testing function. Ohterwise -1 is returned.
-     * ```ts
-     * new LinkedList(1, 2, 3).findIndex(val => val === 3); // 2
-     * ```
-     * @param f Function to test val against
+     * The findIndex function returns the index of the first node in a singly linked list that satisfies a given condition,
+     * or -1 if no such node is found.
+     * @param callbackFn - A callback function that takes three parameters: data, index, and list. It returns a boolean
+     * value indicating whether the condition is met for a particular node in the singly linked list.
+     * @returns The method `findIndex` returns a number.
      */
-    public findIndex(f: (
-        data: NodeData,
+    findIndex(callbackFn: (
+        data: NodeVal,
         index: number,
-        list: SinglyLinkedList<NodeData>,
+        list: SinglyLinkedList<NodeVal>,
     ) => boolean): number {
-        const nodeIndex = this.findNodeIndex(f);
+        const nodeIndex = this.findNodeIndex(callbackFn);
         return nodeIndex !== undefined ? nodeIndex.index : -1;
     }
 
-    /**
-     * Append one or any number of nodes to the end of the list.
-     * This modifies the list in place and returns the list itself
-     * to make this method chainable.
-     * ```ts
-     * new LinkedList(1).append(2).append(3, 4); // 1 <=> 2 <=> 3 <=> 4
-     * ```
-     * @param args Data to be stored in the node, takes any number of arguments
-     */
-    public append(...args: NodeData[]): SinglyLinkedList<NodeData> {
+    /* The above code is a comment in TypeScript. It is using the triple hash symbol ( */
+    append(...args: NodeVal[]): SinglyLinkedList<NodeVal> {
         for (const val of args) {
             const node = new SinglyLinkedListNode(val, this.tail, null, this);
             if (this.head === null) {
@@ -279,26 +282,23 @@ export class SinglyLinkedList<NodeData = any> {
     }
 
     /**
-     * Synonym for append
-     * ```ts
-     * new LinkedList(1).push(2).push(3, 4); // 1 <=> 2 <=> 3 <=> 4
-     * ```
-     * @param args Data to be stored, takes any number of arguments
+     * The push function appends multiple NodeVal objects to a data structure and returns the new size of the data
+     * structure.
+     * @param {NodeVal[]} args - args is a rest parameter of type NodeVal[]. It allows the function to accept any number
+     * of arguments of type NodeVal.
+     * @returns The size of the data structure after the nodes are appended.
      */
-    public push(...args: NodeData[]): number {
+    push(...args: NodeVal[]): number {
         this.append(...args);
-        return this.length;
+        return this.size;
     }
 
     /**
-     * Prepend any number of val arguments to the list. The
-     * argument list is prepended as a block to reduce confusion:
-     * ```javascript
-     * new LinkedList(3, 4).prepend(0, 1, 2); // [0, 1, 2, 3, 4]
-     * ```
-     * @param args Data to be stored in the node, accepts any number of arguments
+     * The `prepend` function adds new nodes to the beginning of a singly linked list.
+     * @param {NodeVal[]} args - An array of NodeVal objects.
+     * @returns The `prepend` method is returning the updated `SinglyLinkedList` object.
      */
-    public prepend(...args: NodeData[]): SinglyLinkedList<NodeData> {
+    prepend(...args: NodeVal[]): SinglyLinkedList<NodeVal> {
         const reverseArgs = Array.from(args).reverse();
         for (const val of reverseArgs) {
             const node = new SinglyLinkedListNode(val, null, this.head, this);
@@ -315,16 +315,14 @@ export class SinglyLinkedList<NodeData = any> {
     }
 
     /**
-     * Insert a new node at a given index position. If index is
-     * out of bounds, the node is appended, if index is negative
-     * or 0, it will be prepended.
-     * ```ts
-     * new LinkedList(1, 3).insertAt(1, 2); // 1 <=> 2 <=> 3
-     * ```
-     * @param index The index to insert the new node at
-     * @param val Data to be stored on the new node
+     * The `insertAt` function inserts a value at a specified index in a singly linked list.
+     * @param {number} index - The index parameter is a number that represents the position at which the new node should be
+     * inserted in the linked list.
+     * @param {NodeVal} val - The `val` parameter represents the value of the node that you want to insert into the linked
+     * list.
+     * @returns The method `insertAt` returns the updated `SinglyLinkedList` object.
      */
-    public insertAt(index: number, val: NodeData): SinglyLinkedList<NodeData> {
+    insertAt(index: number, val: NodeVal): SinglyLinkedList<NodeVal> {
         if (this.head === null) {
             return this.append(val);
         }
@@ -343,15 +341,13 @@ export class SinglyLinkedList<NodeData = any> {
     }
 
     /**
-     * Remove the specified node from the list and return the removed
-     * node afterwards.
-     * ```ts
-     * const list = new LinkedList(1, 2, 3);
-     * list.removeNode(list.tail); // { prev: null, val: 3, next: null, list: null }
-     * ```
-     * @param node The node to be removed
+     * The removeNode function removes a node from a singly linked list and updates the head, tail, and size properties
+     * accordingly.
+     * @param node - The `node` parameter is of type `SinglyLinkedListNode<NodeVal>`, which represents a node in a singly
+     * linked list.
+     * @returns the removed node.
      */
-    public removeNode(node: SinglyLinkedListNode<NodeData>): SinglyLinkedListNode<NodeData> {
+    removeNode(node: SinglyLinkedListNode<NodeVal>): SinglyLinkedListNode<NodeVal> {
         if (node.list !== this) {
             throw new ReferenceError('Node does not belong to this list');
         }
@@ -380,30 +376,29 @@ export class SinglyLinkedList<NodeData = any> {
     }
 
     /**
-     * Remove the node at the specified index
-     * ```ts
-     * new LinkedList(1, 2, 3).removeAt(2); // { prev: null, val: 3, next: null, list: null }
-     * ```
-     * @param index Index at which to remove
+     * The `removeAt` function removes a node at a specified index from a singly linked list.
+     * @param {number} index - The index parameter is a number that represents the position of the node to be removed in
+     * the singly linked list.
+     * @returns The method `removeAt` returns a `SinglyLinkedListNode<NodeVal>` if the node at the specified index is
+     * found and removed successfully. If the node is not found, it returns `undefined`.
      */
-    public removeAt(index: number): SinglyLinkedListNode<NodeData> | undefined {
+    removeAt(index: number): SinglyLinkedListNode<NodeVal> | undefined {
         const node = this.getNode(index);
         return node !== undefined ? this.removeNode(node) : undefined;
     }
 
     /**
-     * Insert a new node before the reference node
-     * ```ts
-     * const list = new LinkedList(1, 3);
-     * list.insertBefore(list.tail, 2); // 1 <=> 2 <=> 3
-     * ```
-     * @param referenceNode The node reference
-     * @param val Data to save in the node
+     * The `insertBefore` function inserts a new node with a given value before a specified reference node in a singly
+     * linked list.
+     * @param referenceNode - The referenceNode parameter is the node in the linked list before which the new node will be
+     * inserted.
+     * @param {NodeVal} val - The value of the new node that will be inserted before the reference node.
+     * @returns The method is returning the updated SinglyLinkedList object.
      */
-    public insertBefore(
-        referenceNode: SinglyLinkedListNode<NodeData>,
-        val: NodeData,
-    ): SinglyLinkedList<NodeData> {
+    insertBefore(
+        referenceNode: SinglyLinkedListNode<NodeVal>,
+        val: NodeVal,
+    ): SinglyLinkedList<NodeVal> {
         const node = new SinglyLinkedListNode(val, referenceNode.prev, referenceNode, this);
         if (referenceNode.prev === null) {
             this.head = node;
@@ -417,23 +412,24 @@ export class SinglyLinkedList<NodeData = any> {
     }
 
     /**
-     * Sorts the linked list using the provided compare function
-     * @param compare A function used to compare the val of two nodes. It should return
-     *                a boolean. True will insert a before b, false will insert b before a.
-     *                (a, b) => a < b or (1, 2) => 1 < 2 === true, 2 will be inserted after 1,
-     *                the sort order will be ascending.
+     * The `sort` function uses the quicksort algorithm to sort the elements of a singly linked list based on a provided
+     * comparison function.
+     * @param start - The `start` parameter is the starting node of the sublist that needs to be sorted.
+     * @param end - The `end` parameter is a reference to the last node in the linked list. It is used as the pivot element
+     * for the quicksort algorithm.
+     * @returns The `sort` method is returning the sorted `SinglyLinkedList` object.
      */
-    public sort(compare: (a: NodeData, b: NodeData) => boolean): SinglyLinkedList<NodeData> {
+    sort(compare: (a: NodeVal, b: NodeVal) => boolean): SinglyLinkedList<NodeVal> {
         if (this.head === null || this.tail === null) {
             return this;
         }
-        if (this.length < 2) {
+        if (this.size < 2) {
             return this;
         }
 
         const quicksort = (
-            start: SinglyLinkedListNode<NodeData>,
-            end: SinglyLinkedListNode<NodeData>,
+            start: SinglyLinkedListNode<NodeVal>,
+            end: SinglyLinkedListNode<NodeVal>,
         ) => {
             if (start === end) {
                 return;
@@ -476,18 +472,16 @@ export class SinglyLinkedList<NodeData = any> {
     }
 
     /**
-     * Insert a new node after this one
-     * ```ts
-     * const list = new LinkedList(2, 3);
-     * list.insertAfter(list.head, 1); // 1 <=> 2 <=> 3
-     * ```
-     * @param referenceNode The reference node
-     * @param val Data to be saved in the node
+     * The `insertAfter` function inserts a new node with a given value after a specified reference node in a singly linked
+     * list.
+     * @param referenceNode - The referenceNode parameter is the node after which the new node will be inserted.
+     * @param {NodeVal} val - The value of the new node that will be inserted after the reference node.
+     * @returns The `insertAfter` method is returning the updated `SinglyLinkedList` object.
      */
-    public insertAfter(
-        referenceNode: SinglyLinkedListNode<NodeData>,
-        val: NodeData,
-    ): SinglyLinkedList<NodeData> {
+    insertAfter(
+        referenceNode: SinglyLinkedListNode<NodeVal>,
+        val: NodeVal,
+    ): SinglyLinkedList<NodeVal> {
         const node = new SinglyLinkedListNode(val, referenceNode, referenceNode.next, this);
         if (referenceNode.next === null) {
             this.tail = node;
@@ -501,39 +495,27 @@ export class SinglyLinkedList<NodeData = any> {
     }
 
     /**
-     * Remove the first node from the list and return the val of the removed node
-     * or undefined
-     * ```ts
-     * new LinkedList(1, 2, 3).shift(); // 1
-     * ```
+     * The `shift()` function removes and returns the first element from a linked list.
+     * @returns The `shift()` method is returning a value of type `NodeVal` or `undefined`.
      */
-    public shift(): NodeData | undefined {
+    shift(): NodeVal | undefined {
         return this.removeFromAnyEnd(this.head);
     }
 
     /**
-     * Remove the last node from the list and return the val of the removed node
-     * or undefined if the list was empty
-     * ```ts
-     * new LinkedList(1, 2, 3).pop(); // 3
-     * ```
+     * The `pop()` function removes and returns the last element from a linked list.
+     * @returns The `pop()` method is returning a value of type `NodeVal` or `undefined`.
      */
-    public pop(): NodeData | undefined {
+    pop(): NodeVal | undefined {
         return this.removeFromAnyEnd(this.tail);
     }
 
     /**
-     * Merge the current list with another. Both lists will be
-     * equal after merging.
-     * ```ts
-     * const list = new LinkedList(1, 2);
-     * const otherList = new LinkedList(3);
-     * list.merge(otherList);
-     * (list === otherList); // true
-     * ```
-     * @param list The list to be merged
+     * The merge function merges two singly linked lists by updating the next and prev pointers, as well as the head, tail,
+     * and size properties.
+     * @param list - The parameter "list" is a SinglyLinkedList object that contains nodes with data of type NodeVal.
      */
-    public merge(list: SinglyLinkedList<NodeData>): void {
+    merge(list: SinglyLinkedList<NodeVal>): void {
         if (this.tail !== null) {
             this.tail.next = list.head;
         }
@@ -549,13 +531,10 @@ export class SinglyLinkedList<NodeData = any> {
     }
 
     /**
-     * Removes all nodes from a list
-     *
-     * ```ts
-     * list.clear();
-     * ```
+     * The clear() function resets the linked list by setting the head and tail to null and the size to 0.
+     * @returns The "this" object is being returned.
      */
-    public clear() {
+    clear() {
         this.head = null;
         this.tail = null;
         this.size = 0;
@@ -563,19 +542,16 @@ export class SinglyLinkedList<NodeData = any> {
     }
 
     /**
-     * The slice() method returns a shallow copy of a
-     * portion of a list into a new list object selected
-     * from start to end (end not included).
-     * The original list will not be modified.
-     * ```ts
-     * const list = new LinkedList(1, 2, 3, 4, 5);
-     * const newList = list.slice(0, 3); // 1 <=> 2 <=> 3
-     * ```
-     * @param start Start index
-     * @param end End index, optional
+     * The `slice` function returns a new SinglyLinkedList containing a portion of the original list, starting from the
+     * specified index and ending at the optional end index.
+     * @param {number} start - The `start` parameter is a number that represents the index at which to start slicing the
+     * linked list.
+     * @param {number} [end] - The `end` parameter is an optional number that specifies the index at which to end the
+     * slicing. If no value is provided for `end`, or if the provided value is less than the `start` index, the slicing
+     * will continue until the end of the list.
+     * @returns a new SinglyLinkedList containing the sliced elements from the original list.
      */
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    public slice(start: number, end?: number): SinglyLinkedList<NodeData | {}> {
+    slice(start: number, end?: number): SinglyLinkedList<NodeVal | {}> {
         const list = new SinglyLinkedList();
         let finish = end;
 
@@ -583,10 +559,10 @@ export class SinglyLinkedList<NodeData = any> {
             return list;
         }
         if (finish === undefined || finish < start) {
-            finish = this.length;
+            finish = this.size;
         }
 
-        let head: SinglyLinkedListNode<NodeData> | null | undefined = this.getNode(start);
+        let head: SinglyLinkedListNode<NodeVal> | null | undefined = this.getNode(start);
         for (let i = 0; i < finish - start && head !== null && head !== undefined; i++) {
             list.append(head.val);
             head = head.next;
@@ -595,13 +571,10 @@ export class SinglyLinkedList<NodeData = any> {
     }
 
     /**
-     * The reverse() function reverses the list in place and returns the list
-     * itself.
-     * ```ts
-     * new LinkedList(1, 2, 3).reverse(); // 3 <=> 2 <=> 1
-     * ```
+     * The reverse() function reverses the order of nodes in a singly linked list.
+     * @returns The reverse() method is returning the reversed SinglyLinkedList.
      */
-    public reverse(): SinglyLinkedList<NodeData> {
+    reverse(): SinglyLinkedList<NodeVal> {
         let currentNode = this.head;
         while (currentNode) {
             const next = currentNode.next;
@@ -616,67 +589,67 @@ export class SinglyLinkedList<NodeData = any> {
     }
 
     /**
-     * The forEach() method executes a provided function once for each list node.
-     * ```ts
-     * new LinkedList(1, 2, 3).forEach(val => log(val)); // 1 2 3
-     * ```
-     * @param f Function to execute for each element, taking up to three arguments.
-     * @param reverse Indicates if the list should be walked in reverse order, default is false
+     * The `forEach` function iterates over a singly linked list and applies a callback function to each node, either in
+     * forward or reverse order.
+     * @param callbackFn - A callback function that will be called for each element in the linked list. It takes three
+     * parameters:
+     * @param [reverse=false] - A boolean value indicating whether to iterate over the linked list in reverse order. If set
+     * to true, the iteration will start from the tail of the linked list and move towards the head. If set to false
+     * (default), the iteration will start from the head and move towards the tail.
      */
-    public forEach(f: (
+    forEach(callbackFn: (
         data: any,
         index: number,
-        list: SinglyLinkedList<NodeData>,
+        list: SinglyLinkedList<NodeVal>,
     ) => any, reverse = false): void {
-        let currentIndex = reverse ? this.length - 1 : 0;
+        let currentIndex = reverse ? this.size - 1 : 0;
         let currentNode = reverse ? this.tail : this.head;
         const modifier = reverse ? -1 : 1;
         const nextNode = reverse ? 'prev' : 'next';
         while (currentNode) {
-            f(currentNode.val, currentIndex, this);
+            callbackFn(currentNode.val, currentIndex, this);
             currentNode = currentNode[nextNode];
             currentIndex += modifier;
         }
     }
 
     /**
-     * The map() method creates a new list with the results of
-     * calling a provided function on every node in the calling list.
-     * ```ts
-     * new LinkedList(1, 2, 3).map(val => val + 10); // 11 <=> 12 <=> 13
-     * ```
-     * @param f Function that produces an node of the new list, taking up to three arguments
-     * @param reverse Indicates if the list should be mapped in reverse order, default is false
+     * The map function takes a callback function and applies it to each element in the linked list, returning a new linked
+     * list with the results.
+     * @param callbackFn - A callback function that will be applied to each element in the linked list. It takes three
+     * parameters:
+     * @param [reverse=false] - The `reverse` parameter is a boolean value that determines whether the mapping should be
+     * done in reverse order or not. If `reverse` is set to `true`, the mapping will be done in reverse order. If `reverse`
+     * is set to `false` or not provided, the mapping will be
+     * @returns The `map` function is returning a new `SinglyLinkedList` object.
      */
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    public map(f: (
+    map(callbackFn: (
         data: any,
         index: number,
-        list: SinglyLinkedList<NodeData>,
-    ) => any, reverse = false): SinglyLinkedList<NodeData | {}> {
+        list: SinglyLinkedList<NodeVal>,
+    ) => any, reverse = false): SinglyLinkedList<NodeVal | {}> {
         const list = new SinglyLinkedList();
-        this.forEach((val, index) => list.append(f(val, index, this)), reverse);
+        this.forEach((val, index) => list.append(callbackFn(val, index, this)), reverse);
         return list;
     }
 
     /**
-     * The filter() method creates a new list with all nodes
-     * that pass the test implemented by the provided function.
-     * ```ts
-     * new LinkedList(1, 2, 3, 4, 5).filter(val => val < 4); // 1 <=> 2 <=> 3
-     * ```
-     * @param f Function to test each node val in the list. Return true to keep the node
-     * @param reverse Indicates if the list should be filtered in reverse order, default is false
+     * The `filter` function filters the elements of a singly linked list based on a given callback function.
+     * @param callbackFn - A callback function that takes three parameters: data, index, and list. It should return a
+     * boolean value indicating whether the current element should be included in the filtered list or not.
+     * @param [reverse=false] - The `reverse` parameter is a boolean value that determines whether the filtered list should
+     * be reversed or not. If `reverse` is set to `true`, the filtered list will be in reverse order. If `reverse` is set
+     * to `false` or not provided, the filtered list will be in
+     * @returns The `filter` method is returning a new `SinglyLinkedList` object.
      */
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    public filter(f: (
-        data: NodeData,
+    filter(callbackFn: (
+        data: NodeVal,
         index: number,
-        list: SinglyLinkedList<NodeData>,
-    ) => boolean, reverse = false): SinglyLinkedList<NodeData | {}> {
+        list: SinglyLinkedList<NodeVal>,
+    ) => boolean, reverse = false): SinglyLinkedList<NodeVal | {}> {
         const list = new SinglyLinkedList();
         this.forEach((val, index) => {
-            if (f(val, index, this)) {
+            if (callbackFn(val, index, this)) {
                 list.append(val);
             }
         }, reverse);
@@ -684,25 +657,30 @@ export class SinglyLinkedList<NodeData = any> {
     }
 
     /**
-     * Reduce over each node in the list
-     * ```ts
-     * new LinkedList(1, 2, 3).reduce(n => n += 1, 0); // 3
-     * ```
-     * @param f A reducer function
-     * @param start An initial value
-     * @returns The final state of the accumulator
+     * The `reduce` function iterates over a singly linked list and applies a callback function to each element,
+     * accumulating a single value.
+     * @param callbackFn - A callback function that will be called for each element in the linked list. It takes four
+     * parameters:
+     * @param {any} [start] - The `start` parameter is an optional initial value for the accumulator. If provided, the
+     * `reduce` function will start accumulating from this value. If not provided, the `reduce` function will use the value
+     * of the first element in the linked list as the initial value.
+     * @param [reverse=false] - A boolean value indicating whether to iterate over the linked list in reverse order. If set
+     * to true, the iteration will start from the tail of the linked list and move towards the head. If set to false
+     * (default), the iteration will start from the head and move towards the tail.
+     * @returns The `reduce` method returns the accumulated value after applying the callback function to each element in
+     * the linked list.
      */
-    public reduce(
-        f: (
+    reduce(
+        callbackFn: (
             accumulator: any,
-            currentNode: NodeData,
+            currentNode: NodeVal,
             index: number,
-            list: SinglyLinkedList<NodeData>,
+            list: SinglyLinkedList<NodeVal>,
         ) => any,
         start?: any,
         reverse = false,
     ): any {
-        let currentIndex = reverse ? this.length - 1 : 0;
+        let currentIndex = reverse ? this.size - 1 : 0;
         const modifier = reverse ? -1 : 1;
         const nextNode = reverse ? 'prev' : 'next';
         let currentElement = reverse ? this.tail : this.head;
@@ -718,7 +696,7 @@ export class SinglyLinkedList<NodeData = any> {
         }
 
         while (currentElement) {
-            result = f(result, currentElement.val, currentIndex, this);
+            result = callbackFn(result, currentElement.val, currentIndex, this);
             currentIndex += modifier;
             currentElement = currentElement[nextNode];
         }
@@ -727,34 +705,29 @@ export class SinglyLinkedList<NodeData = any> {
     }
 
     /**
-     * Convert the linked list to an array
-     * ```ts
-     * new LinkedList(1, 2, 3).toArray(); // [1, 2, 3]
-     * ```
+     * The toArray() function converts a NodeVal object into an array of NodeVal objects.
+     * @returns An array of NodeVal objects.
      */
-    public toArray(): NodeData[] {
+    toArray(): NodeVal[] {
         return [...this];
     }
 
     /**
-     * Convert a linked list to string
-     * ```ts
-     * new LinkedList('one', 'two', 'three').toString(' <=> ') === 'one <=> two <=> three';
-     * ```
-     * @param separator Optional string to be placed in between val nodes, default is one space
+     * The `toString` function takes an optional separator and returns a string representation of an array, with each
+     * element separated by the specified separator.
+     * @param [separator= ] - The separator parameter is a string that specifies the character(s) to be used as a separator
+     * between each element in the array when converting it to a string. By default, the separator is set to a space
+     * character (' ').
+     * @returns The toString method is being returned as a string.
      */
-    public toString(separator = ' '): string {
+    toString(separator = ' '): string {
         return this.reduce((s, val) => `${s}${separator}${val}`);
     }
 
     /**
-     * The iterator implementation
-     * ```ts
-     * const list = new LinkedList(1, 2, 3);
-     * for (const val of list) { log(val); } // 1 2 3
-     * ```
+     * The function is an iterator that returns the values of each node in a linked list.
      */
-    public* [Symbol.iterator](): IterableIterator<NodeData> {
+    public* [Symbol.iterator](): IterableIterator<NodeVal> {
         let element = this.head;
 
         while (element !== null) {
@@ -763,8 +736,13 @@ export class SinglyLinkedList<NodeData = any> {
         }
     }
 
-    /** Private helper function to reduce duplication of pop() and shift() methods */
-    private removeFromAnyEnd(node: SinglyLinkedListNode<NodeData> | null) {
+    /**
+     * The function removes a node from either end of a singly linked list and returns its value.
+     * @param {SinglyLinkedListNode<NodeVal> | null} node - The `node` parameter is a reference to a node in a singly
+     * linked list. It can be either a `SinglyLinkedListNode` object or `null`.
+     * @returns The value of the removed node if the node is not null, otherwise undefined.
+     */
+    protected removeFromAnyEnd(node: SinglyLinkedListNode<NodeVal> | null) {
         return node !== null ? this.removeNode(node).val : undefined;
     }
 }

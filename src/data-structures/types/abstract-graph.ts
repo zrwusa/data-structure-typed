@@ -5,7 +5,7 @@ export type DijkstraResult<V> =
 
 export interface IGraph<V, E> {
 
-    containsVertex(vertexOrId: V | VertexId): boolean;
+    hasVertex(vertexOrId: V | VertexId): boolean;
 
     getVertex(vertexOrId: VertexId | V): V | null;
 
@@ -23,9 +23,9 @@ export interface IGraph<V, E> {
 
     edgesOf(vertexOrId: V | VertexId): E[];
 
-    containsEdge(src: V | VertexId, dest: V | VertexId): boolean;
+    hasEdge(src: V | VertexId, dest: V | VertexId): boolean;
 
-    // containsEdge(e: E): boolean;
+    // hasEdge(e: E): boolean;
 
     getEdge(srcOrId: V | VertexId, destOrId: V | VertexId): E | null;
 

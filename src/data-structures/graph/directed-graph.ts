@@ -40,17 +40,26 @@ export class DirectedEdge extends AbstractEdge {
     get src(): VertexId {
         return this._src;
     }
-
+    /**
+     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
+     */
+    getSrc(): VertexId {
+        return this._src;
+    }
     set src(v: VertexId) {
         this._src = v;
     }
-
 
     private _dest: VertexId;
     get dest(): VertexId {
         return this._dest;
     }
-
+    /**
+     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
+     */
+    getDest(): VertexId {
+        return this._dest;
+    }
     set dest(v: VertexId) {
         this._dest = v;
     }
@@ -101,7 +110,7 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
      * graph, and `false` if either the source or destination vertices of the edge are not present in the graph.
      */
     addEdge(edge: E): boolean {
-        if (!(this.containsVertex(edge.src) && this.containsVertex(edge.dest))) {
+        if (!(this.hasVertex(edge.src) && this.hasVertex(edge.dest))) {
             return false;
         }
 
@@ -401,7 +410,7 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
      * returns null.
      */
     getEndsOfEdge(edge: E): [V, V] | null {
-        if (!this.containsEdge(edge.src, edge.dest)) {
+        if (!this.hasEdge(edge.src, edge.dest)) {
             return null;
         }
         const v1 = this.getVertex(edge.src);

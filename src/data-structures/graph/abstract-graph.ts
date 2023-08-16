@@ -10,18 +10,24 @@ import {PriorityQueue} from '../priority-queue';
 import type {DijkstraResult, IGraph, VertexId} from '../types';
 
 export class AbstractVertex {
-    constructor(id: VertexId) {
-        this._id = id;
-    }
-
     protected _id: VertexId;
-
-    public get id(): VertexId {
+    get id(): VertexId {
         return this._id;
     }
 
-    public set id(v: VertexId) {
+    /**
+     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
+     */
+    getId(): VertexId {
+        return this._id;
+    }
+
+    set id(v: VertexId) {
         this._id = v;
+    }
+
+    constructor(id: VertexId) {
+        this._id = id;
     }
 }
 
@@ -41,8 +47,14 @@ export abstract class AbstractEdge {
     }
 
     private _weight: number;
-
     get weight(): number {
+        return this._weight;
+    }
+
+    /**
+     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
+     */
+    getWeight(): number {
         return this._weight;
     }
 
@@ -51,8 +63,14 @@ export abstract class AbstractEdge {
     }
 
     private _hashCode: string;
-
     get hashCode(): string {
+        return this._hashCode;
+    }
+
+    /**
+     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
+     */
+    getHashCode(): string {
         return this._hashCode;
     }
 
@@ -97,9 +115,9 @@ export abstract class AbstractGraph<V extends AbstractVertex, E extends Abstract
      * The function checks if a vertex exists in a graph.
      * @param {V | VertexId} vertexOrId - The parameter `vertexOrId` can accept either a vertex object (`V`) or a vertex ID
      * (`VertexId`).
-     * @returns The method `containsVertex` returns a boolean value.
+     * @returns The method `hasVertex` returns a boolean value.
      */
-    containsVertex(vertexOrId: V | VertexId): boolean {
+    hasVertex(vertexOrId: V | VertexId): boolean {
         return this._vertices.has(this.getVertexId(vertexOrId));
     }
 
@@ -120,7 +138,7 @@ export abstract class AbstractGraph<V extends AbstractVertex, E extends Abstract
      * false. Otherwise, it will add the newVertex to the graph and return true.
      */
     addVertex(newVertex: V): boolean {
-        if (this.containsVertex(newVertex)) {
+        if (this.hasVertex(newVertex)) {
             return false;
         }
         this._vertices.set(newVertex.id, newVertex);
@@ -165,10 +183,10 @@ export abstract class AbstractGraph<V extends AbstractVertex, E extends Abstract
      * a vertex in a graph, while V represents the type of the vertex itself.
      * @param {VertexId | V} v2 - The parameter `v2` represents the second vertex in an edge. It can be either a `VertexId`
      * or a `V` type.
-     * @returns The function `containsEdge` returns a boolean value. It returns `true` if there is an edge between the
+     * @returns The function `hasEdge` returns a boolean value. It returns `true` if there is an edge between the
      * vertices `v1` and `v2`, and `false` otherwise.
      */
-    containsEdge(v1: VertexId | V, v2: VertexId | V): boolean {
+    hasEdge(v1: VertexId | V, v2: VertexId | V): boolean {
         const edge = this.getEdge(v1, v2);
         return !!edge;
     }
@@ -500,7 +518,19 @@ export abstract class AbstractGraph<V extends AbstractVertex, E extends Abstract
     }
 
     /**
+     * Dijkstra's algorithm only solves the single-source shortest path problem, while the Bellman-Ford algorithm and Floyd-Warshall algorithm can address shortest paths between all pairs of nodes.
+     * Dijkstra's algorithm is suitable for graphs with non-negative edge weights, whereas the Bellman-Ford algorithm and Floyd-Warshall algorithm can handle negative-weight edges.
+     * The time complexity of Dijkstra's algorithm and the Bellman-Ford algorithm depends on the size of the graph, while the time complexity of the Floyd-Warshall algorithm is O(V^3), where V is the number of nodes. For dense graphs, Floyd-Warshall might become slower.
+     */
+
+    /**
      * Dijkstra algorithm time: O(logVE) space: O(V + E)
+     * Dijkstra's algorithm is used to find the shortest paths from a source node to all other nodes in a graph. Its basic idea is to repeatedly choose the node closest to the source node and update the distances of other nodes using this node as an intermediary. Dijkstra's algorithm requires that the edge weights in the graph are non-negative.
+     */
+
+    /**
+     * Dijkstra algorithm time: O(logVE) space: O(V + E)
+     * Dijkstra's algorithm is used to find the shortest paths from a source node to all other nodes in a graph. Its basic idea is to repeatedly choose the node closest to the source node and update the distances of other nodes using this node as an intermediary. Dijkstra's algorithm requires that the edge weights in the graph are non-negative.
      * The `dijkstra` function implements Dijkstra's algorithm to find the shortest path between a source vertex and an
      * optional destination vertex, and optionally returns the minimum distance, the paths, and other information.
      * @param {V | VertexId} src - The `src` parameter represents the source vertex from which the Dijkstra algorithm will
@@ -625,10 +655,17 @@ export abstract class AbstractGraph<V extends AbstractVertex, E extends Abstract
 
     abstract getEndsOfEdge(edge: E): [V, V] | null;
 
+    /**
+     * BellmanFord time:O(VE) space:O(V)
+     * one to rest pairs
+     * The Bellman-Ford algorithm is also used to find the shortest paths from a source node to all other nodes in a graph. Unlike Dijkstra's algorithm, it can handle edge weights that are negative. Its basic idea involves iterative relaxation of all edges for several rounds to gradually approximate the shortest paths. Due to its ability to handle negative-weight edges, the Bellman-Ford algorithm is more flexible in some scenarios.
+     * The `bellmanFord` function implements the Bellman-Ford algorithm to find the shortest path from a source vertex to
+     */
 
     /**
      * BellmanFord time:O(VE) space:O(V)
      * one to rest pairs
+     * The Bellman-Ford algorithm is also used to find the shortest paths from a source node to all other nodes in a graph. Unlike Dijkstra's algorithm, it can handle edge weights that are negative. Its basic idea involves iterative relaxation of all edges for several rounds to gradually approximate the shortest paths. Due to its ability to handle negative-weight edges, the Bellman-Ford algorithm is more flexible in some scenarios.
      * The `bellmanFord` function implements the Bellman-Ford algorithm to find the shortest path from a source vertex to
      * all other vertices in a graph, and optionally detects negative cycles and generates the minimum path.
      * @param {V | VertexId} src - The `src` parameter is the source vertex from which the Bellman-Ford algorithm will
@@ -732,6 +769,13 @@ export abstract class AbstractGraph<V extends AbstractVertex, E extends Abstract
     /**
      * Floyd algorithm time: O(V^3) space: O(V^2), not support graph with negative weight cycle
      * all pairs
+     * The Floyd-Warshall algorithm is used to find the shortest paths between all pairs of nodes in a graph. It employs dynamic programming to compute the shortest paths from any node to any other node. The Floyd-Warshall algorithm's advantage lies in its ability to handle graphs with negative-weight edges, and it can simultaneously compute shortest paths between any two nodes.
+     */
+
+    /**
+     * Floyd algorithm time: O(V^3) space: O(V^2), not support graph with negative weight cycle
+     * all pairs
+     * The Floyd-Warshall algorithm is used to find the shortest paths between all pairs of nodes in a graph. It employs dynamic programming to compute the shortest paths from any node to any other node. The Floyd-Warshall algorithm's advantage lies in its ability to handle graphs with negative-weight edges, and it can simultaneously compute shortest paths between any two nodes.
      * The function implements the Floyd-Warshall algorithm to find the shortest path between all pairs of vertices in a
      * graph.
      * @returns The function `floyd()` returns an object with two properties: `costs` and `predecessor`. The `costs`
@@ -903,8 +947,7 @@ export abstract class AbstractGraph<V extends AbstractVertex, E extends Abstract
     }
 
 
-    // unionFind() {
-    // }
+    // unionFind() {}
 
     /**--- end find cycles --- */
 

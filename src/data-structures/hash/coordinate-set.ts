@@ -6,7 +6,19 @@
  * @license MIT License
  */
 export class CoordinateSet extends Set {
-    private readonly _joint: string = '_';
+    protected _joint: string = '_';
+    get joint(): string {
+        return this._joint;
+    }
+    /**
+     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
+     */
+    getJoint(): string {
+        return this._joint;
+    }
+    protected set joint(v: string) {
+        this._joint = v;
+    }
 
     constructor(joint?: string) {
         super();

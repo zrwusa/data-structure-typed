@@ -8,8 +8,21 @@
 import type {PriorityQueueComparator, PriorityQueueDFSOrderPattern, PriorityQueueOptions} from '../types';
 
 export class PriorityQueue<T = number> {
-    protected nodes: T[] = [];
 
+    protected _nodes: T[] = [];
+    get nodes(): T[] {
+        return this._nodes;
+    }
+    /**
+     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
+     */
+    getNodes(): T[] {
+        return this._nodes;
+    }
+    protected set nodes(value: T[]) {
+        this._nodes = value;
+    }
+    
     /**
      * The constructor initializes a priority queue with the given options, including an array of nodes and a comparator
      * function.
@@ -21,7 +34,7 @@ export class PriorityQueue<T = number> {
 
         if (nodes && nodes instanceof Array && nodes.length > 0) {
             // TODO support distinct
-            this.nodes = Array.isArray(nodes) ? [...nodes] : [];
+            this._nodes = Array.isArray(nodes) ? [...nodes] : [];
             isFix && this._fix();
         }
     }

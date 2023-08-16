@@ -8,27 +8,84 @@
 import type {DoublyLinkedListGetBy} from '../types';
 
 export class DoublyLinkedListNode<T> {
-    val: T;
-    next: DoublyLinkedListNode<T> | null;
-    prev: DoublyLinkedListNode<T> | null;
+    protected _val: T;
+    get val(): T {
+        return this._val;
+    }
+    set val(v: T) {
+        this._val = v;
+    }
+
+    protected _next: DoublyLinkedListNode<T> | null;
+    get next(): DoublyLinkedListNode<T> | null {
+        return this._next;
+    }
+    set next(v: DoublyLinkedListNode<T> | null) {
+        this._next = v;
+    }
+
+    protected _prev: DoublyLinkedListNode<T> | null;
+    get prev(): DoublyLinkedListNode<T> | null {
+        return this._prev;
+    }
+    set prev(v: DoublyLinkedListNode<T> | null) {
+        this._prev = v;
+    }
 
     constructor(nodeValue: T) {
-        this.val = nodeValue;
-        this.next = null;
-        this.prev = null;
+        this._val = nodeValue;
+        this._next = null;
+        this._prev = null;
     }
 }
 
 export class DoublyLinkedList<T> {
-    private _first: DoublyLinkedListNode<T> | null = null;
-    private _last: DoublyLinkedListNode<T> | null = null;
-    private _size = 0;
+    protected _first: DoublyLinkedListNode<T> | null;
+    get first(): DoublyLinkedListNode<T> | null {
+        return this._first;
+    }
+    /**
+     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
+     */
+    getFirst(): DoublyLinkedListNode<T> | null {
+        return this._first;
+    }
+    protected set first(v: DoublyLinkedListNode<T> | null) {
+        this._first = v;
+    }
+
+    protected _last: DoublyLinkedListNode<T> | null;
+    get last(): DoublyLinkedListNode<T> | null {
+        return this._last;
+    }
+    /**
+     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
+     */
+    getLast(): DoublyLinkedListNode<T> | null {
+        return this._last;
+    }
+    protected set last(v: DoublyLinkedListNode<T> | null) {
+        this._last = v;
+    }
+
+    protected _size: number;
     get size(): number {
         return this._size;
     }
-
-    set size(v: number) {
+    /**
+     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
+     */
+    getSize(): number {
+        return this._size;
+    }
+    protected set size(v: number) {
         this._size = v;
+    }
+
+    constructor() {
+        this._first = null;
+        this._last = null;
+        this._size = 0;
     }
 
     /**
