@@ -28,6 +28,12 @@ yarn add data-structure-typed
 ```bash
 npm install data-structure-typed
 ```
+## Live Examples
+
+[//]: # ([Live Examples]&#40;https://data-structure-typed-examples.vercel.app&#41;)
+
+<a href="https://data-structure-typed-examples.vercel.app" target="_blank">Live Examples</a>
+
 
 ### Binary Search Tree (BST) snippet
 
@@ -129,12 +135,6 @@ npm install data-structure-typed
     expect(bfsNodes[1].id).toBe(12);
     expect(bfsNodes[2].id).toBe(16);
 ```
-
-## Live Examples
-
-[//]: # ([Live Examples]&#40;https://data-structure-typed-examples.vercel.app&#41;)
-
-<a href="https://data-structure-typed-examples.vercel.app" target="_blank">Live Examples</a>
 
 ### Directed Graph simple snippet
 
