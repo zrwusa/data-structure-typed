@@ -1,29 +1,5 @@
 import {DirectedEdge, DirectedGraph, DirectedVertex, VertexId} from '../../../../src';
 
-class MyVertex extends DirectedVertex {
-    data: string;
-
-    constructor(id: VertexId, data: string) {
-        super(id);
-        this.data = data;
-    }
-}
-
-class MyEdge extends DirectedEdge {
-    data: string;
-
-    constructor(v1: VertexId, v2: VertexId, weight: number, data: string) {
-        super(v1, v2, weight);
-        this.data = data;
-    }
-}
-
-class MyGraph<V extends MyVertex, E extends MyEdge> extends DirectedGraph<V, E> {
-    constructor() {
-        super();
-    }
-}
-
 describe('DirectedGraph Test1', () => {
     let graph: DirectedGraph<DirectedVertex, DirectedEdge>;
 
@@ -69,10 +45,7 @@ describe('DirectedGraph Test1', () => {
         expect(graph.hasEdge('A', 'B')).toBe(false);
     });
 
-    // Add more test cases for other methods...
-
     it('should perform topological sort', () => {
-        // Create a graph with vertices and edges
         const vertexA = new DirectedVertex('A');
         const vertexB = new DirectedVertex('B');
         const vertexC = new DirectedVertex('C');
@@ -85,15 +58,41 @@ describe('DirectedGraph Test1', () => {
         graph.addEdge(edgeAB);
         graph.addEdge(edgeBC);
 
-        // Perform topological sort
         const topologicalOrder = graph.topologicalSort();
-
         if (topologicalOrder) expect(topologicalOrder.map(v => v.id)).toEqual(['A', 'B', 'C']);
-
     });
-
-    // Add more test cases for other methods...
 });
+
+
+class MyVertex extends DirectedVertex {
+    private _data: string;
+    get data(): string {
+        return this._data;
+    }
+    set data(value: string) {
+        this._data = value;
+    }
+
+    constructor(id: VertexId, data: string) {
+        super(id);
+        this._data = data;
+    }
+}
+
+class MyEdge extends DirectedEdge {
+    private _data: string;
+    get data(): string {
+        return this._data;
+    }
+    set data(value: string) {
+        this._data = value;
+    }
+
+    constructor(v1: VertexId, v2: VertexId, weight: number, data: string) {
+        super(v1, v2, weight);
+        this._data = data;
+    }
+}
 
 
 describe('DirectedGraph Test2 operations', () => {
@@ -222,8 +221,6 @@ describe('DirectedGraph Test3', () => {
         expect(myGraph.getEdge(1, 2)).toBeTruthy();
         expect(myGraph.getEdge(2, 1)).toBeTruthy();
         expect(myGraph.getEdge(1, '100')).toBeFalsy();
-
-        // Add the rest of your assertions here...
 
         myGraph.removeEdgeBetween(1, 2);
         expect(myGraph.getEdge(1, 2)).toBeFalsy();

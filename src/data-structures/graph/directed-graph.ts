@@ -40,28 +40,33 @@ export class DirectedEdge extends AbstractEdge {
     get src(): VertexId {
         return this._src;
     }
+
+    set src(v: VertexId) {
+        this._src = v;
+    }
+
+    private _dest: VertexId;
+
+    get dest(): VertexId {
+        return this._dest;
+    }
+
+    set dest(v: VertexId) {
+        this._dest = v;
+    }
+
     /**
      * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
      */
     getSrc(): VertexId {
         return this._src;
     }
-    set src(v: VertexId) {
-        this._src = v;
-    }
 
-    private _dest: VertexId;
-    get dest(): VertexId {
-        return this._dest;
-    }
     /**
      * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
      */
     getDest(): VertexId {
         return this._dest;
-    }
-    set dest(v: VertexId) {
-        this._dest = v;
     }
 }
 
@@ -159,14 +164,14 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
 
         const srcOutEdges = this._outEdgeMap.get(src);
         if (srcOutEdges) {
-    /**
-     * The removeEdge function removes an edge from a graph and returns the removed edge, or null if the edge was not
-     * found.
-     * @param {E} edge - The `edge` parameter represents the edge that you want to remove from the graph. It should be an
-     * object that has `src` and `dest` properties, which represent the source and destination vertices of the edge,
-     * respectively.
-     * @returns The method `removeEdge` returns the removed edge (`E`) if it exists, or `null` if the edge does not exist.
-     */
+            /**
+             * The removeEdge function removes an edge from a graph and returns the removed edge, or null if the edge was not
+             * found.
+             * @param {E} edge - The `edge` parameter represents the edge that you want to remove from the graph. It should be an
+             * object that has `src` and `dest` properties, which represent the source and destination vertices of the edge,
+             * respectively.
+             * @returns The method `removeEdge` returns the removed edge (`E`) if it exists, or `null` if the edge does not exist.
+             */
             arrayRemove<E>(srcOutEdges, (edge: DirectedEdge) => edge.dest === dest.id);
         }
 
@@ -184,7 +189,7 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
      * and `dest`, which represent the source and destination vertices of the edge, respectively.
      * @returns The method `removeEdge` returns the removed edge (`E`) if it exists, or `null` if the edge does not exist.
      */
-    removeEdge(edge: E ): E | null {
+    removeEdge(edge: E): E | null {
         let removed: E | null = null;
         const src = this.getVertex(edge.src);
         const dest = this.getVertex(edge.dest);

@@ -30,15 +30,15 @@ export enum LoopType { iterative = 1, recursive = 2}
 
 export class BinaryTreeNode<T> {
 
-    protected _id: BinaryTreeNodeId;
-    get id(): BinaryTreeNodeId {
-        return this._id;
+    constructor(id: BinaryTreeNodeId, val: T, count?: number) {
+        this._id = id;
+        this._val = val;
+        this._count = count ?? 1;
     }
 
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getId(): BinaryTreeNodeId {
+    protected _id: BinaryTreeNodeId;
+
+    get id(): BinaryTreeNodeId {
         return this._id;
     }
 
@@ -51,26 +51,13 @@ export class BinaryTreeNode<T> {
         return this._val;
     }
 
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getVal(): T {
-        return this._val;
-    }
-
     set val(v: T) {
         this._val = v;
     }
 
     protected _left?: BinaryTreeNode<T> | null;
-    get left(): BinaryTreeNode<T> | null | undefined {
-        return this._left;
-    }
 
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getLeft(): BinaryTreeNode<T> | null | undefined {
+    get left(): BinaryTreeNode<T> | null | undefined {
         return this._left;
     }
 
@@ -83,14 +70,8 @@ export class BinaryTreeNode<T> {
     }
 
     protected _right?: BinaryTreeNode<T> | null;
-    get right(): BinaryTreeNode<T> | null | undefined {
-        return this._right;
-    }
 
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getRight(): BinaryTreeNode<T> | null | undefined {
+    get right(): BinaryTreeNode<T> | null | undefined {
         return this._right;
     }
 
@@ -103,8 +84,71 @@ export class BinaryTreeNode<T> {
     }
 
     protected _parent: BinaryTreeNode<T> | null | undefined;
+
     get parent(): BinaryTreeNode<T> | null | undefined {
         return this._parent;
+    }
+
+    set parent(v: BinaryTreeNode<T> | null | undefined) {
+        this._parent = v;
+    }
+
+    protected _familyPosition: FamilyPosition = FamilyPosition.root;
+
+    get familyPosition(): FamilyPosition {
+        return this._familyPosition;
+    }
+
+    set familyPosition(v: FamilyPosition) {
+        this._familyPosition = v;
+    }
+
+    protected _count = 1;
+
+    get count(): number {
+        return this._count;
+    }
+
+    set count(v: number) {
+        this._count = v;
+    }
+
+    protected _height = 0;
+
+    get height(): number {
+        return this._height;
+    }
+
+    set height(v: number) {
+        this._height = v;
+    }
+
+    /**
+     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
+     */
+    getId(): BinaryTreeNodeId {
+        return this._id;
+    }
+
+    /**
+     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
+     */
+    getVal(): T {
+        return this._val;
+    }
+
+    /**
+     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
+     */
+    getLeft(): BinaryTreeNode<T> | null | undefined {
+        return this._left;
+    }
+
+    /**
+     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
+     */
+    getRight(): BinaryTreeNode<T> | null | undefined {
+        return this._right;
     }
 
     /**
@@ -114,29 +158,11 @@ export class BinaryTreeNode<T> {
         return this._parent;
     }
 
-    set parent(v: BinaryTreeNode<T> | null | undefined) {
-        this._parent = v;
-    }
-
-    protected _familyPosition: FamilyPosition = FamilyPosition.root;
-    get familyPosition(): FamilyPosition {
-        return this._familyPosition;
-    }
-
     /**
      * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
      */
     getFamilyPosition(): FamilyPosition {
         return this._familyPosition;
-    }
-
-    set familyPosition(v: FamilyPosition) {
-        this._familyPosition = v;
-    }
-
-    protected _count = 1;
-    get count(): number {
-        return this._count;
     }
 
     /**
@@ -146,30 +172,11 @@ export class BinaryTreeNode<T> {
         return this._count;
     }
 
-    set count(v: number) {
-        this._count = v;
-    }
-
-    protected _height = 0;
-    get height(): number {
-        return this._height;
-    }
-
     /**
      * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
      */
     getHeight(): number {
         return this._height;
-    }
-
-    set height(v: number) {
-        this._height = v;
-    }
-
-    constructor(id: BinaryTreeNodeId, val: T, count?: number) {
-        this._id = id;
-        this._val = val;
-        this._count = count ?? 1;
     }
 
     swapLocation(swapNode: BinaryTreeNode<T>): BinaryTreeNode<T> {
@@ -235,14 +242,6 @@ export class BinaryTree<T> {
         return this._root;
     }
 
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Getters (using the same name as the property) while utilizing separate method names for Setters.
-     * @returns The method is returning either a BinaryTreeNode object of type T or null.
-     */
-    getRoot(): BinaryTreeNode<T> | null {
-        return this._root;
-    }
-
     protected set root(v: BinaryTreeNode<T> | null) {
         if (v) {
             v.parent = null;
@@ -257,13 +256,6 @@ export class BinaryTree<T> {
         return this._size;
     }
 
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getSize(): number {
-        return this._size;
-    }
-
     protected set size(v: number) {
         this._size = v;
     }
@@ -274,15 +266,30 @@ export class BinaryTree<T> {
         return this._count;
     }
 
+    protected set count(v: number) {
+        this._count = v;
+    }
+
+    /**
+     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Getters (using the same name as the property) while utilizing separate method names for Setters.
+     * @returns The method is returning either a BinaryTreeNode object of type T or null.
+     */
+    getRoot(): BinaryTreeNode<T> | null {
+        return this._root;
+    }
+
+    /**
+     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
+     */
+    getSize(): number {
+        return this._size;
+    }
+
     /**
      * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
      */
     getCount(): number {
         return this._count;
-    }
-
-    protected set count(v: number) {
-        this._count = v;
     }
 
     /**

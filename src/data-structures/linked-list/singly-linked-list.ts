@@ -10,7 +10,15 @@
 /* The SinglyLinkedListNode class represents a node in a singly linked list and provides methods for inserting, removing,
 and accessing nodes. */
 export class SinglyLinkedListNode<NodeVal = any> {
+    constructor(val: NodeVal, prev?: SinglyLinkedListNode<NodeVal> | null, next?: SinglyLinkedListNode<NodeVal> | null, list?: SinglyLinkedList<NodeVal> | null) {
+        this._val = val;
+        this._prev = prev || null;
+        this._next = next || null;
+        this._list = list || null;
+    }
+
     protected _val: NodeVal;
+
     get val(): NodeVal {
         return this._val;
     }
@@ -20,6 +28,7 @@ export class SinglyLinkedListNode<NodeVal = any> {
     }
 
     protected _prev: SinglyLinkedListNode<NodeVal> | null;
+
     get prev(): SinglyLinkedListNode<NodeVal> | null {
         return this._prev;
     }
@@ -29,6 +38,7 @@ export class SinglyLinkedListNode<NodeVal = any> {
     }
 
     protected _next: SinglyLinkedListNode<NodeVal> | null
+
     get next(): SinglyLinkedListNode<NodeVal> | null {
         return this._next;
     }
@@ -38,19 +48,13 @@ export class SinglyLinkedListNode<NodeVal = any> {
     }
 
     protected _list: SinglyLinkedList<NodeVal> | null
+
     get list(): SinglyLinkedList<NodeVal> | null {
         return this._list;
     }
 
     set list(value: SinglyLinkedList<NodeVal> | null) {
         this._list = value;
-    }
-
-    constructor(val: NodeVal, prev?: SinglyLinkedListNode<NodeVal> | null, next?: SinglyLinkedListNode<NodeVal> | null, list?: SinglyLinkedList<NodeVal> | null) {
-        this._val = val;
-        this._prev = prev || null;
-        this._next = next || null;
-        this._list = list || null;
     }
 
     get index() {
@@ -97,31 +101,6 @@ export class SinglyLinkedListNode<NodeVal = any> {
 
 export class SinglyLinkedList<NodeVal = any> {
 
-    protected _head: SinglyLinkedListNode<NodeVal> | null;
-    get head(): SinglyLinkedListNode<NodeVal> | null {
-        return this._head;
-    }
-    set head(value: SinglyLinkedListNode<NodeVal> | null) {
-        this._head = value;
-    }
-
-
-    protected _tail: SinglyLinkedListNode<NodeVal> | null;
-    get tail(): SinglyLinkedListNode<NodeVal> | null {
-        return this._tail;
-    }
-    set tail(value: SinglyLinkedListNode<NodeVal> | null) {
-        this._tail = value;
-    }
-
-    protected _size: number;
-    get size(): number {
-        return this._size;
-    }
-    set size(value: number) {
-        this._size = value;
-    }
-
     /**
      * The constructor initializes a linked list with the given arguments as nodes.
      * @param {NodeVal[]} args - args is a rest parameter that allows the constructor to accept an arbitrary number of
@@ -135,6 +114,36 @@ export class SinglyLinkedList<NodeVal = any> {
         for (let i = 0; i < arguments.length; i++) {
             this.append(args[i]);
         }
+    }
+
+    protected _head: SinglyLinkedListNode<NodeVal> | null;
+
+    get head(): SinglyLinkedListNode<NodeVal> | null {
+        return this._head;
+    }
+
+    set head(value: SinglyLinkedListNode<NodeVal> | null) {
+        this._head = value;
+    }
+
+    protected _tail: SinglyLinkedListNode<NodeVal> | null;
+
+    get tail(): SinglyLinkedListNode<NodeVal> | null {
+        return this._tail;
+    }
+
+    set tail(value: SinglyLinkedListNode<NodeVal> | null) {
+        this._tail = value;
+    }
+
+    protected _size: number;
+
+    get size(): number {
+        return this._size;
+    }
+
+    set size(value: number) {
+        this._size = value;
     }
 
     /**

@@ -38,35 +38,40 @@ export class UndirectedEdge extends AbstractEdge {
     get vertices() {
         return this._vertices;
     }
+
+    set vertices(v: [VertexId, VertexId]) {
+        this._vertices = v;
+    }
+
     /**
      * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
      */
     getVertices() {
         return this._vertices;
     }
-    set vertices(v: [VertexId, VertexId]) {
-        this._vertices = v;
-    }
 }
 
 export class UndirectedGraph<V extends UndirectedVertex, E extends UndirectedEdge> extends AbstractGraph<V, E> {
+    constructor() {
+        super();
+        this._edges = new Map<V, E[]>();
+    }
+
     protected _edges: Map<V, E[]>;
+
     get edges(): Map<V, E[]> {
         return this._edges;
     }
+
+    protected set edges(v: Map<V, E[]>) {
+        this._edges = v;
+    }
+
     /**
      * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
      */
     getEdges(): Map<V, E[]> {
         return this._edges;
-    }
-    protected set edges(v: Map<V, E[]>) {
-        this._edges = v;
-    }
-
-    constructor() {
-        super();
-        this._edges = new Map<V, E[]>();
     }
 
     /**

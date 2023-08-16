@@ -17,48 +17,58 @@ export class Deque<T> extends DoublyLinkedList<T> {
 // O(n) time complexity of adding at the beginning and the end
 // todo tested slowest one
 export class ObjectDeque<T> {
+    constructor(capacity?: number) {
+        if (capacity !== undefined) this._capacity = capacity;
+    }
+
     private _nodes: { [key: number]: T } = {};
+
     get nodes(): { [p: number]: T } {
         return this._nodes;
     }
+
     protected set nodes(value: { [p: number]: T }) {
         this._nodes = value;
     }
 
     private _capacity = Number.MAX_SAFE_INTEGER;
+
     get capacity(): number {
         return this._capacity;
     }
+
     set capacity(value: number) {
         this._capacity = value;
     }
 
     private _first: number = -1;
+
     get first(): number {
         return this._first;
     }
+
     set first(value: number) {
         this._first = value;
     }
 
     private _last: number = -1;
+
     get last(): number {
         return this._last;
     }
+
     set last(value: number) {
         this._last = value;
     }
 
     private _size: number = 0;
+
     get size(): number {
         return this._size;
     }
+
     protected set size(value: number) {
         this._size = value;
-    }
-
-    constructor(capacity?: number) {
-        if (capacity !== undefined) this._capacity = capacity;
     }
 
     addFirst(value: T) {

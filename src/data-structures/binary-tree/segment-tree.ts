@@ -20,84 +20,101 @@ export class SegmentTreeNode {
     get start(): number {
         return this._start;
     }
+
+    set start(v: number) {
+        this._start = v;
+    }
+
+    protected _end = 0;
+
+    get end(): number {
+        return this._end;
+    }
+
+    set end(v: number) {
+        this._end = v;
+    }
+
+    protected _val: SegmentTreeNodeVal | null = null;
+
+    get val(): SegmentTreeNodeVal | null {
+        return this._val;
+    }
+
+    set val(v: SegmentTreeNodeVal | null) {
+        this._val = v;
+    }
+
+    protected _sum = 0;
+
+    get sum(): number {
+        return this._sum;
+    }
+
+    set sum(v: number) {
+        this._sum = v;
+    }
+
+    protected _left: SegmentTreeNode | null = null;
+
+    get left(): SegmentTreeNode | null {
+        return this._left;
+    }
+
+    set left(v: SegmentTreeNode | null) {
+        this._left = v;
+    }
+
+    protected _right: SegmentTreeNode | null = null;
+
+    get right(): SegmentTreeNode | null {
+        return this._right;
+    }
+
+    set right(v: SegmentTreeNode | null) {
+        this._right = v;
+    }
+
     /**
      * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
      */
     getStart(): number {
         return this._start;
     }
-    set start(v: number) {
-        this._start = v;
-    }
 
-    protected _end = 0;
-    get end(): number {
-        return this._end;
-    }
     /**
      * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
      */
     getEnd(): number {
         return this._end;
     }
-    set end(v: number) {
-        this._end = v;
-    }
 
-    protected _val: SegmentTreeNodeVal | null = null;
-    get val(): SegmentTreeNodeVal | null {
-        return this._val;
-    }
     /**
      * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
      */
     getVal(): SegmentTreeNodeVal | null {
         return this._val;
     }
-    set val(v: SegmentTreeNodeVal | null) {
-        this._val = v;
-    }
 
-    protected _sum = 0;
-    get sum(): number {
-        return this._sum;
-    }
     /**
      * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
      */
     getSum(): number {
         return this._sum;
     }
-    set sum(v: number) {
-        this._sum = v;
-    }
 
-    protected _left: SegmentTreeNode | null = null;
-    get left(): SegmentTreeNode | null {
-        return this._left;
-    }
     /**
      * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
      */
     getLeft(): SegmentTreeNode | null {
         return this._left;
     }
-    set left(v: SegmentTreeNode | null) {
-        this._left = v;
-    }
 
-    protected _right: SegmentTreeNode | null = null;
-    get right(): SegmentTreeNode | null {
-        return this._right;
-    }
     /**
      * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
      */
     getRight(): SegmentTreeNode | null {
         return this._right;
-    }
-    set right(v: SegmentTreeNode | null) {
-        this._right = v;
     }
 }
 
@@ -128,14 +145,16 @@ export class SegmentTree {
     get root(): SegmentTreeNode | null {
         return this._root;
     }
+
+    set root(v: SegmentTreeNode | null) {
+        this._root = v;
+    }
+
     /**
      * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
      */
     getRoot(): SegmentTreeNode | null {
         return this._root;
-    }
-    set root(v: SegmentTreeNode | null) {
-        this._root = v;
     }
 
     /**

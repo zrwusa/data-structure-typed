@@ -9,20 +9,6 @@ import type {PriorityQueueComparator, PriorityQueueDFSOrderPattern, PriorityQueu
 
 export class PriorityQueue<T = number> {
 
-    protected _nodes: T[] = [];
-    get nodes(): T[] {
-        return this._nodes;
-    }
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getNodes(): T[] {
-        return this._nodes;
-    }
-    protected set nodes(value: T[]) {
-        this._nodes = value;
-    }
-    
     /**
      * The constructor initializes a priority queue with the given options, including an array of nodes and a comparator
      * function.
@@ -37,6 +23,16 @@ export class PriorityQueue<T = number> {
             this._nodes = Array.isArray(nodes) ? [...nodes] : [];
             isFix && this._fix();
         }
+    }
+
+    protected _nodes: T[] = [];
+
+    get nodes(): T[] {
+        return this._nodes;
+    }
+
+    protected set nodes(value: T[]) {
+        this._nodes = value;
     }
 
     get size(): number {
@@ -65,6 +61,13 @@ export class PriorityQueue<T = number> {
      */
     static isPriorityQueueified<T>(options: Omit<PriorityQueueOptions<T>, 'isFix'>) {
         return new PriorityQueue({...options, isFix: true}).isValid();
+    }
+
+    /**
+     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
+     */
+    getNodes(): T[] {
+        return this._nodes;
     }
 
     /**

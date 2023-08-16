@@ -1,35 +1,40 @@
 import {BST, BSTNode} from '../../../../src';
 
-describe('bst-case6', () => {
+describe('BST Case6', () => {
     it('should perform various operations on a Binary Search Tree', () => {
-        const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
 
         const tree = new BST();
-
         expect(tree).toBeInstanceOf(BST);
 
-        tree.addMany(arr);
-
+        const values = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
+        tree.addMany(values);
         expect(tree.root).toBeInstanceOf(BSTNode);
+
         if (tree.root) expect(tree.root.id).toBe(11);
+
         expect(tree.count).toBe(16);
+
         expect(tree.has(6)).toBe(true);
 
         const node6 = tree.get(6);
         expect(node6 && tree.getHeight(node6)).toBe(2);
         expect(node6 && tree.getDepth(node6)).toBe(3);
-        const getNodeById = tree.get(10, 'id');
-        expect(getNodeById?.id).toBe(10);
 
-        const getNodesByCount = tree.getNodes(1, 'count');
-        expect(getNodesByCount.length).toBe(16);
+        const nodeId10 = tree.get(10, 'id');
+        expect(nodeId10?.id).toBe(10);
 
-        const getMinNodeByRoot = tree.getLeftMost();
-        expect(getMinNodeByRoot?.id).toBe(1);
+        const nodeVal9 = tree.get(9, 'val');
+        expect(nodeVal9?.id).toBe(9);
+
+        const nodesByCount1 = tree.getNodes(1, 'count');
+        expect(nodesByCount1.length).toBe(16);
+
+        const leftMost = tree.getLeftMost();
+        expect(leftMost?.id).toBe(1);
 
         const node15 = tree.get(15);
-        const getMinNodeBySpecificNode = node15 && tree.getLeftMost(node15);
-        expect(getMinNodeBySpecificNode?.id).toBe(12);
+        const minNodeBySpecificNode = node15 && tree.getLeftMost(node15);
+        expect(minNodeBySpecificNode?.id).toBe(12);
 
         const subTreeSum = node15 && tree.subTreeSum(node15);
         expect(subTreeSum).toBe(70);
@@ -43,30 +48,33 @@ describe('bst-case6', () => {
             expect(subTreeAdd).toBeDefined();
         }
 
-
         const node11 = tree.get(11);
         expect(node11).toBeInstanceOf(BSTNode);
         if (node11 instanceof BSTNode) {
-            const allGreaterNodesAdd = tree.allGreaterNodesAdd(node11, 2, 'count');
-            expect(allGreaterNodesAdd).toBeDefined();
+            const allGreaterNodesAdded = tree.allGreaterNodesAdd(node11, 2, 'count');
+            expect(allGreaterNodesAdded).toBeDefined();
         }
 
-        const dfs = tree.DFS('in', 'node');
-        expect(dfs[0].id).toBe(1);
-        expect(dfs[dfs.length - 1].id).toBe(16);
+        const dfsInorderNodes = tree.DFS('in', 'node');
+        expect(dfsInorderNodes[0].id).toBe(1);
+        expect(dfsInorderNodes[dfsInorderNodes.length - 1].id).toBe(16);
 
         tree.balance();
-        const bfs = tree.BFS('node');
         expect(tree.isBalanced()).toBe(true);
-        expect(bfs[0].id).toBe(8);
-        expect(bfs[bfs.length - 1].id).toBe(16);
+
+        const bfsNodesAfterBalanced = tree.BFS('node');
+        expect(bfsNodesAfterBalanced[0].id).toBe(8);
+        expect(bfsNodesAfterBalanced[bfsNodesAfterBalanced.length - 1].id).toBe(16);
 
         const removed11 = tree.remove(11, true);
         expect(removed11).toBeInstanceOf(Array);
         expect(removed11[0]).toBeDefined();
         expect(removed11[0].deleted).toBeDefined();
+
         if (removed11[0].deleted) expect(removed11[0].deleted.id).toBe(11);
+
         expect(tree.isAVLBalanced()).toBe(true);
+
         expect(node15 && tree.getHeight(node15)).toBe(2);
 
         const removed1 = tree.remove(1, true);
@@ -76,6 +84,7 @@ describe('bst-case6', () => {
         if (removed1[0].deleted) expect(removed1[0].deleted.id).toBe(1);
 
         expect(tree.isAVLBalanced()).toBe(true);
+
         expect(tree.getHeight()).toBe(4);
 
         const removed4 = tree.remove(4, true);
@@ -170,16 +179,16 @@ describe('bst-case6', () => {
         expect(tree.getHeight()).toBe(2);
 
 
-        expect(!tree.isAVLBalanced()).toBe(true);
+        expect(tree.isAVLBalanced()).toBe(false);
 
-        const lastBFSIds = tree.BFS();
-        expect(lastBFSIds[0]).toBe(2);
-        expect(lastBFSIds[1]).toBe(12);
-        expect(lastBFSIds[2]).toBe(16);
+        const bfsIDs = tree.BFS();
+        expect(bfsIDs[0]).toBe(2);
+        expect(bfsIDs[1]).toBe(12);
+        expect(bfsIDs[2]).toBe(16);
 
-        const lastBFSNodes = tree.BFS('node');
-        expect(lastBFSNodes[0].id).toBe(2);
-        expect(lastBFSNodes[1].id).toBe(12);
-        expect(lastBFSNodes[2].id).toBe(16);
+        const bfsNodes = tree.BFS('node');
+        expect(bfsNodes[0].id).toBe(2);
+        expect(bfsNodes[1].id).toBe(12);
+        expect(bfsNodes[2].id).toBe(16);
     });
 });
