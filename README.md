@@ -1,4 +1,3 @@
-# data-structure-typed
 
 Javascript Data Structure, TypeScript Data Structure Library
 
@@ -18,15 +17,9 @@ npm install data-structure-typed
 
 ## Live Examples
 
-[Live Examples](https://data-structure-typed-examples.vercel.app)
+[//]: # ([Live Examples]&#40;https://data-structure-typed-examples.vercel.app&#41;)
 
 <a href="https://data-structure-typed-examples.vercel.app" target="_blank">Live Examples</a>
-
-## Examples Repository
-
-[Examples Repository](https://github.com/zrwusa/data-structure-typed-examples)
-
-<a href="https://github.com/zrwusa/data-structure-typed-examples" target="_blank">Examples Repository</a>
 
 ## Data Structures
 
@@ -101,6 +94,11 @@ Hash, Coordinate Set, Coordinate Map, Heap, Priority Queue, Max Priority Queue, 
 <li><a href="https://data-structure-typed-docs.vercel.app/classes/UndirectedGraph.html"><span>Undirected<wbr/>Graph</span></a></li>
 <li><a href="https://data-structure-typed-docs.vercel.app/classes/UndirectedVertex.html"><span>Undirected<wbr/>Vertex</span></a></li>
 <li><a href="https://data-structure-typed-docs.vercel.app/classes/Vector2D.html"><span>Vector2D</span></a></li></ul></nav>
+
+[//]: # ([Examples Repository]&#40;https://github.com/zrwusa/data-structure-typed-examples&#41;)
+
+<a href="https://github.com/zrwusa/data-structure-typed-examples" target="_blank">Examples Repository</a>
+
 
 ## Complexities
 
