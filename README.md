@@ -733,11 +733,11 @@ describe('DirectedGraph Test3', () => {
 </tbody>
 </table>
 
-![overview diagram](src/assets/overview-diagram-of-data-structures.png)
+![overview diagram](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/assets/overview-diagram-of-data-structures.png)
 
-![complexities](src/assets/complexities-diff.jpg)
+![complexities](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/assets/complexities-diff.jpg)
 
-![complexities of data structures](src/assets/data-structure-complexities.jpg)
+![complexities of data structures](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/assets/data-structure-complexities.jpg)
 
 ![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/binary-tree/bst-rotation.gif)
 
