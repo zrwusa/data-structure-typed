@@ -12,21 +12,3 @@ __tests__/
 
 notes/
 docs/
-#.expo/*
-#web-build/
-#.idea/
-#.vscode/
-#note.txt
-#backup/
-#note.md
-#test.json
-#test.ts
-#test-b.json
-#test.html
-#.env
-#.expo-shared/
-#yarn-error.log
-#.next/
-#.vercel/
-#src/google/
-#src/firebase/migrations/raw-data/

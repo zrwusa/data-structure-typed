@@ -739,35 +739,35 @@ describe('DirectedGraph Test3', () => {
 
 ![complexities of data structures](src/assets/data-structure-complexities.jpg)
 
-![](src/data-structures/binary-tree/diagrams/bst-rotation.gif)
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/binary-tree/bst-rotation.gif)
 
-![](src/data-structures/binary-tree/diagrams/avl-tree-inserting.gif)
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/binary-tree/avl-tree-inserting.gif)
 
-![](src/data-structures/graph/diagrams/tarjan.webp)
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/tarjan.webp)
 
-![](src/data-structures/graph/diagrams/adjacency-list.jpg)
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/adjacency-list.jpg)
 
-![](src/data-structures/graph/diagrams/adjacency-list-pros-cons.jpg)
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/adjacency-list-pros-cons.jpg)
 
-![](src/data-structures/graph/diagrams/adjacency-matrix.jpg)
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/adjacency-matrix.jpg)
 
-![](src/data-structures/graph/diagrams/adjacency-matrix-pros-cons.jpg)
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/adjacency-matrix-pros-cons.jpg)
 
-![](src/data-structures/graph/diagrams/dfs-can-do.jpg)
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/dfs-can-do.jpg)
 
-![](src/data-structures/graph/diagrams/edge-list.jpg)
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/edge-list.jpg)
 
-![](src/data-structures/graph/diagrams/edge-list-pros-cons.jpg)
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/edge-list-pros-cons.jpg)
 
-![](src/data-structures/graph/diagrams/max-flow.jpg)
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/max-flow.jpg)
 
-![](src/data-structures/graph/diagrams/mst.jpg)
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/mst.jpg)
 
-[//]: # (![]&#40;src/data-structures/graph/diagrams/tarjan-articulation-point-bridge.png&#41;)
+[//]: # (![]&#40;https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/tarjan-articulation-point-bridge.png&#41;)
 
-[//]: # (![]&#40;src/data-structures/graph/diagrams/tarjan-complicate-simple.png&#41;)
+[//]: # (![]&#40;https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/tarjan-complicate-simple.png&#41;)
 
-[//]: # (![]&#40;src/data-structures/graph/diagrams/tarjan-strongly-connected-component.png&#41;)
+[//]: # (![]&#40;https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/tarjan-strongly-connected-component.png&#41;)
 
 
 
