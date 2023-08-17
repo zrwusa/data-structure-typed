@@ -15,6 +15,12 @@ Hash, Coordinate Set, Coordinate Map, Heap, Priority Queue, Max Priority Queue, 
 
 # How
 
+## Live Examples
+
+[Live Examples](https://data-structure-typed-examples.vercel.app)
+
+<a href="https://data-structure-typed-examples.vercel.app" target="_blank">Live Examples</a>
+
 ## install
 
 ### yarn
@@ -28,12 +34,6 @@ yarn add data-structure-typed
 ```bash
 npm install data-structure-typed
 ```
-## Live Examples
-
-[//]: # ([Live Examples]&#40;https://data-structure-typed-examples.vercel.app&#41;)
-
-<a href="https://data-structure-typed-examples.vercel.app" target="_blank">Live Examples</a>
-
 
 ### Binary Search Tree (BST) snippet
 
