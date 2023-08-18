@@ -15,7 +15,7 @@ Hash, Coordinate Set, Coordinate Map, Heap, Priority Queue, Max Priority Queue, 
 
 # How
 
-## Live Examples
+[API Docs](https://data-structure-typed-docs.vercel.app)
 
 [Live Examples](https://data-structure-typed-examples.vercel.app)
 
