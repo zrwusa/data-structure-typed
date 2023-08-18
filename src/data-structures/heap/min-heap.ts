@@ -6,15 +6,15 @@
  * @license MIT License
  */
 
-import {Heap} from './heap';
+import {Heap, HeapItem} from './heap';
 import {PriorityQueue} from '../priority-queue';
-import type {HeapItem, HeapOptions} from '../types';
+import type {HeapOptions} from '../types';
 
 /**
  * @class MinHeap
  * @extends Heap
  */
-export class MinHeap<T> extends Heap<T> {
+export class MinHeap<T = number> extends Heap<T> {
     protected _pq: PriorityQueue<HeapItem<T>>;
 
     /**

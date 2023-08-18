@@ -1,8 +1,5 @@
 export interface HeapOptions<T> {
     priority?: (element: T) => number;
-}
-
-export interface HeapItem<T> {
-    priority: number;
-    element: T | null;
+    // TODO there is an idea that support chaining which is for conveniently using the data structure
+    // isChaining? : boolean
 }
