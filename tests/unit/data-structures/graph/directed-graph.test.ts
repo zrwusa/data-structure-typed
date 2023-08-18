@@ -65,32 +65,36 @@ describe('DirectedGraph Test1', () => {
 
 
 class MyVertex extends DirectedVertex {
-    private _data: string;
-    get data(): string {
-        return this._data;
-    }
-    set data(value: string) {
-        this._data = value;
-    }
-
     constructor(id: VertexId, data: string) {
         super(id);
         this._data = data;
     }
-}
 
-class MyEdge extends DirectedEdge {
     private _data: string;
+
     get data(): string {
         return this._data;
     }
+
     set data(value: string) {
         this._data = value;
     }
+}
 
+class MyEdge extends DirectedEdge {
     constructor(v1: VertexId, v2: VertexId, weight: number, data: string) {
         super(v1, v2, weight);
         this._data = data;
+    }
+
+    private _data: string;
+
+    get data(): string {
+        return this._data;
+    }
+
+    set data(value: string) {
+        this._data = value;
     }
 }
 

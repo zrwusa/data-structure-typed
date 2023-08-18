@@ -10,7 +10,13 @@ import type {HeapOptions} from '../types';
 
 export class HeapItem<T = number> {
 
+    constructor(priority: number = NaN, val: T | null = null) {
+        this._val = val;
+        this._priority = priority;
+    }
+
     private _priority: number;
+
     get priority(): number {
         return this._priority;
     }
@@ -20,17 +26,13 @@ export class HeapItem<T = number> {
     }
 
     private _val: T | null;
+
     get val(): T | null {
         return this._val;
     }
 
     set val(value: T | null) {
         this._val = value;
-    }
-
-    constructor(priority: number = NaN, val: T | null = null) {
-        this._val = val;
-        this._priority = priority;
     }
 }
 
@@ -176,7 +178,7 @@ export abstract class Heap<T = number> {
      * @param {T | HeapItem<T>} node - The parameter `node` can be of type `T` or `HeapItem<T>`.
      * @returns a boolean value.
      */
-    has(node:T | HeapItem<T>): boolean {
+    has(node: T | HeapItem<T>): boolean {
         if (node instanceof HeapItem<T>) {
             return this.getPq().getNodes().includes(node);
         } else {

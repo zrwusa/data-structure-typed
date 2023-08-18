@@ -8,6 +8,22 @@
 import type {PriorityQueueComparator, PriorityQueueDFSOrderPattern, PriorityQueueOptions} from '../types';
 
 export class PriorityQueue<T = number> {
+    /**
+     * The constructor initializes a priority queue with the given options, including an array of nodes and a comparator
+     * function.
+     * @param options - The `options` parameter is an object that contains the following properties:
+     */
+    constructor(options: PriorityQueueOptions<T>) {
+        const {nodes, comparator, isFix = true} = options;
+        this._comparator = comparator;
+
+        if (nodes && Array.isArray(nodes) && nodes.length > 0) {
+            // TODO support distinct
+            this._nodes = [...nodes];
+            isFix && this._fix();
+        }
+    }
+
     protected _nodes: T[] = [];
 
     get nodes(): T[] {
@@ -21,22 +37,30 @@ export class PriorityQueue<T = number> {
     get size(): number {
         return this.nodes.length;
     }
-    /**
-     * The constructor initializes a priority queue with the given options, including an array of nodes and a comparator
-     * function.
-     * @param options - The `options` parameter is an object that contains the following properties:
-     */
-    constructor(options: PriorityQueueOptions<T>) {
-        const {nodes, comparator, isFix = true} = options;
-        this._comparator = comparator;
 
-        if (nodes && nodes instanceof Array && nodes.length > 0) {
-            // TODO support distinct
-            this._nodes = Array.isArray(nodes) ? [...nodes] : [];
-            isFix && this._fix();
-        }
+    /**
+     * The `heapify` function creates a new PriorityQueue instance and fixes the heap property.
+     * @param options - The "options" parameter is an object that contains the configuration options for the PriorityQueue.
+     * It can include properties such as "comparator" which specifies the comparison function used to order the elements in
+     * the priority queue, and "initialValues" which is an array of initial values to be added to the priority
+     * @returns a new instance of the PriorityQueue class after performing the heapify operation on it.
+     */
+    static heapify<T>(options: PriorityQueueOptions<T>) {
+        const heap = new PriorityQueue(options);
+        heap._fix();
+        return heap;
     }
 
+    /**
+     * The function checks if a priority queue is valid by creating a new priority queue with a fix option and then calling
+     * the isValid method.
+     * @param options - An object containing options for creating a priority queue. The options object should have the
+     * following properties:
+     * @returns the result of calling the `isValid()` method on a new instance of the `PriorityQueue` class.
+     */
+    static isPriorityQueueified<T>(options: Omit<PriorityQueueOptions<T>, 'isFix'>) {
+        return new PriorityQueue({...options, isFix: false}).isValid();
+    }
 
     /**
      * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
@@ -134,7 +158,78 @@ export class PriorityQueue<T = number> {
         return new PriorityQueue<T>({nodes: this.nodes, comparator: this._comparator});
     }
 
+    // --- start additional methods ---
+    /**
+     * The `isValid` function recursively checks if a binary tree satisfies a certain condition.
+     * @returns The function `isValid()` returns a boolean value.
+     */
+    isValid(): boolean {
+        for (let i = 0; i < this.nodes.length; i++) {
+            const leftChildIndex = this._getLeft(i);
+            const rightChildIndex = this._getRight(i);
+            if (this._isValidIndex(leftChildIndex) && !this._compare(leftChildIndex, i)) {
+                return false;
+            }
+            if (this._isValidIndex(rightChildIndex) && !this._compare(rightChildIndex, i)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
+    /**
+     * Plan to support sorting of duplicate elements.
+     */
+    /**
+     * The function sorts the elements in a data structure and returns them in an array.
+     * Plan to support sorting of duplicate elements.
+     * @returns The `sort()` method is returning an array of type `T[]`.
+     */
+    sort(): T[] {
+        // TODO Plan to support sorting of duplicate elements.
+        const visitedNode: T[] = [];
+        while (this.size !== 0) {
+            const top = this.poll();
+            if (top) visitedNode.push(top);
+        }
+        return visitedNode;
+    }
+
+    /**
+     * The DFS function performs a depth-first search traversal on a binary tree and returns an array of visited nodes
+     * based on the specified traversal order.
+     * @param {PriorityQueueDFSOrderPattern} dfsMode - The dfsMode parameter is a string that specifies the order in which
+     * the nodes should be visited during the Depth-First Search (DFS) traversal. It can have one of the following values:
+     * @returns an array of type `(T | null)[]`.
+     */
+    DFS(dfsMode: PriorityQueueDFSOrderPattern): (T | null)[] {
+        const visitedNode: (T | null)[] = [];
+
+        const traverse = (cur: number) => {
+            const leftChildIndex = this._getLeft(cur);
+            const rightChildIndex = this._getRight(cur);
+            switch (dfsMode) {
+                case 'in':
+                    this._isValidIndex(leftChildIndex) && traverse(leftChildIndex);
+                    visitedNode.push(this.nodes[cur] ?? null);
+                    this._isValidIndex(rightChildIndex) && traverse(rightChildIndex);
+                    break;
+                case 'pre':
+                    visitedNode.push(this.nodes[cur] ?? null);
+                    this._isValidIndex(leftChildIndex) && traverse(leftChildIndex);
+                    this._isValidIndex(rightChildIndex) && traverse(rightChildIndex);
+                    break;
+                case 'post':
+                    this._isValidIndex(leftChildIndex) && traverse(leftChildIndex);
+                    this._isValidIndex(rightChildIndex) && traverse(rightChildIndex);
+                    visitedNode.push(this.nodes[cur] ?? null);
+                    break;
+            }
+        };
+
+        this._isValidIndex(0) && traverse(0);
+        return visitedNode;
+    }
 
     protected readonly _comparator: PriorityQueueComparator<T> = (a: T, b: T) => {
         const aKey = a as unknown as number, bKey = b as unknown as number;
@@ -253,106 +348,6 @@ export class PriorityQueue<T = number> {
      */
     protected _fix() {
         for (let i = Math.floor(this.size / 2); i > -1; i--) this._heapifyDown(i);
-    }
-
-    // --- start additional methods ---
-    /**
-     * The `isValid` function recursively checks if a binary tree satisfies a certain condition.
-     * @returns The function `isValid()` returns a boolean value.
-     */
-    isValid(): boolean {
-        const isValidRecursive = (parentIndex: number): boolean => {
-            let isValidLeft = true;
-            let isValidRight = true;
-
-            if (this._getLeft(parentIndex) !== -1) {
-                const leftChildIndex = (parentIndex * 2) + 1;
-                if (!this._compare(parentIndex, leftChildIndex)) return false;
-                isValidLeft = isValidRecursive(leftChildIndex);
-            }
-
-            if (this._getRight(parentIndex) !== -1) {
-                const rightChildIndex = (parentIndex * 2) + 2;
-                if (!this._compare(parentIndex, rightChildIndex)) return false;
-                isValidRight = isValidRecursive(rightChildIndex);
-            }
-
-            return isValidLeft && isValidRight;
-        };
-
-        return isValidRecursive(0);
-    }
-
-    /**
-     * The function sorts the elements in a data structure and returns them in ascending order.
-     * @returns The `sort()` function is returning an array of type `T[]`.
-     */
-    sort(): T[] {
-        const visitedNode: T[] = [];
-        while (this.size !== 0) {
-            const top = this.poll();
-            if (top) visitedNode.push(top);
-        }
-        return visitedNode;
-    }
-
-    /**
-     * The DFS function performs a depth-first search traversal on a binary tree and returns an array of visited nodes
-     * based on the specified traversal order.
-     * @param {PriorityQueueDFSOrderPattern} dfsMode - The dfsMode parameter is a string that specifies the order in which
-     * the nodes should be visited during the Depth-First Search (DFS) traversal. It can have one of the following values:
-     * @returns an array of type `(T | null)[]`.
-     */
-    DFS(dfsMode: PriorityQueueDFSOrderPattern): (T | null)[] {
-        const visitedNode: (T | null)[] = [];
-
-        const traverse = (cur: number) => {
-            const leftChildIndex = this._getLeft(cur);
-            const rightChildIndex = this._getRight(cur);
-            switch (dfsMode) {
-                case 'in':
-                    this._isValidIndex(leftChildIndex) && traverse(leftChildIndex);
-                    visitedNode.push(this.nodes[cur] ?? null);
-                    this._isValidIndex(rightChildIndex) && traverse(rightChildIndex);
-                    break;
-                case 'pre':
-                    visitedNode.push(this.nodes[cur] ?? null);
-                    this._isValidIndex(leftChildIndex) && traverse(leftChildIndex);
-                    this._isValidIndex(rightChildIndex) && traverse(rightChildIndex);
-                    break;
-                case 'post':
-                    this._isValidIndex(leftChildIndex) && traverse(leftChildIndex);
-                    this._isValidIndex(rightChildIndex) && traverse(rightChildIndex);
-                    visitedNode.push(this.nodes[cur] ?? null);
-                    break;
-            }
-        };
-
-        this._isValidIndex(0) && traverse(0);
-        return visitedNode;
-    }
-    /**
-     * The `heapify` function creates a new PriorityQueue instance and fixes the heap property.
-     * @param options - The "options" parameter is an object that contains the configuration options for the PriorityQueue.
-     * It can include properties such as "comparator" which specifies the comparison function used to order the elements in
-     * the priority queue, and "initialValues" which is an array of initial values to be added to the priority
-     * @returns a new instance of the PriorityQueue class after performing the heapify operation on it.
-     */
-    static heapify<T>(options: PriorityQueueOptions<T>) {
-        const heap = new PriorityQueue(options);
-        heap._fix();
-        return heap;
-    }
-
-    /**
-     * The function checks if a priority queue is valid by creating a new priority queue with a fix option and then calling
-     * the isValid method.
-     * @param options - An object containing options for creating a priority queue. The options object should have the
-     * following properties:
-     * @returns the result of calling the `isValid()` method on a new instance of the `PriorityQueue` class.
-     */
-    static isPriorityQueueified<T>(options: Omit<PriorityQueueOptions<T>, 'isFix'>) {
-        return new PriorityQueue({...options, isFix: true}).isValid();
     }
 
     // --- end additional methods ---
