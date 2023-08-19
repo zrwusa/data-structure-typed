@@ -59,13 +59,13 @@ describe('SinglyLinkedList Operation Test', () => {
             list.push(1);
             list.push(2);
             list.push(3);
-            const element = list.get(1);
+            const element = list.getAt(1);
             expect(element).toBe(2);
         });
 
         it('should return undefined for an out-of-bounds index', () => {
             list.push(1);
-            const element = list.get(1);
+            const element = list.getAt(1);
             expect(element).toBeNull();
         });
     });
@@ -363,7 +363,7 @@ describe('SinglyLinkedList Operation Test', () => {
         const insertSuccess = objectList.insertBefore(obj2, newObj);
         expect(insertSuccess).toBe(true);
 
-        const findNode = objectList.findNodeByValue(newObj); // Use newObj instead of obj2
+        const findNode = objectList.findNode(newObj); // Use newObj instead of obj2
         expect(findNode?.val).toEqual(newObj);
 
         const deleted = objectList.delete(newObj); // Use newObj instead of obj2

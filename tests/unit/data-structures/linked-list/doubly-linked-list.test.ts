@@ -41,19 +41,19 @@ describe('DoublyLinkedList Operation Test', () => {
         // Inserting at the beginning
         list.insert(0, 0);
         expect(list.length).toBe(4);
-        expect(list.get(0)).toBe(0);
-        expect(list.get(1)).toBe(1);
+        expect(list.getAt(0)).toBe(0);
+        expect(list.getAt(1)).toBe(1);
 
         // Inserting in the middle
         list.insert(2, 1.5);
         expect(list.length).toBe(5);
-        expect(list.get(2)).toBe(1.5);
-        expect(list.get(3)).toBe(2);
+        expect(list.getAt(2)).toBe(1.5);
+        expect(list.getAt(3)).toBe(2);
 
         // Inserting at the end
         list.insert(5, 4);
         expect(list.length).toBe(6);
-        expect(list.get(5)).toBe(4);
+        expect(list.getAt(5)).toBe(4);
         expect(list.tail!.val).toBe(4);
     });
 
@@ -326,7 +326,7 @@ describe('DoublyLinkedList Operation Test', () => {
         const insertSuccess = objectList.insertBefore(obj2, newObj);
         expect(insertSuccess).toBe(true);
 
-        const findNode = objectList.findNodeByValue(newObj); // Use newObj instead of obj2
+        const findNode = objectList.findNode(newObj); // Use newObj instead of obj2
         expect(findNode?.val).toEqual(newObj);
 
         const deleted = objectList.delete(newObj); // Use newObj instead of obj2
