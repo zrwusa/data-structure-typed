@@ -1,4 +1,3 @@
-
 describe('SkipLinkedList Operation Test', () => {
     it('should xxx', function () {
 

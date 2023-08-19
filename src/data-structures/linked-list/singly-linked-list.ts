@@ -1,6 +1,19 @@
+/**
+ * data-structure-typed
+ *
+ * @author Tyler Zeng
+ * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
+ * @license MIT License
+ */
 export class SinglyLinkedListNode<T> {
 
+    constructor(val: T) {
+        this._val = val;
+        this._next = null;
+    }
+
     private _val: T;
+
     get val(): T {
         return this._val;
     }
@@ -10,6 +23,7 @@ export class SinglyLinkedListNode<T> {
     }
 
     private _next: SinglyLinkedListNode<T> | null;
+
     get next(): SinglyLinkedListNode<T> | null {
         return this._next;
     }
@@ -17,15 +31,18 @@ export class SinglyLinkedListNode<T> {
     set next(value: SinglyLinkedListNode<T> | null) {
         this._next = value;
     }
-    constructor(val: T) {
-        this._val = val;
-        this._next = null;
-    }
 }
 
 export class SinglyLinkedList<T> {
 
+    constructor() {
+        this._head = null;
+        this._tail = null;
+        this._length = 0;
+    }
+
     private _head: SinglyLinkedListNode<T> | null;
+
     get head(): SinglyLinkedListNode<T> | null {
         return this._head;
     }
@@ -35,6 +52,7 @@ export class SinglyLinkedList<T> {
     }
 
     private _tail: SinglyLinkedListNode<T> | null;
+
     get tail(): SinglyLinkedListNode<T> | null {
         return this._tail;
     }
@@ -44,6 +62,7 @@ export class SinglyLinkedList<T> {
     }
 
     private _length: number;
+
     get length(): number {
         return this._length;
     }
@@ -52,10 +71,8 @@ export class SinglyLinkedList<T> {
         this._length = value;
     }
 
-    constructor() {
-        this._head = null;
-        this._tail = null;
-        this._length = 0;
+    getLength(): number {
+        return this._length;
     }
 
     push(data: T): void {
@@ -70,8 +87,8 @@ export class SinglyLinkedList<T> {
         this.length++;
     }
 
-    pop(): T | undefined {
-        if (!this.head) return undefined;
+    pop(): T | null {
+        if (!this.head) return null;
         if (this.head === this.tail) {
             const val = this.head.val;
             this.head = null;
@@ -91,37 +108,8 @@ export class SinglyLinkedList<T> {
         return val;
     }
 
-    get(index: number): T | undefined {
-        if (index < 0 || index >= this.length) return undefined;
-        let current = this.head;
-        for (let i = 0; i < index; i++) {
-            current = current!.next;
-        }
-        return current!.val;
-    }
-
-    remove(index: number): T | undefined {
-        if (index < 0 || index >= this.length) return undefined;
-        if (index === 0) return this.shift();
-        if (index === this.length - 1) return this.pop();
-
-        let prevNode = this.getNodeAtIndex(index - 1);
-        const removedNode = prevNode!.next;
-        prevNode!.next = removedNode!.next;
-        this.length--;
-        return removedNode!.val;
-    }
-
-    private getNodeAtIndex(index: number): SinglyLinkedListNode<T> | null {
-        let current = this.head;
-        for (let i = 0; i < index; i++) {
-            current = current!.next;
-        }
-        return current;
-    }
-
-    shift(): T | undefined {
-        if (!this.head) return undefined;
+    shift(): T | null {
+        if (!this.head) return null;
         const removedNode = this.head;
         this.head = this.head.next;
         this.length--;
@@ -140,6 +128,62 @@ export class SinglyLinkedList<T> {
         this.length++;
     }
 
+    get(index: number): T | null {
+        if (index < 0 || index >= this.length) return null;
+        let current = this.head;
+        for (let i = 0; i < index; i++) {
+            current = current!.next;
+        }
+        return current!.val;
+    }
+
+    deleteAt(index: number): T | null {
+        if (index < 0 || index >= this.length) return null;
+        if (index === 0) return this.shift();
+        if (index === this.length - 1) return this.pop();
+
+        let prevNode = this.getNodeAt(index - 1);
+        const removedNode = prevNode!.next;
+        prevNode!.next = removedNode!.next;
+        this.length--;
+        return removedNode!.val;
+    }
+
+    delete(value: T): boolean {
+        let current = this.head;
+        let prev = null;
+
+        while (current) {
+            if (current.val === value) {
+                if (prev === null) {
+                    this.head = current.next;
+                    if (current === this.tail) {
+                        this.tail = null;
+                    }
+                } else {
+                    prev.next = current.next;
+                    if (current === this.tail) {
+                        this.tail = prev;
+                    }
+                }
+                this.length--;
+                return true;
+            }
+            prev = current;
+            current = current.next;
+        }
+
+        return false;
+    }
+
+    getNodeAt(index: number): SinglyLinkedListNode<T> | null {
+        let current = this.head;
+        for (let i = 0; i < index; i++) {
+            current = current!.next;
+        }
+        return current;
+    }
+
     insert(index: number, val: T): boolean {
         if (index < 0 || index > this.length) return false;
         if (index === 0) {
@@ -152,16 +196,11 @@ export class SinglyLinkedList<T> {
         }
 
         const newNode = new SinglyLinkedListNode(val);
-        const prevNode = this.getNodeAtIndex(index - 1);
+        const prevNode = this.getNodeAt(index - 1);
         newNode.next = prevNode!.next;
         prevNode!.next = newNode;
         this.length++;
         return true;
-    }
-
-
-    getLength(): number {
-        return this.length;
     }
 
     isEmpty(): boolean {
@@ -169,9 +208,9 @@ export class SinglyLinkedList<T> {
     }
 
     clear(): void {
-        this.head = null;
-        this.tail = null;
-        this.length = 0;
+        this._head = null;
+        this._tail = null;
+        this._length = 0;
     }
 
     toArray(): T[] {
@@ -201,8 +240,7 @@ export class SinglyLinkedList<T> {
         [this.head, this.tail] = [this.tail!, this.head!];
     }
 
-
-    find(callback: (val: T) => boolean): T | undefined {
+    find(callback: (val: T) => boolean): T | null {
         let current = this.head;
         while (current) {
             if (callback(current.val)) {
@@ -210,35 +248,9 @@ export class SinglyLinkedList<T> {
             }
             current = current.next;
         }
-        return undefined;
+        return null;
     }
 
-    removeByValue(value: T): boolean {
-        let current = this.head;
-        let prev = null;
-
-        while (current) {
-            if (current.val === value) {
-                if (prev === null) {
-                    this.head = current.next;
-                    if (current === this.tail) {
-                        this.tail = null;
-                    }
-                } else {
-                    prev.next = current.next;
-                    if (current === this.tail) {
-                        this.tail = prev;
-                    }
-                }
-                this.length--;
-                return true;
-            }
-            prev = current;
-            current = current.next;
-        }
-
-        return false;
-    }
 
     indexOf(value: T): number {
         let index = 0;

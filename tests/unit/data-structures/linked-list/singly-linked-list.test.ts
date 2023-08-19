@@ -2,9 +2,10 @@ import {SinglyLinkedList} from '../../../../src';
 
 describe('SinglyLinkedList Operation Test', () => {
     let list: SinglyLinkedList<number>;
-
+    let objectList: SinglyLinkedList<{ keyA: number }>;
     beforeEach(() => {
         list = new SinglyLinkedList<number>();
+        objectList = new SinglyLinkedList<{ keyA: number }>();
     });
 
     describe('push', () => {
@@ -26,7 +27,7 @@ describe('SinglyLinkedList Operation Test', () => {
 
         it('should return undefined if the list is empty', () => {
             const popped = list.pop();
-            expect(popped).toBeUndefined();
+            expect(popped).toBeNull();
         });
     });
 
@@ -41,7 +42,7 @@ describe('SinglyLinkedList Operation Test', () => {
 
         it('should return undefined if the list is empty', () => {
             const shifted = list.shift();
-            expect(shifted).toBeUndefined();
+            expect(shifted).toBeNull();
         });
     });
 
@@ -65,7 +66,7 @@ describe('SinglyLinkedList Operation Test', () => {
         it('should return undefined for an out-of-bounds index', () => {
             list.push(1);
             const element = list.get(1);
-            expect(element).toBeUndefined();
+            expect(element).toBeNull();
         });
     });
 
@@ -112,7 +113,7 @@ describe('SinglyLinkedList Operation Test', () => {
             list.push(1);
             list.push(2);
             list.push(3);
-            const removed = list.removeByValue(2);
+            const removed = list.delete(2);
             expect(removed).toBe(true);
             expect(list.toArray()).toEqual([1, 3]);
         });
@@ -121,7 +122,7 @@ describe('SinglyLinkedList Operation Test', () => {
             list.push(1);
             list.push(2);
             list.push(3);
-            const removed = list.removeByValue(4);
+            const removed = list.delete(4);
             expect(removed).toBe(false);
             expect(list.toArray()).toEqual([1, 2, 3]);
         });
@@ -245,21 +246,21 @@ describe('SinglyLinkedList Operation Test', () => {
             list.push(1);
             list.push(2);
             list.push(3);
-            const removed = list.remove(1);
+            const removed = list.deleteAt(1);
             expect(removed).toBe(2);
             expect(list.toArray()).toEqual([1, 3]);
         });
 
         it('should return undefined for an out-of-bounds index', () => {
             list.push(1);
-            const removed = list.remove(1);
-            expect(removed).toBeUndefined();
+            const removed = list.deleteAt(1);
+            expect(removed).toBeNull();
         });
 
         it('should remove and return the first element', () => {
             list.push(1);
             list.push(2);
-            const removed = list.remove(0);
+            const removed = list.deleteAt(0);
             expect(removed).toBe(1);
             expect(list.toArray()).toEqual([2]);
         });
@@ -267,7 +268,7 @@ describe('SinglyLinkedList Operation Test', () => {
         it('should remove and return the last element', () => {
             list.push(1);
             list.push(2);
-            const removed = list.remove(1);
+            const removed = list.deleteAt(1);
             expect(removed).toBe(2);
             expect(list.toArray()).toEqual([1]);
         });
@@ -279,7 +280,7 @@ describe('SinglyLinkedList Operation Test', () => {
             list.push(2);
             expect(list.pop()).toBe(2);
             expect(list.pop()).toBe(1);
-            expect(list.pop()).toBeUndefined();
+            expect(list.pop()).toBeNull();
         });
     });
 
@@ -289,7 +290,7 @@ describe('SinglyLinkedList Operation Test', () => {
             list.unshift(2);
             expect(list.shift()).toBe(2);
             expect(list.shift()).toBe(1);
-            expect(list.shift()).toBeUndefined();
+            expect(list.shift()).toBeNull();
         });
     });
 
@@ -315,7 +316,7 @@ describe('SinglyLinkedList Operation Test', () => {
             list.push(1);
             list.push(3);
             const result = list.find((data) => data % 2 === 0);
-            expect(result).toBeUndefined();
+            expect(result).toBeNull();
         });
     });
 
@@ -346,6 +347,35 @@ describe('SinglyLinkedList Operation Test', () => {
             expect(count).toBe(0);
         });
     });
+
+    it('should insert and manipulate objects with numeric properties', () => {
+        const obj1 = {keyA: 1};
+        const obj2 = {keyA: 2};
+        const obj3 = {keyA: 3};
+
+        objectList.push(obj1);
+        objectList.push(obj2);
+        objectList.push(obj3);
+
+        expect(objectList.toArray()).toEqual([obj1, obj2, obj3]);
+
+        const newObj = {keyA: 2.5}; // Corrected newObj value
+        const insertSuccess = objectList.insertBefore(obj2, newObj);
+        expect(insertSuccess).toBe(true);
+
+        const findNode = objectList.findNodeByValue(newObj); // Use newObj instead of obj2
+        expect(findNode?.val).toEqual(newObj);
+
+        const deleted = objectList.delete(newObj); // Use newObj instead of obj2
+        expect(deleted).toBe(true);
+
+        const poppedObj = objectList.pop();
+        expect(poppedObj).toBe(obj3);
+
+        const shiftedObj = objectList.shift();
+        expect(shiftedObj).toBe(obj1);
+    });
+
 });
 
 describe('SinglyLinkedList Performance Test', () => {
