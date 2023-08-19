@@ -1,6 +1,6 @@
 import {HeapItem, MaxHeap} from '../../../../src';
 
-describe('MaxHeap Test1', () => {
+describe('MaxHeap Operation Test', () => {
 
     it('should object Max Heap operations be proper', function () {
         const maxHeap = new MaxHeap<{ keyA: string }>();

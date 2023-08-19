@@ -1,6 +1,7 @@
 import {HeapItem, MinHeap} from '../../../../src';
 
-describe('MinHeap Test1', () => {
+describe('MinHeap Operation Test', () => {
+
     it('should numeric Min Heap operations be proper', function () {
         const minNumHeap = new MinHeap<number>();
         expect(minNumHeap).toBeInstanceOf(MinHeap);

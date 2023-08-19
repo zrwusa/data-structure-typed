@@ -1,6 +1,6 @@
 import {PriorityQueue} from '../../../../src';
 
-describe('PriorityQueue Test1', () => {
+describe('PriorityQueue Operation Test', () => {
 
     it('should validate a priority queue', () => {
         const minPQ = new PriorityQueue<number>({nodes: [1, 5, 7, 9, 3, 6, 2], comparator: (a, b) => a - b});
@@ -13,4 +13,5 @@ describe('PriorityQueue Test1', () => {
             comparator: (a, b) => b - a
         })).toBe(false);
     });
+
 });

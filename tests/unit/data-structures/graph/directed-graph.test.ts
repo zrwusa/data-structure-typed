@@ -1,6 +1,6 @@
 import {DirectedEdge, DirectedGraph, DirectedVertex, VertexId} from '../../../../src';
 
-describe('DirectedGraph Test1', () => {
+describe('DirectedGraph Operation Test', () => {
     let graph: DirectedGraph<DirectedVertex, DirectedEdge>;
 
     beforeEach(() => {

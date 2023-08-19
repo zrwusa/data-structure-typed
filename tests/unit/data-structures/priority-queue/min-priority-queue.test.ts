@@ -1,6 +1,6 @@
 import {MinPriorityQueue} from '../../../../src';
 
-describe('MinPriorityQueue Test1', () => {
+describe('MinPriorityQueue Operation Test', () => {
 
     it('should check if a node exists in the queue', () => {
         const priorityQueue = new MinPriorityQueue<number>();
@@ -64,17 +64,4 @@ describe('MinPriorityQueue Test1', () => {
         expect(sortedArray).toEqual([1, 3, 5, 7]);
     });
 
-});
-
-
-describe('MinPriorityQueue Test2', () => {
-    it('should sorted.length to be the same as original data', () => {
-        // const sortCase3: number[] = Array.from(new Array<number>(100), () => Math.floor(Math.random() * 2));
-        //
-        // const minPriorityQueue = new MinPriorityQueue<number>({nodes: sortCase3});
-        // const nodeCount = minPriorityQueue.getNodes().length;
-        // const sorted = minPriorityQueue.sort();
-
-        // expect(sorted.length).toBe(nodeCount); // TODO Plan to support sorting of duplicate elements.
-    });
 });
