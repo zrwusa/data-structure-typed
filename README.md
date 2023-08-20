@@ -19,6 +19,15 @@ Hash, Coordinate Set, Coordinate Map, Heap, Priority Queue, Max Priority Queue, 
 
 [Live Examples](https://data-structure-typed-examples.vercel.app)
 
+
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/dfs-pre-order.webp)
+
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/test-graphs.webp)
+
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/cut-off-trees-for-golf.webp)
+
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/parenthesis-check.webp)
+
 <a href="https://data-structure-typed-examples.vercel.app" target="_blank">Live Examples</a>
 
 ## install
