@@ -1,4 +1,5 @@
 import {DoublyLinkedList} from '../../../../src';
+import {magnitude} from '../constants';
 
 describe('DoublyLinkedList Operation Test', () => {
     let list: DoublyLinkedList<number>;
@@ -39,19 +40,19 @@ describe('DoublyLinkedList Operation Test', () => {
         list.push(3);
 
         // Inserting at the beginning
-        list.insert(0, 0);
+        list.insertAt(0, 0);
         expect(list.length).toBe(4);
         expect(list.getAt(0)).toBe(0);
         expect(list.getAt(1)).toBe(1);
 
         // Inserting in the middle
-        list.insert(2, 1.5);
+        list.insertAt(2, 1.5);
         expect(list.length).toBe(5);
         expect(list.getAt(2)).toBe(1.5);
         expect(list.getAt(3)).toBe(2);
 
         // Inserting at the end
-        list.insert(5, 4);
+        list.insertAt(5, 4);
         expect(list.length).toBe(6);
         expect(list.getAt(5)).toBe(4);
         expect(list.tail!.val).toBe(4);
@@ -344,24 +345,21 @@ describe('DoublyLinkedList Operation Test', () => {
 describe('DoublyLinkedList Performance Test', () => {
     describe('should the push and pop methods adhere to a time complexity of O(n) and executed correctly under large scale data', () => {
         const list = new DoublyLinkedList<number>();
-        const iterations = 10000;
 
         const startPushTime = performance.now();
-        for (let i = 0; i < iterations; i++) {
+        for (let i = 0; i < magnitude.LINEAR; i++) {
             list.unshift(i);
         }
-        expect(performance.now() - startPushTime).toBeLessThan(iterations * 1000);
+        expect(performance.now() - startPushTime).toBeLessThan(magnitude.LINEAR * 1000);
 
         const startPopTime = performance.now();
 
         expect(list.length).toBeGreaterThan(0);
-        for (let i = 0; i < iterations; i++) {
+        for (let i = 0; i < magnitude.LINEAR; i++) {
             list.shift();
         }
         expect(list.pop()).toBeNull();
         expect(list.length).toBe(0);
-        expect(performance.now() - startPopTime).toBeLessThan(iterations * 1000);
-
+        expect(performance.now() - startPopTime).toBeLessThan(magnitude.LINEAR * 1000);
     });
-
 });

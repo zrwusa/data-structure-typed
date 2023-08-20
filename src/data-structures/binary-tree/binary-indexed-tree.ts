@@ -61,7 +61,7 @@ export class BinaryIndexedTree {
      * the sum.
      * @returns the sum of the elements in the range specified by the start and end indices.
      */
-    public getRangeSum(start: number, end: number): number {
+    getRangeSum(start: number, end: number): number {
         if (!(0 <= start && start <= end && end <= this._sumTree.length))
             throw 'Index out of bounds';
         return this.getPrefixSum(end) - this.getPrefixSum(start);

@@ -1,4 +1,5 @@
 import {SinglyLinkedList} from '../../../../src';
+import {magnitude} from '../constants';
 
 describe('SinglyLinkedList Operation Test', () => {
     let list: SinglyLinkedList<number>;
@@ -296,9 +297,9 @@ describe('SinglyLinkedList Operation Test', () => {
 
     describe('insert and toArray', () => {
         it('should insert elements and return array correctly', () => {
-            list.insert(0, 1);
-            list.insert(1, 3);
-            list.insert(1, 2);
+            list.insertAt(0, 1);
+            list.insertAt(1, 3);
+            list.insertAt(1, 2);
             expect(list.toArray()).toEqual([1, 2, 3]);
         });
     });
@@ -381,21 +382,20 @@ describe('SinglyLinkedList Operation Test', () => {
 describe('SinglyLinkedList Performance Test', () => {
     describe('should the push and pop methods adhere to a time complexity of O(n) and executed correctly under large scale data', () => {
         const list = new SinglyLinkedList<number>();
-        const iterations = 10000; // Adjust the number of iterations as needed
 
         const startPushTime = performance.now();
-        for (let i = 0; i < iterations; i++) {
+        for (let i = 0; i < magnitude.LINEAR; i++) {
             list.push(i);
         }
-        expect(performance.now() - startPushTime).toBeLessThan(iterations * 1000);
+        expect(performance.now() - startPushTime).toBeLessThan(magnitude.LINEAR * 1000);
 
         const startPopTime = performance.now();
 
-        for (let i = 0; i < iterations; i++) {
+        for (let i = 0; i < magnitude.LINEAR; i++) {
             list.pop();
         }
 
-        expect(performance.now() - startPopTime).toBeLessThan(iterations * 1000);
+        expect(performance.now() - startPopTime).toBeLessThan(magnitude.LINEAR * 1000);
 
     });
 });

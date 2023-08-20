@@ -243,7 +243,7 @@ export class DoublyLinkedList<T> {
      * @returns The `insert` method returns a boolean value. It returns `true` if the insertion is successful, and `false`
      * if the index is out of bounds.
      */
-    insert(index: number, val: T): boolean {
+    insertAt(index: number, val: T): boolean {
         if (index < 0 || index > this.length) return false;
         if (index === 0) {
             this.unshift(val);
@@ -286,30 +286,37 @@ export class DoublyLinkedList<T> {
         return removedNode!.val;
     }
 
+    delete(valOrNode: T): boolean;
+    delete(valOrNode: DoublyLinkedListNode<T>): boolean;
     /**
-     * The `delete` function removes a node with a specific value from a doubly linked list.
-     * @param {T} val - The `val` parameter represents the value that you want to delete from the linked list.
-     * @returns The `delete` method returns a boolean value. It returns `true` if the value `val` is found and deleted from
-     * the linked list, and `false` if the value is not found in the linked list.
+     * The `delete` function removes a node from a doubly linked list based on either the node itself or its value.
+     * @param {T | DoublyLinkedListNode<T>} valOrNode - The `valOrNode` parameter can accept either a value of type `T` or
+     * a `DoublyLinkedListNode<T>` object.
+     * @returns The `delete` method returns a boolean value. It returns `true` if the value or node was successfully
+     * deleted from the doubly linked list, and `false` if the value or node was not found in the list.
      */
-    delete(val: T): boolean {
-        let current = this.head;
-        while (current) {
-            if (current.val === val) {
-                if (current === this.head) {
-                    this.shift();
-                } else if (current === this.tail) {
-                    this.pop();
-                } else {
-                    const prevNode = current.prev;
-                    const nextNode = current.next;
-                    prevNode!.next = nextNode;
-                    nextNode!.prev = prevNode;
-                    this.length--;
-                }
-                return true;
+    delete(valOrNode: T | DoublyLinkedListNode<T>): boolean {
+        let node: DoublyLinkedListNode<T> | null;
+
+        if (valOrNode instanceof DoublyLinkedListNode<T>) {
+            node = valOrNode;
+        } else {
+            node = this.findNode(valOrNode);
+        }
+
+        if (node) {
+            if (node === this.head) {
+                this.shift();
+            } else if (node === this.tail) {
+                this.pop();
+            } else {
+                const prevNode = node.prev;
+                const nextNode = node.next;
+                prevNode!.next = nextNode;
+                nextNode!.prev = prevNode;
+                this.length--;
             }
-            current = current.next;
+            return true;
         }
         return false;
     }
@@ -494,16 +501,25 @@ export class DoublyLinkedList<T> {
         return accumulator;
     }
 
+    insertAfter(existingValueOrNode: T, newValue: T): boolean;
+    insertAfter(existingValueOrNode: DoublyLinkedListNode<T>, newValue: T): boolean;
     /**
-     * The function inserts a new value after an existing value in a doubly linked list.
-     * @param {T} existingValue - The existing value is the value of the node after which we want to insert the new value.
-     * @param {T} newValue - The `newValue` parameter represents the value of the new node that you want to insert after
-     * the existing node.
-     * @returns The method is returning a boolean value. It returns true if the insertion is successful and false if the
-     * existing value is not found in the linked list.
+     * The `insertAfter` function inserts a new node with a given value after an existing node in a doubly linked list.
+     * @param {T | DoublyLinkedListNode<T>} existingValueOrNode - The existing value or node in the doubly linked list
+     * after which the new value will be inserted. It can be either the value of the existing node or the existing node
+     * itself.
+     * @param {T} newValue - The value that you want to insert into the doubly linked list.
+     * @returns The method returns a boolean value. It returns true if the insertion is successful, and false if the
+     * existing value or node is not found in the doubly linked list.
      */
-    insertAfter(existingValue: T, newValue: T): boolean {
-        const existingNode = this.findNode(existingValue);
+    insertAfter(existingValueOrNode: T | DoublyLinkedListNode<T>, newValue: T): boolean {
+        let existingNode;
+
+        if (existingValueOrNode instanceof DoublyLinkedListNode<T>) {
+            existingNode = existingValueOrNode;
+        } else {
+            existingNode = this.findNode(existingValueOrNode);
+        }
 
         if (existingNode) {
             const newNode = new DoublyLinkedListNode(newValue);
@@ -523,16 +539,26 @@ export class DoublyLinkedList<T> {
         return false;
     }
 
+    insertBefore(existingValueOrNode: T, newValue: T): boolean;
+    insertBefore(existingValueOrNode: DoublyLinkedListNode<T>, newValue: T): boolean;
     /**
-     * The `insertBefore` function inserts a new value before an existing value in a doubly linked list.
-     * @param {T} existingValue - The existing value is the value of the node that you want to insert the new value before.
-     * @param {T} newValue - The `newValue` parameter represents the value of the new node that you want to insert before
-     * the existing node.
-     * @returns The method is returning a boolean value. It returns true if the insertion is successful and false if the
-     * existing value is not found in the linked list.
+     * The `insertBefore` function inserts a new value before an existing value or node in a doubly linked list.
+     * @param {T | DoublyLinkedListNode<T>} existingValueOrNode - The existing value or node in the doubly linked list
+     * before which the new value will be inserted. It can be either the value of the existing node or the existing node
+     * itself.
+     * @param {T} newValue - The `newValue` parameter represents the value that you want to insert into the doubly linked
+     * list.
+     * @returns The method returns a boolean value. It returns `true` if the insertion is successful, and `false` if the
+     * insertion fails.
      */
-    insertBefore(existingValue: T, newValue: T): boolean {
-        const existingNode = this.findNode(existingValue);
+    insertBefore(existingValueOrNode: T | DoublyLinkedListNode<T>, newValue: T): boolean {
+        let existingNode;
+
+        if (existingValueOrNode instanceof DoublyLinkedListNode<T>) {
+            existingNode = existingValueOrNode;
+        } else {
+            existingNode = this.findNode(existingValueOrNode);
+        }
 
         if (existingNode) {
             const newNode = new DoublyLinkedListNode(newValue);

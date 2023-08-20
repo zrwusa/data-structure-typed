@@ -1,4 +1,5 @@
 import {MaxPriorityQueue} from '../../../../src';
+import {magnitude} from '../constants';
 
 describe('MaxPriorityQueue Operation Test', () => {
 
@@ -79,9 +80,8 @@ describe('MaxPriorityQueue Operation Test', () => {
 describe('MaxPriorityQueue Performance Test', () => {
 
     it('should the poll method adheres to a time complexity of O(log n) and executed correctly under large scale distinct data', () => {
-        const magnitude = 10000;
-        const nodes = Array.from(new Set<number>(Array.from(new Array(magnitude), () => Math.floor(Math.random() * magnitude * 100))));
-        expect(nodes.length).toBeGreaterThan(magnitude / 2);
+        const nodes = Array.from(new Set<number>(Array.from(new Array(magnitude.LINEAR), () => Math.floor(Math.random() * magnitude.LINEAR * 100))));
+        expect(nodes.length).toBeGreaterThan(magnitude.LINEAR / 2);
         const maxPQ = new MaxPriorityQueue<number>({nodes});
 
         let prev = Number.MAX_SAFE_INTEGER;
@@ -93,7 +93,7 @@ describe('MaxPriorityQueue Performance Test', () => {
                 prev = polled;
             }
         }
-        expect(performance.now() - startTime).toBeLessThan(Math.log2(magnitude) * 1000);
+        expect(performance.now() - startTime).toBeLessThan(Math.log2(magnitude.LINEAR) * 1000);
     });
 
     it('should sorted.length to be the same as original data', () => {

@@ -33,7 +33,7 @@ export class Matrix2D {
      * The function returns a 2D array with three empty arrays.
      * @returns An empty 2-dimensional array with 3 empty arrays inside.
      */
-    public static get empty(): number[][] {
+    static get empty(): number[][] {
         return [[], [], []]
     }
 
@@ -41,7 +41,7 @@ export class Matrix2D {
      * The above function returns a 3x3 identity matrix.
      * @returns The method is returning a 2-dimensional array of numbers representing the identity matrix.
      */
-    public static get identity(): number[][] {
+    static get identity(): number[][] {
         return [
             [1, 0, 0],
             [0, 1, 0],
@@ -53,7 +53,7 @@ export class Matrix2D {
      * @returns The getter method is returning the value of the private variable `_matrix`, which is a two-dimensional
      * array of numbers.
      */
-    public get m(): number[][] {
+    get m(): number[][] {
         return this._matrix
     }
 
@@ -63,7 +63,7 @@ export class Matrix2D {
      * @returns A new instance of the Vector2D class is being returned. The values of the returned vector are taken from
      * the first column of the matrix.
      */
-    public get toVector(): Vector2D {
+    get toVector(): Vector2D {
         return new Vector2D(this._matrix[0][0], this._matrix[1][0])
     }
 
@@ -73,7 +73,7 @@ export class Matrix2D {
      * @param {Matrix2D} matrix2 - The parameter `matrix2` is a Matrix2D object.
      * @returns a new instance of the Matrix2D class, which is created using the result array.
      */
-    public static add(matrix1: Matrix2D, matrix2: Matrix2D): Matrix2D {
+    static add(matrix1: Matrix2D, matrix2: Matrix2D): Matrix2D {
         const result = Matrix2D.empty
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
@@ -90,7 +90,7 @@ export class Matrix2D {
      * representing the matrix elements.
      * @returns a new instance of the Matrix2D class, which is created using the result array.
      */
-    public static subtract(matrix1: Matrix2D, matrix2: Matrix2D): Matrix2D {
+    static subtract(matrix1: Matrix2D, matrix2: Matrix2D): Matrix2D {
         const result = Matrix2D.empty
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
@@ -106,7 +106,7 @@ export class Matrix2D {
      * @param {Matrix2D} matrix2 - The parameter `matrix2` is a 2D matrix of size 3x3.
      * @returns a new instance of the Matrix2D class, created using the result array.
      */
-    public static multiply(matrix1: Matrix2D, matrix2: Matrix2D): Matrix2D {
+    static multiply(matrix1: Matrix2D, matrix2: Matrix2D): Matrix2D {
         const result = Matrix2D.empty
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
@@ -126,7 +126,7 @@ export class Matrix2D {
      * @param {number} value - The `value` parameter is a number that you want to multiply each element of the `matrix` by.
      * @returns a new instance of the Matrix2D class, which is created using the result array.
      */
-    public static multiplyByValue(matrix: Matrix2D, value: number): Matrix2D {
+    static multiplyByValue(matrix: Matrix2D, value: number): Matrix2D {
         const result = Matrix2D.empty
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
@@ -142,7 +142,7 @@ export class Matrix2D {
      * @param {Vector2D} vector - The "vector" parameter is a 2D vector, represented by an object of type Vector2D.
      * @returns a Vector2D.
      */
-    public static multiplyByVector(matrix: Matrix2D, vector: Vector2D): Vector2D {
+    static multiplyByVector(matrix: Matrix2D, vector: Vector2D): Vector2D {
         return Matrix2D.multiply(matrix, new Matrix2D(vector)).toVector
     }
 
@@ -154,7 +154,7 @@ export class Matrix2D {
      * calculate the centerY value, which is the vertical center of the view.
      * @returns a Matrix2D object.
      */
-    public static view(width: number, height: number): Matrix2D {
+    static view(width: number, height: number): Matrix2D {
         const scaleStep = 1 // Scale every vector * scaleStep
         const centerX = width / 2
         const centerY = height / 2
@@ -172,7 +172,7 @@ export class Matrix2D {
      * should be scaled.
      * @returns the result of multiplying a new instance of Matrix2D by the given factor.
      */
-    public static scale(factor: number) {
+    static scale(factor: number) {
         return Matrix2D.multiplyByValue(new Matrix2D(), factor)
     }
 
@@ -181,7 +181,7 @@ export class Matrix2D {
      * @param {number} radians - The "radians" parameter is the angle in radians by which you want to rotate an object.
      * @returns The code is returning a new instance of a Matrix2D object.
      */
-    public static rotate(radians: number) {
+    static rotate(radians: number) {
         const cos = Math.cos(radians)
         const sin = Math.sin(radians)
 
@@ -197,7 +197,7 @@ export class Matrix2D {
      * and y, and an optional w component.
      * @returns The method is returning a new instance of the Matrix2D class.
      */
-    public static translate(vector: Vector2D): Matrix2D {
+    static translate(vector: Vector2D): Matrix2D {
         return new Matrix2D([
             [1, 0, vector.x],
             [0, 1, vector.y],
