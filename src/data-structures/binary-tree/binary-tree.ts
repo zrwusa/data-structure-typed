@@ -36,7 +36,7 @@ export class BinaryTreeNode<T> {
         this._count = count ?? 1;
     }
 
-    protected _id: BinaryTreeNodeId;
+    private _id: BinaryTreeNodeId;
 
     get id(): BinaryTreeNodeId {
         return this._id;
@@ -46,7 +46,7 @@ export class BinaryTreeNode<T> {
         this._id = v;
     }
 
-    protected _val: T;
+    private _val: T;
     get val(): T {
         return this._val;
     }
@@ -55,7 +55,7 @@ export class BinaryTreeNode<T> {
         this._val = v;
     }
 
-    protected _left?: BinaryTreeNode<T> | null;
+    private _left?: BinaryTreeNode<T> | null;
 
     get left(): BinaryTreeNode<T> | null | undefined {
         return this._left;
@@ -69,7 +69,7 @@ export class BinaryTreeNode<T> {
         this._left = v;
     }
 
-    protected _right?: BinaryTreeNode<T> | null;
+    private _right?: BinaryTreeNode<T> | null;
 
     get right(): BinaryTreeNode<T> | null | undefined {
         return this._right;
@@ -83,7 +83,7 @@ export class BinaryTreeNode<T> {
         this._right = v;
     }
 
-    protected _parent: BinaryTreeNode<T> | null | undefined;
+    private _parent: BinaryTreeNode<T> | null | undefined;
 
     get parent(): BinaryTreeNode<T> | null | undefined {
         return this._parent;
@@ -93,7 +93,7 @@ export class BinaryTreeNode<T> {
         this._parent = v;
     }
 
-    protected _familyPosition: FamilyPosition = FamilyPosition.root;
+    private _familyPosition: FamilyPosition = FamilyPosition.root;
 
     get familyPosition(): FamilyPosition {
         return this._familyPosition;
@@ -103,7 +103,7 @@ export class BinaryTreeNode<T> {
         this._familyPosition = v;
     }
 
-    protected _count = 1;
+    private _count = 1;
 
     get count(): number {
         return this._count;
@@ -113,7 +113,7 @@ export class BinaryTreeNode<T> {
         this._count = v;
     }
 
-    protected _height = 0;
+    private _height = 0;
 
     get height(): number {
         return this._height;
@@ -121,62 +121,6 @@ export class BinaryTreeNode<T> {
 
     set height(v: number) {
         this._height = v;
-    }
-
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getId(): BinaryTreeNodeId {
-        return this._id;
-    }
-
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getVal(): T {
-        return this._val;
-    }
-
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getLeft(): BinaryTreeNode<T> | null | undefined {
-        return this._left;
-    }
-
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getRight(): BinaryTreeNode<T> | null | undefined {
-        return this._right;
-    }
-
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getParent(): BinaryTreeNode<T> | null | undefined {
-        return this._parent;
-    }
-
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getFamilyPosition(): FamilyPosition {
-        return this._familyPosition;
-    }
-
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getCount(): number {
-        return this._count;
-    }
-
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getHeight(): number {
-        return this._height;
     }
 
     swapLocation(swapNode: BinaryTreeNode<T>): BinaryTreeNode<T> {
@@ -204,15 +148,6 @@ export class BinaryTreeNode<T> {
 }
 
 export class BinaryTree<T> {
-    protected _loopType: LoopType = LoopType.iterative;
-    protected _visitedId: BinaryTreeNodeId[] = [];
-    protected _visitedVal: Array<T> = [];
-    protected _visitedNode: BinaryTreeNode<T>[] = [];
-    protected _visitedCount: number[] = [];
-    protected _visitedLeftSum: number[] = [];
-    private readonly _autoIncrementId: boolean = false;
-    private _maxId: number = -1;
-    private readonly _isDuplicatedVal: boolean = false;
 
     /**
      * The constructor function accepts an optional options object and sets the values of loopType, autoIncrementId, and
@@ -236,59 +171,74 @@ export class BinaryTree<T> {
         }
     }
 
-    protected _root: BinaryTreeNode<T> | null = null;
+    private _loopType: LoopType = LoopType.iterative;
+
+    get loopType(): LoopType {
+        return this._loopType;
+    }
+
+    private _visitedId: BinaryTreeNodeId[] = [];
+    get visitedId(): BinaryTreeNodeId[] {
+        return this._visitedId;
+    }
+
+    private _visitedVal: Array<T> = [];
+
+    get visitedVal(): Array<T> {
+        return this._visitedVal;
+    }
+
+    private _visitedNode: BinaryTreeNode<T>[] = [];
+
+    get visitedNode(): BinaryTreeNode<T>[] {
+        return this._visitedNode;
+    }
+
+    private _visitedCount: number[] = [];
+
+    get visitedCount(): number[] {
+        return this._visitedCount;
+    }
+
+    private _visitedLeftSum: number[] = [];
+
+    get visitedLeftSum(): number[] {
+        return this._visitedLeftSum;
+    }
+
+    private _autoIncrementId: boolean = false;
+
+    get autoIncrementId(): boolean {
+        return this._autoIncrementId;
+    }
+
+    private _maxId: number = -1;
+
+    get maxId(): number {
+        return this._maxId;
+    }
+
+    private _isDuplicatedVal: boolean = false;
+
+    get isDuplicatedVal(): boolean {
+        return this._isDuplicatedVal;
+    }
+
+    private _root: BinaryTreeNode<T> | null = null;
 
     get root(): BinaryTreeNode<T> | null {
         return this._root;
     }
 
-    protected set root(v: BinaryTreeNode<T> | null) {
-        if (v) {
-            v.parent = null;
-            v.familyPosition = FamilyPosition.root;
-        }
-        this._root = v;
-    }
-
-    protected _size = 0;
+    private _size = 0;
 
     get size(): number {
         return this._size;
     }
 
-    protected set size(v: number) {
-        this._size = v;
-    }
-
-    protected _count = 0;
+    private _count = 0;
 
     get count(): number {
-        return this._count;
-    }
-
-    protected set count(v: number) {
-        this._count = v;
-    }
-
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Getters (using the same name as the property) while utilizing separate method names for Setters.
-     * @returns The method is returning either a BinaryTreeNode object of type T or null.
-     */
-    getRoot(): BinaryTreeNode<T> | null {
-        return this._root;
-    }
-
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getSize(): number {
-        return this._size;
-    }
-
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getCount(): number {
         return this._count;
     }
 
@@ -312,10 +262,10 @@ export class BinaryTree<T> {
      * The clear function resets the state of an object by setting its properties to their initial values.
      */
     clear() {
-        this.root = null;
-        this.size = 0;
-        this.count = 0;
-        this._maxId = -1;
+        this._setRoot(null);
+        this._setSize(0);
+        this._setCount(0);
+        this._setMaxId(-1);
     }
 
     /**
@@ -362,17 +312,17 @@ export class BinaryTree<T> {
                 existNode.count += count;
                 existNode.val = val;
                 if (needInsert !== null) {
-                    this.count += count;
+                    this._setCount(this.count + count);
                     inserted = existNode;
                 }
             } else {
                 inserted = _bfs(this.root, needInsert);
             }
         } else {
-            this.root = val !== null ? new BinaryTreeNode<T>(id, val, count) : null;
+            this._setRoot(val !== null ? new BinaryTreeNode<T>(id, val, count) : null);
             if (needInsert !== null) {
-                this.size = 1;
-                this.count = count;
+                this._setSize(1);
+                this._setCount(count);
             }
             inserted = this.root;
         }
@@ -396,8 +346,8 @@ export class BinaryTree<T> {
                 }
                 parent.left = newNode;
                 if (newNode !== null) {
-                    this.size++;
-                    this.count += newNode?.count ?? 0;
+                    this._setSize(this.size + 1);
+                    this._setCount(this.count + newNode?.count ?? 0)
                 }
 
                 return parent.left;
@@ -408,8 +358,8 @@ export class BinaryTree<T> {
                 }
                 parent.right = newNode;
                 if (newNode !== null) {
-                    this.size++;
-                    this.count += newNode?.count ?? 0;
+                    this._setSize(this.size + 1);
+                    this._setCount(this.count + newNode?.count ?? 0);
                 }
                 return parent.right;
             } else {
@@ -497,27 +447,27 @@ export class BinaryTree<T> {
         if (!node) node = undefined;
         else if (node.count > 1 && !ignoreCount) {
             node.count--;
-            this.count--;
+            this._setCount(this.count - 1);
         } else if (node instanceof BinaryTreeNode) {
             const [subSize, subCount] = this.getSubTreeSizeAndCount(node);
 
             switch (node.familyPosition) {
                 case 0:
-                    this.size -= subSize;
-                    this.count -= subCount;
+                    this._setSize(this.size - subSize);
+                    this._setCount(this.count - subCount);
                     node = undefined;
                     break;
                 case 1:
                     if (node.parent) {
-                        this.size -= subSize;
-                        this.count -= subCount;
+                        this._setSize(this.size - subSize);
+                        this._setCount(this.count - subCount);
                         node.parent.left = null;
                     }
                     break;
                 case 2:
                     if (node.parent) {
-                        this.size -= subSize;
-                        this.count -= subCount;
+                        this._setSize(this.size - subSize);
+                        this._setCount(this.count - subCount);
                         node.parent.right = null;
                     }
                     break;
@@ -805,8 +755,6 @@ export class BinaryTree<T> {
         }
     }
 
-    // --- start additional methods ---
-
     /**
      * The `isBST` function checks if a binary tree is a binary search tree.
      * @param {BinaryTreeNode<T> | null} [node] - The `node` parameter is an optional parameter of type `BinaryTreeNode<T>
@@ -880,6 +828,8 @@ export class BinaryTree<T> {
             return res;
         }
     }
+
+    // --- start additional methods ---
 
     /**
      * The function `subTreeSum` calculates the sum of a specified property in a binary tree, either recursively or
@@ -958,7 +908,7 @@ export class BinaryTree<T> {
                     break;
                 case 'count':
                     cur.count += delta;
-                    this.count += delta;
+                    this._setCount(this.count + delta);
                     break;
                 default:
                     cur.id += delta;
@@ -1376,6 +1326,58 @@ export class BinaryTree<T> {
         }
 
         return this._getResultByPropertyName(nodeOrPropertyName);
+    }
+
+    protected _setLoopType(value: LoopType) {
+        this._loopType = value;
+    }
+
+    protected _setVisitedId(value: BinaryTreeNodeId[]) {
+        this._visitedId = value;
+    }
+
+    protected _setVisitedVal(value: Array<T>) {
+        this._visitedVal = value;
+    }
+
+    protected _setVisitedNode(value: BinaryTreeNode<T>[]) {
+        this._visitedNode = value;
+    }
+
+    protected setVisitedCount(value: number[]) {
+        this._visitedCount = value;
+    }
+
+    protected _setVisitedLeftSum(value: number[]) {
+        this._visitedLeftSum = value;
+    }
+
+    protected _setAutoIncrementId(value: boolean) {
+        this._autoIncrementId = value;
+    }
+
+    protected _setMaxId(value: number) {
+        this._maxId = value;
+    }
+
+    protected _setIsDuplicatedVal(value: boolean) {
+        this._isDuplicatedVal = value;
+    }
+
+    protected _setRoot(v: BinaryTreeNode<T> | null) {
+        if (v) {
+            v.parent = null;
+            v.familyPosition = FamilyPosition.root;
+        }
+        this._root = v;
+    }
+
+    protected _setSize(v: number) {
+        this._size = v;
+    }
+
+    protected _setCount(v: number) {
+        this._count = v;
     }
 
     /**

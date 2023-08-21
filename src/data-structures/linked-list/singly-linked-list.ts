@@ -75,10 +75,6 @@ export class SinglyLinkedList<T> {
         return this._length;
     }
 
-    protected set length(value: number) {
-        this._length = value;
-    }
-
     /**
      * The `fromArray` function creates a new SinglyLinkedList instance and populates it with the elements from the given
      * array.
@@ -111,7 +107,7 @@ export class SinglyLinkedList<T> {
             this.tail!.next = newNode;
             this.tail = newNode;
         }
-        this.length++;
+        this._length++;
     }
 
     /**
@@ -126,7 +122,7 @@ export class SinglyLinkedList<T> {
             const val = this.head.val;
             this.head = null;
             this.tail = null;
-            this.length--;
+            this._length--;
             return val;
         }
 
@@ -137,7 +133,7 @@ export class SinglyLinkedList<T> {
         const val = this.tail!.val;
         current.next = null;
         this.tail = current;
-        this.length--;
+        this._length--;
         return val;
     }
 
@@ -149,7 +145,7 @@ export class SinglyLinkedList<T> {
         if (!this.head) return null;
         const removedNode = this.head;
         this.head = this.head.next;
-        this.length--;
+        this._length--;
         return removedNode.val;
     }
 
@@ -167,7 +163,7 @@ export class SinglyLinkedList<T> {
             newNode.next = this.head;
             this.head = newNode;
         }
-        this.length++;
+        this._length++;
     }
 
     /**
@@ -216,7 +212,7 @@ export class SinglyLinkedList<T> {
         const prevNode = this.getNodeAt(index - 1);
         const removedNode = prevNode!.next;
         prevNode!.next = removedNode!.next;
-        this.length--;
+        this._length--;
         return removedNode!.val;
     }
 
@@ -231,7 +227,7 @@ export class SinglyLinkedList<T> {
      */
     delete(valueOrNode: T | SinglyLinkedListNode<T>): boolean {
         let value: T;
-        if (valueOrNode instanceof SinglyLinkedListNode<T>) {
+        if (valueOrNode instanceof SinglyLinkedListNode) {
             value = valueOrNode.val;
         } else {
             value = valueOrNode;
@@ -251,7 +247,7 @@ export class SinglyLinkedList<T> {
                         this.tail = prev;
                     }
                 }
-                this.length--;
+                this._length--;
                 return true;
             }
             prev = current;
@@ -285,7 +281,7 @@ export class SinglyLinkedList<T> {
         const prevNode = this.getNodeAt(index - 1);
         newNode.next = prevNode!.next;
         prevNode!.next = newNode;
-        this.length++;
+        this._length++;
         return true;
     }
 
@@ -415,7 +411,7 @@ export class SinglyLinkedList<T> {
         if (!this.head) return false;
 
         let existingValue: T;
-        if (existingValueOrNode instanceof SinglyLinkedListNode<T>) {
+        if (existingValueOrNode instanceof SinglyLinkedListNode) {
             existingValue = existingValueOrNode.val;
         } else {
             existingValue = existingValueOrNode;
@@ -431,7 +427,7 @@ export class SinglyLinkedList<T> {
                 const newNode = new SinglyLinkedListNode(newValue);
                 newNode.next = current.next;
                 current.next = newNode;
-                this.length++;
+                this._length++;
                 return true;
             }
             current = current.next;
@@ -466,7 +462,7 @@ export class SinglyLinkedList<T> {
             if (existingNode === this.tail) {
                 this.tail = newNode;
             }
-            this.length++;
+            this._length++;
             return true;
         }
 

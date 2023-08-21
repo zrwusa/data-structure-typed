@@ -23,18 +23,10 @@ export class AbstractVertex {
     set id(v: VertexId) {
         this._id = v;
     }
-
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getId(): VertexId {
-        return this._id;
-    }
 }
 
 export abstract class AbstractEdge {
 
-    static DEFAULT_EDGE_WEIGHT = 1;
 
     /**
      * The function is a protected constructor that initializes the weight and generates a unique hash code for an edge.
@@ -42,12 +34,12 @@ export abstract class AbstractEdge {
      * no weight is provided, it will default to the value of `AbstractEdge.DEFAULT_EDGE_WEIGHT`.
      */
     protected constructor(weight?: number) {
-        if (weight === undefined) weight = AbstractEdge.DEFAULT_EDGE_WEIGHT;
-        this._weight = weight;
+        this._weight = weight !== undefined ? weight : 1;
         this._hashCode = uuidV4();
     }
 
-    private _weight: number;
+    protected _weight: number;
+
     get weight(): number {
         return this._weight;
     }
@@ -56,28 +48,14 @@ export abstract class AbstractEdge {
         this._weight = v;
     }
 
-    private _hashCode: string;
+    protected _hashCode: string;
 
     get hashCode(): string {
         return this._hashCode;
     }
 
-    set hashCode(v: string) {
+    protected _setHashCode(v: string) {
         this._hashCode = v;
-    }
-
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getWeight(): number {
-        return this._weight;
-    }
-
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getHashCode(): string {
-        return this._hashCode;
     }
 }
 
@@ -411,7 +389,7 @@ export abstract class AbstractGraph<V extends AbstractVertex, E extends Abstract
      * @returns The function `dijkstraWithoutHeap` returns an object of type `DijkstraResult<V>`.
      */
     dijkstraWithoutHeap(src: V | VertexId, dest?: V | VertexId | null, getMinDist?: boolean, genPaths?: boolean): DijkstraResult<V> {
-        if (getMinDist === undefined) getMinDist = false;
+        if (getMinDist === undefined) getMinDist = false ;
         if (genPaths === undefined) genPaths = false;
 
         if (dest === undefined) dest = null;

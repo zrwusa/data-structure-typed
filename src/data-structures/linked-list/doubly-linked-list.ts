@@ -86,10 +86,6 @@ export class DoublyLinkedList<T> {
         return this._length;
     }
 
-    protected set length(value: number) {
-        this._length = value;
-    }
-
     /**
      * The `fromArray` function creates a new instance of a DoublyLinkedList and populates it with the elements from the
      * given array.
@@ -102,10 +98,6 @@ export class DoublyLinkedList<T> {
             doublyLinkedList.push(item);
         }
         return doublyLinkedList;
-    }
-
-    getLength(): number {
-        return this._length;
     }
 
     /**
@@ -122,7 +114,7 @@ export class DoublyLinkedList<T> {
             this.tail!.next = newNode;
             this.tail = newNode;
         }
-        this.length++;
+        this._length++;
     }
 
     /**
@@ -140,7 +132,7 @@ export class DoublyLinkedList<T> {
             this.tail = removedNode.prev;
             this.tail!.next = null;
         }
-        this.length--;
+        this._length--;
         return removedNode.val;
     }
 
@@ -159,7 +151,7 @@ export class DoublyLinkedList<T> {
             this.head = removedNode.next;
             this.head!.prev = null;
         }
-        this.length--;
+        this._length--;
         return removedNode.val;
     }
 
@@ -178,7 +170,7 @@ export class DoublyLinkedList<T> {
             this.head!.prev = newNode;
             this.head = newNode;
         }
-        this.length++;
+        this._length++;
     }
 
     /**
@@ -261,7 +253,7 @@ export class DoublyLinkedList<T> {
         newNode.next = nextNode;
         prevNode!.next = newNode;
         nextNode!.prev = newNode;
-        this.length++;
+        this._length++;
         return true;
     }
 
@@ -282,7 +274,7 @@ export class DoublyLinkedList<T> {
         const nextNode = removedNode!.next;
         prevNode!.next = nextNode;
         nextNode!.prev = prevNode;
-        this.length--;
+        this._length--;
         return removedNode!.val;
     }
 
@@ -298,7 +290,7 @@ export class DoublyLinkedList<T> {
     delete(valOrNode: T | DoublyLinkedListNode<T>): boolean {
         let node: DoublyLinkedListNode<T> | null;
 
-        if (valOrNode instanceof DoublyLinkedListNode<T>) {
+        if (valOrNode instanceof DoublyLinkedListNode) {
             node = valOrNode;
         } else {
             node = this.findNode(valOrNode);
@@ -314,7 +306,7 @@ export class DoublyLinkedList<T> {
                 const nextNode = node.next;
                 prevNode!.next = nextNode;
                 nextNode!.prev = prevNode;
-                this.length--;
+                this._length--;
             }
             return true;
         }
@@ -515,7 +507,7 @@ export class DoublyLinkedList<T> {
     insertAfter(existingValueOrNode: T | DoublyLinkedListNode<T>, newValue: T): boolean {
         let existingNode;
 
-        if (existingValueOrNode instanceof DoublyLinkedListNode<T>) {
+        if (existingValueOrNode instanceof DoublyLinkedListNode) {
             existingNode = existingValueOrNode;
         } else {
             existingNode = this.findNode(existingValueOrNode);
@@ -532,7 +524,7 @@ export class DoublyLinkedList<T> {
             if (existingNode === this.tail) {
                 this.tail = newNode;
             }
-            this.length++;
+            this._length++;
             return true;
         }
 
@@ -554,7 +546,7 @@ export class DoublyLinkedList<T> {
     insertBefore(existingValueOrNode: T | DoublyLinkedListNode<T>, newValue: T): boolean {
         let existingNode;
 
-        if (existingValueOrNode instanceof DoublyLinkedListNode<T>) {
+        if (existingValueOrNode instanceof DoublyLinkedListNode) {
             existingNode = existingValueOrNode;
         } else {
             existingNode = this.findNode(existingValueOrNode);
@@ -571,7 +563,7 @@ export class DoublyLinkedList<T> {
             if (existingNode === this.head) {
                 this.head = newNode;
             }
-            this.length++;
+            this._length++;
             return true;
         }
 

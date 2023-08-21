@@ -6,12 +6,21 @@
  * @license MIT License
  */
 export class TrieNode {
-    protected _value;
 
     constructor(v: string) {
-        this._value = v;
+        this._val = v;
         this._isEnd = false;
         this._children = new Map<string, TrieNode>();
+    }
+
+    private _val;
+
+    get val(): string {
+        return this._val;
+    }
+
+    set val(v: string) {
+        this._val = v;
     }
 
     protected _children: Map<string, TrieNode>;
@@ -34,13 +43,6 @@ export class TrieNode {
         this._isEnd = v;
     }
 
-    get val(): string {
-        return this._value;
-    }
-
-    set val(v: string) {
-        this._value = v;
-    }
 }
 
 export class Trie {

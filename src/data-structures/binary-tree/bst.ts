@@ -54,9 +54,9 @@ export class BST<T> extends BinaryTree<T> {
         let inserted: BSTNode<T> | null = null;
         const newNode = this.createNode(id, val, count);
         if (this.root === null) {
-            this.root = newNode;
-            this.size++;
-            this.count += newNode?.count ?? 1;
+            this._setRoot(newNode);
+            this._setSize(this.size + 1);
+            this._setCount(this.count + count);
             inserted = (this.root);
         } else {
             let cur = this.root;
@@ -66,7 +66,7 @@ export class BST<T> extends BinaryTree<T> {
                     if (this._compare(cur.id, id) === CP.eq) {
                         if (newNode) {
                             cur.count += newNode.count;
-                            this.count += newNode.count;
+                            this._setCount(this.count + newNode.count);
                             cur.val = newNode.val;
                         }
                         //Duplicates are not accepted.
@@ -81,8 +81,8 @@ export class BST<T> extends BinaryTree<T> {
                             }
                             //Add to the left of the current node
                             cur.left = newNode;
-                            this.size++;
-                            this.count += newNode.count;
+                            this._setSize(this.size + 1);
+                            this._setCount(this.count + newNode.count);
                             traversing = false;
                             inserted = cur.left;
                         } else {
@@ -98,8 +98,8 @@ export class BST<T> extends BinaryTree<T> {
                             }
                             //Add to the right of the current node
                             cur.right = newNode;
-                            this.size++;
-                            this.count += newNode.count;
+                            this._setSize(this.size + 1);
+                            this._setCount(this.count + newNode.count);
                             traversing = false;
                             inserted = (cur.right);
                         } else {
@@ -165,11 +165,11 @@ export class BST<T> extends BinaryTree<T> {
 
         if (curr.count > 1 && !ignoreCount) {
             curr.count--;
-            this.count--;
+            this._setCount(this.count - 1);
         } else {
             if (!curr.left) {
                 if (!parent) {
-                    if (curr.right !== undefined) this.root = curr.right;
+                    if (curr.right !== undefined) this._setRoot(curr.right);
                 } else {
                     switch (curr.familyPosition) {
                         case FamilyPosition.left:
@@ -193,8 +193,8 @@ export class BST<T> extends BinaryTree<T> {
                     }
                 }
             }
-            this.size--;
-            this.count -= curr.count;
+            this._setSize(this.size - 1);
+            this._setCount(this.count - curr.count);
         }
 
         bstDeletedResult.push({deleted: orgCurrent, needBalanced});
@@ -219,7 +219,7 @@ export class BST<T> extends BinaryTree<T> {
         if (!this.root) return [];
         const result: BSTNode<T>[] = [];
 
-        if (this._loopType === LoopType.recursive) {
+        if (this.loopType === LoopType.recursive) {
             const _traverse = (cur: BSTNode<T>) => {
                 if (this._pushByPropertyNameStopOrNot(cur, result, nodeProperty, propertyName, onlyOne)) return;
 
@@ -287,7 +287,7 @@ export class BST<T> extends BinaryTree<T> {
 
         let sum = 0;
 
-        if (this._loopType === LoopType.recursive) {
+        if (this.loopType === LoopType.recursive) {
             const _traverse = (cur: BSTNode<T>): void => {
                 const compared = this._compare(cur.id, id);
                 if (compared === CP.eq) {
@@ -360,7 +360,7 @@ export class BST<T> extends BinaryTree<T> {
             }
         }
 
-        if (this._loopType === LoopType.recursive) {
+        if (this.loopType === LoopType.recursive) {
             const _traverse = (cur: BSTNode<T>) => {
                 const compared = this._compare(cur.id, node.id);
                 _sumByPropertyName(cur);
@@ -398,7 +398,7 @@ export class BST<T> extends BinaryTree<T> {
         this.clear();
 
         if (sorted.length < 1) return false;
-        if (this._loopType === LoopType.recursive) {
+        if (this.loopType === LoopType.recursive) {
             const buildBalanceBST = (l: number, r: number) => {
                 if (l > r) return;
                 const m = l + Math.floor((r - l) / 2);
@@ -439,7 +439,7 @@ export class BST<T> extends BinaryTree<T> {
 
         let balanced = true;
 
-        if (this._loopType === LoopType.recursive) {
+        if (this.loopType === LoopType.recursive) {
             const _height = (cur: BSTNode<T> | null | undefined): number => {
                 if (!cur) return 0;
                 const leftHeight = _height(cur.left), rightHeight = _height(cur.right);

@@ -1,24 +1,50 @@
 export class TreeNode<T = number> {
-    id: string;
-    name?: string | undefined;
-    value?: T | undefined;
-    children?: TreeNode<T>[] | undefined;
-
     constructor(id: string, name?: string, value?: T, children?: TreeNode<T>[]) {
-        this.id = id;
-        this.name = name || '';
-        this.value = value || undefined;
-        this.children = children || [];
+        this._id = id;
+        this._name = name || '';
+        this._value = value || undefined;
+        this._children = children || [];
     }
 
-    // TODO get set
-    // get name (): string | undefined {
-    //     return this.name;
-    // }
-    //
-    // set name (name: string | undefined) {
-    //     this.name = name;
-    // }
+    private _id: string;
+
+    get id(): string {
+        return this._id;
+    }
+
+    set id(value: string) {
+        this._id = value;
+    }
+
+    private _name?: string | undefined;
+
+    get name(): string | undefined {
+        return this._name;
+    }
+
+    set name(value: string | undefined) {
+        this._name = value;
+    }
+
+    private _value?: T | undefined;
+
+    get value(): T | undefined {
+        return this._value;
+    }
+
+    set value(value: T | undefined) {
+        this._value = value;
+    }
+
+    private _children?: TreeNode<T>[] | undefined;
+
+    get children(): TreeNode<T>[] | undefined {
+        return this._children;
+    }
+
+    set children(value: TreeNode<T>[] | undefined) {
+        this._children = value;
+    }
 
     addChildren(children: TreeNode<T> | TreeNode<T> []) {
         if (!this.children) {

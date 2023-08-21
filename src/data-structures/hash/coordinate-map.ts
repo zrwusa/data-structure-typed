@@ -17,17 +17,6 @@ export class CoordinateMap<V> extends Map<any, V> {
         return this._joint;
     }
 
-    protected set joint(v: string) {
-        this._joint = v;
-    }
-
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getJoint(): string {
-        return this._joint;
-    }
-
     /**
      * The "has" function overrides the base class's "has" function and checks if a key exists in the map by joining the
      * key array with a specified delimiter.
@@ -70,5 +59,9 @@ export class CoordinateMap<V> extends Map<any, V> {
      */
     override delete(key: number[]) {
         return super.delete(key.join(this._joint));
+    }
+
+    protected _setJoint(v: string) {
+        this._joint = v;
     }
 }

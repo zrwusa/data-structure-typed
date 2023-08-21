@@ -17,17 +17,6 @@ export class CoordinateSet extends Set {
         return this._joint;
     }
 
-    protected set joint(v: string) {
-        this._joint = v;
-    }
-
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getJoint(): string {
-        return this._joint;
-    }
-
     /**
      * The "has" function overrides the "has" method of the superclass and checks if a value exists in an array after
      * joining its elements with a specified separator.
@@ -59,5 +48,9 @@ export class CoordinateSet extends Set {
      */
     override delete(value: number[]) {
         return super.delete(value.join(this._joint));
+    }
+
+    protected _setJoint(v: string) {
+        this._joint = v;
     }
 }

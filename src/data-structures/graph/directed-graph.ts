@@ -54,20 +54,6 @@ export class DirectedEdge extends AbstractEdge {
     set dest(v: VertexId) {
         this._dest = v;
     }
-
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getSrc(): VertexId {
-        return this._src;
-    }
-
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getDest(): VertexId {
-        return this._dest;
-    }
 }
 
 // Strongly connected, One direction connected, Weakly connected
@@ -332,20 +318,20 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
      * when stored with adjacency matrix time: O(V^2)
      * The `topologicalSort` function performs a topological sort on a graph and returns the sorted vertices in reverse
      * order, or null if the graph contains a cycle.
-     * @returns The `topologicalSort()` function returns an array of vertices (`V[]`) in topological order if there is no
-     * cycle in the graph. If there is a cycle, it returns `null`.
+     * @returns The function `topologicalSort()` returns an array of vertices in topological order if there is no cycle in
+     * the graph. If there is a cycle, it returns `null`.
      */
-    topologicalSort(): V[] | null {
+    topologicalSort(): Array<V | VertexId> | null {
         // When judging whether there is a cycle in the undirected graph, all nodes with degree of **<= 1** are enqueued
         // When judging whether there is a cycle in the directed graph, all nodes with **in degree = 0** are enqueued
-        const statusMap: Map<V, TopologicalStatus> = new Map<V, TopologicalStatus>();
+        const statusMap: Map<V | VertexId, TopologicalStatus> = new Map<V | VertexId, TopologicalStatus>();
         for (const entry of this._vertices) {
             statusMap.set(entry[1], 0);
         }
 
-        const sorted: (V)[] = [];
+        const sorted: (V | VertexId)[] = [];
         let hasCycle = false;
-        const dfs = (cur: V) => {
+        const dfs = (cur: V | VertexId) => {
             statusMap.set(cur, 1);
             const children = this.getDestinations(cur);
             for (const child of children) {

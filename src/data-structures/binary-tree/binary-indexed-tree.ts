@@ -6,7 +6,6 @@
  * @license MIT License
  */
 export class BinaryIndexedTree {
-    private readonly _sumTree: number[];
 
     /**
      * The constructor initializes an array with a specified length and fills it with zeros.
@@ -16,6 +15,12 @@ export class BinaryIndexedTree {
      */
     constructor(n: number) {
         this._sumTree = new Array<number>(n + 1).fill(0);
+    }
+
+    private _sumTree: number[];
+
+    get sumTree(): number[] {
+        return this._sumTree;
     }
 
     static lowBit(x: number) {
@@ -65,5 +70,9 @@ export class BinaryIndexedTree {
         if (!(0 <= start && start <= end && end <= this._sumTree.length))
             throw 'Index out of bounds';
         return this.getPrefixSum(end) - this.getPrefixSum(start);
+    }
+
+    protected _setSumTree(value: number[]) {
+        this._sumTree = value;
     }
 }

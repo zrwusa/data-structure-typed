@@ -60,17 +60,9 @@ export abstract class Heap<T = number> {
         return this._pq;
     }
 
-    protected set pq(v: PriorityQueue<HeapItem<T>>) {
-        this._pq = v;
-    }
-
     protected _priorityCb: (val: T) => number;
     get priorityCb() {
         return this._priorityCb;
-    }
-
-    protected set priorityCb(v: (val: T) => number) {
-        this._priorityCb = v;
     }
 
     /**
@@ -78,27 +70,6 @@ export abstract class Heap<T = number> {
      * @returns The size of the priority queue.
      */
     get size(): number {
-        return this._pq.size;
-    }
-
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getPq() {
-        return this._pq;
-    }
-
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getPriorityCb() {
-        return this._priorityCb;
-    }
-
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getSize(): number {
         return this._pq.size;
     }
 
@@ -179,10 +150,10 @@ export abstract class Heap<T = number> {
      * @returns a boolean value.
      */
     has(node: T | HeapItem<T>): boolean {
-        if (node instanceof HeapItem<T>) {
-            return this.getPq().getNodes().includes(node);
+        if (node instanceof HeapItem) {
+            return this.pq.getNodes().includes(node);
         } else {
-            return this.getPq().getNodes().findIndex(item => {
+            return this.pq.getNodes().findIndex(item => {
                 return item.val === node;
             }) !== -1;
         }

@@ -201,7 +201,7 @@ describe('DoublyLinkedList Operation Test', () => {
 
         list.clear();
 
-        expect(list.getLength()).toBe(0);
+        expect(list.length).toBe(0);
         expect(list.head).toBe(null);
         expect(list.tail).toBe(null);
     });

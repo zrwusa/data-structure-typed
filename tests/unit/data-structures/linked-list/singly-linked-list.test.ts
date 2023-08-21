@@ -148,7 +148,7 @@ describe('SinglyLinkedList Operation Test', () => {
             list.push(3);
             list.clear();
             expect(list.toArray()).toEqual([]);
-            expect(list.getLength()).toBe(0);
+            expect(list.length).toBe(0);
             expect(list.isEmpty()).toBe(true);
         });
     });
@@ -235,10 +235,10 @@ describe('SinglyLinkedList Operation Test', () => {
 
     describe('getLength', () => {
         it('should return the correct length of the list', () => {
-            expect(list.getLength()).toBe(0);
+            expect(list.length).toBe(0);
             list.push(1);
             list.push(2);
-            expect(list.getLength()).toBe(2);
+            expect(list.length).toBe(2);
         });
     });
 

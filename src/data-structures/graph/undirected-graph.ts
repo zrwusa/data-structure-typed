@@ -63,17 +63,6 @@ export class UndirectedGraph<V extends UndirectedVertex, E extends UndirectedEdg
         return this._edges;
     }
 
-    protected set edges(v: Map<V, E[]>) {
-        this._edges = v;
-    }
-
-    /**
-     * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
-     */
-    getEdges(): Map<V, E[]> {
-        return this._edges;
-    }
-
     /**
      * The function `getEdge` returns the first edge that connects two vertices, or null if no such edge exists.
      * @param {V | null | VertexId} v1 - The parameter `v1` represents either a vertex object (`V`) or a vertex ID
@@ -255,5 +244,9 @@ export class UndirectedGraph<V extends UndirectedVertex, E extends UndirectedEdg
         } else {
             return null;
         }
+    }
+
+    protected _setEdges(v: Map<V, E[]>) {
+        this._edges = v;
     }
 }

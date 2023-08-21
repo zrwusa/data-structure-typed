@@ -13,8 +13,8 @@
     "moduleResolution": "node",
     "declarationDir": "./dist",
     "skipLibCheck": true,
-        "downlevelIteration": true,
-
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
     //    "allowJs": true,
     //    "allowSyntheticDefaultImports": true,
     //    "forceConsistentCasingInFileNames": true,

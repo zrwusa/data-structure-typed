@@ -32,7 +32,7 @@ describe('MaxHeap Operation Test', () => {
         let i = 0;
         while (maxHeap.size > 0) {
             const polled = maxHeap.poll();
-            expect(polled).toBeInstanceOf(HeapItem<{ keyA: string }>);
+            expect(polled).toBeInstanceOf(HeapItem);
             polled && expect(polled.val).toHaveProperty('keyA');
             polled && polled.val && expect(polled.val.keyA).toBe(values[i]);
             i++;

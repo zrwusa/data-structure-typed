@@ -22,19 +22,19 @@ describe('MinHeap Operation Test', () => {
         expect(minNumHeap.size).toBe(6);
 
         const poll1 = minNumHeap.poll();
-        expect(poll1).toBeInstanceOf(HeapItem<number>)
+        expect(poll1).toBeInstanceOf(HeapItem)
         poll1 instanceof HeapItem && expect(poll1.val).toBe(0);
 
         const poll2 = minNumHeap.poll();
-        expect(poll2).toBeInstanceOf(HeapItem<number>)
+        expect(poll2).toBeInstanceOf(HeapItem)
         poll2 instanceof HeapItem && expect(poll2.val).toBe(1);
 
         const peek1 = minNumHeap.peek();
-        expect(peek1).toBeInstanceOf(HeapItem<number>)
+        expect(peek1).toBeInstanceOf(HeapItem)
         peek1 instanceof HeapItem && expect(peek1.val).toBe(2);
 
         const heapArray = minNumHeap.toArray();
-        expect(heapArray).toBeInstanceOf(Array<HeapItem>);
+        expect(heapArray).toBeInstanceOf(Array);
         expect(heapArray.map(item => item.priority)).toEqual([2, 5, 9, 6]);
         expect(minNumHeap.size).toBe(4);
     });
@@ -72,7 +72,7 @@ describe('MinHeap Operation Test', () => {
         let i = 0;
         while (minObjHeap.size > 0) {
             const polled = minObjHeap.poll();
-            expect(polled).toBeInstanceOf(HeapItem<MyObject>);
+            expect(polled).toBeInstanceOf(HeapItem);
             polled && expect(polled.val).toBeInstanceOf(MyObject);
             polled && polled.val && expect(polled.val.keyA).toBe(values[i]);
             i++;

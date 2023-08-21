@@ -141,7 +141,7 @@ export class AVLTree<T> extends BST<T> {
         }
         if (B) B.parent = parentOfA;
         if (A === this.root) {
-            if (B) this.root = B;
+            if (B) this._setRoot(B);
         } else {
             if (parentOfA?.left === A) {
                 parentOfA.left = B;
@@ -183,7 +183,7 @@ export class AVLTree<T> extends BST<T> {
         }
 
         if (A === this.root) {
-            if (C) this.root = C;
+            if (C) this._setRoot(C);
         } else {
             if (parentOfA) {
                 if (parentOfA.left === A) {
@@ -222,7 +222,7 @@ export class AVLTree<T> extends BST<T> {
         }
 
         if (A === this.root) {
-            if (B) this.root = B;
+            if (B) this._setRoot(B);
         } else {
             if (parentOfA) {
                 if (parentOfA.left === A) {
@@ -268,7 +268,7 @@ export class AVLTree<T> extends BST<T> {
 
 
         if (A === this.root) {
-            if (C) this.root = C;
+            if (C) this._setRoot(C);
         } else {
             if (parentOfA) {
                 if (parentOfA.left === A) {
