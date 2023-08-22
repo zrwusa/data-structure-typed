@@ -1,6 +1,8 @@
 import {AVLTreeNode} from '../binary-tree';
 
-export type AVLTreeDeleted<T> = {
-    deleted: AVLTreeNode<T> | null;
-    needBalanced: AVLTreeNode<T> | null;
+export type AVLTreeDeleted<N> = {
+    deleted: N | null;
+    needBalanced: N | null;
 }
+
+export type RecursiveAVLTreeNode<T> = AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, any>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

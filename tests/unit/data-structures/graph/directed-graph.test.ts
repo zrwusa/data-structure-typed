@@ -1,10 +1,10 @@
 import {DirectedEdge, DirectedGraph, DirectedVertex, VertexId} from '../../../../src';
 
 describe('DirectedGraph Operation Test', () => {
-    let graph: DirectedGraph<number, number>;
+    let graph: DirectedGraph<DirectedVertex, DirectedEdge>;
 
     beforeEach(() => {
-        graph = new DirectedGraph();
+        graph = new DirectedGraph(DirectedVertex, DirectedEdge);
     });
 
 
@@ -59,12 +59,11 @@ describe('DirectedGraph Operation Test', () => {
         graph.addEdge(edgeBC);
 
         const topologicalOrder = graph.topologicalSort();
-        if (topologicalOrder) expect(topologicalOrder.map(v => v instanceof DirectedVertex ? v.id: '')).toEqual(['A', 'B', 'C']);
+        if (topologicalOrder) expect(topologicalOrder.map(v => v instanceof DirectedVertex ? v.id : '')).toEqual(['A', 'B', 'C']);
     });
 });
 
 class MyVertex<V extends string> extends DirectedVertex<V> {
-
 
     constructor(id: VertexId, val?: V) {
         super(id, val);
@@ -84,7 +83,7 @@ class MyVertex<V extends string> extends DirectedVertex<V> {
 
 class MyEdge<E extends string> extends DirectedEdge<E> {
 
-    constructor(v1: VertexId, v2: VertexId, weight: number, val?: E) {
+    constructor(v1: VertexId, v2: VertexId, weight?: number, val?: E) {
         super(v1, v2, weight, val);
         this._data = val;
     }
@@ -100,21 +99,14 @@ class MyEdge<E extends string> extends DirectedEdge<E> {
     }
 }
 
-class MyDirectedGraph<V extends string, E extends string> extends DirectedGraph<V, E> {
-    _createVertex(id: VertexId, val?: V): MyVertex<V> {
-        return new MyVertex<V>(id, val);
-    }
+class MyDirectedGraph<V extends MyVertex<string>, E extends MyEdge<string>> extends DirectedGraph<V, E> {
 
-    _createEdge(src: VertexId, dest: VertexId, weight?: number, val?: E): MyEdge<E> {
-        if (weight === undefined || weight === null) weight = 1;
-        return new MyEdge<E>(src, dest, weight, val);
-    }
 }
 
 describe('Inherit from DirectedGraph and perform operations', () => {
-    let myGraph = new MyDirectedGraph();
+    let myGraph = new MyDirectedGraph<MyVertex<string>, MyEdge<string>>(MyVertex, MyEdge);
     beforeEach(() => {
-        myGraph = new MyDirectedGraph();
+        myGraph = new MyDirectedGraph(MyVertex, MyEdge);
     });
 
     it('Add vertices', () => {
@@ -150,11 +142,16 @@ describe('Inherit from DirectedGraph and perform operations', () => {
         const edge2 = myGraph.getEdge(myGraph.getVertex(1), myGraph.getVertex(2));
         const edge3 = myGraph.getEdge(1, '100');
         // edge1.data has type problem. After the uniform design, the generics of containers (DirectedGraph, BST) are based on the type of value. However, this design has a drawback: when I attempt to inherit from the Vertex or BSTNode classes, the types of the results obtained by all methods are those of the parent class.
-        expect(edge1?.val).toBe('val1');
         expect(edge1).toBeInstanceOf(MyEdge);
-        edge1 && expect(edge1.src).toBe(1);
-        expect(edge1).toEqual(edge2);
-        expect(edge3).toBeNull();
+        if (edge1) {
+            expect(edge1.data).toBe('val1');
+            expect(edge1?.val).toBe('val1');
+            expect(edge1).toBeInstanceOf(MyEdge);
+            expect(edge1.src).toBe(1);
+            expect(edge1).toEqual(edge2);
+            expect(edge3).toBeNull();
+        }
+
     });
 
     it('Edge set and vertex set', () => {
@@ -214,7 +211,7 @@ describe('Inherit from DirectedGraph and perform operations', () => {
 });
 
 describe('Inherit from DirectedGraph and perform operations test2.', () => {
-    const myGraph = new MyDirectedGraph<string, string>();
+    const myGraph = new MyDirectedGraph<MyVertex<string>, MyEdge<string>>(MyVertex, MyEdge);
 
     it('should test graph operations', () => {
         const vertex1 = new MyVertex(1, 'data1');

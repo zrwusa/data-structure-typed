@@ -6,19 +6,19 @@
  * @license MIT License
  */
 import {BST, BSTNode} from './bst';
-import type {AVLTreeDeleted, BinaryTreeNodeId} from '../types';
+import type {AVLTreeDeleted, BinaryTreeNodeId, RecursiveAVLTreeNode} from '../types';
 import {IBinaryTreeNode} from '../interfaces';
 
-export class AVLTreeNode<T> extends BSTNode<T> implements IBinaryTreeNode<T> {
-    override _createNode(id: BinaryTreeNodeId, val: T | null, count?: number): AVLTreeNode<T> | null {
-        return val !== null ? new AVLTreeNode<T>(id, val, count) : null;
-    }
+
+export class AVLTreeNode<T, FAMILY extends AVLTreeNode<T, FAMILY> = RecursiveAVLTreeNode<T>> extends BSTNode<T, FAMILY> implements IBinaryTreeNode<T, FAMILY> {
+
 }
 
-export class AVLTree<T> extends BST<T> {
+export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode<number>> extends BST<N> {
 
-    override _createNode(id: BinaryTreeNodeId, val: T, count?: number): AVLTreeNode<T> {
-        return new AVLTreeNode<T>(id, val, count);
+    override _createNode(id: BinaryTreeNodeId, val: N['val'], count?: number): N {
+        const node = new AVLTreeNode<N['val'], N>(id, val, count);
+        return node as N;
     }
 
     /**
@@ -26,14 +26,14 @@ export class AVLTree<T> extends BST<T> {
      * balances the tree.
      * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier of the binary tree node that we want to add or
      * update in the AVL tree.
-     * @param {T | null} val - The `val` parameter represents the value that you want to assign to the node with the given
-     * `id`. It can be of type `T` (the generic type) or `null`.
+     * @param {N | null} val - The `val` parameter represents the value that you want to assign to the node with the given
+     * `id`. It can be of type `N` (the generic type) or `null`.
      * @param {number} [count] - The `count` parameter is an optional parameter of type `number`. It represents the number
      * of times the value `val` should be inserted into the AVL tree. If the `count` parameter is not provided, it defaults
      * to `1`, indicating that the value should be inserted once.
-     * @returns The method is returning either an AVLTreeNode<T> object or null.
+     * @returns The method is returning either an N object or null.
      */
-    override add(id: BinaryTreeNodeId, val: T | null, count?: number): AVLTreeNode<T> | null {
+    override add(id: BinaryTreeNodeId, val: N['val'] | null, count?: number): N | null {
         const inserted = super.add(id, val, count);
         if (inserted) this.balancePath(inserted);
         return inserted;
@@ -47,9 +47,9 @@ export class AVLTree<T> extends BST<T> {
      * @param {boolean} [isUpdateAllLeftSum] - The `isUpdateAllLeftSum` parameter is an optional boolean parameter that
      * determines whether the left sum of all nodes in the AVL tree should be updated after removing a node. If
      * `isUpdateAllLeftSum` is set to `true`, the left sum of all nodes will be recalculated.
-     * @returns The method is returning an array of `AVLTreeDeleted<T>` objects.
+     * @returns The method is returning an array of `AVLTreeDeleted<N>` objects.
      */
-    override remove(id: BinaryTreeNodeId, isUpdateAllLeftSum?: boolean): AVLTreeDeleted<T>[] {
+    override remove(id: BinaryTreeNodeId, isUpdateAllLeftSum?: boolean): AVLTreeDeleted<N>[] {
         const deletedResults = super.remove(id, isUpdateAllLeftSum);
         for (const {needBalanced} of deletedResults) {
             if (needBalanced) {
@@ -62,10 +62,10 @@ export class AVLTree<T> extends BST<T> {
     /**
      * The balance factor of a given AVL tree node is calculated by subtracting the height of its left subtree from the
      * height of its right subtree.
-     * @param node - The parameter "node" is of type AVLTreeNode<T>, which represents a node in an AVL tree.
+     * @param node - The parameter "node" is of type N, which represents a node in an AVL tree.
      * @returns The balance factor of the given AVL tree node.
      */
-    balanceFactor(node: AVLTreeNode<T>): number {
+    balanceFactor(node: N): number {
         if (!node.right) // node has no right subtree
             return -node.height;
         else if (!node.left) // node has no left subtree
@@ -78,7 +78,7 @@ export class AVLTree<T> extends BST<T> {
      * The function updates the height of a node in an AVL tree based on the heights of its left and right subtrees.
      * @param node - The parameter `node` is an AVLTreeNode object, which represents a node in an AVL tree.
      */
-    updateHeight(node: AVLTreeNode<T>): void {
+    updateHeight(node: N): void {
         if (!node.left && !node.right) // node is a leaf
             node.height = 0;
         else if (!node.left) {
@@ -96,7 +96,7 @@ export class AVLTree<T> extends BST<T> {
      * each node in the path from the given node to the root.
      * @param node - The `node` parameter is an AVLTreeNode object, which represents a node in an AVL tree.
      */
-    balancePath(node: AVLTreeNode<T>): void {
+    balancePath(node: N): void {
         const path = this.getPathToRoot(node);
         for (let i = path.length - 1; i >= 0; i--) {
             const A = path[i];
@@ -127,7 +127,7 @@ export class AVLTree<T> extends BST<T> {
      * The `balanceLL` function performs a left-left rotation on an AVL tree to balance it.
      * @param A - The parameter A is an AVLTreeNode object.
      */
-    balanceLL(A: AVLTreeNode<T>): void {
+    balanceLL(A: N): void {
         const parentOfA = A.parent;
         const B = A.left; // A is left-heavy and B is left-heavy
         A.parent = B;
@@ -157,7 +157,7 @@ export class AVLTree<T> extends BST<T> {
      * The `balanceLR` function performs a left-right rotation to balance an AVL tree.
      * @param A - A is an AVLTreeNode object.
      */
-    balanceLR(A: AVLTreeNode<T>): void {
+    balanceLR(A: N): void {
         const parentOfA = A.parent;
         const B = A.left; // A is left-heavy
         let C = null;
@@ -205,7 +205,7 @@ export class AVLTree<T> extends BST<T> {
      * The `balanceRR` function performs a right-right rotation on an AVL tree to balance it.
      * @param A - The parameter A is an AVLTreeNode object.
      */
-    balanceRR(A: AVLTreeNode<T>): void {
+    balanceRR(A: N): void {
         const parentOfA = A.parent;
         const B = A.right; // A is right-heavy and B is right-heavy
         A.parent = B;
@@ -240,7 +240,7 @@ export class AVLTree<T> extends BST<T> {
      * The `balanceRL` function performs a right-left rotation to balance an AVL tree.
      * @param A - A is an AVLTreeNode object.
      */
-    balanceRL(A: AVLTreeNode<T>): void {
+    balanceRL(A: N): void {
         const parentOfA = A.parent;
         const B = A.right; // A is right-heavy
         let C = null;

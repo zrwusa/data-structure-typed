@@ -5,19 +5,23 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type {BinaryTreeNodeId, BinaryTreeNodePropertyName, BSTComparator, BSTDeletedResult} from '../types';
+import type {
+    BinaryTreeNodeId,
+    BinaryTreeNodePropertyName,
+    BSTComparator,
+    BSTDeletedResult,
+    RecursiveBSTNode
+} from '../types';
 import {BinaryTree, BinaryTreeNode, FamilyPosition, LoopType,} from './binary-tree';
 import {IBinaryTree, IBinaryTreeNode} from '../interfaces';
 
 export enum CP {lt = -1, eq = 0, gt = 1}
 
-export class BSTNode<T> extends BinaryTreeNode<T> implements IBinaryTreeNode<T> {
-    override _createNode(id: BinaryTreeNodeId, val: T | null, count?: number): BSTNode<T> | null {
-        return val !== null ? new BSTNode<T>(id, val, count) : null;
-    }
+export class BSTNode<T, FAMILY extends BSTNode<T, FAMILY> = RecursiveBSTNode<T>> extends BinaryTreeNode<T, FAMILY> implements IBinaryTreeNode<T, FAMILY> {
+
 }
 
-export class BST<T> extends BinaryTree<T> implements IBinaryTree<T> {
+export class BST<N extends BSTNode<N['val'], N> = BSTNode<number>> extends BinaryTree<N> implements IBinaryTree<N> {
     /**
      * The constructor function accepts an optional options object and sets the comparator property if provided.
      * @param [options] - An optional object that can contain the following properties:
@@ -35,8 +39,9 @@ export class BST<T> extends BinaryTree<T> implements IBinaryTree<T> {
         }
     }
 
-    override _createNode(id: BinaryTreeNodeId, val: T | null, count?: number): BSTNode<T> | null {
-        return val !== null ? new BSTNode<T>(id, val, count) : null;
+    override _createNode(id: BinaryTreeNodeId, val: N['val'] | null, count?: number): N | null {
+        const node = val !== null ? new BSTNode<N['val'], N>(id, val, count) : null;
+        return node as N;
     }
 
     /**
@@ -44,15 +49,15 @@ export class BST<T> extends BinaryTree<T> implements IBinaryTree<T> {
      * the ID matches, and returns the inserted node.
      * @param {BinaryTreeNodeId} id - The `id` parameter represents the identifier of the binary tree node. It is used to
      * determine the position of the node in the binary search tree.
-     * @param {T | null} val - The `val` parameter represents the value to be stored in the binary search tree node. It can
-     * be of type `T` (the generic type) or `null`.
+     * @param {N | null} val - The `val` parameter represents the value to be stored in the binary search tree node. It can
+     * be of type `N` (the generic type) or `null`.
      * @param {number} [count=1] - The `count` parameter represents the number of times the value should be inserted into
      * the binary search tree. By default, it is set to 1, meaning that if no count is specified, the value will be
      * inserted once.
-     * @returns The method `add` returns a `BSTNode<T>` object or `null`.
+     * @returns The method `add` returns a `N` object or `null`.
      */
-    override add(id: BinaryTreeNodeId, val: T | null, count: number = 1): BSTNode<T> | null {
-        let inserted: BSTNode<T> | null = null;
+    override add(id: BinaryTreeNodeId, val: N['val'] | null, count: number = 1): N | null {
+        let inserted: N | null = null;
         const newNode = this._createNode(id, val, count);
         if (this.root === null) {
             this._setRoot(newNode);
@@ -118,14 +123,14 @@ export class BST<T> extends BinaryTree<T> implements IBinaryTree<T> {
 
     /**
      * The `get` function returns the first node in a binary search tree that matches the given property value or name.
-     * @param {BinaryTreeNodeId | T} nodeProperty - The `nodeProperty` parameter can be either a `BinaryTreeNodeId` or a
-     * generic type `T`. It represents the value of the property that you want to search for in the binary search tree.
+     * @param {BinaryTreeNodeId | N} nodeProperty - The `nodeProperty` parameter can be either a `BinaryTreeNodeId` or a
+     * generic type `N`. It represents the value of the property that you want to search for in the binary search tree.
      * @param {BinaryTreeNodePropertyName} [propertyName] - The `propertyName` parameter is an optional parameter that
      * specifies the property name to use for searching the binary search tree nodes. If not provided, it defaults to
      * `'id'`.
-     * @returns The method is returning a BSTNode<T> object or null.
+     * @returns The method is returning a N object or null.
      */
-    override get(nodeProperty: BinaryTreeNodeId | T, propertyName ?: BinaryTreeNodePropertyName): BSTNode<T> | null {
+    override get(nodeProperty: BinaryTreeNodeId | N, propertyName ?: BinaryTreeNodePropertyName): N | null {
         propertyName = propertyName ?? 'id';
         return this.getNodes(nodeProperty, propertyName, true)[0] ?? null;
     }
@@ -152,17 +157,17 @@ export class BST<T> extends BinaryTree<T> implements IBinaryTree<T> {
      * @param {boolean} [ignoreCount] - A boolean flag indicating whether to ignore the count of the node being removed. If
      * set to true, the count of the node will not be considered and the node will be removed regardless of its count. If
      * set to false or not provided, the count of the node will be taken into account and the
-     * @returns an array of `BSTDeletedResult<T>` objects.
+     * @returns an array of `BSTDeletedResult<N>` objects.
      */
-    override remove(id: BinaryTreeNodeId, ignoreCount?: boolean): BSTDeletedResult<T>[] {
-        const bstDeletedResult: BSTDeletedResult<T>[] = [];
+    override remove(id: BinaryTreeNodeId, ignoreCount?: boolean): BSTDeletedResult<N>[] {
+        const bstDeletedResult: BSTDeletedResult<N>[] = [];
         if (!this.root) return bstDeletedResult;
 
-        const curr: BSTNode<T> | null = this.get(id);
+        const curr: N | null = this.get(id);
         if (!curr) return bstDeletedResult;
 
-        const parent: BSTNode<T> | null = curr?.parent ? curr.parent : null;
-        let needBalanced: BSTNode<T> | null = null, orgCurrent = curr;
+        const parent: N | null = curr?.parent ? curr.parent : null;
+        let needBalanced: N | null = null, orgCurrent = curr;
 
         if (curr.count > 1 && !ignoreCount) {
             curr.count--;
@@ -205,23 +210,23 @@ export class BST<T> extends BinaryTree<T> implements IBinaryTree<T> {
     /**
      * The function `getNodes` returns an array of binary search tree nodes that match a given property value, with the
      * option to specify the property name and whether to return only one node.
-     * @param {BinaryTreeNodeId | T} nodeProperty - The `nodeProperty` parameter can be either a `BinaryTreeNodeId` or a
-     * generic type `T`. It represents the property value that you want to search for in the binary search tree.
+     * @param {BinaryTreeNodeId | N} nodeProperty - The `nodeProperty` parameter can be either a `BinaryTreeNodeId` or a
+     * generic type `N`. It represents the property value that you want to search for in the binary search tree.
      * @param {BinaryTreeNodePropertyName} [propertyName] - The `propertyName` parameter is an optional parameter that
      * specifies the property of the nodes to compare with the `nodeProperty` parameter. If not provided, it defaults to
      * `'id'`.
      * @param {boolean} [onlyOne] - A boolean value indicating whether to return only one node that matches the given
      * nodeProperty. If set to true, the function will stop traversing the tree and return the first matching node. If set
      * to false or not provided, the function will return all nodes that match the given nodeProperty.
-     * @returns an array of BSTNode<T> objects.
+     * @returns an array of N objects.
      */
-    override getNodes(nodeProperty: BinaryTreeNodeId | T, propertyName ?: BinaryTreeNodePropertyName, onlyOne ?: boolean): BSTNode<T>[] {
+    override getNodes(nodeProperty: BinaryTreeNodeId | N, propertyName ?: BinaryTreeNodePropertyName, onlyOne ?: boolean): N[] {
         propertyName = propertyName ?? 'id';
         if (!this.root) return [];
-        const result: BSTNode<T>[] = [];
+        const result: N[] = [];
 
         if (this.loopType === LoopType.recursive) {
-            const _traverse = (cur: BSTNode<T>) => {
+            const _traverse = (cur: N) => {
                 if (this._pushByPropertyNameStopOrNot(cur, result, nodeProperty, propertyName, onlyOne)) return;
 
                 if (!cur.left && !cur.right) return;
@@ -236,7 +241,7 @@ export class BST<T> extends BinaryTree<T> implements IBinaryTree<T> {
 
             _traverse(this.root);
         } else {
-            const queue: BSTNode<T>[] = [this.root];
+            const queue: N[] = [this.root];
             while (queue.length > 0) {
                 const cur = queue.shift();
                 if (cur) {
@@ -270,7 +275,7 @@ export class BST<T> extends BinaryTree<T> implements IBinaryTree<T> {
         propertyName = propertyName ?? 'id';
         if (!this.root) return 0;
 
-        const getSumByPropertyName = (cur: BSTNode<T>) => {
+        const getSumByPropertyName = (cur: N) => {
             let needSum: number;
             switch (propertyName) {
                 case 'id':
@@ -289,7 +294,7 @@ export class BST<T> extends BinaryTree<T> implements IBinaryTree<T> {
         let sum = 0;
 
         if (this.loopType === LoopType.recursive) {
-            const _traverse = (cur: BSTNode<T>): void => {
+            const _traverse = (cur: N): void => {
                 const compared = this._compare(cur.id, id);
                 if (compared === CP.eq) {
                     if (cur.right) sum += this.subTreeSum(cur.right, propertyName);
@@ -307,7 +312,7 @@ export class BST<T> extends BinaryTree<T> implements IBinaryTree<T> {
 
             _traverse(this.root);
         } else {
-            const queue: BSTNode<T>[] = [this.root];
+            const queue: N[] = [this.root];
             while (queue.length > 0) {
                 const cur = queue.shift();
                 if (cur) {
@@ -334,7 +339,7 @@ export class BST<T> extends BinaryTree<T> implements IBinaryTree<T> {
     /**
      * The function `allGreaterNodesAdd` updates the value of a specified property for all nodes in a binary search tree
      * that have a greater value than a given node.
-     * @param node - The `node` parameter is of type `BSTNode<T>`, which represents a node in a binary search tree. It
+     * @param node - The `node` parameter is of type `N`, which represents a node in a binary search tree. It
      * contains properties such as `id` and `count`.
      * @param {number} delta - The `delta` parameter is a number that represents the amount by which the property value of
      * each node should be increased.
@@ -343,11 +348,11 @@ export class BST<T> extends BinaryTree<T> implements IBinaryTree<T> {
      * defaults to 'id'.
      * @returns a boolean value.
      */
-    allGreaterNodesAdd(node: BSTNode<T>, delta: number, propertyName ?: BinaryTreeNodePropertyName): boolean {
+    allGreaterNodesAdd(node: N, delta: number, propertyName ?: BinaryTreeNodePropertyName): boolean {
         propertyName = propertyName ?? 'id';
         if (!this.root) return false;
 
-        const _sumByPropertyName = (cur: BSTNode<T>) => {
+        const _sumByPropertyName = (cur: N) => {
             switch (propertyName) {
                 case 'id':
                     cur.id += delta;
@@ -362,7 +367,7 @@ export class BST<T> extends BinaryTree<T> implements IBinaryTree<T> {
         }
 
         if (this.loopType === LoopType.recursive) {
-            const _traverse = (cur: BSTNode<T>) => {
+            const _traverse = (cur: N) => {
                 const compared = this._compare(cur.id, node.id);
                 _sumByPropertyName(cur);
 
@@ -374,7 +379,7 @@ export class BST<T> extends BinaryTree<T> implements IBinaryTree<T> {
             _traverse(this.root);
             return true;
         } else {
-            const queue: BSTNode<T>[] = [this.root];
+            const queue: N[] = [this.root];
             while (queue.length > 0) {
                 const cur = queue.shift();
                 if (cur) {
@@ -441,7 +446,7 @@ export class BST<T> extends BinaryTree<T> implements IBinaryTree<T> {
         let balanced = true;
 
         if (this.loopType === LoopType.recursive) {
-            const _height = (cur: BSTNode<T> | null | undefined): number => {
+            const _height = (cur: N | null | undefined): number => {
                 if (!cur) return 0;
                 const leftHeight = _height(cur.left), rightHeight = _height(cur.right);
                 if (Math.abs(leftHeight - rightHeight) > 1) balanced = false;
@@ -449,9 +454,9 @@ export class BST<T> extends BinaryTree<T> implements IBinaryTree<T> {
             };
             _height(this.root);
         } else {
-            const stack: BSTNode<T>[] = [];
-            let node: BSTNode<T> | null | undefined = this.root, last: BSTNode<T> | null = null;
-            const depths: Map<BSTNode<T>, number> = new Map();
+            const stack: N[] = [];
+            let node: N | null | undefined = this.root, last: N | null = null;
+            const depths: Map<N, number> = new Map();
 
             while (stack.length > 0 || node) {
                 if (node) {

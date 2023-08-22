@@ -3,7 +3,7 @@ import {IBinaryTree, IBinaryTreeNode} from '../interfaces';
 
 enum RBColor { Red, Black }
 
-class RBNode<T> extends BinaryTreeNode<T> implements IBinaryTreeNode<T> {
+class RBNode<T, FAMILY extends RBNode<T, FAMILY>> extends BinaryTreeNode<T, FAMILY> implements IBinaryTreeNode<T, FAMILY> {
     // override createNode(id: BinaryTreeNodeId, val: T | null, count?: number): RBNode<T> | null {
     //     return val !== null ? new RBNode<T>(id, val, count) : null;
     // }
@@ -58,7 +58,7 @@ class RBNode<T> extends BinaryTreeNode<T> implements IBinaryTreeNode<T> {
     // }
 }
 
-class RBTree<T> extends BinaryTree<T> implements IBinaryTree<T> {
+class RBTree<N extends RBNode<N['val'], N>> extends BinaryTree<N> implements IBinaryTree<N> {
     constructor(options?: {
         loopType?: LoopType,
         autoIncrementId?: boolean,
@@ -67,43 +67,43 @@ class RBTree<T> extends BinaryTree<T> implements IBinaryTree<T> {
         super(options);
     }
 
-    // override _createNode(id: BinaryTreeNodeId, val: T | null, count?: number): RBNode<T> | null {
-    //     return val !== null ? new RBNode<T>(id, val, count) : null;
+    // override _createNode(id: BinaryTreeNodeId, val: N | null, count?: number): RBNode<N> | null {
+    //     return val !== null ? new RBNode<N>(id, val, count) : null;
     // }
 
-    // private override _root: BinaryTreeNode<T> | null = null;
+    // private override _root: BinaryTreeNode<N> | null = null;
     //
-    // override get root(): BinaryTreeNode<T> | null {
+    // override get root(): BinaryTreeNode<N> | null {
     //     return this._root;
     // }
 
-    insert(id: number, val: T | null) {
+    insert(id: number, val: N | null) {
 
     }
 
-    private leftRotate(node: RBNode<T>) {
+    private leftRotate(node: N) {
 
     }
 
-    private rightRotate(node: RBNode<T>) {
+    private rightRotate(node: N) {
 
     }
 
-    private insertFixup(node: RBNode<T>) {
+    private insertFixup(node: N) {
 
     }
 
-    private deleteFixup(node: RBNode<T>) {
+    private deleteFixup(node: N) {
 
     }
 
-    private transplant(u: RBNode<T>, v: RBNode<T>) {
+    private transplant(u: N, v: N) {
 
     }
 
-    // override remove(id: BinaryTreeNodeId, ignoreCount?: boolean): BinaryTreeDeleted<T>[] {
+    // override remove(id: BinaryTreeNodeId, ignoreCount?: boolean): BinaryTreeDeleted<N>[] {
     //
-    //     return [{deleted: new RBNode<T>(0, 0), needBalanced: null}];
+    //     return [{deleted: new N(0, 0), needBalanced: null}];
     // }
 
 

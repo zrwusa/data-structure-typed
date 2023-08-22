@@ -2,7 +2,6 @@ import {BST, BSTNode} from '../../../../src';
 
 describe('BST Case6', () => {
     it('should perform various operations on a Binary Search Tree', () => {
-
         const tree = new BST();
         expect(tree).toBeInstanceOf(BST);
 

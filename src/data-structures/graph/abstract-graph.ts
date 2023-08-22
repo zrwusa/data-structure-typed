@@ -10,9 +10,9 @@ import {PriorityQueue} from '../priority-queue';
 import type {DijkstraResult, VertexId} from '../types';
 import {IGraph} from '../interfaces';
 
-export abstract class AbstractVertex<V = number> {
+export abstract class AbstractVertex<T = number> {
 
-    protected constructor(id: VertexId, val?: V) {
+    protected constructor(id: VertexId, val?: T) {
         this._id = id;
         this._val = val;
     }
@@ -27,13 +27,13 @@ export abstract class AbstractVertex<V = number> {
         this._id = v;
     }
 
-    private _val: V | undefined;
+    private _val: T | undefined;
 
-    get val(): V | undefined {
+    get val(): T | undefined {
         return this._val;
     }
 
-    set val(value: V | undefined) {
+    set val(value: T | undefined) {
         this._val = value;
     }
 
@@ -43,24 +43,24 @@ export abstract class AbstractVertex<V = number> {
     //  * @param id
     //  * @param val
     //  */
-    // abstract _createVertex(id: VertexId, val?: V): AbstractVertex<V>;
+    // abstract _createVertex(id: VertexId, val?: T): AbstractVertex<T>;
 }
 
-export abstract class AbstractEdge<E> {
+export abstract class AbstractEdge<T = number> {
 
-    protected constructor(weight?: number, val?: E) {
+    protected constructor(weight?: number, val?: T) {
         this._weight = weight !== undefined ? weight : 1;
         this._val = val;
         this._hashCode = uuidV4();
     }
 
-    private _val: E | undefined;
+    private _val: T | undefined;
 
-    get val(): E | undefined {
+    get val(): T | undefined {
         return this._val;
     }
 
-    set val(value: E | undefined) {
+    set val(value: T | undefined) {
         this._val = value;
     }
 
@@ -88,7 +88,7 @@ export abstract class AbstractEdge<E> {
     //  * @param weight
     //  * @param val
     //  */
-    // abstract _createEdge(srcOrV1: VertexId | string, destOrV2: VertexId | string, weight?: number, val?: E): AbstractEdge<E>;
+    // abstract _createEdge(srcOrV1: VertexId | string, destOrV2: VertexId | string, weight?: number, val?: E): E;
 
     protected _setHashCode(v: string) {
         this._hashCode = v;
@@ -96,10 +96,10 @@ export abstract class AbstractEdge<E> {
 }
 
 // Connected Component === Largest Connected Sub-Graph
-export abstract class AbstractGraph<V = number, E = number> implements IGraph<V, E> {
-    private _vertices: Map<VertexId, AbstractVertex<V>> = new Map<VertexId, AbstractVertex<V>>();
+export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends AbstractEdge<any>> implements IGraph<V, E> {
+    private _vertices: Map<VertexId, V> = new Map<VertexId, V>();
 
-    get vertices(): Map<VertexId, AbstractVertex<V>> {
+    get vertices(): Map<VertexId, V> {
         return this._vertices;
     }
 
@@ -109,7 +109,7 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
      * @param id
      * @param val
      */
-    abstract _createVertex(id: VertexId, val?: V): AbstractVertex<V>;
+    abstract _createVertex(id: VertexId, val?: V): V;
 
     /**
      * In TypeScript, a subclass inherits the interface implementation of its parent class, without needing to implement the same interface again in the subclass. This behavior differs from Java's approach. In Java, if a parent class implements an interface, the subclass needs to explicitly implement the same interface, even if the parent class has already implemented it.
@@ -119,22 +119,22 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
      * @param weight
      * @param val
      */
-    abstract _createEdge(srcOrV1: VertexId | string, destOrV2: VertexId | string, weight?: number, val?: E): AbstractEdge<E>;
+    abstract _createEdge(srcOrV1: VertexId | string, destOrV2: VertexId | string, weight?: number, val?: E): E;
 
-    abstract removeEdgeBetween(srcOrId: AbstractVertex<V> | VertexId, destOrId: AbstractVertex<V> | VertexId): AbstractEdge<E> | null;
+    abstract removeEdgeBetween(srcOrId: V | VertexId, destOrId: V | VertexId): E | null;
 
-    abstract removeEdge(edge: AbstractEdge<E>): AbstractEdge<E> | null;
+    abstract removeEdge(edge: E): E | null;
 
-    _getVertex(vertexOrId: VertexId | AbstractVertex<V>): AbstractVertex<V> | null {
+    _getVertex(vertexOrId: VertexId | V): V | null {
         const vertexId = this._getVertexId(vertexOrId);
         return this._vertices.get(vertexId) || null;
     }
 
-    getVertex(vertexId: VertexId): AbstractVertex<V> | null {
+    getVertex(vertexId: VertexId): V | null {
         return this._vertices.get(vertexId) || null;
     }
 
-    _getVertexId(vertexOrId: AbstractVertex<V> | VertexId): VertexId {
+    _getVertexId(vertexOrId: V | VertexId): VertexId {
         return vertexOrId instanceof AbstractVertex ? vertexOrId.id : vertexOrId;
     }
 
@@ -144,20 +144,21 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
      * (`VertexId`).
      * @returns The method `hasVertex` returns a boolean value.
      */
-    hasVertex(vertexOrId: AbstractVertex<V> | VertexId): boolean {
+    hasVertex(vertexOrId: V | VertexId): boolean {
         return this._vertices.has(this._getVertexId(vertexOrId));
     }
 
-    abstract getEdge(srcOrId: AbstractVertex<V> | VertexId, destOrId: AbstractVertex<V> | VertexId): AbstractEdge<E> | null;
+    abstract getEdge(srcOrId: V | VertexId, destOrId: V | VertexId): E | null;
 
-    createAddVertex(id: VertexId, val?: V): boolean {
+    createAddVertex(id: VertexId, val?: V['val']): boolean {
         const newVertex = this._createVertex(id, val);
         return this.addVertex(newVertex);
     }
 
-    addVertex(newVertex: AbstractVertex<V>): boolean {
+    addVertex(newVertex: V): boolean {
         if (this.hasVertex(newVertex)) {
-            throw (new Error('Duplicated vertex id is not allowed'));
+            return false;
+            // throw (new Error('Duplicated vertex id is not allowed'));
         }
         this._vertices.set(newVertex.id, newVertex);
         return true;
@@ -169,7 +170,7 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
      * (`VertexId`).
      * @returns The method `removeVertex` returns a boolean value.
      */
-    removeVertex(vertexOrId: AbstractVertex<V> | VertexId): boolean {
+    removeVertex(vertexOrId: V | VertexId): boolean {
         const vertexId = this._getVertexId(vertexOrId);
         return this._vertices.delete(vertexId);
     }
@@ -181,7 +182,7 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
      * @returns a boolean value. It returns true if at least one vertex was successfully removed, and false if no vertices
      * were removed.
      */
-    removeAllVertices(vertices: AbstractVertex<V>[] | VertexId[]): boolean {
+    removeAllVertices(vertices: V[] | VertexId[]): boolean {
         const removed: boolean[] = [];
         for (const v of vertices) {
             removed.push(this.removeVertex(v));
@@ -189,11 +190,11 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
         return removed.length > 0;
     }
 
-    abstract degreeOf(vertexOrId: AbstractVertex<V> | VertexId): number;
+    abstract degreeOf(vertexOrId: V | VertexId): number;
 
-    abstract edgeSet(): AbstractEdge<E>[];
+    abstract edgeSet(): E[];
 
-    abstract edgesOf(vertexOrId: AbstractVertex<V> | VertexId): AbstractEdge<E>[];
+    abstract edgesOf(vertexOrId: V | VertexId): E[];
 
     /**
      * The function checks if there is an edge between two vertices in a graph.
@@ -204,19 +205,19 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
      * @returns The function `hasEdge` returns a boolean value. It returns `true` if there is an edge between the
      * vertices `v1` and `v2`, and `false` otherwise.
      */
-    hasEdge(v1: VertexId | AbstractVertex<V>, v2: VertexId | AbstractVertex<V>): boolean {
+    hasEdge(v1: VertexId | V, v2: VertexId | V): boolean {
         const edge = this.getEdge(v1, v2);
         return !!edge;
     }
 
-    createAddEdge(src: AbstractVertex<V> | VertexId, dest: AbstractVertex<V> | VertexId, weight: number, val: E): boolean {
+    createAddEdge(src: V | VertexId, dest: V | VertexId, weight: number, val: E['val']): boolean {
         if (src instanceof AbstractVertex) src = src.id;
         if (dest instanceof AbstractVertex) dest = dest.id;
         const newEdge = this._createEdge(src, dest, weight, val);
         return this.addEdge(newEdge);
     }
 
-    abstract addEdge(edge: AbstractEdge<E>): boolean;
+    abstract addEdge(edge: E): boolean;
 
     /**
      * The function sets the weight of an edge between two vertices in a graph.
@@ -229,7 +230,7 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
      * @returns a boolean value. If the edge exists between the source and destination vertices, the function will update
      * the weight of the edge and return true. If the edge does not exist, the function will return false.
      */
-    setEdgeWeight(srcOrId: VertexId | AbstractVertex<V>, destOrId: VertexId | AbstractVertex<V>, weight: number): boolean {
+    setEdgeWeight(srcOrId: VertexId | V, destOrId: VertexId | V, weight: number): boolean {
         const edge = this.getEdge(srcOrId, destOrId);
         if (edge) {
             edge.weight = weight;
@@ -239,7 +240,7 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
         }
     }
 
-    abstract getNeighbors(vertexOrId: AbstractVertex<V> | VertexId): AbstractVertex<V>[];
+    abstract getNeighbors(vertexOrId: V | VertexId): V[];
 
     /**
      * The function `getAllPathsBetween` finds all paths between two vertices in a graph using depth-first search.
@@ -250,15 +251,15 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
      * @returns an array of arrays of vertices (V[][]). Each inner array represents a path between the given vertices (v1
      * and v2).
      */
-    getAllPathsBetween(v1: AbstractVertex<V> | VertexId, v2: AbstractVertex<V> | VertexId): AbstractVertex<V>[][] {
-        const paths: AbstractVertex<V>[][] = [];
+    getAllPathsBetween(v1: V | VertexId, v2: V | VertexId): V[][] {
+        const paths: V[][] = [];
         const vertex1 = this._getVertex(v1);
         const vertex2 = this._getVertex(v2);
         if (!(vertex1 && vertex2)) {
             return [];
         }
 
-        const dfs = (cur: AbstractVertex<V>, dest: AbstractVertex<V>, visiting: Map<AbstractVertex<V>, boolean>, path: AbstractVertex<V>[]) => {
+        const dfs = (cur: V, dest: V, visiting: Map<V, boolean>, path: V[]) => {
             visiting.set(cur, true);
 
             if (cur === dest) {
@@ -270,14 +271,14 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
                 if (!visiting.get(neighbor)) {
                     path.push(neighbor);
                     dfs(neighbor, dest, visiting, path);
-                    arrayRemove(path, (vertex: AbstractVertex<V>) => vertex === neighbor);
+                    arrayRemove(path, (vertex: V) => vertex === neighbor);
                 }
             }
 
             visiting.set(cur, false);
         };
 
-        dfs(vertex1, vertex2, new Map<AbstractVertex<V>, boolean>(), []);
+        dfs(vertex1, vertex2, new Map<V, boolean>(), []);
         return paths;
     }
 
@@ -286,7 +287,7 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
      * @param {V[]} path - An array of vertices (V) representing a path in a graph.
      * @returns The function `getPathSumWeight` returns the sum of the weights of the edges in the given path.
      */
-    getPathSumWeight(path: AbstractVertex<V>[]): number {
+    getPathSumWeight(path: V[]): number {
         let sum = 0;
         for (let i = 0; i < path.length; i++) {
             sum += this.getEdge(path[i], path[i + 1])?.weight || 0;
@@ -308,7 +309,7 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
      * If `isWeight` is `false` or not provided, it calculates the minimum number of edges between the vertices. If the
      * vertices are not
      */
-    getMinCostBetween(v1: AbstractVertex<V> | VertexId, v2: AbstractVertex<V> | VertexId, isWeight?: boolean): number | null {
+    getMinCostBetween(v1: V | VertexId, v2: V | VertexId, isWeight?: boolean): number | null {
         if (isWeight === undefined) isWeight = false;
 
         if (isWeight) {
@@ -326,8 +327,8 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
                 return null;
             }
 
-            const visited: Map<AbstractVertex<V>, boolean> = new Map();
-            const queue: AbstractVertex<V>[] = [vertex1];
+            const visited: Map<V, boolean> = new Map();
+            const queue: V[] = [vertex1];
             visited.set(vertex1, true);
             let cost = 0;
             while (queue.length > 0) {
@@ -365,7 +366,7 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
      * @returns The function `getMinPathBetween` returns an array of vertices (`V[]`) representing the minimum path between
      * two vertices (`v1` and `v2`). If no path is found, it returns `null`.
      */
-    getMinPathBetween(v1: AbstractVertex<V> | VertexId, v2: AbstractVertex<V> | VertexId, isWeight?: boolean): AbstractVertex<V>[] | null {
+    getMinPathBetween(v1: V | VertexId, v2: V | VertexId, isWeight?: boolean): V[] | null {
         if (isWeight === undefined) isWeight = false;
 
         if (isWeight) {
@@ -384,14 +385,14 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
             return allPaths[minIndex] || null;
         } else {
             // BFS
-            let minPath: AbstractVertex<V>[] = [];
+            let minPath: V[] = [];
             const vertex1 = this._getVertex(v1);
             const vertex2 = this._getVertex(v2);
             if (!(vertex1 && vertex2)) {
                 return [];
             }
 
-            const dfs = (cur: AbstractVertex<V>, dest: AbstractVertex<V>, visiting: Map<AbstractVertex<V>, boolean>, path: AbstractVertex<V>[]) => {
+            const dfs = (cur: V, dest: V, visiting: Map<V, boolean>, path: V[]) => {
                 visiting.set(cur, true);
 
                 if (cur === dest) {
@@ -404,14 +405,14 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
                     if (!visiting.get(neighbor)) {
                         path.push(neighbor);
                         dfs(neighbor, dest, visiting, path);
-                        arrayRemove(path, (vertex: AbstractVertex<V>) => vertex === neighbor);
+                        arrayRemove(path, (vertex: V) => vertex === neighbor);
                     }
                 }
 
                 visiting.set(cur, false);
             };
 
-            dfs(vertex1, vertex2, new Map<AbstractVertex<V>, boolean>(), []);
+            dfs(vertex1, vertex2, new Map<V, boolean>(), []);
             return minPath;
         }
     }
@@ -433,20 +434,20 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
      * shortest paths from the source vertex to all other vertices in the graph. If `genPaths
      * @returns The function `dijkstraWithoutHeap` returns an object of type `DijkstraResult<V>`.
      */
-    dijkstraWithoutHeap(src: AbstractVertex<V> | VertexId, dest?: AbstractVertex<V> | VertexId | null, getMinDist?: boolean, genPaths?: boolean): DijkstraResult<AbstractVertex<V>> {
+    dijkstraWithoutHeap(src: V | VertexId, dest?: V | VertexId | null, getMinDist?: boolean, genPaths?: boolean): DijkstraResult<V> {
         if (getMinDist === undefined) getMinDist = false;
         if (genPaths === undefined) genPaths = false;
 
         if (dest === undefined) dest = null;
         let minDist = Infinity;
-        let minDest: AbstractVertex<V> | null = null;
-        let minPath: AbstractVertex<V>[] = [];
-        const paths: AbstractVertex<V>[][] = [];
+        let minDest: V | null = null;
+        let minPath: V[] = [];
+        const paths: V[][] = [];
 
         const vertices = this._vertices;
-        const distMap: Map<AbstractVertex<V>, number> = new Map();
-        const seen: Set<AbstractVertex<V>> = new Set();
-        const preMap: Map<AbstractVertex<V>, AbstractVertex<V> | null> = new Map(); // predecessor
+        const distMap: Map<V, number> = new Map();
+        const seen: Set<V> = new Set();
+        const preMap: Map<V, V | null> = new Map(); // predecessor
         const srcVertex = this._getVertex(src);
 
         const destVertex = dest ? this._getVertex(dest) : null;
@@ -464,7 +465,7 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
 
         const getMinOfNoSeen = () => {
             let min = Infinity;
-            let minV: AbstractVertex<V> | null = null;
+            let minV: V | null = null;
             for (const [key, val] of distMap) {
                 if (!seen.has(key)) {
                     if (val < min) {
@@ -476,12 +477,12 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
             return minV;
         };
 
-        const getPaths = (minV: AbstractVertex<V> | null) => {
+        const getPaths = (minV: V | null) => {
             for (const vertex of vertices) {
                 const vertexOrId = vertex[1];
 
                 if (vertexOrId instanceof AbstractVertex) {
-                    const path: AbstractVertex<V>[] = [vertexOrId];
+                    const path: V[] = [vertexOrId];
                     let parent = preMap.get(vertexOrId);
                     while (parent) {
                         path.push(parent);
@@ -560,19 +561,19 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
      * shortest paths from the source vertex to all other vertices in the graph. If `genPaths
      * @returns The function `dijkstra` returns an object of type `DijkstraResult<V>`.
      */
-    dijkstra(src: AbstractVertex<V> | VertexId, dest?: AbstractVertex<V> | VertexId | null, getMinDist?: boolean, genPaths?: boolean): DijkstraResult<AbstractVertex<V>> {
+    dijkstra(src: V | VertexId, dest?: V | VertexId | null, getMinDist?: boolean, genPaths?: boolean): DijkstraResult<V> {
         if (getMinDist === undefined) getMinDist = false;
         if (genPaths === undefined) genPaths = false;
 
         if (dest === undefined) dest = null;
         let minDist = Infinity;
-        let minDest: AbstractVertex<V> | null = null;
-        let minPath: AbstractVertex<V>[] = [];
-        const paths: AbstractVertex<V>[][] = [];
+        let minDest: V | null = null;
+        let minPath: V[] = [];
+        const paths: V[][] = [];
         const vertices = this._vertices;
-        const distMap: Map<AbstractVertex<V>, number> = new Map();
-        const seen: Set<AbstractVertex<V>> = new Set();
-        const preMap: Map<AbstractVertex<V>, AbstractVertex<V> | null> = new Map(); // predecessor
+        const distMap: Map<V, number> = new Map();
+        const seen: Set<V> = new Set();
+        const preMap: Map<V, V | null> = new Map(); // predecessor
 
         const srcVertex = this._getVertex(src);
         const destVertex = dest ? this._getVertex(dest) : null;
@@ -586,17 +587,17 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
             if (vertexOrId instanceof AbstractVertex) distMap.set(vertexOrId, Infinity);
         }
 
-        const heap = new PriorityQueue<{ id: number, val: AbstractVertex<V> }>({comparator: (a, b) => a.id - b.id});
+        const heap = new PriorityQueue<{ id: number, val: V }>({comparator: (a, b) => a.id - b.id});
         heap.add({id: 0, val: srcVertex});
 
         distMap.set(srcVertex, 0);
         preMap.set(srcVertex, null);
 
-        const getPaths = (minV: AbstractVertex<V> | null) => {
+        const getPaths = (minV: V | null) => {
             for (const vertex of vertices) {
                 const vertexOrId = vertex[1];
                 if (vertexOrId instanceof AbstractVertex) {
-                    const path: AbstractVertex<V>[] = [vertexOrId];
+                    const path: V[] = [vertexOrId];
                     let parent = preMap.get(vertexOrId);
                     while (parent) {
                         path.push(parent);
@@ -678,7 +679,7 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
      * Dijkstra's algorithm is used to find the shortest paths from a source node to all other nodes in a graph. Its basic idea is to repeatedly choose the node closest to the source node and update the distances of other nodes using this node as an intermediary. Dijkstra's algorithm requires that the edge weights in the graph are non-negative.
      */
 
-    abstract getEndsOfEdge(edge: AbstractEdge<E>): [AbstractVertex<V>, AbstractVertex<V>] | null;
+    abstract getEndsOfEdge(edge: E): [V, V] | null;
 
     /**
      * BellmanFord time:O(VE) space:O(V)
@@ -696,16 +697,16 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
      * vertex.
      * @returns The function `bellmanFord` returns an object with the following properties:
      */
-    bellmanFord(src: AbstractVertex<V> | VertexId, scanNegativeCycle?: boolean, getMin?: boolean, genPath?: boolean) {
+    bellmanFord(src: V | VertexId, scanNegativeCycle?: boolean, getMin?: boolean, genPath?: boolean) {
         if (getMin === undefined) getMin = false;
         if (genPath === undefined) genPath = false;
 
         const srcVertex = this._getVertex(src);
-        const paths: AbstractVertex<V>[][] = [];
-        const distMap: Map<AbstractVertex<V>, number> = new Map();
-        const preMap: Map<AbstractVertex<V>, AbstractVertex<V>> = new Map(); // predecessor
+        const paths: V[][] = [];
+        const distMap: Map<V, number> = new Map();
+        const preMap: Map<V, V> = new Map(); // predecessor
         let min = Infinity;
-        let minPath: AbstractVertex<V>[] = [];
+        let minPath: V[] = [];
         // TODO
         let hasNegativeCycle: boolean | undefined;
         if (scanNegativeCycle) hasNegativeCycle = false;
@@ -740,7 +741,7 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
             }
         }
 
-        let minDest: AbstractVertex<V> | null = null;
+        let minDest: V | null = null;
         if (getMin) {
             distMap.forEach((d, v) => {
                 if (v !== srcVertex) {
@@ -756,7 +757,7 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
             for (const vertex of vertices) {
                 const vertexOrId = vertex[1];
                 if (vertexOrId instanceof AbstractVertex) {
-                    const path: AbstractVertex<V>[] = [vertexOrId];
+                    const path: V[] = [vertexOrId];
                     let parent = preMap.get(vertexOrId);
                     while (parent !== undefined) {
                         path.push(parent);
@@ -802,12 +803,12 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
      * `predecessor` property is a 2D array of vertices (or `null`) representing the predecessor vertices in the shortest
      * path between vertices in the
      */
-    floyd(): { costs: number[][], predecessor: (AbstractVertex<V> | null)[][] } {
+    floyd(): { costs: number[][], predecessor: (V | null)[][] } {
         const idAndVertices = [...this._vertices];
         const n = idAndVertices.length;
 
         const costs: number[][] = [];
-        const predecessor: (AbstractVertex<V> | null)[][] = [];
+        const predecessor: (V | null)[][] = [];
         // successors
 
         for (let i = 0; i < n; i++) {
@@ -876,8 +877,8 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
         if (needSCCs === undefined) needSCCs = defaultConfig;
         if (needCycles === undefined) needCycles = defaultConfig;
 
-        const dfnMap: Map<AbstractVertex<V>, number> = new Map();
-        const lowMap: Map<AbstractVertex<V>, number> = new Map();
+        const dfnMap: Map<V, number> = new Map();
+        const lowMap: Map<V, number> = new Map();
         const vertices = this._vertices;
         vertices.forEach(v => {
             dfnMap.set(v, -1);
@@ -886,10 +887,10 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
 
         const [root] = vertices.values();
 
-        const articulationPoints: AbstractVertex<V>[] = [];
-        const bridges: AbstractEdge<E>[] = [];
+        const articulationPoints: V[] = [];
+        const bridges: E[] = [];
         let dfn = 0;
-        const dfs = (cur: AbstractVertex<V>, parent: AbstractVertex<V> | null) => {
+        const dfs = (cur: V, parent: V | null) => {
             dfn++;
             dfnMap.set(cur, dfn);
             lowMap.set(cur, dfn);
@@ -933,10 +934,10 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
 
         dfs(root, null);
 
-        let SCCs: Map<number, AbstractVertex<V>[]> = new Map();
+        let SCCs: Map<number, V[]> = new Map();
 
         const getSCCs = () => {
-            const SCCs: Map<number, AbstractVertex<V>[]> = new Map();
+            const SCCs: Map<number, V[]> = new Map();
             lowMap.forEach((low, vertex) => {
                 if (!SCCs.has(low)) {
                     SCCs.set(low, [vertex]);
@@ -951,9 +952,9 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
             SCCs = getSCCs();
         }
 
-        const cycles: Map<number, AbstractVertex<V>[]> = new Map();
+        const cycles: Map<number, V[]> = new Map();
         if (needCycles) {
-            let SCCs: Map<number, AbstractVertex<V>[]> = new Map();
+            let SCCs: Map<number, V[]> = new Map();
             if (SCCs.size < 1) {
                 SCCs = getSCCs();
             }
@@ -971,7 +972,7 @@ export abstract class AbstractGraph<V = number, E = number> implements IGraph<V,
 
     /**--- start find cycles --- */
 
-    protected _setVertices(value: Map<VertexId, AbstractVertex<V>>) {
+    protected _setVertices(value: Map<VertexId, V>) {
         this._vertices = value;
     }
 
