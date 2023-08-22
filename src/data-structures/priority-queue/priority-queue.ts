@@ -30,10 +30,6 @@ export class PriorityQueue<T = number> {
         return this._nodes;
     }
 
-    protected set nodes(value: T[]) {
-        this._nodes = value;
-    }
-
     get size(): number {
         return this.nodes.length;
     }
@@ -137,7 +133,7 @@ export class PriorityQueue<T = number> {
      * The clear function clears the nodes array.
      */
     clear() {
-        this.nodes = [];
+        this._setNodes([]);
     }
 
     /**
@@ -229,6 +225,10 @@ export class PriorityQueue<T = number> {
 
         this._isValidIndex(0) && traverse(0);
         return visitedNode;
+    }
+
+    protected _setNodes(value: T[]) {
+        this._nodes = value;
     }
 
     protected readonly _comparator: PriorityQueueComparator<T> = (a: T, b: T) => {

@@ -7,16 +7,17 @@
  */
 import type {BinaryTreeNodeId, BinaryTreeNodePropertyName, BSTComparator, BSTDeletedResult} from '../types';
 import {BinaryTree, BinaryTreeNode, FamilyPosition, LoopType,} from './binary-tree';
+import {IBinaryTree, IBinaryTreeNode} from '../interfaces';
 
 export enum CP {lt = -1, eq = 0, gt = 1}
 
-export class BSTNode<T> extends BinaryTreeNode<T> {
-    override clone(): BSTNode<T> {
-        return new BSTNode<T>(this.id, this.val, this.count);
+export class BSTNode<T> extends BinaryTreeNode<T> implements IBinaryTreeNode<T> {
+    override _createNode(id: BinaryTreeNodeId, val: T | null, count?: number): BSTNode<T> | null {
+        return val !== null ? new BSTNode<T>(id, val, count) : null;
     }
 }
 
-export class BST<T> extends BinaryTree<T> {
+export class BST<T> extends BinaryTree<T> implements IBinaryTree<T> {
     /**
      * The constructor function accepts an optional options object and sets the comparator property if provided.
      * @param [options] - An optional object that can contain the following properties:
@@ -34,7 +35,7 @@ export class BST<T> extends BinaryTree<T> {
         }
     }
 
-    override createNode(id: BinaryTreeNodeId, val: T | null, count?: number): BSTNode<T> | null {
+    override _createNode(id: BinaryTreeNodeId, val: T | null, count?: number): BSTNode<T> | null {
         return val !== null ? new BSTNode<T>(id, val, count) : null;
     }
 
@@ -52,7 +53,7 @@ export class BST<T> extends BinaryTree<T> {
      */
     override add(id: BinaryTreeNodeId, val: T | null, count: number = 1): BSTNode<T> | null {
         let inserted: BSTNode<T> | null = null;
-        const newNode = this.createNode(id, val, count);
+        const newNode = this._createNode(id, val, count);
         if (this.root === null) {
             this._setRoot(newNode);
             this._setSize(this.size + 1);

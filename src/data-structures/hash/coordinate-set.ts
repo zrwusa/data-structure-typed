@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-export class CoordinateSet extends Set {
+export class CoordinateSet extends Set<any> {
     constructor(joint?: string) {
         super();
         if (joint !== undefined) this._joint = joint;

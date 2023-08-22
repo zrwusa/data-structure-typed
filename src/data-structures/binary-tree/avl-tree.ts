@@ -7,22 +7,17 @@
  */
 import {BST, BSTNode} from './bst';
 import type {AVLTreeDeleted, BinaryTreeNodeId} from '../types';
+import {IBinaryTreeNode} from '../interfaces';
 
-export class AVLTreeNode<T> extends BSTNode<T> {
-    /**
-     * The function overrides the clone method of the AVLTreeNode class to create a new AVLTreeNode object with the same
-     * id, value, and count.
-     * @returns The method is returning a new instance of the AVLTreeNode class with the same id, val, and count values as
-     * the current instance.
-     */
-    override clone(): AVLTreeNode<T> {
-        return new AVLTreeNode<T>(this.id, this.val, this.count);
+export class AVLTreeNode<T> extends BSTNode<T> implements IBinaryTreeNode<T> {
+    override _createNode(id: BinaryTreeNodeId, val: T | null, count?: number): AVLTreeNode<T> | null {
+        return val !== null ? new AVLTreeNode<T>(id, val, count) : null;
     }
 }
 
 export class AVLTree<T> extends BST<T> {
 
-    override createNode(id: BinaryTreeNodeId, val: T, count?: number): AVLTreeNode<T> {
+    override _createNode(id: BinaryTreeNodeId, val: T, count?: number): AVLTreeNode<T> {
         return new AVLTreeNode<T>(id, val, count);
     }
 

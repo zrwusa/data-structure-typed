@@ -7,7 +7,8 @@
  */
 import {arrayRemove, uuidV4} from '../../utils';
 import {PriorityQueue} from '../priority-queue';
-import type {DijkstraResult, IGraph, VertexId} from '../types';
+import type {DijkstraResult, VertexId} from '../types';
+import {IGraph} from '../interfaces';
 
 export class AbstractVertex {
     constructor(id: VertexId) {
@@ -389,7 +390,7 @@ export abstract class AbstractGraph<V extends AbstractVertex, E extends Abstract
      * @returns The function `dijkstraWithoutHeap` returns an object of type `DijkstraResult<V>`.
      */
     dijkstraWithoutHeap(src: V | VertexId, dest?: V | VertexId | null, getMinDist?: boolean, genPaths?: boolean): DijkstraResult<V> {
-        if (getMinDist === undefined) getMinDist = false ;
+        if (getMinDist === undefined) getMinDist = false;
         if (genPaths === undefined) genPaths = false;
 
         if (dest === undefined) dest = null;

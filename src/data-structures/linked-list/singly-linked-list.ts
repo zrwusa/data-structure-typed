@@ -38,7 +38,7 @@ export class SinglyLinkedListNode<T = number> {
     }
 }
 
-export class SinglyLinkedList<T> {
+export class SinglyLinkedList<T = number> {
 
     /**
      * The constructor initializes the linked list with an empty head, tail, and length.

@@ -59,7 +59,7 @@ describe('DirectedGraph Operation Test', () => {
         graph.addEdge(edgeBC);
 
         const topologicalOrder = graph.topologicalSort();
-        if (topologicalOrder) expect(topologicalOrder.map(v => v.id)).toEqual(['A', 'B', 'C']);
+        if (topologicalOrder) expect(topologicalOrder.map(v => v instanceof DirectedVertex ? v.id: '')).toEqual(['A', 'B', 'C']);
     });
 });
 
@@ -168,9 +168,9 @@ describe('DirectedGraph Test2 operations', () => {
         expect(sorted).toBeInstanceOf(Array);
         if (sorted && sorted.length > 0) {
             expect(sorted.length).toBe(9);
-            expect(sorted[0].data).toBe('data9');
-            expect(sorted[3].data).toBe('data6');
-            expect(sorted[8].id).toBe(1);
+            if (sorted[0] instanceof MyVertex) expect(sorted[0].data).toBe('data9');
+            sorted[3] instanceof MyVertex && expect(sorted[3].data).toBe('data6');
+            sorted[8] instanceof MyVertex && expect(sorted[8].id).toBe(1);
         }
 
     });

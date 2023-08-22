@@ -49,7 +49,7 @@ export class DoublyLinkedListNode<T = number> {
     }
 }
 
-export class DoublyLinkedList<T> {
+export class DoublyLinkedList<T = number> {
 
     /**
      * The constructor initializes the linked list with an empty head, tail, and length.

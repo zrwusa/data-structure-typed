@@ -1,6 +1,6 @@
 export type PriorityQueueComparator<T> = (a: T, b: T) => number;
 
-export interface PriorityQueueOptions<T> {
+export type PriorityQueueOptions<T> = {
     nodes?: T[];
     isFix?: boolean;
     comparator: PriorityQueueComparator<T>;

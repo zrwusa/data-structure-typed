@@ -3,7 +3,7 @@
  * @copyright Tyler Zeng <zrwusa@gmail.com>
  * @class
  */
-export class Queue<T> {
+export class Queue<T = number> {
     protected _nodes: T[];
     protected _offset: number;
 

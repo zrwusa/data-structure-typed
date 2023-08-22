@@ -7,8 +7,9 @@
  */
 import {BST, BSTNode} from './bst';
 import type {BinaryTreeNodeId, TreeMultiSetDeletedResult} from '../types';
+import {IBinaryTree} from '../interfaces';
 
-export class TreeMultiSet<T> extends BST<T> {
+export class TreeMultiSet<T> extends BST<T> implements IBinaryTree<T> {
     /**
      * The function creates a new BSTNode with the given id, value, and count.
      * @param {BinaryTreeNodeId} id - The id parameter is the unique identifier for the binary tree node. It is used to
@@ -18,7 +19,7 @@ export class TreeMultiSet<T> extends BST<T> {
      * occurrences of the value in the binary search tree node. If not provided, the count will default to 1.
      * @returns A new instance of the BSTNode class with the specified id, value, and count (if provided).
      */
-    override createNode(id: BinaryTreeNodeId, val: T, count?: number): BSTNode<T> {
+    override _createNode(id: BinaryTreeNodeId, val: T, count?: number): BSTNode<T> {
         return new BSTNode<T>(id, val, count);
     }
 

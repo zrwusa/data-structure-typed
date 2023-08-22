@@ -16,6 +16,7 @@ import type {
     ResultByProperty,
     ResultsByProperty
 } from '../types';
+import {IBinaryTree, IBinaryTreeNode} from '../interfaces';
 
 /* This enumeration defines the position of a node within a family tree composed of three associated nodes, where 'root' represents the root node of the family tree, 'left' represents the left child node, and 'right' represents the right child node. */
 export enum FamilyPosition {root, left, right}
@@ -28,7 +29,7 @@ export enum FamilyPosition {root, left, right}
  */
 export enum LoopType { iterative = 1, recursive = 2}
 
-export class BinaryTreeNode<T> {
+export class BinaryTreeNode<T> implements IBinaryTreeNode<T> {
 
     constructor(id: BinaryTreeNodeId, val: T, count?: number) {
         this._id = id;
@@ -47,6 +48,7 @@ export class BinaryTreeNode<T> {
     }
 
     private _val: T;
+
     get val(): T {
         return this._val;
     }
@@ -123,31 +125,37 @@ export class BinaryTreeNode<T> {
         this._height = v;
     }
 
+    _createNode(id: BinaryTreeNodeId, val: T | null, count?: number): BinaryTreeNode<T> | null {
+        return val !== null ? new BinaryTreeNode<T>(id, val, count) : null;
+    }
+
     swapLocation(swapNode: BinaryTreeNode<T>): BinaryTreeNode<T> {
         const {val, count, height} = swapNode;
-        const tempNode = new BinaryTreeNode<T>(swapNode.id, val);
-        tempNode.val = val;
-        tempNode.count = count;
-        tempNode.height = height;
+        const tempNode = this._createNode(swapNode.id, val);
+        if (tempNode instanceof BinaryTreeNode) {
+            tempNode.val = val;
+            tempNode.count = count;
+            tempNode.height = height;
 
-        swapNode.id = this.id;
-        swapNode.val = this.val;
-        swapNode.count = this.count;
-        swapNode.height = this.height;
+            swapNode.id = this.id;
+            swapNode.val = this.val;
+            swapNode.count = this.count;
+            swapNode.height = this.height;
 
-        this.id = tempNode.id;
-        this.val = tempNode.val;
-        this.count = tempNode.count;
-        this.height = tempNode.height;
+            this.id = tempNode.id;
+            this.val = tempNode.val;
+            this.count = tempNode.count;
+            this.height = tempNode.height;
+        }
         return swapNode;
     }
 
-    clone(): BinaryTreeNode<T> {
-        return new BinaryTreeNode<T>(this.id, this.val, this.count);
+    clone(): BinaryTreeNode<T> | null {
+        return this._createNode(this.id, this.val, this.count);
     }
 }
 
-export class BinaryTree<T> {
+export class BinaryTree<T> implements IBinaryTree<T> {
 
     /**
      * The constructor function accepts an optional options object and sets the values of loopType, autoIncrementId, and
@@ -243,19 +251,18 @@ export class BinaryTree<T> {
     }
 
     /**
-     * The function creates a new binary tree node with the given id, value, and count, or returns null if the value is
-     * null.
+     * The function creates a new binary tree node with the given id, value, and count if the value is not null, otherwise
+     * it returns null.
      * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier for the binary tree node. It is of type
-     * `BinaryTreeNodeId`, which could be a string or a number, depending on how you want to identify your nodes.
-     * @param {T | null} val - The `val` parameter represents the value to be stored in the binary tree node. It can be of
-     * any type `T` or `null`.
-     * @param {number} [count] - The count parameter is an optional parameter that represents the number of occurrences of
-     * the value in the binary tree node. It is of type number.
-     * @returns The function `createNode` returns a `BinaryTreeNode<T>` object if the `val` parameter is not null.
-     * Otherwise, it returns null.
+     * `BinaryTreeNodeId`.
+     * @param {T | null} val - The `val` parameter represents the value of the node. It can be of type `T` (generic type)
+     * or `null`.
+     * @param {number} [count] - The `count` parameter is an optional parameter of type `number`. It represents the number
+     * of occurrences of the value in the binary tree node. If not provided, the default value is `undefined`.
+     * @returns a BinaryTreeNode object if the value is not null, otherwise it returns null.
      */
-    createNode(id: BinaryTreeNodeId, val: T | null, count?: number): BinaryTreeNode<T> | null {
-        return val !== null ? new BinaryTreeNode(id, val, count) : null;
+    _createNode(id: BinaryTreeNodeId, val: T | null, count?: number): BinaryTreeNode<T> | null {
+        return val !== null ? new BinaryTreeNode<T>(id, val, count) : null;
     }
 
     /**
@@ -305,7 +312,7 @@ export class BinaryTree<T> {
         };
 
         let inserted: BinaryTreeNode<T> | null | undefined;
-        const needInsert = val !== null ? new BinaryTreeNode<T>(id, val, count) : null;
+        const needInsert = val !== null ? this._createNode(id, val, count) : null;
         const existNode = val !== null ? this.get(id, 'id') : null;
         if (this.root) {
             if (existNode) {
@@ -319,7 +326,7 @@ export class BinaryTree<T> {
                 inserted = _bfs(this.root, needInsert);
             }
         } else {
-            this._setRoot(val !== null ? new BinaryTreeNode<T>(id, val, count) : null);
+            this._setRoot(val !== null ? this._createNode(id, val, count) : null);
             if (needInsert !== null) {
                 this._setSize(1);
                 this._setCount(count);

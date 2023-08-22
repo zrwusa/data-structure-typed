@@ -6,7 +6,8 @@
  * @license MIT License
  */
 import {PriorityQueue} from './priority-queue';
-import type {PriorityQueueOptions, SpecifyOptional} from '../types';
+import type {PriorityQueueOptions} from '../types';
+import {SpecifyOptional} from '../../utils';
 
 export class MaxPriorityQueue<T = number> extends PriorityQueue<T> {
     constructor(options?: Omit<PriorityQueueOptions<number>, 'comparator'>)

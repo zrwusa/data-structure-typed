@@ -3,7 +3,7 @@
  * @copyright Tyler Zeng <zrwusa@gmail.com>
  * @class
  */
-export class Stack<T> {
+export class Stack<T = number> {
     protected _elements: T[];
 
     /**
