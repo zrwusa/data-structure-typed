@@ -1,7 +1,7 @@
 import {DirectedEdge, DirectedGraph, DirectedVertex, VertexId} from '../../../../src';
 
 describe('DirectedGraph Operation Test', () => {
-    let graph: DirectedGraph<DirectedVertex, DirectedEdge>;
+    let graph: DirectedGraph<number, number>;
 
     beforeEach(() => {
         graph = new DirectedGraph();
@@ -63,46 +63,61 @@ describe('DirectedGraph Operation Test', () => {
     });
 });
 
+class MyVertex<V extends string> extends DirectedVertex<V> {
 
-class MyVertex extends DirectedVertex {
-    constructor(id: VertexId, data: string) {
-        super(id);
-        this._data = data;
+
+    constructor(id: VertexId, val?: V) {
+        super(id, val);
+        this._data = val;
     }
 
-    private _data: string;
+    private _data: string | undefined;
 
-    get data(): string {
+    get data(): string | undefined {
         return this._data;
     }
 
-    set data(value: string) {
+    set data(value: string | undefined) {
         this._data = value;
     }
 }
 
-class MyEdge extends DirectedEdge {
-    constructor(v1: VertexId, v2: VertexId, weight: number, data: string) {
-        super(v1, v2, weight);
-        this._data = data;
+class MyEdge<E extends string> extends DirectedEdge<E> {
+
+    constructor(v1: VertexId, v2: VertexId, weight: number, val?: E) {
+        super(v1, v2, weight, val);
+        this._data = val;
     }
 
-    private _data: string;
+    private _data: string | undefined;
 
-    get data(): string {
+    get data(): string | undefined {
         return this._data;
     }
 
-    set data(value: string) {
+    set data(value: string | undefined) {
         this._data = value;
     }
 }
 
+class MyDirectedGraph<V extends string, E extends string> extends DirectedGraph<V, E> {
+    _createVertex(id: VertexId, val?: V): MyVertex<V> {
+        return new MyVertex<V>(id, val);
+    }
 
-describe('DirectedGraph Test2 operations', () => {
-    const myGraph = new DirectedGraph<MyVertex, MyEdge>();
+    _createEdge(src: VertexId, dest: VertexId, weight?: number, val?: E): MyEdge<E> {
+        if (weight === undefined || weight === null) weight = 1;
+        return new MyEdge<E>(src, dest, weight, val);
+    }
+}
 
-    test('Add vertices', () => {
+describe('Inherit from DirectedGraph and perform operations', () => {
+    let myGraph = new MyDirectedGraph();
+    beforeEach(() => {
+        myGraph = new MyDirectedGraph();
+    });
+
+    it('Add vertices', () => {
         myGraph.addVertex(new MyVertex(1, 'data1'));
         myGraph.addVertex(new MyVertex(2, 'data2'));
         myGraph.addVertex(new MyVertex(3, 'data3'));
@@ -115,7 +130,7 @@ describe('DirectedGraph Test2 operations', () => {
 
     });
 
-    test('Add edges', () => {
+    it('Add edges', () => {
         myGraph.addVertex(new MyVertex(1, 'data1'));
         myGraph.addVertex(new MyVertex(2, 'data2'));
         myGraph.addEdge(new MyEdge(1, 2, 10, 'edge-data1-2'));
@@ -127,25 +142,28 @@ describe('DirectedGraph Test2 operations', () => {
         expect(myGraph.getEdge(2, 1)).toBeInstanceOf(MyEdge);
     });
 
-    test('Get edge', () => {
-
+    it('Get edge', () => {
+        myGraph.createAddVertex(1, 'val1');
+        myGraph.createAddVertex(2, 'val1');
+        myGraph.createAddEdge(1, 2, 1, 'val1');
         const edge1 = myGraph.getEdge(1, 2);
         const edge2 = myGraph.getEdge(myGraph.getVertex(1), myGraph.getVertex(2));
         const edge3 = myGraph.getEdge(1, '100');
-
+        // edge1.data has type problem. After the uniform design, the generics of containers (DirectedGraph, BST) are based on the type of value. However, this design has a drawback: when I attempt to inherit from the Vertex or BSTNode classes, the types of the results obtained by all methods are those of the parent class.
+        expect(edge1?.val).toBe('val1');
         expect(edge1).toBeInstanceOf(MyEdge);
         edge1 && expect(edge1.src).toBe(1);
         expect(edge1).toEqual(edge2);
         expect(edge3).toBeNull();
     });
 
-    test('Edge set and vertex set', () => {
+    it('Edge set and vertex set', () => {
         const edges = myGraph.edgeSet();
-        const vertices = myGraph.vertexSet();
+        const vertices = myGraph.vertices;
 
     });
 
-    test('Remove edge between vertices', () => {
+    it('Remove edge between vertices', () => {
         myGraph.addVertex(new MyVertex(1, 'data1'));
         myGraph.addVertex(new MyVertex(2, 'data2'));
         myGraph.addEdge(new MyEdge(1, 2, 10, 'edge-data1-2'));
@@ -155,13 +173,13 @@ describe('DirectedGraph Test2 operations', () => {
 
         expect(removedEdge).toBeInstanceOf(MyEdge);
         if (removedEdge) {
-            removedEdge && expect(removedEdge.data).toBe('edge-data1-2');
+            removedEdge && expect(removedEdge.val).toBe('edge-data1-2');
             removedEdge && expect(removedEdge.src).toBe(1)
         }
         expect(edgeAfterRemoval).toBeNull();
     });
 
-    test('Topological sort', () => {
+    it('Topological sort', () => {
 
         const sorted = myGraph.topologicalSort();
 
@@ -175,7 +193,7 @@ describe('DirectedGraph Test2 operations', () => {
 
     });
 
-    test('Minimum path between vertices', () => {
+    it('Minimum path between vertices', () => {
         myGraph.addVertex(new MyVertex(1, 'data1'));
         myGraph.addVertex(new MyVertex(2, 'data2'));
         myGraph.addEdge(new MyEdge(1, 2, 10, 'edge-data1-2'));
@@ -183,7 +201,7 @@ describe('DirectedGraph Test2 operations', () => {
         const minPath = myGraph.getMinPathBetween(1, 2);
     });
 
-    test('All paths between vertices', () => {
+    it('All paths between vertices', () => {
         // Add vertices and edges as needed for this test
         myGraph.addVertex(new MyVertex(1, 'data1'));
         myGraph.addVertex(new MyVertex(2, 'data2'));
@@ -195,9 +213,8 @@ describe('DirectedGraph Test2 operations', () => {
     });
 });
 
-
-describe('DirectedGraph Test3', () => {
-    const myGraph = new DirectedGraph<MyVertex, MyEdge>();
+describe('Inherit from DirectedGraph and perform operations test2.', () => {
+    const myGraph = new MyDirectedGraph<string, string>();
 
     it('should test graph operations', () => {
         const vertex1 = new MyVertex(1, 'data1');

@@ -1,40 +1,43 @@
 import {VertexId} from '../types';
+import {AbstractEdge, AbstractVertex} from '../graph';
 
 export interface IGraph<V, E> {
 
-    hasVertex(vertexOrId: V | VertexId): boolean;
+    hasVertex(vertexOrId: AbstractVertex<V> | VertexId): boolean;
 
-    getVertex(vertexOrId: VertexId | V): V | null;
+    _getVertex(vertexOrId: VertexId | AbstractVertex<V>): AbstractVertex<V> | null;
 
-    getVertexId(vertexOrId: V | VertexId): VertexId;
+    _getVertexId(vertexOrId: AbstractVertex<V> | VertexId): VertexId;
 
-    vertexSet(): Map<VertexId, V>;
+    createAddVertex(id: VertexId, val?: V): boolean;
 
-    addVertex(v: V): boolean;
+    addVertex(newVertex: AbstractVertex<V>): boolean;
 
-    removeVertex(vertexOrId: V | VertexId): boolean;
+    removeVertex(vertexOrId: AbstractVertex<V> | VertexId): boolean;
 
-    removeAllVertices(vertices: V[] | VertexId[]): boolean;
+    removeAllVertices(vertices: AbstractVertex<V>[] | VertexId[]): boolean;
 
-    degreeOf(vertexOrId: V | VertexId): number;
+    degreeOf(vertexOrId: AbstractVertex<V> | VertexId): number;
 
-    edgesOf(vertexOrId: V | VertexId): E[];
+    edgesOf(vertexOrId: AbstractVertex<V> | VertexId): AbstractEdge<E>[];
 
-    hasEdge(src: V | VertexId, dest: V | VertexId): boolean;
+    hasEdge(src: AbstractVertex<V> | VertexId, dest: AbstractVertex<V> | VertexId): boolean;
 
-    getEdge(srcOrId: V | VertexId, destOrId: V | VertexId): E | null;
+    getEdge(srcOrId: AbstractVertex<V> | VertexId, destOrId: AbstractVertex<V> | VertexId): AbstractEdge<E> | null;
 
-    edgeSet(): E[];
+    edgeSet(): AbstractEdge<E>[];
 
-    addEdge(edge: E): boolean;
+    createAddEdge(src: AbstractVertex<V> | VertexId, dest: AbstractVertex<V> | VertexId, weight: number, val: E): boolean;
 
-    removeEdgeBetween(srcOrId: V | VertexId, destOrId: V | VertexId): E | null;
+    addEdge(edge: AbstractEdge<E>): boolean;
 
-    removeEdge(edge: E): E | null;
+    removeEdgeBetween(src: AbstractVertex<V> | VertexId, dest: AbstractVertex<V> | VertexId): AbstractEdge<E> | null;
 
-    setEdgeWeight(srcOrId: V | VertexId, destOrId: V | VertexId, weight: number): boolean;
+    removeEdge(edge: AbstractEdge<E>): AbstractEdge<E> | null;
 
-    getMinPathBetween(v1: V | VertexId, v2: V | VertexId, isWeight?: boolean): V[] | null;
+    setEdgeWeight(srcOrId: AbstractVertex<V> | VertexId, destOrId: AbstractVertex<V> | VertexId, weight: number): boolean;
 
-    getNeighbors(vertexOrId: V | VertexId): V[];
+    getMinPathBetween(v1: AbstractVertex<V> | VertexId, v2: AbstractVertex<V> | VertexId, isWeight?: boolean): AbstractVertex<V>[] | null;
+
+    getNeighbors(vertexOrId: AbstractVertex<V> | VertexId): AbstractVertex<V>[];
 }

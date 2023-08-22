@@ -1,15 +1,16 @@
 import {VertexId} from '../types';
+import {DirectedEdge, DirectedVertex} from '../graph';
 
 export interface IDirectedGraph<V, E> {
-    incomingEdgesOf(vertex: V): E[];
+    incomingEdgesOf(vertex: DirectedVertex<V>): DirectedEdge<E>[];
 
-    outgoingEdgesOf(vertex: V): E[];
+    outgoingEdgesOf(vertex: DirectedVertex<V>): DirectedEdge<E>[];
 
-    inDegreeOf(vertexOrId: V | VertexId): number;
+    inDegreeOf(vertexOrId: DirectedVertex<V> | VertexId): number;
 
-    outDegreeOf(vertexOrId: V | VertexId): number;
+    outDegreeOf(vertexOrId: DirectedVertex<V> | VertexId): number;
 
-    getEdgeSrc(e: E): V | null;
+    getEdgeSrc(e: DirectedEdge<E>): DirectedVertex<V> | null;
 
-    getEdgeDest(e: E): V | null;
+    getEdgeDest(e: DirectedEdge<E>): DirectedVertex<V> | null;
 }

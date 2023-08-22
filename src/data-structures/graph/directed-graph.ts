@@ -10,34 +10,45 @@ import {AbstractEdge, AbstractGraph, AbstractVertex} from './abstract-graph';
 import type {TopologicalStatus, VertexId} from '../types';
 import {IDirectedGraph} from '../interfaces';
 
-export class DirectedVertex extends AbstractVertex {
+export class DirectedVertex<V = number> extends AbstractVertex<V> {
     /**
-     * The constructor function initializes an object with a given id.
-     * @param {VertexId} id - The `id` parameter is the identifier for the vertex. It is used to uniquely identify the
-     * vertex within a graph or network.
+     * The constructor function initializes a vertex with an optional value.
+     * @param {VertexId} id - The `id` parameter is the identifier for the vertex. It is of type `VertexId`, which is
+     * typically a unique identifier for each vertex in a graph.
+     * @param {V} [val] - The "val" parameter is an optional parameter of type V. It is used to specify the value
+     * associated with the vertex.
      */
-    constructor(id: VertexId) {
-        super(id);
+    constructor(id: VertexId, val?: V) {
+        super(id, val);
     }
+
+    // _createVertex(id: VertexId, val?: V): DirectedVertex<V> {
+    //     return new DirectedVertex<V>(id, val);
+    // }
 }
 
-export class DirectedEdge extends AbstractEdge {
+export class DirectedEdge<E = number> extends AbstractEdge<E> {
+
     /**
-     * The constructor function initializes the source and destination vertices of an edge, with an optional weight.
+     * The constructor function initializes the source and destination vertices of an edge, along with an optional weight
+     * and value.
      * @param {VertexId} src - The `src` parameter is the source vertex ID. It represents the starting point of an edge in
      * a graph.
-     * @param {VertexId} dest - The `dest` parameter is the identifier of the destination vertex. It represents the vertex
-     * to which an edge is directed.
-     * @param {number} [weight] - The `weight` parameter is an optional number that represents the weight of the edge
-     * between two vertices.
+     * @param {VertexId} dest - The `dest` parameter is the identifier of the destination vertex for an edge.
+     * @param {number} [weight] - The `weight` parameter is an optional number that represents the weight of the edge. It
+     * is used to assign a numerical value to the edge, which can be used in algorithms such as shortest path algorithms.
+     * If the weight is not provided, it will default to `undefined`.
+     * @param {E} [val] - The "val" parameter is an optional parameter of type E. It represents the value associated with
+     * the edge.
      */
-    constructor(src: VertexId, dest: VertexId, weight?: number) {
-        super(weight);
+    constructor(src: VertexId, dest: VertexId, weight?: number, val?: E) {
+        super(weight, val);
         this._src = src;
         this._dest = dest;
     }
 
     private _src: VertexId;
+
     get src(): VertexId {
         return this._src;
     }
@@ -55,33 +66,69 @@ export class DirectedEdge extends AbstractEdge {
     set dest(v: VertexId) {
         this._dest = v;
     }
+
+    // _createEdge(src: VertexId, dest: VertexId, weight?: number, val?: E): DirectedEdge<E> {
+    //     if (weight === undefined || weight === null) weight = 1;
+    //     return new DirectedEdge(src, dest, weight, val);
+    // }
 }
 
 // Strongly connected, One direction connected, Weakly connected
-export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> extends AbstractGraph<V, E> implements IDirectedGraph<V, E> {
-
-    protected _outEdgeMap: Map<V, E[]> = new Map<V, E[]>();
-
-    protected _inEdgeMap: Map<V, E[]> = new Map<V, E[]>();
+export class DirectedGraph<V = number, E = number> extends AbstractGraph<V, E> implements IDirectedGraph<V, E> {
 
     constructor() {
         super();
     }
 
+    private _outEdgeMap: Map<DirectedVertex<V>, DirectedEdge<E>[]> = new Map<DirectedVertex<V>, DirectedEdge<E>[]>();
+
+    get outEdgeMap(): Map<DirectedVertex<V>, DirectedEdge<E>[]> {
+        return this._outEdgeMap;
+    }
+
+    private _inEdgeMap: Map<DirectedVertex<V>, DirectedEdge<E>[]> = new Map<DirectedVertex<V>, DirectedEdge<E>[]>();
+
+    get inEdgeMap(): Map<DirectedVertex<V>, DirectedEdge<E>[]> {
+        return this._inEdgeMap;
+    }
+
     /**
-     * The function `getEdge` returns the first edge between two vertices, given their source and destination.
-     * @param {V | null | VertexId} srcOrId - The `srcOrId` parameter can be either a vertex object (`V`), a vertex ID
-     * (`VertexId`), or `null`. It represents the source vertex of the edge.
-     * @param {V | null | VertexId} destOrId - The `destOrId` parameter is either a vertex object (`V`), a vertex ID
-     * (`VertexId`), or `null`. It represents the destination vertex of the edge.
-     * @returns an edge (E) or null.
+     * In TypeScript, a subclass inherits the interface implementation of its parent class, without needing to implement the same interface again in the subclass. This behavior differs from Java's approach. In Java, if a parent class implements an interface, the subclass needs to explicitly implement the same interface, even if the parent class has already implemented it.
+     * This means that using abstract methods in the parent class cannot constrain the grandchild classes. Defining methods within an interface also cannot constrain the descendant classes. When inheriting from this class, developers need to be aware that this method needs to be overridden.
+     * @param id
+     * @param val
      */
-    getEdge(srcOrId: V | null | VertexId, destOrId: V | null | VertexId): E | null {
-        let edges: E[] = [];
+    _createVertex(id: VertexId, val?: V): DirectedVertex<V> {
+        return new DirectedVertex<V>(id, val);
+    }
+
+    /**
+     * In TypeScript, a subclass inherits the interface implementation of its parent class, without needing to implement the same interface again in the subclass. This behavior differs from Java's approach. In Java, if a parent class implements an interface, the subclass needs to explicitly implement the same interface, even if the parent class has already implemented it.
+     * This means that using abstract methods in the parent class cannot constrain the grandchild classes. Defining methods within an interface also cannot constrain the descendant classes. When inheriting from this class, developers need to be aware that this method needs to be overridden.
+     * @param src
+     * @param dest
+     * @param weight
+     * @param val
+     */
+    _createEdge(src: VertexId, dest: VertexId, weight?: number, val?: E): DirectedEdge<E> {
+        if (weight === undefined || weight === null) weight = 1;
+        return new DirectedEdge(src, dest, weight, val);
+    }
+
+    /**
+     * The function `getEdge` returns the directed edge between two vertices, given their source and destination.
+     * @param {DirectedVertex<V> | null | VertexId} srcOrId - The source vertex or its ID. It can be either a
+     * DirectedVertex object or a VertexId.
+     * @param {DirectedVertex<V> | null | VertexId} destOrId - The `destOrId` parameter is the destination vertex or its
+     * ID. It can be either a `DirectedVertex` object or a `VertexId` value.
+     * @returns a DirectedEdge<E> object or null.
+     */
+    getEdge(srcOrId: DirectedVertex<V> | null | VertexId, destOrId: DirectedVertex<V> | null | VertexId): DirectedEdge<E> | null {
+        let edges: DirectedEdge<E>[] = [];
 
         if (srcOrId !== null && destOrId !== null) {
-            const src: V | null = this.getVertex(srcOrId);
-            const dest: V | null = this.getVertex(destOrId);
+            const src: DirectedVertex<V> | null = this._getVertex(srcOrId);
+            const dest: DirectedVertex<V> | null = this._getVertex(destOrId);
 
             if (src && dest) {
                 const srcOutEdges = this._outEdgeMap.get(src);
@@ -95,19 +142,19 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
     }
 
     /**
-     * The `addEdge` function adds an edge to a graph if the source and destination vertices exist.
-     * @param {E} edge - The parameter `edge` is of type `E`, which represents an edge in the graph. It contains
-     * information about the source vertex (`src`) and the destination vertex (`dest`) of the edge.
-     * @returns The `addEdge` function returns a boolean value. It returns `true` if the edge was successfully added to the
-     * graph, and `false` if either the source or destination vertices of the edge are not present in the graph.
+     * The `addEdge` function adds a directed edge to a graph if the source and destination vertices exist.
+     * @param edge - The parameter `edge` is of type `DirectedEdge<E>`, which represents a directed edge in a graph. It
+     * contains two properties:
+     * @returns The method `addEdge` returns a boolean value. It returns `true` if the edge was successfully added to the
+     * graph, and `false` if either the source or destination vertex of the edge is not present in the graph.
      */
-    addEdge(edge: E): boolean {
+    addEdge(edge: DirectedEdge<E>): boolean {
         if (!(this.hasVertex(edge.src) && this.hasVertex(edge.dest))) {
             return false;
         }
 
-        const srcVertex = this.getVertex(edge.src);
-        const destVertex = this.getVertex(edge.dest);
+        const srcVertex = this._getVertex(edge.src);
+        const destVertex = this._getVertex(edge.dest);
 
         // TODO after no-non-null-assertion not ensure the logic
         if (srcVertex && destVertex) {
@@ -131,20 +178,20 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
     }
 
     /**
-     * The function removes an edge between two vertices in a directed graph and returns the removed edge.
-     * @param {V | VertexId} srcOrId - The source vertex or its ID.
-     * @param {V | VertexId} destOrId - The `destOrId` parameter in the `removeEdgeBetween` function represents the
-     * destination vertex of the edge that needs to be removed. It can be either a vertex object (`V`) or a vertex ID
-     * (`VertexId`).
-     * @returns The function `removeEdgeBetween` returns the removed edge (`E`) if the edge between the source and
-     * destination vertices is successfully removed. If either the source or destination vertex is not found, or if the
-     * edge does not exist, it returns `null`.
+     * The `removeEdgeBetween` function removes an edge between two vertices in a directed graph and returns the removed
+     * edge, or null if the edge was not found.
+     * @param {DirectedVertex<V> | VertexId} srcOrId - The `srcOrId` parameter represents either a `DirectedVertex<V>`
+     * object or a `VertexId` value. It is used to specify the source vertex of the edge that you want to remove.
+     * @param {DirectedVertex<V> | VertexId} destOrId - The `destOrId` parameter represents the destination vertex of the
+     * edge that you want to remove. It can be either a `DirectedVertex<V>` object or a `VertexId` value.
+     * @returns The function `removeEdgeBetween` returns the removed edge (`DirectedEdge<E>`) if it exists, or `null` if
+     * the edge does not exist.
      */
-    removeEdgeBetween(srcOrId: V | VertexId, destOrId: V | VertexId): E | null {
+    removeEdgeBetween(srcOrId: DirectedVertex<V> | VertexId, destOrId: DirectedVertex<V> | VertexId): DirectedEdge<E> | null {
 
-        const src: V | null = this.getVertex(srcOrId);
-        const dest: V | null = this.getVertex(destOrId);
-        let removed: E | null = null;
+        const src: DirectedVertex<V> | null = this._getVertex(srcOrId);
+        const dest: DirectedVertex<V> | null = this._getVertex(destOrId);
+        let removed: DirectedEdge<E> | null = null;
         if (!src || !dest) {
             return null;
         }
@@ -154,41 +201,42 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
             /**
              * The removeEdge function removes an edge from a graph and returns the removed edge, or null if the edge was not
              * found.
-             * @param {E} edge - The `edge` parameter represents the edge that you want to remove from the graph. It should be an
+             * @param {DirectedEdge<E>} edge - The `edge` parameter represents the edge that you want to remove from the graph. It should be an
              * object that has `src` and `dest` properties, which represent the source and destination vertices of the edge,
              * respectively.
-             * @returns The method `removeEdge` returns the removed edge (`E`) if it exists, or `null` if the edge does not exist.
+             * @returns The method `removeEdge` returns the removed edge (`DirectedEdge<E>`) if it exists, or `null` if the edge does not exist.
              */
-            arrayRemove<E>(srcOutEdges, (edge: DirectedEdge) => edge.dest === dest.id);
+            arrayRemove<DirectedEdge<E>>(srcOutEdges, (edge: DirectedEdge<E>) => edge.dest === dest.id);
         }
 
         const destInEdges = this._inEdgeMap.get(dest);
         if (destInEdges) {
-            removed = arrayRemove<E>(destInEdges, (edge: DirectedEdge) => edge.src === src.id)[0] || null;
+            removed = arrayRemove<DirectedEdge<E>>(destInEdges, (edge: DirectedEdge<E>) => edge.src === src.id)[0] || null;
         }
         return removed;
     }
 
     /**
-     * The removeEdge function removes an edge from a graph and returns the removed edge, or null if the edge was not
-     * found.
-     * @param {E} edge - The `edge` parameter is an object that represents an edge in a graph. It has two properties: `src`
-     * and `dest`, which represent the source and destination vertices of the edge, respectively.
-     * @returns The method `removeEdge` returns the removed edge (`E`) if it exists, or `null` if the edge does not exist.
+     * The `removeEdge` function removes a directed edge from a graph and returns the removed edge, or null if the edge was
+     * not found.
+     * @param edge - The `edge` parameter is an object of type `DirectedEdge<E>`, which represents a directed edge in a
+     * graph. It has two properties:
+     * @returns The function `removeEdge` returns a `DirectedEdge<E>` object if an edge is successfully removed, or `null`
+     * if no edge is removed.
      */
-    removeEdge(edge: E): E | null {
-        let removed: E | null = null;
-        const src = this.getVertex(edge.src);
-        const dest = this.getVertex(edge.dest);
+    removeEdge(edge: DirectedEdge<E>): DirectedEdge<E> | null {
+        let removed: DirectedEdge<E> | null = null;
+        const src = this._getVertex(edge.src);
+        const dest = this._getVertex(edge.dest);
         if (src && dest) {
             const srcOutEdges = this._outEdgeMap.get(src);
             if (srcOutEdges && srcOutEdges.length > 0) {
-                arrayRemove(srcOutEdges, (edge: DirectedEdge) => edge.src === src.id);
+                arrayRemove(srcOutEdges, (edge: DirectedEdge<E>) => edge.src === src.id);
             }
 
             const destInEdges = this._inEdgeMap.get(dest);
             if (destInEdges && destInEdges.length > 0) {
-                removed = arrayRemove(destInEdges, (edge: E) => edge.dest === dest.id)[0];
+                removed = arrayRemove(destInEdges, (edge: DirectedEdge<E>) => edge.dest === dest.id)[0];
             }
 
         }
@@ -198,38 +246,37 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
 
     /**
      * The function removeAllEdges removes all edges between two vertices.
-     * @param {VertexId | V} src - The `src` parameter represents the source vertex from which the edges will be removed.
-     * It can be either a `VertexId` or a `V` type, which represents the identifier or object of the vertex.
-     * @param {VertexId | V} dest - The `dest` parameter represents the destination vertex of an edge. It can be either a
-     * `VertexId` or a vertex object `V`.
-     * @returns An empty array is being returned.
+     * @param {VertexId | DirectedVertex<V>} src - The `src` parameter can be either a `VertexId` or a `DirectedVertex<V>`.
+     * @param {VertexId | DirectedVertex<V>} dest - The `dest` parameter represents the destination vertex of an edge. It
+     * can be either a `VertexId` or a `DirectedVertex<V>`.
+     * @returns An empty array of DirectedEdge objects is being returned.
      */
-    removeAllEdges(src: VertexId | V, dest: VertexId | V): E[] {
+    removeAllEdges(src: VertexId | DirectedVertex<V>, dest: VertexId | DirectedVertex<V>): DirectedEdge<E>[] {
         return [];
     }
 
     /**
-     * The function `incomingEdgesOf` returns an array of incoming edges for a given vertex or vertex ID.
-     * @param {V | VertexId} vertexOrId - The parameter `vertexOrId` can be either a vertex object (`V`) or a vertex ID
-     * (`VertexId`).
-     * @returns The method `incomingEdgesOf` returns an array of edges (`E[]`).
+     * The function returns an array of incoming edges of a given vertex or vertex ID.
+     * @param {DirectedVertex<V> | VertexId} vertexOrId - The parameter `vertexOrId` can be either a `DirectedVertex<V>`
+     * object or a `VertexId`.
+     * @returns The method `incomingEdgesOf` returns an array of `DirectedEdge<E>` objects.
      */
-    incomingEdgesOf(vertexOrId: V | VertexId): E[] {
-        const target = this.getVertex(vertexOrId);
+    incomingEdgesOf(vertexOrId: DirectedVertex<V> | VertexId): DirectedEdge<E>[] {
+        const target = this._getVertex(vertexOrId);
         if (target) {
-            return this._inEdgeMap.get(target) || [];
+            return this.inEdgeMap.get(target) || []
         }
         return [];
     }
 
     /**
-     * The function `outgoingEdgesOf` returns an array of outgoing edges from a given vertex or vertex ID.
-     * @param {V | VertexId} vertexOrId - The parameter `vertexOrId` can accept either a vertex object (`V`) or a vertex ID
-     * (`VertexId`).
-     * @returns The method `outgoingEdgesOf` returns an array of outgoing edges from a given vertex or vertex ID.
+     * The function `outgoingEdgesOf` returns an array of outgoing directed edges from a given vertex or vertex ID.
+     * @param {DirectedVertex<V> | VertexId} vertexOrId - The parameter `vertexOrId` can be either a `DirectedVertex<V>`
+     * object or a `VertexId`.
+     * @returns The method `outgoingEdgesOf` returns an array of `DirectedEdge<E>` objects.
      */
-    outgoingEdgesOf(vertexOrId: V | VertexId): E[] {
-        const target = this.getVertex(vertexOrId);
+    outgoingEdgesOf(vertexOrId: DirectedVertex<V> | VertexId): DirectedEdge<E>[] {
+        const target = this._getVertex(vertexOrId);
         if (target) {
             return this._outEdgeMap.get(target) || [];
         }
@@ -237,71 +284,76 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
     }
 
     /**
-     * The function "degreeOf" returns the total degree of a vertex, which is the sum of its out-degree and in-degree.
-     * @param {VertexId | V} vertexOrId - The parameter `vertexOrId` can be either a `VertexId` or a `V`.
-     * @returns the sum of the out-degree and in-degree of the specified vertex or vertex ID.
+     * The function "degreeOf" returns the total degree of a vertex in a directed graph, which is the sum of its out-degree
+     * and in-degree.
+     * @param {VertexId | DirectedVertex<V>} vertexOrId - The parameter `vertexOrId` can be either a `VertexId` or a
+     * `DirectedVertex<V>`.
+     * @returns The sum of the out-degree and in-degree of the given vertex or vertex ID.
      */
-    degreeOf(vertexOrId: VertexId | V): number {
+    degreeOf(vertexOrId: VertexId | DirectedVertex<V>): number {
         return this.outDegreeOf(vertexOrId) + this.inDegreeOf(vertexOrId);
     }
 
     /**
-     * The function "inDegreeOf" returns the number of incoming edges for a given vertex.
-     * @param {VertexId | V} vertexOrId - The parameter `vertexOrId` can be either a `VertexId` or a `V`.
+     * The function "inDegreeOf" returns the number of incoming edges for a given vertex or vertex ID in a directed graph.
+     * @param {VertexId | DirectedVertex<V>} vertexOrId - The parameter `vertexOrId` can be either a `VertexId` or a
+     * `DirectedVertex<V>`.
      * @returns The number of incoming edges of the specified vertex or vertex ID.
      */
-    inDegreeOf(vertexOrId: VertexId | V): number {
+    inDegreeOf(vertexOrId: VertexId | DirectedVertex<V>): number {
         return this.incomingEdgesOf(vertexOrId).length;
     }
 
     /**
-     * The function `outDegreeOf` returns the number of outgoing edges from a given vertex.
-     * @param {VertexId | V} vertexOrId - The parameter `vertexOrId` can be either a `VertexId` or a `V`.
+     * The function "outDegreeOf" returns the number of outgoing edges from a given vertex.
+     * @param {VertexId | DirectedVertex<V>} vertexOrId - The parameter `vertexOrId` can be either a `VertexId` or a
+     * `DirectedVertex<V>`.
      * @returns The number of outgoing edges from the specified vertex or vertex ID.
      */
-    outDegreeOf(vertexOrId: VertexId | V): number {
+    outDegreeOf(vertexOrId: VertexId | DirectedVertex<V>): number {
         return this.outgoingEdgesOf(vertexOrId).length;
     }
 
     /**
-     * The function "edgesOf" returns an array of both outgoing and incoming edges of a given vertex or vertex ID.
-     * @param {VertexId | V} vertexOrId - The parameter `vertexOrId` can be either a `VertexId` or a `V`.
-     * @returns The function `edgesOf` returns an array of edges.
+     * The function "edgesOf" returns an array of both outgoing and incoming directed edges of a given vertex or vertex ID.
+     * @param {VertexId | DirectedVertex<V>} vertexOrId - The parameter `vertexOrId` can be either a `VertexId` or a
+     * `DirectedVertex<V>`.
+     * @returns an array of directed edges.
      */
-    edgesOf(vertexOrId: VertexId | V): E[] {
+    edgesOf(vertexOrId: VertexId | DirectedVertex<V>): DirectedEdge<E>[] {
         return [...this.outgoingEdgesOf(vertexOrId), ...this.incomingEdgesOf(vertexOrId)];
     }
 
     /**
-     * The function "getEdgeSrc" returns the source vertex of an edge, or null if the edge does not exist.
-     * @param {E} e - E - an edge object
-     * @returns the source vertex of the given edge, or null if the edge does not exist.
+     * The function "getEdgeSrc" returns the source vertex of a directed edge, or null if the edge does not exist.
+     * @param e - A directed edge object of type E.
+     * @returns either a DirectedVertex object or null.
      */
-    getEdgeSrc(e: E): V | null {
-        return this.getVertex(e.src);
+    getEdgeSrc(e: DirectedEdge<E>): DirectedVertex<V> | null {
+        return this._getVertex(e.src);
     }
 
     /**
-     * The function "getEdgeDest" returns the vertex associated with the destination of an edge.
-     * @param {E} e - The parameter `e` is of type `E`, which represents an edge in a graph.
-     * @returns either a vertex object (of type V) or null.
+     * The function "getEdgeDest" returns the destination vertex of a directed edge.
+     * @param e - DirectedEdge<E> - This is an object representing a directed edge in a graph. It contains information
+     * about the source vertex, destination vertex, and any associated data.
+     * @returns either a DirectedVertex object or null.
      */
-    getEdgeDest(e: E): V | null {
-        return this.getVertex(e.dest);
+    getEdgeDest(e: DirectedEdge<E>): DirectedVertex<V> | null {
+        return this._getVertex(e.dest);
     }
 
     /**
-     * The function `getDestinations` returns an array of destination vertices connected to a given vertex.
-     * @param {V | VertexId | null} vertex - The `vertex` parameter represents the starting vertex from which we want to
-     * find the destinations. It can be either a `V` object, a `VertexId` (which is a unique identifier for a vertex), or
-     * `null` if we want to find destinations from all vertices.
-     * @returns an array of vertices (V[]).
+     * The function `getDestinations` returns an array of directed vertices that are the destinations of outgoing edges
+     * from a given vertex.
+     * @param {DirectedVertex<V> | VertexId | null} vertex - The `vertex` parameter can be one of the following:
+     * @returns an array of DirectedVertex objects.
      */
-    getDestinations(vertex: V | VertexId | null): V[] {
+    getDestinations(vertex: DirectedVertex<V> | VertexId | null): DirectedVertex<V>[] {
         if (vertex === null) {
             return [];
         }
-        const destinations: V[] = [];
+        const destinations: DirectedVertex<V>[] = [];
         const outgoingEdges = this.outgoingEdgesOf(vertex);
         for (const outEdge of outgoingEdges) {
             const child = this.getEdgeDest(outEdge);
@@ -312,27 +364,23 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
         return destinations;
     }
 
-    /**--- start find cycles --- */
-
     /**
-     * when stored with adjacency list time: O(V+E)
-     * when stored with adjacency matrix time: O(V^2)
-     * The `topologicalSort` function performs a topological sort on a graph and returns the sorted vertices in reverse
-     * order, or null if the graph contains a cycle.
-     * @returns The function `topologicalSort()` returns an array of vertices in topological order if there is no cycle in
-     * the graph. If there is a cycle, it returns `null`.
+     * The `topologicalSort` function performs a topological sort on a directed graph and returns the sorted vertices in
+     * reverse order, or null if the graph contains a cycle.
+     * @returns The function `topologicalSort()` returns an array of `DirectedVertex<V>` or `VertexId` objects in
+     * topological order, or `null` if there is a cycle in the graph.
      */
-    topologicalSort(): Array<V | VertexId> | null {
+    topologicalSort(): Array<DirectedVertex<V> | VertexId> | null {
         // When judging whether there is a cycle in the undirected graph, all nodes with degree of **<= 1** are enqueued
         // When judging whether there is a cycle in the directed graph, all nodes with **in degree = 0** are enqueued
-        const statusMap: Map<V | VertexId, TopologicalStatus> = new Map<V | VertexId, TopologicalStatus>();
-        for (const entry of this._vertices) {
+        const statusMap: Map<DirectedVertex<V> | VertexId, TopologicalStatus> = new Map<DirectedVertex<V> | VertexId, TopologicalStatus>();
+        for (const entry of this.vertices) {
             statusMap.set(entry[1], 0);
         }
 
-        const sorted: (V | VertexId)[] = [];
+        const sorted: (DirectedVertex<V> | VertexId)[] = [];
         let hasCycle = false;
-        const dfs = (cur: V | VertexId) => {
+        const dfs = (cur: DirectedVertex<V> | VertexId) => {
             statusMap.set(cur, 1);
             const children = this.getDestinations(cur);
             for (const child of children) {
@@ -347,7 +395,7 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
             sorted.push(cur);
         };
 
-        for (const entry of this._vertices) {
+        for (const entry of this.vertices) {
             if (statusMap.get(entry[1]) === 0) {
                 dfs(entry[1]);
             }
@@ -358,33 +406,33 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
         return sorted.reverse();
     }
 
-    /**--- end find cycles --- */
-
     /**
-     * The `edgeSet` function returns an array of all the edges in the graph.
-     * @returns The `edgeSet()` method returns an array of edges (`E[]`).
+     * The `edgeSet` function returns an array of all directed edges in the graph.
+     * @returns The `edgeSet()` method returns an array of `DirectedEdge<E>` objects.
      */
-    edgeSet(): E[] {
-        let edges: E[] = [];
+    edgeSet(): DirectedEdge<E>[] {
+        let edges: DirectedEdge<E>[] = [];
         this._outEdgeMap.forEach(outEdges => {
             edges = [...edges, ...outEdges];
         });
         return edges;
     }
 
+    /**--- start find cycles --- */
+
     /**
-     * The function `getNeighbors` returns an array of neighboring vertices for a given vertex or vertex ID.
-     * @param {V | VertexId} vertexOrId - The parameter `vertexOrId` can be either a vertex object (`V`) or a vertex ID
-     * (`VertexId`).
-     * @returns an array of vertices (V[]).
+     * The function `getNeighbors` returns an array of neighboring vertices of a given vertex in a directed graph.
+     * @param {DirectedVertex<V> | VertexId} vertexOrId - The parameter `vertexOrId` can be either a `DirectedVertex<V>`
+     * object or a `VertexId`.
+     * @returns an array of DirectedVertex objects.
      */
-    getNeighbors(vertexOrId: V | VertexId): V[] {
-        const neighbors: V[] = [];
-        const vertex = this.getVertex(vertexOrId);
+    getNeighbors(vertexOrId: DirectedVertex<V> | VertexId): DirectedVertex<V>[] {
+        const neighbors: DirectedVertex<V>[] = [];
+        const vertex = this._getVertex(vertexOrId);
         if (vertex) {
             const outEdges = this.outgoingEdgesOf(vertex);
             for (const outEdge of outEdges) {
-                const neighbor = this.getVertex(outEdge.dest);
+                const neighbor = this._getVertex(outEdge.dest);
                 // TODO after no-non-null-assertion not ensure the logic
                 if (neighbor) {
                     neighbors.push(neighbor);
@@ -394,23 +442,33 @@ export class DirectedGraph<V extends DirectedVertex, E extends DirectedEdge> ext
         return neighbors;
     }
 
+    /**--- end find cycles --- */
+
     /**
-     * The function "getEndsOfEdge" returns the source and destination vertices of an edge if it exists in the graph,
-     * otherwise it returns null.
-     * @param {E} edge - The parameter "edge" is of type E, which represents an edge in a graph.
-     * @returns an array containing two vertices [V, V] if the edge is found in the graph. If the edge is not found, it
-     * returns null.
+     * The function "getEndsOfEdge" returns the source and destination vertices of a directed edge if it exists in the
+     * graph, otherwise it returns null.
+     * @param edge - A directed edge object with a generic type E.
+     * @returns an array containing the starting and ending vertices of the given directed edge, or null if the edge does
+     * not exist in the graph.
      */
-    getEndsOfEdge(edge: E): [V, V] | null {
+    getEndsOfEdge(edge: DirectedEdge<E>): [DirectedVertex<V>, DirectedVertex<V>] | null {
         if (!this.hasEdge(edge.src, edge.dest)) {
             return null;
         }
-        const v1 = this.getVertex(edge.src);
-        const v2 = this.getVertex(edge.dest);
+        const v1 = this._getVertex(edge.src);
+        const v2 = this._getVertex(edge.dest);
         if (v1 && v2) {
             return [v1, v2];
         } else {
             return null;
         }
+    }
+
+    protected _setOutEdgeMap(value: Map<DirectedVertex<V>, DirectedEdge<E>[]>) {
+        this._outEdgeMap = value;
+    }
+
+    protected _setInEdgeMap(value: Map<DirectedVertex<V>, DirectedEdge<E>[]>) {
+        this._inEdgeMap = value;
     }
 }
