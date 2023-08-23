@@ -12,10 +12,9 @@ import type {
     BSTDeletedResult,
     RecursiveBSTNode
 } from '../types';
-import {BinaryTree, BinaryTreeNode, FamilyPosition, LoopType,} from './binary-tree';
+import {BSTOptions, CP, FamilyPosition, LoopType} from '../types';
+import {BinaryTree, BinaryTreeNode} from './binary-tree';
 import {IBinaryTree, IBinaryTreeNode} from '../interfaces';
-
-export enum CP {lt = -1, eq = 0, gt = 1}
 
 export class BSTNode<T, FAMILY extends BSTNode<T, FAMILY> = RecursiveBSTNode<T>> extends BinaryTreeNode<T, FAMILY> implements IBinaryTreeNode<T, FAMILY> {
 
@@ -26,10 +25,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode<number>> extends Binar
      * The constructor function accepts an optional options object and sets the comparator property if provided.
      * @param [options] - An optional object that can contain the following properties:
      */
-    constructor(options?: {
-        comparator?: BSTComparator,
-        loopType?: LoopType
-    }) {
+    constructor(options?: BSTOptions) {
         super(options);
         if (options !== undefined) {
             const {comparator} = options;

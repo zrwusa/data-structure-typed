@@ -1,4 +1,5 @@
 import {BinaryTreeNode} from '../binary-tree';
+import {LoopType} from './abstract-binary-tree';
 
 export type BinaryTreeNodePropertyName = 'id' | 'val' | 'count';
 export type NodeOrPropertyName = 'node' | BinaryTreeNodePropertyName;
@@ -8,3 +9,8 @@ export type BinaryTreeDeleted<N> = { deleted: N | null | undefined, needBalanced
 export type ResultByProperty<N extends BinaryTreeNode<N['val'], N>> = N['val'] | N | number | BinaryTreeNodeId;
 export type ResultsByProperty<N extends BinaryTreeNode<N['val'], N>> = ResultByProperty<N>[];
 export type RecursiveBinaryTreeNode<T> = BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, any>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+export type BinaryTreeOptions = {
+    loopType?: LoopType,
+    autoIncrementId?: boolean,
+    isDuplicatedVal?: boolean
+}

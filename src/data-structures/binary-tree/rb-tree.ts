@@ -1,5 +1,6 @@
-import {BinaryTree, BinaryTreeNode, LoopType} from './binary-tree';
+import {BinaryTree, BinaryTreeNode} from './binary-tree';
 import {IBinaryTree, IBinaryTreeNode} from '../interfaces';
+import {LoopType} from '../types';
 
 enum RBColor { Red, Black }
 

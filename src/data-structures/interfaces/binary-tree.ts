@@ -1,5 +1,4 @@
-import {BinaryTreeNodeId} from '../types';
-import {FamilyPosition} from '../binary-tree';
+import {BinaryTreeNodeId, FamilyPosition} from '../types';
 
 export interface IBinaryTreeNode<T, FAMILY extends IBinaryTreeNode<T, FAMILY>> {
     _createNode(id: BinaryTreeNodeId, val: T | null, count?: number): FAMILY | null;

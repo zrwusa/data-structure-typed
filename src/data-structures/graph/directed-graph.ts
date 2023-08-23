@@ -74,14 +74,10 @@ export class DirectedEdge<T = number> extends AbstractEdge<T> {
 }
 
 // Strongly connected, One direction connected, Weakly connected
-export class DirectedGraph<V extends DirectedVertex<any>, E extends DirectedEdge<any>> extends AbstractGraph<V, E> implements IDirectedGraph<V, E> {
-    private readonly _vertexConstructor: new (id: VertexId, val?: V['val']) => V;
-    private readonly _edgeConstructor: new (src: VertexId, dest: VertexId, weight?: number, val?: E['val']) => E;
+export class DirectedGraph<V extends DirectedVertex<any> = DirectedVertex, E extends DirectedEdge<any> = DirectedEdge> extends AbstractGraph<V, E> implements IDirectedGraph<V, E> {
 
-    constructor(vertexConstructor: new (id: VertexId, val?: V['val']) => V, edgeConstructor: new (src: VertexId, dest: VertexId, weight?: number, val?: E['val']) => E) {
+    constructor() {
         super();
-        this._vertexConstructor = vertexConstructor;
-        this._edgeConstructor = edgeConstructor;
     }
 
     private _outEdgeMap: Map<V, E[]> = new Map<V, E[]>();
@@ -103,7 +99,7 @@ export class DirectedGraph<V extends DirectedVertex<any>, E extends DirectedEdge
      * @param val
      */
     _createVertex(id: VertexId, val?: V['val']): V {
-        return new this._vertexConstructor(id, val);
+        return new DirectedVertex(id, val ?? id) as V;
     }
 
     /**
@@ -115,8 +111,7 @@ export class DirectedGraph<V extends DirectedVertex<any>, E extends DirectedEdge
      * @param val
      */
     _createEdge(src: VertexId, dest: VertexId, weight?: number, val?: E['val']): E {
-        if (weight === undefined || weight === null) weight = 1;
-        return new this._edgeConstructor(src, dest, weight, val);
+        return new DirectedEdge(src, dest, weight ?? 1, val) as E;
     }
 
     /**

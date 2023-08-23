@@ -58,15 +58,10 @@ export class UndirectedEdge<T = number> extends AbstractEdge<T> {
     // }
 }
 
-export class UndirectedGraph<V extends UndirectedVertex<any>, E extends UndirectedEdge<any>> extends AbstractGraph<V, E> {
+export class UndirectedGraph<V extends UndirectedVertex<any> = UndirectedVertex, E extends UndirectedEdge<any> = UndirectedEdge> extends AbstractGraph<V, E> {
 
-    private readonly _vertexConstructor: new (id: VertexId, val?: V['val']) => V;
-    private readonly _edgeConstructor: new (src: VertexId, dest: VertexId, weight?: number, val?: E['val']) => E;
-
-    constructor(vertexConstructor: new (id: VertexId, val?: V['val']) => V, edgeConstructor: new (src: VertexId, dest: VertexId, weight?: number, val?: E['val']) => E) {
+    constructor() {
         super();
-        this._vertexConstructor = vertexConstructor;
-        this._edgeConstructor = edgeConstructor;
         this._edges = new Map<V, E[]>();
     }
 
@@ -83,20 +78,24 @@ export class UndirectedGraph<V extends UndirectedVertex<any>, E extends Undirect
      * @param val
      */
     _createVertex(id: VertexId, val?: V['val']): V {
-        return new this._vertexConstructor(id, val);
+        return new UndirectedVertex(id, val ?? id) as V;
     }
 
+
     /**
-     * In TypeScript, a subclass inherits the interface implementation of its parent class, without needing to implement the same interface again in the subclass. This behavior differs from Java's approach. In Java, if a parent class implements an interface, the subclass needs to explicitly implement the same interface, even if the parent class has already implemented it.
-     * This means that using abstract methods in the parent class cannot constrain the grandchild classes. Defining methods within an interface also cannot constrain the descendant classes. When inheriting from this class, developers need to be aware that this method needs to be overridden.
-     * @param src
-     * @param dest
-     * @param weight
-     * @param val
+     * The function _createEdge creates an undirected edge between two vertices with an optional weight and value.
+     * @param {VertexId} v1 - The parameter `v1` represents the first vertex of the edge. It is of type `VertexId`, which
+     * could be a unique identifier or label for the vertex.
+     * @param {VertexId} v2 - The parameter `v2` represents the second vertex of the edge. It is of type `VertexId`, which
+     * is typically a unique identifier for a vertex in a graph.
+     * @param {number} [weight] - The weight parameter is an optional number that represents the weight of the edge. If no
+     * weight is provided, the default value is 1.
+     * @param [val] - The `val` parameter is an optional value that can be assigned to the edge. It can be of any type and
+     * is used to store additional information or data associated with the edge.
+     * @returns an instance of the UndirectedEdge class, casted as type E.
      */
-    _createEdge(src: VertexId, dest: VertexId, weight?: number, val?: E['val']): E {
-        if (weight === undefined || weight === null) weight = 1;
-        return new this._edgeConstructor(src, dest, weight, val);
+    _createEdge(v1: VertexId, v2: VertexId, weight?: number, val?: E['val']): E {
+        return new UndirectedEdge(v1, v2, weight ?? 1, val) as E;
     }
 
     /**

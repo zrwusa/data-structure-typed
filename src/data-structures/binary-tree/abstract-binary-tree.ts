@@ -14,17 +14,16 @@ import type {
     DFSOrderPattern,
     KeyValObject,
     NodeOrPropertyName,
-    RecursiveBinaryTreeNode,
     ResultByProperty,
     ResultsByProperty
 } from '../types';
-import {BinaryTreeOptions, FamilyPosition, LoopType} from '../types';
+import {BinaryTreeOptions, FamilyPosition, LoopType, RecursiveAbstractBinaryTreeNode} from '../types';
 import {IBinaryTree, IBinaryTreeNode} from '../interfaces';
 
 
-export class BinaryTreeNode<T, FAMILY extends BinaryTreeNode<T, FAMILY> = RecursiveBinaryTreeNode<T>> implements IBinaryTreeNode<T, FAMILY> {
+export abstract class AbstractBinaryTreeNode<T, FAMILY extends AbstractBinaryTreeNode<T, FAMILY> = RecursiveAbstractBinaryTreeNode<T>> implements IBinaryTreeNode<T, FAMILY> {
 
-    constructor(id: BinaryTreeNodeId, val: T, count?: number) {
+    protected constructor(id: BinaryTreeNodeId, val: T, count?: number) {
         this._id = id;
         this._val = val;
         this._count = count ?? 1;
@@ -118,14 +117,12 @@ export class BinaryTreeNode<T, FAMILY extends BinaryTreeNode<T, FAMILY> = Recurs
         this._height = v;
     }
 
-    _createNode(id: BinaryTreeNodeId, val: T | null, count?: number): FAMILY | null {
-        return val !== null ? new BinaryTreeNode<T, FAMILY>(id, val, count) as FAMILY : null;
-    }
+    abstract _createNode(id: BinaryTreeNodeId, val: T | null, count?: number): FAMILY | null
 
     swapLocation(swapNode: FAMILY): FAMILY {
         const {val, count, height} = swapNode;
         const tempNode = this._createNode(swapNode.id, val);
-        if (tempNode instanceof BinaryTreeNode) {
+        if (tempNode instanceof AbstractBinaryTreeNode) {
             tempNode.val = val;
             tempNode.count = count;
             tempNode.height = height;
@@ -148,14 +145,14 @@ export class BinaryTreeNode<T, FAMILY extends BinaryTreeNode<T, FAMILY> = Recurs
     }
 }
 
-export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode<number>> implements IBinaryTree<N> {
+export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], N> = AbstractBinaryTreeNode<number>> implements IBinaryTree<N> {
 
     /**
      * The constructor function accepts an optional options object and sets the values of loopType, autoIncrementId, and
      * isDuplicatedVal based on the provided options.
      * @param [options] - An optional object that can contain the following properties:
      */
-    constructor(options?: BinaryTreeOptions) {
+    protected constructor(options?: BinaryTreeOptions) {
         if (options !== undefined) {
             const {
                 loopType = LoopType.iterative,
@@ -250,10 +247,7 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode<n
      * of occurrences of the value in the binary tree node. If not provided, the default value is `undefined`.
      * @returns a BinaryTreeNode object if the value is not null, otherwise it returns null.
      */
-    _createNode(id: BinaryTreeNodeId, val: N['val'] | null, count?: number): N | null {
-        const node = new BinaryTreeNode<N['val'], N>(id, val, count);
-        return node as N | null;
-    }
+    abstract _createNode(id: BinaryTreeNodeId, val: N['val'] | null, count?: number): N | null ;
 
     /**
      * The clear function resets the state of an object by setting its properties to their initial values.
@@ -386,7 +380,7 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode<n
             // TODO will this cause an issue?
             const count = this._isDuplicatedVal ? 1 : map.get(item);
 
-            if (item instanceof BinaryTreeNode) {
+            if (item instanceof AbstractBinaryTreeNode) {
                 inserted.push(this.add(item.id, item.val, item.count));
             } else if (typeof item === 'number') {
                 if (!this._autoIncrementId) {
@@ -459,7 +453,7 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode<n
         else if (node.count > 1 && !ignoreCount) {
             node.count--;
             this._setCount(this.count - 1);
-        } else if (node instanceof BinaryTreeNode) {
+        } else if (node instanceof AbstractBinaryTreeNode) {
             const [subSize, subCount] = this.getSubTreeSizeAndCount(node);
 
             switch (node.familyPosition) {
