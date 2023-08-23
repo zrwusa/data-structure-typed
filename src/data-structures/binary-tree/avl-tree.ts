@@ -10,7 +10,9 @@ import type {AVLTreeOptions, BinaryTreeDeletedResult, BinaryTreeNodeId, Recursiv
 import {IAVLTree, IAVLTreeNode} from '../interfaces';
 
 export class AVLTreeNode<T, FAMILY extends AVLTreeNode<T, FAMILY> = RecursiveAVLTreeNode<T>> extends BSTNode<T, FAMILY> implements IAVLTreeNode<T, FAMILY> {
-
+    override createNode(id: BinaryTreeNodeId, val?: T, count?: number): FAMILY {
+        return new AVLTreeNode(id, (val === undefined ? id : val) as T, count) as FAMILY;
+    }
 }
 
 export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode<number>> extends BST<N> implements IAVLTree<N> {
@@ -18,9 +20,8 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode<number>> e
         super(options);
     }
 
-    override createNode(id: BinaryTreeNodeId, val: N['val'], count?: number): N {
-        const node = new AVLTreeNode<N['val'], N>(id, val, count);
-        return node as N;
+    override createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N {
+        return new AVLTreeNode<N['val'], N>(id, (val === undefined ? id : val), count) as N;
     }
 
     /**

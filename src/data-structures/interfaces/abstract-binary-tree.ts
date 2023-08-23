@@ -1,6 +1,6 @@
 import {
-    AbstractBinaryTreeNodeProperty,
     AbstractBinaryTreeNodeProperties,
+    AbstractBinaryTreeNodeProperty,
     BinaryTreeDeletedResult,
     BinaryTreeNodeId,
     BinaryTreeNodePropertyName,
@@ -13,43 +13,35 @@ import {AbstractBinaryTreeNode} from '../binary-tree';
 
 export interface IAbstractBinaryTreeNode<T, FAMILY extends IAbstractBinaryTreeNode<T, FAMILY>> {
 
-    createNode(id: BinaryTreeNodeId, val: T | null, count?: number): FAMILY | null;
-
+    createNode(id: BinaryTreeNodeId, val?: T, count?: number): FAMILY;
 
     get id(): BinaryTreeNodeId
 
     set id(v: BinaryTreeNodeId)
 
+    get val(): T | undefined
 
-    get val(): T
-
-    set val(v: T)
-
+    set val(v: T | undefined)
 
     get left(): FAMILY | null | undefined
 
     set left(v: FAMILY | null | undefined)
 
-
     get right(): FAMILY | null | undefined
 
     set right(v: FAMILY | null | undefined)
-
 
     get parent(): FAMILY | null | undefined
 
     set parent(v: FAMILY | null | undefined)
 
-
     get familyPosition(): FamilyPosition
 
     set familyPosition(v: FamilyPosition)
 
-
     get count(): number
 
     set count(v: number)
-
 
     get height(): number
 
@@ -64,18 +56,29 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
     createNode(id: BinaryTreeNodeId, val: N['val'] | null, count?: number): N | null
 
     get loopType(): LoopType
+
     get visitedId(): BinaryTreeNodeId[]
+
     get visitedVal(): Array<N['val']>
+
     get visitedNode(): N[]
+
     get visitedCount(): number[]
+
     get visitedLeftSum(): number[]
+
     get autoIncrementId(): boolean
+
     get maxId(): number
+
     get isDuplicatedVal(): boolean
+
     get root(): N | null
+
     get size(): number
+
     get count(): number
-    
+
     clear(): void
 
     isEmpty(): boolean
@@ -117,6 +120,8 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
     getRightMost(node: N): N;
 
     getRightMost(node?: N | null): N | null
+
+    isBSTByRooted(node: N | null): boolean
 
     isBST(node?: N | null): boolean
 

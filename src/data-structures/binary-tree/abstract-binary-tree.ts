@@ -8,9 +8,9 @@
 
 import {trampoline} from '../../utils';
 import type {
-    AbstractRecursiveBinaryTreeNode,
-    AbstractBinaryTreeNodeProperty,
     AbstractBinaryTreeNodeProperties,
+    AbstractBinaryTreeNodeProperty,
+    AbstractRecursiveBinaryTreeNode,
     BinaryTreeDeletedResult,
     BinaryTreeNodeId,
     BinaryTreeNodePropertyName,
@@ -21,9 +21,18 @@ import type {
 import {AbstractBinaryTreeOptions, FamilyPosition, LoopType} from '../types';
 import {IAbstractBinaryTree, IAbstractBinaryTreeNode} from '../interfaces';
 
-export abstract class AbstractBinaryTreeNode<T, FAMILY extends AbstractBinaryTreeNode<T, FAMILY> = AbstractRecursiveBinaryTreeNode<T>> implements IAbstractBinaryTreeNode<T, FAMILY> {
+export abstract class AbstractBinaryTreeNode<T = number, FAMILY extends AbstractBinaryTreeNode<T, FAMILY> = AbstractRecursiveBinaryTreeNode<T>> implements IAbstractBinaryTreeNode<T, FAMILY> {
 
-    constructor(id: BinaryTreeNodeId, val: T, count?: number) {
+    /**
+     * The constructor function initializes a BinaryTreeNode object with an id, value, and count.
+     * @param {BinaryTreeNodeId} id - The `id` parameter is of type `BinaryTreeNodeId` and represents the unique identifier
+     * for the binary tree node.
+     * @param {T} [val] - The `val` parameter is an optional parameter of type `T`. It represents the value of the binary
+     * tree node. If no value is provided, it will be `undefined`.
+     * @param {number} [count] - The `count` parameter is an optional parameter that represents the number of times the
+     * value `val` appears in the binary tree node. If the `count` parameter is not provided, it defaults to 1.
+     */
+    constructor(id: BinaryTreeNodeId, val?: T, count?: number) {
         this._id = id;
         this._val = val;
         this._count = count ?? 1;
@@ -39,14 +48,14 @@ export abstract class AbstractBinaryTreeNode<T, FAMILY extends AbstractBinaryTre
         this._id = v;
     }
 
-    private _val: T;
+    private _val: T | undefined;
 
-    get val(): T {
-        return this._val;
+    get val(): T | undefined {
+        return this._val as T;
     }
 
-    set val(v: T) {
-        this._val = v;
+    set val(value: T | undefined) {
+        this._val = value;
     }
 
     private _left?: FAMILY | null;
@@ -117,8 +126,13 @@ export abstract class AbstractBinaryTreeNode<T, FAMILY extends AbstractBinaryTre
         this._height = v;
     }
 
-    abstract createNode(id: BinaryTreeNodeId, val: T | null, count?: number): FAMILY | null
+    abstract createNode(id: BinaryTreeNodeId, val?: T, count?: number): FAMILY
 
+    /**
+     * The function swaps the location of two nodes in a binary tree.
+     * @param {FAMILY} swapNode - The `swapNode` parameter is of type `FAMILY`, which represents a node in a family tree.
+     * @returns the `swapNode` object after swapping its properties with the properties of `this` object.
+     */
     swapLocation(swapNode: FAMILY): FAMILY {
         const {val, count, height} = swapNode;
         const tempNode = this.createNode(swapNode.id, val);
@@ -140,6 +154,11 @@ export abstract class AbstractBinaryTreeNode<T, FAMILY extends AbstractBinaryTre
         return swapNode;
     }
 
+    /**
+     * The `clone` function returns a new instance of the `FAMILY` class with the same `id`, `val`, and `count` properties.
+     * @returns The `clone()` method is returning a new instance of the `FAMILY` class with the same `id`, `val`, and
+     * `count` values as the current instance.
+     */
     clone(): FAMILY | null {
         return this.createNode(this.id, this.val, this.count);
     }
@@ -310,12 +329,13 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The function inserts a new node into a binary tree as the left or right child of a given parent node.
-     * @param {N | null} newNode - The `newNode` parameter is an instance of the `BinaryTreeNode` class or
-     * `null`. It represents the node that needs to be inserted into the binary tree.
-     * @param parent - The `parent` parameter is a BinaryTreeNode object representing the parent node to which the new node
-     * will be inserted as a child.
-     * @returns The method returns the newly inserted node, either as the left child or the right child of the parent node.
+     * The function adds a new node to a binary tree as the left or right child of a given parent node.
+     * @param {N | null} newNode - The `newNode` parameter represents the node that you want to add to the tree. It can be
+     * either a node object (`N`) or `null`.
+     * @param {N} parent - The `parent` parameter represents the parent node to which the new node will be added as a
+     * child.
+     * @returns either the left or right child node that was added to the parent node. It can also return `null` or
+     * `undefined` in certain cases.
      */
     addTo(newNode: N | null, parent: N): N | null | undefined {
         if (parent) {
@@ -749,16 +769,14 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         }
     }
 
+
     /**
-     * The `isBST` function checks if a binary tree is a binary search tree.
-     * @param {N | null} [node] - The `node` parameter is an optional parameter of type `N
-     * | null`. It represents the root node of the binary search tree (BST) that we want to check for validity. If no node
-     * is provided, the function will default to using the root node of the BST instance that
-     * @returns The `isBST` function returns a boolean value. It returns `true` if the binary tree is a valid binary search
-     * tree, and `false` otherwise.
+     * The function `isBSTByRooted` checks if a binary tree is a binary search tree (BST) by rooted traversal.
+     * @param {N | null} node - The `node` parameter represents the root node of a binary search tree (BST).
+     * @returns a boolean value.
      */
-    isBST(node?: N | null): boolean {
-        node = node ?? this.root;
+    isBSTByRooted(node: N | null): boolean {
+
         if (!node) return true;
 
         if (this._loopType === LoopType.RECURSIVE) {
@@ -784,6 +802,16 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
             }
             return true;
         }
+    }
+
+    /**
+     * The function checks if a binary tree is a binary search tree.
+     * @param {N | null} [node] - The `node` parameter is of type `N` or `null`. It represents the root node of a binary
+     * search tree (BST).
+     * @returns a boolean value.
+     */
+    isBST(node?: N | null): boolean {
+        return this.isBSTByRooted(this.root);
     }
 
     /**

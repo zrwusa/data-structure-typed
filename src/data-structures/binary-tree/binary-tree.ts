@@ -8,14 +8,23 @@
 
 import type {BinaryTreeNodeId, RecursiveBinaryTreeNode} from '../types';
 import {BinaryTreeOptions} from '../types';
-import {IAbstractBinaryTree, IAbstractBinaryTreeNode} from '../interfaces';
 import {AbstractBinaryTree, AbstractBinaryTreeNode} from './abstract-binary-tree';
 import {IBinaryTree, IBinaryTreeNode} from '../interfaces/binary-tree';
 
 export class BinaryTreeNode<T = number, FAMILY extends BinaryTreeNode<T, FAMILY> = RecursiveBinaryTreeNode<T>> extends AbstractBinaryTreeNode<T, FAMILY> implements IBinaryTreeNode<T, FAMILY> {
 
-    createNode(id: BinaryTreeNodeId, val: T | null, count?: number): FAMILY | null {
-        return val !== null ? new BinaryTreeNode<T, FAMILY>(id, val, count) as FAMILY : null;
+    /**
+     * The function creates a new binary tree node with an optional value and count, and returns it as a specified type.
+     * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier for the binary tree node. It is of type
+     * `BinaryTreeNodeId`, which could be a string or a number depending on how you want to identify your nodes.
+     * @param {T} [val] - The `val` parameter is an optional value that can be assigned to the node. It represents the
+     * value stored in the node.
+     * @param {number} [count] - The count parameter is an optional parameter that represents the number of times the value
+     * appears in the binary tree node.
+     * @returns a new instance of the BinaryTreeNode class, casted as the FAMILY type.
+     */
+    createNode(id: BinaryTreeNodeId, val?: T, count?: number): FAMILY {
+        return new BinaryTreeNode<T, FAMILY>(id, (val === undefined ? id : val) as T, count) as FAMILY;
     }
 
 }
@@ -43,9 +52,8 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
      * of occurrences of the value in the binary tree node. If not provided, the default value is `undefined`.
      * @returns a BinaryTreeNode object if the value is not null, otherwise it returns null.
      */
-    createNode(id: BinaryTreeNodeId, val: N['val'] | null, count?: number): N | null {
-        const node = new BinaryTreeNode<N['val'], N>(id, val, count);
-        return node as N | null;
+    createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N {
+        return new BinaryTreeNode<N['val'], N>(id, val === undefined ? id : val, count) as N;
     }
 
 }

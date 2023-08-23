@@ -8,10 +8,22 @@
 import type {BinaryTreeNodeId, BinaryTreeNodePropertyName, BSTComparator, RecursiveBSTNode} from '../types';
 import {BinaryTreeDeletedResult, BSTOptions, CP, FamilyPosition, LoopType} from '../types';
 import {BinaryTree, BinaryTreeNode} from './binary-tree';
-import {IAbstractBinaryTree, IAbstractBinaryTreeNode, IBST, IBSTNode} from '../interfaces';
+import {IBST, IBSTNode} from '../interfaces';
 
 export class BSTNode<T, FAMILY extends BSTNode<T, FAMILY> = RecursiveBSTNode<T>> extends BinaryTreeNode<T, FAMILY> implements IBSTNode<T, FAMILY> {
-
+    /**
+     * The function creates a new binary search tree node with the specified id, value, and count.
+     * @param {BinaryTreeNodeId} id - The id parameter is the identifier for the binary tree node. It is used to uniquely
+     * identify each node in the tree.
+     * @param {T} [val] - The "val" parameter represents the value that will be stored in the binary tree node. It is an
+     * optional parameter, meaning it can be omitted when calling the "createNode" function.
+     * @param {number} [count] - The `count` parameter represents the number of occurrences of the value in the binary
+     * search tree node. It is an optional parameter, so it can be omitted when calling the `createNode` method.
+     * @returns The method is returning a new instance of the BSTNode class, casted as the FAMILY type.
+     */
+    override createNode(id: BinaryTreeNodeId, val?: T, count?: number): FAMILY {
+        return new BSTNode<T, FAMILY>(id, (val === undefined ? id : val) as T, count) as FAMILY;
+    }
 }
 
 export class BST<N extends BSTNode<N['val'], N> = BSTNode<number>> extends BinaryTree<N> implements IBST<N> {
@@ -29,9 +41,18 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode<number>> extends Binar
         }
     }
 
-    override createNode(id: BinaryTreeNodeId, val: N['val'] | null, count?: number): N | null {
-        const node = val !== null ? new BSTNode<N['val'], N>(id, val, count) : null;
-        return node as N;
+    /**
+     * The function creates a new binary search tree node with the given id, value, and count.
+     * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier for the binary tree node. It is of type
+     * `BinaryTreeNodeId`.
+     * @param {N['val'] | null} [val] - The `val` parameter is the value that will be stored in the node. It can be of any
+     * type `N['val']` or `null`.
+     * @param {number} [count] - The `count` parameter is an optional parameter that represents the number of occurrences
+     * of a particular value in the binary search tree node.
+     * @returns a new instance of the BSTNode class, casted as type N.
+     */
+    override createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N {
+        return new BSTNode<N['val'], N>(id, val === undefined ? id : val, count) as N;
     }
 
     /**

@@ -8,7 +8,7 @@
 import {arrayRemove} from '../../utils';
 import {AbstractEdge, AbstractGraph, AbstractVertex} from './abstract-graph';
 import type {TopologicalStatus, VertexId} from '../types';
-import {IDirectedGraph, IAbstractGraph} from '../interfaces';
+import {IDirectedGraph} from '../interfaces';
 
 export class DirectedVertex<T = number> extends AbstractVertex<T> {
     /**

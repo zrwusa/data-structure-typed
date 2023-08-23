@@ -50,7 +50,7 @@ export class UndirectedEdge<T = number> extends AbstractEdge<T> {
     }
 }
 
-export class UndirectedGraph<V extends UndirectedVertex<any> = UndirectedVertex, E extends UndirectedEdge<any> = UndirectedEdge> extends AbstractGraph<V, E> implements IUNDirectedGraph<V, E>{
+export class UndirectedGraph<V extends UndirectedVertex<any> = UndirectedVertex, E extends UndirectedEdge<any> = UndirectedEdge> extends AbstractGraph<V, E> implements IUNDirectedGraph<V, E> {
 
     constructor() {
         super();
