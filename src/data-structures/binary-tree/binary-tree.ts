@@ -8,13 +8,13 @@
 
 import type {BinaryTreeNodeId, RecursiveBinaryTreeNode} from '../types';
 import {BinaryTreeOptions} from '../types';
-import {IBinaryTree, IBinaryTreeNode} from '../interfaces';
+import {IAbstractBinaryTree, IAbstractBinaryTreeNode} from '../interfaces';
 import {AbstractBinaryTree, AbstractBinaryTreeNode} from './abstract-binary-tree';
-
+import {IBinaryTree, IBinaryTreeNode} from '../interfaces/binary-tree';
 
 export class BinaryTreeNode<T = number, FAMILY extends BinaryTreeNode<T, FAMILY> = RecursiveBinaryTreeNode<T>> extends AbstractBinaryTreeNode<T, FAMILY> implements IBinaryTreeNode<T, FAMILY> {
 
-    _createNode(id: BinaryTreeNodeId, val: T | null, count?: number): FAMILY | null {
+    createNode(id: BinaryTreeNodeId, val: T | null, count?: number): FAMILY | null {
         return val !== null ? new BinaryTreeNode<T, FAMILY>(id, val, count) as FAMILY : null;
     }
 
@@ -43,7 +43,7 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
      * of occurrences of the value in the binary tree node. If not provided, the default value is `undefined`.
      * @returns a BinaryTreeNode object if the value is not null, otherwise it returns null.
      */
-    _createNode(id: BinaryTreeNodeId, val: N['val'] | null, count?: number): N | null {
+    createNode(id: BinaryTreeNodeId, val: N['val'] | null, count?: number): N | null {
         const node = new BinaryTreeNode<N['val'], N>(id, val, count);
         return node as N | null;
     }

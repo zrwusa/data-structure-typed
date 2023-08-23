@@ -8,13 +8,13 @@
 import type {BinaryTreeNodeId, BinaryTreeNodePropertyName, BSTComparator, RecursiveBSTNode} from '../types';
 import {BinaryTreeDeletedResult, BSTOptions, CP, FamilyPosition, LoopType} from '../types';
 import {BinaryTree, BinaryTreeNode} from './binary-tree';
-import {IBinaryTree, IBinaryTreeNode} from '../interfaces';
+import {IAbstractBinaryTree, IAbstractBinaryTreeNode, IBST, IBSTNode} from '../interfaces';
 
-export class BSTNode<T, FAMILY extends BSTNode<T, FAMILY> = RecursiveBSTNode<T>> extends BinaryTreeNode<T, FAMILY> implements IBinaryTreeNode<T, FAMILY> {
+export class BSTNode<T, FAMILY extends BSTNode<T, FAMILY> = RecursiveBSTNode<T>> extends BinaryTreeNode<T, FAMILY> implements IBSTNode<T, FAMILY> {
 
 }
 
-export class BST<N extends BSTNode<N['val'], N> = BSTNode<number>> extends BinaryTree<N> implements IBinaryTree<N> {
+export class BST<N extends BSTNode<N['val'], N> = BSTNode<number>> extends BinaryTree<N> implements IBST<N> {
     /**
      * The constructor function accepts an optional options object and sets the comparator property if provided.
      * @param [options] - An optional object that can contain the following properties:
@@ -29,7 +29,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode<number>> extends Binar
         }
     }
 
-    override _createNode(id: BinaryTreeNodeId, val: N['val'] | null, count?: number): N | null {
+    override createNode(id: BinaryTreeNodeId, val: N['val'] | null, count?: number): N | null {
         const node = val !== null ? new BSTNode<N['val'], N>(id, val, count) : null;
         return node as N;
     }
@@ -48,7 +48,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode<number>> extends Binar
      */
     override add(id: BinaryTreeNodeId, val: N['val'] | null, count: number = 1): N | null {
         let inserted: N | null = null;
-        const newNode = this._createNode(id, val, count);
+        const newNode = this.createNode(id, val, count);
         if (this.root === null) {
             this._setRoot(newNode);
             this._setSize(this.size + 1);
@@ -133,7 +133,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode<number>> extends Binar
      * greater than, it returns the ID of the leftmost node. Otherwise, it also returns the ID of the rightmost node. If
      * there are no nodes in
      */
-    lastKey() {
+    lastKey(): BinaryTreeNodeId {
         if (this._compare(0, 1) === CP.lt) return this.getRightMost()?.id ?? 0;
         else if (this._compare(0, 1) === CP.gt) return this.getLeftMost()?.id ?? 0;
         else return this.getRightMost()?.id ?? 0;

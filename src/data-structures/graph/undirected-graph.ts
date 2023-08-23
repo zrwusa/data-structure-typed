@@ -8,6 +8,7 @@
 import {arrayRemove} from '../../utils';
 import {AbstractEdge, AbstractGraph, AbstractVertex} from './abstract-graph';
 import type {VertexId} from '../types';
+import {IUNDirectedGraph} from '../interfaces';
 
 export class UndirectedVertex<T = number> extends AbstractVertex<T> {
     /**
@@ -20,10 +21,6 @@ export class UndirectedVertex<T = number> extends AbstractVertex<T> {
     constructor(id: VertexId, val?: T) {
         super(id, val);
     }
-
-    // _createVertex(id: VertexId, val?: T): T {
-    //     return new T(id, val);
-    // }
 }
 
 export class UndirectedEdge<T = number> extends AbstractEdge<T> {
@@ -51,14 +48,9 @@ export class UndirectedEdge<T = number> extends AbstractEdge<T> {
     set vertices(v: [VertexId, VertexId]) {
         this._vertices = v;
     }
-
-    // _createEdge(src: VertexId, dest: VertexId, weight?: number, val?: T): T {
-    //     if (weight === undefined || weight === null) weight = 1;
-    //     return new UndirectedEdge(src, dest, weight, val);
-    // }
 }
 
-export class UndirectedGraph<V extends UndirectedVertex<any> = UndirectedVertex, E extends UndirectedEdge<any> = UndirectedEdge> extends AbstractGraph<V, E> {
+export class UndirectedGraph<V extends UndirectedVertex<any> = UndirectedVertex, E extends UndirectedEdge<any> = UndirectedEdge> extends AbstractGraph<V, E> implements IUNDirectedGraph<V, E>{
 
     constructor() {
         super();
@@ -77,13 +69,13 @@ export class UndirectedGraph<V extends UndirectedVertex<any> = UndirectedVertex,
      * @param id
      * @param val
      */
-    _createVertex(id: VertexId, val?: V['val']): V {
+    override createVertex(id: VertexId, val?: V['val']): V {
         return new UndirectedVertex(id, val ?? id) as V;
     }
 
 
     /**
-     * The function _createEdge creates an undirected edge between two vertices with an optional weight and value.
+     * The function createEdge creates an undirected edge between two vertices with an optional weight and value.
      * @param {VertexId} v1 - The parameter `v1` represents the first vertex of the edge. It is of type `VertexId`, which
      * could be a unique identifier or label for the vertex.
      * @param {VertexId} v2 - The parameter `v2` represents the second vertex of the edge. It is of type `VertexId`, which
@@ -94,7 +86,7 @@ export class UndirectedGraph<V extends UndirectedVertex<any> = UndirectedVertex,
      * is used to store additional information or data associated with the edge.
      * @returns an instance of the UndirectedEdge class, casted as type E.
      */
-    _createEdge(v1: VertexId, v2: VertexId, weight?: number, val?: E['val']): E {
+    override createEdge(v1: VertexId, v2: VertexId, weight?: number, val?: E['val']): E {
         return new UndirectedEdge(v1, v2, weight ?? 1, val) as E;
     }
 
@@ -230,19 +222,6 @@ export class UndirectedGraph<V extends UndirectedVertex<any> = UndirectedVertex,
         return [...edgeSet];
     }
 
-    /**
-     * The function "getEdgesOf" returns an array of undirected edges connected to a given vertex or vertex ID.
-     * @param {V | VertexId} vertexOrId - The parameter `vertexOrId` can be either an
-     * `V` object or a `VertexId`.
-     * @returns The function `getEdgesOf` returns an array of `E` objects.
-     */
-    getEdgesOf(vertexOrId: V | VertexId): E[] {
-        const vertex = this._getVertex(vertexOrId);
-        if (!vertex) {
-            return [];
-        }
-        return this._edges.get(vertex) || [];
-    }
 
     /**
      * The function `getNeighbors` returns an array of neighboring vertices of a given vertex in an undirected graph.
@@ -254,7 +233,7 @@ export class UndirectedGraph<V extends UndirectedVertex<any> = UndirectedVertex,
         const neighbors: V[] = [];
         const vertex = this._getVertex(vertexOrId);
         if (vertex) {
-            const neighborEdges = this.getEdgesOf(vertex);
+            const neighborEdges = this.edgesOf(vertex);
             for (const edge of neighborEdges) {
                 const neighbor = this._getVertex(edge.vertices.filter(e => e !== vertex.id)[0]);
                 if (neighbor) {

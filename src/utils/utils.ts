@@ -76,3 +76,66 @@ export const trampolineAsync = (fn: TrlAsyncFn) => {
         {cont}
     )
 }
+
+// export class AutoPruneMap<K, V> extends Map<K, V> {
+//
+//     private _proxySet: Set<V>;
+//     get proxySet(): Set<V> {
+//         return this._proxySet;
+//     }
+//
+//     set proxySet(value: Set<V>) {
+//         this._proxySet = value;
+//     }
+//
+//     private _isEmptyArrayAllowed: boolean;
+//
+//     get isEmptyArrayAllowed(): boolean {
+//         return this._isEmptyArrayAllowed;
+//     }
+//
+//     set isEmptyArrayAllowed(value: boolean) {
+//         this._isEmptyArrayAllowed = value;
+//     }
+//
+//     constructor(isEmptyArrayAllowed: boolean = false) {
+//         super();
+//         this._isEmptyArrayAllowed = isEmptyArrayAllowed;
+//         this._proxySet = new Set<V>();
+//     }
+//
+//     set(key: K, value: V): this {
+//         if (Array.isArray(value) && !this.proxySet.has(value)) {
+//             if(!this.isEmptyArrayAllowed && value.length === 0) return this;
+//             value = this.createArrayProxy(value, key);
+//             if (!this.proxySet.has(value)) this.proxySet.add(value);
+//         }
+//         super.set(key, value);
+//         return this;
+//     }
+//
+//     private createArrayProxy(array: V & any[], key: K) {
+//         const that = this;
+//         const proxyHandler: ProxyHandler<V & any[]> = {
+//             set(target: any, property: PropertyKey, value: any): boolean {
+//                 const result = Reflect.set(target, property, value);
+//                 that.checkAndDeleteEmptyArray(key);
+//                 return result;
+//             },
+//             deleteProperty(target: any, property: PropertyKey): boolean {
+//                 const result = Reflect.deleteProperty(target, property);
+//                 that.checkAndDeleteEmptyArray(key);
+//                 return result;
+//             },
+//         }
+//         return new Proxy(array, proxyHandler);
+//     }
+//
+//     private checkAndDeleteEmptyArray(key: K): void {
+//         const value = this.get(key);
+//
+//         if (Array.isArray(value) && value.length === 0) {
+//             super.delete(key);
+//         }
+//     }
+// }

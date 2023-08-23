@@ -100,11 +100,11 @@ class MyEdge<E extends string> extends DirectedEdge<E> {
 }
 
 class MyDirectedGraph<V extends MyVertex<string>, E extends MyEdge<string>> extends DirectedGraph<V, E> {
-    _createVertex(id: VertexId, val: V['val']): V {
+    createVertex(id: VertexId, val: V['val']): V {
         return new MyVertex(id, val) as V;
     }
 
-    _createEdge(src: VertexId, dest: VertexId, weight?: number, val?: E['val']): E {
+    createEdge(src: VertexId, dest: VertexId, weight?: number, val?: E['val']): E {
         return new MyEdge(src, dest, weight ?? 1, val) as E;
     }
 }
@@ -171,7 +171,7 @@ describe('Inherit from DirectedGraph and perform operations', () => {
         myGraph.addVertex(new MyVertex(2, 'data2'));
         myGraph.addEdge(new MyEdge(1, 2, 10, 'edge-data1-2'));
 
-        const removedEdge = myGraph.removeEdgeBetween(1, 2);
+        const removedEdge = myGraph.removeEdgeSrcToDest(1, 2);
         const edgeAfterRemoval = myGraph.getEdge(1, 2);
 
         expect(removedEdge).toBeInstanceOf(MyEdge);
@@ -246,7 +246,7 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
         expect(myGraph.getEdge(2, 1)).toBeTruthy();
         expect(myGraph.getEdge(1, '100')).toBeFalsy();
 
-        myGraph.removeEdgeBetween(1, 2);
+        myGraph.removeEdgeSrcToDest(1, 2);
         expect(myGraph.getEdge(1, 2)).toBeFalsy();
 
         myGraph.addEdge(new MyEdge(3, 1, 3, 'edge-data-3-1'));

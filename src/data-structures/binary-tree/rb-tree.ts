@@ -1,9 +1,10 @@
-import {BinaryTree, BinaryTreeNode} from './binary-tree';
-import {IBinaryTree, IBinaryTreeNode} from '../interfaces';
+import {BinaryTreeNode} from './binary-tree';
 import {RBColor, RBTreeOptions} from '../types';
+import {IRBTree, IRBTreeNode} from '../interfaces/rb-tree';
+import {BST} from './bst';
 
 
-class RBNode<T, FAMILY extends RBNode<T, FAMILY>> extends BinaryTreeNode<T, FAMILY> implements IBinaryTreeNode<T, FAMILY> {
+export class RBTreeNode<T, FAMILY extends RBTreeNode<T, FAMILY>> extends BinaryTreeNode<T, FAMILY> implements IRBTreeNode<T, FAMILY> {
     // override createNode(id: BinaryTreeNodeId, val: T | null, count?: number): RBNode<T> | null {
     //     return val !== null ? new RBNode<T>(id, val, count) : null;
     // }
@@ -58,12 +59,12 @@ class RBNode<T, FAMILY extends RBNode<T, FAMILY>> extends BinaryTreeNode<T, FAMI
     // }
 }
 
-class RBTree<N extends RBNode<N['val'], N>> extends BinaryTree<N> implements IBinaryTree<N> {
+export class RBTree<N extends RBTreeNode<N['val'], N>> extends BST<N> implements IRBTree<N> {
     constructor(options?: RBTreeOptions) {
         super(options);
     }
 
-    // override _createNode(id: BinaryTreeNodeId, val: N | null, count?: number): RBNode<N> | null {
+    // override createNode(id: BinaryTreeNodeId, val: N | null, count?: number): RBNode<N> | null {
     //     return val !== null ? new RBNode<N>(id, val, count) : null;
     // }
 

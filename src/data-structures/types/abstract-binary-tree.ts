@@ -17,12 +17,12 @@ export type DFSOrderPattern = 'in' | 'pre' | 'post';
 export type BinaryTreeNodeId = number;
 export type BinaryTreeDeletedResult<N> = { deleted: N | null | undefined, needBalanced: N | null };
 
-export type AbstractResultByProperty<N extends AbstractBinaryTreeNode<N['val'], N>> =
+export type AbstractBinaryTreeNodeProperty<N extends AbstractBinaryTreeNode<N['val'], N>> =
     N['val']
     | N
     | number
     | BinaryTreeNodeId;
-export type AbstractResultsByProperty<N extends AbstractBinaryTreeNode<N['val'], N>> = AbstractResultByProperty<N>[];
+export type AbstractBinaryTreeNodeProperties<N extends AbstractBinaryTreeNode<N['val'], N>> = AbstractBinaryTreeNodeProperty<N>[];
 export type AbstractRecursiveBinaryTreeNode<T> = AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, AbstractBinaryTreeNode<T, any>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 export type AbstractBinaryTreeOptions = {
     loopType?: LoopType,

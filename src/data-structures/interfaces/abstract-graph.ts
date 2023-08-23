@@ -1,12 +1,12 @@
 import {VertexId} from '../types';
 
-export interface IGraph<V, E> {
+export interface IAbstractGraph<V, E> {
 
     hasVertex(vertexOrId: V | VertexId): boolean;
 
-    _getVertex(vertexOrId: VertexId | V): V | null;
+    // _getVertex(vertexOrId: VertexId | V): V | null;
 
-    _getVertexId(vertexOrId: V | VertexId): VertexId;
+    // _getVertexId(vertexOrId: V | VertexId): VertexId;
 
     createAddVertex(id: VertexId, val?: V): boolean;
 
@@ -29,8 +29,6 @@ export interface IGraph<V, E> {
     createAddEdge(src: V | VertexId, dest: V | VertexId, weight: number, val: E): boolean;
 
     addEdge(edge: E): boolean;
-
-    removeEdgeBetween(src: V | VertexId, dest: V | VertexId): E | null;
 
     removeEdge(edge: E): E | null;
 

@@ -8,7 +8,7 @@
 import {arrayRemove, uuidV4} from '../../utils';
 import {PriorityQueue} from '../priority-queue';
 import type {DijkstraResult, VertexId} from '../types';
-import {IGraph} from '../interfaces';
+import {IAbstractGraph} from '../interfaces';
 
 export abstract class AbstractVertex<T = number> {
 
@@ -43,7 +43,7 @@ export abstract class AbstractVertex<T = number> {
     //  * @param id
     //  * @param val
     //  */
-    // abstract _createVertex(id: VertexId, val?: T): AbstractVertex<T>;
+    // abstract createVertex(id: VertexId, val?: T): AbstractVertex<T>;
 }
 
 export abstract class AbstractEdge<T = number> {
@@ -88,7 +88,7 @@ export abstract class AbstractEdge<T = number> {
     //  * @param weight
     //  * @param val
     //  */
-    // abstract _createEdge(srcOrV1: VertexId | string, destOrV2: VertexId | string, weight?: number, val?: E): E;
+    // abstract createEdge(srcOrV1: VertexId | string, destOrV2: VertexId | string, weight?: number, val?: E): E;
 
     protected _setHashCode(v: string) {
         this._hashCode = v;
@@ -96,7 +96,7 @@ export abstract class AbstractEdge<T = number> {
 }
 
 // Connected Component === Largest Connected Sub-Graph
-export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends AbstractEdge<any>> implements IGraph<V, E> {
+export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends AbstractEdge<any>> implements IAbstractGraph<V, E> {
     private _vertices: Map<VertexId, V> = new Map<VertexId, V>();
 
     get vertices(): Map<VertexId, V> {
@@ -109,7 +109,7 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
      * @param id
      * @param val
      */
-    abstract _createVertex(id: VertexId, val?: V): V;
+    abstract createVertex(id: VertexId, val?: V): V;
 
     /**
      * In TypeScript, a subclass inherits the interface implementation of its parent class, without needing to implement the same interface again in the subclass. This behavior differs from Java's approach. In Java, if a parent class implements an interface, the subclass needs to explicitly implement the same interface, even if the parent class has already implemented it.
@@ -119,13 +119,11 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
      * @param weight
      * @param val
      */
-    abstract _createEdge(srcOrV1: VertexId | string, destOrV2: VertexId | string, weight?: number, val?: E): E;
-
-    abstract removeEdgeBetween(srcOrId: V | VertexId, destOrId: V | VertexId): E | null;
+    abstract createEdge(srcOrV1: VertexId | string, destOrV2: VertexId | string, weight?: number, val?: E): E;
 
     abstract removeEdge(edge: E): E | null;
 
-    _getVertex(vertexOrId: VertexId | V): V | null {
+    protected _getVertex(vertexOrId: VertexId | V): V | null {
         const vertexId = this._getVertexId(vertexOrId);
         return this._vertices.get(vertexId) || null;
     }
@@ -134,7 +132,7 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
         return this._vertices.get(vertexId) || null;
     }
 
-    _getVertexId(vertexOrId: V | VertexId): VertexId {
+    protected _getVertexId(vertexOrId: V | VertexId): VertexId {
         return vertexOrId instanceof AbstractVertex ? vertexOrId.id : vertexOrId;
     }
 
@@ -151,7 +149,7 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
     abstract getEdge(srcOrId: V | VertexId, destOrId: V | VertexId): E | null;
 
     createAddVertex(id: VertexId, val?: V['val']): boolean {
-        const newVertex = this._createVertex(id, val);
+        const newVertex = this.createVertex(id, val);
         return this.addVertex(newVertex);
     }
 
@@ -213,7 +211,7 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
     createAddEdge(src: V | VertexId, dest: V | VertexId, weight: number, val: E['val']): boolean {
         if (src instanceof AbstractVertex) src = src.id;
         if (dest instanceof AbstractVertex) dest = dest.id;
-        const newEdge = this._createEdge(src, dest, weight, val);
+        const newEdge = this.createEdge(src, dest, weight, val);
         return this.addEdge(newEdge);
     }
 

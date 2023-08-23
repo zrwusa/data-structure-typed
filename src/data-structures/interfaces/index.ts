@@ -1,4 +1,4 @@
-export * from './binary-tree';
+export * from './abstract-binary-tree';
 export * from './bst';
 export * from './avl-tree';
 export * from './segment-tree';

@@ -8,7 +8,7 @@
 import {arrayRemove} from '../../utils';
 import {AbstractEdge, AbstractGraph, AbstractVertex} from './abstract-graph';
 import type {TopologicalStatus, VertexId} from '../types';
-import {IDirectedGraph} from '../interfaces';
+import {IDirectedGraph, IAbstractGraph} from '../interfaces';
 
 export class DirectedVertex<T = number> extends AbstractVertex<T> {
     /**
@@ -22,7 +22,7 @@ export class DirectedVertex<T = number> extends AbstractVertex<T> {
         super(id, val);
     }
 
-    // _createVertex(id: VertexId, val?: T): DirectedVertex<T> {
+    // createVertex(id: VertexId, val?: T): DirectedVertex<T> {
     //     return new DirectedVertex<T>(id, val);
     // }
 }
@@ -67,7 +67,7 @@ export class DirectedEdge<T = number> extends AbstractEdge<T> {
         this._dest = v;
     }
 
-    // _createEdge(src: VertexId, dest: VertexId, weight?: number, val?: T): DirectedEdge<T> {
+    // createEdge(src: VertexId, dest: VertexId, weight?: number, val?: T): DirectedEdge<T> {
     //     if (weight === undefined || weight === null) weight = 1;
     //     return new DirectedEdge(src, dest, weight, val);
     // }
@@ -98,7 +98,7 @@ export class DirectedGraph<V extends DirectedVertex<any> = DirectedVertex, E ext
      * @param id
      * @param val
      */
-    _createVertex(id: VertexId, val?: V['val']): V {
+    createVertex(id: VertexId, val?: V['val']): V {
         return new DirectedVertex(id, val ?? id) as V;
     }
 
@@ -110,7 +110,7 @@ export class DirectedGraph<V extends DirectedVertex<any> = DirectedVertex, E ext
      * @param weight
      * @param val
      */
-    _createEdge(src: VertexId, dest: VertexId, weight?: number, val?: E['val']): E {
+    createEdge(src: VertexId, dest: VertexId, weight?: number, val?: E['val']): E {
         return new DirectedEdge(src, dest, weight ?? 1, val) as E;
     }
 
@@ -186,7 +186,7 @@ export class DirectedGraph<V extends DirectedVertex<any> = DirectedVertex, E ext
      * @returns The function `removeEdgeBetween` returns the removed edge (`E`) if it exists, or `null` if
      * the edge does not exist.
      */
-    removeEdgeBetween(srcOrId: V | VertexId, destOrId: V | VertexId): E | null {
+    removeEdgeSrcToDest(srcOrId: V | VertexId, destOrId: V | VertexId): E | null {
 
         const src: V | null = this._getVertex(srcOrId);
         const dest: V | null = this._getVertex(destOrId);
@@ -197,14 +197,6 @@ export class DirectedGraph<V extends DirectedVertex<any> = DirectedVertex, E ext
 
         const srcOutEdges = this._outEdgeMap.get(src);
         if (srcOutEdges) {
-            /**
-             * The removeEdge function removes an edge from a graph and returns the removed edge, or null if the edge was not
-             * found.
-             * @param {E} edge - The `edge` parameter represents the edge that you want to remove from the graph. It should be an
-             * object that has `src` and `dest` properties, which represent the source and destination vertices of the edge,
-             * respectively.
-             * @returns The method `removeEdge` returns the removed edge (`E`) if it exists, or `null` if the edge does not exist.
-             */
             arrayRemove<E>(srcOutEdges, (edge: E) => edge.dest === dest.id);
         }
 
@@ -244,14 +236,25 @@ export class DirectedGraph<V extends DirectedVertex<any> = DirectedVertex, E ext
     }
 
     /**
-     * The function removeAllEdges removes all edges between two vertices.
-     * @param {VertexId | V} src - The `src` parameter can be either a `VertexId` or a `V`.
-     * @param {VertexId | V} dest - The `dest` parameter represents the destination vertex of an edge. It
-     * can be either a `VertexId` or a `V`.
-     * @returns An empty array of DirectedEdge objects is being returned.
+     * The function removes all edges between two vertices and returns the removed edges.
+     * @param {VertexId | V} v1 - The parameter `v1` represents either a `VertexId` or a `V` object. It is used to identify
+     * the first vertex in the graph.
+     * @param {VertexId | V} v2 - The parameter `v2` represents either a `VertexId` or a `V`. It is used to identify the
+     * second vertex involved in the edges that need to be removed.
+     * @returns The function `removeEdgesBetween` returns an array of removed edges (`E[]`).
      */
-    removeAllEdges(src: VertexId | V, dest: VertexId | V): E[] {
-        return [];
+    removeEdgesBetween(v1: VertexId | V, v2: VertexId | V): E[] {
+        const removed: E[] = [];
+
+        if (v1 && v2) {
+            const v1ToV2 = this.removeEdgeSrcToDest(v1, v2);
+            const v2ToV1 = this.removeEdgeSrcToDest(v2, v1);
+
+            v1ToV2 && removed.push(v1ToV2);
+            v2ToV1 && removed.push(v2ToV1);
+        }
+
+        return removed;
     }
 
     /**
