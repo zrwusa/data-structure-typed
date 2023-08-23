@@ -1,8 +1,7 @@
 import {BinaryTree, BinaryTreeNode} from './binary-tree';
 import {IBinaryTree, IBinaryTreeNode} from '../interfaces';
-import {LoopType} from '../types';
+import {RBColor, RBTreeOptions} from '../types';
 
-enum RBColor { Red, Black }
 
 class RBNode<T, FAMILY extends RBNode<T, FAMILY>> extends BinaryTreeNode<T, FAMILY> implements IBinaryTreeNode<T, FAMILY> {
     // override createNode(id: BinaryTreeNodeId, val: T | null, count?: number): RBNode<T> | null {
@@ -13,7 +12,7 @@ class RBNode<T, FAMILY extends RBNode<T, FAMILY>> extends BinaryTreeNode<T, FAMI
         super(id, val, count);
     }
 
-    private _color: RBColor = RBColor.Red;
+    private _color: RBColor = RBColor.RED;
 
     get color(): RBColor {
         return this._color;
@@ -39,7 +38,7 @@ class RBNode<T, FAMILY extends RBNode<T, FAMILY>> extends BinaryTreeNode<T, FAMI
     // override set left(v: RBNode<T> | null | undefined) {
     //     if (v) {
     //         v.parent = this;
-    //         v.familyPosition = FamilyPosition.left;
+    //         v.familyPosition = FamilyPosition.LEFT;
     //     }
     //     this._left = v;
     // }
@@ -53,18 +52,14 @@ class RBNode<T, FAMILY extends RBNode<T, FAMILY>> extends BinaryTreeNode<T, FAMI
     // override set right(v: RBNode<T> | null | undefined) {
     //     if (v) {
     //         v.parent = this;
-    //         v.familyPosition = FamilyPosition.right;
+    //         v.familyPosition = FamilyPosition.RIGHT;
     //     }
     //     this._right = v;
     // }
 }
 
 class RBTree<N extends RBNode<N['val'], N>> extends BinaryTree<N> implements IBinaryTree<N> {
-    constructor(options?: {
-        loopType?: LoopType,
-        autoIncrementId?: boolean,
-        isDuplicatedVal?: boolean
-    }) {
+    constructor(options?: RBTreeOptions) {
         super(options);
     }
 

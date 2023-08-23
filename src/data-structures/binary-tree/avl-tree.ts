@@ -6,9 +6,8 @@
  * @license MIT License
  */
 import {BST, BSTNode} from './bst';
-import type {AVLTreeDeleted, AVLTreeOptions, BinaryTreeNodeId, RecursiveAVLTreeNode} from '../types';
+import type {AVLTreeOptions, BinaryTreeDeletedResult, BinaryTreeNodeId, RecursiveAVLTreeNode} from '../types';
 import {IBinaryTreeNode} from '../interfaces';
-
 
 export class AVLTreeNode<T, FAMILY extends AVLTreeNode<T, FAMILY> = RecursiveAVLTreeNode<T>> extends BSTNode<T, FAMILY> implements IBinaryTreeNode<T, FAMILY> {
 
@@ -52,7 +51,7 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode<number>> e
      * `isUpdateAllLeftSum` is set to `true`, the left sum of all nodes will be recalculated.
      * @returns The method is returning an array of `AVLTreeDeleted<N>` objects.
      */
-    override remove(id: BinaryTreeNodeId, isUpdateAllLeftSum?: boolean): AVLTreeDeleted<N>[] {
+    override remove(id: BinaryTreeNodeId, isUpdateAllLeftSum?: boolean): BinaryTreeDeletedResult<N>[] {
         const deletedResults = super.remove(id, isUpdateAllLeftSum);
         for (const {needBalanced} of deletedResults) {
             if (needBalanced) {

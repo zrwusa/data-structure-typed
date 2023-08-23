@@ -8,22 +8,23 @@
 
 import {trampoline} from '../../utils';
 import type {
-    BinaryTreeDeleted,
+    AbstractRecursiveBinaryTreeNode,
+    AbstractResultByProperty,
+    AbstractResultsByProperty,
+    BinaryTreeDeletedResult,
     BinaryTreeNodeId,
     BinaryTreeNodePropertyName,
     DFSOrderPattern,
     KeyValObject,
-    NodeOrPropertyName,
-    ResultByProperty,
-    ResultsByProperty
+    NodeOrPropertyName
 } from '../types';
-import {BinaryTreeOptions, FamilyPosition, LoopType, RecursiveAbstractBinaryTreeNode} from '../types';
+import {AbstractBinaryTreeOptions, FamilyPosition, LoopType} from '../types';
 import {IBinaryTree, IBinaryTreeNode} from '../interfaces';
 
 
-export abstract class AbstractBinaryTreeNode<T, FAMILY extends AbstractBinaryTreeNode<T, FAMILY> = RecursiveAbstractBinaryTreeNode<T>> implements IBinaryTreeNode<T, FAMILY> {
+export abstract class AbstractBinaryTreeNode<T, FAMILY extends AbstractBinaryTreeNode<T, FAMILY> = AbstractRecursiveBinaryTreeNode<T>> implements IBinaryTreeNode<T, FAMILY> {
 
-    protected constructor(id: BinaryTreeNodeId, val: T, count?: number) {
+    constructor(id: BinaryTreeNodeId, val: T, count?: number) {
         this._id = id;
         this._val = val;
         this._count = count ?? 1;
@@ -58,7 +59,7 @@ export abstract class AbstractBinaryTreeNode<T, FAMILY extends AbstractBinaryTre
     set left(v: FAMILY | null | undefined) {
         if (v) {
             v.parent = this as unknown as FAMILY;
-            v.familyPosition = FamilyPosition.left;
+            v.familyPosition = FamilyPosition.LEFT;
         }
         this._left = v;
     }
@@ -72,7 +73,7 @@ export abstract class AbstractBinaryTreeNode<T, FAMILY extends AbstractBinaryTre
     set right(v: FAMILY | null | undefined) {
         if (v) {
             v.parent = this as unknown as FAMILY;
-            v.familyPosition = FamilyPosition.right;
+            v.familyPosition = FamilyPosition.RIGHT;
         }
         this._right = v;
     }
@@ -87,7 +88,7 @@ export abstract class AbstractBinaryTreeNode<T, FAMILY extends AbstractBinaryTre
         this._parent = v;
     }
 
-    private _familyPosition: FamilyPosition = FamilyPosition.root;
+    private _familyPosition: FamilyPosition = FamilyPosition.ROOT;
 
     get familyPosition(): FamilyPosition {
         return this._familyPosition;
@@ -147,15 +148,16 @@ export abstract class AbstractBinaryTreeNode<T, FAMILY extends AbstractBinaryTre
 
 export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], N> = AbstractBinaryTreeNode<number>> implements IBinaryTree<N> {
 
+
     /**
-     * The constructor function accepts an optional options object and sets the values of loopType, autoIncrementId, and
-     * isDuplicatedVal based on the provided options.
-     * @param [options] - An optional object that can contain the following properties:
+     * The protected constructor initializes the options for an abstract binary tree.
+     * @param {AbstractBinaryTreeOptions} [options] - An optional object that contains configuration options for the binary
+     * tree.
      */
-    protected constructor(options?: BinaryTreeOptions) {
+    protected constructor(options?: AbstractBinaryTreeOptions) {
         if (options !== undefined) {
             const {
-                loopType = LoopType.iterative,
+                loopType = LoopType.ITERATIVE,
                 autoIncrementId = false,
                 isDuplicatedVal = false
             } = options;
@@ -165,7 +167,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         }
     }
 
-    private _loopType: LoopType = LoopType.iterative;
+    private _loopType: LoopType = LoopType.ITERATIVE;
 
     get loopType(): LoopType {
         return this._loopType;
@@ -236,17 +238,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         return this._count;
     }
 
-    /**
-     * The function creates a new binary tree node with the given id, value, and count if the value is not null, otherwise
-     * it returns null.
-     * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier for the binary tree node. It is of type
-     * `BinaryTreeNodeId`.
-     * @param {N | null} val - The `val` parameter represents the value of the node. It can be of type `N` (generic type)
-     * or `null`.
-     * @param {number} [count] - The `count` parameter is an optional parameter of type `number`. It represents the number
-     * of occurrences of the value in the binary tree node. If not provided, the default value is `undefined`.
-     * @returns a BinaryTreeNode object if the value is not null, otherwise it returns null.
-     */
     abstract _createNode(id: BinaryTreeNodeId, val: N['val'] | null, count?: number): N | null ;
 
     /**
@@ -333,7 +324,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
             if (parent.left === undefined) {
                 if (newNode) {
                     newNode.parent = parent;
-                    newNode.familyPosition = FamilyPosition.left;
+                    newNode.familyPosition = FamilyPosition.LEFT;
                 }
                 parent.left = newNode;
                 if (newNode !== null) {
@@ -345,7 +336,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
             } else if (parent.right === undefined) {
                 if (newNode) {
                     newNode.parent = parent;
-                    newNode.familyPosition = FamilyPosition.right;
+                    newNode.familyPosition = FamilyPosition.RIGHT;
                 }
                 parent.right = newNode;
                 if (newNode !== null) {
@@ -399,7 +390,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
                     if (map.has(item)) {
                         let newId: number;
                         if (!this._autoIncrementId) {
-                            if ((item as KeyValObject).hasOwnProperty('id')) {
+                            if (Object.keys(item).includes('id')) {
                                 newId = (item as KeyValObject).id;
                             } else {
                                 console.warn('Object value must has an id property when the autoIncrementId is false');
@@ -445,7 +436,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * "needBalanced". The "deleted" property contains the deleted node or undefined if no node was deleted. The
      * "needBalanced" property is always null.
      */
-    remove(id: BinaryTreeNodeId, ignoreCount?: boolean): BinaryTreeDeleted<N>[] {
+    remove(id: BinaryTreeNodeId, ignoreCount?: boolean): BinaryTreeDeletedResult<N>[] {
         const nodes = this.getNodes(id, 'id', true);
         let node: N | null | undefined = nodes[0];
 
@@ -508,7 +499,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         beginRoot = beginRoot ?? this.root;
         if (!beginRoot) return -1;
 
-        if (this._loopType === LoopType.recursive) {
+        if (this._loopType === LoopType.RECURSIVE) {
             const _getMaxHeight = (cur: N | null | undefined): number => {
                 if (!cur) return -1;
                 const leftHeight = _getMaxHeight(cur.left);
@@ -557,7 +548,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         beginRoot = beginRoot || this.root;
         if (!beginRoot) return -1;
 
-        if (this._loopType === LoopType.recursive) {
+        if (this._loopType === LoopType.RECURSIVE) {
             const _getMinHeight = (cur: N | null | undefined): number => {
                 if (!cur) return 0;
                 if (!cur.left && !cur.right) return 0;
@@ -623,7 +614,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
 
         const result: (N | null | undefined)[] = [];
 
-        if (this._loopType === LoopType.recursive) {
+        if (this._loopType === LoopType.RECURSIVE) {
             const _traverse = (cur: N) => {
                 if (this._pushByPropertyNameStopOrNot(cur, result, nodeProperty, propertyName, onlyOne)) return;
                 if (!cur.left && !cur.right) return;
@@ -707,7 +698,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         node = node ?? this.root;
         if (!node) return node;
 
-        if (this._loopType === LoopType.recursive) {
+        if (this._loopType === LoopType.RECURSIVE) {
 
             const _traverse = (cur: N): N => {
                 if (!cur.left) return cur;
@@ -742,7 +733,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         node = node ?? this.root;
         if (!node) return node;
 
-        if (this._loopType === LoopType.recursive) {
+        if (this._loopType === LoopType.RECURSIVE) {
             const _traverse = (cur: N): N => {
                 if (!cur.right) return cur;
                 return _traverse(cur.right);
@@ -772,7 +763,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         node = node ?? this.root;
         if (!node) return true;
 
-        if (this._loopType === LoopType.recursive) {
+        if (this._loopType === LoopType.RECURSIVE) {
             const dfs = (cur: N | null | undefined, min: BinaryTreeNodeId, max: BinaryTreeNodeId): boolean => {
                 if (!cur) return true;
                 if (cur.id <= min || cur.id >= max) return false;
@@ -809,7 +800,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         const res: [number, number] = [0, 0];
         if (!subTreeRoot) return res;
 
-        if (this._loopType === LoopType.recursive) {
+        if (this._loopType === LoopType.RECURSIVE) {
             const _traverse = (cur: N) => {
                 res[0]++;
                 res[1] += cur.count;
@@ -871,7 +862,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
             return needSum;
         }
 
-        if (this._loopType === LoopType.recursive) {
+        if (this._loopType === LoopType.RECURSIVE) {
             const _traverse = (cur: N): void => {
                 sum += _sumByProperty(cur);
                 cur.left && _traverse(cur.left);
@@ -921,7 +912,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
             }
         }
 
-        if (this._loopType === LoopType.recursive) {
+        if (this._loopType === LoopType.RECURSIVE) {
             const _traverse = (cur: N) => {
                 _addByProperty(cur);
                 cur.left && _traverse(cur.left);
@@ -960,9 +951,9 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * represents either a node or a property name. If a node is provided, the breadth-first search algorithm will be
      * performed starting from that node. If a property name is provided, the breadth-first search algorithm will be
      * performed starting from the root node
-     * @returns an object of type `ResultsByProperty<N>`.
+     * @returns an object of type `AbstractResultsByProperty<N>`.
      */
-    BFS(nodeOrPropertyName ?: NodeOrPropertyName): ResultsByProperty<N> {
+    BFS(nodeOrPropertyName ?: NodeOrPropertyName): AbstractResultsByProperty<N> {
         nodeOrPropertyName = nodeOrPropertyName ?? 'id';
         this._resetResults();
         const queue: Array<N | null | undefined> = [this.root];
@@ -999,9 +990,9 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * either the name of a property in the `BinaryTreeNode` object or the value of the `id` property in the
      * `BinaryTreeNode` object. This parameter is used to accumulate the results based on the specified property name. If
      * no value
-     * @returns an object of type `ResultsByProperty<N>`.
+     * @returns an object of type `AbstractResultsByProperty<N>`.
      */
-    DFS(pattern ?: 'in' | 'pre' | 'post', nodeOrPropertyName ?: NodeOrPropertyName): ResultsByProperty<N> {
+    DFS(pattern ?: 'in' | 'pre' | 'post', nodeOrPropertyName ?: NodeOrPropertyName): AbstractResultsByProperty<N> {
         pattern = pattern ?? 'in';
         nodeOrPropertyName = nodeOrPropertyName ?? 'id';
         this._resetResults();
@@ -1046,7 +1037,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * @param nodeOrPropertyName
      * @constructor
      */
-    DFSIterative(pattern ?: 'in' | 'pre' | 'post', nodeOrPropertyName ?: NodeOrPropertyName): ResultsByProperty<N> {
+    DFSIterative(pattern ?: 'in' | 'pre' | 'post', nodeOrPropertyName ?: NodeOrPropertyName): AbstractResultsByProperty<N> {
         pattern = pattern || 'in';
         nodeOrPropertyName = nodeOrPropertyName || 'id';
         this._resetResults();
@@ -1108,9 +1099,9 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * can be either a `BinaryTreeNode` property name or the string `'id'`. If a property name is provided, the function
      * will accumulate results based on that property. If no property name is provided, the function will default to
      * accumulating results
-     * @returns The function `levelIterative` returns an object of type `ResultsByProperty<N>`.
+     * @returns The function `levelIterative` returns an object of type `AbstractResultsByProperty<N>`.
      */
-    levelIterative(node: N | null, nodeOrPropertyName ?: NodeOrPropertyName): ResultsByProperty<N> {
+    levelIterative(node: N | null, nodeOrPropertyName ?: NodeOrPropertyName): AbstractResultsByProperty<N> {
         nodeOrPropertyName = nodeOrPropertyName || 'id';
         node = node || this.root;
         if (!node) return [];
@@ -1151,14 +1142,14 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * @param {NodeOrPropertyName} [nodeOrPropertyName] - The `nodeOrPropertyName` parameter is an optional parameter that
      * specifies the property of the `BinaryTreeNode` object to collect at each level. It can be one of the following
      * values:
-     * @returns The function `listLevels` returns a 2D array of `ResultByProperty<N>` objects.
+     * @returns The function `listLevels` returns a 2D array of `AbstractResultByProperty<N>` objects.
      */
-    listLevels(node: N | null, nodeOrPropertyName?: NodeOrPropertyName): ResultByProperty<N>[][] {
+    listLevels(node: N | null, nodeOrPropertyName?: NodeOrPropertyName): AbstractResultByProperty<N>[][] {
         nodeOrPropertyName = nodeOrPropertyName || 'id';
         node = node || this.root;
         if (!node) return [];
 
-        const levelsNodes: ResultByProperty<N>[][] = [];
+        const levelsNodes: AbstractResultByProperty<N>[][] = [];
 
         const collectByProperty = (node: N, level: number) => {
             switch (nodeOrPropertyName) {
@@ -1180,7 +1171,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
             }
         }
 
-        if (this._loopType === LoopType.recursive) {
+        if (this._loopType === LoopType.RECURSIVE) {
             const _recursive = (node: N, level: number) => {
                 if (!levelsNodes[level]) levelsNodes[level] = [];
                 collectByProperty(node, level);
@@ -1245,9 +1236,9 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * @param {NodeOrPropertyName} [nodeOrPropertyName] - The `nodeOrPropertyName` parameter is used to specify the
      * property of the nodes that you want to retrieve in the results. It can be either the node itself or the name of the
      * property. If not provided, it defaults to `'id'`.
-     * @returns The function `morris` returns an object of type `ResultsByProperty<N>`.
+     * @returns The function `morris` returns an object of type `AbstractResultsByProperty<N>`.
      */
-    morris(pattern?: 'in' | 'pre' | 'post', nodeOrPropertyName?: NodeOrPropertyName): ResultsByProperty<N> {
+    morris(pattern?: 'in' | 'pre' | 'post', nodeOrPropertyName?: NodeOrPropertyName): AbstractResultsByProperty<N> {
         if (this.root === null) return [];
 
         pattern = pattern || 'in';
@@ -1372,7 +1363,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     protected _setRoot(v: N | null) {
         if (v) {
             v.parent = null;
-            v.familyPosition = FamilyPosition.root;
+            v.familyPosition = FamilyPosition.ROOT;
         }
         this._root = v;
     }
@@ -1476,9 +1467,9 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * to 'id'.
      * @param {NodeOrPropertyName} [nodeOrPropertyName] - The parameter `nodeOrPropertyName` is an optional parameter that
      * can accept a value of type `NodeOrPropertyName`.
-     * @returns The method returns an object of type `ResultsByProperty<T>`.
+     * @returns The method returns an object of type `AbstractResultsByProperty<T>`.
      */
-    protected _getResultByPropertyName(nodeOrPropertyName ?: NodeOrPropertyName): ResultsByProperty<N> {
+    protected _getResultByPropertyName(nodeOrPropertyName ?: NodeOrPropertyName): AbstractResultsByProperty<N> {
         nodeOrPropertyName = nodeOrPropertyName ?? 'id';
 
         switch (nodeOrPropertyName) {
