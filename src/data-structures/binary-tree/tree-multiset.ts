@@ -5,11 +5,11 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import {BST, BSTNode} from './bst';
-import type {BinaryTreeNodeId, RecursiveTreeMultiSetNode, TreeMultiSetOptions} from '../types';
-import {IBST, IBSTNode} from '../interfaces';
+import type {BinaryTreeNodeId, TreeMultiSetNodeNested, TreeMultiSetOptions} from '../types';
+import {ITreeMultiSet, ITreeMultiSetNode} from '../interfaces';
+import {AVLTree, AVLTreeNode} from './avl-tree';
 
-export class TreeMultiSetNode<T, FAMILY extends TreeMultiSetNode<T, FAMILY> = RecursiveTreeMultiSetNode<T>> extends BSTNode<T, FAMILY> implements IBSTNode<T, FAMILY> {
+export class TreeMultiSetNode<T = any, FAMILY extends TreeMultiSetNode<T, FAMILY> = TreeMultiSetNodeNested<T>> extends AVLTreeNode<T, FAMILY> implements ITreeMultiSetNode<T, FAMILY> {
     /**
      * The function creates a new node in a binary tree with an optional value and count.
      * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier for the binary tree node. It is used to uniquely
@@ -26,9 +26,9 @@ export class TreeMultiSetNode<T, FAMILY extends TreeMultiSetNode<T, FAMILY> = Re
 }
 
 /**
- * The only distinction between a TreeMultiSet and a BST lies in the ability of the former to store duplicate nodes through the utilization of counters.
+ * The only distinction between a TreeMultiSet and a AVLTree lies in the ability of the former to store duplicate nodes through the utilization of counters.
  */
-export class TreeMultiSet<N extends BSTNode<N['val'], N> = BSTNode<number>> extends BST<N> implements IBST<N> {
+export class TreeMultiSet<N extends TreeMultiSetNode<N['val'], N> = TreeMultiSetNode> extends AVLTree<N> implements ITreeMultiSet<N> {
     constructor(options?: TreeMultiSetOptions) {
         super({...options, isDuplicatedVal: true});
     }

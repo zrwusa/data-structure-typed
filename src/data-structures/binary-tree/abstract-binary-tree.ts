@@ -10,7 +10,7 @@ import {trampoline} from '../../utils';
 import type {
     AbstractBinaryTreeNodeProperties,
     AbstractBinaryTreeNodeProperty,
-    AbstractRecursiveBinaryTreeNode,
+    AbstractBinaryTreeNodeNested,
     BinaryTreeDeletedResult,
     BinaryTreeNodeId,
     BinaryTreeNodePropertyName,
@@ -21,7 +21,7 @@ import type {
 import {AbstractBinaryTreeOptions, FamilyPosition, LoopType} from '../types';
 import {IAbstractBinaryTree, IAbstractBinaryTreeNode} from '../interfaces';
 
-export abstract class AbstractBinaryTreeNode<T = number, FAMILY extends AbstractBinaryTreeNode<T, FAMILY> = AbstractRecursiveBinaryTreeNode<T>> implements IAbstractBinaryTreeNode<T, FAMILY> {
+export abstract class AbstractBinaryTreeNode<T = any, FAMILY extends AbstractBinaryTreeNode<T, FAMILY> = AbstractBinaryTreeNodeNested<T>> implements IAbstractBinaryTreeNode<T, FAMILY> {
 
     /**
      * The constructor function initializes a BinaryTreeNode object with an id, value, and count.
@@ -164,7 +164,7 @@ export abstract class AbstractBinaryTreeNode<T = number, FAMILY extends Abstract
     }
 }
 
-export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], N> = AbstractBinaryTreeNode<number>> implements IAbstractBinaryTree<N> {
+export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], N> = AbstractBinaryTreeNode> implements IAbstractBinaryTree<N> {
 
     /**
      * The protected constructor initializes the options for an abstract binary tree.

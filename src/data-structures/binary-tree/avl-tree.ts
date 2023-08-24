@@ -6,16 +6,16 @@
  * @license MIT License
  */
 import {BST, BSTNode} from './bst';
-import type {AVLTreeOptions, BinaryTreeDeletedResult, BinaryTreeNodeId, RecursiveAVLTreeNode} from '../types';
+import type {AVLTreeOptions, BinaryTreeDeletedResult, BinaryTreeNodeId, AVLTreeNodeNested} from '../types';
 import {IAVLTree, IAVLTreeNode} from '../interfaces';
 
-export class AVLTreeNode<T, FAMILY extends AVLTreeNode<T, FAMILY> = RecursiveAVLTreeNode<T>> extends BSTNode<T, FAMILY> implements IAVLTreeNode<T, FAMILY> {
+export class AVLTreeNode<T = any, FAMILY extends AVLTreeNode<T, FAMILY> = AVLTreeNodeNested<T>> extends BSTNode<T, FAMILY> implements IAVLTreeNode<T, FAMILY> {
     override createNode(id: BinaryTreeNodeId, val?: T, count?: number): FAMILY {
         return new AVLTreeNode(id, (val === undefined ? id : val) as T, count) as FAMILY;
     }
 }
 
-export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode<number>> extends BST<N> implements IAVLTree<N> {
+export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends BST<N> implements IAVLTree<N> {
     constructor(options?: AVLTreeOptions) {
         super(options);
     }

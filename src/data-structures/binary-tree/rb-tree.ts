@@ -1,9 +1,9 @@
-import {BinaryTreeNodeId, RBColor, RBTreeOptions} from '../types';
+import {BinaryTreeNodeId, RBColor, RBTreeOptions, RBTreeNodeNested} from '../types';
 import {IRBTree, IRBTreeNode} from '../interfaces/rb-tree';
 import {BST, BSTNode} from './bst';
 
 
-export class RBTreeNode<T, FAMILY extends RBTreeNode<T, FAMILY>> extends BSTNode<T, FAMILY> implements IRBTreeNode<T, FAMILY> {
+export class RBTreeNode<T = any, FAMILY extends RBTreeNode<T, FAMILY> =RBTreeNodeNested<T>>  extends BSTNode<T, FAMILY>  implements IRBTreeNode<T, FAMILY> {
     constructor(id: number, val: T, count?: number) {
         super(id, val, count);
     }
@@ -68,7 +68,7 @@ export class RBTreeNode<T, FAMILY extends RBTreeNode<T, FAMILY>> extends BSTNode
     // }
 }
 
-export class RBTree<N extends RBTreeNode<N['val'], N>> extends BST<N> implements IRBTree<N> {
+export class RBTree<N extends RBTreeNode<N['val'], N> = RBTreeNode> extends BST<N> implements IRBTree<N> {
     constructor(options?: RBTreeOptions) {
         super(options);
     }

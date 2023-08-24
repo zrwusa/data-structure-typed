@@ -5,12 +5,12 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type {BinaryTreeNodeId, BinaryTreeNodePropertyName, BSTComparator, RecursiveBSTNode} from '../types';
+import type {BinaryTreeNodeId, BinaryTreeNodePropertyName, BSTComparator, BSTNodeNested} from '../types';
 import {BinaryTreeDeletedResult, BSTOptions, CP, FamilyPosition, LoopType} from '../types';
 import {BinaryTree, BinaryTreeNode} from './binary-tree';
 import {IBST, IBSTNode} from '../interfaces';
 
-export class BSTNode<T, FAMILY extends BSTNode<T, FAMILY> = RecursiveBSTNode<T>> extends BinaryTreeNode<T, FAMILY> implements IBSTNode<T, FAMILY> {
+export class BSTNode<T = any, FAMILY extends BSTNode<T, FAMILY> = BSTNodeNested<T>> extends BinaryTreeNode<T, FAMILY> implements IBSTNode<T, FAMILY> {
     /**
      * The function creates a new binary search tree node with the specified id, value, and count.
      * @param {BinaryTreeNodeId} id - The id parameter is the identifier for the binary tree node. It is used to uniquely
@@ -26,7 +26,7 @@ export class BSTNode<T, FAMILY extends BSTNode<T, FAMILY> = RecursiveBSTNode<T>>
     }
 }
 
-export class BST<N extends BSTNode<N['val'], N> = BSTNode<number>> extends BinaryTree<N> implements IBST<N> {
+export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N> implements IBST<N> {
     /**
      * The constructor function accepts an optional options object and sets the comparator property if provided.
      * @param [options] - An optional object that can contain the following properties:

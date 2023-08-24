@@ -6,12 +6,12 @@
  * @license MIT License
  */
 
-import type {BinaryTreeNodeId, RecursiveBinaryTreeNode} from '../types';
+import type {BinaryTreeNodeId, BinaryTreeNodeNested} from '../types';
 import {BinaryTreeOptions} from '../types';
 import {AbstractBinaryTree, AbstractBinaryTreeNode} from './abstract-binary-tree';
 import {IBinaryTree, IBinaryTreeNode} from '../interfaces/binary-tree';
 
-export class BinaryTreeNode<T = number, FAMILY extends BinaryTreeNode<T, FAMILY> = RecursiveBinaryTreeNode<T>> extends AbstractBinaryTreeNode<T, FAMILY> implements IBinaryTreeNode<T, FAMILY> {
+export class BinaryTreeNode<T = any, FAMILY extends BinaryTreeNode<T, FAMILY> = BinaryTreeNodeNested<T>> extends AbstractBinaryTreeNode<T, FAMILY> implements IBinaryTreeNode<T, FAMILY> {
 
     /**
      * The function creates a new binary tree node with an optional value and count, and returns it as a specified type.
