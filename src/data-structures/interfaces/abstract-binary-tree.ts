@@ -4,8 +4,7 @@ import {
     BinaryTreeDeletedResult,
     BinaryTreeNodeId,
     BinaryTreeNodePropertyName,
-    DFSOrderPattern,
-    FamilyPosition,
+    DFSOrderPattern, FamilyPosition,
     LoopType,
     NodeOrPropertyName
 } from '../types';
@@ -13,7 +12,7 @@ import {AbstractBinaryTreeNode} from '../binary-tree';
 
 export interface IAbstractBinaryTreeNode<T, FAMILY extends IAbstractBinaryTreeNode<T, FAMILY>> {
 
-    createNode(id: BinaryTreeNodeId, val?: T, count?: number): FAMILY;
+    createNode(val: T, id: BinaryTreeNodeId, count?: number): FAMILY;
 
     get id(): BinaryTreeNodeId
 
@@ -37,8 +36,6 @@ export interface IAbstractBinaryTreeNode<T, FAMILY extends IAbstractBinaryTreeNo
 
     get familyPosition(): FamilyPosition
 
-    set familyPosition(v: FamilyPosition)
-
     get count(): number
 
     set count(v: number)
@@ -53,7 +50,7 @@ export interface IAbstractBinaryTreeNode<T, FAMILY extends IAbstractBinaryTreeNo
 }
 
 export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], N>> {
-    createNode(id: BinaryTreeNodeId, val: N['val'] | null, count?: number): N | null
+    createNode(val: N['val'], id: BinaryTreeNodeId, count?: number): N | null
 
     get loopType(): LoopType
 
@@ -71,7 +68,7 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
 
     get maxId(): number
 
-    get isDuplicatedVal(): boolean
+    get isMergeDuplicatedVal(): boolean
 
     get root(): N | null
 
@@ -83,7 +80,7 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
 
     isEmpty(): boolean
 
-    add(id: BinaryTreeNodeId, val?: N['val'], count?: number): N | null | undefined
+    add(val: N['val'], id: BinaryTreeNodeId, count?: number): N | null | undefined
 
     addTo(newNode: N | null, parent: N): N | null | undefined
 

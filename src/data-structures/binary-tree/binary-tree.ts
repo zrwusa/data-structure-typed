@@ -23,8 +23,8 @@ export class BinaryTreeNode<T = any, FAMILY extends BinaryTreeNode<T, FAMILY> = 
      * appears in the binary tree node.
      * @returns a new instance of the BinaryTreeNode class, casted as the FAMILY type.
      */
-    createNode(id: BinaryTreeNodeId, val?: T, count?: number): FAMILY {
-        return new BinaryTreeNode<T, FAMILY>(id, (val === undefined ? id : val) as T, count) as FAMILY;
+    createNode(val: T, id: BinaryTreeNodeId, count?: number): FAMILY {
+        return new BinaryTreeNode<T, FAMILY>(val, id, count) as FAMILY;
     }
 
 }
@@ -33,11 +33,11 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
 
     /**
      * The constructor function accepts an optional options object and sets the values of loopType, autoIncrementId, and
-     * isDuplicatedVal based on the provided options.
+     * isMergeDuplicatedVal based on the provided options.
      * @param [options] - An optional object that can contain the following properties:
      */
     constructor(options?: BinaryTreeOptions) {
-        super();
+        super(options);
     }
 
 
@@ -52,8 +52,8 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
      * of occurrences of the value in the binary tree node. If not provided, the default value is `undefined`.
      * @returns a BinaryTreeNode object if the value is not null, otherwise it returns null.
      */
-    createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N {
-        return new BinaryTreeNode<N['val'], N>(id, val === undefined ? id : val, count) as N;
+    createNode(val: N['val'], id: BinaryTreeNodeId, count?: number): N {
+        return new BinaryTreeNode<N['val'], N>(val, id, count) as N;
     }
 
 }

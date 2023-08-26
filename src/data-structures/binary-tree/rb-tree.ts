@@ -1,11 +1,11 @@
-import {BinaryTreeNodeId, RBColor, RBTreeOptions, RBTreeNodeNested} from '../types';
+import {BinaryTreeNodeId, RBColor, RBTreeNodeNested, RBTreeOptions} from '../types';
 import {IRBTree, IRBTreeNode} from '../interfaces/rb-tree';
 import {BST, BSTNode} from './bst';
 
 
-export class RBTreeNode<T = any, FAMILY extends RBTreeNode<T, FAMILY> =RBTreeNodeNested<T>>  extends BSTNode<T, FAMILY>  implements IRBTreeNode<T, FAMILY> {
-    constructor(id: number, val: T, count?: number) {
-        super(id, val, count);
+export class RBTreeNode<T = any, FAMILY extends RBTreeNode<T, FAMILY> = RBTreeNodeNested<T>> extends BSTNode<T, FAMILY> implements IRBTreeNode<T, FAMILY> {
+    constructor(val: T, id: BinaryTreeNodeId, count?: number) {
+        super(val, id, count);
     }
 
     private _color: RBColor = RBColor.RED;
@@ -28,8 +28,8 @@ export class RBTreeNode<T = any, FAMILY extends RBTreeNode<T, FAMILY> =RBTreeNod
      * node.
      * @returns The method is returning a new instance of the RBTreeNode class, casted as a FAMILY type.
      */
-    override createNode(id: BinaryTreeNodeId, val?: T | null, count?: number): FAMILY {
-        return new RBTreeNode(id, val, count) as FAMILY;
+    override createNode(val: T, id: BinaryTreeNodeId, count?: number): FAMILY {
+        return new RBTreeNode(val, id, count) as FAMILY;
     }
 
     // private override _parent: RBNode<T> | null;
@@ -48,7 +48,6 @@ export class RBTreeNode<T = any, FAMILY extends RBTreeNode<T, FAMILY> =RBTreeNod
     // override set left(v: RBNode<T> | null | undefined) {
     //     if (v) {
     //         v.parent = this;
-    //         v.familyPosition = FamilyPosition.LEFT;
     //     }
     //     this._left = v;
     // }
@@ -62,7 +61,6 @@ export class RBTreeNode<T = any, FAMILY extends RBTreeNode<T, FAMILY> =RBTreeNod
     // override set right(v: RBNode<T> | null | undefined) {
     //     if (v) {
     //         v.parent = this;
-    //         v.familyPosition = FamilyPosition.RIGHT;
     //     }
     //     this._right = v;
     // }
@@ -73,8 +71,8 @@ export class RBTree<N extends RBTreeNode<N['val'], N> = RBTreeNode> extends BST<
         super(options);
     }
 
-    override createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N {
-        return new RBTreeNode(id, val, count) as N;
+    override createNode(val: N['val'], id: BinaryTreeNodeId, count?: number): N {
+        return new RBTreeNode(val, id, count) as N;
     }
 
     // private override _root: BinaryTreeNode<N> | null = null;

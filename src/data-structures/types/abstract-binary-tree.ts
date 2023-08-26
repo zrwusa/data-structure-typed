@@ -9,7 +9,15 @@ import {AbstractBinaryTreeNode} from '../binary-tree';
 export enum LoopType { ITERATIVE = 'ITERATIVE', RECURSIVE = 'RECURSIVE'}
 
 /* This enumeration defines the position of a node within a family tree composed of three associated nodes, where 'root' represents the root node of the family tree, 'left' represents the left child node, and 'right' represents the right child node. */
-export enum FamilyPosition {ROOT, LEFT, RIGHT}
+export enum FamilyPosition {
+    ROOT = 'ROOT',
+    LEFT = 'LEFT',
+    RIGHT = 'RIGHT',
+    ROOT_LEFT = 'ROOT_LEFT',
+    ROOT_RIGHT = 'ROOT_RIGHT',
+    ISOLATED = 'ISOLATED',
+    MAL_NODE = 'MAL_NODE'
+}
 
 export type BinaryTreeNodePropertyName = 'id' | 'val' | 'count';
 export type NodeOrPropertyName = 'node' | BinaryTreeNodePropertyName;
@@ -27,5 +35,5 @@ export type AbstractBinaryTreeNodeNested<T> = AbstractBinaryTreeNode<T, Abstract
 export type AbstractBinaryTreeOptions = {
     loopType?: LoopType,
     autoIncrementId?: boolean,
-    isDuplicatedVal?: boolean
+    isMergeDuplicatedVal?: boolean
 }

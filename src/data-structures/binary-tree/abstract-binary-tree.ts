@@ -6,16 +6,15 @@
  * @license MIT License
  */
 
-import {trampoline} from '../../utils';
+import {ObjectWithNumberId, trampoline} from '../../utils';
 import type {
+    AbstractBinaryTreeNodeNested,
     AbstractBinaryTreeNodeProperties,
     AbstractBinaryTreeNodeProperty,
-    AbstractBinaryTreeNodeNested,
     BinaryTreeDeletedResult,
     BinaryTreeNodeId,
     BinaryTreeNodePropertyName,
     DFSOrderPattern,
-    KeyValObject,
     NodeOrPropertyName
 } from '../types';
 import {AbstractBinaryTreeOptions, FamilyPosition, LoopType} from '../types';
@@ -32,7 +31,7 @@ export abstract class AbstractBinaryTreeNode<T = any, FAMILY extends AbstractBin
      * @param {number} [count] - The `count` parameter is an optional parameter that represents the number of times the
      * value `val` appears in the binary tree node. If the `count` parameter is not provided, it defaults to 1.
      */
-    constructor(id: BinaryTreeNodeId, val?: T, count?: number) {
+    constructor(val: T, id: BinaryTreeNodeId, count?: number) {
         this._id = id;
         this._val = val;
         this._count = count ?? 1;
@@ -48,13 +47,13 @@ export abstract class AbstractBinaryTreeNode<T = any, FAMILY extends AbstractBin
         this._id = v;
     }
 
-    private _val: T | undefined;
+    private _val: T;
 
-    get val(): T | undefined {
-        return this._val as T;
+    get val(): T {
+        return this._val;
     }
 
-    set val(value: T | undefined) {
+    set val(value: T) {
         this._val = value;
     }
 
@@ -67,10 +66,10 @@ export abstract class AbstractBinaryTreeNode<T = any, FAMILY extends AbstractBin
     set left(v: FAMILY | null | undefined) {
         if (v) {
             v.parent = this as unknown as FAMILY;
-            v.familyPosition = FamilyPosition.LEFT;
         }
         this._left = v;
     }
+
 
     private _right?: FAMILY | null;
 
@@ -81,7 +80,6 @@ export abstract class AbstractBinaryTreeNode<T = any, FAMILY extends AbstractBin
     set right(v: FAMILY | null | undefined) {
         if (v) {
             v.parent = this as unknown as FAMILY;
-            v.familyPosition = FamilyPosition.RIGHT;
         }
         this._right = v;
     }
@@ -94,16 +92,6 @@ export abstract class AbstractBinaryTreeNode<T = any, FAMILY extends AbstractBin
 
     set parent(v: FAMILY | null | undefined) {
         this._parent = v;
-    }
-
-    private _familyPosition: FamilyPosition = FamilyPosition.ROOT;
-
-    get familyPosition(): FamilyPosition {
-        return this._familyPosition;
-    }
-
-    set familyPosition(v: FamilyPosition) {
-        this._familyPosition = v;
     }
 
     private _count = 1;
@@ -126,32 +114,60 @@ export abstract class AbstractBinaryTreeNode<T = any, FAMILY extends AbstractBin
         this._height = v;
     }
 
-    abstract createNode(id: BinaryTreeNodeId, val?: T, count?: number): FAMILY
+    get familyPosition(): FamilyPosition {
+        const that = this as unknown as FAMILY;
+        if (that.parent) {
+            if (that.parent.left === that) {
+                if (that.left || that.right) {
+                    return FamilyPosition.ROOT_LEFT;
+                } else {
+                    return FamilyPosition.LEFT;
+                }
+            } else if (that.parent.right === that) {
+                if (that.left || that.right) {
+                    return FamilyPosition.ROOT_RIGHT;
+                } else {
+                    return FamilyPosition.RIGHT;
+                }
+            } else {
+                return FamilyPosition.MAL_NODE;
+            }
+        } else {
+            if (that.left || that.right) {
+                return FamilyPosition.ROOT;
+            } else {
+                return FamilyPosition.ISOLATED;
+            }
+        }
+    }
+
+    abstract createNode(val: T, id: BinaryTreeNodeId, count?: number): FAMILY
 
     /**
      * The function swaps the location of two nodes in a binary tree.
-     * @param {FAMILY} swapNode - The `swapNode` parameter is of type `FAMILY`, which represents a node in a family tree.
+     * @param {FAMILY} destNode - The `swapNode` parameter is of type `FAMILY`, which represents a node in a family tree.
      * @returns the `swapNode` object after swapping its properties with the properties of `this` object.
      */
-    swapLocation(swapNode: FAMILY): FAMILY {
-        const {val, count, height} = swapNode;
-        const tempNode = this.createNode(swapNode.id, val);
-        if (tempNode instanceof AbstractBinaryTreeNode) {
-            tempNode.val = val;
-            tempNode.count = count;
-            tempNode.height = height;
+    swapLocation(destNode: FAMILY): FAMILY {
+        const {val, count, height, id} = destNode;
+        const tempNode = this.createNode(val, id, count);
+        tempNode.height = height;
 
-            swapNode.id = this.id;
-            swapNode.val = this.val;
-            swapNode.count = this.count;
-            swapNode.height = this.height;
+        if (tempNode instanceof AbstractBinaryTreeNode) {
+            // TODO should we consider the left, right children?
+
+
+            destNode.id = this.id;
+            destNode.val = this.val;
+            destNode.count = this.count;
+            destNode.height = this.height;
 
             this.id = tempNode.id;
             this.val = tempNode.val;
             this.count = tempNode.count;
             this.height = tempNode.height;
         }
-        return swapNode;
+        return destNode;
     }
 
     /**
@@ -160,7 +176,7 @@ export abstract class AbstractBinaryTreeNode<T = any, FAMILY extends AbstractBin
      * `count` values as the current instance.
      */
     clone(): FAMILY | null {
-        return this.createNode(this.id, this.val, this.count);
+        return this.createNode(this.val, this.id, this.count);
     }
 }
 
@@ -176,9 +192,9 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
             const {
                 loopType = LoopType.ITERATIVE,
                 autoIncrementId = false,
-                isDuplicatedVal = false
+                isMergeDuplicatedVal = true
             } = options;
-            this._isDuplicatedVal = isDuplicatedVal;
+            this._isMergeDuplicatedVal = isMergeDuplicatedVal;
             this._autoIncrementId = autoIncrementId;
             this._loopType = loopType;
         }
@@ -231,10 +247,10 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         return this._maxId;
     }
 
-    private _isDuplicatedVal: boolean = false;
+    private _isMergeDuplicatedVal: boolean = true;
 
-    get isDuplicatedVal(): boolean {
-        return this._isDuplicatedVal;
+    get isMergeDuplicatedVal(): boolean {
+        return this._isMergeDuplicatedVal;
     }
 
     private _root: N | null = null;
@@ -255,7 +271,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         return this._count;
     }
 
-    abstract createNode(id: BinaryTreeNodeId, val: N['val'] | null, count?: number): N | null ;
+    abstract createNode(val: N['val'], id: BinaryTreeNodeId, count?: number): N | null ;
 
     /**
      * The clear function resets the state of an object by setting its properties to their initial values.
@@ -286,7 +302,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * @returns The function `add` returns a `N` object if a new node is inserted, or `null` if no new node
      * is inserted, or `undefined` if the insertion fails.
      */
-    add(id: BinaryTreeNodeId, val?: N['val'], count?: number): N | null | undefined {
+    add(val: N['val'], id: BinaryTreeNodeId, count?: number): N | null | undefined {
         count = count ?? 1;
 
         const _bfs = (root: N, newNode: N | null): N | undefined | null => {
@@ -304,7 +320,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         };
 
         let inserted: N | null | undefined;
-        const needInsert = val !== null ? this.createNode(id, val ?? id, count) : null;
+        const needInsert = val !== null ? this.createNode(val, id, count) : null;
         const existNode = val !== null ? this.get(id, 'id') : null;
         if (this.root) {
             if (existNode) {
@@ -318,7 +334,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
                 inserted = _bfs(this.root, needInsert);
             }
         } else {
-            this._setRoot(val !== null ? this.createNode(id, val ?? id, count) : null);
+            this._setRoot(val !== null ? this.createNode(val, id, count) : null);
             if (needInsert !== null) {
                 this._setSize(1);
                 this._setCount(count);
@@ -342,7 +358,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
             if (parent.left === undefined) {
                 if (newNode) {
                     newNode.parent = parent;
-                    newNode.familyPosition = FamilyPosition.LEFT;
                 }
                 parent.left = newNode;
                 if (newNode !== null) {
@@ -354,7 +369,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
             } else if (parent.right === undefined) {
                 if (newNode) {
                     newNode.parent = parent;
-                    newNode.familyPosition = FamilyPosition.RIGHT;
                 }
                 parent.right = newNode;
                 if (newNode !== null) {
@@ -378,55 +392,58 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * @returns The function `addMany` returns an array of `N`, `null`, or `undefined` values.
      */
     addMany(data: N[] | Array<N['val']>): (N | null | undefined)[] {
+        // TODO not sure addMany not be run multi times
         const inserted: (N | null | undefined)[] = [];
         const map: Map<N | N['val'], number> = new Map();
 
-        if (!this._isDuplicatedVal) {
-            for (const i of data) map.set(i, (map.get(i) ?? 0) + 1);
+        if (this.isMergeDuplicatedVal) {
+            for (const nodeOrVal of data) map.set(nodeOrVal, (map.get(nodeOrVal) ?? 0) + 1);
         }
 
-        for (const item of data) {
-            // TODO will this cause an issue?
-            const count = this._isDuplicatedVal ? 1 : map.get(item);
+        for (const nodeOrVal of data) {
 
-            if (item instanceof AbstractBinaryTreeNode) {
-                inserted.push(this.add(item.id, item.val, item.count));
-            } else if (typeof item === 'number') {
-                if (!this._autoIncrementId) {
-                    if (!this._isDuplicatedVal) {
-                        if (map.get(item) !== undefined) {
-                            inserted.push(this.add(item, item, count));
-                            map.delete(item);
-                        }
-                    } else {
-                        inserted.push(this.add(item, item, 1));
-                    }
-                }
-
-            } else if (item instanceof Object) {
-                if (!this._isDuplicatedVal) {
-                    if (map.has(item)) {
-                        let newId: number;
-                        if (!this._autoIncrementId) {
-                            if (Object.keys(item).includes('id')) {
-                                newId = (item as KeyValObject).id;
-                            } else {
-                                console.warn('Object value must has an id property when the autoIncrementId is false');
-                                break;
-                            }
-                        } else {
-                            newId = this.maxId + 1;
-                            this._setMaxId(newId);
-                        }
-                        inserted.push(this.add(newId, item, count));
-                        map.delete(item);
-                    }
-                } else {
-                    inserted.push(this.add(++this._maxId, item, 1));
-                }
-            } else if (item === null) {
-                inserted.push(this.add(Number.MAX_SAFE_INTEGER, item, 0));
+            if (nodeOrVal instanceof AbstractBinaryTreeNode) {
+                inserted.push(this.add(nodeOrVal.val, nodeOrVal.id, nodeOrVal.count));
+                continue;
             }
+
+            if (nodeOrVal === null) {
+                inserted.push(this.add(null, NaN, 0));
+                continue;
+            }
+
+
+            // TODO will this cause an issue?
+            const count = this.isMergeDuplicatedVal ? map.get(nodeOrVal) : 1;
+            let newId: BinaryTreeNodeId;
+            if (typeof nodeOrVal === 'number') {
+                newId = this.autoIncrementId ? this.maxId + 1 : nodeOrVal;
+            } else if (nodeOrVal instanceof Object) {
+                if (this.autoIncrementId) {
+                    newId = this.maxId + 1;
+                } else {
+                    if (Object.keys(nodeOrVal).includes('id')) {
+                        newId = (nodeOrVal as ObjectWithNumberId).id;
+                    } else {
+                        console.warn(nodeOrVal, 'Object value must has an id property when the autoIncrementId is false');
+                        continue;
+                    }
+                }
+            } else {
+                console.warn(nodeOrVal, ` is not added`);
+                continue;
+            }
+
+            if (this.isMergeDuplicatedVal) {
+                if (map.has(nodeOrVal)) {
+                    inserted.push(this.add(nodeOrVal, newId, count));
+                    map.delete(nodeOrVal);
+                }
+            } else {
+                inserted.push(this.add(nodeOrVal, newId, 1));
+            }
+
+            this._setMaxId(newId);
         }
         return inserted;
     }
@@ -455,39 +472,49 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * "needBalanced" property is always null.
      */
     remove(id: BinaryTreeNodeId, ignoreCount?: boolean): BinaryTreeDeletedResult<N>[] {
-        const nodes = this.getNodes(id, 'id', true);
-        let node: N | null | undefined = nodes[0];
+        const bstDeletedResult: BinaryTreeDeletedResult<N>[] = [];
+        if (!this.root) return bstDeletedResult;
 
-        if (!node) node = undefined;
-        else if (node.count > 1 && !ignoreCount) {
-            node.count--;
+        const curr: N | null = this.get(id);
+        if (!curr) return bstDeletedResult;
+
+        const parent: N | null = curr?.parent ? curr.parent : null;
+        let needBalanced: N | null = null, orgCurrent = curr;
+
+        if (curr.count > 1 && !ignoreCount) {
+            curr.count--;
             this._setCount(this.count - 1);
-        } else if (node instanceof AbstractBinaryTreeNode) {
-            const [subSize, subCount] = this.getSubTreeSizeAndCount(node);
-
-            switch (node.familyPosition) {
-                case 0:
-                    this._setSize(this.size - subSize);
-                    this._setCount(this.count - subCount);
-                    node = undefined;
-                    break;
-                case 1:
-                    if (node.parent) {
-                        this._setSize(this.size - subSize);
-                        this._setCount(this.count - subCount);
-                        node.parent.left = null;
+        } else {
+            if (!curr.left) {
+                if (!parent) {
+                    if (curr.right !== undefined) this._setRoot(curr.right);
+                } else {
+                    const {familyPosition: fp} = curr;
+                    if (fp === FamilyPosition.LEFT || fp === FamilyPosition.ROOT_LEFT) {
+                        parent.left = curr.right;
+                    } else if (fp === FamilyPosition.RIGHT || fp === FamilyPosition.ROOT_RIGHT) {
+                        parent.right = curr.right;
                     }
-                    break;
-                case 2:
-                    if (node.parent) {
-                        this._setSize(this.size - subSize);
-                        this._setCount(this.count - subCount);
-                        node.parent.right = null;
+                    needBalanced = parent;
+                }
+            } else {
+                const leftSubTreeRightMost = curr.left ? this.getRightMost(curr.left) : null;
+                if (leftSubTreeRightMost) {
+                    const parentOfLeftSubTreeMax = leftSubTreeRightMost.parent;
+                    orgCurrent = curr.swapLocation(leftSubTreeRightMost);
+                    if (parentOfLeftSubTreeMax) {
+                        if (parentOfLeftSubTreeMax.right === leftSubTreeRightMost) parentOfLeftSubTreeMax.right = leftSubTreeRightMost.left;
+                        else parentOfLeftSubTreeMax.left = leftSubTreeRightMost.left;
+                        needBalanced = parentOfLeftSubTreeMax;
                     }
-                    break;
+                }
             }
+            this._setSize(this.size - 1);
+            this._setCount(this.count - orgCurrent.count);
         }
-        return [{deleted: node, needBalanced: null}];
+
+        bstDeletedResult.push({deleted: orgCurrent, needBalanced});
+        return bstDeletedResult;
     }
 
     /**
@@ -776,7 +803,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * @returns a boolean value.
      */
     isBSTByRooted(node: N | null): boolean {
-
+        // TODO there is a bug
         if (!node) return true;
 
         if (this._loopType === LoopType.RECURSIVE) {
@@ -1383,13 +1410,12 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     protected _setIsDuplicatedVal(value: boolean) {
-        this._isDuplicatedVal = value;
+        this._isMergeDuplicatedVal = value;
     }
 
     protected _setRoot(v: N | null) {
         if (v) {
-            v.parent = null;
-            v.familyPosition = FamilyPosition.ROOT;
+            v.parent = undefined;
         }
         this._root = v;
     }

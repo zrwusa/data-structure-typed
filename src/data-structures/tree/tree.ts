@@ -1,7 +1,6 @@
 export class TreeNode<T = number> {
-    constructor(id: string, name?: string, value?: T, children?: TreeNode<T>[]) {
+    constructor(id: string, value?: T, children?: TreeNode<T>[]) {
         this._id = id;
-        this._name = name || '';
         this._value = value || undefined;
         this._children = children || [];
     }
@@ -14,16 +13,6 @@ export class TreeNode<T = number> {
 
     set id(value: string) {
         this._id = value;
-    }
-
-    private _name?: string | undefined;
-
-    get name(): string | undefined {
-        return this._name;
-    }
-
-    set name(value: string | undefined) {
-        this._name = value;
     }
 
     private _value?: T | undefined;

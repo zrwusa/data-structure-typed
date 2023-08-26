@@ -6,7 +6,7 @@
  * @license MIT License
  */
 import type {BinaryTreeNodeId, BinaryTreeNodePropertyName, BSTComparator, BSTNodeNested} from '../types';
-import {BinaryTreeDeletedResult, BSTOptions, CP, FamilyPosition, LoopType} from '../types';
+import {BSTOptions, CP, LoopType} from '../types';
 import {BinaryTree, BinaryTreeNode} from './binary-tree';
 import {IBST, IBSTNode} from '../interfaces';
 
@@ -21,8 +21,8 @@ export class BSTNode<T = any, FAMILY extends BSTNode<T, FAMILY> = BSTNodeNested<
      * search tree node. It is an optional parameter, so it can be omitted when calling the `createNode` method.
      * @returns The method is returning a new instance of the BSTNode class, casted as the FAMILY type.
      */
-    override createNode(id: BinaryTreeNodeId, val?: T, count?: number): FAMILY {
-        return new BSTNode<T, FAMILY>(id, (val === undefined ? id : val) as T, count) as FAMILY;
+    override createNode(val: T, id: BinaryTreeNodeId, count?: number): FAMILY {
+        return new BSTNode<T, FAMILY>(val, id, count) as FAMILY;
     }
 }
 
@@ -51,8 +51,8 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
      * of a particular value in the binary search tree node.
      * @returns a new instance of the BSTNode class, casted as type N.
      */
-    override createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N {
-        return new BSTNode<N['val'], N>(id, val === undefined ? id : val, count) as N;
+    override createNode(val: N['val'], id: BinaryTreeNodeId, count?: number): N {
+        return new BSTNode<N['val'], N>(val, id, count) as N;
     }
 
     /**
@@ -67,9 +67,9 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
      * inserted once.
      * @returns The method `add` returns a `N` object or `null`.
      */
-    override add(id: BinaryTreeNodeId, val: N['val'] | null, count: number = 1): N | null {
+    override add(val: N['val'], id: BinaryTreeNodeId, count: number = 1): N | null {
         let inserted: N | null = null;
-        const newNode = this.createNode(id, val, count);
+        const newNode = this.createNode(val, id, count);
         if (this.root === null) {
             this._setRoot(newNode);
             this._setSize(this.size + 1);
@@ -94,7 +94,6 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
                         if (cur.left === undefined) {
                             if (newNode) {
                                 newNode.parent = cur;
-                                newNode.familyPosition = FamilyPosition.LEFT;
                             }
                             //Add to the left of the current node
                             cur.left = newNode;
@@ -111,7 +110,6 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
                         if (cur.right === undefined) {
                             if (newNode) {
                                 newNode.parent = cur;
-                                newNode.familyPosition = FamilyPosition.RIGHT;
                             }
                             //Add to the right of the current node
                             cur.right = newNode;
@@ -158,64 +156,6 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
         if (this._compare(0, 1) === CP.lt) return this.getRightMost()?.id ?? 0;
         else if (this._compare(0, 1) === CP.gt) return this.getLeftMost()?.id ?? 0;
         else return this.getRightMost()?.id ?? 0;
-    }
-
-    /**
-     * The `remove` function in this TypeScript code removes a node from a binary search tree and returns information about
-     * the deleted node and any nodes that need to be balanced.
-     * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier of the binary tree node that needs to be removed
-     * from the binary search tree.
-     * @param {boolean} [ignoreCount] - A boolean flag indicating whether to ignore the count of the node being removed. If
-     * set to true, the count of the node will not be considered and the node will be removed regardless of its count. If
-     * set to false or not provided, the count of the node will be taken into account and the
-     * @returns an array of `BSTDeletedResult<N>` objects.
-     */
-    override remove(id: BinaryTreeNodeId, ignoreCount?: boolean): BinaryTreeDeletedResult<N>[] {
-        const bstDeletedResult: BinaryTreeDeletedResult<N>[] = [];
-        if (!this.root) return bstDeletedResult;
-
-        const curr: N | null = this.get(id);
-        if (!curr) return bstDeletedResult;
-
-        const parent: N | null = curr?.parent ? curr.parent : null;
-        let needBalanced: N | null = null, orgCurrent = curr;
-
-        if (curr.count > 1 && !ignoreCount) {
-            curr.count--;
-            this._setCount(this.count - 1);
-        } else {
-            if (!curr.left) {
-                if (!parent) {
-                    if (curr.right !== undefined) this._setRoot(curr.right);
-                } else {
-                    switch (curr.familyPosition) {
-                        case FamilyPosition.LEFT:
-                            parent.left = curr.right;
-                            break;
-                        case FamilyPosition.RIGHT:
-                            parent.right = curr.right;
-                            break;
-                    }
-                    needBalanced = parent;
-                }
-            } else {
-                const leftSubTreeMax = curr.left ? this.getRightMost(curr.left) : null;
-                if (leftSubTreeMax) {
-                    const parentOfLeftSubTreeMax = leftSubTreeMax.parent;
-                    orgCurrent = curr.swapLocation(leftSubTreeMax);
-                    if (parentOfLeftSubTreeMax) {
-                        if (parentOfLeftSubTreeMax.right === leftSubTreeMax) parentOfLeftSubTreeMax.right = leftSubTreeMax.left;
-                        else parentOfLeftSubTreeMax.left = leftSubTreeMax.left;
-                        needBalanced = parentOfLeftSubTreeMax;
-                    }
-                }
-            }
-            this._setSize(this.size - 1);
-            this._setCount(this.count - curr.count);
-        }
-
-        bstDeletedResult.push({deleted: orgCurrent, needBalanced});
-        return bstDeletedResult;
     }
 
     /**
@@ -420,7 +360,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
                 if (l > r) return;
                 const m = l + Math.floor((r - l) / 2);
                 const midNode = sorted[m];
-                this.add(midNode.id, midNode.val, midNode.count);
+                this.add(midNode.val, midNode.id, midNode.count);
                 buildBalanceBST(l, m - 1);
                 buildBalanceBST(m + 1, r);
             };
@@ -436,7 +376,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
                     if (l <= r) {
                         const m = l + Math.floor((r - l) / 2);
                         const midNode = sorted[m];
-                        this.add(midNode.id, midNode.val, midNode.count);
+                        this.add(midNode.val, midNode.id, midNode.count);
                         stack.push([m + 1, r]);
                         stack.push([l, m - 1]);
                     }

@@ -29,7 +29,16 @@ export const arrayRemove = function <T>(array: T[], predicate: (item: T, index: 
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type {Thunk, ToThunkFn, TrlAsyncFn, TrlFn} from './types';
+import type {
+    NonNumberNonObjectButDefined,
+    ObjectWithNonNumberId,
+    ObjectWithNumberId,
+    ObjectWithoutId,
+    Thunk,
+    ToThunkFn,
+    TrlAsyncFn,
+    TrlFn
+} from './types';
 
 export const THUNK_SYMBOL = Symbol('thunk')
 
@@ -139,3 +148,23 @@ export const trampolineAsync = (fn: TrlAsyncFn) => {
 //         }
 //     }
 // }
+
+export function isNonNumberNonObjectButDefined(val: any): val is NonNumberNonObjectButDefined {
+    return typeof val !== 'number' && typeof val !== 'object' && val !== undefined;
+}
+
+export function isObjectWithoutId(val: any): val is ObjectWithoutId {
+    return typeof val === 'object' && !('id' in val);
+}
+
+export function isObjectWithNonNumberId(val: any): val is ObjectWithNonNumberId {
+    return typeof val === 'object' && 'id' in val && typeof val.id !== 'number';
+}
+
+export function isObjectWithNumberId(val: any): val is ObjectWithNumberId {
+    return typeof val === 'object' && 'id' in val && typeof val.id === 'number';
+}
+
+export function isNumber(val: any): val is number {
+    return typeof val === 'number';
+}
