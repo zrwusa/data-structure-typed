@@ -8,9 +8,9 @@ export interface IAbstractGraph<V, E> {
 
     // _getVertexId(vertexOrId: V | VertexId): VertexId;
 
-    createAddVertex(id: VertexId, val?: V): boolean;
+    addVertex(id: VertexId, val?: V): boolean;
 
-    addVertex(newVertex: V): boolean;
+    // _addVertexOnly(newVertex: V): boolean;
 
     removeVertex(vertexOrId: V | VertexId): boolean;
 
@@ -26,9 +26,9 @@ export interface IAbstractGraph<V, E> {
 
     edgeSet(): E[];
 
-    createAddEdge(src: V | VertexId, dest: V | VertexId, weight: number, val: E): boolean;
+    addEdge(src: V | VertexId, dest: V | VertexId, weight: number, val: E): boolean;
 
-    addEdge(edge: E): boolean;
+    // _addEdgeOnly(edge: E): boolean;
 
     removeEdge(edge: E): E | null;
 

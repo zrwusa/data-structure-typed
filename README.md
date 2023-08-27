@@ -351,8 +351,8 @@ let graph: DirectedGraph<DirectedVertex, DirectedEdge>;
         const vertex1 = new DirectedVertex('A');
         const vertex2 = new DirectedVertex('B');
 
-        graph.addVertex(vertex1);
-        graph.addVertex(vertex2);
+        graph._addVertexOnly(vertex1);
+        graph._addVertexOnly(vertex2);
 
         expect(graph.hasVertex(vertex1)).toBe(true);
         expect(graph.hasVertex(vertex2)).toBe(true);
@@ -363,9 +363,9 @@ let graph: DirectedGraph<DirectedVertex, DirectedEdge>;
         const vertex2 = new DirectedVertex('B');
         const edge = new DirectedEdge('A', 'B');
 
-        graph.addVertex(vertex1);
-        graph.addVertex(vertex2);
-        graph.addEdge(edge);
+        graph._addVertexOnly(vertex1);
+        graph._addVertexOnly(vertex2);
+        graph._addEdgeOnly(edge);
 
         expect(graph.hasEdge('A', 'B')).toBe(true);
         expect(graph.hasEdge('B', 'A')).toBe(false);
@@ -376,9 +376,9 @@ let graph: DirectedGraph<DirectedVertex, DirectedEdge>;
         const vertex2 = new DirectedVertex('B');
         const edge = new DirectedEdge('A', 'B');
 
-        graph.addVertex(vertex1);
-        graph.addVertex(vertex2);
-        graph.addEdge(edge);
+        graph._addVertexOnly(vertex1);
+        graph._addVertexOnly(vertex2);
+        graph._addEdgeOnly(edge);
 
         expect(graph.removeEdge(edge)).toBe(edge);
         expect(graph.hasEdge('A', 'B')).toBe(false);
@@ -391,11 +391,11 @@ let graph: DirectedGraph<DirectedVertex, DirectedEdge>;
         const edgeAB = new DirectedEdge('A', 'B');
         const edgeBC = new DirectedEdge('B', 'C');
 
-        graph.addVertex(vertexA);
-        graph.addVertex(vertexB);
-        graph.addVertex(vertexC);
-        graph.addEdge(edgeAB);
-        graph.addEdge(edgeBC);
+        graph._addVertexOnly(vertexA);
+        graph._addVertexOnly(vertexB);
+        graph._addVertexOnly(vertexC);
+        graph._addEdgeOnly(edgeAB);
+        graph._addEdgeOnly(edgeBC);
 
         const topologicalOrder = graph.topologicalSort();
         if (topologicalOrder) expect(topologicalOrder.map(v => v.id)).toEqual(['A', 'B', 'C']);
@@ -450,18 +450,18 @@ describe('DirectedGraph Test3', () => {
         const vertex7 = new MyVertex(7, 'data7');
         const vertex8 = new MyVertex(8, 'data8');
         const vertex9 = new MyVertex(9, 'data9');
-        myGraph.addVertex(vertex1);
-        myGraph.addVertex(vertex2);
-        myGraph.addVertex(vertex3);
-        myGraph.addVertex(vertex4);
-        myGraph.addVertex(vertex5);
-        myGraph.addVertex(vertex6);
-        myGraph.addVertex(vertex7);
-        myGraph.addVertex(vertex8);
-        myGraph.addVertex(vertex9);
+        myGraph._addVertexOnly(vertex1);
+        myGraph._addVertexOnly(vertex2);
+        myGraph._addVertexOnly(vertex3);
+        myGraph._addVertexOnly(vertex4);
+        myGraph._addVertexOnly(vertex5);
+        myGraph._addVertexOnly(vertex6);
+        myGraph._addVertexOnly(vertex7);
+        myGraph._addVertexOnly(vertex8);
+        myGraph._addVertexOnly(vertex9);
 
-        myGraph.addEdge(new MyEdge(1, 2, 10, 'edge-data1-2'));
-        myGraph.addEdge(new MyEdge(2, 1, 20, 'edge-data2-1'));
+        myGraph._addEdgeOnly(new MyEdge(1, 2, 10, 'edge-data1-2'));
+        myGraph._addEdgeOnly(new MyEdge(2, 1, 20, 'edge-data2-1'));
 
         expect(myGraph.getEdge(1, 2)).toBeTruthy();
         expect(myGraph.getEdge(2, 1)).toBeTruthy();
@@ -470,17 +470,17 @@ describe('DirectedGraph Test3', () => {
         myGraph.removeEdgeBetween(1, 2);
         expect(myGraph.getEdge(1, 2)).toBeFalsy();
 
-        myGraph.addEdge(new MyEdge(3, 1, 3, 'edge-data-3-1'));
-        myGraph.addEdge(new MyEdge(1, 9, 19, 'edge-data1-9'));
-        myGraph.addEdge(new MyEdge(9, 7, 97, 'edge-data9-7'));
-        myGraph.addEdge(new MyEdge(7, 9, 79, 'edge-data7-9'));
-        myGraph.addEdge(new MyEdge(1, 4, 14, 'edge-data1-4'));
-        myGraph.addEdge(new MyEdge(4, 7, 47, 'edge-data4-7'));
-        myGraph.addEdge(new MyEdge(1, 2, 12, 'edge-data1-2'));
-        myGraph.addEdge(new MyEdge(2, 3, 23, 'edge-data2-3'));
-        myGraph.addEdge(new MyEdge(3, 5, 35, 'edge-data3-5'));
-        myGraph.addEdge(new MyEdge(5, 7, 57, 'edge-data5-7'));
-        myGraph.addEdge(new MyEdge(7, 3, 73, 'edge-data7-3'));
+        myGraph._addEdgeOnly(new MyEdge(3, 1, 3, 'edge-data-3-1'));
+        myGraph._addEdgeOnly(new MyEdge(1, 9, 19, 'edge-data1-9'));
+        myGraph._addEdgeOnly(new MyEdge(9, 7, 97, 'edge-data9-7'));
+        myGraph._addEdgeOnly(new MyEdge(7, 9, 79, 'edge-data7-9'));
+        myGraph._addEdgeOnly(new MyEdge(1, 4, 14, 'edge-data1-4'));
+        myGraph._addEdgeOnly(new MyEdge(4, 7, 47, 'edge-data4-7'));
+        myGraph._addEdgeOnly(new MyEdge(1, 2, 12, 'edge-data1-2'));
+        myGraph._addEdgeOnly(new MyEdge(2, 3, 23, 'edge-data2-3'));
+        myGraph._addEdgeOnly(new MyEdge(3, 5, 35, 'edge-data3-5'));
+        myGraph._addEdgeOnly(new MyEdge(5, 7, 57, 'edge-data5-7'));
+        myGraph._addEdgeOnly(new MyEdge(7, 3, 73, 'edge-data7-3'));
         
         const topologicalSorted = myGraph.topologicalSort();
         expect(topologicalSorted).toBeNull();

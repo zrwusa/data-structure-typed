@@ -116,11 +116,11 @@ describe('Inherit from DirectedGraph and perform operations', () => {
     });
 
     it('Add vertices', () => {
-        myGraph.addVertex(new MyVertex(1, 'data1'));
-        myGraph.addVertex(new MyVertex(2, 'data2'));
-        myGraph.addVertex(new MyVertex(3, 'data3'));
-        myGraph.addVertex(new MyVertex(4, 'data4'));
-        myGraph.addVertex(new MyVertex(5, 'data5'));
+        myGraph.addVertex(1, 'data1');
+        myGraph.addVertex(2, 'data2');
+        myGraph.addVertex(3, 'data3');
+        myGraph.addVertex(4, 'data4');
+        myGraph.addVertex(5, 'data5');
         myGraph.addVertex(new MyVertex(6, 'data6'));
         myGraph.addVertex(new MyVertex(7, 'data7'));
         myGraph.addVertex(new MyVertex(8, 'data8'));
@@ -129,9 +129,9 @@ describe('Inherit from DirectedGraph and perform operations', () => {
     });
 
     it('Add edges', () => {
-        myGraph.addVertex(new MyVertex(1, 'data1'));
-        myGraph.addVertex(new MyVertex(2, 'data2'));
-        myGraph.addEdge(new MyEdge(1, 2, 10, 'edge-data1-2'));
+        myGraph.addVertex(1, 'data1');
+        myGraph.addVertex(2, 'data2');
+        myGraph.addEdge(1, 2, 10, 'edge-data1-2');
         myGraph.addEdge(new MyEdge(2, 1, 20, 'edge-data2-1'));
 
         expect(myGraph.edgeSet().length).toBe(2);
@@ -141,9 +141,9 @@ describe('Inherit from DirectedGraph and perform operations', () => {
     });
 
     it('Get edge', () => {
-        myGraph.createAddVertex(1, 'val1');
-        myGraph.createAddVertex(2, 'val1');
-        myGraph.createAddEdge(1, 2, 1, 'val1');
+        myGraph.addVertex(1, 'val1');
+        myGraph.addVertex(2, 'val1');
+        myGraph.addEdge(1, 2, 1, 'val1');
         const edge1 = myGraph.getEdge(1, 2);
         const edge2 = myGraph.getEdge(myGraph.getVertex(1), myGraph.getVertex(2));
         const edge3 = myGraph.getEdge(1, '100');
@@ -167,9 +167,9 @@ describe('Inherit from DirectedGraph and perform operations', () => {
     });
 
     it('Remove edge between vertices', () => {
-        myGraph.addVertex(new MyVertex(1, 'data1'));
-        myGraph.addVertex(new MyVertex(2, 'data2'));
-        myGraph.addEdge(new MyEdge(1, 2, 10, 'edge-data1-2'));
+        myGraph.addVertex(1, 'data1');
+        myGraph.addVertex(2, 'data2');
+        myGraph.addEdge(1, 2, 10, 'edge-data1-2');
 
         const removedEdge = myGraph.removeEdgeSrcToDest(1, 2);
         const edgeAfterRemoval = myGraph.getEdge(1, 2);
@@ -249,24 +249,25 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
         myGraph.removeEdgeSrcToDest(1, 2);
         expect(myGraph.getEdge(1, 2)).toBeFalsy();
 
-        myGraph.addEdge(new MyEdge(3, 1, 3, 'edge-data-3-1'));
+        myGraph.addEdge(3, 1, 3, 'edge-data-3-1');
 
-        myGraph.addEdge(new MyEdge(1, 9, 19, 'edge-data1-9'));
-        myGraph.addEdge(new MyEdge(9, 7, 97, 'edge-data9-7'));
+        myGraph.addEdge(1, 9, 19, 'edge-data1-9');
 
-        myGraph.addEdge(new MyEdge(7, 9, 79, 'edge-data7-9'));
+        myGraph.addEdge(9, 7, 97, 'edge-data9-7');
 
-        myGraph.addEdge(new MyEdge(1, 4, 14, 'edge-data1-4'));
+        myGraph.addEdge(7, 9, 79, 'edge-data7-9');
 
-        myGraph.addEdge(new MyEdge(4, 7, 47, 'edge-data4-7'));
+        myGraph.addEdge(1, 4, 14, 'edge-data1-4');
 
-        myGraph.addEdge(new MyEdge(1, 2, 12, 'edge-data1-2'));
+        myGraph.addEdge(4, 7, 47, 'edge-data4-7');
 
-        myGraph.addEdge(new MyEdge(2, 3, 23, 'edge-data2-3'));
+        myGraph.addEdge(1, 2, 12, 'edge-data1-2');
 
-        myGraph.addEdge(new MyEdge(3, 5, 35, 'edge-data3-5'));
+        myGraph.addEdge(2, 3, 23, 'edge-data2-3');
 
-        myGraph.addEdge(new MyEdge(5, 7, 57, 'edge-data5-7'));
+        myGraph.addEdge(3, 5, 35, 'edge-data3-5');
+
+        myGraph.addEdge(5, 7, 57, 'edge-data5-7');
 
         myGraph.addEdge(new MyEdge(7, 3, 73, 'edge-data7-3'));
         const topologicalSorted = myGraph.topologicalSort();

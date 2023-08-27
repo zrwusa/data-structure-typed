@@ -141,13 +141,13 @@ export class DirectedGraph<V extends DirectedVertex<any> = DirectedVertex, E ext
     }
 
     /**
-     * The `addEdge` function adds a directed edge to a graph if the source and destination vertices exist.
+     * The `_addEdgeOnly` function adds a directed edge to a graph if the source and destination vertices exist.
      * @param edge - The parameter `edge` is of type `E`, which represents a directed edge in a graph. It
      * contains two properties:
-     * @returns The method `addEdge` returns a boolean value. It returns `true` if the edge was successfully added to the
+     * @returns The method `_addEdgeOnly` returns a boolean value. It returns `true` if the edge was successfully added to the
      * graph, and `false` if either the source or destination vertex of the edge is not present in the graph.
      */
-    addEdge(edge: E): boolean {
+    protected _addEdgeOnly(edge: E): boolean {
         if (!(this.hasVertex(edge.src) && this.hasVertex(edge.dest))) {
             return false;
         }

@@ -139,12 +139,19 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
 
     abstract getEdge(srcOrId: V | VertexId, destOrId: V | VertexId): E | null;
 
-    createAddVertex(id: VertexId, val?: V['val']): boolean {
-        const newVertex = this.createVertex(id, val);
-        return this.addVertex(newVertex);
+    addVertex(vertex: V): boolean
+    addVertex(id: VertexId , val?: V['val']): boolean
+    addVertex(idOrVertex: VertexId | V, val?: V['val']): boolean {
+        if (idOrVertex instanceof AbstractVertex) {
+            return this._addVertexOnly(idOrVertex);
+
+        } else {
+            const newVertex = this.createVertex(idOrVertex, val);
+            return this._addVertexOnly(newVertex);
+        }
     }
 
-    addVertex(newVertex: V): boolean {
+    protected _addVertexOnly(newVertex: V): boolean {
         if (this.hasVertex(newVertex)) {
             return false;
             // throw (new Error('Duplicated vertex id is not allowed'));
@@ -199,14 +206,25 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
         return !!edge;
     }
 
-    createAddEdge(src: V | VertexId, dest: V | VertexId, weight: number, val: E['val']): boolean {
-        if (src instanceof AbstractVertex) src = src.id;
-        if (dest instanceof AbstractVertex) dest = dest.id;
-        const newEdge = this.createEdge(src, dest, weight, val);
-        return this.addEdge(newEdge);
+    addEdge(edge: E): boolean
+    addEdge(src: V | VertexId, dest: V | VertexId, weight: number, val?: E['val']): boolean
+    addEdge(srcOrEdge: V | VertexId | E, dest?: V | VertexId, weight?: number, val?: E['val']): boolean {
+        if (srcOrEdge instanceof AbstractEdge) {
+            return this._addEdgeOnly(srcOrEdge);
+        } else {
+            if (dest instanceof AbstractVertex || typeof dest === 'string' || typeof dest === 'number') {
+                if (!(this.hasVertex(srcOrEdge) && this.hasVertex(dest))) return false;
+                if (srcOrEdge instanceof AbstractVertex) srcOrEdge = srcOrEdge.id;
+                if (dest instanceof AbstractVertex) dest = dest.id;
+                const newEdge = this.createEdge(srcOrEdge, dest, weight, val);
+                return this._addEdgeOnly(newEdge);
+            } else {
+                throw new Error('dest must be a Vertex or vertex id while srcOrEdge is an Edge')
+            }
+        }
     }
 
-    abstract addEdge(edge: E): boolean;
+    protected abstract _addEdgeOnly(edge: E): boolean;
 
     /**
      * The function sets the weight of an edge between two vertices in a graph.

@@ -120,7 +120,7 @@ export class UndirectedGraph<V extends UndirectedVertex<any> = UndirectedVertex,
      * array of two vertices connected by the edge.
      * @returns a boolean value.
      */
-    addEdge(edge: E): boolean {
+    protected _addEdgeOnly(edge: E): boolean {
         for (const end of edge.vertices) {
             const endVertex = this._getVertex(end);
             if (endVertex === null) return false;
