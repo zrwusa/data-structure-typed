@@ -16,10 +16,10 @@ describe('BST operations test', () => {
         expect(bst.has(6)).toBe(true);
 
         const node6 = bst.get(6);
-        expect(node6 && bst.getHeight(node6)).toBe(2);
-        expect(node6 && bst.getDepth(node6)).toBe(3);
+        expect(node6 && bst.getHeight(6)).toBe(2);
+        expect(node6 && bst.getDepth(6)).toBe(3);
 
-        const nodeId10 = bst.get(10, 'id');
+        const nodeId10 = bst.get(10);
         expect(nodeId10?.id).toBe(10);
 
         const nodeVal9 = bst.get(9, 'val');
@@ -35,7 +35,7 @@ describe('BST operations test', () => {
         const minNodeBySpecificNode = node15 && bst.getLeftMost(node15);
         expect(minNodeBySpecificNode?.id).toBe(12);
 
-        const subTreeSum = node15 && bst.subTreeSum(node15);
+        const subTreeSum = node15 && bst.subTreeSum(15);
         expect(subTreeSum).toBe(70);
 
         const lesserSum = bst.lesserSum(10);
@@ -43,14 +43,14 @@ describe('BST operations test', () => {
 
         expect(node15).toBeInstanceOf(BSTNode);
         if (node15 instanceof BSTNode) {
-            const subTreeAdd = bst.subTreeAdd(node15, 1, 'count');
+            const subTreeAdd = bst.subTreeAdd(15, 1, 'count');
             expect(subTreeAdd).toBeDefined();
         }
 
         const node11 = bst.get(11);
         expect(node11).toBeInstanceOf(BSTNode);
         if (node11 instanceof BSTNode) {
-            const allGreaterNodesAdded = bst.allGreaterNodesAdd(node11, 2, 'count');
+            const allGreaterNodesAdded = bst.allGreaterNodesAdd(11, 2, 'count');
             expect(allGreaterNodesAdded).toBeDefined();
         }
 
@@ -74,7 +74,7 @@ describe('BST operations test', () => {
 
         expect(bst.isAVLBalanced()).toBe(true);
 
-        expect(node15 && bst.getHeight(node15)).toBe(2);
+        expect(bst.getHeight(15)).toBe(1);
 
         const removed1 = bst.remove(1, true);
         expect(removed1).toBeInstanceOf(Array);
@@ -189,7 +189,7 @@ describe('BST operations test', () => {
         expect(bfsNodes[0].id).toBe(2);
         expect(bfsNodes[1].id).toBe(12);
         expect(bfsNodes[2].id).toBe(16);
-        
+
         expect(bst.count).toBe(5);
     });
 

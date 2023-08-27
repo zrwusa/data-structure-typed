@@ -213,19 +213,20 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
 
     // --- start additional functions
     /**
-     * The `lesserSum` function calculates the sum of a specified property in all nodes with an ID less than a given ID in
-     * a binary search tree.
-     * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier of the binary tree node for which you want to
-     * calculate the lesser sum.
+     * The `lesserSum` function calculates the sum of property values in a binary tree for nodes that have a lesser value
+     * than a given node.
+     * @param {N | BinaryTreeNodeId | null} beginNode - The `beginNode` parameter can be one of the following:
      * @param {BinaryTreeNodePropertyName} [propertyName] - The `propertyName` parameter is an optional parameter that
-     * specifies the property of the binary tree node to use for calculating the sum. If not provided, it defaults to 'id'.
-     * @returns The function `lesserSum` returns a number, which represents the sum of the values of the nodes in the
-     * binary search tree that have a property value lesser than the given `id`.
+     * specifies the property name to use for calculating the sum. If not provided, it defaults to `'id'`.
+     * @returns The function `lesserSum` returns a number, which represents the sum of the values of the nodes in a binary
+     * tree that have a lesser value than the specified `beginNode` based on the specified `propertyName`.
      */
-    lesserSum(id: BinaryTreeNodeId, propertyName ?: BinaryTreeNodePropertyName): number {
+    lesserSum(beginNode: N | BinaryTreeNodeId | null, propertyName ?: BinaryTreeNodePropertyName): number {
         propertyName = propertyName ?? 'id';
+        if (typeof beginNode === 'number') beginNode = this.get(beginNode, 'id');
+        if (!beginNode) return 0;
         if (!this.root) return 0;
-
+        const id = beginNode.id;
         const getSumByPropertyName = (cur: N) => {
             let needSum: number;
             switch (propertyName) {
@@ -299,8 +300,11 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
      * defaults to 'id'.
      * @returns a boolean value.
      */
-    allGreaterNodesAdd(node: N, delta: number, propertyName ?: BinaryTreeNodePropertyName): boolean {
+    allGreaterNodesAdd(node: N | BinaryTreeNodeId | null, delta: number, propertyName ?: BinaryTreeNodePropertyName): boolean {
         propertyName = propertyName ?? 'id';
+        if (typeof node === 'number') node = this.get(node, 'id');
+        if (!node) return false;
+        const id = node.id;
         if (!this.root) return false;
 
         const _sumByPropertyName = (cur: N) => {
@@ -319,7 +323,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
 
         if (this.loopType === LoopType.RECURSIVE) {
             const _traverse = (cur: N) => {
-                const compared = this._compare(cur.id, node.id);
+                const compared = this._compare(cur.id, id);
                 _sumByPropertyName(cur);
 
                 if (!cur.left && !cur.right) return;

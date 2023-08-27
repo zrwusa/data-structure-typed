@@ -4,7 +4,8 @@ import {
     BinaryTreeDeletedResult,
     BinaryTreeNodeId,
     BinaryTreeNodePropertyName,
-    DFSOrderPattern, FamilyPosition,
+    DFSOrderPattern,
+    FamilyPosition,
     LoopType,
     NodeOrPropertyName
 } from '../types';

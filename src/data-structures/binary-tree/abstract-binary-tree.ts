@@ -461,21 +461,19 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The function removes a node from a binary tree and returns information about the deleted node.
-     * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier of the binary tree node that you want to remove.
-     * It is of type `BinaryTreeNodeId`.
+     * The `remove` function removes a node from a binary search tree and returns the deleted node along with the parent
+     * node that needs to be balanced.
+     * @param {N | BinaryTreeNodeId | null} nodeOrId - The `nodeOrId` parameter can be one of the following:
      * @param {boolean} [ignoreCount] - The `ignoreCount` parameter is an optional boolean parameter that determines
      * whether to ignore the count of the node being removed. If `ignoreCount` is set to `true`, the count of the node will
-     * not be decremented and the overall count of the binary tree will not be updated. If `
-     * @returns An array of objects is being returned. Each object in the array has two properties: "deleted" and
-     * "needBalanced". The "deleted" property contains the deleted node or undefined if no node was deleted. The
-     * "needBalanced" property is always null.
+     * not be taken into account when removing it. If `ignoreCount` is set to `false
+     * @returns The function `remove` returns an array of `BinaryTreeDeletedResult<N>` objects.
      */
-    remove(id: BinaryTreeNodeId, ignoreCount?: boolean): BinaryTreeDeletedResult<N>[] {
+    remove(nodeOrId: N | BinaryTreeNodeId, ignoreCount?: boolean): BinaryTreeDeletedResult<N>[] {
         const bstDeletedResult: BinaryTreeDeletedResult<N>[] = [];
         if (!this.root) return bstDeletedResult;
 
-        const curr: N | null = this.get(id);
+        const curr: N | null = (typeof nodeOrId === 'number') ? this.get(nodeOrId) : nodeOrId;
         if (!curr) return bstDeletedResult;
 
         const parent: N | null = curr?.parent ? curr.parent : null;
@@ -518,16 +516,17 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The function calculates the depth of a binary tree node by traversing its parent nodes.
-     * @param node - N - This is the node for which we want to calculate the depth. It is a generic type,
-     * meaning it can represent any type of data that we want to store in the node.
-     * @returns The depth of the given binary tree node.
+     * The function calculates the depth of a node in a binary tree.
+     * @param {N | BinaryTreeNodeId | null} beginRoot - The `beginRoot` parameter can be one of the following:
+     * @returns the depth of the given node or binary tree.
      */
-    getDepth(node: N): number {
+    getDepth(beginRoot: N | BinaryTreeNodeId | null): number {
+        if (typeof beginRoot === 'number') beginRoot = this.get(beginRoot, 'id');
+
         let depth = 0;
-        while (node.parent) {
+        while (beginRoot?.parent) {
             depth++;
-            node = node.parent;
+            beginRoot = beginRoot.parent;
         }
         return depth;
     }
@@ -540,8 +539,10 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * If no value is provided for `beginRoot`, the function will use the `root` property of the class instance as
      * @returns the height of the binary tree.
      */
-    getHeight(beginRoot?: N | null): number {
+    getHeight(beginRoot?: N | BinaryTreeNodeId | null): number {
         beginRoot = beginRoot ?? this.root;
+
+        if (typeof beginRoot === 'number') beginRoot = this.get(beginRoot, 'id');
         if (!beginRoot) return -1;
 
         if (this._loopType === LoopType.RECURSIVE) {
@@ -731,17 +732,22 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
 
     getLeftMost(node: N): N;
 
+
     /**
-     * The `getLeftMost` function returns the leftmost node in a binary tree, either recursively or iteratively using tail
-     * recursion optimization.
-     * @param {N | null} [node] - The `node` parameter is an optional parameter of type `N
-     * | null`. It represents the starting node from which to find the leftmost node in a binary tree. If no node is
-     * provided, the function will use the root node of the binary tree.
-     * @returns The `getLeftMost` function returns the leftmost node in a binary tree.
+     * The `getLeftMost` function returns the leftmost node in a binary tree, starting from a specified node or the root if
+     * no node is specified.
+     * @param {N | BinaryTreeNodeId | null} [beginRoot] - The `beginRoot` parameter is optional and can be of type `N` (a
+     * generic type representing a node in a binary tree), `BinaryTreeNodeId` (a type representing the ID of a binary tree
+     * node), or `null`.
+     * @returns The function `getLeftMost` returns the leftmost node in a binary tree. If the `beginRoot` parameter is
+     * provided, it starts the traversal from that node. If `beginRoot` is not provided or is `null`, it starts the
+     * traversal from the root of the binary tree. If there are no nodes in the binary tree, it returns `null`.
      */
-    getLeftMost(node?: N | null): N | null {
-        node = node ?? this.root;
-        if (!node) return node;
+    getLeftMost(beginRoot?: N | BinaryTreeNodeId | null): N | null {
+        if (typeof beginRoot === 'number') beginRoot = this.get(beginRoot, 'id');
+
+        beginRoot = beginRoot ?? this.root;
+        if (!beginRoot) return beginRoot;
 
         if (this._loopType === LoopType.RECURSIVE) {
 
@@ -750,7 +756,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
                 return _traverse(cur.left);
             }
 
-            return _traverse(node);
+            return _traverse(beginRoot);
         } else {
             // Indirect implementation of iteration using tail recursion optimization
             const _traverse = trampoline((cur: N) => {
@@ -758,7 +764,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
                 return _traverse.cont(cur.left);
             });
 
-            return _traverse(node);
+            return _traverse(beginRoot);
         }
     }
 
@@ -890,8 +896,10 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * provided, it defaults to `'val'`.
      * @returns a number, which is the sum of the values of the nodes in the subtree rooted at `subTreeRoot`.
      */
-    subTreeSum(subTreeRoot: N, propertyName ?: BinaryTreeNodePropertyName): number {
+    subTreeSum(subTreeRoot: N | BinaryTreeNodeId | null, propertyName ?: BinaryTreeNodePropertyName): number {
         propertyName = propertyName ?? 'id';
+        if (typeof subTreeRoot === 'number') subTreeRoot = this.get(subTreeRoot, 'id');
+
         if (!subTreeRoot) return 0;
 
         let sum = 0;
@@ -937,17 +945,22 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         return sum;
     }
 
+
     /**
-     * The function `subTreeAdd` adds a specified delta value to a property of each node in a binary tree.
-     * @param subTreeRoot - The `subTreeRoot` parameter is the root node of the subtree where the values will be modified.
+     * The function `subTreeAdd` adds a delta value to a specified property of each node in a subtree.
+     * @param {N | BinaryTreeNodeId | null} subTreeRoot - The `subTreeRoot` parameter represents the root node of a binary
+     * tree or the ID of a binary tree node. It can also be `null` if there is no subtree root.
      * @param {number} delta - The `delta` parameter is a number that represents the amount by which the property value of
-     * each node in the subtree should be increased or decreased.
+     * each node in the subtree should be incremented or decremented.
      * @param {BinaryTreeNodePropertyName} [propertyName] - The `propertyName` parameter is an optional parameter that
-     * specifies the property of the `BinaryTreeNode` that should be modified. It defaults to `'id'` if not provided.
-     * @returns a boolean value, which is `true`.
+     * specifies the property of the binary tree node that should be modified. It can be either 'id' or 'count'. If no
+     * value is provided for `propertyName`, it defaults to 'id'.
+     * @returns a boolean value.
      */
-    subTreeAdd(subTreeRoot: N, delta: number, propertyName ?: BinaryTreeNodePropertyName): boolean {
+    subTreeAdd(subTreeRoot: N | BinaryTreeNodeId | null, delta: number, propertyName ?: BinaryTreeNodePropertyName): boolean {
         propertyName = propertyName ?? 'id';
+        if (typeof subTreeRoot === 'number') subTreeRoot = this.get(subTreeRoot, 'id');
+
         if (!subTreeRoot) return false;
 
         const _addByProperty = (cur: N) => {
