@@ -63,5 +63,8 @@
     "ts-jest": "^29.1.1",
     "typedoc": "^0.24.8",
     "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "zod": "^3.22.2"
   }
 }
