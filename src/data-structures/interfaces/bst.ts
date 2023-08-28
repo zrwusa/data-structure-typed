@@ -3,7 +3,6 @@ import {IBinaryTree, IBinaryTreeNode} from './binary-tree';
 import {BinaryTreeDeletedResult, BinaryTreeNodeId, BinaryTreeNodePropertyName} from '../types';
 
 export interface IBSTNode<T, FAMILY extends IBSTNode<T, FAMILY>> extends IBinaryTreeNode<T, FAMILY> {
-    createNode(id: BinaryTreeNodeId, val?: T, count?: number): FAMILY
 }
 
 export interface IBST<N extends BSTNode<N['val'], N>> extends IBinaryTree<N> {

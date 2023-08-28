@@ -140,44 +140,6 @@ export abstract class AbstractBinaryTreeNode<T = any, FAMILY extends AbstractBin
             }
         }
     }
-
-    abstract createNode(id: BinaryTreeNodeId, val?: T, count?: number): FAMILY
-
-    /**
-     * The function swaps the location of two nodes in a binary tree.
-     * @param {FAMILY} destNode - The `swapNode` parameter is of type `FAMILY`, which represents a node in a family tree.
-     * @returns the `swapNode` object after swapping its properties with the properties of `this` object.
-     */
-    swapLocation(destNode: FAMILY): FAMILY {
-        const {val, count, height, id} = destNode;
-        const tempNode = this.createNode(id, val, count);
-        tempNode.height = height;
-
-        if (tempNode instanceof AbstractBinaryTreeNode) {
-            // TODO should we consider the left, right children?
-
-
-            destNode.id = this.id;
-            destNode.val = this.val;
-            destNode.count = this.count;
-            destNode.height = this.height;
-
-            this.id = tempNode.id;
-            this.val = tempNode.val;
-            this.count = tempNode.count;
-            this.height = tempNode.height;
-        }
-        return destNode;
-    }
-
-    /**
-     * The `clone` function returns a new instance of the `FAMILY` class with the same `id`, `val`, and `count` properties.
-     * @returns The `clone()` method is returning a new instance of the `FAMILY` class with the same `id`, `val`, and
-     * `count` values as the current instance.
-     */
-    clone(): FAMILY | null {
-        return this.createNode(this.id, this.val, this.count);
-    }
 }
 
 export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], N> = AbstractBinaryTreeNode> implements IAbstractBinaryTree<N> {
@@ -272,6 +234,32 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     abstract createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N | null ;
+
+
+    swapLocation(srcNode: N, destNode: N): N {
+        const {val, count, height, id} = destNode;
+        const tempNode = this.createNode(id, val, count);
+        if (tempNode) {
+            tempNode.height = height;
+
+            if (tempNode instanceof AbstractBinaryTreeNode) {
+                // TODO should we consider the left, right children?
+
+
+                destNode.id = srcNode.id;
+                destNode.val = srcNode.val;
+                destNode.count = srcNode.count;
+                destNode.height = srcNode.height;
+
+                srcNode.id = tempNode.id;
+                srcNode.val = tempNode.val;
+                srcNode.count = tempNode.count;
+                srcNode.height = tempNode.height;
+            }
+        }
+
+        return destNode;
+    }
 
     /**
      * The clear function resets the state of an object by setting its properties to their initial values.
@@ -499,7 +487,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
                 const leftSubTreeRightMost = curr.left ? this.getRightMost(curr.left) : null;
                 if (leftSubTreeRightMost) {
                     const parentOfLeftSubTreeMax = leftSubTreeRightMost.parent;
-                    orgCurrent = curr.swapLocation(leftSubTreeRightMost);
+                    orgCurrent = this.swapLocation(curr, leftSubTreeRightMost);
                     if (parentOfLeftSubTreeMax) {
                         if (parentOfLeftSubTreeMax.right === leftSubTreeRightMost) parentOfLeftSubTreeMax.right = leftSubTreeRightMost.left;
                         else parentOfLeftSubTreeMax.left = leftSubTreeRightMost.left;

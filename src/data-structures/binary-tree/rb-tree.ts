@@ -18,19 +18,6 @@ export class RBTreeNode<T = any, FAMILY extends RBTreeNode<T, FAMILY> = RBTreeNo
         this._color = value;
     }
 
-    /**
-     * The function creates a new RBTreeNode with the given id, value, and count and returns it as a FAMILY object.
-     * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier for the binary tree node. It is used to uniquely
-     * identify each node in the tree.
-     * @param {T | null} [val] - The "val" parameter represents the value to be stored in the node. It can be of type T
-     * (generic type) or null.
-     * @param {number} [count] - The `count` parameter represents the number of occurrences of the value in the binary tree
-     * node.
-     * @returns The method is returning a new instance of the RBTreeNode class, casted as a FAMILY type.
-     */
-    override createNode(id: BinaryTreeNodeId, val?: T, count?: number): FAMILY {
-        return new RBTreeNode(id, val, count) as FAMILY;
-    }
 
     // private override _parent: RBNode<T> | null;
     // override set parent(v: RBNode<T> | null) {

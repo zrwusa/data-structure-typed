@@ -10,19 +10,6 @@ import {ITreeMultiset, ITreeMultisetNode} from '../interfaces';
 import {AVLTree, AVLTreeNode} from './avl-tree';
 
 export class TreeMultisetNode<T = any, FAMILY extends TreeMultisetNode<T, FAMILY> = TreeMultisetNodeNested<T>> extends AVLTreeNode<T, FAMILY> implements ITreeMultisetNode<T, FAMILY> {
-    /**
-     * The function creates a new node in a binary tree with an optional value and count.
-     * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier for the binary tree node. It is used to uniquely
-     * identify each node in the tree.
-     * @param {T} [val] - The `val` parameter represents the value to be stored in the node. It is an optional parameter,
-     * meaning it can be omitted when calling the `createNode` method.
-     * @param {number} [count] - The `count` parameter represents the number of occurrences of the value in the binary tree
-     * node. It is an optional parameter, so it can be omitted when calling the `createNode` method.
-     * @returns The method is returning a new instance of the TreeMultisetNode class, casted as the FAMILY type.
-     */
-    override createNode(id: BinaryTreeNodeId, val?: T, count?: number): FAMILY {
-        return new TreeMultisetNode(id, val, count) as FAMILY;
-    }
 }
 
 /**

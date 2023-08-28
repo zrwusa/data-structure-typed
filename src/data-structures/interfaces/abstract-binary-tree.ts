@@ -13,8 +13,6 @@ import {AbstractBinaryTreeNode} from '../binary-tree';
 
 export interface IAbstractBinaryTreeNode<T, FAMILY extends IAbstractBinaryTreeNode<T, FAMILY>> {
 
-    createNode(id: BinaryTreeNodeId, val?: T, count?: number): FAMILY;
-
     get id(): BinaryTreeNodeId
 
     set id(v: BinaryTreeNodeId)
@@ -44,10 +42,6 @@ export interface IAbstractBinaryTreeNode<T, FAMILY extends IAbstractBinaryTreeNo
     get height(): number
 
     set height(v: number)
-
-    swapLocation(swapNode: FAMILY): FAMILY
-
-    clone(): FAMILY | null;
 }
 
 export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], N>> {
@@ -76,6 +70,8 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
     get size(): number
 
     get count(): number
+
+    swapLocation(srcNode: N, destNode: N): N
 
     clear(): void
 

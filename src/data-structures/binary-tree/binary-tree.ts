@@ -13,20 +13,6 @@ import {IBinaryTree, IBinaryTreeNode} from '../interfaces/binary-tree';
 
 export class BinaryTreeNode<T = any, FAMILY extends BinaryTreeNode<T, FAMILY> = BinaryTreeNodeNested<T>> extends AbstractBinaryTreeNode<T, FAMILY> implements IBinaryTreeNode<T, FAMILY> {
 
-    /**
-     * The function creates a new binary tree node with an optional value and count, and returns it as a specified type.
-     * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier for the binary tree node. It is of type
-     * `BinaryTreeNodeId`, which could be a string or a number depending on how you want to identify your nodes.
-     * @param {T} [val] - The `val` parameter is an optional value that can be assigned to the node. It represents the
-     * value stored in the node.
-     * @param {number} [count] - The count parameter is an optional parameter that represents the number of times the value
-     * appears in the binary tree node.
-     * @returns a new instance of the BinaryTreeNode class, casted as the FAMILY type.
-     */
-    createNode(id: BinaryTreeNodeId, val?: T, count?: number): FAMILY {
-        return new BinaryTreeNode<T, FAMILY>(id, val, count) as FAMILY;
-    }
-
 }
 
 export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> extends AbstractBinaryTree<N> implements IBinaryTree<N> {

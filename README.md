@@ -3,6 +3,190 @@
 ## Brief
 Javascript & TypeScript Data Structure Library. 
 
+
+## Algorithms list only a few out, you can discover more in API docs
+
+DFS, DFSIterative, BFS, morris, Bellman-Ford Algorithm, Dijkstra's Algorithm, Floyd-Warshall Algorithm, Tarjan's Algorithm
+
+# How
+## install
+
+### yarn
+
+```bash
+yarn add data-structure-typed
+```
+
+### npm
+
+```bash
+npm install data-structure-typed
+```
+
+### Binary Search Tree (BST) snippet
+
+#### TS
+```typescript
+    import {BST, BSTNode} from 'data-structure-typed';
+
+    const bst = new BST();
+    bst.add(11);
+    bst.add(3);
+    bst.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
+    bst.size === 16;        // true
+    bst.has(6);             // true
+    const node6 = bst.get(6);
+    bst.getHeight(6) === 2; // true
+    bst.getHeight() === 5;  // true
+    bst.getDepth(6) === 3;  // true
+    const leftMost = bst.getLeftMost();
+    leftMost?.id === 1;     // true
+    expect(leftMost?.id).toBe(1);
+    bst.remove(6);
+    bst.get(6);             // null
+    bst.isAVLBalanced();    // true or false
+    const bfsIDs = bst.BFS();
+    bfsIDs[0] === 11;   // true
+    expect(bfsIDs[0]).toBe(11);
+    
+    const objBST = new BST<BSTNode<{ id: number, keyA: number }>>();
+    objBST.add(11, {id: 11, keyA: 11});
+    objBST.add(3, {id: 3, keyA: 3});
+    
+    objBST.addMany([{id: 15, keyA: 15}, {id: 1, keyA: 1}, {id: 8, keyA: 8},
+        {id: 13, keyA: 13}, {id: 16, keyA: 16}, {id: 2, keyA: 2},
+        {id: 6, keyA: 6}, {id: 9, keyA: 9}, {id: 12, keyA: 12},
+        {id: 14, keyA: 14}, {id: 4, keyA: 4}, {id: 7, keyA: 7},
+        {id: 10, keyA: 10}, {id: 5, keyA: 5}]);
+    
+    objBST.remove(11);
+    
+    
+    const avlTree = new AVLTree();
+    avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
+    avlTree.isAVLBalanced();    // true
+    avlTree.remove(10);
+    avlTree.isAVLBalanced();    // true
+
+```
+#### JS
+```javascript
+    const {BST, BSTNode} = require('data-structure-typed');
+
+    const bst = new BST();
+    bst.add(11);
+    bst.add(3);
+    bst.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
+    bst.size === 16;        // true
+    bst.has(6);             // true
+    const node6 = bst.get(6);
+    bst.getHeight(6) === 2; // true
+    bst.getHeight() === 5;  // true
+    bst.getDepth(6) === 3;  // true
+    const leftMost = bst.getLeftMost();
+    leftMost?.id === 1;     // true
+    expect(leftMost?.id).toBe(1);
+    bst.remove(6);
+    bst.get(6);             // null
+    bst.isAVLBalanced();    // true or false
+    const bfsIDs = bst.BFS();
+    bfsIDs[0] === 11;   // true
+    expect(bfsIDs[0]).toBe(11);
+    
+    const objBST = new BST();
+    objBST.add(11, {id: 11, keyA: 11});
+    objBST.add(3, {id: 3, keyA: 3});
+    
+    objBST.addMany([{id: 15, keyA: 15}, {id: 1, keyA: 1}, {id: 8, keyA: 8},
+        {id: 13, keyA: 13}, {id: 16, keyA: 16}, {id: 2, keyA: 2},
+        {id: 6, keyA: 6}, {id: 9, keyA: 9}, {id: 12, keyA: 12},
+        {id: 14, keyA: 14}, {id: 4, keyA: 4}, {id: 7, keyA: 7},
+        {id: 10, keyA: 10}, {id: 5, keyA: 5}]);
+    
+    objBST.remove(11);
+    
+    
+    const avlTree = new AVLTree();
+    avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
+    avlTree.isAVLBalanced();    // true
+    avlTree.remove(10);
+    avlTree.isAVLBalanced();    // true
+
+```
+
+### Directed Graph simple snippet
+
+#### TS or JS
+```typescript
+import {DirectedGraph} from 'data-structure-typed';
+
+    const graph = new DirectedGraph();
+    
+    graph.addVertex('A');
+    graph.addVertex('B');
+    
+    graph.hasVertex('A');       // true
+    graph.hasVertex('B');       // true
+    graph.hasVertex('C');       // false
+    
+    graph.addEdge('A', 'B');
+    graph.hasEdge('A', 'B'); // true
+    graph.hasEdge('B', 'A'); // false
+    
+    graph.removeEdgeSrcToDest('A', 'B');
+    graph.hasEdge('A', 'B');    // false
+    
+    graph.addVertex('C');
+    
+    graph.addEdge('A', 'B');
+    graph.addEdge('B', 'C');
+    
+    const topologicalOrderIds = graph.topologicalSort(); // ['A', 'B', 'C']
+```
+
+### Undirected Graph snippet
+
+#### TS or JS
+```typescript
+import {UndirectedGraph} from 'data-structure-typed';
+
+    const graph = new UndirectedGraph();
+    graph.addVertex('A');
+    graph.addVertex('B');
+    graph.addVertex('C');
+    graph.addVertex('D');
+    graph.removeVertex('C');
+    graph.addEdge('A', 'B');
+    graph.addEdge('B', 'D');
+    
+    const dijkstraResult = graph.dijkstra('A');
+    Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D']
+```
+
+[API Docs](https://data-structure-typed-docs.vercel.app)
+
+[Live Examples](https://data-structure-typed-examples.vercel.app)
+
+
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/dfs-pre-order.webp)
+
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/test-graphs.webp)
+
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/cut-off-trees-for-golf.webp)
+
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/parenthesis-check.webp)
+
+<a href="https://data-structure-typed-examples.vercel.app" target="_blank">Live Examples</a>
+
+
+## API docs
+
+
+[//]: # ([Examples Repository]&#40;https://github.com/zrwusa/data-structure-typed-examples&#41;)
+
+<a href="https://github.com/zrwusa/data-structure-typed-examples" target="_blank">Examples Repository</a>
+
+
 Meticulously crafted to empower developers with a versatile set of essential data structures. Our library includes a
 wide range of data structures
 
@@ -199,187 +383,6 @@ wide range of data structures
 </tbody>
 </table>
 
-## Algorithms list only a few out, you can discover more in API docs
-
-DFS, DFSIterative, BFS, morris, Bellman-Ford Algorithm, Dijkstra's Algorithm, Floyd-Warshall Algorithm, Tarjan's Algorithm
-
-# How
-## install
-
-### yarn
-
-```bash
-yarn add data-structure-typed
-```
-
-### npm
-
-```bash
-npm install data-structure-typed
-```
-
-### Binary Search Tree (BST) snippet
-
-#### TS
-```typescript
-    import {BST, BSTNode} from 'data-structure-typed';
-
-    const bst = new BST();
-    bst.add(11);
-    bst.add(3);
-    bst.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
-    bst.size === 16;        // true
-    bst.has(6);             // true
-    const node6 = bst.get(6);
-    bst.getHeight(6) === 2; // true
-    bst.getHeight() === 5;  // true
-    bst.getDepth(6) === 3;  // true
-    const leftMost = bst.getLeftMost();
-    leftMost?.id === 1;     // true
-    expect(leftMost?.id).toBe(1);
-    bst.remove(6);
-    bst.get(6);             // null
-    bst.isAVLBalanced();    // true or false
-    const bfsIDs = bst.BFS();
-    bfsIDs[0] === 11;   // true
-    expect(bfsIDs[0]).toBe(11);
-    
-    const objBST = new BST<BSTNode<{ id: number, keyA: number }>>();
-    objBST.add(11, {id: 11, keyA: 11});
-    objBST.add(3, {id: 3, keyA: 3});
-    
-    objBST.addMany([{id: 15, keyA: 15}, {id: 1, keyA: 1}, {id: 8, keyA: 8},
-        {id: 13, keyA: 13}, {id: 16, keyA: 16}, {id: 2, keyA: 2},
-        {id: 6, keyA: 6}, {id: 9, keyA: 9}, {id: 12, keyA: 12},
-        {id: 14, keyA: 14}, {id: 4, keyA: 4}, {id: 7, keyA: 7},
-        {id: 10, keyA: 10}, {id: 5, keyA: 5}]);
-    
-    objBST.remove(11);
-    
-    
-    const avlTree = new AVLTree();
-    avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
-    avlTree.isAVLBalanced();    // true
-    avlTree.remove(10);
-    avlTree.isAVLBalanced();    // true
-
-```
-#### JS
-```javascript
-    const {BST, BSTNode} = require('data-structure-typed');
-
-    const bst = new BST();
-    bst.add(11);
-    bst.add(3);
-    bst.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
-    bst.size === 16;        // true
-    bst.has(6);             // true
-    const node6 = bst.get(6);
-    bst.getHeight(6) === 2; // true
-    bst.getHeight() === 5;  // true
-    bst.getDepth(6) === 3;  // true
-    const leftMost = bst.getLeftMost();
-    leftMost?.id === 1;     // true
-    expect(leftMost?.id).toBe(1);
-    bst.remove(6);
-    bst.get(6);             // null
-    bst.isAVLBalanced();    // true or false
-    const bfsIDs = bst.BFS();
-    bfsIDs[0] === 11;   // true
-    expect(bfsIDs[0]).toBe(11);
-    
-    const objBST = new BST();
-    objBST.add(11, {id: 11, keyA: 11});
-    objBST.add(3, {id: 3, keyA: 3});
-    
-    objBST.addMany([{id: 15, keyA: 15}, {id: 1, keyA: 1}, {id: 8, keyA: 8},
-        {id: 13, keyA: 13}, {id: 16, keyA: 16}, {id: 2, keyA: 2},
-        {id: 6, keyA: 6}, {id: 9, keyA: 9}, {id: 12, keyA: 12},
-        {id: 14, keyA: 14}, {id: 4, keyA: 4}, {id: 7, keyA: 7},
-        {id: 10, keyA: 10}, {id: 5, keyA: 5}]);
-    
-    objBST.remove(11);
-    
-    
-    const avlTree = new AVLTree();
-    avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
-    avlTree.isAVLBalanced();    // true
-    avlTree.remove(10);
-    avlTree.isAVLBalanced();    // true
-
-```
-
-### Directed Graph simple snippet
-
-#### TS or JS
-```typescript
-import {DirectedGraph} from 'data-structure-typed';
-
-    const graph = new DirectedGraph();
-    
-    graph.addVertex('A');
-    graph.addVertex('B');
-    
-    graph.hasVertex('A');       // true
-    graph.hasVertex('B');       // true
-    graph.hasVertex('C');       // false
-    
-    graph.addEdge('A', 'B');
-    graph.hasEdge('A', 'B'); // true
-    graph.hasEdge('B', 'A'); // false
-    
-    graph.removeEdgeSrcToDest('A', 'B');
-    graph.hasEdge('A', 'B');    // false
-    
-    graph.addVertex('C');
-    
-    graph.addEdge('A', 'B');
-    graph.addEdge('B', 'C');
-    
-    const topologicalOrderIds = graph.topologicalSort(); // ['A', 'B', 'C']
-```
-
-### Undirected Graph snippet
-
-#### TS or JS
-```typescript
-import {UndirectedGraph} from 'data-structure-typed';
-
-    const graph = new UndirectedGraph();
-    graph.addVertex('A');
-    graph.addVertex('B');
-    graph.addVertex('C');
-    graph.addVertex('D');
-    graph.removeVertex('C');
-    graph.addEdge('A', 'B');
-    graph.addEdge('B', 'D');
-    
-    const dijkstraResult = graph.dijkstra('A');
-    Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D']
-```
-
-[API Docs](https://data-structure-typed-docs.vercel.app)
-
-[Live Examples](https://data-structure-typed-examples.vercel.app)
-
-
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/dfs-pre-order.webp)
-
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/test-graphs.webp)
-
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/cut-off-trees-for-golf.webp)
-
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/parenthesis-check.webp)
-
-<a href="https://data-structure-typed-examples.vercel.app" target="_blank">Live Examples</a>
-
-
-## API docs
-
-
-[//]: # ([Examples Repository]&#40;https://github.com/zrwusa/data-structure-typed-examples&#41;)
-
-<a href="https://github.com/zrwusa/data-structure-typed-examples" target="_blank">Examples Repository</a>
 
 # Why
 
