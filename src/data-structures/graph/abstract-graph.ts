@@ -199,7 +199,7 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
 
     addEdge(edge: E): boolean
 
-    addEdge(src: V | VertexId, dest: V | VertexId, weight: number, val?: E['val']): boolean
+    addEdge(src: V | VertexId, dest: V | VertexId, weight?: number, val?: E['val']): boolean
 
     addEdge(srcOrEdge: V | VertexId | E, dest?: V | VertexId, weight?: number, val?: E['val']): boolean {
         if (srcOrEdge instanceof AbstractEdge) {

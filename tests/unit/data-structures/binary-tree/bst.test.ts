@@ -4,13 +4,14 @@ describe('BST operations test', () => {
     it('should perform various operations on a Binary Search Tree with numeric values', () => {
         const bst = new BST();
         expect(bst).toBeInstanceOf(BST);
-
-        const values = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
-        bst.addMany(values);
+        bst.add(11);
+        bst.add(3);
+        bst.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
         expect(bst.root).toBeInstanceOf(BSTNode);
 
         if (bst.root) expect(bst.root.id).toBe(11);
 
+        expect(bst.size).toBe(16);
         expect(bst.count).toBe(16);
 
         expect(bst.has(6)).toBe(true);
@@ -194,16 +195,15 @@ describe('BST operations test', () => {
     });
 
     it('should perform various operations on a Binary Search Tree with object values', () => {
-        const objBST = new BST<BSTNode<{ id: number, keyA: number }>>({autoIncrementId: false});
+        const objBST = new BST<BSTNode<{ id: number, keyA: number }>>();
         expect(objBST).toBeInstanceOf(BST);
-
-        const values = [{id: 11, keyA: 11}, {id: 3, keyA: 3}, {id: 15, keyA: 15}, {id: 1, keyA: 1}, {
-            id: 8,
-            keyA: 8
-        }, {id: 13, keyA: 13}, {id: 16, keyA: 16}, {id: 2, keyA: 2}, {id: 6, keyA: 6}, {id: 9, keyA: 9}, {
-            id: 12,
-            keyA: 12
-        }, {id: 14, keyA: 14}, {id: 4, keyA: 4}, {id: 7, keyA: 7}, {id: 10, keyA: 10}, {id: 5, keyA: 5}];
+        objBST.add(11, {id: 11, keyA: 11});
+        objBST.add(3, {id: 3, keyA: 3});
+        const values = [{id: 15, keyA: 15}, {id: 1, keyA: 1}, {id: 8, keyA: 8},
+            {id: 13, keyA: 13}, {id: 16, keyA: 16}, {id: 2, keyA: 2},
+            {id: 6, keyA: 6}, {id: 9, keyA: 9}, {id: 12, keyA: 12},
+            {id: 14, keyA: 14}, {id: 4, keyA: 4}, {id: 7, keyA: 7},
+            {id: 10, keyA: 10}, {id: 5, keyA: 5}];
 
         objBST.addMany(values);
 

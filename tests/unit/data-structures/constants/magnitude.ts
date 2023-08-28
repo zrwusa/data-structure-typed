@@ -1,4 +1,4 @@
-const orderReducedBy = 3; // reduction of magnitude's order compared to the baseline magnitude
+const orderReducedBy = 2; // reduction of magnitude's order compared to the baseline magnitude
 
 export const magnitude = {
     CONSTANT: Math.floor(Number.MAX_SAFE_INTEGER / Math.pow(10, orderReducedBy)),

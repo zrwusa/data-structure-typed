@@ -46,19 +46,15 @@ describe('UndirectedGraph Operation Test', () => {
     });
 
     it('should perform topological sort', () => {
-        const vertexA = new UndirectedVertex('A');
-        const vertexB = new UndirectedVertex('B');
-        const vertexC = new UndirectedVertex('C');
-        const edgeAB = new UndirectedEdge('A', 'B');
-        const edgeBC = new UndirectedEdge('B', 'C');
-
-        graph.addVertex(vertexA);
-        graph.addVertex(vertexB);
-        graph.addVertex(vertexC);
-        graph.addEdge(edgeAB);
-        graph.addEdge(edgeBC);
+        graph.addVertex('A');
+        graph.addVertex('B');
+        graph.addVertex('C');
+        graph.addVertex('D');
+        graph.removeVertex('C');
+        graph.addEdge('A', 'B');
+        graph.addEdge('B', 'D');
 
         const dijkstraResult = graph.dijkstra('A');
-        // TODO to be tested
+        expect(Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id)).toEqual(['A', 'B', 'D']);
     });
 });
