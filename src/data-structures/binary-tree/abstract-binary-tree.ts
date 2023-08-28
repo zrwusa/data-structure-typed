@@ -31,7 +31,7 @@ export abstract class AbstractBinaryTreeNode<T = any, FAMILY extends AbstractBin
      * @param {number} [count] - The `count` parameter is an optional parameter that represents the number of times the
      * value `val` appears in the binary tree node. If the `count` parameter is not provided, it defaults to 1.
      */
-    constructor(val: T, id: BinaryTreeNodeId, count?: number) {
+    constructor(id: BinaryTreeNodeId, val?: T, count?: number) {
         this._id = id;
         this._val = val;
         this._count = count ?? 1;
@@ -47,13 +47,13 @@ export abstract class AbstractBinaryTreeNode<T = any, FAMILY extends AbstractBin
         this._id = v;
     }
 
-    private _val: T;
+    private _val: T | undefined;
 
-    get val(): T {
+    get val(): T | undefined {
         return this._val;
     }
 
-    set val(value: T) {
+    set val(value: T | undefined) {
         this._val = value;
     }
 
@@ -141,7 +141,7 @@ export abstract class AbstractBinaryTreeNode<T = any, FAMILY extends AbstractBin
         }
     }
 
-    abstract createNode(val: T, id: BinaryTreeNodeId, count?: number): FAMILY
+    abstract createNode(id: BinaryTreeNodeId, val?: T, count?: number): FAMILY
 
     /**
      * The function swaps the location of two nodes in a binary tree.
@@ -150,7 +150,7 @@ export abstract class AbstractBinaryTreeNode<T = any, FAMILY extends AbstractBin
      */
     swapLocation(destNode: FAMILY): FAMILY {
         const {val, count, height, id} = destNode;
-        const tempNode = this.createNode(val, id, count);
+        const tempNode = this.createNode(id, val, count);
         tempNode.height = height;
 
         if (tempNode instanceof AbstractBinaryTreeNode) {
@@ -176,7 +176,7 @@ export abstract class AbstractBinaryTreeNode<T = any, FAMILY extends AbstractBin
      * `count` values as the current instance.
      */
     clone(): FAMILY | null {
-        return this.createNode(this.val, this.id, this.count);
+        return this.createNode(this.id, this.val, this.count);
     }
 }
 
@@ -271,7 +271,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         return this._count;
     }
 
-    abstract createNode(val: N['val'], id: BinaryTreeNodeId, count?: number): N | null ;
+    abstract createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N | null ;
 
     /**
      * The clear function resets the state of an object by setting its properties to their initial values.
@@ -302,7 +302,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * @returns The function `add` returns a `N` object if a new node is inserted, or `null` if no new node
      * is inserted, or `undefined` if the insertion fails.
      */
-    add(val: N['val'], id: BinaryTreeNodeId, count?: number): N | null | undefined {
+    add(id: BinaryTreeNodeId, val?: N['val'], count?: number): N | null | undefined {
         count = count ?? 1;
 
         const _bfs = (root: N, newNode: N | null): N | undefined | null => {
@@ -320,7 +320,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         };
 
         let inserted: N | null | undefined;
-        const needInsert = val !== null ? this.createNode(val, id, count) : null;
+        const needInsert = val !== null ? this.createNode(id, val, count) : null;
         const existNode = val !== null ? this.get(id, 'id') : null;
         if (this.root) {
             if (existNode) {
@@ -334,7 +334,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
                 inserted = _bfs(this.root, needInsert);
             }
         } else {
-            this._setRoot(val !== null ? this.createNode(val, id, count) : null);
+            this._setRoot(val !== null ? this.createNode(id, val, count) : null);
             if (needInsert !== null) {
                 this._setSize(1);
                 this._setCount(count);
@@ -397,50 +397,50 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         const map: Map<N | N['val'], number> = new Map();
 
         if (this.isMergeDuplicatedVal) {
-            for (const nodeOrVal of data) map.set(nodeOrVal, (map.get(nodeOrVal) ?? 0) + 1);
+            for (const nodeOrId of data) map.set(nodeOrId, (map.get(nodeOrId) ?? 0) + 1);
         }
 
-        for (const nodeOrVal of data) {
+        for (const nodeOrId of data) {
 
-            if (nodeOrVal instanceof AbstractBinaryTreeNode) {
-                inserted.push(this.add(nodeOrVal.val, nodeOrVal.id, nodeOrVal.count));
+            if (nodeOrId instanceof AbstractBinaryTreeNode) {
+                inserted.push(this.add(nodeOrId.id, nodeOrId.val, nodeOrId.count));
                 continue;
             }
 
-            if (nodeOrVal === null) {
-                inserted.push(this.add(null, NaN, 0));
+            if (nodeOrId === null) {
+                inserted.push(this.add(NaN, null, 0));
                 continue;
             }
 
 
             // TODO will this cause an issue?
-            const count = this.isMergeDuplicatedVal ? map.get(nodeOrVal) : 1;
+            const count = this.isMergeDuplicatedVal ? map.get(nodeOrId) : 1;
             let newId: BinaryTreeNodeId;
-            if (typeof nodeOrVal === 'number') {
-                newId = this.autoIncrementId ? this.maxId + 1 : nodeOrVal;
-            } else if (nodeOrVal instanceof Object) {
+            if (typeof nodeOrId === 'number') {
+                newId = this.autoIncrementId ? this.maxId + 1 : nodeOrId;
+            } else if (nodeOrId instanceof Object) {
                 if (this.autoIncrementId) {
                     newId = this.maxId + 1;
                 } else {
-                    if (Object.keys(nodeOrVal).includes('id')) {
-                        newId = (nodeOrVal as ObjectWithNumberId).id;
+                    if (Object.keys(nodeOrId).includes('id')) {
+                        newId = (nodeOrId as ObjectWithNumberId).id;
                     } else {
-                        console.warn(nodeOrVal, 'Object value must has an id property when the autoIncrementId is false');
+                        console.warn(nodeOrId, 'Object value must has an id property when the autoIncrementId is false');
                         continue;
                     }
                 }
             } else {
-                console.warn(nodeOrVal, ` is not added`);
+                console.warn(nodeOrId, ` is not added`);
                 continue;
             }
 
             if (this.isMergeDuplicatedVal) {
-                if (map.has(nodeOrVal)) {
-                    inserted.push(this.add(nodeOrVal, newId, count));
-                    map.delete(nodeOrVal);
+                if (map.has(nodeOrId)) {
+                    inserted.push(this.add(newId, nodeOrId, count));
+                    map.delete(nodeOrId);
                 }
             } else {
-                inserted.push(this.add(nodeOrVal, newId, 1));
+                inserted.push(this.add(newId, nodeOrId, 1));
             }
 
             this._setMaxId(newId);

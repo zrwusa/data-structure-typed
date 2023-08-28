@@ -141,42 +141,6 @@ export class DirectedGraph<V extends DirectedVertex<any> = DirectedVertex, E ext
     }
 
     /**
-     * The `_addEdgeOnly` function adds a directed edge to a graph if the source and destination vertices exist.
-     * @param edge - The parameter `edge` is of type `E`, which represents a directed edge in a graph. It
-     * contains two properties:
-     * @returns The method `_addEdgeOnly` returns a boolean value. It returns `true` if the edge was successfully added to the
-     * graph, and `false` if either the source or destination vertex of the edge is not present in the graph.
-     */
-    protected _addEdgeOnly(edge: E): boolean {
-        if (!(this.hasVertex(edge.src) && this.hasVertex(edge.dest))) {
-            return false;
-        }
-
-        const srcVertex = this._getVertex(edge.src);
-        const destVertex = this._getVertex(edge.dest);
-
-        // TODO after no-non-null-assertion not ensure the logic
-        if (srcVertex && destVertex) {
-            const srcOutEdges = this._outEdgeMap.get(srcVertex);
-            if (srcOutEdges) {
-                srcOutEdges.push(edge);
-            } else {
-                this._outEdgeMap.set(srcVertex, [edge]);
-            }
-
-            const destInEdges = this._inEdgeMap.get(destVertex);
-            if (destInEdges) {
-                destInEdges.push(edge);
-            } else {
-                this._inEdgeMap.set(destVertex, [edge]);
-            }
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * The `removeEdgeBetween` function removes an edge between two vertices in a directed graph and returns the removed
      * edge, or null if the edge was not found.
      * @param {V | VertexId} srcOrId - The `srcOrId` parameter represents either a `V`
@@ -420,8 +384,6 @@ export class DirectedGraph<V extends DirectedVertex<any> = DirectedVertex, E ext
         return edges;
     }
 
-    /**--- start find cycles --- */
-
     /**
      * The function `getNeighbors` returns an array of neighboring vertices of a given vertex in a directed graph.
      * @param {V | VertexId} vertexOrId - The parameter `vertexOrId` can be either a `V`
@@ -444,7 +406,7 @@ export class DirectedGraph<V extends DirectedVertex<any> = DirectedVertex, E ext
         return neighbors;
     }
 
-    /**--- end find cycles --- */
+    /**--- start find cycles --- */
 
     /**
      * The function "getEndsOfEdge" returns the source and destination vertices of a directed edge if it exists in the
@@ -463,6 +425,44 @@ export class DirectedGraph<V extends DirectedVertex<any> = DirectedVertex, E ext
             return [v1, v2];
         } else {
             return null;
+        }
+    }
+
+    /**--- end find cycles --- */
+
+    /**
+     * The `_addEdgeOnly` function adds a directed edge to a graph if the source and destination vertices exist.
+     * @param edge - The parameter `edge` is of type `E`, which represents a directed edge in a graph. It
+     * contains two properties:
+     * @returns The method `_addEdgeOnly` returns a boolean value. It returns `true` if the edge was successfully added to the
+     * graph, and `false` if either the source or destination vertex of the edge is not present in the graph.
+     */
+    protected _addEdgeOnly(edge: E): boolean {
+        if (!(this.hasVertex(edge.src) && this.hasVertex(edge.dest))) {
+            return false;
+        }
+
+        const srcVertex = this._getVertex(edge.src);
+        const destVertex = this._getVertex(edge.dest);
+
+        // TODO after no-non-null-assertion not ensure the logic
+        if (srcVertex && destVertex) {
+            const srcOutEdges = this._outEdgeMap.get(srcVertex);
+            if (srcOutEdges) {
+                srcOutEdges.push(edge);
+            } else {
+                this._outEdgeMap.set(srcVertex, [edge]);
+            }
+
+            const destInEdges = this._inEdgeMap.get(destVertex);
+            if (destInEdges) {
+                destInEdges.push(edge);
+            } else {
+                this._inEdgeMap.set(destVertex, [edge]);
+            }
+            return true;
+        } else {
+            return false;
         }
     }
 

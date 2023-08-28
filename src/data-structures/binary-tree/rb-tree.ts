@@ -4,8 +4,8 @@ import {BST, BSTNode} from './bst';
 
 
 export class RBTreeNode<T = any, FAMILY extends RBTreeNode<T, FAMILY> = RBTreeNodeNested<T>> extends BSTNode<T, FAMILY> implements IRBTreeNode<T, FAMILY> {
-    constructor(val: T, id: BinaryTreeNodeId, count?: number) {
-        super(val, id, count);
+    constructor(id: BinaryTreeNodeId, val?: T, count?: number) {
+        super(id, val, count);
     }
 
     private _color: RBColor = RBColor.RED;
@@ -28,8 +28,8 @@ export class RBTreeNode<T = any, FAMILY extends RBTreeNode<T, FAMILY> = RBTreeNo
      * node.
      * @returns The method is returning a new instance of the RBTreeNode class, casted as a FAMILY type.
      */
-    override createNode(val: T, id: BinaryTreeNodeId, count?: number): FAMILY {
-        return new RBTreeNode(val, id, count) as FAMILY;
+    override createNode(id: BinaryTreeNodeId, val?: T, count?: number): FAMILY {
+        return new RBTreeNode(id, val, count) as FAMILY;
     }
 
     // private override _parent: RBNode<T> | null;
@@ -71,8 +71,8 @@ export class RBTree<N extends RBTreeNode<N['val'], N> = RBTreeNode> extends BST<
         super(options);
     }
 
-    override createNode(val: N['val'], id: BinaryTreeNodeId, count?: number): N {
-        return new RBTreeNode(val, id, count) as N;
+    override createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N {
+        return new RBTreeNode(id, val, count) as N;
     }
 
     // private override _root: BinaryTreeNode<N> | null = null;
@@ -81,7 +81,7 @@ export class RBTree<N extends RBTreeNode<N['val'], N> = RBTreeNode> extends BST<
     //     return this._root;
     // }
 
-    insert(id: number, val: N | null) {
+    insert(id: number, val?: N | null) {
 
     }
 

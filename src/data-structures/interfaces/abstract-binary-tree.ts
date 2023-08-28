@@ -13,7 +13,7 @@ import {AbstractBinaryTreeNode} from '../binary-tree';
 
 export interface IAbstractBinaryTreeNode<T, FAMILY extends IAbstractBinaryTreeNode<T, FAMILY>> {
 
-    createNode(val: T, id: BinaryTreeNodeId, count?: number): FAMILY;
+    createNode(id: BinaryTreeNodeId, val?: T, count?: number): FAMILY;
 
     get id(): BinaryTreeNodeId
 
@@ -51,7 +51,7 @@ export interface IAbstractBinaryTreeNode<T, FAMILY extends IAbstractBinaryTreeNo
 }
 
 export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], N>> {
-    createNode(val: N['val'], id: BinaryTreeNodeId, count?: number): N | null
+    createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N | null
 
     get loopType(): LoopType
 
@@ -81,7 +81,7 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
 
     isEmpty(): boolean
 
-    add(val: N['val'], id: BinaryTreeNodeId, count?: number): N | null | undefined
+    add(id: BinaryTreeNodeId, val?: N['val'], count?: number): N | null | undefined
 
     addTo(newNode: N | null, parent: N): N | null | undefined
 

@@ -140,7 +140,7 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
     abstract getEdge(srcOrId: V | VertexId, destOrId: V | VertexId): E | null;
 
     addVertex(vertex: V): boolean
-    addVertex(id: VertexId , val?: V['val']): boolean
+    addVertex(id: VertexId, val?: V['val']): boolean
     addVertex(idOrVertex: VertexId | V, val?: V['val']): boolean {
         if (idOrVertex instanceof AbstractVertex) {
             return this._addVertexOnly(idOrVertex);
@@ -149,15 +149,6 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
             const newVertex = this.createVertex(idOrVertex, val);
             return this._addVertexOnly(newVertex);
         }
-    }
-
-    protected _addVertexOnly(newVertex: V): boolean {
-        if (this.hasVertex(newVertex)) {
-            return false;
-            // throw (new Error('Duplicated vertex id is not allowed'));
-        }
-        this._vertices.set(newVertex.id, newVertex);
-        return true;
     }
 
     /**
@@ -207,7 +198,9 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
     }
 
     addEdge(edge: E): boolean
+
     addEdge(src: V | VertexId, dest: V | VertexId, weight: number, val?: E['val']): boolean
+
     addEdge(srcOrEdge: V | VertexId | E, dest?: V | VertexId, weight?: number, val?: E['val']): boolean {
         if (srcOrEdge instanceof AbstractEdge) {
             return this._addEdgeOnly(srcOrEdge);
@@ -223,8 +216,6 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
             }
         }
     }
-
-    protected abstract _addEdgeOnly(edge: E): boolean;
 
     /**
      * The function sets the weight of an edge between two vertices in a graph.
@@ -787,12 +778,6 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
     }
 
     /**
-     * Dijkstra's algorithm only solves the single-source shortest path problem, while the Bellman-Ford algorithm and Floyd-Warshall algorithm can address shortest paths between all pairs of nodes.
-     * Dijkstra's algorithm is suitable for graphs with non-negative edge weights, whereas the Bellman-Ford algorithm and Floyd-Warshall algorithm can handle negative-weight edges.
-     * The time complexity of Dijkstra's algorithm and the Bellman-Ford algorithm depends on the size of the graph, while the time complexity of the Floyd-Warshall algorithm is O(V^3), where V is the number of nodes. For dense graphs, Floyd-Warshall might become slower.
-     */
-
-    /**
      * Floyd algorithm time: O(V^3) space: O(V^2), not support graph with negative weight cycle
      * all pairs
      * The Floyd-Warshall algorithm is used to find the shortest paths between all pairs of nodes in a graph. It employs dynamic programming to compute the shortest paths from any node to any other node. The Floyd-Warshall algorithm's advantage lies in its ability to handle graphs with negative-weight edges, and it can simultaneously compute shortest paths between any two nodes.
@@ -962,6 +947,23 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
 
         return {dfnMap, lowMap, bridges, articulationPoints, SCCs, cycles};
     }
+
+    /**
+     * Dijkstra's algorithm only solves the single-source shortest path problem, while the Bellman-Ford algorithm and Floyd-Warshall algorithm can address shortest paths between all pairs of nodes.
+     * Dijkstra's algorithm is suitable for graphs with non-negative edge weights, whereas the Bellman-Ford algorithm and Floyd-Warshall algorithm can handle negative-weight edges.
+     * The time complexity of Dijkstra's algorithm and the Bellman-Ford algorithm depends on the size of the graph, while the time complexity of the Floyd-Warshall algorithm is O(V^3), where V is the number of nodes. For dense graphs, Floyd-Warshall might become slower.
+     */
+
+    protected _addVertexOnly(newVertex: V): boolean {
+        if (this.hasVertex(newVertex)) {
+            return false;
+            // throw (new Error('Duplicated vertex id is not allowed'));
+        }
+        this._vertices.set(newVertex.id, newVertex);
+        return true;
+    }
+
+    protected abstract _addEdgeOnly(edge: E): boolean;
 
     /**
      * BellmanFord time:O(VE) space:O(V)

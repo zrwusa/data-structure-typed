@@ -20,8 +20,8 @@ export class TreeMultiSetNode<T = any, FAMILY extends TreeMultiSetNode<T, FAMILY
      * node. It is an optional parameter, so it can be omitted when calling the `createNode` method.
      * @returns The method is returning a new instance of the TreeMultiSetNode class, casted as the FAMILY type.
      */
-    override createNode(val: T, id: BinaryTreeNodeId, count?: number): FAMILY {
-        return new TreeMultiSetNode(val, id, count) as FAMILY;
+    override createNode(id: BinaryTreeNodeId, val?: T, count?: number): FAMILY {
+        return new TreeMultiSetNode(id, val, count) as FAMILY;
     }
 }
 
@@ -42,7 +42,7 @@ export class TreeMultiSet<N extends TreeMultiSetNode<N['val'], N> = TreeMultiSet
      * occurrences of the value in the binary search tree node. If not provided, the count will default to 1.
      * @returns A new instance of the BSTNode class with the specified id, value, and count (if provided).
      */
-    override createNode(val: N['val'], id: BinaryTreeNodeId, count?: number): N {
-        return new TreeMultiSetNode(val, id, count) as N;
+    override createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N {
+        return new TreeMultiSetNode(id, val, count) as N;
     }
 }

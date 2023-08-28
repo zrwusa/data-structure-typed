@@ -10,8 +10,8 @@ import type {AVLTreeNodeNested, AVLTreeOptions, BinaryTreeDeletedResult, BinaryT
 import {IAVLTree, IAVLTreeNode} from '../interfaces';
 
 export class AVLTreeNode<T = any, FAMILY extends AVLTreeNode<T, FAMILY> = AVLTreeNodeNested<T>> extends BSTNode<T, FAMILY> implements IAVLTreeNode<T, FAMILY> {
-    override createNode(val: T, id: BinaryTreeNodeId, count?: number): FAMILY {
-        return new AVLTreeNode(val, id, count) as FAMILY;
+    override createNode(id: BinaryTreeNodeId, val?: T, count?: number): FAMILY {
+        return new AVLTreeNode(id, val, count) as FAMILY;
     }
 }
 
@@ -20,8 +20,8 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
         super(options);
     }
 
-    override createNode(val: N['val'], id: BinaryTreeNodeId, count?: number): N {
-        return new AVLTreeNode<N['val'], N>(val, id, count) as N;
+    override createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N {
+        return new AVLTreeNode<N['val'], N>(id, val, count) as N;
     }
 
     /**
@@ -36,8 +36,8 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
      * to `1`, indicating that the value should be inserted once.
      * @returns The method is returning either an N object or null.
      */
-    override add(val: N['val'], id: BinaryTreeNodeId, count?: number): N | null {
-        const inserted = super.add(val, id, count);
+    override add(id: BinaryTreeNodeId, val?: N['val'], count?: number): N | null {
+        const inserted = super.add(id, val, count);
         if (inserted) this.balancePath(inserted);
         return inserted;
     }

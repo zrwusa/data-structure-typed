@@ -23,8 +23,8 @@ export class BinaryTreeNode<T = any, FAMILY extends BinaryTreeNode<T, FAMILY> = 
      * appears in the binary tree node.
      * @returns a new instance of the BinaryTreeNode class, casted as the FAMILY type.
      */
-    createNode(val: T, id: BinaryTreeNodeId, count?: number): FAMILY {
-        return new BinaryTreeNode<T, FAMILY>(val, id, count) as FAMILY;
+    createNode(id: BinaryTreeNodeId, val?: T, count?: number): FAMILY {
+        return new BinaryTreeNode<T, FAMILY>(id, val, count) as FAMILY;
     }
 
 }
@@ -52,8 +52,8 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
      * of occurrences of the value in the binary tree node. If not provided, the default value is `undefined`.
      * @returns a BinaryTreeNode object if the value is not null, otherwise it returns null.
      */
-    createNode(val: N['val'], id: BinaryTreeNodeId, count?: number): N {
-        return new BinaryTreeNode<N['val'], N>(val, id, count) as N;
+    createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N {
+        return new BinaryTreeNode<N['val'], N>(id, val, count) as N;
     }
 
 }

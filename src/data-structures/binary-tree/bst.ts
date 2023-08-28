@@ -21,8 +21,8 @@ export class BSTNode<T = any, FAMILY extends BSTNode<T, FAMILY> = BSTNodeNested<
      * search tree node. It is an optional parameter, so it can be omitted when calling the `createNode` method.
      * @returns The method is returning a new instance of the BSTNode class, casted as the FAMILY type.
      */
-    override createNode(val: T, id: BinaryTreeNodeId, count?: number): FAMILY {
-        return new BSTNode<T, FAMILY>(val, id, count) as FAMILY;
+    override createNode(id: BinaryTreeNodeId, val?: T, count?: number): FAMILY {
+        return new BSTNode<T, FAMILY>(id, val, count) as FAMILY;
     }
 }
 
@@ -51,8 +51,8 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
      * of a particular value in the binary search tree node.
      * @returns a new instance of the BSTNode class, casted as type N.
      */
-    override createNode(val: N['val'], id: BinaryTreeNodeId, count?: number): N {
-        return new BSTNode<N['val'], N>(val, id, count) as N;
+    override createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N {
+        return new BSTNode<N['val'], N>(id, val, count) as N;
     }
 
     /**
@@ -67,9 +67,9 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
      * inserted once.
      * @returns The method `add` returns a `N` object or `null`.
      */
-    override add(val: N['val'], id: BinaryTreeNodeId, count: number = 1): N | null {
+    override add(id: BinaryTreeNodeId, val?: N['val'], count: number = 1): N | null {
         let inserted: N | null = null;
-        const newNode = this.createNode(val, id, count);
+        const newNode = this.createNode(id, val, count);
         if (this.root === null) {
             this._setRoot(newNode);
             this._setSize(this.size + 1);
@@ -364,7 +364,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
                 if (l > r) return;
                 const m = l + Math.floor((r - l) / 2);
                 const midNode = sorted[m];
-                this.add(midNode.val, midNode.id, midNode.count);
+                this.add(midNode.id, midNode.val, midNode.count);
                 buildBalanceBST(l, m - 1);
                 buildBalanceBST(m + 1, r);
             };
@@ -380,7 +380,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
                     if (l <= r) {
                         const m = l + Math.floor((r - l) / 2);
                         const midNode = sorted[m];
-                        this.add(midNode.val, midNode.id, midNode.count);
+                        this.add(midNode.id, midNode.val, midNode.count);
                         stack.push([m + 1, r]);
                         stack.push([l, m - 1]);
                     }

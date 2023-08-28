@@ -8,7 +8,7 @@ export interface IAVLTreeNode<T, FAMILY extends IAVLTreeNode<T, FAMILY>> extends
 
 export interface IAVLTree<N extends AVLTreeNode<N['val'], N>> extends IBST<N> {
 
-    add(id: BinaryTreeNodeId, val: N['val'] | null, count?: number): N | null
+    add(id: BinaryTreeNodeId, val?: N['val'] | null, count?: number): N | null
 
     remove(id: BinaryTreeNodeId, isUpdateAllLeftSum?: boolean): BinaryTreeDeletedResult<N>[]
 
