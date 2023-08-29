@@ -3,7 +3,7 @@ import {IRBTree, IRBTreeNode} from '../interfaces/rb-tree';
 import {BST, BSTNode} from './bst';
 
 
-export class RBTreeNode<T = any, FAMILY extends RBTreeNode<T, FAMILY> = RBTreeNodeNested<T>> extends BSTNode<T, FAMILY> implements IRBTreeNode<T, FAMILY> {
+export class RBTreeNode<T = any, NEIGHBOR extends RBTreeNode<T, NEIGHBOR> = RBTreeNodeNested<T>> extends BSTNode<T, NEIGHBOR> implements IRBTreeNode<T, NEIGHBOR> {
     constructor(id: BinaryTreeNodeId, color: RBColor, val?: T) {
         super(id, val);
         this._color = color;

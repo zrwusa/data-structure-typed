@@ -11,7 +11,18 @@ import {ITreeMultiset, ITreeMultisetNode} from '../interfaces';
 import {AVLTree, AVLTreeNode} from './avl-tree';
 import {ObjectWithNumberId} from '../../utils';
 
-export class TreeMultisetNode<T = any, FAMILY extends TreeMultisetNode<T, FAMILY> = TreeMultisetNodeNested<T>> extends AVLTreeNode<T, FAMILY> implements ITreeMultisetNode<T, FAMILY> {
+export class TreeMultisetNode<T = any, NEIGHBOR extends TreeMultisetNode<T, NEIGHBOR> = TreeMultisetNodeNested<T>> extends AVLTreeNode<T, NEIGHBOR> implements ITreeMultisetNode<T, NEIGHBOR> {
+
+    /**
+     * The constructor function initializes a BinaryTreeNode object with an id, value, and count.
+     * @param {BinaryTreeNodeId} id - The `id` parameter is of type `BinaryTreeNodeId` and represents the unique identifier
+     * of the binary tree node.
+     * @param {T} [val] - The `val` parameter is an optional parameter of type `T`. It represents the value of the binary
+     * tree node. If no value is provided, it will be `undefined`.
+     * @param {number} [count=1] - The `count` parameter is a number that represents the number of times a particular value
+     * occurs in a binary tree node. It has a default value of 1, which means that if no value is provided for the `count`
+     * parameter when creating a new instance of the `BinaryTreeNode` class,
+     */
     constructor(id: BinaryTreeNodeId, val?: T, count: number = 1) {
         super(id, val);
         this._count = count;
@@ -32,6 +43,13 @@ export class TreeMultisetNode<T = any, FAMILY extends TreeMultisetNode<T, FAMILY
  * The only distinction between a TreeMultiset and a AVLTree lies in the ability of the former to store duplicate nodes through the utilization of counters.
  */
 export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultisetNode> extends AVLTree<N> implements ITreeMultiset<N> {
+
+    /**
+     * The constructor function for a TreeMultiset class in TypeScript, which extends another class and sets an option to
+     * merge duplicated values.
+     * @param {TreeMultisetOptions} [options] - An optional object that contains additional configuration options for the
+     * TreeMultiset.
+     */
     constructor(options?: TreeMultisetOptions) {
         super({...options, isMergeDuplicatedVal: true});
     }
@@ -55,6 +73,13 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
         return new TreeMultisetNode(id, val, count) as N;
     }
 
+    /**
+     * The function swaps the location of two nodes in a tree data structure.
+     * @param {N} srcNode - The source node that we want to swap with the destination node.
+     * @param {N} destNode - The `destNode` parameter represents the destination node where the values from `srcNode` will
+     * be swapped with.
+     * @returns the `destNode` after swapping its values with the `srcNode`.
+     */
     override swapLocation(srcNode: N, destNode: N): N {
         const {val, count, height, id} = destNode;
         const tempNode = this.createNode(id, val, count);
@@ -62,9 +87,6 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
             tempNode.height = height;
 
             if (tempNode instanceof TreeMultisetNode) {
-                // TODO should we consider the left, right children?
-
-
                 destNode.id = srcNode.id;
                 destNode.val = srcNode.val;
                 destNode.count = srcNode.count;
@@ -81,58 +103,16 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
     }
 
     /**
-     * The `add` function inserts a new node with a given ID and value into a binary tree, updating the count if the node
-     * already exists.
-     * @param {BinaryTreeNodeId} id - The id parameter is the identifier of the binary tree node. It is used to uniquely
-     * identify each node in the binary tree.
-     * @param {N} val - The value to be inserted into the binary tree.
-     * @param {number} [count] - The `count` parameter is an optional parameter that specifies the number of times the
-     * value should be inserted into the binary tree. If not provided, it defaults to 1.
-     * @returns The function `add` returns a `N` object if a new node is inserted, or `null` if no new node
-     * is inserted, or `undefined` if the insertion fails.
+     * The `add` function adds a new node to a binary tree, updating the size and count properties accordingly, and
+     * balancing the tree if necessary.
+     * @param {BinaryTreeNodeId} id - The id parameter represents the identifier of the binary tree node that we want to
+     * add. It is of type BinaryTreeNodeId.
+     * @param [val] - The `val` parameter is an optional value that can be assigned to the node being added. If no value is
+     * provided, it will default to `undefined`.
+     * @param {number} [count] - The `count` parameter is an optional parameter that specifies the number of times the node
+     * with the given `id` should be added to the binary tree. If the `count` parameter is not provided, it defaults to 1.
+     * @returns The `add` method returns the inserted node (`N`), `null`, or `undefined`.
      */
-    // override add(id: BinaryTreeNodeId, val?: N['val'], count?: number): N | null | undefined {
-    //     count = count ?? 1;
-    //
-    //     const _bfs = (root: N, newNode: N | null): N | undefined | null => {
-    //         const queue: Array<N | null> = [root];
-    //         while (queue.length > 0) {
-    //             const cur = queue.shift();
-    //             if (cur) {
-    //                 const inserted = this.addTo(newNode, cur);
-    //                 if (inserted !== undefined) return inserted;
-    //                 if (cur.left) queue.push(cur.left);
-    //                 if (cur.right) queue.push(cur.right);
-    //             } else return;
-    //         }
-    //         return;
-    //     };
-    //
-    //     let inserted: N | null | undefined;
-    //     const needInsert = val !== null ? this.createNode(id, val, count) : null;
-    //     const existNode = val !== null ? this.get(id, 'id') : null;
-    //     if (this.root) {
-    //         if (existNode) {
-    //             existNode.count += count;
-    //             existNode.val = val ?? id;
-    //             if (needInsert !== null) {
-    //                 this._setCount(this.count + count);
-    //                 inserted = existNode;
-    //             }
-    //         } else {
-    //             inserted = _bfs(this.root, needInsert);
-    //         }
-    //     } else {
-    //         this._setRoot(val !== null ? this.createNode(id, val, count) : null);
-    //         if (needInsert !== null) {
-    //             this._setSize(1);
-    //             this._setCount(count);
-    //         }
-    //         inserted = this.root;
-    //     }
-    //     return inserted;
-    // }
-
     override add(id: BinaryTreeNodeId, val?: N['val'], count?: number): N | null | undefined {
         count = count ?? 1;
         let inserted: N | null = null;
@@ -268,7 +248,6 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
                 continue;
             }
 
-
             // TODO will this cause an issue?
             const count = this.isMergeDuplicatedVal ? map.get(nodeOrId) : 1;
             let newId: BinaryTreeNodeId;
@@ -365,12 +344,11 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
     }
 
     /**
-     * The function calculates the size and count of a subtree in a binary tree using either recursive or iterative
-     * traversal.
-     * @param {N | null | undefined} subTreeRoot - The `subTreeRoot` parameter is the root node of a binary
-     * tree.
-     * @returns The function `getSubTreeSizeAndCount` returns an array `[number, number]`. The first element of the array
-     * represents the size of the subtree, and the second element represents the count of the nodes in the subtree.
+     * The function `getSubTreeCount` calculates the number of nodes and the sum of their counts in a subtree, using either
+     * recursive or iterative traversal.
+     * @param {N | null | undefined} subTreeRoot - The `subTreeRoot` parameter represents the root node of a subtree in a
+     * binary tree.
+     * @returns The function `getSubTreeCount` returns an array `[number, number]`.
      */
     getSubTreeCount(subTreeRoot: N | null | undefined) {
         const res: [number, number] = [0, 0];
@@ -401,6 +379,14 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
         }
     }
 
+    /**
+     * The function `subTreeSumCount` calculates the sum of the `count` property of each node in a subtree, either
+     * recursively or iteratively.
+     * @param {N | BinaryTreeNodeId | null} subTreeRoot - The `subTreeRoot` parameter represents the root node of a subtree
+     * in a binary tree. It can be either a `BinaryTreeNodeId` (a unique identifier for a node in the binary tree) or
+     * `null` if the subtree is empty.
+     * @returns the sum of the count values of all nodes in the subtree rooted at `subTreeRoot`.
+     */
     subTreeSumCount(subTreeRoot: N | BinaryTreeNodeId | null): number {
 
         if (typeof subTreeRoot === 'number') subTreeRoot = this.get(subTreeRoot, 'id');
@@ -408,7 +394,6 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
         if (!subTreeRoot) return 0;
 
         let sum = 0;
-
 
         if (this.loopType === LoopType.RECURSIVE) {
             const _traverse = (cur: N): void => {
@@ -474,6 +459,16 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
         return true;
     }
 
+    /**
+     * The function `getNodesByCount` returns an array of nodes that have a specific count property, either recursively or
+     * using a queue.
+     * @param {BinaryTreeNodeId | N} nodeProperty - The `nodeProperty` parameter can be either a `BinaryTreeNodeId` or a
+     * `N`. It represents the property of the nodes that you want to search for.
+     * @param {boolean} [onlyOne] - The `onlyOne` parameter is an optional boolean parameter that determines whether to
+     * return only one node that matches the `nodeProperty` or all nodes that match the `nodeProperty`. If `onlyOne` is set
+     * to `true`, the function will return only one node. If `onlyOne`
+     * @returns an array of nodes that match the given nodeProperty.
+     */
     getNodesByCount(nodeProperty: BinaryTreeNodeId | N, onlyOne ?: boolean): N[] {
         if (!this.root) return [];
         const result: N[] = [];
@@ -511,28 +506,68 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
         return result;
     }
 
+    /**
+     * The BFSCount function returns an array of counts from a breadth-first search of nodes.
+     * @returns The BFSCount() function returns an array of numbers, specifically the count property of each node in the
+     * BFS traversal.
+     */
     BFSCount(): number[] {
         const nodes = super.BFS('node');
         return nodes.map(node => node.count);
     }
 
+    /**
+     * The function "listLevelsCount" takes a node and returns an array of arrays, where each inner array contains the
+     * count property of each node at that level.
+     * @param {N | null} node - The parameter `node` is of type `N | null`. This means that it can either be an instance of
+     * the class `N` or `null`.
+     * @returns a 2D array of numbers. Each inner array represents a level in the binary tree, and each number in the inner
+     * array represents the count property of a node in that level.
+     */
     listLevelsCount(node: N | null): number[][] {
         const levels = super.listLevels(node, 'node');
         return levels.map(level => level.map(node => node.count));
     }
 
+    /**
+     * The `morrisCount` function returns an array of counts for each node in a binary tree, based on a specified traversal
+     * pattern.
+     * @param {'in' | 'pre' | 'post'} [pattern] - The `pattern` parameter is an optional parameter that specifies the
+     * traversal pattern for the Morris traversal algorithm. It can have one of three values: 'in', 'pre', or 'post'.
+     * @returns The function `morrisCount` returns an array of numbers.
+     */
     morrisCount(pattern?: 'in' | 'pre' | 'post'): number[] {
         pattern = pattern || 'in';
         const nodes = super.morris(pattern, 'node');
         return nodes.map(node => node.count);
     }
 
+    /**
+     * The function DFSIterativeCount performs a depth-first search iteratively and returns an array of count values for
+     * each node.
+     * @param {'in' | 'pre' | 'post'} [pattern] - The "pattern" parameter is a string that specifies the traversal order
+     * for the Depth-First Search (DFS) algorithm. It can have one of three values: 'in', 'pre', or 'post'.
+     * @param {NodeOrPropertyName} [nodeOrPropertyName] - The `nodeOrPropertyName` parameter is an optional parameter that
+     * specifies whether to return the nodes or the property names during the depth-first search traversal. If it is set to
+     * `'node'`, the function will return the nodes. If it is set to `'property'`, the function will return the property
+     * @returns The DFSIterativeCount method returns an array of numbers.
+     */
     DFSIterativeCount(pattern ?: 'in' | 'pre' | 'post', nodeOrPropertyName ?: NodeOrPropertyName): number[] {
         pattern = pattern ?? 'in';
         const nodes = super.DFSIterative(pattern, 'node');
         return nodes.map(node => node.count);
     }
 
+    /**
+     * The DFSCount function returns an array of counts for each node in a depth-first search traversal.
+     * @param {DFSOrderPattern} [pattern] - The `pattern` parameter is an optional parameter that specifies the order in
+     * which the Depth-First Search (DFS) algorithm should traverse the nodes. It can have one of the following values:
+     * @param [nodeOrPropertyName] - The parameter `nodeOrPropertyName` is used to specify whether you want to retrieve the
+     * nodes themselves or a specific property of the nodes. If you pass `'count'` as the value for `nodeOrPropertyName`,
+     * the function will return an array of the `count` property of each node.
+     * @returns The DFSCount method returns an array of numbers representing the count property of each node in the DFS
+     * traversal.
+     */
     DFSCount(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'count'): number[] {
         pattern = pattern ?? 'in';
         const nodes = super.DFS(pattern, 'node');
@@ -540,6 +575,12 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
 
     }
 
+    /**
+     * The `lesserSumCount` function calculates the sum of the counts of all nodes in a binary tree that have a lesser
+     * value than a given node.
+     * @param {N | BinaryTreeNodeId | null} beginNode - The `beginNode` parameter can be one of the following:
+     * @returns the sum of the counts of nodes in the binary tree that have a lesser value than the given beginNode.
+     */
     lesserSumCount(beginNode: N | BinaryTreeNodeId | null): number {
         if (typeof beginNode === 'number') beginNode = this.get(beginNode, 'id');
         if (!beginNode) return 0;
@@ -591,6 +632,14 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
         return sum;
     }
 
+    /**
+     * The function `allGreaterNodesAddCount` updates the count property of all nodes in a binary tree that have an ID
+     * greater than a given ID by a specified delta value.
+     * @param {N | BinaryTreeNodeId | null} node - The `node` parameter can be one of the following:
+     * @param {number} delta - The `delta` parameter is a number that represents the amount by which the `count` property
+     * of each node should be increased.
+     * @returns a boolean value.
+     */
     allGreaterNodesAddCount(node: N | BinaryTreeNodeId | null, delta: number): boolean {
         if (typeof node === 'number') node = this.get(node, 'id');
         if (!node) return false;
@@ -626,14 +675,20 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
         }
     }
 
-    override clear() {
-        this._setRoot(null);
-        this._setSize(0);
+    /**
+     * The clear() function clears the data and sets the count to 0.
+     */
+    clear() {
+        super.clear();
         this._setCount(0);
-        this._setMaxId(-1);
     }
 
+    /**
+     * The function "_setCount" is used to set the value of the "_count" property.
+     * @param {number} v - number
+     */
     protected _setCount(v: number) {
         this._count = v;
     }
+
 }

@@ -11,7 +11,7 @@ import {
 } from '../types';
 import {AbstractBinaryTreeNode} from '../binary-tree';
 
-export interface IAbstractBinaryTreeNode<T, FAMILY extends IAbstractBinaryTreeNode<T, FAMILY>> {
+export interface IAbstractBinaryTreeNode<T, NEIGHBOR extends IAbstractBinaryTreeNode<T, NEIGHBOR>> {
 
     get id(): BinaryTreeNodeId
 
@@ -21,17 +21,17 @@ export interface IAbstractBinaryTreeNode<T, FAMILY extends IAbstractBinaryTreeNo
 
     set val(v: T | undefined)
 
-    get left(): FAMILY | null | undefined
+    get left(): NEIGHBOR | null | undefined
 
-    set left(v: FAMILY | null | undefined)
+    set left(v: NEIGHBOR | null | undefined)
 
-    get right(): FAMILY | null | undefined
+    get right(): NEIGHBOR | null | undefined
 
-    set right(v: FAMILY | null | undefined)
+    set right(v: NEIGHBOR | null | undefined)
 
-    get parent(): FAMILY | null | undefined
+    get parent(): NEIGHBOR | null | undefined
 
-    set parent(v: FAMILY | null | undefined)
+    set parent(v: NEIGHBOR | null | undefined)
 
     get familyPosition(): FamilyPosition
 

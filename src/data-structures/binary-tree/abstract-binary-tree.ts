@@ -20,16 +20,15 @@ import type {
 import {AbstractBinaryTreeOptions, FamilyPosition, LoopType} from '../types';
 import {IAbstractBinaryTree, IAbstractBinaryTreeNode} from '../interfaces';
 
-export abstract class AbstractBinaryTreeNode<T = any, FAMILY extends AbstractBinaryTreeNode<T, FAMILY> = AbstractBinaryTreeNodeNested<T>> implements IAbstractBinaryTreeNode<T, FAMILY> {
+export abstract class AbstractBinaryTreeNode<T = any, NEIGHBOR extends AbstractBinaryTreeNode<T, NEIGHBOR> = AbstractBinaryTreeNodeNested<T>> implements IAbstractBinaryTreeNode<T, NEIGHBOR> {
+
 
     /**
-     * The constructor function initializes a BinaryTreeNode object with an id, value, and count.
+     * The constructor function initializes a BinaryTreeNode object with an id and an optional value.
      * @param {BinaryTreeNodeId} id - The `id` parameter is of type `BinaryTreeNodeId` and represents the unique identifier
-     * for the binary tree node.
-     * @param {T} [val] - The `val` parameter is an optional parameter of type `T`. It represents the value of the binary
-     * tree node. If no value is provided, it will be `undefined`.
-     * @param {number} [count] - The `count` parameter is an optional parameter that represents the number of times the
-     * value `val` appears in the binary tree node. If the `count` parameter is not provided, it defaults to 1.
+     * of the binary tree node. It is used to distinguish one node from another in the binary tree.
+     * @param {T} [val] - The "val" parameter is an optional parameter of type T. It represents the value that will be
+     * stored in the binary tree node. If no value is provided, it will be set to undefined.
      */
     constructor(id: BinaryTreeNodeId, val?: T) {
         this._id = id;
@@ -56,40 +55,39 @@ export abstract class AbstractBinaryTreeNode<T = any, FAMILY extends AbstractBin
         this._val = value;
     }
 
-    private _left?: FAMILY | null;
+    private _left: NEIGHBOR | null | undefined;
 
-    get left(): FAMILY | null | undefined {
+    get left(): NEIGHBOR | null | undefined {
         return this._left;
     }
 
-    set left(v: FAMILY | null | undefined) {
+    set left(v: NEIGHBOR | null | undefined) {
         if (v) {
-            v.parent = this as unknown as FAMILY;
+            v.parent = this as unknown as NEIGHBOR;
         }
         this._left = v;
     }
 
+    private _right: NEIGHBOR | null | undefined;
 
-    private _right?: FAMILY | null;
-
-    get right(): FAMILY | null | undefined {
+    get right(): NEIGHBOR | null | undefined {
         return this._right;
     }
 
-    set right(v: FAMILY | null | undefined) {
+    set right(v: NEIGHBOR | null | undefined) {
         if (v) {
-            v.parent = this as unknown as FAMILY;
+            v.parent = this as unknown as NEIGHBOR;
         }
         this._right = v;
     }
 
-    private _parent: FAMILY | null | undefined;
+    private _parent: NEIGHBOR | null | undefined;
 
-    get parent(): FAMILY | null | undefined {
+    get parent(): NEIGHBOR | null | undefined {
         return this._parent;
     }
 
-    set parent(v: FAMILY | null | undefined) {
+    set parent(v: NEIGHBOR | null | undefined) {
         this._parent = v;
     }
 
@@ -103,8 +101,12 @@ export abstract class AbstractBinaryTreeNode<T = any, FAMILY extends AbstractBin
         this._height = v;
     }
 
+    /**
+     * The function determines the position of a node in a family tree structure.
+     * @returns a value of type `FamilyPosition`.
+     */
     get familyPosition(): FamilyPosition {
-        const that = this as unknown as FAMILY;
+        const that = this as unknown as NEIGHBOR;
         if (that.parent) {
             if (that.parent.left === that) {
                 if (that.left || that.right) {
@@ -151,13 +153,45 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         }
     }
 
+    private _root: N | null = null;
+
+    get root(): N | null {
+        return this._root;
+    }
+
+    private _size = 0;
+
+    get size(): number {
+        return this._size;
+    }
+
     private _loopType: LoopType = LoopType.ITERATIVE;
 
     get loopType(): LoopType {
         return this._loopType;
     }
 
+    private _autoIncrementId: boolean = false;
+
+    get autoIncrementId(): boolean {
+        return this._autoIncrementId;
+    }
+
+    private _maxId: number = -1;
+
+    get maxId(): number {
+        return this._maxId;
+    }
+
+    // TODO this variable may be moved to TreeMultiset
+    private _isMergeDuplicatedVal: boolean = true;
+
+    get isMergeDuplicatedVal(): boolean {
+        return this._isMergeDuplicatedVal;
+    }
+
     private _visitedId: BinaryTreeNodeId[] = [];
+
     get visitedId(): BinaryTreeNodeId[] {
         return this._visitedId;
     }
@@ -186,40 +220,15 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         return this._visitedLeftSum;
     }
 
-    private _autoIncrementId: boolean = false;
-
-    get autoIncrementId(): boolean {
-        return this._autoIncrementId;
-    }
-
-    private _maxId: number = -1;
-
-    get maxId(): number {
-        return this._maxId;
-    }
-
-    private _isMergeDuplicatedVal: boolean = true;
-
-    get isMergeDuplicatedVal(): boolean {
-        return this._isMergeDuplicatedVal;
-    }
-
-    private _root: N | null = null;
-
-    get root(): N | null {
-        return this._root;
-    }
-
-    private _size = 0;
-
-    get size(): number {
-        return this._size;
-    }
-
-
     abstract createNode(id: BinaryTreeNodeId, val?: N['val']): N | null ;
 
-
+    /**
+     * The `swapLocation` function swaps the location of two nodes in a binary tree.
+     * @param {N} srcNode - The source node that you want to swap with the destination node.
+     * @param {N} destNode - The `destNode` parameter represents the destination node where the values from `srcNode` will
+     * be swapped to.
+     * @returns The `destNode` is being returned.
+     */
     swapLocation(srcNode: N, destNode: N): N {
         const {val, height, id} = destNode;
         const tempNode = this.createNode(id, val);
@@ -228,8 +237,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
 
             if (tempNode instanceof AbstractBinaryTreeNode) {
                 // TODO should we consider the left, right children?
-
-
                 destNode.id = srcNode.id;
                 destNode.val = srcNode.val;
                 destNode.height = srcNode.height;
@@ -244,7 +251,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The clear function resets the state of an object by setting its properties to their initial values.
+     * The clear() function resets the root, size, and maxId properties to their initial values.
      */
     clear() {
         this._setRoot(null);
@@ -261,19 +268,15 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The `add` function inserts a new node with a given ID and value into a binary tree, updating the count if the node
-     * already exists.
-     * @param {BinaryTreeNodeId} id - The id parameter is the identifier of the binary tree node. It is used to uniquely
-     * identify each node in the binary tree.
-     * @param {N} val - The value to be inserted into the binary tree.
-     * @param {number} [count] - The `count` parameter is an optional parameter that specifies the number of times the
-     * value should be inserted into the binary tree. If not provided, it defaults to 1.
-     * @returns The function `add` returns a `N` object if a new node is inserted, or `null` if no new node
-     * is inserted, or `undefined` if the insertion fails.
+     * The `add` function adds a new node to a binary tree, updating the value of an existing node if it already exists.
+     * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier of the binary tree node that you want to add.
+     * @param [val] - The `val` parameter is an optional value that can be assigned to the node being added. If no value is
+     * provided, the default value will be the same as the `id` parameter.
+     * @param {number} [count] - The `count` parameter is an optional number that represents the number of times the value
+     * should be added to the binary tree. If not provided, the default value is `undefined`.
+     * @returns The function `add` returns either a `BinaryTreeNode` object (`N`), `null`, or `undefined`.
      */
     add(id: BinaryTreeNodeId, val?: N['val'], count?: number): N | null | undefined {
-        count = count ?? 1;
-
         const _bfs = (root: N, newNode: N | null): N | undefined | null => {
             const queue: Array<N | null> = [root];
             while (queue.length > 0) {
@@ -311,13 +314,13 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The function adds a new node to a binary tree as the left or right child of a given parent node.
+     * The function adds a new node to the left or right child of a parent node, updating the size of the tree if
+     * necessary.
      * @param {N | null} newNode - The `newNode` parameter represents the node that you want to add to the tree. It can be
      * either a node object (`N`) or `null`.
      * @param {N} parent - The `parent` parameter represents the parent node to which the new node will be added as a
      * child.
-     * @returns either the left or right child node that was added to the parent node. It can also return `null` or
-     * `undefined` in certain cases.
+     * @returns either the left child node, the right child node, or undefined.
      */
     addTo(newNode: N | null, parent: N): N | null | undefined {
         if (parent) {
@@ -349,11 +352,11 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The `addMany` function inserts multiple items into a binary tree and returns an array of the inserted nodes or
+     * The `addMany` function adds multiple nodes to a binary tree and returns an array of the inserted nodes or
      * null/undefined values.
-     * @param {N[] | N[]} data - The `data` parameter can be either an array of elements of type `N` or an
-     * array of `N` objects.
-     * @returns The function `addMany` returns an array of `N`, `null`, or `undefined` values.
+     * @param {N[] | Array<N['val']>} data - The `data` parameter can be either an array of `N` objects or an array of
+     * `N['val']` values.
+     * @returns The function `addMany` returns an array of values of type `N | null | undefined`.
      */
     addMany(data: N[] | Array<N['val']>): (N | null | undefined)[] {
         // TODO not sure addMany not be run multi times
@@ -375,7 +378,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
                 inserted.push(this.add(NaN, null, 0));
                 continue;
             }
-
 
             // TODO will this cause an issue?
             const count = this.isMergeDuplicatedVal ? map.get(nodeOrId) : 1;
@@ -413,11 +415,11 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The `fill` function clears the current data and inserts new data, returning a boolean indicating if the insertion
-     * was successful.
-     * @param {N[] | N[]} data - The `data` parameter can be either an array of elements of type `N` or an
-     * array of `N` objects.
-     * @returns The method is returning a boolean value.
+     * The `fill` function clears the current data and adds new data, returning a boolean indicating if the operation was
+     * successful.
+     * @param {N[] | Array<N['val']>} data - The `data` parameter can be either an array of objects or an array of arrays.
+     * Each object or array should have a property called `val`.
+     * @returns a boolean value.
      */
     fill(data: N[] | Array<N['val']>): boolean {
         this.clear();
@@ -427,10 +429,11 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     /**
      * The `remove` function removes a node from a binary search tree and returns the deleted node along with the parent
      * node that needs to be balanced.
-     * @param {N | BinaryTreeNodeId | null} nodeOrId - The `nodeOrId` parameter can be one of the following:
+     * @param {N | BinaryTreeNodeId} nodeOrId - The `nodeOrId` parameter can be either a node object (`N`) or a binary tree
+     * node ID (`BinaryTreeNodeId`).
      * @param {boolean} [ignoreCount] - The `ignoreCount` parameter is an optional boolean parameter that determines
-     * whether to ignore the count of the node being removed. If `ignoreCount` is set to `true`, the count of the node will
-     * not be taken into account when removing it. If `ignoreCount` is set to `false
+     * whether to ignore the count of the nodes in the binary tree. If `ignoreCount` is set to `true`, the count of the
+     * nodes in the binary tree will not be updated after removing a node. If `ignoreCount`
      * @returns The function `remove` returns an array of `BinaryTreeDeletedResult<N>` objects.
      */
     remove(nodeOrId: N | BinaryTreeNodeId, ignoreCount?: boolean): BinaryTreeDeletedResult<N>[] {
@@ -442,7 +445,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
 
         const parent: N | null = curr?.parent ? curr.parent : null;
         let needBalanced: N | null = null, orgCurrent = curr;
-
 
         if (!curr.left) {
             if (!parent) {
@@ -470,7 +472,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         }
         this._setSize(this.size - 1);
 
-
         bstDeletedResult.push({deleted: orgCurrent, needBalanced});
         return bstDeletedResult;
     }
@@ -492,11 +493,10 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The `getHeight` function calculates the maximum height of a binary tree using either a recursive or iterative
-     * approach.
-     * @param {N | null} [beginRoot] - The `beginRoot` parameter is an optional parameter of type
-     * `N | null`. It represents the starting node from which to calculate the height of the binary tree.
-     * If no value is provided for `beginRoot`, the function will use the `root` property of the class instance as
+     * The `getHeight` function calculates the maximum height of a binary tree, either recursively or iteratively.
+     * @param {N | BinaryTreeNodeId | null} [beginRoot] - The `beginRoot` parameter is optional and can be of type `N` (a
+     * generic type representing a node in a binary tree), `BinaryTreeNodeId` (a type representing the ID of a binary tree
+     * node), or `null`.
      * @returns the height of the binary tree.
      */
     getHeight(beginRoot?: N | BinaryTreeNodeId | null): number {
@@ -543,9 +543,9 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     /**
      * The `getMinHeight` function calculates the minimum height of a binary tree using either a recursive or iterative
      * approach.
-     * @param {N | null} [beginRoot] - The `beginRoot` parameter is an optional parameter of type
-     * `N | null`. It represents the starting node from which to calculate the minimum height of the binary
-     * tree. If no value is provided for `beginRoot`, the function will use the root node of the binary tree.
+     * @param {N | null} [beginRoot] - The `beginRoot` parameter is an optional parameter of type `N` or `null`. It
+     * represents the starting node from which to calculate the minimum height of a binary tree. If no value is provided
+     * for `beginRoot`, the `this.root` property is used as the default value.
      * @returns The function `getMinHeight` returns the minimum height of the binary tree.
      */
     getMinHeight(beginRoot?: N | null): number {
@@ -591,9 +591,10 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The function checks if a binary tree is balanced by comparing the minimum height and the maximum height of the tree.
-     * @param {N | null} [beginRoot] - The `beginRoot` parameter is the root node of a binary tree. It is
-     * of type `N | null`, which means it can either be a `BinaryTreeNode` object or `null`.
+     * The function checks if a binary tree is perfectly balanced by comparing the minimum height and the height of the
+     * tree.
+     * @param {N | null} [beginRoot] - The parameter `beginRoot` is of type `N` or `null`. It represents the root node of a
+     * tree or null if the tree is empty.
      * @returns The method is returning a boolean value.
      */
     isPerfectlyBalanced(beginRoot?: N | null): boolean {
@@ -601,16 +602,15 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The function `getNodes` returns an array of binary tree nodes that match a given property value, with options for
-     * searching recursively or iteratively.
+     * The function `getNodes` returns an array of nodes that match a given property name and value in a binary tree.
      * @param {BinaryTreeNodeId | N} nodeProperty - The `nodeProperty` parameter can be either a `BinaryTreeNodeId` or a
      * generic type `N`. It represents the property of the binary tree node that you want to search for.
      * @param {BinaryTreeNodePropertyName} [propertyName] - The `propertyName` parameter is an optional parameter that
      * specifies the property name to use when searching for nodes. If not provided, it defaults to 'id'.
      * @param {boolean} [onlyOne] - The `onlyOne` parameter is an optional boolean parameter that determines whether to
-     * return only one node that matches the `nodeProperty` or `propertyName` criteria. If `onlyOne` is set to `true`, the
-     * function will stop traversing the tree and return the first matching node. If `
-     * @returns The function `getNodes` returns an array of `N | null | undefined` objects.
+     * return only one node that matches the given `nodeProperty` or `propertyName`. If `onlyOne` is set to `true`, the
+     * function will stop traversing the tree and return the first matching node. If `only
+     * @returns an array of nodes (type N).
      */
     getNodes(nodeProperty: BinaryTreeNodeId | N, propertyName ?: BinaryTreeNodePropertyName, onlyOne ?: boolean): N[] {
         if (!this.root) return [];
@@ -643,12 +643,11 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The function checks if a binary tree node has a specific property or if any node in the tree has a specific
-     * property.
-     * @param {BinaryTreeNodeId | N} nodeProperty - The `nodeProperty` parameter can be either a `BinaryTreeNodeId` or a
-     * generic type `N`. It represents the property of a binary tree node that you want to check.
+     * The function checks if a binary tree node has a specific property.
+     * @param {BinaryTreeNodeId | N} nodeProperty - The `nodeProperty` parameter can be either a `BinaryTreeNodeId` or `N`.
+     * It represents the property of the binary tree node that you want to check.
      * @param {BinaryTreeNodePropertyName} [propertyName] - The `propertyName` parameter is an optional parameter that
-     * specifies the name of the property to check for in the nodes.
+     * specifies the name of the property to be checked in the nodes. If not provided, it defaults to 'id'.
      * @returns a boolean value.
      */
     has(nodeProperty: BinaryTreeNodeId | N, propertyName ?: BinaryTreeNodePropertyName): boolean {
@@ -657,13 +656,15 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The function returns the first binary tree node that matches the given property name and value, or null if no match
-     * is found.
-     * @param {BinaryTreeNodeId | N} nodeProperty - The `nodeProperty` parameter can be either a `BinaryTreeNodeId` or a
-     * generic type `N`. It represents the property of the binary tree node that you want to search for.
+     * The function returns the first node that matches the given property name and value, or null if no matching node is
+     * found.
+     * @param {BinaryTreeNodeId | N} nodeProperty - The `nodeProperty` parameter can be either a `BinaryTreeNodeId` or `N`.
+     * It represents the property of the binary tree node that you want to search for.
      * @param {BinaryTreeNodePropertyName} [propertyName] - The `propertyName` parameter is an optional parameter that
-     * specifies the property of the binary tree node to search for. If not provided, it defaults to `'id'`.
-     * @returns a BinaryTreeNode object or null.
+     * specifies the property name to be used for searching the binary tree nodes. If this parameter is not provided, the
+     * default value is set to `'id'`.
+     * @returns either the value of the specified property of the node, or the node itself if no property name is provided.
+     * If no matching node is found, it returns null.
      */
     get(nodeProperty: BinaryTreeNodeId | N, propertyName ?: BinaryTreeNodePropertyName): N | null {
         propertyName = propertyName ?? 'id';
@@ -671,11 +672,10 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The function getPathToRoot returns an array of BinaryTreeNode objects representing the path from a given node to the
-     * root of a binary tree.
-     * @param node - The `node` parameter is a BinaryTreeNode object.
-     * @returns The function `getPathToRoot` returns an array of `N` objects, representing the path from
-     * the given `node` to the root of the binary tree.
+     * The function getPathToRoot takes a node and returns an array of nodes representing the path from the given node to
+     * the root node.
+     * @param {N} node - The parameter `node` represents a node in a tree data structure.
+     * @returns The function `getPathToRoot` returns an array of nodes (`N[]`).
      */
     getPathToRoot(node: N): N[] {
         const result: N[] = [];
@@ -690,7 +690,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     getLeftMost(): N | null;
 
     getLeftMost(node: N): N;
-
 
     /**
      * The `getLeftMost` function returns the leftmost node in a binary tree, starting from a specified node or the root if
@@ -734,10 +733,12 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     /**
      * The `getRightMost` function returns the rightmost node in a binary tree, either recursively or iteratively using
      * tail recursion optimization.
-     * @param {N | null} [node] - The `node` parameter is an optional parameter of type `N
-     * | null`. It represents the starting node from which to find the rightmost node in a binary tree. If no node is
-     * provided, the function will use the root node of the binary tree.
-     * @returns The `getRightMost` function returns the rightmost node in a binary tree.
+     * @param {N | null} [node] - The `node` parameter is an optional parameter of type `N` or `null`. It represents the
+     * starting node from which we want to find the rightmost node. If no node is provided, the `node` parameter defaults
+     * to `this.root`, which is the root node of the data structure
+     * @returns The function `getRightMost` returns the rightmost node (`N`) in a binary tree. If the `node` parameter is
+     * not provided, it defaults to the root node of the tree. If the tree is empty or the `node` parameter is `null`, the
+     * function returns `null`.
      */
     getRightMost(node?: N | null): N | null {
         node = node ?? this.root;
@@ -761,9 +762,8 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         }
     }
 
-
     /**
-     * The function `isBSTByRooted` checks if a binary tree is a binary search tree (BST) by rooted traversal.
+     * The function checks if a binary search tree is valid by traversing it either recursively or iteratively.
      * @param {N | null} node - The `node` parameter represents the root node of a binary search tree (BST).
      * @returns a boolean value.
      */
@@ -807,12 +807,10 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The function calculates the size and count of a subtree in a binary tree using either recursive or iterative
-     * traversal.
-     * @param {N | null | undefined} subTreeRoot - The `subTreeRoot` parameter is the root node of a binary
-     * tree.
-     * @returns The function `getSubTreeSizeAndCount` returns an array `[number, number]`. The first element of the array
-     * represents the size of the subtree, and the second element represents the count of the nodes in the subtree.
+     * The function calculates the size of a subtree by traversing it either recursively or iteratively.
+     * @param {N | null | undefined} subTreeRoot - The `subTreeRoot` parameter represents the root node of a subtree in a
+     * binary tree.
+     * @returns the size of the subtree rooted at `subTreeRoot`.
      */
     getSubTreeSize(subTreeRoot: N | null | undefined) {
         let size = 0;
@@ -841,17 +839,14 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         }
     }
 
-    // --- start additional methods ---
-
     /**
-     * The function `subTreeSum` calculates the sum of a specified property in a binary tree, either recursively or
-     * iteratively.
-     * @param subTreeRoot - The subTreeRoot parameter is the root node of the subtree for which you want to calculate the
-     * sum.
-     * @param {BinaryTreeNodePropertyName} [propertyName] - The `propertyName` parameter is an optional parameter that
-     * specifies the property of the `BinaryTreeNode` object to use for calculating the sum. If `propertyName` is not
-     * provided, it defaults to `'val'`.
-     * @returns a number, which is the sum of the values of the nodes in the subtree rooted at `subTreeRoot`.
+     * The function `subTreeSum` calculates the sum of a specified property in a binary tree or subtree.
+     * @param {N | BinaryTreeNodeId | null} subTreeRoot - The `subTreeRoot` parameter represents the root node of a binary
+     * tree or the ID of a binary tree node. It can also be `null` if there is no subtree.
+     * @param {BinaryTreeNodePropertyName} [propertyName] - propertyName is an optional parameter that specifies the
+     * property of the binary tree node to use for calculating the sum. It can be either 'id' or 'val'. If propertyName is
+     * not provided, it defaults to 'id'.
+     * @returns a number, which is the sum of the values of the specified property in the subtree rooted at `subTreeRoot`.
      */
     subTreeSum(subTreeRoot: N | BinaryTreeNodeId | null, propertyName ?: BinaryTreeNodePropertyName): number {
         propertyName = propertyName ?? 'id';
@@ -899,16 +894,14 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         return sum;
     }
 
-
     /**
      * The function `subTreeAdd` adds a delta value to a specified property of each node in a subtree.
      * @param {N | BinaryTreeNodeId | null} subTreeRoot - The `subTreeRoot` parameter represents the root node of a binary
-     * tree or the ID of a binary tree node. It can also be `null` if there is no subtree root.
+     * tree or the ID of a node in the binary tree. It can also be `null` if there is no subtree to add to.
      * @param {number} delta - The `delta` parameter is a number that represents the amount by which the property value of
-     * each node in the subtree should be incremented or decremented.
+     * each node in the subtree should be incremented.
      * @param {BinaryTreeNodePropertyName} [propertyName] - The `propertyName` parameter is an optional parameter that
-     * specifies the property of the binary tree node that should be modified. It can be either 'id' or 'count'. If no
-     * value is provided for `propertyName`, it defaults to 'id'.
+     * specifies the property of the binary tree node that should be modified. If not provided, it defaults to 'id'.
      * @returns a boolean value.
      */
     subTreeAdd(subTreeRoot: N | BinaryTreeNodeId | null, delta: number, propertyName ?: BinaryTreeNodePropertyName): boolean {
@@ -959,13 +952,13 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     BFS(nodeOrPropertyName: 'node'): N[];
 
     /**
-     * The BFS function performs a breadth-first search on a binary tree and returns the results based on a specified node
-     * or property name.
+     * The BFS function performs a breadth-first search on a binary tree, accumulating properties of each node based on a
+     * specified property name.
      * @param {NodeOrPropertyName} [nodeOrPropertyName] - The parameter `nodeOrPropertyName` is an optional parameter that
-     * represents either a node or a property name. If a node is provided, the breadth-first search algorithm will be
-     * performed starting from that node. If a property name is provided, the breadth-first search algorithm will be
-     * performed starting from the root node
-     * @returns an object of type `AbstractBinaryTreeNodeProperties<N>`.
+     * represents either a node or a property name. If a node is provided, the breadth-first search (BFS) algorithm will be
+     * performed starting from that node. If a property name is provided, the BFS algorithm will be performed starting from
+     * the
+     * @returns an instance of the `AbstractBinaryTreeNodeProperties` class with generic type `N`.
      */
     BFS(nodeOrPropertyName ?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N> {
         nodeOrPropertyName = nodeOrPropertyName ?? 'id';
@@ -993,16 +986,15 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     DFS(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'node'): N[];
 
     /**
-     * The DFS function performs a depth-first search traversal on a binary tree and returns the results based on the
-     * specified pattern and node or property name.
-     * @param {'in' | 'pre' | 'post'} [pattern] - The "pattern" parameter is used to specify the order in which the nodes
-     * of a binary tree are traversed during the Depth-First Search (DFS) algorithm. It can take one of three values: 'in',
-     * 'pre', or 'post'.
+     * The DFS function performs a depth-first search traversal on a binary tree and returns the accumulated properties of
+     * each node based on the specified pattern and property name.
+     * @param {'in' | 'pre' | 'post'} [pattern] - The "pattern" parameter is used to specify the traversal order of the
+     * binary tree. It can have three possible values:
      * @param {NodeOrPropertyName} [nodeOrPropertyName] - The `nodeOrPropertyName` parameter is a string that represents
-     * either the name of a property in the `BinaryTreeNode` object or the value of the `id` property in the
-     * `BinaryTreeNode` object. This parameter is used to accumulate the results based on the specified property name. If
-     * no value
-     * @returns an object of type `AbstractBinaryTreeNodeProperties<N>`.
+     * the name of a property of the nodes in the binary tree. This property will be used to accumulate values during the
+     * depth-first search traversal. If no `nodeOrPropertyName` is provided, the default value is `'id'`.
+     * @returns an instance of the AbstractBinaryTreeNodeProperties class, which contains the accumulated properties of the
+     * binary tree nodes based on the specified pattern and node or property name.
      */
     DFS(pattern ?: 'in' | 'pre' | 'post', nodeOrPropertyName ?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N> {
         pattern = pattern ?? 'in';
@@ -1032,6 +1024,9 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         return this._getResultByPropertyName(nodeOrPropertyName);
     }
 
+
+    // --- start additional methods ---
+
     DFSIterative(): BinaryTreeNodeId[];
 
     DFSIterative(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'id'): BinaryTreeNodeId[];
@@ -1041,11 +1036,15 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     DFSIterative(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'node'): N[];
 
     /**
-     * Time complexity is O(n)
-     * Space complexity of Iterative DFS equals to recursive DFS which is O(n) because of the stack
-     * @param pattern
-     * @param nodeOrPropertyName
-     * @constructor
+     * The DFSIterative function performs an iterative depth-first search traversal on a binary tree, with the option to
+     * specify the traversal pattern and the property name to accumulate results by.
+     * @param {'in' | 'pre' | 'post'} [pattern] - The "pattern" parameter determines the order in which the nodes of the
+     * binary tree are visited during the depth-first search. It can have one of the following values:
+     * @param {NodeOrPropertyName} [nodeOrPropertyName] - The `nodeOrPropertyName` parameter is used to specify the
+     * property of the nodes that you want to retrieve or perform operations on during the depth-first search traversal. By
+     * default, it is set to `'id'`, which means that the traversal will accumulate results based on the `id` property of
+     * the
+     * @returns an object of type AbstractBinaryTreeNodeProperties<N>.
      */
     DFSIterative(pattern ?: 'in' | 'pre' | 'post', nodeOrPropertyName ?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N> {
         pattern = pattern || 'in';
@@ -1225,19 +1224,22 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
 
     morris(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'val'): N[];
 
+    /**
+     * Time complexity is O(n)
+     * Space complexity of Iterative DFS equals to recursive DFS which is O(n) because of the stack
+     */
+
     morris(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'node'): N[];
 
     /**
      * The `morris` function performs an in-order, pre-order, or post-order traversal on a binary tree using the Morris
-     * traversal algorithm and returns the results based on the specified property name.
-     * The time complexity of Morris traversal is O(n), it's may slower than others
-     * The space complexity  Morris traversal is O(1) because no using stack
-     * @param {'in' | 'pre' | 'post'} [pattern] - The `pattern` parameter is an optional parameter that determines the
-     * traversal pattern of the binary tree. It can have one of three values:
+     * traversal algorithm.
+     * @param {'in' | 'pre' | 'post'} [pattern] - The `pattern` parameter determines the traversal pattern for the binary
+     * tree. It can have one of three values:
      * @param {NodeOrPropertyName} [nodeOrPropertyName] - The `nodeOrPropertyName` parameter is used to specify the
-     * property of the nodes that you want to retrieve in the results. It can be either the node itself or the name of the
-     * property. If not provided, it defaults to `'id'`.
-     * @returns The function `morris` returns an object of type `AbstractBinaryTreeNodeProperties<N>`.
+     * property name of the nodes that you want to retrieve. It can be any valid property name of the nodes in the binary
+     * tree.
+     * @returns an array of AbstractBinaryTreeNodeProperties<N> objects.
      */
     morris(pattern?: 'in' | 'pre' | 'post', nodeOrPropertyName?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N> {
         if (this.root === null) return [];
@@ -1325,42 +1327,86 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         return this._getResultByPropertyName(nodeOrPropertyName);
     }
 
+    /**
+     * The function sets the loop type for a protected variable.
+     * @param {LoopType} value - The value parameter is of type LoopType.
+     */
     protected _setLoopType(value: LoopType) {
         this._loopType = value;
     }
 
+    /**
+     * The function sets the value of the `_visitedId` property in a protected manner.
+     * @param {BinaryTreeNodeId[]} value - value is an array of BinaryTreeNodeId values.
+     */
     protected _setVisitedId(value: BinaryTreeNodeId[]) {
         this._visitedId = value;
     }
 
+    /**
+     * The function sets the value of the "_visitedVal" property to the given array.
+     * @param value - An array of type N.
+     */
     protected _setVisitedVal(value: Array<N>) {
         this._visitedVal = value;
     }
 
+    /**
+     * The function sets the value of the _visitedNode property.
+     * @param {N[]} value - N[] is an array of elements of type N.
+     */
     protected _setVisitedNode(value: N[]) {
         this._visitedNode = value;
     }
 
+    /**
+     * The function sets the value of the visitedCount property.
+     * @param {number[]} value - The value parameter is an array of numbers.
+     */
     protected setVisitedCount(value: number[]) {
         this._visitedCount = value;
     }
 
+    /**
+     * The function sets the value of the `_visitedLeftSum` property to the provided array.
+     * @param {number[]} value - An array of numbers that represents the visited left sum.
+     */
     protected _setVisitedLeftSum(value: number[]) {
         this._visitedLeftSum = value;
     }
 
+    /**
+     * The function sets the value of the _autoIncrementId property.
+     * @param {boolean} value - The value parameter is a boolean that determines whether the id should be automatically
+     * incremented or not. If value is true, the id will be automatically incremented. If value is false, the id will not
+     * be automatically incremented.
+     */
     protected _setAutoIncrementId(value: boolean) {
         this._autoIncrementId = value;
     }
 
+    /**
+     * The function sets the maximum ID value.
+     * @param {number} value - The value parameter is a number that represents the new maximum ID value.
+     */
     protected _setMaxId(value: number) {
         this._maxId = value;
     }
 
+    /**
+     * The function sets the value of a protected property called "_isMergeDuplicatedVal".
+     * @param {boolean} value - The value parameter is a boolean value that determines whether the isMergeDuplicatedVal
+     * property should be set to true or false.
+     */
     protected _setIsDuplicatedVal(value: boolean) {
         this._isMergeDuplicatedVal = value;
     }
 
+    /**
+     * The function sets the root property of an object to a given value, and if the value is not null, it also sets the
+     * parent property of the value to undefined.
+     * @param {N | null} v - The parameter `v` is of type `N | null`, which means it can either be of type `N` or `null`.
+     */
     protected _setRoot(v: N | null) {
         if (v) {
             v.parent = undefined;
@@ -1368,12 +1414,17 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         this._root = v;
     }
 
+    /**
+     * The function sets the size of a protected variable.
+     * @param {number} v - number
+     */
     protected _setSize(v: number) {
         this._size = v;
     }
 
     /**
-     * The function resets the values of several arrays used for tracking visited nodes and their properties.
+     * The function `_resetResults` resets the values of several arrays used for tracking visited nodes and their
+     * properties.
      */
     protected _resetResults() {
         this._visitedId = [];
@@ -1385,18 +1436,17 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     /**
      * The function checks if a given property of a binary tree node matches a specified value, and if so, adds the node to
      * a result array.
-     * @param cur - The current binary tree node that is being checked.
-     * @param {(N | null | undefined)[]} result - An array that stores the matching nodes found during the
-     * traversal.
-     * @param {BinaryTreeNodeId | N} nodeProperty - The `nodeProperty` parameter is the value that we are searching for in
-     * the binary tree nodes. It can be either the `id`, `count`, or `val` property of the node.
+     * @param {N} cur - The current node being processed.
+     * @param {(N | null | undefined)[]} result - An array that stores the matching nodes.
+     * @param {BinaryTreeNodeId | N} nodeProperty - The `nodeProperty` parameter is either a `BinaryTreeNodeId` or a `N`
+     * type. It represents the property value that we are comparing against in the switch statement.
      * @param {BinaryTreeNodePropertyName} [propertyName] - The `propertyName` parameter is an optional parameter that
-     * specifies the property of the `BinaryTreeNode` object that you want to compare with the `nodeProperty` value. It can
-     * be one of the following values: 'id', 'count', or 'val'. If no `propertyName` is provided,
+     * specifies the property name to compare against when pushing nodes into the `result` array. It can be either `'id'`
+     * or `'val'`. If it is not provided or is not equal to `'id'` or `'val'`, the
      * @param {boolean} [onlyOne] - The `onlyOne` parameter is an optional boolean parameter that determines whether to
      * stop after finding the first matching node or continue searching for all matching nodes. If `onlyOne` is set to
      * `true`, the function will stop after finding the first matching node and return `true`. If `onlyOne
-     * @returns a boolean value indicating whether or not a node was pushed into the result array.
+     * @returns a boolean value indicating whether only one matching node should be pushed into the result array.
      */
     protected _pushByPropertyNameStopOrNot(cur: N, result: (N | null | undefined)[], nodeProperty: BinaryTreeNodeId | N, propertyName ?: BinaryTreeNodePropertyName, onlyOne ?: boolean) {
         switch (propertyName) {
@@ -1422,12 +1472,11 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The function `_accumulatedByPropertyName` pushes a property value of a binary tree node into an array based on the
-     * provided property name or a default property name.
-     * @param node - The `node` parameter is of type `N`, which represents a node in a binary tree.
-     * @param {NodeOrPropertyName} [nodeOrPropertyName] - The parameter `nodeOrPropertyName` is an optional parameter that
-     * can be either a string representing a property name or a reference to a node object. If it is a string, it specifies
-     * the property name of the node that should be accumulated. If it is a node object, it specifies the node itself
+     * The function `_accumulatedByPropertyName` accumulates values from a given node based on the specified property name.
+     * @param {N} node - The `node` parameter is of type `N`, which represents a node in a data structure.
+     * @param {NodeOrPropertyName} [nodeOrPropertyName] - The `nodeOrPropertyName` parameter is an optional parameter that
+     * can be either a string representing a property name or a reference to a `Node` object. If it is a string, it
+     * specifies the property name to be used for accumulating values. If it is a `Node` object, it specifies
      */
     protected _accumulatedByPropertyName(node: N, nodeOrPropertyName ?: NodeOrPropertyName) {
         nodeOrPropertyName = nodeOrPropertyName ?? 'id';
@@ -1449,11 +1498,16 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The function `_getResultByPropertyName` returns different results based on the provided property name or defaulting
-     * to 'id'.
+     * The time complexity of Morris traversal is O(n), it's may slower than others
+     * The space complexity  Morris traversal is O(1) because no using stack
+     */
+
+    /**
+     * The function `_getResultByPropertyName` returns the corresponding property value based on the given node or property
+     * name.
      * @param {NodeOrPropertyName} [nodeOrPropertyName] - The parameter `nodeOrPropertyName` is an optional parameter that
-     * can accept a value of type `NodeOrPropertyName`.
-     * @returns The method returns an object of type `AbstractBinaryTreeNodeProperties<T>`.
+     * can accept either a `NodeOrPropertyName` type or be undefined.
+     * @returns The method `_getResultByPropertyName` returns an instance of `AbstractBinaryTreeNodeProperties<N>`.
      */
     protected _getResultByPropertyName(nodeOrPropertyName ?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N> {
         nodeOrPropertyName = nodeOrPropertyName ?? 'id';

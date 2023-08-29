@@ -2,7 +2,7 @@ import {BSTNode} from '../binary-tree';
 import {IBinaryTree, IBinaryTreeNode} from './binary-tree';
 import {BinaryTreeDeletedResult, BinaryTreeNodeId, BinaryTreeNodePropertyName} from '../types';
 
-export interface IBSTNode<T, FAMILY extends IBSTNode<T, FAMILY>> extends IBinaryTreeNode<T, FAMILY> {
+export interface IBSTNode<T, NEIGHBOR extends IBSTNode<T, NEIGHBOR>> extends IBinaryTreeNode<T, NEIGHBOR> {
 }
 
 export interface IBST<N extends BSTNode<N['val'], N>> extends IBinaryTree<N> {

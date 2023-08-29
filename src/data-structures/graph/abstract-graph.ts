@@ -12,6 +12,13 @@ import {IAbstractGraph} from '../interfaces';
 
 export abstract class AbstractVertex<T = number> {
 
+    /**
+     * The function is a protected constructor that takes an id and an optional value as parameters.
+     * @param {VertexId} id - The `id` parameter is of type `VertexId` and represents the identifier of the vertex. It is
+     * used to uniquely identify the vertex object.
+     * @param {T} [val] - The parameter "val" is an optional parameter of type T. It is used to assign a value to the
+     * vertex. If no value is provided, it will be set to undefined.
+     */
     protected constructor(id: VertexId, val?: T) {
         this._id = id;
         this._val = val;
@@ -36,18 +43,19 @@ export abstract class AbstractVertex<T = number> {
     set val(value: T | undefined) {
         this._val = value;
     }
-
-    // /**
-    //  * In TypeScript, a subclass inherits the interface implementation of its parent class, without needing to implement the same interface again in the subclass. This behavior differs from Java's approach. In Java, if a parent class implements an interface, the subclass needs to explicitly implement the same interface, even if the parent class has already implemented it.
-    //  * This means that using abstract methods in the parent class cannot constrain the grandchild classes. Defining methods within an interface also cannot constrain the descendant classes. When inheriting from this class, developers need to be aware that this method needs to be overridden.
-    //  * @param id
-    //  * @param val
-    //  */
-    // abstract createVertex(id: VertexId, val?: T): AbstractVertex<T>;
 }
 
 export abstract class AbstractEdge<T = number> {
 
+    /**
+     * The above function is a protected constructor that initializes the weight, value, and hash code properties of an
+     * object.
+     * @param {number} [weight] - The `weight` parameter is an optional number that represents the weight of the object. If
+     * a value is provided, it will be assigned to the `_weight` property. If no value is provided, the default value of 1
+     * will be assigned.
+     * @param {T} [val] - The `val` parameter is of type `T`, which means it can be any type. It is an optional parameter,
+     * meaning it can be omitted when creating an instance of the class.
+     */
     protected constructor(weight?: number, val?: T) {
         this._weight = weight !== undefined ? weight : 1;
         this._val = val;
@@ -80,22 +88,21 @@ export abstract class AbstractEdge<T = number> {
         return this._hashCode;
     }
 
-    // /**
-    //  * In TypeScript, a subclass inherits the interface implementation of its parent class, without needing to implement the same interface again in the subclass. This behavior differs from Java's approach. In Java, if a parent class implements an interface, the subclass needs to explicitly implement the same interface, even if the parent class has already implemented it.
-    //  * This means that using abstract methods in the parent class cannot constrain the grandchild classes. Defining methods within an interface also cannot constrain the descendant classes. When inheriting from this class, developers need to be aware that this method needs to be overridden.
-    //  * @param srcOrV1
-    //  * @param destOrV2
-    //  * @param weight
-    //  * @param val
-    //  */
-    // abstract createEdge(srcOrV1: VertexId | string, destOrV2: VertexId | string, weight?: number, val?: E): E;
+    /**
+     * In TypeScript, a subclass inherits the interface implementation of its parent class, without needing to implement the same interface again in the subclass. This behavior differs from Java's approach. In Java, if a parent class implements an interface, the subclass needs to explicitly implement the same interface, even if the parent class has already implemented it.
+     * This means that using abstract methods in the parent class cannot constrain the grandchild classes. Defining methods within an interface also cannot constrain the descendant classes. When inheriting from this class, developers need to be aware that this method needs to be overridden.
+     */
 
+    /**
+     * The function sets the value of the _hashCode property to the provided string.
+     * @param {string} v - The parameter "v" is of type string and represents the value that will be assigned to the
+     * "_hashCode" property.
+     */
     protected _setHashCode(v: string) {
         this._hashCode = v;
     }
 }
 
-// Connected Component === Largest Connected Sub-Graph
 export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends AbstractEdge<any>> implements IAbstractGraph<V, E> {
     private _vertices: Map<VertexId, V> = new Map<VertexId, V>();
 
@@ -122,22 +129,40 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
     abstract createEdge(srcOrV1: VertexId | string, destOrV2: VertexId | string, weight?: number, val?: E): E;
 
     abstract removeEdge(edge: E): E | null;
+    abstract getEdge(srcOrId: V | VertexId, destOrId: V | VertexId): E | null;
 
+    abstract degreeOf(vertexOrId: V | VertexId): number;
+
+    abstract edgeSet(): E[];
+
+    abstract edgesOf(vertexOrId: V | VertexId): E[];
+
+    abstract getNeighbors(vertexOrId: V | VertexId): V[];
+
+    abstract getEndsOfEdge(edge: E): [V, V] | null;
+
+    protected abstract _addEdgeOnly(edge: E): boolean;
+
+    /**
+     * The function "getVertex" returns the vertex with the specified ID or null if it doesn't exist.
+     * @param {VertexId} vertexId - The `vertexId` parameter is the identifier of the vertex that you want to retrieve from
+     * the `_vertices` map.
+     * @returns The method `getVertex` returns the vertex with the specified `vertexId` if it exists in the `_vertices`
+     * map. If the vertex does not exist, it returns `null`.
+     */
     getVertex(vertexId: VertexId): V | null {
         return this._vertices.get(vertexId) || null;
     }
 
     /**
      * The function checks if a vertex exists in a graph.
-     * @param {V | VertexId} vertexOrId - The parameter `vertexOrId` can accept either a vertex object (`V`) or a vertex ID
+     * @param {V | VertexId} vertexOrId - The parameter `vertexOrId` can be either a vertex object (`V`) or a vertex ID
      * (`VertexId`).
-     * @returns The method `hasVertex` returns a boolean value.
+     * @returns a boolean value.
      */
     hasVertex(vertexOrId: V | VertexId): boolean {
         return this._vertices.has(this._getVertexId(vertexOrId));
     }
-
-    abstract getEdge(srcOrId: V | VertexId, destOrId: V | VertexId): E | null;
 
     addVertex(vertex: V): boolean
     addVertex(id: VertexId, val?: V['val']): boolean
@@ -155,7 +180,7 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
      * The `removeVertex` function removes a vertex from a graph by its ID or by the vertex object itself.
      * @param {V | VertexId} vertexOrId - The parameter `vertexOrId` can be either a vertex object (`V`) or a vertex ID
      * (`VertexId`).
-     * @returns The method `removeVertex` returns a boolean value.
+     * @returns The method is returning a boolean value.
      */
     removeVertex(vertexOrId: V | VertexId): boolean {
         const vertexId = this._getVertexId(vertexOrId);
@@ -177,20 +202,13 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
         return removed.length > 0;
     }
 
-    abstract degreeOf(vertexOrId: V | VertexId): number;
-
-    abstract edgeSet(): E[];
-
-    abstract edgesOf(vertexOrId: V | VertexId): E[];
-
     /**
-     * The function checks if there is an edge between two vertices in a graph.
-     * @param {VertexId | V} v1 - The parameter v1 can be either a VertexId or a V. A VertexId represents the identifier of
-     * a vertex in a graph, while V represents the type of the vertex itself.
-     * @param {VertexId | V} v2 - The parameter `v2` represents the second vertex in an edge. It can be either a `VertexId`
-     * or a `V` type.
-     * @returns The function `hasEdge` returns a boolean value. It returns `true` if there is an edge between the
-     * vertices `v1` and `v2`, and `false` otherwise.
+     * The function checks if there is an edge between two vertices and returns a boolean value indicating the result.
+     * @param {VertexId | V} v1 - The parameter v1 can be either a VertexId or a V. A VertexId represents the unique
+     * identifier of a vertex in a graph, while V represents the type of the vertex object itself.
+     * @param {VertexId | V} v2 - The parameter `v2` represents the second vertex in the edge. It can be either a
+     * `VertexId` or a `V` type, which represents the type of the vertex.
+     * @returns A boolean value is being returned.
      */
     hasEdge(v1: VertexId | V, v2: VertexId | V): boolean {
         const edge = this.getEdge(v1, v2);
@@ -238,16 +256,13 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
         }
     }
 
-    abstract getNeighbors(vertexOrId: V | VertexId): V[];
 
     /**
      * The function `getAllPathsBetween` finds all paths between two vertices in a graph using depth-first search.
      * @param {V | VertexId} v1 - The parameter `v1` represents either a vertex object (`V`) or a vertex ID (`VertexId`).
      * It is the starting vertex for finding paths.
-     * @param {V | VertexId} v2 - The parameter `v2` represents the destination vertex or its ID. It is the vertex that we
-     * want to find paths to from the starting vertex `v1`.
-     * @returns an array of arrays of vertices (V[][]). Each inner array represents a path between the given vertices (v1
-     * and v2).
+     * @param {V | VertexId} v2 - The parameter `v2` represents either a vertex object (`V`) or a vertex ID (`VertexId`).
+     * @returns The function `getAllPathsBetween` returns an array of arrays of vertices (`V[][]`).
      */
     getAllPathsBetween(v1: V | VertexId, v2: V | VertexId): V[][] {
         const paths: V[][] = [];
@@ -296,16 +311,16 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
     /**
      * The function `getMinCostBetween` calculates the minimum cost between two vertices in a graph, either based on edge
      * weights or using a breadth-first search algorithm.
-     * @param {V | VertexId} v1 - The parameter `v1` represents the starting vertex or vertex ID of the graph.
-     * @param {V | VertexId} v2 - The parameter `v2` represents the second vertex in the graph. It can be either a vertex
-     * object or a vertex ID.
+     * @param {V | VertexId} v1 - The parameter `v1` represents the starting vertex or its ID.
+     * @param {V | VertexId} v2 - The parameter `v2` represents the destination vertex or its ID. It is the vertex to which
+     * you want to find the minimum cost or weight from the source vertex `v1`.
      * @param {boolean} [isWeight] - isWeight is an optional parameter that indicates whether the graph edges have weights.
      * If isWeight is set to true, the function will calculate the minimum cost between v1 and v2 based on the weights of
      * the edges. If isWeight is set to false or not provided, the function will calculate the
      * @returns The function `getMinCostBetween` returns a number representing the minimum cost between two vertices (`v1`
-     * and `v2`) in a graph. If the `isWeight` parameter is `true`, it calculates the minimum weight between the vertices.
-     * If `isWeight` is `false` or not provided, it calculates the minimum number of edges between the vertices. If the
-     * vertices are not
+     * and `v2`). If the `isWeight` parameter is `true`, it calculates the minimum weight among all paths between the
+     * vertices. If `isWeight` is `false` or not provided, it uses a breadth-first search (BFS) algorithm to calculate the
+     * minimum number of
      */
     getMinCostBetween(v1: V | VertexId, v2: V | VertexId, isWeight?: boolean): number | null {
         if (isWeight === undefined) isWeight = false;
@@ -355,14 +370,15 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
     /**
      * The function `getMinPathBetween` returns the minimum path between two vertices in a graph, either based on weight or
      * using a breadth-first search algorithm.
-     * @param {V | VertexId} v1 - The parameter `v1` represents the starting vertex or its ID.
-     * @param {V | VertexId} v2 - The parameter `v2` represents the destination vertex or its ID. It is the vertex that we
-     * want to find the minimum path to from the source vertex `v1`.
+     * @param {V | VertexId} v1 - The parameter `v1` represents the starting vertex of the path. It can be either a vertex
+     * object (`V`) or a vertex ID (`VertexId`).
+     * @param {V | VertexId} v2 - V | VertexId - The second vertex or vertex ID between which we want to find the minimum
+     * path.
      * @param {boolean} [isWeight] - A boolean flag indicating whether to consider the weight of edges in finding the
      * minimum path. If set to true, the function will use Dijkstra's algorithm to find the minimum weighted path. If set
-     * to false, the function will use breadth-first search (BFS) to find the minimum path. If
+     * to false, the function will use breadth-first search (BFS) to find the minimum path.
      * @returns The function `getMinPathBetween` returns an array of vertices (`V[]`) representing the minimum path between
-     * two vertices (`v1` and `v2`). If no path is found, it returns `null`.
+     * two vertices (`v1` and `v2`). If there is no path between the vertices, it returns `null`.
      */
     getMinPathBetween(v1: V | VertexId, v2: V | VertexId, isWeight?: boolean): V[] | null {
         if (isWeight === undefined) isWeight = false;
@@ -416,6 +432,10 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
     }
 
     /**
+     * Dijkstra algorithm time: O(VE) space: O(V + E)
+     * /
+
+     /**
      * Dijkstra algorithm time: O(VE) space: O(V + E)
      * The function `dijkstraWithoutHeap` implements Dijkstra's algorithm to find the shortest path between two vertices in
      * a graph without using a heap data structure.
@@ -543,6 +563,14 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
 
     /**
      * Dijkstra algorithm time: O(logVE) space: O(V + E)
+     *
+     * Dijkstra's algorithm only solves the single-source shortest path problem, while the Bellman-Ford algorithm and Floyd-Warshall algorithm can address shortest paths between all pairs of nodes.
+     * Dijkstra's algorithm is suitable for graphs with non-negative edge weights, whereas the Bellman-Ford algorithm and Floyd-Warshall algorithm can handle negative-weight edges.
+     * The time complexity of Dijkstra's algorithm and the Bellman-Ford algorithm depends on the size of the graph, while the time complexity of the Floyd-Warshall algorithm is O(V^3), where V is the number of nodes. For dense graphs, Floyd-Warshall might become slower.
+     *
+     * /
+
+     /**
      * Dijkstra's algorithm is used to find the shortest paths from a source node to all other nodes in a graph. Its basic idea is to repeatedly choose the node closest to the source node and update the distances of other nodes using this node as an intermediary. Dijkstra's algorithm requires that the edge weights in the graph are non-negative.
      * The `dijkstra` function implements Dijkstra's algorithm to find the shortest path between a source vertex and an
      * optional destination vertex, and optionally returns the minimum distance, the paths, and other information.
@@ -645,7 +673,6 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
             }
         }
 
-
         if (getMinDist) {
             distMap.forEach((d, v) => {
                 if (v !== srcVertex) {
@@ -657,23 +684,42 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
             });
         }
 
-
         if (genPaths) {
             getPaths(minDest);
         }
-
 
         return {distMap, preMap, seen, paths, minDist, minPath};
     }
 
     /**
      * Dijkstra algorithm time: O(logVE) space: O(V + E)
+     * /
+
+     /**
+     * Dijkstra algorithm time: O(logVE) space: O(V + E)
      * Dijkstra's algorithm is used to find the shortest paths from a source node to all other nodes in a graph. Its basic idea is to repeatedly choose the node closest to the source node and update the distances of other nodes using this node as an intermediary. Dijkstra's algorithm requires that the edge weights in the graph are non-negative.
      */
 
-    abstract getEndsOfEdge(edge: E): [V, V] | null;
 
     /**
+     * BellmanFord time:O(VE) space:O(V)
+     * one to rest pairs
+     * The Bellman-Ford algorithm is also used to find the shortest paths from a source node to all other nodes in a graph. Unlike Dijkstra's algorithm, it can handle edge weights that are negative. Its basic idea involves iterative relaxation of all edges for several rounds to gradually approximate the shortest paths. Due to its ability to handle negative-weight edges, the Bellman-Ford algorithm is more flexible in some scenarios.
+     * The `bellmanFord` function implements the Bellman-Ford algorithm to find the shortest path from a source vertex to
+     */
+
+    /**
+     * Floyd algorithm time: O(V^3) space: O(V^2), not support graph with negative weight cycle
+     * all pairs
+     * The Floyd-Warshall algorithm is used to find the shortest paths between all pairs of nodes in a graph. It employs dynamic programming to compute the shortest paths from any node to any other node. The Floyd-Warshall algorithm's advantage lies in its ability to handle graphs with negative-weight edges, and it can simultaneously compute shortest paths between any two nodes.
+     */
+
+    /**
+     * BellmanFord time:O(VE) space:O(V)
+     * one to rest pairs
+     * /
+
+     /**
      * BellmanFord time:O(VE) space:O(V)
      * one to rest pairs
      * The Bellman-Ford algorithm is also used to find the shortest paths from a source node to all other nodes in a graph. Unlike Dijkstra's algorithm, it can handle edge weights that are negative. Its basic idea involves iterative relaxation of all edges for several rounds to gradually approximate the shortest paths. Due to its ability to handle negative-weight edges, the Bellman-Ford algorithm is more flexible in some scenarios.
@@ -780,6 +826,11 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
     /**
      * Floyd algorithm time: O(V^3) space: O(V^2), not support graph with negative weight cycle
      * all pairs
+     * /
+
+     /**
+     * Floyd algorithm time: O(V^3) space: O(V^2), not support graph with negative weight cycle
+     * all pairs
      * The Floyd-Warshall algorithm is used to find the shortest paths between all pairs of nodes in a graph. It employs dynamic programming to compute the shortest paths from any node to any other node. The Floyd-Warshall algorithm's advantage lies in its ability to handle graphs with negative-weight edges, and it can simultaneously compute shortest paths between any two nodes.
      * The function implements the Floyd-Warshall algorithm to find the shortest path between all pairs of vertices in a
      * graph.
@@ -825,6 +876,14 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
     }
 
     /**
+     * Tarjan is an algorithm based on DFS,which is used to solve the connectivity problem of graphs.
+     * Tarjan can find cycles in directed or undirected graph
+     * Tarjan can find the articulation points and bridges(critical edges) of undirected graphs in linear time,
+     * Tarjan solve the bi-connected components of undirected graphs;
+     * Tarjan can find the SSC(strongly connected components), articulation points, and bridges of directed graphs.
+     * /
+
+     /**
      * Tarjan is an algorithm based on DFS,which is used to solve the connectivity problem of graphs.
      * Tarjan can find cycles in directed or undirected graph
      * Tarjan can find the articulation points and bridges(critical edges) of undirected graphs in linear time,
@@ -948,11 +1007,6 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
         return {dfnMap, lowMap, bridges, articulationPoints, SCCs, cycles};
     }
 
-    /**
-     * Dijkstra's algorithm only solves the single-source shortest path problem, while the Bellman-Ford algorithm and Floyd-Warshall algorithm can address shortest paths between all pairs of nodes.
-     * Dijkstra's algorithm is suitable for graphs with non-negative edge weights, whereas the Bellman-Ford algorithm and Floyd-Warshall algorithm can handle negative-weight edges.
-     * The time complexity of Dijkstra's algorithm and the Bellman-Ford algorithm depends on the size of the graph, while the time complexity of the Floyd-Warshall algorithm is O(V^3), where V is the number of nodes. For dense graphs, Floyd-Warshall might become slower.
-     */
 
     protected _addVertexOnly(newVertex: V): boolean {
         if (this.hasVertex(newVertex)) {
@@ -963,41 +1017,16 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
         return true;
     }
 
-    protected abstract _addEdgeOnly(edge: E): boolean;
-
-    /**
-     * BellmanFord time:O(VE) space:O(V)
-     * one to rest pairs
-     * The Bellman-Ford algorithm is also used to find the shortest paths from a source node to all other nodes in a graph. Unlike Dijkstra's algorithm, it can handle edge weights that are negative. Its basic idea involves iterative relaxation of all edges for several rounds to gradually approximate the shortest paths. Due to its ability to handle negative-weight edges, the Bellman-Ford algorithm is more flexible in some scenarios.
-     * The `bellmanFord` function implements the Bellman-Ford algorithm to find the shortest path from a source vertex to
-     */
-
     protected _getVertex(vertexOrId: VertexId | V): V | null {
         const vertexId = this._getVertexId(vertexOrId);
         return this._vertices.get(vertexId) || null;
     }
 
-    /**
-     * Floyd algorithm time: O(V^3) space: O(V^2), not support graph with negative weight cycle
-     * all pairs
-     * The Floyd-Warshall algorithm is used to find the shortest paths between all pairs of nodes in a graph. It employs dynamic programming to compute the shortest paths from any node to any other node. The Floyd-Warshall algorithm's advantage lies in its ability to handle graphs with negative-weight edges, and it can simultaneously compute shortest paths between any two nodes.
-     */
-
     protected _getVertexId(vertexOrId: V | VertexId): VertexId {
         return vertexOrId instanceof AbstractVertex ? vertexOrId.id : vertexOrId;
     }
 
-    /**--- start find cycles --- */
-
     protected _setVertices(value: Map<VertexId, V>) {
         this._vertices = value;
     }
-
-
-    // unionFind() {}
-
-    /**--- end find cycles --- */
-
-
-    // Minimum Spanning Tree
 }

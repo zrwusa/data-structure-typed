@@ -9,29 +9,38 @@ import {BST, BSTNode} from './bst';
 import type {AVLTreeNodeNested, AVLTreeOptions, BinaryTreeDeletedResult, BinaryTreeNodeId} from '../types';
 import {IAVLTree, IAVLTreeNode} from '../interfaces';
 
-export class AVLTreeNode<T = any, FAMILY extends AVLTreeNode<T, FAMILY> = AVLTreeNodeNested<T>> extends BSTNode<T, FAMILY> implements IAVLTreeNode<T, FAMILY> {
+export class AVLTreeNode<T = any, NEIGHBOR extends AVLTreeNode<T, NEIGHBOR> = AVLTreeNodeNested<T>> extends BSTNode<T, NEIGHBOR> implements IAVLTreeNode<T, NEIGHBOR> {
 }
 
 export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends BST<N> implements IAVLTree<N> {
+    /**
+     * This is a constructor function for an AVL tree data structure in TypeScript.
+     * @param {AVLTreeOptions} [options] - The `options` parameter is an optional object that can be passed to the
+     * constructor of the AVLTree class. It allows you to customize the behavior of the AVL tree by providing different
+     * options.
+     */
     constructor(options?: AVLTreeOptions) {
         super(options);
     }
 
+    /**
+     * The function creates a new AVL tree node with the given id and value.
+     * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier for the binary tree node. It is used to uniquely
+     * identify each node in the tree.
+     * @param [val] - The `val` parameter is an optional value that can be assigned to the node. It represents the value
+     * that will be stored in the node.
+     * @returns a new AVLTreeNode object with the specified id and value.
+     */
     override createNode(id: BinaryTreeNodeId, val?: N['val']): N {
         return new AVLTreeNode<N['val'], N>(id, val) as N;
     }
 
     /**
-     * The function overrides the add method of a Binary Search Tree to insert a node with a given id and value, and then
-     * balances the tree.
-     * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier of the binary tree node that we want to add or
-     * update in the AVL tree.
-     * @param {N | null} val - The `val` parameter represents the value that you want to assign to the node with the given
-     * `id`. It can be of type `N` (the generic type) or `null`.
-     * @param {number} [count] - The `count` parameter is an optional parameter of type `number`. It represents the number
-     * of times the value `val` should be inserted into the AVL tree. If the `count` parameter is not provided, it defaults
-     * to `1`, indicating that the value should be inserted once.
-     * @returns The method is returning either an N object or null.
+     * The function overrides the add method of a binary tree node and balances the tree after inserting a new node.
+     * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier of the binary tree node that we want to add.
+     * @param [val] - The `val` parameter is an optional value that can be assigned to the node being added. It is of type
+     * `N['val']`, which means it should be of the same type as the `val` property of the nodes in the binary tree.
+     * @returns The method is returning the inserted node, or null or undefined if the insertion was not successful.
      */
     override add(id: BinaryTreeNodeId, val?: N['val']): N | null | undefined {
         const inserted = super.add(id, val);

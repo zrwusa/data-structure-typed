@@ -5,18 +5,19 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type {BinaryTreeNodeId, BinaryTreeNodePropertyName, BSTComparator, BSTNodeNested} from '../types';
-import {BSTOptions, CP, LoopType} from '../types';
+import type {BinaryTreeNodeId, BinaryTreeNodePropertyName, BSTComparator, BSTNodeNested, BSTOptions} from '../types';
+import {CP, LoopType} from '../types';
 import {BinaryTree, BinaryTreeNode} from './binary-tree';
 import {IBST, IBSTNode} from '../interfaces';
 
-export class BSTNode<T = any, FAMILY extends BSTNode<T, FAMILY> = BSTNodeNested<T>> extends BinaryTreeNode<T, FAMILY> implements IBSTNode<T, FAMILY> {
+export class BSTNode<T = any, NEIGHBOR extends BSTNode<T, NEIGHBOR> = BSTNodeNested<T>> extends BinaryTreeNode<T, NEIGHBOR> implements IBSTNode<T, NEIGHBOR> {
+
 }
 
 export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N> implements IBST<N> {
     /**
-     * The constructor function accepts an optional options object and sets the comparator property if provided.
-     * @param [options] - An optional object that can contain the following properties:
+     * The constructor function initializes a binary search tree object with an optional comparator function.
+     * @param {BSTOptions} [options] - An optional object that contains configuration options for the binary search tree.
      */
     constructor(options?: BSTOptions) {
         super(options);
@@ -29,30 +30,25 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
     }
 
     /**
-     * The function creates a new binary search tree node with the given id, value, and count.
-     * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier for the binary tree node. It is of type
-     * `BinaryTreeNodeId`.
-     * @param {N['val'] | null} [val] - The `val` parameter is the value that will be stored in the node. It can be of any
-     * type `N['val']` or `null`.
-     * @param {number} [count] - The `count` parameter is an optional parameter that represents the number of occurrences
-     * of a particular value in the binary search tree node.
-     * @returns a new instance of the BSTNode class, casted as type N.
+     * The function creates a new binary search tree node with the given id and value.
+     * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier for the binary tree node. It is used to uniquely
+     * identify each node in the binary tree.
+     * @param [val] - The `val` parameter is an optional value that can be assigned to the node. It represents the value
+     * that will be stored in the node.
+     * @returns a new instance of the BSTNode class with the specified id and value.
      */
     override createNode(id: BinaryTreeNodeId, val?: N['val']): N {
         return new BSTNode<N['val'], N>(id, val) as N;
     }
 
     /**
-     * The `add` function inserts a new node into a binary search tree, updating the count and value of an existing node if
-     * the ID matches, and returns the inserted node.
-     * @param {BinaryTreeNodeId} id - The `id` parameter represents the identifier of the binary tree node. It is used to
-     * determine the position of the node in the binary search tree.
-     * @param {N | null} val - The `val` parameter represents the value to be stored in the binary search tree node. It can
-     * be of type `N` (the generic type) or `null`.
-     * @param {number} [count=1] - The `count` parameter represents the number of times the value should be inserted into
-     * the binary search tree. By default, it is set to 1, meaning that if no count is specified, the value will be
-     * inserted once.
-     * @returns The method `add` returns a `N` object or `null`.
+     * The `add` function adds a new node to a binary tree, ensuring that duplicates are not accepted.
+     * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier of the binary tree node that we want to add. It
+     * is of type `BinaryTreeNodeId`.
+     * @param [val] - The `val` parameter is an optional value that can be assigned to the node being added. It represents
+     * the value associated with the node.
+     * @returns The function `add` returns the inserted node (`inserted`) if it was successfully added to the binary tree.
+     * If the node was not added (e.g., due to a duplicate ID), it returns `null` or `undefined`.
      */
     override add(id: BinaryTreeNodeId, val?: N['val']): N | null | undefined {
         let inserted: N | null = null;
@@ -113,13 +109,12 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
     }
 
     /**
-     * The `get` function returns the first node in a binary search tree that matches the given property value or name.
+     * The function returns the first node in a binary tree that matches the given property name and value.
      * @param {BinaryTreeNodeId | N} nodeProperty - The `nodeProperty` parameter can be either a `BinaryTreeNodeId` or a
-     * generic type `N`. It represents the value of the property that you want to search for in the binary search tree.
+     * generic type `N`. It represents the property of the binary tree node that you want to search for.
      * @param {BinaryTreeNodePropertyName} [propertyName] - The `propertyName` parameter is an optional parameter that
-     * specifies the property name to use for searching the binary search tree nodes. If not provided, it defaults to
-     * `'id'`.
-     * @returns The method is returning a N object or null.
+     * specifies the property name to use for searching the binary tree nodes. If not provided, it defaults to `'id'`.
+     * @returns The method is returning either a BinaryTreeNodeId or N (generic type) or null.
      */
     override get(nodeProperty: BinaryTreeNodeId | N, propertyName ?: BinaryTreeNodePropertyName): N | null {
         propertyName = propertyName ?? 'id';
@@ -129,10 +124,9 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
     /**
      * The function returns the id of the rightmost node if the comparison between two values is less than, the id of the
      * leftmost node if the comparison is greater than, and the id of the rightmost node otherwise.
-     * @returns The function `lastKey()` returns the ID of the rightmost node in a binary tree. If the comparison between
-     * the first two elements in the tree is less than, it returns the ID of the rightmost node. If the comparison is
-     * greater than, it returns the ID of the leftmost node. Otherwise, it also returns the ID of the rightmost node. If
-     * there are no nodes in
+     * @returns The method `lastKey()` returns the id of the rightmost node in the binary tree if the comparison between
+     * the values at index 0 and 1 is less than, otherwise it returns the id of the leftmost node. If the comparison is
+     * equal, it returns the id of the rightmost node. If there are no nodes in the tree, it returns 0.
      */
     lastKey(): BinaryTreeNodeId {
         if (this._compare(0, 1) === CP.lt) return this.getRightMost()?.id ?? 0;
@@ -141,17 +135,15 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
     }
 
     /**
-     * The function `getNodes` returns an array of binary search tree nodes that match a given property value, with the
-     * option to specify the property name and whether to return only one node.
-     * @param {BinaryTreeNodeId | N} nodeProperty - The `nodeProperty` parameter can be either a `BinaryTreeNodeId` or a
-     * generic type `N`. It represents the property value that you want to search for in the binary search tree.
+     * The function `getNodes` returns an array of nodes in a binary tree that match a given property value.
+     * @param {BinaryTreeNodeId | N} nodeProperty - The `nodeProperty` parameter can be either a `BinaryTreeNodeId` or an
+     * `N` type. It represents the property of the binary tree node that you want to compare with.
      * @param {BinaryTreeNodePropertyName} [propertyName] - The `propertyName` parameter is an optional parameter that
-     * specifies the property of the nodes to compare with the `nodeProperty` parameter. If not provided, it defaults to
-     * `'id'`.
-     * @param {boolean} [onlyOne] - A boolean value indicating whether to return only one node that matches the given
-     * nodeProperty. If set to true, the function will stop traversing the tree and return the first matching node. If set
-     * to false or not provided, the function will return all nodes that match the given nodeProperty.
-     * @returns an array of N objects.
+     * specifies the property name to use for comparison. If not provided, it defaults to `'id'`.
+     * @param {boolean} [onlyOne] - The `onlyOne` parameter is an optional boolean parameter that determines whether to
+     * return only one node that matches the given `nodeProperty` or all nodes that match the `nodeProperty`. If `onlyOne`
+     * is set to `true`, the function will return an array with only one node (if
+     * @returns an array of nodes (type N).
      */
     override getNodes(nodeProperty: BinaryTreeNodeId | N, propertyName ?: BinaryTreeNodePropertyName, onlyOne ?: boolean): N[] {
         propertyName = propertyName ?? 'id';
@@ -195,13 +187,13 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
 
     // --- start additional functions
     /**
-     * The `lesserSum` function calculates the sum of property values in a binary tree for nodes that have a lesser value
-     * than a given node.
+     * The `lesserSum` function calculates the sum of property values in a binary tree for nodes that have a property value
+     * less than a given node.
      * @param {N | BinaryTreeNodeId | null} beginNode - The `beginNode` parameter can be one of the following:
      * @param {BinaryTreeNodePropertyName} [propertyName] - The `propertyName` parameter is an optional parameter that
      * specifies the property name to use for calculating the sum. If not provided, it defaults to `'id'`.
-     * @returns The function `lesserSum` returns a number, which represents the sum of the values of the nodes in a binary
-     * tree that have a lesser value than the specified `beginNode` based on the specified `propertyName`.
+     * @returns The function `lesserSum` returns a number, which represents the sum of the values of the nodes in the
+     * binary tree that have a lesser value than the specified `beginNode` based on the `propertyName`.
      */
     lesserSum(beginNode: N | BinaryTreeNodeId | null, propertyName ?: BinaryTreeNodePropertyName): number {
         propertyName = propertyName ?? 'id';
@@ -268,15 +260,15 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
     }
 
     /**
-     * The function `allGreaterNodesAdd` updates the value of a specified property for all nodes in a binary search tree
-     * that have a greater value than a given node.
-     * @param node - The `node` parameter is of type `N`, which represents a node in a binary search tree. It
-     * contains properties such as `id` and `count`.
+     * The `allGreaterNodesAdd` function adds a delta value to the specified property of all nodes in a binary tree that
+     * have a greater value than a given node.
+     * @param {N | BinaryTreeNodeId | null} node - The `node` parameter can be either of type `N` (a generic type),
+     * `BinaryTreeNodeId`, or `null`. It represents the node in the binary tree to which the delta value will be added.
      * @param {number} delta - The `delta` parameter is a number that represents the amount by which the property value of
-     * each node should be increased.
-     * @param {BinaryTreeNodePropertyName} [propertyName] - propertyName is an optional parameter that specifies the
-     * property of the BSTNode to be modified. It can be either 'id' or 'count'. If propertyName is not provided, it
-     * defaults to 'id'.
+     * each greater node should be increased.
+     * @param {BinaryTreeNodePropertyName} [propertyName] - The `propertyName` parameter is an optional parameter that
+     * specifies the property name of the nodes in the binary tree that you want to update. If not provided, it defaults to
+     * 'id'.
      * @returns a boolean value.
      */
     allGreaterNodesAdd(node: N | BinaryTreeNodeId | null, delta: number, propertyName ?: BinaryTreeNodePropertyName): boolean {
@@ -336,9 +328,9 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
 
 
     /**
-     * The `balance` function takes a sorted array of nodes and builds a balanced binary search tree using either a
-     * recursive or iterative approach.
-     * @returns The `balance()` function returns a boolean value.
+     * The `perfectlyBalance` function takes a binary tree, performs a depth-first search to sort the nodes, and then
+     * constructs a balanced binary search tree using either a recursive or iterative approach.
+     * @returns The function `perfectlyBalance()` returns a boolean value.
      */
     perfectlyBalance(): boolean {
         const sorted = this.DFS('in', 'node'), n = sorted.length;
@@ -377,9 +369,8 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
     }
 
     /**
-     * The function `isAVLBalanced` checks if a binary search tree is balanced according to the AVL tree property.
-     * @returns The function `isAVLBalanced()` returns a boolean value. It returns `true` if the binary search tree (BST)
-     * is balanced according to the AVL tree property, and `false` otherwise.
+     * The function `isAVLBalanced` checks if a binary tree is balanced according to the AVL tree property.
+     * @returns a boolean value.
      */
     isAVLBalanced(): boolean {
         if (!this.root) return true;

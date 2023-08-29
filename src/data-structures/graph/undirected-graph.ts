@@ -13,8 +13,8 @@ import {IUNDirectedGraph} from '../interfaces';
 export class UndirectedVertex<T = number> extends AbstractVertex<T> {
     /**
      * The constructor function initializes a vertex with an optional value.
-     * @param {VertexId} id - The `id` parameter is the identifier for the vertex. It is of type `VertexId`, which is
-     * typically a unique identifier for each vertex in a graph.
+     * @param {VertexId} id - The `id` parameter is of type `VertexId` and represents the identifier of the vertex. It is
+     * used to uniquely identify the vertex within a graph or network.
      * @param {T} [val] - The "val" parameter is an optional parameter of type T. It is used to initialize the value of the
      * vertex. If no value is provided, the vertex will be initialized with a default value.
      */
@@ -25,14 +25,14 @@ export class UndirectedVertex<T = number> extends AbstractVertex<T> {
 
 export class UndirectedEdge<T = number> extends AbstractEdge<T> {
     /**
-     * The constructor function initializes an instance of a class with two vertex IDs, an optional weight, and an optional
+     * The constructor function creates an instance of a class with two vertex IDs, an optional weight, and an optional
      * value.
-     * @param {VertexId} v1 - The parameter `v1` is of type `VertexId` and represents the first vertex in the edge.
+     * @param {VertexId} v1 - The first vertex ID of the edge.
      * @param {VertexId} v2 - The parameter `v2` is a `VertexId`, which represents the identifier of the second vertex in a
      * graph edge.
      * @param {number} [weight] - The weight parameter is an optional number that represents the weight of the edge.
-     * @param {T} [val] - The "val" parameter is an optional parameter of type T. It represents the value associated with
-     * the edge.
+     * @param {T} [val] - The "val" parameter is an optional parameter of type T. It is used to store a value associated
+     * with the edge.
      */
     constructor(v1: VertexId, v2: VertexId, weight?: number, val?: T) {
         super(weight, val);
@@ -52,6 +52,9 @@ export class UndirectedEdge<T = number> extends AbstractEdge<T> {
 
 export class UndirectedGraph<V extends UndirectedVertex<any> = UndirectedVertex, E extends UndirectedEdge<any> = UndirectedEdge> extends AbstractGraph<V, E> implements IUNDirectedGraph<V, E> {
 
+    /**
+     * The constructor initializes a new Map object to store edges.
+     */
     constructor() {
         super();
         this._edges = new Map<V, E[]>();
@@ -64,40 +67,39 @@ export class UndirectedGraph<V extends UndirectedVertex<any> = UndirectedVertex,
     }
 
     /**
-     * In TypeScript, a subclass inherits the interface implementation of its parent class, without needing to implement the same interface again in the subclass. This behavior differs from Java's approach. In Java, if a parent class implements an interface, the subclass needs to explicitly implement the same interface, even if the parent class has already implemented it.
-     * This means that using abstract methods in the parent class cannot constrain the grandchild classes. Defining methods within an interface also cannot constrain the descendant classes. When inheriting from this class, developers need to be aware that this method needs to be overridden.
-     * @param id
-     * @param val
+     * The function creates a new vertex with an optional value and returns it.
+     * @param {VertexId} id - The `id` parameter is the unique identifier for the vertex. It is used to distinguish one
+     * vertex from another in the graph.
+     * @param [val] - The `val` parameter is an optional value that can be assigned to the vertex. If a value is provided,
+     * it will be used as the value of the vertex. If no value is provided, the `id` parameter will be used as the value of
+     * the vertex.
+     * @returns The method is returning a new instance of the `UndirectedVertex` class, casted as type `V`.
      */
     override createVertex(id: VertexId, val?: V['val']): V {
         return new UndirectedVertex(id, val ?? id) as V;
     }
 
-
     /**
-     * The function createEdge creates an undirected edge between two vertices with an optional weight and value.
-     * @param {VertexId} v1 - The parameter `v1` represents the first vertex of the edge. It is of type `VertexId`, which
-     * could be a unique identifier or label for the vertex.
-     * @param {VertexId} v2 - The parameter `v2` represents the second vertex of the edge. It is of type `VertexId`, which
-     * is typically a unique identifier for a vertex in a graph.
-     * @param {number} [weight] - The weight parameter is an optional number that represents the weight of the edge. If no
-     * weight is provided, the default value is 1.
+     * The function creates an undirected edge between two vertices with an optional weight and value.
+     * @param {VertexId} v1 - The parameter `v1` represents the first vertex of the edge.
+     * @param {VertexId} v2 - The parameter `v2` represents the second vertex of the edge.
+     * @param {number} [weight] - The `weight` parameter is an optional number that represents the weight of the edge. If
+     * no weight is provided, it defaults to 1.
      * @param [val] - The `val` parameter is an optional value that can be assigned to the edge. It can be of any type and
      * is used to store additional information or data associated with the edge.
-     * @returns an instance of the UndirectedEdge class, casted as type E.
+     * @returns a new instance of the `UndirectedEdge` class, which is casted as type `E`.
      */
     override createEdge(v1: VertexId, v2: VertexId, weight?: number, val?: E['val']): E {
         return new UndirectedEdge(v1, v2, weight ?? 1, val) as E;
     }
 
     /**
-     * The function `getEdge` returns the first undirected edge that connects two given vertices, or null if no such edge
-     * exists.
-     * @param {V | null | VertexId} v1 - The parameter `v1` represents either an `V`
-     * object, `null`, or a `VertexId`. It is used to specify one of the vertices of the edge.
-     * @param {V | null | VertexId} v2 - The parameter `v2` represents either an `UndirectedVertex`
-     * object or a `VertexId` (identifier) of an undirected vertex.
-     * @returns an instance of `E` or `null`.
+     * The function `getEdge` returns the first edge that connects two vertices, or null if no such edge exists.
+     * @param {V | null | VertexId} v1 - The parameter `v1` represents a vertex or vertex ID. It can be of type `V` (vertex
+     * object), `null`, or `VertexId` (a string or number representing the ID of a vertex).
+     * @param {V | null | VertexId} v2 - The parameter `v2` represents a vertex or vertex ID. It can be of type `V` (vertex
+     * object), `null`, or `VertexId` (vertex ID).
+     * @returns an edge (E) or null.
      */
     getEdge(v1: V | null | VertexId, v2: V | null | VertexId): E | null {
         let edges: E[] | undefined = [];
@@ -115,15 +117,11 @@ export class UndirectedGraph<V extends UndirectedVertex<any> = UndirectedVertex,
     }
 
     /**
-     * The function removes an edge between two vertices in an undirected graph.
-     * @param {V | VertexId} v1 - The parameter `v1` represents either an `V` object or
-     * a `VertexId`. It is used to specify one of the vertices of the edge that needs to be removed.
-     * @param {V | VertexId} v2 - The parameter `v2` represents either an instance of the
-     * `UndirectedVertex` class or a `VertexId`. It is used to identify the second vertex of the edge that needs to be
-     * removed.
-     * @returns The function `removeEdgeBetween` returns an `E` object if an edge is successfully removed
-     * between the two vertices `v1` and `v2`. If either `v1` or `v2` is not found in the graph, or if there is no edge
-     * between them, the function returns `null`.
+     * The function removes an edge between two vertices in a graph and returns the removed edge.
+     * @param {V | VertexId} v1 - The parameter `v1` represents either a vertex object (`V`) or a vertex ID (`VertexId`).
+     * @param {V | VertexId} v2 - V | VertexId - This parameter can be either a vertex object (V) or a vertex ID
+     * (VertexId). It represents the second vertex of the edge that needs to be removed.
+     * @returns the removed edge (E) if it exists, or null if either of the vertices (V) does not exist.
      */
     removeEdgeBetween(v1: V | VertexId, v2: V | VertexId): E | null {
 
@@ -147,20 +145,20 @@ export class UndirectedGraph<V extends UndirectedVertex<any> = UndirectedVertex,
     }
 
     /**
-     * The removeEdge function removes an edge between two vertices in an undirected graph.
-     * @param edge - An object representing an undirected edge. It has a property called "vertices" which is an array
-     * containing the two vertices connected by the edge.
-     * @returns The method is returning an UndirectedEdge object or null.
+     * The removeEdge function removes an edge between two vertices in a graph.
+     * @param {E} edge - The parameter "edge" is of type E, which represents an edge in a graph.
+     * @returns The method is returning either the removed edge (of type E) or null if the edge was not found.
      */
     removeEdge(edge: E): E | null {
         return this.removeEdgeBetween(edge.vertices[0], edge.vertices[1]);
     }
 
     /**
-     * The function "degreeOf" returns the degree of a given vertex in an undirected graph.
-     * @param {VertexId | V} vertexOrId - The parameter `vertexOrId` can be either a `VertexId` or an
-     * `V`.
-     * @returns the degree of the vertex.
+     * The function `degreeOf` returns the degree of a vertex in a graph, which is the number of edges connected to that
+     * vertex.
+     * @param {VertexId | V} vertexOrId - The parameter `vertexOrId` can be either a `VertexId` or a `V`.
+     * @returns The function `degreeOf` returns the degree of a vertex in a graph. The degree of a vertex is the number of
+     * edges connected to that vertex.
      */
     degreeOf(vertexOrId: VertexId | V): number {
         const vertex = this._getVertex(vertexOrId);
@@ -172,10 +170,10 @@ export class UndirectedGraph<V extends UndirectedVertex<any> = UndirectedVertex,
     }
 
     /**
-     * The function "edgesOf" returns an array of undirected edges connected to a given vertex or vertex ID.
-     * @param {VertexId | V} vertexOrId - The parameter `vertexOrId` can be either a `VertexId` or an
-     * `V`.
-     * @returns an array of UndirectedEdge objects.
+     * The function returns the edges of a given vertex or vertex ID.
+     * @param {VertexId | V} vertexOrId - The parameter `vertexOrId` can be either a `VertexId` or a `V`. A `VertexId` is a
+     * unique identifier for a vertex in a graph, while `V` represents the type of the vertex.
+     * @returns an array of edges.
      */
     edgesOf(vertexOrId: VertexId | V): E[] {
         const vertex = this._getVertex(vertexOrId);
@@ -187,8 +185,8 @@ export class UndirectedGraph<V extends UndirectedVertex<any> = UndirectedVertex,
     }
 
     /**
-     * The function "edgeSet" returns an array of unique undirected edges from a set of edges.
-     * @returns The method `edgeSet()` returns an array of `E` objects.
+     * The function "edgeSet" returns an array of unique edges from a set of edges.
+     * @returns The method `edgeSet()` returns an array of type `E[]`.
      */
     edgeSet(): E[] {
         const edgeSet: Set<E> = new Set();
@@ -201,10 +199,10 @@ export class UndirectedGraph<V extends UndirectedVertex<any> = UndirectedVertex,
     }
 
     /**
-     * The function `getNeighbors` returns an array of neighboring vertices of a given vertex in an undirected graph.
-     * @param {V | VertexId} vertexOrId - The `vertexOrId` parameter can be either an
-     * `V` object or a `VertexId`. It represents the vertex for which we want to find the neighbors.
-     * @returns an array of UndirectedVertex objects.
+     * The function "getNeighbors" returns an array of neighboring vertices for a given vertex or vertex ID.
+     * @param {V | VertexId} vertexOrId - The parameter `vertexOrId` can be either a vertex object (`V`) or a vertex ID
+     * (`VertexId`).
+     * @returns an array of vertices (V[]).
      */
     getNeighbors(vertexOrId: V | VertexId): V[] {
         const neighbors: V[] = [];
@@ -222,12 +220,11 @@ export class UndirectedGraph<V extends UndirectedVertex<any> = UndirectedVertex,
     }
 
     /**
-     * The function "getEndsOfEdge" returns the two vertices that form the ends of a given undirected edge, or null if the
-     * edge does not exist in the graph.
-     * @param edge - An object representing an undirected edge in a graph. It has a property called "vertices" which is an
-     * array containing two vertices that the edge connects.
-     * @returns The function `getEndsOfEdge` returns an array containing the two ends of the given `edge` if the edge
-     * exists in the graph. If the edge does not exist, it returns `null`.
+     * The function "getEndsOfEdge" returns the vertices at the ends of an edge if the edge exists in the graph, otherwise
+     * it returns null.
+     * @param {E} edge - The parameter "edge" is of type E, which represents an edge in a graph.
+     * @returns The function `getEndsOfEdge` returns an array containing two vertices `[V, V]` if the edge exists in the
+     * graph. If the edge does not exist, it returns `null`.
      */
     getEndsOfEdge(edge: E): [V, V] | null {
         if (!this.hasEdge(edge.vertices[0], edge.vertices[1])) {
@@ -243,9 +240,8 @@ export class UndirectedGraph<V extends UndirectedVertex<any> = UndirectedVertex,
     }
 
     /**
-     * The function adds an undirected edge to a graph by updating the adjacency list.
-     * @param edge - An object representing an undirected edge in a graph. It has a property called "vertices" which is an
-     * array of two vertices connected by the edge.
+     * The function adds an edge to the graph by updating the adjacency list with the vertices of the edge.
+     * @param {E} edge - The parameter "edge" is of type E, which represents an edge in a graph.
      * @returns a boolean value.
      */
     protected _addEdgeOnly(edge: E): boolean {
@@ -264,6 +260,10 @@ export class UndirectedGraph<V extends UndirectedVertex<any> = UndirectedVertex,
         return true;
     }
 
+    /**
+     * The function sets the edges of a graph.
+     * @param v - A map where the keys are of type V and the values are arrays of type E.
+     */
     protected _setEdges(v: Map<V, E[]>) {
         this._edges = v;
     }

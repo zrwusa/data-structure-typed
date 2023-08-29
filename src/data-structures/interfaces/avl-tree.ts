@@ -2,7 +2,7 @@ import {AVLTreeNode} from '../binary-tree';
 import {IBST, IBSTNode} from './bst';
 import {BinaryTreeDeletedResult, BinaryTreeNodeId} from '../types';
 
-export interface IAVLTreeNode<T, FAMILY extends IAVLTreeNode<T, FAMILY>> extends IBSTNode<T, FAMILY> {
+export interface IAVLTreeNode<T, NEIGHBOR extends IAVLTreeNode<T, NEIGHBOR>> extends IBSTNode<T, NEIGHBOR> {
 
 }
 
