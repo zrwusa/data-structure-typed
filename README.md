@@ -3,14 +3,18 @@
 ## Brief
 Javascript & TypeScript Data Structure Library. 
 
+Binary Tree, Binary Search Tree (BST), AVL Tree, Tree Multiset, Segment Tree, Binary Indexed Tree, Graph, Directed Graph, Undirected Graph, Linked List, Singly Linked List, Doubly Linked List, Queue, Object Deque, Array Deque, Stack, Hash, Coordinate Set, Coordinate Map, Heap, Priority Queue, Max Priority Queue, Min Priority Queue, Trie
 
 ## Algorithms list only a few out, you can discover more in API docs
 
 DFS, DFSIterative, BFS, morris, Bellman-Ford Algorithm, Dijkstra's Algorithm, Floyd-Warshall Algorithm, Tarjan's Algorithm
 
-# How
-## install
+## Code design
+By strictly adhering to object-oriented design (BinaryTree -> BST -> AVLTree -> TreeMultiset), you can seamlessly inherit the existing data structures to implement the customized ones you need. Object-oriented design stands as the optimal approach to data structure design.
 
+# How
+
+## install
 ### yarn
 
 ```bash
@@ -163,11 +167,6 @@ import {UndirectedGraph} from 'data-structure-typed';
     Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D']
 ```
 
-[API Docs](https://data-structure-typed-docs.vercel.app)
-
-[Live Examples](https://data-structure-typed-examples.vercel.app)
-
-
 ![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/dfs-pre-order.webp)
 
 ![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/test-graphs.webp)
@@ -176,19 +175,18 @@ import {UndirectedGraph} from 'data-structure-typed';
 
 ![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/parenthesis-check.webp)
 
+
+## API docs & Examples
+
+[API Docs](https://data-structure-typed-docs.vercel.app)
+
+[Live Examples](https://data-structure-typed-examples.vercel.app)
+
 <a href="https://data-structure-typed-examples.vercel.app" target="_blank">Live Examples</a>
-
-
-## API docs
-
 
 [//]: # ([Examples Repository]&#40;https://github.com/zrwusa/data-structure-typed-examples&#41;)
 
 <a href="https://github.com/zrwusa/data-structure-typed-examples" target="_blank">Examples Repository</a>
-
-
-Meticulously crafted to empower developers with a versatile set of essential data structures. Our library includes a
-wide range of data structures
 
 ## Data Structures
 
