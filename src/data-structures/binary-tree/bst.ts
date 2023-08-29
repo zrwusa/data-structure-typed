@@ -38,8 +38,8 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
      * of a particular value in the binary search tree node.
      * @returns a new instance of the BSTNode class, casted as type N.
      */
-    override createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N {
-        return new BSTNode<N['val'], N>(id, val, count) as N;
+    override createNode(id: BinaryTreeNodeId, val?: N['val']): N {
+        return new BSTNode<N['val'], N>(id, val) as N;
     }
 
     /**
@@ -54,13 +54,12 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
      * inserted once.
      * @returns The method `add` returns a `N` object or `null`.
      */
-    override add(id: BinaryTreeNodeId, val?: N['val'], count: number = 1): N | null {
+    override add(id: BinaryTreeNodeId, val?: N['val']): N | null | undefined {
         let inserted: N | null = null;
-        const newNode = this.createNode(id, val, count);
+        const newNode = this.createNode(id, val);
         if (this.root === null) {
             this._setRoot(newNode);
             this._setSize(this.size + 1);
-            this._setCount(this.count + count);
             inserted = (this.root);
         } else {
             let cur = this.root;
@@ -69,8 +68,6 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
                 if (cur !== null && newNode !== null) {
                     if (this._compare(cur.id, id) === CP.eq) {
                         if (newNode) {
-                            cur.count += newNode.count;
-                            this._setCount(this.count + newNode.count);
                             cur.val = newNode.val;
                         }
                         //Duplicates are not accepted.
@@ -85,7 +82,6 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
                             //Add to the left of the current node
                             cur.left = newNode;
                             this._setSize(this.size + 1);
-                            this._setCount(this.count + newNode.count);
                             traversing = false;
                             inserted = cur.left;
                         } else {
@@ -101,7 +97,6 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
                             //Add to the right of the current node
                             cur.right = newNode;
                             this._setSize(this.size + 1);
-                            this._setCount(this.count + newNode.count);
                             traversing = false;
                             inserted = (cur.right);
                         } else {
@@ -220,9 +215,6 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
                 case 'id':
                     needSum = cur.id;
                     break;
-                case 'count':
-                    needSum = cur.count;
-                    break;
                 default:
                     needSum = cur.id;
                     break;
@@ -299,23 +291,19 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
                 case 'id':
                     cur.id += delta;
                     break;
-                case 'count':
-                    cur.count += delta;
-                    break;
                 default:
                     cur.id += delta;
                     break;
             }
         }
-
         if (this.loopType === LoopType.RECURSIVE) {
             const _traverse = (cur: N) => {
                 const compared = this._compare(cur.id, id);
-                _sumByPropertyName(cur);
+                if (compared === CP.gt) _sumByPropertyName(cur);
 
                 if (!cur.left && !cur.right) return;
-                if (cur.left && compared === CP.gt) _traverse(cur.left);
-                else if (cur.right && compared === CP.gt) _traverse(cur.right);
+                if (cur.left && this._compare(cur.left.id, id) === CP.gt) _traverse(cur.left);
+                if (cur.right && this._compare(cur.right.id, id) === CP.gt) _traverse(cur.right);
             };
 
             _traverse(this.root);
@@ -325,11 +313,11 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
             while (queue.length > 0) {
                 const cur = queue.shift();
                 if (cur) {
-                    const compared = this._compare(cur.id, node.id);
-                    _sumByPropertyName(cur);
+                    const compared = this._compare(cur.id, id);
+                    if (compared === CP.gt) _sumByPropertyName(cur);
 
-                    if (cur.left && compared === CP.gt) queue.push(cur.left);
-                    else if (cur.right && compared === CP.gt) queue.push(cur.right);
+                    if (cur.left && this._compare(cur.left.id, id) === CP.gt) queue.push(cur.left);
+                    if (cur.right && this._compare(cur.right.id, id) === CP.gt) queue.push(cur.right);
                 }
             }
             return true;
@@ -337,11 +325,22 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
     }
 
     /**
+     * Balancing Adjustment:
+     * Perfectly Balanced Binary Tree: Since the balance of a perfectly balanced binary tree is already fixed, no additional balancing adjustment is needed. Any insertion or deletion operation will disrupt the perfect balance, often requiring a complete reconstruction of the tree.
+     * AVL Tree: After insertion or deletion operations, an AVL tree performs rotation adjustments based on the balance factor of nodes to restore the tree's balance. These rotations can be left rotations, right rotations, left-right rotations, or right-left rotations, performed as needed.
+     *
+     * Use Cases and Efficiency:
+     * Perfectly Balanced Binary Tree: Perfectly balanced binary trees are typically used in specific scenarios such as complete binary heaps in heap sort or certain types of Huffman trees. However, they are not suitable for dynamic operations requiring frequent insertions and deletions, as these operations often necessitate full tree reconstruction.
+     * AVL Tree: AVL trees are well-suited for scenarios involving frequent searching, insertion, and deletion operations. Through rotation adjustments, AVL trees maintain their balance, ensuring average and worst-case time complexity of O(log n).
+     */
+
+
+    /**
      * The `balance` function takes a sorted array of nodes and builds a balanced binary search tree using either a
      * recursive or iterative approach.
      * @returns The `balance()` function returns a boolean value.
      */
-    balance(): boolean {
+    perfectlyBalance(): boolean {
         const sorted = this.DFS('in', 'node'), n = sorted.length;
         this.clear();
 
@@ -351,7 +350,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
                 if (l > r) return;
                 const m = l + Math.floor((r - l) / 2);
                 const midNode = sorted[m];
-                this.add(midNode.id, midNode.val, midNode.count);
+                this.add(midNode.id, midNode.val);
                 buildBalanceBST(l, m - 1);
                 buildBalanceBST(m + 1, r);
             };
@@ -367,7 +366,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
                     if (l <= r) {
                         const m = l + Math.floor((r - l) / 2);
                         const midNode = sorted[m];
-                        this.add(midNode.id, midNode.val, midNode.count);
+                        this.add(midNode.id, midNode.val);
                         stack.push([m + 1, r]);
                         stack.push([l, m - 1]);
                     }

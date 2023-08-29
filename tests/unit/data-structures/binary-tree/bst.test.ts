@@ -12,7 +12,6 @@ describe('BST operations test', () => {
         if (bst.root) expect(bst.root.id).toBe(11);
 
         expect(bst.size).toBe(16);
-        expect(bst.count).toBe(16);
 
         expect(bst.has(6)).toBe(true);
 
@@ -26,8 +25,6 @@ describe('BST operations test', () => {
         const nodeVal9 = bst.get(9, 'val');
         expect(nodeVal9?.id).toBe(9);
 
-        const nodesByCount1 = bst.getNodes(1, 'count');
-        expect(nodesByCount1.length).toBe(16);
 
         const leftMost = bst.getLeftMost();
         expect(leftMost?.id).toBe(1);
@@ -43,24 +40,16 @@ describe('BST operations test', () => {
         expect(lesserSum).toBe(45);
 
         expect(node15).toBeInstanceOf(BSTNode);
-        if (node15 instanceof BSTNode) {
-            const subTreeAdd = bst.subTreeAdd(15, 1, 'count');
-            expect(subTreeAdd).toBeDefined();
-        }
 
         const node11 = bst.get(11);
         expect(node11).toBeInstanceOf(BSTNode);
-        if (node11 instanceof BSTNode) {
-            const allGreaterNodesAdded = bst.allGreaterNodesAdd(11, 2, 'count');
-            expect(allGreaterNodesAdded).toBeDefined();
-        }
 
         const dfsInorderNodes = bst.DFS('in', 'node');
         expect(dfsInorderNodes[0].id).toBe(1);
         expect(dfsInorderNodes[dfsInorderNodes.length - 1].id).toBe(16);
 
-        bst.balance();
-        expect(bst.isBalanced()).toBe(true);
+        bst.perfectlyBalance();
+        expect(bst.isPerfectlyBalanced()).toBe(true);
 
         const bfsNodesAfterBalanced = bst.BFS('node');
         expect(bfsNodesAfterBalanced[0].id).toBe(8);
@@ -191,7 +180,6 @@ describe('BST operations test', () => {
         expect(bfsNodes[1].id).toBe(12);
         expect(bfsNodes[2].id).toBe(16);
 
-        expect(bst.count).toBe(5);
     });
 
     it('should perform various operations on a Binary Search Tree with object values', () => {
@@ -211,8 +199,6 @@ describe('BST operations test', () => {
 
         if (objBST.root) expect(objBST.root.id).toBe(11);
 
-        expect(objBST.count).toBe(16);
-
         expect(objBST.has(6)).toBe(true);
 
         const node6 = objBST.get(6);
@@ -224,9 +210,6 @@ describe('BST operations test', () => {
 
         const nodeVal9 = objBST.get(9, 'id');
         expect(nodeVal9?.id).toBe(9);
-
-        const nodesByCount1 = objBST.getNodes(1, 'count');
-        expect(nodesByCount1.length).toBe(16);
 
         const leftMost = objBST.getLeftMost();
         expect(leftMost?.id).toBe(1);
@@ -243,24 +226,16 @@ describe('BST operations test', () => {
         expect(lesserSum).toBe(45);
 
         expect(node15).toBeInstanceOf(BSTNode);
-        if (node15 instanceof BSTNode) {
-            const subTreeAdd = objBST.subTreeAdd(node15, 1, 'count');
-            expect(subTreeAdd).toBeDefined();
-        }
 
         const node11 = objBST.get(11);
         expect(node11).toBeInstanceOf(BSTNode);
-        if (node11 instanceof BSTNode) {
-            const allGreaterNodesAdded = objBST.allGreaterNodesAdd(node11, 2, 'count');
-            expect(allGreaterNodesAdded).toBeDefined();
-        }
 
         const dfsInorderNodes = objBST.DFS('in', 'node');
         expect(dfsInorderNodes[0].id).toBe(1);
         expect(dfsInorderNodes[dfsInorderNodes.length - 1].id).toBe(16);
 
-        objBST.balance();
-        expect(objBST.isBalanced()).toBe(true);
+        objBST.perfectlyBalance();
+        expect(objBST.isPerfectlyBalanced()).toBe(true);
 
         const bfsNodesAfterBalanced = objBST.BFS('node');
         expect(bfsNodesAfterBalanced[0].id).toBe(8);
@@ -391,6 +366,5 @@ describe('BST operations test', () => {
         expect(bfsNodes[1].id).toBe(12);
         expect(bfsNodes[2].id).toBe(16);
 
-        expect(objBST.count).toBe(5);
     });
 });

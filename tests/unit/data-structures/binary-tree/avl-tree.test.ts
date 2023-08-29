@@ -16,8 +16,6 @@ describe('AVL Tree Test', () => {
         const getNodeById = tree.get(10, 'id');
         expect(getNodeById?.id).toBe(10);
 
-        const getNodesByCount = tree.getNodes(1, 'count');
-        expect(getNodesByCount.length).toBe(16);
 
         const getMinNodeByRoot = tree.getLeftMost();
         expect(getMinNodeByRoot?.id).toBe(1);
@@ -32,26 +30,20 @@ describe('AVL Tree Test', () => {
         const lesserSum = tree.lesserSum(10);
         expect(lesserSum).toBe(45);
 
-        if (node15) {
-            const subTreeAdd = tree.subTreeAdd(node15, 1, 'count');
-            expect(subTreeAdd).toBe(true);
-        }
+
         // node15 has type problem. After the uniform design, the generics of containers (DirectedGraph, BST) are based on the type of value. However, this design has a drawback: when I attempt to inherit from the Vertex or BSTNode classes, the types of the results obtained by all methods are those of the parent class.
         expect(node15?.val).toBe(15);
 
         const node11 = tree.get(11);
-        if (node11) {
-            const allGreaterNodesAdd = tree.allGreaterNodesAdd(node11, 2, 'count');
-            expect(allGreaterNodesAdd).toBe(true);
-        }
+
 
         const dfs = tree.DFS('in', 'node');
         expect(dfs[0].id).toBe(1);
         expect(dfs[dfs.length - 1].id).toBe(16);
 
-        tree.balance();
+        tree.perfectlyBalance();
         const bfs = tree.BFS('node');
-        expect(tree.isBalanced()).toBe(true);
+        expect(tree.isPerfectlyBalanced()).toBe(true);
         expect(bfs[0].id).toBe(8);
         expect(bfs[bfs.length - 1].id).toBe(16);
 

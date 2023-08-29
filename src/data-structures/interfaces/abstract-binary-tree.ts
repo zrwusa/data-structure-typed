@@ -35,10 +35,6 @@ export interface IAbstractBinaryTreeNode<T, FAMILY extends IAbstractBinaryTreeNo
 
     get familyPosition(): FamilyPosition
 
-    get count(): number
-
-    set count(v: number)
-
     get height(): number
 
     set height(v: number)
@@ -69,8 +65,6 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
 
     get size(): number
 
-    get count(): number
-
     swapLocation(srcNode: N, destNode: N): N
 
     clear(): void
@@ -93,7 +87,7 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
 
     getMinHeight(beginRoot?: N | null): number
 
-    isBalanced(beginRoot?: N | null): boolean
+    isPerfectlyBalanced(beginRoot?: N | null): boolean
 
     getNodes(nodeProperty: BinaryTreeNodeId | N, propertyName ?: BinaryTreeNodePropertyName, onlyOne ?: boolean): N[]
 
@@ -119,7 +113,7 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
 
     isBST(node?: N | null): boolean
 
-    getSubTreeSizeAndCount(subTreeRoot: N | null | undefined): [number, number]
+    getSubTreeSize(subTreeRoot: N | null | undefined): number
 
     // --- start additional methods ---
 

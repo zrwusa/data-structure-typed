@@ -16,6 +16,10 @@ export type ObjectWithNumberId = {
     id: number;
 }
 
-export type RestrictValById = NonNumberNonObjectButDefined | ObjectWithoutId | ObjectWithNonNumberId | ObjectWithNumberId;
+export type RestrictValById =
+    NonNumberNonObjectButDefined
+    | ObjectWithoutId
+    | ObjectWithNonNumberId
+    | ObjectWithNumberId;
 
 export type DummyAny = string | number | boolean | null | undefined | object | symbol | void | Function | never;

@@ -38,8 +38,8 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
      * of occurrences of the value in the binary tree node. If not provided, the default value is `undefined`.
      * @returns a BinaryTreeNode object if the value is not null, otherwise it returns null.
      */
-    createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N {
-        return new BinaryTreeNode<N['val'], N>(id, val, count) as N;
+    createNode(id: BinaryTreeNodeId, val?: N['val']): N {
+        return new BinaryTreeNode<N['val'], N>(id, val) as N;
     }
 
 }

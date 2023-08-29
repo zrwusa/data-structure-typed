@@ -31,10 +31,9 @@ export abstract class AbstractBinaryTreeNode<T = any, FAMILY extends AbstractBin
      * @param {number} [count] - The `count` parameter is an optional parameter that represents the number of times the
      * value `val` appears in the binary tree node. If the `count` parameter is not provided, it defaults to 1.
      */
-    constructor(id: BinaryTreeNodeId, val?: T, count?: number) {
+    constructor(id: BinaryTreeNodeId, val?: T) {
         this._id = id;
         this._val = val;
-        this._count = count ?? 1;
     }
 
     private _id: BinaryTreeNodeId;
@@ -92,16 +91,6 @@ export abstract class AbstractBinaryTreeNode<T = any, FAMILY extends AbstractBin
 
     set parent(v: FAMILY | null | undefined) {
         this._parent = v;
-    }
-
-    private _count = 1;
-
-    get count(): number {
-        return this._count;
-    }
-
-    set count(v: number) {
-        this._count = v;
     }
 
     private _height = 0;
@@ -227,18 +216,13 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         return this._size;
     }
 
-    private _count = 0;
 
-    get count(): number {
-        return this._count;
-    }
-
-    abstract createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N | null ;
+    abstract createNode(id: BinaryTreeNodeId, val?: N['val']): N | null ;
 
 
     swapLocation(srcNode: N, destNode: N): N {
-        const {val, count, height, id} = destNode;
-        const tempNode = this.createNode(id, val, count);
+        const {val, height, id} = destNode;
+        const tempNode = this.createNode(id, val);
         if (tempNode) {
             tempNode.height = height;
 
@@ -248,12 +232,10 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
 
                 destNode.id = srcNode.id;
                 destNode.val = srcNode.val;
-                destNode.count = srcNode.count;
                 destNode.height = srcNode.height;
 
                 srcNode.id = tempNode.id;
                 srcNode.val = tempNode.val;
-                srcNode.count = tempNode.count;
                 srcNode.height = tempNode.height;
             }
         }
@@ -267,7 +249,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     clear() {
         this._setRoot(null);
         this._setSize(0);
-        this._setCount(0);
         this._setMaxId(-1);
     }
 
@@ -308,24 +289,21 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         };
 
         let inserted: N | null | undefined;
-        const needInsert = val !== null ? this.createNode(id, val, count) : null;
+        const needInsert = val !== null ? this.createNode(id, val) : null;
         const existNode = val !== null ? this.get(id, 'id') : null;
         if (this.root) {
             if (existNode) {
-                existNode.count += count;
                 existNode.val = val ?? id;
                 if (needInsert !== null) {
-                    this._setCount(this.count + count);
                     inserted = existNode;
                 }
             } else {
                 inserted = _bfs(this.root, needInsert);
             }
         } else {
-            this._setRoot(val !== null ? this.createNode(id, val, count) : null);
+            this._setRoot(val !== null ? this.createNode(id, val) : null);
             if (needInsert !== null) {
                 this._setSize(1);
-                this._setCount(count);
             }
             inserted = this.root;
         }
@@ -350,7 +328,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
                 parent.left = newNode;
                 if (newNode !== null) {
                     this._setSize(this.size + 1);
-                    this._setCount(this.count + newNode.count ?? 0)
                 }
 
                 return parent.left;
@@ -361,7 +338,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
                 parent.right = newNode;
                 if (newNode !== null) {
                     this._setSize(this.size + 1);
-                    this._setCount(this.count + newNode.count ?? 0);
                 }
                 return parent.right;
             } else {
@@ -391,7 +367,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         for (const nodeOrId of data) {
 
             if (nodeOrId instanceof AbstractBinaryTreeNode) {
-                inserted.push(this.add(nodeOrId.id, nodeOrId.val, nodeOrId.count));
+                inserted.push(this.add(nodeOrId.id, nodeOrId.val));
                 continue;
             }
 
@@ -467,37 +443,33 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         const parent: N | null = curr?.parent ? curr.parent : null;
         let needBalanced: N | null = null, orgCurrent = curr;
 
-        if (curr.count > 1 && !ignoreCount) {
-            curr.count--;
-            this._setCount(this.count - 1);
-        } else {
-            if (!curr.left) {
-                if (!parent) {
-                    if (curr.right !== undefined) this._setRoot(curr.right);
-                } else {
-                    const {familyPosition: fp} = curr;
-                    if (fp === FamilyPosition.LEFT || fp === FamilyPosition.ROOT_LEFT) {
-                        parent.left = curr.right;
-                    } else if (fp === FamilyPosition.RIGHT || fp === FamilyPosition.ROOT_RIGHT) {
-                        parent.right = curr.right;
-                    }
-                    needBalanced = parent;
-                }
+
+        if (!curr.left) {
+            if (!parent) {
+                if (curr.right !== undefined) this._setRoot(curr.right);
             } else {
-                const leftSubTreeRightMost = curr.left ? this.getRightMost(curr.left) : null;
-                if (leftSubTreeRightMost) {
-                    const parentOfLeftSubTreeMax = leftSubTreeRightMost.parent;
-                    orgCurrent = this.swapLocation(curr, leftSubTreeRightMost);
-                    if (parentOfLeftSubTreeMax) {
-                        if (parentOfLeftSubTreeMax.right === leftSubTreeRightMost) parentOfLeftSubTreeMax.right = leftSubTreeRightMost.left;
-                        else parentOfLeftSubTreeMax.left = leftSubTreeRightMost.left;
-                        needBalanced = parentOfLeftSubTreeMax;
-                    }
+                const {familyPosition: fp} = curr;
+                if (fp === FamilyPosition.LEFT || fp === FamilyPosition.ROOT_LEFT) {
+                    parent.left = curr.right;
+                } else if (fp === FamilyPosition.RIGHT || fp === FamilyPosition.ROOT_RIGHT) {
+                    parent.right = curr.right;
+                }
+                needBalanced = parent;
+            }
+        } else {
+            const leftSubTreeRightMost = curr.left ? this.getRightMost(curr.left) : null;
+            if (leftSubTreeRightMost) {
+                const parentOfLeftSubTreeMax = leftSubTreeRightMost.parent;
+                orgCurrent = this.swapLocation(curr, leftSubTreeRightMost);
+                if (parentOfLeftSubTreeMax) {
+                    if (parentOfLeftSubTreeMax.right === leftSubTreeRightMost) parentOfLeftSubTreeMax.right = leftSubTreeRightMost.left;
+                    else parentOfLeftSubTreeMax.left = leftSubTreeRightMost.left;
+                    needBalanced = parentOfLeftSubTreeMax;
                 }
             }
-            this._setSize(this.size - 1);
-            this._setCount(this.count - orgCurrent.count);
         }
+        this._setSize(this.size - 1);
+
 
         bstDeletedResult.push({deleted: orgCurrent, needBalanced});
         return bstDeletedResult;
@@ -543,30 +515,28 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
 
             return _getMaxHeight(beginRoot);
         } else {
-            const stack: N[] = [];
-            let node: N | null | undefined = beginRoot, last: N | null = null;
-            const depths: Map<N, number> = new Map();
-
-            while (stack.length > 0 || node) {
-                if (node) {
-                    stack.push(node);
-                    node = node.left;
-                } else {
-                    node = stack[stack.length - 1]
-                    if (!node.right || last === node.right) {
-                        node = stack.pop();
-                        if (node) {
-                            const leftHeight = node.left ? depths.get(node.left) ?? -1 : -1;
-                            const rightHeight = node.right ? depths.get(node.right) ?? -1 : -1;
-                            depths.set(node, 1 + Math.max(leftHeight, rightHeight));
-                            last = node;
-                            node = null;
-                        }
-                    } else node = node.right
-                }
+            if (!beginRoot) {
+                return -1;
             }
 
-            return depths.get(beginRoot) ?? -1;
+            const stack: { node: N; depth: number }[] = [{node: beginRoot, depth: 0}];
+            let maxHeight = 0;
+
+            while (stack.length > 0) {
+                const {node, depth} = stack.pop()!;
+
+                if (node.left) {
+                    stack.push({node: node.left, depth: depth + 1});
+                }
+
+                if (node.right) {
+                    stack.push({node: node.right, depth: depth + 1});
+                }
+
+                maxHeight = Math.max(maxHeight, depth);
+            }
+
+            return maxHeight;
         }
     }
 
@@ -626,7 +596,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * of type `N | null`, which means it can either be a `BinaryTreeNode` object or `null`.
      * @returns The method is returning a boolean value.
      */
-    isBalanced(beginRoot?: N | null): boolean {
+    isPerfectlyBalanced(beginRoot?: N | null): boolean {
         return (this.getMinHeight(beginRoot) + 1 >= this.getHeight(beginRoot));
     }
 
@@ -648,7 +618,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
 
         const result: N[] = [];
 
-        if (this._loopType === LoopType.RECURSIVE) {
+        if (this.loopType === LoopType.RECURSIVE) {
             const _traverse = (cur: N) => {
                 if (this._pushByPropertyNameStopOrNot(cur, result, nodeProperty, propertyName, onlyOne)) return;
                 if (!cur.left && !cur.right) return;
@@ -682,6 +652,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * @returns a boolean value.
      */
     has(nodeProperty: BinaryTreeNodeId | N, propertyName ?: BinaryTreeNodePropertyName): boolean {
+        propertyName = propertyName ?? 'id';
         return this.getNodes(nodeProperty, propertyName).length > 0;
     }
 
@@ -843,32 +814,30 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * @returns The function `getSubTreeSizeAndCount` returns an array `[number, number]`. The first element of the array
      * represents the size of the subtree, and the second element represents the count of the nodes in the subtree.
      */
-    getSubTreeSizeAndCount(subTreeRoot: N | null | undefined) {
-        const res: [number, number] = [0, 0];
-        if (!subTreeRoot) return res;
+    getSubTreeSize(subTreeRoot: N | null | undefined) {
+        let size = 0;
+        if (!subTreeRoot) return size;
 
         if (this._loopType === LoopType.RECURSIVE) {
             const _traverse = (cur: N) => {
-                res[0]++;
-                res[1] += cur.count;
+                size++;
                 cur.left && _traverse(cur.left);
                 cur.right && _traverse(cur.right);
             }
 
             _traverse(subTreeRoot);
-            return res;
+            return size;
         } else {
             const stack: N[] = [subTreeRoot];
 
             while (stack.length > 0) {
                 const cur = stack.pop()!;
-                res[0]++;
-                res[1] += cur.count;
+                size++;
                 cur.right && stack.push(cur.right);
                 cur.left && stack.push(cur.left);
             }
 
-            return res;
+            return size;
         }
     }
 
@@ -897,9 +866,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
             switch (propertyName) {
                 case 'id':
                     needSum = cur.id;
-                    break;
-                case 'count':
-                    needSum = cur.count;
                     break;
                 case 'val':
                     needSum = typeof cur.val === 'number' ? cur.val : 0;
@@ -956,10 +922,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
                 case 'id':
                     cur.id += delta;
                     break;
-                case 'count':
-                    cur.count += delta;
-                    this._setCount(this.count + delta);
-                    break;
                 default:
                     cur.id += delta;
                     break;
@@ -996,8 +958,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
 
     BFS(nodeOrPropertyName: 'node'): N[];
 
-    BFS(nodeOrPropertyName: 'count'): number[];
-
     /**
      * The BFS function performs a breadth-first search on a binary tree and returns the results based on a specified node
      * or property name.
@@ -1031,8 +991,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     DFS(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'val'): N[];
 
     DFS(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'node'): N[];
-
-    DFS(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'count'): number[];
 
     /**
      * The DFS function performs a depth-first search traversal on a binary tree and returns the results based on the
@@ -1081,8 +1039,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     DFSIterative(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'val'): N[];
 
     DFSIterative(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'node'): N[];
-
-    DFSIterative(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'count'): number[];
 
     /**
      * Time complexity is O(n)
@@ -1141,8 +1097,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
 
     levelIterative(node: N | null, nodeOrPropertyName?: 'node'): N[];
 
-    levelIterative(node: N | null, nodeOrPropertyName?: 'count'): number[];
-
     /**
      * The `levelIterative` function performs a level-order traversal on a binary tree and returns the values of the nodes
      * in an array, based on a specified property name.
@@ -1187,8 +1141,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
 
     listLevels(node: N | null, nodeOrPropertyName?: 'node'): N[][];
 
-    listLevels(node: N | null, nodeOrPropertyName?: 'count'): number[][];
-
     /**
      * The `listLevels` function collects nodes from a binary tree by a specified property and organizes them into levels.
      * @param {N | null} node - The `node` parameter is a BinaryTreeNode object or null. It represents the
@@ -1216,16 +1168,13 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
                 case 'node':
                     levelsNodes[level].push(node);
                     break;
-                case 'count':
-                    levelsNodes[level].push(node.count);
-                    break;
                 default:
                     levelsNodes[level].push(node.id);
                     break;
             }
         }
 
-        if (this._loopType === LoopType.RECURSIVE) {
+        if (this.loopType === LoopType.RECURSIVE) {
             const _recursive = (node: N, level: number) => {
                 if (!levelsNodes[level]) levelsNodes[level] = [];
                 collectByProperty(node, level);
@@ -1277,8 +1226,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     morris(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'val'): N[];
 
     morris(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'node'): N[];
-
-    morris(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'count'): number[];
 
     /**
      * The `morris` function performs an in-order, pre-order, or post-order traversal on a binary tree using the Morris
@@ -1425,10 +1372,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         this._size = v;
     }
 
-    protected _setCount(v: number) {
-        this._count = v;
-    }
-
     /**
      * The function resets the values of several arrays used for tracking visited nodes and their properties.
      */
@@ -1436,7 +1379,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         this._visitedId = [];
         this._visitedVal = [];
         this._visitedNode = [];
-        this._visitedCount = [];
         this._visitedLeftSum = [];
     }
 
@@ -1460,12 +1402,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         switch (propertyName) {
             case 'id':
                 if (cur.id === nodeProperty) {
-                    result.push(cur);
-                    return !!onlyOne;
-                }
-                break;
-            case 'count':
-                if (cur.count === nodeProperty) {
                     result.push(cur);
                     return !!onlyOne;
                 }
@@ -1506,9 +1442,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
             case 'node':
                 this._visitedNode.push(node);
                 break;
-            case 'count':
-                this._visitedCount.push(node.count);
-                break;
             default:
                 this._visitedId.push(node.id);
                 break;
@@ -1532,8 +1465,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
                 return this._visitedVal;
             case 'node':
                 return this._visitedNode;
-            case 'count':
-                return this._visitedCount;
             default:
                 return this._visitedId;
         }

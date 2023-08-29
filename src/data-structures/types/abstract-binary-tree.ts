@@ -19,11 +19,12 @@ export enum FamilyPosition {
     MAL_NODE = 'MAL_NODE'
 }
 
-export type BinaryTreeNodePropertyName = 'id' | 'val' | 'count';
+export type BinaryTreeNodePropertyName = 'id' | 'val';
 export type NodeOrPropertyName = 'node' | BinaryTreeNodePropertyName;
 export type DFSOrderPattern = 'in' | 'pre' | 'post';
 export type BinaryTreeNodeId = number;
 export type BinaryTreeDeletedResult<N> = { deleted: N | null | undefined, needBalanced: N | null };
+export type AVLTreeDeletedResult<N> = { deleted: N | null | undefined };
 
 export type AbstractBinaryTreeNodeProperty<N extends AbstractBinaryTreeNode<N['val'], N>> =
     N['val']

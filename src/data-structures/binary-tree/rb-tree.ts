@@ -4,8 +4,9 @@ import {BST, BSTNode} from './bst';
 
 
 export class RBTreeNode<T = any, FAMILY extends RBTreeNode<T, FAMILY> = RBTreeNodeNested<T>> extends BSTNode<T, FAMILY> implements IRBTreeNode<T, FAMILY> {
-    constructor(id: BinaryTreeNodeId, val?: T, count?: number) {
-        super(id, val, count);
+    constructor(id: BinaryTreeNodeId, color: RBColor, val?: T) {
+        super(id, val);
+        this._color = color;
     }
 
     private _color: RBColor = RBColor.RED;
@@ -58,8 +59,8 @@ export class RBTree<N extends RBTreeNode<N['val'], N> = RBTreeNode> extends BST<
         super(options);
     }
 
-    override createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N {
-        return new RBTreeNode(id, val, count) as N;
+    override createNode(id: BinaryTreeNodeId, val?: N['val']): N {
+        return new RBTreeNode(id, RBColor.RED, val) as N;
     }
 
     // private override _root: BinaryTreeNode<N> | null = null;
