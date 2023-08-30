@@ -170,7 +170,6 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
     addVertex(idOrVertex: VertexId | V, val?: V['val']): boolean {
         if (idOrVertex instanceof AbstractVertex) {
             return this._addVertexOnly(idOrVertex);
-
         } else {
             const newVertex = this.createVertex(idOrVertex, val);
             return this._addVertexOnly(newVertex);

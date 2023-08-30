@@ -1,31 +1,27 @@
 # What
 
 ## Brief
-Javascript & TypeScript Data Structure Library. 
+Javascript & TypeScript Data Structure collections. 
 
-Binary Tree, Binary Search Tree (BST), AVL Tree, Tree Multiset, Segment Tree, Binary Indexed Tree, Graph, Directed Graph, Undirected Graph, Linked List, Singly Linked List, Doubly Linked List, Queue, Object Deque, Array Deque, Stack, Hash, Coordinate Set, Coordinate Map, Heap, Priority Queue, Max Priority Queue, Min Priority Queue, Trie
+## Algorithms 
 
-## Algorithms list only a few out, you can discover more in API docs
-
-DFS, DFSIterative, BFS, morris, Bellman-Ford Algorithm, Dijkstra's Algorithm, Floyd-Warshall Algorithm, Tarjan's Algorithm
+DFS, DFSIterative, BFS, morris, Bellman-Ford Algorithm, Dijkstra's Algorithm, Floyd-Warshall Algorithm, Tarjan's Algorithm. Listed only a few out, you can discover more in API docs
 
 ## Code design
 By strictly adhering to object-oriented design (BinaryTree -> BST -> AVLTree -> TreeMultiset), you can seamlessly inherit the existing data structures to implement the customized ones you need. Object-oriented design stands as the optimal approach to data structure design.
 
 # How
-
+### npm
+```bash
+npm install data-structure-typed
+```
 ## install
 ### yarn
-
 ```bash
 yarn add data-structure-typed
 ```
 
-### npm
 
-```bash
-npm install data-structure-typed
-```
 
 ### Binary Search Tree (BST) snippet
 

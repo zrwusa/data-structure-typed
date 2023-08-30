@@ -44,9 +44,9 @@ export class HeapItem<T = number> {
 }
 
 export abstract class Heap<T = number> {
+
     /**
-     * The function is a constructor for a class that initializes a priority callback function based on the
-     * options provided.
+     * The constructor function initializes a priority queue with an optional priority extractor function.
      * @param [options] - An optional object that contains configuration options for the Heap.
      */
     protected constructor(options?: HeapOptions<T>) {
@@ -91,9 +91,16 @@ export abstract class Heap<T = number> {
     peek(isItem?: undefined): T | undefined;
     peek(isItem: false): T | undefined;
     peek(isItem: true): HeapItem<T> | null;
+
     /**
-     * The `peek` function returns the top item in the priority queue without removing it.
-     * @returns The `peek()` method is returning either a `HeapItem<T>` object or `null`.Returns an val with the highest priority in the queue
+     * The `peek` function returns the top item or value in a priority queue, depending on the value of the `isItem`
+     * parameter.
+     * @param {boolean} [isItem] - The `isItem` parameter is an optional boolean parameter that determines whether the
+     * method should return the entire `HeapItem` object or just the value of the item. If `isItem` is set to `true`, the
+     * method will return the `HeapItem` object. If `isItem`
+     * @returns The `peek` method returns either a `HeapItem<T>` object, `null`, `T`, or `undefined`. The specific return
+     * type depends on the value of the `isItem` parameter. If `isItem` is `true`, then the method returns a `HeapItem<T>`
+     * object or `null` if the heap is empty. If `isItem` is `false`
      */
     peek(isItem?: boolean): HeapItem<T> | null | T | undefined {
         isItem = isItem ?? false;
@@ -104,9 +111,16 @@ export abstract class Heap<T = number> {
     peekLast(isItem?: undefined): T | undefined;
     peekLast(isItem: false): T | undefined;
     peekLast(isItem: true): HeapItem<T> | null;
+
     /**
-     * The `peekLast` function returns the last item in the heap.
-     * @returns The method `peekLast()` returns either a `HeapItem<T>` object or `null`.Returns an val with the lowest priority in the queue
+     * The `peekLast` function returns the last item in the heap, either as a `HeapItem` object or just the value depending
+     * on the `isItem` parameter.
+     * @param {boolean} [isItem] - A boolean parameter that indicates whether the method should return the HeapItem object
+     * or just the value of the last item in the heap. If isItem is true, the method will return the HeapItem object. If
+     * isItem is false or not provided, the method will return the value of the last item
+     * @returns The method `peekLast` returns either a `HeapItem<T>` object, `null`, `T`, or `undefined`. The specific
+     * return type depends on the value of the `isItem` parameter. If `isItem` is `true`, then the method returns a
+     * `HeapItem<T>` object or `null` if there are no items in the heap. If `isItem`
      */
     peekLast(isItem?: boolean): HeapItem<T> | null | T | undefined {
         isItem = isItem ?? false;
@@ -133,9 +147,15 @@ export abstract class Heap<T = number> {
     poll(isItem?: undefined): T | undefined;
     poll(isItem: false): T | undefined;
     poll(isItem: true): HeapItem<T> | null;
+
     /**
-     * The `poll` function returns the top item from a priority queue or null if the queue is empty.Removes and returns an val with the highest priority in the queue
-     * @returns either a HeapItem<T> object or null.
+     * The `poll` function returns the top item from a priority queue, either as a HeapItem object or its value, depending
+     * on the value of the `isItem` parameter.
+     * @param {boolean} [isItem] - The `isItem` parameter is a boolean flag that indicates whether the returned value
+     * should be a `HeapItem<T>` object or just the value `T` itself. If `isItem` is `true`, the method will return the
+     * `HeapItem<T>` object, otherwise it will return just
+     * @returns The function `poll` returns either a `HeapItem<T>` object, `null`, or `T` (the value of the `val` property
+     * of the `HeapItem<T>` object).
      */
     poll(isItem?: boolean): HeapItem<T> | null | T | undefined {
         isItem = isItem ?? false;
@@ -147,8 +167,8 @@ export abstract class Heap<T = number> {
     }
 
     /**
-     * The function checks if a given node or value exists in the priority queue.
-     * @param {T | HeapItem<T>} node - The parameter `node` can be of type `T` or `HeapItem<T>`.
+     * The `has` function checks if a given node or value exists in the priority queue.
+     * @param {T | HeapItem<T>} node - The `node` parameter can be of type `T` or `HeapItem<T>`.
      * @returns a boolean value.
      */
     has(node: T | HeapItem<T>): boolean {
@@ -164,9 +184,15 @@ export abstract class Heap<T = number> {
     toArray(isItem?: undefined): (T | undefined)[];
     toArray(isItem: false): (T | undefined)[];
     toArray(isItem: true): (HeapItem<T> | null)[];
+
     /**
-     * The `toArray` function returns an array of `HeapItem<T>` objects.
-     * @returns An array of HeapItem<T> objects.Returns a sorted list of vals
+     * The `toArray` function returns an array of either HeapItem objects or their values, depending on the value of the
+     * `isItem` parameter.
+     * @param {boolean} [isItem] - isItem is an optional boolean parameter that determines whether the returned array
+     * should contain the HeapItem objects or just the values of the HeapItem objects. If isItem is true, the array will
+     * contain the HeapItem objects. If isItem is false or not provided, the array will contain only the values
+     * @returns The method `toArray` returns an array of `HeapItem<T>` objects, or an array of `T` values if the `isItem`
+     * parameter is set to `false`.
      */
     toArray(isItem?: boolean): (HeapItem<T> | null | T | undefined)[] {
         isItem = isItem ?? false;
