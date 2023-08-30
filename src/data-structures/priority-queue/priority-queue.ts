@@ -174,15 +174,15 @@ export class PriorityQueue<T = number> {
     }
 
     /**
-     * Plan to support sorting of duplicate elements.
+     * O(n log n), In scenarios with smaller data sizes, heap sort is generally expected to be slower than QuickSort or MergeSort.
      */
+
     /**
      * The function sorts the elements in a data structure and returns them in an array.
      * Plan to support sorting of duplicate elements.
      * @returns The `sort()` method is returning an array of type `T[]`.
      */
     sort(): T[] {
-        // TODO Plan to support sorting of duplicate elements.
         const visitedNode: T[] = [];
         while (this.size !== 0) {
             const top = this.poll();

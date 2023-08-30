@@ -1,4 +1,5 @@
 import {PriorityQueue} from '../../../../src';
+import {getRandomInt} from '../../../utils';
 
 describe('PriorityQueue Operation Test', () => {
 
@@ -15,3 +16,12 @@ describe('PriorityQueue Operation Test', () => {
     });
 
 });
+
+describe('Priority Queue Performance Test', () => {
+    it('should numeric heap work well', function () {
+        const values = Array.from(new Array(10000), () => getRandomInt(1, 10000000));
+        const minPriorityQueue = new PriorityQueue<number>({nodes: values, comparator: (a, b) => a - b});
+        const sorted = minPriorityQueue.sort()
+        expect(sorted).toEqual(values.sort((a, b) => a - b));
+    });
+})

@@ -65,8 +65,9 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "avl-tree-typed": "^1.19.44",
-    "bst-typed": "^1.19.45",
+    "avl-tree-typed": "^1.19.5",
+    "bst-typed": "^1.19.5",
+    "heap-typed": "^1.19.5",
     "zod": "^3.22.2"
   }
 }

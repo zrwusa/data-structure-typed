@@ -129,6 +129,7 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
     abstract createEdge(srcOrV1: VertexId | string, destOrV2: VertexId | string, weight?: number, val?: E): E;
 
     abstract removeEdge(edge: E): E | null;
+
     abstract getEdge(srcOrId: V | VertexId, destOrId: V | VertexId): E | null;
 
     abstract degreeOf(vertexOrId: V | VertexId): number;
@@ -140,8 +141,6 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
     abstract getNeighbors(vertexOrId: V | VertexId): V[];
 
     abstract getEndsOfEdge(edge: E): [V, V] | null;
-
-    protected abstract _addEdgeOnly(edge: E): boolean;
 
     /**
      * The function "getVertex" returns the vertex with the specified ID or null if it doesn't exist.
@@ -165,7 +164,9 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
     }
 
     addVertex(vertex: V): boolean
+
     addVertex(id: VertexId, val?: V['val']): boolean
+
     addVertex(idOrVertex: VertexId | V, val?: V['val']): boolean {
         if (idOrVertex instanceof AbstractVertex) {
             return this._addVertexOnly(idOrVertex);
@@ -255,7 +256,6 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
             return false;
         }
     }
-
 
     /**
      * The function `getAllPathsBetween` finds all paths between two vertices in a graph using depth-first search.
@@ -692,29 +692,6 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
     }
 
     /**
-     * Dijkstra algorithm time: O(logVE) space: O(V + E)
-     * /
-
-     /**
-     * Dijkstra algorithm time: O(logVE) space: O(V + E)
-     * Dijkstra's algorithm is used to find the shortest paths from a source node to all other nodes in a graph. Its basic idea is to repeatedly choose the node closest to the source node and update the distances of other nodes using this node as an intermediary. Dijkstra's algorithm requires that the edge weights in the graph are non-negative.
-     */
-
-
-    /**
-     * BellmanFord time:O(VE) space:O(V)
-     * one to rest pairs
-     * The Bellman-Ford algorithm is also used to find the shortest paths from a source node to all other nodes in a graph. Unlike Dijkstra's algorithm, it can handle edge weights that are negative. Its basic idea involves iterative relaxation of all edges for several rounds to gradually approximate the shortest paths. Due to its ability to handle negative-weight edges, the Bellman-Ford algorithm is more flexible in some scenarios.
-     * The `bellmanFord` function implements the Bellman-Ford algorithm to find the shortest path from a source vertex to
-     */
-
-    /**
-     * Floyd algorithm time: O(V^3) space: O(V^2), not support graph with negative weight cycle
-     * all pairs
-     * The Floyd-Warshall algorithm is used to find the shortest paths between all pairs of nodes in a graph. It employs dynamic programming to compute the shortest paths from any node to any other node. The Floyd-Warshall algorithm's advantage lies in its ability to handle graphs with negative-weight edges, and it can simultaneously compute shortest paths between any two nodes.
-     */
-
-    /**
      * BellmanFord time:O(VE) space:O(V)
      * one to rest pairs
      * /
@@ -822,6 +799,29 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
 
         return {hasNegativeCycle, distMap, preMap, paths, min, minPath};
     }
+
+    /**
+     * Dijkstra algorithm time: O(logVE) space: O(V + E)
+     * /
+
+     /**
+     * Dijkstra algorithm time: O(logVE) space: O(V + E)
+     * Dijkstra's algorithm is used to find the shortest paths from a source node to all other nodes in a graph. Its basic idea is to repeatedly choose the node closest to the source node and update the distances of other nodes using this node as an intermediary. Dijkstra's algorithm requires that the edge weights in the graph are non-negative.
+     */
+
+
+    /**
+     * BellmanFord time:O(VE) space:O(V)
+     * one to rest pairs
+     * The Bellman-Ford algorithm is also used to find the shortest paths from a source node to all other nodes in a graph. Unlike Dijkstra's algorithm, it can handle edge weights that are negative. Its basic idea involves iterative relaxation of all edges for several rounds to gradually approximate the shortest paths. Due to its ability to handle negative-weight edges, the Bellman-Ford algorithm is more flexible in some scenarios.
+     * The `bellmanFord` function implements the Bellman-Ford algorithm to find the shortest path from a source vertex to
+     */
+
+    /**
+     * Floyd algorithm time: O(V^3) space: O(V^2), not support graph with negative weight cycle
+     * all pairs
+     * The Floyd-Warshall algorithm is used to find the shortest paths between all pairs of nodes in a graph. It employs dynamic programming to compute the shortest paths from any node to any other node. The Floyd-Warshall algorithm's advantage lies in its ability to handle graphs with negative-weight edges, and it can simultaneously compute shortest paths between any two nodes.
+     */
 
     /**
      * Floyd algorithm time: O(V^3) space: O(V^2), not support graph with negative weight cycle
@@ -1007,6 +1007,7 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
         return {dfnMap, lowMap, bridges, articulationPoints, SCCs, cycles};
     }
 
+    protected abstract _addEdgeOnly(edge: E): boolean;
 
     protected _addVertexOnly(newVertex: V): boolean {
         if (this.hasVertex(newVertex)) {

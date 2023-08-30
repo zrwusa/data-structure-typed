@@ -21,21 +21,21 @@ describe('MinHeap Operation Test', () => {
         expect(minNumHeap.has(9)).toBe(true);
         expect(minNumHeap.size).toBe(6);
 
-        const poll1 = minNumHeap.poll();
+        const poll1 = minNumHeap.poll(true);
         expect(poll1).toBeInstanceOf(HeapItem)
         poll1 instanceof HeapItem && expect(poll1.val).toBe(0);
 
-        const poll2 = minNumHeap.poll();
+        const poll2 = minNumHeap.poll(true);
         expect(poll2).toBeInstanceOf(HeapItem)
         poll2 instanceof HeapItem && expect(poll2.val).toBe(1);
 
-        const peek1 = minNumHeap.peek();
+        const peek1 = minNumHeap.peek(true);
         expect(peek1).toBeInstanceOf(HeapItem)
         peek1 instanceof HeapItem && expect(peek1.val).toBe(2);
 
-        const heapArray = minNumHeap.toArray();
+        const heapArray = minNumHeap.toArray(true);
         expect(heapArray).toBeInstanceOf(Array);
-        expect(heapArray.map(item => item.priority)).toEqual([2, 5, 9, 6]);
+        expect(heapArray.map(item => item?.priority)).toEqual([2, 5, 9, 6]);
         expect(minNumHeap.size).toBe(4);
     });
 
@@ -52,26 +52,26 @@ describe('MinHeap Operation Test', () => {
 
         const obj1 = new MyObject('a1'), obj6 = new MyObject('a6'), obj2 = new MyObject('a2'),
             obj0 = new MyObject('a0');
-        minObjHeap.add(obj1, 1);
+        minObjHeap.add(1, obj1);
         expect(minObjHeap.has(obj1)).toBe(true);
         expect(minObjHeap.has(obj6)).toBe(false);
-        minObjHeap.add(obj6, 6);
+        minObjHeap.add(6, obj6);
         expect(minObjHeap.has(obj6)).toBe(true);
-        minObjHeap.add(obj2, 2);
+        minObjHeap.add(2, obj2);
         expect(minObjHeap.has(obj2)).toBe(true);
-        minObjHeap.add(obj0, 0);
+        minObjHeap.add(0, obj0);
         expect(minObjHeap.has(obj0)).toBe(true);
 
-        const peek = minObjHeap.peek();
+        const peek = minObjHeap.peek(true);
         peek && peek.val && expect(peek.val.keyA).toBe('a0');
 
-        const heapToArr = minObjHeap.toArray();
-        expect(heapToArr.map(item => item.val?.keyA)).toEqual(['a0', 'a1', 'a2', 'a6']);
+        const heapToArr = minObjHeap.toArray(true);
+        expect(heapToArr.map(item => item?.val?.keyA)).toEqual(['a0', 'a1', 'a2', 'a6']);
 
         const values = ['a0', 'a1', 'a2', 'a6'];
         let i = 0;
         while (minObjHeap.size > 0) {
-            const polled = minObjHeap.poll();
+            const polled = minObjHeap.poll(true);
             expect(polled).toBeInstanceOf(HeapItem);
             polled && expect(polled.val).toBeInstanceOf(MyObject);
             polled && polled.val && expect(polled.val.keyA).toBe(values[i]);
