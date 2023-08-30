@@ -10,6 +10,13 @@ import type {HeapOptions} from '../types';
 
 export class HeapItem<T = number> {
 
+    /**
+     * The constructor function initializes an instance of a class with a priority and a value.
+     * @param {number} priority - The `priority` parameter is a number that represents the priority of the value. It is
+     * optional and has a default value of `NaN`.
+     * @param {T | null} [val=null] - The `val` parameter is of type `T | null`, which means it can accept a value of type
+     * `T` or `null`.
+     */
     constructor(priority: number = NaN, val: T | null = null) {
         this._val = val;
         this._priority = priority;
@@ -44,13 +51,13 @@ export abstract class Heap<T = number> {
      */
     protected constructor(options?: HeapOptions<T>) {
         if (options) {
-            const {priority} = options;
-            if (priority !== undefined && typeof priority !== 'function') {
+            const {priorityExtractor} = options;
+            if (priorityExtractor !== undefined && typeof priorityExtractor !== 'function') {
                 throw new Error('.constructor expects a valid priority function');
             }
-            this._priorityCb = priority || ((el) => +el);
+            this._priorityExtractor = priorityExtractor || ((el) => +el);
         } else {
-            this._priorityCb = (el) => +el;
+            this._priorityExtractor = (el) => +el;
         }
     }
 
@@ -60,9 +67,9 @@ export abstract class Heap<T = number> {
         return this._pq;
     }
 
-    protected _priorityCb: (val: T) => number;
-    get priorityCb() {
-        return this._priorityCb;
+    protected _priorityExtractor: (val: T) => number;
+    get priorityExtractor() {
+        return this._priorityExtractor;
     }
 
     /**
@@ -120,14 +127,14 @@ export abstract class Heap<T = number> {
             throw new Error('.add expects a numeric priority');
         }
 
-        if (Number.isNaN(+priority) && Number.isNaN(this._priorityCb(val))) {
+        if (Number.isNaN(+priority) && Number.isNaN(this._priorityExtractor(val))) {
             throw new Error(
                 '.add expects a numeric priority '
                 + 'or a constructor callback that returns a number'
             );
         }
 
-        const _priority = !Number.isNaN(+priority) ? priority : this._priorityCb(val);
+        const _priority = !Number.isNaN(+priority) ? priority : this._priorityExtractor(val);
         this._pq.add(new HeapItem<T>(_priority, val));
         return this;
     }
