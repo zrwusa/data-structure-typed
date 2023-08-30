@@ -166,28 +166,6 @@ import {UndirectedGraph} from 'data-structure-typed';
     const dijkstraResult = graph.dijkstra('A');
     Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D']
 ```
-
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/dfs-pre-order.webp)
-
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/test-graphs.webp)
-
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/cut-off-trees-for-golf.webp)
-
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/parenthesis-check.webp)
-
-
-## API docs & Examples
-
-[API Docs](https://data-structure-typed-docs.vercel.app)
-
-[Live Examples](https://data-structure-typed-examples.vercel.app)
-
-<a href="https://data-structure-typed-examples.vercel.app" target="_blank">Live Examples</a>
-
-[//]: # ([Examples Repository]&#40;https://github.com/zrwusa/data-structure-typed-examples&#41;)
-
-<a href="https://github.com/zrwusa/data-structure-typed-examples" target="_blank">Examples Repository</a>
-
 ## Data Structures
 
 <table>
@@ -380,6 +358,28 @@ import {UndirectedGraph} from 'data-structure-typed';
 </tr>
 </tbody>
 </table>
+
+
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/dfs-pre-order.webp)
+
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/test-graphs.webp)
+
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/cut-off-trees-for-golf.webp)
+
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/parenthesis-check.webp)
+
+
+## API docs & Examples
+
+[API Docs](https://data-structure-typed-docs.vercel.app)
+
+[Live Examples](https://data-structure-typed-examples.vercel.app)
+
+<a href="https://data-structure-typed-examples.vercel.app" target="_blank">Live Examples</a>
+
+[//]: # ([Examples Repository]&#40;https://github.com/zrwusa/data-structure-typed-examples&#41;)
+
+<a href="https://github.com/zrwusa/data-structure-typed-examples" target="_blank">Examples Repository</a>
 
 
 # Why
