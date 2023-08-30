@@ -1,7 +1,7 @@
 import {BST, BSTNode} from 'bst-typed';
 
-describe('BST from package operations test', () => {
-    it('should perform various operations on a Binary Search Tree from package with numeric values', () => {
+describe('BST operations test', () => {
+    it('should perform various operations on a Binary Search Tree with numeric values', () => {
         const bst = new BST();
         expect(bst).toBeInstanceOf(BST);
         bst.add(11);
