@@ -9,6 +9,8 @@
       <excludeFolder url="file://$MODULE_DIR$/notes" />
       <excludeFolder url="file://$MODULE_DIR$/docs" />
       <excludeFolder url="file://$MODULE_DIR$/backup" />
+      <excludeFolder url="file://$MODULE_DIR$/src/bst/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/src/bst/docs" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
