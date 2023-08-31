@@ -143,11 +143,15 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         if (options !== undefined) {
             const {
                 loopType = LoopType.ITERATIVE,
-                isMergeDuplicatedVal = true
+                isMergeDuplicatedNodeById = true
             } = options;
-            this._isMergeDuplicatedVal = isMergeDuplicatedVal;
+            this._isMergeDuplicatedNodeById = isMergeDuplicatedNodeById;
             this._loopType = loopType;
+        } else {
+            this._isMergeDuplicatedNodeById = true;
+            this._loopType = LoopType.ITERATIVE;
         }
+        this.clear();
     }
 
     private _root: N | null = null;
@@ -156,7 +160,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         return this._root;
     }
 
-    private _size = 0;
+    private _size: number = 0;
 
     get size(): number {
         return this._size;
@@ -168,17 +172,11 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         return this._loopType;
     }
 
-    private _maxId: number = -1;
-
-    get maxId(): number {
-        return this._maxId;
-    }
-
     // TODO this variable may be moved to TreeMultiset
-    private _isMergeDuplicatedVal: boolean = true;
+    private _isMergeDuplicatedNodeById: boolean = true;
 
-    get isMergeDuplicatedVal(): boolean {
-        return this._isMergeDuplicatedVal;
+    get isMergeDuplicatedNodeById(): boolean {
+        return this._isMergeDuplicatedNodeById;
     }
 
     private _visitedId: BinaryTreeNodeId[] = [];
@@ -187,9 +185,9 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         return this._visitedId;
     }
 
-    private _visitedVal: Array<N['val']> = [];
+    private _visitedVal: N['val'][] = [];
 
-    get visitedVal(): Array<N['val']> {
+    get visitedVal(): N['val'][] {
         return this._visitedVal;
     }
 
@@ -197,12 +195,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
 
     get visitedNode(): N[] {
         return this._visitedNode;
-    }
-
-    private _visitedCount: number[] = [];
-
-    get visitedCount(): number[] {
-        return this._visitedCount;
     }
 
     private _visitedLeftSum: number[] = [];
@@ -221,21 +213,19 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * @returns The `destNode` is being returned.
      */
     swapLocation(srcNode: N, destNode: N): N {
-        const {val, height, id} = destNode;
+        const {id, val, height} = destNode;
         const tempNode = this.createNode(id, val);
+
         if (tempNode) {
             tempNode.height = height;
 
-            if (tempNode instanceof AbstractBinaryTreeNode) {
-                // TODO should we consider the left, right children?
-                destNode.id = srcNode.id;
-                destNode.val = srcNode.val;
-                destNode.height = srcNode.height;
+            destNode.id = srcNode.id;
+            destNode.val = srcNode.val;
+            destNode.height = srcNode.height;
 
-                srcNode.id = tempNode.id;
-                srcNode.val = tempNode.val;
-                srcNode.height = tempNode.height;
-            }
+            srcNode.id = tempNode.id;
+            srcNode.val = tempNode.val;
+            srcNode.height = tempNode.height;
         }
 
         return destNode;
@@ -245,9 +235,9 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * The clear() function resets the root, size, and maxId properties to their initial values.
      */
     clear() {
-        this._setRoot(null);
-        this._setSize(0);
-        this._setMaxId(-1);
+        this._root = null;
+        this._size = 0;
+        this._clearResults();
     }
 
     /**
@@ -259,12 +249,20 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The `add` function adds a new node to a binary tree, either by updating an existing node or inserting a new node.
-     * @param {BinaryTreeNodeId | N} id - The `id` parameter can be either a `BinaryTreeNodeId` or `N`.
-     * @param [val] - The `val` parameter is an optional value that can be assigned to the node being added.
+     * When all leaf nodes are null, it will no longer be possible to add new entity nodes to this binary tree.
+     * In this scenario, null nodes serve as "sentinel nodes," "virtual nodes," or "placeholder nodes."
+     */
+
+    /**
+     * The `add` function adds a new node to a binary tree, either by ID or by creating a new node with a given value.
+     * @param {BinaryTreeNodeId | N | null} idOrNode - The `idOrNode` parameter can be either a `BinaryTreeNodeId`, which
+     * is a number representing the ID of a binary tree node, or it can be a `N` object, which represents a binary tree
+     * node itself. It can also be `null` if no node is specified.
+     * @param [val] - The `val` parameter is an optional value that can be assigned to the `val` property of the new node
+     * being added to the binary tree.
      * @returns The function `add` returns either the inserted node (`N`), `null`, or `undefined`.
      */
-    add(id: BinaryTreeNodeId | N | null, val?: N['val']): N | null | undefined {
+    add(idOrNode: BinaryTreeNodeId | N | null, val?: N['val']): N | null | undefined {
         const _bfs = (root: N, newNode: N | null): N | undefined | null => {
             const queue: Array<N | null> = [root];
             while (queue.length > 0) {
@@ -279,18 +277,20 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
             return;
         };
 
-        let inserted: N | null | undefined;
-        let needInsert;
-        if (id === null) {
+        let inserted: N | null | undefined, needInsert: N | null;
+
+        if (idOrNode === null) {
             needInsert = null;
-        } else if (typeof id === 'number') {
-            needInsert = this.createNode(id, val);
-        } else if (id instanceof AbstractBinaryTreeNode) {
-            needInsert = id;
+        } else if (typeof idOrNode === 'number') {
+            needInsert = this.createNode(idOrNode, val);
+        } else if (idOrNode instanceof AbstractBinaryTreeNode) {
+            needInsert = idOrNode;
         } else {
             return;
         }
-        const existNode = id ? this.get(id, 'id') : undefined;
+
+        const existNode = idOrNode ? this.get(idOrNode, 'id') : undefined;
+
         if (this.root) {
             if (existNode) {
                 existNode.val = val;
@@ -321,22 +321,17 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      */
     addTo(newNode: N | null, parent: N): N | null | undefined {
         if (parent) {
+            // When all leaf nodes are null, it will no longer be possible to add new entity nodes to this binary tree.
+            // In this scenario, null nodes serve as "sentinel nodes," "virtual nodes," or "placeholder nodes."
             if (parent.left === undefined) {
-                if (newNode) {
-                    newNode.parent = parent;
-                }
                 parent.left = newNode;
-                if (newNode !== null) {
+                if (newNode) {
                     this._setSize(this.size + 1);
                 }
-
                 return parent.left;
             } else if (parent.right === undefined) {
-                if (newNode) {
-                    newNode.parent = parent;
-                }
                 parent.right = newNode;
-                if (newNode !== null) {
+                if (newNode) {
                     this._setSize(this.size + 1);
                 }
                 return parent.right;
@@ -362,7 +357,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         const inserted: (N | null | undefined)[] = [];
         const map: Map<N | BinaryTreeNodeId | null, number> = new Map();
 
-        if (this.isMergeDuplicatedVal) {
+        if (this.isMergeDuplicatedNodeById) {
             for (const idOrNode of idsOrNodes) map.set(idOrNode, (map.get(idOrNode) ?? 0) + 1);
         }
 
@@ -379,7 +374,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
             }
 
             const val = data?.[i];
-            if (this.isMergeDuplicatedVal) {
+            if (this.isMergeDuplicatedNodeById) {
                 if (map.has(idOrNode)) {
                     inserted.push(this.add(idOrNode, val));
                     map.delete(idOrNode);
@@ -631,6 +626,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      */
     has(nodeProperty: BinaryTreeNodeId | N, propertyName ?: BinaryTreeNodePropertyName): boolean {
         propertyName = propertyName ?? 'id';
+        // TODO may support finding node by value equal
         return this.getNodes(nodeProperty, propertyName).length > 0;
     }
 
@@ -647,6 +643,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      */
     get(nodeProperty: BinaryTreeNodeId | N, propertyName ?: BinaryTreeNodePropertyName): N | null {
         propertyName = propertyName ?? 'id';
+        // TODO may support finding node by value equal
         return this.getNodes(nodeProperty, propertyName, true)[0] ?? null;
     }
 
@@ -657,6 +654,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * @returns The function `getPathToRoot` returns an array of nodes (`N[]`).
      */
     getPathToRoot(node: N): N[] {
+        // TODO to support get path through passing id
         const result: N[] = [];
         while (node.parent) {
             result.unshift(node);
@@ -720,6 +718,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * function returns `null`.
      */
     getRightMost(node?: N | null): N | null {
+        // TODO support get right most by passing id in
         node = node ?? this.root;
         if (!node) return node;
 
@@ -746,7 +745,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * @param {N | null} node - The `node` parameter represents the root node of a binary search tree (BST).
      * @returns a boolean value.
      */
-    isBSTByRooted(node: N | null): boolean {
+    isSubtreeBST(node: N | null): boolean {
         // TODO there is a bug
         if (!node) return true;
 
@@ -776,13 +775,11 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The function checks if a binary tree is a binary search tree.
-     * @param {N | null} [node] - The `node` parameter is of type `N` or `null`. It represents the root node of a binary
-     * search tree (BST).
-     * @returns a boolean value.
+     * The function isBST checks if the binary search tree is valid.
+     * @returns The `isBST()` function is returning a boolean value.
      */
-    isBST(node?: N | null): boolean {
-        return this.isBSTByRooted(this.root);
+    isBST(): boolean {
+        return this.isSubtreeBST(this.root);
     }
 
     /**
@@ -792,6 +789,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      * @returns the size of the subtree rooted at `subTreeRoot`.
      */
     getSubTreeSize(subTreeRoot: N | null | undefined) {
+        // TODO support id passed in
         let size = 0;
         if (!subTreeRoot) return size;
 
@@ -941,7 +939,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      */
     BFS(nodeOrPropertyName ?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N> {
         nodeOrPropertyName = nodeOrPropertyName ?? 'id';
-        this._resetResults();
+        this._clearResults();
         const queue: Array<N | null | undefined> = [this.root];
 
         while (queue.length !== 0) {
@@ -978,7 +976,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     DFS(pattern ?: 'in' | 'pre' | 'post', nodeOrPropertyName ?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N> {
         pattern = pattern ?? 'in';
         nodeOrPropertyName = nodeOrPropertyName ?? 'id';
-        this._resetResults();
+        this._clearResults();
         const _traverse = (node: N) => {
             switch (pattern) {
                 case 'in':
@@ -1028,7 +1026,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     DFSIterative(pattern ?: 'in' | 'pre' | 'post', nodeOrPropertyName ?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N> {
         pattern = pattern || 'in';
         nodeOrPropertyName = nodeOrPropertyName || 'id';
-        this._resetResults();
+        this._clearResults();
         if (!this.root) return this._getResultByPropertyName(nodeOrPropertyName);
         // 0: visit, 1: print
         const stack: { opt: 0 | 1, node: N | null | undefined }[] = [{opt: 0, node: this.root}];
@@ -1092,7 +1090,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         node = node || this.root;
         if (!node) return [];
 
-        this._resetResults();
+        this._clearResults();
         const queue: N[] = [node];
 
         while (queue.length > 0) {
@@ -1226,7 +1224,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         pattern = pattern || 'in';
         nodeOrPropertyName = nodeOrPropertyName || 'id';
 
-        this._resetResults();
+        this._clearResults();
 
         let cur: N | null | undefined = this.root;
         const _reverseEdge = (node: N | null | undefined) => {
@@ -1339,14 +1337,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The function sets the value of the visitedCount property.
-     * @param {number[]} value - The value parameter is an array of numbers.
-     */
-    protected setVisitedCount(value: number[]) {
-        this._visitedCount = value;
-    }
-
-    /**
      * The function sets the value of the `_visitedLeftSum` property to the provided array.
      * @param {number[]} value - An array of numbers that represents the visited left sum.
      */
@@ -1354,22 +1344,13 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         this._visitedLeftSum = value;
     }
 
-
     /**
-     * The function sets the maximum ID value.
-     * @param {number} value - The value parameter is a number that represents the new maximum ID value.
-     */
-    protected _setMaxId(value: number) {
-        this._maxId = value;
-    }
-
-    /**
-     * The function sets the value of a protected property called "_isMergeDuplicatedVal".
-     * @param {boolean} value - The value parameter is a boolean value that determines whether the isMergeDuplicatedVal
+     * The function sets the value of a protected property called "_isMergeDuplicatedNodeById".
+     * @param {boolean} value - The value parameter is a boolean value that determines whether the isMergeDuplicatedNodeById
      * property should be set to true or false.
      */
     protected _setIsDuplicatedVal(value: boolean) {
-        this._isMergeDuplicatedVal = value;
+        this._isMergeDuplicatedNodeById = value;
     }
 
     /**
@@ -1393,10 +1374,10 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The function `_resetResults` resets the values of several arrays used for tracking visited nodes and their
+     * The function `_clearResults` resets the values of several arrays used for tracking visited nodes and their
      * properties.
      */
-    protected _resetResults() {
+    protected _clearResults() {
         this._visitedId = [];
         this._visitedVal = [];
         this._visitedNode = [];

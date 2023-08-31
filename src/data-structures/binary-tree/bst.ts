@@ -53,6 +53,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
      * If the node was not added (e.g., due to a duplicate ID), it returns `null` or `undefined`.
      */
     override add(id: BinaryTreeNodeId, val?: N['val']): N | null | undefined {
+        // TODO support node as a param
         let inserted: N | null = null;
         const newNode = this.createNode(id, val);
         if (this.root === null) {

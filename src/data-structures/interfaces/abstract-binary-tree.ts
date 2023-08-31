@@ -51,13 +51,9 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
 
     get visitedNode(): N[]
 
-    get visitedCount(): number[]
-
     get visitedLeftSum(): number[]
 
-    get maxId(): number
-
-    get isMergeDuplicatedVal(): boolean
+    get isMergeDuplicatedNodeById(): boolean
 
     get root(): N | null
 
@@ -107,9 +103,9 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
 
     getRightMost(node?: N | null): N | null
 
-    isBSTByRooted(node: N | null): boolean
+    isSubtreeBST(node: N | null): boolean
 
-    isBST(node?: N | null): boolean
+    isBST(): boolean
 
     getSubTreeSize(subTreeRoot: N | null | undefined): number
 
@@ -193,37 +189,6 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
 
     morris(pattern?: 'in' | 'pre' | 'post', nodeOrPropertyName?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N>
 
-    // _setLoopType(value: LoopType): void
-    //
-    // _setVisitedId(value: BinaryTreeNodeId[]): void
-    //
-    // _setVisitedVal(value: Array<N>): void
-    //
-    // _setVisitedNode(value: N[]): void
-    //
-    // setVisitedCount(value: number[]): void
-    //
-    // _setVisitedLeftSum(value: number[]): void
-    //
-    // _setAutoIncrementId(value: boolean): void
-    //
-    // _setMaxId(value: number): void
-    //
-    // _setIsDuplicatedVal(value: boolean): void
-    //
-    // _setRoot(v: N | null): void
-    //
-    // _setSize(v: number): void
-    //
-    // _setCount(v: number): void
-    //
-    // _resetResults(): void
-
-    // _pushByPropertyNameStopOrNot(cur: N, result: (N | null | undefined)[], nodeProperty: BinaryTreeNodeId | N, propertyName ?: BinaryTreeNodePropertyName, onlyOne ?: boolean): void
-    //
-    // _accumulatedByPropertyName(node: N, nodeOrPropertyName ?: NodeOrPropertyName): void
-    //
-    // _getResultByPropertyName(nodeOrPropertyName ?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N>
 
     // --- end additional methods ---
 }

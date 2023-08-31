@@ -46,6 +46,7 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
      * @returns The method is returning the inserted node, or null or undefined if the insertion was not successful.
      */
     override add(id: BinaryTreeNodeId, val?: N['val']): N | null | undefined {
+        // TODO support node as a param
         const inserted = super.add(id, val);
         if (inserted) this.balancePath(inserted);
         return inserted;
