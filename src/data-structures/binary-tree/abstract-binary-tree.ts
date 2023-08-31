@@ -6,7 +6,7 @@
  * @license MIT License
  */
 
-import {ObjectWithNumberId, trampoline} from '../../utils';
+import {trampoline} from '../../utils';
 import type {
     AbstractBinaryTreeNodeNested,
     AbstractBinaryTreeNodeProperties,
@@ -22,7 +22,6 @@ import {IAbstractBinaryTree, IAbstractBinaryTreeNode} from '../interfaces';
 
 export abstract class AbstractBinaryTreeNode<T = any, NEIGHBOR extends AbstractBinaryTreeNode<T, NEIGHBOR> = AbstractBinaryTreeNodeNested<T>> implements IAbstractBinaryTreeNode<T, NEIGHBOR> {
 
-
     /**
      * The constructor function initializes a BinaryTreeNode object with an id and an optional value.
      * @param {BinaryTreeNodeId} id - The `id` parameter is of type `BinaryTreeNodeId` and represents the unique identifier
@@ -30,7 +29,7 @@ export abstract class AbstractBinaryTreeNode<T = any, NEIGHBOR extends AbstractB
      * @param {T} [val] - The "val" parameter is an optional parameter of type T. It represents the value that will be
      * stored in the binary tree node. If no value is provided, it will be set to undefined.
      */
-    constructor(id: BinaryTreeNodeId, val?: T) {
+    protected constructor(id: BinaryTreeNodeId, val?: T) {
         this._id = id;
         this._val = val;
     }
@@ -144,11 +143,9 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         if (options !== undefined) {
             const {
                 loopType = LoopType.ITERATIVE,
-                autoIncrementId = false,
                 isMergeDuplicatedVal = true
             } = options;
             this._isMergeDuplicatedVal = isMergeDuplicatedVal;
-            this._autoIncrementId = autoIncrementId;
             this._loopType = loopType;
         }
     }
@@ -169,12 +166,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
 
     get loopType(): LoopType {
         return this._loopType;
-    }
-
-    private _autoIncrementId: boolean = false;
-
-    get autoIncrementId(): boolean {
-        return this._autoIncrementId;
     }
 
     private _maxId: number = -1;
@@ -268,15 +259,12 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The `add` function adds a new node to a binary tree, updating the value of an existing node if it already exists.
-     * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier of the binary tree node that you want to add.
-     * @param [val] - The `val` parameter is an optional value that can be assigned to the node being added. If no value is
-     * provided, the default value will be the same as the `id` parameter.
-     * @param {number} [count] - The `count` parameter is an optional number that represents the number of times the value
-     * should be added to the binary tree. If not provided, the default value is `undefined`.
-     * @returns The function `add` returns either a `BinaryTreeNode` object (`N`), `null`, or `undefined`.
+     * The `add` function adds a new node to a binary tree, either by updating an existing node or inserting a new node.
+     * @param {BinaryTreeNodeId | N} id - The `id` parameter can be either a `BinaryTreeNodeId` or `N`.
+     * @param [val] - The `val` parameter is an optional value that can be assigned to the node being added.
+     * @returns The function `add` returns either the inserted node (`N`), `null`, or `undefined`.
      */
-    add(id: BinaryTreeNodeId, val?: N['val'], count?: number): N | null | undefined {
+    add(id: BinaryTreeNodeId | N | null, val?: N['val']): N | null | undefined {
         const _bfs = (root: N, newNode: N | null): N | undefined | null => {
             const queue: Array<N | null> = [root];
             while (queue.length > 0) {
@@ -292,21 +280,30 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         };
 
         let inserted: N | null | undefined;
-        const needInsert = val !== null ? this.createNode(id, val) : null;
-        const existNode = val !== null ? this.get(id, 'id') : null;
+        let needInsert;
+        if (id === null) {
+            needInsert = null;
+        } else if (typeof id === 'number') {
+            needInsert = this.createNode(id, val);
+        } else if (id instanceof AbstractBinaryTreeNode) {
+            needInsert = id;
+        } else {
+            return;
+        }
+        const existNode = id ? this.get(id, 'id') : undefined;
         if (this.root) {
             if (existNode) {
-                existNode.val = val ?? id;
-                if (needInsert !== null) {
-                    inserted = existNode;
-                }
+                existNode.val = val;
+                inserted = existNode;
             } else {
                 inserted = _bfs(this.root, needInsert);
             }
         } else {
-            this._setRoot(val !== null ? this.createNode(id, val) : null);
+            this._setRoot(needInsert);
             if (needInsert !== null) {
                 this._setSize(1);
+            } else {
+                this._setSize(0);
             }
             inserted = this.root;
         }
@@ -352,78 +349,60 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The `addMany` function adds multiple nodes to a binary tree and returns an array of the inserted nodes or
+     * The `addMany` function adds multiple nodes to a tree data structure and returns an array of the inserted nodes or
      * null/undefined values.
-     * @param {N[] | Array<N['val']>} data - The `data` parameter can be either an array of `N` objects or an array of
-     * `N['val']` values.
-     * @returns The function `addMany` returns an array of values of type `N | null | undefined`.
+     * @param {(BinaryTreeNodeId|N)[]} idsOrNodes - An array of BinaryTreeNodeId or N objects. These can be either the ID
+     * of a binary tree node or the actual node object itself.
+     * @param {N['val'][]} [data] - Optional array of values to be added to the nodes. If provided, the length of this
+     * array should be the same as the length of the `idsOrNodes` array.
+     * @returns The function `addMany` returns an array of values `(N | null | undefined)[]`.
      */
-    addMany(data: N[] | Array<N['val']>): (N | null | undefined)[] {
+    addMany(idsOrNodes: (BinaryTreeNodeId | N | null)[], data?: N['val'][]): (N | null | undefined)[] {
         // TODO not sure addMany not be run multi times
         const inserted: (N | null | undefined)[] = [];
-        const map: Map<N | N['val'], number> = new Map();
+        const map: Map<N | BinaryTreeNodeId | null, number> = new Map();
 
         if (this.isMergeDuplicatedVal) {
-            for (const nodeOrId of data) map.set(nodeOrId, (map.get(nodeOrId) ?? 0) + 1);
+            for (const idOrNode of idsOrNodes) map.set(idOrNode, (map.get(idOrNode) ?? 0) + 1);
         }
 
-        for (const nodeOrId of data) {
-
-            if (nodeOrId instanceof AbstractBinaryTreeNode) {
-                inserted.push(this.add(nodeOrId.id, nodeOrId.val));
+        for (let i = 0; i < idsOrNodes.length; i++) {
+            const idOrNode = idsOrNodes[i];
+            if (idOrNode instanceof AbstractBinaryTreeNode) {
+                inserted.push(this.add(idOrNode.id, idOrNode.val));
                 continue;
             }
 
-            if (nodeOrId === null) {
-                inserted.push(this.add(NaN, null, 0));
+            if (idOrNode === null) {
+                inserted.push(this.add(null));
                 continue;
             }
 
-            // TODO will this cause an issue?
-            const count = this.isMergeDuplicatedVal ? map.get(nodeOrId) : 1;
-            let newId: BinaryTreeNodeId;
-            if (typeof nodeOrId === 'number') {
-                newId = this.autoIncrementId ? this.maxId + 1 : nodeOrId;
-            } else if (nodeOrId instanceof Object) {
-                if (this.autoIncrementId) {
-                    newId = this.maxId + 1;
-                } else {
-                    if (Object.keys(nodeOrId).includes('id')) {
-                        newId = (nodeOrId as ObjectWithNumberId).id;
-                    } else {
-                        console.warn(nodeOrId, 'Object value must has an id property when the autoIncrementId is false');
-                        continue;
-                    }
-                }
-            } else {
-                console.warn(nodeOrId, ` is not added`);
-                continue;
-            }
-
+            const val = data?.[i];
             if (this.isMergeDuplicatedVal) {
-                if (map.has(nodeOrId)) {
-                    inserted.push(this.add(newId, nodeOrId, count));
-                    map.delete(nodeOrId);
+                if (map.has(idOrNode)) {
+                    inserted.push(this.add(idOrNode, val));
+                    map.delete(idOrNode);
                 }
             } else {
-                inserted.push(this.add(newId, nodeOrId, 1));
+                inserted.push(this.add(idOrNode, val));
             }
-
-            this._setMaxId(newId);
         }
         return inserted;
     }
 
     /**
-     * The `fill` function clears the current data and adds new data, returning a boolean indicating if the operation was
-     * successful.
-     * @param {N[] | Array<N['val']>} data - The `data` parameter can be either an array of objects or an array of arrays.
-     * Each object or array should have a property called `val`.
-     * @returns a boolean value.
+     * The `fill` function clears the binary tree and adds multiple nodes with the given IDs or nodes and optional data.
+     * @param {(BinaryTreeNodeId | N)[]} idsOrNodes - The `idsOrNodes` parameter is an array that can contain either
+     * `BinaryTreeNodeId` or `N` values.
+     * @param {N[] | Array<N['val']>} [data] - The `data` parameter is an optional array of values that will be assigned to
+     * the nodes being added. If provided, the length of the `data` array should be equal to the length of the `idsOrNodes`
+     * array. Each value in the `data` array will be assigned to the
+     * @returns The method is returning a boolean value.
      */
-    fill(data: N[] | Array<N['val']>): boolean {
+    fill(idsOrNodes: (BinaryTreeNodeId | N | null)[], data?: N[] | Array<N['val']>): boolean {
         this.clear();
-        return data.length === this.addMany(data).length;
+        return idsOrNodes.length === this.addMany(idsOrNodes, data).length;
     }
 
     /**
@@ -1375,15 +1354,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         this._visitedLeftSum = value;
     }
 
-    /**
-     * The function sets the value of the _autoIncrementId property.
-     * @param {boolean} value - The value parameter is a boolean that determines whether the id should be automatically
-     * incremented or not. If value is true, the id will be automatically incremented. If value is false, the id will not
-     * be automatically incremented.
-     */
-    protected _setAutoIncrementId(value: boolean) {
-        this._autoIncrementId = value;
-    }
 
     /**
      * The function sets the maximum ID value.

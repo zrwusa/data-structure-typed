@@ -10,6 +10,9 @@ import type {AVLTreeNodeNested, AVLTreeOptions, BinaryTreeDeletedResult, BinaryT
 import {IAVLTree, IAVLTreeNode} from '../interfaces';
 
 export class AVLTreeNode<T = any, NEIGHBOR extends AVLTreeNode<T, NEIGHBOR> = AVLTreeNodeNested<T>> extends BSTNode<T, NEIGHBOR> implements IAVLTreeNode<T, NEIGHBOR> {
+    constructor(id: BinaryTreeNodeId, val?: T) {
+        super(id, val);
+    }
 }
 
 export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends BST<N> implements IAVLTree<N> {

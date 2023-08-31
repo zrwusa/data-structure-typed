@@ -4,12 +4,12 @@ import {BST, BSTNode} from './bst';
 
 
 export class RBTreeNode<T = any, NEIGHBOR extends RBTreeNode<T, NEIGHBOR> = RBTreeNodeNested<T>> extends BSTNode<T, NEIGHBOR> implements IRBTreeNode<T, NEIGHBOR> {
-    constructor(id: BinaryTreeNodeId, color: RBColor, val?: T) {
+    constructor(id: BinaryTreeNodeId, val?: T, color: RBColor = RBColor.RED) {
         super(id, val);
         this._color = color;
     }
 
-    private _color: RBColor = RBColor.RED;
+    private _color: RBColor;
 
     get color(): RBColor {
         return this._color;
@@ -60,7 +60,7 @@ export class RBTree<N extends RBTreeNode<N['val'], N> = RBTreeNode> extends BST<
     }
 
     override createNode(id: BinaryTreeNodeId, val?: N['val']): N {
-        return new RBTreeNode(id, RBColor.RED, val) as N;
+        return new RBTreeNode(id, val, RBColor.RED) as N;
     }
 
     // private override _root: BinaryTreeNode<N> | null = null;

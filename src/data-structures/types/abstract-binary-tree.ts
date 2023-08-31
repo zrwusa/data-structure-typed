@@ -37,6 +37,5 @@ export type AbstractBinaryTreeNodeNested<T> = AbstractBinaryTreeNode<T, Abstract
 
 export type AbstractBinaryTreeOptions = {
     loopType?: LoopType,
-    autoIncrementId?: boolean,
     isMergeDuplicatedVal?: boolean
 }

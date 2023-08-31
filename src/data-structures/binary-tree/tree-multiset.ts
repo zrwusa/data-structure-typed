@@ -9,7 +9,6 @@ import type {BinaryTreeNodeId, TreeMultisetNodeNested, TreeMultisetOptions} from
 import {BinaryTreeDeletedResult, CP, DFSOrderPattern, FamilyPosition, LoopType, NodeOrPropertyName} from '../types';
 import {ITreeMultiset, ITreeMultisetNode} from '../interfaces';
 import {AVLTree, AVLTreeNode} from './avl-tree';
-import {ObjectWithNumberId} from '../../utils';
 
 export class TreeMultisetNode<T = any, NEIGHBOR extends TreeMultisetNode<T, NEIGHBOR> = TreeMultisetNodeNested<T>> extends AVLTreeNode<T, NEIGHBOR> implements ITreeMultisetNode<T, NEIGHBOR> {
 
@@ -28,7 +27,7 @@ export class TreeMultisetNode<T = any, NEIGHBOR extends TreeMultisetNode<T, NEIG
         this._count = count;
     }
 
-    private _count = 1;
+    private _count: number;
 
     get count(): number {
         return this._count;
@@ -102,74 +101,77 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
         return destNode;
     }
 
+
     /**
-     * The `add` function adds a new node to a binary tree, updating the size and count properties accordingly, and
-     * balancing the tree if necessary.
-     * @param {BinaryTreeNodeId} id - The id parameter represents the identifier of the binary tree node that we want to
-     * add. It is of type BinaryTreeNodeId.
-     * @param [val] - The `val` parameter is an optional value that can be assigned to the node being added. If no value is
-     * provided, it will default to `undefined`.
-     * @param {number} [count] - The `count` parameter is an optional parameter that specifies the number of times the node
-     * with the given `id` should be added to the binary tree. If the `count` parameter is not provided, it defaults to 1.
-     * @returns The `add` method returns the inserted node (`N`), `null`, or `undefined`.
+     * The `add` function adds a new node to a binary search tree, maintaining the tree's properties and balancing if
+     * necessary.
+     * @param {BinaryTreeNodeId | N} idOrNode - The `idOrNode` parameter can be either a `BinaryTreeNodeId` or a `N` (which
+     * represents a `BinaryTreeNode`).
+     * @param [val] - The `val` parameter represents the value to be added to the binary tree node.
+     * @param {number} [count] - The `count` parameter is an optional parameter that specifies the number of times the
+     * value should be added to the binary tree. If the `count` parameter is not provided, it defaults to 1.
+     * @returns The method `add` returns either the inserted node (`N`), `null`, or `undefined`.
      */
-    override add(id: BinaryTreeNodeId, val?: N['val'], count?: number): N | null | undefined {
+    override add(idOrNode: BinaryTreeNodeId | N | null, val?: N['val'], count?: number): N | null | undefined {
         count = count ?? 1;
-        let inserted: N | null = null;
-        const newNode = this.createNode(id, val, count);
-        if (this.root === null) {
+        let inserted: N | null | undefined = undefined;
+        let newNode;
+        let id;
+        if (idOrNode instanceof TreeMultisetNode) {
+            newNode = this.createNode(idOrNode.id, idOrNode.val, idOrNode.count);
+        } else if (idOrNode === null) {
+            newNode = null;
+        } else {
+            newNode = this.createNode(idOrNode, val, count);
+        }
+        if (!this.root) {
             this._setRoot(newNode);
             this._setSize(this.size + 1);
-            this._setCount(this.count + count);
-            inserted = (this.root);
+            newNode && this._setCount(this.count + newNode.count);
+            inserted = this.root;
         } else {
             let cur = this.root;
             let traversing = true;
             while (traversing) {
-                if (cur !== null && newNode !== null) {
-                    if (this._compare(cur.id, id) === CP.eq) {
-                        if (newNode) {
+                if (cur) {
+                    if (newNode) {
+                        if (this._compare(cur.id, newNode.id) === CP.eq) {
                             cur.val = newNode.val;
-                            cur.count += count;
+                            cur.count += newNode.count;
                             this._setCount(this.count + newNode.count);
-                        }
-                        //Duplicates are not accepted.
-                        traversing = false;
-                        inserted = cur;
-                    } else if (this._compare(cur.id, id) === CP.gt) {
-                        // Traverse left of the node
-                        if (cur.left === undefined) {
-                            if (newNode) {
-                                newNode.parent = cur;
-                            }
-                            //Add to the left of the current node
-                            cur.left = newNode;
-                            this._setSize(this.size + 1);
-                            this._setCount(this.count + newNode.count);
-
                             traversing = false;
-                            inserted = cur.left;
-                        } else {
-                            //Traverse the left of the current node
-                            if (cur.left) cur = cur.left;
-                        }
-                    } else if (this._compare(cur.id, id) === CP.lt) {
-                        // Traverse right of the node
-                        if (cur.right === undefined) {
-                            if (newNode) {
-                                newNode.parent = cur;
-                            }
-                            //Add to the right of the current node
-                            cur.right = newNode;
-                            this._setSize(this.size + 1);
-                            this._setCount(this.count + newNode.count);
+                            inserted = cur;
+                        } else if (this._compare(cur.id, newNode.id) === CP.gt) {
+                            // Traverse left of the node
+                            if (cur.left === undefined) {
+                                //Add to the left of the current node
+                                cur.left = newNode;
+                                this._setSize(this.size + 1);
+                                this._setCount(this.count + newNode.count);
 
-                            traversing = false;
-                            inserted = (cur.right);
-                        } else {
-                            //Traverse the left of the current node
-                            if (cur.right) cur = cur.right;
+                                traversing = false;
+                                inserted = cur.left;
+                            } else {
+                                //Traverse the left of the current node
+                                if (cur.left) cur = cur.left;
+                            }
+                        } else if (this._compare(cur.id, newNode.id) === CP.lt) {
+                            // Traverse right of the node
+                            if (cur.right === undefined) {
+                                //Add to the right of the current node
+                                cur.right = newNode;
+                                this._setSize(this.size + 1);
+                                this._setCount(this.count + newNode.count);
+
+                                traversing = false;
+                                inserted = (cur.right);
+                            } else {
+                                //Traverse the left of the current node
+                                if (cur.right) cur = cur.right;
+                            }
                         }
+                    } else {
+                        // TODO may need to support null inserted
                     }
                 } else {
                     traversing = false;
@@ -192,24 +194,20 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
     override addTo(newNode: N | null, parent: N): N | null | undefined {
         if (parent) {
             if (parent.left === undefined) {
-                if (newNode) {
-                    newNode.parent = parent;
-                }
+
                 parent.left = newNode;
                 if (newNode !== null) {
                     this._setSize(this.size + 1);
-                    this._setCount(this.count + newNode.count ?? 0)
+                    this._setCount(this.count + newNode.count)
                 }
 
                 return parent.left;
             } else if (parent.right === undefined) {
-                if (newNode) {
-                    newNode.parent = parent;
-                }
+
                 parent.right = newNode;
                 if (newNode !== null) {
                     this._setSize(this.size + 1);
-                    this._setCount(this.count + newNode.count ?? 0);
+                    this._setCount(this.count + newNode.count);
                 }
                 return parent.right;
             } else {
@@ -221,66 +219,87 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
     }
 
     /**
-     * The `addMany` function inserts multiple items into a binary tree and returns an array of the inserted nodes or
-     * null/undefined values.
-     * @param {N[] | N[]} data - The `data` parameter can be either an array of elements of type `N` or an
-     * array of `N` objects.
+     * The `addMany` function adds multiple nodes to a binary tree and returns an array of the inserted nodes.
+     * @param {BinaryTreeNodeId[] | N[]} idsOrNodes - An array of BinaryTreeNodeId objects or N objects. These objects
+     * represent the IDs or nodes of the binary tree where the values will be added.
+     * @param {N['val'][]} [data] - Optional array of values to be associated with each node being added. If provided, the
+     * length of the `data` array should be equal to the length of the `idsOrNodes` array.
      * @returns The function `addMany` returns an array of `N`, `null`, or `undefined` values.
      */
-    override addMany(data: N[] | Array<N['val']>): (N | null | undefined)[] {
+    override addMany(idsOrNodes: (BinaryTreeNodeId | N)[], data?: N['val'][]): (N | null | undefined)[] {
         // TODO not sure addMany not be run multi times
         const inserted: (N | null | undefined)[] = [];
-        const map: Map<N | N['val'], number> = new Map();
+        const map: Map<N | BinaryTreeNodeId, number> = new Map();
 
         if (this.isMergeDuplicatedVal) {
-            for (const nodeOrId of data) map.set(nodeOrId, (map.get(nodeOrId) ?? 0) + 1);
+            for (const idOrNode of idsOrNodes) map.set(idOrNode, (map.get(idOrNode) ?? 0) + 1);
         }
 
-        for (const nodeOrId of data) {
-
-            if (nodeOrId instanceof TreeMultisetNode) {
-                inserted.push(this.add(nodeOrId.id, nodeOrId.val, nodeOrId.count));
+        for (let i = 0; i < idsOrNodes.length; i++) {
+            const idOrNode = idsOrNodes[i];
+            if (idOrNode instanceof TreeMultisetNode) {
+                inserted.push(this.add(idOrNode.id, idOrNode.val, idOrNode.count));
                 continue;
             }
 
-            if (nodeOrId === null) {
+            if (idOrNode === null) {
                 inserted.push(this.add(NaN, null, 0));
                 continue;
             }
 
-            // TODO will this cause an issue?
-            const count = this.isMergeDuplicatedVal ? map.get(nodeOrId) : 1;
-            let newId: BinaryTreeNodeId;
-            if (typeof nodeOrId === 'number') {
-                newId = this.autoIncrementId ? this.maxId + 1 : nodeOrId;
-            } else if (nodeOrId instanceof Object) {
-                if (this.autoIncrementId) {
-                    newId = this.maxId + 1;
-                } else {
-                    if (Object.keys(nodeOrId).includes('id')) {
-                        newId = (nodeOrId as ObjectWithNumberId).id;
-                    } else {
-                        console.warn(nodeOrId, 'Object value must has an id property when the autoIncrementId is false');
-                        continue;
-                    }
-                }
-            } else {
-                console.warn(nodeOrId, ` is not added`);
-                continue;
-            }
-
+            const count = this.isMergeDuplicatedVal ? map.get(idOrNode) : 1;
+            const val = data?.[i];
             if (this.isMergeDuplicatedVal) {
-                if (map.has(nodeOrId)) {
-                    inserted.push(this.add(newId, nodeOrId, count));
-                    map.delete(nodeOrId);
+                if (map.has(idOrNode)) {
+                    inserted.push(this.add(idOrNode, val, count));
+                    map.delete(idOrNode);
                 }
             } else {
-                inserted.push(this.add(newId, nodeOrId, 1));
+                inserted.push(this.add(idOrNode, val, 1));
             }
-
-            this._setMaxId(newId);
         }
         return inserted;
+    }
+
+    /**
+     * The `perfectlyBalance` function takes a binary tree, performs a depth-first search to sort the nodes, and then
+     * constructs a balanced binary search tree using either a recursive or iterative approach.
+     * @returns The function `perfectlyBalance()` returns a boolean value.
+     */
+    override perfectlyBalance(): boolean {
+        const sorted = this.DFS('in', 'node'), n = sorted.length;
+        this.clear();
+
+        if (sorted.length < 1) return false;
+        if (this.loopType === LoopType.RECURSIVE) {
+            const buildBalanceBST = (l: number, r: number) => {
+                if (l > r) return;
+                const m = l + Math.floor((r - l) / 2);
+                const midNode = sorted[m];
+                this.add(midNode.id, midNode.val, midNode.count);
+                buildBalanceBST(l, m - 1);
+                buildBalanceBST(m + 1, r);
+            };
+
+            buildBalanceBST(0, n - 1);
+            return true;
+        } else {
+            const stack: [[number, number]] = [[0, n - 1]];
+            while (stack.length > 0) {
+                const popped = stack.pop();
+                if (popped) {
+                    const [l, r] = popped;
+                    if (l <= r) {
+                        const m = l + Math.floor((r - l) / 2);
+                        const midNode = sorted[m];
+                        this.add(midNode.id, midNode.val, midNode.count);
+                        stack.push([m + 1, r]);
+                        stack.push([l, m - 1]);
+                    }
+                }
+            }
+            return true;
+        }
     }
 
     /**
@@ -296,7 +315,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
         const bstDeletedResult: BinaryTreeDeletedResult<N>[] = [];
         if (!this.root) return bstDeletedResult;
 
-        const curr: N | null = (typeof nodeOrId === 'number') ? this.get(nodeOrId) : nodeOrId;
+        const curr: N | null = this.get(nodeOrId);
         if (!curr) return bstDeletedResult;
 
         const parent: N | null = curr?.parent ? curr.parent : null;
@@ -324,13 +343,17 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
                     const parentOfLeftSubTreeMax = leftSubTreeRightMost.parent;
                     orgCurrent = this.swapLocation(curr, leftSubTreeRightMost);
                     if (parentOfLeftSubTreeMax) {
-                        if (parentOfLeftSubTreeMax.right === leftSubTreeRightMost) parentOfLeftSubTreeMax.right = leftSubTreeRightMost.left;
-                        else parentOfLeftSubTreeMax.left = leftSubTreeRightMost.left;
+                        if (parentOfLeftSubTreeMax.right === leftSubTreeRightMost) {
+                            parentOfLeftSubTreeMax.right = leftSubTreeRightMost.left;
+                        } else {
+                            parentOfLeftSubTreeMax.left = leftSubTreeRightMost.left;
+                        }
                         needBalanced = parentOfLeftSubTreeMax;
                     }
                 }
             }
             this._setSize(this.size - 1);
+            // TODO How to handle when the count of target node is lesser than current node's count
             this._setCount(this.count - orgCurrent.count);
         }
 

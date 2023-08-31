@@ -8,10 +8,12 @@
 
 import type {BinaryTreeNodeId, BinaryTreeNodeNested, BinaryTreeOptions} from '../types';
 import {AbstractBinaryTree, AbstractBinaryTreeNode} from './abstract-binary-tree';
-import {IBinaryTree, IBinaryTreeNode} from '../interfaces/binary-tree';
+import {IBinaryTree, IBinaryTreeNode} from '../interfaces';
 
 export class BinaryTreeNode<T = any, NEIGHBOR extends BinaryTreeNode<T, NEIGHBOR> = BinaryTreeNodeNested<T>> extends AbstractBinaryTreeNode<T, NEIGHBOR> implements IBinaryTreeNode<T, NEIGHBOR> {
-
+    constructor(id: BinaryTreeNodeId, val?: T) {
+        super(id, val);
+    }
 }
 
 export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> extends AbstractBinaryTree<N> implements IBinaryTree<N> {

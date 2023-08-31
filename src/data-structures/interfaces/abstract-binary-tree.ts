@@ -55,8 +55,6 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
 
     get visitedLeftSum(): number[]
 
-    get autoIncrementId(): boolean
-
     get maxId(): number
 
     get isMergeDuplicatedVal(): boolean
@@ -71,13 +69,13 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
 
     isEmpty(): boolean
 
-    add(id: BinaryTreeNodeId, val?: N['val'], count?: number): N | null | undefined
+    add(id: BinaryTreeNodeId | N, val?: N['val']): N | null | undefined
 
     addTo(newNode: N | null, parent: N): N | null | undefined
 
-    addMany(data: N[] | Array<N['val']>): (N | null | undefined)[]
+    addMany(idsOrNodes: (BinaryTreeNodeId | N | null)[], data?: N['val'][]): (N | null | undefined)[]
 
-    fill(data: N[] | Array<N['val']>): boolean
+    fill(idsOrNodes: (BinaryTreeNodeId | N | null)[], data?: N[] | Array<N['val']>): boolean
 
     remove(id: BinaryTreeNodeId, ignoreCount?: boolean): BinaryTreeDeletedResult<N>[]
 

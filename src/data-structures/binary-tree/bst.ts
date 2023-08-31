@@ -11,7 +11,9 @@ import {BinaryTree, BinaryTreeNode} from './binary-tree';
 import {IBST, IBSTNode} from '../interfaces';
 
 export class BSTNode<T = any, NEIGHBOR extends BSTNode<T, NEIGHBOR> = BSTNodeNested<T>> extends BinaryTreeNode<T, NEIGHBOR> implements IBSTNode<T, NEIGHBOR> {
-
+    constructor(id: BinaryTreeNodeId, val?: T) {
+        super(id, val);
+    }
 }
 
 export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N> implements IBST<N> {

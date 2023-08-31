@@ -5,9 +5,10 @@ describe('TreeMultiset operations test', () => {
         const treeMultiset = new TreeMultiset();
 
         expect(treeMultiset instanceof TreeMultiset);
-        treeMultiset.add(11);
-        treeMultiset.add(3);
-        treeMultiset.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
+        treeMultiset.add(11, 11);
+        treeMultiset.add(3, 3);
+        const idAndValues = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
+        treeMultiset.addMany(idAndValues, idAndValues);
         expect(treeMultiset.root instanceof TreeMultisetNode);
 
         if (treeMultiset.root) expect(treeMultiset.root.id == 11);
@@ -199,7 +200,7 @@ describe('TreeMultiset operations test', () => {
         expect(bfsNodes[1].id).toBe(2);
         expect(bfsNodes[2].id).toBe(16);
 
-        expect(treeMultiset.count).toBe(3);
+        expect(treeMultiset.count).toBe(9);
     });
 
     it('should perform various operations on a Binary Search Tree with object values', () => {
@@ -213,7 +214,7 @@ describe('TreeMultiset operations test', () => {
             {id: 14, keyA: 14}, {id: 4, keyA: 4}, {id: 7, keyA: 7},
             {id: 10, keyA: 10}, {id: 5, keyA: 5}];
 
-        objTreeMultiset.addMany(values);
+        objTreeMultiset.addMany(values.map(item => item.id), values);
 
         expect(objTreeMultiset.root).toBeInstanceOf(TreeMultisetNode);
 
