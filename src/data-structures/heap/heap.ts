@@ -174,6 +174,23 @@ export abstract class Heap<T = number> {
         return isItem ? itemArray : itemArray.map(item => item.val);
     }
 
+    sort(isItem?: undefined): (T | undefined)[];
+    sort(isItem: false): (T | undefined)[];
+    sort(isItem: true): (HeapItem<T> | null)[];
+    /**
+     * The function sorts the elements in the priority queue and returns either the sorted items or their values depending
+     * on the value of the isItem parameter.
+     * @param {boolean} [isItem] - The `isItem` parameter is a boolean flag that indicates whether the sorted result should
+     * be an array of `HeapItem<T>` objects or an array of the values (`T`) of those objects. If `isItem` is `true`, the
+     * sorted result will be an array of `HeapItem
+     * @returns an array of either `HeapItem<T>`, `null`, `T`, or `undefined` values.
+     */
+    sort(isItem?: boolean): (HeapItem<T> | null | T | undefined)[] {
+        isItem = isItem ?? false;
+        const sorted = this._pq.sort();
+        return isItem ? sorted : sorted.map(item => item.val);
+    }
+
     /**
      * The clear function clears the priority queue.
      */

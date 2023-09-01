@@ -4,9 +4,10 @@ describe('Individual package BST operations test', () => {
     it('should perform various operations on a Binary Search Tree with numeric values', () => {
         const bst = new BST();
         expect(bst).toBeInstanceOf(BST);
-        bst.add(11);
-        bst.add(3);
-        bst.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
+        bst.add(11, 11);
+        bst.add(3, 3);
+        const idsOrVals = [15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
+        bst.addMany(idsOrVals, idsOrVals);
         expect(bst.root).toBeInstanceOf(BSTNode);
 
         if (bst.root) expect(bst.root.id).toBe(11);
@@ -193,7 +194,7 @@ describe('Individual package BST operations test', () => {
             {id: 14, keyA: 14}, {id: 4, keyA: 4}, {id: 7, keyA: 7},
             {id: 10, keyA: 10}, {id: 5, keyA: 5}];
 
-        objBST.addMany(values);
+        objBST.addMany(values.map(item => item.id), values);
 
         expect(objBST.root).toBeInstanceOf(BSTNode);
 

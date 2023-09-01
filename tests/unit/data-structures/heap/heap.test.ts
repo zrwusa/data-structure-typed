@@ -4,16 +4,20 @@ describe('Heap Operation Test', () => {
     it('should numeric heap work well', function () {
         const minNumHeap = new MinHeap<number>();
         minNumHeap.add(1).add(6).add(2).add(0).add(5).add(9);
+        expect(minNumHeap.has(1)).toBe(true);
+        expect(minNumHeap.has(2)).toBe(true);
         expect(minNumHeap.poll()).toBe(0);
         expect(minNumHeap.poll()).toBe(1);
         expect(minNumHeap.peek()).toBe(2);
-        expect(minNumHeap.toArray().length).toBe(4);
-        expect(minNumHeap.toArray()[0]).toBe(2);
-        expect(minNumHeap.toArray()[1]).toBe(5);
-        expect(minNumHeap.toArray()[2]).toBe(9);
-        expect(minNumHeap.toArray()[3]).toBe(6);
-
-
+        expect(!minNumHeap.has(1));
+        expect(minNumHeap.has(2));
+        const arrFromHeap = minNumHeap.toArray();
+        expect(arrFromHeap.length).toBe(4);
+        expect(arrFromHeap[0]).toBe(2);
+        expect(arrFromHeap[1]).toBe(5);
+        expect(arrFromHeap[2]).toBe(9);
+        expect(arrFromHeap[3]).toBe(6);
+        expect(minNumHeap.sort()).toEqual([2, 5, 6, 9]);
     });
 
     it('should object heap work well', function () {
