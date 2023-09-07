@@ -141,15 +141,8 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
      */
     protected constructor(options?: AbstractBinaryTreeOptions) {
         if (options !== undefined) {
-            const {
-                loopType = LoopType.ITERATIVE,
-                isMergeDuplicatedNodeById = true
-            } = options;
-            this._isMergeDuplicatedNodeById = isMergeDuplicatedNodeById;
+            const {loopType = LoopType.ITERATIVE} = options;
             this._loopType = loopType;
-        } else {
-            this._isMergeDuplicatedNodeById = true;
-            this._loopType = LoopType.ITERATIVE;
         }
         this.clear();
     }
@@ -170,13 +163,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
 
     get loopType(): LoopType {
         return this._loopType;
-    }
-
-    // TODO this variable may be moved to TreeMultiset
-    private _isMergeDuplicatedNodeById: boolean = true;
-
-    get isMergeDuplicatedNodeById(): boolean {
-        return this._isMergeDuplicatedNodeById;
     }
 
     private _visitedId: BinaryTreeNodeId[] = [];
@@ -268,7 +254,8 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
             while (queue.length > 0) {
                 const cur = queue.shift();
                 if (cur) {
-                    const inserted = this.addTo(newNode, cur);
+                    if (newNode && cur.id === newNode.id) return;
+                    const inserted = this._addTo(newNode, cur);
                     if (inserted !== undefined) return inserted;
                     if (cur.left) queue.push(cur.left);
                     if (cur.right) queue.push(cur.right);
@@ -311,39 +298,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
-     * The function adds a new node to the left or right child of a parent node, updating the size of the tree if
-     * necessary.
-     * @param {N | null} newNode - The `newNode` parameter represents the node that you want to add to the tree. It can be
-     * either a node object (`N`) or `null`.
-     * @param {N} parent - The `parent` parameter represents the parent node to which the new node will be added as a
-     * child.
-     * @returns either the left child node, the right child node, or undefined.
-     */
-    addTo(newNode: N | null, parent: N): N | null | undefined {
-        if (parent) {
-            // When all leaf nodes are null, it will no longer be possible to add new entity nodes to this binary tree.
-            // In this scenario, null nodes serve as "sentinel nodes," "virtual nodes," or "placeholder nodes."
-            if (parent.left === undefined) {
-                parent.left = newNode;
-                if (newNode) {
-                    this._setSize(this.size + 1);
-                }
-                return parent.left;
-            } else if (parent.right === undefined) {
-                parent.right = newNode;
-                if (newNode) {
-                    this._setSize(this.size + 1);
-                }
-                return parent.right;
-            } else {
-                return;
-            }
-        } else {
-            return;
-        }
-    }
-
-    /**
      * The `addMany` function adds multiple nodes to a tree data structure and returns an array of the inserted nodes or
      * null/undefined values.
      * @param {(BinaryTreeNodeId|N)[]} idsOrNodes - An array of BinaryTreeNodeId or N objects. These can be either the ID
@@ -357,31 +311,27 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         const inserted: (N | null | undefined)[] = [];
         const map: Map<N | BinaryTreeNodeId | null, number> = new Map();
 
-        if (this.isMergeDuplicatedNodeById) {
-            for (const idOrNode of idsOrNodes) map.set(idOrNode, (map.get(idOrNode) ?? 0) + 1);
-        }
+        for (const idOrNode of idsOrNodes) map.set(idOrNode, (map.get(idOrNode) ?? 0) + 1);
 
         for (let i = 0; i < idsOrNodes.length; i++) {
             const idOrNode = idsOrNodes[i];
-            if (idOrNode instanceof AbstractBinaryTreeNode) {
-                inserted.push(this.add(idOrNode.id, idOrNode.val));
-                continue;
-            }
-
-            if (idOrNode === null) {
-                inserted.push(this.add(null));
-                continue;
-            }
-
-            const val = data?.[i];
-            if (this.isMergeDuplicatedNodeById) {
-                if (map.has(idOrNode)) {
-                    inserted.push(this.add(idOrNode, val));
-                    map.delete(idOrNode);
+            if (map.has(idOrNode)) {
+                if (idOrNode instanceof AbstractBinaryTreeNode) {
+                    inserted.push(this.add(idOrNode.id, idOrNode.val));
+                    continue;
                 }
-            } else {
+
+                if (idOrNode === null) {
+                    inserted.push(this.add(null));
+                    continue;
+                }
+
+                const val = data?.[i];
+
                 inserted.push(this.add(idOrNode, val));
+                map.delete(idOrNode);
             }
+
         }
         return inserted;
     }
@@ -1001,10 +951,10 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         return this._getResultByPropertyName(nodeOrPropertyName);
     }
 
+    DFSIterative(): BinaryTreeNodeId[];
+
 
     // --- start additional methods ---
-
-    DFSIterative(): BinaryTreeNodeId[];
 
     DFSIterative(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'id'): BinaryTreeNodeId[];
 
@@ -1305,6 +1255,40 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
 
     /**
+     * The function adds a new node to a binary tree if there is an available position.
+     * @param {N | null} newNode - The `newNode` parameter is of type `N | null`, which means it can either be a node of
+     * type `N` or `null`. It represents the node that you want to add to the binary tree.
+     * @param {N} parent - The parent parameter is of type N, which represents a node in a binary tree.
+     * @returns either the left or right child node of the parent node, depending on which child is available for adding
+     * the new node. If a new node is added, the function also updates the size of the binary tree. If neither the left nor
+     * right child is available, the function returns undefined. If the parent node is null, the function also returns
+     * undefined.
+     */
+    protected _addTo(newNode: N | null, parent: N): N | null | undefined {
+        if (parent) {
+            // When all leaf nodes are null, it will no longer be possible to add new entity nodes to this binary tree.
+            // In this scenario, null nodes serve as "sentinel nodes," "virtual nodes," or "placeholder nodes."
+            if (parent.left === undefined) {
+                parent.left = newNode;
+                if (newNode) {
+                    this._setSize(this.size + 1);
+                }
+                return parent.left;
+            } else if (parent.right === undefined) {
+                parent.right = newNode;
+                if (newNode) {
+                    this._setSize(this.size + 1);
+                }
+                return parent.right;
+            } else {
+                return;
+            }
+        } else {
+            return;
+        }
+    }
+
+    /**
      * The function sets the loop type for a protected variable.
      * @param {LoopType} value - The value parameter is of type LoopType.
      */
@@ -1344,14 +1328,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         this._visitedLeftSum = value;
     }
 
-    /**
-     * The function sets the value of a protected property called "_isMergeDuplicatedNodeById".
-     * @param {boolean} value - The value parameter is a boolean value that determines whether the isMergeDuplicatedNodeById
-     * property should be set to true or false.
-     */
-    protected _setIsDuplicatedVal(value: boolean) {
-        this._isMergeDuplicatedNodeById = value;
-    }
 
     /**
      * The function sets the root property of an object to a given value, and if the value is not null, it also sets the

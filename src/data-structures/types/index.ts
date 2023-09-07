@@ -4,6 +4,7 @@ export * from './avl-tree';
 export * from './segment-tree';
 export * from './tree-multiset';
 export * from './abstract-graph';
+export * from './map-graph';
 export * from './abstract-binary-tree';
 export * from './rb-tree';
 export * from './directed-graph';

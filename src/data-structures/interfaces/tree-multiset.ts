@@ -8,5 +8,4 @@ export interface ITreeMultisetNode<T, NEIGHBOR extends ITreeMultisetNode<T, NEIG
 
 export interface ITreeMultiset<N extends TreeMultisetNode<N['val'], N>> extends IAVLTree<N> {
 
-
 }

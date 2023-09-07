@@ -10,7 +10,7 @@ import {PriorityQueue} from '../priority-queue';
 import type {DijkstraResult, VertexId} from '../types';
 import {IAbstractGraph} from '../interfaces';
 
-export abstract class AbstractVertex<T = number> {
+export abstract class AbstractVertex<T = any> {
 
     /**
      * The function is a protected constructor that takes an id and an optional value as parameters.
@@ -45,7 +45,7 @@ export abstract class AbstractVertex<T = number> {
     }
 }
 
-export abstract class AbstractEdge<T = number> {
+export abstract class AbstractEdge<T = any> {
 
     /**
      * The above function is a protected constructor that initializes the weight, value, and hash code properties of an
@@ -103,7 +103,7 @@ export abstract class AbstractEdge<T = number> {
     }
 }
 
-export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends AbstractEdge<any>> implements IAbstractGraph<V, E> {
+export abstract class AbstractGraph<V extends AbstractVertex<any> = AbstractVertex<any>, E extends AbstractEdge<any> = AbstractEdge<any>> implements IAbstractGraph<V, E> {
     private _vertices: Map<VertexId, V> = new Map<VertexId, V>();
 
     get vertices(): Map<VertexId, V> {
@@ -604,9 +604,7 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
         const srcVertex = this._getVertex(src);
         const destVertex = dest ? this._getVertex(dest) : null;
 
-        if (!srcVertex) {
-            return null;
-        }
+        if (!srcVertex) return null;
 
         for (const vertex of vertices) {
             const vertexOrId = vertex[1];
@@ -619,6 +617,11 @@ export abstract class AbstractGraph<V extends AbstractVertex<any>, E extends Abs
         distMap.set(srcVertex, 0);
         preMap.set(srcVertex, null);
 
+        /**
+         * The function `getPaths` retrieves all paths from vertices to a specified minimum vertex.
+         * @param {V | null} minV - The parameter `minV` is of type `V | null`. It represents the minimum vertex value or
+         * null.
+         */
         const getPaths = (minV: V | null) => {
             for (const vertex of vertices) {
                 const vertexOrId = vertex[1];

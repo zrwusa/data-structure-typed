@@ -50,7 +50,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
      * TreeMultiset.
      */
     constructor(options?: TreeMultisetOptions) {
-        super({...options, isMergeDuplicatedNodeById: true});
+        super({...options});
     }
 
     private _count = 0;
@@ -178,15 +178,15 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
     }
 
     /**
-     * The function adds a new node to a binary tree as the left or right child of a given parent node.
-     * @param {N | null} newNode - The `newNode` parameter represents the node that you want to add to the tree. It can be
-     * either a node object (`N`) or `null`.
+     * The function adds a new node to a binary tree if there is an available slot on the left or right side of the parent
+     * node.
+     * @param {N | null} newNode - The `newNode` parameter represents the node that needs to be added to the tree. It can
+     * be either a node object (`N`) or `null`.
      * @param {N} parent - The `parent` parameter represents the parent node to which the new node will be added as a
      * child.
-     * @returns either the left or right child node that was added to the parent node. It can also return `null` or
-     * `undefined` in certain cases.
+     * @returns The method returns either the `parent.left`, `parent.right`, or `undefined`.
      */
-    override addTo(newNode: N | null, parent: N): N | null | undefined {
+    override _addTo(newNode: N | null, parent: N): N | null | undefined {
         if (parent) {
             if (parent.left === undefined) {
                 parent.left = newNode;
@@ -225,32 +225,28 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
         const inserted: (N | null | undefined)[] = [];
         const map: Map<N | BinaryTreeNodeId, number> = new Map();
 
-        if (this.isMergeDuplicatedNodeById) {
-            for (const idOrNode of idsOrNodes) map.set(idOrNode, (map.get(idOrNode) ?? 0) + 1);
-        }
+        for (const idOrNode of idsOrNodes) map.set(idOrNode, (map.get(idOrNode) ?? 0) + 1);
 
         for (let i = 0; i < idsOrNodes.length; i++) {
             const idOrNode = idsOrNodes[i];
-            if (idOrNode instanceof TreeMultisetNode) {
-                inserted.push(this.add(idOrNode.id, idOrNode.val, idOrNode.count));
-                continue;
-            }
+            if (map.has(idOrNode)) {
 
-            if (idOrNode === null) {
-                inserted.push(this.add(NaN, null, 0));
-                continue;
-            }
-
-            const count = this.isMergeDuplicatedNodeById ? map.get(idOrNode) : 1;
-            const val = data?.[i];
-            if (this.isMergeDuplicatedNodeById) {
-                if (map.has(idOrNode)) {
-                    inserted.push(this.add(idOrNode, val, count));
-                    map.delete(idOrNode);
+                if (idOrNode instanceof TreeMultisetNode) {
+                    inserted.push(this.add(idOrNode.id, idOrNode.val, idOrNode.count));
+                    continue;
                 }
-            } else {
-                inserted.push(this.add(idOrNode, val, 1));
+
+                if (idOrNode === null) {
+                    inserted.push(this.add(NaN, null, 0));
+                    continue;
+                }
+
+                const val = data?.[i], count = map.get(idOrNode);
+
+                inserted.push(this.add(idOrNode, val, count));
+                map.delete(idOrNode);
             }
+
         }
         return inserted;
     }

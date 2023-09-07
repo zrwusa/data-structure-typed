@@ -1,4 +1,4 @@
-export class TreeNode<T = number> {
+export class TreeNode<T = any> {
     constructor(id: string, value?: T, children?: TreeNode<T>[]) {
         this._id = id;
         this._value = value || undefined;

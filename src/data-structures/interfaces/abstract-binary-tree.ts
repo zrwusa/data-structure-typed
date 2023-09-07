@@ -53,8 +53,6 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
 
     get visitedLeftSum(): number[]
 
-    get isMergeDuplicatedNodeById(): boolean
-
     get root(): N | null
 
     get size(): number
@@ -66,8 +64,6 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
     isEmpty(): boolean
 
     add(id: BinaryTreeNodeId | N, val?: N['val']): N | null | undefined
-
-    addTo(newNode: N | null, parent: N): N | null | undefined
 
     addMany(idsOrNodes: (BinaryTreeNodeId | N | null)[], data?: N['val'][]): (N | null | undefined)[]
 
