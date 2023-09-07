@@ -356,15 +356,15 @@ import {UndirectedGraph} from 'data-structure-typed';
 </table>
 
 
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/dfs-pre-order.webp)
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/dfs-pre-order.webp?raw=true)
 
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/map-graph.webp)
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/map-graph.webp?raw=true)
 
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/test-graphs.webp)
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/test-graphs.webp?raw=true)
 
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/cut-off-trees-for-golf.webp)
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/cut-off-trees-for-golf.webp?raw=true)
 
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/parenthesis-check.webp)
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/parenthesis-check.webp?raw=true)
 
 
 ## API docs & Examples

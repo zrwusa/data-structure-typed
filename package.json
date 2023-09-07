@@ -1,6 +1,6 @@
 {
   "name": "data-structure-typed",
-  "version": "1.20.0",
+  "version": "1.21.0",
   "description": "Javascript & TypeScript Data Structure Library, meticulously crafted to empower developers with a versatile set of essential data structures. Our library includes a wide range of data structures, such as Binary Tree, AVL Tree, Binary Search Tree (BST), Tree Multiset, Segment Tree, Binary Indexed Tree, Graph, Directed Graph, Undirected Graph, Singly Linked List, Hash, CoordinateSet, CoordinateMap, Heap, Doubly Linked List, Priority Queue, Max Priority Queue, Min Priority Queue, Queue, ObjectDeque, ArrayDeque, Stack, and Trie. Each data structure is thoughtfully designed and implemented using TypeScript to provide efficient, reliable, and easy-to-use solutions for your programming needs. Whether you're optimizing algorithms, managing data, or enhancing performance, our TypeScript Data Structure Library is your go-to resource. Elevate your coding experience with these fundamental building blocks for software development.",
   "main": "dist/index.js",
   "scripts": {
