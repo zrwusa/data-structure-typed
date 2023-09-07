@@ -358,6 +358,8 @@ import {UndirectedGraph} from 'data-structure-typed';
 
 ![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/dfs-pre-order.webp)
 
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/map-graph.webp)
+
 ![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/test-graphs.webp)
 
 ![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/cut-off-trees-for-golf.webp)
