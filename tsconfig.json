@@ -2,10 +2,12 @@
   "compilerOptions": {
     "declaration": true,
     "outDir": "./dist",
-    "module": "commonjs",
-    "target": "es6",
+    "module": "CommonJS",
+    //    "target": "CommonJS",
+    "target": "ES6",
     "lib": [
-      "esnext"
+      "esnext",
+      "dom"
     ],
     "strict": true,
     "esModuleInterop": true,
@@ -26,9 +28,7 @@
     ]
   },
 
-  "include": [
-    "src",
-  ],
+  "include": ["src/**/*.ts", "src/**/*.js"],
   "exclude": [
     //  "node_modules/data-structure-typed",
     "node_modules",

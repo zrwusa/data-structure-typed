@@ -3,25 +3,52 @@
 ## Brief
 Javascript & TypeScript Data Structure collections. 
 
-## Algorithms 
-
+## Algorithms
 DFS, DFSIterative, BFS, morris, Bellman-Ford Algorithm, Dijkstra's Algorithm, Floyd-Warshall Algorithm, Tarjan's Algorithm. Listed only a few out, you can discover more in API docs
 
 ## Code design
 By strictly adhering to object-oriented design (BinaryTree -> BST -> AVLTree -> TreeMultiset), you can seamlessly inherit the existing data structures to implement the customized ones you need. Object-oriented design stands as the optimal approach to data structure design.
 
 # How
+## install
 ### npm
 ```bash
-npm install data-structure-typed
+npm install data-structure-typed --save
 ```
-## install
 ### yarn
 ```bash
-yarn add data-structure-typed
+yarn add data-structure-typed -D
+```
+### CDN
+```html
+<script src="https://cdn.jsdelivr.net/npm/data-structure-typed/dist/bundle.js"></script>
+```
+```javascript
+const {AVLTree} = dataStructureTyped;
+const {Heap, MinHeap, SinglyLinkedList, Stack, AVLTreeNode, BST, Trie, DirectedGraph, DirectedVertex, TreeMultiset} = dataStructureTyped;
 ```
 
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/dfs-pre-order.webp?raw=true)
 
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/test-avl-tree.webp?raw=true)
+
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/map-graph.webp?raw=true)
+
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/test-graphs.webp?raw=true)
+
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/cut-off-trees-for-golf.webp?raw=true)
+
+![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/parenthesis-check.webp?raw=true)
+
+## API docs & Examples
+
+[API Docs](https://data-structure-typed-docs.vercel.app)
+
+[Live Examples](https://data-structure-typed-examples.vercel.app)
+
+[//]: # (<a href="https://data-structure-typed-examples.vercel.app" target="_blank">Live Examples</a>)
+
+<a href="https://github.com/zrwusa/data-structure-typed-examples" target="_blank">Examples Repository</a>
 
 ### Binary Search Tree (BST) snippet
 
@@ -46,7 +73,7 @@ yarn add data-structure-typed
     bst.get(6);             // null
     bst.isAVLBalanced();    // true or false
     const bfsIDs = bst.BFS();
-    bfsIDs[0] === 11;   // true
+    bfsIDs[0] === 11;       // true
     expect(bfsIDs[0]).toBe(11);
     
     const objBST = new BST<BSTNode<{ id: number, keyA: number }>>();
@@ -90,7 +117,7 @@ yarn add data-structure-typed
     bst.get(6);             // null
     bst.isAVLBalanced();    // true or false
     const bfsIDs = bst.BFS();
-    bfsIDs[0] === 11;   // true
+    bfsIDs[0] === 11;       // true
     expect(bfsIDs[0]).toBe(11);
     
     const objBST = new BST();
@@ -130,8 +157,8 @@ import {DirectedGraph} from 'data-structure-typed';
     graph.hasVertex('C');       // false
     
     graph.addEdge('A', 'B');
-    graph.hasEdge('A', 'B'); // true
-    graph.hasEdge('B', 'A'); // false
+    graph.hasEdge('A', 'B');    // true
+    graph.hasEdge('B', 'A');    // false
     
     graph.removeEdgeSrcToDest('A', 'B');
     graph.hasEdge('A', 'B');    // false
@@ -163,7 +190,6 @@ import {UndirectedGraph} from 'data-structure-typed';
     Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D']
 ```
 ## Data Structures
-
 <table>
 <thead>
 <tr>
@@ -177,10 +203,8 @@ import {UndirectedGraph} from 'data-structure-typed';
 <tbody>
 <tr>
 <td>Binary Tree</td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt="">
-</img></td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt="">
-</img></td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/BinaryTree.html"><span>Binary Tree</span></a></td>
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 </tr>
@@ -355,30 +379,52 @@ import {UndirectedGraph} from 'data-structure-typed';
 </tbody>
 </table>
 
-
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/dfs-pre-order.webp?raw=true)
-
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/map-graph.webp?raw=true)
-
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/test-graphs.webp?raw=true)
-
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/cut-off-trees-for-golf.webp?raw=true)
-
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/parenthesis-check.webp?raw=true)
-
-
-## API docs & Examples
-
-[API Docs](https://data-structure-typed-docs.vercel.app)
-
-[Live Examples](https://data-structure-typed-examples.vercel.app)
-
-<a href="https://data-structure-typed-examples.vercel.app" target="_blank">Live Examples</a>
-
-[//]: # ([Examples Repository]&#40;https://github.com/zrwusa/data-structure-typed-examples&#41;)
-
-<a href="https://github.com/zrwusa/data-structure-typed-examples" target="_blank">Examples Repository</a>
-
+## API docs
+<ul>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/AVLTree.html" rel="nofollow"><span>AVLTree</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/AVLTreeNode.html" rel="nofollow"><span>AVLTreeNode</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/AbstractEdge.html" rel="nofollow"><span>AbstractEdge</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/AbstractGraph.html" rel="nofollow"><span>AbstractGraph</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/AbstractVertex.html" rel="nofollow"><span>AbstractVertex</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/ArrayDeque.html" rel="nofollow"><span>ArrayDeque</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/BST.html" rel="nofollow"><span>BST</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/BSTNode.html" rel="nofollow"><span>BSTNode</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/BinaryIndexedTree.html" rel="nofollow"><span>BinaryIndexedTree</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/BinaryTree.html" rel="nofollow"><span>BinaryTree</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/BinaryTreeNode.html" rel="nofollow"><span>BinaryTreeNode</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/Character.html" rel="nofollow"><span>Character</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/CoordinateMap.html" rel="nofollow"><span>CoordinateMap</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/CoordinateSet.html" rel="nofollow"><span>CoordinateSet</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/Deque.html" rel="nofollow"><span>Deque</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/DirectedEdge.html" rel="nofollow"><span>DirectedEdge</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/DirectedGraph.html" rel="nofollow"><span>DirectedGraph</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/DirectedVertex.html" rel="nofollow"><span>DirectedVertex</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/DoublyLinkedList.html" rel="nofollow"><span>DoublyLinkedList</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/DoublyLinkedListNode.html" rel="nofollow"><span>DoublyLinkedListNode</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/Heap.html" rel="nofollow"><span>Heap</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/Matrix2D.html" rel="nofollow"><span>Matrix2D</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/MatrixNTI2D.html" rel="nofollow"><span>MatrixNTI2D</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/MaxHeap.html" rel="nofollow"><span>MaxHeap</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/MaxPriorityQueue.html" rel="nofollow"><span>MaxPriorityQueue</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/MinHeap.html" rel="nofollow"><span>MinHeap</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/MinPriorityQueue.html" rel="nofollow"><span>MinPriorityQueue</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/Navigator.html" rel="nofollow"><span>Navigator</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/ObjectDeque.html" rel="nofollow"><span>ObjectDeque</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/PriorityQueue.html" rel="nofollow"><span>PriorityQueue</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/Queue.html" rel="nofollow"><span>Queue</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/SegmentTree.html" rel="nofollow"><span>SegmentTree</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/SegmentTreeNode.html" rel="nofollow"><span>SegmentTreeNode</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/SinglyLinkedList.html" rel="nofollow"><span>SinglyLinkedList</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/SinglyLinkedListNode.html" rel="nofollow"><span>SinglyLinkedListNode</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/Stack.html" rel="nofollow"><span>Stack</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/TreeMultiSet.html" rel="nofollow"><span>TreeMultiSet</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/Trie.html" rel="nofollow"><span>Trie</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/TrieNode.html" rel="nofollow"><span>TrieNode</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/UndirectedEdge.html" rel="nofollow"><span>UndirectedEdge</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/UndirectedGraph.html" rel="nofollow"><span>UndirectedGraph</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/UndirectedVertex.html" rel="nofollow"><span>UndirectedVertex</span></a></li>
+<li><a href="https://data-structure-typed-docs.vercel.app/classes/Vector2D.html" rel="nofollow"><span>Vector2D</span></a></li>
+</ul>
 
 # Why
 
@@ -645,54 +691,8 @@ import {UndirectedGraph} from 'data-structure-typed';
 </tbody>
 </table>
 
-![overview diagram](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/assets/overview-diagram-of-data-structures.png)
+[//]: # (![overview diagram]&#40;https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/assets/overview-diagram-of-data-structures.png?raw=true&#41;)
 
-![complexities](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/assets/complexities-diff.jpg)
+![complexities](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/assets/complexities-diff.jpg?raw=true)
 
-![complexities of data structures](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/assets/data-structure-complexities.jpg)
-
-[//]: # (![]&#40;https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/binary-tree/bst-rotation.gif&#41;)
-
-[//]: # ()
-[//]: # (![]&#40;https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/binary-tree/avl-tree-inserting.gif&#41;)
-
-[//]: # ()
-[//]: # (![]&#40;https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/tarjan.webp&#41;)
-
-[//]: # ()
-[//]: # (![]&#40;https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/adjacency-list.jpg&#41;)
-
-[//]: # ()
-[//]: # (![]&#40;https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/adjacency-list-pros-cons.jpg&#41;)
-
-[//]: # ()
-[//]: # (![]&#40;https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/adjacency-matrix.jpg&#41;)
-
-[//]: # ()
-[//]: # (![]&#40;https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/adjacency-matrix-pros-cons.jpg&#41;)
-
-[//]: # ()
-[//]: # (![]&#40;https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/dfs-can-do.jpg&#41;)
-
-[//]: # ()
-[//]: # (![]&#40;https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/edge-list.jpg&#41;)
-
-[//]: # ()
-[//]: # (![]&#40;https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/edge-list-pros-cons.jpg&#41;)
-
-[//]: # ()
-[//]: # (![]&#40;https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/max-flow.jpg&#41;)
-
-[//]: # ()
-[//]: # (![]&#40;https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/mst.jpg&#41;)
-
-[//]: # (![]&#40;https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/tarjan-articulation-point-bridge.png&#41;)
-
-[//]: # (![]&#40;https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/tarjan-complicate-simple.png&#41;)
-
-[//]: # (![]&#40;https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/graph/tarjan-strongly-connected-component.png&#41;)
-
-
-
-
-
+![complexities of data structures](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/assets/data-structure-complexities.jpg?raw=true)

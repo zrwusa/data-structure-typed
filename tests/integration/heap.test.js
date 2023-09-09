@@ -1,4 +1,4 @@
-const {MaxHeap, MinHeap} = require('heap-typed');
+const {MinHeap} = require('heap-typed');
 
 describe('JS Heap Operation Test', () => {
     it('should numeric heap work well', function () {
