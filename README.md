@@ -44,11 +44,11 @@ const {Heap, MinHeap, SinglyLinkedList, Stack, AVLTreeNode, BST, Trie, DirectedG
 
 [API Docs](https://data-structure-typed-docs.vercel.app)
 
-[Live Examples](https://data-structure-typed-examples.vercel.app)
+[Live Examples](https://vivid-algorithm.vercel.app)
 
-[//]: # (<a href="https://data-structure-typed-examples.vercel.app" target="_blank">Live Examples</a>)
+[//]: # (<a href="https://vivid-algorithm.vercel.app" target="_blank">Live Examples</a>)
 
-<a href="https://github.com/zrwusa/data-structure-typed-examples" target="_blank">Examples Repository</a>
+<a href="https://github.com/zrwusa/vivid-algorithm" target="_blank">Examples Repository</a>
 
 ### Binary Search Tree (BST) snippet
 
