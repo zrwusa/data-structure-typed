@@ -7,5 +7,5 @@ export interface IRBTreeNode<T, NEIGHBOR extends IRBTreeNode<T, NEIGHBOR>> exten
 
 export interface IRBTree<N extends RBTreeNode<N['val'], N>> extends IBST<N> {
 
-    createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N
+  createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N
 }

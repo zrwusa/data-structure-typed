@@ -8,21 +8,21 @@ export interface IAVLTreeNode<T, NEIGHBOR extends IAVLTreeNode<T, NEIGHBOR>> ext
 
 export interface IAVLTree<N extends AVLTreeNode<N['val'], N>> extends IBST<N> {
 
-    add(id: BinaryTreeNodeId, val?: N['val'] | null): N | null | undefined
+  add(id: BinaryTreeNodeId, val?: N['val'] | null): N | null | undefined
 
-    remove(id: BinaryTreeNodeId, isUpdateAllLeftSum?: boolean): BinaryTreeDeletedResult<N>[]
+  remove(id: BinaryTreeNodeId, isUpdateAllLeftSum?: boolean): BinaryTreeDeletedResult<N>[]
 
-    balanceFactor(node: N): number
+  balanceFactor(node: N): number
 
-    updateHeight(node: N): void
+  updateHeight(node: N): void
 
-    balancePath(node: N): void
+  balancePath(node: N): void
 
-    balanceLL(A: N): void
+  balanceLL(A: N): void
 
-    balanceLR(A: N): void
+  balanceLR(A: N): void
 
-    balanceRR(A: N): void
+  balanceRR(A: N): void
 
-    balanceRL(A: N): void
+  balanceRL(A: N): void
 }

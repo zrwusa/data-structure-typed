@@ -13,3 +13,5 @@ __tests__/
 notes/
 docs/
 backup/
+
+.editorconfig

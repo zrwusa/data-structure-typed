@@ -2,31 +2,31 @@ import {VertexId} from '../types';
 
 export interface IAbstractGraph<V, E> {
 
-    hasVertex(vertexOrId: V | VertexId): boolean;
+  hasVertex(vertexOrId: V | VertexId): boolean;
 
-    addVertex(id: VertexId, val?: V): boolean;
+  addVertex(id: VertexId, val?: V): boolean;
 
-    removeVertex(vertexOrId: V | VertexId): boolean;
+  removeVertex(vertexOrId: V | VertexId): boolean;
 
-    removeAllVertices(vertices: V[] | VertexId[]): boolean;
+  removeAllVertices(vertices: V[] | VertexId[]): boolean;
 
-    degreeOf(vertexOrId: V | VertexId): number;
+  degreeOf(vertexOrId: V | VertexId): number;
 
-    edgesOf(vertexOrId: V | VertexId): E[];
+  edgesOf(vertexOrId: V | VertexId): E[];
 
-    hasEdge(src: V | VertexId, dest: V | VertexId): boolean;
+  hasEdge(src: V | VertexId, dest: V | VertexId): boolean;
 
-    getEdge(srcOrId: V | VertexId, destOrId: V | VertexId): E | null;
+  getEdge(srcOrId: V | VertexId, destOrId: V | VertexId): E | null;
 
-    edgeSet(): E[];
+  edgeSet(): E[];
 
-    addEdge(src: V | VertexId, dest: V | VertexId, weight: number, val: E): boolean;
+  addEdge(src: V | VertexId, dest: V | VertexId, weight: number, val: E): boolean;
 
-    removeEdge(edge: E): E | null;
+  removeEdge(edge: E): E | null;
 
-    setEdgeWeight(srcOrId: V | VertexId, destOrId: V | VertexId, weight: number): boolean;
+  setEdgeWeight(srcOrId: V | VertexId, destOrId: V | VertexId, weight: number): boolean;
 
-    getMinPathBetween(v1: V | VertexId, v2: V | VertexId, isWeight?: boolean): V[] | null;
+  getMinPathBetween(v1: V | VertexId, v2: V | VertexId, isWeight?: boolean): V[] | null;
 
-    getNeighbors(vertexOrId: V | VertexId): V[];
+  getNeighbors(vertexOrId: V | VertexId): V[];
 }

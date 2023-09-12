@@ -6,27 +6,27 @@ export interface IBSTNode<T, NEIGHBOR extends IBSTNode<T, NEIGHBOR>> extends IBi
 }
 
 export interface IBST<N extends BSTNode<N['val'], N>> extends IBinaryTree<N> {
-    createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N
+  createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N
 
-    add(id: BinaryTreeNodeId, val?: N['val'] | null, count?: number): N | null | undefined
+  add(id: BinaryTreeNodeId, val?: N['val'] | null, count?: number): N | null | undefined
 
-    get(nodeProperty: BinaryTreeNodeId | N, propertyName ?: BinaryTreeNodePropertyName): N | null
+  get(nodeProperty: BinaryTreeNodeId | N, propertyName ?: BinaryTreeNodePropertyName): N | null
 
-    lastKey(): BinaryTreeNodeId
+  lastKey(): BinaryTreeNodeId
 
-    remove(id: BinaryTreeNodeId, ignoreCount?: boolean): BinaryTreeDeletedResult<N>[]
+  remove(id: BinaryTreeNodeId, ignoreCount?: boolean): BinaryTreeDeletedResult<N>[]
 
-    getNodes(nodeProperty: BinaryTreeNodeId | N, propertyName ?: BinaryTreeNodePropertyName, onlyOne ?: boolean): N[]
+  getNodes(nodeProperty: BinaryTreeNodeId | N, propertyName ?: BinaryTreeNodePropertyName, onlyOne ?: boolean): N[]
 
-    // --- start additional functions
+  // --- start additional functions
 
-    lesserSum(id: BinaryTreeNodeId, propertyName ?: BinaryTreeNodePropertyName): number
+  lesserSum(id: BinaryTreeNodeId, propertyName ?: BinaryTreeNodePropertyName): number
 
-    allGreaterNodesAdd(node: N, delta: number, propertyName ?: BinaryTreeNodePropertyName): boolean
+  allGreaterNodesAdd(node: N, delta: number, propertyName ?: BinaryTreeNodePropertyName): boolean
 
-    perfectlyBalance(): boolean
+  perfectlyBalance(): boolean
 
-    isAVLBalanced(): boolean
+  isAVLBalanced(): boolean
 
-    // --- end additional functions
+  // --- end additional functions
 }

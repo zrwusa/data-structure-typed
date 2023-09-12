@@ -6,6 +6,7 @@
 /docs
 /backup
 
+.editorconfig
 .dependency-cruiser.js
 jest.config.js
 package-lock.json

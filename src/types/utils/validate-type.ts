@@ -7,19 +7,19 @@ export type NonNumberNonObjectButDefined = string | boolean | symbol | null;
 export type ObjectWithoutId = Omit<KeyValueObject, 'id'>;
 
 export type ObjectWithNonNumberId = {
-    [key: string]: any,
-    id: string | boolean | symbol | null | object | undefined;
+  [key: string]: any,
+  id: string | boolean | symbol | null | object | undefined;
 }
 
 export type ObjectWithNumberId = {
-    [key: string]: any,
-    id: number;
+  [key: string]: any,
+  id: number;
 }
 
 export type RestrictValById =
-    NonNumberNonObjectButDefined
-    | ObjectWithoutId
-    | ObjectWithNonNumberId
-    | ObjectWithNumberId;
+  NonNumberNonObjectButDefined
+  | ObjectWithoutId
+  | ObjectWithNonNumberId
+  | ObjectWithNumberId;
 
 export type DummyAny = string | number | boolean | null | undefined | object | symbol | void | Function | never;
