@@ -1,4 +1,4 @@
-import {AVLTreeNode} from '../binary-tree';
+import {AVLTreeNode} from '../../data-structures/binary-tree';
 import {BSTOptions} from './bst';
 
 export type AVLTreeNodeNested<T> = AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, any>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

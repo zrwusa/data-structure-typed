@@ -16,9 +16,9 @@ import type {
     BinaryTreeNodePropertyName,
     DFSOrderPattern,
     NodeOrPropertyName
-} from '../types';
-import {AbstractBinaryTreeOptions, FamilyPosition, LoopType} from '../types';
-import {IAbstractBinaryTree, IAbstractBinaryTreeNode} from '../interfaces';
+} from '../../types';
+import {AbstractBinaryTreeOptions, FamilyPosition, LoopType} from '../../types';
+import {IAbstractBinaryTree, IAbstractBinaryTreeNode} from '../../interfaces';
 
 export abstract class AbstractBinaryTreeNode<T = any, NEIGHBOR extends AbstractBinaryTreeNode<T, NEIGHBOR> = AbstractBinaryTreeNodeNested<T>> implements IAbstractBinaryTreeNode<T, NEIGHBOR> {
 

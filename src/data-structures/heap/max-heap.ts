@@ -8,7 +8,7 @@
 
 import {Heap, HeapItem} from './heap';
 import {PriorityQueue} from '../priority-queue';
-import type {HeapOptions} from '../types';
+import type {HeapOptions} from '../../types';
 
 /**
  * @class MaxHeap

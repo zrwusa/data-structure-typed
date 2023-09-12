@@ -6,7 +6,7 @@
  * @license MIT License
  */
 
-import type {SegmentTreeNodeVal} from '../types';
+import type {SegmentTreeNodeVal} from '../../types';
 
 export class SegmentTreeNode {
     constructor(start: number, end: number, sum: number, val?: SegmentTreeNodeVal | null) {

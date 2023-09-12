@@ -1,5 +1,5 @@
-import {BinaryTreeNodeId, RBColor, RBTreeNodeNested, RBTreeOptions} from '../types';
-import {IRBTree, IRBTreeNode} from '../interfaces/rb-tree';
+import {BinaryTreeNodeId, RBColor, RBTreeNodeNested, RBTreeOptions} from '../../types';
+import {IRBTree, IRBTreeNode} from '../../interfaces/rb-tree';
 import {BST, BSTNode} from './bst';
 
 

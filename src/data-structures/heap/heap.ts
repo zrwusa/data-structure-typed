@@ -6,7 +6,7 @@
  * @license MIT License
  */
 import {PriorityQueue} from '../priority-queue';
-import type {HeapOptions} from '../types';
+import type {HeapOptions} from '../../types';
 
 export class HeapItem<T = number> {
 

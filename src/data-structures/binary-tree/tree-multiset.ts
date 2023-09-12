@@ -5,9 +5,9 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type {BinaryTreeNodeId, TreeMultisetNodeNested, TreeMultisetOptions} from '../types';
-import {BinaryTreeDeletedResult, CP, DFSOrderPattern, FamilyPosition, LoopType, NodeOrPropertyName} from '../types';
-import {ITreeMultiset, ITreeMultisetNode} from '../interfaces';
+import type {BinaryTreeNodeId, TreeMultisetNodeNested, TreeMultisetOptions} from '../../types';
+import {BinaryTreeDeletedResult, CP, DFSOrderPattern, FamilyPosition, LoopType, NodeOrPropertyName} from '../../types';
+import {ITreeMultiset, ITreeMultisetNode} from '../../interfaces';
 import {AVLTree, AVLTreeNode} from './avl-tree';
 
 export class TreeMultisetNode<T = any, NEIGHBOR extends TreeMultisetNode<T, NEIGHBOR> = TreeMultisetNodeNested<T>> extends AVLTreeNode<T, NEIGHBOR> implements ITreeMultisetNode<T, NEIGHBOR> {

@@ -1,5 +1,5 @@
 import {z} from 'zod';
-import {NonNumberNonObjectButDefined, ObjectWithNonNumberId, ObjectWithNumberId, ObjectWithoutId} from './types';
+import {NonNumberNonObjectButDefined, ObjectWithNonNumberId, ObjectWithNumberId, ObjectWithoutId} from '../types/utils';
 
 
 export const nonNumberNonObjectButDefinedSchema = z.union([z.string(),

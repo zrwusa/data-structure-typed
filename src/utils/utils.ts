@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type {Thunk, ToThunkFn, TrlAsyncFn, TrlFn} from './types';
+import type {Thunk, ToThunkFn, TrlAsyncFn, TrlFn} from '../types';
 
 export const uuidV4 = function () {
     return 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'.replace(/[x]/g, function (c) {

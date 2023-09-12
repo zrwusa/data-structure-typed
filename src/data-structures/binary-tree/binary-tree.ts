@@ -6,9 +6,9 @@
  * @license MIT License
  */
 
-import type {BinaryTreeNodeId, BinaryTreeNodeNested, BinaryTreeOptions} from '../types';
+import type {BinaryTreeNodeId, BinaryTreeNodeNested, BinaryTreeOptions} from '../../types';
 import {AbstractBinaryTree, AbstractBinaryTreeNode} from './abstract-binary-tree';
-import {IBinaryTree, IBinaryTreeNode} from '../interfaces';
+import {IBinaryTree, IBinaryTreeNode} from '../../interfaces';
 
 export class BinaryTreeNode<T = any, NEIGHBOR extends BinaryTreeNode<T, NEIGHBOR> = BinaryTreeNodeNested<T>> extends AbstractBinaryTreeNode<T, NEIGHBOR> implements IBinaryTreeNode<T, NEIGHBOR> {
     constructor(id: BinaryTreeNodeId, val?: T) {

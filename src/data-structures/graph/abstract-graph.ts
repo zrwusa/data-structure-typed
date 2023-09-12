@@ -7,8 +7,8 @@
  */
 import {arrayRemove, uuidV4} from '../../utils';
 import {PriorityQueue} from '../priority-queue';
-import type {DijkstraResult, VertexId} from '../types';
-import {IAbstractGraph} from '../interfaces';
+import type {DijkstraResult, VertexId} from '../../types';
+import {IAbstractGraph} from '../../interfaces';
 
 export abstract class AbstractVertex<T = any> {
 

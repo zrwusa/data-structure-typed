@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type {Direction, NavigatorParams, Turning} from '../types';
+import type {Direction, NavigatorParams, Turning} from '../../types';
 
 export class Character {
     direction: Direction;

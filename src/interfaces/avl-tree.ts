@@ -1,4 +1,4 @@
-import {AVLTreeNode} from '../binary-tree';
+import {AVLTreeNode} from '../data-structures';
 import {IBST, IBSTNode} from './bst';
 import {BinaryTreeDeletedResult, BinaryTreeNodeId} from '../types';
 

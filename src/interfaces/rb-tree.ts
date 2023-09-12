@@ -1,4 +1,4 @@
-import {RBTreeNode} from '../binary-tree';
+import {RBTreeNode} from '../data-structures';
 import {IBST, IBSTNode} from './bst';
 import {BinaryTreeNodeId} from '../types';
 

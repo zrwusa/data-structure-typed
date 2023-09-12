@@ -5,10 +5,10 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type {BinaryTreeNodeId, BinaryTreeNodePropertyName, BSTComparator, BSTNodeNested, BSTOptions} from '../types';
-import {CP, LoopType} from '../types';
+import type {BinaryTreeNodeId, BinaryTreeNodePropertyName, BSTComparator, BSTNodeNested, BSTOptions} from '../../types';
+import {CP, LoopType} from '../../types';
 import {BinaryTree, BinaryTreeNode} from './binary-tree';
-import {IBST, IBSTNode} from '../interfaces';
+import {IBST, IBSTNode} from '../../interfaces';
 
 export class BSTNode<T = any, NEIGHBOR extends BSTNode<T, NEIGHBOR> = BSTNodeNested<T>> extends BinaryTreeNode<T, NEIGHBOR> implements IBSTNode<T, NEIGHBOR> {
     constructor(id: BinaryTreeNodeId, val?: T) {

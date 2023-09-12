@@ -1,4 +1,4 @@
-import {TreeMultisetNode} from '../binary-tree';
+import {TreeMultisetNode} from '../data-structures';
 import {IBSTNode} from './bst';
 import {IAVLTree} from './avl-tree';
 

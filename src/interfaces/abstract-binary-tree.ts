@@ -9,7 +9,7 @@ import {
     LoopType,
     NodeOrPropertyName
 } from '../types';
-import {AbstractBinaryTreeNode} from '../binary-tree';
+import {AbstractBinaryTreeNode} from '../data-structures';
 
 export interface IAbstractBinaryTreeNode<T, NEIGHBOR extends IAbstractBinaryTreeNode<T, NEIGHBOR>> {
 

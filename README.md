@@ -13,11 +13,11 @@ By strictly adhering to object-oriented design (BinaryTree -> BST -> AVLTree -> 
 ## install
 ### npm
 ```bash
-npm install data-structure-typed --save
+npm install data-structure-typed
 ```
 ### yarn
 ```bash
-yarn add data-structure-typed -D
+yarn add data-structure-typed
 ```
 ### CDN
 ```html

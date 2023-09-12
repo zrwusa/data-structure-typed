@@ -1,4 +1,4 @@
-import {BinaryTreeNode} from '../binary-tree';
+import {BinaryTreeNode} from '../../data-structures/binary-tree';
 import {AbstractBinaryTreeOptions} from './abstract-binary-tree';
 
 

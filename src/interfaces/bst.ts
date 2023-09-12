@@ -1,4 +1,4 @@
-import {BSTNode} from '../binary-tree';
+import {BSTNode} from '../data-structures';
 import {IBinaryTree, IBinaryTreeNode} from './binary-tree';
 import {BinaryTreeDeletedResult, BinaryTreeNodeId, BinaryTreeNodePropertyName} from '../types';
 
