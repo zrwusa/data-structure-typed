@@ -12,17 +12,17 @@ export interface IAVLTree<N extends AVLTreeNode<N['val'], N>> extends IBST<N> {
 
   remove(id: BinaryTreeNodeId, isUpdateAllLeftSum?: boolean): BinaryTreeDeletedResult<N>[]
 
-  balanceFactor(node: N): number
-
-  updateHeight(node: N): void
-
-  balancePath(node: N): void
-
-  balanceLL(A: N): void
-
-  balanceLR(A: N): void
-
-  balanceRR(A: N): void
-
-  balanceRL(A: N): void
+  // _balanceFactor(node: N): number
+  //
+  // _updateHeight(node: N): void
+  //
+  // _balancePath(node: N): void
+  //
+  // _balanceLL(A: N): void
+  //
+  // _balanceLR(A: N): void
+  //
+  // _balanceRR(A: N): void
+  //
+  // _balanceRL(A: N): void
 }

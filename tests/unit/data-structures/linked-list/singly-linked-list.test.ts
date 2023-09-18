@@ -28,7 +28,7 @@ describe('SinglyLinkedList Operation Test', () => {
 
         it('should return undefined if the list is empty', () => {
             const popped = list.pop();
-            expect(popped).toBeNull();
+            expect(popped).toBeUndefined();
         });
     });
 
@@ -43,7 +43,7 @@ describe('SinglyLinkedList Operation Test', () => {
 
         it('should return undefined if the list is empty', () => {
             const shifted = list.shift();
-            expect(shifted).toBeNull();
+            expect(shifted).toBeUndefined();
         });
     });
 
@@ -255,7 +255,7 @@ describe('SinglyLinkedList Operation Test', () => {
         it('should return undefined for an out-of-bounds index', () => {
             list.push(1);
             const removed = list.deleteAt(1);
-            expect(removed).toBeNull();
+            expect(removed).toBeUndefined();
         });
 
         it('should remove and return the first element', () => {
@@ -281,7 +281,7 @@ describe('SinglyLinkedList Operation Test', () => {
             list.push(2);
             expect(list.pop()).toBe(2);
             expect(list.pop()).toBe(1);
-            expect(list.pop()).toBeNull();
+            expect(list.pop()).toBeUndefined();
         });
     });
 
@@ -291,7 +291,7 @@ describe('SinglyLinkedList Operation Test', () => {
             list.unshift(2);
             expect(list.shift()).toBe(2);
             expect(list.shift()).toBe(1);
-            expect(list.shift()).toBeNull();
+            expect(list.shift()).toBeUndefined();
         });
     });
 

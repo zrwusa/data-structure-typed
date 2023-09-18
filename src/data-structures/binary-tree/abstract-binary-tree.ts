@@ -725,7 +725,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
   }
 
   /**
-   * The function isBST checks if the binary search tree is valid.
+   * The function isBST checks if the binary tree is valid binary search tree.
    * @returns The `isBST()` function is returning a boolean value.
    */
   isBST(): boolean {

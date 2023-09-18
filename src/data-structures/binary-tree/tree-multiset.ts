@@ -173,7 +173,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
         }
       }
     }
-    if (inserted) this.balancePath(inserted);
+    if (inserted) this._balancePath(inserted);
     return inserted;
   }
 
@@ -351,7 +351,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
     bstDeletedResult.push({deleted: orgCurrent, needBalanced});
 
     if (needBalanced) {
-      this.balancePath(needBalanced);
+      this._balancePath(needBalanced);
     }
 
     return bstDeletedResult;

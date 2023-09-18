@@ -48,7 +48,7 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
   override add(id: BinaryTreeNodeId, val?: N['val']): N | null | undefined {
     // TODO support node as a param
     const inserted = super.add(id, val);
-    if (inserted) this.balancePath(inserted);
+    if (inserted) this._balancePath(inserted);
     return inserted;
   }
 
@@ -66,7 +66,7 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
     const deletedResults = super.remove(id, isUpdateAllLeftSum);
     for (const {needBalanced} of deletedResults) {
       if (needBalanced) {
-        this.balancePath(needBalanced);
+        this._balancePath(needBalanced);
       }
     }
     return deletedResults;
@@ -78,7 +78,7 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
    * @param node - The parameter "node" is of type N, which represents a node in an AVL tree.
    * @returns The balance factor of the given AVL tree node.
    */
-  balanceFactor(node: N): number {
+  protected _balanceFactor(node: N): number {
     if (!node.right) // node has no right subtree
       return -node.height;
     else if (!node.left) // node has no left subtree
@@ -91,7 +91,7 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
    * The function updates the height of a node in an AVL tree based on the heights of its left and right subtrees.
    * @param node - The parameter `node` is an AVLTreeNode object, which represents a node in an AVL tree.
    */
-  updateHeight(node: N): void {
+  protected _updateHeight(node: N): void {
     if (!node.left && !node.right) // node is a leaf
       node.height = 0;
     else if (!node.left) {
@@ -105,31 +105,31 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
   }
 
   /**
-   * The `balancePath` function balances the AVL tree by performing appropriate rotations based on the balance factor of
+   * The `_balancePath` function balances the AVL tree by performing appropriate rotations based on the balance factor of
    * each node in the path from the given node to the root.
    * @param node - The `node` parameter is an AVLTreeNode object, which represents a node in an AVL tree.
    */
-  balancePath(node: N): void {
+  protected _balancePath(node: N): void {
     const path = this.getPathToRoot(node);
     for (let i = path.length - 1; i >= 0; i--) {
       const A = path[i];
-      this.updateHeight(A);
-      switch (this.balanceFactor(A)) {
+      this._updateHeight(A);
+      switch (this._balanceFactor(A)) {
         case -2:
           if (A && A.left) {
-            if (this.balanceFactor(A.left) <= 0) {
-              this.balanceLL(A); // Perform LL rotation
+            if (this._balanceFactor(A.left) <= 0) {
+              this._balanceLL(A); // Perform LL rotation
             } else {
-              this.balanceLR(A); // Perform LR rotation
+              this._balanceLR(A); // Perform LR rotation
             }
           }
           break;
         case +2:
           if (A && A.right) {
-            if (this.balanceFactor(A.right) >= 0) {
-              this.balanceRR(A); // Perform RR rotation
+            if (this._balanceFactor(A.right) >= 0) {
+              this._balanceRR(A); // Perform RR rotation
             } else {
-              this.balanceRL(A); // Perform RL rotation
+              this._balanceRL(A); // Perform RL rotation
             }
           }
       }
@@ -137,10 +137,10 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
   }
 
   /**
-   * The `balanceLL` function performs a left-left rotation on an AVL tree to balance it.
+   * The `_balanceLL` function performs a left-left rotation on an AVL tree to balance it.
    * @param A - The parameter A is an AVLTreeNode object.
    */
-  balanceLL(A: N): void {
+  protected _balanceLL(A: N): void {
     const parentOfA = A.parent;
     const B = A.left; // A is left-heavy and B is left-heavy
     A.parent = B;
@@ -162,15 +162,15 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
       A.left = B.right; // Make T2 the left subtree of A
       B.right = A; // Make A the left child of B
     }
-    this.updateHeight(A);
-    if (B) this.updateHeight(B);
+    this._updateHeight(A);
+    if (B) this._updateHeight(B);
   }
 
   /**
-   * The `balanceLR` function performs a left-right rotation to balance an AVL tree.
+   * The `_balanceLR` function performs a left-right rotation to balance an AVL tree.
    * @param A - A is an AVLTreeNode object.
    */
-  balanceLR(A: N): void {
+  protected _balanceLR(A: N): void {
     const parentOfA = A.parent;
     const B = A.left; // A is left-heavy
     let C = null;
@@ -209,16 +209,16 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
       C.right = A;
     }
 
-    this.updateHeight(A); // Adjust heights
-    B && this.updateHeight(B);
-    C && this.updateHeight(C);
+    this._updateHeight(A); // Adjust heights
+    B && this._updateHeight(B);
+    C && this._updateHeight(C);
   }
 
   /**
-   * The `balanceRR` function performs a right-right rotation on an AVL tree to balance it.
+   * The `_balanceRR` function performs a right-right rotation on an AVL tree to balance it.
    * @param A - The parameter A is an AVLTreeNode object.
    */
-  balanceRR(A: N): void {
+  protected _balanceRR(A: N): void {
     const parentOfA = A.parent;
     const B = A.right; // A is right-heavy and B is right-heavy
     A.parent = B;
@@ -245,15 +245,15 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
       A.right = B.left; // Make T2 the right subtree of A
       B.left = A;
     }
-    this.updateHeight(A);
-    B && this.updateHeight(B);
+    this._updateHeight(A);
+    B && this._updateHeight(B);
   }
 
   /**
-   * The `balanceRL` function performs a right-left rotation to balance an AVL tree.
+   * The `_balanceRL` function performs a right-left rotation to balance an AVL tree.
    * @param A - A is an AVLTreeNode object.
    */
-  balanceRL(A: N): void {
+  protected _balanceRL(A: N): void {
     const parentOfA = A.parent;
     const B = A.right; // A is right-heavy
     let C = null;
@@ -292,9 +292,9 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
     if (C) C.left = A;
     if (C) C.right = B;
 
-    this.updateHeight(A); // Adjust heights
-    B && this.updateHeight(B);
-    C && this.updateHeight(C);
+    this._updateHeight(A); // Adjust heights
+    B && this._updateHeight(B);
+    C && this._updateHeight(C);
   }
 }
 

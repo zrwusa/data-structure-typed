@@ -38,7 +38,7 @@ export class SinglyLinkedListNode<T = number> {
   }
 }
 
-export class SinglyLinkedList<T = number> {
+export class SinglyLinkedList<T = any> {
 
   /**
    * The constructor initializes the linked list with an empty head, tail, and length.
@@ -116,8 +116,8 @@ export class SinglyLinkedList<T = number> {
    * @returns The method `pop()` returns the value of the node that is being removed from the end of the linked list. If
    * the linked list is empty, it returns `null`.
    */
-  pop(): T | null {
-    if (!this.head) return null;
+  pop(): T | undefined {
+    if (!this.head) return undefined;
     if (this.head === this.tail) {
       const val = this.head.val;
       this.head = null;
@@ -141,8 +141,8 @@ export class SinglyLinkedList<T = number> {
    * The `shift()` function removes and returns the value of the first node in a linked list.
    * @returns The value of the node that is being removed from the beginning of the linked list.
    */
-  shift(): T | null {
-    if (!this.head) return null;
+  shift(): T | undefined {
+    if (!this.head) return undefined;
     const removedNode = this.head;
     this.head = this.head.next;
     this._length--;
@@ -204,8 +204,8 @@ export class SinglyLinkedList<T = number> {
    * @returns The method `deleteAt` returns the value of the node that was deleted, or `null` if the index is out of
    * bounds.
    */
-  deleteAt(index: number): T | null {
-    if (index < 0 || index >= this.length) return null;
+  deleteAt(index: number): T | undefined {
+    if (index < 0 || index >= this.length) return undefined;
     if (index === 0) return this.shift();
     if (index === this.length - 1) return this.pop();
 

@@ -1,19 +1,18 @@
 # What
 
 ## Brief
-Javascript & TypeScript Data Structure collections. 
+Data Structures of Javascript & TypeScript.  
 
-## Algorithms
-DFS, DFSIterative, BFS, morris, Bellman-Ford Algorithm, Dijkstra's Algorithm, Floyd-Warshall Algorithm, Tarjan's Algorithm. Listed only a few out, you can discover more in API docs
-
-## Code design
-By strictly adhering to object-oriented design (BinaryTree -> BST -> AVLTree -> TreeMultiset), you can seamlessly inherit the existing data structures to implement the customized ones you need. Object-oriented design stands as the optimal approach to data structure design.
+## Built-in classic algorithms
+DFS(Depth-First Search), DFSIterative, BFS(Breadth-First Search), 
+morris, Bellman-Ford Algorithm, Dijkstra's Algorithm, Floyd-Warshall Algorithm, 
+Tarjan's Algorithm.
 
 # How
 ## install
 ### npm
 ```bash
-npm install data-structure-typed
+npm install data-structure-typed --save
 ```
 ### yarn
 ```bash
@@ -28,17 +27,13 @@ const {AVLTree} = dataStructureTyped;
 const {Heap, MinHeap, SinglyLinkedList, Stack, AVLTreeNode, BST, Trie, DirectedGraph, DirectedVertex, TreeMultiset} = dataStructureTyped;
 ```
 
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/dfs-pre-order.webp?raw=true)
-
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/test-avl-tree.webp?raw=true)
-
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/map-graph.webp?raw=true)
-
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/test-graphs.webp?raw=true)
-
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/cut-off-trees-for-golf.webp?raw=true)
-
-![](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/examples/parenthesis-check.webp?raw=true)
+![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/binary-tree-array-to-binary-tree.webp)
+![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/binary-tree-dfs-in-order.webp)
+![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/avl-tree-test.webp)
+![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/tree-multiset-test.webp)
+![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/matrix-cut-off-tree-for-golf.webp)
+![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/directed-graph-test.webp)
+![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/map-graph-test.webp)
 
 ## API docs & Examples
 
@@ -46,12 +41,10 @@ const {Heap, MinHeap, SinglyLinkedList, Stack, AVLTreeNode, BST, Trie, DirectedG
 
 [Live Examples](https://vivid-algorithm.vercel.app)
 
-[//]: # (<a href="https://vivid-algorithm.vercel.app" target="_blank">Live Examples</a>)
-
 <a href="https://github.com/zrwusa/vivid-algorithm" target="_blank">Examples Repository</a>
 
+## Code Snippet
 ### Binary Search Tree (BST) snippet
-
 #### TS
 ```typescript
     import {BST, BSTNode} from 'data-structure-typed';
@@ -142,7 +135,6 @@ const {Heap, MinHeap, SinglyLinkedList, Stack, AVLTreeNode, BST, Trie, DirectedG
 ```
 
 ### Directed Graph simple snippet
-
 #### TS or JS
 ```typescript
 import {DirectedGraph} from 'data-structure-typed';
@@ -172,7 +164,6 @@ import {DirectedGraph} from 'data-structure-typed';
 ```
 
 ### Undirected Graph snippet
-
 #### TS or JS
 ```typescript
 import {UndirectedGraph} from 'data-structure-typed';
@@ -189,6 +180,7 @@ import {UndirectedGraph} from 'data-structure-typed';
     const dijkstraResult = graph.dijkstra('A');
     Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D']
 ```
+
 ## Data Structures
 <table>
 <thead>
@@ -431,7 +423,6 @@ import {UndirectedGraph} from 'data-structure-typed';
 ## Complexities
 
 ### performance of Big O
-
 <table>
 <thead>
 <tr>
@@ -496,7 +487,6 @@ import {UndirectedGraph} from 'data-structure-typed';
 </table>
 
 ### Data Structure Complexity
-
 <table>
 <thead>
 <tr>
@@ -593,7 +583,6 @@ import {UndirectedGraph} from 'data-structure-typed';
 </table>
 
 ### Sorting Complexity
-
 <table>
 <thead>
 <tr>
@@ -690,6 +679,9 @@ import {UndirectedGraph} from 'data-structure-typed';
 </tr>
 </tbody>
 </table>
+
+## Code design
+By strictly adhering to object-oriented design (BinaryTree -> BST -> AVLTree -> TreeMultiset), you can seamlessly inherit the existing data structures to implement the customized ones you need. Object-oriented design stands as the optimal approach to data structure design.
 
 [//]: # (![overview diagram]&#40;https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/assets/overview-diagram-of-data-structures.png?raw=true&#41;)
 

@@ -63,6 +63,11 @@ export class ObjectDeque<T = number> {
     return this._size;
   }
 
+  /**
+   * The "addFirst" function adds a value to the beginning of an array-like data structure.
+   * @param {T} value - The `value` parameter represents the value that you want to add to the beginning of the data
+   * structure.
+   */
   addFirst(value: T) {
     if (this._size === 0) {
       const mid = Math.floor(this._capacity / 2);
@@ -75,6 +80,10 @@ export class ObjectDeque<T = number> {
     this._size++;
   }
 
+  /**
+   * The addLast function adds a value to the end of an array-like data structure.
+   * @param {T} value - The `value` parameter represents the value that you want to add to the end of the data structure.
+   */
   addLast(value: T) {
     if (this._size === 0) {
       const mid = Math.floor(this._capacity / 2);
@@ -87,6 +96,10 @@ export class ObjectDeque<T = number> {
     this._size++;
   }
 
+  /**
+   * The function `pollFirst()` removes and returns the first element in a data structure.
+   * @returns The value of the first element in the data structure.
+   */
   pollFirst() {
     if (!this._size) return;
     const value = this.peekFirst();
@@ -96,10 +109,18 @@ export class ObjectDeque<T = number> {
     return value;
   }
 
+  /**
+   * The `peekFirst` function returns the first element in an array-like data structure if it exists.
+   * @returns The element at the first position of the `_nodes` array.
+   */
   peekFirst() {
     if (this._size) return this._nodes[this._first];
   }
 
+  /**
+   * The `pollLast()` function removes and returns the last element in a data structure.
+   * @returns The value that was removed from the data structure.
+   */
   pollLast() {
     if (!this._size) return;
     const value = this.peekLast();
@@ -110,14 +131,29 @@ export class ObjectDeque<T = number> {
     return value;
   }
 
+  /**
+   * The `peekLast()` function returns the last element in an array-like data structure.
+   * @returns The last element in the array "_nodes" is being returned.
+   */
   peekLast() {
     if (this._size) return this._nodes[this._last];
   }
 
+  /**
+   * The get function returns the element at the specified index in an array-like data structure.
+   * @param {number} index - The index parameter is a number that represents the position of the element you want to
+   * retrieve from the array.
+   * @returns The element at the specified index in the `_nodes` array is being returned. If there is no element at that
+   * index, `null` is returned.
+   */
   get(index: number) {
     return this._nodes[this._first + index] || null;
   }
 
+  /**
+   * The function checks if the size of a data structure is less than or equal to zero.
+   * @returns The method is returning a boolean value indicating whether the size of the object is less than or equal to 0.
+   */
   isEmpty() {
     return this._size <= 0;
   }
@@ -139,6 +175,10 @@ export class ArrayDeque<T> {
   get size() {
     return this._nodes.length;
   }
+
+  /**
+   * O(n) time complexity of adding at the beginning and the end
+   */
 
   /**
    * The function "addLast" adds a value to the end of an array.
@@ -167,6 +207,10 @@ export class ArrayDeque<T> {
   }
 
   /**
+   * O(n) time complexity of adding at the beginning and the end
+   */
+
+  /**
    * The function "addFirst" adds a value to the beginning of an array.
    * @param {T} value - The value parameter represents the value that you want to add to the beginning of the array.
    * @returns The return value of the `addFirst` function is the new length of the array `_nodes` after adding the
@@ -192,6 +236,10 @@ export class ArrayDeque<T> {
   peekLast(): T | null {
     return this._nodes[this._nodes.length - 1] ?? null;
   }
+
+  /**
+   * O(1) time complexity of obtaining the value
+   */
 
   /**
    * The get function returns the element at the specified index in an array, or null if the index is out of bounds.
