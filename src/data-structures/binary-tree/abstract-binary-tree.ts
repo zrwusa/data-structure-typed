@@ -297,41 +297,35 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     return inserted;
   }
 
+
   /**
-   * The `addMany` function adds multiple nodes to a tree data structure and returns an array of the inserted nodes or
-   * null/undefined values.
-   * @param {(BinaryTreeNodeId|N)[]} idsOrNodes - An array of BinaryTreeNodeId or N objects. These can be either the ID
-   * of a binary tree node or the actual node object itself.
-   * @param {N['val'][]} [data] - Optional array of values to be added to the nodes. If provided, the length of this
-   * array should be the same as the length of the `idsOrNodes` array.
-   * @returns The function `addMany` returns an array of values `(N | null | undefined)[]`.
+   * The `addMany` function takes an array of binary tree node IDs or nodes, and optionally an array of corresponding data
+   * values, and adds them to the binary tree.
+   * @param {(BinaryTreeNodeId | null)[] | (N | null)[]} idsOrNodes - An array of BinaryTreeNodeId or BinaryTreeNode
+   * objects, or null values.
+   * @param {N['val'][]} [data] - The `data` parameter is an optional array of values (`N['val'][]`) that corresponds to
+   * the nodes or node IDs being added. It is used to set the value of each node being added. If `data` is not provided,
+   * the value of the nodes will be `undefined`.
+   * @returns The function `addMany` returns an array of `N`, `null`, or `undefined` values.
    */
-  addMany(idsOrNodes: (BinaryTreeNodeId | N | null)[], data?: N['val'][]): (N | null | undefined)[] {
+  addMany(idsOrNodes: (BinaryTreeNodeId | null)[] | (N | null)[], data?: N['val'][]): (N | null | undefined)[] {
     // TODO not sure addMany not be run multi times
     const inserted: (N | null | undefined)[] = [];
-    const map: Map<N | BinaryTreeNodeId | null, number> = new Map();
-
-    for (const idOrNode of idsOrNodes) map.set(idOrNode, (map.get(idOrNode) ?? 0) + 1);
 
     for (let i = 0; i < idsOrNodes.length; i++) {
       const idOrNode = idsOrNodes[i];
-      if (map.has(idOrNode)) {
-        if (idOrNode instanceof AbstractBinaryTreeNode) {
-          inserted.push(this.add(idOrNode.id, idOrNode.val));
-          continue;
-        }
-
-        if (idOrNode === null) {
-          inserted.push(this.add(null));
-          continue;
-        }
-
-        const val = data?.[i];
-
-        inserted.push(this.add(idOrNode, val));
-        map.delete(idOrNode);
+      if (idOrNode instanceof AbstractBinaryTreeNode) {
+        inserted.push(this.add(idOrNode.id, idOrNode.val));
+        continue;
       }
 
+      if (idOrNode === null) {
+        inserted.push(this.add(null));
+        continue;
+      }
+
+      const val = data?.[i];
+      inserted.push(this.add(idOrNode, val));
     }
     return inserted;
   }
@@ -345,7 +339,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * array. Each value in the `data` array will be assigned to the
    * @returns The method is returning a boolean value.
    */
-  fill(idsOrNodes: (BinaryTreeNodeId | N | null)[], data?: N[] | Array<N['val']>): boolean {
+  fill(idsOrNodes: (BinaryTreeNodeId | null)[] | (N | null)[], data?: N[] | Array<N['val']>): boolean {
     this.clear();
     return idsOrNodes.length === this.addMany(idsOrNodes, data).length;
   }
@@ -363,9 +357,10 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    */
   remove(nodeOrId: N | BinaryTreeNodeId, isUpdateAllLeftSum?: boolean): BinaryTreeDeletedResult<N>[] {
 
-    isUpdateAllLeftSum = isUpdateAllLeftSum === undefined ? true: isUpdateAllLeftSum;
+    isUpdateAllLeftSum = isUpdateAllLeftSum === undefined ? true : isUpdateAllLeftSum;
     // TODO may implement update all left sum
-    if (isUpdateAllLeftSum) {}
+    if (isUpdateAllLeftSum) {
+    }
 
     const bstDeletedResult: BinaryTreeDeletedResult<N>[] = [];
     if (!this.root) return bstDeletedResult;

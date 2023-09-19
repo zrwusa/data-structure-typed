@@ -44,18 +44,25 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
   }
 
   /**
-   * The `add` function adds a new node to a binary tree, ensuring that duplicates are not accepted.
-   * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier of the binary tree node that we want to add. It
-   * is of type `BinaryTreeNodeId`.
-   * @param [val] - The `val` parameter is an optional value that can be assigned to the node being added. It represents
-   * the value associated with the node.
-   * @returns The function `add` returns the inserted node (`inserted`) if it was successfully added to the binary tree.
-   * If the node was not added (e.g., due to a duplicate ID), it returns `null` or `undefined`.
+   * The `add` function adds a new node to a binary search tree, either by creating a new node or by updating an existing
+   * node with the same ID.
+   * @param {BinaryTreeNodeId | N | null} idOrNode - The `idOrNode` parameter can be either a `BinaryTreeNodeId` or a `N`
+   * (which represents a binary tree node) or `null`.
+   * @param [val] - The `val` parameter is an optional value that can be assigned to the `val` property of the new node
+   * being added to the binary search tree.
+   * @returns The function `add` returns the inserted node (`inserted`) which can be of type `N`, `null`, or `undefined`.
    */
-  override add(id: BinaryTreeNodeId, val?: N['val']): N | null | undefined {
+  override add(idOrNode: BinaryTreeNodeId | N | null, val?: N['val']): N | null | undefined {
     // TODO support node as a param
     let inserted: N | null = null;
-    const newNode = this.createNode(id, val);
+    let newNode: N | null = null;
+    if (idOrNode instanceof BSTNode) {
+      newNode = idOrNode;
+    } else if (typeof idOrNode === 'number') {
+      newNode = this.createNode(idOrNode, val);
+    } else if (idOrNode === null) {
+      newNode = null;
+    }
     if (this.root === null) {
       this._setRoot(newNode);
       this._setSize(this.size + 1);
@@ -65,14 +72,14 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
       let traversing = true;
       while (traversing) {
         if (cur !== null && newNode !== null) {
-          if (this._compare(cur.id, id) === CP.eq) {
+          if (this._compare(cur.id, newNode.id) === CP.eq) {
             if (newNode) {
               cur.val = newNode.val;
             }
             //Duplicates are not accepted.
             traversing = false;
             inserted = cur;
-          } else if (this._compare(cur.id, id) === CP.gt) {
+          } else if (this._compare(cur.id, newNode.id) === CP.gt) {
             // Traverse left of the node
             if (cur.left === undefined) {
               if (newNode) {
@@ -87,7 +94,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
               //Traverse the left of the current node
               if (cur.left) cur = cur.left;
             }
-          } else if (this._compare(cur.id, id) === CP.lt) {
+          } else if (this._compare(cur.id, newNode.id) === CP.lt) {
             // Traverse right of the node
             if (cur.right === undefined) {
               if (newNode) {
@@ -111,7 +118,79 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
     return inserted;
   }
 
-  // TODO need to implement addMany by using binary search for insertion.
+  /**
+   * The `addMany` function overrides the base class method to add multiple nodes to a binary search tree in a balanced
+   * manner.
+   * @param {[BinaryTreeNodeId | N , N['val']][]} idsOrNodes - The `idsOrNodes` parameter in the `addMany` function is an array of
+   * `BinaryTreeNodeId` or `N` (node) objects, or `null` values. It represents the nodes or node IDs that need to be added
+   * to the binary search tree.
+   * @param {N['val'][]} data - The values of tree nodes
+   * @param {boolean} isBalanceAdd - If true the nodes will be balance inserted in binary search method.
+   * @returns The function `addMany` returns an array of `N`, `null`, or `undefined` values.
+   */
+  override addMany(idsOrNodes: (BinaryTreeNodeId | null)[] | (N | null)[], data?: N['val'][], isBalanceAdd = false): (N | null | undefined)[] {
+    function hasNoNull (arr: (BinaryTreeNodeId | null)[] | (N | null)[]): arr is BinaryTreeNodeId[] | N[] {
+      return arr.indexOf(null) === -1;
+    }
+    if (!isBalanceAdd || !hasNoNull(idsOrNodes)) {
+      return super.addMany(idsOrNodes, data);
+    }
+    const inserted: (N | null | undefined)[] = [];
+    const combinedArr: [BinaryTreeNodeId | N , N['val']][] = idsOrNodes.map((value, index) => [value, data?.[index]]);
+    let sorted = [];
+    function isNodeOrNullTuple(arr: [BinaryTreeNodeId | N , N['val']][]): arr is [N , N['val']][] {
+      for (const [idOrNode] of arr) if (idOrNode instanceof BSTNode) return true;
+      return false;
+    }
+    function isBinaryTreeIdOrNullTuple(arr: [BinaryTreeNodeId | N , N['val']][]): arr is [BinaryTreeNodeId , N['val']][] {
+      for (const [idOrNode] of arr) if (typeof idOrNode === 'number') return true;
+      return false;
+    }
+    let sortedIdsOrNodes: (number | N | null)[] = [], sortedData: (N["val"] | undefined)[] | undefined = [];
+
+    if (isNodeOrNullTuple(combinedArr)) {
+      sorted = combinedArr.sort((a, b) => a[0].id - b[0].id);
+    } else if (isBinaryTreeIdOrNullTuple(combinedArr)) {
+      sorted = combinedArr.sort((a, b) => a[0] - b[0]);
+    } else {
+      throw new Error('Invalid input idsOrNodes')
+    }
+    sortedIdsOrNodes = sorted.map(([idOrNode,]) => idOrNode);
+    sortedData = sorted.map(([,val]) => val);
+    const recursive = (arr: (BinaryTreeNodeId | null | N)[], data?: N['val'][]) => {
+      if (arr.length === 0) return;
+
+      const mid = Math.floor((arr.length - 1) / 2);
+      const newNode = this.add(arr[mid], data?.[mid]);
+      inserted.push(newNode);
+      recursive(arr.slice(0, mid), data?.slice(0, mid));
+      recursive(arr.slice(mid + 1), data?.slice(mid + 1));
+    }
+    const iterative = () => {
+      const n = sorted.length;
+      const stack: [[number, number]] = [[0, n - 1]];
+      while (stack.length > 0) {
+        const popped = stack.pop();
+        if (popped) {
+          const [l, r] = popped;
+          if (l <= r) {
+            const m = l + Math.floor((r - l) / 2);
+            const newNode = this.add(sortedIdsOrNodes[m], sortedData?.[m]);
+            inserted.push(newNode);
+            stack.push([m + 1, r]);
+            stack.push([l, m - 1]);
+          }
+        }
+      }
+    }
+    if (this.loopType === LoopType.RECURSIVE) {
+      recursive(sortedIdsOrNodes, sortedData)
+    } else {
+      iterative();
+    }
+
+    return inserted;
+  }
 
   /**
    * The function returns the first node in a binary tree that matches the given property name and value.
@@ -150,8 +229,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * is set to `true`, the function will return an array with only one node (if
    * @returns an array of nodes (type N).
    */
-  override getNodes(nodeProperty: BinaryTreeNodeId | N, propertyName ?: BinaryTreeNodePropertyName, onlyOne ?: boolean): N[] {
-    propertyName = propertyName ?? 'id';
+  override getNodes(nodeProperty: BinaryTreeNodeId | N, propertyName : BinaryTreeNodePropertyName = 'id', onlyOne ?: boolean): N[] {
     if (!this.root) return [];
     const result: N[] = [];
 
