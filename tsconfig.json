@@ -16,6 +16,8 @@
     "skipLibCheck": true,
     "downlevelIteration": true,
     "experimentalDecorators": true,
+    "sourceMap": true,
+    //    "removeComments": true,
     //    "allowJs": true,
     //    "allowSyntheticDefaultImports": true,
     //    "forceConsistentCasingInFileNames": true,

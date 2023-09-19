@@ -1,31 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>CDN Test</title>
+  <meta charset="UTF-8">
+  <title>CDN Test</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/data-structure-typed/dist/bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/data-structure-typed/dist/bundle.js"></script>
 
 </head>
 <body>
-    <div id="app">
-        <ul class="modules">
+<div id="app">
+  <ul class="modules">
 
-        </ul>
-    </div>
-    <script defer>
-        const $modules = document.querySelector('.modules');
-        const $avlTree = document.createElement('li');
-        const $avlTreeSpan = document.createElement('span');
-        $avlTreeSpan.innerText = 'AVLTree';
-        $avlTree.append($avlTreeSpan);
-        const {AVLTree} = dataStructureTyped;
-        const avlTree = new AVLTree();
+  </ul>
+</div>
+<script defer>
+  const $modules = document.querySelector('.modules');
+  const $avlTree = document.createElement('li');
+  const $avlTreeSpan = document.createElement('span');
+  $avlTreeSpan.innerText = 'AVLTree';
+  $avlTree.append($avlTreeSpan);
+  const {AVLTree, ArrayQueue} = dataStructureTyped;
+  const avlTree = new AVLTree();
 
-        avlTree.add(1, 1);
-        console.log(avlTree.BFS());
-        $modules.append($avlTree);
-    </script>
+  avlTree.add(1, 1);
+  console.log(avlTree.BFS());
+  $modules.append($avlTree);
+
+
+  const queue = new ArrayQueue();
+  for (let i = 0; i < 1000000; i++) {
+    queue.enqueue(i);
+  }
+  let last = 0;
+  const startTime = performance.now();
+
+  for (let i = 0; i < 1000000; i++) {
+    last = queue.dequeue();
+  }
+
+  console.log(performance.now() - startTime)
+</script>
 
 </body>
 </html>

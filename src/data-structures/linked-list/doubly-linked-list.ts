@@ -49,7 +49,7 @@ export class DoublyLinkedListNode<T = number> {
   }
 }
 
-export class DoublyLinkedList<T = number> {
+export class DoublyLinkedList<T = any> {
 
   /**
    * The constructor initializes the linked list with an empty head, tail, and length.
@@ -122,8 +122,8 @@ export class DoublyLinkedList<T = number> {
    * @returns The method is returning the value of the removed node (removedNode.val) if the list is not empty. If the
    * list is empty, it returns null.
    */
-  pop(): T | null {
-    if (!this.tail) return null;
+  pop(): T | undefined {
+    if (!this.tail) return undefined;
     const removedNode = this.tail;
     if (this.head === this.tail) {
       this.head = null;
@@ -141,8 +141,8 @@ export class DoublyLinkedList<T = number> {
    * @returns The method `shift()` returns the value of the node that is removed from the beginning of the doubly linked
    * list.
    */
-  shift(): T | null {
-    if (!this.head) return null;
+  shift(): T | undefined {
+    if (!this.head) return undefined;
     const removedNode = this.head;
     if (this.head === this.tail) {
       this.head = null;
@@ -180,8 +180,8 @@ export class DoublyLinkedList<T = number> {
    * @returns The method is returning the value at the specified index in the linked list. If the index is out of bounds
    * or the linked list is empty, it will return null.
    */
-  getAt(index: number): T | null {
-    if (index < 0 || index >= this.length) return null;
+  getAt(index: number): T | undefined {
+    if (index < 0 || index >= this.length) return undefined;
     let current = this.head;
     for (let i = 0; i < index; i++) {
       current = current!.next;
@@ -264,8 +264,8 @@ export class DoublyLinkedList<T = number> {
    * @returns The method `deleteAt` returns the value of the node that was deleted, or `null` if the index is out of
    * bounds.
    */
-  deleteAt(index: number): T | null {
-    if (index < 0 || index >= this.length) return null;
+  deleteAt(index: number): T | undefined {
+    if (index < 0 || index >= this.length) return undefined;
     if (index === 0) return this.shift();
     if (index === this.length - 1) return this.pop();
 
@@ -280,6 +280,7 @@ export class DoublyLinkedList<T = number> {
 
   delete(valOrNode: T): boolean;
   delete(valOrNode: DoublyLinkedListNode<T>): boolean;
+
   /**
    * The `delete` function removes a node from a doubly linked list based on either the node itself or its value.
    * @param {T | DoublyLinkedListNode<T>} valOrNode - The `valOrNode` parameter can accept either a value of type `T` or
@@ -495,6 +496,7 @@ export class DoublyLinkedList<T = number> {
 
   insertAfter(existingValueOrNode: T, newValue: T): boolean;
   insertAfter(existingValueOrNode: DoublyLinkedListNode<T>, newValue: T): boolean;
+
   /**
    * The `insertAfter` function inserts a new node with a given value after an existing node in a doubly linked list.
    * @param {T | DoublyLinkedListNode<T>} existingValueOrNode - The existing value or node in the doubly linked list
@@ -533,6 +535,7 @@ export class DoublyLinkedList<T = number> {
 
   insertBefore(existingValueOrNode: T, newValue: T): boolean;
   insertBefore(existingValueOrNode: DoublyLinkedListNode<T>, newValue: T): boolean;
+
   /**
    * The `insertBefore` function inserts a new value before an existing value or node in a doubly linked list.
    * @param {T | DoublyLinkedListNode<T>} existingValueOrNode - The existing value or node in the doubly linked list

@@ -173,8 +173,8 @@ export class SinglyLinkedList<T = any> {
    * @returns The method `getAt(index: number): T | null` returns the value at the specified index in the linked list, or
    * `null` if the index is out of bounds.
    */
-  getAt(index: number): T | null {
-    if (index < 0 || index >= this.length) return null;
+  getAt(index: number): T | undefined {
+    if (index < 0 || index >= this.length) return undefined;
     let current = this.head;
     for (let i = 0; i < index; i++) {
       current = current!.next;
@@ -218,6 +218,7 @@ export class SinglyLinkedList<T = any> {
 
   delete(valueOrNode: T): boolean;
   delete(valueOrNode: SinglyLinkedListNode<T>): boolean;
+
   /**
    * The delete function removes a node with a specific value from a singly linked list.
    * @param {T | SinglyLinkedListNode<T>} valueOrNode - The `valueOrNode` parameter can accept either a value of type `T`
@@ -399,6 +400,7 @@ export class SinglyLinkedList<T = any> {
 
   insertBefore(existingValue: T, newValue: T): boolean
   insertBefore(existingValue: SinglyLinkedListNode<T>, newValue: T): boolean
+
   /**
    * The `insertBefore` function inserts a new value before an existing value in a singly linked list.
    * @param {T | SinglyLinkedListNode<T>} existingValueOrNode - The existing value or node that you want to insert the
@@ -438,6 +440,7 @@ export class SinglyLinkedList<T = any> {
 
   insertAfter(existingValueOrNode: T, newValue: T): boolean
   insertAfter(existingValueOrNode: SinglyLinkedListNode<T>, newValue: T): boolean
+
   /**
    * The `insertAfter` function inserts a new node with a given value after an existing node in a singly linked list.
    * @param {T | SinglyLinkedListNode<T>} existingValueOrNode - The existing value or node in the linked list after which
@@ -486,5 +489,15 @@ export class SinglyLinkedList<T = any> {
     }
 
     return count;
+  }
+
+
+  * [Symbol.iterator]() {
+    let current = this.head;
+
+    while (current) {
+      yield current.val;
+      current = current.next;
+    }
   }
 }

@@ -5,7 +5,7 @@
  */
 import {SinglyLinkedList} from '../linked-list';
 
-export class Queue<T = any> extends SinglyLinkedList<T> {
+export class LinkedListQueue<T = any> extends SinglyLinkedList<T> {
 
   /**
    * The enqueue function adds a value to the end of an array.
@@ -30,20 +30,9 @@ export class Queue<T = any> extends SinglyLinkedList<T> {
   peek(): T | undefined {
     return this.head?.val;
   }
-
-  * [Symbol.iterator]() {
-    let current = this.head;
-
-    while (current) {
-      yield current.val;
-      current = current.next;
-    }
-  }
 }
 
-export class ArrayQueue<T = number> {
-  protected _nodes: T[];
-  protected _offset: number;
+export class Queue<T = any> {
 
   /**
    * The constructor initializes an instance of a class with an optional array of elements and sets the offset to 0.
@@ -56,12 +45,32 @@ export class ArrayQueue<T = number> {
     this._offset = 0;
   }
 
+  private _nodes: T[];
+
+  get nodes(): T[] {
+    return this._nodes;
+  }
+
+  set nodes(value: T[]) {
+    this._nodes = value;
+  }
+
+  private _offset: number;
+
+  get offset(): number {
+    return this._offset;
+  }
+
+  set offset(value: number) {
+    this._offset = value;
+  }
+
   /**
    * The size function returns the number of elements in an array.
    * @returns {number} The size of the array, which is the difference between the length of the array and the offset.
    */
   get size(): number {
-    return this._nodes.length - this._offset;
+    return this.nodes.length - this.offset;
   }
 
   /**
@@ -72,8 +81,8 @@ export class ArrayQueue<T = number> {
    * @returns The method is returning a new instance of the Queue class, initialized with the elements from the input
    * array.
    */
-  static fromArray<T>(elements: T[]): ArrayQueue<T> {
-    return new ArrayQueue(elements);
+  static fromArray<T>(elements: T[]): Queue<T> {
+    return new Queue(elements);
   }
 
   /**
@@ -81,8 +90,8 @@ export class ArrayQueue<T = number> {
    * @param {T} element - The `element` parameter represents the element that you want to add to the queue.
    * @returns The `add` method is returning a `Queue<T>` object.
    */
-  push(element: T): ArrayQueue<T> {
-    this._nodes.push(element);
+  push(element: T): Queue<T> {
+    this.nodes.push(element);
     return this;
   }
 
@@ -91,18 +100,18 @@ export class ArrayQueue<T = number> {
    * necessary to optimize performance.
    * @returns The function `shift()` returns either the first element in the queue or `null` if the queue is empty.
    */
-  shift(): T | null {
-    if (this.size === 0) return null;
+  shift(): T | undefined {
+    if (this.size === 0) return undefined;
 
     const first = this.peek();
-    this._offset += 1;
+    this.offset += 1;
 
-    if (this._offset * 2 < this._nodes.length) return first;
+    if (this.offset * 2 < this.nodes.length) return first;
 
     // only remove dequeued elements when reaching half size
     // to decrease latency of shifting elements.
-    this._nodes = this._nodes.slice(this._offset);
-    this._offset = 0;
+    this.nodes = this.nodes.slice(this.offset);
+    this.offset = 0;
     return first;
   }
 
@@ -111,8 +120,8 @@ export class ArrayQueue<T = number> {
    * @returns The `peek()` method returns the first element of the data structure, represented by the `_nodes` array at
    * the `_offset` index. If the data structure is empty (size is 0), it returns `null`.
    */
-  peek(): T | null {
-    return this.size > 0 ? this._nodes[this._offset] : null;
+  peek(): T | undefined {
+    return this.size > 0 ? this.nodes[this.offset] : undefined;
   }
 
   /**
@@ -120,8 +129,8 @@ export class ArrayQueue<T = number> {
    * @returns The method `peekLast()` returns the last element of the `_nodes` array if the array is not empty. If the
    * array is empty, it returns `null`.
    */
-  peekLast(): T | null {
-    return this.size > 0 ? this._nodes[this._nodes.length - 1] : null;
+  peekLast(): T | undefined {
+    return this.size > 0 ? this.nodes[this.nodes.length - 1] : undefined;
   }
 
   /**
@@ -136,8 +145,12 @@ export class ArrayQueue<T = number> {
    * The `dequeue` function removes and returns the first element from a queue, or returns null if the queue is empty.
    * @returns The method is returning a value of type T or null.
    */
-  dequeue(): T | null {
+  dequeue(): T | undefined {
     return this.shift();
+  }
+
+  getAt(index: number): T | undefined {
+    return this.nodes[index];
   }
 
   /**
@@ -153,22 +166,28 @@ export class ArrayQueue<T = number> {
    * @returns An array of type T is being returned.
    */
   toArray(): T[] {
-    return this._nodes.slice(this._offset);
+    return this.nodes.slice(this.offset);
   }
 
   /**
    * The clear function resets the nodes array and offset to their initial values.
    */
   clear(): void {
-    this._nodes = [];
-    this._offset = 0;
+    this.nodes = [];
+    this.offset = 0;
   }
 
   /**
    * The `clone()` function returns a new Queue object with the same elements as the original Queue.
    * @returns The `clone()` method is returning a new instance of the `Queue` class.
    */
-  clone(): ArrayQueue<T> {
-    return new ArrayQueue(this._nodes.slice(this._offset));
+  clone(): Queue<T> {
+    return new Queue(this.nodes.slice(this.offset));
+  }
+
+  * [Symbol.iterator]() {
+    for (const item of this.nodes) {
+      yield item;
+    }
   }
 }
