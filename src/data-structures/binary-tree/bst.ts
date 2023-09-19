@@ -111,6 +111,8 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
     return inserted;
   }
 
+  // TODO need to implement addMany by using binary search for insertion.
+
   /**
    * The function returns the first node in a binary tree that matches the given property name and value.
    * @param {BinaryTreeNodeId | N} nodeProperty - The `nodeProperty` parameter can be either a `BinaryTreeNodeId` or a

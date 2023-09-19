@@ -79,9 +79,9 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
    * @returns The balance factor of the given AVL tree node.
    */
   protected _balanceFactor(node: N): number {
-    if (!node.right) // node has no right subtree
+    if (!node.right)        // node has no right subtree
       return -node.height;
-    else if (!node.left) // node has no left subtree
+    else if (!node.left)    // node has no left subtree
       return +node.height;
     else
       return node.right.height - node.left.height;
@@ -92,13 +92,12 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
    * @param node - The parameter `node` is an AVLTreeNode object, which represents a node in an AVL tree.
    */
   protected _updateHeight(node: N): void {
-    if (!node.left && !node.right) // node is a leaf
+    if (!node.left && !node.right)
       node.height = 0;
     else if (!node.left) {
-      // node has no left subtree
       const rightHeight = node.right ? node.right.height : 0;
       node.height = 1 + rightHeight;
-    } else if (!node.right) // node has no right subtree
+    } else if (!node.right)
       node.height = 1 + node.left.height;
     else
       node.height = 1 + Math.max(node.right.height, node.left.height);
@@ -110,29 +109,38 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
    * @param node - The `node` parameter is an AVLTreeNode object, which represents a node in an AVL tree.
    */
   protected _balancePath(node: N): void {
-    const path = this.getPathToRoot(node);
-    for (let i = path.length - 1; i >= 0; i--) {
+
+    const path = this.getPathToRoot(node, false);         // first O(log n) + O(log n)
+    for (let i = 0; i < path.length; i++) {               // second O(log n)
       const A = path[i];
-      this._updateHeight(A);
-      switch (this._balanceFactor(A)) {
+      // Update Heights: After inserting a node, backtrack from the insertion point to the root node, updating the height of each node along the way.
+      this._updateHeight(A);                              // first O(1)
+      // Check Balance: Simultaneously with height updates, check if each node violates the balance property of an AVL tree.
+      // Balance Restoration: If a balance issue is discovered after inserting a node, it requires balance restoration operations. Balance restoration includes four basic cases where rotation operations need to be performed to fix the balance:
+      switch (this._balanceFactor(A)) {                   // second O(1)
         case -2:
           if (A && A.left) {
-            if (this._balanceFactor(A.left) <= 0) {
-              this._balanceLL(A); // Perform LL rotation
+            if (this._balanceFactor(A.left) <= 0) {       // second O(1)
+              // Left Rotation (LL Rotation): When the inserted node is in the left subtree of the left subtree, causing an imbalance.
+              this._balanceLL(A);
             } else {
-              this._balanceLR(A); // Perform LR rotation
+              // Left-Right Rotation (LR Rotation): When the inserted node is in the right subtree of the left subtree, causing an imbalance.
+              this._balanceLR(A);
             }
           }
           break;
         case +2:
           if (A && A.right) {
             if (this._balanceFactor(A.right) >= 0) {
-              this._balanceRR(A); // Perform RR rotation
+              // Right Rotation (RR Rotation): When the inserted node is in the right subtree of the right subtree, causing an imbalance.
+              this._balanceRR(A);
             } else {
-              this._balanceRL(A); // Perform RL rotation
+              // Right-Left Rotation (RL Rotation): When the inserted node is in the left subtree of the right subtree, causing an imbalance.
+              this._balanceRL(A);
             }
           }
       }
+      // TODO So far, no sure if this is necessary that Recursive Repair: Once rotation operations are executed, it may cause imbalance issues at higher levels of the tree. Therefore, you need to recursively check and repair imbalance problems upwards until you reach the root node.
     }
   }
 
@@ -142,7 +150,7 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
    */
   protected _balanceLL(A: N): void {
     const parentOfA = A.parent;
-    const B = A.left; // A is left-heavy and B is left-heavy
+    const B = A.left;
     A.parent = B;
     if (B && B.right) {
       B.right.parent = A;
@@ -159,8 +167,8 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
     }
 
     if (B) {
-      A.left = B.right; // Make T2 the left subtree of A
-      B.right = A; // Make A the left child of B
+      A.left = B.right;
+      B.right = A;
     }
     this._updateHeight(A);
     if (B) this._updateHeight(B);
@@ -172,10 +180,10 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
    */
   protected _balanceLR(A: N): void {
     const parentOfA = A.parent;
-    const B = A.left; // A is left-heavy
+    const B = A.left;
     let C = null;
     if (B) {
-      C = B.right;// B is right-heavy
+      C = B.right;
     }
     if (A) A.parent = C;
     if (B) B.parent = C;
@@ -203,13 +211,13 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
     }
 
     if (C) {
-      A.left = C.right; // Make T3 the left subtree of A
-      if (B) B.right = C.left; // Make T2 the right subtree of B
+      A.left = C.right;
+      if (B) B.right = C.left;
       C.left = B;
       C.right = A;
     }
 
-    this._updateHeight(A); // Adjust heights
+    this._updateHeight(A);
     B && this._updateHeight(B);
     C && this._updateHeight(C);
   }
@@ -220,7 +228,7 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
    */
   protected _balanceRR(A: N): void {
     const parentOfA = A.parent;
-    const B = A.right; // A is right-heavy and B is right-heavy
+    const B = A.right;
     A.parent = B;
     if (B) {
       if (B.left) {
@@ -242,7 +250,7 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
     }
 
     if (B) {
-      A.right = B.left; // Make T2 the right subtree of A
+      A.right = B.left;
       B.left = A;
     }
     this._updateHeight(A);
@@ -255,10 +263,10 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
    */
   protected _balanceRL(A: N): void {
     const parentOfA = A.parent;
-    const B = A.right; // A is right-heavy
+    const B = A.right;
     let C = null;
     if (B) {
-      C = B.left; // B is left-heavy
+      C = B.left;
     }
 
     A.parent = C;
@@ -287,12 +295,12 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
       }
     }
 
-    if (C) A.right = C.left; // Make T2 the right subtree of A
-    if (B && C) B.left = C.right; // Make T3 the left subtree of B
+    if (C) A.right = C.left;
+    if (B && C) B.left = C.right;
     if (C) C.left = A;
     if (C) C.right = B;
 
-    this._updateHeight(A); // Adjust heights
+    this._updateHeight(A);
     B && this._updateHeight(B);
     C && this._updateHeight(C);
   }

@@ -153,7 +153,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     return this._root;
   }
 
-  private _size: number = 0;
+  private _size = 0;
 
   get size(): number {
     return this._size;
@@ -350,17 +350,23 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     return idsOrNodes.length === this.addMany(idsOrNodes, data).length;
   }
 
+
   /**
-   * The `remove` function removes a node from a binary search tree and returns the deleted node along with the parent
-   * node that needs to be balanced.
+   * The `remove` function removes a node from a binary search tree and returns the deleted node along with the parent node
+   * that needs to be balanced.
    * @param {N | BinaryTreeNodeId} nodeOrId - The `nodeOrId` parameter can be either a node object (`N`) or a binary tree
    * node ID (`BinaryTreeNodeId`).
-   * @param {boolean} [ignoreCount] - The `ignoreCount` parameter is an optional boolean parameter that determines
-   * whether to ignore the count of the nodes in the binary tree. If `ignoreCount` is set to `true`, the count of the
-   * nodes in the binary tree will not be updated after removing a node. If `ignoreCount`
+   * @param {boolean} [isUpdateAllLeftSum] - The `isUpdateAllLeftSum` parameter is an optional boolean parameter that
+   * determines whether to update the left sum of all nodes in the binary tree after removing a node. If
+   * `isUpdateAllLeftSum` is set to `true`, the left sum of all nodes will be updated. If it
    * @returns The function `remove` returns an array of `BinaryTreeDeletedResult<N>` objects.
    */
-  remove(nodeOrId: N | BinaryTreeNodeId, ignoreCount?: boolean): BinaryTreeDeletedResult<N>[] {
+  remove(nodeOrId: N | BinaryTreeNodeId, isUpdateAllLeftSum?: boolean): BinaryTreeDeletedResult<N>[] {
+
+    isUpdateAllLeftSum = isUpdateAllLeftSum === undefined ? true: isUpdateAllLeftSum;
+    // TODO may implement update all left sum
+    if (isUpdateAllLeftSum) {}
+
     const bstDeletedResult: BinaryTreeDeletedResult<N>[] = [];
     if (!this.root) return bstDeletedResult;
 
@@ -598,20 +604,26 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
   }
 
   /**
-   * The function getPathToRoot takes a node and returns an array of nodes representing the path from the given node to
-   * the root node.
-   * @param {N} node - The parameter `node` represents a node in a tree data structure.
+   * The function `getPathToRoot` returns an array of nodes representing the path from a given node to the root node, with
+   * an option to reverse the order of the nodes.
+   * @param {N} node - The `node` parameter represents a node in a tree structure. It is of type `N`, which could be any
+   * type that represents a node in your specific implementation.
+   * @param {boolean} [isReverse=true] - The `isReverse` parameter is a boolean flag that determines whether the resulting
+   * path should be reversed or not. If `isReverse` is set to `true`, the path will be reversed before returning it. If
+   * `isReverse` is set to `false` or not provided, the path will
    * @returns The function `getPathToRoot` returns an array of nodes (`N[]`).
    */
-  getPathToRoot(node: N): N[] {
+  getPathToRoot(node: N, isReverse = true): N[] {
     // TODO to support get path through passing id
     const result: N[] = [];
     while (node.parent) {
-      result.unshift(node);
+      // Array.push + Array.reverse is more efficient than Array.unshift
+      // TODO may consider using Deque, so far this is not the performance bottleneck
+      result.push(node);
       node = node.parent;
     }
-    result.unshift(node);
-    return result;
+    result.push(node);
+    return isReverse ? result.reverse() : result;
   }
 
   getLeftMost(): N | null;
