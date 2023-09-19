@@ -6,7 +6,7 @@
  * @license MIT License
  */
 import type {BinaryTreeNodeId, TreeMultisetNodeNested, TreeMultisetOptions} from '../../types';
-import {BinaryTreeDeletedResult, CP, DFSOrderPattern, FamilyPosition, LoopType, NodeOrPropertyName} from '../../types';
+import {BinaryTreeDeletedResult, CP, DFSOrderPattern, FamilyPosition, LoopType} from '../../types';
 import {ITreeMultiset, ITreeMultisetNode} from '../../interfaces';
 import {AVLTree, AVLTreeNode} from './avl-tree';
 
@@ -22,7 +22,7 @@ export class TreeMultisetNode<T = any, NEIGHBOR extends TreeMultisetNode<T, NEIG
    * occurs in a binary tree node. It has a default value of 1, which means that if no value is provided for the `count`
    * parameter when creating a new instance of the `BinaryTreeNode` class,
    */
-  constructor(id: BinaryTreeNodeId, val?: T, count: number = 1) {
+  constructor(id: BinaryTreeNodeId, val?: T, count = 1) {
     super(id, val);
     this._count = count;
   }
@@ -213,40 +213,32 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
   }
 
   /**
-   * The `addMany` function adds multiple nodes to a binary tree and returns an array of the inserted nodes.
-   * @param {BinaryTreeNodeId[] | N[]} idsOrNodes - An array of BinaryTreeNodeId objects or N objects. These objects
-   * represent the IDs or nodes of the binary tree where the values will be added.
-   * @param {N['val'][]} [data] - Optional array of values to be associated with each node being added. If provided, the
-   * length of the `data` array should be equal to the length of the `idsOrNodes` array.
+   * The `addMany` function takes an array of node IDs or nodes and adds them to the tree multiset, returning an array of
+   * the inserted nodes.
+   * @param {(BinaryTreeNodeId | null)[] | (N | null)[]} idsOrNodes - An array of BinaryTreeNodeId or BinaryTreeNode
+   * objects, or null values.
+   * @param {N['val'][]} [data] - The `data` parameter is an optional array of values (`N['val'][]`) that corresponds to
+   * the nodes being added. It is used when adding nodes using the `idOrNode` and `data` arguments in the `this.add()`
+   * method. If provided, the `data` array should
    * @returns The function `addMany` returns an array of `N`, `null`, or `undefined` values.
    */
-  override addMany(idsOrNodes: (BinaryTreeNodeId | N)[], data?: N['val'][]): (N | null | undefined)[] {
-    // TODO not sure addMany not be run multi times
+  override addMany(idsOrNodes: (BinaryTreeNodeId | null)[] | (N | null)[], data?: N['val'][]): (N | null | undefined)[] {
     const inserted: (N | null | undefined)[] = [];
-    const map: Map<N | BinaryTreeNodeId, number> = new Map();
-
-    for (const idOrNode of idsOrNodes) map.set(idOrNode, (map.get(idOrNode) ?? 0) + 1);
 
     for (let i = 0; i < idsOrNodes.length; i++) {
       const idOrNode = idsOrNodes[i];
-      if (map.has(idOrNode)) {
 
-        if (idOrNode instanceof TreeMultisetNode) {
-          inserted.push(this.add(idOrNode.id, idOrNode.val, idOrNode.count));
-          continue;
-        }
-
-        if (idOrNode === null) {
-          inserted.push(this.add(NaN, null, 0));
-          continue;
-        }
-
-        const val = data?.[i], count = map.get(idOrNode);
-
-        inserted.push(this.add(idOrNode, val, count));
-        map.delete(idOrNode);
+      if (idOrNode instanceof TreeMultisetNode) {
+        inserted.push(this.add(idOrNode.id, idOrNode.val, idOrNode.count));
+        continue;
       }
 
+      if (idOrNode === null) {
+        inserted.push(this.add(NaN, null, 0));
+        continue;
+      }
+
+      inserted.push(this.add(idOrNode, data?.[i], 1));
     }
     return inserted;
   }
@@ -556,33 +548,30 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
     return nodes.map(node => node.count);
   }
 
+
   /**
-   * The function DFSIterativeCount performs a depth-first search iteratively and returns an array of count values for
-   * each node.
-   * @param {'in' | 'pre' | 'post'} [pattern] - The "pattern" parameter is a string that specifies the traversal order
-   * for the Depth-First Search (DFS) algorithm. It can have one of three values: 'in', 'pre', or 'post'.
-   * @param {NodeOrPropertyName} [nodeOrPropertyName] - The `nodeOrPropertyName` parameter is an optional parameter that
-   * specifies whether to return the nodes or the property names during the depth-first search traversal. If it is set to
-   * `'node'`, the function will return the nodes. If it is set to `'property'`, the function will return the property
-   * @returns The DFSIterativeCount method returns an array of numbers.
+   * The function DFSIterativeCount performs an iterative depth-first search and returns an array of node counts based on
+   * the specified traversal pattern.
+   * @param {'in' | 'pre' | 'post'} [pattern] - The pattern parameter is a string that specifies the traversal order for
+   * the Depth-First Search (DFS) algorithm. It can have three possible values: 'in', 'pre', or 'post'.
+   * @returns The DFSIterativeCount function returns an array of numbers, which represents the count property of each node
+   * in the DFS traversal.
    */
-  DFSIterativeCount(pattern ?: 'in' | 'pre' | 'post', nodeOrPropertyName ?: NodeOrPropertyName): number[] {
+  DFSIterativeCount(pattern ?: 'in' | 'pre' | 'post'): number[] {
     pattern = pattern ?? 'in';
     const nodes = super.DFSIterative(pattern, 'node');
     return nodes.map(node => node.count);
   }
 
+
   /**
    * The DFSCount function returns an array of counts for each node in a depth-first search traversal.
-   * @param {DFSOrderPattern} [pattern] - The `pattern` parameter is an optional parameter that specifies the order in
-   * which the Depth-First Search (DFS) algorithm should traverse the nodes. It can have one of the following values:
-   * @param [nodeOrPropertyName] - The parameter `nodeOrPropertyName` is used to specify whether you want to retrieve the
-   * nodes themselves or a specific property of the nodes. If you pass `'count'` as the value for `nodeOrPropertyName`,
-   * the function will return an array of the `count` property of each node.
-   * @returns The DFSCount method returns an array of numbers representing the count property of each node in the DFS
+   * @param {DFSOrderPattern} [pattern] - The pattern parameter is an optional parameter that specifies the order in which
+   * the Depth-First Search (DFS) algorithm should traverse the nodes. It can have one of the following values:
+   * @returns The DFSCount function returns an array of numbers, specifically the count property of each node in the DFS
    * traversal.
    */
-  DFSCount(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'count'): number[] {
+  DFSCount(pattern?: DFSOrderPattern): number[] {
     pattern = pattern ?? 'in';
     const nodes = super.DFS(pattern, 'node');
     return nodes.map(node => node.count);
