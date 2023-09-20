@@ -2,8 +2,7 @@ import {BSTNode} from '../data-structures';
 import {IBinaryTree, IBinaryTreeNode} from './binary-tree';
 import {BinaryTreeDeletedResult, BinaryTreeNodeId, BinaryTreeNodePropertyName} from '../types';
 
-export interface IBSTNode<T, NEIGHBOR extends IBSTNode<T, NEIGHBOR>> extends IBinaryTreeNode<T, NEIGHBOR> {
-}
+export type IBSTNode<T, NEIGHBOR extends IBSTNode<T, NEIGHBOR>> = IBinaryTreeNode<T, NEIGHBOR>
 
 export interface IBST<N extends BSTNode<N['val'], N>> extends IBinaryTree<N> {
   createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N

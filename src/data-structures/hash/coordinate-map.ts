@@ -11,7 +11,7 @@ export class CoordinateMap<V> extends Map<any, V> {
     if (joint !== undefined) this._joint = joint;
   }
 
-  protected _joint: string = '_';
+  protected _joint = '_';
 
   get joint(): string {
     return this._joint;

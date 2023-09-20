@@ -11,6 +11,7 @@ import type {PriorityQueueOptions, SpecifyOptional} from '../../types';
 export class MinPriorityQueue<T = number> extends PriorityQueue<T> {
   constructor(options?: Omit<PriorityQueueOptions<number>, 'comparator'>)
   constructor(options: PriorityQueueOptions<T>)
+
   /**
    * The constructor initializes a priority queue with an optional comparator function.
    * @param [options] - The `options` parameter is an optional object that can contain various configuration options for
@@ -28,6 +29,7 @@ export class MinPriorityQueue<T = number> extends PriorityQueue<T> {
 
   static override heapify<T extends number>(options?: Omit<PriorityQueueOptions<T>, 'comparator'>): MinPriorityQueue<T>
   static override heapify<T>(options: PriorityQueueOptions<T>): MinPriorityQueue<T>
+
   /**
    * The function `heapify` creates a new MinPriorityQueue instance and sets the comparator function based on the options
    * provided, and then fixes the heap structure of the queue.

@@ -69,29 +69,29 @@ export class RBTree<N extends RBTreeNode<N['val'], N> = RBTreeNode> extends BST<
   //     return this._root;
   // }
 
-  insert(id: number, val?: N | null) {
-
-  }
-
-  private leftRotate(node: N) {
-
-  }
-
-  private rightRotate(node: N) {
-
-  }
-
-  private insertFixup(node: N) {
-
-  }
-
-  private deleteFixup(node: N) {
-
-  }
-
-  private transplant(u: N, v: N) {
-
-  }
+  // insert(id: number, val?: N | null) {
+  //
+  // }
+  //
+  // private leftRotate(node: N) {
+  //
+  // }
+  //
+  // private rightRotate(node: N) {
+  //
+  // }
+  //
+  // private insertFixup(node: N) {
+  //
+  // }
+  //
+  // private deleteFixup(node: N) {
+  //
+  // }
+  //
+  // private transplant(u: N, v: N) {
+  //
+  // }
 
   // override remove(id: BinaryTreeNodeId, ignoreCount?: boolean): BinaryTreeDeleted<N>[] {
   //

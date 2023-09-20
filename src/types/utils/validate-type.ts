@@ -22,4 +22,4 @@ export type RestrictValById =
   | ObjectWithNonNumberId
   | ObjectWithNumberId;
 
-export type DummyAny = string | number | boolean | null | undefined | object | symbol | void | Function | never;
+export type DummyAny = string | number | boolean | null | undefined | object | symbol | void | ((...args: []) => any) | never;

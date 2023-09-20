@@ -53,22 +53,21 @@ const {Heap, MinHeap, SinglyLinkedList, Stack, AVLTreeNode, BST, Trie, DirectedG
     bst.add(11);
     bst.add(3);
     bst.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
-    bst.size === 16;        // true
-    bst.has(6);             // true
-    const node6 = bst.get(6);
-    bst.getHeight(6) === 2; // true
-    bst.getHeight() === 5;  // true
-    bst.getDepth(6) === 3;  // true
-    const leftMost = bst.getLeftMost();
-    leftMost?.id === 1;     // true
-    expect(leftMost?.id).toBe(1);
+    bst.size === 16;                // true
+    bst.has(6);                     // true
+    const node6 = bst.get(6);       // BSTNode
+    bst.getHeight(6) === 2;         // true
+    bst.getHeight() === 5;          // true
+    bst.getDepth(6) === 3;          // true
+
+    bst.getLeftMost()?.id === 1;    // true
+
     bst.remove(6);
-    bst.get(6);             // null
-    bst.isAVLBalanced();    // true or false
-    const bfsIDs = bst.BFS();
-    bfsIDs[0] === 11;       // true
-    expect(bfsIDs[0]).toBe(11);
+    bst.get(6);                     // null
+    bst.isAVLBalanced();            // true
+    bst.BFS()[0] === 11;            // true
     
+
     const objBST = new BST<BSTNode<{ id: number, keyA: number }>>();
     objBST.add(11, {id: 11, keyA: 11});
     objBST.add(3, {id: 3, keyA: 3});
@@ -80,14 +79,6 @@ const {Heap, MinHeap, SinglyLinkedList, Stack, AVLTreeNode, BST, Trie, DirectedG
         {id: 10, keyA: 10}, {id: 5, keyA: 5}]);
     
     objBST.remove(11);
-    
-    
-    const avlTree = new AVLTree();
-    avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
-    avlTree.isAVLBalanced();    // true
-    avlTree.remove(10);
-    avlTree.isAVLBalanced();    // true
-
 ```
 #### JS
 ```javascript
@@ -126,6 +117,30 @@ const {Heap, MinHeap, SinglyLinkedList, Stack, AVLTreeNode, BST, Trie, DirectedG
     objBST.remove(11);
     
     
+    const avlTree = new AVLTree();
+    avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
+    avlTree.isAVLBalanced();    // true
+    avlTree.remove(10);
+    avlTree.isAVLBalanced();    // true
+
+```
+
+### AVLTree snippet
+#### TS
+```typescript
+    import {AVLTree} from 'data-structure-typed';
+
+    const avlTree = new AVLTree();
+    avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
+    avlTree.isAVLBalanced();    // true
+    avlTree.remove(10);
+    avlTree.isAVLBalanced();    // true
+
+```
+#### JS
+```javascript
+    const {AVLTree} = require('data-structure-typed');
+
     const avlTree = new AVLTree();
     avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
     avlTree.isAVLBalanced();    // true

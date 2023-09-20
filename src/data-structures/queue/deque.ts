@@ -37,7 +37,7 @@ export class ObjectDeque<T = number> {
     this._capacity = value;
   }
 
-  private _first: number = -1;
+  private _first = -1;
 
   get first(): number {
     return this._first;
@@ -47,7 +47,7 @@ export class ObjectDeque<T = number> {
     this._first = value;
   }
 
-  private _last: number = -1;
+  private _last = -1;
 
   get last(): number {
     return this._last;
@@ -57,7 +57,7 @@ export class ObjectDeque<T = number> {
     this._last = value;
   }
 
-  private _size: number = 0;
+  private _size = 0;
 
   get size(): number {
     return this._size;
