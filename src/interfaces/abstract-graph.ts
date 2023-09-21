@@ -1,7 +1,6 @@
-import {VertexId} from '../types';
+import { VertexId } from '../types';
 
 export interface IAbstractGraph<V, E> {
-
   hasVertex(vertexOrId: V | VertexId): boolean;
 
   addVertex(id: VertexId, val?: V): boolean;

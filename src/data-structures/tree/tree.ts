@@ -35,7 +35,7 @@ export class TreeNode<T = any> {
     this._children = value;
   }
 
-  addChildren(children: TreeNode<T> | TreeNode<T> []) {
+  addChildren(children: TreeNode<T> | TreeNode<T>[]) {
     if (!this.children) {
       this.children = [];
     }
@@ -55,7 +55,7 @@ export class TreeNode<T = any> {
         if (level > maxDepth) {
           maxDepth = level;
         }
-        const {children} = node;
+        const { children } = node;
         if (children) {
           for (let i = 0, len = children.length; i < len; i++) {
             bfs(children[i], level + 1);

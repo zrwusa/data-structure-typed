@@ -1,3 +1,1 @@
-export class TreeMap {
-
-}
+export class TreeMap {}

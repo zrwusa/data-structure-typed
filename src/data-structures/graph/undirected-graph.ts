@@ -5,10 +5,10 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import {arrayRemove} from '../../utils';
-import {AbstractEdge, AbstractGraph, AbstractVertex} from './abstract-graph';
-import type {VertexId} from '../../types';
-import {IUNDirectedGraph} from '../../interfaces';
+import { arrayRemove } from '../../utils';
+import { AbstractEdge, AbstractGraph, AbstractVertex } from './abstract-graph';
+import type { VertexId } from '../../types';
+import { IUNDirectedGraph } from '../../interfaces';
 
 export class UndirectedVertex<T = number> extends AbstractVertex<T> {
   /**
@@ -50,8 +50,13 @@ export class UndirectedEdge<T = number> extends AbstractEdge<T> {
   }
 }
 
-export class UndirectedGraph<V extends UndirectedVertex<any> = UndirectedVertex, E extends UndirectedEdge<any> = UndirectedEdge> extends AbstractGraph<V, E> implements IUNDirectedGraph<V, E> {
-
+export class UndirectedGraph<
+    V extends UndirectedVertex<any> = UndirectedVertex,
+    E extends UndirectedEdge<any> = UndirectedEdge
+  >
+  extends AbstractGraph<V, E>
+  implements IUNDirectedGraph<V, E>
+{
   /**
    * The constructor initializes a new Map object to store edges.
    */
@@ -124,7 +129,6 @@ export class UndirectedGraph<V extends UndirectedVertex<any> = UndirectedVertex,
    * @returns the removed edge (E) if it exists, or null if either of the vertices (V) does not exist.
    */
   removeEdgeBetween(v1: V | VertexId, v2: V | VertexId): E | null {
-
     const vertex1: V | null = this._getVertex(v1);
     const vertex2: V | null = this._getVertex(v2);
 

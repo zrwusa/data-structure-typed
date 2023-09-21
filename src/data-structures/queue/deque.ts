@@ -5,13 +5,11 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import {DoublyLinkedList} from '../linked-list';
+import { DoublyLinkedList } from '../linked-list';
 
 // O(n) time complexity of obtaining the value
 // O(1) time complexity of adding at the beginning and the end
-export class Deque<T> extends DoublyLinkedList<T> {
-
-}
+export class Deque<T> extends DoublyLinkedList<T> {}
 
 // O(1) time complexity of obtaining the value
 // O(n) time complexity of adding at the beginning and the end
@@ -261,7 +259,7 @@ export class ArrayDeque<T> {
    * @returns The value that is being set at the specified index in the `_nodes` array.
    */
   set(index: number, value: T) {
-    return this._nodes[index] = value;
+    return (this._nodes[index] = value);
   }
 
   /**

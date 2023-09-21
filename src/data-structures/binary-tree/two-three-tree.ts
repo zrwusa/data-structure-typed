@@ -1,3 +1,1 @@
-export class TwoThreeTree {
-
-}
+export class TwoThreeTree {}

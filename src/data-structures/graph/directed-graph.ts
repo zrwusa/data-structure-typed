@@ -5,10 +5,10 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import {arrayRemove} from '../../utils';
-import {AbstractEdge, AbstractGraph, AbstractVertex} from './abstract-graph';
-import type {TopologicalStatus, VertexId} from '../../types';
-import {IDirectedGraph} from '../../interfaces';
+import { arrayRemove } from '../../utils';
+import { AbstractEdge, AbstractGraph, AbstractVertex } from './abstract-graph';
+import type { TopologicalStatus, VertexId } from '../../types';
+import { IDirectedGraph } from '../../interfaces';
 
 export class DirectedVertex<T = number> extends AbstractVertex<T> {
   /**
@@ -24,7 +24,6 @@ export class DirectedVertex<T = number> extends AbstractVertex<T> {
 }
 
 export class DirectedEdge<T = number> extends AbstractEdge<T> {
-
   /**
    * The constructor function initializes the source and destination vertices of an edge, along with an optional weight
    * and value.
@@ -63,8 +62,10 @@ export class DirectedEdge<T = number> extends AbstractEdge<T> {
   }
 }
 
-export class DirectedGraph<V extends DirectedVertex<any> = DirectedVertex, E extends DirectedEdge<any> = DirectedEdge> extends AbstractGraph<V, E> implements IDirectedGraph<V, E> {
-
+export class DirectedGraph<V extends DirectedVertex<any> = DirectedVertex, E extends DirectedEdge<any> = DirectedEdge>
+  extends AbstractGraph<V, E>
+  implements IDirectedGraph<V, E>
+{
   /**
    * The constructor function initializes an instance of a class.
    */
@@ -106,7 +107,6 @@ export class DirectedGraph<V extends DirectedVertex<any> = DirectedVertex, E ext
    * In TypeScript, a subclass inherits the interface implementation of its parent class, without needing to implement the same interface again in the subclass. This behavior differs from Java's approach. In Java, if a parent class implements an interface, the subclass needs to explicitly implement the same interface, even if the parent class has already implemented it.
    * This means that using abstract methods in the parent class cannot constrain the grandchild classes. Defining methods within an interface also cannot constrain the descendant classes. When inheriting from this class, developers need to be aware that this method needs to be overridden.
    */
-
 
   /**
    * The function creates a directed edge between two vertices with an optional weight and value.
@@ -155,7 +155,6 @@ export class DirectedGraph<V extends DirectedVertex<any> = DirectedVertex, E ext
    * @returns the removed edge (E) if it exists, or null if either the source or destination vertex does not exist.
    */
   removeEdgeSrcToDest(srcOrId: V | VertexId, destOrId: V | VertexId): E | null {
-
     const src: V | null = this._getVertex(srcOrId);
     const dest: V | null = this._getVertex(destOrId);
     let removed: E | null = null;
@@ -195,7 +194,6 @@ export class DirectedGraph<V extends DirectedVertex<any> = DirectedVertex, E ext
       if (destInEdges && destInEdges.length > 0) {
         removed = arrayRemove(destInEdges, (edge: E) => edge.dest === dest.id)[0];
       }
-
     }
 
     return removed;
@@ -232,7 +230,7 @@ export class DirectedGraph<V extends DirectedVertex<any> = DirectedVertex, E ext
   incomingEdgesOf(vertexOrId: V | VertexId): E[] {
     const target = this._getVertex(vertexOrId);
     if (target) {
-      return this.inEdgeMap.get(target) || []
+      return this.inEdgeMap.get(target) || [];
     }
     return [];
   }
@@ -368,7 +366,7 @@ export class DirectedGraph<V extends DirectedVertex<any> = DirectedVertex, E ext
 
     if (hasCycle) return null;
 
-    if (propertyName === 'id') sorted = sorted.map(vertex => vertex instanceof DirectedVertex ? vertex.id : vertex);
+    if (propertyName === 'id') sorted = sorted.map(vertex => (vertex instanceof DirectedVertex ? vertex.id : vertex));
     return sorted.reverse();
   }
 

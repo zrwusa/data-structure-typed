@@ -5,13 +5,15 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type {BinaryTreeNodeId, TreeMultisetNodeNested, TreeMultisetOptions} from '../../types';
-import {BinaryTreeDeletedResult, CP, DFSOrderPattern, FamilyPosition, LoopType} from '../../types';
-import {ITreeMultiset, ITreeMultisetNode} from '../../interfaces';
-import {AVLTree, AVLTreeNode} from './avl-tree';
+import type { BinaryTreeNodeId, TreeMultisetNodeNested, TreeMultisetOptions } from '../../types';
+import { BinaryTreeDeletedResult, CP, DFSOrderPattern, FamilyPosition, LoopType } from '../../types';
+import { ITreeMultiset, ITreeMultisetNode } from '../../interfaces';
+import { AVLTree, AVLTreeNode } from './avl-tree';
 
-export class TreeMultisetNode<T = any, NEIGHBOR extends TreeMultisetNode<T, NEIGHBOR> = TreeMultisetNodeNested<T>> extends AVLTreeNode<T, NEIGHBOR> implements ITreeMultisetNode<T, NEIGHBOR> {
-
+export class TreeMultisetNode<T = any, NEIGHBOR extends TreeMultisetNode<T, NEIGHBOR> = TreeMultisetNodeNested<T>>
+  extends AVLTreeNode<T, NEIGHBOR>
+  implements ITreeMultisetNode<T, NEIGHBOR>
+{
   /**
    * The constructor function initializes a BinaryTreeNode object with an id, value, and count.
    * @param {BinaryTreeNodeId} id - The `id` parameter is of type `BinaryTreeNodeId` and represents the unique identifier
@@ -41,8 +43,10 @@ export class TreeMultisetNode<T = any, NEIGHBOR extends TreeMultisetNode<T, NEIG
 /**
  * The only distinction between a TreeMultiset and a AVLTree lies in the ability of the former to store duplicate nodes through the utilization of counters.
  */
-export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultisetNode> extends AVLTree<N> implements ITreeMultiset<N> {
-
+export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultisetNode>
+  extends AVLTree<N>
+  implements ITreeMultiset<N>
+{
   /**
    * The constructor function for a TreeMultiset class in TypeScript, which extends another class and sets an option to
    * merge duplicated values.
@@ -50,7 +54,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * TreeMultiset.
    */
   constructor(options?: TreeMultisetOptions) {
-    super({...options});
+    super({ ...options });
   }
 
   private _count = 0;
@@ -80,7 +84,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * @returns the `destNode` after swapping its values with the `srcNode`.
    */
   override swapLocation(srcNode: N, destNode: N): N {
-    const {id, val, count, height} = destNode;
+    const { id, val, count, height } = destNode;
     const tempNode = this.createNode(id, val, count);
     if (tempNode) {
       tempNode.height = height;
@@ -111,7 +115,8 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    */
   override add(idOrNode: BinaryTreeNodeId | N | null, val?: N['val'], count?: number): N | null | undefined {
     count = count ?? 1;
-    let inserted: N | null | undefined = undefined, newNode: N | null;
+    let inserted: N | null | undefined = undefined,
+      newNode: N | null;
     if (idOrNode instanceof TreeMultisetNode) {
       newNode = this.createNode(idOrNode.id, idOrNode.val, idOrNode.count);
     } else if (idOrNode === null) {
@@ -159,7 +164,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
                 this._setCount(this.count + newNode.count);
 
                 traversing = false;
-                inserted = (cur.right);
+                inserted = cur.right;
               } else {
                 //Traverse the left of the current node
                 if (cur.right) cur = cur.right;
@@ -192,12 +197,11 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
         parent.left = newNode;
         if (newNode !== null) {
           this._setSize(this.size + 1);
-          this._setCount(this.count + newNode.count)
+          this._setCount(this.count + newNode.count);
         }
 
         return parent.left;
       } else if (parent.right === undefined) {
-
         parent.right = newNode;
         if (newNode !== null) {
           this._setSize(this.size + 1);
@@ -222,7 +226,10 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * method. If provided, the `data` array should
    * @returns The function `addMany` returns an array of `N`, `null`, or `undefined` values.
    */
-  override addMany(idsOrNodes: (BinaryTreeNodeId | null)[] | (N | null)[], data?: N['val'][]): (N | null | undefined)[] {
+  override addMany(
+    idsOrNodes: (BinaryTreeNodeId | null)[] | (N | null)[],
+    data?: N['val'][]
+  ): (N | null | undefined)[] {
     const inserted: (N | null | undefined)[] = [];
 
     for (let i = 0; i < idsOrNodes.length; i++) {
@@ -249,7 +256,8 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * @returns The function `perfectlyBalance()` returns a boolean value.
    */
   override perfectlyBalance(): boolean {
-    const sorted = this.DFS('in', 'node'), n = sorted.length;
+    const sorted = this.DFS('in', 'node'),
+      n = sorted.length;
     if (sorted.length < 1) return false;
 
     this.clear();
@@ -302,7 +310,8 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
     if (!curr) return bstDeletedResult;
 
     const parent: N | null = curr?.parent ? curr.parent : null;
-    let needBalanced: N | null = null, orgCurrent = curr;
+    let needBalanced: N | null = null,
+      orgCurrent = curr;
 
     if (curr.count > 1 && !ignoreCount) {
       curr.count--;
@@ -312,7 +321,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
         if (!parent) {
           if (curr.right !== undefined) this._setRoot(curr.right);
         } else {
-          const {familyPosition: fp} = curr;
+          const { familyPosition: fp } = curr;
           if (fp === FamilyPosition.LEFT || fp === FamilyPosition.ROOT_LEFT) {
             parent.left = curr.right;
           } else if (fp === FamilyPosition.RIGHT || fp === FamilyPosition.ROOT_RIGHT) {
@@ -340,7 +349,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
       this._setCount(this.count - orgCurrent.count);
     }
 
-    bstDeletedResult.push({deleted: orgCurrent, needBalanced});
+    bstDeletedResult.push({ deleted: orgCurrent, needBalanced });
 
     if (needBalanced) {
       this._balancePath(needBalanced);
@@ -366,7 +375,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
         res[1] += cur.count;
         cur.left && _traverse(cur.left);
         cur.right && _traverse(cur.right);
-      }
+      };
 
       _traverse(subTreeRoot);
       return res;
@@ -394,7 +403,6 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * @returns the sum of the count values of all nodes in the subtree rooted at `subTreeRoot`.
    */
   subTreeSumCount(subTreeRoot: N | BinaryTreeNodeId | null): number {
-
     if (typeof subTreeRoot === 'number') subTreeRoot = this.get(subTreeRoot, 'id');
 
     if (!subTreeRoot) return 0;
@@ -406,7 +414,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
         sum += cur.count;
         cur.left && _traverse(cur.left);
         cur.right && _traverse(cur.right);
-      }
+      };
 
       _traverse(subTreeRoot);
     } else {
@@ -441,7 +449,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
     const _addByProperty = (cur: N) => {
       cur.count += delta;
       this._setCount(this.count + delta);
-    }
+    };
 
     if (this.loopType === LoopType.RECURSIVE) {
       const _traverse = (cur: N) => {
@@ -475,7 +483,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * to `true`, the function will return only one node. If `onlyOne`
    * @returns an array of nodes that match the given nodeProperty.
    */
-  getNodesByCount(nodeProperty: BinaryTreeNodeId | N, onlyOne ?: boolean): N[] {
+  getNodesByCount(nodeProperty: BinaryTreeNodeId | N, onlyOne?: boolean): N[] {
     if (!this.root) return [];
     const result: N[] = [];
 
@@ -489,7 +497,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
         if (!cur.left && !cur.right) return;
         cur.left && _traverse(cur.left);
         cur.right && _traverse(cur.right);
-      }
+      };
 
       _traverse(this.root);
     } else {
@@ -504,7 +512,6 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
 
           cur.left && queue.push(cur.left);
           cur.right && queue.push(cur.right);
-
         }
       }
     }
@@ -548,7 +555,6 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
     return nodes.map(node => node.count);
   }
 
-
   /**
    * The function DFSIterativeCount performs an iterative depth-first search and returns an array of node counts based on
    * the specified traversal pattern.
@@ -557,12 +563,11 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * @returns The DFSIterativeCount function returns an array of numbers, which represents the count property of each node
    * in the DFS traversal.
    */
-  DFSIterativeCount(pattern ?: 'in' | 'pre' | 'post'): number[] {
+  DFSIterativeCount(pattern?: 'in' | 'pre' | 'post'): number[] {
     pattern = pattern ?? 'in';
     const nodes = super.DFSIterative(pattern, 'node');
     return nodes.map(node => node.count);
   }
-
 
   /**
    * The DFSCount function returns an array of counts for each node in a depth-first search traversal.
@@ -575,7 +580,6 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
     pattern = pattern ?? 'in';
     const nodes = super.DFS(pattern, 'node');
     return nodes.map(node => node.count);
-
   }
 
   /**
@@ -619,7 +623,8 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
           if (compared === CP.eq) {
             if (cur.right) sum += this.subTreeSumCount(cur.right);
             return sum;
-          } else if (compared === CP.lt) { // todo maybe a bug
+          } else if (compared === CP.lt) {
+            // todo maybe a bug
             if (cur.left) sum += this.subTreeSumCount(cur.left);
             sum += cur.count;
             if (cur.right) queue.push(cur.right);
@@ -649,7 +654,6 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
     const id = node.id;
     if (!this.root) return false;
 
-
     if (this.loopType === LoopType.RECURSIVE) {
       const _traverse = (cur: N) => {
         const compared = this._compare(cur.id, id);
@@ -668,7 +672,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
         const cur = queue.shift();
         if (cur) {
           const compared = this._compare(cur.id, id);
-          if (compared === CP.gt) cur.count += delta
+          if (compared === CP.gt) cur.count += delta;
 
           if (cur.left && this._compare(cur.left.id, id) === CP.gt) queue.push(cur.left);
           if (cur.right && this._compare(cur.right.id, id) === CP.gt) queue.push(cur.right);
@@ -693,5 +697,4 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
   protected _setCount(v: number) {
     this._count = v;
   }
-
 }

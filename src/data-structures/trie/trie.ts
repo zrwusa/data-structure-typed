@@ -6,7 +6,6 @@
  * @license MIT License
  */
 export class TrieNode {
-
   constructor(v: string) {
     this._val = v;
     this._isEnd = false;
@@ -42,7 +41,6 @@ export class TrieNode {
   set isEnd(v: boolean) {
     this._isEnd = v;
   }
-
 }
 
 export class Trie {
@@ -115,7 +113,7 @@ export class Trie {
         return false;
       }
       return false;
-    }
+    };
 
     dfs(this.root, 0);
     return isDeleted;
@@ -166,7 +164,7 @@ export class Trie {
       if (cur.isEnd) return;
       if (cur && cur.children && cur.children.size === 1) dfs(Array.from(cur.children.values())[0]);
       else return;
-    }
+    };
     dfs(this._root);
     return commonPre === input;
   }
@@ -184,7 +182,7 @@ export class Trie {
       if (cur.isEnd) return;
       if (cur && cur.children && cur.children.size === 1) dfs(Array.from(cur.children.values())[0]);
       else return;
-    }
+    };
     dfs(this._root);
     return commonPre;
   }

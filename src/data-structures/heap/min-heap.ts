@@ -6,9 +6,9 @@
  * @license MIT License
  */
 
-import {Heap, HeapItem} from './heap';
-import {PriorityQueue} from '../priority-queue';
-import type {HeapOptions} from '../../types';
+import { Heap, HeapItem } from './heap';
+import { PriorityQueue } from '../priority-queue';
+import type { HeapOptions } from '../../types';
 
 /**
  * @class MinHeap
@@ -30,5 +30,3 @@ export class MinHeap<T = number> extends Heap<T> {
     });
   }
 }
-
-

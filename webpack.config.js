@@ -7,7 +7,7 @@ module.exports = [
         target: 'web',
         output: {
             filename: 'bundle.js',
-            path: path.resolve(__dirname, 'dist'),
+            path: path.resolve(__dirname, 'lib'),
             library: 'dataStructureTyped',
             libraryTarget: 'window',
         },

@@ -5,12 +5,12 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import {PriorityQueue} from './priority-queue';
-import type {PriorityQueueOptions, SpecifyOptional} from '../../types';
+import { PriorityQueue } from './priority-queue';
+import type { PriorityQueueOptions, SpecifyOptional } from '../../types';
 
 export class MinPriorityQueue<T = number> extends PriorityQueue<T> {
-  constructor(options?: Omit<PriorityQueueOptions<number>, 'comparator'>)
-  constructor(options: PriorityQueueOptions<T>)
+  constructor(options?: Omit<PriorityQueueOptions<number>, 'comparator'>);
+  constructor(options: PriorityQueueOptions<T>);
 
   /**
    * The constructor initializes a priority queue with an optional comparator function.
@@ -20,15 +20,18 @@ export class MinPriorityQueue<T = number> extends PriorityQueue<T> {
   constructor(options?: SpecifyOptional<PriorityQueueOptions<T>, 'comparator'>) {
     super({
       ...options,
-      comparator: options?.comparator ? options.comparator : (a: T, b: T) => {
-        const aKey = a as unknown as number, bKey = b as unknown as number;
-        return aKey - bKey;
-      }
+      comparator: options?.comparator
+        ? options.comparator
+        : (a: T, b: T) => {
+            const aKey = a as unknown as number,
+              bKey = b as unknown as number;
+            return aKey - bKey;
+          }
     });
   }
 
-  static override heapify<T extends number>(options?: Omit<PriorityQueueOptions<T>, 'comparator'>): MinPriorityQueue<T>
-  static override heapify<T>(options: PriorityQueueOptions<T>): MinPriorityQueue<T>
+  static override heapify<T extends number>(options?: Omit<PriorityQueueOptions<T>, 'comparator'>): MinPriorityQueue<T>;
+  static override heapify<T>(options: PriorityQueueOptions<T>): MinPriorityQueue<T>;
 
   /**
    * The function `heapify` creates a new MinPriorityQueue instance and sets the comparator function based on the options
@@ -40,10 +43,13 @@ export class MinPriorityQueue<T = number> extends PriorityQueue<T> {
   static override heapify<T>(options: PriorityQueueOptions<T>): MinPriorityQueue<T> {
     const minPQ = new MinPriorityQueue<T>({
       ...options,
-      comparator: options?.comparator ? options.comparator : (a: T, b: T) => {
-        const aKey = a as unknown as number, bKey = b as unknown as number;
-        return aKey - bKey;
-      }
+      comparator: options?.comparator
+        ? options.comparator
+        : (a: T, b: T) => {
+            const aKey = a as unknown as number,
+              bKey = b as unknown as number;
+            return aKey - bKey;
+          }
     });
     minPQ._fix();
     return minPQ;

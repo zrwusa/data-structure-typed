@@ -6,7 +6,6 @@
  * @license MIT License
  */
 export class BinaryIndexedTree {
-
   /**
    * The constructor initializes an array with a specified length and fills it with zeros.
    * @param {number} n - The parameter `n` represents the size of the array that will be used to store the sum tree. The
@@ -24,7 +23,7 @@ export class BinaryIndexedTree {
   }
 
   static lowBit(x: number) {
-    return x & (-x);
+    return x & -x;
   }
 
   /**
@@ -67,8 +66,7 @@ export class BinaryIndexedTree {
    * @returns the sum of the elements in the range specified by the start and end indices.
    */
   getRangeSum(start: number, end: number): number {
-    if (!(0 <= start && start <= end && end <= this._sumTree.length))
-      throw 'Index out of bounds';
+    if (!(0 <= start && start <= end && end <= this._sumTree.length)) throw 'Index out of bounds';
     return this.getPrefixSum(end) - this.getPrefixSum(start);
   }
 

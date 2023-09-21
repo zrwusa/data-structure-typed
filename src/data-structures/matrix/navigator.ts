@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type {Direction, NavigatorParams, Turning} from '../../types';
+import type { Direction, NavigatorParams, Turning } from '../../types';
 
 export class Character {
   direction: Direction;
@@ -37,7 +37,7 @@ export class Navigator<T = number> {
    * in the matrix.
    * @param  - - `matrix`: a 2D array representing the grid or map
    */
-  constructor({matrix, turning, onMove, init: {cur, charDir, VISITED}}: NavigatorParams<T>) {
+  constructor({ matrix, turning, onMove, init: { cur, charDir, VISITED } }: NavigatorParams<T>) {
     this._matrix = matrix;
     this._cur = cur;
     this._character = new Character(charDir, turning);
@@ -53,7 +53,7 @@ export class Navigator<T = number> {
    */
   start() {
     while (this.check(this._character.direction) || this.check(this._character.turn().direction)) {
-      const {direction} = this._character;
+      const { direction } = this._character;
       if (this.check(direction)) {
         this.move(direction);
       } else if (this.check(this._character.turn().direction)) {
@@ -119,4 +119,3 @@ export class Navigator<T = number> {
     this.onMove && this.onMove(this._cur);
   }
 }
-

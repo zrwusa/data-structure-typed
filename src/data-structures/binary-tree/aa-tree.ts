@@ -1,3 +1,1 @@
-export class AaTree {
-
-}
+export class AaTree {}

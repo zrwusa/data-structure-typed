@@ -5,12 +5,21 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type {BinaryTreeNodeId, BinaryTreeNodePropertyName, BSTComparator, BSTNodeNested, BSTOptions} from '../../types';
-import {CP, LoopType} from '../../types';
-import {BinaryTree, BinaryTreeNode} from './binary-tree';
-import {IBST, IBSTNode} from '../../interfaces';
+import type {
+  BinaryTreeNodeId,
+  BinaryTreeNodePropertyName,
+  BSTComparator,
+  BSTNodeNested,
+  BSTOptions
+} from '../../types';
+import { CP, LoopType } from '../../types';
+import { BinaryTree, BinaryTreeNode } from './binary-tree';
+import { IBST, IBSTNode } from '../../interfaces';
 
-export class BSTNode<T = any, NEIGHBOR extends BSTNode<T, NEIGHBOR> = BSTNodeNested<T>> extends BinaryTreeNode<T, NEIGHBOR> implements IBSTNode<T, NEIGHBOR> {
+export class BSTNode<T = any, NEIGHBOR extends BSTNode<T, NEIGHBOR> = BSTNodeNested<T>>
+  extends BinaryTreeNode<T, NEIGHBOR>
+  implements IBSTNode<T, NEIGHBOR>
+{
   constructor(id: BinaryTreeNodeId, val?: T) {
     super(id, val);
   }
@@ -24,7 +33,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
   constructor(options?: BSTOptions) {
     super(options);
     if (options !== undefined) {
-      const {comparator} = options;
+      const { comparator } = options;
       if (comparator !== undefined) {
         this._comparator = comparator;
       }
@@ -66,7 +75,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
     if (this.root === null) {
       this._setRoot(newNode);
       this._setSize(this.size + 1);
-      inserted = (this.root);
+      inserted = this.root;
     } else {
       let cur = this.root;
       let traversing = true;
@@ -104,7 +113,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
               cur.right = newNode;
               this._setSize(this.size + 1);
               traversing = false;
-              inserted = (cur.right);
+              inserted = cur.right;
             } else {
               //Traverse the left of the current node
               if (cur.right) cur = cur.right;
@@ -128,35 +137,40 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * @param {boolean} isBalanceAdd - If true the nodes will be balance inserted in binary search method.
    * @returns The function `addMany` returns an array of `N`, `null`, or `undefined` values.
    */
-  override addMany(idsOrNodes: (BinaryTreeNodeId | null)[] | (N | null)[], data?: N['val'][], isBalanceAdd = false): (N | null | undefined)[] {
-    function hasNoNull (arr: (BinaryTreeNodeId | null)[] | (N | null)[]): arr is BinaryTreeNodeId[] | N[] {
+  override addMany(
+    idsOrNodes: (BinaryTreeNodeId | null)[] | (N | null)[],
+    data?: N['val'][],
+    isBalanceAdd = false
+  ): (N | null | undefined)[] {
+    function hasNoNull(arr: (BinaryTreeNodeId | null)[] | (N | null)[]): arr is BinaryTreeNodeId[] | N[] {
       return arr.indexOf(null) === -1;
     }
     if (!isBalanceAdd || !hasNoNull(idsOrNodes)) {
       return super.addMany(idsOrNodes, data);
     }
     const inserted: (N | null | undefined)[] = [];
-    const combinedArr: [BinaryTreeNodeId | N , N['val']][] = idsOrNodes.map((value, index) => [value, data?.[index]]);
+    const combinedArr: [BinaryTreeNodeId | N, N['val']][] = idsOrNodes.map((value, index) => [value, data?.[index]]);
     let sorted = [];
-    function isNodeOrNullTuple(arr: [BinaryTreeNodeId | N , N['val']][]): arr is [N , N['val']][] {
+    function isNodeOrNullTuple(arr: [BinaryTreeNodeId | N, N['val']][]): arr is [N, N['val']][] {
       for (const [idOrNode] of arr) if (idOrNode instanceof BSTNode) return true;
       return false;
     }
-    function isBinaryTreeIdOrNullTuple(arr: [BinaryTreeNodeId | N , N['val']][]): arr is [BinaryTreeNodeId , N['val']][] {
+    function isBinaryTreeIdOrNullTuple(arr: [BinaryTreeNodeId | N, N['val']][]): arr is [BinaryTreeNodeId, N['val']][] {
       for (const [idOrNode] of arr) if (typeof idOrNode === 'number') return true;
       return false;
     }
-    let sortedIdsOrNodes: (number | N | null)[] = [], sortedData: (N["val"] | undefined)[] | undefined = [];
+    let sortedIdsOrNodes: (number | N | null)[] = [],
+      sortedData: (N['val'] | undefined)[] | undefined = [];
 
     if (isNodeOrNullTuple(combinedArr)) {
       sorted = combinedArr.sort((a, b) => a[0].id - b[0].id);
     } else if (isBinaryTreeIdOrNullTuple(combinedArr)) {
       sorted = combinedArr.sort((a, b) => a[0] - b[0]);
     } else {
-      throw new Error('Invalid input idsOrNodes')
+      throw new Error('Invalid input idsOrNodes');
     }
-    sortedIdsOrNodes = sorted.map(([idOrNode,]) => idOrNode);
-    sortedData = sorted.map(([,val]) => val);
+    sortedIdsOrNodes = sorted.map(([idOrNode]) => idOrNode);
+    sortedData = sorted.map(([, val]) => val);
     const recursive = (arr: (BinaryTreeNodeId | null | N)[], data?: N['val'][]) => {
       if (arr.length === 0) return;
 
@@ -165,7 +179,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
       inserted.push(newNode);
       recursive(arr.slice(0, mid), data?.slice(0, mid));
       recursive(arr.slice(mid + 1), data?.slice(mid + 1));
-    }
+    };
     const iterative = () => {
       const n = sorted.length;
       const stack: [[number, number]] = [[0, n - 1]];
@@ -182,9 +196,9 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
           }
         }
       }
-    }
+    };
     if (this.loopType === LoopType.RECURSIVE) {
-      recursive(sortedIdsOrNodes, sortedData)
+      recursive(sortedIdsOrNodes, sortedData);
     } else {
       iterative();
     }
@@ -200,7 +214,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * specifies the property name to use for searching the binary tree nodes. If not provided, it defaults to `'id'`.
    * @returns The method is returning either a BinaryTreeNodeId or N (generic type) or null.
    */
-  override get(nodeProperty: BinaryTreeNodeId | N, propertyName ?: BinaryTreeNodePropertyName): N | null {
+  override get(nodeProperty: BinaryTreeNodeId | N, propertyName?: BinaryTreeNodePropertyName): N | null {
     propertyName = propertyName ?? 'id';
     return this.getNodes(nodeProperty, propertyName, true)[0] ?? null;
   }
@@ -229,7 +243,11 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * is set to `true`, the function will return an array with only one node (if
    * @returns an array of nodes (type N).
    */
-  override getNodes(nodeProperty: BinaryTreeNodeId | N, propertyName : BinaryTreeNodePropertyName = 'id', onlyOne ?: boolean): N[] {
+  override getNodes(
+    nodeProperty: BinaryTreeNodeId | N,
+    propertyName: BinaryTreeNodePropertyName = 'id',
+    onlyOne?: boolean
+  ): N[] {
     if (!this.root) return [];
     const result: N[] = [];
 
@@ -245,7 +263,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
           cur.left && _traverse(cur.left);
           cur.right && _traverse(cur.right);
         }
-      }
+      };
 
       _traverse(this.root);
     } else {
@@ -278,7 +296,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * @returns The function `lesserSum` returns a number, which represents the sum of the values of the nodes in the
    * binary tree that have a lesser value than the specified `beginNode` based on the `propertyName`.
    */
-  lesserSum(beginNode: N | BinaryTreeNodeId | null, propertyName ?: BinaryTreeNodePropertyName): number {
+  lesserSum(beginNode: N | BinaryTreeNodeId | null, propertyName?: BinaryTreeNodePropertyName): number {
     propertyName = propertyName ?? 'id';
     if (typeof beginNode === 'number') beginNode = this.get(beginNode, 'id');
     if (!beginNode) return 0;
@@ -295,7 +313,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
           break;
       }
       return needSum;
-    }
+    };
 
     let sum = 0;
 
@@ -326,7 +344,8 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
           if (compared === CP.eq) {
             if (cur.right) sum += this.subTreeSum(cur.right, propertyName);
             return sum;
-          } else if (compared === CP.lt) { // todo maybe a bug
+          } else if (compared === CP.lt) {
+            // todo maybe a bug
             if (cur.left) sum += this.subTreeSum(cur.left, propertyName);
             sum += getSumByPropertyName(cur);
             if (cur.right) queue.push(cur.right);
@@ -354,7 +373,11 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * 'id'.
    * @returns a boolean value.
    */
-  allGreaterNodesAdd(node: N | BinaryTreeNodeId | null, delta: number, propertyName ?: BinaryTreeNodePropertyName): boolean {
+  allGreaterNodesAdd(
+    node: N | BinaryTreeNodeId | null,
+    delta: number,
+    propertyName?: BinaryTreeNodePropertyName
+  ): boolean {
     propertyName = propertyName ?? 'id';
     if (typeof node === 'number') node = this.get(node, 'id');
     if (!node) return false;
@@ -370,7 +393,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
           cur.id += delta;
           break;
       }
-    }
+    };
     if (this.loopType === LoopType.RECURSIVE) {
       const _traverse = (cur: N) => {
         const compared = this._compare(cur.id, id);
@@ -409,14 +432,14 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * AVL Tree: AVL trees are well-suited for scenarios involving frequent searching, insertion, and deletion operations. Through rotation adjustments, AVL trees maintain their balance, ensuring average and worst-case time complexity of O(log n).
    */
 
-
   /**
    * The `perfectlyBalance` function takes a binary tree, performs a depth-first search to sort the nodes, and then
    * constructs a balanced binary search tree using either a recursive or iterative approach.
    * @returns The function `perfectlyBalance()` returns a boolean value.
    */
   perfectlyBalance(): boolean {
-    const sorted = this.DFS('in', 'node'), n = sorted.length;
+    const sorted = this.DFS('in', 'node'),
+      n = sorted.length;
     this.clear();
 
     if (sorted.length < 1) return false;
@@ -463,14 +486,16 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
     if (this.loopType === LoopType.RECURSIVE) {
       const _height = (cur: N | null | undefined): number => {
         if (!cur) return 0;
-        const leftHeight = _height(cur.left), rightHeight = _height(cur.right);
+        const leftHeight = _height(cur.left),
+          rightHeight = _height(cur.right);
         if (Math.abs(leftHeight - rightHeight) > 1) balanced = false;
         return Math.max(leftHeight, rightHeight) + 1;
       };
       _height(this.root);
     } else {
       const stack: N[] = [];
-      let node: N | null | undefined = this.root, last: N | null = null;
+      let node: N | null | undefined = this.root,
+        last: N | null = null;
       const depths: Map<N, number> = new Map();
 
       while (stack.length > 0 || node) {
@@ -478,7 +503,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
           stack.push(node);
           node = node.left;
         } else {
-          node = stack[stack.length - 1]
+          node = stack[stack.length - 1];
           if (!node.right || last === node.right) {
             node = stack.pop();
             if (node) {
@@ -489,7 +514,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
               last = node;
               node = null;
             }
-          } else node = node.right
+          } else node = node.right;
         }
       }
     }

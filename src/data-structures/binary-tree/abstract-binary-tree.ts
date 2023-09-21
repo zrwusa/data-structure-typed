@@ -6,7 +6,7 @@
  * @license MIT License
  */
 
-import {trampoline} from '../../utils';
+import { trampoline } from '../../utils';
 import type {
   AbstractBinaryTreeNodeNested,
   AbstractBinaryTreeNodeProperties,
@@ -17,11 +17,14 @@ import type {
   DFSOrderPattern,
   NodeOrPropertyName
 } from '../../types';
-import {AbstractBinaryTreeOptions, FamilyPosition, LoopType} from '../../types';
-import {IAbstractBinaryTree, IAbstractBinaryTreeNode} from '../../interfaces';
+import { AbstractBinaryTreeOptions, FamilyPosition, LoopType } from '../../types';
+import { IAbstractBinaryTree, IAbstractBinaryTreeNode } from '../../interfaces';
 
-export abstract class AbstractBinaryTreeNode<T = any, NEIGHBOR extends AbstractBinaryTreeNode<T, NEIGHBOR> = AbstractBinaryTreeNodeNested<T>> implements IAbstractBinaryTreeNode<T, NEIGHBOR> {
-
+export abstract class AbstractBinaryTreeNode<
+  T = any,
+  NEIGHBOR extends AbstractBinaryTreeNode<T, NEIGHBOR> = AbstractBinaryTreeNodeNested<T>
+> implements IAbstractBinaryTreeNode<T, NEIGHBOR>
+{
   /**
    * The constructor function initializes a BinaryTreeNode object with an id and an optional value.
    * @param {BinaryTreeNodeId} id - The `id` parameter is of type `BinaryTreeNodeId` and represents the unique identifier
@@ -132,8 +135,9 @@ export abstract class AbstractBinaryTreeNode<T = any, NEIGHBOR extends AbstractB
   }
 }
 
-export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], N> = AbstractBinaryTreeNode> implements IAbstractBinaryTree<N> {
-
+export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], N> = AbstractBinaryTreeNode>
+  implements IAbstractBinaryTree<N>
+{
   /**
    * The protected constructor initializes the options for an abstract binary tree.
    * @param {AbstractBinaryTreeOptions} [options] - An optional object that contains configuration options for the binary
@@ -141,7 +145,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    */
   protected constructor(options?: AbstractBinaryTreeOptions) {
     if (options !== undefined) {
-      const {loopType = LoopType.ITERATIVE} = options;
+      const { loopType = LoopType.ITERATIVE } = options;
       this._loopType = loopType;
     }
     this.clear();
@@ -189,7 +193,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     return this._visitedLeftSum;
   }
 
-  abstract createNode(id: BinaryTreeNodeId, val?: N['val']): N | null ;
+  abstract createNode(id: BinaryTreeNodeId, val?: N['val']): N | null;
 
   /**
    * The `swapLocation` function swaps the location of two nodes in a binary tree.
@@ -199,7 +203,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * @returns The `destNode` is being returned.
    */
   swapLocation(srcNode: N, destNode: N): N {
-    const {id, val, height} = destNode;
+    const { id, val, height } = destNode;
     const tempNode = this.createNode(id, val);
 
     if (tempNode) {
@@ -297,7 +301,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     return inserted;
   }
 
-
   /**
    * The `addMany` function takes an array of binary tree node IDs or nodes, and optionally an array of corresponding data
    * values, and adds them to the binary tree.
@@ -344,7 +347,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     return idsOrNodes.length === this.addMany(idsOrNodes, data).length;
   }
 
-
   /**
    * The `remove` function removes a node from a binary search tree and returns the deleted node along with the parent node
    * that needs to be balanced.
@@ -356,7 +358,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * @returns The function `remove` returns an array of `BinaryTreeDeletedResult<N>` objects.
    */
   remove(nodeOrId: N | BinaryTreeNodeId, isUpdateAllLeftSum?: boolean): BinaryTreeDeletedResult<N>[] {
-
     isUpdateAllLeftSum = isUpdateAllLeftSum === undefined ? true : isUpdateAllLeftSum;
     // TODO may implement update all left sum
     if (isUpdateAllLeftSum) {
@@ -365,17 +366,18 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     const bstDeletedResult: BinaryTreeDeletedResult<N>[] = [];
     if (!this.root) return bstDeletedResult;
 
-    const curr: N | null = (typeof nodeOrId === 'number') ? this.get(nodeOrId) : nodeOrId;
+    const curr: N | null = typeof nodeOrId === 'number' ? this.get(nodeOrId) : nodeOrId;
     if (!curr) return bstDeletedResult;
 
     const parent: N | null = curr?.parent ? curr.parent : null;
-    let needBalanced: N | null = null, orgCurrent = curr;
+    let needBalanced: N | null = null,
+      orgCurrent = curr;
 
     if (!curr.left) {
       if (!parent) {
         if (curr.right !== undefined) this._setRoot(curr.right);
       } else {
-        const {familyPosition: fp} = curr;
+        const { familyPosition: fp } = curr;
         if (fp === FamilyPosition.LEFT || fp === FamilyPosition.ROOT_LEFT) {
           parent.left = curr.right;
         } else if (fp === FamilyPosition.RIGHT || fp === FamilyPosition.ROOT_RIGHT) {
@@ -389,7 +391,8 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         const parentOfLeftSubTreeMax = leftSubTreeRightMost.parent;
         orgCurrent = this.swapLocation(curr, leftSubTreeRightMost);
         if (parentOfLeftSubTreeMax) {
-          if (parentOfLeftSubTreeMax.right === leftSubTreeRightMost) parentOfLeftSubTreeMax.right = leftSubTreeRightMost.left;
+          if (parentOfLeftSubTreeMax.right === leftSubTreeRightMost)
+            parentOfLeftSubTreeMax.right = leftSubTreeRightMost.left;
           else parentOfLeftSubTreeMax.left = leftSubTreeRightMost.left;
           needBalanced = parentOfLeftSubTreeMax;
         }
@@ -397,7 +400,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
     this._setSize(this.size - 1);
 
-    bstDeletedResult.push({deleted: orgCurrent, needBalanced});
+    bstDeletedResult.push({ deleted: orgCurrent, needBalanced });
     return bstDeletedResult;
   }
 
@@ -444,18 +447,18 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         return -1;
       }
 
-      const stack: { node: N; depth: number }[] = [{node: beginRoot, depth: 0}];
+      const stack: { node: N; depth: number }[] = [{ node: beginRoot, depth: 0 }];
       let maxHeight = 0;
 
       while (stack.length > 0) {
-        const {node, depth} = stack.pop()!;
+        const { node, depth } = stack.pop()!;
 
         if (node.left) {
-          stack.push({node: node.left, depth: depth + 1});
+          stack.push({ node: node.left, depth: depth + 1 });
         }
 
         if (node.right) {
-          stack.push({node: node.right, depth: depth + 1});
+          stack.push({ node: node.right, depth: depth + 1 });
         }
 
         maxHeight = Math.max(maxHeight, depth);
@@ -489,7 +492,8 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
       return _getMinHeight(beginRoot);
     } else {
       const stack: N[] = [];
-      let node: N | null | undefined = beginRoot, last: N | null = null;
+      let node: N | null | undefined = beginRoot,
+        last: N | null = null;
       const depths: Map<N, number> = new Map();
 
       while (stack.length > 0 || node) {
@@ -497,7 +501,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
           stack.push(node);
           node = node.left;
         } else {
-          node = stack[stack.length - 1]
+          node = stack[stack.length - 1];
           if (!node.right || last === node.right) {
             node = stack.pop();
             if (node) {
@@ -507,7 +511,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
               last = node;
               node = null;
             }
-          } else node = node.right
+          } else node = node.right;
         }
       }
 
@@ -523,7 +527,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * @returns The method is returning a boolean value.
    */
   isPerfectlyBalanced(beginRoot?: N | null): boolean {
-    return (this.getMinHeight(beginRoot) + 1 >= this.getHeight(beginRoot));
+    return this.getMinHeight(beginRoot) + 1 >= this.getHeight(beginRoot);
   }
 
   /**
@@ -537,7 +541,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * function will stop traversing the tree and return the first matching node. If `only
    * @returns an array of nodes (type N).
    */
-  getNodes(nodeProperty: BinaryTreeNodeId | N, propertyName ?: BinaryTreeNodePropertyName, onlyOne ?: boolean): N[] {
+  getNodes(nodeProperty: BinaryTreeNodeId | N, propertyName?: BinaryTreeNodePropertyName, onlyOne?: boolean): N[] {
     if (!this.root) return [];
     propertyName = propertyName ?? 'id';
 
@@ -549,7 +553,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         if (!cur.left && !cur.right) return;
         cur.left && _traverse(cur.left);
         cur.right && _traverse(cur.right);
-      }
+      };
 
       _traverse(this.root);
     } else {
@@ -575,7 +579,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * specifies the name of the property to be checked in the nodes. If not provided, it defaults to 'id'.
    * @returns a boolean value.
    */
-  has(nodeProperty: BinaryTreeNodeId | N, propertyName ?: BinaryTreeNodePropertyName): boolean {
+  has(nodeProperty: BinaryTreeNodeId | N, propertyName?: BinaryTreeNodePropertyName): boolean {
     propertyName = propertyName ?? 'id';
     // TODO may support finding node by value equal
     return this.getNodes(nodeProperty, propertyName).length > 0;
@@ -592,7 +596,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * @returns either the value of the specified property of the node, or the node itself if no property name is provided.
    * If no matching node is found, it returns null.
    */
-  get(nodeProperty: BinaryTreeNodeId | N, propertyName ?: BinaryTreeNodePropertyName): N | null {
+  get(nodeProperty: BinaryTreeNodeId | N, propertyName?: BinaryTreeNodePropertyName): N | null {
     propertyName = propertyName ?? 'id';
     // TODO may support finding node by value equal
     return this.getNodes(nodeProperty, propertyName, true)[0] ?? null;
@@ -642,11 +646,10 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     if (!beginRoot) return beginRoot;
 
     if (this._loopType === LoopType.RECURSIVE) {
-
       const _traverse = (cur: N): N => {
         if (!cur.left) return cur;
         return _traverse(cur.left);
-      }
+      };
 
       return _traverse(beginRoot);
     } else {
@@ -683,7 +686,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
       const _traverse = (cur: N): N => {
         if (!cur.right) return cur;
         return _traverse(cur.right);
-      }
+      };
 
       return _traverse(node);
     } else {
@@ -711,19 +714,20 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         if (!cur) return true;
         if (cur.id <= min || cur.id >= max) return false;
         return dfs(cur.left, min, cur.id) && dfs(cur.right, cur.id, max);
-      }
+      };
 
       return dfs(node, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
     } else {
       const stack = [];
-      let prev = Number.MIN_SAFE_INTEGER, curr: N | null | undefined = node;
+      let prev = Number.MIN_SAFE_INTEGER,
+        curr: N | null | undefined = node;
       while (curr || stack.length > 0) {
         while (curr) {
           stack.push(curr);
           curr = curr.left;
         }
         curr = stack.pop()!;
-        if (!(curr) || prev >= curr.id) return false;
+        if (!curr || prev >= curr.id) return false;
         prev = curr.id;
         curr = curr.right;
       }
@@ -755,7 +759,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         size++;
         cur.left && _traverse(cur.left);
         cur.right && _traverse(cur.right);
-      }
+      };
 
       _traverse(subTreeRoot);
       return size;
@@ -782,7 +786,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * not provided, it defaults to 'id'.
    * @returns a number, which is the sum of the values of the specified property in the subtree rooted at `subTreeRoot`.
    */
-  subTreeSum(subTreeRoot: N | BinaryTreeNodeId | null, propertyName ?: BinaryTreeNodePropertyName): number {
+  subTreeSum(subTreeRoot: N | BinaryTreeNodeId | null, propertyName?: BinaryTreeNodePropertyName): number {
     propertyName = propertyName ?? 'id';
     if (typeof subTreeRoot === 'number') subTreeRoot = this.get(subTreeRoot, 'id');
 
@@ -804,14 +808,14 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
           break;
       }
       return needSum;
-    }
+    };
 
     if (this._loopType === LoopType.RECURSIVE) {
       const _traverse = (cur: N): void => {
         sum += _sumByProperty(cur);
         cur.left && _traverse(cur.left);
         cur.right && _traverse(cur.right);
-      }
+      };
 
       _traverse(subTreeRoot);
     } else {
@@ -838,7 +842,11 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * specifies the property of the binary tree node that should be modified. If not provided, it defaults to 'id'.
    * @returns a boolean value.
    */
-  subTreeAdd(subTreeRoot: N | BinaryTreeNodeId | null, delta: number, propertyName ?: BinaryTreeNodePropertyName): boolean {
+  subTreeAdd(
+    subTreeRoot: N | BinaryTreeNodeId | null,
+    delta: number,
+    propertyName?: BinaryTreeNodePropertyName
+  ): boolean {
     propertyName = propertyName ?? 'id';
     if (typeof subTreeRoot === 'number') subTreeRoot = this.get(subTreeRoot, 'id');
 
@@ -853,7 +861,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
           cur.id += delta;
           break;
       }
-    }
+    };
 
     if (this._loopType === LoopType.RECURSIVE) {
       const _traverse = (cur: N) => {
@@ -894,7 +902,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * the
    * @returns an instance of the `AbstractBinaryTreeNodeProperties` class with generic type `N`.
    */
-  BFS(nodeOrPropertyName ?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N> {
+  BFS(nodeOrPropertyName?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N> {
     nodeOrPropertyName = nodeOrPropertyName ?? 'id';
     this._clearResults();
     const queue: Array<N | null | undefined> = [this.root];
@@ -930,7 +938,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * @returns an instance of the AbstractBinaryTreeNodeProperties class, which contains the accumulated properties of the
    * binary tree nodes based on the specified pattern and node or property name.
    */
-  DFS(pattern ?: 'in' | 'pre' | 'post', nodeOrPropertyName ?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N> {
+  DFS(pattern?: 'in' | 'pre' | 'post', nodeOrPropertyName?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N> {
     pattern = pattern ?? 'in';
     nodeOrPropertyName = nodeOrPropertyName ?? 'id';
     this._clearResults();
@@ -960,7 +968,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
 
   DFSIterative(): BinaryTreeNodeId[];
 
-
   // --- start additional methods ---
 
   DFSIterative(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'id'): BinaryTreeNodeId[];
@@ -980,13 +987,16 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * the
    * @returns an object of type AbstractBinaryTreeNodeProperties<N>.
    */
-  DFSIterative(pattern ?: 'in' | 'pre' | 'post', nodeOrPropertyName ?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N> {
+  DFSIterative(
+    pattern?: 'in' | 'pre' | 'post',
+    nodeOrPropertyName?: NodeOrPropertyName
+  ): AbstractBinaryTreeNodeProperties<N> {
     pattern = pattern || 'in';
     nodeOrPropertyName = nodeOrPropertyName || 'id';
     this._clearResults();
     if (!this.root) return this._getResultByPropertyName(nodeOrPropertyName);
     // 0: visit, 1: print
-    const stack: { opt: 0 | 1, node: N | null | undefined }[] = [{opt: 0, node: this.root}];
+    const stack: { opt: 0 | 1; node: N | null | undefined }[] = [{ opt: 0, node: this.root }];
 
     while (stack.length > 0) {
       const cur = stack.pop();
@@ -996,24 +1006,24 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
       } else {
         switch (pattern) {
           case 'in':
-            stack.push({opt: 0, node: cur.node.right});
-            stack.push({opt: 1, node: cur.node});
-            stack.push({opt: 0, node: cur.node.left});
+            stack.push({ opt: 0, node: cur.node.right });
+            stack.push({ opt: 1, node: cur.node });
+            stack.push({ opt: 0, node: cur.node.left });
             break;
           case 'pre':
-            stack.push({opt: 0, node: cur.node.right});
-            stack.push({opt: 0, node: cur.node.left});
-            stack.push({opt: 1, node: cur.node});
+            stack.push({ opt: 0, node: cur.node.right });
+            stack.push({ opt: 0, node: cur.node.left });
+            stack.push({ opt: 1, node: cur.node });
             break;
           case 'post':
-            stack.push({opt: 1, node: cur.node});
-            stack.push({opt: 0, node: cur.node.right});
-            stack.push({opt: 0, node: cur.node.left});
+            stack.push({ opt: 1, node: cur.node });
+            stack.push({ opt: 0, node: cur.node.right });
+            stack.push({ opt: 0, node: cur.node.left });
             break;
           default:
-            stack.push({opt: 0, node: cur.node.right});
-            stack.push({opt: 1, node: cur.node});
-            stack.push({opt: 0, node: cur.node.left});
+            stack.push({ opt: 0, node: cur.node.right });
+            stack.push({ opt: 1, node: cur.node });
+            stack.push({ opt: 0, node: cur.node.left });
             break;
         }
       }
@@ -1042,7 +1052,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * accumulating results
    * @returns The function `levelIterative` returns an object of type `AbstractBinaryTreeNodeProperties<N>`.
    */
-  levelIterative(node: N | null, nodeOrPropertyName ?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N> {
+  levelIterative(node: N | null, nodeOrPropertyName?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N> {
     nodeOrPropertyName = nodeOrPropertyName || 'id';
     node = node || this.root;
     if (!node) return [];
@@ -1105,7 +1115,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
           levelsNodes[level].push(node.id);
           break;
       }
-    }
+    };
 
     if (this.loopType === LoopType.RECURSIVE) {
       const _recursive = (node: N, level: number) => {
@@ -1141,7 +1151,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
   getPredecessor(node: N): N {
     if (node.left) {
       let predecessor: N | null | undefined = node.left;
-      while (!(predecessor) || predecessor.right && predecessor.right !== node) {
+      while (!predecessor || (predecessor.right && predecessor.right !== node)) {
         if (predecessor) {
           predecessor = predecessor.right;
         }
@@ -1175,7 +1185,10 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * tree.
    * @returns an array of AbstractBinaryTreeNodeProperties<N> objects.
    */
-  morris(pattern?: 'in' | 'pre' | 'post', nodeOrPropertyName?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N> {
+  morris(
+    pattern?: 'in' | 'pre' | 'post',
+    nodeOrPropertyName?: NodeOrPropertyName
+  ): AbstractBinaryTreeNodeProperties<N> {
     if (this.root === null) return [];
 
     pattern = pattern || 'in';
@@ -1335,7 +1348,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     this._visitedLeftSum = value;
   }
 
-
   /**
    * The function sets the root property of an object to a given value, and if the value is not null, it also sets the
    * parent property of the value to undefined.
@@ -1382,7 +1394,13 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * `true`, the function will stop after finding the first matching node and return `true`. If `onlyOne
    * @returns a boolean value indicating whether only one matching node should be pushed into the result array.
    */
-  protected _pushByPropertyNameStopOrNot(cur: N, result: (N | null | undefined)[], nodeProperty: BinaryTreeNodeId | N, propertyName ?: BinaryTreeNodePropertyName, onlyOne ?: boolean) {
+  protected _pushByPropertyNameStopOrNot(
+    cur: N,
+    result: (N | null | undefined)[],
+    nodeProperty: BinaryTreeNodeId | N,
+    propertyName?: BinaryTreeNodePropertyName,
+    onlyOne?: boolean
+  ) {
     switch (propertyName) {
       case 'id':
         if (cur.id === nodeProperty) {
@@ -1412,7 +1430,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * can be either a string representing a property name or a reference to a `Node` object. If it is a string, it
    * specifies the property name to be used for accumulating values. If it is a `Node` object, it specifies
    */
-  protected _accumulatedByPropertyName(node: N, nodeOrPropertyName ?: NodeOrPropertyName) {
+  protected _accumulatedByPropertyName(node: N, nodeOrPropertyName?: NodeOrPropertyName) {
     nodeOrPropertyName = nodeOrPropertyName ?? 'id';
 
     switch (nodeOrPropertyName) {
@@ -1443,7 +1461,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * can accept either a `NodeOrPropertyName` type or be undefined.
    * @returns The method `_getResultByPropertyName` returns an instance of `AbstractBinaryTreeNodeProperties<N>`.
    */
-  protected _getResultByPropertyName(nodeOrPropertyName ?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N> {
+  protected _getResultByPropertyName(nodeOrPropertyName?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N> {
     nodeOrPropertyName = nodeOrPropertyName ?? 'id';
 
     switch (nodeOrPropertyName) {

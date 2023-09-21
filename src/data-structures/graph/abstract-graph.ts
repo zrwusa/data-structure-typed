@@ -5,13 +5,12 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import {arrayRemove, uuidV4} from '../../utils';
-import {PriorityQueue} from '../priority-queue';
-import type {DijkstraResult, VertexId} from '../../types';
-import {IAbstractGraph} from '../../interfaces';
+import { arrayRemove, uuidV4 } from '../../utils';
+import { PriorityQueue } from '../priority-queue';
+import type { DijkstraResult, VertexId } from '../../types';
+import { IAbstractGraph } from '../../interfaces';
 
 export abstract class AbstractVertex<T = any> {
-
   /**
    * The function is a protected constructor that takes an id and an optional value as parameters.
    * @param {VertexId} id - The `id` parameter is of type `VertexId` and represents the identifier of the vertex. It is
@@ -46,7 +45,6 @@ export abstract class AbstractVertex<T = any> {
 }
 
 export abstract class AbstractEdge<T = any> {
-
   /**
    * The above function is a protected constructor that initializes the weight, value, and hash code properties of an
    * object.
@@ -103,7 +101,11 @@ export abstract class AbstractEdge<T = any> {
   }
 }
 
-export abstract class AbstractGraph<V extends AbstractVertex<any> = AbstractVertex<any>, E extends AbstractEdge<any> = AbstractEdge<any>> implements IAbstractGraph<V, E> {
+export abstract class AbstractGraph<
+  V extends AbstractVertex<any> = AbstractVertex<any>,
+  E extends AbstractEdge<any> = AbstractEdge<any>
+> implements IAbstractGraph<V, E>
+{
   private _vertices: Map<VertexId, V> = new Map<VertexId, V>();
 
   get vertices(): Map<VertexId, V> {
@@ -163,14 +165,13 @@ export abstract class AbstractGraph<V extends AbstractVertex<any> = AbstractVert
     return this._vertices.has(this._getVertexId(vertexOrId));
   }
 
-  addVertex(vertex: V): boolean
+  addVertex(vertex: V): boolean;
 
-  addVertex(id: VertexId, val?: V['val']): boolean
+  addVertex(id: VertexId, val?: V['val']): boolean;
 
   addVertex(idOrVertex: VertexId | V, val?: V['val']): boolean {
     if (idOrVertex instanceof AbstractVertex) {
       return this._addVertexOnly(idOrVertex);
-
     } else {
       const newVertex = this.createVertex(idOrVertex, val);
       return this._addVertexOnly(newVertex);
@@ -216,9 +217,9 @@ export abstract class AbstractGraph<V extends AbstractVertex<any> = AbstractVert
     return !!edge;
   }
 
-  addEdge(edge: E): boolean
+  addEdge(edge: E): boolean;
 
-  addEdge(src: V | VertexId, dest: V | VertexId, weight?: number, val?: E['val']): boolean
+  addEdge(src: V | VertexId, dest: V | VertexId, weight?: number, val?: E['val']): boolean;
 
   addEdge(srcOrEdge: V | VertexId | E, dest?: V | VertexId, weight?: number, val?: E['val']): boolean {
     if (srcOrEdge instanceof AbstractEdge) {
@@ -231,7 +232,7 @@ export abstract class AbstractGraph<V extends AbstractVertex<any> = AbstractVert
         const newEdge = this.createEdge(srcOrEdge, dest, weight, val);
         return this._addEdgeOnly(newEdge);
       } else {
-        throw new Error('dest must be a Vertex or vertex id while srcOrEdge is an Edge')
+        throw new Error('dest must be a Vertex or vertex id while srcOrEdge is an Edge');
       }
     }
   }
@@ -452,7 +453,12 @@ export abstract class AbstractGraph<V extends AbstractVertex<any> = AbstractVert
    * shortest paths from the source vertex to all other vertices in the graph. If `genPaths
    * @returns The function `dijkstraWithoutHeap` returns an object of type `DijkstraResult<V>`.
    */
-  dijkstraWithoutHeap(src: V | VertexId, dest?: V | VertexId | null, getMinDist?: boolean, genPaths?: boolean): DijkstraResult<V> {
+  dijkstraWithoutHeap(
+    src: V | VertexId,
+    dest?: V | VertexId | null,
+    getMinDist?: boolean,
+    genPaths?: boolean
+  ): DijkstraResult<V> {
     if (getMinDist === undefined) getMinDist = false;
     if (genPaths === undefined) genPaths = false;
 
@@ -524,7 +530,7 @@ export abstract class AbstractGraph<V extends AbstractVertex<any> = AbstractVert
           if (genPaths) {
             getPaths(destVertex);
           }
-          return {distMap, preMap, seen, paths, minDist, minPath};
+          return { distMap, preMap, seen, paths, minDist, minPath };
         }
         const neighbors = this.getNeighbors(cur);
         for (const neighbor of neighbors) {
@@ -540,25 +546,25 @@ export abstract class AbstractGraph<V extends AbstractVertex<any> = AbstractVert
                   preMap.set(neighbor, cur);
                 }
               }
-
             }
           }
         }
       }
     }
 
-    getMinDist && distMap.forEach((d, v) => {
-      if (v !== srcVertex) {
-        if (d < minDist) {
-          minDist = d;
-          if (genPaths) minDest = v;
+    getMinDist &&
+      distMap.forEach((d, v) => {
+        if (v !== srcVertex) {
+          if (d < minDist) {
+            minDist = d;
+            if (genPaths) minDest = v;
+          }
         }
-      }
-    });
+      });
 
     genPaths && getPaths(minDest);
 
-    return {distMap, preMap, seen, paths, minDist, minPath};
+    return { distMap, preMap, seen, paths, minDist, minPath };
   }
 
   /**
@@ -611,8 +617,10 @@ export abstract class AbstractGraph<V extends AbstractVertex<any> = AbstractVert
       if (vertexOrId instanceof AbstractVertex) distMap.set(vertexOrId, Infinity);
     }
 
-    const heap = new PriorityQueue<{ id: number, val: V }>({comparator: (a, b) => a.id - b.id});
-    heap.add({id: 0, val: srcVertex});
+    const heap = new PriorityQueue<{ id: number; val: V }>({
+      comparator: (a, b) => a.id - b.id
+    });
+    heap.add({ id: 0, val: srcVertex });
 
     distMap.set(srcVertex, 0);
     preMap.set(srcVertex, null);
@@ -636,7 +644,6 @@ export abstract class AbstractGraph<V extends AbstractVertex<any> = AbstractVert
           if (vertex[1] === minV) minPath = reversed;
           paths.push(reversed);
         }
-
       }
     };
 
@@ -654,7 +661,7 @@ export abstract class AbstractGraph<V extends AbstractVertex<any> = AbstractVert
             if (genPaths) {
               getPaths(destVertex);
             }
-            return {distMap, preMap, seen, paths, minDist, minPath};
+            return { distMap, preMap, seen, paths, minDist, minPath };
           }
           const neighbors = this.getNeighbors(cur);
           for (const neighbor of neighbors) {
@@ -664,7 +671,7 @@ export abstract class AbstractGraph<V extends AbstractVertex<any> = AbstractVert
                 const distSrcToNeighbor = distMap.get(neighbor);
                 if (distSrcToNeighbor) {
                   if (dist + weight < distSrcToNeighbor) {
-                    heap.add({id: dist + weight, val: neighbor});
+                    heap.add({ id: dist + weight, val: neighbor });
                     preMap.set(neighbor, cur);
                     distMap.set(neighbor, dist + weight);
                   }
@@ -691,7 +698,7 @@ export abstract class AbstractGraph<V extends AbstractVertex<any> = AbstractVert
       getPaths(minDest);
     }
 
-    return {distMap, preMap, seen, paths, minDist, minPath};
+    return { distMap, preMap, seen, paths, minDist, minPath };
   }
 
   /**
@@ -728,7 +735,7 @@ export abstract class AbstractGraph<V extends AbstractVertex<any> = AbstractVert
     // TODO
     let hasNegativeCycle: boolean | undefined;
     if (scanNegativeCycle) hasNegativeCycle = false;
-    if (!srcVertex) return {hasNegativeCycle, distMap, preMap, paths, min, minPath};
+    if (!srcVertex) return { hasNegativeCycle, distMap, preMap, paths, min, minPath };
 
     const vertices = this._vertices;
     const numOfVertices = vertices.size;
@@ -800,7 +807,7 @@ export abstract class AbstractGraph<V extends AbstractVertex<any> = AbstractVert
       }
     }
 
-    return {hasNegativeCycle, distMap, preMap, paths, min, minPath};
+    return { hasNegativeCycle, distMap, preMap, paths, min, minPath };
   }
 
   /**
@@ -811,7 +818,6 @@ export abstract class AbstractGraph<V extends AbstractVertex<any> = AbstractVert
    * Dijkstra algorithm time: O(logVE) space: O(V + E)
    * Dijkstra's algorithm is used to find the shortest paths from a source node to all other nodes in a graph. Its basic idea is to repeatedly choose the node closest to the source node and update the distances of other nodes using this node as an intermediary. Dijkstra's algorithm requires that the edge weights in the graph are non-negative.
    */
-
 
   /**
    * BellmanFord time:O(VE) space:O(V)
@@ -842,7 +848,7 @@ export abstract class AbstractGraph<V extends AbstractVertex<any> = AbstractVert
    * `predecessor` property is a 2D array of vertices (or `null`) representing the predecessor vertices in the shortest
    * path between vertices in the
    */
-  floyd(): { costs: number[][], predecessor: (V | null)[][] } {
+  floyd(): { costs: number[][]; predecessor: (V | null)[][] } {
     const idAndVertices = [...this._vertices];
     const n = idAndVertices.length;
 
@@ -874,8 +880,7 @@ export abstract class AbstractGraph<V extends AbstractVertex<any> = AbstractVert
         }
       }
     }
-    return {costs, predecessor};
-
+    return { costs, predecessor };
   }
 
   /**
@@ -953,7 +958,7 @@ export abstract class AbstractGraph<V extends AbstractVertex<any> = AbstractVert
           const curFromMap = dfnMap.get(cur);
           if (childLow !== undefined && curFromMap !== undefined) {
             if (needArticulationPoints) {
-              if ((cur === root && childCount >= 2) || ((cur !== root) && (childLow >= curFromMap))) {
+              if ((cur === root && childCount >= 2) || (cur !== root && childLow >= curFromMap)) {
                 // todo not ensure the logic if (cur === root && childCount >= 2 || ((cur !== root) && (childLow >= curFromMap))) {
                 articulationPoints.push(cur);
               }
@@ -970,7 +975,6 @@ export abstract class AbstractGraph<V extends AbstractVertex<any> = AbstractVert
           }
         }
       }
-
     };
 
     dfs(root, null);
@@ -1007,7 +1011,7 @@ export abstract class AbstractGraph<V extends AbstractVertex<any> = AbstractVert
       });
     }
 
-    return {dfnMap, lowMap, bridges, articulationPoints, SCCs, cycles};
+    return { dfnMap, lowMap, bridges, articulationPoints, SCCs, cycles };
   }
 
   protected abstract _addEdgeOnly(edge: E): boolean;

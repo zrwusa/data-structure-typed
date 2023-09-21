@@ -10,15 +10,14 @@ export class Vector2D {
     public x: number = 0,
     public y: number = 0,
     public w: number = 1 // needed for matrix multiplication
-  ) {
-  }
+  ) {}
 
   /**
    * The function checks if the x and y values of a point are both zero.
    * @returns A boolean value indicating whether both the x and y properties of the object are equal to 0.
    */
   get isZero(): boolean {
-    return this.x === 0 && this.y === 0
+    return this.x === 0 && this.y === 0;
   }
 
   /**
@@ -26,7 +25,7 @@ export class Vector2D {
    * @returns The length of a vector, calculated using the Pythagorean theorem.
    */
   get length(): number {
-    return Math.sqrt((this.x * this.x) + (this.y * this.y))
+    return Math.sqrt(this.x * this.x + this.y * this.y);
   }
 
   /**
@@ -34,7 +33,7 @@ export class Vector2D {
    * @returns The method is returning the sum of the squares of the x and y values.
    */
   get lengthSq(): number {
-    return (this.x * this.x) + (this.y * this.y)
+    return this.x * this.x + this.y * this.y;
   }
 
   /**
@@ -43,7 +42,7 @@ export class Vector2D {
    * whole number.
    */
   get rounded(): Vector2D {
-    return new Vector2D(Math.round(this.x), Math.round(this.y))
+    return new Vector2D(Math.round(this.x), Math.round(this.y));
   }
 
   /**
@@ -57,7 +56,7 @@ export class Vector2D {
    * vectors added together.
    */
   static add(vector1: Vector2D, vector2: Vector2D): Vector2D {
-    return new Vector2D(vector1.x + vector2.x, vector1.y + vector2.y)
+    return new Vector2D(vector1.x + vector2.x, vector1.y + vector2.y);
   }
 
   /**
@@ -72,7 +71,7 @@ export class Vector2D {
    * vector2.
    */
   static subtract(vector1: Vector2D, vector2: Vector2D): Vector2D {
-    return new Vector2D(vector1.x - vector2.x, vector1.y - vector2.y)
+    return new Vector2D(vector1.x - vector2.x, vector1.y - vector2.y);
   }
 
   /**
@@ -85,7 +84,7 @@ export class Vector2D {
    * @returns A new Vector2D object with the x and y values subtracted by the given value.
    */
   static subtractValue(vector: Vector2D, value: number): Vector2D {
-    return new Vector2D(vector.x - value, vector.y - value)
+    return new Vector2D(vector.x - value, vector.y - value);
   }
 
   /**
@@ -97,7 +96,7 @@ export class Vector2D {
    * @returns A new Vector2D object with the x and y values multiplied by the given value.
    */
   static multiply(vector: Vector2D, value: number): Vector2D {
-    return new Vector2D(vector.x * value, vector.y * value)
+    return new Vector2D(vector.x * value, vector.y * value);
   }
 
   /**
@@ -109,7 +108,7 @@ export class Vector2D {
    * @returns A new instance of the Vector2D class with the x and y values divided by the given value.
    */
   static divide(vector: Vector2D, value: number): Vector2D {
-    return new Vector2D(vector.x / value, vector.y / value)
+    return new Vector2D(vector.x / value, vector.y / value);
   }
 
   /**
@@ -120,7 +119,7 @@ export class Vector2D {
    * @returns a boolean value, which indicates whether the two input vectors are equal or not.
    */
   static equals(vector1: Vector2D, vector2: Vector2D): boolean {
-    return vector1.x === vector2.x && vector1.y === vector2.y
+    return vector1.x === vector2.x && vector1.y === vector2.y;
   }
 
   /**
@@ -134,12 +133,12 @@ export class Vector2D {
    * @returns a boolean value.
    */
   static equalsRounded(vector1: Vector2D, vector2: Vector2D, roundingFactor = 12): boolean {
-    const vector = Vector2D.abs(Vector2D.subtract(vector1, vector2))
+    const vector = Vector2D.abs(Vector2D.subtract(vector1, vector2));
     if (vector.x < roundingFactor && vector.y < roundingFactor) {
-      return true
+      return true;
     }
 
-    return false
+    return false;
   }
 
   /**
@@ -149,12 +148,13 @@ export class Vector2D {
    * original vector.
    */
   static normalize(vector: Vector2D): Vector2D {
-    const length = vector.length
-    if (length > 2.220446049250313e-16) { // Epsilon
-      return Vector2D.divide(vector, length)
+    const length = vector.length;
+    if (length > 2.220446049250313e-16) {
+      // Epsilon
+      return Vector2D.divide(vector, length);
     }
 
-    return vector
+    return vector;
   }
 
   /**
@@ -167,10 +167,10 @@ export class Vector2D {
    */
   static truncate(vector: Vector2D, max: number): Vector2D {
     if (vector.length > max) {
-      return Vector2D.multiply(Vector2D.normalize(vector), max)
+      return Vector2D.multiply(Vector2D.normalize(vector), max);
     }
 
-    return vector
+    return vector;
   }
 
   /**
@@ -179,7 +179,7 @@ export class Vector2D {
    * @returns A new Vector2D object is being returned.
    */
   static perp(vector: Vector2D): Vector2D {
-    return new Vector2D(-vector.y, vector.x)
+    return new Vector2D(-vector.y, vector.x);
   }
 
   /**
@@ -189,7 +189,7 @@ export class Vector2D {
    * @returns A new Vector2D object with the negated x and y values of the input vector. Returns the vector that is the reverse of this vector
    */
   static reverse(vector: Vector2D): Vector2D {
-    return new Vector2D(-vector.x, -vector.y)
+    return new Vector2D(-vector.x, -vector.y);
   }
 
   /**
@@ -201,7 +201,7 @@ export class Vector2D {
    * input vector.
    */
   static abs(vector: Vector2D): Vector2D {
-    return new Vector2D(Math.abs(vector.x), Math.abs(vector.y))
+    return new Vector2D(Math.abs(vector.x), Math.abs(vector.y));
   }
 
   /**
@@ -212,7 +212,7 @@ export class Vector2D {
    * @returns The dot product of the two input vectors.
    */
   static dot(vector1: Vector2D, vector2: Vector2D): number {
-    return (vector1.x * vector2.x) + (vector1.y * vector2.y)
+    return vector1.x * vector2.x + vector1.y * vector2.y;
   }
 
   // /**
@@ -242,9 +242,9 @@ export class Vector2D {
    * @returns The distance between vector1 and vector2.
    */
   static distance(vector1: Vector2D, vector2: Vector2D): number {
-    const ySeparation = vector2.y - vector1.y
-    const xSeparation = vector2.x - vector1.x
-    return Math.sqrt((ySeparation * ySeparation) + (xSeparation * xSeparation))
+    const ySeparation = vector2.y - vector1.y;
+    const xSeparation = vector2.x - vector1.x;
+    return Math.sqrt(ySeparation * ySeparation + xSeparation * xSeparation);
   }
 
   /**
@@ -256,9 +256,9 @@ export class Vector2D {
    * @returns the square of the distance between the two input vectors.
    */
   static distanceSq(vector1: Vector2D, vector2: Vector2D): number {
-    const ySeparation = vector2.y - vector1.y
-    const xSeparation = vector2.x - vector1.x
-    return (ySeparation * ySeparation) + (xSeparation * xSeparation)
+    const ySeparation = vector2.y - vector1.y;
+    const xSeparation = vector2.x - vector1.x;
+    return ySeparation * ySeparation + xSeparation * xSeparation;
   }
 
   /**
@@ -272,10 +272,10 @@ export class Vector2D {
    */
   static sign(vector1: Vector2D, vector2: Vector2D): number {
     if (vector1.y * vector2.x > vector1.x * vector2.y) {
-      return -1
+      return -1;
     }
 
-    return 1
+    return 1;
   }
 
   /**
@@ -286,9 +286,9 @@ export class Vector2D {
    * @returns the angle between the given vector and the vector (0, -1) in radians.Returns the angle between origin and the given vector in radians
    */
   static angle(vector: Vector2D): number {
-    const origin = new Vector2D(0, -1)
-    const radian = Math.acos(Vector2D.dot(vector, origin) / (vector.length * origin.length))
-    return Vector2D.sign(vector, origin) === 1 ? ((Math.PI * 2) - radian) : radian
+    const origin = new Vector2D(0, -1);
+    const radian = Math.acos(Vector2D.dot(vector, origin) / (vector.length * origin.length));
+    return Vector2D.sign(vector, origin) === 1 ? Math.PI * 2 - radian : radian;
   }
 
   /**
@@ -299,18 +299,18 @@ export class Vector2D {
    * @returns a new instance of the Vector2D class with random x and y values.
    */
   static random(maxX: number, maxY: number): Vector2D {
-    const randX = Math.floor(Math.random() * maxX - (maxX / 2))
-    const randY = Math.floor(Math.random() * maxY - (maxY / 2))
-    return new Vector2D(randX, randY)
+    const randX = Math.floor(Math.random() * maxX - maxX / 2);
+    const randY = Math.floor(Math.random() * maxY - maxY / 2);
+    return new Vector2D(randX, randY);
   }
 
   /**
    * The function sets the values of x and y to zero.
    */
   zero(): void {
-    this.x = 0
-    this.y = 0
+    this.x = 0;
+    this.y = 0;
   }
 }
 
-export default Vector2D
+export default Vector2D;

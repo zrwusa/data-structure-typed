@@ -6,7 +6,6 @@
  * @license MIT License
  */
 export class DoublyLinkedListNode<T = number> {
-
   /**
    * The constructor function initializes the value, next, and previous properties of an object.
    * @param {T} val - The "val" parameter is the value that will be stored in the node. It can be of any data type, as it
@@ -50,7 +49,6 @@ export class DoublyLinkedListNode<T = number> {
 }
 
 export class DoublyLinkedList<T = any> {
-
   /**
    * The constructor initializes the linked list with an empty head, tail, and length.
    */
@@ -573,4 +571,3 @@ export class DoublyLinkedList<T = any> {
     return false;
   }
 }
-

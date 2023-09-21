@@ -6,7 +6,6 @@
  * @license MIT License
  */
 export class SinglyLinkedListNode<T = number> {
-
   /**
    * The constructor function initializes an instance of a class with a given value and sets the next property to null.
    * @param {T} val - The "val" parameter is of type T, which means it can be any data type. It represents the value that
@@ -39,7 +38,6 @@ export class SinglyLinkedListNode<T = number> {
 }
 
 export class SinglyLinkedList<T = any> {
-
   /**
    * The constructor initializes the linked list with an empty head, tail, and length.
    */
@@ -233,7 +231,8 @@ export class SinglyLinkedList<T = any> {
     } else {
       value = valueOrNode;
     }
-    let current = this.head, prev = null;
+    let current = this.head,
+      prev = null;
 
     while (current) {
       if (current.val === value) {
@@ -398,8 +397,8 @@ export class SinglyLinkedList<T = any> {
     return null;
   }
 
-  insertBefore(existingValue: T, newValue: T): boolean
-  insertBefore(existingValue: SinglyLinkedListNode<T>, newValue: T): boolean
+  insertBefore(existingValue: T, newValue: T): boolean;
+  insertBefore(existingValue: SinglyLinkedListNode<T>, newValue: T): boolean;
 
   /**
    * The `insertBefore` function inserts a new value before an existing value in a singly linked list.
@@ -438,8 +437,8 @@ export class SinglyLinkedList<T = any> {
     return false;
   }
 
-  insertAfter(existingValueOrNode: T, newValue: T): boolean
-  insertAfter(existingValueOrNode: SinglyLinkedListNode<T>, newValue: T): boolean
+  insertAfter(existingValueOrNode: T, newValue: T): boolean;
+  insertAfter(existingValueOrNode: SinglyLinkedListNode<T>, newValue: T): boolean;
 
   /**
    * The `insertAfter` function inserts a new node with a given value after an existing node in a singly linked list.
@@ -491,8 +490,7 @@ export class SinglyLinkedList<T = any> {
     return count;
   }
 
-
-  * [Symbol.iterator]() {
+  *[Symbol.iterator]() {
     let current = this.head;
 
     while (current) {

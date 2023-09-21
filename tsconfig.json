@@ -3,7 +3,6 @@
     "declaration": true,
     "outDir": "./dist",
     "module": "CommonJS",
-    //    "target": "CommonJS",
     "target": "ES6",
     "lib": [
       "esnext",

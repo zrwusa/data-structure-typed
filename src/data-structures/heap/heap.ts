@@ -5,11 +5,10 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import {PriorityQueue} from '../priority-queue';
-import type {HeapOptions} from '../../types';
+import { PriorityQueue } from '../priority-queue';
+import type { HeapOptions } from '../../types';
 
 export class HeapItem<T = number> {
-
   /**
    * The constructor function initializes an instance of a class with a priority and a value.
    * @param {number} priority - The `priority` parameter is a number that represents the priority of the value. It is
@@ -51,13 +50,13 @@ export abstract class Heap<T = number> {
    */
   protected constructor(options?: HeapOptions<T>) {
     if (options) {
-      const {priorityExtractor} = options;
+      const { priorityExtractor } = options;
       if (priorityExtractor !== undefined && typeof priorityExtractor !== 'function') {
         throw new Error('.constructor expects a valid priority function');
       }
-      this._priorityExtractor = priorityExtractor || ((el) => +el);
+      this._priorityExtractor = priorityExtractor || (el => +el);
     } else {
-      this._priorityExtractor = (el) => +el;
+      this._priorityExtractor = el => +el;
     }
   }
 
@@ -128,8 +127,8 @@ export abstract class Heap<T = number> {
    * @returns The `add` method returns the instance of the `Heap` class.
    * @throws {Error} if priority is not a valid number
    */
-  add(priority: number, val?: T,): Heap<T> {
-    val = (val === undefined) ? priority as unknown as T : val;
+  add(priority: number, val?: T): Heap<T> {
+    val = val === undefined ? (priority as unknown as T) : val;
     this._pq.add(new HeapItem<T>(priority, val));
 
     return this;
@@ -162,9 +161,11 @@ export abstract class Heap<T = number> {
     if (node instanceof HeapItem) {
       return this.pq.getNodes().includes(node);
     } else {
-      return this.pq.getNodes().findIndex(item => {
-        return item.val === node;
-      }) !== -1;
+      return (
+        this.pq.getNodes().findIndex(item => {
+          return item.val === node;
+        }) !== -1
+      );
     }
   }
 

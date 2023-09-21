@@ -6,18 +6,23 @@
  * @license MIT License
  */
 
-import type {BinaryTreeNodeId, BinaryTreeNodeNested, BinaryTreeOptions} from '../../types';
-import {AbstractBinaryTree, AbstractBinaryTreeNode} from './abstract-binary-tree';
-import {IBinaryTree, IBinaryTreeNode} from '../../interfaces';
+import type { BinaryTreeNodeId, BinaryTreeNodeNested, BinaryTreeOptions } from '../../types';
+import { AbstractBinaryTree, AbstractBinaryTreeNode } from './abstract-binary-tree';
+import { IBinaryTree, IBinaryTreeNode } from '../../interfaces';
 
-export class BinaryTreeNode<T = any, NEIGHBOR extends BinaryTreeNode<T, NEIGHBOR> = BinaryTreeNodeNested<T>> extends AbstractBinaryTreeNode<T, NEIGHBOR> implements IBinaryTreeNode<T, NEIGHBOR> {
+export class BinaryTreeNode<T = any, NEIGHBOR extends BinaryTreeNode<T, NEIGHBOR> = BinaryTreeNodeNested<T>>
+  extends AbstractBinaryTreeNode<T, NEIGHBOR>
+  implements IBinaryTreeNode<T, NEIGHBOR>
+{
   constructor(id: BinaryTreeNodeId, val?: T) {
     super(id, val);
   }
 }
 
-export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> extends AbstractBinaryTree<N> implements IBinaryTree<N> {
-
+export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode>
+  extends AbstractBinaryTree<N>
+  implements IBinaryTree<N>
+{
   /**
    * This is a constructor function for a binary tree class that takes an optional options parameter.
    * @param {BinaryTreeOptions} [options] - The `options` parameter is an optional object that can be passed to the

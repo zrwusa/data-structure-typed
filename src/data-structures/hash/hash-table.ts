@@ -1,3 +1,1 @@
-export class HashTable {
-
-}
+export class HashTable {}

@@ -5,12 +5,12 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import {PriorityQueue} from './priority-queue';
-import type {PriorityQueueOptions, SpecifyOptional} from '../../types';
+import { PriorityQueue } from './priority-queue';
+import type { PriorityQueueOptions, SpecifyOptional } from '../../types';
 
 export class MaxPriorityQueue<T = number> extends PriorityQueue<T> {
-  constructor(options?: Omit<PriorityQueueOptions<number>, 'comparator'>)
-  constructor(options: PriorityQueueOptions<T>)
+  constructor(options?: Omit<PriorityQueueOptions<number>, 'comparator'>);
+  constructor(options: PriorityQueueOptions<T>);
 
   /**
    * The constructor initializes a priority queue with an optional comparator function.
@@ -20,15 +20,18 @@ export class MaxPriorityQueue<T = number> extends PriorityQueue<T> {
   constructor(options?: SpecifyOptional<PriorityQueueOptions<T>, 'comparator'>) {
     super({
       ...options,
-      comparator: options?.comparator ? options.comparator : (a: T, b: T) => {
-        const aKey = a as unknown as number, bKey = b as unknown as number;
-        return bKey - aKey;
-      }
+      comparator: options?.comparator
+        ? options.comparator
+        : (a: T, b: T) => {
+            const aKey = a as unknown as number,
+              bKey = b as unknown as number;
+            return bKey - aKey;
+          }
     });
   }
 
-  static override heapify<T extends number>(options?: Omit<PriorityQueueOptions<T>, 'comparator'>): MaxPriorityQueue<T>
-  static override heapify<T>(options: PriorityQueueOptions<T>): MaxPriorityQueue<T>
+  static override heapify<T extends number>(options?: Omit<PriorityQueueOptions<T>, 'comparator'>): MaxPriorityQueue<T>;
+  static override heapify<T>(options: PriorityQueueOptions<T>): MaxPriorityQueue<T>;
 
   /**
    * The function `heapify` creates a max priority queue from the given options and returns it.
@@ -39,10 +42,13 @@ export class MaxPriorityQueue<T = number> extends PriorityQueue<T> {
   static override heapify<T>(options: PriorityQueueOptions<T>): MaxPriorityQueue<T> {
     const maxPQ = new MaxPriorityQueue<T>({
       ...options,
-      comparator: options?.comparator ? options.comparator : (a: T, b: T) => {
-        const aKey = a as unknown as number, bKey = b as unknown as number;
-        return bKey - aKey;
-      }
+      comparator: options?.comparator
+        ? options.comparator
+        : (a: T, b: T) => {
+            const aKey = a as unknown as number,
+              bKey = b as unknown as number;
+            return bKey - aKey;
+          }
     });
     maxPQ._fix();
     return maxPQ;

@@ -1,3 +1,1 @@
-export class BTree {
-
-}
+export class BTree {}

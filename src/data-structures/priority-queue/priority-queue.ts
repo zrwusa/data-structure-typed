@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type {PriorityQueueComparator, PriorityQueueDFSOrderPattern, PriorityQueueOptions} from '../../types';
+import type { PriorityQueueComparator, PriorityQueueDFSOrderPattern, PriorityQueueOptions } from '../../types';
 
 export class PriorityQueue<T = number> {
   /**
@@ -14,7 +14,7 @@ export class PriorityQueue<T = number> {
    * @param options - The `options` parameter is an object that contains the following properties:
    */
   constructor(options: PriorityQueueOptions<T>) {
-    const {nodes, comparator, isFix = true} = options;
+    const { nodes, comparator, isFix = true } = options;
     this._comparator = comparator;
 
     if (nodes && Array.isArray(nodes) && nodes.length > 0) {
@@ -55,7 +55,7 @@ export class PriorityQueue<T = number> {
    * @returns the result of calling the `isValid()` method on a new instance of the `PriorityQueue` class.
    */
   static isPriorityQueueified<T>(options: Omit<PriorityQueueOptions<T>, 'isFix'>) {
-    return new PriorityQueue({...options, isFix: false}).isValid();
+    return new PriorityQueue({ ...options, isFix: false }).isValid();
   }
 
   /**
@@ -151,7 +151,10 @@ export class PriorityQueue<T = number> {
    * `comparator` properties as the original instance.
    */
   clone(): PriorityQueue<T> {
-    return new PriorityQueue<T>({nodes: this.nodes, comparator: this._comparator});
+    return new PriorityQueue<T>({
+      nodes: this.nodes,
+      comparator: this._comparator
+    });
   }
 
   // --- start additional methods ---
@@ -232,7 +235,8 @@ export class PriorityQueue<T = number> {
   }
 
   protected readonly _comparator: PriorityQueueComparator<T> = (a: T, b: T) => {
-    const aKey = a as unknown as number, bKey = b as unknown as number;
+    const aKey = a as unknown as number,
+      bKey = b as unknown as number;
     return aKey - bKey;
   };
 
@@ -284,7 +288,7 @@ export class PriorityQueue<T = number> {
    * @returns the left child of a given parent node in a binary tree.
    */
   protected _getLeft(parent: number): number {
-    return (2 * parent) + 1;
+    return 2 * parent + 1;
   }
 
   /**
@@ -293,7 +297,7 @@ export class PriorityQueue<T = number> {
    * @returns the right child of a given parent node in a binary tree.
    */
   protected _getRight(parent: number): number {
-    return (2 * parent) + 2;
+    return 2 * parent + 2;
   }
 
   /**
@@ -304,7 +308,8 @@ export class PriorityQueue<T = number> {
    */
   protected _getComparedChild(parent: number) {
     let min = parent;
-    const left = this._getLeft(parent), right = this._getRight(parent);
+    const left = this._getLeft(parent),
+      right = this._getRight(parent);
 
     if (left < this.size && this._compare(min, left)) {
       min = left;

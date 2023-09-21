@@ -6,7 +6,7 @@
  * @license MIT License
  */
 
-import type {SegmentTreeNodeVal} from '../../types';
+import type { SegmentTreeNodeVal } from '../../types';
 
 export class SegmentTreeNode {
   constructor(start: number, end: number, sum: number, val?: SegmentTreeNodeVal | null) {
@@ -209,7 +209,6 @@ export class SegmentTree {
         if (cur.right) {
           // TODO after no-non-null-assertion not ensure the logic
           return dfs(cur.right, i, j);
-
         } else {
           return NaN;
         }

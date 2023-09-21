@@ -3,10 +3,9 @@
  * @copyright Tyler Zeng <zrwusa@gmail.com>
  * @class
  */
-import {SinglyLinkedList} from '../linked-list';
+import { SinglyLinkedList } from '../linked-list';
 
 export class LinkedListQueue<T = any> extends SinglyLinkedList<T> {
-
   /**
    * The enqueue function adds a value to the end of an array.
    * @param {T} value - The value parameter represents the value that you want to add to the queue.
@@ -33,7 +32,6 @@ export class LinkedListQueue<T = any> extends SinglyLinkedList<T> {
 }
 
 export class Queue<T = any> {
-
   /**
    * The constructor initializes an instance of a class with an optional array of elements and sets the offset to 0.
    * @param {T[]} [elements] - The `elements` parameter is an optional array of elements of type `T`. If provided, it
@@ -185,7 +183,7 @@ export class Queue<T = any> {
     return new Queue(this.nodes.slice(this.offset));
   }
 
-  * [Symbol.iterator]() {
+  *[Symbol.iterator]() {
     for (const item of this.nodes) {
       yield item;
     }

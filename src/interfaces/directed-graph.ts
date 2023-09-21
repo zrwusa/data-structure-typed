@@ -1,5 +1,5 @@
-import {VertexId} from '../types';
-import {IAbstractGraph} from './abstract-graph';
+import { VertexId } from '../types';
+import { IAbstractGraph } from './abstract-graph';
 
 export interface IDirectedGraph<V, E> extends IAbstractGraph<V, E> {
   incomingEdgesOf(vertex: V): E[];

@@ -1,9 +1,11 @@
-import {BinaryTreeNodeId, RBColor, RBTreeNodeNested, RBTreeOptions} from '../../types';
-import {IRBTree, IRBTreeNode} from '../../interfaces/rb-tree';
-import {BST, BSTNode} from './bst';
+import { BinaryTreeNodeId, RBColor, RBTreeNodeNested, RBTreeOptions } from '../../types';
+import { IRBTree, IRBTreeNode } from '../../interfaces/rb-tree';
+import { BST, BSTNode } from './bst';
 
-
-export class RBTreeNode<T = any, NEIGHBOR extends RBTreeNode<T, NEIGHBOR> = RBTreeNodeNested<T>> extends BSTNode<T, NEIGHBOR> implements IRBTreeNode<T, NEIGHBOR> {
+export class RBTreeNode<T = any, NEIGHBOR extends RBTreeNode<T, NEIGHBOR> = RBTreeNodeNested<T>>
+  extends BSTNode<T, NEIGHBOR>
+  implements IRBTreeNode<T, NEIGHBOR>
+{
   constructor(id: BinaryTreeNodeId, val?: T, color: RBColor = RBColor.RED) {
     super(id, val);
     this._color = color;
@@ -18,7 +20,6 @@ export class RBTreeNode<T = any, NEIGHBOR extends RBTreeNode<T, NEIGHBOR> = RBTr
   set color(value: RBColor) {
     this._color = value;
   }
-
 
   // private override _parent: RBNode<T> | null;
   // override set parent(v: RBNode<T> | null) {
@@ -97,6 +98,4 @@ export class RBTree<N extends RBTreeNode<N['val'], N> = RBTreeNode> extends BST<
   //
   //     return [{deleted: new N(0, 0), needBalanced: null}];
   // }
-
-
 }

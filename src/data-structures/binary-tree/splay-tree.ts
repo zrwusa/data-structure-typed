@@ -1,3 +1,1 @@
-export class SplayTree {
-
-}
+export class SplayTree {}

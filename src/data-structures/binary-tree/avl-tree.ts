@@ -5,11 +5,14 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import {BST, BSTNode} from './bst';
-import type {AVLTreeNodeNested, AVLTreeOptions, BinaryTreeDeletedResult, BinaryTreeNodeId} from '../../types';
-import {IAVLTree, IAVLTreeNode} from '../../interfaces';
+import { BST, BSTNode } from './bst';
+import type { AVLTreeNodeNested, AVLTreeOptions, BinaryTreeDeletedResult, BinaryTreeNodeId } from '../../types';
+import { IAVLTree, IAVLTreeNode } from '../../interfaces';
 
-export class AVLTreeNode<T = any, NEIGHBOR extends AVLTreeNode<T, NEIGHBOR> = AVLTreeNodeNested<T>> extends BSTNode<T, NEIGHBOR> implements IAVLTreeNode<T, NEIGHBOR> {
+export class AVLTreeNode<T = any, NEIGHBOR extends AVLTreeNode<T, NEIGHBOR> = AVLTreeNodeNested<T>>
+  extends BSTNode<T, NEIGHBOR>
+  implements IAVLTreeNode<T, NEIGHBOR>
+{
   constructor(id: BinaryTreeNodeId, val?: T) {
     super(id, val);
   }
@@ -64,7 +67,7 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
    */
   override remove(id: BinaryTreeNodeId, isUpdateAllLeftSum?: boolean): BinaryTreeDeletedResult<N>[] {
     const deletedResults = super.remove(id, isUpdateAllLeftSum);
-    for (const {needBalanced} of deletedResults) {
+    for (const { needBalanced } of deletedResults) {
       if (needBalanced) {
         this._balancePath(needBalanced);
       }
@@ -79,12 +82,13 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
    * @returns The balance factor of the given AVL tree node.
    */
   protected _balanceFactor(node: N): number {
-    if (!node.right)        // node has no right subtree
+    if (!node.right)
+      // node has no right subtree
       return -node.height;
-    else if (!node.left)    // node has no left subtree
+    else if (!node.left)
+      // node has no left subtree
       return +node.height;
-    else
-      return node.right.height - node.left.height;
+    else return node.right.height - node.left.height;
   }
 
   /**
@@ -92,15 +96,12 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
    * @param node - The parameter `node` is an AVLTreeNode object, which represents a node in an AVL tree.
    */
   protected _updateHeight(node: N): void {
-    if (!node.left && !node.right)
-      node.height = 0;
+    if (!node.left && !node.right) node.height = 0;
     else if (!node.left) {
       const rightHeight = node.right ? node.right.height : 0;
       node.height = 1 + rightHeight;
-    } else if (!node.right)
-      node.height = 1 + node.left.height;
-    else
-      node.height = 1 + Math.max(node.right.height, node.left.height);
+    } else if (!node.right) node.height = 1 + node.left.height;
+    else node.height = 1 + Math.max(node.right.height, node.left.height);
   }
 
   /**
@@ -109,18 +110,21 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
    * @param node - The `node` parameter is an AVLTreeNode object, which represents a node in an AVL tree.
    */
   protected _balancePath(node: N): void {
-
-    const path = this.getPathToRoot(node, false);         // first O(log n) + O(log n)
-    for (let i = 0; i < path.length; i++) {               // second O(log n)
+    const path = this.getPathToRoot(node, false); // first O(log n) + O(log n)
+    for (let i = 0; i < path.length; i++) {
+      // second O(log n)
       const A = path[i];
       // Update Heights: After inserting a node, backtrack from the insertion point to the root node, updating the height of each node along the way.
-      this._updateHeight(A);                              // first O(1)
+      this._updateHeight(A); // first O(1)
       // Check Balance: Simultaneously with height updates, check if each node violates the balance property of an AVL tree.
       // Balance Restoration: If a balance issue is discovered after inserting a node, it requires balance restoration operations. Balance restoration includes four basic cases where rotation operations need to be performed to fix the balance:
-      switch (this._balanceFactor(A)) {                   // second O(1)
+      switch (
+        this._balanceFactor(A) // second O(1)
+      ) {
         case -2:
           if (A && A.left) {
-            if (this._balanceFactor(A.left) <= 0) {       // second O(1)
+            if (this._balanceFactor(A.left) <= 0) {
+              // second O(1)
               // Left Rotation (LL Rotation): When the inserted node is in the left subtree of the left subtree, causing an imbalance.
               this._balanceLL(A);
             } else {
@@ -282,7 +286,6 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
       C.parent = parentOfA;
     }
 
-
     if (A === this.root) {
       if (C) this._setRoot(C);
     } else {
@@ -305,5 +308,3 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
     C && this._updateHeight(C);
   }
 }
-
-

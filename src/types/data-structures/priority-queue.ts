@@ -4,6 +4,6 @@ export type PriorityQueueOptions<T> = {
   nodes?: T[];
   isFix?: boolean;
   comparator: PriorityQueueComparator<T>;
-}
+};
 
 export type PriorityQueueDFSOrderPattern = 'pre' | 'in' | 'post';

@@ -1,3 +1,1 @@
-export class SkipLinkedList {
-
-}
+export class SkipLinkedList {}
