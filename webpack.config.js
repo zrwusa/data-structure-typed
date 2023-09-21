@@ -6,8 +6,8 @@ module.exports = [
         entry: './src/index.ts',
         target: 'web',
         output: {
-            filename: 'bundle.js',
-            path: path.resolve(__dirname, 'lib'),
+            filename: 'bundle.min.js',
+            path: path.resolve(__dirname, 'dist'),
             library: 'dataStructureTyped',
             libraryTarget: 'window',
         },
@@ -23,5 +23,6 @@ module.exports = [
                 }
             ],
         },
+      devtool: 'source-map',
     },
 ];

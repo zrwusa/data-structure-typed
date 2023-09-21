@@ -1,0 +1,36 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+## References
+
+- [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
+- [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
+- [`auto-changelog`](https://github.com/CookPete/auto-changelog)
+
+{{#each releases}}
+  {{#if tag}}
+    {{#if href}}
+      ## [{{title}}]({{href}}) ({{niceDate}})
+    {{else}}
+      ## {{title}} ({{niceDate}})
+    {{/if}}
+  {{else}}
+    ## [{{title}}](https://github.com/zrwusa/data-structure-typed/compare/{{diff}}.main) (upcoming)
+  {{/if}}
+
+  {{#if summary}}
+    {{summary}}
+  {{/if}}
+
+  {{! List merges except for dependency updates }}
+  {{#commit-list merges heading='### Changes' exclude='(Update dependency .+to .+\d+)|(Update .+to .+\d+)'}}
+    - {{message}} {{#if href}}[`#{{id}}`]({{href}}){{/if}}
+  {{/commit-list}}
+
+  {{! List merges with `Update dependency ` somewhere in the message }}
+  {{#commit-list merges heading='### Dependency Updates' message='(Update dependency .+to .+\d+)|(Update .+to .+\d+)'}}
+    - {{message}} {{#if href}}[`#{{id}}`]({{href}}){{/if}}
+  {{/commit-list}}
+
+{{/each}}

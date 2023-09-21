@@ -4,9 +4,6 @@ module.exports = {
     'prettier'
   ],
   'rules': {
-    'react/display-name': 'off',
-    '@next/next/no-img-element': 'off',
-    'react/no-unescaped-entities': 'off',
     'import/no-anonymous-default-export': 'off',
     '@typescript-eslint/no-unused-vars': 'error',
     '@typescript-eslint/ban-ts-comment': 'off',
@@ -49,8 +46,7 @@ module.exports = {
   'settings': {
     'import/parsers': {
       '@typescript-eslint/parser': [
-        '.ts',
-        '.tsx'
+        '.ts'
       ]
     },
     'import/resolver': {

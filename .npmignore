@@ -1,12 +1,9 @@
-/.idea
-
-/notes
-/backup
-
 .editorconfig
 .dependency-cruiser.js
-jest.config.js
 package-lock.json
 rename-clear-files.sh
-tsconfig.json
-webpack.config.js
+
+/.idea
+/notes
+/backup
+/src

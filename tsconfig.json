@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
+    "outDir": "./lib",
     "declaration": true,
-    "outDir": "./dist",
+    "declarationDir": "./lib",
     "module": "CommonJS",
     "target": "ES6",
     "lib": [
@@ -11,11 +12,9 @@
     "strict": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "declarationDir": "./dist",
     "skipLibCheck": true,
     "downlevelIteration": true,
     "experimentalDecorators": true,
-    "sourceMap": true,
     //    "removeComments": true,
     //    "allowJs": true,
     //    "allowSyntheticDefaultImports": true,
@@ -31,8 +30,8 @@
 
   "include": ["src/**/*.ts", "src/**/*.js"],
   "exclude": [
-    //  "node_modules/data-structure-typed",
     "node_modules",
+    "lib",
     "dist"
   ]
 }

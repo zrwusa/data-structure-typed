@@ -6,12 +6,11 @@ npm-debug.*
 *.key
 *.mobileprovision
 *.orig.*
-dist/
 .DS_Store
-__tests__/
+
+.idea/
 
 notes/
-docs/
 backup/
-
-.editorconfig
+lib/
+dist/
