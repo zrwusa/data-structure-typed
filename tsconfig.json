@@ -2,8 +2,8 @@
   "compilerOptions": {
     "outDir": "./lib",
     "declaration": true,
-    "declarationDir": "./lib",
-    "module": "CommonJS",
+//    "declarationDir": "./lib",
+    "module": "ES6",
     "target": "ES6",
     "lib": [
       "esnext",

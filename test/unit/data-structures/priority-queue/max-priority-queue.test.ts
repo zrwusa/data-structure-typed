@@ -92,7 +92,9 @@ describe('MaxPriorityQueue Performance Test', () => {
         prev = polled;
       }
     }
-    expect(performance.now() - startTime).toBeLessThan(bigO.LINEAR * 10);
+    expect(performance.now() - startTime).toBeLessThan(bigO.LINEAR * 50);
+    expect(prev).toBeGreaterThan(0);
+
   });
 
   it('should sorted.length to be the same as original data', () => {

@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "CommonJS",
+    "outDir": "./dist",
+    "sourceMap": true,
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "strict": true,
+    "downlevelIteration": true,
+        "removeComments": true,
+    //    "allowJs": true,
+    //    "allowSyntheticDefaultImports": true,
+    //    "forceConsistentCasingInFileNames": true,
+    //    "noFallthroughCasesInSwitch": true,
+    //    "resolveJsonModule": true,
+    //    "isolatedModules": true,
+    //    "noEmit": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ]
+  },
+
+  "include": ["src/**/*.ts", "src/**/*.js"],
+  "exclude": [
+    "node_modules",
+    "lib",
+    "dist"
+  ]
+}
+

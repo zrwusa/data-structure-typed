@@ -1,22 +1,25 @@
 {
   "name": "data-structure-typed",
-  "version": "1.3.6",
+  "version": "1.31.0",
   "description": "Data Structures of Javascript & TypeScript. AVLTree, Binary Search Tree, Binary Tree, Tree Multiset, Graph, Heap, Priority Queue, Linked List.",
-  "main": "dist/bundle.min.js",
+  "main": "dist/index.js",
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
+  "umd:main": "umd/bundle.min.js",
   "source": "src/index.ts",
   "scripts": {
-    "build": "rm -rf lib && npx tsc && npm run build:browser",
-    "build:browser": "webpack",
+    "build": "npm run build:es6 && npm run build:commonjs && npm run build:umd",
+    "build:es6": "rm -rf lib && tsc",
+    "build:commonjs": "rm -rf dist && tsc --project tsconfig.build.json",
+    "build:umd": "webpack",
     "build:docs": "typedoc --out docs ./src",
-    "changelog": "auto-changelog",
-    "lint": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\"",
-    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
-    "test": "jest",
+    "lint": "eslint --fix \"src/**/*.{js,ts}\"",
+    "format": "prettier --write \"src/**/*.{js,ts}\"",
     "update:test-deps": "npm i avl-tree-typed binary-tree-typed bst-typed deque-typed directed-graph-typed doubly-linked-list-typed graph-typed heap-typed linked-list-typed max-heap-typed max-priority-queue-typed min-heap-typed min-priority-queue-typed priority-queue-typed singly-linked-list-typed stack-typed tree-multiset-typed trie-typed undirected-graph-typed queue-typed --save-dev",
+    "test": "jest",
     "deps:check": "dependency-cruiser src",
-    "build:publish": "npm run test && npm run build && npm run build:docs && npm publish"
+    "changelog": "auto-changelog",
+    "build:publish": "npm run test && npm run build && npm run build:docs && npm run changelog && npm publish"
   },
   "repository": {
     "type": "git",
@@ -176,5 +179,8 @@
     "undirected-graph-typed": "^1.3.3",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "data-structure-typed": "^1.31.0"
   }
 }

@@ -3,9 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>CDN Test</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/data-structure-typed/dist/bundle.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/data-structure-typed/umd/bundle.min.js"></script>
 </head>
 <body>
 <div id="app">
@@ -19,7 +17,7 @@
   const $avlTreeSpan = document.createElement('span');
   $avlTreeSpan.innerText = 'AVLTree';
   $avlTree.append($avlTreeSpan);
-  const {AVLTree, ArrayQueue} = dataStructureTyped;
+  const {AVLTree, Queue} = dataStructureTyped;
   const avlTree = new AVLTree();
 
   avlTree.add(1, 1);
@@ -27,7 +25,7 @@
   $modules.append($avlTree);
 
 
-  const queue = new ArrayQueue();
+  const queue = new Queue();
   for (let i = 0; i < 1000000; i++) {
     queue.enqueue(i);
   }
@@ -43,3 +41,4 @@
 
 </body>
 </html>
+

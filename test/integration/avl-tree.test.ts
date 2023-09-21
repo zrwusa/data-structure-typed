@@ -34,9 +34,6 @@ describe('AVL Tree Test', () => {
     // node15 has type problem. After the uniform design, the generics of containers (DirectedGraph, BST) are based on the type of value. However, this design has a drawback: when I attempt to inherit from the Vertex or BSTNode classes, the types of the results obtained by all methods are those of the parent class.
     expect(node15?.val).toBe(15);
 
-    const node11 = tree.get(11);
-
-
     const dfs = tree.DFS('in', 'node');
     expect(dfs[0].id).toBe(1);
     expect(dfs[dfs.length - 1].id).toBe(16);

@@ -7,9 +7,9 @@ module.exports = [
         target: 'web',
         output: {
             filename: 'bundle.min.js',
-            path: path.resolve(__dirname, 'dist'),
+            path: path.resolve(__dirname, 'umd'),
             library: 'dataStructureTyped',
-            libraryTarget: 'window',
+            libraryTarget: 'umd',
         },
         resolve: {
             extensions: ['.ts', '.js'],

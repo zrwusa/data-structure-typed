@@ -20,7 +20,7 @@ yarn add data-structure-typed
 ```
 ### CDN
 ```html
-<script src="https://cdn.jsdelivr.net/npm/data-structure-typed/dist/bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/data-structure-typed/umd/bundle.min.js"></script>
 ```
 ```javascript
 const {AVLTree} = dataStructureTyped;

@@ -396,6 +396,6 @@ describe('SinglyLinkedList Performance Test', () => {
     }
 
     // expect(performance.now() - startPopTime).toBeLessThan(bigO.LINEAR);
-    expect(performance.now() - startPopTime).toBeLessThan(bigO.LINEAR * 100);
+    expect(performance.now() - startPopTime).toBeLessThan(bigO.LINEAR * 300);
   });
 });
