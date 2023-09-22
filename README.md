@@ -1,5 +1,3 @@
-# What
-
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Language](https://img.shields.io/github/languages/top/zrwusa/data-structure-typed)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/zrwusa/data-structure-typed)
@@ -12,6 +10,7 @@
 [//]: # (![TypeDoc]&#40;https://img.shields.io/github/package-json/dependency-version/zrwusa/data-structure-typed/dev/typedoc&#41;)
 
 [//]: # (![Total Downloads]&#40;https://img.shields.io/github/downloads/zrwusa/data-structure-typed/total&#41;)
+
 ## Brief
 Data Structures of Javascript & TypeScript.  
 
@@ -20,7 +19,6 @@ DFS(Depth-First Search), DFSIterative, BFS(Breadth-First Search),
 morris, Bellman-Ford Algorithm, Dijkstra's Algorithm, Floyd-Warshall Algorithm, 
 Tarjan's Algorithm.
 
-# How
 ## install
 ### npm
 ```bash
@@ -491,12 +489,13 @@ import {UndirectedGraph} from 'data-structure-typed';
 [//]: # (</ul>)
 
 
-![Statements](https://img.shields.io/badge/statements-55.31%25-red.svg?style=flat)
-![Branches](https://img.shields.io/badge/branches-47.04%25-red.svg?style=flat)
-![Functions](https://img.shields.io/badge/functions-48.29%25-red.svg?style=flat)
-![Lines](https://img.shields.io/badge/lines-56.92%25-red.svg?style=flat)
+[//]: # (![Statements]&#40;https://img.shields.io/badge/statements-55.31%25-red.svg?style=flat&#41;)
 
-# Why
+[//]: # (![Branches]&#40;https://img.shields.io/badge/branches-47.04%25-red.svg?style=flat&#41;)
+
+[//]: # (![Functions]&#40;https://img.shields.io/badge/functions-48.29%25-red.svg?style=flat&#41;)
+
+[//]: # (![Lines]&#40;https://img.shields.io/badge/lines-56.92%25-red.svg?style=flat&#41;)
 
 ## Code design
 By strictly adhering to object-oriented design (BinaryTree -> BST -> AVLTree -> TreeMultiset), you can seamlessly inherit the existing data structures to implement the customized ones you need. Object-oriented design stands as the optimal approach to data structure design.
