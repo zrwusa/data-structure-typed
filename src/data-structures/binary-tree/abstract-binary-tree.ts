@@ -6,7 +6,7 @@
  * @license MIT License
  */
 
-import {trampoline} from '../../utils';
+import { trampoline } from '../../utils';
 import type {
   AbstractBinaryTreeNodeNested,
   AbstractBinaryTreeNodeProperties,
@@ -17,11 +17,14 @@ import type {
   DFSOrderPattern,
   NodeOrPropertyName
 } from '../../types';
-import {AbstractBinaryTreeOptions, FamilyPosition, LoopType} from '../../types';
-import {IAbstractBinaryTree, IAbstractBinaryTreeNode} from '../../interfaces';
+import { AbstractBinaryTreeOptions, FamilyPosition, LoopType } from '../../types';
+import { IAbstractBinaryTree, IAbstractBinaryTreeNode } from '../../interfaces';
 
-export abstract class AbstractBinaryTreeNode<T = any,
-  NEIGHBOR extends AbstractBinaryTreeNode<T, NEIGHBOR> = AbstractBinaryTreeNodeNested<T>> implements IAbstractBinaryTreeNode<T, NEIGHBOR> {
+export abstract class AbstractBinaryTreeNode<
+  T = any,
+  NEIGHBOR extends AbstractBinaryTreeNode<T, NEIGHBOR> = AbstractBinaryTreeNodeNested<T>
+> implements IAbstractBinaryTreeNode<T, NEIGHBOR>
+{
   /**
    * The constructor function initializes a BinaryTreeNode object with an id and an optional value.
    * @param {BinaryTreeNodeId} id - The `id` parameter is of type `BinaryTreeNodeId` and represents the unique identifier
@@ -133,7 +136,8 @@ export abstract class AbstractBinaryTreeNode<T = any,
 }
 
 export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], N> = AbstractBinaryTreeNode>
-  implements IAbstractBinaryTree<N> {
+  implements IAbstractBinaryTree<N>
+{
   /**
    * The protected constructor initializes the options for an abstract binary tree.
    * @param {AbstractBinaryTreeOptions} [options] - An optional object that contains configuration options for the binary
@@ -141,7 +145,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    */
   protected constructor(options?: AbstractBinaryTreeOptions) {
     if (options !== undefined) {
-      const {loopType = LoopType.ITERATIVE} = options;
+      const { loopType = LoopType.ITERATIVE } = options;
       this._loopType = loopType;
     }
     this.clear();
@@ -199,7 +203,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * @returns The `destNode` is being returned.
    */
   swapLocation(srcNode: N, destNode: N): N {
-    const {id, val, height} = destNode;
+    const { id, val, height } = destNode;
     const tempNode = this.createNode(id, val);
 
     if (tempNode) {
@@ -373,7 +377,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
       if (!parent) {
         if (curr.right !== undefined) this._setRoot(curr.right);
       } else {
-        const {familyPosition: fp} = curr;
+        const { familyPosition: fp } = curr;
         if (fp === FamilyPosition.LEFT || fp === FamilyPosition.ROOT_LEFT) {
           parent.left = curr.right;
         } else if (fp === FamilyPosition.RIGHT || fp === FamilyPosition.ROOT_RIGHT) {
@@ -396,7 +400,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
     this._setSize(this.size - 1);
 
-    bstDeletedResult.push({deleted: orgCurrent, needBalanced});
+    bstDeletedResult.push({ deleted: orgCurrent, needBalanced });
     return bstDeletedResult;
   }
 
@@ -443,18 +447,18 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
         return -1;
       }
 
-      const stack: { node: N; depth: number }[] = [{node: beginRoot, depth: 0}];
+      const stack: { node: N; depth: number }[] = [{ node: beginRoot, depth: 0 }];
       let maxHeight = 0;
 
       while (stack.length > 0) {
-        const {node, depth} = stack.pop()!;
+        const { node, depth } = stack.pop()!;
 
         if (node.left) {
-          stack.push({node: node.left, depth: depth + 1});
+          stack.push({ node: node.left, depth: depth + 1 });
         }
 
         if (node.right) {
-          stack.push({node: node.right, depth: depth + 1});
+          stack.push({ node: node.right, depth: depth + 1 });
         }
 
         maxHeight = Math.max(maxHeight, depth);
@@ -1082,7 +1086,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     this._clearResults();
     if (!this.root) return this._getResultByPropertyName(nodeOrPropertyName);
     // 0: visit, 1: print
-    const stack: { opt: 0 | 1; node: N | null | undefined }[] = [{opt: 0, node: this.root}];
+    const stack: { opt: 0 | 1; node: N | null | undefined }[] = [{ opt: 0, node: this.root }];
 
     while (stack.length > 0) {
       const cur = stack.pop();
@@ -1092,24 +1096,24 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
       } else {
         switch (pattern) {
           case 'in':
-            stack.push({opt: 0, node: cur.node.right});
-            stack.push({opt: 1, node: cur.node});
-            stack.push({opt: 0, node: cur.node.left});
+            stack.push({ opt: 0, node: cur.node.right });
+            stack.push({ opt: 1, node: cur.node });
+            stack.push({ opt: 0, node: cur.node.left });
             break;
           case 'pre':
-            stack.push({opt: 0, node: cur.node.right});
-            stack.push({opt: 0, node: cur.node.left});
-            stack.push({opt: 1, node: cur.node});
+            stack.push({ opt: 0, node: cur.node.right });
+            stack.push({ opt: 0, node: cur.node.left });
+            stack.push({ opt: 1, node: cur.node });
             break;
           case 'post':
-            stack.push({opt: 1, node: cur.node});
-            stack.push({opt: 0, node: cur.node.right});
-            stack.push({opt: 0, node: cur.node.left});
+            stack.push({ opt: 1, node: cur.node });
+            stack.push({ opt: 0, node: cur.node.right });
+            stack.push({ opt: 0, node: cur.node.left });
             break;
           default:
-            stack.push({opt: 0, node: cur.node.right});
-            stack.push({opt: 1, node: cur.node});
-            stack.push({opt: 0, node: cur.node.left});
+            stack.push({ opt: 0, node: cur.node.right });
+            stack.push({ opt: 1, node: cur.node });
+            stack.push({ opt: 0, node: cur.node.left });
             break;
         }
       }

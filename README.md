@@ -1,5 +1,17 @@
 # What
 
+![License](https://img.shields.io/badge/License-MIT-blue.svg)
+![Language](https://img.shields.io/github/languages/top/zrwusa/data-structure-typed)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/zrwusa/data-structure-typed)
+![Branches](https://img.shields.io/badge/branches-97.54%25-brightgreen.svg?style=flat)
+![npm](https://aleen42.github.io/badges/src/npm.svg)
+![eslint](https://aleen42.github.io/badges/src/eslint.svg)
+
+[//]: # (![Typescript]&#40;https://img.shields.io/github/package-json/dependency-version/zrwusa/data-structure-typed/dev/typescript&#41;)
+
+[//]: # (![TypeDoc]&#40;https://img.shields.io/github/package-json/dependency-version/zrwusa/data-structure-typed/dev/typedoc&#41;)
+
+[//]: # (![Total Downloads]&#40;https://img.shields.io/github/downloads/zrwusa/data-structure-typed/total&#41;)
 ## Brief
 Data Structures of Javascript & TypeScript.  
 
@@ -477,6 +489,12 @@ import {UndirectedGraph} from 'data-structure-typed';
 [//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/Vector2D.html" rel="nofollow"><span>Vector2D</span></a></li>)
 
 [//]: # (</ul>)
+
+
+![Statements](https://img.shields.io/badge/statements-55.31%25-red.svg?style=flat)
+![Branches](https://img.shields.io/badge/branches-47.04%25-red.svg?style=flat)
+![Functions](https://img.shields.io/badge/functions-48.29%25-red.svg?style=flat)
+![Lines](https://img.shields.io/badge/lines-56.92%25-red.svg?style=flat)
 
 # Why
 

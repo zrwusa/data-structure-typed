@@ -4,6 +4,17 @@ on:
   push:
     branches:
       - main
+    # Ignore changes in folders with generated contents or documentation.
+    # Need to match git add parameters below.
+    paths-ignore:
+      - 'lib/**'
+      - 'dist/**'
+      - 'docs/**'
+      - 'coverage/**'
+      - '**/*.md'
+    pull_request:
+      branches:
+        - main
 
 jobs:
   build:
@@ -26,5 +37,5 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Run tests
+      - name: Run tests and documentation
         run: npm test
