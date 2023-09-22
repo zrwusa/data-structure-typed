@@ -1,3 +1,5 @@
+# Data Structure Typed
+
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Language](https://img.shields.io/github/languages/top/zrwusa/data-structure-typed)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/zrwusa/data-structure-typed)
@@ -19,7 +21,7 @@ DFS(Depth-First Search), DFSIterative, BFS(Breadth-First Search),
 morris, Bellman-Ford Algorithm, Dijkstra's Algorithm, Floyd-Warshall Algorithm, 
 Tarjan's Algorithm.
 
-## install
+## Installation and Usage
 ### npm
 ```bash
 npm install data-structure-typed --save
@@ -32,7 +34,7 @@ yarn add data-structure-typed
 ```html
 <script src="https://cdn.jsdelivr.net/npm/data-structure-typed/umd/bundle.min.js"></script>
 ```
-```javascript
+```js
 const {AVLTree} = dataStructureTyped;
 const {Heap, MinHeap, SinglyLinkedList, Stack, AVLTreeNode, BST, Trie, DirectedGraph, DirectedVertex, TreeMultiset} = dataStructureTyped;
 ```
@@ -56,7 +58,7 @@ const {Heap, MinHeap, SinglyLinkedList, Stack, AVLTreeNode, BST, Trie, DirectedG
 ## Code Snippet
 ### Binary Search Tree (BST) snippet
 #### TS
-```typescript
+```ts
     import {BST, BSTNode} from 'data-structure-typed';
 
     const bst = new BST();
@@ -91,7 +93,7 @@ const {Heap, MinHeap, SinglyLinkedList, Stack, AVLTreeNode, BST, Trie, DirectedG
     objBST.remove(11);
 ```
 #### JS
-```javascript
+```js
     const {BST, BSTNode} = require('data-structure-typed');
 
     const bst = new BST();
@@ -137,73 +139,71 @@ const {Heap, MinHeap, SinglyLinkedList, Stack, AVLTreeNode, BST, Trie, DirectedG
 
 ### AVLTree snippet
 #### TS
-```typescript
-    import {AVLTree} from 'data-structure-typed';
+```ts
+import {AVLTree} from 'data-structure-typed';
 
-    const avlTree = new AVLTree();
-    avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
-    avlTree.isAVLBalanced();    // true
-    avlTree.remove(10);
-    avlTree.isAVLBalanced();    // true
-
+const avlTree = new AVLTree();
+avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
+avlTree.isAVLBalanced();    // true
+avlTree.remove(10);
+avlTree.isAVLBalanced();    // true
 ```
 #### JS
-```javascript
-    const {AVLTree} = require('data-structure-typed');
+```js
+const {AVLTree} = require('data-structure-typed');
 
-    const avlTree = new AVLTree();
-    avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
-    avlTree.isAVLBalanced();    // true
-    avlTree.remove(10);
-    avlTree.isAVLBalanced();    // true
-
+const avlTree = new AVLTree();
+avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
+avlTree.isAVLBalanced();    // true
+avlTree.remove(10);
+avlTree.isAVLBalanced();    // true
 ```
 
 ### Directed Graph simple snippet
 #### TS or JS
-```typescript
+```ts
 import {DirectedGraph} from 'data-structure-typed';
 
-    const graph = new DirectedGraph();
-    
-    graph.addVertex('A');
-    graph.addVertex('B');
-    
-    graph.hasVertex('A');       // true
-    graph.hasVertex('B');       // true
-    graph.hasVertex('C');       // false
-    
-    graph.addEdge('A', 'B');
-    graph.hasEdge('A', 'B');    // true
-    graph.hasEdge('B', 'A');    // false
-    
-    graph.removeEdgeSrcToDest('A', 'B');
-    graph.hasEdge('A', 'B');    // false
-    
-    graph.addVertex('C');
-    
-    graph.addEdge('A', 'B');
-    graph.addEdge('B', 'C');
-    
-    const topologicalOrderIds = graph.topologicalSort(); // ['A', 'B', 'C']
+const graph = new DirectedGraph();
+
+graph.addVertex('A');
+graph.addVertex('B');
+
+graph.hasVertex('A');       // true
+graph.hasVertex('B');       // true
+graph.hasVertex('C');       // false
+
+graph.addEdge('A', 'B');
+graph.hasEdge('A', 'B');    // true
+graph.hasEdge('B', 'A');    // false
+
+graph.removeEdgeSrcToDest('A', 'B');
+graph.hasEdge('A', 'B');    // false
+
+graph.addVertex('C');
+
+graph.addEdge('A', 'B');
+graph.addEdge('B', 'C');
+
+const topologicalOrderIds = graph.topologicalSort(); // ['A', 'B', 'C']
 ```
 
 ### Undirected Graph snippet
 #### TS or JS
-```typescript
+```ts
 import {UndirectedGraph} from 'data-structure-typed';
 
-    const graph = new UndirectedGraph();
-    graph.addVertex('A');
-    graph.addVertex('B');
-    graph.addVertex('C');
-    graph.addVertex('D');
-    graph.removeVertex('C');
-    graph.addEdge('A', 'B');
-    graph.addEdge('B', 'D');
-    
-    const dijkstraResult = graph.dijkstra('A');
-    Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D']
+const graph = new UndirectedGraph();
+graph.addVertex('A');
+graph.addVertex('B');
+graph.addVertex('C');
+graph.addVertex('D');
+graph.removeVertex('C');
+graph.addEdge('A', 'B');
+graph.addEdge('B', 'D');
+
+const dijkstraResult = graph.dijkstra('A');
+Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D']
 ```
 
 ## Data Structures
@@ -759,8 +759,6 @@ By strictly adhering to object-oriented design (BinaryTree -> BST -> AVLTree -> 
 </tr>
 </tbody>
 </table>
-
-[//]: # (![overview diagram]&#40;https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/assets/overview-diagram-of-data-structures.png?raw=true&#41;)
 
 ![complexities](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/assets/complexities-diff.jpg?raw=true)
 

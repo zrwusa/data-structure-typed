@@ -1,7 +1,8 @@
 .editorconfig
 .dependency-cruiser.js
-package-lock.json
-rename-clear-files.sh
+.auto-changelog-template.hbs
+rename_clear_files.sh
+tsconfig.build.json
 
 /.idea
 /notes
