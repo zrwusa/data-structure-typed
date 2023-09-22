@@ -7,12 +7,6 @@
 ![npm](https://aleen42.github.io/badges/src/npm.svg)
 ![eslint](https://aleen42.github.io/badges/src/eslint.svg)
 
-[//]: # (![Typescript]&#40;https://img.shields.io/github/package-json/dependency-version/zrwusa/data-structure-typed/dev/typescript&#41;)
-
-[//]: # (![TypeDoc]&#40;https://img.shields.io/github/package-json/dependency-version/zrwusa/data-structure-typed/dev/typedoc&#41;)
-
-[//]: # (![Total Downloads]&#40;https://img.shields.io/github/downloads/zrwusa/data-structure-typed/total&#41;)
-
 ## Brief
 Data Structures of Javascript & TypeScript.  
 
@@ -78,7 +72,6 @@ const {Heap, MinHeap, SinglyLinkedList, Stack, AVLTreeNode, BST, Trie, DirectedG
     bst.get(6);                     // null
     bst.isAVLBalanced();            // true
     bst.BFS()[0] === 11;            // true
-    
 
     const objBST = new BST<BSTNode<{ id: number, keyA: number }>>();
     objBST.add(11, {id: 11, keyA: 11});
@@ -128,13 +121,11 @@ const {Heap, MinHeap, SinglyLinkedList, Stack, AVLTreeNode, BST, Trie, DirectedG
     
     objBST.remove(11);
     
-    
     const avlTree = new AVLTree();
     avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
     avlTree.isAVLBalanced();    // true
     avlTree.remove(10);
     avlTree.isAVLBalanced();    // true
-
 ```
 
 ### AVLTree snippet
@@ -330,20 +321,6 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/Stack.html"><span>Stack</span></a></td>
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 </tr>
-
-[//]: # (<tr>)
-
-[//]: # (<td>Hash</td>)
-
-[//]: # (<td></td>)
-
-[//]: # (<td></td>)
-
-[//]: # (<td><a href="https://data-structure-typed-docs.vercel.app/classes/HashTable.html"><span>HashTable</span></a></td>)
-
-[//]: # (<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>)
-
-[//]: # (</tr>)
 <tr>
 <td>Coordinate Set</td>
 <td></td>
@@ -395,107 +372,6 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
 </tr>
 </tbody>
 </table>
-
-[//]: # (## API docs)
-
-[//]: # (<ul>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/AVLTree.html" rel="nofollow"><span>AVLTree</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/AVLTreeNode.html" rel="nofollow"><span>AVLTreeNode</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/AbstractEdge.html" rel="nofollow"><span>AbstractEdge</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/AbstractGraph.html" rel="nofollow"><span>AbstractGraph</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/AbstractVertex.html" rel="nofollow"><span>AbstractVertex</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/ArrayDeque.html" rel="nofollow"><span>ArrayDeque</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/BST.html" rel="nofollow"><span>BST</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/BSTNode.html" rel="nofollow"><span>BSTNode</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/BinaryIndexedTree.html" rel="nofollow"><span>BinaryIndexedTree</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/BinaryTree.html" rel="nofollow"><span>BinaryTree</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/BinaryTreeNode.html" rel="nofollow"><span>BinaryTreeNode</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/Character.html" rel="nofollow"><span>Character</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/CoordinateMap.html" rel="nofollow"><span>CoordinateMap</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/CoordinateSet.html" rel="nofollow"><span>CoordinateSet</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/Deque.html" rel="nofollow"><span>Deque</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/DirectedEdge.html" rel="nofollow"><span>DirectedEdge</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/DirectedGraph.html" rel="nofollow"><span>DirectedGraph</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/DirectedVertex.html" rel="nofollow"><span>DirectedVertex</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/DoublyLinkedList.html" rel="nofollow"><span>DoublyLinkedList</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/DoublyLinkedListNode.html" rel="nofollow"><span>DoublyLinkedListNode</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/Heap.html" rel="nofollow"><span>Heap</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/Matrix2D.html" rel="nofollow"><span>Matrix2D</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/MatrixNTI2D.html" rel="nofollow"><span>MatrixNTI2D</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/MaxHeap.html" rel="nofollow"><span>MaxHeap</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/MaxPriorityQueue.html" rel="nofollow"><span>MaxPriorityQueue</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/MinHeap.html" rel="nofollow"><span>MinHeap</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/MinPriorityQueue.html" rel="nofollow"><span>MinPriorityQueue</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/Navigator.html" rel="nofollow"><span>Navigator</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/ObjectDeque.html" rel="nofollow"><span>ObjectDeque</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/PriorityQueue.html" rel="nofollow"><span>PriorityQueue</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/Queue.html" rel="nofollow"><span>Queue</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/SegmentTree.html" rel="nofollow"><span>SegmentTree</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/SegmentTreeNode.html" rel="nofollow"><span>SegmentTreeNode</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/SinglyLinkedList.html" rel="nofollow"><span>SinglyLinkedList</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/SinglyLinkedListNode.html" rel="nofollow"><span>SinglyLinkedListNode</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/Stack.html" rel="nofollow"><span>Stack</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/TreeMultiSet.html" rel="nofollow"><span>TreeMultiSet</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/Trie.html" rel="nofollow"><span>Trie</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/TrieNode.html" rel="nofollow"><span>TrieNode</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/UndirectedEdge.html" rel="nofollow"><span>UndirectedEdge</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/UndirectedGraph.html" rel="nofollow"><span>UndirectedGraph</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/UndirectedVertex.html" rel="nofollow"><span>UndirectedVertex</span></a></li>)
-
-[//]: # (<li><a href="https://data-structure-typed-docs.vercel.app/classes/Vector2D.html" rel="nofollow"><span>Vector2D</span></a></li>)
-
-[//]: # (</ul>)
-
-
-[//]: # (![Statements]&#40;https://img.shields.io/badge/statements-55.31%25-red.svg?style=flat&#41;)
-
-[//]: # (![Branches]&#40;https://img.shields.io/badge/branches-47.04%25-red.svg?style=flat&#41;)
-
-[//]: # (![Functions]&#40;https://img.shields.io/badge/functions-48.29%25-red.svg?style=flat&#41;)
-
-[//]: # (![Lines]&#40;https://img.shields.io/badge/lines-56.92%25-red.svg?style=flat&#41;)
 
 ## Code design
 By strictly adhering to object-oriented design (BinaryTree -> BST -> AVLTree -> TreeMultiset), you can seamlessly inherit the existing data structures to implement the customized ones you need. Object-oriented design stands as the optimal approach to data structure design.
@@ -759,7 +635,3 @@ By strictly adhering to object-oriented design (BinaryTree -> BST -> AVLTree -> 
 </tr>
 </tbody>
 </table>
-
-![complexities](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/assets/complexities-diff.jpg?raw=true)
-
-![complexities of data structures](https://github.com/zrwusa/assets/blob/master/images/data-structure-typed/assets/data-structure-complexities.jpg?raw=true)
