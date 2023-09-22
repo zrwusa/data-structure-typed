@@ -5,16 +5,10 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type {
-  BinaryTreeNodeId,
-  BinaryTreeNodePropertyName,
-  BSTComparator,
-  BSTNodeNested,
-  BSTOptions
-} from '../../types';
-import { CP, LoopType } from '../../types';
-import { BinaryTree, BinaryTreeNode } from './binary-tree';
-import { IBST, IBSTNode } from '../../interfaces';
+import type {BinaryTreeNodeId, BinaryTreeNodePropertyName, BSTComparator, BSTNodeNested, BSTOptions} from '../../types';
+import {CP, LoopType} from '../../types';
+import {BinaryTree, BinaryTreeNode} from './binary-tree';
+import {IBST, IBSTNode} from '../../interfaces';
 
 export class BSTNode<T = any, NEIGHBOR extends BSTNode<T, NEIGHBOR> = BSTNodeNested<T>>
   extends BinaryTreeNode<T, NEIGHBOR>
@@ -33,7 +27,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
   constructor(options?: BSTOptions) {
     super(options);
     if (options !== undefined) {
-      const { comparator } = options;
+      const {comparator} = options;
       if (comparator !== undefined) {
         this._comparator = comparator;
       }

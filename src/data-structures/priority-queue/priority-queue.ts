@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { PriorityQueueComparator, PriorityQueueDFSOrderPattern, PriorityQueueOptions } from '../../types';
+import type {PriorityQueueComparator, PriorityQueueDFSOrderPattern, PriorityQueueOptions} from '../../types';
 
 export class PriorityQueue<T = number> {
   /**
@@ -14,7 +14,7 @@ export class PriorityQueue<T = number> {
    * @param options - The `options` parameter is an object that contains the following properties:
    */
   constructor(options: PriorityQueueOptions<T>) {
-    const { nodes, comparator, isFix = true } = options;
+    const {nodes, comparator, isFix = true} = options;
     this._comparator = comparator;
 
     if (nodes && Array.isArray(nodes) && nodes.length > 0) {
@@ -55,7 +55,7 @@ export class PriorityQueue<T = number> {
    * @returns the result of calling the `isValid()` method on a new instance of the `PriorityQueue` class.
    */
   static isPriorityQueueified<T>(options: Omit<PriorityQueueOptions<T>, 'isFix'>) {
-    return new PriorityQueue({ ...options, isFix: false }).isValid();
+    return new PriorityQueue({...options, isFix: false}).isValid();
   }
 
   /**

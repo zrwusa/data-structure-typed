@@ -1,6 +1,6 @@
-import { AVLTreeNode } from '../data-structures';
-import { IBST, IBSTNode } from './bst';
-import { BinaryTreeDeletedResult, BinaryTreeNodeId } from '../types';
+import {AVLTreeNode} from '../data-structures';
+import {IBST, IBSTNode} from './bst';
+import {BinaryTreeDeletedResult, BinaryTreeNodeId} from '../types';
 
 export type IAVLTreeNode<T, NEIGHBOR extends IAVLTreeNode<T, NEIGHBOR>> = IBSTNode<T, NEIGHBOR>;
 

@@ -6,9 +6,9 @@
  * @license MIT License
  */
 
-import { Heap, HeapItem } from './heap';
-import { PriorityQueue } from '../priority-queue';
-import type { HeapOptions } from '../../types';
+import {Heap, HeapItem} from './heap';
+import {PriorityQueue} from '../priority-queue';
+import type {HeapOptions} from '../../types';
 
 /**
  * @class MaxHeap

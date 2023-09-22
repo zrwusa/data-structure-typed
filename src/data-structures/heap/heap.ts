@@ -5,8 +5,8 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import { PriorityQueue } from '../priority-queue';
-import type { HeapOptions } from '../../types';
+import {PriorityQueue} from '../priority-queue';
+import type {HeapOptions} from '../../types';
 
 export class HeapItem<T = number> {
   /**
@@ -50,7 +50,7 @@ export abstract class Heap<T = number> {
    */
   protected constructor(options?: HeapOptions<T>) {
     if (options) {
-      const { priorityExtractor } = options;
+      const {priorityExtractor} = options;
       if (priorityExtractor !== undefined && typeof priorityExtractor !== 'function') {
         throw new Error('.constructor expects a valid priority function');
       }

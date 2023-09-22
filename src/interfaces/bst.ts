@@ -1,6 +1,6 @@
-import { BSTNode } from '../data-structures';
-import { IBinaryTree, IBinaryTreeNode } from './binary-tree';
-import { BinaryTreeDeletedResult, BinaryTreeNodeId, BinaryTreeNodePropertyName } from '../types';
+import {BSTNode} from '../data-structures';
+import {IBinaryTree, IBinaryTreeNode} from './binary-tree';
+import {BinaryTreeDeletedResult, BinaryTreeNodeId, BinaryTreeNodePropertyName} from '../types';
 
 export type IBSTNode<T, NEIGHBOR extends IBSTNode<T, NEIGHBOR>> = IBinaryTreeNode<T, NEIGHBOR>;
 

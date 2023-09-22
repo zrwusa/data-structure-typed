@@ -1,6 +1,6 @@
-import { BinaryTreeNodeId, RBColor, RBTreeNodeNested, RBTreeOptions } from '../../types';
-import { IRBTree, IRBTreeNode } from '../../interfaces/rb-tree';
-import { BST, BSTNode } from './bst';
+import {BinaryTreeNodeId, RBColor, RBTreeNodeNested, RBTreeOptions} from '../../types';
+import {IRBTree, IRBTreeNode} from '../../interfaces/rb-tree';
+import {BST, BSTNode} from './bst';
 
 export class RBTreeNode<T = any, NEIGHBOR extends RBTreeNode<T, NEIGHBOR> = RBTreeNodeNested<T>>
   extends BSTNode<T, NEIGHBOR>

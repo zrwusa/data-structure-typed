@@ -5,10 +5,10 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { BinaryTreeNodeId, TreeMultisetNodeNested, TreeMultisetOptions } from '../../types';
-import { BinaryTreeDeletedResult, CP, DFSOrderPattern, FamilyPosition, LoopType } from '../../types';
-import { ITreeMultiset, ITreeMultisetNode } from '../../interfaces';
-import { AVLTree, AVLTreeNode } from './avl-tree';
+import type {BinaryTreeNodeId, TreeMultisetNodeNested, TreeMultisetOptions} from '../../types';
+import {BinaryTreeDeletedResult, CP, DFSOrderPattern, FamilyPosition, LoopType} from '../../types';
+import {ITreeMultiset, ITreeMultisetNode} from '../../interfaces';
+import {AVLTree, AVLTreeNode} from './avl-tree';
 
 export class TreeMultisetNode<T = any, NEIGHBOR extends TreeMultisetNode<T, NEIGHBOR> = TreeMultisetNodeNested<T>>
   extends AVLTreeNode<T, NEIGHBOR>
@@ -54,7 +54,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * TreeMultiset.
    */
   constructor(options?: TreeMultisetOptions) {
-    super({ ...options });
+    super({...options});
   }
 
   private _count = 0;
@@ -84,7 +84,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * @returns the `destNode` after swapping its values with the `srcNode`.
    */
   override swapLocation(srcNode: N, destNode: N): N {
-    const { id, val, count, height } = destNode;
+    const {id, val, count, height} = destNode;
     const tempNode = this.createNode(id, val, count);
     if (tempNode) {
       tempNode.height = height;
@@ -321,7 +321,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
         if (!parent) {
           if (curr.right !== undefined) this._setRoot(curr.right);
         } else {
-          const { familyPosition: fp } = curr;
+          const {familyPosition: fp} = curr;
           if (fp === FamilyPosition.LEFT || fp === FamilyPosition.ROOT_LEFT) {
             parent.left = curr.right;
           } else if (fp === FamilyPosition.RIGHT || fp === FamilyPosition.ROOT_RIGHT) {
@@ -349,7 +349,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
       this._setCount(this.count - orgCurrent.count);
     }
 
-    bstDeletedResult.push({ deleted: orgCurrent, needBalanced });
+    bstDeletedResult.push({deleted: orgCurrent, needBalanced});
 
     if (needBalanced) {
       this._balancePath(needBalanced);

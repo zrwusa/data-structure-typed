@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import { DoublyLinkedList } from '../linked-list';
+import {DoublyLinkedList} from '../linked-list';
 
 // O(n) time complexity of obtaining the value
 // O(1) time complexity of adding at the beginning and the end
@@ -19,9 +19,9 @@ export class ObjectDeque<T = number> {
     if (capacity !== undefined) this._capacity = capacity;
   }
 
-  private _nodes: { [key: number]: T } = {};
+  private _nodes: {[key: number]: T} = {};
 
-  get nodes(): { [p: number]: T } {
+  get nodes(): {[p: number]: T} {
     return this._nodes;
   }
 
@@ -156,7 +156,7 @@ export class ObjectDeque<T = number> {
     return this._size <= 0;
   }
 
-  protected _seNodes(value: { [p: number]: T }) {
+  protected _seNodes(value: {[p: number]: T}) {
     this._nodes = value;
   }
 

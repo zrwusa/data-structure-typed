@@ -5,9 +5,9 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import { BST, BSTNode } from './bst';
-import type { AVLTreeNodeNested, AVLTreeOptions, BinaryTreeDeletedResult, BinaryTreeNodeId } from '../../types';
-import { IAVLTree, IAVLTreeNode } from '../../interfaces';
+import {BST, BSTNode} from './bst';
+import type {AVLTreeNodeNested, AVLTreeOptions, BinaryTreeDeletedResult, BinaryTreeNodeId} from '../../types';
+import {IAVLTree, IAVLTreeNode} from '../../interfaces';
 
 export class AVLTreeNode<T = any, NEIGHBOR extends AVLTreeNode<T, NEIGHBOR> = AVLTreeNodeNested<T>>
   extends BSTNode<T, NEIGHBOR>
@@ -67,7 +67,7 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
    */
   override remove(id: BinaryTreeNodeId, isUpdateAllLeftSum?: boolean): BinaryTreeDeletedResult<N>[] {
     const deletedResults = super.remove(id, isUpdateAllLeftSum);
-    for (const { needBalanced } of deletedResults) {
+    for (const {needBalanced} of deletedResults) {
       if (needBalanced) {
         this._balancePath(needBalanced);
       }

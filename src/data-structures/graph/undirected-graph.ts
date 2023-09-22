@@ -5,10 +5,10 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import { arrayRemove } from '../../utils';
-import { AbstractEdge, AbstractGraph, AbstractVertex } from './abstract-graph';
-import type { VertexId } from '../../types';
-import { IUNDirectedGraph } from '../../interfaces';
+import {arrayRemove} from '../../utils';
+import {AbstractEdge, AbstractGraph, AbstractVertex} from './abstract-graph';
+import type {VertexId} from '../../types';
+import {IUNDirectedGraph} from '../../interfaces';
 
 export class UndirectedVertex<T = number> extends AbstractVertex<T> {
   /**

@@ -5,10 +5,10 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import { arrayRemove, uuidV4 } from '../../utils';
-import { PriorityQueue } from '../priority-queue';
-import type { DijkstraResult, VertexId } from '../../types';
-import { IAbstractGraph } from '../../interfaces';
+import {arrayRemove, uuidV4} from '../../utils';
+import {PriorityQueue} from '../priority-queue';
+import type {DijkstraResult, VertexId} from '../../types';
+import {IAbstractGraph} from '../../interfaces';
 
 export abstract class AbstractVertex<T = any> {
   /**
@@ -530,7 +530,7 @@ export abstract class AbstractGraph<
           if (genPaths) {
             getPaths(destVertex);
           }
-          return { distMap, preMap, seen, paths, minDist, minPath };
+          return {distMap, preMap, seen, paths, minDist, minPath};
         }
         const neighbors = this.getNeighbors(cur);
         for (const neighbor of neighbors) {
@@ -564,7 +564,7 @@ export abstract class AbstractGraph<
 
     genPaths && getPaths(minDest);
 
-    return { distMap, preMap, seen, paths, minDist, minPath };
+    return {distMap, preMap, seen, paths, minDist, minPath};
   }
 
   /**
@@ -617,10 +617,10 @@ export abstract class AbstractGraph<
       if (vertexOrId instanceof AbstractVertex) distMap.set(vertexOrId, Infinity);
     }
 
-    const heap = new PriorityQueue<{ id: number; val: V }>({
+    const heap = new PriorityQueue<{id: number; val: V}>({
       comparator: (a, b) => a.id - b.id
     });
-    heap.add({ id: 0, val: srcVertex });
+    heap.add({id: 0, val: srcVertex});
 
     distMap.set(srcVertex, 0);
     preMap.set(srcVertex, null);
@@ -661,7 +661,7 @@ export abstract class AbstractGraph<
             if (genPaths) {
               getPaths(destVertex);
             }
-            return { distMap, preMap, seen, paths, minDist, minPath };
+            return {distMap, preMap, seen, paths, minDist, minPath};
           }
           const neighbors = this.getNeighbors(cur);
           for (const neighbor of neighbors) {
@@ -671,7 +671,7 @@ export abstract class AbstractGraph<
                 const distSrcToNeighbor = distMap.get(neighbor);
                 if (distSrcToNeighbor) {
                   if (dist + weight < distSrcToNeighbor) {
-                    heap.add({ id: dist + weight, val: neighbor });
+                    heap.add({id: dist + weight, val: neighbor});
                     preMap.set(neighbor, cur);
                     distMap.set(neighbor, dist + weight);
                   }
@@ -698,7 +698,7 @@ export abstract class AbstractGraph<
       getPaths(minDest);
     }
 
-    return { distMap, preMap, seen, paths, minDist, minPath };
+    return {distMap, preMap, seen, paths, minDist, minPath};
   }
 
   /**
@@ -735,7 +735,7 @@ export abstract class AbstractGraph<
     // TODO
     let hasNegativeCycle: boolean | undefined;
     if (scanNegativeCycle) hasNegativeCycle = false;
-    if (!srcVertex) return { hasNegativeCycle, distMap, preMap, paths, min, minPath };
+    if (!srcVertex) return {hasNegativeCycle, distMap, preMap, paths, min, minPath};
 
     const vertices = this._vertices;
     const numOfVertices = vertices.size;
@@ -807,7 +807,7 @@ export abstract class AbstractGraph<
       }
     }
 
-    return { hasNegativeCycle, distMap, preMap, paths, min, minPath };
+    return {hasNegativeCycle, distMap, preMap, paths, min, minPath};
   }
 
   /**
@@ -848,7 +848,7 @@ export abstract class AbstractGraph<
    * `predecessor` property is a 2D array of vertices (or `null`) representing the predecessor vertices in the shortest
    * path between vertices in the
    */
-  floyd(): { costs: number[][]; predecessor: (V | null)[][] } {
+  floyd(): {costs: number[][]; predecessor: (V | null)[][]} {
     const idAndVertices = [...this._vertices];
     const n = idAndVertices.length;
 
@@ -880,7 +880,7 @@ export abstract class AbstractGraph<
         }
       }
     }
-    return { costs, predecessor };
+    return {costs, predecessor};
   }
 
   /**
@@ -1011,7 +1011,7 @@ export abstract class AbstractGraph<
       });
     }
 
-    return { dfnMap, lowMap, bridges, articulationPoints, SCCs, cycles };
+    return {dfnMap, lowMap, bridges, articulationPoints, SCCs, cycles};
   }
 
   protected abstract _addEdgeOnly(edge: E): boolean;

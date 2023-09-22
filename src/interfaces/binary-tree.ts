@@ -1,5 +1,5 @@
-import { BinaryTreeNode } from '../data-structures';
-import { IAbstractBinaryTree, IAbstractBinaryTreeNode } from './abstract-binary-tree';
+import {BinaryTreeNode} from '../data-structures';
+import {IAbstractBinaryTree, IAbstractBinaryTreeNode} from './abstract-binary-tree';
 
 export type IBinaryTreeNode<T, NEIGHBOR extends IBinaryTreeNode<T, NEIGHBOR>> = IAbstractBinaryTreeNode<T, NEIGHBOR>;
 

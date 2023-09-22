@@ -1,6 +1,6 @@
-import { RBTreeNode } from '../data-structures';
-import { IBST, IBSTNode } from './bst';
-import { BinaryTreeNodeId } from '../types';
+import {RBTreeNode} from '../data-structures';
+import {IBST, IBSTNode} from './bst';
+import {BinaryTreeNodeId} from '../types';
 
 export type IRBTreeNode<T, NEIGHBOR extends IRBTreeNode<T, NEIGHBOR>> = IBSTNode<T, NEIGHBOR>;
 

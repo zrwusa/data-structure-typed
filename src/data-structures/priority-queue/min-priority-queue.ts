@@ -5,8 +5,8 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import { PriorityQueue } from './priority-queue';
-import type { PriorityQueueOptions, SpecifyOptional } from '../../types';
+import {PriorityQueue} from './priority-queue';
+import type {PriorityQueueOptions, SpecifyOptional} from '../../types';
 
 export class MinPriorityQueue<T = number> extends PriorityQueue<T> {
   constructor(options?: Omit<PriorityQueueOptions<number>, 'comparator'>);
