@@ -8,29 +8,49 @@
 ![eslint](https://aleen42.github.io/badges/src/eslint.svg)
 
 ## Brief
-Data Structures of Javascript & TypeScript.  
+
+Data Structures of Javascript & TypeScript.
 
 ## Built-in classic algorithms
-DFS(Depth-First Search), DFSIterative, BFS(Breadth-First Search), 
-morris, Bellman-Ford Algorithm, Dijkstra's Algorithm, Floyd-Warshall Algorithm, 
-Tarjan's Algorithm.
+
+DFS(Depth-First Search), DFSIterative, BFS(Breadth-First Search), morris, Bellman-Ford Algorithm, Dijkstra's Algorithm,
+Floyd-Warshall Algorithm, Tarjan's Algorithm.
 
 ## Installation and Usage
+
 ### npm
+
 ```bash
 npm install data-structure-typed --save
 ```
+
 ### yarn
+
 ```bash
 yarn add data-structure-typed
 ```
+
 ### CDN
+
 ```html
+
 <script src="https://cdn.jsdelivr.net/npm/data-structure-typed/umd/bundle.min.js"></script>
 ```
+
 ```js
 const {AVLTree} = dataStructureTyped;
-const {Heap, MinHeap, SinglyLinkedList, Stack, AVLTreeNode, BST, Trie, DirectedGraph, DirectedVertex, TreeMultiset} = dataStructureTyped;
+const {
+  Heap,
+  MinHeap,
+  SinglyLinkedList,
+  Stack,
+  AVLTreeNode,
+  BST,
+  Trie,
+  DirectedGraph,
+  DirectedVertex,
+  TreeMultiset
+} = dataStructureTyped;
 ```
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/binary-tree-array-to-binary-tree.webp)
@@ -50,86 +70,93 @@ const {Heap, MinHeap, SinglyLinkedList, Stack, AVLTreeNode, BST, Trie, DirectedG
 <a href="https://github.com/zrwusa/vivid-algorithm" target="_blank">Examples Repository</a>
 
 ## Code Snippet
+
 ### Binary Search Tree (BST) snippet
+
 #### TS
+
 ```ts
-    import {BST, BSTNode} from 'data-structure-typed';
+import {BST, BSTNode} from 'data-structure-typed';
 
-    const bst = new BST();
-    bst.add(11);
-    bst.add(3);
-    bst.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
-    bst.size === 16;                // true
-    bst.has(6);                     // true
-    const node6 = bst.get(6);       // BSTNode
-    bst.getHeight(6) === 2;         // true
-    bst.getHeight() === 5;          // true
-    bst.getDepth(6) === 3;          // true
+const bst = new BST();
+bst.add(11);
+bst.add(3);
+bst.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
+bst.size === 16;                // true
+bst.has(6);                     // true
+const node6 = bst.get(6);       // BSTNode
+bst.getHeight(6) === 2;         // true
+bst.getHeight() === 5;          // true
+bst.getDepth(6) === 3;          // true
 
-    bst.getLeftMost()?.id === 1;    // true
+bst.getLeftMost()?.id === 1;    // true
 
-    bst.remove(6);
-    bst.get(6);                     // null
-    bst.isAVLBalanced();            // true
-    bst.BFS()[0] === 11;            // true
+bst.remove(6);
+bst.get(6);                     // null
+bst.isAVLBalanced();            // true
+bst.BFS()[0] === 11;            // true
 
-    const objBST = new BST<BSTNode<{ id: number, keyA: number }>>();
-    objBST.add(11, {id: 11, keyA: 11});
-    objBST.add(3, {id: 3, keyA: 3});
-    
-    objBST.addMany([{id: 15, keyA: 15}, {id: 1, keyA: 1}, {id: 8, keyA: 8},
-        {id: 13, keyA: 13}, {id: 16, keyA: 16}, {id: 2, keyA: 2},
-        {id: 6, keyA: 6}, {id: 9, keyA: 9}, {id: 12, keyA: 12},
-        {id: 14, keyA: 14}, {id: 4, keyA: 4}, {id: 7, keyA: 7},
-        {id: 10, keyA: 10}, {id: 5, keyA: 5}]);
-    
-    objBST.remove(11);
+const objBST = new BST<BSTNode<{ id: number, keyA: number }>>();
+objBST.add(11, {id: 11, keyA: 11});
+objBST.add(3, {id: 3, keyA: 3});
+
+objBST.addMany([{id: 15, keyA: 15}, {id: 1, keyA: 1}, {id: 8, keyA: 8},
+  {id: 13, keyA: 13}, {id: 16, keyA: 16}, {id: 2, keyA: 2},
+  {id: 6, keyA: 6}, {id: 9, keyA: 9}, {id: 12, keyA: 12},
+  {id: 14, keyA: 14}, {id: 4, keyA: 4}, {id: 7, keyA: 7},
+  {id: 10, keyA: 10}, {id: 5, keyA: 5}]);
+
+objBST.remove(11);
 ```
-#### JS
-```js
-    const {BST, BSTNode} = require('data-structure-typed');
 
-    const bst = new BST();
-    bst.add(11);
-    bst.add(3);
-    bst.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
-    bst.size === 16;        // true
-    bst.has(6);             // true
-    const node6 = bst.get(6);
-    bst.getHeight(6) === 2; // true
-    bst.getHeight() === 5;  // true
-    bst.getDepth(6) === 3;  // true
-    const leftMost = bst.getLeftMost();
-    leftMost?.id === 1;     // true
-    expect(leftMost?.id).toBe(1);
-    bst.remove(6);
-    bst.get(6);             // null
-    bst.isAVLBalanced();    // true or false
-    const bfsIDs = bst.BFS();
-    bfsIDs[0] === 11;       // true
-    expect(bfsIDs[0]).toBe(11);
-    
-    const objBST = new BST();
-    objBST.add(11, {id: 11, keyA: 11});
-    objBST.add(3, {id: 3, keyA: 3});
-    
-    objBST.addMany([{id: 15, keyA: 15}, {id: 1, keyA: 1}, {id: 8, keyA: 8},
-        {id: 13, keyA: 13}, {id: 16, keyA: 16}, {id: 2, keyA: 2},
-        {id: 6, keyA: 6}, {id: 9, keyA: 9}, {id: 12, keyA: 12},
-        {id: 14, keyA: 14}, {id: 4, keyA: 4}, {id: 7, keyA: 7},
-        {id: 10, keyA: 10}, {id: 5, keyA: 5}]);
-    
-    objBST.remove(11);
-    
-    const avlTree = new AVLTree();
-    avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
-    avlTree.isAVLBalanced();    // true
-    avlTree.remove(10);
-    avlTree.isAVLBalanced();    // true
+#### JS
+
+```js
+const {BST, BSTNode} = require('data-structure-typed');
+
+const bst = new BST();
+bst.add(11);
+bst.add(3);
+bst.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
+bst.size === 16;        // true
+bst.has(6);             // true
+const node6 = bst.get(6);
+bst.getHeight(6) === 2; // true
+bst.getHeight() === 5;  // true
+bst.getDepth(6) === 3;  // true
+const leftMost = bst.getLeftMost();
+leftMost?.id === 1;     // true
+expect(leftMost?.id).toBe(1);
+bst.remove(6);
+bst.get(6);             // null
+bst.isAVLBalanced();    // true or false
+const bfsIDs = bst.BFS();
+bfsIDs[0] === 11;       // true
+expect(bfsIDs[0]).toBe(11);
+
+const objBST = new BST();
+objBST.add(11, {id: 11, keyA: 11});
+objBST.add(3, {id: 3, keyA: 3});
+
+objBST.addMany([{id: 15, keyA: 15}, {id: 1, keyA: 1}, {id: 8, keyA: 8},
+  {id: 13, keyA: 13}, {id: 16, keyA: 16}, {id: 2, keyA: 2},
+  {id: 6, keyA: 6}, {id: 9, keyA: 9}, {id: 12, keyA: 12},
+  {id: 14, keyA: 14}, {id: 4, keyA: 4}, {id: 7, keyA: 7},
+  {id: 10, keyA: 10}, {id: 5, keyA: 5}]);
+
+objBST.remove(11);
+
+const avlTree = new AVLTree();
+avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
+avlTree.isAVLBalanced();    // true
+avlTree.remove(10);
+avlTree.isAVLBalanced();    // true
 ```
 
 ### AVLTree snippet
+
 #### TS
+
 ```ts
 import {AVLTree} from 'data-structure-typed';
 
@@ -139,7 +166,9 @@ avlTree.isAVLBalanced();    // true
 avlTree.remove(10);
 avlTree.isAVLBalanced();    // true
 ```
+
 #### JS
+
 ```js
 const {AVLTree} = require('data-structure-typed');
 
@@ -151,7 +180,9 @@ avlTree.isAVLBalanced();    // true
 ```
 
 ### Directed Graph simple snippet
+
 #### TS or JS
+
 ```ts
 import {DirectedGraph} from 'data-structure-typed';
 
@@ -180,7 +211,9 @@ const topologicalOrderIds = graph.topologicalSort(); // ['A', 'B', 'C']
 ```
 
 ### Undirected Graph snippet
+
 #### TS or JS
+
 ```ts
 import {UndirectedGraph} from 'data-structure-typed';
 
@@ -198,6 +231,7 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
 ```
 
 ## Data Structures
+
 <table>
 <thead>
 <tr>
@@ -374,11 +408,15 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
 </table>
 
 ## Code design
-By strictly adhering to object-oriented design (BinaryTree -> BST -> AVLTree -> TreeMultiset), you can seamlessly inherit the existing data structures to implement the customized ones you need. Object-oriented design stands as the optimal approach to data structure design.
+
+By strictly adhering to object-oriented design (BinaryTree -> BST -> AVLTree -> TreeMultiset), you can seamlessly
+inherit the existing data structures to implement the customized ones you need. Object-oriented design stands as the
+optimal approach to data structure design.
 
 ## Complexities
 
 ### performance of Big O
+
 <table>
 <thead>
 <tr>
@@ -443,6 +481,7 @@ By strictly adhering to object-oriented design (BinaryTree -> BST -> AVLTree -> 
 </table>
 
 ### Data Structure Complexity
+
 <table>
 <thead>
 <tr>
@@ -539,6 +578,7 @@ By strictly adhering to object-oriented design (BinaryTree -> BST -> AVLTree -> 
 </table>
 
 ### Sorting Complexity
+
 <table>
 <thead>
 <tr>
@@ -634,4 +674,254 @@ By strictly adhering to object-oriented design (BinaryTree -> BST -> AVLTree -> 
 <td>k - length of longest key</td>
 </tr>
 </tbody>
+</table>
+
+
+<table>
+  <tr>
+    <th>Data Structure</th>
+    <th>C++ STL</th>
+    <th>java.util</th>
+    <th>Python collections</th>
+  </tr>
+  <tr>
+    <td>Dynamic Array (ArrayList)</td>
+    <td>std::vector&lt;T&gt;</td>
+    <td>ArrayList&lt;E&gt;</td>
+    <td>list</td>
+  </tr>
+  <tr>
+    <td>Linked List</td>
+    <td>std::list&lt;T&gt;</td>
+    <td>LinkedList&lt;E&gt;</td>
+    <td>deque</td>
+  </tr>
+  <tr>
+    <td>Set</td>
+    <td>std::set&lt;T&gt;</td>
+    <td>HashSet&lt;E&gt;</td>
+    <td>set</td>
+  </tr>
+  <tr>
+    <td>Map</td>
+    <td>std::map&lt;K, V&gt;</td>
+    <td>HashMap&lt;K, V&gt;</td>
+    <td>dict</td>
+  </tr>
+  <tr>
+    <td>Stack</td>
+    <td>std::stack&lt;T&gt;</td>
+    <td>Stack&lt;E&gt;</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>Queue</td>
+    <td>std::queue&lt;T&gt;</td>
+    <td>LinkedList&lt;E&gt;</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>Priority Queue</td>
+    <td>std::priority_queue&lt;T&gt;</td>
+    <td>PriorityQueue&lt;E&gt;</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>Hash Table</td>
+    <td>N/A</td>
+    <td>N/A</td>
+    <td>defaultdict, Counter, etc.</td>
+  </tr>
+  <tr>
+    <td>Deque</td>
+    <td>std::deque&lt;T&gt;</td>
+    <td>N/A</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>Multiset</td>
+    <td>std::multiset&lt;T&gt;</td>
+    <td>N/A</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>Multimap</td>
+    <td>std::multimap&lt;K, V&gt;</td>
+    <td>N/A</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>Unordered Set</td>
+    <td>std::unordered_set&lt;T&gt;</td>
+    <td>HashSet&lt;E&gt;</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>Unordered Map</td>
+    <td>std::unordered_map&lt;K, V&gt;</td>
+    <td>HashMap&lt;K, V&gt;</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>Bitset</td>
+    <td>std::bitset&lt;N&gt;</td>
+    <td>N/A</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>Ordered Dictionary (OrderedDict)</td>
+    <td>N/A</td>
+    <td>N/A</td>
+    <td>OrderedDict</td>
+  </tr>
+  <tr>
+    <td>User-Defined Dictionary</td>
+    <td>N/A</td>
+    <td>N/A</td>
+    <td>UserDict</td>
+  </tr>
+  <tr>
+    <td>User-Defined List</td>
+    <td>N/A</td>
+    <td>N/A</td>
+    <td>UserList</td>
+  </tr>
+  <tr>
+    <td>User-Defined Set</td>
+    <td>N/A</td>
+    <td>N/A</td>
+    <td>UserSet</td>
+  </tr>
+  <tr>
+    <td>Double-Ended Queue (Deque)</td>
+    <td>std::deque&lt;T&gt;</td>
+    <td>N/A</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>Skip List</td>
+    <td>N/A</td>
+    <td>N/A</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>Circular Queue</td>
+    <td>N/A</td>
+    <td>N/A</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>Bit Array</td>
+    <td>N/A</td>
+    <td>N/A</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>Bloom Filter</td>
+    <td>N/A</td>
+    <td>N/A</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>Linked Hash Set</td>
+    <td>N/A</td>
+    <td>LinkedHashSet&lt;E&gt;</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>Linked Hash Map</td>
+    <td>N/A</td>
+    <td>LinkedHashMap&lt;K, V&gt;</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>Sorted Set</td>
+    <td>N/A</td>
+    <td>TreeSet&lt;E&gt;</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>Sorted Map</td>
+    <td>N/A</td>
+    <td>TreeMap&lt;K, V&gt;</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>Tree Set</td>
+    <td>N/A</td>
+    <td>N/A</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>Tree Map</td>
+    <td>N/A</td>
+    <td>N/A</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>Persistent Collections</td>
+    <td>N/A</td>
+    <td>N/A</td>
+    <td>N/A</td>
+  </tr>
+<tr>
+    <td>std::unordered_multiset</td>
+    <td>std::unordered_multiset&lt;T&gt;</td>
+    <td>N/A</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>std::unordered_multimap</td>
+    <td>std::unordered_multimap&lt;K, V&gt;</td>
+    <td>N/A</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>N/A</td>
+    <td>TreeSet&lt;E&gt;</td>
+    <td>TreeSet&lt;E&gt;</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>N/A</td>
+    <td>TreeMap&lt;K, V&gt;</td>
+    <td>TreeMap&lt;K, V&gt;</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>N/A</td>
+    <td>LinkedBlockingQueue&lt;E&gt;</td>
+    <td>N/A</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>N/A</td>
+    <td>ConcurrentHashMap&lt;K, V&gt;</td>
+    <td>N/A</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>N/A</td>
+    <td>N/A</td>
+    <td>namedtuple</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>N/A</td>
+    <td>N/A</td>
+    <td>ChainMap</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>N/A</td>
+    <td>N/A</td>
+    <td>defaultdict</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>N/A</td>
+    <td>N/A</td>
+    <td>Counter</td>
+    <td>N/A</td>
+  </tr>
 </table>

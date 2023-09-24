@@ -4,7 +4,18 @@
 rename_clear_files.sh
 tsconfig.build.json
 
-/.idea
-/notes
-/backup
-/src
+docs/assets
+docs/classes
+docs/enums
+docs/functions
+docs/interfaces
+docs/types
+docs/variables
+
+coverage/lcov-report
+coverage/clover.xml
+coverage/lcov.info
+
+notes
+backup
+src

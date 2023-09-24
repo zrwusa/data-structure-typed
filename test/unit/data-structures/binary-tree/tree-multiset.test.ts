@@ -224,7 +224,7 @@ describe('TreeMultiset operations test', () => {
 
     expect(objTreeMultiset.has(6)).toBe(true);
 
-    const node6 = objTreeMultiset.get(6);
+    // const node6 = objTreeMultiset.get(6);
     // expect(node6 && objTreeMultiset.getHeight(node6)).toBe(2);
     // expect(node6 && objTreeMultiset.getDepth(node6)).toBe(3);
     //
@@ -402,4 +402,49 @@ describe('TreeMultiset operations test', () => {
     //
     // expect(objTreeMultiset.count).toBe(5);
   });
+});
+
+describe('TreeMultiset Performance test', function () {
+  // const treeMS = new TreeMultiset<TreeMultisetNode<number>>();
+  // const inputSizes = [100]; // Adjust input sizes as needed
+  //
+  // // Define a function to calculate the expected O(n log n) time
+  // function expectedTime(n: number): number {
+  //   return n * Math.log(n);
+  // }
+
+  it(`Observe the time consumption of TreeMultiset.add fitting O(n log n)`, function () {
+
+    // // Create a benchmark suite
+    // const suite = new Benchmark.Suite();
+    // // Define a function to generate a random array of a given size
+    // function generateRandomArray(size: number): number[] {
+    //   const arr: number[] = [];
+    //   for (let i = 0; i < size; i++) {
+    //     arr.push(Math.floor(Math.random() * size));
+    //   }
+    //   return arr;
+    // }
+    // const inputArray = generateRandomArray(inputSizes[0]);
+    //
+    // suite.add(`TreeMultiset addMany (n=${inputSizes[0]})`, () => {
+    //   treeMS.addMany([...inputArray]);
+    // });
+    //
+    // // Run the benchmarks
+    // suite
+    //   .on('cycle', (event: any) => {
+    //     const benchmark = event.target;
+    //     const n = parseInt(benchmark.name.split('=')[1]);
+    //     const observedTime = benchmark.times.elapsed;
+    //     const expected = expectedTime(n);
+    //     console.log(`Input size (n): ${n}, Observed time: ${observedTime.toFixed(2)}ms, Expected time: ${expected.toFixed(2)}ms`);
+    //   })
+    //   .on('complete', () => {
+    //     console.log(`Benchmark (n=${inputSizes[0]}) completed.`);
+    //     done(); // Call done to indicate the test is complete
+    //   })
+    //   .run({async: true});
+  });
+
 });
