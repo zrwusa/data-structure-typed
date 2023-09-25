@@ -348,21 +348,13 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
   }
 
   /**
-   * The `remove` function removes a node from a binary search tree and returns the deleted node along with the parent node
-   * that needs to be balanced.
+   * The `remove` function in TypeScript is used to delete a node from a binary search tree and returns an array of objects
+   * containing the deleted node and the node that needs to be balanced.
    * @param {N | BinaryTreeNodeId} nodeOrId - The `nodeOrId` parameter can be either a node object (`N`) or a binary tree
    * node ID (`BinaryTreeNodeId`).
-   * @param {boolean} [isUpdateAllLeftSum] - The `isUpdateAllLeftSum` parameter is an optional boolean parameter that
-   * determines whether to update the left sum of all nodes in the binary tree after removing a node. If
-   * `isUpdateAllLeftSum` is set to `true`, the left sum of all nodes will be updated. If it
    * @returns The function `remove` returns an array of `BinaryTreeDeletedResult<N>` objects.
    */
-  remove(nodeOrId: N | BinaryTreeNodeId, isUpdateAllLeftSum?: boolean): BinaryTreeDeletedResult<N>[] {
-    isUpdateAllLeftSum = isUpdateAllLeftSum === undefined ? true : isUpdateAllLeftSum;
-    // TODO may implement update all left sum
-    if (isUpdateAllLeftSum) {
-    }
-
+  remove(nodeOrId: N | BinaryTreeNodeId): BinaryTreeDeletedResult<N>[] {
     const bstDeletedResult: BinaryTreeDeletedResult<N>[] = [];
     if (!this.root) return bstDeletedResult;
 

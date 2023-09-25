@@ -56,17 +56,14 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
   }
 
   /**
-   * The function overrides the remove method of the Binary Search Tree class, performs the removal operation, and
-   * then balances the tree if necessary.
+   * The function overrides the remove method of a binary tree and performs additional operations to balance the tree after
+   * deletion.
    * @param {BinaryTreeNodeId} id - The `id` parameter represents the identifier of the binary tree node that needs to be
-   * removed from the AVL tree.
-   * @param {boolean} [isUpdateAllLeftSum] - The `isUpdateAllLeftSum` parameter is an optional boolean parameter that
-   * determines whether the left sum of all nodes in the AVL tree should be updated after removing a node. If
-   * `isUpdateAllLeftSum` is set to `true`, the left sum of all nodes will be recalculated.
-   * @returns The method is returning an array of `AVLTreeDeleted<N>` objects.
+   * removed.
+   * @returns The method is returning an array of `BinaryTreeDeletedResult<N>` objects.
    */
-  override remove(id: BinaryTreeNodeId, isUpdateAllLeftSum?: boolean): BinaryTreeDeletedResult<N>[] {
-    const deletedResults = super.remove(id, isUpdateAllLeftSum);
+  override remove(id: BinaryTreeNodeId): BinaryTreeDeletedResult<N>[] {
+    const deletedResults = super.remove(id);
     for (const {needBalanced} of deletedResults) {
       if (needBalanced) {
         this._balancePath(needBalanced);

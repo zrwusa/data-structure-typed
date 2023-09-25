@@ -7,7 +7,7 @@ export type IAVLTreeNode<T, NEIGHBOR extends IAVLTreeNode<T, NEIGHBOR>> = IBSTNo
 export interface IAVLTree<N extends AVLTreeNode<N['val'], N>> extends IBST<N> {
   add(id: BinaryTreeNodeId, val?: N['val'] | null): N | null | undefined;
 
-  remove(id: BinaryTreeNodeId, isUpdateAllLeftSum?: boolean): BinaryTreeDeletedResult<N>[];
+  remove(id: BinaryTreeNodeId): BinaryTreeDeletedResult<N>[];
 
   // _balanceFactor(node: N): number
   //

@@ -1,15 +1,16 @@
 # Data Structure Typed
 
+Data Structures of Javascript & TypeScript.
+
+A library that provides a variety of JavaScript and TypeScript data structures, as well as implementations of some
+classic algorithms.
+
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Language](https://img.shields.io/github/languages/top/zrwusa/data-structure-typed)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/zrwusa/data-structure-typed)
 ![Branches](https://img.shields.io/badge/branches-97.54%25-brightgreen.svg?style=flat)
 ![npm](https://aleen42.github.io/badges/src/npm.svg)
 ![eslint](https://aleen42.github.io/badges/src/eslint.svg)
-
-## Brief
-
-Data Structures of Javascript & TypeScript.
 
 ## Built-in classic algorithms
 
@@ -21,7 +22,7 @@ Floyd-Warshall Algorithm, Tarjan's Algorithm.
 ### npm
 
 ```bash
-npm install data-structure-typed --save
+npm i data-structure-typed --save
 ```
 
 ### yarn
@@ -925,3 +926,5 @@ optimal approach to data structure design.
     <td>N/A</td>
   </tr>
 </table>
+
+
