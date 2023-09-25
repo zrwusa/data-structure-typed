@@ -1,6 +1,6 @@
 {
   "name": "data-structure-typed",
-  "version": "1.33.0",
+  "version": "1.33.1",
   "description": "Data Structures of Javascript & TypeScript. Binary Tree, BST, Graph, Heap, Priority Queue, Linked List, Queue, Deque, Stack, AVL Tree, Tree Multiset, Trie, Directed Graph, Undirected Graph, Singly Linked List, Doubly Linked List, Max Heap, Max Priority Queue, Min Heap, Min Priority Queue.",
   "main": "dist/index.js",
   "module": "lib/index.js",
@@ -15,6 +15,7 @@
     "build:docs": "typedoc --out docs ./src",
     "lint": "eslint --fix 'src/**/*.{js,ts}'",
     "format": "prettier --write 'src/**/*.{js,ts}'",
+    "fix": "npm run lint && npm run format",
     "update:test-deps": "npm i avl-tree-typed binary-tree-typed bst-typed deque-typed directed-graph-typed doubly-linked-list-typed graph-typed heap-typed linked-list-typed max-heap-typed max-priority-queue-typed min-heap-typed min-priority-queue-typed priority-queue-typed singly-linked-list-typed stack-typed tree-multiset-typed trie-typed undirected-graph-typed queue-typed --save-dev",
     "test": "jest",
     "deps:check": "dependency-cruiser src",
@@ -41,7 +42,6 @@
     "in data structure",
     "DataStructure",
     "DataStructures",
-
     "binary",
     "depth",
     "breadth",
@@ -69,13 +69,11 @@
     "ts",
     "javascript",
     "typscript",
-
     "Node.js",
     "CommonJS",
     "ES6",
     "UMD",
     "esmodule",
-
     "java.util",
     "c++ std",
     "Python collections",

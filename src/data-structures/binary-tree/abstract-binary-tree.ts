@@ -150,7 +150,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     }
     this.clear();
   }
-
+  // TODO placeholder node may need redesigned
   private _root: N | null = null;
 
   get root(): N | null {
@@ -185,12 +185,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
 
   get visitedNode(): N[] {
     return this._visitedNode;
-  }
-
-  private _visitedLeftSum: number[] = [];
-
-  get visitedLeftSum(): number[] {
-    return this._visitedLeftSum;
   }
 
   abstract createNode(id: BinaryTreeNodeId, val?: N['val']): N | null;
@@ -1484,14 +1478,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
   }
 
   /**
-   * The function sets the value of the `_visitedLeftSum` property to the provided array.
-   * @param {number[]} value - An array of numbers that represents the visited left sum.
-   */
-  protected _setVisitedLeftSum(value: number[]) {
-    this._visitedLeftSum = value;
-  }
-
-  /**
    * The function sets the root property of an object to a given value, and if the value is not null, it also sets the
    * parent property of the value to undefined.
    * @param {N | null} v - The parameter `v` is of type `N | null`, which means it can either be of type `N` or `null`.
@@ -1519,7 +1505,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     this._visitedId = [];
     this._visitedVal = [];
     this._visitedNode = [];
-    this._visitedLeftSum = [];
   }
 
   /**

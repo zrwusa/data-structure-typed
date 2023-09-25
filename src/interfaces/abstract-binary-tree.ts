@@ -50,8 +50,6 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
 
   get visitedNode(): N[];
 
-  get visitedLeftSum(): number[];
-
   get root(): N | null;
 
   get size(): number;
