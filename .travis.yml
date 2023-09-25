@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+  - "19"
+install:
+  - npm build
+script:
+  - npm run lint
+  - npm run test
+deploy:
+  provider: npm
+  email: zrwusa@gmail.com
+  api_key:
+    secure: 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
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: zrwusa/data-structure-typed
