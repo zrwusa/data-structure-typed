@@ -14,12 +14,12 @@
 <ul class="tsd-breadcrumb">
 <li><a href="../modules.html">data-structure-typed</a></li>
 <li><a href="PriorityQueue.html">PriorityQueue</a></li></ul>
-<h1>Class PriorityQueue&lt;T&gt;</h1></div> 
+<h1>Class PriorityQueue&lt;E&gt;</h1></div> 
 <section class="tsd-panel">
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
 <li>
-<h4><span class="tsd-kind-type-parameter">T</span> = <span class="tsd-signature-type">number</span></h4></li></ul></section> 
+<h4><span class="tsd-kind-type-parameter">E</span> = <span class="tsd-signature-type">any</span></h4></li></ul></section> 
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
@@ -28,7 +28,7 @@
 <li><a href="MinPriorityQueue.html" class="tsd-signature-type tsd-kind-class">MinPriorityQueue</a></li>
 <li><a href="MaxPriorityQueue.html" class="tsd-signature-type tsd-kind-class">MaxPriorityQueue</a></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L10">src/data-structures/priority-queue/priority-queue.ts:10</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L10">src/data-structures/priority-queue/priority-queue.ts:10</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -82,7 +82,7 @@
 <section class="tsd-panel tsd-member"><a id="constructor" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><g stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icon-anchor"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></g></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="constructor.new_PriorityQueue"><span class="tsd-kind-constructor-signature">new <wbr/>Priority<wbr/>Queue</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">options</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="PriorityQueue.html" class="tsd-signature-type tsd-kind-class">PriorityQueue</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><a href="#constructor.new_PriorityQueue" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="constructor.new_PriorityQueue"><span class="tsd-kind-constructor-signature">new <wbr/>Priority<wbr/>Queue</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">options</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="PriorityQueue.html" class="tsd-signature-type tsd-kind-class">PriorityQueue</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span><a href="#constructor.new_PriorityQueue" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The constructor initializes a priority queue with the given options, including an array of nodes and a comparator
 function.</p>
@@ -91,41 +91,41 @@ function.</p>
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
 <li>
-<h4><span class="tsd-kind-type-parameter">T</span> = <span class="tsd-signature-type">number</span></h4></li></ul></section>
+<h4><span class="tsd-kind-type-parameter">E</span> = <span class="tsd-signature-type">any</span></h4></li></ul></section>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">options</span>: <a href="../types/PriorityQueueOptions.html" class="tsd-signature-type tsd-kind-type-alias">PriorityQueueOptions</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+<h5><span class="tsd-kind-parameter">options</span>: <a href="../types/PriorityQueueOptions.html" class="tsd-signature-type tsd-kind-type-alias">PriorityQueueOptions</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span></h5>
 <div class="tsd-comment tsd-typography"><p>The <code>options</code> parameter is an object that contains the following properties:</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="PriorityQueue.html" class="tsd-signature-type tsd-kind-class">PriorityQueue</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+<h4 class="tsd-returns-title">Returns <a href="PriorityQueue.html" class="tsd-signature-type tsd-kind-class">PriorityQueue</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L16">src/data-structures/priority-queue/priority-queue.ts:16</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L16">src/data-structures/priority-queue/priority-queue.ts:16</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-is-protected"><a id="_comparator" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>_comparator</span><a href="#_comparator" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<div class="tsd-signature"><span class="tsd-kind-property">_comparator</span><span class="tsd-signature-symbol">:</span> <a href="../types/PriorityQueueComparator.html" class="tsd-signature-type tsd-kind-type-alias">PriorityQueueComparator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div><aside class="tsd-sources">
+<div class="tsd-signature"><span class="tsd-kind-property">_comparator</span><span class="tsd-signature-symbol">:</span> <a href="../types/PriorityQueueComparator.html" class="tsd-signature-type tsd-kind-type-alias">PriorityQueueComparator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L237">src/data-structures/priority-queue/priority-queue.ts:237</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L237">src/data-structures/priority-queue/priority-queue.ts:237</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-protected"><a id="_nodes" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_nodes</span><a href="#_nodes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<div class="tsd-signature"><span class="tsd-kind-property">_nodes</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div><aside class="tsd-sources">
+<div class="tsd-signature"><span class="tsd-kind-property">_nodes</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L27">src/data-structures/priority-queue/priority-queue.ts:27</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L27">src/data-structures/priority-queue/priority-queue.ts:27</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member"><a id="nodes" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>nodes</span><a href="#nodes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature" id="nodes.nodes-1"><span class="tsd-signature-symbol">get</span> nodes<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span></li>
+<li class="tsd-signature" id="nodes.nodes-1"><span class="tsd-signature-symbol">get</span> nodes<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">[]</span></li>
 <li class="tsd-description">
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L29">src/data-structures/priority-queue/priority-queue.ts:29</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L29">src/data-structures/priority-queue/priority-queue.ts:29</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="size" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>size</span><a href="#size" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -133,13 +133,13 @@ function.</p>
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L33">src/data-structures/priority-queue/priority-queue.ts:33</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L33">src/data-structures/priority-queue/priority-queue.ts:33</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member"><a id="DFS" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>DFS</span><a href="#DFS" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="DFS.DFS-1"><span class="tsd-kind-call-signature">DFS</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">dfsMode</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><a href="#DFS.DFS-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="DFS.DFS-1"><span class="tsd-kind-call-signature">DFS</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">dfsMode</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><a href="#DFS.DFS-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The DFS function performs a depth-first search traversal on a binary tree and returns an array of visited nodes
 based on the specified traversal order.</p>
@@ -153,11 +153,11 @@ based on the specified traversal order.</p>
 the nodes should be visited during the Depth-First Search (DFS) traversal. It can have one of the following values:</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h4><p>an array of type <code>(T | null)[]</code>.</p>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h4><p>an array of type <code>(E | null)[]</code>.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L204">src/data-structures/priority-queue/priority-queue.ts:204</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L204">src/data-structures/priority-queue/priority-queue.ts:204</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected"><a id="_compare" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_compare</span><a href="#_compare" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected">
@@ -184,7 +184,7 @@ indicating that the element at index <code>a</code> is greater than the element 
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L251">src/data-structures/priority-queue/priority-queue.ts:251</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L251">src/data-structures/priority-queue/priority-queue.ts:251</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected"><a id="_fix" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_fix</span><a href="#_fix" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected">
@@ -196,7 +196,7 @@ towards the root.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L354">src/data-structures/priority-queue/priority-queue.ts:354</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L354">src/data-structures/priority-queue/priority-queue.ts:354</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected"><a id="_getComparedChild" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_get<wbr/>Compared<wbr/>Child</span><a href="#_getComparedChild" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected">
@@ -217,7 +217,7 @@ tree.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L309">src/data-structures/priority-queue/priority-queue.ts:309</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L309">src/data-structures/priority-queue/priority-queue.ts:309</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected"><a id="_getLeft" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_get<wbr/>Left</span><a href="#_getLeft" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected">
@@ -237,7 +237,7 @@ tree.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L290">src/data-structures/priority-queue/priority-queue.ts:290</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L290">src/data-structures/priority-queue/priority-queue.ts:290</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected"><a id="_getParent" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_get<wbr/>Parent</span><a href="#_getParent" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected">
@@ -257,7 +257,7 @@ tree.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L281">src/data-structures/priority-queue/priority-queue.ts:281</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L281">src/data-structures/priority-queue/priority-queue.ts:281</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected"><a id="_getRight" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_get<wbr/>Right</span><a href="#_getRight" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected">
@@ -277,7 +277,7 @@ tree.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L299">src/data-structures/priority-queue/priority-queue.ts:299</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L299">src/data-structures/priority-queue/priority-queue.ts:299</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected"><a id="_heapifyDown" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_heapify<wbr/>Down</span><a href="#_heapifyDown" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected">
@@ -297,7 +297,7 @@ operation should start.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L341">src/data-structures/priority-queue/priority-queue.ts:341</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L341">src/data-structures/priority-queue/priority-queue.ts:341</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected"><a id="_heapifyUp" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_heapify<wbr/>Up</span><a href="#_heapifyUp" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected">
@@ -317,7 +317,7 @@ correct position.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L328">src/data-structures/priority-queue/priority-queue.ts:328</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L328">src/data-structures/priority-queue/priority-queue.ts:328</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected"><a id="_isValidIndex" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_is<wbr/>Valid<wbr/>Index</span><a href="#_isValidIndex" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected">
@@ -338,7 +338,7 @@ checked for validity.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L272">src/data-structures/priority-queue/priority-queue.ts:272</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L272">src/data-structures/priority-queue/priority-queue.ts:272</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected"><a id="_setNodes" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_set<wbr/>Nodes</span><a href="#_setNodes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected">
@@ -348,10 +348,10 @@ checked for validity.</p>
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">value</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span></h5></li></ul></div>
+<h5><span class="tsd-kind-parameter">value</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">[]</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L233">src/data-structures/priority-queue/priority-queue.ts:233</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L233">src/data-structures/priority-queue/priority-queue.ts:233</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-protected"><a id="_swap" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_swap</span><a href="#_swap" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-protected">
@@ -375,7 +375,7 @@ checked for validity.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L260">src/data-structures/priority-queue/priority-queue.ts:260</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L260">src/data-structures/priority-queue/priority-queue.ts:260</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="add" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>add</span><a href="#add" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -387,15 +387,15 @@ checked for validity.</p>
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">node</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5>
-<div class="tsd-comment tsd-typography"><p>The parameter &quot;node&quot; is of type T, which means it can be any data type. It represents the node
+<h5><span class="tsd-kind-parameter">node</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span></h5>
+<div class="tsd-comment tsd-typography"><p>The parameter &quot;node&quot; is of type E, which means it can be any data type. It represents the node
 that needs to be added to the heap.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L73">src/data-structures/priority-queue/priority-queue.ts:73</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L73">src/data-structures/priority-queue/priority-queue.ts:73</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="clear" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>clear</span><a href="#clear" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -406,32 +406,32 @@ that needs to be added to the heap.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L135">src/data-structures/priority-queue/priority-queue.ts:135</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L135">src/data-structures/priority-queue/priority-queue.ts:135</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="clone" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>clone</span><a href="#clone" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="clone.clone-1"><span class="tsd-kind-call-signature">clone</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="PriorityQueue.html" class="tsd-signature-type tsd-kind-class">PriorityQueue</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><a href="#clone.clone-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="clone.clone-1"><span class="tsd-kind-call-signature">clone</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="PriorityQueue.html" class="tsd-signature-type tsd-kind-class">PriorityQueue</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span><a href="#clone.clone-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <code>clone</code> function returns a new instance of the <code>PriorityQueue</code> class with the same nodes and comparator as the
 original instance.</p>
 </div>
-<h4 class="tsd-returns-title">Returns <a href="PriorityQueue.html" class="tsd-signature-type tsd-kind-class">PriorityQueue</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4><p>The <code>clone()</code> method is returning a new instance of the <code>PriorityQueue</code> class with the same <code>nodes</code> and
+<h4 class="tsd-returns-title">Returns <a href="PriorityQueue.html" class="tsd-signature-type tsd-kind-class">PriorityQueue</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span></h4><p>The <code>clone()</code> method is returning a new instance of the <code>PriorityQueue</code> class with the same <code>nodes</code> and
 <code>comparator</code> properties as the original instance.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L153">src/data-structures/priority-queue/priority-queue.ts:153</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L153">src/data-structures/priority-queue/priority-queue.ts:153</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="getNodes" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Nodes</span><a href="#getNodes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="getNodes.getNodes-1"><span class="tsd-kind-call-signature">get<wbr/>Nodes</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span><a href="#getNodes.getNodes-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="getNodes.getNodes-1"><span class="tsd-kind-call-signature">get<wbr/>Nodes</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">[]</span><a href="#getNodes.getNodes-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.</p>
 </div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span></h4>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">[]</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L64">src/data-structures/priority-queue/priority-queue.ts:64</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L64">src/data-structures/priority-queue/priority-queue.ts:64</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="has" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>has</span><a href="#has" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -443,8 +443,8 @@ original instance.</p>
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">node</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5>
-<div class="tsd-comment tsd-typography"><p>The parameter <code>node</code> is of type <code>T</code>, which means it can be any type. It represents the node that
+<h5><span class="tsd-kind-parameter">node</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span></h5>
+<div class="tsd-comment tsd-typography"><p>The parameter <code>node</code> is of type <code>E</code>, which means it can be any type. It represents the node that
 we want to check if it exists in the <code>nodes</code> array.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
@@ -452,7 +452,7 @@ we want to check if it exists in the <code>nodes</code> array.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L84">src/data-structures/priority-queue/priority-queue.ts:84</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L84">src/data-structures/priority-queue/priority-queue.ts:84</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="isEmpty" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>is<wbr/>Empty</span><a href="#isEmpty" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -466,7 +466,7 @@ object is empty or not.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L128">src/data-structures/priority-queue/priority-queue.ts:128</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L128">src/data-structures/priority-queue/priority-queue.ts:128</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="isValid" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>is<wbr/>Valid</span><a href="#isValid" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -478,74 +478,74 @@ object is empty or not.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L165">src/data-structures/priority-queue/priority-queue.ts:165</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L165">src/data-structures/priority-queue/priority-queue.ts:165</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="leaf" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>leaf</span><a href="#leaf" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="leaf.leaf-1"><span class="tsd-kind-call-signature">leaf</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><a href="#leaf.leaf-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="leaf.leaf-1"><span class="tsd-kind-call-signature">leaf</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><a href="#leaf.leaf-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <code>leaf</code> function returns the last element in the <code>nodes</code> array or <code>null</code> if the array is empty.</p>
 </div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span></h4><p>The method <code>leaf()</code> is returning the last element (<code>T</code>) in the <code>nodes</code> array if it exists. If the array is
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span></h4><p>The method <code>leaf()</code> is returning the last element (<code>E</code>) in the <code>nodes</code> array if it exists. If the array is
 empty or the last element is <code>null</code>, then it returns <code>null</code>.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L118">src/data-structures/priority-queue/priority-queue.ts:118</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L118">src/data-structures/priority-queue/priority-queue.ts:118</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="peek" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>peek</span><a href="#peek" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="peek.peek-1"><span class="tsd-kind-call-signature">peek</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><a href="#peek.peek-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="peek.peek-1"><span class="tsd-kind-call-signature">peek</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><a href="#peek.peek-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <code>peek</code> function returns the first element of the <code>nodes</code> array if it exists, otherwise it returns <code>null</code>.</p>
 </div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span></h4><p>The <code>peek()</code> function is returning the first element (<code>T</code>) of the <code>nodes</code> array if the <code>size</code> is not zero.
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span></h4><p>The <code>peek()</code> function is returning the first element (<code>E</code>) of the <code>nodes</code> array if the <code>size</code> is not zero.
 Otherwise, it returns <code>null</code>.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L93">src/data-structures/priority-queue/priority-queue.ts:93</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L93">src/data-structures/priority-queue/priority-queue.ts:93</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="poll" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>poll</span><a href="#poll" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="poll.poll-1"><span class="tsd-kind-call-signature">poll</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><a href="#poll.poll-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="poll.poll-1"><span class="tsd-kind-call-signature">poll</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><a href="#poll.poll-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <code>poll</code> function removes and returns the top element from a heap data structure.</p>
 </div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span></h4><p>The <code>poll()</code> method returns a value of type <code>T</code> or <code>null</code>.</p>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span></h4><p>The <code>poll()</code> method returns a value of type <code>E</code> or <code>null</code>.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L101">src/data-structures/priority-queue/priority-queue.ts:101</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L101">src/data-structures/priority-queue/priority-queue.ts:101</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="sort" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>sort</span><a href="#sort" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="sort.sort-1"><span class="tsd-kind-call-signature">sort</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span><a href="#sort.sort-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="sort.sort-1"><span class="tsd-kind-call-signature">sort</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">[]</span><a href="#sort.sort-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The function sorts the elements in a data structure and returns them in an array.
 Plan to support sorting of duplicate elements.</p>
 </div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span></h4><p>The <code>sort()</code> method is returning an array of type <code>T[]</code>.</p>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">[]</span></h4><p>The <code>sort()</code> method is returning an array of type <code>E[]</code>.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L188">src/data-structures/priority-queue/priority-queue.ts:188</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L188">src/data-structures/priority-queue/priority-queue.ts:188</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="toArray" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>to<wbr/>Array</span><a href="#toArray" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="toArray.toArray-1"><span class="tsd-kind-call-signature">to<wbr/>Array</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span><a href="#toArray.toArray-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="toArray.toArray-1"><span class="tsd-kind-call-signature">to<wbr/>Array</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">[]</span><a href="#toArray.toArray-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The toArray function returns an array containing all the elements in the nodes property.</p>
 </div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span></h4><p>An array of type T, which is the elements of the nodes property.</p>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">[]</span></h4><p>An array of type E, which is the elements of the nodes property.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L143">src/data-structures/priority-queue/priority-queue.ts:143</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L143">src/data-structures/priority-queue/priority-queue.ts:143</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="heapify" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>heapify</span><a href="#heapify" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="heapify.heapify-1"><span class="tsd-kind-call-signature">heapify</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">options</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="PriorityQueue.html" class="tsd-signature-type tsd-kind-class">PriorityQueue</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><a href="#heapify.heapify-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="heapify.heapify-1"><span class="tsd-kind-call-signature">heapify</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">options</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="PriorityQueue.html" class="tsd-signature-type tsd-kind-class">PriorityQueue</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span><a href="#heapify.heapify-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <code>heapify</code> function creates a new PriorityQueue instance and fixes the heap property.</p>
 </div>
@@ -553,26 +553,26 @@ Plan to support sorting of duplicate elements.</p>
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
 <li>
-<h4><span class="tsd-kind-type-parameter">T</span></h4></li></ul></section>
+<h4><span class="tsd-kind-type-parameter">E</span></h4></li></ul></section>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">options</span>: <a href="../types/PriorityQueueOptions.html" class="tsd-signature-type tsd-kind-type-alias">PriorityQueueOptions</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+<h5><span class="tsd-kind-parameter">options</span>: <a href="../types/PriorityQueueOptions.html" class="tsd-signature-type tsd-kind-type-alias">PriorityQueueOptions</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span></h5>
 <div class="tsd-comment tsd-typography"><p>The &quot;options&quot; parameter is an object that contains the configuration options for the PriorityQueue.
 It can include properties such as &quot;comparator&quot; which specifies the comparison function used to order the elements in
 the priority queue, and &quot;initialValues&quot; which is an array of initial values to be added to the priority</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="PriorityQueue.html" class="tsd-signature-type tsd-kind-class">PriorityQueue</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4><p>a new instance of the PriorityQueue class after performing the heapify operation on it.</p>
+<h4 class="tsd-returns-title">Returns <a href="PriorityQueue.html" class="tsd-signature-type tsd-kind-class">PriorityQueue</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span></h4><p>a new instance of the PriorityQueue class after performing the heapify operation on it.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L44">src/data-structures/priority-queue/priority-queue.ts:44</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L44">src/data-structures/priority-queue/priority-queue.ts:44</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="isPriorityQueueified" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>is<wbr/>Priority<wbr/>Queueified</span><a href="#isPriorityQueueified" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="isPriorityQueueified.isPriorityQueueified-1"><span class="tsd-kind-call-signature">is<wbr/>Priority<wbr/>Queueified</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">options</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><a href="#isPriorityQueueified.isPriorityQueueified-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="isPriorityQueueified.isPriorityQueueified-1"><span class="tsd-kind-call-signature">is<wbr/>Priority<wbr/>Queueified</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">options</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><a href="#isPriorityQueueified.isPriorityQueueified-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The function checks if a priority queue is valid by creating a new priority queue with a fix option and then calling
 the isValid method.</p>
@@ -581,12 +581,12 @@ the isValid method.</p>
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
 <li>
-<h4><span class="tsd-kind-type-parameter">T</span></h4></li></ul></section>
+<h4><span class="tsd-kind-type-parameter">E</span></h4></li></ul></section>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">options</span>: <span class="tsd-signature-type ">Omit</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/PriorityQueueOptions.html" class="tsd-signature-type tsd-kind-type-alias">PriorityQueueOptions</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">&quot;isFix&quot;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+<h5><span class="tsd-kind-parameter">options</span>: <span class="tsd-signature-type ">Omit</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/PriorityQueueOptions.html" class="tsd-signature-type tsd-kind-type-alias">PriorityQueueOptions</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">&quot;isFix&quot;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 <div class="tsd-comment tsd-typography"><p>An object containing options for creating a priority queue. The options object should have the
 following properties:</p>
 </div>
@@ -595,7 +595,7 @@ following properties:</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/priority-queue/priority-queue.ts#L57">src/data-structures/priority-queue/priority-queue.ts:57</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/priority-queue/priority-queue.ts#L57">src/data-structures/priority-queue/priority-queue.ts:57</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">

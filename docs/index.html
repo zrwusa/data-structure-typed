@@ -15,6 +15,7 @@
 <div class="tsd-panel tsd-typography"><a id="md:data-structure-typed" class="tsd-anchor"></a><h1><a href="#md:data-structure-typed">Data Structure Typed</a></h1><p>Data Structures of Javascript &amp; TypeScript.</p>
 <p>A library that provides a variety of JavaScript and TypeScript data structures, as well as implementations of some
 classic algorithms.</p>
+<p>Do you envy languages like C++ with <em>std</em>, Python with <em>collections</em>, and Java with <em>java.util</em>? Well, no need to envy anymore! JavaScript and TypeScript now have <em>data-structure-typed</em></p>
 <p><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License">
 <img src="https://img.shields.io/github/languages/top/zrwusa/data-structure-typed" alt="Language">
 <img src="https://img.shields.io/github/v/release/zrwusa/data-structure-typed" alt="GitHub release (latest by date)">
@@ -27,7 +28,7 @@ Floyd-Warshall Algorithm, Tarjan&#39;s Algorithm.</p>
 </code><button>Copy</button></pre>
 <a id="md:yarn" class="tsd-anchor"></a><h3><a href="#md:yarn">yarn</a></h3><pre><code class="language-bash"><span class="hl-0">yarn</span><span class="hl-1"> </span><span class="hl-2">add</span><span class="hl-1"> </span><span class="hl-2">data-structure-typed</span>
 </code><button>Copy</button></pre>
-<a id="md:cdn" class="tsd-anchor"></a><h3><a href="#md:cdn">CDN</a></h3><pre><code class="language-html"><br/><span class="hl-4">&lt;</span><span class="hl-5">script</span><span class="hl-6"> </span><span class="hl-7">src</span><span class="hl-6">=</span><span class="hl-8">&quot;https://cdn.jsdelivr.net/npm/data-structure-typed/umd/bundle.min.js&quot;</span><span class="hl-4">&gt;&lt;/</span><span class="hl-5">script</span><span class="hl-4">&gt;</span>
+<a id="md:cdn" class="tsd-anchor"></a><h3><a href="#md:cdn">CDN</a></h3><pre><code class="language-html"><br/><span class="hl-4">&lt;</span><span class="hl-5">script</span><span class="hl-6"> </span><span class="hl-7">src</span><span class="hl-6">=</span><span class="hl-8">&#39;https://cdn.jsdelivr.net/npm/data-structure-typed/umd/bundle.min.js&#39;</span><span class="hl-4">&gt;&lt;/</span><span class="hl-5">script</span><span class="hl-4">&gt;</span>
 </code><button>Copy</button></pre>
 <pre><code class="language-js"><span class="hl-3">const</span><span class="hl-1"> {</span><span class="hl-9">AVLTree</span><span class="hl-1">} = </span><span class="hl-10">dataStructureTyped</span><span class="hl-1">;</span><br/><span class="hl-3">const</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-9">Heap</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-9">MinHeap</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-9">SinglyLinkedList</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-9">Stack</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-9">AVLTreeNode</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-9">BST</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-9">Trie</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-9">DirectedGraph</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-9">DirectedVertex</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-9">TreeMultiset</span><br/><span class="hl-1">} = </span><span class="hl-10">dataStructureTyped</span><span class="hl-1">;</span>
 </code><button>Copy</button></pre>
@@ -41,7 +42,7 @@ Floyd-Warshall Algorithm, Tarjan&#39;s Algorithm.</p>
 <a id="md:api-docs-amp-examples" class="tsd-anchor"></a><h2><a href="#md:api-docs-amp-examples">API docs &amp; Examples</a></h2><p><a href="https://data-structure-typed-docs.vercel.app">API Docs</a></p>
 <p><a href="https://vivid-algorithm.vercel.app">Live Examples</a></p>
 <p><a href="https://github.com/zrwusa/vivid-algorithm" target="_blank">Examples Repository</a></p>
-<a id="md:code-snippet" class="tsd-anchor"></a><h2><a href="#md:code-snippet">Code Snippet</a></h2><a id="md:binary-search-tree-bst-snippet" class="tsd-anchor"></a><h3><a href="#md:binary-search-tree-bst-snippet">Binary Search Tree (BST) snippet</a></h3><a id="md:ts" class="tsd-anchor"></a><h4><a href="#md:ts">TS</a></h4><pre><code class="language-ts"><span class="hl-11">import</span><span class="hl-1"> {</span><span class="hl-10">BST</span><span class="hl-1">, </span><span class="hl-10">BSTNode</span><span class="hl-1">} </span><span class="hl-11">from</span><span class="hl-1"> </span><span class="hl-2">&#39;data-structure-typed&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-9">bst</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">BST</span><span class="hl-1">();</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">add</span><span class="hl-1">(</span><span class="hl-12">11</span><span class="hl-1">);</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">add</span><span class="hl-1">(</span><span class="hl-12">3</span><span class="hl-1">);</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">addMany</span><span class="hl-1">([</span><span class="hl-12">15</span><span class="hl-1">, </span><span class="hl-12">1</span><span class="hl-1">, </span><span class="hl-12">8</span><span class="hl-1">, </span><span class="hl-12">13</span><span class="hl-1">, </span><span class="hl-12">16</span><span class="hl-1">, </span><span class="hl-12">2</span><span class="hl-1">, </span><span class="hl-12">6</span><span class="hl-1">, </span><span class="hl-12">9</span><span class="hl-1">, </span><span class="hl-12">12</span><span class="hl-1">, </span><span class="hl-12">14</span><span class="hl-1">, </span><span class="hl-12">4</span><span class="hl-1">, </span><span class="hl-12">7</span><span class="hl-1">, </span><span class="hl-12">10</span><span class="hl-1">, </span><span class="hl-12">5</span><span class="hl-1">]);</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-10">size</span><span class="hl-1"> === </span><span class="hl-12">16</span><span class="hl-1">;                </span><span class="hl-13">// true</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">has</span><span class="hl-1">(</span><span class="hl-12">6</span><span class="hl-1">);                     </span><span class="hl-13">// true</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-9">node6</span><span class="hl-1"> = </span><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">get</span><span class="hl-1">(</span><span class="hl-12">6</span><span class="hl-1">);       </span><span class="hl-13">// BSTNode</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">getHeight</span><span class="hl-1">(</span><span class="hl-12">6</span><span class="hl-1">) === </span><span class="hl-12">2</span><span class="hl-1">;         </span><span class="hl-13">// true</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">getHeight</span><span class="hl-1">() === </span><span class="hl-12">5</span><span class="hl-1">;          </span><span class="hl-13">// true</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">getDepth</span><span class="hl-1">(</span><span class="hl-12">6</span><span class="hl-1">) === </span><span class="hl-12">3</span><span class="hl-1">;          </span><span class="hl-13">// true</span><br/><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">getLeftMost</span><span class="hl-1">()?.</span><span class="hl-10">id</span><span class="hl-1"> === </span><span class="hl-12">1</span><span class="hl-1">;    </span><span class="hl-13">// true</span><br/><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">remove</span><span class="hl-1">(</span><span class="hl-12">6</span><span class="hl-1">);</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">get</span><span class="hl-1">(</span><span class="hl-12">6</span><span class="hl-1">);                     </span><span class="hl-13">// null</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">isAVLBalanced</span><span class="hl-1">();            </span><span class="hl-13">// true</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">BFS</span><span class="hl-1">()[</span><span class="hl-12">0</span><span class="hl-1">] === </span><span class="hl-12">11</span><span class="hl-1">;            </span><span class="hl-13">// true</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-9">objBST</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">BST</span><span class="hl-1">&lt;</span><span class="hl-14">BSTNode</span><span class="hl-1">&lt;{ </span><span class="hl-10">id</span><span class="hl-1">: </span><span class="hl-14">number</span><span class="hl-1">, </span><span class="hl-10">keyA</span><span class="hl-1">: </span><span class="hl-14">number</span><span class="hl-1"> }&gt;&gt;();</span><br/><span class="hl-10">objBST</span><span class="hl-1">.</span><span class="hl-0">add</span><span class="hl-1">(</span><span class="hl-12">11</span><span class="hl-1">, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">11</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">11</span><span class="hl-1">});</span><br/><span class="hl-10">objBST</span><span class="hl-1">.</span><span class="hl-0">add</span><span class="hl-1">(</span><span class="hl-12">3</span><span class="hl-1">, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">3</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">3</span><span class="hl-1">});</span><br/><br/><span class="hl-10">objBST</span><span class="hl-1">.</span><span class="hl-0">addMany</span><span class="hl-1">([{</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">15</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">15</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">1</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">1</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">8</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">8</span><span class="hl-1">},</span><br/><span class="hl-1">  {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">13</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">13</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">16</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">16</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">2</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">2</span><span class="hl-1">},</span><br/><span class="hl-1">  {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">6</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">6</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">9</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">9</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">12</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">12</span><span class="hl-1">},</span><br/><span class="hl-1">  {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">14</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">14</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">4</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">4</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">7</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">7</span><span class="hl-1">},</span><br/><span class="hl-1">  {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">10</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">10</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">5</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">5</span><span class="hl-1">}]);</span><br/><br/><span class="hl-10">objBST</span><span class="hl-1">.</span><span class="hl-0">remove</span><span class="hl-1">(</span><span class="hl-12">11</span><span class="hl-1">);</span>
+<a id="md:code-snippet" class="tsd-anchor"></a><h2><a href="#md:code-snippet">Code Snippet</a></h2><a id="md:binary-search-tree-bst-snippet" class="tsd-anchor"></a><h3><a href="#md:binary-search-tree-bst-snippet">Binary Search Tree (BST) snippet</a></h3><a id="md:ts" class="tsd-anchor"></a><h4><a href="#md:ts">TS</a></h4><pre><code class="language-ts"><span class="hl-11">import</span><span class="hl-1"> {</span><span class="hl-10">BST</span><span class="hl-1">, </span><span class="hl-10">BSTNode</span><span class="hl-1">} </span><span class="hl-11">from</span><span class="hl-1"> </span><span class="hl-2">&#39;data-structure-typed&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-9">bst</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">BST</span><span class="hl-1">();</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">add</span><span class="hl-1">(</span><span class="hl-12">11</span><span class="hl-1">);</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">add</span><span class="hl-1">(</span><span class="hl-12">3</span><span class="hl-1">);</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">addMany</span><span class="hl-1">([</span><span class="hl-12">15</span><span class="hl-1">, </span><span class="hl-12">1</span><span class="hl-1">, </span><span class="hl-12">8</span><span class="hl-1">, </span><span class="hl-12">13</span><span class="hl-1">, </span><span class="hl-12">16</span><span class="hl-1">, </span><span class="hl-12">2</span><span class="hl-1">, </span><span class="hl-12">6</span><span class="hl-1">, </span><span class="hl-12">9</span><span class="hl-1">, </span><span class="hl-12">12</span><span class="hl-1">, </span><span class="hl-12">14</span><span class="hl-1">, </span><span class="hl-12">4</span><span class="hl-1">, </span><span class="hl-12">7</span><span class="hl-1">, </span><span class="hl-12">10</span><span class="hl-1">, </span><span class="hl-12">5</span><span class="hl-1">]);</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-10">size</span><span class="hl-1"> === </span><span class="hl-12">16</span><span class="hl-1">;                </span><span class="hl-13">// true</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">has</span><span class="hl-1">(</span><span class="hl-12">6</span><span class="hl-1">);                     </span><span class="hl-13">// true</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-9">node6</span><span class="hl-1"> = </span><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">get</span><span class="hl-1">(</span><span class="hl-12">6</span><span class="hl-1">);       </span><span class="hl-13">// BSTNode</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">getHeight</span><span class="hl-1">(</span><span class="hl-12">6</span><span class="hl-1">) === </span><span class="hl-12">2</span><span class="hl-1">;         </span><span class="hl-13">// true</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">getHeight</span><span class="hl-1">() === </span><span class="hl-12">5</span><span class="hl-1">;          </span><span class="hl-13">// true</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">getDepth</span><span class="hl-1">(</span><span class="hl-12">6</span><span class="hl-1">) === </span><span class="hl-12">3</span><span class="hl-1">;          </span><span class="hl-13">// true</span><br/><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">getLeftMost</span><span class="hl-1">()?.</span><span class="hl-10">id</span><span class="hl-1"> === </span><span class="hl-12">1</span><span class="hl-1">;    </span><span class="hl-13">// true</span><br/><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">remove</span><span class="hl-1">(</span><span class="hl-12">6</span><span class="hl-1">);</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">get</span><span class="hl-1">(</span><span class="hl-12">6</span><span class="hl-1">);                     </span><span class="hl-13">// null</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">isAVLBalanced</span><span class="hl-1">();            </span><span class="hl-13">// true</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">BFS</span><span class="hl-1">()[</span><span class="hl-12">0</span><span class="hl-1">] === </span><span class="hl-12">11</span><span class="hl-1">;            </span><span class="hl-13">// true</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-9">objBST</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">BST</span><span class="hl-1">&lt;</span><span class="hl-14">BSTNode</span><span class="hl-1">&lt;{</span><span class="hl-10">id</span><span class="hl-1">: </span><span class="hl-14">number</span><span class="hl-1">, </span><span class="hl-10">keyA</span><span class="hl-1">: </span><span class="hl-14">number</span><span class="hl-1">}&gt;&gt;();</span><br/><span class="hl-10">objBST</span><span class="hl-1">.</span><span class="hl-0">add</span><span class="hl-1">(</span><span class="hl-12">11</span><span class="hl-1">, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">11</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">11</span><span class="hl-1">});</span><br/><span class="hl-10">objBST</span><span class="hl-1">.</span><span class="hl-0">add</span><span class="hl-1">(</span><span class="hl-12">3</span><span class="hl-1">, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">3</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">3</span><span class="hl-1">});</span><br/><br/><span class="hl-10">objBST</span><span class="hl-1">.</span><span class="hl-0">addMany</span><span class="hl-1">([{</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">15</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">15</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">1</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">1</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">8</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">8</span><span class="hl-1">},</span><br/><span class="hl-1">  {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">13</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">13</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">16</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">16</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">2</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">2</span><span class="hl-1">},</span><br/><span class="hl-1">  {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">6</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">6</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">9</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">9</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">12</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">12</span><span class="hl-1">},</span><br/><span class="hl-1">  {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">14</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">14</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">4</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">4</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">7</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">7</span><span class="hl-1">},</span><br/><span class="hl-1">  {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">10</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">10</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">5</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">5</span><span class="hl-1">}]);</span><br/><br/><span class="hl-10">objBST</span><span class="hl-1">.</span><span class="hl-0">remove</span><span class="hl-1">(</span><span class="hl-12">11</span><span class="hl-1">);</span>
 </code><button>Copy</button></pre>
 <a id="md:js" class="tsd-anchor"></a><h4><a href="#md:js">JS</a></h4><pre><code class="language-js"><span class="hl-3">const</span><span class="hl-1"> {</span><span class="hl-9">BST</span><span class="hl-1">, </span><span class="hl-9">BSTNode</span><span class="hl-1">} = </span><span class="hl-0">require</span><span class="hl-1">(</span><span class="hl-2">&#39;data-structure-typed&#39;</span><span class="hl-1">);</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-9">bst</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">BST</span><span class="hl-1">();</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">add</span><span class="hl-1">(</span><span class="hl-12">11</span><span class="hl-1">);</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">add</span><span class="hl-1">(</span><span class="hl-12">3</span><span class="hl-1">);</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">addMany</span><span class="hl-1">([</span><span class="hl-12">15</span><span class="hl-1">, </span><span class="hl-12">1</span><span class="hl-1">, </span><span class="hl-12">8</span><span class="hl-1">, </span><span class="hl-12">13</span><span class="hl-1">, </span><span class="hl-12">16</span><span class="hl-1">, </span><span class="hl-12">2</span><span class="hl-1">, </span><span class="hl-12">6</span><span class="hl-1">, </span><span class="hl-12">9</span><span class="hl-1">, </span><span class="hl-12">12</span><span class="hl-1">, </span><span class="hl-12">14</span><span class="hl-1">, </span><span class="hl-12">4</span><span class="hl-1">, </span><span class="hl-12">7</span><span class="hl-1">, </span><span class="hl-12">10</span><span class="hl-1">, </span><span class="hl-12">5</span><span class="hl-1">]);</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-10">size</span><span class="hl-1"> === </span><span class="hl-12">16</span><span class="hl-1">;        </span><span class="hl-13">// true</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">has</span><span class="hl-1">(</span><span class="hl-12">6</span><span class="hl-1">);             </span><span class="hl-13">// true</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-9">node6</span><span class="hl-1"> = </span><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">get</span><span class="hl-1">(</span><span class="hl-12">6</span><span class="hl-1">);</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">getHeight</span><span class="hl-1">(</span><span class="hl-12">6</span><span class="hl-1">) === </span><span class="hl-12">2</span><span class="hl-1">; </span><span class="hl-13">// true</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">getHeight</span><span class="hl-1">() === </span><span class="hl-12">5</span><span class="hl-1">;  </span><span class="hl-13">// true</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">getDepth</span><span class="hl-1">(</span><span class="hl-12">6</span><span class="hl-1">) === </span><span class="hl-12">3</span><span class="hl-1">;  </span><span class="hl-13">// true</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-9">leftMost</span><span class="hl-1"> = </span><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">getLeftMost</span><span class="hl-1">();</span><br/><span class="hl-10">leftMost</span><span class="hl-1">?.</span><span class="hl-10">id</span><span class="hl-1"> === </span><span class="hl-12">1</span><span class="hl-1">;     </span><span class="hl-13">// true</span><br/><span class="hl-0">expect</span><span class="hl-1">(</span><span class="hl-10">leftMost</span><span class="hl-1">?.</span><span class="hl-10">id</span><span class="hl-1">).</span><span class="hl-0">toBe</span><span class="hl-1">(</span><span class="hl-12">1</span><span class="hl-1">);</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">remove</span><span class="hl-1">(</span><span class="hl-12">6</span><span class="hl-1">);</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">get</span><span class="hl-1">(</span><span class="hl-12">6</span><span class="hl-1">);             </span><span class="hl-13">// null</span><br/><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">isAVLBalanced</span><span class="hl-1">();    </span><span class="hl-13">// true or false</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-9">bfsIDs</span><span class="hl-1"> = </span><span class="hl-10">bst</span><span class="hl-1">.</span><span class="hl-0">BFS</span><span class="hl-1">();</span><br/><span class="hl-10">bfsIDs</span><span class="hl-1">[</span><span class="hl-12">0</span><span class="hl-1">] === </span><span class="hl-12">11</span><span class="hl-1">;       </span><span class="hl-13">// true</span><br/><span class="hl-0">expect</span><span class="hl-1">(</span><span class="hl-10">bfsIDs</span><span class="hl-1">[</span><span class="hl-12">0</span><span class="hl-1">]).</span><span class="hl-0">toBe</span><span class="hl-1">(</span><span class="hl-12">11</span><span class="hl-1">);</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-9">objBST</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">BST</span><span class="hl-1">();</span><br/><span class="hl-10">objBST</span><span class="hl-1">.</span><span class="hl-0">add</span><span class="hl-1">(</span><span class="hl-12">11</span><span class="hl-1">, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">11</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">11</span><span class="hl-1">});</span><br/><span class="hl-10">objBST</span><span class="hl-1">.</span><span class="hl-0">add</span><span class="hl-1">(</span><span class="hl-12">3</span><span class="hl-1">, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">3</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">3</span><span class="hl-1">});</span><br/><br/><span class="hl-10">objBST</span><span class="hl-1">.</span><span class="hl-0">addMany</span><span class="hl-1">([{</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">15</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">15</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">1</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">1</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">8</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">8</span><span class="hl-1">},</span><br/><span class="hl-1">  {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">13</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">13</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">16</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">16</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">2</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">2</span><span class="hl-1">},</span><br/><span class="hl-1">  {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">6</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">6</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">9</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">9</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">12</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">12</span><span class="hl-1">},</span><br/><span class="hl-1">  {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">14</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">14</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">4</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">4</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">7</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">7</span><span class="hl-1">},</span><br/><span class="hl-1">  {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">10</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">10</span><span class="hl-1">}, {</span><span class="hl-10">id:</span><span class="hl-1"> </span><span class="hl-12">5</span><span class="hl-1">, </span><span class="hl-10">keyA:</span><span class="hl-1"> </span><span class="hl-12">5</span><span class="hl-1">}]);</span><br/><br/><span class="hl-10">objBST</span><span class="hl-1">.</span><span class="hl-0">remove</span><span class="hl-1">(</span><span class="hl-12">11</span><span class="hl-1">);</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-9">avlTree</span><span class="hl-1"> = </span><span class="hl-3">new</span><span class="hl-1"> </span><span class="hl-0">AVLTree</span><span class="hl-1">();</span><br/><span class="hl-10">avlTree</span><span class="hl-1">.</span><span class="hl-0">addMany</span><span class="hl-1">([</span><span class="hl-12">11</span><span class="hl-1">, </span><span class="hl-12">3</span><span class="hl-1">, </span><span class="hl-12">15</span><span class="hl-1">, </span><span class="hl-12">1</span><span class="hl-1">, </span><span class="hl-12">8</span><span class="hl-1">, </span><span class="hl-12">13</span><span class="hl-1">, </span><span class="hl-12">16</span><span class="hl-1">, </span><span class="hl-12">2</span><span class="hl-1">, </span><span class="hl-12">6</span><span class="hl-1">, </span><span class="hl-12">9</span><span class="hl-1">, </span><span class="hl-12">12</span><span class="hl-1">, </span><span class="hl-12">14</span><span class="hl-1">, </span><span class="hl-12">4</span><span class="hl-1">, </span><span class="hl-12">7</span><span class="hl-1">, </span><span class="hl-12">10</span><span class="hl-1">, </span><span class="hl-12">5</span><span class="hl-1">])</span><br/><span class="hl-10">avlTree</span><span class="hl-1">.</span><span class="hl-0">isAVLBalanced</span><span class="hl-1">();    </span><span class="hl-13">// true</span><br/><span class="hl-10">avlTree</span><span class="hl-1">.</span><span class="hl-0">remove</span><span class="hl-1">(</span><span class="hl-12">10</span><span class="hl-1">);</span><br/><span class="hl-10">avlTree</span><span class="hl-1">.</span><span class="hl-0">isAVLBalanced</span><span class="hl-1">();    </span><span class="hl-13">// true</span>
 </code><button>Copy</button></pre>
@@ -227,6 +228,191 @@ Floyd-Warshall Algorithm, Tarjan&#39;s Algorithm.</p>
 </tr>
 </tbody>
 </table>
+
+
+
+<a id="md:standard-library-data-structure-comparison" class="tsd-anchor"></a><h3><a href="#md:standard-library-data-structure-comparison">Standard library data structure comparison</a></h3><table>
+  <thead>
+    <tr>
+      <th>Data Structure</th>
+      <th>C++ std</th>
+      <th>Data Structure Typed</th>
+      <th>java.util</th>
+      <th>Python collections</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Dynamic Array</td>
+      <td>std::vector&lt;T&gt;</td>
+      <td>Array&lt;E&gt;</td>
+      <td>ArrayList&lt;E&gt;</td>
+      <td>list</td>
+    </tr>
+    <tr>
+      <td>Linked List</td>
+      <td>std::list&lt;T&gt;</td>
+      <td>DoublyLinkedList&lt;E&gt;</td>
+      <td>LinkedList&lt;E&gt;</td>
+      <td>deque</td>
+    </tr>
+    <tr>
+      <td>Set</td>
+      <td>std::set&lt;T&gt;</td>
+      <td>Set</td>
+      <td>HashSet&lt;E&gt;</td>
+      <td>set</td>
+    </tr>
+    <tr>
+      <td>Map</td>
+      <td>std::map&lt;K, V&gt;</td>
+      <td>Map</td>
+      <td>HashMap&lt;K, V&gt;</td>
+      <td>dict</td>
+    </tr>
+    <tr>
+      <td>Unordered Map</td>
+      <td>std::unordered_map&lt;K, V&gt;</td>
+      <td>N/A</td>
+      <td>HashMap&lt;K, V&gt;</td>
+      <td>defaultdict</td>
+    </tr>
+    <tr>
+      <td>Unordered Set</td>
+      <td>std::unordered_set&lt;T&gt;</td>
+      <td>N/A</td>
+      <td>HashSet&lt;E&gt;</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Queue</td>
+      <td>std::queue&lt;T&gt;</td>
+      <td>Queue</td>
+      <td>Queue&lt;E&gt;</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Priority Queue</td>
+      <td>std::priority_queue&lt;T&gt;</td>
+      <td>PriorityQueue</td>
+      <td>PriorityQueue&lt;E&gt;</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Stack</td>
+      <td>std::stack&lt;T&gt;</td>
+      <td>Stack</td>
+      <td>Stack&lt;E&gt;</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Bitset</td>
+      <td>std::bitset&lt;N&gt;</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Deque</td>
+      <td>std::deque&lt;T&gt;</td>
+      <td>Deque</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Multiset</td>
+      <td>std::multiset&lt;T&gt;</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Multimap</td>
+      <td>std::multimap&lt;K, V&gt;</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Unordered Multiset</td>
+      <td>std::unordered_multiset</td>
+      <td>N/A</td>
+      <td>Counter</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Ordered Dictionary</td>
+      <td>N/A</td>
+      <td>Map</td>
+      <td>N/A</td>
+      <td>OrderedDict</td>
+    </tr>
+    <tr>
+      <td>Double-Ended Queue (Deque)</td>
+      <td>std::deque&lt;T&gt;</td>
+      <td>Deque</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Linked Hash Set</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>LinkedHashSet&lt;E&gt;</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Linked Hash Map</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>LinkedHashMap&lt;K, V&gt;</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Sorted Set</td>
+      <td>N/A</td>
+      <td>AVLTree, RBTree</td>
+      <td>TreeSet&lt;E&gt;</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Sorted Map</td>
+      <td>N/A</td>
+      <td>AVLTree, RBTree</td>
+      <td>TreeMap&lt;K, V&gt;</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Tree Set</td>
+      <td>std::set</td>
+      <td>AVLTree, RBTree</td>
+      <td>TreeSet&lt;E&gt;</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Persistent Collections</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>unordered multiset</td>
+      <td>unordered multiset&lt;T&gt;</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Unordered Multimap</td>
+      <td>std::unordered_multimap&lt;K, V&gt;</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+  </tbody>
+</table>
+
 
 <a id="md:code-design" class="tsd-anchor"></a><h2><a href="#md:code-design">Code design</a></h2><p>By strictly adhering to object-oriented design (BinaryTree -&gt; BST -&gt; AVLTree -&gt; TreeMultiset), you can seamlessly
 inherit the existing data structures to implement the customized ones you need. Object-oriented design stands as the
@@ -484,260 +670,7 @@ optimal approach to data structure design.</p>
 <td>k - length of longest key</td>
 </tr>
 </tbody>
-</table>
-
-
-<table>
-  <tr>
-    <th>Data Structure</th>
-    <th>C++ STL</th>
-    <th>java.util</th>
-    <th>Python collections</th>
-  </tr>
-  <tr>
-    <td>Dynamic Array (ArrayList)</td>
-    <td>std::vector&lt;T&gt;</td>
-    <td>ArrayList&lt;E&gt;</td>
-    <td>list</td>
-  </tr>
-  <tr>
-    <td>Linked List</td>
-    <td>std::list&lt;T&gt;</td>
-    <td>LinkedList&lt;E&gt;</td>
-    <td>deque</td>
-  </tr>
-  <tr>
-    <td>Set</td>
-    <td>std::set&lt;T&gt;</td>
-    <td>HashSet&lt;E&gt;</td>
-    <td>set</td>
-  </tr>
-  <tr>
-    <td>Map</td>
-    <td>std::map&lt;K, V&gt;</td>
-    <td>HashMap&lt;K, V&gt;</td>
-    <td>dict</td>
-  </tr>
-  <tr>
-    <td>Stack</td>
-    <td>std::stack&lt;T&gt;</td>
-    <td>Stack&lt;E&gt;</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Queue</td>
-    <td>std::queue&lt;T&gt;</td>
-    <td>LinkedList&lt;E&gt;</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Priority Queue</td>
-    <td>std::priority_queue&lt;T&gt;</td>
-    <td>PriorityQueue&lt;E&gt;</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Hash Table</td>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>defaultdict, Counter, etc.</td>
-  </tr>
-  <tr>
-    <td>Deque</td>
-    <td>std::deque&lt;T&gt;</td>
-    <td>N/A</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Multiset</td>
-    <td>std::multiset&lt;T&gt;</td>
-    <td>N/A</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Multimap</td>
-    <td>std::multimap&lt;K, V&gt;</td>
-    <td>N/A</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Unordered Set</td>
-    <td>std::unordered_set&lt;T&gt;</td>
-    <td>HashSet&lt;E&gt;</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Unordered Map</td>
-    <td>std::unordered_map&lt;K, V&gt;</td>
-    <td>HashMap&lt;K, V&gt;</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Bitset</td>
-    <td>std::bitset&lt;N&gt;</td>
-    <td>N/A</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Ordered Dictionary (OrderedDict)</td>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>OrderedDict</td>
-  </tr>
-  <tr>
-    <td>User-Defined Dictionary</td>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>UserDict</td>
-  </tr>
-  <tr>
-    <td>User-Defined List</td>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>UserList</td>
-  </tr>
-  <tr>
-    <td>User-Defined Set</td>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>UserSet</td>
-  </tr>
-  <tr>
-    <td>Double-Ended Queue (Deque)</td>
-    <td>std::deque&lt;T&gt;</td>
-    <td>N/A</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Skip List</td>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Circular Queue</td>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Bit Array</td>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Bloom Filter</td>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Linked Hash Set</td>
-    <td>N/A</td>
-    <td>LinkedHashSet&lt;E&gt;</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Linked Hash Map</td>
-    <td>N/A</td>
-    <td>LinkedHashMap&lt;K, V&gt;</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Sorted Set</td>
-    <td>N/A</td>
-    <td>TreeSet&lt;E&gt;</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Sorted Map</td>
-    <td>N/A</td>
-    <td>TreeMap&lt;K, V&gt;</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Tree Set</td>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Tree Map</td>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Persistent Collections</td>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>N/A</td>
-  </tr>
-<tr>
-    <td>std::unordered_multiset</td>
-    <td>std::unordered_multiset&lt;T&gt;</td>
-    <td>N/A</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>std::unordered_multimap</td>
-    <td>std::unordered_multimap&lt;K, V&gt;</td>
-    <td>N/A</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>N/A</td>
-    <td>TreeSet&lt;E&gt;</td>
-    <td>TreeSet&lt;E&gt;</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>N/A</td>
-    <td>TreeMap&lt;K, V&gt;</td>
-    <td>TreeMap&lt;K, V&gt;</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>N/A</td>
-    <td>LinkedBlockingQueue&lt;E&gt;</td>
-    <td>N/A</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>N/A</td>
-    <td>ConcurrentHashMap&lt;K, V&gt;</td>
-    <td>N/A</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>namedtuple</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>ChainMap</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>defaultdict</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>Counter</td>
-    <td>N/A</td>
-  </tr>
-</table>
-
-
-<table><thead><tr><th>Data Structure</th><th>C++ STL</th><th>java.util</th><th>Python collections</th><th>Custom Data Structure (Typescript)</th></tr></thead><tbody><tr><td>Dynamic Array (ArrayList)</td><td>std::vector&lt;T&gt;</td><td>ArrayList&lt;E&gt;</td><td>list</td><td>N/A</td></tr><tr><td>Linked List</td><td>std::list&lt;T&gt;</td><td>LinkedList&lt;E&gt;</td><td>deque</td><td>SinglyLinkedList, DoublyLinkedList, etc.</td></tr><tr><td>Set</td><td>std::set&lt;T&gt;</td><td>HashSet&lt;E&gt;</td><td>set</td><td>TreeMultiset, etc.</td></tr><tr><td>Map</td><td>std::map&lt;K, V&gt;</td><td>HashMap&lt;K, V&gt;</td><td>dict</td><td>N/A</td></tr><tr><td>Stack</td><td>std::stack&lt;T&gt;</td><td>Stack&lt;E&gt;</td><td>N/A</td><td>N/A</td></tr><tr><td>Queue</td><td>std::queue&lt;T&gt;</td><td>LinkedList&lt;E&gt;</td><td>N/A</td><td>N/A</td></tr><tr><td>Priority Queue</td><td>std::priority_queue&lt;T&gt;</td><td>PriorityQueue&lt;E&gt;</td><td>N/A</td><td>N/A</td></tr><tr><td>Hash Table</td><td>N/A</td><td>N/A</td><td>defaultdict, Counter, etc.</td><td>N/A</td></tr><tr><td>Deque</td><td>std::deque&lt;T&gt;</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>Multiset</td><td>std::multiset&lt;T&gt;</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>Multimap</td><td>std::multimap&lt;K, V&gt;</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>Unordered Set</td><td>std::unordered_set&lt;T&gt;</td><td>HashSet&lt;E&gt;</td><td>N/A</td><td>N/A</td></tr><tr><td>Unordered Map</td><td>std::unordered_map&lt;K, V&gt;</td><td>HashMap&lt;K, V&gt;</td><td>N/A</td><td>N/A</td></tr><tr><td>Bitset</td><td>std::bitset&lt;N&gt;</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>Ordered Dictionary (OrderedDict)</td><td>N/A</td><td>N/A</td><td>OrderedDict</td><td>N/A</td></tr><tr><td>User-Defined Dictionary</td><td>N/A</td><td>N/A</td><td>UserDict</td><td>N/A</td></tr><tr><td>User-Defined List</td><td>N/A</td><td>N/A</td><td>UserList</td><td>N/A</td></tr><tr><td>User-Defined Set</td><td>N/A</td><td>N/A</td><td>UserSet</td><td>N/A</td></tr><tr><td>Double-Ended Queue (Deque)</td><td>std::deque&lt;T&gt;</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>Skip List</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>Circular Queue</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>Bit Array</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>Bloom Filter</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>Linked Hash Set</td><td>N/A</td><td>LinkedHashSet&lt;E&gt;</td><td>N/A</td><td>N/A</td></tr><tr><td>Linked Hash Map</td><td>N/A</td><td>LinkedHashMap&lt;K, V&gt;</td><td>N/A</td><td>N/A</td></tr><tr><td>Sorted Set</td><td>N/A</td><td>TreeSet&lt;E&gt;</td><td>N/A</td><td>N/A</td></tr><tr><td>Sorted Map</td><td>N/A</td><td>TreeMap&lt;K, V&gt;</td><td>N/A</td><td>N/A</td></tr><tr><td>Tree Set</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>Tree Map</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>Persistent Collections</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>std::unordered_multiset</td><td>std::unordered_multiset&lt;T&gt;</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>std::unordered_multimap</td><td>std::unordered_multimap&lt;K, V&gt;</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>N/A</td><td>TreeSet&lt;E&gt;</td><td>TreeSet&lt;E&gt;</td><td>N/A</td><td>N/A</td></tr><tr><td>N/A</td><td>TreeMap&lt;K, V&gt;</td><td>TreeMap&lt;K, V&gt;</td><td>N/A</td><td>N/A</td></tr><tr><td>N/A</td><td>LinkedBlockingQueue&lt;E&gt;</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>N/A</td><td>ConcurrentHashMap&lt;K, V&gt;</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>N/A</td><td>N/A</td><td>namedtuple</td><td>N/A</td><td>N/A</td></tr><tr><td>N/A</td><td>N/A</td><td>ChainMap</td><td>N/A</td><td>N/A</td></tr><tr><td>N/A</td><td>N/A</td><td>defaultdict</td><td>N/A</td><td>N/A</td></tr><tr><td>N/A</td><td>N/A</td><td>Counter</td><td>N/A</td><td>N/A</td></tr></tbody></table></div></div>
+</table></div></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -792,6 +725,9 @@ optimal approach to data structure design.</p>
 <ul>
 <li><a href="#md:ts-or-js-1"><span>TS or JS</span></a></li></ul></li></ul></li>
 <li><a href="#md:data-structures"><span>Data <wbr/>Structures</span></a></li>
+<li>
+<ul>
+<li><a href="#md:standard-library-data-structure-comparison"><span>Standard library data structure comparison</span></a></li></ul></li>
 <li><a href="#md:code-design"><span>Code design</span></a></li>
 <li><a href="#md:complexities"><span>Complexities</span></a></li>
 <li>

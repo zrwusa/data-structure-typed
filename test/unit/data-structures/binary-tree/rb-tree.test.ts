@@ -40,5 +40,4 @@ describe('Red-Black Tree Tests', () => {
     //
     // expect(inOrderTraversal).toEqual([2, 4, 5, 6, 7, 8]);
   });
-
 });

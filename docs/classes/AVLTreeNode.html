@@ -14,18 +14,18 @@
 <ul class="tsd-breadcrumb">
 <li><a href="../modules.html">data-structure-typed</a></li>
 <li><a href="AVLTreeNode.html">AVLTreeNode</a></li></ul>
-<h1>Class AVLTreeNode&lt;T, NEIGHBOR&gt;</h1></div> 
+<h1>Class AVLTreeNode&lt;V, NEIGHBOR&gt;</h1></div> 
 <section class="tsd-panel">
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
 <li>
-<h4><span class="tsd-kind-type-parameter">T</span> = <span class="tsd-signature-type">any</span></h4></li>
+<h4><span class="tsd-kind-type-parameter">V</span> = <span class="tsd-signature-type">any</span></h4></li>
 <li>
-<h4><span class="tsd-kind-type-parameter">NEIGHBOR</span><span class="tsd-signature-symbol"> extends </span><a href="AVLTreeNode.html" class="tsd-signature-type tsd-kind-class">AVLTreeNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">NEIGHBOR</span><span class="tsd-signature-symbol">&gt;</span> = <a href="../types/AVLTreeNodeNested.html" class="tsd-signature-type tsd-kind-type-alias">AVLTreeNodeNested</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4></li></ul></section> 
+<h4><span class="tsd-kind-type-parameter">NEIGHBOR</span><span class="tsd-signature-symbol"> extends </span><a href="AVLTreeNode.html" class="tsd-signature-type tsd-kind-class">AVLTreeNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">NEIGHBOR</span><span class="tsd-signature-symbol">&gt;</span> = <a href="../types/AVLTreeNodeNested.html" class="tsd-signature-type tsd-kind-type-alias">AVLTreeNodeNested</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">&gt;</span></h4></li></ul></section> 
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
-<li><a href="BSTNode.html" class="tsd-signature-type tsd-kind-class">BSTNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">NEIGHBOR</span><span class="tsd-signature-symbol">&gt;</span>
+<li><a href="BSTNode.html" class="tsd-signature-type tsd-kind-class">BSTNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">NEIGHBOR</span><span class="tsd-signature-symbol">&gt;</span>
 <ul class="tsd-hierarchy">
 <li><span class="target">AVLTreeNode</span>
 <ul class="tsd-hierarchy">
@@ -33,9 +33,9 @@
 <section class="tsd-panel">
 <h4>Implements</h4>
 <ul class="tsd-hierarchy">
-<li><a href="../types/IAVLTreeNode.html" class="tsd-signature-type tsd-kind-type-alias">IAVLTreeNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">NEIGHBOR</span><span class="tsd-signature-symbol">&gt;</span></li></ul></section><aside class="tsd-sources">
+<li><a href="../types/IAVLTreeNode.html" class="tsd-signature-type tsd-kind-type-alias">IAVLTreeNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">NEIGHBOR</span><span class="tsd-signature-symbol">&gt;</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/binary-tree/avl-tree.ts#L12">src/data-structures/binary-tree/avl-tree.ts:12</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/binary-tree/avl-tree.ts#L12">src/data-structures/binary-tree/avl-tree.ts:12</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -60,26 +60,26 @@
 <section class="tsd-panel tsd-member"><a id="constructor" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><g stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icon-anchor"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></g></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="constructor.new_AVLTreeNode"><span class="tsd-kind-constructor-signature">new AVLTree<wbr/>Node</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">NEIGHBOR</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">id</span>, <span class="tsd-kind-parameter">val</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="AVLTreeNode.html" class="tsd-signature-type tsd-kind-class">AVLTreeNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">NEIGHBOR</span><span class="tsd-signature-symbol">&gt;</span><a href="#constructor.new_AVLTreeNode" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="constructor.new_AVLTreeNode"><span class="tsd-kind-constructor-signature">new AVLTree<wbr/>Node</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">NEIGHBOR</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">id</span>, <span class="tsd-kind-parameter">val</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="AVLTreeNode.html" class="tsd-signature-type tsd-kind-class">AVLTreeNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">NEIGHBOR</span><span class="tsd-signature-symbol">&gt;</span><a href="#constructor.new_AVLTreeNode" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <section class="tsd-panel">
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
 <li>
-<h4><span class="tsd-kind-type-parameter">T</span> = <span class="tsd-signature-type">any</span></h4></li>
+<h4><span class="tsd-kind-type-parameter">V</span> = <span class="tsd-signature-type">any</span></h4></li>
 <li>
-<h4><span class="tsd-kind-type-parameter">NEIGHBOR</span><span class="tsd-signature-symbol"> extends </span><a href="AVLTreeNode.html" class="tsd-signature-type tsd-kind-class">AVLTreeNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">NEIGHBOR</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">NEIGHBOR</span><span class="tsd-signature-symbol">&gt;</span> = <a href="../types/AVLTreeNodeNested.html" class="tsd-signature-type tsd-kind-type-alias">AVLTreeNodeNested</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4></li></ul></section>
+<h4><span class="tsd-kind-type-parameter">NEIGHBOR</span><span class="tsd-signature-symbol"> extends </span><a href="AVLTreeNode.html" class="tsd-signature-type tsd-kind-class">AVLTreeNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">NEIGHBOR</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">NEIGHBOR</span><span class="tsd-signature-symbol">&gt;</span> = <a href="../types/AVLTreeNodeNested.html" class="tsd-signature-type tsd-kind-type-alias">AVLTreeNodeNested</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">&gt;</span></h4></li></ul></section>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
 <h5><span class="tsd-kind-parameter">id</span>: <span class="tsd-signature-type">number</span></h5></li>
 <li>
-<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="AVLTreeNode.html" class="tsd-signature-type tsd-kind-class">AVLTreeNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">NEIGHBOR</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">V</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <a href="AVLTreeNode.html" class="tsd-signature-type tsd-kind-class">AVLTreeNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">NEIGHBOR</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Overrides <a href="BSTNode.html">BSTNode</a>.<a href="BSTNode.html#constructor">constructor</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/binary-tree/avl-tree.ts#L16">src/data-structures/binary-tree/avl-tree.ts:16</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/binary-tree/avl-tree.ts#L16">src/data-structures/binary-tree/avl-tree.ts:16</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="familyPosition" class="tsd-anchor"></a>
@@ -95,7 +95,7 @@
 <p>Implementation of IAVLTreeNode.familyPosition</p>
 <p>Inherited from BSTNode.familyPosition</p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/binary-tree/abstract-binary-tree.ts#L110">src/data-structures/binary-tree/abstract-binary-tree.ts:110</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/binary-tree/abstract-binary-tree.ts#L110">src/data-structures/binary-tree/abstract-binary-tree.ts:110</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="height" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>height</span><a href="#height" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -105,7 +105,7 @@
 <p>Implementation of IAVLTreeNode.height</p>
 <p>Inherited from BSTNode.height</p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/binary-tree/abstract-binary-tree.ts#L98">src/data-structures/binary-tree/abstract-binary-tree.ts:98</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/binary-tree/abstract-binary-tree.ts#L98">src/data-structures/binary-tree/abstract-binary-tree.ts:98</a></li></ul></aside></li>
 <li class="tsd-signature" id="height.height-2"><span class="tsd-signature-symbol">set</span> height<span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">v</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
@@ -117,7 +117,7 @@
 <p>Implementation of IAVLTreeNode.height</p>
 <p>Inherited from BSTNode.height</p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/binary-tree/abstract-binary-tree.ts#L102">src/data-structures/binary-tree/abstract-binary-tree.ts:102</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/binary-tree/abstract-binary-tree.ts#L102">src/data-structures/binary-tree/abstract-binary-tree.ts:102</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="id" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>id</span><a href="#id" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -127,7 +127,7 @@
 <p>Implementation of IAVLTreeNode.id</p>
 <p>Inherited from BSTNode.id</p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/binary-tree/abstract-binary-tree.ts#L42">src/data-structures/binary-tree/abstract-binary-tree.ts:42</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/binary-tree/abstract-binary-tree.ts#L42">src/data-structures/binary-tree/abstract-binary-tree.ts:42</a></li></ul></aside></li>
 <li class="tsd-signature" id="id.id-2"><span class="tsd-signature-symbol">set</span> id<span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">v</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
@@ -139,7 +139,7 @@
 <p>Implementation of IAVLTreeNode.id</p>
 <p>Inherited from BSTNode.id</p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/binary-tree/abstract-binary-tree.ts#L46">src/data-structures/binary-tree/abstract-binary-tree.ts:46</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/binary-tree/abstract-binary-tree.ts#L46">src/data-structures/binary-tree/abstract-binary-tree.ts:46</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="left" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>left</span><a href="#left" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -149,7 +149,7 @@
 <p>Implementation of IAVLTreeNode.left</p>
 <p>Inherited from BSTNode.left</p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/binary-tree/abstract-binary-tree.ts#L62">src/data-structures/binary-tree/abstract-binary-tree.ts:62</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/binary-tree/abstract-binary-tree.ts#L62">src/data-structures/binary-tree/abstract-binary-tree.ts:62</a></li></ul></aside></li>
 <li class="tsd-signature" id="left.left-2"><span class="tsd-signature-symbol">set</span> left<span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">v</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
@@ -161,7 +161,7 @@
 <p>Implementation of IAVLTreeNode.left</p>
 <p>Inherited from BSTNode.left</p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/binary-tree/abstract-binary-tree.ts#L66">src/data-structures/binary-tree/abstract-binary-tree.ts:66</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/binary-tree/abstract-binary-tree.ts#L66">src/data-structures/binary-tree/abstract-binary-tree.ts:66</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="parent" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>parent</span><a href="#parent" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -171,7 +171,7 @@
 <p>Implementation of IAVLTreeNode.parent</p>
 <p>Inherited from BSTNode.parent</p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/binary-tree/abstract-binary-tree.ts#L88">src/data-structures/binary-tree/abstract-binary-tree.ts:88</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/binary-tree/abstract-binary-tree.ts#L88">src/data-structures/binary-tree/abstract-binary-tree.ts:88</a></li></ul></aside></li>
 <li class="tsd-signature" id="parent.parent-2"><span class="tsd-signature-symbol">set</span> parent<span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">v</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
@@ -183,7 +183,7 @@
 <p>Implementation of IAVLTreeNode.parent</p>
 <p>Inherited from BSTNode.parent</p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/binary-tree/abstract-binary-tree.ts#L92">src/data-structures/binary-tree/abstract-binary-tree.ts:92</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/binary-tree/abstract-binary-tree.ts#L92">src/data-structures/binary-tree/abstract-binary-tree.ts:92</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="right" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>right</span><a href="#right" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -193,7 +193,7 @@
 <p>Implementation of IAVLTreeNode.right</p>
 <p>Inherited from BSTNode.right</p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/binary-tree/abstract-binary-tree.ts#L75">src/data-structures/binary-tree/abstract-binary-tree.ts:75</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/binary-tree/abstract-binary-tree.ts#L75">src/data-structures/binary-tree/abstract-binary-tree.ts:75</a></li></ul></aside></li>
 <li class="tsd-signature" id="right.right-2"><span class="tsd-signature-symbol">set</span> right<span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">v</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
@@ -205,29 +205,29 @@
 <p>Implementation of IAVLTreeNode.right</p>
 <p>Inherited from BSTNode.right</p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/binary-tree/abstract-binary-tree.ts#L79">src/data-structures/binary-tree/abstract-binary-tree.ts:79</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/binary-tree/abstract-binary-tree.ts#L79">src/data-structures/binary-tree/abstract-binary-tree.ts:79</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="val" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>val</span><a href="#val" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
-<li class="tsd-signature" id="val.val-1"><span class="tsd-signature-symbol">get</span> val<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span></li>
+<li class="tsd-signature" id="val.val-1"><span class="tsd-signature-symbol">get</span> val<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">V</span></li>
 <li class="tsd-description">
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">V</span></h4><aside class="tsd-sources">
 <p>Implementation of IAVLTreeNode.val</p>
 <p>Inherited from BSTNode.val</p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/binary-tree/abstract-binary-tree.ts#L52">src/data-structures/binary-tree/abstract-binary-tree.ts:52</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/binary-tree/abstract-binary-tree.ts#L52">src/data-structures/binary-tree/abstract-binary-tree.ts:52</a></li></ul></aside></li>
 <li class="tsd-signature" id="val.val-2"><span class="tsd-signature-symbol">set</span> val<span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">value</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">value</span>: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5></li></ul></div>
+<h5><span class="tsd-kind-parameter">value</span>: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">V</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Implementation of IAVLTreeNode.val</p>
 <p>Inherited from BSTNode.val</p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/binary-tree/abstract-binary-tree.ts#L56">src/data-structures/binary-tree/abstract-binary-tree.ts:56</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/binary-tree/abstract-binary-tree.ts#L56">src/data-structures/binary-tree/abstract-binary-tree.ts:56</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">

@@ -26,7 +26,6 @@ describe('Individual package BST operations test', () => {
     const nodeVal9 = bst.get(9, 'val');
     expect(nodeVal9?.id).toBe(9);
 
-
     const leftMost = bst.getLeftMost();
     expect(leftMost?.id).toBe(1);
 
@@ -168,7 +167,6 @@ describe('Individual package BST operations test', () => {
     expect(bst.isAVLBalanced()).toBe(false);
     expect(bst.getHeight()).toBe(2);
 
-
     expect(bst.isAVLBalanced()).toBe(false);
 
     const bfsIDs = bst.BFS();
@@ -180,21 +178,34 @@ describe('Individual package BST operations test', () => {
     expect(bfsNodes[0].id).toBe(2);
     expect(bfsNodes[1].id).toBe(12);
     expect(bfsNodes[2].id).toBe(16);
-
   });
 
   it('should perform various operations on a Binary Search Tree with object values', () => {
-    const objBST = new BST<BSTNode<{ id: number, keyA: number }>>();
+    const objBST = new BST<BSTNode<{id: number; keyA: number}>>();
     expect(objBST).toBeInstanceOf(BST);
     objBST.add(11, {id: 11, keyA: 11});
     objBST.add(3, {id: 3, keyA: 3});
-    const values = [{id: 15, keyA: 15}, {id: 1, keyA: 1}, {id: 8, keyA: 8},
-      {id: 13, keyA: 13}, {id: 16, keyA: 16}, {id: 2, keyA: 2},
-      {id: 6, keyA: 6}, {id: 9, keyA: 9}, {id: 12, keyA: 12},
-      {id: 14, keyA: 14}, {id: 4, keyA: 4}, {id: 7, keyA: 7},
-      {id: 10, keyA: 10}, {id: 5, keyA: 5}];
+    const values = [
+      {id: 15, keyA: 15},
+      {id: 1, keyA: 1},
+      {id: 8, keyA: 8},
+      {id: 13, keyA: 13},
+      {id: 16, keyA: 16},
+      {id: 2, keyA: 2},
+      {id: 6, keyA: 6},
+      {id: 9, keyA: 9},
+      {id: 12, keyA: 12},
+      {id: 14, keyA: 14},
+      {id: 4, keyA: 4},
+      {id: 7, keyA: 7},
+      {id: 10, keyA: 10},
+      {id: 5, keyA: 5}
+    ];
 
-    objBST.addMany(values.map(item => item.id), values);
+    objBST.addMany(
+      values.map(item => item.id),
+      values
+    );
 
     expect(objBST.root).toBeInstanceOf(BSTNode);
 
@@ -354,7 +365,6 @@ describe('Individual package BST operations test', () => {
     expect(objBST.isAVLBalanced()).toBe(false);
     expect(objBST.getHeight()).toBe(2);
 
-
     expect(objBST.isAVLBalanced()).toBe(false);
 
     const bfsIDs = objBST.BFS();
@@ -366,6 +376,5 @@ describe('Individual package BST operations test', () => {
     expect(bfsNodes[0].id).toBe(2);
     expect(bfsNodes[1].id).toBe(12);
     expect(bfsNodes[2].id).toBe(16);
-
   });
 });

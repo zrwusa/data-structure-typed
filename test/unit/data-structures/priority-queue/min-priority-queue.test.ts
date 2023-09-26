@@ -1,7 +1,6 @@
 import {MinPriorityQueue, PriorityQueue} from '../../../../src';
 
 describe('MinPriorityQueue Operation Test', () => {
-
   it('should check if a node exists in the queue', () => {
     const priorityQueue = new MinPriorityQueue<number>();
     priorityQueue.add(5);
@@ -19,7 +18,6 @@ describe('MinPriorityQueue Operation Test', () => {
     expect(priorityQueue.peek()).toBe(3);
     expect(priorityQueue.size).toBe(3);
   });
-
 
   it('should return the last element', () => {
     const priorityQueue = new MinPriorityQueue<number>();
@@ -52,7 +50,6 @@ describe('MinPriorityQueue Operation Test', () => {
     expect(priorityQueue.isEmpty()).toBe(true);
   });
 
-
   it('should sort the elements', () => {
     const priorityQueue = new MinPriorityQueue<number>();
     priorityQueue.add(5);
@@ -72,10 +69,12 @@ describe('MinPriorityQueue Operation Test', () => {
     minPQ.poll();
     expect(minPQ.toArray()).toEqual([4, 5, 6]);
     expect(minPQ.peek()).toBe(4);
-    expect(PriorityQueue.heapify({
-      nodes: [3, 2, 1, 5, 6, 7, 8, 9, 10],
-      comparator: (a, b) => a - b
-    }).toArray()).toEqual([1, 2, 3, 5, 6, 7, 8, 9, 10]);
+    expect(
+      PriorityQueue.heapify({
+        nodes: [3, 2, 1, 5, 6, 7, 8, 9, 10],
+        comparator: (a, b) => a - b
+      }).toArray()
+    ).toEqual([1, 2, 3, 5, 6, 7, 8, 9, 10]);
   });
 
   it('should Max PriorityQueue poll, peek, heapify, toArray work well', function () {
@@ -86,20 +85,21 @@ describe('MinPriorityQueue Operation Test', () => {
     maxPriorityQueue.poll();
     expect(maxPriorityQueue.toArray()).toEqual([3, 2, 1]);
     expect(maxPriorityQueue.peek()).toBe(3);
-    expect(PriorityQueue.heapify({
-      nodes: [3, 2, 1, 5, 6, 7, 8, 9, 10],
-      comparator: (a, b) => a - b
-    }).toArray()).toEqual([1, 2, 3, 5, 6, 7, 8, 9, 10]);
+    expect(
+      PriorityQueue.heapify({
+        nodes: [3, 2, 1, 5, 6, 7, 8, 9, 10],
+        comparator: (a, b) => a - b
+      }).toArray()
+    ).toEqual([1, 2, 3, 5, 6, 7, 8, 9, 10]);
   });
 
   it('should PriorityQueue clone, sort, getNodes, DFS work well', function () {
     const minPQ1 = new PriorityQueue<number>({nodes: [2, 5, 8, 3, 1, 6, 7, 4], comparator: (a, b) => a - b});
     const clonedPriorityQueue = minPQ1.clone();
     expect(clonedPriorityQueue.getNodes()).toEqual(minPQ1.getNodes());
-    expect(clonedPriorityQueue.sort()).toEqual([1, 2, 3, 4, 5, 6, 7, 8])
+    expect(clonedPriorityQueue.sort()).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
     expect(minPQ1.DFS('in')).toEqual([4, 3, 2, 5, 1, 8, 6, 7]);
     expect(minPQ1.DFS('post')).toEqual([4, 3, 5, 2, 8, 7, 6, 1]);
     expect(minPQ1.DFS('pre')).toEqual([1, 2, 3, 4, 5, 6, 8, 7]);
   });
-
 });

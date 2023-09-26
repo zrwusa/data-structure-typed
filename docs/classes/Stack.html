@@ -14,7 +14,7 @@
 <ul class="tsd-breadcrumb">
 <li><a href="../modules.html">data-structure-typed</a></li>
 <li><a href="Stack.html">Stack</a></li></ul>
-<h1>Class Stack&lt;T&gt;</h1></div>
+<h1>Class Stack&lt;E&gt;</h1></div>
 <section class="tsd-panel tsd-comment">
 <div class="tsd-comment tsd-typography">
 <h4>License</h4><p>MIT</p>
@@ -25,13 +25,13 @@
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
 <li>
-<h4><span class="tsd-kind-type-parameter">T</span> = <span class="tsd-signature-type">number</span></h4></li></ul></section> 
+<h4><span class="tsd-kind-type-parameter">E</span> = <span class="tsd-signature-type">any</span></h4></li></ul></section> 
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
 <li><span class="target">Stack</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/stack/stack.ts#L6">src/data-structures/stack/stack.ts:6</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/stack/stack.ts#L6">src/data-structures/stack/stack.ts:6</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -62,7 +62,7 @@
 <section class="tsd-panel tsd-member"><a id="constructor" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><g stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icon-anchor"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></g></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="constructor.new_Stack"><span class="tsd-kind-constructor-signature">new <wbr/>Stack</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">elements</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Stack.html" class="tsd-signature-type tsd-kind-class">Stack</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><a href="#constructor.new_Stack" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="constructor.new_Stack"><span class="tsd-kind-constructor-signature">new <wbr/>Stack</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">elements</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Stack.html" class="tsd-signature-type tsd-kind-class">Stack</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span><a href="#constructor.new_Stack" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The constructor initializes an array of elements, which can be provided as an optional parameter.</p>
 </div>
@@ -70,28 +70,28 @@
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
 <li>
-<h4><span class="tsd-kind-type-parameter">T</span> = <span class="tsd-signature-type">number</span></h4></li></ul></section>
+<h4><span class="tsd-kind-type-parameter">E</span> = <span class="tsd-signature-type">any</span></h4></li></ul></section>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">elements</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span></h5>
-<div class="tsd-comment tsd-typography"><p>The <code>elements</code> parameter is an optional parameter of type <code>T[]</code>, which represents an array
-of elements of type <code>T</code>. It is used to initialize the <code>_elements</code> property of the class. If the <code>elements</code> parameter
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">elements</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">[]</span></h5>
+<div class="tsd-comment tsd-typography"><p>The <code>elements</code> parameter is an optional parameter of type <code>E[]</code>, which represents an array
+of elements of type <code>E</code>. It is used to initialize the <code>_elements</code> property of the class. If the <code>elements</code> parameter
 is provided and is an array, it is assigned to the `_elements</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="Stack.html" class="tsd-signature-type tsd-kind-class">Stack</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+<h4 class="tsd-returns-title">Returns <a href="Stack.html" class="tsd-signature-type tsd-kind-class">Stack</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/stack/stack.ts#L15">src/data-structures/stack/stack.ts:15</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/stack/stack.ts#L15">src/data-structures/stack/stack.ts:15</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-is-protected"><a id="_elements" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_elements</span><a href="#_elements" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<div class="tsd-signature"><span class="tsd-kind-property">_elements</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span></div><aside class="tsd-sources">
+<div class="tsd-signature"><span class="tsd-kind-property">_elements</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">[]</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/stack/stack.ts#L7">src/data-structures/stack/stack.ts:7</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/stack/stack.ts#L7">src/data-structures/stack/stack.ts:7</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member"><a id="clear" class="tsd-anchor"></a>
@@ -104,19 +104,19 @@ is provided and is an array, it is assigned to the `_elements</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/stack/stack.ts#L87">src/data-structures/stack/stack.ts:87</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/stack/stack.ts#L87">src/data-structures/stack/stack.ts:87</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="clone" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>clone</span><a href="#clone" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="clone.clone-1"><span class="tsd-kind-call-signature">clone</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Stack.html" class="tsd-signature-type tsd-kind-class">Stack</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><a href="#clone.clone-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="clone.clone-1"><span class="tsd-kind-call-signature">clone</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Stack.html" class="tsd-signature-type tsd-kind-class">Stack</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span><a href="#clone.clone-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <code>clone()</code> function returns a new <code>Stack</code> object with the same elements as the original stack.</p>
 </div>
-<h4 class="tsd-returns-title">Returns <a href="Stack.html" class="tsd-signature-type tsd-kind-class">Stack</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4><p>The <code>clone()</code> method is returning a new <code>Stack</code> object with a copy of the <code>_elements</code> array.</p>
+<h4 class="tsd-returns-title">Returns <a href="Stack.html" class="tsd-signature-type tsd-kind-class">Stack</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span></h4><p>The <code>clone()</code> method is returning a new <code>Stack</code> object with a copy of the <code>_elements</code> array.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/stack/stack.ts#L95">src/data-structures/stack/stack.ts:95</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/stack/stack.ts#L95">src/data-structures/stack/stack.ts:95</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="isEmpty" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>is<wbr/>Empty</span><a href="#isEmpty" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -128,36 +128,36 @@ is provided and is an array, it is assigned to the `_elements</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/stack/stack.ts#L33">src/data-structures/stack/stack.ts:33</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/stack/stack.ts#L33">src/data-structures/stack/stack.ts:33</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="peek" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>peek</span><a href="#peek" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="peek.peek-1"><span class="tsd-kind-call-signature">peek</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><a href="#peek.peek-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="peek.peek-1"><span class="tsd-kind-call-signature">peek</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><a href="#peek.peek-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <code>peek</code> function returns the last element of an array, or null if the array is empty.</p>
 </div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span></h4><p>The <code>peek()</code> function returns the last element of the <code>_elements</code> array, or <code>null</code> if the array is empty.</p>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span></h4><p>The <code>peek()</code> function returns the last element of the <code>_elements</code> array, or <code>null</code> if the array is empty.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/stack/stack.ts#L49">src/data-structures/stack/stack.ts:49</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/stack/stack.ts#L49">src/data-structures/stack/stack.ts:49</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="pop" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>pop</span><a href="#pop" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="pop.pop-1"><span class="tsd-kind-call-signature">pop</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><a href="#pop.pop-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="pop.pop-1"><span class="tsd-kind-call-signature">pop</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><a href="#pop.pop-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <code>pop</code> function removes and returns the last element from an array, or returns null if the array is empty.</p>
 </div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span></h4><p>The <code>pop()</code> method is returning the last element of the array <code>_elements</code> if the array is not empty. If the
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span></h4><p>The <code>pop()</code> method is returning the last element of the array <code>_elements</code> if the array is not empty. If the
 array is empty, it returns <code>null</code>.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/stack/stack.ts#L70">src/data-structures/stack/stack.ts:70</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/stack/stack.ts#L70">src/data-structures/stack/stack.ts:70</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="push" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>push</span><a href="#push" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="push.push-1"><span class="tsd-kind-call-signature">push</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">element</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Stack.html" class="tsd-signature-type tsd-kind-class">Stack</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><a href="#push.push-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="push.push-1"><span class="tsd-kind-call-signature">push</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">element</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Stack.html" class="tsd-signature-type tsd-kind-class">Stack</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span><a href="#push.push-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The push function adds an element to the stack and returns the updated stack.</p>
 </div>
@@ -165,15 +165,15 @@ array is empty, it returns <code>null</code>.</p>
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">element</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5>
-<div class="tsd-comment tsd-typography"><p>The parameter &quot;element&quot; is of type T, which means it can be any data type.</p>
+<h5><span class="tsd-kind-parameter">element</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span></h5>
+<div class="tsd-comment tsd-typography"><p>The parameter &quot;element&quot; is of type E, which means it can be any data type.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="Stack.html" class="tsd-signature-type tsd-kind-class">Stack</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4><p>The <code>push</code> method is returning the updated <code>Stack&lt;T&gt;</code> object.</p>
+<h4 class="tsd-returns-title">Returns <a href="Stack.html" class="tsd-signature-type tsd-kind-class">Stack</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span></h4><p>The <code>push</code> method is returning the updated <code>Stack&lt;E&gt;</code> object.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/stack/stack.ts#L60">src/data-structures/stack/stack.ts:60</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/stack/stack.ts#L60">src/data-structures/stack/stack.ts:60</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="size" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>size</span><a href="#size" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -185,23 +185,23 @@ array is empty, it returns <code>null</code>.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/stack/stack.ts#L41">src/data-structures/stack/stack.ts:41</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/stack/stack.ts#L41">src/data-structures/stack/stack.ts:41</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="toArray" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>to<wbr/>Array</span><a href="#toArray" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="toArray.toArray-1"><span class="tsd-kind-call-signature">to<wbr/>Array</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span><a href="#toArray.toArray-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="toArray.toArray-1"><span class="tsd-kind-call-signature">to<wbr/>Array</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">[]</span><a href="#toArray.toArray-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The toArray function returns a copy of the elements in an array.</p>
 </div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span></h4><p>An array of type T.</p>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">[]</span></h4><p>An array of type E.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/stack/stack.ts#L80">src/data-structures/stack/stack.ts:80</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/stack/stack.ts#L80">src/data-structures/stack/stack.ts:80</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="fromArray" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>from<wbr/>Array</span><a href="#fromArray" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="fromArray.fromArray-1"><span class="tsd-kind-call-signature">from<wbr/>Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">elements</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Stack.html" class="tsd-signature-type tsd-kind-class">Stack</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><a href="#fromArray.fromArray-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="fromArray.fromArray-1"><span class="tsd-kind-call-signature">from<wbr/>Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">elements</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Stack.html" class="tsd-signature-type tsd-kind-class">Stack</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span><a href="#fromArray.fromArray-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The function &quot;fromArray&quot; creates a new Stack object from an array of elements.</p>
 </div>
@@ -209,21 +209,21 @@ array is empty, it returns <code>null</code>.</p>
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
 <li>
-<h4><span class="tsd-kind-type-parameter">T</span></h4></li></ul></section>
+<h4><span class="tsd-kind-type-parameter">E</span></h4></li></ul></section>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">elements</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span></h5>
-<div class="tsd-comment tsd-typography"><p>The <code>elements</code> parameter is an array of elements of type <code>T</code>.</p>
+<h5><span class="tsd-kind-parameter">elements</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">[]</span></h5>
+<div class="tsd-comment tsd-typography"><p>The <code>elements</code> parameter is an array of elements of type <code>E</code>.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="Stack.html" class="tsd-signature-type tsd-kind-class">Stack</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4><p>The method is returning a new instance of the Stack class, initialized with the elements from the input
+<h4 class="tsd-returns-title">Returns <a href="Stack.html" class="tsd-signature-type tsd-kind-class">Stack</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span></h4><p>The method is returning a new instance of the Stack class, initialized with the elements from the input
 array.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/stack/stack.ts#L25">src/data-structures/stack/stack.ts:25</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/stack/stack.ts#L25">src/data-structures/stack/stack.ts:25</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">

@@ -12,8 +12,5 @@ describe('JS Heap Operation Test', () => {
     expect(minNumHeap.toArray()[1]).toBe(5);
     expect(minNumHeap.toArray()[2]).toBe(9);
     expect(minNumHeap.toArray()[3]).toBe(6);
-
-
   });
 });
-

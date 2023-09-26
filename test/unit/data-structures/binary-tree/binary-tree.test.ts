@@ -75,7 +75,6 @@ describe('BinaryTreeNode', () => {
   });
 });
 
-
 describe('BinaryTree', () => {
   let binaryTree: BinaryTree;
 
@@ -102,9 +101,7 @@ describe('BinaryTree', () => {
       expect(result).toHaveLength(1);
       expect(binaryTree.size).toBe(0);
     }
-
   });
-
 
   test('should add and find nodes', () => {
     binaryTree.add(1);
@@ -143,4 +140,3 @@ describe('BinaryTree', () => {
     expect(binaryTree.root).toBeNull();
   });
 });
-

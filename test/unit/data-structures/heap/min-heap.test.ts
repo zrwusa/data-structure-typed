@@ -1,7 +1,6 @@
 import {HeapItem, MinHeap} from '../../../../src';
 
 describe('MinHeap Operation Test', () => {
-
   it('should numeric Min Heap operations be proper', function () {
     const minNumHeap = new MinHeap<number>();
     expect(minNumHeap).toBeInstanceOf(MinHeap);
@@ -22,15 +21,15 @@ describe('MinHeap Operation Test', () => {
     expect(minNumHeap.size).toBe(6);
 
     const poll1 = minNumHeap.poll(true);
-    expect(poll1).toBeInstanceOf(HeapItem)
+    expect(poll1).toBeInstanceOf(HeapItem);
     poll1 instanceof HeapItem && expect(poll1.val).toBe(0);
 
     const poll2 = minNumHeap.poll(true);
-    expect(poll2).toBeInstanceOf(HeapItem)
+    expect(poll2).toBeInstanceOf(HeapItem);
     poll2 instanceof HeapItem && expect(poll2.val).toBe(1);
 
     const peek1 = minNumHeap.peek(true);
-    expect(peek1).toBeInstanceOf(HeapItem)
+    expect(peek1).toBeInstanceOf(HeapItem);
     peek1 instanceof HeapItem && expect(peek1.val).toBe(2);
 
     const heapArray = minNumHeap.toArray(true);
@@ -50,7 +49,9 @@ describe('MinHeap Operation Test', () => {
 
     const minObjHeap = new MinHeap<MyObject>();
 
-    const obj1 = new MyObject('a1'), obj6 = new MyObject('a6'), obj2 = new MyObject('a2'),
+    const obj1 = new MyObject('a1'),
+      obj6 = new MyObject('a6'),
+      obj2 = new MyObject('a2'),
       obj0 = new MyObject('a0');
     minObjHeap.add(1, obj1);
     expect(minObjHeap.has(obj1)).toBe(true);

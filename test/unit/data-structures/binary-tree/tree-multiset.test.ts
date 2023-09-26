@@ -15,7 +15,7 @@ describe('TreeMultiset operations test', () => {
 
     expect(treeMultiset.size).toBe(16);
     expect(treeMultiset.count).toBe(18);
-    expect(treeMultiset.BFS('id'))
+    expect(treeMultiset.BFS('id'));
 
     expect(treeMultiset.has(6));
 
@@ -43,7 +43,6 @@ describe('TreeMultiset operations test', () => {
     expect(subTreeSum).toBe(70);
     const lesserSum = treeMultiset.lesserSum(10);
     expect(lesserSum).toBe(45);
-
 
     expect(node15 instanceof TreeMultisetNode);
     if (node15 instanceof TreeMultisetNode) {
@@ -204,17 +203,31 @@ describe('TreeMultiset operations test', () => {
   });
 
   it('should perform various operations on a Binary Search Tree with object values', () => {
-    const objTreeMultiset = new TreeMultiset<TreeMultisetNode<{ id: number, keyA: number }>>();
+    const objTreeMultiset = new TreeMultiset<TreeMultisetNode<{id: number; keyA: number}>>();
     expect(objTreeMultiset).toBeInstanceOf(TreeMultiset);
     objTreeMultiset.add(11, {id: 11, keyA: 11});
     objTreeMultiset.add(3, {id: 3, keyA: 3});
-    const values = [{id: 15, keyA: 15}, {id: 1, keyA: 1}, {id: 8, keyA: 8},
-      {id: 13, keyA: 13}, {id: 16, keyA: 16}, {id: 2, keyA: 2},
-      {id: 6, keyA: 6}, {id: 9, keyA: 9}, {id: 12, keyA: 12},
-      {id: 14, keyA: 14}, {id: 4, keyA: 4}, {id: 7, keyA: 7},
-      {id: 10, keyA: 10}, {id: 5, keyA: 5}];
+    const values = [
+      {id: 15, keyA: 15},
+      {id: 1, keyA: 1},
+      {id: 8, keyA: 8},
+      {id: 13, keyA: 13},
+      {id: 16, keyA: 16},
+      {id: 2, keyA: 2},
+      {id: 6, keyA: 6},
+      {id: 9, keyA: 9},
+      {id: 12, keyA: 12},
+      {id: 14, keyA: 14},
+      {id: 4, keyA: 4},
+      {id: 7, keyA: 7},
+      {id: 10, keyA: 10},
+      {id: 5, keyA: 5}
+    ];
 
-    objTreeMultiset.addMany(values.map(item => item.id), values);
+    objTreeMultiset.addMany(
+      values.map(item => item.id),
+      values
+    );
 
     expect(objTreeMultiset.root).toBeInstanceOf(TreeMultisetNode);
 
@@ -414,7 +427,6 @@ describe('TreeMultiset Performance test', function () {
   // }
 
   it(`Observe the time consumption of TreeMultiset.add fitting O(n log n)`, function () {
-
     // // Create a benchmark suite
     // const suite = new Benchmark.Suite();
     // // Define a function to generate a random array of a given size
@@ -446,5 +458,4 @@ describe('TreeMultiset Performance test', function () {
     //   })
     //   .run({async: true});
   });
-
 });

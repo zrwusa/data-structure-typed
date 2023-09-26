@@ -7,7 +7,6 @@ describe('UndirectedGraph Operation Test', () => {
     graph = new UndirectedGraph();
   });
 
-
   it('should add vertices', () => {
     const vertex1 = new UndirectedVertex('A');
     const vertex2 = new UndirectedVertex('B');

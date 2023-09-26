@@ -2,7 +2,6 @@ import {Queue, LinkedListQueue} from '../../../../src';
 import {bigO, magnitude} from '../../../utils';
 
 describe('Queue Operation Test', () => {
-
   it('should validate a queue', () => {
     const queue = new Queue<number>();
     for (let i = 0; i < 1000; i++) {
@@ -14,7 +13,6 @@ describe('Queue Operation Test', () => {
     }
     expect(last).toBe(999);
   });
-
 });
 
 describe('Queue Performance Test', () => {
@@ -31,10 +29,8 @@ describe('Queue Performance Test', () => {
     }
     expect(last).toBe(magnitude.LINEAR - 1);
     expect(performance.now() - startTime).toBeLessThan(bigO.LINEAR * 100);
-
   });
-})
-
+});
 
 describe('Queue', () => {
   let queue: Queue<number>;

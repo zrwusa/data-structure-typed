@@ -1,19 +1,18 @@
 import {DirectedGraph, UndirectedGraph} from '../../../../src';
 
 describe('Overall Graph Operation Test', () => {
-
   it('Overall DirectedGraph Operation Test', () => {
     const graph = new DirectedGraph();
 
     graph.addVertex('A');
     graph.addVertex('B');
 
-    graph.hasVertex('A');       // true
-    graph.hasVertex('B');       // true
-    graph.hasVertex('C');       // false
-    expect(graph.hasVertex('A')).toBe(true);       // true
-    expect(graph.hasVertex('B')).toBe(true);       // true
-    expect(graph.hasVertex('C')).toBe(false);       // false
+    graph.hasVertex('A'); // true
+    graph.hasVertex('B'); // true
+    graph.hasVertex('C'); // false
+    expect(graph.hasVertex('A')).toBe(true); // true
+    expect(graph.hasVertex('B')).toBe(true); // true
+    expect(graph.hasVertex('C')).toBe(false); // false
 
     graph.addEdge('A', 'B');
     graph.hasEdge('A', 'B'); // true
@@ -22,8 +21,8 @@ describe('Overall Graph Operation Test', () => {
     expect(graph.hasEdge('B', 'A')).toBe(false); // false
 
     graph.removeEdgeSrcToDest('A', 'B');
-    graph.hasEdge('A', 'B');    // false
-    expect(graph.hasEdge('A', 'B')).toBe(false);    // false
+    graph.hasEdge('A', 'B'); // false
+    expect(graph.hasEdge('A', 'B')).toBe(false); // false
 
     graph.addVertex('C');
 
@@ -31,7 +30,7 @@ describe('Overall Graph Operation Test', () => {
     graph.addEdge('B', 'C');
 
     const topologicalOrderIds = graph.topologicalSort();
-    expect(topologicalOrderIds).toEqual(['A', 'B', 'C'])
+    expect(topologicalOrderIds).toEqual(['A', 'B', 'C']);
   });
   it('Overall UndirectedGraph Operation Test', () => {
     const graph = new UndirectedGraph();
@@ -44,7 +43,7 @@ describe('Overall Graph Operation Test', () => {
     graph.addEdge('B', 'D');
 
     const dijkstraResult = graph.dijkstra('A');
-    Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D']
+    Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id); // ['A', 'B', 'D']
     expect(Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id)).toEqual(['A', 'B', 'D']);
   });
 });

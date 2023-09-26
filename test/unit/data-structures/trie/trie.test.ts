@@ -1,4 +1,4 @@
-import { Trie, TrieNode } from '../../../../src';
+import {Trie, TrieNode} from '../../../../src';
 
 describe('TrieNode', () => {
   it('should create a TrieNode with the given value', () => {
@@ -78,7 +78,7 @@ describe('Trie', () => {
     trie.add('app');
     trie.add('application');
     const words = trie.getAll('app');
-    expect(words).toEqual(['apple', 'application','app']);
+    expect(words).toEqual(['apple', 'application', 'app']);
   });
 
   it('should remove words from Trie', () => {

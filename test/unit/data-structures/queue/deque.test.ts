@@ -35,7 +35,6 @@ describe('Deque Tests', () => {
       expect(deque.size).toBe(2);
     });
 
-
     it('should handle adding and removing elements alternately', () => {
       deque.addFirst(1);
       expect(deque.pollFirst()).toBe(1);

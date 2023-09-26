@@ -7,7 +7,7 @@ describe('LinkedList Performance Test', () => {
 
     const startPushTime = performance.now();
     let midNode: DoublyLinkedListNode | null = null;
-    const midIndex = Math.floor((magnitude.SQUARED) / 2);
+    const midIndex = Math.floor(magnitude.SQUARED / 2);
     for (let i = 0; i < magnitude.SQUARED; i++) {
       doublyList.push(i);
       if (i === midIndex) {

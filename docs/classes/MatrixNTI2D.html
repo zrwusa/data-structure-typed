@@ -14,7 +14,7 @@
 <ul class="tsd-breadcrumb">
 <li><a href="../modules.html">data-structure-typed</a></li>
 <li><a href="MatrixNTI2D.html">MatrixNTI2D</a></li></ul>
-<h1>Class MatrixNTI2D&lt;T&gt;</h1></div>
+<h1>Class MatrixNTI2D&lt;V&gt;</h1></div>
 <section class="tsd-panel tsd-comment">
 <div class="tsd-comment tsd-typography"><p>data-structure-typed</p>
 </div>
@@ -29,13 +29,13 @@
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
 <li>
-<h4><span class="tsd-kind-type-parameter">T</span> = <span class="tsd-signature-type">number</span></h4></li></ul></section> 
+<h4><span class="tsd-kind-type-parameter">V</span> = <span class="tsd-signature-type">any</span></h4></li></ul></section> 
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
 <li><span class="target">MatrixNTI2D</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/matrix/matrix.ts#L9">src/data-structures/matrix/matrix.ts:9</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/matrix/matrix.ts#L9">src/data-structures/matrix/matrix.ts:9</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -58,7 +58,7 @@
 <section class="tsd-panel tsd-member"><a id="constructor" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><g stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icon-anchor"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></g></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="constructor.new_MatrixNTI2D"><span class="tsd-kind-constructor-signature">new <wbr/>MatrixNTI2D</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">options</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="MatrixNTI2D.html" class="tsd-signature-type tsd-kind-class">MatrixNTI2D</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><a href="#constructor.new_MatrixNTI2D" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="constructor.new_MatrixNTI2D"><span class="tsd-kind-constructor-signature">new <wbr/>MatrixNTI2D</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">options</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="MatrixNTI2D.html" class="tsd-signature-type tsd-kind-class">MatrixNTI2D</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">&gt;</span><a href="#constructor.new_MatrixNTI2D" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The constructor creates a matrix with the specified number of rows and columns, and initializes all elements to a
 given initial value or 0 if not provided.</p>
@@ -67,12 +67,12 @@ given initial value or 0 if not provided.</p>
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
 <li>
-<h4><span class="tsd-kind-type-parameter">T</span> = <span class="tsd-signature-type">number</span></h4></li></ul></section>
+<h4><span class="tsd-kind-type-parameter">V</span> = <span class="tsd-signature-type">any</span></h4></li></ul></section>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">options</span>: <span class="tsd-signature-symbol">{ </span><br/><span>    </span><span class="tsd-kind-property">col</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">initialVal</span><span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">row</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span></h5>
+<h5><span class="tsd-kind-parameter">options</span>: <span class="tsd-signature-symbol">{ </span><br/><span>    </span><span class="tsd-kind-property">col</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">initialVal</span><span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">; </span><br/><span>    </span><span class="tsd-kind-property">row</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span></h5>
 <div class="tsd-comment tsd-typography"><p>An object containing the following properties:</p>
 </div>
 <div class="tsd-comment tsd-typography"></div>
@@ -80,30 +80,30 @@ given initial value or 0 if not provided.</p>
 <li class="tsd-parameter">
 <h5><span class="tsd-kind-property">col</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5></li>
 <li class="tsd-parameter">
-<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-property">initial<wbr/>Val</span><span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5></li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-property">initial<wbr/>Val</span><span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type tsd-kind-type-parameter">V</span></h5></li>
 <li class="tsd-parameter">
 <h5><span class="tsd-kind-property">row</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5></li></ul></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="MatrixNTI2D.html" class="tsd-signature-type tsd-kind-class">MatrixNTI2D</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+<h4 class="tsd-returns-title">Returns <a href="MatrixNTI2D.html" class="tsd-signature-type tsd-kind-class">MatrixNTI2D</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">&gt;</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/matrix/matrix.ts#L17">src/data-structures/matrix/matrix.ts:17</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/matrix/matrix.ts#L17">src/data-structures/matrix/matrix.ts:17</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-is-private"><a id="_matrix" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>_matrix</span><a href="#_matrix" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<div class="tsd-signature"><span class="tsd-kind-property">_matrix</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></div><aside class="tsd-sources">
+<div class="tsd-signature"><span class="tsd-kind-property">_matrix</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/matrix/matrix.ts#L10">src/data-structures/matrix/matrix.ts:10</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/matrix/matrix.ts#L10">src/data-structures/matrix/matrix.ts:10</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member"><a id="toArray" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>to<wbr/>Array</span><a href="#toArray" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="toArray.toArray-1"><span class="tsd-kind-call-signature">to<wbr/>Array</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span><a href="#toArray.toArray-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="toArray.toArray-1"><span class="tsd-kind-call-signature">to<wbr/>Array</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span><a href="#toArray.toArray-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/matrix/matrix.ts#L24">src/data-structures/matrix/matrix.ts:24</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/matrix/matrix.ts#L24">src/data-structures/matrix/matrix.ts:24</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">

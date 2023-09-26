@@ -3,10 +3,10 @@ import {bigO, magnitude} from '../../../utils';
 
 describe('SinglyLinkedList Operation Test', () => {
   let list: SinglyLinkedList<number>;
-  let objectList: SinglyLinkedList<{ keyA: number }>;
+  let objectList: SinglyLinkedList<{keyA: number}>;
   beforeEach(() => {
     list = new SinglyLinkedList<number>();
-    objectList = new SinglyLinkedList<{ keyA: number }>();
+    objectList = new SinglyLinkedList<{keyA: number}>();
   });
 
   describe('push', () => {
@@ -71,7 +71,6 @@ describe('SinglyLinkedList Operation Test', () => {
     });
   });
 
-
   describe('insertAfter', () => {
     it('should insert an element after an existing value', () => {
       list.push(1);
@@ -128,7 +127,6 @@ describe('SinglyLinkedList Operation Test', () => {
       expect(list.toArray()).toEqual([1, 2, 3]);
     });
   });
-
 
   describe('isEmpty', () => {
     it('should return true for an empty list', () => {
@@ -309,14 +307,14 @@ describe('SinglyLinkedList Operation Test', () => {
       list.push(1);
       list.push(2);
       list.push(3);
-      const result = list.find((data) => data % 2 === 0);
+      const result = list.find(data => data % 2 === 0);
       expect(result).toBe(2);
     });
 
     it('should return undefined if element is not found', () => {
       list.push(1);
       list.push(3);
-      const result = list.find((data) => data % 2 === 0);
+      const result = list.find(data => data % 2 === 0);
       expect(result).toBeNull();
     });
   });
@@ -376,7 +374,6 @@ describe('SinglyLinkedList Operation Test', () => {
     const shiftedObj = objectList.shift();
     expect(shiftedObj).toBe(obj1);
   });
-
 });
 
 describe('SinglyLinkedList Performance Test', () => {

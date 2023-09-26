@@ -3,7 +3,7 @@ import {bigO, magnitude} from '../../../utils';
 
 describe('DoublyLinkedList Operation Test', () => {
   let list: DoublyLinkedList<number>;
-  let objectList: DoublyLinkedList<{ keyA: number }>;
+  let objectList: DoublyLinkedList<{keyA: number}>;
 
   beforeEach(() => {
     list = new DoublyLinkedList();
@@ -117,7 +117,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(2);
     list.push(3);
 
-    const mappedList = list.map((val) => val * 2);
+    const mappedList = list.map(val => val * 2);
 
     expect(mappedList.toArray()).toEqual([2, 4, 6]);
   });
@@ -128,7 +128,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(3);
     list.push(4);
 
-    const filteredList = list.filter((val) => val % 2 === 0);
+    const filteredList = list.filter(val => val % 2 === 0);
 
     expect(filteredList.toArray()).toEqual([2, 4]);
   });
@@ -168,7 +168,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(2);
     list.push(3);
 
-    const found = list.find((val) => val % 2 === 0);
+    const found = list.find(val => val % 2 === 0);
 
     expect(found).toBe(2);
   });
@@ -189,7 +189,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(3);
     list.push(4);
 
-    const lastEven = list.findLast((val) => val % 2 === 0);
+    const lastEven = list.findLast(val => val % 2 === 0);
 
     expect(lastEven).toBe(4);
   });
@@ -234,7 +234,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(3);
 
     const result: number[] = [];
-    list.forEach((val) => {
+    list.forEach(val => {
       result.push(val * 2);
     });
 
@@ -246,7 +246,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(2);
     list.push(3);
 
-    const mappedList = list.map((val) => val * 2);
+    const mappedList = list.map(val => val * 2);
 
     expect(mappedList.toArray()).toEqual([2, 4, 6]);
   });
@@ -257,7 +257,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(3);
     list.push(4);
 
-    const filteredList = list.filter((val) => val % 2 === 0);
+    const filteredList = list.filter(val => val % 2 === 0);
 
     expect(filteredList.toArray()).toEqual([2, 4]);
   });
@@ -339,7 +339,6 @@ describe('DoublyLinkedList Operation Test', () => {
     const shiftedObj = objectList.shift();
     expect(shiftedObj).toBe(obj1);
   });
-
 });
 
 describe('DoublyLinkedList Performance Test', () => {

@@ -14,20 +14,20 @@
 <ul class="tsd-breadcrumb">
 <li><a href="../modules.html">data-structure-typed</a></li>
 <li><a href="Deque.html">Deque</a></li></ul>
-<h1>Class Deque&lt;T&gt;</h1></div> 
+<h1>Class Deque&lt;E&gt;</h1></div> 
 <section class="tsd-panel">
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
 <li>
-<h4><span class="tsd-kind-type-parameter">T</span></h4></li></ul></section> 
+<h4><span class="tsd-kind-type-parameter">E</span> = <span class="tsd-signature-type">any</span></h4></li></ul></section> 
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
-<li><a href="DoublyLinkedList.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedList</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span>
+<li><a href="DoublyLinkedList.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedList</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span>
 <ul class="tsd-hierarchy">
 <li><span class="target">Deque</span></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/queue/deque.ts#L12">src/data-structures/queue/deque.ts:12</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/queue/deque.ts#L12">src/data-structures/queue/deque.ts:12</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -41,11 +41,14 @@
 <h3 class="tsd-index-heading">Accessors</h3>
 <div class="tsd-index-list"><a href="Deque.html#head" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-262144"><rect fill="var(--color-icon-background)" stroke="#FF4D4D" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12"></rect><path d="M8.85 16L11.13 7.24H12.582L14.85 16H13.758L13.182 13.672H10.53L9.954 16H8.85ZM10.746 12.76H12.954L12.282 10.06C12.154 9.548 12.054 9.12 11.982 8.776C11.91 8.432 11.866 8.208 11.85 8.104C11.834 8.208 11.79 8.432 11.718 8.776C11.646 9.12 11.546 9.544 11.418 10.048L10.746 12.76Z" fill="var(--color-text)"></path></g></svg><span>head</span></a>
 <a href="Deque.html#length" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>length</span></a>
+<a href="Deque.html#size" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>size</span></a>
 <a href="Deque.html#tail" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>tail</span></a>
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Methods</h3>
-<div class="tsd-index-list"><a href="Deque.html#clear" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-2048"><rect fill="var(--color-icon-background)" stroke="#FF4DB8" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12"></rect><path d="M9.162 16V7.24H10.578L11.514 10.072C11.602 10.328 11.674 10.584 11.73 10.84C11.794 11.088 11.842 11.28 11.874 11.416C11.906 11.28 11.954 11.088 12.018 10.84C12.082 10.584 12.154 10.324 12.234 10.06L13.122 7.24H14.538V16H13.482V12.82C13.482 12.468 13.49 12.068 13.506 11.62C13.53 11.172 13.558 10.716 13.59 10.252C13.622 9.78 13.654 9.332 13.686 8.908C13.726 8.476 13.762 8.1 13.794 7.78L12.366 12.16H11.334L9.894 7.78C9.934 8.092 9.97 8.456 10.002 8.872C10.042 9.28 10.078 9.716 10.11 10.18C10.142 10.636 10.166 11.092 10.182 11.548C10.206 12.004 10.218 12.428 10.218 12.82V16H9.162Z" fill="var(--color-text)"></path></g></svg><span>clear</span></a>
+<div class="tsd-index-list"><a href="Deque.html#addFirst" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-2048"><rect fill="var(--color-icon-background)" stroke="#FF4DB8" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12"></rect><path d="M9.162 16V7.24H10.578L11.514 10.072C11.602 10.328 11.674 10.584 11.73 10.84C11.794 11.088 11.842 11.28 11.874 11.416C11.906 11.28 11.954 11.088 12.018 10.84C12.082 10.584 12.154 10.324 12.234 10.06L13.122 7.24H14.538V16H13.482V12.82C13.482 12.468 13.49 12.068 13.506 11.62C13.53 11.172 13.558 10.716 13.59 10.252C13.622 9.78 13.654 9.332 13.686 8.908C13.726 8.476 13.762 8.1 13.794 7.78L12.366 12.16H11.334L9.894 7.78C9.934 8.092 9.97 8.456 10.002 8.872C10.042 9.28 10.078 9.716 10.11 10.18C10.142 10.636 10.166 11.092 10.182 11.548C10.206 12.004 10.218 12.428 10.218 12.82V16H9.162Z" fill="var(--color-text)"></path></g></svg><span>add<wbr/>First</span></a>
+<a href="Deque.html#addLast" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>add<wbr/>Last</span></a>
+<a href="Deque.html#clear" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>clear</span></a>
 <a href="Deque.html#delete" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>delete</span></a>
 <a href="Deque.html#deleteAt" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>delete<wbr/>At</span></a>
 <a href="Deque.html#filter" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>filter</span></a>
@@ -59,7 +62,12 @@
 <a href="Deque.html#insertAfter" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>insert<wbr/>After</span></a>
 <a href="Deque.html#insertAt" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>insert<wbr/>At</span></a>
 <a href="Deque.html#insertBefore" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>insert<wbr/>Before</span></a>
+<a href="Deque.html#isEmpty" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Empty</span></a>
 <a href="Deque.html#map" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>map</span></a>
+<a href="Deque.html#peekFirst" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>peek<wbr/>First</span></a>
+<a href="Deque.html#peekLast" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>peek<wbr/>Last</span></a>
+<a href="Deque.html#pollFirst" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>poll<wbr/>First</span></a>
+<a href="Deque.html#pollLast" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>poll<wbr/>Last</span></a>
 <a href="Deque.html#pop" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>pop</span></a>
 <a href="Deque.html#push" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>push</span></a>
 <a href="Deque.html#reduce" class="tsd-index-link tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>reduce</span></a>
@@ -75,7 +83,7 @@
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="constructor" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><g stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icon-anchor"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></g></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
-<li class="tsd-signature tsd-anchor-link" id="constructor.new_Deque"><span class="tsd-kind-constructor-signature">new <wbr/>Deque</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Deque.html" class="tsd-signature-type tsd-kind-class">Deque</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><a href="#constructor.new_Deque" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="constructor.new_Deque"><span class="tsd-kind-constructor-signature">new <wbr/>Deque</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="Deque.html" class="tsd-signature-type tsd-kind-class">Deque</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span><a href="#constructor.new_Deque" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The constructor initializes the linked list with an empty head, tail, and length.</p>
 </div>
@@ -83,34 +91,34 @@
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
 <li>
-<h4><span class="tsd-kind-type-parameter">T</span></h4></li></ul></section>
-<h4 class="tsd-returns-title">Returns <a href="Deque.html" class="tsd-signature-type tsd-kind-class">Deque</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+<h4><span class="tsd-kind-type-parameter">E</span> = <span class="tsd-signature-type">any</span></h4></li></ul></section>
+<h4 class="tsd-returns-title">Returns <a href="Deque.html" class="tsd-signature-type tsd-kind-class">Deque</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#constructor">constructor</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L55">src/data-structures/linked-list/doubly-linked-list.ts:55</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L55">src/data-structures/linked-list/doubly-linked-list.ts:55</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="head" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>head</span><a href="#head" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
-<li class="tsd-signature" id="head.head-1"><span class="tsd-signature-symbol">get</span> head<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+<li class="tsd-signature" id="head.head-1"><span class="tsd-signature-symbol">get</span> head<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span></li>
 <li class="tsd-description">
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Inherited from DoublyLinkedList.head</p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L63">src/data-structures/linked-list/doubly-linked-list.ts:63</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L63">src/data-structures/linked-list/doubly-linked-list.ts:63</a></li></ul></aside></li>
 <li class="tsd-signature" id="head.head-2"><span class="tsd-signature-symbol">set</span> head<span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">value</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">value</span>: <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h5></li></ul></div>
+<h5><span class="tsd-kind-parameter">value</span>: <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from DoublyLinkedList.head</p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L67">src/data-structures/linked-list/doubly-linked-list.ts:67</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L67">src/data-structures/linked-list/doubly-linked-list.ts:67</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="length" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>length</span><a href="#length" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -119,29 +127,79 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from DoublyLinkedList.length</p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L83">src/data-structures/linked-list/doubly-linked-list.ts:83</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L83">src/data-structures/linked-list/doubly-linked-list.ts:83</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-is-inherited"><a id="size" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>size</span><a href="#size" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-is-inherited">
+<li class="tsd-signature" id="size.size-1"><span class="tsd-signature-symbol">get</span> size<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
+<p>Inherited from DoublyLinkedList.size</p>
+<ul>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L225">src/data-structures/linked-list/doubly-linked-list.ts:225</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="tail" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>tail</span><a href="#tail" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
-<li class="tsd-signature" id="tail.tail-1"><span class="tsd-signature-symbol">get</span> tail<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+<li class="tsd-signature" id="tail.tail-1"><span class="tsd-signature-symbol">get</span> tail<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span></li>
 <li class="tsd-description">
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Inherited from DoublyLinkedList.tail</p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L73">src/data-structures/linked-list/doubly-linked-list.ts:73</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L73">src/data-structures/linked-list/doubly-linked-list.ts:73</a></li></ul></aside></li>
 <li class="tsd-signature" id="tail.tail-2"><span class="tsd-signature-symbol">set</span> tail<span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">value</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">value</span>: <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h5></li></ul></div>
+<h5><span class="tsd-kind-parameter">value</span>: <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from DoublyLinkedList.tail</p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L77">src/data-structures/linked-list/doubly-linked-list.ts:77</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L77">src/data-structures/linked-list/doubly-linked-list.ts:77</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
+<section class="tsd-panel tsd-member tsd-is-inherited"><a id="addFirst" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>add<wbr/>First</span><a href="#addFirst" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="addFirst.addFirst-1"><span class="tsd-kind-call-signature">add<wbr/>First</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">val</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#addFirst.addFirst-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>The addFirst function adds a new node with the given value to the beginning of a doubly linked list.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span></h5>
+<div class="tsd-comment tsd-typography"><p>The <code>val</code> parameter represents the value of the new node that will be added to the beginning of the
+doubly linked list.</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#addFirst">addFirst</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L205">src/data-structures/linked-list/doubly-linked-list.ts:205</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-is-inherited"><a id="addLast" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>add<wbr/>Last</span><a href="#addLast" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="addLast.addLast-1"><span class="tsd-kind-call-signature">add<wbr/>Last</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">val</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#addLast.addLast-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>The addLast function adds a new node with the given value to the end of the doubly linked list.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span></h5>
+<div class="tsd-comment tsd-typography"><p>The value to be added to the linked list.</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#addLast">addLast</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L122">src/data-structures/linked-list/doubly-linked-list.ts:122</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="clear" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>clear</span><a href="#clear" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -153,7 +211,7 @@
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#clear">clear</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L332">src/data-structures/linked-list/doubly-linked-list.ts:332</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L395">src/data-structures/linked-list/doubly-linked-list.ts:395</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="delete" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>delete</span><a href="#delete" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -165,9 +223,9 @@
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">valOrNode</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5>
-<div class="tsd-comment tsd-typography"><p>The <code>valOrNode</code> parameter can accept either a value of type <code>T</code> or
-a <code>DoublyLinkedListNode&lt;T&gt;</code> object.</p>
+<h5><span class="tsd-kind-parameter">valOrNode</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span></h5>
+<div class="tsd-comment tsd-typography"><p>The <code>valOrNode</code> parameter can accept either a value of type <code>E</code> or
+a <code>DoublyLinkedListNode&lt;E&gt;</code> object.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p>The <code>delete</code> method returns a boolean value. It returns <code>true</code> if the value or node was successfully
@@ -176,7 +234,7 @@ deleted from the doubly linked list, and <code>false</code> if the value or node
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#delete">delete</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L279">src/data-structures/linked-list/doubly-linked-list.ts:279</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L334">src/data-structures/linked-list/doubly-linked-list.ts:334</a></li></ul></aside></li>
 <li class="tsd-signature tsd-anchor-link" id="delete.delete-2"><span class="tsd-kind-call-signature">delete</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">valOrNode</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><a href="#delete.delete-2" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <code>delete</code> function removes a node from a doubly linked list based on either the node itself or its value.</p>
@@ -185,9 +243,9 @@ deleted from the doubly linked list, and <code>false</code> if the value or node
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">valOrNode</span>: <a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
-<div class="tsd-comment tsd-typography"><p>The <code>valOrNode</code> parameter can accept either a value of type <code>T</code> or
-a <code>DoublyLinkedListNode&lt;T&gt;</code> object.</p>
+<h5><span class="tsd-kind-parameter">valOrNode</span>: <a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span></h5>
+<div class="tsd-comment tsd-typography"><p>The <code>valOrNode</code> parameter can accept either a value of type <code>E</code> or
+a <code>DoublyLinkedListNode&lt;E&gt;</code> object.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p>The <code>delete</code> method returns a boolean value. It returns <code>true</code> if the value or node was successfully
@@ -196,11 +254,11 @@ deleted from the doubly linked list, and <code>false</code> if the value or node
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#delete">delete</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L280">src/data-structures/linked-list/doubly-linked-list.ts:280</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L335">src/data-structures/linked-list/doubly-linked-list.ts:335</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="deleteAt" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>delete<wbr/>At</span><a href="#deleteAt" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
-<li class="tsd-signature tsd-anchor-link" id="deleteAt.deleteAt-1"><span class="tsd-kind-call-signature">delete<wbr/>At</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">index</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><a href="#deleteAt.deleteAt-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="deleteAt.deleteAt-1"><span class="tsd-kind-call-signature">delete<wbr/>At</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">index</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><a href="#deleteAt.deleteAt-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <code>deleteAt</code> function removes an element at a specified index from a linked list and returns the removed element.</p>
 </div>
@@ -213,17 +271,17 @@ deleted from the doubly linked list, and <code>false</code> if the value or node
 data structure. It is of type number.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span></h4><p>The method <code>deleteAt</code> returns the value of the node that was deleted, or <code>null</code> if the index is out of
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span></h4><p>The method <code>deleteAt</code> returns the value of the node that was deleted, or <code>null</code> if the index is out of
 bounds.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#deleteAt">deleteAt</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L265">src/data-structures/linked-list/doubly-linked-list.ts:265</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L320">src/data-structures/linked-list/doubly-linked-list.ts:320</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="filter" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>filter</span><a href="#filter" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
-<li class="tsd-signature tsd-anchor-link" id="filter.filter-1"><span class="tsd-kind-call-signature">filter</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">callback</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="DoublyLinkedList.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedList</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><a href="#filter.filter-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="filter.filter-1"><span class="tsd-kind-call-signature">filter</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">callback</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="DoublyLinkedList.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedList</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span><a href="#filter.filter-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <code>filter</code> function iterates through a DoublyLinkedList and returns a new DoublyLinkedList containing only the
 elements that satisfy the given callback function.</p>
@@ -233,7 +291,7 @@ elements that satisfy the given callback function.</p>
 <ul class="tsd-parameter-list">
 <li>
 <h5><span class="tsd-kind-parameter">callback</span>: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">val</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span></h5>
-<div class="tsd-comment tsd-typography"><p>The <code>callback</code> parameter is a function that takes a value of type <code>T</code> and returns a boolean value.
+<div class="tsd-comment tsd-typography"><p>The <code>callback</code> parameter is a function that takes a value of type <code>E</code> and returns a boolean value.
 It is used to determine whether a value should be included in the filtered list or not.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div>
@@ -246,18 +304,18 @@ It is used to determine whether a value should be included in the filtered list 
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5></li></ul></div>
+<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4></li></ul></li></ul></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="DoublyLinkedList.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedList</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4><p>The filtered list, which is an instance of the DoublyLinkedList class.</p>
+<h4 class="tsd-returns-title">Returns <a href="DoublyLinkedList.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedList</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span></h4><p>The filtered list, which is an instance of the DoublyLinkedList class.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#filter">filter</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L463">src/data-structures/linked-list/doubly-linked-list.ts:463</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L526">src/data-structures/linked-list/doubly-linked-list.ts:526</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="find" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>find</span><a href="#find" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
-<li class="tsd-signature tsd-anchor-link" id="find.find-1"><span class="tsd-kind-call-signature">find</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">callback</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><a href="#find.find-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="find.find-1"><span class="tsd-kind-call-signature">find</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">callback</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><a href="#find.find-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <code>find</code> function iterates through a linked list and returns the first element that satisfies a given condition.</p>
 </div>
@@ -266,7 +324,7 @@ It is used to determine whether a value should be included in the filtered list 
 <ul class="tsd-parameter-list">
 <li>
 <h5><span class="tsd-kind-parameter">callback</span>: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">val</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span></h5>
-<div class="tsd-comment tsd-typography"><p>A function that takes a value of type T as its parameter and returns a boolean value. This
+<div class="tsd-comment tsd-typography"><p>A function that takes a value of type E as its parameter and returns a boolean value. This
 function is used to determine whether a particular value in the linked list satisfies a certain condition.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div>
@@ -279,19 +337,19 @@ function is used to determine whether a particular value in the linked list sati
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5></li></ul></div>
+<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4></li></ul></li></ul></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span></h4><p>The method <code>find</code> returns the first element in the linked list that satisfies the condition specified by
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span></h4><p>The method <code>find</code> returns the first element in the linked list that satisfies the condition specified by
 the callback function. If no element satisfies the condition, it returns <code>null</code>.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#find">find</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L345">src/data-structures/linked-list/doubly-linked-list.ts:345</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L408">src/data-structures/linked-list/doubly-linked-list.ts:408</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="findLast" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>find<wbr/>Last</span><a href="#findLast" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
-<li class="tsd-signature tsd-anchor-link" id="findLast.findLast-1"><span class="tsd-kind-call-signature">find<wbr/>Last</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">callback</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><a href="#findLast.findLast-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="findLast.findLast-1"><span class="tsd-kind-call-signature">find<wbr/>Last</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">callback</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><a href="#findLast.findLast-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <code>findLast</code> function iterates through a linked list from the last node to the first node and returns the last
 value that satisfies the given callback function, or null if no value satisfies the callback.</p>
@@ -301,7 +359,7 @@ value that satisfies the given callback function, or null if no value satisfies 
 <ul class="tsd-parameter-list">
 <li>
 <h5><span class="tsd-kind-parameter">callback</span>: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">val</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span></h5>
-<div class="tsd-comment tsd-typography"><p>A function that takes a value of type T as its parameter and returns a boolean value. This
+<div class="tsd-comment tsd-typography"><p>A function that takes a value of type E as its parameter and returns a boolean value. This
 function is used to determine whether a given value satisfies a certain condition.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div>
@@ -314,19 +372,19 @@ function is used to determine whether a given value satisfies a certain conditio
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5></li></ul></div>
+<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4></li></ul></li></ul></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span></h4><p>The method <code>findLast</code> returns the last value in the linked list that satisfies the condition specified by
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span></h4><p>The method <code>findLast</code> returns the last value in the linked list that satisfies the condition specified by
 the callback function. If no value satisfies the condition, it returns <code>null</code>.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#findLast">findLast</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L384">src/data-structures/linked-list/doubly-linked-list.ts:384</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L447">src/data-structures/linked-list/doubly-linked-list.ts:447</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="findNode" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>find<wbr/>Node</span><a href="#findNode" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
-<li class="tsd-signature tsd-anchor-link" id="findNode.findNode-1"><span class="tsd-kind-call-signature">find<wbr/>Node</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">val</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><a href="#findNode.findNode-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="findNode.findNode-1"><span class="tsd-kind-call-signature">find<wbr/>Node</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">val</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span><a href="#findNode.findNode-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The function <code>findNodeByValue</code> searches for a node with a specific value in a doubly linked list and returns the
 node if found, otherwise it returns null.</p>
@@ -335,17 +393,17 @@ node if found, otherwise it returns null.</p>
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5>
+<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span></h5>
 <div class="tsd-comment tsd-typography"><p>The <code>val</code> parameter is the value that we want to search for in the doubly linked list.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4><p>The function <code>findNodeByValue</code> returns a <code>DoublyLinkedListNode&lt;T&gt;</code> if a node with the specified value <code>val</code>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span></h4><p>The function <code>findNodeByValue</code> returns a <code>DoublyLinkedListNode&lt;E&gt;</code> if a node with the specified value <code>val</code>
 is found in the linked list. If no such node is found, it returns <code>null</code>.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#findNode">findNode</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L214">src/data-structures/linked-list/doubly-linked-list.ts:214</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L269">src/data-structures/linked-list/doubly-linked-list.ts:269</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="forEach" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>for<wbr/>Each</span><a href="#forEach" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -372,7 +430,7 @@ current node in the linked list.</p>
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5></li>
+<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span></h5></li>
 <li>
 <h5><span class="tsd-kind-parameter">index</span>: <span class="tsd-signature-type">number</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4></li></ul></li></ul></li></ul></div>
@@ -380,11 +438,11 @@ current node in the linked list.</p>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#forEach">forEach</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L428">src/data-structures/linked-list/doubly-linked-list.ts:428</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L491">src/data-structures/linked-list/doubly-linked-list.ts:491</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="getAt" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>At</span><a href="#getAt" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
-<li class="tsd-signature tsd-anchor-link" id="getAt.getAt-1"><span class="tsd-kind-call-signature">get<wbr/>At</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">index</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><a href="#getAt.getAt-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="getAt.getAt-1"><span class="tsd-kind-call-signature">get<wbr/>At</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">index</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><a href="#getAt.getAt-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <code>getAt</code> function returns the value at a specified index in a linked list, or null if the index is out of bounds.</p>
 </div>
@@ -397,17 +455,17 @@ current node in the linked list.</p>
 retrieve from the list.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span></h4><p>The method is returning the value at the specified index in the linked list. If the index is out of bounds
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span></h4><p>The method is returning the value at the specified index in the linked list. If the index is out of bounds
 or the linked list is empty, it will return null.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#getAt">getAt</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L181">src/data-structures/linked-list/doubly-linked-list.ts:181</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L236">src/data-structures/linked-list/doubly-linked-list.ts:236</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="getNodeAt" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Node<wbr/>At</span><a href="#getNodeAt" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
-<li class="tsd-signature tsd-anchor-link" id="getNodeAt.getNodeAt-1"><span class="tsd-kind-call-signature">get<wbr/>Node<wbr/>At</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">index</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><a href="#getNodeAt.getNodeAt-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="getNodeAt.getNodeAt-1"><span class="tsd-kind-call-signature">get<wbr/>Node<wbr/>At</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">index</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span><a href="#getNodeAt.getNodeAt-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The function <code>getNodeAt</code> returns the node at a given index in a doubly linked list, or null if the index is out of
 range.</p>
@@ -421,13 +479,13 @@ range.</p>
 retrieve from the doubly linked list. It indicates the zero-based index of the node we want to access.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4><p>The method <code>getNodeAt(index: number)</code> returns a <code>DoublyLinkedListNode&lt;T&gt;</code> object if the index is within the
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span></h4><p>The method <code>getNodeAt(index: number)</code> returns a <code>DoublyLinkedListNode&lt;E&gt;</code> object if the index is within the
 valid range of the linked list, otherwise it returns <code>null</code>.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#getNodeAt">getNodeAt</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L198">src/data-structures/linked-list/doubly-linked-list.ts:198</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L253">src/data-structures/linked-list/doubly-linked-list.ts:253</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="indexOf" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>index<wbr/>Of</span><a href="#indexOf" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -439,8 +497,8 @@ valid range of the linked list, otherwise it returns <code>null</code>.</p>
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5>
-<div class="tsd-comment tsd-typography"><p>The parameter <code>val</code> is of type <code>T</code>, which means it can be any data type. It represents the value
+<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span></h5>
+<div class="tsd-comment tsd-typography"><p>The parameter <code>val</code> is of type <code>E</code>, which means it can be any data type. It represents the value
 that we are searching for in the linked list.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
@@ -450,7 +508,7 @@ list. If the value is not found, it returns -1.</p>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#indexOf">indexOf</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L363">src/data-structures/linked-list/doubly-linked-list.ts:363</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L426">src/data-structures/linked-list/doubly-linked-list.ts:426</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="insertAfter" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>insert<wbr/>After</span><a href="#insertAfter" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -462,14 +520,14 @@ list. If the value is not found, it returns -1.</p>
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">existingValueOrNode</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5>
+<h5><span class="tsd-kind-parameter">existingValueOrNode</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span></h5>
 <div class="tsd-comment tsd-typography"><p>The existing value or node in the doubly linked list
 after which the new value will be inserted. It can be either the value of the existing node or the existing node
 itself.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li>
 <li>
-<h5><span class="tsd-kind-parameter">newValue</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5>
+<h5><span class="tsd-kind-parameter">newValue</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span></h5>
 <div class="tsd-comment tsd-typography"><p>The value that you want to insert into the doubly linked list.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
@@ -479,7 +537,7 @@ existing value or node is not found in the doubly linked list.</p>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#insertAfter">insertAfter</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L495">src/data-structures/linked-list/doubly-linked-list.ts:495</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L558">src/data-structures/linked-list/doubly-linked-list.ts:558</a></li></ul></aside></li>
 <li class="tsd-signature tsd-anchor-link" id="insertAfter.insertAfter-2"><span class="tsd-kind-call-signature">insert<wbr/>After</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">existingValueOrNode</span>, <span class="tsd-kind-parameter">newValue</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><a href="#insertAfter.insertAfter-2" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <code>insertAfter</code> function inserts a new node with a given value after an existing node in a doubly linked list.</p>
@@ -488,14 +546,14 @@ existing value or node is not found in the doubly linked list.</p>
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">existingValueOrNode</span>: <a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+<h5><span class="tsd-kind-parameter">existingValueOrNode</span>: <a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span></h5>
 <div class="tsd-comment tsd-typography"><p>The existing value or node in the doubly linked list
 after which the new value will be inserted. It can be either the value of the existing node or the existing node
 itself.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li>
 <li>
-<h5><span class="tsd-kind-parameter">newValue</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5>
+<h5><span class="tsd-kind-parameter">newValue</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span></h5>
 <div class="tsd-comment tsd-typography"><p>The value that you want to insert into the doubly linked list.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
@@ -505,7 +563,7 @@ existing value or node is not found in the doubly linked list.</p>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#insertAfter">insertAfter</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L496">src/data-structures/linked-list/doubly-linked-list.ts:496</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L559">src/data-structures/linked-list/doubly-linked-list.ts:559</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="insertAt" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>insert<wbr/>At</span><a href="#insertAt" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -523,7 +581,7 @@ DoublyLinkedList. It is of type number.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li>
 <li>
-<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5>
+<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span></h5>
 <div class="tsd-comment tsd-typography"><p>The <code>val</code> parameter represents the value that you want to insert into the Doubly Linked List at the
 specified index.</p>
 </div>
@@ -534,7 +592,7 @@ if the index is out of bounds.</p>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#insertAt">insertAt</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L236">src/data-structures/linked-list/doubly-linked-list.ts:236</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L291">src/data-structures/linked-list/doubly-linked-list.ts:291</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="insertBefore" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>insert<wbr/>Before</span><a href="#insertBefore" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -546,14 +604,14 @@ if the index is out of bounds.</p>
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">existingValueOrNode</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5>
+<h5><span class="tsd-kind-parameter">existingValueOrNode</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span></h5>
 <div class="tsd-comment tsd-typography"><p>The existing value or node in the doubly linked list
 before which the new value will be inserted. It can be either the value of the existing node or the existing node
 itself.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li>
 <li>
-<h5><span class="tsd-kind-parameter">newValue</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5>
+<h5><span class="tsd-kind-parameter">newValue</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span></h5>
 <div class="tsd-comment tsd-typography"><p>The <code>newValue</code> parameter represents the value that you want to insert into the doubly linked
 list.</p>
 </div>
@@ -564,7 +622,7 @@ insertion fails.</p>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#insertBefore">insertBefore</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L534">src/data-structures/linked-list/doubly-linked-list.ts:534</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L597">src/data-structures/linked-list/doubly-linked-list.ts:597</a></li></ul></aside></li>
 <li class="tsd-signature tsd-anchor-link" id="insertBefore.insertBefore-2"><span class="tsd-kind-call-signature">insert<wbr/>Before</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">existingValueOrNode</span>, <span class="tsd-kind-parameter">newValue</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><a href="#insertBefore.insertBefore-2" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <code>insertBefore</code> function inserts a new value before an existing value or node in a doubly linked list.</p>
@@ -573,14 +631,14 @@ insertion fails.</p>
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">existingValueOrNode</span>: <a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+<h5><span class="tsd-kind-parameter">existingValueOrNode</span>: <a href="DoublyLinkedListNode.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedListNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span></h5>
 <div class="tsd-comment tsd-typography"><p>The existing value or node in the doubly linked list
 before which the new value will be inserted. It can be either the value of the existing node or the existing node
 itself.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li>
 <li>
-<h5><span class="tsd-kind-parameter">newValue</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5>
+<h5><span class="tsd-kind-parameter">newValue</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span></h5>
 <div class="tsd-comment tsd-typography"><p>The <code>newValue</code> parameter represents the value that you want to insert into the doubly linked
 list.</p>
 </div>
@@ -591,7 +649,20 @@ insertion fails.</p>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#insertBefore">insertBefore</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L535">src/data-structures/linked-list/doubly-linked-list.ts:535</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L598">src/data-structures/linked-list/doubly-linked-list.ts:598</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-is-inherited"><a id="isEmpty" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>is<wbr/>Empty</span><a href="#isEmpty" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="isEmpty.isEmpty-1"><span class="tsd-kind-call-signature">is<wbr/>Empty</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><a href="#isEmpty.isEmpty-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>The function checks if a variable has a length greater than zero and returns a boolean value.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p>A boolean value is being returned.</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#isEmpty">isEmpty</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L388">src/data-structures/linked-list/doubly-linked-list.ts:388</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="map" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>map</span><a href="#map" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -610,7 +681,7 @@ DoublyLinkedList with the transformed values.</p>
 <ul class="tsd-parameter-list">
 <li>
 <h5><span class="tsd-kind-parameter">callback</span>: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">val</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type tsd-kind-type-parameter">U</span><span class="tsd-signature-symbol">)</span></h5>
-<div class="tsd-comment tsd-typography"><p>The callback parameter is a function that takes a value of type T (the type of values stored in
+<div class="tsd-comment tsd-typography"><p>The callback parameter is a function that takes a value of type E (the type of values stored in
 the original DoublyLinkedList) and returns a value of type U (the type of values that will be stored in the mapped
 DoublyLinkedList).</p>
 </div>
@@ -624,28 +695,82 @@ DoublyLinkedList).</p>
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5></li></ul></div>
+<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">U</span></h4></li></ul></li></ul></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="DoublyLinkedList.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedList</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">U</span><span class="tsd-signature-symbol">&gt;</span></h4><p>The <code>map</code> function is returning a new instance of <code>DoublyLinkedList&lt;U&gt;</code> that contains the mapped values.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#map">map</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L446">src/data-structures/linked-list/doubly-linked-list.ts:446</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L509">src/data-structures/linked-list/doubly-linked-list.ts:509</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-is-inherited"><a id="peekFirst" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>peek<wbr/>First</span><a href="#peekFirst" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="peekFirst.peekFirst-1"><span class="tsd-kind-call-signature">peek<wbr/>First</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><a href="#peekFirst.peekFirst-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>The <code>peekFirst</code> function returns the first node in a doubly linked list, or null if the list is empty.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span></h4><p>The method <code>peekFirst()</code> returns the first node of the doubly linked list, or <code>null</code> if the list is empty.</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#peekFirst">peekFirst</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L213">src/data-structures/linked-list/doubly-linked-list.ts:213</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-is-inherited"><a id="peekLast" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>peek<wbr/>Last</span><a href="#peekLast" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="peekLast.peekLast-1"><span class="tsd-kind-call-signature">peek<wbr/>Last</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><a href="#peekLast.peekLast-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>The <code>peekLast</code> function returns the last node in a doubly linked list, or null if the list is empty.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span></h4><p>The method <code>peekLast()</code> returns the last node of the doubly linked list, or <code>null</code> if the list is empty.</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#peekLast">peekLast</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L221">src/data-structures/linked-list/doubly-linked-list.ts:221</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-is-inherited"><a id="pollFirst" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>poll<wbr/>First</span><a href="#pollFirst" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="pollFirst.pollFirst-1"><span class="tsd-kind-call-signature">poll<wbr/>First</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><a href="#pollFirst.pollFirst-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>The <code>pollFirst()</code> function removes and returns the value of the first node in a doubly linked list.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span></h4><p>The method <code>shift()</code> returns the value of the node that is removed from the beginning of the doubly linked
+list.</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#pollFirst">pollFirst</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L178">src/data-structures/linked-list/doubly-linked-list.ts:178</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-is-inherited"><a id="pollLast" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>poll<wbr/>Last</span><a href="#pollLast" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="pollLast.pollLast-1"><span class="tsd-kind-call-signature">poll<wbr/>Last</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><a href="#pollLast.pollLast-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>The <code>pollLast()</code> function removes and returns the value of the last node in a doubly linked list.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span></h4><p>The method is returning the value of the removed node (removedNode.val) if the list is not empty. If the
+list is empty, it returns null.</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#pollLast">pollLast</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L150">src/data-structures/linked-list/doubly-linked-list.ts:150</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="pop" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>pop</span><a href="#pop" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
-<li class="tsd-signature tsd-anchor-link" id="pop.pop-1"><span class="tsd-kind-call-signature">pop</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><a href="#pop.pop-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="pop.pop-1"><span class="tsd-kind-call-signature">pop</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><a href="#pop.pop-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <code>pop()</code> function removes and returns the value of the last node in a doubly linked list.</p>
 </div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span></h4><p>The method is returning the value of the removed node (removedNode.val) if the list is not empty. If the
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span></h4><p>The method is returning the value of the removed node (removedNode.val) if the list is not empty. If the
 list is empty, it returns null.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#pop">pop</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L123">src/data-structures/linked-list/doubly-linked-list.ts:123</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L131">src/data-structures/linked-list/doubly-linked-list.ts:131</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="push" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>push</span><a href="#push" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -657,7 +782,7 @@ list is empty, it returns null.</p>
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5>
+<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span></h5>
 <div class="tsd-comment tsd-typography"><p>The value to be added to the linked list.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
@@ -665,7 +790,7 @@ list is empty, it returns null.</p>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#push">push</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L105">src/data-structures/linked-list/doubly-linked-list.ts:105</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L105">src/data-structures/linked-list/doubly-linked-list.ts:105</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="reduce" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reduce</span><a href="#reduce" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -699,7 +824,7 @@ used to perform a specific operation on each element of the linked list.</p>
 <li>
 <h5><span class="tsd-kind-parameter">accumulator</span>: <span class="tsd-signature-type tsd-kind-type-parameter">U</span></h5></li>
 <li>
-<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5></li></ul></div>
+<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">U</span></h4></li></ul></li></ul></li>
 <li>
 <h5><span class="tsd-kind-parameter">initialValue</span>: <span class="tsd-signature-type tsd-kind-type-parameter">U</span></h5>
@@ -713,7 +838,7 @@ elements in the linked list.</p>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#reduce">reduce</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L485">src/data-structures/linked-list/doubly-linked-list.ts:485</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L548">src/data-structures/linked-list/doubly-linked-list.ts:548</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="reverse" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>reverse</span><a href="#reverse" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -725,47 +850,47 @@ elements in the linked list.</p>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#reverse">reverse</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L412">src/data-structures/linked-list/doubly-linked-list.ts:412</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L475">src/data-structures/linked-list/doubly-linked-list.ts:475</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="shift" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>shift</span><a href="#shift" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
-<li class="tsd-signature tsd-anchor-link" id="shift.shift-1"><span class="tsd-kind-call-signature">shift</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><a href="#shift.shift-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="shift.shift-1"><span class="tsd-kind-call-signature">shift</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><a href="#shift.shift-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <code>shift()</code> function removes and returns the value of the first node in a doubly linked list.</p>
 </div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span></h4><p>The method <code>shift()</code> returns the value of the node that is removed from the beginning of the doubly linked
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span></h4><p>The method <code>shift()</code> returns the value of the node that is removed from the beginning of the doubly linked
 list.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#shift">shift</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L142">src/data-structures/linked-list/doubly-linked-list.ts:142</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L159">src/data-structures/linked-list/doubly-linked-list.ts:159</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="toArray" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>to<wbr/>Array</span><a href="#toArray" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
-<li class="tsd-signature tsd-anchor-link" id="toArray.toArray-1"><span class="tsd-kind-call-signature">to<wbr/>Array</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span><a href="#toArray.toArray-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="toArray.toArray-1"><span class="tsd-kind-call-signature">to<wbr/>Array</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">[]</span><a href="#toArray.toArray-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <code>toArray</code> function converts a linked list into an array.</p>
 </div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span></h4><p>The <code>toArray()</code> method is returning an array of type <code>T[]</code>.</p>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">[]</span></h4><p>The <code>toArray()</code> method is returning an array of type <code>E[]</code>.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#toArray">toArray</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L319">src/data-structures/linked-list/doubly-linked-list.ts:319</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L374">src/data-structures/linked-list/doubly-linked-list.ts:374</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="toArrayReverse" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>to<wbr/>Array<wbr/>Reverse</span><a href="#toArrayReverse" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
-<li class="tsd-signature tsd-anchor-link" id="toArrayReverse.toArrayReverse-1"><span class="tsd-kind-call-signature">to<wbr/>Array<wbr/>Reverse</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span><a href="#toArrayReverse.toArrayReverse-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="toArrayReverse.toArrayReverse-1"><span class="tsd-kind-call-signature">to<wbr/>Array<wbr/>Reverse</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">[]</span><a href="#toArrayReverse.toArrayReverse-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <code>toArrayReverse</code> function converts a doubly linked list into an array in reverse order.</p>
 </div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span></h4><p>The <code>toArrayReverse()</code> function returns an array of type <code>T[]</code>.</p>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">[]</span></h4><p>The <code>toArrayReverse()</code> function returns an array of type <code>E[]</code>.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#toArrayReverse">toArrayReverse</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L399">src/data-structures/linked-list/doubly-linked-list.ts:399</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L462">src/data-structures/linked-list/doubly-linked-list.ts:462</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="unshift" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>unshift</span><a href="#unshift" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
@@ -777,7 +902,7 @@ list.</p>
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5>
+<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span></h5>
 <div class="tsd-comment tsd-typography"><p>The <code>val</code> parameter represents the value of the new node that will be added to the beginning of the
 doubly linked list.</p>
 </div>
@@ -786,11 +911,11 @@ doubly linked list.</p>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#unshift">unshift</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L161">src/data-structures/linked-list/doubly-linked-list.ts:161</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L187">src/data-structures/linked-list/doubly-linked-list.ts:187</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-is-inherited"><a id="fromArray" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>from<wbr/>Array</span><a href="#fromArray" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-is-inherited">
-<li class="tsd-signature tsd-anchor-link" id="fromArray.fromArray-1"><span class="tsd-kind-call-signature">from<wbr/>Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">data</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="DoublyLinkedList.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedList</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><a href="#fromArray.fromArray-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="fromArray.fromArray-1"><span class="tsd-kind-call-signature">from<wbr/>Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">data</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="DoublyLinkedList.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedList</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span><a href="#fromArray.fromArray-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <code>fromArray</code> function creates a new instance of a DoublyLinkedList and populates it with the elements from the
 given array.</p>
@@ -799,21 +924,21 @@ given array.</p>
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
 <li>
-<h4><span class="tsd-kind-type-parameter">T</span></h4></li></ul></section>
+<h4><span class="tsd-kind-type-parameter">E</span></h4></li></ul></section>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">data</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">[]</span></h5>
-<div class="tsd-comment tsd-typography"><p>The <code>data</code> parameter is an array of elements of type <code>T</code>.</p>
+<h5><span class="tsd-kind-parameter">data</span>: <span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">[]</span></h5>
+<div class="tsd-comment tsd-typography"><p>The <code>data</code> parameter is an array of elements of type <code>E</code>.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="DoublyLinkedList.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedList</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4><p>The <code>fromArray</code> function returns a DoublyLinkedList object.</p>
+<h4 class="tsd-returns-title">Returns <a href="DoublyLinkedList.html" class="tsd-signature-type tsd-kind-class">DoublyLinkedList</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">E</span><span class="tsd-signature-symbol">&gt;</span></h4><p>The <code>fromArray</code> function returns a DoublyLinkedList object.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <p>Inherited from <a href="DoublyLinkedList.html">DoublyLinkedList</a>.<a href="DoublyLinkedList.html#fromArray">fromArray</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/96621c7/src/data-structures/linked-list/doubly-linked-list.ts#L93">src/data-structures/linked-list/doubly-linked-list.ts:93</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/b116ac0/src/data-structures/linked-list/doubly-linked-list.ts#L93">src/data-structures/linked-list/doubly-linked-list.ts:93</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -836,7 +961,10 @@ given array.</p>
 <li><a href="#constructor" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-512"></use></svg><span>constructor</span></a></li>
 <li><a href="#head" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>head</span></a></li>
 <li><a href="#length" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>length</span></a></li>
+<li><a href="#size" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>size</span></a></li>
 <li><a href="#tail" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>tail</span></a></li>
+<li><a href="#addFirst" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>add<wbr/>First</span></a></li>
+<li><a href="#addLast" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>add<wbr/>Last</span></a></li>
 <li><a href="#clear" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>clear</span></a></li>
 <li><a href="#delete" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>delete</span></a></li>
 <li><a href="#deleteAt" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>delete<wbr/>At</span></a></li>
@@ -851,7 +979,12 @@ given array.</p>
 <li><a href="#insertAfter" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>insert<wbr/>After</span></a></li>
 <li><a href="#insertAt" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>insert<wbr/>At</span></a></li>
 <li><a href="#insertBefore" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>insert<wbr/>Before</span></a></li>
+<li><a href="#isEmpty" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Empty</span></a></li>
 <li><a href="#map" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>map</span></a></li>
+<li><a href="#peekFirst" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>peek<wbr/>First</span></a></li>
+<li><a href="#peekLast" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>peek<wbr/>Last</span></a></li>
+<li><a href="#pollFirst" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>poll<wbr/>First</span></a></li>
+<li><a href="#pollLast" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>poll<wbr/>Last</span></a></li>
 <li><a href="#pop" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>pop</span></a></li>
 <li><a href="#push" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>push</span></a></li>
 <li><a href="#reduce" class="tsd-is-inherited"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>reduce</span></a></li>

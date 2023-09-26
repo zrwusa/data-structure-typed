@@ -2,7 +2,6 @@ import {AVLTree} from '../../../../src';
 
 describe('AVL Tree Test', () => {
   it('should perform various operations on a AVL Tree', () => {
-
     const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
     const tree = new AVLTree();
 
@@ -15,7 +14,6 @@ describe('AVL Tree Test', () => {
 
     const getNodeById = tree.get(10, 'id');
     expect(getNodeById?.id).toBe(10);
-
 
     const getMinNodeByRoot = tree.getLeftMost();
     expect(getMinNodeByRoot?.id).toBe(1);
@@ -30,7 +28,6 @@ describe('AVL Tree Test', () => {
     const lesserSum = tree.lesserSum(10);
     expect(lesserSum).toBe(45);
 
-
     // node15 has type problem. After the uniform design, the generics of containers (DirectedGraph, BST) are based on the type of value. However, this design has a drawback: when I attempt to inherit from the Vertex or BSTNode classes, the types of the results obtained by all methods are those of the parent class.
     expect(node15?.val).toBe(15);
 
@@ -44,56 +41,56 @@ describe('AVL Tree Test', () => {
     expect(bfs[0].id).toBe(8);
     expect(bfs[bfs.length - 1].id).toBe(16);
 
-    expect(tree.remove(11, true)[0].deleted?.id).toBe(11);
+    expect(tree.remove(11)[0].deleted?.id).toBe(11);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(node15 && tree.getHeight(node15)).toBe(2);
 
-    expect(tree.remove(1, true)[0].deleted?.id).toBe(1);
+    expect(tree.remove(1)[0].deleted?.id).toBe(1);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(tree.getHeight()).toBe(4);
 
-    expect(tree.remove(4, true)[0].deleted?.id).toBe(4);
+    expect(tree.remove(4)[0].deleted?.id).toBe(4);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(tree.getHeight()).toBe(4);
 
-    expect(tree.remove(10, true)[0].deleted?.id).toBe(10);
+    expect(tree.remove(10)[0].deleted?.id).toBe(10);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(tree.getHeight()).toBe(3);
 
-    expect(tree.remove(15, true)[0].deleted?.id).toBe(15);
+    expect(tree.remove(15)[0].deleted?.id).toBe(15);
     expect(tree.isAVLBalanced()).toBe(true);
 
     expect(tree.getHeight()).toBe(3);
 
-    expect(tree.remove(5, true)[0].deleted?.id).toBe(5);
+    expect(tree.remove(5)[0].deleted?.id).toBe(5);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(tree.getHeight()).toBe(3);
 
-    expect(tree.remove(13, true)[0].deleted?.id).toBe(13);
+    expect(tree.remove(13)[0].deleted?.id).toBe(13);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(tree.getHeight()).toBe(3);
 
-    expect(tree.remove(3, true)[0].deleted?.id).toBe(3);
+    expect(tree.remove(3)[0].deleted?.id).toBe(3);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(tree.getHeight()).toBe(3);
 
-    expect(tree.remove(8, true)[0].deleted?.id).toBe(8);
+    expect(tree.remove(8)[0].deleted?.id).toBe(8);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(tree.getHeight()).toBe(3);
 
-    expect(tree.remove(6, true)[0].deleted?.id).toBe(6);
-    expect(tree.remove(6, true).length).toBe(0);
+    expect(tree.remove(6)[0].deleted?.id).toBe(6);
+    expect(tree.remove(6).length).toBe(0);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(tree.getHeight()).toBe(2);
 
-    expect(tree.remove(7, true)[0].deleted?.id).toBe(7);
+    expect(tree.remove(7)[0].deleted?.id).toBe(7);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(tree.getHeight()).toBe(2);
 
-    expect(tree.remove(9, true)[0].deleted?.id).toBe(9);
+    expect(tree.remove(9)[0].deleted?.id).toBe(9);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(tree.getHeight()).toBe(2);
-    expect(tree.remove(14, true)[0].deleted?.id).toBe(14);
+    expect(tree.remove(14)[0].deleted?.id).toBe(14);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(tree.getHeight()).toBe(1);
 

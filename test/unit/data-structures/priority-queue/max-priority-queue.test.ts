@@ -2,7 +2,6 @@ import {MaxPriorityQueue} from '../../../../src';
 import {bigO, magnitude} from '../../../utils';
 
 describe('MaxPriorityQueue Operation Test', () => {
-
   it('should add elements and maintain heap property', () => {
     const priorityQueue = new MaxPriorityQueue<number>();
 
@@ -18,7 +17,7 @@ describe('MaxPriorityQueue Operation Test', () => {
   });
 
   it('should add elements and maintain heap property in a object MaxPriorityQueue', () => {
-    const priorityQueue = new MaxPriorityQueue<{ keyA: number }>({
+    const priorityQueue = new MaxPriorityQueue<{keyA: number}>({
       nodes: [{keyA: 5}, {keyA: 3}, {keyA: 1}],
       comparator: (a, b) => b.keyA - a.keyA
     });
@@ -67,20 +66,20 @@ describe('MaxPriorityQueue Operation Test', () => {
 
   it('should correctly heapify an object array', () => {
     const nodes = [{keyA: 5}, {keyA: 3}, {keyA: 7}, {keyA: 1}];
-    const maxPQ = MaxPriorityQueue.heapify<{ keyA: number }>({nodes, comparator: (a, b) => b.keyA - a.keyA});
+    const maxPQ = MaxPriorityQueue.heapify<{keyA: number}>({nodes, comparator: (a, b) => b.keyA - a.keyA});
 
     expect(maxPQ.poll()?.keyA).toBe(7);
     expect(maxPQ.poll()?.keyA).toBe(5);
     expect(maxPQ.poll()?.keyA).toBe(3);
     expect(maxPQ.poll()?.keyA).toBe(1);
   });
-
 });
 
 describe('MaxPriorityQueue Performance Test', () => {
-
   it('should the poll method adheres to a time complexity of O(log n) and executed correctly under large scale distinct data', () => {
-    const nodes = Array.from(new Set<number>(Array.from(new Array(magnitude.LINEAR), () => Math.floor(Math.random() * magnitude.LINEAR * 100))));
+    const nodes = Array.from(
+      new Set<number>(Array.from(new Array(magnitude.LINEAR), () => Math.floor(Math.random() * magnitude.LINEAR * 100)))
+    );
     expect(nodes.length).toBeGreaterThan(magnitude.LINEAR / 2);
     const maxPQ = new MaxPriorityQueue<number>({nodes});
 
@@ -94,7 +93,6 @@ describe('MaxPriorityQueue Performance Test', () => {
     }
     expect(performance.now() - startTime).toBeLessThan(bigO.LINEAR * 50);
     expect(prev).toBeGreaterThan(0);
-
   });
 
   it('should sorted.length to be the same as original data', () => {

@@ -5,13 +5,13 @@ describe('MapGraph Operation Test', () => {
     const mapGraph = new MapGraph([5.500338, 100.173665]);
 
     mapGraph.addVertex(new MapVertex('Surin', 5.466724, 100.274805));
-    mapGraph.addVertex(new MapVertex('Batu Feringgi Beach', 5.475141, 100.276670));
+    mapGraph.addVertex(new MapVertex('Batu Feringgi Beach', 5.475141, 100.27667));
     mapGraph.addVertex(new MapVertex('Lotus', 5.459044, 100.308767));
     mapGraph.addVertex(new MapVertex('The Breeza', 5.454197, 100.307859));
-    mapGraph.addVertex(new MapVertex('Hard Rock Hotel', 5.467850, 100.241876));
-    mapGraph.addVertex(new MapVertex('Mira', 5.456749, 100.286650));
+    mapGraph.addVertex(new MapVertex('Hard Rock Hotel', 5.46785, 100.241876));
+    mapGraph.addVertex(new MapVertex('Mira', 5.456749, 100.28665));
     mapGraph.addVertex(new MapVertex('Penang Bible Church', 5.428683, 100.314825));
-    mapGraph.addVertex(new MapVertex('Queensbay', 5.332760, 100.306651));
+    mapGraph.addVertex(new MapVertex('Queensbay', 5.33276, 100.306651));
     mapGraph.addVertex(new MapVertex('Saanen Goat Farm', 5.405738, 100.207699));
     mapGraph.addVertex(new MapVertex('Trinity Auto', 5.401126, 100.303739));
     mapGraph.addVertex(new MapVertex('Penang Airport', 5.293185, 100.265772));
@@ -42,5 +42,4 @@ describe('MapGraph Operation Test', () => {
     expect(surinToSaanenGoatFarmViaDij?.minPath.map(v => v.id)).toEqual(expected2);
     expect(surinToSaanenGoatFarmViaDij?.minDist).toBe(25.2);
   });
-
 });

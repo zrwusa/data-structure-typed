@@ -3,7 +3,7 @@ import {Character, NavigatorParams, Turning, Navigator} from '../../../../src';
 const exampleMatrix: number[][] = [
   [0, 0, 0, 0],
   [0, 1, 1, 0],
-  [0, 0, 0, 0],
+  [0, 0, 0, 0]
 ];
 
 // Create a sample redirect object
@@ -11,7 +11,7 @@ const exampleTurning: Turning = {
   up: 'right',
   right: 'down',
   down: 'left',
-  left: 'up',
+  left: 'up'
 };
 
 // Create a sample move callback function
@@ -24,7 +24,7 @@ const exampleOnMove = () => {
 const exampleInit: NavigatorParams<number>['init'] = {
   cur: [0, 0],
   charDir: 'right',
-  VISITED: -1,
+  VISITED: -1
 };
 
 // Create a Navigator Params object
@@ -32,7 +32,7 @@ const exampleNavigatorParams: NavigatorParams<number> = {
   matrix: exampleMatrix,
   turning: exampleTurning,
   onMove: exampleOnMove,
-  init: exampleInit,
+  init: exampleInit
 };
 
 describe('Character class', () => {
@@ -76,5 +76,4 @@ describe('Navigator class', () => {
     expect(navigator.check('down')).toBe(true); // Blocked by wall
     expect(navigator.check('left')).toBe(false); // Open path
   });
-
 });
