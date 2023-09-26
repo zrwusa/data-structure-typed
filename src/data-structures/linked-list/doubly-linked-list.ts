@@ -116,6 +116,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * The addLast function adds a new node with the given value to the end of the doubly linked list.
+   * @param {E} val - The value to be added to the linked list.
+   */
+  addLast(val: E): void {
+    this.push(val);
+  }
+
+  /**
    * The `pop()` function removes and returns the value of the last node in a doubly linked list.
    * @returns The method is returning the value of the removed node (removedNode.val) if the list is not empty. If the
    * list is empty, it returns null.
@@ -132,6 +140,15 @@ export class DoublyLinkedList<E = any> {
     }
     this._length--;
     return removedNode.val;
+  }
+
+  /**
+   * The `pollLast()` function removes and returns the value of the last node in a doubly linked list.
+   * @returns The method is returning the value of the removed node (removedNode.val) if the list is not empty. If the
+   * list is empty, it returns null.
+   */
+  pollLast(): E | undefined {
+    return this.pop();
   }
 
   /**
@@ -154,6 +171,15 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * The `pollFirst()` function removes and returns the value of the first node in a doubly linked list.
+   * @returns The method `shift()` returns the value of the node that is removed from the beginning of the doubly linked
+   * list.
+   */
+  pollFirst(): E | undefined {
+    return this.shift();
+  }
+
+  /**
    * The unshift function adds a new node with the given value to the beginning of a doubly linked list.
    * @param {E} val - The `val` parameter represents the value of the new node that will be added to the beginning of the
    * doubly linked list.
@@ -169,6 +195,35 @@ export class DoublyLinkedList<E = any> {
       this.head = newNode;
     }
     this._length++;
+  }
+
+  /**
+   * The addFirst function adds a new node with the given value to the beginning of a doubly linked list.
+   * @param {E} val - The `val` parameter represents the value of the new node that will be added to the beginning of the
+   * doubly linked list.
+   */
+  addFirst(val: E): void {
+    this.unshift(val);
+  }
+
+  /**
+   * The `peekFirst` function returns the first node in a doubly linked list, or null if the list is empty.
+   * @returns The method `peekFirst()` returns the first node of the doubly linked list, or `null` if the list is empty.
+   */
+  peekFirst(): E | undefined {
+    return this.head?.val;
+  }
+
+  /**
+   * The `peekLast` function returns the last node in a doubly linked list, or null if the list is empty.
+   * @returns The method `peekLast()` returns the last node of the doubly linked list, or `null` if the list is empty.
+   */
+  peekLast(): E | undefined {
+    return this.tail?.val;
+  }
+
+  get size(): number {
+    return this.length;
   }
 
   /**
@@ -324,6 +379,14 @@ export class DoublyLinkedList<E = any> {
       current = current.next;
     }
     return array;
+  }
+
+  /**
+   * The function checks if a variable has a length greater than zero and returns a boolean value.
+   * @returns A boolean value is being returned.
+   */
+  isEmpty(): boolean {
+    return this.length === 0;
   }
 
   /**

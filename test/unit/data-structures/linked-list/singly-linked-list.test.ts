@@ -399,3 +399,56 @@ describe('SinglyLinkedList Performance Test', () => {
     expect(performance.now() - startPopTime).toBeLessThan(bigO.LINEAR * 300);
   });
 });
+describe('SinglyLinkedList', () => {
+  let list: SinglyLinkedList<number>;
+
+  beforeEach(() => {
+    list = new SinglyLinkedList<number>();
+  });
+
+  it('should initialize an empty list', () => {
+    expect(list.head).toBeNull();
+    expect(list.tail).toBeNull();
+    expect(list.length).toBe(0);
+  });
+
+  it('should push elements to the end of the list', () => {
+    list.push(1);
+    list.push(2);
+    expect(list.head!.val).toBe(1);
+    expect(list.tail!.val).toBe(2);
+    expect(list.length).toBe(2);
+  });
+
+  it('should pop elements from the end of the list', () => {
+    list.push(1);
+    list.push(2);
+    const popped = list.pop();
+    expect(popped).toBe(2);
+    expect(list.head!.val).toBe(1);
+    expect(list.tail!.val).toBe(1);
+    expect(list.length).toBe(1);
+  });
+
+  // Add more test cases for other methods like shift, unshift, getAt, deleteAt, and more.
+
+  it('should reverse the list', () => {
+    list.push(1);
+    list.push(2);
+    list.push(3);
+    list.reverse();
+    expect(list.head!.val).toBe(3);
+    expect(list.tail!.val).toBe(1);
+    // Add more assertions for reversed order.
+  });
+
+  // Add more test cases for other methods like find, indexOf, and more.
+
+  it('should convert the list to an array', () => {
+    list.push(1);
+    list.push(2);
+    list.push(3);
+    const array = list.toArray();
+    expect(array).toEqual([1, 2, 3]);
+  });
+});

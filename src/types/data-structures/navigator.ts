@@ -1,7 +1,7 @@
 export type Direction = 'up' | 'right' | 'down' | 'left';
 export type Turning = {[key in Direction]: Direction};
 
-export type NavigatorParams<T> = {
+export type NavigatorParams<T = any> = {
   matrix: T[][];
   turning: Turning;
   onMove: (cur: [number, number]) => void;

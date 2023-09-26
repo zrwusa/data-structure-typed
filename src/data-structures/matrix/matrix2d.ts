@@ -64,7 +64,7 @@ export class Matrix2D {
    * @returns A new instance of the Vector2D class is being returned. The values of the returned vector are taken from
    * the first column of the matrix.
    */
-  get toVector(): Vector2D {
+  toVector(): Vector2D {
     return new Vector2D(this._matrix[0][0], this._matrix[1][0]);
   }
 
@@ -144,7 +144,8 @@ export class Matrix2D {
    * @returns a Vector2D.
    */
   static multiplyByVector(matrix: Matrix2D, vector: Vector2D): Vector2D {
-    return Matrix2D.multiply(matrix, new Matrix2D(vector)).toVector;
+    const resultMatrix = Matrix2D.multiply(matrix, new Matrix2D(vector));
+    return resultMatrix.toVector();
   }
 
   /**
