@@ -1,6 +1,14 @@
-.editorconfig
-.dependency-cruiser.js
+.auto-changelog
 .auto-changelog-template.hbs
+.dependency-cruiser.js
+.editorconfig
+.gitattributes
+.gitignore
+.prettierignore
+
+package-lock.json
+webpack.config.js
+
 rename_clear_files.sh
 tsconfig.build.json
 

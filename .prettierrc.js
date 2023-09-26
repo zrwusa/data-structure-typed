@@ -1,4 +1,4 @@
-{
+module.exports = {
   "arrowParens": "avoid",
   "bracketSpacing": false,
   "htmlWhitespaceSensitivity": "css",
