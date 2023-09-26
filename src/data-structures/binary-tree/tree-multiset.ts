@@ -10,21 +10,21 @@ import {BinaryTreeDeletedResult, CP, DFSOrderPattern, FamilyPosition, LoopType} 
 import {ITreeMultiset, ITreeMultisetNode} from '../../interfaces';
 import {AVLTree, AVLTreeNode} from './avl-tree';
 
-export class TreeMultisetNode<T = any, NEIGHBOR extends TreeMultisetNode<T, NEIGHBOR> = TreeMultisetNodeNested<T>>
-  extends AVLTreeNode<T, NEIGHBOR>
-  implements ITreeMultisetNode<T, NEIGHBOR>
+export class TreeMultisetNode<V = any, NEIGHBOR extends TreeMultisetNode<V, NEIGHBOR> = TreeMultisetNodeNested<V>>
+  extends AVLTreeNode<V, NEIGHBOR>
+  implements ITreeMultisetNode<V, NEIGHBOR>
 {
   /**
    * The constructor function initializes a BinaryTreeNode object with an id, value, and count.
    * @param {BinaryTreeNodeId} id - The `id` parameter is of type `BinaryTreeNodeId` and represents the unique identifier
    * of the binary tree node.
-   * @param {T} [val] - The `val` parameter is an optional parameter of type `T`. It represents the value of the binary
+   * @param {V} [val] - The `val` parameter is an optional parameter of type `V`. It represents the value of the binary
    * tree node. If no value is provided, it will be `undefined`.
    * @param {number} [count=1] - The `count` parameter is a number that represents the number of times a particular value
    * occurs in a binary tree node. It has a default value of 1, which means that if no value is provided for the `count`
    * parameter when creating a new instance of the `BinaryTreeNode` class,
    */
-  constructor(id: BinaryTreeNodeId, val?: T, count = 1) {
+  constructor(id: BinaryTreeNodeId, val?: V, count = 1) {
     super(id, val);
     this._count = count;
   }

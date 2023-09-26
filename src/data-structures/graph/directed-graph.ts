@@ -10,20 +10,20 @@ import {AbstractEdge, AbstractGraph, AbstractVertex} from './abstract-graph';
 import type {TopologicalStatus, VertexId} from '../../types';
 import {IDirectedGraph} from '../../interfaces';
 
-export class DirectedVertex<T = number> extends AbstractVertex<T> {
+export class DirectedVertex<V = any> extends AbstractVertex<V> {
   /**
    * The constructor function initializes a vertex with an optional value.
    * @param {VertexId} id - The `id` parameter is of type `VertexId` and represents the identifier of the vertex. It is
    * used to uniquely identify the vertex within a graph or data structure.
-   * @param {T} [val] - The "val" parameter is an optional parameter of type T. It is used to initialize the value of the
+   * @param {V} [val] - The "val" parameter is an optional parameter of type V. It is used to initialize the value of the
    * vertex. If no value is provided, the vertex will be initialized with a default value.
    */
-  constructor(id: VertexId, val?: T) {
+  constructor(id: VertexId, val?: V) {
     super(id, val);
   }
 }
 
-export class DirectedEdge<T = number> extends AbstractEdge<T> {
+export class DirectedEdge<V = any> extends AbstractEdge<V> {
   /**
    * The constructor function initializes the source and destination vertices of an edge, along with an optional weight
    * and value.
@@ -32,10 +32,10 @@ export class DirectedEdge<T = number> extends AbstractEdge<T> {
    * @param {VertexId} dest - The `dest` parameter represents the destination vertex of an edge. It is of type
    * `VertexId`, which is likely a unique identifier for a vertex in a graph.
    * @param {number} [weight] - The weight parameter is an optional number that represents the weight of the edge.
-   * @param {T} [val] - The `val` parameter is an optional parameter of type `T`. It represents the value associated with
+   * @param {V} [val] - The `val` parameter is an optional parameter of type `V`. It represents the value associated with
    * the edge.
    */
-  constructor(src: VertexId, dest: VertexId, weight?: number, val?: T) {
+  constructor(src: VertexId, dest: VertexId, weight?: number, val?: V) {
     super(weight, val);
     this._src = src;
     this._dest = dest;

@@ -10,11 +10,11 @@ import {CP, LoopType} from '../../types';
 import {BinaryTree, BinaryTreeNode} from './binary-tree';
 import {IBST, IBSTNode} from '../../interfaces';
 
-export class BSTNode<T = any, NEIGHBOR extends BSTNode<T, NEIGHBOR> = BSTNodeNested<T>>
-  extends BinaryTreeNode<T, NEIGHBOR>
-  implements IBSTNode<T, NEIGHBOR>
+export class BSTNode<V = any, NEIGHBOR extends BSTNode<V, NEIGHBOR> = BSTNodeNested<V>>
+  extends BinaryTreeNode<V, NEIGHBOR>
+  implements IBSTNode<V, NEIGHBOR>
 {
-  constructor(id: BinaryTreeNodeId, val?: T) {
+  constructor(id: BinaryTreeNodeId, val?: V) {
     super(id, val);
   }
 }

@@ -2,13 +2,13 @@ import {BinaryTreeNodeId, RBColor, RBTreeNodeNested, RBTreeOptions} from '../../
 import {IRBTree, IRBTreeNode} from '../../interfaces';
 import {BST, BSTNode} from './bst';
 
-export class RBTreeNode<T = any, NEIGHBOR extends RBTreeNode<T, NEIGHBOR> = RBTreeNodeNested<T>>
-  extends BSTNode<T, NEIGHBOR>
-  implements IRBTreeNode<T, NEIGHBOR>
+export class RBTreeNode<V = any, NEIGHBOR extends RBTreeNode<V, NEIGHBOR> = RBTreeNodeNested<V>>
+  extends BSTNode<V, NEIGHBOR>
+  implements IRBTreeNode<V, NEIGHBOR>
 {
   private _color: RBColor;
 
-  constructor(id: BinaryTreeNodeId, val?: T) {
+  constructor(id: BinaryTreeNodeId, val?: V) {
     super(id, val);
     this._color = RBColor.RED;
   }

@@ -10,20 +10,20 @@ import {AbstractEdge, AbstractGraph, AbstractVertex} from './abstract-graph';
 import type {VertexId} from '../../types';
 import {IUNDirectedGraph} from '../../interfaces';
 
-export class UndirectedVertex<T = number> extends AbstractVertex<T> {
+export class UndirectedVertex<V = any> extends AbstractVertex<V> {
   /**
    * The constructor function initializes a vertex with an optional value.
    * @param {VertexId} id - The `id` parameter is of type `VertexId` and represents the identifier of the vertex. It is
    * used to uniquely identify the vertex within a graph or network.
-   * @param {T} [val] - The "val" parameter is an optional parameter of type T. It is used to initialize the value of the
+   * @param {V} [val] - The "val" parameter is an optional parameter of type V. It is used to initialize the value of the
    * vertex. If no value is provided, the vertex will be initialized with a default value.
    */
-  constructor(id: VertexId, val?: T) {
+  constructor(id: VertexId, val?: V) {
     super(id, val);
   }
 }
 
-export class UndirectedEdge<T = number> extends AbstractEdge<T> {
+export class UndirectedEdge<V = number> extends AbstractEdge<V> {
   /**
    * The constructor function creates an instance of a class with two vertex IDs, an optional weight, and an optional
    * value.
@@ -31,10 +31,10 @@ export class UndirectedEdge<T = number> extends AbstractEdge<T> {
    * @param {VertexId} v2 - The parameter `v2` is a `VertexId`, which represents the identifier of the second vertex in a
    * graph edge.
    * @param {number} [weight] - The weight parameter is an optional number that represents the weight of the edge.
-   * @param {T} [val] - The "val" parameter is an optional parameter of type T. It is used to store a value associated
+   * @param {V} [val] - The "val" parameter is an optional parameter of type V. It is used to store a value associated
    * with the edge.
    */
-  constructor(v1: VertexId, v2: VertexId, weight?: number, val?: T) {
+  constructor(v1: VertexId, v2: VertexId, weight?: number, val?: V) {
     super(weight, val);
     this._vertices = [v1, v2];
   }

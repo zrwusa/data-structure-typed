@@ -8,15 +8,15 @@
 import {PriorityQueue} from '../priority-queue';
 import type {HeapOptions} from '../../types';
 
-export class HeapItem<T = number> {
+export class HeapItem<V = any> {
   /**
    * The constructor function initializes an instance of a class with a priority and a value.
    * @param {number} priority - The `priority` parameter is a number that represents the priority of the value. It is
    * optional and has a default value of `NaN`.
-   * @param {T | null} [val=null] - The `val` parameter is of type `T | null`, which means it can accept a value of type
-   * `T` or `null`.
+   * @param {V | null} [val=null] - The `val` parameter is of type `V | null`, which means it can accept a value of type
+   * `V` or `null`.
    */
-  constructor(priority: number = Number.MAX_SAFE_INTEGER, val: T | null = null) {
+  constructor(priority: number = Number.MAX_SAFE_INTEGER, val: V | null = null) {
     this._val = val;
     this._priority = priority;
   }
@@ -31,24 +31,24 @@ export class HeapItem<T = number> {
     this._priority = value;
   }
 
-  private _val: T | null;
+  private _val: V | null;
 
-  get val(): T | null {
+  get val(): V | null {
     return this._val;
   }
 
-  set val(value: T | null) {
+  set val(value: V | null) {
     this._val = value;
   }
 }
 
-export abstract class Heap<T = number> {
+export abstract class Heap<V = number> {
   /**
    * The function is a constructor for a class that initializes a priority callback function based on the
    * options provided.
    * @param [options] - An optional object that contains configuration options for the Heap.
    */
-  protected constructor(options?: HeapOptions<T>) {
+  protected constructor(options?: HeapOptions<V>) {
     if (options) {
       const {priorityExtractor} = options;
       if (priorityExtractor !== undefined && typeof priorityExtractor !== 'function') {
@@ -60,13 +60,13 @@ export abstract class Heap<T = number> {
     }
   }
 
-  protected abstract _pq: PriorityQueue<HeapItem<T>>;
+  protected abstract _pq: PriorityQueue<HeapItem<V>>;
 
   get pq() {
     return this._pq;
   }
 
-  protected _priorityExtractor: (val: T) => number;
+  protected _priorityExtractor: (val: V) => number;
   get priorityExtractor() {
     return this._priorityExtractor;
   }
@@ -87,30 +87,30 @@ export abstract class Heap<T = number> {
     return this._pq.size < 1;
   }
 
-  peek(isItem?: undefined): T | undefined;
-  peek(isItem: false): T | undefined;
-  peek(isItem: true): HeapItem<T> | null;
+  peek(isItem?: undefined): V | undefined;
+  peek(isItem: false): V | undefined;
+  peek(isItem: true): HeapItem<V> | null;
 
   /**
    * The `peek` function returns the top item in the priority queue without removing it.
-   * @returns The `peek()` method is returning either a `HeapItem<T>` object or `null`.Returns an val with the highest priority in the queue
+   * @returns The `peek()` method is returning either a `HeapItem<V>` object or `null`.Returns an val with the highest priority in the queue
    */
-  peek(isItem?: boolean): HeapItem<T> | null | T | undefined {
+  peek(isItem?: boolean): HeapItem<V> | null | V | undefined {
     isItem = isItem ?? false;
     const peeked = this._pq.peek();
 
     return isItem ? peeked : peeked?.val;
   }
 
-  peekLast(isItem?: undefined): T | undefined;
-  peekLast(isItem: false): T | undefined;
-  peekLast(isItem: true): HeapItem<T> | null;
+  peekLast(isItem?: undefined): V | undefined;
+  peekLast(isItem: false): V | undefined;
+  peekLast(isItem: true): HeapItem<V> | null;
 
   /**
    * The `peekLast` function returns the last item in the heap.
-   * @returns The method `peekLast()` returns either a `HeapItem<T>` object or `null`.Returns an val with the lowest priority in the queue
+   * @returns The method `peekLast()` returns either a `HeapItem<V>` object or `null`.Returns an val with the lowest priority in the queue
    */
-  peekLast(isItem?: boolean): HeapItem<T> | null | T | undefined {
+  peekLast(isItem?: boolean): HeapItem<V> | null | V | undefined {
     isItem = isItem ?? false;
     const leafItem = this._pq.leaf();
 
@@ -119,7 +119,7 @@ export abstract class Heap<T = number> {
 
   /**
    * The `add` function adds an val to a priority queue with an optional priority value.
-   * @param {T} val - The `val` parameter represents the value that you want to add to the heap. It can be of any
+   * @param {V} val - The `val` parameter represents the value that you want to add to the heap. It can be of any
    * type.
    * @param {number} [priority] - The `priority` parameter is an optional number that represents the priority of the
    * val being added to the heap. If the `val` parameter is a number, then the `priority` parameter is set to
@@ -127,22 +127,22 @@ export abstract class Heap<T = number> {
    * @returns The `add` method returns the instance of the `Heap` class.
    * @throws {Error} if priority is not a valid number
    */
-  add(priority: number, val?: T): Heap<T> {
-    val = val === undefined ? (priority as unknown as T) : val;
-    this._pq.add(new HeapItem<T>(priority, val));
+  add(priority: number, val?: V): Heap<V> {
+    val = val === undefined ? (priority as unknown as V) : val;
+    this._pq.add(new HeapItem<V>(priority, val));
 
     return this;
   }
 
-  poll(isItem?: undefined): T | undefined;
-  poll(isItem: false): T | undefined;
-  poll(isItem: true): HeapItem<T> | null;
+  poll(isItem?: undefined): V | undefined;
+  poll(isItem: false): V | undefined;
+  poll(isItem: true): HeapItem<V> | null;
 
   /**
    * The `poll` function returns the top item from a priority queue or null if the queue is empty.Removes and returns an val with the highest priority in the queue
-   * @returns either a HeapItem<T> object or null.
+   * @returns either a HeapItem<V> object or null.
    */
-  poll(isItem?: boolean): HeapItem<T> | null | T | undefined {
+  poll(isItem?: boolean): HeapItem<V> | null | V | undefined {
     isItem = isItem ?? false;
     const top = this._pq.poll();
     if (!top) {
@@ -154,10 +154,10 @@ export abstract class Heap<T = number> {
 
   /**
    * The function checks if a given node or value exists in the priority queue.
-   * @param {T | HeapItem<T>} node - The parameter `node` can be of type `T` or `HeapItem<T>`.
+   * @param {V | HeapItem<V>} node - The parameter `node` can be of type `V` or `HeapItem<V>`.
    * @returns a boolean value.
    */
-  has(node: T | HeapItem<T>): boolean {
+  has(node: V | HeapItem<V>): boolean {
     if (node instanceof HeapItem) {
       return this.pq.getNodes().includes(node);
     } else {
@@ -169,34 +169,34 @@ export abstract class Heap<T = number> {
     }
   }
 
-  toArray(isItem?: undefined): (T | undefined)[];
-  toArray(isItem: false): (T | undefined)[];
-  toArray(isItem: true): (HeapItem<T> | null)[];
+  toArray(isItem?: undefined): (V | undefined)[];
+  toArray(isItem: false): (V | undefined)[];
+  toArray(isItem: true): (HeapItem<V> | null)[];
 
   /**
-   * The `toArray` function returns an array of `HeapItem<T>` objects.
-   * @returns An array of HeapItem<T> objects.Returns a sorted list of vals
+   * The `toArray` function returns an array of `HeapItem<V>` objects.
+   * @returns An array of HeapItem<V> objects.Returns a sorted list of vals
    */
-  toArray(isItem?: boolean): (HeapItem<T> | null | T | undefined)[] {
+  toArray(isItem?: boolean): (HeapItem<V> | null | V | undefined)[] {
     isItem = isItem ?? false;
     const itemArray = this._pq.toArray();
 
     return isItem ? itemArray : itemArray.map(item => item.val);
   }
 
-  sort(isItem?: undefined): (T | undefined)[];
-  sort(isItem: false): (T | undefined)[];
-  sort(isItem: true): (HeapItem<T> | null)[];
+  sort(isItem?: undefined): (V | undefined)[];
+  sort(isItem: false): (V | undefined)[];
+  sort(isItem: true): (HeapItem<V> | null)[];
 
   /**
    * The function sorts the elements in the priority queue and returns either the sorted items or their values depending
    * on the value of the isItem parameter.
    * @param {boolean} [isItem] - The `isItem` parameter is a boolean flag that indicates whether the sorted result should
-   * be an array of `HeapItem<T>` objects or an array of the values (`T`) of those objects. If `isItem` is `true`, the
+   * be an array of `HeapItem<V>` objects or an array of the values (`V`) of those objects. If `isItem` is `true`, the
    * sorted result will be an array of `HeapItem
-   * @returns an array of either `HeapItem<T>`, `null`, `T`, or `undefined` values.
+   * @returns an array of either `HeapItem<V>`, `null`, `V`, or `undefined` values.
    */
-  sort(isItem?: boolean): (HeapItem<T> | null | T | undefined)[] {
+  sort(isItem?: boolean): (HeapItem<V> | null | V | undefined)[] {
     isItem = isItem ?? false;
     const sorted = this._pq.sort();
 

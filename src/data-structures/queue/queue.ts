@@ -5,12 +5,12 @@
  */
 import {SinglyLinkedList} from '../linked-list';
 
-export class LinkedListQueue<T = any> extends SinglyLinkedList<T> {
+export class LinkedListQueue<E = any> extends SinglyLinkedList<E> {
   /**
    * The enqueue function adds a value to the end of an array.
-   * @param {T} value - The value parameter represents the value that you want to add to the queue.
+   * @param {E} value - The value parameter represents the value that you want to add to the queue.
    */
-  enqueue(value: T) {
+  enqueue(value: E) {
     this.push(value);
   }
 
@@ -18,7 +18,7 @@ export class LinkedListQueue<T = any> extends SinglyLinkedList<T> {
    * The `dequeue` function removes and returns the first element from a queue, or returns null if the queue is empty.
    * @returns The method is returning the element at the front of the queue, or null if the queue is empty.
    */
-  dequeue(): T | undefined {
+  dequeue(): E | undefined {
     return this.shift();
   }
 
@@ -26,30 +26,30 @@ export class LinkedListQueue<T = any> extends SinglyLinkedList<T> {
    * The `peek` function returns the value of the head node in a linked list, or `undefined` if the list is empty.
    * @returns The `peek()` method is returning the value of the `head` node if it exists, otherwise it returns `undefined`.
    */
-  peek(): T | undefined {
+  peek(): E | undefined {
     return this.head?.val;
   }
 }
 
-export class Queue<T = any> {
+export class Queue<E = any> {
   /**
    * The constructor initializes an instance of a class with an optional array of elements and sets the offset to 0.
-   * @param {T[]} [elements] - The `elements` parameter is an optional array of elements of type `T`. If provided, it
+   * @param {E[]} [elements] - The `elements` parameter is an optional array of elements of type `E`. If provided, it
    * will be used to initialize the `_nodes` property of the class. If not provided, the `_nodes` property will be
    * initialized as an empty array.
    */
-  constructor(elements?: T[]) {
+  constructor(elements?: E[]) {
     this._nodes = elements || [];
     this._offset = 0;
   }
 
-  private _nodes: T[];
+  private _nodes: E[];
 
-  get nodes(): T[] {
+  get nodes(): E[] {
     return this._nodes;
   }
 
-  set nodes(value: T[]) {
+  set nodes(value: E[]) {
     this._nodes = value;
   }
 
@@ -75,20 +75,20 @@ export class Queue<T = any> {
    * The function "fromArray" creates a new Queue object from an array of elements.Creates a queue from an existing array.
    * @public
    * @static
-   * @param {T[]} elements - The "elements" parameter is an array of elements of type T.
+   * @param {E[]} elements - The "elements" parameter is an array of elements of type E.
    * @returns The method is returning a new instance of the Queue class, initialized with the elements from the input
    * array.
    */
-  static fromArray<T>(elements: T[]): Queue<T> {
+  static fromArray<E>(elements: E[]): Queue<E> {
     return new Queue(elements);
   }
 
   /**
    * The push function adds an element to the end of the queue and returns the updated queue.Adds an element at the back of the queue.
-   * @param {T} element - The `element` parameter represents the element that you want to add to the queue.
-   * @returns The `add` method is returning a `Queue<T>` object.
+   * @param {E} element - The `element` parameter represents the element that you want to add to the queue.
+   * @returns The `add` method is returning a `Queue<E>` object.
    */
-  push(element: T): Queue<T> {
+  push(element: E): Queue<E> {
     this.nodes.push(element);
     return this;
   }
@@ -98,7 +98,7 @@ export class Queue<T = any> {
    * necessary to optimize performance.
    * @returns The function `shift()` returns either the first element in the queue or `null` if the queue is empty.
    */
-  shift(): T | undefined {
+  shift(): E | undefined {
     if (this.size === 0) return undefined;
 
     const first = this.peek();
@@ -118,7 +118,7 @@ export class Queue<T = any> {
    * @returns The `peek()` method returns the first element of the data structure, represented by the `_nodes` array at
    * the `_offset` index. If the data structure is empty (size is 0), it returns `null`.
    */
-  peek(): T | undefined {
+  peek(): E | undefined {
     return this.size > 0 ? this.nodes[this.offset] : undefined;
   }
 
@@ -127,27 +127,27 @@ export class Queue<T = any> {
    * @returns The method `peekLast()` returns the last element of the `_nodes` array if the array is not empty. If the
    * array is empty, it returns `null`.
    */
-  peekLast(): T | undefined {
+  peekLast(): E | undefined {
     return this.size > 0 ? this.nodes[this.nodes.length - 1] : undefined;
   }
 
   /**
    * The enqueue function adds a value to the end of a queue.
-   * @param {T} value - The value parameter represents the value that you want to add to the queue.
+   * @param {E} value - The value parameter represents the value that you want to add to the queue.
    */
-  enqueue(value: T) {
+  enqueue(value: E) {
     this.push(value);
   }
 
   /**
    * The `dequeue` function removes and returns the first element from a queue, or returns null if the queue is empty.
-   * @returns The method is returning a value of type T or null.
+   * @returns The method is returning a value of type E or null.
    */
-  dequeue(): T | undefined {
+  dequeue(): E | undefined {
     return this.shift();
   }
 
-  getAt(index: number): T | undefined {
+  getAt(index: number): E | undefined {
     return this.nodes[index];
   }
 
@@ -161,9 +161,9 @@ export class Queue<T = any> {
 
   /**
    * The toArray() function returns an array of elements from the current offset to the end of the _nodes array.
-   * @returns An array of type T is being returned.
+   * @returns An array of type E is being returned.
    */
-  toArray(): T[] {
+  toArray(): E[] {
     return this.nodes.slice(this.offset);
   }
 
@@ -179,7 +179,7 @@ export class Queue<T = any> {
    * The `clone()` function returns a new Queue object with the same elements as the original Queue.
    * @returns The `clone()` method is returning a new instance of the `Queue` class.
    */
-  clone(): Queue<T> {
+  clone(): Queue<E> {
     return new Queue(this.nodes.slice(this.offset));
   }
 

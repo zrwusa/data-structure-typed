@@ -9,11 +9,11 @@ import {BST, BSTNode} from './bst';
 import type {AVLTreeNodeNested, AVLTreeOptions, BinaryTreeDeletedResult, BinaryTreeNodeId} from '../../types';
 import {IAVLTree, IAVLTreeNode} from '../../interfaces';
 
-export class AVLTreeNode<T = any, NEIGHBOR extends AVLTreeNode<T, NEIGHBOR> = AVLTreeNodeNested<T>>
-  extends BSTNode<T, NEIGHBOR>
-  implements IAVLTreeNode<T, NEIGHBOR>
+export class AVLTreeNode<V = any, NEIGHBOR extends AVLTreeNode<V, NEIGHBOR> = AVLTreeNodeNested<V>>
+  extends BSTNode<V, NEIGHBOR>
+  implements IAVLTreeNode<V, NEIGHBOR>
 {
-  constructor(id: BinaryTreeNodeId, val?: T) {
+  constructor(id: BinaryTreeNodeId, val?: V) {
     super(id, val);
   }
 }

@@ -10,15 +10,15 @@ import {PriorityQueue} from '../priority-queue';
 import type {DijkstraResult, VertexId} from '../../types';
 import {IAbstractGraph} from '../../interfaces';
 
-export abstract class AbstractVertex<T = any> {
+export abstract class AbstractVertex<V = any> {
   /**
    * The function is a protected constructor that takes an id and an optional value as parameters.
    * @param {VertexId} id - The `id` parameter is of type `VertexId` and represents the identifier of the vertex. It is
    * used to uniquely identify the vertex object.
-   * @param {T} [val] - The parameter "val" is an optional parameter of type T. It is used to assign a value to the
+   * @param {V} [val] - The parameter "val" is an optional parameter of type V. It is used to assign a value to the
    * vertex. If no value is provided, it will be set to undefined.
    */
-  protected constructor(id: VertexId, val?: T) {
+  protected constructor(id: VertexId, val?: V) {
     this._id = id;
     this._val = val;
   }
@@ -33,40 +33,40 @@ export abstract class AbstractVertex<T = any> {
     this._id = v;
   }
 
-  private _val: T | undefined;
+  private _val: V | undefined;
 
-  get val(): T | undefined {
+  get val(): V | undefined {
     return this._val;
   }
 
-  set val(value: T | undefined) {
+  set val(value: V | undefined) {
     this._val = value;
   }
 }
 
-export abstract class AbstractEdge<T = any> {
+export abstract class AbstractEdge<V = any> {
   /**
    * The above function is a protected constructor that initializes the weight, value, and hash code properties of an
    * object.
    * @param {number} [weight] - The `weight` parameter is an optional number that represents the weight of the object. If
    * a value is provided, it will be assigned to the `_weight` property. If no value is provided, the default value of 1
    * will be assigned.
-   * @param {T} [val] - The `val` parameter is of type `T`, which means it can be any type. It is an optional parameter,
+   * @param {V} [val] - The `val` parameter is of type `V`, which means it can be any type. It is an optional parameter,
    * meaning it can be omitted when creating an instance of the class.
    */
-  protected constructor(weight?: number, val?: T) {
+  protected constructor(weight?: number, val?: V) {
     this._weight = weight !== undefined ? weight : 1;
     this._val = val;
     this._hashCode = uuidV4();
   }
 
-  private _val: T | undefined;
+  private _val: V | undefined;
 
-  get val(): T | undefined {
+  get val(): V | undefined {
     return this._val;
   }
 
-  set val(value: T | undefined) {
+  set val(value: V | undefined) {
     this._val = value;
   }
 

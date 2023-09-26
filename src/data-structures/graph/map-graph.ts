@@ -1,7 +1,7 @@
 import {MapGraphCoordinate, VertexId} from '../../types';
 import {DirectedEdge, DirectedGraph, DirectedVertex} from './directed-graph';
 
-export class MapVertex<T = any> extends DirectedVertex<T> {
+export class MapVertex<V = any> extends DirectedVertex<V> {
   /**
    * The constructor function initializes an object with an id, latitude, longitude, and an optional value.
    * @param {VertexId} id - The `id` parameter is of type `VertexId` and represents the identifier of the vertex.
@@ -11,10 +11,10 @@ export class MapVertex<T = any> extends DirectedVertex<T> {
    * @param {number} long - The "long" parameter represents the longitude of a location. Longitude is a geographic
    * coordinate that specifies the east-west position of a point on the Earth's surface. It is measured in degrees, with
    * values ranging from -180 to 180.
-   * @param {T} [val] - The "val" parameter is an optional value of type T. It is not required to be provided when
+   * @param {V} [val] - The "val" parameter is an optional value of type V. It is not required to be provided when
    * creating an instance of the class.
    */
-  constructor(id: VertexId, lat: number, long: number, val?: T) {
+  constructor(id: VertexId, lat: number, long: number, val?: V) {
     super(id, val);
     this._lat = lat;
     this._long = long;
@@ -41,7 +41,7 @@ export class MapVertex<T = any> extends DirectedVertex<T> {
   }
 }
 
-export class MapEdge<T = any> extends DirectedEdge<T> {
+export class MapEdge<V = any> extends DirectedEdge<V> {
   /**
    * The constructor function initializes a new instance of a class with the given source, destination, weight, and
    * value.
@@ -49,10 +49,10 @@ export class MapEdge<T = any> extends DirectedEdge<T> {
    * a graph.
    * @param {VertexId} dest - The `dest` parameter is the identifier of the destination vertex for an edge.
    * @param {number} [weight] - The weight parameter is an optional number that represents the weight of the edge.
-   * @param {T} [val] - The "val" parameter is an optional parameter of type T. It is used to store additional
+   * @param {V} [val] - The "val" parameter is an optional parameter of type V. It is used to store additional
    * information or data associated with the edge.
    */
-  constructor(src: VertexId, dest: VertexId, weight?: number, val?: T) {
+  constructor(src: VertexId, dest: VertexId, weight?: number, val?: V) {
     super(src, dest, weight, val);
   }
 }

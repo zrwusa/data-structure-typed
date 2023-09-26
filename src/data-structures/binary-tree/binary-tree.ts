@@ -10,11 +10,11 @@ import type {BinaryTreeNodeId, BinaryTreeNodeNested, BinaryTreeOptions} from '..
 import {AbstractBinaryTree, AbstractBinaryTreeNode} from './abstract-binary-tree';
 import {IBinaryTree, IBinaryTreeNode} from '../../interfaces';
 
-export class BinaryTreeNode<T = any, NEIGHBOR extends BinaryTreeNode<T, NEIGHBOR> = BinaryTreeNodeNested<T>>
-  extends AbstractBinaryTreeNode<T, NEIGHBOR>
-  implements IBinaryTreeNode<T, NEIGHBOR>
+export class BinaryTreeNode<V = any, NEIGHBOR extends BinaryTreeNode<V, NEIGHBOR> = BinaryTreeNodeNested<V>>
+  extends AbstractBinaryTreeNode<V, NEIGHBOR>
+  implements IBinaryTreeNode<V, NEIGHBOR>
 {
-  constructor(id: BinaryTreeNodeId, val?: T) {
+  constructor(id: BinaryTreeNodeId, val?: V) {
     super(id, val);
   }
 }

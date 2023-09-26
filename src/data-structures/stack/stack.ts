@@ -3,26 +3,26 @@
  * @copyright Tyler Zeng <zrwusa@gmail.com>
  * @class
  */
-export class Stack<T = number> {
-  protected _elements: T[];
+export class Stack<E = any> {
+  protected _elements: E[];
 
   /**
    * The constructor initializes an array of elements, which can be provided as an optional parameter.
-   * @param {T[]} [elements] - The `elements` parameter is an optional parameter of type `T[]`, which represents an array
-   * of elements of type `T`. It is used to initialize the `_elements` property of the class. If the `elements` parameter
+   * @param {E[]} [elements] - The `elements` parameter is an optional parameter of type `E[]`, which represents an array
+   * of elements of type `E`. It is used to initialize the `_elements` property of the class. If the `elements` parameter
    * is provided and is an array, it is assigned to the `_elements
    */
-  constructor(elements?: T[]) {
+  constructor(elements?: E[]) {
     this._elements = Array.isArray(elements) ? elements : [];
   }
 
   /**
    * The function "fromArray" creates a new Stack object from an array of elements.
-   * @param {T[]} elements - The `elements` parameter is an array of elements of type `T`.
+   * @param {E[]} elements - The `elements` parameter is an array of elements of type `E`.
    * @returns {Stack} The method is returning a new instance of the Stack class, initialized with the elements from the input
    * array.
    */
-  static fromArray<T>(elements: T[]): Stack<T> {
+  static fromArray<E>(elements: E[]): Stack<E> {
     return new Stack(elements);
   }
 
@@ -46,7 +46,7 @@ export class Stack<T = number> {
    * The `peek` function returns the last element of an array, or null if the array is empty.
    * @returns The `peek()` function returns the last element of the `_elements` array, or `null` if the array is empty.
    */
-  peek(): T | null {
+  peek(): E | null {
     if (this.isEmpty()) return null;
 
     return this._elements[this._elements.length - 1];
@@ -54,10 +54,10 @@ export class Stack<T = number> {
 
   /**
    * The push function adds an element to the stack and returns the updated stack.
-   * @param {T} element - The parameter "element" is of type T, which means it can be any data type.
-   * @returns The `push` method is returning the updated `Stack<T>` object.
+   * @param {E} element - The parameter "element" is of type E, which means it can be any data type.
+   * @returns The `push` method is returning the updated `Stack<E>` object.
    */
-  push(element: T): Stack<T> {
+  push(element: E): Stack<E> {
     this._elements.push(element);
     return this;
   }
@@ -67,7 +67,7 @@ export class Stack<T = number> {
    * @returns The `pop()` method is returning the last element of the array `_elements` if the array is not empty. If the
    * array is empty, it returns `null`.
    */
-  pop(): T | null {
+  pop(): E | null {
     if (this.isEmpty()) return null;
 
     return this._elements.pop() || null;
@@ -75,9 +75,9 @@ export class Stack<T = number> {
 
   /**
    * The toArray function returns a copy of the elements in an array.
-   * @returns An array of type T.
+   * @returns An array of type E.
    */
-  toArray(): T[] {
+  toArray(): E[] {
     return this._elements.slice();
   }
 
@@ -92,7 +92,7 @@ export class Stack<T = number> {
    * The `clone()` function returns a new `Stack` object with the same elements as the original stack.
    * @returns The `clone()` method is returning a new `Stack` object with a copy of the `_elements` array.
    */
-  clone(): Stack<T> {
+  clone(): Stack<E> {
     return new Stack(this._elements.slice());
   }
 }

@@ -21,18 +21,18 @@ import {AbstractBinaryTreeOptions, FamilyPosition, LoopType} from '../../types';
 import {IAbstractBinaryTree, IAbstractBinaryTreeNode} from '../../interfaces';
 
 export abstract class AbstractBinaryTreeNode<
-  T = any,
-  NEIGHBOR extends AbstractBinaryTreeNode<T, NEIGHBOR> = AbstractBinaryTreeNodeNested<T>
-> implements IAbstractBinaryTreeNode<T, NEIGHBOR>
+  V = any,
+  NEIGHBOR extends AbstractBinaryTreeNode<V, NEIGHBOR> = AbstractBinaryTreeNodeNested<V>
+> implements IAbstractBinaryTreeNode<V, NEIGHBOR>
 {
   /**
    * The constructor function initializes a BinaryTreeNode object with an id and an optional value.
    * @param {BinaryTreeNodeId} id - The `id` parameter is of type `BinaryTreeNodeId` and represents the unique identifier
    * of the binary tree node. It is used to distinguish one node from another in the binary tree.
-   * @param {T} [val] - The "val" parameter is an optional parameter of type T. It represents the value that will be
+   * @param {V} [val] - The "val" parameter is an optional parameter of type V. It represents the value that will be
    * stored in the binary tree node. If no value is provided, it will be set to undefined.
    */
-  protected constructor(id: BinaryTreeNodeId, val?: T) {
+  protected constructor(id: BinaryTreeNodeId, val?: V) {
     this._id = id;
     this._val = val;
   }
@@ -47,13 +47,13 @@ export abstract class AbstractBinaryTreeNode<
     this._id = v;
   }
 
-  private _val: T | undefined;
+  private _val: V | undefined;
 
-  get val(): T | undefined {
+  get val(): V | undefined {
     return this._val;
   }
 
-  set val(value: T | undefined) {
+  set val(value: V | undefined) {
     this._val = value;
   }
 

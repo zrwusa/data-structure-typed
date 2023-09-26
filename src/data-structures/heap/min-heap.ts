@@ -14,18 +14,18 @@ import type {HeapOptions} from '../../types';
  * @class MinHeap
  * @extends Heap
  */
-export class MinHeap<T = number> extends Heap<T> {
-  protected _pq: PriorityQueue<HeapItem<T>>;
+export class MinHeap<V = any> extends Heap<V> {
+  protected _pq: PriorityQueue<HeapItem<V>>;
 
   /**
    * The constructor initializes a PriorityQueue with a comparator function that compares the priority of two HeapItem
    * objects.
    * @param [options] - The `options` parameter is an optional object that can be passed to the constructor. It is of
-   * type `HeapOptions<T>`, which is a generic type that represents the options for the heap.
+   * type `HeapOptions<V>`, which is a generic type that represents the options for the heap.
    */
-  constructor(options?: HeapOptions<T>) {
+  constructor(options?: HeapOptions<V>) {
     super(options);
-    this._pq = new PriorityQueue<HeapItem<T>>({
+    this._pq = new PriorityQueue<HeapItem<V>>({
       comparator: (a, b) => a.priority - b.priority
     });
   }

@@ -7,13 +7,13 @@
  */
 import type {PriorityQueueComparator, PriorityQueueDFSOrderPattern, PriorityQueueOptions} from '../../types';
 
-export class PriorityQueue<T = number> {
+export class PriorityQueue<E = any> {
   /**
    * The constructor initializes a priority queue with the given options, including an array of nodes and a comparator
    * function.
    * @param options - The `options` parameter is an object that contains the following properties:
    */
-  constructor(options: PriorityQueueOptions<T>) {
+  constructor(options: PriorityQueueOptions<E>) {
     const {nodes, comparator, isFix = true} = options;
     this._comparator = comparator;
 
@@ -24,9 +24,9 @@ export class PriorityQueue<T = number> {
     }
   }
 
-  protected _nodes: T[] = [];
+  protected _nodes: E[] = [];
 
-  get nodes(): T[] {
+  get nodes(): E[] {
     return this._nodes;
   }
 
@@ -41,7 +41,7 @@ export class PriorityQueue<T = number> {
    * the priority queue, and "initialValues" which is an array of initial values to be added to the priority
    * @returns a new instance of the PriorityQueue class after performing the heapify operation on it.
    */
-  static heapify<T>(options: PriorityQueueOptions<T>) {
+  static heapify<E>(options: PriorityQueueOptions<E>) {
     const heap = new PriorityQueue(options);
     heap._fix();
     return heap;
@@ -54,52 +54,52 @@ export class PriorityQueue<T = number> {
    * following properties:
    * @returns the result of calling the `isValid()` method on a new instance of the `PriorityQueue` class.
    */
-  static isPriorityQueueified<T>(options: Omit<PriorityQueueOptions<T>, 'isFix'>) {
+  static isPriorityQueueified<E>(options: Omit<PriorityQueueOptions<E>, 'isFix'>) {
     return new PriorityQueue({...options, isFix: false}).isValid();
   }
 
   /**
    * Starting from TypeScript version 5.0 and onwards, the use of distinct access modifiers for Getters and Setters is not permitted. As an alternative, to ensure compatibility, it is necessary to adopt a Java-style approach for Setters (using the same name as the property) while utilizing separate method names for Getters.
    */
-  getNodes(): T[] {
+  getNodes(): E[] {
     return this._nodes;
   }
 
   /**
    * The "add" function adds a node to the heap and ensures that the heap property is maintained.
-   * @param {T} node - The parameter "node" is of type T, which means it can be any data type. It represents the node
+   * @param {E} node - The parameter "node" is of type E, which means it can be any data type. It represents the node
    * that needs to be added to the heap.
    */
-  add(node: T) {
+  add(node: E) {
     this.nodes.push(node);
     this._heapifyUp(this.size - 1);
   }
 
   /**
    * The "has" function checks if a given node is present in the list of nodes.
-   * @param {T} node - The parameter `node` is of type `T`, which means it can be any type. It represents the node that
+   * @param {E} node - The parameter `node` is of type `E`, which means it can be any type. It represents the node that
    * we want to check if it exists in the `nodes` array.
    * @returns a boolean value indicating whether the given node is included in the array of nodes.
    */
-  has(node: T): boolean {
+  has(node: E): boolean {
     return this.nodes.includes(node);
   }
 
   /**
    * The `peek` function returns the first element of the `nodes` array if it exists, otherwise it returns `null`.
-   * @returns The `peek()` function is returning the first element (`T`) of the `nodes` array if the `size` is not zero.
+   * @returns The `peek()` function is returning the first element (`E`) of the `nodes` array if the `size` is not zero.
    * Otherwise, it returns `null`.
    */
-  peek(): T | null {
+  peek(): E | null {
     return this.size ? this.nodes[0] : null;
   }
 
   /**
    * The `poll` function removes and returns the top element from a heap data structure.
-   * @returns The `poll()` method returns a value of type `T` or `null`.
+   * @returns The `poll()` method returns a value of type `E` or `null`.
    */
-  poll(): T | null {
-    let res: T | null = null;
+  poll(): E | null {
+    let res: E | null = null;
     if (this.size > 1) {
       this._swap(0, this.nodes.length - 1);
       res = this.nodes.pop() ?? null;
@@ -112,10 +112,10 @@ export class PriorityQueue<T = number> {
 
   /**
    * The `leaf` function returns the last element in the `nodes` array or `null` if the array is empty.
-   * @returns The method `leaf()` is returning the last element (`T`) in the `nodes` array if it exists. If the array is
+   * @returns The method `leaf()` is returning the last element (`E`) in the `nodes` array if it exists. If the array is
    * empty or the last element is `null`, then it returns `null`.
    */
-  leaf(): T | null {
+  leaf(): E | null {
     return this.nodes[this.size - 1] ?? null;
   }
 
@@ -138,9 +138,9 @@ export class PriorityQueue<T = number> {
 
   /**
    * The toArray function returns an array containing all the elements in the nodes property.
-   * @returns An array of type T, which is the elements of the nodes property.
+   * @returns An array of type E, which is the elements of the nodes property.
    */
-  toArray(): T[] {
+  toArray(): E[] {
     return [...this.nodes];
   }
 
@@ -150,8 +150,8 @@ export class PriorityQueue<T = number> {
    * @returns The `clone()` method is returning a new instance of the `PriorityQueue` class with the same `nodes` and
    * `comparator` properties as the original instance.
    */
-  clone(): PriorityQueue<T> {
-    return new PriorityQueue<T>({
+  clone(): PriorityQueue<E> {
+    return new PriorityQueue<E>({
       nodes: this.nodes,
       comparator: this._comparator
     });
@@ -183,10 +183,10 @@ export class PriorityQueue<T = number> {
   /**
    * The function sorts the elements in a data structure and returns them in an array.
    * Plan to support sorting of duplicate elements.
-   * @returns The `sort()` method is returning an array of type `T[]`.
+   * @returns The `sort()` method is returning an array of type `E[]`.
    */
-  sort(): T[] {
-    const visitedNode: T[] = [];
+  sort(): E[] {
+    const visitedNode: E[] = [];
     while (this.size !== 0) {
       const top = this.poll();
       if (top) visitedNode.push(top);
@@ -199,10 +199,10 @@ export class PriorityQueue<T = number> {
    * based on the specified traversal order.
    * @param {PriorityQueueDFSOrderPattern} dfsMode - The dfsMode parameter is a string that specifies the order in which
    * the nodes should be visited during the Depth-First Search (DFS) traversal. It can have one of the following values:
-   * @returns an array of type `(T | null)[]`.
+   * @returns an array of type `(E | null)[]`.
    */
-  DFS(dfsMode: PriorityQueueDFSOrderPattern): (T | null)[] {
-    const visitedNode: (T | null)[] = [];
+  DFS(dfsMode: PriorityQueueDFSOrderPattern): (E | null)[] {
+    const visitedNode: (E | null)[] = [];
 
     const traverse = (cur: number) => {
       const leftChildIndex = this._getLeft(cur);
@@ -230,11 +230,11 @@ export class PriorityQueue<T = number> {
     return visitedNode;
   }
 
-  protected _setNodes(value: T[]) {
+  protected _setNodes(value: E[]) {
     this._nodes = value;
   }
 
-  protected readonly _comparator: PriorityQueueComparator<T> = (a: T, b: T) => {
+  protected readonly _comparator: PriorityQueueComparator<E> = (a: E, b: E) => {
     const aKey = a as unknown as number,
       bKey = b as unknown as number;
     return aKey - bKey;

@@ -5,50 +5,50 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-export class DoublyLinkedListNode<T = number> {
+export class DoublyLinkedListNode<E = any> {
   /**
    * The constructor function initializes the value, next, and previous properties of an object.
-   * @param {T} val - The "val" parameter is the value that will be stored in the node. It can be of any data type, as it
-   * is defined as a generic type "T".
+   * @param {E} val - The "val" parameter is the value that will be stored in the node. It can be of any data type, as it
+   * is defined as a generic type "E".
    */
-  constructor(val: T) {
+  constructor(val: E) {
     this._val = val;
     this._next = null;
     this._prev = null;
   }
 
-  private _val: T;
+  private _val: E;
 
-  get val(): T {
+  get val(): E {
     return this._val;
   }
 
-  set val(value: T) {
+  set val(value: E) {
     this._val = value;
   }
 
-  private _next: DoublyLinkedListNode<T> | null;
+  private _next: DoublyLinkedListNode<E> | null;
 
-  get next(): DoublyLinkedListNode<T> | null {
+  get next(): DoublyLinkedListNode<E> | null {
     return this._next;
   }
 
-  set next(value: DoublyLinkedListNode<T> | null) {
+  set next(value: DoublyLinkedListNode<E> | null) {
     this._next = value;
   }
 
-  private _prev: DoublyLinkedListNode<T> | null;
+  private _prev: DoublyLinkedListNode<E> | null;
 
-  get prev(): DoublyLinkedListNode<T> | null {
+  get prev(): DoublyLinkedListNode<E> | null {
     return this._prev;
   }
 
-  set prev(value: DoublyLinkedListNode<T> | null) {
+  set prev(value: DoublyLinkedListNode<E> | null) {
     this._prev = value;
   }
 }
 
-export class DoublyLinkedList<T = any> {
+export class DoublyLinkedList<E = any> {
   /**
    * The constructor initializes the linked list with an empty head, tail, and length.
    */
@@ -58,23 +58,23 @@ export class DoublyLinkedList<T = any> {
     this._length = 0;
   }
 
-  private _head: DoublyLinkedListNode<T> | null;
+  private _head: DoublyLinkedListNode<E> | null;
 
-  get head(): DoublyLinkedListNode<T> | null {
+  get head(): DoublyLinkedListNode<E> | null {
     return this._head;
   }
 
-  set head(value: DoublyLinkedListNode<T> | null) {
+  set head(value: DoublyLinkedListNode<E> | null) {
     this._head = value;
   }
 
-  private _tail: DoublyLinkedListNode<T> | null;
+  private _tail: DoublyLinkedListNode<E> | null;
 
-  get tail(): DoublyLinkedListNode<T> | null {
+  get tail(): DoublyLinkedListNode<E> | null {
     return this._tail;
   }
 
-  set tail(value: DoublyLinkedListNode<T> | null) {
+  set tail(value: DoublyLinkedListNode<E> | null) {
     this._tail = value;
   }
 
@@ -87,11 +87,11 @@ export class DoublyLinkedList<T = any> {
   /**
    * The `fromArray` function creates a new instance of a DoublyLinkedList and populates it with the elements from the
    * given array.
-   * @param {T[]} data - The `data` parameter is an array of elements of type `T`.
+   * @param {E[]} data - The `data` parameter is an array of elements of type `E`.
    * @returns The `fromArray` function returns a DoublyLinkedList object.
    */
-  static fromArray<T>(data: T[]) {
-    const doublyLinkedList = new DoublyLinkedList<T>();
+  static fromArray<E>(data: E[]) {
+    const doublyLinkedList = new DoublyLinkedList<E>();
     for (const item of data) {
       doublyLinkedList.push(item);
     }
@@ -100,9 +100,9 @@ export class DoublyLinkedList<T = any> {
 
   /**
    * The push function adds a new node with the given value to the end of the doubly linked list.
-   * @param {T} val - The value to be added to the linked list.
+   * @param {E} val - The value to be added to the linked list.
    */
-  push(val: T): void {
+  push(val: E): void {
     const newNode = new DoublyLinkedListNode(val);
     if (!this.head) {
       this.head = newNode;
@@ -120,7 +120,7 @@ export class DoublyLinkedList<T = any> {
    * @returns The method is returning the value of the removed node (removedNode.val) if the list is not empty. If the
    * list is empty, it returns null.
    */
-  pop(): T | undefined {
+  pop(): E | undefined {
     if (!this.tail) return undefined;
     const removedNode = this.tail;
     if (this.head === this.tail) {
@@ -139,7 +139,7 @@ export class DoublyLinkedList<T = any> {
    * @returns The method `shift()` returns the value of the node that is removed from the beginning of the doubly linked
    * list.
    */
-  shift(): T | undefined {
+  shift(): E | undefined {
     if (!this.head) return undefined;
     const removedNode = this.head;
     if (this.head === this.tail) {
@@ -155,10 +155,10 @@ export class DoublyLinkedList<T = any> {
 
   /**
    * The unshift function adds a new node with the given value to the beginning of a doubly linked list.
-   * @param {T} val - The `val` parameter represents the value of the new node that will be added to the beginning of the
+   * @param {E} val - The `val` parameter represents the value of the new node that will be added to the beginning of the
    * doubly linked list.
    */
-  unshift(val: T): void {
+  unshift(val: E): void {
     const newNode = new DoublyLinkedListNode(val);
     if (!this.head) {
       this.head = newNode;
@@ -178,7 +178,7 @@ export class DoublyLinkedList<T = any> {
    * @returns The method is returning the value at the specified index in the linked list. If the index is out of bounds
    * or the linked list is empty, it will return null.
    */
-  getAt(index: number): T | undefined {
+  getAt(index: number): E | undefined {
     if (index < 0 || index >= this.length) return undefined;
     let current = this.head;
     for (let i = 0; i < index; i++) {
@@ -192,10 +192,10 @@ export class DoublyLinkedList<T = any> {
    * range.
    * @param {number} index - The `index` parameter is a number that represents the position of the node we want to
    * retrieve from the doubly linked list. It indicates the zero-based index of the node we want to access.
-   * @returns The method `getNodeAt(index: number)` returns a `DoublyLinkedListNode<T>` object if the index is within the
+   * @returns The method `getNodeAt(index: number)` returns a `DoublyLinkedListNode<E>` object if the index is within the
    * valid range of the linked list, otherwise it returns `null`.
    */
-  getNodeAt(index: number): DoublyLinkedListNode<T> | null {
+  getNodeAt(index: number): DoublyLinkedListNode<E> | null {
     if (index < 0 || index >= this.length) return null;
     let current = this.head;
     for (let i = 0; i < index; i++) {
@@ -207,11 +207,11 @@ export class DoublyLinkedList<T = any> {
   /**
    * The function `findNodeByValue` searches for a node with a specific value in a doubly linked list and returns the
    * node if found, otherwise it returns null.
-   * @param {T} val - The `val` parameter is the value that we want to search for in the doubly linked list.
-   * @returns The function `findNodeByValue` returns a `DoublyLinkedListNode<T>` if a node with the specified value `val`
+   * @param {E} val - The `val` parameter is the value that we want to search for in the doubly linked list.
+   * @returns The function `findNodeByValue` returns a `DoublyLinkedListNode<E>` if a node with the specified value `val`
    * is found in the linked list. If no such node is found, it returns `null`.
    */
-  findNode(val: T): DoublyLinkedListNode<T> | null {
+  findNode(val: E): DoublyLinkedListNode<E> | null {
     let current = this.head;
 
     while (current) {
@@ -228,12 +228,12 @@ export class DoublyLinkedList<T = any> {
    * The `insert` function inserts a value at a specified index in a doubly linked list.
    * @param {number} index - The index parameter represents the position at which the new value should be inserted in the
    * DoublyLinkedList. It is of type number.
-   * @param {T} val - The `val` parameter represents the value that you want to insert into the Doubly Linked List at the
+   * @param {E} val - The `val` parameter represents the value that you want to insert into the Doubly Linked List at the
    * specified index.
    * @returns The `insert` method returns a boolean value. It returns `true` if the insertion is successful, and `false`
    * if the index is out of bounds.
    */
-  insertAt(index: number, val: T): boolean {
+  insertAt(index: number, val: E): boolean {
     if (index < 0 || index > this.length) return false;
     if (index === 0) {
       this.unshift(val);
@@ -262,7 +262,7 @@ export class DoublyLinkedList<T = any> {
    * @returns The method `deleteAt` returns the value of the node that was deleted, or `null` if the index is out of
    * bounds.
    */
-  deleteAt(index: number): T | undefined {
+  deleteAt(index: number): E | undefined {
     if (index < 0 || index >= this.length) return undefined;
     if (index === 0) return this.shift();
     if (index === this.length - 1) return this.pop();
@@ -276,18 +276,18 @@ export class DoublyLinkedList<T = any> {
     return removedNode!.val;
   }
 
-  delete(valOrNode: T): boolean;
-  delete(valOrNode: DoublyLinkedListNode<T>): boolean;
+  delete(valOrNode: E): boolean;
+  delete(valOrNode: DoublyLinkedListNode<E>): boolean;
 
   /**
    * The `delete` function removes a node from a doubly linked list based on either the node itself or its value.
-   * @param {T | DoublyLinkedListNode<T>} valOrNode - The `valOrNode` parameter can accept either a value of type `T` or
-   * a `DoublyLinkedListNode<T>` object.
+   * @param {E | DoublyLinkedListNode<E>} valOrNode - The `valOrNode` parameter can accept either a value of type `E` or
+   * a `DoublyLinkedListNode<E>` object.
    * @returns The `delete` method returns a boolean value. It returns `true` if the value or node was successfully
    * deleted from the doubly linked list, and `false` if the value or node was not found in the list.
    */
-  delete(valOrNode: T | DoublyLinkedListNode<T>): boolean {
-    let node: DoublyLinkedListNode<T> | null;
+  delete(valOrNode: E | DoublyLinkedListNode<E>): boolean {
+    let node: DoublyLinkedListNode<E> | null;
 
     if (valOrNode instanceof DoublyLinkedListNode) {
       node = valOrNode;
@@ -314,10 +314,10 @@ export class DoublyLinkedList<T = any> {
 
   /**
    * The `toArray` function converts a linked list into an array.
-   * @returns The `toArray()` method is returning an array of type `T[]`.
+   * @returns The `toArray()` method is returning an array of type `E[]`.
    */
-  toArray(): T[] {
-    const array: T[] = [];
+  toArray(): E[] {
+    const array: E[] = [];
     let current = this.head;
     while (current) {
       array.push(current.val);
@@ -337,12 +337,12 @@ export class DoublyLinkedList<T = any> {
 
   /**
    * The `find` function iterates through a linked list and returns the first element that satisfies a given condition.
-   * @param callback - A function that takes a value of type T as its parameter and returns a boolean value. This
+   * @param callback - A function that takes a value of type E as its parameter and returns a boolean value. This
    * function is used to determine whether a particular value in the linked list satisfies a certain condition.
    * @returns The method `find` returns the first element in the linked list that satisfies the condition specified by
    * the callback function. If no element satisfies the condition, it returns `null`.
    */
-  find(callback: (val: T) => boolean): T | null {
+  find(callback: (val: E) => boolean): E | null {
     let current = this.head;
     while (current) {
       if (callback(current.val)) {
@@ -355,12 +355,12 @@ export class DoublyLinkedList<T = any> {
 
   /**
    * The function returns the index of the first occurrence of a given value in a linked list.
-   * @param {T} val - The parameter `val` is of type `T`, which means it can be any data type. It represents the value
+   * @param {E} val - The parameter `val` is of type `E`, which means it can be any data type. It represents the value
    * that we are searching for in the linked list.
    * @returns The method `indexOf` returns the index of the first occurrence of the specified value `val` in the linked
    * list. If the value is not found, it returns -1.
    */
-  indexOf(val: T): number {
+  indexOf(val: E): number {
     let index = 0;
     let current = this.head;
     while (current) {
@@ -376,12 +376,12 @@ export class DoublyLinkedList<T = any> {
   /**
    * The `findLast` function iterates through a linked list from the last node to the first node and returns the last
    * value that satisfies the given callback function, or null if no value satisfies the callback.
-   * @param callback - A function that takes a value of type T as its parameter and returns a boolean value. This
+   * @param callback - A function that takes a value of type E as its parameter and returns a boolean value. This
    * function is used to determine whether a given value satisfies a certain condition.
    * @returns The method `findLast` returns the last value in the linked list that satisfies the condition specified by
    * the callback function. If no value satisfies the condition, it returns `null`.
    */
-  findLast(callback: (val: T) => boolean): T | null {
+  findLast(callback: (val: E) => boolean): E | null {
     let current = this.tail;
     while (current) {
       if (callback(current.val)) {
@@ -394,10 +394,10 @@ export class DoublyLinkedList<T = any> {
 
   /**
    * The `toArrayReverse` function converts a doubly linked list into an array in reverse order.
-   * @returns The `toArrayReverse()` function returns an array of type `T[]`.
+   * @returns The `toArrayReverse()` function returns an array of type `E[]`.
    */
-  toArrayReverse(): T[] {
-    const array: T[] = [];
+  toArrayReverse(): E[] {
+    const array: E[] = [];
     let current = this.tail;
     while (current) {
       array.push(current.val);
@@ -425,7 +425,7 @@ export class DoublyLinkedList<T = any> {
    * represents the value of the current node in the linked list, and the index argument represents the index of the
    * current node in the linked list.
    */
-  forEach(callback: (val: T, index: number) => void): void {
+  forEach(callback: (val: E, index: number) => void): void {
     let current = this.head;
     let index = 0;
     while (current) {
@@ -438,12 +438,12 @@ export class DoublyLinkedList<T = any> {
   /**
    * The `map` function takes a callback function and applies it to each element in the DoublyLinkedList, returning a new
    * DoublyLinkedList with the transformed values.
-   * @param callback - The callback parameter is a function that takes a value of type T (the type of values stored in
+   * @param callback - The callback parameter is a function that takes a value of type E (the type of values stored in
    * the original DoublyLinkedList) and returns a value of type U (the type of values that will be stored in the mapped
    * DoublyLinkedList).
    * @returns The `map` function is returning a new instance of `DoublyLinkedList<U>` that contains the mapped values.
    */
-  map<U>(callback: (val: T) => U): DoublyLinkedList<U> {
+  map<U>(callback: (val: E) => U): DoublyLinkedList<U> {
     const mappedList = new DoublyLinkedList<U>();
     let current = this.head;
     while (current) {
@@ -456,12 +456,12 @@ export class DoublyLinkedList<T = any> {
   /**
    * The `filter` function iterates through a DoublyLinkedList and returns a new DoublyLinkedList containing only the
    * elements that satisfy the given callback function.
-   * @param callback - The `callback` parameter is a function that takes a value of type `T` and returns a boolean value.
+   * @param callback - The `callback` parameter is a function that takes a value of type `E` and returns a boolean value.
    * It is used to determine whether a value should be included in the filtered list or not.
    * @returns The filtered list, which is an instance of the DoublyLinkedList class.
    */
-  filter(callback: (val: T) => boolean): DoublyLinkedList<T> {
-    const filteredList = new DoublyLinkedList<T>();
+  filter(callback: (val: E) => boolean): DoublyLinkedList<E> {
+    const filteredList = new DoublyLinkedList<E>();
     let current = this.head;
     while (current) {
       if (callback(current.val)) {
@@ -482,7 +482,7 @@ export class DoublyLinkedList<T = any> {
    * @returns The `reduce` method is returning the final value of the accumulator after iterating through all the
    * elements in the linked list.
    */
-  reduce<U>(callback: (accumulator: U, val: T) => U, initialValue: U): U {
+  reduce<U>(callback: (accumulator: U, val: E) => U, initialValue: U): U {
     let accumulator = initialValue;
     let current = this.head;
     while (current) {
@@ -492,19 +492,19 @@ export class DoublyLinkedList<T = any> {
     return accumulator;
   }
 
-  insertAfter(existingValueOrNode: T, newValue: T): boolean;
-  insertAfter(existingValueOrNode: DoublyLinkedListNode<T>, newValue: T): boolean;
+  insertAfter(existingValueOrNode: E, newValue: E): boolean;
+  insertAfter(existingValueOrNode: DoublyLinkedListNode<E>, newValue: E): boolean;
 
   /**
    * The `insertAfter` function inserts a new node with a given value after an existing node in a doubly linked list.
-   * @param {T | DoublyLinkedListNode<T>} existingValueOrNode - The existing value or node in the doubly linked list
+   * @param {E | DoublyLinkedListNode<E>} existingValueOrNode - The existing value or node in the doubly linked list
    * after which the new value will be inserted. It can be either the value of the existing node or the existing node
    * itself.
-   * @param {T} newValue - The value that you want to insert into the doubly linked list.
+   * @param {E} newValue - The value that you want to insert into the doubly linked list.
    * @returns The method returns a boolean value. It returns true if the insertion is successful, and false if the
    * existing value or node is not found in the doubly linked list.
    */
-  insertAfter(existingValueOrNode: T | DoublyLinkedListNode<T>, newValue: T): boolean {
+  insertAfter(existingValueOrNode: E | DoublyLinkedListNode<E>, newValue: E): boolean {
     let existingNode;
 
     if (existingValueOrNode instanceof DoublyLinkedListNode) {
@@ -531,20 +531,20 @@ export class DoublyLinkedList<T = any> {
     return false;
   }
 
-  insertBefore(existingValueOrNode: T, newValue: T): boolean;
-  insertBefore(existingValueOrNode: DoublyLinkedListNode<T>, newValue: T): boolean;
+  insertBefore(existingValueOrNode: E, newValue: E): boolean;
+  insertBefore(existingValueOrNode: DoublyLinkedListNode<E>, newValue: E): boolean;
 
   /**
    * The `insertBefore` function inserts a new value before an existing value or node in a doubly linked list.
-   * @param {T | DoublyLinkedListNode<T>} existingValueOrNode - The existing value or node in the doubly linked list
+   * @param {E | DoublyLinkedListNode<E>} existingValueOrNode - The existing value or node in the doubly linked list
    * before which the new value will be inserted. It can be either the value of the existing node or the existing node
    * itself.
-   * @param {T} newValue - The `newValue` parameter represents the value that you want to insert into the doubly linked
+   * @param {E} newValue - The `newValue` parameter represents the value that you want to insert into the doubly linked
    * list.
    * @returns The method returns a boolean value. It returns `true` if the insertion is successful, and `false` if the
    * insertion fails.
    */
-  insertBefore(existingValueOrNode: T | DoublyLinkedListNode<T>, newValue: T): boolean {
+  insertBefore(existingValueOrNode: E | DoublyLinkedListNode<E>, newValue: E): boolean {
     let existingNode;
 
     if (existingValueOrNode instanceof DoublyLinkedListNode) {
