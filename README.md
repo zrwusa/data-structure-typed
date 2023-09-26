@@ -410,6 +410,193 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
 </tbody>
 </table>
 
+
+
+### Standard library data structure comparison
+
+<table>
+  <thead>
+    <tr>
+      <th>Data Structure</th>
+      <th>C++ std</th>
+      <th>Data Structure Typed</th>
+      <th>java.util</th>
+      <th>Python collections</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Dynamic Array</td>
+      <td>std::vector&lt;T&gt;</td>
+      <td>Array&lt;E&gt;</td>
+      <td>ArrayList&lt;E&gt;</td>
+      <td>list</td>
+    </tr>
+    <tr>
+      <td>Linked List</td>
+      <td>std::list&lt;T&gt;</td>
+      <td>DoublyLinkedList&lt;E&gt;</td>
+      <td>LinkedList&lt;E&gt;</td>
+      <td>deque</td>
+    </tr>
+    <tr>
+      <td>Set</td>
+      <td>std::set&lt;T&gt;</td>
+      <td>Set</td>
+      <td>HashSet&lt;E&gt;</td>
+      <td>set</td>
+    </tr>
+    <tr>
+      <td>Map</td>
+      <td>std::map&lt;K, V&gt;</td>
+      <td>Map</td>
+      <td>HashMap&lt;K, V&gt;</td>
+      <td>dict</td>
+    </tr>
+    <tr>
+      <td>Unordered Map</td>
+      <td>std::unordered_map&lt;K, V&gt;</td>
+      <td>N/A</td>
+      <td>HashMap&lt;K, V&gt;</td>
+      <td>defaultdict</td>
+    </tr>
+    <tr>
+      <td>Unordered Set</td>
+      <td>std::unordered_set&lt;T&gt;</td>
+      <td>N/A</td>
+      <td>HashSet&lt;E&gt;</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Queue</td>
+      <td>std::queue&lt;T&gt;</td>
+      <td>Queue</td>
+      <td>Queue&lt;E&gt;</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Priority Queue</td>
+      <td>std::priority_queue&lt;T&gt;</td>
+      <td>PriorityQueue</td>
+      <td>PriorityQueue&lt;E&gt;</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Stack</td>
+      <td>std::stack&lt;T&gt;</td>
+      <td>Stack</td>
+      <td>Stack&lt;E&gt;</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Bitset</td>
+      <td>std::bitset&lt;N&gt;</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Deque</td>
+      <td>std::deque&lt;T&gt;</td>
+      <td>Deque</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Multiset</td>
+      <td>std::multiset&lt;T&gt;</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Multimap</td>
+      <td>std::multimap&lt;K, V&gt;</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Unordered Multiset</td>
+      <td>std::unordered_multiset</td>
+      <td>N/A</td>
+      <td>Counter</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Ordered Dictionary</td>
+      <td>N/A</td>
+      <td>Map</td>
+      <td>N/A</td>
+      <td>OrderedDict</td>
+    </tr>
+    <tr>
+      <td>Double-Ended Queue (Deque)</td>
+      <td>std::deque&lt;T&gt;</td>
+      <td>Deque</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Linked Hash Set</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>LinkedHashSet&lt;E&gt;</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Linked Hash Map</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>LinkedHashMap&lt;K, V&gt;</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Sorted Set</td>
+      <td>N/A</td>
+      <td>AVLTree, RBTree</td>
+      <td>TreeSet&lt;E&gt;</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Sorted Map</td>
+      <td>N/A</td>
+      <td>AVLTree, RBTree</td>
+      <td>TreeMap&lt;K, V&gt;</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Tree Set</td>
+      <td>std::set</td>
+      <td>AVLTree, RBTree</td>
+      <td>TreeSet&lt;E&gt;</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Persistent Collections</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>unordered multiset</td>
+      <td>unordered multiset&lt;T&gt;</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
+      <td>Unordered Multimap</td>
+      <td>std::unordered_multimap&lt;K, V&gt;</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+  </tbody>
+</table>
+
+
 ## Code design
 
 By strictly adhering to object-oriented design (BinaryTree -> BST -> AVLTree -> TreeMultiset), you can seamlessly
@@ -678,189 +865,3 @@ optimal approach to data structure design.
 </tr>
 </tbody>
 </table>
-
-
-### Standard library data structure comparison
-
-<table>
-  <thead>
-    <tr>
-      <th>Data Structure</th>
-      <th>C++ std</th>
-      <th>Data Structure Typed</th>
-      <th>java.util</th>
-      <th>Python collections</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Dynamic Array</td>
-      <td>std::vector&lt;T&gt;</td>
-      <td>Array&lt;E&gt;</td>
-      <td>ArrayList&lt;E&gt;</td>
-      <td>list</td>
-    </tr>
-    <tr>
-      <td>Linked List</td>
-      <td>std::list&lt;T&gt;</td>
-      <td>DoublyLinkedList&lt;E&gt;</td>
-      <td>LinkedList&lt;E&gt;</td>
-      <td>deque</td>
-    </tr>
-    <tr>
-      <td>Set</td>
-      <td>std::set&lt;T&gt;</td>
-      <td>Set</td>
-      <td>HashSet&lt;E&gt;</td>
-      <td>set</td>
-    </tr>
-    <tr>
-      <td>Map</td>
-      <td>std::map&lt;K, V&gt;</td>
-      <td>Map</td>
-      <td>HashMap&lt;K, V&gt;</td>
-      <td>dict</td>
-    </tr>
-    <tr>
-      <td>Unordered Map</td>
-      <td>std::unordered_map&lt;K, V&gt;</td>
-      <td>N/A</td>
-      <td>HashMap&lt;K, V&gt;</td>
-      <td>defaultdict</td>
-    </tr>
-    <tr>
-      <td>Unordered Set</td>
-      <td>std::unordered_set&lt;T&gt;</td>
-      <td>N/A</td>
-      <td>HashSet&lt;E&gt;</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Queue</td>
-      <td>std::queue&lt;T&gt;</td>
-      <td>Queue</td>
-      <td>Queue&lt;E&gt;</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Priority Queue</td>
-      <td>std::priority_queue&lt;T&gt;</td>
-      <td>PriorityQueue</td>
-      <td>PriorityQueue&lt;E&gt;</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Stack</td>
-      <td>std::stack&lt;T&gt;</td>
-      <td>Stack</td>
-      <td>Stack&lt;E&gt;</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Bitset</td>
-      <td>std::bitset&lt;N&gt;</td>
-      <td>N/A</td>
-      <td>N/A</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Deque</td>
-      <td>std::deque&lt;T&gt;</td>
-      <td>Deque</td>
-      <td>N/A</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Multiset</td>
-      <td>std::multiset&lt;T&gt;</td>
-      <td>N/A</td>
-      <td>N/A</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Multimap</td>
-      <td>std::multimap&lt;K, V&gt;</td>
-      <td>N/A</td>
-      <td>N/A</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Unordered Multiset</td>
-      <td>std::unordered_multiset</td>
-      <td>N/A</td>
-      <td>Counter</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Ordered Dictionary</td>
-      <td>N/A</td>
-      <td>Map</td>
-      <td>N/A</td>
-      <td>OrderedDict</td>
-    </tr>
-    <tr>
-      <td>Double-Ended Queue (Deque)</td>
-      <td>std::deque&lt;T&gt;</td>
-      <td>Deque</td>
-      <td>N/A</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Linked Hash Set</td>
-      <td>N/A</td>
-      <td>N/A</td>
-      <td>LinkedHashSet&lt;E&gt;</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Linked Hash Map</td>
-      <td>N/A</td>
-      <td>N/A</td>
-      <td>LinkedHashMap&lt;K, V&gt;</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Sorted Set</td>
-      <td>N/A</td>
-      <td>AVLTree, RBTree</td>
-      <td>TreeSet&lt;E&gt;</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Sorted Map</td>
-      <td>N/A</td>
-      <td>AVLTree, RBTree</td>
-      <td>TreeMap&lt;K, V&gt;</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Tree Set</td>
-      <td>std::set</td>
-      <td>AVLTree, RBTree</td>
-      <td>TreeSet&lt;E&gt;</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Persistent Collections</td>
-      <td>N/A</td>
-      <td>N/A</td>
-      <td>N/A</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>unordered multiset</td>
-      <td>unordered multiset&lt;T&gt;</td>
-      <td>N/A</td>
-      <td>N/A</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Unordered Multimap</td>
-      <td>std::unordered_multimap&lt;K, V&gt;</td>
-      <td>N/A</td>
-      <td>N/A</td>
-      <td>N/A</td>
-    </tr>
-  </tbody>
-</table>
-
