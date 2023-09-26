@@ -28,7 +28,7 @@
     "changelog": "auto-changelog",
     "coverage:badge": "istanbul-badges-readme",
     "package": "npm run lint && npm run test && npm run build && npm run build:docs && npm run changelog",
-    "deploy": "npm publish"
+    "ci": "npm run package"
   },
   "repository": {
     "type": "git",
@@ -37,7 +37,7 @@
   "author": "Tyler Zeng zrwusa@gmail.com",
   "license": "MIT",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
+    "@zrwusa:registry": "https://npm.pkg.github.com"
   },
   "bugs": {
     "url": "https://github.com/zrwusa/data-structure-typed/issues"
