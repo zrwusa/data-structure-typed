@@ -35,7 +35,7 @@ yarn add data-structure-typed
 
 ```html
 
-<script src="https://cdn.jsdelivr.net/npm/data-structure-typed/umd/bundle.min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/data-structure-typed/umd/bundle.min.js'></script>
 ```
 
 ```js
@@ -97,7 +97,7 @@ bst.get(6);                     // null
 bst.isAVLBalanced();            // true
 bst.BFS()[0] === 11;            // true
 
-const objBST = new BST<BSTNode<{ id: number, keyA: number }>>();
+const objBST = new BST<BSTNode<{id: number, keyA: number}>>();
 objBST.add(11, {id: 11, keyA: 11});
 objBST.add(3, {id: 3, keyA: 3});
 
@@ -678,70 +678,86 @@ optimal approach to data structure design.
 </table>
 
 
+### Standard library data structure comparison
+
 <table>
+  <thead>
   <tr>
     <th>Data Structure</th>
     <th>C++ STL</th>
     <th>java.util</th>
     <th>Python collections</th>
+    <th>Data Structure Typed</th>
   </tr>
+  </thead>
+  <tbody>
   <tr>
     <td>Dynamic Array (ArrayList)</td>
     <td>std::vector&lt;T&gt;</td>
     <td>ArrayList&lt;E&gt;</td>
     <td>list</td>
+    <td>Array</td>
   </tr>
   <tr>
     <td>Linked List</td>
     <td>std::list&lt;T&gt;</td>
     <td>LinkedList&lt;E&gt;</td>
     <td>deque</td>
+    <td>DoublyLinkedList</td>
   </tr>
   <tr>
     <td>Set</td>
     <td>std::set&lt;T&gt;</td>
     <td>HashSet&lt;E&gt;</td>
     <td>set</td>
+    <td>Set</td>
   </tr>
   <tr>
     <td>Map</td>
     <td>std::map&lt;K, V&gt;</td>
     <td>HashMap&lt;K, V&gt;</td>
     <td>dict</td>
+    <td>Map</td>
   </tr>
   <tr>
     <td>Stack</td>
     <td>std::stack&lt;T&gt;</td>
     <td>Stack&lt;E&gt;</td>
     <td>N/A</td>
+    <td>Stack</td>
   </tr>
   <tr>
     <td>Queue</td>
     <td>std::queue&lt;T&gt;</td>
-    <td>LinkedList&lt;E&gt;</td>
+    <td>Queue&lt;E&gt;</td>
     <td>N/A</td>
+    <td>Queue</td>
   </tr>
   <tr>
     <td>Priority Queue</td>
     <td>std::priority_queue&lt;T&gt;</td>
     <td>PriorityQueue&lt;E&gt;</td>
     <td>N/A</td>
+    <td>PriorityQueue</td>
   </tr>
   <tr>
     <td>Hash Table</td>
     <td>N/A</td>
-    <td>N/A</td>
-    <td>defaultdict, Counter, etc.</td>
+    <td>Hashtable</td>
+    <td>defaultdict</td>
+    <td>HashTable</td>
   </tr>
   <tr>
     <td>Deque</td>
     <td>std::deque&lt;T&gt;</td>
     <td>N/A</td>
     <td>N/A</td>
+    <td>Deque</td>
   </tr>
   <tr>
     <td>Multiset</td>
     <td>std::multiset&lt;T&gt;</td>
+    <td>N/A</td>
     <td>N/A</td>
     <td>N/A</td>
   </tr>
@@ -750,17 +766,34 @@ optimal approach to data structure design.
     <td>std::multimap&lt;K, V&gt;</td>
     <td>N/A</td>
     <td>N/A</td>
+    <td>N/A</td>
   </tr>
   <tr>
     <td>Unordered Set</td>
     <td>std::unordered_set&lt;T&gt;</td>
     <td>HashSet&lt;E&gt;</td>
     <td>N/A</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>Unordered Multiset</td>
+    <td>std::unordered_multiset</td>
+    <td>N/A</td>
+    <td>Counter</td>
+    <td>N/A</td>
   </tr>
   <tr>
     <td>Unordered Map</td>
     <td>std::unordered_map&lt;K, V&gt;</td>
     <td>HashMap&lt;K, V&gt;</td>
+    <td>defaultdict</td>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <td>Unordered Multimap</td>
+    <td>std::unordered_multimap&lt;K, V&gt;</td>
+    <td>N/A</td>
+    <td>N/A</td>
     <td>N/A</td>
   </tr>
   <tr>
@@ -768,65 +801,27 @@ optimal approach to data structure design.
     <td>std::bitset&lt;N&gt;</td>
     <td>N/A</td>
     <td>N/A</td>
+    <td>N/A</td>
   </tr>
   <tr>
-    <td>Ordered Dictionary (OrderedDict)</td>
+    <td>Ordered Dictionary</td>
     <td>N/A</td>
     <td>N/A</td>
     <td>OrderedDict</td>
-  </tr>
-  <tr>
-    <td>User-Defined Dictionary</td>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>UserDict</td>
-  </tr>
-  <tr>
-    <td>User-Defined List</td>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>UserList</td>
-  </tr>
-  <tr>
-    <td>User-Defined Set</td>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>UserSet</td>
+    <td>Map</td>
   </tr>
   <tr>
     <td>Double-Ended Queue (Deque)</td>
     <td>std::deque&lt;T&gt;</td>
     <td>N/A</td>
     <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Skip List</td>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Circular Queue</td>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Bit Array</td>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>Bloom Filter</td>
-    <td>N/A</td>
-    <td>N/A</td>
-    <td>N/A</td>
+    <td>Deque</td>
   </tr>
   <tr>
     <td>Linked Hash Set</td>
     <td>N/A</td>
     <td>LinkedHashSet&lt;E&gt;</td>
+    <td>N/A</td>
     <td>N/A</td>
   </tr>
   <tr>
@@ -834,64 +829,61 @@ optimal approach to data structure design.
     <td>N/A</td>
     <td>LinkedHashMap&lt;K, V&gt;</td>
     <td>N/A</td>
+    <td>N/A</td>
   </tr>
   <tr>
     <td>Sorted Set</td>
     <td>N/A</td>
     <td>TreeSet&lt;E&gt;</td>
     <td>N/A</td>
+    <td>AVLTree, RBTree</td>
   </tr>
   <tr>
     <td>Sorted Map</td>
     <td>N/A</td>
     <td>TreeMap&lt;K, V&gt;</td>
     <td>N/A</td>
+    <td>AVLTree, RBTree</td>
   </tr>
   <tr>
     <td>Tree Set</td>
+    <td>std::set</td>
+    <td>TreeSet&lt;E&gt;</td>
     <td>N/A</td>
-    <td>N/A</td>
-    <td>N/A</td>
+    <td>AVLTree, RBTree</td>
   </tr>
   <tr>
     <td>Tree Map</td>
+    <td>std::map&lt;K, V&gt;</td>
+    <td>TreeMap&lt;K, V&gt;</td>
     <td>N/A</td>
-    <td>N/A</td>
-    <td>N/A</td>
+    <td>AVLTree, RBTree</td>
   </tr>
   <tr>
     <td>Persistent Collections</td>
     <td>N/A</td>
     <td>N/A</td>
     <td>N/A</td>
+    <td>N/A</td>
   </tr>
-<tr>
-    <td>std::unordered_multiset</td>
-    <td>std::unordered_multiset&lt;T&gt;</td>
+  <tr>
+    <td>unordered multiset</td>
+    <td>unordered multiset&lt;T&gt;</td>
+    <td>N/A</td>
     <td>N/A</td>
     <td>N/A</td>
   </tr>
   <tr>
-    <td>std::unordered_multimap</td>
+    <td>Unordered Multimap</td>
     <td>std::unordered_multimap&lt;K, V&gt;</td>
     <td>N/A</td>
     <td>N/A</td>
-  </tr>
-  <tr>
-    <td>N/A</td>
-    <td>TreeSet&lt;E&gt;</td>
-    <td>TreeSet&lt;E&gt;</td>
-    <td>N/A</td>
-  </tr>
-  <tr>
-    <td>N/A</td>
-    <td>TreeMap&lt;K, V&gt;</td>
-    <td>TreeMap&lt;K, V&gt;</td>
     <td>N/A</td>
   </tr>
   <tr>
     <td>N/A</td>
     <td>LinkedBlockingQueue&lt;E&gt;</td>
+    <td>N/A</td>
     <td>N/A</td>
     <td>N/A</td>
   </tr>
@@ -900,11 +892,13 @@ optimal approach to data structure design.
     <td>ConcurrentHashMap&lt;K, V&gt;</td>
     <td>N/A</td>
     <td>N/A</td>
+    <td>N/A</td>
   </tr>
   <tr>
     <td>N/A</td>
     <td>N/A</td>
     <td>namedtuple</td>
+    <td>N/A</td>
     <td>N/A</td>
   </tr>
   <tr>
@@ -912,11 +906,13 @@ optimal approach to data structure design.
     <td>N/A</td>
     <td>ChainMap</td>
     <td>N/A</td>
+    <td>N/A</td>
   </tr>
   <tr>
     <td>N/A</td>
     <td>N/A</td>
     <td>defaultdict</td>
+    <td>N/A</td>
     <td>N/A</td>
   </tr>
   <tr>
@@ -924,8 +920,7 @@ optimal approach to data structure design.
     <td>N/A</td>
     <td>Counter</td>
     <td>N/A</td>
+    <td>N/A</td>
   </tr>
+  </tbody>
 </table>
-
-
-<table><thead><tr><th>Data Structure</th><th>C++ STL</th><th>java.util</th><th>Python collections</th><th>Custom Data Structure (Typescript)</th></tr></thead><tbody><tr><td>Dynamic Array (ArrayList)</td><td>std::vector&lt;T&gt;</td><td>ArrayList&lt;E&gt;</td><td>list</td><td>N/A</td></tr><tr><td>Linked List</td><td>std::list&lt;T&gt;</td><td>LinkedList&lt;E&gt;</td><td>deque</td><td>SinglyLinkedList, DoublyLinkedList, etc.</td></tr><tr><td>Set</td><td>std::set&lt;T&gt;</td><td>HashSet&lt;E&gt;</td><td>set</td><td>TreeMultiset, etc.</td></tr><tr><td>Map</td><td>std::map&lt;K, V&gt;</td><td>HashMap&lt;K, V&gt;</td><td>dict</td><td>N/A</td></tr><tr><td>Stack</td><td>std::stack&lt;T&gt;</td><td>Stack&lt;E&gt;</td><td>N/A</td><td>N/A</td></tr><tr><td>Queue</td><td>std::queue&lt;T&gt;</td><td>LinkedList&lt;E&gt;</td><td>N/A</td><td>N/A</td></tr><tr><td>Priority Queue</td><td>std::priority_queue&lt;T&gt;</td><td>PriorityQueue&lt;E&gt;</td><td>N/A</td><td>N/A</td></tr><tr><td>Hash Table</td><td>N/A</td><td>N/A</td><td>defaultdict, Counter, etc.</td><td>N/A</td></tr><tr><td>Deque</td><td>std::deque&lt;T&gt;</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>Multiset</td><td>std::multiset&lt;T&gt;</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>Multimap</td><td>std::multimap&lt;K, V&gt;</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>Unordered Set</td><td>std::unordered_set&lt;T&gt;</td><td>HashSet&lt;E&gt;</td><td>N/A</td><td>N/A</td></tr><tr><td>Unordered Map</td><td>std::unordered_map&lt;K, V&gt;</td><td>HashMap&lt;K, V&gt;</td><td>N/A</td><td>N/A</td></tr><tr><td>Bitset</td><td>std::bitset&lt;N&gt;</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>Ordered Dictionary (OrderedDict)</td><td>N/A</td><td>N/A</td><td>OrderedDict</td><td>N/A</td></tr><tr><td>User-Defined Dictionary</td><td>N/A</td><td>N/A</td><td>UserDict</td><td>N/A</td></tr><tr><td>User-Defined List</td><td>N/A</td><td>N/A</td><td>UserList</td><td>N/A</td></tr><tr><td>User-Defined Set</td><td>N/A</td><td>N/A</td><td>UserSet</td><td>N/A</td></tr><tr><td>Double-Ended Queue (Deque)</td><td>std::deque&lt;T&gt;</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>Skip List</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>Circular Queue</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>Bit Array</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>Bloom Filter</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>Linked Hash Set</td><td>N/A</td><td>LinkedHashSet&lt;E&gt;</td><td>N/A</td><td>N/A</td></tr><tr><td>Linked Hash Map</td><td>N/A</td><td>LinkedHashMap&lt;K, V&gt;</td><td>N/A</td><td>N/A</td></tr><tr><td>Sorted Set</td><td>N/A</td><td>TreeSet&lt;E&gt;</td><td>N/A</td><td>N/A</td></tr><tr><td>Sorted Map</td><td>N/A</td><td>TreeMap&lt;K, V&gt;</td><td>N/A</td><td>N/A</td></tr><tr><td>Tree Set</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>Tree Map</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>Persistent Collections</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>std::unordered_multiset</td><td>std::unordered_multiset&lt;T&gt;</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>std::unordered_multimap</td><td>std::unordered_multimap&lt;K, V&gt;</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>N/A</td><td>TreeSet&lt;E&gt;</td><td>TreeSet&lt;E&gt;</td><td>N/A</td><td>N/A</td></tr><tr><td>N/A</td><td>TreeMap&lt;K, V&gt;</td><td>TreeMap&lt;K, V&gt;</td><td>N/A</td><td>N/A</td></tr><tr><td>N/A</td><td>LinkedBlockingQueue&lt;E&gt;</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>N/A</td><td>ConcurrentHashMap&lt;K, V&gt;</td><td>N/A</td><td>N/A</td><td>N/A</td></tr><tr><td>N/A</td><td>N/A</td><td>namedtuple</td><td>N/A</td><td>N/A</td></tr><tr><td>N/A</td><td>N/A</td><td>ChainMap</td><td>N/A</td><td>N/A</td></tr><tr><td>N/A</td><td>N/A</td><td>defaultdict</td><td>N/A</td><td>N/A</td></tr><tr><td>N/A</td><td>N/A</td><td>Counter</td><td>N/A</td><td>N/A</td></tr></tbody></table>
