@@ -37,6 +37,9 @@ jobs:
       - name: Print Environment Variables
         run: env
 
+      - name: Print Git Tags
+        run: git show-ref --tags
+
       - name: Lint
         run: npm run lint
 
