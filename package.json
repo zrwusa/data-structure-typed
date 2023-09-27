@@ -8,7 +8,7 @@
   "source": "src/index.ts",
   "umd:main": "umd/bundle.min.js",
   "scripts": {
-    "build": "npm run build:es6 && npm run build:commonjs && npm run build:umd && build:docs",
+    "build": "npm run build:es6 && npm run build:commonjs && npm run build:umd && npm run build:docs",
     "build:es6": "rm -rf lib && tsc",
     "build:commonjs": "rm -rf dist && tsc --project tsconfig.prod.json",
     "build:umd": "webpack",
