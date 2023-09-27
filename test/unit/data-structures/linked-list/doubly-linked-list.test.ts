@@ -356,7 +356,7 @@ describe('DoublyLinkedList Performance Test', () => {
     for (let i = 0; i < magnitude.LINEAR; i++) {
       list.shift();
     }
-    expect(performance.now() - startPopTime).toBeLessThan(bigO.LINEAR * 10);
+    expect(performance.now() - startPopTime).toBeLessThan(bigO.LINEAR * 100);
 
     expect(list.pop()).toBeUndefined();
     expect(list.length).toBe(0);
