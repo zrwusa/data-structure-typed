@@ -51,3 +51,5 @@ jobs:
 
       - name: Changelog
         run:  npm run changelog
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
