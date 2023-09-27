@@ -1,3 +1,4 @@
+.idea
 .auto-changelog
 .auto-changelog-template.hbs
 .dependency-cruiser.js
@@ -6,24 +7,23 @@
 .gitignore
 .prettierignore
 
-package-lock.json
-webpack.config.js
+/package-lock.json
+/webpack.config.js
 
-rename_clear_files.sh
-tsconfig.build.json
+/rename_clear_files.sh
+/tsconfig.build.json
 
-docs/assets
-docs/classes
-docs/enums
-docs/functions
-docs/interfaces
-docs/types
-docs/variables
+/docs/assets
+/docs/classes
+/docs/enums
+/docs/functions
+/docs/interfaces
+/docs/types
+/docs/variables
 
-coverage/lcov-report
-coverage/clover.xml
-coverage/lcov.info
+/coverage/lcov-report
+/coverage/clover.xml
+/coverage/lcov.info
 
-notes
-backup
-src
+/notes
+/backup

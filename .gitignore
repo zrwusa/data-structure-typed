@@ -7,12 +7,11 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 .DS_Store
+.idea
 
-.idea/
-
-notes/
-backup/
-lib/
-dist/
-umd/
-coverage/
+/notes
+/backup
+/lib
+/dist
+/umd
+/coverage
