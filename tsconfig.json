@@ -2,12 +2,10 @@
   "compilerOptions": {
     "outDir": "./lib",
     "declaration": true,
-//    "declarationDir": "./lib",
     "module": "ES6",
     "target": "ES6",
     "lib": [
-      "esnext",
-      "dom"
+      "ESNext"
     ],
     "strict": true,
     "esModuleInterop": true,
@@ -15,14 +13,6 @@
     "skipLibCheck": true,
     "downlevelIteration": true,
     "experimentalDecorators": true,
-    //    "removeComments": true,
-    //    "allowJs": true,
-    //    "allowSyntheticDefaultImports": true,
-    //    "forceConsistentCasingInFileNames": true,
-    //    "noFallthroughCasesInSwitch": true,
-    //    "resolveJsonModule": true,
-    //    "isolatedModules": true,
-    //    "noEmit": true,
     "typeRoots": [
       "node_modules/@types"
     ]
@@ -32,7 +22,8 @@
   "exclude": [
     "node_modules",
     "lib",
-    "dist"
+    "dist",
+    "umd"
   ]
 }
 

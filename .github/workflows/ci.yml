@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [19.x, 20.x]
+        node-version: [19.x]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -34,8 +34,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build
+      - name: Lint
+        run: npm run lint
+
+      - name: Build and documentation
         run: npm run build
 
-      - name: Run tests and documentation
+      - name: Run tests
         run: npm test
+
+      - name: Changelog
+        run:  npm run changelog

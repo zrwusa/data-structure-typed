@@ -1,6 +1,6 @@
 {
   "name": "data-structure-typed",
-  "version": "1.33.4",
+  "version": "1.33.5",
   "description": "Data Structures of Javascript & TypeScript. Binary Tree, BST, Graph, Heap, Priority Queue, Linked List, Queue, Deque, Stack, AVL Tree, Tree Multiset, Trie, Directed Graph, Undirected Graph, Singly Linked List, Doubly Linked List, Max Heap, Max Priority Queue, Min Heap, Min Priority Queue.",
   "main": "dist/index.js",
   "module": "lib/index.js",
@@ -8,9 +8,9 @@
   "source": "src/index.ts",
   "umd:main": "umd/bundle.min.js",
   "scripts": {
-    "build": "npm run build:es6 && npm run build:commonjs && npm run build:umd",
+    "build": "npm run build:es6 && npm run build:commonjs && npm run build:umd && build:docs",
     "build:es6": "rm -rf lib && tsc",
-    "build:commonjs": "rm -rf dist && tsc --project tsconfig.build.json",
+    "build:commonjs": "rm -rf dist && tsc --project tsconfig.prod.json",
     "build:umd": "webpack",
     "build:docs": "typedoc --out docs ./src",
     "lint:src": "eslint --fix 'src/**/*.{js,ts}'",
@@ -27,8 +27,7 @@
     "deps:check": "dependency-cruiser src",
     "changelog": "auto-changelog",
     "coverage:badge": "istanbul-badges-readme",
-    "package": "npm run lint && npm run test && npm run build && npm run build:docs && npm run changelog",
-    "ci": "npm run package"
+    "ci": "npm run lint && npm run build && npm run test && npm run changelog"
   },
   "repository": {
     "type": "git",
