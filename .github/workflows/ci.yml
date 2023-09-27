@@ -49,8 +49,5 @@ jobs:
       - name: Fetch Tags
         run: git fetch --tags
 
-      - name: Show tags
-        run: git show-ref --tags
-
       - name: Changelog
         run:  npm run changelog

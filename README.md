@@ -2,10 +2,9 @@
 
 Data Structures of Javascript & TypeScript.
 
-A library that provides a variety of JavaScript and TypeScript data structures, as well as implementations of some
-classic algorithms.
+Do you envy languages like C++ with <span style="border-radius: 5px;background-color: #0A7DBE; color: #ffffff; padding: 0 3px;">std</span>, Python with <span style="border-radius: 5px;background-color: #0A7DBE; color: #ffffff; padding: 0 3px;">collections</span>, and Java with <span style="border-radius: 5px;background-color: #0A7DBE; color: #ffffff; padding: 0 3px;">java.util</span>? Well, no need to envy anymore! JavaScript and TypeScript now have <span style="border-radius: 5px;background-color: #0A7DBE; color: #ffffff; padding: 0 3px;">data-structure-typed</span>
 
-Do you envy languages like C++ with *std*, Python with *collections*, and Java with *java.util*? Well, no need to envy anymore! JavaScript and TypeScript now have *data-structure-typed*
+Now you can use this library in Node.js and browser environments in CommonJS(require export.modules = ), ESModule(import export), Typescript(import export), UMD(var Queue = dataStructureTyped.Queue)
 
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Language](https://img.shields.io/github/languages/top/zrwusa/data-structure-typed)
