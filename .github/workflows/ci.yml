@@ -46,6 +46,9 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: Fetch Tags
+        run: git fetch --tags
+
       - name: Changelog
         run:  npm run changelog
         env:
