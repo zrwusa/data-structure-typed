@@ -37,11 +37,6 @@ jobs:
       - name: Print Environment Variables
         run: env
 
-      - name: Print Git Tags
-        run: git show-ref --tags
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Lint
         run: npm run lint
 
