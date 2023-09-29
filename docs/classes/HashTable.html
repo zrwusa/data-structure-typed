@@ -27,7 +27,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">HashTable</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/6b7cba5/src/data-structures/hash/hash-table.ts#L20">src/data-structures/hash/hash-table.ts:20</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L23">src/data-structures/hash/hash-table.ts:23</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -41,30 +41,38 @@
 <h3 class="tsd-index-heading">Properties</h3>
 <div class="tsd-index-list"><a href="HashTable.html#_buckets" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-1024"><rect fill="var(--color-icon-background)" stroke="#FF984D" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12"></rect><path d="M9.354 16V7.24H12.174C12.99 7.24 13.638 7.476 14.118 7.948C14.606 8.412 14.85 9.036 14.85 9.82C14.85 10.604 14.606 11.232 14.118 11.704C13.638 12.168 12.99 12.4 12.174 12.4H10.434V16H9.354ZM10.434 11.428H12.174C12.646 11.428 13.022 11.284 13.302 10.996C13.59 10.7 13.734 10.308 13.734 9.82C13.734 9.324 13.59 8.932 13.302 8.644C13.022 8.356 12.646 8.212 12.174 8.212H10.434V11.428Z" fill="var(--color-text)"></path></g></svg><span>_buckets</span></a>
 <a href="HashTable.html#_capacity" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>_capacity</span></a>
+<a href="HashTable.html#_hashFn" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>_hash<wbr/>Fn</span></a>
 <a href="HashTable.html#_size" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>_size</span></a>
+<a href="HashTable.html#DEFAULT_CAPACITY" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>DEFAULT_<wbr/>CAPACITY</span></a>
+<a href="HashTable.html#LOAD_FACTOR" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>LOAD_<wbr/>FACTOR</span></a>
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Accessors</h3>
 <div class="tsd-index-list"><a href="HashTable.html#buckets" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-262144"><rect fill="var(--color-icon-background)" stroke="#FF4D4D" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12"></rect><path d="M8.85 16L11.13 7.24H12.582L14.85 16H13.758L13.182 13.672H10.53L9.954 16H8.85ZM10.746 12.76H12.954L12.282 10.06C12.154 9.548 12.054 9.12 11.982 8.776C11.91 8.432 11.866 8.208 11.85 8.104C11.834 8.208 11.79 8.432 11.718 8.776C11.646 9.12 11.546 9.544 11.418 10.048L10.746 12.76Z" fill="var(--color-text)"></path></g></svg><span>buckets</span></a>
 <a href="HashTable.html#capacity" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>capacity</span></a>
+<a href="HashTable.html#hashFn" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>hash<wbr/>Fn</span></a>
 <a href="HashTable.html#size" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>size</span></a>
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Methods</h3>
-<div class="tsd-index-list"><a href="HashTable.html#get" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-2048"><rect fill="var(--color-icon-background)" stroke="#FF4DB8" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12"></rect><path d="M9.162 16V7.24H10.578L11.514 10.072C11.602 10.328 11.674 10.584 11.73 10.84C11.794 11.088 11.842 11.28 11.874 11.416C11.906 11.28 11.954 11.088 12.018 10.84C12.082 10.584 12.154 10.324 12.234 10.06L13.122 7.24H14.538V16H13.482V12.82C13.482 12.468 13.49 12.068 13.506 11.62C13.53 11.172 13.558 10.716 13.59 10.252C13.622 9.78 13.654 9.332 13.686 8.908C13.726 8.476 13.762 8.1 13.794 7.78L12.366 12.16H11.334L9.894 7.78C9.934 8.092 9.97 8.456 10.002 8.872C10.042 9.28 10.078 9.716 10.11 10.18C10.142 10.636 10.166 11.092 10.182 11.548C10.206 12.004 10.218 12.428 10.218 12.82V16H9.162Z" fill="var(--color-text)"></path></g></svg><span>get</span></a>
-<a href="HashTable.html#hash" class="tsd-index-link tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>hash</span></a>
-<a href="HashTable.html#put" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>put</span></a>
+<div class="tsd-index-list"><a href="HashTable.html#_defaultHashFn" class="tsd-index-link tsd-is-protected"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-2048"><rect fill="var(--color-icon-background)" stroke="#FF4DB8" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12"></rect><path d="M9.162 16V7.24H10.578L11.514 10.072C11.602 10.328 11.674 10.584 11.73 10.84C11.794 11.088 11.842 11.28 11.874 11.416C11.906 11.28 11.954 11.088 12.018 10.84C12.082 10.584 12.154 10.324 12.234 10.06L13.122 7.24H14.538V16H13.482V12.82C13.482 12.468 13.49 12.068 13.506 11.62C13.53 11.172 13.558 10.716 13.59 10.252C13.622 9.78 13.654 9.332 13.686 8.908C13.726 8.476 13.762 8.1 13.794 7.78L12.366 12.16H11.334L9.894 7.78C9.934 8.092 9.97 8.456 10.002 8.872C10.042 9.28 10.078 9.716 10.11 10.18C10.142 10.636 10.166 11.092 10.182 11.548C10.206 12.004 10.218 12.428 10.218 12.82V16H9.162Z" fill="var(--color-text)"></path></g></svg><span>_default<wbr/>Hash<wbr/>Fn</span></a>
+<a href="HashTable.html#_expand" class="tsd-index-link tsd-is-protected"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>_expand</span></a>
+<a href="HashTable.html#_hash" class="tsd-index-link tsd-is-protected"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>_hash</span></a>
+<a href="HashTable.html#_multiplicativeStringHashFn" class="tsd-index-link tsd-is-protected"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>_multiplicative<wbr/>String<wbr/>Hash<wbr/>Fn</span></a>
+<a href="HashTable.html#_murmurStringHashFn" class="tsd-index-link tsd-is-protected"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>_murmur<wbr/>String<wbr/>Hash<wbr/>Fn</span></a>
+<a href="HashTable.html#_objectHash" class="tsd-index-link tsd-is-protected"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>_object<wbr/>Hash</span></a>
+<a href="HashTable.html#_stringHash" class="tsd-index-link tsd-is-protected"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>_string<wbr/>Hash</span></a>
+<a href="HashTable.html#get" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>get</span></a>
 <a href="HashTable.html#remove" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>remove</span></a>
+<a href="HashTable.html#set" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>set</span></a>
 </div></section></div></details></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Constructors</h2>
 <section class="tsd-panel tsd-member"><a id="constructor" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>constructor</span><a href="#constructor" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><g stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icon-anchor"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></g></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="constructor.new_HashTable"><span class="tsd-kind-constructor-signature">new <wbr/>Hash<wbr/>Table</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">capacity</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="HashTable.html" class="tsd-signature-type tsd-kind-class">HashTable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">&gt;</span><a href="#constructor.new_HashTable" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="constructor.new_HashTable"><span class="tsd-kind-constructor-signature">new <wbr/>Hash<wbr/>Table</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">capacity</span><span class="tsd-signature-symbol">?</span>, <span class="tsd-kind-parameter">hashFn</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="HashTable.html" class="tsd-signature-type tsd-kind-class">HashTable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">&gt;</span><a href="#constructor.new_HashTable" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>The constructor initializes the capacity, size, and buckets of an object.</p>
-</div>
 <section class="tsd-panel">
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
@@ -76,52 +84,64 @@
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">capacity</span>: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1000</span></h5>
-<div class="tsd-comment tsd-typography"><p>The <code>capacity</code> parameter represents the maximum number of elements that the data structure
-can hold. It is an optional parameter with a default value of 1000.</p>
-</div>
-<div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="HashTable.html" class="tsd-signature-type tsd-kind-class">HashTable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">&gt;</span></h4>
-<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<h5><span class="tsd-kind-parameter">capacity</span>: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = HashTable.DEFAULT_CAPACITY</span></h5></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">hashFn</span>: <a href="../types/HashFunction.html" class="tsd-signature-type tsd-kind-type-alias">HashFunction</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">K</span><span class="tsd-signature-symbol">&gt;</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <a href="HashTable.html" class="tsd-signature-type tsd-kind-class">HashTable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/6b7cba5/src/data-structures/hash/hash-table.ts#L54">src/data-structures/hash/hash-table.ts:54</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L56">src/data-structures/hash/hash-table.ts:56</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-is-private"><a id="_buckets" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>_buckets</span><a href="#_buckets" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<div class="tsd-signature"><span class="tsd-kind-property">_buckets</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="HashNode.html" class="tsd-signature-type tsd-kind-class">HashNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></div><aside class="tsd-sources">
+<div class="tsd-signature"><span class="tsd-kind-property">_buckets</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="HashTableNode.html" class="tsd-signature-type tsd-kind-class">HashTableNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/6b7cba5/src/data-structures/hash/hash-table.ts#L47">src/data-structures/hash/hash-table.ts:47</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L53">src/data-structures/hash/hash-table.ts:53</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-private"><a id="_capacity" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>_capacity</span><a href="#_capacity" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">_capacity</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/6b7cba5/src/data-structures/hash/hash-table.ts#L45">src/data-structures/hash/hash-table.ts:45</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L51">src/data-structures/hash/hash-table.ts:51</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-is-private"><a id="_hashFn" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>_hash<wbr/>Fn</span><a href="#_hashFn" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">_hash<wbr/>Fn</span><span class="tsd-signature-symbol">:</span> <a href="../types/HashFunction.html" class="tsd-signature-type tsd-kind-type-alias">HashFunction</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">K</span><span class="tsd-signature-symbol">&gt;</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L54">src/data-structures/hash/hash-table.ts:54</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-is-private"><a id="_size" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>_size</span><a href="#_size" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">_size</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/6b7cba5/src/data-structures/hash/hash-table.ts#L46">src/data-structures/hash/hash-table.ts:46</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L52">src/data-structures/hash/hash-table.ts:52</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-is-private"><a id="DEFAULT_CAPACITY" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagPrivate">Private</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>DEFAULT_<wbr/>CAPACITY</span><a href="#DEFAULT_CAPACITY" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">DEFAULT_<wbr/>CAPACITY</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">16</span><span class="tsd-signature-symbol"> = 16</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L48">src/data-structures/hash/hash-table.ts:48</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member tsd-is-private"><a id="LOAD_FACTOR" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagPrivate">Private</code> <code class="tsd-tag ts-flagReadonly">Readonly</code> <span>LOAD_<wbr/>FACTOR</span><a href="#LOAD_FACTOR" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">LOAD_<wbr/>FACTOR</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">0.75</span><span class="tsd-signature-symbol"> = 0.75</span></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L49">src/data-structures/hash/hash-table.ts:49</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member"><a id="buckets" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>buckets</span><a href="#buckets" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
-<li class="tsd-signature" id="buckets.buckets-1"><span class="tsd-signature-symbol">get</span> buckets<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="HashNode.html" class="tsd-signature-type tsd-kind-class">HashNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></li>
+<li class="tsd-signature" id="buckets.buckets-1"><span class="tsd-signature-symbol">get</span> buckets<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="HashTableNode.html" class="tsd-signature-type tsd-kind-class">HashTableNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></li>
 <li class="tsd-description">
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="HashNode.html" class="tsd-signature-type tsd-kind-class">HashNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="HashTableNode.html" class="tsd-signature-type tsd-kind-class">HashTableNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/6b7cba5/src/data-structures/hash/hash-table.ts#L21">src/data-structures/hash/hash-table.ts:21</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L32">src/data-structures/hash/hash-table.ts:32</a></li></ul></aside></li>
 <li class="tsd-signature" id="buckets.buckets-2"><span class="tsd-signature-symbol">set</span> buckets<span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">value</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">value</span>: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="HashNode.html" class="tsd-signature-type tsd-kind-class">HashNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5></li></ul></div>
+<h5><span class="tsd-kind-parameter">value</span>: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="HashTableNode.html" class="tsd-signature-type tsd-kind-class">HashTableNode</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/6b7cba5/src/data-structures/hash/hash-table.ts#L25">src/data-structures/hash/hash-table.ts:25</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L36">src/data-structures/hash/hash-table.ts:36</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="capacity" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>capacity</span><a href="#capacity" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -129,7 +149,7 @@ can hold. It is an optional parameter with a default value of 1000.</p>
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/6b7cba5/src/data-structures/hash/hash-table.ts#L37">src/data-structures/hash/hash-table.ts:37</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L40">src/data-structures/hash/hash-table.ts:40</a></li></ul></aside></li>
 <li class="tsd-signature" id="capacity.capacity-2"><span class="tsd-signature-symbol">set</span> capacity<span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">value</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
@@ -139,7 +159,25 @@ can hold. It is an optional parameter with a default value of 1000.</p>
 <h5><span class="tsd-kind-parameter">value</span>: <span class="tsd-signature-type">number</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/6b7cba5/src/data-structures/hash/hash-table.ts#L41">src/data-structures/hash/hash-table.ts:41</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L44">src/data-structures/hash/hash-table.ts:44</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="hashFn" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>hash<wbr/>Fn</span><a href="#hashFn" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature" id="hashFn.hashFn-1"><span class="tsd-signature-symbol">get</span> hashFn<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../types/HashFunction.html" class="tsd-signature-type tsd-kind-type-alias">HashFunction</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">K</span><span class="tsd-signature-symbol">&gt;</span></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <a href="../types/HashFunction.html" class="tsd-signature-type tsd-kind-type-alias">HashFunction</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">K</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L24">src/data-structures/hash/hash-table.ts:24</a></li></ul></aside></li>
+<li class="tsd-signature" id="hashFn.hashFn-2"><span class="tsd-signature-symbol">set</span> hashFn<span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">value</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">value</span>: <a href="../types/HashFunction.html" class="tsd-signature-type tsd-kind-type-alias">HashFunction</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">K</span><span class="tsd-signature-symbol">&gt;</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L28">src/data-structures/hash/hash-table.ts:28</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="size" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>size</span><a href="#size" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -147,19 +185,160 @@ can hold. It is an optional parameter with a default value of 1000.</p>
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/6b7cba5/src/data-structures/hash/hash-table.ts#L29">src/data-structures/hash/hash-table.ts:29</a></li></ul></aside></li>
-<li class="tsd-signature" id="size.size-2"><span class="tsd-signature-symbol">set</span> size<span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">value</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L274">src/data-structures/hash/hash-table.ts:274</a></li></ul></aside></li></ul></section></section>
+<section class="tsd-panel-group tsd-member-group">
+<h2>Methods</h2>
+<section class="tsd-panel tsd-member tsd-is-protected"><a id="_defaultHashFn" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_default<wbr/>Hash<wbr/>Fn</span><a href="#_defaultHashFn" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-is-protected">
+<li class="tsd-signature tsd-anchor-link" id="_defaultHashFn._defaultHashFn-1"><span class="tsd-kind-call-signature">_default<wbr/>Hash<wbr/>Fn</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">key</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#_defaultHashFn._defaultHashFn-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>The function <code>_defaultHashFn</code> calculates the hash value of a given key and returns the remainder when divided by the
+capacity of the data structure.</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">value</span>: <span class="tsd-signature-type">number</span></h5></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<h5><span class="tsd-kind-parameter">key</span>: <span class="tsd-signature-type tsd-kind-type-parameter">K</span></h5>
+<div class="tsd-comment tsd-typography"><p>The <code>key</code> parameter is the input value that needs to be hashed. It can be of any type, but in this
+code snippet, it is checked whether the key is a string or an object. If it is a string, the <code>_murmurStringHashFn</code>
+function is used to</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>the hash value of the key modulo the capacity of the data structure.</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/6b7cba5/src/data-structures/hash/hash-table.ts#L33">src/data-structures/hash/hash-table.ts:33</a></li></ul></aside></li></ul></section></section>
-<section class="tsd-panel-group tsd-member-group">
-<h2>Methods</h2>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L71">src/data-structures/hash/hash-table.ts:71</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-is-protected"><a id="_expand" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_expand</span><a href="#_expand" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-is-protected">
+<li class="tsd-signature tsd-anchor-link" id="_expand._expand-1"><span class="tsd-kind-call-signature">_expand</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#_expand._expand-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>The <code>expand</code> function increases the capacity of a hash table by creating a new array of buckets with double the
+capacity and rehashing all the existing key-value pairs into the new buckets.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L247">src/data-structures/hash/hash-table.ts:247</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-is-protected"><a id="_hash" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_hash</span><a href="#_hash" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-is-protected">
+<li class="tsd-signature tsd-anchor-link" id="_hash._hash-1"><span class="tsd-kind-call-signature">_hash</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">key</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#_hash._hash-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>The _hash function takes a key and returns a number.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">key</span>: <span class="tsd-signature-type tsd-kind-type-parameter">K</span></h5>
+<div class="tsd-comment tsd-typography"><p>The parameter &quot;key&quot; is of type K, which represents the type of the key that will be hashed.</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>The hash function is returning a number.</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L123">src/data-structures/hash/hash-table.ts:123</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-is-protected"><a id="_multiplicativeStringHashFn" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_multiplicative<wbr/>String<wbr/>Hash<wbr/>Fn</span><a href="#_multiplicativeStringHashFn" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-is-protected">
+<li class="tsd-signature tsd-anchor-link" id="_multiplicativeStringHashFn._multiplicativeStringHashFn-1"><span class="tsd-kind-call-signature">_multiplicative<wbr/>String<wbr/>Hash<wbr/>Fn</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">K</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">key</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#_multiplicativeStringHashFn._multiplicativeStringHashFn-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>The <code>_multiplicativeStringHashFn</code> function calculates a hash value for a given string key using the multiplicative
+string hash function.</p>
+</div>
+<section class="tsd-panel">
+<h4>Type Parameters</h4>
+<ul class="tsd-type-parameter-list">
+<li>
+<h4><span class="tsd-kind-type-parameter">K</span></h4></li></ul></section>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">key</span>: <span class="tsd-signature-type tsd-kind-type-parameter">K</span></h5>
+<div class="tsd-comment tsd-typography"><p>The <code>key</code> parameter is the input value for which we want to calculate the hash. It can be of any
+type, as it is generic (<code>K</code>). The function converts the <code>key</code> to a string using the <code>String()</code> function.</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>a number, which is the result of the multiplicative string hash function applied to the input key.</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L84">src/data-structures/hash/hash-table.ts:84</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-is-protected"><a id="_murmurStringHashFn" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_murmur<wbr/>String<wbr/>Hash<wbr/>Fn</span><a href="#_murmurStringHashFn" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-is-protected">
+<li class="tsd-signature tsd-anchor-link" id="_murmurStringHashFn._murmurStringHashFn-1"><span class="tsd-kind-call-signature">_murmur<wbr/>String<wbr/>Hash<wbr/>Fn</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">K</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">key</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#_murmurStringHashFn._murmurStringHashFn-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>The function <code>_murmurStringHashFn</code> calculates a hash value for a given string key using the MurmurHash algorithm.</p>
+</div>
+<section class="tsd-panel">
+<h4>Type Parameters</h4>
+<ul class="tsd-type-parameter-list">
+<li>
+<h4><span class="tsd-kind-type-parameter">K</span></h4></li></ul></section>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">key</span>: <span class="tsd-signature-type tsd-kind-type-parameter">K</span></h5>
+<div class="tsd-comment tsd-typography"><p>The <code>key</code> parameter is the input value for which you want to calculate the hash. It can be of any
+type, but it will be converted to a string using the <code>String()</code> function before calculating the hash.</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>a number, which is the hash value calculated for the given key.</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L103">src/data-structures/hash/hash-table.ts:103</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-is-protected"><a id="_objectHash" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_object<wbr/>Hash</span><a href="#_objectHash" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-is-protected">
+<li class="tsd-signature tsd-anchor-link" id="_objectHash._objectHash-1"><span class="tsd-kind-call-signature">_object<wbr/>Hash</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">key</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#_objectHash._objectHash-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>The function <code>_objectHash</code> takes a key and returns a hash value, using a custom hash function for objects.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">key</span>: <span class="tsd-signature-type tsd-kind-type-parameter">K</span></h5>
+<div class="tsd-comment tsd-typography"><p>The parameter &quot;key&quot; is of type &quot;K&quot;, which means it can be any type. It could be a string, number,
+boolean, object, or any other type of value. The purpose of the objectHash function is to generate a hash value for
+the key, which can be used for</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>a number, which is the hash value of the key.</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L148">src/data-structures/hash/hash-table.ts:148</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-is-protected"><a id="_stringHash" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_string<wbr/>Hash</span><a href="#_stringHash" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-is-protected">
+<li class="tsd-signature tsd-anchor-link" id="_stringHash._stringHash-1"><span class="tsd-kind-call-signature">_string<wbr/>Hash</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">key</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#_stringHash._stringHash-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>The function calculates a hash value for a given string using the djb2 algorithm.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">key</span>: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>The <code>key</code> parameter in the <code>stringHash</code> function is a string value that represents the input for
+which we want to calculate the hash value.</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>a number, which is the hash value of the input string.</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L133">src/data-structures/hash/hash-table.ts:133</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="get" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get</span><a href="#get" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
@@ -172,7 +351,7 @@ can hold. It is an optional parameter with a default value of 1000.</p>
 <ul class="tsd-parameter-list">
 <li>
 <h5><span class="tsd-kind-parameter">key</span>: <span class="tsd-signature-type tsd-kind-type-parameter">K</span></h5>
-<div class="tsd-comment tsd-typography"><p>The parameter &quot;key&quot; represents the key of the element that we want to retrieve from the data
+<div class="tsd-comment tsd-typography"><p>The <code>key</code> parameter represents the key of the element that we want to retrieve from the data
 structure.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
@@ -181,61 +360,13 @@ not found, it returns <code>undefined</code>.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/6b7cba5/src/data-structures/hash/hash-table.ts#L118">src/data-structures/hash/hash-table.ts:118</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member tsd-is-private"><a id="hash" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>hash</span><a href="#hash" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures tsd-is-private">
-<li class="tsd-signature tsd-anchor-link" id="hash.hash-1"><span class="tsd-kind-call-signature">hash</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">key</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#hash.hash-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
-<li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>The hash function takes a key, converts it to a string, calculates the sum of the ASCII values of its characters, and
-returns the remainder when divided by the capacity of the data structure.</p>
-</div>
-<div class="tsd-parameters">
-<h4 class="tsd-parameters-title">Parameters</h4>
-<ul class="tsd-parameter-list">
-<li>
-<h5><span class="tsd-kind-parameter">key</span>: <span class="tsd-signature-type tsd-kind-type-parameter">K</span></h5>
-<div class="tsd-comment tsd-typography"><p>The <code>key</code> parameter represents the key that needs to be hashed. It is of type <code>K</code>, which means it can
-be any data type that can be converted to a string.</p>
-</div>
-<div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><p>The hash value of the key modulo the capacity of the data structure.</p>
-
-<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
-<ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/6b7cba5/src/data-structures/hash/hash-table.ts#L67">src/data-structures/hash/hash-table.ts:67</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member"><a id="put" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><span>put</span><a href="#put" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="put.put-1"><span class="tsd-kind-call-signature">put</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">key</span>, <span class="tsd-kind-parameter">val</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#put.put-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
-<li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>The put function adds a key-value pair to a hash table, handling collisions by chaining.</p>
-</div>
-<div class="tsd-parameters">
-<h4 class="tsd-parameters-title">Parameters</h4>
-<ul class="tsd-parameter-list">
-<li>
-<h5><span class="tsd-kind-parameter">key</span>: <span class="tsd-signature-type tsd-kind-type-parameter">K</span></h5>
-<div class="tsd-comment tsd-typography"><p>The key parameter represents the key of the key-value pair that you want to insert into the hash
-table. It is of type K, which can be any data type that can be used as a key, such as a string, number, or object.</p>
-</div>
-<div class="tsd-comment tsd-typography"></div></li>
-<li>
-<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">V</span></h5>
-<div class="tsd-comment tsd-typography"><p>The <code>val</code> parameter represents the value associated with the key in the hash table.</p>
-</div>
-<div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><p>Nothing is being returned. The return type of the function is void, which means it does not return any value.</p>
-
-<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
-<ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/6b7cba5/src/data-structures/hash/hash-table.ts#L83">src/data-structures/hash/hash-table.ts:83</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L202">src/data-structures/hash/hash-table.ts:202</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member"><a id="remove" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>remove</span><a href="#remove" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <ul class="tsd-signatures">
 <li class="tsd-signature tsd-anchor-link" id="remove.remove-1"><span class="tsd-kind-call-signature">remove</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">key</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#remove.remove-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>The <code>remove</code> function removes a key-value pair from a hash table.</p>
+<div class="tsd-comment tsd-typography"><p>The remove function removes a key-value pair from a hash table.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -251,7 +382,35 @@ any value.</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/6b7cba5/src/data-structures/hash/hash-table.ts#L138">src/data-structures/hash/hash-table.ts:138</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L222">src/data-structures/hash/hash-table.ts:222</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="set" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>set</span><a href="#set" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="set.set-1"><span class="tsd-kind-call-signature">set</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">key</span>, <span class="tsd-kind-parameter">val</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#set.set-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>The set function adds a key-value pair to the hash table, handling collisions and resizing if necessary.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">key</span>: <span class="tsd-signature-type tsd-kind-type-parameter">K</span></h5>
+<div class="tsd-comment tsd-typography"><p>The key parameter represents the key of the key-value pair that you want to insert into the hash
+table. It is of type K, which is a generic type representing the key&#39;s data type.</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><span class="tsd-kind-parameter">val</span>: <span class="tsd-signature-type tsd-kind-type-parameter">V</span></h5>
+<div class="tsd-comment tsd-typography"><p>The parameter <code>val</code> represents the value that you want to associate with the given key in the hash
+table.</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><p>Nothing is being returned. The return type of the <code>put</code> method is <code>void</code>, which means it does not return any
+value.</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/zrwusa/data-structure-typed/blob/1687f3c/src/data-structures/hash/hash-table.ts#L164">src/data-structures/hash/hash-table.ts:164</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -274,14 +433,24 @@ any value.</p>
 <li><a href="#constructor" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-512"></use></svg><span>constructor</span></a></li>
 <li><a href="#_buckets" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>_buckets</span></a></li>
 <li><a href="#_capacity" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>_capacity</span></a></li>
+<li><a href="#_hashFn" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>_hash<wbr/>Fn</span></a></li>
 <li><a href="#_size" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>_size</span></a></li>
+<li><a href="#DEFAULT_CAPACITY" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>DEFAULT_<wbr/>CAPACITY</span></a></li>
+<li><a href="#LOAD_FACTOR" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>LOAD_<wbr/>FACTOR</span></a></li>
 <li><a href="#buckets" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>buckets</span></a></li>
 <li><a href="#capacity" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>capacity</span></a></li>
+<li><a href="#hashFn" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>hash<wbr/>Fn</span></a></li>
 <li><a href="#size" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-262144"></use></svg><span>size</span></a></li>
+<li><a href="#_defaultHashFn" class="tsd-is-protected"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>_default<wbr/>Hash<wbr/>Fn</span></a></li>
+<li><a href="#_expand" class="tsd-is-protected"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>_expand</span></a></li>
+<li><a href="#_hash" class="tsd-is-protected"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>_hash</span></a></li>
+<li><a href="#_multiplicativeStringHashFn" class="tsd-is-protected"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>_multiplicative<wbr/>String<wbr/>Hash<wbr/>Fn</span></a></li>
+<li><a href="#_murmurStringHashFn" class="tsd-is-protected"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>_murmur<wbr/>String<wbr/>Hash<wbr/>Fn</span></a></li>
+<li><a href="#_objectHash" class="tsd-is-protected"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>_object<wbr/>Hash</span></a></li>
+<li><a href="#_stringHash" class="tsd-is-protected"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>_string<wbr/>Hash</span></a></li>
 <li><a href="#get" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>get</span></a></li>
-<li><a href="#hash" class="tsd-is-private"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>hash</span></a></li>
-<li><a href="#put" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>put</span></a></li>
-<li><a href="#remove" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>remove</span></a></li></ul></div></details></div>
+<li><a href="#remove" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>remove</span></a></li>
+<li><a href="#set" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>set</span></a></li></ul></div></details></div>
 <div class="site-menu">
 <nav class="tsd-navigation"><a href="../modules.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-4"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-namespace)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6"></rect><path d="M9.33 16V7.24H10.77L13.446 14.74C13.43 14.54 13.41 14.296 13.386 14.008C13.37 13.712 13.354 13.404 13.338 13.084C13.33 12.756 13.326 12.448 13.326 12.16V7.24H14.37V16H12.93L10.266 8.5C10.282 8.692 10.298 8.936 10.314 9.232C10.33 9.52 10.342 9.828 10.35 10.156C10.366 10.476 10.374 10.784 10.374 11.08V16H9.33Z" fill="var(--color-text)"></path></g></svg><span>data-<wbr/>structure-<wbr/>typed</span></a>
 <ul class="tsd-small-nested-navigation">
@@ -314,8 +483,9 @@ any value.</p>
 <li><a href="DirectedVertex.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Directed<wbr/>Vertex</span></a></li>
 <li><a href="DoublyLinkedList.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Doubly<wbr/>Linked<wbr/>List</span></a></li>
 <li><a href="DoublyLinkedListNode.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Doubly<wbr/>Linked<wbr/>List<wbr/>Node</span></a></li>
-<li><a href="HashNode.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Hash<wbr/>Node</span></a></li>
+<li><a href="HashMap.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Hash<wbr/>Map</span></a></li>
 <li><a href="HashTable.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Hash<wbr/>Table</span></a></li>
+<li><a href="HashTableNode.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Hash<wbr/>Table<wbr/>Node</span></a></li>
 <li><a href="Heap.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Heap</span></a></li>
 <li><a href="HeapItem.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Heap<wbr/>Item</span></a></li>
 <li><a href="LinkedListQueue.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Linked<wbr/>List<wbr/>Queue</span></a></li>
@@ -339,7 +509,8 @@ any value.</p>
 <li><a href="SegmentTreeNode.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Segment<wbr/>Tree<wbr/>Node</span></a></li>
 <li><a href="SinglyLinkedList.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Singly<wbr/>Linked<wbr/>List</span></a></li>
 <li><a href="SinglyLinkedListNode.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Singly<wbr/>Linked<wbr/>List<wbr/>Node</span></a></li>
-<li><a href="SkipLinkedList.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Skip<wbr/>Linked<wbr/>List</span></a></li>
+<li><a href="SkipList.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Skip<wbr/>List</span></a></li>
+<li><a href="SkipListNode.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Skip<wbr/>List<wbr/>Node</span></a></li>
 <li><a href="SplayTree.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Splay<wbr/>Tree</span></a></li>
 <li><a href="Stack.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Stack</span></a></li>
 <li><a href="TreeMap.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Tree<wbr/>Map</span></a></li>
@@ -381,6 +552,7 @@ any value.</p>
 <li><a href="../types/Direction.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Direction</span></a></li>
 <li><a href="../types/DummyAny.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Dummy<wbr/>Any</span></a></li>
 <li><a href="../types/EdgeId.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Edge<wbr/>Id</span></a></li>
+<li><a href="../types/HashFunction.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Hash<wbr/>Function</span></a></li>
 <li><a href="../types/HeapOptions.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Heap<wbr/>Options</span></a></li>
 <li><a href="../types/IAVLTreeNode.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>IAVLTree<wbr/>Node</span></a></li>
 <li><a href="../types/IBSTNode.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>IBSTNode</span></a></li>

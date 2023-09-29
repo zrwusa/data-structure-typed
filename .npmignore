@@ -11,7 +11,7 @@
 /webpack.config.js
 
 /rename_clear_files.sh
-/tsconfig.build.json
+/tsconfig.prod.json
 
 /docs/assets
 /docs/classes

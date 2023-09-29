@@ -258,23 +258,16 @@ Floyd-Warshall Algorithm, Tarjan&#39;s Algorithm.</p>
     <tr>
       <td>Set</td>
       <td>std::set&lt;T&gt;</td>
-      <td>Set</td>
+      <td>Set&lt;E&gt</td>
       <td>HashSet&lt;E&gt;</td>
       <td>set</td>
     </tr>
     <tr>
       <td>Map</td>
       <td>std::map&lt;K, V&gt;</td>
-      <td>Map</td>
+      <td>Map&lt;K, V&gt;</td>
       <td>HashMap&lt;K, V&gt;</td>
       <td>dict</td>
-    </tr>
-    <tr>
-      <td>Unordered Map</td>
-      <td>std::unordered_map&lt;K, V&gt;</td>
-      <td>N/A</td>
-      <td>HashMap&lt;K, V&gt;</td>
-      <td>defaultdict</td>
     </tr>
     <tr>
       <td>Unordered Set</td>
@@ -284,23 +277,30 @@ Floyd-Warshall Algorithm, Tarjan&#39;s Algorithm.</p>
       <td>N/A</td>
     </tr>
     <tr>
+      <td>Unordered Map</td>
+      <td>std::unordered_map&lt;K, V&gt;</td>
+      <td>HashTable&lt;K, V&gt;</td>
+      <td>HashMap&lt;K, V&gt;</td>
+      <td>defaultdict</td>
+    </tr>
+    <tr>
       <td>Queue</td>
       <td>std::queue&lt;T&gt;</td>
-      <td>Queue</td>
+      <td>Queue&lt;E&gt;</td>
       <td>Queue&lt;E&gt;</td>
       <td>N/A</td>
     </tr>
     <tr>
       <td>Priority Queue</td>
       <td>std::priority_queue&lt;T&gt;</td>
-      <td>PriorityQueue</td>
+      <td>PriorityQueue&lt;E&gt;</td>
       <td>PriorityQueue&lt;E&gt;</td>
       <td>N/A</td>
     </tr>
     <tr>
       <td>Stack</td>
       <td>std::stack&lt;T&gt;</td>
-      <td>Stack</td>
+      <td>Stack&lt;E&gt;</td>
       <td>Stack&lt;E&gt;</td>
       <td>N/A</td>
     </tr>
@@ -314,7 +314,7 @@ Floyd-Warshall Algorithm, Tarjan&#39;s Algorithm.</p>
     <tr>
       <td>Deque</td>
       <td>std::deque&lt;T&gt;</td>
-      <td>Deque</td>
+      <td>Deque&lt;E&gt;</td>
       <td>N/A</td>
       <td>N/A</td>
     </tr>
@@ -342,14 +342,14 @@ Floyd-Warshall Algorithm, Tarjan&#39;s Algorithm.</p>
     <tr>
       <td>Ordered Dictionary</td>
       <td>N/A</td>
-      <td>Map</td>
+      <td>Map&lt;K, V&gt;</td>
       <td>N/A</td>
       <td>OrderedDict</td>
     </tr>
     <tr>
       <td>Double-Ended Queue (Deque)</td>
       <td>std::deque&lt;T&gt;</td>
-      <td>Deque</td>
+      <td>Deque&lt;E&gt;</td>
       <td>N/A</td>
       <td>N/A</td>
     </tr>
@@ -766,8 +766,9 @@ optimal approach to data structure design.</p>
 <li><a href="classes/DirectedVertex.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Directed<wbr/>Vertex</span></a></li>
 <li><a href="classes/DoublyLinkedList.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Doubly<wbr/>Linked<wbr/>List</span></a></li>
 <li><a href="classes/DoublyLinkedListNode.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Doubly<wbr/>Linked<wbr/>List<wbr/>Node</span></a></li>
-<li><a href="classes/HashNode.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Hash<wbr/>Node</span></a></li>
+<li><a href="classes/HashMap.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Hash<wbr/>Map</span></a></li>
 <li><a href="classes/HashTable.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Hash<wbr/>Table</span></a></li>
+<li><a href="classes/HashTableNode.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Hash<wbr/>Table<wbr/>Node</span></a></li>
 <li><a href="classes/Heap.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Heap</span></a></li>
 <li><a href="classes/HeapItem.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Heap<wbr/>Item</span></a></li>
 <li><a href="classes/LinkedListQueue.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Linked<wbr/>List<wbr/>Queue</span></a></li>
@@ -791,7 +792,8 @@ optimal approach to data structure design.</p>
 <li><a href="classes/SegmentTreeNode.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Segment<wbr/>Tree<wbr/>Node</span></a></li>
 <li><a href="classes/SinglyLinkedList.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Singly<wbr/>Linked<wbr/>List</span></a></li>
 <li><a href="classes/SinglyLinkedListNode.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Singly<wbr/>Linked<wbr/>List<wbr/>Node</span></a></li>
-<li><a href="classes/SkipLinkedList.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Skip<wbr/>Linked<wbr/>List</span></a></li>
+<li><a href="classes/SkipList.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Skip<wbr/>List</span></a></li>
+<li><a href="classes/SkipListNode.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Skip<wbr/>List<wbr/>Node</span></a></li>
 <li><a href="classes/SplayTree.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Splay<wbr/>Tree</span></a></li>
 <li><a href="classes/Stack.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Stack</span></a></li>
 <li><a href="classes/TreeMap.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-128"></use></svg><span>Tree<wbr/>Map</span></a></li>
@@ -833,6 +835,7 @@ optimal approach to data structure design.</p>
 <li><a href="types/Direction.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Direction</span></a></li>
 <li><a href="types/DummyAny.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Dummy<wbr/>Any</span></a></li>
 <li><a href="types/EdgeId.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Edge<wbr/>Id</span></a></li>
+<li><a href="types/HashFunction.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Hash<wbr/>Function</span></a></li>
 <li><a href="types/HeapOptions.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>Heap<wbr/>Options</span></a></li>
 <li><a href="types/IAVLTreeNode.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>IAVLTree<wbr/>Node</span></a></li>
 <li><a href="types/IBSTNode.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4194304"></use></svg><span>IBSTNode</span></a></li>
