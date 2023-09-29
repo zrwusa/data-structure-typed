@@ -441,23 +441,16 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
     <tr>
       <td>Set</td>
       <td>std::set&lt;T&gt;</td>
-      <td>Set</td>
+      <td>Set&lt;E&gt</td>
       <td>HashSet&lt;E&gt;</td>
       <td>set</td>
     </tr>
     <tr>
       <td>Map</td>
       <td>std::map&lt;K, V&gt;</td>
-      <td>Map</td>
+      <td>Map&lt;K, V&gt;</td>
       <td>HashMap&lt;K, V&gt;</td>
       <td>dict</td>
-    </tr>
-    <tr>
-      <td>Unordered Map</td>
-      <td>std::unordered_map&lt;K, V&gt;</td>
-      <td>N/A</td>
-      <td>HashMap&lt;K, V&gt;</td>
-      <td>defaultdict</td>
     </tr>
     <tr>
       <td>Unordered Set</td>
@@ -467,23 +460,30 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
       <td>N/A</td>
     </tr>
     <tr>
+      <td>Unordered Map</td>
+      <td>std::unordered_map&lt;K, V&gt;</td>
+      <td>HashTable&lt;K, V&gt;</td>
+      <td>HashMap&lt;K, V&gt;</td>
+      <td>defaultdict</td>
+    </tr>
+    <tr>
       <td>Queue</td>
       <td>std::queue&lt;T&gt;</td>
-      <td>Queue</td>
+      <td>Queue&lt;E&gt;</td>
       <td>Queue&lt;E&gt;</td>
       <td>N/A</td>
     </tr>
     <tr>
       <td>Priority Queue</td>
       <td>std::priority_queue&lt;T&gt;</td>
-      <td>PriorityQueue</td>
+      <td>PriorityQueue&lt;E&gt;</td>
       <td>PriorityQueue&lt;E&gt;</td>
       <td>N/A</td>
     </tr>
     <tr>
       <td>Stack</td>
       <td>std::stack&lt;T&gt;</td>
-      <td>Stack</td>
+      <td>Stack&lt;E&gt;</td>
       <td>Stack&lt;E&gt;</td>
       <td>N/A</td>
     </tr>
@@ -497,7 +497,7 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
     <tr>
       <td>Deque</td>
       <td>std::deque&lt;T&gt;</td>
-      <td>Deque</td>
+      <td>Deque&lt;E&gt;</td>
       <td>N/A</td>
       <td>N/A</td>
     </tr>
@@ -525,14 +525,14 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
     <tr>
       <td>Ordered Dictionary</td>
       <td>N/A</td>
-      <td>Map</td>
+      <td>Map&lt;K, V&gt;</td>
       <td>N/A</td>
       <td>OrderedDict</td>
     </tr>
     <tr>
       <td>Double-Ended Queue (Deque)</td>
       <td>std::deque&lt;T&gt;</td>
-      <td>Deque</td>
+      <td>Deque&lt;E&gt;</td>
       <td>N/A</td>
       <td>N/A</td>
     </tr>

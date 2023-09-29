@@ -87,12 +87,21 @@ export class SegmentTree {
    * included in the range. If not provided, it defaults to the index of the last element in the "values" array.
    */
   constructor(values: number[], start?: number, end?: number) {
+    console.log('values.length:', values.length);
     start = start || 0;
     end = end || values.length - 1;
     this._values = values;
     this._start = start;
     this._end = end;
-    this._root = this.build(start, end);
+
+    if (values.length > 0) {
+      console.log('Initializing with non-empty array');
+      this._root = this.build(start, end);
+    } else {
+      console.log('Initializing with empty array');
+      this._root = null;
+      this._values = [];
+    }
   }
 
   private _values: number[] = [];
@@ -119,15 +128,18 @@ export class SegmentTree {
   }
 
   /**
-   * The function builds a segment tree by recursively dividing the given range into smaller segments and creating nodes
-   * for each segment.
+   * The build function creates a segment tree by recursively dividing the given range into smaller segments and assigning
+   * the sum of values to each segment.
    * @param {number} start - The `start` parameter represents the starting index of the segment or range for which we are
    * building the segment tree.
-   * @param {number} end - The `end` parameter represents the ending index of the segment or range for which we are
-   * building the segment tree.
+   * @param {number} end - The "end" parameter represents the ending index of the segment or range for which we want to
+   * build a segment tree.
    * @returns a SegmentTreeNode object.
    */
   build(start: number, end: number): SegmentTreeNode {
+    if (start > end) {
+      return new SegmentTreeNode(start, end, 0);
+    }
     if (start === end) return new SegmentTreeNode(start, end, this._values[start]);
 
     const mid = start + Math.floor((end - start) / 2);
@@ -192,33 +204,39 @@ export class SegmentTree {
       return 0;
     }
 
+    if (indexA < 0 || indexB >= this.values.length || indexA > indexB) {
+      return NaN;
+    }
+
     const dfs = (cur: SegmentTreeNode, i: number, j: number): number => {
-      if (cur.start === i && cur.end === j) {
+      if (i <= cur.start && j >= cur.end) {
+        // The range [i, j] completely covers the current node's range [cur.start, cur.end]
         return cur.sum;
       }
       const mid = cur.start + Math.floor((cur.end - cur.start) / 2);
       if (j <= mid) {
-        // TODO after no-non-null-assertion not ensure the logic
         if (cur.left) {
           return dfs(cur.left, i, j);
         } else {
           return NaN;
         }
       } else if (i > mid) {
-        // TODO after no-non-null-assertion not ensure the logic
         if (cur.right) {
-          // TODO after no-non-null-assertion not ensure the logic
           return dfs(cur.right, i, j);
         } else {
           return NaN;
         }
       } else {
-        // TODO after no-non-null-assertion not ensure the logic
-        if (cur.left && cur.right) {
-          return dfs(cur.left, i, mid) + dfs(cur.right, mid + 1, j);
-        } else {
-          return NaN;
+        // Query both left and right subtrees
+        let leftSum = 0;
+        let rightSum = 0;
+        if (cur.left) {
+          leftSum = dfs(cur.left, i, mid);
         }
+        if (cur.right) {
+          rightSum = dfs(cur.right, mid + 1, j);
+        }
+        return leftSum + rightSum;
       }
     };
     return dfs(root, indexA, indexB);

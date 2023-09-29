@@ -13,3 +13,4 @@ export * from './heap';
 export * from './singly-linked-list';
 export * from './doubly-linked-list';
 export * from './navigator';
+export * from './hash';

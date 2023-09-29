@@ -9,6 +9,7 @@ on:
     paths-ignore:
       - 'lib/**'
       - 'dist/**'
+      - 'umd/**'
       - 'docs/**'
       - 'coverage/**'
       - '**/*.md'
