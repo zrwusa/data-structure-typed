@@ -462,7 +462,7 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
     <tr>
       <td>Unordered Map</td>
       <td>std::unordered_map&lt;K, V&gt;</td>
-      <td>HashTable&lt;K, V&gt;</td>
+      <td>HashMap&lt;K, V&gt;</td>
       <td>HashMap&lt;K, V&gt;</td>
       <td>defaultdict</td>
     </tr>
@@ -530,13 +530,6 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
       <td>OrderedDict</td>
     </tr>
     <tr>
-      <td>Double-Ended Queue (Deque)</td>
-      <td>std::deque&lt;T&gt;</td>
-      <td>Deque&lt;E&gt;</td>
-      <td>N/A</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
       <td>Linked Hash Set</td>
       <td>N/A</td>
       <td>N/A</td>
@@ -553,21 +546,21 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
     <tr>
       <td>Sorted Set</td>
       <td>N/A</td>
-      <td>AVLTree, RBTree</td>
+      <td>AVLTree</td>
       <td>TreeSet&lt;E&gt;</td>
       <td>N/A</td>
     </tr>
     <tr>
       <td>Sorted Map</td>
       <td>N/A</td>
-      <td>AVLTree, RBTree</td>
+      <td>AVLTree</td>
       <td>TreeMap&lt;K, V&gt;</td>
       <td>N/A</td>
     </tr>
     <tr>
       <td>Tree Set</td>
       <td>std::set</td>
-      <td>AVLTree, RBTree</td>
+      <td>AVLTree</td>
       <td>TreeSet&lt;E&gt;</td>
       <td>N/A</td>
     </tr>
