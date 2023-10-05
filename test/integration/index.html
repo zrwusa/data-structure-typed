@@ -13,30 +13,38 @@
 </div>
 <script defer>
   const $modules = document.querySelector('.modules');
-  const $avlTree = document.createElement('li');
-  const $avlTreeSpan = document.createElement('span');
-  $avlTreeSpan.innerText = 'AVLTree';
-  $avlTree.append($avlTreeSpan);
-  const {AVLTree, Queue} = dataStructureTyped;
-  const avlTree = new AVLTree();
-
-  avlTree.add(1, 1);
-  console.log(avlTree.BFS());
-  $modules.append($avlTree);
 
 
-  const queue = new Queue();
-  for (let i = 0; i < 1000000; i++) {
-    queue.enqueue(i);
+  try {
+    const {AVLTree, Queue} = window.dataStructureTyped;
+    const avlTree = new AVLTree();
+    const $avlTree = document.createElement('li');
+    const $avlTreeSpan = document.createElement('span');
+    $avlTreeSpan.innerText = 'AVLTree';
+    $avlTree.append($avlTreeSpan);
+    avlTree.add(1, 1);
+    console.log(avlTree.BFS());
+    $modules.append($avlTree);
+
+
+    const queue = new Queue();
+    for (let i = 0; i < 1000000; i++) {
+      queue.enqueue(i);
+    }
+    let last = 0;
+    const startTime = performance.now();
+
+    for (let i = 0; i < 1000000; i++) {
+      last = queue.dequeue();
+    }
+
+    console.log(performance.now() - startTime);
+
   }
-  let last = 0;
-  const startTime = performance.now();
-
-  for (let i = 0; i < 1000000; i++) {
-    last = queue.dequeue();
+  catch (e) {
+    console.error(e);
   }
 
-  console.log(performance.now() - startTime);
 </script>
 
 </body>

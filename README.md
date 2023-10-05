@@ -2,16 +2,26 @@
 
 Data Structures of Javascript & TypeScript.
 
-Do you envy languages like C++ with [std](), Python with [collections](), and Java with [java.util]() ? Well, no need to envy anymore! JavaScript and TypeScript now have [data-structure-typed]().
+Do you envy C++ with [std](), Python with [collections](), and Java with [java.util]() ? Well, no need to envy anymore! JavaScript and TypeScript now have [data-structure-typed]().
 
 Now you can use this library in Node.js and browser environments in CommonJS(require export.modules = ), ESModule(import export), Typescript(import export), UMD(var Queue = dataStructureTyped.Queue)
+
+The size after packaging is 69 kB.
 
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Language](https://img.shields.io/github/languages/top/zrwusa/data-structure-typed)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/zrwusa/data-structure-typed)
-![Branches](https://img.shields.io/badge/branches-97.54%25-brightgreen.svg?style=flat)
 ![npm](https://aleen42.github.io/badges/src/npm.svg)
 ![eslint](https://aleen42.github.io/badges/src/eslint.svg)
+
+[//]: # (![Branches]&#40;https://img.shields.io/badge/branches-55.47%25-red.svg?style=flat&#41;)
+
+[//]: # (![Statements]&#40;https://img.shields.io/badge/statements-67%25-red.svg?style=flat&#41;)
+
+[//]: # (![Functions]&#40;https://img.shields.io/badge/functions-66.38%25-red.svg?style=flat&#41;)
+
+[//]: # (![Lines]&#40;https://img.shields.io/badge/lines-68.6%25-red.svg?style=flat&#41;)
+
 
 ## Built-in classic algorithms
 
@@ -23,13 +33,21 @@ Floyd-Warshall Algorithm, Tarjan's Algorithm.
 ### npm
 
 ```bash
-npm i data-structure-typed --save
+npm i data-structure-typed
 ```
 
 ### yarn
 
 ```bash
 yarn add data-structure-typed
+```
+
+```js
+import {
+  BinaryTree, Graph, Queue, Stack, PriorityQueue, BST, Trie, DoublyLinkedList,
+  AVLTree, MinHeap, SinglyLinkedList, DirectedGraph, TreeMultiset,
+  DirectedVertex, AVLTreeNode
+} from 'data-structure-typed';
 ```
 
 ### CDN
@@ -40,18 +58,11 @@ yarn add data-structure-typed
 ```
 
 ```js
-const {AVLTree} = dataStructureTyped;
+const {Heap} = dataStructureTyped;
 const {
-  Heap,
-  MinHeap,
-  SinglyLinkedList,
-  Stack,
-  AVLTreeNode,
-  BST,
-  Trie,
-  DirectedGraph,
-  DirectedVertex,
-  TreeMultiset
+  BinaryTree, Graph, Queue, Stack, PriorityQueue, BST, Trie, DoublyLinkedList,
+  AVLTree, MinHeap, SinglyLinkedList, DirectedGraph, TreeMultiset,
+  DirectedVertex, AVLTreeNode
 } = dataStructureTyped;
 ```
 
