@@ -7,23 +7,31 @@
 .gitignore
 .prettierignore
 
+/notes
+/backup
+
 /package-lock.json
 /webpack.config.js
 
 /rename_clear_files.sh
 /tsconfig.prod.json
 
-/docs/assets
-/docs/classes
-/docs/enums
-/docs/functions
-/docs/interfaces
-/docs/types
-/docs/variables
+/docs
+#/docs/assets
+#/docs/classes
+#/docs/enums
+#/docs/functions
+#/docs/interfaces
+#/docs/types
+#/docs/variables
 
-/coverage/lcov-report
-/coverage/clover.xml
-/coverage/lcov.info
+/coverage
+#/coverage/lcov-report
+#/coverage/clover.xml
+#/coverage/lcov.info
 
-/notes
-/backup
+jest.config.js
+.prettierrc.js
+tsconfig.json
+/test
+/src
