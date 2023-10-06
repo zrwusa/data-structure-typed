@@ -4,34 +4,19 @@
 .dependency-cruiser.js
 .editorconfig
 .gitattributes
-.gitignore
 .prettierignore
 
 /notes
 /backup
 
-/package-lock.json
 /webpack.config.js
 
 /rename_clear_files.sh
 /tsconfig.prod.json
 
 /docs
-#/docs/assets
-#/docs/classes
-#/docs/enums
-#/docs/functions
-#/docs/interfaces
-#/docs/types
-#/docs/variables
-
 /coverage
-#/coverage/lcov-report
-#/coverage/clover.xml
-#/coverage/lcov.info
 
 jest.config.js
 .prettierrc.js
 tsconfig.json
-#/test
-#/src

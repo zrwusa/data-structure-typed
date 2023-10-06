@@ -87,7 +87,6 @@ export class SegmentTree {
    * included in the range. If not provided, it defaults to the index of the last element in the "values" array.
    */
   constructor(values: number[], start?: number, end?: number) {
-    console.log('values.length:', values.length);
     start = start || 0;
     end = end || values.length - 1;
     this._values = values;
@@ -95,10 +94,8 @@ export class SegmentTree {
     this._end = end;
 
     if (values.length > 0) {
-      console.log('Initializing with non-empty array');
       this._root = this.build(start, end);
     } else {
-      console.log('Initializing with empty array');
       this._root = null;
       this._values = [];
     }
