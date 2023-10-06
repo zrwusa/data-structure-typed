@@ -33,5 +33,5 @@
 jest.config.js
 .prettierrc.js
 tsconfig.json
-/test
-/src
+#/test
+#/src
