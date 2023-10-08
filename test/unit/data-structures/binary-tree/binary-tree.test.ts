@@ -1,5 +1,4 @@
-import {BinaryTreeNode} from '../../../../src';
-import {BinaryTree} from 'binary-tree-typed';
+import {BinaryTree, BinaryTreeNode} from '../../../../src';
 
 describe('BinaryTreeNode', () => {
   it('should create an instance of BinaryTreeNode', () => {
@@ -16,7 +15,7 @@ describe('BinaryTreeNode', () => {
   });
 
   it('should set and get the value correctly', () => {
-    const node = new BinaryTreeNode<number>(1, 42);
+    const node: BinaryTreeNode<number> = new BinaryTreeNode<number>(1, 42);
     expect(node.val).toBe(42);
 
     node.val = 55;
