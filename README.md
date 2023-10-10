@@ -1,11 +1,5 @@
 # Data Structure Typed
 
-Data Structures of Javascript & TypeScript.
-
-Do you envy C++ with [std](), Python with [collections](), and Java with [java.util]() ? Well, no need to envy anymore! JavaScript and TypeScript now have [data-structure-typed]().
-
-Now you can use this library in Node.js and browser environments in CommonJS(require export.modules = ), ESModule(import export), Typescript(import export), UMD(var Queue = dataStructureTyped.Queue)
-
 ![NPM](https://img.shields.io/npm/l/data-structure-typed)
 ![GitHub top language](https://img.shields.io/github/languages/top/zrwusa/data-structure-typed)
 ![npm](https://img.shields.io/npm/dw/data-structure-typed)
@@ -14,6 +8,12 @@ Now you can use this library in Node.js and browser environments in CommonJS(req
 ![npm bundle size](https://img.shields.io/bundlephobia/min/data-structure-typed)
 ![npm](https://img.shields.io/npm/v/data-structure-typed)
 
+
+Data Structures of Javascript & TypeScript.
+
+Do you envy C++ with [std](), Python with [collections](), and Java with [java.util]() ? Well, no need to envy anymore! JavaScript and TypeScript now have [data-structure-typed]().
+
+Now you can use this library in Node.js and browser environments in CommonJS(require export.modules = ), ESModule(import export), Typescript(import export), UMD(var Queue = dataStructureTyped.Queue)
 
 
 [//]: # (![Branches]&#40;https://img.shields.io/badge/branches-55.47%25-red.svg?style=flat&#41;)
