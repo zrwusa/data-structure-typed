@@ -216,8 +216,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * specifies the property name to use for searching the binary tree nodes. If not provided, it defaults to `'key'`.
    * @returns The method is returning either a BinaryTreeNodeKey or N (generic type) or null.
    */
-  override get(nodeProperty: BinaryTreeNodeKey | N, propertyName?: BinaryTreeNodePropertyName): N | null {
-    propertyName = propertyName ?? 'key';
+  override get(nodeProperty: BinaryTreeNodeKey | N, propertyName: BinaryTreeNodePropertyName = 'key'): N | null {
     return this.getNodes(nodeProperty, propertyName, true)[0] ?? null;
   }
 
@@ -248,7 +247,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
   override getNodes(
     nodeProperty: BinaryTreeNodeKey | N,
     propertyName: BinaryTreeNodePropertyName = 'key',
-    onlyOne?: boolean
+    onlyOne: boolean = false
   ): N[] {
     if (!this.root) return [];
     const result: N[] = [];
@@ -298,8 +297,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * @returns The function `lesserSum` returns a number, which represents the sum of the values of the nodes in the
    * binary tree that have a lesser value than the specified `beginNode` based on the `propertyName`.
    */
-  lesserSum(beginNode: N | BinaryTreeNodeKey | null, propertyName?: BinaryTreeNodePropertyName): number {
-    propertyName = propertyName ?? 'key';
+  lesserSum(beginNode: N | BinaryTreeNodeKey | null, propertyName: BinaryTreeNodePropertyName = 'key'): number {
     if (typeof beginNode === 'number') beginNode = this.get(beginNode, 'key');
     if (!beginNode) return 0;
     if (!this.root) return 0;
@@ -378,9 +376,8 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
   allGreaterNodesAdd(
     node: N | BinaryTreeNodeKey | null,
     delta: number,
-    propertyName?: BinaryTreeNodePropertyName
+    propertyName: BinaryTreeNodePropertyName = 'key'
   ): boolean {
-    propertyName = propertyName ?? 'key';
     if (typeof node === 'number') node = this.get(node, 'key');
     if (!node) return false;
     const key = node.key;

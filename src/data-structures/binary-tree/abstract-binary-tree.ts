@@ -364,7 +364,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * @returns the height of the binary tree.
    */
   getHeight(beginRoot: N | BinaryTreeNodeKey | null = this.root): number {
-
     if (typeof beginRoot === 'number') beginRoot = this.get(beginRoot, 'key');
     if (!beginRoot) return -1;
 
@@ -475,7 +474,11 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * function will stop traversing the tree and return the first matching node. If `only
    * @returns an array of nodes (type N).
    */
-  getNodes(nodeProperty: BinaryTreeNodeKey | N, propertyName: BinaryTreeNodePropertyName = 'key', onlyOne: boolean = false): N[] {
+  getNodes(
+    nodeProperty: BinaryTreeNodeKey | N,
+    propertyName: BinaryTreeNodePropertyName = 'key',
+    onlyOne: boolean = false
+  ): N[] {
     if (!this.root) return [];
 
     const result: N[] = [];
@@ -936,7 +939,10 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * @param {NodeOrPropertyName} [nodeOrPropertyName] - The name of a property of the nodes in the binary tree. This property will be used to accumulate values during the depth-first search traversal. If no `nodeOrPropertyName` is provided, the default value is `'key'`.
    * @returns an instance of the AbstractBinaryTreeNodeProperties class, which contains the accumulated properties of the binary tree nodes based on the specified pattern and node or property name.
    */
-  dfs(pattern: DFSOrderPattern = 'in', nodeOrPropertyName: NodeOrPropertyName = 'key'): AbstractBinaryTreeNodeProperties<N> {
+  dfs(
+    pattern: DFSOrderPattern = 'in',
+    nodeOrPropertyName: NodeOrPropertyName = 'key'
+  ): AbstractBinaryTreeNodeProperties<N> {
     this._clearResults();
     const _traverse = (node: N) => {
       switch (pattern) {
@@ -1087,7 +1093,10 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * accumulating results based on the 'key' property.
    * @returns An object of type `AbstractBinaryTreeNodeProperties<N>`.
    */
-  levelIterative(node: N | null = this.root, nodeOrPropertyName: NodeOrPropertyName = 'key'): AbstractBinaryTreeNodeProperties<N> {
+  levelIterative(
+    node: N | null = this.root,
+    nodeOrPropertyName: NodeOrPropertyName = 'key'
+  ): AbstractBinaryTreeNodeProperties<N> {
     if (!node) return [];
 
     this._clearResults();
@@ -1146,7 +1155,10 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * @param {NodeOrPropertyName} [nodeOrPropertyName] - The `nodeOrPropertyName` parameter is an optional parameter that specifies the property of the `BinaryTreeNode` object to collect at each level. It can be one of the following values: 'key', 'val', or 'node'. If not provided, it defaults to 'key'.
    * @returns A 2D array of `AbstractBinaryTreeNodeProperty<N>` objects.
    */
-  listLevels(node: N | null = this.root, nodeOrPropertyName: NodeOrPropertyName = 'key'): AbstractBinaryTreeNodeProperty<N>[][] {
+  listLevels(
+    node: N | null = this.root,
+    nodeOrPropertyName: NodeOrPropertyName = 'key'
+  ): AbstractBinaryTreeNodeProperty<N>[][] {
     if (!node) return [];
 
     const levelsNodes: AbstractBinaryTreeNodeProperty<N>[][] = [];
@@ -1492,7 +1504,9 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * can accept either a `NodeOrPropertyName` type or be undefined.
    * @returns The method `_getResultByPropertyName` returns an instance of `AbstractBinaryTreeNodeProperties<N>`.
    */
-  protected _getResultByPropertyName(nodeOrPropertyName: NodeOrPropertyName = 'key'): AbstractBinaryTreeNodeProperties<N> {
+  protected _getResultByPropertyName(
+    nodeOrPropertyName: NodeOrPropertyName = 'key'
+  ): AbstractBinaryTreeNodeProperties<N> {
     switch (nodeOrPropertyName) {
       case 'key':
         return this.visitedKey;

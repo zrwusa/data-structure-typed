@@ -105,8 +105,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * value should be added to the binary tree. If the `count` parameter is not provided, it defaults to 1.
    * @returns The method `add` returns either the inserted node (`N`), `null`, or `undefined`.
    */
-  override add(keyOrNode: BinaryTreeNodeKey | N | null, val?: N['val'], count?: number): N | null | undefined {
-    count = count ?? 1;
+  override add(keyOrNode: BinaryTreeNodeKey | N | null, val?: N['val'], count: number = 1): N | null | undefined {
     let inserted: N | null | undefined = undefined,
       newNode: N | null;
     if (keyOrNode instanceof TreeMultisetNode) {
@@ -294,7 +293,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * not be taken into account when removing it. If `ignoreCount` is set to `false
    * @returns The function `remove` returns an array of `BinaryTreeDeletedResult<N>` objects.
    */
-  override remove(nodeOrKey: N | BinaryTreeNodeKey, ignoreCount?: boolean): BinaryTreeDeletedResult<N>[] {
+  override remove(nodeOrKey: N | BinaryTreeNodeKey, ignoreCount: boolean = false): BinaryTreeDeletedResult<N>[] {
     const bstDeletedResult: BinaryTreeDeletedResult<N>[] = [];
     if (!this.root) return bstDeletedResult;
 
@@ -475,7 +474,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * to `true`, the function will return only one node. If `onlyOne`
    * @returns an array of nodes that match the given nodeProperty.
    */
-  getNodesByCount(nodeProperty: BinaryTreeNodeKey | N, onlyOne?: boolean): N[] {
+  getNodesByCount(nodeProperty: BinaryTreeNodeKey | N, onlyOne: boolean = false): N[] {
     if (!this.root) return [];
     const result: N[] = [];
 
@@ -541,35 +540,32 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * traversal pattern for the Morris traversal algorithm. It can have one of three values: 'in', 'pre', or 'post'.
    * @returns The function `morrisCount` returns an array of numbers.
    */
-  morrisCount(pattern?: 'in' | 'pre' | 'post'): number[] {
-    pattern = pattern || 'in';
+  morrisCount(pattern: DFSOrderPattern = 'in'): number[] {
     const nodes = super.morris(pattern, 'node');
     return nodes.map(node => node.count);
   }
 
   /**
-   * The function DFSIterativeCount performs an iterative depth-first search and returns an array of node counts based on
+   * The function dfsCountIterative performs an iterative depth-first search and returns an array of node counts based on
    * the specified traversal pattern.
    * @param {'in' | 'pre' | 'post'} [pattern] - The pattern parameter is a string that specifies the traversal order for
    * the Depth-First Search (dfs) algorithm. It can have three possible values: 'in', 'pre', or 'post'.
-   * @returns The DFSIterativeCount function returns an array of numbers, which represents the count property of each node
+   * @returns The dfsCountIterative function returns an array of numbers, which represents the count property of each node
    * in the dfs traversal.
    */
-  DFSIterativeCount(pattern?: 'in' | 'pre' | 'post'): number[] {
-    pattern = pattern ?? 'in';
+  dfsCountIterative(pattern: DFSOrderPattern = 'in'): number[] {
     const nodes = super.dfsIterative(pattern, 'node');
     return nodes.map(node => node.count);
   }
 
   /**
-   * The DFSCount function returns an array of counts for each node in a depth-first search traversal.
+   * The dfsCount function returns an array of counts for each node in a depth-first search traversal.
    * @param {DFSOrderPattern} [pattern] - The pattern parameter is an optional parameter that specifies the order in which
    * the Depth-First Search (dfs) algorithm should traverse the nodes. It can have one of the following values:
-   * @returns The DFSCount function returns an array of numbers, specifically the count property of each node in the dfs
+   * @returns The dfsCount function returns an array of numbers, specifically the count property of each node in the dfs
    * traversal.
    */
-  DFSCount(pattern?: DFSOrderPattern): number[] {
-    pattern = pattern ?? 'in';
+  dfsCount(pattern: DFSOrderPattern = 'in'): number[] {
     const nodes = super.dfs(pattern, 'node');
     return nodes.map(node => node.count);
   }
