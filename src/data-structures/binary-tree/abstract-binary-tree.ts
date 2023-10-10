@@ -248,19 +248,19 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
   /**
    * The `addMany` function takes an array of binary tree node IDs or nodes, and optionally an array of corresponding data
    * values, and adds them to the binary tree.
-   * @param {(BinaryTreeNodeKey | null)[] | (N | null)[]} idsOrNodes - An array of BinaryTreeNodeKey or BinaryTreeNode
+   * @param {(BinaryTreeNodeKey | null)[] | (N | null)[]} keysOrNodes - An array of BinaryTreeNodeKey or BinaryTreeNode
    * objects, or null values.
    * @param {N['val'][]} [data] - The `data` parameter is an optional array of values (`N['val'][]`) that corresponds to
    * the nodes or node IDs being added. It is used to set the value of each node being added. If `data` is not provided,
    * the value of the nodes will be `undefined`.
    * @returns The function `addMany` returns an array of `N`, `null`, or `undefined` values.
    */
-  addMany(idsOrNodes: (BinaryTreeNodeKey | null)[] | (N | null)[], data?: N['val'][]): (N | null | undefined)[] {
+  addMany(keysOrNodes: (BinaryTreeNodeKey | null)[] | (N | null)[], data?: N['val'][]): (N | null | undefined)[] {
     // TODO not sure addMany not be run multi times
     const inserted: (N | null | undefined)[] = [];
 
-    for (let i = 0; i < idsOrNodes.length; i++) {
-      const keyOrNode = idsOrNodes[i];
+    for (let i = 0; i < keysOrNodes.length; i++) {
+      const keyOrNode = keysOrNodes[i];
       if (keyOrNode instanceof AbstractBinaryTreeNode) {
         inserted.push(this.add(keyOrNode.key, keyOrNode.val));
         continue;
@@ -278,17 +278,17 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
   }
 
   /**
-   * The `fill` function clears the binary tree and adds multiple nodes with the given IDs or nodes and optional data.
-   * @param {(BinaryTreeNodeKey | N)[]} idsOrNodes - The `idsOrNodes` parameter is an array that can contain either
+   * The `refill` function clears the binary tree and adds multiple nodes with the given IDs or nodes and optional data.
+   * @param {(BinaryTreeNodeKey | N)[]} keysOrNodes - The `keysOrNodes` parameter is an array that can contain either
    * `BinaryTreeNodeKey` or `N` values.
    * @param {N[] | Array<N['val']>} [data] - The `data` parameter is an optional array of values that will be assigned to
-   * the nodes being added. If provided, the length of the `data` array should be equal to the length of the `idsOrNodes`
+   * the nodes being added. If provided, the length of the `data` array should be equal to the length of the `keysOrNodes`
    * array. Each value in the `data` array will be assigned to the
    * @returns The method is returning a boolean value.
    */
-  fill(idsOrNodes: (BinaryTreeNodeKey | null)[] | (N | null)[], data?: N[] | Array<N['val']>): boolean {
+  refill(keysOrNodes: (BinaryTreeNodeKey | null)[] | (N | null)[], data?: N[] | Array<N['val']>): boolean {
     this.clear();
-    return idsOrNodes.length === this.addMany(idsOrNodes, data).length;
+    return keysOrNodes.length === this.addMany(keysOrNodes, data).length;
   }
 
   /**

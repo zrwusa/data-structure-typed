@@ -211,7 +211,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
   /**
    * The `addMany` function takes an array of node IDs or nodes and adds them to the tree multiset, returning an array of
    * the inserted nodes.
-   * @param {(BinaryTreeNodeKey | null)[] | (N | null)[]} idsOrNodes - An array of BinaryTreeNodeKey or BinaryTreeNode
+   * @param {(BinaryTreeNodeKey | null)[] | (N | null)[]} keysOrNodes - An array of BinaryTreeNodeKey or BinaryTreeNode
    * objects, or null values.
    * @param {N['val'][]} [data] - The `data` parameter is an optional array of values (`N['val'][]`) that corresponds to
    * the nodes being added. It is used when adding nodes using the `keyOrNode` and `data` arguments in the `this.add()`
@@ -219,13 +219,13 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * @returns The function `addMany` returns an array of `N`, `null`, or `undefined` values.
    */
   override addMany(
-    idsOrNodes: (BinaryTreeNodeKey | null)[] | (N | null)[],
+    keysOrNodes: (BinaryTreeNodeKey | null)[] | (N | null)[],
     data?: N['val'][]
   ): (N | null | undefined)[] {
     const inserted: (N | null | undefined)[] = [];
 
-    for (let i = 0; i < idsOrNodes.length; i++) {
-      const keyOrNode = idsOrNodes[i];
+    for (let i = 0; i < keysOrNodes.length; i++) {
+      const keyOrNode = keysOrNodes[i];
 
       if (keyOrNode instanceof TreeMultisetNode) {
         inserted.push(this.add(keyOrNode.key, keyOrNode.val, keyOrNode.count));

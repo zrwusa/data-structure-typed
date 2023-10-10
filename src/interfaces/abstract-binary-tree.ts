@@ -52,9 +52,9 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
 
   add(key: BinaryTreeNodeKey | N, val?: N['val']): N | null | undefined;
 
-  addMany(idsOrNodes: (BinaryTreeNodeKey | N | null)[], data?: N['val'][]): (N | null | undefined)[];
+  addMany(keysOrNodes: (BinaryTreeNodeKey | N | null)[], data?: N['val'][]): (N | null | undefined)[];
 
-  fill(idsOrNodes: (BinaryTreeNodeKey | N | null)[], data?: N[] | Array<N['val']>): boolean;
+  refill(keysOrNodes: (BinaryTreeNodeKey | N | null)[], data?: N[] | Array<N['val']>): boolean;
 
   remove(key: BinaryTreeNodeKey, ignoreCount?: boolean): BinaryTreeDeletedResult<N>[];
 

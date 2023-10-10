@@ -130,7 +130,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
   /**
    * The `addMany` function overrides the base class method to add multiple nodes to a binary search tree in a balanced
    * manner.
-   * @param {[BinaryTreeNodeKey | N , N['val']][]} idsOrNodes - The `idsOrNodes` parameter in the `addMany` function is an array of
+   * @param {[BinaryTreeNodeKey | N , N['val']][]} keysOrNodes - The `keysOrNodes` parameter in the `addMany` function is an array of
    * `BinaryTreeNodeKey` or `N` (node) objects, or `null` values. It represents the nodes or node IDs that need to be added
    * to the binary search tree.
    * @param {N['val'][]} data - The values of tree nodes
@@ -138,18 +138,18 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * @returns The function `addMany` returns an array of `N`, `null`, or `undefined` values.
    */
   override addMany(
-    idsOrNodes: (BinaryTreeNodeKey | null)[] | (N | null)[],
+    keysOrNodes: (BinaryTreeNodeKey | null)[] | (N | null)[],
     data?: N['val'][],
     isBalanceAdd = false
   ): (N | null | undefined)[] {
     function hasNoNull(arr: (BinaryTreeNodeKey | null)[] | (N | null)[]): arr is BinaryTreeNodeKey[] | N[] {
       return arr.indexOf(null) === -1;
     }
-    if (!isBalanceAdd || !hasNoNull(idsOrNodes)) {
-      return super.addMany(idsOrNodes, data);
+    if (!isBalanceAdd || !hasNoNull(keysOrNodes)) {
+      return super.addMany(keysOrNodes, data);
     }
     const inserted: (N | null | undefined)[] = [];
-    const combinedArr: [BinaryTreeNodeKey | N, N['val']][] = idsOrNodes.map((value, index) => [value, data?.[index]]);
+    const combinedArr: [BinaryTreeNodeKey | N, N['val']][] = keysOrNodes.map((value, index) => [value, data?.[index]]);
     let sorted = [];
     function isNodeOrNullTuple(arr: [BinaryTreeNodeKey | N, N['val']][]): arr is [N, N['val']][] {
       for (const [keyOrNode] of arr) if (keyOrNode instanceof BSTNode) return true;
@@ -169,7 +169,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
     } else if (isBinaryTreeKeyOrNullTuple(combinedArr)) {
       sorted = combinedArr.sort((a, b) => a[0] - b[0]);
     } else {
-      throw new Error('Invalid input idsOrNodes');
+      throw new Error('Invalid input keysOrNodes');
     }
     sortedKeysOrNodes = sorted.map(([keyOrNode]) => keyOrNode);
     sortedData = sorted.map(([, val]) => val);
