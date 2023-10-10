@@ -24,7 +24,7 @@ describe('Overall BinaryTree Test', () => {
     expect(bst.get(6)).toBeNull();
     bst.isAVLBalanced(); // true or false
     expect(bst.isAVLBalanced()).toBe(true);
-    const bfsIDs = bst.BFS();
+    const bfsIDs = bst.bfs();
     bfsIDs[0] === 11; // true
     expect(bfsIDs[0]).toBe(11);
 

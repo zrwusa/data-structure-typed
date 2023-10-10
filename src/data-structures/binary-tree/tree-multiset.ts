@@ -22,7 +22,7 @@ export class TreeMultisetNode<V = any, NEIGHBOR extends TreeMultisetNode<V, NEIG
    * tree node. If no value is provided, it will be `undefined`.
    * @param {number} [count=1] - The `count` parameter is a number that represents the number of times a particular value
    * occurs in a binary tree node. It has a default value of 1, which means that if no value is provided for the `count`
-   * parameter when creating a new instance of the `BinaryTreeNode` class,
+   * parameter when creating a new instance of the `BinaryTreeNode` class.
    */
   constructor(key: BinaryTreeNodeKey, val?: V, count = 1) {
     super(key, val);
@@ -248,7 +248,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * @returns The function `perfectlyBalance()` returns a boolean value.
    */
   override perfectlyBalance(): boolean {
-    const sorted = this.DFS('in', 'node'),
+    const sorted = this.dfs('in', 'node'),
       n = sorted.length;
     if (sorted.length < 1) return false;
 
@@ -514,10 +514,10 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
   /**
    * The BFSCount function returns an array of counts from a breadth-first search of nodes.
    * @returns The BFSCount() function returns an array of numbers, specifically the count property of each node in the
-   * BFS traversal.
+   * bfs traversal.
    */
   BFSCount(): number[] {
-    const nodes = super.BFS('node');
+    const nodes = super.bfs('node');
     return nodes.map(node => node.count);
   }
 
@@ -551,9 +551,9 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * The function DFSIterativeCount performs an iterative depth-first search and returns an array of node counts based on
    * the specified traversal pattern.
    * @param {'in' | 'pre' | 'post'} [pattern] - The pattern parameter is a string that specifies the traversal order for
-   * the Depth-First Search (DFS) algorithm. It can have three possible values: 'in', 'pre', or 'post'.
+   * the Depth-First Search (dfs) algorithm. It can have three possible values: 'in', 'pre', or 'post'.
    * @returns The DFSIterativeCount function returns an array of numbers, which represents the count property of each node
-   * in the DFS traversal.
+   * in the dfs traversal.
    */
   DFSIterativeCount(pattern?: 'in' | 'pre' | 'post'): number[] {
     pattern = pattern ?? 'in';
@@ -564,13 +564,13 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
   /**
    * The DFSCount function returns an array of counts for each node in a depth-first search traversal.
    * @param {DFSOrderPattern} [pattern] - The pattern parameter is an optional parameter that specifies the order in which
-   * the Depth-First Search (DFS) algorithm should traverse the nodes. It can have one of the following values:
-   * @returns The DFSCount function returns an array of numbers, specifically the count property of each node in the DFS
+   * the Depth-First Search (dfs) algorithm should traverse the nodes. It can have one of the following values:
+   * @returns The DFSCount function returns an array of numbers, specifically the count property of each node in the dfs
    * traversal.
    */
   DFSCount(pattern?: DFSOrderPattern): number[] {
     pattern = pattern ?? 'in';
-    const nodes = super.DFS(pattern, 'node');
+    const nodes = super.dfs(pattern, 'node');
     return nodes.map(node => node.count);
   }
 

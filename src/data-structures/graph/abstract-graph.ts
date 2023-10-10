@@ -889,7 +889,7 @@ export abstract class AbstractGraph<
   }
 
   /**
-   * Tarjan is an algorithm based on DFS,which is used to solve the connectivity problem of graphs.
+   * Tarjan is an algorithm based on dfs,which is used to solve the connectivity problem of graphs.
    * Tarjan can find cycles in directed or undirected graph
    * Tarjan can find the articulation points and bridges(critical edges) of undirected graphs in linear time,
    * Tarjan solve the bi-connected components of undirected graphs;
@@ -897,7 +897,7 @@ export abstract class AbstractGraph<
    * /
 
    /**
-   * Tarjan is an algorithm based on DFS,which is used to solve the connectivity problem of graphs.
+   * Tarjan is an algorithm based on dfs,which is used to solve the connectivity problem of graphs.
    * Tarjan can find cycles in directed or undirected graph
    * Tarjan can find the articulation points and bridges(critical edges) of undirected graphs in linear time,
    * Tarjan solve the bi-connected components of undirected graphs;
@@ -918,8 +918,8 @@ export abstract class AbstractGraph<
    * @returns The function `tarjan` returns an object with the following properties:
    */
   tarjan(needArticulationPoints?: boolean, needBridges?: boolean, needSCCs?: boolean, needCycles?: boolean) {
-    // !! in undirected graph we will not let child visit parent when DFS
-    // !! articulation point(in DFS search tree not in graph): (cur !== root && cur.has(child)) && (low(child) >= dfn(cur)) || (cur === root && cur.children() >= 2)
+    // !! in undirected graph we will not let child visit parent when dfs
+    // !! articulation point(in dfs search tree not in graph): (cur !== root && cur.has(child)) && (low(child) >= dfn(cur)) || (cur === root && cur.children() >= 2)
     // !! bridge: low(child) > dfn(cur)
 
     const defaultConfig = false;
@@ -947,7 +947,7 @@ export abstract class AbstractGraph<
       lowMap.set(cur, dfn);
 
       const neighbors = this.getNeighbors(cur);
-      let childCount = 0; // child in DFS tree not child in graph
+      let childCount = 0; // child in dfs tree not child in graph
       for (const neighbor of neighbors) {
         if (neighbor !== parent) {
           if (dfnMap.get(neighbor) === -1) {

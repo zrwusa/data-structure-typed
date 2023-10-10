@@ -195,13 +195,13 @@ export class PriorityQueue<E = any> {
   }
 
   /**
-   * The DFS function performs a depth-first search traversal on a binary tree and returns an array of visited nodes
+   * The dfs function performs a depth-first search traversal on a binary tree and returns an array of visited nodes
    * based on the specified traversal order.
    * @param {PriorityQueueDFSOrderPattern} dfsMode - The dfsMode parameter is a string that specifies the order in which
-   * the nodes should be visited during the Depth-First Search (DFS) traversal. It can have one of the following values:
+   * the nodes should be visited during the Depth-First Search (dfs) traversal. It can have one of the following values:
    * @returns an array of type `(E | null)[]`.
    */
-  DFS(dfsMode: PriorityQueueDFSOrderPattern): (E | null)[] {
+  dfs(dfsMode: PriorityQueueDFSOrderPattern): (E | null)[] {
     const visitedNode: (E | null)[] = [];
 
     const traverse = (cur: number) => {

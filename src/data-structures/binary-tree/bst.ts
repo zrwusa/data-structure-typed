@@ -440,7 +440,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * @returns The function `perfectlyBalance()` returns a boolean value.
    */
   perfectlyBalance(): boolean {
-    const sorted = this.DFS('in', 'node'),
+    const sorted = this.dfs('in', 'node'),
       n = sorted.length;
     this.clear();
 

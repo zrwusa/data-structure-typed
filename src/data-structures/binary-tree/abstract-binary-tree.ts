@@ -859,40 +859,40 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
   }
 
   /**
-   * Performs a breadth-first search (BFS) on a binary tree, accumulating properties of each node based on their 'key' property.
+   * Performs a breadth-first search (bfs) on a binary tree, accumulating properties of each node based on their 'key' property.
    * @returns An array of binary tree node IDs.
    */
-  BFS(): BinaryTreeNodeKey[];
+  bfs(): BinaryTreeNodeKey[];
 
   /**
-   * Performs a breadth-first search (BFS) on a binary tree, accumulating properties of each node based on the specified property name.
+   * Performs a breadth-first search (bfs) on a binary tree, accumulating properties of each node based on the specified property name.
    * @param {'key'} nodeOrPropertyName - The name of the property to accumulate.
    * @returns An array of values corresponding to the specified property.
    */
-  BFS(nodeOrPropertyName: 'key'): BinaryTreeNodeKey[];
+  bfs(nodeOrPropertyName: 'key'): BinaryTreeNodeKey[];
 
   /**
-   * Performs a breadth-first search (BFS) on a binary tree, accumulating the 'val' property of each node.
+   * Performs a breadth-first search (bfs) on a binary tree, accumulating the 'val' property of each node.
    * @param {'val'} nodeOrPropertyName - The name of the property to accumulate.
    * @returns An array of 'val' properties from each node.
    */
-  BFS(nodeOrPropertyName: 'val'): N['val'][];
+  bfs(nodeOrPropertyName: 'val'): N['val'][];
 
   /**
-   * Performs a breadth-first search (BFS) on a binary tree, accumulating nodes themselves.
+   * Performs a breadth-first search (bfs) on a binary tree, accumulating nodes themselves.
    * @param {'node'} nodeOrPropertyName - The name of the property to accumulate.
    * @returns An array of binary tree nodes.
    */
-  BFS(nodeOrPropertyName: 'node'): N[];
+  bfs(nodeOrPropertyName: 'node'): N[];
 
   /**
-   * The BFS function performs a breadth-first search on a binary tree, accumulating properties of each node based on a specified property name.
+   * The bfs function performs a breadth-first search on a binary tree, accumulating properties of each node based on a specified property name.
    * @param {NodeOrPropertyName} [nodeOrPropertyName] - An optional parameter that represents either a node or a property name.
-   * If a node is provided, the BFS algorithm will be performed starting from that node.
-   * If a property name is provided, the BFS algorithm will be performed starting from the root node, accumulating the specified property.
+   * If a node is provided, the bfs algorithm will be performed starting from that node.
+   * If a property name is provided, the bfs algorithm will be performed starting from the root node, accumulating the specified property.
    * @returns An instance of the `AbstractBinaryTreeNodeProperties` class with generic type `N`.
    */
-  BFS(nodeOrPropertyName?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N> {
+  bfs(nodeOrPropertyName?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N> {
     nodeOrPropertyName = nodeOrPropertyName ?? 'key';
     this._clearResults();
     const queue: Array<N | null | undefined> = [this.root];
@@ -910,43 +910,43 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
   }
 
   /**
-   * Performs a depth-first search (DFS) traversal on a binary tree and accumulates properties of each node based on their 'key' property.
+   * Performs a depth-first search (dfs) traversal on a binary tree and accumulates properties of each node based on their 'key' property.
    * @returns An array of binary tree node IDs.
    */
-  DFS(): BinaryTreeNodeKey[];
+  dfs(): BinaryTreeNodeKey[];
 
   /**
-   * Performs a depth-first search (DFS) traversal on a binary tree and accumulates properties of each node based on the specified property name.
+   * Performs a depth-first search (dfs) traversal on a binary tree and accumulates properties of each node based on the specified property name.
    * @param {'in' | 'pre' | 'post'} [pattern] - The traversal pattern: 'in' (in-order), 'pre' (pre-order), or 'post' (post-order).
    * @param {string} nodeOrPropertyName - The name of the property to accumulate.
    * @returns An array of values corresponding to the specified property.
    */
-  DFS(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'key'): BinaryTreeNodeKey[];
+  dfs(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'key'): BinaryTreeNodeKey[];
 
   /**
-   * Performs a depth-first search (DFS) traversal on a binary tree and accumulates the 'val' property of each node.
+   * Performs a depth-first search (dfs) traversal on a binary tree and accumulates the 'val' property of each node.
    * @param {'in' | 'pre' | 'post'} [pattern] - The traversal pattern: 'in' (in-order), 'pre' (pre-order), or 'post' (post-order).
    * @param {'val'} nodeOrPropertyName - The name of the property to accumulate.
    * @returns An array of 'val' properties from each node.
    */
-  DFS(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'val'): N[];
+  dfs(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'val'): N[];
 
   /**
-   * Performs a depth-first search (DFS) traversal on a binary tree and accumulates nodes themselves.
+   * Performs a depth-first search (dfs) traversal on a binary tree and accumulates nodes themselves.
    * @param {'in' | 'pre' | 'post'} [pattern] - The traversal pattern: 'in' (in-order), 'pre' (pre-order), or 'post' (post-order).
    * @param {'node'} nodeOrPropertyName - The name of the property to accumulate.
    * @returns An array of binary tree nodes.
    */
-  DFS(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'node'): N[];
+  dfs(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'node'): N[];
 
   /**
-   * The DFS function performs a depth-first search traversal on a binary tree and returns the accumulated properties of
+   * The dfs function performs a depth-first search traversal on a binary tree and returns the accumulated properties of
    * each node based on the specified pattern and property name.
    * @param {'in' | 'pre' | 'post'} [pattern] - The traversal pattern: 'in' (in-order), 'pre' (pre-order), or 'post' (post-order).
    * @param {NodeOrPropertyName} [nodeOrPropertyName] - The name of a property of the nodes in the binary tree. This property will be used to accumulate values during the depth-first search traversal. If no `nodeOrPropertyName` is provided, the default value is `'key'`.
    * @returns an instance of the AbstractBinaryTreeNodeProperties class, which contains the accumulated properties of the binary tree nodes based on the specified pattern and node or property name.
    */
-  DFS(pattern?: 'in' | 'pre' | 'post', nodeOrPropertyName?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N> {
+  dfs(pattern?: 'in' | 'pre' | 'post', nodeOrPropertyName?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N> {
     pattern = pattern ?? 'in';
     nodeOrPropertyName = nodeOrPropertyName ?? 'key';
     this._clearResults();
@@ -977,13 +977,13 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
   // --- start additional methods ---
 
   /**
-   * Performs an iterative depth-first search (DFS) traversal on a binary tree and accumulates properties of each node based on their 'key' property.
+   * Performs an iterative depth-first search (dfs) traversal on a binary tree and accumulates properties of each node based on their 'key' property.
    * @returns An array of binary tree node IDs.
    */
   DFSIterative(): BinaryTreeNodeKey[];
 
   /**
-   * Performs an iterative depth-first search (DFS) traversal on a binary tree and accumulates properties of each node based on the specified property name.
+   * Performs an iterative depth-first search (dfs) traversal on a binary tree and accumulates properties of each node based on the specified property name.
    * @param {'in' | 'pre' | 'post'} [pattern] - The traversal pattern: 'in' (in-order), 'pre' (pre-order), or 'post' (post-order).
    * @param {string} nodeOrPropertyName - The name of the property to accumulate.
    * @returns An array of values corresponding to the specified property.
@@ -991,7 +991,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
   DFSIterative(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'key'): BinaryTreeNodeKey[];
 
   /**
-   * Performs an iterative depth-first search (DFS) traversal on a binary tree and accumulates the 'val' property of each node.
+   * Performs an iterative depth-first search (dfs) traversal on a binary tree and accumulates the 'val' property of each node.
    * @param {'in' | 'pre' | 'post'} [pattern] - The traversal pattern: 'in' (in-order), 'pre' (pre-order), or 'post' (post-order).
    * @param {'val'} nodeOrPropertyName - The name of the property to accumulate.
    * @returns An array of 'val' properties from each node.
@@ -999,7 +999,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
   DFSIterative(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'val'): N[];
 
   /**
-   * Performs an iterative depth-first search (DFS) traversal on a binary tree and accumulates nodes themselves.
+   * Performs an iterative depth-first search (dfs) traversal on a binary tree and accumulates nodes themselves.
    * @param {'in' | 'pre' | 'post'} [pattern] - The traversal pattern: 'in' (in-order), 'pre' (pre-order), or 'post' (post-order).
    * @param {'node'} nodeOrPropertyName - The name of the property to accumulate.
    * @returns An array of binary tree nodes.
@@ -1233,7 +1233,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
 
   /**
    * Time complexity is O(n)
-   * Space complexity of Iterative DFS equals to recursive DFS which is O(n) because of the stack
+   * Space complexity of Iterative dfs equals to recursive dfs which is O(n) because of the stack
    */
 
   /**

@@ -98,29 +98,29 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
 
   subTreeAdd(subTreeRoot: N, delta: number, propertyName?: BinaryTreeNodePropertyName): boolean;
 
-  BFS(): BinaryTreeNodeKey[];
+  bfs(): BinaryTreeNodeKey[];
 
-  BFS(nodeOrPropertyName: 'key'): BinaryTreeNodeKey[];
+  bfs(nodeOrPropertyName: 'key'): BinaryTreeNodeKey[];
 
-  BFS(nodeOrPropertyName: 'val'): N['val'][];
+  bfs(nodeOrPropertyName: 'val'): N['val'][];
 
-  BFS(nodeOrPropertyName: 'node'): N[];
+  bfs(nodeOrPropertyName: 'node'): N[];
 
-  BFS(nodeOrPropertyName: 'count'): number[];
+  bfs(nodeOrPropertyName: 'count'): number[];
 
-  BFS(nodeOrPropertyName?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N>;
+  bfs(nodeOrPropertyName?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N>;
 
-  DFS(): BinaryTreeNodeKey[];
+  dfs(): BinaryTreeNodeKey[];
 
-  DFS(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'key'): BinaryTreeNodeKey[];
+  dfs(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'key'): BinaryTreeNodeKey[];
 
-  DFS(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'val'): N[];
+  dfs(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'val'): N[];
 
-  DFS(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'node'): N[];
+  dfs(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'node'): N[];
 
-  DFS(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'count'): number[];
+  dfs(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'count'): number[];
 
-  DFS(pattern?: 'in' | 'pre' | 'post', nodeOrPropertyName?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N>;
+  dfs(pattern?: 'in' | 'pre' | 'post', nodeOrPropertyName?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N>;
 
   DFSIterative(): BinaryTreeNodeKey[];
 

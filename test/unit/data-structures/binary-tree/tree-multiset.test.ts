@@ -15,7 +15,7 @@ describe('TreeMultiset operations test', () => {
 
     expect(treeMultiset.size).toBe(16);
     expect(treeMultiset.count).toBe(18);
-    expect(treeMultiset.BFS('key'));
+    expect(treeMultiset.bfs('key'));
 
     expect(treeMultiset.has(6));
 
@@ -56,7 +56,7 @@ describe('TreeMultiset operations test', () => {
       expect(allGreaterNodesAdded);
     }
 
-    const dfsInorderNodes = treeMultiset.DFS('in', 'node');
+    const dfsInorderNodes = treeMultiset.dfs('in', 'node');
     expect(dfsInorderNodes[0].key).toBe(1);
     expect(dfsInorderNodes[dfsInorderNodes.length - 1].key).toBe(16);
     expect(treeMultiset.isPerfectlyBalanced()).toBe(false);
@@ -66,7 +66,7 @@ describe('TreeMultiset operations test', () => {
     expect(treeMultiset.isPerfectlyBalanced()).toBe(true);
     expect(treeMultiset.isAVLBalanced()).toBe(true);
 
-    const bfsNodesAfterBalanced = treeMultiset.BFS('node');
+    const bfsNodesAfterBalanced = treeMultiset.bfs('node');
     expect(bfsNodesAfterBalanced[0].key).toBe(8);
     expect(bfsNodesAfterBalanced[bfsNodesAfterBalanced.length - 1].key).toBe(16);
 
@@ -187,13 +187,13 @@ describe('TreeMultiset operations test', () => {
 
     expect(treeMultiset.isAVLBalanced()).toBe(true);
 
-    const bfsIDs = treeMultiset.BFS();
+    const bfsIDs = treeMultiset.bfs();
 
     expect(bfsIDs[0]).toBe(12);
     expect(bfsIDs[1]).toBe(2);
     expect(bfsIDs[2]).toBe(16);
 
-    const bfsNodes = treeMultiset.BFS('node');
+    const bfsNodes = treeMultiset.bfs('node');
 
     expect(bfsNodes[0].key).toBe(12);
     expect(bfsNodes[1].key).toBe(2);
@@ -277,14 +277,14 @@ describe('TreeMultiset operations test', () => {
     //     expect(allGreaterNodesAdded).toBeDefined();
     // }
     //
-    // const dfsInorderNodes = objTreeMultiset.DFS('in', 'node');
+    // const dfsInorderNodes = objTreeMultiset.dfs('in', 'node');
     // expect(dfsInorderNodes[0].key).toBe(1);
     // expect(dfsInorderNodes[dfsInorderNodes.length - 1].key).toBe(16);
     //
     // objTreeMultiset.perfectlyBalance();
     // expect(objTreeMultiset.isPerfectlyBalanced()).toBe(true);
     //
-    // const bfsNodesAfterBalanced = objTreeMultiset.BFS('node');
+    // const bfsNodesAfterBalanced = objTreeMultiset.bfs('node');
     // expect(bfsNodesAfterBalanced[0].key).toBe(8);
     // expect(bfsNodesAfterBalanced[bfsNodesAfterBalanced.length - 1].key).toBe(16);
     //
@@ -403,12 +403,12 @@ describe('TreeMultiset operations test', () => {
     //
     // expect(objTreeMultiset.isAVLBalanced()).toBe(false);
     //
-    // const bfsIDs = objTreeMultiset.BFS();
+    // const bfsIDs = objTreeMultiset.bfs();
     // expect(bfsIDs[0]).toBe(2);
     // expect(bfsIDs[1]).toBe(12);
     // expect(bfsIDs[2]).toBe(16);
     //
-    // const bfsNodes = objTreeMultiset.BFS('node');
+    // const bfsNodes = objTreeMultiset.bfs('node');
     // expect(bfsNodes[0].key).toBe(2);
     // expect(bfsNodes[1].key).toBe(12);
     // expect(bfsNodes[2].key).toBe(16);

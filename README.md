@@ -109,7 +109,7 @@ bst.getLeftMost()?.id === 1;    // true
 bst.remove(6);
 bst.get(6);                     // null
 bst.isAVLBalanced();            // true
-bst.BFS()[0] === 11;            // true
+bst.bfs()[0] === 11;            // true
 
 const objBST = new BST<BSTNode<{id: number, keyA: number}>>();
 objBST.add(11, {id: 11, keyA: 11});
@@ -145,7 +145,7 @@ expect(leftMost?.id).toBe(1);
 bst.remove(6);
 bst.get(6);             // null
 bst.isAVLBalanced();    // true or false
-const bfsIDs = bst.BFS();
+const bfsIDs = bst.bfs();
 bfsIDs[0] === 11;       // true
 expect(bfsIDs[0]).toBe(11);
 

@@ -48,14 +48,14 @@ describe('PriorityQueue Operation Test', () => {
     ).toEqual([1, 2, 3, 5, 6, 7, 8, 9, 10]);
   });
 
-  it('should PriorityQueue clone, sort, getNodes, DFS work well', function () {
+  it('should PriorityQueue clone, sort, getNodes, dfs work well', function () {
     const minPQ1 = new PriorityQueue<number>({nodes: [2, 5, 8, 3, 1, 6, 7, 4], comparator: (a, b) => a - b});
     const clonedPriorityQueue = minPQ1.clone();
     expect(clonedPriorityQueue.getNodes()).toEqual(minPQ1.getNodes());
     expect(clonedPriorityQueue.sort()).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
-    expect(minPQ1.DFS('in')).toEqual([4, 3, 2, 5, 1, 8, 6, 7]);
-    expect(minPQ1.DFS('post')).toEqual([4, 3, 5, 2, 8, 7, 6, 1]);
-    expect(minPQ1.DFS('pre')).toEqual([1, 2, 3, 4, 5, 6, 8, 7]);
+    expect(minPQ1.dfs('in')).toEqual([4, 3, 2, 5, 1, 8, 6, 7]);
+    expect(minPQ1.dfs('post')).toEqual([4, 3, 5, 2, 8, 7, 6, 1]);
+    expect(minPQ1.dfs('pre')).toEqual([1, 2, 3, 4, 5, 6, 8, 7]);
   });
 });
 
