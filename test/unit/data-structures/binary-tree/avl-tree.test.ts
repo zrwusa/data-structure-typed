@@ -1,6 +1,6 @@
 import {AVLTree} from '../../../../src';
 
-describe('AVL Tree Test', () => {
+describe('AVLTree operations', () => {
   it('should perform various operations on a AVL Tree', () => {
     const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
     const tree = new AVLTree();
