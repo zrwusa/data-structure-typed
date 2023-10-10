@@ -6,15 +6,15 @@
  * @license MIT License
  */
 import {BST, BSTNode} from './bst';
-import type {AVLTreeNodeNested, AVLTreeOptions, BinaryTreeDeletedResult, BinaryTreeNodeId} from '../../types';
+import type {AVLTreeNodeNested, AVLTreeOptions, BinaryTreeDeletedResult, BinaryTreeNodeKey} from '../../types';
 import {IAVLTree, IAVLTreeNode} from '../../interfaces';
 
 export class AVLTreeNode<V = any, NEIGHBOR extends AVLTreeNode<V, NEIGHBOR> = AVLTreeNodeNested<V>>
   extends BSTNode<V, NEIGHBOR>
   implements IAVLTreeNode<V, NEIGHBOR>
 {
-  constructor(id: BinaryTreeNodeId, val?: V) {
-    super(id, val);
+  constructor(key: BinaryTreeNodeKey, val?: V) {
+    super(key, val);
   }
 }
 
@@ -30,27 +30,27 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
   }
 
   /**
-   * The function creates a new AVL tree node with the given id and value.
-   * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier for the binary tree node. It is used to uniquely
+   * The function creates a new AVL tree node with the given key and value.
+   * @param {BinaryTreeNodeKey} key - The `key` parameter is the identifier for the binary tree node. It is used to uniquely
    * identify each node in the tree.
    * @param [val] - The `val` parameter is an optional value that can be assigned to the node. It represents the value
    * that will be stored in the node.
-   * @returns a new AVLTreeNode object with the specified id and value.
+   * @returns a new AVLTreeNode object with the specified key and value.
    */
-  override createNode(id: BinaryTreeNodeId, val?: N['val']): N {
-    return new AVLTreeNode<N['val'], N>(id, val) as N;
+  override createNode(key: BinaryTreeNodeKey, val?: N['val']): N {
+    return new AVLTreeNode<N['val'], N>(key, val) as N;
   }
 
   /**
    * The function overrides the add method of a binary tree node and balances the tree after inserting a new node.
-   * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier of the binary tree node that we want to add.
+   * @param {BinaryTreeNodeKey} key - The `key` parameter is the identifier of the binary tree node that we want to add.
    * @param [val] - The `val` parameter is an optional value that can be assigned to the node being added. It is of type
    * `N['val']`, which means it should be of the same type as the `val` property of the nodes in the binary tree.
    * @returns The method is returning the inserted node, or null or undefined if the insertion was not successful.
    */
-  override add(id: BinaryTreeNodeId, val?: N['val']): N | null | undefined {
+  override add(key: BinaryTreeNodeKey, val?: N['val']): N | null | undefined {
     // TODO support node as a param
-    const inserted = super.add(id, val);
+    const inserted = super.add(key, val);
     if (inserted) this._balancePath(inserted);
     return inserted;
   }
@@ -58,12 +58,12 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
   /**
    * The function overrides the remove method of a binary tree and performs additional operations to balance the tree after
    * deletion.
-   * @param {BinaryTreeNodeId} id - The `id` parameter represents the identifier of the binary tree node that needs to be
+   * @param {BinaryTreeNodeKey} key - The `key` parameter represents the identifier of the binary tree node that needs to be
    * removed.
    * @returns The method is returning an array of `BinaryTreeDeletedResult<N>` objects.
    */
-  override remove(id: BinaryTreeNodeId): BinaryTreeDeletedResult<N>[] {
-    const deletedResults = super.remove(id);
+  override remove(key: BinaryTreeNodeKey): BinaryTreeDeletedResult<N>[] {
+    const deletedResults = super.remove(key);
     for (const {needBalanced} of deletedResults) {
       if (needBalanced) {
         this._balancePath(needBalanced);

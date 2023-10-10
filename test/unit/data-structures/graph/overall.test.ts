@@ -43,7 +43,7 @@ describe('Overall Graph Operation Test', () => {
     graph.addEdge('B', 'D');
 
     const dijkstraResult = graph.dijkstra('A');
-    Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id); // ['A', 'B', 'D']
-    expect(Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id)).toEqual(['A', 'B', 'D']);
+    Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key); // ['A', 'B', 'D']
+    expect(Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key)).toEqual(['A', 'B', 'D']);
   });
 });

@@ -2,7 +2,7 @@ import {
   AbstractBinaryTreeNodeProperties,
   AbstractBinaryTreeNodeProperty,
   BinaryTreeDeletedResult,
-  BinaryTreeNodeId,
+  BinaryTreeNodeKey,
   BinaryTreeNodePropertyName,
   DFSOrderPattern,
   FamilyPosition,
@@ -12,9 +12,9 @@ import {
 import {AbstractBinaryTreeNode} from '../data-structures';
 
 export interface IAbstractBinaryTreeNode<T, NEIGHBOR extends IAbstractBinaryTreeNode<T, NEIGHBOR>> {
-  get id(): BinaryTreeNodeId;
+  get key(): BinaryTreeNodeKey;
 
-  set id(v: BinaryTreeNodeId);
+  set key(v: BinaryTreeNodeKey);
 
   get val(): T | undefined;
 
@@ -40,11 +40,11 @@ export interface IAbstractBinaryTreeNode<T, NEIGHBOR extends IAbstractBinaryTree
 }
 
 export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], N>> {
-  createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N | null;
+  createNode(key: BinaryTreeNodeKey, val?: N['val'], count?: number): N | null;
 
   get loopType(): LoopType;
 
-  get visitedId(): BinaryTreeNodeId[];
+  get visitedKey(): BinaryTreeNodeKey[];
 
   get visitedVal(): Array<N['val']>;
 
@@ -60,13 +60,13 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
 
   isEmpty(): boolean;
 
-  add(id: BinaryTreeNodeId | N, val?: N['val']): N | null | undefined;
+  add(key: BinaryTreeNodeKey | N, val?: N['val']): N | null | undefined;
 
-  addMany(idsOrNodes: (BinaryTreeNodeId | N | null)[], data?: N['val'][]): (N | null | undefined)[];
+  addMany(idsOrNodes: (BinaryTreeNodeKey | N | null)[], data?: N['val'][]): (N | null | undefined)[];
 
-  fill(idsOrNodes: (BinaryTreeNodeId | N | null)[], data?: N[] | Array<N['val']>): boolean;
+  fill(idsOrNodes: (BinaryTreeNodeKey | N | null)[], data?: N[] | Array<N['val']>): boolean;
 
-  remove(id: BinaryTreeNodeId, ignoreCount?: boolean): BinaryTreeDeletedResult<N>[];
+  remove(key: BinaryTreeNodeKey, ignoreCount?: boolean): BinaryTreeDeletedResult<N>[];
 
   getDepth(node: N): number;
 
@@ -76,11 +76,11 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
 
   isPerfectlyBalanced(beginRoot?: N | null): boolean;
 
-  getNodes(nodeProperty: BinaryTreeNodeId | N, propertyName?: BinaryTreeNodePropertyName, onlyOne?: boolean): N[];
+  getNodes(nodeProperty: BinaryTreeNodeKey | N, propertyName?: BinaryTreeNodePropertyName, onlyOne?: boolean): N[];
 
-  has(nodeProperty: BinaryTreeNodeId | N, propertyName?: BinaryTreeNodePropertyName): boolean;
+  has(nodeProperty: BinaryTreeNodeKey | N, propertyName?: BinaryTreeNodePropertyName): boolean;
 
-  get(nodeProperty: BinaryTreeNodeId | N, propertyName?: BinaryTreeNodePropertyName): N | null;
+  get(nodeProperty: BinaryTreeNodeKey | N, propertyName?: BinaryTreeNodePropertyName): N | null;
 
   getPathToRoot(node: N): N[];
 
@@ -108,9 +108,9 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
 
   subTreeAdd(subTreeRoot: N, delta: number, propertyName?: BinaryTreeNodePropertyName): boolean;
 
-  BFS(): BinaryTreeNodeId[];
+  BFS(): BinaryTreeNodeKey[];
 
-  BFS(nodeOrPropertyName: 'id'): BinaryTreeNodeId[];
+  BFS(nodeOrPropertyName: 'key'): BinaryTreeNodeKey[];
 
   BFS(nodeOrPropertyName: 'val'): N['val'][];
 
@@ -120,9 +120,9 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
 
   BFS(nodeOrPropertyName?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N>;
 
-  DFS(): BinaryTreeNodeId[];
+  DFS(): BinaryTreeNodeKey[];
 
-  DFS(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'id'): BinaryTreeNodeId[];
+  DFS(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'key'): BinaryTreeNodeKey[];
 
   DFS(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'val'): N[];
 
@@ -132,9 +132,9 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
 
   DFS(pattern?: 'in' | 'pre' | 'post', nodeOrPropertyName?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N>;
 
-  DFSIterative(): BinaryTreeNodeId[];
+  DFSIterative(): BinaryTreeNodeKey[];
 
-  DFSIterative(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'id'): BinaryTreeNodeId[];
+  DFSIterative(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'key'): BinaryTreeNodeKey[];
 
   DFSIterative(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'val'): N[];
 
@@ -147,9 +147,9 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
     nodeOrPropertyName?: NodeOrPropertyName
   ): AbstractBinaryTreeNodeProperties<N>;
 
-  levelIterative(node: N | null): BinaryTreeNodeId[];
+  levelIterative(node: N | null): BinaryTreeNodeKey[];
 
-  levelIterative(node: N | null, nodeOrPropertyName?: 'id'): BinaryTreeNodeId[];
+  levelIterative(node: N | null, nodeOrPropertyName?: 'key'): BinaryTreeNodeKey[];
 
   levelIterative(node: N | null, nodeOrPropertyName?: 'val'): N['val'][];
 
@@ -159,9 +159,9 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
 
   levelIterative(node: N | null, nodeOrPropertyName?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N>;
 
-  listLevels(node: N | null): BinaryTreeNodeId[][];
+  listLevels(node: N | null): BinaryTreeNodeKey[][];
 
-  listLevels(node: N | null, nodeOrPropertyName?: 'id'): BinaryTreeNodeId[][];
+  listLevels(node: N | null, nodeOrPropertyName?: 'key'): BinaryTreeNodeKey[][];
 
   listLevels(node: N | null, nodeOrPropertyName?: 'val'): N['val'][][];
 
@@ -173,9 +173,9 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
 
   getPredecessor(node: N): N;
 
-  morris(): BinaryTreeNodeId[];
+  morris(): BinaryTreeNodeKey[];
 
-  morris(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'id'): BinaryTreeNodeId[];
+  morris(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'key'): BinaryTreeNodeKey[];
 
   morris(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'val'): N[];
 

@@ -1,13 +1,13 @@
 import {AVLTreeNode} from '../data-structures';
 import {IBST, IBSTNode} from './bst';
-import {BinaryTreeDeletedResult, BinaryTreeNodeId} from '../types';
+import {BinaryTreeDeletedResult, BinaryTreeNodeKey} from '../types';
 
 export type IAVLTreeNode<T, NEIGHBOR extends IAVLTreeNode<T, NEIGHBOR>> = IBSTNode<T, NEIGHBOR>;
 
 export interface IAVLTree<N extends AVLTreeNode<N['val'], N>> extends IBST<N> {
-  add(id: BinaryTreeNodeId, val?: N['val'] | null): N | null | undefined;
+  add(key: BinaryTreeNodeKey, val?: N['val'] | null): N | null | undefined;
 
-  remove(id: BinaryTreeNodeId): BinaryTreeDeletedResult<N>[];
+  remove(key: BinaryTreeNodeKey): BinaryTreeDeletedResult<N>[];
 
   // _balanceFactor(node: N): number
   //

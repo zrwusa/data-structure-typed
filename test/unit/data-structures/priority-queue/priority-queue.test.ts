@@ -67,4 +67,3 @@ describe('Priority Queue Performance Test', () => {
     expect(sorted).toEqual(values.sort((a, b) => a - b));
   });
 });
-

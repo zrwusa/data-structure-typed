@@ -6,7 +6,7 @@
  * @license MIT License
  */
 
-import type {BinaryTreeNodeId, BinaryTreeNodeNested, BinaryTreeOptions} from '../../types';
+import type {BinaryTreeNodeKey, BinaryTreeNodeNested, BinaryTreeOptions} from '../../types';
 import {AbstractBinaryTree, AbstractBinaryTreeNode} from './abstract-binary-tree';
 import {IBinaryTree, IBinaryTreeNode} from '../../interfaces';
 
@@ -14,8 +14,8 @@ export class BinaryTreeNode<V = any, NEIGHBOR extends BinaryTreeNode<V, NEIGHBOR
   extends AbstractBinaryTreeNode<V, NEIGHBOR>
   implements IBinaryTreeNode<V, NEIGHBOR>
 {
-  constructor(id: BinaryTreeNodeId, val?: V) {
-    super(id, val);
+  constructor(key: BinaryTreeNodeKey, val?: V) {
+    super(key, val);
   }
 }
 
@@ -35,13 +35,13 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode>
 
   /**
    * The function creates a new binary tree node with an optional value.
-   * @param {BinaryTreeNodeId} id - The `id` parameter is the identifier for the binary tree node. It is of type
-   * `BinaryTreeNodeId`, which represents the unique identifier for each node in the binary tree.
+   * @param {BinaryTreeNodeKey} key - The `key` parameter is the identifier for the binary tree node. It is of type
+   * `BinaryTreeNodeKey`, which represents the unique identifier for each node in the binary tree.
    * @param [val] - The `val` parameter is an optional value that can be assigned to the node. It represents the value
    * stored in the node.
-   * @returns a new instance of a BinaryTreeNode with the specified id and value.
+   * @returns a new instance of a BinaryTreeNode with the specified key and value.
    */
-  createNode(id: BinaryTreeNodeId, val?: N['val']): N {
-    return new BinaryTreeNode<N['val'], N>(id, val) as N;
+  createNode(key: BinaryTreeNodeKey, val?: N['val']): N {
+    return new BinaryTreeNode<N['val'], N>(key, val) as N;
   }
 }

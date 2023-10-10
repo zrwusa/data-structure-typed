@@ -1,9 +1,9 @@
 import {TreeNode} from '../../../../src';
 
 describe('TreeNode', () => {
-  it('should create a TreeNode with the given id and value', () => {
+  it('should create a TreeNode with the given key and value', () => {
     const node = new TreeNode<string>('1', 'Node 1');
-    expect(node.id).toBe('1');
+    expect(node.key).toBe('1');
     expect(node.value).toBe('Node 1');
     expect(node.children).toEqual([]);
   });

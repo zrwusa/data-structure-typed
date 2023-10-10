@@ -8,10 +8,10 @@ describe('BinaryTreeNode', () => {
 
   it('should set and get the ID correctly', () => {
     const node = new BinaryTreeNode<number>(1);
-    expect(node.id).toBe(1);
+    expect(node.key).toBe(1);
 
-    node.id = 2;
-    expect(node.id).toBe(2);
+    node.key = 2;
+    expect(node.key).toBe(2);
   });
 
   it('should set and get the value correctly', () => {

@@ -63,8 +63,8 @@ describe('DirectedGraph Operation Test', () => {
 });
 
 class MyVertex<V extends string> extends DirectedVertex<V> {
-  constructor(id: VertexId, val?: V) {
-    super(id, val);
+  constructor(key: VertexId, val?: V) {
+    super(key, val);
     this._data = val;
   }
 
@@ -97,8 +97,8 @@ class MyEdge<E extends string> extends DirectedEdge<E> {
 }
 
 class MyDirectedGraph<V extends MyVertex<string>, E extends MyEdge<string>> extends DirectedGraph<V, E> {
-  createVertex(id: VertexId, val: V['val']): V {
-    return new MyVertex(id, val) as V;
+  createVertex(key: VertexId, val: V['val']): V {
+    return new MyVertex(key, val) as V;
   }
 
   createEdge(src: VertexId, dest: VertexId, weight?: number, val?: E['val']): E {
@@ -183,7 +183,7 @@ describe('Inherit from DirectedGraph and perform operations', () => {
       expect(sorted.length).toBe(9);
       if (sorted[0] instanceof MyVertex) expect(sorted[0].data).toBe('data9');
       sorted[3] instanceof MyVertex && expect(sorted[3].data).toBe('data6');
-      sorted[8] instanceof MyVertex && expect(sorted[8].id).toBe(1);
+      sorted[8] instanceof MyVertex && expect(sorted[8].key).toBe(1);
     }
   });
 
@@ -266,9 +266,9 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
     if (minPath1to7 && minPath1to7.length > 0) {
       expect(minPath1to7).toHaveLength(3);
       expect(minPath1to7[0]).toBeInstanceOf(MyVertex);
-      expect(minPath1to7[0].id).toBe(1);
-      expect(minPath1to7[1].id).toBe(9);
-      expect(minPath1to7[2].id).toBe(7);
+      expect(minPath1to7[0].key).toBe(1);
+      expect(minPath1to7[1].key).toBe(9);
+      expect(minPath1to7[2].key).toBe(7);
     }
 
     const fordResult1 = myGraph.bellmanFord(1);

@@ -54,6 +54,6 @@ describe('UndirectedGraph Operation Test', () => {
     graph.addEdge('B', 'D');
 
     const dijkstraResult = graph.dijkstra('A');
-    expect(Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id)).toEqual(['A', 'B', 'D']);
+    expect(Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key)).toEqual(['A', 'B', 'D']);
   });
 });

@@ -1,25 +1,25 @@
 import {BSTNode} from '../data-structures';
 import {IBinaryTree, IBinaryTreeNode} from './binary-tree';
-import {BinaryTreeDeletedResult, BinaryTreeNodeId, BinaryTreeNodePropertyName} from '../types';
+import {BinaryTreeDeletedResult, BinaryTreeNodeKey, BinaryTreeNodePropertyName} from '../types';
 
 export type IBSTNode<T, NEIGHBOR extends IBSTNode<T, NEIGHBOR>> = IBinaryTreeNode<T, NEIGHBOR>;
 
 export interface IBST<N extends BSTNode<N['val'], N>> extends IBinaryTree<N> {
-  createNode(id: BinaryTreeNodeId, val?: N['val'], count?: number): N;
+  createNode(key: BinaryTreeNodeKey, val?: N['val'], count?: number): N;
 
-  add(id: BinaryTreeNodeId, val?: N['val'] | null, count?: number): N | null | undefined;
+  add(key: BinaryTreeNodeKey, val?: N['val'] | null, count?: number): N | null | undefined;
 
-  get(nodeProperty: BinaryTreeNodeId | N, propertyName?: BinaryTreeNodePropertyName): N | null;
+  get(nodeProperty: BinaryTreeNodeKey | N, propertyName?: BinaryTreeNodePropertyName): N | null;
 
-  lastKey(): BinaryTreeNodeId;
+  lastKey(): BinaryTreeNodeKey;
 
-  remove(id: BinaryTreeNodeId, ignoreCount?: boolean): BinaryTreeDeletedResult<N>[];
+  remove(key: BinaryTreeNodeKey, ignoreCount?: boolean): BinaryTreeDeletedResult<N>[];
 
-  getNodes(nodeProperty: BinaryTreeNodeId | N, propertyName?: BinaryTreeNodePropertyName, onlyOne?: boolean): N[];
+  getNodes(nodeProperty: BinaryTreeNodeKey | N, propertyName?: BinaryTreeNodePropertyName, onlyOne?: boolean): N[];
 
   // --- start additional functions
 
-  lesserSum(id: BinaryTreeNodeId, propertyName?: BinaryTreeNodePropertyName): number;
+  lesserSum(key: BinaryTreeNodeKey, propertyName?: BinaryTreeNodePropertyName): number;
 
   allGreaterNodesAdd(node: N, delta: number, propertyName?: BinaryTreeNodePropertyName): boolean;
 

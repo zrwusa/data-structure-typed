@@ -1,4 +1,4 @@
-import {BinaryTreeNodeId, RBColor, RBTreeNodeNested, RBTreeOptions} from '../../types';
+import {BinaryTreeNodeKey, RBColor, RBTreeNodeNested, RBTreeOptions} from '../../types';
 import {IRBTree, IRBTreeNode} from '../../interfaces';
 import {BST, BSTNode} from './bst';
 
@@ -8,8 +8,8 @@ export class RBTreeNode<V = any, NEIGHBOR extends RBTreeNode<V, NEIGHBOR> = RBTr
 {
   private _color: RBColor;
 
-  constructor(id: BinaryTreeNodeId, val?: V) {
-    super(id, val);
+  constructor(key: BinaryTreeNodeKey, val?: V) {
+    super(key, val);
     this._color = RBColor.RED;
   }
 
@@ -27,11 +27,11 @@ export class RBTree<N extends RBTreeNode<N['val'], N> = RBTreeNode> extends BST<
     super(options);
   }
 
-  override createNode(id: BinaryTreeNodeId, val?: N['val']): N {
-    return new RBTreeNode(id, val) as N;
+  override createNode(key: BinaryTreeNodeKey, val?: N['val']): N {
+    return new RBTreeNode(key, val) as N;
   }
 
-  // override add(idOrNode: BinaryTreeNodeId | N | null, val?: N['val']): N | null | undefined {
+  // override add(idOrNode: BinaryTreeNodeKey | N | null, val?: N['val']): N | null | undefined {
   //   const inserted = super.add(idOrNode, val);
   //   if (inserted) this._fixInsertViolation(inserted);
   //   return inserted;
@@ -205,8 +205,8 @@ export class RBTree<N extends RBTreeNode<N['val'], N> = RBTreeNode> extends BST<
   //   node.right = null;
   // }
   //
-  // override remove(nodeOrId: BinaryTreeNodeId | N): BinaryTreeDeletedResult<N>[] {
-  //   const node = this.get(nodeOrId);
+  // override remove(nodeOrKey: BinaryTreeNodeKey | N): BinaryTreeDeletedResult<N>[] {
+  //   const node = this.get(nodeOrKey);
   //   const result: BinaryTreeDeletedResult<N>[] = [{deleted: undefined, needBalanced: null}];
   //   if (!node) return result; // Node does not exist
   //
