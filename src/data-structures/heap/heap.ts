@@ -42,7 +42,7 @@ export class HeapItem<V = any> {
   }
 }
 
-export abstract class Heap<V = number> {
+export abstract class Heap<V = any> {
   /**
    * The function is a constructor for a class that initializes a priority callback function based on the
    * options provided.
