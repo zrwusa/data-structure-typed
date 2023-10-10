@@ -557,7 +557,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    */
   DFSIterativeCount(pattern?: 'in' | 'pre' | 'post'): number[] {
     pattern = pattern ?? 'in';
-    const nodes = super.DFSIterative(pattern, 'node');
+    const nodes = super.dfsIterative(pattern, 'node');
     return nodes.map(node => node.count);
   }
 
