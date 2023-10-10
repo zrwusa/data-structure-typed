@@ -31,8 +31,8 @@ export class RBTree<N extends RBTreeNode<N['val'], N> = RBTreeNode> extends BST<
     return new RBTreeNode(key, val) as N;
   }
 
-  // override add(idOrNode: BinaryTreeNodeKey | N | null, val?: N['val']): N | null | undefined {
-  //   const inserted = super.add(idOrNode, val);
+  // override add(keyOrNode: BinaryTreeNodeKey | N | null, val?: N['val']): N | null | undefined {
+  //   const inserted = super.add(keyOrNode, val);
   //   if (inserted) this._fixInsertViolation(inserted);
   //   return inserted;
   // }

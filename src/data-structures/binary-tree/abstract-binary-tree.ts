@@ -239,14 +239,14 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
 
   /**
    * The `add` function adds a new node to a binary tree, either by ID or by creating a new node with a given value.
-   * @param {BinaryTreeNodeKey | N | null} idOrNode - The `idOrNode` parameter can be either a `BinaryTreeNodeKey`, which
+   * @param {BinaryTreeNodeKey | N | null} keyOrNode - The `keyOrNode` parameter can be either a `BinaryTreeNodeKey`, which
    * is a number representing the ID of a binary tree node, or it can be a `N` object, which represents a binary tree
    * node itself. It can also be `null` if no node is specified.
    * @param [val] - The `val` parameter is an optional value that can be assigned to the `val` property of the new node
    * being added to the binary tree.
    * @returns The function `add` returns either the inserted node (`N`), `null`, or `undefined`.
    */
-  add(idOrNode: BinaryTreeNodeKey | N | null, val?: N['val']): N | null | undefined {
+  add(keyOrNode: BinaryTreeNodeKey | N | null, val?: N['val']): N | null | undefined {
     const _bfs = (root: N, newNode: N | null): N | undefined | null => {
       const queue: Array<N | null> = [root];
       while (queue.length > 0) {
@@ -264,17 +264,17 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
 
     let inserted: N | null | undefined, needInsert: N | null;
 
-    if (idOrNode === null) {
+    if (keyOrNode === null) {
       needInsert = null;
-    } else if (typeof idOrNode === 'number') {
-      needInsert = this.createNode(idOrNode, val);
-    } else if (idOrNode instanceof AbstractBinaryTreeNode) {
-      needInsert = idOrNode;
+    } else if (typeof keyOrNode === 'number') {
+      needInsert = this.createNode(keyOrNode, val);
+    } else if (keyOrNode instanceof AbstractBinaryTreeNode) {
+      needInsert = keyOrNode;
     } else {
       return;
     }
 
-    const existNode = idOrNode ? this.get(idOrNode, 'key') : undefined;
+    const existNode = keyOrNode ? this.get(keyOrNode, 'key') : undefined;
 
     if (this.root) {
       if (existNode) {
@@ -310,19 +310,19 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     const inserted: (N | null | undefined)[] = [];
 
     for (let i = 0; i < idsOrNodes.length; i++) {
-      const idOrNode = idsOrNodes[i];
-      if (idOrNode instanceof AbstractBinaryTreeNode) {
-        inserted.push(this.add(idOrNode.key, idOrNode.val));
+      const keyOrNode = idsOrNodes[i];
+      if (keyOrNode instanceof AbstractBinaryTreeNode) {
+        inserted.push(this.add(keyOrNode.key, keyOrNode.val));
         continue;
       }
 
-      if (idOrNode === null) {
+      if (keyOrNode === null) {
         inserted.push(this.add(null));
         continue;
       }
 
       const val = data?.[i];
-      inserted.push(this.add(idOrNode, val));
+      inserted.push(this.add(keyOrNode, val));
     }
     return inserted;
   }

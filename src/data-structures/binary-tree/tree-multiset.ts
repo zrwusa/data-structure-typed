@@ -106,23 +106,23 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
   /**
    * The `add` function adds a new node to a binary search tree, maintaining the tree's properties and balancing if
    * necessary.
-   * @param {BinaryTreeNodeKey | N} idOrNode - The `idOrNode` parameter can be either a `BinaryTreeNodeKey` or a `N` (which
+   * @param {BinaryTreeNodeKey | N} keyOrNode - The `keyOrNode` parameter can be either a `BinaryTreeNodeKey` or a `N` (which
    * represents a `BinaryTreeNode`).
    * @param [val] - The `val` parameter represents the value to be added to the binary tree node.
    * @param {number} [count] - The `count` parameter is an optional parameter that specifies the number of times the
    * value should be added to the binary tree. If the `count` parameter is not provided, it defaults to 1.
    * @returns The method `add` returns either the inserted node (`N`), `null`, or `undefined`.
    */
-  override add(idOrNode: BinaryTreeNodeKey | N | null, val?: N['val'], count?: number): N | null | undefined {
+  override add(keyOrNode: BinaryTreeNodeKey | N | null, val?: N['val'], count?: number): N | null | undefined {
     count = count ?? 1;
     let inserted: N | null | undefined = undefined,
       newNode: N | null;
-    if (idOrNode instanceof TreeMultisetNode) {
-      newNode = this.createNode(idOrNode.key, idOrNode.val, idOrNode.count);
-    } else if (idOrNode === null) {
+    if (keyOrNode instanceof TreeMultisetNode) {
+      newNode = this.createNode(keyOrNode.key, keyOrNode.val, keyOrNode.count);
+    } else if (keyOrNode === null) {
       newNode = null;
     } else {
-      newNode = this.createNode(idOrNode, val, count);
+      newNode = this.createNode(keyOrNode, val, count);
     }
     if (!this.root) {
       this._setRoot(newNode);
@@ -222,7 +222,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * @param {(BinaryTreeNodeKey | null)[] | (N | null)[]} idsOrNodes - An array of BinaryTreeNodeKey or BinaryTreeNode
    * objects, or null values.
    * @param {N['val'][]} [data] - The `data` parameter is an optional array of values (`N['val'][]`) that corresponds to
-   * the nodes being added. It is used when adding nodes using the `idOrNode` and `data` arguments in the `this.add()`
+   * the nodes being added. It is used when adding nodes using the `keyOrNode` and `data` arguments in the `this.add()`
    * method. If provided, the `data` array should
    * @returns The function `addMany` returns an array of `N`, `null`, or `undefined` values.
    */
@@ -233,19 +233,19 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
     const inserted: (N | null | undefined)[] = [];
 
     for (let i = 0; i < idsOrNodes.length; i++) {
-      const idOrNode = idsOrNodes[i];
+      const keyOrNode = idsOrNodes[i];
 
-      if (idOrNode instanceof TreeMultisetNode) {
-        inserted.push(this.add(idOrNode.key, idOrNode.val, idOrNode.count));
+      if (keyOrNode instanceof TreeMultisetNode) {
+        inserted.push(this.add(keyOrNode.key, keyOrNode.val, keyOrNode.count));
         continue;
       }
 
-      if (idOrNode === null) {
+      if (keyOrNode === null) {
         inserted.push(this.add(NaN, null, 0));
         continue;
       }
 
-      inserted.push(this.add(idOrNode, data?.[i], 1));
+      inserted.push(this.add(keyOrNode, data?.[i], 1));
     }
     return inserted;
   }

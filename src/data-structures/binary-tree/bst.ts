@@ -55,21 +55,21 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
   /**
    * The `add` function adds a new node to a binary search tree, either by creating a new node or by updating an existing
    * node with the same ID.
-   * @param {BinaryTreeNodeKey | N | null} idOrNode - The `idOrNode` parameter can be either a `BinaryTreeNodeKey` or a `N`
+   * @param {BinaryTreeNodeKey | N | null} keyOrNode - The `keyOrNode` parameter can be either a `BinaryTreeNodeKey` or a `N`
    * (which represents a binary tree node) or `null`.
    * @param [val] - The `val` parameter is an optional value that can be assigned to the `val` property of the new node
    * being added to the binary search tree.
    * @returns The function `add` returns the inserted node (`inserted`) which can be of type `N`, `null`, or `undefined`.
    */
-  override add(idOrNode: BinaryTreeNodeKey | N | null, val?: N['val']): N | null | undefined {
+  override add(keyOrNode: BinaryTreeNodeKey | N | null, val?: N['val']): N | null | undefined {
     // TODO support node as a param
     let inserted: N | null = null;
     let newNode: N | null = null;
-    if (idOrNode instanceof BSTNode) {
-      newNode = idOrNode;
-    } else if (typeof idOrNode === 'number') {
-      newNode = this.createNode(idOrNode, val);
-    } else if (idOrNode === null) {
+    if (keyOrNode instanceof BSTNode) {
+      newNode = keyOrNode;
+    } else if (typeof keyOrNode === 'number') {
+      newNode = this.createNode(keyOrNode, val);
+    } else if (keyOrNode === null) {
       newNode = null;
     }
     if (this.root === null) {
@@ -152,13 +152,13 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
     const combinedArr: [BinaryTreeNodeKey | N, N['val']][] = idsOrNodes.map((value, index) => [value, data?.[index]]);
     let sorted = [];
     function isNodeOrNullTuple(arr: [BinaryTreeNodeKey | N, N['val']][]): arr is [N, N['val']][] {
-      for (const [idOrNode] of arr) if (idOrNode instanceof BSTNode) return true;
+      for (const [keyOrNode] of arr) if (keyOrNode instanceof BSTNode) return true;
       return false;
     }
     function isBinaryTreeKeyOrNullTuple(
       arr: [BinaryTreeNodeKey | N, N['val']][]
     ): arr is [BinaryTreeNodeKey, N['val']][] {
-      for (const [idOrNode] of arr) if (typeof idOrNode === 'number') return true;
+      for (const [keyOrNode] of arr) if (typeof keyOrNode === 'number') return true;
       return false;
     }
     let sortedKeysOrNodes: (number | N | null)[] = [],
@@ -171,7 +171,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
     } else {
       throw new Error('Invalid input idsOrNodes');
     }
-    sortedKeysOrNodes = sorted.map(([idOrNode]) => idOrNode);
+    sortedKeysOrNodes = sorted.map(([keyOrNode]) => keyOrNode);
     sortedData = sorted.map(([, val]) => val);
     const recursive = (arr: (BinaryTreeNodeKey | null | N)[], data?: N['val'][]) => {
       if (arr.length === 0) return;
