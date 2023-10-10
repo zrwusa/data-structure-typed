@@ -13,8 +13,11 @@ export class AVLTreeNode<V = any, NEIGHBOR extends AVLTreeNode<V, NEIGHBOR> = AV
   extends BSTNode<V, NEIGHBOR>
   implements IAVLTreeNode<V, NEIGHBOR>
 {
+  height: number;
+
   constructor(key: BinaryTreeNodeKey, val?: V) {
     super(key, val);
+    this.height = 0;
   }
 }
 
@@ -27,6 +30,32 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
    */
   constructor(options?: AVLTreeOptions) {
     super(options);
+  }
+
+  /**
+   * The `swapLocation` function swaps the location of two nodes in a binary tree.
+   * @param {N} srcNode - The source node that you want to swap with the destination node.
+   * @param {N} destNode - The `destNode` parameter represents the destination node where the values from `srcNode` will
+   * be swapped to.
+   * @returns The `destNode` is being returned.
+   */
+  override swapLocation(srcNode: N, destNode: N): N {
+    const {key, val, height} = destNode;
+    const tempNode = this.createNode(key, val);
+
+    if (tempNode) {
+      tempNode.height = height;
+
+      destNode.key = srcNode.key;
+      destNode.val = srcNode.val;
+      destNode.height = srcNode.height;
+
+      srcNode.key = tempNode.key;
+      srcNode.val = tempNode.val;
+      srcNode.height = tempNode.height;
+    }
+
+    return destNode;
   }
 
   /**

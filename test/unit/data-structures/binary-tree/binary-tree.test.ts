@@ -52,14 +52,6 @@ describe('BinaryTreeNode', () => {
     expect(node1.left).toBe(node2);
   });
 
-  it('should set and get the height correctly', () => {
-    const node = new BinaryTreeNode<number>(1);
-    expect(node.height).toBe(0);
-
-    node.height = 3;
-    expect(node.height).toBe(3);
-  });
-
   it('should determine family position correctly', () => {
     const root = new BinaryTreeNode<number>(1);
     const leftChild = new BinaryTreeNode<number>(2);

@@ -15,7 +15,7 @@ export class TreeMultisetNode<V = any, NEIGHBOR extends TreeMultisetNode<V, NEIG
   implements ITreeMultisetNode<V, NEIGHBOR>
 {
   /**
-   * The constructor function initializes a BinaryTreeNode object with an key, value, and count.
+   * The constructor function initializes a BinaryTreeNode object with a key, value, and count.
    * @param {BinaryTreeNodeKey} key - The `key` parameter is of type `BinaryTreeNodeKey` and represents the unique identifier
    * of the binary tree node.
    * @param {V} [val] - The `val` parameter is an optional parameter of type `V`. It represents the value of the binary
@@ -26,18 +26,10 @@ export class TreeMultisetNode<V = any, NEIGHBOR extends TreeMultisetNode<V, NEIG
    */
   constructor(key: BinaryTreeNodeKey, val?: V, count = 1) {
     super(key, val);
-    this._count = count;
+    this.count = count;
   }
 
-  private _count: number;
-
-  get count(): number {
-    return this._count;
-  }
-
-  set count(v: number) {
-    this._count = v;
-  }
+  count: number;
 }
 
 /**
@@ -54,7 +46,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * TreeMultiset.
    */
   constructor(options?: TreeMultisetOptions) {
-    super({...options});
+    super(options);
   }
 
   private _count = 0;

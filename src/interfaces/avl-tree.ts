@@ -2,7 +2,9 @@ import {AVLTreeNode} from '../data-structures';
 import {IBST, IBSTNode} from './bst';
 import {BinaryTreeDeletedResult, BinaryTreeNodeKey} from '../types';
 
-export type IAVLTreeNode<T, NEIGHBOR extends IAVLTreeNode<T, NEIGHBOR>> = IBSTNode<T, NEIGHBOR>;
+export interface IAVLTreeNode<T, NEIGHBOR extends IAVLTreeNode<T, NEIGHBOR>> extends IBSTNode<T, NEIGHBOR> {
+  height: number;
+}
 
 export interface IAVLTree<N extends AVLTreeNode<N['val'], N>> extends IBST<N> {
   add(key: BinaryTreeNodeKey, val?: N['val'] | null): N | null | undefined;

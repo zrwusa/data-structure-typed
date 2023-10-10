@@ -26,36 +26,20 @@ export abstract class AbstractBinaryTreeNode<
 > implements IAbstractBinaryTreeNode<V, NEIGHBOR>
 {
   /**
-   * The constructor function initializes a BinaryTreeNode object with an key and an optional value.
+   * The constructor function initializes a BinaryTreeNode object with a key and an optional value.
    * @param {BinaryTreeNodeKey} key - The `key` parameter is of type `BinaryTreeNodeKey` and represents the unique identifier
    * of the binary tree node. It is used to distinguish one node from another in the binary tree.
    * @param {V} [val] - The "val" parameter is an optional parameter of type V. It represents the value that will be
    * stored in the binary tree node. If no value is provided, it will be set to undefined.
    */
   protected constructor(key: BinaryTreeNodeKey, val?: V) {
-    this._key = key;
-    this._val = val;
+    this.key = key;
+    this.val = val;
   }
 
-  private _key: BinaryTreeNodeKey;
+  key: BinaryTreeNodeKey;
 
-  get key(): BinaryTreeNodeKey {
-    return this._key;
-  }
-
-  set key(v: BinaryTreeNodeKey) {
-    this._key = v;
-  }
-
-  private _val: V | undefined;
-
-  get val(): V | undefined {
-    return this._val;
-  }
-
-  set val(value: V | undefined) {
-    this._val = value;
-  }
+  val: V | undefined;
 
   private _left: NEIGHBOR | null | undefined;
 
@@ -83,25 +67,7 @@ export abstract class AbstractBinaryTreeNode<
     this._right = v;
   }
 
-  private _parent: NEIGHBOR | null | undefined;
-
-  get parent(): NEIGHBOR | null | undefined {
-    return this._parent;
-  }
-
-  set parent(v: NEIGHBOR | null | undefined) {
-    this._parent = v;
-  }
-
-  private _height = 0;
-
-  get height(): number {
-    return this._height;
-  }
-
-  set height(v: number) {
-    this._height = v;
-  }
+  parent: NEIGHBOR | null | undefined;
 
   /**
    * The function determines the position of a node in a family tree structure.
@@ -169,23 +135,11 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     return this._loopType;
   }
 
-  private _visitedKey: BinaryTreeNodeKey[] = [];
+  visitedKey: BinaryTreeNodeKey[] = [];
 
-  get visitedKey(): BinaryTreeNodeKey[] {
-    return this._visitedKey;
-  }
+  visitedVal: N['val'][] = [];
 
-  private _visitedVal: N['val'][] = [];
-
-  get visitedVal(): N['val'][] {
-    return this._visitedVal;
-  }
-
-  private _visitedNode: N[] = [];
-
-  get visitedNode(): N[] {
-    return this._visitedNode;
-  }
+  visitedNode: N[] = [];
 
   abstract createNode(key: BinaryTreeNodeKey, val?: N['val']): N | null;
 
@@ -197,19 +151,15 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * @returns The `destNode` is being returned.
    */
   swapLocation(srcNode: N, destNode: N): N {
-    const {key, val, height} = destNode;
+    const {key, val} = destNode;
     const tempNode = this.createNode(key, val);
 
     if (tempNode) {
-      tempNode.height = height;
-
       destNode.key = srcNode.key;
       destNode.val = srcNode.val;
-      destNode.height = srcNode.height;
 
       srcNode.key = tempNode.key;
       srcNode.val = tempNode.val;
-      srcNode.height = tempNode.height;
     }
 
     return destNode;
@@ -1454,30 +1404,6 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
   }
 
   /**
-   * The function sets the value of the `_visitedKey` property in a protected manner.
-   * @param {BinaryTreeNodeKey[]} value - value is an array of BinaryTreeNodeKey values.
-   */
-  protected _setVisitedKey(value: BinaryTreeNodeKey[]) {
-    this._visitedKey = value;
-  }
-
-  /**
-   * The function sets the value of the "_visitedVal" property to the given array.
-   * @param value - An array of type N.
-   */
-  protected _setVisitedVal(value: Array<N>) {
-    this._visitedVal = value;
-  }
-
-  /**
-   * The function sets the value of the _visitedNode property.
-   * @param {N[]} value - N[] is an array of elements of type N.
-   */
-  protected _setVisitedNode(value: N[]) {
-    this._visitedNode = value;
-  }
-
-  /**
    * The function sets the root property of an object to a given value, and if the value is not null, it also sets the
    * parent property of the value to undefined.
    * @param {N | null} v - The parameter `v` is of type `N | null`, which means it can either be of type `N` or `null`.
@@ -1502,9 +1428,9 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * properties.
    */
   protected _clearResults() {
-    this._visitedKey = [];
-    this._visitedVal = [];
-    this._visitedNode = [];
+    this.visitedKey = [];
+    this.visitedVal = [];
+    this.visitedNode = [];
   }
 
   /**
@@ -1563,22 +1489,22 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
 
     switch (nodeOrPropertyName) {
       case 'key':
-        this._visitedKey.push(node.key);
+        this.visitedKey.push(node.key);
         break;
       case 'val':
-        this._visitedVal.push(node.val);
+        this.visitedVal.push(node.val);
         break;
       case 'node':
-        this._visitedNode.push(node);
+        this.visitedNode.push(node);
         break;
       default:
-        this._visitedKey.push(node.key);
+        this.visitedKey.push(node.key);
         break;
     }
   }
 
   /**
-   * The time complexity of Morris traversal is O(n), it's may slower than others
+   * The time complexity of Morris traversal is O(n), it may slower than others
    * The space complexity  Morris traversal is O(1) because no using stack
    */
 
@@ -1594,13 +1520,13 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
 
     switch (nodeOrPropertyName) {
       case 'key':
-        return this._visitedKey;
+        return this.visitedKey;
       case 'val':
-        return this._visitedVal;
+        return this.visitedVal;
       case 'node':
-        return this._visitedNode;
+        return this.visitedNode;
       default:
-        return this._visitedKey;
+        return this.visitedKey;
     }
   }
 

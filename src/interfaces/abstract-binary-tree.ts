@@ -12,13 +12,9 @@ import {
 import {AbstractBinaryTreeNode} from '../data-structures';
 
 export interface IAbstractBinaryTreeNode<T, NEIGHBOR extends IAbstractBinaryTreeNode<T, NEIGHBOR>> {
-  get key(): BinaryTreeNodeKey;
+  key: BinaryTreeNodeKey;
 
-  set key(v: BinaryTreeNodeKey);
-
-  get val(): T | undefined;
-
-  set val(v: T | undefined);
+  val: T | undefined;
 
   get left(): NEIGHBOR | null | undefined;
 
@@ -28,15 +24,9 @@ export interface IAbstractBinaryTreeNode<T, NEIGHBOR extends IAbstractBinaryTree
 
   set right(v: NEIGHBOR | null | undefined);
 
-  get parent(): NEIGHBOR | null | undefined;
-
-  set parent(v: NEIGHBOR | null | undefined);
+  parent: NEIGHBOR | null | undefined;
 
   get familyPosition(): FamilyPosition;
-
-  get height(): number;
-
-  set height(v: number);
 }
 
 export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], N>> {
