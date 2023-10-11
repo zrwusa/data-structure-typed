@@ -477,7 +477,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
   getNodes(
     nodeProperty: BinaryTreeNodeKey | N,
     propertyName: BinaryTreeNodePropertyName = 'key',
-    onlyOne: boolean = false
+    onlyOne = false
   ): N[] {
     if (!this.root) return [];
 
@@ -911,6 +911,13 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
   /**
    * Performs a depth-first search (dfs) traversal on a binary tree and accumulates properties of each node based on the specified property name.
    * @param {'in' | 'pre' | 'post'} [pattern] - The traversal pattern: 'in' (in-order), 'pre' (pre-order), or 'post' (post-order).
+   * @returns An array of values corresponding to the specified property.
+   */
+  dfs(pattern: DFSOrderPattern): BinaryTreeNodeKey[];
+
+  /**
+   * Performs a depth-first search (dfs) traversal on a binary tree and accumulates properties of each node based on the specified property name.
+   * @param {'in' | 'pre' | 'post'} [pattern] - The traversal pattern: 'in' (in-order), 'pre' (pre-order), or 'post' (post-order).
    * @param {string} nodeOrPropertyName - The name of the property to accumulate.
    * @returns An array of values corresponding to the specified property.
    */
@@ -977,6 +984,13 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
   dfsIterative(): BinaryTreeNodeKey[];
 
   /**
+   * Performs an iterative depth-first search (dfs) traversal on a binary tree and accumulates properties of each node based on their 'key' property.
+   * @param {'in' | 'pre' | 'post'} [pattern] - The traversal pattern: 'in' (in-order), 'pre' (pre-order), or 'post' (post-order).
+   * @returns An array of values corresponding to the specified property.
+   */
+  dfsIterative(pattern: DFSOrderPattern): BinaryTreeNodeKey[];
+
+  /**
    * Performs an iterative depth-first search (dfs) traversal on a binary tree and accumulates properties of each node based on the specified property name.
    * @param {'in' | 'pre' | 'post'} [pattern] - The traversal pattern: 'in' (in-order), 'pre' (pre-order), or 'post' (post-order).
    * @param {string} nodeOrPropertyName - The name of the property to accumulate.
@@ -990,7 +1004,7 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * @param {'val'} nodeOrPropertyName - The name of the property to accumulate.
    * @returns An array of 'val' properties from each node.
    */
-  dfsIterative(pattern: DFSOrderPattern, nodeOrPropertyName: 'val'): N[];
+  dfsIterative(pattern: DFSOrderPattern, nodeOrPropertyName: 'val'): N['val'][];
 
   /**
    * Performs an iterative depth-first search (dfs) traversal on a binary tree and accumulates nodes themselves.
@@ -1049,6 +1063,12 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
 
     return this._getResultByPropertyName(nodeOrPropertyName);
   }
+
+  /**
+   * Performs a level-order traversal on a binary tree starting from the specified node and accumulates properties of each node based on their 'key' property.
+   * @returns An array of binary tree node IDs.
+   */
+  levelIterative(): BinaryTreeNodeKey[];
 
   /**
    * Performs a level-order traversal on a binary tree starting from the specified node and accumulates properties of each node based on their 'key' property.
@@ -1117,6 +1137,12 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
 
     return this._getResultByPropertyName(nodeOrPropertyName);
   }
+
+  /**
+   * Collects nodes from a binary tree by a specified property and organizes them into levels.
+   * @returns A 2D array of AbstractBinaryTreeNodeProperty<N> objects.
+   */
+  listLevels(): BinaryTreeNodeKey[][];
 
   /**
    * Collects nodes from a binary tree by a specified property and organizes them into levels.
@@ -1243,6 +1269,13 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
    * @returns An array of values corresponding to the specified property.
    */
   morris(pattern: DFSOrderPattern, nodeOrPropertyName: 'key'): BinaryTreeNodeKey[];
+
+  /**
+   * Performs an in-order, pre-order, or post-order traversal on a binary tree using the Morris traversal algorithm and accumulates properties of each node based on the specified property name.
+   * @param {'in' | 'pre' | 'post'} [pattern] - The traversal pattern: 'in' (in-order), 'pre' (pre-order), or 'post' (post-order).
+   * @returns An array of values corresponding to the specified property.
+   */
+  morris(pattern: DFSOrderPattern): BinaryTreeNodeKey[];
 
   /**
    * Performs an in-order, pre-order, or post-order traversal on a binary tree using the Morris traversal algorithm and accumulates the 'val' property of each node.
@@ -1444,25 +1477,25 @@ export abstract class AbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val
     result: (N | null | undefined)[],
     nodeProperty: BinaryTreeNodeKey | N,
     propertyName: BinaryTreeNodePropertyName = 'key',
-    onlyOne: boolean = false
+    onlyOne = false
   ) {
     switch (propertyName) {
       case 'key':
         if (cur.key === nodeProperty) {
           result.push(cur);
-          return !!onlyOne;
+          return onlyOne;
         }
         break;
       case 'val':
         if (cur.val === nodeProperty) {
           result.push(cur);
-          return !!onlyOne;
+          return onlyOne;
         }
         break;
       default:
         if (cur.key === nodeProperty) {
           result.push(cur);
-          return !!onlyOne;
+          return onlyOne;
         }
         break;
     }

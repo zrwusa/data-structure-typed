@@ -124,18 +124,15 @@ export interface IAbstractBinaryTree<N extends AbstractBinaryTreeNode<N['val'], 
 
   dfsIterative(): BinaryTreeNodeKey[];
 
-  dfsIterative(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'key'): BinaryTreeNodeKey[];
+  dfsIterative(pattern: DFSOrderPattern): BinaryTreeNodeKey[];
 
-  dfsIterative(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'val'): N[];
+  dfsIterative(pattern: DFSOrderPattern, nodeOrPropertyName: 'key'): BinaryTreeNodeKey[];
 
-  dfsIterative(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'node'): N[];
+  dfsIterative(pattern: DFSOrderPattern, nodeOrPropertyName: 'val'): N['val'][];
 
-  dfsIterative(pattern?: DFSOrderPattern, nodeOrPropertyName?: 'count'): number[];
+  dfsIterative(pattern: DFSOrderPattern, nodeOrPropertyName: 'node'): N[];
 
-  dfsIterative(
-    pattern?: 'in' | 'pre' | 'post',
-    nodeOrPropertyName?: NodeOrPropertyName
-  ): AbstractBinaryTreeNodeProperties<N>;
+  dfsIterative(pattern?: DFSOrderPattern, nodeOrPropertyName?: NodeOrPropertyName): AbstractBinaryTreeNodeProperties<N>;
 
   levelIterative(node: N | null): BinaryTreeNodeKey[];
 

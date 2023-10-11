@@ -12,7 +12,6 @@ export enum LoopType {
   RECURSIVE = 'RECURSIVE'
 }
 
-/* This enumeration defines the position of a node within a family tree composed of three associated nodes, where 'root' represents the root node of the family tree, 'left' represents the left child node, and 'right' represents the right child node. */
 export enum FamilyPosition {
   ROOT = 'ROOT',
   LEFT = 'LEFT',

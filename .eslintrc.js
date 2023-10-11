@@ -3,6 +3,7 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "prettier"
   ],
+  ignorePatterns: ["lib/", "dist/", "umd/", "coverage/", "docs/"],
   "rules": {
     "import/no-anonymous-default-export": "off",
     "@typescript-eslint/no-unused-vars": "error",

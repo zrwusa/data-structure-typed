@@ -105,7 +105,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * value should be added to the binary tree. If the `count` parameter is not provided, it defaults to 1.
    * @returns The method `add` returns either the inserted node (`N`), `null`, or `undefined`.
    */
-  override add(keyOrNode: BinaryTreeNodeKey | N | null, val?: N['val'], count: number = 1): N | null | undefined {
+  override add(keyOrNode: BinaryTreeNodeKey | N | null, val?: N['val'], count = 1): N | null | undefined {
     let inserted: N | null | undefined = undefined,
       newNode: N | null;
     if (keyOrNode instanceof TreeMultisetNode) {
@@ -293,7 +293,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * not be taken into account when removing it. If `ignoreCount` is set to `false
    * @returns The function `remove` returns an array of `BinaryTreeDeletedResult<N>` objects.
    */
-  override remove(nodeOrKey: N | BinaryTreeNodeKey, ignoreCount: boolean = false): BinaryTreeDeletedResult<N>[] {
+  override remove(nodeOrKey: N | BinaryTreeNodeKey, ignoreCount = false): BinaryTreeDeletedResult<N>[] {
     const bstDeletedResult: BinaryTreeDeletedResult<N>[] = [];
     if (!this.root) return bstDeletedResult;
 
@@ -474,7 +474,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * to `true`, the function will return only one node. If `onlyOne`
    * @returns an array of nodes that match the given nodeProperty.
    */
-  getNodesByCount(nodeProperty: BinaryTreeNodeKey | N, onlyOne: boolean = false): N[] {
+  getNodesByCount(nodeProperty: BinaryTreeNodeKey | N, onlyOne = false): N[] {
     if (!this.root) return [];
     const result: N[] = [];
 

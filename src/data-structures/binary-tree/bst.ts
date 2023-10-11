@@ -247,7 +247,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
   override getNodes(
     nodeProperty: BinaryTreeNodeKey | N,
     propertyName: BinaryTreeNodePropertyName = 'key',
-    onlyOne: boolean = false
+    onlyOne = false
   ): N[] {
     if (!this.root) return [];
     const result: N[] = [];
@@ -526,7 +526,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
   /**
    * The function compares two binary tree node IDs using a comparator function and returns whether the first ID is
    * greater than, less than, or equal to the second ID.
-   * @param {BinaryTreeNodeKey} a - a is a BinaryTreeNodeKey, which represents the identifier of a binary tree node.
+   * @param {BinaryTreeNodeKey} a - "a" is a BinaryTreeNodeKey, which represents the identifier of a binary tree node.
    * @param {BinaryTreeNodeKey} b - The parameter "b" in the above code refers to a BinaryTreeNodeKey.
    * @returns a value of type CP (ComparisonResult). The possible return values are CP.gt (greater than), CP.lt (less
    * than), or CP.eq (equal).
