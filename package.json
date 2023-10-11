@@ -28,7 +28,7 @@
     "check:deps": "dependency-cruiser src",
     "changelog": "auto-changelog",
     "coverage:badge": "istanbul-badges-readme",
-    "ci": "env && npm run lint && npm run build && npm run test && git fetch --tags && npm run changelog"
+    "ci": "env && npm run lint && npm run build && npm run update:individuals && npm run test && git fetch --tags && npm run changelog"
   },
   "repository": {
     "type": "git",

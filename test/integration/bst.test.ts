@@ -44,14 +44,14 @@ describe('Individual package BST operations test', () => {
     const node11 = bst.get(11);
     expect(node11).toBeInstanceOf(BSTNode);
 
-    const dfsInorderNodes = bst.DFS('in', 'node');
+    const dfsInorderNodes = bst.dfs('in', 'node');
     expect(dfsInorderNodes[0].key).toBe(1);
     expect(dfsInorderNodes[dfsInorderNodes.length - 1].key).toBe(16);
 
     bst.perfectlyBalance();
     expect(bst.isPerfectlyBalanced()).toBe(true);
 
-    const bfsNodesAfterBalanced = bst.BFS('node');
+    const bfsNodesAfterBalanced = bst.bfs('node');
     expect(bfsNodesAfterBalanced[0].key).toBe(8);
     expect(bfsNodesAfterBalanced[bfsNodesAfterBalanced.length - 1].key).toBe(16);
 
@@ -169,12 +169,12 @@ describe('Individual package BST operations test', () => {
 
     expect(bst.isAVLBalanced()).toBe(false);
 
-    const bfsIDs = bst.BFS();
+    const bfsIDs = bst.bfs();
     expect(bfsIDs[0]).toBe(2);
     expect(bfsIDs[1]).toBe(12);
     expect(bfsIDs[2]).toBe(16);
 
-    const bfsNodes = bst.BFS('node');
+    const bfsNodes = bst.bfs('node');
     expect(bfsNodes[0].key).toBe(2);
     expect(bfsNodes[1].key).toBe(12);
     expect(bfsNodes[2].key).toBe(16);
@@ -242,14 +242,14 @@ describe('Individual package BST operations test', () => {
     const node11 = objBST.get(11);
     expect(node11).toBeInstanceOf(BSTNode);
 
-    const dfsInorderNodes = objBST.DFS('in', 'node');
+    const dfsInorderNodes = objBST.dfs('in', 'node');
     expect(dfsInorderNodes[0].key).toBe(1);
     expect(dfsInorderNodes[dfsInorderNodes.length - 1].key).toBe(16);
 
     objBST.perfectlyBalance();
     expect(objBST.isPerfectlyBalanced()).toBe(true);
 
-    const bfsNodesAfterBalanced = objBST.BFS('node');
+    const bfsNodesAfterBalanced = objBST.bfs('node');
     expect(bfsNodesAfterBalanced[0].key).toBe(8);
     expect(bfsNodesAfterBalanced[bfsNodesAfterBalanced.length - 1].key).toBe(16);
 
@@ -367,12 +367,12 @@ describe('Individual package BST operations test', () => {
 
     expect(objBST.isAVLBalanced()).toBe(false);
 
-    const bfsIDs = objBST.BFS();
+    const bfsIDs = objBST.bfs();
     expect(bfsIDs[0]).toBe(2);
     expect(bfsIDs[1]).toBe(12);
     expect(bfsIDs[2]).toBe(16);
 
-    const bfsNodes = objBST.BFS('node');
+    const bfsNodes = objBST.bfs('node');
     expect(bfsNodes[0].key).toBe(2);
     expect(bfsNodes[1].key).toBe(12);
     expect(bfsNodes[2].key).toBe(16);

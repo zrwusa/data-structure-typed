@@ -1,4 +1,4 @@
-import {DirectedEdge, DirectedGraph, DirectedVertex, VertexId} from '../../../../src';
+import {DirectedEdge, DirectedGraph, DirectedVertex, VertexKey} from '../../../../src';
 
 describe('DirectedGraph Operation Test', () => {
   let graph: DirectedGraph;
@@ -63,7 +63,7 @@ describe('DirectedGraph Operation Test', () => {
 });
 
 class MyVertex<V extends string> extends DirectedVertex<V> {
-  constructor(key: VertexId, val?: V) {
+  constructor(key: VertexKey, val?: V) {
     super(key, val);
     this._data = val;
   }
@@ -80,7 +80,7 @@ class MyVertex<V extends string> extends DirectedVertex<V> {
 }
 
 class MyEdge<E extends string> extends DirectedEdge<E> {
-  constructor(v1: VertexId, v2: VertexId, weight?: number, val?: E) {
+  constructor(v1: VertexKey, v2: VertexKey, weight?: number, val?: E) {
     super(v1, v2, weight, val);
     this._data = val;
   }
@@ -97,11 +97,11 @@ class MyEdge<E extends string> extends DirectedEdge<E> {
 }
 
 class MyDirectedGraph<V extends MyVertex<string>, E extends MyEdge<string>> extends DirectedGraph<V, E> {
-  createVertex(key: VertexId, val: V['val']): V {
+  createVertex(key: VertexKey, val: V['val']): V {
     return new MyVertex(key, val) as V;
   }
 
-  createEdge(src: VertexId, dest: VertexId, weight?: number, val?: E['val']): E {
+  createEdge(src: VertexKey, dest: VertexKey, weight?: number, val?: E['val']): E {
     return new MyEdge(src, dest, weight ?? 1, val) as E;
   }
 }

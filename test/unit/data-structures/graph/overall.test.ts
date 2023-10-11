@@ -29,8 +29,8 @@ describe('Overall Graph Operation Test', () => {
     graph.addEdge('A', 'B');
     graph.addEdge('B', 'C');
 
-    const topologicalOrderIds = graph.topologicalSort();
-    expect(topologicalOrderIds).toEqual(['A', 'B', 'C']);
+    const topologicalOrderKeys = graph.topologicalSort();
+    expect(topologicalOrderKeys).toEqual(['A', 'B', 'C']);
   });
   it('Overall UndirectedGraph Operation Test', () => {
     const graph = new UndirectedGraph();
