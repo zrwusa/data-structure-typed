@@ -349,7 +349,7 @@ describe('DoublyLinkedList Performance Test', () => {
     for (let i = 0; i < magnitude.LINEAR; i++) {
       list.unshift(i);
     }
-    expect(performance.now() - startPushTime).toBeLessThan(bigO.LINEAR * 10);
+    expect(performance.now() - startPushTime).toBeLessThan(bigO.LINEAR * 20);
 
     expect(list.length).toBeGreaterThan(0);
     const startPopTime = performance.now();

@@ -22,7 +22,7 @@
     "fix:src": "npm run lint:src && npm run format:src",
     "fix:test": "npm run lint:test && npm run format:test",
     "fix": "npm run fix:src && npm run fix:test",
-    "update:test-deps": "npm i avl-tree-typed binary-tree-typed bst-typed heap-typed --save-dev",
+    "update:individuals": "npm i avl-tree-typed binary-tree-typed bst-typed heap-typed --save-dev",
     "install:individuals": "npm i avl-tree-typed binary-tree-typed bst-typed deque-typed directed-graph-typed doubly-linked-list-typed graph-typed heap-typed linked-list-typed max-heap-typed max-priority-queue-typed min-heap-typed min-priority-queue-typed priority-queue-typed singly-linked-list-typed stack-typed tree-multiset-typed trie-typed undirected-graph-typed queue-typed --save-dev",
     "test": "jest",
     "check:deps": "dependency-cruiser src",
