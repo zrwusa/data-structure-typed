@@ -13,6 +13,6 @@
   contributing "several data structures" all at once contribute them all
   one by one separately (i.e. one pull request for "RBTree", another one
   for "AATree" and so on).
-- Provide **README.md** for each of the data structure **with explanations** of
-  the algorithm and **with links** to further readings.
+- Enrich **README.md** for each of the data structure **with explanations** of
+  the data structure.
 - Describe what you do in code using **comments**.
