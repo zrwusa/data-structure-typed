@@ -44,6 +44,9 @@ jobs:
       - name: Build and documentation
         run: npm run build
 
+      - name: Update Individuals
+        run: npm run update:individuals
+
       - name: Run tests
         run: npm test
 
