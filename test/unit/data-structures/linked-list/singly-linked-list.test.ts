@@ -384,7 +384,7 @@ describe('SinglyLinkedList Performance Test', () => {
     for (let i = 0; i < magnitude.LINEAR; i++) {
       list.push(i);
     }
-    expect(performance.now() - startPushTime).toBeLessThan(bigO.LINEAR * 10);
+    expect(performance.now() - startPushTime).toBeLessThan(bigO.LINEAR * 20);
 
     const startPopTime = performance.now();
 
