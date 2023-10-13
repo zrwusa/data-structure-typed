@@ -7,6 +7,11 @@
   "types": "lib/index.d.ts",
   "source": "src/index.ts",
   "umd:main": "umd/bundle.min.js",
+  "type": "module",
+  "exports": {
+    "import": "./lib/index.js",
+    "require": "./dist/index.js"
+  },
   "scripts": {
     "build": "npm run build:es6 && npm run build:commonjs && npm run build:umd && npm run build:docs",
     "build:es6": "rm -rf lib && tsc",
@@ -34,7 +39,7 @@
     "type": "git",
     "url": "git+https://github.com/zrwusa/data-structure-typed.git"
   },
-  "author": "Tyler Zeng zrwusa@gmail.com",
+  "author": "Tyler Zeng <zrwusa@gmail.com>",
   "license": "MIT",
   "publishConfig": {
     "@zrwusa:registry": "https://npm.pkg.github.com"

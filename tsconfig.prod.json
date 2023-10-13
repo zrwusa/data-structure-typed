@@ -3,10 +3,11 @@
     "target": "ES6",
     "module": "CommonJS",
     "outDir": "./dist",
-    "sourceMap": true,
+    "declaration": true,
     "lib": [
       "ESNext"
     ],
+    "sourceMap": true,
     "strict": true,
     "downlevelIteration": true,
     "removeComments": true,
