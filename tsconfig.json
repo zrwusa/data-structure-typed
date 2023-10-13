@@ -12,6 +12,7 @@
     "moduleResolution": "node",
     "skipLibCheck": true,
     "downlevelIteration": true,
+    "removeComments": false,
     "experimentalDecorators": true,
     "typeRoots": [
       "node_modules/@types"
