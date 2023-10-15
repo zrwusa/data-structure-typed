@@ -1,7 +1,7 @@
 /**
  * data-structure-typed
  *
- * @author Kirk
+ * @author Kirk 
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
