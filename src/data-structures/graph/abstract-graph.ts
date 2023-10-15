@@ -1,8 +1,8 @@
 /**
  * data-structure-typed
  *
- * @author Tyler Zeng
- * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
+ * @author Kirk Qi
+ * @copyright Copyright (c) 2022 Kirk Qi <qilinaus@gmail.com>
  * @license MIT License
  */
 import {arrayRemove, uuidV4} from '../../utils';
@@ -622,9 +622,7 @@ export abstract class AbstractGraph<
       if (vertexOrKey instanceof AbstractVertex) distMap.set(vertexOrKey, Infinity);
     }
 
-    const heap = new PriorityQueue<{key: number; val: V}>({
-      comparator: (a, b) => a.key - b.key
-    });
+    const heap = new PriorityQueue<{key: number; val: V}>((a, b) => a.key - b.key);
     heap.add({key: 0, val: srcVertex});
 
     distMap.set(srcVertex, 0);
