@@ -8,7 +8,12 @@ All notable changes to this project will be documented in this file.
 - [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - [`auto-changelog`](https://github.com/CookPete/auto-changelog)
 
-## [v1.35.1](https://github.com/zrwusa/data-structure-typed/compare/v1.35.0...main) (upcoming)
+## [v1.40.0-rc](https://github.com/zrwusa/data-structure-typed/compare/v1.35.0...main) (upcoming)
+
+### Changes
+
+- [heap, priority queue] Heap improved. References #123: redesigned [`#4`](https://github.com/zrwusa/data-structure-typed/pull/4)
+- test [`#3`](https://github.com/zrwusa/data-structure-typed/pull/3)
 
 ## [v1.35.0](https://github.com/zrwusa/data-structure-typed/compare/v1.34.1...v1.35.0) (11 October 2023)
 
