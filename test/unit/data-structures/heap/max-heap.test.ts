@@ -1,44 +1,52 @@
-import {HeapItem, MaxHeap} from '../../../../src';
+import {CompareFunction, MaxHeap} from '../../../../src';
 
-describe('MaxHeap Operation Test', () => {
-  it('should object Max Heap operations be proper', function () {
-    const maxHeap = new MaxHeap<{keyA: string}>();
-    const myObj1 = {keyA: 'a1'},
-      myObj6 = {keyA: 'a6'},
-      myObj5 = {keyA: 'a5'},
-      myObj2 = {keyA: 'a2'},
-      myObj0 = {keyA: 'a0'},
-      myObj9 = {keyA: 'a9'};
-    maxHeap.add(1, myObj1);
-    expect(maxHeap.has(myObj1)).toBe(true);
-    expect(maxHeap.has(myObj9)).toBe(false);
-    maxHeap.add(6, myObj6);
-    expect(maxHeap.has(myObj6)).toBe(true);
-    maxHeap.add(5, myObj5);
-    expect(maxHeap.has(myObj5)).toBe(true);
-    maxHeap.add(2, myObj2);
-    expect(maxHeap.has(myObj2)).toBe(true);
-    expect(maxHeap.has(myObj6)).toBe(true);
-    maxHeap.add(0, myObj0);
-    expect(maxHeap.has(myObj0)).toBe(true);
-    expect(maxHeap.has(myObj9)).toBe(false);
-    maxHeap.add(9, myObj9);
-    expect(maxHeap.has(myObj9)).toBe(true);
+describe('MaxHeap', () => {
+  const numberComparator: CompareFunction<number> = (a, b) => b - a;
+  let maxHeap: MaxHeap<number>;
 
-    const peek9 = maxHeap.peek(true);
-    peek9 && peek9.val && expect(peek9.val.keyA).toBe('a9');
+  beforeEach(() => {
+    maxHeap = new MaxHeap(numberComparator);
+  });
 
-    const heapToArr = maxHeap.toArray(true);
-    expect(heapToArr.map(item => item?.val?.keyA)).toEqual(['a9', 'a2', 'a6', 'a1', 'a0', 'a5']);
+  test('add and poll elements in descending order', () => {
+    maxHeap.add(3);
+    maxHeap.add(1);
+    maxHeap.add(4);
+    maxHeap.add(2);
 
-    const values = ['a9', 'a6', 'a5', 'a2', 'a1', 'a0'];
-    let i = 0;
-    while (maxHeap.size > 0) {
-      const polled = maxHeap.poll(true);
-      expect(polled).toBeInstanceOf(HeapItem);
-      polled && expect(polled.val).toHaveProperty('keyA');
-      polled && polled.val && expect(polled.val.keyA).toBe(values[i]);
-      i++;
-    }
+    expect(maxHeap.poll()).toBe(4);
+    expect(maxHeap.poll()).toBe(3);
+    expect(maxHeap.poll()).toBe(2);
+    expect(maxHeap.poll()).toBe(1);
+  });
+
+  test('peek at the top element without removing it', () => {
+    maxHeap.add(3);
+    maxHeap.add(1);
+    maxHeap.add(4);
+    maxHeap.add(2);
+
+    expect(maxHeap.peek()).toBe(4);
+    expect(maxHeap.size).toBe(4);
+  });
+
+  test('sort elements in descending order', () => {
+    maxHeap.add(3);
+    maxHeap.add(1);
+    maxHeap.add(4);
+    maxHeap.add(2);
+
+    const sortedArray = maxHeap.sort();
+    expect(sortedArray).toEqual([4, 3, 2, 1]);
+  });
+
+  test('check if the heap is empty', () => {
+    expect(maxHeap.isEmpty()).toBe(true);
+
+    maxHeap.add(5);
+    expect(maxHeap.isEmpty()).toBe(false);
+
+    maxHeap.poll();
+    expect(maxHeap.isEmpty()).toBe(true);
   });
 });
