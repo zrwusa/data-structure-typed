@@ -1,6 +1,5 @@
 /**
  * data-structure-typed
- *
  * @author Kirk Qi
  * @copyright Copyright (c) 2022 Kirk Qi <qilinaus@gmail.com>
  * @license MIT License
