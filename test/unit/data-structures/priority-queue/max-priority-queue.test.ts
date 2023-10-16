@@ -89,7 +89,8 @@ describe('MaxPriorityQueue Performance Test', () => {
         prev = polled;
       }
     }
-    expect(performance.now() - startTime).toBeLessThan(bigO.LINEAR * 50);
+    const cost = performance.now() - startTime;
+    expect(cost).toBeLessThan(bigO.LINEAR * 20);
     expect(prev).toBeGreaterThan(0);
   });
 

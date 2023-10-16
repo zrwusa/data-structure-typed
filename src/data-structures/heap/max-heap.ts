@@ -9,9 +9,9 @@
 import {Heap} from './heap';
 import type {CompareFunction} from '../../types';
 
-export class MaxHeap<T = any> extends Heap<T> {
+export class MaxHeap<E = any> extends Heap<E> {
   constructor(
-    comparator: CompareFunction<T> = (a: T, b: T) => {
+    comparator: CompareFunction<E> = (a: E, b: E) => {
       if (!(typeof a === 'number' && typeof b === 'number')) {
         throw new Error('The a, b params of compare function must be number');
       } else {

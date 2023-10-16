@@ -25,7 +25,7 @@ describe('MinPriorityQueue Operation Test', () => {
     priorityQueue.add(3);
     priorityQueue.add(7);
 
-    expect(priorityQueue.leaf()).toBe(7);
+    expect(priorityQueue.leaf).toBe(7);
   });
 
   it('should check if the queue is empty', () => {

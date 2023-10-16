@@ -16,9 +16,9 @@ import {CP, LoopType} from '../../types';
 import {BinaryTree, BinaryTreeNode} from './binary-tree';
 import {IBST, IBSTNode} from '../../interfaces';
 
-export class BSTNode<V = any, NEIGHBOR extends BSTNode<V, NEIGHBOR> = BSTNodeNested<V>>
-  extends BinaryTreeNode<V, NEIGHBOR>
-  implements IBSTNode<V, NEIGHBOR>
+export class BSTNode<V = any, FAMILY extends BSTNode<V, FAMILY> = BSTNodeNested<V>>
+  extends BinaryTreeNode<V, FAMILY>
+  implements IBSTNode<V, FAMILY>
 {
   constructor(key: BinaryTreeNodeKey, val?: V) {
     super(key, val);

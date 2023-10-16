@@ -9,9 +9,9 @@ import {BST, BSTNode} from './bst';
 import type {AVLTreeNodeNested, AVLTreeOptions, BinaryTreeDeletedResult, BinaryTreeNodeKey} from '../../types';
 import {IAVLTree, IAVLTreeNode} from '../../interfaces';
 
-export class AVLTreeNode<V = any, NEIGHBOR extends AVLTreeNode<V, NEIGHBOR> = AVLTreeNodeNested<V>>
-  extends BSTNode<V, NEIGHBOR>
-  implements IAVLTreeNode<V, NEIGHBOR>
+export class AVLTreeNode<V = any, FAMILY extends AVLTreeNode<V, FAMILY> = AVLTreeNodeNested<V>>
+  extends BSTNode<V, FAMILY>
+  implements IAVLTreeNode<V, FAMILY>
 {
   height: number;
 
