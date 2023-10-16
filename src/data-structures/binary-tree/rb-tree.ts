@@ -2,9 +2,9 @@ import {BinaryTreeNodeKey, RBColor, RBTreeNodeNested, RBTreeOptions} from '../..
 import {IRBTree, IRBTreeNode} from '../../interfaces';
 import {BST, BSTNode} from './bst';
 
-export class RBTreeNode<V = any, NEIGHBOR extends RBTreeNode<V, NEIGHBOR> = RBTreeNodeNested<V>>
-  extends BSTNode<V, NEIGHBOR>
-  implements IRBTreeNode<V, NEIGHBOR>
+export class RBTreeNode<V = any, FAMILY extends RBTreeNode<V, FAMILY> = RBTreeNodeNested<V>>
+  extends BSTNode<V, FAMILY>
+  implements IRBTreeNode<V, FAMILY>
 {
   private _color: RBColor;
 

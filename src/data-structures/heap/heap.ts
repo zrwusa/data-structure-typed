@@ -7,11 +7,11 @@
 
 import type {CompareFunction} from '../../types';
 
-export class Heap<T> {
-  private nodes: T[] = [];
-  private readonly comparator: CompareFunction<T>;
+export class Heap<E> {
+  protected nodes: E[] = [];
+  private readonly comparator: CompareFunction<E>;
 
-  constructor(comparator: CompareFunction<T>) {
+  constructor(comparator: CompareFunction<E>) {
     this.comparator = comparator;
   }
 
@@ -19,7 +19,7 @@ export class Heap<T> {
    * Insert an element into the heap and maintain the heap properties.
    * @param value - The element to be inserted.
    */
-  add(value: T): Heap<T> {
+  add(value: E): Heap<E> {
     this.nodes.push(value);
     this.bubbleUp(this.nodes.length - 1);
     return this;
@@ -29,16 +29,16 @@ export class Heap<T> {
    * Remove and return the top element (smallest or largest element) from the heap.
    * @returns The top element or null if the heap is empty.
    */
-  poll(): T | null {
+  poll(): E | null {
     if (this.nodes.length === 0) {
       return null;
     }
     if (this.nodes.length === 1) {
-      return this.nodes.pop() as T;
+      return this.nodes.pop() as E;
     }
 
     const topValue = this.nodes[0];
-    this.nodes[0] = this.nodes.pop() as T;
+    this.nodes[0] = this.nodes.pop() as E;
     this.sinkDown(0);
     return topValue;
   }
@@ -98,7 +98,7 @@ export class Heap<T> {
    * Peek at the top element of the heap without removing it.
    * @returns The top element or null if the heap is empty.
    */
-  peek(): T | null {
+  peek(): E | null {
     if (this.nodes.length === 0) {
       return null;
     }
@@ -116,7 +116,7 @@ export class Heap<T> {
    * Get the last element in the heap, which is not necessarily a leaf node.
    * @returns The last element or null if the heap is empty.
    */
-  leaf(): T | null {
+  get leaf(): E | null {
     return this.nodes[this.size - 1] ?? null;
   }
 
@@ -128,11 +128,18 @@ export class Heap<T> {
     return this.size === 0;
   }
 
+  /**
+   * Reset the nodes of the heap. Make the nodes empty.
+   */
   clear() {
     this.nodes = [];
   }
 
-  refill(nodes: T[]) {
+  /**
+   * Clear and add nodes of the heap
+   * @param nodes
+   */
+  refill(nodes: E[]) {
     this.nodes = nodes;
     this.fix();
   }
@@ -142,32 +149,8 @@ export class Heap<T> {
    * @param value - the element to check.
    * @returns Returns true if the specified element is contained; otherwise, returns false.
    */
-  has(value: T): boolean {
+  has(value: E): boolean {
     return this.nodes.includes(value);
-  }
-
-  /**
-   * Use a comparison function to find the index of an element in the heap.
-   * @param value - the element to find.
-   * @param index - the index currently being searched.
-   * @returns The index of the element, or -1 if not found.
-   */
-  private findIndex(value: T, index: number): number {
-    if (index >= this.size) {
-      return -1;
-    }
-
-    const compareResult = this.comparator(value, this.nodes[index]);
-
-    if (compareResult === 0) {
-      return index; // Element found
-    } else if (compareResult < 0) {
-      // The element should be in the left subtree
-      return this.findIndex(value, 2 * index + 1);
-    } else {
-      // The element should be in the right subtree
-      return this.findIndex(value, 2 * index + 2);
-    }
   }
 
   /**
@@ -175,8 +158,8 @@ export class Heap<T> {
    * @param order - Traversal order parameter: 'in' (in-order), 'pre' (pre-order) or 'post' (post-order).
    * @returns An array containing elements traversed in the specified order.
    */
-  dfs(order: 'in' | 'pre' | 'post'): T[] {
-    const result: T[] = [];
+  dfs(order: 'in' | 'pre' | 'post'): E[] {
+    const result: E[] = [];
 
     // Auxiliary recursive function, traverses the binary heap according to the traversal order
     const dfsHelper = (index: number) => {
@@ -206,11 +189,11 @@ export class Heap<T> {
    * Convert the heap to an array.
    * @returns An array containing the elements of the heap.
    */
-  toArray(): T[] {
+  toArray(): E[] {
     return [...this.nodes];
   }
 
-  getNodes(): T[] {
+  getNodes(): E[] {
     return this.nodes;
   }
 
@@ -218,8 +201,8 @@ export class Heap<T> {
    * Clone the heap, creating a new heap with the same elements.
    * @returns A new Heap instance containing the same elements.
    */
-  clone(): Heap<T> {
-    const clonedHeap = new Heap<T>(this.comparator);
+  clone(): Heap<E> {
+    const clonedHeap = new Heap<E>(this.comparator);
     clonedHeap.nodes = [...this.nodes];
     return clonedHeap;
   }
@@ -228,8 +211,8 @@ export class Heap<T> {
    * Sort the elements in the heap and return them as an array.
    * @returns An array containing the elements sorted in ascending order.
    */
-  sort(): T[] {
-    const visitedNode: T[] = [];
+  sort(): E[] {
+    const visitedNode: E[] = [];
     const cloned = this.clone();
     while (cloned.size !== 0) {
       const top = cloned.poll();
@@ -244,8 +227,8 @@ export class Heap<T> {
    * @param comparator - Comparison function.
    * @returns A new Heap instance.
    */
-  static heapify<T>(nodes: T[], comparator: CompareFunction<T>): Heap<T> {
-    const binaryHeap = new Heap<T>(comparator);
+  static heapify<E>(nodes: E[], comparator: CompareFunction<E>): Heap<E> {
+    const binaryHeap = new Heap<E>(comparator);
     binaryHeap.nodes = [...nodes];
     binaryHeap.fix(); // Fix heap properties
     return binaryHeap;

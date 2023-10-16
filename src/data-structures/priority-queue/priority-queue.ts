@@ -9,8 +9,8 @@
 import {Heap} from '../heap';
 import {CompareFunction} from '../../types';
 
-export class PriorityQueue<T> extends Heap<T> {
-  constructor(comparator: CompareFunction<T>) {
+export class PriorityQueue<E> extends Heap<E> {
+  constructor(comparator: CompareFunction<E>) {
     super(comparator);
   }
 }

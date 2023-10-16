@@ -8,9 +8,9 @@
 import {PriorityQueue} from './priority-queue';
 import type {CompareFunction} from '../../types';
 
-export class MaxPriorityQueue<T = any> extends PriorityQueue<T> {
+export class MaxPriorityQueue<E = any> extends PriorityQueue<E> {
   constructor(
-    compare: CompareFunction<T> = (a: T, b: T) => {
+    compare: CompareFunction<E> = (a: E, b: E) => {
       if (!(typeof a === 'number' && typeof b === 'number')) {
         throw new Error('The a, b params of compare function must be number');
       } else {

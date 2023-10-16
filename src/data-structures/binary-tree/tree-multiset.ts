@@ -10,9 +10,9 @@ import {BinaryTreeDeletedResult, CP, DFSOrderPattern, FamilyPosition, LoopType} 
 import {ITreeMultiset, ITreeMultisetNode} from '../../interfaces';
 import {AVLTree, AVLTreeNode} from './avl-tree';
 
-export class TreeMultisetNode<V = any, NEIGHBOR extends TreeMultisetNode<V, NEIGHBOR> = TreeMultisetNodeNested<V>>
-  extends AVLTreeNode<V, NEIGHBOR>
-  implements ITreeMultisetNode<V, NEIGHBOR>
+export class TreeMultisetNode<V = any, FAMILY extends TreeMultisetNode<V, FAMILY> = TreeMultisetNodeNested<V>>
+  extends AVLTreeNode<V, FAMILY>
+  implements ITreeMultisetNode<V, FAMILY>
 {
   /**
    * The constructor function initializes a BinaryTreeNode object with a key, value, and count.
