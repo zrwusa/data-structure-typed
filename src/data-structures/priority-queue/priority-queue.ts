@@ -7,10 +7,10 @@
  */
 
 import {Heap} from '../heap';
-import {CompareFunction} from '../../types';
+import {HeapComparator} from '../../types';
 
 export class PriorityQueue<E> extends Heap<E> {
-  constructor(comparator: CompareFunction<E>) {
+  constructor(comparator: HeapComparator<E>) {
     super(comparator);
   }
 }

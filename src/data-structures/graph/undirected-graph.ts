@@ -8,7 +8,7 @@
 import {arrayRemove} from '../../utils';
 import {AbstractEdge, AbstractGraph, AbstractVertex} from './abstract-graph';
 import type {VertexKey} from '../../types';
-import {IUNDirectedGraph} from '../../interfaces';
+import {IGraph} from '../../interfaces';
 
 export class UndirectedVertex<V = any> extends AbstractVertex<V> {
   /**
@@ -55,7 +55,7 @@ export class UndirectedGraph<
     E extends UndirectedEdge<any> = UndirectedEdge
   >
   extends AbstractGraph<V, E>
-  implements IUNDirectedGraph<V, E>
+  implements IGraph<V, E>
 {
   /**
    * The constructor initializes a new Map object to store edges.

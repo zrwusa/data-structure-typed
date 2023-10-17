@@ -1,5 +1,5 @@
 export type VertexKey = string | number;
-export type EdgeKey = string;
+
 export type DijkstraResult<V> = {
   distMap: Map<V, number>;
   distPaths?: Map<V, V[]>;

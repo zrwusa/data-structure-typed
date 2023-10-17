@@ -8,7 +8,7 @@
 import {arrayRemove, uuidV4} from '../../utils';
 import {PriorityQueue} from '../priority-queue';
 import type {DijkstraResult, VertexKey} from '../../types';
-import {IAbstractGraph} from '../../interfaces';
+import {IGraph} from '../../interfaces';
 
 export abstract class AbstractVertex<V = any> {
   /**
@@ -104,7 +104,7 @@ export abstract class AbstractEdge<V = any> {
 export abstract class AbstractGraph<
   V extends AbstractVertex<any> = AbstractVertex<any>,
   E extends AbstractEdge<any> = AbstractEdge<any>
-> implements IAbstractGraph<V, E>
+> implements IGraph<V, E>
 {
   private _vertices: Map<VertexKey, V> = new Map<VertexKey, V>();
 

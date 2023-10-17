@@ -6,11 +6,11 @@
  * @license MIT License
  */
 import {PriorityQueue} from './priority-queue';
-import type {CompareFunction} from '../../types';
+import type {HeapComparator} from '../../types';
 
 export class MinPriorityQueue<E = any> extends PriorityQueue<E> {
   constructor(
-    compare: CompareFunction<E> = (a: E, b: E) => {
+    compare: HeapComparator<E> = (a: E, b: E) => {
       if (!(typeof a === 'number' && typeof b === 'number')) {
         throw new Error('The a, b params of compare function must be number');
       } else {

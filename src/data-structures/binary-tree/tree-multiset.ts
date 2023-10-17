@@ -7,13 +7,13 @@
  */
 import type {BinaryTreeNodeKey, TreeMultisetNodeNested, TreeMultisetOptions} from '../../types';
 import {BinaryTreeDeletedResult, CP, DFSOrderPattern, FamilyPosition, LoopType} from '../../types';
-import {ITreeMultiset, ITreeMultisetNode} from '../../interfaces';
+import {IBinaryTree} from '../../interfaces';
 import {AVLTree, AVLTreeNode} from './avl-tree';
 
-export class TreeMultisetNode<V = any, FAMILY extends TreeMultisetNode<V, FAMILY> = TreeMultisetNodeNested<V>>
-  extends AVLTreeNode<V, FAMILY>
-  implements ITreeMultisetNode<V, FAMILY>
-{
+export class TreeMultisetNode<
+  V = any,
+  FAMILY extends TreeMultisetNode<V, FAMILY> = TreeMultisetNodeNested<V>
+> extends AVLTreeNode<V, FAMILY> {
   /**
    * The constructor function initializes a BinaryTreeNode object with a key, value, and count.
    * @param {BinaryTreeNodeKey} key - The `key` parameter is of type `BinaryTreeNodeKey` and represents the unique identifier
@@ -37,7 +37,7 @@ export class TreeMultisetNode<V = any, FAMILY extends TreeMultisetNode<V, FAMILY
  */
 export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultisetNode>
   extends AVLTree<N>
-  implements ITreeMultiset<N>
+  implements IBinaryTree<N>
 {
   /**
    * The constructor function for a TreeMultiset class in TypeScript, which extends another class and sets an option to

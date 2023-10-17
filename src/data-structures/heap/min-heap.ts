@@ -7,11 +7,11 @@
  */
 
 import {Heap} from './heap';
-import type {CompareFunction} from '../../types';
+import type {HeapComparator} from '../../types';
 
 export class MinHeap<E = any> extends Heap<E> {
   constructor(
-    comparator: CompareFunction<E> = (a: E, b: E) => {
+    comparator: HeapComparator<E> = (a: E, b: E) => {
       if (!(typeof a === 'number' && typeof b === 'number')) {
         throw new Error('The a, b params of compare function must be number');
       } else {
