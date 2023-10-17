@@ -1,7 +1,10 @@
 import {BinaryTreeNode} from '../data-structures';
-import {IAbstractBinaryTree, IAbstractBinaryTreeNode} from './abstract-binary-tree';
+import {BinaryTreeDeletedResult, BinaryTreeNodeKey} from '../types';
 
-export interface IBinaryTreeNode<T, NEIGHBOR extends IBinaryTreeNode<T, NEIGHBOR>>
-  extends IAbstractBinaryTreeNode<T, NEIGHBOR> {}
+export interface IBinaryTree<N extends BinaryTreeNode<N['val'], N>> {
+  createNode(key: BinaryTreeNodeKey, val?: N['val']): N;
 
-export interface IBinaryTree<N extends BinaryTreeNode<N['val'], N>> extends IAbstractBinaryTree<N> {}
+  add(keyOrNode: BinaryTreeNodeKey | N | null, val?: N['val']): N | null | undefined;
+
+  remove(nodeOrKey: N | BinaryTreeNodeKey): BinaryTreeDeletedResult<N>[];
+}

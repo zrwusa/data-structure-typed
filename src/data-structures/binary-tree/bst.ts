@@ -14,18 +14,15 @@ import type {
 } from '../../types';
 import {CP, LoopType} from '../../types';
 import {BinaryTree, BinaryTreeNode} from './binary-tree';
-import {IBST, IBSTNode} from '../../interfaces';
+import {IBinaryTree} from '../../interfaces';
 
-export class BSTNode<V = any, FAMILY extends BSTNode<V, FAMILY> = BSTNodeNested<V>>
-  extends BinaryTreeNode<V, FAMILY>
-  implements IBSTNode<V, FAMILY>
-{
+export class BSTNode<V = any, FAMILY extends BSTNode<V, FAMILY> = BSTNodeNested<V>> extends BinaryTreeNode<V, FAMILY> {
   constructor(key: BinaryTreeNodeKey, val?: V) {
     super(key, val);
   }
 }
 
-export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N> implements IBST<N> {
+export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N> implements IBinaryTree<N> {
   /**
    * The constructor function initializes a binary search tree object with an optional comparator function.
    * @param {BSTOptions} [options] - An optional object that contains configuration options for the binary search tree.

@@ -7,12 +7,12 @@
  */
 import {BST, BSTNode} from './bst';
 import type {AVLTreeNodeNested, AVLTreeOptions, BinaryTreeDeletedResult, BinaryTreeNodeKey} from '../../types';
-import {IAVLTree, IAVLTreeNode} from '../../interfaces';
+import {IBinaryTree} from '../../interfaces';
 
-export class AVLTreeNode<V = any, FAMILY extends AVLTreeNode<V, FAMILY> = AVLTreeNodeNested<V>>
-  extends BSTNode<V, FAMILY>
-  implements IAVLTreeNode<V, FAMILY>
-{
+export class AVLTreeNode<V = any, FAMILY extends AVLTreeNode<V, FAMILY> = AVLTreeNodeNested<V>> extends BSTNode<
+  V,
+  FAMILY
+> {
   height: number;
 
   constructor(key: BinaryTreeNodeKey, val?: V) {
@@ -21,7 +21,7 @@ export class AVLTreeNode<V = any, FAMILY extends AVLTreeNode<V, FAMILY> = AVLTre
   }
 }
 
-export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends BST<N> implements IAVLTree<N> {
+export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends BST<N> implements IBinaryTree<N> {
   /**
    * This is a constructor function for an AVL tree data structure in TypeScript.
    * @param {AVLTreeOptions} [options] - The `options` parameter is an optional object that can be passed to the

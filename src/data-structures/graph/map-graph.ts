@@ -126,7 +126,7 @@ export class MapGraph<V extends MapVertex<V['val']> = MapVertex, E extends MapEd
    * If the weight is not provided, it can be set to a default value or left undefined.
    * @param [val] - The `val` parameter is an optional value that can be assigned to the edge. It can be of any type,
    * depending on the specific implementation of the `MapEdge` class.
-   * @returns a new instance of the `MapEdge` class, casted as type `E`.
+   * @returns a new instance of the `MapEdge` class, cast as type `E`.
    */
   override createEdge(src: VertexKey, dest: VertexKey, weight?: number, val?: E['val']): E {
     return new MapEdge(src, dest, weight, val) as E;

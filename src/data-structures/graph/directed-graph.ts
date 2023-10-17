@@ -8,7 +8,7 @@
 import {arrayRemove} from '../../utils';
 import {AbstractEdge, AbstractGraph, AbstractVertex} from './abstract-graph';
 import type {TopologicalStatus, VertexKey} from '../../types';
-import {IDirectedGraph} from '../../interfaces';
+import {IGraph} from '../../interfaces';
 
 export class DirectedVertex<V = any> extends AbstractVertex<V> {
   /**
@@ -64,7 +64,7 @@ export class DirectedEdge<V = any> extends AbstractEdge<V> {
 
 export class DirectedGraph<V extends DirectedVertex<any> = DirectedVertex, E extends DirectedEdge<any> = DirectedEdge>
   extends AbstractGraph<V, E>
-  implements IDirectedGraph<V, E>
+  implements IGraph<V, E>
 {
   /**
    * The constructor function initializes an instance of a class.

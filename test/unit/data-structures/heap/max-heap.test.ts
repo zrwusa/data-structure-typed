@@ -1,7 +1,7 @@
-import {CompareFunction, MaxHeap} from '../../../../src';
+import {HeapComparator, MaxHeap} from '../../../../src';
 
 describe('MaxHeap', () => {
-  const numberComparator: CompareFunction<number> = (a, b) => b - a;
+  const numberComparator: HeapComparator<number> = (a, b) => b - a;
   let maxHeap: MaxHeap<number>;
 
   beforeEach(() => {
