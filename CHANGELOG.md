@@ -8,10 +8,11 @@ All notable changes to this project will be documented in this file.
 - [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - [`auto-changelog`](https://github.com/CookPete/auto-changelog)
 
-## [v1.36.0](https://github.com/zrwusa/data-structure-typed/compare/v1.35.0...main) (upcoming)
+## [v1.36.3](https://github.com/zrwusa/data-structure-typed/compare/v1.35.0...main) (upcoming)
 
 ### Changes
 
+- [binary-tree, graph] In order to optimize the design of Binary Trees,… [`#7`](https://github.com/zrwusa/data-structure-typed/pull/7)
 - [BinaryTree, Heap] In abstract classes, only retain abstract methods.… [`#6`](https://github.com/zrwusa/data-structure-typed/pull/6)
 - [heap] test [`#5`](https://github.com/zrwusa/data-structure-typed/pull/5)
 - [heap, priority queue] Heap improved. References #123: redesigned [`#4`](https://github.com/zrwusa/data-structure-typed/pull/4)

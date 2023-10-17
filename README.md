@@ -35,7 +35,7 @@ Floyd-Warshall Algorithm, Tarjan's Algorithm.
 ### npm
 
 ```bash
-npm i data-structure-typed
+npm i data-structure-typed --save
 ```
 
 ### yarn
