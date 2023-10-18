@@ -44,8 +44,8 @@ describe('Trie', () => {
     const trie = new Trie();
     trie.add('apple');
     trie.add('app');
-    expect(trie.isAbsPrefix('appl')).toBe(true);
-    expect(trie.isAbsPrefix('apples')).toBe(false);
+    expect(trie.isPurePrefix('appl')).toBe(true);
+    expect(trie.isPurePrefix('apples')).toBe(false);
   });
 
   it('should check if a string is a prefix', () => {
@@ -751,5 +751,75 @@ describe('Trie', () => {
     ];
     prods.forEach(product => trie.add(product));
     expect(trie.getWords('air')).toEqual([]);
+  });
+});
+
+describe('Trie more tests', () => {
+  let trie: Trie;
+
+  beforeEach(() => {
+    trie = new Trie();
+  });
+
+  test('Add and Find Words', () => {
+    trie.add('apple');
+    trie.add('banana');
+    expect(trie.has('apple')).toBe(true);
+    expect(trie.has('banana')).toBe(true);
+    expect(trie.has('cherry')).toBe(false);
+  });
+
+  test('Remove Words', () => {
+    trie.add('apple');
+    trie.add('banana');
+    expect(trie.remove('apple')).toBe(true);
+    expect(trie.has('apple')).toBe(false);
+    expect(trie.remove('cherry')).toBe(false);
+  });
+
+  test('Case Sensitivity', () => {
+    const caseInsensitiveTrie = new Trie(['apple', 'Banana'], false);
+    expect(caseInsensitiveTrie.has('APPLE')).toBe(true);
+    expect(caseInsensitiveTrie.has('banana')).toBe(true);
+    expect(caseInsensitiveTrie.has('Cherry')).toBe(false);
+  });
+
+  test('Pure Prefix Check', () => {
+    trie.add('apple');
+    expect(trie.isPurePrefix('appl')).toBe(true);
+    expect(trie.isPurePrefix('apple')).toBe(false);
+  });
+
+  test('Prefix Check', () => {
+    trie.add('apple');
+    expect(trie.isPrefix('app')).toBe(true);
+    expect(trie.isPrefix('ban')).toBe(false);
+  });
+
+  test('Common Prefix Check', () => {
+    trie.add('apple');
+    trie.add('appetizer');
+    expect(trie.isCommonPrefix('app')).toBe(true);
+    expect(trie.isCommonPrefix('apple')).toBe(false);
+  });
+
+  test('Longest Common Prefix', () => {
+    trie.add('apple');
+    trie.add('appetizer');
+    expect(trie.getLongestCommonPrefix()).toBe('app');
+  });
+
+  test('Get Words by Prefix', () => {
+    trie.add('apple');
+    trie.add('appetizer');
+    trie.add('banana');
+    const words = trie.getWords('app', 2); // Get at most 2 words with the prefix 'app'
+    expect(words).toEqual(['apple', 'appetizer']);
+  });
+
+  test('Tree Height', () => {
+    trie.add('apple');
+    trie.add('banana');
+    expect(trie.getHeight()).toBe(6); // Assuming 'apple' and 'banana' are the longest words.
   });
 });
