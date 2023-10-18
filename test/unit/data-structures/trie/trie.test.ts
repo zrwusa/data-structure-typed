@@ -44,25 +44,25 @@ describe('Trie', () => {
     const trie = new Trie();
     trie.add('apple');
     trie.add('app');
-    expect(trie.isPurePrefix('appl')).toBe(true);
-    expect(trie.isPurePrefix('apples')).toBe(false);
+    expect(trie.hasPurePrefix('appl')).toBe(true);
+    expect(trie.hasPurePrefix('apples')).toBe(false);
   });
 
   it('should check if a string is a prefix', () => {
     const trie = new Trie();
     trie.add('apple');
     trie.add('app');
-    expect(trie.isPrefix('app')).toBe(true);
-    expect(trie.isPrefix('banana')).toBe(false);
+    expect(trie.hasPrefix('app')).toBe(true);
+    expect(trie.hasPrefix('banana')).toBe(false);
   });
 
   it('should check if a string is a common prefix', () => {
     const trie = new Trie();
     trie.add('apple');
     trie.add('app');
-    expect(trie.isCommonPrefix('ap')).toBe(true);
-    expect(trie.isCommonPrefix('app')).toBe(true);
-    expect(trie.isCommonPrefix('b')).toBe(false);
+    expect(trie.hasCommonPrefix('ap')).toBe(true);
+    expect(trie.hasCommonPrefix('app')).toBe(true);
+    expect(trie.hasCommonPrefix('b')).toBe(false);
   });
 
   it('should get the longest common prefix', () => {
@@ -754,7 +754,7 @@ describe('Trie', () => {
   });
 });
 
-describe('Trie more tests', () => {
+describe('Trie operations', () => {
   let trie: Trie;
 
   beforeEach(() => {
@@ -786,21 +786,21 @@ describe('Trie more tests', () => {
 
   test('Pure Prefix Check', () => {
     trie.add('apple');
-    expect(trie.isPurePrefix('appl')).toBe(true);
-    expect(trie.isPurePrefix('apple')).toBe(false);
+    expect(trie.hasPurePrefix('appl')).toBe(true);
+    expect(trie.hasPurePrefix('apple')).toBe(false);
   });
 
   test('Prefix Check', () => {
     trie.add('apple');
-    expect(trie.isPrefix('app')).toBe(true);
-    expect(trie.isPrefix('ban')).toBe(false);
+    expect(trie.hasPrefix('app')).toBe(true);
+    expect(trie.hasPrefix('ban')).toBe(false);
   });
 
   test('Common Prefix Check', () => {
     trie.add('apple');
     trie.add('appetizer');
-    expect(trie.isCommonPrefix('app')).toBe(true);
-    expect(trie.isCommonPrefix('apple')).toBe(false);
+    expect(trie.hasCommonPrefix('app')).toBe(true);
+    expect(trie.hasCommonPrefix('apple')).toBe(false);
   });
 
   test('Longest Common Prefix', () => {

@@ -5,6 +5,11 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
+
+/**
+ * TrieNode represents a node in the Trie data structure. It holds a character key, a map of children nodes,
+ * and a flag indicating whether it's the end of a word.
+ */
 export class TrieNode {
   constructor(key: string) {
     this._key = key;
@@ -43,6 +48,9 @@ export class TrieNode {
   }
 }
 
+/**
+ * Trie represents a Trie data structure. It provides basic Trie operations and additional methods.
+ */
 export class Trie {
   constructor(words?: string[], caseSensitive = true) {
     this._root = new TrieNode('');
@@ -66,6 +74,11 @@ export class Trie {
 
   private readonly _caseSensitive: boolean;
 
+  /**
+   * Add a word to the Trie structure.
+   * @param {string} word - The word to add.
+   * @returns {boolean} True if the word was successfully added.
+   */
   add(word: string): boolean {
     word = this._caseProcess(word);
     let cur = this.root;
@@ -81,6 +94,11 @@ export class Trie {
     return true;
   }
 
+  /**
+   * Check if the Trie contains a given word.
+   * @param {string} word - The word to check for.
+   * @returns {boolean} True if the word is present in the Trie.
+   */
   has(word: string): boolean {
     word = this._caseProcess(word);
     let cur = this.root;
@@ -99,6 +117,11 @@ export class Trie {
     return str;
   }
 
+  /**
+   * Remove a word from the Trie structure.
+   * @param{string} word - The word to remove.
+   * @returns {boolean} True if the word was successfully removed.
+   */
   remove(word: string) {
     word = this._caseProcess(word);
     let isDeleted = false;
@@ -154,11 +177,11 @@ export class Trie {
 
   // --- start additional methods ---
   /**
-   * The function checks if a given input string has an absolute prefix in a tree data structure.Only can present as a prefix, not a word
-   * @param {string} input - The input parameter is a string that represents the input value for the function.
-   * @returns a boolean value.
+   * Check if a given input string has an absolute prefix in the Trie, meaning it's not a complete word.
+   * @param {string} input - The input string to check.
+   * @returns {boolean} True if it's an absolute prefix in the Trie.
    */
-  isPurePrefix(input: string): boolean {
+  hasPurePrefix(input: string): boolean {
     input = this._caseProcess(input);
     let cur = this.root;
     for (const c of input) {
@@ -170,11 +193,11 @@ export class Trie {
   }
 
   /**
-   * The function checks if a given input string is a prefix of any existing string in a tree structure.Can present as a abs prefix or word
-   * @param {string} input - The input parameter is a string that represents the prefix we want to check.
-   * @returns a boolean value.
+   * Check if a given input string is a prefix of any existing word in the Trie, whether as an absolute prefix or a complete word.
+   * @param {string} input - The input string representing the prefix to check.
+   * @returns {boolean} True if it's a prefix in the Trie.
    */
-  isPrefix(input: string): boolean {
+  hasPrefix(input: string): boolean {
     input = this._caseProcess(input);
     let cur = this.root;
     for (const c of input) {
@@ -186,12 +209,11 @@ export class Trie {
   }
 
   /**
-   * The function checks if the input string is a common prefix in a Trie data structure.Check if the input string is the common prefix of all the words
-   * @param {string} input - The input parameter is a string that represents the common prefix that we want to check for
-   * in the Trie data structure.
-   * @returns a boolean value indicating whether the input string is a common prefix in the Trie data structure.
+   * Check if the input string is a common prefix in the Trie, meaning it's a prefix shared by all words in the Trie.
+   * @param {string} input - The input string representing the common prefix to check for.
+   * @returns {boolean} True if it's a common prefix in the Trie.
    */
-  isCommonPrefix(input: string): boolean {
+  hasCommonPrefix(input: string): boolean {
     input = this._caseProcess(input);
     let commonPre = '';
     const dfs = (cur: TrieNode) => {
@@ -206,10 +228,8 @@ export class Trie {
   }
 
   /**
-   * The function `getLongestCommonPrefix` returns the longest common prefix among all the words stored in a Trie data
-   * structure.
-   * @returns The function `getLongestCommonPrefix` returns a string, which is the longest common prefix found in the
-   * Trie.
+   * Get the longest common prefix among all the words stored in the Trie.
+   * @returns {string} The longest common prefix found in the Trie.
    */
   getLongestCommonPrefix(): string {
     let commonPre = '';
@@ -228,7 +248,7 @@ export class Trie {
    * @param {string} prefix - The `prefix` parameter is a string that represents the prefix that we want to search for in the
    * trie. It is an optional parameter, so if no prefix is provided, it will default to an empty string.
    * @param {number} max - The max count of words will be found
-   * @returns an array of strings.
+   * @returns {string[]} an array of strings.
    */
   getWords(prefix = '', max = Number.MAX_SAFE_INTEGER): string[] {
     prefix = this._caseProcess(prefix);
