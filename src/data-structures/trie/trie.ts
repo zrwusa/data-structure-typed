@@ -92,11 +92,11 @@ export class Trie {
     return cur.isEnd;
   }
 
-  private _caseProcess(input: string) {
+  private _caseProcess(str: string) {
     if (!this._caseSensitive) {
-      input = input.toLowerCase(); // Convert input to lowercase if case insensitive
+      str = str.toLowerCase(); // Convert str to lowercase if case-insensitive
     }
-    return input;
+    return str;
   }
 
   remove(word: string) {
