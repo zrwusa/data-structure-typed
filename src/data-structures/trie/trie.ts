@@ -6,8 +6,8 @@
  * @license MIT License
  */
 export class TrieNode {
-  constructor(v: string) {
-    this._key = v;
+  constructor(key: string) {
+    this._key = key;
     this._isEnd = false;
     this._children = new Map<string, TrieNode>();
   }
@@ -63,7 +63,8 @@ export class Trie {
   set root(v: TrieNode) {
     this._root = v;
   }
-  private _caseSensitive: boolean;
+
+  private readonly _caseSensitive: boolean;
 
   add(word: string): boolean {
     word = this._caseProcess(word);
@@ -80,22 +81,24 @@ export class Trie {
     return true;
   }
 
-  has(input: string): boolean {
-    input = this._caseProcess(input);
+  has(word: string): boolean {
+    word = this._caseProcess(word);
     let cur = this.root;
-    for (const c of input) {
+    for (const c of word) {
       const nodeC = cur.children.get(c);
       if (!nodeC) return false;
       cur = nodeC;
     }
     return cur.isEnd;
   }
+
   private _caseProcess(input: string) {
     if (!this._caseSensitive) {
       input = input.toLowerCase(); // Convert input to lowercase if case insensitive
     }
     return input;
   }
+
   remove(word: string) {
     word = this._caseProcess(word);
     let isDeleted = false;
@@ -131,7 +134,7 @@ export class Trie {
 
   getHeight() {
     const beginRoot = this.root;
-    let maxDepth = 1;
+    let maxDepth = 0;
     if (beginRoot) {
       const bfs = (node: TrieNode, level: number) => {
         if (level > maxDepth) {
@@ -144,17 +147,18 @@ export class Trie {
           }
         }
       };
-      bfs(beginRoot, 1);
+      bfs(beginRoot, 0);
     }
     return maxDepth;
   }
+
   // --- start additional methods ---
   /**
    * The function checks if a given input string has an absolute prefix in a tree data structure.Only can present as a prefix, not a word
    * @param {string} input - The input parameter is a string that represents the input value for the function.
    * @returns a boolean value.
    */
-  isAbsPrefix(input: string): boolean {
+  isPurePrefix(input: string): boolean {
     input = this._caseProcess(input);
     let cur = this.root;
     for (const c of input) {
@@ -230,6 +234,7 @@ export class Trie {
     prefix = this._caseProcess(prefix);
     const words: string[] = [];
     let found = 0;
+
     function dfs(node: TrieNode, word: string) {
       for (const char of node.children.keys()) {
         const charNode = node.children.get(char);
