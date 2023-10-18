@@ -350,16 +350,20 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
 
   /**
    * The function calculates the depth of a node in a binary tree.
-   * @param {N | BinaryTreeNodeKey | null} beginRoot - The `beginRoot` parameter can be one of the following:
+   * @param {N | BinaryTreeNodeKey | null} distNode - The `distNode` parameter can be any node of the tree
+   * @param {N | BinaryTreeNodeKey | null} beginRoot - The `beginRoot` parameter can be the predecessor node of distNode
    * @returns the depth of the given node or binary tree.
    */
-  getDepth(beginRoot: N | BinaryTreeNodeKey | null = this.root): number {
+  getDepth(distNode: N | BinaryTreeNodeKey | null, beginRoot: N | BinaryTreeNodeKey | null = this.root): number {
+    if (typeof distNode === 'number') distNode = this.get(distNode, 'key');
     if (typeof beginRoot === 'number') beginRoot = this.get(beginRoot, 'key');
-
     let depth = 0;
-    while (beginRoot?.parent) {
+    while (distNode?.parent) {
+      if (distNode === beginRoot) {
+        return depth;
+      }
       depth++;
-      beginRoot = beginRoot.parent;
+      distNode = distNode.parent;
     }
     return depth;
   }

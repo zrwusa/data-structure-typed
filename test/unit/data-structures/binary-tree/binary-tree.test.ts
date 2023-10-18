@@ -105,6 +105,19 @@ describe('BinaryTree', () => {
     expect(binaryTree.has(4)).toBe(false);
   });
 
+  test('should getDepth return correct depth', () => {
+    binaryTree.add(1);
+    expect(binaryTree.getDepth(1)).toBe(0);
+    binaryTree.add(2);
+    expect(binaryTree.getDepth(2)).toBe(1);
+    binaryTree.add(3);
+    expect(binaryTree.getDepth(3, 1)).toBe(1);
+    binaryTree.add(4);
+    expect(binaryTree.getDepth(4, 1)).toBe(2);
+    expect(binaryTree.getDepth(4)).toBe(2);
+    expect(binaryTree.getDepth(4, 2)).toBe(1);
+  });
+
   test('should traverse in-order', () => {
     binaryTree.add(4);
     binaryTree.add(2);
