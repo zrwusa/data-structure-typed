@@ -7,19 +7,19 @@
  */
 export class TrieNode {
   constructor(v: string) {
-    this._val = v;
+    this._key = v;
     this._isEnd = false;
     this._children = new Map<string, TrieNode>();
   }
 
-  private _val;
+  private _key;
 
-  get val(): string {
-    return this._val;
+  get key(): string {
+    return this._key;
   }
 
-  set val(v: string) {
-    this._val = v;
+  set key(v: string) {
+    this._key = v;
   }
 
   protected _children: Map<string, TrieNode>;
@@ -44,8 +44,9 @@ export class TrieNode {
 }
 
 export class Trie {
-  constructor(words?: string[]) {
+  constructor(words?: string[], caseSensitive = true) {
     this._root = new TrieNode('');
+    this._caseSensitive = caseSensitive;
     if (words) {
       for (const i of words) {
         this.add(i);
@@ -62,9 +63,11 @@ export class Trie {
   set root(v: TrieNode) {
     this._root = v;
   }
+  private _caseSensitive: boolean;
 
   add(word: string): boolean {
-    let cur = this._root;
+    word = this._caseProcess(word);
+    let cur = this.root;
     for (const c of word) {
       let nodeC = cur.children.get(c);
       if (!nodeC) {
@@ -78,7 +81,8 @@ export class Trie {
   }
 
   has(input: string): boolean {
-    let cur = this._root;
+    input = this._caseProcess(input);
+    let cur = this.root;
     for (const c of input) {
       const nodeC = cur.children.get(c);
       if (!nodeC) return false;
@@ -86,8 +90,14 @@ export class Trie {
     }
     return cur.isEnd;
   }
-
+  private _caseProcess(input: string) {
+    if (!this._caseSensitive) {
+      input = input.toLowerCase(); // Convert input to lowercase if case insensitive
+    }
+    return input;
+  }
   remove(word: string) {
+    word = this._caseProcess(word);
     let isDeleted = false;
     const dfs = (cur: TrieNode, i: number): boolean => {
       const char = word[i];
@@ -119,6 +129,25 @@ export class Trie {
     return isDeleted;
   }
 
+  getHeight() {
+    const beginRoot = this.root;
+    let maxDepth = 1;
+    if (beginRoot) {
+      const bfs = (node: TrieNode, level: number) => {
+        if (level > maxDepth) {
+          maxDepth = level;
+        }
+        const {children} = node;
+        if (children) {
+          for (const child of children.entries()) {
+            bfs(child[1], level + 1);
+          }
+        }
+      };
+      bfs(beginRoot, 1);
+    }
+    return maxDepth;
+  }
   // --- start additional methods ---
   /**
    * The function checks if a given input string has an absolute prefix in a tree data structure.Only can present as a prefix, not a word
@@ -126,7 +155,8 @@ export class Trie {
    * @returns a boolean value.
    */
   isAbsPrefix(input: string): boolean {
-    let cur = this._root;
+    input = this._caseProcess(input);
+    let cur = this.root;
     for (const c of input) {
       const nodeC = cur.children.get(c);
       if (!nodeC) return false;
@@ -141,7 +171,8 @@ export class Trie {
    * @returns a boolean value.
    */
   isPrefix(input: string): boolean {
-    let cur = this._root;
+    input = this._caseProcess(input);
+    let cur = this.root;
     for (const c of input) {
       const nodeC = cur.children.get(c);
       if (!nodeC) return false;
@@ -157,15 +188,16 @@ export class Trie {
    * @returns a boolean value indicating whether the input string is a common prefix in the Trie data structure.
    */
   isCommonPrefix(input: string): boolean {
+    input = this._caseProcess(input);
     let commonPre = '';
     const dfs = (cur: TrieNode) => {
-      commonPre += cur.val;
+      commonPre += cur.key;
       if (commonPre === input) return;
       if (cur.isEnd) return;
       if (cur && cur.children && cur.children.size === 1) dfs(Array.from(cur.children.values())[0]);
       else return;
     };
-    dfs(this._root);
+    dfs(this.root);
     return commonPre === input;
   }
 
@@ -178,24 +210,26 @@ export class Trie {
   getLongestCommonPrefix(): string {
     let commonPre = '';
     const dfs = (cur: TrieNode) => {
-      commonPre += cur.val;
+      commonPre += cur.key;
       if (cur.isEnd) return;
       if (cur && cur.children && cur.children.size === 1) dfs(Array.from(cur.children.values())[0]);
       else return;
     };
-    dfs(this._root);
+    dfs(this.root);
     return commonPre;
   }
 
   /**
    * The `getAll` function returns an array of all words in a Trie data structure that start with a given prefix.
-   * @param [prefix] - The `prefix` parameter is a string that represents the prefix that we want to search for in the
+   * @param {string} prefix - The `prefix` parameter is a string that represents the prefix that we want to search for in the
    * trie. It is an optional parameter, so if no prefix is provided, it will default to an empty string.
+   * @param {number} max - The max count of words will be found
    * @returns an array of strings.
    */
-  getAll(prefix = ''): string[] {
+  getWords(prefix = '', max = Number.MAX_SAFE_INTEGER): string[] {
+    prefix = this._caseProcess(prefix);
     const words: string[] = [];
-
+    let found = 0;
     function dfs(node: TrieNode, word: string) {
       for (const char of node.children.keys()) {
         const charNode = node.children.get(char);
@@ -204,11 +238,13 @@ export class Trie {
         }
       }
       if (node.isEnd) {
+        if (found > max - 1) return;
         words.push(word);
+        found++;
       }
     }
 
-    let startNode = this._root;
+    let startNode = this.root;
 
     if (prefix) {
       for (const c of prefix) {
@@ -216,8 +252,8 @@ export class Trie {
         if (nodeC) startNode = nodeC;
       }
     }
+    if (startNode !== this.root) dfs(startNode, prefix);
 
-    dfs(startNode, prefix);
     return words;
   }
 
