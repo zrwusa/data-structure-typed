@@ -28,7 +28,6 @@ describe('Heap Operation Test', () => {
     minHeap.add({key: 0, a: 'a0'});
 
     expect(minHeap.peek()).toEqual({a: 'a0', key: 0});
-    console.log('---', minHeap.toArray());
     expect(minHeap.toArray().map(item => ({a: item.a}))).toEqual([{a: 'a0'}, {a: 'a1'}, {a: 'a2'}, {a: 'a6'}]);
     let i = 0;
     const expectPolled = [{a: 'a0'}, {a: 'a1'}, {a: 'a2'}, {a: 'a6'}];
