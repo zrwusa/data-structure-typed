@@ -47,10 +47,8 @@ export class TreeNode<V = any> {
   }
 
   getHeight() {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const beginRoot = this;
-    let maxDepth = 1;
-    if (beginRoot) {
+    let maxDepth = 0;
+    if (this) {
       const bfs = (node: TreeNode<V>, level: number) => {
         if (level > maxDepth) {
           maxDepth = level;
@@ -62,7 +60,7 @@ export class TreeNode<V = any> {
           }
         }
       };
-      bfs(beginRoot, 1);
+      bfs(this, 0);
     }
     return maxDepth;
   }

@@ -29,11 +29,11 @@ describe('TreeNode', () => {
     child1.addChildren([grandchild1]);
     child2.addChildren([grandchild2]);
 
-    expect(rootNode.getHeight()).toBe(3); // Height of the tree should be 3
+    expect(rootNode.getHeight()).toBe(2); // Height of the tree should be 2
   });
 
   it('should handle nodes without children when calculating height', () => {
     const rootNode = new TreeNode<string>('1', 'Root Node');
-    expect(rootNode.getHeight()).toBe(1); // Height of a single node should be 1
+    expect(rootNode.getHeight()).toBe(0); // Height of a single node should be 0
   });
 });
