@@ -1,212 +1,236 @@
 /**
  * data-structure-typed
- *
- * @author Tyler Zeng
- * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
+ * @author Kirk Qi
+ * @copyright Copyright (c) 2022 Kirk Qi <qilinaus@gmail.com>
  * @license MIT License
  */
-import {PriorityQueue} from '../priority-queue';
-import type {HeapOptions} from '../../types';
 
-export class HeapItem<V = any> {
-  /**
-   * The constructor function initializes an instance of a class with a priority and a value.
-   * @param {number} priority - The `priority` parameter is a number that represents the priority of the value. It is
-   * optional and has a default value of `NaN`.
-   * @param {V | null} [val=null] - The `val` parameter is of type `V | null`, which means it can accept a value of type
-   * `V` or `null`.
-   */
-  constructor(priority: number = Number.MAX_SAFE_INTEGER, val: V | null = null) {
-    this._val = val;
-    this._priority = priority;
-  }
+import type {HeapComparator, HeapDFSOrderPattern} from '../../types';
 
-  private _priority: number;
+export class Heap<E> {
+  protected nodes: E[] = [];
+  private readonly comparator: HeapComparator<E>;
 
-  get priority(): number {
-    return this._priority;
-  }
-
-  set priority(value: number) {
-    this._priority = value;
-  }
-
-  private _val: V | null;
-
-  get val(): V | null {
-    return this._val;
-  }
-
-  set val(value: V | null) {
-    this._val = value;
-  }
-}
-
-export abstract class Heap<V = number> {
-  /**
-   * The function is a constructor for a class that initializes a priority callback function based on the
-   * options provided.
-   * @param [options] - An optional object that contains configuration options for the Heap.
-   */
-  protected constructor(options?: HeapOptions<V>) {
-    if (options) {
-      const {priorityExtractor} = options;
-      if (priorityExtractor !== undefined && typeof priorityExtractor !== 'function') {
-        throw new Error('.constructor expects a valid priority function');
-      }
-      this._priorityExtractor = priorityExtractor || (el => +el);
-    } else {
-      this._priorityExtractor = el => +el;
-    }
-  }
-
-  protected abstract _pq: PriorityQueue<HeapItem<V>>;
-
-  get pq() {
-    return this._pq;
-  }
-
-  protected _priorityExtractor: (val: V) => number;
-  get priorityExtractor() {
-    return this._priorityExtractor;
+  constructor(comparator: HeapComparator<E>) {
+    this.comparator = comparator;
   }
 
   /**
-   * The function returns the size of a priority queue.
-   * @returns The size of the priority queue.
+   * Insert an element into the heap and maintain the heap properties.
+   * @param value - The element to be inserted.
    */
-  get size(): number {
-    return this._pq.size;
-  }
-
-  /**
-   * The function checks if a priority queue is empty.
-   * @returns {boolean} A boolean value indicating whether the size of the priority queue is less than 1.
-   */
-  isEmpty(): boolean {
-    return this._pq.size < 1;
-  }
-
-  peek(isItem?: undefined): V | undefined;
-  peek(isItem: false): V | undefined;
-  peek(isItem: true): HeapItem<V> | null;
-
-  /**
-   * The `peek` function returns the top item in the priority queue without removing it.
-   * @returns The `peek()` method is returning either a `HeapItem<V>` object or `null`.Returns an val with the highest priority in the queue
-   */
-  peek(isItem?: boolean): HeapItem<V> | null | V | undefined {
-    isItem = isItem ?? false;
-    const peeked = this._pq.peek();
-
-    return isItem ? peeked : peeked?.val;
-  }
-
-  peekLast(isItem?: undefined): V | undefined;
-  peekLast(isItem: false): V | undefined;
-  peekLast(isItem: true): HeapItem<V> | null;
-
-  /**
-   * The `peekLast` function returns the last item in the heap.
-   * @returns The method `peekLast()` returns either a `HeapItem<V>` object or `null`.Returns an val with the lowest priority in the queue
-   */
-  peekLast(isItem?: boolean): HeapItem<V> | null | V | undefined {
-    isItem = isItem ?? false;
-    const leafItem = this._pq.leaf();
-
-    return isItem ? leafItem : leafItem?.val;
-  }
-
-  /**
-   * The `add` function adds an val to a priority queue with an optional priority value.
-   * @param {V} val - The `val` parameter represents the value that you want to add to the heap. It can be of any
-   * type.
-   * @param {number} [priority] - The `priority` parameter is an optional number that represents the priority of the
-   * val being added to the heap. If the `val` parameter is a number, then the `priority` parameter is set to
-   * the value of `val`. If the `val` parameter is not a number, then the
-   * @returns The `add` method returns the instance of the `Heap` class.
-   * @throws {Error} if priority is not a valid number
-   */
-  add(priority: number, val?: V): Heap<V> {
-    val = val === undefined ? (priority as unknown as V) : val;
-    this._pq.add(new HeapItem<V>(priority, val));
-
+  add(value: E): Heap<E> {
+    this.nodes.push(value);
+    this.bubbleUp(this.nodes.length - 1);
     return this;
   }
 
-  poll(isItem?: undefined): V | undefined;
-  poll(isItem: false): V | undefined;
-  poll(isItem: true): HeapItem<V> | null;
-
   /**
-   * The `poll` function returns the top item from a priority queue or null if the queue is empty.Removes and returns an val with the highest priority in the queue
-   * @returns either a HeapItem<V> object or null.
+   * Remove and return the top element (smallest or largest element) from the heap.
+   * @returns The top element or null if the heap is empty.
    */
-  poll(isItem?: boolean): HeapItem<V> | null | V | undefined {
-    isItem = isItem ?? false;
-    const top = this._pq.poll();
-    if (!top) {
+  poll(): E | null {
+    if (this.nodes.length === 0) {
       return null;
     }
+    if (this.nodes.length === 1) {
+      return this.nodes.pop() as E;
+    }
 
-    return isItem ? top : top.val;
+    const topValue = this.nodes[0];
+    this.nodes[0] = this.nodes.pop() as E;
+    this.sinkDown(0);
+    return topValue;
   }
 
   /**
-   * The function checks if a given node or value exists in the priority queue.
-   * @param {V | HeapItem<V>} node - The parameter `node` can be of type `V` or `HeapItem<V>`.
-   * @returns a boolean value.
+   * Float operation to maintain heap properties after adding an element.
+   * @param index - The index of the newly added element.
    */
-  has(node: V | HeapItem<V>): boolean {
-    if (node instanceof HeapItem) {
-      return this.pq.getNodes().includes(node);
-    } else {
-      return (
-        this.pq.getNodes().findIndex(item => {
-          return item.val === node;
-        }) !== -1
-      );
+  protected bubbleUp(index: number): void {
+    const element = this.nodes[index];
+    while (index > 0) {
+      const parentIndex = Math.floor((index - 1) / 2);
+      const parent = this.nodes[parentIndex];
+      if (this.comparator(element, parent) < 0) {
+        this.nodes[index] = parent;
+        this.nodes[parentIndex] = element;
+        index = parentIndex;
+      } else {
+        break;
+      }
     }
   }
 
-  toArray(isItem?: undefined): (V | undefined)[];
-  toArray(isItem: false): (V | undefined)[];
-  toArray(isItem: true): (HeapItem<V> | null)[];
-
   /**
-   * The `toArray` function returns an array of `HeapItem<V>` objects.
-   * @returns An array of HeapItem<V> objects.Returns a sorted list of vals
+   * Sinking operation to maintain heap properties after removing the top element.
+   * @param index - The index from which to start sinking.
    */
-  toArray(isItem?: boolean): (HeapItem<V> | null | V | undefined)[] {
-    isItem = isItem ?? false;
-    const itemArray = this._pq.toArray();
+  protected sinkDown(index: number): void {
+    const leftChildIndex = 2 * index + 1;
+    const rightChildIndex = 2 * index + 2;
+    const length = this.nodes.length;
+    let targetIndex = index;
 
-    return isItem ? itemArray : itemArray.map(item => item.val);
-  }
+    if (leftChildIndex < length && this.comparator(this.nodes[leftChildIndex], this.nodes[targetIndex]) < 0) {
+      targetIndex = leftChildIndex;
+    }
+    if (rightChildIndex < length && this.comparator(this.nodes[rightChildIndex], this.nodes[targetIndex]) < 0) {
+      targetIndex = rightChildIndex;
+    }
 
-  sort(isItem?: undefined): (V | undefined)[];
-  sort(isItem: false): (V | undefined)[];
-  sort(isItem: true): (HeapItem<V> | null)[];
-
-  /**
-   * The function sorts the elements in the priority queue and returns either the sorted items or their values depending
-   * on the value of the isItem parameter.
-   * @param {boolean} [isItem] - The `isItem` parameter is a boolean flag that indicates whether the sorted result should
-   * be an array of `HeapItem<V>` objects or an array of the values (`V`) of those objects. If `isItem` is `true`, the
-   * sorted result will be an array of `HeapItem
-   * @returns an array of either `HeapItem<V>`, `null`, `V`, or `undefined` values.
-   */
-  sort(isItem?: boolean): (HeapItem<V> | null | V | undefined)[] {
-    isItem = isItem ?? false;
-    const sorted = this._pq.sort();
-
-    return isItem ? sorted : sorted.map(item => item.val);
+    if (targetIndex !== index) {
+      const temp = this.nodes[index];
+      this.nodes[index] = this.nodes[targetIndex];
+      this.nodes[targetIndex] = temp;
+      this.sinkDown(targetIndex);
+    }
   }
 
   /**
-   * The clear function clears the priority queue.
+   * Fix the entire heap to maintain heap properties.
    */
-  clear(): void {
-    this._pq.clear();
+  protected fix() {
+    for (let i = Math.floor(this.size / 2); i >= 0; i--) this.sinkDown(i);
+  }
+
+  /**
+   * Peek at the top element of the heap without removing it.
+   * @returns The top element or null if the heap is empty.
+   */
+  peek(): E | null {
+    if (this.nodes.length === 0) {
+      return null;
+    }
+    return this.nodes[0];
+  }
+
+  /**
+   * Get the size (number of elements) of the heap.
+   */
+  get size(): number {
+    return this.nodes.length;
+  }
+
+  /**
+   * Get the last element in the heap, which is not necessarily a leaf node.
+   * @returns The last element or null if the heap is empty.
+   */
+  get leaf(): E | null {
+    return this.nodes[this.size - 1] ?? null;
+  }
+
+  /**
+   * Check if the heap is empty.
+   * @returns True if the heap is empty, otherwise false.
+   */
+  isEmpty() {
+    return this.size === 0;
+  }
+
+  /**
+   * Reset the nodes of the heap. Make the nodes empty.
+   */
+  clear() {
+    this.nodes = [];
+  }
+
+  /**
+   * Clear and add nodes of the heap
+   * @param nodes
+   */
+  refill(nodes: E[]) {
+    this.nodes = nodes;
+    this.fix();
+  }
+
+  /**
+   * Use a comparison function to check whether a binary heap contains a specific element.
+   * @param value - the element to check.
+   * @returns Returns true if the specified element is contained; otherwise, returns false.
+   */
+  has(value: E): boolean {
+    return this.nodes.includes(value);
+  }
+
+  /**
+   * Depth-first search (DFS) method, different traversal orders can be selected。
+   * @param order - Traversal order parameter: 'in' (in-order), 'pre' (pre-order) or 'post' (post-order).
+   * @returns An array containing elements traversed in the specified order.
+   */
+  dfs(order: HeapDFSOrderPattern): E[] {
+    const result: E[] = [];
+
+    // Auxiliary recursive function, traverses the binary heap according to the traversal order
+    const dfsHelper = (index: number) => {
+      if (index < this.size) {
+        if (order === 'in') {
+          dfsHelper(2 * index + 1);
+          result.push(this.nodes[index]);
+          dfsHelper(2 * index + 2);
+        } else if (order === 'pre') {
+          result.push(this.nodes[index]);
+          dfsHelper(2 * index + 1);
+          dfsHelper(2 * index + 2);
+        } else if (order === 'post') {
+          dfsHelper(2 * index + 1);
+          dfsHelper(2 * index + 2);
+          result.push(this.nodes[index]);
+        }
+      }
+    };
+
+    dfsHelper(0); // Traverse starting from the root node
+
+    return result;
+  }
+
+  /**
+   * Convert the heap to an array.
+   * @returns An array containing the elements of the heap.
+   */
+  toArray(): E[] {
+    return [...this.nodes];
+  }
+
+  getNodes(): E[] {
+    return this.nodes;
+  }
+
+  /**
+   * Clone the heap, creating a new heap with the same elements.
+   * @returns A new Heap instance containing the same elements.
+   */
+  clone(): Heap<E> {
+    const clonedHeap = new Heap<E>(this.comparator);
+    clonedHeap.nodes = [...this.nodes];
+    return clonedHeap;
+  }
+
+  /**
+   * Sort the elements in the heap and return them as an array.
+   * @returns An array containing the elements sorted in ascending order.
+   */
+  sort(): E[] {
+    const visitedNode: E[] = [];
+    const cloned = this.clone();
+    while (cloned.size !== 0) {
+      const top = cloned.poll();
+      if (top) visitedNode.push(top);
+    }
+    return visitedNode;
+  }
+
+  /**
+   * Static method that creates a binary heap from an array of nodes and a comparison function.
+   * @param nodes
+   * @param comparator - Comparison function.
+   * @returns A new Heap instance.
+   */
+  static heapify<E>(nodes: E[], comparator: HeapComparator<E>): Heap<E> {
+    const binaryHeap = new Heap<E>(comparator);
+    binaryHeap.nodes = [...nodes];
+    binaryHeap.fix(); // Fix heap properties
+    return binaryHeap;
   }
 }

@@ -35,20 +35,5 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Print Environment Variables
-        run: env
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Build and documentation
-        run: npm run build
-
-      - name: Run tests
-        run: npm test
-
-      - name: Fetch Tags
-        run: git fetch --tags
-
-      - name: Changelog
-        run:  npm run changelog
+      - name: Combined ci commands together
+        run: npm run ci

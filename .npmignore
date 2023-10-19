@@ -10,8 +10,7 @@
 /backup
 
 /webpack.config.js
-
-/rename_clear_files.sh
+/scripts
 /tsconfig.prod.json
 
 /docs

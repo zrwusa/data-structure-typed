@@ -1,10 +1,10 @@
-import {MapGraphCoordinate, VertexId} from '../../types';
+import {MapGraphCoordinate, VertexKey} from '../../types';
 import {DirectedEdge, DirectedGraph, DirectedVertex} from './directed-graph';
 
 export class MapVertex<V = any> extends DirectedVertex<V> {
   /**
-   * The constructor function initializes an object with an id, latitude, longitude, and an optional value.
-   * @param {VertexId} id - The `id` parameter is of type `VertexId` and represents the identifier of the vertex.
+   * The constructor function initializes an object with an key, latitude, longitude, and an optional value.
+   * @param {VertexKey} key - The `key` parameter is of type `VertexKey` and represents the identifier of the vertex.
    * @param {number} lat - The "lat" parameter represents the latitude of a vertex. Latitude is a geographic coordinate
    * that specifies the north-south position of a point on the Earth's surface. It is measured in degrees, with positive
    * values representing points north of the equator and negative values representing points south of the equator.
@@ -14,8 +14,8 @@ export class MapVertex<V = any> extends DirectedVertex<V> {
    * @param {V} [val] - The "val" parameter is an optional value of type V. It is not required to be provided when
    * creating an instance of the class.
    */
-  constructor(id: VertexId, lat: number, long: number, val?: V) {
-    super(id, val);
+  constructor(key: VertexKey, lat: number, long: number, val?: V) {
+    super(key, val);
     this._lat = lat;
     this._long = long;
   }
@@ -45,14 +45,14 @@ export class MapEdge<V = any> extends DirectedEdge<V> {
   /**
    * The constructor function initializes a new instance of a class with the given source, destination, weight, and
    * value.
-   * @param {VertexId} src - The `src` parameter is the source vertex ID. It represents the starting point of an edge in
+   * @param {VertexKey} src - The `src` parameter is the source vertex ID. It represents the starting point of an edge in
    * a graph.
-   * @param {VertexId} dest - The `dest` parameter is the identifier of the destination vertex for an edge.
+   * @param {VertexKey} dest - The `dest` parameter is the identifier of the destination vertex for an edge.
    * @param {number} [weight] - The weight parameter is an optional number that represents the weight of the edge.
    * @param {V} [val] - The "val" parameter is an optional parameter of type V. It is used to store additional
    * information or data associated with the edge.
    */
-  constructor(src: VertexId, dest: VertexId, weight?: number, val?: V) {
+  constructor(src: VertexKey, dest: VertexKey, weight?: number, val?: V) {
     super(src, dest, weight, val);
   }
 }
@@ -97,8 +97,8 @@ export class MapGraph<V extends MapVertex<V['val']> = MapVertex, E extends MapEd
   }
 
   /**
-   * The function creates a new vertex with the given id, value, latitude, and longitude.
-   * @param {VertexId} id - The id parameter is the unique identifier for the vertex. It is of type VertexId, which could
+   * The function creates a new vertex with the given key, value, latitude, and longitude.
+   * @param {VertexKey} key - The key parameter is the unique identifier for the vertex. It is of type VertexKey, which could
    * be a string or a number depending on how you define it in your code.
    * @param [val] - The `val` parameter is an optional value that can be assigned to the `val` property of the vertex. It
    * is of type `V['val']`, which means it should be of the same type as the `val` property of the vertex class `V`.
@@ -107,23 +107,28 @@ export class MapGraph<V extends MapVertex<V['val']> = MapVertex, E extends MapEd
    * @param {number} long - The `long` parameter represents the longitude coordinate of the vertex.
    * @returns The method is returning a new instance of the `MapVertex` class, casted as type `V`.
    */
-  override createVertex(id: VertexId, val?: V['val'], lat: number = this.origin[0], long: number = this.origin[1]): V {
-    return new MapVertex(id, lat, long, val) as V;
+  override createVertex(
+    key: VertexKey,
+    val?: V['val'],
+    lat: number = this.origin[0],
+    long: number = this.origin[1]
+  ): V {
+    return new MapVertex(key, lat, long, val) as V;
   }
 
   /**
    * The function creates a new instance of a MapEdge with the given source, destination, weight, and value.
-   * @param {VertexId} src - The source vertex ID of the edge. It represents the starting point of the edge.
-   * @param {VertexId} dest - The `dest` parameter is the identifier of the destination vertex for the edge being
+   * @param {VertexKey} src - The source vertex ID of the edge. It represents the starting point of the edge.
+   * @param {VertexKey} dest - The `dest` parameter is the identifier of the destination vertex for the edge being
    * created.
    * @param {number} [weight] - The `weight` parameter is an optional number that represents the weight of the edge. It
    * is used to assign a numerical value to the edge, which can be used in algorithms such as shortest path algorithms.
    * If the weight is not provided, it can be set to a default value or left undefined.
    * @param [val] - The `val` parameter is an optional value that can be assigned to the edge. It can be of any type,
    * depending on the specific implementation of the `MapEdge` class.
-   * @returns a new instance of the `MapEdge` class, casted as type `E`.
+   * @returns a new instance of the `MapEdge` class, cast as type `E`.
    */
-  override createEdge(src: VertexId, dest: VertexId, weight?: number, val?: E['val']): E {
+  override createEdge(src: VertexKey, dest: VertexKey, weight?: number, val?: E['val']): E {
     return new MapEdge(src, dest, weight, val) as E;
   }
 }

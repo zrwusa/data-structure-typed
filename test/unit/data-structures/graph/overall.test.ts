@@ -29,8 +29,8 @@ describe('Overall Graph Operation Test', () => {
     graph.addEdge('A', 'B');
     graph.addEdge('B', 'C');
 
-    const topologicalOrderIds = graph.topologicalSort();
-    expect(topologicalOrderIds).toEqual(['A', 'B', 'C']);
+    const topologicalOrderKeys = graph.topologicalSort();
+    expect(topologicalOrderKeys).toEqual(['A', 'B', 'C']);
   });
   it('Overall UndirectedGraph Operation Test', () => {
     const graph = new UndirectedGraph();
@@ -43,7 +43,7 @@ describe('Overall Graph Operation Test', () => {
     graph.addEdge('B', 'D');
 
     const dijkstraResult = graph.dijkstra('A');
-    Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id); // ['A', 'B', 'D']
-    expect(Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id)).toEqual(['A', 'B', 'D']);
+    Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key); // ['A', 'B', 'D']
+    expect(Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key)).toEqual(['A', 'B', 'D']);
   });
 });

@@ -1,36 +1,36 @@
 /**
  * data-structure-typed
  *
- * @author Tyler Zeng
- * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
+ * @author Kirk Qi
+ * @copyright Copyright (c) 2022 Kirk Qi <qilinaus@gmail.com>
  * @license MIT License
  */
 import {arrayRemove, uuidV4} from '../../utils';
 import {PriorityQueue} from '../priority-queue';
-import type {DijkstraResult, VertexId} from '../../types';
-import {IAbstractGraph} from '../../interfaces';
+import type {DijkstraResult, VertexKey} from '../../types';
+import {IGraph} from '../../interfaces';
 
 export abstract class AbstractVertex<V = any> {
   /**
-   * The function is a protected constructor that takes an id and an optional value as parameters.
-   * @param {VertexId} id - The `id` parameter is of type `VertexId` and represents the identifier of the vertex. It is
+   * The function is a protected constructor that takes an key and an optional value as parameters.
+   * @param {VertexKey} key - The `key` parameter is of type `VertexKey` and represents the identifier of the vertex. It is
    * used to uniquely identify the vertex object.
    * @param {V} [val] - The parameter "val" is an optional parameter of type V. It is used to assign a value to the
    * vertex. If no value is provided, it will be set to undefined.
    */
-  protected constructor(id: VertexId, val?: V) {
-    this._id = id;
+  protected constructor(key: VertexKey, val?: V) {
+    this._key = key;
     this._val = val;
   }
 
-  private _id: VertexId;
+  private _key: VertexKey;
 
-  get id(): VertexId {
-    return this._id;
+  get key(): VertexKey {
+    return this._key;
   }
 
-  set id(v: VertexId) {
-    this._id = v;
+  set key(v: VertexKey) {
+    this._key = v;
   }
 
   private _val: V | undefined;
@@ -104,21 +104,21 @@ export abstract class AbstractEdge<V = any> {
 export abstract class AbstractGraph<
   V extends AbstractVertex<any> = AbstractVertex<any>,
   E extends AbstractEdge<any> = AbstractEdge<any>
-> implements IAbstractGraph<V, E>
+> implements IGraph<V, E>
 {
-  private _vertices: Map<VertexId, V> = new Map<VertexId, V>();
+  private _vertices: Map<VertexKey, V> = new Map<VertexKey, V>();
 
-  get vertices(): Map<VertexId, V> {
+  get vertices(): Map<VertexKey, V> {
     return this._vertices;
   }
 
   /**
    * In TypeScript, a subclass inherits the interface implementation of its parent class, without needing to implement the same interface again in the subclass. This behavior differs from Java's approach. In Java, if a parent class implements an interface, the subclass needs to explicitly implement the same interface, even if the parent class has already implemented it.
    * This means that using abstract methods in the parent class cannot constrain the grandchild classes. Defining methods within an interface also cannot constrain the descendant classes. When inheriting from this class, developers need to be aware that this method needs to be overridden.
-   * @param id
+   * @param key
    * @param val
    */
-  abstract createVertex(id: VertexId, val?: V): V;
+  abstract createVertex(key: VertexKey, val?: V): V;
 
   /**
    * In TypeScript, a subclass inherits the interface implementation of its parent class, without needing to implement the same interface again in the subclass. This behavior differs from Java's approach. In Java, if a parent class implements an interface, the subclass needs to explicitly implement the same interface, even if the parent class has already implemented it.
@@ -128,75 +128,75 @@ export abstract class AbstractGraph<
    * @param weight
    * @param val
    */
-  abstract createEdge(srcOrV1: VertexId | string, destOrV2: VertexId | string, weight?: number, val?: E): E;
+  abstract createEdge(srcOrV1: VertexKey | string, destOrV2: VertexKey | string, weight?: number, val?: E): E;
 
   abstract removeEdge(edge: E): E | null;
 
-  abstract getEdge(srcOrId: V | VertexId, destOrId: V | VertexId): E | null;
+  abstract getEdge(srcOrKey: V | VertexKey, destOrKey: V | VertexKey): E | null;
 
-  abstract degreeOf(vertexOrId: V | VertexId): number;
+  abstract degreeOf(vertexOrKey: V | VertexKey): number;
 
   abstract edgeSet(): E[];
 
-  abstract edgesOf(vertexOrId: V | VertexId): E[];
+  abstract edgesOf(vertexOrKey: V | VertexKey): E[];
 
-  abstract getNeighbors(vertexOrId: V | VertexId): V[];
+  abstract getNeighbors(vertexOrKey: V | VertexKey): V[];
 
   abstract getEndsOfEdge(edge: E): [V, V] | null;
 
   /**
    * The function "getVertex" returns the vertex with the specified ID or null if it doesn't exist.
-   * @param {VertexId} vertexId - The `vertexId` parameter is the identifier of the vertex that you want to retrieve from
+   * @param {VertexKey} vertexKey - The `vertexKey` parameter is the identifier of the vertex that you want to retrieve from
    * the `_vertices` map.
-   * @returns The method `getVertex` returns the vertex with the specified `vertexId` if it exists in the `_vertices`
+   * @returns The method `getVertex` returns the vertex with the specified `vertexKey` if it exists in the `_vertices`
    * map. If the vertex does not exist, it returns `null`.
    */
-  getVertex(vertexId: VertexId): V | null {
-    return this._vertices.get(vertexId) || null;
+  getVertex(vertexKey: VertexKey): V | null {
+    return this._vertices.get(vertexKey) || null;
   }
 
   /**
    * The function checks if a vertex exists in a graph.
-   * @param {V | VertexId} vertexOrId - The parameter `vertexOrId` can be either a vertex object (`V`) or a vertex ID
-   * (`VertexId`).
+   * @param {V | VertexKey} vertexOrKey - The parameter `vertexOrKey` can be either a vertex object (`V`) or a vertex ID
+   * (`VertexKey`).
    * @returns a boolean value.
    */
-  hasVertex(vertexOrId: V | VertexId): boolean {
-    return this._vertices.has(this._getVertexId(vertexOrId));
+  hasVertex(vertexOrKey: V | VertexKey): boolean {
+    return this._vertices.has(this._getVertexKey(vertexOrKey));
   }
 
   addVertex(vertex: V): boolean;
 
-  addVertex(id: VertexId, val?: V['val']): boolean;
+  addVertex(key: VertexKey, val?: V['val']): boolean;
 
-  addVertex(idOrVertex: VertexId | V, val?: V['val']): boolean {
-    if (idOrVertex instanceof AbstractVertex) {
-      return this._addVertexOnly(idOrVertex);
+  addVertex(keyOrVertex: VertexKey | V, val?: V['val']): boolean {
+    if (keyOrVertex instanceof AbstractVertex) {
+      return this._addVertexOnly(keyOrVertex);
     } else {
-      const newVertex = this.createVertex(idOrVertex, val);
+      const newVertex = this.createVertex(keyOrVertex, val);
       return this._addVertexOnly(newVertex);
     }
   }
 
   /**
    * The `removeVertex` function removes a vertex from a graph by its ID or by the vertex object itself.
-   * @param {V | VertexId} vertexOrId - The parameter `vertexOrId` can be either a vertex object (`V`) or a vertex ID
-   * (`VertexId`).
+   * @param {V | VertexKey} vertexOrKey - The parameter `vertexOrKey` can be either a vertex object (`V`) or a vertex ID
+   * (`VertexKey`).
    * @returns The method is returning a boolean value.
    */
-  removeVertex(vertexOrId: V | VertexId): boolean {
-    const vertexId = this._getVertexId(vertexOrId);
-    return this._vertices.delete(vertexId);
+  removeVertex(vertexOrKey: V | VertexKey): boolean {
+    const vertexKey = this._getVertexKey(vertexOrKey);
+    return this._vertices.delete(vertexKey);
   }
 
   /**
    * The function removes all vertices from a graph and returns a boolean indicating if any vertices were removed.
-   * @param {V[] | VertexId[]} vertices - The `vertices` parameter can be either an array of vertices (`V[]`) or an array
-   * of vertex IDs (`VertexId[]`).
+   * @param {V[] | VertexKey[]} vertices - The `vertices` parameter can be either an array of vertices (`V[]`) or an array
+   * of vertex IDs (`VertexKey[]`).
    * @returns a boolean value. It returns true if at least one vertex was successfully removed, and false if no vertices
    * were removed.
    */
-  removeAllVertices(vertices: V[] | VertexId[]): boolean {
+  removeAllVertices(vertices: V[] | VertexKey[]): boolean {
     const removed: boolean[] = [];
     for (const v of vertices) {
       removed.push(this.removeVertex(v));
@@ -206,50 +206,50 @@ export abstract class AbstractGraph<
 
   /**
    * The function checks if there is an edge between two vertices and returns a boolean value indicating the result.
-   * @param {VertexId | V} v1 - The parameter v1 can be either a VertexId or a V. A VertexId represents the unique
+   * @param {VertexKey | V} v1 - The parameter v1 can be either a VertexKey or a V. A VertexKey represents the unique
    * identifier of a vertex in a graph, while V represents the type of the vertex object itself.
-   * @param {VertexId | V} v2 - The parameter `v2` represents the second vertex in the edge. It can be either a
-   * `VertexId` or a `V` type, which represents the type of the vertex.
+   * @param {VertexKey | V} v2 - The parameter `v2` represents the second vertex in the edge. It can be either a
+   * `VertexKey` or a `V` type, which represents the type of the vertex.
    * @returns A boolean value is being returned.
    */
-  hasEdge(v1: VertexId | V, v2: VertexId | V): boolean {
+  hasEdge(v1: VertexKey | V, v2: VertexKey | V): boolean {
     const edge = this.getEdge(v1, v2);
     return !!edge;
   }
 
   addEdge(edge: E): boolean;
 
-  addEdge(src: V | VertexId, dest: V | VertexId, weight?: number, val?: E['val']): boolean;
+  addEdge(src: V | VertexKey, dest: V | VertexKey, weight?: number, val?: E['val']): boolean;
 
-  addEdge(srcOrEdge: V | VertexId | E, dest?: V | VertexId, weight?: number, val?: E['val']): boolean {
+  addEdge(srcOrEdge: V | VertexKey | E, dest?: V | VertexKey, weight?: number, val?: E['val']): boolean {
     if (srcOrEdge instanceof AbstractEdge) {
       return this._addEdgeOnly(srcOrEdge);
     } else {
       if (dest instanceof AbstractVertex || typeof dest === 'string' || typeof dest === 'number') {
         if (!(this.hasVertex(srcOrEdge) && this.hasVertex(dest))) return false;
-        if (srcOrEdge instanceof AbstractVertex) srcOrEdge = srcOrEdge.id;
-        if (dest instanceof AbstractVertex) dest = dest.id;
+        if (srcOrEdge instanceof AbstractVertex) srcOrEdge = srcOrEdge.key;
+        if (dest instanceof AbstractVertex) dest = dest.key;
         const newEdge = this.createEdge(srcOrEdge, dest, weight, val);
         return this._addEdgeOnly(newEdge);
       } else {
-        throw new Error('dest must be a Vertex or vertex id while srcOrEdge is an Edge');
+        throw new Error('dest must be a Vertex or vertex key while srcOrEdge is an Edge');
       }
     }
   }
 
   /**
    * The function sets the weight of an edge between two vertices in a graph.
-   * @param {VertexId | V} srcOrId - The `srcOrId` parameter can be either a `VertexId` or a `V` object. It represents
+   * @param {VertexKey | V} srcOrKey - The `srcOrKey` parameter can be either a `VertexKey` or a `V` object. It represents
    * the source vertex of the edge.
-   * @param {VertexId | V} destOrId - The `destOrId` parameter represents the destination vertex of the edge. It can be
-   * either a `VertexId` or a vertex object `V`.
-   * @param {number} weight - The weight parameter represents the weight of the edge between the source vertex (srcOrId)
-   * and the destination vertex (destOrId).
+   * @param {VertexKey | V} destOrKey - The `destOrKey` parameter represents the destination vertex of the edge. It can be
+   * either a `VertexKey` or a vertex object `V`.
+   * @param {number} weight - The weight parameter represents the weight of the edge between the source vertex (srcOrKey)
+   * and the destination vertex (destOrKey).
    * @returns a boolean value. If the edge exists between the source and destination vertices, the function will update
    * the weight of the edge and return true. If the edge does not exist, the function will return false.
    */
-  setEdgeWeight(srcOrId: VertexId | V, destOrId: VertexId | V, weight: number): boolean {
-    const edge = this.getEdge(srcOrId, destOrId);
+  setEdgeWeight(srcOrKey: VertexKey | V, destOrKey: VertexKey | V, weight: number): boolean {
+    const edge = this.getEdge(srcOrKey, destOrKey);
     if (edge) {
       edge.weight = weight;
       return true;
@@ -260,12 +260,12 @@ export abstract class AbstractGraph<
 
   /**
    * The function `getAllPathsBetween` finds all paths between two vertices in a graph using depth-first search.
-   * @param {V | VertexId} v1 - The parameter `v1` represents either a vertex object (`V`) or a vertex ID (`VertexId`).
+   * @param {V | VertexKey} v1 - The parameter `v1` represents either a vertex object (`V`) or a vertex ID (`VertexKey`).
    * It is the starting vertex for finding paths.
-   * @param {V | VertexId} v2 - The parameter `v2` represents either a vertex object (`V`) or a vertex ID (`VertexId`).
+   * @param {V | VertexKey} v2 - The parameter `v2` represents either a vertex object (`V`) or a vertex ID (`VertexKey`).
    * @returns The function `getAllPathsBetween` returns an array of arrays of vertices (`V[][]`).
    */
-  getAllPathsBetween(v1: V | VertexId, v2: V | VertexId): V[][] {
+  getAllPathsBetween(v1: V | VertexKey, v2: V | VertexKey): V[][] {
     const paths: V[][] = [];
     const vertex1 = this._getVertex(v1);
     const vertex2 = this._getVertex(v2);
@@ -312,8 +312,8 @@ export abstract class AbstractGraph<
   /**
    * The function `getMinCostBetween` calculates the minimum cost between two vertices in a graph, either based on edge
    * weights or using a breadth-first search algorithm.
-   * @param {V | VertexId} v1 - The parameter `v1` represents the starting vertex or its ID.
-   * @param {V | VertexId} v2 - The parameter `v2` represents the destination vertex or its ID. It is the vertex to which
+   * @param {V | VertexKey} v1 - The parameter `v1` represents the starting vertex or its ID.
+   * @param {V | VertexKey} v2 - The parameter `v2` represents the destination vertex or its ID. It is the vertex to which
    * you want to find the minimum cost or weight from the source vertex `v1`.
    * @param {boolean} [isWeight] - isWeight is an optional parameter that indicates whether the graph edges have weights.
    * If isWeight is set to true, the function will calculate the minimum cost between v1 and v2 based on the weights of
@@ -323,7 +323,7 @@ export abstract class AbstractGraph<
    * vertices. If `isWeight` is `false` or not provided, it uses a breadth-first search (BFS) algorithm to calculate the
    * minimum number of
    */
-  getMinCostBetween(v1: V | VertexId, v2: V | VertexId, isWeight?: boolean): number | null {
+  getMinCostBetween(v1: V | VertexKey, v2: V | VertexKey, isWeight?: boolean): number | null {
     if (isWeight === undefined) isWeight = false;
 
     if (isWeight) {
@@ -371,9 +371,9 @@ export abstract class AbstractGraph<
   /**
    * The function `getMinPathBetween` returns the minimum path between two vertices in a graph, either based on weight or
    * using a breadth-first search algorithm.
-   * @param {V | VertexId} v1 - The parameter `v1` represents the starting vertex of the path. It can be either a vertex
-   * object (`V`) or a vertex ID (`VertexId`).
-   * @param {V | VertexId} v2 - V | VertexId - The second vertex or vertex ID between which we want to find the minimum
+   * @param {V | VertexKey} v1 - The parameter `v1` represents the starting vertex of the path. It can be either a vertex
+   * object (`V`) or a vertex ID (`VertexKey`).
+   * @param {V | VertexKey} v2 - V | VertexKey - The second vertex or vertex ID between which we want to find the minimum
    * path.
    * @param {boolean} [isWeight] - A boolean flag indicating whether to consider the weight of edges in finding the
    * minimum path. If set to true, the function will use Dijkstra's algorithm to find the minimum weighted path. If set
@@ -381,7 +381,7 @@ export abstract class AbstractGraph<
    * @returns The function `getMinPathBetween` returns an array of vertices (`V[]`) representing the minimum path between
    * two vertices (`v1` and `v2`). If there is no path between the vertices, it returns `null`.
    */
-  getMinPathBetween(v1: V | VertexId, v2: V | VertexId, isWeight?: boolean): V[] | null {
+  getMinPathBetween(v1: V | VertexKey, v2: V | VertexKey, isWeight?: boolean): V[] | null {
     if (isWeight === undefined) isWeight = false;
 
     if (isWeight) {
@@ -440,9 +440,9 @@ export abstract class AbstractGraph<
    * Dijkstra algorithm time: O(VE) space: O(V + E)
    * The function `dijkstraWithoutHeap` implements Dijkstra's algorithm to find the shortest path between two vertices in
    * a graph without using a heap data structure.
-   * @param {V | VertexId} src - The source vertex from which to start the Dijkstra's algorithm. It can be either a
+   * @param {V | VertexKey} src - The source vertex from which to start the Dijkstra's algorithm. It can be either a
    * vertex object or a vertex ID.
-   * @param {V | VertexId | null} [dest] - The `dest` parameter in the `dijkstraWithoutHeap` function is an optional
+   * @param {V | VertexKey | null} [dest] - The `dest` parameter in the `dijkstraWithoutHeap` function is an optional
    * parameter that specifies the destination vertex for the Dijkstra algorithm. It can be either a vertex object or its
    * identifier. If no destination is provided, the value is set to `null`.
    * @param {boolean} [getMinDist] - The `getMinDist` parameter is a boolean flag that determines whether the minimum
@@ -454,8 +454,8 @@ export abstract class AbstractGraph<
    * @returns The function `dijkstraWithoutHeap` returns an object of type `DijkstraResult<V>`.
    */
   dijkstraWithoutHeap(
-    src: V | VertexId,
-    dest?: V | VertexId | null,
+    src: V | VertexKey,
+    dest?: V | VertexKey | null,
     getMinDist?: boolean,
     genPaths?: boolean
   ): DijkstraResult<V> {
@@ -481,8 +481,8 @@ export abstract class AbstractGraph<
     }
 
     for (const vertex of vertices) {
-      const vertexOrId = vertex[1];
-      if (vertexOrId instanceof AbstractVertex) distMap.set(vertexOrId, Infinity);
+      const vertexOrKey = vertex[1];
+      if (vertexOrKey instanceof AbstractVertex) distMap.set(vertexOrKey, Infinity);
     }
     distMap.set(srcVertex, 0);
     preMap.set(srcVertex, null);
@@ -503,11 +503,11 @@ export abstract class AbstractGraph<
 
     const getPaths = (minV: V | null) => {
       for (const vertex of vertices) {
-        const vertexOrId = vertex[1];
+        const vertexOrKey = vertex[1];
 
-        if (vertexOrId instanceof AbstractVertex) {
-          const path: V[] = [vertexOrId];
-          let parent = preMap.get(vertexOrId);
+        if (vertexOrKey instanceof AbstractVertex) {
+          const path: V[] = [vertexOrKey];
+          let parent = preMap.get(vertexOrKey);
           while (parent) {
             path.push(parent);
             parent = preMap.get(parent);
@@ -580,9 +580,9 @@ export abstract class AbstractGraph<
    * Dijkstra's algorithm is used to find the shortest paths from a source node to all other nodes in a graph. Its basic idea is to repeatedly choose the node closest to the source node and update the distances of other nodes using this node as an intermediary. Dijkstra's algorithm requires that the edge weights in the graph are non-negative.
    * The `dijkstra` function implements Dijkstra's algorithm to find the shortest path between a source vertex and an
    * optional destination vertex, and optionally returns the minimum distance, the paths, and other information.
-   * @param {V | VertexId} src - The `src` parameter represents the source vertex from which the Dijkstra algorithm will
+   * @param {V | VertexKey} src - The `src` parameter represents the source vertex from which the Dijkstra algorithm will
    * start. It can be either a vertex object or a vertex ID.
-   * @param {V | VertexId | null} [dest] - The `dest` parameter is the destination vertex or vertex ID. It specifies the
+   * @param {V | VertexKey | null} [dest] - The `dest` parameter is the destination vertex or vertex ID. It specifies the
    * vertex to which the shortest path is calculated from the source vertex. If no destination is provided, the algorithm
    * will calculate the shortest paths to all other vertices from the source vertex.
    * @param {boolean} [getMinDist] - The `getMinDist` parameter is a boolean flag that determines whether the minimum
@@ -593,7 +593,12 @@ export abstract class AbstractGraph<
    * shortest paths from the source vertex to all other vertices in the graph. If `genPaths
    * @returns The function `dijkstra` returns an object of type `DijkstraResult<V>`.
    */
-  dijkstra(src: V | VertexId, dest?: V | VertexId | null, getMinDist?: boolean, genPaths?: boolean): DijkstraResult<V> {
+  dijkstra(
+    src: V | VertexKey,
+    dest?: V | VertexKey | null,
+    getMinDist?: boolean,
+    genPaths?: boolean
+  ): DijkstraResult<V> {
     if (getMinDist === undefined) getMinDist = false;
     if (genPaths === undefined) genPaths = false;
 
@@ -613,14 +618,12 @@ export abstract class AbstractGraph<
     if (!srcVertex) return null;
 
     for (const vertex of vertices) {
-      const vertexOrId = vertex[1];
-      if (vertexOrId instanceof AbstractVertex) distMap.set(vertexOrId, Infinity);
+      const vertexOrKey = vertex[1];
+      if (vertexOrKey instanceof AbstractVertex) distMap.set(vertexOrKey, Infinity);
     }
 
-    const heap = new PriorityQueue<{id: number; val: V}>({
-      comparator: (a, b) => a.id - b.id
-    });
-    heap.add({id: 0, val: srcVertex});
+    const heap = new PriorityQueue<{key: number; val: V}>((a, b) => a.key - b.key);
+    heap.add({key: 0, val: srcVertex});
 
     distMap.set(srcVertex, 0);
     preMap.set(srcVertex, null);
@@ -632,10 +635,10 @@ export abstract class AbstractGraph<
      */
     const getPaths = (minV: V | null) => {
       for (const vertex of vertices) {
-        const vertexOrId = vertex[1];
-        if (vertexOrId instanceof AbstractVertex) {
-          const path: V[] = [vertexOrId];
-          let parent = preMap.get(vertexOrId);
+        const vertexOrKey = vertex[1];
+        if (vertexOrKey instanceof AbstractVertex) {
+          const path: V[] = [vertexOrKey];
+          let parent = preMap.get(vertexOrKey);
           while (parent) {
             path.push(parent);
             parent = preMap.get(parent);
@@ -649,7 +652,7 @@ export abstract class AbstractGraph<
 
     while (heap.size > 0) {
       const curHeapNode = heap.poll();
-      const dist = curHeapNode?.id;
+      const dist = curHeapNode?.key;
       const cur = curHeapNode?.val;
       if (dist !== undefined) {
         if (cur) {
@@ -671,7 +674,7 @@ export abstract class AbstractGraph<
                 const distSrcToNeighbor = distMap.get(neighbor);
                 if (distSrcToNeighbor) {
                   if (dist + weight < distSrcToNeighbor) {
-                    heap.add({id: dist + weight, val: neighbor});
+                    heap.add({key: dist + weight, val: neighbor});
                     preMap.set(neighbor, cur);
                     distMap.set(neighbor, dist + weight);
                   }
@@ -712,7 +715,7 @@ export abstract class AbstractGraph<
    * The Bellman-Ford algorithm is also used to find the shortest paths from a source node to all other nodes in a graph. Unlike Dijkstra's algorithm, it can handle edge weights that are negative. Its basic idea involves iterative relaxation of all edges for several rounds to gradually approximate the shortest paths. Due to its ability to handle negative-weight edges, the Bellman-Ford algorithm is more flexible in some scenarios.
    * The `bellmanFord` function implements the Bellman-Ford algorithm to find the shortest path from a source vertex to
    * all other vertices in a graph, and optionally detects negative cycles and generates the minimum path.
-   * @param {V | VertexId} src - The `src` parameter is the source vertex from which the Bellman-Ford algorithm will
+   * @param {V | VertexKey} src - The `src` parameter is the source vertex from which the Bellman-Ford algorithm will
    * start calculating the shortest paths. It can be either a vertex object or a vertex ID.
    * @param {boolean} [scanNegativeCycle] - A boolean flag indicating whether to scan for negative cycles in the graph.
    * @param {boolean} [getMin] - The `getMin` parameter is a boolean flag that determines whether the algorithm should
@@ -722,7 +725,7 @@ export abstract class AbstractGraph<
    * vertex.
    * @returns The function `bellmanFord` returns an object with the following properties:
    */
-  bellmanFord(src: V | VertexId, scanNegativeCycle?: boolean, getMin?: boolean, genPath?: boolean) {
+  bellmanFord(src: V | VertexKey, scanNegativeCycle?: boolean, getMin?: boolean, genPath?: boolean) {
     if (getMin === undefined) getMin = false;
     if (genPath === undefined) genPath = false;
 
@@ -780,10 +783,10 @@ export abstract class AbstractGraph<
 
     if (genPath) {
       for (const vertex of vertices) {
-        const vertexOrId = vertex[1];
-        if (vertexOrId instanceof AbstractVertex) {
-          const path: V[] = [vertexOrId];
-          let parent = preMap.get(vertexOrId);
+        const vertexOrKey = vertex[1];
+        if (vertexOrKey instanceof AbstractVertex) {
+          const path: V[] = [vertexOrKey];
+          let parent = preMap.get(vertexOrKey);
           while (parent !== undefined) {
             path.push(parent);
             parent = preMap.get(parent);
@@ -884,7 +887,7 @@ export abstract class AbstractGraph<
   }
 
   /**
-   * Tarjan is an algorithm based on DFS,which is used to solve the connectivity problem of graphs.
+   * Tarjan is an algorithm based on dfs,which is used to solve the connectivity problem of graphs.
    * Tarjan can find cycles in directed or undirected graph
    * Tarjan can find the articulation points and bridges(critical edges) of undirected graphs in linear time,
    * Tarjan solve the bi-connected components of undirected graphs;
@@ -892,7 +895,7 @@ export abstract class AbstractGraph<
    * /
 
    /**
-   * Tarjan is an algorithm based on DFS,which is used to solve the connectivity problem of graphs.
+   * Tarjan is an algorithm based on dfs,which is used to solve the connectivity problem of graphs.
    * Tarjan can find cycles in directed or undirected graph
    * Tarjan can find the articulation points and bridges(critical edges) of undirected graphs in linear time,
    * Tarjan solve the bi-connected components of undirected graphs;
@@ -913,8 +916,8 @@ export abstract class AbstractGraph<
    * @returns The function `tarjan` returns an object with the following properties:
    */
   tarjan(needArticulationPoints?: boolean, needBridges?: boolean, needSCCs?: boolean, needCycles?: boolean) {
-    // !! in undirected graph we will not let child visit parent when DFS
-    // !! articulation point(in DFS search tree not in graph): (cur !== root && cur.has(child)) && (low(child) >= dfn(cur)) || (cur === root && cur.children() >= 2)
+    // !! in undirected graph we will not let child visit parent when dfs
+    // !! articulation point(in dfs search tree not in graph): (cur !== root && cur.has(child)) && (low(child) >= dfn(cur)) || (cur === root && cur.children() >= 2)
     // !! bridge: low(child) > dfn(cur)
 
     const defaultConfig = false;
@@ -942,7 +945,7 @@ export abstract class AbstractGraph<
       lowMap.set(cur, dfn);
 
       const neighbors = this.getNeighbors(cur);
-      let childCount = 0; // child in DFS tree not child in graph
+      let childCount = 0; // child in dfs tree not child in graph
       for (const neighbor of neighbors) {
         if (neighbor !== parent) {
           if (dfnMap.get(neighbor) === -1) {
@@ -1019,22 +1022,22 @@ export abstract class AbstractGraph<
   protected _addVertexOnly(newVertex: V): boolean {
     if (this.hasVertex(newVertex)) {
       return false;
-      // throw (new Error('Duplicated vertex id is not allowed'));
+      // throw (new Error('Duplicated vertex key is not allowed'));
     }
-    this._vertices.set(newVertex.id, newVertex);
+    this._vertices.set(newVertex.key, newVertex);
     return true;
   }
 
-  protected _getVertex(vertexOrId: VertexId | V): V | null {
-    const vertexId = this._getVertexId(vertexOrId);
-    return this._vertices.get(vertexId) || null;
+  protected _getVertex(vertexOrKey: VertexKey | V): V | null {
+    const vertexKey = this._getVertexKey(vertexOrKey);
+    return this._vertices.get(vertexKey) || null;
   }
 
-  protected _getVertexId(vertexOrId: V | VertexId): VertexId {
-    return vertexOrId instanceof AbstractVertex ? vertexOrId.id : vertexOrId;
+  protected _getVertexKey(vertexOrKey: V | VertexKey): VertexKey {
+    return vertexOrKey instanceof AbstractVertex ? vertexOrKey.key : vertexOrKey;
   }
 
-  protected _setVertices(value: Map<VertexId, V>) {
+  protected _setVertices(value: Map<VertexKey, V>) {
     this._vertices = value;
   }
 }

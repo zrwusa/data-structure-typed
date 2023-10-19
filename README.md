@@ -1,18 +1,20 @@
 # Data Structure Typed
 
+![NPM](https://img.shields.io/npm/l/data-structure-typed)
+![GitHub top language](https://img.shields.io/github/languages/top/zrwusa/data-structure-typed)
+![npm](https://img.shields.io/npm/dw/data-structure-typed)
+![eslint](https://aleen42.github.io/badges/src/eslint.svg)
+![npm package minimized gzipped size (select exports)](https://img.shields.io/bundlejs/size/data-structure-typed)
+![npm bundle size](https://img.shields.io/bundlephobia/min/data-structure-typed)
+![npm](https://img.shields.io/npm/v/data-structure-typed)
+
+
 Data Structures of Javascript & TypeScript.
 
 Do you envy C++ with [std](), Python with [collections](), and Java with [java.util]() ? Well, no need to envy anymore! JavaScript and TypeScript now have [data-structure-typed]().
 
 Now you can use this library in Node.js and browser environments in CommonJS(require export.modules = ), ESModule(import export), Typescript(import export), UMD(var Queue = dataStructureTyped.Queue)
 
-The size after packaging is 69 kB.
-
-![License](https://img.shields.io/badge/License-MIT-blue.svg)
-![Language](https://img.shields.io/github/languages/top/zrwusa/data-structure-typed)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/zrwusa/data-structure-typed)
-![npm](https://aleen42.github.io/badges/src/npm.svg)
-![eslint](https://aleen42.github.io/badges/src/eslint.svg)
 
 [//]: # (![Branches]&#40;https://img.shields.io/badge/branches-55.47%25-red.svg?style=flat&#41;)
 
@@ -33,7 +35,7 @@ Floyd-Warshall Algorithm, Tarjan's Algorithm.
 ### npm
 
 ```bash
-npm i data-structure-typed
+npm i data-structure-typed --save
 ```
 
 ### yarn
@@ -107,7 +109,7 @@ bst.getLeftMost()?.id === 1;    // true
 bst.remove(6);
 bst.get(6);                     // null
 bst.isAVLBalanced();            // true
-bst.BFS()[0] === 11;            // true
+bst.bfs()[0] === 11;            // true
 
 const objBST = new BST<BSTNode<{id: number, keyA: number}>>();
 objBST.add(11, {id: 11, keyA: 11});
@@ -143,7 +145,7 @@ expect(leftMost?.id).toBe(1);
 bst.remove(6);
 bst.get(6);             // null
 bst.isAVLBalanced();    // true or false
-const bfsIDs = bst.BFS();
+const bfsIDs = bst.bfs();
 bfsIDs[0] === 11;       // true
 expect(bfsIDs[0]).toBe(11);
 
@@ -424,178 +426,215 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
 
 ### Standard library data structure comparison
 
+
 <table>
   <thead>
-    <tr>
-      <th>Data Structure</th>
-      <th>C++ std</th>
-      <th>Data Structure Typed</th>
-      <th>java.util</th>
-      <th>Python collections</th>
-    </tr>
+  <tr>
+    <th>Data Structure</th>
+    <th>Data Structure Typed</th>
+    <th>C++ std</th>
+    <th>java.util</th>
+    <th>Python collections</th>
+  </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>Dynamic Array</td>
-      <td>std::vector&lt;T&gt;</td>
-      <td>Array&lt;E&gt;</td>
-      <td>ArrayList&lt;E&gt;</td>
-      <td>list</td>
-    </tr>
-    <tr>
-      <td>Linked List</td>
-      <td>std::list&lt;T&gt;</td>
-      <td>DoublyLinkedList&lt;E&gt;</td>
-      <td>LinkedList&lt;E&gt;</td>
-      <td>deque</td>
-    </tr>
-    <tr>
-      <td>Set</td>
-      <td>std::set&lt;T&gt;</td>
-      <td>Set&lt;E&gt</td>
-      <td>HashSet&lt;E&gt;</td>
-      <td>set</td>
-    </tr>
-    <tr>
-      <td>Map</td>
-      <td>std::map&lt;K, V&gt;</td>
-      <td>Map&lt;K, V&gt;</td>
-      <td>HashMap&lt;K, V&gt;</td>
-      <td>dict</td>
-    </tr>
-    <tr>
-      <td>Unordered Set</td>
-      <td>std::unordered_set&lt;T&gt;</td>
-      <td>N/A</td>
-      <td>HashSet&lt;E&gt;</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Unordered Map</td>
-      <td>std::unordered_map&lt;K, V&gt;</td>
-      <td>HashMap&lt;K, V&gt;</td>
-      <td>HashMap&lt;K, V&gt;</td>
-      <td>defaultdict</td>
-    </tr>
-    <tr>
-      <td>Queue</td>
-      <td>std::queue&lt;T&gt;</td>
-      <td>Queue&lt;E&gt;</td>
-      <td>Queue&lt;E&gt;</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Priority Queue</td>
-      <td>std::priority_queue&lt;T&gt;</td>
-      <td>PriorityQueue&lt;E&gt;</td>
-      <td>PriorityQueue&lt;E&gt;</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Stack</td>
-      <td>std::stack&lt;T&gt;</td>
-      <td>Stack&lt;E&gt;</td>
-      <td>Stack&lt;E&gt;</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Bitset</td>
-      <td>std::bitset&lt;N&gt;</td>
-      <td>N/A</td>
-      <td>N/A</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Deque</td>
-      <td>std::deque&lt;T&gt;</td>
-      <td>Deque&lt;E&gt;</td>
-      <td>N/A</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Multiset</td>
-      <td>std::multiset&lt;T&gt;</td>
-      <td>N/A</td>
-      <td>N/A</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Multimap</td>
-      <td>std::multimap&lt;K, V&gt;</td>
-      <td>N/A</td>
-      <td>N/A</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Unordered Multiset</td>
-      <td>std::unordered_multiset</td>
-      <td>N/A</td>
-      <td>Counter</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Ordered Dictionary</td>
-      <td>N/A</td>
-      <td>Map&lt;K, V&gt;</td>
-      <td>N/A</td>
-      <td>OrderedDict</td>
-    </tr>
-    <tr>
-      <td>Linked Hash Set</td>
-      <td>N/A</td>
-      <td>N/A</td>
-      <td>LinkedHashSet&lt;E&gt;</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Linked Hash Map</td>
-      <td>N/A</td>
-      <td>N/A</td>
-      <td>LinkedHashMap&lt;K, V&gt;</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Sorted Set</td>
-      <td>N/A</td>
-      <td>AVLTree</td>
-      <td>TreeSet&lt;E&gt;</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Sorted Map</td>
-      <td>N/A</td>
-      <td>AVLTree</td>
-      <td>TreeMap&lt;K, V&gt;</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Tree Set</td>
-      <td>std::set</td>
-      <td>AVLTree</td>
-      <td>TreeSet&lt;E&gt;</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Persistent Collections</td>
-      <td>N/A</td>
-      <td>N/A</td>
-      <td>N/A</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>unordered multiset</td>
-      <td>unordered multiset&lt;T&gt;</td>
-      <td>N/A</td>
-      <td>N/A</td>
-      <td>N/A</td>
-    </tr>
-    <tr>
-      <td>Unordered Multimap</td>
-      <td>std::unordered_multimap&lt;K, V&gt;</td>
-      <td>N/A</td>
-      <td>N/A</td>
-      <td>N/A</td>
-    </tr>
+  <tr>
+    <td>Dynamic Array</td>
+    <td>Array&lt;E&gt;</td>
+    <td>vector&lt;T&gt;</td>
+    <td>ArrayList&lt;E&gt;</td>
+    <td>list</td>
+  </tr>
+  <tr>
+    <td>Linked List</td>
+    <td>DoublyLinkedList&lt;E&gt;</td>
+    <td>list&lt;T&gt;</td>
+    <td>LinkedList&lt;E&gt;</td>
+    <td>deque</td>
+  </tr>
+  <tr>
+    <td>Singly Linked List</td>
+    <td>SinglyLinkedList&lt;E&gt;</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Set</td>
+    <td>Set&lt;E&gt;</td>
+    <td>set&lt;T&gt;</td>
+    <td>HashSet&lt;E&gt;</td>
+    <td>set</td>
+  </tr>
+  <tr>
+    <td>Map</td>
+    <td>Map&lt;K, V&gt;</td>
+    <td>map&lt;K, V&gt;</td>
+    <td>HashMap&lt;K, V&gt;</td>
+    <td>dict</td>
+  </tr>
+  <tr>
+    <td>Ordered Dictionary</td>
+    <td>Map&lt;K, V&gt;</td>
+    <td>-</td>
+    <td>-</td>
+    <td>OrderedDict</td>
+  </tr>
+
+  <tr>
+    <td>Queue</td>
+    <td>Queue&lt;E&gt;</td>
+    <td>queue&lt;T&gt;</td>
+    <td>Queue&lt;E&gt;</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Priority Queue</td>
+    <td>PriorityQueue&lt;E&gt;</td>
+    <td>priority_queue&lt;T&gt;</td>
+    <td>PriorityQueue&lt;E&gt;</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Heap</td>
+    <td>Heap&lt;V&gt;</td>
+    <td>priority_queue&lt;T&gt;</td>
+    <td>PriorityQueue&lt;E&gt;</td>
+    <td>heapq</td>
+  </tr>
+  <tr>
+    <td>Stack</td>
+    <td>Stack&lt;E&gt;</td>
+    <td>stack&lt;T&gt;</td>
+    <td>Stack&lt;E&gt;</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Deque</td>
+    <td>Deque&lt;E&gt;</td>
+    <td>deque&lt;T&gt;</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Trie</td>
+    <td>Trie</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Unordered Map</td>
+    <td>HashMap&lt;K, V&gt;</td>
+    <td>unordered_map&lt;K, V&gt;</td>
+    <td>HashMap&lt;K, V&gt;</td>
+    <td>defaultdict</td>
+  </tr>
+  <tr>
+    <td>Multiset</td>
+    <td>-</td>
+    <td>multiset&lt;T&gt;</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Multimap</td>
+    <td>-</td>
+    <td>multimap&lt;K, V&gt;</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Binary Tree</td>
+    <td>BinaryTree&lt;K, V&gt;</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Binary Search Tree</td>
+    <td>BST&lt;K, V&gt;</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Directed Graph</td>
+    <td>DirectedGraph&lt;V, E&gt;</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Undirected Graph</td>
+    <td>UndirectedGraph&lt;V, E&gt;</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Unordered Multiset</td>
+    <td>-</td>
+    <td>unordered_multiset</td>
+    <td>-</td>
+    <td>Counter</td>
+  </tr>
+  <tr>
+    <td>Linked Hash Set</td>
+    <td>-</td>
+    <td>-</td>
+    <td>LinkedHashSet&lt;E&gt;</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Linked Hash Map</td>
+    <td>-</td>
+    <td>-</td>
+    <td>LinkedHashMap&lt;K, V&gt;</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Sorted Set</td>
+    <td>AVLTree&lt;E&gt;</td>
+    <td>-</td>
+    <td>TreeSet&lt;E&gt;</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Sorted Map</td>
+    <td>AVLTree&lt;K, V&gt;</td>
+    <td>-</td>
+    <td>TreeMap&lt;K, V&gt;</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Tree Set</td>
+    <td>AVLTree&lt;E&gt;</td>
+    <td>set</td>
+    <td>TreeSet&lt;E&gt;</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Unordered Multimap</td>
+    <td>-</td>
+    <td>unordered_multimap&lt;K, V&gt;</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Bitset</td>
+    <td>-</td>
+    <td>bitset&lt;N&gt;</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Unordered Set</td>
+    <td>-</td>
+    <td>unordered_set&lt;T&gt;</td>
+    <td>HashSet&lt;E&gt;</td>
+    <td>-</td>
+  </tr>
   </tbody>
 </table>
 
@@ -868,3 +907,4 @@ optimal approach to data structure design.
 </tr>
 </tbody>
 </table>
+

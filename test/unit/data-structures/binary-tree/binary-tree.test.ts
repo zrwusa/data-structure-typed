@@ -8,10 +8,10 @@ describe('BinaryTreeNode', () => {
 
   it('should set and get the ID correctly', () => {
     const node = new BinaryTreeNode<number>(1);
-    expect(node.id).toBe(1);
+    expect(node.key).toBe(1);
 
-    node.id = 2;
-    expect(node.id).toBe(2);
+    node.key = 2;
+    expect(node.key).toBe(2);
   });
 
   it('should set and get the value correctly', () => {
@@ -50,14 +50,6 @@ describe('BinaryTreeNode', () => {
 
     expect(node2.parent).toBe(node1);
     expect(node1.left).toBe(node2);
-  });
-
-  it('should set and get the height correctly', () => {
-    const node = new BinaryTreeNode<number>(1);
-    expect(node.height).toBe(0);
-
-    node.height = 3;
-    expect(node.height).toBe(3);
   });
 
   it('should determine family position correctly', () => {
@@ -113,6 +105,19 @@ describe('BinaryTree', () => {
     expect(binaryTree.has(4)).toBe(false);
   });
 
+  test('should getDepth return correct depth', () => {
+    binaryTree.add(1);
+    expect(binaryTree.getDepth(1)).toBe(0);
+    binaryTree.add(2);
+    expect(binaryTree.getDepth(2)).toBe(1);
+    binaryTree.add(3);
+    expect(binaryTree.getDepth(3, 1)).toBe(1);
+    binaryTree.add(4);
+    expect(binaryTree.getDepth(4, 1)).toBe(2);
+    expect(binaryTree.getDepth(4)).toBe(2);
+    expect(binaryTree.getDepth(4, 2)).toBe(1);
+  });
+
   test('should traverse in-order', () => {
     binaryTree.add(4);
     binaryTree.add(2);
@@ -122,7 +127,7 @@ describe('BinaryTree', () => {
     binaryTree.add(5);
     binaryTree.add(7);
 
-    const inOrder = binaryTree.DFS('in');
+    const inOrder = binaryTree.dfs('in');
 
     expect(inOrder).toEqual([1, 2, 3, 4, 5, 6, 7]);
   });

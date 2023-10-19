@@ -1,11 +1,10 @@
 language: node_js
 node_js:
-  - "19"
+  - "19.9.0"
 install:
-  - npm build
+  - npm install
 script:
-  - npm run lint
-  - npm run test
+  - npm run ci
 deploy:
   provider: npm
   email: zrwusa@gmail.com

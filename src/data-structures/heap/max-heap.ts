@@ -1,31 +1,24 @@
 /**
  * data-structure-typed
  *
- * @author Tyler Zeng
- * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
+ * @author Kirk Qi
+ * @copyright Copyright (c) 2022 Kirk Qi <qilinaus@gmail.com>
  * @license MIT License
  */
 
-import {Heap, HeapItem} from './heap';
-import {PriorityQueue} from '../priority-queue';
-import type {HeapOptions} from '../../types';
+import {Heap} from './heap';
+import type {HeapComparator} from '../../types';
 
-/**
- * @class MaxHeap
- * @extends Heap
- */
-export class MaxHeap<V = any> extends Heap<V> {
-  protected _pq: PriorityQueue<HeapItem<V>>;
-
-  /**
-   * The constructor initializes a PriorityQueue with a custom comparator function.
-   * @param [options] - The `options` parameter is an optional object that can be passed to the constructor. It is of
-   * type `HeapOptions<V>`, which is a generic type that represents the options for the heap.
-   */
-  constructor(options?: HeapOptions<V>) {
-    super(options);
-    this._pq = new PriorityQueue<HeapItem<V>>({
-      comparator: (a, b) => b.priority - a.priority
-    });
+export class MaxHeap<E = any> extends Heap<E> {
+  constructor(
+    comparator: HeapComparator<E> = (a: E, b: E) => {
+      if (!(typeof a === 'number' && typeof b === 'number')) {
+        throw new Error('The a, b params of compare function must be number');
+      } else {
+        return b - a;
+      }
+    }
+  ) {
+    super(comparator);
   }
 }

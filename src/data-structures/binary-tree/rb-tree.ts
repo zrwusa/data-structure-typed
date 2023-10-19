@@ -5,10 +5,11 @@ import {BST, BSTNode} from './bst';
 export class RBTreeNode<V = any, NEIGHBOR extends RBTreeNode<V, NEIGHBOR> = RBTreeNodeNested<V>>
   extends BSTNode<V, NEIGHBOR>
   implements IRBTreeNode<V, NEIGHBOR> {
+
   private _color: RBColor;
 
-  constructor(id: BinaryTreeNodeId, val?: V) {
-    super(id, val);
+  constructor(key: BinaryTreeNodeKey, val?: V) {
+    super(key, val);
     this._color = RBColor.RED;
   }
 
@@ -21,14 +22,15 @@ export class RBTreeNode<V = any, NEIGHBOR extends RBTreeNode<V, NEIGHBOR> = RBTr
   }
 }
 
-export class RBTree<N extends RBTreeNode<N['val'], N> = RBTreeNode> extends BST<N> implements IRBTree<N> {
+export class RBTree<N extends RBTreeNode<N['val'], N> = RBTreeNode> extends BST<N> implements IBinaryTree<N> {
   constructor(options?: RBTreeOptions) {
     super(options);
   }
 
-  override createNode(id: BinaryTreeNodeId, val?: N['val']): N {
-    return new RBTreeNode(id, val) as N;
+  override createNode(key: BinaryTreeNodeKey, val?: N['val']): N {
+    return new RBTreeNode(key, val) as N;
   }
+
 
   private fixInsertion(node: N): void {
     while (node !== this.root && node.parent?.color === RBColor.RED) {
@@ -319,4 +321,5 @@ export class RBTree<N extends RBTreeNode<N['val'], N> = RBTreeNode> extends BST<
     }
     node.color = RBColor.BLACK; // Ensure the root is always black.
   }
+
 }

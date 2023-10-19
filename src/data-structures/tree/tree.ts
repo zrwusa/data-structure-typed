@@ -1,18 +1,18 @@
 export class TreeNode<V = any> {
-  constructor(id: string, value?: V, children?: TreeNode<V>[]) {
-    this._id = id;
+  constructor(key: string, value?: V, children?: TreeNode<V>[]) {
+    this._key = key;
     this._value = value || undefined;
     this._children = children || [];
   }
 
-  private _id: string;
+  private _key: string;
 
-  get id(): string {
-    return this._id;
+  get key(): string {
+    return this._key;
   }
 
-  set id(value: string) {
-    this._id = value;
+  set key(value: string) {
+    this._key = value;
   }
 
   private _value?: V | undefined;
@@ -47,10 +47,8 @@ export class TreeNode<V = any> {
   }
 
   getHeight() {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const beginRoot = this;
-    let maxDepth = 1;
-    if (beginRoot) {
+    let maxDepth = 0;
+    if (this) {
       const bfs = (node: TreeNode<V>, level: number) => {
         if (level > maxDepth) {
           maxDepth = level;
@@ -62,7 +60,7 @@ export class TreeNode<V = any> {
           }
         }
       };
-      bfs(beginRoot, 1);
+      bfs(this, 0);
     }
     return maxDepth;
   }

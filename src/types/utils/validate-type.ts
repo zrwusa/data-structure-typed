@@ -1,26 +1,26 @@
 export type KeyValueObject = {[key: string]: any};
 
-export type KeyValueObjectWithId = {[key: string]: any; id: string | number | symbol};
+export type KeyValueObjectWithKey = {[key: string]: any; key: string | number | symbol};
 
 export type NonNumberNonObjectButDefined = string | boolean | symbol | null;
 
-export type ObjectWithoutId = Omit<KeyValueObject, 'id'>;
+export type ObjectWithoutKey = Omit<KeyValueObject, 'key'>;
 
-export type ObjectWithNonNumberId = {
+export type ObjectWithNonNumberKey = {
   [key: string]: any;
-  id: string | boolean | symbol | null | object | undefined;
+  key: string | boolean | symbol | null | object | undefined;
 };
 
-export type ObjectWithNumberId = {
+export type ObjectWithNumberKey = {
   [key: string]: any;
-  id: number;
+  key: number;
 };
 
-export type RestrictValById =
+export type RestrictValByKey =
   | NonNumberNonObjectButDefined
-  | ObjectWithoutId
-  | ObjectWithNonNumberId
-  | ObjectWithNumberId;
+  | ObjectWithoutKey
+  | ObjectWithNonNumberKey
+  | ObjectWithNumberKey;
 
 export type DummyAny =
   | string
