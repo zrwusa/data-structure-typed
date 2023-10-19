@@ -1,4 +1,4 @@
-import {BinaryTreeNodeKey, RBColor, RBTreeNodeNested, RBTreeOptions} from '../../types';
+import {BinaryTreeDeletedResult, BinaryTreeNodeKey, RBColor, RBTreeNodeNested, RBTreeOptions} from '../../types';
 import {IBinaryTree} from '../../interfaces';
 import {BST, BSTNode} from './bst';
 
@@ -31,336 +31,313 @@ export class RBTree<N extends RBTreeNode<N['val'], N> = RBTreeNode> extends BST<
     return new RBTreeNode(key, val) as N;
   }
 
-  // override add(keyOrNode: BinaryTreeNodeKey | N | null, val?: N['val']): N | null | undefined {
-  //   const inserted = super.add(keyOrNode, val);
-  //   if (inserted) this._fixInsertViolation(inserted);
-  //   return inserted;
-  // }
-  //
-  // // Method for fixing insert violations in a red-black tree
-  // private _fixInsertViolation(node: N) {
-  //   while (node !== this.root! && node.color === RBColor.RED && node.parent!.color === RBColor.RED) {
-  //     const parent = node.parent!;
-  //     const grandparent = parent.parent!;
-  //     let uncle: N | null | undefined = null;
-  //
-  //     if (parent === grandparent.left) {
-  //       uncle = grandparent.right;
-  //
-  //       // Case 1: The uncle node is red
-  //       if (uncle && uncle.color === RBColor.RED) {
-  //         grandparent.color = RBColor.RED;
-  //         parent.color = RBColor.BLACK;
-  //         uncle.color = RBColor.BLACK;
-  //         node = grandparent;
-  //       } else {
-  //         // Case 2: The uncle node is black, and the current node is a right child
-  //         if (node === parent.right) {
-  //           this._rotateLeft(parent);
-  //           node = parent;
-  //           // Update parent reference
-  //           node.parent = grandparent;
-  //           parent.parent = node;
-  //         }
-  //
-  //         // Case 3: The uncle node is black, and the current node is a left child
-  //         parent.color = RBColor.BLACK;
-  //         grandparent.color = RBColor.RED;
-  //         this._rotateRight(grandparent);
-  //       }
-  //     } else {
-  //       // Symmetric case: The parent is the right child of the grandparent
-  //       uncle = grandparent.left;
-  //
-  //       // Case 1: The uncle node is red
-  //       if (uncle && uncle.color === RBColor.RED) {
-  //         grandparent.color = RBColor.RED;
-  //         parent.color = RBColor.BLACK;
-  //         uncle.color = RBColor.BLACK;
-  //         node = grandparent;
-  //       } else {
-  //         // Case 2: The uncle node is black, and the current node is a left child
-  //         if (node === parent.left) {
-  //           this._rotateRight(parent);
-  //           node = parent;
-  //           // Update parent reference
-  //           node.parent = grandparent;
-  //           parent.parent = node;
-  //         }
-  //
-  //         // Case 3: The uncle node is black, and the current node is a right child
-  //         parent.color = RBColor.BLACK;
-  //         grandparent.color = RBColor.RED;
-  //         this._rotateLeft(grandparent);
-  //       }
-  //     }
-  //   }
-  //
-  //   // The root node is always black
-  //   this.root!.color = RBColor.BLACK;
-  // }
-  //
-  // // Left rotation operation
-  // private _rotateLeft(node: N) {
-  //   const rightChild = node.right;
-  //   node.right = rightChild!.left;
-  //
-  //   if (rightChild!.left) {
-  //     rightChild!.left.parent = node;
-  //   }
-  //
-  //   rightChild!.parent = node.parent;
-  //
-  //   if (node === this.root) {
-  //     // @ts-ignore
-  //     this._setRoot(rightChild);
-  //   } else if (node === node.parent!.left) {
-  //     node.parent!.left = rightChild;
-  //   } else {
-  //     node.parent!.right = rightChild;
-  //   }
-  //
-  //   rightChild!.left = node;
-  //   node.parent = rightChild;
-  // }
-  //
-  // // Right rotation operation
-  // private _rotateRight(node: N) {
-  //   const leftChild = node.left;
-  //   node.left = leftChild!.right;
-  //
-  //   if (leftChild!.right) {
-  //     leftChild!.right.parent = node;
-  //   }
-  //
-  //   leftChild!.parent = node.parent;
-  //
-  //   if (node === this.root) {
-  //     // @ts-ignore
-  //     this._setRoot(leftChild);
-  //   } else if (node === node.parent!.right) {
-  //     node.parent!.right = leftChild;
-  //   } else {
-  //     node.parent!.left = leftChild;
-  //   }
-  //
-  //   leftChild!.right = node;
-  //   node.parent = leftChild;
-  // }
-  //
-  // private _isNodeRed(node: N | null | undefined): boolean {
-  //   return node ? node.color === RBColor.RED : false;
-  // }
-  //
-  // // Find the sibling node
-  // private _findSibling(node: N): N | null | undefined {
-  //   if (!node.parent) {
-  //     return undefined;
-  //   }
-  //
-  //   return node === node.parent.left ? node.parent.right : node.parent.left;
-  // }
-  //
-  // // Remove a node
-  // private _removeNode(node: N, replacement: N | null | undefined): void {
-  //   if (node === this.root && !replacement) {
-  //     // If there's only the root node and no replacement, simply remove the root node
-  //     this._setRoot(null);
-  //   } else if (node === this.root || this._isNodeRed(node)) {
-  //     // If the node is the root or a red node, remove it directly
-  //     if (node.parent!.left === node) {
-  //       node.parent!.left = replacement;
-  //     } else {
-  //       node.parent!.right = replacement;
-  //     }
-  //
-  //     if (replacement) {
-  //       replacement.parent = node.parent!;
-  //       replacement.color = RBColor.BLACK; // Set the replacement node's color to black
-  //     }
-  //   } else {
-  //     // If the node is a black node, perform removal and repair
-  //     const sibling = this._findSibling(node);
-  //
-  //     if (node.parent!.left === node) {
-  //       node.parent!.left = replacement;
-  //     } else {
-  //       node.parent!.right = replacement;
-  //     }
-  //
-  //     if (replacement) {
-  //       replacement.parent = node.parent;
-  //     }
-  //
-  //     if (!this._isNodeRed(sibling)) {
-  //       // If the sibling node is black, perform repair
-  //       this._fixDeleteViolation(replacement || node);
-  //     }
-  //   }
-  //
-  //   if (node.parent) {
-  //     node.parent = null;
-  //   }
-  //   node.left = null;
-  //   node.right = null;
-  // }
-  //
-  // override remove(nodeOrKey: BinaryTreeNodeKey | N): BinaryTreeDeletedResult<N>[] {
-  //   const node = this.get(nodeOrKey);
-  //   const result: BinaryTreeDeletedResult<N>[] = [{deleted: undefined, needBalanced: null}];
-  //   if (!node) return result; // Node does not exist
-  //
-  //   const replacement = this._getReplacementNode(node);
-  //
-  //   const isRed = this._isNodeRed(node);
-  //   const isRedReplacement = this._isNodeRed(replacement);
-  //
-  //   // Remove the node
-  //   this._removeNode(node, replacement);
-  //
-  //   if (isRed || isRedReplacement) {
-  //     // If the removed node is red or the replacement node is red, no repair is needed
-  //     return result;
-  //   }
-  //
-  //   // Repair any violation introduced by the removal
-  //   this._fixDeleteViolation(replacement);
-  //
-  //   return result;
-  // }
-  //
-  // // Repair operation after node deletion
-  // private _fixDeleteViolation(node: N | null | undefined) {
-  //   let sibling;
-  //
-  //   while (node && node !== this.root && !this._isNodeRed(node)) {
-  //     if (node === node.parent!.left) {
-  //       sibling = node.parent!.right;
-  //
-  //       if (sibling && this._isNodeRed(sibling)) {
-  //         // Case 1: The sibling node is red
-  //         sibling.color = RBColor.BLACK;
-  //         node.parent!.color = RBColor.RED;
-  //         this._rotateLeft(node.parent!);
-  //         sibling = node.parent!.right;
-  //       }
-  //
-  //       if (!sibling) return;
-  //
-  //       if (
-  //         (!sibling.left || sibling.left.color === RBColor.BLACK) &&
-  //         (!sibling.right || sibling.right.color === RBColor.BLACK)
-  //       ) {
-  //         // Case 2: The sibling node and its children are all black
-  //         sibling.color = RBColor.RED;
-  //         node = node.parent!;
-  //       } else {
-  //         if (!(sibling.right && this._isNodeRed(sibling.right))) {
-  //           // Case 3: The sibling node is black, and the left child is red, the right child is black
-  //           sibling.left!.color = RBColor.BLACK;
-  //           sibling.color = RBColor.RED;
-  //           this._rotateRight(sibling);
-  //           sibling = node.parent!.right;
-  //         }
-  //
-  //         // Case 4: The sibling node is black, and the right child is red
-  //         if (sibling) {
-  //           sibling.color = node.parent!.color;
-  //         }
-  //         if (node.parent) {
-  //           node.parent.color = RBColor.BLACK;
-  //         }
-  //         if (sibling!.right) {
-  //           sibling!.right.color = RBColor.BLACK;
-  //         }
-  //         this._rotateLeft(node.parent!);
-  //         node = this.root;
-  //       }
-  //     } else {
-  //       // Symmetric case: The parent is the right child of the grandparent
-  //       sibling = node.parent!.left;
-  //
-  //       if (sibling && this._isNodeRed(sibling)) {
-  //         // Case 1: The sibling node is red
-  //         sibling.color = RBColor.BLACK;
-  //         node.parent!.color = RBColor.RED;
-  //         this._rotateRight(node.parent!);
-  //         sibling = node.parent!.left;
-  //       }
-  //
-  //       if (!sibling) return;
-  //
-  //       if (
-  //         (!sibling.left || sibling.left.color === RBColor.BLACK) &&
-  //         (!sibling.right || sibling.right.color === RBColor.BLACK)
-  //       ) {
-  //         // Case 2: The sibling node and its children are all black
-  //         sibling.color = RBColor.RED;
-  //         node = node.parent!;
-  //       } else {
-  //         if (!(sibling.left && this._isNodeRed(sibling.left))) {
-  //           // Case 3: The sibling node is black, and the right child is red, the left child is black
-  //           sibling.right!.color = RBColor.BLACK;
-  //           sibling.color = RBColor.RED;
-  //           this._rotateLeft(sibling);
-  //           sibling = node.parent!.left;
-  //         }
-  //
-  //         // Case 4: The sibling node is black, and the left child is red
-  //         if (sibling) {
-  //           sibling.color = node.parent!.color;
-  //         }
-  //         if (node.parent) {
-  //           node.parent.color = RBColor.BLACK;
-  //         }
-  //         if (sibling!.left) {
-  //           sibling!.left.color = RBColor.BLACK;
-  //         }
-  //         this._rotateRight(node.parent!);
-  //         node = this.root;
-  //       }
-  //     }
-  //   }
-  //
-  //   if (node) {
-  //     node.color = RBColor.BLACK;
-  //   }
-  // }
-  //
-  // private _findMin(node: N): N {
-  //   while (node.left) {
-  //     node = node.left;
-  //   }
-  //   return node;
-  // }
-  //
-  // // Get the replacement node
-  // private _getReplacementNode(node: N): N | null | undefined {
-  //   if (node.left && node.right) {
-  //     return this._findSuccessor(node);
-  //   }
-  //
-  //   if (!node.left && !node.right) {
-  //     return null; // Return a fake node with color black
-  //   }
-  //
-  //   return node.left || node.right;
-  // }
-  //
-  // // Find the successor node
-  // private _findSuccessor(node: N): N | null | undefined {
-  //   if (node.right) {
-  //     // If the node has a right child, find the minimum node in the right subtree as the successor
-  //     return this._findMin(node.right);
-  //   }
-  //
-  //   // Otherwise, traverse upward until finding the first parent whose left child is the current node
-  //   let parent = node.parent;
-  //   while (parent && node === parent.right) {
-  //     node = parent;
-  //     parent = parent.parent;
-  //   }
-  //
-  //   return parent;
-  // }
+  override add(key: BinaryTreeNodeKey, val?: N['val']): N {
+    const newNode = this.createNode(key, val);
+    if (!this.root) {
+      this._setRoot(newNode);
+      newNode.color = RBColor.BLACK;
+    } else {
+      this.insertNode(this.root, newNode);
+      this.fixInsertViolations(newNode);
+    }
+    this._setSize(this.size + 1);
+    return newNode;
+  }
+
+  private insertNode(root: N, node: N): void {
+    if (node.key < root.key) {
+      if (!root.left) {
+        root.left = node;
+        node.parent = root;
+      } else {
+        this.insertNode(root.left as N, node);
+      }
+    } else if (node.key > root.key) {
+      if (!root.right) {
+        root.right = node;
+        node.parent = root;
+      } else {
+        this.insertNode(root.right as N, node);
+      }
+    }
+  }
+
+  private fixInsertViolations(node: N): void {
+    let parent: N | undefined = undefined;
+    let grandparent: N | undefined = undefined;
+
+    while (node !== this.root && node.color === RBColor.RED && node.parent?.color === RBColor.RED) {
+      parent = node.parent as N;
+      grandparent = parent.parent as N;
+
+      if (parent === grandparent.left) {
+        const uncle = grandparent.right;
+
+        if (uncle && uncle.color === RBColor.RED) {
+          grandparent.color = RBColor.RED;
+          parent.color = RBColor.BLACK;
+          uncle.color = RBColor.BLACK;
+          node = grandparent;
+        } else {
+          if (node === parent.right) {
+            this.rotateLeft(parent);
+            node = parent;
+            parent = node.parent as N;
+          }
+
+          this.rotateRight(grandparent as N);
+
+          const tempColor = parent.color;
+          parent.color = grandparent.color;
+          grandparent.color = tempColor;
+
+          node = parent;
+        }
+      } else {
+        const uncle = grandparent.left;
+
+        if (uncle && uncle.color === RBColor.RED) {
+          grandparent.color = RBColor.RED;
+          parent.color = RBColor.BLACK;
+          uncle.color = RBColor.BLACK;
+          node = grandparent;
+        } else {
+          if (node === parent.left) {
+            this.rotateRight(parent);
+            node = parent;
+            parent = node.parent as N;
+          }
+
+          this.rotateLeft(grandparent as N);
+
+          const tempColor = parent.color;
+          parent.color = grandparent.color;
+          grandparent.color = tempColor;
+
+          node = parent;
+        }
+      }
+    }
+
+    if (this.root) this.root.color = RBColor.BLACK;
+  }
+
+  private rotateLeft(node: N): void {
+    const rightChild = node.right;
+    if (!rightChild) return;
+
+    node.right = rightChild.left;
+    if (rightChild.left) {
+      rightChild.left.parent = node;
+    }
+    rightChild.parent = node.parent;
+    if (!node.parent) {
+      this._setRoot(rightChild);
+    } else if (node === node.parent.left) {
+      node.parent.left = rightChild;
+    } else {
+      node.parent.right = rightChild;
+    }
+    rightChild.left = node;
+    node.parent = rightChild;
+  }
+
+  private rotateRight(node: N): void {
+    const leftChild = node.left;
+    if (!leftChild) return;
+
+    node.left = leftChild.right;
+    if (leftChild.right) {
+      leftChild.right.parent = node;
+    }
+    leftChild.parent = node.parent;
+    if (!node.parent) {
+      this._setRoot(leftChild);
+    } else if (node === node.parent.right) {
+      node.parent.right = leftChild;
+    } else {
+      node.parent.left = leftChild;
+    }
+    leftChild.right = node;
+    node.parent = leftChild;
+  }
+
+  remove(nodeOrKey: BinaryTreeNodeKey | N): BinaryTreeDeletedResult<N>[] {
+    const result: BinaryTreeDeletedResult<N>[] = [];
+    if (this.root) {
+      const nodeToRemove = typeof nodeOrKey === 'number' ? this.get(nodeOrKey) : nodeOrKey;
+      if (nodeToRemove) {
+        this.deleteNode(nodeToRemove);
+        this._setSize(this.size - 1);
+        result.push({deleted: nodeToRemove, needBalanced: undefined});
+      }
+    }
+    return result;
+  }
+
+  private deleteNode(node: N): void {
+    const parent = node.parent as N;
+    const isLeftChild = parent && node === parent.left;
+
+    if (!node.left && !node.right) {
+      if (!parent) {
+        this._setRoot(null);
+      } else {
+        if (!isLeftChild) {
+          parent.right = undefined;
+        } else {
+          parent.left = undefined;
+        }
+      }
+      return;
+    }
+
+    const child = node.left || node.right;
+    if (child) child.parent = parent;
+
+    if (!parent) {
+      if (child) {
+        this._setRoot(child);
+        if (node.color === RBColor.BLACK && child.color === RBColor.RED) {
+          child.color = RBColor.BLACK;
+        }
+      }
+    } else {
+      if (!isLeftChild) {
+        parent.right = child;
+      } else {
+        parent.left = child;
+      }
+
+      if (node.color === RBColor.BLACK) {
+        if (child && child.color === RBColor.RED) {
+          // 如果删除的节点是黑色，而子节点是红色，直接将子节点染成黑色
+          child.color = RBColor.BLACK;
+        } else {
+          // 否则，进入修复违反红黑树性质的情况
+          this.fixDeleteViolations(child, parent, isLeftChild);
+        }
+      }
+
+    }
+  }
+
+  private fixDeleteViolations(node: N | null | undefined, parent: N | undefined, isLeftChild: boolean): void {
+    let sibling: N | undefined;
+
+    while (node !== this.root && (!node || node.color === RBColor.BLACK)) {
+      if (isLeftChild) {
+        sibling = parent?.right as N;
+
+        if (sibling?.color === RBColor.RED) {
+          // Case 1: Sibling is red, transform into a case where sibling is black
+          sibling.color = RBColor.BLACK;
+          parent!.color = RBColor.RED;
+          this.rotateLeft(parent!);
+          sibling = parent!.right as N;
+        }
+
+        if (
+          (!sibling?.left || sibling.left.color === RBColor.BLACK) &&
+          (!sibling?.right || sibling.right.color === RBColor.BLACK)
+        ) {
+          // Case 2: Sibling and both of its children are black
+          sibling.color = RBColor.RED;
+          node = parent;
+          parent = node?.parent as N;
+          isLeftChild = node === parent?.left;
+        } else {
+          if (!sibling) {
+            break;
+          }
+
+          if (!sibling.right || sibling.right.color === RBColor.BLACK) {
+            // Case 3: Sibling is black, sibling's left child is red, and sibling's right child is black
+            sibling!.left!.color = RBColor.BLACK;
+            sibling.color = RBColor.RED;
+            this.rotateRight(sibling);
+            sibling = parent?.right as N;
+          }
+
+          // Case 4: Sibling is black, sibling's right child is red
+          sibling.color = parent?.color as RBColor;
+          parent!.color = RBColor.BLACK;
+          sibling.right!.color = RBColor.BLACK;
+          this.rotateLeft(parent!);
+          node = this.root;
+        }
+      } else {
+        sibling = parent?.left as N;
+
+        if (sibling?.color === RBColor.RED) {
+          // Case 1: Sibling is red, transform into a case where sibling is black
+          sibling.color = RBColor.BLACK;
+          parent!.color = RBColor.RED;
+          this.rotateRight(parent!);
+          sibling = parent!.left as N;
+        }
+
+        if (
+          (!sibling?.right || sibling.right.color === RBColor.BLACK) &&
+          (!sibling?.left || sibling.left.color === RBColor.BLACK)
+        ) {
+          // Case 2: Sibling and both of its children are black
+          sibling.color = RBColor.RED;
+          node = parent;
+          parent = node?.parent as N;
+          isLeftChild = node === parent?.left;
+        } else {
+          if (!sibling) {
+            break;
+          }
+
+          if (!sibling.left || sibling.left.color === RBColor.BLACK) {
+            // Case 3: Sibling is black, sibling's right child is red, and sibling's left child is black
+            sibling!.right!.color = RBColor.BLACK;
+            sibling.color = RBColor.RED;
+            this.rotateLeft(sibling);
+            sibling = parent!.left as N;
+          }
+
+          // Case 4: Sibling is black, sibling's left child is red
+          sibling.color = parent?.color as RBColor;
+          parent!.color = RBColor.BLACK;
+          sibling.left!.color = RBColor.BLACK;
+          this.rotateRight(parent!);
+          node = this.root;
+        }
+      }
+    }
+
+    if (node) {
+      node.color = RBColor.BLACK;
+    }
+  }
+
+
+  isRBTree(): boolean {
+
+    if (this.root) {
+      const rootBlackHeight = this.computeBlackHeight(this.root);
+      return rootBlackHeight > 0;
+    }
+
+    return true;
+  }
+
+  private computeBlackHeight(node: N | null | undefined): number {
+    if (!node) {
+
+      return 1;
+    }
+
+    const leftHeight = this.computeBlackHeight(node.left);
+    const rightHeight = this.computeBlackHeight(node.right);
+
+    if (leftHeight > 0 && rightHeight > 0 && leftHeight === rightHeight) {
+      return node.color === RBColor.BLACK ? leftHeight + 1 : leftHeight;
+    } else {
+      return 0;
+    }
+  }
 }

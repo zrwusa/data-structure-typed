@@ -35,7 +35,7 @@ export type BinaryTreeNodeProperty<N extends BinaryTreeNode<N['val'], N>> =
   | N
   | number
   | BinaryTreeNodeKey;
-export type BinaryTreeDeletedResult<N> = { deleted: N | null | undefined; needBalanced: N | null };
+export type BinaryTreeDeletedResult<N> = { deleted: N | null | undefined; needBalanced: N | null | undefined };
 
 export type BinaryTreeNodeProperties<N extends BinaryTreeNode<N['val'], N>> =
   BinaryTreeNodeProperty<N>[];

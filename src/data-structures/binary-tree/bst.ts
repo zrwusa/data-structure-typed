@@ -214,7 +214,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * @returns The method is returning either a BinaryTreeNodeKey or N (generic type) or null.
    */
   override get(nodeProperty: BinaryTreeNodeKey | N, propertyName: BinaryTreeNodePropertyName = 'key'): N | null {
-    return this.getNodes(nodeProperty, propertyName, true)[0] ?? null;
+    return this.getNodes(nodeProperty, propertyName, true)[0] ?? undefined;
   }
 
   /**
