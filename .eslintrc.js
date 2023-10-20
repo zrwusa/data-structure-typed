@@ -1,9 +1,14 @@
 module.exports = {
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "import",
+    "@typescript-eslint"
+  ],
   "extends": [
     "plugin:@typescript-eslint/recommended",
     "prettier"
   ],
-  ignorePatterns: ["lib/", "dist/", "umd/", "coverage/", "docs/"],
+  "ignorePatterns": ["lib/", "dist/", "umd/", "coverage/", "docs/"],
   "rules": {
     "import/no-anonymous-default-export": "off",
     "@typescript-eslint/no-unused-vars": "error",
@@ -39,9 +44,6 @@ module.exports = {
       }
     ]
   },
-  "plugins": [
-    "import"
-  ],
   "settings": {
     "import/parsers": {
       "@typescript-eslint/parser": [

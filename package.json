@@ -17,6 +17,7 @@
     "build:commonjs": "rm -rf dist && tsc --project tsconfig.prod.json",
     "build:umd": "webpack",
     "build:docs": "typedoc --out docs ./src",
+    "check": "tsc --noEmit",
     "lint:src": "eslint --fix 'src/**/*.{js,ts}'",
     "lint:test": "eslint --fix 'test/**/*.{js,ts}'",
     "lint": "npm run lint:src && npm run lint:test",

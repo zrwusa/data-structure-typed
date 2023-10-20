@@ -13,7 +13,6 @@ import type {
   BinaryTreeNodeProperty,
   BinaryTreeOptions
 } from '../../types';
-import {IBinaryTree} from '../../interfaces';
 import {
   BinaryTreeDeletedResult,
   BinaryTreeNodePropertyName,
@@ -22,6 +21,7 @@ import {
   LoopType,
   NodeOrPropertyName
 } from '../../types';
+import {IBinaryTree} from '../../interfaces';
 import {trampoline} from '../../utils';
 
 export class BinaryTreeNode<V = any, FAMILY extends BinaryTreeNode<V, FAMILY> = BinaryTreeNodeNested<V>> {
@@ -574,7 +574,7 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
   /**
    * The function `getLeftMost` returns the leftmost node in a binary tree, starting from a specified node or the root if
    * no node is specified.
-   * generic type representing a node in a binary tree), `BinaryTreeNodeKey` (a type representing the ID of a binary tree
+   * generic type representing a node in a binary tree, `BinaryTreeNodeKey` (a type representing the ID of a binary tree
    * node), or `null`.
    * @returns The function `getLeftMost` returns the leftmost node in a binary tree. If the `beginRoot` parameter is
    * provided, it starts the traversal from that node. If `beginRoot` is not provided or is `null`, it starts the traversal

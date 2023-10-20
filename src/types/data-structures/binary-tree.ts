@@ -26,8 +26,6 @@ export type BinaryTreeNodePropertyName = 'key' | 'val';
 
 export type NodeOrPropertyName = 'node' | BinaryTreeNodePropertyName;
 
-export type DFSOrderPattern = 'in' | 'pre' | 'post';
-
 export type BinaryTreeNodeKey = number;
 
 export type BinaryTreeNodeProperty<N extends BinaryTreeNode<N['val'], N>> =

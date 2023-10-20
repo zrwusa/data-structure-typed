@@ -5,13 +5,14 @@
  * @license MIT License
  */
 
-import type {HeapComparator, HeapDFSOrderPattern} from '../../types';
+import type {Comparator} from '../../types';
+import {DFSOrderPattern} from '../../types';
 
 export class Heap<E> {
   protected nodes: E[] = [];
-  private readonly comparator: HeapComparator<E>;
+  private readonly comparator: Comparator<E>;
 
-  constructor(comparator: HeapComparator<E>) {
+  constructor(comparator: Comparator<E>) {
     this.comparator = comparator;
   }
 
@@ -158,7 +159,7 @@ export class Heap<E> {
    * @param order - Traversal order parameter: 'in' (in-order), 'pre' (pre-order) or 'post' (post-order).
    * @returns An array containing elements traversed in the specified order.
    */
-  dfs(order: HeapDFSOrderPattern): E[] {
+  dfs(order: DFSOrderPattern): E[] {
     const result: E[] = [];
 
     // Auxiliary recursive function, traverses the binary heap according to the traversal order
@@ -227,7 +228,7 @@ export class Heap<E> {
    * @param comparator - Comparison function.
    * @returns A new Heap instance.
    */
-  static heapify<E>(nodes: E[], comparator: HeapComparator<E>): Heap<E> {
+  static heapify<E>(nodes: E[], comparator: Comparator<E>): Heap<E> {
     const binaryHeap = new Heap<E>(comparator);
     binaryHeap.nodes = [...nodes];
     binaryHeap.fix(); // Fix heap properties

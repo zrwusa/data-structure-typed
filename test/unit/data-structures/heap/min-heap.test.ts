@@ -1,7 +1,7 @@
-import {HeapComparator, MinHeap} from '../../../../src';
+import {Comparator, MinHeap} from '../../../../src';
 
 describe('MinHeap', () => {
-  const numberComparator: HeapComparator<number> = (a, b) => a - b;
+  const numberComparator: Comparator<number> = (a, b) => a - b;
   let minHeap: MinHeap<number>;
 
   beforeEach(() => {
