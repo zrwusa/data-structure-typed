@@ -1,2 +1,2 @@
 export * from './number';
-export * from './magnitude';
+export * from './big-o';
