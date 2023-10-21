@@ -1,5 +1,5 @@
 import {FibonacciHeap, MaxHeap, MinHeap} from '../../../../src';
-import {logBigOMetricsWrap} from "../../../utils";
+import {logBigOMetricsWrap} from '../../../utils';
 
 describe('Heap Operation Test', () => {
   it('should numeric heap work well', function () {
@@ -201,10 +201,8 @@ describe('FibonacciHeap', () => {
   });
 });
 
-
 describe('FibonacciHeap Stress Test', () => {
   it('should handle a large number of elements efficiently', () => {
-
     const testByMagnitude = (magnitude: number) => {
       const heap = new FibonacciHeap<number>();
 
@@ -229,7 +227,7 @@ describe('FibonacciHeap Stress Test', () => {
 
       // Verify that the heap is now empty
       expect(heap.size).toBe(0);
-    }
+    };
 
     testByMagnitude(1000);
 
@@ -238,13 +236,18 @@ describe('FibonacciHeap Stress Test', () => {
     //   150000, 200000, 250000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000
     // ].forEach(m => logBigOMetricsWrap<typeof testByMagnitude>(testByMagnitude, [m]));
     [
-      10, 100, 1000, 5000, 10000, 20000, 50000, 75000, 100000,
-      150000, 200000, 250000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000
-    ].forEach(m => logBigOMetricsWrap((c: number) => {
-      const result: number[] = [];
-      for (let i = 0; i < c; i++) result.push(i);
-      return result;
-    } , [m], 'loopPush'));
-
+      10, 100, 1000, 5000, 10000, 20000, 50000, 75000, 100000, 150000, 200000, 250000, 300000, 400000, 500000, 600000,
+      700000, 800000, 900000, 1000000
+    ].forEach(m =>
+      logBigOMetricsWrap(
+        (c: number) => {
+          const result: number[] = [];
+          for (let i = 0; i < c; i++) result.push(i);
+          return result;
+        },
+        [m],
+        'loopPush'
+      )
+    );
   });
 });

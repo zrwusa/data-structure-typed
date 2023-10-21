@@ -31,7 +31,7 @@ describe('UndirectedGraph Operation Test', () => {
     expect(graph.hasEdge('B', 'A')).toBe(true);
   });
 
-  it('should remove edges', () => {
+  it('should delete edges', () => {
     const vertex1 = new UndirectedVertex('A');
     const vertex2 = new UndirectedVertex('B');
     const edge = new UndirectedEdge('A', 'B');

@@ -19,7 +19,7 @@ describe('Overall BinaryTree Test', () => {
     const leftMost = bst.getLeftMost();
     leftMost?.key === 1; // true
     expect(leftMost?.key).toBe(1);
-    bst.remove(6);
+    bst.delete(6);
     bst.get(6); // null
     expect(bst.get(6)).toBeNull();
     bst.isAVLBalanced(); // true or false
@@ -52,13 +52,13 @@ describe('Overall BinaryTree Test', () => {
       ]
     );
 
-    objBST.remove(11);
+    objBST.delete(11);
 
     const avlTree = new AVLTree();
     avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
     avlTree.isAVLBalanced(); // true
     expect(avlTree.isAVLBalanced()).toBe(true); // true
-    avlTree.remove(10);
+    avlTree.delete(10);
     avlTree.isAVLBalanced(); // true
     expect(avlTree.isAVLBalanced()).toBe(true); // true
   });

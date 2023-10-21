@@ -81,13 +81,13 @@ describe('HashTable', () => {
     expect(retrievedValue).toBeUndefined();
   });
 
-  it('should remove key-value pair correctly', () => {
+  it('should delete key-value pair correctly', () => {
     const hashTable = new HashTable<string, string>();
     const key = 'testKey';
     const value = 'testValue';
 
     hashTable.set(key, value);
-    hashTable.remove(key);
+    hashTable.delete(key);
 
     const retrievedValue = hashTable.get(key);
 
@@ -128,10 +128,10 @@ describe('HashTable', () => {
     expect(hashTable.get('two')).toBe(2);
   });
 
-  it('should remove values correctly', () => {
+  it('should delete values correctly', () => {
     hashTable.set('one', 1);
     hashTable.set('two', 2);
-    hashTable.remove('one');
+    hashTable.delete('one');
 
     expect(hashTable.get('one')).toBeUndefined();
     expect(hashTable.get('two')).toBe(2);
@@ -139,7 +139,7 @@ describe('HashTable', () => {
 
   it('should handle non-existent keys correctly', () => {
     expect(hashTable.get('non-existent')).toBeUndefined();
-    hashTable.remove('non-existent'); // Removing a non-existent key should not cause errors
+    hashTable.delete('non-existent'); // Removing a non-existent key should not cause errors
   });
 
   it('should handle custom hash function correctly', () => {

@@ -16,7 +16,7 @@ describe('Deque Tests', () => {
       expect(deque.peekLast()).toBe(2);
     });
 
-    it('should remove elements from the beginning and end', () => {
+    it('should delete elements from the beginning and end', () => {
       deque.addFirst(1);
       deque.addLast(2);
       deque.pollFirst();
@@ -69,7 +69,7 @@ describe('Deque Tests', () => {
       expect(objectDeque.peekLast()).toBe('two');
     });
 
-    it('should remove elements from the beginning and end', () => {
+    it('should delete elements from the beginning and end', () => {
       objectDeque.addFirst('one');
       objectDeque.addLast('two');
       objectDeque.pollFirst();
@@ -106,7 +106,7 @@ describe('Deque Tests', () => {
       expect(arrayDeque.peekLast()).toBe(2);
     });
 
-    it('should remove elements from the beginning and end', () => {
+    it('should delete elements from the beginning and end', () => {
       arrayDeque.addFirst(1);
       arrayDeque.addLast(2);
       arrayDeque.pollFirst();

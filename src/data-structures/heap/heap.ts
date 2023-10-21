@@ -375,7 +375,7 @@ export class FibonacciHeap<E> {
    * @protected
    * @returns FibonacciHeapNode<E>[] - An array containing the nodes of the linked list.
    */
-   consumeLinkedList(head?: FibonacciHeapNode<E>): FibonacciHeapNode<E>[] {
+  consumeLinkedList(head?: FibonacciHeapNode<E>): FibonacciHeapNode<E>[] {
     const nodes: FibonacciHeapNode<E>[] = [];
     if (!head) return nodes;
 
@@ -448,7 +448,10 @@ export class FibonacciHeap<E> {
   protected consolidate(): void {
     const A: (FibonacciHeapNode<E> | undefined)[] = new Array(this.size);
     const nodes = this.consumeLinkedList(this.root);
-    let x: FibonacciHeapNode<E> | undefined, y: FibonacciHeapNode<E> | undefined, d: number, t: FibonacciHeapNode<E> | undefined;
+    let x: FibonacciHeapNode<E> | undefined,
+      y: FibonacciHeapNode<E> | undefined,
+      d: number,
+      t: FibonacciHeapNode<E> | undefined;
 
     for (const node of nodes) {
       x = node;

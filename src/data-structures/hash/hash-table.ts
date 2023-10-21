@@ -213,13 +213,13 @@ export class HashTable<K, V> {
   }
 
   /**
-   * The remove function removes a key-value pair from a hash table.
+   * The delete function removes a key-value pair from a hash table.
    * @param {K} key - The `key` parameter represents the key of the key-value pair that needs to be removed from the hash
    * table.
-   * @returns Nothing is being returned. The `remove` method has a return type of `void`, which means it does not return
+   * @returns Nothing is being returned. The `delete` method has a return type of `void`, which means it does not return
    * any value.
    */
-  remove(key: K): void {
+  delete(key: K): void {
     const index = this._hash(key);
     let currentNode = this._buckets[index];
     let prevNode: HashTableNode<K, V> | null = null;

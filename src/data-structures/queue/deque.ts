@@ -277,12 +277,12 @@ export class ArrayDeque<E> {
   }
 
   /**
-   * The remove function removes an element from an array at a specified index.
+   * The delete function removes an element from an array at a specified index.
    * @param {number} index - The index parameter specifies the position of the element to be removed from the array. It
    * is a number that represents the index of the element to be removed.
    * @returns The method is returning an array containing the removed element.
    */
-  remove(index: number) {
+  delete(index: number) {
     return this._nodes.splice(index, 1);
   }
 

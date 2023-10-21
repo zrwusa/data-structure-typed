@@ -70,12 +70,12 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
 
   /**
    * The function swaps the location of two nodes in a tree data structure.
-   * @param {N} srcNode - The source node that we want to swap with the destination node.
+   * @param {N} srcNode - The source node that we want to _swap with the destination node.
    * @param {N} destNode - The `destNode` parameter represents the destination node where the values from `srcNode` will
    * be swapped with.
    * @returns the `destNode` after swapping its values with the `srcNode`.
    */
-  override swapLocation(srcNode: N, destNode: N): N {
+  protected override _swap(srcNode: N, destNode: N): N {
     const {key, val, count, height} = destNode;
     const tempNode = this.createNode(key, val, count);
     if (tempNode) {
@@ -285,15 +285,15 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
   }
 
   /**
-   * The `remove` function removes a node from a binary search tree and returns the deleted node along with the parent
+   * The `delete` function removes a node from a binary search tree and returns the deleted node along with the parent
    * node that needs to be balanced.
    * @param {N | BinaryTreeNodeKey | null} nodeOrKey - The `nodeOrKey` parameter can be one of the following:
    * @param {boolean} [ignoreCount] - The `ignoreCount` parameter is an optional boolean parameter that determines
    * whether to ignore the count of the node being removed. If `ignoreCount` is set to `true`, the count of the node will
    * not be taken into account when removing it. If `ignoreCount` is set to `false
-   * @returns The function `remove` returns an array of `BinaryTreeDeletedResult<N>` objects.
+   * @returns The function `delete` returns an array of `BinaryTreeDeletedResult<N>` objects.
    */
-  override remove(nodeOrKey: N | BinaryTreeNodeKey, ignoreCount = false): BinaryTreeDeletedResult<N>[] {
+  override delete(nodeOrKey: N | BinaryTreeNodeKey, ignoreCount = false): BinaryTreeDeletedResult<N>[] {
     const bstDeletedResult: BinaryTreeDeletedResult<N>[] = [];
     if (!this.root) return bstDeletedResult;
 
@@ -324,7 +324,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
         const leftSubTreeRightMost = curr.left ? this.getRightMost(curr.left) : null;
         if (leftSubTreeRightMost) {
           const parentOfLeftSubTreeMax = leftSubTreeRightMost.parent;
-          orgCurrent = this.swapLocation(curr, leftSubTreeRightMost);
+          orgCurrent = this._swap(curr, leftSubTreeRightMost);
           if (parentOfLeftSubTreeMax) {
             if (parentOfLeftSubTreeMax.right === leftSubTreeRightMost) {
               parentOfLeftSubTreeMax.right = leftSubTreeRightMost.left;
@@ -515,7 +515,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * @returns The BFSCount() function returns an array of numbers, specifically the count property of each node in the
    * bfs traversal.
    */
-  BFSCount(): number[] {
+  bfsCount(): number[] {
     const nodes = super.bfs('node');
     return nodes.map(node => node.count);
   }
@@ -550,23 +550,12 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * the specified traversal pattern.
    * @param {'in' | 'pre' | 'post'} [pattern] - The pattern parameter is a string that specifies the traversal order for
    * the Depth-First Search (dfs) algorithm. It can have three possible values: 'in', 'pre', or 'post'.
+   * @param loopType  - The loopType parameter is a string that specifies the type of loop to use when traversing the
    * @returns The dfsCountIterative function returns an array of numbers, which represents the count property of each node
    * in the dfs traversal.
    */
-  dfsCountIterative(pattern: DFSOrderPattern = 'in'): number[] {
-    const nodes = super.dfsIterative(pattern, 'node');
-    return nodes.map(node => node.count);
-  }
-
-  /**
-   * The dfsCount function returns an array of counts for each node in a depth-first search traversal.
-   * @param {DFSOrderPattern} [pattern] - The pattern parameter is an optional parameter that specifies the order in which
-   * the Depth-First Search (dfs) algorithm should traverse the nodes. It can have one of the following values:
-   * @returns The dfsCount function returns an array of numbers, specifically the count property of each node in the dfs
-   * traversal.
-   */
-  dfsCount(pattern: DFSOrderPattern = 'in'): number[] {
-    const nodes = super.dfs(pattern, 'node');
+  dfsCount(pattern: DFSOrderPattern = 'in', loopType: LoopType = LoopType.ITERATIVE): number[] {
+    const nodes = super.dfs(pattern, 'node', loopType);
     return nodes.map(node => node.count);
   }
 

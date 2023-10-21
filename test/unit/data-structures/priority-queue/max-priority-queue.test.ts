@@ -27,7 +27,7 @@ describe('MaxPriorityQueue Operation Test', () => {
     expect(priorityQueue.poll()?.keyA).toBe(1);
   });
 
-  it('should return and remove the smallest element', () => {
+  it('should return and delete the smallest element', () => {
     const priorityQueue = new MaxPriorityQueue<number>();
     priorityQueue.add(5);
     priorityQueue.add(3);

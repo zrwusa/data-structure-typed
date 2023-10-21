@@ -145,6 +145,10 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
     return this._loopType;
   }
 
+  set loopType(v: LoopType) {
+    this._loopType = v;
+  }
+
   visitedKey: BinaryTreeNodeKey[] = [];
 
   visitedVal: N['val'][] = [];
@@ -152,13 +156,13 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
   visitedNode: N[] = [];
 
   /**
-   * The `swapLocation` function swaps the location of two nodes in a binary tree.
-   * @param {N} srcNode - The source node that you want to swap with the destination node.
+   * The `_swap` function swaps the location of two nodes in a binary tree.
+   * @param {N} srcNode - The source node that you want to _swap with the destination node.
    * @param {N} destNode - The `destNode` parameter represents the destination node where the values from `srcNode` will
    * be swapped to.
    * @returns The `destNode` is being returned.
    */
-  swapLocation(srcNode: N, destNode: N): N {
+  protected _swap(srcNode: N, destNode: N): N {
     const {key, val} = destNode;
     const tempNode = this.createNode(key, val);
 
@@ -300,13 +304,13 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
   }
 
   /**
-   * The `remove` function in TypeScript is used to delete a node from a binary search tree and returns an array of objects
+   * The `delete` function in TypeScript is used to delete a node from a binary search tree and returns an array of objects
    * containing the deleted node and the node that needs to be balanced.
    * @param {N | BinaryTreeNodeKey} nodeOrKey - The `nodeOrKey` parameter can be either a node object (`N`) or a binary tree
    * node ID (`BinaryTreeNodeKey`).
-   * @returns The function `remove` returns an array of `BinaryTreeDeletedResult<N>` objects.
+   * @returns The function `delete` returns an array of `BinaryTreeDeletedResult<N>` objects.
    */
-  remove(nodeOrKey: N | BinaryTreeNodeKey): BinaryTreeDeletedResult<N>[] {
+  delete(nodeOrKey: N | BinaryTreeNodeKey): BinaryTreeDeletedResult<N>[] {
     const bstDeletedResult: BinaryTreeDeletedResult<N>[] = [];
     if (!this.root) return bstDeletedResult;
 
@@ -333,7 +337,7 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
       const leftSubTreeRightMost = curr.left ? this.getRightMost(curr.left) : null;
       if (leftSubTreeRightMost) {
         const parentOfLeftSubTreeMax = leftSubTreeRightMost.parent;
-        orgCurrent = this.swapLocation(curr, leftSubTreeRightMost);
+        orgCurrent = this._swap(curr, leftSubTreeRightMost);
         if (parentOfLeftSubTreeMax) {
           if (parentOfLeftSubTreeMax.right === leftSubTreeRightMost)
             parentOfLeftSubTreeMax.right = leftSubTreeRightMost.left;
@@ -683,12 +687,12 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
 
   /**
    * The function checks if a binary search tree is valid by traversing it either recursively or iteratively.
-   * @param {N | null} node - The `node` parameter represents the root node of a binary search tree (BST).
+   * @param {N | null} subTreeRoot - The `node` parameter represents the root node of a binary search tree (BST).
    * @returns a boolean value.
    */
-  isSubtreeBST(node: N | null): boolean {
+  isSubtreeBST(subTreeRoot: N | null): boolean {
     // TODO there is a bug
-    if (!node) return true;
+    if (!subTreeRoot) return true;
 
     if (this._loopType === LoopType.RECURSIVE) {
       const dfs = (cur: N | null | undefined, min: BinaryTreeNodeKey, max: BinaryTreeNodeKey): boolean => {
@@ -697,11 +701,11 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
         return dfs(cur.left, min, cur.key) && dfs(cur.right, cur.key, max);
       };
 
-      return dfs(node, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
+      return dfs(subTreeRoot, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
     } else {
       const stack = [];
       let prev = Number.MIN_SAFE_INTEGER,
-        curr: N | null | undefined = node;
+        curr: N | null | undefined = subTreeRoot;
       while (curr || stack.length > 0) {
         while (curr) {
           stack.push(curr);
@@ -813,38 +817,21 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
   }
 
   /**
-   * The function `subTreeAdd` adds a delta value to a specified property of each node in a subtree.
+   * The function `subTreeForeach` adds a delta value to a specified property of each node in a subtree.
    * @param {N | BinaryTreeNodeKey | null} subTreeRoot - The `subTreeRoot` parameter represents the root node of a binary
    * tree or the ID of a node in the binary tree. It can also be `null` if there is no subtree to add to.
-   * @param {number} delta - The `delta` parameter is a number that represents the amount by which the property value of
-   * each node in the subtree should be incremented.
-   * @param {BinaryTreeNodePropertyName} [propertyName] - The `propertyName` parameter is an optional parameter that
+   * @param callBack - The `callBack` parameter is a function that takes a node as a parameter and returns a number.
    * specifies the property of the binary tree node that should be modified. If not provided, it defaults to 'key'.
    * @returns a boolean value.
    */
-  subTreeAdd(
-    subTreeRoot: N | BinaryTreeNodeKey | null,
-    delta: number,
-    propertyName: BinaryTreeNodePropertyName = 'key'
-  ): boolean {
+  subTreeForeach(subTreeRoot: N | BinaryTreeNodeKey | null, callback: (node: N) => any): boolean {
     if (typeof subTreeRoot === 'number') subTreeRoot = this.get(subTreeRoot, 'key');
 
     if (!subTreeRoot) return false;
 
-    const _addByProperty = (cur: N) => {
-      switch (propertyName) {
-        case 'key':
-          cur.key += delta;
-          break;
-        default:
-          cur.key += delta;
-          break;
-      }
-    };
-
     if (this._loopType === LoopType.RECURSIVE) {
       const _traverse = (cur: N) => {
-        _addByProperty(cur);
+        callback(cur);
         cur.left && _traverse(cur.left);
         cur.right && _traverse(cur.right);
       };
@@ -856,7 +843,7 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
       while (stack.length > 0) {
         const cur = stack.pop()!;
 
-        _addByProperty(cur);
+        callback(cur);
         cur.right && stack.push(cur.right);
         cur.left && stack.push(cur.left);
       }
@@ -903,6 +890,7 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
     const queue: Array<N | null | undefined> = [this.root];
 
     while (queue.length !== 0) {
+      // TODO Array.shift is not efficient, consider using Deque
       const cur = queue.shift();
       if (cur) {
         this._accumulatedByPropertyName(cur, nodeOrPropertyName);
@@ -931,221 +919,106 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
    * Performs a depth-first search (dfs) traversal on a binary tree and accumulates properties of each node based on the specified property name.
    * @param {'in' | 'pre' | 'post'} [pattern] - The traversal pattern: 'in' (in-order), 'pre' (pre-order), or 'post' (post-order).
    * @param {string} nodeOrPropertyName - The name of the property to accumulate.
+   * @param loopType - The type of loop to use for the depth-first search traversal. The default value is `LoopType.ITERATIVE`.
    * @returns An array of values corresponding to the specified property.
    */
-  dfs(pattern: DFSOrderPattern, nodeOrPropertyName: 'key'): BinaryTreeNodeKey[];
+  dfs(pattern: DFSOrderPattern, nodeOrPropertyName: 'key', loopType?: LoopType): BinaryTreeNodeKey[];
 
   /**
    * Performs a depth-first search (dfs) traversal on a binary tree and accumulates the 'val' property of each node.
    * @param {'in' | 'pre' | 'post'} [pattern] - The traversal pattern: 'in' (in-order), 'pre' (pre-order), or 'post' (post-order).
    * @param {'val'} nodeOrPropertyName - The name of the property to accumulate.
+   * @param loopType - The type of loop to use for the depth-first search traversal. The default value is `LoopType.ITERATIVE`.
    * @returns An array of 'val' properties from each node.
    */
-  dfs(pattern: DFSOrderPattern, nodeOrPropertyName: 'val'): N[];
+  dfs(pattern: DFSOrderPattern, nodeOrPropertyName: 'val', loopType?: LoopType): N[];
 
   /**
    * Performs a depth-first search (dfs) traversal on a binary tree and accumulates nodes themselves.
    * @param {'in' | 'pre' | 'post'} [pattern] - The traversal pattern: 'in' (in-order), 'pre' (pre-order), or 'post' (post-order).
    * @param {'node'} nodeOrPropertyName - The name of the property to accumulate.
+   * @param loopType - The type of loop to use for the depth-first search traversal. The default value is `LoopType.ITERATIVE`.
    * @returns An array of binary tree nodes.
    */
-  dfs(pattern: DFSOrderPattern, nodeOrPropertyName: 'node'): N[];
+  dfs(pattern: DFSOrderPattern, nodeOrPropertyName: 'node', loopType?: LoopType): N[];
 
   /**
    * The dfs function performs a depth-first search traversal on a binary tree and returns the accumulated properties of
    * each node based on the specified pattern and property name.
    * @param {'in' | 'pre' | 'post'} [pattern] - The traversal pattern: 'in' (in-order), 'pre' (pre-order), or 'post' (post-order).
    * @param {NodeOrPropertyName} [nodeOrPropertyName] - The name of a property of the nodes in the binary tree. This property will be used to accumulate values during the depth-first search traversal. If no `nodeOrPropertyName` is provided, the default value is `'key'`.
+   * @param loopType - The type of loop to use for the depth-first search traversal. The default value is `LoopType.ITERATIVE`.
    * @returns an instance of the BinaryTreeNodeProperties class, which contains the accumulated properties of the binary tree nodes based on the specified pattern and node or property name.
    */
-  dfs(pattern: DFSOrderPattern = 'in', nodeOrPropertyName: NodeOrPropertyName = 'key'): BinaryTreeNodeProperties<N> {
+  dfs(
+    pattern: DFSOrderPattern = 'in',
+    nodeOrPropertyName: NodeOrPropertyName = 'key',
+    loopType: LoopType = LoopType.ITERATIVE
+  ): BinaryTreeNodeProperties<N> {
     this._clearResults();
-    const _traverse = (node: N) => {
-      switch (pattern) {
-        case 'in':
-          if (node.left) _traverse(node.left);
-          this._accumulatedByPropertyName(node, nodeOrPropertyName);
-          if (node.right) _traverse(node.right);
-          break;
-        case 'pre':
-          this._accumulatedByPropertyName(node, nodeOrPropertyName);
-          if (node.left) _traverse(node.left);
-          if (node.right) _traverse(node.right);
-          break;
-        case 'post':
-          if (node.left) _traverse(node.left);
-          if (node.right) _traverse(node.right);
-          this._accumulatedByPropertyName(node, nodeOrPropertyName);
-          break;
-      }
-    };
+    if (loopType === LoopType.RECURSIVE) {
+      const _traverse = (node: N) => {
+        switch (pattern) {
+          case 'in':
+            if (node.left) _traverse(node.left);
+            this._accumulatedByPropertyName(node, nodeOrPropertyName);
+            if (node.right) _traverse(node.right);
+            break;
+          case 'pre':
+            this._accumulatedByPropertyName(node, nodeOrPropertyName);
+            if (node.left) _traverse(node.left);
+            if (node.right) _traverse(node.right);
+            break;
+          case 'post':
+            if (node.left) _traverse(node.left);
+            if (node.right) _traverse(node.right);
+            this._accumulatedByPropertyName(node, nodeOrPropertyName);
+            break;
+        }
+      };
 
-    this.root && _traverse(this.root);
+      this.root && _traverse(this.root);
+    } else {
+      if (!this.root) return this._getResultByPropertyName(nodeOrPropertyName);
+      // 0: visit, 1: print
+      const stack: {opt: 0 | 1; node: N | null | undefined}[] = [{opt: 0, node: this.root}];
+
+      while (stack.length > 0) {
+        const cur = stack.pop();
+        if (!cur || !cur.node) continue;
+        if (cur.opt === 1) {
+          this._accumulatedByPropertyName(cur.node, nodeOrPropertyName);
+        } else {
+          switch (pattern) {
+            case 'in':
+              stack.push({opt: 0, node: cur.node.right});
+              stack.push({opt: 1, node: cur.node});
+              stack.push({opt: 0, node: cur.node.left});
+              break;
+            case 'pre':
+              stack.push({opt: 0, node: cur.node.right});
+              stack.push({opt: 0, node: cur.node.left});
+              stack.push({opt: 1, node: cur.node});
+              break;
+            case 'post':
+              stack.push({opt: 1, node: cur.node});
+              stack.push({opt: 0, node: cur.node.right});
+              stack.push({opt: 0, node: cur.node.left});
+              break;
+            default:
+              stack.push({opt: 0, node: cur.node.right});
+              stack.push({opt: 1, node: cur.node});
+              stack.push({opt: 0, node: cur.node.left});
+              break;
+          }
+        }
+      }
+    }
+
     return this._getResultByPropertyName(nodeOrPropertyName);
   }
 
   // --- start additional methods ---
-
-  /**
-   * Performs an iterative depth-first search (dfs) traversal on a binary tree and accumulates properties of each node based on their 'key' property.
-   * @returns An array of binary tree node IDs.
-   */
-  dfsIterative(): BinaryTreeNodeKey[];
-
-  /**
-   * Performs an iterative depth-first search (dfs) traversal on a binary tree and accumulates properties of each node based on their 'key' property.
-   * @param {'in' | 'pre' | 'post'} [pattern] - The traversal pattern: 'in' (in-order), 'pre' (pre-order), or 'post' (post-order).
-   * @returns An array of values corresponding to the specified property.
-   */
-  dfsIterative(pattern: DFSOrderPattern): BinaryTreeNodeKey[];
-
-  /**
-   * Performs an iterative depth-first search (dfs) traversal on a binary tree and accumulates properties of each node based on the specified property name.
-   * @param {'in' | 'pre' | 'post'} [pattern] - The traversal pattern: 'in' (in-order), 'pre' (pre-order), or 'post' (post-order).
-   * @param {string} nodeOrPropertyName - The name of the property to accumulate.
-   * @returns An array of values corresponding to the specified property.
-   */
-  dfsIterative(pattern: DFSOrderPattern, nodeOrPropertyName: 'key'): BinaryTreeNodeKey[];
-
-  /**
-   * Performs an iterative depth-first search (dfs) traversal on a binary tree and accumulates the 'val' property of each node.
-   * @param {'in' | 'pre' | 'post'} [pattern] - The traversal pattern: 'in' (in-order), 'pre' (pre-order), or 'post' (post-order).
-   * @param {'val'} nodeOrPropertyName - The name of the property to accumulate.
-   * @returns An array of 'val' properties from each node.
-   */
-  dfsIterative(pattern: DFSOrderPattern, nodeOrPropertyName: 'val'): N['val'][];
-
-  /**
-   * Performs an iterative depth-first search (dfs) traversal on a binary tree and accumulates nodes themselves.
-   * @param {'in' | 'pre' | 'post'} [pattern] - The traversal pattern: 'in' (in-order), 'pre' (pre-order), or 'post' (post-order).
-   * @param {'node'} nodeOrPropertyName - The name of the property to accumulate.
-   * @returns An array of binary tree nodes.
-   */
-  dfsIterative(pattern: DFSOrderPattern, nodeOrPropertyName: 'node'): N[];
-
-  /**
-   * The dfsIterative function performs an iterative depth-first search traversal on a binary tree, with the option to
-   * specify the traversal pattern and the property name to accumulate results by.
-   * @param {'in' | 'pre' | 'post'} [pattern] - The traversal pattern: 'in' (in-order), 'pre' (pre-order), or 'post' (post-order).
-   * @param {NodeOrPropertyName} [nodeOrPropertyName] - The name of a property of the nodes in the binary tree. This property will be used to accumulate values during the depth-first search traversal. By default, it is set to `'key'`.
-   * @returns An object of type BinaryTreeNodeProperties<N>.
-   */
-  dfsIterative(
-    pattern: DFSOrderPattern = 'in',
-    nodeOrPropertyName: NodeOrPropertyName = 'key'
-  ): BinaryTreeNodeProperties<N> {
-    this._clearResults();
-    if (!this.root) return this._getResultByPropertyName(nodeOrPropertyName);
-    // 0: visit, 1: print
-    const stack: {opt: 0 | 1; node: N | null | undefined}[] = [{opt: 0, node: this.root}];
-
-    while (stack.length > 0) {
-      const cur = stack.pop();
-      if (!cur || !cur.node) continue;
-      if (cur.opt === 1) {
-        this._accumulatedByPropertyName(cur.node, nodeOrPropertyName);
-      } else {
-        switch (pattern) {
-          case 'in':
-            stack.push({opt: 0, node: cur.node.right});
-            stack.push({opt: 1, node: cur.node});
-            stack.push({opt: 0, node: cur.node.left});
-            break;
-          case 'pre':
-            stack.push({opt: 0, node: cur.node.right});
-            stack.push({opt: 0, node: cur.node.left});
-            stack.push({opt: 1, node: cur.node});
-            break;
-          case 'post':
-            stack.push({opt: 1, node: cur.node});
-            stack.push({opt: 0, node: cur.node.right});
-            stack.push({opt: 0, node: cur.node.left});
-            break;
-          default:
-            stack.push({opt: 0, node: cur.node.right});
-            stack.push({opt: 1, node: cur.node});
-            stack.push({opt: 0, node: cur.node.left});
-            break;
-        }
-      }
-    }
-
-    return this._getResultByPropertyName(nodeOrPropertyName);
-  }
-
-  /**
-   * Performs a level-order traversal on a binary tree starting from the specified node and accumulates properties of each node based on their 'key' property.
-   * @returns An array of binary tree node IDs.
-   */
-  levelIterative(): BinaryTreeNodeKey[];
-
-  /**
-   * Performs a level-order traversal on a binary tree starting from the specified node and accumulates properties of each node based on their 'key' property.
-   * @param {N | null} node - The starting node for the level order traversal. If null, the root node of the tree is used as the starting node.
-   * @returns An array of binary tree node IDs.
-   */
-  levelIterative(node: N | null): BinaryTreeNodeKey[];
-
-  /**
-   * Performs a level-order traversal on a binary tree starting from the specified node and accumulates properties of each node based on the specified property name.
-   * @param {N | null} node - The starting node for the level order traversal. If null, the root node of the tree is used as the starting node.
-   * @param {string} nodeOrPropertyName - The name of the property to accumulate.
-   * @returns An array of values corresponding to the specified property.
-   */
-  levelIterative(node: N | null, nodeOrPropertyName: 'key'): BinaryTreeNodeKey[];
-
-  /**
-   * Performs a level-order traversal on a binary tree starting from the specified node and accumulates the 'val' property of each node.
-   * @param {N | null} node - The starting node for the level order traversal. If null, the root node of the tree is used as the starting node.
-   * @param {'val'} nodeOrPropertyName - The name of the property to accumulate.
-   * @returns An array of 'val' properties from each node.
-   */
-  levelIterative(node: N | null, nodeOrPropertyName: 'val'): N['val'][];
-
-  /**
-   * Performs a level-order traversal on a binary tree starting from the specified node and accumulates nodes themselves.
-   * @param {N | null} node - The starting node for the level order traversal. If null, the root node of the tree is used as the starting node.
-   * @param {'node'} nodeOrPropertyName - The name of the property to accumulate.
-   * @returns An array of binary tree nodes.
-   */
-  levelIterative(node: N | null, nodeOrPropertyName: 'node'): N[];
-
-  /**
-   * The `levelIterative` function performs a level-order traversal on a binary tree and returns the values of the nodes
-   * in an array, based on a specified property name.
-   * @param {N | null} node - The `node` parameter is a BinaryTreeNode object representing the starting
-   * node for the level order traversal. It can be null if no specific node is provided, in which case the root node of
-   * the tree is used as the starting node.
-   * @param {NodeOrPropertyName} [nodeOrPropertyName] - The `nodeOrPropertyName` parameter is an optional parameter that
-   * can be either a `BinaryTreeNode` property name or the string `'key'`. If a property name is provided, the function
-   * will accumulate results based on that property. If no property name is provided, the function will default to
-   * accumulating results based on the 'key' property.
-   * @returns An object of type `BinaryTreeNodeProperties<N>`.
-   */
-  levelIterative(
-    node: N | null = this.root,
-    nodeOrPropertyName: NodeOrPropertyName = 'key'
-  ): BinaryTreeNodeProperties<N> {
-    if (!node) return [];
-
-    this._clearResults();
-    const queue: N[] = [node];
-
-    while (queue.length > 0) {
-      const cur = queue.shift();
-      if (cur) {
-        this._accumulatedByPropertyName(cur, nodeOrPropertyName);
-        if (cur.left) {
-          queue.push(cur.left);
-        }
-        if (cur.right) {
-          queue.push(cur.right);
-        }
-      }
-    }
-
-    return this._getResultByPropertyName(nodeOrPropertyName);
-  }
 
   /**
    * Collects nodes from a binary tree by a specified property and organizes them into levels.
@@ -1423,14 +1296,6 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
     } else {
       return;
     }
-  }
-
-  /**
-   * The function sets the loop type for a protected variable.
-   * @param {LoopType} value - The value parameter is of type LoopType.
-   */
-  protected _setLoopType(value: LoopType) {
-    this._loopType = value;
   }
 
   /**

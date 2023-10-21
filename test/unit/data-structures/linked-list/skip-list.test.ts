@@ -25,12 +25,12 @@ describe('SkipList', () => {
     expect(skipList.get(0)).toBeUndefined();
   });
 
-  it('should remove elements correctly', () => {
+  it('should delete elements correctly', () => {
     skipList.add(1, 'One');
     skipList.add(2, 'Two');
     skipList.add(3, 'Three');
 
-    skipList.remove(2);
+    skipList.delete(2);
 
     expect(skipList.get(2)).toBeUndefined(); // 修改这里的断言
   });
