@@ -22,6 +22,7 @@ export const bigO = {
   FACTORIAL: 10000
 };
 
+
 function findPotentialN(input: any): number {
   let longestArray: any[] = [];
   let mostProperties: { [key: string]: any } = {};
@@ -79,7 +80,7 @@ function linearRegression(x: number[], y: number[]) {
 function estimateBigO(runtimes: number[], dataSizes: number[]): string {
   // Make sure the input runtimes and data sizes have the same length
   if (runtimes.length !== dataSizes.length) {
-    return "输入数组的长度不匹配";
+    return "Lengths of input arrays do not match";
   }
 
   // Create an array to store the computational complexity of each data point
@@ -131,6 +132,33 @@ function estimateBigO(runtimes: number[], dataSizes: number[]): string {
 
 const methodLogs: Map<string, [number, number][] > = new Map();
 
+export function logBigOMetricsWrap<F extends AnyFunction>(fn: F, args: Parameters<F>, fnName: string) {
+    const startTime = performance.now();
+    const result = fn(args);
+    const endTime = performance.now();
+    const runTime = endTime - startTime;
+    const methodName = `${fnName}`;
+    if (!methodLogs.has(methodName)) {
+      methodLogs.set(methodName, []);
+    }
+
+    const methodLog = methodLogs.get(methodName);
+
+    const maxDataSize = args.length === 1 && typeof args[0] === "number" ? args[0] : findPotentialN(args);
+    if (methodLog) {
+      methodLog.push([runTime, maxDataSize]);
+
+      if (methodLog.length >= 20) {
+        console.log('triggered', methodName, methodLog);
+        const bigO = estimateBigO(methodLog.map(([runTime,]) => runTime), methodLog.map(([runTime,]) => runTime));
+        console.log(`Estimated Big O: ${bigO}`);
+        methodLogs.delete(methodName)
+      }
+    }
+
+    return result;
+}
+
 export function logBigOMetrics(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
   const originalMethod = descriptor.value;
 
@@ -163,31 +191,4 @@ export function logBigOMetrics(target: any, propertyKey: string, descriptor: Pro
   };
 
   return descriptor;
-}
-
-export function logBigOMetricsWrap<F extends AnyFunction>(fn: F, args: Parameters<F>, fnName: string) {
-    const startTime = performance.now();
-    const result = fn(args);
-    const endTime = performance.now();
-    const runTime = endTime - startTime;
-    const methodName = `${fnName}`;
-    if (!methodLogs.has(methodName)) {
-      methodLogs.set(methodName, []);
-    }
-
-    const methodLog = methodLogs.get(methodName);
-
-    const maxDataSize = args.length === 1 && typeof args[0] === "number" ? args[0] : findPotentialN(args);
-    if (methodLog) {
-      methodLog.push([runTime, maxDataSize]);
-
-      if (methodLog.length >= 20) {
-        console.log('triggered', methodName, methodLog);
-        const bigO = estimateBigO(methodLog.map(([runTime,]) => runTime), methodLog.map(([runTime,]) => runTime));
-        console.log(`Estimated Big O: ${bigO}`);
-        methodLogs.delete(methodName)
-      }
-    }
-
-    return result;
 }

@@ -34,7 +34,7 @@
     "changelog": "auto-changelog",
     "coverage:badge": "istanbul-badges-readme",
     "ci": "env && npm run lint && npm run build && npm run update:individuals && npm run test && git fetch --tags && npm run changelog",
-    "publish:all": "npm run ci && npm publish && sh /scripts/publish_all_subs.sh && sh /scripts/publish_docs.sh"
+    "publish:all": "npm run ci && npm publish && sh scripts/publish_all_subs.sh && sh scripts/publish_docs.sh"
   },
   "repository": {
     "type": "git",

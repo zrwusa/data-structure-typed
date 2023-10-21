@@ -8,10 +8,11 @@ All notable changes to this project will be documented in this file.
 - [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - [`auto-changelog`](https://github.com/CookPete/auto-changelog)
 
-## [v1.36.7](https://github.com/zrwusa/data-structure-typed/compare/v1.35.0...main) (upcoming)
+## [v1.36.8](https://github.com/zrwusa/data-structure-typed/compare/v1.35.0...main) (upcoming)
 
 ### Changes
 
+- [heap] fibonacci heap implemented. [test] big O estimate. [project] n… [`#15`](https://github.com/zrwusa/data-structure-typed/pull/15)
 - [rbtree] implemented, but with bugs [`#13`](https://github.com/zrwusa/data-structure-typed/pull/13)
 - [trie] renamed ambiguous methods and add comments to all methods. [`#12`](https://github.com/zrwusa/data-structure-typed/pull/12)
 - [binarytree] modified the getDepth method to adhere to the proper def… [`#11`](https://github.com/zrwusa/data-structure-typed/pull/11)
