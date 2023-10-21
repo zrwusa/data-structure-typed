@@ -23,6 +23,7 @@ import {
 } from '../../types';
 import {IBinaryTree} from '../../interfaces';
 import {trampoline} from '../../utils';
+import {Queue} from '../queue';
 
 export class BinaryTreeNode<V = any, FAMILY extends BinaryTreeNode<V, FAMILY> = BinaryTreeNodeNested<V>> {
   /**
@@ -210,8 +211,8 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
    */
   add(keyOrNode: BinaryTreeNodeKey | N | null, val?: N['val']): N | null | undefined {
     const _bfs = (root: N, newNode: N | null): N | undefined | null => {
-      const queue: Array<N | null> = [root];
-      while (queue.length > 0) {
+      const queue = new Queue<N | null>([root]);
+      while (queue.size > 0) {
         const cur = queue.shift();
         if (cur) {
           if (newNode && cur.key === newNode.key) return;
@@ -509,8 +510,8 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
 
       _traverse(this.root);
     } else {
-      const queue: N[] = [this.root];
-      while (queue.length > 0) {
+      const queue = new Queue<N>([this.root]);
+      while (queue.size > 0) {
         const cur = queue.shift();
         if (cur) {
           if (this._pushByPropertyNameStopOrNot(cur, result, nodeProperty, propertyName, onlyOne)) return result;
@@ -763,64 +764,10 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
   }
 
   /**
-   * The function `subTreeSum` calculates the sum of a specified property in a binary tree or subtree.
-   * @param {N | BinaryTreeNodeKey | null} subTreeRoot - The `subTreeRoot` parameter represents the root node of a binary
-   * tree or the ID of a binary tree node. It can also be `null` if there is no subtree.
-   * @param {BinaryTreeNodePropertyName} [propertyName] - propertyName is an optional parameter that specifies the
-   * property of the binary tree node to use for calculating the sum. It can be either 'key' or 'val'. If propertyName is
-   * not provided, it defaults to 'key'.
-   * @returns a number, which is the sum of the values of the specified property in the subtree rooted at `subTreeRoot`.
-   */
-  subTreeSum(subTreeRoot: N | BinaryTreeNodeKey | null, propertyName: BinaryTreeNodePropertyName = 'key'): number {
-    if (typeof subTreeRoot === 'number') subTreeRoot = this.get(subTreeRoot, 'key');
-
-    if (!subTreeRoot) return 0;
-
-    let sum = 0;
-
-    const _sumByProperty = (cur: N) => {
-      let needSum: number;
-      switch (propertyName) {
-        case 'key':
-          needSum = cur.key;
-          break;
-        case 'val':
-          needSum = typeof cur.val === 'number' ? cur.val : 0;
-          break;
-        default:
-          needSum = cur.key;
-          break;
-      }
-      return needSum;
-    };
-
-    if (this._loopType === LoopType.RECURSIVE) {
-      const _traverse = (cur: N): void => {
-        sum += _sumByProperty(cur);
-        cur.left && _traverse(cur.left);
-        cur.right && _traverse(cur.right);
-      };
-
-      _traverse(subTreeRoot);
-    } else {
-      const stack: N[] = [subTreeRoot];
-
-      while (stack.length > 0) {
-        const cur = stack.pop()!;
-        sum += _sumByProperty(cur);
-        cur.right && stack.push(cur.right);
-        cur.left && stack.push(cur.left);
-      }
-    }
-
-    return sum;
-  }
-
-  /**
    * The function `subTreeForeach` adds a delta value to a specified property of each node in a subtree.
    * @param {N | BinaryTreeNodeKey | null} subTreeRoot - The `subTreeRoot` parameter represents the root node of a binary
    * tree or the ID of a node in the binary tree. It can also be `null` if there is no subtree to add to.
-   * @param callBack - The `callBack` parameter is a function that takes a node as a parameter and returns a number.
+   * @param callback - The `callback` parameter is a function that takes a node as a parameter and returns a value.
    * specifies the property of the binary tree node that should be modified. If not provided, it defaults to 'key'.
    * @returns a boolean value.
    */
@@ -887,10 +834,9 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
    */
   bfs(nodeOrPropertyName: NodeOrPropertyName = 'key'): BinaryTreeNodeProperties<N> {
     this._clearResults();
-    const queue: Array<N | null | undefined> = [this.root];
+    const queue = new Queue<N | null | undefined>([this.root]);
 
-    while (queue.length !== 0) {
-      // TODO Array.shift is not efficient, consider using Deque
+    while (queue.size !== 0) {
       const cur = queue.shift();
       if (cur) {
         this._accumulatedByPropertyName(cur, nodeOrPropertyName);

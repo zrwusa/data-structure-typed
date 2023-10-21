@@ -197,3 +197,45 @@ describe('LinkedListQueue', () => {
 
   // Add more test cases for other methods of LinkedListQueue.
 });
+
+describe('Queue Performance Test', () => {
+  const dataSize = 10000;
+  it('should numeric queue be efficient', function () {
+    const startTime = performance.now();
+    const queue = new Queue<number>();
+    for (let i = 0; i < dataSize; i++) {
+      queue.enqueue(i);
+    }
+    for (let i = 0; i < dataSize; i++) {
+      queue.dequeue();
+    }
+    console.log(`Queue Performance Test: ${performance.now() - startTime} ms`);
+    expect(performance.now() - startTime).toBeLessThan(bigO.LINEAR * 100);
+  });
+
+  it('should numeric Array be more efficient than Queue when the data size is 10000', function () {
+    const startTime2 = performance.now();
+    const queue2: number[] = [];
+    for (let i = 0; i < dataSize; i++) {
+      queue2.push(i);
+    }
+    for (let i = 0; i < dataSize; i++) {
+      queue2.shift();
+    }
+    console.log(`Array Performance Test: ${performance.now() - startTime2} ms`);
+    expect(performance.now() - startTime2).toBeLessThan(bigO.CUBED * 100);
+  });
+
+  it('should numeric LinkedListQueue be efficient', function () {
+    const startTime = performance.now();
+    const queue = new LinkedListQueue<number>();
+    for (let i = 0; i < dataSize; i++) {
+      queue.enqueue(i);
+    }
+    for (let i = 0; i < dataSize; i++) {
+      queue.dequeue();
+    }
+    console.log(`LinkedListQueue Performance Test: ${performance.now() - startTime} ms`);
+    expect(performance.now() - startTime).toBeLessThan(bigO.LINEAR * 100);
+  });
+});

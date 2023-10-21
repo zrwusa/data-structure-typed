@@ -15,6 +15,7 @@ import type {
 import {CP, LoopType} from '../../types';
 import {BinaryTree, BinaryTreeNode} from './binary-tree';
 import {IBinaryTree} from '../../interfaces';
+import {Queue} from '../queue';
 
 export class BSTNode<V = any, FAMILY extends BSTNode<V, FAMILY> = BSTNodeNested<V>> extends BinaryTreeNode<V, FAMILY> {
   constructor(key: BinaryTreeNodeKey, val?: V) {
@@ -59,7 +60,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * @returns The function `add` returns the inserted node (`inserted`) which can be of type `N`, `null`, or `undefined`.
    */
   override add(keyOrNode: BinaryTreeNodeKey | N | null, val?: N['val']): N | null | undefined {
-    // TODO support node as a param
+    // TODO support node as a parameter
     let inserted: N | null = null;
     let newNode: N | null = null;
     if (keyOrNode instanceof BSTNode) {
@@ -137,8 +138,9 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
   override addMany(
     keysOrNodes: (BinaryTreeNodeKey | null)[] | (N | null)[],
     data?: N['val'][],
-    isBalanceAdd = false
+    isBalanceAdd = true
   ): (N | null | undefined)[] {
+    // TODO this addMany function is inefficient, it should be optimized
     function hasNoNull(arr: (BinaryTreeNodeKey | null)[] | (N | null)[]): arr is BinaryTreeNodeKey[] | N[] {
       return arr.indexOf(null) === -1;
     }
@@ -265,8 +267,8 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
 
       _traverse(this.root);
     } else {
-      const queue: N[] = [this.root];
-      while (queue.length > 0) {
+      const queue = new Queue<N>([this.root]);
+      while (queue.size > 0) {
         const cur = queue.shift();
         if (cur) {
           if (this._pushByPropertyNameStopOrNot(cur, result, nodeProperty, propertyName, onlyOne)) return result;
@@ -285,133 +287,47 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
   }
 
   // --- start additional functions
-  /**
-   * The `lesserSum` function calculates the sum of property values in a binary tree for nodes that have a property value
-   * less than a given node.
-   * @param {N | BinaryTreeNodeKey | null} beginNode - The `beginNode` parameter can be one of the following:
-   * @param {BinaryTreeNodePropertyName} [propertyName] - The `propertyName` parameter is an optional parameter that
-   * specifies the property name to use for calculating the sum. If not provided, it defaults to `'key'`.
-   * @returns The function `lesserSum` returns a number, which represents the sum of the values of the nodes in the
-   * binary tree that have a lesser value than the specified `beginNode` based on the `propertyName`.
-   */
-  lesserSum(beginNode: N | BinaryTreeNodeKey | null, propertyName: BinaryTreeNodePropertyName = 'key'): number {
-    if (typeof beginNode === 'number') beginNode = this.get(beginNode, 'key');
-    if (!beginNode) return 0;
-    if (!this.root) return 0;
-    const key = beginNode.key;
-    const getSumByPropertyName = (cur: N) => {
-      let needSum: number;
-      switch (propertyName) {
-        case 'key':
-          needSum = cur.key;
-          break;
-        default:
-          needSum = cur.key;
-          break;
-      }
-      return needSum;
-    };
-
-    let sum = 0;
-
-    if (this.loopType === LoopType.RECURSIVE) {
-      const _traverse = (cur: N): void => {
-        const compared = this._compare(cur.key, key);
-        if (compared === CP.eq) {
-          if (cur.right) sum += this.subTreeSum(cur.right, propertyName);
-          return;
-        } else if (compared === CP.lt) {
-          if (cur.left) sum += this.subTreeSum(cur.left, propertyName);
-          sum += getSumByPropertyName(cur);
-          if (cur.right) _traverse(cur.right);
-          else return;
-        } else {
-          if (cur.left) _traverse(cur.left);
-          else return;
-        }
-      };
-
-      _traverse(this.root);
-    } else {
-      const queue: N[] = [this.root];
-      while (queue.length > 0) {
-        const cur = queue.shift();
-        if (cur) {
-          const compared = this._compare(cur.key, key);
-          if (compared === CP.eq) {
-            if (cur.right) sum += this.subTreeSum(cur.right, propertyName);
-            return sum;
-          } else if (compared === CP.lt) {
-            // todo maybe a bug
-            if (cur.left) sum += this.subTreeSum(cur.left, propertyName);
-            sum += getSumByPropertyName(cur);
-            if (cur.right) queue.push(cur.right);
-            else return sum;
-          } else {
-            if (cur.left) queue.push(cur.left);
-            else return sum;
-          }
-        }
-      }
-    }
-
-    return sum;
-  }
 
   /**
-   * The `allGreaterNodesAdd` function adds a delta value to the specified property of all nodes in a binary tree that
+   * The `lesserOrGreaterForeach` function adds a delta value to the specified property of all nodes in a binary tree that
    * have a greater value than a given node.
-   * @param {N | BinaryTreeNodeKey | null} node - The `node` parameter can be either of type `N` (a generic type),
-   * `BinaryTreeNodeKey`, or `null`. It represents the node in the binary tree to which the delta value will be added.
-   * @param {number} delta - The `delta` parameter is a number that represents the amount by which the property value of
-   * each greater node should be increased.
-   * @param {BinaryTreeNodePropertyName} [propertyName] - The `propertyName` parameter is an optional parameter that
-   * specifies the property name of the nodes in the binary tree that you want to update. If not provided, it defaults to
-   * 'key'.
-   * @returns a boolean value.
+   * @param {N | BinaryTreeNodeKey | null} node - The `node` parameter can be either of type `N` (a generic type), `BinaryTreeNodeKey`, or `null`. It
+   * represents the node in the binary tree to which the delta value will be added.
+   * @param lesserOrGreater - The `lesserOrGreater` parameter is an optional parameter that specifies whether the delta
+   * @param callback - The `callback` parameter is a function that takes a node as a parameter and returns a boolean
    */
-  allGreaterNodesAdd(
+  lesserOrGreaterForeach(
     node: N | BinaryTreeNodeKey | null,
-    delta: number,
-    propertyName: BinaryTreeNodePropertyName = 'key'
+    lesserOrGreater: CP = CP.lt,
+    callback: (node: N) => void
   ): boolean {
     if (typeof node === 'number') node = this.get(node, 'key');
     if (!node) return false;
     const key = node.key;
     if (!this.root) return false;
 
-    const _sumByPropertyName = (cur: N) => {
-      switch (propertyName) {
-        case 'key':
-          cur.key += delta;
-          break;
-        default:
-          cur.key += delta;
-          break;
-      }
-    };
     if (this.loopType === LoopType.RECURSIVE) {
       const _traverse = (cur: N) => {
         const compared = this._compare(cur.key, key);
-        if (compared === CP.gt) _sumByPropertyName(cur);
+        if (compared === lesserOrGreater) callback(cur);
 
         if (!cur.left && !cur.right) return;
-        if (cur.left && this._compare(cur.left.key, key) === CP.gt) _traverse(cur.left);
-        if (cur.right && this._compare(cur.right.key, key) === CP.gt) _traverse(cur.right);
+        if (cur.left && this._compare(cur.left.key, key) === lesserOrGreater) _traverse(cur.left);
+        if (cur.right && this._compare(cur.right.key, key) === lesserOrGreater) _traverse(cur.right);
       };
 
       _traverse(this.root);
       return true;
     } else {
-      const queue: N[] = [this.root];
-      while (queue.length > 0) {
+      const queue = new Queue<N>([this.root]);
+      while (queue.size > 0) {
         const cur = queue.shift();
         if (cur) {
           const compared = this._compare(cur.key, key);
-          if (compared === CP.gt) _sumByPropertyName(cur);
+          if (compared === lesserOrGreater) callback(cur);
 
-          if (cur.left && this._compare(cur.left.key, key) === CP.gt) queue.push(cur.left);
-          if (cur.right && this._compare(cur.right.key, key) === CP.gt) queue.push(cur.right);
+          if (cur.left && this._compare(cur.left.key, key) === lesserOrGreater) queue.push(cur.left);
+          if (cur.right && this._compare(cur.right.key, key) === lesserOrGreater) queue.push(cur.right);
         }
       }
       return true;

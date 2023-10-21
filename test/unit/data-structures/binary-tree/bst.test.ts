@@ -1,4 +1,6 @@
-import {BST, BSTNode} from '../../../../src';
+import {BST, BSTNode, CP} from '../../../../src';
+
+const isDebug = false;
 
 describe('BST operations test', () => {
   it('should perform various operations on a Binary Search Tree with numeric values', () => {
@@ -7,7 +9,7 @@ describe('BST operations test', () => {
     bst.add(11, 11);
     bst.add(3, 3);
     const idsAndValues = [15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
-    bst.addMany(idsAndValues, idsAndValues);
+    bst.addMany(idsAndValues, idsAndValues, false);
     expect(bst.root).toBeInstanceOf(BSTNode);
 
     if (bst.root) expect(bst.root.key).toBe(11);
@@ -33,10 +35,12 @@ describe('BST operations test', () => {
     const minNodeBySpecificNode = node15 && bst.getLeftMost(node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
 
-    const subTreeSum = node15 && bst.subTreeSum(15);
+    let subTreeSum = 0;
+    node15 && bst.subTreeForeach(15, node => (subTreeSum += node.key));
     expect(subTreeSum).toBe(70);
 
-    const lesserSum = bst.lesserSum(10);
+    let lesserSum = 0;
+    bst.lesserOrGreaterForeach(10, CP.lt, node => (lesserSum += node.key));
     expect(lesserSum).toBe(45);
 
     expect(node15).toBeInstanceOf(BSTNode);
@@ -204,7 +208,8 @@ describe('BST operations test', () => {
 
     objBST.addMany(
       values.map(item => item.key),
-      values
+      values,
+      false
     );
 
     expect(objBST.root).toBeInstanceOf(BSTNode);
@@ -231,10 +236,12 @@ describe('BST operations test', () => {
     const minNodeBySpecificNode = node15 && objBST.getLeftMost(node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
 
-    const subTreeSum = node15 && objBST.subTreeSum(node15);
+    let subTreeSum = 0;
+    node15 && objBST.subTreeForeach(node15, node => (subTreeSum += node.key));
     expect(subTreeSum).toBe(70);
 
-    const lesserSum = objBST.lesserSum(10);
+    let lesserSum = 0;
+    objBST.lesserOrGreaterForeach(10, CP.lt, node => (lesserSum += node.key));
     expect(lesserSum).toBe(45);
 
     expect(node15).toBeInstanceOf(BSTNode);
@@ -376,5 +383,35 @@ describe('BST operations test', () => {
     expect(bfsNodes[0].key).toBe(2);
     expect(bfsNodes[1].key).toBe(12);
     expect(bfsNodes[2].key).toBe(16);
+  });
+});
+
+describe('BST Performance test', function () {
+  const bst = new BST<BSTNode<number>>();
+  const inputSize = 10000; // Adjust input sizes as needed
+
+  beforeEach(() => {
+    bst.clear();
+  });
+
+  it(`Observe the time consumption of BST.dfs be good`, function () {
+    const startDFS = performance.now();
+    const dfs = bst.dfs();
+    isDebug && console.log('---bfs', performance.now() - startDFS, dfs.length);
+  });
+
+  it('Should the time consumption of lesserOrGreaterForeach fitting O(n log n)', function () {
+    const nodes: number[] = [];
+    for (let i = 0; i < inputSize; i++) {
+      nodes.push(i);
+    }
+    const start = performance.now();
+    bst.addMany(nodes);
+    isDebug && console.log('---add', performance.now() - start);
+    const startL = performance.now();
+    bst.lesserOrGreaterForeach(inputSize / 2, CP.lt, node => {
+      return node.key - 1;
+    });
+    isDebug && console.log('---lesserOrGreaterForeach', performance.now() - startL);
   });
 });

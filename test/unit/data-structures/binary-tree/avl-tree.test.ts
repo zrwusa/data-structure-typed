@@ -1,4 +1,4 @@
-import {AVLTree} from '../../../../src';
+import {AVLTree, CP} from '../../../../src';
 
 describe('AVL Tree Test', () => {
   it('should perform various operations on a AVL Tree', () => {
@@ -22,10 +22,12 @@ describe('AVL Tree Test', () => {
     const getMinNodeBySpecificNode = node15 && tree.getLeftMost(node15);
     expect(getMinNodeBySpecificNode?.key).toBe(12);
 
-    const subTreeSum = node15 && tree.subTreeSum(node15);
+    let subTreeSum = 0;
+    node15 && tree.subTreeForeach(node15, node => (subTreeSum += node.key));
     expect(subTreeSum).toBe(70);
 
-    const lesserSum = tree.lesserSum(10);
+    let lesserSum = 0;
+    tree.lesserOrGreaterForeach(10, CP.lt, node => (lesserSum += node.key));
     expect(lesserSum).toBe(45);
 
     // node15 has type problem. After the uniform design, the generics of containers (DirectedGraph, BST) are based on the type of value. However, this design has a drawback: when I attempt to inherit from the Vertex or BSTNode classes, the types of the results obtained by all methods are those of the parent class.
