@@ -36,11 +36,11 @@ describe('HashMap', () => {
     expect(hashMap.get('key2')).toBe(2);
   });
 
-  it('should remove values', () => {
+  it('should delete values', () => {
     hashMap.set('one', 1);
     hashMap.set('two', 2);
 
-    hashMap.remove('one');
+    hashMap.delete('one');
     expect(hashMap.get('one')).toBeUndefined();
     expect(hashMap.size).toBe(1);
   });

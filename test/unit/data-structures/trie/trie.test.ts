@@ -81,15 +81,15 @@ describe('Trie', () => {
     expect(words).toEqual(['apple', 'application', 'app']);
   });
 
-  it('should remove words from Trie', () => {
+  it('should delete words from Trie', () => {
     const trie = new Trie();
     trie.add('apple');
     trie.add('app');
     expect(trie.has('apple')).toBe(true);
-    trie.remove('apple');
+    trie.delete('apple');
     expect(trie.has('apple')).toBe(false);
     expect(trie.has('app')).toBe(true);
-    trie.remove('app');
+    trie.delete('app');
     expect(trie.has('app')).toBe(false);
   });
 
@@ -772,9 +772,9 @@ describe('Trie operations', () => {
   test('Remove Words', () => {
     trie.add('apple');
     trie.add('banana');
-    expect(trie.remove('apple')).toBe(true);
+    expect(trie.delete('apple')).toBe(true);
     expect(trie.has('apple')).toBe(false);
-    expect(trie.remove('cherry')).toBe(false);
+    expect(trie.delete('cherry')).toBe(false);
   });
 
   test('Case Sensitivity', () => {

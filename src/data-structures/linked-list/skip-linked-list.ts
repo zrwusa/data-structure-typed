@@ -130,12 +130,12 @@ export class SkipList<K, V> {
   }
 
   /**
-   * The `remove` function removes a node with a specific key from a Skip List data structure.
+   * The `delete` function removes a node with a specific key from a Skip List data structure.
    * @param {K} key - The key parameter represents the key of the node that needs to be removed from the skip list.
-   * @returns The `remove` method returns a boolean value. It returns `true` if the key was successfully removed from the
+   * @returns The `delete` method returns a boolean value. It returns `true` if the key was successfully removed from the
    * skip list, and `false` if the key was not found in the skip list.
    */
-  remove(key: K): boolean {
+  delete(key: K): boolean {
     const update: SkipListNode<K, V>[] = new Array(this.maxLevel).fill(this.head);
     let current = this.head;
 

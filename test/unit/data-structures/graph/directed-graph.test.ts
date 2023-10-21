@@ -31,7 +31,7 @@ describe('DirectedGraph Operation Test', () => {
     expect(graph.hasEdge('B', 'A')).toBe(false);
   });
 
-  it('should remove edges', () => {
+  it('should delete edges', () => {
     const vertex1 = new DirectedVertex('A');
     const vertex2 = new DirectedVertex('B');
     const edge = new DirectedEdge('A', 'B');

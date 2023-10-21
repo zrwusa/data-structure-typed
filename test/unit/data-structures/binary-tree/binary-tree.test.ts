@@ -83,12 +83,12 @@ describe('BinaryTree', () => {
     expect(binaryTree.size).toBe(1);
   });
 
-  test('should remove a node', () => {
+  test('should delete a node', () => {
     const node = binaryTree.add(1);
     expect(binaryTree.size).toBe(1);
 
     if (node) {
-      const result = binaryTree.remove(node);
+      const result = binaryTree.delete(node);
       expect(result).toHaveLength(1);
       expect(binaryTree.size).toBe(0);
     }

@@ -164,10 +164,10 @@ export class RBTree<N extends RBTreeNode<N['val'], N> = RBTreeNode> extends BST<
   // // Remove a node
   // private _removeNode(node: N, replacement: N | null | undefined): void {
   //   if (node === this.root && !replacement) {
-  //     // If there's only the root node and no replacement, simply remove the root node
+  //     // If there's only the root node and no replacement, simply delete the root node
   //     this._setRoot(null);
   //   } else if (node === this.root || this._isNodeRed(node)) {
-  //     // If the node is the root or a red node, remove it directly
+  //     // If the node is the root or a red node, delete it directly
   //     if (node.parent!.left === node) {
   //       node.parent!.left = replacement;
   //     } else {
@@ -205,7 +205,7 @@ export class RBTree<N extends RBTreeNode<N['val'], N> = RBTreeNode> extends BST<
   //   node.right = null;
   // }
   //
-  // override remove(nodeOrKey: BinaryTreeNodeKey | N): BinaryTreeDeletedResult<N>[] {
+  // override delete(nodeOrKey: BinaryTreeNodeKey | N): BinaryTreeDeletedResult<N>[] {
   //   const node = this.get(nodeOrKey);
   //   const result: BinaryTreeDeletedResult<N>[] = [{deleted: undefined, needBalanced: null}];
   //   if (!node) return result; // Node does not exist

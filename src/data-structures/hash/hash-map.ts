@@ -157,7 +157,7 @@ export class HashMap<K, V> {
     return undefined;
   }
 
-  remove(key: K): void {
+  delete(key: K): void {
     const index = this._hash(key);
     if (!this.table[index]) {
       return;

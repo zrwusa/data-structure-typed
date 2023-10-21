@@ -119,10 +119,10 @@ export class Trie {
 
   /**
    * Remove a word from the Trie structure.
-   * @param{string} word - The word to remove.
+   * @param{string} word - The word to delete.
    * @returns {boolean} True if the word was successfully removed.
    */
-  remove(word: string) {
+  delete(word: string) {
     word = this._caseProcess(word);
     let isDeleted = false;
     const dfs = (cur: TrieNode, i: number): boolean => {

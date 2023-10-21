@@ -641,6 +641,14 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
 
 ## Code design
 
+### Adhere to ES6 standard naming conventions for APIs.
+
+Standardize API conventions by using 'add' and 'delete' for element manipulation methods in all data structures. 
+
+Opt for concise and clear method names, avoiding excessive length while ensuring explicit intent.
+
+### Object-oriented programming(OOP) 
+
 By strictly adhering to object-oriented design (BinaryTree -> BST -> AVLTree -> TreeMultiset), you can seamlessly
 inherit the existing data structures to implement the customized ones you need. Object-oriented design stands as the
 optimal approach to data structure design.

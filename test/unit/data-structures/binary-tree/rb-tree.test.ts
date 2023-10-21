@@ -31,7 +31,7 @@ describe('Red-Black Tree Tests', () => {
     // tree.add(8);
     //
     // // Delete a node (e.g., 3) and check if it's gone
-    // tree.remove(3);
+    // tree.delete(3);
     // expect(tree.has(3)).toBe(false);
     //
     // // Perform in-order traversal to check if the tree is still balanced

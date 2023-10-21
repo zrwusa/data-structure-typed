@@ -18,7 +18,7 @@ describe('SinglyLinkedList Operation Test', () => {
   });
 
   describe('pop', () => {
-    it('should remove and return the last element of the list', () => {
+    it('should delete and return the last element of the list', () => {
       list.push(1);
       list.push(2);
       const popped = list.pop();
@@ -33,7 +33,7 @@ describe('SinglyLinkedList Operation Test', () => {
   });
 
   describe('shift', () => {
-    it('should remove and return the first element of the list', () => {
+    it('should delete and return the first element of the list', () => {
       list.push(1);
       list.push(2);
       const shifted = list.shift();
@@ -109,7 +109,7 @@ describe('SinglyLinkedList Operation Test', () => {
   });
 
   describe('removeValue', () => {
-    it('should remove the first occurrence of a value from the list', () => {
+    it('should delete the first occurrence of a value from the list', () => {
       list.push(1);
       list.push(2);
       list.push(3);
@@ -240,8 +240,8 @@ describe('SinglyLinkedList Operation Test', () => {
     });
   });
 
-  describe('remove', () => {
-    it('should remove and return the element at the specified index', () => {
+  describe('delete', () => {
+    it('should delete and return the element at the specified index', () => {
       list.push(1);
       list.push(2);
       list.push(3);
@@ -256,7 +256,7 @@ describe('SinglyLinkedList Operation Test', () => {
       expect(removed).toBeUndefined();
     });
 
-    it('should remove and return the first element', () => {
+    it('should delete and return the first element', () => {
       list.push(1);
       list.push(2);
       const removed = list.deleteAt(0);
@@ -264,7 +264,7 @@ describe('SinglyLinkedList Operation Test', () => {
       expect(list.toArray()).toEqual([2]);
     });
 
-    it('should remove and return the last element', () => {
+    it('should delete and return the last element', () => {
       list.push(1);
       list.push(2);
       const removed = list.deleteAt(1);

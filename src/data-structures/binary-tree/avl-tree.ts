@@ -33,13 +33,13 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
   }
 
   /**
-   * The `swapLocation` function swaps the location of two nodes in a binary tree.
-   * @param {N} srcNode - The source node that you want to swap with the destination node.
+   * The `_swap` function swaps the location of two nodes in a binary tree.
+   * @param {N} srcNode - The source node that you want to _swap with the destination node.
    * @param {N} destNode - The `destNode` parameter represents the destination node where the values from `srcNode` will
    * be swapped to.
    * @returns The `destNode` is being returned.
    */
-  override swapLocation(srcNode: N, destNode: N): N {
+  protected override _swap(srcNode: N, destNode: N): N {
     const {key, val, height} = destNode;
     const tempNode = this.createNode(key, val);
 
@@ -85,14 +85,14 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
   }
 
   /**
-   * The function overrides the remove method of a binary tree and performs additional operations to balance the tree after
+   * The function overrides the delete method of a binary tree and performs additional operations to balance the tree after
    * deletion.
    * @param {BinaryTreeNodeKey} key - The `key` parameter represents the identifier of the binary tree node that needs to be
    * removed.
    * @returns The method is returning an array of `BinaryTreeDeletedResult<N>` objects.
    */
-  override remove(key: BinaryTreeNodeKey): BinaryTreeDeletedResult<N>[] {
-    const deletedResults = super.remove(key);
+  override delete(key: BinaryTreeNodeKey): BinaryTreeDeletedResult<N>[] {
+    const deletedResults = super.delete(key);
     for (const {needBalanced} of deletedResults) {
       if (needBalanced) {
         this._balancePath(needBalanced);

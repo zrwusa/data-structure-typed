@@ -41,56 +41,56 @@ describe('AVL Tree Test', () => {
     expect(bfs[0].key).toBe(8);
     expect(bfs[bfs.length - 1].key).toBe(16);
 
-    expect(tree.remove(11)[0].deleted?.key).toBe(11);
+    expect(tree.delete(11)[0].deleted?.key).toBe(11);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(node15 && tree.getHeight(node15)).toBe(2);
 
-    expect(tree.remove(1)[0].deleted?.key).toBe(1);
+    expect(tree.delete(1)[0].deleted?.key).toBe(1);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(tree.getHeight()).toBe(4);
 
-    expect(tree.remove(4)[0].deleted?.key).toBe(4);
+    expect(tree.delete(4)[0].deleted?.key).toBe(4);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(tree.getHeight()).toBe(4);
 
-    expect(tree.remove(10)[0].deleted?.key).toBe(10);
+    expect(tree.delete(10)[0].deleted?.key).toBe(10);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(tree.getHeight()).toBe(3);
 
-    expect(tree.remove(15)[0].deleted?.key).toBe(15);
+    expect(tree.delete(15)[0].deleted?.key).toBe(15);
     expect(tree.isAVLBalanced()).toBe(true);
 
     expect(tree.getHeight()).toBe(3);
 
-    expect(tree.remove(5)[0].deleted?.key).toBe(5);
+    expect(tree.delete(5)[0].deleted?.key).toBe(5);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(tree.getHeight()).toBe(3);
 
-    expect(tree.remove(13)[0].deleted?.key).toBe(13);
+    expect(tree.delete(13)[0].deleted?.key).toBe(13);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(tree.getHeight()).toBe(3);
 
-    expect(tree.remove(3)[0].deleted?.key).toBe(3);
+    expect(tree.delete(3)[0].deleted?.key).toBe(3);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(tree.getHeight()).toBe(3);
 
-    expect(tree.remove(8)[0].deleted?.key).toBe(8);
+    expect(tree.delete(8)[0].deleted?.key).toBe(8);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(tree.getHeight()).toBe(3);
 
-    expect(tree.remove(6)[0].deleted?.key).toBe(6);
-    expect(tree.remove(6).length).toBe(0);
+    expect(tree.delete(6)[0].deleted?.key).toBe(6);
+    expect(tree.delete(6).length).toBe(0);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(tree.getHeight()).toBe(2);
 
-    expect(tree.remove(7)[0].deleted?.key).toBe(7);
+    expect(tree.delete(7)[0].deleted?.key).toBe(7);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(tree.getHeight()).toBe(2);
 
-    expect(tree.remove(9)[0].deleted?.key).toBe(9);
+    expect(tree.delete(9)[0].deleted?.key).toBe(9);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(tree.getHeight()).toBe(2);
-    expect(tree.remove(14)[0].deleted?.key).toBe(14);
+    expect(tree.delete(14)[0].deleted?.key).toBe(14);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(tree.getHeight()).toBe(1);
 
