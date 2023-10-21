@@ -9,6 +9,7 @@ import type {BinaryTreeNodeKey, TreeMultisetNodeNested, TreeMultisetOptions} fro
 import {BinaryTreeDeletedResult, CP, DFSOrderPattern, FamilyPosition, LoopType} from '../../types';
 import {IBinaryTree} from '../../interfaces';
 import {AVLTree, AVLTreeNode} from './avl-tree';
+import {Queue} from '../queue';
 
 export class TreeMultisetNode<
   V = any,
@@ -350,121 +351,6 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
   }
 
   /**
-   * The function `getSubTreeCount` calculates the number of nodes and the sum of their counts in a subtree, using either
-   * recursive or iterative traversal.
-   * @param {N | null | undefined} subTreeRoot - The `subTreeRoot` parameter represents the root node of a subtree in a
-   * binary tree.
-   * @returns The function `getSubTreeCount` returns an array `[number, number]`.
-   */
-  getSubTreeCount(subTreeRoot: N | null | undefined) {
-    const res: [number, number] = [0, 0];
-    if (!subTreeRoot) return res;
-
-    if (this.loopType === LoopType.RECURSIVE) {
-      const _traverse = (cur: N) => {
-        res[0]++;
-        res[1] += cur.count;
-        cur.left && _traverse(cur.left);
-        cur.right && _traverse(cur.right);
-      };
-
-      _traverse(subTreeRoot);
-      return res;
-    } else {
-      const stack: N[] = [subTreeRoot];
-
-      while (stack.length > 0) {
-        const cur = stack.pop()!;
-        res[0]++;
-        res[1] += cur.count;
-        cur.right && stack.push(cur.right);
-        cur.left && stack.push(cur.left);
-      }
-
-      return res;
-    }
-  }
-
-  /**
-   * The function `subTreeSumCount` calculates the sum of the `count` property of each node in a subtree, either
-   * recursively or iteratively.
-   * @param {N | BinaryTreeNodeKey | null} subTreeRoot - The `subTreeRoot` parameter represents the root node of a subtree
-   * in a binary tree. It can be either a `BinaryTreeNodeKey` (a unique identifier for a node in the binary tree) or
-   * `null` if the subtree is empty.
-   * @returns the sum of the count values of all nodes in the subtree rooted at `subTreeRoot`.
-   */
-  subTreeSumCount(subTreeRoot: N | BinaryTreeNodeKey | null): number {
-    if (typeof subTreeRoot === 'number') subTreeRoot = this.get(subTreeRoot, 'key');
-
-    if (!subTreeRoot) return 0;
-
-    let sum = 0;
-
-    if (this.loopType === LoopType.RECURSIVE) {
-      const _traverse = (cur: N): void => {
-        sum += cur.count;
-        cur.left && _traverse(cur.left);
-        cur.right && _traverse(cur.right);
-      };
-
-      _traverse(subTreeRoot);
-    } else {
-      const stack: N[] = [subTreeRoot];
-
-      while (stack.length > 0) {
-        const cur = stack.pop()!;
-        sum += cur.count;
-        cur.right && stack.push(cur.right);
-        cur.left && stack.push(cur.left);
-      }
-    }
-
-    return sum;
-  }
-
-  /**
-   * The function `subTreeAddCount` recursively or iteratively traverses a binary tree and adds a given delta value to
-   * the `count` property of each node.
-   * @param {N | BinaryTreeNodeKey | null} subTreeRoot - The `subTreeRoot` parameter represents the root node of a subtree
-   * in a binary tree. It can be either a `BinaryTreeNodeKey` (a unique identifier for a node in the binary tree), a
-   * `BinaryTreeNode` object, or `null` if the subtree is empty.
-   * @param {number} delta - The delta parameter is a number that represents the amount by which the count of each node
-   * in the subtree should be increased or decreased.
-   * @returns a boolean value.
-   */
-  subTreeAddCount(subTreeRoot: N | BinaryTreeNodeKey | null, delta: number): boolean {
-    if (typeof subTreeRoot === 'number') subTreeRoot = this.get(subTreeRoot, 'key');
-
-    if (!subTreeRoot) return false;
-
-    const _addByProperty = (cur: N) => {
-      cur.count += delta;
-      this._setCount(this.count + delta);
-    };
-
-    if (this.loopType === LoopType.RECURSIVE) {
-      const _traverse = (cur: N) => {
-        _addByProperty(cur);
-        cur.left && _traverse(cur.left);
-        cur.right && _traverse(cur.right);
-      };
-
-      _traverse(subTreeRoot);
-    } else {
-      const stack: N[] = [subTreeRoot];
-
-      while (stack.length > 0) {
-        const cur = stack.pop()!;
-
-        _addByProperty(cur);
-        cur.right && stack.push(cur.right);
-        cur.left && stack.push(cur.left);
-      }
-    }
-    return true;
-  }
-
-  /**
    * The function `getNodesByCount` returns an array of nodes that have a specific count property, either recursively or
    * using a queue.
    * @param {BinaryTreeNodeKey | N} nodeProperty - The `nodeProperty` parameter can be either a `BinaryTreeNodeKey` or a
@@ -492,8 +378,8 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
 
       _traverse(this.root);
     } else {
-      const queue: N[] = [this.root];
-      while (queue.length > 0) {
+      const queue = new Queue<N>([this.root]);
+      while (queue.size > 0) {
         const cur = queue.shift();
         if (cur) {
           if (cur.count === nodeProperty) {
@@ -543,120 +429,6 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
   morrisCount(pattern: DFSOrderPattern = 'in'): number[] {
     const nodes = super.morris(pattern, 'node');
     return nodes.map(node => node.count);
-  }
-
-  /**
-   * The function dfsCountIterative performs an iterative depth-first search and returns an array of node counts based on
-   * the specified traversal pattern.
-   * @param {'in' | 'pre' | 'post'} [pattern] - The pattern parameter is a string that specifies the traversal order for
-   * the Depth-First Search (dfs) algorithm. It can have three possible values: 'in', 'pre', or 'post'.
-   * @param loopType  - The loopType parameter is a string that specifies the type of loop to use when traversing the
-   * @returns The dfsCountIterative function returns an array of numbers, which represents the count property of each node
-   * in the dfs traversal.
-   */
-  dfsCount(pattern: DFSOrderPattern = 'in', loopType: LoopType = LoopType.ITERATIVE): number[] {
-    const nodes = super.dfs(pattern, 'node', loopType);
-    return nodes.map(node => node.count);
-  }
-
-  /**
-   * The `lesserSumCount` function calculates the sum of the counts of all nodes in a binary tree that have a lesser
-   * value than a given node.
-   * @param {N | BinaryTreeNodeKey | null} beginNode - The `beginNode` parameter can be one of the following:
-   * @returns the sum of the counts of nodes in the binary tree that have a lesser value than the given beginNode.
-   */
-  lesserSumCount(beginNode: N | BinaryTreeNodeKey | null): number {
-    if (typeof beginNode === 'number') beginNode = this.get(beginNode, 'key');
-    if (!beginNode) return 0;
-    if (!this.root) return 0;
-    const key = beginNode.key;
-
-    let sum = 0;
-
-    if (this.loopType === LoopType.RECURSIVE) {
-      const _traverse = (cur: N): void => {
-        const compared = this._compare(cur.key, key);
-        if (compared === CP.eq) {
-          if (cur.right) sum += this.subTreeSumCount(cur.right);
-          return;
-        } else if (compared === CP.lt) {
-          if (cur.left) sum += this.subTreeSumCount(cur.left);
-          sum += cur.count;
-          if (cur.right) _traverse(cur.right);
-          else return;
-        } else {
-          if (cur.left) _traverse(cur.left);
-          else return;
-        }
-      };
-
-      _traverse(this.root);
-    } else {
-      const queue: N[] = [this.root];
-      while (queue.length > 0) {
-        const cur = queue.shift();
-        if (cur) {
-          const compared = this._compare(cur.key, key);
-          if (compared === CP.eq) {
-            if (cur.right) sum += this.subTreeSumCount(cur.right);
-            return sum;
-          } else if (compared === CP.lt) {
-            // todo maybe a bug
-            if (cur.left) sum += this.subTreeSumCount(cur.left);
-            sum += cur.count;
-            if (cur.right) queue.push(cur.right);
-            else return sum;
-          } else {
-            if (cur.left) queue.push(cur.left);
-            else return sum;
-          }
-        }
-      }
-    }
-
-    return sum;
-  }
-
-  /**
-   * The function `allGreaterNodesAddCount` updates the count property of all nodes in a binary tree that have an ID
-   * greater than a given ID by a specified delta value.
-   * @param {N | BinaryTreeNodeKey | null} node - The `node` parameter can be one of the following:
-   * @param {number} delta - The `delta` parameter is a number that represents the amount by which the `count` property
-   * of each node should be increased.
-   * @returns a boolean value.
-   */
-  allGreaterNodesAddCount(node: N | BinaryTreeNodeKey | null, delta: number): boolean {
-    if (typeof node === 'number') node = this.get(node, 'key');
-    if (!node) return false;
-    const key = node.key;
-    if (!this.root) return false;
-
-    if (this.loopType === LoopType.RECURSIVE) {
-      const _traverse = (cur: N) => {
-        const compared = this._compare(cur.key, key);
-        if (compared === CP.gt) cur.count += delta;
-
-        if (!cur.left && !cur.right) return;
-        if (cur.left && this._compare(cur.left.key, key) === CP.gt) _traverse(cur.left);
-        if (cur.right && this._compare(cur.right.key, key) === CP.gt) _traverse(cur.right);
-      };
-
-      _traverse(this.root);
-      return true;
-    } else {
-      const queue: N[] = [this.root];
-      while (queue.length > 0) {
-        const cur = queue.shift();
-        if (cur) {
-          const compared = this._compare(cur.key, key);
-          if (compared === CP.gt) cur.count += delta;
-
-          if (cur.left && this._compare(cur.left.key, key) === CP.gt) queue.push(cur.left);
-          if (cur.right && this._compare(cur.right.key, key) === CP.gt) queue.push(cur.right);
-        }
-      }
-      return true;
-    }
   }
 
   /**

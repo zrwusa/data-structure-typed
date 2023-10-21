@@ -1,5 +1,6 @@
-import {TreeMultiset, TreeMultisetNode} from '../../../../src';
+import {CP, TreeMultiset, TreeMultisetNode} from '../../../../src';
 
+const isDebug = false;
 describe('TreeMultiset operations test', () => {
   it('should perform various operations on a Binary Search Tree with numeric values', () => {
     const treeMultiset = new TreeMultiset();
@@ -39,20 +40,26 @@ describe('TreeMultiset operations test', () => {
     const minNodeBySpecificNode = node15 && treeMultiset.getLeftMost(node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
 
-    const subTreeSum = node15 && treeMultiset.subTreeSum(15);
+    let subTreeSum = 0;
+    node15 && treeMultiset.subTreeForeach(15, (node: TreeMultisetNode<number>) => (subTreeSum += node.key));
     expect(subTreeSum).toBe(70);
-    const lesserSum = treeMultiset.lesserSum(10);
+    let lesserSum = 0;
+    treeMultiset.lesserOrGreaterForeach(10, CP.lt, (node: TreeMultisetNode<number>) => (lesserSum += node.key));
     expect(lesserSum).toBe(45);
 
     expect(node15 instanceof TreeMultisetNode);
     if (node15 instanceof TreeMultisetNode) {
-      const subTreeAdd = treeMultiset.subTreeAddCount(15, 1);
+      const subTreeAdd = treeMultiset.subTreeForeach(15, (node: TreeMultisetNode<number>) => (node.count += 1));
       expect(subTreeAdd);
     }
     const node11 = treeMultiset.get(11);
     expect(node11 instanceof TreeMultisetNode);
     if (node11 instanceof TreeMultisetNode) {
-      const allGreaterNodesAdded = treeMultiset.allGreaterNodesAddCount(11, 2);
+      const allGreaterNodesAdded = treeMultiset.lesserOrGreaterForeach(
+        11,
+        CP.gt,
+        (node: TreeMultisetNode<number>) => (node.count += 2)
+      );
       expect(allGreaterNodesAdded);
     }
 
@@ -419,13 +426,19 @@ describe('TreeMultiset operations test', () => {
 
 describe('TreeMultiset Performance test', function () {
   // const treeMS = new TreeMultiset<TreeMultisetNode<number>>();
-  // const inputSizes = [100]; // Adjust input sizes as needed
+  // const inputSize = [100]; // Adjust input sizes as needed
   //
   // // Define a function to calculate the expected O(n log n) time
   // function expectedTime(n: number): number {
   //   return n * Math.log(n);
   // }
 
+  const treeMS = new TreeMultiset<TreeMultisetNode<number>>();
+  const inputSize = 100000; // Adjust input sizes as needed
+
+  beforeEach(() => {
+    treeMS.clear();
+  });
   it(`Observe the time consumption of TreeMultiset.add fitting O(n log n)`, function () {
     // // Create a benchmark suite
     // const suite = new Benchmark.Suite();
@@ -437,9 +450,9 @@ describe('TreeMultiset Performance test', function () {
     //   }
     //   return arr;
     // }
-    // const inputArray = generateRandomArray(inputSizes[0]);
+    // const inputArray = generateRandomArray(inputSize[0]);
     //
-    // suite.add(`TreeMultiset addMany (n=${inputSizes[0]})`, () => {
+    // suite.add(`TreeMultiset addMany (n=${inputSize[0]})`, () => {
     //   treeMS.addMany([...inputArray]);
     // });
     //
@@ -453,9 +466,26 @@ describe('TreeMultiset Performance test', function () {
     //     console.log(`Input size (n): ${n}, Observed time: ${observedTime.toFixed(2)}ms, Expected time: ${expected.toFixed(2)}ms`);
     //   })
     //   .on('complete', () => {
-    //     console.log(`Benchmark (n=${inputSizes[0]}) completed.`);
+    //     console.log(`Benchmark (n=${inputSize[0]}) completed.`);
     //     done(); // Call done to indicate the test is complete
     //   })
     //   .run({async: true});
+  });
+
+  it(`Observe the time consumption of TreeMultiset.dfs be good`, function () {
+    const startDFS = performance.now();
+    const dfs = treeMS.dfs();
+    isDebug && console.log('---bfs', performance.now() - startDFS, dfs.length);
+  });
+
+  it('Should the time consumption of lesserOrGreaterForeach fitting O(n log n)', function () {
+    const start = performance.now();
+    for (let i = 0; i < inputSize; i++) {
+      treeMS.add(i);
+    }
+    isDebug && console.log('---add', performance.now() - start);
+    const startL = performance.now();
+    treeMS.lesserOrGreaterForeach(inputSize / 2, CP.lt, (node: TreeMultisetNode<number>) => (node.count += 1));
+    isDebug && console.log('---lesserOrGreaterForeach', performance.now() - startL);
   });
 });

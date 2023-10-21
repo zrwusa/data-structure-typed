@@ -1,4 +1,5 @@
 import {Deque, ArrayDeque, ObjectDeque} from '../../../../src';
+import {bigO} from '../../../utils';
 
 describe('Deque Tests', () => {
   // Test cases for the Deque class (DoublyLinkedList-based)
@@ -126,5 +127,21 @@ describe('Deque Tests', () => {
     });
 
     // Add more test cases as needed
+  });
+});
+
+describe('Deque Performance Test', () => {
+  const dataSize = 10000;
+  it('should numeric queue be efficient', function () {
+    const startTime = performance.now();
+    const queue = new Deque<number>();
+    for (let i = 0; i < dataSize; i++) {
+      queue.unshift(i);
+    }
+    for (let i = 0; i < dataSize; i++) {
+      queue.pop();
+    }
+    console.log(`Queue Deque Test: ${performance.now() - startTime} ms`);
+    expect(performance.now() - startTime).toBeLessThan(bigO.LINEAR * 100);
   });
 });

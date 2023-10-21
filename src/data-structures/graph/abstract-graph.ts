@@ -9,6 +9,7 @@ import {arrayRemove, uuidV4} from '../../utils';
 import {PriorityQueue} from '../priority-queue';
 import type {DijkstraResult, VertexKey} from '../../types';
 import {IGraph} from '../../interfaces';
+import {Queue} from '../queue';
 
 export abstract class AbstractVertex<V = any> {
   /**
@@ -342,11 +343,11 @@ export abstract class AbstractGraph<
       }
 
       const visited: Map<V, boolean> = new Map();
-      const queue: V[] = [vertex1];
+      const queue = new Queue<V>([vertex1]);
       visited.set(vertex1, true);
       let cost = 0;
-      while (queue.length > 0) {
-        for (let i = 0; i < queue.length; i++) {
+      while (queue.size > 0) {
+        for (let i = 0; i < queue.size; i++) {
           const cur = queue.shift();
           if (cur === vertex2) {
             return cost;
