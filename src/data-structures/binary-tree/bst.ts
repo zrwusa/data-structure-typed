@@ -7,10 +7,11 @@
  */
 import type {
   BinaryTreeNodeKey,
-  BinaryTreeNodePropertyName,
   BSTComparator,
   BSTNodeNested,
-  BSTOptions
+  BSTOptions,
+  MapCallback,
+  MapCallbackReturn
 } from '../../types';
 import {CP, LoopType} from '../../types';
 import {BinaryTree, BinaryTreeNode} from './binary-tree';
@@ -211,12 +212,12 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * The function returns the first node in a binary tree that matches the given property name and value.
    * @param {BinaryTreeNodeKey | N} nodeProperty - The `nodeProperty` parameter can be either a `BinaryTreeNodeKey` or a
    * generic type `N`. It represents the property of the binary tree node that you want to search for.
-   * @param {BinaryTreeNodePropertyName} [propertyName] - The `propertyName` parameter is an optional parameter that
+   * @param callback  - The `callback` parameter is a function that takes a node as a parameter and returns a value.
    * specifies the property name to use for searching the binary tree nodes. If not provided, it defaults to `'key'`.
    * @returns The method is returning either a BinaryTreeNodeKey or N (generic type) or null.
    */
-  override get(nodeProperty: BinaryTreeNodeKey | N, propertyName: BinaryTreeNodePropertyName = 'key'): N | null {
-    return this.getNodes(nodeProperty, propertyName, true)[0] ?? null;
+  override get(nodeProperty: BinaryTreeNodeKey | N, callback: MapCallback<N> = this._defaultCallbackByKey): N | null {
+    return this.getNodes(nodeProperty, callback, true)[0] ?? null;
   }
 
   /**
@@ -236,27 +237,34 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * The function `getNodes` returns an array of nodes in a binary tree that match a given property value.
    * @param {BinaryTreeNodeKey | N} nodeProperty - The `nodeProperty` parameter can be either a `BinaryTreeNodeKey` or an
    * `N` type. It represents the property of the binary tree node that you want to compare with.
-   * @param {BinaryTreeNodePropertyName} [propertyName] - The `propertyName` parameter is an optional parameter that
+   * @param callback - The `callback` parameter is a function that takes a node as a parameter and returns a value.
    * specifies the property name to use for comparison. If not provided, it defaults to `'key'`.
    * @param {boolean} [onlyOne] - The `onlyOne` parameter is an optional boolean parameter that determines whether to
    * return only one node that matches the given `nodeProperty` or all nodes that match the `nodeProperty`. If `onlyOne`
    * is set to `true`, the function will return an array with only one node (if
+   * @param beginRoot - The `beginRoot` parameter is an optional parameter that specifies the root node from which to
    * @returns an array of nodes (type N).
    */
   override getNodes(
     nodeProperty: BinaryTreeNodeKey | N,
-    propertyName: BinaryTreeNodePropertyName = 'key',
-    onlyOne = false
+    callback: MapCallback<N> = this._defaultCallbackByKey,
+    onlyOne = false,
+    beginRoot: N | null = this.root
   ): N[] {
-    if (!this.root) return [];
-    const result: N[] = [];
+    if (!beginRoot) return [];
+    const ans: N[] = [];
 
     if (this.loopType === LoopType.RECURSIVE) {
       const _traverse = (cur: N) => {
-        if (this._pushByPropertyNameStopOrNot(cur, result, nodeProperty, propertyName, onlyOne)) return;
+        const callbackResult = callback(cur);
+        if (callbackResult === nodeProperty) {
+          ans.push(cur);
+          if (onlyOne) return;
+        }
 
         if (!cur.left && !cur.right) return;
-        if (propertyName === 'key') {
+        // TODO potential bug
+        if (callback === this._defaultCallbackByKey) {
           if (this._compare(cur.key, nodeProperty as number) === CP.gt) cur.left && _traverse(cur.left);
           if (this._compare(cur.key, nodeProperty as number) === CP.lt) cur.right && _traverse(cur.right);
         } else {
@@ -265,14 +273,19 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
         }
       };
 
-      _traverse(this.root);
+      _traverse(beginRoot);
     } else {
-      const queue = new Queue<N>([this.root]);
+      const queue = new Queue<N>([beginRoot]);
       while (queue.size > 0) {
         const cur = queue.shift();
         if (cur) {
-          if (this._pushByPropertyNameStopOrNot(cur, result, nodeProperty, propertyName, onlyOne)) return result;
-          if (propertyName === 'key') {
+          const callbackResult = callback(cur);
+          if (callbackResult === nodeProperty) {
+            ans.push(cur);
+            if (onlyOne) return ans;
+          }
+          // TODO potential bug
+          if (callback === this._defaultCallbackByKey) {
             if (this._compare(cur.key, nodeProperty as number) === CP.gt) cur.left && queue.push(cur.left);
             if (this._compare(cur.key, nodeProperty as number) === CP.lt) cur.right && queue.push(cur.right);
           } else {
@@ -283,33 +296,34 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
       }
     }
 
-    return result;
+    return ans;
   }
 
   // --- start additional functions
 
   /**
-   * The `lesserOrGreaterForeach` function adds a delta value to the specified property of all nodes in a binary tree that
+   * The `lesserOrGreaterTraverse` function adds a delta value to the specified property of all nodes in a binary tree that
    * have a greater value than a given node.
+   * @param callback - The `callback` parameter is a function that takes a node as a parameter and returns a value.
    * @param {N | BinaryTreeNodeKey | null} node - The `node` parameter can be either of type `N` (a generic type), `BinaryTreeNodeKey`, or `null`. It
    * represents the node in the binary tree to which the delta value will be added.
    * @param lesserOrGreater - The `lesserOrGreater` parameter is an optional parameter that specifies whether the delta
-   * @param callback - The `callback` parameter is a function that takes a node as a parameter and returns a boolean
    */
-  lesserOrGreaterForeach(
-    node: N | BinaryTreeNodeKey | null,
+  lesserOrGreaterTraverse(
+    callback: MapCallback<N> = this._defaultCallbackByKey,
     lesserOrGreater: CP = CP.lt,
-    callback: (node: N) => void
-  ): boolean {
-    if (typeof node === 'number') node = this.get(node, 'key');
-    if (!node) return false;
+    node: N | BinaryTreeNodeKey | null
+  ): MapCallbackReturn<N> {
+    if (typeof node === 'number') node = this.get(node);
+    const ans: MapCallbackReturn<N>[] = [];
+    if (!node) return [];
     const key = node.key;
     if (!this.root) return false;
 
     if (this.loopType === LoopType.RECURSIVE) {
       const _traverse = (cur: N) => {
         const compared = this._compare(cur.key, key);
-        if (compared === lesserOrGreater) callback(cur);
+        if (compared === lesserOrGreater) ans.push(callback(cur));
 
         if (!cur.left && !cur.right) return;
         if (cur.left && this._compare(cur.left.key, key) === lesserOrGreater) _traverse(cur.left);
@@ -324,13 +338,13 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
         const cur = queue.shift();
         if (cur) {
           const compared = this._compare(cur.key, key);
-          if (compared === lesserOrGreater) callback(cur);
+          if (compared === lesserOrGreater) ans.push(callback(cur));
 
           if (cur.left && this._compare(cur.left.key, key) === lesserOrGreater) queue.push(cur.left);
           if (cur.right && this._compare(cur.right.key, key) === lesserOrGreater) queue.push(cur.right);
         }
       }
-      return true;
+      return ans;
     }
   }
 
@@ -350,7 +364,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * @returns The function `perfectlyBalance()` returns a boolean value.
    */
   perfectlyBalance(): boolean {
-    const sorted = this.dfs('in', 'node'),
+    const sorted = this.dfs(node => node, 'in'),
       n = sorted.length;
     this.clear();
 

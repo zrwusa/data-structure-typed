@@ -1,9 +1,9 @@
-import {AVLTree, CP} from '../../../../src';
+import {AVLTree, CP, AVLTreeNode} from '../../../../src';
 
 describe('AVL Tree Test', () => {
   it('should perform various operations on a AVL Tree', () => {
     const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
-    const tree = new AVLTree();
+    const tree = new AVLTree<AVLTreeNode<number>>();
 
     for (const i of arr) tree.add(i, i);
 
@@ -12,7 +12,7 @@ describe('AVL Tree Test', () => {
     expect(node6 && tree.getHeight(node6)).toBe(3);
     expect(node6 && tree.getDepth(node6)).toBe(1);
 
-    const getNodeById = tree.get(10, 'key');
+    const getNodeById = tree.get(10);
     expect(getNodeById?.key).toBe(10);
 
     const getMinNodeByRoot = tree.getLeftMost();
@@ -23,22 +23,23 @@ describe('AVL Tree Test', () => {
     expect(getMinNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    node15 && tree.subTreeForeach(node15, node => (subTreeSum += node.key));
+    node15 && tree.subTreeTraverse(node => (subTreeSum += node.key), node15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
-    tree.lesserOrGreaterForeach(10, CP.lt, node => (lesserSum += node.key));
+    tree.lesserOrGreaterTraverse(node => (lesserSum += node.key), CP.lt, 10);
     expect(lesserSum).toBe(45);
 
     // node15 has type problem. After the uniform design, the generics of containers (DirectedGraph, BST) are based on the type of value. However, this design has a drawback: when I attempt to inherit from the Vertex or BSTNode classes, the types of the results obtained by all methods are those of the parent class.
     expect(node15?.val).toBe(15);
 
-    const dfs = tree.dfs('in', 'node');
+    const dfs = tree.dfs(node => node, 'in');
     expect(dfs[0].key).toBe(1);
     expect(dfs[dfs.length - 1].key).toBe(16);
 
     tree.perfectlyBalance();
-    const bfs = tree.bfs('node');
+    const bfs: AVLTreeNode<number>[] = [];
+    tree.bfs(node => bfs.push(node));
     expect(tree.isPerfectlyBalanced()).toBe(true);
     expect(bfs[0].key).toBe(8);
     expect(bfs[bfs.length - 1].key).toBe(16);
@@ -97,12 +98,14 @@ describe('AVL Tree Test', () => {
     expect(tree.getHeight()).toBe(1);
 
     expect(tree.isAVLBalanced()).toBe(true);
-    const lastBFSIds = tree.bfs();
+    const lastBFSIds = new Array<number>();
+    tree.bfs(node => lastBFSIds.push(node.key));
     expect(lastBFSIds[0]).toBe(12);
     expect(lastBFSIds[1]).toBe(2);
     expect(lastBFSIds[2]).toBe(16);
 
-    const lastBFSNodes = tree.bfs('node');
+    const lastBFSNodes: AVLTreeNode<number>[] = [];
+    tree.bfs(node => lastBFSNodes.push(node));
     expect(lastBFSNodes[0].key).toBe(12);
     expect(lastBFSNodes[1].key).toBe(2);
     expect(lastBFSNodes[2].key).toBe(16);

@@ -28,6 +28,10 @@ export type NodeOrPropertyName = 'node' | BinaryTreeNodePropertyName;
 
 export type BinaryTreeNodeKey = number;
 
+export type BFSCallback<N> = (node: N, level?: number) => any;
+
+export type BFSCallbackReturn<N> = ReturnType<BFSCallback<N>>;
+
 export type BinaryTreeNodeProperty<N extends BinaryTreeNode<N['val'], N>> =
   | N['val']
   | N

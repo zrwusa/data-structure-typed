@@ -12,3 +12,6 @@ export * from './singly-linked-list';
 export * from './doubly-linked-list';
 export * from './navigator';
 export * from './hash';
+
+export type MapCallback<N> = (node: N) => any;
+export type MapCallbackReturn<N> = ReturnType<MapCallback<N>>;

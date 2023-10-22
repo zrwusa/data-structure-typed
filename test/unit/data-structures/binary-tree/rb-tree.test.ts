@@ -7,7 +7,7 @@ describe('Red-Black Tree Tests', () => {
   //   tree = new RBTree<RBTreeNode<number>>();
   // });
 
-  test('Insertion and In-order Traversal', () => {
+  test('Insertion and In-order Traverse', () => {
     // tree.add(5);
     // tree.add(3);
     // tree.add(7);
@@ -16,9 +16,9 @@ describe('Red-Black Tree Tests', () => {
     // tree.add(6);
     // tree.add(8);
     //
-    // const inOrderTraversal: number[] = tree.DFS('in')
+    // const inOrderTraverse: number[] = tree.DFS('in')
     //
-    // expect(inOrderTraversal).toEqual([2, 3, 4, 5, 6, 7, 8]);
+    // expect(inOrderTraverse).toEqual([2, 3, 4, 5, 6, 7, 8]);
   });
 
   test('Deletion', () => {
@@ -35,9 +35,9 @@ describe('Red-Black Tree Tests', () => {
     // expect(tree.has(3)).toBe(false);
     //
     // // Perform in-order traversal to check if the tree is still balanced
-    // const inOrderTraversal: number[] = tree.DFS('in');
+    // const inOrderTraverse: number[] = tree.DFS('in');
     //
     //
-    // expect(inOrderTraversal).toEqual([2, 4, 5, 6, 7, 8]);
+    // expect(inOrderTraverse).toEqual([2, 4, 5, 6, 7, 8]);
   });
 });

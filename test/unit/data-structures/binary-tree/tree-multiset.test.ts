@@ -16,7 +16,6 @@ describe('TreeMultiset operations test', () => {
 
     expect(treeMultiset.size).toBe(16);
     expect(treeMultiset.count).toBe(18);
-    expect(treeMultiset.bfs('key'));
 
     expect(treeMultiset.has(6));
 
@@ -25,13 +24,13 @@ describe('TreeMultiset operations test', () => {
     const nodeId10 = treeMultiset.get(10);
     expect(nodeId10?.key).toBe(10);
 
-    const nodeVal9 = treeMultiset.get(9, 'val');
+    const nodeVal9 = treeMultiset.get(9, node => node.val);
     expect(nodeVal9?.key).toBe(9);
 
-    const nodesByCount1 = treeMultiset.getNodesByCount(1);
+    const nodesByCount1 = treeMultiset.getNodes(1, node => node.count);
     expect(nodesByCount1.length).toBe(14);
 
-    const nodesByCount2 = treeMultiset.getNodesByCount(2);
+    const nodesByCount2 = treeMultiset.getNodes(2, node => node.count);
     expect(nodesByCount2.length).toBe(2);
     const leftMost = treeMultiset.getLeftMost();
     expect(leftMost?.key).toBe(1);
@@ -41,29 +40,25 @@ describe('TreeMultiset operations test', () => {
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    node15 && treeMultiset.subTreeForeach(15, (node: TreeMultisetNode<number>) => (subTreeSum += node.key));
+    node15 && treeMultiset.subTreeTraverse((node: TreeMultisetNode<number>) => (subTreeSum += node.key), 15);
     expect(subTreeSum).toBe(70);
     let lesserSum = 0;
-    treeMultiset.lesserOrGreaterForeach(10, CP.lt, (node: TreeMultisetNode<number>) => (lesserSum += node.key));
+    treeMultiset.lesserOrGreaterTraverse((node: TreeMultisetNode<number>) => (lesserSum += node.key), CP.lt, 10);
     expect(lesserSum).toBe(45);
 
     expect(node15 instanceof TreeMultisetNode);
     if (node15 instanceof TreeMultisetNode) {
-      const subTreeAdd = treeMultiset.subTreeForeach(15, (node: TreeMultisetNode<number>) => (node.count += 1));
+      const subTreeAdd = treeMultiset.subTreeTraverse((node: TreeMultisetNode<number>) => (node.count += 1), 15);
       expect(subTreeAdd);
     }
     const node11 = treeMultiset.get(11);
     expect(node11 instanceof TreeMultisetNode);
     if (node11 instanceof TreeMultisetNode) {
-      const allGreaterNodesAdded = treeMultiset.lesserOrGreaterForeach(
-        11,
-        CP.gt,
-        (node: TreeMultisetNode<number>) => (node.count += 2)
-      );
+      const allGreaterNodesAdded = treeMultiset.lesserOrGreaterTraverse(node => (node.count += 2), CP.gt, 11);
       expect(allGreaterNodesAdded);
     }
 
-    const dfsInorderNodes = treeMultiset.dfs('in', 'node');
+    const dfsInorderNodes = treeMultiset.dfs(node => node, 'in');
     expect(dfsInorderNodes[0].key).toBe(1);
     expect(dfsInorderNodes[dfsInorderNodes.length - 1].key).toBe(16);
     expect(treeMultiset.isPerfectlyBalanced()).toBe(false);
@@ -73,7 +68,7 @@ describe('TreeMultiset operations test', () => {
     expect(treeMultiset.isPerfectlyBalanced()).toBe(true);
     expect(treeMultiset.isAVLBalanced()).toBe(true);
 
-    const bfsNodesAfterBalanced = treeMultiset.bfs('node');
+    const bfsNodesAfterBalanced = treeMultiset.bfs(node => node);
     expect(bfsNodesAfterBalanced[0].key).toBe(8);
     expect(bfsNodesAfterBalanced[bfsNodesAfterBalanced.length - 1].key).toBe(16);
 
@@ -194,13 +189,13 @@ describe('TreeMultiset operations test', () => {
 
     expect(treeMultiset.isAVLBalanced()).toBe(true);
 
-    const bfsIDs = treeMultiset.bfs();
+    const bfsIDs = treeMultiset.bfs(node => node.key);
 
     expect(bfsIDs[0]).toBe(12);
     expect(bfsIDs[1]).toBe(2);
     expect(bfsIDs[2]).toBe(16);
 
-    const bfsNodes = treeMultiset.bfs('node');
+    const bfsNodes = treeMultiset.bfs(node => node);
 
     expect(bfsNodes[0].key).toBe(12);
     expect(bfsNodes[1].key).toBe(2);
@@ -284,7 +279,7 @@ describe('TreeMultiset operations test', () => {
     //     expect(allGreaterNodesAdded).toBeDefined();
     // }
     //
-    // const dfsInorderNodes = objTreeMultiset.dfs('in', 'node');
+    // const dfsInorderNodes = objTreeMultiset.dfs(node => node, 'in');
     // expect(dfsInorderNodes[0].key).toBe(1);
     // expect(dfsInorderNodes[dfsInorderNodes.length - 1].key).toBe(16);
     //
@@ -474,18 +469,18 @@ describe('TreeMultiset Performance test', function () {
 
   it(`Observe the time consumption of TreeMultiset.dfs be good`, function () {
     const startDFS = performance.now();
-    const dfs = treeMS.dfs();
+    const dfs = treeMS.dfs(node => node);
     isDebug && console.log('---bfs', performance.now() - startDFS, dfs.length);
   });
 
-  it('Should the time consumption of lesserOrGreaterForeach fitting O(n log n)', function () {
+  it('Should the time consumption of lesserOrGreaterTraverse fitting O(n log n)', function () {
     const start = performance.now();
     for (let i = 0; i < inputSize; i++) {
       treeMS.add(i);
     }
     isDebug && console.log('---add', performance.now() - start);
     const startL = performance.now();
-    treeMS.lesserOrGreaterForeach(inputSize / 2, CP.lt, (node: TreeMultisetNode<number>) => (node.count += 1));
-    isDebug && console.log('---lesserOrGreaterForeach', performance.now() - startL);
+    treeMS.lesserOrGreaterTraverse((node: TreeMultisetNode<number>) => (node.count += 1), CP.lt, inputSize / 2);
+    isDebug && console.log('---lesserOrGreaterTraverse', performance.now() - startL);
   });
 });
