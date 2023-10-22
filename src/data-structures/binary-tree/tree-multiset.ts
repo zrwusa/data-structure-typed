@@ -6,10 +6,9 @@
  * @license MIT License
  */
 import type {BinaryTreeNodeKey, TreeMultisetNodeNested, TreeMultisetOptions} from '../../types';
-import {BinaryTreeDeletedResult, CP, DFSOrderPattern, FamilyPosition, LoopType} from '../../types';
+import {BinaryTreeDeletedResult, CP, FamilyPosition, LoopType} from '../../types';
 import {IBinaryTree} from '../../interfaces';
 import {AVLTree, AVLTreeNode} from './avl-tree';
-import {Queue} from '../queue';
 
 export class TreeMultisetNode<
   V = any,
@@ -248,7 +247,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * @returns The function `perfectlyBalance()` returns a boolean value.
    */
   override perfectlyBalance(): boolean {
-    const sorted = this.dfs('in', 'node'),
+    const sorted = this.dfs(node => node, 'in'),
       n = sorted.length;
     if (sorted.length < 1) return false;
 
@@ -348,87 +347,6 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
     }
 
     return bstDeletedResult;
-  }
-
-  /**
-   * The function `getNodesByCount` returns an array of nodes that have a specific count property, either recursively or
-   * using a queue.
-   * @param {BinaryTreeNodeKey | N} nodeProperty - The `nodeProperty` parameter can be either a `BinaryTreeNodeKey` or a
-   * `N`. It represents the property of the nodes that you want to search for.
-   * @param {boolean} [onlyOne] - The `onlyOne` parameter is an optional boolean parameter that determines whether to
-   * return only one node that matches the `nodeProperty` or all nodes that match the `nodeProperty`. If `onlyOne` is set
-   * to `true`, the function will return only one node. If `onlyOne`
-   * @returns an array of nodes that match the given nodeProperty.
-   */
-  getNodesByCount(nodeProperty: BinaryTreeNodeKey | N, onlyOne = false): N[] {
-    if (!this.root) return [];
-    const result: N[] = [];
-
-    if (this.loopType === LoopType.RECURSIVE) {
-      const _traverse = (cur: N) => {
-        if (cur.count === nodeProperty) {
-          result.push(cur);
-          if (onlyOne) return;
-        }
-
-        if (!cur.left && !cur.right) return;
-        cur.left && _traverse(cur.left);
-        cur.right && _traverse(cur.right);
-      };
-
-      _traverse(this.root);
-    } else {
-      const queue = new Queue<N>([this.root]);
-      while (queue.size > 0) {
-        const cur = queue.shift();
-        if (cur) {
-          if (cur.count === nodeProperty) {
-            result.push(cur);
-            if (onlyOne) return result;
-          }
-
-          cur.left && queue.push(cur.left);
-          cur.right && queue.push(cur.right);
-        }
-      }
-    }
-
-    return result;
-  }
-
-  /**
-   * The BFSCount function returns an array of counts from a breadth-first search of nodes.
-   * @returns The BFSCount() function returns an array of numbers, specifically the count property of each node in the
-   * bfs traversal.
-   */
-  bfsCount(): number[] {
-    const nodes = super.bfs('node');
-    return nodes.map(node => node.count);
-  }
-
-  /**
-   * The function "listLevelsCount" takes a node and returns an array of arrays, where each inner array contains the
-   * count property of each node at that level.
-   * @param {N | null} node - The parameter `node` is of type `N | null`. This means that it can either be an instance of
-   * the class `N` or `null`.
-   * @returns a 2D array of numbers. Each inner array represents a level in the binary tree, and each number in the inner
-   * array represents the count property of a node in that level.
-   */
-  listLevelsCount(node: N | null): number[][] {
-    const levels = super.listLevels(node, 'node');
-    return levels.map(level => level.map(node => node.count));
-  }
-
-  /**
-   * The `morrisCount` function returns an array of counts for each node in a binary tree, based on a specified traversal
-   * pattern.
-   * @param {'in' | 'pre' | 'post'} [pattern] - The `pattern` parameter is an optional parameter that specifies the
-   * traversal pattern for the Morris traversal algorithm. It can have one of three values: 'in', 'pre', or 'post'.
-   * @returns The function `morrisCount` returns an array of numbers.
-   */
-  morrisCount(pattern: DFSOrderPattern = 'in'): number[] {
-    const nodes = super.morris(pattern, 'node');
-    return nodes.map(node => node.count);
   }
 
   /**

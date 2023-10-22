@@ -172,7 +172,7 @@ export class Heap<E> {
 
   /**
    * Depth-first search (DFS) method, different traversal orders can be selected。
-   * @param order - Traversal order parameter: 'in' (in-order), 'pre' (pre-order) or 'post' (post-order).
+   * @param order - Traverse order parameter: 'in' (in-order), 'pre' (pre-order) or 'post' (post-order).
    * @returns An array containing elements traversed in the specified order.
    */
   dfs(order: DFSOrderPattern): E[] {

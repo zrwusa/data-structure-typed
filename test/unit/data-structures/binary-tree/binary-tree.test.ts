@@ -127,7 +127,7 @@ describe('BinaryTree', () => {
     binaryTree.add(5);
     binaryTree.add(7);
 
-    const inOrder = binaryTree.dfs('in');
+    const inOrder = binaryTree.dfs(node => node.key);
 
     expect(inOrder).toEqual([1, 2, 3, 4, 5, 6, 7]);
   });

@@ -1,6 +1,6 @@
 import {BST, BSTNode, CP} from '../../../../src';
 
-const isDebug = false;
+const isDebug = true;
 
 describe('BST operations test', () => {
   it('should perform various operations on a Binary Search Tree with numeric values', () => {
@@ -25,7 +25,7 @@ describe('BST operations test', () => {
     const nodeId10 = bst.get(10);
     expect(nodeId10?.key).toBe(10);
 
-    const nodeVal9 = bst.get(9, 'val');
+    const nodeVal9 = bst.get(9, node => node.val);
     expect(nodeVal9?.key).toBe(9);
 
     const leftMost = bst.getLeftMost();
@@ -36,11 +36,11 @@ describe('BST operations test', () => {
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    node15 && bst.subTreeForeach(15, node => (subTreeSum += node.key));
+    node15 && bst.subTreeTraverse(node => (subTreeSum += node.key), 15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
-    bst.lesserOrGreaterForeach(10, CP.lt, node => (lesserSum += node.key));
+    bst.lesserOrGreaterTraverse(node => (lesserSum += node.key), CP.lt, 10);
     expect(lesserSum).toBe(45);
 
     expect(node15).toBeInstanceOf(BSTNode);
@@ -48,14 +48,15 @@ describe('BST operations test', () => {
     const node11 = bst.get(11);
     expect(node11).toBeInstanceOf(BSTNode);
 
-    const dfsInorderNodes = bst.dfs('in', 'node');
+    const dfsInorderNodes = bst.dfs(node => node, 'in');
     expect(dfsInorderNodes[0].key).toBe(1);
     expect(dfsInorderNodes[dfsInorderNodes.length - 1].key).toBe(16);
 
     bst.perfectlyBalance();
     expect(bst.isPerfectlyBalanced()).toBe(true);
 
-    const bfsNodesAfterBalanced = bst.bfs('node');
+    const bfsNodesAfterBalanced: BSTNode<number>[] = [];
+    bst.bfs(node => bfsNodesAfterBalanced.push(node));
     expect(bfsNodesAfterBalanced[0].key).toBe(8);
     expect(bfsNodesAfterBalanced[bfsNodesAfterBalanced.length - 1].key).toBe(16);
 
@@ -173,12 +174,14 @@ describe('BST operations test', () => {
 
     expect(bst.isAVLBalanced()).toBe(false);
 
-    const bfsIDs = bst.bfs();
+    const bfsIDs: number[] = [];
+    bst.bfs(node => bfsIDs.push(node.key));
     expect(bfsIDs[0]).toBe(2);
     expect(bfsIDs[1]).toBe(12);
     expect(bfsIDs[2]).toBe(16);
 
-    const bfsNodes = bst.bfs('node');
+    const bfsNodes: BSTNode<number>[] = [];
+    bst.bfs(node => bfsNodes.push(node));
     expect(bfsNodes[0].key).toBe(2);
     expect(bfsNodes[1].key).toBe(12);
     expect(bfsNodes[2].key).toBe(16);
@@ -222,10 +225,10 @@ describe('BST operations test', () => {
     expect(node6 && objBST.getHeight(node6)).toBe(2);
     expect(node6 && objBST.getDepth(node6)).toBe(3);
 
-    const nodeId10 = objBST.get(10, 'key');
+    const nodeId10 = objBST.get(10);
     expect(nodeId10?.key).toBe(10);
 
-    const nodeVal9 = objBST.get(9, 'key');
+    const nodeVal9 = objBST.get(9);
     expect(nodeVal9?.key).toBe(9);
 
     const leftMost = objBST.getLeftMost();
@@ -237,11 +240,11 @@ describe('BST operations test', () => {
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    node15 && objBST.subTreeForeach(node15, node => (subTreeSum += node.key));
+    node15 && objBST.subTreeTraverse(node => (subTreeSum += node.key), node15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
-    objBST.lesserOrGreaterForeach(10, CP.lt, node => (lesserSum += node.key));
+    objBST.lesserOrGreaterTraverse(node => (lesserSum += node.key), CP.lt, 10);
     expect(lesserSum).toBe(45);
 
     expect(node15).toBeInstanceOf(BSTNode);
@@ -249,14 +252,15 @@ describe('BST operations test', () => {
     const node11 = objBST.get(11);
     expect(node11).toBeInstanceOf(BSTNode);
 
-    const dfsInorderNodes = objBST.dfs('in', 'node');
+    const dfsInorderNodes = objBST.dfs(node => node, 'in');
     expect(dfsInorderNodes[0].key).toBe(1);
     expect(dfsInorderNodes[dfsInorderNodes.length - 1].key).toBe(16);
 
     objBST.perfectlyBalance();
     expect(objBST.isPerfectlyBalanced()).toBe(true);
 
-    const bfsNodesAfterBalanced = objBST.bfs('node');
+    const bfsNodesAfterBalanced: BSTNode<{key: number; keyA: number}>[] = [];
+    objBST.bfs(node => bfsNodesAfterBalanced.push(node));
     expect(bfsNodesAfterBalanced[0].key).toBe(8);
     expect(bfsNodesAfterBalanced[bfsNodesAfterBalanced.length - 1].key).toBe(16);
 
@@ -374,12 +378,14 @@ describe('BST operations test', () => {
 
     expect(objBST.isAVLBalanced()).toBe(false);
 
-    const bfsIDs = objBST.bfs();
+    const bfsIDs: number[] = [];
+    objBST.bfs(node => bfsIDs.push(node.key));
     expect(bfsIDs[0]).toBe(2);
     expect(bfsIDs[1]).toBe(12);
     expect(bfsIDs[2]).toBe(16);
 
-    const bfsNodes = objBST.bfs('node');
+    const bfsNodes: BSTNode<{key: number; keyA: number}>[] = [];
+    objBST.bfs(node => bfsNodes.push(node));
     expect(bfsNodes[0].key).toBe(2);
     expect(bfsNodes[1].key).toBe(12);
     expect(bfsNodes[2].key).toBe(16);
@@ -396,11 +402,11 @@ describe('BST Performance test', function () {
 
   it(`Observe the time consumption of BST.dfs be good`, function () {
     const startDFS = performance.now();
-    const dfs = bst.dfs();
+    const dfs = bst.dfs(node => node);
     isDebug && console.log('---bfs', performance.now() - startDFS, dfs.length);
   });
 
-  it('Should the time consumption of lesserOrGreaterForeach fitting O(n log n)', function () {
+  it('Should the time consumption of lesserOrGreaterTraverse fitting O(n log n)', function () {
     const nodes: number[] = [];
     for (let i = 0; i < inputSize; i++) {
       nodes.push(i);
@@ -409,9 +415,33 @@ describe('BST Performance test', function () {
     bst.addMany(nodes);
     isDebug && console.log('---add', performance.now() - start);
     const startL = performance.now();
-    bst.lesserOrGreaterForeach(inputSize / 2, CP.lt, node => {
-      return node.key - 1;
-    });
-    isDebug && console.log('---lesserOrGreaterForeach', performance.now() - startL);
+    bst.lesserOrGreaterTraverse(
+      node => {
+        node.key - 1;
+      },
+      CP.lt,
+      inputSize / 2
+    );
+    isDebug && console.log('---lesserOrGreaterTraverse', performance.now() - startL);
+  });
+
+  it('Should the time consumption of listLevels fitting well', function () {
+    const nodes: number[] = [];
+    for (let i = 0; i < inputSize; i++) {
+      nodes.push(i);
+    }
+    const start = performance.now();
+    bst.addMany(nodes);
+    isDebug && console.log('---add', performance.now() - start);
+    const startL = performance.now();
+    const arr: number[][] = [];
+    bst.bfs((node, level) => {
+      if (level !== undefined) {
+        if (!arr[level]) arr[level] = [];
+        arr[level].push(node.key);
+      }
+    }, true);
+    isDebug && console.log('---listLevels', arr);
+    isDebug && console.log('---listLevels', performance.now() - startL);
   });
 });

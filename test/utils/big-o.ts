@@ -1,5 +1,6 @@
 import {AnyFunction} from '../types';
 
+const isDebug = false;
 const orderReducedBy = 2; // reduction of bigO's order compared to the baseline bigO
 
 export const magnitude = {
@@ -148,12 +149,12 @@ export function logBigOMetricsWrap<F extends AnyFunction>(fn: F, args: Parameter
     methodLog.push([runTime, maxDataSize]);
 
     if (methodLog.length >= 20) {
-      console.log('triggered', methodName, methodLog);
+      isDebug && console.log('triggered', methodName, methodLog);
       const bigO = estimateBigO(
         methodLog.map(([runTime]) => runTime),
         methodLog.map(([runTime]) => runTime)
       );
-      console.log(`Estimated Big O: ${bigO}`);
+      isDebug && console.log(`Estimated Big O: ${bigO}`);
       methodLogs.delete(methodName);
     }
   }
@@ -182,12 +183,12 @@ export function logBigOMetrics(target: any, propertyKey: string, descriptor: Pro
       methodLog.push([runTime, maxDataSize]);
 
       if (methodLog.length >= 20) {
-        console.log('triggered', methodName, methodLog);
+        isDebug && console.log('triggered', methodName, methodLog);
         const bigO = estimateBigO(
           methodLog.map(([runTime]) => runTime),
           methodLog.map(([runTime]) => runTime)
         );
-        console.log(`Estimated Big O: ${bigO}`);
+        isDebug && console.log(`Estimated Big O: ${bigO}`);
         methodLogs.delete(methodName);
       }
     }
