@@ -144,3 +144,53 @@ describe('BinaryTree', () => {
     expect(binaryTree.root).toBeNull();
   });
 });
+
+describe('BinaryTree Morris Traversal', () => {
+  // Create a binary tree
+  const tree = new BinaryTree<BinaryTreeNode<number>>();
+  tree.add(1);
+  tree.add(2);
+  tree.add(3);
+  tree.add(4);
+  tree.add(5);
+  it('should perform in-order Morris traversal correctly as dfs traversal', () => {
+    // Perform in-order Morris traversal
+    const result = tree.morris(node => node.key, 'in');
+
+    // Expected in-order traversal result
+    const expected = [4, 2, 5, 1, 3];
+
+    expect(result).toEqual(expected);
+    expect(tree.dfs(node => node.key, 'in')).toEqual(expected);
+  });
+
+  it('should perform pre-order Morris traversal correctly as dfs traversal', () => {
+    // Perform pre-order Morris traversal
+    const result = tree.morris(node => node.key, 'pre');
+
+    // Expected pre-order traversal result
+    const expected = [1, 2, 4, 5, 3];
+
+    expect(result).toEqual(expected);
+    expect(tree.dfs(node => node.key, 'pre')).toEqual(expected);
+  });
+
+  it('should perform post-order Morris traversal correctly as dfs traversal', () => {
+    // Perform post-order Morris traversal
+    const result = tree.morris(node => node.key, 'post');
+
+    // Expected post-order traversal result
+    const expected = [4, 5, 2, 3, 1];
+
+    expect(result).toEqual([4, 5, 2, 3, 1]);
+    expect(tree.dfs(node => node.key, 'post')).toEqual(expected);
+  });
+
+  it('after morris traversals should the structure of the tree be correct', () => {
+    const node1 = tree.get(1);
+    const node2 = tree.get(2);
+    const node3 = tree.get(3);
+    expect(node1?.left).toBe(node2);
+    expect(node1?.right).toBe(node3);
+  });
+});

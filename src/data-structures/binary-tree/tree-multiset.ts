@@ -6,7 +6,7 @@
  * @license MIT License
  */
 import type {BinaryTreeNodeKey, TreeMultisetNodeNested, TreeMultisetOptions} from '../../types';
-import {BinaryTreeDeletedResult, CP, FamilyPosition, LoopType} from '../../types';
+import {BinaryTreeDeletedResult, CP, FamilyPosition, IterationType} from '../../types';
 import {IBinaryTree} from '../../interfaces';
 import {AVLTree, AVLTreeNode} from './avl-tree';
 
@@ -246,14 +246,14 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * constructs a balanced binary search tree using either a recursive or iterative approach.
    * @returns The function `perfectlyBalance()` returns a boolean value.
    */
-  override perfectlyBalance(): boolean {
+  override perfectlyBalance(iterationType = this.iterationType): boolean {
     const sorted = this.dfs(node => node, 'in'),
       n = sorted.length;
     if (sorted.length < 1) return false;
 
     this.clear();
 
-    if (this.loopType === LoopType.RECURSIVE) {
+    if (iterationType === IterationType.RECURSIVE) {
       const buildBalanceBST = (l: number, r: number) => {
         if (l > r) return;
         const m = l + Math.floor((r - l) / 2);
