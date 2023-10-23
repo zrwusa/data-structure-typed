@@ -13,7 +13,7 @@ import type {
   MapCallback,
   MapCallbackReturn
 } from '../../types';
-import {CP, LoopType} from '../../types';
+import {CP, IterationType} from '../../types';
 import {BinaryTree, BinaryTreeNode} from './binary-tree';
 import {IBinaryTree} from '../../interfaces';
 import {Queue} from '../queue';
@@ -134,12 +134,14 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * to the binary search tree.
    * @param {N['val'][]} data - The values of tree nodes
    * @param {boolean} isBalanceAdd - If true the nodes will be balance inserted in binary search method.
+   * @param iterationType - The `iterationType` parameter is an optional parameter that specifies whether to use a
    * @returns The function `addMany` returns an array of `N`, `null`, or `undefined` values.
    */
   override addMany(
     keysOrNodes: (BinaryTreeNodeKey | null)[] | (N | null)[],
     data?: N['val'][],
-    isBalanceAdd = true
+    isBalanceAdd = true,
+    iterationType = this.iterationType
   ): (N | null | undefined)[] {
     // TODO this addMany function is inefficient, it should be optimized
     function hasNoNull(arr: (BinaryTreeNodeKey | null)[] | (N | null)[]): arr is BinaryTreeNodeKey[] | N[] {
@@ -199,7 +201,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
         }
       }
     };
-    if (this.loopType === LoopType.RECURSIVE) {
+    if (iterationType === IterationType.RECURSIVE) {
       recursive(sortedKeysOrNodes, sortedData);
     } else {
       iterative();
@@ -221,16 +223,15 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
   }
 
   /**
-   * The function returns the key of the rightmost node if the comparison between two values is less than, the key of the
-   * leftmost node if the comparison is greater than, and the key of the rightmost node otherwise.
-   * @returns The method `lastKey()` returns the key of the rightmost node in the binary tree if the comparison between
-   * the values at index 0 and 1 is less than, otherwise it returns the key of the leftmost node. If the comparison is
-   * equal, it returns the key of the rightmost node. If there are no nodes in the tree, it returns 0.
+   * lastKey returns the last key in a binary tree. If the binary tree is empty, it returns 0.
+   * @param beginRoot - The `beginRoot` parameter is an optional parameter that specifies the root node from which to begin
+   * the search for the last key.
+   * @param iterationType - The `iterationType` parameter is an optional parameter that specifies whether to use a recursive or iterative approach to search for the last key.
    */
-  lastKey(beginRoot: N | null = this.root): BinaryTreeNodeKey {
-    if (this._compare(0, 1) === CP.lt) return this.getRightMost(beginRoot)?.key ?? 0;
-    else if (this._compare(0, 1) === CP.gt) return this.getLeftMost(beginRoot)?.key ?? 0;
-    else return this.getRightMost(beginRoot)?.key ?? 0;
+  lastKey(beginRoot: N | null = this.root, iterationType = this.iterationType): BinaryTreeNodeKey {
+    if (this._compare(0, 1) === CP.lt) return this.getRightMost(beginRoot, iterationType)?.key ?? 0;
+    else if (this._compare(0, 1) === CP.gt) return this.getLeftMost(beginRoot, iterationType)?.key ?? 0;
+    else return this.getRightMost(beginRoot, iterationType)?.key ?? 0;
   }
 
   /**
@@ -243,18 +244,20 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * return only one node that matches the given `nodeProperty` or all nodes that match the `nodeProperty`. If `onlyOne`
    * is set to `true`, the function will return an array with only one node (if
    * @param beginRoot - The `beginRoot` parameter is an optional parameter that specifies the root node from which to
+   * @param iterationType
    * @returns an array of nodes (type N).
    */
   override getNodes(
     nodeProperty: BinaryTreeNodeKey | N,
     callback: MapCallback<N> = this._defaultCallbackByKey,
     onlyOne = false,
-    beginRoot: N | null = this.root
+    beginRoot: N | null = this.root,
+    iterationType = this.iterationType
   ): N[] {
     if (!beginRoot) return [];
     const ans: N[] = [];
 
-    if (this.loopType === LoopType.RECURSIVE) {
+    if (iterationType === IterationType.RECURSIVE) {
       const _traverse = (cur: N) => {
         const callbackResult = callback(cur);
         if (callbackResult === nodeProperty) {
@@ -305,29 +308,31 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * The `lesserOrGreaterTraverse` function adds a delta value to the specified property of all nodes in a binary tree that
    * have a greater value than a given node.
    * @param callback - The `callback` parameter is a function that takes a node as a parameter and returns a value.
-   * @param {N | BinaryTreeNodeKey | null} node - The `node` parameter can be either of type `N` (a generic type), `BinaryTreeNodeKey`, or `null`. It
    * represents the node in the binary tree to which the delta value will be added.
    * @param lesserOrGreater - The `lesserOrGreater` parameter is an optional parameter that specifies whether the delta
+   * @param targetNode - The `targetNode` parameter is an optional parameter that specifies the node in the binary tree
+   * @param iterationType - The `iterationType` parameter is an optional parameter that specifies whether to use a
    */
   lesserOrGreaterTraverse(
     callback: MapCallback<N> = this._defaultCallbackByKey,
     lesserOrGreater: CP = CP.lt,
-    node: N | BinaryTreeNodeKey | null = this.root
+    targetNode: N | BinaryTreeNodeKey | null = this.root,
+    iterationType = this.iterationType
   ): MapCallbackReturn<N> {
-    if (typeof node === 'number') node = this.get(node);
+    if (typeof targetNode === 'number') targetNode = this.get(targetNode);
     const ans: MapCallbackReturn<N>[] = [];
-    if (!node) return ans;
-    const key = node.key;
+    if (!targetNode) return ans;
+    const targetKey = targetNode.key;
     if (!this.root) return ans;
 
-    if (this.loopType === LoopType.RECURSIVE) {
+    if (iterationType === IterationType.RECURSIVE) {
       const _traverse = (cur: N) => {
-        const compared = this._compare(cur.key, key);
+        const compared = this._compare(cur.key, targetKey);
         if (compared === lesserOrGreater) ans.push(callback(cur));
 
         if (!cur.left && !cur.right) return;
-        if (cur.left && this._compare(cur.left.key, key) === lesserOrGreater) _traverse(cur.left);
-        if (cur.right && this._compare(cur.right.key, key) === lesserOrGreater) _traverse(cur.right);
+        if (cur.left && this._compare(cur.left.key, targetKey) === lesserOrGreater) _traverse(cur.left);
+        if (cur.right && this._compare(cur.right.key, targetKey) === lesserOrGreater) _traverse(cur.right);
       };
 
       _traverse(this.root);
@@ -337,11 +342,11 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
       while (queue.size > 0) {
         const cur = queue.shift();
         if (cur) {
-          const compared = this._compare(cur.key, key);
+          const compared = this._compare(cur.key, targetKey);
           if (compared === lesserOrGreater) ans.push(callback(cur));
 
-          if (cur.left && this._compare(cur.left.key, key) === lesserOrGreater) queue.push(cur.left);
-          if (cur.right && this._compare(cur.right.key, key) === lesserOrGreater) queue.push(cur.right);
+          if (cur.left && this._compare(cur.left.key, targetKey) === lesserOrGreater) queue.push(cur.left);
+          if (cur.right && this._compare(cur.right.key, targetKey) === lesserOrGreater) queue.push(cur.right);
         }
       }
       return ans;
@@ -363,13 +368,13 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * constructs a balanced binary search tree using either a recursive or iterative approach.
    * @returns The function `perfectlyBalance()` returns a boolean value.
    */
-  perfectlyBalance(): boolean {
+  perfectlyBalance(iterationType = this.iterationType): boolean {
     const sorted = this.dfs(node => node, 'in'),
       n = sorted.length;
     this.clear();
 
     if (sorted.length < 1) return false;
-    if (this.loopType === LoopType.RECURSIVE) {
+    if (iterationType === IterationType.RECURSIVE) {
       const buildBalanceBST = (l: number, r: number) => {
         if (l > r) return;
         const m = l + Math.floor((r - l) / 2);
@@ -404,12 +409,12 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * The function `isAVLBalanced` checks if a binary tree is balanced according to the AVL tree property.
    * @returns a boolean value.
    */
-  isAVLBalanced(): boolean {
+  isAVLBalanced(iterationType = this.iterationType): boolean {
     if (!this.root) return true;
 
     let balanced = true;
 
-    if (this.loopType === LoopType.RECURSIVE) {
+    if (iterationType === IterationType.RECURSIVE) {
       const _height = (cur: N | null | undefined): number => {
         if (!cur) return 0;
         const leftHeight = _height(cur.left),
