@@ -15,12 +15,7 @@ import type {
   MapCallback,
   MapCallbackReturn
 } from '../../types';
-import {
-  BinaryTreeDeletedResult,
-  DFSOrderPattern,
-  FamilyPosition,
-  LoopType
-} from '../../types';
+import {BinaryTreeDeletedResult, DFSOrderPattern, FamilyPosition, LoopType} from '../../types';
 import {IBinaryTree} from '../../interfaces';
 import {trampoline} from '../../utils';
 import {Queue} from '../queue';
