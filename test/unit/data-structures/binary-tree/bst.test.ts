@@ -1,6 +1,7 @@
 import {BST, BSTNode, CP} from '../../../../src';
+import {isDebugTest} from '../../../config';
 
-const isDebug = true;
+const isDebug = isDebugTest;
 
 describe('BST operations test', () => {
   it('should perform various operations on a Binary Search Tree with numeric values', () => {
@@ -443,5 +444,11 @@ describe('BST Performance test', function () {
     }, true);
     isDebug && console.log('---listLevels', arr);
     isDebug && console.log('---listLevels', performance.now() - startL);
+  });
+
+  it('should the lastKey of a BST to be the largest key', function () {
+    const bst = new BST();
+    bst.addMany([9, 8, 7, 3, 1, 2, 5, 4, 6], undefined, false);
+    expect(bst.lastKey()).toBe(9);
   });
 });

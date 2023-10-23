@@ -293,7 +293,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * not be taken into account when removing it. If `ignoreCount` is set to `false
    * @returns The function `delete` returns an array of `BinaryTreeDeletedResult<N>` objects.
    */
-  override delete(nodeOrKey: N | BinaryTreeNodeKey, ignoreCount = false): BinaryTreeDeletedResult<N>[] {
+  override delete(nodeOrKey: N | BinaryTreeNodeKey, ignoreCount = false): BinaryTreeDeletedResult<N>[]{
     const bstDeletedResult: BinaryTreeDeletedResult<N>[] = [];
     if (!this.root) return bstDeletedResult;
 

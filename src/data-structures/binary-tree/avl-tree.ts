@@ -72,27 +72,25 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
 
   /**
    * The function overrides the add method of a binary tree node and balances the tree after inserting a new node.
-   * @param {BinaryTreeNodeKey} key - The `key` parameter is the identifier of the binary tree node that we want to add.
+   * @param keyOrNode - The `keyOrNode` parameter is either a key or a node that needs to be added to the binary tree.
    * @param [val] - The `val` parameter is an optional value that can be assigned to the node being added. It is of type
    * `N['val']`, which means it should be of the same type as the `val` property of the nodes in the binary tree.
    * @returns The method is returning the inserted node, or null or undefined if the insertion was not successful.
    */
-  override add(key: BinaryTreeNodeKey, val?: N['val']): N | null | undefined {
+  override add(keyOrNode: BinaryTreeNodeKey | N | null, val?: N['val']): N | null | undefined {
     // TODO support node as a param
-    const inserted = super.add(key, val);
+    const inserted = super.add(keyOrNode, val);
     if (inserted) this._balancePath(inserted);
     return inserted;
   }
 
   /**
-   * The function overrides the delete method of a binary tree and performs additional operations to balance the tree after
-   * deletion.
-   * @param {BinaryTreeNodeKey} key - The `key` parameter represents the identifier of the binary tree node that needs to be
-   * removed.
+   * The function overrides the delete method of a binary tree and performs additional operations to balance the tree after deletion.
    * @returns The method is returning an array of `BinaryTreeDeletedResult<N>` objects.
+   * @param nodeOrKey - The `nodeOrKey` parameter is either a node or a key that needs to be deleted from the binary tree.
    */
-  override delete(key: BinaryTreeNodeKey): BinaryTreeDeletedResult<N>[] {
-    const deletedResults = super.delete(key);
+  override delete(nodeOrKey: N | BinaryTreeNodeKey): BinaryTreeDeletedResult<N>[] {
+    const deletedResults = super.delete(nodeOrKey);
     for (const {needBalanced} of deletedResults) {
       if (needBalanced) {
         this._balancePath(needBalanced);

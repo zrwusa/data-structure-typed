@@ -646,7 +646,7 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
    * @param {N | null} subTreeRoot - The `node` parameter represents the root node of a binary search tree (BST).
    * @returns a boolean value.
    */
-  isSubtreeBST(subTreeRoot: N | null): boolean {
+  isSubtreeBST(subTreeRoot: N): boolean {
     // TODO there is a bug
     if (!subTreeRoot) return true;
 
@@ -681,6 +681,7 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
    * @returns The `isBST()` function is returning a boolean value.
    */
   isBST(): boolean {
+    if (this.root === null) return true;
     return this.isSubtreeBST(this.root);
   }
 
@@ -814,7 +815,7 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
   bfs(
     callback: BFSCallback<N> = this._defaultCallbackByKey,
     withLevel: boolean = false,
-    node?: N | null
+    node: N | null = this.root
   ): BFSCallbackReturn<N>[] {
     if (!node) node = this.root;
     if (!node) return [];
@@ -870,18 +871,23 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
 
   /**
    * The `morris` function performs an in-order, pre-order, or post-order traversal on a binary tree using the Morris traversal algorithm.
+   * The Morris algorithm only modifies the tree's structure during traversal; once the traversal is complete,
+   * the tree's structure should be restored to its original state to maintain the tree's integrity.
+   * This is because the purpose of the Morris algorithm is to save space rather than permanently alter the tree's shape.
    * @param {'in' | 'pre' | 'post'} [pattern] - The traversal pattern: 'in' (in-order), 'pre' (pre-order), or 'post' (post-order).
    * @param callback  - The `callback` parameter is a function that takes a node as a parameter and returns a value.
+   * @param beginRoot - The `beginRoot` parameter is an optional parameter of type `N` or `null`. It represents the
    * @returns An array of BinaryTreeNodeProperties<N> objects.
    */
   morris(
     callback: MapCallback<N> = this._defaultCallbackByKey,
-    pattern: DFSOrderPattern = 'in'
+    pattern: DFSOrderPattern = 'in',
+    beginRoot: N | null = this.root
   ): MapCallbackReturn<N>[] {
-    if (this.root === null) return [];
+    if (beginRoot === null) return [];
     const ans: MapCallbackReturn<N>[] = [];
 
-    let cur: N | null | undefined = this.root;
+    let cur: N | null | undefined = beginRoot;
     const _reverseEdge = (node: N | null | undefined) => {
       let pre: N | null | undefined = null;
       let next: N | null | undefined = null;
@@ -952,7 +958,7 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
           }
           cur = cur.right;
         }
-        _printEdge(this.root);
+        _printEdge(beginRoot);
         break;
     }
     return ans;

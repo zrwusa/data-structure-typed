@@ -1,6 +1,7 @@
 import {CP, TreeMultiset, TreeMultisetNode} from '../../../../src';
+import {isDebugTest} from '../../../config';
 
-const isDebug = false;
+const isDebug = isDebugTest;
 describe('TreeMultiset operations test', () => {
   it('should perform various operations on a Binary Search Tree with numeric values', () => {
     const treeMultiset = new TreeMultiset();

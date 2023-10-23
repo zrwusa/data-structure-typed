@@ -227,10 +227,10 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * the values at index 0 and 1 is less than, otherwise it returns the key of the leftmost node. If the comparison is
    * equal, it returns the key of the rightmost node. If there are no nodes in the tree, it returns 0.
    */
-  lastKey(): BinaryTreeNodeKey {
-    if (this._compare(0, 1) === CP.lt) return this.getRightMost()?.key ?? 0;
-    else if (this._compare(0, 1) === CP.gt) return this.getLeftMost()?.key ?? 0;
-    else return this.getRightMost()?.key ?? 0;
+  lastKey(beginRoot: N | null = this.root): BinaryTreeNodeKey {
+    if (this._compare(0, 1) === CP.lt) return this.getRightMost(beginRoot)?.key ?? 0;
+    else if (this._compare(0, 1) === CP.gt) return this.getLeftMost(beginRoot)?.key ?? 0;
+    else return this.getRightMost(beginRoot)?.key ?? 0;
   }
 
   /**
@@ -312,13 +312,13 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
   lesserOrGreaterTraverse(
     callback: MapCallback<N> = this._defaultCallbackByKey,
     lesserOrGreater: CP = CP.lt,
-    node: N | BinaryTreeNodeKey | null
+    node: N | BinaryTreeNodeKey | null = this.root
   ): MapCallbackReturn<N> {
     if (typeof node === 'number') node = this.get(node);
     const ans: MapCallbackReturn<N>[] = [];
-    if (!node) return [];
+    if (!node) return ans;
     const key = node.key;
-    if (!this.root) return false;
+    if (!this.root) return ans;
 
     if (this.loopType === LoopType.RECURSIVE) {
       const _traverse = (cur: N) => {
@@ -331,7 +331,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
       };
 
       _traverse(this.root);
-      return true;
+      return ans;
     } else {
       const queue = new Queue<N>([this.root]);
       while (queue.size > 0) {

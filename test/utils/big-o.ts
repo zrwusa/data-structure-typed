@@ -1,6 +1,7 @@
 import {AnyFunction} from '../types';
+import {isDebugTest} from '../config';
 
-const isDebug = false;
+const isDebug = isDebugTest;
 const orderReducedBy = 2; // reduction of bigO's order compared to the baseline bigO
 
 export const magnitude = {
