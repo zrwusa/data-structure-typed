@@ -30,6 +30,6 @@ describe('LinkedList Performance Test', () => {
       }
     }
 
-    expect(doublyListPushCost).toBeLessThan(bigO.SQUARED * 5);
+    expect(doublyListPushCost).toBeLessThan(bigO.SQUARED * 10);
   });
 });

@@ -69,11 +69,11 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
   }
 
   /**
-   * The function swaps the location of two nodes in a tree data structure.
-   * @param {N} srcNode - The source node that we want to _swap with the destination node.
-   * @param {N} destNode - The `destNode` parameter represents the destination node where the values from `srcNode` will
-   * be swapped with.
-   * @returns the `destNode` after swapping its values with the `srcNode`.
+   * The function swaps the values of two nodes in a binary tree.
+   * @param {N} srcNode - The source node that needs to be swapped with the destination node.
+   * @param {N} destNode - The `destNode` parameter represents the destination node where the values
+   * from `srcNode` will be swapped into.
+   * @returns The method is returning the `destNode` after swapping its properties with the `srcNode`.
    */
   protected override _swap(srcNode: N, destNode: N): N {
     const {key, val, count, height} = destNode;
@@ -96,14 +96,17 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
   }
 
   /**
-   * The `add` function adds a new node to a binary search tree, maintaining the tree's properties and balancing if
-   * necessary.
-   * @param {BinaryTreeNodeKey | N} keyOrNode - The `keyOrNode` parameter can be either a `BinaryTreeNodeKey` or a `N` (which
-   * represents a `BinaryTreeNode`).
-   * @param [val] - The `val` parameter represents the value to be added to the binary tree node.
-   * @param {number} [count] - The `count` parameter is an optional parameter that specifies the number of times the
-   * value should be added to the binary tree. If the `count` parameter is not provided, it defaults to 1.
-   * @returns The method `add` returns either the inserted node (`N`), `null`, or `undefined`.
+   * The `add` function adds a new node to a binary search tree, updating the count if the key already
+   * exists, and balancing the tree if necessary.
+   * @param {BinaryTreeNodeKey | N | null} keyOrNode - The `keyOrNode` parameter can be either a
+   * `BinaryTreeNodeKey` (which represents the key of the node to be added), a `N` (which represents a
+   * node to be added), or `null` (which represents a null node).
+   * @param [val] - The `val` parameter represents the value associated with the key that is being
+   * added to the binary tree.
+   * @param [count=1] - The `count` parameter represents the number of occurrences of the key/value
+   * pair that will be added to the binary tree. It has a default value of 1, which means that if no
+   * count is specified, the default count will be 1.
+   * @returns The function `add` returns a value of type `N | null | undefined`.
    */
   override add(keyOrNode: BinaryTreeNodeKey | N | null, val?: N['val'], count = 1): N | null | undefined {
     let inserted: N | null | undefined = undefined,
@@ -174,13 +177,12 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
   }
 
   /**
-   * The function adds a new node to a binary tree if there is an available slot on the left or right side of the parent
-   * node.
-   * @param {N | null} newNode - The `newNode` parameter represents the node that needs to be added to the tree. It can
-   * be either a node object (`N`) or `null`.
-   * @param {N} parent - The `parent` parameter represents the parent node to which the new node will be added as a
-   * child.
-   * @returns The method returns either the `parent.left`, `parent.right`, or `undefined`.
+   * The function adds a new node to a binary tree if there is an available slot in the parent node.
+   * @param {N | null} newNode - The `newNode` parameter represents the node that needs to be added to
+   * the tree. It can be either a node object (`N`) or `null`.
+   * @param {N} parent - The `parent` parameter represents the parent node to which the new node will
+   * be added as a child.
+   * @returns The method `_addTo` returns either the `parent.left`, `parent.right`, or `undefined`.
    */
   override _addTo(newNode: N | null, parent: N): N | null | undefined {
     if (parent) {
@@ -208,13 +210,13 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
   }
 
   /**
-   * The `addMany` function takes an array of node IDs or nodes and adds them to the tree multiset, returning an array of
-   * the inserted nodes.
-   * @param {(BinaryTreeNodeKey | null)[] | (N | null)[]} keysOrNodes - An array of BinaryTreeNodeKey or BinaryTreeNode
-   * objects, or null values.
-   * @param {N['val'][]} [data] - The `data` parameter is an optional array of values (`N['val'][]`) that corresponds to
-   * the nodes being added. It is used when adding nodes using the `keyOrNode` and `data` arguments in the `this.add()`
-   * method. If provided, the `data` array should
+   * The `addMany` function adds multiple keys or nodes to a TreeMultiset and returns an array of the
+   * inserted nodes.
+   * @param {(BinaryTreeNodeKey | null)[] | (N | null)[]} keysOrNodes - An array of keys or nodes to be
+   * added to the multiset. Each element can be either a BinaryTreeNodeKey or a TreeMultisetNode.
+   * @param {N['val'][]} [data] - The `data` parameter is an optional array of values that correspond
+   * to the keys or nodes being added to the multiset. It is used to associate additional data with
+   * each key or node.
    * @returns The function `addMany` returns an array of `N`, `null`, or `undefined` values.
    */
   override addMany(
@@ -242,9 +244,12 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
   }
 
   /**
-   * The `perfectlyBalance` function takes a binary tree, performs a depth-first search to sort the nodes, and then
-   * constructs a balanced binary search tree using either a recursive or iterative approach.
-   * @returns The function `perfectlyBalance()` returns a boolean value.
+   * The `perfectlyBalance` function in TypeScript takes a sorted array of nodes and builds a balanced
+   * binary search tree using either a recursive or iterative approach.
+   * @param iterationType - The `iterationType` parameter is an optional parameter that specifies the
+   * type of iteration to use when building a balanced binary search tree. It can have two possible
+   * values:
+   * @returns a boolean value.
    */
   override perfectlyBalance(iterationType = this.iterationType): boolean {
     const sorted = this.dfs(node => node, 'in'),
@@ -285,13 +290,16 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
   }
 
   /**
-   * The `delete` function removes a node from a binary search tree and returns the deleted node along with the parent
-   * node that needs to be balanced.
-   * @param {N | BinaryTreeNodeKey | null} nodeOrKey - The `nodeOrKey` parameter can be one of the following:
-   * @param {boolean} [ignoreCount] - The `ignoreCount` parameter is an optional boolean parameter that determines
-   * whether to ignore the count of the node being removed. If `ignoreCount` is set to `true`, the count of the node will
-   * not be taken into account when removing it. If `ignoreCount` is set to `false
-   * @returns The function `delete` returns an array of `BinaryTreeDeletedResult<N>` objects.
+   * The `delete` function in a binary search tree deletes a node from the tree and returns the deleted
+   * node along with the parent node that needs to be balanced.
+   * @param {N | BinaryTreeNodeKey} nodeOrKey - The `nodeOrKey` parameter can be either a node object
+   * (`N`) or a key value (`BinaryTreeNodeKey`). It represents the node or key that needs to be deleted
+   * from the binary tree.
+   * @param [ignoreCount=false] - A boolean flag indicating whether to ignore the count of the node
+   * being deleted. If set to true, the count of the node will not be considered and the node will be
+   * deleted regardless of its count. If set to false (default), the count of the node will be
+   * decremented by 1 and
+   * @returns The method `delete` returns an array of `BinaryTreeDeletedResult<N>` objects.
    */
   override delete(nodeOrKey: N | BinaryTreeNodeKey, ignoreCount = false): BinaryTreeDeletedResult<N>[] {
     const bstDeletedResult: BinaryTreeDeletedResult<N>[] = [];
@@ -350,7 +358,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
   }
 
   /**
-   * The clear() function clears the data and sets the count to 0.
+   * The clear() function clears the contents of a data structure and sets the count to zero.
    */
   clear() {
     super.clear();
@@ -358,7 +366,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
   }
 
   /**
-   * The function "_setCount" is used to set the value of the "_count" property.
+   * The function sets the value of the "_count" property.
    * @param {number} v - number
    */
   protected _setCount(v: number) {

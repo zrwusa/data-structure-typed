@@ -8,10 +8,12 @@ All notable changes to this project will be documented in this file.
 - [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - [`auto-changelog`](https://github.com/CookPete/auto-changelog)
 
-## [v1.37.0](https://github.com/zrwusa/data-structure-typed/compare/v1.35.0...main) (upcoming)
+## [v1.37.3](https://github.com/zrwusa/data-structure-typed/compare/v1.35.0...main) (upcoming)
 
 ### Changes
 
+- Optimization [`#23`](https://github.com/zrwusa/data-structure-typed/pull/23)
+- Optimization [`#20`](https://github.com/zrwusa/data-structure-typed/pull/20)
 - [binary-tree, graph] Replace all code that uses Arrays as makeshift Q… [`#18`](https://github.com/zrwusa/data-structure-typed/pull/18)
 - 1. No need for dfsIterative; integrate it directly into the dfs metho… [`#17`](https://github.com/zrwusa/data-structure-typed/pull/17)
 - [heap] fibonacci heap implemented. [test] big O estimate. [project] n… [`#15`](https://github.com/zrwusa/data-structure-typed/pull/15)
