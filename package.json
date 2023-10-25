@@ -226,8 +226,5 @@
     "tarjan",
     "Tarjan",
     "Tarjan's"
-  ],
-  "dependencies": {
-    "data-structure-typed": "^1.37.5"
-  }
+  ]
 }
