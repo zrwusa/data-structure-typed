@@ -34,7 +34,8 @@
     "changelog": "auto-changelog",
     "coverage:badge": "istanbul-badges-readme",
     "ci": "env && git fetch --tags && npm run lint && npm run build && npm run update:subs && npm run test && npm run changelog",
-    "publish:subs": "sh scripts/publish_all_subs.sh",
+    "copy:to-subs": "sh scripts/copy_to_all_subs.sh",
+    "publish:subs": "npm run copy:to-subs && sh scripts/publish_all_subs.sh",
     "publish:docs": "sh scripts/publish_docs.sh",
     "publish:all": "npm run ci && npm publish && npm run publish:subs && npm run publish:docs"
   },
