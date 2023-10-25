@@ -238,9 +238,9 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * @returns either the first node that matches the given nodeProperty and callback, or null if no
    * matching node is found.
    */
-  override get(
+  override get<C extends MapCallback<N> = MapCallback<N, BinaryTreeNodeKey>>(
     nodeProperty: BinaryTreeNodeKey | N,
-    callback: MapCallback<N> = this._defaultCallbackByKey,
+    callback: C = this._defaultCallbackByKey as C,
     beginRoot = this.root,
     iterationType = this.iterationType
   ): N | null {
@@ -289,9 +289,9 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * traverse the binary tree. It can have one of the following values:
    * @returns an array of nodes (N[]).
    */
-  override getNodes(
+  override getNodes<C extends MapCallback<N> = MapCallback<N, BinaryTreeNodeKey>>(
     nodeProperty: BinaryTreeNodeKey | N,
-    callback: MapCallback<N> = this._defaultCallbackByKey,
+    callback: C = this._defaultCallbackByKey as C,
     onlyOne = false,
     beginRoot: N | null = this.root,
     iterationType = this.iterationType
@@ -363,12 +363,12 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * done recursively or iteratively. It can have two possible values:
    * @returns The function `lesserOrGreaterTraverse` returns an array of `MapCallbackReturn<N>`.
    */
-  lesserOrGreaterTraverse(
-    callback: MapCallback<N> = this._defaultCallbackByKey,
+  lesserOrGreaterTraverse<C extends MapCallback<N> = MapCallback<N, BinaryTreeNodeKey>>(
+    callback: C = this._defaultCallbackByKey as C,
     lesserOrGreater: CP = CP.lt,
     targetNode: N | BinaryTreeNodeKey | null = this.root,
     iterationType = this.iterationType
-  ): MapCallbackReturn<N> {
+  ): ReturnType<C>[] {
     if (typeof targetNode === 'number') targetNode = this.get(targetNode);
     const ans: MapCallbackReturn<N>[] = [];
     if (!targetNode) return ans;

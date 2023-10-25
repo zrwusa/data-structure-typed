@@ -38,8 +38,7 @@ describe('AVL Tree Test', () => {
     expect(dfs[dfs.length - 1].key).toBe(16);
 
     tree.perfectlyBalance();
-    const bfs: AVLTreeNode<number>[] = [];
-    tree.bfs(node => bfs.push(node));
+    const bfs = tree.bfs(node => node);
     expect(tree.isPerfectlyBalanced()).toBe(true);
     expect(bfs[0].key).toBe(8);
     expect(bfs[bfs.length - 1].key).toBe(16);
@@ -98,8 +97,7 @@ describe('AVL Tree Test', () => {
     expect(tree.getHeight()).toBe(1);
 
     expect(tree.isAVLBalanced()).toBe(true);
-    const lastBFSIds = new Array<number>();
-    tree.bfs(node => lastBFSIds.push(node.key));
+    const lastBFSIds = tree.bfs();
     expect(lastBFSIds[0]).toBe(12);
     expect(lastBFSIds[1]).toBe(2);
     expect(lastBFSIds[2]).toBe(16);
@@ -109,5 +107,24 @@ describe('AVL Tree Test', () => {
     expect(lastBFSNodes[0].key).toBe(12);
     expect(lastBFSNodes[1].key).toBe(2);
     expect(lastBFSNodes[2].key).toBe(16);
+  });
+});
+
+describe('AVLTree APIs test', () => {
+  const avl = new AVLTree<AVLTreeNode<{id: number; text: string}>>();
+  beforeEach(() => {
+    avl.clear();
+  });
+
+  it('add', () => {
+    avl.add(1);
+    const node2 = new AVLTreeNode(2);
+    avl.add(node2);
+    const node3 = new AVLTreeNode(3, {id: 3, text: 'text3'});
+    avl.add(node3);
+    avl.add(node3, {id: 3, text: 'text33'});
+
+    const bfsRes = avl.bfs(node => node.key, false);
+    expect(bfsRes[0]).toBe(2);
   });
 });

@@ -14,7 +14,7 @@ export class MatrixNTI2D<V = any> {
    * given initial value or 0 if not provided.
    * @param options - An object containing the following properties:
    */
-  constructor(options: { row: number; col: number; initialVal?: V }) {
+  constructor(options: {row: number; col: number; initialVal?: V}) {
     const {row, col, initialVal} = options;
     this._matrix = new Array(row).fill(undefined).map(() => new Array(col).fill(initialVal || 0));
   }

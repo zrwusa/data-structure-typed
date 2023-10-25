@@ -26,7 +26,7 @@ export const bigO = {
 
 function findPotentialN(input: any): number {
   let longestArray: any[] = [];
-  let mostProperties: { [key: string]: any } = {};
+  let mostProperties: {[key: string]: any} = {};
 
   function recurse(obj: any) {
     if (Array.isArray(obj)) {

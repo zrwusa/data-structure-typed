@@ -1,4 +1,5 @@
 import {BinaryTreeNode} from '../../../data-structures';
+import PropertyKeysOf = jest.PropertyKeysOf;
 
 /**
  * Enum representing different loop types.
@@ -24,7 +25,7 @@ export enum FamilyPosition {
 
 export type BinaryTreeNodeKey = number;
 
-export type BFSCallback<N> = (node: N, level?: number) => any;
+export type BFSCallback<N, D = any> = (node: N, level?: number) => D;
 
 export type BFSCallbackReturn<N> = ReturnType<BFSCallback<N>>;
 

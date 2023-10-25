@@ -1,4 +1,4 @@
-import {BinaryTree, BinaryTreeNode} from '../../../../src';
+import {AVLTree, AVLTreeNode, BinaryTree, BinaryTreeNode} from '../../../../src';
 
 describe('BinaryTreeNode', () => {
   it('should create an instance of BinaryTreeNode', () => {
@@ -192,5 +192,24 @@ describe('BinaryTree Morris Traversal', () => {
     const node3 = tree.get(3);
     expect(node1?.left).toBe(node2);
     expect(node1?.right).toBe(node3);
+  });
+});
+
+describe('BinaryTree APIs test', () => {
+  const avl = new AVLTree<AVLTreeNode<{id: number; text: string}>>();
+  beforeEach(() => {
+    avl.clear();
+  });
+
+  it('add', () => {
+    avl.add(1);
+    const node2 = new AVLTreeNode(2);
+    avl.add(node2);
+    const node3 = new AVLTreeNode(3, {id: 3, text: 'text3'});
+    avl.add(node3);
+    avl.add(node3, {id: 3, text: 'text33'});
+
+    const bfsRes = avl.bfs(node => node);
+    expect(bfsRes[0]?.key).toBe(2);
   });
 });
