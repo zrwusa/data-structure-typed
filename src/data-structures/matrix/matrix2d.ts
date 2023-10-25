@@ -59,16 +59,6 @@ export class Matrix2D {
   }
 
   /**
-   * The function "toVector" returns a new Vector2D object with the values from the first and second elements of the
-   * _matrix array.
-   * @returns A new instance of the Vector2D class is being returned. The values of the returned vector are taken from
-   * the first column of the matrix.
-   */
-  toVector(): Vector2D {
-    return new Vector2D(this._matrix[0][0], this._matrix[1][0]);
-  }
-
-  /**
    * The function takes two 2D matrices as input and returns their sum as a new 2D matrix.
    * @param {Matrix2D} matrix1 - Matrix2D - The first matrix to be added.
    * @param {Matrix2D} matrix2 - The parameter `matrix2` is a Matrix2D object.
@@ -207,6 +197,16 @@ export class Matrix2D {
       [0, 1, vector.y],
       [0, 0, vector.w]
     ]);
+  }
+
+  /**
+   * The function "toVector" returns a new Vector2D object with the values from the first and second elements of the
+   * _matrix array.
+   * @returns A new instance of the Vector2D class is being returned. The values of the returned vector are taken from
+   * the first column of the matrix.
+   */
+  toVector(): Vector2D {
+    return new Vector2D(this._matrix[0][0], this._matrix[1][0]);
   }
 }
 

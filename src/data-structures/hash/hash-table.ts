@@ -21,21 +21,17 @@ export class HashTableNode<K, V> {
 import {HashFunction} from '../../types';
 
 export class HashTable<K, V> {
-  get hashFn(): HashFunction<K> {
-    return this._hashFn;
+  private static readonly DEFAULT_CAPACITY = 16;
+  private static readonly LOAD_FACTOR = 0.75;
+
+  constructor(capacity: number = HashTable.DEFAULT_CAPACITY, hashFn?: HashFunction<K>) {
+    this._hashFn = hashFn || this._defaultHashFn;
+    this._capacity = Math.max(capacity, HashTable.DEFAULT_CAPACITY);
+    this._size = 0;
+    this._buckets = new Array<HashTableNode<K, V> | null>(this._capacity).fill(null);
   }
 
-  set hashFn(value: HashFunction<K>) {
-    this._hashFn = value;
-  }
-
-  get buckets(): Array<HashTableNode<K, V> | null> {
-    return this._buckets;
-  }
-
-  set buckets(value: Array<HashTableNode<K, V> | null>) {
-    this._buckets = value;
-  }
+  private _capacity: number;
 
   get capacity(): number {
     return this._capacity;
@@ -45,19 +41,118 @@ export class HashTable<K, V> {
     this._capacity = value;
   }
 
-  private static readonly DEFAULT_CAPACITY = 16;
-  private static readonly LOAD_FACTOR = 0.75;
-
-  private _capacity: number;
   private _size: number;
+
+  get size(): number {
+    return this._size;
+  }
+
   private _buckets: Array<HashTableNode<K, V> | null>;
+
+  get buckets(): Array<HashTableNode<K, V> | null> {
+    return this._buckets;
+  }
+
+  set buckets(value: Array<HashTableNode<K, V> | null>) {
+    this._buckets = value;
+  }
+
   private _hashFn: HashFunction<K>;
 
-  constructor(capacity: number = HashTable.DEFAULT_CAPACITY, hashFn?: HashFunction<K>) {
-    this._hashFn = hashFn || this._defaultHashFn;
-    this._capacity = Math.max(capacity, HashTable.DEFAULT_CAPACITY);
-    this._size = 0;
-    this._buckets = new Array<HashTableNode<K, V> | null>(this._capacity).fill(null);
+  get hashFn(): HashFunction<K> {
+    return this._hashFn;
+  }
+
+  set hashFn(value: HashFunction<K>) {
+    this._hashFn = value;
+  }
+
+  /**
+   * The set function adds a key-value pair to the hash table, handling collisions and resizing if necessary.
+   * @param {K} key - The key parameter represents the key of the key-value pair that you want to insert into the hash
+   * table. It is of type K, which is a generic type representing the key's data type.
+   * @param {V} val - The parameter `val` represents the value that you want to associate with the given key in the hash
+   * table.
+   * @returns Nothing is being returned. The return type of the `put` method is `void`, which means it does not return any
+   * value.
+   */
+  set(key: K, val: V): void {
+    const index = this._hash(key);
+    const newNode = new HashTableNode<K, V>(key, val);
+
+    if (!this._buckets[index]) {
+      this._buckets[index] = newNode;
+    } else {
+      // Handle collisions, consider using open addressing, etc.
+      let currentNode = this._buckets[index]!;
+      while (currentNode) {
+        if (currentNode.key === key) {
+          // If the key already exists, update the value
+          currentNode.val = val;
+          return;
+        }
+        if (!currentNode.next) {
+          break;
+        }
+        currentNode = currentNode.next;
+      }
+      // Add to the end of the linked list
+      currentNode.next = newNode;
+    }
+    this._size++;
+
+    // If the load factor is too high, resize the hash table
+    if (this._size / this._capacity >= HashTable.LOAD_FACTOR) {
+      this._expand();
+    }
+  }
+
+  /**
+   * The `get` function retrieves the value associated with a given key from a hash table.
+   * @param {K} key - The `key` parameter represents the key of the element that we want to retrieve from the data
+   * structure.
+   * @returns The method is returning the value associated with the given key if it exists in the hash table. If the key is
+   * not found, it returns `undefined`.
+   */
+  get(key: K): V | undefined {
+    const index = this._hash(key);
+    let currentNode = this._buckets[index];
+
+    while (currentNode) {
+      if (currentNode.key === key) {
+        return currentNode.val;
+      }
+      currentNode = currentNode.next;
+    }
+    return undefined; // Key not found
+  }
+
+  /**
+   * The delete function removes a key-value pair from a hash table.
+   * @param {K} key - The `key` parameter represents the key of the key-value pair that needs to be removed from the hash
+   * table.
+   * @returns Nothing is being returned. The `delete` method has a return type of `void`, which means it does not return
+   * any value.
+   */
+  delete(key: K): void {
+    const index = this._hash(key);
+    let currentNode = this._buckets[index];
+    let prevNode: HashTableNode<K, V> | null = null;
+
+    while (currentNode) {
+      if (currentNode.key === key) {
+        if (prevNode) {
+          prevNode.next = currentNode.next;
+        } else {
+          this._buckets[index] = currentNode.next;
+        }
+        this._size--;
+        currentNode.next = null; // Release memory
+        return;
+      }
+      prevNode = currentNode;
+      currentNode = currentNode.next;
+    }
   }
 
   /**
@@ -153,94 +248,6 @@ export class HashTable<K, V> {
   }
 
   /**
-   * The set function adds a key-value pair to the hash table, handling collisions and resizing if necessary.
-   * @param {K} key - The key parameter represents the key of the key-value pair that you want to insert into the hash
-   * table. It is of type K, which is a generic type representing the key's data type.
-   * @param {V} val - The parameter `val` represents the value that you want to associate with the given key in the hash
-   * table.
-   * @returns Nothing is being returned. The return type of the `put` method is `void`, which means it does not return any
-   * value.
-   */
-  set(key: K, val: V): void {
-    const index = this._hash(key);
-    const newNode = new HashTableNode<K, V>(key, val);
-
-    if (!this._buckets[index]) {
-      this._buckets[index] = newNode;
-    } else {
-      // Handle collisions, consider using open addressing, etc.
-      let currentNode = this._buckets[index]!;
-      while (currentNode) {
-        if (currentNode.key === key) {
-          // If the key already exists, update the value
-          currentNode.val = val;
-          return;
-        }
-        if (!currentNode.next) {
-          break;
-        }
-        currentNode = currentNode.next;
-      }
-      // Add to the end of the linked list
-      currentNode.next = newNode;
-    }
-    this._size++;
-
-    // If the load factor is too high, resize the hash table
-    if (this._size / this._capacity >= HashTable.LOAD_FACTOR) {
-      this._expand();
-    }
-  }
-
-  /**
-   * The `get` function retrieves the value associated with a given key from a hash table.
-   * @param {K} key - The `key` parameter represents the key of the element that we want to retrieve from the data
-   * structure.
-   * @returns The method is returning the value associated with the given key if it exists in the hash table. If the key is
-   * not found, it returns `undefined`.
-   */
-  get(key: K): V | undefined {
-    const index = this._hash(key);
-    let currentNode = this._buckets[index];
-
-    while (currentNode) {
-      if (currentNode.key === key) {
-        return currentNode.val;
-      }
-      currentNode = currentNode.next;
-    }
-    return undefined; // Key not found
-  }
-
-  /**
-   * The delete function removes a key-value pair from a hash table.
-   * @param {K} key - The `key` parameter represents the key of the key-value pair that needs to be removed from the hash
-   * table.
-   * @returns Nothing is being returned. The `delete` method has a return type of `void`, which means it does not return
-   * any value.
-   */
-  delete(key: K): void {
-    const index = this._hash(key);
-    let currentNode = this._buckets[index];
-    let prevNode: HashTableNode<K, V> | null = null;
-
-    while (currentNode) {
-      if (currentNode.key === key) {
-        if (prevNode) {
-          prevNode.next = currentNode.next;
-        } else {
-          this._buckets[index] = currentNode.next;
-        }
-        this._size--;
-        currentNode.next = null; // Release memory
-        return;
-      }
-      prevNode = currentNode;
-      currentNode = currentNode.next;
-    }
-  }
-
-  /**
    * The `expand` function increases the capacity of a hash table by creating a new array of buckets with double the
    * capacity and rehashing all the existing key-value pairs into the new buckets.
    */
@@ -269,9 +276,5 @@ export class HashTable<K, V> {
 
     this._buckets = newBuckets;
     this._capacity = newCapacity;
-  }
-
-  get size(): number {
-    return this._size;
   }
 }

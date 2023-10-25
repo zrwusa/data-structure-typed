@@ -1,7 +1,7 @@
 import {BinaryIndexedTree} from '../../../../src';
 import {isDebugTest} from '../../../config';
 
-const isDebug = isDebugTest;
+// const isDebug = isDebugTest;
 
 describe('BinaryIndexedTree simple', () => {
   let bit: BinaryIndexedTree;

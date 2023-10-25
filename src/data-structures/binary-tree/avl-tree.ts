@@ -33,33 +33,6 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
   }
 
   /**
-   * The function swaps the key, value, and height properties between two nodes in a binary tree.
-   * @param {N} srcNode - The `srcNode` parameter represents the source node that needs to be swapped
-   * with the `destNode`.
-   * @param {N} destNode - The `destNode` parameter represents the destination node where the values
-   * from the source node (`srcNode`) will be swapped to.
-   * @returns The method is returning the `destNode` after swapping its properties with the `srcNode`.
-   */
-  protected override _swap(srcNode: N, destNode: N): N {
-    const {key, val, height} = destNode;
-    const tempNode = this.createNode(key, val);
-
-    if (tempNode) {
-      tempNode.height = height;
-
-      destNode.key = srcNode.key;
-      destNode.val = srcNode.val;
-      destNode.height = srcNode.height;
-
-      srcNode.key = tempNode.key;
-      srcNode.val = tempNode.val;
-      srcNode.height = tempNode.height;
-    }
-
-    return destNode;
-  }
-
-  /**
    * The function creates a new AVL tree node with the specified key and value.
    * @param {BinaryTreeNodeKey} key - The key parameter is the key value that will be associated with
    * the new node. It is used to determine the position of the node in the binary search tree.
@@ -103,6 +76,33 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
       }
     }
     return deletedResults;
+  }
+
+  /**
+   * The function swaps the key, value, and height properties between two nodes in a binary tree.
+   * @param {N} srcNode - The `srcNode` parameter represents the source node that needs to be swapped
+   * with the `destNode`.
+   * @param {N} destNode - The `destNode` parameter represents the destination node where the values
+   * from the source node (`srcNode`) will be swapped to.
+   * @returns The method is returning the `destNode` after swapping its properties with the `srcNode`.
+   */
+  protected override _swap(srcNode: N, destNode: N): N {
+    const {key, val, height} = destNode;
+    const tempNode = this.createNode(key, val);
+
+    if (tempNode) {
+      tempNode.height = height;
+
+      destNode.key = srcNode.key;
+      destNode.val = srcNode.val;
+      destNode.height = srcNode.height;
+
+      srcNode.key = tempNode.key;
+      srcNode.val = tempNode.val;
+      srcNode.height = tempNode.height;
+    }
+
+    return destNode;
   }
 
   /**

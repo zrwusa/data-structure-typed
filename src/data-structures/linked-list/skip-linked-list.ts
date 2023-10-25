@@ -19,39 +19,6 @@ export class SkipListNode<K, V> {
 }
 
 export class SkipList<K, V> {
-  get probability(): number {
-    return this._probability;
-  }
-
-  set probability(value: number) {
-    this._probability = value;
-  }
-  get maxLevel(): number {
-    return this._maxLevel;
-  }
-
-  set maxLevel(value: number) {
-    this._maxLevel = value;
-  }
-  get level(): number {
-    return this._level;
-  }
-
-  set level(value: number) {
-    this._level = value;
-  }
-  get head(): SkipListNode<K, V> {
-    return this._head;
-  }
-
-  set head(value: SkipListNode<K, V>) {
-    this._head = value;
-  }
-  private _head: SkipListNode<K, V>;
-  private _level: number;
-  private _maxLevel: number;
-  private _probability: number;
-
   /**
    * The constructor initializes a SkipList with a specified maximum level and probability.
    * @param [maxLevel=16] - The `maxLevel` parameter represents the maximum level that a skip list can have. It determines
@@ -66,16 +33,44 @@ export class SkipList<K, V> {
     this._probability = probability;
   }
 
-  /**
-   * The function "randomLevel" generates a random level based on a given probability and maximum level.
-   * @returns the level, which is a number.
-   */
-  private randomLevel(): number {
-    let level = 1;
-    while (Math.random() < this.probability && level < this.maxLevel) {
-      level++;
-    }
-    return level;
+  private _head: SkipListNode<K, V>;
+
+  get head(): SkipListNode<K, V> {
+    return this._head;
+  }
+
+  set head(value: SkipListNode<K, V>) {
+    this._head = value;
+  }
+
+  private _level: number;
+
+  get level(): number {
+    return this._level;
+  }
+
+  set level(value: number) {
+    this._level = value;
+  }
+
+  private _maxLevel: number;
+
+  get maxLevel(): number {
+    return this._maxLevel;
+  }
+
+  set maxLevel(value: number) {
+    this._maxLevel = value;
+  }
+
+  private _probability: number;
+
+  get probability(): number {
+    return this._probability;
+  }
+
+  set probability(value: number) {
+    this._probability = value;
   }
 
   /**
@@ -162,5 +157,17 @@ export class SkipList<K, V> {
     }
 
     return false;
+  }
+
+  /**
+   * The function "randomLevel" generates a random level based on a given probability and maximum level.
+   * @returns the level, which is a number.
+   */
+  private randomLevel(): number {
+    let level = 1;
+    while (Math.random() < this.probability && level < this.maxLevel) {
+      level++;
+    }
+    return level;
   }
 }

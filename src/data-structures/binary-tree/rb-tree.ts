@@ -6,12 +6,12 @@ export class RBTreeNode<V = any, FAMILY extends RBTreeNode<V, FAMILY> = RBTreeNo
   V,
   FAMILY
 > {
-  private _color: RBColor;
-
   constructor(key: BinaryTreeNodeKey, val?: V) {
     super(key, val);
     this._color = RBColor.RED;
   }
+
+  private _color: RBColor;
 
   get color(): RBColor {
     return this._color;

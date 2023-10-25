@@ -52,6 +52,8 @@ export class TrieNode {
  * Trie represents a Trie data structure. It provides basic Trie operations and additional methods.
  */
 export class Trie {
+  private readonly _caseSensitive: boolean;
+
   constructor(words?: string[], caseSensitive = true) {
     this._root = new TrieNode('');
     this._caseSensitive = caseSensitive;
@@ -71,8 +73,6 @@ export class Trie {
   set root(v: TrieNode) {
     this._root = v;
   }
-
-  private readonly _caseSensitive: boolean;
 
   /**
    * Add a word to the Trie structure.
@@ -108,13 +108,6 @@ export class Trie {
       cur = nodeC;
     }
     return cur.isEnd;
-  }
-
-  private _caseProcess(str: string) {
-    if (!this._caseSensitive) {
-      str = str.toLowerCase(); // Convert str to lowercase if case-insensitive
-    }
-    return str;
   }
 
   /**
@@ -280,6 +273,13 @@ export class Trie {
     if (startNode !== this.root) dfs(startNode, prefix);
 
     return words;
+  }
+
+  private _caseProcess(str: string) {
+    if (!this._caseSensitive) {
+      str = str.toLowerCase(); // Convert str to lowercase if case-insensitive
+    }
+    return str;
   }
 
   // --- end additional methods ---

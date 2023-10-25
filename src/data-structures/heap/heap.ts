@@ -16,6 +16,34 @@ export class Heap<E> {
   }
 
   /**
+   * Get the size (number of elements) of the heap.
+   */
+  get size(): number {
+    return this.nodes.length;
+  }
+
+  /**
+   * Get the last element in the heap, which is not necessarily a leaf node.
+   * @returns The last element or undefined if the heap is empty.
+   */
+  get leaf(): E | undefined {
+    return this.nodes[this.size - 1] ?? undefined;
+  }
+
+  /**
+   * Static method that creates a binary heap from an array of nodes and a comparison function.
+   * @param nodes
+   * @param comparator - Comparison function.
+   * @returns A new Heap instance.
+   */
+  static heapify<E>(nodes: E[], comparator: Comparator<E>): Heap<E> {
+    const binaryHeap = new Heap<E>(comparator);
+    binaryHeap.nodes = [...nodes];
+    binaryHeap.fix(); // Fix heap properties
+    return binaryHeap;
+  }
+
+  /**
    * Insert an element into the heap and maintain the heap properties.
    * @param element - The element to be inserted.
    */
@@ -60,57 +88,6 @@ export class Heap<E> {
   }
 
   /**
-   * Float operation to maintain heap properties after adding an element.
-   * @param index - The index of the newly added element.
-   */
-  protected bubbleUp(index: number): void {
-    const element = this.nodes[index];
-    while (index > 0) {
-      const parentIndex = Math.floor((index - 1) / 2);
-      const parent = this.nodes[parentIndex];
-      if (this.comparator(element, parent) < 0) {
-        this.nodes[index] = parent;
-        this.nodes[parentIndex] = element;
-        index = parentIndex;
-      } else {
-        break;
-      }
-    }
-  }
-
-  /**
-   * Sinking operation to maintain heap properties after removing the top element.
-   * @param index - The index from which to start sinking.
-   */
-  protected sinkDown(index: number): void {
-    const leftChildIndex = 2 * index + 1;
-    const rightChildIndex = 2 * index + 2;
-    const length = this.nodes.length;
-    let targetIndex = index;
-
-    if (leftChildIndex < length && this.comparator(this.nodes[leftChildIndex], this.nodes[targetIndex]) < 0) {
-      targetIndex = leftChildIndex;
-    }
-    if (rightChildIndex < length && this.comparator(this.nodes[rightChildIndex], this.nodes[targetIndex]) < 0) {
-      targetIndex = rightChildIndex;
-    }
-
-    if (targetIndex !== index) {
-      const temp = this.nodes[index];
-      this.nodes[index] = this.nodes[targetIndex];
-      this.nodes[targetIndex] = temp;
-      this.sinkDown(targetIndex);
-    }
-  }
-
-  /**
-   * Fix the entire heap to maintain heap properties.
-   */
-  protected fix() {
-    for (let i = Math.floor(this.size / 2); i >= 0; i--) this.sinkDown(i);
-  }
-
-  /**
    * Peek at the top element of the heap without removing it.
    * @returns The top element or undefined if the heap is empty.
    */
@@ -119,21 +96,6 @@ export class Heap<E> {
       return undefined;
     }
     return this.nodes[0];
-  }
-
-  /**
-   * Get the size (number of elements) of the heap.
-   */
-  get size(): number {
-    return this.nodes.length;
-  }
-
-  /**
-   * Get the last element in the heap, which is not necessarily a leaf node.
-   * @returns The last element or undefined if the heap is empty.
-   */
-  get leaf(): E | undefined {
-    return this.nodes[this.size - 1] ?? undefined;
   }
 
   /**
@@ -238,16 +200,54 @@ export class Heap<E> {
   }
 
   /**
-   * Static method that creates a binary heap from an array of nodes and a comparison function.
-   * @param nodes
-   * @param comparator - Comparison function.
-   * @returns A new Heap instance.
+   * Float operation to maintain heap properties after adding an element.
+   * @param index - The index of the newly added element.
    */
-  static heapify<E>(nodes: E[], comparator: Comparator<E>): Heap<E> {
-    const binaryHeap = new Heap<E>(comparator);
-    binaryHeap.nodes = [...nodes];
-    binaryHeap.fix(); // Fix heap properties
-    return binaryHeap;
+  protected bubbleUp(index: number): void {
+    const element = this.nodes[index];
+    while (index > 0) {
+      const parentIndex = Math.floor((index - 1) / 2);
+      const parent = this.nodes[parentIndex];
+      if (this.comparator(element, parent) < 0) {
+        this.nodes[index] = parent;
+        this.nodes[parentIndex] = element;
+        index = parentIndex;
+      } else {
+        break;
+      }
+    }
+  }
+
+  /**
+   * Sinking operation to maintain heap properties after removing the top element.
+   * @param index - The index from which to start sinking.
+   */
+  protected sinkDown(index: number): void {
+    const leftChildIndex = 2 * index + 1;
+    const rightChildIndex = 2 * index + 2;
+    const length = this.nodes.length;
+    let targetIndex = index;
+
+    if (leftChildIndex < length && this.comparator(this.nodes[leftChildIndex], this.nodes[targetIndex]) < 0) {
+      targetIndex = leftChildIndex;
+    }
+    if (rightChildIndex < length && this.comparator(this.nodes[rightChildIndex], this.nodes[targetIndex]) < 0) {
+      targetIndex = rightChildIndex;
+    }
+
+    if (targetIndex !== index) {
+      const temp = this.nodes[index];
+      this.nodes[index] = this.nodes[targetIndex];
+      this.nodes[targetIndex] = temp;
+      this.sinkDown(targetIndex);
+    }
+  }
+
+  /**
+   * Fix the entire heap to maintain heap properties.
+   */
+  protected fix() {
+    for (let i = Math.floor(this.size / 2); i >= 0; i--) this.sinkDown(i);
   }
 }
 
@@ -259,6 +259,7 @@ export class FibonacciHeapNode<E> {
   child?: FibonacciHeapNode<E>;
   parent?: FibonacciHeapNode<E>;
   marked: boolean;
+
   constructor(element: E, degree = 0) {
     this.element = element;
     this.degree = degree;
@@ -268,8 +269,8 @@ export class FibonacciHeapNode<E> {
 
 export class FibonacciHeap<E> {
   root?: FibonacciHeapNode<E>;
-  protected min?: FibonacciHeapNode<E>;
   size: number = 0;
+  protected min?: FibonacciHeapNode<E>;
   protected readonly comparator: Comparator<E>;
 
   constructor(comparator?: Comparator<E>) {
@@ -282,18 +283,6 @@ export class FibonacciHeap<E> {
   }
 
   /**
-   * Default comparator function used by the heap.
-   * @param {E} a
-   * @param {E} b
-   * @protected
-   */
-  protected defaultComparator(a: E, b: E): number {
-    if (a < b) return -1;
-    if (a > b) return 1;
-    return 0;
-  }
-
-  /**
    * Get the size (number of elements) of the heap.
    * @returns {number} The size of the heap.  Returns 0 if the heap is empty. Returns -1 if the heap is invalid.
    */
@@ -301,30 +290,6 @@ export class FibonacciHeap<E> {
     this.root = undefined;
     this.min = undefined;
     this.size = 0;
-  }
-
-  /**
-   * Create a new node.
-   * @param element
-   * @protected
-   */
-  protected createNode(element: E): FibonacciHeapNode<E> {
-    return new FibonacciHeapNode<E>(element);
-  }
-
-  /**
-   * Merge the given node with the root list.
-   * @param node - The node to be merged.
-   */
-  protected mergeWithRoot(node: FibonacciHeapNode<E>): void {
-    if (!this.root) {
-      this.root = node;
-    } else {
-      node.right = this.root.right;
-      node.left = this.root;
-      this.root.right!.left = node;
-      this.root.right = node;
-    }
   }
 
   /**
@@ -397,18 +362,6 @@ export class FibonacciHeap<E> {
   /**
    * O(log n) time operation.
    * Remove and return the top element (smallest or largest element) from the heap.
-   * @param node - The node to be removed.
-   * @protected
-   */
-  protected removeFromRoot(node: FibonacciHeapNode<E>): void {
-    if (this.root === node) this.root = node.right;
-    if (node.left) node.left.right = node.right;
-    if (node.right) node.right.left = node.left;
-  }
-
-  /**
-   * O(log n) time operation.
-   * Remove and return the top element (smallest or largest element) from the heap.
    * @param parent
    * @param node
    */
@@ -420,63 +373,6 @@ export class FibonacciHeap<E> {
       node.left = parent.child;
       parent.child.right!.left = node;
       parent.child.right = node;
-    }
-  }
-
-  /**
-   * O(log n) time operation.
-   * Remove and return the top element (smallest or largest element) from the heap.
-   * @param y
-   * @param x
-   * @protected
-   */
-  protected link(y: FibonacciHeapNode<E>, x: FibonacciHeapNode<E>): void {
-    this.removeFromRoot(y);
-    y.left = y;
-    y.right = y;
-    this.mergeWithChild(x, y);
-    x.degree++;
-    y.parent = x;
-  }
-
-  /**
-   * O(log n) time operation.
-   * Remove and return the top element (smallest or largest element) from the heap.
-   * @protected
-   */
-  protected consolidate(): void {
-    const A: (FibonacciHeapNode<E> | undefined)[] = new Array(this.size);
-    const nodes = this.consumeLinkedList(this.root);
-    let x: FibonacciHeapNode<E> | undefined,
-      y: FibonacciHeapNode<E> | undefined,
-      d: number,
-      t: FibonacciHeapNode<E> | undefined;
-
-    for (const node of nodes) {
-      x = node;
-      d = x.degree;
-
-      while (A[d]) {
-        y = A[d] as FibonacciHeapNode<E>;
-
-        if (this.comparator(x.element, y.element) > 0) {
-          t = x;
-          x = y;
-          y = t;
-        }
-
-        this.link(y, x);
-        A[d] = undefined;
-        d++;
-      }
-
-      A[d] = x;
-    }
-
-    for (let i = 0; i < this.size; i++) {
-      if (A[i] && this.comparator(A[i]!.element, this.min!.element) <= 0) {
-        this.min = A[i]!;
-      }
     }
   }
 
@@ -556,5 +452,110 @@ export class FibonacciHeap<E> {
 
     // Clear the heap that was merged
     heapToMerge.clear();
+  }
+
+  /**
+   * Default comparator function used by the heap.
+   * @param {E} a
+   * @param {E} b
+   * @protected
+   */
+  protected defaultComparator(a: E, b: E): number {
+    if (a < b) return -1;
+    if (a > b) return 1;
+    return 0;
+  }
+
+  /**
+   * Create a new node.
+   * @param element
+   * @protected
+   */
+  protected createNode(element: E): FibonacciHeapNode<E> {
+    return new FibonacciHeapNode<E>(element);
+  }
+
+  /**
+   * Merge the given node with the root list.
+   * @param node - The node to be merged.
+   */
+  protected mergeWithRoot(node: FibonacciHeapNode<E>): void {
+    if (!this.root) {
+      this.root = node;
+    } else {
+      node.right = this.root.right;
+      node.left = this.root;
+      this.root.right!.left = node;
+      this.root.right = node;
+    }
+  }
+
+  /**
+   * O(log n) time operation.
+   * Remove and return the top element (smallest or largest element) from the heap.
+   * @param node - The node to be removed.
+   * @protected
+   */
+  protected removeFromRoot(node: FibonacciHeapNode<E>): void {
+    if (this.root === node) this.root = node.right;
+    if (node.left) node.left.right = node.right;
+    if (node.right) node.right.left = node.left;
+  }
+
+  /**
+   * O(log n) time operation.
+   * Remove and return the top element (smallest or largest element) from the heap.
+   * @param y
+   * @param x
+   * @protected
+   */
+  protected link(y: FibonacciHeapNode<E>, x: FibonacciHeapNode<E>): void {
+    this.removeFromRoot(y);
+    y.left = y;
+    y.right = y;
+    this.mergeWithChild(x, y);
+    x.degree++;
+    y.parent = x;
+  }
+
+  /**
+   * O(log n) time operation.
+   * Remove and return the top element (smallest or largest element) from the heap.
+   * @protected
+   */
+  protected consolidate(): void {
+    const A: (FibonacciHeapNode<E> | undefined)[] = new Array(this.size);
+    const nodes = this.consumeLinkedList(this.root);
+    let x: FibonacciHeapNode<E> | undefined,
+      y: FibonacciHeapNode<E> | undefined,
+      d: number,
+      t: FibonacciHeapNode<E> | undefined;
+
+    for (const node of nodes) {
+      x = node;
+      d = x.degree;
+
+      while (A[d]) {
+        y = A[d] as FibonacciHeapNode<E>;
+
+        if (this.comparator(x.element, y.element) > 0) {
+          t = x;
+          x = y;
+          y = t;
+        }
+
+        this.link(y, x);
+        A[d] = undefined;
+        d++;
+      }
+
+      A[d] = x;
+    }
+
+    for (let i = 0; i < this.size; i++) {
+      if (A[i] && this.comparator(A[i]!.element, this.min!.element) <= 0) {
+        this.min = A[i]!;
+      }
+    }
   }
 }

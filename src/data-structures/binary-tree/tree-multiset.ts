@@ -14,6 +14,8 @@ export class TreeMultisetNode<
   V = any,
   FAMILY extends TreeMultisetNode<V, FAMILY> = TreeMultisetNodeNested<V>
 > extends AVLTreeNode<V, FAMILY> {
+  count: number;
+
   /**
    * The constructor function initializes a BinaryTreeNode object with a key, value, and count.
    * @param {BinaryTreeNodeKey} key - The `key` parameter is of type `BinaryTreeNodeKey` and represents the unique identifier
@@ -28,8 +30,6 @@ export class TreeMultisetNode<
     super(key, val);
     this.count = count;
   }
-
-  count: number;
 }
 
 /**
@@ -66,33 +66,6 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    */
   override createNode(key: BinaryTreeNodeKey, val?: N['val'], count?: number): N {
     return new TreeMultisetNode(key, val, count) as N;
-  }
-
-  /**
-   * The function swaps the values of two nodes in a binary tree.
-   * @param {N} srcNode - The source node that needs to be swapped with the destination node.
-   * @param {N} destNode - The `destNode` parameter represents the destination node where the values
-   * from `srcNode` will be swapped into.
-   * @returns The method is returning the `destNode` after swapping its properties with the `srcNode`.
-   */
-  protected override _swap(srcNode: N, destNode: N): N {
-    const {key, val, count, height} = destNode;
-    const tempNode = this.createNode(key, val, count);
-    if (tempNode) {
-      tempNode.height = height;
-
-      destNode.key = srcNode.key;
-      destNode.val = srcNode.val;
-      destNode.count = srcNode.count;
-      destNode.height = srcNode.height;
-
-      srcNode.key = tempNode.key;
-      srcNode.val = tempNode.val;
-      srcNode.count = tempNode.count;
-      srcNode.height = tempNode.height;
-    }
-
-    return destNode;
   }
 
   /**
@@ -363,6 +336,33 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
   clear() {
     super.clear();
     this._setCount(0);
+  }
+
+  /**
+   * The function swaps the values of two nodes in a binary tree.
+   * @param {N} srcNode - The source node that needs to be swapped with the destination node.
+   * @param {N} destNode - The `destNode` parameter represents the destination node where the values
+   * from `srcNode` will be swapped into.
+   * @returns The method is returning the `destNode` after swapping its properties with the `srcNode`.
+   */
+  protected override _swap(srcNode: N, destNode: N): N {
+    const {key, val, count, height} = destNode;
+    const tempNode = this.createNode(key, val, count);
+    if (tempNode) {
+      tempNode.height = height;
+
+      destNode.key = srcNode.key;
+      destNode.val = srcNode.val;
+      destNode.count = srcNode.count;
+      destNode.height = srcNode.height;
+
+      srcNode.key = tempNode.key;
+      srcNode.val = tempNode.val;
+      srcNode.count = tempNode.count;
+      srcNode.height = tempNode.height;
+    }
+
+    return destNode;
   }
 
   /**

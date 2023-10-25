@@ -84,6 +84,10 @@ export class DoublyLinkedList<E = any> {
     return this._length;
   }
 
+  get size(): number {
+    return this.length;
+  }
+
   /**
    * The `fromArray` function creates a new instance of a DoublyLinkedList and populates it with the elements from the
    * given array.
@@ -220,10 +224,6 @@ export class DoublyLinkedList<E = any> {
    */
   peekLast(): E | undefined {
     return this.tail?.val;
-  }
-
-  get size(): number {
-    return this.length;
   }
 
   /**

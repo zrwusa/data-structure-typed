@@ -27,16 +27,6 @@ import {Queue} from '../queue';
  */
 export class BinaryTreeNode<V = any, FAMILY extends BinaryTreeNode<V, FAMILY> = BinaryTreeNodeNested<V>> {
   /**
-   * Creates a new instance of BinaryTreeNode.
-   * @param {BinaryTreeNodeKey} key - The key associated with the node.
-   * @param {V} val - The value stored in the node.
-   */
-  constructor(key: BinaryTreeNodeKey, val?: V) {
-    this.key = key;
-    this.val = val;
-  }
-
-  /**
    * The key associated with the node.
    */
   key: BinaryTreeNodeKey;
@@ -45,6 +35,21 @@ export class BinaryTreeNode<V = any, FAMILY extends BinaryTreeNode<V, FAMILY> = 
    * The value stored in the node.
    */
   val: V | undefined;
+
+  /**
+   * The parent node of the current node.
+   */
+  parent: FAMILY | null | undefined;
+
+  /**
+   * Creates a new instance of BinaryTreeNode.
+   * @param {BinaryTreeNodeKey} key - The key associated with the node.
+   * @param {V} val - The value stored in the node.
+   */
+  constructor(key: BinaryTreeNodeKey, val?: V) {
+    this.key = key;
+    this.val = val;
+  }
 
   private _left: FAMILY | null | undefined;
 
@@ -87,11 +92,6 @@ export class BinaryTreeNode<V = any, FAMILY extends BinaryTreeNode<V, FAMILY> = 
   }
 
   /**
-   * The parent node of the current node.
-   */
-  parent: FAMILY | null | undefined;
-
-  /**
    * Get the position of the node within its family.
    * @returns {FamilyPosition} - The family position of the node.
    */
@@ -128,6 +128,8 @@ export class BinaryTreeNode<V = any, FAMILY extends BinaryTreeNode<V, FAMILY> = 
  * @template N - The type of the binary tree's nodes.
  */
 export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> implements IBinaryTree<N> {
+  private _loopType: IterationType = IterationType.ITERATIVE;
+
   /**
    * Creates a new instance of BinaryTree.
    * @param {BinaryTreeOptions} [options] - The options for the binary tree.
@@ -137,16 +139,6 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
       const {iterationType = IterationType.ITERATIVE} = options;
       this._loopType = iterationType;
     }
-  }
-
-  /**
-   * Creates a new instance of BinaryTreeNode with the given key and value.
-   * @param {BinaryTreeNodeKey} key - The key for the new node.
-   * @param {N['val']} val - The value for the new node.
-   * @returns {N} - The newly created BinaryTreeNode.
-   */
-  createNode(key: BinaryTreeNodeKey, val?: N['val']): N {
-    return new BinaryTreeNode<N['val'], N>(key, val) as N;
   }
 
   private _root: N | null = null;
@@ -167,8 +159,6 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
     return this._size;
   }
 
-  private _loopType: IterationType = IterationType.ITERATIVE;
-
   /**
    * Get the iteration type used in the binary tree.
    */
@@ -185,24 +175,13 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
   }
 
   /**
-   * Swap the data of two nodes in the binary tree.
-   * @param {N} srcNode - The source node to swap.
-   * @param {N} destNode - The destination node to swap.
-   * @returns {N} - The destination node after the swap.
+   * Creates a new instance of BinaryTreeNode with the given key and value.
+   * @param {BinaryTreeNodeKey} key - The key for the new node.
+   * @param {N['val']} val - The value for the new node.
+   * @returns {N} - The newly created BinaryTreeNode.
    */
-  protected _swap(srcNode: N, destNode: N): N {
-    const {key, val} = destNode;
-    const tempNode = this.createNode(key, val);
-
-    if (tempNode) {
-      destNode.key = srcNode.key;
-      destNode.val = srcNode.val;
-
-      srcNode.key = tempNode.key;
-      srcNode.val = tempNode.val;
-    }
-
-    return destNode;
+  createNode(key: BinaryTreeNodeKey, val?: N['val']): N {
+    return new BinaryTreeNode<N['val'], N>(key, val) as N;
   }
 
   /**
@@ -448,8 +427,6 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
       return maxHeight;
     }
   }
-
-  protected _defaultCallbackByKey: MapCallback<N> = node => node.key;
 
   /**
    * The `getMinHeight` function calculates the minimum height of a binary tree using either a
@@ -902,8 +879,6 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
     return ans;
   }
 
-  // --- start additional methods ---
-
   /**
    * The bfs function performs a breadth-first search traversal on a binary tree, executing a callback
    * function on each node.
@@ -973,13 +948,7 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
     }
   }
 
-  /**
-   * Time complexity is O(n)
-   * Space complexity of Iterative dfs equals to recursive dfs which is O(n) because of the stack
-   * The Morris algorithm only modifies the tree's structure during traversal; once the traversal is complete,
-   * the tree's structure should be restored to its original state to maintain the tree's integrity.
-   * This is because the purpose of the Morris algorithm is to save space rather than permanently alter the tree's shape.
-   */
+  // --- start additional methods ---
 
   /**
    * The `morris` function performs a depth-first traversal of a binary tree using the Morris traversal
@@ -1079,6 +1048,37 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
     }
     return ans;
   }
+
+  /**
+   * Swap the data of two nodes in the binary tree.
+   * @param {N} srcNode - The source node to swap.
+   * @param {N} destNode - The destination node to swap.
+   * @returns {N} - The destination node after the swap.
+   */
+  protected _swap(srcNode: N, destNode: N): N {
+    const {key, val} = destNode;
+    const tempNode = this.createNode(key, val);
+
+    if (tempNode) {
+      destNode.key = srcNode.key;
+      destNode.val = srcNode.val;
+
+      srcNode.key = tempNode.key;
+      srcNode.val = tempNode.val;
+    }
+
+    return destNode;
+  }
+
+  /**
+   * Time complexity is O(n)
+   * Space complexity of Iterative dfs equals to recursive dfs which is O(n) because of the stack
+   * The Morris algorithm only modifies the tree's structure during traversal; once the traversal is complete,
+   * the tree's structure should be restored to its original state to maintain the tree's integrity.
+   * This is because the purpose of the Morris algorithm is to save space rather than permanently alter the tree's shape.
+   */
+
+  protected _defaultCallbackByKey: MapCallback<N> = node => node.key;
 
   /**
    * The function `_addTo` adds a new node to a binary tree if there is an available position.

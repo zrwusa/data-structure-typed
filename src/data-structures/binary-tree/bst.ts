@@ -153,22 +153,26 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
     function hasNoNull(arr: (BinaryTreeNodeKey | null)[] | (N | null)[]): arr is BinaryTreeNodeKey[] | N[] {
       return arr.indexOf(null) === -1;
     }
+
     if (!isBalanceAdd || !hasNoNull(keysOrNodes)) {
       return super.addMany(keysOrNodes, data);
     }
     const inserted: (N | null | undefined)[] = [];
     const combinedArr: [BinaryTreeNodeKey | N, N['val']][] = keysOrNodes.map((value, index) => [value, data?.[index]]);
     let sorted = [];
+
     function isNodeOrNullTuple(arr: [BinaryTreeNodeKey | N, N['val']][]): arr is [N, N['val']][] {
       for (const [keyOrNode] of arr) if (keyOrNode instanceof BSTNode) return true;
       return false;
     }
+
     function isBinaryTreeKeyOrNullTuple(
       arr: [BinaryTreeNodeKey | N, N['val']][]
     ): arr is [BinaryTreeNodeKey, N['val']][] {
       for (const [keyOrNode] of arr) if (typeof keyOrNode === 'number') return true;
       return false;
     }
+
     let sortedKeysOrNodes: (number | N | null)[] = [],
       sortedData: (N['val'] | undefined)[] | undefined = [];
 

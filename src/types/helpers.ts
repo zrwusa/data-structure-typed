@@ -6,4 +6,8 @@ export type MapCallback<N> = (node: N) => any;
 
 export type MapCallbackReturn<N> = ReturnType<MapCallback<N>>;
 
-export enum CP {lt = 'lt', eq = 'eq', gt = 'gt'}
+export enum CP {
+  lt = 'lt',
+  eq = 'eq',
+  gt = 'gt'
+}
