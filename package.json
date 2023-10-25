@@ -1,21 +1,23 @@
 {
   "name": "data-structure-typed",
-  "version": "1.38.1",
+  "version": "1.38.2",
   "description": "Data Structures of Javascript & TypeScript. Binary Tree, BST, Graph, Heap, Priority Queue, Linked List, Queue, Deque, Stack, AVL Tree, Tree Multiset, Trie, Directed Graph, Undirected Graph, Singly Linked List, Doubly Linked List, Max Heap, Max Priority Queue, Min Heap, Min Priority Queue.",
-  "main": "dist/index.js",
-  "module": "lib/index.js",
-  "types": "lib/index.d.ts",
-  "source": "src/index.ts",
-  "umd:main": "umd/bundle.min.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/mjs/index.js",
+  "types": "dist/mjs/index.d.ts",
+  "umd:main": "dist/umd/index.global.js",
   "exports": {
-    "import": "./lib/index.js",
-    "require": "./dist/index.js"
+    ".": {
+      "import": "./dist/mjs/index.js",
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/mjs/index.d.ts"
+    }
   },
   "scripts": {
-    "build": "npm run build:es6 && npm run build:commonjs && npm run build:umd && npm run build:docs",
-    "build:es6": "rm -rf lib && tsc",
-    "build:commonjs": "rm -rf dist && tsc --project tsconfig.prod.json",
-    "build:umd": "webpack",
+    "build": "npm run build:mjs && npm run build:cjs && npm run build:umd && npm run build:docs",
+    "build:mjs": "rm -rf dist/mjs && tsc -p tsconfig.json",
+    "build:cjs": "rm -rf dist/cjs && tsc -p tsconfig-cjs.json",
+    "build:umd": "tsup",
     "build:docs": "typedoc --out docs ./src",
     "check": "tsc --noEmit",
     "lint:src": "eslint --fix 'src/**/*.{js,ts}'",
@@ -75,10 +77,9 @@
     "prettier": "^3.0.3",
     "ts-jest": "^29.1.1",
     "ts-loader": "^9.4.4",
+    "tsup": "^7.2.0",
     "typedoc": "^0.25.1",
-    "typescript": "^5.2.2",
-    "webpack": "^5.88.2",
-    "webpack-cli": "^5.1.4"
+    "typescript": "^5.2.2"
   },
   "keywords": [
     "data",

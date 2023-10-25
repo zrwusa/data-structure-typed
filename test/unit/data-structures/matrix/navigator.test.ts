@@ -1,4 +1,4 @@
-import {Character, NavigatorParams, Turning, Navigator} from '../../../../src';
+import {Character, Navigator, NavigatorParams, Turning} from '../../../../src';
 
 const exampleMatrix: number[][] = [
   [0, 0, 0, 0],

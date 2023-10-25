@@ -37,8 +37,7 @@ export class TreeMultisetNode<
  */
 export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultisetNode>
   extends AVLTree<N>
-  implements IBinaryTree<N>
-{
+  implements IBinaryTree<N> {
   /**
    * The constructor function for a TreeMultiset class in TypeScript, which extends another class and sets an option to
    * merge duplicated values.

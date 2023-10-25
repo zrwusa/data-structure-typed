@@ -1,4 +1,4 @@
-import {HashTableNode, HashTable} from '../../../../src';
+import {HashTable, HashTableNode} from '../../../../src';
 
 describe('HashNode', () => {
   it('should create a HashNode with key and value', () => {

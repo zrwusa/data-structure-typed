@@ -1,5 +1,5 @@
 import {BinaryIndexedTree} from '../../../../src';
-import {isDebugTest} from '../../../config';
+// import {isDebugTest} from '../../../config';
 
 // const isDebug = isDebugTest;
 
@@ -251,6 +251,7 @@ describe('BinaryIndexedTree additional tests', () => {
     expect(bit.lowerBound(200)).toBe(10);
   });
 });
+
 function loopUpperBoundTests(bit: BinaryIndexedTree, values: number[]) {
   for (const value of values) {
     const index = bit.upperBound(value);

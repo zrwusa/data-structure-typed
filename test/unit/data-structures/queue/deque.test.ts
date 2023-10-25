@@ -1,4 +1,4 @@
-import {Deque, ArrayDeque, ObjectDeque} from '../../../../src';
+import {ArrayDeque, Deque, ObjectDeque} from '../../../../src';
 import {bigO} from '../../../utils';
 
 describe('Deque Tests', () => {

@@ -1,30 +1,9 @@
 {
+  "extends": "./tsconfig-base.json",
   "compilerOptions": {
-    "target": "ES6",
-    "module": "ES6",
-    "outDir": "./lib",
-    "declaration": true,
-    "lib": [
-      "ESNext"
-    ],
-    "strict": true,
-    "esModuleInterop": true,
-    "moduleResolution": "node",
-    "skipLibCheck": true,
-    "downlevelIteration": true,
-    "removeComments": false,
-    "experimentalDecorators": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ]
-  },
-
-  "include": ["src/**/*.ts", "src/**/*.js"],
-  "exclude": [
-    "node_modules",
-    "lib",
-    "dist",
-    "umd"
-  ]
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "outDir": "dist/mjs",
+    "target": "ESNext"
+  }
 }
-

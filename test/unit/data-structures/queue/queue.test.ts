@@ -1,4 +1,4 @@
-import {Queue, LinkedListQueue} from '../../../../src';
+import {LinkedListQueue, Queue} from '../../../../src';
 import {bigO, magnitude} from '../../../utils';
 
 describe('Queue Operation Test', () => {
