@@ -5,8 +5,7 @@
  * @license MIT License
  */
 
-import type {Comparator} from '../../types';
-import {DFSOrderPattern} from '../../types';
+import type {Comparator, DFSOrderPattern} from '../../types';
 
 export class Heap<E> {
   protected nodes: E[] = [];

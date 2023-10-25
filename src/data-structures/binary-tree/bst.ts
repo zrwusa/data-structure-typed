@@ -25,7 +25,6 @@ export class BSTNode<V = any, FAMILY extends BSTNode<V, FAMILY> = BSTNodeNested<
 }
 
 export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N> implements IBinaryTree<N> {
-
   /**
    * The constructor function initializes a binary search tree object with an optional comparator
    * function.
@@ -144,7 +143,12 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * @returns The `addMany` function returns an array of `N`, `null`, or `undefined` values.
    */
 
-  override addMany(keysOrNodes: (BinaryTreeNodeKey | null)[] | (N | null)[], data?: N['val'][], isBalanceAdd = true, iterationType = this.iterationType): (N | null | undefined)[] {
+  override addMany(
+    keysOrNodes: (BinaryTreeNodeKey | null)[] | (N | null)[],
+    data?: N['val'][],
+    isBalanceAdd = true,
+    iterationType = this.iterationType
+  ): (N | null | undefined)[] {
     // TODO this addMany function is inefficient, it should be optimized
     function hasNoNull(arr: (BinaryTreeNodeKey | null)[] | (N | null)[]): arr is BinaryTreeNodeKey[] | N[] {
       return arr.indexOf(null) === -1;
@@ -230,7 +234,12 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * @returns either the first node that matches the given nodeProperty and callback, or null if no
    * matching node is found.
    */
-  override get(nodeProperty: BinaryTreeNodeKey | N, callback: MapCallback<N> = this._defaultCallbackByKey,beginRoot = this.root, iterationType = this.iterationType): N | null {
+  override get(
+    nodeProperty: BinaryTreeNodeKey | N,
+    callback: MapCallback<N> = this._defaultCallbackByKey,
+    beginRoot = this.root,
+    iterationType = this.iterationType
+  ): N | null {
     return this.getNodes(nodeProperty, callback, true, beginRoot, iterationType)[0] ?? null;
   }
 

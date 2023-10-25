@@ -77,3 +77,10 @@ export const trampolineAsync = (fn: TrlAsyncFn) => {
     {cont}
   );
 };
+
+export const getMSB = (value: number): number => {
+  if (value <= 0) {
+    return 0;
+  }
+  return 1 << (31 - Math.clz32(value));
+};

@@ -1,5 +1,5 @@
 import {BinaryTreeOptions} from './binary-tree';
-import {RBTreeNode} from '../../data-structures/binary-tree';
+import {RBTreeNode} from '../../../data-structures';
 
 export enum RBColor { RED = 'RED', BLACK = 'BLACK'}
 

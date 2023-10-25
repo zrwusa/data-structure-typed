@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Read the version variable from config.json
+source_dir_default=$(jq -r .sourceDir ./scripts/config.json)
+
+individuals_dir_default=$(jq -r .individualsDir ./scripts/config.json)
+
 # Function to prompt for a directory path with a default value
 prompt_for_directory() {
   local message="$1"
@@ -9,10 +14,12 @@ prompt_for_directory() {
 }
 
 # Prompt for the source directory path
-source_dir=$(prompt_for_directory "Enter the source directory" "/Users/revone/projects/data-structure-typed")
+#source_dir=$(prompt_for_directory "Enter the source directory" "$source_dir_default")
+source_dir="$source_dir_default"
 
 # Prompt for the destination directory path
-individuals_dir=$(prompt_for_directory "Enter the destination directory" "/Users/revone/projects/data-structure-typed-individuals")
+#individuals_dir=$(prompt_for_directory "Enter the destination directory" "$individuals_dir_default")
+individuals_dir="$individuals_dir_default"
 
 
 # Read the version variable from package.json

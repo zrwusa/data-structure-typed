@@ -1,4 +1,4 @@
-import {BSTNode} from '../../data-structures/binary-tree';
+import {BSTNode} from '../../../data-structures';
 import type {BinaryTreeNodeKey, BinaryTreeOptions} from './binary-tree';
 
 export type BSTComparator = (a: BinaryTreeNodeKey, b: BinaryTreeNodeKey) => number;
@@ -9,5 +9,3 @@ export type BSTNodeNested<T> = BSTNode<T, BSTNode<T, BSTNode<T, BSTNode<T, BSTNo
 export type BSTOptions = BinaryTreeOptions & {
   comparator?: BSTComparator,
 }
-
-export enum CP {lt = 'lt', eq = 'eq', gt = 'gt'}

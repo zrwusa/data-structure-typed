@@ -1,4 +1,4 @@
-import {BinaryTreeNode} from '../../data-structures/binary-tree';
+import {BinaryTreeNode} from '../../../data-structures';
 
 /**
  * Enum representing different loop types.
@@ -22,25 +22,13 @@ export enum FamilyPosition {
   MAL_NODE = 'MAL_NODE'
 }
 
-export type BinaryTreeNodePropertyName = 'key' | 'val';
-
-export type NodeOrPropertyName = 'node' | BinaryTreeNodePropertyName;
-
 export type BinaryTreeNodeKey = number;
 
 export type BFSCallback<N> = (node: N, level?: number) => any;
 
 export type BFSCallbackReturn<N> = ReturnType<BFSCallback<N>>;
 
-export type BinaryTreeNodeProperty<N extends BinaryTreeNode<N['val'], N>> =
-  | N['val']
-  | N
-  | number
-  | BinaryTreeNodeKey;
 export type BinaryTreeDeletedResult<N> = { deleted: N | null | undefined; needBalanced: N | null };
-
-export type BinaryTreeNodeProperties<N extends BinaryTreeNode<N['val'], N>> =
-  BinaryTreeNodeProperty<N>[];
 
 export type BinaryTreeNodeNested<T> = BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, any>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 

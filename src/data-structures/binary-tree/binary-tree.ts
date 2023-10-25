@@ -134,7 +134,7 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
    */
   constructor(options?: BinaryTreeOptions) {
     if (options !== undefined) {
-      const { iterationType = IterationType.ITERATIVE } = options;
+      const {iterationType = IterationType.ITERATIVE} = options;
       this._loopType = iterationType;
     }
   }
@@ -191,7 +191,7 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
    * @returns {N} - The destination node after the swap.
    */
   protected _swap(srcNode: N, destNode: N): N {
-    const { key, val } = destNode;
+    const {key, val} = destNode;
     const tempNode = this.createNode(key, val);
 
     if (tempNode) {
@@ -322,7 +322,6 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
     return keysOrNodes.length === this.addMany(keysOrNodes, data).length;
   }
 
- 
   /**
    * The `delete` function removes a node from a binary search tree and returns the deleted node along
    * with the parent node that needs to be balanced.
