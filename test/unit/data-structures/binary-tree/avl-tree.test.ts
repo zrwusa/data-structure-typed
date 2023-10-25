@@ -102,8 +102,7 @@ describe('AVL Tree Test', () => {
     expect(lastBFSIds[1]).toBe(2);
     expect(lastBFSIds[2]).toBe(16);
 
-    const lastBFSNodes: AVLTreeNode<number>[] = [];
-    tree.bfs(node => lastBFSNodes.push(node));
+    const lastBFSNodes = tree.bfs(node => node);
     expect(lastBFSNodes[0].key).toBe(12);
     expect(lastBFSNodes[1].key).toBe(2);
     expect(lastBFSNodes[2].key).toBe(16);
