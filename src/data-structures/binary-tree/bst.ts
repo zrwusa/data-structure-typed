@@ -132,7 +132,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
   /**
    * The `addMany` function is used to efficiently add multiple nodes to a binary search tree while
    * maintaining balance.
-   * @param {[BinaryTreeNodeKey | N, N['val']][]} arr - The `arr` parameter in the `addMany` function
+   * @param {[BinaryTreeNodeKey | N, N['val']][]} keysOrNodes - The `arr` parameter in the `addMany` function
    * represents an array of keys or nodes that need to be added to the binary search tree. It can be an
    * array of `BinaryTreeNodeKey` or `N` (which represents the node type in the binary search tree) or
    * `null
@@ -223,7 +223,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
   /**
    * The function returns the first node in the binary tree that matches the given node property and
    * callback.
-   * @param {BinaryTreeNodeKey | N} nodeProperty - The `nodeProperty` parameter is used to specify the
+   * @param {ReturnType<C> | N} identifier - The `nodeProperty` parameter is used to specify the
    * property of the binary tree node that you want to search for. It can be either a specific key
    * value (`BinaryTreeNodeKey`) or a custom callback function (`MapCallback<N>`) that determines
    * whether a node matches the desired property.
@@ -238,13 +238,13 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * @returns either the first node that matches the given nodeProperty and callback, or null if no
    * matching node is found.
    */
-  override get<C extends MapCallback<N> = MapCallback<N, BinaryTreeNodeKey>>(
-    nodeProperty: BinaryTreeNodeKey | N,
+  override get<C extends MapCallback<N>>(
+    identifier: ReturnType<C> | N,
     callback: C = this._defaultCallbackByKey as C,
     beginRoot = this.root,
     iterationType = this.iterationType
   ): N | null {
-    return this.getNodes(nodeProperty, callback, true, beginRoot, iterationType)[0] ?? null;
+    return this.getNodes(identifier, callback, true, beginRoot, iterationType)[0] ?? null;
   }
 
   /**
@@ -271,7 +271,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
   /**
    * The function `getNodes` retrieves nodes from a binary tree based on a given node property or key,
    * using either recursive or iterative traversal.
-   * @param {BinaryTreeNodeKey | N} nodeProperty - The `nodeProperty` parameter represents the property
+   * @param {ReturnType<C> | N} identifier - The `nodeProperty` parameter represents the property
    * of the binary tree node that you want to search for. It can be either a `BinaryTreeNodeKey` or a
    * generic type `N`.
    * @param callback - The `callback` parameter is a function that takes a node as input and returns a
@@ -289,8 +289,8 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * traverse the binary tree. It can have one of the following values:
    * @returns an array of nodes (N[]).
    */
-  override getNodes<C extends MapCallback<N> = MapCallback<N, BinaryTreeNodeKey>>(
-    nodeProperty: BinaryTreeNodeKey | N,
+  override getNodes<C extends MapCallback<N>>(
+    identifier: ReturnType<C> | N,
     callback: C = this._defaultCallbackByKey as C,
     onlyOne = false,
     beginRoot: N | null = this.root,
@@ -302,7 +302,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
     if (iterationType === IterationType.RECURSIVE) {
       const _traverse = (cur: N) => {
         const callbackResult = callback(cur);
-        if (callbackResult === nodeProperty) {
+        if (callbackResult === identifier) {
           ans.push(cur);
           if (onlyOne) return;
         }
@@ -310,8 +310,8 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
         if (!cur.left && !cur.right) return;
         // TODO potential bug
         if (callback === this._defaultCallbackByKey) {
-          if (this._compare(cur.key, nodeProperty as number) === CP.gt) cur.left && _traverse(cur.left);
-          if (this._compare(cur.key, nodeProperty as number) === CP.lt) cur.right && _traverse(cur.right);
+          if (this._compare(cur.key, identifier as number) === CP.gt) cur.left && _traverse(cur.left);
+          if (this._compare(cur.key, identifier as number) === CP.lt) cur.right && _traverse(cur.right);
         } else {
           cur.left && _traverse(cur.left);
           cur.right && _traverse(cur.right);
@@ -325,14 +325,14 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
         const cur = queue.shift();
         if (cur) {
           const callbackResult = callback(cur);
-          if (callbackResult === nodeProperty) {
+          if (callbackResult === identifier) {
             ans.push(cur);
             if (onlyOne) return ans;
           }
           // TODO potential bug
           if (callback === this._defaultCallbackByKey) {
-            if (this._compare(cur.key, nodeProperty as number) === CP.gt) cur.left && queue.push(cur.left);
-            if (this._compare(cur.key, nodeProperty as number) === CP.lt) cur.right && queue.push(cur.right);
+            if (this._compare(cur.key, identifier as number) === CP.gt) cur.left && queue.push(cur.left);
+            if (this._compare(cur.key, identifier as number) === CP.lt) cur.right && queue.push(cur.right);
           } else {
             cur.left && queue.push(cur.left);
             cur.right && queue.push(cur.right);
@@ -355,7 +355,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * @param {CP} lesserOrGreater - The `lesserOrGreater` parameter is used to determine whether to
    * traverse nodes that are lesser than, greater than, or equal to the `targetNode`. It can take one
    * of the following values:
-   * @param {N | BinaryTreeNodeKey | null} targetNode - The `targetNode` parameter in the
+   * @param {BinaryTreeNodeKey | N | null} targetNode - The `targetNode` parameter in the
    * `lesserOrGreaterTraverse` function is used to specify the node from which the traversal should
    * start. It can be either a reference to a specific node (`N`), the key of a node
    * (`BinaryTreeNodeKey`), or `null` to
@@ -363,10 +363,10 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * done recursively or iteratively. It can have two possible values:
    * @returns The function `lesserOrGreaterTraverse` returns an array of `MapCallbackReturn<N>`.
    */
-  lesserOrGreaterTraverse<C extends MapCallback<N> = MapCallback<N, BinaryTreeNodeKey>>(
+  lesserOrGreaterTraverse<C extends MapCallback<N>>(
     callback: C = this._defaultCallbackByKey as C,
     lesserOrGreater: CP = CP.lt,
-    targetNode: N | BinaryTreeNodeKey | null = this.root,
+    targetNode: BinaryTreeNodeKey | N | null = this.root,
     iterationType = this.iterationType
   ): ReturnType<C>[] {
     if (typeof targetNode === 'number') targetNode = this.get(targetNode);

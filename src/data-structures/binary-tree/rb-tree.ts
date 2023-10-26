@@ -205,8 +205,8 @@ export class RBTree<N extends RBTreeNode<N['val'], N> = RBTreeNode> extends BST<
   //   node.right = null;
   // }
   //
-  // override delete(nodeOrKey: BinaryTreeNodeKey | N): BinaryTreeDeletedResult<N>[] {
-  //   const node = this.get(nodeOrKey);
+  // override delete(keyOrNode: BinaryTreeNodeKey | N): BinaryTreeDeletedResult<N>[] {
+  //   const node = this.get(keyOrNode);
   //   const result: BinaryTreeDeletedResult<N>[] = [{deleted: undefined, needBalanced: null}];
   //   if (!node) return result; // Node does not exist
   //

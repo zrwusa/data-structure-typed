@@ -6,5 +6,5 @@ export interface IBinaryTree<N extends BinaryTreeNode<N['val'], N>> {
 
   add(keyOrNode: BinaryTreeNodeKey | N | null, val?: N['val']): N | null | undefined;
 
-  delete(nodeOrKey: N | BinaryTreeNodeKey): BinaryTreeDeletedResult<N>[];
+  // delete(keyOrNode: BinaryTreeNodeKey | N): BinaryTreeDeletedResult<N>[];
 }

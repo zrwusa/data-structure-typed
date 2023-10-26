@@ -6,8 +6,15 @@
  * @license MIT License
  */
 import {BST, BSTNode} from './bst';
-import type {AVLTreeNodeNested, AVLTreeOptions, BinaryTreeDeletedResult, BinaryTreeNodeKey} from '../../types';
+import type {
+  AVLTreeNodeNested,
+  AVLTreeOptions,
+  BinaryTreeDeletedResult,
+  BinaryTreeNodeKey,
+  DefaultMapCallback
+} from '../../types';
 import {IBinaryTree} from '../../interfaces';
+import {MapCallback} from "../../types";
 
 export class AVLTreeNode<V = any, FAMILY extends AVLTreeNode<V, FAMILY> = AVLTreeNodeNested<V>> extends BSTNode<
   V,
@@ -64,12 +71,19 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
   /**
    * The function overrides the delete method of a binary tree and balances the tree after deleting a
    * node if necessary.
-   * @param {N | BinaryTreeNodeKey} nodeOrKey - The `nodeOrKey` parameter can be either a node object
-   * (`N`) or a key value (`BinaryTreeNodeKey`).
+   * @param {ReturnType<C>} identifier - The `identifier` parameter is either a
+   * `BinaryTreeNodeKey` or a generic type `N`. It represents the property of the node that we are
+   * searching for. It can be a specific key value or any other property of the node.
+   * @param callback - The `callback` parameter is a function that takes a node as input and returns a
+   * value. This value is compared with the `identifier` parameter to determine if the node should be
+   * included in the result. The `callback` parameter has a default value of
+   * `this._defaultCallbackByKey`
    * @returns The method is returning an array of `BinaryTreeDeletedResult<N>` objects.
    */
-  override delete(nodeOrKey: N | BinaryTreeNodeKey): BinaryTreeDeletedResult<N>[] {
-    const deletedResults = super.delete(nodeOrKey);
+  override delete<C extends MapCallback<N>>(
+    identifier: ReturnType<C>,
+    callback: C = this._defaultCallbackByKey as C): BinaryTreeDeletedResult<N>[] {
+    const deletedResults = super.delete(identifier, callback);
     for (const {needBalanced} of deletedResults) {
       if (needBalanced) {
         this._balancePath(needBalanced);

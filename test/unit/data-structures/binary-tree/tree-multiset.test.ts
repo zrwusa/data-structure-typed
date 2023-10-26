@@ -73,7 +73,7 @@ describe('TreeMultiset operations test', () => {
     expect(bfsNodesAfterBalanced[0].key).toBe(8);
     expect(bfsNodesAfterBalanced[bfsNodesAfterBalanced.length - 1].key).toBe(16);
 
-    const removed11 = treeMultiset.delete(11, true);
+    const removed11 = treeMultiset.delete(11, undefined, true);
     expect(removed11 instanceof Array);
     expect(removed11[0]);
     expect(removed11[0].deleted);
@@ -84,7 +84,7 @@ describe('TreeMultiset operations test', () => {
 
     expect(treeMultiset.getHeight(15)).toBe(1);
 
-    const removed1 = treeMultiset.delete(1, true);
+    const removed1 = treeMultiset.delete(1, undefined, true);
     expect(removed1 instanceof Array);
     expect(removed1[0]);
     expect(removed1[0].deleted);
@@ -94,7 +94,7 @@ describe('TreeMultiset operations test', () => {
 
     expect(treeMultiset.getHeight()).toBe(4);
 
-    const removed4 = treeMultiset.delete(4, true);
+    const removed4 = treeMultiset.delete(4, undefined, true);
     expect(removed4 instanceof Array);
     expect(removed4[0]);
     expect(removed4[0].deleted);
@@ -103,7 +103,7 @@ describe('TreeMultiset operations test', () => {
     expect(treeMultiset.isAVLBalanced()).toBe(true);
     expect(treeMultiset.getHeight()).toBe(4);
 
-    const removed10 = treeMultiset.delete(10, true);
+    const removed10 = treeMultiset.delete(10, undefined, true);
     expect(removed10 instanceof Array);
     expect(removed10[0]);
     expect(removed10[0].deleted);
@@ -112,7 +112,7 @@ describe('TreeMultiset operations test', () => {
 
     expect(treeMultiset.getHeight()).toBe(3);
 
-    const removed15 = treeMultiset.delete(15, true);
+    const removed15 = treeMultiset.delete(15, undefined, true);
     expect(removed15 instanceof Array);
     expect(removed15[0]);
     expect(removed15[0].deleted);
@@ -121,7 +121,7 @@ describe('TreeMultiset operations test', () => {
     expect(treeMultiset.isAVLBalanced()).toBe(true);
     expect(treeMultiset.getHeight()).toBe(3);
 
-    const removed5 = treeMultiset.delete(5, true);
+    const removed5 = treeMultiset.delete(5, undefined, true);
     expect(removed5 instanceof Array);
     expect(removed5[0]);
     expect(removed5[0].deleted);
@@ -130,7 +130,7 @@ describe('TreeMultiset operations test', () => {
     expect(treeMultiset.isAVLBalanced()).toBe(true);
     expect(treeMultiset.getHeight()).toBe(3);
 
-    const removed13 = treeMultiset.delete(13, true);
+    const removed13 = treeMultiset.delete(13, undefined, true);
     expect(removed13 instanceof Array);
     expect(removed13[0]);
     expect(removed13[0].deleted);
@@ -138,7 +138,7 @@ describe('TreeMultiset operations test', () => {
     expect(treeMultiset.isAVLBalanced()).toBe(true);
     expect(treeMultiset.getHeight()).toBe(3);
 
-    const removed3 = treeMultiset.delete(3, true);
+    const removed3 = treeMultiset.delete(3, undefined, true);
     expect(removed3 instanceof Array);
     expect(removed3[0]);
     expect(removed3[0].deleted);
@@ -146,7 +146,7 @@ describe('TreeMultiset operations test', () => {
     expect(treeMultiset.isAVLBalanced()).toBe(true);
     expect(treeMultiset.getHeight()).toBe(3);
 
-    const removed8 = treeMultiset.delete(8, true);
+    const removed8 = treeMultiset.delete(8, undefined, true);
     expect(removed8 instanceof Array);
     expect(removed8[0]);
     expect(removed8[0].deleted);
@@ -154,17 +154,17 @@ describe('TreeMultiset operations test', () => {
     expect(treeMultiset.isAVLBalanced()).toBe(true);
     expect(treeMultiset.getHeight()).toBe(3);
 
-    const removed6 = treeMultiset.delete(6, true);
+    const removed6 = treeMultiset.delete(6, undefined, true);
     expect(removed6 instanceof Array);
     expect(removed6[0]);
     expect(removed6[0].deleted);
     if (removed6[0].deleted) expect(removed6[0].deleted.key).toBe(6);
-    expect(treeMultiset.delete(6, true).length).toBe(0);
+    expect(treeMultiset.delete(6, undefined, true).length).toBe(0);
     expect(treeMultiset.isAVLBalanced()).toBe(true);
 
     expect(treeMultiset.getHeight()).toBe(2);
 
-    const removed7 = treeMultiset.delete(7, true);
+    const removed7 = treeMultiset.delete(7, undefined, true);
     expect(removed7 instanceof Array);
     expect(removed7[0]);
     expect(removed7[0].deleted);
@@ -172,7 +172,7 @@ describe('TreeMultiset operations test', () => {
     expect(treeMultiset.isAVLBalanced()).toBe(true);
     expect(treeMultiset.getHeight()).toBe(2);
 
-    const removed9 = treeMultiset.delete(9, true);
+    const removed9 = treeMultiset.delete(9, undefined, true);
     expect(removed9 instanceof Array);
     expect(removed9[0]);
     expect(removed9[0].deleted);
@@ -180,7 +180,7 @@ describe('TreeMultiset operations test', () => {
     expect(treeMultiset.isAVLBalanced()).toBe(true);
     expect(treeMultiset.getHeight()).toBe(2);
 
-    const removed14 = treeMultiset.delete(14, true);
+    const removed14 = treeMultiset.delete(14, undefined, true);
     expect(removed14 instanceof Array);
     expect(removed14[0]);
     expect(removed14[0].deleted);

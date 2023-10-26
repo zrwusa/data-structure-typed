@@ -5,8 +5,8 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type {BinaryTreeNodeKey, TreeMultisetNodeNested, TreeMultisetOptions} from '../../types';
-import {BinaryTreeDeletedResult, CP, FamilyPosition, IterationType} from '../../types';
+import type {BinaryTreeNodeKey, DefaultMapCallback, TreeMultisetNodeNested, TreeMultisetOptions} from '../../types';
+import {BinaryTreeDeletedResult, CP, FamilyPosition, IterationType, MapCallback} from '../../types';
 import {IBinaryTree} from '../../interfaces';
 import {AVLTree, AVLTreeNode} from './avl-tree';
 
@@ -265,20 +265,26 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
   /**
    * The `delete` function in a binary search tree deletes a node from the tree and returns the deleted
    * node along with the parent node that needs to be balanced.
-   * @param {N | BinaryTreeNodeKey} nodeOrKey - The `nodeOrKey` parameter can be either a node object
-   * (`N`) or a key value (`BinaryTreeNodeKey`). It represents the node or key that needs to be deleted
-   * from the binary tree.
+   * @param {ReturnType<C>} identifier - The `identifier` parameter is either a
+   * `BinaryTreeNodeKey` or a generic type `N`. It represents the property of the node that we are
+   * searching for. It can be a specific key value or any other property of the node.
+   * @param callback - The `callback` parameter is a function that takes a node as input and returns a
+   * value. This value is compared with the `identifier` parameter to determine if the node should be
+   * included in the result. The `callback` parameter has a default value of
+   * `this._defaultCallbackByKey`
    * @param [ignoreCount=false] - A boolean flag indicating whether to ignore the count of the node
    * being deleted. If set to true, the count of the node will not be considered and the node will be
    * deleted regardless of its count. If set to false (default), the count of the node will be
    * decremented by 1 and
    * @returns The method `delete` returns an array of `BinaryTreeDeletedResult<N>` objects.
    */
-  override delete(nodeOrKey: N | BinaryTreeNodeKey, ignoreCount = false): BinaryTreeDeletedResult<N>[] {
+  override delete<C extends MapCallback<N>>(
+    identifier: ReturnType<C>,
+    callback: C = this._defaultCallbackByKey as C, ignoreCount = false): BinaryTreeDeletedResult<N>[] {
     const bstDeletedResult: BinaryTreeDeletedResult<N>[] = [];
     if (!this.root) return bstDeletedResult;
 
-    const curr: N | null = this.get(nodeOrKey);
+    const curr: N | null = this.get(identifier, callback);
     if (!curr) return bstDeletedResult;
 
     const parent: N | null = curr?.parent ? curr.parent : null;
