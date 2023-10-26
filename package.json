@@ -1,6 +1,6 @@
 {
   "name": "data-structure-typed",
-  "version": "1.38.3",
+  "version": "1.38.4",
   "description": "Data Structures of Javascript & TypeScript. Binary Tree, BST, Graph, Heap, Priority Queue, Linked List, Queue, Deque, Stack, AVL Tree, Tree Multiset, Trie, Directed Graph, Undirected Graph, Singly Linked List, Doubly Linked List, Max Heap, Max Priority Queue, Min Heap, Min Priority Queue.",
   "main": "dist/cjs/index.js",
   "module": "dist/mjs/index.js",
@@ -39,7 +39,7 @@
     "copy:to-subs": "sh scripts/copy_to_all_subs.sh",
     "publish:subs": "npm run copy:to-subs && sh scripts/publish_all_subs.sh",
     "publish:docs": "sh scripts/publish_docs.sh",
-    "publish:all": "npm run ci && npm publish && npm run publish:subs && npm run publish:docs"
+    "publish:all": "npm run ci && npm publish && npm run publish:docs && npm run publish:subs"
   },
   "repository": {
     "type": "git",
@@ -61,10 +61,10 @@
     "@typescript-eslint/eslint-plugin": "^6.7.4",
     "@typescript-eslint/parser": "^6.7.4",
     "auto-changelog": "^2.4.0",
-    "avl-tree-typed": "^1.38.2",
+    "avl-tree-typed": "^1.38.3",
     "benchmark": "^2.1.4",
-    "binary-tree-typed": "^1.38.2",
-    "bst-typed": "^1.38.2",
+    "binary-tree-typed": "^1.38.3",
+    "bst-typed": "^1.38.3",
     "dependency-cruiser": "^14.1.0",
     "eslint": "^8.50.0",
     "eslint-config-prettier": "^9.0.0",

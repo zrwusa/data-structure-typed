@@ -1,5 +1,4 @@
 import {BinaryTreeNode} from '../../../data-structures';
-import PropertyKeysOf = jest.PropertyKeysOf;
 
 /**
  * Enum representing different loop types.

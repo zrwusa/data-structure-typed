@@ -266,7 +266,7 @@ export class DoublyLinkedList<E = any> {
    * @returns The function `findNodeByValue` returns a `DoublyLinkedListNode<E>` if a node with the specified value `val`
    * is found in the linked list. If no such node is found, it returns `null`.
    */
-  findNode(val: E): DoublyLinkedListNode<E> | null {
+  findNode(val: E | null): DoublyLinkedListNode<E> | null {
     let current = this.head;
 
     while (current) {
@@ -341,7 +341,7 @@ export class DoublyLinkedList<E = any> {
    * @returns The `delete` method returns a boolean value. It returns `true` if the value or node was successfully
    * deleted from the doubly linked list, and `false` if the value or node was not found in the list.
    */
-  delete(valOrNode: E | DoublyLinkedListNode<E>): boolean {
+  delete(valOrNode: E | DoublyLinkedListNode<E> | null): boolean {
     let node: DoublyLinkedListNode<E> | null;
 
     if (valOrNode instanceof DoublyLinkedListNode) {
@@ -594,8 +594,6 @@ export class DoublyLinkedList<E = any> {
     return false;
   }
 
-  insertBefore(existingValueOrNode: E, newValue: E): boolean;
-  insertBefore(existingValueOrNode: DoublyLinkedListNode<E>, newValue: E): boolean;
 
   /**
    * The `insertBefore` function inserts a new value before an existing value or node in a doubly linked list.

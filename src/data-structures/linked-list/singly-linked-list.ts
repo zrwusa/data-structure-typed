@@ -214,9 +214,6 @@ export class SinglyLinkedList<E = any> {
     return removedNode!.val;
   }
 
-  delete(valueOrNode: E): boolean;
-  delete(valueOrNode: SinglyLinkedListNode<E>): boolean;
-
   /**
    * The delete function removes a node with a specific value from a singly linked list.
    * @param {E | SinglyLinkedListNode<E>} valueOrNode - The `valueOrNode` parameter can accept either a value of type `E`
@@ -224,7 +221,8 @@ export class SinglyLinkedList<E = any> {
    * @returns The `delete` method returns a boolean value. It returns `true` if the value or node is found and
    * successfully deleted from the linked list, and `false` if the value or node is not found in the linked list.
    */
-  delete(valueOrNode: E | SinglyLinkedListNode<E>): boolean {
+  delete(valueOrNode: E | SinglyLinkedListNode<E> | null | undefined): boolean {
+    if (!valueOrNode) return false;
     let value: E;
     if (valueOrNode instanceof SinglyLinkedListNode) {
       value = valueOrNode.val;
@@ -396,9 +394,6 @@ export class SinglyLinkedList<E = any> {
 
     return null;
   }
-
-  insertBefore(existingValue: E, newValue: E): boolean;
-  insertBefore(existingValue: SinglyLinkedListNode<E>, newValue: E): boolean;
 
   /**
    * The `insertBefore` function inserts a new value before an existing value in a singly linked list.
