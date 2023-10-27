@@ -1,7 +1,7 @@
 import {BinaryTreeNode} from '../data-structures';
-import {BinaryTreeDeletedResult, BinaryTreeNodeKey, MapCallback} from '../types';
+import {BinaryTreeDeletedResult, BinaryTreeNodeKey, BinaryTreeNodeNested, MapCallback} from '../types';
 
-export interface IBinaryTree<N extends BinaryTreeNode<N['val'], N>> {
+export interface IBinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNodeNested<V>> {
   createNode(key: BinaryTreeNodeKey, val?: N['val']): N;
 
   add(keyOrNode: BinaryTreeNodeKey | N | null, val?: N['val']): N | null | undefined;

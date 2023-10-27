@@ -24,6 +24,7 @@
     "lint:test": "eslint --fix 'test/**/*.{js,ts}'",
     "lint": "npm run lint:src && npm run lint:test",
     "format:src": "prettier --write 'src/**/*.{js,ts}'",
+    "format:specific": "prettier --write 'src/data-structures/binary-tree/bst.ts'",
     "format:test": "prettier --write 'test/**/*.{js,ts}'",
     "format": "npm run format:src && npm run format:test",
     "fix:src": "npm run lint:src && npm run format:src",

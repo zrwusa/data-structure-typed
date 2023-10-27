@@ -10,8 +10,8 @@ import type {AVLTreeNodeNested, AVLTreeOptions, BinaryTreeDeletedResult, BinaryT
 import {MapCallback} from '../../types';
 import {IBinaryTree} from '../../interfaces';
 
-export class AVLTreeNode<V = any, FAMILY extends AVLTreeNode<V, FAMILY> = AVLTreeNodeNested<V>> extends
-  BSTNode<V, FAMILY> {
+export class AVLTreeNode<V = any, N extends AVLTreeNode<V, N> = AVLTreeNodeNested<V>> extends
+  BSTNode<V, N> {
   height: number;
 
   constructor(key: BinaryTreeNodeKey, val?: V) {
@@ -20,7 +20,7 @@ export class AVLTreeNode<V = any, FAMILY extends AVLTreeNode<V, FAMILY> = AVLTre
   }
 }
 
-export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends BST<N> implements IBinaryTree<N> {
+export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode> extends BST<V, N>  implements IBinaryTree<V, N>{
   /**
    * This is a constructor function for an AVL tree data structure in TypeScript.
    * @param {AVLTreeOptions} [options] - The `options` parameter is an optional object that can be passed to the
@@ -36,12 +36,12 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
    * @param {BinaryTreeNodeKey} key - The key parameter is the key value that will be associated with
    * the new node. It is used to determine the position of the node in the binary search tree.
    * @param [val] - The parameter `val` is an optional value that can be assigned to the node. It is of
-   * type `N['val']`, which means it can be any value that is assignable to the `val` property of the
+   * type `V`, which means it can be any value that is assignable to the `val` property of the
    * node type `N`.
    * @returns a new AVLTreeNode object with the specified key and value.
    */
-  override createNode(key: BinaryTreeNodeKey, val?: N['val']): N {
-    return new AVLTreeNode<N['val'], N>(key, val) as N;
+  override createNode(key: BinaryTreeNodeKey, val?: V): N {
+    return new AVLTreeNode<V, N>(key, val) as N;
   }
 
   /**
@@ -53,7 +53,7 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
    * are adding to the binary search tree.
    * @returns The method is returning the inserted node (`N`), `null`, or `undefined`.
    */
-  override add(keyOrNode: BinaryTreeNodeKey | N | null, val?: N['val']): N | null | undefined {
+  override add(keyOrNode: BinaryTreeNodeKey | N | null, val?: V): N | null | undefined {
     // TODO support node as a param
     const inserted = super.add(keyOrNode, val);
     if (inserted) this._balancePath(inserted);

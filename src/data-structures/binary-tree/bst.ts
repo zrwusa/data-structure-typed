@@ -18,13 +18,13 @@ import {BinaryTree, BinaryTreeNode} from './binary-tree';
 import {IBinaryTree} from '../../interfaces';
 import {Queue} from '../queue';
 
-export class BSTNode<V = any, FAMILY extends BSTNode<V, FAMILY> = BSTNodeNested<V>> extends BinaryTreeNode<V, FAMILY> {
+export class BSTNode<V = any, N extends BSTNode<V, N> = BSTNodeNested<V>> extends BinaryTreeNode<V, N> {
   constructor(key: BinaryTreeNodeKey, val?: V) {
     super(key, val);
   }
 }
 
-export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N> implements IBinaryTree<N> {
+export class BST<V = any, N extends BSTNode<V, N> = BSTNode> extends BinaryTree<V, N> implements IBinaryTree<V, N> {
   /**
    * The constructor function initializes a binary search tree object with an optional comparator
    * function.
@@ -49,8 +49,8 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * represents the value associated with the node in a binary search tree.
    * @returns a new instance of the BSTNode class with the specified key and value.
    */
-  override createNode(key: BinaryTreeNodeKey, val?: N['val']): N {
-    return new BSTNode<N['val'], N>(key, val) as N;
+  override createNode(key: BinaryTreeNodeKey, val?: V): N {
+    return new BSTNode<V, N>(key, val) as N;
   }
 
   /**
@@ -63,7 +63,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * @returns the inserted node (N) if it was successfully added to the binary search tree. If the node
    * was not added or if the parameters were invalid, it returns null or undefined.
    */
-  override add(keyOrNode: BinaryTreeNodeKey | N | null, val?: N['val']): N | null | undefined {
+  override add(keyOrNode: BinaryTreeNodeKey | N | null, val?: V): N | null | undefined {
     // TODO support node as a parameter
     let inserted: N | null = null;
     let newNode: N | null = null;
@@ -136,7 +136,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
    * represents an array of keys or nodes that need to be added to the binary search tree. It can be an
    * array of `BinaryTreeNodeKey` or `N` (which represents the node type in the binary search tree) or
    * `null
-   * @param {N['val'][]} data - The values of tree nodes
+   * @param {V[]} data - The values of tree nodes
    * @param {boolean} isBalanceAdd - If true the nodes will be balance inserted in binary search method.
    * @param iterationType - The `iterationType` parameter determines the type of iteration to be used.
    * It can have two possible values:
@@ -145,7 +145,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
 
   override addMany(
     keysOrNodes: (BinaryTreeNodeKey | null)[] | (N | null)[],
-    data?: N['val'][],
+    data?: V[],
     isBalanceAdd = true,
     iterationType = this.iterationType
   ): (N | null | undefined)[] {
@@ -174,7 +174,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
     }
 
     let sortedKeysOrNodes: (number | N | null)[] = [],
-      sortedData: (N['val'] | undefined)[] | undefined = [];
+      sortedData: (V | undefined)[] | undefined = [];
 
     if (isNodeOrNullTuple(combinedArr)) {
       sorted = combinedArr.sort((a, b) => a[0].key - b[0].key);
@@ -185,7 +185,7 @@ export class BST<N extends BSTNode<N['val'], N> = BSTNode> extends BinaryTree<N>
     }
     sortedKeysOrNodes = sorted.map(([keyOrNode]) => keyOrNode);
     sortedData = sorted.map(([, val]) => val);
-    const recursive = (arr: (BinaryTreeNodeKey | null | N)[], data?: N['val'][]) => {
+    const recursive = (arr: (BinaryTreeNodeKey | null | N)[], data?: (V | undefined)[]) => {
       if (arr.length === 0) return;
 
       const mid = Math.floor((arr.length - 1) / 2);

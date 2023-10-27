@@ -3,7 +3,7 @@ import {AVLTree, AVLTreeNode, CP} from '../../../../src';
 describe('AVL Tree Test', () => {
   it('should perform various operations on a AVL Tree', () => {
     const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
-    const tree = new AVLTree<AVLTreeNode<number>>();
+    const tree = new AVLTree<number>();
 
     for (const i of arr) tree.add(i, i);
 
@@ -110,7 +110,7 @@ describe('AVL Tree Test', () => {
 });
 
 describe('AVLTree APIs test', () => {
-  const avl = new AVLTree<AVLTreeNode<{id: number; text: string}>>();
+  const avl = new AVLTree<{id: number; text: string}>();
   beforeEach(() => {
     avl.clear();
   });

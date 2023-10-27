@@ -2,9 +2,9 @@ import {BinaryTreeNodeKey, RBColor, RBTreeNodeNested, RBTreeOptions} from '../..
 import {IBinaryTree} from '../../interfaces';
 import {BST, BSTNode} from './bst';
 
-export class RBTreeNode<V = any, FAMILY extends RBTreeNode<V, FAMILY> = RBTreeNodeNested<V>> extends BSTNode<
+export class RBTreeNode<V = any, N extends RBTreeNode<V, N> = RBTreeNodeNested<V>> extends BSTNode<
   V,
-  FAMILY
+  N
 > {
   constructor(key: BinaryTreeNodeKey, val?: V) {
     super(key, val);
@@ -22,16 +22,16 @@ export class RBTreeNode<V = any, FAMILY extends RBTreeNode<V, FAMILY> = RBTreeNo
   }
 }
 
-export class RBTree<N extends RBTreeNode<N['val'], N> = RBTreeNode> extends BST<N> implements IBinaryTree<N> {
+export class RBTree<V, N extends RBTreeNode<V, N> = RBTreeNode> extends BST<V, N> implements IBinaryTree<V, N> {
   constructor(options?: RBTreeOptions) {
     super(options);
   }
 
-  override createNode(key: BinaryTreeNodeKey, val?: N['val']): N {
+  override createNode(key: BinaryTreeNodeKey, val?: V): N {
     return new RBTreeNode(key, val) as N;
   }
 
-  // override add(keyOrNode: BinaryTreeNodeKey | N | null, val?: N['val']): N | null | undefined {
+  // override add(keyOrNode: BinaryTreeNodeKey | N | null, val?: V): N | null | undefined {
   //   const inserted = super.add(keyOrNode, val);
   //   if (inserted) this._fixInsertViolation(inserted);
   //   return inserted;

@@ -23,9 +23,9 @@ import {Queue} from '../queue';
 /**
  * Represents a node in a binary tree.
  * @template V - The type of data stored in the node.
- * @template FAMILY - The type of the family relationship in the binary tree.
+ * @template N - The type of the family relationship in the binary tree.
  */
-export class BinaryTreeNode<V = any, FAMILY extends BinaryTreeNode<V, FAMILY> = BinaryTreeNodeNested<V>> {
+export class BinaryTreeNode<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode<V, BinaryTreeNodeNested<V>>> {
   /**
    * The key associated with the node.
    */
@@ -39,7 +39,7 @@ export class BinaryTreeNode<V = any, FAMILY extends BinaryTreeNode<V, FAMILY> = 
   /**
    * The parent node of the current node.
    */
-  parent: FAMILY | null | undefined;
+  parent: N | null | undefined;
 
   /**
    * Creates a new instance of BinaryTreeNode.
@@ -51,42 +51,42 @@ export class BinaryTreeNode<V = any, FAMILY extends BinaryTreeNode<V, FAMILY> = 
     this.val = val;
   }
 
-  private _left: FAMILY | null | undefined;
+  private _left: N | null | undefined;
 
   /**
    * Get the left child node.
    */
-  get left(): FAMILY | null | undefined {
+  get left(): N | null | undefined {
     return this._left;
   }
 
   /**
    * Set the left child node.
-   * @param {FAMILY | null | undefined} v - The left child node.
+   * @param {N | null | undefined} v - The left child node.
    */
-  set left(v: FAMILY | null | undefined) {
+  set left(v: N | null | undefined) {
     if (v) {
-      v.parent = this as unknown as FAMILY;
+      v.parent = this as unknown as N;
     }
     this._left = v;
   }
 
-  private _right: FAMILY | null | undefined;
+  private _right: N | null | undefined;
 
   /**
    * Get the right child node.
    */
-  get right(): FAMILY | null | undefined {
+  get right(): N | null | undefined {
     return this._right;
   }
 
   /**
    * Set the right child node.
-   * @param {FAMILY | null | undefined} v - The right child node.
+   * @param {N | null | undefined} v - The right child node.
    */
-  set right(v: FAMILY | null | undefined) {
+  set right(v: N | null | undefined) {
     if (v) {
-      v.parent = this as unknown as FAMILY;
+      v.parent = this as unknown as N;
     }
     this._right = v;
   }
@@ -96,7 +96,7 @@ export class BinaryTreeNode<V = any, FAMILY extends BinaryTreeNode<V, FAMILY> = 
    * @returns {FamilyPosition} - The family position of the node.
    */
   get familyPosition(): FamilyPosition {
-    const that = this as unknown as FAMILY;
+    const that = this as unknown as N;
     if (!this.parent) {
       return this.left || this.right ? FamilyPosition.ROOT : FamilyPosition.ISOLATED;
     }
@@ -115,7 +115,7 @@ export class BinaryTreeNode<V = any, FAMILY extends BinaryTreeNode<V, FAMILY> = 
  * Represents a binary tree data structure.
  * @template N - The type of the binary tree's nodes.
  */
-export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> implements IBinaryTree<N> {
+export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode> implements IBinaryTree<V, N>{
   /**
    * Creates a new instance of BinaryTree.
    * @param {BinaryTreeOptions} [options] - The options for the binary tree.
@@ -165,11 +165,11 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
   /**
    * Creates a new instance of BinaryTreeNode with the given key and value.
    * @param {BinaryTreeNodeKey} key - The key for the new node.
-   * @param {N['val']} val - The value for the new node.
+   * @param {V} val - The value for the new node.
    * @returns {N} - The newly created BinaryTreeNode.
    */
-  createNode(key: BinaryTreeNodeKey, val?: N['val']): N {
-    return new BinaryTreeNode<N['val'], N>(key, val) as N;
+  createNode(key: BinaryTreeNodeKey, val?: V): N {
+    return new BinaryTreeNode<V, N>(key, val) as N;
   }
 
   /**
@@ -191,10 +191,10 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
   /**
    * Add a node with the given key and value to the binary tree.
    * @param {BinaryTreeNodeKey | N | null} keyOrNode - The key or node to add to the binary tree.
-   * @param {N['val']} val - The value for the new node (optional).
+   * @param {V} val - The value for the new node (optional).
    * @returns {N | null | undefined} - The inserted node, or null if nothing was inserted, or undefined if the operation failed.
    */
-  add(keyOrNode: BinaryTreeNodeKey | N | null, val?: N['val']): N | null | undefined {
+  add(keyOrNode: BinaryTreeNodeKey | N | null, val?: V): N | null | undefined {
     const _bfs = (root: N, newNode: N | null): N | undefined | null => {
       const queue = new Queue<N | null>([root]);
       while (queue.size > 0) {
@@ -249,12 +249,12 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
    * values, and adds them to the binary tree.
    * @param {(BinaryTreeNodeKey | null)[] | (N | null)[]} keysOrNodes - An array of BinaryTreeNodeKey or BinaryTreeNode
    * objects, or null values.
-   * @param {N['val'][]} [values] - The `values` parameter is an optional array of values (`N['val'][]`) that corresponds to
+   * @param {V[]} [values] - The `values` parameter is an optional array of values (`V[]`) that corresponds to
    * the nodes or node IDs being added. It is used to set the value of each node being added. If `values` is not provided,
    * the value of the nodes will be `undefined`.
    * @returns The function `addMany` returns an array of `N`, `null`, or `undefined` values.
    */
-  addMany(keysOrNodes: (BinaryTreeNodeKey | null)[] | (N | null)[], values?: N['val'][]): (N | null | undefined)[] {
+  addMany(keysOrNodes: (BinaryTreeNodeKey | null)[] | (N | null)[], values?: V[]): (N | null | undefined)[] {
     // TODO not sure addMany not be run multi times
     return keysOrNodes.map((keyOrNode, i) => {
       if (keyOrNode instanceof BinaryTreeNode) {
@@ -274,12 +274,12 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
    * The `refill` function clears the binary tree and adds multiple nodes with the given IDs or nodes and optional data.
    * @param {(BinaryTreeNodeKey | N)[]} keysOrNodes - The `keysOrNodes` parameter is an array that can contain either
    * `BinaryTreeNodeKey` or `N` values.
-   * @param {N[] | Array<N['val']>} [data] - The `data` parameter is an optional array of values that will be assigned to
+   * @param {N[] | Array<V>} [data] - The `data` parameter is an optional array of values that will be assigned to
    * the nodes being added. If provided, the length of the `data` array should be equal to the length of the `keysOrNodes`
    * array. Each value in the `data` array will be assigned to the
    * @returns The method is returning a boolean value.
    */
-  refill(keysOrNodes: (BinaryTreeNodeKey | null)[] | (N | null)[], data?: N[] | Array<N['val']>): boolean {
+  refill(keysOrNodes: (BinaryTreeNodeKey | null)[] | (N | null)[], data?: Array<V>): boolean {
     this.clear();
     return keysOrNodes.length === this.addMany(keysOrNodes, data).length;
   }

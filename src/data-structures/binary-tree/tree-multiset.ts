@@ -12,8 +12,8 @@ import {AVLTree, AVLTreeNode} from './avl-tree';
 
 export class TreeMultisetNode<
   V = any,
-  FAMILY extends TreeMultisetNode<V, FAMILY> = TreeMultisetNodeNested<V>
-> extends AVLTreeNode<V, FAMILY> {
+  N extends TreeMultisetNode<V, N> = TreeMultisetNodeNested<V>
+> extends AVLTreeNode<V, N> {
   count: number;
 
   /**
@@ -35,9 +35,9 @@ export class TreeMultisetNode<
 /**
  * The only distinction between a TreeMultiset and a AVLTree lies in the ability of the former to store duplicate nodes through the utilization of counters.
  */
-export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultisetNode>
-  extends AVLTree<N>
-  implements IBinaryTree<N> {
+export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultisetNode>
+  extends AVLTree<V, N>
+  implements IBinaryTree<V, N> {
   /**
    * The constructor function for a TreeMultiset class in TypeScript, which extends another class and sets an option to
    * merge duplicated values.
@@ -63,7 +63,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * occurrences of the value in the binary search tree node. If not provided, the count will default to 1.
    * @returns A new instance of the BSTNode class with the specified key, value, and count (if provided).
    */
-  override createNode(key: BinaryTreeNodeKey, val?: N['val'], count?: number): N {
+  override createNode(key: BinaryTreeNodeKey, val?: V, count?: number): N {
     return new TreeMultisetNode(key, val, count) as N;
   }
 
@@ -80,7 +80,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * count is specified, the default count will be 1.
    * @returns The function `add` returns a value of type `N | null | undefined`.
    */
-  override add(keyOrNode: BinaryTreeNodeKey | N | null, val?: N['val'], count = 1): N | null | undefined {
+  override add(keyOrNode: BinaryTreeNodeKey | N | null, val?: V, count = 1): N | null | undefined {
     let inserted: N | null | undefined = undefined,
       newNode: N | null;
     if (keyOrNode instanceof TreeMultisetNode) {
@@ -186,14 +186,14 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    * inserted nodes.
    * @param {(BinaryTreeNodeKey | null)[] | (N | null)[]} keysOrNodes - An array of keys or nodes to be
    * added to the multiset. Each element can be either a BinaryTreeNodeKey or a TreeMultisetNode.
-   * @param {N['val'][]} [data] - The `data` parameter is an optional array of values that correspond
+   * @param {V[]} [data] - The `data` parameter is an optional array of values that correspond
    * to the keys or nodes being added to the multiset. It is used to associate additional data with
    * each key or node.
    * @returns The function `addMany` returns an array of `N`, `null`, or `undefined` values.
    */
   override addMany(
     keysOrNodes: (BinaryTreeNodeKey | null)[] | (N | null)[],
-    data?: N['val'][]
+    data?: V[]
   ): (N | null | undefined)[] {
     const inserted: (N | null | undefined)[] = [];
 
@@ -206,7 +206,7 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
       }
 
       if (keyOrNode === null) {
-        inserted.push(this.add(NaN, null, 0));
+        inserted.push(this.add(NaN, undefined, 0));
         continue;
       }
 
