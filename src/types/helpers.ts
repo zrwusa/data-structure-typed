@@ -1,4 +1,4 @@
-import {BinaryTreeNodeKey} from "./data-structures";
+import {BinaryTreeNodeKey} from './data-structures';
 
 export type Comparator<T> = (a: T, b: T) => number;
 

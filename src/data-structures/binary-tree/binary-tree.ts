@@ -116,8 +116,6 @@ export class BinaryTreeNode<V = any, FAMILY extends BinaryTreeNode<V, FAMILY> = 
  * @template N - The type of the binary tree's nodes.
  */
 export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> implements IBinaryTree<N> {
-  private _loopType: IterationType = IterationType.ITERATIVE;
-
   /**
    * Creates a new instance of BinaryTree.
    * @param {BinaryTreeOptions} [options] - The options for the binary tree.
@@ -125,8 +123,25 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
   constructor(options?: BinaryTreeOptions) {
     if (options !== undefined) {
       const {iterationType = IterationType.ITERATIVE} = options;
-      this._loopType = iterationType;
+      this._iterationType = iterationType;
     }
+  }
+
+  private _iterationType: IterationType = IterationType.ITERATIVE;
+
+  /**
+   * Get the iteration type used in the binary tree.
+   */
+  get iterationType(): IterationType {
+    return this._iterationType;
+  }
+
+  /**
+   * Set the iteration type for the binary tree.
+   * @param {IterationType} v - The new iteration type to set.
+   */
+  set iterationType(v: IterationType) {
+    this._iterationType = v;
   }
 
   private _root: N | null = null;
@@ -145,21 +160,6 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
    */
   get size(): number {
     return this._size;
-  }
-
-  /**
-   * Get the iteration type used in the binary tree.
-   */
-  get iterationType(): IterationType {
-    return this._loopType;
-  }
-
-  /**
-   * Set the iteration type for the binary tree.
-   * @param {IterationType} v - The new iteration type to set.
-   */
-  set iterationType(v: IterationType) {
-    this._loopType = v;
   }
 
   /**
@@ -222,7 +222,7 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
       return;
     }
 
-    const key = typeof keyOrNode === 'number' ? keyOrNode : keyOrNode ? keyOrNode.key: undefined;
+    const key = typeof keyOrNode === 'number' ? keyOrNode : keyOrNode ? keyOrNode.key : undefined;
     const existNode = key !== undefined ? this.get(key, this._defaultCallbackByKey) : undefined;
 
     if (this.root) {
@@ -284,14 +284,9 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
     return keysOrNodes.length === this.addMany(keysOrNodes, data).length;
   }
 
-  delete<C extends MapCallback<N>>(
-    identifier: ReturnType<C> | N
-  ): BinaryTreeDeletedResult<N>[];
+  delete<C extends MapCallback<N>>(identifier: ReturnType<C> | N): BinaryTreeDeletedResult<N>[];
 
-  delete<C extends MapCallback<N>>(
-    identifier: ReturnType<C> | N,
-    callback: C
-  ): BinaryTreeDeletedResult<N>[];
+  delete<C extends MapCallback<N>>(identifier: ReturnType<C> | N, callback: C): BinaryTreeDeletedResult<N>[];
 
   /**
    * The `delete` function removes a node from a binary search tree and returns the deleted node along
@@ -309,7 +304,8 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
    */
   delete<C extends MapCallback<N>>(
     identifier: ReturnType<C> | N,
-    callback: C = this._defaultCallbackByKey as C): BinaryTreeDeletedResult<N>[] {
+    callback: C = this._defaultCallbackByKey as C
+  ): BinaryTreeDeletedResult<N>[] {
     const bstDeletedResult: BinaryTreeDeletedResult<N>[] = [];
     if (!this.root) return bstDeletedResult;
     if (identifier instanceof BinaryTreeNode) callback = (node => node) as C;
@@ -408,7 +404,7 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
         return -1;
       }
 
-      const stack: {node: N; depth: number}[] = [{node: beginRoot, depth: 0}];
+      const stack: { node: N; depth: number }[] = [{node: beginRoot, depth: 0}];
       let maxHeight = 0;
 
       while (stack.length > 0) {
@@ -492,26 +488,13 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
     return this.getMinHeight(beginRoot) + 1 >= this.getHeight(beginRoot);
   }
 
+  getNodes<C extends MapCallback<N>>(identifier: ReturnType<C> | N): N[];
 
-  getNodes<C extends MapCallback<N>>(
-    identifier: ReturnType<C> | N
-  ): N[];
+  getNodes<C extends MapCallback<N>>(identifier: ReturnType<C> | N, callback: C): N[];
 
-  getNodes<C extends MapCallback<N>>(
-    identifier: ReturnType<C> | N,
-    callback: C
-  ): N[];
+  getNodes<C extends MapCallback<N>>(identifier: ReturnType<C> | N, onlyOne: boolean): N[];
 
-  getNodes<C extends MapCallback<N>>(
-    identifier: ReturnType<C> | N,
-    onlyOne: boolean
-  ): N[];
-
-  getNodes<C extends MapCallback<N>>(
-    identifier: ReturnType<C> | N,
-    callback: C,
-    onlyOne: boolean
-  ): N[];
+  getNodes<C extends MapCallback<N>>(identifier: ReturnType<C> | N, callback: C, onlyOne: boolean): N[];
 
   getNodes<C extends MapCallback<N>>(
     identifier: ReturnType<C> | N,
@@ -527,7 +510,6 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
     beginRoot: N | null,
     iterationType: IterationType
   ): N[];
-
 
   /**
    * The function `getNodes` returns an array of nodes that match a given node property, using either
@@ -635,7 +617,12 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
 
   get<C extends MapCallback<N>>(identifier: ReturnType<C> | N, callback: C, beginRoot: N | null): N | null;
 
-  get<C extends MapCallback<N>>(identifier: ReturnType<C> | N, callback: C, beginRoot: N | null, iterationType: IterationType): N | null;
+  get<C extends MapCallback<N>>(
+    identifier: ReturnType<C> | N,
+    callback: C,
+    beginRoot: N | null,
+    iterationType: IterationType
+  ): N | null;
 
   /**
    * The function `get` returns the first node in a binary tree that matches the given property or key.
@@ -900,7 +887,7 @@ export class BinaryTree<N extends BinaryTreeNode<N['val'], N> = BinaryTreeNode> 
       _traverse(beginRoot);
     } else {
       // 0: visit, 1: print
-      const stack: {opt: 0 | 1; node: N | null | undefined}[] = [{opt: 0, node: beginRoot}];
+      const stack: { opt: 0 | 1; node: N | null | undefined }[] = [{opt: 0, node: beginRoot}];
 
       while (stack.length > 0) {
         const cur = stack.pop();

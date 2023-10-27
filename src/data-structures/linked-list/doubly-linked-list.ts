@@ -594,7 +594,6 @@ export class DoublyLinkedList<E = any> {
     return false;
   }
 
-
   /**
    * The `insertBefore` function inserts a new value before an existing value or node in a doubly linked list.
    * @param {E | DoublyLinkedListNode<E>} existingValueOrNode - The existing value or node in the doubly linked list

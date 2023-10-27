@@ -6,20 +6,12 @@
  * @license MIT License
  */
 import {BST, BSTNode} from './bst';
-import type {
-  AVLTreeNodeNested,
-  AVLTreeOptions,
-  BinaryTreeDeletedResult,
-  BinaryTreeNodeKey,
-  DefaultMapCallback
-} from '../../types';
+import type {AVLTreeNodeNested, AVLTreeOptions, BinaryTreeDeletedResult, BinaryTreeNodeKey} from '../../types';
+import {MapCallback} from '../../types';
 import {IBinaryTree} from '../../interfaces';
-import {MapCallback} from "../../types";
 
-export class AVLTreeNode<V = any, FAMILY extends AVLTreeNode<V, FAMILY> = AVLTreeNodeNested<V>> extends BSTNode<
-  V,
-  FAMILY
-> {
+export class AVLTreeNode<V = any, FAMILY extends AVLTreeNode<V, FAMILY> = AVLTreeNodeNested<V>> extends
+  BSTNode<V, FAMILY> {
   height: number;
 
   constructor(key: BinaryTreeNodeKey, val?: V) {
@@ -82,7 +74,8 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
    */
   override delete<C extends MapCallback<N>>(
     identifier: ReturnType<C>,
-    callback: C = this._defaultCallbackByKey as C): BinaryTreeDeletedResult<N>[] {
+    callback: C = this._defaultCallbackByKey as C
+  ): BinaryTreeDeletedResult<N>[] {
     const deletedResults = super.delete(identifier, callback);
     for (const {needBalanced} of deletedResults) {
       if (needBalanced) {
@@ -166,7 +159,7 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
       // Balance Restoration: If a balance issue is discovered after inserting a node, it requires balance restoration operations. Balance restoration includes four basic cases where rotation operations need to be performed to fix the balance:
       switch (
         this._balanceFactor(A) // second O(1)
-      ) {
+        ) {
         case -2:
           if (A && A.left) {
             if (this._balanceFactor(A.left) <= 0) {

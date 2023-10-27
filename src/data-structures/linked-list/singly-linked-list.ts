@@ -485,7 +485,7 @@ export class SinglyLinkedList<E = any> {
     return count;
   }
 
-  *[Symbol.iterator]() {
+  * [Symbol.iterator]() {
     let current = this.head;
 
     while (current) {

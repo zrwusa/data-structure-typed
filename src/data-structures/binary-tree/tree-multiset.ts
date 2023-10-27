@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type {BinaryTreeNodeKey, DefaultMapCallback, TreeMultisetNodeNested, TreeMultisetOptions} from '../../types';
+import type {BinaryTreeNodeKey, TreeMultisetNodeNested, TreeMultisetOptions} from '../../types';
 import {BinaryTreeDeletedResult, CP, FamilyPosition, IterationType, MapCallback} from '../../types';
 import {IBinaryTree} from '../../interfaces';
 import {AVLTree, AVLTreeNode} from './avl-tree';
@@ -37,8 +37,7 @@ export class TreeMultisetNode<
  */
 export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultisetNode>
   extends AVLTree<N>
-  implements IBinaryTree<N>
-{
+  implements IBinaryTree<N> {
   /**
    * The constructor function for a TreeMultiset class in TypeScript, which extends another class and sets an option to
    * merge duplicated values.
@@ -280,7 +279,9 @@ export class TreeMultiset<N extends TreeMultisetNode<N['val'], N> = TreeMultiset
    */
   override delete<C extends MapCallback<N>>(
     identifier: ReturnType<C>,
-    callback: C = this._defaultCallbackByKey as C, ignoreCount = false): BinaryTreeDeletedResult<N>[] {
+    callback: C = this._defaultCallbackByKey as C,
+    ignoreCount = false
+  ): BinaryTreeDeletedResult<N>[] {
     const bstDeletedResult: BinaryTreeDeletedResult<N>[] = [];
     if (!this.root) return bstDeletedResult;
 
