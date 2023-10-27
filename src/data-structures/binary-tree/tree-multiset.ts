@@ -35,7 +35,7 @@ export class TreeMultisetNode<
 /**
  * The only distinction between a TreeMultiset and a AVLTree lies in the ability of the former to store duplicate nodes through the utilization of counters.
  */
-export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultisetNode>
+export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultisetNode<V, TreeMultisetNodeNested<V>>>
   extends AVLTree<V, N>
   implements IBinaryTree<V, N> {
   /**
@@ -191,10 +191,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
    * each key or node.
    * @returns The function `addMany` returns an array of `N`, `null`, or `undefined` values.
    */
-  override addMany(
-    keysOrNodes: (BinaryTreeNodeKey | null)[] | (N | null)[],
-    data?: V[]
-  ): (N | null | undefined)[] {
+  override addMany(keysOrNodes: (BinaryTreeNodeKey | null)[] | (N | null)[], data?: V[]): (N | null | undefined)[] {
     const inserted: (N | null | undefined)[] = [];
 
     for (let i = 0; i < keysOrNodes.length; i++) {

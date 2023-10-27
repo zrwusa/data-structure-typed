@@ -19,7 +19,9 @@ export class AVLTreeNode<V = any, N extends AVLTreeNode<V, N> = AVLTreeNodeNeste
   }
 }
 
-export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode> extends BST<V, N> implements IBinaryTree<V, N> {
+export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTreeNodeNested<V>>>
+  extends BST<V, N>
+  implements IBinaryTree<V, N> {
   /**
    * This is a constructor function for an AVL tree data structure in TypeScript.
    * @param {AVLTreeOptions} [options] - The `options` parameter is an optional object that can be passed to the

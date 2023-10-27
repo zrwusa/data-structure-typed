@@ -24,7 +24,7 @@ export class BSTNode<V = any, N extends BSTNode<V, N> = BSTNodeNested<V>> extend
   }
 }
 
-export class BST<V = any, N extends BSTNode<V, N> = BSTNode> extends BinaryTree<V, N> implements IBinaryTree<V, N> {
+export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>> extends BinaryTree<V, N> implements IBinaryTree<V, N> {
   /**
    * The constructor function initializes a binary search tree object with an optional comparator
    * function.

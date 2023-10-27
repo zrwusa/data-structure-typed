@@ -17,7 +17,7 @@ describe('MaxPriorityQueue Operation Test', () => {
   });
 
   it('should add elements and maintain heap property in a object MaxPriorityQueue', () => {
-    const priorityQueue = new MaxPriorityQueue<{keyA: number}>((a, b) => b.keyA - a.keyA);
+    const priorityQueue = new MaxPriorityQueue<{ keyA: number }>((a, b) => b.keyA - a.keyA);
     priorityQueue.refill([{keyA: 5}, {keyA: 3}, {keyA: 1}]);
     priorityQueue.add({keyA: 7});
 
@@ -64,7 +64,7 @@ describe('MaxPriorityQueue Operation Test', () => {
 
   it('should correctly heapify an object array', () => {
     const nodes = [{keyA: 5}, {keyA: 3}, {keyA: 7}, {keyA: 1}];
-    const maxPQ = MaxPriorityQueue.heapify<{keyA: number}>(nodes, (a, b) => b.keyA - a.keyA);
+    const maxPQ = MaxPriorityQueue.heapify<{ keyA: number }>(nodes, (a, b) => b.keyA - a.keyA);
 
     expect(maxPQ.poll()?.keyA).toBe(7);
     expect(maxPQ.poll()?.keyA).toBe(5);

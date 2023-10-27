@@ -110,7 +110,7 @@ describe('AVL Tree Test', () => {
 });
 
 describe('AVLTree APIs test', () => {
-  const avl = new AVLTree<{id: number; text: string}>();
+  const avl = new AVLTree<{ id: number; text: string }>();
   beforeEach(() => {
     avl.clear();
   });
@@ -123,7 +123,7 @@ describe('AVLTree APIs test', () => {
     avl.add(node3);
     avl.add(node3, {id: 3, text: 'text33'});
 
-    const bfsRes = avl.bfs(node => node.key, false);
+    const bfsRes = avl.bfs(node => node.key);
     expect(bfsRes[0]).toBe(2);
   });
 });

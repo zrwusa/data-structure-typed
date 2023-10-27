@@ -115,7 +115,7 @@ export class BinaryTreeNode<V = any, N extends BinaryTreeNode<V, N> = BinaryTree
  * Represents a binary tree data structure.
  * @template N - The type of the binary tree's nodes.
  */
-export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode> implements IBinaryTree<V, N> {
+export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode<V, BinaryTreeNodeNested<V>>> implements IBinaryTree<V, N> {
   /**
    * Creates a new instance of BinaryTree.
    * @param {BinaryTreeOptions} [options] - The options for the binary tree.
@@ -930,10 +930,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * @param callback - The `callback` parameter is a function that will be called for each node in the
    * breadth-first search. It takes a node of type `N` as its argument and returns a value of type
    * `BFSCallbackReturn<N>`. The default value for this parameter is `this._defaultCallbackByKey
-   * @param {boolean} [withLevel=false] - The `withLevel` parameter is a boolean flag that determines
-   * whether to include the level of each node in the callback function. If `withLevel` is set
-   * to `true`, the level of each node will be passed as an argument to the callback function. If
-   * `withLevel` is
    * @param {N | null} beginRoot - The `beginRoot` parameter is the starting node for the breadth-first
    * search. It determines from which node the search will begin. If `beginRoot` is `null`, the search
    * will not be performed and an empty array will be returned.
@@ -943,7 +939,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    */
   bfs<C extends BFSCallback<N> = BFSCallback<N, BinaryTreeNodeKey>>(
     callback: C = this._defaultCallbackByKey as C,
-    withLevel: boolean = false,
     beginRoot: N | null = this.root,
     iterationType = this.iterationType
   ): ReturnType<C>[] {
@@ -952,8 +947,66 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     const ans: BFSCallbackReturn<N>[] = [];
 
     if (iterationType === IterationType.RECURSIVE) {
+      const queue = new Queue<N>([beginRoot]);
+
+      function traverse(level: number) {
+        if (queue.size === 0) return;
+
+        const current = queue.shift()!;
+        ans.push(callback(current));
+
+        if (current.left) queue.push(current.left);
+        if (current.right) queue.push(current.right);
+
+        traverse(level + 1);
+      }
+
+      traverse(0);
+    } else {
+      const queue = new Queue<N>([beginRoot]);
+      while (queue.size > 0) {
+        const levelSize = queue.size;
+
+        for (let i = 0; i < levelSize; i++) {
+          const current = queue.shift()!;
+          ans.push(callback(current));
+
+          if (current.left) queue.push(current.left);
+          if (current.right) queue.push(current.right);
+        }
+
+      }
+    }
+    return ans;
+  }
+
+  /**
+   * The `listLevels` function takes a binary tree node and a callback function, and returns an array
+   * of arrays representing the levels of the tree.
+   * @param {C} callback - The `callback` parameter is a function that will be called on each node in
+   * the tree. It takes a node as input and returns a value. The return type of the callback function
+   * is determined by the generic type `C`.
+   * @param {N | null} beginRoot - The `beginRoot` parameter represents the starting node of the binary tree
+   * traversal. It can be any node in the binary tree. If no node is provided, the traversal will start
+   * from the root node of the binary tree.
+   * @param iterationType - The `iterationType` parameter determines whether the tree traversal is done
+   * recursively or iteratively. It can have two possible values:
+   * @returns The function `listLevels` returns an array of arrays, where each inner array represents a
+   * level in a binary tree. Each inner array contains the return type of the provided callback
+   * function `C` applied to the nodes at that level.
+   */
+  listLevels<C extends BFSCallback<N> = BFSCallback<N, BinaryTreeNodeKey>>(
+    callback: C = this._defaultCallbackByKey as C,
+    beginRoot: N | null = this.root,
+    iterationType = this.iterationType
+  ): ReturnType<C>[][] {
+    if (!beginRoot) return [];
+    const levelsNodes: ReturnType<C>[][] = [];
+
+    if (iterationType === IterationType.RECURSIVE) {
       const _recursive = (node: N, level: number) => {
-        callback && ans.push(callback(node, withLevel ? level : undefined));
+        if (!levelsNodes[level]) levelsNodes[level] = [];
+        levelsNodes[level].push(callback(node));
         if (node.left) _recursive(node.left, level + 1);
         if (node.right) _recursive(node.right, level + 1);
       };
@@ -966,12 +1019,14 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
         const head = stack.pop()!;
         const [node, level] = head;
 
-        callback && ans.push(callback(node, withLevel ? level : undefined));
+        if (!levelsNodes[level]) levelsNodes[level] = [];
+        levelsNodes[level].push(callback(node));
         if (node.right) stack.push([node.right, level + 1]);
         if (node.left) stack.push([node.left, level + 1]);
       }
     }
-    return ans;
+
+    return levelsNodes;
   }
 
   /**

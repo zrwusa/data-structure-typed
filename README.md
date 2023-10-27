@@ -56,7 +56,7 @@ import {
 
 ```html
 
-<script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/index.global.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js'></script>
 ```
 
 ```js
