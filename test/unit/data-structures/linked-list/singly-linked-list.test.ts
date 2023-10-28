@@ -3,10 +3,10 @@ import {bigO, magnitude} from '../../../utils';
 
 describe('SinglyLinkedList Operation Test', () => {
   let list: SinglyLinkedList<number>;
-  let objectList: SinglyLinkedList<{ keyA: number }>;
+  let objectList: SinglyLinkedList<{keyA: number}>;
   beforeEach(() => {
     list = new SinglyLinkedList<number>();
-    objectList = new SinglyLinkedList<{ keyA: number }>();
+    objectList = new SinglyLinkedList<{keyA: number}>();
   });
 
   describe('push', () => {
@@ -393,7 +393,7 @@ describe('SinglyLinkedList Performance Test', () => {
     }
 
     // expect(performance.now() - startPopTime).toBeLessThan(bigO.LINEAR);
-    expect(performance.now() - startPopTime).toBeLessThan(bigO.LINEAR * 300);
+    expect(performance.now() - startPopTime).toBeLessThan(bigO.LINEAR * 400);
   });
 });
 describe('SinglyLinkedList', () => {

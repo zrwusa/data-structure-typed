@@ -1,6 +1,8 @@
 import {LinkedListQueue, Queue} from '../../../../src';
 import {bigO, magnitude} from '../../../utils';
+import {isDebugTest} from '../../../config';
 
+const isDebug = isDebugTest;
 describe('Queue Operation Test', () => {
   it('should validate a queue', () => {
     const queue = new Queue<number>();
@@ -209,7 +211,7 @@ describe('Queue Performance Test', () => {
     for (let i = 0; i < dataSize; i++) {
       queue.dequeue();
     }
-    console.log(`Queue Performance Test: ${performance.now() - startTime} ms`);
+    isDebug && console.log(`Queue Performance Test: ${performance.now() - startTime} ms`);
     expect(performance.now() - startTime).toBeLessThan(bigO.LINEAR * 100);
   });
 

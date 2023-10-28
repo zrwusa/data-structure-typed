@@ -10,8 +10,7 @@ export class Vector2D {
     public x: number = 0,
     public y: number = 0,
     public w: number = 1 // needed for matrix multiplication
-  ) {
-  }
+  ) {}
 
   /**
    * The function checks if the x and y values of a point are both zero.
@@ -313,5 +312,3 @@ export class Vector2D {
     this.y = 0;
   }
 }
-
-export default Vector2D;

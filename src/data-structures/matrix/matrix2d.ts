@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import Vector2D from './vector2d';
+import {Vector2D} from './vector2d';
 
 export class Matrix2D {
   private readonly _matrix: number[][];
@@ -209,5 +209,3 @@ export class Matrix2D {
     return new Vector2D(this._matrix[0][0], this._matrix[1][0]);
   }
 }
-
-export default Matrix2D;

@@ -6,16 +6,8 @@
  * @license MIT License
  */
 
-import type {
-  BFSCallback,
-  BFSCallbackReturn,
-  BinaryTreeNodeKey,
-  BinaryTreeNodeNested,
-  BinaryTreeOptions,
-  MapCallback,
-  MapCallbackReturn
-} from '../../types';
-import {BinaryTreeDeletedResult, DefaultMapCallback, DFSOrderPattern, FamilyPosition, IterationType} from '../../types';
+import type {OneParamCallback, BinaryTreeNodeKey, BinaryTreeNodeNested, BinaryTreeOptions} from '../../types';
+import {BinaryTreeDeletedResult, DFSOrderPattern, FamilyPosition, IterationType} from '../../types';
 import {IBinaryTree} from '../../interfaces';
 import {trampoline} from '../../utils';
 import {Queue} from '../queue';
@@ -116,7 +108,8 @@ export class BinaryTreeNode<V = any, N extends BinaryTreeNode<V, N> = BinaryTree
  * @template N - The type of the binary tree's nodes.
  */
 export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode<V, BinaryTreeNodeNested<V>>>
-  implements IBinaryTree<V, N> {
+  implements IBinaryTree<V, N>
+{
   /**
    * Creates a new instance of BinaryTree.
    * @param {BinaryTreeOptions} [options] - The options for the binary tree.
@@ -285,10 +278,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     return keysOrNodes.length === this.addMany(keysOrNodes, data).length;
   }
 
-  delete<C extends MapCallback<N>>(identifier: ReturnType<C> | N): BinaryTreeDeletedResult<N>[];
-
-  delete<C extends MapCallback<N>>(identifier: ReturnType<C> | N, callback: C): BinaryTreeDeletedResult<N>[];
-
   /**
    * The `delete` function removes a node from a binary search tree and returns the deleted node along
    * with the parent node that needs to be balanced.
@@ -303,13 +292,13 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * included in the result. The `callback` parameter has a default value of
    * `this._defaultCallbackByKey`, which
    */
-  delete<C extends MapCallback<N>>(
-    identifier: ReturnType<C> | N,
+  delete<C extends OneParamCallback<N>>(
+    identifier: ReturnType<C> | null,
     callback: C = this._defaultCallbackByKey as C
   ): BinaryTreeDeletedResult<N>[] {
     const bstDeletedResult: BinaryTreeDeletedResult<N>[] = [];
     if (!this.root) return bstDeletedResult;
-    if (identifier instanceof BinaryTreeNode) callback = (node => node) as C;
+    if ((identifier as any) instanceof BinaryTreeNode) callback = (node => node) as C;
 
     const curr = this.get(identifier, callback);
     if (!curr) return bstDeletedResult;
@@ -320,7 +309,8 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
 
     if (!curr.left) {
       if (!parent) {
-        if (curr.right !== undefined) this._setRoot(curr.right);
+        // Handle the case when there's only one root node
+        this._setRoot(null);
       } else {
         const {familyPosition: fp} = curr;
         if (fp === FamilyPosition.LEFT || fp === FamilyPosition.ROOT_LEFT) {
@@ -405,7 +395,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
         return -1;
       }
 
-      const stack: { node: N; depth: number }[] = [{node: beginRoot, depth: 0}];
+      const stack: {node: N; depth: number}[] = [{node: beginRoot, depth: 0}];
       let maxHeight = 0;
 
       while (stack.length > 0) {
@@ -489,29 +479,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     return this.getMinHeight(beginRoot) + 1 >= this.getHeight(beginRoot);
   }
 
-  getNodes<C extends MapCallback<N>>(identifier: ReturnType<C> | N): N[];
-
-  getNodes<C extends MapCallback<N>>(identifier: ReturnType<C> | N, callback: C): N[];
-
-  getNodes<C extends MapCallback<N>>(identifier: ReturnType<C> | N, onlyOne: boolean): N[];
-
-  getNodes<C extends MapCallback<N>>(identifier: ReturnType<C> | N, callback: C, onlyOne: boolean): N[];
-
-  getNodes<C extends MapCallback<N>>(
-    identifier: ReturnType<C> | N,
-    callback: C,
-    onlyOne: boolean,
-    beginRoot: N | null
-  ): N[];
-
-  getNodes<C extends MapCallback<N>>(
-    identifier: ReturnType<C> | N,
-    callback: C,
-    onlyOne: boolean,
-    beginRoot: N | null,
-    iterationType: IterationType
-  ): N[];
-
   /**
    * The function `getNodes` returns an array of nodes that match a given node property, using either
    * recursive or iterative traversal.
@@ -533,15 +500,15 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * traverse the binary tree. It can have two possible values:
    * @returns The function `getNodes` returns an array of nodes (`N[]`).
    */
-  getNodes<C extends MapCallback<N>>(
-    identifier: ReturnType<C> | N,
+  getNodes<C extends OneParamCallback<N>>(
+    identifier: ReturnType<C> | null,
     callback: C = this._defaultCallbackByKey as C,
     onlyOne = false,
     beginRoot: N | null = this.root,
     iterationType = this.iterationType
   ): N[] {
     if (!beginRoot) return [];
-    if (identifier instanceof BinaryTreeNode) callback = (node => node) as C;
+    if ((identifier as any) instanceof BinaryTreeNode) callback = (node => node) as C;
     const ans: N[] = [];
 
     if (iterationType === IterationType.RECURSIVE) {
@@ -574,14 +541,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     return ans;
   }
 
-  has<C extends MapCallback<N>>(identifier: ReturnType<C> | N): boolean;
-
-  has<C extends MapCallback<N>>(identifier: ReturnType<C> | N, callback: C): boolean;
-
-  has<C extends MapCallback<N>>(identifier: ReturnType<C> | N, beginRoot: N | null): boolean;
-
-  has<C extends MapCallback<N>>(identifier: ReturnType<C> | N, callback: C, beginRoot: N | null): boolean;
-
   /**
    * The function checks if a binary tree has a node with a given property or key.
    * @param {BinaryTreeNodeKey | N} identifier - The `identifier` parameter is the key or value of
@@ -599,31 +558,16 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * performed when searching for nodes in the binary tree. It can have one of the following values:
    * @returns a boolean value.
    */
-  has<C extends MapCallback<N>>(
-    identifier: ReturnType<C> | N,
+  has<C extends OneParamCallback<N>>(
+    identifier: ReturnType<C> | null,
     callback: C = this._defaultCallbackByKey as C,
     beginRoot = this.root,
     iterationType = this.iterationType
   ): boolean {
-    if (identifier instanceof BinaryTreeNode) callback = (node => node) as C;
+    if ((identifier as any) instanceof BinaryTreeNode) callback = (node => node) as C;
     // TODO may support finding node by value equal
     return this.getNodes(identifier, callback, true, beginRoot, iterationType).length > 0;
   }
-
-  get<C extends MapCallback<N>>(identifier: ReturnType<C> | N): N | null;
-
-  get<C extends MapCallback<N>>(identifier: ReturnType<C> | N, callback: C): N | null;
-
-  get<C extends MapCallback<N>>(identifier: ReturnType<C> | N, beginRoot: N | null): N | null;
-
-  get<C extends MapCallback<N>>(identifier: ReturnType<C> | N, callback: C, beginRoot: N | null): N | null;
-
-  get<C extends MapCallback<N>>(
-    identifier: ReturnType<C> | N,
-    callback: C,
-    beginRoot: N | null,
-    iterationType: IterationType
-  ): N | null;
 
   /**
    * The function `get` returns the first node in a binary tree that matches the given property or key.
@@ -640,13 +584,13 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * performed when searching for a node in the binary tree. It can have one of the following values:
    * @returns either the found node (of type N) or null if no node is found.
    */
-  get<C extends MapCallback<N>>(
-    identifier: ReturnType<C> | N,
+  get<C extends OneParamCallback<N>>(
+    identifier: ReturnType<C> | null,
     callback: C = this._defaultCallbackByKey as C,
     beginRoot = this.root,
     iterationType = this.iterationType
   ): N | null {
-    if (identifier instanceof BinaryTreeNode) callback = (node => node) as C;
+    if ((identifier as any) instanceof BinaryTreeNode) callback = (node => node) as C;
     // TODO may support finding node by value equal
     return this.getNodes(identifier, callback, true, beginRoot, iterationType)[0] ?? null;
   }
@@ -750,7 +694,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * possible values:
    * @returns The function `isSubtreeBST` returns a boolean value.
    */
-  isSubtreeBST(beginRoot: N, iterationType = this.iterationType): boolean {
+  isSubtreeBST(beginRoot: N | null, iterationType = this.iterationType): boolean {
     // TODO there is a bug
     if (!beginRoot) return true;
 
@@ -805,16 +749,16 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * start from the root of the tree.
    * @param iterationType - The `iterationType` parameter determines the type of traversal to be
    * performed on the binary tree. It can have two possible values:
-   * @returns The function `subTreeTraverse` returns an array of `MapCallbackReturn<N>`.
+   * @returns The function `subTreeTraverse` returns an array of `ReturnType<OneParamCallback<N>>`.
    */
-  subTreeTraverse<C extends MapCallback<N>>(
+  subTreeTraverse<C extends OneParamCallback<N>>(
     callback: C = this._defaultCallbackByKey as C,
     beginRoot: BinaryTreeNodeKey | N | null = this.root,
     iterationType = this.iterationType
   ): ReturnType<C>[] {
     if (typeof beginRoot === 'number') beginRoot = this.get(beginRoot);
 
-    const ans: MapCallbackReturn<N>[] = [];
+    const ans: ReturnType<OneParamCallback<N>>[] = [];
     if (!beginRoot) return ans;
 
     if (iterationType === IterationType.RECURSIVE) {
@@ -852,16 +796,16 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * is `null`, an empty array will be returned.
    * @param {IterationType} iterationType - The `iterationType` parameter determines the type of
    * iteration used in the depth-first search algorithm. It can have two possible values:
-   * @returns The function `dfs` returns an array of `MapCallbackReturn<N>` values.
+   * @returns The function `dfs` returns an array of `ReturnType<OneParamCallback<N>>` values.
    */
-  dfs<C extends MapCallback<N>>(
+  dfs<C extends OneParamCallback<N>>(
     callback: C = this._defaultCallbackByKey as C,
     pattern: DFSOrderPattern = 'in',
     beginRoot: N | null = this.root,
     iterationType: IterationType = IterationType.ITERATIVE
   ): ReturnType<C>[] {
     if (!beginRoot) return [];
-    const ans: MapCallbackReturn<N>[] = [];
+    const ans: ReturnType<OneParamCallback<N>>[] = [];
     if (iterationType === IterationType.RECURSIVE) {
       const _traverse = (node: N) => {
         switch (pattern) {
@@ -888,7 +832,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
       _traverse(beginRoot);
     } else {
       // 0: visit, 1: print
-      const stack: { opt: 0 | 1; node: N | null | undefined }[] = [{opt: 0, node: beginRoot}];
+      const stack: {opt: 0 | 1; node: N | null | undefined}[] = [{opt: 0, node: beginRoot}];
 
       while (stack.length > 0) {
         const cur = stack.pop();
@@ -930,22 +874,22 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * function on each node.
    * @param callback - The `callback` parameter is a function that will be called for each node in the
    * breadth-first search. It takes a node of type `N` as its argument and returns a value of type
-   * `BFSCallbackReturn<N>`. The default value for this parameter is `this._defaultCallbackByKey
+   * `ReturnType<OneParamCallback<N>>`. The default value for this parameter is `this._defaultCallbackByKey
    * @param {N | null} beginRoot - The `beginRoot` parameter is the starting node for the breadth-first
    * search. It determines from which node the search will begin. If `beginRoot` is `null`, the search
    * will not be performed and an empty array will be returned.
    * @param iterationType - The `iterationType` parameter determines the type of iteration to be used
    * in the breadth-first search (BFS) algorithm. It can have two possible values:
-   * @returns The function `bfs` returns an array of `BFSCallbackReturn<N>[]`.
+   * @returns The function `bfs` returns an array of `ReturnType<OneParamCallback<N>>[]`.
    */
-  bfs<C extends BFSCallback<N> = BFSCallback<N, BinaryTreeNodeKey>>(
+  bfs<C extends OneParamCallback<N>>(
     callback: C = this._defaultCallbackByKey as C,
     beginRoot: N | null = this.root,
     iterationType = this.iterationType
   ): ReturnType<C>[] {
     if (!beginRoot) return [];
 
-    const ans: BFSCallbackReturn<N>[] = [];
+    const ans: ReturnType<OneParamCallback<N>>[] = [];
 
     if (iterationType === IterationType.RECURSIVE) {
       const queue = new Queue<N>([beginRoot]);
@@ -995,7 +939,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * level in a binary tree. Each inner array contains the return type of the provided callback
    * function `C` applied to the nodes at that level.
    */
-  listLevels<C extends BFSCallback<N> = BFSCallback<N, BinaryTreeNodeKey>>(
+  listLevels<C extends OneParamCallback<N>>(
     callback: C = this._defaultCallbackByKey as C,
     beginRoot: N | null = this.root,
     iterationType = this.iterationType
@@ -1054,7 +998,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * The `morris` function performs a depth-first traversal of a binary tree using the Morris traversal
    * algorithm and returns an array of values obtained by applying a callback function to each node.
    * @param callback - The `callback` parameter is a function that will be called on each node in the
-   * tree. It takes a node of type `N` as input and returns a value of type `MapCallbackReturn<N>`. The
+   * tree. It takes a node of type `N` as input and returns a value of type `ReturnType<OneParamCallback<N>>`. The
    * default value for this parameter is `this._defaultCallbackByKey`.
    * @param {DFSOrderPattern} [pattern=in] - The `pattern` parameter in the `morris` function
    * determines the order in which the nodes of a binary tree are traversed. It can have one of the
@@ -1062,15 +1006,15 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * @param {N | null} beginRoot - The `beginRoot` parameter is the starting node for the Morris
    * traversal. It specifies the root node of the tree from which the traversal should begin. If
    * `beginRoot` is `null`, an empty array will be returned.
-   * @returns The `morris` function returns an array of `MapCallbackReturn<N>` values.
+   * @returns The `morris` function returns an array of `ReturnType<OneParamCallback<N>>` values.
    */
-  morris<C extends MapCallback<N>>(
+  morris<C extends OneParamCallback<N>>(
     callback: C = this._defaultCallbackByKey as C,
     pattern: DFSOrderPattern = 'in',
     beginRoot: N | null = this.root
   ): ReturnType<C>[] {
     if (beginRoot === null) return [];
-    const ans: MapCallbackReturn<N>[] = [];
+    const ans: ReturnType<OneParamCallback<N>>[] = [];
 
     let cur: N | null | undefined = beginRoot;
     const _reverseEdge = (node: N | null | undefined) => {
@@ -1177,7 +1121,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * the tree's structure should be restored to its original state to maintain the tree's integrity.
    * This is because the purpose of the Morris algorithm is to save space rather than permanently alter the tree's shape.
    */
-  protected _defaultCallbackByKey: DefaultMapCallback<N> = node => node.key;
+  protected _defaultCallbackByKey: OneParamCallback<N, BinaryTreeNodeKey> = node => node.key;
 
   /**
    * The function `_addTo` adds a new node to a binary tree if there is an available position.

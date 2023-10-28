@@ -22,7 +22,7 @@ describe('Heap Operation Test', () => {
   });
 
   it('should object heap work well', function () {
-    const minHeap = new MinHeap<{ a: string; key: number }>({comparator: (a, b) => a.key - b.key});
+    const minHeap = new MinHeap<{a: string; key: number}>({comparator: (a, b) => a.key - b.key});
     minHeap.add({key: 1, a: 'a1'});
     minHeap.add({key: 6, a: 'a6'});
     minHeap.add({key: 2, a: 'a2'});
@@ -37,7 +37,7 @@ describe('Heap Operation Test', () => {
       i++;
     }
 
-    const maxHeap = new MaxHeap<{ key: number; a: string }>({comparator: (a, b) => b.key - a.key});
+    const maxHeap = new MaxHeap<{key: number; a: string}>({comparator: (a, b) => b.key - a.key});
     maxHeap.add({key: 1, a: 'a1'});
     maxHeap.add({key: 6, a: 'a6'});
     maxHeap.add({key: 5, a: 'a5'});

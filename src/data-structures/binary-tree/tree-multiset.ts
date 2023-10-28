@@ -6,7 +6,7 @@
  * @license MIT License
  */
 import type {BinaryTreeNodeKey, TreeMultisetNodeNested, TreeMultisetOptions} from '../../types';
-import {BinaryTreeDeletedResult, CP, FamilyPosition, IterationType, MapCallback} from '../../types';
+import {BinaryTreeDeletedResult, CP, FamilyPosition, IterationType, OneParamCallback} from '../../types';
 import {IBinaryTree} from '../../interfaces';
 import {AVLTree, AVLTreeNode} from './avl-tree';
 
@@ -37,7 +37,8 @@ export class TreeMultisetNode<
  */
 export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultisetNode<V, TreeMultisetNodeNested<V>>>
   extends AVLTree<V, N>
-  implements IBinaryTree<V, N> {
+  implements IBinaryTree<V, N>
+{
   /**
    * The constructor function for a TreeMultiset class in TypeScript, which extends another class and sets an option to
    * merge duplicated values.
@@ -274,7 +275,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
    * decremented by 1 and
    * @returns The method `delete` returns an array of `BinaryTreeDeletedResult<N>` objects.
    */
-  override delete<C extends MapCallback<N>>(
+  override delete<C extends OneParamCallback<N>>(
     identifier: ReturnType<C>,
     callback: C = this._defaultCallbackByKey as C,
     ignoreCount = false

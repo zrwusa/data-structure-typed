@@ -57,3 +57,85 @@ describe('UndirectedGraph Operation Test', () => {
     expect(Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key)).toEqual(['A', 'B', 'D']);
   });
 });
+
+describe('UndirectedGraph', () => {
+  let undirectedGraph: UndirectedGraph<UndirectedVertex<string>, UndirectedEdge<string>>;
+
+  beforeEach(() => {
+    // Create a new UndirectedGraph instance before each test
+    undirectedGraph = new UndirectedGraph<UndirectedVertex<string>, UndirectedEdge<string>>();
+  });
+
+  // Test adding vertices to the graph
+  it('should add vertices to the graph', () => {
+    const vertexA = new UndirectedVertex('A', 'Location A');
+    const vertexB = new UndirectedVertex('B', 'Location B');
+
+    undirectedGraph.addVertex(vertexA);
+    undirectedGraph.addVertex(vertexB);
+
+    expect(undirectedGraph.hasVertex('A')).toBe(true);
+    expect(undirectedGraph.hasVertex('B')).toBe(true);
+  });
+
+  // Test adding edges to the graph
+  it('should add edges to the graph', () => {
+    const vertexA = new UndirectedVertex('A', 'Location A');
+    const vertexB = new UndirectedVertex('B', 'Location B');
+    const edgeAB = new UndirectedEdge('A', 'B', 1, 'Edge between A and B');
+
+    undirectedGraph.addVertex(vertexA);
+    undirectedGraph.addVertex(vertexB);
+    undirectedGraph.addEdge(edgeAB);
+
+    expect(undirectedGraph.hasEdge('A', 'B')).toBe(true);
+  });
+
+  // Test getting neighbors of a vertex
+  it('should return the neighbors of a vertex', () => {
+    const vertexA = new UndirectedVertex('A', 'Location A');
+    const vertexB = new UndirectedVertex('B', 'Location B');
+    const vertexC = new UndirectedVertex('C', 'Location C');
+    const edgeAB = new UndirectedEdge('A', 'B', 1, 'Edge between A and B');
+    const edgeBC = new UndirectedEdge('B', 'C', 2, 'Edge between B and C');
+
+    undirectedGraph.addVertex(vertexA);
+    undirectedGraph.addVertex(vertexB);
+    undirectedGraph.addVertex(vertexC);
+    undirectedGraph.addEdge(edgeAB);
+    undirectedGraph.addEdge(edgeBC);
+
+    const neighborsOfA = undirectedGraph.getNeighbors('A');
+    const neighborsOfB = undirectedGraph.getNeighbors('B');
+
+    expect(neighborsOfA).toEqual([vertexB]);
+    expect(neighborsOfB).toEqual([vertexA, vertexC]);
+  });
+
+  // Test degree of a vertex
+  it('should return the degree of a vertex', () => {
+    const vertexA = new UndirectedVertex('A', 'Location A');
+    const vertexB = new UndirectedVertex('B', 'Location B');
+    const vertexC = new UndirectedVertex('C', 'Location C');
+    const edgeAB = new UndirectedEdge('A', 'B', 3, 'Edge between A and B');
+    const edgeBC = new UndirectedEdge('B', 'C', 4, 'Edge between B and C');
+
+    edgeAB.vertices = edgeAB.vertices;
+    expect(undirectedGraph.edges.size).toBe(0);
+    undirectedGraph.addVertex(vertexA);
+    undirectedGraph.addVertex(vertexB);
+    undirectedGraph.addVertex(vertexC);
+    undirectedGraph.addEdge(edgeAB);
+    undirectedGraph.addEdge(edgeBC);
+
+    const degreeOfA = undirectedGraph.degreeOf('A');
+    const degreeOfB = undirectedGraph.degreeOf('B');
+    const degreeOfC = undirectedGraph.degreeOf('C');
+    expect(undirectedGraph.edgeSet().length).toBe(2);
+    expect(undirectedGraph.getEndsOfEdge(edgeBC)?.length).toBe(2);
+
+    expect(degreeOfA).toBe(1);
+    expect(degreeOfB).toBe(2);
+    expect(degreeOfC).toBe(1);
+  });
+});

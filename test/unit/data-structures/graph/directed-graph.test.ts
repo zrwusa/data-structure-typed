@@ -22,22 +22,27 @@ describe('DirectedGraph Operation Test', () => {
     const vertex1 = new DirectedVertex('A');
     const vertex2 = new DirectedVertex('B');
     const edge = new DirectedEdge('A', 'B');
+    edge.src = edge.src;
+    edge.dest = edge.dest;
 
     graph.addVertex(vertex1);
     graph.addVertex(vertex2);
     graph.addEdge(edge);
 
+    expect(graph.outEdgeMap.size).toBe(1);
+    expect(graph.inEdgeMap.size).toBe(1);
     expect(graph.hasEdge('A', 'B')).toBe(true);
     expect(graph.hasEdge('B', 'A')).toBe(false);
   });
 
   it('should delete edges', () => {
     const vertex1 = new DirectedVertex('A');
-    const vertex2 = new DirectedVertex('B');
+    // const vertex2 = new DirectedVertex('B');
+    graph.createVertex('B');
     const edge = new DirectedEdge('A', 'B');
 
     graph.addVertex(vertex1);
-    graph.addVertex(vertex2);
+    graph.addVertex('B');
     graph.addEdge(edge);
 
     expect(graph.deleteEdge(edge)).toBe(edge);
@@ -49,16 +54,41 @@ describe('DirectedGraph Operation Test', () => {
     const vertexB = new DirectedVertex('B');
     const vertexC = new DirectedVertex('C');
     const edgeAB = new DirectedEdge('A', 'B');
-    const edgeBC = new DirectedEdge('B', 'C');
+    graph.createEdge('B', 'C');
 
     graph.addVertex(vertexA);
     graph.addVertex(vertexB);
     graph.addVertex(vertexC);
     graph.addEdge(edgeAB);
-    graph.addEdge(edgeBC);
+    graph.addEdge('B', 'C');
+
+    expect(graph.getEdgeSrc(edgeAB)).toBe(vertexA);
 
     const topologicalOrder = graph.topologicalSort();
     if (topologicalOrder) expect(topologicalOrder).toEqual(['A', 'B', 'C']);
+
+    graph.deleteEdgesBetween('A', 'B');
+
+    const topologicalOrder1 = graph.topologicalSort();
+    if (topologicalOrder1) expect(topologicalOrder1).toEqual(['B', 'C', 'A']);
+
+    expect(graph.incomingEdgesOf(vertexC)?.length).toBe(1);
+    expect(graph.degreeOf(vertexA)).toBe(0);
+    expect(graph.inDegreeOf(vertexC)).toBe(1);
+    expect(graph.outDegreeOf(vertexC)).toBe(0);
+    expect(graph.edgesOf(vertexC)?.length).toBe(1);
+
+    expect(graph.tarjan(true, true, true, true)?.dfnMap.size).toBe(3);
+    expect(graph.bellmanFord(vertexC, true, true, true)?.paths.length).toBe(3);
+    expect(graph.getMinPathBetween('B', 'C', true)?.length).toBe(2);
+    expect(graph.setEdgeWeight('B', 'C', 100)).toBe(true);
+    expect(graph.getMinCostBetween('B', 'C', true)).toBe(100);
+    expect(graph.getMinCostBetween('B', 'C')).toBe(1);
+    expect(graph.getAllPathsBetween('B', 'C')?.length).toBe(1);
+    expect(graph.deleteVertex(vertexB)).toBe(true);
+    expect(graph.getAllPathsBetween('B', 'C')?.length).toBe(0);
+
+    expect(graph.removeManyVertices([vertexB, vertexC])).toBe(true);
   });
 });
 

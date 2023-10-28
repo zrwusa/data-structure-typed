@@ -5,14 +5,7 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type {
-  BinaryTreeNodeKey,
-  BSTComparator,
-  BSTNodeNested,
-  BSTOptions,
-  MapCallback,
-  MapCallbackReturn
-} from '../../types';
+import type {BinaryTreeNodeKey, BSTComparator, BSTNodeNested, BSTOptions, OneParamCallback} from '../../types';
 import {CP, IterationType} from '../../types';
 import {BinaryTree, BinaryTreeNode} from './binary-tree';
 import {IBinaryTree} from '../../interfaces';
@@ -26,7 +19,8 @@ export class BSTNode<V = any, N extends BSTNode<V, N> = BSTNodeNested<V>> extend
 
 export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>>
   extends BinaryTree<V, N>
-  implements IBinaryTree<V, N> {
+  implements IBinaryTree<V, N>
+{
   /**
    * The constructor function initializes a binary search tree object with an optional comparator
    * function.
@@ -227,7 +221,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * callback.
    * @param {ReturnType<C> | N} identifier - The `nodeProperty` parameter is used to specify the
    * property of the binary tree node that you want to search for. It can be either a specific key
-   * value (`BinaryTreeNodeKey`) or a custom callback function (`MapCallback<N>`) that determines
+   * value (`BinaryTreeNodeKey`) or a custom callback function (`OneParamCallback<N>`) that determines
    * whether a node matches the desired property.
    * @param callback - The `callback` parameter is a function that is used to determine whether a node
    * matches the desired property. It takes a node as input and returns a boolean value indicating
@@ -240,8 +234,8 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * @returns either the first node that matches the given nodeProperty and callback, or null if no
    * matching node is found.
    */
-  override get<C extends MapCallback<N>>(
-    identifier: ReturnType<C> | N,
+  override get<C extends OneParamCallback<N>>(
+    identifier: ReturnType<C> | null,
     callback: C = this._defaultCallbackByKey as C,
     beginRoot = this.root,
     iterationType = this.iterationType
@@ -291,8 +285,8 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * traverse the binary tree. It can have one of the following values:
    * @returns an array of nodes (N[]).
    */
-  override getNodes<C extends MapCallback<N>>(
-    identifier: ReturnType<C> | N,
+  override getNodes<C extends OneParamCallback<N>>(
+    identifier: ReturnType<C> | null,
     callback: C = this._defaultCallbackByKey as C,
     onlyOne = false,
     beginRoot: N | null = this.root,
@@ -363,16 +357,16 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * (`BinaryTreeNodeKey`), or `null` to
    * @param iterationType - The `iterationType` parameter determines whether the traversal should be
    * done recursively or iteratively. It can have two possible values:
-   * @returns The function `lesserOrGreaterTraverse` returns an array of `MapCallbackReturn<N>`.
+   * @returns The function `lesserOrGreaterTraverse` returns an array of `ReturnType<OneParamCallback<N>>`.
    */
-  lesserOrGreaterTraverse<C extends MapCallback<N>>(
+  lesserOrGreaterTraverse<C extends OneParamCallback<N>>(
     callback: C = this._defaultCallbackByKey as C,
     lesserOrGreater: CP = CP.lt,
     targetNode: BinaryTreeNodeKey | N | null = this.root,
     iterationType = this.iterationType
   ): ReturnType<C>[] {
     if (typeof targetNode === 'number') targetNode = this.get(targetNode);
-    const ans: MapCallbackReturn<N>[] = [];
+    const ans: ReturnType<OneParamCallback<N>>[] = [];
     if (!targetNode) return ans;
     const targetKey = targetNode.key;
     if (!this.root) return ans;

@@ -71,81 +71,112 @@ describe('BinaryTreeNode', () => {
 });
 
 describe('BinaryTree', () => {
-  let binaryTree: BinaryTree;
+  let tree: BinaryTree;
 
   beforeEach(() => {
-    binaryTree = new BinaryTree();
+    tree = new BinaryTree();
   });
 
   afterEach(() => {
-    binaryTree.clear();
+    tree.clear();
   });
 
-  test('should add a node', () => {
-    const node = binaryTree.add(1);
+  it('should add a node', () => {
+    const node = tree.add(1);
     expect(node).not.toBeNull();
-    expect(binaryTree.size).toBe(1);
+    expect(tree.size).toBe(1);
   });
 
-  test('should delete a node', () => {
-    const node = binaryTree.add(1);
-    expect(binaryTree.size).toBe(1);
+  it('should delete a node', () => {
+    const node = tree.add(1);
+    expect(tree.size).toBe(1);
 
     if (node) {
-      const result = binaryTree.delete(node);
+      const result = tree.delete(node, node => node);
       expect(result).toHaveLength(1);
-      expect(binaryTree.size).toBe(0);
+      expect(tree.size).toBe(0);
     }
   });
 
-  test('should add and find nodes', () => {
-    binaryTree.add(1);
-    binaryTree.add(2);
-    binaryTree.add(3);
+  it('should add and find nodes', () => {
+    tree.add(1);
+    tree.add(2);
+    tree.add(3);
 
-    expect(binaryTree.has(1)).toBe(true);
-    expect(binaryTree.has(2)).toBe(true);
-    expect(binaryTree.has(3)).toBe(true);
-    expect(binaryTree.has(4)).toBe(false);
+    expect(tree.has(1)).toBe(true);
+    expect(tree.has(2)).toBe(true);
+    expect(tree.has(3)).toBe(true);
+    expect(tree.has(4)).toBe(false);
+    const node4 = tree.get(4);
+    expect(tree.has(node4, node => node)).toBe(false);
   });
 
-  test('should getDepth return correct depth', () => {
-    binaryTree.add(1);
-    expect(binaryTree.getDepth(1)).toBe(0);
-    binaryTree.add(2);
-    expect(binaryTree.getDepth(2)).toBe(1);
-    binaryTree.add(3);
-    expect(binaryTree.getDepth(3, 1)).toBe(1);
-    binaryTree.add(4);
-    expect(binaryTree.getDepth(4, 1)).toBe(2);
-    expect(binaryTree.getDepth(4)).toBe(2);
-    expect(binaryTree.getDepth(4, 2)).toBe(1);
+  it('should getDepth return correct depth', () => {
+    tree.add(1);
+    expect(tree.getDepth(1)).toBe(0);
+    tree.add(2);
+    expect(tree.getDepth(2)).toBe(1);
+    tree.add(3);
+    expect(tree.getDepth(3, 1)).toBe(1);
+    tree.add(4);
+    expect(tree.getDepth(4, 1)).toBe(2);
+    expect(tree.getDepth(4)).toBe(2);
+    expect(tree.getDepth(4, 2)).toBe(1);
   });
 
-  test('should traverse in-order', () => {
-    binaryTree.add(4);
-    binaryTree.add(2);
-    binaryTree.add(6);
-    binaryTree.add(1);
-    binaryTree.add(3);
-    binaryTree.add(5);
-    binaryTree.add(7);
+  it('should traverse in-order', () => {
+    tree.add(4);
+    tree.add(2);
+    tree.add(6);
+    tree.add(1);
+    tree.add(3);
+    tree.add(5);
+    tree.add(7);
 
-    const inOrder = binaryTree.dfs(node => node.key);
+    const inOrder = tree.dfs(node => node.key);
 
     expect(inOrder).toEqual([1, 2, 3, 4, 5, 6, 7]);
   });
 
-  test('should clear the tree', () => {
-    binaryTree.add(1);
-    binaryTree.add(2);
+  it('should getLeftMost', () => {
+    tree.addMany([4, 2, 6, 1, 3, 5, 7]);
 
-    expect(binaryTree.size).toBe(2);
+    const leftMost = tree.getLeftMost(tree.root, IterationType.RECURSIVE);
+    expect(leftMost?.key).toEqual(1);
+    const rightMost = tree.getRightMost(tree.root, IterationType.RECURSIVE);
+    expect(rightMost?.key).toEqual(7);
+  });
 
-    binaryTree.clear();
+  it('should isSubtreeBST', () => {
+    tree.addMany([
+      new BinaryTreeNode(4, 4),
+      new BinaryTreeNode(2, 2),
+      new BinaryTreeNode(6, 6),
+      new BinaryTreeNode(1, 1),
+      new BinaryTreeNode(3, 3),
+      new BinaryTreeNode(5, 5),
+      new BinaryTreeNode(7, 7),
+      new BinaryTreeNode(4, 4)
+    ]);
 
-    expect(binaryTree.size).toBe(0);
-    expect(binaryTree.root).toBeNull();
+    expect(tree.isSubtreeBST(tree.get(4), IterationType.RECURSIVE)).toBe(true);
+  });
+
+  it('should subTreeTraverse', () => {
+    tree.addMany([4, 2, 6, 1, 3, 5, 7]);
+    expect(tree.subTreeTraverse(node => node.key, tree.get(6), IterationType.RECURSIVE)).toEqual([6, 5, 7]);
+  });
+
+  it('should clear the tree', () => {
+    tree.add(1);
+    tree.add(2);
+
+    expect(tree.size).toBe(2);
+
+    tree.clear();
+
+    expect(tree.size).toBe(0);
+    expect(tree.root).toBeNull();
   });
 });
 
@@ -200,7 +231,7 @@ describe('BinaryTree Morris Traversal', () => {
 });
 
 describe('BinaryTree APIs test', () => {
-  const avl = new AVLTree<{ id: number; text: string }>();
+  const avl = new AVLTree<{id: number; text: string}>();
   beforeEach(() => {
     avl.clear();
   });
@@ -236,4 +267,195 @@ describe('BinaryTree traversals', () => {
   const levels = tree.listLevels(node => node.key);
   expect(levels).toEqual([[35], [20, 40], [15, 29, 50], [16, 28, 30, 45, 55]]);
   isDebug && console.log(levels);
+
+  expect(tree.listLevels(node => node.key, tree.root, IterationType.RECURSIVE)).toEqual([
+    [35],
+    [20, 40],
+    [15, 29, 50],
+    [16, 28, 30, 45, 55]
+  ]);
+  isDebug && console.log(levels);
+});
+
+describe('BinaryTree', () => {
+  let tree: BinaryTree<string>;
+
+  beforeEach(() => {
+    tree = new BinaryTree<string>();
+  });
+
+  afterEach(() => {
+    tree.clear();
+  });
+
+  it('should create an empty BinaryTree', () => {
+    expect(tree.size).toBe(0);
+    expect(tree.isEmpty()).toBe(true);
+    expect(tree.root).toBe(null);
+  });
+
+  it('should add nodes to the tree', () => {
+    tree.add(5, 'A');
+    tree.add(3, 'B');
+    tree.add(7, 'C');
+
+    expect(tree.size).toBe(3);
+    expect(tree.isEmpty()).toBe(false);
+    expect(tree.root?.key).toBe(5);
+  });
+
+  it('should clear the BinaryTree', () => {
+    tree.add(5, 'A');
+    tree.add(3, 'B');
+    tree.add(7, 'C');
+
+    tree.clear();
+
+    expect(tree.size).toBe(0);
+    expect(tree.isEmpty()).toBe(true);
+    expect(tree.root).toBe(null);
+  });
+
+  it('should get nodes by key', () => {
+    tree.add(5, 'A');
+    tree.add(3, 'B');
+    tree.add(7, 'C');
+
+    const nodeA = tree.get(5);
+    const nodeB = tree.get(3);
+
+    expect(nodeA?.key).toBe(5);
+    expect(nodeA?.val).toBe('A');
+    expect(nodeB?.key).toBe(3);
+    expect(nodeB?.val).toBe('B');
+  });
+
+  it('should return null when getting a non-existent node', () => {
+    tree.add(5, 'A');
+
+    const node = tree.get(3);
+
+    expect(node).toBe(null);
+  });
+
+  it('should get the depth of a node', () => {
+    tree.add(5, 'A');
+    tree.add(3, 'B');
+    tree.add(7, 'C');
+
+    expect(tree.getDepth(7)).toBe(1);
+    expect(tree.getDepth(3)).toBe(1);
+  });
+
+  it('should get the height of the tree', () => {
+    tree.add(5, 'A');
+    tree.add(3, 'B');
+    tree.add(7, 'C');
+
+    expect(tree.getHeight()).toBe(1);
+    expect(tree.getHeight(undefined, IterationType.RECURSIVE)).toBe(1);
+    expect(tree.getMinHeight(undefined, IterationType.RECURSIVE)).toBe(1);
+  });
+
+  it('should check if the tree is a binary search tree', () => {
+    tree.add(5, 'A');
+    tree.add(3, 'B');
+    tree.add(7, 'C');
+
+    expect(tree.isBST()).toBe(true);
+  });
+
+  it('should perform a depth-first traversal', () => {
+    tree.add(5, 'A');
+    tree.add(3, 'B');
+    tree.add(7, 'C');
+
+    const result = tree.dfs();
+    expect(result).toEqual([3, 5, 7]);
+    // Add assertions for the result of depth-first traversal
+  });
+
+  it('should perform a breadth-first traversal', () => {
+    tree.add(5, 'A');
+    tree.add(3, 'B');
+    tree.add(7, 'C');
+
+    const result = tree.bfs(node => node.key);
+    expect(result).toEqual([5, 3, 7]);
+    // Add assertions for the result of breadth-first traversal
+  });
+
+  it('should list levels of the tree', () => {
+    tree.add(5, 'A');
+    tree.add(3, 'B');
+    tree.add(7, 'C');
+
+    const levels = tree.listLevels();
+    expect(levels).toEqual([[5], [3, 7]]);
+    // Add assertions for the levels of the tree
+  });
+
+  it('should delete nodes from the tree', () => {
+    tree.add(5, 'A');
+    tree.add(3, 'B');
+    tree.add(7, 'C');
+
+    tree.delete(3);
+
+    expect(tree.size).toBe(2);
+    expect(tree.get(3)).toBe(null);
+  });
+
+  it('should check if the tree is perfectly balanced', () => {
+    tree.add(5, 'A');
+    tree.add(3, 'B');
+    tree.add(7, 'C');
+
+    expect(tree.isPerfectlyBalanced()).toBe(true);
+  });
+
+  it('should get nodes by a custom callback', () => {
+    tree.add(5, 'A');
+    tree.add(3, 'B');
+    tree.add(7, 'C');
+
+    const nodes = tree.getNodes('B', (node: BinaryTreeNode<string>) => node.val);
+
+    expect(nodes.length).toBe(1);
+    expect(nodes[0].key).toBe(3);
+
+    const nodesRec = tree.getNodes(
+      'B',
+      (node: BinaryTreeNode<string>) => node.val,
+      false,
+      tree.root,
+      IterationType.RECURSIVE
+    );
+
+    expect(nodesRec.length).toBe(1);
+    expect(nodesRec[0].key).toBe(3);
+  });
+
+  it('should perform Morris traversal', () => {
+    tree.add(5, 'A');
+    tree.add(3, 'B');
+    tree.add(7, 'C');
+
+    const result = tree.morris();
+    expect(result).toEqual([3, 5, 7]);
+    // Add assertions for the result of Morris traversal
+  });
+
+  it('should perform delete all', () => {
+    tree.add(5, 'A');
+    tree.add(3, 'B');
+    tree.add(7, 'C');
+
+    tree.delete(5);
+    tree.delete(7);
+    tree.delete(3);
+
+    expect(tree.root).toBe(null);
+    expect(tree.getHeight()).toBe(-1);
+  });
 });

@@ -1,4 +1,4 @@
-import {MapGraph, MapVertex} from '../../../../src';
+import {MapEdge, MapGraph, MapVertex} from '../../../../src';
 
 describe('MapGraph Operation Test', () => {
   it('dijkstra shortest path', () => {
@@ -41,5 +41,86 @@ describe('MapGraph Operation Test', () => {
     const surinToSaanenGoatFarmViaDij = mapGraph.dijkstra('Surin', 'Saanen Goat Farm', true, true);
     expect(surinToSaanenGoatFarmViaDij?.minPath.map(v => v.key)).toEqual(expected2);
     expect(surinToSaanenGoatFarmViaDij?.minDist).toBe(25.2);
+  });
+});
+
+describe('MapGraph', () => {
+  let mapGraph: MapGraph;
+
+  beforeEach(() => {
+    // Create a new MapGraph instance before each test
+    mapGraph = new MapGraph([0, 0], [100, 100]);
+  });
+
+  // Test adding vertices to the graph
+  it('should add vertices to the graph', () => {
+    const locationA = new MapVertex('A', 10, 20, 'Location A');
+    const locationB = new MapVertex('B', 30, 40, 'Location B');
+
+    mapGraph.addVertex(locationA);
+    mapGraph.addVertex(locationB);
+
+    expect(mapGraph.hasVertex('A')).toBe(true);
+    expect(mapGraph.hasVertex('B')).toBe(true);
+  });
+
+  // Test adding edges to the graph
+  it('should add edges to the graph', () => {
+    const locationA = new MapVertex('A', 10, 20, 'Location A');
+    const locationB = new MapVertex('B', 30, 40, 'Location B');
+    const edgeAB = new MapEdge('A', 'B', 50, 'Edge from A to B');
+
+    mapGraph.addVertex(locationA);
+    mapGraph.addVertex(locationB);
+    mapGraph.addEdge(edgeAB);
+
+    expect(mapGraph.hasEdge('A', 'B')).toBe(true);
+  });
+
+  // Test getting neighbors of a vertex
+  it('should return the neighbors of a vertex', () => {
+    const locationA = new MapVertex('A', 10, 20, 'Location A');
+    locationA.lat = locationA.lat;
+    locationA.long = locationA.long;
+    const locationB = mapGraph.createVertex('B', 30, 40, 'Location B');
+
+    const locationC = new MapVertex('C', 50, 60, 'Location C');
+    const edgeAB = new MapEdge('A', 'B', 50, 'Edge from A to B');
+    const edgeBC = new MapEdge('B', 'C', 60, 'Edge from B to C');
+
+    mapGraph.origin = mapGraph.origin;
+    mapGraph.bottomRight = mapGraph.bottomRight;
+
+    mapGraph.addVertex(locationA);
+    mapGraph.addVertex(locationB);
+    mapGraph.addVertex(locationC);
+    mapGraph.addEdge(edgeAB);
+    mapGraph.addEdge(edgeBC);
+
+    const neighborsOfA = mapGraph.getNeighbors('A');
+    const neighborsOfB = mapGraph.getNeighbors('B');
+
+    expect(neighborsOfA).toEqual([locationB]);
+    expect(neighborsOfB).toEqual([locationC]);
+  });
+
+  // Test finding the shortest path between locations
+  it('should find the shortest path between two locations', () => {
+    const locationA = new MapVertex('A', 10, 20, 'Location A');
+    const locationB = new MapVertex('B', 30, 40, 'Location B');
+    const locationC = new MapVertex('C', 50, 60, 'Location C');
+    const edgeAB = new MapEdge('A', 'B', 50, 'Edge from A to B');
+    const edgeBC = new MapEdge('B', 'C', 60, 'Edge from B to C');
+
+    mapGraph.addVertex(locationA);
+    mapGraph.addVertex(locationB);
+    mapGraph.addVertex(locationC);
+    mapGraph.addEdge(edgeAB);
+    mapGraph.addEdge(edgeBC);
+
+    const shortestPath = mapGraph.dijkstra('A', 'C');
+
+    expect(shortestPath?.minPath.length).toEqual(0);
+    expect(shortestPath?.distMap.size).toBe(3);
   });
 });

@@ -1,5 +1,7 @@
 import {Character, Navigator, NavigatorParams, Turning} from '../../../../src';
+import {isDebugTest} from '../../../config';
 
+const isDebug = isDebugTest;
 const exampleMatrix: number[][] = [
   [0, 0, 0, 0],
   [0, 1, 1, 0],
@@ -17,7 +19,7 @@ const exampleTurning: Turning = {
 // Create a sample move callback function
 const exampleOnMove = () => {
   expect(true).toBeTruthy();
-  // console.log(`Moved to position (${cur[0]}, ${cur[1]})`);
+  // isDebug && console.log(`Moved to position (${cur[0]}, ${cur[1]})`);
 };
 
 // Create an initial parameter object for the example
@@ -75,5 +77,168 @@ describe('Navigator class', () => {
     expect(navigator.check('right')).toBe(true); // Open path
     expect(navigator.check('down')).toBe(true); // Blocked by wall
     expect(navigator.check('left')).toBe(false); // Open path
+  });
+});
+
+describe('Navigator', () => {
+  it('should correctly navigate the grid', () => {
+    // Define a sample grid and initial parameters
+    const matrix: number[][] = [
+      [0, 0, 1],
+      [0, 1, 0],
+      [0, 0, 0]
+    ];
+
+    const turning: Turning = {
+      up: 'right',
+      right: 'down',
+      down: 'left',
+      left: 'up'
+    };
+
+    const init: NavigatorParams<number>['init'] = {
+      cur: [0, 0], // Initial position
+      charDir: 'right', // Initial character direction
+      VISITED: 2 // Value to mark visited cells
+    };
+
+    // Initialize the navigator
+    const navigator = new Navigator({
+      matrix,
+      turning,
+      init,
+      onMove: cur => cur
+    });
+
+    // Define a function to track visited cells
+    const visitedCells: number[][] = [];
+    const onMove = (cur: number[]) => {
+      visitedCells.push([...cur]);
+    };
+
+    // Attach the onMove function
+    navigator.onMove = onMove;
+
+    // Start the navigation
+    navigator.start();
+
+    // The character should have navigated the grid correctly
+    expect(visitedCells).toEqual([
+      [0, 1],
+      [0, 2],
+      [1, 2],
+      [2, 2],
+      [2, 1],
+      [2, 0],
+      [1, 0],
+      [1, 1]
+    ]);
+  });
+
+  it('should not move if there are no valid moves', () => {
+    // Define a sample grid with no valid moves
+    const matrix: number[][] = [
+      [1, 1],
+      [1, 1]
+    ];
+
+    const turning: Turning = {
+      up: 'right',
+      right: 'down',
+      down: 'left',
+      left: 'up'
+    };
+
+    const init: NavigatorParams<number>['init'] = {
+      cur: [0, 0], // Initial position
+      charDir: 'right', // Initial character direction
+      VISITED: 2 // Value to mark visited cells
+    };
+
+    // Initialize the navigator
+    const navigator = new Navigator({
+      matrix,
+      turning,
+      init,
+      onMove: cur => cur
+    });
+
+    // Define a function to track visited cells
+    const visitedCells: number[][] = [];
+    const onMove = (cur: number[]) => {
+      visitedCells.push([...cur]);
+    };
+
+    // Attach the onMove function
+    navigator.onMove = onMove;
+
+    // Start the navigation
+    navigator.start();
+
+    // The character should not move
+    isDebug && console.log(visitedCells);
+    expect(visitedCells).toEqual([
+      [0, 1],
+      [1, 1],
+      [1, 0]
+    ]);
+  });
+
+  it('should handle edge cases and turns correctly', () => {
+    // Define a sample grid with turns and edge cases
+    const matrix: number[][] = [
+      [1, 0, 0, 0],
+      [1, 0, 1, 0],
+      [0, 0, 1, 1]
+    ];
+
+    const turning: Turning = {
+      up: 'right',
+      right: 'down',
+      down: 'left',
+      left: 'up'
+    };
+
+    const init: NavigatorParams<number>['init'] = {
+      cur: [0, 0], // Initial position
+      charDir: 'right', // Initial character direction
+      VISITED: 2 // Value to mark visited cells
+    };
+
+    // Initialize the navigator
+    const navigator = new Navigator({
+      matrix,
+      turning,
+      init,
+      onMove: cur => cur
+    });
+
+    // Define a function to track visited cells
+    const visitedCells: number[][] = [];
+    const onMove = (cur: number[]) => {
+      visitedCells.push([...cur]);
+    };
+
+    // Attach the onMove function
+    navigator.onMove = onMove;
+
+    // Start the navigation
+    navigator.start();
+
+    // The character should have navigated the grid, handled turns, and edge cases
+    isDebug && console.log(visitedCells);
+    expect(visitedCells).toEqual([
+      [0, 1],
+      [0, 2],
+      [0, 3],
+      [1, 3],
+      [2, 3],
+      [2, 2],
+      [2, 1],
+      [2, 0],
+      [1, 0],
+      [1, 1],
+      [1, 2]
+    ]);
   });
 });

@@ -109,9 +109,9 @@ export class MapGraph<V extends MapVertex<V['val']> = MapVertex, E extends MapEd
    */
   override createVertex(
     key: VertexKey,
-    val?: V['val'],
     lat: number = this.origin[0],
-    long: number = this.origin[1]
+    long: number = this.origin[1],
+    val?: V['val']
   ): V {
     return new MapVertex(key, lat, long, val) as V;
   }

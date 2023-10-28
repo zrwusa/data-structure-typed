@@ -7,7 +7,7 @@
  */
 import {BST, BSTNode} from './bst';
 import type {AVLTreeNodeNested, AVLTreeOptions, BinaryTreeDeletedResult, BinaryTreeNodeKey} from '../../types';
-import {MapCallback} from '../../types';
+import {OneParamCallback} from '../../types';
 import {IBinaryTree} from '../../interfaces';
 
 export class AVLTreeNode<V = any, N extends AVLTreeNode<V, N> = AVLTreeNodeNested<V>> extends BSTNode<V, N> {
@@ -21,7 +21,8 @@ export class AVLTreeNode<V = any, N extends AVLTreeNode<V, N> = AVLTreeNodeNeste
 
 export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTreeNodeNested<V>>>
   extends BST<V, N>
-  implements IBinaryTree<V, N> {
+  implements IBinaryTree<V, N>
+{
   /**
    * This is a constructor function for an AVL tree data structure in TypeScript.
    * @param {AVLTreeOptions} [options] - The `options` parameter is an optional object that can be passed to the
@@ -73,7 +74,7 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    * `this._defaultCallbackByKey`
    * @returns The method is returning an array of `BinaryTreeDeletedResult<N>` objects.
    */
-  override delete<C extends MapCallback<N>>(
+  override delete<C extends OneParamCallback<N>>(
     identifier: ReturnType<C>,
     callback: C = this._defaultCallbackByKey as C
   ): BinaryTreeDeletedResult<N>[] {
@@ -160,7 +161,7 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
       // Balance Restoration: If a balance issue is discovered after inserting a node, it requires balance restoration operations. Balance restoration includes four basic cases where rotation operations need to be performed to fix the balance:
       switch (
         this._balanceFactor(A) // second O(1)
-        ) {
+      ) {
         case -2:
           if (A && A.left) {
             if (this._balanceFactor(A.left) <= 0) {

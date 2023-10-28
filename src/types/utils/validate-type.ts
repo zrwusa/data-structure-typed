@@ -1,6 +1,6 @@
-export type KeyValueObject = { [key: string]: any };
+export type KeyValueObject = {[key: string]: any};
 
-export type KeyValueObjectWithKey = { [key: string]: any; key: string | number | symbol };
+export type KeyValueObjectWithKey = {[key: string]: any; key: string | number | symbol};
 
 export type NonNumberNonObjectButDefined = string | boolean | symbol | null;
 

@@ -17,7 +17,7 @@ export class BinaryIndexedTree {
    * @param  - - `frequency`: The default frequency value. It is optional and has a default
    * value of 0.
    */
-  constructor({frequency = 0, max}: { frequency?: number; max: number }) {
+  constructor({frequency = 0, max}: {frequency?: number; max: number}) {
     this._freq = frequency;
     this._max = max;
     this._freqMap = {0: 0};

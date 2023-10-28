@@ -51,11 +51,12 @@ export class UndirectedEdge<V = number> extends AbstractEdge<V> {
 }
 
 export class UndirectedGraph<
-  V extends UndirectedVertex<any> = UndirectedVertex,
-  E extends UndirectedEdge<any> = UndirectedEdge
->
+    V extends UndirectedVertex<any> = UndirectedVertex,
+    E extends UndirectedEdge<any> = UndirectedEdge
+  >
   extends AbstractGraph<V, E>
-  implements IGraph<V, E> {
+  implements IGraph<V, E>
+{
   /**
    * The constructor initializes a new Map object to store edges.
    */
