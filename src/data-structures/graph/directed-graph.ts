@@ -153,7 +153,7 @@ export class DirectedGraph<V extends DirectedVertex<any> = DirectedVertex, E ext
    * @param {V | VertexKey} destOrKey - The `destOrKey` parameter represents the destination vertex or its ID.
    * @returns the removed edge (E) if it exists, or null if either the source or destination vertex does not exist.
    */
-  removeEdgeSrcToDest(srcOrKey: V | VertexKey, destOrKey: V | VertexKey): E | null {
+  deleteEdgeSrcToDest(srcOrKey: V | VertexKey, destOrKey: V | VertexKey): E | null {
     const src: V | null = this._getVertex(srcOrKey);
     const dest: V | null = this._getVertex(destOrKey);
     let removed: E | null = null;
@@ -177,9 +177,9 @@ export class DirectedGraph<V extends DirectedVertex<any> = DirectedVertex, E ext
    * The function removes an edge from a graph and returns the removed edge, or null if the edge was not found.
    * @param {E} edge - The `edge` parameter is an object that represents an edge in a graph. It has two properties: `src`
    * and `dest`, which represent the source and destination vertices of the edge, respectively.
-   * @returns The method `removeEdge` returns the removed edge (`E`) if it exists, or `null` if the edge does not exist.
+   * @returns The method `deleteEdge` returns the removed edge (`E`) if it exists, or `null` if the edge does not exist.
    */
-  removeEdge(edge: E): E | null {
+  deleteEdge(edge: E): E | null {
     let removed: E | null = null;
     const src = this._getVertex(edge.src);
     const dest = this._getVertex(edge.dest);
@@ -206,12 +206,12 @@ export class DirectedGraph<V extends DirectedVertex<any> = DirectedVertex, E ext
    * the second vertex in the edge that needs to be removed.
    * @returns an array of removed edges (E[]).
    */
-  removeEdgesBetween(v1: VertexKey | V, v2: VertexKey | V): E[] {
+  deleteEdgesBetween(v1: VertexKey | V, v2: VertexKey | V): E[] {
     const removed: E[] = [];
 
     if (v1 && v2) {
-      const v1ToV2 = this.removeEdgeSrcToDest(v1, v2);
-      const v2ToV1 = this.removeEdgeSrcToDest(v2, v1);
+      const v1ToV2 = this.deleteEdgeSrcToDest(v1, v2);
+      const v2ToV1 = this.deleteEdgeSrcToDest(v2, v1);
 
       v1ToV2 && removed.push(v1ToV2);
       v2ToV1 && removed.push(v2ToV1);

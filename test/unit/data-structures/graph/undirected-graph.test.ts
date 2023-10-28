@@ -40,7 +40,7 @@ describe('UndirectedGraph Operation Test', () => {
     graph.addVertex(vertex2);
     graph.addEdge(edge);
 
-    expect(graph.removeEdge(edge)).toBe(edge);
+    expect(graph.deleteEdge(edge)).toBe(edge);
     expect(graph.hasEdge('A', 'B')).toBe(false);
   });
 
@@ -49,7 +49,7 @@ describe('UndirectedGraph Operation Test', () => {
     graph.addVertex('B');
     graph.addVertex('C');
     graph.addVertex('D');
-    graph.removeVertex('C');
+    graph.deleteVertex('C');
     graph.addEdge('A', 'B');
     graph.addEdge('B', 'D');
 

@@ -127,7 +127,7 @@ export class UndirectedGraph<
    * (VertexKey). It represents the second vertex of the edge that needs to be removed.
    * @returns the removed edge (E) if it exists, or null if either of the vertices (V) does not exist.
    */
-  removeEdgeBetween(v1: V | VertexKey, v2: V | VertexKey): E | null {
+  deleteEdgeBetween(v1: V | VertexKey, v2: V | VertexKey): E | null {
     const vertex1: V | null = this._getVertex(v1);
     const vertex2: V | null = this._getVertex(v2);
 
@@ -148,12 +148,12 @@ export class UndirectedGraph<
   }
 
   /**
-   * The removeEdge function removes an edge between two vertices in a graph.
+   * The deleteEdge function removes an edge between two vertices in a graph.
    * @param {E} edge - The parameter "edge" is of type E, which represents an edge in a graph.
    * @returns The method is returning either the removed edge (of type E) or null if the edge was not found.
    */
-  removeEdge(edge: E): E | null {
-    return this.removeEdgeBetween(edge.vertices[0], edge.vertices[1]);
+  deleteEdge(edge: E): E | null {
+    return this.deleteEdgeBetween(edge.vertices[0], edge.vertices[1]);
   }
 
   /**

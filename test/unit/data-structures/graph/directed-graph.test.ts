@@ -40,7 +40,7 @@ describe('DirectedGraph Operation Test', () => {
     graph.addVertex(vertex2);
     graph.addEdge(edge);
 
-    expect(graph.removeEdge(edge)).toBe(edge);
+    expect(graph.deleteEdge(edge)).toBe(edge);
     expect(graph.hasEdge('A', 'B')).toBe(false);
   });
 
@@ -164,7 +164,7 @@ describe('Inherit from DirectedGraph and perform operations', () => {
     myGraph.addVertex(2, 'data2');
     myGraph.addEdge(1, 2, 10, 'edge-data1-2');
 
-    const removedEdge = myGraph.removeEdgeSrcToDest(1, 2);
+    const removedEdge = myGraph.deleteEdgeSrcToDest(1, 2);
     const edgeAfterRemoval = myGraph.getEdge(1, 2);
 
     expect(removedEdge).toBeInstanceOf(MyEdge);
@@ -233,7 +233,7 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
     expect(myGraph.getEdge(2, 1)).toBeTruthy();
     expect(myGraph.getEdge(1, '100')).toBeFalsy();
 
-    myGraph.removeEdgeSrcToDest(1, 2);
+    myGraph.deleteEdgeSrcToDest(1, 2);
     expect(myGraph.getEdge(1, 2)).toBeFalsy();
 
     myGraph.addEdge(3, 1, 3, 'edge-data-3-1');

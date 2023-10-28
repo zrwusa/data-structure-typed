@@ -130,7 +130,7 @@ export abstract class AbstractGraph<
    */
   abstract createEdge(srcOrV1: VertexKey | string, destOrV2: VertexKey | string, weight?: number, val?: E): E;
 
-  abstract removeEdge(edge: E): E | null;
+  abstract deleteEdge(edge: E): E | null;
 
   abstract getEdge(srcOrKey: V | VertexKey, destOrKey: V | VertexKey): E | null;
 
@@ -179,12 +179,12 @@ export abstract class AbstractGraph<
   }
 
   /**
-   * The `removeVertex` function removes a vertex from a graph by its ID or by the vertex object itself.
+   * The `deleteVertex` function removes a vertex from a graph by its ID or by the vertex object itself.
    * @param {V | VertexKey} vertexOrKey - The parameter `vertexOrKey` can be either a vertex object (`V`) or a vertex ID
    * (`VertexKey`).
    * @returns The method is returning a boolean value.
    */
-  removeVertex(vertexOrKey: V | VertexKey): boolean {
+  deleteVertex(vertexOrKey: V | VertexKey): boolean {
     const vertexKey = this._getVertexKey(vertexOrKey);
     return this._vertices.delete(vertexKey);
   }
@@ -199,7 +199,7 @@ export abstract class AbstractGraph<
   removeAllVertices(vertices: V[] | VertexKey[]): boolean {
     const removed: boolean[] = [];
     for (const v of vertices) {
-      removed.push(this.removeVertex(v));
+      removed.push(this.deleteVertex(v));
     }
     return removed.length > 0;
   }
