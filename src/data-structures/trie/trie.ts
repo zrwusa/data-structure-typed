@@ -241,9 +241,10 @@ export class Trie {
    * @param {string} prefix - The `prefix` parameter is a string that represents the prefix that we want to search for in the
    * trie. It is an optional parameter, so if no prefix is provided, it will default to an empty string.
    * @param {number} max - The max count of words will be found
+   * @param isAllWhenEmptyPrefix - If true, when the prefix provided as '', returns all the words in the trie.
    * @returns {string[]} an array of strings.
    */
-  getWords(prefix = '', max = Number.MAX_SAFE_INTEGER): string[] {
+  getWords(prefix = '', max = Number.MAX_SAFE_INTEGER, isAllWhenEmptyPrefix = false): string[] {
     prefix = this._caseProcess(prefix);
     const words: string[] = [];
     let found = 0;
@@ -270,7 +271,8 @@ export class Trie {
         if (nodeC) startNode = nodeC;
       }
     }
-    if (startNode !== this.root) dfs(startNode, prefix);
+
+    if (isAllWhenEmptyPrefix || startNode !== this.root) dfs(startNode, prefix);
 
     return words;
   }

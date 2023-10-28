@@ -1,5 +1,5 @@
 import {AVLTree, AVLTreeNode, BinaryTree, BinaryTreeNode, IterationType} from '../../../../src';
-import {isDebugTest} from "../../../config";
+import {isDebugTest} from '../../../config';
 
 const isDebug = isDebugTest;
 // const isDebug = true;
@@ -200,7 +200,7 @@ describe('BinaryTree Morris Traversal', () => {
 });
 
 describe('BinaryTree APIs test', () => {
-  const avl = new AVLTree<{ id: number; text: string }>();
+  const avl = new AVLTree<{id: number; text: string}>();
   beforeEach(() => {
     avl.clear();
   });
@@ -226,11 +226,14 @@ describe('BinaryTree traversals', () => {
   expect(tree.dfs(node => node.key, 'pre')).toEqual([35, 20, 15, 16, 29, 28, 30, 40, 50, 45, 55]);
   expect(tree.dfs(node => node.key, 'in')).toEqual([15, 16, 20, 28, 29, 30, 35, 40, 45, 50, 55]);
   expect(tree.dfs(node => node.key, 'post')).toEqual([16, 15, 28, 30, 29, 20, 45, 55, 50, 40, 35]);
-  expect(tree.bfs(node => node.key, tree.root, IterationType.RECURSIVE)).toEqual([35, 20, 40, 15, 29, 50, 16, 28, 30, 45, 55]);
-  expect(tree.bfs(node => node.key, tree.root, IterationType.ITERATIVE)).toEqual([35, 20, 40, 15, 29, 50, 16, 28, 30, 45, 55]);
+  expect(tree.bfs(node => node.key, tree.root, IterationType.RECURSIVE)).toEqual([
+    35, 20, 40, 15, 29, 50, 16, 28, 30, 45, 55
+  ]);
+  expect(tree.bfs(node => node.key, tree.root, IterationType.ITERATIVE)).toEqual([
+    35, 20, 40, 15, 29, 50, 16, 28, 30, 45, 55
+  ]);
 
   const levels = tree.listLevels(node => node.key);
   expect(levels).toEqual([[35], [20, 40], [15, 29, 50], [16, 28, 30, 45, 55]]);
   isDebug && console.log(levels);
-
-})
+});

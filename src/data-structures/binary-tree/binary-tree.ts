@@ -115,7 +115,8 @@ export class BinaryTreeNode<V = any, N extends BinaryTreeNode<V, N> = BinaryTree
  * Represents a binary tree data structure.
  * @template N - The type of the binary tree's nodes.
  */
-export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode<V, BinaryTreeNodeNested<V>>> implements IBinaryTree<V, N> {
+export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode<V, BinaryTreeNodeNested<V>>>
+  implements IBinaryTree<V, N> {
   /**
    * Creates a new instance of BinaryTree.
    * @param {BinaryTreeOptions} [options] - The options for the binary tree.
@@ -974,7 +975,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
           if (current.left) queue.push(current.left);
           if (current.right) queue.push(current.right);
         }
-
       }
     }
     return ans;

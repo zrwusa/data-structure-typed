@@ -206,7 +206,7 @@ describe('TreeMultiset operations test', () => {
   });
 
   it('should perform various operations on a Binary Search Tree with object values', () => {
-    const objTreeMultiset = new TreeMultiset<{ key: number; keyA: number }>();
+    const objTreeMultiset = new TreeMultiset<{key: number; keyA: number}>();
     expect(objTreeMultiset).toBeInstanceOf(TreeMultiset);
     objTreeMultiset.add(11, {key: 11, keyA: 11});
     objTreeMultiset.add(3, {key: 3, keyA: 3});
@@ -481,7 +481,7 @@ describe('TreeMultiset Performance test', function () {
     }
     isDebug && console.log('---add', performance.now() - start);
     const startL = performance.now();
-    treeMS.lesserOrGreaterTraverse((node) => (node.count += 1), CP.lt, inputSize / 2);
+    treeMS.lesserOrGreaterTraverse(node => (node.count += 1), CP.lt, inputSize / 2);
     isDebug && console.log('---lesserOrGreaterTraverse', performance.now() - startL);
   });
 });
