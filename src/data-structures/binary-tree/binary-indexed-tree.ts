@@ -144,6 +144,26 @@ export class BinaryIndexedTree {
   }
 
   /**
+   * The function calculates the prefix sum of an array using a binary indexed tree.
+   * @param {number} i - The parameter "i" in the function "getPrefixSum" represents the index of the element in the
+   * array for which we want to calculate the prefix sum.
+   * @returns The function `getPrefixSum` returns the prefix sum of the elements in the binary indexed tree up to index
+   * `i`.
+   */
+  getPrefixSum(i: number): number {
+    this._checkIndex(i);
+    i++; // Convert to 1-based index
+
+    let sum = 0;
+    while (i > 0) {
+      sum += this._getFrequency(i);
+      i -= i & -i;
+    }
+
+    return sum;
+  }
+
+  /**
    * The function returns the value of a specific index in a freqMap data structure, or a default value if
    * the index is not found.
    * @param {number} index - The `index` parameter is a number that represents the index of a node in a

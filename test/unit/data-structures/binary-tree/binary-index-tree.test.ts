@@ -283,3 +283,38 @@ function loopLowerBoundTests(bit: BinaryIndexedTree, values: number[]) {
     }
   }
 }
+
+describe('', () => {
+  class NumArrayDC {
+    private _tree: BinaryIndexedTree;
+    private readonly _nums: number[];
+
+    constructor(nums: number[]) {
+      this._nums = nums;
+      this._tree = new BinaryIndexedTree({max: nums.length + 1});
+      for (let i = 0; i < nums.length; i++) {
+        this._tree.update(i + 1, nums[i]);
+      }
+    }
+
+    update(index: number, val: number): void {
+      this._tree.update(index + 1, val - this._nums[index]);
+      this._nums[index] = val;
+    }
+
+    sumRange(left: number, right: number): number {
+      return this._tree.getPrefixSum(right + 1) - this._tree.getPrefixSum(left);
+    }
+  }
+
+  it('', () => {
+    const numArray = new NumArrayDC([1, 3, 5, 8, 2, 9, 4, 5, 8, 1, 3, 2]);
+    expect(numArray.sumRange(0, 8)).toBe(45);
+    expect(numArray.sumRange(0, 2)).toBe(9);
+    numArray.update(1, 2);
+    expect(numArray.sumRange(0, 2)).toBe(8);
+    expect(numArray.sumRange(3, 4)).toBe(10);
+    numArray.update(3, 2);
+    expect(numArray.sumRange(3, 4)).toBe(4);
+  });
+});

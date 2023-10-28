@@ -7,12 +7,16 @@
 
 import type {Comparator, DFSOrderPattern} from '../../types';
 
-export class Heap<E> {
+export class Heap<E = any> {
   protected nodes: E[] = [];
   protected readonly comparator: Comparator<E>;
 
-  constructor(comparator: Comparator<E>) {
-    this.comparator = comparator;
+  constructor(options: { comparator: Comparator<E>; nodes?: E[] }) {
+    this.comparator = options.comparator;
+    if (options.nodes && options.nodes.length > 0) {
+      this.nodes = options.nodes;
+      this.fix();
+    }
   }
 
   /**
@@ -32,15 +36,11 @@ export class Heap<E> {
 
   /**
    * Static method that creates a binary heap from an array of nodes and a comparison function.
-   * @param nodes
-   * @param comparator - Comparison function.
    * @returns A new Heap instance.
+   * @param options
    */
-  static heapify<E>(nodes: E[], comparator: Comparator<E>): Heap<E> {
-    const binaryHeap = new Heap<E>(comparator);
-    binaryHeap.nodes = [...nodes];
-    binaryHeap.fix(); // Fix heap properties
-    return binaryHeap;
+  static heapify<E>(options: { nodes: E[]; comparator: Comparator<E> }): Heap<E> {
+    return new Heap<E>(options);
   }
 
   /**
@@ -180,7 +180,7 @@ export class Heap<E> {
    * @returns A new Heap instance containing the same elements.
    */
   clone(): Heap<E> {
-    const clonedHeap = new Heap<E>(this.comparator);
+    const clonedHeap = new Heap<E>({comparator: this.comparator});
     clonedHeap.nodes = [...this.nodes];
     return clonedHeap;
   }
@@ -269,7 +269,7 @@ export class FibonacciHeapNode<E> {
 
 export class FibonacciHeap<E> {
   root?: FibonacciHeapNode<E>;
-  size: number = 0;
+  size = 0;
   protected min?: FibonacciHeapNode<E>;
   protected readonly comparator: Comparator<E>;
 

@@ -200,7 +200,7 @@ describe('BinaryTree Morris Traversal', () => {
 });
 
 describe('BinaryTree APIs test', () => {
-  const avl = new AVLTree<{id: number; text: string}>();
+  const avl = new AVLTree<{ id: number; text: string }>();
   beforeEach(() => {
     avl.clear();
   });

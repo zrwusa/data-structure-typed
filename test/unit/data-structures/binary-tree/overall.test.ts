@@ -29,7 +29,7 @@ describe('Overall BinaryTree Test', () => {
     bfsIDs[0] === 11; // true
     expect(bfsIDs[0]).toBe(11);
 
-    const objBST = new BST<{key: number; keyA: number}>();
+    const objBST = new BST<{ key: number; keyA: number }>();
     objBST.add(11, {key: 11, keyA: 11});
     objBST.add(3, {key: 3, keyA: 3});
 

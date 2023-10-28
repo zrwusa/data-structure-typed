@@ -10,14 +10,16 @@ import type {Comparator} from '../../types';
 
 export class MaxPriorityQueue<E = any> extends PriorityQueue<E> {
   constructor(
-    compare: Comparator<E> = (a: E, b: E) => {
-      if (!(typeof a === 'number' && typeof b === 'number')) {
-        throw new Error('The a, b params of compare function must be number');
-      } else {
-        return b - a;
+    options: { comparator: Comparator<E>; nodes?: E[] } = {
+      comparator: (a: E, b: E) => {
+        if (!(typeof a === 'number' && typeof b === 'number')) {
+          throw new Error('The a, b params of compare function must be number');
+        } else {
+          return b - a;
+        }
       }
     }
   ) {
-    super(compare);
+    super(options);
   }
 }
