@@ -8,6 +8,7 @@ npm-debug.*
 *.orig.*
 .DS_Store
 .idea
+.vscode
 
 /notes
 /backup

@@ -219,7 +219,7 @@ describe('AVL Tree Test recursively', () => {
 });
 
 describe('AVLTree APIs test', () => {
-  const avl = new AVLTree<{id: number; text: string}>();
+  const avl = new AVLTree<{ id: number; text: string }>();
   beforeEach(() => {
     avl.clear();
   });

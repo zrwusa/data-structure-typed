@@ -15,7 +15,9 @@ describe('HashNode', () => {
 describe('HashTable', () => {
   it('should initialize with default capacity', () => {
     const hashTable = new HashTable<string, string>();
-
+    hashTable.capacity = hashTable.capacity;
+    hashTable.buckets = hashTable.buckets;
+    hashTable.hashFn = hashTable.hashFn;
     expect(hashTable.capacity).toBe(16);
     expect(hashTable.size).toBe(0);
     expect(hashTable.buckets.length).toBe(16);

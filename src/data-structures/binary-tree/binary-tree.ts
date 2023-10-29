@@ -6,7 +6,7 @@
  * @license MIT License
  */
 
-import type {OneParamCallback, BinaryTreeNodeKey, BinaryTreeNodeNested, BinaryTreeOptions} from '../../types';
+import type {BinaryTreeNodeKey, BinaryTreeNodeNested, BinaryTreeOptions, OneParamCallback} from '../../types';
 import {BinaryTreeDeletedResult, DFSOrderPattern, FamilyPosition, IterationType} from '../../types';
 import {IBinaryTree} from '../../interfaces';
 import {trampoline} from '../../utils';
@@ -108,8 +108,7 @@ export class BinaryTreeNode<V = any, N extends BinaryTreeNode<V, N> = BinaryTree
  * @template N - The type of the binary tree's nodes.
  */
 export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode<V, BinaryTreeNodeNested<V>>>
-  implements IBinaryTree<V, N>
-{
+  implements IBinaryTree<V, N> {
   /**
    * Creates a new instance of BinaryTree.
    * @param {BinaryTreeOptions} [options] - The options for the binary tree.
@@ -395,7 +394,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
         return -1;
       }
 
-      const stack: {node: N; depth: number}[] = [{node: beginRoot, depth: 0}];
+      const stack: { node: N; depth: number }[] = [{node: beginRoot, depth: 0}];
       let maxHeight = 0;
 
       while (stack.length > 0) {
@@ -832,7 +831,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
       _traverse(beginRoot);
     } else {
       // 0: visit, 1: print
-      const stack: {opt: 0 | 1; node: N | null | undefined}[] = [{opt: 0, node: beginRoot}];
+      const stack: { opt: 0 | 1; node: N | null | undefined }[] = [{opt: 0, node: beginRoot}];
 
       while (stack.length > 0) {
         const cur = stack.pop();
@@ -1092,6 +1091,49 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     }
     return ans;
   }
+
+  /**
+   * The above function is an iterator for a binary tree that can be used to traverse the tree in
+   * either an iterative or recursive manner.
+   * @param node - The `node` parameter represents the current node in the binary tree from which the
+   * iteration starts. It is an optional parameter with a default value of `this.root`, which means
+   * that if no node is provided, the iteration will start from the root of the binary tree.
+   * @returns The `*[Symbol.iterator]` method returns a generator object that yields the keys of the
+   * binary tree nodes in a specific order.
+   */
+  * [Symbol.iterator](node = this.root): Generator<BinaryTreeNodeKey, void, undefined> {
+    if (!node) {
+      return;
+    }
+
+    if (this.iterationType === IterationType.ITERATIVE) {
+      const stack: (N | null | undefined)[] = [];
+      let current: N | null | undefined = node;
+
+      while (current || stack.length > 0) {
+        while (current) {
+          stack.push(current);
+          current = current.left;
+        }
+
+        current = stack.pop();
+
+        if (current) yield current.key;
+        if (current) current = current.right;
+      }
+    } else {
+
+      if (node.left) {
+        yield* this[Symbol.iterator](node.left);
+      }
+      yield node.key;
+      if (node.right) {
+        yield* this[Symbol.iterator](node.right);
+      }
+    }
+
+  }
+
 
   /**
    * Swap the data of two nodes in the binary tree.

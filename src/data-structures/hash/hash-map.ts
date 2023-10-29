@@ -157,7 +157,7 @@ export class HashMap<K, V> {
     }
   }
 
-  *entries(): IterableIterator<[K, V]> {
+  * entries(): IterableIterator<[K, V]> {
     for (const bucket of this.table) {
       if (bucket) {
         for (const [key, value] of bucket) {

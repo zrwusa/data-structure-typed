@@ -21,8 +21,7 @@ export class RBTreeNode<V = any, N extends RBTreeNode<V, N> = RBTreeNodeNested<V
 
 export class RBTree<V, N extends RBTreeNode<V, N> = RBTreeNode<V, RBTreeNodeNested<V>>>
   extends BST<V, N>
-  implements IBinaryTree<V, N>
-{
+  implements IBinaryTree<V, N> {
   constructor(options?: RBTreeOptions) {
     super(options);
   }

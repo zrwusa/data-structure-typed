@@ -11,7 +11,7 @@ export class Heap<E = any> {
   protected nodes: E[] = [];
   protected readonly comparator: Comparator<E>;
 
-  constructor(options: {comparator: Comparator<E>; nodes?: E[]}) {
+  constructor(options: { comparator: Comparator<E>; nodes?: E[] }) {
     this.comparator = options.comparator;
     if (options.nodes && options.nodes.length > 0) {
       this.nodes = options.nodes;
@@ -39,7 +39,7 @@ export class Heap<E = any> {
    * @returns A new Heap instance.
    * @param options
    */
-  static heapify<E>(options: {nodes: E[]; comparator: Comparator<E>}): Heap<E> {
+  static heapify<E>(options: { nodes: E[]; comparator: Comparator<E> }): Heap<E> {
     return new Heap<E>(options);
   }
 

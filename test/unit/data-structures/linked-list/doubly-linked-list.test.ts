@@ -1,9 +1,72 @@
-import {DoublyLinkedList} from '../../../../src';
+import {DoublyLinkedList, DoublyLinkedListNode} from '../../../../src';
 import {bigO, magnitude} from '../../../utils';
+
+describe('DoublyLinkedListNode', () => {
+  it('should DoublyLinkedListNode', () => {
+    const node1 = new DoublyLinkedListNode<number>(2);
+    expect(node1.val).toBe(2);
+    node1.val = 1;
+    expect(node1.val).toBe(1);
+  })
+});
 
 describe('DoublyLinkedList Operation Test', () => {
   let list: DoublyLinkedList<number>;
-  let objectList: DoublyLinkedList<{keyA: number}>;
+
+  beforeEach(() => {
+    list = DoublyLinkedList.fromArray([1, 2, 3, 4, 5]);
+  });
+
+  it('should out of bound index', () => {
+    expect(list.getNodeAt(-1)).toBe(null);
+    expect(list.getNodeAt(5)).toBe(null);
+    expect(list.insertAt(5, 6)).toBe(true);
+  });
+
+  it('should insertBefore', () => {
+    expect(list.insertBefore(1, 0)).toBe(true);
+  });
+
+  it('should deleteAt', () => {
+    expect(list.deleteAt(1)).toBeTruthy();
+  });
+
+  it('should delete tail', () => {
+    expect(list.delete(list.tail)).toBe(true);
+    expect(list.tail?.val).toBe(4);
+    expect(list.delete(6)).toBe(false);
+    expect(list.tail?.val).toBe(4);
+  });
+
+
+  it('should find null', () => {
+    expect(list.find(val => val === 6)).toBe(null);
+
+  });
+
+  it('should indexOf -1', () => {
+    expect(list.indexOf(6)).toBe(-1);
+  });
+
+  it('should findBackward null', () => {
+    expect(list.findBackward(val => val === 0)).toBe(null);
+  });
+
+  it('should insertAfter tail', () => {
+    expect(list.insertAfter(list.tail!, 6)).toBe(true);
+  });
+
+  it('should insertAfter tail', () => {
+    // @ts-ignore
+    expect([...list]).toEqual([1, 2, 3, 4, 5]);
+  });
+
+
+});
+
+describe('DoublyLinkedList Operation Test', () => {
+  let list: DoublyLinkedList<number>;
+  let objectList: DoublyLinkedList<{ keyA: number }>;
 
   beforeEach(() => {
     list = new DoublyLinkedList();
