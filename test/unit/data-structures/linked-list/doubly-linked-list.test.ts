@@ -109,7 +109,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.reverse();
 
     expect(list.toArray()).toEqual([3, 2, 1]);
-    expect(list.toArrayReverse()).toEqual([1, 2, 3]);
+    expect(list.toArrayBackward()).toEqual([1, 2, 3]);
   });
 
   it('should map elements using a callback function', () => {
@@ -189,7 +189,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(3);
     list.push(4);
 
-    const lastEven = list.findLast(val => val % 2 === 0);
+    const lastEven = list.findBackward(val => val % 2 === 0);
 
     expect(lastEven).toBe(4);
   });
@@ -211,7 +211,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(2);
     list.push(3);
 
-    const reversedArray = list.toArrayReverse();
+    const reversedArray = list.toArrayBackward();
 
     expect(reversedArray).toEqual([3, 2, 1]);
   });
@@ -327,8 +327,8 @@ describe('DoublyLinkedList Operation Test', () => {
     const insertSuccess = objectList.insertBefore(obj2, newObj);
     expect(insertSuccess).toBe(true);
 
-    const findNode = objectList.findNode(newObj); // Use newObj instead of obj2
-    expect(findNode?.val).toEqual(newObj);
+    const getNode = objectList.getNode(newObj); // Use newObj instead of obj2
+    expect(getNode?.val).toEqual(newObj);
 
     const deleted = objectList.delete(newObj); // Use newObj instead of obj2
     expect(deleted).toBe(true);

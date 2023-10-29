@@ -15,20 +15,20 @@ describe('Deque Tests', () => {
     it('should add elements at the beginning and end', () => {
       deque.addFirst(1);
       deque.addLast(2);
-      expect(deque.peekFirst()).toBe(1);
-      expect(deque.peekLast()).toBe(2);
+      expect(deque.getFirst()).toBe(1);
+      expect(deque.getLast()).toBe(2);
     });
 
     it('should delete elements from the beginning and end', () => {
       deque.addFirst(1);
       deque.addLast(2);
-      deque.pollFirst();
-      deque.pollLast();
+      deque.popFirst();
+      deque.popLast();
       expect(deque.isEmpty()).toBe(true);
     });
 
     it('should handle edge case when removing from an empty deque', () => {
-      const result = deque.pollFirst();
+      const result = deque.popFirst();
       expect(result).toBeUndefined();
     });
 
@@ -40,18 +40,18 @@ describe('Deque Tests', () => {
 
     it('should handle adding and removing elements alternately', () => {
       deque.addFirst(1);
-      expect(deque.pollFirst()).toBe(1);
+      expect(deque.popFirst()).toBe(1);
       deque.addLast(2);
-      expect(deque.pollLast()).toBe(2);
+      expect(deque.popLast()).toBe(2);
       expect(deque.isEmpty()).toBe(true);
     });
 
     it('should handle adding and removing elements in a cyclic manner', () => {
       deque.addFirst(1);
       deque.addLast(2);
-      expect(deque.pollFirst()).toBe(1);
+      expect(deque.popFirst()).toBe(1);
       deque.addFirst(3);
-      expect(deque.pollLast()).toBe(2);
+      expect(deque.popLast()).toBe(2);
       expect(deque.size).toBe(1);
     });
     // Add more test cases as needed
@@ -68,20 +68,20 @@ describe('Deque Tests', () => {
     it('should add elements at the beginning and end', () => {
       objectDeque.addFirst('one');
       objectDeque.addLast('two');
-      expect(objectDeque.peekFirst()).toBe('one');
-      expect(objectDeque.peekLast()).toBe('two');
+      expect(objectDeque.getFirst()).toBe('one');
+      expect(objectDeque.getLast()).toBe('two');
     });
 
     it('should delete elements from the beginning and end', () => {
       objectDeque.addFirst('one');
       objectDeque.addLast('two');
-      objectDeque.pollFirst();
-      objectDeque.pollLast();
+      objectDeque.popFirst();
+      objectDeque.popLast();
       expect(objectDeque.isEmpty()).toBe(true);
     });
 
     it('should handle edge case when removing from an empty deque', () => {
-      const result = objectDeque.pollFirst();
+      const result = objectDeque.popFirst();
       expect(result).toBeUndefined();
     });
 
@@ -105,20 +105,20 @@ describe('Deque Tests', () => {
     it('should add elements at the beginning and end', () => {
       arrayDeque.addFirst(1);
       arrayDeque.addLast(2);
-      expect(arrayDeque.peekFirst()).toBe(1);
-      expect(arrayDeque.peekLast()).toBe(2);
+      expect(arrayDeque.getFirst()).toBe(1);
+      expect(arrayDeque.getLast()).toBe(2);
     });
 
     it('should delete elements from the beginning and end', () => {
       arrayDeque.addFirst(1);
       arrayDeque.addLast(2);
-      arrayDeque.pollFirst();
-      arrayDeque.pollLast();
+      arrayDeque.popFirst();
+      arrayDeque.popLast();
       expect(arrayDeque.isEmpty()).toBe(true);
     });
 
     it('should handle edge case when removing from an empty deque', () => {
-      const result = arrayDeque.pollFirst();
+      const result = arrayDeque.popFirst();
       expect(result).toBeNull();
     });
 
@@ -165,16 +165,16 @@ describe('Deque', () => {
     deque.addLast(2);
 
     expect(deque.size).toBe(2);
-    expect(deque.peekFirst()).toBe(1);
-    expect(deque.peekLast()).toBe(2);
+    expect(deque.getFirst()).toBe(1);
+    expect(deque.getLast()).toBe(2);
   });
 
   test('should remove elements from the front and back', () => {
     deque.addFirst(1);
     deque.addLast(2);
 
-    const firstElement = deque.pollFirst();
-    const lastElement = deque.pollLast();
+    const firstElement = deque.popFirst();
+    const lastElement = deque.popLast();
 
     expect(deque.size).toBe(0);
     expect(firstElement).toBe(1);
@@ -203,7 +203,7 @@ describe('Deque', () => {
     deque.addLast(1);
     expect(deque.isEmpty()).toBe(false);
 
-    deque.pollFirst();
+    deque.popFirst();
     expect(deque.isEmpty()).toBe(true);
   });
 });
@@ -225,16 +225,16 @@ describe('ArrayDeque', () => {
     deque.addLast(2);
 
     expect(deque.size).toBe(2);
-    expect(deque.peekFirst()).toBe(1);
-    expect(deque.peekLast()).toBe(2);
+    expect(deque.getFirst()).toBe(1);
+    expect(deque.getLast()).toBe(2);
   });
 
   test('should remove elements from the front and back', () => {
     deque.addFirst(1);
     deque.addLast(2);
 
-    const firstElement = deque.pollFirst();
-    const lastElement = deque.pollLast();
+    const firstElement = deque.popFirst();
+    const lastElement = deque.popLast();
 
     expect(deque.size).toBe(0);
     expect(firstElement).toBe(1);
@@ -263,7 +263,7 @@ describe('ArrayDeque', () => {
     deque.addLast(1);
     expect(deque.isEmpty()).toBe(false);
 
-    deque.pollFirst();
+    deque.popFirst();
     expect(deque.isEmpty()).toBe(true);
   });
 
@@ -319,8 +319,8 @@ describe('ObjectDeque', () => {
     deque.addFirst(2);
 
     expect(deque.size).toBe(2);
-    expect(deque.peekFirst()).toBe(2);
-    expect(deque.peekLast()).toBe(1);
+    expect(deque.getFirst()).toBe(2);
+    expect(deque.getLast()).toBe(1);
   });
 
   test('should add elements to the end of the deque', () => {
@@ -328,37 +328,37 @@ describe('ObjectDeque', () => {
     deque.addLast(2);
 
     expect(deque.size).toBe(2);
-    expect(deque.peekFirst()).toBe(1);
-    expect(deque.peekLast()).toBe(2);
+    expect(deque.getFirst()).toBe(1);
+    expect(deque.getLast()).toBe(2);
   });
 
   test('should remove elements from the front of the deque', () => {
     deque.addLast(1);
     deque.addLast(2);
 
-    const removedElement = deque.pollFirst();
+    const removedElement = deque.popFirst();
 
     expect(deque.size).toBe(1);
     expect(removedElement).toBe(1);
-    expect(deque.peekFirst()).toBe(2);
+    expect(deque.getFirst()).toBe(2);
   });
 
   test('should remove elements from the end of the deque', () => {
     deque.addLast(1);
     deque.addLast(2);
 
-    const removedElement = deque.pollFirst();
+    const removedElement = deque.popFirst();
 
     expect(deque.size).toBe(1);
     expect(removedElement).toBe(1);
-    expect(deque.peekLast()).toBe(2);
+    expect(deque.getLast()).toBe(2);
   });
 
   test('should return the element at the front of the deque without removing it', () => {
     deque.addFirst(1);
     deque.addFirst(2);
 
-    expect(deque.peekFirst()).toBe(2);
+    expect(deque.getFirst()).toBe(2);
     expect(deque.size).toBe(2);
   });
 
@@ -366,7 +366,7 @@ describe('ObjectDeque', () => {
     deque.addLast(1);
     deque.addLast(2);
 
-    expect(deque.peekLast()).toBe(2);
+    expect(deque.getLast()).toBe(2);
     expect(deque.size).toBe(2);
   });
 
@@ -391,9 +391,9 @@ describe('ObjectDeque', () => {
     deque.addLast(2);
     deque.addLast(3);
 
-    expect(deque.peekFirst()).toBe(1);
+    expect(deque.getFirst()).toBe(1);
     expect(deque.get(1)).toBe(2);
-    expect(deque.peekLast()).toBe(3);
+    expect(deque.getLast()).toBe(3);
   });
 
   test('should insert elements at a specific index', () => {
@@ -402,9 +402,9 @@ describe('ObjectDeque', () => {
     deque.addLast(3);
 
     expect(deque.size).toBe(3);
-    expect(deque.peekFirst()).toBe(1);
+    expect(deque.getFirst()).toBe(1);
     expect(deque.get(1)).toBe(2);
     expect(deque.get(2)).toBe(3);
-    expect(deque.peekLast()).toBe(3);
+    expect(deque.getLast()).toBe(3);
   });
 });

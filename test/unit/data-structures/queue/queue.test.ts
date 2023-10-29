@@ -86,7 +86,7 @@ describe('Queue', () => {
     queue.push(2);
     expect(queue.size).toBe(2);
     expect(queue.peek()).toBe(1);
-    expect(queue.peekLast()).toBe(2);
+    expect(queue.getLast()).toBe(2);
   });
 
   it('should shift elements from the front of the queue', () => {
@@ -96,7 +96,7 @@ describe('Queue', () => {
     expect(shifted).toBe(1);
     expect(queue.size).toBe(1);
     expect(queue.peek()).toBe(2);
-    expect(queue.peekLast()).toBe(2);
+    expect(queue.getLast()).toBe(2);
   });
 
   it('should handle shifting when queue reaches half size', () => {
@@ -117,7 +117,7 @@ describe('Queue', () => {
     queue.push(1);
     queue.push(2);
     expect(queue.peek()).toBe(1);
-    expect(queue.peekLast()).toBe(2);
+    expect(queue.getLast()).toBe(2);
   });
 
   it('should handle shifting when the queue is empty', () => {
@@ -129,7 +129,7 @@ describe('Queue', () => {
 
   it('should handle peeking when the queue is empty', () => {
     expect(queue.peek()).toBeUndefined();
-    expect(queue.peekLast()).toBeUndefined();
+    expect(queue.getLast()).toBeUndefined();
   });
 
   it('should handle clearing the queue', () => {
@@ -139,7 +139,7 @@ describe('Queue', () => {
     queue.clear();
     expect(queue.size).toBe(0);
     expect(queue.peek()).toBeUndefined();
-    expect(queue.peekLast()).toBeUndefined();
+    expect(queue.getLast()).toBeUndefined();
   });
 
   it('should clone the queue', () => {
@@ -149,7 +149,7 @@ describe('Queue', () => {
     const clonedQueue = queue.clone();
     expect(clonedQueue.size).toBe(3);
     expect(clonedQueue.peek()).toBe(1);
-    expect(clonedQueue.peekLast()).toBe(3);
+    expect(clonedQueue.getLast()).toBe(3);
   });
 
   it('should handle creating a queue from an array', () => {
@@ -157,7 +157,7 @@ describe('Queue', () => {
     const newQueue = Queue.fromArray(elements);
     expect(newQueue.size).toBe(5);
     expect(newQueue.peek()).toBe(1);
-    expect(newQueue.peekLast()).toBe(5);
+    expect(newQueue.getLast()).toBe(5);
   });
 
   it('should iterate through the queue', () => {

@@ -11,7 +11,7 @@ describe('LinkedList Performance Test', () => {
     for (let i = 0; i < magnitude.SQUARED; i++) {
       doublyList.push(i);
       if (i === midIndex) {
-        midNode = doublyList.findNode(i);
+        midNode = doublyList.getNode(i);
       } else if (i > midIndex && midNode) {
         doublyList.insertBefore(midNode, i);
       }
@@ -24,7 +24,7 @@ describe('LinkedList Performance Test', () => {
     for (let i = 0; i < magnitude.SQUARED; i++) {
       singlyList.push(i);
       if (i === midIndex) {
-        midSinglyNode = singlyList.findNode(i);
+        midSinglyNode = singlyList.getNode(i);
       } else if (i > midIndex && midSinglyNode) {
         singlyList.insertBefore(midSinglyNode.val, i);
       }

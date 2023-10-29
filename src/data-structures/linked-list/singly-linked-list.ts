@@ -87,17 +87,13 @@ export class SinglyLinkedList<E = any> {
     return singlyLinkedList;
   }
 
-  getLength(): number {
-    return this._length;
-  }
-
   /**
-   * The `push` function adds a new node with the given data to the end of a singly linked list.
-   * @param {E} data - The "data" parameter represents the value that you want to add to the linked list. It can be of
+   * The `push` function adds a new node with the given val to the end of a singly linked list.
+   * @param {E} val - The "val" parameter represents the value that you want to add to the linked list. It can be of
    * any type (E) as specified in the generic type declaration of the class or function.
    */
-  push(data: E): void {
-    const newNode = new SinglyLinkedListNode(data);
+  push(val: E): void {
+    const newNode = new SinglyLinkedListNode(val);
     if (!this.head) {
       this.head = newNode;
       this.tail = newNode;
@@ -106,6 +102,15 @@ export class SinglyLinkedList<E = any> {
       this.tail = newNode;
     }
     this._length++;
+  }
+
+  /**
+   * The `push` function adds a new node with the given val to the end of a singly linked list.
+   * @param {E} val - The "val" parameter represents the value that you want to add to the linked list. It can be of
+   * any type (E) as specified in the generic type declaration of the class or function.
+   */
+  addLast(val: E): void {
+    this.push(val);
   }
 
   /**
@@ -136,6 +141,16 @@ export class SinglyLinkedList<E = any> {
   }
 
   /**
+   * The `popLast()` function removes and returns the value of the last element in a linked list, updating the head and tail
+   * pointers accordingly.
+   * @returns The method `pop()` returns the value of the node that is being removed from the end of the linked list. If
+   * the linked list is empty, it returns `null`.
+   */
+  popLast(): E | undefined {
+    return this.pop();
+  }
+
+  /**
    * The `shift()` function removes and returns the value of the first node in a linked list.
    * @returns The value of the node that is being removed from the beginning of the linked list.
    */
@@ -145,6 +160,14 @@ export class SinglyLinkedList<E = any> {
     this.head = this.head.next;
     this._length--;
     return removedNode.val;
+  }
+
+  /**
+   * The `popFirst()` function removes and returns the value of the first node in a linked list.
+   * @returns The value of the node that is being removed from the beginning of the linked list.
+   */
+  popFirst(): E | undefined {
+    return this.shift();
   }
 
   /**
@@ -162,6 +185,15 @@ export class SinglyLinkedList<E = any> {
       this.head = newNode;
     }
     this._length++;
+  }
+
+  /**
+   * The addFirst function adds a new node with the given value to the beginning of a singly linked list.
+   * @param {E} val - The parameter "val" represents the value of the new node that will be added to the beginning of the
+   * linked list.
+   */
+  addFirst(val: E): void {
+    this.unshift(val);
   }
 
   /**
@@ -382,7 +414,7 @@ export class SinglyLinkedList<E = any> {
    * @returns a `SinglyLinkedListNode<E>` if a node with the specified value is found in the linked list. If no node with
    * the specified value is found, the function returns `null`.
    */
-  findNode(value: E): SinglyLinkedListNode<E> | null {
+  getNode(value: E): SinglyLinkedListNode<E> | null {
     let current = this.head;
 
     while (current) {
@@ -432,9 +464,6 @@ export class SinglyLinkedList<E = any> {
     return false;
   }
 
-  insertAfter(existingValueOrNode: E, newValue: E): boolean;
-  insertAfter(existingValueOrNode: SinglyLinkedListNode<E>, newValue: E): boolean;
-
   /**
    * The `insertAfter` function inserts a new node with a given value after an existing node in a singly linked list.
    * @param {E | SinglyLinkedListNode<E>} existingValueOrNode - The existing value or node in the linked list after which
@@ -449,7 +478,7 @@ export class SinglyLinkedList<E = any> {
     if (existingValueOrNode instanceof SinglyLinkedListNode) {
       existingNode = existingValueOrNode;
     } else {
-      existingNode = this.findNode(existingValueOrNode);
+      existingNode = this.getNode(existingValueOrNode);
     }
 
     if (existingNode) {
@@ -485,7 +514,80 @@ export class SinglyLinkedList<E = any> {
     return count;
   }
 
-  *[Symbol.iterator]() {
+  /**
+   * The `forEach` function iterates over each element in a linked list and applies a callback function to each element.
+   * @param callback - The callback parameter is a function that takes two arguments: val and index. The val argument
+   * represents the value of the current node in the linked list, and the index argument represents the index of the
+   * current node in the linked list.
+   */
+  forEach(callback: (val: E, index: number) => void): void {
+    let current = this.head;
+    let index = 0;
+    while (current) {
+      callback(current.val, index);
+      current = current.next;
+      index++;
+    }
+  }
+
+  /**
+   * The `map` function takes a callback function and applies it to each element in the SinglyLinkedList, returning a new
+   * SinglyLinkedList with the transformed values.
+   * @param callback - The callback parameter is a function that takes a value of type E (the type of values stored in
+   * the original SinglyLinkedList) and returns a value of type U (the type of values that will be stored in the mapped
+   * SinglyLinkedList).
+   * @returns The `map` function is returning a new instance of `SinglyLinkedList<U>` that contains the mapped values.
+   */
+  map<U>(callback: (val: E) => U): SinglyLinkedList<U> {
+    const mappedList = new SinglyLinkedList<U>();
+    let current = this.head;
+    while (current) {
+      mappedList.push(callback(current.val));
+      current = current.next;
+    }
+    return mappedList;
+  }
+
+  /**
+   * The `filter` function iterates through a SinglyLinkedList and returns a new SinglyLinkedList containing only the
+   * elements that satisfy the given callback function.
+   * @param callback - The `callback` parameter is a function that takes a value of type `E` and returns a boolean value.
+   * It is used to determine whether a value should be included in the filtered list or not.
+   * @returns The filtered list, which is an instance of the SinglyLinkedList class.
+   */
+  filter(callback: (val: E) => boolean): SinglyLinkedList<E> {
+    const filteredList = new SinglyLinkedList<E>();
+    let current = this.head;
+    while (current) {
+      if (callback(current.val)) {
+        filteredList.push(current.val);
+      }
+      current = current.next;
+    }
+    return filteredList;
+  }
+
+  /**
+   * The `reduce` function iterates over a linked list and applies a callback function to each element, accumulating a
+   * single value.
+   * @param callback - The `callback` parameter is a function that takes two arguments: `accumulator` and `val`. It is
+   * used to perform a specific operation on each element of the linked list.
+   * @param {U} initialValue - The `initialValue` parameter is the initial value of the accumulator. It is the starting
+   * point for the reduction operation.
+   * @returns The `reduce` method is returning the final value of the accumulator after iterating through all the
+   * elements in the linked list.
+   */
+  reduce<U>(callback: (accumulator: U, val: E) => U, initialValue: U): U {
+    let accumulator = initialValue;
+    let current = this.head;
+    while (current) {
+      accumulator = callback(accumulator, current.val);
+      current = current.next;
+    }
+    return accumulator;
+  }
+
+  * [Symbol.iterator]() {
     let current = this.head;
 
     while (current) {

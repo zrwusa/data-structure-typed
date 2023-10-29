@@ -95,12 +95,12 @@ export class ObjectDeque<E = number> {
   }
 
   /**
-   * The function `pollFirst()` removes and returns the first element in a data structure.
+   * The function `popFirst()` removes and returns the first element in a data structure.
    * @returns The value of the first element in the data structure.
    */
-  pollFirst() {
+  popFirst() {
     if (!this._size) return;
-    const value = this.peekFirst();
+    const value = this.getFirst();
     delete this._nodes[this._first];
     this._first++;
     this._size--;
@@ -108,20 +108,20 @@ export class ObjectDeque<E = number> {
   }
 
   /**
-   * The `peekFirst` function returns the first element in an array-like data structure if it exists.
+   * The `getFirst` function returns the first element in an array-like data structure if it exists.
    * @returns The element at the first position of the `_nodes` array.
    */
-  peekFirst() {
+  getFirst() {
     if (this._size) return this._nodes[this._first];
   }
 
   /**
-   * The `pollLast()` function removes and returns the last element in a data structure.
+   * The `popLast()` function removes and returns the last element in a data structure.
    * @returns The value that was removed from the data structure.
    */
-  pollLast() {
+  popLast() {
     if (!this._size) return;
-    const value = this.peekLast();
+    const value = this.getLast();
     delete this._nodes[this._last];
     this._last--;
     this._size--;
@@ -130,10 +130,10 @@ export class ObjectDeque<E = number> {
   }
 
   /**
-   * The `peekLast()` function returns the last element in an array-like data structure.
+   * The `getLast()` function returns the last element in an array-like data structure.
    * @returns The last element in the array "_nodes" is being returned.
    */
-  peekLast() {
+  getLast() {
     if (this._size) return this._nodes[this._last];
   }
 
@@ -188,19 +188,19 @@ export class ArrayDeque<E> {
   }
 
   /**
-   * The function "pollLast" returns and removes the last element from an array, or returns null if the array is empty.
-   * @returns The method `pollLast()` returns the last element of the `_nodes` array, or `null` if the array is empty.
+   * The function "popLast" returns and removes the last element from an array, or returns null if the array is empty.
+   * @returns The method `popLast()` returns the last element of the `_nodes` array, or `null` if the array is empty.
    */
-  pollLast(): E | null {
+  popLast(): E | null {
     return this._nodes.pop() ?? null;
   }
 
   /**
-   * The `pollFirst` function removes and returns the first element from an array, or returns null if the array is empty.
-   * @returns The `pollFirst()` function returns the first element of the `_nodes` array, or `null` if the array is
+   * The `popFirst` function removes and returns the first element from an array, or returns null if the array is empty.
+   * @returns The `popFirst()` function returns the first element of the `_nodes` array, or `null` if the array is
    * empty.
    */
-  pollFirst(): E | null {
+  popFirst(): E | null {
     return this._nodes.shift() ?? null;
   }
 
@@ -219,19 +219,19 @@ export class ArrayDeque<E> {
   }
 
   /**
-   * The `peekFirst` function returns the first element of an array or null if the array is empty.
-   * @returns The function `peekFirst()` is returning the first element (`E`) of the `_nodes` array. If the array is
+   * The `getFirst` function returns the first element of an array or null if the array is empty.
+   * @returns The function `getFirst()` is returning the first element (`E`) of the `_nodes` array. If the array is
    * empty, it will return `null`.
    */
-  peekFirst(): E | null {
+  getFirst(): E | null {
     return this._nodes[0] ?? null;
   }
 
   /**
-   * The `peekLast` function returns the last element of an array or null if the array is empty.
-   * @returns The method `peekLast()` returns the last element of the `_nodes` array, or `null` if the array is empty.
+   * The `getLast` function returns the last element of an array or null if the array is empty.
+   * @returns The method `getLast()` returns the last element of the `_nodes` array, or `null` if the array is empty.
    */
-  peekLast(): E | null {
+  getLast(): E | null {
     return this._nodes[this._nodes.length - 1] ?? null;
   }
 

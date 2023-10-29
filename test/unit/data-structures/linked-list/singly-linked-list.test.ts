@@ -362,8 +362,8 @@ describe('SinglyLinkedList Operation Test', () => {
     const insertSuccess = objectList.insertBefore(obj2, newObj);
     expect(insertSuccess).toBe(true);
 
-    const findNode = objectList.findNode(newObj); // Use newObj instead of obj2
-    expect(findNode?.val).toEqual(newObj);
+    const getNode = objectList.getNode(newObj); // Use newObj instead of obj2
+    expect(getNode?.val).toEqual(newObj);
 
     const deleted = objectList.delete(newObj); // Use newObj instead of obj2
     expect(deleted).toBe(true);

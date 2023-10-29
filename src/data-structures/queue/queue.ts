@@ -123,11 +123,11 @@ export class Queue<E = any> {
   }
 
   /**
-   * The `peekLast` function returns the last element in an array-like data structure, or null if the structure is empty.
-   * @returns The method `peekLast()` returns the last element of the `_nodes` array if the array is not empty. If the
+   * The `getLast` function returns the last element in an array-like data structure, or null if the structure is empty.
+   * @returns The method `getLast()` returns the last element of the `_nodes` array if the array is not empty. If the
    * array is empty, it returns `null`.
    */
-  peekLast(): E | undefined {
+  getLast(): E | undefined {
     return this.size > 0 ? this.nodes[this.nodes.length - 1] : undefined;
   }
 
