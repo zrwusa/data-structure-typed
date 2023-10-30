@@ -92,52 +92,57 @@ describe('DirectedGraph Operation Test', () => {
   });
 });
 
-class MyVertex<V extends string> extends DirectedVertex<V> {
+class MyVertex<V = any> extends DirectedVertex<V> {
   constructor(key: VertexKey, val?: V) {
     super(key, val);
     this._data = val;
   }
 
-  private _data: string | undefined;
+  private _data: V | undefined;
 
-  get data(): string | undefined {
+  get data(): V | undefined {
     return this._data;
   }
 
-  set data(value: string | undefined) {
+  set data(value: V | undefined) {
     this._data = value;
   }
 }
 
-class MyEdge<E extends string> extends DirectedEdge<E> {
+class MyEdge<E = any> extends DirectedEdge<E> {
   constructor(v1: VertexKey, v2: VertexKey, weight?: number, val?: E) {
     super(v1, v2, weight, val);
     this._data = val;
   }
 
-  private _data: string | undefined;
+  private _data: E | undefined;
 
-  get data(): string | undefined {
+  get data(): E | undefined {
     return this._data;
   }
 
-  set data(value: string | undefined) {
+  set data(value: E | undefined) {
     this._data = value;
   }
 }
 
-class MyDirectedGraph<V extends MyVertex<string>, E extends MyEdge<string>> extends DirectedGraph<V, E> {
-  createVertex(key: VertexKey, val: V['val']): V {
-    return new MyVertex(key, val) as V;
+class MyDirectedGraph<
+  V = any,
+  E = any,
+  VO extends MyVertex<V> = MyVertex<V>,
+  EO extends MyEdge<E> = MyEdge<E>
+> extends DirectedGraph<V, E, VO, EO> {
+  createVertex(key: VertexKey, val: V): VO {
+    return new MyVertex(key, val) as VO;
   }
 
-  createEdge(src: VertexKey, dest: VertexKey, weight?: number, val?: E['val']): E {
-    return new MyEdge(src, dest, weight ?? 1, val) as E;
+  createEdge(src: VertexKey, dest: VertexKey, weight?: number, val?: E): EO {
+    return new MyEdge(src, dest, weight ?? 1, val) as EO;
   }
 }
 
 describe('Inherit from DirectedGraph and perform operations', () => {
-  let myGraph = new MyDirectedGraph<MyVertex<string>, MyEdge<string>>();
+  let myGraph = new MyDirectedGraph<string, string>();
   beforeEach(() => {
     myGraph = new MyDirectedGraph();
   });
@@ -234,7 +239,7 @@ describe('Inherit from DirectedGraph and perform operations', () => {
 });
 
 describe('Inherit from DirectedGraph and perform operations test2.', () => {
-  const myGraph = new MyDirectedGraph<MyVertex<string>, MyEdge<string>>();
+  const myGraph = new MyDirectedGraph<string, string>();
 
   it('should test graph operations', () => {
     const vertex1 = new MyVertex(1, 'data1');

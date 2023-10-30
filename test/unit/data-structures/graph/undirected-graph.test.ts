@@ -59,11 +59,11 @@ describe('UndirectedGraph Operation Test', () => {
 });
 
 describe('UndirectedGraph', () => {
-  let undirectedGraph: UndirectedGraph<UndirectedVertex<string>, UndirectedEdge<string>>;
+  let undirectedGraph: UndirectedGraph<string, string>;
 
   beforeEach(() => {
     // Create a new UndirectedGraph instance before each test
-    undirectedGraph = new UndirectedGraph<UndirectedVertex<string>, UndirectedEdge<string>>();
+    undirectedGraph = new UndirectedGraph<string, string>();
   });
 
   // Test adding vertices to the graph

@@ -4,17 +4,17 @@ describe('MapGraph Operation Test', () => {
   it('dijkstra shortest path', () => {
     const mapGraph = new MapGraph([5.500338, 100.173665]);
 
-    mapGraph.addVertex(new MapVertex('Surin', 5.466724, 100.274805));
-    mapGraph.addVertex(new MapVertex('Batu Feringgi Beach', 5.475141, 100.27667));
-    mapGraph.addVertex(new MapVertex('Lotus', 5.459044, 100.308767));
-    mapGraph.addVertex(new MapVertex('The Breeza', 5.454197, 100.307859));
-    mapGraph.addVertex(new MapVertex('Hard Rock Hotel', 5.46785, 100.241876));
-    mapGraph.addVertex(new MapVertex('Mira', 5.456749, 100.28665));
-    mapGraph.addVertex(new MapVertex('Penang Bible Church', 5.428683, 100.314825));
-    mapGraph.addVertex(new MapVertex('Queensbay', 5.33276, 100.306651));
-    mapGraph.addVertex(new MapVertex('Saanen Goat Farm', 5.405738, 100.207699));
-    mapGraph.addVertex(new MapVertex('Trinity Auto', 5.401126, 100.303739));
-    mapGraph.addVertex(new MapVertex('Penang Airport', 5.293185, 100.265772));
+    mapGraph.addVertex(new MapVertex('Surin', '', 5.466724, 100.274805));
+    mapGraph.addVertex(new MapVertex('Batu Feringgi Beach', '', 5.475141, 100.27667));
+    mapGraph.addVertex(new MapVertex('Lotus', '', 5.459044, 100.308767));
+    mapGraph.addVertex(new MapVertex('The Breeza', '', 5.454197, 100.307859));
+    mapGraph.addVertex(new MapVertex('Hard Rock Hotel', '', 5.46785, 100.241876));
+    mapGraph.addVertex(new MapVertex('Mira', '', 5.456749, 100.28665));
+    mapGraph.addVertex(new MapVertex('Penang Bible Church', '', 5.428683, 100.314825));
+    mapGraph.addVertex(new MapVertex('Queensbay', '', 5.33276, 100.306651));
+    mapGraph.addVertex(new MapVertex('Saanen Goat Farm', '', 5.405738, 100.207699));
+    mapGraph.addVertex(new MapVertex('Trinity Auto', '', 5.401126, 100.303739));
+    mapGraph.addVertex(new MapVertex('Penang Airport', '', 5.293185, 100.265772));
     mapGraph.addEdge('Surin', 'Lotus', 4.7);
     mapGraph.addEdge('Lotus', 'The Breeza', 1);
     mapGraph.addEdge('Batu Feringgi Beach', 'Hard Rock Hotel', 5.2);
@@ -45,17 +45,17 @@ describe('MapGraph Operation Test', () => {
 });
 
 describe('MapGraph', () => {
-  let mapGraph: MapGraph;
+  let mapGraph: MapGraph<string, string>;
 
   beforeEach(() => {
     // Create a new MapGraph instance before each test
-    mapGraph = new MapGraph([0, 0], [100, 100]);
+    mapGraph = new MapGraph<string, string>([0, 0], [100, 100]);
   });
 
   // Test adding vertices to the graph
   it('should add vertices to the graph', () => {
-    const locationA = new MapVertex('A', 10, 20, 'Location A');
-    const locationB = new MapVertex('B', 30, 40, 'Location B');
+    const locationA = new MapVertex('A', 'Location A', 10, 20);
+    const locationB = new MapVertex('B', 'Location B', 30, 40);
 
     mapGraph.addVertex(locationA);
     mapGraph.addVertex(locationB);
@@ -66,8 +66,8 @@ describe('MapGraph', () => {
 
   // Test adding edges to the graph
   it('should add edges to the graph', () => {
-    const locationA = new MapVertex('A', 10, 20, 'Location A');
-    const locationB = new MapVertex('B', 30, 40, 'Location B');
+    const locationA = new MapVertex('A', 'Location A', 10, 20);
+    const locationB = new MapVertex('B', 'Location B', 30, 40);
     const edgeAB = new MapEdge('A', 'B', 50, 'Edge from A to B');
 
     mapGraph.addVertex(locationA);
@@ -79,12 +79,12 @@ describe('MapGraph', () => {
 
   // Test getting neighbors of a vertex
   it('should return the neighbors of a vertex', () => {
-    const locationA = new MapVertex('A', 10, 20, 'Location A');
+    const locationA = new MapVertex('A', 'Location A', 10, 20);
     locationA.lat = locationA.lat;
     locationA.long = locationA.long;
-    const locationB = mapGraph.createVertex('B', 30, 40, 'Location B');
+    const locationB = mapGraph.createVertex('B', 'Location B', 30, 40);
 
-    const locationC = new MapVertex('C', 50, 60, 'Location C');
+    const locationC = new MapVertex('C', 'Location C', 50, 60);
     const edgeAB = new MapEdge('A', 'B', 50, 'Edge from A to B');
     const edgeBC = new MapEdge('B', 'C', 60, 'Edge from B to C');
 
@@ -106,9 +106,9 @@ describe('MapGraph', () => {
 
   // Test finding the shortest path between locations
   it('should find the shortest path between two locations', () => {
-    const locationA = new MapVertex('A', 10, 20, 'Location A');
-    const locationB = new MapVertex('B', 30, 40, 'Location B');
-    const locationC = new MapVertex('C', 50, 60, 'Location C');
+    const locationA = new MapVertex('A', 'Location A', 10, 20);
+    const locationB = new MapVertex('B', 'Location B', 30, 40);
+    const locationC = new MapVertex('C', 'Location C', 50, 60);
     const edgeAB = new MapEdge('A', 'B', 50, 'Edge from A to B');
     const edgeBC = new MapEdge('B', 'C', 60, 'Edge from B to C');
 

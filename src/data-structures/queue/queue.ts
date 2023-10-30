@@ -5,7 +5,7 @@
  */
 import {SinglyLinkedList} from '../linked-list';
 
-export class LinkedListQueue<E = any> extends SinglyLinkedList<E> {
+export class SkipQueue<E = any> extends SinglyLinkedList<E> {
   /**
    * The enqueue function adds a value to the end of an array.
    * @param {E} value - The value parameter represents the value that you want to add to the queue.

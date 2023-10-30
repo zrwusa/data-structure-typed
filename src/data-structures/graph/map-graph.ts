@@ -14,7 +14,7 @@ export class MapVertex<V = any> extends DirectedVertex<V> {
    * @param {V} [val] - The "val" parameter is an optional value of type V. It is not required to be provided when
    * creating an instance of the class.
    */
-  constructor(key: VertexKey, lat: number, long: number, val?: V) {
+  constructor(key: VertexKey, val: V, lat: number, long: number) {
     super(key, val);
     this._lat = lat;
     this._long = long;
@@ -41,7 +41,7 @@ export class MapVertex<V = any> extends DirectedVertex<V> {
   }
 }
 
-export class MapEdge<V = any> extends DirectedEdge<V> {
+export class MapEdge<E = any> extends DirectedEdge<E> {
   /**
    * The constructor function initializes a new instance of a class with the given source, destination, weight, and
    * value.
@@ -49,18 +49,20 @@ export class MapEdge<V = any> extends DirectedEdge<V> {
    * a graph.
    * @param {VertexKey} dest - The `dest` parameter is the identifier of the destination vertex for an edge.
    * @param {number} [weight] - The weight parameter is an optional number that represents the weight of the edge.
-   * @param {V} [val] - The "val" parameter is an optional parameter of type V. It is used to store additional
+   * @param {E} [val] - The "val" parameter is an optional parameter of type E. It is used to store additional
    * information or data associated with the edge.
    */
-  constructor(src: VertexKey, dest: VertexKey, weight?: number, val?: V) {
+  constructor(src: VertexKey, dest: VertexKey, weight?: number, val?: E) {
     super(src, dest, weight, val);
   }
 }
 
-export class MapGraph<V extends MapVertex<V['val']> = MapVertex, E extends MapEdge = MapEdge> extends DirectedGraph<
-  V,
-  E
-> {
+export class MapGraph<
+  V = any,
+  E = any,
+  VO extends MapVertex<V> = MapVertex<V>,
+  EO extends MapEdge<E> = MapEdge<E>
+> extends DirectedGraph<V, E, VO, EO> {
   /**
    * The constructor function initializes the origin and bottomRight properties of a MapGraphCoordinate object.
    * @param {MapGraphCoordinate} origin - The `origin` parameter is a `MapGraphCoordinate` object that represents the
@@ -101,19 +103,14 @@ export class MapGraph<V extends MapVertex<V['val']> = MapVertex, E extends MapEd
    * @param {VertexKey} key - The key parameter is the unique identifier for the vertex. It is of type VertexKey, which could
    * be a string or a number depending on how you define it in your code.
    * @param [val] - The `val` parameter is an optional value that can be assigned to the `val` property of the vertex. It
-   * is of type `V['val']`, which means it should be of the same type as the `val` property of the vertex class `V`.
+   * is of type `V`, which means it should be of the same type as the `val` property of the vertex class `VO`.
    * @param {number} lat - The `lat` parameter represents the latitude of the vertex. It is a number that specifies the
    * position of the vertex on the Earth's surface in the north-south direction.
    * @param {number} long - The `long` parameter represents the longitude coordinate of the vertex.
-   * @returns The method is returning a new instance of the `MapVertex` class, casted as type `V`.
+   * @returns The method is returning a new instance of the `MapVertex` class, casted as type `VO`.
    */
-  override createVertex(
-    key: VertexKey,
-    lat: number = this.origin[0],
-    long: number = this.origin[1],
-    val?: V['val']
-  ): V {
-    return new MapVertex(key, lat, long, val) as V;
+  override createVertex(key: VertexKey, val?: V, lat: number = this.origin[0], long: number = this.origin[1]): VO {
+    return new MapVertex(key, val, lat, long) as VO;
   }
 
   /**
@@ -126,9 +123,9 @@ export class MapGraph<V extends MapVertex<V['val']> = MapVertex, E extends MapEd
    * If the weight is not provided, it can be set to a default value or left undefined.
    * @param [val] - The `val` parameter is an optional value that can be assigned to the edge. It can be of any type,
    * depending on the specific implementation of the `MapEdge` class.
-   * @returns a new instance of the `MapEdge` class, cast as type `E`.
+   * @returns a new instance of the `MapEdge` class, cast as type `EO`.
    */
-  override createEdge(src: VertexKey, dest: VertexKey, weight?: number, val?: E['val']): E {
-    return new MapEdge(src, dest, weight, val) as E;
+  override createEdge(src: VertexKey, dest: VertexKey, weight?: number, val?: E): EO {
+    return new MapEdge(src, dest, weight, val) as EO;
   }
 }
