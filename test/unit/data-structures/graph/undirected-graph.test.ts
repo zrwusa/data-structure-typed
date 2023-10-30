@@ -7,6 +7,14 @@ describe('UndirectedGraph Operation Test', () => {
     graph = new UndirectedGraph();
   });
 
+  it('should edge cases', () => {
+    expect(graph.deleteEdge(new UndirectedEdge('c', 'd'))).toBe(null);
+    expect(graph.deleteEdgeBetween('c', 'd')).toBe(null);
+    expect(graph.degreeOf('c')).toBe(0);
+    expect(graph.edgesOf('c').length).toBe(0);
+    expect(graph.getEndsOfEdge(new UndirectedEdge('c', 'd'))).toBe(null);
+  });
+
   it('should add vertices', () => {
     const vertex1 = new UndirectedVertex('A');
     const vertex2 = new UndirectedVertex('B');

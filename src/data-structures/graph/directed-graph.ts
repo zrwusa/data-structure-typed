@@ -129,13 +129,13 @@ export class DirectedGraph<
 
   /**
    * The `getEdge` function retrieves an edge between two vertices based on their source and destination IDs.
-   * @param {VO | null | VertexKey} srcOrKey - The source vertex or its ID. It can be either a vertex object or a vertex ID.
-   * @param {VO | null | VertexKey} destOrKey - The `destOrKey` parameter in the `getEdge` function represents the
+   * @param {VO | VertexKey | null} srcOrKey - The source vertex or its ID. It can be either a vertex object or a vertex ID.
+   * @param {VO | VertexKey | null} destOrKey - The `destOrKey` parameter in the `getEdge` function represents the
    * destination vertex of the edge. It can be either a vertex object (`VO`), a vertex ID (`VertexKey`), or `null` if the
    * destination is not specified.
    * @returns the first edge found between the source and destination vertices, or null if no such edge is found.
    */
-  getEdge(srcOrKey: VO | null | VertexKey, destOrKey: VO | null | VertexKey): EO | null {
+  getEdge(srcOrKey: VO | VertexKey | null, destOrKey: VO | VertexKey | null): EO | null {
     let edges: EO[] = [];
 
     if (srcOrKey !== null && destOrKey !== null) {
