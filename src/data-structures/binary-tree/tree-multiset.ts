@@ -268,7 +268,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
    * @param callback - The `callback` parameter is a function that takes a node as input and returns a
    * value. This value is compared with the `identifier` parameter to determine if the node should be
    * included in the result. The `callback` parameter has a default value of
-   * `this._defaultCallbackByKey`
+   * `((node: N) => node.key)`
    * @param [ignoreCount=false] - A boolean flag indicating whether to ignore the count of the node
    * being deleted. If set to true, the count of the node will not be considered and the node will be
    * deleted regardless of its count. If set to false (default), the count of the node will be
@@ -277,7 +277,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
    */
   override delete<C extends BTNCallback<N>>(
     identifier: ReturnType<C>,
-    callback: C = this._defaultCallbackByKey as C,
+    callback: C = ((node: N) => node.key) as C,
     ignoreCount = false
   ): BinaryTreeDeletedResult<N>[] {
     const bstDeletedResult: BinaryTreeDeletedResult<N>[] = [];

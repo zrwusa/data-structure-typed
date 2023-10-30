@@ -480,7 +480,6 @@ describe('BinaryTree', () => {
     tree.delete(5);
     tree.delete(7);
     tree.delete(3);
-
     expect(tree.root).toBe(null);
     expect(tree.getHeight()).toBe(-1);
   });

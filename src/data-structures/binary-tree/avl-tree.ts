@@ -71,13 +71,14 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    * @param callback - The `callback` parameter is a function that takes a node as input and returns a
    * value. This value is compared with the `identifier` parameter to determine if the node should be
    * included in the result. The `callback` parameter has a default value of
-   * `this._defaultCallbackByKey`
+   * `((node: N) => node.key)`
    * @returns The method is returning an array of `BinaryTreeDeletedResult<N>` objects.
    */
   override delete<C extends BTNCallback<N>>(
     identifier: ReturnType<C>,
-    callback: C = this._defaultCallbackByKey as C
+    callback: C = ((node: N) => node.key) as C
   ): BinaryTreeDeletedResult<N>[] {
+    if ((identifier as any) instanceof AVLTreeNode) callback = (node => node) as C;
     const deletedResults = super.delete(identifier, callback);
     for (const {needBalanced} of deletedResults) {
       if (needBalanced) {
