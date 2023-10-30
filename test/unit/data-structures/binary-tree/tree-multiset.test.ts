@@ -26,7 +26,7 @@ describe('TreeMultiset operations test', () => {
     const nodeId10 = treeMultiset.get(10);
     expect(nodeId10?.key).toBe(10);
 
-    const nodeVal9 = treeMultiset.get(9, node => node.val);
+    const nodeVal9 = treeMultiset.get(9, node => node.value);
     expect(nodeVal9?.key).toBe(9);
 
     const nodesByCount1 = treeMultiset.getNodes(1, node => node.count);
@@ -266,7 +266,7 @@ describe('TreeMultiset operations test recursively', () => {
     const nodeId10 = treeMultiset.get(10);
     expect(nodeId10?.key).toBe(10);
 
-    const nodeVal9 = treeMultiset.get(9, node => node.val);
+    const nodeVal9 = treeMultiset.get(9, node => node.value);
     expect(nodeVal9?.key).toBe(9);
 
     const nodesByCount1 = treeMultiset.getNodes(1, node => node.count);

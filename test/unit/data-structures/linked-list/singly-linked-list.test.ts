@@ -4,9 +4,9 @@ import {bigO, magnitude} from '../../../utils';
 describe('SinglyLinkedListNode', () => {
   it('should SinglyLinkedList', () => {
     const node1 = new SinglyLinkedListNode<number>(2);
-    expect(node1.val).toBe(2);
-    node1.val = 1;
-    expect(node1.val).toBe(1);
+    expect(node1.value).toBe(2);
+    node1.value = 1;
+    expect(node1.value).toBe(1);
   });
 });
 
@@ -75,7 +75,7 @@ describe('SinglyLinkedList Operation Test', () => {
       list.push(3);
       const element = list.getAt(1);
       expect(element).toBe(2);
-      expect(list.getNodeAt(2)?.val).toBe(3);
+      expect(list.getNodeAt(2)?.value).toBe(3);
     });
 
     it('should return undefined for an out-of-bounds index', () => {
@@ -382,7 +382,7 @@ describe('SinglyLinkedList Operation Test', () => {
     expect(insertSuccess).toBe(true);
 
     const getNode = objectList.getNode(newObj); // Use newObj instead of obj2
-    expect(getNode?.val).toEqual(newObj);
+    expect(getNode?.value).toEqual(newObj);
 
     const deleted = objectList.delete(newObj); // Use newObj instead of obj2
     expect(deleted).toBe(true);
@@ -431,8 +431,8 @@ describe('SinglyLinkedList', () => {
   it('should push elements to the end of the list', () => {
     list.push(1);
     list.push(2);
-    expect(list.head!.val).toBe(1);
-    expect(list.tail!.val).toBe(2);
+    expect(list.head!.value).toBe(1);
+    expect(list.tail!.value).toBe(2);
     expect(list.length).toBe(2);
   });
 
@@ -441,8 +441,8 @@ describe('SinglyLinkedList', () => {
     list.push(2);
     const popped = list.pop();
     expect(popped).toBe(2);
-    expect(list.head!.val).toBe(1);
-    expect(list.tail!.val).toBe(1);
+    expect(list.head!.value).toBe(1);
+    expect(list.tail!.value).toBe(1);
     expect(list.length).toBe(1);
   });
 
@@ -451,8 +451,8 @@ describe('SinglyLinkedList', () => {
     list.push(2);
     list.push(3);
     list.reverse();
-    expect(list.head!.val).toBe(3);
-    expect(list.tail!.val).toBe(1);
+    expect(list.head!.value).toBe(3);
+    expect(list.tail!.value).toBe(1);
     // Add more assertions for reversed order.
   });
 
@@ -470,14 +470,14 @@ describe('SinglyLinkedList', () => {
     list.push(1);
     list.push(2);
     list.push(3);
-    expect(list.filter(val => val !== 2).toArray()).toEqual([1, 3]);
+    expect(list.filter(value => value !== 2).toArray()).toEqual([1, 3]);
   });
 
   it('should forEach the list', () => {
     list.push(1);
     list.push(2);
     list.push(3);
-    list.forEach(val => val++);
+    list.forEach(value => value++);
     expect(list.toArray()).toEqual([1, 2, 3]);
   });
 
@@ -485,11 +485,11 @@ describe('SinglyLinkedList', () => {
     list.addLast(1);
     list.push(2);
     list.push(3);
-    expect(list.map(val => val * 2).toArray()).toEqual([2, 4, 6]);
+    expect(list.map(value => value * 2).toArray()).toEqual([2, 4, 6]);
   });
 
   it('should reduce the list', () => {
     const list1 = SinglyLinkedList.fromArray([1, 2, 3]);
-    expect(list1.reduce((acc, val) => acc + val, 0)).toEqual(6);
+    expect(list1.reduce((acc, value) => acc + value, 0)).toEqual(6);
   });
 });

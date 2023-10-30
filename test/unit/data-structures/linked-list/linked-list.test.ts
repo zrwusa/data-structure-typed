@@ -26,7 +26,7 @@ describe('LinkedList Performance Test', () => {
       if (i === midIndex) {
         midSinglyNode = singlyList.getNode(i);
       } else if (i > midIndex && midSinglyNode) {
-        singlyList.insertBefore(midSinglyNode.val, i);
+        singlyList.insertBefore(midSinglyNode.value, i);
       }
     }
 

@@ -15,11 +15,11 @@ export class UndirectedVertex<V = any> extends AbstractVertex<V> {
    * The constructor function initializes a vertex with an optional value.
    * @param {VertexKey} key - The `key` parameter is of type `VertexKey` and represents the identifier of the vertex. It is
    * used to uniquely identify the vertex within a graph or network.
-   * @param {V} [val] - The "val" parameter is an optional parameter of type V. It is used to initialize the value of the
+   * @param {V} [value] - The "value" parameter is an optional parameter of type V. It is used to initialize the value of the
    * vertex. If no value is provided, the vertex will be initialized with a default value.
    */
-  constructor(key: VertexKey, val?: V) {
-    super(key, val);
+  constructor(key: VertexKey, value?: V) {
+    super(key, value);
   }
 }
 
@@ -31,11 +31,11 @@ export class UndirectedEdge<E = number> extends AbstractEdge<E> {
    * @param {VertexKey} v2 - The parameter `v2` is a `VertexKey`, which represents the identifier of the second vertex in a
    * graph edge.
    * @param {number} [weight] - The weight parameter is an optional number that represents the weight of the edge.
-   * @param {E} [val] - The "val" parameter is an optional parameter of type E. It is used to store a value associated
+   * @param {E} [value] - The "value" parameter is an optional parameter of type E. It is used to store a value associated
    * with the edge.
    */
-  constructor(v1: VertexKey, v2: VertexKey, weight?: number, val?: E) {
-    super(weight, val);
+  constructor(v1: VertexKey, v2: VertexKey, weight?: number, value?: E) {
+    super(weight, value);
     this._vertices = [v1, v2];
   }
 
@@ -77,13 +77,13 @@ export class UndirectedGraph<
    * The function creates a new vertex with an optional value and returns it.
    * @param {VertexKey} key - The `key` parameter is the unique identifier for the vertex. It is used to distinguish one
    * vertex from another in the graph.
-   * @param [val] - The `val` parameter is an optional value that can be assigned to the vertex. If a value is provided,
+   * @param [value] - The `value` parameter is an optional value that can be assigned to the vertex. If a value is provided,
    * it will be used as the value of the vertex. If no value is provided, the `key` parameter will be used as the value of
    * the vertex.
    * @returns The method is returning a new instance of the `UndirectedVertex` class, casted as type `VO`.
    */
-  override createVertex(key: VertexKey, val?: VO['val']): VO {
-    return new UndirectedVertex(key, val ?? key) as VO;
+  override createVertex(key: VertexKey, value?: VO['value']): VO {
+    return new UndirectedVertex(key, value ?? key) as VO;
   }
 
   /**
@@ -92,12 +92,12 @@ export class UndirectedGraph<
    * @param {VertexKey} v2 - The parameter `v2` represents the second vertex of the edge.
    * @param {number} [weight] - The `weight` parameter is an optional number that represents the weight of the edge. If
    * no weight is provided, it defaults to 1.
-   * @param [val] - The `val` parameter is an optional value that can be assigned to the edge. It can be of any type and
+   * @param [value] - The `value` parameter is an optional value that can be assigned to the edge. It can be of any type and
    * is used to store additional information or data associated with the edge.
    * @returns a new instance of the `UndirectedEdge` class, which is casted as type `EO`.
    */
-  override createEdge(v1: VertexKey, v2: VertexKey, weight?: number, val?: EO['val']): EO {
-    return new UndirectedEdge(v1, v2, weight ?? 1, val) as EO;
+  override createEdge(v1: VertexKey, v2: VertexKey, weight?: number, value?: EO['value']): EO {
+    return new UndirectedEdge(v1, v2, weight ?? 1, value) as EO;
   }
 
   /**

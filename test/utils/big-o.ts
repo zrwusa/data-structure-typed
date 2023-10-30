@@ -59,19 +59,19 @@ function findPotentialN(input: any): number {
 function linearRegression(x: number[], y: number[]) {
   const n = x.length;
 
-  const sumX = x.reduce((acc, val) => acc + val, 0);
-  const sumY = y.reduce((acc, val) => acc + val, 0);
+  const sumX = x.reduce((acc, value) => acc + value, 0);
+  const sumY = y.reduce((acc, value) => acc + value, 0);
 
-  const sumXSquared = x.reduce((acc, val) => acc + val ** 2, 0);
-  const sumXY = x.reduce((acc, val, i) => acc + val * y[i], 0);
+  const sumXSquared = x.reduce((acc, value) => acc + value ** 2, 0);
+  const sumXY = x.reduce((acc, value, i) => acc + value * y[i], 0);
 
   const slope = (n * sumXY - sumX * sumY) / (n * sumXSquared - sumX ** 2);
   const intercept = (sumY - slope * sumX) / n;
 
-  const yHat = x.map(val => slope * val + intercept);
+  const yHat = x.map(value => slope * value + intercept);
 
-  const totalVariation = y.map((val, i) => (val - yHat[i]) ** 2).reduce((acc, val) => acc + val, 0);
-  const explainedVariation = y.map(val => (val - sumY / n) ** 2).reduce((acc, val) => acc + val, 0);
+  const totalVariation = y.map((value, i) => (value - yHat[i]) ** 2).reduce((acc, value) => acc + value, 0);
+  const explainedVariation = y.map(value => (value - sumY / n) ** 2).reduce((acc, value) => acc + value, 0);
 
   const rSquared = 1 - totalVariation / explainedVariation;
 

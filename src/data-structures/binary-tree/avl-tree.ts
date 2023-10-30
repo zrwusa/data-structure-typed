@@ -13,8 +13,8 @@ import {IBinaryTree} from '../../interfaces';
 export class AVLTreeNode<V = any, N extends AVLTreeNode<V, N> = AVLTreeNodeNested<V>> extends BSTNode<V, N> {
   height: number;
 
-  constructor(key: BTNKey, val?: V) {
-    super(key, val);
+  constructor(key: BTNKey, value?: V) {
+    super(key, value);
     this.height = 0;
   }
 }
@@ -37,13 +37,13 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    * The function creates a new AVL tree node with the specified key and value.
    * @param {BTNKey} key - The key parameter is the key value that will be associated with
    * the new node. It is used to determine the position of the node in the binary search tree.
-   * @param [val] - The parameter `val` is an optional value that can be assigned to the node. It is of
-   * type `V`, which means it can be any value that is assignable to the `val` property of the
+   * @param [value] - The parameter `value` is an optional value that can be assigned to the node. It is of
+   * type `V`, which means it can be any value that is assignable to the `value` property of the
    * node type `N`.
    * @returns a new AVLTreeNode object with the specified key and value.
    */
-  override createNode(key: BTNKey, val?: V): N {
-    return new AVLTreeNode<V, N>(key, val) as N;
+  override createNode(key: BTNKey, value?: V): N {
+    return new AVLTreeNode<V, N>(key, value) as N;
   }
 
   /**
@@ -51,13 +51,13 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    * a new node.
    * @param {BTNKey | N | null} keyOrNode - The `keyOrNode` parameter can accept either a
    * `BTNKey` or a `N` (which represents a node in the binary tree) or `null`.
-   * @param [val] - The `val` parameter is the value that you want to assign to the new node that you
+   * @param [value] - The `value` parameter is the value that you want to assign to the new node that you
    * are adding to the binary search tree.
    * @returns The method is returning the inserted node (`N`), `null`, or `undefined`.
    */
-  override add(keyOrNode: BTNKey | N | null, val?: V): N | null | undefined {
+  override add(keyOrNode: BTNKey | N | null, value?: V): N | null | undefined {
     // TODO support node as a param
-    const inserted = super.add(keyOrNode, val);
+    const inserted = super.add(keyOrNode, value);
     if (inserted) this._balancePath(inserted);
     return inserted;
   }
@@ -97,18 +97,18 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    * @returns The method is returning the `destNode` after swapping its properties with the `srcNode`.
    */
   protected override _swap(srcNode: N, destNode: N): N {
-    const {key, val, height} = destNode;
-    const tempNode = this.createNode(key, val);
+    const {key, value, height} = destNode;
+    const tempNode = this.createNode(key, value);
 
     if (tempNode) {
       tempNode.height = height;
 
       destNode.key = srcNode.key;
-      destNode.val = srcNode.val;
+      destNode.value = srcNode.value;
       destNode.height = srcNode.height;
 
       srcNode.key = tempNode.key;
-      srcNode.val = tempNode.val;
+      srcNode.value = tempNode.value;
       srcNode.height = tempNode.height;
     }
 

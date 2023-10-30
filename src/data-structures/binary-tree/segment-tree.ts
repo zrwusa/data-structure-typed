@@ -9,11 +9,11 @@
 import type {SegmentTreeNodeVal} from '../../types';
 
 export class SegmentTreeNode {
-  constructor(start: number, end: number, sum: number, val?: SegmentTreeNodeVal | null) {
+  constructor(start: number, end: number, sum: number, value?: SegmentTreeNodeVal | null) {
     this._start = start;
     this._end = end;
     this._sum = sum;
-    this._val = val || null;
+    this._value = value || null;
   }
 
   private _start = 0;
@@ -35,14 +35,14 @@ export class SegmentTreeNode {
     this._end = v;
   }
 
-  private _val: SegmentTreeNodeVal | null = null;
+  private _value: SegmentTreeNodeVal | null = null;
 
-  get val(): SegmentTreeNodeVal | null {
-    return this._val;
+  get value(): SegmentTreeNodeVal | null {
+    return this._value;
   }
 
-  set val(v: SegmentTreeNodeVal | null) {
-    this._val = v;
+  set value(v: SegmentTreeNodeVal | null) {
+    this._value = v;
   }
 
   private _sum = 0;
@@ -154,30 +154,30 @@ export class SegmentTree {
    * updated.
    * @param {number} sum - The `sum` parameter represents the new value that should be assigned to the `sum` property of
    * the `SegmentTreeNode` at the specified `index`.
-   * @param {SegmentTreeNodeVal} [val] - The `val` parameter is an optional value that can be assigned to the `val`
+   * @param {SegmentTreeNodeVal} [value] - The `value` parameter is an optional value that can be assigned to the `value`
    * property of the `SegmentTreeNode` object. It is not currently used in the code, but you can uncomment the line `//
-   * cur.val = val;` and pass a value for `val` in the
+   * cur.value = value;` and pass a value for `value` in the
    * @returns The function does not return anything.
    */
-  updateNode(index: number, sum: number, val?: SegmentTreeNodeVal) {
+  updateNode(index: number, sum: number, value?: SegmentTreeNodeVal) {
     const root = this.root || null;
     if (!root) {
       return;
     }
-    const dfs = (cur: SegmentTreeNode, index: number, sum: number, val?: SegmentTreeNodeVal) => {
+    const dfs = (cur: SegmentTreeNode, index: number, sum: number, value?: SegmentTreeNodeVal) => {
       if (cur.start === cur.end && cur.start === index) {
         cur.sum = sum;
-        if (val !== undefined) cur.val = val;
+        if (value !== undefined) cur.value = value;
         return;
       }
       const mid = cur.start + Math.floor((cur.end - cur.start) / 2);
       if (index <= mid) {
         if (cur.left) {
-          dfs(cur.left, index, sum, val);
+          dfs(cur.left, index, sum, value);
         }
       } else {
         if (cur.right) {
-          dfs(cur.right, index, sum, val);
+          dfs(cur.right, index, sum, value);
         }
       }
       if (cur.left && cur.right) {
@@ -185,7 +185,7 @@ export class SegmentTree {
       }
     };
 
-    dfs(root, index, sum, val);
+    dfs(root, index, sum, value);
   }
 
   /**

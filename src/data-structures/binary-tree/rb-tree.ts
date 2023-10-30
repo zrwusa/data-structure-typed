@@ -3,8 +3,8 @@ import {IBinaryTree} from '../../interfaces';
 import {BST, BSTNode} from './bst';
 
 export class RBTreeNode<V = any, N extends RBTreeNode<V, N> = RBTreeNodeNested<V>> extends BSTNode<V, N> {
-  constructor(key: BTNKey, val?: V) {
-    super(key, val);
+  constructor(key: BTNKey, value?: V) {
+    super(key, value);
     this._color = RBColor.RED;
   }
 
@@ -27,12 +27,12 @@ export class RBTree<V, N extends RBTreeNode<V, N> = RBTreeNode<V, RBTreeNodeNest
     super(options);
   }
 
-  override createNode(key: BTNKey, val?: V): N {
-    return new RBTreeNode(key, val) as N;
+  override createNode(key: BTNKey, value?: V): N {
+    return new RBTreeNode(key, value) as N;
   }
 
-  // override add(keyOrNode: BTNKey | N | null, val?: V): N | null | undefined {
-  //   const inserted = super.add(keyOrNode, val);
+  // override add(keyOrNode: BTNKey | N | null, value?: V): N | null | undefined {
+  //   const inserted = super.add(keyOrNode, value);
   //   if (inserted) this._fixInsertViolation(inserted);
   //   return inserted;
   // }

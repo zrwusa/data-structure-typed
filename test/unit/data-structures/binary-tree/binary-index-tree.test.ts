@@ -297,9 +297,9 @@ describe('', () => {
       }
     }
 
-    update(index: number, val: number): void {
-      this._tree.update(index + 1, val - this._nums[index]);
-      this._nums[index] = val;
+    update(index: number, value: number): void {
+      this._tree.update(index + 1, value - this._nums[index]);
+      this._nums[index] = value;
     }
 
     sumRange(left: number, right: number): number {

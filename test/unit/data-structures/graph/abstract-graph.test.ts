@@ -3,9 +3,9 @@ import {AbstractEdge, AbstractGraph, AbstractVertex, VertexKey} from '../../../.
 class MyVertex<V = any> extends AbstractVertex<V> {
   data?: V;
 
-  constructor(key: VertexKey, val?: V) {
-    super(key, val);
-    this.data = val;
+  constructor(key: VertexKey, value?: V) {
+    super(key, value);
+    this.data = value;
   }
 }
 
@@ -14,11 +14,11 @@ class MyEdge<E = any> extends AbstractEdge<E> {
   src: VertexKey;
   dest: VertexKey;
 
-  constructor(srcOrV1: VertexKey, destOrV2: VertexKey, weight?: number, val?: E) {
-    super(weight, val);
+  constructor(srcOrV1: VertexKey, destOrV2: VertexKey, weight?: number, value?: E) {
+    super(weight, value);
     this.src = srcOrV1;
     this.dest = destOrV2;
-    this.data = val;
+    this.data = value;
     this._setHashCode('');
   }
 }
@@ -29,12 +29,12 @@ class MyGraph<
   VO extends MyVertex<V> = MyVertex<V>,
   EO extends MyEdge<E> = MyEdge<E>
 > extends AbstractGraph<V, E, VO, EO> {
-  createVertex(key: VertexKey, val?: V): VO {
-    return new MyVertex(key, val) as VO;
+  createVertex(key: VertexKey, value?: V): VO {
+    return new MyVertex(key, value) as VO;
   }
 
-  createEdge(srcOrV1: VertexKey, destOrV2: VertexKey, weight?: number, val?: E): EO {
-    return new MyEdge(srcOrV1, destOrV2, weight, val) as EO;
+  createEdge(srcOrV1: VertexKey, destOrV2: VertexKey, weight?: number, value?: E): EO {
+    return new MyEdge(srcOrV1, destOrV2, weight, value) as EO;
   }
 
   deleteEdge(edge: EO): EO | null {
@@ -92,9 +92,9 @@ describe('AbstractGraph Operation Test', () => {
     // const eBC = new MyEdge('B', 'C');
     // const eCD = new MyEdge('C', 'D');
     vA!.key = vA?.key || 1;
-    vA!.val = vA?.val ?? 2;
+    vA!.value = vA?.value ?? 2;
 
-    eAB!.val = eAB.val;
+    eAB!.value = eAB.value;
     const hs = eAB.hashCode;
 
     expect(hs).toBe('');

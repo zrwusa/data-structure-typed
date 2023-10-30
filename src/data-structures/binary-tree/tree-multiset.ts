@@ -20,14 +20,14 @@ export class TreeMultisetNode<
    * The constructor function initializes a BinaryTreeNode object with a key, value, and count.
    * @param {BTNKey} key - The `key` parameter is of type `BTNKey` and represents the unique identifier
    * of the binary tree node.
-   * @param {V} [val] - The `val` parameter is an optional parameter of type `V`. It represents the value of the binary
+   * @param {V} [value] - The `value` parameter is an optional parameter of type `V`. It represents the value of the binary
    * tree node. If no value is provided, it will be `undefined`.
    * @param {number} [count=1] - The `count` parameter is a number that represents the number of times a particular value
    * occurs in a binary tree node. It has a default value of 1, which means that if no value is provided for the `count`
    * parameter when creating a new instance of the `BinaryTreeNode` class.
    */
-  constructor(key: BTNKey, val?: V, count = 1) {
-    super(key, val);
+  constructor(key: BTNKey, value?: V, count = 1) {
+    super(key, value);
     this.count = count;
   }
 }
@@ -59,13 +59,13 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
    * The function creates a new BSTNode with the given key, value, and count.
    * @param {BTNKey} key - The key parameter is the unique identifier for the binary tree node. It is used to
    * distinguish one node from another in the tree.
-   * @param {N} val - The `val` parameter represents the value that will be stored in the binary search tree node.
+   * @param {N} value - The `value` parameter represents the value that will be stored in the binary search tree node.
    * @param {number} [count] - The "count" parameter is an optional parameter of type number. It represents the number of
    * occurrences of the value in the binary search tree node. If not provided, the count will default to 1.
    * @returns A new instance of the BSTNode class with the specified key, value, and count (if provided).
    */
-  override createNode(key: BTNKey, val?: V, count?: number): N {
-    return new TreeMultisetNode(key, val, count) as N;
+  override createNode(key: BTNKey, value?: V, count?: number): N {
+    return new TreeMultisetNode(key, value, count) as N;
   }
 
   /**
@@ -74,22 +74,22 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
    * @param {BTNKey | N | null} keyOrNode - The `keyOrNode` parameter can be either a
    * `BTNKey` (which represents the key of the node to be added), a `N` (which represents a
    * node to be added), or `null` (which represents a null node).
-   * @param [val] - The `val` parameter represents the value associated with the key that is being
+   * @param [value] - The `value` parameter represents the value associated with the key that is being
    * added to the binary tree.
    * @param [count=1] - The `count` parameter represents the number of occurrences of the key/value
    * pair that will be added to the binary tree. It has a default value of 1, which means that if no
    * count is specified, the default count will be 1.
    * @returns The function `add` returns a value of type `N | null | undefined`.
    */
-  override add(keyOrNode: BTNKey | N | null, val?: V, count = 1): N | null | undefined {
+  override add(keyOrNode: BTNKey | N | null, value?: V, count = 1): N | null | undefined {
     let inserted: N | null | undefined = undefined,
       newNode: N | null;
     if (keyOrNode instanceof TreeMultisetNode) {
-      newNode = this.createNode(keyOrNode.key, keyOrNode.val, keyOrNode.count);
+      newNode = this.createNode(keyOrNode.key, keyOrNode.value, keyOrNode.count);
     } else if (keyOrNode === null) {
       newNode = null;
     } else {
-      newNode = this.createNode(keyOrNode, val, count);
+      newNode = this.createNode(keyOrNode, value, count);
     }
     if (!this.root) {
       this._setRoot(newNode);
@@ -103,7 +103,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
         if (cur) {
           if (newNode) {
             if (this._compare(cur.key, newNode.key) === CP.eq) {
-              cur.val = newNode.val;
+              cur.value = newNode.value;
               cur.count += newNode.count;
               this._setCount(this.count + newNode.count);
               traversing = false;
@@ -199,7 +199,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
       const keyOrNode = keysOrNodes[i];
 
       if (keyOrNode instanceof TreeMultisetNode) {
-        inserted.push(this.add(keyOrNode.key, keyOrNode.val, keyOrNode.count));
+        inserted.push(this.add(keyOrNode.key, keyOrNode.value, keyOrNode.count));
         continue;
       }
 
@@ -233,7 +233,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
         if (l > r) return;
         const m = l + Math.floor((r - l) / 2);
         const midNode = sorted[m];
-        this.add(midNode.key, midNode.val, midNode.count);
+        this.add(midNode.key, midNode.value, midNode.count);
         buildBalanceBST(l, m - 1);
         buildBalanceBST(m + 1, r);
       };
@@ -249,7 +249,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
           if (l <= r) {
             const m = l + Math.floor((r - l) / 2);
             const midNode = sorted[m];
-            this.add(midNode.key, midNode.val, midNode.count);
+            this.add(midNode.key, midNode.value, midNode.count);
             stack.push([m + 1, r]);
             stack.push([l, m - 1]);
           }
@@ -351,18 +351,18 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
    * @returns The method is returning the `destNode` after swapping its properties with the `srcNode`.
    */
   protected override _swap(srcNode: N, destNode: N): N {
-    const {key, val, count, height} = destNode;
-    const tempNode = this.createNode(key, val, count);
+    const {key, value, count, height} = destNode;
+    const tempNode = this.createNode(key, value, count);
     if (tempNode) {
       tempNode.height = height;
 
       destNode.key = srcNode.key;
-      destNode.val = srcNode.val;
+      destNode.value = srcNode.value;
       destNode.count = srcNode.count;
       destNode.height = srcNode.height;
 
       srcNode.key = tempNode.key;
-      srcNode.val = tempNode.val;
+      srcNode.value = tempNode.value;
       srcNode.count = tempNode.count;
       srcNode.height = tempNode.height;
     }

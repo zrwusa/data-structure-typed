@@ -7,7 +7,7 @@ describe('HashNode', () => {
     const hashNode = new HashTableNode(key, value);
 
     expect(hashNode.key).toBe(key);
-    expect(hashNode.val).toBe(value);
+    expect(hashNode.value).toBe(value);
     expect(hashNode.next).toBe(null);
   });
 });

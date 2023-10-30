@@ -93,9 +93,9 @@ describe('DirectedGraph Operation Test', () => {
 });
 
 class MyVertex<V = any> extends DirectedVertex<V> {
-  constructor(key: VertexKey, val?: V) {
-    super(key, val);
-    this._data = val;
+  constructor(key: VertexKey, value?: V) {
+    super(key, value);
+    this._data = value;
   }
 
   private _data: V | undefined;
@@ -110,9 +110,9 @@ class MyVertex<V = any> extends DirectedVertex<V> {
 }
 
 class MyEdge<E = any> extends DirectedEdge<E> {
-  constructor(v1: VertexKey, v2: VertexKey, weight?: number, val?: E) {
-    super(v1, v2, weight, val);
-    this._data = val;
+  constructor(v1: VertexKey, v2: VertexKey, weight?: number, value?: E) {
+    super(v1, v2, weight, value);
+    this._data = value;
   }
 
   private _data: E | undefined;
@@ -132,12 +132,12 @@ class MyDirectedGraph<
   VO extends MyVertex<V> = MyVertex<V>,
   EO extends MyEdge<E> = MyEdge<E>
 > extends DirectedGraph<V, E, VO, EO> {
-  createVertex(key: VertexKey, val: V): VO {
-    return new MyVertex(key, val) as VO;
+  createVertex(key: VertexKey, value: V): VO {
+    return new MyVertex(key, value) as VO;
   }
 
-  createEdge(src: VertexKey, dest: VertexKey, weight?: number, val?: E): EO {
-    return new MyEdge(src, dest, weight ?? 1, val) as EO;
+  createEdge(src: VertexKey, dest: VertexKey, weight?: number, value?: E): EO {
+    return new MyEdge(src, dest, weight ?? 1, value) as EO;
   }
 
   setInEdgeMap(value: Map<VO, EO[]>) {
@@ -192,7 +192,7 @@ describe('Inherit from DirectedGraph and perform operations', () => {
     expect(edge1).toBeInstanceOf(MyEdge);
     if (edge1) {
       expect(edge1.data).toBe('val1');
-      expect(edge1?.val).toBe('val1');
+      expect(edge1?.value).toBe('val1');
       expect(edge1).toBeInstanceOf(MyEdge);
       expect(edge1.src).toBe(1);
       expect(edge1).toEqual(edge2);
@@ -214,7 +214,7 @@ describe('Inherit from DirectedGraph and perform operations', () => {
 
     expect(removedEdge).toBeInstanceOf(MyEdge);
     if (removedEdge) {
-      removedEdge && expect(removedEdge.val).toBe('edge-data1-2');
+      removedEdge && expect(removedEdge.value).toBe('edge-data1-2');
       removedEdge && expect(removedEdge.src).toBe(1);
     }
     expect(edgeAfterRemoval).toBeNull();

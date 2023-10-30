@@ -15,11 +15,11 @@ export class DirectedVertex<V = any> extends AbstractVertex<V> {
    * The constructor function initializes a vertex with an optional value.
    * @param {VertexKey} key - The `key` parameter is of type `VertexKey` and represents the identifier of the vertex. It is
    * used to uniquely identify the vertex within a graph or data structure.
-   * @param {V} [val] - The "val" parameter is an optional parameter of type V. It is used to initialize the value of the
+   * @param {V} [value] - The "value" parameter is an optional parameter of type V. It is used to initialize the value of the
    * vertex. If no value is provided, the vertex will be initialized with a default value.
    */
-  constructor(key: VertexKey, val?: V) {
-    super(key, val);
+  constructor(key: VertexKey, value?: V) {
+    super(key, value);
   }
 }
 
@@ -32,11 +32,11 @@ export class DirectedEdge<E = any> extends AbstractEdge<E> {
    * @param {VertexKey} dest - The `dest` parameter represents the destination vertex of an edge. It is of type
    * `VertexKey`, which is likely a unique identifier for a vertex in a graph.
    * @param {number} [weight] - The weight parameter is an optional number that represents the weight of the edge.
-   * @param {E} [val] - The `val` parameter is an optional parameter of type `E`. It represents the value associated with
+   * @param {E} [value] - The `value` parameter is an optional parameter of type `E`. It represents the value associated with
    * the edge.
    */
-  constructor(src: VertexKey, dest: VertexKey, weight?: number, val?: E) {
-    super(weight, val);
+  constructor(src: VertexKey, dest: VertexKey, weight?: number, value?: E) {
+    super(weight, value);
     this._src = src;
     this._dest = dest;
   }
@@ -99,13 +99,13 @@ export class DirectedGraph<
    * The function creates a new vertex with an optional value and returns it.
    * @param {VertexKey} key - The `key` parameter is the unique identifier for the vertex. It is of type `VertexKey`, which
    * could be a number or a string depending on how you want to identify your vertices.
-   * @param [val] - The 'val' parameter is an optional value that can be assigned to the vertex. If a value is provided,
-   * it will be assigned to the 'val' property of the vertex. If no value is provided, the 'val' property will be
+   * @param [value] - The 'value' parameter is an optional value that can be assigned to the vertex. If a value is provided,
+   * it will be assigned to the 'value' property of the vertex. If no value is provided, the 'value' property will be
    * assigned the same value as the 'key' parameter
    * @returns a new instance of a DirectedVertex object, casted as type VO.
    */
-  createVertex(key: VertexKey, val?: V): VO {
-    return new DirectedVertex(key, val ?? key) as VO;
+  createVertex(key: VertexKey, value?: V): VO {
+    return new DirectedVertex(key, value ?? key) as VO;
   }
 
   /**
@@ -119,12 +119,12 @@ export class DirectedGraph<
    * @param {VertexKey} dest - The `dest` parameter is the identifier of the destination vertex for the edge.
    * @param {number} [weight] - The weight parameter is an optional number that represents the weight of the edge. If no
    * weight is provided, it defaults to 1.
-   * @param [val] - The 'val' parameter is an optional value that can be assigned to the edge. It can be of any type and
+   * @param [value] - The 'value' parameter is an optional value that can be assigned to the edge. It can be of any type and
    * is used to store additional information or data associated with the edge.
    * @returns a new instance of a DirectedEdge object, casted as type EO.
    */
-  createEdge(src: VertexKey, dest: VertexKey, weight?: number, val?: E): EO {
-    return new DirectedEdge(src, dest, weight ?? 1, val) as EO;
+  createEdge(src: VertexKey, dest: VertexKey, weight?: number, value?: E): EO {
+    return new DirectedEdge(src, dest, weight ?? 1, value) as EO;
   }
 
   /**

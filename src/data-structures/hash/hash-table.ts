@@ -8,12 +8,12 @@
 
 export class HashTableNode<K, V> {
   key: K;
-  val: V;
+  value: V;
   next: HashTableNode<K, V> | null;
 
-  constructor(key: K, val: V) {
+  constructor(key: K, value: V) {
     this.key = key;
-    this.val = val;
+    this.value = value;
     this.next = null;
   }
 }
@@ -71,14 +71,14 @@ export class HashTable<K, V> {
    * The set function adds a key-value pair to the hash table, handling collisions and resizing if necessary.
    * @param {K} key - The key parameter represents the key of the key-value pair that you want to insert into the hash
    * table. It is of type K, which is a generic type representing the key's data type.
-   * @param {V} val - The parameter `val` represents the value that you want to associate with the given key in the hash
+   * @param {V} value - The parameter `value` represents the value that you want to associate with the given key in the hash
    * table.
    * @returns Nothing is being returned. The return type of the `put` method is `void`, which means it does not return any
    * value.
    */
-  set(key: K, val: V): void {
+  set(key: K, value: V): void {
     const index = this._hash(key);
-    const newNode = new HashTableNode<K, V>(key, val);
+    const newNode = new HashTableNode<K, V>(key, value);
 
     if (!this._buckets[index]) {
       this._buckets[index] = newNode;
@@ -88,7 +88,7 @@ export class HashTable<K, V> {
       while (currentNode) {
         if (currentNode.key === key) {
           // If the key already exists, update the value
-          currentNode.val = val;
+          currentNode.value = value;
           return;
         }
         if (!currentNode.next) {
@@ -120,7 +120,7 @@ export class HashTable<K, V> {
 
     while (currentNode) {
       if (currentNode.key === key) {
-        return currentNode.val;
+        return currentNode.value;
       }
       currentNode = currentNode.next;
     }
@@ -259,7 +259,7 @@ export class HashTable<K, V> {
       let currentNode = bucket;
       while (currentNode) {
         const newIndex = this._hash(currentNode.key);
-        const newNode = new HashTableNode<K, V>(currentNode.key, currentNode.val);
+        const newNode = new HashTableNode<K, V>(currentNode.key, currentNode.value);
 
         if (!newBuckets[newIndex]) {
           newBuckets[newIndex] = newNode;

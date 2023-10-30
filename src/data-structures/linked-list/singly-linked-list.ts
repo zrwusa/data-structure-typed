@@ -8,22 +8,22 @@
 export class SinglyLinkedListNode<E = any> {
   /**
    * The constructor function initializes an instance of a class with a given value and sets the next property to null.
-   * @param {E} val - The "val" parameter is of type E, which means it can be any data type. It represents the value that
+   * @param {E} value - The "value" parameter is of type E, which means it can be any data type. It represents the value that
    * will be stored in the node of a linked list.
    */
-  constructor(val: E) {
-    this._val = val;
+  constructor(value: E) {
+    this._value = value;
     this._next = null;
   }
 
-  private _val: E;
+  private _value: E;
 
-  get val(): E {
-    return this._val;
+  get value(): E {
+    return this._value;
   }
 
-  set val(value: E) {
-    this._val = value;
+  set value(value: E) {
+    this._value = value;
   }
 
   private _next: SinglyLinkedListNode<E> | null;
@@ -88,12 +88,12 @@ export class SinglyLinkedList<E = any> {
   }
 
   /**
-   * The `push` function adds a new node with the given val to the end of a singly linked list.
-   * @param {E} val - The "val" parameter represents the value that you want to add to the linked list. It can be of
+   * The `push` function adds a new node with the given value to the end of a singly linked list.
+   * @param {E} value - The "value" parameter represents the value that you want to add to the linked list. It can be of
    * any type (E) as specified in the generic type declaration of the class or function.
    */
-  push(val: E): void {
-    const newNode = new SinglyLinkedListNode(val);
+  push(value: E): void {
+    const newNode = new SinglyLinkedListNode(value);
     if (!this.head) {
       this.head = newNode;
       this.tail = newNode;
@@ -105,12 +105,12 @@ export class SinglyLinkedList<E = any> {
   }
 
   /**
-   * The `push` function adds a new node with the given val to the end of a singly linked list.
-   * @param {E} val - The "val" parameter represents the value that you want to add to the linked list. It can be of
+   * The `push` function adds a new node with the given value to the end of a singly linked list.
+   * @param {E} value - The "value" parameter represents the value that you want to add to the linked list. It can be of
    * any type (E) as specified in the generic type declaration of the class or function.
    */
-  addLast(val: E): void {
-    this.push(val);
+  addLast(value: E): void {
+    this.push(value);
   }
 
   /**
@@ -122,22 +122,22 @@ export class SinglyLinkedList<E = any> {
   pop(): E | undefined {
     if (!this.head) return undefined;
     if (this.head === this.tail) {
-      const val = this.head.val;
+      const value = this.head.value;
       this.head = null;
       this.tail = null;
       this._length--;
-      return val;
+      return value;
     }
 
     let current = this.head;
     while (current.next !== this.tail) {
       current = current.next!;
     }
-    const val = this.tail!.val;
+    const value = this.tail!.value;
     current.next = null;
     this.tail = current;
     this._length--;
-    return val;
+    return value;
   }
 
   /**
@@ -159,7 +159,7 @@ export class SinglyLinkedList<E = any> {
     const removedNode = this.head;
     this.head = this.head.next;
     this._length--;
-    return removedNode.val;
+    return removedNode.value;
   }
 
   /**
@@ -172,11 +172,11 @@ export class SinglyLinkedList<E = any> {
 
   /**
    * The unshift function adds a new node with the given value to the beginning of a singly linked list.
-   * @param {E} val - The parameter "val" represents the value of the new node that will be added to the beginning of the
+   * @param {E} value - The parameter "value" represents the value of the new node that will be added to the beginning of the
    * linked list.
    */
-  unshift(val: E): void {
-    const newNode = new SinglyLinkedListNode(val);
+  unshift(value: E): void {
+    const newNode = new SinglyLinkedListNode(value);
     if (!this.head) {
       this.head = newNode;
       this.tail = newNode;
@@ -189,11 +189,11 @@ export class SinglyLinkedList<E = any> {
 
   /**
    * The addFirst function adds a new node with the given value to the beginning of a singly linked list.
-   * @param {E} val - The parameter "val" represents the value of the new node that will be added to the beginning of the
+   * @param {E} value - The parameter "value" represents the value of the new node that will be added to the beginning of the
    * linked list.
    */
-  addFirst(val: E): void {
-    this.unshift(val);
+  addFirst(value: E): void {
+    this.unshift(value);
   }
 
   /**
@@ -209,7 +209,7 @@ export class SinglyLinkedList<E = any> {
     for (let i = 0; i < index; i++) {
       current = current!.next;
     }
-    return current!.val;
+    return current!.value;
   }
 
   /**
@@ -243,7 +243,7 @@ export class SinglyLinkedList<E = any> {
     const removedNode = prevNode!.next;
     prevNode!.next = removedNode!.next;
     this._length--;
-    return removedNode!.val;
+    return removedNode!.value;
   }
 
   /**
@@ -257,7 +257,7 @@ export class SinglyLinkedList<E = any> {
     if (!valueOrNode) return false;
     let value: E;
     if (valueOrNode instanceof SinglyLinkedListNode) {
-      value = valueOrNode.val;
+      value = valueOrNode.value;
     } else {
       value = valueOrNode;
     }
@@ -265,7 +265,7 @@ export class SinglyLinkedList<E = any> {
       prev = null;
 
     while (current) {
-      if (current.val === value) {
+      if (current.value === value) {
         if (prev === null) {
           this.head = current.next;
           if (current === this.tail) {
@@ -291,23 +291,23 @@ export class SinglyLinkedList<E = any> {
    * The `insertAt` function inserts a value at a specified index in a singly linked list.
    * @param {number} index - The index parameter represents the position at which the new value should be inserted in the
    * linked list. It is of type number.
-   * @param {E} val - The `val` parameter represents the value that you want to insert into the linked list at the
+   * @param {E} value - The `value` parameter represents the value that you want to insert into the linked list at the
    * specified index.
    * @returns The `insert` method returns a boolean value. It returns `true` if the insertion is successful, and `false`
    * if the index is out of bounds.
    */
-  insertAt(index: number, val: E): boolean {
+  insertAt(index: number, value: E): boolean {
     if (index < 0 || index > this.length) return false;
     if (index === 0) {
-      this.unshift(val);
+      this.unshift(value);
       return true;
     }
     if (index === this.length) {
-      this.push(val);
+      this.push(value);
       return true;
     }
 
-    const newNode = new SinglyLinkedListNode(val);
+    const newNode = new SinglyLinkedListNode(value);
     const prevNode = this.getNodeAt(index - 1);
     newNode.next = prevNode!.next;
     prevNode!.next = newNode;
@@ -341,7 +341,7 @@ export class SinglyLinkedList<E = any> {
     const array: E[] = [];
     let current = this.head;
     while (current) {
-      array.push(current.val);
+      array.push(current.value);
       current = current.next;
     }
     return array;
@@ -375,11 +375,11 @@ export class SinglyLinkedList<E = any> {
    * @returns The method `find` returns the first element in the linked list that satisfies the condition specified by
    * the callback function. If no element satisfies the condition, it returns `null`.
    */
-  find(callback: (val: E) => boolean): E | null {
+  find(callback: (value: E) => boolean): E | null {
     let current = this.head;
     while (current) {
-      if (callback(current.val)) {
-        return current.val;
+      if (callback(current.value)) {
+        return current.value;
       }
       current = current.next;
     }
@@ -397,7 +397,7 @@ export class SinglyLinkedList<E = any> {
     let current = this.head;
 
     while (current) {
-      if (current.val === value) {
+      if (current.value === value) {
         return index;
       }
       index++;
@@ -418,7 +418,7 @@ export class SinglyLinkedList<E = any> {
     let current = this.head;
 
     while (current) {
-      if (current.val === value) {
+      if (current.value === value) {
         return current;
       }
       current = current.next;
@@ -440,18 +440,18 @@ export class SinglyLinkedList<E = any> {
 
     let existingValue: E;
     if (existingValueOrNode instanceof SinglyLinkedListNode) {
-      existingValue = existingValueOrNode.val;
+      existingValue = existingValueOrNode.value;
     } else {
       existingValue = existingValueOrNode;
     }
-    if (this.head.val === existingValue) {
+    if (this.head.value === existingValue) {
       this.unshift(newValue);
       return true;
     }
 
     let current = this.head;
     while (current.next) {
-      if (current.next.val === existingValue) {
+      if (current.next.value === existingValue) {
         const newNode = new SinglyLinkedListNode(newValue);
         newNode.next = current.next;
         current.next = newNode;
@@ -505,7 +505,7 @@ export class SinglyLinkedList<E = any> {
     let current = this.head;
 
     while (current) {
-      if (current.val === value) {
+      if (current.value === value) {
         count++;
       }
       current = current.next;
@@ -516,15 +516,15 @@ export class SinglyLinkedList<E = any> {
 
   /**
    * The `forEach` function iterates over each element in a linked list and applies a callback function to each element.
-   * @param callback - The callback parameter is a function that takes two arguments: val and index. The val argument
+   * @param callback - The callback parameter is a function that takes two arguments: value and index. The value argument
    * represents the value of the current node in the linked list, and the index argument represents the index of the
    * current node in the linked list.
    */
-  forEach(callback: (val: E, index: number) => void): void {
+  forEach(callback: (value: E, index: number) => void): void {
     let current = this.head;
     let index = 0;
     while (current) {
-      callback(current.val, index);
+      callback(current.value, index);
       current = current.next;
       index++;
     }
@@ -538,11 +538,11 @@ export class SinglyLinkedList<E = any> {
    * SinglyLinkedList).
    * @returns The `map` function is returning a new instance of `SinglyLinkedList<U>` that contains the mapped values.
    */
-  map<U>(callback: (val: E) => U): SinglyLinkedList<U> {
+  map<U>(callback: (value: E) => U): SinglyLinkedList<U> {
     const mappedList = new SinglyLinkedList<U>();
     let current = this.head;
     while (current) {
-      mappedList.push(callback(current.val));
+      mappedList.push(callback(current.value));
       current = current.next;
     }
     return mappedList;
@@ -555,12 +555,12 @@ export class SinglyLinkedList<E = any> {
    * It is used to determine whether a value should be included in the filtered list or not.
    * @returns The filtered list, which is an instance of the SinglyLinkedList class.
    */
-  filter(callback: (val: E) => boolean): SinglyLinkedList<E> {
+  filter(callback: (value: E) => boolean): SinglyLinkedList<E> {
     const filteredList = new SinglyLinkedList<E>();
     let current = this.head;
     while (current) {
-      if (callback(current.val)) {
-        filteredList.push(current.val);
+      if (callback(current.value)) {
+        filteredList.push(current.value);
       }
       current = current.next;
     }
@@ -570,18 +570,18 @@ export class SinglyLinkedList<E = any> {
   /**
    * The `reduce` function iterates over a linked list and applies a callback function to each element, accumulating a
    * single value.
-   * @param callback - The `callback` parameter is a function that takes two arguments: `accumulator` and `val`. It is
+   * @param callback - The `callback` parameter is a function that takes two arguments: `accumulator` and `value`. It is
    * used to perform a specific operation on each element of the linked list.
    * @param {U} initialValue - The `initialValue` parameter is the initial value of the accumulator. It is the starting
    * point for the reduction operation.
    * @returns The `reduce` method is returning the final value of the accumulator after iterating through all the
    * elements in the linked list.
    */
-  reduce<U>(callback: (accumulator: U, val: E) => U, initialValue: U): U {
+  reduce<U>(callback: (accumulator: U, value: E) => U, initialValue: U): U {
     let accumulator = initialValue;
     let current = this.head;
     while (current) {
-      accumulator = callback(accumulator, current.val);
+      accumulator = callback(accumulator, current.value);
       current = current.next;
     }
     return accumulator;
@@ -594,7 +594,7 @@ export class SinglyLinkedList<E = any> {
     let current = this.head;
 
     while (current) {
-      yield current.val;
+      yield current.value;
       current = current.next;
     }
   }

@@ -16,10 +16,10 @@ describe('RBTreeNode', () => {
 
   it('should set and get the value correctly', () => {
     const node: RBTreeNode<number> = new RBTreeNode<number>(1, 42);
-    expect(node.val).toBe(42);
+    expect(node.value).toBe(42);
 
-    node.val = 55;
-    expect(node.val).toBe(55);
+    node.value = 55;
+    expect(node.value).toBe(55);
   });
 
   it('should set and get the left child correctly', () => {

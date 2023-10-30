@@ -12,8 +12,8 @@ import {IBinaryTree} from '../../interfaces';
 import {Queue} from '../queue';
 
 export class BSTNode<V = any, N extends BSTNode<V, N> = BSTNodeNested<V>> extends BinaryTreeNode<V, N> {
-  constructor(key: BTNKey, val?: V) {
-    super(key, val);
+  constructor(key: BTNKey, value?: V) {
+    super(key, value);
   }
 }
 
@@ -41,12 +41,12 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * The function creates a new binary search tree node with the given key and value.
    * @param {BTNKey} key - The key parameter is the key value that will be associated with
    * the new node. It is used to determine the position of the node in the binary search tree.
-   * @param [val] - The parameter `val` is an optional value that can be assigned to the node. It
+   * @param [value] - The parameter `value` is an optional value that can be assigned to the node. It
    * represents the value associated with the node in a binary search tree.
    * @returns a new instance of the BSTNode class with the specified key and value.
    */
-  override createNode(key: BTNKey, val?: V): N {
-    return new BSTNode<V, N>(key, val) as N;
+  override createNode(key: BTNKey, value?: V): N {
+    return new BSTNode<V, N>(key, value) as N;
   }
 
   /**
@@ -54,19 +54,19 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * into the tree.
    * @param {BTNKey | N | null} keyOrNode - The `keyOrNode` parameter can be either a
    * `BTNKey` (which can be a number or a string), a `BSTNode` object, or `null`.
-   * @param [val] - The `val` parameter is the value to be assigned to the new node being added to the
+   * @param [value] - The `value` parameter is the value to be assigned to the new node being added to the
    * binary search tree.
    * @returns the inserted node (N) if it was successfully added to the binary search tree. If the node
    * was not added or if the parameters were invalid, it returns null or undefined.
    */
-  override add(keyOrNode: BTNKey | N | null, val?: V): N | null | undefined {
+  override add(keyOrNode: BTNKey | N | null, value?: V): N | null | undefined {
     // TODO support node as a parameter
     let inserted: N | null = null;
     let newNode: N | null = null;
     if (keyOrNode instanceof BSTNode) {
       newNode = keyOrNode;
     } else if (typeof keyOrNode === 'number') {
-      newNode = this.createNode(keyOrNode, val);
+      newNode = this.createNode(keyOrNode, value);
     } else if (keyOrNode === null) {
       newNode = null;
     }
@@ -81,7 +81,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
         if (cur !== null && newNode !== null) {
           if (this._compare(cur.key, newNode.key) === CP.eq) {
             if (newNode) {
-              cur.val = newNode.val;
+              cur.value = newNode.value;
             }
             //Duplicates are not accepted.
             traversing = false;
@@ -128,7 +128,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   /**
    * The `addMany` function is used to efficiently add multiple nodes to a binary search tree while
    * maintaining balance.
-   * @param {[BTNKey | N, N['val']][]} keysOrNodes - The `arr` parameter in the `addMany` function
+   * @param {[BTNKey | N, N['value']][]} keysOrNodes - The `arr` parameter in the `addMany` function
    * represents an array of keys or nodes that need to be added to the binary search tree. It can be an
    * array of `BTNKey` or `N` (which represents the node type in the binary search tree) or
    * `null
@@ -154,15 +154,15 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
       return super.addMany(keysOrNodes, data);
     }
     const inserted: (N | null | undefined)[] = [];
-    const combinedArr: [BTNKey | N, N['val']][] = keysOrNodes.map((value, index) => [value, data?.[index]]);
+    const combinedArr: [BTNKey | N, N['value']][] = keysOrNodes.map((value, index) => [value, data?.[index]]);
     let sorted = [];
 
-    function isNodeOrNullTuple(arr: [BTNKey | N, N['val']][]): arr is [N, N['val']][] {
+    function isNodeOrNullTuple(arr: [BTNKey | N, N['value']][]): arr is [N, N['value']][] {
       for (const [keyOrNode] of arr) if (keyOrNode instanceof BSTNode) return true;
       return false;
     }
 
-    function isBinaryTreeKeyOrNullTuple(arr: [BTNKey | N, N['val']][]): arr is [BTNKey, N['val']][] {
+    function isBinaryTreeKeyOrNullTuple(arr: [BTNKey | N, N['value']][]): arr is [BTNKey, N['value']][] {
       for (const [keyOrNode] of arr) if (typeof keyOrNode === 'number') return true;
       return false;
     }
@@ -178,7 +178,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
       throw new Error('Invalid input keysOrNodes');
     }
     sortedKeysOrNodes = sorted.map(([keyOrNode]) => keyOrNode);
-    sortedData = sorted.map(([, val]) => val);
+    sortedData = sorted.map(([, value]) => value);
     const recursive = (arr: (BTNKey | null | N)[], data?: (V | undefined)[]) => {
       if (arr.length === 0) return;
 
@@ -426,7 +426,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
         if (l > r) return;
         const m = l + Math.floor((r - l) / 2);
         const midNode = sorted[m];
-        this.add(midNode.key, midNode.val);
+        this.add(midNode.key, midNode.value);
         buildBalanceBST(l, m - 1);
         buildBalanceBST(m + 1, r);
       };
@@ -442,7 +442,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
           if (l <= r) {
             const m = l + Math.floor((r - l) / 2);
             const midNode = sorted[m];
-            this.add(midNode.key, midNode.val);
+            this.add(midNode.key, midNode.value);
             stack.push([m + 1, r]);
             stack.push([l, m - 1]);
           }

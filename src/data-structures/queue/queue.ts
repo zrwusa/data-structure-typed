@@ -27,7 +27,7 @@ export class SkipQueue<E = any> extends SinglyLinkedList<E> {
    * @returns The `peek()` method is returning the value of the `head` node if it exists, otherwise it returns `undefined`.
    */
   peek(): E | undefined {
-    return this.head?.val;
+    return this.head?.value;
   }
 }
 

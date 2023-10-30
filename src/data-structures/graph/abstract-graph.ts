@@ -16,12 +16,12 @@ export abstract class AbstractVertex<V = any> {
    * The function is a protected constructor that takes an key and an optional value as parameters.
    * @param {VertexKey} key - The `key` parameter is of type `VertexKey` and represents the identifier of the vertex. It is
    * used to uniquely identify the vertex object.
-   * @param {V} [val] - The parameter "val" is an optional parameter of type V. It is used to assign a value to the
+   * @param {V} [value] - The parameter "value" is an optional parameter of type V. It is used to assign a value to the
    * vertex. If no value is provided, it will be set to undefined.
    */
-  protected constructor(key: VertexKey, val?: V) {
+  protected constructor(key: VertexKey, value?: V) {
     this._key = key;
-    this._val = val;
+    this._value = value;
   }
 
   private _key: VertexKey;
@@ -34,14 +34,14 @@ export abstract class AbstractVertex<V = any> {
     this._key = v;
   }
 
-  private _val: V | undefined;
+  private _value: V | undefined;
 
-  get val(): V | undefined {
-    return this._val;
+  get value(): V | undefined {
+    return this._value;
   }
 
-  set val(value: V | undefined) {
-    this._val = value;
+  set value(value: V | undefined) {
+    this._value = value;
   }
 }
 
@@ -52,23 +52,23 @@ export abstract class AbstractEdge<E = any> {
    * @param {number} [weight] - The `weight` parameter is an optional number that represents the weight of the object. If
    * a value is provided, it will be assigned to the `_weight` property. If no value is provided, the default value of 1
    * will be assigned.
-   * @param {VO} [val] - The `val` parameter is of type `VO`, which means it can be any type. It is an optional parameter,
+   * @param {VO} [value] - The `value` parameter is of type `VO`, which means it can be any type. It is an optional parameter,
    * meaning it can be omitted when creating an instance of the class.
    */
-  protected constructor(weight?: number, val?: E) {
+  protected constructor(weight?: number, value?: E) {
     this._weight = weight !== undefined ? weight : 1;
-    this._val = val;
+    this._value = value;
     this._hashCode = uuidV4();
   }
 
-  private _val: E | undefined;
+  private _value: E | undefined;
 
-  get val(): E | undefined {
-    return this._val;
+  get value(): E | undefined {
+    return this._value;
   }
 
-  set val(value: E | undefined) {
-    this._val = value;
+  set value(value: E | undefined) {
+    this._value = value;
   }
 
   private _weight: number;
@@ -119,9 +119,9 @@ export abstract class AbstractGraph<
    * In TypeScript, a subclass inherits the interface implementation of its parent class, without needing to implement the same interface again in the subclass. This behavior differs from Java's approach. In Java, if a parent class implements an interface, the subclass needs to explicitly implement the same interface, even if the parent class has already implemented it.
    * This means that using abstract methods in the parent class cannot constrain the grandchild classes. Defining methods within an interface also cannot constrain the descendant classes. When inheriting from this class, developers need to be aware that this method needs to be overridden.
    * @param key
-   * @param val
+   * @param value
    */
-  abstract createVertex(key: VertexKey, val?: V): VO;
+  abstract createVertex(key: VertexKey, value?: V): VO;
 
   /**
    * In TypeScript, a subclass inherits the interface implementation of its parent class, without needing to implement the same interface again in the subclass. This behavior differs from Java's approach. In Java, if a parent class implements an interface, the subclass needs to explicitly implement the same interface, even if the parent class has already implemented it.
@@ -129,9 +129,9 @@ export abstract class AbstractGraph<
    * @param srcOrV1
    * @param destOrV2
    * @param weight
-   * @param val
+   * @param value
    */
-  abstract createEdge(srcOrV1: VertexKey, destOrV2: VertexKey, weight?: number, val?: E): EO;
+  abstract createEdge(srcOrV1: VertexKey, destOrV2: VertexKey, weight?: number, value?: E): EO;
 
   abstract deleteEdge(edge: EO): EO | null;
 
@@ -170,13 +170,13 @@ export abstract class AbstractGraph<
 
   addVertex(vertex: VO): boolean;
 
-  addVertex(key: VertexKey, val?: V): boolean;
+  addVertex(key: VertexKey, value?: V): boolean;
 
-  addVertex(keyOrVertex: VertexKey | VO, val?: V): boolean {
+  addVertex(keyOrVertex: VertexKey | VO, value?: V): boolean {
     if (keyOrVertex instanceof AbstractVertex) {
       return this._addVertexOnly(keyOrVertex);
     } else {
-      const newVertex = this.createVertex(keyOrVertex, val);
+      const newVertex = this.createVertex(keyOrVertex, value);
       return this._addVertexOnly(newVertex);
     }
   }
@@ -222,9 +222,9 @@ export abstract class AbstractGraph<
 
   addEdge(edge: EO): boolean;
 
-  addEdge(src: VO | VertexKey, dest: VO | VertexKey, weight?: number, val?: E): boolean;
+  addEdge(src: VO | VertexKey, dest: VO | VertexKey, weight?: number, value?: E): boolean;
 
-  addEdge(srcOrEdge: VO | VertexKey | EO, dest?: VO | VertexKey, weight?: number, val?: E): boolean {
+  addEdge(srcOrEdge: VO | VertexKey | EO, dest?: VO | VertexKey, weight?: number, value?: E): boolean {
     if (srcOrEdge instanceof AbstractEdge) {
       return this._addEdgeOnly(srcOrEdge);
     } else {
@@ -232,7 +232,7 @@ export abstract class AbstractGraph<
         if (!(this.hasVertex(srcOrEdge) && this.hasVertex(dest))) return false;
         if (srcOrEdge instanceof AbstractVertex) srcOrEdge = srcOrEdge.key;
         if (dest instanceof AbstractVertex) dest = dest.key;
-        const newEdge = this.createEdge(srcOrEdge, dest, weight, val);
+        const newEdge = this.createEdge(srcOrEdge, dest, weight, value);
         return this._addEdgeOnly(newEdge);
       } else {
         throw new Error('dest must be a Vertex or vertex key while srcOrEdge is an Edge');
@@ -493,10 +493,10 @@ export abstract class AbstractGraph<
     const getMinOfNoSeen = () => {
       let min = Infinity;
       let minV: VO | null = null;
-      for (const [key, val] of distMap) {
+      for (const [key, value] of distMap) {
         if (!seen.has(key)) {
-          if (val < min) {
-            min = val;
+          if (value < min) {
+            min = value;
             minV = key;
           }
         }
@@ -625,8 +625,8 @@ export abstract class AbstractGraph<
       if (vertexOrKey instanceof AbstractVertex) distMap.set(vertexOrKey, Infinity);
     }
 
-    const heap = new PriorityQueue<{key: number; val: VO}>({comparator: (a, b) => a.key - b.key});
-    heap.add({key: 0, val: srcVertex});
+    const heap = new PriorityQueue<{key: number; value: VO}>({comparator: (a, b) => a.key - b.key});
+    heap.add({key: 0, value: srcVertex});
 
     distMap.set(srcVertex, 0);
     preMap.set(srcVertex, null);
@@ -656,7 +656,7 @@ export abstract class AbstractGraph<
     while (heap.size > 0) {
       const curHeapNode = heap.poll();
       const dist = curHeapNode?.key;
-      const cur = curHeapNode?.val;
+      const cur = curHeapNode?.value;
       if (dist !== undefined) {
         if (cur) {
           seen.add(cur);
@@ -677,7 +677,7 @@ export abstract class AbstractGraph<
                 const distSrcToNeighbor = distMap.get(neighbor);
                 if (distSrcToNeighbor) {
                   if (dist + weight < distSrcToNeighbor) {
-                    heap.add({key: dist + weight, val: neighbor});
+                    heap.add({key: dist + weight, value: neighbor});
                     preMap.set(neighbor, cur);
                     distMap.set(neighbor, dist + weight);
                   }

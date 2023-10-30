@@ -26,7 +26,7 @@ export class BinaryTreeNode<V = any, N extends BinaryTreeNode<V, N> = BinaryTree
   /**
    * The value stored in the node.
    */
-  val: V | undefined;
+  value: V | undefined;
 
   /**
    * The parent node of the current node.
@@ -36,11 +36,11 @@ export class BinaryTreeNode<V = any, N extends BinaryTreeNode<V, N> = BinaryTree
   /**
    * Creates a new instance of BinaryTreeNode.
    * @param {BTNKey} key - The key associated with the node.
-   * @param {V} val - The value stored in the node.
+   * @param {V} value - The value stored in the node.
    */
-  constructor(key: BTNKey, val?: V) {
+  constructor(key: BTNKey, value?: V) {
     this.key = key;
-    this.val = val;
+    this.value = value;
   }
 
   private _left: N | null | undefined;
@@ -159,11 +159,11 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   /**
    * Creates a new instance of BinaryTreeNode with the given key and value.
    * @param {BTNKey} key - The key for the new node.
-   * @param {V} val - The value for the new node.
+   * @param {V} value - The value for the new node.
    * @returns {N} - The newly created BinaryTreeNode.
    */
-  createNode(key: BTNKey, val?: V): N {
-    return new BinaryTreeNode<V, N>(key, val) as N;
+  createNode(key: BTNKey, value?: V): N {
+    return new BinaryTreeNode<V, N>(key, value) as N;
   }
 
   /**
@@ -185,10 +185,10 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   /**
    * Add a node with the given key and value to the binary tree.
    * @param {BTNKey | N | null} keyOrNode - The key or node to add to the binary tree.
-   * @param {V} val - The value for the new node (optional).
+   * @param {V} value - The value for the new node (optional).
    * @returns {N | null | undefined} - The inserted node, or null if nothing was inserted, or undefined if the operation failed.
    */
-  add(keyOrNode: BTNKey | N | null, val?: V): N | null | undefined {
+  add(keyOrNode: BTNKey | N | null, value?: V): N | null | undefined {
     const _bfs = (root: N, newNode: N | null): N | undefined | null => {
       const queue = new Queue<N | null>([root]);
       while (queue.size > 0) {
@@ -209,7 +209,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     if (keyOrNode === null) {
       needInsert = null;
     } else if (typeof keyOrNode === 'number') {
-      needInsert = this.createNode(keyOrNode, val);
+      needInsert = this.createNode(keyOrNode, value);
     } else if (keyOrNode instanceof BinaryTreeNode) {
       needInsert = keyOrNode;
     } else {
@@ -221,7 +221,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
 
     if (this.root) {
       if (existNode) {
-        existNode.val = val;
+        existNode.value = value;
         inserted = existNode;
       } else {
         inserted = _bfs(this.root, needInsert);
@@ -252,15 +252,15 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     // TODO not sure addMany not be run multi times
     return keysOrNodes.map((keyOrNode, i) => {
       if (keyOrNode instanceof BinaryTreeNode) {
-        return this.add(keyOrNode.key, keyOrNode.val);
+        return this.add(keyOrNode.key, keyOrNode.value);
       }
 
       if (keyOrNode === null) {
         return this.add(null);
       }
 
-      const val = values?.[i];
-      return this.add(keyOrNode, val);
+      const value = values?.[i];
+      return this.add(keyOrNode, value);
     });
   }
 
@@ -1212,15 +1212,15 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * @returns {N} - The destination node after the swap.
    */
   protected _swap(srcNode: N, destNode: N): N {
-    const {key, val} = destNode;
-    const tempNode = this.createNode(key, val);
+    const {key, value} = destNode;
+    const tempNode = this.createNode(key, value);
 
     if (tempNode) {
       destNode.key = srcNode.key;
-      destNode.val = srcNode.val;
+      destNode.value = srcNode.value;
 
       srcNode.key = tempNode.key;
-      srcNode.val = tempNode.val;
+      srcNode.value = tempNode.value;
     }
 
     return destNode;

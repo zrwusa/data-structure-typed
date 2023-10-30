@@ -20,10 +20,10 @@ describe('BinaryTreeNode', () => {
 
   it('should set and get the value correctly', () => {
     const node: BinaryTreeNode<number> = new BinaryTreeNode<number>(1, 42);
-    expect(node.val).toBe(42);
+    expect(node.value).toBe(42);
 
-    node.val = 55;
-    expect(node.val).toBe(55);
+    node.value = 55;
+    expect(node.value).toBe(55);
   });
 
   it('should set and get the left child correctly', () => {
@@ -110,7 +110,7 @@ describe('BinaryTree', () => {
     const node4 = tree.get(4);
     expect(tree.has(node4)).toBe(false);
     expect(tree.has(node4, node => node)).toBe(false);
-    expect(tree.has('3', node => node.val?.toString())).toBe(true);
+    expect(tree.has('3', node => node.value?.toString())).toBe(true);
   });
 
   it('should getDepth return correct depth', () => {
@@ -343,9 +343,9 @@ describe('BinaryTree', () => {
     const nodeB = tree.get(3);
 
     expect(nodeA?.key).toBe(5);
-    expect(nodeA?.val).toBe('A');
+    expect(nodeA?.value).toBe('A');
     expect(nodeB?.key).toBe(3);
-    expect(nodeB?.val).toBe('B');
+    expect(nodeB?.value).toBe('B');
   });
 
   it('should return null when getting a non-existent node', () => {
@@ -437,14 +437,14 @@ describe('BinaryTree', () => {
     tree.add(3, 'B');
     tree.add(7, 'C');
 
-    const nodes = tree.getNodes('B', (node: BinaryTreeNode<string>) => node.val);
+    const nodes = tree.getNodes('B', (node: BinaryTreeNode<string>) => node.value);
 
     expect(nodes.length).toBe(1);
     expect(nodes[0].key).toBe(3);
 
     const nodesRec = tree.getNodes(
       'B',
-      (node: BinaryTreeNode<string>) => node.val,
+      (node: BinaryTreeNode<string>) => node.value,
       false,
       tree.root,
       IterationType.RECURSIVE
