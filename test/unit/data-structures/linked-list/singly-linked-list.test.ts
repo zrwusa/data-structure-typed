@@ -7,15 +7,15 @@ describe('SinglyLinkedListNode', () => {
     expect(node1.val).toBe(2);
     node1.val = 1;
     expect(node1.val).toBe(1);
-  })
+  });
 });
 
 describe('SinglyLinkedList Operation Test', () => {
   let list: SinglyLinkedList<number>;
-  let objectList: SinglyLinkedList<{ keyA: number }>;
+  let objectList: SinglyLinkedList<{keyA: number}>;
   beforeEach(() => {
     list = new SinglyLinkedList<number>();
-    objectList = new SinglyLinkedList<{ keyA: number }>();
+    objectList = new SinglyLinkedList<{keyA: number}>();
   });
 
   describe('push', () => {
@@ -446,7 +446,6 @@ describe('SinglyLinkedList', () => {
     expect(list.length).toBe(1);
   });
 
-
   it('should reverse the list', () => {
     list.push(1);
     list.push(2);
@@ -456,7 +455,6 @@ describe('SinglyLinkedList', () => {
     expect(list.tail!.val).toBe(1);
     // Add more assertions for reversed order.
   });
-
 
   it('should convert the list to an array', () => {
     list.push(1);
@@ -475,13 +473,12 @@ describe('SinglyLinkedList', () => {
     expect(list.filter(val => val !== 2).toArray()).toEqual([1, 3]);
   });
 
-
   it('should forEach the list', () => {
     list.push(1);
     list.push(2);
     list.push(3);
     list.forEach(val => val++);
-    expect(list.toArray()).toEqual([1, 2, 3])
+    expect(list.toArray()).toEqual([1, 2, 3]);
   });
 
   it('should map the list', () => {

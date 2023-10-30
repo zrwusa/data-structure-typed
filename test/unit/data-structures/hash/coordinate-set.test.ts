@@ -44,7 +44,7 @@ describe('MyCoordinateSet', () => {
   class MyCoordinateSet extends CoordinateSet {
     constructor(joint?: string) {
       super(joint);
-      this._setJoint(joint += '-')
+      this._setJoint((joint += '-'));
     }
   }
 
@@ -54,7 +54,7 @@ describe('MyCoordinateSet', () => {
     mySet.add([0, 0]);
     mySet.add([0, 1]);
     mySet.add([1, 1]);
-  })
+  });
   it('should joint to be *-', () => {
     expect(mySet.joint).toBe('*-');
   });

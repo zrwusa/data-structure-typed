@@ -22,7 +22,7 @@ export enum FamilyPosition {
   MAL_NODE = 'MAL_NODE'
 }
 
-export type BinaryTreeNodeKey = number;
+export type BTNKey = number;
 
 export type BinaryTreeDeletedResult<N> = { deleted: N | null | undefined; needBalanced: N | null };
 

@@ -5,8 +5,8 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type {BinaryTreeNodeKey, TreeMultisetNodeNested, TreeMultisetOptions} from '../../types';
-import {BinaryTreeDeletedResult, CP, FamilyPosition, IterationType, OneParamCallback} from '../../types';
+import type {BTNKey, TreeMultisetNodeNested, TreeMultisetOptions} from '../../types';
+import {BinaryTreeDeletedResult, CP, FamilyPosition, IterationType, BTNCallback} from '../../types';
 import {IBinaryTree} from '../../interfaces';
 import {AVLTree, AVLTreeNode} from './avl-tree';
 
@@ -18,7 +18,7 @@ export class TreeMultisetNode<
 
   /**
    * The constructor function initializes a BinaryTreeNode object with a key, value, and count.
-   * @param {BinaryTreeNodeKey} key - The `key` parameter is of type `BinaryTreeNodeKey` and represents the unique identifier
+   * @param {BTNKey} key - The `key` parameter is of type `BTNKey` and represents the unique identifier
    * of the binary tree node.
    * @param {V} [val] - The `val` parameter is an optional parameter of type `V`. It represents the value of the binary
    * tree node. If no value is provided, it will be `undefined`.
@@ -26,7 +26,7 @@ export class TreeMultisetNode<
    * occurs in a binary tree node. It has a default value of 1, which means that if no value is provided for the `count`
    * parameter when creating a new instance of the `BinaryTreeNode` class.
    */
-  constructor(key: BinaryTreeNodeKey, val?: V, count = 1) {
+  constructor(key: BTNKey, val?: V, count = 1) {
     super(key, val);
     this.count = count;
   }
@@ -37,7 +37,8 @@ export class TreeMultisetNode<
  */
 export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultisetNode<V, TreeMultisetNodeNested<V>>>
   extends AVLTree<V, N>
-  implements IBinaryTree<V, N> {
+  implements IBinaryTree<V, N>
+{
   /**
    * The constructor function for a TreeMultiset class in TypeScript, which extends another class and sets an option to
    * merge duplicated values.
@@ -56,22 +57,22 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
 
   /**
    * The function creates a new BSTNode with the given key, value, and count.
-   * @param {BinaryTreeNodeKey} key - The key parameter is the unique identifier for the binary tree node. It is used to
+   * @param {BTNKey} key - The key parameter is the unique identifier for the binary tree node. It is used to
    * distinguish one node from another in the tree.
    * @param {N} val - The `val` parameter represents the value that will be stored in the binary search tree node.
    * @param {number} [count] - The "count" parameter is an optional parameter of type number. It represents the number of
    * occurrences of the value in the binary search tree node. If not provided, the count will default to 1.
    * @returns A new instance of the BSTNode class with the specified key, value, and count (if provided).
    */
-  override createNode(key: BinaryTreeNodeKey, val?: V, count?: number): N {
+  override createNode(key: BTNKey, val?: V, count?: number): N {
     return new TreeMultisetNode(key, val, count) as N;
   }
 
   /**
    * The `add` function adds a new node to a binary search tree, updating the count if the key already
    * exists, and balancing the tree if necessary.
-   * @param {BinaryTreeNodeKey | N | null} keyOrNode - The `keyOrNode` parameter can be either a
-   * `BinaryTreeNodeKey` (which represents the key of the node to be added), a `N` (which represents a
+   * @param {BTNKey | N | null} keyOrNode - The `keyOrNode` parameter can be either a
+   * `BTNKey` (which represents the key of the node to be added), a `N` (which represents a
    * node to be added), or `null` (which represents a null node).
    * @param [val] - The `val` parameter represents the value associated with the key that is being
    * added to the binary tree.
@@ -80,7 +81,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
    * count is specified, the default count will be 1.
    * @returns The function `add` returns a value of type `N | null | undefined`.
    */
-  override add(keyOrNode: BinaryTreeNodeKey | N | null, val?: V, count = 1): N | null | undefined {
+  override add(keyOrNode: BTNKey | N | null, val?: V, count = 1): N | null | undefined {
     let inserted: N | null | undefined = undefined,
       newNode: N | null;
     if (keyOrNode instanceof TreeMultisetNode) {
@@ -184,14 +185,14 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
   /**
    * The `addMany` function adds multiple keys or nodes to a TreeMultiset and returns an array of the
    * inserted nodes.
-   * @param {(BinaryTreeNodeKey | null)[] | (N | null)[]} keysOrNodes - An array of keys or nodes to be
-   * added to the multiset. Each element can be either a BinaryTreeNodeKey or a TreeMultisetNode.
+   * @param {(BTNKey | null)[] | (N | null)[]} keysOrNodes - An array of keys or nodes to be
+   * added to the multiset. Each element can be either a BTNKey or a TreeMultisetNode.
    * @param {V[]} [data] - The `data` parameter is an optional array of values that correspond
    * to the keys or nodes being added to the multiset. It is used to associate additional data with
    * each key or node.
    * @returns The function `addMany` returns an array of `N`, `null`, or `undefined` values.
    */
-  override addMany(keysOrNodes: (BinaryTreeNodeKey | null)[] | (N | null)[], data?: V[]): (N | null | undefined)[] {
+  override addMany(keysOrNodes: (BTNKey | null)[] | (N | null)[], data?: V[]): (N | null | undefined)[] {
     const inserted: (N | null | undefined)[] = [];
 
     for (let i = 0; i < keysOrNodes.length; i++) {
@@ -262,7 +263,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
    * The `delete` function in a binary search tree deletes a node from the tree and returns the deleted
    * node along with the parent node that needs to be balanced.
    * @param {ReturnType<C>} identifier - The `identifier` parameter is either a
-   * `BinaryTreeNodeKey` or a generic type `N`. It represents the property of the node that we are
+   * `BTNKey` or a generic type `N`. It represents the property of the node that we are
    * searching for. It can be a specific key value or any other property of the node.
    * @param callback - The `callback` parameter is a function that takes a node as input and returns a
    * value. This value is compared with the `identifier` parameter to determine if the node should be
@@ -274,7 +275,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
    * decremented by 1 and
    * @returns The method `delete` returns an array of `BinaryTreeDeletedResult<N>` objects.
    */
-  override delete<C extends OneParamCallback<N>>(
+  override delete<C extends BTNCallback<N>>(
     identifier: ReturnType<C>,
     callback: C = this._defaultCallbackByKey as C,
     ignoreCount = false

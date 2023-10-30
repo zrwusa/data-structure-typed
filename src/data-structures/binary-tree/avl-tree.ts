@@ -6,14 +6,14 @@
  * @license MIT License
  */
 import {BST, BSTNode} from './bst';
-import type {AVLTreeNodeNested, AVLTreeOptions, BinaryTreeDeletedResult, BinaryTreeNodeKey} from '../../types';
-import {OneParamCallback} from '../../types';
+import type {AVLTreeNodeNested, AVLTreeOptions, BinaryTreeDeletedResult, BTNKey} from '../../types';
+import {BTNCallback} from '../../types';
 import {IBinaryTree} from '../../interfaces';
 
 export class AVLTreeNode<V = any, N extends AVLTreeNode<V, N> = AVLTreeNodeNested<V>> extends BSTNode<V, N> {
   height: number;
 
-  constructor(key: BinaryTreeNodeKey, val?: V) {
+  constructor(key: BTNKey, val?: V) {
     super(key, val);
     this.height = 0;
   }
@@ -21,7 +21,8 @@ export class AVLTreeNode<V = any, N extends AVLTreeNode<V, N> = AVLTreeNodeNeste
 
 export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTreeNodeNested<V>>>
   extends BST<V, N>
-  implements IBinaryTree<V, N> {
+  implements IBinaryTree<V, N>
+{
   /**
    * This is a constructor function for an AVL tree data structure in TypeScript.
    * @param {AVLTreeOptions} [options] - The `options` parameter is an optional object that can be passed to the
@@ -34,27 +35,27 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
 
   /**
    * The function creates a new AVL tree node with the specified key and value.
-   * @param {BinaryTreeNodeKey} key - The key parameter is the key value that will be associated with
+   * @param {BTNKey} key - The key parameter is the key value that will be associated with
    * the new node. It is used to determine the position of the node in the binary search tree.
    * @param [val] - The parameter `val` is an optional value that can be assigned to the node. It is of
    * type `V`, which means it can be any value that is assignable to the `val` property of the
    * node type `N`.
    * @returns a new AVLTreeNode object with the specified key and value.
    */
-  override createNode(key: BinaryTreeNodeKey, val?: V): N {
+  override createNode(key: BTNKey, val?: V): N {
     return new AVLTreeNode<V, N>(key, val) as N;
   }
 
   /**
    * The function overrides the add method of a binary tree node and balances the tree after inserting
    * a new node.
-   * @param {BinaryTreeNodeKey | N | null} keyOrNode - The `keyOrNode` parameter can accept either a
-   * `BinaryTreeNodeKey` or a `N` (which represents a node in the binary tree) or `null`.
+   * @param {BTNKey | N | null} keyOrNode - The `keyOrNode` parameter can accept either a
+   * `BTNKey` or a `N` (which represents a node in the binary tree) or `null`.
    * @param [val] - The `val` parameter is the value that you want to assign to the new node that you
    * are adding to the binary search tree.
    * @returns The method is returning the inserted node (`N`), `null`, or `undefined`.
    */
-  override add(keyOrNode: BinaryTreeNodeKey | N | null, val?: V): N | null | undefined {
+  override add(keyOrNode: BTNKey | N | null, val?: V): N | null | undefined {
     // TODO support node as a param
     const inserted = super.add(keyOrNode, val);
     if (inserted) this._balancePath(inserted);
@@ -65,7 +66,7 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    * The function overrides the delete method of a binary tree and balances the tree after deleting a
    * node if necessary.
    * @param {ReturnType<C>} identifier - The `identifier` parameter is either a
-   * `BinaryTreeNodeKey` or a generic type `N`. It represents the property of the node that we are
+   * `BTNKey` or a generic type `N`. It represents the property of the node that we are
    * searching for. It can be a specific key value or any other property of the node.
    * @param callback - The `callback` parameter is a function that takes a node as input and returns a
    * value. This value is compared with the `identifier` parameter to determine if the node should be
@@ -73,7 +74,7 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    * `this._defaultCallbackByKey`
    * @returns The method is returning an array of `BinaryTreeDeletedResult<N>` objects.
    */
-  override delete<C extends OneParamCallback<N>>(
+  override delete<C extends BTNCallback<N>>(
     identifier: ReturnType<C>,
     callback: C = this._defaultCallbackByKey as C
   ): BinaryTreeDeletedResult<N>[] {
@@ -160,7 +161,7 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
       // Balance Restoration: If a balance issue is discovered after inserting a node, it requires balance restoration operations. Balance restoration includes four basic cases where rotation operations need to be performed to fix the balance:
       switch (
         this._balanceFactor(A) // second O(1)
-        ) {
+      ) {
         case -2:
           if (A && A.left) {
             if (this._balanceFactor(A.left) <= 0) {

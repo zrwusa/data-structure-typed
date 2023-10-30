@@ -105,7 +105,8 @@ export abstract class AbstractEdge<V = any> {
 export abstract class AbstractGraph<
   V extends AbstractVertex<any> = AbstractVertex<any>,
   E extends AbstractEdge<any> = AbstractEdge<any>
-> implements IGraph<V, E> {
+> implements IGraph<V, E>
+{
   private _vertices: Map<VertexKey, V> = new Map<VertexKey, V>();
 
   get vertices(): Map<VertexKey, V> {
@@ -553,14 +554,14 @@ export abstract class AbstractGraph<
     }
 
     getMinDist &&
-    distMap.forEach((d, v) => {
-      if (v !== srcVertex) {
-        if (d < minDist) {
-          minDist = d;
-          if (genPaths) minDest = v;
+      distMap.forEach((d, v) => {
+        if (v !== srcVertex) {
+          if (d < minDist) {
+            minDist = d;
+            if (genPaths) minDest = v;
+          }
         }
-      }
-    });
+      });
 
     genPaths && getPaths(minDest);
 
@@ -622,7 +623,7 @@ export abstract class AbstractGraph<
       if (vertexOrKey instanceof AbstractVertex) distMap.set(vertexOrKey, Infinity);
     }
 
-    const heap = new PriorityQueue<{ key: number; val: V }>({comparator: (a, b) => a.key - b.key});
+    const heap = new PriorityQueue<{key: number; val: V}>({comparator: (a, b) => a.key - b.key});
     heap.add({key: 0, val: srcVertex});
 
     distMap.set(srcVertex, 0);
@@ -851,7 +852,7 @@ export abstract class AbstractGraph<
    * `predecessor` property is a 2D array of vertices (or `null`) representing the predecessor vertices in the shortest
    * path between vertices in the
    */
-  floyd(): { costs: number[][]; predecessor: (V | null)[][] } {
+  floyd(): {costs: number[][]; predecessor: (V | null)[][]} {
     const idAndVertices = [...this._vertices];
     const n = idAndVertices.length;
 

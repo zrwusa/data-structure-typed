@@ -7,7 +7,7 @@ describe('DoublyLinkedListNode', () => {
     expect(node1.val).toBe(2);
     node1.val = 1;
     expect(node1.val).toBe(1);
-  })
+  });
 });
 
 describe('DoublyLinkedList Operation Test', () => {
@@ -38,10 +38,8 @@ describe('DoublyLinkedList Operation Test', () => {
     expect(list.tail?.val).toBe(4);
   });
 
-
   it('should find null', () => {
     expect(list.find(val => val === 6)).toBe(null);
-
   });
 
   it('should indexOf -1', () => {
@@ -60,13 +58,11 @@ describe('DoublyLinkedList Operation Test', () => {
     // @ts-ignore
     expect([...list]).toEqual([1, 2, 3, 4, 5]);
   });
-
-
 });
 
 describe('DoublyLinkedList Operation Test', () => {
   let list: DoublyLinkedList<number>;
-  let objectList: DoublyLinkedList<{ keyA: number }>;
+  let objectList: DoublyLinkedList<{keyA: number}>;
 
   beforeEach(() => {
     list = new DoublyLinkedList();

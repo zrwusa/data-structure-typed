@@ -71,10 +71,10 @@ describe('BinaryTreeNode', () => {
 });
 
 describe('BinaryTree', () => {
-  let tree: BinaryTree;
+  let tree: BinaryTree<number>;
 
   beforeEach(() => {
-    tree = new BinaryTree();
+    tree = new BinaryTree<number>();
   });
 
   afterEach(() => {
@@ -99,16 +99,18 @@ describe('BinaryTree', () => {
   });
 
   it('should add and find nodes', () => {
-    tree.add(1);
-    tree.add(2);
-    tree.add(3);
+    tree.add(1, 1);
+    tree.add(2, 2);
+    tree.add(3, 3);
 
     expect(tree.has(1)).toBe(true);
     expect(tree.has(2)).toBe(true);
     expect(tree.has(3)).toBe(true);
     expect(tree.has(4)).toBe(false);
     const node4 = tree.get(4);
+    expect(tree.has(node4)).toBe(false);
     expect(tree.has(node4, node => node)).toBe(false);
+    expect(tree.has('3', node => node.val?.toString())).toBe(true);
   });
 
   it('should getDepth return correct depth', () => {
@@ -241,7 +243,7 @@ describe('BinaryTree Morris Traversal', () => {
 });
 
 describe('BinaryTree APIs test', () => {
-  const avl = new AVLTree<{ id: number; text: string }>();
+  const avl = new AVLTree<{id: number; text: string}>();
   beforeEach(() => {
     avl.clear();
   });
@@ -265,10 +267,14 @@ describe('BinaryTree traversals', () => {
   const arr = [35, 20, 40, 15, 29, null, 50, null, 16, 28, 30, 45, 55];
   tree.refill(arr);
   expect(tree.dfs(node => node.key, 'pre')).toEqual([35, 20, 15, 16, 29, 28, 30, 40, 50, 45, 55]);
-  expect(tree.dfs(node => node.key, 'pre', tree.root, IterationType.RECURSIVE)).toEqual([35, 20, 15, 16, 29, 28, 30, 40, 50, 45, 55]);
+  expect(tree.dfs(node => node.key, 'pre', tree.root, IterationType.RECURSIVE)).toEqual([
+    35, 20, 15, 16, 29, 28, 30, 40, 50, 45, 55
+  ]);
   expect(tree.dfs(node => node.key, 'in')).toEqual([15, 16, 20, 28, 29, 30, 35, 40, 45, 50, 55]);
   expect(tree.dfs(node => node.key, 'post')).toEqual([16, 15, 28, 30, 29, 20, 45, 55, 50, 40, 35]);
-  expect(tree.dfs(node => node.key, 'post', tree.root, IterationType.RECURSIVE)).toEqual([16, 15, 28, 30, 29, 20, 45, 55, 50, 40, 35]);
+  expect(tree.dfs(node => node.key, 'post', tree.root, IterationType.RECURSIVE)).toEqual([
+    16, 15, 28, 30, 29, 20, 45, 55, 50, 40, 35
+  ]);
   expect(tree.bfs(node => node.key, tree.root, IterationType.RECURSIVE)).toEqual([
     35, 20, 40, 15, 29, 50, 16, 28, 30, 45, 55
   ]);
