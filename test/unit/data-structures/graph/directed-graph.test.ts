@@ -139,6 +139,14 @@ class MyDirectedGraph<
   createEdge(src: VertexKey, dest: VertexKey, weight?: number, val?: E): EO {
     return new MyEdge(src, dest, weight ?? 1, val) as EO;
   }
+
+  setInEdgeMap(value: Map<VO, EO[]>) {
+    super._setInEdgeMap(value);
+  }
+
+  setOutEdgeMap(value: Map<VO, EO[]>) {
+    super._setOutEdgeMap(value);
+  }
 }
 
 describe('Inherit from DirectedGraph and perform operations', () => {
@@ -164,6 +172,8 @@ describe('Inherit from DirectedGraph and perform operations', () => {
     myGraph.addVertex(2, 'data2');
     myGraph.addEdge(1, 2, 10, 'edge-data1-2');
     myGraph.addEdge(new MyEdge(2, 1, 20, 'edge-data2-1'));
+    myGraph.setInEdgeMap(myGraph.inEdgeMap);
+    myGraph.setOutEdgeMap(myGraph.outEdgeMap);
 
     expect(myGraph.edgeSet().length).toBe(2);
     // TODO

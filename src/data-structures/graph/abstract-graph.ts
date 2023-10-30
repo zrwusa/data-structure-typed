@@ -45,7 +45,7 @@ export abstract class AbstractVertex<V = any> {
   }
 }
 
-export abstract class AbstractEdge<VO = any> {
+export abstract class AbstractEdge<E = any> {
   /**
    * The above function is a protected constructor that initializes the weight, value, and hash code properties of an
    * object.
@@ -55,19 +55,19 @@ export abstract class AbstractEdge<VO = any> {
    * @param {VO} [val] - The `val` parameter is of type `VO`, which means it can be any type. It is an optional parameter,
    * meaning it can be omitted when creating an instance of the class.
    */
-  protected constructor(weight?: number, val?: VO) {
+  protected constructor(weight?: number, val?: E) {
     this._weight = weight !== undefined ? weight : 1;
     this._val = val;
     this._hashCode = uuidV4();
   }
 
-  private _val: VO | undefined;
+  private _val: E | undefined;
 
-  get val(): VO | undefined {
+  get val(): E | undefined {
     return this._val;
   }
 
-  set val(value: VO | undefined) {
+  set val(value: E | undefined) {
     this._val = value;
   }
 
@@ -131,7 +131,7 @@ export abstract class AbstractGraph<
    * @param weight
    * @param val
    */
-  abstract createEdge(srcOrV1: VertexKey | string, destOrV2: VertexKey | string, weight?: number, val?: E): EO;
+  abstract createEdge(srcOrV1: VertexKey, destOrV2: VertexKey, weight?: number, val?: E): EO;
 
   abstract deleteEdge(edge: EO): EO | null;
 

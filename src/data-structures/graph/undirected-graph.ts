@@ -102,13 +102,13 @@ export class UndirectedGraph<
 
   /**
    * The function `getEdge` returns the first edge that connects two vertices, or null if no such edge exists.
-   * @param {VO | null | VertexKey} v1 - The parameter `v1` represents a vertex or vertex ID. It can be of type `VO` (vertex
+   * @param {VO | VertexKey | null} v1 - The parameter `v1` represents a vertex or vertex ID. It can be of type `VO` (vertex
    * object), `null`, or `VertexKey` (a string or number representing the ID of a vertex).
-   * @param {VO | null | VertexKey} v2 - The parameter `v2` represents a vertex or vertex ID. It can be of type `VO` (vertex
+   * @param {VO | VertexKey | null} v2 - The parameter `v2` represents a vertex or vertex ID. It can be of type `VO` (vertex
    * object), `null`, or `VertexKey` (vertex ID).
    * @returns an edge (EO) or null.
    */
-  getEdge(v1: VO | null | VertexKey, v2: VO | null | VertexKey): EO | null {
+  getEdge(v1: VO | VertexKey | null, v2: VO | VertexKey | null): EO | null {
     let edges: EO[] | undefined = [];
 
     if (v1 !== null && v2 !== null) {
