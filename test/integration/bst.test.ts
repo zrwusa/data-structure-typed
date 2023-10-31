@@ -23,7 +23,7 @@ describe('Individual package BST operations test', () => {
     const nodeId10 = bst.get(10);
     expect(nodeId10?.key).toBe(10);
 
-    const nodeVal9 = bst.get(9, node => node.val);
+    const nodeVal9 = bst.get(9, node => node.value);
     expect(nodeVal9?.key).toBe(9);
 
     const leftMost = bst.getLeftMost();
@@ -230,7 +230,7 @@ describe('Individual package BST operations test', () => {
     expect(leftMost?.key).toBe(1);
 
     const node15 = objBST.get(15);
-    expect(node15?.val).toEqual({key: 15, keyA: 15});
+    expect(node15?.value).toEqual({key: 15, keyA: 15});
     const minNodeBySpecificNode = node15 && objBST.getLeftMost(node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
 
