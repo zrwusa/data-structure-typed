@@ -1,109 +1,136 @@
-import {RBTree, RBTreeNode} from '../../../../src';
+import { RedBlackTree, RBTreeNode } from '../../../../src';
 
-describe('RBTreeNode', () => {
-  it('should create an instance of RBTreeNode', () => {
-    const node = new RBTreeNode<number>(1);
-    expect(node).toBeInstanceOf(RBTreeNode);
-  });
-
-  it('should set and get the ID correctly', () => {
-    const node = new RBTreeNode<number>(1);
-    expect(node.key).toBe(1);
-
-    node.key = 2;
-    expect(node.key).toBe(2);
-  });
-
-  it('should set and get the value correctly', () => {
-    const node: RBTreeNode<number> = new RBTreeNode<number>(1, 42);
-    expect(node.value).toBe(42);
-
-    node.value = 55;
-    expect(node.value).toBe(55);
-  });
-
-  it('should set and get the left child correctly', () => {
-    const node1 = new RBTreeNode<number>(1);
-    const node2 = new RBTreeNode<number>(2);
-
-    node1.left = node2;
-
-    expect(node1.left).toBe(node2);
-    expect(node2.parent).toBe(node1);
-  });
-
-  it('should set and get the right child correctly', () => {
-    const node1 = new RBTreeNode<number>(1);
-    const node2 = new RBTreeNode<number>(2);
-
-    node1.right = node2;
-
-    expect(node1.right).toBe(node2);
-    expect(node2.parent).toBe(node1);
-  });
-
-  it('should set and get the parent correctly', () => {
-    const node1 = new RBTreeNode<number>(1);
-    const node2 = new RBTreeNode<number>(2);
-
-    node1.left = node2;
-
-    expect(node2.parent).toBe(node1);
-    expect(node1.left).toBe(node2);
-  });
-
-  it('should determine family position correctly', () => {
-    const root = new RBTreeNode<number>(1);
-    const leftChild = new RBTreeNode<number>(2);
-    const rightChild = new RBTreeNode<number>(3);
-
-    root.left = leftChild;
-    root.right = rightChild;
-
-    expect(leftChild.familyPosition).toBe('LEFT');
-    expect(rightChild.familyPosition).toBe('RIGHT');
-    expect(root.familyPosition).toBe('ROOT');
-  });
-});
-
-describe('Red-Black Tree Tests', () => {
-  let tree: RBTree<RBTreeNode<number>>;
+describe('RedBlackTree', () => {
+  let tree: RedBlackTree;
 
   beforeEach(() => {
-    tree = new RBTree<RBTreeNode<number>>();
+    tree = new RedBlackTree();
   });
 
-  test('Insertion and In-order Traverse', () => {
-    tree.add(5);
-    // tree.add(3);
-    // tree.add(7);
-    // tree.add(2);
-    // tree.add(4);
-    // tree.add(6);
-    // tree.add(8);
-    //
-    // const inOrderTraverse: number[] = tree.DFS('in')
-    //
-    // expect(inOrderTraverse).toEqual([2, 3, 4, 5, 6, 7, 8]);
+  describe('insert and getNode', () => {
+    test('should insert and find a node in the tree', () => {
+      tree.insert(10);
+      tree.insert(20);
+      tree.insert(5);
+
+      expect(tree.getNode(10)).toBeInstanceOf(RBTreeNode);
+      expect(tree.getNode(20)).toBeInstanceOf(RBTreeNode);
+      expect(tree.getNode(5)).toBeInstanceOf(RBTreeNode);
+      expect(tree.getNode(15)).toBe(tree.NIL);
+    });
+
+    test('should insert and find nodes with negative keys', () => {
+      tree.insert(-10);
+      tree.insert(-20);
+
+      expect(tree.getNode(-10)).toBeInstanceOf(RBTreeNode);
+      expect(tree.getNode(-20)).toBeInstanceOf(RBTreeNode);
+    });
   });
 
-  test('Deletion', () => {
-    // tree.add(5);
-    // tree.add(3);
-    // tree.add(7);
-    // tree.add(2);
-    // tree.add(4);
-    // tree.add(6);
-    // tree.add(8);
-    //
-    // // Delete a node (e.g., 3) and check if it's gone
-    // tree.delete(3);
-    // expect(tree.has(3)).toBe(false);
-    //
-    // // Perform in-order traversal to check if the tree is still balanced
-    // const inOrderTraverse: number[] = tree.DFS('in');
-    //
-    //
-    // expect(inOrderTraverse).toEqual([2, 4, 5, 6, 7, 8]);
+  describe('deleteNode', () => {
+    test('should delete a node from the tree', () => {
+      tree.insert(10);
+      tree.insert(20);
+      tree.insert(5);
+      tree.delete(20);
+
+      expect(tree.getNode(20)).toBe(tree.NIL);
+    });
+
+    test('should handle deleting a non-existent node', () => {
+      tree.insert(10);
+      tree.insert(20);
+      tree.insert(5);
+      tree.delete(15);
+
+      expect(tree.getNode(15)).toBe(tree.NIL);
+    });
+  });
+
+  describe('minimum', () => {
+    test('should find the minimum node in the tree', () => {
+      tree.insert(10);
+      tree.insert(20);
+      tree.insert(5);
+      tree.insert(15);
+      tree.insert(3);
+
+      const minNode = tree.getLeftMost(tree.root);
+      expect(minNode.key).toBe(3);
+    });
+
+    test('should handle an empty tree', () => {
+      const minNode = tree.getLeftMost(tree.root);
+      expect(minNode).toBe(tree.NIL);
+    });
+  });
+
+  describe('getRightMost', () => {
+    test('should find the getRightMost node in the tree', () => {
+      tree.insert(10);
+      tree.insert(20);
+      tree.insert(5);
+      tree.insert(15);
+      tree.insert(25);
+
+      const maxNode = tree.getRightMost(tree.root);
+      expect(maxNode.key).toBe(25);
+    });
+
+    test('should handle an empty tree', () => {
+      const maxNode = tree.getRightMost(tree.root);
+      expect(maxNode).toBe(tree.NIL);
+    });
+  });
+
+  describe('getSuccessor', () => {
+    test('should find the getSuccessor of a node', () => {
+      tree.insert(10);
+      tree.insert(20);
+      tree.insert(5);
+      tree.insert(15);
+      tree.insert(25);
+
+      const node = tree.getNode(15);
+      const successorNode = tree.getSuccessor(node);
+
+      expect(successorNode.key).toBe(20);
+    });
+
+    test('should handle a node with no getSuccessor', () => {
+      tree.insert(10);
+      tree.insert(5);
+
+      const node = tree.getNode(10);
+      const successorNode = tree.getSuccessor(node);
+      // TODO not sure if it should be null or tree.NIL
+      expect(successorNode).toBe(null);
+    });
+  });
+
+  describe('getPredecessor', () => {
+    test('should find the getPredecessor of a node', () => {
+      tree.insert(10);
+      tree.insert(20);
+      tree.insert(5);
+      tree.insert(15);
+      tree.insert(25);
+
+      const node = tree.getNode(20);
+      const predecessorNode = tree.getPredecessor(node);
+
+      expect(predecessorNode.key).toBe(15);
+    });
+
+    test('should handle a node with no getPredecessor', () => {
+      tree.insert(10);
+      tree.insert(20);
+
+      const node = tree.getNode(20);
+      const predecessorNode = tree.getPredecessor(node);
+      // TODO not sure if it should be tree.NIL or something else.
+      expect(predecessorNode).toBe(tree.getNode(10));
+    });
   });
 });

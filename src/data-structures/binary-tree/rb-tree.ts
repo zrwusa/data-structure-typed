@@ -1,358 +1,426 @@
-import {BTNKey, RBColor, RBTreeNodeNested, RBTreeOptions} from '../../types';
-import {IBinaryTree} from '../../interfaces';
-import {BST, BSTNode} from './bst';
+export enum RBTNColor {BLACK, RED}
 
-export class RBTreeNode<V = any, N extends RBTreeNode<V, N> = RBTreeNodeNested<V>> extends BSTNode<V, N> {
-  constructor(key: BTNKey, value?: V) {
-    super(key, value);
-    this.color = RBColor.RED;
+export class RBTreeNode {
+  key: number = 0;
+  parent: RBTreeNode;
+  left: RBTreeNode;
+  right: RBTreeNode;
+  color: number = RBTNColor.BLACK;
+
+  constructor() {
+    this.parent = null as unknown as RBTreeNode;
+    this.left = null as unknown as RBTreeNode;
+    this.right = null as unknown as RBTreeNode;
   }
-
-  color: RBColor;
-
 }
 
-export class RBTree<V, N extends RBTreeNode<V, N> = RBTreeNode<V, RBTreeNodeNested<V>>>
-  extends BST<V, N>
-  implements IBinaryTree<V, N> {
-  constructor(options?: RBTreeOptions) {
-    super(options);
+export class RedBlackTree {
+  
+  constructor() {
+    this._NIL = new RBTreeNode();
+    this.NIL.color = RBTNColor.BLACK;
+    this.NIL.left = null as unknown as RBTreeNode;
+    this.NIL.right = null as unknown as RBTreeNode;
+    this._root = this.NIL;
   }
 
-  override createNode(key: BTNKey, value?: V): N {
-    return new RBTreeNode(key, value) as N;
+  protected _root: RBTreeNode;
+
+  get root(): RBTreeNode {
+    return this._root;
   }
 
-  // override add(keyOrNode: BTNKey | N | null, value?: V): N | null | undefined {
-  //   const inserted = super.add(keyOrNode, value);
-  //   if (inserted) this._fixInsertViolation(inserted);
-  //   return inserted;
-  // }
-  //
-  // // Method for fixing insert violations in a red-black tree
-  // protected _fixInsertViolation(node: N) {
-  //   while (node !== this.root! && node.color === RBColor.RED && node.parent!.color === RBColor.RED) {
-  //     const parent = node.parent!;
-  //     const grandparent = parent.parent!;
-  //     let uncle: N | null | undefined = null;
-  //
-  //     if (parent === grandparent.left) {
-  //       uncle = grandparent.right;
-  //
-  //       // Case 1: The uncle node is red
-  //       if (uncle && uncle.color === RBColor.RED) {
-  //         grandparent.color = RBColor.RED;
-  //         parent.color = RBColor.BLACK;
-  //         uncle.color = RBColor.BLACK;
-  //         node = grandparent;
-  //       } else {
-  //         // Case 2: The uncle node is black, and the current node is a right child
-  //         if (node === parent.right) {
-  //           this._rotateLeft(parent);
-  //           node = parent;
-  //           // Update parent reference
-  //           node.parent = grandparent;
-  //           parent.parent = node;
-  //         }
-  //
-  //         // Case 3: The uncle node is black, and the current node is a left child
-  //         parent.color = RBColor.BLACK;
-  //         grandparent.color = RBColor.RED;
-  //         this._rotateRight(grandparent);
-  //       }
-  //     } else {
-  //       // Symmetric case: The parent is the right child of the grandparent
-  //       uncle = grandparent.left;
-  //
-  //       // Case 1: The uncle node is red
-  //       if (uncle && uncle.color === RBColor.RED) {
-  //         grandparent.color = RBColor.RED;
-  //         parent.color = RBColor.BLACK;
-  //         uncle.color = RBColor.BLACK;
-  //         node = grandparent;
-  //       } else {
-  //         // Case 2: The uncle node is black, and the current node is a left child
-  //         if (node === parent.left) {
-  //           this._rotateRight(parent);
-  //           node = parent;
-  //           // Update parent reference
-  //           node.parent = grandparent;
-  //           parent.parent = node;
-  //         }
-  //
-  //         // Case 3: The uncle node is black, and the current node is a right child
-  //         parent.color = RBColor.BLACK;
-  //         grandparent.color = RBColor.RED;
-  //         this._rotateLeft(grandparent);
-  //       }
-  //     }
-  //   }
-  //
-  //   // The root node is always black
-  //   this.root!.color = RBColor.BLACK;
-  // }
-  //
-  // // Left rotation operation
-  // protected _rotateLeft(node: N) {
-  //   const rightChild = node.right;
-  //   node.right = rightChild!.left;
-  //
-  //   if (rightChild!.left) {
-  //     rightChild!.left.parent = node;
-  //   }
-  //
-  //   rightChild!.parent = node.parent;
-  //
-  //   if (node === this.root) {
-  //     // @ts-ignore
-  //     this._setRoot(rightChild);
-  //   } else if (node === node.parent!.left) {
-  //     node.parent!.left = rightChild;
-  //   } else {
-  //     node.parent!.right = rightChild;
-  //   }
-  //
-  //   rightChild!.left = node;
-  //   node.parent = rightChild;
-  // }
-  //
-  // // Right rotation operation
-  // protected _rotateRight(node: N) {
-  //   const leftChild = node.left;
-  //   node.left = leftChild!.right;
-  //
-  //   if (leftChild!.right) {
-  //     leftChild!.right.parent = node;
-  //   }
-  //
-  //   leftChild!.parent = node.parent;
-  //
-  //   if (node === this.root) {
-  //     // @ts-ignore
-  //     this._setRoot(leftChild);
-  //   } else if (node === node.parent!.right) {
-  //     node.parent!.right = leftChild;
-  //   } else {
-  //     node.parent!.left = leftChild;
-  //   }
-  //
-  //   leftChild!.right = node;
-  //   node.parent = leftChild;
-  // }
-  //
-  // protected _isNodeRed(node: N | null | undefined): boolean {
-  //   return node ? node.color === RBColor.RED : false;
-  // }
-  //
-  // // Find the sibling node
-  // protected _findSibling(node: N): N | null | undefined {
-  //   if (!node.parent) {
-  //     return undefined;
-  //   }
-  //
-  //   return node === node.parent.left ? node.parent.right : node.parent.left;
-  // }
-  //
-  // // Remove a node
-  // protected _removeNode(node: N, replacement: N | null | undefined): void {
-  //   if (node === this.root && !replacement) {
-  //     // If there's only the root node and no replacement, simply delete the root node
-  //     this._setRoot(null);
-  //   } else if (node === this.root || this._isNodeRed(node)) {
-  //     // If the node is the root or a red node, delete it directly
-  //     if (node.parent!.left === node) {
-  //       node.parent!.left = replacement;
-  //     } else {
-  //       node.parent!.right = replacement;
-  //     }
-  //
-  //     if (replacement) {
-  //       replacement.parent = node.parent!;
-  //       replacement.color = RBColor.BLACK; // Set the replacement node's color to black
-  //     }
-  //   } else {
-  //     // If the node is a black node, perform removal and repair
-  //     const sibling = this._findSibling(node);
-  //
-  //     if (node.parent!.left === node) {
-  //       node.parent!.left = replacement;
-  //     } else {
-  //       node.parent!.right = replacement;
-  //     }
-  //
-  //     if (replacement) {
-  //       replacement.parent = node.parent;
-  //     }
-  //
-  //     if (!this._isNodeRed(sibling)) {
-  //       // If the sibling node is black, perform repair
-  //       this._fixDeleteViolation(replacement || node);
-  //     }
-  //   }
-  //
-  //   if (node.parent) {
-  //     node.parent = null;
-  //   }
-  //   node.left = null;
-  //   node.right = null;
-  // }
-  //
-  // override delete(keyOrNode: BTNKey | N): BinaryTreeDeletedResult<N>[] {
-  //   const node = this.get(keyOrNode);
-  //   const result: BinaryTreeDeletedResult<N>[] = [{deleted: undefined, needBalanced: null}];
-  //   if (!node) return result; // Node does not exist
-  //
-  //   const replacement = this._getReplacementNode(node);
-  //
-  //   const isRed = this._isNodeRed(node);
-  //   const isRedReplacement = this._isNodeRed(replacement);
-  //
-  //   // Remove the node
-  //   this._removeNode(node, replacement);
-  //
-  //   if (isRed || isRedReplacement) {
-  //     // If the removed node is red or the replacement node is red, no repair is needed
-  //     return result;
-  //   }
-  //
-  //   // Repair any violation introduced by the removal
-  //   this._fixDeleteViolation(replacement);
-  //
-  //   return result;
-  // }
-  //
-  // // Repair operation after node deletion
-  // protected _fixDeleteViolation(node: N | null | undefined) {
-  //   let sibling;
-  //
-  //   while (node && node !== this.root && !this._isNodeRed(node)) {
-  //     if (node === node.parent!.left) {
-  //       sibling = node.parent!.right;
-  //
-  //       if (sibling && this._isNodeRed(sibling)) {
-  //         // Case 1: The sibling node is red
-  //         sibling.color = RBColor.BLACK;
-  //         node.parent!.color = RBColor.RED;
-  //         this._rotateLeft(node.parent!);
-  //         sibling = node.parent!.right;
-  //       }
-  //
-  //       if (!sibling) return;
-  //
-  //       if (
-  //         (!sibling.left || sibling.left.color === RBColor.BLACK) &&
-  //         (!sibling.right || sibling.right.color === RBColor.BLACK)
-  //       ) {
-  //         // Case 2: The sibling node and its children are all black
-  //         sibling.color = RBColor.RED;
-  //         node = node.parent!;
-  //       } else {
-  //         if (!(sibling.right && this._isNodeRed(sibling.right))) {
-  //           // Case 3: The sibling node is black, and the left child is red, the right child is black
-  //           sibling.left!.color = RBColor.BLACK;
-  //           sibling.color = RBColor.RED;
-  //           this._rotateRight(sibling);
-  //           sibling = node.parent!.right;
-  //         }
-  //
-  //         // Case 4: The sibling node is black, and the right child is red
-  //         if (sibling) {
-  //           sibling.color = node.parent!.color;
-  //         }
-  //         if (node.parent) {
-  //           node.parent.color = RBColor.BLACK;
-  //         }
-  //         if (sibling!.right) {
-  //           sibling!.right.color = RBColor.BLACK;
-  //         }
-  //         this._rotateLeft(node.parent!);
-  //         node = this.root;
-  //       }
-  //     } else {
-  //       // Symmetric case: The parent is the right child of the grandparent
-  //       sibling = node.parent!.left;
-  //
-  //       if (sibling && this._isNodeRed(sibling)) {
-  //         // Case 1: The sibling node is red
-  //         sibling.color = RBColor.BLACK;
-  //         node.parent!.color = RBColor.RED;
-  //         this._rotateRight(node.parent!);
-  //         sibling = node.parent!.left;
-  //       }
-  //
-  //       if (!sibling) return;
-  //
-  //       if (
-  //         (!sibling.left || sibling.left.color === RBColor.BLACK) &&
-  //         (!sibling.right || sibling.right.color === RBColor.BLACK)
-  //       ) {
-  //         // Case 2: The sibling node and its children are all black
-  //         sibling.color = RBColor.RED;
-  //         node = node.parent!;
-  //       } else {
-  //         if (!(sibling.left && this._isNodeRed(sibling.left))) {
-  //           // Case 3: The sibling node is black, and the right child is red, the left child is black
-  //           sibling.right!.color = RBColor.BLACK;
-  //           sibling.color = RBColor.RED;
-  //           this._rotateLeft(sibling);
-  //           sibling = node.parent!.left;
-  //         }
-  //
-  //         // Case 4: The sibling node is black, and the left child is red
-  //         if (sibling) {
-  //           sibling.color = node.parent!.color;
-  //         }
-  //         if (node.parent) {
-  //           node.parent.color = RBColor.BLACK;
-  //         }
-  //         if (sibling!.left) {
-  //           sibling!.left.color = RBColor.BLACK;
-  //         }
-  //         this._rotateRight(node.parent!);
-  //         node = this.root;
-  //       }
-  //     }
-  //   }
-  //
-  //   if (node) {
-  //     node.color = RBColor.BLACK;
-  //   }
-  // }
-  //
-  // protected _findMin(node: N): N {
-  //   while (node.left) {
-  //     node = node.left;
-  //   }
-  //   return node;
-  // }
-  //
-  // // Get the replacement node
-  // protected _getReplacementNode(node: N): N | null | undefined {
-  //   if (node.left && node.right) {
-  //     return this._findSuccessor(node);
-  //   }
-  //
-  //   if (!node.left && !node.right) {
-  //     return null; // Return a fake node with color black
-  //   }
-  //
-  //   return node.left || node.right;
-  // }
-  //
-  // // Find the successor node
-  // protected _findSuccessor(node: N): N | null | undefined {
-  //   if (node.right) {
-  //     // If the node has a right child, find the minimum node in the right subtree as the successor
-  //     return this._findMin(node.right);
-  //   }
-  //
-  //   // Otherwise, traverse upward until finding the first parent whose left child is the current node
-  //   let parent = node.parent;
-  //   while (parent && node === parent.right) {
-  //     node = parent;
-  //     parent = parent.parent;
-  //   }
-  //
-  //   return parent;
-  // }
+  protected _NIL: RBTreeNode;
+
+  get NIL(): RBTreeNode {
+    return this._NIL;
+  }
+
+  /**
+   * The `insert` function inserts a new node with a given key into a red-black tree and fixes any
+   * violations of the red-black tree properties.
+   * @param {number} key - The key parameter is a number that represents the value to be inserted into
+   * the RBTree.
+   * @returns The function does not explicitly return anything.
+   */
+  insert(key: number): void {
+
+    const node: RBTreeNode = new RBTreeNode();
+    node.parent = null as unknown as RBTreeNode;
+    node.key = key;
+    node.left = this.NIL;
+    node.right = this.NIL;
+    node.color = RBTNColor.RED;
+
+    let y: RBTreeNode = null as unknown as RBTreeNode;
+    let x: RBTreeNode = this.root;
+
+    while (x !== this.NIL) {
+      y = x;
+      if (node.key < x.key) {
+        x = x.left;
+      } else {
+        x = x.right;
+      }
+    }
+
+    node.parent = y;
+    if (y === null) {
+      this._root = node;
+    } else if (node.key < y.key) {
+      y.left = node;
+    } else {
+      y.right = node;
+    }
+
+    if (node.parent === null) {
+      node.color = RBTNColor.BLACK;
+      return;
+    }
+
+    if (node.parent.parent === null) {
+      return;
+    }
+
+    this._fixInsert(node);
+  }
+
+  /**
+   * The `delete` function in TypeScript is used to remove a node with a specific key from a red-black
+   * tree.
+   * @param {RBTreeNode} node - The `node` parameter is of type `RBTreeNode` and represents the current
+   * node being processed in the delete operation.
+   * @returns The `delete` function does not return anything. It has a return type of `void`.
+   */
+  delete(key: number): void {
+    const helper = (node: RBTreeNode): void => {
+
+      let z: RBTreeNode = this.NIL;
+      let x: RBTreeNode, y: RBTreeNode;
+      while (node !== this.NIL) {
+        if (node.key === key) {
+          z = node;
+        }
+
+        if (node.key <= key) {
+          node = node.right;
+        } else {
+          node = node.left;
+        }
+      }
+
+      if (z === this.NIL) {
+        console.log("Couldn't find key in the tree");
+        return;
+      }
+
+      y = z;
+      let yOriginalColor: number = y.color;
+      if (z.left === this.NIL) {
+        x = z.right;
+        this._rbTransplant(z, z.right);
+      } else if (z.right === this.NIL) {
+        x = z.left;
+        this._rbTransplant(z, z.left);
+      } else {
+        y = this.getLeftMost(z.right);
+        yOriginalColor = y.color;
+        x = y.right;
+        if (y.parent === z) {
+          x.parent = y;
+        } else {
+          this._rbTransplant(y, y.right);
+          y.right = z.right;
+          y.right.parent = y;
+        }
+
+        this._rbTransplant(z, y);
+        y.left = z.left;
+        y.left.parent = y;
+        y.color = z.color;
+      }
+      if (yOriginalColor === 0) {
+        this.fixDelete(x);
+      }
+    }
+    helper(this.root);
+  }
+
+  /**
+   * The function `getNode` is a recursive depth-first search algorithm that searches for a node with a
+   * given key in a red-black tree.
+   * @param {number} key - The key parameter is a number that represents the value we are searching for
+   * in the RBTree.
+   * @param beginRoot - The `beginRoot` parameter is an optional parameter that represents the starting
+   * point for the search in the binary search tree. If no value is provided for `beginRoot`, it
+   * defaults to the root of the binary search tree (`this.root`).
+   * @returns a RBTreeNode.
+   */
+  getNode(key: number, beginRoot = this.root): RBTreeNode {
+    const dfs = (node: RBTreeNode): RBTreeNode => {
+      if (node === this.NIL || key === node.key) {
+        return node;
+      }
+
+      if (key < node.key) {
+        return dfs(node.left);
+      }
+      return dfs(node.right);
+    }
+    return dfs(beginRoot);
+  }
+
+ 
+  /**
+   * The function returns the leftmost node in a red-black tree.
+   * @param {RBTreeNode} node - The parameter "node" is of type RBTreeNode, which represents a node in
+   * a Red-Black Tree.
+   * @returns The leftmost node in the given RBTreeNode.
+   */
+  getLeftMost(node: RBTreeNode): RBTreeNode {
+    while (node.left !== null && node.left !== this.NIL) {
+      node = node.left;
+    }
+    return node;
+  }
+
+
+  /**
+   * The function returns the rightmost node in a red-black tree.
+   * @param {RBTreeNode} node - The parameter "node" is of type RBTreeNode.
+   * @returns the rightmost node in a red-black tree.
+   */
+  getRightMost(node: RBTreeNode): RBTreeNode {
+    while (node.right !== null && node.right !== this.NIL) {
+      node = node.right;
+    }
+    return node;
+  }
+
+  /**
+   * The function returns the successor of a given node in a red-black tree.
+   * @param {RBTreeNode} x - RBTreeNode - The node for which we want to find the successor.
+   * @returns the successor of the given RBTreeNode.
+   */
+  getSuccessor(x: RBTreeNode): RBTreeNode {
+
+    if (x.right !== this.NIL) {
+      return this.getLeftMost(x.right);
+    }
+
+    let y: RBTreeNode = x.parent;
+    while (y !== this.NIL && y !== null && x === y.right) {
+      x = y;
+      y = y.parent;
+    }
+    return y;
+  }
+
+  /**
+   * The function returns the predecessor of a given node in a red-black tree.
+   * @param {RBTreeNode} x - The parameter `x` is of type `RBTreeNode`, which represents a node in a
+   * Red-Black Tree.
+   * @returns the predecessor of the given RBTreeNode 'x'.
+   */
+  getPredecessor(x: RBTreeNode): RBTreeNode {
+
+    if (x.left !== this.NIL) {
+      return this.getRightMost(x.left);
+    }
+
+    let y: RBTreeNode = x.parent;
+    while (y !== this.NIL && x === y.left) {
+      x = y;
+      y = y.parent;
+    }
+
+    return y;
+  }
+
+  /**
+   * The function performs a left rotation on a red-black tree node.
+   * @param {RBTreeNode} x - The parameter `x` is a RBTreeNode object.
+   */
+  protected _leftRotate(x: RBTreeNode): void {
+    const y: RBTreeNode = x.right;
+    x.right = y.left;
+    if (y.left !== this.NIL) {
+      y.left.parent = x;
+    }
+    y.parent = x.parent;
+    if (x.parent === null) {
+      this._root = y;
+    } else if (x === x.parent.left) {
+      x.parent.left = y;
+    } else {
+      x.parent.right = y;
+    }
+    y.left = x;
+    x.parent = y;
+  }
+
+  /**
+   * The function performs a right rotation on a red-black tree node.
+   * @param {RBTreeNode} x - x is a RBTreeNode, which represents the node that needs to be right
+   * rotated.
+   */
+  protected _rightRotate(x: RBTreeNode): void {
+    const y: RBTreeNode = x.left;
+    x.left = y.right;
+    if (y.right !== this.NIL) {
+      y.right.parent = x;
+    }
+    y.parent = x.parent;
+    if (x.parent === null) {
+      this._root = y;
+    } else if (x === x.parent.right) {
+      x.parent.right = y;
+    } else {
+      x.parent.left = y;
+    }
+    y.right = x;
+    x.parent = y;
+  }
+
+  /**
+   * The fixDelete function is used to rebalance the Red-Black Tree after a node deletion.
+   * @param {RBTreeNode} x - The parameter `x` is of type `RBTreeNode`, which represents a node in a
+   * red-black tree.
+   */
+  protected fixDelete(x: RBTreeNode): void {
+    let s: RBTreeNode;
+    while (x !== this.root && x.color === 0) {
+      if (x === x.parent.left) {
+        s = x.parent.right;
+        if (s.color === 1) {
+
+          s.color = RBTNColor.BLACK;
+          x.parent.color = RBTNColor.RED;
+          this._leftRotate(x.parent);
+          s = x.parent.right;
+        }
+
+        if (s.left.color === 0 && s.right.color === 0) {
+
+          s.color = RBTNColor.RED;
+          x = x.parent;
+        } else {
+          if (s.right.color === 0) {
+
+            s.left.color = RBTNColor.BLACK;
+            s.color = RBTNColor.RED;
+            this._rightRotate(s);
+            s = x.parent.right;
+          }
+
+          s.color = x.parent.color;
+          x.parent.color = RBTNColor.BLACK;
+          s.right.color = RBTNColor.BLACK;
+          this._leftRotate(x.parent);
+          x = this.root;
+        }
+      } else {
+        s = x.parent.left;
+        if (s.color === 1) {
+
+          s.color = RBTNColor.BLACK;
+          x.parent.color = RBTNColor.RED;
+          this._rightRotate(x.parent);
+          s = x.parent.left;
+        }
+
+        if (s.right.color === 0 && s.right.color === 0) {
+
+          s.color = RBTNColor.RED;
+          x = x.parent;
+        } else {
+          if (s.left.color === 0) {
+
+            s.right.color = RBTNColor.BLACK;
+            s.color = RBTNColor.RED;
+            this._leftRotate(s);
+            s = x.parent.left;
+          }
+
+          s.color = x.parent.color;
+          x.parent.color = RBTNColor.BLACK;
+          s.left.color = RBTNColor.BLACK;
+          this._rightRotate(x.parent);
+          x = this.root;
+        }
+      }
+    }
+    x.color = RBTNColor.BLACK;
+  }
+
+  /**
+   * The function `_rbTransplant` replaces one node in a red-black tree with another node.
+   * @param {RBTreeNode} u - The parameter "u" represents a RBTreeNode object.
+   * @param {RBTreeNode} v - The parameter "v" is a RBTreeNode object.
+   */
+  protected _rbTransplant(u: RBTreeNode, v: RBTreeNode): void {
+    if (u.parent === null) {
+      this._root = v;
+    } else if (u === u.parent.left) {
+      u.parent.left = v;
+    } else {
+      u.parent.right = v;
+    }
+    v.parent = u.parent;
+  }
+
+  /**
+   * The `_fixInsert` function is used to fix the red-black tree after an insertion operation.
+   * @param {RBTreeNode} k - The parameter `k` is a RBTreeNode object, which represents a node in a
+   * red-black tree.
+   */
+  protected _fixInsert(k: RBTreeNode): void {
+    let u: RBTreeNode;
+    while (k.parent.color === 1) {
+      if (k.parent === k.parent.parent.right) {
+        u = k.parent.parent.left;
+        if (u.color === 1) {
+
+          u.color = RBTNColor.BLACK;
+          k.parent.color = RBTNColor.BLACK;
+          k.parent.parent.color = RBTNColor.RED;
+          k = k.parent.parent;
+        } else {
+          if (k === k.parent.left) {
+
+            k = k.parent;
+            this._rightRotate(k);
+          }
+
+          k.parent.color = RBTNColor.BLACK;
+          k.parent.parent.color = RBTNColor.RED;
+          this._leftRotate(k.parent.parent);
+        }
+      } else {
+        u = k.parent.parent.right;
+
+        if (u.color === 1) {
+
+          u.color = RBTNColor.BLACK;
+          k.parent.color = RBTNColor.BLACK;
+          k.parent.parent.color = RBTNColor.RED;
+          k = k.parent.parent;
+        } else {
+          if (k === k.parent.right) {
+
+            k = k.parent;
+            this._leftRotate(k);
+          }
+
+          k.parent.color = RBTNColor.BLACK;
+          k.parent.parent.color = RBTNColor.RED;
+          this._rightRotate(k.parent.parent);
+        }
+      }
+      if (k === this.root) {
+        break;
+      }
+    }
+    this.root.color = RBTNColor.BLACK;
+  }
 }

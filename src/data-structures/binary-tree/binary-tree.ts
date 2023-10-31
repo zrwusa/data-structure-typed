@@ -1048,6 +1048,26 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     }
   }
 
+  /**
+   * The function `getSuccessor` returns the next node in a binary tree given a node `x`, or `null` if
+   * `x` is the last node.
+   * @param {N} x - N - a node in a binary tree
+   * @returns The function `getSuccessor` returns a value of type `N` (the successor node), or `null`
+   * if there is no successor, or `undefined` if the input `x` is `undefined`.
+   */
+  getSuccessor(x: N): N | null | undefined{
+    if (x.right) {
+      return this.getLeftMost(x.right);
+    }
+
+    let y: N | null | undefined = x.parent;
+    while (y && y && x === y.right) {
+      x = y;
+      y = y.parent;
+    }
+    return y;
+  }
+
   // --- start additional methods ---
 
   /**
