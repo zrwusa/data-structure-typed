@@ -140,7 +140,7 @@ export class RedBlackTree {
         y.color = z.color;
       }
       if (yOriginalColor === 0) {
-        this.fixDelete(x);
+        this._fixDelete(x);
       }
     }
     helper(this.root);
@@ -170,7 +170,7 @@ export class RedBlackTree {
     return dfs(beginRoot);
   }
 
- 
+
   /**
    * The function returns the leftmost node in a red-black tree.
    * @param {RBTreeNode} node - The parameter "node" is of type RBTreeNode, which represents a node in
@@ -283,11 +283,11 @@ export class RedBlackTree {
   }
 
   /**
-   * The fixDelete function is used to rebalance the Red-Black Tree after a node deletion.
+   * The _fixDelete function is used to rebalance the Red-Black Tree after a node deletion.
    * @param {RBTreeNode} x - The parameter `x` is of type `RBTreeNode`, which represents a node in a
    * red-black tree.
    */
-  protected fixDelete(x: RBTreeNode): void {
+  protected _fixDelete(x: RBTreeNode): void {
     let s: RBTreeNode;
     while (x !== this.root && x.color === 0) {
       if (x === x.parent.left) {

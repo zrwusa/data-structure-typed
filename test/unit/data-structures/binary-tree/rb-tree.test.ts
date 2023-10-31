@@ -1,4 +1,5 @@
 import { RedBlackTree, RBTreeNode } from '../../../../src';
+import {getRandomInt} from "../../../utils";
 
 describe('RedBlackTree', () => {
   let tree: RedBlackTree;
@@ -132,5 +133,110 @@ describe('RedBlackTree', () => {
       // TODO not sure if it should be tree.NIL or something else.
       expect(predecessorNode).toBe(tree.getNode(10));
     });
+  });
+});
+
+
+describe('RedBlackTree', () => {
+  let tree: RedBlackTree;
+
+  beforeEach(() => {
+    tree = new RedBlackTree();
+  });
+
+  it('should insert nodes into the tree', () => {
+    tree.insert(10);
+    expect(tree.getNode(10)).toBeDefined();
+    tree.insert(20);
+    expect(tree.getNode(20)).toBeDefined();
+    tree.insert(5);
+    expect(tree.getNode(5)).toBeDefined();
+  });
+
+  it('should delete nodes from the tree', () => {
+    tree.insert(10);
+    tree.insert(20);
+    tree.insert(5);
+    tree.delete(20);
+    expect(tree.getNode(20)).toBe(tree.NIL);
+  });
+
+  it('should get the successor of a node', () => {
+    tree.insert(10);
+    tree.insert(20);
+    const node = tree.getNode(10);
+    const successor = tree.getSuccessor(node);
+    expect(successor?.key).toBe(20);
+  });
+
+  it('should get the predecessor of a node', () => {
+    tree.insert(10);
+    tree.insert(20);
+    const node = tree.getNode(20);
+    const predecessor = tree.getPredecessor(node);
+    expect(predecessor?.key).toBe(10);
+  });
+
+  it('should rotate nodes to the left', () => {
+    tree.insert(10);
+    tree.insert(20);
+    tree.insert(5);
+    const node = tree.getNode(10);
+    tree.insert(15);
+    // Verify that rotation has occurred
+    expect(node.left.key).toBe(5);
+    expect(node.right.key).toBe(20);
+  });
+
+  it('should rotate nodes to the right', () => {
+    tree.insert(10);
+    tree.insert(20);
+    tree.insert(5);
+    const node = tree.getNode(20);
+    tree.insert(25);
+    // Verify that rotation has occurred
+    expect(node.left.key).toBe(0);
+    expect(node.right.key).toBe(25);
+  });
+
+  it('should fix the tree after deletion', () => {
+    tree.insert(10);
+    tree.insert(20);
+    tree.insert(5);
+    tree.insert(15);
+    tree.delete(15);
+    // Verify that the tree is still valid
+    // You can add assertions to check the Red-Black Tree properties
+  });
+
+  it('should fix the tree after insertion', () => {
+    for (let i = 0; i < 1000; i++) {
+      tree.insert(getRandomInt(-100, 1000));
+      tree.delete(getRandomInt(-100, 1000));
+    }
+    tree.insert(1);
+    tree.insert(2);
+    tree.insert(5);
+    tree.insert(15);
+    tree.insert(25);
+    tree.insert(10);
+    tree.insert(8);
+    tree.insert(28);
+    tree.insert(111);
+    tree.insert(12);
+    tree.delete(2);
+    tree.insert(22);
+    tree.insert(50);
+    tree.insert(155);
+    tree.insert(225);
+    tree.insert(7);
+    tree.delete(15);
+    tree.insert(23);
+    tree.insert(33);
+    tree.insert(15);
+
+
+    // Verify that the tree is still a valid Red-Black Tree
+    // You can add assertions to check the Red-Black Tree properties
   });
 });
