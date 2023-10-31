@@ -231,10 +231,6 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * @returns either the first node that matches the given nodeProperty and callback, or null if no
    * matching node is found.
    */
-<<<<<<< HEAD
-  override get(nodeProperty: BinaryTreeNodeKey | N, propertyName: BinaryTreeNodePropertyName = 'key'): N | null {
-    return this.getNodes(nodeProperty, propertyName, true)[0] ?? undefined;
-=======
   override get<C extends BTNCallback<N>>(
     identifier: ReturnType<C> | null,
     callback: C = ((node: N) => node.key) as C,
@@ -242,7 +238,6 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     iterationType = this.iterationType
   ): N | null {
     return this.getNodes(identifier, callback, true, beginRoot, iterationType)[0] ?? null;
->>>>>>> 10bbcffcef4ed5901867431a3d3eae891d190b9d
   }
 
   /**

@@ -24,22 +24,7 @@ export enum FamilyPosition {
 
 export type BTNKey = number;
 
-<<<<<<< HEAD:src/types/data-structures/binary-tree.ts
-export type NodeOrPropertyName = 'node' | BinaryTreeNodePropertyName;
-
-export type DFSOrderPattern = 'in' | 'pre' | 'post';
-
-export type BinaryTreeNodeKey = number;
-
-export type BinaryTreeNodeProperty<N extends BinaryTreeNode<N['val'], N>> =
-  | N['val']
-  | N
-  | number
-  | BinaryTreeNodeKey;
-export type BinaryTreeDeletedResult<N> = { deleted: N | null | undefined; needBalanced: N | null | undefined };
-=======
 export type BinaryTreeDeletedResult<N> = { deleted: N | null | undefined; needBalanced: N | null };
->>>>>>> 10bbcffcef4ed5901867431a3d3eae891d190b9d:src/types/data-structures/binary-tree/binary-tree.ts
 
 export type BinaryTreeNodeNested<T> = BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, any>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
