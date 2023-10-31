@@ -38,64 +38,40 @@ export class HashMap<K, V> {
       });
   }
 
-  private _initialCapacity: number;
+  protected _initialCapacity: number;
 
   get initialCapacity(): number {
     return this._initialCapacity;
   }
 
-  set initialCapacity(value: number) {
-    this._initialCapacity = value;
-  }
-
-  private _loadFactor: number;
+  protected _loadFactor: number;
 
   get loadFactor(): number {
     return this._loadFactor;
   }
 
-  set loadFactor(value: number) {
-    this._loadFactor = value;
-  }
-
-  private _capacityMultiplier: number;
+  protected _capacityMultiplier: number;
 
   get capacityMultiplier(): number {
     return this._capacityMultiplier;
   }
 
-  set capacityMultiplier(value: number) {
-    this._capacityMultiplier = value;
-  }
-
-  private _size: number;
+  protected _size: number;
 
   get size(): number {
     return this._size;
   }
 
-  set size(value: number) {
-    this._size = value;
-  }
-
-  private _table: Array<Array<[K, V]>>;
+  protected _table: Array<Array<[K, V]>>;
 
   get table(): Array<Array<[K, V]>> {
     return this._table;
   }
 
-  set table(value: Array<Array<[K, V]>>) {
-    this._table = value;
-  }
-
-  private _hashFn: HashFunction<K>;
+  protected _hashFn: HashFunction<K>;
 
   get hashFn(): HashFunction<K> {
     return this._hashFn;
-  }
-
-  set hashFn(value: HashFunction<K>) {
-    this._hashFn = value;
   }
 
   set(key: K, value: V): void {
@@ -118,7 +94,7 @@ export class HashMap<K, V> {
     }
 
     this.table[index].push([key, value]);
-    this.size++;
+    this._size++;
   }
 
   get(key: K): V | undefined {
@@ -145,7 +121,7 @@ export class HashMap<K, V> {
     for (let i = 0; i < this.table[index].length; i++) {
       if (this.table[index][i][0] === key) {
         this.table[index].splice(i, 1);
-        this.size--;
+        this._size--;
 
         // Check if the table needs to be resized down
         const loadFactor = this.size / this.table.length;
@@ -172,15 +148,15 @@ export class HashMap<K, V> {
   }
 
   clear(): void {
-    this.size = 0;
-    this.table = new Array(this.initialCapacity);
+    this._size = 0;
+    this._table = new Array(this.initialCapacity);
   }
 
   isEmpty(): boolean {
     return this.size === 0;
   }
 
-  private _hash(key: K): number {
+  protected _hash(key: K): number {
     return this._hashFn(key);
   }
 
@@ -190,7 +166,7 @@ export class HashMap<K, V> {
    * @param {number} newCapacity - The newCapacity parameter is the desired capacity for the resized table. It represents
    * the number of buckets that the new table should have.
    */
-  private resizeTable(newCapacity: number): void {
+  protected resizeTable(newCapacity: number): void {
     const newTable = new Array(newCapacity);
     for (const bucket of this._table) {
       // Note that this is this._table

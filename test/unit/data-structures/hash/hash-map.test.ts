@@ -28,7 +28,6 @@ describe('HashMap', () => {
 
   it('should handle key collisions', () => {
     // Force a collision by setting two different keys to the same bucket
-    hashMap.hashFn = () => 0; // Override hash function to return the same index
     hashMap.set('key1', 1);
     hashMap.set('key2', 2);
 

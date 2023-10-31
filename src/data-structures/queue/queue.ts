@@ -51,24 +51,16 @@ export class Queue<E = any> {
     this._offset = 0;
   }
 
-  private _nodes: E[];
+  protected _nodes: E[];
 
   get nodes(): E[] {
     return this._nodes;
   }
 
-  set nodes(value: E[]) {
-    this._nodes = value;
-  }
-
-  private _offset: number;
+  protected _offset: number;
 
   get offset(): number {
     return this._offset;
-  }
-
-  set offset(value: number) {
-    this._offset = value;
   }
 
   /**
@@ -110,14 +102,14 @@ export class Queue<E = any> {
     if (this.size === 0) return undefined;
 
     const first = this.getFirst();
-    this.offset += 1;
+    this._offset += 1;
 
     if (this.offset * 2 < this.nodes.length) return first;
 
     // only delete dequeued elements when reaching half size
     // to decrease latency of shifting elements.
-    this.nodes = this.nodes.slice(this.offset);
-    this.offset = 0;
+    this._nodes = this.nodes.slice(this.offset);
+    this._offset = 0;
     return first;
   }
 
@@ -129,7 +121,6 @@ export class Queue<E = any> {
   getFirst(): E | undefined {
     return this.size > 0 ? this.nodes[this.offset] : undefined;
   }
-
 
   /**
    * The `peek` function returns the first element of the array `_nodes` if it exists, otherwise it returns `null`.
@@ -157,7 +148,7 @@ export class Queue<E = any> {
   peekLast(): E | undefined {
     return this.getLast();
   }
-  
+
   /**
    * The enqueue function adds a value to the end of a queue.
    * @param {E} value - The value parameter represents the value that you want to add to the queue.
@@ -198,8 +189,8 @@ export class Queue<E = any> {
    * The clear function resets the nodes array and offset to their initial values.
    */
   clear(): void {
-    this.nodes = [];
-    this.offset = 0;
+    this._nodes = [];
+    this._offset = 0;
   }
 
   /**

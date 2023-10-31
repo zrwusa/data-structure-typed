@@ -19,43 +19,31 @@ export class ObjectDeque<E = number> {
     if (capacity !== undefined) this._capacity = capacity;
   }
 
-  private _nodes: {[key: number]: E} = {};
+  protected _nodes: {[key: number]: E} = {};
 
   get nodes(): {[p: number]: E} {
     return this._nodes;
   }
 
-  private _capacity = Number.MAX_SAFE_INTEGER;
+  protected _capacity = Number.MAX_SAFE_INTEGER;
 
   get capacity(): number {
     return this._capacity;
   }
 
-  set capacity(value: number) {
-    this._capacity = value;
-  }
-
-  private _first = -1;
+  protected _first = -1;
 
   get first(): number {
     return this._first;
   }
 
-  set first(value: number) {
-    this._first = value;
-  }
-
-  private _last = -1;
+  protected _last = -1;
 
   get last(): number {
     return this._last;
   }
 
-  set last(value: number) {
-    this._last = value;
-  }
-
-  private _size = 0;
+  protected _size = 0;
 
   get size(): number {
     return this._size;
@@ -67,14 +55,14 @@ export class ObjectDeque<E = number> {
    * structure.
    */
   addFirst(value: E) {
-    if (this._size === 0) {
-      const mid = Math.floor(this._capacity / 2);
+    if (this.size === 0) {
+      const mid = Math.floor(this.capacity / 2);
       this._first = mid;
       this._last = mid;
     } else {
       this._first--;
     }
-    this._nodes[this._first] = value;
+    this.nodes[this.first] = value;
     this._size++;
   }
 
@@ -83,14 +71,14 @@ export class ObjectDeque<E = number> {
    * @param {E} value - The `value` parameter represents the value that you want to add to the end of the data structure.
    */
   addLast(value: E) {
-    if (this._size === 0) {
-      const mid = Math.floor(this._capacity / 2);
+    if (this.size === 0) {
+      const mid = Math.floor(this.capacity / 2);
       this._first = mid;
       this._last = mid;
     } else {
       this._last++;
     }
-    this._nodes[this._last] = value;
+    this.nodes[this.last] = value;
     this._size++;
   }
 
@@ -99,9 +87,9 @@ export class ObjectDeque<E = number> {
    * @returns The value of the first element in the data structure.
    */
   popFirst() {
-    if (!this._size) return;
+    if (!this.size) return;
     const value = this.getFirst();
-    delete this._nodes[this._first];
+    delete this.nodes[this.first];
     this._first++;
     this._size--;
     return value;
@@ -112,7 +100,7 @@ export class ObjectDeque<E = number> {
    * @returns The element at the first position of the `_nodes` array.
    */
   getFirst() {
-    if (this._size) return this._nodes[this._first];
+    if (this.size) return this.nodes[this.first];
   }
 
   /**
@@ -120,9 +108,9 @@ export class ObjectDeque<E = number> {
    * @returns The value that was removed from the data structure.
    */
   popLast() {
-    if (!this._size) return;
+    if (!this.size) return;
     const value = this.getLast();
-    delete this._nodes[this._last];
+    delete this.nodes[this.last];
     this._last--;
     this._size--;
 
@@ -134,7 +122,7 @@ export class ObjectDeque<E = number> {
    * @returns The last element in the array "_nodes" is being returned.
    */
   getLast() {
-    if (this._size) return this._nodes[this._last];
+    if (this.size) return this.nodes[this.last];
   }
 
   /**
@@ -145,7 +133,7 @@ export class ObjectDeque<E = number> {
    * index, `null` is returned.
    */
   get(index: number) {
-    return this._nodes[this._first + index] || null;
+    return this.nodes[this.first + index] || null;
   }
 
   /**
@@ -153,25 +141,20 @@ export class ObjectDeque<E = number> {
    * @returns The method is returning a boolean value indicating whether the size of the object is less than or equal to 0.
    */
   isEmpty() {
-    return this._size <= 0;
-  }
-
-  protected _seNodes(value: {[p: number]: E}) {
-    this._nodes = value;
-  }
-
-  protected _setSize(value: number) {
-    this._size = value;
+    return this.size <= 0;
   }
 }
 
 // O(1) time complexity of obtaining the value
 // O(n) time complexity of adding at the beginning and the end
 export class ArrayDeque<E> {
+  get nodes(): E[] {
+    return this._nodes;
+  }
   protected _nodes: E[] = [];
 
   get size() {
-    return this._nodes.length;
+    return this.nodes.length;
   }
 
   /**
@@ -184,7 +167,7 @@ export class ArrayDeque<E> {
    * @returns The return value is the new length of the array after the value has been added.
    */
   addLast(value: E) {
-    return this._nodes.push(value);
+    return this.nodes.push(value);
   }
 
   /**
@@ -192,7 +175,7 @@ export class ArrayDeque<E> {
    * @returns The method `popLast()` returns the last element of the `_nodes` array, or `null` if the array is empty.
    */
   popLast(): E | null {
-    return this._nodes.pop() ?? null;
+    return this.nodes.pop() ?? null;
   }
 
   /**
@@ -201,7 +184,7 @@ export class ArrayDeque<E> {
    * empty.
    */
   popFirst(): E | null {
-    return this._nodes.shift() ?? null;
+    return this.nodes.shift() ?? null;
   }
 
   /**
@@ -215,7 +198,7 @@ export class ArrayDeque<E> {
    * `value` at the beginning.
    */
   addFirst(value: E) {
-    return this._nodes.unshift(value);
+    return this.nodes.unshift(value);
   }
 
   /**
@@ -224,7 +207,7 @@ export class ArrayDeque<E> {
    * empty, it will return `null`.
    */
   getFirst(): E | null {
-    return this._nodes[0] ?? null;
+    return this.nodes[0] ?? null;
   }
 
   /**
@@ -232,7 +215,7 @@ export class ArrayDeque<E> {
    * @returns The method `getLast()` returns the last element of the `_nodes` array, or `null` if the array is empty.
    */
   getLast(): E | null {
-    return this._nodes[this._nodes.length - 1] ?? null;
+    return this.nodes[this.nodes.length - 1] ?? null;
   }
 
   /**
@@ -247,7 +230,7 @@ export class ArrayDeque<E> {
    * will be returned. If the element does not exist (i.e., the index is out of bounds), `null` will be returned.
    */
   get(index: number): E | null {
-    return this._nodes[index] ?? null;
+    return this.nodes[index] ?? null;
   }
 
   /**
@@ -259,7 +242,7 @@ export class ArrayDeque<E> {
    * @returns The value that is being set at the specified index in the `_nodes` array.
    */
   set(index: number, value: E) {
-    return (this._nodes[index] = value);
+    return (this.nodes[index] = value);
   }
 
   /**
@@ -273,7 +256,7 @@ export class ArrayDeque<E> {
    * are being removed, an empty array will be returned.
    */
   insert(index: number, value: E) {
-    return this._nodes.splice(index, 0, value);
+    return this.nodes.splice(index, 0, value);
   }
 
   /**
@@ -283,7 +266,7 @@ export class ArrayDeque<E> {
    * @returns The method is returning an array containing the removed element.
    */
   delete(index: number) {
-    return this._nodes.splice(index, 1);
+    return this.nodes.splice(index, 1);
   }
 
   /**
@@ -292,6 +275,6 @@ export class ArrayDeque<E> {
    * is 0, indicating that the array is empty. Otherwise, it returns `false`.
    */
   isEmpty() {
-    return this._nodes.length === 0;
+    return this.nodes.length === 0;
   }
 }

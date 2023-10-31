@@ -21,8 +21,8 @@ export class HashTableNode<K, V> {
 import {HashFunction} from '../../types';
 
 export class HashTable<K, V> {
-  private static readonly DEFAULT_CAPACITY = 16;
-  private static readonly LOAD_FACTOR = 0.75;
+  protected static readonly DEFAULT_CAPACITY = 16;
+  protected static readonly LOAD_FACTOR = 0.75;
 
   constructor(capacity: number = HashTable.DEFAULT_CAPACITY, hashFn?: HashFunction<K>) {
     this._hashFn = hashFn || this._defaultHashFn;
@@ -31,40 +31,28 @@ export class HashTable<K, V> {
     this._buckets = new Array<HashTableNode<K, V> | null>(this._capacity).fill(null);
   }
 
-  private _capacity: number;
+  protected _capacity: number;
 
   get capacity(): number {
     return this._capacity;
   }
 
-  set capacity(value: number) {
-    this._capacity = value;
-  }
-
-  private _size: number;
+  protected _size: number;
 
   get size(): number {
     return this._size;
   }
 
-  private _buckets: Array<HashTableNode<K, V> | null>;
+  protected _buckets: Array<HashTableNode<K, V> | null>;
 
   get buckets(): Array<HashTableNode<K, V> | null> {
     return this._buckets;
   }
 
-  set buckets(value: Array<HashTableNode<K, V> | null>) {
-    this._buckets = value;
-  }
-
-  private _hashFn: HashFunction<K>;
+  protected _hashFn: HashFunction<K>;
 
   get hashFn(): HashFunction<K> {
     return this._hashFn;
-  }
-
-  set hashFn(value: HashFunction<K>) {
-    this._hashFn = value;
   }
 
   /**

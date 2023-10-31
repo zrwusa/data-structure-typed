@@ -33,44 +33,28 @@ export class SkipList<K, V> {
     this._probability = probability;
   }
 
-  private _head: SkipListNode<K, V>;
+  protected _head: SkipListNode<K, V>;
 
   get head(): SkipListNode<K, V> {
     return this._head;
   }
 
-  set head(value: SkipListNode<K, V>) {
-    this._head = value;
-  }
-
-  private _level: number;
+  protected _level: number;
 
   get level(): number {
     return this._level;
   }
 
-  set level(value: number) {
-    this._level = value;
-  }
-
-  private _maxLevel: number;
+  protected _maxLevel: number;
 
   get maxLevel(): number {
     return this._maxLevel;
   }
 
-  set maxLevel(value: number) {
-    this._maxLevel = value;
-  }
-
-  private _probability: number;
+  protected _probability: number;
 
   get probability(): number {
     return this._probability;
-  }
-
-  set probability(value: number) {
-    this._probability = value;
   }
 
   /**
@@ -80,7 +64,7 @@ export class SkipList<K, V> {
    * List.
    */
   add(key: K, value: V): void {
-    const newNode = new SkipListNode(key, value, this.randomLevel());
+    const newNode = new SkipListNode(key, value, this._randomLevel());
     const update: SkipListNode<K, V>[] = new Array(this.maxLevel).fill(this.head);
     let current = this.head;
 
@@ -97,7 +81,7 @@ export class SkipList<K, V> {
     }
 
     if (newNode.forward[0] !== null) {
-      this.level = Math.max(this.level, newNode.forward.length);
+      this._level = Math.max(this.level, newNode.forward.length);
     }
   }
 
@@ -122,6 +106,10 @@ export class SkipList<K, V> {
     }
 
     return undefined;
+  }
+
+  has(key: K): boolean {
+    return this.get(key) !== undefined;
   }
 
   /**
@@ -151,7 +139,7 @@ export class SkipList<K, V> {
         update[i].forward[i] = current.forward[i];
       }
       while (this.level > 0 && this.head.forward[this.level - 1] === null) {
-        this.level--;
+        this._level--;
       }
       return true;
     }
@@ -160,10 +148,70 @@ export class SkipList<K, V> {
   }
 
   /**
-   * The function "randomLevel" generates a random level based on a given probability and maximum level.
+   * Get the value of the first element (the smallest element) in the Skip List.
+   * @returns The value of the first element, or undefined if the Skip List is empty.
+   */
+  getFirst(): V | undefined {
+    const firstNode = this.head.forward[0];
+    return firstNode ? firstNode.value : undefined;
+  }
+
+  /**
+   * Get the value of the last element (the largest element) in the Skip List.
+   * @returns The value of the last element, or undefined if the Skip List is empty.
+   */
+  getLast(): V | undefined {
+    let current = this.head;
+    for (let i = this.level - 1; i >= 0; i--) {
+      while (current.forward[i]) {
+        current = current.forward[i];
+      }
+    }
+    return current.value;
+  }
+
+  /**
+   * Get the value of the first element in the Skip List that is greater than the given key.
+   * @param key - the given key.
+   * @returns The value of the first element greater than the given key, or undefined if there is no such element.
+   */
+  higher(key: K): V | undefined {
+    let current = this.head;
+    for (let i = this.level - 1; i >= 0; i--) {
+      while (current.forward[i] && current.forward[i].key <= key) {
+        current = current.forward[i];
+      }
+    }
+    const nextNode = current.forward[0];
+    return nextNode ? nextNode.value : undefined;
+  }
+
+  /**
+   * Get the value of the last element in the Skip List that is less than the given key.
+   * @param key - the given key.
+   * @returns The value of the last element less than the given key, or undefined if there is no such element.
+   */
+  lower(key: K): V | undefined {
+    let current = this.head;
+    let lastLess = null;
+
+    for (let i = this.level - 1; i >= 0; i--) {
+      while (current.forward[i] && current.forward[i].key < key) {
+        current = current.forward[i];
+      }
+      if (current.key < key) {
+        lastLess = current;
+      }
+    }
+
+    return lastLess ? lastLess.value : undefined;
+  }
+
+  /**
+   * The function "_randomLevel" generates a random level based on a given probability and maximum level.
    * @returns the level, which is a number.
    */
-  private randomLevel(): number {
+  protected _randomLevel(): number {
     let level = 1;
     while (Math.random() < this.probability && level < this.maxLevel) {
       level++;

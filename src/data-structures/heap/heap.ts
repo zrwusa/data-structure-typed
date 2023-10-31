@@ -8,15 +8,24 @@
 import type {Comparator, DFSOrderPattern} from '../../types';
 
 export class Heap<E = any> {
-  protected nodes: E[] = [];
-  protected readonly comparator: Comparator<E>;
-
   constructor(options: {comparator: Comparator<E>; nodes?: E[]}) {
-    this.comparator = options.comparator;
+    this._comparator = options.comparator;
     if (options.nodes && options.nodes.length > 0) {
-      this.nodes = options.nodes;
+      this._nodes = options.nodes;
       this.fix();
     }
+  }
+
+  protected _nodes: E[] = [];
+
+  get nodes(): E[] {
+    return this._nodes;
+  }
+
+  protected _comparator: Comparator<E>;
+
+  get comparator(): Comparator<E> {
+    return this._comparator;
   }
 
   /**
@@ -110,7 +119,7 @@ export class Heap<E = any> {
    * Reset the nodes of the heap. Make the nodes empty.
    */
   clear() {
-    this.nodes = [];
+    this._nodes = [];
   }
 
   /**
@@ -118,7 +127,7 @@ export class Heap<E = any> {
    * @param nodes
    */
   refill(nodes: E[]) {
-    this.nodes = nodes;
+    this._nodes = nodes;
     this.fix();
   }
 
@@ -181,7 +190,7 @@ export class Heap<E = any> {
    */
   clone(): Heap<E> {
     const clonedHeap = new Heap<E>({comparator: this.comparator});
-    clonedHeap.nodes = [...this.nodes];
+    clonedHeap._nodes = [...this.nodes];
     return clonedHeap;
   }
 
@@ -268,18 +277,37 @@ export class FibonacciHeapNode<E> {
 }
 
 export class FibonacciHeap<E> {
-  root?: FibonacciHeapNode<E>;
-  size = 0;
-  protected min?: FibonacciHeapNode<E>;
-  protected readonly comparator: Comparator<E>;
-
   constructor(comparator?: Comparator<E>) {
     this.clear();
-    this.comparator = comparator || this.defaultComparator;
+    this._comparator = comparator || this.defaultComparator;
 
     if (typeof this.comparator !== 'function') {
       throw new Error('FibonacciHeap constructor: given comparator should be a function.');
     }
+  }
+
+  protected _root?: FibonacciHeapNode<E>;
+
+  get root(): FibonacciHeapNode<E> | undefined {
+    return this._root;
+  }
+
+  protected _size = 0;
+
+  get size(): number {
+    return this._size;
+  }
+
+  protected _min?: FibonacciHeapNode<E>;
+
+  get min(): FibonacciHeapNode<E> | undefined {
+    return this._min;
+  }
+
+  protected _comparator: Comparator<E>;
+
+  get comparator(): Comparator<E> {
+    return this._comparator;
   }
 
   /**
@@ -287,9 +315,9 @@ export class FibonacciHeap<E> {
    * @returns {number} The size of the heap.  Returns 0 if the heap is empty. Returns -1 if the heap is invalid.
    */
   clear(): void {
-    this.root = undefined;
-    this.min = undefined;
-    this.size = 0;
+    this._root = undefined;
+    this._min = undefined;
+    this._size = 0;
   }
 
   /**
@@ -315,10 +343,10 @@ export class FibonacciHeap<E> {
     this.mergeWithRoot(node);
 
     if (!this.min || this.comparator(node.element, this.min.element) <= 0) {
-      this.min = node;
+      this._min = node;
     }
 
-    this.size++;
+    this._size++;
     return this;
   }
 
@@ -405,14 +433,14 @@ export class FibonacciHeap<E> {
     this.removeFromRoot(z);
 
     if (z === z.right) {
-      this.min = undefined;
-      this.root = undefined;
+      this._min = undefined;
+      this._root = undefined;
     } else {
-      this.min = z.right;
+      this._min = z.right;
       this.consolidate();
     }
 
-    this.size--;
+    this._size--;
 
     return z.element;
   }
@@ -444,11 +472,11 @@ export class FibonacciHeap<E> {
 
     // Update the minimum node
     if (!this.min || (heapToMerge.min && this.comparator(heapToMerge.min.element, this.min.element) < 0)) {
-      this.min = heapToMerge.min;
+      this._min = heapToMerge.min;
     }
 
     // Update the size
-    this.size += heapToMerge.size;
+    this._size += heapToMerge.size;
 
     // Clear the heap that was merged
     heapToMerge.clear();
@@ -481,7 +509,7 @@ export class FibonacciHeap<E> {
    */
   protected mergeWithRoot(node: FibonacciHeapNode<E>): void {
     if (!this.root) {
-      this.root = node;
+      this._root = node;
     } else {
       node.right = this.root.right;
       node.left = this.root;
@@ -497,7 +525,7 @@ export class FibonacciHeap<E> {
    * @protected
    */
   protected removeFromRoot(node: FibonacciHeapNode<E>): void {
-    if (this.root === node) this.root = node.right;
+    if (this.root === node) this._root = node.right;
     if (node.left) node.left.right = node.right;
     if (node.right) node.right.left = node.left;
   }
@@ -554,7 +582,7 @@ export class FibonacciHeap<E> {
 
     for (let i = 0; i < this.size; i++) {
       if (A[i] && this.comparator(A[i]!.element, this.min!.element) <= 0) {
-        this.min = A[i]!;
+        this._min = A[i]!;
       }
     }
   }

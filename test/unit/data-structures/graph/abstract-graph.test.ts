@@ -54,12 +54,12 @@ class MyGraph<
   }
 
   edgesOf(vertexOrKey: VO | VertexKey): EO[] {
-    const a = typeof vertexOrKey === "string" ? vertexOrKey : "a";
+    const a = typeof vertexOrKey === 'string' ? vertexOrKey : 'a';
     return [new MyEdge(a, 'b') as EO];
   }
 
   getNeighbors(vertexOrKey: VO | VertexKey): VO[] {
-    const a = typeof vertexOrKey === "string" ? vertexOrKey : "a";
+    const a = typeof vertexOrKey === 'string' ? vertexOrKey : 'a';
     return [new MyVertex(a, 'b') as VO];
   }
 
@@ -75,8 +75,7 @@ class MyGraph<
 describe('AbstractGraph Operation Test', () => {
   const myGraph: MyGraph<number, string> = new MyGraph<number, string>();
 
-  beforeEach(() => {
-  });
+  beforeEach(() => {});
   it('should edge cases', function () {
     myGraph.addVertex('A', 1);
     myGraph.addVertex('B', 2);

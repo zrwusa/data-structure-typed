@@ -49,8 +49,4 @@ export class CoordinateSet extends Set<any> {
   override delete(value: number[]) {
     return super.delete(value.join(this._joint));
   }
-
-  protected _setJoint(v: string) {
-    this._joint = v;
-  }
 }

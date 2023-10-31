@@ -60,8 +60,4 @@ export class CoordinateMap<V> extends Map<any, V> {
   override delete(key: number[]) {
     return super.delete(key.join(this._joint));
   }
-
-  protected _setJoint(v: string) {
-    this._joint = v;
-  }
 }

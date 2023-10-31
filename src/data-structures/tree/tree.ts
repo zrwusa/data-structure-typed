@@ -1,39 +1,15 @@
 export class TreeNode<V = any> {
   constructor(key: string, value?: V, children?: TreeNode<V>[]) {
-    this._key = key;
-    this._value = value || undefined;
-    this._children = children || [];
+    this.key = key;
+    this.value = value || undefined;
+    this.children = children || [];
   }
 
-  private _key: string;
+  key: string;
 
-  get key(): string {
-    return this._key;
-  }
+  value?: V | undefined;
 
-  set key(value: string) {
-    this._key = value;
-  }
-
-  private _value?: V | undefined;
-
-  get value(): V | undefined {
-    return this._value;
-  }
-
-  set value(value: V | undefined) {
-    this._value = value;
-  }
-
-  private _children?: TreeNode<V>[] | undefined;
-
-  get children(): TreeNode<V>[] | undefined {
-    return this._children;
-  }
-
-  set children(value: TreeNode<V>[] | undefined) {
-    this._children = value;
-  }
+  children?: TreeNode<V>[] | undefined;
 
   addChildren(children: TreeNode<V> | TreeNode<V>[]) {
     if (!this.children) {

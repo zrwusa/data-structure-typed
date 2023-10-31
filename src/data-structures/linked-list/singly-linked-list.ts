@@ -6,34 +6,17 @@
  * @license MIT License
  */
 export class SinglyLinkedListNode<E = any> {
+  value: E;
+  next: SinglyLinkedListNode<E> | null;
+
   /**
    * The constructor function initializes an instance of a class with a given value and sets the next property to null.
    * @param {E} value - The "value" parameter is of type E, which means it can be any data type. It represents the value that
    * will be stored in the node of a linked list.
    */
   constructor(value: E) {
-    this._value = value;
-    this._next = null;
-  }
-
-  private _value: E;
-
-  get value(): E {
-    return this._value;
-  }
-
-  set value(value: E) {
-    this._value = value;
-  }
-
-  private _next: SinglyLinkedListNode<E> | null;
-
-  get next(): SinglyLinkedListNode<E> | null {
-    return this._next;
-  }
-
-  set next(value: SinglyLinkedListNode<E> | null) {
-    this._next = value;
+    this.value = value;
+    this.next = null;
   }
 }
 
@@ -47,27 +30,19 @@ export class SinglyLinkedList<E = any> {
     this._length = 0;
   }
 
-  private _head: SinglyLinkedListNode<E> | null;
+  protected _head: SinglyLinkedListNode<E> | null;
 
   get head(): SinglyLinkedListNode<E> | null {
     return this._head;
   }
 
-  set head(value: SinglyLinkedListNode<E> | null) {
-    this._head = value;
-  }
-
-  private _tail: SinglyLinkedListNode<E> | null;
+  protected _tail: SinglyLinkedListNode<E> | null;
 
   get tail(): SinglyLinkedListNode<E> | null {
     return this._tail;
   }
 
-  set tail(value: SinglyLinkedListNode<E> | null) {
-    this._tail = value;
-  }
-
-  private _length: number;
+  protected _length: number;
 
   get length(): number {
     return this._length;
@@ -95,11 +70,11 @@ export class SinglyLinkedList<E = any> {
   push(value: E): void {
     const newNode = new SinglyLinkedListNode(value);
     if (!this.head) {
-      this.head = newNode;
-      this.tail = newNode;
+      this._head = newNode;
+      this._tail = newNode;
     } else {
       this.tail!.next = newNode;
-      this.tail = newNode;
+      this._tail = newNode;
     }
     this._length++;
   }
@@ -123,8 +98,8 @@ export class SinglyLinkedList<E = any> {
     if (!this.head) return undefined;
     if (this.head === this.tail) {
       const value = this.head.value;
-      this.head = null;
-      this.tail = null;
+      this._head = null;
+      this._tail = null;
       this._length--;
       return value;
     }
@@ -135,7 +110,7 @@ export class SinglyLinkedList<E = any> {
     }
     const value = this.tail!.value;
     current.next = null;
-    this.tail = current;
+    this._tail = current;
     this._length--;
     return value;
   }
@@ -157,7 +132,7 @@ export class SinglyLinkedList<E = any> {
   shift(): E | undefined {
     if (!this.head) return undefined;
     const removedNode = this.head;
-    this.head = this.head.next;
+    this._head = this.head.next;
     this._length--;
     return removedNode.value;
   }
@@ -178,11 +153,11 @@ export class SinglyLinkedList<E = any> {
   unshift(value: E): void {
     const newNode = new SinglyLinkedListNode(value);
     if (!this.head) {
-      this.head = newNode;
-      this.tail = newNode;
+      this._head = newNode;
+      this._tail = newNode;
     } else {
       newNode.next = this.head;
-      this.head = newNode;
+      this._head = newNode;
     }
     this._length++;
   }
@@ -267,14 +242,14 @@ export class SinglyLinkedList<E = any> {
     while (current) {
       if (current.value === value) {
         if (prev === null) {
-          this.head = current.next;
+          this._head = current.next;
           if (current === this.tail) {
-            this.tail = null;
+            this._tail = null;
           }
         } else {
           prev.next = current.next;
           if (current === this.tail) {
-            this.tail = prev;
+            this._tail = prev;
           }
         }
         this._length--;
@@ -365,7 +340,7 @@ export class SinglyLinkedList<E = any> {
       current = next;
     }
 
-    [this.head, this.tail] = [this.tail!, this.head!];
+    [this._head, this._tail] = [this.tail!, this.head!];
   }
 
   /**
@@ -486,7 +461,7 @@ export class SinglyLinkedList<E = any> {
       newNode.next = existingNode.next;
       existingNode.next = newNode;
       if (existingNode === this.tail) {
-        this.tail = newNode;
+        this._tail = newNode;
       }
       this._length++;
       return true;

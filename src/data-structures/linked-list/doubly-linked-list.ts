@@ -6,45 +6,19 @@
  * @license MIT License
  */
 export class DoublyLinkedListNode<E = any> {
+  value: E;
+  next: DoublyLinkedListNode<E> | null;
+  prev: DoublyLinkedListNode<E> | null;
+
   /**
    * The constructor function initializes the value, next, and previous properties of an object.
    * @param {E} value - The "value" parameter is the value that will be stored in the node. It can be of any data type, as it
    * is defined as a generic type "E".
    */
   constructor(value: E) {
-    this._value = value;
-    this._next = null;
-    this._prev = null;
-  }
-
-  private _value: E;
-
-  get value(): E {
-    return this._value;
-  }
-
-  set value(value: E) {
-    this._value = value;
-  }
-
-  private _next: DoublyLinkedListNode<E> | null;
-
-  get next(): DoublyLinkedListNode<E> | null {
-    return this._next;
-  }
-
-  set next(value: DoublyLinkedListNode<E> | null) {
-    this._next = value;
-  }
-
-  private _prev: DoublyLinkedListNode<E> | null;
-
-  get prev(): DoublyLinkedListNode<E> | null {
-    return this._prev;
-  }
-
-  set prev(value: DoublyLinkedListNode<E> | null) {
-    this._prev = value;
+    this.value = value;
+    this.next = null;
+    this.prev = null;
   }
 }
 
@@ -58,27 +32,19 @@ export class DoublyLinkedList<E = any> {
     this._length = 0;
   }
 
-  private _head: DoublyLinkedListNode<E> | null;
+  protected _head: DoublyLinkedListNode<E> | null;
 
   get head(): DoublyLinkedListNode<E> | null {
     return this._head;
   }
 
-  set head(value: DoublyLinkedListNode<E> | null) {
-    this._head = value;
-  }
-
-  private _tail: DoublyLinkedListNode<E> | null;
+  protected _tail: DoublyLinkedListNode<E> | null;
 
   get tail(): DoublyLinkedListNode<E> | null {
     return this._tail;
   }
 
-  set tail(value: DoublyLinkedListNode<E> | null) {
-    this._tail = value;
-  }
-
-  private _length: number;
+  protected _length: number;
 
   get length(): number {
     return this._length;
@@ -109,12 +75,12 @@ export class DoublyLinkedList<E = any> {
   push(value: E): void {
     const newNode = new DoublyLinkedListNode(value);
     if (!this.head) {
-      this.head = newNode;
-      this.tail = newNode;
+      this._head = newNode;
+      this._tail = newNode;
     } else {
       newNode.prev = this.tail;
       this.tail!.next = newNode;
-      this.tail = newNode;
+      this._tail = newNode;
     }
     this._length++;
   }
@@ -136,10 +102,10 @@ export class DoublyLinkedList<E = any> {
     if (!this.tail) return undefined;
     const removedNode = this.tail;
     if (this.head === this.tail) {
-      this.head = null;
-      this.tail = null;
+      this._head = null;
+      this._tail = null;
     } else {
-      this.tail = removedNode.prev;
+      this._tail = removedNode.prev;
       this.tail!.next = null;
     }
     this._length--;
@@ -164,10 +130,10 @@ export class DoublyLinkedList<E = any> {
     if (!this.head) return undefined;
     const removedNode = this.head;
     if (this.head === this.tail) {
-      this.head = null;
-      this.tail = null;
+      this._head = null;
+      this._tail = null;
     } else {
-      this.head = removedNode.next;
+      this._head = removedNode.next;
       this.head!.prev = null;
     }
     this._length--;
@@ -191,12 +157,12 @@ export class DoublyLinkedList<E = any> {
   unshift(value: E): void {
     const newNode = new DoublyLinkedListNode(value);
     if (!this.head) {
-      this.head = newNode;
-      this.tail = newNode;
+      this._head = newNode;
+      this._tail = newNode;
     } else {
       newNode.next = this.head;
       this.head!.prev = newNode;
-      this.head = newNode;
+      this._head = newNode;
     }
     this._length++;
   }
@@ -338,7 +304,7 @@ export class DoublyLinkedList<E = any> {
       newNode.next = existingNode;
       existingNode.prev = newNode;
       if (existingNode === this.head) {
-        this.head = newNode;
+        this._head = newNode;
       }
       this._length++;
       return true;
@@ -508,7 +474,7 @@ export class DoublyLinkedList<E = any> {
    */
   reverse(): void {
     let current = this.head;
-    [this.head, this.tail] = [this.tail, this.head];
+    [this._head, this._tail] = [this.tail, this.head];
     while (current) {
       const next = current.next;
       [current.prev, current.next] = [current.next, current.prev];
@@ -616,7 +582,7 @@ export class DoublyLinkedList<E = any> {
       newNode.prev = existingNode;
       existingNode.next = newNode;
       if (existingNode === this.tail) {
-        this.tail = newNode;
+        this._tail = newNode;
       }
       this._length++;
       return true;

@@ -12,47 +12,26 @@
  */
 export class TrieNode {
   constructor(key: string) {
-    this._key = key;
-    this._isEnd = false;
-    this._children = new Map<string, TrieNode>();
+    this.key = key;
+    this.isEnd = false;
+    this.children = new Map<string, TrieNode>();
   }
 
-  private _key;
+  key: string;
 
-  get key(): string {
-    return this._key;
-  }
+  children: Map<string, TrieNode>;
 
-  set key(v: string) {
-    this._key = v;
-  }
-
-  protected _children: Map<string, TrieNode>;
-
-  get children(): Map<string, TrieNode> {
-    return this._children;
-  }
-
-  set children(v: Map<string, TrieNode>) {
-    this._children = v;
-  }
-
-  protected _isEnd: boolean;
-
-  get isEnd(): boolean {
-    return this._isEnd;
-  }
-
-  set isEnd(v: boolean) {
-    this._isEnd = v;
-  }
+  isEnd: boolean;
 }
 
 /**
  * Trie represents a Trie data structure. It provides basic Trie operations and additional methods.
  */
 export class Trie {
-  private readonly _caseSensitive: boolean;
+  get caseSensitive(): boolean {
+    return this._caseSensitive;
+  }
+  protected _caseSensitive: boolean;
 
   constructor(words?: string[], caseSensitive = true) {
     this._root = new TrieNode('');
@@ -68,10 +47,6 @@ export class Trie {
 
   get root() {
     return this._root;
-  }
-
-  set root(v: TrieNode) {
-    this._root = v;
   }
 
   /**
@@ -277,7 +252,7 @@ export class Trie {
     return words;
   }
 
-  private _caseProcess(str: string) {
+  protected _caseProcess(str: string) {
     if (!this._caseSensitive) {
       str = str.toLowerCase(); // Convert str to lowercase if case-insensitive
     }

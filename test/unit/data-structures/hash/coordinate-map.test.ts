@@ -57,7 +57,7 @@ describe('CoordinateMap', () => {
   class MyCoordinateMap<V = any> extends CoordinateMap<V> {
     constructor(joint?: string) {
       super(joint);
-      this._setJoint((joint += '-'));
+      this._joint = joint += '-';
     }
   }
 
