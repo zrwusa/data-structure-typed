@@ -8,10 +8,11 @@ All notable changes to this project will be documented in this file.
 - [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - [`auto-changelog`](https://github.com/CookPete/auto-changelog)
 
-## [v1.39.5](https://github.com/zrwusa/data-structure-typed/compare/v1.35.0...main) (upcoming)
+## [v1.39.6](https://github.com/zrwusa/data-structure-typed/compare/v1.35.0...main) (upcoming)
 
 ### Changes
 
+- [graph test] edge cases enriched [`#30`](https://github.com/zrwusa/data-structure-typed/pull/30)
 - [graph] Modify the data structure design of the graph to change the g… [`#29`](https://github.com/zrwusa/data-structure-typed/pull/29)
 - Optimization [`#23`](https://github.com/zrwusa/data-structure-typed/pull/23)
 - Optimization [`#20`](https://github.com/zrwusa/data-structure-typed/pull/20)
