@@ -43,7 +43,7 @@ export class BinaryTreeNode<V = any, N extends BinaryTreeNode<V, N> = BinaryTree
     this.value = value;
   }
 
-  private _left: N | null | undefined;
+  protected _left: N | null | undefined;
 
   /**
    * Get the left child node.
@@ -63,7 +63,7 @@ export class BinaryTreeNode<V = any, N extends BinaryTreeNode<V, N> = BinaryTree
     this._left = v;
   }
 
-  private _right: N | null | undefined;
+  protected _right: N | null | undefined;
 
   /**
    * Get the right child node.
@@ -108,8 +108,9 @@ export class BinaryTreeNode<V = any, N extends BinaryTreeNode<V, N> = BinaryTree
  * @template N - The type of the binary tree's nodes.
  */
 export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode<V, BinaryTreeNodeNested<V>>>
-  implements IBinaryTree<V, N>
-{
+  implements IBinaryTree<V, N> {
+  iterationType: IterationType = IterationType.ITERATIVE;
+
   /**
    * Creates a new instance of BinaryTree.
    * @param {BinaryTreeOptions} [options] - The options for the binary tree.
@@ -117,28 +118,11 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   constructor(options?: BinaryTreeOptions) {
     if (options !== undefined) {
       const {iterationType = IterationType.ITERATIVE} = options;
-      this._iterationType = iterationType;
+      this.iterationType = iterationType;
     }
   }
 
-  private _iterationType: IterationType = IterationType.ITERATIVE;
-
-  /**
-   * Get the iteration type used in the binary tree.
-   */
-  get iterationType(): IterationType {
-    return this._iterationType;
-  }
-
-  /**
-   * Set the iteration type for the binary tree.
-   * @param {IterationType} v - The new iteration type to set.
-   */
-  set iterationType(v: IterationType) {
-    this._iterationType = v;
-  }
-
-  private _root: N | null = null;
+  protected _root: N | null = null;
 
   /**
    * Get the root node of the binary tree.
@@ -147,7 +131,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     return this._root;
   }
 
-  private _size = 0;
+  protected _size = 0;
 
   /**
    * Get the number of nodes in the binary tree.
@@ -170,7 +154,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * Clear the binary tree, removing all nodes.
    */
   clear() {
-    this._root = null;
+    this._setRoot(null);
     this._size = 0;
   }
 
@@ -229,9 +213,9 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     } else {
       this._setRoot(needInsert);
       if (needInsert !== null) {
-        this._setSize(1);
+        this._size = 1;
       } else {
-        this._setSize(0);
+        this._size = 0;
       }
       inserted = this.root;
     }
@@ -339,7 +323,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
         }
       }
     }
-    this._setSize(this.size - 1);
+    this._size = this.size - 1;
 
     bstDeletedResult.push({deleted: orgCurrent, needBalanced});
     return bstDeletedResult;
@@ -401,7 +385,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
         return -1;
       }
 
-      const stack: {node: N; depth: number}[] = [{node: beginRoot, depth: 0}];
+      const stack: { node: N; depth: number }[] = [{node: beginRoot, depth: 0}];
       let maxHeight = 0;
 
       while (stack.length > 0) {
@@ -904,7 +888,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
       _traverse(beginRoot);
     } else {
       // 0: visit, 1: print
-      const stack: {opt: 0 | 1; node: N | null | undefined}[] = [{opt: 0, node: beginRoot}];
+      const stack: { opt: 0 | 1; node: N | null | undefined }[] = [{opt: 0, node: beginRoot}];
 
       while (stack.length > 0) {
         const cur = stack.pop();
@@ -1174,7 +1158,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * @returns The `*[Symbol.iterator]` method returns a generator object that yields the keys of the
    * binary tree nodes in a specific order.
    */
-  *[Symbol.iterator](node = this.root): Generator<BTNKey, void, undefined> {
+  * [Symbol.iterator](node = this.root): Generator<BTNKey, void, undefined> {
     if (!node) {
       return;
     }
@@ -1244,13 +1228,13 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
       if (parent.left === undefined) {
         parent.left = newNode;
         if (newNode) {
-          this._setSize(this.size + 1);
+          this._size = this.size + 1;
         }
         return parent.left;
       } else if (parent.right === undefined) {
         parent.right = newNode;
         if (newNode) {
-          this._setSize(this.size + 1);
+          this._size = this.size + 1;
         }
         return parent.right;
       } else {
@@ -1272,15 +1256,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
       v.parent = undefined;
     }
     this._root = v;
-  }
-
-  /**
-   * The function sets the value of the protected property "_size" to the given number.
-   * @param {number} v - The parameter "v" is a number that represents the size value that we want to
-   * set.
-   */
-  protected _setSize(v: number) {
-    this._size = v;
   }
 
   // --- end additional methods ---

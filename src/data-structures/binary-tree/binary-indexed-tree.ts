@@ -17,7 +17,7 @@ export class BinaryIndexedTree {
    * @param  - - `frequency`: The default frequency value. It is optional and has a default
    * value of 0.
    */
-  constructor({frequency = 0, max}: {frequency?: number; max: number}) {
+  constructor({frequency = 0, max}: { frequency?: number; max: number }) {
     this._freq = frequency;
     this._max = max;
     this._freqMap = {0: 0};
@@ -31,28 +31,16 @@ export class BinaryIndexedTree {
     return this._freqMap;
   }
 
-  set freqMap(value: Record<number, number>) {
-    this._freqMap = value;
-  }
-
   protected _msb: number;
 
   get msb(): number {
     return this._msb;
   }
 
-  set msb(value: number) {
-    this._msb = value;
-  }
-
   protected _negativeCount: number;
 
   get negativeCount(): number {
     return this._negativeCount;
-  }
-
-  set negativeCount(value: number) {
-    this._negativeCount = value;
   }
 
   get freq(): number {
@@ -232,9 +220,9 @@ export class BinaryIndexedTree {
    */
   protected _updateNegativeCount(freqCur: number, freqNew: number): void {
     if (freqCur < 0 && freqNew >= 0) {
-      this.negativeCount--;
+      this._negativeCount--;
     } else if (freqCur >= 0 && freqNew < 0) {
-      this.negativeCount++;
+      this._negativeCount++;
     }
   }
 

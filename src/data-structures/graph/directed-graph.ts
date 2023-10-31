@@ -24,6 +24,9 @@ export class DirectedVertex<V = any> extends AbstractVertex<V> {
 }
 
 export class DirectedEdge<E = any> extends AbstractEdge<E> {
+  src: VertexKey;
+  dest: VertexKey;
+
   /**
    * The constructor function initializes the source and destination vertices of an edge, along with an optional weight
    * and value.
@@ -37,40 +40,19 @@ export class DirectedEdge<E = any> extends AbstractEdge<E> {
    */
   constructor(src: VertexKey, dest: VertexKey, weight?: number, value?: E) {
     super(weight, value);
-    this._src = src;
-    this._dest = dest;
-  }
-
-  private _src: VertexKey;
-
-  get src(): VertexKey {
-    return this._src;
-  }
-
-  set src(v: VertexKey) {
-    this._src = v;
-  }
-
-  private _dest: VertexKey;
-
-  get dest(): VertexKey {
-    return this._dest;
-  }
-
-  set dest(v: VertexKey) {
-    this._dest = v;
+    this.src = src;
+    this.dest = dest;
   }
 }
 
 export class DirectedGraph<
-    V = any,
-    E = any,
-    VO extends DirectedVertex<V> = DirectedVertex<V>,
-    EO extends DirectedEdge<E> = DirectedEdge<E>
-  >
+  V = any,
+  E = any,
+  VO extends DirectedVertex<V> = DirectedVertex<V>,
+  EO extends DirectedEdge<E> = DirectedEdge<E>
+>
   extends AbstractGraph<V, E, VO, EO>
-  implements IGraph<V, E, VO, EO>
-{
+  implements IGraph<V, E, VO, EO> {
   /**
    * The constructor function initializes an instance of a class.
    */
@@ -78,13 +60,13 @@ export class DirectedGraph<
     super();
   }
 
-  private _outEdgeMap: Map<VO, EO[]> = new Map<VO, EO[]>();
+  protected _outEdgeMap: Map<VO, EO[]> = new Map<VO, EO[]>();
 
   get outEdgeMap(): Map<VO, EO[]> {
     return this._outEdgeMap;
   }
 
-  private _inEdgeMap: Map<VO, EO[]> = new Map<VO, EO[]>();
+  protected _inEdgeMap: Map<VO, EO[]> = new Map<VO, EO[]>();
 
   get inEdgeMap(): Map<VO, EO[]> {
     return this._inEdgeMap;
@@ -463,13 +445,5 @@ export class DirectedGraph<
     } else {
       return false;
     }
-  }
-
-  protected _setOutEdgeMap(value: Map<VO, EO[]>) {
-    this._outEdgeMap = value;
-  }
-
-  protected _setInEdgeMap(value: Map<VO, EO[]>) {
-    this._inEdgeMap = value;
   }
 }

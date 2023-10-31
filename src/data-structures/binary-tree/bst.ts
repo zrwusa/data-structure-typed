@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type {BTNKey, BSTComparator, BSTNodeNested, BSTOptions, BTNCallback} from '../../types';
+import type {BSTComparator, BSTNodeNested, BSTOptions, BTNCallback, BTNKey} from '../../types';
 import {CP, IterationType} from '../../types';
 import {BinaryTree, BinaryTreeNode} from './binary-tree';
 import {IBinaryTree} from '../../interfaces';
@@ -19,8 +19,7 @@ export class BSTNode<V = any, N extends BSTNode<V, N> = BSTNodeNested<V>> extend
 
 export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>>
   extends BinaryTree<V, N>
-  implements IBinaryTree<V, N>
-{
+  implements IBinaryTree<V, N> {
   /**
    * The constructor function initializes a binary search tree object with an optional comparator
    * function.
@@ -72,7 +71,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     }
     if (this.root === null) {
       this._setRoot(newNode);
-      this._setSize(this.size + 1);
+      this._size = this.size + 1;
       inserted = this.root;
     } else {
       let cur = this.root;
@@ -94,7 +93,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
               }
               //Add to the left of the current node
               cur.left = newNode;
-              this._setSize(this.size + 1);
+              this._size = this.size + 1;
               traversing = false;
               inserted = cur.left;
             } else {
@@ -109,7 +108,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
               }
               //Add to the right of the current node
               cur.right = newNode;
-              this._setSize(this.size + 1);
+              this._size = this.size + 1;
               traversing = false;
               inserted = cur.right;
             } else {

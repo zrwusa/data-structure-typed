@@ -12,6 +12,9 @@ import {IGraph} from '../../interfaces';
 import {Queue} from '../queue';
 
 export abstract class AbstractVertex<V = any> {
+  key: VertexKey;
+  value: V | undefined;
+
   /**
    * The function is a protected constructor that takes an key and an optional value as parameters.
    * @param {VertexKey} key - The `key` parameter is of type `VertexKey` and represents the identifier of the vertex. It is
@@ -20,32 +23,16 @@ export abstract class AbstractVertex<V = any> {
    * vertex. If no value is provided, it will be set to undefined.
    */
   protected constructor(key: VertexKey, value?: V) {
-    this._key = key;
-    this._value = value;
+    this.key = key;
+    this.value = value;
   }
 
-  private _key: VertexKey;
-
-  get key(): VertexKey {
-    return this._key;
-  }
-
-  set key(v: VertexKey) {
-    this._key = v;
-  }
-
-  private _value: V | undefined;
-
-  get value(): V | undefined {
-    return this._value;
-  }
-
-  set value(value: V | undefined) {
-    this._value = value;
-  }
 }
 
 export abstract class AbstractEdge<E = any> {
+  value: E | undefined;
+  weight: number;
+
   /**
    * The above function is a protected constructor that initializes the weight, value, and hash code properties of an
    * object.
@@ -56,29 +43,9 @@ export abstract class AbstractEdge<E = any> {
    * meaning it can be omitted when creating an instance of the class.
    */
   protected constructor(weight?: number, value?: E) {
-    this._weight = weight !== undefined ? weight : 1;
-    this._value = value;
+    this.weight = weight !== undefined ? weight : 1;
+    this.value = value;
     this._hashCode = uuidV4();
-  }
-
-  private _value: E | undefined;
-
-  get value(): E | undefined {
-    return this._value;
-  }
-
-  set value(value: E | undefined) {
-    this._value = value;
-  }
-
-  private _weight: number;
-
-  get weight(): number {
-    return this._weight;
-  }
-
-  set weight(v: number) {
-    this._weight = v;
   }
 
   protected _hashCode: string;
@@ -91,15 +58,6 @@ export abstract class AbstractEdge<E = any> {
    * In TypeScript, a subclass inherits the interface implementation of its parent class, without needing to implement the same interface again in the subclass. This behavior differs from Java's approach. In Java, if a parent class implements an interface, the subclass needs to explicitly implement the same interface, even if the parent class has already implemented it.
    * This means that using abstract methods in the parent class cannot constrain the grandchild classes. Defining methods within an interface also cannot constrain the descendant classes. When inheriting from this class, developers need to be aware that this method needs to be overridden.
    */
-
-  /**
-   * The function sets the value of the _hashCode property to the provided string.
-   * @param {string} v - The parameter "v" is of type string and represents the value that will be assigned to the
-   * "_hashCode" property.
-   */
-  protected _setHashCode(v: string) {
-    this._hashCode = v;
-  }
 }
 
 export abstract class AbstractGraph<
@@ -107,9 +65,8 @@ export abstract class AbstractGraph<
   E = any,
   VO extends AbstractVertex<V> = AbstractVertex<V>,
   EO extends AbstractEdge<E> = AbstractEdge<E>
-> implements IGraph<V, E, VO, EO>
-{
-  private _vertices: Map<VertexKey, VO> = new Map<VertexKey, VO>();
+> implements IGraph<V, E, VO, EO> {
+  protected _vertices: Map<VertexKey, VO> = new Map<VertexKey, VO>();
 
   get vertices(): Map<VertexKey, VO> {
     return this._vertices;
@@ -556,14 +513,14 @@ export abstract class AbstractGraph<
     }
 
     getMinDist &&
-      distMap.forEach((d, v) => {
-        if (v !== srcVertex) {
-          if (d < minDist) {
-            minDist = d;
-            if (genPaths) minDest = v;
-          }
+    distMap.forEach((d, v) => {
+      if (v !== srcVertex) {
+        if (d < minDist) {
+          minDist = d;
+          if (genPaths) minDest = v;
         }
-      });
+      }
+    });
 
     genPaths && getPaths(minDest);
 
@@ -625,7 +582,7 @@ export abstract class AbstractGraph<
       if (vertexOrKey instanceof AbstractVertex) distMap.set(vertexOrKey, Infinity);
     }
 
-    const heap = new PriorityQueue<{key: number; value: VO}>({comparator: (a, b) => a.key - b.key});
+    const heap = new PriorityQueue<{ key: number; value: VO }>({comparator: (a, b) => a.key - b.key});
     heap.add({key: 0, value: srcVertex});
 
     distMap.set(srcVertex, 0);
@@ -854,7 +811,7 @@ export abstract class AbstractGraph<
    * `predecessor` property is a 2D array of vertices (or `null`) representing the predecessor vertices in the shortest
    * path between vertices in the
    */
-  floyd(): {costs: number[][]; predecessor: (VO | null)[][]} {
+  floyd(): { costs: number[][]; predecessor: (VO | null)[][] } {
     const idAndVertices = [...this._vertices];
     const n = idAndVertices.length;
 
@@ -1040,7 +997,4 @@ export abstract class AbstractGraph<
     return vertexOrKey instanceof AbstractVertex ? vertexOrKey.key : vertexOrKey;
   }
 
-  protected _setVertices(value: Map<VertexKey, VO>) {
-    this._vertices = value;
-  }
 }

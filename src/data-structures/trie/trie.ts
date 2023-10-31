@@ -11,28 +11,21 @@
  * and a flag indicating whether it's the end of a word.
  */
 export class TrieNode {
+  key: string;
+  children: Map<string, TrieNode>;
+  isEnd: boolean;
+
   constructor(key: string) {
     this.key = key;
     this.isEnd = false;
     this.children = new Map<string, TrieNode>();
   }
-
-  key: string;
-
-  children: Map<string, TrieNode>;
-
-  isEnd: boolean;
 }
 
 /**
  * Trie represents a Trie data structure. It provides basic Trie operations and additional methods.
  */
 export class Trie {
-  get caseSensitive(): boolean {
-    return this._caseSensitive;
-  }
-  protected _caseSensitive: boolean;
-
   constructor(words?: string[], caseSensitive = true) {
     this._root = new TrieNode('');
     this._caseSensitive = caseSensitive;
@@ -41,6 +34,12 @@ export class Trie {
         this.add(i);
       }
     }
+  }
+
+  protected _caseSensitive: boolean;
+
+  get caseSensitive(): boolean {
+    return this._caseSensitive;
   }
 
   protected _root: TrieNode;

@@ -98,7 +98,7 @@ class MyVertex<V = any> extends DirectedVertex<V> {
     this._data = value;
   }
 
-  private _data: V | undefined;
+  protected _data: V | undefined;
 
   get data(): V | undefined {
     return this._data;
@@ -115,7 +115,7 @@ class MyEdge<E = any> extends DirectedEdge<E> {
     this._data = value;
   }
 
-  private _data: E | undefined;
+  protected _data: E | undefined;
 
   get data(): E | undefined {
     return this._data;
@@ -141,11 +141,11 @@ class MyDirectedGraph<
   }
 
   setInEdgeMap(value: Map<VO, EO[]>) {
-    super._setInEdgeMap(value);
+    this._inEdgeMap = value;
   }
 
   setOutEdgeMap(value: Map<VO, EO[]>) {
-    super._setOutEdgeMap(value);
+    this._outEdgeMap = value;
   }
 }
 

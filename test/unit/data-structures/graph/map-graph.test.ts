@@ -88,8 +88,8 @@ describe('MapGraph', () => {
     const edgeAB = new MapEdge('A', 'B', 50, 'Edge from A to B');
     const edgeBC = new MapEdge('B', 'C', 60, 'Edge from B to C');
 
-    mapGraph.origin = mapGraph.origin;
-    mapGraph.bottomRight = mapGraph.bottomRight;
+    expect(mapGraph.origin).toEqual([0, 0]);
+    expect(mapGraph.bottomRight).toEqual([100, 100]);
 
     mapGraph.addVertex(locationA);
     mapGraph.addVertex(locationB);

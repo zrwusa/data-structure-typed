@@ -286,8 +286,8 @@ function loopLowerBoundTests(bit: BinaryIndexedTree, values: number[]) {
 
 describe('', () => {
   class NumArrayDC {
-    private _tree: BinaryIndexedTree;
-    private readonly _nums: number[];
+    protected _tree: BinaryIndexedTree;
+    protected readonly _nums: number[];
 
     constructor(nums: number[]) {
       this._nums = nums;

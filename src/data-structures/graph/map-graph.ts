@@ -2,6 +2,9 @@ import {MapGraphCoordinate, VertexKey} from '../../types';
 import {DirectedEdge, DirectedGraph, DirectedVertex} from './directed-graph';
 
 export class MapVertex<V = any> extends DirectedVertex<V> {
+  lat: number;
+  long: number;
+
   /**
    * The constructor function initializes an object with an key, latitude, longitude, and an optional value.
    * @param {VertexKey} key - The `key` parameter is of type `VertexKey` and represents the identifier of the vertex.
@@ -16,28 +19,8 @@ export class MapVertex<V = any> extends DirectedVertex<V> {
    */
   constructor(key: VertexKey, value: V, lat: number, long: number) {
     super(key, value);
-    this._lat = lat;
-    this._long = long;
-  }
-
-  private _lat: number;
-
-  get lat(): number {
-    return this._lat;
-  }
-
-  set lat(value: number) {
-    this._lat = value;
-  }
-
-  private _long: number;
-
-  get long(): number {
-    return this._long;
-  }
-
-  set long(value: number) {
-    this._long = value;
+    this.lat = lat;
+    this.long = long;
   }
 }
 
@@ -78,24 +61,16 @@ export class MapGraph<
     this._bottomRight = bottomRight;
   }
 
-  private _origin: MapGraphCoordinate = [0, 0];
+  protected _origin: MapGraphCoordinate = [0, 0];
 
   get origin(): MapGraphCoordinate {
     return this._origin;
   }
 
-  set origin(value: MapGraphCoordinate) {
-    this._origin = value;
-  }
-
-  private _bottomRight: MapGraphCoordinate | undefined;
+  protected _bottomRight: MapGraphCoordinate | undefined;
 
   get bottomRight(): MapGraphCoordinate | undefined {
     return this._bottomRight;
-  }
-
-  set bottomRight(value: MapGraphCoordinate | undefined) {
-    this._bottomRight = value;
   }
 
   /**

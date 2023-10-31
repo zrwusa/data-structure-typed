@@ -201,7 +201,7 @@ export class Queue<E = any> {
     return new Queue(this.nodes.slice(this.offset));
   }
 
-  *[Symbol.iterator]() {
+  * [Symbol.iterator]() {
     for (const item of this.nodes) {
       yield item;
     }

@@ -27,10 +27,10 @@ export class Character {
 
 export class Navigator<T = number> {
   onMove: (cur: [number, number]) => void;
-  private readonly _matrix: T[][];
-  private readonly _cur: [number, number];
-  private _character: Character;
-  private readonly _VISITED: T;
+  protected readonly _matrix: T[][];
+  protected readonly _cur: [number, number];
+  protected _character: Character;
+  protected readonly _VISITED: T;
 
   /**
    * The constructor initializes the Navigator object with the given parameters and sets the current position as visited

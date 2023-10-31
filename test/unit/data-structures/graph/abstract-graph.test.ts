@@ -19,7 +19,6 @@ class MyEdge<E = any> extends AbstractEdge<E> {
     this.src = srcOrV1;
     this.dest = destOrV2;
     this.data = value;
-    this._setHashCode('');
   }
 }
 
@@ -96,6 +95,6 @@ describe('AbstractGraph Operation Test', () => {
     eAB!.value = eAB.value;
     const hs = eAB.hashCode;
 
-    expect(hs).toBe('');
+    expect(hs.length).toBe(36);
   });
 });

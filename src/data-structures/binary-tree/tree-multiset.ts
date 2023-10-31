@@ -6,7 +6,7 @@
  * @license MIT License
  */
 import type {BTNKey, TreeMultisetNodeNested, TreeMultisetOptions} from '../../types';
-import {BinaryTreeDeletedResult, CP, FamilyPosition, IterationType, BTNCallback} from '../../types';
+import {BinaryTreeDeletedResult, BTNCallback, CP, FamilyPosition, IterationType} from '../../types';
 import {IBinaryTree} from '../../interfaces';
 import {AVLTree, AVLTreeNode} from './avl-tree';
 
@@ -37,8 +37,7 @@ export class TreeMultisetNode<
  */
 export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultisetNode<V, TreeMultisetNodeNested<V>>>
   extends AVLTree<V, N>
-  implements IBinaryTree<V, N>
-{
+  implements IBinaryTree<V, N> {
   /**
    * The constructor function for a TreeMultiset class in TypeScript, which extends another class and sets an option to
    * merge duplicated values.
@@ -93,7 +92,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
     }
     if (!this.root) {
       this._setRoot(newNode);
-      this._setSize(this.size + 1);
+      this._size = this.size + 1;
       newNode && this._setCount(this.count + newNode.count);
       inserted = this.root;
     } else {
@@ -113,7 +112,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
               if (cur.left === undefined) {
                 //Add to the left of the current node
                 cur.left = newNode;
-                this._setSize(this.size + 1);
+                this._size = this.size + 1;
                 this._setCount(this.count + newNode.count);
 
                 traversing = false;
@@ -127,7 +126,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
               if (cur.right === undefined) {
                 //Add to the right of the current node
                 cur.right = newNode;
-                this._setSize(this.size + 1);
+                this._size = this.size + 1;
                 this._setCount(this.count + newNode.count);
 
                 traversing = false;
@@ -162,7 +161,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
       if (parent.left === undefined) {
         parent.left = newNode;
         if (newNode !== null) {
-          this._setSize(this.size + 1);
+          this._size = this.size + 1;
           this._setCount(this.count + newNode.count);
         }
 
@@ -170,7 +169,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
       } else if (parent.right === undefined) {
         parent.right = newNode;
         if (newNode !== null) {
-          this._setSize(this.size + 1);
+          this._size = (this.size + 1);
           this._setCount(this.count + newNode.count);
         }
         return parent.right;
@@ -321,7 +320,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
           }
         }
       }
-      this._setSize(this.size - 1);
+      this._size = this.size - 1;
       // TODO How to handle when the count of target node is lesser than current node's count
       this._setCount(this.count - orgCurrent.count);
     }

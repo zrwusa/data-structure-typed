@@ -4,11 +4,6 @@
  * @class
  */
 export class Stack<E = any> {
-  get elements(): E[] {
-    return this._elements;
-  }
-  protected _elements: E[];
-
   /**
    * The constructor initializes an array of elements, which can be provided as an optional parameter.
    * @param {E[]} [elements] - The `elements` parameter is an optional parameter of type `E[]`, which represents an array
@@ -17,6 +12,12 @@ export class Stack<E = any> {
    */
   constructor(elements?: E[]) {
     this._elements = Array.isArray(elements) ? elements : [];
+  }
+
+  protected _elements: E[];
+
+  get elements(): E[] {
+    return this._elements;
   }
 
   /**

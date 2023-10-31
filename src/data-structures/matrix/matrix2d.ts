@@ -8,7 +8,7 @@
 import {Vector2D} from './vector2d';
 
 export class Matrix2D {
-  private readonly _matrix: number[][];
+  protected readonly _matrix: number[][];
 
   /**
    * The constructor function initializes a Matrix2D object with either a default identity matrix, or a provided matrix

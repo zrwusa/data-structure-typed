@@ -5,24 +5,16 @@ import {BST, BSTNode} from './bst';
 export class RBTreeNode<V = any, N extends RBTreeNode<V, N> = RBTreeNodeNested<V>> extends BSTNode<V, N> {
   constructor(key: BTNKey, value?: V) {
     super(key, value);
-    this._color = RBColor.RED;
+    this.color = RBColor.RED;
   }
 
-  private _color: RBColor;
+  color: RBColor;
 
-  get color(): RBColor {
-    return this._color;
-  }
-
-  set color(value: RBColor) {
-    this._color = value;
-  }
 }
 
 export class RBTree<V, N extends RBTreeNode<V, N> = RBTreeNode<V, RBTreeNodeNested<V>>>
   extends BST<V, N>
-  implements IBinaryTree<V, N>
-{
+  implements IBinaryTree<V, N> {
   constructor(options?: RBTreeOptions) {
     super(options);
   }
@@ -38,7 +30,7 @@ export class RBTree<V, N extends RBTreeNode<V, N> = RBTreeNode<V, RBTreeNodeNest
   // }
   //
   // // Method for fixing insert violations in a red-black tree
-  // private _fixInsertViolation(node: N) {
+  // protected _fixInsertViolation(node: N) {
   //   while (node !== this.root! && node.color === RBColor.RED && node.parent!.color === RBColor.RED) {
   //     const parent = node.parent!;
   //     const grandparent = parent.parent!;
@@ -101,7 +93,7 @@ export class RBTree<V, N extends RBTreeNode<V, N> = RBTreeNode<V, RBTreeNodeNest
   // }
   //
   // // Left rotation operation
-  // private _rotateLeft(node: N) {
+  // protected _rotateLeft(node: N) {
   //   const rightChild = node.right;
   //   node.right = rightChild!.left;
   //
@@ -125,7 +117,7 @@ export class RBTree<V, N extends RBTreeNode<V, N> = RBTreeNode<V, RBTreeNodeNest
   // }
   //
   // // Right rotation operation
-  // private _rotateRight(node: N) {
+  // protected _rotateRight(node: N) {
   //   const leftChild = node.left;
   //   node.left = leftChild!.right;
   //
@@ -148,12 +140,12 @@ export class RBTree<V, N extends RBTreeNode<V, N> = RBTreeNode<V, RBTreeNodeNest
   //   node.parent = leftChild;
   // }
   //
-  // private _isNodeRed(node: N | null | undefined): boolean {
+  // protected _isNodeRed(node: N | null | undefined): boolean {
   //   return node ? node.color === RBColor.RED : false;
   // }
   //
   // // Find the sibling node
-  // private _findSibling(node: N): N | null | undefined {
+  // protected _findSibling(node: N): N | null | undefined {
   //   if (!node.parent) {
   //     return undefined;
   //   }
@@ -162,7 +154,7 @@ export class RBTree<V, N extends RBTreeNode<V, N> = RBTreeNode<V, RBTreeNodeNest
   // }
   //
   // // Remove a node
-  // private _removeNode(node: N, replacement: N | null | undefined): void {
+  // protected _removeNode(node: N, replacement: N | null | undefined): void {
   //   if (node === this.root && !replacement) {
   //     // If there's only the root node and no replacement, simply delete the root node
   //     this._setRoot(null);
@@ -230,7 +222,7 @@ export class RBTree<V, N extends RBTreeNode<V, N> = RBTreeNode<V, RBTreeNodeNest
   // }
   //
   // // Repair operation after node deletion
-  // private _fixDeleteViolation(node: N | null | undefined) {
+  // protected _fixDeleteViolation(node: N | null | undefined) {
   //   let sibling;
   //
   //   while (node && node !== this.root && !this._isNodeRed(node)) {
@@ -327,7 +319,7 @@ export class RBTree<V, N extends RBTreeNode<V, N> = RBTreeNode<V, RBTreeNodeNest
   //   }
   // }
   //
-  // private _findMin(node: N): N {
+  // protected _findMin(node: N): N {
   //   while (node.left) {
   //     node = node.left;
   //   }
@@ -335,7 +327,7 @@ export class RBTree<V, N extends RBTreeNode<V, N> = RBTreeNode<V, RBTreeNodeNest
   // }
   //
   // // Get the replacement node
-  // private _getReplacementNode(node: N): N | null | undefined {
+  // protected _getReplacementNode(node: N): N | null | undefined {
   //   if (node.left && node.right) {
   //     return this._findSuccessor(node);
   //   }
@@ -348,7 +340,7 @@ export class RBTree<V, N extends RBTreeNode<V, N> = RBTreeNode<V, RBTreeNodeNest
   // }
   //
   // // Find the successor node
-  // private _findSuccessor(node: N): N | null | undefined {
+  // protected _findSuccessor(node: N): N | null | undefined {
   //   if (node.right) {
   //     // If the node has a right child, find the minimum node in the right subtree as the successor
   //     return this._findMin(node.right);

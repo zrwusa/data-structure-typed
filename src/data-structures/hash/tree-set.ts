@@ -1,1 +1,2 @@
-export class TreeSet {}
+export class TreeSet {
+}

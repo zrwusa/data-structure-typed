@@ -1,5 +1,5 @@
 import {BSTNode} from '../../../data-structures';
-import type {BTNKey, BinaryTreeOptions} from './binary-tree';
+import type {BinaryTreeOptions, BTNKey} from './binary-tree';
 
 export type BSTComparator = (a: BTNKey, b: BTNKey) => number;
 

@@ -9,70 +9,18 @@
 import type {SegmentTreeNodeVal} from '../../types';
 
 export class SegmentTreeNode {
+  start = 0;
+  end = 0;
+  value: SegmentTreeNodeVal | null = null;
+  sum = 0;
+  left: SegmentTreeNode | null = null;
+  right: SegmentTreeNode | null = null;
+
   constructor(start: number, end: number, sum: number, value?: SegmentTreeNodeVal | null) {
-    this._start = start;
-    this._end = end;
-    this._sum = sum;
-    this._value = value || null;
-  }
-
-  private _start = 0;
-  get start(): number {
-    return this._start;
-  }
-
-  set start(v: number) {
-    this._start = v;
-  }
-
-  private _end = 0;
-
-  get end(): number {
-    return this._end;
-  }
-
-  set end(v: number) {
-    this._end = v;
-  }
-
-  private _value: SegmentTreeNodeVal | null = null;
-
-  get value(): SegmentTreeNodeVal | null {
-    return this._value;
-  }
-
-  set value(v: SegmentTreeNodeVal | null) {
-    this._value = v;
-  }
-
-  private _sum = 0;
-
-  get sum(): number {
-    return this._sum;
-  }
-
-  set sum(v: number) {
-    this._sum = v;
-  }
-
-  private _left: SegmentTreeNode | null = null;
-
-  get left(): SegmentTreeNode | null {
-    return this._left;
-  }
-
-  set left(v: SegmentTreeNode | null) {
-    this._left = v;
-  }
-
-  private _right: SegmentTreeNode | null = null;
-
-  get right(): SegmentTreeNode | null {
-    return this._right;
-  }
-
-  set right(v: SegmentTreeNode | null) {
-    this._right = v;
+    this.start = start;
+    this.end = end;
+    this.sum = sum;
+    this.value = value || null;
   }
 }
 
@@ -101,24 +49,25 @@ export class SegmentTree {
     }
   }
 
-  private _values: number[] = [];
+  protected _values: number[] = [];
 
   get values(): number[] {
     return this._values;
   }
 
-  private _start = 0;
+  protected _start = 0;
+
   get start(): number {
     return this._start;
   }
 
-  private _end: number;
+  protected _end: number;
 
   get end(): number {
     return this._end;
   }
 
-  private _root: SegmentTreeNode | null;
+  protected _root: SegmentTreeNode | null;
 
   get root(): SegmentTreeNode | null {
     return this._root;
@@ -237,21 +186,5 @@ export class SegmentTree {
       }
     };
     return dfs(root, indexA, indexB);
-  }
-
-  protected _setValues(value: number[]) {
-    this._values = value;
-  }
-
-  protected _setStart(value: number) {
-    this._start = value;
-  }
-
-  protected _setEnd(value: number) {
-    this._end = value;
-  }
-
-  protected _setRoot(v: SegmentTreeNode | null) {
-    this._root = v;
   }
 }

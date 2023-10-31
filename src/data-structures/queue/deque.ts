@@ -9,7 +9,8 @@ import {DoublyLinkedList} from '../linked-list';
 
 // O(n) time complexity of obtaining the value
 // O(1) time complexity of adding at the beginning and the end
-export class Deque<E = any> extends DoublyLinkedList<E> {}
+export class Deque<E = any> extends DoublyLinkedList<E> {
+}
 
 // O(1) time complexity of obtaining the value
 // O(n) time complexity of adding at the beginning and the end
@@ -19,9 +20,9 @@ export class ObjectDeque<E = number> {
     if (capacity !== undefined) this._capacity = capacity;
   }
 
-  protected _nodes: {[key: number]: E} = {};
+  protected _nodes: { [key: number]: E } = {};
 
-  get nodes(): {[p: number]: E} {
+  get nodes(): { [p: number]: E } {
     return this._nodes;
   }
 
@@ -148,10 +149,11 @@ export class ObjectDeque<E = number> {
 // O(1) time complexity of obtaining the value
 // O(n) time complexity of adding at the beginning and the end
 export class ArrayDeque<E> {
+  protected _nodes: E[] = [];
+
   get nodes(): E[] {
     return this._nodes;
   }
-  protected _nodes: E[] = [];
 
   get size() {
     return this.nodes.length;

@@ -24,6 +24,8 @@ export class UndirectedVertex<V = any> extends AbstractVertex<V> {
 }
 
 export class UndirectedEdge<E = number> extends AbstractEdge<E> {
+  vertices: [VertexKey, VertexKey];
+
   /**
    * The constructor function creates an instance of a class with two vertex IDs, an optional weight, and an optional
    * value.
@@ -36,29 +38,18 @@ export class UndirectedEdge<E = number> extends AbstractEdge<E> {
    */
   constructor(v1: VertexKey, v2: VertexKey, weight?: number, value?: E) {
     super(weight, value);
-    this._vertices = [v1, v2];
-  }
-
-  private _vertices: [VertexKey, VertexKey];
-
-  get vertices() {
-    return this._vertices;
-  }
-
-  set vertices(v: [VertexKey, VertexKey]) {
-    this._vertices = v;
+    this.vertices = [v1, v2];
   }
 }
 
 export class UndirectedGraph<
-    V = any,
-    E = any,
-    VO extends UndirectedVertex<V> = UndirectedVertex<V>,
-    EO extends UndirectedEdge<E> = UndirectedEdge<E>
-  >
+  V = any,
+  E = any,
+  VO extends UndirectedVertex<V> = UndirectedVertex<V>,
+  EO extends UndirectedEdge<E> = UndirectedEdge<E>
+>
   extends AbstractGraph<V, E, VO, EO>
-  implements IGraph<V, E, VO, EO>
-{
+  implements IGraph<V, E, VO, EO> {
   /**
    * The constructor initializes a new Map object to store edges.
    */
@@ -264,13 +255,5 @@ export class UndirectedGraph<
       }
     }
     return true;
-  }
-
-  /**
-   * The function sets the edges of a graph.
-   * @param v - A map where the keys are of type VO and the values are arrays of type EO.
-   */
-  protected _setEdges(v: Map<VO, EO[]>) {
-    this._edges = v;
   }
 }

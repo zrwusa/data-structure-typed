@@ -1,15 +1,13 @@
 export class TreeNode<V = any> {
+  key: string;
+  value?: V | undefined;
+  children?: TreeNode<V>[] | undefined;
+
   constructor(key: string, value?: V, children?: TreeNode<V>[]) {
     this.key = key;
     this.value = value || undefined;
     this.children = children || [];
   }
-
-  key: string;
-
-  value?: V | undefined;
-
-  children?: TreeNode<V>[] | undefined;
 
   addChildren(children: TreeNode<V> | TreeNode<V>[]) {
     if (!this.children) {
