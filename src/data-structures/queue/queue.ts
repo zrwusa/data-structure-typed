@@ -23,11 +23,19 @@ export class LinkedListQueue<E = any> extends SinglyLinkedList<E> {
   }
 
   /**
+   * The `getFirst` function returns the value of the head node in a linked list, or `undefined` if the list is empty.
+   * @returns The `getFirst()` method is returning the value of the `head` node if it exists, otherwise it returns `undefined`.
+   */
+  getFirst(): E | undefined {
+    return this.head?.value;
+  }
+
+  /**
    * The `peek` function returns the value of the head node in a linked list, or `undefined` if the list is empty.
    * @returns The `peek()` method is returning the value of the `head` node if it exists, otherwise it returns `undefined`.
    */
   peek(): E | undefined {
-    return this.head?.val;
+    return this.getFirst();
   }
 }
 
@@ -43,24 +51,16 @@ export class Queue<E = any> {
     this._offset = 0;
   }
 
-  private _nodes: E[];
+  protected _nodes: E[];
 
   get nodes(): E[] {
     return this._nodes;
   }
 
-  set nodes(value: E[]) {
-    this._nodes = value;
-  }
-
-  private _offset: number;
+  protected _offset: number;
 
   get offset(): number {
     return this._offset;
-  }
-
-  set offset(value: number) {
-    this._offset = value;
   }
 
   /**
@@ -101,16 +101,25 @@ export class Queue<E = any> {
   shift(): E | undefined {
     if (this.size === 0) return undefined;
 
-    const first = this.peek();
-    this.offset += 1;
+    const first = this.getFirst();
+    this._offset += 1;
 
     if (this.offset * 2 < this.nodes.length) return first;
 
-    // only remove dequeued elements when reaching half size
+    // only delete dequeued elements when reaching half size
     // to decrease latency of shifting elements.
-    this.nodes = this.nodes.slice(this.offset);
-    this.offset = 0;
+    this._nodes = this.nodes.slice(this.offset);
+    this._offset = 0;
     return first;
+  }
+
+  /**
+   * The `getFirst` function returns the first element of the array `_nodes` if it exists, otherwise it returns `null`.
+   * @returns The `getFirst()` method returns the first element of the data structure, represented by the `_nodes` array at
+   * the `_offset` index. If the data structure is empty (size is 0), it returns `null`.
+   */
+  getFirst(): E | undefined {
+    return this.size > 0 ? this.nodes[this.offset] : undefined;
   }
 
   /**
@@ -119,7 +128,16 @@ export class Queue<E = any> {
    * the `_offset` index. If the data structure is empty (size is 0), it returns `null`.
    */
   peek(): E | undefined {
-    return this.size > 0 ? this.nodes[this.offset] : undefined;
+    return this.getFirst();
+  }
+
+  /**
+   * The `getLast` function returns the last element in an array-like data structure, or null if the structure is empty.
+   * @returns The method `getLast()` returns the last element of the `_nodes` array if the array is not empty. If the
+   * array is empty, it returns `null`.
+   */
+  getLast(): E | undefined {
+    return this.size > 0 ? this.nodes[this.nodes.length - 1] : undefined;
   }
 
   /**
@@ -128,7 +146,7 @@ export class Queue<E = any> {
    * array is empty, it returns `null`.
    */
   peekLast(): E | undefined {
-    return this.size > 0 ? this.nodes[this.nodes.length - 1] : undefined;
+    return this.getLast();
   }
 
   /**
@@ -171,8 +189,8 @@ export class Queue<E = any> {
    * The clear function resets the nodes array and offset to their initial values.
    */
   clear(): void {
-    this.nodes = [];
-    this.offset = 0;
+    this._nodes = [];
+    this._offset = 0;
   }
 
   /**
@@ -183,7 +201,7 @@ export class Queue<E = any> {
     return new Queue(this.nodes.slice(this.offset));
   }
 
-  *[Symbol.iterator]() {
+  * [Symbol.iterator]() {
     for (const item of this.nodes) {
       yield item;
     }

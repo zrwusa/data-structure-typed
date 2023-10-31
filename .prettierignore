@@ -1,5 +1,5 @@
-src/types/data-structures/binary-tree.ts
-src/types/data-structures/bst.ts
-src/types/data-structures/avl-tree.ts
-src/types/data-structures/rb-tree.ts
-src/types/data-structures/tree-multiset.ts
+src/types/data-structures/binary-tree/binary-tree.ts
+src/types/data-structures/binary-tree/bst.ts
+src/types/data-structures/binary-tree/avl-tree.ts
+src/types/data-structures/binary-tree/rb-tree.ts
+src/types/data-structures/binary-tree/tree-multiset.ts

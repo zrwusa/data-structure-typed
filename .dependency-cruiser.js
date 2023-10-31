@@ -273,11 +273,6 @@ module.exports = {
        your webpack config is a function and takes them (see webpack documentation
        for details)
      */
-    // webpackConfig: {
-    //  fileName: './webpack.config.js',
-    //  env: {},
-    //  arguments: {},
-    // },
 
     /* Babel config ('.babelrc', '.babelrc.json', '.babelrc.json5', ...) to use
       for compilation (and whatever other naughty things babel plugins do to

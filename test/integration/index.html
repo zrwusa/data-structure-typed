@@ -3,7 +3,7 @@
 <head>
   <meta charset='UTF-8'>
   <title>CDN Test</title>
-  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/umd/bundle.min.js'></script>
+  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js'></script>
 </head>
 <body>
 <div id='app'>
@@ -23,7 +23,7 @@
     $avlTreeSpan.innerText = 'AVLTree';
     $avlTree.append($avlTreeSpan);
     avlTree.add(1, 1);
-    console.log(avlTree.BFS());
+    console.log(avlTree.bfs());
     $modules.append($avlTree);
 
 
@@ -40,8 +40,7 @@
 
     console.log(performance.now() - startTime);
 
-  }
-  catch (e) {
+  } catch (e) {
     console.error(e);
   }
 

@@ -25,12 +25,12 @@ describe('SkipList', () => {
     expect(skipList.get(0)).toBeUndefined();
   });
 
-  it('should remove elements correctly', () => {
+  it('should delete elements correctly', () => {
     skipList.add(1, 'One');
     skipList.add(2, 'Two');
     skipList.add(3, 'Three');
 
-    skipList.remove(2);
+    skipList.delete(2);
 
     expect(skipList.get(2)).toBeUndefined(); // 修改这里的断言
   });
@@ -51,5 +51,36 @@ describe('SkipList', () => {
     expect(skipList.get(3)).toBe('Three');
     expect(skipList.get(5)).toBe('Five');
     expect(skipList.get(4)).toBe('Four');
+  });
+});
+
+describe('SkipList', () => {
+  let skipList: SkipList<number, string>;
+
+  beforeEach(() => {
+    skipList = new SkipList();
+    skipList.add(1, 'One');
+    skipList.add(2, 'Two');
+    skipList.add(3, 'Three');
+    skipList.add(4, 'Four');
+  });
+
+  test('getFirst() should return the getFirst element', () => {
+    expect(skipList.getFirst()).toBe('One');
+  });
+
+  test('getLast() should return the getLast element', () => {
+    expect(skipList.getLast()).toBe('Four');
+  });
+
+  test('higher(key) should return the getFirst element greater than the given key', () => {
+    expect(skipList.higher(2)).toBe('Three');
+    expect(skipList.higher(3)).toBe('Four');
+    expect(skipList.higher(4)).toBeUndefined();
+  });
+
+  test('lower(key) should return the getLast element less than the given key', () => {
+    expect(skipList.lower(2)).toBe('One');
+    expect(skipList.lower(1)).toBe(null);
   });
 });

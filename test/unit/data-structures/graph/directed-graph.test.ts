@@ -22,25 +22,30 @@ describe('DirectedGraph Operation Test', () => {
     const vertex1 = new DirectedVertex('A');
     const vertex2 = new DirectedVertex('B');
     const edge = new DirectedEdge('A', 'B');
+    edge.src = edge.src;
+    edge.dest = edge.dest;
 
     graph.addVertex(vertex1);
     graph.addVertex(vertex2);
     graph.addEdge(edge);
 
+    expect(graph.outEdgeMap.size).toBe(1);
+    expect(graph.inEdgeMap.size).toBe(1);
     expect(graph.hasEdge('A', 'B')).toBe(true);
     expect(graph.hasEdge('B', 'A')).toBe(false);
   });
 
-  it('should remove edges', () => {
+  it('should delete edges', () => {
     const vertex1 = new DirectedVertex('A');
-    const vertex2 = new DirectedVertex('B');
+    // const vertex2 = new DirectedVertex('B');
+    graph.createVertex('B');
     const edge = new DirectedEdge('A', 'B');
 
     graph.addVertex(vertex1);
-    graph.addVertex(vertex2);
+    graph.addVertex('B');
     graph.addEdge(edge);
 
-    expect(graph.removeEdge(edge)).toBe(edge);
+    expect(graph.deleteEdge(edge)).toBe(edge);
     expect(graph.hasEdge('A', 'B')).toBe(false);
   });
 
@@ -49,65 +54,103 @@ describe('DirectedGraph Operation Test', () => {
     const vertexB = new DirectedVertex('B');
     const vertexC = new DirectedVertex('C');
     const edgeAB = new DirectedEdge('A', 'B');
-    const edgeBC = new DirectedEdge('B', 'C');
+    graph.createEdge('B', 'C');
 
     graph.addVertex(vertexA);
     graph.addVertex(vertexB);
     graph.addVertex(vertexC);
     graph.addEdge(edgeAB);
-    graph.addEdge(edgeBC);
+    graph.addEdge('B', 'C');
+
+    expect(graph.getEdgeSrc(edgeAB)).toBe(vertexA);
 
     const topologicalOrder = graph.topologicalSort();
     if (topologicalOrder) expect(topologicalOrder).toEqual(['A', 'B', 'C']);
+
+    graph.deleteEdgesBetween('A', 'B');
+
+    const topologicalOrder1 = graph.topologicalSort();
+    if (topologicalOrder1) expect(topologicalOrder1).toEqual(['B', 'C', 'A']);
+
+    expect(graph.incomingEdgesOf(vertexC)?.length).toBe(1);
+    expect(graph.degreeOf(vertexA)).toBe(0);
+    expect(graph.inDegreeOf(vertexC)).toBe(1);
+    expect(graph.outDegreeOf(vertexC)).toBe(0);
+    expect(graph.edgesOf(vertexC)?.length).toBe(1);
+
+    expect(graph.tarjan(true, true, true, true)?.dfnMap.size).toBe(3);
+    expect(graph.bellmanFord(vertexC, true, true, true)?.paths.length).toBe(3);
+    expect(graph.getMinPathBetween('B', 'C', true)?.length).toBe(2);
+    expect(graph.setEdgeWeight('B', 'C', 100)).toBe(true);
+    expect(graph.getMinCostBetween('B', 'C', true)).toBe(100);
+    expect(graph.getMinCostBetween('B', 'C')).toBe(1);
+    expect(graph.getAllPathsBetween('B', 'C')?.length).toBe(1);
+    expect(graph.deleteVertex(vertexB)).toBe(true);
+    expect(graph.getAllPathsBetween('B', 'C')?.length).toBe(0);
+
+    expect(graph.removeManyVertices([vertexB, vertexC])).toBe(true);
   });
 });
 
-class MyVertex<V extends string> extends DirectedVertex<V> {
-  constructor(key: VertexKey, val?: V) {
-    super(key, val);
-    this._data = val;
+class MyVertex<V = any> extends DirectedVertex<V> {
+  constructor(key: VertexKey, value?: V) {
+    super(key, value);
+    this._data = value;
   }
 
-  private _data: string | undefined;
+  protected _data: V | undefined;
 
-  get data(): string | undefined {
+  get data(): V | undefined {
     return this._data;
   }
 
-  set data(value: string | undefined) {
+  set data(value: V | undefined) {
     this._data = value;
   }
 }
 
-class MyEdge<E extends string> extends DirectedEdge<E> {
-  constructor(v1: VertexKey, v2: VertexKey, weight?: number, val?: E) {
-    super(v1, v2, weight, val);
-    this._data = val;
+class MyEdge<E = any> extends DirectedEdge<E> {
+  constructor(v1: VertexKey, v2: VertexKey, weight?: number, value?: E) {
+    super(v1, v2, weight, value);
+    this._data = value;
   }
 
-  private _data: string | undefined;
+  protected _data: E | undefined;
 
-  get data(): string | undefined {
+  get data(): E | undefined {
     return this._data;
   }
 
-  set data(value: string | undefined) {
+  set data(value: E | undefined) {
     this._data = value;
   }
 }
 
-class MyDirectedGraph<V extends MyVertex<string>, E extends MyEdge<string>> extends DirectedGraph<V, E> {
-  createVertex(key: VertexKey, val: V['val']): V {
-    return new MyVertex(key, val) as V;
+class MyDirectedGraph<
+  V = any,
+  E = any,
+  VO extends MyVertex<V> = MyVertex<V>,
+  EO extends MyEdge<E> = MyEdge<E>
+> extends DirectedGraph<V, E, VO, EO> {
+  createVertex(key: VertexKey, value: V): VO {
+    return new MyVertex(key, value) as VO;
   }
 
-  createEdge(src: VertexKey, dest: VertexKey, weight?: number, val?: E['val']): E {
-    return new MyEdge(src, dest, weight ?? 1, val) as E;
+  createEdge(src: VertexKey, dest: VertexKey, weight?: number, value?: E): EO {
+    return new MyEdge(src, dest, weight ?? 1, value) as EO;
+  }
+
+  setInEdgeMap(value: Map<VO, EO[]>) {
+    this._inEdgeMap = value;
+  }
+
+  setOutEdgeMap(value: Map<VO, EO[]>) {
+    this._outEdgeMap = value;
   }
 }
 
 describe('Inherit from DirectedGraph and perform operations', () => {
-  let myGraph = new MyDirectedGraph<MyVertex<string>, MyEdge<string>>();
+  let myGraph = new MyDirectedGraph<string, string>();
   beforeEach(() => {
     myGraph = new MyDirectedGraph();
   });
@@ -129,6 +172,8 @@ describe('Inherit from DirectedGraph and perform operations', () => {
     myGraph.addVertex(2, 'data2');
     myGraph.addEdge(1, 2, 10, 'edge-data1-2');
     myGraph.addEdge(new MyEdge(2, 1, 20, 'edge-data2-1'));
+    myGraph.setInEdgeMap(myGraph.inEdgeMap);
+    myGraph.setOutEdgeMap(myGraph.outEdgeMap);
 
     expect(myGraph.edgeSet().length).toBe(2);
     // TODO
@@ -147,7 +192,7 @@ describe('Inherit from DirectedGraph and perform operations', () => {
     expect(edge1).toBeInstanceOf(MyEdge);
     if (edge1) {
       expect(edge1.data).toBe('val1');
-      expect(edge1?.val).toBe('val1');
+      expect(edge1?.value).toBe('val1');
       expect(edge1).toBeInstanceOf(MyEdge);
       expect(edge1.src).toBe(1);
       expect(edge1).toEqual(edge2);
@@ -164,12 +209,12 @@ describe('Inherit from DirectedGraph and perform operations', () => {
     myGraph.addVertex(2, 'data2');
     myGraph.addEdge(1, 2, 10, 'edge-data1-2');
 
-    const removedEdge = myGraph.removeEdgeSrcToDest(1, 2);
+    const removedEdge = myGraph.deleteEdgeSrcToDest(1, 2);
     const edgeAfterRemoval = myGraph.getEdge(1, 2);
 
     expect(removedEdge).toBeInstanceOf(MyEdge);
     if (removedEdge) {
-      removedEdge && expect(removedEdge.val).toBe('edge-data1-2');
+      removedEdge && expect(removedEdge.value).toBe('edge-data1-2');
       removedEdge && expect(removedEdge.src).toBe(1);
     }
     expect(edgeAfterRemoval).toBeNull();
@@ -204,7 +249,7 @@ describe('Inherit from DirectedGraph and perform operations', () => {
 });
 
 describe('Inherit from DirectedGraph and perform operations test2.', () => {
-  const myGraph = new MyDirectedGraph<MyVertex<string>, MyEdge<string>>();
+  const myGraph = new MyDirectedGraph<string, string>();
 
   it('should test graph operations', () => {
     const vertex1 = new MyVertex(1, 'data1');
@@ -233,7 +278,7 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
     expect(myGraph.getEdge(2, 1)).toBeTruthy();
     expect(myGraph.getEdge(1, '100')).toBeFalsy();
 
-    myGraph.removeEdgeSrcToDest(1, 2);
+    myGraph.deleteEdgeSrcToDest(1, 2);
     expect(myGraph.getEdge(1, 2)).toBeFalsy();
 
     myGraph.addEdge(3, 1, 3, 'edge-data-3-1');

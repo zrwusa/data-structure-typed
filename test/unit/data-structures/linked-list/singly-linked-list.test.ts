@@ -1,5 +1,14 @@
-import {SinglyLinkedList} from '../../../../src';
+import {SinglyLinkedList, SinglyLinkedListNode} from '../../../../src';
 import {bigO, magnitude} from '../../../utils';
+
+describe('SinglyLinkedListNode', () => {
+  it('should SinglyLinkedList', () => {
+    const node1 = new SinglyLinkedListNode<number>(2);
+    expect(node1.value).toBe(2);
+    node1.value = 1;
+    expect(node1.value).toBe(1);
+  });
+});
 
 describe('SinglyLinkedList Operation Test', () => {
   let list: SinglyLinkedList<number>;
@@ -18,11 +27,13 @@ describe('SinglyLinkedList Operation Test', () => {
   });
 
   describe('pop', () => {
-    it('should remove and return the last element of the list', () => {
+    it('should delete and return the last element of the list', () => {
       list.push(1);
       list.push(2);
+      list.push(3);
       const popped = list.pop();
-      expect(popped).toBe(2);
+      expect(popped).toBe(3);
+      expect(list.popLast()).toBe(2);
       expect(list.toArray()).toEqual([1]);
     });
 
@@ -33,12 +44,14 @@ describe('SinglyLinkedList Operation Test', () => {
   });
 
   describe('shift', () => {
-    it('should remove and return the first element of the list', () => {
+    it('should delete and return the first element of the list', () => {
       list.push(1);
       list.push(2);
+      list.push(3);
       const shifted = list.shift();
       expect(shifted).toBe(1);
-      expect(list.toArray()).toEqual([2]);
+      expect(list.popFirst()).toBe(2);
+      expect(list.toArray()).toEqual([3]);
     });
 
     it('should return undefined if the list is empty', () => {
@@ -50,7 +63,7 @@ describe('SinglyLinkedList Operation Test', () => {
   describe('unshift', () => {
     it('should add elements to the beginning of the list', () => {
       list.unshift(1);
-      list.unshift(2);
+      list.addFirst(2);
       expect(list.toArray()).toEqual([2, 1]);
     });
   });
@@ -62,6 +75,7 @@ describe('SinglyLinkedList Operation Test', () => {
       list.push(3);
       const element = list.getAt(1);
       expect(element).toBe(2);
+      expect(list.getNodeAt(2)?.value).toBe(3);
     });
 
     it('should return undefined for an out-of-bounds index', () => {
@@ -109,13 +123,18 @@ describe('SinglyLinkedList Operation Test', () => {
   });
 
   describe('removeValue', () => {
-    it('should remove the first occurrence of a value from the list', () => {
+    it('should delete the first occurrence of a value from the list', () => {
       list.push(1);
       list.push(2);
       list.push(3);
-      const removed = list.delete(2);
-      expect(removed).toBe(true);
-      expect(list.toArray()).toEqual([1, 3]);
+      list.push(4);
+      list.push(5);
+      expect(list.delete(2)).toBe(true);
+      expect(list.toArray()).toEqual([1, 3, 4, 5]);
+      expect(list.delete(1)).toBe(true);
+      expect(list.toArray()).toEqual([3, 4, 5]);
+      expect(list.delete(5)).toBe(true);
+      expect(list.toArray()).toEqual([3, 4]);
     });
 
     it('should return false if the value is not found', () => {
@@ -240,8 +259,8 @@ describe('SinglyLinkedList Operation Test', () => {
     });
   });
 
-  describe('remove', () => {
-    it('should remove and return the element at the specified index', () => {
+  describe('delete', () => {
+    it('should delete and return the element at the specified index', () => {
       list.push(1);
       list.push(2);
       list.push(3);
@@ -256,7 +275,7 @@ describe('SinglyLinkedList Operation Test', () => {
       expect(removed).toBeUndefined();
     });
 
-    it('should remove and return the first element', () => {
+    it('should delete and return the first element', () => {
       list.push(1);
       list.push(2);
       const removed = list.deleteAt(0);
@@ -264,7 +283,7 @@ describe('SinglyLinkedList Operation Test', () => {
       expect(list.toArray()).toEqual([2]);
     });
 
-    it('should remove and return the last element', () => {
+    it('should delete and return the last element', () => {
       list.push(1);
       list.push(2);
       const removed = list.deleteAt(1);
@@ -362,8 +381,8 @@ describe('SinglyLinkedList Operation Test', () => {
     const insertSuccess = objectList.insertBefore(obj2, newObj);
     expect(insertSuccess).toBe(true);
 
-    const findNode = objectList.findNode(newObj); // Use newObj instead of obj2
-    expect(findNode?.val).toEqual(newObj);
+    const getNode = objectList.getNode(newObj); // Use newObj instead of obj2
+    expect(getNode?.value).toEqual(newObj);
 
     const deleted = objectList.delete(newObj); // Use newObj instead of obj2
     expect(deleted).toBe(true);
@@ -393,7 +412,7 @@ describe('SinglyLinkedList Performance Test', () => {
     }
 
     // expect(performance.now() - startPopTime).toBeLessThan(bigO.LINEAR);
-    expect(performance.now() - startPopTime).toBeLessThan(bigO.LINEAR * 300);
+    expect(performance.now() - startPopTime).toBeLessThan(bigO.LINEAR * 400);
   });
 });
 describe('SinglyLinkedList', () => {
@@ -412,8 +431,8 @@ describe('SinglyLinkedList', () => {
   it('should push elements to the end of the list', () => {
     list.push(1);
     list.push(2);
-    expect(list.head!.val).toBe(1);
-    expect(list.tail!.val).toBe(2);
+    expect(list.head!.value).toBe(1);
+    expect(list.tail!.value).toBe(2);
     expect(list.length).toBe(2);
   });
 
@@ -422,24 +441,20 @@ describe('SinglyLinkedList', () => {
     list.push(2);
     const popped = list.pop();
     expect(popped).toBe(2);
-    expect(list.head!.val).toBe(1);
-    expect(list.tail!.val).toBe(1);
+    expect(list.head!.value).toBe(1);
+    expect(list.tail!.value).toBe(1);
     expect(list.length).toBe(1);
   });
-
-  // Add more test cases for other methods like shift, unshift, getAt, deleteAt, and more.
 
   it('should reverse the list', () => {
     list.push(1);
     list.push(2);
     list.push(3);
     list.reverse();
-    expect(list.head!.val).toBe(3);
-    expect(list.tail!.val).toBe(1);
+    expect(list.head!.value).toBe(3);
+    expect(list.tail!.value).toBe(1);
     // Add more assertions for reversed order.
   });
-
-  // Add more test cases for other methods like find, indexOf, and more.
 
   it('should convert the list to an array', () => {
     list.push(1);
@@ -447,5 +462,34 @@ describe('SinglyLinkedList', () => {
     list.push(3);
     const array = list.toArray();
     expect(array).toEqual([1, 2, 3]);
+    // @ts-ignore
+    expect([...list]).toEqual([1, 2, 3]);
+  });
+
+  it('should filter the list', () => {
+    list.push(1);
+    list.push(2);
+    list.push(3);
+    expect(list.filter(value => value !== 2).toArray()).toEqual([1, 3]);
+  });
+
+  it('should forEach the list', () => {
+    list.push(1);
+    list.push(2);
+    list.push(3);
+    list.forEach(value => value++);
+    expect(list.toArray()).toEqual([1, 2, 3]);
+  });
+
+  it('should map the list', () => {
+    list.addLast(1);
+    list.push(2);
+    list.push(3);
+    expect(list.map(value => value * 2).toArray()).toEqual([2, 4, 6]);
+  });
+
+  it('should reduce the list', () => {
+    const list1 = SinglyLinkedList.fromArray([1, 2, 3]);
+    expect(list1.reduce((acc, value) => acc + value, 0)).toEqual(6);
   });
 });

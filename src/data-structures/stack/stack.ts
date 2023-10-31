@@ -4,8 +4,6 @@
  * @class
  */
 export class Stack<E = any> {
-  protected _elements: E[];
-
   /**
    * The constructor initializes an array of elements, which can be provided as an optional parameter.
    * @param {E[]} [elements] - The `elements` parameter is an optional parameter of type `E[]`, which represents an array
@@ -14,6 +12,12 @@ export class Stack<E = any> {
    */
   constructor(elements?: E[]) {
     this._elements = Array.isArray(elements) ? elements : [];
+  }
+
+  protected _elements: E[];
+
+  get elements(): E[] {
+    return this._elements;
   }
 
   /**
@@ -31,7 +35,7 @@ export class Stack<E = any> {
    * @returns A boolean value indicating whether the `_elements` array is empty or not.
    */
   isEmpty(): boolean {
-    return this._elements.length === 0;
+    return this.elements.length === 0;
   }
 
   /**
@@ -39,7 +43,7 @@ export class Stack<E = any> {
    * @returns The size of the elements array.
    */
   size(): number {
-    return this._elements.length;
+    return this.elements.length;
   }
 
   /**
@@ -49,7 +53,7 @@ export class Stack<E = any> {
   peek(): E | null {
     if (this.isEmpty()) return null;
 
-    return this._elements[this._elements.length - 1];
+    return this.elements[this.elements.length - 1];
   }
 
   /**
@@ -58,7 +62,7 @@ export class Stack<E = any> {
    * @returns The `push` method is returning the updated `Stack<E>` object.
    */
   push(element: E): Stack<E> {
-    this._elements.push(element);
+    this.elements.push(element);
     return this;
   }
 
@@ -70,7 +74,7 @@ export class Stack<E = any> {
   pop(): E | null {
     if (this.isEmpty()) return null;
 
-    return this._elements.pop() || null;
+    return this.elements.pop() || null;
   }
 
   /**
@@ -78,7 +82,7 @@ export class Stack<E = any> {
    * @returns An array of type E.
    */
   toArray(): E[] {
-    return this._elements.slice();
+    return this.elements.slice();
   }
 
   /**
@@ -93,6 +97,6 @@ export class Stack<E = any> {
    * @returns The `clone()` method is returning a new `Stack` object with a copy of the `_elements` array.
    */
   clone(): Stack<E> {
-    return new Stack(this._elements.slice());
+    return new Stack(this.elements.slice());
   }
 }

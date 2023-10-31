@@ -9,70 +9,18 @@
 import type {SegmentTreeNodeVal} from '../../types';
 
 export class SegmentTreeNode {
-  constructor(start: number, end: number, sum: number, val?: SegmentTreeNodeVal | null) {
-    this._start = start;
-    this._end = end;
-    this._sum = sum;
-    this._val = val || null;
-  }
+  start = 0;
+  end = 0;
+  value: SegmentTreeNodeVal | null = null;
+  sum = 0;
+  left: SegmentTreeNode | null = null;
+  right: SegmentTreeNode | null = null;
 
-  private _start = 0;
-  get start(): number {
-    return this._start;
-  }
-
-  set start(v: number) {
-    this._start = v;
-  }
-
-  private _end = 0;
-
-  get end(): number {
-    return this._end;
-  }
-
-  set end(v: number) {
-    this._end = v;
-  }
-
-  private _val: SegmentTreeNodeVal | null = null;
-
-  get val(): SegmentTreeNodeVal | null {
-    return this._val;
-  }
-
-  set val(v: SegmentTreeNodeVal | null) {
-    this._val = v;
-  }
-
-  private _sum = 0;
-
-  get sum(): number {
-    return this._sum;
-  }
-
-  set sum(v: number) {
-    this._sum = v;
-  }
-
-  private _left: SegmentTreeNode | null = null;
-
-  get left(): SegmentTreeNode | null {
-    return this._left;
-  }
-
-  set left(v: SegmentTreeNode | null) {
-    this._left = v;
-  }
-
-  private _right: SegmentTreeNode | null = null;
-
-  get right(): SegmentTreeNode | null {
-    return this._right;
-  }
-
-  set right(v: SegmentTreeNode | null) {
-    this._right = v;
+  constructor(start: number, end: number, sum: number, value?: SegmentTreeNodeVal | null) {
+    this.start = start;
+    this.end = end;
+    this.sum = sum;
+    this.value = value || null;
   }
 }
 
@@ -101,24 +49,25 @@ export class SegmentTree {
     }
   }
 
-  private _values: number[] = [];
+  protected _values: number[] = [];
 
   get values(): number[] {
     return this._values;
   }
 
-  private _start = 0;
+  protected _start = 0;
+
   get start(): number {
     return this._start;
   }
 
-  private _end: number;
+  protected _end: number;
 
   get end(): number {
     return this._end;
   }
 
-  private _root: SegmentTreeNode | null;
+  protected _root: SegmentTreeNode | null;
 
   get root(): SegmentTreeNode | null {
     return this._root;
@@ -154,30 +103,30 @@ export class SegmentTree {
    * updated.
    * @param {number} sum - The `sum` parameter represents the new value that should be assigned to the `sum` property of
    * the `SegmentTreeNode` at the specified `index`.
-   * @param {SegmentTreeNodeVal} [val] - The `val` parameter is an optional value that can be assigned to the `val`
+   * @param {SegmentTreeNodeVal} [value] - The `value` parameter is an optional value that can be assigned to the `value`
    * property of the `SegmentTreeNode` object. It is not currently used in the code, but you can uncomment the line `//
-   * cur.val = val;` and pass a value for `val` in the
+   * cur.value = value;` and pass a value for `value` in the
    * @returns The function does not return anything.
    */
-  updateNode(index: number, sum: number, val?: SegmentTreeNodeVal) {
+  updateNode(index: number, sum: number, value?: SegmentTreeNodeVal) {
     const root = this.root || null;
     if (!root) {
       return;
     }
-    const dfs = (cur: SegmentTreeNode, index: number, sum: number, val?: SegmentTreeNodeVal) => {
+    const dfs = (cur: SegmentTreeNode, index: number, sum: number, value?: SegmentTreeNodeVal) => {
       if (cur.start === cur.end && cur.start === index) {
         cur.sum = sum;
-        if (val !== undefined) cur.val = val;
+        if (value !== undefined) cur.value = value;
         return;
       }
       const mid = cur.start + Math.floor((cur.end - cur.start) / 2);
       if (index <= mid) {
         if (cur.left) {
-          dfs(cur.left, index, sum, val);
+          dfs(cur.left, index, sum, value);
         }
       } else {
         if (cur.right) {
-          dfs(cur.right, index, sum, val);
+          dfs(cur.right, index, sum, value);
         }
       }
       if (cur.left && cur.right) {
@@ -185,7 +134,7 @@ export class SegmentTree {
       }
     };
 
-    dfs(root, index, sum, val);
+    dfs(root, index, sum, value);
   }
 
   /**
@@ -237,21 +186,5 @@ export class SegmentTree {
       }
     };
     return dfs(root, indexA, indexB);
-  }
-
-  protected _setValues(value: number[]) {
-    this._values = value;
-  }
-
-  protected _setStart(value: number) {
-    this._start = value;
-  }
-
-  protected _setEnd(value: number) {
-    this._end = value;
-  }
-
-  protected _setRoot(v: SegmentTreeNode | null) {
-    this._root = v;
   }
 }

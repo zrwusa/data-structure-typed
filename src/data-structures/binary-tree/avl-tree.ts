@@ -6,22 +6,22 @@
  * @license MIT License
  */
 import {BST, BSTNode} from './bst';
-import type {AVLTreeNodeNested, AVLTreeOptions, BinaryTreeDeletedResult, BinaryTreeNodeKey} from '../../types';
+import type {AVLTreeNodeNested, AVLTreeOptions, BinaryTreeDeletedResult, BTNKey} from '../../types';
+import {BTNCallback} from '../../types';
 import {IBinaryTree} from '../../interfaces';
 
-export class AVLTreeNode<V = any, FAMILY extends AVLTreeNode<V, FAMILY> = AVLTreeNodeNested<V>> extends BSTNode<
-  V,
-  FAMILY
-> {
+export class AVLTreeNode<V = any, N extends AVLTreeNode<V, N> = AVLTreeNodeNested<V>> extends BSTNode<V, N> {
   height: number;
 
-  constructor(key: BinaryTreeNodeKey, val?: V) {
-    super(key, val);
+  constructor(key: BTNKey, value?: V) {
+    super(key, value);
     this.height = 0;
   }
 }
 
-export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends BST<N> implements IBinaryTree<N> {
+export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTreeNodeNested<V>>>
+  extends BST<V, N>
+  implements IBinaryTree<V, N> {
   /**
    * This is a constructor function for an AVL tree data structure in TypeScript.
    * @param {AVLTreeOptions} [options] - The `options` parameter is an optional object that can be passed to the
@@ -33,66 +33,51 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
   }
 
   /**
-   * The `swapLocation` function swaps the location of two nodes in a binary tree.
-   * @param {N} srcNode - The source node that you want to swap with the destination node.
-   * @param {N} destNode - The `destNode` parameter represents the destination node where the values from `srcNode` will
-   * be swapped to.
-   * @returns The `destNode` is being returned.
-   */
-  override swapLocation(srcNode: N, destNode: N): N {
-    const {key, val, height} = destNode;
-    const tempNode = this.createNode(key, val);
-
-    if (tempNode) {
-      tempNode.height = height;
-
-      destNode.key = srcNode.key;
-      destNode.val = srcNode.val;
-      destNode.height = srcNode.height;
-
-      srcNode.key = tempNode.key;
-      srcNode.val = tempNode.val;
-      srcNode.height = tempNode.height;
-    }
-
-    return destNode;
-  }
-
-  /**
-   * The function creates a new AVL tree node with the given key and value.
-   * @param {BinaryTreeNodeKey} key - The `key` parameter is the identifier for the binary tree node. It is used to uniquely
-   * identify each node in the tree.
-   * @param [val] - The `val` parameter is an optional value that can be assigned to the node. It represents the value
-   * that will be stored in the node.
+   * The function creates a new AVL tree node with the specified key and value.
+   * @param {BTNKey} key - The key parameter is the key value that will be associated with
+   * the new node. It is used to determine the position of the node in the binary search tree.
+   * @param [value] - The parameter `value` is an optional value that can be assigned to the node. It is of
+   * type `V`, which means it can be any value that is assignable to the `value` property of the
+   * node type `N`.
    * @returns a new AVLTreeNode object with the specified key and value.
    */
-  override createNode(key: BinaryTreeNodeKey, val?: N['val']): N {
-    return new AVLTreeNode<N['val'], N>(key, val) as N;
+  override createNode(key: BTNKey, value?: V): N {
+    return new AVLTreeNode<V, N>(key, value) as N;
   }
 
   /**
-   * The function overrides the add method of a binary tree node and balances the tree after inserting a new node.
-   * @param {BinaryTreeNodeKey} key - The `key` parameter is the identifier of the binary tree node that we want to add.
-   * @param [val] - The `val` parameter is an optional value that can be assigned to the node being added. It is of type
-   * `N['val']`, which means it should be of the same type as the `val` property of the nodes in the binary tree.
-   * @returns The method is returning the inserted node, or null or undefined if the insertion was not successful.
+   * The function overrides the add method of a binary tree node and balances the tree after inserting
+   * a new node.
+   * @param {BTNKey | N | null} keyOrNode - The `keyOrNode` parameter can accept either a
+   * `BTNKey` or a `N` (which represents a node in the binary tree) or `null`.
+   * @param [value] - The `value` parameter is the value that you want to assign to the new node that you
+   * are adding to the binary search tree.
+   * @returns The method is returning the inserted node (`N`), `null`, or `undefined`.
    */
-  override add(key: BinaryTreeNodeKey, val?: N['val']): N | null | undefined {
-    // TODO support node as a param
-    const inserted = super.add(key, val);
+  override add(keyOrNode: BTNKey | N | null, value?: V): N | null | undefined {
+    const inserted = super.add(keyOrNode, value);
     if (inserted) this._balancePath(inserted);
     return inserted;
   }
 
   /**
-   * The function overrides the remove method of a binary tree and performs additional operations to balance the tree after
-   * deletion.
-   * @param {BinaryTreeNodeKey} key - The `key` parameter represents the identifier of the binary tree node that needs to be
-   * removed.
+   * The function overrides the delete method of a binary tree and balances the tree after deleting a
+   * node if necessary.
+   * @param {ReturnType<C>} identifier - The `identifier` parameter is either a
+   * `BTNKey` or a generic type `N`. It represents the property of the node that we are
+   * searching for. It can be a specific key value or any other property of the node.
+   * @param callback - The `callback` parameter is a function that takes a node as input and returns a
+   * value. This value is compared with the `identifier` parameter to determine if the node should be
+   * included in the result. The `callback` parameter has a default value of
+   * `((node: N) => node.key)`
    * @returns The method is returning an array of `BinaryTreeDeletedResult<N>` objects.
    */
-  override remove(key: BinaryTreeNodeKey): BinaryTreeDeletedResult<N>[] {
-    const deletedResults = super.remove(key);
+  override delete<C extends BTNCallback<N>>(
+    identifier: ReturnType<C>,
+    callback: C = ((node: N) => node.key) as C
+  ): BinaryTreeDeletedResult<N>[] {
+    if ((identifier as any) instanceof AVLTreeNode) callback = (node => node) as C;
+    const deletedResults = super.delete(identifier, callback);
     for (const {needBalanced} of deletedResults) {
       if (needBalanced) {
         this._balancePath(needBalanced);
@@ -102,10 +87,37 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
   }
 
   /**
-   * The balance factor of a given AVL tree node is calculated by subtracting the height of its left subtree from the
-   * height of its right subtree.
-   * @param node - The parameter "node" is of type N, which represents a node in an AVL tree.
-   * @returns The balance factor of the given AVL tree node.
+   * The function swaps the key, value, and height properties between two nodes in a binary tree.
+   * @param {N} srcNode - The `srcNode` parameter represents the source node that needs to be swapped
+   * with the `destNode`.
+   * @param {N} destNode - The `destNode` parameter represents the destination node where the values
+   * from the source node (`srcNode`) will be swapped to.
+   * @returns The method is returning the `destNode` after swapping its properties with the `srcNode`.
+   */
+  protected override _swap(srcNode: N, destNode: N): N {
+    const {key, value, height} = destNode;
+    const tempNode = this.createNode(key, value);
+
+    if (tempNode) {
+      tempNode.height = height;
+
+      destNode.key = srcNode.key;
+      destNode.value = srcNode.value;
+      destNode.height = srcNode.height;
+
+      srcNode.key = tempNode.key;
+      srcNode.value = tempNode.value;
+      srcNode.height = tempNode.height;
+    }
+
+    return destNode;
+  }
+
+  /**
+   * The function calculates the balance factor of a node in a binary tree.
+   * @param {N} node - The parameter "node" represents a node in a binary tree data structure.
+   * @returns the balance factor of a given node. The balance factor is calculated by subtracting the
+   * height of the left subtree from the height of the right subtree.
    */
   protected _balanceFactor(node: N): number {
     if (!node.right)
@@ -118,8 +130,9 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
   }
 
   /**
-   * The function updates the height of a node in an AVL tree based on the heights of its left and right subtrees.
-   * @param node - The parameter `node` is an AVLTreeNode object, which represents a node in an AVL tree.
+   * The function updates the height of a node in a binary tree based on the heights of its left and
+   * right children.
+   * @param {N} node - The parameter "node" represents a node in a binary tree data structure.
    */
   protected _updateHeight(node: N): void {
     if (!node.left && !node.right) node.height = 0;
@@ -131,9 +144,10 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
   }
 
   /**
-   * The `_balancePath` function balances the AVL tree by performing appropriate rotations based on the balance factor of
-   * each node in the path from the given node to the root.
-   * @param node - The `node` parameter is an AVLTreeNode object, which represents a node in an AVL tree.
+   * The `_balancePath` function is used to update the heights of nodes and perform rotation operations
+   * to restore balance in an AVL tree after inserting a node.
+   * @param {N} node - The `node` parameter in the `_balancePath` function represents the node in the
+   * AVL tree that needs to be balanced.
    */
   protected _balancePath(node: N): void {
     const path = this.getPathToRoot(node, false); // first O(log n) + O(log n)
@@ -146,7 +160,7 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
       // Balance Restoration: If a balance issue is discovered after inserting a node, it requires balance restoration operations. Balance restoration includes four basic cases where rotation operations need to be performed to fix the balance:
       switch (
         this._balanceFactor(A) // second O(1)
-      ) {
+        ) {
         case -2:
           if (A && A.left) {
             if (this._balanceFactor(A.left) <= 0) {
@@ -175,8 +189,8 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
   }
 
   /**
-   * The `_balanceLL` function performs a left-left rotation on an AVL tree to balance it.
-   * @param A - The parameter A is an AVLTreeNode object.
+   * The function `_balanceLL` performs a left-left rotation to balance a binary tree.
+   * @param {N} A - A is a node in a binary tree.
    */
   protected _balanceLL(A: N): void {
     const parentOfA = A.parent;
@@ -205,8 +219,8 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
   }
 
   /**
-   * The `_balanceLR` function performs a left-right rotation to balance an AVL tree.
-   * @param A - A is an AVLTreeNode object.
+   * The `_balanceLR` function performs a left-right rotation to balance a binary tree.
+   * @param {N} A - A is a node in a binary tree.
    */
   protected _balanceLR(A: N): void {
     const parentOfA = A.parent;
@@ -253,8 +267,8 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
   }
 
   /**
-   * The `_balanceRR` function performs a right-right rotation on an AVL tree to balance it.
-   * @param A - The parameter A is an AVLTreeNode object.
+   * The function `_balanceRR` performs a right-right rotation to balance a binary tree.
+   * @param {N} A - A is a node in a binary tree.
    */
   protected _balanceRR(A: N): void {
     const parentOfA = A.parent;
@@ -288,8 +302,8 @@ export class AVLTree<N extends AVLTreeNode<N['val'], N> = AVLTreeNode> extends B
   }
 
   /**
-   * The `_balanceRL` function performs a right-left rotation to balance an AVL tree.
-   * @param A - A is an AVLTreeNode object.
+   * The function `_balanceRL` performs a right-left rotation to balance a binary tree.
+   * @param {N} A - A is a node in a binary tree.
    */
   protected _balanceRL(A: N): void {
     const parentOfA = A.parent;

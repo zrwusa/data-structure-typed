@@ -1,5 +1,64 @@
-import {DoublyLinkedList} from '../../../../src';
+import {DoublyLinkedList, DoublyLinkedListNode} from '../../../../src';
 import {bigO, magnitude} from '../../../utils';
+
+describe('DoublyLinkedListNode', () => {
+  it('should DoublyLinkedListNode', () => {
+    const node1 = new DoublyLinkedListNode<number>(2);
+    expect(node1.value).toBe(2);
+    node1.value = 1;
+    expect(node1.value).toBe(1);
+  });
+});
+
+describe('DoublyLinkedList Operation Test', () => {
+  let list: DoublyLinkedList<number>;
+
+  beforeEach(() => {
+    list = DoublyLinkedList.fromArray([1, 2, 3, 4, 5]);
+  });
+
+  it('should out of bound index', () => {
+    expect(list.getNodeAt(-1)).toBe(null);
+    expect(list.getNodeAt(5)).toBe(null);
+    expect(list.insertAt(5, 6)).toBe(true);
+  });
+
+  it('should insertBefore', () => {
+    expect(list.insertBefore(1, 0)).toBe(true);
+  });
+
+  it('should deleteAt', () => {
+    expect(list.deleteAt(1)).toBeTruthy();
+  });
+
+  it('should delete tail', () => {
+    expect(list.delete(list.tail)).toBe(true);
+    expect(list.tail?.value).toBe(4);
+    expect(list.delete(6)).toBe(false);
+    expect(list.tail?.value).toBe(4);
+  });
+
+  it('should find null', () => {
+    expect(list.find(value => value === 6)).toBe(null);
+  });
+
+  it('should indexOf -1', () => {
+    expect(list.indexOf(6)).toBe(-1);
+  });
+
+  it('should findBackward null', () => {
+    expect(list.findBackward(value => value === 0)).toBe(null);
+  });
+
+  it('should insertAfter tail', () => {
+    expect(list.insertAfter(list.tail!, 6)).toBe(true);
+  });
+
+  it('should insertAfter tail', () => {
+    // @ts-ignore
+    expect([...list]).toEqual([1, 2, 3, 4, 5]);
+  });
+});
 
 describe('DoublyLinkedList Operation Test', () => {
   let list: DoublyLinkedList<number>;
@@ -21,8 +80,8 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(2);
     list.push(3);
     expect(list.length).toBe(3);
-    expect(list.head!.val).toBe(1);
-    expect(list.tail!.val).toBe(3);
+    expect(list.head!.value).toBe(1);
+    expect(list.tail!.value).toBe(3);
   });
 
   it('should pop elements from the end of the list', () => {
@@ -31,8 +90,8 @@ describe('DoublyLinkedList Operation Test', () => {
     const poppedValue = list.pop();
     expect(poppedValue).toBe(2);
     expect(list.length).toBe(1);
-    expect(list.head!.val).toBe(1);
-    expect(list.tail!.val).toBe(1);
+    expect(list.head!.value).toBe(1);
+    expect(list.tail!.value).toBe(1);
   });
   it('should insert elements at specific positions', () => {
     list.push(1);
@@ -55,7 +114,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.insertAt(5, 4);
     expect(list.length).toBe(6);
     expect(list.getAt(5)).toBe(4);
-    expect(list.tail!.val).toBe(4);
+    expect(list.tail!.value).toBe(4);
   });
 
   it('should delete elements at specific positions', () => {
@@ -67,12 +126,12 @@ describe('DoublyLinkedList Operation Test', () => {
     const deletedValue = list.deleteAt(0);
     expect(deletedValue).toBe(1);
     expect(list.length).toBe(2);
-    expect(list.head!.val).toBe(2);
+    expect(list.head!.value).toBe(2);
 
     // Deleting from the middle
     list.deleteAt(0); // Deleting the second element
     expect(list.length).toBe(1);
-    expect(list.head!.val).toBe(3);
+    expect(list.head!.value).toBe(3);
 
     // Deleting from the end
     list.deleteAt(0);
@@ -88,12 +147,12 @@ describe('DoublyLinkedList Operation Test', () => {
 
     list.delete(2);
     expect(list.length).toBe(2);
-    expect(list.head!.val).toBe(1);
-    expect(list.tail!.val).toBe(3);
+    expect(list.head!.value).toBe(1);
+    expect(list.tail!.value).toBe(3);
 
     list.delete(1);
     expect(list.length).toBe(1);
-    expect(list.head!.val).toBe(3);
+    expect(list.head!.value).toBe(3);
 
     list.delete(3);
     expect(list.length).toBe(0);
@@ -109,7 +168,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.reverse();
 
     expect(list.toArray()).toEqual([3, 2, 1]);
-    expect(list.toArrayReverse()).toEqual([1, 2, 3]);
+    expect(list.toArrayBackward()).toEqual([1, 2, 3]);
   });
 
   it('should map elements using a callback function', () => {
@@ -117,7 +176,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(2);
     list.push(3);
 
-    const mappedList = list.map(val => val * 2);
+    const mappedList = list.map(value => value * 2);
 
     expect(mappedList.toArray()).toEqual([2, 4, 6]);
   });
@@ -128,7 +187,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(3);
     list.push(4);
 
-    const filteredList = list.filter(val => val % 2 === 0);
+    const filteredList = list.filter(value => value % 2 === 0);
 
     expect(filteredList.toArray()).toEqual([2, 4]);
   });
@@ -139,7 +198,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(3);
     list.push(4);
 
-    const sum = list.reduce((acc, val) => acc + val, 0);
+    const sum = list.reduce((acc, value) => acc + value, 0);
 
     expect(sum).toBe(10);
   });
@@ -168,7 +227,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(2);
     list.push(3);
 
-    const found = list.find(val => val % 2 === 0);
+    const found = list.find(value => value % 2 === 0);
 
     expect(found).toBe(2);
   });
@@ -189,7 +248,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(3);
     list.push(4);
 
-    const lastEven = list.findLast(val => val % 2 === 0);
+    const lastEven = list.findBackward(value => value % 2 === 0);
 
     expect(lastEven).toBe(4);
   });
@@ -211,7 +270,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(2);
     list.push(3);
 
-    const reversedArray = list.toArrayReverse();
+    const reversedArray = list.toArrayBackward();
 
     expect(reversedArray).toEqual([3, 2, 1]);
   });
@@ -224,8 +283,8 @@ describe('DoublyLinkedList Operation Test', () => {
     list.reverse();
 
     expect(list.toArray()).toEqual([3, 2, 1]);
-    expect(list.head?.val).toBe(3);
-    expect(list.tail?.val).toBe(1);
+    expect(list.head?.value).toBe(3);
+    expect(list.tail?.value).toBe(1);
   });
 
   it('should iterate over each element and apply a callback', () => {
@@ -234,8 +293,8 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(3);
 
     const result: number[] = [];
-    list.forEach(val => {
-      result.push(val * 2);
+    list.forEach(value => {
+      result.push(value * 2);
     });
 
     expect(result).toEqual([2, 4, 6]);
@@ -246,7 +305,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(2);
     list.push(3);
 
-    const mappedList = list.map(val => val * 2);
+    const mappedList = list.map(value => value * 2);
 
     expect(mappedList.toArray()).toEqual([2, 4, 6]);
   });
@@ -257,7 +316,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(3);
     list.push(4);
 
-    const filteredList = list.filter(val => val % 2 === 0);
+    const filteredList = list.filter(value => value % 2 === 0);
 
     expect(filteredList.toArray()).toEqual([2, 4]);
   });
@@ -267,7 +326,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(2);
     list.push(3);
 
-    const sum = list.reduce((acc, val) => acc + val, 0);
+    const sum = list.reduce((acc, value) => acc + value, 0);
 
     expect(sum).toBe(6);
   });
@@ -327,8 +386,8 @@ describe('DoublyLinkedList Operation Test', () => {
     const insertSuccess = objectList.insertBefore(obj2, newObj);
     expect(insertSuccess).toBe(true);
 
-    const findNode = objectList.findNode(newObj); // Use newObj instead of obj2
-    expect(findNode?.val).toEqual(newObj);
+    const getNode = objectList.getNode(newObj); // Use newObj instead of obj2
+    expect(getNode?.value).toEqual(newObj);
 
     const deleted = objectList.delete(newObj); // Use newObj instead of obj2
     expect(deleted).toBe(true);

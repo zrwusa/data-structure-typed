@@ -1,6 +1,8 @@
-import {Queue, LinkedListQueue} from '../../../../src';
+import {LinkedListQueue, Queue} from '../../../../src';
 import {bigO, magnitude} from '../../../utils';
+import {isDebugTest} from '../../../config';
 
+const isDebug = isDebugTest;
 describe('Queue Operation Test', () => {
   it('should validate a queue', () => {
     const queue = new Queue<number>();
@@ -84,7 +86,7 @@ describe('Queue', () => {
     queue.push(2);
     expect(queue.size).toBe(2);
     expect(queue.peek()).toBe(1);
-    expect(queue.peekLast()).toBe(2);
+    expect(queue.getLast()).toBe(2);
   });
 
   it('should shift elements from the front of the queue', () => {
@@ -94,7 +96,7 @@ describe('Queue', () => {
     expect(shifted).toBe(1);
     expect(queue.size).toBe(1);
     expect(queue.peek()).toBe(2);
-    expect(queue.peekLast()).toBe(2);
+    expect(queue.getLast()).toBe(2);
   });
 
   it('should handle shifting when queue reaches half size', () => {
@@ -115,7 +117,7 @@ describe('Queue', () => {
     queue.push(1);
     queue.push(2);
     expect(queue.peek()).toBe(1);
-    expect(queue.peekLast()).toBe(2);
+    expect(queue.getLast()).toBe(2);
   });
 
   it('should handle shifting when the queue is empty', () => {
@@ -127,7 +129,7 @@ describe('Queue', () => {
 
   it('should handle peeking when the queue is empty', () => {
     expect(queue.peek()).toBeUndefined();
-    expect(queue.peekLast()).toBeUndefined();
+    expect(queue.getLast()).toBeUndefined();
   });
 
   it('should handle clearing the queue', () => {
@@ -137,7 +139,7 @@ describe('Queue', () => {
     queue.clear();
     expect(queue.size).toBe(0);
     expect(queue.peek()).toBeUndefined();
-    expect(queue.peekLast()).toBeUndefined();
+    expect(queue.getLast()).toBeUndefined();
   });
 
   it('should clone the queue', () => {
@@ -147,7 +149,7 @@ describe('Queue', () => {
     const clonedQueue = queue.clone();
     expect(clonedQueue.size).toBe(3);
     expect(clonedQueue.peek()).toBe(1);
-    expect(clonedQueue.peekLast()).toBe(3);
+    expect(clonedQueue.getLast()).toBe(3);
   });
 
   it('should handle creating a queue from an array', () => {
@@ -155,7 +157,7 @@ describe('Queue', () => {
     const newQueue = Queue.fromArray(elements);
     expect(newQueue.size).toBe(5);
     expect(newQueue.peek()).toBe(1);
-    expect(newQueue.peekLast()).toBe(5);
+    expect(newQueue.getLast()).toBe(5);
   });
 
   it('should iterate through the queue', () => {
@@ -196,4 +198,46 @@ describe('LinkedListQueue', () => {
   });
 
   // Add more test cases for other methods of LinkedListQueue.
+});
+
+describe('Queue Performance Test', () => {
+  const dataSize = 10000;
+  it('should numeric queue be efficient', function () {
+    const startTime = performance.now();
+    const queue = new Queue<number>();
+    for (let i = 0; i < dataSize; i++) {
+      queue.enqueue(i);
+    }
+    for (let i = 0; i < dataSize; i++) {
+      queue.dequeue();
+    }
+    isDebug && console.log(`Queue Performance Test: ${performance.now() - startTime} ms`);
+    expect(performance.now() - startTime).toBeLessThan(bigO.LINEAR * 100);
+  });
+
+  it('should numeric Array be more efficient than Queue when the data size is 10000', function () {
+    const startTime2 = performance.now();
+    const queue2: number[] = [];
+    for (let i = 0; i < dataSize; i++) {
+      queue2.push(i);
+    }
+    for (let i = 0; i < dataSize; i++) {
+      queue2.shift();
+    }
+    console.log(`Array Performance Test: ${performance.now() - startTime2} ms`);
+    expect(performance.now() - startTime2).toBeLessThan(bigO.CUBED * 100);
+  });
+
+  it('should numeric LinkedListQueue be efficient', function () {
+    const startTime = performance.now();
+    const queue = new LinkedListQueue<number>();
+    for (let i = 0; i < dataSize; i++) {
+      queue.enqueue(i);
+    }
+    for (let i = 0; i < dataSize; i++) {
+      queue.dequeue();
+    }
+    console.log(`LinkedListQueue Performance Test: ${performance.now() - startTime} ms`);
+    expect(performance.now() - startTime).toBeLessThan(bigO.LINEAR * 100);
+  });
 });

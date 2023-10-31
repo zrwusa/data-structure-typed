@@ -1,10 +1,10 @@
 import {BinaryTreeNode} from '../data-structures';
-import {BinaryTreeDeletedResult, BinaryTreeNodeKey} from '../types';
+import {BinaryTreeDeletedResult, BinaryTreeNodeNested, BTNCallback, BTNKey} from '../types';
 
-export interface IBinaryTree<N extends BinaryTreeNode<N['val'], N>> {
-  createNode(key: BinaryTreeNodeKey, val?: N['val']): N;
+export interface IBinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNodeNested<V>> {
+  createNode(key: BTNKey, value?: N['value']): N;
 
-  add(keyOrNode: BinaryTreeNodeKey | N | null, val?: N['val']): N | null | undefined;
+  add(keyOrNode: BTNKey | N | null, value?: N['value']): N | null | undefined;
 
-  remove(nodeOrKey: N | BinaryTreeNodeKey): BinaryTreeDeletedResult<N>[];
+  delete<C extends BTNCallback<N>>(identifier: ReturnType<C> | null, callback: C): BinaryTreeDeletedResult<N>[];
 }

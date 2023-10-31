@@ -5,10 +5,10 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import Vector2D from './vector2d';
+import {Vector2D} from './vector2d';
 
 export class Matrix2D {
-  private readonly _matrix: number[][];
+  protected readonly _matrix: number[][];
 
   /**
    * The constructor function initializes a Matrix2D object with either a default identity matrix, or a provided matrix
@@ -56,16 +56,6 @@ export class Matrix2D {
    */
   get m(): number[][] {
     return this._matrix;
-  }
-
-  /**
-   * The function "toVector" returns a new Vector2D object with the values from the first and second elements of the
-   * _matrix array.
-   * @returns A new instance of the Vector2D class is being returned. The values of the returned vector are taken from
-   * the first column of the matrix.
-   */
-  toVector(): Vector2D {
-    return new Vector2D(this._matrix[0][0], this._matrix[1][0]);
   }
 
   /**
@@ -208,6 +198,14 @@ export class Matrix2D {
       [0, 0, vector.w]
     ]);
   }
-}
 
-export default Matrix2D;
+  /**
+   * The function "toVector" returns a new Vector2D object with the values from the first and second elements of the
+   * _matrix array.
+   * @returns A new instance of the Vector2D class is being returned. The values of the returned vector are taken from
+   * the first column of the matrix.
+   */
+  toVector(): Vector2D {
+    return new Vector2D(this._matrix[0][0], this._matrix[1][0]);
+  }
+}

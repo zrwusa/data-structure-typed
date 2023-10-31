@@ -39,3 +39,28 @@ describe('CoordinateSet', () => {
     expect(hasValue).toBe(true);
   });
 });
+
+describe('MyCoordinateSet', () => {
+  class MyCoordinateSet extends CoordinateSet {
+    constructor(joint?: string) {
+      super(joint);
+      this._joint = joint += '-';
+    }
+  }
+
+  const mySet = new MyCoordinateSet('*');
+
+  beforeEach(() => {
+    mySet.add([0, 0]);
+    mySet.add([0, 1]);
+    mySet.add([1, 1]);
+  });
+  it('should joint to be *-', () => {
+    expect(mySet.joint).toBe('*-');
+  });
+
+  it('should has, delete', () => {
+    mySet.delete([0, 1]);
+    expect(mySet.has([0, 1])).toBe(false);
+  });
+});

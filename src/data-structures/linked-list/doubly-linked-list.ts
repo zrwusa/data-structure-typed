@@ -6,45 +6,19 @@
  * @license MIT License
  */
 export class DoublyLinkedListNode<E = any> {
+  value: E;
+  next: DoublyLinkedListNode<E> | null;
+  prev: DoublyLinkedListNode<E> | null;
+
   /**
    * The constructor function initializes the value, next, and previous properties of an object.
-   * @param {E} val - The "val" parameter is the value that will be stored in the node. It can be of any data type, as it
+   * @param {E} value - The "value" parameter is the value that will be stored in the node. It can be of any data type, as it
    * is defined as a generic type "E".
    */
-  constructor(val: E) {
-    this._val = val;
-    this._next = null;
-    this._prev = null;
-  }
-
-  private _val: E;
-
-  get val(): E {
-    return this._val;
-  }
-
-  set val(value: E) {
-    this._val = value;
-  }
-
-  private _next: DoublyLinkedListNode<E> | null;
-
-  get next(): DoublyLinkedListNode<E> | null {
-    return this._next;
-  }
-
-  set next(value: DoublyLinkedListNode<E> | null) {
-    this._next = value;
-  }
-
-  private _prev: DoublyLinkedListNode<E> | null;
-
-  get prev(): DoublyLinkedListNode<E> | null {
-    return this._prev;
-  }
-
-  set prev(value: DoublyLinkedListNode<E> | null) {
-    this._prev = value;
+  constructor(value: E) {
+    this.value = value;
+    this.next = null;
+    this.prev = null;
   }
 }
 
@@ -58,30 +32,26 @@ export class DoublyLinkedList<E = any> {
     this._length = 0;
   }
 
-  private _head: DoublyLinkedListNode<E> | null;
+  protected _head: DoublyLinkedListNode<E> | null;
 
   get head(): DoublyLinkedListNode<E> | null {
     return this._head;
   }
 
-  set head(value: DoublyLinkedListNode<E> | null) {
-    this._head = value;
-  }
-
-  private _tail: DoublyLinkedListNode<E> | null;
+  protected _tail: DoublyLinkedListNode<E> | null;
 
   get tail(): DoublyLinkedListNode<E> | null {
     return this._tail;
   }
 
-  set tail(value: DoublyLinkedListNode<E> | null) {
-    this._tail = value;
-  }
-
-  private _length: number;
+  protected _length: number;
 
   get length(): number {
     return this._length;
+  }
+
+  get size(): number {
+    return this.length;
   }
 
   /**
@@ -100,54 +70,54 @@ export class DoublyLinkedList<E = any> {
 
   /**
    * The push function adds a new node with the given value to the end of the doubly linked list.
-   * @param {E} val - The value to be added to the linked list.
+   * @param {E} value - The value to be added to the linked list.
    */
-  push(val: E): void {
-    const newNode = new DoublyLinkedListNode(val);
+  push(value: E): void {
+    const newNode = new DoublyLinkedListNode(value);
     if (!this.head) {
-      this.head = newNode;
-      this.tail = newNode;
+      this._head = newNode;
+      this._tail = newNode;
     } else {
       newNode.prev = this.tail;
       this.tail!.next = newNode;
-      this.tail = newNode;
+      this._tail = newNode;
     }
     this._length++;
   }
 
   /**
    * The addLast function adds a new node with the given value to the end of the doubly linked list.
-   * @param {E} val - The value to be added to the linked list.
+   * @param {E} value - The value to be added to the linked list.
    */
-  addLast(val: E): void {
-    this.push(val);
+  addLast(value: E): void {
+    this.push(value);
   }
 
   /**
    * The `pop()` function removes and returns the value of the last node in a doubly linked list.
-   * @returns The method is returning the value of the removed node (removedNode.val) if the list is not empty. If the
+   * @returns The method is returning the value of the removed node (removedNode.value) if the list is not empty. If the
    * list is empty, it returns null.
    */
   pop(): E | undefined {
     if (!this.tail) return undefined;
     const removedNode = this.tail;
     if (this.head === this.tail) {
-      this.head = null;
-      this.tail = null;
+      this._head = null;
+      this._tail = null;
     } else {
-      this.tail = removedNode.prev;
+      this._tail = removedNode.prev;
       this.tail!.next = null;
     }
     this._length--;
-    return removedNode.val;
+    return removedNode.value;
   }
 
   /**
-   * The `pollLast()` function removes and returns the value of the last node in a doubly linked list.
-   * @returns The method is returning the value of the removed node (removedNode.val) if the list is not empty. If the
+   * The `popLast()` function removes and returns the value of the last node in a doubly linked list.
+   * @returns The method is returning the value of the removed node (removedNode.value) if the list is not empty. If the
    * list is empty, it returns null.
    */
-  pollLast(): E | undefined {
+  popLast(): E | undefined {
     return this.pop();
   }
 
@@ -160,70 +130,66 @@ export class DoublyLinkedList<E = any> {
     if (!this.head) return undefined;
     const removedNode = this.head;
     if (this.head === this.tail) {
-      this.head = null;
-      this.tail = null;
+      this._head = null;
+      this._tail = null;
     } else {
-      this.head = removedNode.next;
+      this._head = removedNode.next;
       this.head!.prev = null;
     }
     this._length--;
-    return removedNode.val;
+    return removedNode.value;
   }
 
   /**
-   * The `pollFirst()` function removes and returns the value of the first node in a doubly linked list.
+   * The `popFirst()` function removes and returns the value of the first node in a doubly linked list.
    * @returns The method `shift()` returns the value of the node that is removed from the beginning of the doubly linked
    * list.
    */
-  pollFirst(): E | undefined {
+  popFirst(): E | undefined {
     return this.shift();
   }
 
   /**
    * The unshift function adds a new node with the given value to the beginning of a doubly linked list.
-   * @param {E} val - The `val` parameter represents the value of the new node that will be added to the beginning of the
+   * @param {E} value - The `value` parameter represents the value of the new node that will be added to the beginning of the
    * doubly linked list.
    */
-  unshift(val: E): void {
-    const newNode = new DoublyLinkedListNode(val);
+  unshift(value: E): void {
+    const newNode = new DoublyLinkedListNode(value);
     if (!this.head) {
-      this.head = newNode;
-      this.tail = newNode;
+      this._head = newNode;
+      this._tail = newNode;
     } else {
       newNode.next = this.head;
       this.head!.prev = newNode;
-      this.head = newNode;
+      this._head = newNode;
     }
     this._length++;
   }
 
   /**
    * The addFirst function adds a new node with the given value to the beginning of a doubly linked list.
-   * @param {E} val - The `val` parameter represents the value of the new node that will be added to the beginning of the
+   * @param {E} value - The `value` parameter represents the value of the new node that will be added to the beginning of the
    * doubly linked list.
    */
-  addFirst(val: E): void {
-    this.unshift(val);
+  addFirst(value: E): void {
+    this.unshift(value);
   }
 
   /**
-   * The `peekFirst` function returns the first node in a doubly linked list, or null if the list is empty.
-   * @returns The method `peekFirst()` returns the first node of the doubly linked list, or `null` if the list is empty.
+   * The `getFirst` function returns the first node in a doubly linked list, or null if the list is empty.
+   * @returns The method `getFirst()` returns the first node of the doubly linked list, or `null` if the list is empty.
    */
-  peekFirst(): E | undefined {
-    return this.head?.val;
+  getFirst(): E | undefined {
+    return this.head?.value;
   }
 
   /**
-   * The `peekLast` function returns the last node in a doubly linked list, or null if the list is empty.
-   * @returns The method `peekLast()` returns the last node of the doubly linked list, or `null` if the list is empty.
+   * The `getLast` function returns the last node in a doubly linked list, or null if the list is empty.
+   * @returns The method `getLast()` returns the last node of the doubly linked list, or `null` if the list is empty.
    */
-  peekLast(): E | undefined {
-    return this.tail?.val;
-  }
-
-  get size(): number {
-    return this.length;
+  getLast(): E | undefined {
+    return this.tail?.value;
   }
 
   /**
@@ -239,7 +205,7 @@ export class DoublyLinkedList<E = any> {
     for (let i = 0; i < index; i++) {
       current = current!.next;
     }
-    return current!.val;
+    return current!.value;
   }
 
   /**
@@ -262,15 +228,15 @@ export class DoublyLinkedList<E = any> {
   /**
    * The function `findNodeByValue` searches for a node with a specific value in a doubly linked list and returns the
    * node if found, otherwise it returns null.
-   * @param {E} val - The `val` parameter is the value that we want to search for in the doubly linked list.
-   * @returns The function `findNodeByValue` returns a `DoublyLinkedListNode<E>` if a node with the specified value `val`
+   * @param {E} value - The `value` parameter is the value that we want to search for in the doubly linked list.
+   * @returns The function `findNodeByValue` returns a `DoublyLinkedListNode<E>` if a node with the specified value `value`
    * is found in the linked list. If no such node is found, it returns `null`.
    */
-  findNode(val: E): DoublyLinkedListNode<E> | null {
+  getNode(value: E | null): DoublyLinkedListNode<E> | null {
     let current = this.head;
 
     while (current) {
-      if (current.val === val) {
+      if (current.value === value) {
         return current;
       }
       current = current.next;
@@ -283,23 +249,23 @@ export class DoublyLinkedList<E = any> {
    * The `insert` function inserts a value at a specified index in a doubly linked list.
    * @param {number} index - The index parameter represents the position at which the new value should be inserted in the
    * DoublyLinkedList. It is of type number.
-   * @param {E} val - The `val` parameter represents the value that you want to insert into the Doubly Linked List at the
+   * @param {E} value - The `value` parameter represents the value that you want to insert into the Doubly Linked List at the
    * specified index.
    * @returns The `insert` method returns a boolean value. It returns `true` if the insertion is successful, and `false`
    * if the index is out of bounds.
    */
-  insertAt(index: number, val: E): boolean {
+  insertAt(index: number, value: E): boolean {
     if (index < 0 || index > this.length) return false;
     if (index === 0) {
-      this.unshift(val);
+      this.unshift(value);
       return true;
     }
     if (index === this.length) {
-      this.push(val);
+      this.push(value);
       return true;
     }
 
-    const newNode = new DoublyLinkedListNode(val);
+    const newNode = new DoublyLinkedListNode(value);
     const prevNode = this.getNodeAt(index - 1);
     const nextNode = prevNode!.next;
     newNode.prev = prevNode;
@@ -308,6 +274,43 @@ export class DoublyLinkedList<E = any> {
     nextNode!.prev = newNode;
     this._length++;
     return true;
+  }
+
+  /**
+   * The `insertBefore` function inserts a new value before an existing value or node in a doubly linked list.
+   * @param {E | DoublyLinkedListNode<E>} existingValueOrNode - The existing value or node in the doubly linked list
+   * before which the new value will be inserted. It can be either the value of the existing node or the existing node
+   * itself.
+   * @param {E} newValue - The `newValue` parameter represents the value that you want to insert into the doubly linked
+   * list.
+   * @returns The method returns a boolean value. It returns `true` if the insertion is successful, and `false` if the
+   * insertion fails.
+   */
+  insertBefore(existingValueOrNode: E | DoublyLinkedListNode<E>, newValue: E): boolean {
+    let existingNode;
+
+    if (existingValueOrNode instanceof DoublyLinkedListNode) {
+      existingNode = existingValueOrNode;
+    } else {
+      existingNode = this.getNode(existingValueOrNode);
+    }
+
+    if (existingNode) {
+      const newNode = new DoublyLinkedListNode(newValue);
+      newNode.prev = existingNode.prev;
+      if (existingNode.prev) {
+        existingNode.prev.next = newNode;
+      }
+      newNode.next = existingNode;
+      existingNode.prev = newNode;
+      if (existingNode === this.head) {
+        this._head = newNode;
+      }
+      this._length++;
+      return true;
+    }
+
+    return false;
   }
 
   /**
@@ -328,11 +331,8 @@ export class DoublyLinkedList<E = any> {
     prevNode!.next = nextNode;
     nextNode!.prev = prevNode;
     this._length--;
-    return removedNode!.val;
+    return removedNode!.value;
   }
-
-  delete(valOrNode: E): boolean;
-  delete(valOrNode: DoublyLinkedListNode<E>): boolean;
 
   /**
    * The `delete` function removes a node from a doubly linked list based on either the node itself or its value.
@@ -341,13 +341,13 @@ export class DoublyLinkedList<E = any> {
    * @returns The `delete` method returns a boolean value. It returns `true` if the value or node was successfully
    * deleted from the doubly linked list, and `false` if the value or node was not found in the list.
    */
-  delete(valOrNode: E | DoublyLinkedListNode<E>): boolean {
+  delete(valOrNode: E | DoublyLinkedListNode<E> | null): boolean {
     let node: DoublyLinkedListNode<E> | null;
 
     if (valOrNode instanceof DoublyLinkedListNode) {
       node = valOrNode;
     } else {
-      node = this.findNode(valOrNode);
+      node = this.getNode(valOrNode);
     }
 
     if (node) {
@@ -375,7 +375,7 @@ export class DoublyLinkedList<E = any> {
     const array: E[] = [];
     let current = this.head;
     while (current) {
-      array.push(current.val);
+      array.push(current.value);
       current = current.next;
     }
     return array;
@@ -405,11 +405,11 @@ export class DoublyLinkedList<E = any> {
    * @returns The method `find` returns the first element in the linked list that satisfies the condition specified by
    * the callback function. If no element satisfies the condition, it returns `null`.
    */
-  find(callback: (val: E) => boolean): E | null {
+  find(callback: (value: E) => boolean): E | null {
     let current = this.head;
     while (current) {
-      if (callback(current.val)) {
-        return current.val;
+      if (callback(current.value)) {
+        return current.value;
       }
       current = current.next;
     }
@@ -418,16 +418,16 @@ export class DoublyLinkedList<E = any> {
 
   /**
    * The function returns the index of the first occurrence of a given value in a linked list.
-   * @param {E} val - The parameter `val` is of type `E`, which means it can be any data type. It represents the value
+   * @param {E} value - The parameter `value` is of type `E`, which means it can be any data type. It represents the value
    * that we are searching for in the linked list.
-   * @returns The method `indexOf` returns the index of the first occurrence of the specified value `val` in the linked
+   * @returns The method `indexOf` returns the index of the first occurrence of the specified value `value` in the linked
    * list. If the value is not found, it returns -1.
    */
-  indexOf(val: E): number {
+  indexOf(value: E): number {
     let index = 0;
     let current = this.head;
     while (current) {
-      if (current.val === val) {
+      if (current.value === value) {
         return index;
       }
       index++;
@@ -437,18 +437,18 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
-   * The `findLast` function iterates through a linked list from the last node to the first node and returns the last
+   * The `findBackward` function iterates through a linked list from the last node to the first node and returns the last
    * value that satisfies the given callback function, or null if no value satisfies the callback.
    * @param callback - A function that takes a value of type E as its parameter and returns a boolean value. This
    * function is used to determine whether a given value satisfies a certain condition.
-   * @returns The method `findLast` returns the last value in the linked list that satisfies the condition specified by
+   * @returns The method `findBackward` returns the last value in the linked list that satisfies the condition specified by
    * the callback function. If no value satisfies the condition, it returns `null`.
    */
-  findLast(callback: (val: E) => boolean): E | null {
+  findBackward(callback: (value: E) => boolean): E | null {
     let current = this.tail;
     while (current) {
-      if (callback(current.val)) {
-        return current.val;
+      if (callback(current.value)) {
+        return current.value;
       }
       current = current.prev;
     }
@@ -456,14 +456,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
-   * The `toArrayReverse` function converts a doubly linked list into an array in reverse order.
-   * @returns The `toArrayReverse()` function returns an array of type `E[]`.
+   * The `toArrayBackward` function converts a doubly linked list into an array in reverse order.
+   * @returns The `toArrayBackward()` function returns an array of type `E[]`.
    */
-  toArrayReverse(): E[] {
+  toArrayBackward(): E[] {
     const array: E[] = [];
     let current = this.tail;
     while (current) {
-      array.push(current.val);
+      array.push(current.value);
       current = current.prev;
     }
     return array;
@@ -474,7 +474,7 @@ export class DoublyLinkedList<E = any> {
    */
   reverse(): void {
     let current = this.head;
-    [this.head, this.tail] = [this.tail, this.head];
+    [this._head, this._tail] = [this.tail, this.head];
     while (current) {
       const next = current.next;
       [current.prev, current.next] = [current.next, current.prev];
@@ -484,15 +484,15 @@ export class DoublyLinkedList<E = any> {
 
   /**
    * The `forEach` function iterates over each element in a linked list and applies a callback function to each element.
-   * @param callback - The callback parameter is a function that takes two arguments: val and index. The val argument
+   * @param callback - The callback parameter is a function that takes two arguments: value and index. The value argument
    * represents the value of the current node in the linked list, and the index argument represents the index of the
    * current node in the linked list.
    */
-  forEach(callback: (val: E, index: number) => void): void {
+  forEach(callback: (value: E, index: number) => void): void {
     let current = this.head;
     let index = 0;
     while (current) {
-      callback(current.val, index);
+      callback(current.value, index);
       current = current.next;
       index++;
     }
@@ -506,11 +506,11 @@ export class DoublyLinkedList<E = any> {
    * DoublyLinkedList).
    * @returns The `map` function is returning a new instance of `DoublyLinkedList<U>` that contains the mapped values.
    */
-  map<U>(callback: (val: E) => U): DoublyLinkedList<U> {
+  map<U>(callback: (value: E) => U): DoublyLinkedList<U> {
     const mappedList = new DoublyLinkedList<U>();
     let current = this.head;
     while (current) {
-      mappedList.push(callback(current.val));
+      mappedList.push(callback(current.value));
       current = current.next;
     }
     return mappedList;
@@ -523,12 +523,12 @@ export class DoublyLinkedList<E = any> {
    * It is used to determine whether a value should be included in the filtered list or not.
    * @returns The filtered list, which is an instance of the DoublyLinkedList class.
    */
-  filter(callback: (val: E) => boolean): DoublyLinkedList<E> {
+  filter(callback: (value: E) => boolean): DoublyLinkedList<E> {
     const filteredList = new DoublyLinkedList<E>();
     let current = this.head;
     while (current) {
-      if (callback(current.val)) {
-        filteredList.push(current.val);
+      if (callback(current.value)) {
+        filteredList.push(current.value);
       }
       current = current.next;
     }
@@ -538,25 +538,22 @@ export class DoublyLinkedList<E = any> {
   /**
    * The `reduce` function iterates over a linked list and applies a callback function to each element, accumulating a
    * single value.
-   * @param callback - The `callback` parameter is a function that takes two arguments: `accumulator` and `val`. It is
+   * @param callback - The `callback` parameter is a function that takes two arguments: `accumulator` and `value`. It is
    * used to perform a specific operation on each element of the linked list.
    * @param {U} initialValue - The `initialValue` parameter is the initial value of the accumulator. It is the starting
    * point for the reduction operation.
    * @returns The `reduce` method is returning the final value of the accumulator after iterating through all the
    * elements in the linked list.
    */
-  reduce<U>(callback: (accumulator: U, val: E) => U, initialValue: U): U {
+  reduce<U>(callback: (accumulator: U, value: E) => U, initialValue: U): U {
     let accumulator = initialValue;
     let current = this.head;
     while (current) {
-      accumulator = callback(accumulator, current.val);
+      accumulator = callback(accumulator, current.value);
       current = current.next;
     }
     return accumulator;
   }
-
-  insertAfter(existingValueOrNode: E, newValue: E): boolean;
-  insertAfter(existingValueOrNode: DoublyLinkedListNode<E>, newValue: E): boolean;
 
   /**
    * The `insertAfter` function inserts a new node with a given value after an existing node in a doubly linked list.
@@ -573,7 +570,7 @@ export class DoublyLinkedList<E = any> {
     if (existingValueOrNode instanceof DoublyLinkedListNode) {
       existingNode = existingValueOrNode;
     } else {
-      existingNode = this.findNode(existingValueOrNode);
+      existingNode = this.getNode(existingValueOrNode);
     }
 
     if (existingNode) {
@@ -585,7 +582,7 @@ export class DoublyLinkedList<E = any> {
       newNode.prev = existingNode;
       existingNode.next = newNode;
       if (existingNode === this.tail) {
-        this.tail = newNode;
+        this._tail = newNode;
       }
       this._length++;
       return true;
@@ -594,43 +591,15 @@ export class DoublyLinkedList<E = any> {
     return false;
   }
 
-  insertBefore(existingValueOrNode: E, newValue: E): boolean;
-  insertBefore(existingValueOrNode: DoublyLinkedListNode<E>, newValue: E): boolean;
-
   /**
-   * The `insertBefore` function inserts a new value before an existing value or node in a doubly linked list.
-   * @param {E | DoublyLinkedListNode<E>} existingValueOrNode - The existing value or node in the doubly linked list
-   * before which the new value will be inserted. It can be either the value of the existing node or the existing node
-   * itself.
-   * @param {E} newValue - The `newValue` parameter represents the value that you want to insert into the doubly linked
-   * list.
-   * @returns The method returns a boolean value. It returns `true` if the insertion is successful, and `false` if the
-   * insertion fails.
+   * The function returns an iterator that iterates over the values of a linked list.
    */
-  insertBefore(existingValueOrNode: E | DoublyLinkedListNode<E>, newValue: E): boolean {
-    let existingNode;
+  * [Symbol.iterator]() {
+    let current = this.head;
 
-    if (existingValueOrNode instanceof DoublyLinkedListNode) {
-      existingNode = existingValueOrNode;
-    } else {
-      existingNode = this.findNode(existingValueOrNode);
+    while (current) {
+      yield current.value;
+      current = current.next;
     }
-
-    if (existingNode) {
-      const newNode = new DoublyLinkedListNode(newValue);
-      newNode.prev = existingNode.prev;
-      if (existingNode.prev) {
-        existingNode.prev.next = newNode;
-      }
-      newNode.next = existingNode;
-      existingNode.prev = newNode;
-      if (existingNode === this.head) {
-        this.head = newNode;
-      }
-      this._length++;
-      return true;
-    }
-
-    return false;
   }
 }

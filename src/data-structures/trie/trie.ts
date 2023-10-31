@@ -11,40 +11,14 @@
  * and a flag indicating whether it's the end of a word.
  */
 export class TrieNode {
+  key: string;
+  children: Map<string, TrieNode>;
+  isEnd: boolean;
+
   constructor(key: string) {
-    this._key = key;
-    this._isEnd = false;
-    this._children = new Map<string, TrieNode>();
-  }
-
-  private _key;
-
-  get key(): string {
-    return this._key;
-  }
-
-  set key(v: string) {
-    this._key = v;
-  }
-
-  protected _children: Map<string, TrieNode>;
-
-  get children(): Map<string, TrieNode> {
-    return this._children;
-  }
-
-  set children(v: Map<string, TrieNode>) {
-    this._children = v;
-  }
-
-  protected _isEnd: boolean;
-
-  get isEnd(): boolean {
-    return this._isEnd;
-  }
-
-  set isEnd(v: boolean) {
-    this._isEnd = v;
+    this.key = key;
+    this.isEnd = false;
+    this.children = new Map<string, TrieNode>();
   }
 }
 
@@ -62,17 +36,17 @@ export class Trie {
     }
   }
 
+  protected _caseSensitive: boolean;
+
+  get caseSensitive(): boolean {
+    return this._caseSensitive;
+  }
+
   protected _root: TrieNode;
 
   get root() {
     return this._root;
   }
-
-  set root(v: TrieNode) {
-    this._root = v;
-  }
-
-  private readonly _caseSensitive: boolean;
 
   /**
    * Add a word to the Trie structure.
@@ -110,19 +84,12 @@ export class Trie {
     return cur.isEnd;
   }
 
-  private _caseProcess(str: string) {
-    if (!this._caseSensitive) {
-      str = str.toLowerCase(); // Convert str to lowercase if case-insensitive
-    }
-    return str;
-  }
-
   /**
    * Remove a word from the Trie structure.
-   * @param{string} word - The word to remove.
+   * @param{string} word - The word to delete.
    * @returns {boolean} True if the word was successfully removed.
    */
-  remove(word: string) {
+  delete(word: string) {
     word = this._caseProcess(word);
     let isDeleted = false;
     const dfs = (cur: TrieNode, i: number): boolean => {
@@ -248,9 +215,10 @@ export class Trie {
    * @param {string} prefix - The `prefix` parameter is a string that represents the prefix that we want to search for in the
    * trie. It is an optional parameter, so if no prefix is provided, it will default to an empty string.
    * @param {number} max - The max count of words will be found
+   * @param isAllWhenEmptyPrefix - If true, when the prefix provided as '', returns all the words in the trie.
    * @returns {string[]} an array of strings.
    */
-  getWords(prefix = '', max = Number.MAX_SAFE_INTEGER): string[] {
+  getWords(prefix = '', max = Number.MAX_SAFE_INTEGER, isAllWhenEmptyPrefix = false): string[] {
     prefix = this._caseProcess(prefix);
     const words: string[] = [];
     let found = 0;
@@ -277,9 +245,17 @@ export class Trie {
         if (nodeC) startNode = nodeC;
       }
     }
-    if (startNode !== this.root) dfs(startNode, prefix);
+
+    if (isAllWhenEmptyPrefix || startNode !== this.root) dfs(startNode, prefix);
 
     return words;
+  }
+
+  protected _caseProcess(str: string) {
+    if (!this._caseSensitive) {
+      str = str.toLowerCase(); // Convert str to lowercase if case-insensitive
+    }
+    return str;
   }
 
   // --- end additional methods ---

@@ -1,11 +1,11 @@
-import {HeapComparator, MinHeap} from '../../../../src';
+import {Comparator, MinHeap} from '../../../../src';
 
 describe('MinHeap', () => {
-  const numberComparator: HeapComparator<number> = (a, b) => a - b;
+  const numberComparator: Comparator<number> = (a, b) => a - b;
   let minHeap: MinHeap<number>;
 
   beforeEach(() => {
-    minHeap = new MinHeap(numberComparator);
+    minHeap = new MinHeap({comparator: numberComparator});
   });
 
   test('add and poll elements in ascending order', () => {

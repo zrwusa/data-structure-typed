@@ -56,7 +56,7 @@ import {
 
 ```html
 
-<script src='https://cdn.jsdelivr.net/npm/data-structure-typed/umd/bundle.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js'></script>
 ```
 
 ```js
@@ -106,7 +106,7 @@ bst.getDepth(6) === 3;          // true
 
 bst.getLeftMost()?.id === 1;    // true
 
-bst.remove(6);
+bst.delete(6);
 bst.get(6);                     // null
 bst.isAVLBalanced();            // true
 bst.bfs()[0] === 11;            // true
@@ -121,7 +121,7 @@ objBST.addMany([{id: 15, keyA: 15}, {id: 1, keyA: 1}, {id: 8, keyA: 8},
   {id: 14, keyA: 14}, {id: 4, keyA: 4}, {id: 7, keyA: 7},
   {id: 10, keyA: 10}, {id: 5, keyA: 5}]);
 
-objBST.remove(11);
+objBST.delete(11);
 ```
 
 #### JS
@@ -142,7 +142,7 @@ bst.getDepth(6) === 3;  // true
 const leftMost = bst.getLeftMost();
 leftMost?.id === 1;     // true
 expect(leftMost?.id).toBe(1);
-bst.remove(6);
+bst.delete(6);
 bst.get(6);             // null
 bst.isAVLBalanced();    // true or false
 const bfsIDs = bst.bfs();
@@ -159,12 +159,12 @@ objBST.addMany([{id: 15, keyA: 15}, {id: 1, keyA: 1}, {id: 8, keyA: 8},
   {id: 14, keyA: 14}, {id: 4, keyA: 4}, {id: 7, keyA: 7},
   {id: 10, keyA: 10}, {id: 5, keyA: 5}]);
 
-objBST.remove(11);
+objBST.delete(11);
 
 const avlTree = new AVLTree();
 avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
 avlTree.isAVLBalanced();    // true
-avlTree.remove(10);
+avlTree.delete(10);
 avlTree.isAVLBalanced();    // true
 ```
 
@@ -178,7 +178,7 @@ import {AVLTree} from 'data-structure-typed';
 const avlTree = new AVLTree();
 avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
 avlTree.isAVLBalanced();    // true
-avlTree.remove(10);
+avlTree.delete(10);
 avlTree.isAVLBalanced();    // true
 ```
 
@@ -190,7 +190,7 @@ const {AVLTree} = require('data-structure-typed');
 const avlTree = new AVLTree();
 avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
 avlTree.isAVLBalanced();    // true
-avlTree.remove(10);
+avlTree.delete(10);
 avlTree.isAVLBalanced();    // true
 ```
 
@@ -214,7 +214,7 @@ graph.addEdge('A', 'B');
 graph.hasEdge('A', 'B');    // true
 graph.hasEdge('B', 'A');    // false
 
-graph.removeEdgeSrcToDest('A', 'B');
+graph.deleteEdgeSrcToDest('A', 'B');
 graph.hasEdge('A', 'B');    // false
 
 graph.addVertex('C');
@@ -237,7 +237,7 @@ graph.addVertex('A');
 graph.addVertex('B');
 graph.addVertex('C');
 graph.addVertex('D');
-graph.removeVertex('C');
+graph.deleteVertex('C');
 graph.addEdge('A', 'B');
 graph.addEdge('B', 'D');
 
@@ -640,6 +640,14 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
 
 
 ## Code design
+
+### Adhere to ES6 standard naming conventions for APIs.
+
+Standardize API conventions by using 'add' and 'delete' for element manipulation methods in all data structures. 
+
+Opt for concise and clear method names, avoiding excessive length while ensuring explicit intent.
+
+### Object-oriented programming(OOP) 
 
 By strictly adhering to object-oriented design (BinaryTree -> BST -> AVLTree -> TreeMultiset), you can seamlessly
 inherit the existing data structures to implement the customized ones you need. Object-oriented design stands as the

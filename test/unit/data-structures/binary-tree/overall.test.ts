@@ -1,11 +1,11 @@
-import {AVLTree, BST, BSTNode} from '../../../../src';
+import {AVLTree, BST} from '../../../../src';
 
 describe('Overall BinaryTree Test', () => {
   it('should perform various operations on BinaryTree', () => {
     const bst = new BST();
     bst.add(11);
     bst.add(3);
-    bst.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
+    bst.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5], undefined, false);
     bst.size === 16; // true
     expect(bst.size).toBe(16); // true
     bst.has(6); // true
@@ -19,16 +19,17 @@ describe('Overall BinaryTree Test', () => {
     const leftMost = bst.getLeftMost();
     leftMost?.key === 1; // true
     expect(leftMost?.key).toBe(1);
-    bst.remove(6);
+    bst.delete(6);
     bst.get(6); // null
     expect(bst.get(6)).toBeNull();
     bst.isAVLBalanced(); // true or false
     expect(bst.isAVLBalanced()).toBe(true);
-    const bfsIDs = bst.bfs();
+    const bfsIDs: number[] = [];
+    bst.bfs(node => bfsIDs.push(node.key));
     bfsIDs[0] === 11; // true
     expect(bfsIDs[0]).toBe(11);
 
-    const objBST = new BST<BSTNode<{key: number; keyA: number}>>();
+    const objBST = new BST<{key: number; keyA: number}>();
     objBST.add(11, {key: 11, keyA: 11});
     objBST.add(3, {key: 3, keyA: 3});
 
@@ -52,13 +53,13 @@ describe('Overall BinaryTree Test', () => {
       ]
     );
 
-    objBST.remove(11);
+    objBST.delete(11);
 
     const avlTree = new AVLTree();
     avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
     avlTree.isAVLBalanced(); // true
     expect(avlTree.isAVLBalanced()).toBe(true); // true
-    avlTree.remove(10);
+    avlTree.delete(10);
     avlTree.isAVLBalanced(); // true
     expect(avlTree.isAVLBalanced()).toBe(true); // true
   });

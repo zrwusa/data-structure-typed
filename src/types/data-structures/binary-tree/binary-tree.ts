@@ -1,4 +1,4 @@
-import {BinaryTreeNode} from '../../data-structures/binary-tree';
+import {BinaryTreeNode} from '../../../data-structures';
 
 /**
  * Enum representing different loop types.
@@ -7,7 +7,7 @@ import {BinaryTreeNode} from '../../data-structures/binary-tree';
  * - `recursive`: Indicates the recursive loop type (with loops that call themselves).
  */
 
-export enum LoopType {
+export enum IterationType {
   ITERATIVE = 'ITERATIVE',
   RECURSIVE = 'RECURSIVE'
 }
@@ -22,8 +22,9 @@ export enum FamilyPosition {
   MAL_NODE = 'MAL_NODE'
 }
 
-export type BinaryTreeNodePropertyName = 'key' | 'val';
+export type BTNKey = number;
 
+<<<<<<< HEAD:src/types/data-structures/binary-tree.ts
 export type NodeOrPropertyName = 'node' | BinaryTreeNodePropertyName;
 
 export type DFSOrderPattern = 'in' | 'pre' | 'post';
@@ -36,10 +37,10 @@ export type BinaryTreeNodeProperty<N extends BinaryTreeNode<N['val'], N>> =
   | number
   | BinaryTreeNodeKey;
 export type BinaryTreeDeletedResult<N> = { deleted: N | null | undefined; needBalanced: N | null | undefined };
-
-export type BinaryTreeNodeProperties<N extends BinaryTreeNode<N['val'], N>> =
-  BinaryTreeNodeProperty<N>[];
+=======
+export type BinaryTreeDeletedResult<N> = { deleted: N | null | undefined; needBalanced: N | null };
+>>>>>>> 10bbcffcef4ed5901867431a3d3eae891d190b9d:src/types/data-structures/binary-tree/binary-tree.ts
 
 export type BinaryTreeNodeNested<T> = BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, any>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-export type BinaryTreeOptions = { loopType?: LoopType }
+export type BinaryTreeOptions = { iterationType?: IterationType }

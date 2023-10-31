@@ -1,4 +1,4 @@
-import {HashTableNode, HashTable} from '../../../../src';
+import {HashTable, HashTableNode} from '../../../../src';
 
 describe('HashNode', () => {
   it('should create a HashNode with key and value', () => {
@@ -7,7 +7,7 @@ describe('HashNode', () => {
     const hashNode = new HashTableNode(key, value);
 
     expect(hashNode.key).toBe(key);
-    expect(hashNode.val).toBe(value);
+    expect(hashNode.value).toBe(value);
     expect(hashNode.next).toBe(null);
   });
 });
@@ -15,7 +15,9 @@ describe('HashNode', () => {
 describe('HashTable', () => {
   it('should initialize with default capacity', () => {
     const hashTable = new HashTable<string, string>();
-
+    expect(hashTable.capacity).toBe(16);
+    expect(hashTable.buckets).toEqual(new Array(16).fill(null));
+    expect(hashTable.hashFn('a')).toBe(6);
     expect(hashTable.capacity).toBe(16);
     expect(hashTable.size).toBe(0);
     expect(hashTable.buckets.length).toBe(16);
@@ -81,13 +83,13 @@ describe('HashTable', () => {
     expect(retrievedValue).toBeUndefined();
   });
 
-  it('should remove key-value pair correctly', () => {
+  it('should delete key-value pair correctly', () => {
     const hashTable = new HashTable<string, string>();
     const key = 'testKey';
     const value = 'testValue';
 
     hashTable.set(key, value);
-    hashTable.remove(key);
+    hashTable.delete(key);
 
     const retrievedValue = hashTable.get(key);
 
@@ -128,10 +130,10 @@ describe('HashTable', () => {
     expect(hashTable.get('two')).toBe(2);
   });
 
-  it('should remove values correctly', () => {
+  it('should delete values correctly', () => {
     hashTable.set('one', 1);
     hashTable.set('two', 2);
-    hashTable.remove('one');
+    hashTable.delete('one');
 
     expect(hashTable.get('one')).toBeUndefined();
     expect(hashTable.get('two')).toBe(2);
@@ -139,7 +141,7 @@ describe('HashTable', () => {
 
   it('should handle non-existent keys correctly', () => {
     expect(hashTable.get('non-existent')).toBeUndefined();
-    hashTable.remove('non-existent'); // Removing a non-existent key should not cause errors
+    hashTable.delete('non-existent'); // Removing a non-existent key should not cause errors
   });
 
   it('should handle custom hash function correctly', () => {

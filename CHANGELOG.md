@@ -8,10 +8,18 @@ All notable changes to this project will be documented in this file.
 - [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - [`auto-changelog`](https://github.com/CookPete/auto-changelog)
 
-## [v1.36.5](https://github.com/zrwusa/data-structure-typed/compare/v1.35.0...main) (upcoming)
+## [v1.40.0](https://github.com/zrwusa/data-structure-typed/compare/v1.35.0...main) (upcoming)
 
 ### Changes
 
+- [graph test] edge cases enriched [`#30`](https://github.com/zrwusa/data-structure-typed/pull/30)
+- [graph] Modify the data structure design of the graph to change the g… [`#29`](https://github.com/zrwusa/data-structure-typed/pull/29)
+- Optimization [`#23`](https://github.com/zrwusa/data-structure-typed/pull/23)
+- Optimization [`#20`](https://github.com/zrwusa/data-structure-typed/pull/20)
+- [binary-tree, graph] Replace all code that uses Arrays as makeshift Q… [`#18`](https://github.com/zrwusa/data-structure-typed/pull/18)
+- 1. No need for dfsIterative; integrate it directly into the dfs metho… [`#17`](https://github.com/zrwusa/data-structure-typed/pull/17)
+- [heap] fibonacci heap implemented. [test] big O estimate. [project] n… [`#15`](https://github.com/zrwusa/data-structure-typed/pull/15)
+- [rbtree] implemented, but with bugs [`#13`](https://github.com/zrwusa/data-structure-typed/pull/13)
 - [trie] renamed ambiguous methods and add comments to all methods. [`#12`](https://github.com/zrwusa/data-structure-typed/pull/12)
 - [binarytree] modified the getDepth method to adhere to the proper def… [`#11`](https://github.com/zrwusa/data-structure-typed/pull/11)
 - Trie [`#10`](https://github.com/zrwusa/data-structure-typed/pull/10)

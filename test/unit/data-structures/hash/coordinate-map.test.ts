@@ -52,3 +52,23 @@ describe('CoordinateMap', () => {
     expect(retrievedValue).toBe(value);
   });
 });
+
+describe('CoordinateMap', () => {
+  class MyCoordinateMap<V = any> extends CoordinateMap<V> {
+    constructor(joint?: string) {
+      super(joint);
+      this._joint = joint += '-';
+    }
+  }
+
+  const cMap = new MyCoordinateMap<number>('*');
+
+  beforeEach(() => {
+    cMap.set([0, 0], 0);
+    cMap.set([0, 1], 1);
+    cMap.set([1, 1], 11);
+  });
+  it('should joint to be *-', () => {
+    expect(cMap.joint).toBe('*-');
+  });
+});

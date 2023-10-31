@@ -1,11 +1,11 @@
-import {HeapComparator, MaxHeap} from '../../../../src';
+import {Comparator, MaxHeap} from '../../../../src';
 
 describe('MaxHeap', () => {
-  const numberComparator: HeapComparator<number> = (a, b) => b - a;
+  const numberComparator: Comparator<number> = (a, b) => b - a;
   let maxHeap: MaxHeap<number>;
 
   beforeEach(() => {
-    maxHeap = new MaxHeap(numberComparator);
+    maxHeap = new MaxHeap({comparator: numberComparator});
   });
 
   test('add and poll elements in descending order', () => {

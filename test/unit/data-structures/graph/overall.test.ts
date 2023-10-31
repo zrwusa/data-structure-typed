@@ -20,7 +20,7 @@ describe('Overall Graph Operation Test', () => {
     expect(graph.hasEdge('A', 'B')).toBe(true); // true
     expect(graph.hasEdge('B', 'A')).toBe(false); // false
 
-    graph.removeEdgeSrcToDest('A', 'B');
+    graph.deleteEdgeSrcToDest('A', 'B');
     graph.hasEdge('A', 'B'); // false
     expect(graph.hasEdge('A', 'B')).toBe(false); // false
 
@@ -38,7 +38,7 @@ describe('Overall Graph Operation Test', () => {
     graph.addVertex('B');
     graph.addVertex('C');
     graph.addVertex('D');
-    graph.removeVertex('C');
+    graph.deleteVertex('C');
     graph.addEdge('A', 'B');
     graph.addEdge('B', 'D');
 

@@ -28,7 +28,6 @@ describe('HashMap', () => {
 
   it('should handle key collisions', () => {
     // Force a collision by setting two different keys to the same bucket
-    hashMap.hashFn = () => 0; // Override hash function to return the same index
     hashMap.set('key1', 1);
     hashMap.set('key2', 2);
 
@@ -36,11 +35,11 @@ describe('HashMap', () => {
     expect(hashMap.get('key2')).toBe(2);
   });
 
-  it('should remove values', () => {
+  it('should delete values', () => {
     hashMap.set('one', 1);
     hashMap.set('two', 2);
 
-    hashMap.remove('one');
+    hashMap.delete('one');
     expect(hashMap.get('one')).toBeUndefined();
     expect(hashMap.size).toBe(1);
   });
