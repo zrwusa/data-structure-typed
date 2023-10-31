@@ -127,7 +127,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   /**
    * The `addMany` function is used to efficiently add multiple nodes to a binary search tree while
    * maintaining balance.
-   * @param {[BTNKey | N, N['value']][]} keysOrNodes - The `arr` parameter in the `addMany` function
+   * @param {[BTNKey | N, V][]} keysOrNodes - The `arr` parameter in the `addMany` function
    * represents an array of keys or nodes that need to be added to the binary search tree. It can be an
    * array of `BTNKey` or `N` (which represents the node type in the binary search tree) or
    * `null
@@ -153,15 +153,15 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
       return super.addMany(keysOrNodes, data);
     }
     const inserted: (N | null | undefined)[] = [];
-    const combinedArr: [BTNKey | N, N['value']][] = keysOrNodes.map((value, index) => [value, data?.[index]]);
+    const combinedArr: [BTNKey | N, V][] = keysOrNodes.map((value:(BTNKey | N), index) => [value, data?.[index]] as [BTNKey | N, V]);
     let sorted = [];
 
-    function isNodeOrNullTuple(arr: [BTNKey | N, N['value']][]): arr is [N, N['value']][] {
+    function isNodeOrNullTuple(arr: [BTNKey | N, V][]): arr is [N, V][] {
       for (const [keyOrNode] of arr) if (keyOrNode instanceof BSTNode) return true;
       return false;
     }
 
-    function isBinaryTreeKeyOrNullTuple(arr: [BTNKey | N, N['value']][]): arr is [BTNKey, N['value']][] {
+    function isBinaryTreeKeyOrNullTuple(arr: [BTNKey | N, V][]): arr is [BTNKey, V][] {
       for (const [keyOrNode] of arr) if (typeof keyOrNode === 'number') return true;
       return false;
     }

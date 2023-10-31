@@ -950,7 +950,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     if (iterationType === IterationType.RECURSIVE) {
       const queue = new Queue<N>([beginRoot]);
 
-      function traverse(level: number) {
+      const traverse = (level: number) => {
         if (queue.size === 0) return;
 
         const current = queue.shift()!;
@@ -1180,10 +1180,12 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
       }
     } else {
       if (node.left) {
+        // @ts-ignore
         yield* this[Symbol.iterator](node.left);
       }
       yield node.key;
       if (node.right) {
+        // @ts-ignore
         yield* this[Symbol.iterator](node.right);
       }
     }
