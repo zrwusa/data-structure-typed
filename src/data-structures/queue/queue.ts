@@ -5,7 +5,7 @@
  */
 import {SinglyLinkedList} from '../linked-list';
 
-export class SkipQueue<E = any> extends SinglyLinkedList<E> {
+export class LinkedListQueue<E = any> extends SinglyLinkedList<E> {
   /**
    * The enqueue function adds a value to the end of an array.
    * @param {E} value - The value parameter represents the value that you want to add to the queue.
@@ -23,11 +23,19 @@ export class SkipQueue<E = any> extends SinglyLinkedList<E> {
   }
 
   /**
+   * The `getFirst` function returns the value of the head node in a linked list, or `undefined` if the list is empty.
+   * @returns The `getFirst()` method is returning the value of the `head` node if it exists, otherwise it returns `undefined`.
+   */
+  getFirst(): E | undefined {
+    return this.head?.value;
+  }
+
+  /**
    * The `peek` function returns the value of the head node in a linked list, or `undefined` if the list is empty.
    * @returns The `peek()` method is returning the value of the `head` node if it exists, otherwise it returns `undefined`.
    */
   peek(): E | undefined {
-    return this.head?.value;
+    return this.getFirst();
   }
 }
 
@@ -101,7 +109,7 @@ export class Queue<E = any> {
   shift(): E | undefined {
     if (this.size === 0) return undefined;
 
-    const first = this.peek();
+    const first = this.getFirst();
     this.offset += 1;
 
     if (this.offset * 2 < this.nodes.length) return first;
@@ -114,12 +122,22 @@ export class Queue<E = any> {
   }
 
   /**
+   * The `getFirst` function returns the first element of the array `_nodes` if it exists, otherwise it returns `null`.
+   * @returns The `getFirst()` method returns the first element of the data structure, represented by the `_nodes` array at
+   * the `_offset` index. If the data structure is empty (size is 0), it returns `null`.
+   */
+  getFirst(): E | undefined {
+    return this.size > 0 ? this.nodes[this.offset] : undefined;
+  }
+
+
+  /**
    * The `peek` function returns the first element of the array `_nodes` if it exists, otherwise it returns `null`.
    * @returns The `peek()` method returns the first element of the data structure, represented by the `_nodes` array at
    * the `_offset` index. If the data structure is empty (size is 0), it returns `null`.
    */
   peek(): E | undefined {
-    return this.size > 0 ? this.nodes[this.offset] : undefined;
+    return this.getFirst();
   }
 
   /**
@@ -131,6 +149,15 @@ export class Queue<E = any> {
     return this.size > 0 ? this.nodes[this.nodes.length - 1] : undefined;
   }
 
+  /**
+   * The `peekLast` function returns the last element in an array-like data structure, or null if the structure is empty.
+   * @returns The method `peekLast()` returns the last element of the `_nodes` array if the array is not empty. If the
+   * array is empty, it returns `null`.
+   */
+  peekLast(): E | undefined {
+    return this.getLast();
+  }
+  
   /**
    * The enqueue function adds a value to the end of a queue.
    * @param {E} value - The value parameter represents the value that you want to add to the queue.

@@ -1,4 +1,4 @@
-import {SkipQueue, Queue} from '../../../../src';
+import {LinkedListQueue, Queue} from '../../../../src';
 import {bigO, magnitude} from '../../../utils';
 import {isDebugTest} from '../../../config';
 
@@ -168,11 +168,11 @@ describe('Queue', () => {
     expect(values).toEqual([1, 2, 3]);
   });
 });
-describe('SkipQueue', () => {
-  let queue: SkipQueue<string>;
+describe('LinkedListQueue', () => {
+  let queue: LinkedListQueue<string>;
 
   beforeEach(() => {
-    queue = new SkipQueue<string>();
+    queue = new LinkedListQueue<string>();
   });
 
   it('should enqueue elements to the end of the queue', () => {
@@ -197,7 +197,7 @@ describe('SkipQueue', () => {
     expect(queue.peek()).toBe('A');
   });
 
-  // Add more test cases for other methods of SkipQueue.
+  // Add more test cases for other methods of LinkedListQueue.
 });
 
 describe('Queue Performance Test', () => {
@@ -228,16 +228,16 @@ describe('Queue Performance Test', () => {
     expect(performance.now() - startTime2).toBeLessThan(bigO.CUBED * 100);
   });
 
-  it('should numeric SkipQueue be efficient', function () {
+  it('should numeric LinkedListQueue be efficient', function () {
     const startTime = performance.now();
-    const queue = new SkipQueue<number>();
+    const queue = new LinkedListQueue<number>();
     for (let i = 0; i < dataSize; i++) {
       queue.enqueue(i);
     }
     for (let i = 0; i < dataSize; i++) {
       queue.dequeue();
     }
-    console.log(`SkipQueue Performance Test: ${performance.now() - startTime} ms`);
+    console.log(`LinkedListQueue Performance Test: ${performance.now() - startTime} ms`);
     expect(performance.now() - startTime).toBeLessThan(bigO.LINEAR * 100);
   });
 });
