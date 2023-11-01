@@ -1,4 +1,13 @@
+/**
+ * data-structure-typed
+ *
+ * @author Tyler Zeng
+ * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
+ * @license MIT License
+ */
+
 import {RBTNColor} from '../../types';
+import * as console from 'console';
 
 export class RBTreeNode {
   key: number;
@@ -16,11 +25,18 @@ export class RBTreeNode {
   }
 }
 
-export const SN = new RBTreeNode(0);
+export const NIL = new RBTreeNode(0);
 
+/**
+ * 1. Each node is either red or black.
+ * 2. The root node is always black.
+ * 3. Leaf nodes are typically NIL nodes and are considered black.
+ * 4. Red nodes must have black children.
+ * 5. Black balance: Every path from any node to each of its leaf nodes contains the same number of black nodes.
+ */
 export class RedBlackTree {
   constructor() {
-    this._root = SN;
+    this._root = NIL;
   }
 
   protected _root: RBTreeNode;
@@ -38,13 +54,13 @@ export class RedBlackTree {
    */
   insert(key: number): void {
     const node: RBTreeNode = new RBTreeNode(key, RBTNColor.RED);
-    node.left = SN;
-    node.right = SN;
+    node.left = NIL;
+    node.right = NIL;
 
     let y: RBTreeNode = null as unknown as RBTreeNode;
     let x: RBTreeNode = this.root;
 
-    while (x !== SN) {
+    while (x !== NIL) {
       y = x;
       if (node.key < x.key) {
         x = x.left;
@@ -83,9 +99,9 @@ export class RedBlackTree {
    */
   delete(key: number): void {
     const helper = (node: RBTreeNode): void => {
-      let z: RBTreeNode = SN;
+      let z: RBTreeNode = NIL;
       let x: RBTreeNode, y: RBTreeNode;
-      while (node !== SN) {
+      while (node !== NIL) {
         if (node.key === key) {
           z = node;
         }
@@ -97,16 +113,16 @@ export class RedBlackTree {
         }
       }
 
-      if (z === SN) {
+      if (z === NIL) {
         return;
       }
 
       y = z;
       let yOriginalColor: number = y.color;
-      if (z.left === SN) {
+      if (z.left === NIL) {
         x = z.right;
         this._rbTransplant(z, z.right);
-      } else if (z.right === SN) {
+      } else if (z.right === NIL) {
         x = z.left;
         this._rbTransplant(z, z.left);
       } else {
@@ -133,8 +149,8 @@ export class RedBlackTree {
     helper(this.root);
   }
 
-  isRealNode(node: RBTreeNode): node is RBTreeNode {
-    return node !== SN && node !== null;
+  isRealNode(node: RBTreeNode | null | undefined): node is RBTreeNode {
+    return node !== NIL && node !== null;
   }
 
   /**
@@ -170,7 +186,7 @@ export class RedBlackTree {
    * @returns The leftmost node in the given RBTreeNode.
    */
   getLeftMost(node: RBTreeNode = this.root): RBTreeNode {
-    while (node.left !== null && node.left !== SN) {
+    while (node.left !== null && node.left !== NIL) {
       node = node.left;
     }
     return node;
@@ -182,7 +198,7 @@ export class RedBlackTree {
    * @returns the rightmost node in a red-black tree.
    */
   getRightMost(node: RBTreeNode): RBTreeNode {
-    while (node.right !== null && node.right !== SN) {
+    while (node.right !== null && node.right !== NIL) {
       node = node.right;
     }
     return node;
@@ -194,12 +210,12 @@ export class RedBlackTree {
    * @returns the successor of the given RBTreeNode.
    */
   getSuccessor(x: RBTreeNode): RBTreeNode {
-    if (x.right !== SN) {
+    if (x.right !== NIL) {
       return this.getLeftMost(x.right);
     }
 
     let y: RBTreeNode = x.parent;
-    while (y !== SN && y !== null && x === y.right) {
+    while (y !== NIL && y !== null && x === y.right) {
       x = y;
       y = y.parent;
     }
@@ -213,17 +229,76 @@ export class RedBlackTree {
    * @returns the predecessor of the given RBTreeNode 'x'.
    */
   getPredecessor(x: RBTreeNode): RBTreeNode {
-    if (x.left !== SN) {
+    if (x.left !== NIL) {
       return this.getRightMost(x.left);
     }
 
     let y: RBTreeNode = x.parent;
-    while (y !== SN && x === y.left) {
+    while (y !== NIL && x === y.left) {
       x = y;
       y = y.parent;
     }
 
     return y;
+  }
+
+  print(beginRoot: RBTreeNode = this.root) {
+    const display = (root: RBTreeNode | null): void => {
+      const [lines, , ,] = _displayAux(root);
+      for (const line of lines) {
+        console.log(line);
+      }
+    };
+
+    const _displayAux = (node: RBTreeNode | null): [string[], number, number, number] => {
+      if (node === null) {
+        return [[], 0, 0, 0];
+      }
+
+      if (node.right === null && node.left === null) {
+        const line = `${node.key}`;
+        const width = line.length;
+        const height = 1;
+        const middle = Math.floor(width / 2);
+        return [[line], width, height, middle];
+      }
+
+      if (node.right === null) {
+        const [lines, n, p, x] = _displayAux(node.left);
+        const s = `${node.key}`;
+        const u = s.length;
+        const first_line = ' '.repeat(x + 1) + '_'.repeat(n - x - 1) + s;
+        const second_line = ' '.repeat(x) + '/' + ' '.repeat(n - x - 1 + u);
+        const shifted_lines = lines.map(line => line + ' '.repeat(u));
+        return [[first_line, second_line, ...shifted_lines], n + u, p + 2, n + Math.floor(u / 2)];
+      }
+
+      if (node.left === null) {
+        const [lines, n, p, u] = _displayAux(node.right);
+        const s = `${node.key}`;
+        const x = s.length;
+        const first_line = s + '_'.repeat(x) + ' '.repeat(n - x);
+        const second_line = ' '.repeat(u + x) + '\\' + ' '.repeat(n - x - 1);
+        const shifted_lines = lines.map(line => ' '.repeat(u) + line);
+        return [[first_line, second_line, ...shifted_lines], n + x, p + 2, Math.floor(u / 2)];
+      }
+
+      const [left, n, p, x] = _displayAux(node.left);
+      const [right, m, q, y] = _displayAux(node.right);
+      const s = `${node.key}`;
+      const u = s.length;
+      const first_line = ' '.repeat(x + 1) + '_'.repeat(n - x - 1) + s + '_'.repeat(y) + ' '.repeat(m - y);
+      const second_line = ' '.repeat(x) + '/' + ' '.repeat(n - x - 1 + u + y) + '\\' + ' '.repeat(m - y - 1);
+      if (p < q) {
+        left.push(...new Array(q - p).fill(' '.repeat(n)));
+      } else if (q < p) {
+        right.push(...new Array(p - q).fill(' '.repeat(m)));
+      }
+      const zipped_lines = left.map((a, i) => a + ' '.repeat(u) + right[i]);
+      return [[first_line, second_line, ...zipped_lines], n + m + u, Math.max(p, q) + 2, n + Math.floor(u / 2)];
+    };
+
+    display(beginRoot);
   }
 
   /**
@@ -233,7 +308,7 @@ export class RedBlackTree {
   protected _leftRotate(x: RBTreeNode): void {
     const y: RBTreeNode = x.right;
     x.right = y.left;
-    if (y.left !== SN) {
+    if (y.left !== NIL) {
       y.left.parent = x;
     }
     y.parent = x.parent;
@@ -256,7 +331,7 @@ export class RedBlackTree {
   protected _rightRotate(x: RBTreeNode): void {
     const y: RBTreeNode = x.left;
     x.left = y.right;
-    if (y.right !== SN) {
+    if (y.right !== NIL) {
       y.right.parent = x;
     }
     y.parent = x.parent;

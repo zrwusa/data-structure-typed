@@ -559,21 +559,21 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   has<C extends BTNCallback<N, BTNKey>>(
     identifier: BTNKey,
     callback?: C,
-    beginRoot?: N,
+    beginRoot?: N | null,
     iterationType?: IterationType
   ): boolean;
 
   has<C extends BTNCallback<N, N>>(
     identifier: N | null,
     callback?: C,
-    beginRoot?: N,
+    beginRoot?: N | null,
     iterationType?: IterationType
   ): boolean;
 
   has<C extends BTNCallback<N>>(
     identifier: ReturnType<C> | null,
     callback: C,
-    beginRoot?: N,
+    beginRoot?: N | null,
     iterationType?: IterationType
   ): boolean;
 
@@ -601,28 +601,28 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     iterationType = this.iterationType
   ): boolean {
     if ((identifier as any) instanceof BinaryTreeNode) callback = (node => node) as C;
-    // TODO may support finding node by value equal
+
     return this.getNodes(identifier, callback, true, beginRoot, iterationType).length > 0;
   }
 
   getNode<C extends BTNCallback<N, BTNKey>>(
     identifier: BTNKey,
     callback?: C,
-    beginRoot?: N,
+    beginRoot?: N | null,
     iterationType?: IterationType
   ): N | null;
 
   getNode<C extends BTNCallback<N, N>>(
     identifier: N | null,
     callback?: C,
-    beginRoot?: N,
+    beginRoot?: N | null,
     iterationType?: IterationType
   ): N | null;
 
   getNode<C extends BTNCallback<N>>(
     identifier: ReturnType<C>,
     callback: C,
-    beginRoot?: N,
+    beginRoot?: N | null,
     iterationType?: IterationType
   ): N | null;
 
@@ -648,28 +648,28 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     iterationType = this.iterationType
   ): N | null {
     if ((identifier as any) instanceof BinaryTreeNode) callback = (node => node) as C;
-    // TODO may support finding node by value equal
+
     return this.getNodes(identifier, callback, true, beginRoot, iterationType)[0] ?? null;
   }
 
   get<C extends BTNCallback<N, BTNKey>>(
     identifier: BTNKey,
     callback?: C,
-    beginRoot?: N,
+    beginRoot?: N | null,
     iterationType?: IterationType
   ): V | undefined;
 
   get<C extends BTNCallback<N, N>>(
     identifier: N | null,
     callback?: C,
-    beginRoot?: N,
+    beginRoot?: N | null,
     iterationType?: IterationType
   ): V | undefined;
 
   get<C extends BTNCallback<N>>(
     identifier: ReturnType<C>,
     callback: C,
-    beginRoot?: N,
+    beginRoot?: N | null,
     iterationType?: IterationType
   ): V | undefined;
 
@@ -695,8 +695,8 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     iterationType = this.iterationType
   ): V | undefined {
     if ((identifier as any) instanceof BinaryTreeNode) callback = (node => node) as C;
-    // TODO may support finding node by value equal
-    return this.getNodes(identifier, callback, true, beginRoot, iterationType)[0].value ?? undefined;
+
+    return this.getNode(identifier, callback, beginRoot, iterationType)?.value ?? undefined;
   }
 
   /**
