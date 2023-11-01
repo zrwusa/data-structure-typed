@@ -10,7 +10,7 @@ import {Heap} from '../heap';
 import {Comparator} from '../../types';
 
 export class PriorityQueue<E = any> extends Heap<E> {
-  constructor(options: { comparator: Comparator<E>; nodes?: E[] }) {
+  constructor(options: {comparator: Comparator<E>; nodes?: E[]}) {
     super(options);
   }
 }

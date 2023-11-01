@@ -23,10 +23,10 @@ describe('TreeMultiset operations test', () => {
 
     expect(treeMultiset.getHeight(6)).toBe(3);
     expect(treeMultiset.getDepth(6)).toBe(1);
-    const nodeId10 = treeMultiset.get(10);
+    const nodeId10 = treeMultiset.getNode(10);
     expect(nodeId10?.key).toBe(10);
 
-    const nodeVal9 = treeMultiset.get(9, node => node.value);
+    const nodeVal9 = treeMultiset.getNode(9, node => node.value);
     expect(nodeVal9?.key).toBe(9);
 
     const nodesByCount1 = treeMultiset.getNodes(1, node => node.count);
@@ -37,7 +37,7 @@ describe('TreeMultiset operations test', () => {
     const leftMost = treeMultiset.getLeftMost();
     expect(leftMost?.key).toBe(1);
 
-    const node15 = treeMultiset.get(15);
+    const node15 = treeMultiset.getNode(15);
     const minNodeBySpecificNode = node15 && treeMultiset.getLeftMost(node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
 
@@ -53,7 +53,7 @@ describe('TreeMultiset operations test', () => {
       const subTreeAdd = treeMultiset.subTreeTraverse((node: TreeMultisetNode<number>) => (node.count += 1), 15);
       expect(subTreeAdd);
     }
-    const node11 = treeMultiset.get(11);
+    const node11 = treeMultiset.getNode(11);
     expect(node11 instanceof TreeMultisetNode);
     if (node11 instanceof TreeMultisetNode) {
       const allGreaterNodesAdded = treeMultiset.lesserOrGreaterTraverse(node => (node.count += 2), CP.gt, 11);
@@ -263,10 +263,10 @@ describe('TreeMultiset operations test recursively', () => {
 
     expect(treeMultiset.getHeight(6)).toBe(3);
     expect(treeMultiset.getDepth(6)).toBe(1);
-    const nodeId10 = treeMultiset.get(10);
+    const nodeId10 = treeMultiset.getNode(10);
     expect(nodeId10?.key).toBe(10);
 
-    const nodeVal9 = treeMultiset.get(9, node => node.value);
+    const nodeVal9 = treeMultiset.getNode(9, node => node.value);
     expect(nodeVal9?.key).toBe(9);
 
     const nodesByCount1 = treeMultiset.getNodes(1, node => node.count);
@@ -277,7 +277,7 @@ describe('TreeMultiset operations test recursively', () => {
     const leftMost = treeMultiset.getLeftMost();
     expect(leftMost?.key).toBe(1);
 
-    const node15 = treeMultiset.get(15);
+    const node15 = treeMultiset.getNode(15);
     const minNodeBySpecificNode = node15 && treeMultiset.getLeftMost(node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
 
@@ -293,7 +293,7 @@ describe('TreeMultiset operations test recursively', () => {
       const subTreeAdd = treeMultiset.subTreeTraverse((node: TreeMultisetNode<number>) => (node.count += 1), 15);
       expect(subTreeAdd);
     }
-    const node11 = treeMultiset.get(11);
+    const node11 = treeMultiset.getNode(11);
     expect(node11 instanceof TreeMultisetNode);
     if (node11 instanceof TreeMultisetNode) {
       const allGreaterNodesAdded = treeMultiset.lesserOrGreaterTraverse(node => (node.count += 2), CP.gt, 11);

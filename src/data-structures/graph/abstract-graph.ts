@@ -26,7 +26,6 @@ export abstract class AbstractVertex<V = any> {
     this.key = key;
     this.value = value;
   }
-
 }
 
 export abstract class AbstractEdge<E = any> {
@@ -65,7 +64,8 @@ export abstract class AbstractGraph<
   E = any,
   VO extends AbstractVertex<V> = AbstractVertex<V>,
   EO extends AbstractEdge<E> = AbstractEdge<E>
-> implements IGraph<V, E, VO, EO> {
+> implements IGraph<V, E, VO, EO>
+{
   protected _vertices: Map<VertexKey, VO> = new Map<VertexKey, VO>();
 
   get vertices(): Map<VertexKey, VO> {
@@ -513,14 +513,14 @@ export abstract class AbstractGraph<
     }
 
     getMinDist &&
-    distMap.forEach((d, v) => {
-      if (v !== srcVertex) {
-        if (d < minDist) {
-          minDist = d;
-          if (genPaths) minDest = v;
+      distMap.forEach((d, v) => {
+        if (v !== srcVertex) {
+          if (d < minDist) {
+            minDist = d;
+            if (genPaths) minDest = v;
+          }
         }
-      }
-    });
+      });
 
     genPaths && getPaths(minDest);
 
@@ -582,7 +582,7 @@ export abstract class AbstractGraph<
       if (vertexOrKey instanceof AbstractVertex) distMap.set(vertexOrKey, Infinity);
     }
 
-    const heap = new PriorityQueue<{ key: number; value: VO }>({comparator: (a, b) => a.key - b.key});
+    const heap = new PriorityQueue<{key: number; value: VO}>({comparator: (a, b) => a.key - b.key});
     heap.add({key: 0, value: srcVertex});
 
     distMap.set(srcVertex, 0);
@@ -811,7 +811,7 @@ export abstract class AbstractGraph<
    * `predecessor` property is a 2D array of vertices (or `null`) representing the predecessor vertices in the shortest
    * path between vertices in the
    */
-  floyd(): { costs: number[][]; predecessor: (VO | null)[][] } {
+  floyd(): {costs: number[][]; predecessor: (VO | null)[][]} {
     const idAndVertices = [...this._vertices];
     const n = idAndVertices.length;
 
@@ -996,5 +996,4 @@ export abstract class AbstractGraph<
   protected _getVertexKey(vertexOrKey: VO | VertexKey): VertexKey {
     return vertexOrKey instanceof AbstractVertex ? vertexOrKey.key : vertexOrKey;
   }
-
 }

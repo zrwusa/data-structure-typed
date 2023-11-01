@@ -19,7 +19,8 @@ export class BSTNode<V = any, N extends BSTNode<V, N> = BSTNodeNested<V>> extend
 
 export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>>
   extends BinaryTree<V, N>
-  implements IBinaryTree<V, N> {
+  implements IBinaryTree<V, N>
+{
   /**
    * The constructor function initializes a binary search tree object with an optional comparator
    * function.
@@ -153,7 +154,9 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
       return super.addMany(keysOrNodes, data);
     }
     const inserted: (N | null | undefined)[] = [];
-    const combinedArr: [BTNKey | N, V][] = keysOrNodes.map((value:(BTNKey | N), index) => [value, data?.[index]] as [BTNKey | N, V]);
+    const combinedArr: [BTNKey | N, V][] = keysOrNodes.map(
+      (value: BTNKey | N, index) => [value, data?.[index]] as [BTNKey | N, V]
+    );
     let sorted = [];
 
     function isNodeOrNullTuple(arr: [BTNKey | N, V][]): arr is [N, V][] {
@@ -231,7 +234,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * @returns either the first node that matches the given nodeProperty and callback, or null if no
    * matching node is found.
    */
-  override get<C extends BTNCallback<N>>(
+  override getNode<C extends BTNCallback<N>>(
     identifier: ReturnType<C> | null,
     callback: C = ((node: N) => node.key) as C,
     beginRoot = this.root,
@@ -362,7 +365,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     targetNode: BTNKey | N | null = this.root,
     iterationType = this.iterationType
   ): ReturnType<C>[] {
-    if (typeof targetNode === 'number') targetNode = this.get(targetNode);
+    if (typeof targetNode === 'number') targetNode = this.getNode(targetNode);
     const ans: ReturnType<BTNCallback<N>>[] = [];
     if (!targetNode) return ans;
     const targetKey = targetNode.key;

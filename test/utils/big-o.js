@@ -23,9 +23,11 @@ exports.bigO = {
   CUBED: Math.pow(exports.magnitude.SQUARED, 3) / 1000,
   FACTORIAL: 10000
 };
+
 function findPotentialN(input) {
   var longestArray = [];
   var mostProperties = {};
+
   function recurse(obj) {
     if (Array.isArray(obj)) {
       if (obj.length > longestArray.length) {
@@ -41,6 +43,7 @@ function findPotentialN(input) {
       });
     }
   }
+
   if (Array.isArray(input)) {
     input.forEach(function (item) {
       recurse(item);
@@ -51,6 +54,7 @@ function findPotentialN(input) {
   // return [longestArray, mostProperties] : [any[], { [key: string]: any }];
   return Math.max(longestArray.length, Object.keys(mostProperties).length);
 }
+
 function linearRegression(x, y) {
   var n = x.length;
   var sumX = x.reduce(function (acc, val) {
@@ -87,6 +91,7 @@ function linearRegression(x, y) {
   var rSquared = 1 - totalVariation / explainedVariation;
   return {slope: slope, intercept: intercept, rSquared: rSquared};
 }
+
 function estimateBigO(runtimes, dataSizes) {
   // Make sure the input runtimes and data sizes have the same length
   if (runtimes.length !== dataSizes.length) {
@@ -137,7 +142,9 @@ function estimateBigO(runtimes, dataSizes) {
     return complexities.join(' or ');
   }
 }
+
 var methodLogs = new Map();
+
 function logBigOMetricsWrap(fn, args, fnName) {
   var startTime = performance.now();
   var result = fn(args);
@@ -169,7 +176,9 @@ function logBigOMetricsWrap(fn, args, fnName) {
   }
   return result;
 }
+
 exports.logBigOMetricsWrap = logBigOMetricsWrap;
+
 function logBigOMetrics(target, propertyKey, descriptor) {
   var originalMethod = descriptor.value;
   descriptor.value = function () {
@@ -209,4 +218,5 @@ function logBigOMetrics(target, propertyKey, descriptor) {
   };
   return descriptor;
 }
+
 exports.logBigOMetrics = logBigOMetrics;

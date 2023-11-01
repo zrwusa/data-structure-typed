@@ -107,7 +107,7 @@ describe('BinaryTree', () => {
     expect(tree.has(2)).toBe(true);
     expect(tree.has(3)).toBe(true);
     expect(tree.has(4)).toBe(false);
-    const node4 = tree.get(4);
+    const node4 = tree.getNode(4);
     expect(tree.has(node4)).toBe(false);
     expect(tree.has(node4, node => node)).toBe(false);
     expect(tree.has('3', node => node.value?.toString())).toBe(true);
@@ -169,13 +169,13 @@ describe('BinaryTree', () => {
       new BinaryTreeNode(4, 4)
     ]);
 
-    expect(tree.isSubtreeBST(tree.get(4), IterationType.RECURSIVE)).toBe(true);
-    expect(tree.isSubtreeBST(tree.get(4), IterationType.ITERATIVE)).toBe(true);
+    expect(tree.isSubtreeBST(tree.getNode(4), IterationType.RECURSIVE)).toBe(true);
+    expect(tree.isSubtreeBST(tree.getNode(4), IterationType.ITERATIVE)).toBe(true);
   });
 
   it('should subTreeTraverse', () => {
     tree.addMany([4, 2, 6, 1, 3, 5, 7]);
-    expect(tree.subTreeTraverse(node => node.key, tree.get(6), IterationType.RECURSIVE)).toEqual([6, 5, 7]);
+    expect(tree.subTreeTraverse(node => node.key, tree.getNode(6), IterationType.RECURSIVE)).toEqual([6, 5, 7]);
   });
 
   it('should clear the tree', () => {
@@ -234,9 +234,9 @@ describe('BinaryTree Morris Traversal', () => {
   });
 
   it('after morris traversals should the structure of the tree be correct', () => {
-    const node1 = tree.get(1);
-    const node2 = tree.get(2);
-    const node3 = tree.get(3);
+    const node1 = tree.getNode(1);
+    const node2 = tree.getNode(2);
+    const node3 = tree.getNode(3);
     expect(node1?.left).toBe(node2);
     expect(node1?.right).toBe(node3);
   });
@@ -339,8 +339,8 @@ describe('BinaryTree', () => {
     tree.add(3, 'B');
     tree.add(7, 'C');
 
-    const nodeA = tree.get(5);
-    const nodeB = tree.get(3);
+    const nodeA = tree.getNode(5);
+    const nodeB = tree.getNode(3);
 
     expect(nodeA?.key).toBe(5);
     expect(nodeA?.value).toBe('A');
@@ -351,7 +351,7 @@ describe('BinaryTree', () => {
   it('should return null when getting a non-existent node', () => {
     tree.add(5, 'A');
 
-    const node = tree.get(3);
+    const node = tree.getNode(3);
 
     expect(node).toBe(null);
   });
@@ -421,7 +421,7 @@ describe('BinaryTree', () => {
     tree.delete(3);
 
     expect(tree.size).toBe(2);
-    expect(tree.get(3)).toBe(null);
+    expect(tree.getNode(3)).toBe(null);
   });
 
   it('should check if the tree is perfectly balanced', () => {

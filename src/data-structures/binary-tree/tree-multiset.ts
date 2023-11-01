@@ -37,7 +37,8 @@ export class TreeMultisetNode<
  */
 export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultisetNode<V, TreeMultisetNodeNested<V>>>
   extends AVLTree<V, N>
-  implements IBinaryTree<V, N> {
+  implements IBinaryTree<V, N>
+{
   /**
    * The constructor function for a TreeMultiset class in TypeScript, which extends another class and sets an option to
    * merge duplicated values.
@@ -169,7 +170,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
       } else if (parent.right === undefined) {
         parent.right = newNode;
         if (newNode !== null) {
-          this._size = (this.size + 1);
+          this._size = this.size + 1;
           this._setCount(this.count + newNode.count);
         }
         return parent.right;
@@ -282,7 +283,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
     const bstDeletedResult: BinaryTreeDeletedResult<N>[] = [];
     if (!this.root) return bstDeletedResult;
 
-    const curr: N | null = this.get(identifier, callback);
+    const curr: N | null = this.getNode(identifier, callback);
     if (!curr) return bstDeletedResult;
 
     const parent: N | null = curr?.parent ? curr.parent : null;

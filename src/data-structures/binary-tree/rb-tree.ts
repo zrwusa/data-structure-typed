@@ -1,39 +1,32 @@
-import {RBTNColor} from "../../types";
+import {RBTNColor} from '../../types';
 
 export class RBTreeNode {
-  key: number = 0;
+  key: number;
   parent: RBTreeNode;
   left: RBTreeNode;
   right: RBTreeNode;
   color: number = RBTNColor.BLACK;
 
-  constructor() {
+  constructor(key: number, color: RBTNColor = RBTNColor.BLACK) {
+    this.key = key;
+    this.color = color;
     this.parent = null as unknown as RBTreeNode;
     this.left = null as unknown as RBTreeNode;
     this.right = null as unknown as RBTreeNode;
   }
 }
 
+export const SN = new RBTreeNode(0);
+
 export class RedBlackTree {
-  
   constructor() {
-    this._NIL = new RBTreeNode();
-    this.NIL.color = RBTNColor.BLACK;
-    this.NIL.left = null as unknown as RBTreeNode;
-    this.NIL.right = null as unknown as RBTreeNode;
-    this._root = this.NIL;
+    this._root = SN;
   }
 
   protected _root: RBTreeNode;
 
   get root(): RBTreeNode {
     return this._root;
-  }
-
-  protected _NIL: RBTreeNode;
-
-  get NIL(): RBTreeNode {
-    return this._NIL;
   }
 
   /**
@@ -44,18 +37,14 @@ export class RedBlackTree {
    * @returns The function does not explicitly return anything.
    */
   insert(key: number): void {
-
-    const node: RBTreeNode = new RBTreeNode();
-    node.parent = null as unknown as RBTreeNode;
-    node.key = key;
-    node.left = this.NIL;
-    node.right = this.NIL;
-    node.color = RBTNColor.RED;
+    const node: RBTreeNode = new RBTreeNode(key, RBTNColor.RED);
+    node.left = SN;
+    node.right = SN;
 
     let y: RBTreeNode = null as unknown as RBTreeNode;
     let x: RBTreeNode = this.root;
 
-    while (x !== this.NIL) {
+    while (x !== SN) {
       y = x;
       if (node.key < x.key) {
         x = x.left;
@@ -94,10 +83,9 @@ export class RedBlackTree {
    */
   delete(key: number): void {
     const helper = (node: RBTreeNode): void => {
-
-      let z: RBTreeNode = this.NIL;
+      let z: RBTreeNode = SN;
       let x: RBTreeNode, y: RBTreeNode;
-      while (node !== this.NIL) {
+      while (node !== SN) {
         if (node.key === key) {
           z = node;
         }
@@ -109,16 +97,16 @@ export class RedBlackTree {
         }
       }
 
-      if (z === this.NIL) {
+      if (z === SN) {
         return;
       }
 
       y = z;
       let yOriginalColor: number = y.color;
-      if (z.left === this.NIL) {
+      if (z.left === SN) {
         x = z.right;
         this._rbTransplant(z, z.right);
-      } else if (z.right === this.NIL) {
+      } else if (z.right === SN) {
         x = z.left;
         this._rbTransplant(z, z.left);
       } else {
@@ -138,11 +126,15 @@ export class RedBlackTree {
         y.left.parent = y;
         y.color = z.color;
       }
-      if (yOriginalColor === 0) {
+      if (yOriginalColor === RBTNColor.BLACK) {
         this._fixDelete(x);
       }
-    }
+    };
     helper(this.root);
+  }
+
+  isRealNode(node: RBTreeNode): node is RBTreeNode {
+    return node !== SN && node !== null;
   }
 
   /**
@@ -157,18 +149,19 @@ export class RedBlackTree {
    */
   getNode(key: number, beginRoot = this.root): RBTreeNode {
     const dfs = (node: RBTreeNode): RBTreeNode => {
-      if (node === this.NIL || key === node.key) {
-        return node;
-      }
+      if (this.isRealNode(node)) {
+        if (key === node.key) {
+          return node;
+        }
 
-      if (key < node.key) {
-        return dfs(node.left);
+        if (key < node.key) return dfs(node.left);
+        return dfs(node.right);
+      } else {
+        return null as unknown as RBTreeNode;
       }
-      return dfs(node.right);
-    }
+    };
     return dfs(beginRoot);
   }
-
 
   /**
    * The function returns the leftmost node in a red-black tree.
@@ -176,13 +169,12 @@ export class RedBlackTree {
    * a Red-Black Tree.
    * @returns The leftmost node in the given RBTreeNode.
    */
-  getLeftMost(node: RBTreeNode): RBTreeNode {
-    while (node.left !== null && node.left !== this.NIL) {
+  getLeftMost(node: RBTreeNode = this.root): RBTreeNode {
+    while (node.left !== null && node.left !== SN) {
       node = node.left;
     }
     return node;
   }
-
 
   /**
    * The function returns the rightmost node in a red-black tree.
@@ -190,7 +182,7 @@ export class RedBlackTree {
    * @returns the rightmost node in a red-black tree.
    */
   getRightMost(node: RBTreeNode): RBTreeNode {
-    while (node.right !== null && node.right !== this.NIL) {
+    while (node.right !== null && node.right !== SN) {
       node = node.right;
     }
     return node;
@@ -202,13 +194,12 @@ export class RedBlackTree {
    * @returns the successor of the given RBTreeNode.
    */
   getSuccessor(x: RBTreeNode): RBTreeNode {
-
-    if (x.right !== this.NIL) {
+    if (x.right !== SN) {
       return this.getLeftMost(x.right);
     }
 
     let y: RBTreeNode = x.parent;
-    while (y !== this.NIL && y !== null && x === y.right) {
+    while (y !== SN && y !== null && x === y.right) {
       x = y;
       y = y.parent;
     }
@@ -222,13 +213,12 @@ export class RedBlackTree {
    * @returns the predecessor of the given RBTreeNode 'x'.
    */
   getPredecessor(x: RBTreeNode): RBTreeNode {
-
-    if (x.left !== this.NIL) {
+    if (x.left !== SN) {
       return this.getRightMost(x.left);
     }
 
     let y: RBTreeNode = x.parent;
-    while (y !== this.NIL && x === y.left) {
+    while (y !== SN && x === y.left) {
       x = y;
       y = y.parent;
     }
@@ -243,7 +233,7 @@ export class RedBlackTree {
   protected _leftRotate(x: RBTreeNode): void {
     const y: RBTreeNode = x.right;
     x.right = y.left;
-    if (y.left !== this.NIL) {
+    if (y.left !== SN) {
       y.left.parent = x;
     }
     y.parent = x.parent;
@@ -266,7 +256,7 @@ export class RedBlackTree {
   protected _rightRotate(x: RBTreeNode): void {
     const y: RBTreeNode = x.left;
     x.left = y.right;
-    if (y.right !== this.NIL) {
+    if (y.right !== SN) {
       y.right.parent = x;
     }
     y.parent = x.parent;
@@ -288,24 +278,21 @@ export class RedBlackTree {
    */
   protected _fixDelete(x: RBTreeNode): void {
     let s: RBTreeNode;
-    while (x !== this.root && x.color === 0) {
+    while (x !== this.root && x.color === RBTNColor.BLACK) {
       if (x === x.parent.left) {
         s = x.parent.right;
         if (s.color === 1) {
-
           s.color = RBTNColor.BLACK;
           x.parent.color = RBTNColor.RED;
           this._leftRotate(x.parent);
           s = x.parent.right;
         }
 
-        if (s.left.color === 0 && s.right.color === 0) {
-
+        if (s.left !== null && s.left.color === RBTNColor.BLACK && s.right.color === RBTNColor.BLACK) {
           s.color = RBTNColor.RED;
           x = x.parent;
         } else {
-          if (s.right.color === 0) {
-
+          if (s.right.color === RBTNColor.BLACK) {
             s.left.color = RBTNColor.BLACK;
             s.color = RBTNColor.RED;
             this._rightRotate(s);
@@ -321,20 +308,17 @@ export class RedBlackTree {
       } else {
         s = x.parent.left;
         if (s.color === 1) {
-
           s.color = RBTNColor.BLACK;
           x.parent.color = RBTNColor.RED;
           this._rightRotate(x.parent);
           s = x.parent.left;
         }
 
-        if (s.right.color === 0 && s.right.color === 0) {
-
+        if (s.right.color === RBTNColor.BLACK && s.right.color === RBTNColor.BLACK) {
           s.color = RBTNColor.RED;
           x = x.parent;
         } else {
-          if (s.left.color === 0) {
-
+          if (s.left.color === RBTNColor.BLACK) {
             s.right.color = RBTNColor.BLACK;
             s.color = RBTNColor.RED;
             this._leftRotate(s);
@@ -379,14 +363,12 @@ export class RedBlackTree {
       if (k.parent === k.parent.parent.right) {
         u = k.parent.parent.left;
         if (u.color === 1) {
-
           u.color = RBTNColor.BLACK;
           k.parent.color = RBTNColor.BLACK;
           k.parent.parent.color = RBTNColor.RED;
           k = k.parent.parent;
         } else {
           if (k === k.parent.left) {
-
             k = k.parent;
             this._rightRotate(k);
           }
@@ -399,14 +381,12 @@ export class RedBlackTree {
         u = k.parent.parent.right;
 
         if (u.color === 1) {
-
           u.color = RBTNColor.BLACK;
           k.parent.color = RBTNColor.BLACK;
           k.parent.parent.color = RBTNColor.RED;
           k = k.parent.parent;
         } else {
           if (k === k.parent.right) {
-
             k = k.parent;
             this._leftRotate(k);
           }

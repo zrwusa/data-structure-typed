@@ -7,18 +7,18 @@ describe('AVL Tree Test', () => {
 
     for (const i of arr) tree.add(i, i);
 
-    const node6 = tree.get(6);
+    const node6 = tree.getNode(6);
 
     expect(node6 && tree.getHeight(node6)).toBe(3);
     expect(node6 && tree.getDepth(node6)).toBe(1);
 
-    const getNodeById = tree.get(10);
+    const getNodeById = tree.getNode(10);
     expect(getNodeById?.key).toBe(10);
 
     const getMinNodeByRoot = tree.getLeftMost();
     expect(getMinNodeByRoot?.key).toBe(1);
 
-    const node15 = tree.get(15);
+    const node15 = tree.getNode(15);
     const getMinNodeBySpecificNode = node15 && tree.getLeftMost(node15);
     expect(getMinNodeBySpecificNode?.key).toBe(12);
 
@@ -116,18 +116,18 @@ describe('AVL Tree Test recursively', () => {
 
     for (const i of arr) tree.add(i, i);
 
-    const node6 = tree.get(6);
+    const node6 = tree.getNode(6);
 
     expect(node6 && tree.getHeight(node6)).toBe(3);
     expect(node6 && tree.getDepth(node6)).toBe(1);
 
-    const getNodeById = tree.get(10);
+    const getNodeById = tree.getNode(10);
     expect(getNodeById?.key).toBe(10);
 
     const getMinNodeByRoot = tree.getLeftMost();
     expect(getMinNodeByRoot?.key).toBe(1);
 
-    const node15 = tree.get(15);
+    const node15 = tree.getNode(15);
     const getMinNodeBySpecificNode = node15 && tree.getLeftMost(node15);
     expect(getMinNodeBySpecificNode?.key).toBe(12);
 
