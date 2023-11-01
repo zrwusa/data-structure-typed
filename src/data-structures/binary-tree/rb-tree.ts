@@ -1,4 +1,4 @@
-export enum RBTNColor {BLACK, RED}
+import {RBTNColor} from "../../types";
 
 export class RBTreeNode {
   key: number = 0;
@@ -110,7 +110,6 @@ export class RedBlackTree {
       }
 
       if (z === this.NIL) {
-        console.log("Couldn't find key in the tree");
         return;
       }
 
