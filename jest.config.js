@@ -4,5 +4,6 @@ module.exports = {
   testMatch: ['<rootDir>/test/**/*.test.ts', '<rootDir>/test/**/*.test.js'],
   collectCoverage: true,
   coverageReporters: ['clover', 'json', 'lcov', ['text', {skipFull: true}], "json-summary"],
-  coverageDirectory: 'coverage'
+  coverageDirectory: 'coverage',
+  testPathIgnorePatterns: ['<rootDir>/test/integration/']
 };

@@ -12,13 +12,13 @@ describe('AVL Tree Test', () => {
     expect(node6 && tree.getHeight(node6)).toBe(3);
     expect(node6 && tree.getDepth(node6)).toBe(1);
 
-    const getNodeById = tree.get(10);
-    expect(getNodeById?.key).toBe(10);
+    const getValueById = tree.get(10);
+    expect(getValueById).toBe(10);
 
     const getMinNodeByRoot = tree.getLeftMost();
     expect(getMinNodeByRoot?.key).toBe(1);
 
-    const node15 = tree.get(15);
+    const node15 = tree.getNode(15);
     const getMinNodeBySpecificNode = node15 && tree.getLeftMost(node15);
     expect(getMinNodeBySpecificNode?.key).toBe(12);
 

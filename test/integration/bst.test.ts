@@ -20,16 +20,16 @@ describe('Individual package BST operations test', () => {
     expect(node6 && bst.getHeight(6)).toBe(2);
     expect(node6 && bst.getDepth(6)).toBe(3);
 
-    const nodeId10 = bst.get(10);
+    const nodeId10 = bst.getNode(10);
     expect(nodeId10?.key).toBe(10);
 
-    const nodeVal9 = bst.get(9, node => node.value);
+    const nodeVal9 = bst.getNode(9, node => node.value);
     expect(nodeVal9?.key).toBe(9);
 
     const leftMost = bst.getLeftMost();
     expect(leftMost?.key).toBe(1);
 
-    const node15 = bst.get(15);
+    const node15 = bst.getNode(15);
     const minNodeBySpecificNode = node15 && bst.getLeftMost(node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
 
@@ -43,7 +43,7 @@ describe('Individual package BST operations test', () => {
 
     expect(node15).toBeInstanceOf(BSTNode);
 
-    const node11 = bst.get(11);
+    const node11 = bst.getNode(11);
     expect(node11).toBeInstanceOf(BSTNode);
 
     const dfsInorderNodes = bst.dfs(node => node, 'in');
@@ -216,7 +216,7 @@ describe('Individual package BST operations test', () => {
 
     expect(objBST.has(6)).toBe(true);
 
-    const node6 = objBST.get(6);
+    const node6 = objBST.getNode(6);
     expect(node6 && objBST.getHeight(node6)).toBe(2);
     expect(node6 && objBST.getDepth(node6)).toBe(3);
 
@@ -229,7 +229,7 @@ describe('Individual package BST operations test', () => {
     const leftMost = objBST.getLeftMost();
     expect(leftMost?.key).toBe(1);
 
-    const node15 = objBST.get(15);
+    const node15 = objBST.getNode(15);
     expect(node15?.value).toEqual({key: 15, keyA: 15});
     const minNodeBySpecificNode = node15 && objBST.getLeftMost(node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
@@ -244,7 +244,7 @@ describe('Individual package BST operations test', () => {
 
     expect(node15).toBeInstanceOf(BSTNode);
 
-    const node11 = objBST.get(11);
+    const node11 = objBST.getNode(11);
     expect(node11).toBeInstanceOf(BSTNode);
 
     const dfsInorderNodes = objBST.dfs(node => node, 'in');

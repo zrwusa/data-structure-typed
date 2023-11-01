@@ -7,7 +7,6 @@
  */
 
 import {RBTNColor} from '../../types';
-import * as console from 'console';
 
 export class RBTreeNode {
   key: number;
