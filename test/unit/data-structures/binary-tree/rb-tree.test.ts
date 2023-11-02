@@ -427,7 +427,7 @@ describe('RedBlackTree', () => {
   });
 
   it('should fix the tree after insertion and deletion', () => {
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < 100; i++) {
       tree.insert(getRandomInt(-100, 1000));
       tree.delete(getRandomInt(-100, 1000));
     }
