@@ -1,6 +1,7 @@
 import * as _ from './is';
+import {Json2htmlOptions} from '../types';
 
-function toggleJS(options?: {plainHtml?: boolean}): string {
+function toggleJS(options?: Json2htmlOptions): string {
   if (options?.plainHtml) {
     return '';
   } else {
@@ -8,28 +9,28 @@ function toggleJS(options?: {plainHtml?: boolean}): string {
   }
 }
 
-function makeLabelDiv(options: any, level: number, keyname: string | number, datatype?: string): string {
-  if (typeof keyname === 'number') {
-    return `<div class='index'><span class='json-to-html-label'>${keyname}&nbsp;</span></div>`;
-  } else if (typeof keyname === 'string') {
+function makeLabelDiv(options: any, level: number, keyName: string | number, datatype?: string): string {
+  if (typeof keyName === 'number') {
+    return `<div class='index'><span class='json-to-html-label'>${keyName}&nbsp;</span></div>`;
+  } else if (typeof keyName === 'string') {
     if (datatype === 'array') {
       return `<div class='collapsible level${level}' ${toggleJS(
         options
-      )}><span class='json-to-html-label'>${keyname}</span></div>`;
+      )}><span class='json-to-html-label'>${keyName}</span></div>`;
     } else if (datatype === 'object') {
       return `<div class='attribute collapsible level${level}' ${toggleJS(
         options
-      )}><span class='json-to-html-label'>${keyname}:</span></div>`;
+      )}><span class='json-to-html-label'>${keyName}:</span></div>`;
     } else {
-      return `<div class='leaf level${level}'><span class='json-to-html-label'>${keyname}:</span></div>`;
+      return `<div class='leaf level${level}'><span class='json-to-html-label'>${keyName}:</span></div>`;
     }
   } else {
     return '';
   }
 }
 
-function getContentClass(keyname: string | number): string {
-  if (typeof keyname === 'string') {
+function getContentClass(keyName: string | number): string {
+  if (typeof keyName === 'string') {
     return 'content';
   } else {
     return '';
@@ -110,10 +111,10 @@ function drawTable(arr: any[]): string {
   return '<table>' + headingHtml + contentHtml + '</table>';
 }
 
-function _render(name: string, data: any, options: any, level: number, altrow: number): string {
+function _render(name: string, data: any, options: Json2htmlOptions, level: number, altRow: number): string {
   const contentClass = getContentClass(name);
   if (_.isArray(data)) {
-    const title = makeLabelDiv(options, level, `${name} (${data.length})`, 'array');
+    const title = makeLabelDiv(options, level, `${name}`, 'array');
     let subs: string;
     if (isTable(data)) {
       subs = drawTable(data);
@@ -125,7 +126,7 @@ function _render(name: string, data: any, options: any, level: number, altrow: n
           .join("</div><div class='altRows'>") +
         '</div>';
     }
-    return `<div class="json-to-html-collapse clearfix ${altrow}">
+    return `<div class="json-to-html-collapse clearfix ${altRow}">
       ${title}
       <div class="${contentClass}">${subs}</div>
     </div>`;
@@ -151,7 +152,7 @@ function _render(name: string, data: any, options: any, level: number, altrow: n
         .map(([key, val]) => _render(key, val, options, level + 1, count++ % 2))
         .join('</div><div>') +
       '</div>';
-    const inner = `<div class="json-to-html-expand clearfix ${altrow}">
+    const inner = `<div class="json-to-html-expand clearfix ${altRow}">
       ${title}
       <div class="${contentClass}">${subs}</div>
     </div>`;
@@ -161,9 +162,9 @@ function _render(name: string, data: any, options: any, level: number, altrow: n
   }
 }
 
-export function render(json: any, options: any): string {
+export function render(name: string, json: any, options: Json2htmlOptions): string {
   // return `${head}${_render('', json, options, 0, 0)}`;
-  return `${_render('', json, options, 0, 0)}`;
+  return `${_render(name, json, options, 0, 0)}`;
 }
 
 // const head = `<style>
