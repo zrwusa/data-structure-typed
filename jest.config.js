@@ -5,5 +5,5 @@ module.exports = {
   collectCoverage: true,
   coverageReporters: ['clover', 'json', 'lcov', ['text', {skipFull: true}], "json-summary"],
   coverageDirectory: 'coverage',
-  testPathIgnorePatterns: ['<rootDir>/test/integration/']
+  testPathIgnorePatterns: ['<rootDir>/test/integration/', '<rootDir>/test/performance/']
 };
