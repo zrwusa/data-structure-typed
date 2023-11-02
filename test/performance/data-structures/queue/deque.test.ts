@@ -1,4 +1,4 @@
-import {Deque} from "../../../../src";
+import {Deque} from '../../../../src';
 import * as Benchmark from 'benchmark';
 
 export const suite = new Benchmark.Suite();
@@ -16,4 +16,4 @@ suite
       deque.push(i);
       deque.shift();
     }
-  })
+  });

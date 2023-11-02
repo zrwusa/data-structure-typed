@@ -1,4 +1,4 @@
-import {Queue} from "../../../../src";
+import {Queue} from '../../../../src';
 
 import * as Benchmark from 'benchmark';
 
@@ -17,4 +17,4 @@ suite
       queue.push(i);
       queue.shift();
     }
-  })
+  });

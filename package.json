@@ -84,8 +84,7 @@
     "ts-node": "^10.9.1",
     "tsup": "^7.2.0",
     "typedoc": "^0.25.1",
-    "typescript": "^5.2.2",
-    "underscore": "^1.13.6"
+    "typescript": "^5.2.2"
   },
   "keywords": [
     "data",
