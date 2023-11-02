@@ -1,5 +1,4 @@
 import {DoublyLinkedList, DoublyLinkedListNode} from '../../../../src';
-import {bigO, magnitude} from '../../../utils';
 
 describe('DoublyLinkedListNode', () => {
   it('should DoublyLinkedListNode', () => {
@@ -397,27 +396,5 @@ describe('DoublyLinkedList Operation Test', () => {
 
     const shiftedObj = objectList.shift();
     expect(shiftedObj).toBe(obj1);
-  });
-});
-
-describe('DoublyLinkedList Performance Test', () => {
-  it('should the push and pop methods adhere to a time complexity of O(n) and executed correctly under large scale data', () => {
-    const list = new DoublyLinkedList<number>();
-
-    const startPushTime = performance.now();
-    for (let i = 0; i < magnitude.LINEAR; i++) {
-      list.unshift(i);
-    }
-    expect(performance.now() - startPushTime).toBeLessThan(bigO.LINEAR * 20);
-
-    expect(list.length).toBeGreaterThan(0);
-    const startPopTime = performance.now();
-    for (let i = 0; i < magnitude.LINEAR; i++) {
-      list.shift();
-    }
-    expect(performance.now() - startPopTime).toBeLessThan(bigO.LINEAR * 100);
-
-    expect(list.pop()).toBeUndefined();
-    expect(list.length).toBe(0);
   });
 });

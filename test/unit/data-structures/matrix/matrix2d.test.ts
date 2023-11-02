@@ -315,7 +315,7 @@ describe('Matrix2D', () => {
   it('should correctly rotate a matrix', () => {
     const radians = Math.PI / 4; // 45 degrees
     const rotationMatrix = Matrix2D.rotate(radians);
-    console.log(JSON.stringify(rotationMatrix.m));
+    isDebug && console.log(JSON.stringify(rotationMatrix.m));
     expect(rotationMatrix.m).toEqual([
       [0.7071067811865476, -0.7071067811865475, 0],
       [0.7071067811865475, 0.7071067811865476, 0],

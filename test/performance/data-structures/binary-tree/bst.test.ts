@@ -1,18 +1,24 @@
 import {BST} from '../../../../src';
-
 import * as Benchmark from 'benchmark';
+import {magnitude, randomInt, randomIntArray} from '../../../utils';
 
-export const suite = new Benchmark.Suite();
-const bt = new BST<number>();
+const suite = new Benchmark.Suite();
+const bst = new BST<number>();
+const {N_LOG_N} = magnitude;
 
 suite
-  .add('add 1000', () => {
-    for (let i = 0; i < 1000; i++) {
-      bt.add(i);
-    }
+  .add(`add ${N_LOG_N} randomly`, () => {
+    for (let i = 0; i < N_LOG_N; i++) bst.add(randomInt(0, N_LOG_N));
   })
-  .add('add & delete 1000', () => {
-    for (let i = 0; i < 1000; i++) {
-      bt.delete(i);
-    }
+  .add(`delete ${N_LOG_N} randomly`, () => {
+    for (let i = 0; i < N_LOG_N; i++) bst.delete(randomInt(0, N_LOG_N));
+  })
+  .add(`addMany ${N_LOG_N} balanced`, () => {
+    const arr = randomIntArray(N_LOG_N);
+    bst.addMany(arr);
+  })
+  .add(`get ${N_LOG_N}`, () => {
+    for (let i = 0; i < N_LOG_N; i++) bst.get(randomInt(-N_LOG_N, N_LOG_N));
   });
+
+export {suite};

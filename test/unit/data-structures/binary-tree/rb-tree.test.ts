@@ -1,5 +1,5 @@
-import {RBTNColor, RBTreeNode, RedBlackTree, NIL} from '../../../../src';
-import {getRandomInt} from '../../../utils';
+import {NIL, RBTNColor, RBTreeNode, RedBlackTree} from '../../../../src';
+import {randomInt} from '../../../utils';
 import {isDebugTest} from '../../../config';
 
 const isDebug = isDebugTest;
@@ -428,8 +428,8 @@ describe('RedBlackTree', () => {
 
   it('should fix the tree after insertion and deletion', () => {
     for (let i = 0; i < 100; i++) {
-      tree.insert(getRandomInt(-100, 1000));
-      tree.delete(getRandomInt(-100, 1000));
+      tree.insert(randomInt(-100, 1000));
+      tree.delete(randomInt(-100, 1000));
     }
   });
 });

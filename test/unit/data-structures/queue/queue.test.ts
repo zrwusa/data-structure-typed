@@ -1,5 +1,5 @@
 import {LinkedListQueue, Queue} from '../../../../src';
-import {bigO, magnitude} from '../../../utils';
+import {bigO} from '../../../utils';
 import {isDebugTest} from '../../../config';
 
 const isDebug = isDebugTest;
@@ -14,23 +14,6 @@ describe('Queue Operation Test', () => {
       last = queue.dequeue();
     }
     expect(last).toBe(999);
-  });
-});
-
-describe('Queue Performance Test', () => {
-  it('should numeric queue performance well', function () {
-    const queue = new Queue<number>();
-    for (let i = 0; i < magnitude.LINEAR; i++) {
-      queue.enqueue(i);
-    }
-    let last: number | undefined = 0;
-
-    const startTime = performance.now();
-    for (let i = 0; i < magnitude.LINEAR; i++) {
-      last = queue.dequeue();
-    }
-    expect(last).toBe(magnitude.LINEAR - 1);
-    expect(performance.now() - startTime).toBeLessThan(bigO.LINEAR * 100);
   });
 });
 
@@ -51,24 +34,8 @@ describe('Queue', () => {
     expect(queue.peek()).toBe(1);
     expect(queue.size).toBe(2);
   });
-
-  // it('should shift elements from the front of the queue', () => {
-  //   queue.push(1);
-  //   queue.push(2);
-  //   const shifted = queue.shift();
-  //   expect(shifted).toBe(1);
-  //   expect(queue.peek()).toBe(2);
-  //   expect(queue.size).toBe(1);
-  // });
-  //
-  // it('should peek at the front of the queue', () => {
-  //   queue.push(1);
-  //   queue.push(2);
-  //   expect(queue.peek()).toBe(1);
-  // });
-
-  // Add more test cases for other methods of Queue.
 });
+
 describe('Queue', () => {
   let queue: Queue<number>;
 
@@ -196,8 +163,6 @@ describe('LinkedListQueue', () => {
     queue.enqueue('B');
     expect(queue.peek()).toBe('A');
   });
-
-  // Add more test cases for other methods of LinkedListQueue.
 });
 
 describe('Queue Performance Test', () => {
@@ -224,7 +189,6 @@ describe('Queue Performance Test', () => {
     for (let i = 0; i < dataSize; i++) {
       queue2.shift();
     }
-    console.log(`Array Performance Test: ${performance.now() - startTime2} ms`);
     expect(performance.now() - startTime2).toBeLessThan(bigO.CUBED * 100);
   });
 
@@ -237,7 +201,7 @@ describe('Queue Performance Test', () => {
     for (let i = 0; i < dataSize; i++) {
       queue.dequeue();
     }
-    console.log(`LinkedListQueue Performance Test: ${performance.now() - startTime} ms`);
+    // console.log(`LinkedListQueue Performance Test: ${performance.now() - startTime} ms`);
     expect(performance.now() - startTime).toBeLessThan(bigO.LINEAR * 100);
   });
 });

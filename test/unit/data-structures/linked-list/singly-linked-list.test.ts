@@ -1,5 +1,4 @@
 import {SinglyLinkedList, SinglyLinkedListNode} from '../../../../src';
-import {bigO, magnitude} from '../../../utils';
 
 describe('SinglyLinkedListNode', () => {
   it('should SinglyLinkedList', () => {
@@ -395,26 +394,6 @@ describe('SinglyLinkedList Operation Test', () => {
   });
 });
 
-describe('SinglyLinkedList Performance Test', () => {
-  it('should the push and pop methods adhere to a time complexity of O(n) and executed correctly under large scale data', () => {
-    const list = new SinglyLinkedList<number>();
-
-    const startPushTime = performance.now();
-    for (let i = 0; i < magnitude.LINEAR; i++) {
-      list.push(i);
-    }
-    expect(performance.now() - startPushTime).toBeLessThan(bigO.LINEAR * 20);
-
-    const startPopTime = performance.now();
-
-    for (let i = 0; i < magnitude.LINEAR; i++) {
-      list.pop();
-    }
-
-    // expect(performance.now() - startPopTime).toBeLessThan(bigO.LINEAR);
-    expect(performance.now() - startPopTime).toBeLessThan(bigO.LINEAR * 400);
-  });
-});
 describe('SinglyLinkedList', () => {
   let list: SinglyLinkedList<number>;
 

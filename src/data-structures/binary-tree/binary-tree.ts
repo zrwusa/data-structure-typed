@@ -179,7 +179,10 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
       while (queue.size > 0) {
         const cur = queue.shift();
         if (cur) {
-          if (newNode && cur.key === newNode.key) return;
+          if (newNode && cur.key === newNode.key) {
+            cur.value = newNode.value;
+            return;
+          }
           const inserted = this._addTo(newNode, cur);
           if (inserted !== undefined) return inserted;
           if (cur.left) queue.push(cur.left);
@@ -201,16 +204,16 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
       return;
     }
 
-    const key = typeof keyOrNode === 'number' ? keyOrNode : keyOrNode ? keyOrNode.key : undefined;
-    const existNode = key !== undefined ? this.getNode(key, (node: N) => node.key) : undefined;
+    // const key = typeof keyOrNode === 'number' ? keyOrNode : keyOrNode ? keyOrNode.key : undefined;
+    // const existNode = key !== undefined ? this.getNode(key, (node: N) => node.key) : undefined;
 
     if (this.root) {
-      if (existNode) {
-        existNode.value = value;
-        inserted = existNode;
-      } else {
-        inserted = _bfs(this.root, needInsert);
-      }
+      // if (existNode) {
+      //   existNode.value = value;
+      //   inserted = existNode;
+      // } else {
+      inserted = _bfs(this.root, needInsert);
+      // }
     } else {
       this._setRoot(needInsert);
       if (needInsert !== null) {

@@ -104,6 +104,7 @@ function drawTable(arr: any[]): string {
   function drawRow(headers: string[], rowObj: any): string {
     return '<td>' + headers.map(header => rowObj[header]).join('</td><td>') + '</td>';
   }
+
   const cols = Object.keys(arr[0]);
   const content = arr.map(rowObj => drawRow(cols, rowObj));
   const headingHtml = '<tr><th>' + cols.join('</th><th>') + '</th></tr>';

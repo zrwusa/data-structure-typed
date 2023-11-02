@@ -916,3 +916,32 @@ optimal approach to data structure design.
 </tbody>
 </table>
 
+## Benchmark
+<div class="json-to-html-collapse clearfix 0">
+      <div class='collapsible level0' ><span class='json-to-html-label'>avl-tree</span></div>
+      <div class="content"><table><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>executed times</th><th>sample mean (secs)</th><th>sample deviation</th></tr><tr><td>add 1000 randomly</td><td>2.39</td><td>418.91</td><td>22</td><td>0.00</td><td>6.47e-5</td></tr><tr><td>delete 1000 randomly</td><td>0.06</td><td>1.77e+4</td><td>917</td><td>5.66e-5</td><td>1.90e-6</td></tr><tr><td>addMany 1000</td><td>3.32</td><td>301.33</td><td>17</td><td>0.00</td><td>5.90e-4</td></tr><tr><td>get 1000</td><td>55.03</td><td>18.17</td><td>1</td><td>0.06</td><td>0.00</td></tr></table></div>
+    </div><div class="json-to-html-collapse clearfix 0">
+      <div class='collapsible level0' ><span class='json-to-html-label'>binary-tree</span></div>
+      <div class="content"><table><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>executed times</th><th>sample mean (secs)</th><th>sample deviation</th></tr><tr><td>add 1000</td><td>66.49</td><td>15.04</td><td>3</td><td>0.07</td><td>0.00</td></tr><tr><td>delete 1000</td><td>24.04</td><td>41.60</td><td>1106</td><td>0.02</td><td>0.04</td></tr><tr><td>addMany 1000</td><td>9.05</td><td>110.44</td><td>6</td><td>0.01</td><td>2.88e-4</td></tr><tr><td>get 1000</td><td>32.12</td><td>31.13</td><td>2</td><td>0.03</td><td>6.75e-4</td></tr></table></div>
+    </div><div class="json-to-html-collapse clearfix 0">
+      <div class='collapsible level0' ><span class='json-to-html-label'>bst</span></div>
+      <div class="content"><table><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>executed times</th><th>sample mean (secs)</th><th>sample deviation</th></tr><tr><td>add 1000 randomly</td><td>2.27</td><td>440.62</td><td>23</td><td>0.00</td><td>1.42e-4</td></tr><tr><td>delete 1000 randomly</td><td>0.05</td><td>2.19e+4</td><td>1174</td><td>4.57e-5</td><td>1.97e-6</td></tr><tr><td>addMany 1000 balanced</td><td>2.93</td><td>341.38</td><td>19</td><td>0.00</td><td>1.13e-4</td></tr><tr><td>get 1000</td><td>62.85</td><td>15.91</td><td>1</td><td>0.06</td><td>0.01</td></tr></table></div>
+    </div><div class="json-to-html-collapse clearfix 0">
+      <div class='collapsible level0' ><span class='json-to-html-label'>heap</span></div>
+      <div class="content"><table><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>executed times</th><th>sample mean (secs)</th><th>sample deviation</th></tr><tr><td>add & 1000</td><td>0.35</td><td>2878.39</td><td>149</td><td>3.47e-4</td><td>1.93e-5</td></tr><tr><td>fib add & pop 1000</td><td>3.98</td><td>251.35</td><td>14</td><td>0.00</td><td>1.32e-4</td></tr></table></div>
+    </div><div class="json-to-html-collapse clearfix 0">
+      <div class='collapsible level0' ><span class='json-to-html-label'>doubly-linked-list</span></div>
+      <div class="content"><table><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>executed times</th><th>sample mean (secs)</th><th>sample deviation</th></tr><tr><td>unshift 1000000</td><td>193.19</td><td>5.18</td><td>1</td><td>0.19</td><td>0.04</td></tr><tr><td>unshift & shift 1000000</td><td>170.35</td><td>5.87</td><td>1</td><td>0.17</td><td>0.03</td></tr><tr><td>insertBefore 1000</td><td>0.03</td><td>3.43e+4</td><td>1888</td><td>2.91e-5</td><td>6.03e-6</td></tr></table></div>
+    </div><div class="json-to-html-collapse clearfix 0">
+      <div class='collapsible level0' ><span class='json-to-html-label'>singly-linked-list</span></div>
+      <div class="content"><table><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>executed times</th><th>sample mean (secs)</th><th>sample deviation</th></tr><tr><td>push & pop 1000</td><td>1.79</td><td>560.08</td><td>29</td><td>0.00</td><td>7.70e-5</td></tr><tr><td>insertBefore 1000</td><td>2.31</td><td>433.45</td><td>22</td><td>0.00</td><td>5.52e-5</td></tr></table></div>
+    </div><div class="json-to-html-collapse clearfix 0">
+      <div class='collapsible level0' ><span class='json-to-html-label'>max-priority-queue</span></div>
+      <div class="content"><table><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>executed times</th><th>sample mean (secs)</th><th>sample deviation</th></tr><tr><td>refill & poll 1000000</td><td>1859.40</td><td>0.54</td><td>1</td><td>1.86</td><td>0.03</td></tr></table></div>
+    </div><div class="json-to-html-collapse clearfix 0">
+      <div class='collapsible level0' ><span class='json-to-html-label'>deque</span></div>
+      <div class="content"><table><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>executed times</th><th>sample mean (secs)</th><th>sample deviation</th></tr><tr><td>push 1000000</td><td>215.00</td><td>4.65</td><td>1</td><td>0.22</td><td>0.01</td></tr><tr><td>shift 1000000</td><td>25.04</td><td>39.94</td><td>3</td><td>0.03</td><td>0.00</td></tr></table></div>
+    </div><div class="json-to-html-collapse clearfix 0">
+      <div class='collapsible level0' ><span class='json-to-html-label'>queue</span></div>
+      <div class="content"><table><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>executed times</th><th>sample mean (secs)</th><th>sample deviation</th></tr><tr><td>push 1000000</td><td>41.81</td><td>23.92</td><td>2</td><td>0.04</td><td>0.00</td></tr><tr><td>push & shift 1000000</td><td>79.17</td><td>12.63</td><td>1</td><td>0.08</td><td>8.70e-4</td></tr></table></div>
+    </div>

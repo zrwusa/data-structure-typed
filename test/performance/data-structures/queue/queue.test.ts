@@ -1,20 +1,25 @@
 import {Queue} from '../../../../src';
-
 import * as Benchmark from 'benchmark';
+import {magnitude} from '../../../utils';
 
-export const suite = new Benchmark.Suite();
+const suite = new Benchmark.Suite();
+const {LINEAR} = magnitude;
 
 suite
-  .add('push 1000000', () => {
+  .add(`push ${LINEAR}`, () => {
     const queue = new Queue<number>();
-    for (let i = 0; i < 1000000; i++) {
+
+    for (let i = 0; i < LINEAR; i++) {
       queue.push(i);
     }
   })
-  .add('push & shift 1000000', () => {
+  .add(`push & shift ${LINEAR}`, () => {
     const queue = new Queue<number>();
-    for (let i = 0; i < 1000000; i++) {
+
+    for (let i = 0; i < LINEAR; i++) {
       queue.push(i);
       queue.shift();
     }
   });
+
+export {suite};

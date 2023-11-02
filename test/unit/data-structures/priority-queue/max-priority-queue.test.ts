@@ -1,5 +1,4 @@
 import {MaxPriorityQueue} from '../../../../src';
-import {bigO, magnitude} from '../../../utils';
 
 describe('MaxPriorityQueue Operation Test', () => {
   it('should add elements and maintain heap property', () => {
@@ -70,36 +69,5 @@ describe('MaxPriorityQueue Operation Test', () => {
     expect(maxPQ.poll()?.keyA).toBe(5);
     expect(maxPQ.poll()?.keyA).toBe(3);
     expect(maxPQ.poll()?.keyA).toBe(1);
-  });
-});
-
-describe('MaxPriorityQueue Performance Test', () => {
-  it('should the poll method adheres to a time complexity of O(log n) and executed correctly under large scale distinct data', () => {
-    const nodes = Array.from(
-      new Set<number>(Array.from(new Array(magnitude.LINEAR), () => Math.floor(Math.random() * magnitude.LINEAR * 100)))
-    );
-    expect(nodes.length).toBeGreaterThan(magnitude.LINEAR / 2);
-    const maxPQ = new MaxPriorityQueue<number>();
-    maxPQ.refill(nodes);
-    let prev = Number.MAX_SAFE_INTEGER;
-    const startTime = performance.now();
-    while (maxPQ.size > 0) {
-      const polled = maxPQ.poll();
-      if (polled) {
-        prev = polled;
-      }
-    }
-    const cost = performance.now() - startTime;
-    expect(cost).toBeLessThan(bigO.LINEAR * 30);
-    expect(prev).toBeGreaterThan(0);
-  });
-
-  it('should sorted.length to be the same as original data', () => {
-    // const magnitude = 1000;
-    // const maxPriorityQueue = new MaxPriorityQueue<number>({nodes: Array.from(new Array<number>(magnitude), () => Math.floor(Math.random() * magnitude))});
-    // const nodeCount = maxPriorityQueue.getNodes().length;
-    // const sorted = maxPriorityQueue.sort();
-    //
-    // expect(sorted.length).toBe(nodeCount); // TODO Plan to support sorting of duplicate elements.
   });
 });
