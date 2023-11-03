@@ -11,14 +11,12 @@ const testFiles = fastGlob.sync(path.join(testDir, '**', '*.test.ts'));
 
 const report: {[key: string]: any} = {};
 
-let testFileCount = 0,
-  completedCount = 0;
+let completedCount = 0;
 
 const performanceTests: PerformanceTest[] = [];
-const {GREEN, BOLD, RED, END, YELLOW, CYAN, BG_YELLOW} = Color;
+const {GREEN, BOLD, END, YELLOW, GRAY, CYAN, BG_YELLOW} = Color;
 
 testFiles.forEach((file: string) => {
-  testFileCount++;
   const testName = path.basename(file, '.test.ts');
   const testFunction = require(file);
   const {suite} = testFunction;
@@ -133,7 +131,7 @@ function writeIntoMarkdown(html: string) {
       if (err) {
         console.error('Unable to write to README.md file：', err);
       } else {
-        console.log('The text has been successfully inserted into the README.md file!');
+        console.log('The tables have been successfully inserted into the README.md file!');
       }
     });
   });
@@ -141,29 +139,40 @@ function writeIntoMarkdown(html: string) {
 
 performanceTests.forEach(item => {
   const {suite, testName, file} = item;
-  console.log(`${BG_YELLOW}Running in${END}: ${CYAN}${file}${END}`);
+  const relativeFilePath = path.relative(__dirname, file);
+  const directory = path.dirname(relativeFilePath);
+  const fileName = path.basename(relativeFilePath);
+  console.log(`${BG_YELLOW}Running in${END}: ${GRAY}${directory}/${END}${CYAN}${fileName}${END}`);
 
   if (suite) {
+    let runTime = 0;
     suite
       .on('complete', function (this: Benchmark.Suite) {
         completedCount++;
         report[testName] = {};
-        report[testName].benchmarks = this.map((benchmark: Benchmark) => ({
-          'test name': benchmark.name,
-          'time taken (ms)': numberFix(benchmark.times.period * 1000, 2),
-          'executions per sec': numberFix(benchmark.hz, 2),
-          'executed times': numberFix(benchmark.count, 0),
-          'sample mean (secs)': numberFix(benchmark.stats.mean, 2),
-          'sample deviation': numberFix(benchmark.stats.deviation, 2)
-        }));
+        report[testName].benchmarks = this.map((benchmark: Benchmark) => {
+          runTime += benchmark.times.elapsed;
+          return {
+            'test name': benchmark.name,
+            'time taken (ms)': numberFix(benchmark.times.period * 1000, 2),
+            'executions per sec': numberFix(benchmark.hz, 2),
+            'executed times': numberFix(benchmark.count, 0),
+            'sample mean (secs)': numberFix(benchmark.stats.mean, 2),
+            'sample deviation': numberFix(benchmark.stats.deviation, 2)
+          };
+        });
+
         report[testName].testName = testName;
         const isDone = completedCount === performanceTests.length;
+        runTime = Number(runTime.toFixed(2));
+        const isTimeWarn = runTime > 120;
         console.log(
-          `Files: ${GREEN}${testFileCount}${END} `,
-          `Suites: ${GREEN}${performanceTests.length}${END} `,
-          `Progress: ${isDone ? GREEN : YELLOW}${completedCount}${END}/${isDone ? GREEN : RED}${
+          // `Files: ${GREEN}${testFileCount}${END} `,
+          // `Suites: ${GREEN}${performanceTests.length}${END} `,
+          `Suites Progress: ${isDone ? GREEN : YELLOW}${completedCount}${END}/${isDone ? GREEN : YELLOW}${
             performanceTests.length
-          }${END}`
+          }${END}`,
+          `Time: ${isTimeWarn ? YELLOW : GREEN}${runTime}s${END}`
         );
         if (isDone) {
           composeReport();

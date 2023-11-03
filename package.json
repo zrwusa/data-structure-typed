@@ -1,6 +1,6 @@
 {
   "name": "data-structure-typed",
-  "version": "1.41.4",
+  "version": "1.41.5",
   "description": "Data Structures of Javascript & TypeScript. Binary Tree, BST, Graph, Heap, Priority Queue, Linked List, Queue, Deque, Stack, AVL Tree, Tree Multiset, Trie, Directed Graph, Undirected Graph, Singly Linked List, Doubly Linked List, Max Heap, Max Priority Queue, Min Heap, Min Priority Queue.",
   "main": "dist/cjs/index.js",
   "module": "dist/mjs/index.js",
@@ -41,7 +41,7 @@
     "copy:to-subs": "sh scripts/copy_to_all_subs.sh",
     "publish:subs": "npm run copy:to-subs && sh scripts/publish_all_subs.sh",
     "publish:docs": "sh scripts/publish_docs.sh",
-    "publish:all": "npm run ci && npm publish && npm run publish:docs && npm run publish:subs"
+    "publish:all": "npm run ci && npm run benchmark && npm publish && npm run publish:docs && npm run publish:subs"
   },
   "repository": {
     "type": "git",
@@ -133,9 +133,12 @@
     "UMD",
     "esmodule",
     "java.util",
+    "c++ stl",
     "c++ std",
     "Python collections",
     "System.Collections.Generic",
+    "STL",
+    "stl",
     "STD",
     "std",
     "util",

@@ -3,11 +3,11 @@ import * as Benchmark from 'benchmark';
 import {magnitude} from '../../../utils';
 
 const suite = new Benchmark.Suite();
-const {LINEAR} = magnitude;
+const {TEN_THOUSAND} = magnitude;
 
-suite.add(`refill & poll ${LINEAR}`, () => {
+suite.add(`${TEN_THOUSAND} refill & poll`, () => {
   const nodes = Array.from(
-    new Set<number>(Array.from(new Array(LINEAR), () => Math.floor(Math.random() * LINEAR * 100)))
+    new Set<number>(Array.from(new Array(TEN_THOUSAND), () => Math.floor(Math.random() * TEN_THOUSAND * 100)))
   );
   const maxPQ = new MaxPriorityQueue<number>();
   maxPQ.refill(nodes);

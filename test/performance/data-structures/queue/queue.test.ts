@@ -6,14 +6,14 @@ const suite = new Benchmark.Suite();
 const {LINEAR} = magnitude;
 
 suite
-  .add(`push ${LINEAR}`, () => {
+  .add(`${LINEAR} push`, () => {
     const queue = new Queue<number>();
 
     for (let i = 0; i < LINEAR; i++) {
       queue.push(i);
     }
   })
-  .add(`push & shift ${LINEAR}`, () => {
+  .add(`${LINEAR} push & shift`, () => {
     const queue = new Queue<number>();
 
     for (let i = 0; i < LINEAR; i++) {

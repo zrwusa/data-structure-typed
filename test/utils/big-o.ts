@@ -11,7 +11,13 @@ export const magnitude = {
   N_LOG_N: Math.pow(10, 4 - orderReducedBy),
   SQUARED: Math.pow(10, 3 - orderReducedBy),
   CUBED: Math.pow(10, 2 - orderReducedBy),
-  FACTORIAL: 20 - orderReducedBy
+  FACTORIAL: 20 - orderReducedBy,
+  THOUSAND: 1000,
+  TEN_THOUSAND: 10000,
+  HUNDRED_THOUSAND: 100000,
+  MILLION: 1000000,
+  TEN_MILLION: 10000000,
+  BILLION: 100000000
 };
 
 export const bigO = {

@@ -6,7 +6,7 @@ const suite = new Benchmark.Suite();
 const {N_LOG_N} = magnitude;
 
 suite
-  .add(`push & pop ${N_LOG_N}`, () => {
+  .add(`${N_LOG_N} push & pop`, () => {
     const list = new SinglyLinkedList<number>();
 
     for (let i = 0; i < N_LOG_N; i++) {
@@ -17,7 +17,7 @@ suite
       list.pop();
     }
   })
-  .add(`insertBefore ${N_LOG_N}`, () => {
+  .add(`${N_LOG_N} insertBefore`, () => {
     const singlyList = new SinglyLinkedList<number>();
     let midSinglyNode: SinglyLinkedListNode | null = null;
     const midIndex = Math.floor(N_LOG_N / 2);

@@ -1,1 +1,1 @@
-export const isDebugTest = true;
+export const isDebugTest = false;

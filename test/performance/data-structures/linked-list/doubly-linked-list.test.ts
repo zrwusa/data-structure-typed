@@ -6,14 +6,14 @@ const suite = new Benchmark.Suite();
 const {LINEAR, N_LOG_N} = magnitude;
 
 suite
-  .add(`unshift ${LINEAR}`, () => {
+  .add(`${LINEAR} unshift`, () => {
     const list = new DoublyLinkedList<number>();
 
     for (let i = 0; i < LINEAR; i++) {
       list.unshift(i);
     }
   })
-  .add(`unshift & shift ${LINEAR}`, () => {
+  .add(`${LINEAR} unshift & shift`, () => {
     const list = new DoublyLinkedList<number>();
 
     for (let i = 0; i < LINEAR; i++) {
@@ -23,7 +23,7 @@ suite
       list.shift();
     }
   })
-  .add(`insertBefore ${N_LOG_N}`, () => {
+  .add(`${N_LOG_N} insertBefore`, () => {
     const doublyList = new DoublyLinkedList<number>();
     let midNode: DoublyLinkedListNode | null = null;
     const midIndex = Math.floor(N_LOG_N / 2);

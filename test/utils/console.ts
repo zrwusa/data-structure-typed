@@ -17,6 +17,7 @@ export const Color = {
   YELLOW: '\x1b[33m',
   BLUE: '\x1b[34m',
   MAGENTA: '\x1b[35m',
+  GRAY: '\x1b[90m',
   CYAN: '\x1b[36m',
   WHITE: '\x1b[37m',
   BG_BLACK: '\x1b[40m',

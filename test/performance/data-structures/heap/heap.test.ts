@@ -6,7 +6,7 @@ const suite = new Benchmark.Suite();
 const {N_LOG_N} = magnitude;
 
 suite
-  .add(`add & ${N_LOG_N}`, () => {
+  .add(`${N_LOG_N} add & pop`, () => {
     const heap = new Heap<number>({comparator: (a, b) => b - a});
 
     for (let i = 0; i < N_LOG_N; i++) {
@@ -17,7 +17,7 @@ suite
       heap.pop();
     }
   })
-  .add(`fib add & pop ${N_LOG_N}`, () => {
+  .add(`${N_LOG_N} fib add & pop`, () => {
     const fbHeap = new FibonacciHeap<number>();
     for (let i = 1; i <= N_LOG_N; i++) {
       fbHeap.push(i);
