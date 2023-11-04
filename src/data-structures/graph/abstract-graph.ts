@@ -10,7 +10,6 @@ import {PriorityQueue} from '../priority-queue';
 import type {DijkstraResult, VertexKey} from '../../types';
 import {IGraph} from '../../interfaces';
 import {Queue} from '../queue';
-import * as console from "console";
 
 export abstract class AbstractVertex<V = any> {
   key: VertexKey;
@@ -255,7 +254,6 @@ export abstract class AbstractGraph<
         }
       }
     }
-    console.log('999999', JSON.stringify(paths));
     return paths;
   }
 
