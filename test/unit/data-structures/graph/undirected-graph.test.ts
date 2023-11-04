@@ -161,15 +161,16 @@ describe('UndirectedGraph', () => {
     const allPaths = graph.getAllPathsBetween('Intersection_1','Intersection_5');
     expect(allPaths.length).toBe(1000);
     const minWeightedPathDFS = graph.getMinPathBetween('Intersection_1','Intersection_5', true, true);
+    expect(minWeightedPathDFS?.[0]?.key).toBe('Intersection_1');
+    expect(minWeightedPathDFS?.[5]?.key).toBe('Intersection_42');
+    expect(minWeightedPathDFS?.[8]?.key).toBe('Intersection_18');
+    expect(minWeightedPathDFS?.[27]?.key).toBe('Intersection_6');
     const minWeightedPath = graph.dijkstra('Intersection_1','Intersection_5', true, true);
-    expect(minWeightedPathDFS?.[0].key).toBe('Intersection_1');
-    expect(minWeightedPathDFS?.[5].key).toBe('Intersection_42');
-    expect(minWeightedPathDFS?.[8].key).toBe('Intersection_18');
-    expect(minWeightedPathDFS?.[31].key).toBe('Intersection_5');
-    expect(minWeightedPath?.minPath?.[0].key).toBe('Intersection_1')
-    expect(minWeightedPath?.minPath?.[1].key).toBe('Intersection_2')
-    expect(minWeightedPath?.minPath?.[2].key).toBe('Intersection_3')
-    expect(minWeightedPath?.minPath?.[3].key).toBe('Intersection_4')
-    expect(minWeightedPath?.minPath?.[4].key).toBe('Intersection_5')
+
+    expect(minWeightedPath?.minPath?.[0]?.key).toBe('Intersection_1')
+    expect(minWeightedPath?.minPath?.[1]?.key).toBe('Intersection_2')
+    expect(minWeightedPath?.minPath?.[2]?.key).toBe('Intersection_3')
+    expect(minWeightedPath?.minPath?.[3]?.key).toBe('Intersection_4')
+    expect(minWeightedPath?.minPath?.[4]?.key).toBe('Intersection_5')
   });
 });
