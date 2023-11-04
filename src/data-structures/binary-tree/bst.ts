@@ -217,33 +217,6 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   }
 
   /**
-   * The function returns the first node in the binary tree that matches the given node property and
-   * callback.
-   * @param {ReturnType<C> | N} identifier - The `nodeProperty` parameter is used to specify the
-   * property of the binary tree node that you want to search for. It can be either a specific key
-   * value (`BTNKey`) or a custom callback function (`BTNCallback<N>`) that determines
-   * whether a node matches the desired property.
-   * @param callback - The `callback` parameter is a function that is used to determine whether a node
-   * matches the desired property. It takes a node as input and returns a boolean value indicating
-   * whether the node matches the property or not. If no callback function is provided, the default
-   * callback function `_defaultCallbackByKey` is used
-   * @param beginRoot - The `beginRoot` parameter is the starting point for the search. It specifies
-   * the root node from which the search should begin.
-   * @param iterationType - The `iterationType` parameter is used to specify the type of iteration to
-   * be performed when searching for nodes in the binary tree. It can have one of the following values:
-   * @returns either the first node that matches the given nodeProperty and callback, or null if no
-   * matching node is found.
-   */
-  override getNode<C extends BTNCallback<N>>(
-    identifier: ReturnType<C> | null,
-    callback: C = this.defaultOneParamCallback as C,
-    beginRoot = this.root,
-    iterationType = this.iterationType
-  ): N | null {
-    return this.getNodes(identifier, callback, true, beginRoot, iterationType)[0] ?? null;
-  }
-
-  /**
    * The function `lastKey` returns the key of the rightmost node if the comparison result is less
    * than, the key of the leftmost node if the comparison result is greater than, and the key of the
    * rightmost node otherwise.

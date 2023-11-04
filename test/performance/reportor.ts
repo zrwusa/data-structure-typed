@@ -92,46 +92,49 @@ const composeReport = () => {
       });
     }
   }
+  htmlTables += `
+
+`;
   html += htmlTables;
   html += `</div>
                     </body>
                   </html>`;
-  writeIntoMarkdown(htmlTables);
+  replaceMarkdownContent(
+    '[//]: # (Start of Replace Section)', // Start tag
+    '[//]: # (End of Replace Section)', // end identifier
+    htmlTables // New content to be inserted
+  );
   fs.writeFileSync(htmlFilePath, html);
   console.log(`Performance ${BOLD}${GREEN}report${END} file generated`);
 };
-
-function writeIntoMarkdown(html: string) {
+function replaceMarkdownContent(startMarker: string, endMarker: string, newText: string) {
   const parentDirectory = path.resolve(__dirname, '../..'); // The path to the parent directory
-  const markdownFilePath = path.join(parentDirectory, 'README.md'); // Path to README.md file
-  const textToInsert = html;
-
-  // Read the original README.md file
-  fs.readFile(markdownFilePath, 'utf8', (err, data) => {
+  const filePath = path.join(parentDirectory, 'README.md'); // Path to README.md file
+  fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {
-      console.error('Unable to read README.md file：', err);
+      console.error(`Unable to read ${filePath}:`, err);
       return;
     }
 
-    // Find the location in the README.md file where you want to insert the text, for example under a specific tag
-    const insertMarker = '## Benchmark';
+    // Find the start and end markers in the content
+    const startIndex = data.indexOf(startMarker);
+    const endIndex = data.indexOf(endMarker, startIndex + 1);
 
-    const index = data.indexOf(insertMarker);
-    if (index === -1) {
-      console.error('Unable to find insertion point');
+    if (startIndex === -1 || endIndex === -1) {
+      console.error('Unable to find start or end marker');
       return;
     }
 
-    // insert text
+    // Replace the old content with the new text
     const updatedMarkdown =
-      data.slice(0, index + insertMarker.length) + '\n' + textToInsert + data.slice(index + insertMarker.length);
+      data.slice(0, startIndex + startMarker.length) + '\n' + newText + data.slice(endIndex);
 
-    // Try writing the modified content back to the README.md file
-    fs.writeFile(markdownFilePath, updatedMarkdown, 'utf8', err => {
+    // Try writing the modified content back to the file
+    fs.writeFile(filePath, updatedMarkdown, 'utf8', (err) => {
       if (err) {
-        console.error('Unable to write to README.md file：', err);
+        console.error(`Unable to write to ${filePath}:`, err);
       } else {
-        console.log('The tables have been successfully inserted into the README.md file!');
+        console.log(`The content has been successfully replaced in ${filePath}!`);
       }
     });
   });
