@@ -1,6 +1,6 @@
 import {UndirectedEdge, UndirectedGraph, UndirectedVertex} from '../../../../src';
-import saltyVertexes  from './SaltyGateStreetIntersections.json';
-import saltyEdges  from './SaltyGateStreetConnections.json';
+import saltyVertexes  from './salty-vertexes.json';
+import saltyEdges  from './salty-edges.json';
 
 describe('UndirectedGraph Operation Test', () => {
   let graph: UndirectedGraph;
@@ -149,17 +149,20 @@ describe('UndirectedGraph', () => {
     expect(degreeOfC).toBe(1);
   });
 
-  // it('xxx', () => {
-  //   const start = performance.now();
-  //   const graph = new UndirectedGraph<{ fromFeatureId: number; name: string; parentName: string; distanceFromParent: number; coordinates: number[]; }, number >()
-  //   for (const v of saltyVertexes) {
-  //     graph.addVertex(v.name, v);
-  //   }
-  //   for (const e of saltyEdges) {
-  //     const [s,d] = e;
-  //     graph.addEdge( s.name, d.name, d.distanceFromParent );
-  //   }
-  //   const result = graph.getAllPathsBetween('Intersection_1','Intersection_5');
-  //   console.log('---xxx', performance.now() - start, result)
-  // })
+  it('xxx', () => {
+    // const start = performance.now();
+    const graph = new UndirectedGraph<{ name: string }, number >()
+    for (const v of saltyVertexes) {
+      graph.addVertex(v.name, v);
+    }
+    for (const e of saltyEdges) {
+      const [s,d] = e;
+      graph.addEdge( s.name, d.name, d.weight );
+    }
+    // const result = graph.getAllPathsBetween('Intersection_1','Intersection_5');
+    // console.log('---xxx', performance.now() - start, result)
+    // const result = graph.dijkstra('Intersection_1','Intersection_5', true, true);
+    // console.log('---xxx', performance.now() - start, result)
+
+  })
 });

@@ -233,8 +233,8 @@ export abstract class AbstractGraph<
       return [];
     }
 
-    const dfs = (cur: VO, dest: VO, visiting: Map<VO, boolean>, path: VO[]) => {
-      visiting.set(cur, true);
+    const dfs = (cur: VO, dest: VO, visiting: Set<VO>, path: VO[]) => {
+      visiting.add(cur);
 
       if (cur === dest) {
         paths.push([vertex1, ...path]);
@@ -242,17 +242,17 @@ export abstract class AbstractGraph<
 
       const neighbors = this.getNeighbors(cur);
       for (const neighbor of neighbors) {
-        if (!visiting.get(neighbor)) {
+        if (!visiting.has(neighbor)) {
           path.push(neighbor);
           dfs(neighbor, dest, visiting, path);
-          arrayRemove(path, (vertex: VO) => vertex === neighbor);
+          path.pop();
         }
       }
 
-      visiting.set(cur, false);
+      visiting.delete(cur);
     };
 
-    dfs(vertex1, vertex2, new Map<VO, boolean>(), []);
+    dfs(vertex1, vertex2, new Set<VO>(), []);
     return paths;
   }
 
