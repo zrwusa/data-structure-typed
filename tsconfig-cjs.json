@@ -2,8 +2,12 @@
   "extends": "./tsconfig-base.json",
   "compilerOptions": {
     "module": "CommonJS",
+    "moduleResolution": "node",
     "outDir": "dist/cjs",
     "target": "ES2015",
     "sourceMap": true
-  }
+  },
+  "include": [
+    "./src/**/*.ts"
+  ]
 }

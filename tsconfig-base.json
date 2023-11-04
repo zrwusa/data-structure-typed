@@ -1,27 +1,23 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "allowSyntheticDefaultImports": true,
-    "baseUrl": "src",
-    "declaration": true,
-    "esModuleInterop": true,
-    "inlineSourceMap": false,
-    "lib": ["esnext"],
-    "listEmittedFiles": false,
-    "listFiles": false,
-    "moduleResolution": "node",
-    "noFallthroughCasesInSwitch": true,
-    "pretty": true,
-    "resolveJsonModule": true,
-    "rootDir": "src",
-    "skipLibCheck": true,
-    "strict": true,
-    "traceResolution": false,
-    "types": ["node", "jest"]
+    "allowJs": true,                      // Allow the compiler to compile JavaScript files (.js).
+    "allowSyntheticDefaultImports": true, // Allow synthetic default imports to improve module interoperability.
+    "baseUrl": "./",                      // Specify the base path of the root directory for module import.
+    "declaration": true,                  // Generate declaration files (.d.ts) for type checking and code hints.
+    "esModuleInterop": true,              // Enable ECMAScript module interop for correct handling of CommonJS modules.
+    "inlineSourceMap": false,             // Whether to map inline sources to compiled JavaScript files.
+    "lib": ["esnext"],                    // Specify the standard library version of the compilation target.
+    "listEmittedFiles": false,            // List generated output files.
+    "listFiles": false,                   // List source files compiled by the compiler.
+    "noFallthroughCasesInSwitch": true,   // Forced to check whether the case statement in the switch statement has the fallthrough mark.
+    "pretty": true,                       // Output a pretty error message.
+    "resolveJsonModule": true,            // Enable parsing of the JSON module.
+    "rootDir": "./",                      // Specify the root directory of the source files in the project.
+    "skipLibCheck": true,                 // Skip type checking of type libraries.
+    "strict": true,                       // Enable strict type checking, including enabling all strict options.
+    "traceResolution": false,             // Whether to trace the module resolution process.
+    "types": ["node", "jest"]             // Specifies the name of the type declaration file to include.
   },
-  "compileOnSave": false,
-  "exclude": ["node_modules", "dist"],
-  "include": [
-    "./src/**/*.ts",  // Include your .ts files
-  ]
+  "compileOnSave": false,                 // Whether to automatically compile when saving.
+  "exclude": ["node_modules", "dist"],    // Specify files or directories that should not be included in the compilation.
 }

@@ -141,6 +141,8 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     return this._size;
   }
 
+  protected defaultOneParamCallback = (node: N) => node.key;
+  
   /**
    * Creates a new instance of BinaryTreeNode with the given key and value.
    * @param {BTNKey} key - The key for the new node.
@@ -284,11 +286,11 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * @param callback - The `callback` parameter is a function that takes a node as input and returns a
    * value. This value is compared with the `identifier` parameter to determine if the node should be
    * included in the result. The `callback` parameter has a default value of
-   * `((node: N) => node.key)`, which
+   * `this.defaultOneParamCallback`, which
    */
   delete<C extends BTNCallback<N>>(
     identifier: ReturnType<C> | null,
-    callback: C = ((node: N) => node.key) as C
+    callback: C = this.defaultOneParamCallback as C
   ): BinaryTreeDeletedResult<N>[] {
     const bstDeletedResult: BinaryTreeDeletedResult<N>[] = [];
     if (!this.root) return bstDeletedResult;
@@ -506,7 +508,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * @param callback - The `callback` parameter is a function that takes a node as input and returns a
    * value. This value is compared with the `identifier` parameter to determine if the node should be
    * included in the result. The `callback` parameter has a default value of
-   * `((node: N) => node.key)`, which
+   * `this.defaultOneParamCallback`, which
    * @param [onlyOne=false] - A boolean value indicating whether to stop searching after finding the
    * first node that matches the identifier. If set to true, the function will return an array with
    * only one element (or an empty array if no matching node is found). If set to false (default), the
@@ -520,7 +522,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    */
   getNodes<C extends BTNCallback<N>>(
     identifier: ReturnType<C> | null,
-    callback: C = ((node: N) => node.key) as C,
+    callback: C = this.defaultOneParamCallback as C,
     onlyOne = false,
     beginRoot: N | null = this.root,
     iterationType = this.iterationType
@@ -588,7 +590,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * @param callback - The `callback` parameter is a function that is used to determine whether a node
    * matches the desired criteria. It takes a node as input and returns a boolean value indicating
    * whether the node matches the criteria or not. The default callback function
-   * `((node: N) => node.key)` is used if no callback function is
+   * `this.defaultOneParamCallback` is used if no callback function is
    * @param beginRoot - The `beginRoot` parameter is the starting point for the search. It specifies
    * the node from which the search should begin. By default, it is set to `this.root`, which means the
    * search will start from the root node of the binary tree. However, you can provide a different node
@@ -599,7 +601,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    */
   has<C extends BTNCallback<N>>(
     identifier: ReturnType<C> | null,
-    callback: C = ((node: N) => node.key) as C,
+    callback: C = this.defaultOneParamCallback as C,
     beginRoot = this.root,
     iterationType = this.iterationType
   ): boolean {
@@ -637,7 +639,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * @param callback - The `callback` parameter is a function that is used to determine whether a node
    * matches the desired criteria. It takes a node as input and returns a boolean value indicating
    * whether the node matches the criteria or not. The default callback function
-   * (`((node: N) => node.key)`) is used if no callback function is
+   * (`this.defaultOneParamCallback`) is used if no callback function is
    * @param beginRoot - The `beginRoot` parameter is the starting point for the search. It specifies
    * the root node from which the search should begin.
    * @param iterationType - The `iterationType` parameter specifies the type of iteration to be
@@ -646,7 +648,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    */
   getNode<C extends BTNCallback<N>>(
     identifier: ReturnType<C> | null,
-    callback: C = ((node: N) => node.key) as C,
+    callback: C = this.defaultOneParamCallback as C,
     beginRoot = this.root,
     iterationType = this.iterationType
   ): N | null {
@@ -684,7 +686,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * @param callback - The `callback` parameter is a function that is used to determine whether a node
    * matches the desired criteria. It takes a node as input and returns a boolean value indicating
    * whether the node matches the criteria or not. The default callback function
-   * (`((node: N) => node.key)`) is used if no callback function is
+   * (`this.defaultOneParamCallback`) is used if no callback function is
    * @param beginRoot - The `beginRoot` parameter is the starting point for the search. It specifies
    * the root node from which the search should begin.
    * @param iterationType - The `iterationType` parameter specifies the type of iteration to be
@@ -693,7 +695,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    */
   get<C extends BTNCallback<N>>(
     identifier: ReturnType<C> | null,
-    callback: C = ((node: N) => node.key) as C,
+    callback: C = this.defaultOneParamCallback as C,
     beginRoot = this.root,
     iterationType = this.iterationType
   ): V | undefined {
@@ -859,7 +861,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * @returns The function `subTreeTraverse` returns an array of `ReturnType<BTNCallback<N>>`.
    */
   subTreeTraverse<C extends BTNCallback<N>>(
-    callback: C = ((node: N) => node.key) as C,
+    callback: C = this.defaultOneParamCallback as C,
     beginRoot: BTNKey | N | null = this.root,
     iterationType = this.iterationType
   ): ReturnType<C>[] {
@@ -895,7 +897,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * function on each node according to a specified order pattern.
    * @param callback - The `callback` parameter is a function that will be called on each node during
    * the depth-first search traversal. It takes a node as input and returns a value. The default value
-   * is `((node: N) => node.key)`, which is a callback function defined elsewhere in the code.
+   * is `this.defaultOneParamCallback`, which is a callback function defined elsewhere in the code.
    * @param {DFSOrderPattern} [pattern=in] - The `pattern` parameter determines the order in which the
    * nodes are visited during the depth-first search. There are three possible values for `pattern`:
    * @param {N | null} beginRoot - The `beginRoot` parameter is the starting node for the depth-first
@@ -906,7 +908,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * @returns The function `dfs` returns an array of `ReturnType<BTNCallback<N>>` values.
    */
   dfs<C extends BTNCallback<N>>(
-    callback: C = ((node: N) => node.key) as C,
+    callback: C = this.defaultOneParamCallback as C,
     pattern: DFSOrderPattern = 'in',
     beginRoot: N | null = this.root,
     iterationType: IterationType = IterationType.ITERATIVE
@@ -981,7 +983,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * function on each node.
    * @param callback - The `callback` parameter is a function that will be called for each node in the
    * breadth-first search. It takes a node of type `N` as its argument and returns a value of type
-   * `ReturnType<BTNCallback<N>>`. The default value for this parameter is `((node: N) => node.key)
+   * `ReturnType<BTNCallback<N>>`. The default value for this parameter is `this.defaultOneParamCallback
    * @param {N | null} beginRoot - The `beginRoot` parameter is the starting node for the breadth-first
    * search. It determines from which node the search will begin. If `beginRoot` is `null`, the search
    * will not be performed and an empty array will be returned.
@@ -990,7 +992,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * @returns The function `bfs` returns an array of `ReturnType<BTNCallback<N>>[]`.
    */
   bfs<C extends BTNCallback<N>>(
-    callback: C = ((node: N) => node.key) as C,
+    callback: C = this.defaultOneParamCallback as C,
     beginRoot: N | null = this.root,
     iterationType = this.iterationType
   ): ReturnType<C>[] {
@@ -1047,7 +1049,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * function `C` applied to the nodes at that level.
    */
   listLevels<C extends BTNCallback<N>>(
-    callback: C = ((node: N) => node.key) as C,
+    callback: C = this.defaultOneParamCallback as C,
     beginRoot: N | null = this.root,
     iterationType = this.iterationType
   ): ReturnType<C>[][] {
@@ -1126,7 +1128,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * algorithm and returns an array of values obtained by applying a callback function to each node.
    * @param callback - The `callback` parameter is a function that will be called on each node in the
    * tree. It takes a node of type `N` as input and returns a value of type `ReturnType<BTNCallback<N>>`. The
-   * default value for this parameter is `((node: N) => node.key)`.
+   * default value for this parameter is `this.defaultOneParamCallback`.
    * @param {DFSOrderPattern} [pattern=in] - The `pattern` parameter in the `morris` function
    * determines the order in which the nodes of a binary tree are traversed. It can have one of the
    * following values:
@@ -1136,7 +1138,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * @returns The `morris` function returns an array of `ReturnType<BTNCallback<N>>` values.
    */
   morris<C extends BTNCallback<N>>(
-    callback: C = ((node: N) => node.key) as C,
+    callback: C = this.defaultOneParamCallback as C,
     pattern: DFSOrderPattern = 'in',
     beginRoot: N | null = this.root
   ): ReturnType<C>[] {

@@ -2,20 +2,20 @@
   "name": "data-structure-typed",
   "version": "1.41.5",
   "description": "Data Structures of Javascript & TypeScript. Binary Tree, BST, Graph, Heap, Priority Queue, Linked List, Queue, Deque, Stack, AVL Tree, Tree Multiset, Trie, Directed Graph, Undirected Graph, Singly Linked List, Doubly Linked List, Max Heap, Max Priority Queue, Min Heap, Min Priority Queue.",
-  "main": "dist/cjs/index.js",
-  "module": "dist/mjs/index.js",
-  "types": "dist/mjs/index.d.ts",
+  "main": "dist/cjs/src/index.js",
+  "module": "dist/mjs/src/index.js",
+  "types": "dist/mjs/src/index.d.ts",
   "umd:main": "dist/umd/data-structure-typed.min.js",
   "exports": {
     ".": {
-      "import": "./dist/mjs/index.js",
-      "require": "./dist/cjs/index.js",
-      "types": "./dist/mjs/index.d.ts"
+      "import": "./dist/mjs/src/index.js",
+      "require": "./dist/cjs/src/index.js",
+      "types": "./dist/mjs/src/index.d.ts"
     }
   },
   "scripts": {
     "build": "npm run build:mjs && npm run build:cjs && npm run build:umd && npm run build:docs",
-    "build:mjs": "rm -rf dist/mjs && tsc -p tsconfig.json",
+    "build:mjs": "rm -rf dist/mjs && tsc -p tsconfig-mjs.json",
     "build:cjs": "rm -rf dist/cjs && tsc -p tsconfig-cjs.json",
     "build:umd": "tsup",
     "build:docs": "typedoc --out docs ./src",

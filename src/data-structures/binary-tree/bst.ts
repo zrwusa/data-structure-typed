@@ -36,7 +36,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
       }
     }
   }
-
+  
   /**
    * The function creates a new binary search tree node with the given key and value.
    * @param {BTNKey} key - The key parameter is the key value that will be associated with
@@ -236,7 +236,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    */
   override getNode<C extends BTNCallback<N>>(
     identifier: ReturnType<C> | null,
-    callback: C = ((node: N) => node.key) as C,
+    callback: C = this.defaultOneParamCallback as C,
     beginRoot = this.root,
     iterationType = this.iterationType
   ): N | null {
@@ -272,7 +272,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * generic type `N`.
    * @param callback - The `callback` parameter is a function that takes a node as input and returns a
    * value. This value is compared with the `nodeProperty` parameter to determine if the node should be
-   * included in the result. The default value for `callback` is `((node: N) => node.key)`, which is
+   * included in the result. The default value for `callback` is `this.defaultOneParamCallback`, which is
    * a
    * @param [onlyOne=false] - A boolean value indicating whether to stop the traversal after finding
    * the first node that matches the nodeProperty. If set to true, the function will return an array
@@ -287,7 +287,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    */
   override getNodes<C extends BTNCallback<N>>(
     identifier: ReturnType<C> | null,
-    callback: C = ((node: N) => node.key) as C,
+    callback: C = this.defaultOneParamCallback as C,
     onlyOne = false,
     beginRoot: N | null = this.root,
     iterationType = this.iterationType
@@ -305,7 +305,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
 
         if (!cur.left && !cur.right) return;
         // TODO potential bug
-        if (callback === ((node: N) => node.key)) {
+        if (callback === this.defaultOneParamCallback) {
           if (this._compare(cur.key, identifier as number) === CP.gt) cur.left && _traverse(cur.left);
           if (this._compare(cur.key, identifier as number) === CP.lt) cur.right && _traverse(cur.right);
         } else {
@@ -326,7 +326,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
             if (onlyOne) return ans;
           }
           // TODO potential bug
-          if (callback === ((node: N) => node.key)) {
+          if (callback === this.defaultOneParamCallback) {
             if (this._compare(cur.key, identifier as number) === CP.gt) cur.left && queue.push(cur.left);
             if (this._compare(cur.key, identifier as number) === CP.lt) cur.right && queue.push(cur.right);
           } else {
@@ -360,7 +360,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * @returns The function `lesserOrGreaterTraverse` returns an array of `ReturnType<BTNCallback<N>>`.
    */
   lesserOrGreaterTraverse<C extends BTNCallback<N>>(
-    callback: C = ((node: N) => node.key) as C,
+    callback: C = this.defaultOneParamCallback as C,
     lesserOrGreater: CP = CP.lt,
     targetNode: BTNKey | N | null = this.root,
     iterationType = this.iterationType
