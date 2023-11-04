@@ -8,12 +8,12 @@ const trie = new Trie();
 const randomWords = getRandomWords(HUNDRED_THOUSAND, false);
 
 suite
-  .add(`${HUNDRED_THOUSAND} push`, () => {
+  .add(`${HUNDRED_THOUSAND.toLocaleString()} push`, () => {
     for (let i = 0; i < randomWords.length; i++) {
       trie.add(randomWords[i]);
     }
   })
-  .add(`${HUNDRED_THOUSAND} getWords`, () => {
+  .add(`${HUNDRED_THOUSAND.toLocaleString()} getWords`, () => {
     for (let i = 0; i < randomWords.length; i++) {
       trie.getWords(randomWords[i]);
     }

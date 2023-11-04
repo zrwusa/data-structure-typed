@@ -126,11 +126,10 @@ function replaceMarkdownContent(startMarker: string, endMarker: string, newText:
     }
 
     // Replace the old content with the new text
-    const updatedMarkdown =
-      data.slice(0, startIndex + startMarker.length) + '\n' + newText + data.slice(endIndex);
+    const updatedMarkdown = data.slice(0, startIndex + startMarker.length) + '\n' + newText + data.slice(endIndex);
 
     // Try writing the modified content back to the file
-    fs.writeFile(filePath, updatedMarkdown, 'utf8', (err) => {
+    fs.writeFile(filePath, updatedMarkdown, 'utf8', err => {
       if (err) {
         console.error(`Unable to write to ${filePath}:`, err);
       } else {
@@ -145,7 +144,7 @@ performanceTests.forEach(item => {
   const relativeFilePath = path.relative(__dirname, file);
   const directory = path.dirname(relativeFilePath);
   const fileName = path.basename(relativeFilePath);
-  console.log(`${BG_YELLOW}Running in${END}: ${GRAY}${directory}/${END}${CYAN}${fileName}${END}`);
+  console.log(`${BG_YELLOW} Running ${END} ${GRAY}${directory}/${END}${CYAN}${fileName}${END}`);
 
   if (suite) {
     let runTime = 0;
@@ -159,8 +158,8 @@ performanceTests.forEach(item => {
             'test name': benchmark.name,
             'time taken (ms)': numberFix(benchmark.times.period * 1000, 2),
             'executions per sec': numberFix(benchmark.hz, 2),
-            'executed times': numberFix(benchmark.count, 0),
-            'sample mean (secs)': numberFix(benchmark.stats.mean, 2),
+            // 'executed times': numberFix(benchmark.count, 0),
+            // 'sample mean (secs)': numberFix(benchmark.stats.mean, 2),
             'sample deviation': numberFix(benchmark.stats.deviation, 2)
           };
         });

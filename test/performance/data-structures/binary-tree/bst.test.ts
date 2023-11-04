@@ -4,17 +4,17 @@ import {getRandomIntArray, magnitude} from '../../../utils';
 
 const suite = new Benchmark.Suite();
 const bst = new BST<number>();
-const {N_LOG_N} = magnitude;
-const arr = getRandomIntArray(N_LOG_N, 0, N_LOG_N, true);
+const {TEN_THOUSAND} = magnitude;
+const arr = getRandomIntArray(TEN_THOUSAND, 0, TEN_THOUSAND, true);
 
 suite
-  .add(`${N_LOG_N} add randomly`, () => {
+  .add(`${TEN_THOUSAND.toLocaleString()} add randomly`, () => {
     bst.clear();
     for (let i = 0; i < arr.length; i++) {
       bst.add(arr[i]);
     }
   })
-  .add(`${N_LOG_N} add & delete randomly`, () => {
+  .add(`${TEN_THOUSAND.toLocaleString()} add & delete randomly`, () => {
     bst.clear();
     for (let i = 0; i < arr.length; i++) {
       bst.add(arr[i]);
@@ -23,11 +23,11 @@ suite
       bst.delete(arr[i]);
     }
   })
-  .add(`${N_LOG_N} addMany`, () => {
+  .add(`${TEN_THOUSAND.toLocaleString()} addMany`, () => {
     bst.clear();
     bst.addMany(arr);
   })
-  .add(`${N_LOG_N} get`, () => {
+  .add(`${TEN_THOUSAND.toLocaleString()} get`, () => {
     for (let i = 0; i < arr.length; i++) {
       bst.get(arr[i]);
     }

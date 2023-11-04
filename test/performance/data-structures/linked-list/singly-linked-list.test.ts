@@ -3,25 +3,25 @@ import * as Benchmark from 'benchmark';
 import {magnitude} from '../../../utils';
 
 const suite = new Benchmark.Suite();
-const {N_LOG_N} = magnitude;
+const {TEN_THOUSAND} = magnitude;
 
 suite
-  .add(`${N_LOG_N} push & pop`, () => {
+  .add(`${TEN_THOUSAND.toLocaleString()} push & pop`, () => {
     const list = new SinglyLinkedList<number>();
 
-    for (let i = 0; i < N_LOG_N; i++) {
+    for (let i = 0; i < TEN_THOUSAND; i++) {
       list.push(i);
     }
 
-    for (let i = 0; i < N_LOG_N; i++) {
+    for (let i = 0; i < TEN_THOUSAND; i++) {
       list.pop();
     }
   })
-  .add(`${N_LOG_N} insertBefore`, () => {
+  .add(`${TEN_THOUSAND.toLocaleString()} insertBefore`, () => {
     const singlyList = new SinglyLinkedList<number>();
     let midSinglyNode: SinglyLinkedListNode | null = null;
-    const midIndex = Math.floor(N_LOG_N / 2);
-    for (let i = 0; i < N_LOG_N; i++) {
+    const midIndex = Math.floor(TEN_THOUSAND / 2);
+    for (let i = 0; i < TEN_THOUSAND; i++) {
       singlyList.push(i);
       if (i === midIndex) {
         midSinglyNode = singlyList.getNode(i);

@@ -44,6 +44,12 @@ export class RedBlackTree {
     return this._root;
   }
 
+  protected _size: number = 0;
+
+  get size(): number {
+    return this._size;
+  }
+
   /**
    * The `insert` function inserts a new node with a given key into a red-black tree and fixes any
    * violations of the red-black tree properties.
@@ -51,7 +57,7 @@ export class RedBlackTree {
    * the RBTree.
    * @returns The function does not explicitly return anything.
    */
-  insert(key: number): void {
+  add(key: number): void {
     const node: RBTreeNode = new RBTreeNode(key, RBTNColor.RED);
     node.left = NIL;
     node.right = NIL;
@@ -79,20 +85,23 @@ export class RedBlackTree {
 
     if (node.parent === null) {
       node.color = RBTNColor.BLACK;
+      this._size++;
       return;
     }
 
     if (node.parent.parent === null) {
+      this._size++;
       return;
     }
 
     this._fixInsert(node);
+    this._size++;
   }
 
   /**
    * The `delete` function in TypeScript is used to remove a node with a specific key from a red-black
    * tree.
-   * @param {RBTreeNode} node - The `node` parameter is of type `RBTreeNode` and represents the current
+   * @param {number} key - The `node` parameter is of type `RBTreeNode` and represents the current
    * node being processed in the delete operation.
    * @returns The `delete` function does not return anything. It has a return type of `void`.
    */
@@ -113,6 +122,7 @@ export class RedBlackTree {
       }
 
       if (z === NIL) {
+        this._size--;
         return;
       }
 
@@ -144,6 +154,7 @@ export class RedBlackTree {
       if (yOriginalColor === RBTNColor.BLACK) {
         this._fixDelete(x);
       }
+      this._size--;
     };
     helper(this.root);
   }
@@ -239,6 +250,11 @@ export class RedBlackTree {
     }
 
     return y;
+  }
+
+  clear() {
+    this._root = NIL;
+    this._size = 0;
   }
 
   print(beginRoot: RBTreeNode = this.root) {

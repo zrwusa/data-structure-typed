@@ -6,13 +6,13 @@ export const suite = new Benchmark.Suite();
 const {LINEAR} = magnitude;
 
 suite
-  .add(`${LINEAR} push`, () => {
+  .add(`${LINEAR.toLocaleString()} push`, () => {
     const deque = new Deque<number>();
     for (let i = 0; i < LINEAR; i++) {
       deque.push(i);
     }
   })
-  .add(`${LINEAR} shift`, () => {
+  .add(`${LINEAR.toLocaleString()} shift`, () => {
     const deque = new Deque<number>();
     for (let i = 0; i < LINEAR; i++) {
       deque.push(i);

@@ -11,11 +11,11 @@ describe('RedBlackTree', () => {
     tree = new RedBlackTree();
   });
 
-  describe('insert and getNode', () => {
-    test('should insert and find a node in the tree', () => {
-      tree.insert(10);
-      tree.insert(20);
-      tree.insert(5);
+  describe('add and getNode', () => {
+    test('should add and find a node in the tree', () => {
+      tree.add(10);
+      tree.add(20);
+      tree.add(5);
 
       expect(tree.getNode(10)).toBeInstanceOf(RBTreeNode);
       expect(tree.getNode(20)).toBeInstanceOf(RBTreeNode);
@@ -23,9 +23,9 @@ describe('RedBlackTree', () => {
       expect(tree.getNode(15)).toBe(null);
     });
 
-    test('should insert and find nodes with negative keys', () => {
-      tree.insert(-10);
-      tree.insert(-20);
+    test('should add and find nodes with negative keys', () => {
+      tree.add(-10);
+      tree.add(-20);
 
       expect(tree.getNode(-10)).toBeInstanceOf(RBTreeNode);
       expect(tree.getNode(-20)).toBeInstanceOf(RBTreeNode);
@@ -34,18 +34,18 @@ describe('RedBlackTree', () => {
 
   describe('deleteNode', () => {
     test('should delete a node from the tree', () => {
-      tree.insert(10);
-      tree.insert(20);
-      tree.insert(5);
+      tree.add(10);
+      tree.add(20);
+      tree.add(5);
       tree.delete(20);
 
       expect(tree.getNode(20)).toBe(null);
     });
 
     test('should handle deleting a non-existent node', () => {
-      tree.insert(10);
-      tree.insert(20);
-      tree.insert(5);
+      tree.add(10);
+      tree.add(20);
+      tree.add(5);
       tree.delete(15);
 
       expect(tree.getNode(15)).toBe(null);
@@ -54,11 +54,11 @@ describe('RedBlackTree', () => {
 
   describe('minimum', () => {
     test('should find the minimum node in the tree', () => {
-      tree.insert(10);
-      tree.insert(20);
-      tree.insert(5);
-      tree.insert(15);
-      tree.insert(3);
+      tree.add(10);
+      tree.add(20);
+      tree.add(5);
+      tree.add(15);
+      tree.add(3);
 
       const minNode = tree.getLeftMost(tree.root);
       expect(minNode.key).toBe(3);
@@ -72,11 +72,11 @@ describe('RedBlackTree', () => {
 
   describe('getRightMost', () => {
     test('should find the getRightMost node in the tree', () => {
-      tree.insert(10);
-      tree.insert(20);
-      tree.insert(5);
-      tree.insert(15);
-      tree.insert(25);
+      tree.add(10);
+      tree.add(20);
+      tree.add(5);
+      tree.add(15);
+      tree.add(25);
 
       const maxNode = tree.getRightMost(tree.root);
       expect(maxNode.key).toBe(25);
@@ -90,11 +90,11 @@ describe('RedBlackTree', () => {
 
   describe('getSuccessor', () => {
     test('should find the getSuccessor of a node', () => {
-      tree.insert(10);
-      tree.insert(20);
-      tree.insert(5);
-      tree.insert(15);
-      tree.insert(25);
+      tree.add(10);
+      tree.add(20);
+      tree.add(5);
+      tree.add(15);
+      tree.add(25);
 
       const node = tree.getNode(15);
       const successorNode = tree.getSuccessor(node);
@@ -103,8 +103,8 @@ describe('RedBlackTree', () => {
     });
 
     test('should handle a node with no getSuccessor', () => {
-      tree.insert(10);
-      tree.insert(5);
+      tree.add(10);
+      tree.add(5);
 
       const node = tree.getNode(10);
       const successorNode = tree.getSuccessor(node);
@@ -115,11 +115,11 @@ describe('RedBlackTree', () => {
 
   describe('getPredecessor', () => {
     test('should find the getPredecessor of a node', () => {
-      tree.insert(10);
-      tree.insert(20);
-      tree.insert(5);
-      tree.insert(15);
-      tree.insert(25);
+      tree.add(10);
+      tree.add(20);
+      tree.add(5);
+      tree.add(15);
+      tree.add(25);
 
       const node = tree.getNode(20);
       const predecessorNode = tree.getPredecessor(node);
@@ -128,8 +128,8 @@ describe('RedBlackTree', () => {
     });
 
     test('should handle a node with no getPredecessor', () => {
-      tree.insert(10);
-      tree.insert(20);
+      tree.add(10);
+      tree.add(20);
 
       const node = tree.getNode(20);
       const predecessorNode = tree.getPredecessor(node);
@@ -146,69 +146,69 @@ describe('RedBlackTree', () => {
     tree = new RedBlackTree();
   });
 
-  it('should insert nodes into the tree', () => {
-    tree.insert(10);
+  it('should add nodes into the tree', () => {
+    tree.add(10);
     expect(tree.getNode(10)).toBeDefined();
-    tree.insert(20);
+    tree.add(20);
     expect(tree.getNode(20)).toBeDefined();
-    tree.insert(5);
+    tree.add(5);
     expect(tree.getNode(5)).toBeDefined();
   });
 
   it('should delete nodes from the tree', () => {
-    tree.insert(10);
-    tree.insert(20);
-    tree.insert(5);
+    tree.add(10);
+    tree.add(20);
+    tree.add(5);
     tree.delete(20);
     expect(tree.getNode(20)).toBe(null);
   });
 
   it('should get the successor of a node', () => {
-    tree.insert(10);
-    tree.insert(20);
+    tree.add(10);
+    tree.add(20);
     const node = tree.getNode(10);
     const successor = tree.getSuccessor(node);
     expect(successor?.key).toBe(20);
   });
 
   it('should get the predecessor of a node', () => {
-    tree.insert(10);
-    tree.insert(20);
+    tree.add(10);
+    tree.add(20);
     const node = tree.getNode(20);
     const predecessor = tree.getPredecessor(node);
     expect(predecessor?.key).toBe(10);
   });
 
   it('should rotate nodes to the left', () => {
-    tree.insert(10);
-    tree.insert(20);
-    tree.insert(5);
+    tree.add(10);
+    tree.add(20);
+    tree.add(5);
     const node = tree.getNode(10);
-    tree.insert(15);
+    tree.add(15);
     // Verify that rotation has occurred
     expect(node.left.key).toBe(5);
     expect(node.right.key).toBe(20);
   });
 
   it('should rotate nodes to the right', () => {
-    tree.insert(10);
-    tree.insert(20);
-    tree.insert(5);
+    tree.add(10);
+    tree.add(20);
+    tree.add(5);
     const node = tree.getNode(20);
-    tree.insert(25);
+    tree.add(25);
     // Verify that rotation has occurred
     expect(node.left.key).toBe(0);
     expect(node.right.key).toBe(25);
   });
 
   it('should all node attributes fully conform to the red-black tree standards.', () => {
-    tree.insert(10);
-    tree.insert(20);
-    tree.insert(5);
-    tree.insert(15);
-    tree.insert(21);
-    tree.insert(6);
-    tree.insert(2);
+    tree.add(10);
+    tree.add(20);
+    tree.add(5);
+    tree.add(15);
+    tree.add(21);
+    tree.add(6);
+    tree.add(2);
 
     let node10F = tree.getNode(10);
     let node20F = tree.getNode(20);
@@ -344,31 +344,31 @@ describe('RedBlackTree', () => {
   });
 
   it('should fix the tree after insertion', () => {
-    tree.insert(1);
-    tree.insert(2);
-    tree.insert(5);
-    tree.insert(15);
+    tree.add(1);
+    tree.add(2);
+    tree.add(5);
+    tree.add(15);
     const node15F = tree.getNode(15);
     expect(node15F.left).toBe(NIL);
     expect(node15F.right).toBe(NIL);
     expect(node15F.parent).toBe(tree.getNode(5));
 
-    tree.insert(25);
-    tree.insert(10);
-    tree.insert(8);
-    tree.insert(28);
-    tree.insert(111);
-    tree.insert(12);
+    tree.add(25);
+    tree.add(10);
+    tree.add(8);
+    tree.add(28);
+    tree.add(111);
+    tree.add(12);
     tree.delete(2);
-    tree.insert(22);
-    tree.insert(50);
-    tree.insert(155);
-    tree.insert(225);
+    tree.add(22);
+    tree.add(50);
+    tree.add(155);
+    tree.add(225);
     const node225F = tree.getNode(225);
     expect(node225F.left).toBe(NIL);
     expect(node225F.right).toBe(NIL);
     expect(node225F.parent.key).toBe(155);
-    tree.insert(7);
+    tree.add(7);
 
     const node15S = tree.getNode(15);
     expect(node15S.left.key).toBe(8);
@@ -382,9 +382,9 @@ describe('RedBlackTree', () => {
     const node15T = tree.getNode(15);
     expect(node15T).toBe(null);
 
-    tree.insert(23);
-    tree.insert(33);
-    tree.insert(15);
+    tree.add(23);
+    tree.add(33);
+    tree.add(15);
 
     const nodeLM = tree.getLeftMost();
     expect(nodeLM.key).toBe(1);
@@ -402,33 +402,33 @@ describe('RedBlackTree', () => {
     expect(node225S.right).toBe(NIL);
     expect(node225S.parent.key).toBe(155);
     expect(tree.getNode(0)).toBe(null);
-    tree.insert(1);
-    tree.insert(2);
-    tree.insert(3);
-    tree.insert(4);
-    tree.insert(5);
-    tree.insert(6);
-    tree.insert(7);
-    tree.insert(8);
-    tree.insert(9);
-    tree.insert(10);
-    tree.insert(11);
-    tree.insert(12);
-    tree.insert(13);
-    tree.insert(14);
-    tree.insert(15);
-    tree.insert(16);
-    tree.insert(17);
-    tree.insert(18);
-    tree.insert(19);
-    tree.insert(110);
+    tree.add(1);
+    tree.add(2);
+    tree.add(3);
+    tree.add(4);
+    tree.add(5);
+    tree.add(6);
+    tree.add(7);
+    tree.add(8);
+    tree.add(9);
+    tree.add(10);
+    tree.add(11);
+    tree.add(12);
+    tree.add(13);
+    tree.add(14);
+    tree.add(15);
+    tree.add(16);
+    tree.add(17);
+    tree.add(18);
+    tree.add(19);
+    tree.add(110);
 
     isDebug && tree.print();
   });
 
   it('should fix the tree after insertion and deletion', () => {
     for (let i = 0; i < 100; i++) {
-      tree.insert(getRandomInt(-100, 1000));
+      tree.add(getRandomInt(-100, 1000));
       tree.delete(getRandomInt(-100, 1000));
     }
   });

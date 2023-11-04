@@ -3,17 +3,17 @@ import * as Benchmark from 'benchmark';
 import {magnitude} from '../../../utils';
 
 const suite = new Benchmark.Suite();
-const {LINEAR, N_LOG_N} = magnitude;
+const {LINEAR} = magnitude;
 
 suite
-  .add(`${LINEAR} unshift`, () => {
+  .add(`${LINEAR.toLocaleString()} unshift`, () => {
     const list = new DoublyLinkedList<number>();
 
     for (let i = 0; i < LINEAR; i++) {
       list.unshift(i);
     }
   })
-  .add(`${LINEAR} unshift & shift`, () => {
+  .add(`${LINEAR.toLocaleString()} unshift & shift`, () => {
     const list = new DoublyLinkedList<number>();
 
     for (let i = 0; i < LINEAR; i++) {
@@ -23,11 +23,11 @@ suite
       list.shift();
     }
   })
-  .add(`${N_LOG_N} insertBefore`, () => {
+  .add(`${LINEAR.toLocaleString()} insertBefore`, () => {
     const doublyList = new DoublyLinkedList<number>();
     let midNode: DoublyLinkedListNode | null = null;
-    const midIndex = Math.floor(N_LOG_N / 2);
-    for (let i = 0; i < N_LOG_N; i++) {
+    const midIndex = Math.floor(LINEAR / 2);
+    for (let i = 0; i < LINEAR; i++) {
       doublyList.push(i);
       if (i === midIndex) {
         midNode = doublyList.getNode(i);

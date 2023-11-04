@@ -36,7 +36,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
       }
     }
   }
-  
+
   /**
    * The function creates a new binary search tree node with the given key and value.
    * @param {BTNKey} key - The key parameter is the key value that will be associated with

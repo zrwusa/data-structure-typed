@@ -142,7 +142,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   }
 
   protected defaultOneParamCallback = (node: N) => node.key;
-  
+
   /**
    * Creates a new instance of BinaryTreeNode with the given key and value.
    * @param {BTNKey} key - The key for the new node.
