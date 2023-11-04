@@ -149,8 +149,7 @@ describe('UndirectedGraph', () => {
     expect(degreeOfC).toBe(1);
   });
 
-  it('xxx', () => {
-    // const start = performance.now();
+  it('should getAllPathsBetween work well in 66 vertexes 97 edges graph', () => {
     const graph = new UndirectedGraph<{name: string}, number>();
     for (const v of saltyVertexes) {
       graph.addVertex(v.name, v);
@@ -159,9 +158,18 @@ describe('UndirectedGraph', () => {
       const [s, d] = e;
       graph.addEdge(s.name, d.name, d.weight);
     }
-    // const result = graph.getAllPathsBetween('Intersection_1','Intersection_5');
-    // console.log('---xxx', performance.now() - start, result)
-    // const result = graph.dijkstra('Intersection_1','Intersection_5', true, true);
-    // console.log('---xxx', performance.now() - start, result)
+    const allPaths = graph.getAllPathsBetween('Intersection_1','Intersection_5');
+    expect(allPaths.length).toBe(1000);
+    const minWeightedPathDFS = graph.getMinPathBetween('Intersection_1','Intersection_5', true, true);
+    const minWeightedPath = graph.dijkstra('Intersection_1','Intersection_5', true, true);
+    expect(minWeightedPathDFS?.[0].key).toBe('Intersection_1');
+    expect(minWeightedPathDFS?.[5].key).toBe('Intersection_42');
+    expect(minWeightedPathDFS?.[8].key).toBe('Intersection_18');
+    expect(minWeightedPathDFS?.[31].key).toBe('Intersection_5');
+    expect(minWeightedPath?.minPath?.[0].key).toBe('Intersection_1')
+    expect(minWeightedPath?.minPath?.[1].key).toBe('Intersection_2')
+    expect(minWeightedPath?.minPath?.[2].key).toBe('Intersection_3')
+    expect(minWeightedPath?.minPath?.[3].key).toBe('Intersection_4')
+    expect(minWeightedPath?.minPath?.[4].key).toBe('Intersection_5')
   });
 });

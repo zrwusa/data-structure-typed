@@ -1,15 +1,16 @@
 /**
  * data-structure-typed
  *
- * @author Kirk Qi
- * @copyright Copyright (c) 2022 Kirk Qi <qilinaus@gmail.com>
+ * @author Tyler Zeng
+ * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import {arrayRemove, uuidV4} from '../../utils';
+import {uuidV4} from '../../utils';
 import {PriorityQueue} from '../priority-queue';
 import type {DijkstraResult, VertexKey} from '../../types';
 import {IGraph} from '../../interfaces';
 import {Queue} from '../queue';
+import * as console from "console";
 
 export abstract class AbstractVertex<V = any> {
   key: VertexKey;
@@ -223,38 +224,43 @@ export abstract class AbstractGraph<
    * @param {VO | VertexKey} v1 - The parameter `v1` represents either a vertex object (`VO`) or a vertex ID (`VertexKey`).
    * It is the starting vertex for finding paths.
    * @param {VO | VertexKey} v2 - The parameter `v2` represents either a vertex object (`VO`) or a vertex ID (`VertexKey`).
+   * @param limit - The count of limitation of result array.
    * @returns The function `getAllPathsBetween` returns an array of arrays of vertices (`VO[][]`).
    */
-  getAllPathsBetween(v1: VO | VertexKey, v2: VO | VertexKey): VO[][] {
+  getAllPathsBetween(v1: VO | VertexKey, v2: VO | VertexKey, limit = 1000): VO[][] {
     const paths: VO[][] = [];
     const vertex1 = this._getVertex(v1);
     const vertex2 = this._getVertex(v2);
+
     if (!(vertex1 && vertex2)) {
       return [];
     }
 
-    const dfs = (cur: VO, dest: VO, visiting: Set<VO>, path: VO[]) => {
-      visiting.add(cur);
+    const stack: { vertex: VO, path: VO[] }[] = [];
+    stack.push({ vertex: vertex1, path: [vertex1] });
 
-      if (cur === dest) {
-        paths.push([vertex1, ...path]);
+    while (stack.length > 0) {
+      const { vertex, path } = stack.pop()!;
+
+      if (vertex === vertex2) {
+        paths.push(path);
+        if (paths.length >= limit) return paths;
       }
 
-      const neighbors = this.getNeighbors(cur);
+      const neighbors = this.getNeighbors(vertex);
       for (const neighbor of neighbors) {
-        if (!visiting.has(neighbor)) {
-          path.push(neighbor);
-          dfs(neighbor, dest, visiting, path);
-          path.pop();
+        if (!path.includes(neighbor)) {
+          const newPath = [...path, neighbor];
+          stack.push({ vertex: neighbor, path: newPath });
         }
       }
-
-      visiting.delete(cur);
-    };
-
-    dfs(vertex1, vertex2, new Set<VO>(), []);
+    }
+    console.log('999999', JSON.stringify(paths));
     return paths;
   }
+
+
+
 
   /**
    * The function calculates the sum of weights along a given path.
@@ -338,38 +344,43 @@ export abstract class AbstractGraph<
    * @param {boolean} [isWeight] - A boolean flag indicating whether to consider the weight of edges in finding the
    * minimum path. If set to true, the function will use Dijkstra's algorithm to find the minimum weighted path. If set
    * to false, the function will use breadth-first search (BFS) to find the minimum path.
+   * @param isDFS - If set to true, it enforces the use of getAllPathsBetween to first obtain all possible paths,
+   * followed by iterative computation of the shortest path. This approach may result in exponential time complexity,
+   * so the default method is to use the Dijkstra algorithm to obtain the shortest weighted path.
    * @returns The function `getMinPathBetween` returns an array of vertices (`VO[]`) representing the minimum path between
    * two vertices (`v1` and `v2`). If there is no path between the vertices, it returns `null`.
    */
-  getMinPathBetween(v1: VO | VertexKey, v2: VO | VertexKey, isWeight?: boolean): VO[] | null {
+  getMinPathBetween(v1: VO | VertexKey, v2: VO | VertexKey, isWeight?: boolean, isDFS = false): VO[] | null {
     if (isWeight === undefined) isWeight = false;
 
     if (isWeight) {
-      const allPaths = this.getAllPathsBetween(v1, v2);
-      let min = Infinity;
-      let minIndex = -1;
-      let index = 0;
-      for (const path of allPaths) {
-        const pathSumWeight = this.getPathSumWeight(path);
-        if (pathSumWeight < min) {
-          min = pathSumWeight;
-          minIndex = index;
+      if (isDFS) {
+        const allPaths = this.getAllPathsBetween(v1, v2, 10000);
+        let min = Infinity;
+        let minIndex = -1;
+        let index = 0;
+        for (const path of allPaths) {
+          const pathSumWeight = this.getPathSumWeight(path);
+          if (pathSumWeight < min) {
+            min = pathSumWeight;
+            minIndex = index;
+          }
+          index++;
         }
-        index++;
+        return allPaths[minIndex] || null;
+      } else {
+        return this.dijkstra(v1, v2, true, true)?.minPath ?? [];
       }
-      return allPaths[minIndex] || null;
+
     } else {
-      // BFS
+      // DFS
       let minPath: VO[] = [];
       const vertex1 = this._getVertex(v1);
       const vertex2 = this._getVertex(v2);
-      if (!(vertex1 && vertex2)) {
-        return [];
-      }
+      if (!(vertex1 && vertex2)) return [];
 
-      const dfs = (cur: VO, dest: VO, visiting: Map<VO, boolean>, path: VO[]) => {
-        visiting.set(cur, true);
-
+      const dfs = (cur: VO, dest: VO, visiting: Set<VO>, path: VO[]) => {
+        visiting.add(cur);
         if (cur === dest) {
           minPath = [vertex1, ...path];
           return;
@@ -377,17 +388,17 @@ export abstract class AbstractGraph<
 
         const neighbors = this.getNeighbors(cur);
         for (const neighbor of neighbors) {
-          if (!visiting.get(neighbor)) {
+          if (!visiting.has(neighbor)) {
             path.push(neighbor);
             dfs(neighbor, dest, visiting, path);
-            arrayRemove(path, (vertex: VO) => vertex === neighbor);
+            path.pop();
           }
         }
 
-        visiting.set(cur, false);
+        visiting.delete(cur);
       };
 
-      dfs(vertex1, vertex2, new Map<VO, boolean>(), []);
+      dfs(vertex1, vertex2, new Set<VO>(), []);
       return minPath;
     }
   }
