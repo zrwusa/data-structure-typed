@@ -108,8 +108,7 @@ export class BinaryTreeNode<V = any, N extends BinaryTreeNode<V, N> = BinaryTree
  * @template N - The type of the binary tree's nodes.
  */
 export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode<V, BinaryTreeNodeNested<V>>>
-  implements IBinaryTree<V, N>
-{
+  implements IBinaryTree<V, N> {
   iterationType: IterationType = IterationType.ITERATIVE;
 
   /**
@@ -391,7 +390,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
         return -1;
       }
 
-      const stack: {node: N; depth: number}[] = [{node: beginRoot, depth: 0}];
+      const stack: { node: N; depth: number }[] = [{node: beginRoot, depth: 0}];
       let maxHeight = 0;
 
       while (stack.length > 0) {
@@ -846,6 +845,27 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     return this.isSubtreeBST(this.root, iterationType);
   }
 
+  subTreeTraverse<C extends BTNCallback<N>>(
+    callback?: C,
+    beginRoot?: BTNKey | N | null,
+    iterationType?: IterationType,
+    includeNull?: false
+  ): ReturnType<C>[]
+
+  subTreeTraverse<C extends BTNCallback<N>>(
+    callback?: C,
+    beginRoot?: BTNKey | N | null,
+    iterationType?: IterationType,
+    includeNull?: undefined
+  ): ReturnType<C>[]
+
+  subTreeTraverse<C extends BTNCallback<N | null>>(
+    callback?: C,
+    beginRoot?: BTNKey | N | null,
+    iterationType?: IterationType,
+    includeNull?: true
+  ): ReturnType<C>[]
+
   /**
    * The function `subTreeTraverse` traverses a binary tree and applies a callback function to each
    * node, either recursively or iteratively.
@@ -858,39 +878,78 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * start from the root of the tree.
    * @param iterationType - The `iterationType` parameter determines the type of traversal to be
    * performed on the binary tree. It can have two possible values:
+   * @param includeNull - The choice to output null values during binary tree traversal should be provided.
    * @returns The function `subTreeTraverse` returns an array of `ReturnType<BTNCallback<N>>`.
    */
-  subTreeTraverse<C extends BTNCallback<N>>(
+  subTreeTraverse<C extends BTNCallback<N | null>>(
     callback: C = this.defaultOneParamCallback as C,
     beginRoot: BTNKey | N | null = this.root,
-    iterationType = this.iterationType
+    iterationType = this.iterationType,
+    includeNull = false
   ): ReturnType<C>[] {
     if (typeof beginRoot === 'number') beginRoot = this.getNode(beginRoot);
 
-    const ans: ReturnType<BTNCallback<N>>[] = [];
+    const ans: (ReturnType<BTNCallback<N>> | null)[] = [];
     if (!beginRoot) return ans;
 
     if (iterationType === IterationType.RECURSIVE) {
-      const _traverse = (cur: N) => {
-        ans.push(callback(cur));
-        cur.left && _traverse(cur.left);
-        cur.right && _traverse(cur.right);
+      const _traverse = (cur: N | null) => {
+        if (cur !== undefined) {
+          ans.push(callback(cur));
+          if (includeNull) {
+            cur !== null && cur.left !== undefined && _traverse(cur.left);
+            cur !== null && cur.right !== undefined && _traverse(cur.right);
+          } else {
+            cur !== null && cur.left && _traverse(cur.left);
+            cur !== null && cur.right && _traverse(cur.right);
+          }
+        }
       };
 
       _traverse(beginRoot);
     } else {
-      const stack: N[] = [beginRoot];
+      const stack: (N| null)[] = [beginRoot];
 
       while (stack.length > 0) {
-        const cur = stack.pop()!;
-
-        ans.push(callback(cur));
-        cur.right && stack.push(cur.right);
-        cur.left && stack.push(cur.left);
+        const cur = stack.pop();
+        if (cur !== undefined) {
+          ans.push(callback(cur));
+          if (includeNull) {
+            cur !== null && cur.right !== undefined && stack.push(cur.right);
+            cur !== null && cur.left !== undefined && stack.push(cur.left);
+          } else {
+            cur !== null && cur.right && stack.push(cur.right);
+            cur !== null && cur.left && stack.push(cur.left);
+          }
+        }
       }
     }
     return ans;
   }
+
+  dfs<C extends BTNCallback<N>>(
+    callback?: C,
+    pattern?: DFSOrderPattern,
+    beginRoot?: N | null,
+    iterationType?: IterationType,
+    includeNull?: false
+  ): ReturnType<C>[]
+
+  dfs<C extends BTNCallback<N>>(
+    callback?: C,
+    pattern?: DFSOrderPattern,
+    beginRoot?: N | null,
+    iterationType?: IterationType,
+    includeNull?: undefined
+  ): ReturnType<C>[]
+
+  dfs<C extends BTNCallback<N | null>>(
+    callback?: C,
+    pattern?: DFSOrderPattern,
+    beginRoot?: N | null,
+    iterationType?: IterationType,
+    includeNull?: true
+  ): ReturnType<C>[]
 
   /**
    * The `dfs` function performs a depth-first search traversal on a binary tree, executing a callback
@@ -905,34 +964,53 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * is `null`, an empty array will be returned.
    * @param {IterationType} iterationType - The `iterationType` parameter determines the type of
    * iteration used in the depth-first search algorithm. It can have two possible values:
+   * @param includeNull - The choice to output null values during binary tree traversal should be provided.
    * @returns The function `dfs` returns an array of `ReturnType<BTNCallback<N>>` values.
    */
-  dfs<C extends BTNCallback<N>>(
+  dfs<C extends BTNCallback<N | null>>(
     callback: C = this.defaultOneParamCallback as C,
     pattern: DFSOrderPattern = 'in',
     beginRoot: N | null = this.root,
-    iterationType: IterationType = IterationType.ITERATIVE
+    iterationType: IterationType = IterationType.ITERATIVE,
+    includeNull = false
   ): ReturnType<C>[] {
     if (!beginRoot) return [];
-    const ans: ReturnType<BTNCallback<N>>[] = [];
+    const ans: ReturnType<C>[] = [];
     if (iterationType === IterationType.RECURSIVE) {
-      const _traverse = (node: N) => {
+      const _traverse = (node: N | null) => {
         switch (pattern) {
           case 'in':
-            if (node.left) _traverse(node.left);
-            ans.push(callback(node));
-            if (node.right) _traverse(node.right);
+            if (includeNull) {
+              if (node !== null && node.left !== undefined) _traverse(node.left);
+              ans.push(callback(node));
+              if (node !== null && node.right !== undefined) _traverse(node.right);
+            } else {
+              if (node !== null && node.left) _traverse(node.left);
+              ans.push(callback(node));
+              if (node !== null && node.right) _traverse(node.right);
+            }
             break;
           case 'pre':
-            ans.push(callback(node));
-
-            if (node.left) _traverse(node.left);
-            if (node.right) _traverse(node.right);
+            if (includeNull) {
+              ans.push(callback(node));
+              if (node !== null && node.left !== undefined) _traverse(node.left);
+              if (node !== null && node.right !== undefined) _traverse(node.right);
+            } else {
+              ans.push(callback(node));
+              if (node !== null && node.left) _traverse(node.left);
+              if (node !== null && node.right) _traverse(node.right);
+            }
             break;
           case 'post':
-            if (node.left) _traverse(node.left);
-            if (node.right) _traverse(node.right);
-            ans.push(callback(node));
+            if (includeNull) {
+              if (node !== null && node.left !== undefined) _traverse(node.left);
+              if (node !== null && node.right !== undefined) _traverse(node.right);
+              ans.push(callback(node));
+            } else {
+              if (node !== null && node.left) _traverse(node.left);
+              if (node !== null && node.right) _traverse(node.right);
+              ans.push(callback(node));
+            }
 
             break;
         }
@@ -941,34 +1019,39 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
       _traverse(beginRoot);
     } else {
       // 0: visit, 1: print
-      const stack: {opt: 0 | 1; node: N | null | undefined}[] = [{opt: 0, node: beginRoot}];
+      const stack: { opt: 0 | 1; node: N | null | undefined }[] = [{opt: 0, node: beginRoot}];
 
       while (stack.length > 0) {
         const cur = stack.pop();
-        if (!cur || !cur.node) continue;
+        if (cur === undefined) continue;
+        if (includeNull) {
+          if (cur.node === undefined) continue;
+        } else {
+          if (cur.node === null || cur.node === undefined) continue;
+        }
         if (cur.opt === 1) {
           ans.push(callback(cur.node));
         } else {
           switch (pattern) {
             case 'in':
-              stack.push({opt: 0, node: cur.node.right});
+              cur.node && stack.push({opt: 0, node: cur.node.right});
               stack.push({opt: 1, node: cur.node});
-              stack.push({opt: 0, node: cur.node.left});
+              cur.node && stack.push({opt: 0, node: cur.node.left});
               break;
             case 'pre':
-              stack.push({opt: 0, node: cur.node.right});
-              stack.push({opt: 0, node: cur.node.left});
+              cur.node && stack.push({opt: 0, node: cur.node.right});
+              cur.node && stack.push({opt: 0, node: cur.node.left});
               stack.push({opt: 1, node: cur.node});
               break;
             case 'post':
               stack.push({opt: 1, node: cur.node});
-              stack.push({opt: 0, node: cur.node.right});
-              stack.push({opt: 0, node: cur.node.left});
+              cur.node && stack.push({opt: 0, node: cur.node.right});
+              cur.node && stack.push({opt: 0, node: cur.node.left});
               break;
             default:
-              stack.push({opt: 0, node: cur.node.right});
+              cur.node && stack.push({opt: 0, node: cur.node.right});
               stack.push({opt: 1, node: cur.node});
-              stack.push({opt: 0, node: cur.node.left});
+              cur.node && stack.push({opt: 0, node: cur.node.left});
               break;
           }
         }
@@ -977,6 +1060,27 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
 
     return ans;
   }
+
+  bfs<C extends BTNCallback<N>>(
+    callback?: C,
+    beginRoot?: N | null,
+    iterationType?: IterationType,
+    includeNull?: false
+  ): ReturnType<C>[]
+
+  bfs<C extends BTNCallback<N>>(
+    callback?: C,
+    beginRoot?: N | null,
+    iterationType?: IterationType,
+    includeNull?: undefined
+  ): ReturnType<C>[]
+
+  bfs<C extends BTNCallback<N | null>>(
+    callback?: C,
+    beginRoot?: N | null,
+    iterationType?: IterationType,
+    includeNull?: true
+  ): ReturnType<C>[]
 
   /**
    * The bfs function performs a breadth-first search traversal on a binary tree, executing a callback
@@ -989,19 +1093,21 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * will not be performed and an empty array will be returned.
    * @param iterationType - The `iterationType` parameter determines the type of iteration to be used
    * in the breadth-first search (BFS) algorithm. It can have two possible values:
+   * @param includeNull - The choice to output null values during binary tree traversal should be provided.
    * @returns The function `bfs` returns an array of `ReturnType<BTNCallback<N>>[]`.
    */
-  bfs<C extends BTNCallback<N>>(
+  bfs<C extends BTNCallback<N | null>>(
     callback: C = this.defaultOneParamCallback as C,
     beginRoot: N | null = this.root,
-    iterationType = this.iterationType
+    iterationType = this.iterationType,
+    includeNull = false
   ): ReturnType<C>[] {
     if (!beginRoot) return [];
 
     const ans: ReturnType<BTNCallback<N>>[] = [];
 
     if (iterationType === IterationType.RECURSIVE) {
-      const queue = new Queue<N>([beginRoot]);
+      const queue: Queue<N | null> = new Queue<N | null>([beginRoot]);
 
       const traverse = (level: number) => {
         if (queue.size === 0) return;
@@ -1009,15 +1115,21 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
         const current = queue.shift()!;
         ans.push(callback(current));
 
-        if (current.left) queue.push(current.left);
-        if (current.right) queue.push(current.right);
+        if (includeNull) {
+          if (current && current.left !== undefined) queue.push(current.left);
+          if (current && current.right !== undefined) queue.push(current.right);
+        } else {
+          if (current.left) queue.push(current.left);
+          if (current.right) queue.push(current.right);
+        }
+
 
         traverse(level + 1);
       };
 
       traverse(0);
     } else {
-      const queue = new Queue<N>([beginRoot]);
+      const queue = new Queue<N | null>([beginRoot]);
       while (queue.size > 0) {
         const levelSize = queue.size;
 
@@ -1025,13 +1137,40 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
           const current = queue.shift()!;
           ans.push(callback(current));
 
-          if (current.left) queue.push(current.left);
-          if (current.right) queue.push(current.right);
+          if (includeNull) {
+            if (current !== null && current.left !== undefined) queue.push(current.left);
+            if (current !== null && current.right !== undefined) queue.push(current.right);
+          } else {
+            if (current.left) queue.push(current.left);
+            if (current.right) queue.push(current.right);
+          }
+
         }
       }
     }
     return ans;
   }
+
+  listLevels<C extends BTNCallback<N>>(
+    callback?: C ,
+    beginRoot?: N | null ,
+    iterationType?: IterationType,
+    includeNull?: false
+  ): ReturnType<C>[][]
+
+  listLevels<C extends BTNCallback<N>>(
+    callback?: C ,
+    beginRoot?: N | null ,
+    iterationType?: IterationType,
+    includeNull?: undefined
+  ): ReturnType<C>[][]
+
+  listLevels<C extends BTNCallback<N | null>>(
+    callback?: C ,
+    beginRoot?: N | null ,
+    iterationType?: IterationType,
+    includeNull?: true
+  ): ReturnType<C>[][]
 
   /**
    * The `listLevels` function takes a binary tree node and a callback function, and returns an array
@@ -1044,29 +1183,36 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * from the root node of the binary tree.
    * @param iterationType - The `iterationType` parameter determines whether the tree traversal is done
    * recursively or iteratively. It can have two possible values:
+   * @param includeNull - The choice to output null values during binary tree traversal should be provided.
    * @returns The function `listLevels` returns an array of arrays, where each inner array represents a
    * level in a binary tree. Each inner array contains the return type of the provided callback
    * function `C` applied to the nodes at that level.
    */
-  listLevels<C extends BTNCallback<N>>(
+  listLevels<C extends BTNCallback<N | null>>(
     callback: C = this.defaultOneParamCallback as C,
     beginRoot: N | null = this.root,
-    iterationType = this.iterationType
+    iterationType = this.iterationType,
+    includeNull = false
   ): ReturnType<C>[][] {
     if (!beginRoot) return [];
     const levelsNodes: ReturnType<C>[][] = [];
 
     if (iterationType === IterationType.RECURSIVE) {
-      const _recursive = (node: N, level: number) => {
+      const _recursive = (node: N | null, level: number) => {
         if (!levelsNodes[level]) levelsNodes[level] = [];
         levelsNodes[level].push(callback(node));
-        if (node.left) _recursive(node.left, level + 1);
-        if (node.right) _recursive(node.right, level + 1);
+        if (includeNull) {
+          if (node && node.left !== undefined) _recursive(node.left, level + 1);
+          if (node && node.right !== undefined) _recursive(node.right, level + 1);
+        } else  {
+          if (node && node.left) _recursive(node.left, level + 1);
+          if (node && node.right) _recursive(node.right, level + 1);
+        }
       };
 
       _recursive(beginRoot, 0);
     } else {
-      const stack: [N, number][] = [[beginRoot, 0]];
+      const stack: [N | null, number][] = [[beginRoot, 0]];
 
       while (stack.length > 0) {
         const head = stack.pop()!;
@@ -1074,8 +1220,14 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
 
         if (!levelsNodes[level]) levelsNodes[level] = [];
         levelsNodes[level].push(callback(node));
-        if (node.right) stack.push([node.right, level + 1]);
-        if (node.left) stack.push([node.left, level + 1]);
+
+        if (includeNull) {
+          if (node && node.right !== undefined) stack.push([node.right, level + 1]);
+          if (node && node.left !== undefined) stack.push([node.left, level + 1]);
+        } else  {
+          if (node && node.right) stack.push([node.right, level + 1]);
+          if (node && node.left) stack.push([node.left, level + 1]);
+        }
       }
     }
 
@@ -1231,7 +1383,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * @returns The `*[Symbol.iterator]` method returns a generator object that yields the keys of the
    * binary tree nodes in a specific order.
    */
-  *[Symbol.iterator](node = this.root): Generator<BTNKey, void, undefined> {
+  * [Symbol.iterator](node = this.root): Generator<BTNKey, void, undefined> {
     if (!node) {
       return;
     }
