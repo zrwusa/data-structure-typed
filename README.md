@@ -430,7 +430,6 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
 <table>
   <thead>
   <tr>
-    <th>Data Structure</th>
     <th>Data Structure Typed</th>
     <th>C++ STL</th>
     <th>java.util</th>
@@ -439,42 +438,36 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
   </thead>
   <tbody>
   <tr>
-    <td>Dynamic Array</td>
     <td>Array&lt;E&gt;</td>
     <td>vector&lt;T&gt;</td>
     <td>ArrayList&lt;E&gt;</td>
     <td>list</td>
   </tr>
   <tr>
-    <td>Linked List</td>
     <td>DoublyLinkedList&lt;E&gt;</td>
     <td>list&lt;T&gt;</td>
     <td>LinkedList&lt;E&gt;</td>
     <td>deque</td>
   </tr>
   <tr>
-    <td>Singly Linked List</td>
     <td>SinglyLinkedList&lt;E&gt;</td>
     <td>-</td>
     <td>-</td>
     <td>-</td>
   </tr>
   <tr>
-    <td>Set</td>
     <td>Set&lt;E&gt;</td>
     <td>set&lt;T&gt;</td>
     <td>HashSet&lt;E&gt;</td>
     <td>set</td>
   </tr>
   <tr>
-    <td>Map</td>
     <td>Map&lt;K, V&gt;</td>
     <td>map&lt;K, V&gt;</td>
     <td>HashMap&lt;K, V&gt;</td>
     <td>dict</td>
   </tr>
   <tr>
-    <td>Ordered Dictionary</td>
     <td>Map&lt;K, V&gt;</td>
     <td>-</td>
     <td>-</td>
@@ -482,35 +475,30 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
   </tr>
 
   <tr>
-    <td>Queue</td>
     <td>Queue&lt;E&gt;</td>
     <td>queue&lt;T&gt;</td>
     <td>Queue&lt;E&gt;</td>
     <td>-</td>
   </tr>
   <tr>
-    <td>Priority Queue</td>
     <td>PriorityQueue&lt;E&gt;</td>
     <td>priority_queue&lt;T&gt;</td>
     <td>PriorityQueue&lt;E&gt;</td>
     <td>-</td>
   </tr>
   <tr>
-    <td>Heap</td>
     <td>Heap&lt;V&gt;</td>
     <td>priority_queue&lt;T&gt;</td>
     <td>PriorityQueue&lt;E&gt;</td>
     <td>heapq</td>
   </tr>
   <tr>
-    <td>Stack</td>
     <td>Stack&lt;E&gt;</td>
     <td>stack&lt;T&gt;</td>
     <td>Stack&lt;E&gt;</td>
     <td>-</td>
   </tr>
   <tr>
-    <td>Deque</td>
     <td>Deque&lt;E&gt;</td>
     <td>deque&lt;T&gt;</td>
     <td>-</td>
@@ -518,118 +506,101 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
   </tr>
   <tr>
     <td>Trie</td>
-    <td>Trie</td>
     <td>-</td>
     <td>-</td>
     <td>-</td>
   </tr>
   <tr>
-    <td>Unordered Map</td>
     <td>HashMap&lt;K, V&gt;</td>
     <td>unordered_map&lt;K, V&gt;</td>
     <td>HashMap&lt;K, V&gt;</td>
     <td>defaultdict</td>
   </tr>
   <tr>
-    <td>Multiset</td>
     <td>-</td>
     <td>multiset&lt;T&gt;</td>
     <td>-</td>
     <td>-</td>
   </tr>
   <tr>
-    <td>Multimap</td>
     <td>-</td>
     <td>multimap&lt;K, V&gt;</td>
     <td>-</td>
     <td>-</td>
   </tr>
   <tr>
-    <td>Binary Tree</td>
     <td>BinaryTree&lt;K, V&gt;</td>
     <td>-</td>
     <td>-</td>
     <td>-</td>
   </tr>
   <tr>
-    <td>Binary Search Tree</td>
     <td>BST&lt;K, V&gt;</td>
     <td>-</td>
     <td>-</td>
     <td>-</td>
   </tr>
   <tr>
-    <td>Directed Graph</td>
     <td>DirectedGraph&lt;V, E&gt;</td>
     <td>-</td>
     <td>-</td>
     <td>-</td>
   </tr>
   <tr>
-    <td>Undirected Graph</td>
     <td>UndirectedGraph&lt;V, E&gt;</td>
     <td>-</td>
     <td>-</td>
     <td>-</td>
   </tr>
   <tr>
-    <td>Unordered Multiset</td>
     <td>-</td>
     <td>unordered_multiset</td>
     <td>-</td>
     <td>Counter</td>
   </tr>
   <tr>
-    <td>Linked Hash Set</td>
     <td>-</td>
     <td>-</td>
     <td>LinkedHashSet&lt;E&gt;</td>
     <td>-</td>
   </tr>
   <tr>
-    <td>Linked Hash Map</td>
     <td>-</td>
     <td>-</td>
     <td>LinkedHashMap&lt;K, V&gt;</td>
     <td>-</td>
   </tr>
   <tr>
-    <td>Sorted Set</td>
     <td>AVLTree&lt;E&gt;</td>
     <td>-</td>
     <td>TreeSet&lt;E&gt;</td>
     <td>-</td>
   </tr>
   <tr>
-    <td>Sorted Map</td>
     <td>AVLTree&lt;K, V&gt;</td>
     <td>-</td>
     <td>TreeMap&lt;K, V&gt;</td>
     <td>-</td>
   </tr>
   <tr>
-    <td>Tree Set</td>
     <td>AVLTree&lt;E&gt;</td>
     <td>set</td>
     <td>TreeSet&lt;E&gt;</td>
     <td>-</td>
   </tr>
   <tr>
-    <td>Unordered Multimap</td>
     <td>-</td>
     <td>unordered_multimap&lt;K, V&gt;</td>
     <td>-</td>
     <td>-</td>
   </tr>
   <tr>
-    <td>Bitset</td>
     <td>-</td>
     <td>bitset&lt;N&gt;</td>
     <td>-</td>
     <td>-</td>
   </tr>
   <tr>
-    <td>Unordered Set</td>
     <td>-</td>
     <td>unordered_set&lt;T&gt;</td>
     <td>HashSet&lt;E&gt;</td>
