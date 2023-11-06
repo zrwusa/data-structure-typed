@@ -158,23 +158,22 @@ describe('UndirectedGraph', () => {
       const [s, d] = e;
       graph.addEdge(s.name, d.name, d.weight);
     }
-    const allPaths = graph.getAllPathsBetween('Intersection_1','Intersection_5');
+    const allPaths = graph.getAllPathsBetween('Intersection_1', 'Intersection_5');
     expect(allPaths.length).toBe(1000);
-    const minWeightedPathDFS = graph.getMinPathBetween('Intersection_1','Intersection_5', true, true);
+    const minWeightedPathDFS = graph.getMinPathBetween('Intersection_1', 'Intersection_5', true, true);
     expect(minWeightedPathDFS?.[0]?.key).toBe('Intersection_1');
     expect(minWeightedPathDFS?.[5]?.key).toBe('Intersection_42');
     expect(minWeightedPathDFS?.[8]?.key).toBe('Intersection_18');
     expect(minWeightedPathDFS?.[27]?.key).toBe('Intersection_6');
-    const minWeightedPath = graph.dijkstra('Intersection_1','Intersection_5', true, true);
+    const minWeightedPath = graph.dijkstra('Intersection_1', 'Intersection_5', true, true);
 
-    expect(minWeightedPath?.minPath?.[0]?.key).toBe('Intersection_1')
-    expect(minWeightedPath?.minPath?.[1]?.key).toBe('Intersection_2')
-    expect(minWeightedPath?.minPath?.[2]?.key).toBe('Intersection_3')
-    expect(minWeightedPath?.minPath?.[3]?.key).toBe('Intersection_4')
-    expect(minWeightedPath?.minPath?.[4]?.key).toBe('Intersection_5')
+    expect(minWeightedPath?.minPath?.[0]?.key).toBe('Intersection_1');
+    expect(minWeightedPath?.minPath?.[1]?.key).toBe('Intersection_2');
+    expect(minWeightedPath?.minPath?.[2]?.key).toBe('Intersection_3');
+    expect(minWeightedPath?.minPath?.[3]?.key).toBe('Intersection_4');
+    expect(minWeightedPath?.minPath?.[4]?.key).toBe('Intersection_5');
   });
 });
-
 
 describe('cycles, strongly connected components, bridges, articular points in UndirectedGraph', () => {
   const graph = new UndirectedGraph();
@@ -201,10 +200,10 @@ describe('cycles, strongly connected components, bridges, articular points in Un
   const cutVertexes = graph.getCutVertexes();
   const dfnMap = graph.getDFNMap();
   const lowMap = graph.getLowMap();
-  expect(cycles.size).toBe(1)
-  expect(scCs.size).toBe(5)
-  expect(bridges.length).toBe(4)
-  expect(cutVertexes.length).toBe(4)
-  expect(dfnMap.size).toBe(8)
-  expect(lowMap.size).toBe(8)
+  expect(cycles.size).toBe(1);
+  expect(scCs.size).toBe(5);
+  expect(bridges.length).toBe(4);
+  expect(cutVertexes.length).toBe(4);
+  expect(dfnMap.size).toBe(8);
+  expect(lowMap.size).toBe(8);
 });

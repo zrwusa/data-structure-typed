@@ -563,7 +563,6 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
   });
 });
 
-
 describe('cycles, strongly connected components, bridges, articular points in DirectedGraph', () => {
   const graph = new DirectedGraph();
   graph.addVertex('A');
@@ -589,10 +588,10 @@ describe('cycles, strongly connected components, bridges, articular points in Di
   const cutVertexes = graph.getCutVertexes();
   const dfnMap = graph.getDFNMap();
   const lowMap = graph.getLowMap();
-  expect(cycles.size).toBe(1)
-  expect(scCs.size).toBe(5)
-  expect(bridges.length).toBe(4)
-  expect(cutVertexes.length).toBe(4)
-  expect(dfnMap.size).toBe(8)
-  expect(lowMap.size).toBe(8)
+  expect(cycles.size).toBe(1);
+  expect(scCs.size).toBe(5);
+  expect(bridges.length).toBe(4);
+  expect(cutVertexes.length).toBe(4);
+  expect(dfnMap.size).toBe(8);
+  expect(lowMap.size).toBe(8);
 });

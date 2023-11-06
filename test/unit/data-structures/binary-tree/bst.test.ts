@@ -838,13 +838,16 @@ describe('BST Performance test', function () {
     expect(bst.lastKey()).toBe(9);
   });
 
-
   it('should subTreeTraverse, null should be ignored', () => {
     const bst = new BST();
     bst.addMany([4, 2, 6, null, 1, 3, null, 5, null, 7]);
-    expect(bst.subTreeTraverse(node => node.key, bst.getNode(6), IterationType.ITERATIVE)).toEqual([6,5, 7]);
-    expect(bst.subTreeTraverse(node => node.key, bst.getNode(6), IterationType.RECURSIVE)).toEqual([6,5, 7]);
-    expect(bst.subTreeTraverse(node => node === null ? null : node.key, bst.getNode(6), IterationType.ITERATIVE, true)).toEqual([6, 5, 7]);
-    expect(bst.subTreeTraverse(node => node === null ? null : node.key, bst.getNode(6), IterationType.RECURSIVE, true)).toEqual([6, 5, 7]);
+    expect(bst.subTreeTraverse(node => node.key, bst.getNode(6), IterationType.ITERATIVE)).toEqual([6, 5, 7]);
+    expect(bst.subTreeTraverse(node => node.key, bst.getNode(6), IterationType.RECURSIVE)).toEqual([6, 5, 7]);
+    expect(
+      bst.subTreeTraverse(node => (node === null ? null : node.key), bst.getNode(6), IterationType.ITERATIVE, true)
+    ).toEqual([6, 5, 7]);
+    expect(
+      bst.subTreeTraverse(node => (node === null ? null : node.key), bst.getNode(6), IterationType.RECURSIVE, true)
+    ).toEqual([6, 5, 7]);
   });
 });

@@ -107,6 +107,7 @@ const composeReport = () => {
   fs.writeFileSync(htmlFilePath, html);
   console.log(`Performance ${BOLD}${GREEN}report${END} file generated`);
 };
+
 function replaceMarkdownContent(startMarker: string, endMarker: string, newText: string) {
   const parentDirectory = path.resolve(__dirname, '../..'); // The path to the parent directory
   const filePath = path.join(parentDirectory, 'README.md'); // Path to README.md file

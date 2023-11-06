@@ -64,7 +64,8 @@ export abstract class AbstractGraph<
   E = any,
   VO extends AbstractVertex<V> = AbstractVertex<V>,
   EO extends AbstractEdge<E> = AbstractEdge<E>
-> implements IGraph<V, E, VO, EO> {
+> implements IGraph<V, E, VO, EO>
+{
   protected _vertices: Map<VertexKey, VO> = new Map<VertexKey, VO>();
 
   get vertices(): Map<VertexKey, VO> {
@@ -234,7 +235,7 @@ export abstract class AbstractGraph<
       return [];
     }
 
-    const stack: { vertex: VO, path: VO[] }[] = [];
+    const stack: {vertex: VO; path: VO[]}[] = [];
     stack.push({vertex: vertex1, path: [vertex1]});
 
     while (stack.length > 0) {
@@ -255,7 +256,6 @@ export abstract class AbstractGraph<
     }
     return paths;
   }
-
 
   /**
    * The function calculates the sum of weights along a given path.
@@ -366,7 +366,6 @@ export abstract class AbstractGraph<
       } else {
         return this.dijkstra(v1, v2, true, true)?.minPath ?? [];
       }
-
     } else {
       // DFS
       let minPath: VO[] = [];
@@ -519,14 +518,14 @@ export abstract class AbstractGraph<
     }
 
     getMinDist &&
-    distMap.forEach((d, v) => {
-      if (v !== srcVertex) {
-        if (d < minDist) {
-          minDist = d;
-          if (genPaths) minDest = v;
+      distMap.forEach((d, v) => {
+        if (v !== srcVertex) {
+          if (d < minDist) {
+            minDist = d;
+            if (genPaths) minDest = v;
+          }
         }
-      }
-    });
+      });
 
     genPaths && getPaths(minDest);
 
@@ -588,7 +587,7 @@ export abstract class AbstractGraph<
       if (vertexOrKey instanceof AbstractVertex) distMap.set(vertexOrKey, Infinity);
     }
 
-    const heap = new PriorityQueue<{ key: number; value: VO }>({comparator: (a, b) => a.key - b.key});
+    const heap = new PriorityQueue<{key: number; value: VO}>({comparator: (a, b) => a.key - b.key});
     heap.add({key: 0, value: srcVertex});
 
     distMap.set(srcVertex, 0);
@@ -812,7 +811,7 @@ export abstract class AbstractGraph<
    * `predecessor` property is a 2D array of vertices (or `null`) representing the predecessor vertices in the shortest
    * path between vertices in the
    */
-  floydWarshall(): { costs: number[][]; predecessor: (VO | null)[][] } {
+  floydWarshall(): {costs: number[][]; predecessor: (VO | null)[][]} {
     const idAndVertices = [...this._vertices];
     const n = idAndVertices.length;
 
@@ -876,7 +875,12 @@ export abstract class AbstractGraph<
    * are arrays of vertices that form cycles within the SCCs.
    * @returns The function `tarjan` returns an object with the following properties:
    */
-  tarjan(needCutVertexes: boolean = false, needBridges: boolean = false, needSCCs: boolean = true, needCycles: boolean = false) {
+  tarjan(
+    needCutVertexes: boolean = false,
+    needBridges: boolean = false,
+    needSCCs: boolean = true,
+    needCycles: boolean = false
+  ) {
     // !! in undirected graph we will not let child visit parent when dfs
     // !! articulation point(in dfs search tree not in graph): (cur !== root && cur.has(child)) && (low(child) >= dfn(cur)) || (cur === root && cur.children() >= 2)
     // !! bridge: low(child) > dfn(cur)

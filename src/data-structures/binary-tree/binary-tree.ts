@@ -108,7 +108,8 @@ export class BinaryTreeNode<V = any, N extends BinaryTreeNode<V, N> = BinaryTree
  * @template N - The type of the binary tree's nodes.
  */
 export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode<V, BinaryTreeNodeNested<V>>>
-  implements IBinaryTree<V, N> {
+  implements IBinaryTree<V, N>
+{
   iterationType: IterationType = IterationType.ITERATIVE;
 
   /**
@@ -139,8 +140,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   get size(): number {
     return this._size;
   }
-
-  protected defaultOneParamCallback = (node: N) => node.key;
 
   /**
    * Creates a new instance of BinaryTreeNode with the given key and value.
@@ -390,7 +389,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
         return -1;
       }
 
-      const stack: { node: N; depth: number }[] = [{node: beginRoot, depth: 0}];
+      const stack: {node: N; depth: number}[] = [{node: beginRoot, depth: 0}];
       let maxHeight = 0;
 
       while (stack.length > 0) {
@@ -850,21 +849,21 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     beginRoot?: BTNKey | N | null,
     iterationType?: IterationType,
     includeNull?: false
-  ): ReturnType<C>[]
+  ): ReturnType<C>[];
 
   subTreeTraverse<C extends BTNCallback<N>>(
     callback?: C,
     beginRoot?: BTNKey | N | null,
     iterationType?: IterationType,
     includeNull?: undefined
-  ): ReturnType<C>[]
+  ): ReturnType<C>[];
 
   subTreeTraverse<C extends BTNCallback<N | null>>(
     callback?: C,
     beginRoot?: BTNKey | N | null,
     iterationType?: IterationType,
     includeNull?: true
-  ): ReturnType<C>[]
+  ): ReturnType<C>[];
 
   /**
    * The function `subTreeTraverse` traverses a binary tree and applies a callback function to each
@@ -908,7 +907,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
 
       _traverse(beginRoot);
     } else {
-      const stack: (N| null)[] = [beginRoot];
+      const stack: (N | null)[] = [beginRoot];
 
       while (stack.length > 0) {
         const cur = stack.pop();
@@ -933,7 +932,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     beginRoot?: N | null,
     iterationType?: IterationType,
     includeNull?: false
-  ): ReturnType<C>[]
+  ): ReturnType<C>[];
 
   dfs<C extends BTNCallback<N>>(
     callback?: C,
@@ -941,7 +940,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     beginRoot?: N | null,
     iterationType?: IterationType,
     includeNull?: undefined
-  ): ReturnType<C>[]
+  ): ReturnType<C>[];
 
   dfs<C extends BTNCallback<N | null>>(
     callback?: C,
@@ -949,7 +948,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     beginRoot?: N | null,
     iterationType?: IterationType,
     includeNull?: true
-  ): ReturnType<C>[]
+  ): ReturnType<C>[];
 
   /**
    * The `dfs` function performs a depth-first search traversal on a binary tree, executing a callback
@@ -1019,7 +1018,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
       _traverse(beginRoot);
     } else {
       // 0: visit, 1: print
-      const stack: { opt: 0 | 1; node: N | null | undefined }[] = [{opt: 0, node: beginRoot}];
+      const stack: {opt: 0 | 1; node: N | null | undefined}[] = [{opt: 0, node: beginRoot}];
 
       while (stack.length > 0) {
         const cur = stack.pop();
@@ -1066,21 +1065,21 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     beginRoot?: N | null,
     iterationType?: IterationType,
     includeNull?: false
-  ): ReturnType<C>[]
+  ): ReturnType<C>[];
 
   bfs<C extends BTNCallback<N>>(
     callback?: C,
     beginRoot?: N | null,
     iterationType?: IterationType,
     includeNull?: undefined
-  ): ReturnType<C>[]
+  ): ReturnType<C>[];
 
   bfs<C extends BTNCallback<N | null>>(
     callback?: C,
     beginRoot?: N | null,
     iterationType?: IterationType,
     includeNull?: true
-  ): ReturnType<C>[]
+  ): ReturnType<C>[];
 
   /**
    * The bfs function performs a breadth-first search traversal on a binary tree, executing a callback
@@ -1123,7 +1122,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
           if (current.right) queue.push(current.right);
         }
 
-
         traverse(level + 1);
       };
 
@@ -1144,7 +1142,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
             if (current.left) queue.push(current.left);
             if (current.right) queue.push(current.right);
           }
-
         }
       }
     }
@@ -1152,25 +1149,25 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   }
 
   listLevels<C extends BTNCallback<N>>(
-    callback?: C ,
-    beginRoot?: N | null ,
+    callback?: C,
+    beginRoot?: N | null,
     iterationType?: IterationType,
     includeNull?: false
-  ): ReturnType<C>[][]
+  ): ReturnType<C>[][];
 
   listLevels<C extends BTNCallback<N>>(
-    callback?: C ,
-    beginRoot?: N | null ,
+    callback?: C,
+    beginRoot?: N | null,
     iterationType?: IterationType,
     includeNull?: undefined
-  ): ReturnType<C>[][]
+  ): ReturnType<C>[][];
 
   listLevels<C extends BTNCallback<N | null>>(
-    callback?: C ,
-    beginRoot?: N | null ,
+    callback?: C,
+    beginRoot?: N | null,
     iterationType?: IterationType,
     includeNull?: true
-  ): ReturnType<C>[][]
+  ): ReturnType<C>[][];
 
   /**
    * The `listLevels` function takes a binary tree node and a callback function, and returns an array
@@ -1204,7 +1201,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
         if (includeNull) {
           if (node && node.left !== undefined) _recursive(node.left, level + 1);
           if (node && node.right !== undefined) _recursive(node.right, level + 1);
-        } else  {
+        } else {
           if (node && node.left) _recursive(node.left, level + 1);
           if (node && node.right) _recursive(node.right, level + 1);
         }
@@ -1224,7 +1221,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
         if (includeNull) {
           if (node && node.right !== undefined) stack.push([node.right, level + 1]);
           if (node && node.left !== undefined) stack.push([node.left, level + 1]);
-        } else  {
+        } else {
           if (node && node.right) stack.push([node.right, level + 1]);
           if (node && node.left) stack.push([node.left, level + 1]);
         }
@@ -1272,8 +1269,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     }
     return y;
   }
-
-  // --- start additional methods ---
 
   /**
    * The `morris` function performs a depth-first traversal of a binary tree using the Morris traversal
@@ -1374,6 +1369,8 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     return ans;
   }
 
+  // --- start additional methods ---
+
   /**
    * The above function is an iterator for a binary tree that can be used to traverse the tree in
    * either an iterative or recursive manner.
@@ -1383,7 +1380,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * @returns The `*[Symbol.iterator]` method returns a generator object that yields the keys of the
    * binary tree nodes in a specific order.
    */
-  * [Symbol.iterator](node = this.root): Generator<BTNKey, void, undefined> {
+  *[Symbol.iterator](node = this.root): Generator<BTNKey, void, undefined> {
     if (!node) {
       return;
     }
@@ -1415,6 +1412,8 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
       }
     }
   }
+
+  protected defaultOneParamCallback = (node: N) => node.key;
 
   /**
    * Swap the data of two nodes in the binary tree.
