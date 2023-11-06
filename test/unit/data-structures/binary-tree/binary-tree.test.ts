@@ -1,8 +1,7 @@
 import {AVLTree, AVLTreeNode, BinaryTree, BinaryTreeNode, IterationType} from '../../../../src';
-import {isDebugTest} from '../../../config';
+// import {isDebugTest} from '../../../config';
 
-const isDebug = isDebugTest;
-// const isDebug = true;
+// const isDebug = isDebugTest;
 
 describe('BinaryTreeNode', () => {
   it('should create an instance of BinaryTreeNode', () => {

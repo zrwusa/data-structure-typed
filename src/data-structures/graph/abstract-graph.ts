@@ -64,8 +64,7 @@ export abstract class AbstractGraph<
   E = any,
   VO extends AbstractVertex<V> = AbstractVertex<V>,
   EO extends AbstractEdge<E> = AbstractEdge<E>
-> implements IGraph<V, E, VO, EO>
-{
+> implements IGraph<V, E, VO, EO> {
   protected _vertices: Map<VertexKey, VO> = new Map<VertexKey, VO>();
 
   get vertices(): Map<VertexKey, VO> {
@@ -236,10 +235,10 @@ export abstract class AbstractGraph<
     }
 
     const stack: { vertex: VO, path: VO[] }[] = [];
-    stack.push({ vertex: vertex1, path: [vertex1] });
+    stack.push({vertex: vertex1, path: [vertex1]});
 
     while (stack.length > 0) {
-      const { vertex, path } = stack.pop()!;
+      const {vertex, path} = stack.pop()!;
 
       if (vertex === vertex2) {
         paths.push(path);
@@ -250,14 +249,12 @@ export abstract class AbstractGraph<
       for (const neighbor of neighbors) {
         if (!path.includes(neighbor)) {
           const newPath = [...path, neighbor];
-          stack.push({ vertex: neighbor, path: newPath });
+          stack.push({vertex: neighbor, path: newPath});
         }
       }
     }
     return paths;
   }
-
-
 
 
   /**
@@ -522,14 +519,14 @@ export abstract class AbstractGraph<
     }
 
     getMinDist &&
-      distMap.forEach((d, v) => {
-        if (v !== srcVertex) {
-          if (d < minDist) {
-            minDist = d;
-            if (genPaths) minDest = v;
-          }
+    distMap.forEach((d, v) => {
+      if (v !== srcVertex) {
+        if (d < minDist) {
+          minDist = d;
+          if (genPaths) minDest = v;
         }
-      });
+      }
+    });
 
     genPaths && getPaths(minDest);
 
@@ -591,7 +588,7 @@ export abstract class AbstractGraph<
       if (vertexOrKey instanceof AbstractVertex) distMap.set(vertexOrKey, Infinity);
     }
 
-    const heap = new PriorityQueue<{key: number; value: VO}>({comparator: (a, b) => a.key - b.key});
+    const heap = new PriorityQueue<{ key: number; value: VO }>({comparator: (a, b) => a.key - b.key});
     heap.add({key: 0, value: srcVertex});
 
     distMap.set(srcVertex, 0);
@@ -802,11 +799,6 @@ export abstract class AbstractGraph<
    * Floyd algorithm time: O(VO^3) space: O(VO^2), not support graph with negative weight cycle
    * all pairs
    * The Floyd-Warshall algorithm is used to find the shortest paths between all pairs of nodes in a graph. It employs dynamic programming to compute the shortest paths from any node to any other node. The Floyd-Warshall algorithm's advantage lies in its ability to handle graphs with negative-weight edges, and it can simultaneously compute shortest paths between any two nodes.
-   */
-
-  /**
-   * Floyd algorithm time: O(VO^3) space: O(VO^2), not support graph with negative weight cycle
-   * all pairs
    * /
 
    /**
@@ -815,12 +807,12 @@ export abstract class AbstractGraph<
    * The Floyd-Warshall algorithm is used to find the shortest paths between all pairs of nodes in a graph. It employs dynamic programming to compute the shortest paths from any node to any other node. The Floyd-Warshall algorithm's advantage lies in its ability to handle graphs with negative-weight edges, and it can simultaneously compute shortest paths between any two nodes.
    * The function implements the Floyd-Warshall algorithm to find the shortest path between all pairs of vertices in a
    * graph.
-   * @returns The function `floyd()` returns an object with two properties: `costs` and `predecessor`. The `costs`
+   * @returns The function `floydWarshall()` returns an object with two properties: `costs` and `predecessor`. The `costs`
    * property is a 2D array of numbers representing the shortest path costs between vertices in a graph. The
    * `predecessor` property is a 2D array of vertices (or `null`) representing the predecessor vertices in the shortest
    * path between vertices in the
    */
-  floyd(): {costs: number[][]; predecessor: (VO | null)[][]} {
+  floydWarshall(): { costs: number[][]; predecessor: (VO | null)[][] } {
     const idAndVertices = [...this._vertices];
     const n = idAndVertices.length;
 
@@ -871,7 +863,7 @@ export abstract class AbstractGraph<
    * Tarjan can find the SSC(strongly connected components), articulation points, and bridges of directed graphs.
    * The `tarjan` function is used to perform various graph analysis tasks such as finding articulation points, bridges,
    * strongly connected components (SCCs), and cycles in a graph.
-   * @param {boolean} [needArticulationPoints] - A boolean value indicating whether or not to calculate and return the
+   * @param {boolean} [needCutVertexes] - A boolean value indicating whether or not to calculate and return the
    * articulation points in the graph. Articulation points are the vertices in a graph whose removal would increase the
    * number of connected components in the graph.
    * @param {boolean} [needBridges] - A boolean flag indicating whether the algorithm should find and return the bridges
@@ -884,13 +876,13 @@ export abstract class AbstractGraph<
    * are arrays of vertices that form cycles within the SCCs.
    * @returns The function `tarjan` returns an object with the following properties:
    */
-  tarjan(needArticulationPoints?: boolean, needBridges?: boolean, needSCCs?: boolean, needCycles?: boolean) {
+  tarjan(needCutVertexes: boolean = false, needBridges: boolean = false, needSCCs: boolean = true, needCycles: boolean = false) {
     // !! in undirected graph we will not let child visit parent when dfs
     // !! articulation point(in dfs search tree not in graph): (cur !== root && cur.has(child)) && (low(child) >= dfn(cur)) || (cur === root && cur.children() >= 2)
     // !! bridge: low(child) > dfn(cur)
 
     const defaultConfig = false;
-    if (needArticulationPoints === undefined) needArticulationPoints = defaultConfig;
+    if (needCutVertexes === undefined) needCutVertexes = defaultConfig;
     if (needBridges === undefined) needBridges = defaultConfig;
     if (needSCCs === undefined) needSCCs = defaultConfig;
     if (needCycles === undefined) needCycles = defaultConfig;
@@ -905,7 +897,7 @@ export abstract class AbstractGraph<
 
     const [root] = vertices.values();
 
-    const articulationPoints: VO[] = [];
+    const cutVertexes: VO[] = [];
     const bridges: EO[] = [];
     let dfn = 0;
     const dfs = (cur: VO, parent: VO | null) => {
@@ -929,10 +921,10 @@ export abstract class AbstractGraph<
           }
           const curFromMap = dfnMap.get(cur);
           if (childLow !== undefined && curFromMap !== undefined) {
-            if (needArticulationPoints) {
+            if (needCutVertexes) {
               if ((cur === root && childCount >= 2) || (cur !== root && childLow >= curFromMap)) {
                 // todo not ensure the logic if (cur === root && childCount >= 2 || ((cur !== root) && (childLow >= curFromMap))) {
-                articulationPoints.push(cur);
+                cutVertexes.push(cur);
               }
             }
 
@@ -983,7 +975,59 @@ export abstract class AbstractGraph<
       });
     }
 
-    return {dfnMap, lowMap, bridges, articulationPoints, SCCs, cycles};
+    return {dfnMap, lowMap, bridges, cutVertexes, SCCs, cycles};
+  }
+
+  /**
+   * The function returns a map that associates each vertex object with its corresponding depth-first
+   * number.
+   * @returns A Map object with keys of type VO and values of type number.
+   */
+  getDFNMap(): Map<VO, number> {
+    return this.tarjan(false, false, false, false).dfnMap;
+  }
+
+  /**
+   * The function returns a Map object that contains the low values of each vertex in a Tarjan
+   * algorithm.
+   * @returns The method `getLowMap()` is returning a `Map` object with keys of type `VO` and values of
+   * type `number`.
+   */
+  getLowMap(): Map<VO, number> {
+    return this.tarjan(false, false, false, false).lowMap;
+  }
+
+  /**
+   * The function `getCycles` returns a map of cycles found using the Tarjan algorithm.
+   * @returns The function `getCycles()` is returning a `Map<number, VO[]>`.
+   */
+  getCycles(): Map<number, VO[]> {
+    return this.tarjan(false, false, false, true).cycles;
+  }
+
+  /**
+   * The function "getCutVertexes" returns an array of cut vertexes using the Tarjan algorithm.
+   * @returns an array of VO objects, specifically the cut vertexes.
+   */
+  getCutVertexes(): VO[] {
+    return this.tarjan(true, false, false, false).cutVertexes;
+  }
+
+  /**
+   * The function "getSCCs" returns a map of strongly connected components (SCCs) using the Tarjan
+   * algorithm.
+   * @returns a map where the keys are numbers and the values are arrays of VO objects.
+   */
+  getSCCs(): Map<number, VO[]> {
+    return this.tarjan(false, false, true, false).SCCs;
+  }
+
+  /**
+   * The function "getBridges" returns an array of bridges using the Tarjan algorithm.
+   * @returns the bridges found using the Tarjan algorithm.
+   */
+  getBridges() {
+    return this.tarjan(false, true, false, false).bridges;
   }
 
   protected abstract _addEdgeOnly(edge: EO): boolean;

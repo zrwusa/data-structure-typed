@@ -174,3 +174,37 @@ describe('UndirectedGraph', () => {
     expect(minWeightedPath?.minPath?.[4]?.key).toBe('Intersection_5')
   });
 });
+
+
+describe('cycles, strongly connected components, bridges, articular points in UndirectedGraph', () => {
+  const graph = new UndirectedGraph();
+  graph.addVertex('A');
+  graph.addVertex('B');
+  graph.addVertex('C');
+  graph.addVertex('D');
+  graph.addVertex('E');
+  graph.addVertex('F');
+  graph.addVertex('G');
+  graph.addVertex('H');
+  graph.addEdge('A', 'B');
+  graph.addEdge('B', 'D');
+  graph.addEdge('D', 'C');
+  graph.addEdge('C', 'A');
+  graph.addEdge('C', 'B');
+  graph.addEdge('D', 'E');
+  graph.addEdge('E', 'G');
+  graph.addEdge('E', 'H');
+  graph.addEdge('H', 'F');
+  const cycles = graph.getCycles();
+  const scCs = graph.getSCCs();
+  const bridges = graph.getBridges();
+  const cutVertexes = graph.getCutVertexes();
+  const dfnMap = graph.getDFNMap();
+  const lowMap = graph.getLowMap();
+  expect(cycles.size).toBe(1)
+  expect(scCs.size).toBe(5)
+  expect(bridges.length).toBe(4)
+  expect(cutVertexes.length).toBe(4)
+  expect(dfnMap.size).toBe(8)
+  expect(lowMap.size).toBe(8)
+});

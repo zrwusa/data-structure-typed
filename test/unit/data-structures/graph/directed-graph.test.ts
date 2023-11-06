@@ -340,7 +340,7 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
     expect(min).toBe(Infinity);
     expect(minPath).toBeInstanceOf(Array);
 
-    const floydResult = myGraph.floyd();
+    const floydResult = myGraph.floydWarshall();
     expect(floydResult).toBeTruthy();
     if (floydResult) {
       const {costs, predecessor} = floydResult;
@@ -561,4 +561,38 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
       expect(paths[8][1]).toBe(vertex9);
     }
   });
+});
+
+
+describe('cycles, strongly connected components, bridges, articular points in DirectedGraph', () => {
+  const graph = new DirectedGraph();
+  graph.addVertex('A');
+  graph.addVertex('B');
+  graph.addVertex('C');
+  graph.addVertex('D');
+  graph.addVertex('E');
+  graph.addVertex('F');
+  graph.addVertex('G');
+  graph.addVertex('H');
+  graph.addEdge('A', 'B');
+  graph.addEdge('B', 'D');
+  graph.addEdge('D', 'C');
+  graph.addEdge('C', 'A');
+  graph.addEdge('C', 'B');
+  graph.addEdge('D', 'E');
+  graph.addEdge('E', 'G');
+  graph.addEdge('E', 'H');
+  graph.addEdge('H', 'F');
+  const cycles = graph.getCycles();
+  const scCs = graph.getSCCs();
+  const bridges = graph.getBridges();
+  const cutVertexes = graph.getCutVertexes();
+  const dfnMap = graph.getDFNMap();
+  const lowMap = graph.getLowMap();
+  expect(cycles.size).toBe(1)
+  expect(scCs.size).toBe(5)
+  expect(bridges.length).toBe(4)
+  expect(cutVertexes.length).toBe(4)
+  expect(dfnMap.size).toBe(8)
+  expect(lowMap.size).toBe(8)
 });
