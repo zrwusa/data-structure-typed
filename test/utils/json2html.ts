@@ -109,7 +109,7 @@ function drawTable(arr: any[]): string {
   const content = arr.map(rowObj => drawRow(cols, rowObj));
   const headingHtml = '<tr><th>' + cols.join('</th><th>') + '</th></tr>';
   const contentHtml = '<tr>' + content.join('</tr><tr>') + '</tr>';
-  return '<table>' + headingHtml + contentHtml + '</table>';
+  return '<table style="display: table; width:100%; table-layout: fixed;">' + headingHtml + contentHtml + '</table>';
 }
 
 function _render(name: string, data: any, options: Json2htmlOptions, level: number, altRow: number): string {
