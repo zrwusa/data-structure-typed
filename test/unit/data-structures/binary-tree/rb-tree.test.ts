@@ -403,21 +403,14 @@ describe('RedBlackTree', () => {
     expect(node225S?.parent?.key).toBe(155);
     // TODO
     // expect(tree.getNode(0)).toBe(undefined);
-    tree.add(1);
     tree.add(2);
     tree.add(3);
     tree.add(4);
-    tree.add(5);
     tree.add(6);
-    tree.add(7);
-    tree.add(8);
     tree.add(9);
-    tree.add(10);
     tree.add(11);
-    tree.add(12);
     tree.add(13);
     tree.add(14);
-    tree.add(15);
     tree.add(16);
     tree.add(17);
     tree.add(18);
@@ -425,22 +418,48 @@ describe('RedBlackTree', () => {
     tree.add(110);
 
     isDebug && tree.print();
-    // console.log(tree.dfs())
-    // console.log(tree.isBST())
+
+    expect(tree.dfs()).toEqual([
+      1,   2,  3,  4,  5,  6,  7,   8,   9,
+      10,  11, 12, 13, 14, 15, 16,  17,  18,
+      19,  22, 23, 25, 28, 33, 50, 110, 111,
+      155, 225
+    ])
+
+    expect(tree.isBST()).toBe(true);
 
   });
 
   it('should fix the tree after insertion and deletion', () => {
-    for (let i = 0; i < 1000; i++) {
-      tree.add(getRandomInt(-100, 1000));
+    for (let i = 0; i < 100; i++) {
+      tree.add(i);
     }
-    for (let i = 0; i < 1000; i++) {
-      tree.delete(getRandomInt(-100, 1000));
+    for (let i = 0; i < 49; i++) {
+      tree.delete(i);
     }
-    for (let i = 0; i < 1000; i++) {
-      tree.add(getRandomInt(-100, 1000));
-      tree.delete(getRandomInt(-100, 1000));
-    }
-    // console.log(tree.dfs( n => n.key, "in", tree.root, IterationType.RECURSIVE))
+
+    expect(tree.size).toBe(51);
+    expect(tree.isBST()).toBe(true);
+    expect(tree.dfs( n => n.key, "in", tree.root, IterationType.ITERATIVE)).toEqual([
+      49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59,
+      60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70,
+      71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81,
+      82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92,
+      93, 94, 95, 96, 97, 98, 99
+    ])
   });
+
+  it('should fix the tree after large scale insertion and deletion', () => {
+    for (let i = 0; i < 10000; i++) {
+      tree.add(i);
+    }
+    for (let i = 0; i < 10000; i++) {
+      tree.delete(i);
+    }
+
+    expect(tree.size).toBe(0);
+    expect(tree.isBST()).toBe(true);
+    expect(tree.dfs( n => n.key, "in", tree.root, IterationType.ITERATIVE)).toEqual([])
+  });
+
 });

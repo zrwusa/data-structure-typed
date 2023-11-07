@@ -177,7 +177,7 @@ export class RedBlackTree<V = any, N extends RBTreeNode<V, N> = RBTreeNode<V, RB
     return ans;
   }
 
-  isRealNode(node: N | undefined): node is N {
+  isNode(node: N | undefined): node is N {
     return node !== this.NIL && node !== undefined;
   }
 

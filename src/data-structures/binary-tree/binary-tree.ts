@@ -896,11 +896,11 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
         if (cur !== undefined) {
           ans.push(callback(cur));
           if (includeNull) {
-            cur !== null && cur.left !== undefined && _traverse(cur.left);
-            cur !== null && cur.right !== undefined && _traverse(cur.right);
+            cur && this.isNodeOrNull(cur.left) && _traverse(cur.left);
+            cur && this.isNodeOrNull(cur.right) && _traverse(cur.right);
           } else {
-            cur !== null && cur.left && _traverse(cur.left);
-            cur !== null && cur.right && _traverse(cur.right);
+            cur && cur.left && _traverse(cur.left);
+            cur && cur.right && _traverse(cur.right);
           }
         }
       };
@@ -914,16 +914,28 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
         if (cur !== undefined) {
           ans.push(callback(cur));
           if (includeNull) {
-            cur !== null && cur.right !== undefined && stack.push(cur.right);
-            cur !== null && cur.left !== undefined && stack.push(cur.left);
+            cur && this.isNodeOrNull(cur.right) && stack.push(cur.right);
+            cur && this.isNodeOrNull(cur.left) && stack.push(cur.left);
           } else {
-            cur !== null && cur.right && stack.push(cur.right);
-            cur !== null && cur.left && stack.push(cur.left);
+            cur && cur.right && stack.push(cur.right);
+            cur && cur.left && stack.push(cur.left);
           }
         }
       }
     }
     return ans;
+  }
+  
+  isNode(node: any): node is N {
+    return node instanceof BinaryTreeNode && node.key.toString() !== 'NaN';
+  }
+
+  isNIL(node: any) {
+    return node instanceof BinaryTreeNode && node.key.toString() === 'NaN';
+  }
+
+  isNodeOrNull(node: any): node is (N | null){
+    return this.isNode(node) || node === null;
   }
 
   dfs<C extends BTNCallback<N>>(
@@ -980,35 +992,35 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
         switch (pattern) {
           case 'in':
             if (includeNull) {
-              if (node && node.left !== undefined) _traverse(node.left);
-              ans.push(callback(node));
-              if (node && node.right !== undefined) _traverse(node.right);
+              if (node && this.isNodeOrNull(node.left)) _traverse(node.left);
+              this.isNodeOrNull(node) && ans.push(callback(node));
+              if (node && this.isNodeOrNull(node.right)) _traverse(node.right);
             } else {
               if (node && node.left) _traverse(node.left);
-              ans.push(callback(node));
+              this.isNode(node) && ans.push(callback(node));
               if (node && node.right) _traverse(node.right);
             }
             break;
           case 'pre':
             if (includeNull) {
-              ans.push(callback(node));
-              if (node && node.left !== undefined) _traverse(node.left);
-              if (node && node.right !== undefined) _traverse(node.right);
+              this.isNodeOrNull(node) && ans.push(callback(node));
+              if (node && this.isNodeOrNull(node.left)) _traverse(node.left);
+              if (node && this.isNodeOrNull(node.right)) _traverse(node.right);
             } else {
-              ans.push(callback(node));
+              this.isNode(node) && ans.push(callback(node));
               if (node && node.left) _traverse(node.left);
               if (node && node.right) _traverse(node.right);
             }
             break;
           case 'post':
             if (includeNull) {
-              if (node && node.left !== undefined) _traverse(node.left);
-              if (node && node.right !== undefined) _traverse(node.right);
-              ans.push(callback(node));
+              if (node && this.isNodeOrNull(node.left)) _traverse(node.left);
+              if (node && this.isNodeOrNull(node.right)) _traverse(node.right);
+              this.isNodeOrNull(node) && ans.push(callback(node));
             } else {
               if (node && node.left) _traverse(node.left);
               if (node && node.right) _traverse(node.right);
-              ans.push(callback(node));
+              this.isNode(node) && ans.push(callback(node));
             }
 
             break;
@@ -1022,7 +1034,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
 
       while (stack.length > 0) {
         const cur = stack.pop();
-        if (cur === undefined) continue;
+        if (cur === undefined || this.isNIL(cur.node)) continue;
         if (includeNull) {
           if (cur.node === undefined) continue;
         } else {
@@ -1115,8 +1127,8 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
         ans.push(callback(current));
 
         if (includeNull) {
-          if (current && current.left !== undefined) queue.push(current.left);
-          if (current && current.right !== undefined) queue.push(current.right);
+          if (current && this.isNodeOrNull(current.left)) queue.push(current.left);
+          if (current && this.isNodeOrNull(current.right)) queue.push(current.right);
         } else {
           if (current.left) queue.push(current.left);
           if (current.right) queue.push(current.right);
@@ -1136,8 +1148,8 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
           ans.push(callback(current));
 
           if (includeNull) {
-            if (current !== null && current.left !== undefined) queue.push(current.left);
-            if (current !== null && current.right !== undefined) queue.push(current.right);
+            if (current && this.isNodeOrNull(current.left)) queue.push(current.left);
+            if (current && this.isNodeOrNull(current.right)) queue.push(current.right);
           } else {
             if (current.left) queue.push(current.left);
             if (current.right) queue.push(current.right);
@@ -1199,8 +1211,8 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
         if (!levelsNodes[level]) levelsNodes[level] = [];
         levelsNodes[level].push(callback(node));
         if (includeNull) {
-          if (node && node.left !== undefined) _recursive(node.left, level + 1);
-          if (node && node.right !== undefined) _recursive(node.right, level + 1);
+          if (node && this.isNodeOrNull(node.left)) _recursive(node.left, level + 1);
+          if (node && this.isNodeOrNull(node.right)) _recursive(node.right, level + 1);
         } else {
           if (node && node.left) _recursive(node.left, level + 1);
           if (node && node.right) _recursive(node.right, level + 1);
@@ -1219,8 +1231,8 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
         levelsNodes[level].push(callback(node));
 
         if (includeNull) {
-          if (node && node.right !== undefined) stack.push([node.right, level + 1]);
-          if (node && node.left !== undefined) stack.push([node.left, level + 1]);
+          if (node && this.isNodeOrNull(node.right)) stack.push([node.right, level + 1]);
+          if (node && this.isNodeOrNull(node.left)) stack.push([node.left, level + 1]);
         } else {
           if (node && node.right) stack.push([node.right, level + 1]);
           if (node && node.left) stack.push([node.left, level + 1]);
