@@ -6,22 +6,26 @@
  * @license MIT License
  */
 
-import {RBTNColor} from '../../types';
+import {
+  BinaryTreeDeletedResult,
+  BTNCallback,
+  BTNKey,
+  IterationType,
+  RBTNColor,
+  RBTreeNodeNested,
+  RBTreeOptions
+} from '../../types';
+import {BST, BSTNode} from "./bst";
+import {IBinaryTree} from "../../interfaces";
+import {BinaryTreeNode} from "./binary-tree";
 
-export class RBTreeNode {
-  key: number;
-  parent?: RBTreeNode;
-  left?: RBTreeNode;
-  right?: RBTreeNode;
-  color: number;
-
-  constructor(key: number, color: RBTNColor = RBTNColor.BLACK) {
-    this.key = key;
+export class RBTreeNode<V = any, N extends RBTreeNode<V, N> = RBTreeNodeNested<V>> extends BSTNode<V, N> {
+  color: RBTNColor;
+  constructor(key: BTNKey, value?: V, color: RBTNColor = RBTNColor.BLACK) {
+    super(key, value);
     this.color = color;
   }
 }
-
-export const NIL = new RBTreeNode(0);
 
 /**
  * 1. Each node is either red or black.
@@ -30,14 +34,19 @@ export const NIL = new RBTreeNode(0);
  * 4. Red nodes must have black children.
  * 5. Black balance: Every path from any node to each of its leaf nodes contains the same number of black nodes.
  */
-export class RedBlackTree {
-  constructor() {
-    this._root = NIL;
+export class RedBlackTree<V = any, N extends RBTreeNode<V, N> = RBTreeNode<V, RBTreeNodeNested<V>>>
+  extends BST<V, N>
+  implements IBinaryTree<V, N>
+{
+
+  constructor(options?: RBTreeOptions) {
+    super(options);
+    this._root = this.NIL;
   }
 
-  protected _root: RBTreeNode;
+  protected _root: N;
 
-  get root(): RBTreeNode {
+  get root(): N {
     return this._root;
   }
 
@@ -47,22 +56,29 @@ export class RedBlackTree {
     return this._size;
   }
 
-  /**
-   * The `insert` function inserts a new node with a given key into a red-black tree and fixes any
-   * violations of the red-black tree properties.
-   * @param {number} key - The key parameter is a number that represents the value to be inserted into
-   * the RBTree.
-   * @returns The function does not explicitly return anything.
-   */
-  add(key: number): void {
-    const node: RBTreeNode = new RBTreeNode(key, RBTNColor.RED);
-    node.left = NIL;
-    node.right = NIL;
+  NIL: N = new RBTreeNode<V>(0) as unknown as N;
 
-    let y: RBTreeNode | undefined = undefined;
-    let x: RBTreeNode | undefined = this.root;
+  override add(keyOrNode: BTNKey | N | null | undefined, value?: V): N | undefined {
+    let node: N;
+    if (typeof keyOrNode === 'number') {
+      node = this.createNode(keyOrNode, value, RBTNColor.RED);
+    } else if(keyOrNode instanceof RBTreeNode) {
+      node = keyOrNode;
+    } else if (keyOrNode === null) {
+      return;
+    } else if (keyOrNode === undefined) {
+      return;
+    } else {
+      return;
+    }
 
-    while (x !== NIL) {
+    node.left = this.NIL;
+    node.right = this.NIL;
+
+    let y: N | undefined = undefined;
+    let x: N | undefined = this.root;
+
+    while (x !== this.NIL) {
       y = x;
       if (x && node.key < x.key) {
         x = x.left;
@@ -95,40 +111,43 @@ export class RedBlackTree {
     this._size++;
   }
 
-  /**
-   * The `delete` function in TypeScript is used to remove a node with a specific key from a red-black
-   * tree.
-   * @param {number} key - The `node` parameter is of type `RBTreeNode` and represents the current
-   * node being processed in the delete operation.
-   * @returns The `delete` function does not return anything. It has a return type of `void`.
-   */
-  delete(key: number): void {
-    const helper = (node: RBTreeNode | undefined): void => {
-      let z: RBTreeNode = NIL;
-      let x: RBTreeNode | undefined, y: RBTreeNode;
-      while (node !== NIL) {
-        if (node && node.key === key) {
+  override createNode(key: BTNKey, value?: V, color: RBTNColor = RBTNColor.BLACK): N {
+    return new RBTreeNode<V, N>(key, value, color) as N;
+  }
+
+
+  delete<C extends BTNCallback<N>>(
+    identifier: ReturnType<C> | null | undefined,
+    callback: C = this.defaultOneParamCallback as C
+  ): BinaryTreeDeletedResult<N>[] {
+    const ans: BinaryTreeDeletedResult<N>[] = [];
+    if (identifier === null) return ans;
+    const helper = (node: N | undefined): void => {
+      let z: N = this.NIL;
+      let x: N | undefined, y: N;
+      while (node !== this.NIL) {
+        if (node && callback(node) === identifier) {
           z = node;
         }
 
-        if (node && node.key <= key) {
+        if (node && identifier && callback(node) <= identifier) {
           node = node.right;
         } else {
           node = node?.left;
         }
       }
 
-      if (z === NIL) {
+      if (z === this.NIL) {
         this._size--;
         return;
       }
 
       y = z;
       let yOriginalColor: number = y.color;
-      if (z.left === NIL) {
+      if (z.left === this.NIL) {
         x = z.right;
         this._rbTransplant(z, z.right!);
-      } else if (z.right === NIL) {
+      } else if (z.right === this.NIL) {
         x = z.left;
         this._rbTransplant(z, z.left!);
       } else {
@@ -154,10 +173,12 @@ export class RedBlackTree {
       this._size--;
     };
     helper(this.root);
+    // TODO
+    return ans;
   }
 
-  isRealNode(node: RBTreeNode | undefined): node is RBTreeNode {
-    return node !== NIL && node !== undefined;
+  isRealNode(node: N | undefined): node is N {
+    return node !== this.NIL && node !== undefined;
   }
 
   /**
@@ -170,20 +191,67 @@ export class RedBlackTree {
    * defaults to the root of the binary search tree (`this.root`).
    * @returns a RBTreeNode.
    */
-  getNode(key: number, beginRoot = this.root): RBTreeNode | undefined {
-    const dfs = (node: RBTreeNode): RBTreeNode | undefined => {
-      if (this.isRealNode(node)) {
-        if (key === node.key) {
-          return node;
-        }
+  // getNode(key: number, beginRoot = this.root): N | undefined {
+  //   const dfs = (node: N): N | undefined => {
+  //     if (this.isRealNode(node)) {
+  //       if (key === node.key) {
+  //         return node;
+  //       }
+  //
+  //       if (key < node.key) return dfs(node.left!);
+  //       return dfs(node.right!);
+  //     } else {
+  //       return undefined;
+  //     }
+  //   };
+  //   return dfs(beginRoot);
+  // }
 
-        if (key < node.key) return dfs(node.left!);
-        return dfs(node.right!);
-      } else {
-        return undefined;
-      }
-    };
-    return dfs(beginRoot);
+  getNode<C extends BTNCallback<N, BTNKey>>(
+    identifier: BTNKey,
+    callback?: C,
+    beginRoot?: N | undefined,
+    iterationType?: IterationType
+  ): N  | undefined;
+
+  getNode<C extends BTNCallback<N, N>>(
+    identifier: N | undefined,
+    callback?: C,
+    beginRoot?: N | undefined,
+    iterationType?: IterationType
+  ): N  | undefined;
+
+  getNode<C extends BTNCallback<N>>(
+    identifier: ReturnType<C>,
+    callback: C,
+    beginRoot?: N | undefined,
+    iterationType?: IterationType
+  ): N  | undefined;
+
+  /**
+   * The function `get` returns the first node in a binary tree that matches the given property or key.
+   * @param {BTNKey | N} identifier - The `identifier` parameter is the key or value of
+   * the node that you want to find in the binary tree. It can be either a `BTNKey` or `N`
+   * type.
+   * @param callback - The `callback` parameter is a function that is used to determine whether a node
+   * matches the desired criteria. It takes a node as input and returns a boolean value indicating
+   * whether the node matches the criteria or not. The default callback function
+   * (`this.defaultOneParamCallback`) is used if no callback function is
+   * @param beginRoot - The `beginRoot` parameter is the starting point for the search. It specifies
+   * the root node from which the search should begin.
+   * @param iterationType - The `iterationType` parameter specifies the type of iteration to be
+   * performed when searching for a node in the binary tree. It can have one of the following values:
+   * @returns either the found node (of type N) or null if no node is found.
+   */
+  getNode<C extends BTNCallback<N>>(
+    identifier: ReturnType<C> | undefined,
+    callback: C = this.defaultOneParamCallback as C,
+    beginRoot = this.root,
+    iterationType = this.iterationType
+  ): N | null | undefined {
+    if ((identifier as any) instanceof BinaryTreeNode) callback = (node => node) as C;
+
+    return this.getNodes(identifier, callback, true, beginRoot, iterationType)[0] ?? undefined;
   }
 
   /**
@@ -192,8 +260,8 @@ export class RedBlackTree {
    * a Red-Black Tree.
    * @returns The leftmost node in the given RBTreeNode.
    */
-  getLeftMost(node: RBTreeNode = this.root): RBTreeNode {
-    while (node.left !== undefined && node.left !== NIL) {
+  getLeftMost(node: N = this.root): N {
+    while (node.left !== undefined && node.left !== this.NIL) {
       node = node.left;
     }
     return node;
@@ -204,8 +272,8 @@ export class RedBlackTree {
    * @param {RBTreeNode} node - The parameter "node" is of type RBTreeNode.
    * @returns the rightmost node in a red-black tree.
    */
-  getRightMost(node: RBTreeNode): RBTreeNode {
-    while (node.right !== undefined && node.right !== NIL) {
+  getRightMost(node: N): N {
+    while (node.right !== undefined && node.right !== this.NIL) {
       node = node.right;
     }
     return node;
@@ -216,13 +284,13 @@ export class RedBlackTree {
    * @param {RBTreeNode} x - RBTreeNode - The node for which we want to find the successor.
    * @returns the successor of the given RBTreeNode.
    */
-  getSuccessor(x: RBTreeNode): RBTreeNode | undefined {
-    if (x.right !== NIL) {
+  getSuccessor(x: N): N | undefined {
+    if (x.right !== this.NIL) {
       return this.getLeftMost(x.right);
     }
 
-    let y: RBTreeNode | undefined = x.parent;
-    while (y !== NIL && y !== undefined && x === y.right) {
+    let y: N | undefined = x.parent;
+    while (y !== this.NIL && y !== undefined && x === y.right) {
       x = y;
       y = y.parent;
     }
@@ -235,13 +303,13 @@ export class RedBlackTree {
    * Red-Black Tree.
    * @returns the predecessor of the given RBTreeNode 'x'.
    */
-  getPredecessor(x: RBTreeNode): RBTreeNode {
-    if (x.left !== NIL) {
+  getPredecessor(x: N): N {
+    if (x.left !== this.NIL) {
       return this.getRightMost(x.left!);
     }
 
-    let y: RBTreeNode | undefined = x.parent;
-    while (y !== NIL && x === y!.left) {
+    let y: N | undefined = x.parent;
+    while (y !== this.NIL && x === y!.left) {
       x = y!;
       y = y!.parent;
     }
@@ -250,19 +318,19 @@ export class RedBlackTree {
   }
 
   clear() {
-    this._root = NIL;
+    this._root = this.NIL;
     this._size = 0;
   }
 
-  print(beginRoot: RBTreeNode = this.root) {
-    const display = (root: RBTreeNode | undefined): void => {
+  print(beginRoot: N = this.root) {
+    const display = (root: N | undefined): void => {
       const [lines, , ,] = _displayAux(root);
       for (const line of lines) {
         console.log(line);
       }
     };
 
-    const _displayAux = (node: RBTreeNode | undefined): [string[], number, number, number] => {
+    const _displayAux = (node: N | undefined): [string[], number, number, number] => {
       if (node === undefined) {
         return [[], 0, 0, 0];
       }
@@ -317,11 +385,11 @@ export class RedBlackTree {
    * The function performs a left rotation on a red-black tree node.
    * @param {RBTreeNode} x - The parameter `x` is a RBTreeNode object.
    */
-  protected _leftRotate(x: RBTreeNode): void {
+  protected _leftRotate(x: N): void {
     if (x.right) {
-      const y: RBTreeNode = x.right;
+      const y: N = x.right;
       x.right = y.left;
-      if (y.left !== NIL) {
+      if (y.left !== this.NIL) {
         if (y.left) y.left.parent = x;
       }
       y.parent = x.parent;
@@ -342,11 +410,11 @@ export class RedBlackTree {
    * @param {RBTreeNode} x - x is a RBTreeNode, which represents the node that needs to be right
    * rotated.
    */
-  protected _rightRotate(x: RBTreeNode): void {
+  protected _rightRotate(x: N): void {
     if (x.left) {
-      const y: RBTreeNode = x.left;
+      const y: N = x.left;
       x.left = y.right;
-      if (y.right !== NIL) {
+      if (y.right !== this.NIL) {
         if (y.right) y.right.parent = x;
       }
       y.parent = x.parent;
@@ -367,8 +435,8 @@ export class RedBlackTree {
    * @param {RBTreeNode} x - The parameter `x` is of type `RBTreeNode`, which represents a node in a
    * red-black tree.
    */
-  protected _fixDelete(x: RBTreeNode): void {
-    let s: RBTreeNode | undefined;
+  protected _fixDelete(x: N): void {
+    let s: N | undefined;
     while (x !== this.root && x.color === RBTNColor.BLACK) {
       if (x.parent && x === x.parent.left) {
         s = x.parent.right!;
@@ -432,7 +500,7 @@ export class RedBlackTree {
    * @param {RBTreeNode} u - The parameter "u" represents a RBTreeNode object.
    * @param {RBTreeNode} v - The parameter "v" is a RBTreeNode object.
    */
-  protected _rbTransplant(u: RBTreeNode, v: RBTreeNode): void {
+  protected _rbTransplant(u: N, v: N): void {
     if (u.parent === undefined) {
       this._root = v;
     } else if (u === u.parent.left) {
@@ -448,8 +516,8 @@ export class RedBlackTree {
    * @param {RBTreeNode} k - The parameter `k` is a RBTreeNode object, which represents a node in a
    * red-black tree.
    */
-  protected _fixInsert(k: RBTreeNode): void {
-    let u: RBTreeNode | undefined;
+  protected _fixInsert(k: N): void {
+    let u: N | undefined;
     while (k.parent && k.parent.color === 1) {
       if (k.parent.parent && k.parent === k.parent.parent.right) {
         u = k.parent.parent.left;
