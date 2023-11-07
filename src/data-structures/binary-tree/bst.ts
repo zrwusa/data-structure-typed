@@ -12,8 +12,53 @@ import {IBinaryTree} from '../../interfaces';
 import {Queue} from '../queue';
 
 export class BSTNode<V = any, N extends BSTNode<V, N> = BSTNodeNested<V>> extends BinaryTreeNode<V, N> {
+  override parent: N | undefined;
   constructor(key: BTNKey, value?: V) {
     super(key, value);
+    this.parent = undefined;
+    this._left = undefined;
+    this._right = undefined;
+  }
+
+  protected override _left: N | undefined;
+
+  /**
+   * Get the left child node.
+   */
+  override get left(): N | undefined {
+    return this._left;
+  }
+
+  /**
+   * Set the left child node.
+   * @param {N | undefined} v - The left child node.
+   */
+  override set left(v: N | undefined) {
+    if (v) {
+      v.parent = this as unknown as N;
+    }
+    this._left = v;
+  }
+
+
+  protected override _right: N | undefined;
+
+  /**
+   * Get the right child node.
+   */
+  override get right(): N | undefined {
+    return this._right;
+  }
+
+  /**
+   * Set the right child node.
+   * @param {N | undefined} v - The right child node.
+   */
+  override set right(v: N | undefined) {
+    if (v) {
+      v.parent = this as unknown as N;
+    }
+    this._right = v;
   }
 }
 
@@ -29,12 +74,21 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    */
   constructor(options?: BSTOptions) {
     super(options);
+    this._root = undefined;
     if (options !== undefined) {
       const {comparator} = options;
       if (comparator !== undefined) {
         this._comparator = comparator;
       }
     }
+  }
+  protected override _root: N | undefined = undefined;
+
+  /**
+   * Get the root node of the binary tree.
+   */
+  override get root(): N | undefined {
+    return this._root;
   }
 
   /**
@@ -52,33 +106,37 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   /**
    * The `add` function in a binary search tree class inserts a new node with a given key and value
    * into the tree.
-   * @param {BTNKey | N | null} keyOrNode - The `keyOrNode` parameter can be either a
-   * `BTNKey` (which can be a number or a string), a `BSTNode` object, or `null`.
+   * @param {BTNKey | N | undefined} keyOrNode - The `keyOrNode` parameter can be either a
+   * `BTNKey` (which can be a number or a string), a `BSTNode` object, or `undefined`.
    * @param [value] - The `value` parameter is the value to be assigned to the new node being added to the
    * binary search tree.
    * @returns the inserted node (N) if it was successfully added to the binary search tree. If the node
-   * was not added or if the parameters were invalid, it returns null or undefined.
+   * was not added or if the parameters were invalid, it returns undefined or undefined.
    */
-  override add(keyOrNode: BTNKey | N | null, value?: V): N | null | undefined {
+  override add(keyOrNode: BTNKey | N | null | undefined, value?: V): N | undefined {
+    if (keyOrNode === 8) {
+      debugger
+    }
+    if (keyOrNode === null) return undefined;
     // TODO support node as a parameter
-    let inserted: N | null = null;
-    let newNode: N | null = null;
+    let inserted:N | undefined = undefined;
+    let newNode:N | undefined = undefined;
     if (keyOrNode instanceof BSTNode) {
       newNode = keyOrNode;
     } else if (typeof keyOrNode === 'number') {
       newNode = this.createNode(keyOrNode, value);
-    } else if (keyOrNode === null) {
-      newNode = null;
+    } else {
+      newNode = undefined;
     }
-    if (this.root === null) {
-      this._setRoot(newNode);
+    if (this.root === undefined) {
+      this._root = newNode;
       this._size = this.size + 1;
       inserted = this.root;
     } else {
       let cur = this.root;
       let traversing = true;
       while (traversing) {
-        if (cur !== null && newNode !== null) {
+        if (cur !== undefined && newNode !== undefined) {
           if (this._compare(cur.key, newNode.key) === CP.eq) {
             if (newNode) {
               cur.value = newNode.value;
@@ -131,29 +189,29 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * @param {[BTNKey | N, V][]} keysOrNodes - The `arr` parameter in the `addMany` function
    * represents an array of keys or nodes that need to be added to the binary search tree. It can be an
    * array of `BTNKey` or `N` (which represents the node type in the binary search tree) or
-   * `null
+   * `undefined
    * @param {V[]} data - The values of tree nodes
    * @param {boolean} isBalanceAdd - If true the nodes will be balance inserted in binary search method.
    * @param iterationType - The `iterationType` parameter determines the type of iteration to be used.
    * It can have two possible values:
-   * @returns The `addMany` function returns an array of `N`, `null`, or `undefined` values.
+   * @returns The `addMany` function returns an array of `N`, `undefined`, or `undefined` values.
    */
 
   override addMany(
-    keysOrNodes: (BTNKey | null)[] | (N | null)[],
+    keysOrNodes: (BTNKey | undefined)[] | (N | undefined)[],
     data?: V[],
     isBalanceAdd = true,
     iterationType = this.iterationType
-  ): (N | null | undefined)[] {
+  ): (N | undefined)[] {
     // TODO this addMany function is inefficient, it should be optimized
-    function hasNoNull(arr: (BTNKey | null)[] | (N | null)[]): arr is BTNKey[] | N[] {
-      return arr.indexOf(null) === -1;
+    function hasNoNull(arr: (BTNKey | undefined)[] | (N | undefined)[]): arr is BTNKey[] | N[] {
+      return arr.indexOf(undefined) === -1;
     }
 
     if (!isBalanceAdd || !hasNoNull(keysOrNodes)) {
-      return super.addMany(keysOrNodes, data);
+      return super.addMany(keysOrNodes, data).map(n => n ?? undefined);
     }
-    const inserted: (N | null | undefined)[] = [];
+    const inserted: (N | undefined)[] = [];
     const combinedArr: [BTNKey | N, V][] = keysOrNodes.map(
       (value: BTNKey | N, index) => [value, data?.[index]] as [BTNKey | N, V]
     );
@@ -169,7 +227,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
       return false;
     }
 
-    let sortedKeysOrNodes: (number | N | null)[] = [],
+    let sortedKeysOrNodes: (number | N | undefined)[] = [],
       sortedData: (V | undefined)[] | undefined = [];
 
     if (isNodeOrNullTuple(combinedArr)) {
@@ -181,7 +239,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     }
     sortedKeysOrNodes = sorted.map(([keyOrNode]) => keyOrNode);
     sortedData = sorted.map(([, value]) => value);
-    const recursive = (arr: (BTNKey | null | N)[], data?: (V | undefined)[]) => {
+    const recursive = (arr: (BTNKey | undefined | N)[], data?: (V | undefined)[]) => {
       if (arr.length === 0) return;
 
       const mid = Math.floor((arr.length - 1) / 2);
@@ -220,7 +278,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * The function `lastKey` returns the key of the rightmost node if the comparison result is less
    * than, the key of the leftmost node if the comparison result is greater than, and the key of the
    * rightmost node otherwise.
-   * @param {N | null} beginRoot - The `beginRoot` parameter is the starting point for finding the last
+   * @param {N | undefined} beginRoot - The `beginRoot` parameter is the starting point for finding the last
    * key in a binary tree. It represents the root node of the subtree from which the search for the
    * last key should begin. If no specific `beginRoot` is provided, the search will start from the root
    * of the entire binary
@@ -231,7 +289,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * the key of the leftmost node if the comparison result is greater than, and the key of the
    * rightmost node otherwise. If no node is found, it returns 0.
    */
-  lastKey(beginRoot: N | null = this.root, iterationType = this.iterationType): BTNKey {
+  lastKey(beginRoot: N | undefined = this.root, iterationType = this.iterationType): BTNKey {
     if (this._compare(0, 1) === CP.lt) return this.getRightMost(beginRoot, iterationType)?.key ?? 0;
     else if (this._compare(0, 1) === CP.gt) return this.getLeftMost(beginRoot, iterationType)?.key ?? 0;
     else return this.getRightMost(beginRoot, iterationType)?.key ?? 0;
@@ -251,18 +309,18 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * the first node that matches the nodeProperty. If set to true, the function will return an array
    * containing only that node. If set to false (default), the function will continue the traversal and
    * return an array containing all nodes that match the node
-   * @param {N | null} beginRoot - The `beginRoot` parameter is the starting node for the traversal. It
+   * @param {N | undefined} beginRoot - The `beginRoot` parameter is the starting node for the traversal. It
    * specifies the root node of the binary tree from which the traversal should begin. If `beginRoot`
-   * is `null`, an empty array will be returned.
+   * is `undefined`, an empty array will be returned.
    * @param iterationType - The `iterationType` parameter determines the type of iteration used to
    * traverse the binary tree. It can have one of the following values:
    * @returns an array of nodes (N[]).
    */
   override getNodes<C extends BTNCallback<N>>(
-    identifier: ReturnType<C> | null,
+    identifier: ReturnType<C> | undefined,
     callback: C = this.defaultOneParamCallback as C,
     onlyOne = false,
-    beginRoot: N | null = this.root,
+    beginRoot: N | undefined = this.root,
     iterationType = this.iterationType
   ): N[] {
     if (!beginRoot) return [];
@@ -324,10 +382,10 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * @param {CP} lesserOrGreater - The `lesserOrGreater` parameter is used to determine whether to
    * traverse nodes that are lesser than, greater than, or equal to the `targetNode`. It can take one
    * of the following values:
-   * @param {BTNKey | N | null} targetNode - The `targetNode` parameter in the
+   * @param {BTNKey | N | undefined} targetNode - The `targetNode` parameter in the
    * `lesserOrGreaterTraverse` function is used to specify the node from which the traversal should
    * start. It can be either a reference to a specific node (`N`), the key of a node
-   * (`BTNKey`), or `null` to
+   * (`BTNKey`), or `undefined` to
    * @param iterationType - The `iterationType` parameter determines whether the traversal should be
    * done recursively or iteratively. It can have two possible values:
    * @returns The function `lesserOrGreaterTraverse` returns an array of `ReturnType<BTNCallback<N>>`.
@@ -335,10 +393,10 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   lesserOrGreaterTraverse<C extends BTNCallback<N>>(
     callback: C = this.defaultOneParamCallback as C,
     lesserOrGreater: CP = CP.lt,
-    targetNode: BTNKey | N | null = this.root,
+    targetNode: BTNKey | N | undefined = this.root,
     iterationType = this.iterationType
   ): ReturnType<C>[] {
-    if (typeof targetNode === 'number') targetNode = this.getNode(targetNode);
+    if (typeof targetNode === 'number') targetNode = this.getNode(targetNode) ?? undefined;
     const ans: ReturnType<BTNCallback<N>>[] = [];
     if (!targetNode) return ans;
     const targetKey = targetNode.key;
@@ -417,6 +475,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
           if (l <= r) {
             const m = l + Math.floor((r - l) / 2);
             const midNode = sorted[m];
+            debugger
             this.add(midNode.key, midNode.value);
             stack.push([m + 1, r]);
             stack.push([l, m - 1]);
@@ -439,7 +498,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     let balanced = true;
 
     if (iterationType === IterationType.RECURSIVE) {
-      const _height = (cur: N | null | undefined): number => {
+      const _height = (cur: N | undefined): number => {
         if (!cur) return 0;
         const leftHeight = _height(cur.left),
           rightHeight = _height(cur.right);
@@ -449,8 +508,8 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
       _height(this.root);
     } else {
       const stack: N[] = [];
-      let node: N | null | undefined = this.root,
-        last: N | null = null;
+      let node: N | undefined = this.root,
+        last:N | undefined = undefined;
       const depths: Map<N, number> = new Map();
 
       while (stack.length > 0 || node) {
@@ -467,7 +526,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
               if (Math.abs(left - right) > 1) return false;
               depths.set(node, 1 + Math.max(left, right));
               last = node;
-              node = null;
+              node = undefined;
             }
           } else node = node.right;
         }

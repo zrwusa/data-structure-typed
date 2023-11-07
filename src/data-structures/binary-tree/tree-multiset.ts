@@ -71,23 +71,24 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
   /**
    * The `add` function adds a new node to a binary search tree, updating the count if the key already
    * exists, and balancing the tree if necessary.
-   * @param {BTNKey | N | null} keyOrNode - The `keyOrNode` parameter can be either a
+   * @param {BTNKey | N | undefined} keyOrNode - The `keyOrNode` parameter can be either a
    * `BTNKey` (which represents the key of the node to be added), a `N` (which represents a
-   * node to be added), or `null` (which represents a null node).
+   * node to be added), or `undefined` (which represents a undefined node).
    * @param [value] - The `value` parameter represents the value associated with the key that is being
    * added to the binary tree.
    * @param [count=1] - The `count` parameter represents the number of occurrences of the key/value
    * pair that will be added to the binary tree. It has a default value of 1, which means that if no
    * count is specified, the default count will be 1.
-   * @returns The function `add` returns a value of type `N | null | undefined`.
+   * @returns The function `add` returns a value of type `N | undefined | undefined`.
    */
-  override add(keyOrNode: BTNKey | N | null, value?: V, count = 1): N | null | undefined {
-    let inserted: N | null | undefined = undefined,
-      newNode: N | null;
+  override add(keyOrNode: BTNKey | N | null | undefined, value?: V, count = 1): N | undefined {
+    if(keyOrNode === null) return undefined;
+    let inserted: N  | undefined = undefined,
+      newNode: N | undefined;
     if (keyOrNode instanceof TreeMultisetNode) {
       newNode = this.createNode(keyOrNode.key, keyOrNode.value, keyOrNode.count);
-    } else if (keyOrNode === null) {
-      newNode = null;
+    } else if (keyOrNode === undefined) {
+      newNode = undefined;
     } else {
       newNode = this.createNode(keyOrNode, value, count);
     }
@@ -138,7 +139,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
               }
             }
           } else {
-            // TODO may need to support null inserted
+            // TODO may need to support undefined inserted
           }
         } else {
           traversing = false;
@@ -151,17 +152,17 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
 
   /**
    * The function adds a new node to a binary tree if there is an available slot in the parent node.
-   * @param {N | null} newNode - The `newNode` parameter represents the node that needs to be added to
-   * the tree. It can be either a node object (`N`) or `null`.
+   * @param {N | undefined} newNode - The `newNode` parameter represents the node that needs to be added to
+   * the tree. It can be either a node object (`N`) or `undefined`.
    * @param {N} parent - The `parent` parameter represents the parent node to which the new node will
    * be added as a child.
    * @returns The method `_addTo` returns either the `parent.left`, `parent.right`, or `undefined`.
    */
-  override _addTo(newNode: N | null, parent: N): N | null | undefined {
+  override _addTo(newNode: N | undefined, parent: N): N | undefined {
     if (parent) {
       if (parent.left === undefined) {
         parent.left = newNode;
-        if (newNode !== null) {
+        if (newNode !== undefined) {
           this._size = this.size + 1;
           this._setCount(this.count + newNode.count);
         }
@@ -169,7 +170,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
         return parent.left;
       } else if (parent.right === undefined) {
         parent.right = newNode;
-        if (newNode !== null) {
+        if (newNode !== undefined) {
           this._size = this.size + 1;
           this._setCount(this.count + newNode.count);
         }
@@ -185,15 +186,15 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
   /**
    * The `addMany` function adds multiple keys or nodes to a TreeMultiset and returns an array of the
    * inserted nodes.
-   * @param {(BTNKey | null)[] | (N | null)[]} keysOrNodes - An array of keys or nodes to be
+   * @param {(BTNKey | undefined)[] | (N | undefined)[]} keysOrNodes - An array of keys or nodes to be
    * added to the multiset. Each element can be either a BTNKey or a TreeMultisetNode.
    * @param {V[]} [data] - The `data` parameter is an optional array of values that correspond
    * to the keys or nodes being added to the multiset. It is used to associate additional data with
    * each key or node.
-   * @returns The function `addMany` returns an array of `N`, `null`, or `undefined` values.
+   * @returns The function `addMany` returns an array of `N`, `undefined`, or `undefined` values.
    */
-  override addMany(keysOrNodes: (BTNKey | null)[] | (N | null)[], data?: V[]): (N | null | undefined)[] {
-    const inserted: (N | null | undefined)[] = [];
+  override addMany(keysOrNodes: (BTNKey | undefined)[] | (N | undefined)[], data?: V[]): (N | undefined)[] {
+    const inserted: (N | undefined | undefined)[] = [];
 
     for (let i = 0; i < keysOrNodes.length; i++) {
       const keyOrNode = keysOrNodes[i];
@@ -203,7 +204,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
         continue;
       }
 
-      if (keyOrNode === null) {
+      if (keyOrNode === undefined) {
         inserted.push(this.add(NaN, undefined, 0));
         continue;
       }
@@ -283,11 +284,11 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
     const bstDeletedResult: BinaryTreeDeletedResult<N>[] = [];
     if (!this.root) return bstDeletedResult;
 
-    const curr: N | null = this.getNode(identifier, callback);
+    const curr: N | undefined = this.getNode(identifier, callback) ?? undefined;
     if (!curr) return bstDeletedResult;
 
-    const parent: N | null = curr?.parent ? curr.parent : null;
-    let needBalanced: N | null = null,
+    const parent: N | undefined = curr?.parent ? curr.parent : undefined;
+    let needBalanced: N | undefined = undefined,
       orgCurrent = curr;
 
     if (curr.count > 1 && !ignoreCount) {
@@ -307,7 +308,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
           needBalanced = parent;
         }
       } else {
-        const leftSubTreeRightMost = curr.left ? this.getRightMost(curr.left) : null;
+        const leftSubTreeRightMost = curr.left ? this.getRightMost(curr.left) : undefined;
         if (leftSubTreeRightMost) {
           const parentOfLeftSubTreeMax = leftSubTreeRightMost.parent;
           orgCurrent = this._swap(curr, leftSubTreeRightMost);

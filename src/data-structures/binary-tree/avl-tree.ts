@@ -49,13 +49,14 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
   /**
    * The function overrides the add method of a binary tree node and balances the tree after inserting
    * a new node.
-   * @param {BTNKey | N | null} keyOrNode - The `keyOrNode` parameter can accept either a
+   * @param {BTNKey | N | undefined} keyOrNode - The `keyOrNode` parameter can accept either a
    * `BTNKey` or a `N` (which represents a node in the binary tree) or `null`.
    * @param [value] - The `value` parameter is the value that you want to assign to the new node that you
    * are adding to the binary search tree.
    * @returns The method is returning the inserted node (`N`), `null`, or `undefined`.
    */
-  override add(keyOrNode: BTNKey | N | null, value?: V): N | null | undefined {
+  override add(keyOrNode: BTNKey | N | null | undefined, value?: V): N | undefined {
+    if (keyOrNode === null) return undefined;
     const inserted = super.add(keyOrNode, value);
     if (inserted) this._balancePath(inserted);
     return inserted;
@@ -226,7 +227,7 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
   protected _balanceLR(A: N): void {
     const parentOfA = A.parent;
     const B = A.left;
-    let C = null;
+    let C = undefined;
     if (B) {
       C = B.right;
     }
@@ -309,7 +310,7 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
   protected _balanceRL(A: N): void {
     const parentOfA = A.parent;
     const B = A.right;
-    let C = null;
+    let C = undefined;
     if (B) {
       C = B.left;
     }

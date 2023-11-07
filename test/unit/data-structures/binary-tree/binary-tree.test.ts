@@ -1,4 +1,4 @@
-import {AVLTree, AVLTreeNode, BinaryTree, BinaryTreeNode, IterationType} from '../../../../src';
+import {BinaryTree, BinaryTreeNode, IterationType} from '../../../../src';
 // import {isDebugTest} from '../../../config';
 
 // const isDebug = isDebugTest;
@@ -177,10 +177,10 @@ describe('BinaryTree', () => {
     expect(tree.subTreeTraverse(node => node.key, tree.getNode(6), IterationType.ITERATIVE)).toEqual([6, 3, 7]);
     expect(tree.subTreeTraverse(node => node.key, tree.getNode(6), IterationType.RECURSIVE)).toEqual([6, 3, 7]);
     expect(
-      tree.subTreeTraverse(node => (node === null ? null : node.key), tree.getNode(6), IterationType.ITERATIVE, true)
+      tree.subTreeTraverse(node => (node ? node.key : null ), tree.getNode(6), IterationType.ITERATIVE, true)
     ).toEqual([6, 3, 7, null]);
     expect(
-      tree.subTreeTraverse(node => (node === null ? null : node.key), tree.getNode(6), IterationType.RECURSIVE, true)
+      tree.subTreeTraverse(node => (node ? node.key : null ), tree.getNode(6), IterationType.RECURSIVE, true)
     ).toEqual([6, 3, 7, null]);
   });
 
@@ -193,7 +193,7 @@ describe('BinaryTree', () => {
     tree.clear();
 
     expect(tree.size).toBe(0);
-    expect(tree.root).toBeNull();
+    expect(tree.root).toBeUndefined();
   });
 });
 
@@ -248,35 +248,16 @@ describe('BinaryTree Morris Traversal', () => {
   });
 });
 
-describe('BinaryTree APIs test', () => {
-  const avl = new AVLTree<{id: number; text: string}>();
-  beforeEach(() => {
-    avl.clear();
-  });
-
-  it('add', () => {
-    avl.add(1);
-    const node2 = new AVLTreeNode(2);
-    avl.add(node2);
-    const node3 = new AVLTreeNode(3, {id: 3, text: 'text3'});
-    avl.add(node3);
-    avl.add(node3, {id: 3, text: 'text33'});
-
-    const bfsRes = avl.bfs(node => node);
-    expect(bfsRes[0]?.key).toBe(2);
-  });
-});
-
 describe('BinaryTree traversals', () => {
   const tree = new BinaryTree<number>();
 
   const arr = [35, 20, 40, 15, 29, null, 50, null, 16, 28, 30, 45, 55];
   tree.refill(arr);
   expect(
-    tree.bfs(node => node, tree.root, IterationType.ITERATIVE, true).map(node => (node === null ? null : node.key))
+    tree.bfs(node => node, tree.root, IterationType.ITERATIVE, true).map(node => (node ? node.key : null ))
   ).toEqual([35, 20, 40, 15, 29, null, 50, null, 16, 28, 30, 45, 55]);
   expect(
-    tree.bfs(node => node, tree.root, IterationType.RECURSIVE, true).map(node => (node === null ? null : node.key))
+    tree.bfs(node => node, tree.root, IterationType.RECURSIVE, true).map(node => (node ? node.key : null ))
   ).toEqual([35, 20, 40, 15, 29, null, 50, null, 16, 28, 30, 45, 55]);
   expect(
     tree.bfs(node => node, tree.root, IterationType.ITERATIVE).map(node => (node === null ? null : node.key))
@@ -292,12 +273,12 @@ describe('BinaryTree traversals', () => {
   expect(
     tree
       .dfs(node => node, 'pre', tree.root, IterationType.ITERATIVE, true)
-      .map(node => (node === null ? null : node.key))
+      .map(node => (node ? node.key : null ))
   ).toEqual([35, 20, 15, null, 16, 29, 28, 30, 40, null, 50, 45, 55]);
   expect(
     tree
       .dfs(node => node, 'pre', tree.root, IterationType.RECURSIVE, true)
-      .map(node => (node === null ? null : node.key))
+      .map(node => (node ? node.key : null ))
   ).toEqual([35, 20, 15, null, 16, 29, 28, 30, 40, null, 50, 45, 55]);
 
   expect(tree.dfs(node => node.key, 'in')).toEqual([15, 16, 20, 28, 29, 30, 35, 40, 45, 50, 55]);
@@ -320,13 +301,13 @@ describe('BinaryTree traversals', () => {
     [15, 29, 50],
     [16, 28, 30, 45, 55]
   ]);
-  expect(tree.listLevels(node => (node === null ? null : node.key), tree.root, IterationType.ITERATIVE, true)).toEqual([
+  expect(tree.listLevels(node => (node ? node.key : null ), tree.root, IterationType.ITERATIVE, true)).toEqual([
     [35],
     [20, 40],
     [15, 29, null, 50],
     [null, 16, 28, 30, 45, 55]
   ]);
-  expect(tree.listLevels(node => (node === null ? null : node.key), tree.root, IterationType.RECURSIVE, true)).toEqual([
+  expect(tree.listLevels(node => ( node ? node.key : null ), tree.root, IterationType.RECURSIVE, true)).toEqual([
     [35],
     [20, 40],
     [15, 29, null, 50],
@@ -348,7 +329,7 @@ describe('BinaryTree', () => {
   it('should create an empty BinaryTree', () => {
     expect(tree.size).toBe(0);
     expect(tree.isEmpty()).toBe(true);
-    expect(tree.root).toBe(null);
+    expect(tree.root).toBe(undefined);
   });
 
   it('should add nodes to the tree', () => {
@@ -370,7 +351,7 @@ describe('BinaryTree', () => {
 
     expect(tree.size).toBe(0);
     expect(tree.isEmpty()).toBe(true);
-    expect(tree.root).toBe(null);
+    expect(tree.root).toBe(undefined);
   });
 
   it('should get nodes by key', () => {

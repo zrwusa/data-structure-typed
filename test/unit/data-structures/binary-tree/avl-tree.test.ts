@@ -36,7 +36,6 @@ describe('AVL Tree Test', () => {
     const dfs = tree.dfs(node => node, 'in');
     expect(dfs[0].key).toBe(1);
     expect(dfs[dfs.length - 1].key).toBe(16);
-
     tree.perfectlyBalance();
     const bfs = tree.bfs(node => node);
     expect(tree.isPerfectlyBalanced()).toBe(true);
@@ -266,4 +265,24 @@ describe('AVLTree', () => {
 
     // You can add more specific assertions to check the tree's balance and structure.
   });
+
+  describe('BinaryTree APIs test', () => {
+    const avl = new AVLTree<{id: number; text: string}>();
+    beforeEach(() => {
+      avl.clear();
+    });
+
+    it('add', () => {
+      avl.add(1);
+      const node2 = new AVLTreeNode(2);
+      avl.add(node2);
+      const node3 = new AVLTreeNode(3, {id: 3, text: 'text3'});
+      avl.add(node3);
+      avl.add(node3, {id: 3, text: 'text33'});
+
+      const bfsRes = avl.bfs(node => node);
+      expect(bfsRes[0]?.key).toBe(2);
+    });
+  });
+
 });
