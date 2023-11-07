@@ -10,17 +10,14 @@ import {RBTNColor} from '../../types';
 
 export class RBTreeNode {
   key: number;
-  parent: RBTreeNode;
-  left: RBTreeNode;
-  right: RBTreeNode;
-  color: number = RBTNColor.BLACK;
+  parent?: RBTreeNode;
+  left?: RBTreeNode;
+  right?: RBTreeNode;
+  color: number;
 
   constructor(key: number, color: RBTNColor = RBTNColor.BLACK) {
     this.key = key;
     this.color = color;
-    this.parent = null as unknown as RBTreeNode;
-    this.left = null as unknown as RBTreeNode;
-    this.right = null as unknown as RBTreeNode;
   }
 }
 
@@ -62,20 +59,20 @@ export class RedBlackTree {
     node.left = NIL;
     node.right = NIL;
 
-    let y: RBTreeNode = null as unknown as RBTreeNode;
-    let x: RBTreeNode = this.root;
+    let y: RBTreeNode | undefined = undefined;
+    let x: RBTreeNode | undefined = this.root;
 
     while (x !== NIL) {
       y = x;
-      if (node.key < x.key) {
+      if (x && node.key < x.key) {
         x = x.left;
       } else {
-        x = x.right;
+        x = x?.right;
       }
     }
 
     node.parent = y;
-    if (y === null) {
+    if (y === undefined) {
       this._root = node;
     } else if (node.key < y.key) {
       y.left = node;
@@ -83,13 +80,13 @@ export class RedBlackTree {
       y.right = node;
     }
 
-    if (node.parent === null) {
+    if (node.parent === undefined) {
       node.color = RBTNColor.BLACK;
       this._size++;
       return;
     }
 
-    if (node.parent.parent === null) {
+    if (node.parent.parent === undefined) {
       this._size++;
       return;
     }
@@ -106,18 +103,18 @@ export class RedBlackTree {
    * @returns The `delete` function does not return anything. It has a return type of `void`.
    */
   delete(key: number): void {
-    const helper = (node: RBTreeNode): void => {
+    const helper = (node: RBTreeNode | undefined): void => {
       let z: RBTreeNode = NIL;
-      let x: RBTreeNode, y: RBTreeNode;
+      let x: RBTreeNode | undefined, y: RBTreeNode;
       while (node !== NIL) {
-        if (node.key === key) {
+        if (node && node.key === key) {
           z = node;
         }
 
-        if (node.key <= key) {
+        if (node && node.key <= key) {
           node = node.right;
         } else {
-          node = node.left;
+          node = node?.left;
         }
       }
 
@@ -130,37 +127,37 @@ export class RedBlackTree {
       let yOriginalColor: number = y.color;
       if (z.left === NIL) {
         x = z.right;
-        this._rbTransplant(z, z.right);
+        this._rbTransplant(z, z.right!);
       } else if (z.right === NIL) {
         x = z.left;
-        this._rbTransplant(z, z.left);
+        this._rbTransplant(z, z.left!);
       } else {
         y = this.getLeftMost(z.right);
         yOriginalColor = y.color;
         x = y.right;
         if (y.parent === z) {
-          x.parent = y;
+          x!.parent = y;
         } else {
-          this._rbTransplant(y, y.right);
+          this._rbTransplant(y, y.right!);
           y.right = z.right;
-          y.right.parent = y;
+          y.right!.parent = y;
         }
 
         this._rbTransplant(z, y);
         y.left = z.left;
-        y.left.parent = y;
+        y.left!.parent = y;
         y.color = z.color;
       }
       if (yOriginalColor === RBTNColor.BLACK) {
-        this._fixDelete(x);
+        this._fixDelete(x!);
       }
       this._size--;
     };
     helper(this.root);
   }
 
-  isRealNode(node: RBTreeNode | null | undefined): node is RBTreeNode {
-    return node !== NIL && node !== null;
+  isRealNode(node: RBTreeNode | undefined): node is RBTreeNode {
+    return node !== NIL && node !== undefined;
   }
 
   /**
@@ -173,17 +170,17 @@ export class RedBlackTree {
    * defaults to the root of the binary search tree (`this.root`).
    * @returns a RBTreeNode.
    */
-  getNode(key: number, beginRoot = this.root): RBTreeNode {
-    const dfs = (node: RBTreeNode): RBTreeNode => {
+  getNode(key: number, beginRoot = this.root): RBTreeNode | undefined {
+    const dfs = (node: RBTreeNode): RBTreeNode | undefined => {
       if (this.isRealNode(node)) {
         if (key === node.key) {
           return node;
         }
 
-        if (key < node.key) return dfs(node.left);
-        return dfs(node.right);
+        if (key < node.key) return dfs(node.left!);
+        return dfs(node.right!);
       } else {
-        return null as unknown as RBTreeNode;
+        return undefined;
       }
     };
     return dfs(beginRoot);
@@ -196,7 +193,7 @@ export class RedBlackTree {
    * @returns The leftmost node in the given RBTreeNode.
    */
   getLeftMost(node: RBTreeNode = this.root): RBTreeNode {
-    while (node.left !== null && node.left !== NIL) {
+    while (node.left !== undefined && node.left !== NIL) {
       node = node.left;
     }
     return node;
@@ -208,7 +205,7 @@ export class RedBlackTree {
    * @returns the rightmost node in a red-black tree.
    */
   getRightMost(node: RBTreeNode): RBTreeNode {
-    while (node.right !== null && node.right !== NIL) {
+    while (node.right !== undefined && node.right !== NIL) {
       node = node.right;
     }
     return node;
@@ -219,13 +216,13 @@ export class RedBlackTree {
    * @param {RBTreeNode} x - RBTreeNode - The node for which we want to find the successor.
    * @returns the successor of the given RBTreeNode.
    */
-  getSuccessor(x: RBTreeNode): RBTreeNode {
+  getSuccessor(x: RBTreeNode): RBTreeNode | undefined {
     if (x.right !== NIL) {
       return this.getLeftMost(x.right);
     }
 
-    let y: RBTreeNode = x.parent;
-    while (y !== NIL && y !== null && x === y.right) {
+    let y: RBTreeNode | undefined = x.parent;
+    while (y !== NIL && y !== undefined && x === y.right) {
       x = y;
       y = y.parent;
     }
@@ -240,16 +237,16 @@ export class RedBlackTree {
    */
   getPredecessor(x: RBTreeNode): RBTreeNode {
     if (x.left !== NIL) {
-      return this.getRightMost(x.left);
+      return this.getRightMost(x.left!);
     }
 
-    let y: RBTreeNode = x.parent;
-    while (y !== NIL && x === y.left) {
-      x = y;
-      y = y.parent;
+    let y: RBTreeNode | undefined = x.parent;
+    while (y !== NIL && x === y!.left) {
+      x = y!;
+      y = y!.parent;
     }
 
-    return y;
+    return y!;
   }
 
   clear() {
@@ -258,19 +255,19 @@ export class RedBlackTree {
   }
 
   print(beginRoot: RBTreeNode = this.root) {
-    const display = (root: RBTreeNode | null): void => {
+    const display = (root: RBTreeNode | undefined): void => {
       const [lines, , ,] = _displayAux(root);
       for (const line of lines) {
         console.log(line);
       }
     };
 
-    const _displayAux = (node: RBTreeNode | null): [string[], number, number, number] => {
-      if (node === null) {
+    const _displayAux = (node: RBTreeNode | undefined): [string[], number, number, number] => {
+      if (node === undefined) {
         return [[], 0, 0, 0];
       }
 
-      if (node.right === null && node.left === null) {
+      if (node.right === undefined && node.left === undefined) {
         const line = `${node.key}`;
         const width = line.length;
         const height = 1;
@@ -278,7 +275,7 @@ export class RedBlackTree {
         return [[line], width, height, middle];
       }
 
-      if (node.right === null) {
+      if (node.right === undefined) {
         const [lines, n, p, x] = _displayAux(node.left);
         const s = `${node.key}`;
         const u = s.length;
@@ -288,7 +285,7 @@ export class RedBlackTree {
         return [[first_line, second_line, ...shifted_lines], n + u, p + 2, n + Math.floor(u / 2)];
       }
 
-      if (node.left === null) {
+      if (node.left === undefined) {
         const [lines, n, p, u] = _displayAux(node.right);
         const s = `${node.key}`;
         const x = s.length;
@@ -321,21 +318,23 @@ export class RedBlackTree {
    * @param {RBTreeNode} x - The parameter `x` is a RBTreeNode object.
    */
   protected _leftRotate(x: RBTreeNode): void {
-    const y: RBTreeNode = x.right;
-    x.right = y.left;
-    if (y.left !== NIL) {
-      y.left.parent = x;
+    if (x.right) {
+      const y: RBTreeNode = x.right;
+      x.right = y.left;
+      if (y.left !== NIL) {
+        if (y.left) y.left.parent = x;
+      }
+      y.parent = x.parent;
+      if (x.parent === undefined) {
+        this._root = y;
+      } else if (x === x.parent.left) {
+        x.parent.left = y;
+      } else {
+        x.parent.right = y;
+      }
+      y.left = x;
+      x.parent = y;
     }
-    y.parent = x.parent;
-    if (x.parent === null) {
-      this._root = y;
-    } else if (x === x.parent.left) {
-      x.parent.left = y;
-    } else {
-      x.parent.right = y;
-    }
-    y.left = x;
-    x.parent = y;
   }
 
   /**
@@ -344,21 +343,23 @@ export class RedBlackTree {
    * rotated.
    */
   protected _rightRotate(x: RBTreeNode): void {
-    const y: RBTreeNode = x.left;
-    x.left = y.right;
-    if (y.right !== NIL) {
-      y.right.parent = x;
+    if (x.left) {
+      const y: RBTreeNode = x.left;
+      x.left = y.right;
+      if (y.right !== NIL) {
+        if (y.right) y.right.parent = x;
+      }
+      y.parent = x.parent;
+      if (x.parent === undefined) {
+        this._root = y;
+      } else if (x === x.parent.right) {
+        x.parent.right = y;
+      } else {
+        x.parent.left = y;
+      }
+      y.right = x;
+      x.parent = y;
     }
-    y.parent = x.parent;
-    if (x.parent === null) {
-      this._root = y;
-    } else if (x === x.parent.right) {
-      x.parent.right = y;
-    } else {
-      x.parent.left = y;
-    }
-    y.right = x;
-    x.parent = y;
   }
 
   /**
@@ -367,58 +368,58 @@ export class RedBlackTree {
    * red-black tree.
    */
   protected _fixDelete(x: RBTreeNode): void {
-    let s: RBTreeNode;
+    let s: RBTreeNode | undefined;
     while (x !== this.root && x.color === RBTNColor.BLACK) {
-      if (x === x.parent.left) {
-        s = x.parent.right;
+      if (x.parent && x === x.parent.left) {
+        s = x.parent.right!;
         if (s.color === 1) {
           s.color = RBTNColor.BLACK;
           x.parent.color = RBTNColor.RED;
           this._leftRotate(x.parent);
-          s = x.parent.right;
+          s = x.parent.right!;
         }
 
-        if (s.left !== null && s.left.color === RBTNColor.BLACK && s.right.color === RBTNColor.BLACK) {
+        if (s.left !== undefined && s.left.color === RBTNColor.BLACK && s.right && s.right.color === RBTNColor.BLACK) {
           s.color = RBTNColor.RED;
           x = x.parent;
         } else {
-          if (s.right.color === RBTNColor.BLACK) {
-            s.left.color = RBTNColor.BLACK;
+          if (s.right && s.right.color === RBTNColor.BLACK) {
+            if (s.left) s.left.color = RBTNColor.BLACK;
             s.color = RBTNColor.RED;
             this._rightRotate(s);
             s = x.parent.right;
           }
 
-          s.color = x.parent.color;
+          if (s) s.color = x.parent.color;
           x.parent.color = RBTNColor.BLACK;
-          s.right.color = RBTNColor.BLACK;
+          if (s && s.right) s.right.color = RBTNColor.BLACK;
           this._leftRotate(x.parent);
           x = this.root;
         }
       } else {
-        s = x.parent.left;
+        s = x.parent!.left!;
         if (s.color === 1) {
           s.color = RBTNColor.BLACK;
-          x.parent.color = RBTNColor.RED;
-          this._rightRotate(x.parent);
-          s = x.parent.left;
+          x.parent!.color = RBTNColor.RED;
+          this._rightRotate(x.parent!);
+          s = x.parent!.left;
         }
 
-        if (s.right.color === RBTNColor.BLACK && s.right.color === RBTNColor.BLACK) {
+        if (s && s.right && s.right.color === RBTNColor.BLACK && s.right.color === RBTNColor.BLACK) {
           s.color = RBTNColor.RED;
-          x = x.parent;
+          x = x.parent!;
         } else {
-          if (s.left.color === RBTNColor.BLACK) {
-            s.right.color = RBTNColor.BLACK;
+          if (s && s.left && s.left.color === RBTNColor.BLACK) {
+            if (s.right) s.right.color = RBTNColor.BLACK;
             s.color = RBTNColor.RED;
             this._leftRotate(s);
-            s = x.parent.left;
+            s = x.parent!.left;
           }
 
-          s.color = x.parent.color;
-          x.parent.color = RBTNColor.BLACK;
-          s.left.color = RBTNColor.BLACK;
-          this._rightRotate(x.parent);
+          if (s) s.color = x.parent!.color;
+          x.parent!.color = RBTNColor.BLACK;
+          if (s && s.left) s.left.color = RBTNColor.BLACK;
+          this._rightRotate(x.parent!);
           x = this.root;
         }
       }
@@ -432,7 +433,7 @@ export class RedBlackTree {
    * @param {RBTreeNode} v - The parameter "v" is a RBTreeNode object.
    */
   protected _rbTransplant(u: RBTreeNode, v: RBTreeNode): void {
-    if (u.parent === null) {
+    if (u.parent === undefined) {
       this._root = v;
     } else if (u === u.parent.left) {
       u.parent.left = v;
@@ -448,11 +449,11 @@ export class RedBlackTree {
    * red-black tree.
    */
   protected _fixInsert(k: RBTreeNode): void {
-    let u: RBTreeNode;
-    while (k.parent.color === 1) {
-      if (k.parent === k.parent.parent.right) {
+    let u: RBTreeNode | undefined;
+    while (k.parent && k.parent.color === 1) {
+      if (k.parent.parent && k.parent === k.parent.parent.right) {
         u = k.parent.parent.left;
-        if (u.color === 1) {
+        if (u && u.color === 1) {
           u.color = RBTNColor.BLACK;
           k.parent.color = RBTNColor.BLACK;
           k.parent.parent.color = RBTNColor.RED;
@@ -463,27 +464,27 @@ export class RedBlackTree {
             this._rightRotate(k);
           }
 
-          k.parent.color = RBTNColor.BLACK;
-          k.parent.parent.color = RBTNColor.RED;
-          this._leftRotate(k.parent.parent);
+          k.parent!.color = RBTNColor.BLACK;
+          k.parent!.parent!.color = RBTNColor.RED;
+          this._leftRotate(k.parent!.parent!);
         }
       } else {
-        u = k.parent.parent.right;
+        u = k.parent.parent!.right;
 
-        if (u.color === 1) {
+        if (u && u.color === 1) {
           u.color = RBTNColor.BLACK;
           k.parent.color = RBTNColor.BLACK;
-          k.parent.parent.color = RBTNColor.RED;
-          k = k.parent.parent;
+          k.parent.parent!.color = RBTNColor.RED;
+          k = k.parent.parent!;
         } else {
           if (k === k.parent.right) {
             k = k.parent;
             this._leftRotate(k);
           }
 
-          k.parent.color = RBTNColor.BLACK;
-          k.parent.parent.color = RBTNColor.RED;
-          this._rightRotate(k.parent.parent);
+          k.parent!.color = RBTNColor.BLACK;
+          k.parent!.parent!.color = RBTNColor.RED;
+          this._rightRotate(k.parent!.parent!);
         }
       }
       if (k === this.root) {
