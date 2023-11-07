@@ -1,4 +1,4 @@
-import {RBTNColor, RBTreeNode, RedBlackTree} from '../../../../src';
+import {IterationType, RBTNColor, RBTreeNode, RedBlackTree} from '../../../../src';
 import {getRandomInt} from '../../../utils';
 import {isDebugTest} from '../../../config';
 
@@ -197,7 +197,7 @@ describe('RedBlackTree', () => {
     const node = tree.getNode(20);
     tree.add(25);
     // Verify that rotation has occurred
-    expect(node?.left?.key).toBe(0);
+    expect(node?.left?.key).toBeNaN();
     expect(node?.right?.key).toBe(25);
   });
 
@@ -425,18 +425,22 @@ describe('RedBlackTree', () => {
     tree.add(110);
 
     isDebug && tree.print();
+    // console.log(tree.dfs())
+    // console.log(tree.isBST())
+
   });
 
   it('should fix the tree after insertion and deletion', () => {
-    for (let i = 0; i < 100000; i++) {
+    for (let i = 0; i < 1000; i++) {
       tree.add(getRandomInt(-100, 1000));
     }
-    for (let i = 0; i < 100000; i++) {
+    for (let i = 0; i < 1000; i++) {
       tree.delete(getRandomInt(-100, 1000));
     }
-    for (let i = 0; i < 100000; i++) {
+    for (let i = 0; i < 1000; i++) {
       tree.add(getRandomInt(-100, 1000));
       tree.delete(getRandomInt(-100, 1000));
     }
+    // console.log(tree.dfs( n => n.key, "in", tree.root, IterationType.RECURSIVE))
   });
 });

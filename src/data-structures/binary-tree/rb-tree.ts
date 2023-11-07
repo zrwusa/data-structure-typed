@@ -56,7 +56,7 @@ export class RedBlackTree<V = any, N extends RBTreeNode<V, N> = RBTreeNode<V, RB
     return this._size;
   }
 
-  NIL: N = new RBTreeNode<V>(0) as unknown as N;
+  NIL: N = new RBTreeNode<V>(NaN) as unknown as N;
 
   override add(keyOrNode: BTNKey | N | null | undefined, value?: V): N | undefined {
     let node: N;
@@ -89,7 +89,7 @@ export class RedBlackTree<V = any, N extends RBTreeNode<V, N> = RBTreeNode<V, RB
 
     node.parent = y;
     if (y === undefined) {
-      this._root = node;
+      this._setRoot(node);
     } else if (node.key < y.key) {
       y.left = node;
     } else {
@@ -180,32 +180,6 @@ export class RedBlackTree<V = any, N extends RBTreeNode<V, N> = RBTreeNode<V, RB
   isRealNode(node: N | undefined): node is N {
     return node !== this.NIL && node !== undefined;
   }
-
-  /**
-   * The function `getNode` is a recursive depth-first search algorithm that searches for a node with a
-   * given key in a red-black tree.
-   * @param {number} key - The key parameter is a number that represents the value we are searching for
-   * in the RBTree.
-   * @param beginRoot - The `beginRoot` parameter is an optional parameter that represents the starting
-   * point for the search in the binary search tree. If no value is provided for `beginRoot`, it
-   * defaults to the root of the binary search tree (`this.root`).
-   * @returns a RBTreeNode.
-   */
-  // getNode(key: number, beginRoot = this.root): N | undefined {
-  //   const dfs = (node: N): N | undefined => {
-  //     if (this.isRealNode(node)) {
-  //       if (key === node.key) {
-  //         return node;
-  //       }
-  //
-  //       if (key < node.key) return dfs(node.left!);
-  //       return dfs(node.right!);
-  //     } else {
-  //       return undefined;
-  //     }
-  //   };
-  //   return dfs(beginRoot);
-  // }
 
   getNode<C extends BTNCallback<N, BTNKey>>(
     identifier: BTNKey,
@@ -317,68 +291,16 @@ export class RedBlackTree<V = any, N extends RBTreeNode<V, N> = RBTreeNode<V, RB
     return y!;
   }
 
-  clear() {
+  override clear() {
     this._root = this.NIL;
     this._size = 0;
   }
 
-  print(beginRoot: N = this.root) {
-    const display = (root: N | undefined): void => {
-      const [lines, , ,] = _displayAux(root);
-      for (const line of lines) {
-        console.log(line);
-      }
-    };
-
-    const _displayAux = (node: N | undefined): [string[], number, number, number] => {
-      if (node === undefined) {
-        return [[], 0, 0, 0];
-      }
-
-      if (node.right === undefined && node.left === undefined) {
-        const line = `${node.key}`;
-        const width = line.length;
-        const height = 1;
-        const middle = Math.floor(width / 2);
-        return [[line], width, height, middle];
-      }
-
-      if (node.right === undefined) {
-        const [lines, n, p, x] = _displayAux(node.left);
-        const s = `${node.key}`;
-        const u = s.length;
-        const first_line = ' '.repeat(x + 1) + '_'.repeat(n - x - 1) + s;
-        const second_line = ' '.repeat(x) + '/' + ' '.repeat(n - x - 1 + u);
-        const shifted_lines = lines.map(line => line + ' '.repeat(u));
-        return [[first_line, second_line, ...shifted_lines], n + u, p + 2, n + Math.floor(u / 2)];
-      }
-
-      if (node.left === undefined) {
-        const [lines, n, p, u] = _displayAux(node.right);
-        const s = `${node.key}`;
-        const x = s.length;
-        const first_line = s + '_'.repeat(x) + ' '.repeat(n - x);
-        const second_line = ' '.repeat(u + x) + '\\' + ' '.repeat(n - x - 1);
-        const shifted_lines = lines.map(line => ' '.repeat(u) + line);
-        return [[first_line, second_line, ...shifted_lines], n + x, p + 2, Math.floor(u / 2)];
-      }
-
-      const [left, n, p, x] = _displayAux(node.left);
-      const [right, m, q, y] = _displayAux(node.right);
-      const s = `${node.key}`;
-      const u = s.length;
-      const first_line = ' '.repeat(x + 1) + '_'.repeat(n - x - 1) + s + '_'.repeat(y) + ' '.repeat(m - y);
-      const second_line = ' '.repeat(x) + '/' + ' '.repeat(n - x - 1 + u + y) + '\\' + ' '.repeat(m - y - 1);
-      if (p < q) {
-        left.push(...new Array(q - p).fill(' '.repeat(n)));
-      } else if (q < p) {
-        right.push(...new Array(p - q).fill(' '.repeat(m)));
-      }
-      const zipped_lines = left.map((a, i) => a + ' '.repeat(u) + right[i]);
-      return [[first_line, second_line, ...zipped_lines], n + m + u, Math.max(p, q) + 2, n + Math.floor(u / 2)];
-    };
-
-    display(beginRoot);
+  protected override _setRoot(v: N) {
+    if (v) {
+      v.parent = undefined;
+    }
+    this._root = v;
   }
 
   /**
@@ -394,7 +316,7 @@ export class RedBlackTree<V = any, N extends RBTreeNode<V, N> = RBTreeNode<V, RB
       }
       y.parent = x.parent;
       if (x.parent === undefined) {
-        this._root = y;
+        this._setRoot(y);
       } else if (x === x.parent.left) {
         x.parent.left = y;
       } else {
@@ -419,7 +341,7 @@ export class RedBlackTree<V = any, N extends RBTreeNode<V, N> = RBTreeNode<V, RB
       }
       y.parent = x.parent;
       if (x.parent === undefined) {
-        this._root = y;
+        this._setRoot(y);
       } else if (x === x.parent.right) {
         x.parent.right = y;
       } else {
@@ -502,7 +424,7 @@ export class RedBlackTree<V = any, N extends RBTreeNode<V, N> = RBTreeNode<V, RB
    */
   protected _rbTransplant(u: N, v: N): void {
     if (u.parent === undefined) {
-      this._root = v;
+      this._setRoot(v);
     } else if (u === u.parent.left) {
       u.parent.left = v;
     } else {

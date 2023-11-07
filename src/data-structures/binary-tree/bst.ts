@@ -119,8 +119,8 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     }
     if (keyOrNode === null) return undefined;
     // TODO support node as a parameter
-    let inserted:N | undefined = undefined;
-    let newNode:N | undefined = undefined;
+    let inserted:N | undefined;
+    let newNode:N | undefined;
     if (keyOrNode instanceof BSTNode) {
       newNode = keyOrNode;
     } else if (typeof keyOrNode === 'number') {
@@ -129,7 +129,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
       newNode = undefined;
     }
     if (this.root === undefined) {
-      this._root = newNode;
+      this._setRoot(newNode);
       this._size = this.size + 1;
       inserted = this.root;
     } else {
@@ -537,6 +537,13 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   }
 
   protected _comparator: BSTComparator = (a, b) => a - b;
+
+  protected _setRoot(v: N | undefined) {
+    if (v) {
+      v.parent = undefined;
+    }
+    this._root = v;
+  }
 
   /**
    * The function compares two values using a comparator function and returns whether the first value
