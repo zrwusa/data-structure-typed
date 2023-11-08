@@ -27,8 +27,105 @@ Now you can use this library in Node.js and browser environments in CommonJS(req
 
 ## Built-in classic algorithms
 
-DFS(Depth-First Search), DFSIterative, BFS(Breadth-First Search), morris, Bellman-Ford Algorithm, Dijkstra's Algorithm,
-Floyd-Warshall Algorithm, Tarjan's Algorithm.
+<table>
+  <thead>
+  <tr>
+    <th>Algorithm</th>
+    <th>Function Description</th>
+    <th>Iteration Type</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>Binary Tree DFS</td>
+    <td>Traverse a binary tree in a depth-first manner, starting from the root node, first visiting the left subtree,
+      and then the right subtree, using recursion.
+    </td>
+    <td>Recursion + Iteration</td>
+  </tr>
+  <tr>
+    <td>Binary Tree BFS</td>
+    <td>Traverse a binary tree in a breadth-first manner, starting from the root node, visiting nodes level by level
+      from left to right.
+    </td>
+    <td>Iteration</td>
+  </tr>
+  <tr>
+    <td>Graph DFS</td>
+    <td>Traverse a graph in a depth-first manner, starting from a given node, exploring along one path as deeply as
+      possible, and backtracking to explore other paths. Used for finding connected components, paths, etc.
+    </td>
+    <td>Recursion + Iteration</td>
+  </tr>
+  <tr>
+    <td>Binary Tree Morris</td>
+    <td>Morris traversal is an in-order traversal algorithm for binary trees with O(1) space complexity. It allows tree
+      traversal without additional stack or recursion.
+    </td>
+    <td>Iteration</td>
+  </tr>
+  <tr>
+    <td>Graph BFS</td>
+    <td>Traverse a graph in a breadth-first manner, starting from a given node, first visiting nodes directly connected
+      to the starting node, and then expanding level by level. Used for finding shortest paths, etc.
+    </td>
+    <td>Recursion + Iteration</td>
+  </tr>
+  <tr>
+    <td>Graph Tarjan's Algorithm</td>
+    <td>Find strongly connected components in a graph, typically implemented using depth-first search.</td>
+    <td>Recursion</td>
+  </tr>
+  <tr>
+    <td>Graph Bellman-Ford Algorithm</td>
+    <td>Finding the shortest paths from a single source, can handle negative weight edges</td>
+    <td>Iteration</td>
+  </tr>
+  <tr>
+    <td>Graph Dijkstra's Algorithm</td>
+    <td>Finding the shortest paths from a single source, cannot handle negative weight edges</td>
+    <td>Iteration</td>
+  </tr>
+  <tr>
+    <td>Graph Floyd-Warshall Algorithm</td>
+    <td>Finding the shortest paths between all pairs of nodes</td>
+    <td>Iteration</td>
+  </tr>
+  <tr>
+    <td>Graph getCycles</td>
+    <td>Find all cycles in a graph or detect the presence of cycles.</td>
+    <td>Recursion</td>
+  </tr>
+  <tr>
+    <td>Graph getCutVertexes</td>
+    <td>Find cut vertices in a graph, which are nodes that, when removed, increase the number of connected components in
+      the graph.
+    </td>
+    <td>Recursion</td>
+  </tr>
+  <tr>
+    <td>Graph getSCCs</td>
+    <td>Find strongly connected components in a graph, which are subgraphs where any two nodes can reach each other.
+    </td>
+    <td>Recursion</td>
+  </tr>
+  <tr>
+    <td>Graph getBridges</td>
+    <td>Find bridges in a graph, which are edges that, when removed, increase the number of connected components in the
+      graph.
+    </td>
+    <td>Recursion</td>
+  </tr>
+  <tr>
+    <td>Graph topologicalSort</td>
+    <td>Perform topological sorting on a directed acyclic graph (DAG) to find a linear order of nodes such that all
+      directed edges go from earlier nodes to later nodes.
+    </td>
+    <td>Recursion</td>
+  </tr>
+  </tbody>
+</table>
+
 
 ## Installation and Usage
 
@@ -54,11 +151,12 @@ import {
 
 ### CDN
 
+Copy the line below into the head tag in an HTML document.
 ```html
-
 <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js'></script>
 ```
 
+Copy the code below into the script tag of your HTML, and you're good to go with your development work.
 ```js
 const {Heap} = dataStructureTyped;
 const {
@@ -84,7 +182,7 @@ const {
 
 <a href="https://github.com/zrwusa/vivid-algorithm" target="_blank">Examples Repository</a>
 
-## Code Snippet
+## Code Snippets
 
 ### Binary Search Tree (BST) snippet
 
@@ -99,27 +197,40 @@ bst.add(3);
 bst.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
 bst.size === 16;                // true
 bst.has(6);                     // true
-const node6 = bst.get(6);       // BSTNode
+const node6 = bst.getNode(6);   // BSTNode
 bst.getHeight(6) === 2;         // true
 bst.getHeight() === 5;          // true
 bst.getDepth(6) === 3;          // true
 
-bst.getLeftMost()?.id === 1;    // true
+bst.getLeftMost()?.key === 1;   // true
 
 bst.delete(6);
-bst.get(6);                     // null
+bst.get(6);                     // undefined
 bst.isAVLBalanced();            // true
 bst.bfs()[0] === 11;            // true
 
-const objBST = new BST<BSTNode<{id: number, keyA: number}>>();
-objBST.add(11, {id: 11, keyA: 11});
-objBST.add(3, {id: 3, keyA: 3});
+const objBST = new BST<{height: number, age: number}>();
 
-objBST.addMany([{id: 15, keyA: 15}, {id: 1, keyA: 1}, {id: 8, keyA: 8},
-  {id: 13, keyA: 13}, {id: 16, keyA: 16}, {id: 2, keyA: 2},
-  {id: 6, keyA: 6}, {id: 9, keyA: 9}, {id: 12, keyA: 12},
-  {id: 14, keyA: 14}, {id: 4, keyA: 4}, {id: 7, keyA: 7},
-  {id: 10, keyA: 10}, {id: 5, keyA: 5}]);
+objBST.add(11, { "name": "Pablo", "age": 15 });
+objBST.add(3, { "name": "Kirk", "age": 1 });
+
+objBST.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5], [
+    { "name": "Alice", "age": 15 },
+    { "name": "Bob", "age": 1 },
+    { "name": "Charlie", "age": 8 },
+    { "name": "David", "age": 13 },
+    { "name": "Emma", "age": 16 },
+    { "name": "Frank", "age": 2 },
+    { "name": "Grace", "age": 6 },
+    { "name": "Hannah", "age": 9 },
+    { "name": "Isaac", "age": 12 },
+    { "name": "Jack", "age": 14 },
+    { "name": "Katie", "age": 4 },
+    { "name": "Liam", "age": 7 },
+    { "name": "Mia", "age": 10 },
+    { "name": "Noah", "age": 5 }
+  ]
+);
 
 objBST.delete(11);
 ```
@@ -133,39 +244,21 @@ const bst = new BST();
 bst.add(11);
 bst.add(3);
 bst.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
-bst.size === 16;        // true
-bst.has(6);             // true
-const node6 = bst.get(6);
-bst.getHeight(6) === 2; // true
-bst.getHeight() === 5;  // true
-bst.getDepth(6) === 3;  // true
+bst.size === 16;                // true
+bst.has(6);                     // true
+const node6 = bst.getNode(6);
+bst.getHeight(6) === 2;         // true
+bst.getHeight() === 5;          // true
+bst.getDepth(6) === 3;          // true
 const leftMost = bst.getLeftMost();
-leftMost?.id === 1;     // true
-expect(leftMost?.id).toBe(1);
+leftMost?.key === 1;            // true
+
 bst.delete(6);
-bst.get(6);             // null
-bst.isAVLBalanced();    // true or false
+bst.get(6);                     // undefined
+bst.isAVLBalanced();            // true or false
 const bfsIDs = bst.bfs();
-bfsIDs[0] === 11;       // true
-expect(bfsIDs[0]).toBe(11);
+bfsIDs[0] === 11;               // true
 
-const objBST = new BST();
-objBST.add(11, {id: 11, keyA: 11});
-objBST.add(3, {id: 3, keyA: 3});
-
-objBST.addMany([{id: 15, keyA: 15}, {id: 1, keyA: 1}, {id: 8, keyA: 8},
-  {id: 13, keyA: 13}, {id: 16, keyA: 16}, {id: 2, keyA: 2},
-  {id: 6, keyA: 6}, {id: 9, keyA: 9}, {id: 12, keyA: 12},
-  {id: 14, keyA: 14}, {id: 4, keyA: 4}, {id: 7, keyA: 7},
-  {id: 10, keyA: 10}, {id: 5, keyA: 5}]);
-
-objBST.delete(11);
-
-const avlTree = new AVLTree();
-avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
-avlTree.isAVLBalanced();    // true
-avlTree.delete(10);
-avlTree.isAVLBalanced();    // true
 ```
 
 ### AVLTree snippet
@@ -222,7 +315,7 @@ graph.addVertex('C');
 graph.addEdge('A', 'B');
 graph.addEdge('B', 'C');
 
-const topologicalOrderIds = graph.topologicalSort(); // ['A', 'B', 'C']
+const topologicalOrderKeys = graph.topologicalSort(); // ['A', 'B', 'C']
 ```
 
 ### Undirected Graph snippet
@@ -242,7 +335,7 @@ graph.addEdge('A', 'B');
 graph.addEdge('B', 'D');
 
 const dijkstraResult = graph.dijkstra('A');
-Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D']
+Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', 'D']
 ```
 
 ## Data Structures
@@ -445,12 +538,6 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
   </thead>
   <tbody>
   <tr>
-    <td>Array&lt;E&gt;</td>
-    <td>vector&lt;T&gt;</td>
-    <td>ArrayList&lt;E&gt;</td>
-    <td>list</td>
-  </tr>
-  <tr>
     <td>DoublyLinkedList&lt;E&gt;</td>
     <td>list&lt;T&gt;</td>
     <td>LinkedList&lt;E&gt;</td>
@@ -460,6 +547,42 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
     <td>SinglyLinkedList&lt;E&gt;</td>
     <td>-</td>
     <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Array&lt;E&gt;</td>
+    <td>vector&lt;T&gt;</td>
+    <td>ArrayList&lt;E&gt;</td>
+    <td>list</td>
+  </tr>
+  <tr>
+    <td>Queue&lt;E&gt;</td>
+    <td>queue&lt;T&gt;</td>
+    <td>Queue&lt;E&gt;</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Deque&lt;E&gt;</td>
+    <td>deque&lt;T&gt;</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>PriorityQueue&lt;E&gt;</td>
+    <td>priority_queue&lt;T&gt;</td>
+    <td>PriorityQueue&lt;E&gt;</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Heap&lt;E&gt;</td>
+    <td>priority_queue&lt;T&gt;</td>
+    <td>PriorityQueue&lt;E&gt;</td>
+    <td>heapq</td>
+  </tr>
+  <tr>
+    <td>Stack&lt;E&gt;</td>
+    <td>stack&lt;T&gt;</td>
+    <td>Stack&lt;E&gt;</td>
     <td>-</td>
   </tr>
   <tr>
@@ -475,46 +598,9 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
     <td>dict</td>
   </tr>
   <tr>
-    <td>Map&lt;K, V&gt;</td>
     <td>-</td>
-    <td>-</td>
-    <td>OrderedDict</td>
-  </tr>
-
-  <tr>
-    <td>Queue&lt;E&gt;</td>
-    <td>queue&lt;T&gt;</td>
-    <td>Queue&lt;E&gt;</td>
-    <td>-</td>
-  </tr>
-  <tr>
-    <td>PriorityQueue&lt;E&gt;</td>
-    <td>priority_queue&lt;T&gt;</td>
-    <td>PriorityQueue&lt;E&gt;</td>
-    <td>-</td>
-  </tr>
-  <tr>
-    <td>Heap&lt;V&gt;</td>
-    <td>priority_queue&lt;T&gt;</td>
-    <td>PriorityQueue&lt;E&gt;</td>
-    <td>heapq</td>
-  </tr>
-  <tr>
-    <td>Stack&lt;E&gt;</td>
-    <td>stack&lt;T&gt;</td>
-    <td>Stack&lt;E&gt;</td>
-    <td>-</td>
-  </tr>
-  <tr>
-    <td>Deque&lt;E&gt;</td>
-    <td>deque&lt;T&gt;</td>
-    <td>-</td>
-    <td>-</td>
-  </tr>
-  <tr>
-    <td>Trie</td>
-    <td>-</td>
-    <td>-</td>
+    <td>unordered_set&lt;T&gt;</td>
+    <td>HashSet&lt;E&gt;</td>
     <td>-</td>
   </tr>
   <tr>
@@ -524,16 +610,10 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
     <td>defaultdict</td>
   </tr>
   <tr>
-    <td>-</td>
-    <td>multiset&lt;T&gt;</td>
-    <td>-</td>
-    <td>-</td>
-  </tr>
-  <tr>
-    <td>-</td>
-    <td>multimap&lt;K, V&gt;</td>
+    <td>Map&lt;K, V&gt;</td>
     <td>-</td>
     <td>-</td>
+    <td>OrderedDict</td>
   </tr>
   <tr>
     <td>BinaryTree&lt;K, V&gt;</td>
@@ -544,6 +624,42 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
   <tr>
     <td>BST&lt;K, V&gt;</td>
     <td>-</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>TreeMultimap&lt;K, V&gt;</td>
+    <td>multimap&lt;K, V&gt;</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>AVLTree&lt;E&gt;</td>
+    <td>-</td>
+    <td>TreeSet&lt;E&gt;</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>AVLTree&lt;K, V&gt;</td>
+    <td>-</td>
+    <td>TreeMap&lt;K, V&gt;</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>AVLTree&lt;E&gt;</td>
+    <td>set</td>
+    <td>TreeSet&lt;E&gt;</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>Trie</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>-</td>
+    <td>multiset&lt;T&gt;</td>
     <td>-</td>
     <td>-</td>
   </tr>
@@ -578,24 +694,6 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
     <td>-</td>
   </tr>
   <tr>
-    <td>AVLTree&lt;E&gt;</td>
-    <td>-</td>
-    <td>TreeSet&lt;E&gt;</td>
-    <td>-</td>
-  </tr>
-  <tr>
-    <td>AVLTree&lt;K, V&gt;</td>
-    <td>-</td>
-    <td>TreeMap&lt;K, V&gt;</td>
-    <td>-</td>
-  </tr>
-  <tr>
-    <td>AVLTree&lt;E&gt;</td>
-    <td>set</td>
-    <td>TreeSet&lt;E&gt;</td>
-    <td>-</td>
-  </tr>
-  <tr>
     <td>-</td>
     <td>unordered_multimap&lt;K, V&gt;</td>
     <td>-</td>
@@ -605,12 +703,6 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.id) // ['A', 'B', 'D
     <td>-</td>
     <td>bitset&lt;N&gt;</td>
     <td>-</td>
-    <td>-</td>
-  </tr>
-  <tr>
-    <td>-</td>
-    <td>unordered_set&lt;T&gt;</td>
-    <td>HashSet&lt;E&gt;</td>
     <td>-</td>
   </tr>
   </tbody>
@@ -633,7 +725,7 @@ optimal approach to data structure design.
 
 ## Benchmark
 
-[//]: # (Start of Replace Section)
+[//]: # (No deletion!!! Start of Replace Section)
 <div class="json-to-html-collapse clearfix 0">
       <div class='collapsible level0' ><span class='json-to-html-label'>avl-tree</span></div>
       <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>10,000 add randomly</td><td>30.52</td><td>32.76</td><td>3.28e-4</td></tr><tr><td>10,000 add & delete randomly</td><td>66.96</td><td>14.94</td><td>0.00</td></tr><tr><td>10,000 addMany</td><td>39.78</td><td>25.14</td><td>3.67e-4</td></tr><tr><td>10,000 get</td><td>27.38</td><td>36.52</td><td>0.00</td></tr></table></div>
@@ -672,4 +764,4 @@ optimal approach to data structure design.
       <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>100,000 push</td><td>59.40</td><td>16.83</td><td>0.01</td></tr><tr><td>100,000 getWords</td><td>90.07</td><td>11.10</td><td>0.00</td></tr></table></div>
     </div>
 
-[//]: # (End of Replace Section)
+[//]: # (No deletion!!! End of Replace Section)

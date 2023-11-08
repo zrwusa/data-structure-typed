@@ -100,8 +100,8 @@ const composeReport = () => {
                     </body>
                   </html>`;
   replaceMarkdownContent(
-    '[//]: # (Start of Replace Section)', // Start tag
-    '[//]: # (End of Replace Section)', // end identifier
+    '[//]: # (No deletion!!! Start of Replace Section)', // Start tag
+    '[//]: # (No deletion!!! End of Replace Section)', // end identifier
     htmlTables // New content to be inserted
   );
   fs.writeFileSync(htmlFilePath, html);
