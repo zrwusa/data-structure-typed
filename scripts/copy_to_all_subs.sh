@@ -28,7 +28,7 @@ directories=(
   "singly-linked-list-typed"
   "queue-typed"
   "stack-typed"
-  "tree-multiset-typed"
+  "tree-multimap-typed"
   "trie-typed"
   "undirected-graph-typed"
 )

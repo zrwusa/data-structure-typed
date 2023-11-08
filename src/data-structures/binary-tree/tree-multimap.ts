@@ -5,14 +5,14 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type {BTNKey, TreeMultisetNodeNested, TreeMultisetOptions} from '../../types';
+import type {BTNKey, TreeMultimapNodeNested, TreeMultimapOptions} from '../../types';
 import {BinaryTreeDeletedResult, BTNCallback, CP, FamilyPosition, IterationType} from '../../types';
 import {IBinaryTree} from '../../interfaces';
 import {AVLTree, AVLTreeNode} from './avl-tree';
 
-export class TreeMultisetNode<
+export class TreeMultimapNode<
   V = any,
-  N extends TreeMultisetNode<V, N> = TreeMultisetNodeNested<V>
+  N extends TreeMultimapNode<V, N> = TreeMultimapNodeNested<V>
 > extends AVLTreeNode<V, N> {
   count: number;
 
@@ -33,19 +33,19 @@ export class TreeMultisetNode<
 }
 
 /**
- * The only distinction between a TreeMultiset and a AVLTree lies in the ability of the former to store duplicate nodes through the utilization of counters.
+ * The only distinction between a TreeMultimap and a AVLTree lies in the ability of the former to store duplicate nodes through the utilization of counters.
  */
-export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultisetNode<V, TreeMultisetNodeNested<V>>>
+export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultimapNode<V, TreeMultimapNodeNested<V>>>
   extends AVLTree<V, N>
   implements IBinaryTree<V, N>
 {
   /**
-   * The constructor function for a TreeMultiset class in TypeScript, which extends another class and sets an option to
+   * The constructor function for a TreeMultimap class in TypeScript, which extends another class and sets an option to
    * merge duplicated values.
-   * @param {TreeMultisetOptions} [options] - An optional object that contains additional configuration options for the
-   * TreeMultiset.
+   * @param {TreeMultimapOptions} [options] - An optional object that contains additional configuration options for the
+   * TreeMultimap.
    */
-  constructor(options?: TreeMultisetOptions) {
+  constructor(options?: TreeMultimapOptions) {
     super(options);
   }
 
@@ -65,7 +65,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
    * @returns A new instance of the BSTNode class with the specified key, value, and count (if provided).
    */
   override createNode(key: BTNKey, value?: V, count?: number): N {
-    return new TreeMultisetNode(key, value, count) as N;
+    return new TreeMultimapNode(key, value, count) as N;
   }
 
   /**
@@ -85,7 +85,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
     if(keyOrNode === null) return undefined;
     let inserted: N  | undefined = undefined,
       newNode: N | undefined;
-    if (keyOrNode instanceof TreeMultisetNode) {
+    if (keyOrNode instanceof TreeMultimapNode) {
       newNode = this.createNode(keyOrNode.key, keyOrNode.value, keyOrNode.count);
     } else if (keyOrNode === undefined) {
       newNode = undefined;
@@ -184,10 +184,10 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
   }
 
   /**
-   * The `addMany` function adds multiple keys or nodes to a TreeMultiset and returns an array of the
+   * The `addMany` function adds multiple keys or nodes to a TreeMultimap and returns an array of the
    * inserted nodes.
    * @param {(BTNKey | undefined)[] | (N | undefined)[]} keysOrNodes - An array of keys or nodes to be
-   * added to the multiset. Each element can be either a BTNKey or a TreeMultisetNode.
+   * added to the multiset. Each element can be either a BTNKey or a TreeMultimapNode.
    * @param {V[]} [data] - The `data` parameter is an optional array of values that correspond
    * to the keys or nodes being added to the multiset. It is used to associate additional data with
    * each key or node.
@@ -199,7 +199,7 @@ export class TreeMultiset<V = any, N extends TreeMultisetNode<V, N> = TreeMultis
     for (let i = 0; i < keysOrNodes.length; i++) {
       const keyOrNode = keysOrNodes[i];
 
-      if (keyOrNode instanceof TreeMultisetNode) {
+      if (keyOrNode instanceof TreeMultimapNode) {
         inserted.push(this.add(keyOrNode.key, keyOrNode.value, keyOrNode.count));
         continue;
       }

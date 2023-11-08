@@ -1,6 +1,0 @@
-import {TreeMultisetNode} from '../../../data-structures';
-import {AVLTreeOptions} from './avl-tree';
-
-export type TreeMultisetNodeNested<T> = TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, TreeMultisetNode<T, any>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-export type TreeMultisetOptions = Omit<AVLTreeOptions, 'isMergeDuplicatedNodeByKey'> & {}

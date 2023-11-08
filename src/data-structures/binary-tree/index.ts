@@ -4,4 +4,4 @@ export * from './binary-indexed-tree';
 export * from './segment-tree';
 export * from './avl-tree';
 export * from './rb-tree';
-export * from './tree-multiset';
+export * from './tree-multimap';
