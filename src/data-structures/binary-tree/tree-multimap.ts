@@ -6,7 +6,7 @@
  * @license MIT License
  */
 import type {BTNKey, TreeMultimapNodeNested, TreeMultimapOptions} from '../../types';
-import {BinaryTreeDeletedResult, BTNCallback, CP, FamilyPosition, IterationType} from '../../types';
+import {BiTreeDeleteResult, BTNCallback, CP, FamilyPosition, IterationType} from '../../types';
 import {IBinaryTree} from '../../interfaces';
 import {AVLTree, AVLTreeNode} from './avl-tree';
 
@@ -274,14 +274,14 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    * being deleted. If set to true, the count of the node will not be considered and the node will be
    * deleted regardless of its count. If set to false (default), the count of the node will be
    * decremented by 1 and
-   * @returns The method `delete` returns an array of `BinaryTreeDeletedResult<N>` objects.
+   * @returns The method `delete` returns an array of `BiTreeDeleteResult<N>` objects.
    */
   override delete<C extends BTNCallback<N>>(
     identifier: ReturnType<C>,
     callback: C = this.defaultOneParamCallback as C,
     ignoreCount = false
-  ): BinaryTreeDeletedResult<N>[] {
-    const bstDeletedResult: BinaryTreeDeletedResult<N>[] = [];
+  ): BiTreeDeleteResult<N>[] {
+    const bstDeletedResult: BiTreeDeleteResult<N>[] = [];
     if (!this.root) return bstDeletedResult;
 
     const curr: N | undefined = this.getNode(identifier, callback) ?? undefined;

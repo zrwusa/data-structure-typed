@@ -7,7 +7,7 @@
  */
 
 import {
-  BinaryTreeDeletedResult,
+  BiTreeDeleteResult,
   BTNCallback,
   BTNKey,
   IterationType,
@@ -119,8 +119,8 @@ export class RedBlackTree<V = any, N extends RBTreeNode<V, N> = RBTreeNode<V, RB
   delete<C extends BTNCallback<N>>(
     identifier: ReturnType<C> | null | undefined,
     callback: C = this.defaultOneParamCallback as C
-  ): BinaryTreeDeletedResult<N>[] {
-    const ans: BinaryTreeDeletedResult<N>[] = [];
+  ): BiTreeDeleteResult<N>[] {
+    const ans: BiTreeDeleteResult<N>[] = [];
     if (identifier === null) return ans;
     const helper = (node: N | undefined): void => {
       let z: N = this.NIL;

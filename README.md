@@ -25,108 +25,6 @@ Now you can use this library in Node.js and browser environments in CommonJS(req
 [//]: # (![Lines]&#40;https://img.shields.io/badge/lines-68.6%25-red.svg?style=flat&#41;)
 
 
-## Built-in classic algorithms
-
-<table>
-  <thead>
-  <tr>
-    <th>Algorithm</th>
-    <th>Function Description</th>
-    <th>Iteration Type</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr>
-    <td>Binary Tree DFS</td>
-    <td>Traverse a binary tree in a depth-first manner, starting from the root node, first visiting the left subtree,
-      and then the right subtree, using recursion.
-    </td>
-    <td>Recursion + Iteration</td>
-  </tr>
-  <tr>
-    <td>Binary Tree BFS</td>
-    <td>Traverse a binary tree in a breadth-first manner, starting from the root node, visiting nodes level by level
-      from left to right.
-    </td>
-    <td>Iteration</td>
-  </tr>
-  <tr>
-    <td>Graph DFS</td>
-    <td>Traverse a graph in a depth-first manner, starting from a given node, exploring along one path as deeply as
-      possible, and backtracking to explore other paths. Used for finding connected components, paths, etc.
-    </td>
-    <td>Recursion + Iteration</td>
-  </tr>
-  <tr>
-    <td>Binary Tree Morris</td>
-    <td>Morris traversal is an in-order traversal algorithm for binary trees with O(1) space complexity. It allows tree
-      traversal without additional stack or recursion.
-    </td>
-    <td>Iteration</td>
-  </tr>
-  <tr>
-    <td>Graph BFS</td>
-    <td>Traverse a graph in a breadth-first manner, starting from a given node, first visiting nodes directly connected
-      to the starting node, and then expanding level by level. Used for finding shortest paths, etc.
-    </td>
-    <td>Recursion + Iteration</td>
-  </tr>
-  <tr>
-    <td>Graph Tarjan's Algorithm</td>
-    <td>Find strongly connected components in a graph, typically implemented using depth-first search.</td>
-    <td>Recursion</td>
-  </tr>
-  <tr>
-    <td>Graph Bellman-Ford Algorithm</td>
-    <td>Finding the shortest paths from a single source, can handle negative weight edges</td>
-    <td>Iteration</td>
-  </tr>
-  <tr>
-    <td>Graph Dijkstra's Algorithm</td>
-    <td>Finding the shortest paths from a single source, cannot handle negative weight edges</td>
-    <td>Iteration</td>
-  </tr>
-  <tr>
-    <td>Graph Floyd-Warshall Algorithm</td>
-    <td>Finding the shortest paths between all pairs of nodes</td>
-    <td>Iteration</td>
-  </tr>
-  <tr>
-    <td>Graph getCycles</td>
-    <td>Find all cycles in a graph or detect the presence of cycles.</td>
-    <td>Recursion</td>
-  </tr>
-  <tr>
-    <td>Graph getCutVertexes</td>
-    <td>Find cut vertices in a graph, which are nodes that, when removed, increase the number of connected components in
-      the graph.
-    </td>
-    <td>Recursion</td>
-  </tr>
-  <tr>
-    <td>Graph getSCCs</td>
-    <td>Find strongly connected components in a graph, which are subgraphs where any two nodes can reach each other.
-    </td>
-    <td>Recursion</td>
-  </tr>
-  <tr>
-    <td>Graph getBridges</td>
-    <td>Find bridges in a graph, which are edges that, when removed, increase the number of connected components in the
-      graph.
-    </td>
-    <td>Recursion</td>
-  </tr>
-  <tr>
-    <td>Graph topologicalSort</td>
-    <td>Perform topological sorting on a directed acyclic graph (DAG) to find a linear order of nodes such that all
-      directed edges go from earlier nodes to later nodes.
-    </td>
-    <td>Recursion</td>
-  </tr>
-  </tbody>
-</table>
-
-
 ## Installation and Usage
 
 ### npm
@@ -174,13 +72,6 @@ const {
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/directed-graph-test.webp)
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/map-graph-test.webp)
 
-## API docs & Examples
-
-[API Docs](https://data-structure-typed-docs.vercel.app)
-
-[Live Examples](https://vivid-algorithm.vercel.app)
-
-<a href="https://github.com/zrwusa/vivid-algorithm" target="_blank">Examples Repository</a>
 
 ## Code Snippets
 
@@ -338,6 +229,115 @@ const dijkstraResult = graph.dijkstra('A');
 Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', 'D']
 ```
 
+## Built-in classic algorithms
+
+<table>
+  <thead>
+  <tr>
+    <th>Algorithm</th>
+    <th>Function Description</th>
+    <th>Iteration Type</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>Binary Tree DFS</td>
+    <td>Traverse a binary tree in a depth-first manner, starting from the root node, first visiting the left subtree,
+      and then the right subtree, using recursion.
+    </td>
+    <td>Recursion + Iteration</td>
+  </tr>
+  <tr>
+    <td>Binary Tree BFS</td>
+    <td>Traverse a binary tree in a breadth-first manner, starting from the root node, visiting nodes level by level
+      from left to right.
+    </td>
+    <td>Iteration</td>
+  </tr>
+  <tr>
+    <td>Graph DFS</td>
+    <td>Traverse a graph in a depth-first manner, starting from a given node, exploring along one path as deeply as
+      possible, and backtracking to explore other paths. Used for finding connected components, paths, etc.
+    </td>
+    <td>Recursion + Iteration</td>
+  </tr>
+  <tr>
+    <td>Binary Tree Morris</td>
+    <td>Morris traversal is an in-order traversal algorithm for binary trees with O(1) space complexity. It allows tree
+      traversal without additional stack or recursion.
+    </td>
+    <td>Iteration</td>
+  </tr>
+  <tr>
+    <td>Graph BFS</td>
+    <td>Traverse a graph in a breadth-first manner, starting from a given node, first visiting nodes directly connected
+      to the starting node, and then expanding level by level. Used for finding shortest paths, etc.
+    </td>
+    <td>Recursion + Iteration</td>
+  </tr>
+  <tr>
+    <td>Graph Tarjan's Algorithm</td>
+    <td>Find strongly connected components in a graph, typically implemented using depth-first search.</td>
+    <td>Recursion</td>
+  </tr>
+  <tr>
+    <td>Graph Bellman-Ford Algorithm</td>
+    <td>Finding the shortest paths from a single source, can handle negative weight edges</td>
+    <td>Iteration</td>
+  </tr>
+  <tr>
+    <td>Graph Dijkstra's Algorithm</td>
+    <td>Finding the shortest paths from a single source, cannot handle negative weight edges</td>
+    <td>Iteration</td>
+  </tr>
+  <tr>
+    <td>Graph Floyd-Warshall Algorithm</td>
+    <td>Finding the shortest paths between all pairs of nodes</td>
+    <td>Iteration</td>
+  </tr>
+  <tr>
+    <td>Graph getCycles</td>
+    <td>Find all cycles in a graph or detect the presence of cycles.</td>
+    <td>Recursion</td>
+  </tr>
+  <tr>
+    <td>Graph getCutVertexes</td>
+    <td>Find cut vertices in a graph, which are nodes that, when removed, increase the number of connected components in
+      the graph.
+    </td>
+    <td>Recursion</td>
+  </tr>
+  <tr>
+    <td>Graph getSCCs</td>
+    <td>Find strongly connected components in a graph, which are subgraphs where any two nodes can reach each other.
+    </td>
+    <td>Recursion</td>
+  </tr>
+  <tr>
+    <td>Graph getBridges</td>
+    <td>Find bridges in a graph, which are edges that, when removed, increase the number of connected components in the
+      graph.
+    </td>
+    <td>Recursion</td>
+  </tr>
+  <tr>
+    <td>Graph topologicalSort</td>
+    <td>Perform topological sorting on a directed acyclic graph (DAG) to find a linear order of nodes such that all
+      directed edges go from earlier nodes to later nodes.
+    </td>
+    <td>Recursion</td>
+  </tr>
+  </tbody>
+</table>
+
+## API docs & Examples
+
+[API Docs](https://data-structure-typed-docs.vercel.app)
+
+[Live Examples](https://vivid-algorithm.vercel.app)
+
+<a href="https://github.com/zrwusa/vivid-algorithm" target="_blank">Examples Repository</a>
+
 ## Data Structures
 
 <table>
@@ -376,7 +376,7 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', '
 <td>Red Black Tree</td>
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/RedBlackTree.html"><span>AVLTree</span></a></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/RedBlackTree.html"><span>RedBlackTree</span></a></td>
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 </tr>
 <tr>
@@ -728,40 +728,40 @@ optimal approach to data structure design.
 [//]: # (No deletion!!! Start of Replace Section)
 <div class="json-to-html-collapse clearfix 0">
       <div class='collapsible level0' ><span class='json-to-html-label'>avl-tree</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>10,000 add randomly</td><td>30.52</td><td>32.76</td><td>3.28e-4</td></tr><tr><td>10,000 add & delete randomly</td><td>66.96</td><td>14.94</td><td>0.00</td></tr><tr><td>10,000 addMany</td><td>39.78</td><td>25.14</td><td>3.67e-4</td></tr><tr><td>10,000 get</td><td>27.38</td><td>36.52</td><td>0.00</td></tr></table></div>
+      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>10,000 add randomly</td><td>31.95</td><td>31.30</td><td>2.69e-4</td></tr><tr><td>10,000 add & delete randomly</td><td>69.18</td><td>14.45</td><td>8.01e-4</td></tr><tr><td>10,000 addMany</td><td>41.62</td><td>24.03</td><td>2.25e-4</td></tr><tr><td>10,000 get</td><td>27.67</td><td>36.13</td><td>1.96e-4</td></tr></table></div>
     </div><div class="json-to-html-collapse clearfix 0">
       <div class='collapsible level0' ><span class='json-to-html-label'>binary-tree</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>1,000 add randomly</td><td>10.50</td><td>95.20</td><td>2.30e-4</td></tr><tr><td>1,000 add & delete randomly</td><td>16.18</td><td>61.81</td><td>2.48e-4</td></tr><tr><td>1,000 addMany</td><td>10.80</td><td>92.62</td><td>1.83e-4</td></tr><tr><td>1,000 get</td><td>18.03</td><td>55.45</td><td>1.41e-4</td></tr><tr><td>1,000 dfs</td><td>157.86</td><td>6.33</td><td>0.00</td></tr><tr><td>1,000 bfs</td><td>56.68</td><td>17.64</td><td>0.00</td></tr><tr><td>1,000 morris</td><td>37.21</td><td>26.88</td><td>2.79e-4</td></tr></table></div>
+      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>1,000 add randomly</td><td>12.29</td><td>81.38</td><td>9.60e-5</td></tr><tr><td>1,000 add & delete randomly</td><td>15.60</td><td>64.11</td><td>1.04e-4</td></tr><tr><td>1,000 addMany</td><td>10.30</td><td>97.04</td><td>9.16e-5</td></tr><tr><td>1,000 get</td><td>18.02</td><td>55.50</td><td>2.21e-4</td></tr><tr><td>1,000 dfs</td><td>175.42</td><td>5.70</td><td>0.00</td></tr><tr><td>1,000 bfs</td><td>55.71</td><td>17.95</td><td>2.56e-4</td></tr><tr><td>1,000 morris</td><td>38.29</td><td>26.11</td><td>2.10e-4</td></tr></table></div>
     </div><div class="json-to-html-collapse clearfix 0">
       <div class='collapsible level0' ><span class='json-to-html-label'>bst</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>10,000 add randomly</td><td>27.61</td><td>36.21</td><td>4.73e-4</td></tr><tr><td>10,000 add & delete randomly</td><td>62.93</td><td>15.89</td><td>5.86e-4</td></tr><tr><td>10,000 addMany</td><td>28.70</td><td>34.84</td><td>0.00</td></tr><tr><td>10,000 get</td><td>27.67</td><td>36.14</td><td>2.92e-4</td></tr></table></div>
+      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>10,000 add randomly</td><td>30.55</td><td>32.73</td><td>2.83e-4</td></tr><tr><td>10,000 add & delete randomly</td><td>69.22</td><td>14.45</td><td>7.57e-4</td></tr><tr><td>10,000 addMany</td><td>29.52</td><td>33.88</td><td>3.69e-4</td></tr><tr><td>10,000 get</td><td>28.71</td><td>34.83</td><td>2.69e-4</td></tr></table></div>
     </div><div class="json-to-html-collapse clearfix 0">
       <div class='collapsible level0' ><span class='json-to-html-label'>rb-tree</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>100,000 add randomly</td><td>87.51</td><td>11.43</td><td>0.01</td></tr><tr><td>100,000 add & delete randomly</td><td>189.06</td><td>5.29</td><td>0.01</td></tr><tr><td>100,000 getNode</td><td>35.33</td><td>28.31</td><td>8.93e-4</td></tr></table></div>
+      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>100,000 add randomly</td><td>85.63</td><td>11.68</td><td>0.00</td></tr><tr><td>100,000 add & delete randomly</td><td>181.31</td><td>5.52</td><td>0.01</td></tr><tr><td>100,000 getNode</td><td>91.77</td><td>10.90</td><td>5.02e-4</td></tr></table></div>
     </div><div class="json-to-html-collapse clearfix 0">
       <div class='collapsible level0' ><span class='json-to-html-label'>directed-graph</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>1,000 addVertex</td><td>0.10</td><td>9899.91</td><td>8.58e-7</td></tr><tr><td>1,000 addEdge</td><td>6.06</td><td>165.02</td><td>1.68e-4</td></tr><tr><td>1,000 getVertex</td><td>0.05</td><td>2.17e+4</td><td>4.22e-7</td></tr><tr><td>1,000 getEdge</td><td>23.05</td><td>43.38</td><td>0.00</td></tr><tr><td>tarjan</td><td>222.59</td><td>4.49</td><td>0.01</td></tr><tr><td>tarjan all</td><td>226.89</td><td>4.41</td><td>0.01</td></tr><tr><td>topologicalSort</td><td>187.34</td><td>5.34</td><td>0.01</td></tr></table></div>
+      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>1,000 addVertex</td><td>0.10</td><td>9889.32</td><td>1.21e-6</td></tr><tr><td>1,000 addEdge</td><td>5.97</td><td>167.63</td><td>1.09e-4</td></tr><tr><td>1,000 getVertex</td><td>0.05</td><td>2.17e+4</td><td>4.36e-7</td></tr><tr><td>1,000 getEdge</td><td>23.73</td><td>42.14</td><td>0.00</td></tr><tr><td>tarjan</td><td>225.10</td><td>4.44</td><td>0.01</td></tr><tr><td>tarjan all</td><td>233.47</td><td>4.28</td><td>0.02</td></tr><tr><td>topologicalSort</td><td>183.96</td><td>5.44</td><td>0.00</td></tr></table></div>
     </div><div class="json-to-html-collapse clearfix 0">
       <div class='collapsible level0' ><span class='json-to-html-label'>heap</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>10,000 add & pop</td><td>4.66</td><td>214.54</td><td>9.38e-5</td></tr><tr><td>10,000 fib add & pop</td><td>364.30</td><td>2.74</td><td>0.01</td></tr></table></div>
+      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>10,000 add & pop</td><td>4.61</td><td>216.99</td><td>4.19e-5</td></tr><tr><td>10,000 fib add & pop</td><td>354.79</td><td>2.82</td><td>0.00</td></tr></table></div>
     </div><div class="json-to-html-collapse clearfix 0">
       <div class='collapsible level0' ><span class='json-to-html-label'>doubly-linked-list</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>1,000,000 unshift</td><td>243.61</td><td>4.10</td><td>0.07</td></tr><tr><td>1,000,000 unshift & shift</td><td>173.32</td><td>5.77</td><td>0.03</td></tr><tr><td>1,000,000 insertBefore</td><td>315.86</td><td>3.17</td><td>0.04</td></tr></table></div>
+      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>1,000,000 unshift</td><td>210.07</td><td>4.76</td><td>0.03</td></tr><tr><td>1,000,000 unshift & shift</td><td>174.44</td><td>5.73</td><td>0.04</td></tr><tr><td>1,000,000 insertBefore</td><td>355.36</td><td>2.81</td><td>0.10</td></tr></table></div>
     </div><div class="json-to-html-collapse clearfix 0">
       <div class='collapsible level0' ><span class='json-to-html-label'>singly-linked-list</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>10,000 push & pop</td><td>228.06</td><td>4.38</td><td>0.03</td></tr><tr><td>10,000 insertBefore</td><td>252.07</td><td>3.97</td><td>0.01</td></tr></table></div>
+      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>10,000 push & pop</td><td>220.47</td><td>4.54</td><td>0.01</td></tr><tr><td>10,000 insertBefore</td><td>252.59</td><td>3.96</td><td>0.00</td></tr></table></div>
     </div><div class="json-to-html-collapse clearfix 0">
       <div class='collapsible level0' ><span class='json-to-html-label'>max-priority-queue</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>10,000 refill & poll</td><td>11.53</td><td>86.71</td><td>2.27e-4</td></tr></table></div>
+      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>10,000 refill & poll</td><td>11.72</td><td>85.32</td><td>2.97e-4</td></tr></table></div>
     </div><div class="json-to-html-collapse clearfix 0">
       <div class='collapsible level0' ><span class='json-to-html-label'>deque</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>1,000,000 push</td><td>227.24</td><td>4.40</td><td>0.07</td></tr><tr><td>1,000,000 shift</td><td>25.60</td><td>39.07</td><td>0.00</td></tr></table></div>
+      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>1,000,000 push</td><td>233.90</td><td>4.28</td><td>0.07</td></tr><tr><td>1,000,000 shift</td><td>25.40</td><td>39.37</td><td>0.00</td></tr></table></div>
     </div><div class="json-to-html-collapse clearfix 0">
       <div class='collapsible level0' ><span class='json-to-html-label'>queue</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>1,000,000 push</td><td>45.98</td><td>21.75</td><td>0.01</td></tr><tr><td>1,000,000 push & shift</td><td>81.12</td><td>12.33</td><td>0.00</td></tr></table></div>
+      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>1,000,000 push</td><td>43.54</td><td>22.97</td><td>0.00</td></tr><tr><td>1,000,000 push & shift</td><td>83.99</td><td>11.91</td><td>0.00</td></tr></table></div>
     </div><div class="json-to-html-collapse clearfix 0">
       <div class='collapsible level0' ><span class='json-to-html-label'>trie</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>100,000 push</td><td>59.40</td><td>16.83</td><td>0.01</td></tr><tr><td>100,000 getWords</td><td>90.07</td><td>11.10</td><td>0.00</td></tr></table></div>
+      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>100,000 push</td><td>49.17</td><td>20.34</td><td>0.01</td></tr><tr><td>100,000 getWords</td><td>88.84</td><td>11.26</td><td>0.01</td></tr></table></div>
     </div>
 
 [//]: # (No deletion!!! End of Replace Section)

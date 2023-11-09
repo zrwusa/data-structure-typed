@@ -13,6 +13,7 @@ import {Queue} from '../queue';
 
 export class BSTNode<V = any, N extends BSTNode<V, N> = BSTNodeNested<V>> extends BinaryTreeNode<V, N> {
   override parent: N | undefined;
+
   constructor(key: BTNKey, value?: V) {
     super(key, value);
     this.parent = undefined;
@@ -64,8 +65,7 @@ export class BSTNode<V = any, N extends BSTNode<V, N> = BSTNodeNested<V>> extend
 
 export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>>
   extends BinaryTree<V, N>
-  implements IBinaryTree<V, N>
-{
+  implements IBinaryTree<V, N> {
   /**
    * The constructor function initializes a binary search tree object with an optional comparator
    * function.
@@ -82,6 +82,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
       }
     }
   }
+
   protected override _root: N | undefined = undefined;
 
   /**
@@ -119,8 +120,8 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     }
     if (keyOrNode === null) return undefined;
     // TODO support node as a parameter
-    let inserted:N | undefined;
-    let newNode:N | undefined;
+    let inserted: N | undefined;
+    let newNode: N | undefined;
     if (keyOrNode instanceof BSTNode) {
       newNode = keyOrNode;
     } else if (typeof keyOrNode === 'number') {
@@ -198,13 +199,13 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    */
 
   override addMany(
-    keysOrNodes: (BTNKey | undefined)[] | (N | undefined)[],
-    data?: V[],
+    keysOrNodes: (BTNKey | N | undefined)[],
+    data?: (V | undefined)[],
     isBalanceAdd = true,
     iterationType = this.iterationType
   ): (N | undefined)[] {
     // TODO this addMany function is inefficient, it should be optimized
-    function hasNoNull(arr: (BTNKey | undefined)[] | (N | undefined)[]): arr is BTNKey[] | N[] {
+    function hasNoNull(arr: (BTNKey | N | undefined)[]): arr is (BTNKey | N)[] {
       return arr.indexOf(undefined) === -1;
     }
 
@@ -289,10 +290,35 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * the key of the leftmost node if the comparison result is greater than, and the key of the
    * rightmost node otherwise. If no node is found, it returns 0.
    */
-  lastKey(beginRoot: N | undefined = this.root, iterationType = this.iterationType): BTNKey {
+  lastKey(beginRoot: BTNKey | N | undefined = this.root, iterationType = this.iterationType): BTNKey {
     if (this._compare(0, 1) === CP.lt) return this.getRightMost(beginRoot, iterationType)?.key ?? 0;
     else if (this._compare(0, 1) === CP.gt) return this.getLeftMost(beginRoot, iterationType)?.key ?? 0;
     else return this.getRightMost(beginRoot, iterationType)?.key ?? 0;
+  }
+
+  protected override _getNodeByKey(key: BTNKey, iterationType = IterationType.ITERATIVE): N | undefined {
+    if (!this.root) return undefined;
+    if (iterationType === IterationType.RECURSIVE) {
+      const _dfs = (cur: N): N | undefined => {
+        if (cur.key === key) return cur;
+
+        if (!cur.left && !cur.right) return;
+        if (this._compare(cur.key, key) === CP.gt && cur.left) return _dfs(cur.left);
+        if (this._compare(cur.key, key) === CP.lt && cur.right) return _dfs(cur.right);
+      };
+
+      return _dfs(this.root);
+    } else {
+      const queue = new Queue<N>([this.root]);
+      while (queue.size > 0) {
+        const cur = queue.shift();
+        if (cur) {
+          if (this._compare(cur.key, key) === CP.eq) return cur;
+          if (this._compare(cur.key, key) === CP.gt) cur.left && queue.push(cur.left);
+          if (this._compare(cur.key, key) === CP.lt) cur.right && queue.push(cur.right);
+        }
+      }
+    }
   }
 
   /**
@@ -320,9 +346,10 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     identifier: ReturnType<C> | undefined,
     callback: C = this.defaultOneParamCallback as C,
     onlyOne = false,
-    beginRoot: N | undefined = this.root,
+    beginRoot: BTNKey | N | undefined = this.root,
     iterationType = this.iterationType
   ): N[] {
+    if (this.isNodeKey(beginRoot)) beginRoot = this._getNodeByKey(beginRoot);
     if (!beginRoot) return [];
     const ans: N[] = [];
 
@@ -509,7 +536,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     } else {
       const stack: N[] = [];
       let node: N | undefined = this.root,
-        last:N | undefined = undefined;
+        last: N | undefined = undefined;
       const depths: Map<N, number> = new Map();
 
       while (stack.length > 0 || node) {

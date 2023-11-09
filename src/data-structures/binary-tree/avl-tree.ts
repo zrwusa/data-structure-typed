@@ -6,7 +6,7 @@
  * @license MIT License
  */
 import {BST, BSTNode} from './bst';
-import type {AVLTreeNodeNested, AVLTreeOptions, BinaryTreeDeletedResult, BTNKey} from '../../types';
+import type {AVLTreeNodeNested, AVLTreeOptions, BiTreeDeleteResult, BTNKey} from '../../types';
 import {BTNCallback} from '../../types';
 import {IBinaryTree} from '../../interfaces';
 
@@ -72,12 +72,12 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    * value. This value is compared with the `identifier` parameter to determine if the node should be
    * included in the result. The `callback` parameter has a default value of
    * `this.defaultOneParamCallback`
-   * @returns The method is returning an array of `BinaryTreeDeletedResult<N>` objects.
+   * @returns The method is returning an array of `BiTreeDeleteResult<N>` objects.
    */
   override delete<C extends BTNCallback<N>>(
     identifier: ReturnType<C>,
     callback: C = this.defaultOneParamCallback as C
-  ): BinaryTreeDeletedResult<N>[] {
+  ): BiTreeDeleteResult<N>[] {
     if ((identifier as any) instanceof AVLTreeNode) callback = (node => node) as C;
     const deletedResults = super.delete(identifier, callback);
     for (const {needBalanced} of deletedResults) {
@@ -96,23 +96,29 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    * from the source node (`srcNode`) will be swapped to.
    * @returns The method is returning the `destNode` after swapping its properties with the `srcNode`.
    */
-  protected override _swap(srcNode: N, destNode: N): N {
-    const {key, value, height} = destNode;
-    const tempNode = this.createNode(key, value);
+  protected override _swap(srcNode: BTNKey | N | undefined, destNode: BTNKey | N  | undefined): N | undefined {
+    if (this.isNodeKey(srcNode)) srcNode = this._getNodeByKey(srcNode);
+    if (this.isNodeKey(destNode)) destNode = this._getNodeByKey(destNode);
 
-    if (tempNode) {
-      tempNode.height = height;
+    if (srcNode && destNode) {
+      const {key, value, height} = destNode;
+      const tempNode = this.createNode(key, value);
 
-      destNode.key = srcNode.key;
-      destNode.value = srcNode.value;
-      destNode.height = srcNode.height;
+      if (tempNode) {
+        tempNode.height = height;
 
-      srcNode.key = tempNode.key;
-      srcNode.value = tempNode.value;
-      srcNode.height = tempNode.height;
+        destNode.key = srcNode.key;
+        destNode.value = srcNode.value;
+        destNode.height = srcNode.height;
+
+        srcNode.key = tempNode.key;
+        srcNode.value = tempNode.value;
+        srcNode.height = tempNode.height;
+      }
+
+      return destNode;
     }
-
-    return destNode;
+    return undefined;
   }
 
   /**
