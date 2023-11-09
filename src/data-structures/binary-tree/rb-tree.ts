@@ -12,14 +12,14 @@ import {
   BTNKey,
   IterationType,
   RBTNColor,
-  RBTreeNodeNested,
+  RedBlackTreeNodeNested,
   RBTreeOptions
 } from '../../types';
 import {BST, BSTNode} from "./bst";
 import {IBinaryTree} from "../../interfaces";
 import {BinaryTreeNode} from "./binary-tree";
 
-export class RBTreeNode<V = any, N extends RBTreeNode<V, N> = RBTreeNodeNested<V>> extends BSTNode<V, N> {
+export class RedBlackTreeNode<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTreeNodeNested<V>> extends BSTNode<V, N> {
   color: RBTNColor;
   constructor(key: BTNKey, value?: V, color: RBTNColor = RBTNColor.BLACK) {
     super(key, value);
@@ -34,7 +34,7 @@ export class RBTreeNode<V = any, N extends RBTreeNode<V, N> = RBTreeNodeNested<V
  * 4. Red nodes must have black children.
  * 5. Black balance: Every path from any node to each of its leaf nodes contains the same number of black nodes.
  */
-export class RedBlackTree<V = any, N extends RBTreeNode<V, N> = RBTreeNode<V, RBTreeNodeNested<V>>>
+export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTreeNode<V, RedBlackTreeNodeNested<V>>>
   extends BST<V, N>
   implements IBinaryTree<V, N>
 {
@@ -56,13 +56,21 @@ export class RedBlackTree<V = any, N extends RBTreeNode<V, N> = RBTreeNode<V, RB
     return this._size;
   }
 
-  NIL: N = new RBTreeNode<V>(NaN) as unknown as N;
+  NIL: N = new RedBlackTreeNode<V>(NaN) as unknown as N;
 
+  /**
+   * The `add` function adds a new node to a Red-Black Tree data structure.
+   * @param {BTNKey | N | null | undefined} keyOrNode - The `keyOrNode` parameter can be one of the
+   * following types:
+   * @param {V} [value] - The `value` parameter is an optional value that can be associated with the
+   * key in the node being added to the Red-Black Tree.
+   * @returns The method returns either a node (`N`) or `undefined`.
+   */
   override add(keyOrNode: BTNKey | N | null | undefined, value?: V): N | undefined {
     let node: N;
-    if (typeof keyOrNode === 'number') {
+    if (this.isNodeKey(keyOrNode)) {
       node = this.createNode(keyOrNode, value, RBTNColor.RED);
-    } else if(keyOrNode instanceof RBTreeNode) {
+    } else if(keyOrNode instanceof RedBlackTreeNode) {
       node = keyOrNode;
     } else if (keyOrNode === null) {
       return;
@@ -112,13 +120,24 @@ export class RedBlackTree<V = any, N extends RBTreeNode<V, N> = RBTreeNode<V, RB
   }
 
   override createNode(key: BTNKey, value?: V, color: RBTNColor = RBTNColor.BLACK): N {
-    return new RBTreeNode<V, N>(key, value, color) as N;
+    return new RedBlackTreeNode<V, N>(key, value, color) as N;
   }
-
-
+  
+  /**
+   * The `delete` function removes a node from a binary tree based on a given identifier and updates
+   * the tree accordingly.
+   * @param {ReturnType<C> | null | undefined} identifier - The `identifier` parameter is the value
+   * that you want to use to identify the node that you want to delete from the binary tree. It can be
+   * of any type that is returned by the callback function `C`. It can also be `null` or `undefined` if
+   * you don't want to
+   * @param {C} callback - The `callback` parameter is a function that takes a node of type `N` and
+   * returns a value of type `ReturnType<C>`. It is used to determine if a node should be deleted based
+   * on its identifier. The `callback` function is optional and defaults to `this._defaultOneParam
+   * @returns an array of `BiTreeDeleteResult<N>`.
+   */
   delete<C extends BTNCallback<N>>(
     identifier: ReturnType<C> | null | undefined,
-    callback: C = this.defaultOneParamCallback as C
+    callback: C = this._defaultOneParamCallback as C
   ): BiTreeDeleteResult<N>[] {
     const ans: BiTreeDeleteResult<N>[] = [];
     if (identifier === null) return ans;
@@ -151,7 +170,7 @@ export class RedBlackTree<V = any, N extends RBTreeNode<V, N> = RBTreeNode<V, RB
         x = z.left;
         this._rbTransplant(z, z.left!);
       } else {
-        y = this.getLeftMost(z.right);
+        y = this.getLeftMost(z.right)!;
         yOriginalColor = y.color;
         x = y.right;
         if (y.parent === z) {
@@ -177,7 +196,7 @@ export class RedBlackTree<V = any, N extends RBTreeNode<V, N> = RBTreeNode<V, RB
     return ans;
   }
 
-  isNode(node: N | undefined): node is N {
+  override isRealNode(node: N | undefined): node is N {
     return node !== this.NIL && node !== undefined;
   }
 
@@ -210,7 +229,7 @@ export class RedBlackTree<V = any, N extends RBTreeNode<V, N> = RBTreeNode<V, RB
    * @param callback - The `callback` parameter is a function that is used to determine whether a node
    * matches the desired criteria. It takes a node as input and returns a boolean value indicating
    * whether the node matches the criteria or not. The default callback function
-   * (`this.defaultOneParamCallback`) is used if no callback function is
+   * (`this._defaultOneParamCallback`) is used if no callback function is
    * @param beginRoot - The `beginRoot` parameter is the starting point for the search. It specifies
    * the root node from which the search should begin.
    * @param iterationType - The `iterationType` parameter specifies the type of iteration to be
@@ -219,48 +238,23 @@ export class RedBlackTree<V = any, N extends RBTreeNode<V, N> = RBTreeNode<V, RB
    */
   getNode<C extends BTNCallback<N>>(
     identifier: ReturnType<C> | undefined,
-    callback: C = this.defaultOneParamCallback as C,
-    beginRoot = this.root,
+    callback: C = this._defaultOneParamCallback as C,
+    beginRoot: BTNKey | N | undefined = this.root,
     iterationType = this.iterationType
   ): N | null | undefined {
     if ((identifier as any) instanceof BinaryTreeNode) callback = (node => node) as C;
-
+    beginRoot = this.ensureNotKey(beginRoot);
     return this.getNodes(identifier, callback, true, beginRoot, iterationType)[0] ?? undefined;
   }
 
   /**
-   * The function returns the leftmost node in a red-black tree.
-   * @param {RBTreeNode} node - The parameter "node" is of type RBTreeNode, which represents a node in
-   * a Red-Black Tree.
-   * @returns The leftmost node in the given RBTreeNode.
-   */
-  getLeftMost(node: N = this.root): N {
-    while (node.left !== undefined && node.left !== this.NIL) {
-      node = node.left;
-    }
-    return node;
-  }
-
-  /**
-   * The function returns the rightmost node in a red-black tree.
-   * @param {RBTreeNode} node - The parameter "node" is of type RBTreeNode.
-   * @returns the rightmost node in a red-black tree.
-   */
-  getRightMost(node: N): N {
-    while (node.right !== undefined && node.right !== this.NIL) {
-      node = node.right;
-    }
-    return node;
-  }
-
-  /**
    * The function returns the successor of a given node in a red-black tree.
-   * @param {RBTreeNode} x - RBTreeNode - The node for which we want to find the successor.
-   * @returns the successor of the given RBTreeNode.
+   * @param {RedBlackTreeNode} x - RedBlackTreeNode - The node for which we want to find the successor.
+   * @returns the successor of the given RedBlackTreeNode.
    */
-  getSuccessor(x: N): N | undefined {
+  override getSuccessor(x: N): N | undefined {
     if (x.right !== this.NIL) {
-      return this.getLeftMost(x.right);
+      return this.getLeftMost(x.right) ?? undefined;
     }
 
     let y: N | undefined = x.parent;
@@ -273,13 +267,13 @@ export class RedBlackTree<V = any, N extends RBTreeNode<V, N> = RBTreeNode<V, RB
 
   /**
    * The function returns the predecessor of a given node in a red-black tree.
-   * @param {RBTreeNode} x - The parameter `x` is of type `RBTreeNode`, which represents a node in a
+   * @param {RedBlackTreeNode} x - The parameter `x` is of type `RedBlackTreeNode`, which represents a node in a
    * Red-Black Tree.
-   * @returns the predecessor of the given RBTreeNode 'x'.
+   * @returns the predecessor of the given RedBlackTreeNode 'x'.
    */
-  getPredecessor(x: N): N {
+  override getPredecessor(x: N): N {
     if (x.left !== this.NIL) {
-      return this.getRightMost(x.left!);
+      return this.getRightMost(x.left!)!;
     }
 
     let y: N | undefined = x.parent;
@@ -305,7 +299,7 @@ export class RedBlackTree<V = any, N extends RBTreeNode<V, N> = RBTreeNode<V, RB
 
   /**
    * The function performs a left rotation on a red-black tree node.
-   * @param {RBTreeNode} x - The parameter `x` is a RBTreeNode object.
+   * @param {RedBlackTreeNode} x - The parameter `x` is a RedBlackTreeNode object.
    */
   protected _leftRotate(x: N): void {
     if (x.right) {
@@ -329,7 +323,7 @@ export class RedBlackTree<V = any, N extends RBTreeNode<V, N> = RBTreeNode<V, RB
 
   /**
    * The function performs a right rotation on a red-black tree node.
-   * @param {RBTreeNode} x - x is a RBTreeNode, which represents the node that needs to be right
+   * @param {RedBlackTreeNode} x - x is a RedBlackTreeNode, which represents the node that needs to be right
    * rotated.
    */
   protected _rightRotate(x: N): void {
@@ -354,7 +348,7 @@ export class RedBlackTree<V = any, N extends RBTreeNode<V, N> = RBTreeNode<V, RB
 
   /**
    * The _fixDelete function is used to rebalance the Red-Black Tree after a node deletion.
-   * @param {RBTreeNode} x - The parameter `x` is of type `RBTreeNode`, which represents a node in a
+   * @param {RedBlackTreeNode} x - The parameter `x` is of type `RedBlackTreeNode`, which represents a node in a
    * red-black tree.
    */
   protected _fixDelete(x: N): void {
@@ -419,8 +413,8 @@ export class RedBlackTree<V = any, N extends RBTreeNode<V, N> = RBTreeNode<V, RB
 
   /**
    * The function `_rbTransplant` replaces one node in a red-black tree with another node.
-   * @param {RBTreeNode} u - The parameter "u" represents a RBTreeNode object.
-   * @param {RBTreeNode} v - The parameter "v" is a RBTreeNode object.
+   * @param {RedBlackTreeNode} u - The parameter "u" represents a RedBlackTreeNode object.
+   * @param {RedBlackTreeNode} v - The parameter "v" is a RedBlackTreeNode object.
    */
   protected _rbTransplant(u: N, v: N): void {
     if (u.parent === undefined) {
@@ -435,7 +429,7 @@ export class RedBlackTree<V = any, N extends RBTreeNode<V, N> = RBTreeNode<V, RB
 
   /**
    * The `_fixInsert` function is used to fix the red-black tree after an insertion operation.
-   * @param {RBTreeNode} k - The parameter `k` is a RBTreeNode object, which represents a node in a
+   * @param {RedBlackTreeNode} k - The parameter `k` is a RedBlackTreeNode object, which represents a node in a
    * red-black tree.
    */
   protected _fixInsert(k: N): void {

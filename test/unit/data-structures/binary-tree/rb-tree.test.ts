@@ -1,4 +1,4 @@
-import {IterationType, RBTNColor, RBTreeNode, RedBlackTree} from '../../../../src';
+import {IterationType, RBTNColor, RedBlackTreeNode, RedBlackTree} from '../../../../src';
 import {getRandomInt} from '../../../utils';
 import {isDebugTest} from '../../../config';
 
@@ -17,9 +17,9 @@ describe('RedBlackTree', () => {
       tree.add(20);
       tree.add(5);
 
-      expect(tree.getNode(10)).toBeInstanceOf(RBTreeNode);
-      expect(tree.getNode(20)).toBeInstanceOf(RBTreeNode);
-      expect(tree.getNode(5)).toBeInstanceOf(RBTreeNode);
+      expect(tree.getNode(10)).toBeInstanceOf(RedBlackTreeNode);
+      expect(tree.getNode(20)).toBeInstanceOf(RedBlackTreeNode);
+      expect(tree.getNode(5)).toBeInstanceOf(RedBlackTreeNode);
       expect(tree.getNode(15)).toBe(undefined);
     });
 
@@ -27,8 +27,8 @@ describe('RedBlackTree', () => {
       tree.add(-10);
       tree.add(-20);
 
-      expect(tree.getNode(-10)).toBeInstanceOf(RBTreeNode);
-      expect(tree.getNode(-20)).toBeInstanceOf(RBTreeNode);
+      expect(tree.getNode(-10)).toBeInstanceOf(RedBlackTreeNode);
+      expect(tree.getNode(-20)).toBeInstanceOf(RedBlackTreeNode);
     });
   });
 
@@ -61,7 +61,7 @@ describe('RedBlackTree', () => {
       tree.add(3);
 
       const minNode = tree.getLeftMost(tree.root);
-      expect(minNode.key).toBe(3);
+      expect(minNode?.key).toBe(3);
     });
 
     test('should handle an empty tree', () => {
@@ -79,7 +79,7 @@ describe('RedBlackTree', () => {
       tree.add(25);
 
       const maxNode = tree.getRightMost(tree.root);
-      expect(maxNode.key).toBe(25);
+      expect(maxNode?.key).toBe(25);
     });
 
     test('should handle an empty tree', () => {
@@ -387,7 +387,7 @@ describe('RedBlackTree', () => {
     tree.add(15);
 
     const nodeLM = tree.getLeftMost();
-    expect(nodeLM.key).toBe(1);
+    expect(nodeLM?.key).toBe(1);
 
     const node50 = tree.getNode(50);
     expect(node50?.key).toBe(50);

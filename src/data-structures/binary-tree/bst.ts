@@ -12,7 +12,7 @@ import {IBinaryTree} from '../../interfaces';
 import {Queue} from '../queue';
 
 export class BSTNode<V = any, N extends BSTNode<V, N> = BSTNodeNested<V>> extends BinaryTreeNode<V, N> {
-  override parent: N | undefined;
+  override parent?: N ;
 
   constructor(key: BTNKey, value?: V) {
     super(key, value);
@@ -21,7 +21,7 @@ export class BSTNode<V = any, N extends BSTNode<V, N> = BSTNodeNested<V>> extend
     this._right = undefined;
   }
 
-  protected override _left: N | undefined;
+  protected override _left?: N ;
 
   /**
    * Get the left child node.
@@ -42,7 +42,7 @@ export class BSTNode<V = any, N extends BSTNode<V, N> = BSTNodeNested<V>> extend
   }
 
 
-  protected override _right: N | undefined;
+  protected override _right?: N ;
 
   /**
    * Get the right child node.
@@ -83,7 +83,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     }
   }
 
-  protected override _root: N | undefined = undefined;
+  protected override _root?: N ;
 
   /**
    * Get the root node of the binary tree.
@@ -115,16 +115,13 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * was not added or if the parameters were invalid, it returns undefined or undefined.
    */
   override add(keyOrNode: BTNKey | N | null | undefined, value?: V): N | undefined {
-    if (keyOrNode === 8) {
-      debugger
-    }
     if (keyOrNode === null) return undefined;
     // TODO support node as a parameter
     let inserted: N | undefined;
     let newNode: N | undefined;
     if (keyOrNode instanceof BSTNode) {
       newNode = keyOrNode;
-    } else if (typeof keyOrNode === 'number') {
+    } else if (this.isNodeKey(keyOrNode)) {
       newNode = this.createNode(keyOrNode, value);
     } else {
       newNode = undefined;
@@ -197,7 +194,6 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * It can have two possible values:
    * @returns The `addMany` function returns an array of `N`, `undefined`, or `undefined` values.
    */
-
   override addMany(
     keysOrNodes: (BTNKey | N | undefined)[],
     data?: (V | undefined)[],
@@ -205,51 +201,53 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     iterationType = this.iterationType
   ): (N | undefined)[] {
     // TODO this addMany function is inefficient, it should be optimized
-    function hasNoNull(arr: (BTNKey | N | undefined)[]): arr is (BTNKey | N)[] {
+    function hasNoUndefined(arr: (BTNKey | N | undefined)[]): arr is (BTNKey | N)[] {
       return arr.indexOf(undefined) === -1;
     }
 
-    if (!isBalanceAdd || !hasNoNull(keysOrNodes)) {
+    if (!isBalanceAdd || !hasNoUndefined(keysOrNodes)) {
       return super.addMany(keysOrNodes, data).map(n => n ?? undefined);
     }
+    
     const inserted: (N | undefined)[] = [];
     const combinedArr: [BTNKey | N, V][] = keysOrNodes.map(
       (value: BTNKey | N, index) => [value, data?.[index]] as [BTNKey | N, V]
     );
+    
     let sorted = [];
 
-    function isNodeOrNullTuple(arr: [BTNKey | N, V][]): arr is [N, V][] {
+    function _isNodeOrUndefinedTuple(arr: [BTNKey | N, V][]): arr is [N, V][] {
       for (const [keyOrNode] of arr) if (keyOrNode instanceof BSTNode) return true;
       return false;
     }
 
-    function isBinaryTreeKeyOrNullTuple(arr: [BTNKey | N, V][]): arr is [BTNKey, V][] {
-      for (const [keyOrNode] of arr) if (typeof keyOrNode === 'number') return true;
+    const _isBinaryTreeKeyOrNullTuple = (arr: [BTNKey | N, V][]): arr is [BTNKey, V][] => {
+      for (const [keyOrNode] of arr) if (this.isNodeKey(keyOrNode)) return true;
       return false;
     }
 
     let sortedKeysOrNodes: (number | N | undefined)[] = [],
       sortedData: (V | undefined)[] | undefined = [];
 
-    if (isNodeOrNullTuple(combinedArr)) {
+    if (_isNodeOrUndefinedTuple(combinedArr)) {
       sorted = combinedArr.sort((a, b) => a[0].key - b[0].key);
-    } else if (isBinaryTreeKeyOrNullTuple(combinedArr)) {
+    } else if (_isBinaryTreeKeyOrNullTuple(combinedArr)) {
       sorted = combinedArr.sort((a, b) => a[0] - b[0]);
     } else {
       throw new Error('Invalid input keysOrNodes');
     }
     sortedKeysOrNodes = sorted.map(([keyOrNode]) => keyOrNode);
     sortedData = sorted.map(([, value]) => value);
-    const recursive = (arr: (BTNKey | undefined | N)[], data?: (V | undefined)[]) => {
+    const _dfs = (arr: (BTNKey | undefined | N)[], data?: (V | undefined)[]) => {
       if (arr.length === 0) return;
 
       const mid = Math.floor((arr.length - 1) / 2);
       const newNode = this.add(arr[mid], data?.[mid]);
       inserted.push(newNode);
-      recursive(arr.slice(0, mid), data?.slice(0, mid));
-      recursive(arr.slice(mid + 1), data?.slice(mid + 1));
+      _dfs(arr.slice(0, mid), data?.slice(0, mid));
+      _dfs(arr.slice(mid + 1), data?.slice(mid + 1));
     };
-    const iterative = () => {
+    const _iterate = () => {
       const n = sorted.length;
       const stack: [[number, number]] = [[0, n - 1]];
       while (stack.length > 0) {
@@ -267,9 +265,9 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
       }
     };
     if (iterationType === IterationType.RECURSIVE) {
-      recursive(sortedKeysOrNodes, sortedData);
+      _dfs(sortedKeysOrNodes, sortedData);
     } else {
-      iterative();
+      _iterate();
     }
 
     return inserted;
@@ -296,13 +294,24 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     else return this.getRightMost(beginRoot, iterationType)?.key ?? 0;
   }
 
-  protected override _getNodeByKey(key: BTNKey, iterationType = IterationType.ITERATIVE): N | undefined {
+  /**
+   * The function `getNodeByKey` searches for a node in a binary tree based on a given key, using
+   * either recursive or iterative methods.
+   * @param {BTNKey} key - The `key` parameter is the key value that we are searching for in the tree.
+   * It is used to find the node with the matching key value.
+   * @param iterationType - The `iterationType` parameter is an optional parameter that specifies the
+   * type of iteration to use when searching for a node in the binary tree. It can have two possible
+   * values:
+   * @returns The function `getNodeByKey` returns a node (`N`) if a node with the specified key is
+   * found in the binary tree. If no node is found, it returns `undefined`.
+   */
+  override getNodeByKey(key: BTNKey, iterationType = IterationType.ITERATIVE): N | undefined {
     if (!this.root) return undefined;
     if (iterationType === IterationType.RECURSIVE) {
       const _dfs = (cur: N): N | undefined => {
         if (cur.key === key) return cur;
-
         if (!cur.left && !cur.right) return;
+        
         if (this._compare(cur.key, key) === CP.gt && cur.left) return _dfs(cur.left);
         if (this._compare(cur.key, key) === CP.lt && cur.right) return _dfs(cur.right);
       };
@@ -322,6 +331,19 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   }
 
   /**
+   * The function `ensureNotKey` returns the node corresponding to the given key if it is a node key,
+   * otherwise it returns the key itself.
+   * @param {BTNKey | N | undefined} key - The `key` parameter can be of type `BTNKey`, `N`, or
+   * `undefined`.
+   * @param iterationType - The `iterationType` parameter is an optional parameter that specifies the
+   * type of iteration to be performed. It has a default value of `IterationType.ITERATIVE`.
+   * @returns either a node object (N) or undefined.
+   */
+  override ensureNotKey(key: BTNKey | N | undefined, iterationType = IterationType.ITERATIVE): N | undefined {
+    return this.isNodeKey(key) ? this.getNodeByKey(key, iterationType) : key;
+  }
+
+  /**
    * The function `getNodes` retrieves nodes from a binary tree based on a given node property or key,
    * using either recursive or iterative traversal.
    * @param {ReturnType<C> | N} identifier - The `nodeProperty` parameter represents the property
@@ -329,7 +351,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * generic type `N`.
    * @param callback - The `callback` parameter is a function that takes a node as input and returns a
    * value. This value is compared with the `nodeProperty` parameter to determine if the node should be
-   * included in the result. The default value for `callback` is `this.defaultOneParamCallback`, which is
+   * included in the result. The default value for `callback` is `this._defaultOneParamCallback`, which is
    * a
    * @param [onlyOne=false] - A boolean value indicating whether to stop the traversal after finding
    * the first node that matches the nodeProperty. If set to true, the function will return an array
@@ -344,12 +366,12 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    */
   override getNodes<C extends BTNCallback<N>>(
     identifier: ReturnType<C> | undefined,
-    callback: C = this.defaultOneParamCallback as C,
+    callback: C = this._defaultOneParamCallback as C,
     onlyOne = false,
     beginRoot: BTNKey | N | undefined = this.root,
     iterationType = this.iterationType
   ): N[] {
-    if (this.isNodeKey(beginRoot)) beginRoot = this._getNodeByKey(beginRoot);
+    beginRoot = this.ensureNotKey(beginRoot);
     if (!beginRoot) return [];
     const ans: N[] = [];
 
@@ -363,7 +385,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
 
         if (!cur.left && !cur.right) return;
         // TODO potential bug
-        if (callback === this.defaultOneParamCallback) {
+        if (callback === this._defaultOneParamCallback) {
           if (this._compare(cur.key, identifier as number) === CP.gt) cur.left && _traverse(cur.left);
           if (this._compare(cur.key, identifier as number) === CP.lt) cur.right && _traverse(cur.right);
         } else {
@@ -384,7 +406,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
             if (onlyOne) return ans;
           }
           // TODO potential bug
-          if (callback === this.defaultOneParamCallback) {
+          if (callback === this._defaultOneParamCallback) {
             if (this._compare(cur.key, identifier as number) === CP.gt) cur.left && queue.push(cur.left);
             if (this._compare(cur.key, identifier as number) === CP.lt) cur.right && queue.push(cur.right);
           } else {
@@ -418,16 +440,17 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * @returns The function `lesserOrGreaterTraverse` returns an array of `ReturnType<BTNCallback<N>>`.
    */
   lesserOrGreaterTraverse<C extends BTNCallback<N>>(
-    callback: C = this.defaultOneParamCallback as C,
+    callback: C = this._defaultOneParamCallback as C,
     lesserOrGreater: CP = CP.lt,
     targetNode: BTNKey | N | undefined = this.root,
     iterationType = this.iterationType
   ): ReturnType<C>[] {
-    if (typeof targetNode === 'number') targetNode = this.getNode(targetNode) ?? undefined;
+    targetNode = this.ensureNotKey(targetNode);
     const ans: ReturnType<BTNCallback<N>>[] = [];
     if (!targetNode) return ans;
-    const targetKey = targetNode.key;
     if (!this.root) return ans;
+
+    const targetKey = targetNode.key;
 
     if (iterationType === IterationType.RECURSIVE) {
       const _traverse = (cur: N) => {

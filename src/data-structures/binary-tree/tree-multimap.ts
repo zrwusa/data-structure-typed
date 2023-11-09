@@ -37,8 +37,7 @@ export class TreeMultimapNode<
  */
 export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultimapNode<V, TreeMultimapNodeNested<V>>>
   extends AVLTree<V, N>
-  implements IBinaryTree<V, N>
-{
+  implements IBinaryTree<V, N> {
   /**
    * The constructor function for a TreeMultimap class in TypeScript, which extends another class and sets an option to
    * merge duplicated values.
@@ -82,8 +81,8 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    * @returns The function `add` returns a value of type `N | undefined | undefined`.
    */
   override add(keyOrNode: BTNKey | N | null | undefined, value?: V, count = 1): N | undefined {
-    if(keyOrNode === null) return undefined;
-    let inserted: N  | undefined = undefined,
+    if (keyOrNode === null) return undefined;
+    let inserted: N | undefined = undefined,
       newNode: N | undefined;
     if (keyOrNode instanceof TreeMultimapNode) {
       newNode = this.createNode(keyOrNode.key, keyOrNode.value, keyOrNode.count);
@@ -95,7 +94,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
     if (!this.root) {
       this._setRoot(newNode);
       this._size = this.size + 1;
-      newNode && this._setCount(this.count + newNode.count);
+      if (newNode) this._count += newNode.count;
       inserted = this.root;
     } else {
       let cur = this.root;
@@ -106,7 +105,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
             if (this._compare(cur.key, newNode.key) === CP.eq) {
               cur.value = newNode.value;
               cur.count += newNode.count;
-              this._setCount(this.count + newNode.count);
+              this._count += newNode.count;
               traversing = false;
               inserted = cur;
             } else if (this._compare(cur.key, newNode.key) === CP.gt) {
@@ -115,7 +114,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
                 //Add to the left of the current node
                 cur.left = newNode;
                 this._size = this.size + 1;
-                this._setCount(this.count + newNode.count);
+                this._count += newNode.count;
 
                 traversing = false;
                 inserted = cur.left;
@@ -129,7 +128,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
                 //Add to the right of the current node
                 cur.right = newNode;
                 this._size = this.size + 1;
-                this._setCount(this.count + newNode.count);
+                this._count += newNode.count;
 
                 traversing = false;
                 inserted = cur.right;
@@ -158,13 +157,14 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    * be added as a child.
    * @returns The method `_addTo` returns either the `parent.left`, `parent.right`, or `undefined`.
    */
-  override _addTo(newNode: N | undefined, parent: N): N | undefined {
+  protected override _addTo(newNode: N | undefined, parent: BTNKey | N | undefined): N | undefined {
+    parent = this.ensureNotKey(parent);
     if (parent) {
       if (parent.left === undefined) {
         parent.left = newNode;
         if (newNode !== undefined) {
           this._size = this.size + 1;
-          this._setCount(this.count + newNode.count);
+          this._count += newNode.count;
         }
 
         return parent.left;
@@ -172,7 +172,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
         parent.right = newNode;
         if (newNode !== undefined) {
           this._size = this.size + 1;
-          this._setCount(this.count + newNode.count);
+          this._count +=  newNode.count;
         }
         return parent.right;
       } else {
@@ -193,8 +193,8 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    * each key or node.
    * @returns The function `addMany` returns an array of `N`, `undefined`, or `undefined` values.
    */
-  override addMany(keysOrNodes: (BTNKey | undefined)[] | (N | undefined)[], data?: V[]): (N | undefined)[] {
-    const inserted: (N | undefined | undefined)[] = [];
+  override addMany(keysOrNodes: (BTNKey | N | undefined)[], data?: V[]): (N | undefined)[] {
+    const inserted: (N | undefined)[] = [];
 
     for (let i = 0; i < keysOrNodes.length; i++) {
       const keyOrNode = keysOrNodes[i];
@@ -269,7 +269,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    * @param callback - The `callback` parameter is a function that takes a node as input and returns a
    * value. This value is compared with the `identifier` parameter to determine if the node should be
    * included in the result. The `callback` parameter has a default value of
-   * `this.defaultOneParamCallback`
+   * `this._defaultOneParamCallback`
    * @param [ignoreCount=false] - A boolean flag indicating whether to ignore the count of the node
    * being deleted. If set to true, the count of the node will not be considered and the node will be
    * deleted regardless of its count. If set to false (default), the count of the node will be
@@ -278,22 +278,21 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    */
   override delete<C extends BTNCallback<N>>(
     identifier: ReturnType<C>,
-    callback: C = this.defaultOneParamCallback as C,
+    callback: C = this._defaultOneParamCallback as C,
     ignoreCount = false
   ): BiTreeDeleteResult<N>[] {
-    const bstDeletedResult: BiTreeDeleteResult<N>[] = [];
-    if (!this.root) return bstDeletedResult;
+    const deletedResult: BiTreeDeleteResult<N>[] = [];
+    if (!this.root) return deletedResult;
 
     const curr: N | undefined = this.getNode(identifier, callback) ?? undefined;
-    if (!curr) return bstDeletedResult;
+    if (!curr) return deletedResult;
 
     const parent: N | undefined = curr?.parent ? curr.parent : undefined;
-    let needBalanced: N | undefined = undefined,
-      orgCurrent = curr;
+    let needBalanced: N | undefined = undefined,orgCurrent: N | undefined = curr;
 
     if (curr.count > 1 && !ignoreCount) {
       curr.count--;
-      this._setCount(this.count - 1);
+      this._count--;
     } else {
       if (!curr.left) {
         if (!parent) {
@@ -324,24 +323,24 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
       }
       this._size = this.size - 1;
       // TODO How to handle when the count of target node is lesser than current node's count
-      this._setCount(this.count - orgCurrent.count);
+      if (orgCurrent) this._count -= orgCurrent.count;
     }
 
-    bstDeletedResult.push({deleted: orgCurrent, needBalanced});
+    deletedResult.push({deleted: orgCurrent, needBalanced});
 
     if (needBalanced) {
       this._balancePath(needBalanced);
     }
 
-    return bstDeletedResult;
+    return deletedResult;
   }
 
   /**
    * The clear() function clears the contents of a data structure and sets the count to zero.
    */
-  clear() {
+  override clear() {
     super.clear();
-    this._setCount(0);
+    this._count = 0;
   }
 
   /**
@@ -351,31 +350,28 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    * from `srcNode` will be swapped into.
    * @returns The method is returning the `destNode` after swapping its properties with the `srcNode`.
    */
-  protected override _swap(srcNode: N, destNode: N): N {
-    const {key, value, count, height} = destNode;
-    const tempNode = this.createNode(key, value, count);
-    if (tempNode) {
-      tempNode.height = height;
+  protected _swap(srcNode: BTNKey | N | undefined, destNode:BTNKey | N | undefined): N | undefined{
+    srcNode = this.ensureNotKey(srcNode);
+    destNode = this.ensureNotKey(destNode);
+    if (srcNode && destNode) {
+      const {key, value, count, height} = destNode;
+      const tempNode = this.createNode(key, value, count);
+      if (tempNode) {
+        tempNode.height = height;
 
-      destNode.key = srcNode.key;
-      destNode.value = srcNode.value;
-      destNode.count = srcNode.count;
-      destNode.height = srcNode.height;
+        destNode.key = srcNode.key;
+        destNode.value = srcNode.value;
+        destNode.count = srcNode.count;
+        destNode.height = srcNode.height;
 
-      srcNode.key = tempNode.key;
-      srcNode.value = tempNode.value;
-      srcNode.count = tempNode.count;
-      srcNode.height = tempNode.height;
+        srcNode.key = tempNode.key;
+        srcNode.value = tempNode.value;
+        srcNode.count = tempNode.count;
+        srcNode.height = tempNode.height;
+      }
+
+      return destNode;
     }
-
-    return destNode;
-  }
-
-  /**
-   * The function sets the value of the "_count" property.
-   * @param {number} v - number
-   */
-  protected _setCount(v: number) {
-    this._count = v;
+    return  undefined;
   }
 }

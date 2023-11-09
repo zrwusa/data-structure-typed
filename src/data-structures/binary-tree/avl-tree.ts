@@ -71,12 +71,12 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    * @param callback - The `callback` parameter is a function that takes a node as input and returns a
    * value. This value is compared with the `identifier` parameter to determine if the node should be
    * included in the result. The `callback` parameter has a default value of
-   * `this.defaultOneParamCallback`
+   * `this._defaultOneParamCallback`
    * @returns The method is returning an array of `BiTreeDeleteResult<N>` objects.
    */
   override delete<C extends BTNCallback<N>>(
     identifier: ReturnType<C>,
-    callback: C = this.defaultOneParamCallback as C
+    callback: C = this._defaultOneParamCallback as C
   ): BiTreeDeleteResult<N>[] {
     if ((identifier as any) instanceof AVLTreeNode) callback = (node => node) as C;
     const deletedResults = super.delete(identifier, callback);
@@ -97,8 +97,8 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    * @returns The method is returning the `destNode` after swapping its properties with the `srcNode`.
    */
   protected override _swap(srcNode: BTNKey | N | undefined, destNode: BTNKey | N  | undefined): N | undefined {
-    if (this.isNodeKey(srcNode)) srcNode = this._getNodeByKey(srcNode);
-    if (this.isNodeKey(destNode)) destNode = this._getNodeByKey(destNode);
+    srcNode = this.ensureNotKey(srcNode);
+    destNode = this.ensureNotKey(destNode);
 
     if (srcNode && destNode) {
       const {key, value, height} = destNode;
