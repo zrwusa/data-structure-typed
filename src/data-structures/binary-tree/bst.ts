@@ -66,11 +66,11 @@ export class BSTNode<V = any, N extends BSTNode<V, N> = BSTNodeNested<V>> extend
 export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>>
   extends BinaryTree<V, N>
   implements IBinaryTree<V, N> {
+
   /**
-   * The constructor function initializes a binary search tree object with an optional comparator
-   * function.
-   * @param {BSTOptions} [options] - An optional object that contains configuration options for the
-   * binary search tree.
+   * The constructor function initializes a binary search tree with an optional comparator function.
+   * @param {BSTOptions} [options] - An optional object that contains additional configuration options
+   * for the binary search tree.
    */
   constructor(options?: BSTOptions) {
     super(options);
@@ -105,14 +105,22 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   }
 
   /**
-   * The `add` function in a binary search tree class inserts a new node with a given key and value
-   * into the tree.
-   * @param {BTNKey | N | undefined} keyOrNode - The `keyOrNode` parameter can be either a
-   * `BTNKey` (which can be a number or a string), a `BSTNode` object, or `undefined`.
-   * @param [value] - The `value` parameter is the value to be assigned to the new node being added to the
-   * binary search tree.
-   * @returns the inserted node (N) if it was successfully added to the binary search tree. If the node
-   * was not added or if the parameters were invalid, it returns undefined or undefined.
+   * Time Complexity: O(log n) - Average case for a balanced tree. In the worst case (unbalanced tree), it can be O(n).
+   * Space Complexity: O(1) - Constant space is used.
+   */
+
+
+  /**
+   * Time Complexity: O(log n) - Average case for a balanced tree. In the worst case (unbalanced tree), it can be O(n).
+   * Space Complexity: O(1) - Constant space is used.
+   * 
+   * The `add` function adds a new node to a binary search tree based on the provided key and value.
+   * @param {BTNKey | N | null | undefined} keyOrNode - The `keyOrNode` parameter can be one of the
+   * following types:
+   * @param {V} [value] - The `value` parameter is an optional value that can be associated with the
+   * key or node being added to the binary search tree.
+   * @returns The method `add` returns a node (`N`) that was inserted into the binary search tree. If
+   * no node was inserted, it returns `undefined`.
    */
   override add(keyOrNode: BTNKey | N | null | undefined, value?: V): N | undefined {
     if (keyOrNode === null) return undefined;
@@ -182,17 +190,29 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   }
 
   /**
-   * The `addMany` function is used to efficiently add multiple nodes to a binary search tree while
-   * maintaining balance.
-   * @param {[BTNKey | N, V][]} keysOrNodes - The `arr` parameter in the `addMany` function
-   * represents an array of keys or nodes that need to be added to the binary search tree. It can be an
-   * array of `BTNKey` or `N` (which represents the node type in the binary search tree) or
-   * `undefined
-   * @param {V[]} data - The values of tree nodes
-   * @param {boolean} isBalanceAdd - If true the nodes will be balance inserted in binary search method.
-   * @param iterationType - The `iterationType` parameter determines the type of iteration to be used.
-   * It can have two possible values:
-   * @returns The `addMany` function returns an array of `N`, `undefined`, or `undefined` values.
+   * Time Complexity: O(n log n) - Adding each element individually in a balanced tree.
+   * Space Complexity: O(n) - Additional space is required for the sorted array.
+   */
+  
+  /**
+   * Time Complexity: O(n log n) - Adding each element individually in a balanced tree.
+   * Space Complexity: O(n) - Additional space is required for the sorted array.
+   *
+   * The `addMany` function is used to efficiently add multiple keys or nodes with corresponding data
+   * to a binary search tree.
+   * @param {(BTNKey | N | undefined)[]} keysOrNodes - An array of keys or nodes to be added to the
+   * binary search tree. Each element can be of type `BTNKey` (binary tree node key), `N` (binary tree
+   * node), or `undefined`.
+   * @param {(V | undefined)[]} [data] - An optional array of values to associate with the keys or
+   * nodes being added. If provided, the length of the `data` array must be the same as the length of
+   * the `keysOrNodes` array.
+   * @param [isBalanceAdd=true] - A boolean flag indicating whether the tree should be balanced after
+   * adding the nodes. The default value is `true`.
+   * @param iterationType - The `iterationType` parameter is an optional parameter that specifies the
+   * type of iteration to use when adding multiple keys or nodes to the binary search tree. It has a
+   * default value of `this.iterationType`, which means it will use the iteration type specified in the
+   * current instance of the binary search tree
+   * @returns The function `addMany` returns an array of nodes (`N`) or `undefined` values.
    */
   override addMany(
     keysOrNodes: (BTNKey | N | undefined)[],
@@ -274,16 +294,21 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   }
 
   /**
-   * The function `lastKey` returns the key of the rightmost node if the comparison result is less
-   * than, the key of the leftmost node if the comparison result is greater than, and the key of the
-   * rightmost node otherwise.
-   * @param {N | undefined} beginRoot - The `beginRoot` parameter is the starting point for finding the last
-   * key in a binary tree. It represents the root node of the subtree from which the search for the
-   * last key should begin. If no specific `beginRoot` is provided, the search will start from the root
-   * of the entire binary
+   * Time Complexity: O(log n) - Average case for a balanced tree.
+   * Space Complexity: O(1) - Constant space is used.
+   */
+
+  /**
+   * Time Complexity: O(log n) - Average case for a balanced tree.
+   * Space Complexity: O(1) - Constant space is used.
+   *
+   * The `lastKey` function returns the key of the rightmost node in a binary tree, or the key of the
+   * leftmost node if the comparison result is greater than.
+   * @param {BTNKey | N | undefined} beginRoot - The `beginRoot` parameter is optional and can be of
+   * type `BTNKey`, `N`, or `undefined`. It represents the starting point for finding the last key in
+   * the binary tree. If not provided, it defaults to the root of the binary tree (`this.root`).
    * @param iterationType - The `iterationType` parameter is used to specify the type of iteration to
-   * be performed when finding the last key. It determines whether the iteration should be performed in
-   * pre-order, in-order, or post-order.
+   * be performed. It can have one of the following values:
    * @returns the key of the rightmost node in the binary tree if the comparison result is less than,
    * the key of the leftmost node if the comparison result is greater than, and the key of the
    * rightmost node otherwise. If no node is found, it returns 0.
@@ -295,10 +320,18 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   }
 
   /**
+   * Time Complexity: O(log n) - Average case for a balanced tree.
+   * Space Complexity: O(log n) - Space for the recursive call stack in the worst case.
+   */
+
+  /**
+   * Time Complexity: O(log n) - Average case for a balanced tree.
+   * Space Complexity: O(log n) - Space for the recursive call stack in the worst case.
+   *
    * The function `getNodeByKey` searches for a node in a binary tree based on a given key, using
    * either recursive or iterative methods.
    * @param {BTNKey} key - The `key` parameter is the key value that we are searching for in the tree.
-   * It is used to find the node with the matching key value.
+   * It is used to identify the node that we want to retrieve.
    * @param iterationType - The `iterationType` parameter is an optional parameter that specifies the
    * type of iteration to use when searching for a node in the binary tree. It can have two possible
    * values:
@@ -344,25 +377,32 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   }
 
   /**
-   * The function `getNodes` retrieves nodes from a binary tree based on a given node property or key,
-   * using either recursive or iterative traversal.
-   * @param {ReturnType<C> | N} identifier - The `nodeProperty` parameter represents the property
-   * of the binary tree node that you want to search for. It can be either a `BTNKey` or a
-   * generic type `N`.
-   * @param callback - The `callback` parameter is a function that takes a node as input and returns a
-   * value. This value is compared with the `nodeProperty` parameter to determine if the node should be
-   * included in the result. The default value for `callback` is `this._defaultOneParamCallback`, which is
-   * a
-   * @param [onlyOne=false] - A boolean value indicating whether to stop the traversal after finding
-   * the first node that matches the nodeProperty. If set to true, the function will return an array
-   * containing only that node. If set to false (default), the function will continue the traversal and
-   * return an array containing all nodes that match the node
-   * @param {N | undefined} beginRoot - The `beginRoot` parameter is the starting node for the traversal. It
-   * specifies the root node of the binary tree from which the traversal should begin. If `beginRoot`
-   * is `undefined`, an empty array will be returned.
-   * @param iterationType - The `iterationType` parameter determines the type of iteration used to
-   * traverse the binary tree. It can have one of the following values:
-   * @returns an array of nodes (N[]).
+   * Time Complexity: O(log n) - Average case for a balanced tree. O(n) - Visiting each node once when identifier is not node's key.
+   * Space Complexity: O(log n) - Space for the recursive call stack in the worst case.
+   */
+  
+  /**
+   * Time Complexity: O(log n) - Average case for a balanced tree. O(n) - Visiting each node once when identifier is not node's key.
+   * Space Complexity: O(log n) - Space for the recursive call stack in the worst case.
+   *
+   * The function `getNodes` returns an array of nodes that match a given identifier, using either a
+   * recursive or iterative approach.
+   * @param {ReturnType<C> | undefined} identifier - The `identifier` parameter is the value that you
+   * want to search for in the nodes of the binary tree. It can be of any type that is returned by the
+   * callback function `C`.
+   * @param {C} callback - The `callback` parameter is a function that takes a node of type `N` as its
+   * argument and returns a value of type `ReturnType<C>`. The `C` type parameter represents a callback
+   * function type that extends the `BTNCallback<N>` type. The `BTNCallback<N>` type is
+   * @param [onlyOne=false] - A boolean flag indicating whether to stop searching after finding the
+   * first node that matches the identifier. If set to true, the function will return an array
+   * containing only the first matching node. If set to false (default), the function will continue
+   * searching for all nodes that match the identifier and return an array containing
+   * @param {BTNKey | N | undefined} beginRoot - The `beginRoot` parameter represents the starting node
+   * for the traversal. It can be either a key value or a node object. If it is undefined, the
+   * traversal will start from the root of the tree.
+   * @param iterationType - The `iterationType` parameter determines the type of iteration to be
+   * performed on the binary tree. It can have two possible values:
+   * @returns The method returns an array of nodes (`N[]`).
    */
   override getNodes<C extends BTNCallback<N>>(
     identifier: ReturnType<C> | undefined,
@@ -420,24 +460,31 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     return ans;
   }
 
-  // --- start additional functions
+  /**
+   * Time Complexity: O(log n) - Average case for a balanced tree. O(n) - Visiting each node once when identifier is not node's key.
+   * Space Complexity: O(log n) - Space for the recursive call stack in the worst case.
+   */
 
   /**
-   * The `lesserOrGreaterTraverse` function traverses a binary tree and applies a callback function to
-   * nodes that have a key value lesser or greater than a target key value.
-   * @param callback - The `callback` parameter is a function that will be called for each node that
-   * meets the condition specified by the `lesserOrGreater` parameter. It takes a node as an argument
-   * and returns a value.
+   * Time Complexity: O(log n) - Average case for a balanced tree. O(n) - Visiting each node once when identifier is not node's key.
+   * Space Complexity: O(log n) - Space for the recursive call stack in the worst case.
+   *
+   * The `lesserOrGreaterTraverse` function traverses a binary tree and returns an array of nodes that
+   * are either lesser or greater than a target node, depending on the specified comparison type.
+   * @param {C} callback - The `callback` parameter is a function that will be called for each node
+   * that satisfies the condition specified by the `lesserOrGreater` parameter. It takes a single
+   * parameter of type `N` (the node type) and returns a value of any type.
    * @param {CP} lesserOrGreater - The `lesserOrGreater` parameter is used to determine whether to
-   * traverse nodes that are lesser than, greater than, or equal to the `targetNode`. It can take one
-   * of the following values:
-   * @param {BTNKey | N | undefined} targetNode - The `targetNode` parameter in the
-   * `lesserOrGreaterTraverse` function is used to specify the node from which the traversal should
-   * start. It can be either a reference to a specific node (`N`), the key of a node
-   * (`BTNKey`), or `undefined` to
-   * @param iterationType - The `iterationType` parameter determines whether the traversal should be
-   * done recursively or iteratively. It can have two possible values:
-   * @returns The function `lesserOrGreaterTraverse` returns an array of `ReturnType<BTNCallback<N>>`.
+   * traverse nodes that are lesser than, greater than, or equal to the `targetNode`. It is of type
+   * `CP`, which is a custom type representing the comparison operator. The possible values for
+   * `lesserOrGreater` are
+   * @param {BTNKey | N | undefined} targetNode - The `targetNode` parameter represents the node in the
+   * binary tree that you want to traverse from. It can be specified either by its key, by the node
+   * object itself, or it can be left undefined to start the traversal from the root of the tree.
+   * @param iterationType - The `iterationType` parameter determines the type of traversal to be
+   * performed on the binary tree. It can have two possible values:
+   * @returns The function `lesserOrGreaterTraverse` returns an array of values of type
+   * `ReturnType<C>`, which is the return type of the callback function passed as an argument.
    */
   lesserOrGreaterTraverse<C extends BTNCallback<N>>(
     callback: C = this._defaultOneParamCallback as C,
@@ -491,6 +538,14 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    */
 
   /**
+   * Time Complexity: O(n) - Building a balanced tree from a sorted array.
+   * Space Complexity: O(n) - Additional space is required for the sorted array.
+   */
+
+  /**
+   * Time Complexity: O(n) - Building a balanced tree from a sorted array.
+   * Space Complexity: O(n) - Additional space is required for the sorted array.
+   *
    * The `perfectlyBalance` function balances a binary search tree by adding nodes in a way that
    * ensures the tree is perfectly balanced.
    * @param iterationType - The `iterationType` parameter is an optional parameter that specifies the
@@ -537,6 +592,14 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   }
 
   /**
+   * Time Complexity: O(n) - Visiting each node once.
+   * Space Complexity: O(log n) - Space for the recursive call stack in the worst case.
+   */
+
+  /**
+   * Time Complexity: O(n) - Visiting each node once.
+   * Space Complexity: O(log n) - Space for the recursive call stack in the worst case.
+   *
    * The function checks if a binary tree is AVL balanced using either recursive or iterative approach.
    * @param iterationType - The `iterationType` parameter is used to determine the method of iteration
    * to check if the AVL tree is balanced. It can have two possible values:
@@ -610,5 +673,4 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     else return CP.eq;
   }
 
-  // --- end additional functions
 }

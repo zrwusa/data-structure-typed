@@ -68,17 +68,23 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
   }
 
   /**
-   * The `add` function adds a new node to a binary search tree, updating the count if the key already
-   * exists, and balancing the tree if necessary.
-   * @param {BTNKey | N | undefined} keyOrNode - The `keyOrNode` parameter can be either a
-   * `BTNKey` (which represents the key of the node to be added), a `N` (which represents a
-   * node to be added), or `undefined` (which represents a undefined node).
-   * @param [value] - The `value` parameter represents the value associated with the key that is being
-   * added to the binary tree.
-   * @param [count=1] - The `count` parameter represents the number of occurrences of the key/value
-   * pair that will be added to the binary tree. It has a default value of 1, which means that if no
-   * count is specified, the default count will be 1.
-   * @returns The function `add` returns a value of type `N | undefined | undefined`.
+   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (AVLTree) has logarithmic time complexity.
+   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
+   */
+
+  /**
+   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (AVLTree) has logarithmic time complexity.
+   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
+   *
+   * The `add` function adds a new node to the tree multimap, updating the count if the key already
+   * exists, and balances the tree if necessary.
+   * @param {BTNKey | N | null | undefined} keyOrNode - The `keyOrNode` parameter can be one of the
+   * following types:
+   * @param {V} [value] - The `value` parameter represents the value associated with the key that is
+   * being added to the tree. It is an optional parameter, so it can be omitted if not needed.
+   * @param [count=1] - The `count` parameter is an optional parameter that specifies the number of
+   * times the key-value pair should be added to the multimap. If not provided, the default value is 1.
+   * @returns a node (`N`) or `undefined`.
    */
   override add(keyOrNode: BTNKey | N | null | undefined, value?: V, count = 1): N | undefined {
     if (keyOrNode === null) return undefined;
@@ -150,12 +156,24 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
   }
 
   /**
-   * The function adds a new node to a binary tree if there is an available slot in the parent node.
-   * @param {N | undefined} newNode - The `newNode` parameter represents the node that needs to be added to
-   * the tree. It can be either a node object (`N`) or `undefined`.
-   * @param {N} parent - The `parent` parameter represents the parent node to which the new node will
-   * be added as a child.
-   * @returns The method `_addTo` returns either the `parent.left`, `parent.right`, or `undefined`.
+   * Time Complexity: O(1) - constant time, as it performs basic pointer assignments.
+   * Space Complexity: O(1) - constant space, as it only uses a constant amount of memory.
+   */
+
+  /**
+   * Time Complexity: O(1) - constant time, as it performs basic pointer assignments.
+   * Space Complexity: O(1) - constant space, as it only uses a constant amount of memory.
+   *
+   * The function adds a new node to a binary tree, either as the left child or the right child of a
+   * given parent node.
+   * @param {N | undefined} newNode - The `newNode` parameter represents the node that needs to be
+   * added to the binary tree. It can be of type `N` (which represents a node in the binary tree) or
+   * `undefined` if there is no node to add.
+   * @param {BTNKey | N | undefined} parent - The `parent` parameter represents the parent node to
+   * which the new node will be added as a child. It can be either a node object (`N`) or a key value
+   * (`BTNKey`).
+   * @returns The method `_addTo` returns either the `parent.left` or `parent.right` node that was
+   * added, or `undefined` if no node was added.
    */
   protected override _addTo(newNode: N | undefined, parent: BTNKey | N | undefined): N | undefined {
     parent = this.ensureNotKey(parent);
@@ -184,14 +202,22 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
   }
 
   /**
-   * The `addMany` function adds multiple keys or nodes to a TreeMultimap and returns an array of the
-   * inserted nodes.
-   * @param {(BTNKey | undefined)[] | (N | undefined)[]} keysOrNodes - An array of keys or nodes to be
-   * added to the multiset. Each element can be either a BTNKey or a TreeMultimapNode.
-   * @param {V[]} [data] - The `data` parameter is an optional array of values that correspond
-   * to the keys or nodes being added to the multiset. It is used to associate additional data with
-   * each key or node.
-   * @returns The function `addMany` returns an array of `N`, `undefined`, or `undefined` values.
+   * Time Complexity: O(k log n) - logarithmic time for each insertion, where "n" is the number of nodes in the tree, and "k" is the number of keys to be inserted. This is because the method iterates through the keys and calls the add method for each.
+   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
+   */
+
+  /**
+   * Time Complexity: O(k log n) - logarithmic time for each insertion, where "n" is the number of nodes in the tree, and "k" is the number of keys to be inserted. This is because the method iterates through the keys and calls the add method for each.
+   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
+   *
+   * The function `addMany` takes an array of keys or nodes and adds them to the TreeMultimap,
+   * returning an array of the inserted nodes.
+   * @param {(BTNKey | N | undefined)[]} keysOrNodes - An array of keys or nodes. Each element can be
+   * of type BTNKey, N, or undefined.
+   * @param {V[]} [data] - The `data` parameter is an optional array of values that correspond to the
+   * keys or nodes being added. It is used to associate data with each key or node being added to the
+   * TreeMultimap. If provided, the length of the `data` array should be the same as the length of the
+   * @returns The function `addMany` returns an array of nodes (`N`) or `undefined` values.
    */
   override addMany(keysOrNodes: (BTNKey | N | undefined)[], data?: V[]): (N | undefined)[] {
     const inserted: (N | undefined)[] = [];
@@ -215,10 +241,18 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
   }
 
   /**
-   * The `perfectlyBalance` function in TypeScript takes a sorted array of nodes and builds a balanced
-   * binary search tree using either a recursive or iterative approach.
+   * Time Complexity: O(n log n) - logarithmic time for each insertion, where "n" is the number of nodes in the tree. This is because the method calls the add method for each node.
+   * Space Complexity: O(n) - linear space, as it creates an array to store the sorted nodes.
+   */
+
+  /**
+   * Time Complexity: O(n log n) - logarithmic time for each insertion, where "n" is the number of nodes in the tree. This is because the method calls the add method for each node.
+   * Space Complexity: O(n) - linear space, as it creates an array to store the sorted nodes.
+   *
+   * The `perfectlyBalance` function takes a sorted array of nodes and builds a balanced binary search
+   * tree using either a recursive or iterative approach.
    * @param iterationType - The `iterationType` parameter is an optional parameter that specifies the
-   * type of iteration to use when building a balanced binary search tree. It can have two possible
+   * type of iteration to use when building the balanced binary search tree. It can have two possible
    * values:
    * @returns a boolean value.
    */
@@ -261,20 +295,28 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
   }
 
   /**
-   * The `delete` function in a binary search tree deletes a node from the tree and returns the deleted
-   * node along with the parent node that needs to be balanced.
-   * @param {ReturnType<C>} identifier - The `identifier` parameter is either a
-   * `BTNKey` or a generic type `N`. It represents the property of the node that we are
-   * searching for. It can be a specific key value or any other property of the node.
-   * @param callback - The `callback` parameter is a function that takes a node as input and returns a
-   * value. This value is compared with the `identifier` parameter to determine if the node should be
-   * included in the result. The `callback` parameter has a default value of
-   * `this._defaultOneParamCallback`
+   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The delete method of the superclass (AVLTree) has logarithmic time complexity.
+   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
+   */
+
+  /**
+   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The delete method of the superclass (AVLTree) has logarithmic time complexity.
+   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
+   *
+   * The `delete` function in TypeScript is used to remove a node from a binary tree, taking into
+   * account the count of the node and balancing the tree if necessary.
+   * @param identifier - The identifier is the value or key that is used to identify the node that
+   * needs to be deleted from the binary tree. It can be of any type that is returned by the callback
+   * function.
+   * @param {C} callback - The `callback` parameter is a function that is used to determine if a node
+   * should be deleted. It is optional and defaults to a default callback function. The `callback`
+   * function takes one parameter, which is the identifier of the node, and returns a value that is
+   * used to identify the node to
    * @param [ignoreCount=false] - A boolean flag indicating whether to ignore the count of the node
    * being deleted. If set to true, the count of the node will not be considered and the node will be
    * deleted regardless of its count. If set to false (default), the count of the node will be
    * decremented by 1 and
-   * @returns The method `delete` returns an array of `BiTreeDeleteResult<N>` objects.
+   * @returns an array of `BiTreeDeleteResult<N>`.
    */
   override delete<C extends BTNCallback<N>>(
     identifier: ReturnType<C>,
@@ -344,11 +386,13 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
   }
 
   /**
-   * The function swaps the values of two nodes in a binary tree.
-   * @param {N} srcNode - The source node that needs to be swapped with the destination node.
-   * @param {N} destNode - The `destNode` parameter represents the destination node where the values
-   * from `srcNode` will be swapped into.
-   * @returns The method is returning the `destNode` after swapping its properties with the `srcNode`.
+   * The `_swap` function swaps the key, value, count, and height properties between two nodes.
+   * @param {BTNKey | N | undefined} srcNode - The `srcNode` parameter represents the source node from
+   * which the values will be swapped. It can be of type `BTNKey`, `N`, or `undefined`.
+   * @param {BTNKey | N | undefined} destNode - The `destNode` parameter represents the destination
+   * node where the values from the source node will be swapped to.
+   * @returns either the `destNode` object if both `srcNode` and `destNode` are defined, or `undefined`
+   * if either `srcNode` or `destNode` is undefined.
    */
   protected _swap(srcNode: BTNKey | N | undefined, destNode:BTNKey | N | undefined): N | undefined{
     srcNode = this.ensureNotKey(srcNode);

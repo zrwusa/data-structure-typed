@@ -217,12 +217,12 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   }
 
   /**
-   * Time Complexity: O(n^2)
+   * Time Complexity: O(k * n)  "n" is the number of nodes in the tree, and "k" is the number of keys to be inserted.
    * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n^2)
+   * Time Complexity: O(k * n)  "n" is the number of nodes in the tree, and "k" is the number of keys to be inserted.
    * Space Complexity: O(1)
    * 
    * The `addMany` function takes an array of keys or nodes and an optional array of values, and adds
@@ -252,12 +252,12 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   }
 
   /**
-   * Time Complexity: O(n^2)
+   * Time Complexity: O(k * n)  "n" is the number of nodes in the tree, and "k" is the number of keys to be inserted.
    * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n^2)
+   * Time Complexity: O(k * n)  "n" is the number of nodes in the tree, and "k" is the number of keys to be inserted.
    * Space Complexity: O(1)
    * 
    * The `refill` function clears the binary tree and adds multiple nodes with the given IDs or nodes and optional data.
