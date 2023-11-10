@@ -58,6 +58,14 @@ export class SkipList<K, V> {
   }
 
   /**
+   * Time Complexity: O(log n) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
+   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
+   */
+
+  /**
+   * Time Complexity: O(log n) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
+   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
+   *
    * The add function adds a new node with a given key and value to a Skip List data structure.
    * @param {K} key - The key parameter represents the key of the node that needs to be added to the skip list.
    * @param {V} value - The "value" parameter represents the value associated with the key that is being added to the Skip
@@ -86,6 +94,14 @@ export class SkipList<K, V> {
   }
 
   /**
+   * Time Complexity: O(log n) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
+   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
+   */
+
+  /**
+   * Time Complexity: O(log n) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
+   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
+   *
    * The function `get` retrieves the value associated with a given key from a skip list data structure.
    * @param {K} key - The `key` parameter is the key of the element that we want to retrieve from the data structure.
    * @returns The method `get(key: K)` returns the value associated with the given key if it exists in the data structure,
@@ -108,11 +124,29 @@ export class SkipList<K, V> {
     return undefined;
   }
 
+  /**
+   * Time Complexity: O(log n) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
+   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
+   */
+
+  /**
+   * Time Complexity: O(log n) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
+   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
+   */
+
   has(key: K): boolean {
     return this.get(key) !== undefined;
   }
 
   /**
+   * Time Complexity: O(log n) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
+   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
+   */
+
+  /**
+   * Time Complexity: O(log n) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
+   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
+   *
    * The `delete` function removes a node with a specific key from a Skip List data structure.
    * @param {K} key - The key parameter represents the key of the node that needs to be removed from the skip list.
    * @returns The `delete` method returns a boolean value. It returns `true` if the key was successfully removed from the
@@ -148,6 +182,14 @@ export class SkipList<K, V> {
   }
 
   /**
+   * Time Complexity: O(1) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
+   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
+   */
+
+  /**
+   * Time Complexity: O(1) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
+   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
+   *
    * Get the value of the first element (the smallest element) in the Skip List.
    * @returns The value of the first element, or undefined if the Skip List is empty.
    */
@@ -157,6 +199,14 @@ export class SkipList<K, V> {
   }
 
   /**
+   * Time Complexity: O(log n) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
+   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
+   */
+
+  /**
+   * Time Complexity: O(log n) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
+   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
+   *
    * Get the value of the last element (the largest element) in the Skip List.
    * @returns The value of the last element, or undefined if the Skip List is empty.
    */
@@ -171,6 +221,14 @@ export class SkipList<K, V> {
   }
 
   /**
+   * Time Complexity: O(log n) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
+   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
+   */
+
+  /**
+   * Time Complexity: O(log n) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
+   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
+   *
    * Get the value of the first element in the Skip List that is greater than the given key.
    * @param key - the given key.
    * @returns The value of the first element greater than the given key, or undefined if there is no such element.
@@ -187,6 +245,14 @@ export class SkipList<K, V> {
   }
 
   /**
+   * Time Complexity: O(log n) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
+   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
+   */
+
+  /**
+   * Time Complexity: O(log n) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
+   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
+   *
    * Get the value of the last element in the Skip List that is less than the given key.
    * @param key - the given key.
    * @returns The value of the last element less than the given key, or undefined if there is no such element.
@@ -208,6 +274,14 @@ export class SkipList<K, V> {
   }
 
   /**
+   * Time Complexity: O(maxLevel) - where maxLevel is the maximum level of the SkipList, as it may iterate up to maxLevel times in the worst case.
+   * Space Complexity: O(1) - constant space.
+   */
+
+  /**
+   * Time Complexity: O(maxLevel) - where maxLevel is the maximum level of the SkipList, as it may iterate up to maxLevel times in the worst case.
+   * Space Complexity: O(1) - constant space.
+   *
    * The function "_randomLevel" generates a random level based on a given probability and maximum level.
    * @returns the level, which is a number.
    */

@@ -49,6 +49,14 @@ export class Trie {
   }
 
   /**
+   * Time Complexity: O(M), where M is the length of the word being added.
+   * Space Complexity: O(M) - Each character in the word adds a TrieNode.
+   */
+
+  /**
+   * Time Complexity: O(M), where M is the length of the word being added.
+   * Space Complexity: O(M) - Each character in the word adds a TrieNode.
+   *
    * Add a word to the Trie structure.
    * @param {string} word - The word to add.
    * @returns {boolean} True if the word was successfully added.
@@ -69,6 +77,14 @@ export class Trie {
   }
 
   /**
+   * Time Complexity: O(M), where M is the length of the input word.
+   * Space Complexity: O(1) - Constant space.
+   */
+
+  /**
+   * Time Complexity: O(M), where M is the length of the input word.
+   * Space Complexity: O(1) - Constant space.
+   *
    * Check if the Trie contains a given word.
    * @param {string} word - The word to check for.
    * @returns {boolean} True if the word is present in the Trie.
@@ -85,6 +101,14 @@ export class Trie {
   }
 
   /**
+   * Time Complexity: O(M), where M is the length of the word being deleted.
+   * Space Complexity: O(M) - Due to the recursive DFS approach.
+   */
+
+  /**
+   * Time Complexity: O(M), where M is the length of the word being deleted.
+   * Space Complexity: O(M) - Due to the recursive DFS approach.
+   *
    * Remove a word from the Trie structure.
    * @param{string} word - The word to delete.
    * @returns {boolean} True if the word was successfully removed.
@@ -122,6 +146,16 @@ export class Trie {
     return isDeleted;
   }
 
+  /**
+   * Time Complexity: O(N), where N is the total number of nodes in the trie.
+   * Space Complexity: O(1) - Constant space.
+   */
+
+  /**
+   * Time Complexity: O(N), where N is the total number of nodes in the trie.
+   * Space Complexity: O(1) - Constant space.
+   *
+   */
   getHeight() {
     const beginRoot = this.root;
     let maxDepth = 0;
@@ -142,8 +176,15 @@ export class Trie {
     return maxDepth;
   }
 
-  // --- start additional methods ---
   /**
+   * Time Complexity: O(M), where M is the length of the input prefix.
+   * Space Complexity: O(1) - Constant space.
+   */
+
+  /**
+   * Time Complexity: O(M), where M is the length of the input prefix.
+   * Space Complexity: O(1) - Constant space.
+   *
    * Check if a given input string has an absolute prefix in the Trie, meaning it's not a complete word.
    * @param {string} input - The input string to check.
    * @returns {boolean} True if it's an absolute prefix in the Trie.
@@ -160,6 +201,14 @@ export class Trie {
   }
 
   /**
+   * Time Complexity: O(M), where M is the length of the input prefix.
+   * Space Complexity: O(1) - Constant space.
+   */
+
+  /**
+   * Time Complexity: O(M), where M is the length of the input prefix.
+   * Space Complexity: O(1) - Constant space.
+   *
    * Check if a given input string is a prefix of any existing word in the Trie, whether as an absolute prefix or a complete word.
    * @param {string} input - The input string representing the prefix to check.
    * @returns {boolean} True if it's a prefix in the Trie.
@@ -176,6 +225,14 @@ export class Trie {
   }
 
   /**
+   * Time Complexity: O(N), where N is the total number of nodes in the trie.
+   * Space Complexity: O(M), where M is the length of the input prefix.
+   */
+
+  /**
+   * Time Complexity: O(N), where N is the total number of nodes in the trie.
+   * Space Complexity: O(M), where M is the length of the input prefix.
+   *
    * Check if the input string is a common prefix in the Trie, meaning it's a prefix shared by all words in the Trie.
    * @param {string} input - The input string representing the common prefix to check for.
    * @returns {boolean} True if it's a common prefix in the Trie.
@@ -195,6 +252,14 @@ export class Trie {
   }
 
   /**
+   * Time Complexity: O(N), where N is the total number of nodes in the trie.
+   * Space Complexity: O(M), where M is the length of the longest common prefix.
+   */
+
+  /**
+   * Time Complexity: O(N), where N is the total number of nodes in the trie.
+   * Space Complexity: O(M), where M is the length of the longest common prefix.
+   *
    * Get the longest common prefix among all the words stored in the Trie.
    * @returns {string} The longest common prefix found in the Trie.
    */
@@ -211,6 +276,14 @@ export class Trie {
   }
 
   /**
+   * Time Complexity: O(K * L), where K is the number of words retrieved, and L is the average length of the words.
+   * Space Complexity: O(K * L) - The space required for the output array.
+   */
+
+  /**
+   * Time Complexity: O(K * L), where K is the number of words retrieved, and L is the average length of the words.
+   * Space Complexity: O(K * L) - The space required for the output array.
+   *
    * The `getAll` function returns an array of all words in a Trie data structure that start with a given prefix.
    * @param {string} prefix - The `prefix` parameter is a string that represents the prefix that we want to search for in the
    * trie. It is an optional parameter, so if no prefix is provided, it will default to an empty string.
@@ -251,12 +324,22 @@ export class Trie {
     return words;
   }
 
+  /**
+   * Time Complexity: O(M), where M is the length of the input string.
+   * Space Complexity: O(1) - Constant space.
+   */
+
+  /**
+   * Time Complexity: O(M), where M is the length of the input string.
+   * Space Complexity: O(1) - Constant space.
+   *
+   * @param str
+   * @protected
+   */
   protected _caseProcess(str: string) {
     if (!this._caseSensitive) {
       str = str.toLowerCase(); // Convert str to lowercase if case-insensitive
     }
     return str;
   }
-
-  // --- end additional methods ---
 }

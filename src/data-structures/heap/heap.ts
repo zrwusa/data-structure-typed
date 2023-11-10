@@ -53,6 +53,14 @@ export class Heap<E = any> {
   }
 
   /**
+   * Time Complexity: O(log n), where n is the number of nodes in the heap.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(log n), where n is the number of nodes in the heap.
+   * Space Complexity: O(1)
+   *
    * Insert an element into the heap and maintain the heap properties.
    * @param element - The element to be inserted.
    */
@@ -61,6 +69,14 @@ export class Heap<E = any> {
   }
 
   /**
+   * Time Complexity: O(log n), where n is the number of nodes in the heap.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(log n), where n is the number of nodes in the heap.
+   * Space Complexity: O(1)
+   *
    * Insert an element into the heap and maintain the heap properties.
    * @param element - The element to be inserted.
    */
@@ -71,6 +87,14 @@ export class Heap<E = any> {
   }
 
   /**
+   * Time Complexity: O(log n), where n is the number of nodes in the heap.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(log n), where n is the number of nodes in the heap.
+   * Space Complexity: O(1)
+   *
    * Remove and return the top element (smallest or largest element) from the heap.
    * @returns The top element or undefined if the heap is empty.
    */
@@ -89,6 +113,14 @@ export class Heap<E = any> {
   }
 
   /**
+   * Time Complexity: O(log n), where n is the number of nodes in the heap.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(log n), where n is the number of nodes in the heap.
+   * Space Complexity: O(1)
+   *
    * Remove and return the top element (smallest or largest element) from the heap.
    * @returns The top element or undefined if the heap is empty.
    */
@@ -123,6 +155,14 @@ export class Heap<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of elements in the nodes array.
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the nodes array.
+   * Space Complexity: O(n)
+   *
    * Clear and add nodes of the heap
    * @param nodes
    */
@@ -132,6 +172,14 @@ export class Heap<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of nodes in the heap.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of nodes in the heap.
+   * Space Complexity: O(1)
+   *
    * Use a comparison function to check whether a binary heap contains a specific element.
    * @param element - the element to check.
    * @returns Returns true if the specified element is contained; otherwise, returns false.
@@ -141,6 +189,14 @@ export class Heap<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of nodes in the heap.
+   * Space Complexity: O(h), where h is the height of the heap.
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of nodes in the heap.
+   * Space Complexity: O(h), where h is the height of the heap.
+   *
    * Depth-first search (DFS) method, different traversal orders can be selected。
    * @param order - Traverse order parameter: 'in' (in-order), 'pre' (pre-order) or 'post' (post-order).
    * @returns An array containing elements traversed in the specified order.
@@ -173,6 +229,14 @@ export class Heap<E = any> {
   }
 
   /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
    * Convert the heap to an array.
    * @returns An array containing the elements of the heap.
    */
@@ -180,11 +244,23 @@ export class Heap<E = any> {
     return [...this.nodes];
   }
 
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
   getNodes(): E[] {
     return this.nodes;
   }
 
   /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
    * Clone the heap, creating a new heap with the same elements.
    * @returns A new Heap instance containing the same elements.
    */
@@ -195,6 +271,14 @@ export class Heap<E = any> {
   }
 
   /**
+   * Time Complexity: O(n log n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n log n)
+   * Space Complexity: O(n)
+   *
    * Sort the elements in the heap and return them as an array.
    * @returns An array containing the elements sorted in ascending order.
    */
@@ -209,6 +293,14 @@ export class Heap<E = any> {
   }
 
   /**
+   * Time Complexity: O(log n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(log n)
+   * Space Complexity: O(1)
+   *
    * Float operation to maintain heap properties after adding an element.
    * @param index - The index of the newly added element.
    */
@@ -228,6 +320,14 @@ export class Heap<E = any> {
   }
 
   /**
+   * Time Complexity: O(log n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(log n)
+   * Space Complexity: O(1)
+   *
    * Sinking operation to maintain heap properties after removing the top element.
    * @param index - The index from which to start sinking.
    */
@@ -253,6 +353,14 @@ export class Heap<E = any> {
   }
 
   /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
    * Fix the entire heap to maintain heap properties.
    */
   protected fix() {
@@ -321,7 +429,14 @@ export class FibonacciHeap<E> {
   }
 
   /**
-   * O(1) time operation.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * Insert an element into the heap and maintain the heap properties.
    * @param element
    * @returns {FibonacciHeap<E>} FibonacciHeap<E> - The heap itself.
@@ -330,8 +445,16 @@ export class FibonacciHeap<E> {
     return this.push(element);
   }
 
+
   /**
-   * O(1) time operation.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * Insert an element into the heap and maintain the heap properties.
    * @param element
    * @returns {FibonacciHeap<E>} FibonacciHeap<E> - The heap itself.
@@ -350,8 +473,16 @@ export class FibonacciHeap<E> {
     return this;
   }
 
+
   /**
-   * O(1) time operation.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * Peek at the top element of the heap without removing it.
    * @returns The top element or undefined if the heap is empty.
    * @protected
@@ -361,7 +492,14 @@ export class FibonacciHeap<E> {
   }
 
   /**
-   * O(1) time operation.
+   * Time Complexity: O(n), where n is the number of nodes in the linked list.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of nodes in the linked list.
+   * Space Complexity: O(1)
+   *
    * Get the size (number of elements) of the heap.
    * @param {FibonacciHeapNode<E>} head - The head of the linked list.
    * @protected
@@ -388,8 +526,9 @@ export class FibonacciHeap<E> {
   }
 
   /**
-   * O(log n) time operation.
-   * Remove and return the top element (smallest or largest element) from the heap.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * @param parent
    * @param node
    */
@@ -405,7 +544,14 @@ export class FibonacciHeap<E> {
   }
 
   /**
-   * O(log n) time operation.
+   * Time Complexity: O(log n), where n is the number of nodes in the heap.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(log n), where n is the number of nodes in the heap.
+   * Space Complexity: O(1)
+   *
    * Remove and return the top element (smallest or largest element) from the heap.
    * @returns The top element or undefined if the heap is empty.
    */
@@ -414,7 +560,14 @@ export class FibonacciHeap<E> {
   }
 
   /**
-   * O(log n) time operation.
+   * Time Complexity: O(log n), where n is the number of nodes in the heap.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(log n), where n is the number of nodes in the heap.
+   * Space Complexity: O(1)
+   *
    * Remove and return the top element (smallest or largest element) from the heap.
    * @returns The top element or undefined if the heap is empty.
    */
@@ -446,7 +599,14 @@ export class FibonacciHeap<E> {
   }
 
   /**
-   * O(log n) time operation.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * merge two heaps. The heap that is merged will be cleared. The heap that is merged into will remain.
    * @param heapToMerge
    */
@@ -504,6 +664,14 @@ export class FibonacciHeap<E> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * Merge the given node with the root list.
    * @param node - The node to be merged.
    */
@@ -519,7 +687,14 @@ export class FibonacciHeap<E> {
   }
 
   /**
-   * O(log n) time operation.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *.
    * Remove and return the top element (smallest or largest element) from the heap.
    * @param node - The node to be removed.
    * @protected
@@ -531,7 +706,14 @@ export class FibonacciHeap<E> {
   }
 
   /**
-   * O(log n) time operation.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * Remove and return the top element (smallest or largest element) from the heap.
    * @param y
    * @param x
@@ -547,7 +729,14 @@ export class FibonacciHeap<E> {
   }
 
   /**
-   * O(log n) time operation.
+   * Time Complexity: O(n log n), where n is the number of nodes in the heap.
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n log n), where n is the number of nodes in the heap.
+   * Space Complexity: O(n)
+   *
    * Remove and return the top element (smallest or largest element) from the heap.
    * @protected
    */

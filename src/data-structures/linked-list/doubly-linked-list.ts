@@ -55,6 +55,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the length of the input array.
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the length of the input array.
+   * Space Complexity: O(n)
+   *
    * The `fromArray` function creates a new instance of a DoublyLinkedList and populates it with the elements from the
    * given array.
    * @param {E[]} data - The `data` parameter is an array of elements of type `E`.
@@ -69,6 +77,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The push function adds a new node with the given value to the end of the doubly linked list.
    * @param {E} value - The value to be added to the linked list.
    */
@@ -86,6 +102,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The addLast function adds a new node with the given value to the end of the doubly linked list.
    * @param {E} value - The value to be added to the linked list.
    */
@@ -94,6 +118,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The `pop()` function removes and returns the value of the last node in a doubly linked list.
    * @returns The method is returning the value of the removed node (removedNode.value) if the list is not empty. If the
    * list is empty, it returns null.
@@ -113,6 +145,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The `popLast()` function removes and returns the value of the last node in a doubly linked list.
    * @returns The method is returning the value of the removed node (removedNode.value) if the list is not empty. If the
    * list is empty, it returns null.
@@ -122,6 +162,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The `shift()` function removes and returns the value of the first node in a doubly linked list.
    * @returns The method `shift()` returns the value of the node that is removed from the beginning of the doubly linked
    * list.
@@ -141,6 +189,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The `popFirst()` function removes and returns the value of the first node in a doubly linked list.
    * @returns The method `shift()` returns the value of the node that is removed from the beginning of the doubly linked
    * list.
@@ -150,6 +206,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The unshift function adds a new node with the given value to the beginning of a doubly linked list.
    * @param {E} value - The `value` parameter represents the value of the new node that will be added to the beginning of the
    * doubly linked list.
@@ -168,6 +232,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The addFirst function adds a new node with the given value to the beginning of a doubly linked list.
    * @param {E} value - The `value` parameter represents the value of the new node that will be added to the beginning of the
    * doubly linked list.
@@ -177,6 +249,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   *
    * The `getFirst` function returns the first node in a doubly linked list, or null if the list is empty.
    * @returns The method `getFirst()` returns the first node of the doubly linked list, or `null` if the list is empty.
    */
@@ -185,6 +265,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   *
    * The `getLast` function returns the last node in a doubly linked list, or null if the list is empty.
    * @returns The method `getLast()` returns the last node of the doubly linked list, or `null` if the list is empty.
    */
@@ -193,6 +281,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   *
    * The `getAt` function returns the value at a specified index in a linked list, or null if the index is out of bounds.
    * @param {number} index - The index parameter is a number that represents the position of the element we want to
    * retrieve from the list.
@@ -209,6 +305,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   *
    * The function `getNodeAt` returns the node at a given index in a doubly linked list, or null if the index is out of
    * range.
    * @param {number} index - The `index` parameter is a number that represents the position of the node we want to
@@ -226,6 +330,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   *
    * The function `findNodeByValue` searches for a node with a specific value in a doubly linked list and returns the
    * node if found, otherwise it returns null.
    * @param {E} value - The `value` parameter is the value that we want to search for in the doubly linked list.
@@ -246,6 +358,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   *
    * The `insert` function inserts a value at a specified index in a doubly linked list.
    * @param {number} index - The index parameter represents the position at which the new value should be inserted in the
    * DoublyLinkedList. It is of type number.
@@ -277,6 +397,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   *
    * The `insertBefore` function inserts a new value before an existing value or node in a doubly linked list.
    * @param {E | DoublyLinkedListNode<E>} existingValueOrNode - The existing value or node in the doubly linked list
    * before which the new value will be inserted. It can be either the value of the existing node or the existing node
@@ -314,6 +442,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   *
    * The `deleteAt` function removes an element at a specified index from a linked list and returns the removed element.
    * @param {number} index - The index parameter represents the position of the element that needs to be deleted in the
    * data structure. It is of type number.
@@ -335,6 +471,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   *
    * The `delete` function removes a node from a doubly linked list based on either the node itself or its value.
    * @param {E | DoublyLinkedListNode<E>} valOrNode - The `valOrNode` parameter can accept either a value of type `E` or
    * a `DoublyLinkedListNode<E>` object.
@@ -368,6 +512,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(n)
+   *
    * The `toArray` function converts a linked list into an array.
    * @returns The `toArray()` method is returning an array of type `E[]`.
    */
@@ -399,6 +551,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   *
    * The `find` function iterates through a linked list and returns the first element that satisfies a given condition.
    * @param callback - A function that takes a value of type E as its parameter and returns a boolean value. This
    * function is used to determine whether a particular value in the linked list satisfies a certain condition.
@@ -417,6 +577,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   *
    * The function returns the index of the first occurrence of a given value in a linked list.
    * @param {E} value - The parameter `value` is of type `E`, which means it can be any data type. It represents the value
    * that we are searching for in the linked list.
@@ -437,6 +605,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   *
    * The `findBackward` function iterates through a linked list from the last node to the first node and returns the last
    * value that satisfies the given callback function, or null if no value satisfies the callback.
    * @param callback - A function that takes a value of type E as its parameter and returns a boolean value. This
@@ -456,6 +632,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(n)
+   *
    * The `toArrayBackward` function converts a doubly linked list into an array in reverse order.
    * @returns The `toArrayBackward()` function returns an array of type `E[]`.
    */
@@ -470,6 +654,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   *
    * The `reverse` function reverses the order of the elements in a doubly linked list.
    */
   reverse(): void {
@@ -483,6 +675,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   *
    * The `forEach` function iterates over each element in a linked list and applies a callback function to each element.
    * @param callback - The callback parameter is a function that takes two arguments: value and index. The value argument
    * represents the value of the current node in the linked list, and the index argument represents the index of the
@@ -499,6 +699,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(n)
+   *
    * The `map` function takes a callback function and applies it to each element in the DoublyLinkedList, returning a new
    * DoublyLinkedList with the transformed values.
    * @param callback - The callback parameter is a function that takes a value of type E (the type of values stored in
@@ -517,6 +725,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(n)
+   *
    * The `filter` function iterates through a DoublyLinkedList and returns a new DoublyLinkedList containing only the
    * elements that satisfy the given callback function.
    * @param callback - The `callback` parameter is a function that takes a value of type `E` and returns a boolean value.
@@ -536,6 +752,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(n)
+   *
    * The `reduce` function iterates over a linked list and applies a callback function to each element, accumulating a
    * single value.
    * @param callback - The `callback` parameter is a function that takes two arguments: `accumulator` and `value`. It is
@@ -556,6 +780,14 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   *
    * The `insertAfter` function inserts a new node with a given value after an existing node in a doubly linked list.
    * @param {E | DoublyLinkedListNode<E>} existingValueOrNode - The existing value or node in the doubly linked list
    * after which the new value will be inserted. It can be either the value of the existing node or the existing node

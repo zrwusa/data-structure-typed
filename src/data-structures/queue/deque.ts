@@ -50,6 +50,14 @@ export class ObjectDeque<E = number> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The "addFirst" function adds a value to the beginning of an array-like data structure.
    * @param {E} value - The `value` parameter represents the value that you want to add to the beginning of the data
    * structure.
@@ -67,6 +75,14 @@ export class ObjectDeque<E = number> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The addLast function adds a value to the end of an array-like data structure.
    * @param {E} value - The `value` parameter represents the value that you want to add to the end of the data structure.
    */
@@ -83,6 +99,14 @@ export class ObjectDeque<E = number> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The function `popFirst()` removes and returns the first element in a data structure.
    * @returns The value of the first element in the data structure.
    */
@@ -96,6 +120,14 @@ export class ObjectDeque<E = number> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The `getFirst` function returns the first element in an array-like data structure if it exists.
    * @returns The element at the first position of the `_nodes` array.
    */
@@ -104,6 +136,14 @@ export class ObjectDeque<E = number> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The `popLast()` function removes and returns the last element in a data structure.
    * @returns The value that was removed from the data structure.
    */
@@ -118,6 +158,14 @@ export class ObjectDeque<E = number> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The `getLast()` function returns the last element in an array-like data structure.
    * @returns The last element in the array "_nodes" is being returned.
    */
@@ -126,6 +174,14 @@ export class ObjectDeque<E = number> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The get function returns the element at the specified index in an array-like data structure.
    * @param {number} index - The index parameter is a number that represents the position of the element you want to
    * retrieve from the array.
@@ -159,10 +215,14 @@ export class ArrayDeque<E> {
   }
 
   /**
-   * O(n) time complexity of adding at the beginning and the end
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The function "addLast" adds a value to the end of an array.
    * @param {E} value - The value parameter represents the value that you want to add to the end of the array.
    * @returns The return value is the new length of the array after the value has been added.
@@ -172,6 +232,14 @@ export class ArrayDeque<E> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The function "popLast" returns and removes the last element from an array, or returns null if the array is empty.
    * @returns The method `popLast()` returns the last element of the `_nodes` array, or `null` if the array is empty.
    */
@@ -180,6 +248,14 @@ export class ArrayDeque<E> {
   }
 
   /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
    * The `popFirst` function removes and returns the first element from an array, or returns null if the array is empty.
    * @returns The `popFirst()` function returns the first element of the `_nodes` array, or `null` if the array is
    * empty.
@@ -189,10 +265,14 @@ export class ArrayDeque<E> {
   }
 
   /**
-   * O(n) time complexity of adding at the beginning and the end
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    */
 
   /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
    * The function "addFirst" adds a value to the beginning of an array.
    * @param {E} value - The value parameter represents the value that you want to add to the beginning of the array.
    * @returns The return value of the `addFirst` function is the new length of the array `_nodes` after adding the
@@ -203,6 +283,14 @@ export class ArrayDeque<E> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The `getFirst` function returns the first element of an array or null if the array is empty.
    * @returns The function `getFirst()` is returning the first element (`E`) of the `_nodes` array. If the array is
    * empty, it will return `null`.
@@ -212,6 +300,14 @@ export class ArrayDeque<E> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The `getLast` function returns the last element of an array or null if the array is empty.
    * @returns The method `getLast()` returns the last element of the `_nodes` array, or `null` if the array is empty.
    */
@@ -220,10 +316,14 @@ export class ArrayDeque<E> {
   }
 
   /**
-   * O(1) time complexity of obtaining the value
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The get function returns the element at the specified index in an array, or null if the index is out of bounds.
    * @param {number} index - The index parameter is a number that represents the position of the element you want to
    * retrieve from the array.
@@ -235,6 +335,14 @@ export class ArrayDeque<E> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The set function assigns a value to a specific index in an array.
    * @param {number} index - The index parameter is a number that represents the position of the element in the array
    * that you want to set a new value for.
@@ -247,6 +355,14 @@ export class ArrayDeque<E> {
   }
 
   /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
    * The insert function adds a value at a specified index in an array.
    * @param {number} index - The index parameter specifies the position at which the value should be inserted in the
    * array. It is a number that represents the index of the array where the value should be inserted. The index starts
@@ -261,6 +377,14 @@ export class ArrayDeque<E> {
   }
 
   /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
    * The delete function removes an element from an array at a specified index.
    * @param {number} index - The index parameter specifies the position of the element to be removed from the array. It
    * is a number that represents the index of the element to be removed.
