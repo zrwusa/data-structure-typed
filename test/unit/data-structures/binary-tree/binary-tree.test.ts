@@ -1,5 +1,6 @@
 import {BinaryTree, BinaryTreeNode, IterationType} from '../../../../src';
 import {getRandomIntArray} from "../../../utils";
+import {FamilyPosition} from "binary-tree-typed";
 // import {isDebugTest} from '../../../config';
 
 // const isDebug = isDebugTest;
@@ -65,7 +66,24 @@ describe('BinaryTreeNode', () => {
     root.right = rightChild;
 
     expect(leftChild.familyPosition).toBe('LEFT');
+    leftChild.right = new BinaryTreeNode<number>(4);
     expect(rightChild.familyPosition).toBe('RIGHT');
+    expect(root.familyPosition).toBe('ROOT');
+    expect(leftChild.familyPosition).toBe('ROOT_LEFT');
+    rightChild.left = new BinaryTreeNode<number>(5);
+    expect(rightChild.familyPosition).toBe('ROOT_RIGHT');
+
+  });
+
+  it('should determine only right child family position correctly', () => {
+    const root = new BinaryTreeNode<number>(1);
+    const rightChild = new BinaryTreeNode<number>(3);
+    const isolated = new BinaryTreeNode<number>(2);
+
+    root.right = rightChild;
+
+    expect(rightChild.familyPosition).toBe('RIGHT');
+    expect(isolated.familyPosition).toBe(FamilyPosition.ISOLATED);
     expect(root.familyPosition).toBe('ROOT');
   });
 });
@@ -87,19 +105,43 @@ describe('BinaryTree', () => {
     expect(tree.size).toBe(1);
   });
 
-  it('should delete a node', () => {
+  it('should delete nodes', () => {
+    expect(tree.getHeight(tree.root, IterationType.ITERATIVE)).toBe(-1)
+    expect(tree.getMinHeight()).toBe(-1)
     const node = tree.add(1);
     expect(tree.size).toBe(1);
 
+    const leftChild = new BinaryTreeNode<number>(2);
+    const rightChild = new BinaryTreeNode<number>(3);
+    tree.add(leftChild);
+    tree.add(rightChild);
+    const root = tree.root;
+
+
+    expect(leftChild.familyPosition).toBe('LEFT');
+    tree.add(null);
+    tree.add(new BinaryTreeNode<number>(4));
+    expect(rightChild.familyPosition).toBe('RIGHT');
+    expect(root?.familyPosition).toBe('ROOT');
+    expect(leftChild.familyPosition).toBe('ROOT_LEFT');
+    tree.add(new BinaryTreeNode<number>(5));
+    expect(rightChild.familyPosition).toBe('ROOT_RIGHT');
+
+    tree.delete(new BinaryTreeNode<number>(200));
+    tree.delete(rightChild)
+
     if (node) {
-      const result = tree.delete(node, node => node);
+      const result = tree.delete(node);
       expect(result).toHaveLength(1);
-      expect(tree.size).toBe(0);
+      expect(tree.size).toBe(3);
+      expect(tree.getMinHeight(tree.root, IterationType.RECURSIVE)).toBe(1)
     }
+
   });
 
   it('should add and find nodes', () => {
     tree.add(1, 1);
+    tree.add(undefined);
     tree.add(2, 2);
     tree.add(3, 3);
 
@@ -189,6 +231,15 @@ describe('BinaryTree', () => {
 
     expect(tree.isSubtreeBST(tree.getNode(4), IterationType.RECURSIVE)).toBe(true);
     expect(tree.isSubtreeBST(tree.getNode(4), IterationType.ITERATIVE)).toBe(true);
+  });
+
+  it('should isSubtreeBST', () => {
+    tree.addMany([4, 2, 6, 1, 3, 5, 7, 4]);
+
+    expect(tree.isSubtreeBST(tree.getNode(4), IterationType.RECURSIVE)).toBe(true);
+    expect(tree.isSubtreeBST(tree.getNode(4), IterationType.ITERATIVE)).toBe(true);
+    expect(tree.getNodes(2, undefined, false, null)).toEqual([])
+    expect(tree.getNodes(tree.getNodeByKey(2), undefined, false, tree.root)).toEqual([tree.getNodeByKey(2)])
   });
 
   it('should subTreeTraverse', () => {

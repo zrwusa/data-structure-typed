@@ -7,6 +7,7 @@ describe('AVL Tree Test', () => {
 
     for (const i of arr) tree.add(i, i);
 
+    tree.add(null);
     const node6 = tree.getNode(6);
 
     expect(node6 && tree.getHeight(node6)).toBe(3);
@@ -42,7 +43,7 @@ describe('AVL Tree Test', () => {
     expect(bfs[0].key).toBe(8);
     expect(bfs[bfs.length - 1].key).toBe(16);
 
-    expect(tree.delete(11)[0].deleted?.key).toBe(11);
+    expect(tree.delete(tree.getNode(11))[0].deleted?.key).toBe(11);
     expect(tree.isAVLBalanced()).toBe(true);
     expect(node15 && tree.getHeight(node15)).toBe(2);
 
