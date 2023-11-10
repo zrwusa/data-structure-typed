@@ -1,13 +1,13 @@
 # Data Structure Typed
 
-![NPM](https://img.shields.io/npm/l/data-structure-typed)
-![GitHub top language](https://img.shields.io/github/languages/top/zrwusa/data-structure-typed)
-![npm](https://img.shields.io/npm/dm/data-structure-typed)
-![eslint](https://aleen42.github.io/badges/src/eslint.svg)
-![npm package minimized gzipped size (select exports)](https://img.shields.io/bundlejs/size/data-structure-typed)
-![npm bundle size](https://img.shields.io/bundlephobia/min/data-structure-typed)
 ![npm](https://img.shields.io/npm/v/data-structure-typed)
+![npm](https://img.shields.io/npm/dm/data-structure-typed)
+![npm package minimized gzipped size (select exports)](https://img.shields.io/bundlejs/size/data-structure-typed)
+![GitHub top language](https://img.shields.io/github/languages/top/zrwusa/data-structure-typed)
+![eslint](https://aleen42.github.io/badges/src/eslint.svg)
+![NPM](https://img.shields.io/npm/l/data-structure-typed)
 
+[//]: # (![npm bundle size]&#40;https://img.shields.io/bundlephobia/min/data-structure-typed&#41;)
 
 Data Structures of Javascript & TypeScript.
 
@@ -30,7 +30,7 @@ Now you can use this library in Node.js and browser environments in CommonJS(req
 ### npm
 
 ```bash
-npm i data-structure-typed --save
+npm i data-structure-typed
 ```
 
 ### yarn
