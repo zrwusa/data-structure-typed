@@ -54,7 +54,6 @@ describe('DoublyLinkedList Operation Test', () => {
   });
 
   it('should insertAfter tail', () => {
-    // @ts-ignore
     expect([...list]).toEqual([1, 2, 3, 4, 5]);
   });
 });

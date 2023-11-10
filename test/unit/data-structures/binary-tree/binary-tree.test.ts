@@ -1,4 +1,5 @@
 import {BinaryTree, BinaryTreeNode, IterationType} from '../../../../src';
+import {getRandomIntArray} from "../../../utils";
 // import {isDebugTest} from '../../../config';
 
 // const isDebug = isDebugTest;
@@ -110,6 +111,24 @@ describe('BinaryTree', () => {
     expect(tree.has(node4)).toBe(false);
     expect(tree.has(node4, node => node)).toBe(false);
     expect(tree.has('3', node => node.value?.toString())).toBe(true);
+  });
+
+
+  it('should be a balance tree after malicious manipulation', () => {
+    tree.add(3);
+    tree.add(12);
+    tree.addMany(getRandomIntArray(100, 1, 100))
+    tree.add(10);
+
+    expect(tree.isPerfectlyBalanced()).toBe(true);
+    const node3 = tree.getNode(3);
+
+    if (node3) node3.right = tree.createNode(1);
+    expect(tree.isPerfectlyBalanced()).toBe(false);
+
+    tree.clear();
+    tree.addMany([1, null, 2, null, 3, null, 4, null, 5, null, 6, null]);
+    expect(tree.isPerfectlyBalanced()).toBe(false);
   });
 
   it('should getDepth return correct depth', () => {
@@ -480,10 +499,8 @@ describe('BinaryTree', () => {
     tree.add(7, 'C');
 
     tree.iterationType = IterationType.ITERATIVE;
-    // @ts-ignore
     expect([...tree]).toEqual([3, 5, 7]);
     tree.iterationType = IterationType.RECURSIVE;
-    // @ts-ignore
     expect([...tree]).toEqual([3, 5, 7]);
     tree.iterationType = IterationType.ITERATIVE;
 

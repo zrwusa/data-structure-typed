@@ -441,7 +441,6 @@ describe('SinglyLinkedList', () => {
     list.push(3);
     const array = list.toArray();
     expect(array).toEqual([1, 2, 3]);
-    // @ts-ignore
     expect([...list]).toEqual([1, 2, 3]);
   });
 

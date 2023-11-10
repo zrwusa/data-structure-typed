@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file.
 - [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - [`auto-changelog`](https://github.com/CookPete/auto-changelog)
 
-## [v1.42.7](https://github.com/zrwusa/data-structure-typed/compare/v1.35.0...main) (upcoming)
+## [v1.42.8](https://github.com/zrwusa/data-structure-typed/compare/v1.35.0...main) (upcoming)
 
 ### Changes
 
