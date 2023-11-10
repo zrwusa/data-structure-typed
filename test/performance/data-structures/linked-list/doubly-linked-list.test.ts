@@ -1,4 +1,5 @@
 import {DoublyLinkedList, DoublyLinkedListNode} from '../../../../src';
+import {LinkList as CLinkedList} from 'js-sdsl';
 import * as Benchmark from 'benchmark';
 import {magnitude} from '../../../utils';
 
@@ -11,6 +12,13 @@ suite
 
     for (let i = 0; i < LINEAR; i++) {
       list.unshift(i);
+    }
+  })
+  .add(`${LINEAR.toLocaleString()} competitor unshift`, () => {
+    const list = new CLinkedList<number>();
+
+    for (let i = 0; i < LINEAR; i++) {
+      list.pushFront(i);
     }
   })
   .add(`${LINEAR.toLocaleString()} unshift & shift`, () => {
