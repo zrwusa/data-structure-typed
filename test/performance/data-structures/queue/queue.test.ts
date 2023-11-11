@@ -2,6 +2,7 @@ import {Queue} from '../../../../src';
 import {Queue as CQueue} from 'js-sdsl';
 import * as Benchmark from 'benchmark';
 import {magnitude} from '../../../utils';
+import {isCompetitor} from "../../../config";
 
 const suite = new Benchmark.Suite();
 const {LINEAR} = magnitude;
@@ -14,14 +15,16 @@ suite
       queue.push(i);
     }
   })
-  .add(`${LINEAR.toLocaleString()} competitor push`, () => {
-    const queue = new CQueue<number>();
+  if (isCompetitor) {
+    suite.add(`${LINEAR.toLocaleString()} competitor push`, () => {
+      const queue = new CQueue<number>();
 
-    for (let i = 0; i < LINEAR; i++) {
-      queue.push(i);
-    }
-  })
-  .add(`${LINEAR.toLocaleString()} push & shift`, () => {
+      for (let i = 0; i < LINEAR; i++) {
+        queue.push(i);
+      }
+    })
+  }
+  suite.add(`${LINEAR.toLocaleString()} push & shift`, () => {
     const queue = new Queue<number>();
 
     for (let i = 0; i < LINEAR; i++) {

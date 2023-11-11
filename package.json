@@ -33,7 +33,7 @@
     "install:all-subs": "npm i avl-tree-typed binary-tree-typed bst-typed deque-typed directed-graph-typed doubly-linked-list-typed graph-typed heap-typed linked-list-typed max-heap-typed max-priority-queue-typed min-heap-typed min-priority-queue-typed priority-queue-typed singly-linked-list-typed stack-typed tree-multimap-typed trie-typed undirected-graph-typed queue-typed --save-dev",
     "test": "jest --runInBand",
     "test:integration": "npm run update:subs && jest --config jest.integration.config.js",
-    "benchmark": "ts-node test/performance/reportor.ts",
+    "test:perf": "ts-node test/performance/reportor.ts",
     "check:deps": "dependency-cruiser src",
     "changelog": "auto-changelog",
     "coverage:badge": "istanbul-badges-readme",

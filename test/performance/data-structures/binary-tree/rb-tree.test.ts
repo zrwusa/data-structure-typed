@@ -2,6 +2,7 @@ import {RedBlackTree} from '../../../../src';
 import * as Benchmark from 'benchmark';
 import {getRandomIntArray, magnitude} from '../../../utils';
 import {OrderedMap} from 'js-sdsl';
+import {isCompetitor} from "../../../config";
 
 const suite = new Benchmark.Suite();
 const rbTree = new RedBlackTree();
@@ -15,21 +16,26 @@ suite
     for (let i = 0; i < arr.length; i++) {
       rbTree.add(arr[i]);
     }
-  })
-  .add(`${HUNDRED_THOUSAND.toLocaleString()} competitor add randomly`, () => {
+  });
+
+
+if (isCompetitor) {
+  suite.add(`${HUNDRED_THOUSAND.toLocaleString()} competitor add randomly`, () => {
     for (let i = 0; i < arr.length; i++) {
       competitor.setElement(arr[i], arr[i]);
     }
   })
-  .add(`${HUNDRED_THOUSAND.toLocaleString()} add & delete randomly`, () => {
-    rbTree.clear();
-    for (let i = 0; i < arr.length; i++) {
-      rbTree.add(arr[i]);
-    }
-    for (let i = 0; i < arr.length; i++) {
-      rbTree.delete(arr[i]);
-    }
-  })
+}
+
+suite.add(`${HUNDRED_THOUSAND.toLocaleString()} add & delete randomly`, () => {
+  rbTree.clear();
+  for (let i = 0; i < arr.length; i++) {
+    rbTree.add(arr[i]);
+  }
+  for (let i = 0; i < arr.length; i++) {
+    rbTree.delete(arr[i]);
+  }
+})
   .add(`${HUNDRED_THOUSAND.toLocaleString()} getNode`, () => {
     for (let i = 0; i < arr.length; i++) {
       rbTree.getNode(arr[i]);
