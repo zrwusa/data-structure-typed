@@ -16,17 +16,6 @@
 
 
   try {
-    const {AVLTree, Queue} = window.dataStructureTyped;
-    const avlTree = new AVLTree();
-    const $avlTree = document.createElement('li');
-    const $avlTreeSpan = document.createElement('span');
-    $avlTreeSpan.innerText = 'AVLTree';
-    $avlTree.append($avlTreeSpan);
-    avlTree.add(1, 1);
-    console.log(avlTree.bfs());
-    $modules.append($avlTree);
-
-
     const queue = new Queue();
     for (let i = 0; i < 100000; i++) {
       queue.enqueue(i);
@@ -40,6 +29,22 @@
 
     console.log(performance.now() - startTime);
 
+  } catch (e) {
+    console.error(e);
+  }
+  try {
+    const {AVLTree} = window.dataStructureTyped;
+    const avlTree = new AVLTree();
+    const $avlTree = document.createElement('li');
+    const $avlTreeSpan = document.createElement('span');
+    $avlTreeSpan.innerText = 'AVLTree';
+    $avlTree.append($avlTreeSpan);
+    for (let i = 1; i < 31; i++) {
+      avlTree.add(i, i);
+    }
+    console.log(avlTree.bfs());
+    // avlTree.print();
+    $modules.append($avlTree);
   } catch (e) {
     console.error(e);
   }
@@ -63,6 +68,20 @@
     tree.addMany([1, null, 2, null, 3, null, 4, null, 5, null, 6, null]);
     console.log(tree.isPerfectlyBalanced());
     tree.print();
+  } catch (e) {
+    console.error(e);
+  }
+
+
+  try {
+    const {RedBlackTree} = dataStructureTyped;
+    const tree = new RedBlackTree();
+    for (let i = 1; i < 31; i++) {
+      tree.add(i, i);
+    }
+    console.log(tree.isPerfectlyBalanced());
+    tree.print();
+
   } catch (e) {
     console.error(e);
   }

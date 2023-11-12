@@ -1,2 +1,2 @@
-export const isDebugTest = false;
-export const isCompetitor = false;
+export const isDebugTest: boolean = false;
+export const isCompetitor: boolean = false;

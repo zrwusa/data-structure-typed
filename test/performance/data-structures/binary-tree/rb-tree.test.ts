@@ -11,7 +11,7 @@ const arr = getRandomIntArray(HUNDRED_THOUSAND, 0, HUNDRED_THOUSAND, true);
 const competitor = new OrderedMap<number, number>();
 
 suite
-  .add(`${HUNDRED_THOUSAND.toLocaleString()} add randomly`, () => {
+  .add(`${HUNDRED_THOUSAND.toLocaleString()} add`, () => {
     rbTree.clear();
     for (let i = 0; i < arr.length; i++) {
       rbTree.add(arr[i]);
@@ -20,7 +20,7 @@ suite
 
 
 if (isCompetitor) {
-  suite.add(`${HUNDRED_THOUSAND.toLocaleString()} competitor add randomly`, () => {
+  suite.add(`${HUNDRED_THOUSAND.toLocaleString()} competitor add`, () => {
     for (let i = 0; i < arr.length; i++) {
       competitor.setElement(arr[i], arr[i]);
     }
