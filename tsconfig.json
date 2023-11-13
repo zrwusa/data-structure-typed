@@ -1,10 +1,12 @@
 {
   "extends": "./tsconfig-base.json",
   "compilerOptions": {
+    "rootDir": "./",                      // Specify the root directory of the source files in the project.
+    "outDir": "dist/dev",
     "module": "NodeNext",
+    "target": "ESNext",
     "moduleResolution": "NodeNext",
-    "outDir": "dist/mjs",
-    "target": "ESNext"
+    "sourceMap": false
   },
   "include": [
     "./src/**/*.ts",

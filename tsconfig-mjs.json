@@ -1,10 +1,12 @@
 {
   "extends": "./tsconfig-base.json",
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "rootDir": "./src/",
     "outDir": "dist/mjs",
-    "target": "ESNext"
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "Node",
+    "sourceMap": false
   },
   "include": [
     "./src/**/*.ts"

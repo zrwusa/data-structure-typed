@@ -12,7 +12,6 @@
     "noFallthroughCasesInSwitch": true,   // Forced to check whether the case statement in the switch statement has the fallthrough mark.
     "pretty": true,                       // Output a pretty error message.
     "resolveJsonModule": true,            // Enable parsing of the JSON module.
-    "rootDir": "./",                      // Specify the root directory of the source files in the project.
     "skipLibCheck": true,                 // Skip type checking of type libraries.
     "strict": true,                       // Enable strict type checking, including enabling all strict options.
     "traceResolution": false,             // Whether to trace the module resolution process.
