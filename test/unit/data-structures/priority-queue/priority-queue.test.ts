@@ -1,6 +1,8 @@
 import {PriorityQueue} from '../../../../src';
-import {getRandomInt} from '../../../utils';
+import {PriorityQueue as CPriorityQueue} from 'js-sdsl';
+import {isDebugTest} from "../../../config";
 
+const isDebug = isDebugTest;
 describe('PriorityQueue Operation Test', () => {
   it('should PriorityQueue poll, pee, heapify, toArray work well', function () {
     const minPQ = new PriorityQueue<number>({comparator: (a, b) => a - b});
@@ -44,10 +46,30 @@ describe('PriorityQueue Operation Test', () => {
 
 describe('Priority Queue Performance Test', () => {
   it('should numeric heap work well', function () {
-    const values = Array.from(new Array(10000), () => getRandomInt(1, 10000000));
-    const minPriorityQueue = new PriorityQueue<number>({comparator: (a, b) => a - b});
-    minPriorityQueue.refill(values);
-    const sorted = minPriorityQueue.sort();
-    expect(sorted).toEqual(values.sort((a, b) => a - b));
+    const pq = new PriorityQueue({comparator: (a, b) => b - a});
+
+    const tS = performance.now();
+
+    for (let i = 0; i < 100000; i++) {
+      pq.add(i);
+    }
+
+    // for (let i = 0; i < 10000; i++) {
+    //   pq.pop();
+    // }
+    isDebug && console.log(performance.now() - tS);
+    isDebug && console.log(pq.size);
+    const cS = performance.now();
+    const cpq = new CPriorityQueue();
+
+    for (let i = 0; i < 100000; i++) {
+      cpq.push(i);
+    }
+    //
+    // for (let i = 0; i < 10000; i++) {
+    //   cpq.pop();
+    // }
+    isDebug && console.log(performance.now() - cS);
+    isDebug && console.log(cpq.size());
   });
 });

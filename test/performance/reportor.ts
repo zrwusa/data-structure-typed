@@ -5,7 +5,9 @@ import * as fastGlob from 'fast-glob';
 import {Color, numberFix, render} from '../utils';
 import {PerformanceTest} from './types';
 
-const reportDistPath = 'benchmark';
+const parentDirectory = path.resolve(__dirname, '../..');
+const reportDistPath = path.join(parentDirectory, 'benchmark');
+
 const testDir = path.join(__dirname, 'data-structures');
 const testFiles = fastGlob.sync(path.join(testDir, '**', '*.test.ts'));
 
@@ -109,7 +111,6 @@ const composeReport = () => {
 };
 
 function replaceMarkdownContent(startMarker: string, endMarker: string, newText: string) {
-  const parentDirectory = path.resolve(__dirname, '../..'); // The path to the parent directory
   const filePath = path.join(parentDirectory, 'README.md'); // Path to README.md file
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {

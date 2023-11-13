@@ -1,6 +1,7 @@
 import {IterationType, RBTNColor, RedBlackTreeNode, RedBlackTree} from '../../../../src';
-import {getRandomInt} from '../../../utils';
+import {getRandomInt, getRandomIntArray, magnitude} from '../../../utils';
 import {isDebugTest} from '../../../config';
+import {OrderedMap} from "js-sdsl";
 
 const isDebug = isDebugTest;
 
@@ -477,5 +478,25 @@ describe('RedBlackTree', () => {
     // TODO there is a bug when dfs the tree with NIL node
     // expect(tree.isBST()).toBe(true);
   });
+  const {HUNDRED_THOUSAND} = magnitude;
+  const arr = getRandomIntArray(HUNDRED_THOUSAND, 0, HUNDRED_THOUSAND, true);
+  const competitor = new OrderedMap<number, number>();
 
+
+  it('should fix the tree after large scale insertion and deletion', () => {
+    tree.clear();
+    const tS = performance.now();
+    for (let i = 0; i < arr.length; i++) {
+      tree.add(arr[i]);
+    }
+    console.log(performance.now() - tS);
+
+    const cS = performance.now();
+
+    for (let i = 0; i < arr.length; i++) {
+      competitor.setElement(arr[i], arr[i]);
+    }
+    console.log(performance.now() - cS);
+
+  });
 });

@@ -3,7 +3,9 @@
 <head>
   <meta charset='UTF-8'>
   <title>CDN Test</title>
+<!--  <script src="../../dist/umd/data-structure-typed.min.js"></script>-->
   <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js'></script>
+  <script src='https://unpkg.com/js-sdsl@4.4.2/dist/umd/js-sdsl.js'></script>
 </head>
 <body>
 <div id='app'>
@@ -74,14 +76,58 @@
 
 
   try {
+    const {OrderedMap} = sdsl;
     const {RedBlackTree} = dataStructureTyped;
+    const cTree = new OrderedMap();
     const tree = new RedBlackTree();
-    for (let i = 1; i < 31; i++) {
+    const tS = performance.now();
+    for (let i = 1; i < 1000000; i++) {
       tree.add(i, i);
     }
-    console.log(tree.isPerfectlyBalanced());
-    tree.print();
+    console.log(performance.now() - tS);
+    console.log(tree.size);
+    const cS = performance.now();
+    for (let i = 1; i < 1000000; i++) {
+      cTree.setElement(i, i);
+    }
+    console.log(performance.now() - cS);
+    console.log(cTree.size());
 
+    // console.log(tree.isPerfectlyBalanced());
+    // tree.print();
+
+  } catch (e) {
+    console.error(e);
+  }
+
+  try {
+    const {PriorityQueue: CPriorityQueue} = sdsl;
+    const {PriorityQueue} = dataStructureTyped;
+    const pq = new PriorityQueue({comparator: (a, b) => b - a});
+
+    const tS = performance.now();
+
+    for (let i = 0; i < 1000000; i++) {
+      pq.add(i);
+    }
+
+    for (let i = 0; i < 10000; i++) {
+      pq.pop();
+    }
+    console.log(performance.now() - tS);
+    console.log(pq.size);
+    const cS = performance.now();
+    const cpq = new CPriorityQueue();
+
+    for (let i = 0; i < 1000000; i++) {
+      cpq.push(i);
+    }
+
+    for (let i = 0; i < 10000; i++) {
+      cpq.pop();
+    }
+    console.log(performance.now() - cS);
+    console.log(cpq.size());
   } catch (e) {
     console.error(e);
   }

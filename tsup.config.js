@@ -15,4 +15,22 @@ export default [{
       js: `.min.js`,
     }
   },
-}];
+},
+  {
+    entryPoints: {
+      "data-structure-typed": "src/index.ts"
+    },
+    format: ["iife"],
+    clean: true,
+    sourcemap: false,
+    minify: false,
+    outDir: "dist/umd",
+    globalName: "dataStructureTyped",
+    platform: "browser",
+    bundle: true,
+    outExtension() {
+      return {
+        js: `.js`,
+      }
+    },
+  }];
