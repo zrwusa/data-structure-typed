@@ -50,6 +50,13 @@ import {
 ### CDN
 
 Copy the line below into the head tag in an HTML document.
+
+#### development
+```html
+<script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.js'></script>
+```
+
+#### production
 ```html
 <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js'></script>
 ```
