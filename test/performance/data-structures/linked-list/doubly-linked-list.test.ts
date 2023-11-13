@@ -15,25 +15,25 @@ suite
       list.unshift(i);
     }
   })
-  if (isCompetitor) {
-    suite.add(`${LINEAR.toLocaleString()} competitor unshift`, () => {
-      const list = new CLinkedList<number>();
-
-      for (let i = 0; i < LINEAR; i++) {
-        list.pushFront(i);
-      }
-    })
-  }
-  suite.add(`${LINEAR.toLocaleString()} unshift & shift`, () => {
-    const list = new DoublyLinkedList<number>();
+if (isCompetitor) {
+  suite.add(`${LINEAR.toLocaleString()} competitor unshift`, () => {
+    const list = new CLinkedList<number>();
 
     for (let i = 0; i < LINEAR; i++) {
-      list.unshift(i);
-    }
-    for (let i = 0; i < LINEAR; i++) {
-      list.shift();
+      list.pushFront(i);
     }
   })
+}
+suite.add(`${LINEAR.toLocaleString()} unshift & shift`, () => {
+  const list = new DoublyLinkedList<number>();
+
+  for (let i = 0; i < LINEAR; i++) {
+    list.unshift(i);
+  }
+  for (let i = 0; i < LINEAR; i++) {
+    list.shift();
+  }
+})
   .add(`${LINEAR.toLocaleString()} insertBefore`, () => {
     const doublyList = new DoublyLinkedList<number>();
     let midNode: DoublyLinkedListNode | null = null;

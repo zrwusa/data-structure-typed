@@ -11,7 +11,7 @@ const reportDistPath = path.join(parentDirectory, 'benchmark');
 const testDir = path.join(__dirname, 'data-structures');
 const testFiles = fastGlob.sync(path.join(testDir, '**', '*.test.ts'));
 
-const report: {[key: string]: any} = {};
+const report: { [key: string]: any } = {};
 
 let completedCount = 0;
 

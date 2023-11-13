@@ -826,7 +826,7 @@ export class DoublyLinkedList<E = any> {
   /**
    * The function returns an iterator that iterates over the values of a linked list.
    */
-  *[Symbol.iterator]() {
+  * [Symbol.iterator]() {
     let current = this.head;
 
     while (current) {

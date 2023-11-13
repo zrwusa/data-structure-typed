@@ -21,8 +21,7 @@ export class AVLTreeNode<V = any, N extends AVLTreeNode<V, N> = AVLTreeNodeNeste
 
 export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTreeNodeNested<V>>>
   extends BST<V, N>
-  implements IBinaryTree<V, N>
-{
+  implements IBinaryTree<V, N> {
   /**
    * This is a constructor function for an AVL tree data structure in TypeScript.
    * @param {AVLTreeOptions} [options] - The `options` parameter is an optional object that can be passed to the
@@ -114,7 +113,7 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    * @returns either the `destNode` object if both `srcNode` and `destNode` are defined, or `undefined`
    * if either `srcNode` or `destNode` is undefined.
    */
-  protected override _swap(srcNode: BTNKey | N | undefined, destNode: BTNKey | N  | undefined): N | undefined {
+  protected override _swap(srcNode: BTNKey | N | undefined, destNode: BTNKey | N | undefined): N | undefined {
     srcNode = this.ensureNotKey(srcNode);
     destNode = this.ensureNotKey(destNode);
 
@@ -210,7 +209,7 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
       // Balance Restoration: If a balance issue is discovered after inserting a node, it requires balance restoration operations. Balance restoration includes four basic cases where rotation operations need to be performed to fix the balance:
       switch (
         this._balanceFactor(A) // second O(1)
-      ) {
+        ) {
         case -2:
           if (A && A.left) {
             if (this._balanceFactor(A.left) <= 0) {

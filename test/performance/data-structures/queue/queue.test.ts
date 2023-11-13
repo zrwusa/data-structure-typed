@@ -15,22 +15,22 @@ suite
       queue.push(i);
     }
   })
-  if (isCompetitor) {
-    suite.add(`${LINEAR.toLocaleString()} competitor push`, () => {
-      const queue = new CQueue<number>();
-
-      for (let i = 0; i < LINEAR; i++) {
-        queue.push(i);
-      }
-    })
-  }
-  suite.add(`${LINEAR.toLocaleString()} push & shift`, () => {
-    const queue = new Queue<number>();
+if (isCompetitor) {
+  suite.add(`${LINEAR.toLocaleString()} competitor push`, () => {
+    const queue = new CQueue<number>();
 
     for (let i = 0; i < LINEAR; i++) {
       queue.push(i);
-      queue.shift();
     }
-  });
+  })
+}
+suite.add(`${LINEAR.toLocaleString()} push & shift`, () => {
+  const queue = new Queue<number>();
+
+  for (let i = 0; i < LINEAR; i++) {
+    queue.push(i);
+    queue.shift();
+  }
+});
 
 export {suite};

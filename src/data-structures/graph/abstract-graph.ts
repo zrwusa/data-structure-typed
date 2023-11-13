@@ -64,8 +64,7 @@ export abstract class AbstractGraph<
   E = any,
   VO extends AbstractVertex<V> = AbstractVertex<V>,
   EO extends AbstractEdge<E> = AbstractEdge<E>
-> implements IGraph<V, E, VO, EO>
-{
+> implements IGraph<V, E, VO, EO> {
   protected _vertices: Map<VertexKey, VO> = new Map<VertexKey, VO>();
 
   get vertices(): Map<VertexKey, VO> {
@@ -301,7 +300,7 @@ export abstract class AbstractGraph<
       return [];
     }
 
-    const stack: {vertex: VO; path: VO[]}[] = [];
+    const stack: { vertex: VO; path: VO[] }[] = [];
     stack.push({vertex: vertex1, path: [vertex1]});
 
     while (stack.length > 0) {
@@ -496,7 +495,7 @@ export abstract class AbstractGraph<
    * Space Complexity: O(V + E) - Depends on the implementation (Dijkstra's algorithm).
    */
 
-   /**
+  /**
    * Time Complexity: O(V^2 + E) - Quadratic time in the worst case (no heap optimization).
    * Space Complexity: O(V + E) - Depends on the implementation (Dijkstra's algorithm).
    *
@@ -615,14 +614,14 @@ export abstract class AbstractGraph<
     }
 
     getMinDist &&
-      distMap.forEach((d, v) => {
-        if (v !== srcVertex) {
-          if (d < minDist) {
-            minDist = d;
-            if (genPaths) minDest = v;
-          }
+    distMap.forEach((d, v) => {
+      if (v !== srcVertex) {
+        if (d < minDist) {
+          minDist = d;
+          if (genPaths) minDest = v;
         }
-      });
+      }
+    });
 
     genPaths && getPaths(minDest);
 
@@ -643,7 +642,7 @@ export abstract class AbstractGraph<
    * Space Complexity: O(V + E) - Depends on the implementation (using a binary heap).
    */
 
-   /**
+  /**
    * Time Complexity: O((V + E) * log(V)) - Depends on the implementation (using a binary heap).
    * Space Complexity: O(V + E) - Depends on the implementation (using a binary heap).
    *
@@ -692,7 +691,7 @@ export abstract class AbstractGraph<
       if (vertexOrKey instanceof AbstractVertex) distMap.set(vertexOrKey, Infinity);
     }
 
-    const heap = new PriorityQueue<{key: number; value: VO}>({comparator: (a, b) => a.key - b.key});
+    const heap = new PriorityQueue<{ key: number; value: VO }>({comparator: (a, b) => a.key - b.key});
     heap.add({key: 0, value: srcVertex});
 
     distMap.set(srcVertex, 0);
@@ -924,7 +923,7 @@ export abstract class AbstractGraph<
    * `predecessor` property is a 2D array of vertices (or `null`) representing the predecessor vertices in the shortest
    * path between vertices in the
    */
-  floydWarshall(): {costs: number[][]; predecessor: (VO | null)[][]} {
+  floydWarshall(): { costs: number[][]; predecessor: (VO | null)[][] } {
     const idAndVertices = [...this._vertices];
     const n = idAndVertices.length;
 

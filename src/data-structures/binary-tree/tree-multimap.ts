@@ -161,52 +161,6 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    */
 
   /**
-   * Time Complexity: O(1) - constant time, as it performs basic pointer assignments.
-   * Space Complexity: O(1) - constant space, as it only uses a constant amount of memory.
-   *
-   * The function adds a new node to a binary tree, either as the left child or the right child of a
-   * given parent node.
-   * @param {N | undefined} newNode - The `newNode` parameter represents the node that needs to be
-   * added to the binary tree. It can be of type `N` (which represents a node in the binary tree) or
-   * `undefined` if there is no node to add.
-   * @param {BTNKey | N | undefined} parent - The `parent` parameter represents the parent node to
-   * which the new node will be added as a child. It can be either a node object (`N`) or a key value
-   * (`BTNKey`).
-   * @returns The method `_addTo` returns either the `parent.left` or `parent.right` node that was
-   * added, or `undefined` if no node was added.
-   */
-  protected override _addTo(newNode: N | undefined, parent: BTNKey | N | undefined): N | undefined {
-    parent = this.ensureNotKey(parent);
-    if (parent) {
-      if (parent.left === undefined) {
-        parent.left = newNode;
-        if (newNode !== undefined) {
-          this._size = this.size + 1;
-          this._count += newNode.count;
-        }
-
-        return parent.left;
-      } else if (parent.right === undefined) {
-        parent.right = newNode;
-        if (newNode !== undefined) {
-          this._size = this.size + 1;
-          this._count +=  newNode.count;
-        }
-        return parent.right;
-      } else {
-        return;
-      }
-    } else {
-      return;
-    }
-  }
-
-  /**
-   * Time Complexity: O(k log n) - logarithmic time for each insertion, where "n" is the number of nodes in the tree, and "k" is the number of keys to be inserted. This is because the method iterates through the keys and calls the add method for each.
-   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
-   */
-
-  /**
    * Time Complexity: O(k log n) - logarithmic time for each insertion, where "n" is the number of nodes in the tree, and "k" is the number of keys to be inserted. This is because the method iterates through the keys and calls the add method for each.
    * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
    *
@@ -241,8 +195,8 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
   }
 
   /**
-   * Time Complexity: O(n log n) - logarithmic time for each insertion, where "n" is the number of nodes in the tree. This is because the method calls the add method for each node.
-   * Space Complexity: O(n) - linear space, as it creates an array to store the sorted nodes.
+   * Time Complexity: O(k log n) - logarithmic time for each insertion, where "n" is the number of nodes in the tree, and "k" is the number of keys to be inserted. This is because the method iterates through the keys and calls the add method for each.
+   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
    */
 
   /**
@@ -295,8 +249,8 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
   }
 
   /**
-   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The delete method of the superclass (AVLTree) has logarithmic time complexity.
-   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
+   * Time Complexity: O(n log n) - logarithmic time for each insertion, where "n" is the number of nodes in the tree. This is because the method calls the add method for each node.
+   * Space Complexity: O(n) - linear space, as it creates an array to store the sorted nodes.
    */
 
   /**
@@ -330,7 +284,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
     if (!curr) return deletedResult;
 
     const parent: N | undefined = curr?.parent ? curr.parent : undefined;
-    let needBalanced: N | undefined = undefined,orgCurrent: N | undefined = curr;
+    let needBalanced: N | undefined = undefined, orgCurrent: N | undefined = curr;
 
     if (curr.count > 1 && !ignoreCount) {
       curr.count--;
@@ -378,11 +332,57 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
   }
 
   /**
+   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The delete method of the superclass (AVLTree) has logarithmic time complexity.
+   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
+   */
+
+  /**
    * The clear() function clears the contents of a data structure and sets the count to zero.
    */
   override clear() {
     super.clear();
     this._count = 0;
+  }
+
+  /**
+   * Time Complexity: O(1) - constant time, as it performs basic pointer assignments.
+   * Space Complexity: O(1) - constant space, as it only uses a constant amount of memory.
+   *
+   * The function adds a new node to a binary tree, either as the left child or the right child of a
+   * given parent node.
+   * @param {N | undefined} newNode - The `newNode` parameter represents the node that needs to be
+   * added to the binary tree. It can be of type `N` (which represents a node in the binary tree) or
+   * `undefined` if there is no node to add.
+   * @param {BTNKey | N | undefined} parent - The `parent` parameter represents the parent node to
+   * which the new node will be added as a child. It can be either a node object (`N`) or a key value
+   * (`BTNKey`).
+   * @returns The method `_addTo` returns either the `parent.left` or `parent.right` node that was
+   * added, or `undefined` if no node was added.
+   */
+  protected override _addTo(newNode: N | undefined, parent: BTNKey | N | undefined): N | undefined {
+    parent = this.ensureNotKey(parent);
+    if (parent) {
+      if (parent.left === undefined) {
+        parent.left = newNode;
+        if (newNode !== undefined) {
+          this._size = this.size + 1;
+          this._count += newNode.count;
+        }
+
+        return parent.left;
+      } else if (parent.right === undefined) {
+        parent.right = newNode;
+        if (newNode !== undefined) {
+          this._size = this.size + 1;
+          this._count += newNode.count;
+        }
+        return parent.right;
+      } else {
+        return;
+      }
+    } else {
+      return;
+    }
   }
 
   /**
@@ -394,7 +394,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    * @returns either the `destNode` object if both `srcNode` and `destNode` are defined, or `undefined`
    * if either `srcNode` or `destNode` is undefined.
    */
-  protected _swap(srcNode: BTNKey | N | undefined, destNode:BTNKey | N | undefined): N | undefined{
+  protected _swap(srcNode: BTNKey | N | undefined, destNode: BTNKey | N | undefined): N | undefined {
     srcNode = this.ensureNotKey(srcNode);
     destNode = this.ensureNotKey(destNode);
     if (srcNode && destNode) {
@@ -416,6 +416,6 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
 
       return destNode;
     }
-    return  undefined;
+    return undefined;
   }
 }

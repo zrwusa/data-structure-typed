@@ -12,7 +12,7 @@ import {IBinaryTree} from '../../interfaces';
 import {Queue} from '../queue';
 
 export class BSTNode<V = any, N extends BSTNode<V, N> = BSTNodeNested<V>> extends BinaryTreeNode<V, N> {
-  override parent?: N ;
+  override parent?: N;
 
   constructor(key: BTNKey, value?: V) {
     super(key, value);
@@ -21,7 +21,7 @@ export class BSTNode<V = any, N extends BSTNode<V, N> = BSTNodeNested<V>> extend
     this._right = undefined;
   }
 
-  protected override _left?: N ;
+  protected override _left?: N;
 
   /**
    * Get the left child node.
@@ -42,7 +42,7 @@ export class BSTNode<V = any, N extends BSTNode<V, N> = BSTNodeNested<V>> extend
   }
 
 
-  protected override _right?: N ;
+  protected override _right?: N;
 
   /**
    * Get the right child node.
@@ -83,7 +83,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     }
   }
 
-  protected override _root?: N ;
+  protected override _root?: N;
 
   /**
    * Get the root node of the binary tree.
@@ -113,7 +113,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   /**
    * Time Complexity: O(log n) - Average case for a balanced tree. In the worst case (unbalanced tree), it can be O(n).
    * Space Complexity: O(1) - Constant space is used.
-   * 
+   *
    * The `add` function adds a new node to a binary search tree based on the provided key and value.
    * @param {BTNKey | N | null | undefined} keyOrNode - The `keyOrNode` parameter can be one of the
    * following types:
@@ -193,7 +193,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * Time Complexity: O(n log n) - Adding each element individually in a balanced tree.
    * Space Complexity: O(n) - Additional space is required for the sorted array.
    */
-  
+
   /**
    * Time Complexity: O(n log n) - Adding each element individually in a balanced tree.
    * Space Complexity: O(n) - Additional space is required for the sorted array.
@@ -228,12 +228,12 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     if (!isBalanceAdd || !hasNoUndefined(keysOrNodes)) {
       return super.addMany(keysOrNodes, data).map(n => n ?? undefined);
     }
-    
+
     const inserted: (N | undefined)[] = [];
     const combinedArr: [BTNKey | N, V][] = keysOrNodes.map(
       (value: BTNKey | N, index) => [value, data?.[index]] as [BTNKey | N, V]
     );
-    
+
     let sorted = [];
 
     function _isNodeOrUndefinedTuple(arr: [BTNKey | N, V][]): arr is [N, V][] {
@@ -344,7 +344,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
       const _dfs = (cur: N): N | undefined => {
         if (cur.key === key) return cur;
         if (!cur.left && !cur.right) return;
-        
+
         if (this._compare(cur.key, key) === CP.gt && cur.left) return _dfs(cur.left);
         if (this._compare(cur.key, key) === CP.lt && cur.right) return _dfs(cur.right);
       };
@@ -380,7 +380,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * Time Complexity: O(log n) - Average case for a balanced tree. O(n) - Visiting each node once when identifier is not node's key.
    * Space Complexity: O(log n) - Space for the recursive call stack in the worst case.
    */
-  
+
   /**
    * Time Complexity: O(log n) - Average case for a balanced tree. O(n) - Visiting each node once when identifier is not node's key.
    * Space Complexity: O(log n) - Space for the recursive call stack in the worst case.

@@ -12,8 +12,8 @@ import {
   BTNKey,
   IterationType,
   RBTNColor,
-  RedBlackTreeNodeNested,
-  RBTreeOptions
+  RBTreeOptions,
+  RedBlackTreeNodeNested
 } from '../../types';
 import {BST, BSTNode} from "./bst";
 import {IBinaryTree} from "../../interfaces";
@@ -21,6 +21,7 @@ import {BinaryTreeNode} from "./binary-tree";
 
 export class RedBlackTreeNode<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTreeNodeNested<V>> extends BSTNode<V, N> {
   color: RBTNColor;
+
   constructor(key: BTNKey, value?: V, color: RBTNColor = RBTNColor.BLACK) {
     super(key, value);
     this.color = color;
@@ -36,8 +37,9 @@ export class RedBlackTreeNode<V = any, N extends RedBlackTreeNode<V, N> = RedBla
  */
 export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTreeNode<V, RedBlackTreeNodeNested<V>>>
   extends BST<V, N>
-  implements IBinaryTree<V, N>
-{
+  implements IBinaryTree<V, N> {
+
+  NIL: N = new RedBlackTreeNode<V>(NaN) as unknown as N;
 
   /**
    * The constructor function initializes a Red-Black Tree with an optional set of options.
@@ -61,8 +63,6 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
     return this._size;
   }
 
-  NIL: N = new RedBlackTreeNode<V>(NaN) as unknown as N;
-
   /**
    * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
    * Space Complexity: O(1)
@@ -83,7 +83,7 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
     let node: N;
     if (this.isNodeKey(keyOrNode)) {
       node = this.createNode(keyOrNode, value, RBTNColor.RED);
-    } else if(keyOrNode instanceof RedBlackTreeNode) {
+    } else if (keyOrNode instanceof RedBlackTreeNode) {
       node = keyOrNode;
     } else if (keyOrNode === null) {
       return;
@@ -226,21 +226,21 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
     callback?: C,
     beginRoot?: N | undefined,
     iterationType?: IterationType
-  ): N  | undefined;
+  ): N | undefined;
 
   getNode<C extends BTNCallback<N, N>>(
     identifier: N | undefined,
     callback?: C,
     beginRoot?: N | undefined,
     iterationType?: IterationType
-  ): N  | undefined;
+  ): N | undefined;
 
   getNode<C extends BTNCallback<N>>(
     identifier: ReturnType<C>,
     callback: C,
     beginRoot?: N | undefined,
     iterationType?: IterationType
-  ): N  | undefined;
+  ): N | undefined;
 
   /**
    * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)

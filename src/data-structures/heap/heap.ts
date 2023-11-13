@@ -8,7 +8,7 @@
 import type {Comparator, DFSOrderPattern} from '../../types';
 
 export class Heap<E = any> {
-  constructor(options: {comparator: Comparator<E>; nodes?: E[]}) {
+  constructor(options: { comparator: Comparator<E>; nodes?: E[] }) {
     this._comparator = options.comparator;
     if (options.nodes && options.nodes.length > 0) {
       this._nodes = options.nodes;
@@ -48,7 +48,7 @@ export class Heap<E = any> {
    * @returns A new Heap instance.
    * @param options
    */
-  static heapify<E>(options: {nodes: E[]; comparator: Comparator<E>}): Heap<E> {
+  static heapify<E>(options: { nodes: E[]; comparator: Comparator<E> }): Heap<E> {
     return new Heap<E>(options);
   }
 

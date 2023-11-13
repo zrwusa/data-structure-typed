@@ -42,7 +42,9 @@ module.exports = {
           "{}": false
         }
       }
-    ]
+    ],
+    "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+    "object-curly-spacing": ["error", "always"]
   },
   "settings": {
     "import/parsers": {

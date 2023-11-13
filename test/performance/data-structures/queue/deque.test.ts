@@ -14,18 +14,18 @@ suite
       deque.push(i);
     }
   })
-  if (isCompetitor) {
-    suite.add(`${LINEAR.toLocaleString()} competitor push`, () => {
-      const deque = new CDeque<number>();
-      for (let i = 0; i < LINEAR; i++) {
-        deque.pushBack(i);
-      }
-    })
-  }
-  suite.add(`${LINEAR.toLocaleString()} shift`, () => {
-    const deque = new Deque<number>();
+if (isCompetitor) {
+  suite.add(`${LINEAR.toLocaleString()} competitor push`, () => {
+    const deque = new CDeque<number>();
     for (let i = 0; i < LINEAR; i++) {
-      deque.push(i);
-      deque.shift();
+      deque.pushBack(i);
     }
-  });
+  })
+}
+suite.add(`${LINEAR.toLocaleString()} shift`, () => {
+  const deque = new Deque<number>();
+  for (let i = 0; i < LINEAR; i++) {
+    deque.push(i);
+    deque.shift();
+  }
+});

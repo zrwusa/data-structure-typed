@@ -74,7 +74,8 @@ class MyGraph<
 describe('AbstractGraph Operation Test', () => {
   const myGraph: MyGraph<number, string> = new MyGraph<number, string>();
 
-  beforeEach(() => {});
+  beforeEach(() => {
+  });
   it('should edge cases', function () {
     myGraph.addVertex('A', 1);
     myGraph.addVertex('B', 2);

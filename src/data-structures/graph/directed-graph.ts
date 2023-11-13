@@ -46,14 +46,13 @@ export class DirectedEdge<E = any> extends AbstractEdge<E> {
 }
 
 export class DirectedGraph<
-    V = any,
-    E = any,
-    VO extends DirectedVertex<V> = DirectedVertex<V>,
-    EO extends DirectedEdge<E> = DirectedEdge<E>
-  >
+  V = any,
+  E = any,
+  VO extends DirectedVertex<V> = DirectedVertex<V>,
+  EO extends DirectedEdge<E> = DirectedEdge<E>
+>
   extends AbstractGraph<V, E, VO, EO>
-  implements IGraph<V, E, VO, EO>
-{
+  implements IGraph<V, E, VO, EO> {
   /**
    * The constructor function initializes an instance of a class.
    */

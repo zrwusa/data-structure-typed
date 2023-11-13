@@ -1722,6 +1722,74 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     }
   }
 
+  /**
+   * The `print` function is used to display a binary tree structure in a visually appealing way.
+   * @param {N | null | undefined} root - The `root` parameter is of type `BTNKey | N | null |
+   * undefined`. It represents the root node of a binary tree. The root node can have one of the
+   * following types:
+   */
+  print(beginRoot: BTNKey | N | null | undefined = this.root): void {
+    beginRoot = this.ensureNotKey(beginRoot);
+    if (!beginRoot) return;
+
+    const display = (root: N | null | undefined): void => {
+      const [lines, , ,] = _displayAux(root);
+      for (const line of lines) {
+        console.log(line);
+      }
+    };
+
+    const _displayAux = (node: N | null | undefined): [string[], number, number, number] => {
+      if (!this.isRealNode(node)) {
+        return [[], 0, 0, 0];
+      }
+
+      if (this.isRealNode(node) && !this.isRealNode(node.right) && !this.isRealNode(node.left)) {
+        const line = `${node.key}`;
+        const width = line.length;
+        const height = 1;
+        const middle = Math.floor(width / 2);
+        return [[line], width, height, middle];
+      }
+
+      if (this.isRealNode(node) && !this.isRealNode(node.right)) {
+        const [lines, n, p, x] = _displayAux(node.left);
+        const s = `${node.key}`;
+        const u = s.length;
+        const first_line = ' '.repeat(x + 1) + '_'.repeat(n - x - 1) + s;
+        const second_line = ' '.repeat(x) + '/' + ' '.repeat(n - x - 1 + u);
+        const shifted_lines = lines.map(line => line + ' '.repeat(u));
+        return [[first_line, second_line, ...shifted_lines], n + u, p + 2, n + Math.floor(u / 2)];
+      }
+
+      if (this.isRealNode(node) && !this.isRealNode(node.left)) {
+        const [lines, n, p, u] = _displayAux(node.right);
+        const s = `${node.key}`;
+        const x = s.length;
+        const first_line = s + '_'.repeat(x) + ' '.repeat(n - x);
+        const second_line = ' '.repeat(u + x) + '\\' + ' '.repeat(n - x - 1);
+        const shifted_lines = lines.map(line => ' '.repeat(u) + line);
+        return [[first_line, second_line, ...shifted_lines], n + x, p + 2, Math.floor(u / 2)];
+      }
+
+      const [left, n, p, x] = _displayAux(node.left);
+      const [right, m, q, y] = _displayAux(node.right);
+      const s = `${node.key}`;
+      const u = s.length;
+      const first_line = ' '.repeat(x + 1) + '_'.repeat(n - x - 1) + s + '_'.repeat(y) + ' '.repeat(m - y);
+      const second_line = ' '.repeat(x) + '/' + ' '.repeat(n - x - 1 + u + y) + '\\' + ' '.repeat(m - y - 1);
+      if (p < q) {
+        left.push(...new Array(q - p).fill(' '.repeat(n)));
+      } else if (q < p) {
+        right.push(...new Array(p - q).fill(' '.repeat(m)));
+      }
+      const zipped_lines = left.map((a, i) => a + ' '.repeat(u) + right[i]);
+      return [[first_line, second_line, ...zipped_lines], n + m + u, Math.max(p, q) + 2, n + Math.floor(u / 2)];
+    };
+
+    display(beginRoot);
+  }
+
   protected _defaultOneParamCallback = (node: N) => node.key;
 
   /**
@@ -1800,74 +1868,5 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
       v.parent = undefined;
     }
     this._root = v;
-  }
-
-
-  /**
-   * The `print` function is used to display a binary tree structure in a visually appealing way.
-   * @param {N | null | undefined} root - The `root` parameter is of type `BTNKey | N | null |
-   * undefined`. It represents the root node of a binary tree. The root node can have one of the
-   * following types:
-   */
-  print(beginRoot: BTNKey | N | null | undefined = this.root): void {
-    beginRoot = this.ensureNotKey(beginRoot);
-    if (!beginRoot) return;
-
-    const display = (root: N | null | undefined): void => {
-      const [lines, , ,] = _displayAux(root);
-      for (const line of lines) {
-        console.log(line);
-      }
-    };
-
-    const _displayAux = (node: N | null | undefined): [string[], number, number, number] => {
-      if (!this.isRealNode(node)) {
-        return [[], 0, 0, 0];
-      }
-
-      if (this.isRealNode(node) && !this.isRealNode(node.right) && !this.isRealNode(node.left)) {
-        const line = `${node.key}`;
-        const width = line.length;
-        const height = 1;
-        const middle = Math.floor(width / 2);
-        return [[line], width, height, middle];
-      }
-
-      if (this.isRealNode(node) && !this.isRealNode(node.right)) {
-        const [lines, n, p, x] = _displayAux(node.left);
-        const s = `${node.key}`;
-        const u = s.length;
-        const first_line = ' '.repeat(x + 1) + '_'.repeat(n - x - 1) + s;
-        const second_line = ' '.repeat(x) + '/' + ' '.repeat(n - x - 1 + u);
-        const shifted_lines = lines.map(line => line + ' '.repeat(u));
-        return [[first_line, second_line, ...shifted_lines], n + u, p + 2, n + Math.floor(u / 2)];
-      }
-
-      if (this.isRealNode(node) && !this.isRealNode(node.left)) {
-        const [lines, n, p, u] = _displayAux(node.right);
-        const s = `${node.key}`;
-        const x = s.length;
-        const first_line = s + '_'.repeat(x) + ' '.repeat(n - x);
-        const second_line = ' '.repeat(u + x) + '\\' + ' '.repeat(n - x - 1);
-        const shifted_lines = lines.map(line => ' '.repeat(u) + line);
-        return [[first_line, second_line, ...shifted_lines], n + x, p + 2, Math.floor(u / 2)];
-      }
-
-      const [left, n, p, x] = _displayAux(node.left);
-      const [right, m, q, y] = _displayAux(node.right);
-      const s = `${node.key}`;
-      const u = s.length;
-      const first_line = ' '.repeat(x + 1) + '_'.repeat(n - x - 1) + s + '_'.repeat(y) + ' '.repeat(m - y);
-      const second_line = ' '.repeat(x) + '/' + ' '.repeat(n - x - 1 + u + y) + '\\' + ' '.repeat(m - y - 1);
-      if (p < q) {
-        left.push(...new Array(q - p).fill(' '.repeat(n)));
-      } else if (q < p) {
-        right.push(...new Array(p - q).fill(' '.repeat(m)));
-      }
-      const zipped_lines = left.map((a, i) => a + ' '.repeat(u) + right[i]);
-      return [[first_line, second_line, ...zipped_lines], n + m + u, Math.max(p, q) + 2, n + Math.floor(u / 2)];
-    };
-
-    display(beginRoot);
   }
 }
