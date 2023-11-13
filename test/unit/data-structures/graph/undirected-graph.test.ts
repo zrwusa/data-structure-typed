@@ -150,7 +150,7 @@ describe('UndirectedGraph', () => {
   });
 
   it('should getAllPathsBetween work well in 66 vertexes 97 edges graph', () => {
-    const graph = new UndirectedGraph<{ name: string }, number>();
+    const graph = new UndirectedGraph<{name: string}, number>();
     for (const v of saltyVertexes) {
       graph.addVertex(v.name, v);
     }

@@ -2,19 +2,18 @@ import {DoublyLinkedList, DoublyLinkedListNode} from '../../../../src';
 import {LinkList as CLinkedList} from 'js-sdsl';
 import * as Benchmark from 'benchmark';
 import {magnitude} from '../../../utils';
-import {isCompetitor} from "../../../config";
+import {isCompetitor} from '../../../config';
 
 const suite = new Benchmark.Suite();
 const {LINEAR} = magnitude;
 
-suite
-  .add(`${LINEAR.toLocaleString()} unshift`, () => {
-    const list = new DoublyLinkedList<number>();
+suite.add(`${LINEAR.toLocaleString()} unshift`, () => {
+  const list = new DoublyLinkedList<number>();
 
-    for (let i = 0; i < LINEAR; i++) {
-      list.unshift(i);
-    }
-  })
+  for (let i = 0; i < LINEAR; i++) {
+    list.unshift(i);
+  }
+});
 if (isCompetitor) {
   suite.add(`${LINEAR.toLocaleString()} competitor unshift`, () => {
     const list = new CLinkedList<number>();
@@ -22,18 +21,19 @@ if (isCompetitor) {
     for (let i = 0; i < LINEAR; i++) {
       list.pushFront(i);
     }
-  })
+  });
 }
-suite.add(`${LINEAR.toLocaleString()} unshift & shift`, () => {
-  const list = new DoublyLinkedList<number>();
+suite
+  .add(`${LINEAR.toLocaleString()} unshift & shift`, () => {
+    const list = new DoublyLinkedList<number>();
 
-  for (let i = 0; i < LINEAR; i++) {
-    list.unshift(i);
-  }
-  for (let i = 0; i < LINEAR; i++) {
-    list.shift();
-  }
-})
+    for (let i = 0; i < LINEAR; i++) {
+      list.unshift(i);
+    }
+    for (let i = 0; i < LINEAR; i++) {
+      list.shift();
+    }
+  })
   .add(`${LINEAR.toLocaleString()} insertBefore`, () => {
     const doublyList = new DoublyLinkedList<number>();
     let midNode: DoublyLinkedListNode | null = null;

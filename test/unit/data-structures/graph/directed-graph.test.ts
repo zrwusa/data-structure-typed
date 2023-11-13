@@ -126,12 +126,12 @@ class MyEdge<E = any> extends DirectedEdge<E> {
   }
 }
 
-class MyDirectedGraph<
-  V = any,
-  E = any,
-  VO extends MyVertex<V> = MyVertex<V>,
-  EO extends MyEdge<E> = MyEdge<E>
-> extends DirectedGraph<V, E, VO, EO> {
+class MyDirectedGraph<V = any, E = any, VO extends MyVertex<V> = MyVertex<V>, EO extends MyEdge<E> = MyEdge<E>> extends DirectedGraph<
+  V,
+  E,
+  VO,
+  EO
+> {
   createVertex(key: VertexKey, value: V): VO {
     return new MyVertex(key, value) as VO;
   }
@@ -351,29 +351,9 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
       expect(costs[2]).toEqual([3, 15, 38, 17, 35, Infinity, 64, Infinity, 22]);
       expect(costs[3]).toEqual([123, 135, 120, 137, 155, Infinity, 47, Infinity, 126]);
       expect(costs[4]).toEqual([133, 145, 130, 147, 165, Infinity, 57, Infinity, 136]);
-      expect(costs[5]).toEqual([
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity
-      ]);
+      expect(costs[5]).toEqual([Infinity, Infinity, Infinity, Infinity, Infinity, Infinity, Infinity, Infinity, Infinity]);
       expect(costs[6]).toEqual([76, 88, 73, 90, 108, Infinity, 137, Infinity, 79]);
-      expect(costs[7]).toEqual([
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity
-      ]);
+      expect(costs[7]).toEqual([Infinity, Infinity, Infinity, Infinity, Infinity, Infinity, Infinity, Infinity, Infinity]);
       expect(costs[8]).toEqual([173, 185, 170, 187, 205, Infinity, 97, Infinity, 176]);
 
       expect(predecessor).toBeInstanceOf(Array);

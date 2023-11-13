@@ -43,8 +43,8 @@ module.exports = {
         }
       }
     ],
-    "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
-    "object-curly-spacing": ["error", "always"]
+    "brace-style": ["error", "1tbs", {"allowSingleLine": true}],
+    "object-curly-spacing": ["error", "never"]
   },
   "settings": {
     "import/parsers": {

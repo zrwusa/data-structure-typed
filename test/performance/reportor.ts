@@ -11,7 +11,7 @@ const reportDistPath = path.join(parentDirectory, 'benchmark');
 const testDir = path.join(__dirname, 'data-structures');
 const testFiles = fastGlob.sync(path.join(testDir, '**', '*.test.ts'));
 
-const report: { [key: string]: any } = {};
+const report: {[key: string]: any} = {};
 
 let completedCount = 0;
 
@@ -173,9 +173,7 @@ performanceTests.forEach(item => {
         console.log(
           // `Files: ${GREEN}${testFileCount}${END} `,
           // `Suites: ${GREEN}${performanceTests.length}${END} `,
-          `Suites Progress: ${isDone ? GREEN : YELLOW}${completedCount}${END}/${isDone ? GREEN : YELLOW}${
-            performanceTests.length
-          }${END}`,
+          `Suites Progress: ${isDone ? GREEN : YELLOW}${completedCount}${END}/${isDone ? GREEN : YELLOW}${performanceTests.length}${END}`,
           `Time: ${isTimeWarn ? YELLOW : GREEN}${runTime}s${END}`
         );
         if (isDone) {

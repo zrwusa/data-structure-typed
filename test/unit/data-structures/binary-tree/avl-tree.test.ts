@@ -219,7 +219,7 @@ describe('AVL Tree Test recursively', () => {
 });
 
 describe('AVLTree APIs test', () => {
-  const avl = new AVLTree<{ id: number; text: string }>();
+  const avl = new AVLTree<{id: number; text: string}>();
   beforeEach(() => {
     avl.clear();
   });
@@ -268,7 +268,7 @@ describe('AVLTree', () => {
   });
 
   describe('BinaryTree APIs test', () => {
-    const avl = new AVLTree<{ id: number; text: string }>();
+    const avl = new AVLTree<{id: number; text: string}>();
     beforeEach(() => {
       avl.clear();
     });
@@ -285,5 +285,4 @@ describe('AVLTree', () => {
       expect(bfsRes[0]?.key).toBe(2);
     });
   });
-
 });

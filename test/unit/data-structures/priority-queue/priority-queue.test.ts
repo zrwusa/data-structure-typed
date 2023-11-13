@@ -1,6 +1,6 @@
 import {PriorityQueue} from '../../../../src';
 import {PriorityQueue as CPriorityQueue} from 'js-sdsl';
-import {isDebugTest} from "../../../config";
+import {isDebugTest} from '../../../config';
 
 const isDebug = isDebugTest;
 describe('PriorityQueue Operation Test', () => {
@@ -13,9 +13,9 @@ describe('PriorityQueue Operation Test', () => {
     minPQ.poll();
     expect(minPQ.toArray()).toEqual([4, 5, 6]);
     expect(minPQ.peek()).toBe(4);
-    expect(PriorityQueue.heapify({nodes: [3, 2, 1, 5, 6, 7, 8, 9, 10], comparator: (a, b) => a - b}).toArray()).toEqual(
-      [1, 2, 3, 5, 6, 7, 8, 9, 10]
-    );
+    expect(PriorityQueue.heapify({nodes: [3, 2, 1, 5, 6, 7, 8, 9, 10], comparator: (a, b) => a - b}).toArray()).toEqual([
+      1, 2, 3, 5, 6, 7, 8, 9, 10
+    ]);
   });
 
   it('should Max PriorityQueue poll, peek, heapify, toArray work well', function () {
@@ -27,9 +27,9 @@ describe('PriorityQueue Operation Test', () => {
     maxPriorityQueue.poll();
     expect(maxPriorityQueue.toArray()).toEqual([3, 2, 1]);
     expect(maxPriorityQueue.peek()).toBe(3);
-    expect(PriorityQueue.heapify({nodes: [3, 2, 1, 5, 6, 7, 8, 9, 10], comparator: (a, b) => a - b}).toArray()).toEqual(
-      [1, 2, 3, 5, 6, 7, 8, 9, 10]
-    );
+    expect(PriorityQueue.heapify({nodes: [3, 2, 1, 5, 6, 7, 8, 9, 10], comparator: (a, b) => a - b}).toArray()).toEqual([
+      1, 2, 3, 5, 6, 7, 8, 9, 10
+    ]);
   });
 
   it('should PriorityQueue clone, sort, getNodes, dfs work well', function () {

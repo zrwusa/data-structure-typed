@@ -22,12 +22,12 @@ class MyEdge<E = any> extends AbstractEdge<E> {
   }
 }
 
-class MyGraph<
-  V = any,
-  E = any,
-  VO extends MyVertex<V> = MyVertex<V>,
-  EO extends MyEdge<E> = MyEdge<E>
-> extends AbstractGraph<V, E, VO, EO> {
+class MyGraph<V = any, E = any, VO extends MyVertex<V> = MyVertex<V>, EO extends MyEdge<E> = MyEdge<E>> extends AbstractGraph<
+  V,
+  E,
+  VO,
+  EO
+> {
   createVertex(key: VertexKey, value?: V): VO {
     return new MyVertex(key, value) as VO;
   }
@@ -74,8 +74,7 @@ class MyGraph<
 describe('AbstractGraph Operation Test', () => {
   const myGraph: MyGraph<number, string> = new MyGraph<number, string>();
 
-  beforeEach(() => {
-  });
+  beforeEach(() => {});
   it('should edge cases', function () {
     myGraph.addVertex('A', 1);
     myGraph.addVertex('B', 2);

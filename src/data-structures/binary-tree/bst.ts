@@ -41,7 +41,6 @@ export class BSTNode<V = any, N extends BSTNode<V, N> = BSTNodeNested<V>> extend
     this._left = v;
   }
 
-
   protected override _right?: N;
 
   /**
@@ -63,10 +62,7 @@ export class BSTNode<V = any, N extends BSTNode<V, N> = BSTNodeNested<V>> extend
   }
 }
 
-export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>>
-  extends BinaryTree<V, N>
-  implements IBinaryTree<V, N> {
-
+export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>> extends BinaryTree<V, N> implements IBinaryTree<V, N> {
   /**
    * The constructor function initializes a binary search tree with an optional comparator function.
    * @param {BSTOptions} [options] - An optional object that contains additional configuration options
@@ -108,7 +104,6 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * Time Complexity: O(log n) - Average case for a balanced tree. In the worst case (unbalanced tree), it can be O(n).
    * Space Complexity: O(1) - Constant space is used.
    */
-
 
   /**
    * Time Complexity: O(log n) - Average case for a balanced tree. In the worst case (unbalanced tree), it can be O(n).
@@ -230,9 +225,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     }
 
     const inserted: (N | undefined)[] = [];
-    const combinedArr: [BTNKey | N, V][] = keysOrNodes.map(
-      (value: BTNKey | N, index) => [value, data?.[index]] as [BTNKey | N, V]
-    );
+    const combinedArr: [BTNKey | N, V][] = keysOrNodes.map((value: BTNKey | N, index) => [value, data?.[index]] as [BTNKey | N, V]);
 
     let sorted = [];
 
@@ -244,7 +237,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     const _isBinaryTreeKeyOrNullTuple = (arr: [BTNKey | N, V][]): arr is [BTNKey, V][] => {
       for (const [keyOrNode] of arr) if (this.isNodeKey(keyOrNode)) return true;
       return false;
-    }
+    };
 
     let sortedKeysOrNodes: (number | N | undefined)[] = [],
       sortedData: (V | undefined)[] | undefined = [];
@@ -580,7 +573,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
           if (l <= r) {
             const m = l + Math.floor((r - l) / 2);
             const midNode = sorted[m];
-            debugger
+            debugger;
             this.add(midNode.key, midNode.value);
             stack.push([m + 1, r]);
             stack.push([l, m - 1]);
@@ -672,5 +665,4 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     else if (compared < 0) return CP.lt;
     else return CP.eq;
   }
-
 }

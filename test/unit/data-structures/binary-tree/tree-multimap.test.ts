@@ -207,7 +207,7 @@ describe('TreeMultimap operations test', () => {
   });
 
   it('should perform various operations on a Binary Search Tree with object values', () => {
-    const objTreeMultimap = new TreeMultimap<{ key: number; keyA: number }>();
+    const objTreeMultimap = new TreeMultimap<{key: number; keyA: number}>();
     expect(objTreeMultimap).toBeInstanceOf(TreeMultimap);
     objTreeMultimap.add(11, {key: 11, keyA: 11});
     objTreeMultimap.add(3, {key: 3, keyA: 3});
@@ -447,7 +447,7 @@ describe('TreeMultimap operations test recursively', () => {
   });
 
   it('should perform various operations on a Binary Search Tree with object values', () => {
-    const objTreeMultimap = new TreeMultimap<{ key: number; keyA: number }>();
+    const objTreeMultimap = new TreeMultimap<{key: number; keyA: number}>();
     expect(objTreeMultimap).toBeInstanceOf(TreeMultimap);
     objTreeMultimap.add(11, {key: 11, keyA: 11});
     objTreeMultimap.add(3, {key: 3, keyA: 3});

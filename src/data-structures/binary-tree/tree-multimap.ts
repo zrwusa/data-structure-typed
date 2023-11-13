@@ -10,10 +10,7 @@ import {BiTreeDeleteResult, BTNCallback, CP, FamilyPosition, IterationType} from
 import {IBinaryTree} from '../../interfaces';
 import {AVLTree, AVLTreeNode} from './avl-tree';
 
-export class TreeMultimapNode<
-  V = any,
-  N extends TreeMultimapNode<V, N> = TreeMultimapNodeNested<V>
-> extends AVLTreeNode<V, N> {
+export class TreeMultimapNode<V = any, N extends TreeMultimapNode<V, N> = TreeMultimapNodeNested<V>> extends AVLTreeNode<V, N> {
   count: number;
 
   /**
@@ -284,7 +281,8 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
     if (!curr) return deletedResult;
 
     const parent: N | undefined = curr?.parent ? curr.parent : undefined;
-    let needBalanced: N | undefined = undefined, orgCurrent: N | undefined = curr;
+    let needBalanced: N | undefined = undefined,
+      orgCurrent: N | undefined = curr;
 
     if (curr.count > 1 && !ignoreCount) {
       curr.count--;

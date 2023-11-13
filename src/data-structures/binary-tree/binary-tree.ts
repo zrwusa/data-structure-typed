@@ -107,8 +107,7 @@ export class BinaryTreeNode<V = any, N extends BinaryTreeNode<V, N> = BinaryTree
  * Represents a binary tree data structure.
  * @template N - The type of the binary tree's nodes.
  */
-export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode<V, BinaryTreeNodeNested<V>>>
-  implements IBinaryTree<V, N> {
+export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode<V, BinaryTreeNodeNested<V>>> implements IBinaryTree<V, N> {
   iterationType: IterationType = IterationType.ITERATIVE;
 
   /**
@@ -301,7 +300,8 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   ): BiTreeDeleteResult<N>[] {
     const deletedResult: BiTreeDeleteResult<N>[] = [];
     if (!this.root) return deletedResult;
-    if ((!callback || callback === this._defaultOneParamCallback) && (identifier as any) instanceof BinaryTreeNode) callback = (node => node) as C;
+    if ((!callback || callback === this._defaultOneParamCallback) && (identifier as any) instanceof BinaryTreeNode)
+      callback = (node => node) as C;
 
     const curr = this.getNode(identifier, callback);
     if (!curr) return deletedResult;
@@ -330,14 +330,12 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
           const parentOfLeftSubTreeMax = leftSubTreeRightMost.parent;
           orgCurrent = this._swap(curr, leftSubTreeRightMost);
           if (parentOfLeftSubTreeMax) {
-            if (parentOfLeftSubTreeMax.right === leftSubTreeRightMost)
-              parentOfLeftSubTreeMax.right = leftSubTreeRightMost.left;
+            if (parentOfLeftSubTreeMax.right === leftSubTreeRightMost) parentOfLeftSubTreeMax.right = leftSubTreeRightMost.left;
             else parentOfLeftSubTreeMax.left = leftSubTreeRightMost.left;
             needBalanced = parentOfLeftSubTreeMax;
           }
         }
       }
-
     }
     this._size = this.size - 1;
 
@@ -383,7 +381,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * Best Case - O(log n) (when using recursive iterationType), Worst Case - O(n) (when using iterative iterationType)
    */
 
-
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(log n)
@@ -412,7 +409,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
 
       return _getMaxHeight(beginRoot);
     } else {
-      const stack: { node: N; depth: number }[] = [{node: beginRoot, depth: 0}];
+      const stack: {node: N; depth: number}[] = [{node: beginRoot, depth: 0}];
       let maxHeight = 0;
 
       while (stack.length > 0) {
@@ -539,7 +536,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * Space Complexity: O(log n).
    */
 
-
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(log n).
@@ -572,7 +568,8 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     beginRoot: BTNKey | N | null | undefined = this.root,
     iterationType = this.iterationType
   ): N[] {
-    if ((!callback || callback === this._defaultOneParamCallback) && (identifier as any) instanceof BinaryTreeNode) callback = (node => node) as C;
+    if ((!callback || callback === this._defaultOneParamCallback) && (identifier as any) instanceof BinaryTreeNode)
+      callback = (node => node) as C;
     beginRoot = this.ensureNotKey(beginRoot);
     if (!beginRoot) return [];
 
@@ -660,7 +657,8 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     beginRoot: BTNKey | N | null | undefined = this.root,
     iterationType = this.iterationType
   ): boolean {
-    if ((!callback || callback === this._defaultOneParamCallback) && (identifier as any) instanceof BinaryTreeNode) callback = (node => node) as C;
+    if ((!callback || callback === this._defaultOneParamCallback) && (identifier as any) instanceof BinaryTreeNode)
+      callback = (node => node) as C;
 
     return this.getNodes(identifier, callback, true, beginRoot, iterationType).length > 0;
   }
@@ -718,7 +716,8 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     beginRoot: BTNKey | N | null | undefined = this.root,
     iterationType = this.iterationType
   ): N | null | undefined {
-    if ((!callback || callback === this._defaultOneParamCallback) && (identifier as any) instanceof BinaryTreeNode) callback = (node => node) as C;
+    if ((!callback || callback === this._defaultOneParamCallback) && (identifier as any) instanceof BinaryTreeNode)
+      callback = (node => node) as C;
 
     return this.getNodes(identifier, callback, true, beginRoot, iterationType)[0] ?? null;
   }
@@ -836,7 +835,8 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     beginRoot: BTNKey | N | null | undefined = this.root,
     iterationType = this.iterationType
   ): V | undefined {
-    if ((!callback || callback === this._defaultOneParamCallback) && (identifier as any) instanceof BinaryTreeNode) callback = (node => node) as C;
+    if ((!callback || callback === this._defaultOneParamCallback) && (identifier as any) instanceof BinaryTreeNode)
+      callback = (node => node) as C;
 
     return this.getNode(identifier, callback, beginRoot, iterationType)?.value ?? undefined;
   }
@@ -1165,7 +1165,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * @param {any} node - The parameter `node` is of type `any`, which means it can be any data type.
    * @returns a boolean value.
    */
-  isNodeOrNull(node: any): node is (N | null) {
+  isNodeOrNull(node: any): node is N | null {
     return this.isRealNode(node) || node === null;
   }
 
@@ -1238,7 +1238,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     iterationType: IterationType = IterationType.ITERATIVE,
     includeNull = false
   ): ReturnType<C>[] {
-
     beginRoot = this.ensureNotKey(beginRoot);
     if (!beginRoot) return [];
     const ans: ReturnType<C>[] = [];
@@ -1285,7 +1284,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
       _traverse(beginRoot);
     } else {
       // 0: visit, 1: print
-      const stack: { opt: 0 | 1; node: N | null | undefined }[] = [{opt: 0, node: beginRoot}];
+      const stack: {opt: 0 | 1; node: N | null | undefined}[] = [{opt: 0, node: beginRoot}];
 
       while (stack.length > 0) {
         const cur = stack.pop();
@@ -1454,7 +1453,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * Space complexity: O(n)
    */
 
-
   /**
    * Time complexity: O(n)
    * Space complexity: O(n)
@@ -1523,8 +1521,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     return levelsNodes;
   }
 
-  getPredecessor(node: N): N
-
+  getPredecessor(node: N): N;
 
   /**
    * The function `getPredecessor` returns the predecessor node of a given node in a binary tree.
@@ -1548,7 +1545,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
       return node;
     }
   }
-
 
   /**
    * The function `getSuccessor` returns the next node in a binary tree given a current node.
@@ -1681,7 +1677,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     return ans;
   }
 
-
   /**
    * The above function is an iterator for a binary tree that can be used to traverse the tree in
    * either an iterative or recursive manner.
@@ -1691,7 +1686,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * @returns The `*[Symbol.iterator]` method returns a generator object that yields the keys of the
    * binary tree nodes in a specific order.
    */
-  * [Symbol.iterator](node = this.root): Generator<BTNKey, void, undefined> {
+  *[Symbol.iterator](node = this.root): Generator<BTNKey, void, undefined> {
     if (!node) {
       return;
     }
@@ -1817,7 +1812,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
       return destNode;
     }
     return undefined;
-
   }
 
   /**

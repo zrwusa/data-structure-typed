@@ -40,12 +40,12 @@ export class MapEdge<E = any> extends DirectedEdge<E> {
   }
 }
 
-export class MapGraph<
-  V = any,
-  E = any,
-  VO extends MapVertex<V> = MapVertex<V>,
-  EO extends MapEdge<E> = MapEdge<E>
-> extends DirectedGraph<V, E, VO, EO> {
+export class MapGraph<V = any, E = any, VO extends MapVertex<V> = MapVertex<V>, EO extends MapEdge<E> = MapEdge<E>> extends DirectedGraph<
+  V,
+  E,
+  VO,
+  EO
+> {
   /**
    * The constructor function initializes the origin and bottomRight properties of a MapGraphCoordinate object.
    * @param {MapGraphCoordinate} origin - The `origin` parameter is a `MapGraphCoordinate` object that represents the

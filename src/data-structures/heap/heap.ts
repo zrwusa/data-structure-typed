@@ -8,7 +8,7 @@
 import type {Comparator, DFSOrderPattern} from '../../types';
 
 export class Heap<E = any> {
-  constructor(options: { comparator: Comparator<E>; nodes?: E[] }) {
+  constructor(options: {comparator: Comparator<E>; nodes?: E[]}) {
     this._comparator = options.comparator;
     if (options.nodes && options.nodes.length > 0) {
       this._nodes = options.nodes;
@@ -48,7 +48,7 @@ export class Heap<E = any> {
    * @returns A new Heap instance.
    * @param options
    */
-  static heapify<E>(options: { nodes: E[]; comparator: Comparator<E> }): Heap<E> {
+  static heapify<E>(options: {nodes: E[]; comparator: Comparator<E>}): Heap<E> {
     return new Heap<E>(options);
   }
 
@@ -445,7 +445,6 @@ export class FibonacciHeap<E> {
     return this.push(element);
   }
 
-
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
@@ -472,7 +471,6 @@ export class FibonacciHeap<E> {
     this._size++;
     return this;
   }
-
 
   /**
    * Time Complexity: O(1)
@@ -743,10 +741,7 @@ export class FibonacciHeap<E> {
   protected consolidate(): void {
     const A: (FibonacciHeapNode<E> | undefined)[] = new Array(this.size);
     const nodes = this.consumeLinkedList(this.root);
-    let x: FibonacciHeapNode<E> | undefined,
-      y: FibonacciHeapNode<E> | undefined,
-      d: number,
-      t: FibonacciHeapNode<E> | undefined;
+    let x: FibonacciHeapNode<E> | undefined, y: FibonacciHeapNode<E> | undefined, d: number, t: FibonacciHeapNode<E> | undefined;
 
     for (const node of nodes) {
       x = node;

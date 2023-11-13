@@ -1,7 +1,7 @@
 import {IterationType, RBTNColor, RedBlackTree, RedBlackTreeNode} from '../../../../src';
 import {getRandomInt, getRandomIntArray, magnitude} from '../../../utils';
 import {isDebugTest} from '../../../config';
-import {OrderedMap} from "js-sdsl";
+import {OrderedMap} from 'js-sdsl';
 
 const isDebug = isDebugTest;
 
@@ -421,14 +421,10 @@ describe('RedBlackTree', () => {
     isDebug && tree.print();
 
     expect(tree.dfs()).toEqual([
-      1, 2, 3, 4, 5, 6, 7, 8, 9,
-      10, 11, 12, 13, 14, 15, 16, 17, 18,
-      19, 22, 23, 25, 28, 33, 50, 110, 111,
-      155, 225
-    ])
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 22, 23, 25, 28, 33, 50, 110, 111, 155, 225
+    ]);
 
     expect(tree.isBST()).toBe(true);
-
   });
 
   it('should fix the tree after insertion and deletion', () => {
@@ -441,20 +437,14 @@ describe('RedBlackTree', () => {
 
     expect(tree.size).toBe(51);
     expect(tree.isBST()).toBe(true);
-    expect(tree.dfs(n => n.key, "in", tree.root, IterationType.ITERATIVE)).toEqual([
-      49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59,
-      60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70,
-      71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81,
-      82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92,
-      93, 94, 95, 96, 97, 98, 99
-    ])
-    expect(tree.dfs(n => n.key, "in", tree.root, IterationType.RECURSIVE)).toEqual([
-      49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59,
-      60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70,
-      71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81,
-      82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92,
-      93, 94, 95, 96, 97, 98, 99
-    ])
+    expect(tree.dfs(n => n.key, 'in', tree.root, IterationType.ITERATIVE)).toEqual([
+      49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81,
+      82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99
+    ]);
+    expect(tree.dfs(n => n.key, 'in', tree.root, IterationType.RECURSIVE)).toEqual([
+      49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81,
+      82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99
+    ]);
   });
 
   it('should fix the tree after large scale insertion and deletion', () => {
@@ -467,12 +457,12 @@ describe('RedBlackTree', () => {
 
     expect(tree.size).toBe(0);
     expect(tree.isBST()).toBe(true);
-    expect(tree.dfs(n => n.key, "in", tree.root, IterationType.ITERATIVE)).toEqual([])
+    expect(tree.dfs(n => n.key, 'in', tree.root, IterationType.ITERATIVE)).toEqual([]);
 
     tree.clear();
     for (let i = 0; i < 1000; i++) {
-      tree.add(getRandomInt(-100, 1000))
-      tree.delete(getRandomInt(-100, 1000))
+      tree.add(getRandomInt(-100, 1000));
+      tree.delete(getRandomInt(-100, 1000));
     }
 
     // TODO there is a bug when dfs the tree with NIL node
@@ -481,7 +471,6 @@ describe('RedBlackTree', () => {
   const {HUNDRED_THOUSAND} = magnitude;
   const arr = getRandomIntArray(HUNDRED_THOUSAND, 0, HUNDRED_THOUSAND, true);
   const competitor = new OrderedMap<number, number>();
-
 
   it('should fix the tree after large scale insertion and deletion', () => {
     tree.clear();
@@ -497,6 +486,5 @@ describe('RedBlackTree', () => {
       competitor.setElement(arr[i], arr[i]);
     }
     console.log(performance.now() - cS);
-
   });
 });

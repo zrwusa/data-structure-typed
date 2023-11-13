@@ -183,7 +183,7 @@ describe('Individual package BST operations test', () => {
   });
 
   it('should perform various operations on a Binary Search Tree with object values', () => {
-    const objBST = new BST<{ key: number; keyA: number }>();
+    const objBST = new BST<{key: number; keyA: number}>();
     expect(objBST).toBeInstanceOf(BST);
     objBST.add(11, {key: 11, keyA: 11});
     objBST.add(3, {key: 3, keyA: 3});

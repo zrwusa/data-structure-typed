@@ -300,7 +300,7 @@ export abstract class AbstractGraph<
       return [];
     }
 
-    const stack: { vertex: VO; path: VO[] }[] = [];
+    const stack: {vertex: VO; path: VO[]}[] = [];
     stack.push({vertex: vertex1, path: [vertex1]});
 
     while (stack.length > 0) {
@@ -514,12 +514,7 @@ export abstract class AbstractGraph<
    * shortest paths from the source vertex to all other vertices in the graph. If `genPaths
    * @returns The function `dijkstraWithoutHeap` returns an object of type `DijkstraResult<VO>`.
    */
-  dijkstraWithoutHeap(
-    src: VO | VertexKey,
-    dest?: VO | VertexKey | null,
-    getMinDist?: boolean,
-    genPaths?: boolean
-  ): DijkstraResult<VO> {
+  dijkstraWithoutHeap(src: VO | VertexKey, dest?: VO | VertexKey | null, getMinDist?: boolean, genPaths?: boolean): DijkstraResult<VO> {
     if (getMinDist === undefined) getMinDist = false;
     if (genPaths === undefined) genPaths = false;
 
@@ -614,14 +609,14 @@ export abstract class AbstractGraph<
     }
 
     getMinDist &&
-    distMap.forEach((d, v) => {
-      if (v !== srcVertex) {
-        if (d < minDist) {
-          minDist = d;
-          if (genPaths) minDest = v;
+      distMap.forEach((d, v) => {
+        if (v !== srcVertex) {
+          if (d < minDist) {
+            minDist = d;
+            if (genPaths) minDest = v;
+          }
         }
-      }
-    });
+      });
 
     genPaths && getPaths(minDest);
 
@@ -662,12 +657,7 @@ export abstract class AbstractGraph<
    * shortest paths from the source vertex to all other vertices in the graph. If `genPaths
    * @returns The function `dijkstra` returns an object of type `DijkstraResult<VO>`.
    */
-  dijkstra(
-    src: VO | VertexKey,
-    dest?: VO | VertexKey | null,
-    getMinDist?: boolean,
-    genPaths?: boolean
-  ): DijkstraResult<VO> {
+  dijkstra(src: VO | VertexKey, dest?: VO | VertexKey | null, getMinDist?: boolean, genPaths?: boolean): DijkstraResult<VO> {
     if (getMinDist === undefined) getMinDist = false;
     if (genPaths === undefined) genPaths = false;
 
@@ -691,7 +681,7 @@ export abstract class AbstractGraph<
       if (vertexOrKey instanceof AbstractVertex) distMap.set(vertexOrKey, Infinity);
     }
 
-    const heap = new PriorityQueue<{ key: number; value: VO }>({comparator: (a, b) => a.key - b.key});
+    const heap = new PriorityQueue<{key: number; value: VO}>({comparator: (a, b) => a.key - b.key});
     heap.add({key: 0, value: srcVertex});
 
     distMap.set(srcVertex, 0);
@@ -923,7 +913,7 @@ export abstract class AbstractGraph<
    * `predecessor` property is a 2D array of vertices (or `null`) representing the predecessor vertices in the shortest
    * path between vertices in the
    */
-  floydWarshall(): { costs: number[][]; predecessor: (VO | null)[][] } {
+  floydWarshall(): {costs: number[][]; predecessor: (VO | null)[][]} {
     const idAndVertices = [...this._vertices];
     const n = idAndVertices.length;
 
@@ -992,12 +982,7 @@ export abstract class AbstractGraph<
    * are arrays of vertices that form cycles within the SCCs.
    * @returns The function `tarjan` returns an object with the following properties:
    */
-  tarjan(
-    needCutVertexes: boolean = false,
-    needBridges: boolean = false,
-    needSCCs: boolean = true,
-    needCycles: boolean = false
-  ) {
+  tarjan(needCutVertexes: boolean = false, needBridges: boolean = false, needSCCs: boolean = true, needCycles: boolean = false) {
     // !! in undirected graph we will not let child visit parent when dfs
     // !! articulation point(in dfs search tree not in graph): (cur !== root && cur.has(child)) && (low(child) >= dfn(cur)) || (cur === root && cur.children() >= 2)
     // !! bridge: low(child) > dfn(cur)

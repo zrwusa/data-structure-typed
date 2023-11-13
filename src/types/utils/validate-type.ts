@@ -1,6 +1,6 @@
-export type KeyValueObject = { [key: string]: any };
+export type KeyValueObject = {[key: string]: any};
 
-export type KeyValueObjectWithKey = { [key: string]: any; key: string | number | symbol };
+export type KeyValueObjectWithKey = {[key: string]: any; key: string | number | symbol};
 
 export type NonNumberNonObjectButDefined = string | boolean | symbol | null;
 
@@ -16,20 +16,6 @@ export type ObjectWithNumberKey = {
   key: number;
 };
 
-export type RestrictValByKey =
-  | NonNumberNonObjectButDefined
-  | ObjectWithoutKey
-  | ObjectWithNonNumberKey
-  | ObjectWithNumberKey;
+export type RestrictValByKey = NonNumberNonObjectButDefined | ObjectWithoutKey | ObjectWithNonNumberKey | ObjectWithNumberKey;
 
-export type DummyAny =
-  | string
-  | number
-  | boolean
-  | null
-  | undefined
-  | object
-  | symbol
-  | void
-  | ((...args: []) => any)
-  | never;
+export type DummyAny = string | number | boolean | null | undefined | object | symbol | void | ((...args: []) => any) | never;
