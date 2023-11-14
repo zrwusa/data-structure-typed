@@ -478,13 +478,13 @@ describe('RedBlackTree', () => {
     for (let i = 0; i < arr.length; i++) {
       tree.add(arr[i]);
     }
-    console.log(performance.now() - tS);
+    isDebug && console.log(performance.now() - tS);
 
     const cS = performance.now();
 
     for (let i = 0; i < arr.length; i++) {
       competitor.setElement(arr[i], arr[i]);
     }
-    console.log(performance.now() - cS);
+    isDebug && console.log(performance.now() - cS);
   });
 });

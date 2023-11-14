@@ -107,7 +107,7 @@ const composeReport = () => {
     htmlTables // New content to be inserted
   );
   fs.writeFileSync(htmlFilePath, html);
-  console.log(`Performance ${BOLD}${GREEN}report${END} file generated`);
+  console.log(`Performance ${BOLD}${GREEN}report${END} file generated in ${BOLD}${GREEN}${reportDistPath}${END}`);
 };
 
 function replaceMarkdownContent(startMarker: string, endMarker: string, newText: string) {
@@ -135,7 +135,7 @@ function replaceMarkdownContent(startMarker: string, endMarker: string, newText:
       if (err) {
         console.error(`Unable to write to ${filePath}:`, err);
       } else {
-        console.log(`The content has been successfully replaced in ${filePath}!`);
+        console.log(`The content has been successfully replaced in ${BOLD}${GREEN}${filePath}!${END}`);
       }
     });
   });
