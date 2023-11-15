@@ -8,7 +8,7 @@ describe('MinHeap', () => {
     minHeap = new MinHeap({comparator: numberComparator});
   });
 
-  test('add and poll elements in ascending order', () => {
+  it('add and poll elements in ascending order', () => {
     minHeap.add(3);
     minHeap.add(1);
     minHeap.add(4);
@@ -20,7 +20,7 @@ describe('MinHeap', () => {
     expect(minHeap.poll()).toBe(4);
   });
 
-  test('peek at the top element without removing it', () => {
+  it('peek at the top element without removing it', () => {
     minHeap.add(3);
     minHeap.add(1);
     minHeap.add(4);
@@ -30,7 +30,7 @@ describe('MinHeap', () => {
     expect(minHeap.size).toBe(4);
   });
 
-  test('sort elements in ascending order', () => {
+  it('sort elements in ascending order', () => {
     minHeap.add(3);
     minHeap.add(1);
     minHeap.add(4);
@@ -40,7 +40,7 @@ describe('MinHeap', () => {
     expect(sortedArray).toEqual([1, 2, 3, 4]);
   });
 
-  test('check if the heap is empty', () => {
+  it('check if the heap is empty', () => {
     expect(minHeap.isEmpty()).toBe(true);
 
     minHeap.add(5);

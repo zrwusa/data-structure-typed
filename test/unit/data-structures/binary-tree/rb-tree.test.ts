@@ -13,7 +13,7 @@ describe('RedBlackTree', () => {
   });
 
   describe('add and getNode', () => {
-    test('should add and find a node in the tree', () => {
+    it('should add and find a node in the tree', () => {
       tree.add(10);
       tree.add(20);
       tree.add(5);
@@ -24,7 +24,7 @@ describe('RedBlackTree', () => {
       expect(tree.getNode(15)).toBe(undefined);
     });
 
-    test('should add and find nodes with negative keys', () => {
+    it('should add and find nodes with negative keys', () => {
       tree.add(-10);
       tree.add(-20);
 
@@ -34,7 +34,7 @@ describe('RedBlackTree', () => {
   });
 
   describe('deleteNode', () => {
-    test('should delete a node from the tree', () => {
+    it('should delete a node from the tree', () => {
       tree.add(10);
       tree.add(20);
       tree.add(5);
@@ -43,7 +43,7 @@ describe('RedBlackTree', () => {
       expect(tree.getNode(20)).toBe(undefined);
     });
 
-    test('should handle deleting a non-existent node', () => {
+    it('should handle deleting a non-existent node', () => {
       tree.add(10);
       tree.add(20);
       tree.add(5);
@@ -54,7 +54,7 @@ describe('RedBlackTree', () => {
   });
 
   describe('minimum', () => {
-    test('should find the minimum node in the tree', () => {
+    it('should find the minimum node in the tree', () => {
       tree.add(10);
       tree.add(20);
       tree.add(5);
@@ -65,14 +65,14 @@ describe('RedBlackTree', () => {
       expect(minNode?.key).toBe(3);
     });
 
-    test('should handle an empty tree', () => {
+    it('should handle an empty tree', () => {
       const minNode = tree.getLeftMost(tree.root);
       expect(minNode).toBe(tree.NIL);
     });
   });
 
   describe('getRightMost', () => {
-    test('should find the getRightMost node in the tree', () => {
+    it('should find the getRightMost node in the tree', () => {
       tree.add(10);
       tree.add(20);
       tree.add(5);
@@ -83,14 +83,14 @@ describe('RedBlackTree', () => {
       expect(maxNode?.key).toBe(25);
     });
 
-    test('should handle an empty tree', () => {
+    it('should handle an empty tree', () => {
       const maxNode = tree.getRightMost(tree.root);
       expect(maxNode).toBe(tree.NIL);
     });
   });
 
   describe('getSuccessor', () => {
-    test('should find the getSuccessor of a node', () => {
+    it('should find the getSuccessor of a node', () => {
       tree.add(10);
       tree.add(20);
       tree.add(5);
@@ -103,7 +103,7 @@ describe('RedBlackTree', () => {
       expect(successorNode?.key).toBe(20);
     });
 
-    test('should handle a node with no getSuccessor', () => {
+    it('should handle a node with no getSuccessor', () => {
       tree.add(10);
       tree.add(5);
 
@@ -115,7 +115,7 @@ describe('RedBlackTree', () => {
   });
 
   describe('getPredecessor', () => {
-    test('should find the getPredecessor of a node', () => {
+    it('should find the getPredecessor of a node', () => {
       tree.add(10);
       tree.add(20);
       tree.add(5);
@@ -128,7 +128,7 @@ describe('RedBlackTree', () => {
       expect(predecessorNode?.key).toBe(15);
     });
 
-    test('should handle a node with no getPredecessor', () => {
+    it('should handle a node with no getPredecessor', () => {
       tree.add(10);
       tree.add(20);
 

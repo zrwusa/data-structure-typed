@@ -6,7 +6,7 @@
     "module": "NodeNext",
     "target": "ESNext",
     "moduleResolution": "NodeNext",
-    "sourceMap": false
+    "sourceMap": true                     // It actually affects the error line number positioning in IDE test cases running.
   },
   "include": [
     "./src/**/*.ts",

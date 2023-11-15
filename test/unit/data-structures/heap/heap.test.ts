@@ -62,13 +62,13 @@ describe('FibonacciHeap', () => {
     heap = new FibonacciHeap<number>();
   });
 
-  test('push & peek', () => {
+  it('push & peek', () => {
     heap.push(10);
     heap.push(5);
     expect(heap.peek()).toBe(5);
   });
 
-  test('pop', () => {
+  it('pop', () => {
     heap.push(10);
     heap.push(5);
     heap.push(15);
@@ -77,11 +77,11 @@ describe('FibonacciHeap', () => {
     expect(heap.pop()).toBe(15);
   });
 
-  test('pop on an empty heap', () => {
+  it('pop on an empty heap', () => {
     expect(heap.pop()).toBeUndefined();
   });
 
-  test('size', () => {
+  it('size', () => {
     expect(heap.size).toBe(0);
     heap.push(10);
     expect(heap.size).toBe(1);
@@ -89,7 +89,7 @@ describe('FibonacciHeap', () => {
     expect(heap.size).toBe(0);
   });
 
-  test('clear', () => {
+  it('clear', () => {
     heap.push(10);
     heap.push(5);
     heap.clear();
@@ -97,7 +97,7 @@ describe('FibonacciHeap', () => {
     expect(heap.peek()).toBeUndefined();
   });
 
-  test('custom comparator', () => {
+  it('custom comparator', () => {
     const maxHeap = new FibonacciHeap<number>((a, b) => b - a);
     maxHeap.push(10);
     maxHeap.push(5);

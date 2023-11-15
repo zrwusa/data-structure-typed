@@ -155,12 +155,12 @@ describe('Deque', () => {
     deque = new Deque<number>();
   });
 
-  test('should initialize an empty deque', () => {
+  it('should initialize an empty deque', () => {
     expect(deque.size).toBe(0);
     expect(deque.isEmpty()).toBe(true);
   });
 
-  test('should add elements to the front and back', () => {
+  it('should add elements to the front and back', () => {
     deque.addFirst(1);
     deque.addLast(2);
 
@@ -169,7 +169,7 @@ describe('Deque', () => {
     expect(deque.getLast()).toBe(2);
   });
 
-  test('should remove elements from the front and back', () => {
+  it('should remove elements from the front and back', () => {
     deque.addFirst(1);
     deque.addLast(2);
 
@@ -181,7 +181,7 @@ describe('Deque', () => {
     expect(lastElement).toBe(2);
   });
 
-  test('should get elements by index', () => {
+  it('should get elements by index', () => {
     deque.addLast(1);
     deque.addLast(2);
     deque.addLast(3);
@@ -191,13 +191,13 @@ describe('Deque', () => {
     expect(deque.getAt(2)).toBe(3);
   });
 
-  test('should return null for out-of-bounds index', () => {
+  it('should return null for out-of-bounds index', () => {
     expect(deque.getAt(0)).toBe(undefined);
     expect(deque.getAt(1)).toBe(undefined);
     expect(deque.getAt(-1)).toBe(undefined);
   });
 
-  test('should check if the deque is empty', () => {
+  it('should check if the deque is empty', () => {
     expect(deque.isEmpty()).toBe(true);
 
     deque.addLast(1);
@@ -215,12 +215,12 @@ describe('ArrayDeque', () => {
     deque = new ArrayDeque<number>();
   });
 
-  test('should initialize an empty deque', () => {
+  it('should initialize an empty deque', () => {
     expect(deque.size).toBe(0);
     expect(deque.isEmpty()).toBe(true);
   });
 
-  test('should add elements to the front and back', () => {
+  it('should add elements to the front and back', () => {
     deque.addFirst(1);
     deque.addLast(2);
 
@@ -229,7 +229,7 @@ describe('ArrayDeque', () => {
     expect(deque.getLast()).toBe(2);
   });
 
-  test('should remove elements from the front and back', () => {
+  it('should remove elements from the front and back', () => {
     deque.addFirst(1);
     deque.addLast(2);
 
@@ -241,7 +241,7 @@ describe('ArrayDeque', () => {
     expect(lastElement).toBe(2);
   });
 
-  test('should get elements by index', () => {
+  it('should get elements by index', () => {
     deque.addLast(1);
     deque.addLast(2);
     deque.addLast(3);
@@ -251,13 +251,13 @@ describe('ArrayDeque', () => {
     expect(deque.get(2)).toBe(3);
   });
 
-  test('should return null for out-of-bounds index', () => {
+  it('should return null for out-of-bounds index', () => {
     expect(deque.get(0)).toBe(null);
     expect(deque.get(1)).toBe(null);
     expect(deque.get(-1)).toBe(null);
   });
 
-  test('should check if the deque is empty', () => {
+  it('should check if the deque is empty', () => {
     expect(deque.isEmpty()).toBe(true);
 
     deque.addLast(1);
@@ -267,7 +267,7 @@ describe('ArrayDeque', () => {
     expect(deque.isEmpty()).toBe(true);
   });
 
-  test('should set elements at a specific index', () => {
+  it('should set elements at a specific index', () => {
     deque.addLast(1);
     deque.addLast(2);
     deque.addLast(3);
@@ -279,7 +279,7 @@ describe('ArrayDeque', () => {
     expect(deque.get(2)).toBe(3);
   });
 
-  test('should insert elements at a specific index', () => {
+  it('should insert elements at a specific index', () => {
     deque.addLast(1);
     deque.addLast(2);
     deque.addLast(3);
@@ -293,7 +293,7 @@ describe('ArrayDeque', () => {
     expect(deque.get(3)).toBe(3);
   });
 
-  test('should delete elements at a specific index', () => {
+  it('should delete elements at a specific index', () => {
     deque.addLast(1);
     deque.addLast(2);
     deque.addLast(3);
@@ -314,7 +314,7 @@ describe('ObjectDeque', () => {
     deque = new ObjectDeque<number>();
   });
 
-  test('should add elements to the front of the deque', () => {
+  it('should add elements to the front of the deque', () => {
     deque.addFirst(1);
     deque.addFirst(2);
 
@@ -323,7 +323,7 @@ describe('ObjectDeque', () => {
     expect(deque.getLast()).toBe(1);
   });
 
-  test('should add elements to the end of the deque', () => {
+  it('should add elements to the end of the deque', () => {
     deque.addLast(1);
     deque.addLast(2);
 
@@ -332,7 +332,7 @@ describe('ObjectDeque', () => {
     expect(deque.getLast()).toBe(2);
   });
 
-  test('should remove elements from the front of the deque', () => {
+  it('should remove elements from the front of the deque', () => {
     deque.addLast(1);
     deque.addLast(2);
 
@@ -343,7 +343,7 @@ describe('ObjectDeque', () => {
     expect(deque.getFirst()).toBe(2);
   });
 
-  test('should remove elements from the end of the deque', () => {
+  it('should remove elements from the end of the deque', () => {
     deque.addLast(1);
     deque.addLast(2);
 
@@ -354,7 +354,7 @@ describe('ObjectDeque', () => {
     expect(deque.getLast()).toBe(2);
   });
 
-  test('should return the element at the front of the deque without removing it', () => {
+  it('should return the element at the front of the deque without removing it', () => {
     deque.addFirst(1);
     deque.addFirst(2);
 
@@ -362,7 +362,7 @@ describe('ObjectDeque', () => {
     expect(deque.size).toBe(2);
   });
 
-  test('should return the element at the end of the deque without removing it', () => {
+  it('should return the element at the end of the deque without removing it', () => {
     deque.addLast(1);
     deque.addLast(2);
 
@@ -370,7 +370,7 @@ describe('ObjectDeque', () => {
     expect(deque.size).toBe(2);
   });
 
-  test('should return the correct size of the deque', () => {
+  it('should return the correct size of the deque', () => {
     deque.addFirst(1);
     deque.addLast(2);
     deque.addLast(3);
@@ -378,7 +378,7 @@ describe('ObjectDeque', () => {
     expect(deque.size).toBe(3);
   });
 
-  test('should check if the deque is empty', () => {
+  it('should check if the deque is empty', () => {
     expect(deque.isEmpty()).toBe(true);
 
     deque.addFirst(1);
@@ -386,7 +386,7 @@ describe('ObjectDeque', () => {
     expect(deque.isEmpty()).toBe(false);
   });
 
-  test('should set elements at a specific index', () => {
+  it('should set elements at a specific index', () => {
     deque.addFirst(1);
     deque.addLast(2);
     deque.addLast(3);
@@ -396,7 +396,7 @@ describe('ObjectDeque', () => {
     expect(deque.getLast()).toBe(3);
   });
 
-  test('should insert elements at a specific index', () => {
+  it('should insert elements at a specific index', () => {
     deque.addFirst(1);
     deque.addLast(2);
     deque.addLast(3);

@@ -84,3 +84,16 @@ export const getMSB = (value: number): number => {
   }
   return 1 << (31 - Math.clz32(value));
 };
+
+export const rangeCheck = (index: number, min: number, max: number, message = 'Index out of bounds.'): void => {
+  if (index < min || index > max) throw new RangeError(message);
+}
+
+export const throwRangeError = (message = 'The value is off-limits.'): void => {
+  throw new RangeError(message);
+}
+
+export const isObjOrFunc = (input: unknown): input is Record<string, unknown> | ((...args: any[]) => any) => {
+  const inputType = typeof input;
+  return (inputType === 'object' && input !== null) || inputType === 'function';
+}

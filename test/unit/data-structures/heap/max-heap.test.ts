@@ -8,7 +8,7 @@ describe('MaxHeap', () => {
     maxHeap = new MaxHeap({comparator: numberComparator});
   });
 
-  test('add and poll elements in descending order', () => {
+  it('add and poll elements in descending order', () => {
     maxHeap.add(3);
     maxHeap.add(1);
     maxHeap.add(4);
@@ -20,7 +20,7 @@ describe('MaxHeap', () => {
     expect(maxHeap.poll()).toBe(1);
   });
 
-  test('peek at the top element without removing it', () => {
+  it('peek at the top element without removing it', () => {
     maxHeap.add(3);
     maxHeap.add(1);
     maxHeap.add(4);
@@ -30,7 +30,7 @@ describe('MaxHeap', () => {
     expect(maxHeap.size).toBe(4);
   });
 
-  test('sort elements in descending order', () => {
+  it('sort elements in descending order', () => {
     maxHeap.add(3);
     maxHeap.add(1);
     maxHeap.add(4);
@@ -40,7 +40,7 @@ describe('MaxHeap', () => {
     expect(sortedArray).toEqual([4, 3, 2, 1]);
   });
 
-  test('check if the heap is empty', () => {
+  it('check if the heap is empty', () => {
     expect(maxHeap.isEmpty()).toBe(true);
 
     maxHeap.add(5);

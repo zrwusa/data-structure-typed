@@ -761,7 +761,7 @@ describe('Trie operations', () => {
     trie = new Trie();
   });
 
-  test('Add and Find Words', () => {
+  it('Add and Find Words', () => {
     trie.add('apple');
     trie.add('banana');
     expect(trie.has('apple')).toBe(true);
@@ -769,7 +769,7 @@ describe('Trie operations', () => {
     expect(trie.has('cherry')).toBe(false);
   });
 
-  test('Remove Words', () => {
+  it('Remove Words', () => {
     trie.add('apple');
     trie.add('banana');
     expect(trie.delete('apple')).toBe(true);
@@ -777,39 +777,39 @@ describe('Trie operations', () => {
     expect(trie.delete('cherry')).toBe(false);
   });
 
-  test('Case Sensitivity', () => {
+  it('Case Sensitivity', () => {
     const caseInsensitiveTrie = new Trie(['apple', 'Banana'], false);
     expect(caseInsensitiveTrie.has('APPLE')).toBe(true);
     expect(caseInsensitiveTrie.has('banana')).toBe(true);
     expect(caseInsensitiveTrie.has('Cherry')).toBe(false);
   });
 
-  test('Pure Prefix Check', () => {
+  it('Pure Prefix Check', () => {
     trie.add('apple');
     expect(trie.hasPurePrefix('appl')).toBe(true);
     expect(trie.hasPurePrefix('apple')).toBe(false);
   });
 
-  test('Prefix Check', () => {
+  it('Prefix Check', () => {
     trie.add('apple');
     expect(trie.hasPrefix('app')).toBe(true);
     expect(trie.hasPrefix('ban')).toBe(false);
   });
 
-  test('Common Prefix Check', () => {
+  it('Common Prefix Check', () => {
     trie.add('apple');
     trie.add('appetizer');
     expect(trie.hasCommonPrefix('app')).toBe(true);
     expect(trie.hasCommonPrefix('apple')).toBe(false);
   });
 
-  test('Longest Common Prefix', () => {
+  it('Longest Common Prefix', () => {
     trie.add('apple');
     trie.add('appetizer');
     expect(trie.getLongestCommonPrefix()).toBe('app');
   });
 
-  test('Get Words by Prefix', () => {
+  it('Get Words by Prefix', () => {
     trie.add('apple');
     trie.add('appetizer');
     trie.add('banana');
@@ -817,7 +817,7 @@ describe('Trie operations', () => {
     expect(words).toEqual(['apple', 'appetizer']);
   });
 
-  test('Tree Height', () => {
+  it('Tree Height', () => {
     trie.add('apple');
     trie.add('banana');
     expect(trie.getHeight()).toBe(6); // Assuming 'apple' and 'banana' are the longest words.
