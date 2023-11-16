@@ -1,11 +1,11 @@
-import {DoublyLinkedList, DoublyLinkedListNode} from '../../../../src';
-import {LinkList as CLinkedList} from 'js-sdsl';
+import { DoublyLinkedList, DoublyLinkedListNode } from '../../../../src';
+import { LinkList as CLinkedList } from 'js-sdsl';
 import * as Benchmark from 'benchmark';
-import {magnitude} from '../../../utils';
-import {isCompetitor} from '../../../config';
+import { magnitude } from '../../../utils';
+import { isCompetitor } from '../../../config';
 
 const suite = new Benchmark.Suite();
-const {LINEAR} = magnitude;
+const { LINEAR } = magnitude;
 
 suite.add(`${LINEAR.toLocaleString()} unshift`, () => {
   const list = new DoublyLinkedList<number>();
@@ -48,4 +48,4 @@ suite
     }
   });
 
-export {suite};
+export { suite };

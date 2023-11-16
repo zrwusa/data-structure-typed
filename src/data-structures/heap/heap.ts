@@ -5,10 +5,10 @@
  * @license MIT License
  */
 
-import type {Comparator, DFSOrderPattern} from '../../types';
+import type { Comparator, DFSOrderPattern } from '../../types';
 
 export class Heap<E = any> {
-  constructor(options: {comparator: Comparator<E>; nodes?: E[]}) {
+  constructor(options: { comparator: Comparator<E>; nodes?: E[] }) {
     this._comparator = options.comparator;
     if (options.nodes && options.nodes.length > 0) {
       this._nodes = options.nodes;
@@ -48,7 +48,7 @@ export class Heap<E = any> {
    * @returns A new Heap instance.
    * @param options
    */
-  static heapify<E>(options: {nodes: E[]; comparator: Comparator<E>}): Heap<E> {
+  static heapify<E>(options: { nodes: E[]; comparator: Comparator<E> }): Heap<E> {
     return new Heap<E>(options);
   }
 
@@ -265,7 +265,7 @@ export class Heap<E = any> {
    * @returns A new Heap instance containing the same elements.
    */
   clone(): Heap<E> {
-    const clonedHeap = new Heap<E>({comparator: this.comparator});
+    const clonedHeap = new Heap<E>({ comparator: this.comparator });
     clonedHeap._nodes = [...this.nodes];
     return clonedHeap;
   }
@@ -741,7 +741,10 @@ export class FibonacciHeap<E> {
   protected consolidate(): void {
     const A: (FibonacciHeapNode<E> | undefined)[] = new Array(this.size);
     const nodes = this.consumeLinkedList(this.root);
-    let x: FibonacciHeapNode<E> | undefined, y: FibonacciHeapNode<E> | undefined, d: number, t: FibonacciHeapNode<E> | undefined;
+    let x: FibonacciHeapNode<E> | undefined,
+      y: FibonacciHeapNode<E> | undefined,
+      d: number,
+      t: FibonacciHeapNode<E> | undefined;
 
     for (const node of nodes) {
       x = node;

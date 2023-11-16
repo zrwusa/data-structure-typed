@@ -5,10 +5,10 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import {arrayRemove} from '../../utils';
-import {AbstractEdge, AbstractGraph, AbstractVertex} from './abstract-graph';
-import type {VertexKey} from '../../types';
-import {IGraph} from '../../interfaces';
+import { arrayRemove } from '../../utils';
+import { AbstractEdge, AbstractGraph, AbstractVertex } from './abstract-graph';
+import type { VertexKey } from '../../types';
+import { IGraph } from '../../interfaces';
 
 export class UndirectedVertex<V = any> extends AbstractVertex<V> {
   /**
@@ -49,7 +49,8 @@ export class UndirectedGraph<
     EO extends UndirectedEdge<E> = UndirectedEdge<E>
   >
   extends AbstractGraph<V, E, VO, EO>
-  implements IGraph<V, E, VO, EO> {
+  implements IGraph<V, E, VO, EO>
+{
   /**
    * The constructor initializes a new Map object to store edges.
    */

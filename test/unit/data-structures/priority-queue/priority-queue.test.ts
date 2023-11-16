@@ -1,11 +1,11 @@
-import {PriorityQueue} from '../../../../src';
-import {PriorityQueue as CPriorityQueue} from 'js-sdsl';
-import {isDebugTest} from '../../../config';
+import { PriorityQueue } from '../../../../src';
+import { PriorityQueue as CPriorityQueue } from 'js-sdsl';
+import { isDebugTest } from '../../../config';
 
 const isDebug = isDebugTest;
 describe('PriorityQueue Operation Test', () => {
   it('should PriorityQueue poll, pee, heapify, toArray work well', function () {
-    const minPQ = new PriorityQueue<number>({comparator: (a, b) => a - b});
+    const minPQ = new PriorityQueue<number>({ comparator: (a, b) => a - b });
     minPQ.refill([5, 2, 3, 4, 6, 1]);
     expect(minPQ.toArray()).toEqual([1, 2, 3, 4, 6, 5]);
     minPQ.poll();
@@ -13,13 +13,16 @@ describe('PriorityQueue Operation Test', () => {
     minPQ.poll();
     expect(minPQ.toArray()).toEqual([4, 5, 6]);
     expect(minPQ.peek()).toBe(4);
-    expect(PriorityQueue.heapify({nodes: [3, 2, 1, 5, 6, 7, 8, 9, 10], comparator: (a, b) => a - b}).toArray()).toEqual([
-      1, 2, 3, 5, 6, 7, 8, 9, 10
-    ]);
+    expect(
+      PriorityQueue.heapify({
+        nodes: [3, 2, 1, 5, 6, 7, 8, 9, 10],
+        comparator: (a, b) => a - b
+      }).toArray()
+    ).toEqual([1, 2, 3, 5, 6, 7, 8, 9, 10]);
   });
 
   it('should Max PriorityQueue poll, peek, heapify, toArray work well', function () {
-    const maxPriorityQueue = new PriorityQueue<number>({comparator: (a, b) => b - a});
+    const maxPriorityQueue = new PriorityQueue<number>({ comparator: (a, b) => b - a });
     maxPriorityQueue.refill([5, 2, 3, 4, 6, 1]);
     expect(maxPriorityQueue.toArray()).toEqual([6, 5, 3, 4, 2, 1]);
     maxPriorityQueue.poll();
@@ -27,13 +30,16 @@ describe('PriorityQueue Operation Test', () => {
     maxPriorityQueue.poll();
     expect(maxPriorityQueue.toArray()).toEqual([3, 2, 1]);
     expect(maxPriorityQueue.peek()).toBe(3);
-    expect(PriorityQueue.heapify({nodes: [3, 2, 1, 5, 6, 7, 8, 9, 10], comparator: (a, b) => a - b}).toArray()).toEqual([
-      1, 2, 3, 5, 6, 7, 8, 9, 10
-    ]);
+    expect(
+      PriorityQueue.heapify({
+        nodes: [3, 2, 1, 5, 6, 7, 8, 9, 10],
+        comparator: (a, b) => a - b
+      }).toArray()
+    ).toEqual([1, 2, 3, 5, 6, 7, 8, 9, 10]);
   });
 
   it('should PriorityQueue clone, sort, getNodes, dfs work well', function () {
-    const minPQ1 = new PriorityQueue<number>({comparator: (a, b) => a - b});
+    const minPQ1 = new PriorityQueue<number>({ comparator: (a, b) => a - b });
     minPQ1.refill([2, 5, 8, 3, 1, 6, 7, 4]);
     const clonedPriorityQueue = minPQ1.clone();
     expect(clonedPriorityQueue.getNodes()).toEqual(minPQ1.getNodes());
@@ -46,7 +52,7 @@ describe('PriorityQueue Operation Test', () => {
 
 describe('Priority Queue Performance Test', () => {
   it('should numeric heap work well', function () {
-    const pq = new PriorityQueue({comparator: (a, b) => b - a});
+    const pq = new PriorityQueue({ comparator: (a, b) => b - a });
 
     const tS = performance.now();
 

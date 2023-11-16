@@ -1,4 +1,4 @@
-import {CoordinateSet} from '../../../../src';
+import { CoordinateSet } from '../../../../src';
 
 describe('CoordinateSet', () => {
   it('should add and check values correctly', () => {

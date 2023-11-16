@@ -1,13 +1,13 @@
-import {FibonacciHeap, Heap} from '../../../../src';
+import { FibonacciHeap, Heap } from '../../../../src';
 import * as Benchmark from 'benchmark';
-import {magnitude} from '../../../utils';
+import { magnitude } from '../../../utils';
 
 const suite = new Benchmark.Suite();
-const {TEN_THOUSAND} = magnitude;
+const { TEN_THOUSAND } = magnitude;
 
 suite
   .add(`${TEN_THOUSAND.toLocaleString()} add & pop`, () => {
-    const heap = new Heap<number>({comparator: (a, b) => b - a});
+    const heap = new Heap<number>({ comparator: (a, b) => b - a });
 
     for (let i = 0; i < TEN_THOUSAND; i++) {
       heap.add(i);
@@ -27,4 +27,4 @@ suite
     }
   });
 
-export {suite};
+export { suite };

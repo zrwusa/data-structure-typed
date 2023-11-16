@@ -1,7 +1,7 @@
-import {IterationType, RBTNColor, RedBlackTree, RedBlackTreeNode} from '../../../../src';
-import {getRandomInt, getRandomIntArray, magnitude} from '../../../utils';
-import {isDebugTest} from '../../../config';
-import {OrderedMap} from 'js-sdsl';
+import { IterationType, RBTNColor, RedBlackTree, RedBlackTreeNode } from '../../../../src';
+import { getRandomInt, getRandomIntArray, magnitude } from '../../../utils';
+import { isDebugTest } from '../../../config';
+import { OrderedMap } from 'js-sdsl';
 
 const isDebug = isDebugTest;
 
@@ -438,12 +438,12 @@ describe('RedBlackTree', () => {
     expect(tree.size).toBe(51);
     expect(tree.isBST()).toBe(true);
     expect(tree.dfs(n => n.key, 'in', tree.root, IterationType.ITERATIVE)).toEqual([
-      49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81,
-      82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99
+      49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76,
+      77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99
     ]);
     expect(tree.dfs(n => n.key, 'in', tree.root, IterationType.RECURSIVE)).toEqual([
-      49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81,
-      82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99
+      49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76,
+      77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99
     ]);
   });
 
@@ -468,7 +468,7 @@ describe('RedBlackTree', () => {
     // TODO there is a bug when dfs the tree with NIL node
     // expect(tree.isBST()).toBe(true);
   });
-  const {HUNDRED_THOUSAND} = magnitude;
+  const { HUNDRED_THOUSAND } = magnitude;
   const arr = getRandomIntArray(HUNDRED_THOUSAND, 0, HUNDRED_THOUSAND, true);
   const competitor = new OrderedMap<number, number>();
 

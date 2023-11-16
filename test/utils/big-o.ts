@@ -1,5 +1,5 @@
-import {AnyFunction} from '../types';
-import {isDebugTest} from '../config';
+import { AnyFunction } from '../types';
+import { isDebugTest } from '../config';
 
 const isDebug = isDebugTest;
 const orderReducedBy = 1; // reduction of bigO's order compared to the baseline bigO
@@ -32,7 +32,7 @@ export const bigO = {
 
 function findPotentialN(input: any): number {
   let longestArray: any[] = [];
-  let mostProperties: {[key: string]: any} = {};
+  let mostProperties: { [key: string]: any } = {};
 
   function recurse(obj: any) {
     if (Array.isArray(obj)) {
@@ -81,7 +81,7 @@ function linearRegression(x: number[], y: number[]) {
 
   const rSquared = 1 - totalVariation / explainedVariation;
 
-  return {slope, intercept, rSquared};
+  return { slope, intercept, rSquared };
 }
 
 function estimateBigO(runtimes: number[], dataSizes: number[]): string {

@@ -1,4 +1,4 @@
-import {AVLTree, CP} from 'avl-tree-typed';
+import { AVLTree, CP } from 'avl-tree-typed';
 
 describe('AVL Tree Test', () => {
   it('should perform various operations on a AVL Tree', () => {

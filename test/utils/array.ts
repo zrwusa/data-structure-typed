@@ -1,4 +1,4 @@
-import {getRandomInt} from './number';
+import { getRandomInt } from './number';
 
 export function getRandomIntArray(length: number = 1000, min: number = -1000, max: number = 1000, isDistinct = true) {
   if (isDistinct) {

@@ -1,4 +1,4 @@
-import {SkipList} from '../../../../src';
+import { SkipList } from '../../../../src';
 
 describe('SkipList', () => {
   let skipList: SkipList<number, string>;

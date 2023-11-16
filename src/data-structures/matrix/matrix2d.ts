@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import {Vector2D} from './vector2d';
+import { Vector2D } from './vector2d';
 
 export class Matrix2D {
   protected readonly _matrix: number[][];

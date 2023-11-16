@@ -1,4 +1,4 @@
-import {BinaryIndexedTree} from '../../../../src';
+import { BinaryIndexedTree } from '../../../../src';
 // import {isDebugTest} from '../../../config';
 
 // const isDebug = isDebugTest;
@@ -8,13 +8,13 @@ describe('BinaryIndexedTree simple', () => {
 
   beforeEach(() => {
     //Create a new BinaryIndexedTree instance before each test case
-    bit = new BinaryIndexedTree({frequency: 0, max: 10}); // Modify the value of max as needed
+    bit = new BinaryIndexedTree({ frequency: 0, max: 10 }); // Modify the value of max as needed
   });
 
   it('should initialize correctly', () => {
     expect(bit.freq).toBe(0);
     expect(bit.max).toBe(10);
-    expect(bit.freqMap).toEqual({0: 0}); // Modify the initialized record value according to the actual situation
+    expect(bit.freqMap).toEqual({ 0: 0 }); // Modify the initialized record value according to the actual situation
     // More initialization checks can be added
   });
 
@@ -54,7 +54,7 @@ describe('BinaryIndexedTree', () => {
   let bit: BinaryIndexedTree;
 
   beforeEach(function () {
-    bit = new BinaryIndexedTree({frequency, max});
+    bit = new BinaryIndexedTree({ frequency, max });
   });
   it('should validate the index', function () {
     expect(() => bit.readSingle(-1)).toThrow('Index out of range');
@@ -73,7 +73,7 @@ describe('BinaryIndexedTree', () => {
   it('should frequency and max', function () {
     const frequency = 200;
     const max = 1000;
-    const bit = new BinaryIndexedTree({frequency, max});
+    const bit = new BinaryIndexedTree({ frequency, max });
 
     expect(bit.freq).toBe(frequency);
     expect(bit.max).toBe(max);
@@ -123,7 +123,7 @@ describe('designated values', function () {
   let bit: BinaryIndexedTree;
 
   beforeEach(function () {
-    bit = new BinaryIndexedTree({max: array.length});
+    bit = new BinaryIndexedTree({ max: array.length });
     array.forEach((value, i) => bit.writeSingle(i, value));
   });
 
@@ -182,7 +182,7 @@ describe('descending sequence', function () {
   let bit: BinaryIndexedTree;
 
   beforeEach(function () {
-    bit = new BinaryIndexedTree({max: array.length});
+    bit = new BinaryIndexedTree({ max: array.length });
     array.forEach((value, i) => bit.writeSingle(i, value));
   });
 
@@ -219,7 +219,7 @@ describe('descending sequence', function () {
 
 describe('BinaryIndexedTree additional tests', () => {
   it('should handle read method correctly', () => {
-    const bit = new BinaryIndexedTree({max: 10});
+    const bit = new BinaryIndexedTree({ max: 10 });
     bit.writeSingle(2, 10);
     bit.writeSingle(5, 20);
     bit.writeSingle(8, 30);
@@ -227,7 +227,7 @@ describe('BinaryIndexedTree additional tests', () => {
   });
 
   it('should handle consecutive operations', () => {
-    const bit = new BinaryIndexedTree({max: 10});
+    const bit = new BinaryIndexedTree({ max: 10 });
     bit.writeSingle(2, 10);
     bit.update(2, 5);
     expect(bit.readSingle(2)).toBe(15);
@@ -237,7 +237,7 @@ describe('BinaryIndexedTree additional tests', () => {
   });
 
   it('should handle frequent increment updates', () => {
-    const bit = new BinaryIndexedTree({max: 10});
+    const bit = new BinaryIndexedTree({ max: 10 });
     for (let i = 0; i < 10; i++) {
       bit.update(2, 5);
     }
@@ -245,7 +245,7 @@ describe('BinaryIndexedTree additional tests', () => {
   });
 
   it('should handle edge cases', () => {
-    const bit = new BinaryIndexedTree({max: 10});
+    const bit = new BinaryIndexedTree({ max: 10 });
     bit.writeSingle(9, 100);
     expect(bit.readSingle(9)).toBe(100);
     expect(bit.lowerBound(200)).toBe(10);
@@ -291,7 +291,7 @@ describe('', () => {
 
     constructor(nums: number[]) {
       this._nums = nums;
-      this._tree = new BinaryIndexedTree({max: nums.length + 1});
+      this._tree = new BinaryIndexedTree({ max: nums.length + 1 });
       for (let i = 0; i < nums.length; i++) {
         this._tree.update(i + 1, nums[i]);
       }

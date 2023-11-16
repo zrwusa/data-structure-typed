@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import {getMSB} from '../../utils';
+import { getMSB } from '../../utils';
 
 export class BinaryIndexedTree {
   protected readonly _freq: number;
@@ -17,10 +17,10 @@ export class BinaryIndexedTree {
    * @param  - - `frequency`: The default frequency value. It is optional and has a default
    * value of 0.
    */
-  constructor({frequency = 0, max}: {frequency?: number; max: number}) {
+  constructor({ frequency = 0, max }: { frequency?: number; max: number }) {
     this._freq = frequency;
     this._max = max;
-    this._freqMap = {0: 0};
+    this._freqMap = { 0: 0 };
     this._msb = getMSB(max);
     this._negativeCount = frequency < 0 ? max : 0;
   }

@@ -1,4 +1,4 @@
-import {BinaryTreeNode} from '../../../data-structures';
+import { BinaryTreeNode } from '../../../data-structures';
 
 /**
  * Enum representing different loop types.

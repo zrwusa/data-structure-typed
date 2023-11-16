@@ -1,5 +1,5 @@
-import {BST, BSTNode, CP, IterationType} from '../../../../src';
-import {isDebugTest} from '../../../config';
+import { BST, BSTNode, CP, IterationType } from '../../../../src';
+import { isDebugTest } from '../../../config';
 
 const isDebug = isDebugTest;
 
@@ -189,25 +189,25 @@ describe('BST operations test', () => {
   });
 
   it('should perform various operations on a Binary Search Tree with object values', () => {
-    const objBST = new BST<{key: number; keyA: number}>();
+    const objBST = new BST<{ key: number; keyA: number }>();
     expect(objBST).toBeInstanceOf(BST);
-    objBST.add(11, {key: 11, keyA: 11});
-    objBST.add(3, {key: 3, keyA: 3});
+    objBST.add(11, { key: 11, keyA: 11 });
+    objBST.add(3, { key: 3, keyA: 3 });
     const values = [
-      {key: 15, keyA: 15},
-      {key: 1, keyA: 1},
-      {key: 8, keyA: 8},
-      {key: 13, keyA: 13},
-      {key: 16, keyA: 16},
-      {key: 2, keyA: 2},
-      {key: 6, keyA: 6},
-      {key: 9, keyA: 9},
-      {key: 12, keyA: 12},
-      {key: 14, keyA: 14},
-      {key: 4, keyA: 4},
-      {key: 7, keyA: 7},
-      {key: 10, keyA: 10},
-      {key: 5, keyA: 5}
+      { key: 15, keyA: 15 },
+      { key: 1, keyA: 1 },
+      { key: 8, keyA: 8 },
+      { key: 13, keyA: 13 },
+      { key: 16, keyA: 16 },
+      { key: 2, keyA: 2 },
+      { key: 6, keyA: 6 },
+      { key: 9, keyA: 9 },
+      { key: 12, keyA: 12 },
+      { key: 14, keyA: 14 },
+      { key: 4, keyA: 4 },
+      { key: 7, keyA: 7 },
+      { key: 10, keyA: 10 },
+      { key: 5, keyA: 5 }
     ];
 
     objBST.addMany(
@@ -236,7 +236,7 @@ describe('BST operations test', () => {
     expect(leftMost?.key).toBe(1);
 
     const node15 = objBST.getNode(15);
-    expect(node15?.value).toEqual({key: 15, keyA: 15});
+    expect(node15?.value).toEqual({ key: 15, keyA: 15 });
     const minNodeBySpecificNode = node15 && objBST.getLeftMost(node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
 
@@ -260,7 +260,7 @@ describe('BST operations test', () => {
     objBST.perfectlyBalance();
     expect(objBST.isPerfectlyBalanced()).toBe(true);
 
-    const bfsNodesAfterBalanced: BSTNode<{key: number; keyA: number}>[] = [];
+    const bfsNodesAfterBalanced: BSTNode<{ key: number; keyA: number }>[] = [];
     objBST.bfs(node => bfsNodesAfterBalanced.push(node));
     expect(bfsNodesAfterBalanced[0].key).toBe(8);
     expect(bfsNodesAfterBalanced[bfsNodesAfterBalanced.length - 1].key).toBe(16);
@@ -385,7 +385,7 @@ describe('BST operations test', () => {
     expect(bfsIDs[1]).toBe(12);
     expect(bfsIDs[2]).toBe(16);
 
-    const bfsNodes: BSTNode<{key: number; keyA: number}>[] = [];
+    const bfsNodes: BSTNode<{ key: number; keyA: number }>[] = [];
     objBST.bfs(node => bfsNodes.push(node));
     expect(bfsNodes[0].key).toBe(2);
     expect(bfsNodes[1].key).toBe(12);
@@ -395,7 +395,7 @@ describe('BST operations test', () => {
 
 describe('BST operations test recursively', () => {
   it('should perform various operations on a Binary Search Tree with numeric values', () => {
-    const bst = new BST({iterationType: IterationType.RECURSIVE});
+    const bst = new BST({ iterationType: IterationType.RECURSIVE });
     expect(bst).toBeInstanceOf(BST);
     bst.add(11, 11);
     bst.add(3, 3);
@@ -580,25 +580,25 @@ describe('BST operations test recursively', () => {
   });
 
   it('should perform various operations on a Binary Search Tree with object values', () => {
-    const objBST = new BST<{key: number; keyA: number}>();
+    const objBST = new BST<{ key: number; keyA: number }>();
     expect(objBST).toBeInstanceOf(BST);
-    objBST.add(11, {key: 11, keyA: 11});
-    objBST.add(3, {key: 3, keyA: 3});
+    objBST.add(11, { key: 11, keyA: 11 });
+    objBST.add(3, { key: 3, keyA: 3 });
     const values = [
-      {key: 15, keyA: 15},
-      {key: 1, keyA: 1},
-      {key: 8, keyA: 8},
-      {key: 13, keyA: 13},
-      {key: 16, keyA: 16},
-      {key: 2, keyA: 2},
-      {key: 6, keyA: 6},
-      {key: 9, keyA: 9},
-      {key: 12, keyA: 12},
-      {key: 14, keyA: 14},
-      {key: 4, keyA: 4},
-      {key: 7, keyA: 7},
-      {key: 10, keyA: 10},
-      {key: 5, keyA: 5}
+      { key: 15, keyA: 15 },
+      { key: 1, keyA: 1 },
+      { key: 8, keyA: 8 },
+      { key: 13, keyA: 13 },
+      { key: 16, keyA: 16 },
+      { key: 2, keyA: 2 },
+      { key: 6, keyA: 6 },
+      { key: 9, keyA: 9 },
+      { key: 12, keyA: 12 },
+      { key: 14, keyA: 14 },
+      { key: 4, keyA: 4 },
+      { key: 7, keyA: 7 },
+      { key: 10, keyA: 10 },
+      { key: 5, keyA: 5 }
     ];
 
     objBST.addMany(
@@ -614,7 +614,7 @@ describe('BST operations test recursively', () => {
     expect(objBST.has(6)).toBe(true);
 
     const node6 = objBST.getNode(6);
-    expect(objBST.get(6)).toEqual({key: 6, keyA: 6});
+    expect(objBST.get(6)).toEqual({ key: 6, keyA: 6 });
     expect(node6 && objBST.getHeight(node6)).toBe(2);
     expect(node6 && objBST.getDepth(node6)).toBe(3);
 
@@ -628,7 +628,7 @@ describe('BST operations test recursively', () => {
     expect(leftMost?.key).toBe(1);
 
     const node15 = objBST.getNode(15);
-    expect(node15?.value).toEqual({key: 15, keyA: 15});
+    expect(node15?.value).toEqual({ key: 15, keyA: 15 });
     const minNodeBySpecificNode = node15 && objBST.getLeftMost(node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
 
@@ -652,7 +652,7 @@ describe('BST operations test recursively', () => {
     objBST.perfectlyBalance();
     expect(objBST.isPerfectlyBalanced()).toBe(true);
 
-    const bfsNodesAfterBalanced: BSTNode<{key: number; keyA: number}>[] = [];
+    const bfsNodesAfterBalanced: BSTNode<{ key: number; keyA: number }>[] = [];
     objBST.bfs(node => bfsNodesAfterBalanced.push(node));
     expect(bfsNodesAfterBalanced[0].key).toBe(8);
     expect(bfsNodesAfterBalanced[bfsNodesAfterBalanced.length - 1].key).toBe(16);
@@ -777,7 +777,7 @@ describe('BST operations test recursively', () => {
     expect(bfsIDs[1]).toBe(12);
     expect(bfsIDs[2]).toBe(16);
 
-    const bfsNodes: BSTNode<{key: number; keyA: number}>[] = [];
+    const bfsNodes: BSTNode<{ key: number; keyA: number }>[] = [];
     objBST.bfs(node => bfsNodes.push(node));
     expect(bfsNodes[0].key).toBe(2);
     expect(bfsNodes[1].key).toBe(12);
@@ -843,7 +843,11 @@ describe('BST Performance test', function () {
     bst.addMany([4, 2, 6, 1, 3, 5, 7]);
     expect(bst.subTreeTraverse(node => node.key, bst.getNode(6), IterationType.ITERATIVE)).toEqual([6, 5, 7]);
     expect(bst.subTreeTraverse(node => node.key, bst.getNode(6), IterationType.RECURSIVE)).toEqual([6, 5, 7]);
-    expect(bst.subTreeTraverse(node => node?.key ?? undefined, bst.getNode(6), IterationType.ITERATIVE, true)).toEqual([6, 5, 7]);
-    expect(bst.subTreeTraverse(node => node?.key ?? undefined, bst.getNode(6), IterationType.RECURSIVE, true)).toEqual([6, 5, 7]);
+    expect(bst.subTreeTraverse(node => node?.key ?? undefined, bst.getNode(6), IterationType.ITERATIVE, true)).toEqual([
+      6, 5, 7
+    ]);
+    expect(bst.subTreeTraverse(node => node?.key ?? undefined, bst.getNode(6), IterationType.RECURSIVE, true)).toEqual([
+      6, 5, 7
+    ]);
   });
 });

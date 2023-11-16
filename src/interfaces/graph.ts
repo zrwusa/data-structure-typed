@@ -1,4 +1,4 @@
-import {VertexKey} from '../types';
+import { VertexKey } from '../types';
 
 export interface IGraph<V, E, VO, EO> {
   createVertex(key: VertexKey, value?: V): VO;

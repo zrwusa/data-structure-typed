@@ -1,14 +1,14 @@
-import {PriorityQueue as CPriorityQueue} from 'js-sdsl';
-import {PriorityQueue} from '../../../../src';
+import { PriorityQueue as CPriorityQueue } from 'js-sdsl';
+import { PriorityQueue } from '../../../../src';
 import * as Benchmark from 'benchmark';
-import {magnitude} from '../../../utils';
-import {isCompetitor} from '../../../config';
+import { magnitude } from '../../../utils';
+import { isCompetitor } from '../../../config';
 
 const suite = new Benchmark.Suite();
-const {TEN_THOUSAND} = magnitude;
+const { TEN_THOUSAND } = magnitude;
 
 suite.add(`${TEN_THOUSAND.toLocaleString()} add & pop`, () => {
-  const pq = new PriorityQueue<number>({comparator: (a, b) => b - a});
+  const pq = new PriorityQueue<number>({ comparator: (a, b) => b - a });
 
   for (let i = 0; i < TEN_THOUSAND; i++) {
     pq.add(i);
@@ -32,4 +32,4 @@ if (isCompetitor) {
   });
 }
 
-export {suite};
+export { suite };

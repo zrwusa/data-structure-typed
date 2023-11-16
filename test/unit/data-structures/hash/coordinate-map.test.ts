@@ -1,4 +1,4 @@
-import {CoordinateMap} from '../../../../src';
+import { CoordinateMap } from '../../../../src';
 
 describe('CoordinateMap', () => {
   it('should set and get values correctly', () => {

@@ -5,12 +5,15 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type {BTNKey, TreeMultimapNodeNested, TreeMultimapOptions} from '../../types';
-import {BiTreeDeleteResult, BTNCallback, CP, FamilyPosition, IterationType} from '../../types';
-import {IBinaryTree} from '../../interfaces';
-import {AVLTree, AVLTreeNode} from './avl-tree';
+import type { BTNKey, TreeMultimapNodeNested, TreeMultimapOptions } from '../../types';
+import { BiTreeDeleteResult, BTNCallback, CP, FamilyPosition, IterationType } from '../../types';
+import { IBinaryTree } from '../../interfaces';
+import { AVLTree, AVLTreeNode } from './avl-tree';
 
-export class TreeMultimapNode<V = any, N extends TreeMultimapNode<V, N> = TreeMultimapNodeNested<V>> extends AVLTreeNode<V, N> {
+export class TreeMultimapNode<
+  V = any,
+  N extends TreeMultimapNode<V, N> = TreeMultimapNodeNested<V>
+> extends AVLTreeNode<V, N> {
   count: number;
 
   /**
@@ -34,7 +37,8 @@ export class TreeMultimapNode<V = any, N extends TreeMultimapNode<V, N> = TreeMu
  */
 export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultimapNode<V, TreeMultimapNodeNested<V>>>
   extends AVLTree<V, N>
-  implements IBinaryTree<V, N> {
+  implements IBinaryTree<V, N>
+{
   /**
    * The constructor function for a TreeMultimap class in TypeScript, which extends another class and sets an option to
    * merge duplicated values.
@@ -292,7 +296,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
         if (!parent) {
           if (curr.right !== undefined) this._setRoot(curr.right);
         } else {
-          const {familyPosition: fp} = curr;
+          const { familyPosition: fp } = curr;
           if (fp === FamilyPosition.LEFT || fp === FamilyPosition.ROOT_LEFT) {
             parent.left = curr.right;
           } else if (fp === FamilyPosition.RIGHT || fp === FamilyPosition.ROOT_RIGHT) {
@@ -320,7 +324,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
       if (orgCurrent) this._count -= orgCurrent.count;
     }
 
-    deletedResult.push({deleted: orgCurrent, needBalanced});
+    deletedResult.push({ deleted: orgCurrent, needBalanced });
 
     if (needBalanced) {
       this._balancePath(needBalanced);
@@ -396,7 +400,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
     srcNode = this.ensureNotKey(srcNode);
     destNode = this.ensureNotKey(destNode);
     if (srcNode && destNode) {
-      const {key, value, count, height} = destNode;
+      const { key, value, count, height } = destNode;
       const tempNode = this.createNode(key, value, count);
       if (tempNode) {
         tempNode.height = height;

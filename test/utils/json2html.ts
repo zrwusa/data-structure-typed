@@ -1,5 +1,5 @@
 import * as _ from './is';
-import {Json2htmlOptions} from '../types';
+import { Json2htmlOptions } from '../types';
 
 function toggleJS(options?: Json2htmlOptions): string {
   if (options?.plainHtml) {
@@ -14,7 +14,9 @@ function makeLabelDiv(options: any, level: number, keyName: string | number, dat
     return `<div class='index'><span class='json-to-html-label'>${keyName}&nbsp;</span></div>`;
   } else if (typeof keyName === 'string') {
     if (datatype === 'array') {
-      return `<div class='collapsible level${level}' ${toggleJS(options)}><span class='json-to-html-label'>${keyName}</span></div>`;
+      return `<div class='collapsible level${level}' ${toggleJS(
+        options
+      )}><span class='json-to-html-label'>${keyName}</span></div>`;
     } else if (datatype === 'object') {
       return `<div class='attribute collapsible level${level}' ${toggleJS(
         options
@@ -120,7 +122,9 @@ function _render(name: string, data: any, options: Json2htmlOptions, level: numb
     } else {
       subs =
         "<div class='altRows'>" +
-        data.map((val: any, idx: number) => _render(idx.toString(), val, options, level + 1, idx % 2)).join("</div><div class='altRows'>") +
+        data
+          .map((val: any, idx: number) => _render(idx.toString(), val, options, level + 1, idx % 2))
+          .join("</div><div class='altRows'>") +
         '</div>';
     }
     return `<div class="json-to-html-collapse clearfix ${altRow}">

@@ -5,10 +5,10 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import {arrayRemove} from '../../utils';
-import {AbstractEdge, AbstractGraph, AbstractVertex} from './abstract-graph';
-import type {TopologicalStatus, VertexKey} from '../../types';
-import {IGraph} from '../../interfaces';
+import { arrayRemove } from '../../utils';
+import { AbstractEdge, AbstractGraph, AbstractVertex } from './abstract-graph';
+import type { TopologicalStatus, VertexKey } from '../../types';
+import { IGraph } from '../../interfaces';
 
 export class DirectedVertex<V = any> extends AbstractVertex<V> {
   /**
@@ -45,9 +45,15 @@ export class DirectedEdge<E = any> extends AbstractEdge<E> {
   }
 }
 
-export class DirectedGraph<V = any, E = any, VO extends DirectedVertex<V> = DirectedVertex<V>, EO extends DirectedEdge<E> = DirectedEdge<E>>
+export class DirectedGraph<
+    V = any,
+    E = any,
+    VO extends DirectedVertex<V> = DirectedVertex<V>,
+    EO extends DirectedEdge<E> = DirectedEdge<E>
+  >
   extends AbstractGraph<V, E, VO, EO>
-  implements IGraph<V, E, VO, EO> {
+  implements IGraph<V, E, VO, EO>
+{
   /**
    * The constructor function initializes an instance of a class.
    */

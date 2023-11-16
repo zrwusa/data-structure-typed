@@ -32,7 +32,7 @@
     "format:src": "prettier --write 'src/**/*.{js,ts}'",
     "format:test": "prettier --write 'test/**/*.{js,ts}'",
     "format": "npm run format:src && npm run format:test",
-    "ci": "env && git fetch --tags && npm run check && npm run lint && npm run build && npm run test:unit && npm run changelog",
+    "ci": "env && git fetch --tags && npm run inspect && npm run lint && npm run build && npm run test:unit && npm run changelog",
     "update:subs": "npm i avl-tree-typed binary-tree-typed bst-typed heap-typed data-structure-typed --save-dev",
     "install:all-subs": "npm i avl-tree-typed binary-tree-typed bst-typed deque-typed directed-graph-typed doubly-linked-list-typed graph-typed heap-typed linked-list-typed max-heap-typed max-priority-queue-typed min-heap-typed min-priority-queue-typed priority-queue-typed singly-linked-list-typed stack-typed tree-multimap-typed trie-typed undirected-graph-typed queue-typed --save-dev",
     "changelog": "auto-changelog",

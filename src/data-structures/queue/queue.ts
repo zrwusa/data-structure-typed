@@ -3,7 +3,7 @@
  * @copyright Tyler Zeng <zrwusa@gmail.com>
  * @class
  */
-import {SinglyLinkedList} from '../linked-list';
+import { SinglyLinkedList } from '../linked-list';
 
 export class LinkedListQueue<E = any> extends SinglyLinkedList<E> {
   /**

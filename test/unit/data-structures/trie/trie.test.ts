@@ -1,4 +1,4 @@
-import {Trie, TrieNode} from '../../../../src';
+import { Trie, TrieNode } from '../../../../src';
 
 describe('TrieNode', () => {
   it('should create a TrieNode with the given value', () => {

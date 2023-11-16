@@ -1,4 +1,4 @@
-import {SegmentTree} from '../../../../src';
+import { SegmentTree } from '../../../../src';
 
 describe('SegmentTree', () => {
   let segmentTree: SegmentTree;

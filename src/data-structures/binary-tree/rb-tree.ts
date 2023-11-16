@@ -6,12 +6,23 @@
  * @license MIT License
  */
 
-import {BiTreeDeleteResult, BTNCallback, BTNKey, IterationType, RBTNColor, RBTreeOptions, RedBlackTreeNodeNested} from '../../types';
-import {BST, BSTNode} from './bst';
-import {IBinaryTree} from '../../interfaces';
-import {BinaryTreeNode} from './binary-tree';
+import {
+  BiTreeDeleteResult,
+  BTNCallback,
+  BTNKey,
+  IterationType,
+  RBTNColor,
+  RBTreeOptions,
+  RedBlackTreeNodeNested
+} from '../../types';
+import { BST, BSTNode } from './bst';
+import { IBinaryTree } from '../../interfaces';
+import { BinaryTreeNode } from './binary-tree';
 
-export class RedBlackTreeNode<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTreeNodeNested<V>> extends BSTNode<V, N> {
+export class RedBlackTreeNode<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTreeNodeNested<V>> extends BSTNode<
+  V,
+  N
+> {
   color: RBTNColor;
 
   constructor(key: BTNKey, value?: V, color: RBTNColor = RBTNColor.BLACK) {
@@ -29,7 +40,8 @@ export class RedBlackTreeNode<V = any, N extends RedBlackTreeNode<V, N> = RedBla
  */
 export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTreeNode<V, RedBlackTreeNodeNested<V>>>
   extends BST<V, N>
-  implements IBinaryTree<V, N> {
+  implements IBinaryTree<V, N>
+{
   NIL: N = new RedBlackTreeNode<V>(NaN) as unknown as N;
 
   /**

@@ -1,9 +1,9 @@
-import {DirectedGraph} from '../../../../src';
+import { DirectedGraph } from '../../../../src';
 import * as Benchmark from 'benchmark';
-import {getRandomIndex, getRandomWords, magnitude} from '../../../utils';
+import { getRandomIndex, getRandomWords, magnitude } from '../../../utils';
 
 const suite = new Benchmark.Suite();
-const {THOUSAND} = magnitude;
+const { THOUSAND } = magnitude;
 const graph = new DirectedGraph<number, number>();
 const vertexes = getRandomWords(THOUSAND);
 
@@ -46,4 +46,4 @@ suite
     // }
   });
 
-export {suite};
+export { suite };

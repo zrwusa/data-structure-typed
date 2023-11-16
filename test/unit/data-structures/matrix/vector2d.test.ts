@@ -1,4 +1,4 @@
-import {Vector2D} from '../../../../src';
+import { Vector2D } from '../../../../src';
 
 describe('Vector2D', () => {
   it('should create a vector with default values', () => {

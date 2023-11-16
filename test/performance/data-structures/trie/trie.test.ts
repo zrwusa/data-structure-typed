@@ -1,9 +1,9 @@
-import {Trie} from '../../../../src';
+import { Trie } from '../../../../src';
 import * as Benchmark from 'benchmark';
-import {getRandomWords, magnitude} from '../../../utils';
+import { getRandomWords, magnitude } from '../../../utils';
 
 const suite = new Benchmark.Suite();
-const {HUNDRED_THOUSAND} = magnitude;
+const { HUNDRED_THOUSAND } = magnitude;
 const trie = new Trie();
 const randomWords = getRandomWords(HUNDRED_THOUSAND, false);
 
@@ -19,4 +19,4 @@ suite
     }
   });
 
-export {suite};
+export { suite };

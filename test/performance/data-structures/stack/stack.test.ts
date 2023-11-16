@@ -1,11 +1,11 @@
-import {Stack} from '../../../../src';
-import {Stack as CStack} from 'js-sdsl';
+import { Stack } from '../../../../src';
+import { Stack as CStack } from 'js-sdsl';
 import * as Benchmark from 'benchmark';
-import {magnitude} from '../../../utils';
-import {isCompetitor} from '../../../config';
+import { magnitude } from '../../../utils';
+import { isCompetitor } from '../../../config';
 
 const suite = new Benchmark.Suite();
-const {LINEAR} = magnitude;
+const { LINEAR } = magnitude;
 
 suite.add(`${LINEAR.toLocaleString()} push`, () => {
   const stack = new Stack<number>();
@@ -46,4 +46,4 @@ if (isCompetitor) {
   });
 }
 
-export {suite};
+export { suite };

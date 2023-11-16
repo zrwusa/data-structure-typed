@@ -1,4 +1,4 @@
-import {DirectedGraph, UndirectedGraph} from '../../../../src';
+import { DirectedGraph, UndirectedGraph } from '../../../../src';
 
 describe('Overall Graph Operation Test', () => {
   it('Overall DirectedGraph Operation Test', () => {

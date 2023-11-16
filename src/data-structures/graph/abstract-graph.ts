@@ -5,11 +5,11 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import {uuidV4} from '../../utils';
-import {PriorityQueue} from '../priority-queue';
-import type {DijkstraResult, VertexKey} from '../../types';
-import {IGraph} from '../../interfaces';
-import {Queue} from '../queue';
+import { uuidV4 } from '../../utils';
+import { PriorityQueue } from '../priority-queue';
+import type { DijkstraResult, VertexKey } from '../../types';
+import { IGraph } from '../../interfaces';
+import { Queue } from '../queue';
 
 export abstract class AbstractVertex<V = any> {
   key: VertexKey;
@@ -64,7 +64,8 @@ export abstract class AbstractGraph<
   E = any,
   VO extends AbstractVertex<V> = AbstractVertex<V>,
   EO extends AbstractEdge<E> = AbstractEdge<E>
-> implements IGraph<V, E, VO, EO> {
+> implements IGraph<V, E, VO, EO>
+{
   protected _vertices: Map<VertexKey, VO> = new Map<VertexKey, VO>();
 
   get vertices(): Map<VertexKey, VO> {
@@ -300,11 +301,11 @@ export abstract class AbstractGraph<
       return [];
     }
 
-    const stack: {vertex: VO; path: VO[]}[] = [];
-    stack.push({vertex: vertex1, path: [vertex1]});
+    const stack: { vertex: VO; path: VO[] }[] = [];
+    stack.push({ vertex: vertex1, path: [vertex1] });
 
     while (stack.length > 0) {
-      const {vertex, path} = stack.pop()!;
+      const { vertex, path } = stack.pop()!;
 
       if (vertex === vertex2) {
         paths.push(path);
@@ -315,7 +316,7 @@ export abstract class AbstractGraph<
       for (const neighbor of neighbors) {
         if (!path.includes(neighbor)) {
           const newPath = [...path, neighbor];
-          stack.push({vertex: neighbor, path: newPath});
+          stack.push({ vertex: neighbor, path: newPath });
         }
       }
     }
@@ -514,7 +515,12 @@ export abstract class AbstractGraph<
    * shortest paths from the source vertex to all other vertices in the graph. If `genPaths
    * @returns The function `dijkstraWithoutHeap` returns an object of type `DijkstraResult<VO>`.
    */
-  dijkstraWithoutHeap(src: VO | VertexKey, dest?: VO | VertexKey | null, getMinDist?: boolean, genPaths?: boolean): DijkstraResult<VO> {
+  dijkstraWithoutHeap(
+    src: VO | VertexKey,
+    dest?: VO | VertexKey | null,
+    getMinDist?: boolean,
+    genPaths?: boolean
+  ): DijkstraResult<VO> {
     if (getMinDist === undefined) getMinDist = false;
     if (genPaths === undefined) genPaths = false;
 
@@ -586,7 +592,7 @@ export abstract class AbstractGraph<
           if (genPaths) {
             getPaths(destVertex);
           }
-          return {distMap, preMap, seen, paths, minDist, minPath};
+          return { distMap, preMap, seen, paths, minDist, minPath };
         }
         const neighbors = this.getNeighbors(cur);
         for (const neighbor of neighbors) {
@@ -620,7 +626,7 @@ export abstract class AbstractGraph<
 
     genPaths && getPaths(minDest);
 
-    return {distMap, preMap, seen, paths, minDist, minPath};
+    return { distMap, preMap, seen, paths, minDist, minPath };
   }
 
   /**
@@ -657,7 +663,12 @@ export abstract class AbstractGraph<
    * shortest paths from the source vertex to all other vertices in the graph. If `genPaths
    * @returns The function `dijkstra` returns an object of type `DijkstraResult<VO>`.
    */
-  dijkstra(src: VO | VertexKey, dest?: VO | VertexKey | null, getMinDist?: boolean, genPaths?: boolean): DijkstraResult<VO> {
+  dijkstra(
+    src: VO | VertexKey,
+    dest?: VO | VertexKey | null,
+    getMinDist?: boolean,
+    genPaths?: boolean
+  ): DijkstraResult<VO> {
     if (getMinDist === undefined) getMinDist = false;
     if (genPaths === undefined) genPaths = false;
 
@@ -681,8 +692,8 @@ export abstract class AbstractGraph<
       if (vertexOrKey instanceof AbstractVertex) distMap.set(vertexOrKey, Infinity);
     }
 
-    const heap = new PriorityQueue<{key: number; value: VO}>({comparator: (a, b) => a.key - b.key});
-    heap.add({key: 0, value: srcVertex});
+    const heap = new PriorityQueue<{ key: number; value: VO }>({ comparator: (a, b) => a.key - b.key });
+    heap.add({ key: 0, value: srcVertex });
 
     distMap.set(srcVertex, 0);
     preMap.set(srcVertex, null);
@@ -723,7 +734,7 @@ export abstract class AbstractGraph<
             if (genPaths) {
               getPaths(destVertex);
             }
-            return {distMap, preMap, seen, paths, minDist, minPath};
+            return { distMap, preMap, seen, paths, minDist, minPath };
           }
           const neighbors = this.getNeighbors(cur);
           for (const neighbor of neighbors) {
@@ -733,7 +744,7 @@ export abstract class AbstractGraph<
                 const distSrcToNeighbor = distMap.get(neighbor);
                 if (distSrcToNeighbor) {
                   if (dist + weight < distSrcToNeighbor) {
-                    heap.add({key: dist + weight, value: neighbor});
+                    heap.add({ key: dist + weight, value: neighbor });
                     preMap.set(neighbor, cur);
                     distMap.set(neighbor, dist + weight);
                   }
@@ -760,7 +771,7 @@ export abstract class AbstractGraph<
       getPaths(minDest);
     }
 
-    return {distMap, preMap, seen, paths, minDist, minPath};
+    return { distMap, preMap, seen, paths, minDist, minPath };
   }
 
   /**
@@ -800,7 +811,7 @@ export abstract class AbstractGraph<
     // TODO
     let hasNegativeCycle: boolean | undefined;
     if (scanNegativeCycle) hasNegativeCycle = false;
-    if (!srcVertex) return {hasNegativeCycle, distMap, preMap, paths, min, minPath};
+    if (!srcVertex) return { hasNegativeCycle, distMap, preMap, paths, min, minPath };
 
     const vertices = this._vertices;
     const numOfVertices = vertices.size;
@@ -872,7 +883,7 @@ export abstract class AbstractGraph<
       }
     }
 
-    return {hasNegativeCycle, distMap, preMap, paths, min, minPath};
+    return { hasNegativeCycle, distMap, preMap, paths, min, minPath };
   }
 
   /**
@@ -913,7 +924,7 @@ export abstract class AbstractGraph<
    * `predecessor` property is a 2D array of vertices (or `null`) representing the predecessor vertices in the shortest
    * path between vertices in the
    */
-  floydWarshall(): {costs: number[][]; predecessor: (VO | null)[][]} {
+  floydWarshall(): { costs: number[][]; predecessor: (VO | null)[][] } {
     const idAndVertices = [...this._vertices];
     const n = idAndVertices.length;
 
@@ -945,7 +956,7 @@ export abstract class AbstractGraph<
         }
       }
     }
-    return {costs, predecessor};
+    return { costs, predecessor };
   }
 
   /**
@@ -982,7 +993,12 @@ export abstract class AbstractGraph<
    * are arrays of vertices that form cycles within the SCCs.
    * @returns The function `tarjan` returns an object with the following properties:
    */
-  tarjan(needCutVertexes: boolean = false, needBridges: boolean = false, needSCCs: boolean = true, needCycles: boolean = false) {
+  tarjan(
+    needCutVertexes: boolean = false,
+    needBridges: boolean = false,
+    needSCCs: boolean = true,
+    needCycles: boolean = false
+  ) {
     // !! in undirected graph we will not let child visit parent when dfs
     // !! articulation point(in dfs search tree not in graph): (cur !== root && cur.has(child)) && (low(child) >= dfn(cur)) || (cur === root && cur.children() >= 2)
     // !! bridge: low(child) > dfn(cur)
@@ -1081,7 +1097,7 @@ export abstract class AbstractGraph<
       });
     }
 
-    return {dfnMap, lowMap, bridges, cutVertexes, SCCs, cycles};
+    return { dfnMap, lowMap, bridges, cutVertexes, SCCs, cycles };
   }
 
   /**

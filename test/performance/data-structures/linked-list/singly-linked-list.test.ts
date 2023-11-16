@@ -1,9 +1,9 @@
-import {SinglyLinkedList, SinglyLinkedListNode} from '../../../../src';
+import { SinglyLinkedList, SinglyLinkedListNode } from '../../../../src';
 import * as Benchmark from 'benchmark';
-import {magnitude} from '../../../utils';
+import { magnitude } from '../../../utils';
 
 const suite = new Benchmark.Suite();
-const {TEN_THOUSAND} = magnitude;
+const { TEN_THOUSAND } = magnitude;
 
 suite
   .add(`${TEN_THOUSAND.toLocaleString()} push & pop`, () => {
@@ -31,4 +31,4 @@ suite
     }
   });
 
-export {suite};
+export { suite };

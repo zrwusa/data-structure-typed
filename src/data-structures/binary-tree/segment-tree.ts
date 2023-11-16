@@ -6,7 +6,7 @@
  * @license MIT License
  */
 
-import type {SegmentTreeNodeVal} from '../../types';
+import type { SegmentTreeNodeVal } from '../../types';
 
 export class SegmentTreeNode {
   start = 0;

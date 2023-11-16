@@ -1,4 +1,4 @@
-import {AVLTree, CP} from 'data-structure-typed';
+import { AVLTree, CP } from 'data-structure-typed';
 
 describe('AVL Tree Test from data-structure-typed', () => {
   it('should perform various operations on a AVL Tree from data-structure-typed', () => {

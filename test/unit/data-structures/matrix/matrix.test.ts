@@ -1,10 +1,10 @@
-import {MatrixNTI2D} from '../../../../src';
+import { MatrixNTI2D } from '../../../../src';
 
 describe('MatrixNTI2D', () => {
   it('should initialize a matrix with rows and columns', () => {
     const numRows = 3;
     const numCols = 4;
-    const matrix = new MatrixNTI2D({row: numRows, col: numCols});
+    const matrix = new MatrixNTI2D({ row: numRows, col: numCols });
 
     expect(matrix.toArray().length).toBe(numRows);
     expect(matrix.toArray()[0].length).toBe(numCols);
@@ -14,7 +14,7 @@ describe('MatrixNTI2D', () => {
     const numRows = 3;
     const numCols = 4;
     const initialValue = 42;
-    const matrix = new MatrixNTI2D({row: numRows, col: numCols, initialVal: initialValue});
+    const matrix = new MatrixNTI2D({ row: numRows, col: numCols, initialVal: initialValue });
 
     const matrixArray = matrix.toArray();
     for (let i = 0; i < numRows; i++) {
@@ -27,7 +27,7 @@ describe('MatrixNTI2D', () => {
   it('should initialize all elements with 0 if no initial value is provided', () => {
     const numRows = 3;
     const numCols = 4;
-    const matrix = new MatrixNTI2D({row: numRows, col: numCols});
+    const matrix = new MatrixNTI2D({ row: numRows, col: numCols });
 
     const matrixArray = matrix.toArray();
     for (let i = 0; i < numRows; i++) {
@@ -40,7 +40,7 @@ describe('MatrixNTI2D', () => {
   it('should convert the matrix to a two-dimensional array', () => {
     const numRows = 2;
     const numCols = 3;
-    const matrix = new MatrixNTI2D({row: numRows, col: numCols, initialVal: 1});
+    const matrix = new MatrixNTI2D({ row: numRows, col: numCols, initialVal: 1 });
 
     const matrixArray = matrix.toArray();
     expect(matrixArray.length).toBe(numRows);

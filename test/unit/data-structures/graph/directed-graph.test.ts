@@ -1,4 +1,4 @@
-import {DirectedEdge, DirectedGraph, DirectedVertex, VertexKey} from '../../../../src';
+import { DirectedEdge, DirectedGraph, DirectedVertex, VertexKey } from '../../../../src';
 
 describe('DirectedGraph Operation Test', () => {
   let graph: DirectedGraph;
@@ -126,12 +126,12 @@ class MyEdge<E = any> extends DirectedEdge<E> {
   }
 }
 
-class MyDirectedGraph<V = any, E = any, VO extends MyVertex<V> = MyVertex<V>, EO extends MyEdge<E> = MyEdge<E>> extends DirectedGraph<
-  V,
-  E,
-  VO,
-  EO
-> {
+class MyDirectedGraph<
+  V = any,
+  E = any,
+  VO extends MyVertex<V> = MyVertex<V>,
+  EO extends MyEdge<E> = MyEdge<E>
+> extends DirectedGraph<V, E, VO, EO> {
   createVertex(key: VertexKey, value: V): VO {
     return new MyVertex(key, value) as VO;
   }
@@ -319,7 +319,7 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
     const fordResult1 = myGraph.bellmanFord(1);
     expect(fordResult1).toBeTruthy();
     expect(fordResult1.hasNegativeCycle).toBeUndefined();
-    const {distMap, preMap, paths, min, minPath} = fordResult1;
+    const { distMap, preMap, paths, min, minPath } = fordResult1;
     expect(distMap).toBeInstanceOf(Map);
     expect(distMap.size).toBe(9);
     expect(distMap.get(vertex1)).toBe(0);
@@ -343,7 +343,7 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
     const floydResult = myGraph.floydWarshall();
     expect(floydResult).toBeTruthy();
     if (floydResult) {
-      const {costs, predecessor} = floydResult;
+      const { costs, predecessor } = floydResult;
       expect(costs).toBeInstanceOf(Array);
       expect(costs.length).toBe(9);
       expect(costs[0]).toEqual([32, 12, 35, 14, 70, Infinity, 61, Infinity, 19]);
@@ -351,9 +351,29 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
       expect(costs[2]).toEqual([3, 15, 38, 17, 35, Infinity, 64, Infinity, 22]);
       expect(costs[3]).toEqual([123, 135, 120, 137, 155, Infinity, 47, Infinity, 126]);
       expect(costs[4]).toEqual([133, 145, 130, 147, 165, Infinity, 57, Infinity, 136]);
-      expect(costs[5]).toEqual([Infinity, Infinity, Infinity, Infinity, Infinity, Infinity, Infinity, Infinity, Infinity]);
+      expect(costs[5]).toEqual([
+        Infinity,
+        Infinity,
+        Infinity,
+        Infinity,
+        Infinity,
+        Infinity,
+        Infinity,
+        Infinity,
+        Infinity
+      ]);
       expect(costs[6]).toEqual([76, 88, 73, 90, 108, Infinity, 137, Infinity, 79]);
-      expect(costs[7]).toEqual([Infinity, Infinity, Infinity, Infinity, Infinity, Infinity, Infinity, Infinity, Infinity]);
+      expect(costs[7]).toEqual([
+        Infinity,
+        Infinity,
+        Infinity,
+        Infinity,
+        Infinity,
+        Infinity,
+        Infinity,
+        Infinity,
+        Infinity
+      ]);
       expect(costs[8]).toEqual([173, 185, 170, 187, 205, Infinity, 97, Infinity, 176]);
 
       expect(predecessor).toBeInstanceOf(Array);
@@ -369,7 +389,7 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
 
     expect(dijkstraRes12tt).toBeTruthy();
     if (dijkstraRes12tt) {
-      const {distMap, minDist, minPath, paths} = dijkstraRes12tt;
+      const { distMap, minDist, minPath, paths } = dijkstraRes12tt;
       expect(distMap).toBeInstanceOf(Map);
       expect(distMap.size).toBe(9);
       expect(distMap.get(vertex1)).toBe(0);
@@ -420,7 +440,7 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
 
     expect(dijkstraRes1ntt).toBeTruthy();
     if (dijkstraRes1ntt) {
-      const {distMap, minDist, minPath, paths} = dijkstraRes1ntt;
+      const { distMap, minDist, minPath, paths } = dijkstraRes1ntt;
       expect(distMap).toBeInstanceOf(Map);
       expect(distMap.size).toBe(9);
       expect(distMap.get(vertex1)).toBe(0);
@@ -482,7 +502,7 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
     const dijkstraWithoutHeapRes1ntt = myGraph.dijkstraWithoutHeap(1, null, true, true);
     expect(dijkstraWithoutHeapRes1ntt).toBeTruthy();
     if (dijkstraWithoutHeapRes1ntt) {
-      const {distMap, minDist, minPath, paths} = dijkstraWithoutHeapRes1ntt;
+      const { distMap, minDist, minPath, paths } = dijkstraWithoutHeapRes1ntt;
       expect(distMap).toBeInstanceOf(Map);
       expect(distMap.size).toBe(9);
       expect(distMap.get(vertex1)).toBe(0);

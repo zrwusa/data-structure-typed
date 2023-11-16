@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type {Thunk, ToThunkFn, TrlAsyncFn, TrlFn} from '../types';
+import type { Thunk, ToThunkFn, TrlAsyncFn, TrlFn } from '../types';
 
 export const uuidV4 = function () {
   return 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'.replace(/[x]/g, function (c) {
@@ -57,7 +57,7 @@ export const trampoline = (fn: TrlFn) => {
 
       return result;
     },
-    {cont}
+    { cont }
   );
 };
 
@@ -74,7 +74,7 @@ export const trampolineAsync = (fn: TrlAsyncFn) => {
 
       return result;
     },
-    {cont}
+    { cont }
   );
 };
 
@@ -87,13 +87,13 @@ export const getMSB = (value: number): number => {
 
 export const rangeCheck = (index: number, min: number, max: number, message = 'Index out of bounds.'): void => {
   if (index < min || index > max) throw new RangeError(message);
-}
+};
 
 export const throwRangeError = (message = 'The value is off-limits.'): void => {
   throw new RangeError(message);
-}
+};
 
 export const isObjOrFunc = (input: unknown): input is Record<string, unknown> | ((...args: any[]) => any) => {
   const inputType = typeof input;
   return (inputType === 'object' && input !== null) || inputType === 'function';
-}
+};

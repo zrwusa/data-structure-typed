@@ -1,10 +1,10 @@
-import {BinaryTree} from '../../../../src';
+import { BinaryTree } from '../../../../src';
 import * as Benchmark from 'benchmark';
-import {getRandomIntArray, magnitude} from '../../../utils';
+import { getRandomIntArray, magnitude } from '../../../utils';
 
 const suite = new Benchmark.Suite();
 const biTree = new BinaryTree<number>();
-const {N_LOG_N} = magnitude;
+const { N_LOG_N } = magnitude;
 const arr = getRandomIntArray(N_LOG_N, 0, N_LOG_N, true);
 
 suite
@@ -42,4 +42,4 @@ suite
     for (let i = 0; i < N_LOG_N; i++) biTree.morris(n => n, 'pre');
   });
 
-export {suite};
+export { suite };

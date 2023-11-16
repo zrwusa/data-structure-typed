@@ -1,5 +1,5 @@
-import {RedBlackTreeNode} from '../../../data-structures';
-import {BSTOptions} from "./bst";
+import { RedBlackTreeNode } from '../../../data-structures';
+import { BSTOptions } from "./bst";
 
 export enum RBTNColor { RED = 1, BLACK = 0}
 

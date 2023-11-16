@@ -1,4 +1,4 @@
-import {MinPriorityQueue} from '../../../../src';
+import { MinPriorityQueue } from '../../../../src';
 
 describe('MinPriorityQueue Operation Test', () => {
   it('should check if a node exists in the queue', () => {

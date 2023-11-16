@@ -1,4 +1,4 @@
-import {DoublyLinkedList, DoublyLinkedListNode} from '../../../../src';
+import { DoublyLinkedList, DoublyLinkedListNode } from '../../../../src';
 
 describe('DoublyLinkedListNode', () => {
   it('should DoublyLinkedListNode', () => {
@@ -60,7 +60,7 @@ describe('DoublyLinkedList Operation Test', () => {
 
 describe('DoublyLinkedList Operation Test', () => {
   let list: DoublyLinkedList<number>;
-  let objectList: DoublyLinkedList<{keyA: number}>;
+  let objectList: DoublyLinkedList<{ keyA: number }>;
 
   beforeEach(() => {
     list = new DoublyLinkedList();
@@ -370,9 +370,9 @@ describe('DoublyLinkedList Operation Test', () => {
   });
 
   it('should insert and manipulate objects with numeric properties', () => {
-    const obj1 = {keyA: 10};
-    const obj2 = {keyA: 20};
-    const obj3 = {keyA: 30};
+    const obj1 = { keyA: 10 };
+    const obj2 = { keyA: 20 };
+    const obj3 = { keyA: 30 };
 
     objectList.push(obj1);
     objectList.push(obj2);
@@ -380,7 +380,7 @@ describe('DoublyLinkedList Operation Test', () => {
 
     expect(objectList.toArray()).toEqual([obj1, obj2, obj3]);
 
-    const newObj = {keyA: 25}; // Corrected newObj value
+    const newObj = { keyA: 25 }; // Corrected newObj value
     const insertSuccess = objectList.insertBefore(obj2, newObj);
     expect(insertSuccess).toBe(true);
 

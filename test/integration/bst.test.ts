@@ -1,4 +1,4 @@
-import {BST, BSTNode, CP} from 'bst-typed';
+import { BST, BSTNode, CP } from 'bst-typed';
 
 describe('Individual package BST operations test', () => {
   it('should perform various operations on a Binary Search Tree with numeric values', () => {
@@ -183,25 +183,25 @@ describe('Individual package BST operations test', () => {
   });
 
   it('should perform various operations on a Binary Search Tree with object values', () => {
-    const objBST = new BST<{key: number; keyA: number}>();
+    const objBST = new BST<{ key: number; keyA: number }>();
     expect(objBST).toBeInstanceOf(BST);
-    objBST.add(11, {key: 11, keyA: 11});
-    objBST.add(3, {key: 3, keyA: 3});
+    objBST.add(11, { key: 11, keyA: 11 });
+    objBST.add(3, { key: 3, keyA: 3 });
     const values = [
-      {key: 15, keyA: 15},
-      {key: 1, keyA: 1},
-      {key: 8, keyA: 8},
-      {key: 13, keyA: 13},
-      {key: 16, keyA: 16},
-      {key: 2, keyA: 2},
-      {key: 6, keyA: 6},
-      {key: 9, keyA: 9},
-      {key: 12, keyA: 12},
-      {key: 14, keyA: 14},
-      {key: 4, keyA: 4},
-      {key: 7, keyA: 7},
-      {key: 10, keyA: 10},
-      {key: 5, keyA: 5}
+      { key: 15, keyA: 15 },
+      { key: 1, keyA: 1 },
+      { key: 8, keyA: 8 },
+      { key: 13, keyA: 13 },
+      { key: 16, keyA: 16 },
+      { key: 2, keyA: 2 },
+      { key: 6, keyA: 6 },
+      { key: 9, keyA: 9 },
+      { key: 12, keyA: 12 },
+      { key: 14, keyA: 14 },
+      { key: 4, keyA: 4 },
+      { key: 7, keyA: 7 },
+      { key: 10, keyA: 10 },
+      { key: 5, keyA: 5 }
     ];
 
     objBST.addMany(
@@ -230,7 +230,7 @@ describe('Individual package BST operations test', () => {
     expect(leftMost?.key).toBe(1);
 
     const node15 = objBST.getNode(15);
-    expect(node15?.value).toEqual({key: 15, keyA: 15});
+    expect(node15?.value).toEqual({ key: 15, keyA: 15 });
     const minNodeBySpecificNode = node15 && objBST.getLeftMost(node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
 

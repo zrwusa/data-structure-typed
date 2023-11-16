@@ -1,5 +1,5 @@
-import {TreeMultimapNode} from '../../../data-structures';
-import {AVLTreeOptions} from './avl-tree';
+import { TreeMultimapNode } from '../../../data-structures';
+import { AVLTreeOptions } from './avl-tree';
 
 export type TreeMultimapNodeNested<T> = TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, TreeMultimapNode<T, any>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 

@@ -1,4 +1,4 @@
-import {MapEdge, MapGraph, MapVertex} from '../../../../src';
+import { MapEdge, MapGraph, MapVertex } from '../../../../src';
 
 describe('MapGraph Operation Test', () => {
   it('dijkstra shortest path', () => {

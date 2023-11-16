@@ -1,4 +1,4 @@
-import {SinglyLinkedList, SinglyLinkedListNode} from '../../../../src';
+import { SinglyLinkedList, SinglyLinkedListNode } from '../../../../src';
 
 describe('SinglyLinkedListNode', () => {
   it('should SinglyLinkedList', () => {
@@ -11,10 +11,10 @@ describe('SinglyLinkedListNode', () => {
 
 describe('SinglyLinkedList Operation Test', () => {
   let list: SinglyLinkedList<number>;
-  let objectList: SinglyLinkedList<{keyA: number}>;
+  let objectList: SinglyLinkedList<{ keyA: number }>;
   beforeEach(() => {
     list = new SinglyLinkedList<number>();
-    objectList = new SinglyLinkedList<{keyA: number}>();
+    objectList = new SinglyLinkedList<{ keyA: number }>();
   });
 
   describe('push', () => {
@@ -366,9 +366,9 @@ describe('SinglyLinkedList Operation Test', () => {
   });
 
   it('should insert and manipulate objects with numeric properties', () => {
-    const obj1 = {keyA: 1};
-    const obj2 = {keyA: 2};
-    const obj3 = {keyA: 3};
+    const obj1 = { keyA: 1 };
+    const obj2 = { keyA: 2 };
+    const obj3 = { keyA: 3 };
 
     objectList.push(obj1);
     objectList.push(obj2);
@@ -376,7 +376,7 @@ describe('SinglyLinkedList Operation Test', () => {
 
     expect(objectList.toArray()).toEqual([obj1, obj2, obj3]);
 
-    const newObj = {keyA: 2.5}; // Corrected newObj value
+    const newObj = { keyA: 2.5 }; // Corrected newObj value
     const insertSuccess = objectList.insertBefore(obj2, newObj);
     expect(insertSuccess).toBe(true);
 

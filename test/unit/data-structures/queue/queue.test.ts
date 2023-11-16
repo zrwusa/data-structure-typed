@@ -1,6 +1,6 @@
-import {LinkedListQueue, Queue} from '../../../../src';
-import {bigO} from '../../../utils';
-import {isDebugTest} from '../../../config';
+import { LinkedListQueue, Queue } from '../../../../src';
+import { bigO } from '../../../utils';
+import { isDebugTest } from '../../../config';
 
 const isDebug = isDebugTest;
 describe('Queue Operation Test', () => {

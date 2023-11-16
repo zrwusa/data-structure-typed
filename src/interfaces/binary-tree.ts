@@ -1,5 +1,5 @@
-import {BinaryTreeNode} from '../data-structures';
-import {BinaryTreeNodeNested, BiTreeDeleteResult, BTNCallback, BTNKey} from '../types';
+import { BinaryTreeNode } from '../data-structures';
+import { BinaryTreeNodeNested, BiTreeDeleteResult, BTNCallback, BTNKey } from '../types';
 
 export interface IBinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNodeNested<V>> {
   createNode(key: BTNKey, value?: N['value']): N;

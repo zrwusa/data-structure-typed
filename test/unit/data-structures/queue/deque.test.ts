@@ -1,6 +1,6 @@
-import {ArrayDeque, Deque, ObjectDeque} from '../../../../src';
-import {bigO} from '../../../utils';
-import {isDebugTest} from '../../../config';
+import { ArrayDeque, Deque, ObjectDeque } from '../../../../src';
+import { bigO } from '../../../utils';
+import { isDebugTest } from '../../../config';
 
 const isDebug = isDebugTest;
 describe('Deque Tests', () => {

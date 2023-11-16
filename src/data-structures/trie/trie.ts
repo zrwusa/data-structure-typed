@@ -164,7 +164,7 @@ export class Trie {
         if (level > maxDepth) {
           maxDepth = level;
         }
-        const {children} = node;
+        const { children } = node;
         if (children) {
           for (const child of children.entries()) {
             bfs(child[1], level + 1);

@@ -5,10 +5,10 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import {BST, BSTNode} from './bst';
-import type {AVLTreeNodeNested, AVLTreeOptions, BiTreeDeleteResult, BTNKey} from '../../types';
-import {BTNCallback} from '../../types';
-import {IBinaryTree} from '../../interfaces';
+import { BST, BSTNode } from './bst';
+import type { AVLTreeNodeNested, AVLTreeOptions, BiTreeDeleteResult, BTNKey } from '../../types';
+import { BTNCallback } from '../../types';
+import { IBinaryTree } from '../../interfaces';
 
 export class AVLTreeNode<V = any, N extends AVLTreeNode<V, N> = AVLTreeNodeNested<V>> extends BSTNode<V, N> {
   height: number;
@@ -21,7 +21,8 @@ export class AVLTreeNode<V = any, N extends AVLTreeNode<V, N> = AVLTreeNodeNeste
 
 export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTreeNodeNested<V>>>
   extends BST<V, N>
-  implements IBinaryTree<V, N> {
+  implements IBinaryTree<V, N>
+{
   /**
    * This is a constructor function for an AVL tree data structure in TypeScript.
    * @param {AVLTreeOptions} [options] - The `options` parameter is an optional object that can be passed to the
@@ -95,7 +96,7 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
   ): BiTreeDeleteResult<N>[] {
     if ((identifier as any) instanceof AVLTreeNode) callback = (node => node) as C;
     const deletedResults = super.delete(identifier, callback);
-    for (const {needBalanced} of deletedResults) {
+    for (const { needBalanced } of deletedResults) {
       if (needBalanced) {
         this._balancePath(needBalanced);
       }
@@ -118,7 +119,7 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
     destNode = this.ensureNotKey(destNode);
 
     if (srcNode && destNode) {
-      const {key, value, height} = destNode;
+      const { key, value, height } = destNode;
       const tempNode = this.createNode(key, value);
 
       if (tempNode) {

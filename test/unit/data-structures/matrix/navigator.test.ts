@@ -1,5 +1,5 @@
-import {Character, Navigator, NavigatorParams, Turning} from '../../../../src';
-import {isDebugTest} from '../../../config';
+import { Character, Navigator, NavigatorParams, Turning } from '../../../../src';
+import { isDebugTest } from '../../../config';
 
 const isDebug = isDebugTest;
 const exampleMatrix: number[][] = [

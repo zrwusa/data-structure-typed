@@ -1,12 +1,12 @@
-import {RedBlackTree} from '../../../../src';
+import { RedBlackTree } from '../../../../src';
 import * as Benchmark from 'benchmark';
-import {getRandomIntArray, magnitude} from '../../../utils';
-import {OrderedMap} from 'js-sdsl';
-import {isCompetitor} from '../../../config';
+import { getRandomIntArray, magnitude } from '../../../utils';
+import { OrderedMap } from 'js-sdsl';
+import { isCompetitor } from '../../../config';
 
 const suite = new Benchmark.Suite();
 const rbTree = new RedBlackTree();
-const {HUNDRED_THOUSAND} = magnitude;
+const { HUNDRED_THOUSAND } = magnitude;
 const arr = getRandomIntArray(HUNDRED_THOUSAND, 0, HUNDRED_THOUSAND, true);
 const competitor = new OrderedMap<number, number>();
 
@@ -41,4 +41,4 @@ suite
     }
   });
 
-export {suite};
+export { suite };

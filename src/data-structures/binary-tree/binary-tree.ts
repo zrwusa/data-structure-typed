@@ -6,11 +6,11 @@
  * @license MIT License
  */
 
-import type {BinaryTreeNodeNested, BinaryTreeOptions, BTNCallback, BTNKey} from '../../types';
-import {BiTreeDeleteResult, DFSOrderPattern, FamilyPosition, IterationType} from '../../types';
-import {IBinaryTree} from '../../interfaces';
-import {trampoline} from '../../utils';
-import {Queue} from '../queue';
+import type { BinaryTreeNodeNested, BinaryTreeOptions, BTNCallback, BTNKey } from '../../types';
+import { BiTreeDeleteResult, DFSOrderPattern, FamilyPosition, IterationType } from '../../types';
+import { IBinaryTree } from '../../interfaces';
+import { trampoline } from '../../utils';
+import { Queue } from '../queue';
 
 /**
  * Represents a node in a binary tree.
@@ -107,7 +107,9 @@ export class BinaryTreeNode<V = any, N extends BinaryTreeNode<V, N> = BinaryTree
  * Represents a binary tree data structure.
  * @template N - The type of the binary tree's nodes.
  */
-export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode<V, BinaryTreeNodeNested<V>>> implements IBinaryTree<V, N> {
+export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode<V, BinaryTreeNodeNested<V>>>
+  implements IBinaryTree<V, N>
+{
   iterationType: IterationType = IterationType.ITERATIVE;
 
   /**
@@ -116,7 +118,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    */
   constructor(options?: BinaryTreeOptions) {
     if (options) {
-      const {iterationType = IterationType.ITERATIVE} = options;
+      const { iterationType = IterationType.ITERATIVE } = options;
       this.iterationType = iterationType;
     }
     this._size = 0;
@@ -315,7 +317,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
         // Handle the case when there's only one root node
         this._setRoot(null);
       } else {
-        const {familyPosition: fp} = curr;
+        const { familyPosition: fp } = curr;
         if (fp === FamilyPosition.LEFT || fp === FamilyPosition.ROOT_LEFT) {
           parent.left = curr.right;
         } else if (fp === FamilyPosition.RIGHT || fp === FamilyPosition.ROOT_RIGHT) {
@@ -330,7 +332,8 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
           const parentOfLeftSubTreeMax = leftSubTreeRightMost.parent;
           orgCurrent = this._swap(curr, leftSubTreeRightMost);
           if (parentOfLeftSubTreeMax) {
-            if (parentOfLeftSubTreeMax.right === leftSubTreeRightMost) parentOfLeftSubTreeMax.right = leftSubTreeRightMost.left;
+            if (parentOfLeftSubTreeMax.right === leftSubTreeRightMost)
+              parentOfLeftSubTreeMax.right = leftSubTreeRightMost.left;
             else parentOfLeftSubTreeMax.left = leftSubTreeRightMost.left;
             needBalanced = parentOfLeftSubTreeMax;
           }
@@ -339,7 +342,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     }
     this._size = this.size - 1;
 
-    deletedResult.push({deleted: orgCurrent, needBalanced});
+    deletedResult.push({ deleted: orgCurrent, needBalanced });
     return deletedResult;
   }
 
@@ -409,14 +412,14 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
 
       return _getMaxHeight(beginRoot);
     } else {
-      const stack: {node: N; depth: number}[] = [{node: beginRoot, depth: 0}];
+      const stack: { node: N; depth: number }[] = [{ node: beginRoot, depth: 0 }];
       let maxHeight = 0;
 
       while (stack.length > 0) {
-        const {node, depth} = stack.pop()!;
+        const { node, depth } = stack.pop()!;
 
-        if (node.left) stack.push({node: node.left, depth: depth + 1});
-        if (node.right) stack.push({node: node.right, depth: depth + 1});
+        if (node.left) stack.push({ node: node.left, depth: depth + 1 });
+        if (node.right) stack.push({ node: node.right, depth: depth + 1 });
 
         maxHeight = Math.max(maxHeight, depth);
       }
@@ -912,7 +915,10 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * @returns The function `getLeftMost` returns the leftmost node (`N`) in the binary tree. If there
    * is no leftmost node, it returns `null` or `undefined` depending on the input.
    */
-  getLeftMost(beginRoot: BTNKey | N | null | undefined = this.root, iterationType = this.iterationType): N | null | undefined {
+  getLeftMost(
+    beginRoot: BTNKey | N | null | undefined = this.root,
+    iterationType = this.iterationType
+  ): N | null | undefined {
     beginRoot = this.ensureNotKey(beginRoot);
 
     if (!beginRoot) return beginRoot;
@@ -955,7 +961,10 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * @returns The function `getRightMost` returns the rightmost node (`N`) in a binary tree. If there
    * is no rightmost node, it returns `null` or `undefined`, depending on the input.
    */
-  getRightMost(beginRoot: BTNKey | N | null | undefined = this.root, iterationType = this.iterationType): N | null | undefined {
+  getRightMost(
+    beginRoot: BTNKey | N | null | undefined = this.root,
+    iterationType = this.iterationType
+  ): N | null | undefined {
     // TODO support get right most by passing key in
     beginRoot = this.ensureNotKey(beginRoot);
     if (!beginRoot) return beginRoot;
@@ -1284,7 +1293,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
       _traverse(beginRoot);
     } else {
       // 0: visit, 1: print
-      const stack: {opt: 0 | 1; node: N | null | undefined}[] = [{opt: 0, node: beginRoot}];
+      const stack: { opt: 0 | 1; node: N | null | undefined }[] = [{ opt: 0, node: beginRoot }];
 
       while (stack.length > 0) {
         const cur = stack.pop();
@@ -1299,24 +1308,24 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
         } else {
           switch (pattern) {
             case 'in':
-              cur.node && stack.push({opt: 0, node: cur.node.right});
-              stack.push({opt: 1, node: cur.node});
-              cur.node && stack.push({opt: 0, node: cur.node.left});
+              cur.node && stack.push({ opt: 0, node: cur.node.right });
+              stack.push({ opt: 1, node: cur.node });
+              cur.node && stack.push({ opt: 0, node: cur.node.left });
               break;
             case 'pre':
-              cur.node && stack.push({opt: 0, node: cur.node.right});
-              cur.node && stack.push({opt: 0, node: cur.node.left});
-              stack.push({opt: 1, node: cur.node});
+              cur.node && stack.push({ opt: 0, node: cur.node.right });
+              cur.node && stack.push({ opt: 0, node: cur.node.left });
+              stack.push({ opt: 1, node: cur.node });
               break;
             case 'post':
-              stack.push({opt: 1, node: cur.node});
-              cur.node && stack.push({opt: 0, node: cur.node.right});
-              cur.node && stack.push({opt: 0, node: cur.node.left});
+              stack.push({ opt: 1, node: cur.node });
+              cur.node && stack.push({ opt: 0, node: cur.node.right });
+              cur.node && stack.push({ opt: 0, node: cur.node.left });
               break;
             default:
-              cur.node && stack.push({opt: 0, node: cur.node.right});
-              stack.push({opt: 1, node: cur.node});
-              cur.node && stack.push({opt: 0, node: cur.node.left});
+              cur.node && stack.push({ opt: 0, node: cur.node.right });
+              stack.push({ opt: 1, node: cur.node });
+              cur.node && stack.push({ opt: 0, node: cur.node.left });
               break;
           }
         }
@@ -1798,7 +1807,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     destNode = this.ensureNotKey(destNode);
 
     if (srcNode && destNode) {
-      const {key, value} = destNode;
+      const { key, value } = destNode;
       const tempNode = this.createNode(key, value);
 
       if (tempNode) {

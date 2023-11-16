@@ -1,6 +1,6 @@
-import {BinaryTree, BinaryTreeNode, IterationType} from '../../../../src';
-import {getRandomIntArray} from '../../../utils';
-import {FamilyPosition} from 'binary-tree-typed';
+import { BinaryTree, BinaryTreeNode, IterationType } from '../../../../src';
+import { getRandomIntArray } from '../../../utils';
+import { FamilyPosition } from 'binary-tree-typed';
 // import {isDebugTest} from '../../../config';
 
 // const isDebug = isDebugTest;
@@ -242,8 +242,12 @@ describe('BinaryTree', () => {
     tree.addMany([4, 2, 6, null, 1, 3, null, 5, null, 7]);
     expect(tree.subTreeTraverse(node => node.key, tree.getNode(6), IterationType.ITERATIVE)).toEqual([6, 3, 7]);
     expect(tree.subTreeTraverse(node => node.key, tree.getNode(6), IterationType.RECURSIVE)).toEqual([6, 3, 7]);
-    expect(tree.subTreeTraverse(node => (node ? node.key : null), tree.getNode(6), IterationType.ITERATIVE, true)).toEqual([6, 3, 7, null]);
-    expect(tree.subTreeTraverse(node => (node ? node.key : null), tree.getNode(6), IterationType.RECURSIVE, true)).toEqual([6, 3, 7, null]);
+    expect(
+      tree.subTreeTraverse(node => (node ? node.key : null), tree.getNode(6), IterationType.ITERATIVE, true)
+    ).toEqual([6, 3, 7, null]);
+    expect(
+      tree.subTreeTraverse(node => (node ? node.key : null), tree.getNode(6), IterationType.RECURSIVE, true)
+    ).toEqual([6, 3, 7, null]);
   });
 
   it('should clear the tree', () => {
@@ -315,81 +319,41 @@ describe('BinaryTree traversals', () => {
 
   const arr = [35, 20, 40, 15, 29, null, 50, null, 16, 28, 30, 45, 55];
   tree.refill(arr);
-  expect(tree.bfs(node => node, tree.root, IterationType.ITERATIVE, true).map(node => (node ? node.key : null))).toEqual([
-    35,
-    20,
-    40,
-    15,
-    29,
-    null,
-    50,
-    null,
-    16,
-    28,
-    30,
-    45,
-    55
-  ]);
-  expect(tree.bfs(node => node, tree.root, IterationType.RECURSIVE, true).map(node => (node ? node.key : null))).toEqual([
-    35,
-    20,
-    40,
-    15,
-    29,
-    null,
-    50,
-    null,
-    16,
-    28,
-    30,
-    45,
-    55
-  ]);
-  expect(tree.bfs(node => node, tree.root, IterationType.ITERATIVE).map(node => (node === null ? null : node.key))).toEqual([
-    35, 20, 40, 15, 29, 50, 16, 28, 30, 45, 55
-  ]);
-  expect(tree.bfs(node => node, tree.root, IterationType.RECURSIVE).map(node => (node === null ? null : node.key))).toEqual([
-    35, 20, 40, 15, 29, 50, 16, 28, 30, 45, 55
-  ]);
+  expect(
+    tree.bfs(node => node, tree.root, IterationType.ITERATIVE, true).map(node => (node ? node.key : null))
+  ).toEqual([35, 20, 40, 15, 29, null, 50, null, 16, 28, 30, 45, 55]);
+  expect(
+    tree.bfs(node => node, tree.root, IterationType.RECURSIVE, true).map(node => (node ? node.key : null))
+  ).toEqual([35, 20, 40, 15, 29, null, 50, null, 16, 28, 30, 45, 55]);
+  expect(
+    tree.bfs(node => node, tree.root, IterationType.ITERATIVE).map(node => (node === null ? null : node.key))
+  ).toEqual([35, 20, 40, 15, 29, 50, 16, 28, 30, 45, 55]);
+  expect(
+    tree.bfs(node => node, tree.root, IterationType.RECURSIVE).map(node => (node === null ? null : node.key))
+  ).toEqual([35, 20, 40, 15, 29, 50, 16, 28, 30, 45, 55]);
 
   expect(tree.dfs(node => node.key, 'pre')).toEqual([35, 20, 15, 16, 29, 28, 30, 40, 50, 45, 55]);
-  expect(tree.dfs(node => node.key, 'pre', tree.root, IterationType.RECURSIVE)).toEqual([35, 20, 15, 16, 29, 28, 30, 40, 50, 45, 55]);
-  expect(tree.dfs(node => node, 'pre', tree.root, IterationType.ITERATIVE, true).map(node => (node ? node.key : null))).toEqual([
-    35,
-    20,
-    15,
-    null,
-    16,
-    29,
-    28,
-    30,
-    40,
-    null,
-    50,
-    45,
-    55
+  expect(tree.dfs(node => node.key, 'pre', tree.root, IterationType.RECURSIVE)).toEqual([
+    35, 20, 15, 16, 29, 28, 30, 40, 50, 45, 55
   ]);
-  expect(tree.dfs(node => node, 'pre', tree.root, IterationType.RECURSIVE, true).map(node => (node ? node.key : null))).toEqual([
-    35,
-    20,
-    15,
-    null,
-    16,
-    29,
-    28,
-    30,
-    40,
-    null,
-    50,
-    45,
-    55
-  ]);
+  expect(
+    tree.dfs(node => node, 'pre', tree.root, IterationType.ITERATIVE, true).map(node => (node ? node.key : null))
+  ).toEqual([35, 20, 15, null, 16, 29, 28, 30, 40, null, 50, 45, 55]);
+  expect(
+    tree.dfs(node => node, 'pre', tree.root, IterationType.RECURSIVE, true).map(node => (node ? node.key : null))
+  ).toEqual([35, 20, 15, null, 16, 29, 28, 30, 40, null, 50, 45, 55]);
 
   expect(tree.dfs(node => node.key, 'in')).toEqual([15, 16, 20, 28, 29, 30, 35, 40, 45, 50, 55]);
   expect(tree.dfs(node => node.key, 'post')).toEqual([16, 15, 28, 30, 29, 20, 45, 55, 50, 40, 35]);
-  expect(tree.dfs(node => node.key, 'post', tree.root, IterationType.RECURSIVE)).toEqual([16, 15, 28, 30, 29, 20, 45, 55, 50, 40, 35]);
-  expect(tree.bfs(node => node.key, tree.root, IterationType.RECURSIVE)).toEqual([35, 20, 40, 15, 29, 50, 16, 28, 30, 45, 55]);
-  expect(tree.bfs(node => node.key, tree.root, IterationType.ITERATIVE)).toEqual([35, 20, 40, 15, 29, 50, 16, 28, 30, 45, 55]);
+  expect(tree.dfs(node => node.key, 'post', tree.root, IterationType.RECURSIVE)).toEqual([
+    16, 15, 28, 30, 29, 20, 45, 55, 50, 40, 35
+  ]);
+  expect(tree.bfs(node => node.key, tree.root, IterationType.RECURSIVE)).toEqual([
+    35, 20, 40, 15, 29, 50, 16, 28, 30, 45, 55
+  ]);
+  expect(tree.bfs(node => node.key, tree.root, IterationType.ITERATIVE)).toEqual([
+    35, 20, 40, 15, 29, 50, 16, 28, 30, 45, 55
+  ]);
 
   expect(tree.listLevels(node => node.key)).toEqual([[35], [20, 40], [15, 29, 50], [16, 28, 30, 45, 55]]);
 
@@ -417,7 +381,7 @@ describe('BinaryTree', () => {
   let tree: BinaryTree<string>;
 
   beforeEach(() => {
-    tree = new BinaryTree<string>({iterationType: IterationType.RECURSIVE});
+    tree = new BinaryTree<string>({ iterationType: IterationType.RECURSIVE });
   });
 
   afterEach(() => {
@@ -560,7 +524,13 @@ describe('BinaryTree', () => {
     expect(nodes.length).toBe(1);
     expect(nodes[0].key).toBe(3);
 
-    const nodesRec = tree.getNodes('B', (node: BinaryTreeNode<string>) => node.value, false, tree.root, IterationType.RECURSIVE);
+    const nodesRec = tree.getNodes(
+      'B',
+      (node: BinaryTreeNode<string>) => node.value,
+      false,
+      tree.root,
+      IterationType.RECURSIVE
+    );
 
     expect(nodesRec.length).toBe(1);
     expect(nodesRec[0].key).toBe(3);

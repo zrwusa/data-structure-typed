@@ -1,4 +1,4 @@
-import {AbstractEdge, AbstractGraph, AbstractVertex, VertexKey} from '../../../../src';
+import { AbstractEdge, AbstractGraph, AbstractVertex, VertexKey } from '../../../../src';
 
 class MyVertex<V = any> extends AbstractVertex<V> {
   data?: V;
@@ -22,12 +22,12 @@ class MyEdge<E = any> extends AbstractEdge<E> {
   }
 }
 
-class MyGraph<V = any, E = any, VO extends MyVertex<V> = MyVertex<V>, EO extends MyEdge<E> = MyEdge<E>> extends AbstractGraph<
-  V,
-  E,
-  VO,
-  EO
-> {
+class MyGraph<
+  V = any,
+  E = any,
+  VO extends MyVertex<V> = MyVertex<V>,
+  EO extends MyEdge<E> = MyEdge<E>
+> extends AbstractGraph<V, E, VO, EO> {
   createVertex(key: VertexKey, value?: V): VO {
     return new MyVertex(key, value) as VO;
   }

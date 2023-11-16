@@ -1,5 +1,5 @@
-import {Matrix2D, Vector2D} from '../../../../src';
-import {isDebugTest} from '../../../config';
+import { Matrix2D, Vector2D } from '../../../../src';
+import { isDebugTest } from '../../../config';
 
 const isDebug = isDebugTest;
 describe('Matrix2D', () => {
@@ -288,7 +288,7 @@ describe('Matrix2D', () => {
     const vector = new Vector2D(2, 3);
     const result = Matrix2D.multiplyByVector(matrix, vector);
     isDebug && console.log(JSON.stringify(result));
-    expect(result).toEqual({x: 17, y: 35, w: 1});
+    expect(result).toEqual({ x: 17, y: 35, w: 1 });
   });
 
   it('should correctly create a view matrix', () => {

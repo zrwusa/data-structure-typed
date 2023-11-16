@@ -1,11 +1,11 @@
-import {HashMap} from '../../../../src';
-import {HashMap as CHashMap} from 'js-sdsl';
+import { HashMap } from '../../../../src';
+import { HashMap as CHashMap } from 'js-sdsl';
 import * as Benchmark from 'benchmark';
-import {magnitude} from '../../../utils';
-import {isCompetitor} from '../../../config';
+import { magnitude } from '../../../utils';
+import { isCompetitor } from '../../../config';
 
 const suite = new Benchmark.Suite();
-const {TEN_THOUSAND} = magnitude;
+const { TEN_THOUSAND } = magnitude;
 
 suite.add(`${TEN_THOUSAND.toLocaleString()} set`, () => {
   const hm = new HashMap<number, number>();
@@ -45,4 +45,4 @@ if (isCompetitor) {
     }
   });
 }
-export {suite};
+export { suite };

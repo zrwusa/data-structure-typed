@@ -1,4 +1,4 @@
-import {TreeNode} from '../../../../src';
+import { TreeNode } from '../../../../src';
 
 describe('TreeNode', () => {
   it('should create a TreeNode with the given key and value', () => {

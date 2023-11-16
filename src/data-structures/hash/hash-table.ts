@@ -18,7 +18,7 @@ export class HashTableNode<K, V> {
   }
 }
 
-import {HashFunction} from '../../types';
+import { HashFunction } from '../../types';
 
 export class HashTable<K, V> {
   protected static readonly DEFAULT_CAPACITY = 16;

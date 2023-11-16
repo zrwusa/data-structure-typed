@@ -1,4 +1,4 @@
-import {AVLTree, BST} from '../../../../src';
+import { AVLTree, BST } from '../../../../src';
 
 describe('Overall BinaryTree Test', () => {
   it('should perform various operations on BinaryTree', () => {
@@ -29,27 +29,27 @@ describe('Overall BinaryTree Test', () => {
     bfsIDs[0] === 11; // true
     expect(bfsIDs[0]).toBe(11);
 
-    const objBST = new BST<{key: number; keyA: number}>();
-    objBST.add(11, {key: 11, keyA: 11});
-    objBST.add(3, {key: 3, keyA: 3});
+    const objBST = new BST<{ key: number; keyA: number }>();
+    objBST.add(11, { key: 11, keyA: 11 });
+    objBST.add(3, { key: 3, keyA: 3 });
 
     objBST.addMany(
       [15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5],
       [
-        {key: 15, keyA: 15},
-        {key: 1, keyA: 1},
-        {key: 8, keyA: 8},
-        {key: 13, keyA: 13},
-        {key: 16, keyA: 16},
-        {key: 2, keyA: 2},
-        {key: 6, keyA: 6},
-        {key: 9, keyA: 9},
-        {key: 12, keyA: 12},
-        {key: 14, keyA: 14},
-        {key: 4, keyA: 4},
-        {key: 7, keyA: 7},
-        {key: 10, keyA: 10},
-        {key: 5, keyA: 5}
+        { key: 15, keyA: 15 },
+        { key: 1, keyA: 1 },
+        { key: 8, keyA: 8 },
+        { key: 13, keyA: 13 },
+        { key: 16, keyA: 16 },
+        { key: 2, keyA: 2 },
+        { key: 6, keyA: 6 },
+        { key: 9, keyA: 9 },
+        { key: 12, keyA: 12 },
+        { key: 14, keyA: 14 },
+        { key: 4, keyA: 4 },
+        { key: 7, keyA: 7 },
+        { key: 10, keyA: 10 },
+        { key: 5, keyA: 5 }
       ]
     );
 

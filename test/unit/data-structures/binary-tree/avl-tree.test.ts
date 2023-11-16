@@ -1,4 +1,4 @@
-import {AVLTree, AVLTreeNode, CP, IterationType} from '../../../../src';
+import { AVLTree, AVLTreeNode, CP, IterationType } from '../../../../src';
 
 describe('AVL Tree Test', () => {
   it('should perform various operations on a AVL Tree', () => {
@@ -112,7 +112,7 @@ describe('AVL Tree Test', () => {
 describe('AVL Tree Test recursively', () => {
   it('should perform various operations on a AVL Tree', () => {
     const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
-    const tree = new AVLTree<number>({iterationType: IterationType.RECURSIVE});
+    const tree = new AVLTree<number>({ iterationType: IterationType.RECURSIVE });
 
     for (const i of arr) tree.add(i, i);
 
@@ -219,7 +219,7 @@ describe('AVL Tree Test recursively', () => {
 });
 
 describe('AVLTree APIs test', () => {
-  const avl = new AVLTree<{id: number; text: string}>();
+  const avl = new AVLTree<{ id: number; text: string }>();
   beforeEach(() => {
     avl.clear();
   });
@@ -228,9 +228,9 @@ describe('AVLTree APIs test', () => {
     avl.add(1);
     const node2 = new AVLTreeNode(2);
     avl.add(node2);
-    const node3 = new AVLTreeNode(3, {id: 3, text: 'text3'});
+    const node3 = new AVLTreeNode(3, { id: 3, text: 'text3' });
     avl.add(node3);
-    avl.add(node3, {id: 3, text: 'text33'});
+    avl.add(node3, { id: 3, text: 'text33' });
 
     const bfsRes = avl.bfs(node => node.key);
     expect(bfsRes[0]).toBe(2);
@@ -268,7 +268,7 @@ describe('AVLTree', () => {
   });
 
   describe('BinaryTree APIs test', () => {
-    const avl = new AVLTree<{id: number; text: string}>();
+    const avl = new AVLTree<{ id: number; text: string }>();
     beforeEach(() => {
       avl.clear();
     });
@@ -277,9 +277,9 @@ describe('AVLTree', () => {
       avl.add(1);
       const node2 = new AVLTreeNode(2);
       avl.add(node2);
-      const node3 = new AVLTreeNode(3, {id: 3, text: 'text3'});
+      const node3 = new AVLTreeNode(3, { id: 3, text: 'text3' });
       avl.add(node3);
-      avl.add(node3, {id: 3, text: 'text33'});
+      avl.add(node3, { id: 3, text: 'text33' });
 
       const bfsRes = avl.bfs(node => node);
       expect(bfsRes[0]?.key).toBe(2);

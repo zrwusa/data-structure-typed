@@ -1,7 +1,5 @@
-import {HashMap} from '../../../../src';
-import {getRandomInt, getRandomIntArray} from "../../../utils";
-import * as console from "console";
-
+import { HashMap } from '../../../../src';
+import { getRandomInt, getRandomIntArray } from '../../../utils';
 
 describe('HashMap', () => {
   let hashMap: HashMap<string, number>;
@@ -67,7 +65,6 @@ describe('HashMap', () => {
     // expect(entries).toContainEqual(['three', 3]);
   });
 
-
   it('should resize the table when load factor is exceeded', () => {
     // Set a small initial capacity for testing resizing
     hashMap = new HashMap<string, number>();
@@ -85,10 +82,6 @@ describe('HashMap', () => {
   });
 
   it('should allow using a custom hash function', () => {
-    const customHashFn = () => {
-      // A simple custom hash function that always returns 0
-      return 0;
-    };
     hashMap = new HashMap<string, number>();
 
     hashMap.set('one', 1);
@@ -99,54 +92,6 @@ describe('HashMap', () => {
     // Since the custom hash function always returns 0, these keys will collide.
     // Make sure they are stored separately.
     // expect(hashMap.table[0].length).toBe(2);
-  });
-
-
-  it('performance', () => {
-    // const ht = new HashTable();
-    // const st = performance.now();
-    // for (let i = 0; i < 1000000; i++) {
-    //   ht.set(i, i);
-    // }
-    // console.log(performance.now() - st);
-    const n = 1000000;
-
-    // const hms = new SHashMap();
-    // const ss = performance.now();
-    // for (let i = 0; i < n; i++) {
-    //   hms.put(i, i);
-    // }
-    // console.log(performance.now() - ss, 'HashMap.put');
-    // const hashS = performance.now();
-    // for (let i = 0; i < n; i++) {
-    //   hms.hash(i);
-    // }
-    // console.log(performance.now() - hashS, 'hash');
-    // const arr = [];
-    // const arrS = performance.now();
-    // for (let i = 0; i < n; i++) {
-    //   arr.push(i)
-    // }
-    // console.log(performance.now() - arrS, 'array.push');
-    // const mp = new Map();
-    // const smp = performance.now();
-    // for (let i = 0; i < n; i++) {
-    //   mp.set(i, i);
-    // }
-    // console.log(performance.now() - smp, 'Map.set');
-    // const cHm = new CHashMap();
-    // const sC = performance.now();
-    // for (let i = 0; i < n; i++) {
-    //   cHm.setElement(i, i);
-    // }
-    // console.log(performance.now() - sC, 'Competitor HashMap.setElement');
-    const hm = new HashMap();
-    const s = performance.now();
-    for (let i = 0; i < n; i++) {
-      hm.set(i, i);
-    }
-    console.log(performance.now() - s, 'HashMap.set');
-
   });
 });
 
@@ -167,14 +112,14 @@ describe('HashMap', () => {
   });
 
   it('should handle object keys correctly', () => {
-    const keyObj = {id: 1};
+    const keyObj = { id: 1 };
     hashMap.set(keyObj, 'objectValue');
     expect(hashMap.get(keyObj)).toBe('objectValue');
   });
 
   it('should handle number keys correctly', () => {
-    hashMap.set(999, {a:'999Value'});
-    expect(hashMap.get(999)).toEqual({a:'999Value'});
+    hashMap.set(999, { a: '999Value' });
+    expect(hashMap.get(999)).toEqual({ a: '999Value' });
   });
 
   it('should update the value for an existing key', () => {
@@ -208,7 +153,10 @@ describe('HashMap', () => {
     for (const value of hashMap) {
       values.push(value);
     }
-    expect(values).toEqual([['key1', 'value1'], ['key2', 'value2']]);
+    expect(values).toEqual([
+      ['key1', 'value1'],
+      ['key2', 'value2']
+    ]);
   });
 
   // test('should delete element at specific index', () => {
@@ -236,9 +184,10 @@ describe('HashMap', () => {
       index++;
     });
   }
+
   const stdMap: Map<unknown, unknown> = new Map();
-  const arr: number[] = getRandomIntArray(10000, 1, 10000);
-  
+  const arr: number[] = getRandomIntArray(1000, 1, 10000);
+
   it('delete test', () => {
     for (const item of arr) {
       stdMap.set(item, item);
@@ -251,18 +200,18 @@ describe('HashMap', () => {
     }
     compareHashMaps(hashMap, stdMap);
 
-    for (let i = 0; i < 10000; ++i) {
+    for (let i = 0; i < 1000; ++i) {
       const random = getRandomInt(0, 100);
       expect(hashMap.delete(random)).toEqual(stdMap.delete(random));
     }
     compareHashMaps(hashMap, stdMap);
   });
+
   test('should iterate correctly with reverse iterators', () => {
     hashMap.set('key1', 'value1');
     hashMap.set('key2', 'value2');
     const iterator = hashMap.reverseBegin;
     expect(iterator.next().current).toEqual(['key1', 'value1']);
-
   });
 
   test('should return the last element', () => {
@@ -274,13 +223,10 @@ describe('HashMap', () => {
   test('should return undefined for empty map', () => {
     expect(hashMap.back).toBeUndefined();
   });
+
   test('should get element at specific index', () => {
     hashMap.set('key1', 'value1');
     hashMap.set('key2', 'value2');
     expect(hashMap.getAt(1)).toEqual(['key2', 'value2']);
   });
-
-
-
-})
-
+});

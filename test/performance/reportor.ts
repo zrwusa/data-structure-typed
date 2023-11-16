@@ -2,8 +2,8 @@ import * as Benchmark from 'benchmark';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as fastGlob from 'fast-glob';
-import {Color, numberFix, render} from '../utils';
-import {PerformanceTest} from './types';
+import { Color, numberFix, render } from '../utils';
+import { PerformanceTest } from './types';
 
 const parentDirectory = path.resolve(__dirname, '../..');
 const reportDistPath = path.join(parentDirectory, 'benchmark');
@@ -11,22 +11,22 @@ const reportDistPath = path.join(parentDirectory, 'benchmark');
 const testDir = path.join(__dirname, 'data-structures');
 const testFiles = fastGlob.sync(path.join(testDir, '**', '*.test.ts'));
 
-const report: {[key: string]: any} = {};
+const report: { [key: string]: any } = {};
 
 let completedCount = 0;
 
 const performanceTests: PerformanceTest[] = [];
-const {GREEN, BOLD, END, YELLOW, GRAY, CYAN, BG_YELLOW} = Color;
+const { GREEN, BOLD, END, YELLOW, GRAY, CYAN, BG_YELLOW } = Color;
 
 testFiles.forEach((file: string) => {
   const testName = path.basename(file, '.test.ts');
   const testFunction = require(file);
-  const {suite} = testFunction;
-  if (suite) performanceTests.push({testName, suite, file});
+  const { suite } = testFunction;
+  if (suite) performanceTests.push({ testName, suite, file });
 });
 
 const composeReport = () => {
-  if (!fs.existsSync(reportDistPath)) fs.mkdirSync(reportDistPath, {recursive: true});
+  if (!fs.existsSync(reportDistPath)) fs.mkdirSync(reportDistPath, { recursive: true });
 
   const filePath = path.join(reportDistPath, 'report.json');
   const htmlFilePath = path.join(reportDistPath, 'report.html');
@@ -85,9 +85,9 @@ const composeReport = () => {
           {
             '<>': 'tr',
             html: [
-              {'<>': 'td', html: '${name}'},
-              {'<>': 'td', html: '${periodMS}'},
-              {'<>': 'td', html: '${mean}'}
+              { '<>': 'td', html: '${name}' },
+              { '<>': 'td', html: '${periodMS}' },
+              { '<>': 'td', html: '${mean}' }
             ]
           }
         ]
@@ -142,7 +142,7 @@ function replaceMarkdownContent(startMarker: string, endMarker: string, newText:
 }
 
 performanceTests.forEach(item => {
-  const {suite, testName, file} = item;
+  const { suite, testName, file } = item;
   const relativeFilePath = path.relative(__dirname, file);
   const directory = path.dirname(relativeFilePath);
   const fileName = path.basename(relativeFilePath);
@@ -173,13 +173,15 @@ performanceTests.forEach(item => {
         console.log(
           // `Files: ${GREEN}${testFileCount}${END} `,
           // `Suites: ${GREEN}${performanceTests.length}${END} `,
-          `Suites Progress: ${isDone ? GREEN : YELLOW}${completedCount}${END}/${isDone ? GREEN : YELLOW}${performanceTests.length}${END}`,
+          `Suites Progress: ${isDone ? GREEN : YELLOW}${completedCount}${END}/${isDone ? GREEN : YELLOW}${
+            performanceTests.length
+          }${END}`,
           `Time: ${isTimeWarn ? YELLOW : GREEN}${runTime}s${END}`
         );
         if (isDone) {
           composeReport();
         }
       })
-      .run({async: false});
+      .run({ async: false });
   }
 });
