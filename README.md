@@ -71,13 +71,50 @@ const {
 } = dataStructureTyped;
 ```
 
+#### Binary Tree
+[Try it out](https://vivid-algorithm.vercel.app/), or you can execute your own code using our [visual tool](https://github.com/zrwusa/vivid-algorithm)
+
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/binary-tree-array-to-binary-tree.webp)
+
+
+
+#### Binary Tree DFS
+[Try it out](https://vivid-algorithm.vercel.app/), or you can execute your own code using our [visual tool](https://github.com/zrwusa/vivid-algorithm)
+
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/binary-tree-dfs-in-order.webp)
+
+
+
+#### AVL Tree
+[Try it out](https://vivid-algorithm.vercel.app/), or you can execute your own code using our [visual tool](https://github.com/zrwusa/vivid-algorithm)
+
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/avl-tree-test.webp)
-![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/tree-multimap-test.webp)
+
+
+#### Tree Multi Map
+[Try it out](https://vivid-algorithm.vercel.app/), or you can execute your own code using our [visual tool](https://github.com/zrwusa/vivid-algorithm)
+
+![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/tree-multiset-test.webp)
+
+
+
+#### Matrix
+[Try it out](https://vivid-algorithm.vercel.app/algorithm/graph/), or you can execute your own code using our [visual tool](https://github.com/zrwusa/vivid-algorithm)
+
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/matrix-cut-off-tree-for-golf.webp)
+
+
+#### Directed Graph
+[Try it out](https://vivid-algorithm.vercel.app/algorithm/graph/), or you can execute your own code using our [visual tool](https://github.com/zrwusa/vivid-algorithm)
+
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/directed-graph-test.webp)
+
+
+#### Map Graph
+[Try it out](https://vivid-algorithm.vercel.app/algorithm/graph/), or you can execute your own code using our [visual tool](https://github.com/zrwusa/vivid-algorithm)
+
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/map-graph-test.webp)
+
 
 
 ## Code Snippets
