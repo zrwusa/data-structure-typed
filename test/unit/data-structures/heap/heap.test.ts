@@ -1,5 +1,5 @@
-import { CHeap, FibonacciHeap, MaxHeap, MinHeap } from '../../../../src';
-import { calcRunTime, logBigOMetricsWrap } from '../../../utils';
+import { FibonacciHeap, MaxHeap, MinHeap } from '../../../../src';
+import { logBigOMetricsWrap } from '../../../utils';
 
 describe('Heap Operation Test', () => {
   it('should numeric heap work well', function () {
