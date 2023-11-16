@@ -1,8 +1,8 @@
 module.exports = {
   "parser": "@typescript-eslint/parser",
   "plugins": [
-    "import",
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "eslint-plugin-import"
   ],
   "extends": [
     "plugin:@typescript-eslint/recommended",
@@ -17,7 +17,7 @@ module.exports = {
     "@typescript-eslint/no-var-requires": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "lines-around-comment": [
-      "error",
+      "warn",
       {
         "beforeLineComment": false,
         "beforeBlockComment": true,
@@ -29,7 +29,7 @@ module.exports = {
     ],
     "newline-before-return": "off",
     "import/newline-after-import": [
-      "error",
+      "warn",
       {
         "count": 1
       }

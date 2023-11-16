@@ -40,8 +40,7 @@ export class RedBlackTreeNode<V = any, N extends RedBlackTreeNode<V, N> = RedBla
  */
 export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTreeNode<V, RedBlackTreeNodeNested<V>>>
   extends BST<V, N>
-  implements IBinaryTree<V, N>
-{
+  implements IBinaryTree<V, N> {
   NIL: N = new RedBlackTreeNode<V>(NaN) as unknown as N;
 
   /**

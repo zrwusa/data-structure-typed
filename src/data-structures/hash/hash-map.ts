@@ -459,7 +459,7 @@ export class HashMap<K = any, V = any> {
    *
    * The above function is an iterator that yields key-value pairs from a linked list.
    */
-  *[Symbol.iterator]() {
+  * [Symbol.iterator]() {
     let node = this._head;
     while (node !== this._sentinel) {
       yield <[K, V]>[node.key, node.value];

@@ -35,7 +35,7 @@
     console.error(e);
   }
   try {
-    const {AVLTree} = window.dataStructureTyped;
+    const { AVLTree } = window.dataStructureTyped;
     const avlTree = new AVLTree();
     const $avlTree = document.createElement('li');
     const $avlTreeSpan = document.createElement('span');
@@ -52,7 +52,7 @@
   }
 
   try {
-    const {BinaryTree} = dataStructureTyped;
+    const { BinaryTree } = dataStructureTyped;
     const tree = new BinaryTree();
     tree.add(3);
     tree.add(12);
@@ -76,8 +76,8 @@
 
 
   try {
-    const {OrderedMap} = sdsl;
-    const {RedBlackTree} = dataStructureTyped;
+    const { OrderedMap } = sdsl;
+    const { RedBlackTree } = dataStructureTyped;
     const cTree = new OrderedMap();
     const tree = new RedBlackTree();
     const tS = performance.now();
@@ -101,9 +101,9 @@
   }
 
   try {
-    const {PriorityQueue: CPriorityQueue} = sdsl;
-    const {PriorityQueue} = dataStructureTyped;
-    const pq = new PriorityQueue({comparator: (a, b) => b - a});
+    const { PriorityQueue: CPriorityQueue } = sdsl;
+    const { PriorityQueue } = dataStructureTyped;
+    const pq = new PriorityQueue({ comparator: (a, b) => b - a });
 
     const tS = performance.now();
 

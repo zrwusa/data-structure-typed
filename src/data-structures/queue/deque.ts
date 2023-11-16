@@ -9,7 +9,8 @@ import { DoublyLinkedList } from '../linked-list';
 
 // O(n) time complexity of obtaining the value
 // O(1) time complexity of adding at the beginning and the end
-export class Deque<E = any> extends DoublyLinkedList<E> {}
+export class Deque<E = any> extends DoublyLinkedList<E> {
+}
 
 // O(1) time complexity of obtaining the value
 // O(n) time complexity of adding at the beginning and the end

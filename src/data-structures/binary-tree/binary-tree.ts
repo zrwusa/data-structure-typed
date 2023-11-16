@@ -108,8 +108,7 @@ export class BinaryTreeNode<V = any, N extends BinaryTreeNode<V, N> = BinaryTree
  * @template N - The type of the binary tree's nodes.
  */
 export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode<V, BinaryTreeNodeNested<V>>>
-  implements IBinaryTree<V, N>
-{
+  implements IBinaryTree<V, N> {
   iterationType: IterationType = IterationType.ITERATIVE;
 
   /**
@@ -1695,7 +1694,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * @returns The `*[Symbol.iterator]` method returns a generator object that yields the keys of the
    * binary tree nodes in a specific order.
    */
-  *[Symbol.iterator](node = this.root): Generator<BTNKey, void, undefined> {
+  * [Symbol.iterator](node = this.root): Generator<BTNKey, void, undefined> {
     if (!node) {
       return;
     }

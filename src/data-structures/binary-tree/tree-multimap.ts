@@ -37,8 +37,7 @@ export class TreeMultimapNode<
  */
 export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultimapNode<V, TreeMultimapNodeNested<V>>>
   extends AVLTree<V, N>
-  implements IBinaryTree<V, N>
-{
+  implements IBinaryTree<V, N> {
   /**
    * The constructor function for a TreeMultimap class in TypeScript, which extends another class and sets an option to
    * merge duplicated values.

@@ -64,8 +64,7 @@ export abstract class AbstractGraph<
   E = any,
   VO extends AbstractVertex<V> = AbstractVertex<V>,
   EO extends AbstractEdge<E> = AbstractEdge<E>
-> implements IGraph<V, E, VO, EO>
-{
+> implements IGraph<V, E, VO, EO> {
   protected _vertices: Map<VertexKey, VO> = new Map<VertexKey, VO>();
 
   get vertices(): Map<VertexKey, VO> {
@@ -615,14 +614,14 @@ export abstract class AbstractGraph<
     }
 
     getMinDist &&
-      distMap.forEach((d, v) => {
-        if (v !== srcVertex) {
-          if (d < minDist) {
-            minDist = d;
-            if (genPaths) minDest = v;
-          }
+    distMap.forEach((d, v) => {
+      if (v !== srcVertex) {
+        if (d < minDist) {
+          minDist = d;
+          if (genPaths) minDest = v;
         }
-      });
+      }
+    });
 
     genPaths && getPaths(minDest);
 
