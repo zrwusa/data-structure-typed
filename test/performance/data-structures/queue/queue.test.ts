@@ -15,7 +15,7 @@ suite.add(`${LINEAR.toLocaleString()} push`, () => {
   }
 });
 if (isCompetitor) {
-  suite.add(`${LINEAR.toLocaleString()} competitor push`, () => {
+  suite.add(`${LINEAR.toLocaleString()} CPT push`, () => {
     const queue = new CQueue<number>();
 
     for (let i = 0; i < LINEAR; i++) {

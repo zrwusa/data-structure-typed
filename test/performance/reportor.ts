@@ -5,18 +5,46 @@ import * as fastGlob from 'fast-glob';
 import { Color, numberFix, render } from '../utils';
 import { PerformanceTest } from './types';
 
+
+const args = process.argv.slice(2);
+
+const { GREEN, BOLD, END, YELLOW, GRAY, CYAN, BG_YELLOW } = Color;
+
+const getRelativePath = (file: string) => {
+  return path.relative(__dirname, file);
+}
+const coloredLabeled = (label: string, file: string) => {
+  const relativeFilePath = getRelativePath(file);
+  const directory = path.dirname(relativeFilePath);
+  const fileName = path.basename(relativeFilePath);
+  return `${BG_YELLOW} ${label} ${END} ${GRAY}${directory}/${END}${CYAN}${fileName}${END}`;
+}
+
 const parentDirectory = path.resolve(__dirname, '../..');
 const reportDistPath = path.join(parentDirectory, 'benchmark');
 
 const testDir = path.join(__dirname, 'data-structures');
-const testFiles = fastGlob.sync(path.join(testDir, '**', '*.test.ts'));
+const allFiles = fastGlob.sync(path.join(testDir, '**', '*.test.ts'));
+let testFiles: string[] = [];
+if (args.length > 0) {
+  console.log(`arguments: ${args.join(' ')}`)
+
+  testFiles = allFiles.filter(file =>
+    args.every(word => file.includes(word))
+  );
+
+  console.log(`${testFiles.map(file => coloredLabeled('Matched', file)).join(`
+`)}`);
+} else {
+  testFiles = allFiles;
+}
+
 
 const report: { [key: string]: any } = {};
 
 let completedCount = 0;
 
 const performanceTests: PerformanceTest[] = [];
-const { GREEN, BOLD, END, YELLOW, GRAY, CYAN, BG_YELLOW } = Color;
 
 testFiles.forEach((file: string) => {
   const testName = path.basename(file, '.test.ts');
@@ -107,7 +135,7 @@ const composeReport = () => {
     htmlTables // New content to be inserted
   );
   fs.writeFileSync(htmlFilePath, html);
-  console.log(`Performance ${BOLD}${GREEN}report${END} file generated in ${BOLD}${GREEN}${reportDistPath}${END}`);
+  console.log(`Performance ${BOLD}${GREEN}report${END} file generated in file://${BOLD}${GREEN}${htmlFilePath}${END}`);
 };
 
 function replaceMarkdownContent(startMarker: string, endMarker: string, newText: string) {
@@ -135,7 +163,7 @@ function replaceMarkdownContent(startMarker: string, endMarker: string, newText:
       if (err) {
         console.error(`Unable to write to ${filePath}:`, err);
       } else {
-        console.log(`The content has been successfully replaced in ${BOLD}${GREEN}${filePath}!${END}`);
+        console.log(`The content has been successfully replaced in file://${BOLD}${GREEN}${filePath}${END}`);
       }
     });
   });
@@ -143,10 +171,8 @@ function replaceMarkdownContent(startMarker: string, endMarker: string, newText:
 
 performanceTests.forEach(item => {
   const { suite, testName, file } = item;
-  const relativeFilePath = path.relative(__dirname, file);
-  const directory = path.dirname(relativeFilePath);
-  const fileName = path.basename(relativeFilePath);
-  console.log(`${BG_YELLOW} Running ${END} ${GRAY}${directory}/${END}${CYAN}${fileName}${END}`);
+
+  console.log(coloredLabeled('Running', file));
 
   if (suite) {
     let runTime = 0;

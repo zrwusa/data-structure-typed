@@ -305,18 +305,28 @@ export class Heap<E = any> {
    * @param index - The index of the newly added element.
    */
   protected bubbleUp(index: number): void {
-    const element = this.nodes[index];
+    // const element = this.nodes[index];
+    // while (index > 0) {
+    //   const parentIndex = (index - 1) >> 1;
+    //   const parent = this.nodes[parentIndex];
+    //   if (this.comparator(element, parent) < 0) {
+    //     this.nodes[index] = parent;
+    //     this.nodes[parentIndex] = element;
+    //     index = parentIndex;
+    //   } else {
+    //     break;
+    //   }
+    // }
+
+    const item = this.nodes[index];
     while (index > 0) {
-      const parentIndex = Math.floor((index - 1) / 2);
-      const parent = this.nodes[parentIndex];
-      if (this.comparator(element, parent) < 0) {
-        this.nodes[index] = parent;
-        this.nodes[parentIndex] = element;
-        index = parentIndex;
-      } else {
-        break;
-      }
+      const parent = (index - 1) >> 1;
+      const parentItem = this.nodes[parent];
+      if (this.comparator(parentItem, item) <= 0) break;
+      this.nodes[index] = parentItem;
+      index = parent;
     }
+    this.nodes[index] = item;
   }
 
   /**
@@ -332,8 +342,8 @@ export class Heap<E = any> {
    * @param index - The index from which to start sinking.
    */
   protected sinkDown(index: number): void {
-    const leftChildIndex = 2 * index + 1;
-    const rightChildIndex = 2 * index + 2;
+    const leftChildIndex = index << 1 | 1;
+    const rightChildIndex = leftChildIndex + 1;
     const length = this.nodes.length;
     let targetIndex = index;
 
@@ -772,5 +782,119 @@ export class FibonacciHeap<E> {
         this._min = A[i]!;
       }
     }
+  }
+}
+
+
+export class CHeap<T> {
+
+  protected _length = 0;
+  private readonly _priorityQueue: T[] = [];
+  private readonly _cmp: (x: T, y: T) => number;
+
+  constructor(
+    cmp: (x: T, y: T) => number =
+      function (x: T, y: T) {
+        if (x > y) return -1;
+        if (x < y) return 1;
+        return 0;
+      },
+    copy = true
+  ) {
+
+    this._cmp = cmp;
+
+  }
+
+  clear() {
+    this._length = 0;
+    this._priorityQueue.length = 0;
+  }
+
+  push(item: T) {
+    this._priorityQueue.push(item);
+    this._pushUp(this._length);
+    this._length += 1;
+  }
+
+  pop() {
+    if (this._length === 0) return;
+    const value = this._priorityQueue[0];
+    const last = this._priorityQueue.pop()!;
+    this._length -= 1;
+    if (this._length) {
+      this._priorityQueue[0] = last;
+      this._pushDown(0, this._length >> 1);
+    }
+    return value;
+  }
+
+  top(): T | undefined {
+    return this._priorityQueue[0];
+  }
+
+  find(item: T) {
+    return this._priorityQueue.indexOf(item) >= 0;
+  }
+
+  remove(item: T) {
+    const index = this._priorityQueue.indexOf(item);
+    if (index < 0) return false;
+    if (index === 0) {
+      this.pop();
+    } else if (index === this._length - 1) {
+      this._priorityQueue.pop();
+      this._length -= 1;
+    } else {
+      this._priorityQueue.splice(index, 1, this._priorityQueue.pop()!);
+      this._length -= 1;
+      this._pushUp(index);
+      this._pushDown(index, this._length >> 1);
+    }
+    return true;
+  }
+
+  updateItem(item: T) {
+    const index = this._priorityQueue.indexOf(item);
+    if (index < 0) return false;
+    this._pushUp(index);
+    this._pushDown(index, this._length >> 1);
+    return true;
+  }
+
+  toArray() {
+    return [...this._priorityQueue];
+  }
+
+  private _pushUp(pos: number) {
+    const item = this._priorityQueue[pos];
+    while (pos > 0) {
+      const parent = (pos - 1) >> 1;
+      const parentItem = this._priorityQueue[parent];
+      if (this._cmp(parentItem, item) <= 0) break;
+      this._priorityQueue[pos] = parentItem;
+      pos = parent;
+    }
+    this._priorityQueue[pos] = item;
+  }
+
+  private _pushDown(pos: number, halfLength: number) {
+    const item = this._priorityQueue[pos];
+    while (pos < halfLength) {
+      let left = pos << 1 | 1;
+      const right = left + 1;
+      let minItem = this._priorityQueue[left];
+      if (
+        right < this._length &&
+        this._cmp(minItem, this._priorityQueue[right]) > 0
+      ) {
+        left = right;
+        minItem = this._priorityQueue[right];
+      }
+      if (this._cmp(minItem, item) >= 0) break;
+      this._priorityQueue[pos] = minItem;
+      pos = left;
+    }
+    this._priorityQueue[pos] = item;
   }
 }

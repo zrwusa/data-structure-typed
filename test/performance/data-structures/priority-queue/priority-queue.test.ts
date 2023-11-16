@@ -19,7 +19,7 @@ suite.add(`${TEN_THOUSAND.toLocaleString()} add & pop`, () => {
   }
 });
 if (isCompetitor) {
-  suite.add(`${TEN_THOUSAND.toLocaleString()} competitor add & pop`, () => {
+  suite.add(`${TEN_THOUSAND.toLocaleString()} CPT add & pop`, () => {
     const pq = new CPriorityQueue<number>();
 
     for (let i = 0; i < TEN_THOUSAND; i++) {

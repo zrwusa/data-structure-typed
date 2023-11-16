@@ -14,7 +14,7 @@ suite.add(`${LINEAR.toLocaleString()} push`, () => {
   }
 });
 if (isCompetitor) {
-  suite.add(`${LINEAR.toLocaleString()} competitor push`, () => {
+  suite.add(`${LINEAR.toLocaleString()} CPT push`, () => {
     const deque = new CDeque<number>();
     for (let i = 0; i < LINEAR; i++) {
       deque.pushBack(i);

@@ -15,7 +15,7 @@ suite.add(`${TEN_THOUSAND.toLocaleString()} set`, () => {
   }
 });
 if (isCompetitor) {
-  suite.add(`${TEN_THOUSAND.toLocaleString()} competitor set`, () => {
+  suite.add(`${TEN_THOUSAND.toLocaleString()} CPT set`, () => {
     const hm = new CHashMap<number, number>();
 
     for (let i = 0; i < TEN_THOUSAND; i++) {
@@ -34,7 +34,7 @@ suite.add(`${TEN_THOUSAND.toLocaleString()} set & get`, () => {
   }
 });
 if (isCompetitor) {
-  suite.add(`${TEN_THOUSAND.toLocaleString()} competitor set & get`, () => {
+  suite.add(`${TEN_THOUSAND.toLocaleString()} CPT set & get`, () => {
     const hm = new CHashMap<number, number>();
 
     for (let i = 0; i < TEN_THOUSAND; i++) {

@@ -8,7 +8,7 @@ const suite = new Benchmark.Suite();
 const rbTree = new RedBlackTree();
 const { HUNDRED_THOUSAND } = magnitude;
 const arr = getRandomIntArray(HUNDRED_THOUSAND, 0, HUNDRED_THOUSAND, true);
-const competitor = new OrderedMap<number, number>();
+const cOrderedMap = new OrderedMap<number, number>();
 
 suite.add(`${HUNDRED_THOUSAND.toLocaleString()} add`, () => {
   rbTree.clear();
@@ -18,9 +18,9 @@ suite.add(`${HUNDRED_THOUSAND.toLocaleString()} add`, () => {
 });
 
 if (isCompetitor) {
-  suite.add(`${HUNDRED_THOUSAND.toLocaleString()} competitor add`, () => {
+  suite.add(`${HUNDRED_THOUSAND.toLocaleString()} CPT add`, () => {
     for (let i = 0; i < arr.length; i++) {
-      competitor.setElement(arr[i], arr[i]);
+      cOrderedMap.setElement(arr[i], arr[i]);
     }
   });
 }

@@ -1,5 +1,5 @@
-import { FibonacciHeap, MaxHeap, MinHeap } from '../../../../src';
-import { logBigOMetricsWrap } from '../../../utils';
+import { CHeap, FibonacciHeap, MaxHeap, MinHeap } from '../../../../src';
+import { calcRunTime, logBigOMetricsWrap } from '../../../utils';
 
 describe('Heap Operation Test', () => {
   it('should numeric heap work well', function () {
@@ -257,3 +257,41 @@ describe('FibonacciHeap Stress Test', () => {
     );
   });
 });
+
+// describe('Competitor performance compare', () => {
+//   const minHeap = new MinHeap<number>();
+//   const cHeap = new CHeap<number>();
+//   const cPQ = new PriorityQueue<number>(undefined, (a, b) => a - b);
+//   const n = 10000;
+//
+//   it('should add performance well', () => {
+//     const heapCost = calcRunTime(() => {
+//       for (let i = 0; i < n; i++) {
+//         minHeap.add(i);
+//       }
+//     })
+//
+//     console.log(`heapCost: ${heapCost}`)
+//   });
+//
+//   it('should add performance well', () => {
+//
+//     const cHeapCost = calcRunTime(() => {
+//       for (let i = 0; i < n; i++) {
+//         cHeap.push(i);
+//       }
+//     })
+//
+//     console.log(`cHeapCost: ${cHeapCost}`)
+//   });
+//
+//   it('should add performance well', () => {
+//
+//     const cPQCost = calcRunTime(() => {
+//       for (let i = 0; i < n; i++) {
+//         cPQ.push(i);
+//       }
+//     })
+//     console.log(`cPQCost: ${cPQCost}`)
+//   });
+// });
