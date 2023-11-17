@@ -171,10 +171,10 @@ describe('HashMap', () => {
     let index = 0;
     stdMap.forEach((value, key) => {
       if (index === 0) {
-        expect(hashMap.front).toEqual([key, value]);
+        expect(hashMap.first).toEqual([key, value]);
         expect(hashMap.begin.current[0]).toEqual(key);
       } else if (index === hashMap.size - 1) {
-        expect(hashMap.back).toEqual([key, value]);
+        expect(hashMap.last).toEqual([key, value]);
         expect(hashMap.reverseBegin.current[0]).toEqual(key);
       } else if (index <= 1000) {
         expect(hashMap.getAt(index)).toEqual([key, value]);
@@ -217,11 +217,11 @@ describe('HashMap', () => {
   test('should return the last element', () => {
     hashMap.set('key1', 'value1');
     hashMap.set('key2', 'value2');
-    expect(hashMap.back).toEqual(['key2', 'value2']);
+    expect(hashMap.last).toEqual(['key2', 'value2']);
   });
 
   test('should return undefined for empty map', () => {
-    expect(hashMap.back).toBeUndefined();
+    expect(hashMap.last).toBeUndefined();
   });
 
   test('should get element at specific index', () => {

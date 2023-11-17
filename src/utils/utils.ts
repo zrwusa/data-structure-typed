@@ -97,3 +97,5 @@ export const isObjOrFunc = (input: unknown): input is Record<string, unknown> | 
   const inputType = typeof input;
   return (inputType === 'object' && input !== null) || inputType === 'function';
 };
+
+export const calcMinUnitsRequired = (totalQuantity: number, unitSize: number) => Math.floor((totalQuantity + unitSize - 1) / unitSize)

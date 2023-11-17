@@ -7,7 +7,7 @@
  */
 
 import { isObjOrFunc, rangeCheck, throwRangeError } from '../../utils';
-import { HashMapLinkedNode, HashMapOptions, IterateDirection } from '../../types';
+import { HashMapLinkedNode, IterableWithSizeOrLength, IterateDirection } from '../../types';
 
 /**
  * Because the implementation of HashMap relies on JavaScript's built-in objects and arrays,
@@ -122,6 +122,10 @@ export class HashMapIterator<K, V> {
   next() {
     return this;
   }
+
+  clone() {
+    return new HashMapIterator(this._node, this._sentinel, this.hashMap, this.iterateDirection)
+  }
 }
 
 export class HashMap<K = any, V = any> {
@@ -134,18 +138,18 @@ export class HashMap<K = any, V = any> {
 
   /**
    * The constructor initializes a HashMap object with an optional initial set of key-value pairs.
-   * @param hashMap - The `hashMap` parameter is an optional parameter of type `HashMapOptions<[K,
+   * @param {Iterable<[K, V]>} elements - The `hashMap` parameter is an optional parameter of type `HashMapOptions<[K,
    * V]>`. It is an array of key-value pairs, where each pair is represented as an array `[K, V]`. The
    * `K` represents the type of the key and `V` represents the
    */
-  constructor(hashMap: HashMapOptions<[K, V]> = []) {
+  constructor(elements: IterableWithSizeOrLength<[K, V]> = []) {
     Object.setPrototypeOf(this._orgMap, null);
     this._sentinel = <HashMapLinkedNode<K, V>>{};
     this._sentinel.prev = this._sentinel.next = this._head = this._tail = this._sentinel;
 
-    hashMap.forEach(el => {
+    for (const el of elements) {
       this.set(el[0], el[1]);
-    });
+    }
   }
 
   protected _size = 0;
@@ -209,7 +213,7 @@ export class HashMap<K = any, V = any> {
    * @returns The front element of the data structure, represented as a tuple with a key (K) and a
    * value (V).
    */
-  get front() {
+  get first() {
     if (this._size === 0) return;
     return <[K, V]>[this._head.key, this._head.value];
   }
@@ -222,7 +226,7 @@ export class HashMap<K = any, V = any> {
    * @returns The method is returning an array containing the key-value pair of the tail element in the
    * data structure.
    */
-  get back() {
+  get last() {
     if (this._size === 0) return;
     return <[K, V]>[this._tail.key, this._tail.value];
   }

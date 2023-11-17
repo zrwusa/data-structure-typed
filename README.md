@@ -808,7 +808,7 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', '
 [//]: # (No deletion!!! Start of Replace Section)
 <div class="json-to-html-collapse clearfix 0">
       <div class='collapsible level0' ><span class='json-to-html-label'>deque</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>1,000,000 push</td><td>70.01</td><td>14.28</td><td>0.01</td></tr><tr><td>1,000,000 CPT push</td><td>14.52</td><td>68.86</td><td>0.00</td></tr><tr><td>1,000,000 push & pop</td><td>72.74</td><td>13.75</td><td>0.01</td></tr><tr><td>1,000,000 push & shift</td><td>74.59</td><td>13.41</td><td>0.01</td></tr><tr><td>1,000,000 unshift & shift</td><td>72.73</td><td>13.75</td><td>0.01</td></tr></table></div>
+      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>1,000,000 push</td><td>18.17</td><td>55.04</td><td>0.00</td></tr><tr><td>1,000,000 push & pop</td><td>26.06</td><td>38.37</td><td>0.00</td></tr><tr><td>1,000,000 push & shift</td><td>26.79</td><td>37.32</td><td>0.00</td></tr><tr><td>1,000,000 unshift & shift</td><td>25.13</td><td>39.80</td><td>0.00</td></tr></table></div>
     </div>
 
 [//]: # (No deletion!!! End of Replace Section)
