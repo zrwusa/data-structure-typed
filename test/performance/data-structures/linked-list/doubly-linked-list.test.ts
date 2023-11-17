@@ -7,6 +7,25 @@ import { isCompetitor } from '../../../config';
 const suite = new Benchmark.Suite();
 const { LINEAR } = magnitude;
 
+suite.add(`${LINEAR.toLocaleString()} push`, () => {
+  const list = new DoublyLinkedList<number>();
+
+  for (let i = 0; i < LINEAR; i++) {
+    list.push(i);
+  }
+});
+
+
+if (isCompetitor) {
+  suite.add(`${LINEAR.toLocaleString()} CPT push`, () => {
+    const list = new CLinkedList<number>();
+
+    for (let i = 0; i < LINEAR; i++) {
+      list.pushBack(i);
+    }
+  });
+}
+
 suite.add(`${LINEAR.toLocaleString()} unshift`, () => {
   const list = new DoublyLinkedList<number>();
 
@@ -14,6 +33,7 @@ suite.add(`${LINEAR.toLocaleString()} unshift`, () => {
     list.unshift(i);
   }
 });
+
 if (isCompetitor) {
   suite.add(`${LINEAR.toLocaleString()} CPT unshift`, () => {
     const list = new CLinkedList<number>();
@@ -23,6 +43,7 @@ if (isCompetitor) {
     }
   });
 }
+
 suite
   .add(`${LINEAR.toLocaleString()} unshift & shift`, () => {
     const list = new DoublyLinkedList<number>();

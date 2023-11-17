@@ -111,7 +111,7 @@ const {
     </tr>
     <tr>
         <td>Security</td>
-        <td>Carefully designed security for member variables and methods. Data structure software does not need to consider other security aspects.</td>
+        <td>Carefully designed security for member variables and methods. Read-write separation. Data structure software does not need to consider other security aspects.</td>
     </tr>
     <tr>
         <td>Scalability</td>
@@ -807,8 +807,8 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', '
 
 [//]: # (No deletion!!! Start of Replace Section)
 <div class="json-to-html-collapse clearfix 0">
-      <div class='collapsible level0' ><span class='json-to-html-label'>priority-queue</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>100,000 add & pop</td><td>24.00</td><td>41.66</td><td>4.11e-4</td></tr><tr><td>100,000 CPT add & pop</td><td>28.23</td><td>35.43</td><td>8.86e-4</td></tr></table></div>
+      <div class='collapsible level0' ><span class='json-to-html-label'>deque</span></div>
+      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>1,000,000 push</td><td>36.67</td><td>27.27</td><td>0.00</td></tr><tr><td>1,000,000 shift</td><td>35.78</td><td>27.95</td><td>0.00</td></tr><tr><td>1,000,000 push</td><td>35.96</td><td>27.81</td><td>0.00</td></tr><tr><td>1,000,000 push & pop</td><td>39.29</td><td>25.45</td><td>0.00</td></tr><tr><td>1,000,000 push & shift</td><td>39.46</td><td>25.34</td><td>0.00</td></tr><tr><td>1,000,000 unshift & shift</td><td>36.93</td><td>27.08</td><td>0.00</td></tr></table></div>
     </div>
 
 [//]: # (No deletion!!! End of Replace Section)

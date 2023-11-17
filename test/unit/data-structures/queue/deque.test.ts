@@ -1,4 +1,4 @@
-import { ArrayDeque, Deque, ObjectDeque } from '../../../../src';
+import { Deque, ObjectDeque } from '../../../../src';
 import { bigO } from '../../../utils';
 import { isDebugTest } from '../../../config';
 
@@ -93,43 +93,6 @@ describe('Deque Tests', () => {
 
     // Add more test cases as needed
   });
-
-  // Test cases for the ArrayDeque class
-  describe('ArrayDeque', () => {
-    let arrayDeque: ArrayDeque<number>;
-
-    beforeEach(() => {
-      arrayDeque = new ArrayDeque<number>();
-    });
-
-    it('should add elements at the beginning and end', () => {
-      arrayDeque.addFirst(1);
-      arrayDeque.addLast(2);
-      expect(arrayDeque.getFirst()).toBe(1);
-      expect(arrayDeque.getLast()).toBe(2);
-    });
-
-    it('should delete elements from the beginning and end', () => {
-      arrayDeque.addFirst(1);
-      arrayDeque.addLast(2);
-      arrayDeque.popFirst();
-      arrayDeque.popLast();
-      expect(arrayDeque.isEmpty()).toBe(true);
-    });
-
-    it('should handle edge case when removing from an empty deque', () => {
-      const result = arrayDeque.popFirst();
-      expect(result).toBeNull();
-    });
-
-    it('should correctly report its size', () => {
-      arrayDeque.addFirst(1);
-      arrayDeque.addLast(2);
-      expect(arrayDeque.size).toBe(2);
-    });
-
-    // Add more test cases as needed
-  });
 });
 
 describe('Deque Performance Test', () => {
@@ -205,105 +168,6 @@ describe('Deque', () => {
 
     deque.popFirst();
     expect(deque.isEmpty()).toBe(true);
-  });
-});
-
-describe('ArrayDeque', () => {
-  let deque: ArrayDeque<number>;
-
-  beforeEach(() => {
-    deque = new ArrayDeque<number>();
-  });
-
-  it('should initialize an empty deque', () => {
-    expect(deque.size).toBe(0);
-    expect(deque.isEmpty()).toBe(true);
-  });
-
-  it('should add elements to the front and back', () => {
-    deque.addFirst(1);
-    deque.addLast(2);
-
-    expect(deque.size).toBe(2);
-    expect(deque.getFirst()).toBe(1);
-    expect(deque.getLast()).toBe(2);
-  });
-
-  it('should remove elements from the front and back', () => {
-    deque.addFirst(1);
-    deque.addLast(2);
-
-    const firstElement = deque.popFirst();
-    const lastElement = deque.popLast();
-
-    expect(deque.size).toBe(0);
-    expect(firstElement).toBe(1);
-    expect(lastElement).toBe(2);
-  });
-
-  it('should get elements by index', () => {
-    deque.addLast(1);
-    deque.addLast(2);
-    deque.addLast(3);
-
-    expect(deque.get(0)).toBe(1);
-    expect(deque.get(1)).toBe(2);
-    expect(deque.get(2)).toBe(3);
-  });
-
-  it('should return null for out-of-bounds index', () => {
-    expect(deque.get(0)).toBe(null);
-    expect(deque.get(1)).toBe(null);
-    expect(deque.get(-1)).toBe(null);
-  });
-
-  it('should check if the deque is empty', () => {
-    expect(deque.isEmpty()).toBe(true);
-
-    deque.addLast(1);
-    expect(deque.isEmpty()).toBe(false);
-
-    deque.popFirst();
-    expect(deque.isEmpty()).toBe(true);
-  });
-
-  it('should set elements at a specific index', () => {
-    deque.addLast(1);
-    deque.addLast(2);
-    deque.addLast(3);
-
-    deque.set(1, 4);
-
-    expect(deque.get(0)).toBe(1);
-    expect(deque.get(1)).toBe(4);
-    expect(deque.get(2)).toBe(3);
-  });
-
-  it('should insert elements at a specific index', () => {
-    deque.addLast(1);
-    deque.addLast(2);
-    deque.addLast(3);
-
-    deque.insert(1, 4);
-
-    expect(deque.size).toBe(4);
-    expect(deque.get(0)).toBe(1);
-    expect(deque.get(1)).toBe(4);
-    expect(deque.get(2)).toBe(2);
-    expect(deque.get(3)).toBe(3);
-  });
-
-  it('should delete elements at a specific index', () => {
-    deque.addLast(1);
-    deque.addLast(2);
-    deque.addLast(3);
-
-    const deletedElement = deque.delete(1);
-
-    expect(deque.size).toBe(2);
-    expect(deletedElement[0]).toBe(2);
-    expect(deque.get(0)).toBe(1);
-    expect(deque.get(1)).toBe(3);
   });
 });
 

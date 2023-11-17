@@ -28,3 +28,30 @@ suite.add(`${LINEAR.toLocaleString()} shift`, () => {
     deque.shift();
   }
 });
+
+suite.add(`${LINEAR.toLocaleString()} push`, () => {
+  const list = new Deque<number>();
+
+  for (let i = 0; i < LINEAR; i++) {
+    list.push(i);
+  }
+});
+suite.add(`${LINEAR.toLocaleString()} push & pop`, () => {
+  const list = new Deque<number>();
+
+  for (let i = 0; i < LINEAR; i++) list.push(i);
+  for (let i = 0; i < LINEAR; i++) list.pop();
+
+});
+suite.add(`${LINEAR.toLocaleString()} push & shift`, () => {
+  const list = new Deque<number>();
+
+  for (let i = 0; i < LINEAR; i++) list.push(i);
+  for (let i = 0; i < LINEAR; i++) list.shift();
+});
+suite.add(`${LINEAR.toLocaleString()} unshift & shift`, () => {
+  const list = new Deque<number>();
+
+  for (let i = 0; i < LINEAR; i++) list.unshift(i);
+  for (let i = 0; i < LINEAR; i++) list.shift();
+});
