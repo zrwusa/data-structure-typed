@@ -15,7 +15,7 @@ describe('PriorityQueue Operation Test', () => {
     expect(minPQ.peek()).toBe(4);
     expect(
       PriorityQueue.heapify({
-        nodes: [3, 2, 1, 5, 6, 7, 8, 9, 10],
+        elements: [3, 2, 1, 5, 6, 7, 8, 9, 10],
         comparator: (a, b) => a - b
       }).toArray()
     ).toEqual([1, 2, 3, 5, 6, 7, 8, 9, 10]);
@@ -32,7 +32,7 @@ describe('PriorityQueue Operation Test', () => {
     expect(maxPriorityQueue.peek()).toBe(3);
     expect(
       PriorityQueue.heapify({
-        nodes: [3, 2, 1, 5, 6, 7, 8, 9, 10],
+        elements: [3, 2, 1, 5, 6, 7, 8, 9, 10],
         comparator: (a, b) => a - b
       }).toArray()
     ).toEqual([1, 2, 3, 5, 6, 7, 8, 9, 10]);
@@ -42,7 +42,7 @@ describe('PriorityQueue Operation Test', () => {
     const minPQ1 = new PriorityQueue<number>({ comparator: (a, b) => a - b });
     minPQ1.refill([2, 5, 8, 3, 1, 6, 7, 4]);
     const clonedPriorityQueue = minPQ1.clone();
-    expect(clonedPriorityQueue.getNodes()).toEqual(minPQ1.getNodes());
+    expect(clonedPriorityQueue.elements).toEqual(minPQ1.elements);
     expect(clonedPriorityQueue.sort()).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
     expect(minPQ1.dfs('in')).toEqual([4, 3, 2, 5, 1, 8, 6, 7]);
     expect(minPQ1.dfs('post')).toEqual([4, 3, 5, 2, 8, 7, 6, 1]);

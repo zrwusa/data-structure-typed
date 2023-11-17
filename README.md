@@ -71,46 +71,96 @@ const {
 } = dataStructureTyped;
 ```
 
-#### Binary Tree
+## Software Engineering Design Standards
+<table>
+    <tr>
+        <th>Principle</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>Practicality</td>
+        <td>Follows ES6 and ESNext standards, offering unified and considerate optional parameters, and simplifies method names.</td>
+    </tr>
+    <tr>
+        <td>Extensibility</td>
+        <td>Adheres to OOP (Object-Oriented Programming) principles, allowing inheritance for all data structures.</td>
+    </tr>
+    <tr>
+        <td>Modularization</td>
+        <td>Includes data structure modularization and independent NPM packages.</td>
+    </tr>
+    <tr>
+        <td>Efficiency</td>
+        <td>All methods provide time and space complexity, comparable to native JS performance.</td>
+    </tr>
+    <tr>
+        <td>Maintainability</td>
+        <td>Follows open-source community development standards, complete documentation, continuous integration, and adheres to TDD (Test-Driven Development) patterns.</td>
+    </tr>
+    <tr>
+        <td>Testability</td>
+        <td>Automated and customized unit testing, performance testing, and integration testing.</td>
+    </tr>
+    <tr>
+        <td>Portability</td>
+        <td>Plans for porting to Java, Python, and C++, currently achieved to 80%.</td>
+    </tr>
+    <tr>
+        <td>Reusability</td>
+        <td>Fully decoupled, minimized side effects, and adheres to OOP.</td>
+    </tr>
+    <tr>
+        <td>Security</td>
+        <td>Carefully designed security for member variables and methods. Data structure software does not need to consider other security aspects.</td>
+    </tr>
+    <tr>
+        <td>Scalability</td>
+        <td>Data structure software does not involve load issues.</td>
+    </tr>
+</table>
+
+## Vivid Examples
+
+### Binary Tree
 [Try it out](https://vivid-algorithm.vercel.app/), or you can execute your own code using our [visual tool](https://github.com/zrwusa/vivid-algorithm)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/binary-tree-array-to-binary-tree.webp)
 
 
 
-#### Binary Tree DFS
+### Binary Tree DFS
 [Try it out](https://vivid-algorithm.vercel.app/), or you can execute your own code using our [visual tool](https://github.com/zrwusa/vivid-algorithm)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/binary-tree-dfs-in-order.webp)
 
 
 
-#### AVL Tree
+### AVL Tree
 [Try it out](https://vivid-algorithm.vercel.app/), or you can execute your own code using our [visual tool](https://github.com/zrwusa/vivid-algorithm)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/avl-tree-test.webp)
 
 
-#### Tree Multi Map
+### Tree Multi Map
 [Try it out](https://vivid-algorithm.vercel.app/), or you can execute your own code using our [visual tool](https://github.com/zrwusa/vivid-algorithm)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/tree-multiset-test.webp)
 
 
 
-#### Matrix
+### Matrix
 [Try it out](https://vivid-algorithm.vercel.app/algorithm/graph/), or you can execute your own code using our [visual tool](https://github.com/zrwusa/vivid-algorithm)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/matrix-cut-off-tree-for-golf.webp)
 
 
-#### Directed Graph
+### Directed Graph
 [Try it out](https://vivid-algorithm.vercel.app/algorithm/graph/), or you can execute your own code using our [visual tool](https://github.com/zrwusa/vivid-algorithm)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/directed-graph-test.webp)
 
 
-#### Map Graph
+### Map Graph
 [Try it out](https://vivid-algorithm.vercel.app/algorithm/graph/), or you can execute your own code using our [visual tool](https://github.com/zrwusa/vivid-algorithm)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/map-graph-test.webp)
@@ -568,7 +618,7 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', '
 
 
 
-### Standard library data structure comparison
+## Standard library data structure comparison
 
 
 <table>
@@ -753,9 +803,20 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', '
 </table>
 
 
-## Code design
+## Benchmark
 
-### Adhere to ES6 standard naming conventions for APIs.
+[//]: # (No deletion!!! Start of Replace Section)
+<div class="json-to-html-collapse clearfix 0">
+      <div class='collapsible level0' ><span class='json-to-html-label'>priority-queue</span></div>
+      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>100,000 add & pop</td><td>24.00</td><td>41.66</td><td>4.11e-4</td></tr><tr><td>100,000 CPT add & pop</td><td>28.23</td><td>35.43</td><td>8.86e-4</td></tr></table></div>
+    </div>
+
+[//]: # (No deletion!!! End of Replace Section)
+
+
+## Codebase design
+
+### Adhere to ES6 and ESNext standard naming conventions for APIs.
 
 Standardize API conventions by using 'add' and 'delete' for element manipulation methods in all data structures. 
 
@@ -766,58 +827,3 @@ Opt for concise and clear method names, avoiding excessive length while ensuring
 By strictly adhering to object-oriented design (BinaryTree -> BST -> AVLTree -> TreeMultimap), you can seamlessly
 inherit the existing data structures to implement the customized ones you need. Object-oriented design stands as the
 optimal approach to data structure design.
-
-## Benchmark
-
-[//]: # (No deletion!!! Start of Replace Section)
-<div class="json-to-html-collapse clearfix 0">
-      <div class='collapsible level0' ><span class='json-to-html-label'>comparation</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>SRC 10,000 add</td><td>0.59</td><td>1701.78</td><td>3.28e-5</td></tr><tr><td>CJS 10,000 add</td><td>0.61</td><td>1648.70</td><td>6.98e-5</td></tr><tr><td>MJS 10,000 add</td><td>0.59</td><td>1691.86</td><td>2.44e-5</td></tr><tr><td>SRC PQ 10,000 add & pop</td><td>4.97</td><td>201.19</td><td>1.37e-4</td></tr><tr><td>CJS PQ 10,000 add & pop</td><td>4.93</td><td>202.70</td><td>5.60e-5</td></tr><tr><td>MJS PQ 10,000 add & pop</td><td>4.98</td><td>200.74</td><td>4.39e-4</td></tr></table></div>
-    </div><div class="json-to-html-collapse clearfix 0">
-      <div class='collapsible level0' ><span class='json-to-html-label'>avl-tree</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>10,000 add randomly</td><td>32.27</td><td>30.99</td><td>0.00</td></tr><tr><td>10,000 add & delete randomly</td><td>73.67</td><td>13.57</td><td>0.00</td></tr><tr><td>10,000 addMany</td><td>41.81</td><td>23.92</td><td>0.00</td></tr><tr><td>10,000 get</td><td>29.21</td><td>34.24</td><td>0.00</td></tr></table></div>
-    </div><div class="json-to-html-collapse clearfix 0">
-      <div class='collapsible level0' ><span class='json-to-html-label'>binary-tree</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>1,000 add randomly</td><td>13.82</td><td>72.38</td><td>0.00</td></tr><tr><td>1,000 add & delete randomly</td><td>16.01</td><td>62.45</td><td>5.80e-4</td></tr><tr><td>1,000 addMany</td><td>12.30</td><td>81.33</td><td>0.01</td></tr><tr><td>1,000 get</td><td>19.75</td><td>50.63</td><td>0.01</td></tr><tr><td>1,000 dfs</td><td>157.12</td><td>6.36</td><td>0.00</td></tr><tr><td>1,000 bfs</td><td>56.72</td><td>17.63</td><td>4.27e-4</td></tr><tr><td>1,000 morris</td><td>334.97</td><td>2.99</td><td>0.03</td></tr></table></div>
-    </div><div class="json-to-html-collapse clearfix 0">
-      <div class='collapsible level0' ><span class='json-to-html-label'>bst</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>10,000 add randomly</td><td>28.30</td><td>35.34</td><td>0.00</td></tr><tr><td>10,000 add & delete randomly</td><td>67.47</td><td>14.82</td><td>0.00</td></tr><tr><td>10,000 addMany</td><td>29.25</td><td>34.18</td><td>0.00</td></tr><tr><td>10,000 get</td><td>30.53</td><td>32.75</td><td>0.01</td></tr></table></div>
-    </div><div class="json-to-html-collapse clearfix 0">
-      <div class='collapsible level0' ><span class='json-to-html-label'>rb-tree</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>100,000 add</td><td>96.67</td><td>10.34</td><td>0.01</td></tr><tr><td>100,000 add & delete randomly</td><td>224.85</td><td>4.45</td><td>0.01</td></tr><tr><td>100,000 getNode</td><td>40.83</td><td>24.49</td><td>2.73e-4</td></tr></table></div>
-    </div><div class="json-to-html-collapse clearfix 0">
-      <div class='collapsible level0' ><span class='json-to-html-label'>directed-graph</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>1,000 addVertex</td><td>0.11</td><td>9364.63</td><td>1.25e-5</td></tr><tr><td>1,000 addEdge</td><td>6.18</td><td>161.78</td><td>1.26e-4</td></tr><tr><td>1,000 getVertex</td><td>0.05</td><td>2.12e+4</td><td>4.19e-6</td></tr><tr><td>1,000 getEdge</td><td>25.98</td><td>38.50</td><td>0.01</td></tr><tr><td>tarjan</td><td>240.23</td><td>4.16</td><td>0.02</td></tr><tr><td>tarjan all</td><td>227.36</td><td>4.40</td><td>0.00</td></tr><tr><td>topologicalSort</td><td>185.85</td><td>5.38</td><td>0.00</td></tr></table></div>
-    </div><div class="json-to-html-collapse clearfix 0">
-      <div class='collapsible level0' ><span class='json-to-html-label'>hash-map</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>10,000 set</td><td>1.00</td><td>1001.31</td><td>1.82e-5</td></tr><tr><td>10,000 set & get</td><td>1.54</td><td>650.14</td><td>4.87e-5</td></tr></table></div>
-    </div><div class="json-to-html-collapse clearfix 0">
-      <div class='collapsible level0' ><span class='json-to-html-label'>heap</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>10,000 add & pop</td><td>6.97</td><td>143.49</td><td>5.27e-4</td></tr><tr><td>10,000 fib add & pop</td><td>378.40</td><td>2.64</td><td>0.05</td></tr></table></div>
-    </div><div class="json-to-html-collapse clearfix 0">
-      <div class='collapsible level0' ><span class='json-to-html-label'>doubly-linked-list</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>1,000,000 unshift</td><td>224.55</td><td>4.45</td><td>0.07</td></tr><tr><td>1,000,000 unshift & shift</td><td>182.17</td><td>5.49</td><td>0.06</td></tr><tr><td>1,000,000 insertBefore</td><td>342.63</td><td>2.92</td><td>0.08</td></tr></table></div>
-    </div><div class="json-to-html-collapse clearfix 0">
-      <div class='collapsible level0' ><span class='json-to-html-label'>singly-linked-list</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>10,000 push & pop</td><td>222.42</td><td>4.50</td><td>0.01</td></tr><tr><td>10,000 insertBefore</td><td>248.39</td><td>4.03</td><td>0.00</td></tr></table></div>
-    </div><div class="json-to-html-collapse clearfix 0">
-      <div class='collapsible level0' ><span class='json-to-html-label'>max-priority-queue</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>10,000 refill & poll</td><td>11.83</td><td>84.55</td><td>1.45e-4</td></tr></table></div>
-    </div><div class="json-to-html-collapse clearfix 0">
-      <div class='collapsible level0' ><span class='json-to-html-label'>priority-queue</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>10,000 add & pop</td><td>10.79</td><td>92.72</td><td>2.01e-4</td></tr></table></div>
-    </div><div class="json-to-html-collapse clearfix 0">
-      <div class='collapsible level0' ><span class='json-to-html-label'>deque</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>1,000,000 push</td><td>231.33</td><td>4.32</td><td>0.06</td></tr><tr><td>1,000,000 shift</td><td>27.64</td><td>36.17</td><td>0.01</td></tr></table></div>
-    </div><div class="json-to-html-collapse clearfix 0">
-      <div class='collapsible level0' ><span class='json-to-html-label'>queue</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>1,000,000 push</td><td>46.16</td><td>21.66</td><td>0.01</td></tr><tr><td>1,000,000 push & shift</td><td>82.18</td><td>12.17</td><td>0.00</td></tr></table></div>
-    </div><div class="json-to-html-collapse clearfix 0">
-      <div class='collapsible level0' ><span class='json-to-html-label'>stack</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>1,000,000 push</td><td>45.45</td><td>22.00</td><td>0.01</td></tr><tr><td>1,000,000 push & pop</td><td>50.10</td><td>19.96</td><td>0.01</td></tr></table></div>
-    </div><div class="json-to-html-collapse clearfix 0">
-      <div class='collapsible level0' ><span class='json-to-html-label'>trie</span></div>
-      <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>100,000 push</td><td>46.25</td><td>21.62</td><td>0.00</td></tr><tr><td>100,000 getWords</td><td>65.17</td><td>15.34</td><td>0.00</td></tr></table></div>
-    </div>
-
-[//]: # (No deletion!!! End of Replace Section)

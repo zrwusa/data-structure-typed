@@ -1,6 +1,7 @@
 import { FibonacciHeap, MaxHeap, MinHeap } from '../../../../src';
 import { logBigOMetricsWrap } from '../../../utils';
 
+
 describe('Heap Operation Test', () => {
   it('should numeric heap work well', function () {
     const minNumHeap = new MinHeap<number>();
@@ -262,7 +263,7 @@ describe('FibonacciHeap Stress Test', () => {
 //   const minHeap = new MinHeap<number>();
 //   const cHeap = new CHeap<number>();
 //   const cPQ = new PriorityQueue<number>(undefined, (a, b) => a - b);
-//   const n = 10000;
+//   const n = 100000;
 //
 //   it('should add performance well', () => {
 //     const heapCost = calcRunTime(() => {
