@@ -272,3 +272,149 @@ describe('ObjectDeque', () => {
     expect(deque.getLast()).toBe(3);
   });
 });
+
+
+describe('Deque', () => {
+  let deque: Deque;
+
+  beforeEach(() => {
+    deque = new Deque();
+  });
+
+  test('initializes with default capacity', () => {
+    expect(deque.capacity).toBe(10);
+  });
+
+  test('initializes with given capacity', () => {
+    const customDeque = new Deque(20);
+    expect(customDeque.capacity).toBe(20);
+  });
+
+  test('is initially empty', () => {
+    expect(deque.isEmpty()).toBe(true);
+  });
+
+  test('pushes and pops elements', () => {
+    deque.push(1);
+    deque.push(2);
+    expect(deque.pop()).toBe(2);
+    expect(deque.pop()).toBe(1);
+    expect(deque.pop()).toBeUndefined();
+  });
+
+  test('unshifts and shifts elements', () => {
+    deque.unshift(1);
+    deque.unshift(2);
+    expect(deque.shift()).toBe(2);
+    expect(deque.shift()).toBe(1);
+    expect(deque.shift()).toBeUndefined();
+  });
+
+  test('correctly reports size', () => {
+    expect(deque.size).toBe(0);
+    deque.push(1);
+    deque.push(2);
+    expect(deque.size).toBe(2);
+  });
+
+  test('gets first and last elements', () => {
+    deque.push(1);
+    deque.push(2);
+    deque.push(3);
+    expect(deque.getFirst()).toBe(1);
+    expect(deque.getLast()).toBe(3);
+  });
+
+  test('handles resizing automatically', () => {
+    for (let i = 0; i < 12; i++) {
+      deque.push(i);
+    }
+    expect(deque.size).toBe(12);
+    expect(deque.capacity).toBeGreaterThan(10);
+  });
+
+  test('converts to array', () => {
+    deque.push(1);
+    deque.push(2);
+    deque.push(3);
+    expect(deque.toArray()).toEqual([1, 2, 3]);
+  });
+
+  test('clears the deque', () => {
+    deque.push(1);
+    deque.push(2);
+    deque.clear();
+    expect(deque.isEmpty()).toBe(true);
+  });
+
+  test('inserts and deletes at specific index', () => {
+    deque.push(1);
+    deque.push(3);
+    deque.insertAt(1, 2);
+    expect(deque.toArray()).toEqual([1, 2, 3]);
+    expect(deque.deleteAt(1)).toBe(2);
+    expect(deque.toArray()).toEqual([1, 3]);
+  });
+
+  test('finds elements with a callback', () => {
+    deque.push(1);
+    deque.push(2);
+    deque.push(3);
+    expect(deque.find(el => el > 1)).toBe(2);
+  });
+
+  test('performs forEach operation', () => {
+    deque.push(1);
+    deque.push(2);
+    let sum = 0;
+    deque.forEach(el => { sum += el; });
+    expect(sum).toBe(3);
+  });
+
+  test('maps to a new deque', () => {
+    deque.push(1);
+    deque.push(2);
+    const newDeque = deque.map(el => el * el);
+    expect(newDeque.toArray()).toEqual([1, 4]);
+  });
+
+  test('filters elements', () => {
+    deque.push(1);
+    deque.push(2);
+    deque.push(3);
+    const newDeque = deque.filter(el => el % 2 === 0);
+    expect(newDeque.toArray()).toEqual([2]);
+  });
+
+  test('reduces elements', () => {
+    deque.push(1);
+    deque.push(2);
+    deque.push(3);
+    const sum = deque.reduce((acc, el) => acc + el, 0);
+    expect(sum).toBe(6);
+  });
+
+  test('reverses elements', () => {
+    deque.push(1);
+    deque.push(2);
+    deque.push(3);
+    deque.reverse();
+    expect(deque.toArray()).toEqual([3, 2, 1]);
+  });
+
+  test('gets element at a specific index', () => {
+    deque.push(1);
+    deque.push(2);
+    deque.push(3);
+    expect(deque.getAt(1)).toBe(2);
+    expect(deque.getAt(5)).toBeUndefined();
+  });
+
+  test('finds the index of an element', () => {
+    deque.push(1);
+    deque.push(2);
+    deque.push(3);
+    expect(deque.indexOf(2)).toBe(1);
+    expect(deque.indexOf(4)).toBe(-1);
+  });
+});

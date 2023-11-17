@@ -308,22 +308,19 @@ export class Deque<E = any> {
       return false;
     }
 
-    // If inserted at the head
     if (index === 0) {
       this.unshift(element);
       return true;
     }
 
-    //If inserted at the end
     if (index === this.size) {
       this.push(element);
       return true;
     }
 
-    // Intermediate insertion requires processing of arrays
     this._ensureCapacityForInsert();
-    const actualIndex = this.headOffset + index;
-    for (let i = this.tailOffset; i > actualIndex; i--) {
+    const actualIndex = this._headOffset + index;
+    for (let i = this._tailOffset; i > actualIndex; i--) {
       this._elements[i] = this._elements[i - 1];
     }
     this._elements[actualIndex] = element;
@@ -352,16 +349,16 @@ export class Deque<E = any> {
       return undefined;
     }
 
-    const actualIndex = this.headOffset + index;
+    const actualIndex = this._headOffset + index;
     const removedElement = this._elements[actualIndex];
-
-    for (let i = actualIndex; i < this.tailOffset - 1; i++) {
+    for (let i = actualIndex; i < this._tailOffset - 1; i++) {
       this._elements[i] = this._elements[i + 1];
     }
-
     this._tailOffset--;
+    this._elements[this._tailOffset] = undefined as unknown as E; // Clear reference to the last element
     return removedElement;
   }
+
 
   /**
    * Time Complexity: O(n) - May need to scan the entire deque.
@@ -607,16 +604,17 @@ export class Deque<E = any> {
   protected _resize() {
     const newCapacity = this.capacity * 2;
     const newElements = new Array(newCapacity);
-    const newHeadOffset = Math.floor((newCapacity - this.size) / 2);
+    const size = this.size;
+    const newHeadOffset = Math.floor((newCapacity - size) / 2);
 
-    for (let i = 0; i < this.size; i++) {
-      newElements[newHeadOffset + i] = this._elements[this.headOffset + i];
+    for (let i = 0; i < size; i++) {
+      newElements[newHeadOffset + i] = this._elements[this._headOffset + i];
     }
 
     this._elements = newElements;
     this._capacity = newCapacity;
     this._headOffset = newHeadOffset;
-    this._tailOffset = newHeadOffset + this.size;
+    this._tailOffset = newHeadOffset + size;
   }
 
   /**
