@@ -392,14 +392,14 @@ export class Deque<E> {
   }
 
   delete(element: E) {
-    const length = this.size;
-    if (length === 0) return 0;
+    const size = this.size;
+    if (size === 0) return 0;
     let i = 0;
     let index = 0;
-    while (i < length) {
-      const element = this.getAt(i);
-      if (element !== element) {
-        this.setAt(index, element!);
+    while (i < size) {
+      const oldElement = this.getAt(i);
+      if (oldElement !== element) {
+        this.setAt(index, oldElement!);
         index += 1;
       }
       i += 1;
