@@ -1,6 +1,6 @@
 {
   "name": "data-structure-typed",
-  "version": "1.46.2",
+  "version": "1.46.3",
   "description": "Data Structures of Javascript & TypeScript. Binary Tree, BST, Graph, Heap, Priority Queue, Linked List, Queue, Deque, Stack, AVL Tree, Tree Multiset, Trie, Directed Graph, Undirected Graph, Singly Linked List, Doubly Linked List, Max Heap, Max Priority Queue, Min Heap, Min Priority Queue.",
   "main": "dist/cjs/index.js",
   "module": "dist/mjs/index.js",
@@ -22,7 +22,7 @@
     "test:unit": "jest --runInBand",
     "test": "npm run test:unit",
     "test:integration": "npm run update:subs && jest --config jest.integration.config.js",
-    "test:perf": "ts-node test/performance/reportor.ts",
+    "test:perf": "npm run build:cjs && npm run build:mjs && ts-node test/performance/reportor.ts",
     "check": "tsc --noEmit",
     "check:circular-refs": "dependency-cruiser src",
     "lint:src": "eslint --fix 'src/**/*.{js,ts}'",
