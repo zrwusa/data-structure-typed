@@ -7,8 +7,8 @@
  */
 
 
-import { IterableWithSizeOrLength, IterateDirection } from "../../types";
-import { calcMinUnitsRequired, rangeCheck, throwRangeError } from "../../utils";
+import { IterableWithSizeOrLength } from "../../types";
+import { calcMinUnitsRequired, rangeCheck } from "../../utils";
 
 /**
  * Deque can provide random access with O(1) time complexity
@@ -16,89 +16,6 @@ import { calcMinUnitsRequired, rangeCheck, throwRangeError } from "../../utils";
  * Deque may experience performance jitter, but DoublyLinkedList will not
  * Deque is implemented using a dynamic array. Inserting or deleting beyond both ends of the array may require moving elements or reallocating space.
  */
-
-export class DequeIterator<E> {
-  iterateDirection: IterateDirection;
-
-  index: number;
-  readonly deque: Deque<E>;
-
-  /**
-   * The constructor initializes the index, iterate direction, and prev/next functions for a
-   * DequeIterator object.
-   * @param {number} index - The index parameter represents the current index position of the iterator
-   * within the deque. It is a number that indicates the position of the element that the iterator is
-   * currently pointing to.
-   * @param deque - The `deque` parameter is an instance of the `Deque` class. It represents a
-   * double-ended queue data structure, which allows elements to be added or removed from both ends.
-   * @param iterateDirection - The `iterateDirection` parameter is an optional parameter that specifies
-   * the direction in which the iterator should iterate over the elements of the `deque`. It has a
-   * default value of `IterateDirection.DEFAULT`.
-   * @returns The constructor is not returning anything. It is used to initialize the properties of the
-   * object being created.
-   */
-  constructor(index: number, deque: Deque<E>, iterateDirection = IterateDirection.DEFAULT) {
-    this.index = index;
-    this.iterateDirection = iterateDirection;
-    if (this.iterateDirection === IterateDirection.DEFAULT) {
-      this.prev = function () {
-        if (this.index === 0) {
-          throwRangeError();
-        }
-        this.index -= 1;
-        return this;
-      };
-      this.next = function () {
-        if (this.index === this.deque.size) {
-          throwRangeError();
-        }
-        this.index += 1;
-        return this;
-      };
-    } else {
-      this.prev = function () {
-        if (this.index === this.deque.size - 1) {
-          throwRangeError();
-        }
-        this.index += 1;
-        return this;
-      };
-      this.next = function () {
-        if (this.index === -1) {
-          throwRangeError();
-        }
-        this.index -= 1;
-        return this;
-      };
-    }
-    this.deque = deque;
-  }
-
-  get current() {
-    return this.deque.getAt(this.index);
-  }
-
-  set current(newElement: E) {
-    this.deque.setAt(this.index, newElement);
-  }
-
-  isAccessible() {
-    return this.index !== this.deque.size;
-  }
-
-  prev(): DequeIterator<E> {
-    return this;
-  }
-
-  next(): DequeIterator<E> {
-    return this;
-  }
-
-  clone() {
-    return new DequeIterator<E>(this.index, this.deque, this.iterateDirection);
-  }
-
-}
 
 export class Deque<E> {
   protected _bucketFirst = 0;
@@ -244,39 +161,36 @@ export class Deque<E> {
     this._firstInBucket = this._lastInBucket = this._bucketSize >> 1;
   }
 
-  /**
-   * The `begin()` function returns a new iterator for a deque starting from the first element.
-   * @returns A new instance of the DequeIterator class is being returned.
-   */
-  begin() {
-    return new DequeIterator<E>(0, this);
+  *begin(): Generator<E> {
+    let index = 0;
+    while (index < this.size) {
+      yield this.getAt(index);
+      index++;
+    }
   }
 
-  /**
-   * The `end()` function returns a new `DequeIterator` object with the size and reference to the
-   * current deque.
-   * @returns A new instance of the DequeIterator class is being returned.
-   */
-  end() {
-    return new DequeIterator<E>(this.size, this);
+  *end(): Generator<E> {
+    let index = this.size;
+    while (index > 0) {
+      index--;
+      yield this.getAt(index);
+    }
   }
 
-  /**
-   * The reverseBegin function returns a new DequeIterator object that starts at the last element of
-   * the deque and iterates in reverse direction.
-   * @returns A new instance of the DequeIterator class is being returned.
-   */
-  reverseBegin() {
-    return new DequeIterator<E>(this.size - 1, this, IterateDirection.REVERSE);
+  *reverseBegin(): Generator<E> {
+    let index = this.size - 1;
+    while (index >= 0) {
+      yield this.getAt(index);
+      index--;
+    }
   }
 
-  /**
-   * The reverseEnd() function returns a new DequeIterator object that iterates over the elements of a
-   * Deque in reverse order.
-   * @returns A new instance of the DequeIterator class is being returned.
-   */
-  reverseEnd() {
-    return new DequeIterator<E>(-1, this, IterateDirection.REVERSE);
+  *reverseEnd(): Generator<E> {
+    let index = -1;
+    while (index < this.size - 1) {
+      index++;
+      yield this.getAt(index);
+    }
   }
 
   /**
@@ -431,7 +345,7 @@ export class Deque<E> {
    * @returns The element at the specified position in the data structure is being returned.
    */
   getAt(pos: number): E {
-    rangeCheck!(pos, 0, this.size - 1);
+    rangeCheck(pos, 0, this.size - 1);
     const {
       bucketIndex,
       indexInBucket
@@ -456,7 +370,7 @@ export class Deque<E> {
    * position in the data structure.
    */
   setAt(pos: number, element: E) {
-    rangeCheck!(pos, 0, this.size - 1);
+    rangeCheck(pos, 0, this.size - 1);
     const {
       bucketIndex,
       indexInBucket
@@ -486,7 +400,7 @@ export class Deque<E> {
    */
   insertAt(pos: number, element: E, num = 1) {
     const length = this.size;
-    rangeCheck!(pos, 0, length);
+    rangeCheck(pos, 0, length);
     if (pos === 0) {
       while (num--) this.unshift(element);
     } else if (pos === this.size) {
@@ -550,7 +464,7 @@ export class Deque<E> {
    * @returns The size of the data structure after the deletion operation is performed.
    */
   deleteAt(pos: number) {
-    rangeCheck!(pos, 0, this.size - 1);
+    rangeCheck(pos, 0, this.size - 1);
     if (pos === 0) this.shift();
     else if (pos === this.size - 1) this.pop();
     else {
@@ -603,50 +517,6 @@ export class Deque<E> {
     }
     this.cut(index - 1);
     return this.size;
-  }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The function deletes an element from a deque using an iterator and returns the next iterator.
-   * @param iter - The parameter `iter` is of type `DequeIterator<E>`. It represents an iterator object
-   * that is used to iterate over elements in a deque (double-ended queue).
-   * @returns the updated iterator after deleting an element from the deque.
-   */
-  deleteByIterator(iter: DequeIterator<E>) {
-    const index = iter.index;
-    this.deleteAt(index);
-    iter = iter.next();
-    return iter;
-  }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The function `findIterator` searches for an element in a deque and returns an iterator pointing to
-   * the element if found, otherwise it returns an iterator pointing to the end of the deque.
-   * @param {E} element - The `element` parameter is the element that you want to find in the deque.
-   * @returns The method `findIterator(element: E)` returns a `DequeIterator<E>` object.
-   */
-  findIterator(element: E) {
-    for (let i = 0; i < this.size; ++i) {
-      if (this.getAt(i) === element) {
-        return new DequeIterator<E>(i, this);
-      }
-    }
-    return this.end();
   }
 
   /**
