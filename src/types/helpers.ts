@@ -16,11 +16,11 @@ export const enum IterateDirection {
 }
 
 export interface IterableWithSize<T> extends Iterable<T> {
-  size: number;
+  size: number | ((...args: any[]) => number);
 }
 
 export interface IterableWithLength<T> extends Iterable<T> {
-  length: number;
+  length: number | ((...args: any[]) => number);
 }
 
 export type IterableWithSizeOrLength<T> = IterableWithSize<T> | IterableWithLength<T>

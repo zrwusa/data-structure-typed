@@ -119,11 +119,11 @@ export class Deque<E> {
    */
   constructor(elements: IterableWithSizeOrLength<E> = [], bucketSize = (1 << 12)) {
 
-    let _size;
+    let _size: number;
     if ('length' in elements) {
-      _size = elements.length;
+      if (elements.length instanceof Function) _size = elements.length(); else _size = elements.length;
     } else {
-      _size = elements.size;
+      if (elements.size instanceof Function) _size = elements.size();else _size = elements.size;
     }
 
     this._bucketSize = bucketSize;
@@ -991,7 +991,7 @@ export class Deque<E> {
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    */
-  
+
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
