@@ -124,7 +124,7 @@ export class HashMapIterator<K, V> {
   }
 
   clone() {
-    return new HashMapIterator(this._node, this._sentinel, this.hashMap, this.iterateDirection)
+    return new HashMapIterator<K, V>(this._node, this._sentinel, this.hashMap, this.iterateDirection)
   }
 }
 

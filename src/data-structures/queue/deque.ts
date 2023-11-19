@@ -23,6 +23,20 @@ export class DequeIterator<E> {
   index: number;
   readonly deque: Deque<E>;
 
+  /**
+   * The constructor initializes the index, iterate direction, and prev/next functions for a
+   * DequeIterator object.
+   * @param {number} index - The index parameter represents the current index position of the iterator
+   * within the deque. It is a number that indicates the position of the element that the iterator is
+   * currently pointing to.
+   * @param deque - The `deque` parameter is an instance of the `Deque` class. It represents a
+   * double-ended queue data structure, which allows elements to be added or removed from both ends.
+   * @param iterateDirection - The `iterateDirection` parameter is an optional parameter that specifies
+   * the direction in which the iterator should iterate over the elements of the `deque`. It has a
+   * default value of `IterateDirection.DEFAULT`.
+   * @returns The constructor is not returning anything. It is used to initialize the properties of the
+   * object being created.
+   */
   constructor(index: number, deque: Deque<E>, iterateDirection = IterateDirection.DEFAULT) {
     this.index = index;
     this.iterateDirection = iterateDirection;
@@ -94,6 +108,15 @@ export class Deque<E> {
   protected _bucketCount = 0;
   protected readonly _bucketSize: number;
 
+  /**
+   * The constructor initializes a data structure with a specified bucket size and populates it with
+   * elements from an iterable.
+   * @param elements - The `elements` parameter is an iterable object (such as an array or a Set) that
+   * contains the initial elements to be stored in the data structure. It can also be an object with a
+   * `length` property or a `size` property, which represents the number of elements in the iterable.
+   * @param bucketSize - The `bucketSize` parameter is the maximum number of elements that can be
+   * stored in each bucket. It determines the size of each bucket in the data structure.
+   */
   constructor(elements: IterableWithSizeOrLength<E> = [], bucketSize = (1 << 12)) {
 
     let _size;
@@ -129,6 +152,11 @@ export class Deque<E> {
     return this._size;
   }
 
+  /**
+   * The function returns the first element in a collection if it exists, otherwise it returns
+   * undefined.
+   * @returns The first element of the collection, of type E, is being returned.
+   */
   get first(): E | undefined {
     if (this.size === 0) return;
     return this._buckets[this._bucketFirst][this._firstInBucket];
@@ -137,15 +165,6 @@ export class Deque<E> {
   get last(): E | undefined {
     if (this.size === 0) return;
     return this._buckets[this._bucketLast][this._lastInBucket];
-  }
-
-  /**
-   * Time Complexity: Amortized O(1) - Generally constant time, but resizing when the deque is full leads to O(n).
-   * Space Complexity: O(n) - In worst case, resizing doubles the array size.
-   */
-
-  empty() {
-    return this._size === 0;
   }
 
   /**
@@ -214,6 +233,10 @@ export class Deque<E> {
     return this.shift();
   }
 
+  /**
+   * The clear() function resets the state of the object by initializing all variables to their default
+   * values.
+   */
   clear() {
     this._buckets = [new Array(this._bucketSize)];
     this._bucketCount = 1;
@@ -221,22 +244,55 @@ export class Deque<E> {
     this._firstInBucket = this._lastInBucket = this._bucketSize >> 1;
   }
 
+  /**
+   * The `begin()` function returns a new iterator for a deque starting from the first element.
+   * @returns A new instance of the DequeIterator class is being returned.
+   */
   begin() {
     return new DequeIterator<E>(0, this);
   }
 
+  /**
+   * The `end()` function returns a new `DequeIterator` object with the size and reference to the
+   * current deque.
+   * @returns A new instance of the DequeIterator class is being returned.
+   */
   end() {
     return new DequeIterator<E>(this.size, this);
   }
 
+  /**
+   * The reverseBegin function returns a new DequeIterator object that starts at the last element of
+   * the deque and iterates in reverse direction.
+   * @returns A new instance of the DequeIterator class is being returned.
+   */
   reverseBegin() {
     return new DequeIterator<E>(this.size - 1, this, IterateDirection.REVERSE);
   }
 
+  /**
+   * The reverseEnd() function returns a new DequeIterator object that iterates over the elements of a
+   * Deque in reverse order.
+   * @returns A new instance of the DequeIterator class is being returned.
+   */
   reverseEnd() {
     return new DequeIterator<E>(-1, this, IterateDirection.REVERSE);
   }
 
+  /**
+   * Time Complexity - Amortized O(1) (possible reallocation)
+   * Space Complexity - O(n) (due to potential resizing).
+   */
+
+  /**
+   * Time Complexity - Amortized O(1) (possible reallocation),
+   * Space Complexity - O(n) (due to potential resizing).
+   *
+   * The push function adds an element to a data structure and reallocates memory if necessary.
+   * @param {E} element - The `element` parameter represents the value that you want to add to the data
+   * structure.
+   * @returns The size of the data structure after the element has been pushed.
+   */
   push(element: E) {
     if (this.size) {
       if (this._lastInBucket < this._bucketSize - 1) {
@@ -258,6 +314,19 @@ export class Deque<E> {
     return this.size;
   }
 
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The `pop()` function removes and returns the last element from a data structure, updating the
+   * internal state variables accordingly.
+   * @returns The element that was removed from the data structure is being returned.
+   */
   pop() {
     if (this.size === 0) return;
     const element = this._buckets[this._bucketLast][this._lastInBucket];
@@ -276,6 +345,21 @@ export class Deque<E> {
     return element;
   }
 
+  /**
+   * Time Complexity: Amortized O(1)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: Amortized O(1)
+   * Space Complexity: O(n)
+   *
+   * The `unshift` function adds an element to the beginning of an array-like data structure and
+   * returns the new size of the structure.
+   * @param {E} element - The `element` parameter represents the element that you want to add to the
+   * beginning of the data structure.
+   * @returns The size of the data structure after the element has been added.
+   */
   unshift(element: E) {
     if (this.size) {
       if (this._firstInBucket > 0) {
@@ -297,6 +381,21 @@ export class Deque<E> {
     return this.size;
   }
 
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The `shift()` function removes and returns the first element from a data structure, updating the
+   * internal state variables accordingly.
+   * @returns The element that is being removed from the beginning of the data structure is being
+   * returned.
+   */
   shift() {
     if (this.size === 0) return;
     const element = this._buckets[this._bucketFirst][this._firstInBucket];
@@ -315,6 +414,22 @@ export class Deque<E> {
     return element;
   }
 
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The `getAt` function retrieves an element at a specified position in an array-like data structure.
+   * @param {number} pos - The `pos` parameter represents the position of the element that you want to
+   * retrieve from the data structure. It is of type `number` and should be a valid index within the
+   * range of the data structure.
+   * @returns The element at the specified position in the data structure is being returned.
+   */
   getAt(pos: number): E {
     rangeCheck!(pos, 0, this.size - 1);
     const {
@@ -324,6 +439,22 @@ export class Deque<E> {
     return this._buckets[bucketIndex][indexInBucket]!;
   }
 
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The `setAt` function sets an element at a specific position in an array-like data structure.
+   * @param {number} pos - The `pos` parameter represents the position at which the element needs to be
+   * set. It is of type `number`.
+   * @param {E} element - The `element` parameter is the value that you want to set at the specified
+   * position in the data structure.
+   */
   setAt(pos: number, element: E) {
     rangeCheck!(pos, 0, this.size - 1);
     const {
@@ -333,6 +464,26 @@ export class Deque<E> {
     this._buckets[bucketIndex][indexInBucket] = element;
   }
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `insertAt` function inserts one or more elements at a specified position in an array-like data
+   * structure.
+   * @param {number} pos - The `pos` parameter represents the position at which the element(s) should
+   * be inserted. It is of type `number`.
+   * @param {E} element - The `element` parameter represents the element that you want to insert into
+   * the array at the specified position.
+   * @param [num=1] - The `num` parameter represents the number of times the `element` should be
+   * inserted at the specified position (`pos`). By default, it is set to 1, meaning that the `element`
+   * will be inserted once. However, you can provide a different value for `num` if you want
+   * @returns The size of the array after the insertion is being returned.
+   */
   insertAt(pos: number, element: E, num = 1) {
     const length = this.size;
     rangeCheck!(pos, 0, length);
@@ -352,6 +503,21 @@ export class Deque<E> {
     return this.size;
   }
 
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The `cut` function updates the state of the object based on the given position and returns the
+   * updated size.
+   * @param {number} pos - The `pos` parameter represents the position at which the string should be
+   * cut. It is a number that indicates the index of the character where the cut should be made.
+   * @returns The method is returning the updated size of the data structure.
+   */
   cut(pos: number) {
     if (pos < 0) {
       this.clear();
@@ -367,6 +533,22 @@ export class Deque<E> {
     return this.size;
   }
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
+   * The `deleteAt` function removes an element at a specified position in an array-like data
+   * structure.
+   * @param {number} pos - The `pos` parameter in the `deleteAt` function represents the position at
+   * which an element needs to be deleted from the data structure. It is of type `number` and indicates
+   * the index of the element to be deleted.
+   * @returns The size of the data structure after the deletion operation is performed.
+   */
   deleteAt(pos: number) {
     rangeCheck!(pos, 0, this.size - 1);
     if (pos === 0) this.shift();
@@ -391,6 +573,21 @@ export class Deque<E> {
     return this.size;
   }
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
+   * The `delete` function removes all occurrences of a specified element from an array-like data
+   * structure.
+   * @param {E} element - The `element` parameter represents the element that you want to delete from
+   * the data structure.
+   * @returns The size of the data structure after the element has been deleted.
+   */
   delete(element: E) {
     const size = this.size;
     if (size === 0) return 0;
@@ -408,6 +605,20 @@ export class Deque<E> {
     return this.size;
   }
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
+   * The function deletes an element from a deque using an iterator and returns the next iterator.
+   * @param iter - The parameter `iter` is of type `DequeIterator<E>`. It represents an iterator object
+   * that is used to iterate over elements in a deque (double-ended queue).
+   * @returns the updated iterator after deleting an element from the deque.
+   */
   deleteByIterator(iter: DequeIterator<E>) {
     const index = iter.index;
     this.deleteAt(index);
@@ -415,6 +626,20 @@ export class Deque<E> {
     return iter;
   }
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
+   * The function `findIterator` searches for an element in a deque and returns an iterator pointing to
+   * the element if found, otherwise it returns an iterator pointing to the end of the deque.
+   * @param {E} element - The `element` parameter is the element that you want to find in the deque.
+   * @returns The method `findIterator(element: E)` returns a `DequeIterator<E>` object.
+   */
   findIterator(element: E) {
     for (let i = 0; i < this.size; ++i) {
       if (this.getAt(i) === element) {
@@ -424,6 +649,20 @@ export class Deque<E> {
     return this.end();
   }
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
+   * The reverse() function reverses the order of the buckets and the elements within each bucket in a
+   * data structure.
+   * @returns The reverse() method is returning the object itself (this) after performing the reverse
+   * operation on the buckets and updating the relevant properties.
+   */
   reverse() {
     this._buckets.reverse().forEach(function (bucket) {
       bucket.reverse();
@@ -436,6 +675,19 @@ export class Deque<E> {
     return this;
   }
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
+   * The `unique()` function removes duplicate elements from an array-like data structure and returns
+   * the number of unique elements.
+   * @returns The size of the modified array is being returned.
+   */
   unique() {
     if (this.size <= 1) {
       return this.size;
@@ -453,6 +705,21 @@ export class Deque<E> {
     return this.size;
   }
 
+  /**
+   * Time Complexity: O(n log n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n log n)
+   * Space Complexity: O(n)
+   *
+   * The `sort` function sorts the elements in a data structure using a provided comparator function.
+   * @param [comparator] - The `comparator` parameter is a function that takes in two elements `x` and
+   * `y` of type `E` and returns a number. The comparator function is used to determine the order of
+   * the elements in the sorted array.
+   * @returns The method is returning the sorted instance of the object on which the method is called.
+   */
   sort(comparator?: (x: E, y: E) => number) {
     const arr: E[] = [];
     for (let i = 0; i < this.size; ++i) {
@@ -465,6 +732,20 @@ export class Deque<E> {
     return this;
   }
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `shrinkToFit` function reorganizes the elements in an array-like data structure to minimize
+   * memory usage.
+   * @returns Nothing is being returned. The function is using the `return` statement to exit early if
+   * `this.size` is 0, but it does not return any value.
+   */
   shrinkToFit() {
     if (this.size === 0) return;
     const newBuckets = [];
@@ -486,12 +767,42 @@ export class Deque<E> {
     this._buckets = newBuckets;
   }
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
+   * The `forEach` function iterates over each element in a deque and applies a callback function to
+   * each element.
+   * @param callback - The callback parameter is a function that will be called for each element in the
+   * deque. It takes three parameters:
+   */
   forEach(callback: (element: E, index: number, deque: Deque<E>) => void) {
     for (let i = 0; i < this.size; ++i) {
       callback(this.getAt(i), i, this);
     }
   }
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
+   * The `find` function iterates over the elements in a deque and returns the first element for which
+   * the callback function returns true, or undefined if no such element is found.
+   * @param callback - A function that takes three parameters: element, index, and deque. It should
+   * return a boolean value indicating whether the element satisfies a certain condition.
+   * @returns The method `find` returns the first element in the deque that satisfies the condition
+   * specified by the callback function. If no element satisfies the condition, it returns `undefined`.
+   */
   find(callback: (element: E, index: number, deque: Deque<E>) => boolean): E | undefined {
     for (let i = 0; i < this.size; ++i) {
       const element = this.getAt(i);
@@ -502,6 +813,18 @@ export class Deque<E> {
     return undefined;
   }
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `toArray` function converts the elements of a data structure into an array.
+   * @returns The `toArray()` method is returning an array of elements of type `E`.
+   */
   toArray(): E[] {
     const arr: E[] = [];
     for (let i = 0; i < this.size; ++i) {
@@ -510,6 +833,20 @@ export class Deque<E> {
     return arr;
   }
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `map` function takes a callback function and applies it to each element in the deque,
+   * returning a new deque with the results.
+   * @param callback - The `callback` parameter is a function that takes three arguments:
+   * @returns The `map` method is returning a new `Deque` object with the transformed elements.
+   */
   map<T>(callback: (element: E, index: number, deque: Deque<E>) => T): Deque<T> {
     const newDeque = new Deque<T>([], this._bucketSize);
     for (let i = 0; i < this.size; ++i) {
@@ -518,6 +855,22 @@ export class Deque<E> {
     return newDeque;
   }
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `filter` function creates a new deque containing only the elements that satisfy the given
+   * predicate function.
+   * @param predicate - The `predicate` parameter is a function that takes three arguments: `element`,
+   * `index`, and `deque`.
+   * @returns The `filter` method is returning a new `Deque` object that contains only the elements
+   * that satisfy the given `predicate` function.
+   */
   filter(predicate: (element: E, index: number, deque: Deque<E>) => boolean): Deque<E> {
     const newDeque = new Deque<E>([], this._bucketSize);
     for (let i = 0; i < this.size; ++i) {
@@ -529,6 +882,24 @@ export class Deque<E> {
     return newDeque;
   }
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
+   * The `reduce` function iterates over the elements of a deque and applies a callback function to
+   * each element, accumulating a single value.
+   * @param callback - The `callback` parameter is a function that takes four arguments:
+   * @param {T} initialValue - The `initialValue` parameter is the initial value of the accumulator. It
+   * is the value that will be passed as the first argument to the `callback` function when reducing
+   * the elements of the deque.
+   * @returns the final value of the accumulator after iterating over all elements in the deque and
+   * applying the callback function to each element.
+   */
   reduce<T>(callback: (accumulator: T, element: E, index: number, deque: Deque<E>) => T, initialValue: T): T {
     let accumulator = initialValue;
     for (let i = 0; i < this.size; ++i) {
@@ -537,6 +908,22 @@ export class Deque<E> {
     return accumulator;
   }
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
+   * The function "indexOf" returns the index of the first occurrence of a given element in an array,
+   * or -1 if the element is not found.
+   * @param {E} element - The "element" parameter represents the element that you want to find the
+   * index of in the data structure.
+   * @returns The indexOf function returns the index of the first occurrence of the specified element
+   * in the data structure. If the element is not found, it returns -1.
+   */
   indexOf(element: E): number {
     for (let i = 0; i < this.size; ++i) {
       if (this.getAt(i) === element) {
@@ -546,12 +933,38 @@ export class Deque<E> {
     return -1;
   }
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
+   * The above function is an implementation of the iterator protocol in TypeScript, allowing the
+   * object to be iterated over using a for...of loop.
+   */
   * [Symbol.iterator]() {
     for (let i = 0; i < this.size; ++i) {
       yield this.getAt(i);
     }
   }
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `_reallocate` function reallocates the buckets in an array, adding new buckets if needed.
+   * @param {number} [needBucketNum] - The `needBucketNum` parameter is an optional number that
+   * specifies the number of new buckets needed. If not provided, it will default to half of the
+   * current bucket count (`this._bucketCount >> 1`) or 1 if the current bucket count is less than 2.
+   */
   protected _reallocate(needBucketNum?: number) {
     const newBuckets = [];
     const addBucketNum = needBucketNum || this._bucketCount >> 1 || 1;
@@ -574,6 +987,20 @@ export class Deque<E> {
     this._bucketCount = newBuckets.length;
   }
 
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+  
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The function calculates the bucket index and index within the bucket based on the given position.
+   * @param {number} pos - The `pos` parameter represents the position within the data structure. It is
+   * a number that indicates the index or position of an element within the structure.
+   * @returns an object with two properties: "bucketIndex" and "indexInBucket".
+   */
   protected _getBucketAndPosition(pos: number) {
     let bucketIndex: number;
     let indexInBucket: number;
