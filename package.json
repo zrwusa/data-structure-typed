@@ -32,6 +32,7 @@
     "format:src": "prettier --write 'src/**/*.{js,ts}'",
     "format:test": "prettier --write 'test/**/*.{js,ts}'",
     "format": "npm run format:src && npm run format:test",
+    "check:exist-latest": "sh scripts/check_exist_remotely.sh",
     "ci": "env && git fetch --tags && npm run inspect && npm run lint && npm run build && npm run test:unit && npm run changelog",
     "update:subs": "npm i avl-tree-typed binary-tree-typed bst-typed heap-typed data-structure-typed --save-dev",
     "install:all-subs": "npm i avl-tree-typed binary-tree-typed bst-typed deque-typed directed-graph-typed doubly-linked-list-typed graph-typed heap-typed linked-list-typed max-heap-typed max-priority-queue-typed min-heap-typed min-priority-queue-typed priority-queue-typed singly-linked-list-typed stack-typed tree-multimap-typed trie-typed undirected-graph-typed queue-typed --save-dev",
@@ -40,7 +41,7 @@
     "copy:to-subs": "sh scripts/copy_to_all_subs.sh",
     "publish:subs": "npm run copy:to-subs && sh scripts/publish_all_subs.sh",
     "publish:docs": "sh scripts/publish_docs.sh",
-    "publish:all": "npm run ci && npm publish && npm run publish:docs && npm run publish:subs"
+    "publish:all": "npm run ci && npm publish && npm run publish:docs && npm run check:exist-latest && npm run publish:subs"
   },
   "repository": {
     "type": "git",
