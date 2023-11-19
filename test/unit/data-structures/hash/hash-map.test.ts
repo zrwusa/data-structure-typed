@@ -172,15 +172,14 @@ describe('HashMap', () => {
     stdMap.forEach((value, key) => {
       if (index === 0) {
         expect(hashMap.first).toEqual([key, value]);
-        expect(hashMap.begin.current[0]).toEqual(key);
+        expect(hashMap.begin().next().value).toEqual([key, value]);
       } else if (index === hashMap.size - 1) {
         expect(hashMap.last).toEqual([key, value]);
-        expect(hashMap.reverseBegin.current[0]).toEqual(key);
+        expect(hashMap.reverseBegin().next().value).toEqual([key, value]);
       } else if (index <= 1000) {
         expect(hashMap.getAt(index)).toEqual([key, value]);
       }
       expect(hashMap.get(key)).toEqual(value);
-      expect(hashMap.getIterator(key).current[1]).toEqual(value);
       index++;
     });
   }
@@ -210,8 +209,8 @@ describe('HashMap', () => {
   test('should iterate correctly with reverse iterators', () => {
     hashMap.set('key1', 'value1');
     hashMap.set('key2', 'value2');
-    const iterator = hashMap.reverseBegin;
-    expect(iterator.next().current).toEqual(['key1', 'value1']);
+    const iterator = hashMap.reverseBegin();
+    expect(iterator.next().value).toEqual(['key2', 'value2']);
   });
 
   test('should return the last element', () => {

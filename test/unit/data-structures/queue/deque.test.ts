@@ -434,19 +434,6 @@ describe('Deque', () => {
     });
   });
 
- //Test end method
-  describe('end()', () => {
-    it('should return an iterator at the end of the deque', () => {
-      deque.push(1);
-      deque.push(2);
-      deque.push(3);
-
-      const iterator = deque.end();
-
-      expect(iterator.next().value).toBe(3);
-    });
-  });
-
   // Test the reverse Begin method
   describe('reverseBegin()', () => {
     it('should return a reverse iterator at the beginning of the deque', () => {
@@ -460,16 +447,4 @@ describe('Deque', () => {
     });
   });
 
-  // Test the reverse End method
-  describe('reverseEnd()', () => {
-    it('should return a reverse iterator at the end of the deque', () => {
-      deque.push(1);
-      deque.push(2);
-      deque.push(3);
-
-      const iterator = deque.reverseEnd();
-
-      expect(iterator.next().value).toBe(1);
-    });
-  });
 });

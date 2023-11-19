@@ -40,7 +40,7 @@ export class Deque<E> {
     if ('length' in elements) {
       if (elements.length instanceof Function) _size = elements.length(); else _size = elements.length;
     } else {
-      if (elements.size instanceof Function) _size = elements.size();else _size = elements.size;
+      if (elements.size instanceof Function) _size = elements.size(); else _size = elements.size;
     }
 
     this._bucketSize = bucketSize;
@@ -161,7 +161,10 @@ export class Deque<E> {
     this._firstInBucket = this._lastInBucket = this._bucketSize >> 1;
   }
 
-  *begin(): Generator<E> {
+  /**
+   * The below function is a generator that yields elements from a collection one by one.
+   */
+  * begin(): Generator<E> {
     let index = 0;
     while (index < this.size) {
       yield this.getAt(index);
@@ -169,27 +172,15 @@ export class Deque<E> {
     }
   }
 
-  *end(): Generator<E> {
-    let index = this.size;
-    while (index > 0) {
-      index--;
-      yield this.getAt(index);
-    }
-  }
-
-  *reverseBegin(): Generator<E> {
+  /**
+   * The function `reverseBegin()` is a generator that yields elements in reverse order starting from
+   * the last element.
+   */
+  * reverseBegin(): Generator<E> {
     let index = this.size - 1;
     while (index >= 0) {
       yield this.getAt(index);
       index--;
-    }
-  }
-
-  *reverseEnd(): Generator<E> {
-    let index = -1;
-    while (index < this.size - 1) {
-      index++;
-      yield this.getAt(index);
     }
   }
 
