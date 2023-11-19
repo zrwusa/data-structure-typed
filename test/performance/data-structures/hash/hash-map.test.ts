@@ -5,42 +5,42 @@ import { magnitude } from '../../../utils';
 import { isCompetitor } from '../../../config';
 
 const suite = new Benchmark.Suite();
-const { TEN_THOUSAND } = magnitude;
+const { MILLION } = magnitude;
 
-suite.add(`${TEN_THOUSAND.toLocaleString()} set`, () => {
+suite.add(`${MILLION.toLocaleString()} set`, () => {
   const hm = new HashMap<number, number>();
 
-  for (let i = 0; i < TEN_THOUSAND; i++) {
+  for (let i = 0; i < MILLION; i++) {
     hm.set(i, i);
   }
 });
 if (isCompetitor) {
-  suite.add(`${TEN_THOUSAND.toLocaleString()} CPT set`, () => {
+  suite.add(`${MILLION.toLocaleString()} CPT set`, () => {
     const hm = new CHashMap<number, number>();
 
-    for (let i = 0; i < TEN_THOUSAND; i++) {
+    for (let i = 0; i < MILLION; i++) {
       hm.setElement(i, i);
     }
   });
 }
-suite.add(`${TEN_THOUSAND.toLocaleString()} set & get`, () => {
+suite.add(`${MILLION.toLocaleString()} set & get`, () => {
   const hm = new HashMap<number, number>();
 
-  for (let i = 0; i < TEN_THOUSAND; i++) {
+  for (let i = 0; i < MILLION; i++) {
     hm.set(i, i);
   }
-  for (let i = 0; i < TEN_THOUSAND; i++) {
+  for (let i = 0; i < MILLION; i++) {
     hm.get(i);
   }
 });
 if (isCompetitor) {
-  suite.add(`${TEN_THOUSAND.toLocaleString()} CPT set & get`, () => {
+  suite.add(`${MILLION.toLocaleString()} CPT set & get`, () => {
     const hm = new CHashMap<number, number>();
 
-    for (let i = 0; i < TEN_THOUSAND; i++) {
+    for (let i = 0; i < MILLION; i++) {
       hm.setElement(i, i);
     }
-    for (let i = 0; i < TEN_THOUSAND; i++) {
+    for (let i = 0; i < MILLION; i++) {
       hm.getElementByKey(i);
     }
   });
