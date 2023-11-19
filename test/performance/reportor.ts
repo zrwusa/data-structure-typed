@@ -25,17 +25,20 @@ const reportDistPath = path.join(parentDirectory, 'benchmark');
 
 const testDir = path.join(__dirname, 'data-structures');
 const allFiles = fastGlob.sync(path.join(testDir, '**', '*.test.ts'));
-let testFiles: string[] = [];
+let testFiles: string[];
+
+let isIndividual = false;
 if (args.length > 0) {
   console.log(`arguments: ${args.join(' ')}`)
 
   testFiles = allFiles.filter(file =>
     args.every(word => file.includes(word))
   );
-
+  isIndividual = true;
   console.log(`${testFiles.map(file => coloredLabeled('Matched', file)).join(`
 `)}`);
 } else {
+  isIndividual = false;
   testFiles = allFiles;
 }
 
@@ -129,7 +132,7 @@ const composeReport = () => {
   html += `</div>
                     </body>
                   </html>`;
-  replaceMarkdownContent(
+  if (!isIndividual) replaceMarkdownContent(
     '[//]: # (No deletion!!! Start of Replace Section)', // Start tag
     '[//]: # (No deletion!!! End of Replace Section)', // end identifier
     htmlTables // New content to be inserted
