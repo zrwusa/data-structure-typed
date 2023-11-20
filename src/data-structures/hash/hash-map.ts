@@ -7,23 +7,17 @@
  */
 
 import { isWeakKey, rangeCheck } from '../../utils';
-import { HashMapLinkedNode } from '../../types';
-
-type HashMapOptions<K, V> = {
-  elements: Iterable<[K, V]>;
-  hashFn: (key: K) => string;
-  objHashFn: (key: K) => WeakKey
-}
+import { HashMapLinkedNode, HashMapOptions } from '../../types';
 
 export class HashMap<K = any, V = any> {
 
   protected _noObjMap: Record<string, HashMapLinkedNode<K, V | undefined>> = {};
-  protected _objMap = new WeakMap<WeakKey, HashMapLinkedNode<K, V | undefined>>();
+  protected _objMap = new WeakMap<object, HashMapLinkedNode<K, V | undefined>>();
   protected _head: HashMapLinkedNode<K, V | undefined>;
   protected _tail: HashMapLinkedNode<K, V | undefined>;
   protected readonly _sentinel: HashMapLinkedNode<K, V | undefined>;
   protected _hashFn: (key: K) => string;
-  protected _objHashFn: (key: K) => WeakKey;
+  protected _objHashFn: (key: K) => object;
 
   /**
    * The constructor initializes a HashMapLinkedNode with an optional iterable of key-value pairs.
@@ -33,7 +27,7 @@ export class HashMap<K = any, V = any> {
   constructor(options: HashMapOptions<K, V> = {
     elements: [],
     hashFn: (key: K) => String(key),
-    objHashFn: (key: K) => (<WeakKey>key)
+    objHashFn: (key: K) => (<object>key)
   }) {
     this._sentinel = <HashMapLinkedNode<K, V>>{};
     this._sentinel.prev = this._sentinel.next = this._head = this._tail = this._sentinel;
@@ -120,8 +114,7 @@ export class HashMap<K = any, V = any> {
     let node;
 
     if (isWeakKey(key)) {
-      // const hash = this._objHashFn(key);
-      const hash = key;
+      const hash = this._objHashFn(key);
       node = this._objMap.get(hash);
 
       if (node) {

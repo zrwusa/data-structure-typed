@@ -71,54 +71,6 @@ const {
 } = dataStructureTyped;
 ```
 
-## Software Engineering Design Standards
-<table>
-    <tr>
-        <th>Principle</th>
-        <th>Description</th>
-    </tr>
-    <tr>
-        <td>Practicality</td>
-        <td>Follows ES6 and ESNext standards, offering unified and considerate optional parameters, and simplifies method names.</td>
-    </tr>
-    <tr>
-        <td>Extensibility</td>
-        <td>Adheres to OOP (Object-Oriented Programming) principles, allowing inheritance for all data structures.</td>
-    </tr>
-    <tr>
-        <td>Modularization</td>
-        <td>Includes data structure modularization and independent NPM packages.</td>
-    </tr>
-    <tr>
-        <td>Efficiency</td>
-        <td>All methods provide time and space complexity, comparable to native JS performance.</td>
-    </tr>
-    <tr>
-        <td>Maintainability</td>
-        <td>Follows open-source community development standards, complete documentation, continuous integration, and adheres to TDD (Test-Driven Development) patterns.</td>
-    </tr>
-    <tr>
-        <td>Testability</td>
-        <td>Automated and customized unit testing, performance testing, and integration testing.</td>
-    </tr>
-    <tr>
-        <td>Portability</td>
-        <td>Plans for porting to Java, Python, and C++, currently achieved to 80%.</td>
-    </tr>
-    <tr>
-        <td>Reusability</td>
-        <td>Fully decoupled, minimized side effects, and adheres to OOP.</td>
-    </tr>
-    <tr>
-        <td>Security</td>
-        <td>Carefully designed security for member variables and methods. Read-write separation. Data structure software does not need to consider other security aspects.</td>
-    </tr>
-    <tr>
-        <td>Scalability</td>
-        <td>Data structure software does not involve load issues.</td>
-    </tr>
-</table>
-
 ## Vivid Examples
 
 ### Binary Tree
@@ -859,16 +811,50 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', '
 [//]: # (No deletion!!! End of Replace Section)
 
 
-## Codebase design
-
-### Adhere to ES6 and ESNext standard naming conventions for APIs.
-
-Standardize API conventions by using 'add' and 'delete' for element manipulation methods in all data structures. 
-
-Opt for concise and clear method names, avoiding excessive length while ensuring explicit intent.
-
-### Object-oriented programming(OOP) 
-
-By strictly adhering to object-oriented design (BinaryTree -> BST -> AVLTree -> TreeMultimap), you can seamlessly
-inherit the existing data structures to implement the customized ones you need. Object-oriented design stands as the
-optimal approach to data structure design.
+## Software Engineering Design Standards
+<table>
+    <tr>
+        <th>Principle</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>Practicality</td>
+        <td>Follows ES6 and ESNext standards, offering unified and considerate optional parameters, and simplifies method names.</td>
+    </tr>
+    <tr>
+        <td>Extensibility</td>
+        <td>Adheres to OOP (Object-Oriented Programming) principles, allowing inheritance for all data structures.</td>
+    </tr>
+    <tr>
+        <td>Modularization</td>
+        <td>Includes data structure modularization and independent NPM packages.</td>
+    </tr>
+    <tr>
+        <td>Efficiency</td>
+        <td>All methods provide time and space complexity, comparable to native JS performance.</td>
+    </tr>
+    <tr>
+        <td>Maintainability</td>
+        <td>Follows open-source community development standards, complete documentation, continuous integration, and adheres to TDD (Test-Driven Development) patterns.</td>
+    </tr>
+    <tr>
+        <td>Testability</td>
+        <td>Automated and customized unit testing, performance testing, and integration testing.</td>
+    </tr>
+    <tr>
+        <td>Portability</td>
+        <td>Plans for porting to Java, Python, and C++, currently achieved to 80%.</td>
+    </tr>
+    <tr>
+        <td>Reusability</td>
+        <td>Fully decoupled, minimized side effects, and adheres to OOP.</td>
+    </tr>
+    <tr>
+        <td>Security</td>
+        <td>Carefully designed security for member variables and methods. Read-write separation. Data structure software does not need to consider other security aspects.</td>
+    </tr>
+    <tr>
+        <td>Scalability</td>
+        <td>Data structure software does not involve load issues.</td>
+    </tr>
+</table>
