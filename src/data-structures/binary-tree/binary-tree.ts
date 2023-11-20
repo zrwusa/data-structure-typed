@@ -1727,7 +1727,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
 
   /**
    * The `print` function is used to display a binary tree structure in a visually appealing way.
-   * @param {N | null | undefined} root - The `root` parameter is of type `BTNKey | N | null |
+   * @param {N | null | undefined} beginRoot - The `root` parameter is of type `BTNKey | N | null |
    * undefined`. It represents the root node of a binary tree. The root node can have one of the
    * following types:
    */

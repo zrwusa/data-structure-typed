@@ -487,4 +487,21 @@ describe('RedBlackTree', () => {
     }
     isDebug && console.log(performance.now() - cS);
   });
+
+  it('duplicates', () => {
+    tree.addMany([9,8,7,8,8,8,2,3,6,5,5,4]);
+    tree.print();
+
+    expect(tree.size).toBe(8);
+    expect(tree.isBST()).toBe(true);
+    expect(tree.isAVLBalanced()).toBe(true);
+    tree.addMany([10, 5, 2, 11]);
+    expect(tree.size).toBe(10);
+    expect(tree.isBST()).toBe(true);
+    expect(tree.isAVLBalanced()).toBe(true);
+
+    tree.clear();
+    tree.addMany([10, 20, 30, 40, 50, 60])
+    expect(tree.isAVLBalanced()).toBe(false);
+  })
 });

@@ -1,3 +1,3 @@
 export * from './data-structures';
-export * from './helpers';
+export * from './common';
 export * from './utils';
