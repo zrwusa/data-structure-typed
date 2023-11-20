@@ -6,31 +6,47 @@
  * @license MIT License
  */
 
-import { isObjOrFunc, rangeCheck } from '../../utils';
-import { HashMapLinkedNode, IterableWithSizeOrLength } from '../../types';
+import { isWeakKey, rangeCheck } from '../../utils';
+import { HashMapLinkedNode } from '../../types';
+
+type HashMapOptions<K, V> = {
+  elements: Iterable<[K, V]>;
+  hashFn: (key: K) => string;
+  objHashFn: (key: K) => WeakKey
+}
 
 export class HashMap<K = any, V = any> {
-  readonly OBJ_KEY_INDEX = Symbol('OBJ_KEY_INDEX');
-  protected _nodes: HashMapLinkedNode<K, V>[] = [];
-  protected _orgMap: Record<string, HashMapLinkedNode<K, V>> = {};
-  protected _head: HashMapLinkedNode<K, V>;
-  protected _tail: HashMapLinkedNode<K, V>;
-  protected readonly _sentinel: HashMapLinkedNode<K, V>;
+
+  protected _noObjMap: Record<string, HashMapLinkedNode<K, V | undefined>> = {};
+  protected _objMap = new WeakMap<WeakKey, HashMapLinkedNode<K, V | undefined>>();
+  protected _head: HashMapLinkedNode<K, V | undefined>;
+  protected _tail: HashMapLinkedNode<K, V | undefined>;
+  protected readonly _sentinel: HashMapLinkedNode<K, V | undefined>;
+  protected _hashFn: (key: K) => string;
+  protected _objHashFn: (key: K) => WeakKey;
 
   /**
-   * The constructor initializes a HashMap object with an optional initial set of key-value pairs.
-   * @param {Iterable<[K, V]>} elements - The `hashMap` parameter is an optional parameter of type `HashMapOptions<[K,
-   * V]>`. It is an array of key-value pairs, where each pair is represented as an array `[K, V]`. The
-   * `K` represents the type of the key and `V` represents the
+   * The constructor initializes a HashMapLinkedNode with an optional iterable of key-value pairs.
+   * @param options - The `options` parameter is an object that contains the `elements` property. The
+   * `elements` property is an iterable that contains key-value pairs represented as arrays `[K, V]`.
    */
-  constructor(elements: IterableWithSizeOrLength<[K, V]> = []) {
-    Object.setPrototypeOf(this._orgMap, null);
+  constructor(options: HashMapOptions<K, V> = {
+    elements: [],
+    hashFn: (key: K) => String(key),
+    objHashFn: (key: K) => (<WeakKey>key)
+  }) {
     this._sentinel = <HashMapLinkedNode<K, V>>{};
     this._sentinel.prev = this._sentinel.next = this._head = this._tail = this._sentinel;
 
-    for (const el of elements) {
-      this.set(el[0], el[1]);
+    const { elements, hashFn, objHashFn } = options;
+    this._hashFn = hashFn;
+    this._objHashFn = objHashFn;
+    if (elements) {
+      for (const el of elements) {
+        this.set(el[0], el[1]);
+      }
     }
+
   }
 
   protected _size = 0;
@@ -98,50 +114,54 @@ export class HashMap<K = any, V = any> {
    * type, but typically it is a string or symbol.
    * @param {V} [value] - The `value` parameter is an optional parameter of type `V`. It represents the
    * value associated with the key being set in the data structure.
-   * @param {boolean} isObjectKey - A boolean flag indicating whether the key is an object key or not.
    * @returns the size of the data structure after the key-value pair has been set.
    */
-  set(key: K, value?: V, isObjectKey: boolean = isObjOrFunc(key)) {
-    let newTail;
-    if (isObjectKey) {
-      const index = (<Record<symbol, number>>(<unknown>key))[this.OBJ_KEY_INDEX];
-      if (index !== undefined) {
-        this._nodes[<number>index].value = <V>value;
-        return this._size;
-      }
-      Object.defineProperty(key, this.OBJ_KEY_INDEX, {
-        value: this._nodes.length,
-        configurable: true
-      });
-      newTail = {
-        key: key,
-        value: <V>value,
-        prev: this._tail,
-        next: this._sentinel
-      };
-      this._nodes.push(newTail);
-    } else {
-      const node = this._orgMap[<string>(<unknown>key)];
+  set(key: K, value?: V) {
+    let node;
+
+    if (isWeakKey(key)) {
+      // const hash = this._objHashFn(key);
+      const hash = key;
+      node = this._objMap.get(hash);
+
       if (node) {
-        node.value = <V>value;
-        return this._size;
+        // If the node already exists, update its value
+        node.value = value;
+      } else {
+        // Create new node
+        node = { key: <K>hash, value, prev: this._tail, next: this._sentinel };
+
+        // Add new nodes to _objMap and linked list
+        this._objMap.set(hash, node);
       }
-      this._orgMap[<string>(<unknown>key)] = newTail = {
-        key: key,
-        value: <V>value,
-        prev: this._tail,
-        next: this._sentinel
-      };
-    }
-    if (this._size === 0) {
-      this._head = newTail;
-      this._sentinel.next = newTail;
     } else {
-      this._tail.next = newTail;
+      const hash = this._hashFn(key);
+      // Non-object keys are handled in the same way as the original implementation
+      node = this._noObjMap[hash];
+      if (node) {
+        node.value = value;
+      } else {
+        this._noObjMap[hash] = node = {
+          key,
+          value,
+          prev: this._tail,
+          next: this._sentinel
+        };
+      }
     }
-    this._tail = newTail;
-    this._sentinel.prev = newTail;
-    return ++this._size;
+
+    if (this._size === 0) {
+      this._head = node;
+      this._sentinel.next = node;
+    } else {
+      this._tail.next = node;
+    }
+
+    this._tail = node;
+    this._sentinel.prev = node;
+    this._size++;
+
+    return this._size;
   }
 
   /**
@@ -152,21 +172,21 @@ export class HashMap<K = any, V = any> {
    * key directly or by using an index stored in the key object.
    * @param {K} key - The `key` parameter is the key used to retrieve a value from the map. It can be
    * of any type, but typically it is a string or symbol.
-   * @param {boolean} isObjectKey - The `isObjectKey` parameter is a boolean flag that indicates
-   * whether the `key` parameter is an object key or not. If `isObjectKey` is `true`, it means that
-   * `key` is an object key. If `isObjectKey` is `false`, it means that `key`
    * @returns The value associated with the given key is being returned. If the key is an object key,
    * the value is retrieved from the `_nodes` array using the index stored in the `OBJ_KEY_INDEX`
-   * property of the key. If the key is a string key, the value is retrieved from the `_orgMap` object
+   * property of the key. If the key is a string key, the value is retrieved from the `_noObjMap` object
    * using the key itself. If the key is not found, `undefined` is
    */
-  get(key: K, isObjectKey: boolean = isObjOrFunc(key)) {
-    if (isObjectKey) {
-      const index = (<Record<symbol, number>>(<unknown>key))[this.OBJ_KEY_INDEX];
-      return index !== undefined ? this._nodes[index].value : undefined;
+  get(key: K): V | undefined {
+    if (isWeakKey(key)) {
+      const hash = this._objHashFn(key);
+      const node = this._objMap.get(hash);
+      return node ? node.value : undefined;
+    } else {
+      const hash = this._hashFn(key);
+      const node = this._noObjMap[hash];
+      return node ? node.value : undefined;
     }
-    const node = this._orgMap[<string>(<unknown>key)];
-    return node ? node.value : undefined;
   }
 
   /**
@@ -196,25 +216,37 @@ export class HashMap<K = any, V = any> {
    * The `delete` function removes a key-value pair from a map-like data structure.
    * @param {K} key - The `key` parameter is the key that you want to delete from the data structure.
    * It can be of any type, but typically it is a string or an object.
-   * @param {boolean} isObjectKey - The `isObjectKey` parameter is a boolean flag that indicates
-   * whether the `key` parameter is an object key or not. If `isObjectKey` is `true`, it means that the
-   * `key` parameter is an object key. If `isObjectKey` is `false`, it means that the
    * @returns a boolean value. It returns `true` if the deletion was successful, and `false` if the key
    * was not found.
    */
-  delete(key: K, isObjectKey: boolean = isObjOrFunc(key)) {
+  delete(key: K) {
     let node;
-    if (isObjectKey) {
-      const index = (<Record<symbol, number>>(<unknown>key))[this.OBJ_KEY_INDEX];
-      if (index === undefined) return false;
-      delete (<Record<symbol, number>>(<unknown>key))[this.OBJ_KEY_INDEX];
-      node = this._nodes[index];
-      delete this._nodes[index];
+
+    if (isWeakKey(key)) {
+      const hash = this._objHashFn(key);
+      // Get nodes from WeakMap
+      node = this._objMap.get(hash);
+
+      if (!node) {
+        return false; // If the node does not exist, return false
+      }
+
+      // Remove nodes from WeakMap
+      this._objMap.delete(hash);
     } else {
-      node = this._orgMap[<string>(<unknown>key)];
-      if (node === undefined) return false;
-      delete this._orgMap[<string>(<unknown>key)];
+      const hash = this._hashFn(key);
+      // Get nodes from noObjMap
+      node = this._noObjMap[hash];
+
+      if (!node) {
+        return false; // If the node does not exist, return false
+      }
+
+      // Remove nodes from orgMap
+      delete this._noObjMap[hash];
     }
+
+    // Remove node from doubly linked list
     this._deleteNode(node);
     return true;
   }
@@ -257,13 +289,7 @@ export class HashMap<K = any, V = any> {
    * The `clear` function clears all the elements in a data structure and resets its properties.
    */
   clear() {
-    // const OBJ_KEY_INDEX = this.OBJ_KEY_INDEX;
-    // this._nodes.forEach(el => {
-    //   delete (<Record<symbol, number>><unknown>el.key)[OBJ_KEY_INDEX];
-    // });
-    this._nodes = [];
-    this._orgMap = {};
-    Object.setPrototypeOf(this._orgMap, null);
+    this._noObjMap = {};
     this._size = 0;
     this._head = this._tail = this._sentinel.prev = this._sentinel.next = this._sentinel;
   }
@@ -284,6 +310,33 @@ export class HashMap<K = any, V = any> {
       callback(<[K, V]>[node.key, node.value], index++, this);
       node = node.next;
     }
+  }
+
+  filter(predicate: (element: [K, V], map: HashMap<K, V>) => boolean): HashMap<K, V> {
+    const filteredMap = new HashMap<K, V>();
+    for (const [key, value] of this) {
+      if (predicate([key, value], this)) {
+        filteredMap.set(key, value);
+      }
+    }
+    return filteredMap;
+  }
+
+  map<NV>(callback: (element: [K, V], map: HashMap<K, V>) => NV): HashMap<K, NV> {
+    const mappedMap = new HashMap<K, NV>();
+    for (const [key, value] of this) {
+      const newValue = callback([key, value], this);
+      mappedMap.set(key, newValue);
+    }
+    return mappedMap;
+  }
+
+  reduce<A>(callback: (accumulator: A, element: [K, V], map: HashMap<K, V>) => A, initialValue: A): A {
+    let accumulator = initialValue;
+    for (const element of this) {
+      accumulator = callback(accumulator, element, this);
+    }
+    return accumulator;
   }
 
   /**
@@ -310,16 +363,19 @@ export class HashMap<K = any, V = any> {
    * represents a node in a linked list. It contains a key-value pair and references to the previous
    * and next nodes in the list.
    */
-  protected _deleteNode(node: HashMapLinkedNode<K, V>) {
+  protected _deleteNode(node: HashMapLinkedNode<K, V | undefined>) {
     const { prev, next } = node;
     prev.next = next;
     next.prev = prev;
+
     if (node === this._head) {
       this._head = next;
     }
+
     if (node === this._tail) {
       this._tail = prev;
     }
+
     this._size -= 1;
   }
 }

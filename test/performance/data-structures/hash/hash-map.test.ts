@@ -14,6 +14,7 @@ suite.add(`${MILLION.toLocaleString()} set`, () => {
     hm.set(i, i);
   }
 });
+
 if (isCompetitor) {
   suite.add(`${MILLION.toLocaleString()} CPT set`, () => {
     const hm = new CHashMap<number, number>();
@@ -23,28 +24,6 @@ if (isCompetitor) {
     }
   });
 }
-
-suite.add(`${MILLION.toLocaleString()} set & get`, () => {
-  const hm = new HashMap<number, number>();
-
-  for (let i = 0; i < MILLION; i++) {
-    hm.set(i, i);
-  }
-  for (let i = 0; i < MILLION; i++) {
-    hm.get(i);
-  }
-});
-
-suite.add(`${MILLION.toLocaleString()} Map set & get`, () => {
-  const hm = new Map<number, number>();
-
-  for (let i = 0; i < MILLION; i++) {
-    hm.set(i, i);
-  }
-  for (let i = 0; i < MILLION; i++) {
-    hm.get(i);
-  }
-});
 
 suite.add(`${MILLION.toLocaleString()} Map set`, () => {
   const hm = new Map<number, number>();
@@ -58,14 +37,14 @@ suite.add(`${MILLION.toLocaleString()} Set add`, () => {
   for (let i = 0; i < MILLION; i++) hs.add(i);
 });
 
-suite.add(`${MILLION.toLocaleString()} Set add & has`, () => {
-  const hs = new Set<number>();
+suite.add(`${MILLION.toLocaleString()} set & get`, () => {
+  const hm = new HashMap<number, number>();
 
   for (let i = 0; i < MILLION; i++) {
-    hs.add(i);
+    hm.set(i, i);
   }
   for (let i = 0; i < MILLION; i++) {
-    hs.has(i);
+    hm.get(i);
   }
 });
 
@@ -81,6 +60,26 @@ if (isCompetitor) {
     }
   });
 }
+
+suite.add(`${MILLION.toLocaleString()} Map set & get`, () => {
+  const hm = new Map<number, number>();
+
+  for (let i = 0; i < MILLION; i++) {
+    hm.set(i, i);
+  }
+  for (let i = 0; i < MILLION; i++) {
+    hm.get(i);
+  }
+});
+
+suite.add(`${MILLION.toLocaleString()} Set add & has`, () => {
+  const hs = new Set<number>();
+
+  for (let i = 0; i < MILLION; i++) hs.add(i);
+
+  for (let i = 0; i < MILLION; i++) hs.has(i);
+
+});
 
 suite.add(`${MILLION.toLocaleString()} ObjKey set & get`, () => {
   const hm = new HashMap<[number, number], number>();

@@ -93,7 +93,7 @@ export const throwRangeError = (message = 'The value is off-limits.'): void => {
   throw new RangeError(message);
 };
 
-export const isObjOrFunc = (input: unknown): input is Record<string, unknown> | ((...args: any[]) => any) => {
+export const isWeakKey = (input: unknown): input is WeakKey => {
   const inputType = typeof input;
   return (inputType === 'object' && input !== null) || inputType === 'function';
 };
