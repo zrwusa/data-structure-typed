@@ -3,7 +3,7 @@ export default [
     entryPoints: {
       "data-structure-typed": "src/index.ts"
     },
-    target: 'es5',
+    target: 'es6',
     format: ["iife"],
     clean: true,
     sourcemap: true,
