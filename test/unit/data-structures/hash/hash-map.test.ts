@@ -229,3 +229,35 @@ describe('HashMap', () => {
     expect(hashMap.getAt(1)).toEqual(['key2', 'value2']);
   });
 });
+
+describe('HashMap for coordinate object keys', () => {
+  const hashMap: HashMap<[number, number], number> = new HashMap();
+  const codObjs: [number, number][] = [];
+
+  test('set elements in hash map', () => {
+    for (let i = 0; i < 1000; i++) {
+      const codObj: [number, number] = [getRandomInt(-10000, 10000), i];
+      codObjs.push(codObj);
+      hashMap.set(codObj, i);
+    }
+  });
+
+  test('get elements in hash map', () => {
+    for (let i = 0; i < 1000; i++) {
+      const codObj = codObjs[i];
+      if (codObj) {
+        expect(hashMap.get(codObj)).toBe(i);
+      }
+    }
+  });
+
+  test('delete elements in hash map', () => {
+    for (let i = 0; i < 1000; i++) {
+      if (i === 500) expect(hashMap.size).toBe(500)
+      const codObj = codObjs[i];
+      if (codObj) hashMap.delete(codObj);
+    }
+    expect(hashMap.size).toBe(0);
+  });
+
+});
