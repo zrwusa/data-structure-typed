@@ -83,7 +83,7 @@ suite.add(`${MILLION.toLocaleString()} Set add & has`, () => {
 
 suite.add(`${MILLION.toLocaleString()} ObjKey set & get`, () => {
   const hm = new HashMap<[number, number], number>();
-  const objKeys:[number, number][] = [];
+  const objKeys: [number, number][] = [];
   for (let i = 0; i < MILLION; i++) {
     const obj: [number, number] = [i, i];
     objKeys.push(obj)
@@ -96,7 +96,7 @@ suite.add(`${MILLION.toLocaleString()} ObjKey set & get`, () => {
 
 suite.add(`${MILLION.toLocaleString()} Map ObjKey set & get`, () => {
   const hm = new Map<[number, number], number>();
-  const objs:[number, number][] = [];
+  const objs: [number, number][] = [];
   for (let i = 0; i < MILLION; i++) {
     const obj: [number, number] = [i, i];
     objs.push(obj)
@@ -109,7 +109,7 @@ suite.add(`${MILLION.toLocaleString()} Map ObjKey set & get`, () => {
 
 suite.add(`${MILLION.toLocaleString()} Set ObjKey add & has`, () => {
   const hs = new Set<[number, number]>();
-  const objs:[number, number][] = [];
+  const objs: [number, number][] = [];
   for (let i = 0; i < MILLION; i++) {
     const obj: [number, number] = [i, i];
     objs.push(obj)

@@ -3,12 +3,12 @@
 <head>
   <meta charset='UTF-8'>
   <title>CDN Test</title>
-    <script src="../../dist/umd/data-structure-typed.min.js"></script>
-<!--    <script src="../../dist/umd/data-structure-typed.js"></script>-->
-<!--  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js'></script>-->
-<!--  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed@1.42.2/dist/umd/data-structure-typed.min.js'></script>-->
-<!--  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed@1.43.3/dist/umd/data-structure-typed.min.js'></script>-->
-<!--  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed@1.44.0/dist/umd/data-structure-typed.min.js'></script>-->
+  <script src="../../dist/umd/data-structure-typed.min.js"></script>
+  <!--    <script src="../../dist/umd/data-structure-typed.js"></script>-->
+  <!--  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js'></script>-->
+  <!--  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed@1.42.2/dist/umd/data-structure-typed.min.js'></script>-->
+  <!--  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed@1.43.3/dist/umd/data-structure-typed.min.js'></script>-->
+  <!--  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed@1.44.0/dist/umd/data-structure-typed.min.js'></script>-->
 
   <script src='https://unpkg.com/js-sdsl@4.4.2/dist/umd/js-sdsl.js'></script>
 </head>
@@ -85,7 +85,7 @@
 
   try {
     const { OrderedMap } = sdsl;
-    const { RedBlackTree, AVLTree} = dataStructureTyped;
+    const { RedBlackTree, AVLTree } = dataStructureTyped;
     const cRBTree = new OrderedMap();
     const rbTree = new RedBlackTree();
     const tS = performance.now();
@@ -99,7 +99,7 @@
     for (let i = 1; i < 100000; i++) {
       cRBTree.setElement(i, i);
     }
-    console.log(`CRedBlackTree ${n} add`,performance.now() - cS);
+    console.log(`CRedBlackTree ${n} add`, performance.now() - cS);
     console.log(cRBTree.size());
 
     // console.log(tree.isPerfectlyBalanced());
@@ -123,7 +123,7 @@
     for (let i = 0; i < n; i++) {
       pq.pop();
     }
-    console.log(`PriorityQueue ${n} add`,performance.now() - tS);
+    console.log(`PriorityQueue ${n} add`, performance.now() - tS);
     console.log(pq.size);
     const cS = performance.now();
     const cpq = new CPriorityQueue();
@@ -135,7 +135,7 @@
     for (let i = 0; i < n; i++) {
       cpq.pop();
     }
-    console.log(`CPriorityQueue ${n} add`,performance.now() - cS);
+    console.log(`CPriorityQueue ${n} add`, performance.now() - cS);
     console.log(cpq.size());
   } catch (e) {
     console.error(e);

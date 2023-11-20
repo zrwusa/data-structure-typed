@@ -1,6 +1,6 @@
-import { PriorityQueue as MJSPriorityQueue } from '../../../dist/cjs';
-import { PriorityQueue as SRCPriorityQueue } from '../../../src';
-import { PriorityQueue as CJSPriorityQueue } from '../../../dist/mjs';
+import { PriorityQueue as MJSPriorityQueue } from '../../../../dist/cjs';
+import { PriorityQueue as SRCPriorityQueue } from '../../../../src';
+import { PriorityQueue as CJSPriorityQueue } from '../../../../dist/mjs';
 import {
   Deque as CDeque,
   HashMap as CHashMap,
@@ -12,8 +12,8 @@ import {
 } from 'js-sdsl';
 
 import * as Benchmark from 'benchmark';
-import { getRandomIntArray, magnitude } from '../../utils';
-import { isCompetitor } from '../../config';
+import { getRandomIntArray, magnitude } from '../../../utils';
+import { isCompetitor } from '../../../config';
 
 const suite = new Benchmark.Suite();
 const { TEN_THOUSAND, HUNDRED_THOUSAND, LINEAR } = magnitude;

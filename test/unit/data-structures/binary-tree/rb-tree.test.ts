@@ -489,7 +489,7 @@ describe('RedBlackTree', () => {
   });
 
   it('duplicates', () => {
-    tree.addMany([9,8,7,8,8,8,2,3,6,5,5,4]);
+    tree.addMany([9, 8, 7, 8, 8, 8, 2, 3, 6, 5, 5, 4]);
     tree.print();
 
     expect(tree.size).toBe(8);

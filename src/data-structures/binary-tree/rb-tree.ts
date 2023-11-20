@@ -106,7 +106,7 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
       if (x) {
         if (node.key < x.key) {
           x = x.left;
-        } else if (node.key > x.key){
+        } else if (node.key > x.key) {
           x = x?.right;
         } else {
           return;
