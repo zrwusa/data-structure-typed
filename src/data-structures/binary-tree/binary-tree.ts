@@ -7,7 +7,14 @@
  */
 
 import type { BinaryTreeNodeNested, BinaryTreeOptions, BTNCallback, BTNKey } from '../../types';
-import { BiTreeDeleteResult, DFSOrderPattern, FamilyPosition, IterationType } from '../../types';
+import {
+  BinaryTreePrintOptions,
+  BiTreeDeleteResult,
+  DFSOrderPattern,
+  FamilyPosition,
+  IterationType,
+  NodeDisplayLayout
+} from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { trampoline } from '../../utils';
 import { Queue } from '../queue';
@@ -1727,16 +1734,25 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
 
   /**
    * The `print` function is used to display a binary tree structure in a visually appealing way.
-   * @param {N | null | undefined} beginRoot - The `root` parameter is of type `BTNKey | N | null |
+   * @param {BTNKey | N | null | undefined} [beginRoot=this.root] - The `root` parameter is of type `BTNKey | N | null |
    * undefined`. It represents the root node of a binary tree. The root node can have one of the
    * following types:
+   * @param {BinaryTreePrintOptions} [options={ isShowUndefined: false, isShowNull: false, isShowRedBlackNIL: false}] - Options object that controls printing behavior. You can specify whether to display undefined, null, or sentinel nodes.
    */
-  print(beginRoot: BTNKey | N | null | undefined = this.root): void {
+  print(beginRoot: BTNKey | N | null | undefined = this.root, options?: BinaryTreePrintOptions): void {
+    const opts = { isShowUndefined: false, isShowNull: false, isShowRedBlackNIL: false, ...options };
     beginRoot = this.ensureNotKey(beginRoot);
     if (!beginRoot) return;
 
+    if (opts.isShowUndefined) console.log(`U for undefined
+      `);
+    if (opts.isShowNull) console.log(`N for null
+      `);
+    if (opts.isShowRedBlackNIL) console.log(`S for Sentinel Node
+      `);
+
     const display = (root: N | null | undefined): void => {
-      const [lines, , ,] = this._displayAux(root);
+      const [lines, , ,] = this._displayAux(root, opts);
       for (const line of lines) {
         console.log(line);
       }
@@ -1745,39 +1761,54 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     display(beginRoot);
   }
 
-  protected _displayAux(node: N | null | undefined): [string[], number, number, number] {
-    if (!node) {
-      return [['─'], 1, 0, 0];
+  protected _displayAux(node: N | null | undefined, options: BinaryTreePrintOptions): NodeDisplayLayout {
+    const { isShowNull, isShowUndefined, isShowRedBlackNIL } = options;
+    const emptyDisplayLayout = <NodeDisplayLayout>[['─'], 1, 0, 0];
+
+    // Check if node is null or undefined or key is NaN
+    if (node === null && !isShowNull) {
+      return emptyDisplayLayout;
+    } else if (node === undefined && !isShowUndefined) {
+      return emptyDisplayLayout;
+    } else if (node !== null && node !== undefined && isNaN(node.key) && !isShowRedBlackNIL) {
+      return emptyDisplayLayout;
+    } else if (node !== null && node !== undefined) {
+      // Display logic of normal nodes
+
+      const key = node.key, line = isNaN(key) ? 'S' : key.toString(), width = line.length;
+
+      return _buildNodeDisplay(line, width, this._displayAux(node.left, options), this._displayAux(node.right, options))
+
+    } else {
+      // For cases where none of the conditions are met, null, undefined, and NaN nodes are not displayed
+      const line = node === undefined ? 'U' : 'N', width = line.length;
+
+      return _buildNodeDisplay(line, width, [[''], 1, 0, 0], [[''], 1, 0, 0])
     }
 
-    const line = node.key.toString();
-    const width = line.length;
+    function _buildNodeDisplay(line: string, width: number, left: NodeDisplayLayout, right: NodeDisplayLayout) {
+      const [leftLines, leftWidth, leftHeight, leftMiddle] = left;
+      const [rightLines, rightWidth, rightHeight, rightMiddle] = right;
+      const firstLine = ' '.repeat(Math.max(0, leftMiddle + 1))
+        + '_'.repeat(Math.max(0, leftWidth - leftMiddle - 1))
+        + line
+        + '_'.repeat(Math.max(0, rightMiddle))
+        + ' '.repeat(Math.max(0, rightWidth - rightMiddle));
 
-    if (!node.left && !node.right) {
-      return [[line], width, 1, Math.floor(width / 2)];
+      const secondLine = (leftHeight > 0 ? ' '.repeat(leftMiddle) + '/' + ' '.repeat(leftWidth - leftMiddle - 1) : ' '.repeat(leftWidth))
+        + ' '.repeat(width)
+        + (rightHeight > 0 ? ' '.repeat(rightMiddle) + '\\' + ' '.repeat(rightWidth - rightMiddle - 1) : ' '.repeat(rightWidth));
+
+      const mergedLines = [firstLine, secondLine];
+
+      for (let i = 0; i < Math.max(leftHeight, rightHeight); i++) {
+        const leftLine = i < leftHeight ? leftLines[i] : ' '.repeat(leftWidth);
+        const rightLine = i < rightHeight ? rightLines[i] : ' '.repeat(rightWidth);
+        mergedLines.push(leftLine + ' '.repeat(width) + rightLine);
+      }
+
+      return <NodeDisplayLayout>[mergedLines, leftWidth + width + rightWidth, Math.max(leftHeight, rightHeight) + 2, leftWidth + Math.floor(width / 2)];
     }
-
-    const [leftLines, leftWidth, leftHeight, leftMiddle] = node.left ? this._displayAux(node.left) : [[''], 0, 0, 0];
-    const [rightLines, rightWidth, rightHeight, rightMiddle] = node.right ? this._displayAux(node.right) : [[''], 0, 0, 0];
-
-    const firstLine = ' '.repeat(Math.max(0, leftMiddle + 1))
-      + '_'.repeat(Math.max(0, leftWidth - leftMiddle - 1))
-      + line
-      + '_'.repeat(Math.max(0, rightMiddle))
-      + ' '.repeat(Math.max(0, rightWidth - rightMiddle));
-
-    const secondLine = (leftHeight > 0 ? ' '.repeat(leftMiddle) + '/' + ' '.repeat(leftWidth - leftMiddle - 1) : ' '.repeat(leftWidth))
-      + ' '.repeat(width)
-      + (rightHeight > 0 ? ' '.repeat(rightMiddle) + '\\' + ' '.repeat(rightWidth - rightMiddle - 1) : ' '.repeat(rightWidth));
-
-    const mergedLines = [firstLine, secondLine];
-    for (let i = 0; i < Math.max(leftHeight, rightHeight); i++) {
-      const leftLine = i < leftHeight ? leftLines[i] : ' '.repeat(leftWidth);
-      const rightLine = i < rightHeight ? rightLines[i] : ' '.repeat(rightWidth);
-      mergedLines.push(leftLine + ' '.repeat(width) + rightLine);
-    }
-
-    return [mergedLines, leftWidth + width + rightWidth, Math.max(leftHeight, rightHeight) + 2, leftWidth + Math.floor(width / 2)];
   }
 
   protected _defaultOneParamCallback = (node: N) => node.key;

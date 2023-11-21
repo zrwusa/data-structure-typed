@@ -3,8 +3,8 @@
 <head>
   <meta charset='UTF-8'>
   <title>CDN Test</title>
-  <script src="../../dist/umd/data-structure-typed.min.js"></script>
-  <!--    <script src="../../dist/umd/data-structure-typed.js"></script>-->
+<!--  <script src="../../dist/umd/data-structure-typed.min.js"></script>-->
+      <script src="../../dist/umd/data-structure-typed.js"></script>
   <!--  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js'></script>-->
   <!--  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed@1.42.2/dist/umd/data-structure-typed.min.js'></script>-->
   <!--  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed@1.43.3/dist/umd/data-structure-typed.min.js'></script>-->
@@ -19,17 +19,18 @@
   </ul>
 </div>
 <script defer>
+
   const $modules = document.querySelector('.modules');
 
-
   try {
+    const { Queue } = dataStructureTyped;
     const queue = new Queue();
-    const n = 100000;
+    const n = 1000000;
     const startEn = performance.now();
     for (let i = 0; i < n; i++) {
       queue.enqueue(i);
     }
-    console.log(`Queue ${n} enqueue `, performance.now() - startEn);
+    console.log((performance.now() - startEn).toFixed(2), `Queue ${n.toLocaleString()} enqueue `);
     let last = 0;
     const startTime = performance.now();
 
@@ -37,13 +38,14 @@
       last = queue.dequeue();
     }
 
-    console.log(`Queue ${n} dequeue `, performance.now() - startTime);
+    console.log((performance.now() - startTime).toFixed(2) ,`Queue ${n.toLocaleString()} dequeue `);
 
   } catch (e) {
     console.error(e);
   }
   try {
-    const { AVLTree } = window.dataStructureTyped;
+    const { AVLTree } = dataStructureTyped;
+
     const avlTree = new AVLTree();
     const $avlTree = document.createElement('li');
     const $avlTreeSpan = document.createElement('span');
@@ -52,8 +54,8 @@
     for (let i = 1; i < 31; i++) {
       avlTree.add(i, i);
     }
-    console.log(avlTree.bfs());
-    // avlTree.print();
+    console.log(avlTree.bfs(), `avlTree.bfs()`);
+    avlTree.print();
     $modules.append($avlTree);
   } catch (e) {
     console.error(e);
@@ -66,18 +68,18 @@
     tree.add(12);
     tree.addMany([1, 6, 9, 8, 5, 2, 3, 4, 7])
     tree.add(10);
-    console.log(tree.isPerfectlyBalanced());
-    tree.print();
+    console.log(tree.isPerfectlyBalanced(), `tree.isPerfectlyBalanced()`);
+    tree.print(undefined, {isShowUndefined: true});
 
     const node3 = tree.getNode(3);
     if (node3) node3.right = tree.createNode(1);
-    console.log(tree.isPerfectlyBalanced());
+    console.log(tree.isPerfectlyBalanced(), `tree.isPerfectlyBalanced()`);
     tree.print();
 
     tree.clear();
     tree.addMany([1, null, 2, null, 3, null, 4, null, 5, null, 6, null]);
-    console.log(tree.isPerfectlyBalanced());
-    tree.print();
+    console.log(tree.isPerfectlyBalanced(), `tree.isPerfectlyBalanced()`);
+    tree.print(undefined, {isShowNull: true});
   } catch (e) {
     console.error(e);
   }
@@ -85,26 +87,26 @@
 
   try {
     const { OrderedMap } = sdsl;
-    const { RedBlackTree, AVLTree } = dataStructureTyped;
+    const { RedBlackTree } = dataStructureTyped;
     const cRBTree = new OrderedMap();
     const rbTree = new RedBlackTree();
     const tS = performance.now();
     const n = 100000;
-    for (let i = 1; i < n; i++) {
+    for (let i = 0; i < n; i++) {
       rbTree.add(i, i);
     }
-    console.log(`RedBlackTree ${n} add`, performance.now() - tS);
-    console.log(rbTree.size);
+    console.log(( performance.now() - tS).toFixed(2), `RedBlackTree ${n.toLocaleString()} add`);
+    console.log(`rbTree.size`, rbTree.size);
+    for (let i = 0; i < n - 20; i++) {
+      rbTree.delete(i)
+    }
+    rbTree.print(rbTree.root,{isShowRedBlackNIL: true});
     const cS = performance.now();
     for (let i = 1; i < 100000; i++) {
       cRBTree.setElement(i, i);
     }
-    console.log(`CRedBlackTree ${n} add`, performance.now() - cS);
-    console.log(cRBTree.size());
-
-    // console.log(tree.isPerfectlyBalanced());
-    // tree.print();
-
+    console.log((performance.now() - cS).toFixed(2), `CRedBlackTree ${n.toLocaleString()} add`);
+    console.log(cRBTree.size(), `cRBTree.size()`);
   } catch (e) {
     console.error(e);
   }
@@ -123,8 +125,8 @@
     for (let i = 0; i < n; i++) {
       pq.pop();
     }
-    console.log(`PriorityQueue ${n} add`, performance.now() - tS);
-    console.log(pq.size);
+    console.log(( performance.now() - tS).toFixed(2), `PriorityQueue ${n.toLocaleString()} add`);
+    console.log(pq.size, `pq.size`);
     const cS = performance.now();
     const cpq = new CPriorityQueue();
 
@@ -135,8 +137,8 @@
     for (let i = 0; i < n; i++) {
       cpq.pop();
     }
-    console.log(`CPriorityQueue ${n} add`, performance.now() - cS);
-    console.log(cpq.size());
+    console.log((performance.now() - cS).toFixed(), `CPriorityQueue ${n.toLocaleString()} add`);
+    console.log(cpq.size(), `cpq.size()`);
   } catch (e) {
     console.error(e);
   }

@@ -48,15 +48,15 @@
     "type": "git",
     "url": "git+https://github.com/zrwusa/data-structure-typed.git"
   },
+  "bugs": {
+    "url": "https://github.com/zrwusa/data-structure-typed/issues"
+  },
+  "homepage": "https://data-structure-typed-docs.vercel.app",
   "author": "Tyler Zeng <zrwusa@gmail.com>",
   "license": "MIT",
   "publishConfig": {
     "@zrwusa:registry": "https://npm.pkg.github.com"
   },
-  "bugs": {
-    "url": "https://github.com/zrwusa/data-structure-typed/issues"
-  },
-  "homepage": "https://data-structure-typed-docs.vercel.app",
   "devDependencies": {
     "@swc/core": "^1.3.96",
     "@types/benchmark": "^2.1.3",

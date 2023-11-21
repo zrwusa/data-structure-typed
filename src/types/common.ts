@@ -10,11 +10,6 @@ export enum CP {
   gt = 'gt'
 }
 
-export const enum IterateDirection {
-  DEFAULT = 0,
-  REVERSE = 1
-}
-
 export interface IterableWithSize<T> extends Iterable<T> {
   size: number | ((...args: any[]) => number);
 }
@@ -24,3 +19,5 @@ export interface IterableWithLength<T> extends Iterable<T> {
 }
 
 export type IterableWithSizeOrLength<T> = IterableWithSize<T> | IterableWithLength<T>
+
+export type BinaryTreePrintOptions = {isShowUndefined?: boolean, isShowNull?: boolean, isShowRedBlackNIL?: boolean}
