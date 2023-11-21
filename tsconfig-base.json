@@ -15,7 +15,8 @@
     "skipLibCheck": true,                 // Skip type checking of type libraries.
     "strict": true,                       // Enable strict type checking, including enabling all strict options.
     "traceResolution": false,             // Whether to trace the module resolution process.
-    "types": ["node", "jest"]             // Specifies the name of the type declaration file to include.
+    "types": ["node", "jest"],            // Specifies the name of the type declaration file to include.
+    "typeRoots": ["node_modules/@types", "src/types", "test/types"]
   },
   "compileOnSave": false,                 // Whether to automatically compile when saving.
   "exclude": ["node_modules", "dist"],    // Specify files or directories that should not be included in the compilation.

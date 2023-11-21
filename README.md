@@ -11,7 +11,7 @@
 
 Data Structures of Javascript & TypeScript.
 
-Do you envy C++ with [STL](), Python with [collections](), and Java with [java.util]() ? Well, no need to envy anymore! JavaScript and TypeScript now have [data-structure-typed]().
+Do you envy C++ with [STL]() (std::), Python with [collections](), and Java with [java.util]() ? Well, no need to envy anymore! JavaScript and TypeScript now have [data-structure-typed]().
 
 Now you can use this library in Node.js and browser environments in CommonJS(require export.modules = ), ESModule(import export), Typescript(import export), UMD(var Queue = dataStructureTyped.Queue)
 
@@ -23,7 +23,6 @@ Now you can use this library in Node.js and browser environments in CommonJS(req
 [//]: # (![Functions]&#40;https://img.shields.io/badge/functions-66.38%25-red.svg?style=flat&#41;)
 
 [//]: # (![Lines]&#40;https://img.shields.io/badge/lines-68.6%25-red.svg?style=flat&#41;)
-
 
 ## Installation and Usage
 
@@ -116,8 +115,6 @@ const {
 [Try it out](https://vivid-algorithm.vercel.app/algorithm/graph/), or you can execute your own code using our [visual tool](https://github.com/zrwusa/vivid-algorithm)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/map-graph-test.webp)
-
-
 
 ## Code Snippets
 
@@ -274,107 +271,6 @@ graph.addEdge('B', 'D');
 const dijkstraResult = graph.dijkstra('A');
 Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', 'D']
 ```
-
-## Built-in classic algorithms
-
-<table>
-  <thead>
-  <tr>
-    <th>Algorithm</th>
-    <th>Function Description</th>
-    <th>Iteration Type</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr>
-    <td>Binary Tree DFS</td>
-    <td>Traverse a binary tree in a depth-first manner, starting from the root node, first visiting the left subtree,
-      and then the right subtree, using recursion.
-    </td>
-    <td>Recursion + Iteration</td>
-  </tr>
-  <tr>
-    <td>Binary Tree BFS</td>
-    <td>Traverse a binary tree in a breadth-first manner, starting from the root node, visiting nodes level by level
-      from left to right.
-    </td>
-    <td>Iteration</td>
-  </tr>
-  <tr>
-    <td>Graph DFS</td>
-    <td>Traverse a graph in a depth-first manner, starting from a given node, exploring along one path as deeply as
-      possible, and backtracking to explore other paths. Used for finding connected components, paths, etc.
-    </td>
-    <td>Recursion + Iteration</td>
-  </tr>
-  <tr>
-    <td>Binary Tree Morris</td>
-    <td>Morris traversal is an in-order traversal algorithm for binary trees with O(1) space complexity. It allows tree
-      traversal without additional stack or recursion.
-    </td>
-    <td>Iteration</td>
-  </tr>
-  <tr>
-    <td>Graph BFS</td>
-    <td>Traverse a graph in a breadth-first manner, starting from a given node, first visiting nodes directly connected
-      to the starting node, and then expanding level by level. Used for finding shortest paths, etc.
-    </td>
-    <td>Recursion + Iteration</td>
-  </tr>
-  <tr>
-    <td>Graph Tarjan's Algorithm</td>
-    <td>Find strongly connected components in a graph, typically implemented using depth-first search.</td>
-    <td>Recursion</td>
-  </tr>
-  <tr>
-    <td>Graph Bellman-Ford Algorithm</td>
-    <td>Finding the shortest paths from a single source, can handle negative weight edges</td>
-    <td>Iteration</td>
-  </tr>
-  <tr>
-    <td>Graph Dijkstra's Algorithm</td>
-    <td>Finding the shortest paths from a single source, cannot handle negative weight edges</td>
-    <td>Iteration</td>
-  </tr>
-  <tr>
-    <td>Graph Floyd-Warshall Algorithm</td>
-    <td>Finding the shortest paths between all pairs of nodes</td>
-    <td>Iteration</td>
-  </tr>
-  <tr>
-    <td>Graph getCycles</td>
-    <td>Find all cycles in a graph or detect the presence of cycles.</td>
-    <td>Recursion</td>
-  </tr>
-  <tr>
-    <td>Graph getCutVertexes</td>
-    <td>Find cut vertices in a graph, which are nodes that, when removed, increase the number of connected components in
-      the graph.
-    </td>
-    <td>Recursion</td>
-  </tr>
-  <tr>
-    <td>Graph getSCCs</td>
-    <td>Find strongly connected components in a graph, which are subgraphs where any two nodes can reach each other.
-    </td>
-    <td>Recursion</td>
-  </tr>
-  <tr>
-    <td>Graph getBridges</td>
-    <td>Find bridges in a graph, which are edges that, when removed, increase the number of connected components in the
-      graph.
-    </td>
-    <td>Recursion</td>
-  </tr>
-  <tr>
-    <td>Graph topologicalSort</td>
-    <td>Perform topological sorting on a directed acyclic graph (DAG) to find a linear order of nodes such that all
-      directed edges go from earlier nodes to later nodes.
-    </td>
-    <td>Recursion</td>
-  </tr>
-  </tbody>
-</table>
 
 ## API docs & Examples
 
@@ -568,10 +464,7 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', '
 </tbody>
 </table>
 
-
-
 ## Standard library data structure comparison
-
 
 <table>
   <thead>
@@ -754,7 +647,6 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', '
   </tbody>
 </table>
 
-
 ## Benchmark
 
 [//]: # (No deletion!!! Start of Replace Section)
@@ -810,6 +702,106 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', '
 
 [//]: # (No deletion!!! End of Replace Section)
 
+## Built-in classic algorithms
+
+<table>
+  <thead>
+  <tr>
+    <th>Algorithm</th>
+    <th>Function Description</th>
+    <th>Iteration Type</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>Binary Tree DFS</td>
+    <td>Traverse a binary tree in a depth-first manner, starting from the root node, first visiting the left subtree,
+      and then the right subtree, using recursion.
+    </td>
+    <td>Recursion + Iteration</td>
+  </tr>
+  <tr>
+    <td>Binary Tree BFS</td>
+    <td>Traverse a binary tree in a breadth-first manner, starting from the root node, visiting nodes level by level
+      from left to right.
+    </td>
+    <td>Iteration</td>
+  </tr>
+  <tr>
+    <td>Graph DFS</td>
+    <td>Traverse a graph in a depth-first manner, starting from a given node, exploring along one path as deeply as
+      possible, and backtracking to explore other paths. Used for finding connected components, paths, etc.
+    </td>
+    <td>Recursion + Iteration</td>
+  </tr>
+  <tr>
+    <td>Binary Tree Morris</td>
+    <td>Morris traversal is an in-order traversal algorithm for binary trees with O(1) space complexity. It allows tree
+      traversal without additional stack or recursion.
+    </td>
+    <td>Iteration</td>
+  </tr>
+  <tr>
+    <td>Graph BFS</td>
+    <td>Traverse a graph in a breadth-first manner, starting from a given node, first visiting nodes directly connected
+      to the starting node, and then expanding level by level. Used for finding shortest paths, etc.
+    </td>
+    <td>Recursion + Iteration</td>
+  </tr>
+  <tr>
+    <td>Graph Tarjan's Algorithm</td>
+    <td>Find strongly connected components in a graph, typically implemented using depth-first search.</td>
+    <td>Recursion</td>
+  </tr>
+  <tr>
+    <td>Graph Bellman-Ford Algorithm</td>
+    <td>Finding the shortest paths from a single source, can handle negative weight edges</td>
+    <td>Iteration</td>
+  </tr>
+  <tr>
+    <td>Graph Dijkstra's Algorithm</td>
+    <td>Finding the shortest paths from a single source, cannot handle negative weight edges</td>
+    <td>Iteration</td>
+  </tr>
+  <tr>
+    <td>Graph Floyd-Warshall Algorithm</td>
+    <td>Finding the shortest paths between all pairs of nodes</td>
+    <td>Iteration</td>
+  </tr>
+  <tr>
+    <td>Graph getCycles</td>
+    <td>Find all cycles in a graph or detect the presence of cycles.</td>
+    <td>Recursion</td>
+  </tr>
+  <tr>
+    <td>Graph getCutVertexes</td>
+    <td>Find cut vertices in a graph, which are nodes that, when removed, increase the number of connected components in
+      the graph.
+    </td>
+    <td>Recursion</td>
+  </tr>
+  <tr>
+    <td>Graph getSCCs</td>
+    <td>Find strongly connected components in a graph, which are subgraphs where any two nodes can reach each other.
+    </td>
+    <td>Recursion</td>
+  </tr>
+  <tr>
+    <td>Graph getBridges</td>
+    <td>Find bridges in a graph, which are edges that, when removed, increase the number of connected components in the
+      graph.
+    </td>
+    <td>Recursion</td>
+  </tr>
+  <tr>
+    <td>Graph topologicalSort</td>
+    <td>Perform topological sorting on a directed acyclic graph (DAG) to find a linear order of nodes such that all
+      directed edges go from earlier nodes to later nodes.
+    </td>
+    <td>Recursion</td>
+  </tr>
+  </tbody>
+</table>
 
 ## Software Engineering Design Standards
 <table>
@@ -858,3 +850,41 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', '
         <td>Data structure software does not involve load issues.</td>
     </tr>
 </table>
+
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [Installation and Usage](#installation-and-usage)
+  - [npm](#npm)
+  - [yarn](#yarn)
+  - [CDN](#cdn)
+    - [development](#development)
+    - [production](#production)
+- [Vivid Examples](#vivid-examples)
+  - [Binary Tree](#binary-tree)
+  - [Binary Tree DFS](#binary-tree-dfs)
+  - [AVL Tree](#avl-tree)
+  - [Tree Multi Map](#tree-multi-map)
+  - [Matrix](#matrix)
+  - [Directed Graph](#directed-graph)
+  - [Map Graph](#map-graph)
+- [Code Snippets](#code-snippets)
+  - [Binary Search Tree (BST) snippet](#binary-search-tree-bst-snippet)
+    - [TS](#ts)
+    - [JS](#js)
+  - [AVLTree snippet](#avltree-snippet)
+    - [TS](#ts-1)
+    - [JS](#js-1)
+  - [Directed Graph simple snippet](#directed-graph-simple-snippet)
+    - [TS or JS](#ts-or-js)
+  - [Undirected Graph snippet](#undirected-graph-snippet)
+    - [TS or JS](#ts-or-js-1)
+- [API docs & Examples](#api-docs--examples)
+- [Data Structures](#data-structures)
+- [Standard library data structure comparison](#standard-library-data-structure-comparison)
+- [Benchmark](#benchmark)
+- [Built-in classic algorithms](#built-in-classic-algorithms)
+- [Software Engineering Design Standards](#software-engineering-design-standards)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
