@@ -34,14 +34,14 @@ export class RedBlackTreeNode<V = any, N extends RedBlackTreeNode<V, N> = RedBla
 /**
  * 1. Each node is either red or black.
  * 2. The root node is always black.
- * 3. Leaf nodes are typically NIL nodes and are considered black.
+ * 3. Leaf nodes are typically Sentinel nodes and are considered black.
  * 4. Red nodes must have black children.
  * 5. Black balance: Every path from any node to each of its leaf nodes contains the same number of black nodes.
  */
 export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTreeNode<V, RedBlackTreeNodeNested<V>>>
   extends BST<V, N>
   implements IBinaryTree<V, N> {
-  NIL: N = new RedBlackTreeNode<V>(NaN) as unknown as N;
+  Sentinel: N = new RedBlackTreeNode<V>(NaN) as unknown as N;
 
   /**
    * The constructor function initializes a Red-Black Tree with an optional set of options.
@@ -50,7 +50,7 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
    */
   constructor(options?: RBTreeOptions) {
     super(options);
-    this._root = this.NIL;
+    this._root = this.Sentinel;
   }
 
   protected _root: N;
@@ -95,13 +95,13 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
       return;
     }
 
-    node.left = this.NIL;
-    node.right = this.NIL;
+    node.left = this.Sentinel;
+    node.right = this.Sentinel;
 
     let y: N | undefined = undefined;
     let x: N | undefined = this.root;
 
-    while (x !== this.NIL) {
+    while (x !== this.Sentinel) {
       y = x;
       if (x) {
         if (node.key < x.key) {
@@ -170,9 +170,9 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
     const ans: BiTreeDeleteResult<N>[] = [];
     if (identifier === null) return ans;
     const helper = (node: N | undefined): void => {
-      let z: N = this.NIL;
+      let z: N = this.Sentinel;
       let x: N | undefined, y: N;
-      while (node !== this.NIL) {
+      while (node !== this.Sentinel) {
         if (node && callback(node) === identifier) {
           z = node;
         }
@@ -184,17 +184,17 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
         }
       }
 
-      if (z === this.NIL) {
+      if (z === this.Sentinel) {
         this._size--;
         return;
       }
 
       y = z;
       let yOriginalColor: number = y.color;
-      if (z.left === this.NIL) {
+      if (z.left === this.Sentinel) {
         x = z.right;
         this._rbTransplant(z, z.right!);
-      } else if (z.right === this.NIL) {
+      } else if (z.right === this.Sentinel) {
         x = z.left;
         this._rbTransplant(z, z.left!);
       } else {
@@ -225,7 +225,7 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
   }
 
   override isRealNode(node: N | undefined): node is N {
-    return node !== this.NIL && node !== undefined;
+    return node !== this.Sentinel && node !== undefined;
   }
 
   getNode<C extends BTNCallback<N, BTNKey>>(
@@ -300,12 +300,12 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
    * @returns the successor of the given RedBlackTreeNode.
    */
   override getSuccessor(x: N): N | undefined {
-    if (x.right !== this.NIL) {
+    if (x.right !== this.Sentinel) {
       return this.getLeftMost(x.right) ?? undefined;
     }
 
     let y: N | undefined = x.parent;
-    while (y !== this.NIL && y !== undefined && x === y.right) {
+    while (y !== this.Sentinel && y !== undefined && x === y.right) {
       x = y;
       y = y.parent;
     }
@@ -327,12 +327,12 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
    * @returns the predecessor of the given RedBlackTreeNode 'x'.
    */
   override getPredecessor(x: N): N {
-    if (x.left !== this.NIL) {
+    if (x.left !== this.Sentinel) {
       return this.getRightMost(x.left!)!;
     }
 
     let y: N | undefined = x.parent;
-    while (y !== this.NIL && x === y!.left) {
+    while (y !== this.Sentinel && x === y!.left) {
       x = y!;
       y = y!.parent;
     }
@@ -341,7 +341,7 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
   }
 
   override clear() {
-    this._root = this.NIL;
+    this._root = this.Sentinel;
     this._size = 0;
   }
 
@@ -368,7 +368,7 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
     if (x.right) {
       const y: N = x.right;
       x.right = y.left;
-      if (y.left !== this.NIL) {
+      if (y.left !== this.Sentinel) {
         if (y.left) y.left.parent = x;
       }
       y.parent = x.parent;
@@ -401,7 +401,7 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
     if (x.left) {
       const y: N = x.left;
       x.left = y.right;
-      if (y.right !== this.NIL) {
+      if (y.right !== this.Sentinel) {
         if (y.right) y.right.parent = x;
       }
       y.parent = x.parent;
