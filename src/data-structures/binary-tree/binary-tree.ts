@@ -1700,13 +1700,27 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     return ans;
   }
 
-  forEach(callback: (entry: [BTNKey, V | undefined], tree: typeof this) => void): void {
+  /**
+   * The `forEach` function iterates over each entry in a tree and calls a callback function with the
+   * entry and the tree as arguments.
+   * @param callback - The callback parameter is a function that will be called for each entry in the
+   * tree. It takes two parameters: entry and tree.
+   */
+  forEach(callback: (entry: [BTNKey, V | undefined], tree: this) => void): void {
     for (const entry of this) {
       callback(entry, this);
     }
   }
 
-  filter(predicate: (entry: [BTNKey, V | undefined], tree: typeof this) => boolean) {
+  /**
+   * The `filter` function creates a new tree by iterating over the entries of the current tree and
+   * adding the entries that satisfy the given predicate.
+   * @param predicate - The `predicate` parameter is a function that takes two arguments: `entry` and
+   * `tree`.
+   * @returns The `filter` method is returning a new tree object that contains only the entries that
+   * satisfy the given predicate function.
+   */
+  filter(predicate: (entry: [BTNKey, V | undefined], tree: this) => boolean) {
     const newTree = this.createTree();
     for (const [key, value] of this) {
       if (predicate([key, value], this)) {
@@ -1717,7 +1731,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   }
 
   // TODO Type error, need to return a TREE<NV> that is a value type only for callback function.
-  // map<NV>(callback: (entry: [BTNKey, V | undefined], tree: typeof this) => NV) {
+  // map<NV>(callback: (entry: [BTNKey, V | undefined], tree: this) => NV) {
   //   const newTree = this.createTree();
   //   for (const [key, value] of this) {
   //     newTree.add(key, callback([key, value], this));
@@ -1725,7 +1739,13 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   //   return newTree;
   // }
 
-  map(callback: (entry: [BTNKey, V | undefined], tree: typeof this) => V) {
+  /**
+   * The `map` function creates a new tree by applying a callback function to each entry in the current
+   * tree.
+   * @param callback - The callback parameter is a function that takes two arguments: entry and tree.
+   * @returns The `map` method is returning a new tree object.
+   */
+  map(callback: (entry: [BTNKey, V | undefined], tree: this) => V) {
     const newTree = this.createTree();
     for (const [key, value] of this) {
       newTree.add(key, callback([key, value], this));
@@ -1733,7 +1753,19 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     return newTree;
   }
 
-  reduce<T>(callback: (accumulator: T, entry: [BTNKey, V | undefined], tree: typeof this) => T, initialValue: T): T {
+  /**
+   * The `reduce` function iterates over the entries of a tree and applies a callback function to each
+   * entry, accumulating a single value.
+   * @param callback - The callback parameter is a function that takes three arguments: accumulator,
+   * entry, and tree. It is called for each entry in the tree and is used to accumulate a single value
+   * based on the logic defined in the callback function.
+   * @param {T} initialValue - The initialValue parameter is the initial value of the accumulator. It
+   * is the value that will be passed as the first argument to the callback function when reducing the
+   * elements of the tree.
+   * @returns The `reduce` method is returning the final value of the accumulator after iterating over
+   * all the entries in the tree and applying the callback function to each entry.
+   */
+  reduce<T>(callback: (accumulator: T, entry: [BTNKey, V | undefined], tree: this) => T, initialValue: T): T {
     let accumulator = initialValue;
     for (const [key, value] of this) {
       accumulator = callback(accumulator, [key, value], this);
