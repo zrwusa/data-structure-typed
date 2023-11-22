@@ -1,6 +1,6 @@
 {
   "name": "data-structure-typed",
-  "version": "1.46.9",
+  "version": "1.47.0",
   "description": "Data Structures of Javascript & TypeScript. Heap, Binary Tree, RedBlack Tree, Linked List, Deque, Trie, HashMap, Directed Graph, Undirected Graph, Binary Search Tree(BST), AVL Tree, Priority Queue, Graph, Queue, Tree Multiset, Singly Linked List, Doubly Linked List, Max Heap, Max Priority Queue, Min Heap, Min Priority Queue, Stack.",
   "main": "dist/cjs/index.js",
   "module": "dist/mjs/index.js",
