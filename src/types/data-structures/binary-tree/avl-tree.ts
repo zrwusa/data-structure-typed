@@ -1,5 +1,9 @@
-import { AVLTreeNode } from '../../../data-structures';
+import { AVLTree, AVLTreeNode } from '../../../data-structures';
 import { BSTOptions } from './bst';
 
 export type AVLTreeNodeNested<T> = AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, AVLTreeNode<T, any>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+export type AVLTreeNested<T, N extends AVLTreeNode<T, N>> = AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, AVLTree<T, N, any>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
 export type AVLTreeOptions = BSTOptions & {};

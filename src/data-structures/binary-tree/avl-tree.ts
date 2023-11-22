@@ -6,8 +6,8 @@
  * @license MIT License
  */
 import { BST, BSTNode } from './bst';
-import type { AVLTreeNodeNested, AVLTreeOptions, BiTreeDeleteResult, BTNKey } from '../../types';
-import { BTNCallback } from '../../types';
+import type { AVLTreeNested, AVLTreeNodeNested, AVLTreeOptions, BiTreeDeleteResult, BTNKey } from '../../types';
+import { BTNCallback, IterationType } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 
 export class AVLTreeNode<V = any, N extends AVLTreeNode<V, N> = AVLTreeNodeNested<V>> extends BSTNode<V, N> {
@@ -19,9 +19,12 @@ export class AVLTreeNode<V = any, N extends AVLTreeNode<V, N> = AVLTreeNodeNeste
   }
 }
 
-export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTreeNodeNested<V>>>
-  extends BST<V, N>
-  implements IBinaryTree<V, N> {
+export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTreeNodeNested<V>>, TREE extends AVLTree<V, N, TREE> = AVLTree<V, N, AVLTreeNested<V, N>>>
+  extends BST<V, N, TREE>
+  implements IBinaryTree<V, N, TREE> {
+
+  override options: AVLTreeOptions;
+
   /**
    * This is a constructor function for an AVL tree data structure in TypeScript.
    * @param {AVLTreeOptions} [options] - The `options` parameter is an optional object that can be passed to the
@@ -30,6 +33,11 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    */
   constructor(options?: AVLTreeOptions) {
     super(options);
+    if (options) {
+      this.options = { iterationType: IterationType.ITERATIVE, comparator: (a, b) => a - b, ...options }
+    } else {
+      this.options = { iterationType: IterationType.ITERATIVE, comparator: (a, b) => a - b };
+    }
   }
 
   /**
@@ -43,6 +51,10 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    */
   override createNode(key: BTNKey, value?: V): N {
     return new AVLTreeNode<V, N>(key, value) as N;
+  }
+
+  override createTree(options?: AVLTreeOptions) {
+    return new AVLTree<V, N, TREE>({ ...this.options, ...options }) as TREE;
   }
 
   /**

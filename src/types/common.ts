@@ -20,4 +20,4 @@ export interface IterableWithLength<T> extends Iterable<T> {
 
 export type IterableWithSizeOrLength<T> = IterableWithSize<T> | IterableWithLength<T>
 
-export type BinaryTreePrintOptions = {isShowUndefined?: boolean, isShowNull?: boolean, isShowRedBlackNIL?: boolean}
+export type BinaryTreePrintOptions = { isShowUndefined?: boolean, isShowNull?: boolean, isShowRedBlackNIL?: boolean }

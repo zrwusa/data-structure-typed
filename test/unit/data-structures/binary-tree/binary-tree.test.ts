@@ -189,9 +189,9 @@ describe('BinaryTree', () => {
     tree.add(4);
     tree.add(2);
     expect(tree.getHeight()).toBe(1);
-    tree.iterationType = IterationType.RECURSIVE;
+    tree.options.iterationType = IterationType.RECURSIVE;
     expect(tree.getHeight()).toBe(1);
-    tree.iterationType = IterationType.ITERATIVE;
+    tree.options.iterationType = IterationType.ITERATIVE;
 
     tree.add(6);
     tree.add(1);
@@ -541,11 +541,11 @@ describe('BinaryTree', () => {
     tree.add(3, 'B');
     tree.add(7, 'C');
 
-    tree.iterationType = IterationType.ITERATIVE;
-    expect([...tree]).toEqual([3, 5, 7]);
-    tree.iterationType = IterationType.RECURSIVE;
-    expect([...tree]).toEqual([3, 5, 7]);
-    tree.iterationType = IterationType.ITERATIVE;
+    tree.options.iterationType = IterationType.ITERATIVE;
+    expect([...tree]).toEqual([[3, "B"], [5, "A"], [7, "C"]]);
+    tree.options.iterationType = IterationType.RECURSIVE;
+    expect([...tree]).toEqual([[3, "B"], [5, "A"], [7, "C"]]);
+    tree.options.iterationType = IterationType.ITERATIVE;
 
     const result = tree.morris();
     expect(result).toEqual([3, 5, 7]);
@@ -562,5 +562,60 @@ describe('BinaryTree', () => {
     tree.delete(3);
     expect(tree.root).toBe(null);
     expect(tree.getHeight()).toBe(-1);
+  });
+});
+
+
+describe('BinaryTree iterative methods test', () => {
+  let binaryTree: BinaryTree<string>;
+  beforeEach(() => {
+    binaryTree = new BinaryTree();
+    binaryTree.add(1, 'a');
+    binaryTree.add(2, 'b');
+    binaryTree.add(3, 'c');
+  });
+
+  test('The node obtained by get Node should match the node type', () => {
+    const node3 = binaryTree.getNode(3);
+    expect(node3).toBeInstanceOf(BinaryTreeNode);
+  });
+
+  test('forEach should iterate over all elements', () => {
+    const mockCallback = jest.fn();
+    binaryTree.forEach((entry) => {
+      mockCallback(entry);
+    });
+
+    expect(mockCallback.mock.calls.length).toBe(3);
+    expect(mockCallback.mock.calls[0][0]).toEqual([2, 'b']);
+    expect(mockCallback.mock.calls[1][0]).toEqual([1, 'a']);
+    expect(mockCallback.mock.calls[2][0]).toEqual([3, 'c']);
+  });
+
+  test('filter should return a new tree with filtered elements', () => {
+    const filteredTree = binaryTree.filter(([key]) => key > 1);
+    expect(filteredTree.size).toBe(2);
+    expect([...filteredTree]).toEqual([[3, 'c'], [2, 'b']]);
+  });
+
+  test('map should return a new tree with modified elements', () => {
+    const mappedTree = binaryTree.map(([key]) => (key * 2).toString());
+    expect(mappedTree.size).toBe(3);
+    expect([...mappedTree]).toEqual([[1, '2'], [2, '4'], [3, '6']]);
+  });
+
+  test('reduce should accumulate values', () => {
+    const sum = binaryTree.reduce((acc, [key]) => acc + key, 0);
+    expect(sum).toBe(6);
+  });
+
+  test('[Symbol.iterator] should provide an iterator', () => {
+    const entries = [];
+    for (const entry of binaryTree) {
+      entries.push(entry);
+    }
+
+    expect(entries.length).toBe(3);
+    expect(entries).toEqual([[2, 'b'], [1, 'a'], [3, 'c']]);
   });
 });

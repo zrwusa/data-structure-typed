@@ -1,4 +1,4 @@
-import { IterationType, RBTNColor, RedBlackTree, RedBlackTreeNode } from '../../../../src';
+import { BinaryTreeNode, BSTNode, IterationType, RBTNColor, RedBlackTree, RedBlackTreeNode } from '../../../../src';
 import { getRandomInt, getRandomIntArray, magnitude } from '../../../utils';
 import { isDebugTest } from '../../../config';
 import { OrderedMap } from 'js-sdsl';
@@ -490,7 +490,7 @@ describe('RedBlackTree', () => {
 
   it('duplicates', () => {
     tree.addMany([9, 8, 7, 8, 8, 8, 2, 3, 6, 5, 5, 4]);
-    tree.print();
+    isDebug && tree.print();
 
     expect(tree.size).toBe(8);
     expect(tree.isBST()).toBe(true);
@@ -504,4 +504,60 @@ describe('RedBlackTree', () => {
     tree.addMany([10, 20, 30, 40, 50, 60])
     expect(tree.isAVLBalanced()).toBe(false);
   })
+});
+
+describe('RedBlackTree iterative methods test', () => {
+  let rbTree: RedBlackTree<string>;
+  beforeEach(() => {
+    rbTree = new RedBlackTree();
+    rbTree.add(1, 'a');
+    rbTree.add(2, 'b');
+    rbTree.add(3, 'c');
+  });
+
+  test('The node obtained by get Node should match the node type', () => {
+    const node3 = rbTree.getNode(3);
+    expect(node3).toBeInstanceOf(BinaryTreeNode);
+    expect(node3).toBeInstanceOf(BSTNode);
+    expect(node3).toBeInstanceOf(RedBlackTreeNode);
+  });
+
+  test('forEach should iterate over all elements', () => {
+    const mockCallback = jest.fn();
+    rbTree.forEach((entry) => {
+      mockCallback(entry);
+    });
+
+    expect(mockCallback.mock.calls.length).toBe(3);
+    expect(mockCallback.mock.calls[0][0]).toEqual([1, 'a']);
+    expect(mockCallback.mock.calls[1][0]).toEqual([2, 'b']);
+    expect(mockCallback.mock.calls[2][0]).toEqual([3, 'c']);
+  });
+
+  test('filter should return a new tree with filtered elements', () => {
+    const filteredTree = rbTree.filter(([key]) => key > 1);
+    expect(filteredTree.size).toBe(2);
+    expect([...filteredTree]).toEqual([[2, 'b'], [3, 'c']]);
+  });
+
+  test('map should return a new tree with modified elements', () => {
+    const mappedTree = rbTree.map(([key]) => (key * 2).toString());
+    expect(mappedTree.size).toBe(3);
+    expect([...mappedTree]).toEqual([[1, '2'], [2, '4'], [3, '6']]);
+  });
+
+  test('reduce should accumulate values', () => {
+    const sum = rbTree.reduce((acc, [key]) => acc + key, 0);
+    expect(sum).toBe(6);
+  });
+
+  test('[Symbol.iterator] should provide an iterator', () => {
+    const entries = [];
+    for (const entry of rbTree) {
+      entries.push(entry);
+    }
+
+    expect(entries.length).toBe(3);
+    expect(entries).toEqual([[1, 'a'], [2, 'b'], [3, 'c']]);
+  });
 });

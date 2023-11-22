@@ -6,7 +6,7 @@
  * @license MIT License
  */
 import type { BTNKey, TreeMultimapNodeNested, TreeMultimapOptions } from '../../types';
-import { BiTreeDeleteResult, BTNCallback, CP, FamilyPosition, IterationType } from '../../types';
+import { BiTreeDeleteResult, BTNCallback, CP, FamilyPosition, IterationType, TreeMultimapNested } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { AVLTree, AVLTreeNode } from './avl-tree';
 
@@ -35,17 +35,26 @@ export class TreeMultimapNode<
 /**
  * The only distinction between a TreeMultimap and a AVLTree lies in the ability of the former to store duplicate nodes through the utilization of counters.
  */
-export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultimapNode<V, TreeMultimapNodeNested<V>>>
-  extends AVLTree<V, N>
-  implements IBinaryTree<V, N> {
+export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultimapNode<V, TreeMultimapNodeNested<V>>,
+  TREE extends TreeMultimap<V, N, TREE> = TreeMultimap<V, N, TreeMultimapNested<V, N>>>
+  extends AVLTree<V, N, TREE>
+  implements IBinaryTree<V, N, TREE> {
+
+  override options: TreeMultimapOptions;
+
   /**
    * The constructor function for a TreeMultimap class in TypeScript, which extends another class and sets an option to
    * merge duplicated values.
    * @param {TreeMultimapOptions} [options] - An optional object that contains additional configuration options for the
    * TreeMultimap.
    */
-  constructor(options?: TreeMultimapOptions) {
+  constructor(options: TreeMultimapOptions = { iterationType: IterationType.ITERATIVE }) {
     super(options);
+    if (options) {
+      this.options = { iterationType: IterationType.ITERATIVE, comparator: (a, b) => a - b, ...options }
+    } else {
+      this.options = { iterationType: IterationType.ITERATIVE, comparator: (a, b) => a - b };
+    }
   }
 
   private _count = 0;
@@ -65,6 +74,10 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    */
   override createNode(key: BTNKey, value?: V, count?: number): N {
     return new TreeMultimapNode(key, value, count) as N;
+  }
+
+  override createTree(options?: TreeMultimapOptions): TREE {
+    return new TreeMultimap<V, N, TREE>({ ...this.options, ...options }) as TREE;
   }
 
   /**
@@ -210,7 +223,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    * values:
    * @returns a boolean value.
    */
-  override perfectlyBalance(iterationType = this.iterationType): boolean {
+  override perfectlyBalance(iterationType = this.options.iterationType): boolean {
     const sorted = this.dfs(node => node, 'in'),
       n = sorted.length;
     if (sorted.length < 1) return false;

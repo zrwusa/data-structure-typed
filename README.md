@@ -29,7 +29,7 @@ Now you can use this library in Node.js and browser environments in CommonJS(req
 ### npm
 
 ```bash
-npm i data-structure-typed
+npm i --save data-structure-typed
 ```
 
 ### yarn

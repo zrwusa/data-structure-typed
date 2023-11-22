@@ -1,4 +1,4 @@
-import { BinaryTreeNode } from '../../../data-structures';
+import { BinaryTree, BinaryTreeNode } from '../../../data-structures';
 
 /**
  * Enum representing different loop types.
@@ -27,6 +27,8 @@ export type BTNKey = number;
 export type BiTreeDeleteResult<N> = { deleted: N | null | undefined; needBalanced: N | null | undefined };
 
 export type BinaryTreeNodeNested<T> = BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, BinaryTreeNode<T, any>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+export type BinaryTreeNested<T, N extends BinaryTreeNode<T, N>> = BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, any>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 export type BinaryTreeOptions = { iterationType?: IterationType }
 

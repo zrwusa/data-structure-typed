@@ -3,8 +3,8 @@
 <head>
   <meta charset='UTF-8'>
   <title>CDN Test</title>
-<!--  <script src="../../dist/umd/data-structure-typed.min.js"></script>-->
-      <script src="../../dist/umd/data-structure-typed.js"></script>
+  <!--  <script src="../../dist/umd/data-structure-typed.min.js"></script>-->
+  <script src="../../dist/umd/data-structure-typed.js"></script>
   <!--  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js'></script>-->
   <!--  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed@1.42.2/dist/umd/data-structure-typed.min.js'></script>-->
   <!--  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed@1.43.3/dist/umd/data-structure-typed.min.js'></script>-->
@@ -38,7 +38,7 @@
       last = queue.dequeue();
     }
 
-    console.log((performance.now() - startTime).toFixed(2) ,`Queue ${n.toLocaleString()} dequeue `);
+    console.log((performance.now() - startTime).toFixed(2), `Queue ${n.toLocaleString()} dequeue `);
 
   } catch (e) {
     console.error(e);
@@ -69,7 +69,7 @@
     tree.addMany([1, 6, 9, 8, 5, 2, 3, 4, 7])
     tree.add(10);
     console.log(tree.isPerfectlyBalanced(), `tree.isPerfectlyBalanced()`);
-    tree.print(undefined, {isShowUndefined: true});
+    tree.print(undefined, { isShowUndefined: true });
 
     const node3 = tree.getNode(3);
     if (node3) node3.right = tree.createNode(1);
@@ -79,7 +79,7 @@
     tree.clear();
     tree.addMany([1, null, 2, null, 3, null, 4, null, 5, null, 6, null]);
     console.log(tree.isPerfectlyBalanced(), `tree.isPerfectlyBalanced()`);
-    tree.print(undefined, {isShowNull: true});
+    tree.print(undefined, { isShowNull: true });
   } catch (e) {
     console.error(e);
   }
@@ -95,12 +95,12 @@
     for (let i = 0; i < n; i++) {
       rbTree.add(i, i);
     }
-    console.log(( performance.now() - tS).toFixed(2), `RedBlackTree ${n.toLocaleString()} add`);
+    console.log((performance.now() - tS).toFixed(2), `RedBlackTree ${n.toLocaleString()} add`);
     console.log(`rbTree.size`, rbTree.size);
     for (let i = 0; i < n - 20; i++) {
       rbTree.delete(i)
     }
-    rbTree.print(rbTree.root,{isShowRedBlackNIL: true});
+    rbTree.print(rbTree.root, { isShowRedBlackNIL: true });
     const cS = performance.now();
     for (let i = 1; i < 100000; i++) {
       cRBTree.setElement(i, i);
@@ -125,7 +125,7 @@
     for (let i = 0; i < n; i++) {
       pq.pop();
     }
-    console.log(( performance.now() - tS).toFixed(2), `PriorityQueue ${n.toLocaleString()} add`);
+    console.log((performance.now() - tS).toFixed(2), `PriorityQueue ${n.toLocaleString()} add`);
     console.log(pq.size, `pq.size`);
     const cS = performance.now();
     const cpq = new CPriorityQueue();

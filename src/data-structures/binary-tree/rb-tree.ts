@@ -13,6 +13,7 @@ import {
   IterationType,
   RBTNColor,
   RBTreeOptions,
+  RedBlackTreeNested,
   RedBlackTreeNodeNested
 } from '../../types';
 import { BST, BSTNode } from './bst';
@@ -38,10 +39,11 @@ export class RedBlackTreeNode<V = any, N extends RedBlackTreeNode<V, N> = RedBla
  * 4. Red nodes must have black children.
  * 5. Black balance: Every path from any node to each of its leaf nodes contains the same number of black nodes.
  */
-export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTreeNode<V, RedBlackTreeNodeNested<V>>>
-  extends BST<V, N>
-  implements IBinaryTree<V, N> {
+export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTreeNode<V, RedBlackTreeNodeNested<V>>, TREE extends RedBlackTree<V, N, TREE> = RedBlackTree<V, N, RedBlackTreeNested<V, N>>>
+  extends BST<V, N, TREE>
+  implements IBinaryTree<V, N, TREE> {
   Sentinel: N = new RedBlackTreeNode<V>(NaN) as unknown as N;
+  override options: RBTreeOptions;
 
   /**
    * The constructor function initializes a Red-Black Tree with an optional set of options.
@@ -50,6 +52,11 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
    */
   constructor(options?: RBTreeOptions) {
     super(options);
+    if (options) {
+      this.options = { iterationType: IterationType.ITERATIVE, comparator: (a, b) => a - b, ...options }
+    } else {
+      this.options = { iterationType: IterationType.ITERATIVE, comparator: (a, b) => a - b };
+    }
     this._root = this.Sentinel;
   }
 
@@ -63,6 +70,14 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
 
   get size(): number {
     return this._size;
+  }
+
+  override createNode(key: BTNKey, value?: V, color: RBTNColor = RBTNColor.BLACK): N {
+    return new RedBlackTreeNode<V, N>(key, value, color) as N;
+  }
+
+  override createTree(options?: RBTreeOptions): TREE {
+    return new RedBlackTree<V, N, TREE>({ ...this.options, ...options }) as TREE;
   }
 
   /**
@@ -137,10 +152,6 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
 
     this._fixInsert(node);
     this._size++;
-  }
-
-  override createNode(key: BTNKey, value?: V, color: RBTNColor = RBTNColor.BLACK): N {
-    return new RedBlackTreeNode<V, N>(key, value, color) as N;
   }
 
   /**
@@ -279,7 +290,7 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
     identifier: ReturnType<C> | undefined,
     callback: C = this._defaultOneParamCallback as C,
     beginRoot: BTNKey | N | undefined = this.root,
-    iterationType = this.iterationType
+    iterationType = this.options.iterationType
   ): N | null | undefined {
     if ((identifier as any) instanceof BinaryTreeNode) callback = (node => node) as C;
     beginRoot = this.ensureNotKey(beginRoot);

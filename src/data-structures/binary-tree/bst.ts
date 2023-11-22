@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { BSTComparator, BSTNodeNested, BSTOptions, BTNCallback, BTNKey } from '../../types';
+import type { BSTNested, BSTNodeNested, BSTOptions, BTNCallback, BTNKey } from '../../types';
 import { CP, IterationType } from '../../types';
 import { BinaryTree, BinaryTreeNode } from './binary-tree';
 import { IBinaryTree } from '../../interfaces';
@@ -62,9 +62,12 @@ export class BSTNode<V = any, N extends BSTNode<V, N> = BSTNodeNested<V>> extend
   }
 }
 
-export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>>
-  extends BinaryTree<V, N>
-  implements IBinaryTree<V, N> {
+export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>, TREE extends BST<V, N, TREE> = BST<V, N, BSTNested<V, N>>>
+  extends BinaryTree<V, N, TREE>
+  implements IBinaryTree<V, N, TREE> {
+
+  override options: BSTOptions;
+
   /**
    * The constructor function initializes a binary search tree with an optional comparator function.
    * @param {BSTOptions} [options] - An optional object that contains additional configuration options
@@ -72,13 +75,12 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    */
   constructor(options?: BSTOptions) {
     super(options);
-    this._root = undefined;
-    if (options !== undefined) {
-      const { comparator } = options;
-      if (comparator !== undefined) {
-        this._comparator = comparator;
-      }
+    if (options) {
+      this.options = { iterationType: IterationType.ITERATIVE, comparator: (a, b) => a - b, ...options }
+    } else {
+      this.options = { iterationType: IterationType.ITERATIVE, comparator: (a, b) => a - b };
     }
+    this._root = undefined;
   }
 
   protected override _root?: N;
@@ -100,6 +102,10 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    */
   override createNode(key: BTNKey, value?: V): N {
     return new BSTNode<V, N>(key, value) as N;
+  }
+
+  override createTree(options?: BSTOptions): TREE {
+    return new BST<V, N, TREE>({ ...this.options, ...options }) as TREE;
   }
 
   /**
@@ -215,7 +221,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     keysOrNodes: (BTNKey | N | undefined)[],
     data?: (V | undefined)[],
     isBalanceAdd = true,
-    iterationType = this.iterationType
+    iterationType = this.options.iterationType
   ): (N | undefined)[] {
     // TODO this addMany function is inefficient, it should be optimized
     function hasNoUndefined(arr: (BTNKey | N | undefined)[]): arr is (BTNKey | N)[] {
@@ -310,7 +316,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * the key of the leftmost node if the comparison result is greater than, and the key of the
    * rightmost node otherwise. If no node is found, it returns 0.
    */
-  lastKey(beginRoot: BTNKey | N | undefined = this.root, iterationType = this.iterationType): BTNKey {
+  lastKey(beginRoot: BTNKey | N | undefined = this.root, iterationType = this.options.iterationType): BTNKey {
     if (this._compare(0, 1) === CP.lt) return this.getRightMost(beginRoot, iterationType)?.key ?? 0;
     else if (this._compare(0, 1) === CP.gt) return this.getLeftMost(beginRoot, iterationType)?.key ?? 0;
     else return this.getRightMost(beginRoot, iterationType)?.key ?? 0;
@@ -406,7 +412,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     callback: C = this._defaultOneParamCallback as C,
     onlyOne = false,
     beginRoot: BTNKey | N | undefined = this.root,
-    iterationType = this.iterationType
+    iterationType = this.options.iterationType
   ): N[] {
     beginRoot = this.ensureNotKey(beginRoot);
     if (!beginRoot) return [];
@@ -487,7 +493,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     callback: C = this._defaultOneParamCallback as C,
     lesserOrGreater: CP = CP.lt,
     targetNode: BTNKey | N | undefined = this.root,
-    iterationType = this.iterationType
+    iterationType = this.options.iterationType
   ): ReturnType<C>[] {
     targetNode = this.ensureNotKey(targetNode);
     const ans: ReturnType<BTNCallback<N>>[] = [];
@@ -550,7 +556,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * values:
    * @returns The function `perfectlyBalance` returns a boolean value.
    */
-  perfectlyBalance(iterationType = this.iterationType): boolean {
+  perfectlyBalance(iterationType = this.options.iterationType): boolean {
     const sorted = this.dfs(node => node, 'in'),
       n = sorted.length;
     this.clear();
@@ -602,7 +608,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * to check if the AVL tree is balanced. It can have two possible values:
    * @returns a boolean value.
    */
-  isAVLBalanced(iterationType = this.iterationType): boolean {
+  isAVLBalanced(iterationType = this.options.iterationType): boolean {
     if (!this.root) return true;
 
     let balanced = true;
@@ -646,8 +652,6 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     return balanced;
   }
 
-  protected _comparator: BSTComparator = (a, b) => a - b;
-
   protected _setRoot(v: N | undefined) {
     if (v) {
       v.parent = undefined;
@@ -664,7 +668,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * than), CP.lt (less than), or CP.eq (equal).
    */
   protected _compare(a: BTNKey, b: BTNKey): CP {
-    const compared = this._comparator(a, b);
+    const compared = this.options.comparator!(a, b);
     if (compared > 0) return CP.gt;
     else if (compared < 0) return CP.lt;
     else return CP.eq;

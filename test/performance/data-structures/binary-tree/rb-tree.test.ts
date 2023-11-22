@@ -41,4 +41,11 @@ suite
     }
   });
 
+suite.add(`${HUNDRED_THOUSAND.toLocaleString()} add & iterator`, () => {
+  rbTree.clear();
+  for (let i = 0; i < arr.length; i++) rbTree.add(arr[i]);
+  const entries = [...rbTree];
+  return entries.length === HUNDRED_THOUSAND
+});
+
 export { suite };

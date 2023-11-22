@@ -1,4 +1,4 @@
-import { BST, BSTNode, CP, IterationType } from '../../../../src';
+import { BinaryTreeNode, BST, BSTNode, CP, IterationType } from '../../../../src';
 import { isDebugTest } from '../../../config';
 
 const isDebug = isDebugTest;
@@ -849,5 +849,60 @@ describe('BST Performance test', function () {
     expect(bst.subTreeTraverse(node => node?.key ?? undefined, bst.getNode(6), IterationType.RECURSIVE, true)).toEqual([
       6, 5, 7
     ]);
+  });
+});
+
+describe('BST iterative methods test', () => {
+  let bst: BST<string>;
+  beforeEach(() => {
+    bst = new BST();
+    bst.add(1, 'a');
+    bst.add(2, 'b');
+    bst.add(3, 'c');
+  });
+
+  test('The node obtained by get Node should match the node type', () => {
+    const node3 = bst.getNode(3);
+    expect(node3).toBeInstanceOf(BinaryTreeNode);
+    expect(node3).toBeInstanceOf(BSTNode);
+  });
+
+  test('forEach should iterate over all elements', () => {
+    const mockCallback = jest.fn();
+    bst.forEach((entry) => {
+      mockCallback(entry);
+    });
+
+    expect(mockCallback.mock.calls.length).toBe(3);
+    expect(mockCallback.mock.calls[0][0]).toEqual([1, 'a']);
+    expect(mockCallback.mock.calls[1][0]).toEqual([2, 'b']);
+    expect(mockCallback.mock.calls[2][0]).toEqual([3, 'c']);
+  });
+
+  test('filter should return a new tree with filtered elements', () => {
+    const filteredTree = bst.filter(([key]) => key > 1);
+    expect(filteredTree.size).toBe(2);
+    expect([...filteredTree]).toEqual([[2, 'b'], [3, 'c']]);
+  });
+
+  test('map should return a new tree with modified elements', () => {
+    const mappedTree = bst.map(([key]) => (key * 2).toString());
+    expect(mappedTree.size).toBe(3);
+    expect([...mappedTree]).toEqual([[1, '2'], [2, '4'], [3, '6']]);
+  });
+
+  test('reduce should accumulate values', () => {
+    const sum = bst.reduce((acc, [key]) => acc + key, 0);
+    expect(sum).toBe(6);
+  });
+
+  test('[Symbol.iterator] should provide an iterator', () => {
+    const entries = [];
+    for (const entry of bst) {
+      entries.push(entry);
+    }
+
+    expect(entries.length).toBe(3);
+    expect(entries).toEqual([[1, 'a'], [2, 'b'], [3, 'c']]);
   });
 });
