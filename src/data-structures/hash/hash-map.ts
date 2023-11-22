@@ -305,6 +305,14 @@ export class HashMap<K = any, V = any> {
     }
   }
 
+  /**
+   * The `filter` function takes a predicate function and returns a new HashMap containing only the
+   * key-value pairs that satisfy the predicate.
+   * @param predicate - The `predicate` parameter is a function that takes two arguments: `element` and
+   * `map`.
+   * @returns a new HashMap object that contains the key-value pairs from the original HashMap that
+   * satisfy the given predicate function.
+   */
   filter(predicate: (element: [K, V], map: HashMap<K, V>) => boolean): HashMap<K, V> {
     const filteredMap = new HashMap<K, V>();
     for (const [key, value] of this) {
@@ -315,6 +323,13 @@ export class HashMap<K = any, V = any> {
     return filteredMap;
   }
 
+  /**
+   * The `map` function takes a callback function and returns a new HashMap with the values transformed
+   * by the callback.
+   * @param callback - The `callback` parameter is a function that takes two arguments: `element` and
+   * `map`.
+   * @returns a new HashMap object with the values mapped according to the provided callback function.
+   */
   map<NV>(callback: (element: [K, V], map: HashMap<K, V>) => NV): HashMap<K, NV> {
     const mappedMap = new HashMap<K, NV>();
     for (const [key, value] of this) {
@@ -324,6 +339,18 @@ export class HashMap<K = any, V = any> {
     return mappedMap;
   }
 
+  /**
+   * The `reduce` function iterates over the elements of a HashMap and applies a callback function to
+   * each element, accumulating a single value.
+   * @param callback - The callback parameter is a function that takes three arguments: accumulator,
+   * element, and map. It is called for each element in the HashMap and is used to accumulate a single
+   * result.
+   * @param {A} initialValue - The `initialValue` parameter is the initial value of the accumulator. It
+   * is the value that will be passed as the first argument to the `callback` function when reducing
+   * the elements of the map.
+   * @returns The `reduce` function is returning the final value of the accumulator after iterating
+   * over all the elements in the HashMap and applying the callback function to each element.
+   */
   reduce<A>(callback: (accumulator: A, element: [K, V], map: HashMap<K, V>) => A, initialValue: A): A {
     let accumulator = initialValue;
     for (const element of this) {
