@@ -53,7 +53,7 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
     return new AVLTreeNode<V, N>(key, value) as N;
   }
 
-  override createTree(options?: AVLTreeOptions) {
+  override createTree(options?: AVLTreeOptions): TREE {
     return new AVLTree<V, N, TREE>({ ...this.options, ...options }) as TREE;
   }
 
