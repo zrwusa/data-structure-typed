@@ -45,6 +45,7 @@ directories=(
     "priority-queue-typed"
     "singly-linked-list-typed"
     "queue-typed"
+    "red-black-tree-typed"
     "stack-typed"
     "tree-multimap-typed"
     "trie-typed"
