@@ -13,7 +13,15 @@ Data Structures of Javascript & TypeScript.
 
 Do you envy C++ with [STL]() (std::), Python with [collections](), and Java with [java.util]() ? Well, no need to envy anymore! JavaScript and TypeScript now have [data-structure-typed]().
 
-Now you can use this library in Node.js and browser environments in CommonJS(require export.modules = ), ESModule(import export), Typescript(import export), UMD(var Queue = dataStructureTyped.Queue)
+Now you can use this in Node.js and browser environments
+
+CommonJS:**`require export.modules =`** 
+
+ESModule:&nbsp;&nbsp;&nbsp;**`import export`**
+
+Typescript:&nbsp;&nbsp;&nbsp;**`import export`**
+
+UMD:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**`var Deque = dataStructureTyped.Deque`**
 
 
 [//]: # (![Branches]&#40;https://img.shields.io/badge/branches-55.47%25-red.svg?style=flat&#41;)
@@ -29,7 +37,7 @@ Now you can use this library in Node.js and browser environments in CommonJS(req
 ### npm
 
 ```bash
-npm i --save data-structure-typed
+npm i data-structure-typed --save
 ```
 
 ### yarn
@@ -60,7 +68,7 @@ Copy the line below into the head tag in an HTML document.
 <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js'></script>
 ```
 
-Copy the code below into the script tag of your HTML, and you're good to go with your development work.
+Copy the code below into the script tag of your HTML, and you're good to go with your development.
 ```js
 const {Heap} = dataStructureTyped;
 const {
@@ -142,6 +150,18 @@ bst.delete(6);
 bst.get(6);                     // undefined
 bst.isAVLBalanced();            // true
 bst.bfs()[0] === 11;            // true
+bst.print()
+//       ______________11_____           
+//      /                     \          
+//   ___3_______            _13_____
+//  /           \          /        \    
+//  1_     _____8____     12      _15__
+//    \   /          \           /     \ 
+//    2   4_       _10          14    16
+//          \     /                      
+//          5_    9
+//            \                          
+//            7
 
 const objBST = new BST<{height: number, age: number}>();
 
@@ -192,12 +212,9 @@ bst.get(6);                     // undefined
 bst.isAVLBalanced();            // true or false
 const bfsIDs = bst.bfs();
 bfsIDs[0] === 11;               // true
-
 ```
 
 ### AVLTree snippet
-
-#### TS
 
 ```ts
 import {AVLTree} from 'data-structure-typed';
@@ -209,21 +226,29 @@ avlTree.delete(10);
 avlTree.isAVLBalanced();    // true
 ```
 
-#### JS
+### RedBlackTree snippet
 
-```js
-const {AVLTree} = require('data-structure-typed');
+```ts
+import {RedBlackTree} from 'data-structure-typed';
 
-const avlTree = new AVLTree();
-avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
-avlTree.isAVLBalanced();    // true
-avlTree.delete(10);
-avlTree.isAVLBalanced();    // true
+const rbTree = new RedBlackTree();
+rbTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
+rbTree.isAVLBalanced();    // true
+rbTree.delete(10);
+rbTree.isAVLBalanced();    // true
+rbTree.print()
+//         ___6________
+//        /            \
+//      ___4_       ___11________
+//     /     \     /             \
+//    _2_    5    _8_       ____14__
+//   /   \       /   \     /        \
+//   1   3       7   9    12__     15__
+//                            \        \
+//                           13       16
 ```
 
 ### Directed Graph simple snippet
-
-#### TS or JS
 
 ```ts
 import {DirectedGraph} from 'data-structure-typed';
@@ -253,8 +278,6 @@ const topologicalOrderKeys = graph.topologicalSort(); // ['A', 'B', 'C']
 ```
 
 ### Undirected Graph snippet
-
-#### TS or JS
 
 ```ts
 import {UndirectedGraph} from 'data-structure-typed';
@@ -802,40 +825,3 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', '
     </tr>
 </table>
 
-
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-- [Installation and Usage](#installation-and-usage)
-  - [npm](#npm)
-  - [yarn](#yarn)
-  - [CDN](#cdn)
-    - [development](#development)
-    - [production](#production)
-- [Vivid Examples](#vivid-examples)
-  - [Binary Tree](#binary-tree)
-  - [Binary Tree DFS](#binary-tree-dfs)
-  - [AVL Tree](#avl-tree)
-  - [Tree Multi Map](#tree-multi-map)
-  - [Matrix](#matrix)
-  - [Directed Graph](#directed-graph)
-  - [Map Graph](#map-graph)
-- [Code Snippets](#code-snippets)
-  - [Binary Search Tree (BST) snippet](#binary-search-tree-bst-snippet)
-    - [TS](#ts)
-    - [JS](#js)
-  - [AVLTree snippet](#avltree-snippet)
-    - [TS](#ts-1)
-    - [JS](#js-1)
-  - [Directed Graph simple snippet](#directed-graph-simple-snippet)
-    - [TS or JS](#ts-or-js)
-  - [Undirected Graph snippet](#undirected-graph-snippet)
-    - [TS or JS](#ts-or-js-1)
-- [API docs & Examples](#api-docs--examples)
-- [Data Structures](#data-structures)
-- [Standard library data structure comparison](#standard-library-data-structure-comparison)
-- [Benchmark](#benchmark)
-- [Built-in classic algorithms](#built-in-classic-algorithms)
-- [Software Engineering Design Standards](#software-engineering-design-standards)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->

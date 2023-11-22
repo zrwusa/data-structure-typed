@@ -97,7 +97,7 @@
     }
     console.log((performance.now() - tS).toFixed(2), `RedBlackTree ${n.toLocaleString()} add`);
     console.log(`rbTree.size`, rbTree.size);
-    for (let i = 0; i < n - 20; i++) {
+    for (let i = 0; i < n - 8; i++) {
       rbTree.delete(i)
     }
     rbTree.print(rbTree.root, { isShowRedBlackNIL: true });
@@ -139,6 +139,79 @@
     }
     console.log((performance.now() - cS).toFixed(), `CPriorityQueue ${n.toLocaleString()} add`);
     console.log(cpq.size(), `cpq.size()`);
+  } catch (e) {
+    console.error(e);
+  }
+
+  try {
+    const { BST, RedBlackTree, AVLTree } = dataStructureTyped;
+
+    const bst = new BST();
+    bst.add(11);
+    bst.add(3);
+    bst.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
+    bst.size === 16;                // true
+    bst.has(6);                     // true
+    const node6 = bst.getNode(6);   // BSTNode
+    bst.getHeight(6) === 2;         // true
+    bst.getHeight() === 5;          // true
+    bst.getDepth(6) === 3;          // true
+
+    bst.getLeftMost()?.key === 1;   // true
+
+    bst.delete(6);
+    bst.get(6);                     // undefined
+    bst.isAVLBalanced();            // true
+    bst.bfs()[0] === 11;            // true
+    bst.print();
+
+    const objBST = new BST();
+
+    objBST.add(11, { "name": "Pablo", "age": 15 });
+    objBST.add(3, { "name": "Kirk", "age": 1 });
+
+    objBST.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5], [
+        { "name": "Alice", "age": 15 },
+        { "name": "Bob", "age": 1 },
+        { "name": "Charlie", "age": 8 },
+        { "name": "David", "age": 13 },
+        { "name": "Emma", "age": 16 },
+        { "name": "Frank", "age": 2 },
+        { "name": "Grace", "age": 6 },
+        { "name": "Hannah", "age": 9 },
+        { "name": "Isaac", "age": 12 },
+        { "name": "Jack", "age": 14 },
+        { "name": "Katie", "age": 4 },
+        { "name": "Liam", "age": 7 },
+        { "name": "Mia", "age": 10 },
+        { "name": "Noah", "age": 5 }
+      ]
+    );
+    objBST.print()
+
+    objBST.delete(11);
+    objBST.print()
+
+
+    const rbTree = new RedBlackTree();
+    rbTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
+    rbTree.isAVLBalanced();    // true
+    rbTree.delete(10);
+    rbTree.isAVLBalanced();    // true
+    console.log(`rbTree.delete(10)`);
+    rbTree.print();
+
+    rbTree.delete(14);
+    rbTree.print()
+
+    const avlTree = new AVLTree();
+    avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
+    avlTree.isAVLBalanced();    // true
+    avlTree.delete(10);
+    avlTree.isAVLBalanced();    // true
+    avlTree.print()
+    avlTree.delete(14);
+    avlTree.print()
   } catch (e) {
     console.error(e);
   }
