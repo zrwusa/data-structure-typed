@@ -313,12 +313,14 @@ export class HashMap<K = any, V = any> {
    * @returns a new HashMap object that contains the key-value pairs from the original HashMap that
    * satisfy the given predicate function.
    */
-  filter(predicate: (element: [K, V], map: HashMap<K, V>) => boolean): HashMap<K, V> {
+  filter(predicate: (element: [K, V], index: number, map: HashMap<K, V>) => boolean): HashMap<K, V> {
     const filteredMap = new HashMap<K, V>();
+    let index = 0;
     for (const [key, value] of this) {
-      if (predicate([key, value], this)) {
+      if (predicate([key, value], index, this)) {
         filteredMap.set(key, value);
       }
+      index++;
     }
     return filteredMap;
   }
@@ -330,11 +332,13 @@ export class HashMap<K = any, V = any> {
    * `map`.
    * @returns a new HashMap object with the values mapped according to the provided callback function.
    */
-  map<NV>(callback: (element: [K, V], map: HashMap<K, V>) => NV): HashMap<K, NV> {
+  map<NV>(callback: (element: [K, V], index: number, map: HashMap<K, V>) => NV): HashMap<K, NV> {
     const mappedMap = new HashMap<K, NV>();
+    let index = 0;
     for (const [key, value] of this) {
-      const newValue = callback([key, value], this);
+      const newValue = callback([key, value], index, this);
       mappedMap.set(key, newValue);
+      index++;
     }
     return mappedMap;
   }
@@ -351,10 +355,12 @@ export class HashMap<K = any, V = any> {
    * @returns The `reduce` function is returning the final value of the accumulator after iterating
    * over all the elements in the HashMap and applying the callback function to each element.
    */
-  reduce<A>(callback: (accumulator: A, element: [K, V], map: HashMap<K, V>) => A, initialValue: A): A {
+  reduce<A>(callback: (accumulator: A, element: [K, V], index: number, map: HashMap<K, V>) => A, initialValue: A): A {
     let accumulator = initialValue;
-    for (const element of this) {
-      accumulator = callback(accumulator, element, this);
+    let index = 0;
+    for (const entry of this) {
+      accumulator = callback(accumulator, entry, index, this);
+      index++;
     }
     return accumulator;
   }

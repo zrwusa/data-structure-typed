@@ -666,111 +666,6 @@ export class SinglyLinkedList<E = any> {
   }
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as it needs to reverse the pointers of each node.
-   * Space Complexity: O(1) - Constant space.
-   */
-
-  /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as it needs to reverse the pointers of each node.
-   * Space Complexity: O(1) - Constant space.
-   *
-   * The `forEach` function iterates over each element in a linked list and applies a callback function to each element.
-   * @param callback - The callback parameter is a function that takes two arguments: value and index. The value argument
-   * represents the value of the current node in the linked list, and the index argument represents the index of the
-   * current node in the linked list.
-   */
-  forEach(callback: (value: E, index: number) => void): void {
-    let current = this.head;
-    let index = 0;
-    while (current) {
-      callback(current.value, index);
-      current = current.next;
-      index++;
-    }
-  }
-
-  /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as they need to traverse the entire list to apply the callback or reduce the list.
-   * Space Complexity: O(n) - Linear space, as they create new nodes or arrays.
-   */
-
-  /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as they need to traverse the entire list to apply the callback or reduce the list.
-   * Space Complexity: O(n) - Linear space, as they create new nodes or arrays.
-   *
-   * The `map` function takes a callback function and applies it to each element in the SinglyLinkedList, returning a new
-   * SinglyLinkedList with the transformed values.
-   * @param callback - The callback parameter is a function that takes a value of type E (the type of values stored in
-   * the original SinglyLinkedList) and returns a value of type U (the type of values that will be stored in the mapped
-   * SinglyLinkedList).
-   * @returns The `map` function is returning a new instance of `SinglyLinkedList<U>` that contains the mapped values.
-   */
-  map<U>(callback: (value: E) => U): SinglyLinkedList<U> {
-    const mappedList = new SinglyLinkedList<U>();
-    let current = this.head;
-    while (current) {
-      mappedList.push(callback(current.value));
-      current = current.next;
-    }
-    return mappedList;
-  }
-
-  /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as they need to traverse the entire list to apply the callback or reduce the list.
-   * Space Complexity: O(n) - Linear space, as they create new nodes or arrays.
-   */
-
-  /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as they need to traverse the entire list to apply the callback or reduce the list.
-   * Space Complexity: O(n) - Linear space, as they create new nodes or arrays.
-   *
-   * The `filter` function iterates through a SinglyLinkedList and returns a new SinglyLinkedList containing only the
-   * elements that satisfy the given callback function.
-   * @param callback - The `callback` parameter is a function that takes a value of type `E` and returns a boolean value.
-   * It is used to determine whether a value should be included in the filtered list or not.
-   * @returns The filtered list, which is an instance of the SinglyLinkedList class.
-   */
-  filter(callback: (value: E) => boolean): SinglyLinkedList<E> {
-    const filteredList = new SinglyLinkedList<E>();
-    let current = this.head;
-    while (current) {
-      if (callback(current.value)) {
-        filteredList.push(current.value);
-      }
-      current = current.next;
-    }
-    return filteredList;
-  }
-
-  /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as they need to traverse the entire list to apply the callback or reduce the list.
-   * Space Complexity: O(n) - Linear space, as they create new nodes or arrays.
-   */
-
-  /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as they need to traverse the entire list to apply the callback or reduce the list.
-   * Space Complexity: O(n) - Linear space, as they create new nodes or arrays.
-   *
-   * The `reduce` function iterates over a linked list and applies a callback function to each element, accumulating a
-   * single value.
-   * @param callback - The `callback` parameter is a function that takes two arguments: `accumulator` and `value`. It is
-   * used to perform a specific operation on each element of the linked list.
-   * @param {U} initialValue - The `initialValue` parameter is the initial value of the accumulator. It is the starting
-   * point for the reduction operation.
-   * @returns The `reduce` method is returning the final value of the accumulator after iterating through all the
-   * elements in the linked list.
-   */
-  reduce<U>(callback: (accumulator: U, value: E) => U, initialValue: U): U {
-    let accumulator = initialValue;
-    let current = this.head;
-    while (current) {
-      accumulator = callback(accumulator, current.value);
-      current = current.next;
-    }
-    return accumulator;
-  }
-
-  /**
    * The function returns an iterator that iterates over the values of a linked list.
    */
   * [Symbol.iterator]() {
@@ -780,5 +675,110 @@ export class SinglyLinkedList<E = any> {
       yield current.value;
       current = current.next;
     }
+  }
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   *
+   * The `forEach` function iterates over each element in a linked list and applies a callback function to each element.
+   * @param callback - The callback parameter is a function that takes two arguments: value and index. The value argument
+   * represents the value of the current node in the linked list, and the index argument represents the index of the
+   * current node in the linked list.
+   */
+  forEach(callback: (value: E, index: number, list: SinglyLinkedList<E>) => void): void {
+    let index = 0;
+    for (const el of this) {
+      callback(el, index, this);
+      index++;
+    }
+  }
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(n)
+   *
+   * The `filter` function iterates through a SinglyLinkedList and returns a new SinglyLinkedList containing only the
+   * elements that satisfy the given callback function.
+   * @param callback - The `callback` parameter is a function that takes a value of type `E` and returns a boolean value.
+   * It is used to determine whether a value should be included in the filtered list or not.
+   * @returns The filtered list, which is an instance of the SinglyLinkedList class.
+   */
+  filter(callback: (value: E, index: number, list: SinglyLinkedList<E>) => boolean): SinglyLinkedList<E> {
+    const filteredList = new SinglyLinkedList<E>();
+    let index = 0;
+    for (const current of this) {
+      if (callback(current, index, this)) {
+        filteredList.push(current);
+      }
+      index++;
+    }
+    return filteredList;
+  }
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(n)
+   *
+   * The `map` function takes a callback function and applies it to each element in the SinglyLinkedList, returning a new
+   * SinglyLinkedList with the transformed values.
+   * @param callback - The callback parameter is a function that takes a value of type E (the type of values stored in
+   * the original SinglyLinkedList) and returns a value of type T (the type of values that will be stored in the mapped
+   * SinglyLinkedList).
+   * @returns The `map` function is returning a new instance of `SinglyLinkedList<T>` that contains the mapped values.
+   */
+  map<T>(callback: (value: E, index: number, list: SinglyLinkedList<E>) => T): SinglyLinkedList<T> {
+    const mappedList = new SinglyLinkedList<T>();
+    let index = 0;
+    for (const current of this) {
+      mappedList.push(callback(current, index, this));
+      index++;
+    }
+
+    return mappedList;
+  }
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(n)
+   *
+   * The `reduce` function iterates over a linked list and applies a callback function to each element, accumulating a
+   * single value.
+   * @param callback - The `callback` parameter is a function that takes two arguments: `accumulator` and `value`. It is
+   * used to perform a specific operation on each element of the linked list.
+   * @param {T} initialValue - The `initialValue` parameter is the initial value of the accumulator. It is the starting
+   * point for the reduction operation.
+   * @returns The `reduce` method is returning the final value of the accumulator after iterating through all the
+   * elements in the linked list.
+   */
+  reduce<T>(callback: (accumulator: T, value: E, index: number, list: SinglyLinkedList<E>) => T, initialValue: T): T {
+    let accumulator = initialValue;
+    let index = 0;
+    for (const current of this) {
+      accumulator = callback(accumulator, current, index, this);
+      index++;
+    }
+
+    return accumulator;
   }
 }

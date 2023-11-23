@@ -49,4 +49,52 @@ describe('MinHeap', () => {
     minHeap.poll();
     expect(minHeap.isEmpty()).toBe(true);
   });
+
+
+  const n = 100000;
+
+  it('should push & dfs', () => {
+    for (let i = 0; i < n; i++) {
+      minHeap.push(i);
+    }
+    expect(minHeap.dfs()[0]).toBe(0)
+    expect(minHeap.dfs()[999]).toBe(4126)
+  });
+
+});
+
+describe('Heap iterative methods', () => {
+  let heap: MinHeap<number>;
+
+  beforeEach(() => {
+    heap = new MinHeap<number>();
+    for (let i = 1; i <= 10; i++) {
+      heap.add(i * 10); // Add 10, 20, ..., 100
+    }
+  });
+
+  test('Heap is iterable', () => {
+    expect([...heap]).toEqual([10, 20, 30, 40, 50, 60, 70, 80, 90, 100]);
+  });
+
+  test('forEach method calls a function for each element', () => {
+    const mockCallback = jest.fn();
+    heap.forEach(mockCallback);
+    expect(mockCallback.mock.calls.length).toBe(10);
+  });
+
+  test('filter method returns filtered elements', () => {
+    const result = heap.filter(x => x > 50);
+    expect([...result]).toEqual([60, 70, 80, 90, 100]);
+  });
+
+  test('map method correctly maps elements', () => {
+    const result = heap.map(x => x / 10, (a: number, b: number) => a - b);
+    expect([...result]).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  });
+
+  test('reduce method correctly reduces elements', () => {
+    const result = heap.reduce((acc, curr) => acc + curr, 0);
+    expect(result).toBe(550); // 10+20+...+100 = 550
+  });
 });

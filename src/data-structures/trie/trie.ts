@@ -324,6 +324,59 @@ export class Trie {
     return words;
   }
 
+  * [Symbol.iterator](): IterableIterator<string> {
+    function* _dfs(node: TrieNode, path: string): IterableIterator<string> {
+      if (node.isEnd) {
+        yield path;
+      }
+      for (const [char, childNode] of node.children) {
+        yield* _dfs(childNode, path + char);
+      }
+    }
+
+    yield* _dfs(this.root, '');
+  }
+
+  forEach(callback: (word: string, index: number, trie: this) => void): void {
+    let index = 0;
+    for (const word of this) {
+      callback(word, index, this);
+      index++;
+    }
+  }
+
+  filter(predicate: (word: string, index: number, trie: this) => boolean): string[] {
+    const results: string[] = [];
+    let index = 0;
+    for (const word of this) {
+      if (predicate(word, index, this)) {
+        results.push(word);
+      }
+      index++;
+    }
+    return results;
+  }
+
+  map(callback: (word: string, index: number, trie: this) => string): Trie {
+    const newTrie = new Trie();
+    let index = 0;
+    for (const word of this) {
+      newTrie.add(callback(word, index, this));
+      index++;
+    }
+    return newTrie;
+  }
+
+  reduce<T>(callback: (accumulator: T, word: string, index: number, trie: this) => T, initialValue: T): T {
+    let accumulator = initialValue;
+    let index = 0;
+    for (const word of this) {
+      accumulator = callback(accumulator, word, index, this);
+      index++;
+    }
+    return accumulator;
+  }
+
   /**
    * Time Complexity: O(M), where M is the length of the input string.
    * Space Complexity: O(1) - Constant space.

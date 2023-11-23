@@ -226,29 +226,30 @@ export class Heap<E = any> {
    * @param order - Traverse order parameter: 'in' (in-order), 'pre' (pre-order) or 'post' (post-order).
    * @returns An array containing elements traversed in the specified order.
    */
-  dfs(order: DFSOrderPattern): E[] {
+  dfs(order: DFSOrderPattern = 'pre'): E[] {
     const result: E[] = [];
 
     // Auxiliary recursive function, traverses the binary heap according to the traversal order
-    const dfsHelper = (index: number) => {
+    const _dfs = (index: number) => {
+      const left = 2 * index + 1, right = left + 1;
       if (index < this.size) {
         if (order === 'in') {
-          dfsHelper(2 * index + 1);
+          _dfs(left);
           result.push(this.elements[index]);
-          dfsHelper(2 * index + 2);
+          _dfs(right);
         } else if (order === 'pre') {
           result.push(this.elements[index]);
-          dfsHelper(2 * index + 1);
-          dfsHelper(2 * index + 2);
+          _dfs(left);
+          _dfs(right);
         } else if (order === 'post') {
-          dfsHelper(2 * index + 1);
-          dfsHelper(2 * index + 2);
+          _dfs(left);
+          _dfs(right);
           result.push(this.elements[index]);
         }
       }
     };
 
-    dfsHelper(0); // Traverse starting from the root node
+    _dfs(0); // Traverse starting from the root node
 
     return result;
   }
@@ -322,6 +323,56 @@ export class Heap<E = any> {
    */
   fix() {
     for (let i = Math.floor(this.size / 2); i >= 0; i--) this._sinkDown(i, this.elements.length >> 1);
+  }
+
+  * [Symbol.iterator]() {
+    for (const element of this.elements) {
+      yield element;
+    }
+  }
+
+  forEach(callback: (element: E, index: number, heap: this) => void): void {
+    let index = 0;
+    for (const el of this) {
+      callback(el, index, this);
+      index++;
+    }
+  }
+
+  filter(predicate: (element: E, index: number, heap: Heap<E>) => boolean): Heap<E> {
+    const filteredHeap: Heap<E> = new Heap<E>({ comparator: this.comparator });
+    let index = 0;
+    for (const el of this) {
+      if (predicate(el, index, this)) {
+        filteredHeap.push(el);
+      }
+      index++;
+    }
+    return filteredHeap;
+  }
+
+  map<T>(callback: (element: E, index: number, heap: Heap<E>) => T, comparator: Comparator<T>): Heap<T> {
+
+    const mappedHeap: Heap<T> = new Heap<T>({ comparator: comparator });
+    let index = 0;
+    for (const el of this) {
+      mappedHeap.add(callback(el, index, this));
+      index++;
+    }
+    return mappedHeap;
+  }
+
+  reduce<T>(
+    callback: (accumulator: T, currentValue: E, currentIndex: number, heap: Heap<E>) => T,
+    initialValue: T
+  ): T {
+    let accumulator: T = initialValue;
+    let index = 0;
+    for (const el of this) {
+      accumulator = callback(accumulator, el, index, this);
+      index++;
+    }
+    return accumulator;
   }
 
   /**

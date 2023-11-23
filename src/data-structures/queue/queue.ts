@@ -305,4 +305,88 @@ export class Queue<E = any> {
       yield item;
     }
   }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
+   * The `forEach` function iterates over each element in a deque and applies a callback function to
+   * each element.
+   * @param callback - The callback parameter is a function that will be called for each element in the
+   * deque. It takes three parameters:
+   */
+  forEach(callback: (element: E, index: number, queue: this) => void) {
+    let index = 0;
+    for (const el of this) {
+      callback(el, index, this);
+      index++;
+    }
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `filter` function creates a new deque containing only the elements that satisfy the given
+   * predicate function.
+   * @param predicate - The `predicate` parameter is a function that takes three arguments: `element`,
+   * `index`, and `deque`.
+   * @returns The `filter` method is returning a new `Queue` object that contains only the elements
+   * that satisfy the given `predicate` function.
+   */
+  filter(predicate: (element: E, index: number, queue: this) => boolean): Queue<E> {
+    const newDeque = new Queue<E>([]);
+    let index = 0;
+    for (const el of this) {
+      if (predicate(el, index, this)) {
+        newDeque.push(el);
+      }
+      index++;
+    }
+    return newDeque;
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `map` function takes a callback function and applies it to each element in the deque,
+   * returning a new deque with the results.
+   * @param callback - The `callback` parameter is a function that takes three arguments:
+   * @returns The `map` method is returning a new `Queue` object with the transformed elements.
+   */
+  map<T>(callback: (element: E, index: number, queue: this) => T): Queue<T> {
+    const newDeque = new Queue<T>([]);
+    let index = 0;
+    for (const el of this) {
+      newDeque.push(callback(el, index, this));
+      index++;
+    }
+    return newDeque;
+  }
+
+  reduce<T>(callback: (accumulator: T, element: E, index: number, queue: this) => T, initialValue: T): T {
+    let accumulator = initialValue;
+    let index = 0;
+    for (const el of this) {
+      accumulator = callback(accumulator, el, index, this);
+      index++;
+    }
+    return accumulator;
+  }
 }

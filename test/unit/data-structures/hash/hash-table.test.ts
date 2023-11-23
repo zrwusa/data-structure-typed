@@ -8,7 +8,7 @@ describe('HashNode', () => {
 
     expect(hashNode.key).toBe(key);
     expect(hashNode.value).toBe(value);
-    expect(hashNode.next).toBe(null);
+    expect(hashNode.next).toBe(undefined);
   });
 });
 
@@ -16,7 +16,7 @@ describe('HashTable', () => {
   it('should initialize with default capacity', () => {
     const hashTable = new HashTable<string, string>();
     expect(hashTable.capacity).toBe(16);
-    expect(hashTable.buckets).toEqual(new Array(16).fill(null));
+    expect(hashTable.buckets).toEqual(new Array(16).fill(undefined));
     expect(hashTable.hashFn('a')).toBe(6);
     expect(hashTable.capacity).toBe(16);
     expect(hashTable.size).toBe(0);
@@ -184,3 +184,59 @@ describe('HashTable performance', function () {
     }
   });
 });
+
+
+describe('HashTable methods', () => {
+  let hashTable: HashTable<string, string>;
+
+  beforeEach(() => {
+    hashTable = new HashTable();
+    for (let i = 0; i < 10; i++) {
+      hashTable.set(`key${i}`, `value${i}`);
+    }
+  });
+
+  test('should retrieve correct values with get method', () => {
+    for (let i = 0; i < 10; i++) {
+      expect(hashTable.get(`key${i}`)).toBe(`value${i}`);
+    }
+  });
+
+  // test('forEach should apply a function to each key-value pair', () => {
+  //   const mockCallback = jest.fn();
+  //   hashTable.forEach(mockCallback);
+  //
+  //   expect(mockCallback.mock.calls.length).toBe(10);
+  //   for (let i = 0; i < 10; i++) {
+  //     // Check whether each key-value pair has been called before, regardless of the order
+  //     const call = mockCallback.mock.calls.find(call => call[1] === `value${i}`);
+  //     expect(call).toBeTruthy();
+  //     expect(call[0]).toBe(`key${i}`);
+  //   }
+  // });
+
+
+  test('filter should return a new HashTable with elements that satisfy the condition', () => {
+    const filtered = hashTable.filter(([key]) => key.endsWith('1') || key.endsWith('3'));
+
+    expect(filtered.size).toBe(2);
+    expect(filtered.get('key1')).toBe('value1');
+    expect(filtered.get('key3')).toBe('value3');
+  });
+
+  test('map should return a new HashTable with mapped values', () => {
+    const mapped = hashTable.map(([, value]) => value.toUpperCase());
+
+    for (let i = 0; i < 10; i++) {
+      expect(mapped.get(`key${i}`)).toBe(`value${i}`.toUpperCase());
+    }
+  });
+
+  test('reduce should accumulate values based on the reducer function', () => {
+    const result = hashTable.reduce((acc, [, value]) => `${acc}-${value}`, '');
+
+    expect(result).toBe('-value5-value7-value3-value4-value6-value0-value2-value8-value1-value9');
+  });
+
+});
+

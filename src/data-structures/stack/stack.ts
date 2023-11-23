@@ -26,6 +26,14 @@ export class Stack<E = any> {
    */
 
   /**
+   * The size() function returns the number of elements in an array.
+   * @returns The size of the elements array.
+   */
+  get size(): number {
+    return this.elements.length;
+  }
+
+  /**
    * Time Complexity: O(n), where n is the number of elements in the input array. Similar to the constructor, it requires iterating through each element.
    * Space Complexity: O(n), as it creates a new stack with the elements from the input array.
    *
@@ -44,14 +52,6 @@ export class Stack<E = any> {
    */
   isEmpty(): boolean {
     return this.elements.length === 0;
-  }
-
-  /**
-   * The size() function returns the number of elements in an array.
-   * @returns The size of the elements array.
-   */
-  size(): number {
-    return this.elements.length;
   }
 
   /**
@@ -146,5 +146,61 @@ export class Stack<E = any> {
    */
   clone(): Stack<E> {
     return new Stack(this.elements.slice());
+  }
+
+  /**
+   * Custom iterator for the Stack class.
+   * @returns An iterator object.
+   */
+  * [Symbol.iterator]() {
+    for (let i = this.elements.length - 1; i >= 0; i--) {
+      yield this.elements[i];
+    }
+  }
+
+  /**
+   * Applies a function to each element of the stack.
+   * @param {function(E): void} callback - A function to apply to each element.
+   */
+  forEach(callback: (element: E, index: number, stack: this) => void): void {
+    let index = 0;
+    for (const el of this) {
+      callback(el, index, this);
+      index++;
+    }
+  }
+
+
+  filter(predicate: (element: E, index: number, stack: this) => boolean): Stack<E> {
+    const newStack = new Stack<E>();
+    let index = 0;
+    for (const el of this) {
+      if (predicate(el, index, this)) {
+        newStack.push(el);
+      }
+      index++;
+    }
+    return newStack;
+  }
+
+
+  map<T>(callback: (element: E, index: number, stack: this) => T): Stack<T> {
+    const newStack = new Stack<T>();
+    let index = 0;
+    for (const el of this) {
+      newStack.push(callback(el, index, this));
+      index++;
+    }
+    return newStack;
+  }
+
+  reduce<T>(callback: (accumulator: T, element: E, index: number, stack: this) => T, initialValue: T): T {
+    let accumulator = initialValue;
+    let index = 0;
+    for (const el of this) {
+      accumulator = callback(accumulator, el, index, this);
+      index++;
+    }
+    return accumulator;
   }
 }

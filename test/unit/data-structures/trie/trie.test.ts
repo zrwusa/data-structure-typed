@@ -823,3 +823,36 @@ describe('Trie operations', () => {
     expect(trie.getHeight()).toBe(6); // Assuming 'apple' and 'banana' are the longest words.
   });
 });
+
+describe('Trie class', () => {
+  let trie: Trie;
+  beforeEach(() => {
+    trie = new Trie(['apple', 'app', 'banana', 'band', 'bandana']);
+  });
+
+  test('[Symbol.iterator] should iterate over all words', () => {
+    const words = [...trie];
+    expect(words).toEqual(['app', 'apple', 'banana', 'band', 'bandana']);
+  });
+
+  test('forEach should execute a callback for each word', () => {
+    const mockCallback = jest.fn();
+    trie.forEach(mockCallback);
+    expect(mockCallback).toHaveBeenCalledTimes(5);
+  });
+
+  test('filter should return words that satisfy the predicate', () => {
+    const filteredWords = trie.filter(word => word.startsWith('ba'));
+    expect(filteredWords).toEqual(['banana', 'band', 'bandana']);
+  });
+
+  test('map should apply a function to each word', () => {
+    const mappedWords = trie.map(word => word.length.toString());
+    expect([...mappedWords]).toEqual(['3', '5', '6', '4', '7']);
+  });
+
+  test('reduce should reduce the words to a single value', () => {
+    const concatenatedWords = trie.reduce((acc, word) => acc + word, '');
+    expect(concatenatedWords).toEqual('appapplebananabandbandana');
+  });
+});

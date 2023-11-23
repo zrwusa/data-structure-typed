@@ -205,3 +205,40 @@ describe('Queue Performance Test', () => {
     expect(performance.now() - startTime).toBeLessThan(bigO.LINEAR * 100);
   });
 });
+
+
+describe('Queue iterative methods', () => {
+  let queue: Queue<number>;
+
+  beforeEach(() => {
+    queue = new Queue();
+    for (let i = 0; i < 10; i++) {
+      queue.enqueue(i);
+    }
+  });
+
+  test('iterator should provide access to all elements', () => {
+    const elements = [];
+    for (const item of queue) {
+      elements.push(item);
+    }
+    expect(elements).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  });
+
+  test('forEach should apply the callback to each element', () => {
+    const elements: number[] = [];
+    queue.forEach((element) => elements.push(element * 2));
+    expect(elements).toEqual([0, 2, 4, 6, 8, 10, 12, 14, 16, 18]);
+  });
+
+  test('filter should return a new queue with only the elements that satisfy the predicate', () => {
+    const filteredQueue = queue.filter(element => element % 2 === 0);
+    expect([...filteredQueue]).toEqual([0, 2, 4, 6, 8]);
+  });
+
+  test('map should return a new queue with the transformed elements', () => {
+    const mappedQueue = queue.map(element => element * 2);
+    expect([...mappedQueue]).toEqual([0, 2, 4, 6, 8, 10, 12, 14, 16, 18]);
+  });
+
+});

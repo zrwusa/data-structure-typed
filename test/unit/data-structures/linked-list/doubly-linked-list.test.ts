@@ -166,7 +166,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.reverse();
 
     expect(list.toArray()).toEqual([3, 2, 1]);
-    expect(list.toArrayBackward()).toEqual([1, 2, 3]);
+    expect(list.toReversedArray()).toEqual([1, 2, 3]);
   });
 
   it('should map elements using a callback function', () => {
@@ -268,7 +268,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(2);
     list.push(3);
 
-    const reversedArray = list.toArrayBackward();
+    const reversedArray = list.toReversedArray();
 
     expect(reversedArray).toEqual([3, 2, 1]);
   });
