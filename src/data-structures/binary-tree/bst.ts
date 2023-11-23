@@ -5,8 +5,8 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { BSTNested, BSTNodeNested, BSTOptions, BTNCallback, BTNKey } from '../../types';
-import { CP, IterationType } from '../../types';
+import type { BSTNested, BSTNodeNested, BSTOptions, BTNCallback, BTNKey, Comparator } from '../../types';
+import { CP, IterableEntriesOrKeys, IterationType } from '../../types';
 import { BinaryTree, BinaryTreeNode } from './binary-tree';
 import { IBinaryTree } from '../../interfaces';
 import { Queue } from '../queue';
@@ -66,21 +66,23 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   extends BinaryTree<V, N, TREE>
   implements IBinaryTree<V, N, TREE> {
 
-  override options: BSTOptions;
-
   /**
    * The constructor function initializes a binary search tree with an optional comparator function.
    * @param {BSTOptions} [options] - An optional object that contains additional configuration options
    * for the binary search tree.
    */
-  constructor(options?: BSTOptions) {
-    super(options);
+  constructor(elements?: IterableEntriesOrKeys<V>, options?: Partial<BSTOptions>) {
+    super([], options);
+
     if (options) {
-      this.options = { iterationType: IterationType.ITERATIVE, comparator: (a, b) => a - b, ...options }
-    } else {
-      this.options = { iterationType: IterationType.ITERATIVE, comparator: (a, b) => a - b };
+      const { comparator } = options;
+      if (comparator) {
+        this.comparator = comparator;
+      }
     }
+
     this._root = undefined;
+    if (elements) this.init(elements);
   }
 
   protected override _root?: N;
@@ -91,6 +93,8 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   override get root(): N | undefined {
     return this._root;
   }
+
+  comparator: Comparator<BTNKey> = (a, b) => a - b
 
   /**
    * The function creates a new binary search tree node with the given key and value.
@@ -104,14 +108,12 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     return new BSTNode<V, N>(key, value) as N;
   }
 
-  override createTree(options?: BSTOptions): TREE {
-    return new BST<V, N, TREE>({ ...this.options, ...options }) as TREE;
+  override createTree(options?: Partial<BSTOptions>): TREE {
+    return new BST<V, N, TREE>([], {
+      iterationType: this.iterationType,
+      comparator: this.comparator, ...options
+    }) as TREE;
   }
-
-  /**
-   * Time Complexity: O(log n) - Average case for a balanced tree. In the worst case (unbalanced tree), it can be O(n).
-   * Space Complexity: O(1) - Constant space is used.
-   */
 
   /**
    * Time Complexity: O(log n) - Average case for a balanced tree. In the worst case (unbalanced tree), it can be O(n).
@@ -193,8 +195,8 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   }
 
   /**
-   * Time Complexity: O(n log n) - Adding each element individually in a balanced tree.
-   * Space Complexity: O(n) - Additional space is required for the sorted array.
+   * Time Complexity: O(log n) - Average case for a balanced tree. In the worst case (unbalanced tree), it can be O(n).
+   * Space Complexity: O(1) - Constant space is used.
    */
 
   /**
@@ -221,7 +223,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     keysOrNodes: (BTNKey | N | undefined)[],
     data?: (V | undefined)[],
     isBalanceAdd = true,
-    iterationType = this.options.iterationType
+    iterationType = this.iterationType
   ): (N | undefined)[] {
     // TODO this addMany function is inefficient, it should be optimized
     function hasNoUndefined(arr: (BTNKey | N | undefined)[]): arr is (BTNKey | N)[] {
@@ -297,8 +299,8 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   }
 
   /**
-   * Time Complexity: O(log n) - Average case for a balanced tree.
-   * Space Complexity: O(1) - Constant space is used.
+   * Time Complexity: O(n log n) - Adding each element individually in a balanced tree.
+   * Space Complexity: O(n) - Additional space is required for the sorted array.
    */
 
   /**
@@ -316,7 +318,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * the key of the leftmost node if the comparison result is greater than, and the key of the
    * rightmost node otherwise. If no node is found, it returns 0.
    */
-  lastKey(beginRoot: BTNKey | N | undefined = this.root, iterationType = this.options.iterationType): BTNKey {
+  lastKey(beginRoot: BTNKey | N | undefined = this.root, iterationType = this.iterationType): BTNKey {
     if (this._compare(0, 1) === CP.lt) return this.getRightMost(beginRoot, iterationType)?.key ?? 0;
     else if (this._compare(0, 1) === CP.gt) return this.getLeftMost(beginRoot, iterationType)?.key ?? 0;
     else return this.getRightMost(beginRoot, iterationType)?.key ?? 0;
@@ -324,7 +326,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
 
   /**
    * Time Complexity: O(log n) - Average case for a balanced tree.
-   * Space Complexity: O(log n) - Space for the recursive call stack in the worst case.
+   * Space Complexity: O(1) - Constant space is used.
    */
 
   /**
@@ -367,6 +369,11 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   }
 
   /**
+   * Time Complexity: O(log n) - Average case for a balanced tree.
+   * Space Complexity: O(log n) - Space for the recursive call stack in the worst case.
+   */
+
+  /**
    * The function `ensureNotKey` returns the node corresponding to the given key if it is a node key,
    * otherwise it returns the key itself.
    * @param {BTNKey | N | undefined} key - The `key` parameter can be of type `BTNKey`, `N`, or
@@ -378,11 +385,6 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   override ensureNotKey(key: BTNKey | N | undefined, iterationType = IterationType.ITERATIVE): N | undefined {
     return this.isNodeKey(key) ? this.getNodeByKey(key, iterationType) : key;
   }
-
-  /**
-   * Time Complexity: O(log n) - Average case for a balanced tree. O(n) - Visiting each node once when identifier is not node's key.
-   * Space Complexity: O(log n) - Space for the recursive call stack in the worst case.
-   */
 
   /**
    * Time Complexity: O(log n) - Average case for a balanced tree. O(n) - Visiting each node once when identifier is not node's key.
@@ -412,7 +414,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     callback: C = this._defaultOneParamCallback as C,
     onlyOne = false,
     beginRoot: BTNKey | N | undefined = this.root,
-    iterationType = this.options.iterationType
+    iterationType = this.iterationType
   ): N[] {
     beginRoot = this.ensureNotKey(beginRoot);
     if (!beginRoot) return [];
@@ -493,7 +495,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     callback: C = this._defaultOneParamCallback as C,
     lesserOrGreater: CP = CP.lt,
     targetNode: BTNKey | N | undefined = this.root,
-    iterationType = this.options.iterationType
+    iterationType = this.iterationType
   ): ReturnType<C>[] {
     targetNode = this.ensureNotKey(targetNode);
     const ans: ReturnType<BTNCallback<N>>[] = [];
@@ -531,18 +533,8 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   }
 
   /**
-   * Balancing Adjustment:
-   * Perfectly Balanced Binary Tree: Since the balance of a perfectly balanced binary tree is already fixed, no additional balancing adjustment is needed. Any insertion or deletion operation will disrupt the perfect balance, often requiring a complete reconstruction of the tree.
-   * AVL Tree: After insertion or deletion operations, an AVL tree performs rotation adjustments based on the balance factor of nodes to restore the tree's balance. These rotations can be left rotations, right rotations, left-right rotations, or right-left rotations, performed as needed.
-   *
-   * Use Cases and Efficiency:
-   * Perfectly Balanced Binary Tree: Perfectly balanced binary trees are typically used in specific scenarios such as complete binary heaps in heap sort or certain types of Huffman trees. However, they are not suitable for dynamic operations requiring frequent insertions and deletions, as these operations often necessitate full tree reconstruction.
-   * AVL Tree: AVL trees are well-suited for scenarios involving frequent searching, insertion, and deletion operations. Through rotation adjustments, AVL trees maintain their balance, ensuring average and worst-case time complexity of O(log n).
-   */
-
-  /**
-   * Time Complexity: O(n) - Building a balanced tree from a sorted array.
-   * Space Complexity: O(n) - Additional space is required for the sorted array.
+   * Time Complexity: O(log n) - Average case for a balanced tree. O(n) - Visiting each node once when identifier is not node's key.
+   * Space Complexity: O(log n) - Space for the recursive call stack in the worst case.
    */
 
   /**
@@ -556,7 +548,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * values:
    * @returns The function `perfectlyBalance` returns a boolean value.
    */
-  perfectlyBalance(iterationType = this.options.iterationType): boolean {
+  perfectlyBalance(iterationType = this.iterationType): boolean {
     const sorted = this.dfs(node => node, 'in'),
       n = sorted.length;
     this.clear();
@@ -595,8 +587,18 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   }
 
   /**
-   * Time Complexity: O(n) - Visiting each node once.
-   * Space Complexity: O(log n) - Space for the recursive call stack in the worst case.
+   * Balancing Adjustment:
+   * Perfectly Balanced Binary Tree: Since the balance of a perfectly balanced binary tree is already fixed, no additional balancing adjustment is needed. Any insertion or deletion operation will disrupt the perfect balance, often requiring a complete reconstruction of the tree.
+   * AVL Tree: After insertion or deletion operations, an AVL tree performs rotation adjustments based on the balance factor of nodes to restore the tree's balance. These rotations can be left rotations, right rotations, left-right rotations, or right-left rotations, performed as needed.
+   *
+   * Use Cases and Efficiency:
+   * Perfectly Balanced Binary Tree: Perfectly balanced binary trees are typically used in specific scenarios such as complete binary heaps in heap sort or certain types of Huffman trees. However, they are not suitable for dynamic operations requiring frequent insertions and deletions, as these operations often necessitate full tree reconstruction.
+   * AVL Tree: AVL trees are well-suited for scenarios involving frequent searching, insertion, and deletion operations. Through rotation adjustments, AVL trees maintain their balance, ensuring average and worst-case time complexity of O(log n).
+   */
+
+  /**
+   * Time Complexity: O(n) - Building a balanced tree from a sorted array.
+   * Space Complexity: O(n) - Additional space is required for the sorted array.
    */
 
   /**
@@ -608,7 +610,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * to check if the AVL tree is balanced. It can have two possible values:
    * @returns a boolean value.
    */
-  isAVLBalanced(iterationType = this.options.iterationType): boolean {
+  isAVLBalanced(iterationType = this.iterationType): boolean {
     if (!this.root) return true;
 
     let balanced = true;
@@ -652,6 +654,24 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     return balanced;
   }
 
+  /**
+   * Time Complexity: O(n) - Visiting each node once.
+   * Space Complexity: O(log n) - Space for the recursive call stack in the worst case.
+   */
+
+  init(elements: IterableEntriesOrKeys<V>): void {
+    if (elements) {
+      for (const entryOrKey of elements) {
+        if (Array.isArray(entryOrKey)) {
+          const [key, value] = entryOrKey;
+          this.add(key, value);
+        } else {
+          this.add(entryOrKey);
+        }
+      }
+    }
+  }
+
   protected _setRoot(v: N | undefined) {
     if (v) {
       v.parent = undefined;
@@ -668,7 +688,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * than), CP.lt (less than), or CP.eq (equal).
    */
   protected _compare(a: BTNKey, b: BTNKey): CP {
-    const compared = this.options.comparator!(a, b);
+    const compared = this.comparator(a, b);
     if (compared > 0) return CP.gt;
     else if (compared < 0) return CP.lt;
     else return CP.eq;

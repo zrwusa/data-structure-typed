@@ -1,8 +1,20 @@
 import { BinaryTree, BinaryTreeNode } from '../data-structures';
-import { BinaryTreeNested, BinaryTreeNodeNested, BiTreeDeleteResult, BTNCallback, BTNKey } from '../types';
+import {
+  BinaryTreeNested,
+  BinaryTreeNodeNested,
+  BinaryTreeOptions,
+  BiTreeDeleteResult,
+  BTNCallback,
+  BTNKey,
+  IterableEntriesOrKeys
+} from '../types';
 
 export interface IBinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNodeNested<V>, TREE extends BinaryTree<V, N, TREE> = BinaryTreeNested<V, N>> {
   createNode(key: BTNKey, value?: N['value']): N;
+
+  createTree(options?: Partial<BinaryTreeOptions>): TREE;
+
+  init(elements: IterableEntriesOrKeys<V>): void;
 
   add(keyOrNode: BTNKey | N | null, value?: N['value']): N | null | undefined;
 

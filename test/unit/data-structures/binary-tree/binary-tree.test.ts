@@ -189,9 +189,9 @@ describe('BinaryTree', () => {
     tree.add(4);
     tree.add(2);
     expect(tree.getHeight()).toBe(1);
-    tree.options.iterationType = IterationType.RECURSIVE;
+    tree.iterationType = IterationType.RECURSIVE;
     expect(tree.getHeight()).toBe(1);
-    tree.options.iterationType = IterationType.ITERATIVE;
+    tree.iterationType = IterationType.ITERATIVE;
 
     tree.add(6);
     tree.add(1);
@@ -381,7 +381,7 @@ describe('BinaryTree', () => {
   let tree: BinaryTree<string>;
 
   beforeEach(() => {
-    tree = new BinaryTree<string>({ iterationType: IterationType.RECURSIVE });
+    tree = new BinaryTree<string>([], { iterationType: IterationType.RECURSIVE });
   });
 
   afterEach(() => {
@@ -541,11 +541,11 @@ describe('BinaryTree', () => {
     tree.add(3, 'B');
     tree.add(7, 'C');
 
-    tree.options.iterationType = IterationType.ITERATIVE;
+    tree.iterationType = IterationType.ITERATIVE;
     expect([...tree]).toEqual([[3, "B"], [5, "A"], [7, "C"]]);
-    tree.options.iterationType = IterationType.RECURSIVE;
+    tree.iterationType = IterationType.RECURSIVE;
     expect([...tree]).toEqual([[3, "B"], [5, "A"], [7, "C"]]);
-    tree.options.iterationType = IterationType.ITERATIVE;
+    tree.iterationType = IterationType.ITERATIVE;
 
     const result = tree.morris();
     expect(result).toEqual([3, 5, 7]);

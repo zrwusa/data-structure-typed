@@ -395,7 +395,7 @@ describe('BST operations test', () => {
 
 describe('BST operations test recursively', () => {
   it('should perform various operations on a Binary Search Tree with numeric values', () => {
-    const bst = new BST({ iterationType: IterationType.RECURSIVE });
+    const bst = new BST([], { iterationType: IterationType.RECURSIVE });
     expect(bst).toBeInstanceOf(BST);
     bst.add(11, 11);
     bst.add(3, 3);

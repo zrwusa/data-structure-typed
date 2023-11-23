@@ -13,6 +13,7 @@ import {
   BiTreeDeleteResult,
   DFSOrderPattern,
   FamilyPosition,
+  IterableEntriesOrKeys,
   IterationType,
   NodeDisplayLayout
 } from '../../types';
@@ -118,20 +119,24 @@ export class BinaryTreeNode<V = any, N extends BinaryTreeNode<V, N> = BinaryTree
 export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode<V, BinaryTreeNodeNested<V>>, TREE extends BinaryTree<V, N, TREE> = BinaryTree<V, N, BinaryTreeNested<V, N>>>
   implements IBinaryTree<V, N, TREE> {
 
-  options: BinaryTreeOptions;
+  iterationType = IterationType.ITERATIVE
 
   /**
    * Creates a new instance of BinaryTree.
    * @param {BinaryTreeOptions} [options] - The options for the binary tree.
    */
-  constructor(options?: BinaryTreeOptions) {
+  constructor(elements?: IterableEntriesOrKeys<V>, options?: Partial<BinaryTreeOptions>) {
+
     if (options) {
-      this.options = { iterationType: IterationType.ITERATIVE, ...options }
-    } else {
-      this.options = { iterationType: IterationType.ITERATIVE };
+      const { iterationType } = options;
+      if (iterationType) {
+        this.iterationType = iterationType;
+      }
     }
 
     this._size = 0;
+
+    if (elements) this.init(elements);
   }
 
   protected _root?: N | null;
@@ -162,15 +167,9 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     return new BinaryTreeNode<V, N>(key, value) as N;
   }
 
-  createTree(options?: BinaryTreeOptions): TREE {
-    return new BinaryTree<V, N, TREE>({ ...this.options, ...options }) as TREE;
+  createTree(options?: Partial<BinaryTreeOptions>): TREE {
+    return new BinaryTree<V, N, TREE>([], { iterationType: this.iterationType, ...options }) as TREE;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   * Comments: The time complexity for adding a node depends on the depth of the tree. In the best case (when the tree is empty), it's O(1). In the worst case (when the tree is a degenerate tree), it's O(n). The space complexity is constant.
-   */
 
   /**
    * Time Complexity: O(n)
@@ -228,8 +227,9 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   }
 
   /**
-   * Time Complexity: O(k * n)  "n" is the number of nodes in the tree, and "k" is the number of keys to be inserted.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
+   * Comments: The time complexity for adding a node depends on the depth of the tree. In the best case (when the tree is empty), it's O(1). In the worst case (when the tree is a degenerate tree), it's O(n). The space complexity is constant.
    */
 
   /**
@@ -284,16 +284,16 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     return keysOrNodes.length === this.addMany(keysOrNodes, values).length;
   }
 
+  /**
+   * Time Complexity: O(k * n)  "n" is the number of nodes in the tree, and "k" is the number of keys to be inserted.
+   * Space Complexity: O(1)
+   */
+
   delete<C extends BTNCallback<N, BTNKey>>(identifier: BTNKey, callback?: C): BiTreeDeleteResult<N>[];
 
   delete<C extends BTNCallback<N, N>>(identifier: N | null | undefined, callback?: C): BiTreeDeleteResult<N>[];
 
   delete<C extends BTNCallback<N>>(identifier: ReturnType<C>, callback: C): BiTreeDeleteResult<N>[];
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -394,8 +394,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
 
   /**
    * Time Complexity: O(n)
-   * Space Complexity: O(log n)
-   * Best Case - O(log n) (when using recursive iterationType), Worst Case - O(n) (when using iterative iterationType)
+   * Space Complexity: O(1)
    */
 
   /**
@@ -412,7 +411,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * values:
    * @returns the height of the binary tree.
    */
-  getHeight(beginRoot: BTNKey | N | null | undefined = this.root, iterationType = this.options.iterationType): number {
+  getHeight(beginRoot: BTNKey | N | null | undefined = this.root, iterationType = this.iterationType): number {
     beginRoot = this.ensureNotKey(beginRoot);
     if (!beginRoot) return -1;
 
@@ -461,7 +460,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * to calculate the minimum height of a binary tree. It can have two possible values:
    * @returns The function `getMinHeight` returns the minimum height of a binary tree.
    */
-  getMinHeight(beginRoot: BTNKey | N | null | undefined = this.root, iterationType = this.options.iterationType): number {
+  getMinHeight(beginRoot: BTNKey | N | null | undefined = this.root, iterationType = this.iterationType): number {
     beginRoot = this.ensureNotKey(beginRoot);
     if (!beginRoot) return -1;
 
@@ -507,6 +506,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(log n)
+   * Best Case - O(log n) (when using recursive iterationType), Worst Case - O(n) (when using iterative iterationType)
    */
 
   /**
@@ -523,6 +523,11 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   isPerfectlyBalanced(beginRoot: BTNKey | N | null | undefined = this.root): boolean {
     return this.getMinHeight(beginRoot) + 1 >= this.getHeight(beginRoot);
   }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(log n)
+   */
 
   getNodes<C extends BTNCallback<N, BTNKey>>(
     identifier: BTNKey,
@@ -547,11 +552,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     beginRoot?: BTNKey | N | null | undefined,
     iterationType?: IterationType
   ): N[];
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(log n).
-   */
 
   /**
    * Time Complexity: O(n)
@@ -583,7 +583,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     callback: C = this._defaultOneParamCallback as C,
     onlyOne = false,
     beginRoot: BTNKey | N | null | undefined = this.root,
-    iterationType = this.options.iterationType
+    iterationType = this.iterationType
   ): N[] {
     if ((!callback || callback === this._defaultOneParamCallback) && (identifier as any) instanceof BinaryTreeNode)
       callback = (node => node) as C;
@@ -622,6 +622,11 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     return ans;
   }
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(log n).
+   */
+
   has<C extends BTNCallback<N, BTNKey>>(
     identifier: BTNKey,
     callback?: C,
@@ -642,11 +647,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     beginRoot?: BTNKey | N | null | undefined,
     iterationType?: IterationType
   ): boolean;
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(log n).
-   */
 
   /**
    * Time Complexity: O(n)
@@ -672,13 +672,18 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     identifier: ReturnType<C> | null | undefined,
     callback: C = this._defaultOneParamCallback as C,
     beginRoot: BTNKey | N | null | undefined = this.root,
-    iterationType = this.options.iterationType
+    iterationType = this.iterationType
   ): boolean {
     if ((!callback || callback === this._defaultOneParamCallback) && (identifier as any) instanceof BinaryTreeNode)
       callback = (node => node) as C;
 
     return this.getNodes(identifier, callback, true, beginRoot, iterationType).length > 0;
   }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(log n).
+   */
 
   getNode<C extends BTNCallback<N, BTNKey>>(
     identifier: BTNKey,
@@ -700,11 +705,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     beginRoot?: BTNKey | N | null | undefined,
     iterationType?: IterationType
   ): N | null | undefined;
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(log n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -731,7 +731,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     identifier: ReturnType<C> | null | undefined,
     callback: C = this._defaultOneParamCallback as C,
     beginRoot: BTNKey | N | null | undefined = this.root,
-    iterationType = this.options.iterationType
+    iterationType = this.iterationType
   ): N | null | undefined {
     if ((!callback || callback === this._defaultOneParamCallback) && (identifier as any) instanceof BinaryTreeNode)
       callback = (node => node) as C;
@@ -784,6 +784,11 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   }
 
   /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(log n)
+   */
+
+  /**
    * The function `ensureNotKey` returns the node corresponding to the given key if it is a valid node
    * key, otherwise it returns the key itself.
    * @param {BTNKey | N | null | undefined} key - The `key` parameter can be of type `BTNKey`, `N`,
@@ -822,11 +827,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(log n)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(log n)
    *
    * The function `get` retrieves the value of a node in a binary tree based on the provided identifier
    * and callback function.
@@ -850,13 +850,18 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     identifier: ReturnType<C> | null | undefined,
     callback: C = this._defaultOneParamCallback as C,
     beginRoot: BTNKey | N | null | undefined = this.root,
-    iterationType = this.options.iterationType
+    iterationType = this.iterationType
   ): V | undefined {
     if ((!callback || callback === this._defaultOneParamCallback) && (identifier as any) instanceof BinaryTreeNode)
       callback = (node => node) as C;
 
     return this.getNode(identifier, callback, beginRoot, iterationType)?.value ?? undefined;
   }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(log n)
+   */
 
   /**
    * Clear the binary tree, removing all nodes.
@@ -873,11 +878,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   isEmpty(): boolean {
     return this.size === 0;
   }
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(log n)
-   */
 
   /**
    * Time Complexity: O(log n)
@@ -912,7 +912,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
 
   /**
    * Time Complexity: O(log n)
-   * Space Complexity: O(1)
+   * Space Complexity: O(log n)
    */
 
   /**
@@ -931,7 +931,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    */
   getLeftMost(
     beginRoot: BTNKey | N | null | undefined = this.root,
-    iterationType = this.options.iterationType
+    iterationType = this.iterationType
   ): N | null | undefined {
     beginRoot = this.ensureNotKey(beginRoot);
 
@@ -977,7 +977,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    */
   getRightMost(
     beginRoot: BTNKey | N | null | undefined = this.root,
-    iterationType = this.options.iterationType
+    iterationType = this.iterationType
   ): N | null | undefined {
     // TODO support get right most by passing key in
     beginRoot = this.ensureNotKey(beginRoot);
@@ -1002,7 +1002,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   }
 
   /**
-   * Time Complexity: O(n)
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
    */
 
@@ -1018,7 +1018,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * possible values:
    * @returns a boolean value.
    */
-  isSubtreeBST(beginRoot: BTNKey | N | null | undefined, iterationType = this.options.iterationType): boolean {
+  isSubtreeBST(beginRoot: BTNKey | N | null | undefined, iterationType = this.iterationType): boolean {
     // TODO there is a bug
     beginRoot = this.ensureNotKey(beginRoot);
     if (!beginRoot) return true;
@@ -1065,10 +1065,15 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * expected to be
    * @returns a boolean value.
    */
-  isBST(iterationType = this.options.iterationType): boolean {
+  isBST(iterationType = this.iterationType): boolean {
     if (this.root === null) return true;
     return this.isSubtreeBST(this.root, iterationType);
   }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   */
 
   subTreeTraverse<C extends BTNCallback<N>>(
     callback?: C,
@@ -1090,11 +1095,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     iterationType?: IterationType,
     includeNull?: true
   ): ReturnType<C>[];
-
-  /**
-   * Time complexity: O(n)
-   * Space complexity: O(log n)
-   */
 
   /**
    * Time complexity: O(n)
@@ -1121,7 +1121,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   subTreeTraverse<C extends BTNCallback<N | null | undefined>>(
     callback: C = this._defaultOneParamCallback as C,
     beginRoot: BTNKey | N | null | undefined = this.root,
-    iterationType = this.options.iterationType,
+    iterationType = this.iterationType,
     includeNull = false
   ): ReturnType<C>[] {
     beginRoot = this.ensureNotKey(beginRoot);
@@ -1163,6 +1163,11 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     }
     return ans;
   }
+
+  /**
+   * Time complexity: O(n)
+   * Space complexity: O(log n)
+   */
 
   /**
    * The function checks if a given node is a real node by verifying if it is an instance of
@@ -1225,11 +1230,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     iterationType?: IterationType,
     includeNull?: true
   ): ReturnType<C>[];
-
-  /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
-   */
 
   /**
    * Time complexity: O(n)
@@ -1349,6 +1349,11 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     return ans;
   }
 
+  /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   */
+
   bfs<C extends BTNCallback<N>>(
     callback?: C,
     beginRoot?: BTNKey | N | null | undefined,
@@ -1369,11 +1374,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     iterationType?: IterationType,
     includeNull?: true
   ): ReturnType<C>[];
-
-  /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
-   */
 
   /**
    * Time complexity: O(n)
@@ -1399,7 +1399,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   bfs<C extends BTNCallback<N | null | undefined>>(
     callback: C = this._defaultOneParamCallback as C,
     beginRoot: BTNKey | N | null | undefined = this.root,
-    iterationType = this.options.iterationType,
+    iterationType = this.iterationType,
     includeNull = false
   ): ReturnType<C>[] {
     beginRoot = this.ensureNotKey(beginRoot);
@@ -1450,6 +1450,11 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     return ans;
   }
 
+  /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   */
+
   listLevels<C extends BTNCallback<N>>(
     callback?: C,
     beginRoot?: BTNKey | N | null | undefined,
@@ -1470,11 +1475,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     iterationType?: IterationType,
     includeNull?: true
   ): ReturnType<C>[][];
-
-  /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
-   */
 
   /**
    * Time complexity: O(n)
@@ -1500,7 +1500,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   listLevels<C extends BTNCallback<N | null | undefined>>(
     callback: C = this._defaultOneParamCallback as C,
     beginRoot: BTNKey | N | null | undefined = this.root,
-    iterationType = this.options.iterationType,
+    iterationType = this.iterationType,
     includeNull = false
   ): ReturnType<C>[][] {
     beginRoot = this.ensureNotKey(beginRoot);
@@ -1543,6 +1543,11 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
 
     return levelsNodes;
   }
+
+  /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   */
 
   getPredecessor(node: N): N;
 
@@ -1590,11 +1595,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     }
     return y;
   }
-
-  /**
-   * Time complexity: O(n)
-   * Space complexity: O(1)
-   */
 
   /**
    * Time complexity: O(n)
@@ -1701,6 +1701,11 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   }
 
   /**
+   * Time complexity: O(n)
+   * Space complexity: O(1)
+   */
+
+  /**
    * The `forEach` function iterates over each entry in a tree and calls a callback function with the
    * entry and the tree as arguments.
    * @param callback - The callback parameter is a function that will be called for each entry in the
@@ -1730,15 +1735,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     return newTree;
   }
 
-  // TODO Type error, need to return a TREE<NV> that is a value type only for callback function.
-  // map<NV>(callback: (entry: [BTNKey, V | undefined], tree: this) => NV) {
-  //   const newTree = this.createTree();
-  //   for (const [key, value] of this) {
-  //     newTree.add(key, callback([key, value], this));
-  //   }
-  //   return newTree;
-  // }
-
   /**
    * The `map` function creates a new tree by applying a callback function to each entry in the current
    * tree.
@@ -1752,6 +1748,15 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     }
     return newTree;
   }
+
+  // TODO Type error, need to return a TREE<NV> that is a value type only for callback function.
+  // map<NV>(callback: (entry: [BTNKey, V | undefined], tree: this) => NV) {
+  //   const newTree = this.createTree();
+  //   for (const [key, value] of this) {
+  //     newTree.add(key, callback([key, value], this));
+  //   }
+  //   return newTree;
+  // }
 
   /**
    * The `reduce` function iterates over the entries of a tree and applies a callback function to each
@@ -1773,7 +1778,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     return accumulator;
   }
 
-
   /**
    * The above function is an iterator for a binary tree that can be used to traverse the tree in
    * either an iterative or recursive manner.
@@ -1786,7 +1790,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   * [Symbol.iterator](node = this.root): Generator<[BTNKey, V | undefined], void, undefined> {
     if (!node) return;
 
-    if (this.options.iterationType === IterationType.ITERATIVE) {
+    if (this.iterationType === IterationType.ITERATIVE) {
       const stack: (N | null | undefined)[] = [];
       let current: N | null | undefined = node;
 
@@ -1841,6 +1845,19 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     };
 
     display(beginRoot);
+  }
+
+  init(elements: IterableEntriesOrKeys<V>): void {
+    if (elements) {
+      for (const entryOrKey of elements) {
+        if (Array.isArray(entryOrKey)) {
+          const [key, value] = entryOrKey;
+          this.add(key, value);
+        } else {
+          this.add(entryOrKey);
+        }
+      }
+    }
   }
 
   protected _displayAux(node: N | null | undefined, options: BinaryTreePrintOptions): NodeDisplayLayout {

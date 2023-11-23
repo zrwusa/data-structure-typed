@@ -7,7 +7,7 @@
  */
 import { BST, BSTNode } from './bst';
 import type { AVLTreeNested, AVLTreeNodeNested, AVLTreeOptions, BiTreeDeleteResult, BTNKey } from '../../types';
-import { BTNCallback, IterationType } from '../../types';
+import { BTNCallback, IterableEntriesOrKeys } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 
 export class AVLTreeNode<V = any, N extends AVLTreeNode<V, N> = AVLTreeNodeNested<V>> extends BSTNode<V, N> {
@@ -23,21 +23,15 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
   extends BST<V, N, TREE>
   implements IBinaryTree<V, N, TREE> {
 
-  override options: AVLTreeOptions;
-
   /**
    * This is a constructor function for an AVL tree data structure in TypeScript.
    * @param {AVLTreeOptions} [options] - The `options` parameter is an optional object that can be passed to the
    * constructor of the AVLTree class. It allows you to customize the behavior of the AVL tree by providing different
    * options.
    */
-  constructor(options?: AVLTreeOptions) {
-    super(options);
-    if (options) {
-      this.options = { iterationType: IterationType.ITERATIVE, comparator: (a, b) => a - b, ...options }
-    } else {
-      this.options = { iterationType: IterationType.ITERATIVE, comparator: (a, b) => a - b };
-    }
+  constructor(elements?: IterableEntriesOrKeys<V>, options?: Partial<AVLTreeOptions>) {
+    super([], options);
+    if (elements) this.init(elements);
   }
 
   /**
@@ -54,13 +48,11 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
   }
 
   override createTree(options?: AVLTreeOptions): TREE {
-    return new AVLTree<V, N, TREE>({ ...this.options, ...options }) as TREE;
+    return new AVLTree<V, N, TREE>([], {
+      iterationType: this.iterationType,
+      comparator: this.comparator, ...options
+    }) as TREE;
   }
-
-  /**
-   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (BST) has logarithmic time complexity.
-   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
-   */
 
   /**
    * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (BST) has logarithmic time complexity.
@@ -82,7 +74,7 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
   }
 
   /**
-   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The delete method of the superclass (BST) has logarithmic time complexity.
+   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (BST) has logarithmic time complexity.
    * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
    */
 
@@ -113,6 +105,24 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
       }
     }
     return deletedResults;
+  }
+
+  /**
+   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The delete method of the superclass (BST) has logarithmic time complexity.
+   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
+   */
+
+  init(elements: IterableEntriesOrKeys<V>): void {
+    if (elements) {
+      for (const entryOrKey of elements) {
+        if (Array.isArray(entryOrKey)) {
+          const [key, value] = entryOrKey;
+          this.add(key, value);
+        } else {
+          this.add(entryOrKey);
+        }
+      }
+    }
   }
 
   /**

@@ -23,7 +23,7 @@ const arrHundredThousand = getRandomIntArray(HUNDRED_THOUSAND, 0, HUNDRED_THOUSA
 suite
   .add(`SRC PQ ${TEN_THOUSAND.toLocaleString()} add`, () => {
 
-    const pq = new SRCPriorityQueue<number>({ comparator: (a, b) => b - a });
+    const pq = new SRCPriorityQueue<number>([], { comparator: (a, b) => b - a });
     for (let i = 0; i < TEN_THOUSAND; i++) pq.add(i);
   })
   .add(`CJS PQ ${TEN_THOUSAND.toLocaleString()} add`, () => {
@@ -47,7 +47,7 @@ if (isCompetitor) {
 
 suite
   .add(`SRC PQ ${TEN_THOUSAND.toLocaleString()} add & pop`, () => {
-    const pq = new SRCPriorityQueue<number>({ comparator: (a, b) => b - a });
+    const pq = new SRCPriorityQueue<number>([], { comparator: (a, b) => b - a });
 
     for (let i = 0; i < TEN_THOUSAND; i++) pq.add(i);
     for (let i = 0; i < TEN_THOUSAND; i++) pq.pop();

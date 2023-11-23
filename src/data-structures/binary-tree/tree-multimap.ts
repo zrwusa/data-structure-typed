@@ -6,7 +6,15 @@
  * @license MIT License
  */
 import type { BTNKey, TreeMultimapNodeNested, TreeMultimapOptions } from '../../types';
-import { BiTreeDeleteResult, BTNCallback, CP, FamilyPosition, IterationType, TreeMultimapNested } from '../../types';
+import {
+  BiTreeDeleteResult,
+  BTNCallback,
+  CP,
+  FamilyPosition,
+  IterableEntriesOrKeys,
+  IterationType,
+  TreeMultimapNested
+} from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { AVLTree, AVLTreeNode } from './avl-tree';
 
@@ -40,21 +48,15 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
   extends AVLTree<V, N, TREE>
   implements IBinaryTree<V, N, TREE> {
 
-  override options: TreeMultimapOptions;
-
   /**
    * The constructor function for a TreeMultimap class in TypeScript, which extends another class and sets an option to
    * merge duplicated values.
    * @param {TreeMultimapOptions} [options] - An optional object that contains additional configuration options for the
    * TreeMultimap.
    */
-  constructor(options: TreeMultimapOptions = { iterationType: IterationType.ITERATIVE }) {
-    super(options);
-    if (options) {
-      this.options = { iterationType: IterationType.ITERATIVE, comparator: (a, b) => a - b, ...options }
-    } else {
-      this.options = { iterationType: IterationType.ITERATIVE, comparator: (a, b) => a - b };
-    }
+  constructor(elements?: IterableEntriesOrKeys<V>, options?: Partial<TreeMultimapOptions>) {
+    super([], options);
+    if (elements) this.init(elements);
   }
 
   private _count = 0;
@@ -77,13 +79,11 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
   }
 
   override createTree(options?: TreeMultimapOptions): TREE {
-    return new TreeMultimap<V, N, TREE>({ ...this.options, ...options }) as TREE;
+    return new TreeMultimap<V, N, TREE>([], {
+      iterationType: this.iterationType,
+      comparator: this.comparator, ...options
+    }) as TREE;
   }
-
-  /**
-   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (AVLTree) has logarithmic time complexity.
-   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
-   */
 
   /**
    * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (AVLTree) has logarithmic time complexity.
@@ -169,8 +169,8 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
   }
 
   /**
-   * Time Complexity: O(1) - constant time, as it performs basic pointer assignments.
-   * Space Complexity: O(1) - constant space, as it only uses a constant amount of memory.
+   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (AVLTree) has logarithmic time complexity.
+   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
    */
 
   /**
@@ -208,8 +208,8 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
   }
 
   /**
-   * Time Complexity: O(k log n) - logarithmic time for each insertion, where "n" is the number of nodes in the tree, and "k" is the number of keys to be inserted. This is because the method iterates through the keys and calls the add method for each.
-   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
+   * Time Complexity: O(1) - constant time, as it performs basic pointer assignments.
+   * Space Complexity: O(1) - constant space, as it only uses a constant amount of memory.
    */
 
   /**
@@ -223,7 +223,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    * values:
    * @returns a boolean value.
    */
-  override perfectlyBalance(iterationType = this.options.iterationType): boolean {
+  override perfectlyBalance(iterationType = this.iterationType): boolean {
     const sorted = this.dfs(node => node, 'in'),
       n = sorted.length;
     if (sorted.length < 1) return false;
@@ -262,8 +262,8 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
   }
 
   /**
-   * Time Complexity: O(n log n) - logarithmic time for each insertion, where "n" is the number of nodes in the tree. This is because the method calls the add method for each node.
-   * Space Complexity: O(n) - linear space, as it creates an array to store the sorted nodes.
+   * Time Complexity: O(k log n) - logarithmic time for each insertion, where "n" is the number of nodes in the tree, and "k" is the number of keys to be inserted. This is because the method iterates through the keys and calls the add method for each.
+   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
    */
 
   /**
@@ -346,8 +346,8 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
   }
 
   /**
-   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The delete method of the superclass (AVLTree) has logarithmic time complexity.
-   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
+   * Time Complexity: O(n log n) - logarithmic time for each insertion, where "n" is the number of nodes in the tree. This is because the method calls the add method for each node.
+   * Space Complexity: O(n) - linear space, as it creates an array to store the sorted nodes.
    */
 
   /**
@@ -356,6 +356,24 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
   override clear() {
     super.clear();
     this._count = 0;
+  }
+
+  /**
+   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The delete method of the superclass (AVLTree) has logarithmic time complexity.
+   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
+   */
+
+  init(elements: IterableEntriesOrKeys<V>): void {
+    if (elements) {
+      for (const entryOrKey of elements) {
+        if (Array.isArray(entryOrKey)) {
+          const [key, value] = entryOrKey;
+          this.add(key, value);
+        } else {
+          this.add(entryOrKey);
+        }
+      }
+    }
   }
 
   /**

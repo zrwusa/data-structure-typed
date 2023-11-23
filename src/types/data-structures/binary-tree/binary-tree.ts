@@ -30,6 +30,6 @@ export type BinaryTreeNodeNested<T> = BinaryTreeNode<T, BinaryTreeNode<T, Binary
 
 export type BinaryTreeNested<T, N extends BinaryTreeNode<T, N>> = BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, BinaryTree<T, N, any>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-export type BinaryTreeOptions = { iterationType?: IterationType }
+export type BinaryTreeOptions = { iterationType: IterationType }
 
 export type NodeDisplayLayout = [string[], number, number, number];

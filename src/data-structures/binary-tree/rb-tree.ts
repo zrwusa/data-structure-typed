@@ -10,6 +10,7 @@ import {
   BiTreeDeleteResult,
   BTNCallback,
   BTNKey,
+  IterableEntriesOrKeys,
   IterationType,
   RBTNColor,
   RBTreeOptions,
@@ -43,21 +44,18 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
   extends BST<V, N, TREE>
   implements IBinaryTree<V, N, TREE> {
   Sentinel: N = new RedBlackTreeNode<V>(NaN) as unknown as N;
-  override options: RBTreeOptions;
+
 
   /**
    * The constructor function initializes a Red-Black Tree with an optional set of options.
    * @param {RBTreeOptions} [options] - The `options` parameter is an optional object that can be
    * passed to the constructor. It is used to configure the RBTree object with specific options.
    */
-  constructor(options?: RBTreeOptions) {
-    super(options);
-    if (options) {
-      this.options = { iterationType: IterationType.ITERATIVE, comparator: (a, b) => a - b, ...options }
-    } else {
-      this.options = { iterationType: IterationType.ITERATIVE, comparator: (a, b) => a - b };
-    }
+  constructor(elements?: IterableEntriesOrKeys<V>, options?: Partial<RBTreeOptions>) {
+    super([], options);
+
     this._root = this.Sentinel;
+    if (elements) this.init(elements);
   }
 
   protected _root: N;
@@ -77,13 +75,11 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
   }
 
   override createTree(options?: RBTreeOptions): TREE {
-    return new RedBlackTree<V, N, TREE>({ ...this.options, ...options }) as TREE;
+    return new RedBlackTree<V, N, TREE>([], {
+      iterationType: this.iterationType,
+      comparator: this.comparator, ...options
+    }) as TREE;
   }
-
-  /**
-   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
@@ -235,6 +231,11 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
     return ans;
   }
 
+  /**
+   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
+   * Space Complexity: O(1)
+   */
+
   override isRealNode(node: N | undefined): node is N {
     return node !== this.Sentinel && node !== undefined;
   }
@@ -263,11 +264,6 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
   /**
    * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
-   * Space Complexity: O(1)
    *
    * The function `getNode` retrieves a single node from a binary tree based on a given identifier and
    * callback function.
@@ -290,7 +286,7 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
     identifier: ReturnType<C> | undefined,
     callback: C = this._defaultOneParamCallback as C,
     beginRoot: BTNKey | N | undefined = this.root,
-    iterationType = this.options.iterationType
+    iterationType = this.iterationType
   ): N | null | undefined {
     if ((identifier as any) instanceof BinaryTreeNode) callback = (node => node) as C;
     beginRoot = this.ensureNotKey(beginRoot);
@@ -351,9 +347,27 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
     return y!;
   }
 
+  /**
+   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
+   * Space Complexity: O(1)
+   */
+
   override clear() {
     this._root = this.Sentinel;
     this._size = 0;
+  }
+
+  init(elements: IterableEntriesOrKeys<V>): void {
+    if (elements) {
+      for (const entryOrKey of elements) {
+        if (Array.isArray(entryOrKey)) {
+          const [key, value] = entryOrKey;
+          this.add(key, value);
+        } else {
+          this.add(entryOrKey);
+        }
+      }
+    }
   }
 
   protected override _setRoot(v: N) {

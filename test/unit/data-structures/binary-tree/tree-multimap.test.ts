@@ -245,7 +245,7 @@ describe('TreeMultimap operations test', () => {
 
 describe('TreeMultimap operations test recursively', () => {
   it('should perform various operations on a Binary Search Tree with numeric values', () => {
-    const treeMultimap = new TreeMultimap({ iterationType: IterationType.RECURSIVE });
+    const treeMultimap = new TreeMultimap([], { iterationType: IterationType.RECURSIVE });
 
     expect(treeMultimap instanceof TreeMultimap);
     treeMultimap.add(11, 11);

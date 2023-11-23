@@ -7,7 +7,7 @@ const { HUNDRED_THOUSAND, TEN_THOUSAND } = magnitude;
 
 suite
   .add(`${HUNDRED_THOUSAND.toLocaleString()} add & pop`, () => {
-    const heap = new Heap<number>({ comparator: (a, b) => b - a });
+    const heap = new Heap<number>([], { comparator: (a, b) => b - a });
 
     for (let i = 0; i < HUNDRED_THOUSAND; i++) {
       heap.add(i);
@@ -18,7 +18,7 @@ suite
     }
   })
   .add(`${HUNDRED_THOUSAND.toLocaleString()} add & dfs`, () => {
-    const heap = new Heap<number>({ comparator: (a, b) => b - a });
+    const heap = new Heap<number>([], { comparator: (a, b) => b - a });
 
     for (let i = 0; i < HUNDRED_THOUSAND; i++) {
       heap.add(i);
