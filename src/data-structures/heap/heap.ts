@@ -6,13 +6,32 @@
  */
 
 import type { Comparator, DFSOrderPattern } from '../../types';
+import { HeapOptions } from "../../types";
 
 export class Heap<E = any> {
-  constructor(options: { comparator: Comparator<E>; elements?: E[] }) {
-    this._comparator = options.comparator;
-    if (options.elements && options.elements.length > 0) {
-      this._elements = options.elements;
-      this.fix();
+  options: HeapOptions<E>;
+
+  constructor(elements?: Iterable<E>, options?: HeapOptions<E>) {
+    const defaultComparator = (a: E, b: E) => {
+      if (!(typeof a === 'number' && typeof b === 'number')) {
+        throw new Error('The a, b params of compare function must be number');
+      } else {
+        return a - b;
+      }
+    }
+    if (options) {
+      this.options = options
+    } else {
+      this.options = {
+        comparator: defaultComparator
+      }
+    }
+
+    if (elements) {
+      for (const el of elements) {
+        this.push(el);
+      }
+      // this.fix();
     }
   }
 
@@ -20,12 +39,6 @@ export class Heap<E = any> {
 
   get elements(): E[] {
     return this._elements;
-  }
-
-  protected _comparator: Comparator<E>;
-
-  get comparator(): Comparator<E> {
-    return this._comparator;
   }
 
   /**
@@ -46,10 +59,11 @@ export class Heap<E = any> {
   /**
    * Static method that creates a binary heap from an array of elements and a comparison function.
    * @returns A new Heap instance.
+   * @param elements
    * @param options
    */
-  static heapify<E>(options: { elements: E[]; comparator: Comparator<E> }): Heap<E> {
-    return new Heap<E>(options);
+  static heapify<E>(elements: Iterable<E>, options: { comparator: Comparator<E> }): Heap<E> {
+    return new Heap<E>(elements, options);
   }
 
   /**
@@ -283,7 +297,7 @@ export class Heap<E = any> {
    * @returns A new Heap instance containing the same elements.
    */
   clone(): Heap<E> {
-    const clonedHeap = new Heap<E>({ comparator: this.comparator });
+    const clonedHeap = new Heap<E>([], this.options);
     clonedHeap._elements = [...this.elements];
     return clonedHeap;
   }
@@ -340,7 +354,7 @@ export class Heap<E = any> {
   }
 
   filter(predicate: (element: E, index: number, heap: Heap<E>) => boolean): Heap<E> {
-    const filteredHeap: Heap<E> = new Heap<E>({ comparator: this.comparator });
+    const filteredHeap: Heap<E> = new Heap<E>([], this.options);
     let index = 0;
     for (const el of this) {
       if (predicate(el, index, this)) {
@@ -353,7 +367,7 @@ export class Heap<E = any> {
 
   map<T>(callback: (element: E, index: number, heap: Heap<E>) => T, comparator: Comparator<T>): Heap<T> {
 
-    const mappedHeap: Heap<T> = new Heap<T>({ comparator: comparator });
+    const mappedHeap: Heap<T> = new Heap<T>([], { comparator: comparator });
     let index = 0;
     for (const el of this) {
       mappedHeap.add(callback(el, index, this));
@@ -380,6 +394,15 @@ export class Heap<E = any> {
    * Space Complexity: O(1)
    */
 
+  print(): void {
+    console.log([...this]);
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   */
+
   /**
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
@@ -392,17 +415,12 @@ export class Heap<E = any> {
     while (index > 0) {
       const parent = (index - 1) >> 1;
       const parentItem = this.elements[parent];
-      if (this._comparator(parentItem, element) <= 0) break;
+      if (this.options.comparator(parentItem, element) <= 0) break;
       this.elements[index] = parentItem;
       index = parent;
     }
     this.elements[index] = element;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(log n)
@@ -420,12 +438,12 @@ export class Heap<E = any> {
       let minItem = this.elements[left];
       if (
         right < this.elements.length &&
-        this._comparator(minItem, this.elements[right]) > 0
+        this.options.comparator(minItem, this.elements[right]) > 0
       ) {
         left = right;
         minItem = this.elements[right];
       }
-      if (this._comparator(minItem, element) >= 0) break;
+      if (this.options.comparator(minItem, element) >= 0) break;
       this.elements[index] = minItem;
       index = left;
     }
@@ -452,7 +470,7 @@ export class FibonacciHeapNode<E> {
 export class FibonacciHeap<E> {
   constructor(comparator?: Comparator<E>) {
     this.clear();
-    this._comparator = comparator || this.defaultComparator;
+    this._comparator = comparator || this._defaultComparator;
 
     if (typeof this.comparator !== 'function') {
       throw new Error('FibonacciHeap constructor: given comparator should be a function.');
@@ -653,7 +671,7 @@ export class FibonacciHeap<E> {
       this._root = undefined;
     } else {
       this._min = z.right;
-      this.consolidate();
+      this._consolidate();
     }
 
     this._size--;
@@ -706,24 +724,24 @@ export class FibonacciHeap<E> {
   }
 
   /**
+   * Create a new node.
+   * @param element
+   * @protected
+   */
+  createNode(element: E): FibonacciHeapNode<E> {
+    return new FibonacciHeapNode<E>(element);
+  }
+
+  /**
    * Default comparator function used by the heap.
    * @param {E} a
    * @param {E} b
    * @protected
    */
-  protected defaultComparator(a: E, b: E): number {
+  protected _defaultComparator(a: E, b: E): number {
     if (a < b) return -1;
     if (a > b) return 1;
     return 0;
-  }
-
-  /**
-   * Create a new node.
-   * @param element
-   * @protected
-   */
-  protected createNode(element: E): FibonacciHeapNode<E> {
-    return new FibonacciHeapNode<E>(element);
   }
 
   /**
@@ -782,7 +800,7 @@ export class FibonacciHeap<E> {
    * @param x
    * @protected
    */
-  protected link(y: FibonacciHeapNode<E>, x: FibonacciHeapNode<E>): void {
+  protected _link(y: FibonacciHeapNode<E>, x: FibonacciHeapNode<E>): void {
     this.removeFromRoot(y);
     y.left = y;
     y.right = y;
@@ -803,7 +821,7 @@ export class FibonacciHeap<E> {
    * Remove and return the top element (smallest or largest element) from the heap.
    * @protected
    */
-  protected consolidate(): void {
+  protected _consolidate(): void {
     const A: (FibonacciHeapNode<E> | undefined)[] = new Array(this.size);
     const elements = this.consumeLinkedList(this.root);
     let x: FibonacciHeapNode<E> | undefined,
@@ -824,7 +842,7 @@ export class FibonacciHeap<E> {
           y = t;
         }
 
-        this.link(y, x);
+        this._link(y, x);
         A[d] = undefined;
         d++;
       }

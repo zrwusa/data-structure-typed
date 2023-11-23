@@ -24,10 +24,14 @@ export class SinglyLinkedList<E = any> {
   /**
    * The constructor initializes the linked list with an empty head, tail, and length.
    */
-  constructor() {
+  constructor(elements?: Iterable<E>) {
     this._head = null;
     this._tail = null;
     this._length = 0;
+    if (elements) {
+      for (const el of elements)
+        this.push(el);
+    }
   }
 
   protected _head: SinglyLinkedListNode<E> | null;
@@ -780,5 +784,9 @@ export class SinglyLinkedList<E = any> {
     }
 
     return accumulator;
+  }
+
+  print(): void {
+    console.log([...this]);
   }
 }

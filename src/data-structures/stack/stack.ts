@@ -10,8 +10,13 @@ export class Stack<E = any> {
    * of elements of type `E`. It is used to initialize the `_elements` property of the class. If the `elements` parameter
    * is provided and is an array, it is assigned to the `_elements
    */
-  constructor(elements?: E[]) {
-    this._elements = Array.isArray(elements) ? elements : [];
+  constructor(elements?: Iterable<E>) {
+    this._elements = [];
+    if (elements) {
+      for (const el of elements) {
+        this.push(el);
+      }
+    }
   }
 
   protected _elements: E[];
@@ -153,7 +158,7 @@ export class Stack<E = any> {
    * @returns An iterator object.
    */
   * [Symbol.iterator]() {
-    for (let i = this.elements.length - 1; i >= 0; i--) {
+    for (let i = 0; i < this.elements.length; i++) {
       yield this.elements[i];
     }
   }
@@ -202,5 +207,9 @@ export class Stack<E = any> {
       index++;
     }
     return accumulator;
+  }
+
+  print(): void {
+    console.log([...this]);
   }
 }

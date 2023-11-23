@@ -83,7 +83,7 @@ describe('Stack iterative methods', () => {
       result.push(element);
     }
 
-    expect(result).toEqual([3, 2, 1]); // iteration should start from the top of the stack
+    expect(result).toEqual([1, 2, 3]); // iteration should start from the top of the stack
   });
 
   test('should apply forEach to the stack', () => {
@@ -92,7 +92,7 @@ describe('Stack iterative methods', () => {
       result.push(element);
     });
 
-    expect(result).toEqual([3, 2, 1]);
+    expect(result).toEqual([1, 2, 3]);
   });
 
   test('should filter elements in the stack', () => {

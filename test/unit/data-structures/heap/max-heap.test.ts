@@ -5,7 +5,7 @@ describe('MaxHeap', () => {
   let maxHeap: MaxHeap<number>;
 
   beforeEach(() => {
-    maxHeap = new MaxHeap({ comparator: numberComparator });
+    maxHeap = new MaxHeap([], { comparator: numberComparator });
   });
 
   it('add and poll elements in descending order', () => {

@@ -5,7 +5,7 @@ describe('MinHeap', () => {
   let minHeap: MinHeap<number>;
 
   beforeEach(() => {
-    minHeap = new MinHeap({ comparator: numberComparator });
+    minHeap = new MinHeap([], { comparator: numberComparator });
   });
 
   it('add and poll elements in ascending order', () => {

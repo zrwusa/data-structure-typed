@@ -819,6 +819,10 @@ export class Deque<E> {
     return accumulator;
   }
 
+  print(): void {
+    console.log([...this])
+  }
+
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)

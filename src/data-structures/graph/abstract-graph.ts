@@ -691,7 +691,7 @@ export abstract class AbstractGraph<
       if (vertexOrKey instanceof AbstractVertex) distMap.set(vertexOrKey, Infinity);
     }
 
-    const heap = new PriorityQueue<{ key: number; value: VO }>({ comparator: (a, b) => a.key - b.key });
+    const heap = new PriorityQueue<{ key: number; value: VO }>([], { comparator: (a, b) => a.key - b.key });
     heap.add({ key: 0, value: srcVertex });
 
     distMap.set(srcVertex, 0);
