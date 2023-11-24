@@ -6,8 +6,17 @@
  * @license MIT License
  */
 import { BST, BSTNode } from './bst';
-import type { AVLTreeNested, AVLTreeNodeNested, AVLTreeOptions, BiTreeDeleteResult, BTNKey } from '../../types';
-import { BTNCallback, IterableEntriesOrKeys } from '../../types';
+import type {
+  AVLTreeNested,
+  AVLTreeNodeNested,
+  AVLTreeOptions,
+  BiTreeDeleteResult,
+  BSTNKeyOrNode,
+  BTNExemplar,
+  BTNKey,
+  BTNKeyOrNode
+} from '../../types';
+import { BTNCallback } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 
 export class AVLTreeNode<V = any, N extends AVLTreeNode<V, N> = AVLTreeNodeNested<V>> extends BSTNode<V, N> {
@@ -29,7 +38,7 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    * constructor of the AVLTree class. It allows you to customize the behavior of the AVL tree by providing different
    * options.
    */
-  constructor(elements?: IterableEntriesOrKeys<V>, options?: Partial<AVLTreeOptions>) {
+  constructor(elements?: Iterable<BTNExemplar<V, N>>, options?: Partial<AVLTreeOptions>) {
     super([], options);
     if (elements) this.init(elements);
   }
@@ -66,7 +75,7 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    * added to the binary search tree.
    * @returns The method is returning either a node (N) or undefined.
    */
-  override add(keyOrNode: BTNKey | N | null | undefined, value?: V): N | undefined {
+  override add(keyOrNode: BTNKeyOrNode<N>, value?: V): N | undefined {
     if (keyOrNode === null) return undefined;
     const inserted = super.add(keyOrNode, value);
     if (inserted) this._balancePath(inserted);
@@ -112,7 +121,7 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
    */
 
-  init(elements: IterableEntriesOrKeys<V>): void {
+  init(elements: Iterable<BTNExemplar<V, N>>): void {
     if (elements) {
       for (const entryOrKey of elements) {
         if (Array.isArray(entryOrKey)) {
@@ -135,7 +144,7 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    * @returns either the `destNode` object if both `srcNode` and `destNode` are defined, or `undefined`
    * if either `srcNode` or `destNode` is undefined.
    */
-  protected override _swap(srcNode: BTNKey | N | undefined, destNode: BTNKey | N | undefined): N | undefined {
+  protected override _swap(srcNode: BSTNKeyOrNode<N>, destNode: BSTNKeyOrNode<N>): N | undefined {
     srcNode = this.ensureNotKey(srcNode);
     destNode = this.ensureNotKey(destNode);
 

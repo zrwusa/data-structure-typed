@@ -5,8 +5,8 @@ import {
   BinaryTreeOptions,
   BiTreeDeleteResult,
   BTNCallback,
+  BTNExemplar,
   BTNKey,
-  IterableEntriesOrKeys
 } from '../types';
 
 export interface IBinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNodeNested<V>, TREE extends BinaryTree<V, N, TREE> = BinaryTreeNested<V, N>> {
@@ -14,7 +14,7 @@ export interface IBinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTre
 
   createTree(options?: Partial<BinaryTreeOptions>): TREE;
 
-  init(elements: IterableEntriesOrKeys<V>): void;
+  init(elements: Iterable<BTNExemplar<V, N>>): void;
 
   add(keyOrNode: BTNKey | N | null, value?: N['value']): N | null | undefined;
 

@@ -5,16 +5,15 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { BTNKey, TreeMultimapNodeNested, TreeMultimapOptions } from '../../types';
-import {
-  BiTreeDeleteResult,
-  BTNCallback,
-  CP,
-  FamilyPosition,
-  IterableEntriesOrKeys,
-  IterationType,
-  TreeMultimapNested
+import type {
+  BSTNKeyOrNode,
+  BTNExemplar,
+  BTNKey,
+  BTNKeyOrNode,
+  TreeMultimapNodeNested,
+  TreeMultimapOptions
 } from '../../types';
+import { BiTreeDeleteResult, BTNCallback, CP, FamilyPosition, IterationType, TreeMultimapNested } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { AVLTree, AVLTreeNode } from './avl-tree';
 
@@ -54,7 +53,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    * @param {TreeMultimapOptions} [options] - An optional object that contains additional configuration options for the
    * TreeMultimap.
    */
-  constructor(elements?: IterableEntriesOrKeys<V>, options?: Partial<TreeMultimapOptions>) {
+  constructor(elements?: Iterable<BTNExemplar<V, N>>, options?: Partial<TreeMultimapOptions>) {
     super([], options);
     if (elements) this.init(elements);
   }
@@ -99,7 +98,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    * times the key-value pair should be added to the multimap. If not provided, the default value is 1.
    * @returns a node (`N`) or `undefined`.
    */
-  override add(keyOrNode: BTNKey | N | null | undefined, value?: V, count = 1): N | undefined {
+  override add(keyOrNode: BTNKeyOrNode<N>, value?: V, count = 1): N | undefined {
     if (keyOrNode === null) return undefined;
     let inserted: N | undefined = undefined,
       newNode: N | undefined;
@@ -186,7 +185,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    * TreeMultimap. If provided, the length of the `data` array should be the same as the length of the
    * @returns The function `addMany` returns an array of nodes (`N`) or `undefined` values.
    */
-  override addMany(keysOrNodes: (BTNKey | N | undefined)[], data?: V[]): (N | undefined)[] {
+  override addMany(keysOrNodes: (BSTNKeyOrNode<N>)[], data?: V[]): (N | undefined)[] {
     const inserted: (N | undefined)[] = [];
 
     for (let i = 0; i < keysOrNodes.length; i++) {
@@ -363,7 +362,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
    */
 
-  init(elements: IterableEntriesOrKeys<V>): void {
+  init(elements: Iterable<BTNExemplar<V, N>>): void {
     if (elements) {
       for (const entryOrKey of elements) {
         if (Array.isArray(entryOrKey)) {
@@ -391,7 +390,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    * @returns The method `_addTo` returns either the `parent.left` or `parent.right` node that was
    * added, or `undefined` if no node was added.
    */
-  protected override _addTo(newNode: N | undefined, parent: BTNKey | N | undefined): N | undefined {
+  protected override _addTo(newNode: N | undefined, parent: BSTNKeyOrNode<N>): N | undefined {
     parent = this.ensureNotKey(parent);
     if (parent) {
       if (parent.left === undefined) {
@@ -426,7 +425,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    * @returns either the `destNode` object if both `srcNode` and `destNode` are defined, or `undefined`
    * if either `srcNode` or `destNode` is undefined.
    */
-  protected _swap(srcNode: BTNKey | N | undefined, destNode: BTNKey | N | undefined): N | undefined {
+  protected _swap(srcNode: BSTNKeyOrNode<N>, destNode: BSTNKeyOrNode<N>): N | undefined {
     srcNode = this.ensureNotKey(srcNode);
     destNode = this.ensureNotKey(destNode);
     if (srcNode && destNode) {

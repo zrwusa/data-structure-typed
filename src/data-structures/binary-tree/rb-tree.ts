@@ -8,9 +8,11 @@
 
 import {
   BiTreeDeleteResult,
+  BSTNKeyOrNode,
   BTNCallback,
+  BTNExemplar,
   BTNKey,
-  IterableEntriesOrKeys,
+  BTNKeyOrNode,
   IterationType,
   RBTNColor,
   RBTreeOptions,
@@ -51,7 +53,7 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
    * @param {RBTreeOptions} [options] - The `options` parameter is an optional object that can be
    * passed to the constructor. It is used to configure the RBTree object with specific options.
    */
-  constructor(elements?: IterableEntriesOrKeys<V>, options?: Partial<RBTreeOptions>) {
+  constructor(elements?: Iterable<BTNExemplar<V, N>>, options?: Partial<RBTreeOptions>) {
     super([], options);
 
     this._root = this.Sentinel;
@@ -92,7 +94,7 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
    * key in the node being added to the Red-Black Tree.
    * @returns The method returns either a node (`N`) or `undefined`.
    */
-  override add(keyOrNode: BTNKey | N | null | undefined, value?: V): N | undefined {
+  override add(keyOrNode: BTNKeyOrNode<N>, value?: V): N | undefined {
     let node: N;
     if (this.isNodeKey(keyOrNode)) {
       node = this.createNode(keyOrNode, value, RBTNColor.RED);
@@ -285,7 +287,7 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
   getNode<C extends BTNCallback<N>>(
     identifier: ReturnType<C> | undefined,
     callback: C = this._defaultOneParamCallback as C,
-    beginRoot: BTNKey | N | undefined = this.root,
+    beginRoot: BSTNKeyOrNode<N> = this.root,
     iterationType = this.iterationType
   ): N | null | undefined {
     if ((identifier as any) instanceof BinaryTreeNode) callback = (node => node) as C;
@@ -357,7 +359,7 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
     this._size = 0;
   }
 
-  init(elements: IterableEntriesOrKeys<V>): void {
+  init(elements: Iterable<BTNExemplar<V, N>>): void {
     if (elements) {
       for (const entryOrKey of elements) {
         if (Array.isArray(entryOrKey)) {

@@ -5,8 +5,18 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { BSTNested, BSTNodeNested, BSTOptions, BTNCallback, BTNKey, Comparator } from '../../types';
-import { CP, IterableEntriesOrKeys, IterationType } from '../../types';
+import type {
+  BSTNested,
+  BSTNKeyOrNode,
+  BSTNodeNested,
+  BSTOptions,
+  BTNCallback,
+  BTNExemplar,
+  BTNKey,
+  BTNKeyOrNode,
+  Comparator
+} from '../../types';
+import { CP, IterationType } from '../../types';
 import { BinaryTree, BinaryTreeNode } from './binary-tree';
 import { IBinaryTree } from '../../interfaces';
 import { Queue } from '../queue';
@@ -71,7 +81,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * @param {BSTOptions} [options] - An optional object that contains additional configuration options
    * for the binary search tree.
    */
-  constructor(elements?: IterableEntriesOrKeys<V>, options?: Partial<BSTOptions>) {
+  constructor(elements?: Iterable<BTNExemplar<V, N>>, options?: Partial<BSTOptions>) {
     super([], options);
 
     if (options) {
@@ -127,7 +137,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * @returns The method `add` returns a node (`N`) that was inserted into the binary search tree. If
    * no node was inserted, it returns `undefined`.
    */
-  override add(keyOrNode: BTNKey | N | null | undefined, value?: V): N | undefined {
+  override add(keyOrNode: BTNKeyOrNode<N>, value?: V): N | undefined {
     if (keyOrNode === null) return undefined;
     // TODO support node as a parameter
     let inserted: N | undefined;
@@ -220,13 +230,13 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * @returns The function `addMany` returns an array of nodes (`N`) or `undefined` values.
    */
   override addMany(
-    keysOrNodes: (BTNKey | N | undefined)[],
+    keysOrNodes: (BSTNKeyOrNode<N>)[],
     data?: (V | undefined)[],
     isBalanceAdd = true,
     iterationType = this.iterationType
   ): (N | undefined)[] {
     // TODO this addMany function is inefficient, it should be optimized
-    function hasNoUndefined(arr: (BTNKey | N | undefined)[]): arr is (BTNKey | N)[] {
+    function hasNoUndefined(arr: (BSTNKeyOrNode<N>)[]): arr is (BTNKey | N)[] {
       return arr.indexOf(undefined) === -1;
     }
 
@@ -263,7 +273,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     }
     sortedKeysOrNodes = sorted.map(([keyOrNode]) => keyOrNode);
     sortedData = sorted.map(([, value]) => value);
-    const _dfs = (arr: (BTNKey | undefined | N)[], data?: (V | undefined)[]) => {
+    const _dfs = (arr: (BSTNKeyOrNode<N>)[], data?: (V | undefined)[]) => {
       if (arr.length === 0) return;
 
       const mid = Math.floor((arr.length - 1) / 2);
@@ -318,7 +328,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * the key of the leftmost node if the comparison result is greater than, and the key of the
    * rightmost node otherwise. If no node is found, it returns 0.
    */
-  lastKey(beginRoot: BTNKey | N | undefined = this.root, iterationType = this.iterationType): BTNKey {
+  lastKey(beginRoot: BSTNKeyOrNode<N> = this.root, iterationType = this.iterationType): BTNKey {
     if (this._compare(0, 1) === CP.lt) return this.getRightMost(beginRoot, iterationType)?.key ?? 0;
     else if (this._compare(0, 1) === CP.gt) return this.getLeftMost(beginRoot, iterationType)?.key ?? 0;
     else return this.getRightMost(beginRoot, iterationType)?.key ?? 0;
@@ -382,7 +392,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * type of iteration to be performed. It has a default value of `IterationType.ITERATIVE`.
    * @returns either a node object (N) or undefined.
    */
-  override ensureNotKey(key: BTNKey | N | undefined, iterationType = IterationType.ITERATIVE): N | undefined {
+  override ensureNotKey(key: BSTNKeyOrNode<N>, iterationType = IterationType.ITERATIVE): N | undefined {
     return this.isNodeKey(key) ? this.getNodeByKey(key, iterationType) : key;
   }
 
@@ -413,7 +423,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     identifier: ReturnType<C> | undefined,
     callback: C = this._defaultOneParamCallback as C,
     onlyOne = false,
-    beginRoot: BTNKey | N | undefined = this.root,
+    beginRoot: BSTNKeyOrNode<N> = this.root,
     iterationType = this.iterationType
   ): N[] {
     beginRoot = this.ensureNotKey(beginRoot);
@@ -494,7 +504,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   lesserOrGreaterTraverse<C extends BTNCallback<N>>(
     callback: C = this._defaultOneParamCallback as C,
     lesserOrGreater: CP = CP.lt,
-    targetNode: BTNKey | N | undefined = this.root,
+    targetNode: BSTNKeyOrNode<N> = this.root,
     iterationType = this.iterationType
   ): ReturnType<C>[] {
     targetNode = this.ensureNotKey(targetNode);
@@ -659,7 +669,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * Space Complexity: O(log n) - Space for the recursive call stack in the worst case.
    */
 
-  init(elements: IterableEntriesOrKeys<V>): void {
+  override init(elements: Iterable<BTNExemplar<V, N>>): void {
     if (elements) {
       for (const entryOrKey of elements) {
         if (Array.isArray(entryOrKey)) {
