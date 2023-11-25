@@ -20,7 +20,7 @@ export class HashMap<K = any, V = any> {
   protected _objHashFn: (key: K) => object;
 
 
-  constructor(elements?: Iterable<[K, V]>, options: HashMapOptions<K, V> = {
+  constructor(elements?: Iterable<[K, V]>, options: HashMapOptions<K> = {
 
     hashFn: (key: K) => String(key),
     objHashFn: (key: K) => (<object>key)
