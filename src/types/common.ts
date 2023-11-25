@@ -24,8 +24,14 @@ export type IterableWithSizeOrLength<T> = IterableWithSize<T> | IterableWithLeng
 
 export type BinaryTreePrintOptions = { isShowUndefined?: boolean, isShowNull?: boolean, isShowRedBlackNIL?: boolean }
 
-export type BTNExemplar<T, N> = [BTNKey | null | undefined, T | undefined] | BTNKeyOrNode<N>
+export type BTNodeEntry<T> = [BTNKey | null | undefined, T | undefined];
 
-export type BTNKeyOrNode<N> = BTNKey | null | undefined | N;
+export type BTNodeKeyOrNode<N> = BTNKey | null | undefined | N;
 
-export type BSTNKeyOrNode<N> = BTNKey | undefined | N;
+export type BTNodeExemplar<T, N> = BTNodeEntry<T> | BTNodeKeyOrNode<N>
+
+export type BTNodePureExemplar<T, N> = [BTNKey, T | undefined] | BTNodePureKeyOrNode<N>
+
+export type BTNodePureKeyOrNode<N> = BTNKey | N;
+
+export type BSTNodeKeyOrNode<N> = BTNKey | undefined | N;

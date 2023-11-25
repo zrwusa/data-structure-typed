@@ -8,11 +8,10 @@
 
 import {
   BiTreeDeleteResult,
-  BSTNKeyOrNode,
+  BSTNodeKeyOrNode,
   BTNCallback,
-  BTNExemplar,
+  BTNodeExemplar,
   BTNKey,
-  BTNKeyOrNode,
   IterationType,
   RBTNColor,
   RBTreeOptions,
@@ -53,11 +52,11 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
    * @param {RBTreeOptions} [options] - The `options` parameter is an optional object that can be
    * passed to the constructor. It is used to configure the RBTree object with specific options.
    */
-  constructor(elements?: Iterable<BTNExemplar<V, N>>, options?: Partial<RBTreeOptions>) {
+  constructor(elements?: Iterable<BTNodeExemplar<V, N>>, options?: Partial<RBTreeOptions>) {
     super([], options);
 
     this._root = this.Sentinel;
-    if (elements) this.init(elements);
+    if (elements) this.addMany(elements);
   }
 
   protected _root: N;
@@ -94,16 +93,21 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
    * key in the node being added to the Red-Black Tree.
    * @returns The method returns either a node (`N`) or `undefined`.
    */
-  override add(keyOrNode: BTNKeyOrNode<N>, value?: V): N | undefined {
+  override add(keyOrNodeOrEntry: BTNodeExemplar<V, N>): N | undefined {
     let node: N;
-    if (this.isNodeKey(keyOrNode)) {
-      node = this.createNode(keyOrNode, value, RBTNColor.RED);
-    } else if (keyOrNode instanceof RedBlackTreeNode) {
-      node = keyOrNode;
-    } else if (keyOrNode === null) {
+    if (this.isNodeKey(keyOrNodeOrEntry)) {
+      node = this.createNode(keyOrNodeOrEntry, undefined, RBTNColor.RED);
+    } else if (keyOrNodeOrEntry instanceof RedBlackTreeNode) {
+      node = keyOrNodeOrEntry;
+    } else if (keyOrNodeOrEntry === null || keyOrNodeOrEntry === undefined) {
       return;
-    } else if (keyOrNode === undefined) {
-      return;
+    } else if (this.isEntry(keyOrNodeOrEntry)) {
+      const [key, value] = keyOrNodeOrEntry;
+      if (key === undefined || key === null) {
+        return;
+      } else {
+        node = this.createNode(key, value, RBTNColor.RED);
+      }
     } else {
       return;
     }
@@ -287,7 +291,7 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
   getNode<C extends BTNCallback<N>>(
     identifier: ReturnType<C> | undefined,
     callback: C = this._defaultOneParamCallback as C,
-    beginRoot: BSTNKeyOrNode<N> = this.root,
+    beginRoot: BSTNodeKeyOrNode<N> = this.root,
     iterationType = this.iterationType
   ): N | null | undefined {
     if ((identifier as any) instanceof BinaryTreeNode) callback = (node => node) as C;
@@ -357,19 +361,6 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
   override clear() {
     this._root = this.Sentinel;
     this._size = 0;
-  }
-
-  init(elements: Iterable<BTNExemplar<V, N>>): void {
-    if (elements) {
-      for (const entryOrKey of elements) {
-        if (Array.isArray(entryOrKey)) {
-          const [key, value] = entryOrKey;
-          this.add(key, value);
-        } else {
-          this.add(entryOrKey);
-        }
-      }
-    }
   }
 
   protected override _setRoot(v: N) {

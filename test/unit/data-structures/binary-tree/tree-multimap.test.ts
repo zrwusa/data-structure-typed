@@ -3,6 +3,16 @@ import { isDebugTest } from '../../../config';
 
 const isDebug = isDebugTest;
 
+describe('TreeMultimap count', () => {
+  const tm = new TreeMultimap<number>();
+
+  it('Should count', () => {
+    tm.addMany([[1, 1], [2, 2], [3, 3]]);
+    tm.lesserOrGreaterTraverse(node => node.count += 2, CP.gt, 1);
+    expect(tm.count).toBe(7)
+  })
+})
+
 describe('TreeMultimap operations test', () => {
   it('should perform various operations on a Binary Search Tree with numeric values', () => {
     const treeMultimap = new TreeMultimap();
@@ -10,8 +20,25 @@ describe('TreeMultimap operations test', () => {
     expect(treeMultimap instanceof TreeMultimap);
     treeMultimap.add(11, 11);
     treeMultimap.add(3, 3);
-    const idAndValues = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
-    treeMultimap.addMany(idAndValues, idAndValues);
+    const idAndValues: [number, number][] = [
+      [11, 11],
+      [3, 3],
+      [15, 15],
+      [1, 1],
+      [8, 8],
+      [13, 13],
+      [16, 16],
+      [2, 2],
+      [6, 6],
+      [9, 9],
+      [12, 12],
+      [14, 14],
+      [4, 4],
+      [7, 7],
+      [10, 10],
+      [5, 5]
+    ];
+    treeMultimap.addMany(idAndValues);
     expect(treeMultimap.root instanceof TreeMultimapNode);
 
     if (treeMultimap.root) expect(treeMultimap.root.key == 11);
@@ -209,27 +236,26 @@ describe('TreeMultimap operations test', () => {
   it('should perform various operations on a Binary Search Tree with object values', () => {
     const objTreeMultimap = new TreeMultimap<{ key: number; keyA: number }>();
     expect(objTreeMultimap).toBeInstanceOf(TreeMultimap);
-    objTreeMultimap.add(11, { key: 11, keyA: 11 });
-    objTreeMultimap.add(3, { key: 3, keyA: 3 });
-    const values = [
-      { key: 15, keyA: 15 },
-      { key: 1, keyA: 1 },
-      { key: 8, keyA: 8 },
-      { key: 13, keyA: 13 },
-      { key: 16, keyA: 16 },
-      { key: 2, keyA: 2 },
-      { key: 6, keyA: 6 },
-      { key: 9, keyA: 9 },
-      { key: 12, keyA: 12 },
-      { key: 14, keyA: 14 },
-      { key: 4, keyA: 4 },
-      { key: 7, keyA: 7 },
-      { key: 10, keyA: 10 },
-      { key: 5, keyA: 5 }
+    objTreeMultimap.add([11, { key: 11, keyA: 11 }]);
+    objTreeMultimap.add([3, { key: 3, keyA: 3 }]);
+    const values: [number, { key: number, keyA: number }][] = [
+      [15, { key: 15, keyA: 15 }],
+      [1, { key: 1, keyA: 1 }],
+      [8, { key: 8, keyA: 8 }],
+      [13, { key: 13, keyA: 13 }],
+      [16, { key: 16, keyA: 16 }],
+      [2, { key: 2, keyA: 2 }],
+      [6, { key: 6, keyA: 6 }],
+      [9, { key: 9, keyA: 9 }],
+      [12, { key: 12, keyA: 12 }],
+      [14, { key: 14, keyA: 14 }],
+      [4, { key: 4, keyA: 4 }],
+      [7, { key: 7, keyA: 7 }],
+      [10, { key: 10, keyA: 10 }],
+      [5, { key: 5, keyA: 5 }]
     ];
 
     objTreeMultimap.addMany(
-      values.map(item => item.key),
       values
     );
 
@@ -245,14 +271,31 @@ describe('TreeMultimap operations test', () => {
 
 describe('TreeMultimap operations test recursively', () => {
   it('should perform various operations on a Binary Search Tree with numeric values', () => {
-    const treeMultimap = new TreeMultimap([], { iterationType: IterationType.RECURSIVE });
+    const treeMultimap = new TreeMultimap<number>([], { iterationType: IterationType.RECURSIVE });
 
     expect(treeMultimap instanceof TreeMultimap);
     treeMultimap.add(11, 11);
     treeMultimap.add(3, 3);
-    const idAndValues = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
-    treeMultimap.addMany(idAndValues, idAndValues);
-    expect(treeMultimap.root instanceof TreeMultimapNode);
+    const idAndValues: [number, number][] = [
+      [11, 11],
+      [3, 3],
+      [15, 15],
+      [1, 1],
+      [8, 8],
+      [13, 13],
+      [16, 16],
+      [2, 2],
+      [6, 6],
+      [9, 9],
+      [12, 12],
+      [14, 14],
+      [4, 4],
+      [7, 7],
+      [10, 10],
+      [5, 5]
+    ];
+    treeMultimap.addMany(idAndValues);
+    expect(treeMultimap.root).toBeInstanceOf(TreeMultimapNode);
 
     if (treeMultimap.root) expect(treeMultimap.root.key == 11);
 
@@ -449,27 +492,26 @@ describe('TreeMultimap operations test recursively', () => {
   it('should perform various operations on a Binary Search Tree with object values', () => {
     const objTreeMultimap = new TreeMultimap<{ key: number; keyA: number }>();
     expect(objTreeMultimap).toBeInstanceOf(TreeMultimap);
-    objTreeMultimap.add(11, { key: 11, keyA: 11 });
-    objTreeMultimap.add(3, { key: 3, keyA: 3 });
-    const values = [
-      { key: 15, keyA: 15 },
-      { key: 1, keyA: 1 },
-      { key: 8, keyA: 8 },
-      { key: 13, keyA: 13 },
-      { key: 16, keyA: 16 },
-      { key: 2, keyA: 2 },
-      { key: 6, keyA: 6 },
-      { key: 9, keyA: 9 },
-      { key: 12, keyA: 12 },
-      { key: 14, keyA: 14 },
-      { key: 4, keyA: 4 },
-      { key: 7, keyA: 7 },
-      { key: 10, keyA: 10 },
-      { key: 5, keyA: 5 }
+    objTreeMultimap.add([11, { key: 11, keyA: 11 }]);
+    objTreeMultimap.add([3, { key: 3, keyA: 3 }]);
+    const values: [number, { key: number; keyA: number }][] = [
+      [15, { key: 15, keyA: 15 }],
+      [1, { key: 1, keyA: 1 }],
+      [8, { key: 8, keyA: 8 }],
+      [13, { key: 13, keyA: 13 }],
+      [16, { key: 16, keyA: 16 }],
+      [2, { key: 2, keyA: 2 }],
+      [6, { key: 6, keyA: 6 }],
+      [9, { key: 9, keyA: 9 }],
+      [12, { key: 12, keyA: 12 }],
+      [14, { key: 14, keyA: 14 }],
+      [4, { key: 4, keyA: 4 }],
+      [7, { key: 7, keyA: 7 }],
+      [10, { key: 10, keyA: 10 }],
+      [5, { key: 5, keyA: 5 }]
     ];
 
     objTreeMultimap.addMany(
-      values.map(item => item.key),
       values
     );
 

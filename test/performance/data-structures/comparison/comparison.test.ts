@@ -34,7 +34,7 @@ suite
   })
   .add(`MJS PQ ${TEN_THOUSAND.toLocaleString()} add`, () => {
 
-    const pq = new MJSPriorityQueue<number>([],{ comparator: (a, b) => b - a });
+    const pq = new MJSPriorityQueue<number>([], { comparator: (a, b) => b - a });
     for (let i = 0; i < TEN_THOUSAND; i++) pq.add(i);
   });
 
@@ -54,13 +54,13 @@ suite
     for (let i = 0; i < TEN_THOUSAND; i++) pq.pop();
   })
   .add(`CJS PQ ${TEN_THOUSAND.toLocaleString()} add & pop`, () => {
-    const pq = new CJSPriorityQueue<number>([],{ comparator: (a, b) => b - a });
+    const pq = new CJSPriorityQueue<number>([], { comparator: (a, b) => b - a });
 
     for (let i = 0; i < TEN_THOUSAND; i++) pq.add(i);
     for (let i = 0; i < TEN_THOUSAND; i++) pq.pop();
   })
   .add(`MJS PQ ${TEN_THOUSAND.toLocaleString()} add & pop`, () => {
-    const pq = new MJSPriorityQueue<number>([],{ comparator: (a, b) => b - a });
+    const pq = new MJSPriorityQueue<number>([], { comparator: (a, b) => b - a });
 
     for (let i = 0; i < TEN_THOUSAND; i++) pq.add(i);
     for (let i = 0; i < TEN_THOUSAND; i++) pq.pop();

@@ -510,9 +510,9 @@ describe('RedBlackTree iterative methods test', () => {
   let rbTree: RedBlackTree<string>;
   beforeEach(() => {
     rbTree = new RedBlackTree();
-    rbTree.add(1, 'a');
-    rbTree.add(2, 'b');
-    rbTree.add(3, 'c');
+    rbTree.add([1, 'a']);
+    rbTree.add([2, 'b']);
+    rbTree.add([3, 'c']);
   });
 
   test('The node obtained by get Node should match the node type', () => {

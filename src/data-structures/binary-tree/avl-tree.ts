@@ -11,10 +11,9 @@ import type {
   AVLTreeNodeNested,
   AVLTreeOptions,
   BiTreeDeleteResult,
-  BSTNKeyOrNode,
-  BTNExemplar,
-  BTNKey,
-  BTNKeyOrNode
+  BSTNodeKeyOrNode,
+  BTNodeExemplar,
+  BTNKey
 } from '../../types';
 import { BTNCallback } from '../../types';
 import { IBinaryTree } from '../../interfaces';
@@ -38,9 +37,9 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    * constructor of the AVLTree class. It allows you to customize the behavior of the AVL tree by providing different
    * options.
    */
-  constructor(elements?: Iterable<BTNExemplar<V, N>>, options?: Partial<AVLTreeOptions>) {
+  constructor(elements?: Iterable<BTNodeExemplar<V, N>>, options?: Partial<AVLTreeOptions>) {
     super([], options);
-    if (elements) this.init(elements);
+    if (elements) this.addMany(elements);
   }
 
   /**
@@ -75,9 +74,9 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    * added to the binary search tree.
    * @returns The method is returning either a node (N) or undefined.
    */
-  override add(keyOrNode: BTNKeyOrNode<N>, value?: V): N | undefined {
-    if (keyOrNode === null) return undefined;
-    const inserted = super.add(keyOrNode, value);
+  override add(keyOrNodeOrEntry: BTNodeExemplar<V, N>): N | undefined {
+    if (keyOrNodeOrEntry === null) return undefined;
+    const inserted = super.add(keyOrNodeOrEntry);
     if (inserted) this._balancePath(inserted);
     return inserted;
   }
@@ -116,23 +115,6 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
     return deletedResults;
   }
 
-  /**
-   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The delete method of the superclass (BST) has logarithmic time complexity.
-   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
-   */
-
-  init(elements: Iterable<BTNExemplar<V, N>>): void {
-    if (elements) {
-      for (const entryOrKey of elements) {
-        if (Array.isArray(entryOrKey)) {
-          const [key, value] = entryOrKey;
-          this.add(key, value);
-        } else {
-          this.add(entryOrKey);
-        }
-      }
-    }
-  }
 
   /**
    * The `_swap` function swaps the key, value, and height properties between two nodes in a binary
@@ -144,7 +126,7 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    * @returns either the `destNode` object if both `srcNode` and `destNode` are defined, or `undefined`
    * if either `srcNode` or `destNode` is undefined.
    */
-  protected override _swap(srcNode: BSTNKeyOrNode<N>, destNode: BSTNKeyOrNode<N>): N | undefined {
+  protected override _swap(srcNode: BSTNodeKeyOrNode<N>, destNode: BSTNodeKeyOrNode<N>): N | undefined {
     srcNode = this.ensureNotKey(srcNode);
     destNode = this.ensureNotKey(destNode);
 

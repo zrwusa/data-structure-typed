@@ -1,6 +1,5 @@
-import { BinaryTree, BinaryTreeNode, IterationType } from '../../../../src';
+import { BinaryTree, BinaryTreeNode, FamilyPosition, IterationType } from '../../../../src';
 import { getRandomIntArray } from '../../../utils';
-import { FamilyPosition } from 'binary-tree-typed';
 // import {isDebugTest} from '../../../config';
 
 // const isDebug = isDebugTest;
@@ -137,10 +136,10 @@ describe('BinaryTree', () => {
   });
 
   it('should add and find nodes', () => {
-    tree.add(1, 1);
+    tree.add([1, 1]);
     tree.add(undefined);
-    tree.add(2, 2);
-    tree.add(3, 3);
+    tree.add([2, 2]);
+    tree.add([3, 3]);
 
     expect(tree.has(1)).toBe(true);
     expect(tree.has(2)).toBe(true);
@@ -395,9 +394,9 @@ describe('BinaryTree', () => {
   });
 
   it('should add nodes to the tree', () => {
-    tree.add(5, 'A');
-    tree.add(3, 'B');
-    tree.add(7, 'C');
+    tree.add([5, 'A']);
+    tree.add([3, 'B']);
+    tree.add([7, 'C']);
 
     expect(tree.size).toBe(3);
     expect(tree.isEmpty()).toBe(false);
@@ -405,9 +404,9 @@ describe('BinaryTree', () => {
   });
 
   it('should clear the BinaryTree', () => {
-    tree.add(5, 'A');
-    tree.add(3, 'B');
-    tree.add(7, 'C');
+    tree.add([5, 'A']);
+    tree.add([3, 'B']);
+    tree.add([7, 'C']);
 
     tree.clear();
 
@@ -417,9 +416,9 @@ describe('BinaryTree', () => {
   });
 
   it('should get nodes by key', () => {
-    tree.add(5, 'A');
-    tree.add(3, 'B');
-    tree.add(7, 'C');
+    tree.add([5, 'A']);
+    tree.add([3, 'B']);
+    tree.add([7, 'C']);
 
     const nodeA = tree.getNode(5);
     const nodeB = tree.getNode(3);
@@ -431,7 +430,7 @@ describe('BinaryTree', () => {
   });
 
   it('should return null when getting a non-existent node', () => {
-    tree.add(5, 'A');
+    tree.add([5, 'A']);
 
     const node = tree.getNode(3);
 
@@ -439,18 +438,18 @@ describe('BinaryTree', () => {
   });
 
   it('should get the depth of a node', () => {
-    tree.add(5, 'A');
-    tree.add(3, 'B');
-    tree.add(7, 'C');
+    tree.add([5, 'A']);
+    tree.add([3, 'B']);
+    tree.add([7, 'C']);
 
     expect(tree.getDepth(7)).toBe(1);
     expect(tree.getDepth(3)).toBe(1);
   });
 
   it('should get the height of the tree', () => {
-    tree.add(5, 'A');
-    tree.add(3, 'B');
-    tree.add(7, 'C');
+    tree.add([5, 'A']);
+    tree.add([3, 'B']);
+    tree.add([7, 'C']);
 
     expect(tree.getHeight()).toBe(1);
     expect(tree.getHeight(undefined, IterationType.RECURSIVE)).toBe(1);
@@ -458,17 +457,17 @@ describe('BinaryTree', () => {
   });
 
   it('should check if the tree is a binary search tree', () => {
-    tree.add(5, 'A');
-    tree.add(3, 'B');
-    tree.add(7, 'C');
+    tree.add([5, 'A']);
+    tree.add([3, 'B']);
+    tree.add([7, 'C']);
 
     expect(tree.isBST()).toBe(true);
   });
 
   it('should perform a depth-first traversal', () => {
-    tree.add(5, 'A');
-    tree.add(3, 'B');
-    tree.add(7, 'C');
+    tree.add([5, 'A']);
+    tree.add([3, 'B']);
+    tree.add([7, 'C']);
 
     const result = tree.dfs();
     expect(result).toEqual([3, 5, 7]);
@@ -476,9 +475,9 @@ describe('BinaryTree', () => {
   });
 
   it('should perform a breadth-first traversal', () => {
-    tree.add(5, 'A');
-    tree.add(3, 'B');
-    tree.add(7, 'C');
+    tree.add([5, 'A']);
+    tree.add([3, 'B']);
+    tree.add([7, 'C']);
 
     const result = tree.bfs(node => node.key);
     expect(result).toEqual([5, 3, 7]);
@@ -486,9 +485,9 @@ describe('BinaryTree', () => {
   });
 
   it('should list levels of the tree', () => {
-    tree.add(5, 'A');
-    tree.add(3, 'B');
-    tree.add(7, 'C');
+    tree.add([5, 'A']);
+    tree.add([3, 'B']);
+    tree.add([7, 'C']);
 
     const levels = tree.listLevels();
     expect(levels).toEqual([[5], [3, 7]]);
@@ -496,9 +495,9 @@ describe('BinaryTree', () => {
   });
 
   it('should delete nodes from the tree', () => {
-    tree.add(5, 'A');
-    tree.add(3, 'B');
-    tree.add(7, 'C');
+    tree.add([5, 'A']);
+    tree.add([3, 'B']);
+    tree.add([7, 'C']);
 
     tree.delete(3);
 
@@ -507,17 +506,17 @@ describe('BinaryTree', () => {
   });
 
   it('should check if the tree is perfectly balanced', () => {
-    tree.add(5, 'A');
-    tree.add(3, 'B');
-    tree.add(7, 'C');
+    tree.add([5, 'A']);
+    tree.add([3, 'B']);
+    tree.add([7, 'C']);
 
     expect(tree.isPerfectlyBalanced()).toBe(true);
   });
 
   it('should get nodes by a custom callback', () => {
-    tree.add(5, 'A');
-    tree.add(3, 'B');
-    tree.add(7, 'C');
+    tree.add([5, 'A']);
+    tree.add([3, 'B']);
+    tree.add([7, 'C']);
 
     const nodes = tree.getNodes('B', (node: BinaryTreeNode<string>) => node.value);
 
@@ -537,9 +536,9 @@ describe('BinaryTree', () => {
   });
 
   it('should perform Morris traversal', () => {
-    tree.add(5, 'A');
-    tree.add(3, 'B');
-    tree.add(7, 'C');
+    tree.add([5, 'A']);
+    tree.add([3, 'B']);
+    tree.add([7, 'C']);
 
     tree.iterationType = IterationType.ITERATIVE;
     expect([...tree]).toEqual([[3, "B"], [5, "A"], [7, "C"]]);
@@ -553,9 +552,9 @@ describe('BinaryTree', () => {
   });
 
   it('should perform delete all', () => {
-    tree.add(5, 'A');
-    tree.add(3, 'B');
-    tree.add(7, 'C');
+    tree.add([5, 'A']);
+    tree.add([3, 'B']);
+    tree.add([7, 'C']);
 
     tree.delete(5);
     tree.delete(7);
@@ -570,9 +569,9 @@ describe('BinaryTree iterative methods test', () => {
   let binaryTree: BinaryTree<string>;
   beforeEach(() => {
     binaryTree = new BinaryTree();
-    binaryTree.add(1, 'a');
-    binaryTree.add(2, 'b');
-    binaryTree.add(3, 'c');
+    binaryTree.add([1, 'a']);
+    binaryTree.add([2, 'b']);
+    binaryTree.add([3, 'c']);
   });
 
   test('The node obtained by get Node should match the node type', () => {

@@ -5,7 +5,7 @@ describe('AVL Tree Test', () => {
     const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
     const tree = new AVLTree<number>();
 
-    for (const i of arr) tree.add(i, i);
+    for (const i of arr) tree.add([i, i]);
 
     tree.add(null);
     const node6 = tree.getNode(6);
@@ -114,7 +114,7 @@ describe('AVL Tree Test recursively', () => {
     const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
     const tree = new AVLTree<number>([], { iterationType: IterationType.RECURSIVE });
 
-    for (const i of arr) tree.add(i, i);
+    for (const i of arr) tree.add([i, i]);
 
     const node6 = tree.getNode(6);
 
@@ -230,7 +230,7 @@ describe('AVLTree APIs test', () => {
     avl.add(node2);
     const node3 = new AVLTreeNode(3, { id: 3, text: 'text3' });
     avl.add(node3);
-    avl.add(node3, { id: 3, text: 'text33' });
+    avl.add([3, { id: 3, text: 'text33' }]);
 
     const bfsRes = avl.bfs(node => node.key);
     expect(bfsRes[0]).toBe(2);
@@ -240,26 +240,26 @@ describe('AVLTree APIs test', () => {
 describe('AVLTree', () => {
   it('should balance the tree using _balanceLR when nodes are added', () => {
     const avlTree = new AVLTree();
-    avlTree.add(10, 'A');
-    avlTree.add(5, 'B');
-    avlTree.add(15, 'C');
-    avlTree.add(3, 'D');
-    avlTree.add(7, 'E');
+    avlTree.add([10, 'A']);
+    avlTree.add([5, 'B']);
+    avlTree.add([15, 'C']);
+    avlTree.add([3, 'D']);
+    avlTree.add([7, 'E']);
 
     // Adding nodes to trigger _balanceLR
-    avlTree.add(12, 'F');
+    avlTree.add([12, 'F']);
 
     // You can add more specific assertions to check the tree's balance and structure.
   });
 
   it('should balance the tree using _balanceLR when nodes are deleted', () => {
     const avlTree = new AVLTree();
-    avlTree.add(10, 'A');
-    avlTree.add(5, 'B');
-    avlTree.add(15, 'C');
-    avlTree.add(3, 'D');
-    avlTree.add(7, 'E');
-    avlTree.add(12, 'F');
+    avlTree.add([10, 'A']);
+    avlTree.add([5, 'B']);
+    avlTree.add([15, 'C']);
+    avlTree.add([3, 'D']);
+    avlTree.add([7, 'E']);
+    avlTree.add([12, 'F']);
 
     // Deleting nodes to trigger _balanceLR
     avlTree.delete(3);
@@ -279,7 +279,7 @@ describe('AVLTree', () => {
       avl.add(node2);
       const node3 = new AVLTreeNode(3, { id: 3, text: 'text3' });
       avl.add(node3);
-      avl.add(node3, { id: 3, text: 'text33' });
+      avl.add([3, { id: 3, text: 'text33' }]);
 
       const bfsRes = avl.bfs(node => node);
       expect(bfsRes[0]?.key).toBe(2);
@@ -291,9 +291,9 @@ describe('AVLTree iterative methods test', () => {
   let avl: AVLTree<string>;
   beforeEach(() => {
     avl = new AVLTree();
-    avl.add(1, 'a');
-    avl.add(2, 'b');
-    avl.add(3, 'c');
+    avl.add([1, 'a']);
+    avl.add([2, 'b']);
+    avl.add([3, 'c']);
   });
 
   test('The node obtained by get Node should match the node type', () => {

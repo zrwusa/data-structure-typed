@@ -7,14 +7,14 @@
  */
 import type {
   BSTNested,
-  BSTNKeyOrNode,
+  BSTNodeKeyOrNode,
   BSTNodeNested,
   BSTOptions,
   BTNCallback,
-  BTNExemplar,
+  BTNodeExemplar,
   BTNKey,
-  BTNKeyOrNode,
-  Comparator
+  Comparator,
+  BTNodePureExemplar
 } from '../../types';
 import { CP, IterationType } from '../../types';
 import { BinaryTree, BinaryTreeNode } from './binary-tree';
@@ -76,12 +76,8 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   extends BinaryTree<V, N, TREE>
   implements IBinaryTree<V, N, TREE> {
 
-  /**
-   * The constructor function initializes a binary search tree with an optional comparator function.
-   * @param {BSTOptions} [options] - An optional object that contains additional configuration options
-   * for the binary search tree.
-   */
-  constructor(elements?: Iterable<BTNExemplar<V, N>>, options?: Partial<BSTOptions>) {
+
+  constructor(elements?: Iterable<BTNodeExemplar<V, N>>, options?: Partial<BSTOptions>) {
     super([], options);
 
     if (options) {
@@ -92,7 +88,8 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     }
 
     this._root = undefined;
-    if (elements) this.init(elements);
+
+    if (elements) this.addMany(elements);
   }
 
   protected override _root?: N;
@@ -137,15 +134,23 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * @returns The method `add` returns a node (`N`) that was inserted into the binary search tree. If
    * no node was inserted, it returns `undefined`.
    */
-  override add(keyOrNode: BTNKeyOrNode<N>, value?: V): N | undefined {
-    if (keyOrNode === null) return undefined;
+  override add(keyOrNodeOrEntry: BTNodeExemplar<V, N>): N | undefined {
+    if (keyOrNodeOrEntry === null) return undefined;
     // TODO support node as a parameter
     let inserted: N | undefined;
     let newNode: N | undefined;
-    if (keyOrNode instanceof BSTNode) {
-      newNode = keyOrNode;
-    } else if (this.isNodeKey(keyOrNode)) {
-      newNode = this.createNode(keyOrNode, value);
+    if (keyOrNodeOrEntry instanceof BSTNode) {
+      newNode = keyOrNodeOrEntry;
+    } else if (this.isNodeKey(keyOrNodeOrEntry)) {
+      newNode = this.createNode(keyOrNodeOrEntry);
+    } else if (this.isEntry(keyOrNodeOrEntry)) {
+      const [key, value] = keyOrNodeOrEntry;
+      if (key === undefined || key === null) {
+        return;
+      } else {
+        newNode = this.createNode(key, value);
+
+      }
     } else {
       newNode = undefined;
     }
@@ -230,57 +235,55 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * @returns The function `addMany` returns an array of nodes (`N`) or `undefined` values.
    */
   override addMany(
-    keysOrNodes: (BSTNKeyOrNode<N>)[],
-    data?: (V | undefined)[],
+    keysOrNodesOrEntries: Iterable<BTNodeExemplar<V, N>>,
     isBalanceAdd = true,
     iterationType = this.iterationType
   ): (N | undefined)[] {
+    const inserted: (N | undefined)[] = []
+    if (!isBalanceAdd) {
+      for (const kve of keysOrNodesOrEntries) {
+        const nn = this.add(kve)
+        inserted.push(nn);
+      }
+      return inserted;
+    }
+    const realBTNExemplars: BTNodePureExemplar<V, N>[] = [];
+
+
+    const isRealBTNExemplar = (kve: BTNodeExemplar<V, N>): kve is BTNodePureExemplar<V, N> => {
+      if (kve === undefined || kve === null) return false;
+      return !(this.isEntry(kve) && (kve[0] === undefined || kve[0] === null));
+    }
+
+    for (const kve of keysOrNodesOrEntries) {
+      isRealBTNExemplar(kve) && realBTNExemplars.push(kve);
+    }
+
     // TODO this addMany function is inefficient, it should be optimized
-    function hasNoUndefined(arr: (BSTNKeyOrNode<N>)[]): arr is (BTNKey | N)[] {
-      return arr.indexOf(undefined) === -1;
-    }
+    let sorted: BTNodePureExemplar<V, N>[] = [];
 
-    if (!isBalanceAdd || !hasNoUndefined(keysOrNodes)) {
-      return super.addMany(keysOrNodes, data).map(n => n ?? undefined);
-    }
+    sorted = realBTNExemplars.sort((a, b) => {
+      let aR: number, bR: number;
+      if (this.isEntry(a)) aR = a[0]
+      else if (this.isRealNode(a)) aR = a.key
+      else aR = a;
 
-    const inserted: (N | undefined)[] = [];
-    const combinedArr: [BTNKey | N, V][] = keysOrNodes.map(
-      (value: BTNKey | N, index) => [value, data?.[index]] as [BTNKey | N, V]
-    );
+      if (this.isEntry(b)) bR = b[0]
+      else if (this.isRealNode(b)) bR = b.key
+      else bR = b;
 
-    let sorted = [];
+      return aR - bR;
+    })
 
-    function _isNodeOrUndefinedTuple(arr: [BTNKey | N, V][]): arr is [N, V][] {
-      for (const [keyOrNode] of arr) if (keyOrNode instanceof BSTNode) return true;
-      return false;
-    }
 
-    const _isBinaryTreeKeyOrNullTuple = (arr: [BTNKey | N, V][]): arr is [BTNKey, V][] => {
-      for (const [keyOrNode] of arr) if (this.isNodeKey(keyOrNode)) return true;
-      return false;
-    };
-
-    let sortedKeysOrNodes: (number | N | undefined)[] = [],
-      sortedData: (V | undefined)[] | undefined = [];
-
-    if (_isNodeOrUndefinedTuple(combinedArr)) {
-      sorted = combinedArr.sort((a, b) => a[0].key - b[0].key);
-    } else if (_isBinaryTreeKeyOrNullTuple(combinedArr)) {
-      sorted = combinedArr.sort((a, b) => a[0] - b[0]);
-    } else {
-      throw new Error('Invalid input keysOrNodes');
-    }
-    sortedKeysOrNodes = sorted.map(([keyOrNode]) => keyOrNode);
-    sortedData = sorted.map(([, value]) => value);
-    const _dfs = (arr: (BSTNKeyOrNode<N>)[], data?: (V | undefined)[]) => {
+    const _dfs = (arr: BTNodePureExemplar<V, N>[]) => {
       if (arr.length === 0) return;
 
       const mid = Math.floor((arr.length - 1) / 2);
-      const newNode = this.add(arr[mid], data?.[mid]);
+      const newNode = this.add(arr[mid]);
       inserted.push(newNode);
-      _dfs(arr.slice(0, mid), data?.slice(0, mid));
-      _dfs(arr.slice(mid + 1), data?.slice(mid + 1));
+      _dfs(arr.slice(0, mid));
+      _dfs(arr.slice(mid + 1));
     };
     const _iterate = () => {
       const n = sorted.length;
@@ -291,7 +294,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
           const [l, r] = popped;
           if (l <= r) {
             const m = l + Math.floor((r - l) / 2);
-            const newNode = this.add(sortedKeysOrNodes[m], sortedData?.[m]);
+            const newNode = this.add(realBTNExemplars[m]);
             inserted.push(newNode);
             stack.push([m + 1, r]);
             stack.push([l, m - 1]);
@@ -300,7 +303,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
       }
     };
     if (iterationType === IterationType.RECURSIVE) {
-      _dfs(sortedKeysOrNodes, sortedData);
+      _dfs(sorted);
     } else {
       _iterate();
     }
@@ -328,7 +331,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * the key of the leftmost node if the comparison result is greater than, and the key of the
    * rightmost node otherwise. If no node is found, it returns 0.
    */
-  lastKey(beginRoot: BSTNKeyOrNode<N> = this.root, iterationType = this.iterationType): BTNKey {
+  lastKey(beginRoot: BSTNodeKeyOrNode<N> = this.root, iterationType = this.iterationType): BTNKey {
     if (this._compare(0, 1) === CP.lt) return this.getRightMost(beginRoot, iterationType)?.key ?? 0;
     else if (this._compare(0, 1) === CP.gt) return this.getLeftMost(beginRoot, iterationType)?.key ?? 0;
     else return this.getRightMost(beginRoot, iterationType)?.key ?? 0;
@@ -392,7 +395,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * type of iteration to be performed. It has a default value of `IterationType.ITERATIVE`.
    * @returns either a node object (N) or undefined.
    */
-  override ensureNotKey(key: BSTNKeyOrNode<N>, iterationType = IterationType.ITERATIVE): N | undefined {
+  override ensureNotKey(key: BSTNodeKeyOrNode<N>, iterationType = IterationType.ITERATIVE): N | undefined {
     return this.isNodeKey(key) ? this.getNodeByKey(key, iterationType) : key;
   }
 
@@ -423,7 +426,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     identifier: ReturnType<C> | undefined,
     callback: C = this._defaultOneParamCallback as C,
     onlyOne = false,
-    beginRoot: BSTNKeyOrNode<N> = this.root,
+    beginRoot: BSTNodeKeyOrNode<N> = this.root,
     iterationType = this.iterationType
   ): N[] {
     beginRoot = this.ensureNotKey(beginRoot);
@@ -504,7 +507,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   lesserOrGreaterTraverse<C extends BTNCallback<N>>(
     callback: C = this._defaultOneParamCallback as C,
     lesserOrGreater: CP = CP.lt,
-    targetNode: BSTNKeyOrNode<N> = this.root,
+    targetNode: BSTNodeKeyOrNode<N> = this.root,
     iterationType = this.iterationType
   ): ReturnType<C>[] {
     targetNode = this.ensureNotKey(targetNode);
@@ -569,7 +572,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
         if (l > r) return;
         const m = l + Math.floor((r - l) / 2);
         const midNode = sorted[m];
-        this.add(midNode.key, midNode.value);
+        this.add([midNode.key, midNode.value]);
         buildBalanceBST(l, m - 1);
         buildBalanceBST(m + 1, r);
       };
@@ -586,7 +589,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
             const m = l + Math.floor((r - l) / 2);
             const midNode = sorted[m];
             debugger;
-            this.add(midNode.key, midNode.value);
+            this.add([midNode.key, midNode.value]);
             stack.push([m + 1, r]);
             stack.push([l, m - 1]);
           }
@@ -664,23 +667,6 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     return balanced;
   }
 
-  /**
-   * Time Complexity: O(n) - Visiting each node once.
-   * Space Complexity: O(log n) - Space for the recursive call stack in the worst case.
-   */
-
-  override init(elements: Iterable<BTNExemplar<V, N>>): void {
-    if (elements) {
-      for (const entryOrKey of elements) {
-        if (Array.isArray(entryOrKey)) {
-          const [key, value] = entryOrKey;
-          this.add(key, value);
-        } else {
-          this.add(entryOrKey);
-        }
-      }
-    }
-  }
 
   protected _setRoot(v: N | undefined) {
     if (v) {
