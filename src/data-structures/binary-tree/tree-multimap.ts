@@ -46,12 +46,6 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
   extends AVLTree<V, N, TREE>
   implements IBinaryTree<V, N, TREE> {
 
-  /**
-   * The constructor function for a TreeMultimap class in TypeScript, which extends another class and sets an option to
-   * merge duplicated values.
-   * @param {TreeMultimapOptions} [options] - An optional object that contains additional configuration options for the
-   * TreeMultimap.
-   */
   constructor(elements?: Iterable<BTNodeExemplar<V, N>>, options?: Partial<TreeMultimapOptions>) {
     super([], options);
     if (elements) this.addMany(elements);
@@ -89,16 +83,19 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
   /**
    * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (AVLTree) has logarithmic time complexity.
    * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
+   */
+
+  /**
+   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (AVLTree) has logarithmic time complexity.
+   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
    *
-   * The `add` function adds a new node to the tree multimap, updating the count if the key already
-   * exists, and balances the tree if necessary.
-   * @param {BTNKey | N | null | undefined} keyOrNode - The `keyOrNode` parameter can be one of the
-   * following types:
-   * @param {V} [value] - The `value` parameter represents the value associated with the key that is
-   * being added to the tree. It is an optional parameter, so it can be omitted if not needed.
+   * The `add` function overrides the base class `add` function to add a new node to the tree multimap
+   * and update the count.
+   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter can be one of the following:
    * @param [count=1] - The `count` parameter is an optional parameter that specifies the number of
-   * times the key-value pair should be added to the multimap. If not provided, the default value is 1.
-   * @returns a node (`N`) or `undefined`.
+   * times the key or node or entry should be added to the multimap. If not provided, the default value
+   * is 1.
+   * @returns either a node (`N`) or `undefined`.
    */
   override add(keyOrNodeOrEntry: BTNodeExemplar<V, N>, count = 1): N | undefined {
     let newNode: N | undefined;
@@ -127,22 +124,19 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
   }
 
   /**
-   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (AVLTree) has logarithmic time complexity.
+   * Time Complexity: O(k log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (AVLTree) has logarithmic time complexity.
    * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
    */
 
   /**
-   * Time Complexity: O(k log n) - logarithmic time for each insertion, where "n" is the number of nodes in the tree, and "k" is the number of keys to be inserted. This is because the method iterates through the keys and calls the add method for each.
+   * Time Complexity: O(k log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (AVLTree) has logarithmic time complexity.
    * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
    *
-   * The function `addMany` takes an array of keys or nodes and adds them to the TreeMultimap,
-   * returning an array of the inserted nodes.
-   * @param {(BTNKey | N | undefined)[]} keysOrNodes - An array of keys or nodes. Each element can be
-   * of type BTNKey, N, or undefined.
-   * @param {V[]} [data] - The `data` parameter is an optional array of values that correspond to the
-   * keys or nodes being added. It is used to associate data with each key or node being added to the
-   * TreeMultimap. If provided, the length of the `data` array should be the same as the length of the
-   * @returns The function `addMany` returns an array of nodes (`N`) or `undefined` values.
+   * The function overrides the addMany method to add multiple keys, nodes, or entries to a data
+   * structure.
+   * @param keysOrNodesOrEntries - The parameter `keysOrNodesOrEntries` is an iterable that can contain
+   * either keys, nodes, or entries.
+   * @returns The method is returning an array of type `N | undefined`.
    */
   override addMany(keysOrNodesOrEntries: Iterable<BTNodeExemplar<V, N>>): (N | undefined)[] {
     return super.addMany(keysOrNodesOrEntries);

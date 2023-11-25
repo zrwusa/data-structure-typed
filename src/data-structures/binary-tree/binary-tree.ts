@@ -34,26 +34,12 @@ import { Queue } from '../queue';
  * @template N - The type of the family relationship in the binary tree.
  */
 export class BinaryTreeNode<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode<V, BinaryTreeNodeNested<V>>> {
-  /**
-   * The key associated with the node.
-   */
   key: BTNKey;
 
-  /**
-   * The value stored in the node.
-   */
   value?: V;
 
-  /**
-   * The parent node of the current node.
-   */
   parent?: N;
 
-  /**
-   * Creates a new instance of BinaryTreeNode.
-   * @param {BTNKey} key - The key associated with the node.
-   * @param {V} value - The value stored in the node.
-   */
   constructor(key: BTNKey, value?: V) {
     this.key = key;
     this.value = value;
@@ -61,17 +47,10 @@ export class BinaryTreeNode<V = any, N extends BinaryTreeNode<V, N> = BinaryTree
 
   protected _left?: N | null;
 
-  /**
-   * Get the left child node.
-   */
   get left(): N | null | undefined {
     return this._left;
   }
 
-  /**
-   * Set the left child node.
-   * @param {N | null | undefined} v - The left child node.
-   */
   set left(v: N | null | undefined) {
     if (v) {
       v.parent = this as unknown as N;
@@ -81,17 +60,10 @@ export class BinaryTreeNode<V = any, N extends BinaryTreeNode<V, N> = BinaryTree
 
   protected _right?: N | null;
 
-  /**
-   * Get the right child node.
-   */
   get right(): N | null | undefined {
     return this._right;
   }
 
-  /**
-   * Set the right child node.
-   * @param {N | null | undefined} v - The right child node.
-   */
   set right(v: N | null | undefined) {
     if (v) {
       v.parent = this as unknown as N;
@@ -120,8 +92,15 @@ export class BinaryTreeNode<V = any, N extends BinaryTreeNode<V, N> = BinaryTree
 }
 
 /**
- * Represents a binary tree data structure.
- * @template N - The type of the binary tree's nodes.
+ * 1. Two Children Maximum: Each node has at most two children.
+ * 2. Left and Right Children: Nodes have distinct left and right children.
+ * 3. Depth and Height: Depth is the number of edges from the root to a node; height is the maximum depth in the tree.
+ * 4. Subtrees: Each child of a node forms the root of a subtree.
+ * 5. Leaf Nodes: Nodes without children are leaves.
+ * 6. Internal Nodes: Nodes with at least one child are internal.
+ * 7. Balanced Trees: The heights of the left and right subtrees of any node differ by no more than one.
+ * 8. Full Trees: Every node has either 0 or 2 children.
+ * 9. Complete Trees: All levels are fully filled except possibly the last, filled from left to right.
  */
 export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode<V, BinaryTreeNodeNested<V>>, TREE extends BinaryTree<V, N, TREE> = BinaryTree<V, N, BinaryTreeNested<V, N>>>
   implements IBinaryTree<V, N, TREE> {
@@ -129,8 +108,13 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   iterationType = IterationType.ITERATIVE
 
   /**
-   * Creates a new instance of BinaryTree.
-   * @param {BinaryTreeOptions} [options] - The options for the binary tree.
+   * The constructor function initializes a binary tree object with optional elements and options.
+   * @param [elements] - An optional iterable of BTNodeExemplar objects. These objects represent the
+   * elements to be added to the binary tree.
+   * @param [options] - The `options` parameter is an optional object that can contain additional
+   * configuration options for the binary tree. In this case, it is of type
+   * `Partial<BinaryTreeOptions>`, which means that not all properties of `BinaryTreeOptions` are
+   * required.
    */
   constructor(elements?: Iterable<BTNodeExemplar<V, N>>, options?: Partial<BinaryTreeOptions>) {
 
@@ -148,18 +132,12 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
 
   protected _root?: N | null;
 
-  /**
-   * Get the root node of the binary tree.
-   */
   get root(): N | null | undefined {
     return this._root;
   }
 
   protected _size: number;
 
-  /**
-   * Get the number of nodes in the binary tree.
-   */
   get size(): number {
     return this._size;
   }
@@ -174,28 +152,44 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     return new BinaryTreeNode<V, N>(key, value) as N;
   }
 
+  /**
+   * The function creates a binary tree with the given options.
+   * @param [options] - The `options` parameter is an optional object that allows you to customize the
+   * behavior of the `BinaryTree` class. It is of type `Partial<BinaryTreeOptions>`, which means that
+   * you can provide only a subset of the properties defined in the `BinaryTreeOptions` interface.
+   * @returns a new instance of a binary tree.
+   */
   createTree(options?: Partial<BinaryTreeOptions>): TREE {
     return new BinaryTree<V, N, TREE>([], { iterationType: this.iterationType, ...options }) as TREE;
   }
 
+  /**
+   * The function checks if a given value is an entry in a binary tree node.
+   * @param kne - BTNodeExemplar<V, N> - A generic type representing a node in a binary tree. It has
+   * two type parameters V and N, representing the value and node type respectively.
+   * @returns a boolean value.
+   */
   isEntry(kne: BTNodeExemplar<V, N>): kne is BTNodeEntry<V> {
     return Array.isArray(kne) && kne.length === 2;
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
+   * Time Complexity O(log n) - O(n)
+   * Space Complexity O(1)
+   */
+
+  /**
+   * Time Complexity O(log n) - O(n)
+   * Space Complexity O(1)
    *
-   * The `add` function adds a new node with a key and value to a binary tree, or updates the value of
-   * an existing node with the same key.
-   * @param {BTNKey | N | null | undefined} keyOrNode - The `keyOrNode` parameter can be one of the
-   * following types:
-   * @param {V} [value] - The value to be associated with the key or node being added to the binary
-   * tree.
-   * @returns The function `add` returns a node (`N`) if it was successfully inserted into the binary
-   * tree, or `null` or `undefined` if the insertion was not successful.
+   * The `add` function adds a new node to a binary tree, either by key or by providing a node object.
+   * @param keyOrNodeOrEntry - The parameter `keyOrNodeOrEntry` can be one of the following:
+   * @returns The function `add` returns the inserted node (`N`), `null`, or `undefined`.
    */
   add(keyOrNodeOrEntry: BTNodeExemplar<V, N>): N | null | undefined {
+
+    let inserted: N | null | undefined, needInsert: N | null | undefined;
+
     const _bfs = (root: N, newNode: N | null): N | undefined | null => {
       const queue = new Queue<N>([root]);
       while (queue.size > 0) {
@@ -210,8 +204,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
         if (cur.right) queue.push(cur.right);
       }
     };
-
-    let inserted: N | null | undefined, needInsert: N | null | undefined;
 
     if (keyOrNodeOrEntry === null) {
       needInsert = null;
@@ -247,24 +239,22 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   }
 
   /**
-   * Time Complexity: O(n)
+   * Time Complexity: O(k log n) - O(k * n)
    * Space Complexity: O(1)
    * Comments: The time complexity for adding a node depends on the depth of the tree. In the best case (when the tree is empty), it's O(1). In the worst case (when the tree is a degenerate tree), it's O(n). The space complexity is constant.
    */
 
+
   /**
-   * Time Complexity: O(k * n)  "n" is the number of nodes in the tree, and "k" is the number of keys to be inserted.
+   * Time Complexity: O(k log n) - O(k * n)
    * Space Complexity: O(1)
    *
-   * The `addMany` function takes an array of keys or nodes and an optional array of values, and adds
-   * each key-value pair to a data structure.
-   * @param {(BTNKey | N |null | undefined)[]} keysOrNodes - An array of keys or nodes to be added to
-   * the binary search tree. Each element can be of type `BTNKey` (a key value), `N` (a node), `null`,
-   * or `undefined`.
-   * @param {(V | undefined)[]} [values] - The `values` parameter is an optional array of values that
-   * correspond to the keys or nodes being added. If provided, the values will be associated with the
-   * keys or nodes during the add operation.
-   * @returns The function `addMany` returns an array of `N`, `null`, or `undefined` values.
+   * The function `addMany` takes in an iterable of `BTNodeExemplar` objects, adds each object to the
+   * current instance, and returns an array of the inserted nodes.
+   * @param nodes - The `nodes` parameter is an iterable (such as an array or a set) of
+   * `BTNodeExemplar<V, N>` objects.
+   * @returns The function `addMany` returns an array of values, where each value is either of type
+   * `N`, `null`, or `undefined`.
    */
   addMany(nodes: Iterable<BTNodeExemplar<V, N>>): (N | null | undefined)[] {
     // TODO not sure addMany not be run multi times
@@ -284,13 +274,9 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * Time Complexity: O(k * n)  "n" is the number of nodes in the tree, and "k" is the number of keys to be inserted.
    * Space Complexity: O(1)
    *
-   * The `refill` function clears the binary tree and adds multiple nodes with the given IDs or nodes and optional data.
-   * @param {(BTNKey | N)[]} keysOrNodes - The `keysOrNodes` parameter is an array that can contain either
-   * `BTNKey` or `N` values.
-   * @param {N[] | Array<V>} [values] - The `data` parameter is an optional array of values that will be assigned to
-   * the nodes being added. If provided, the length of the `data` array should be equal to the length of the `keysOrNodes`
-   * array. Each value in the `data` array will be assigned to the
-   * @returns The method is returning a boolean value.
+   * The `refill` function clears the current collection and adds new nodes, keys, or entries to it.
+   * @param nodesOrKeysOrEntries - The parameter `nodesOrKeysOrEntries` is an iterable object that can
+   * contain either `BTNodeExemplar` objects, keys, or entries.
    */
   refill(nodesOrKeysOrEntries: Iterable<BTNodeExemplar<V, N>>): void {
     this.clear();
@@ -1939,6 +1925,14 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     return undefined;
   }
 
+  /**
+   * The function replaces an old node with a new node in a binary tree.
+   * @param {N} oldNode - The oldNode parameter represents the node that needs to be replaced in the
+   * tree.
+   * @param {N} newNode - The `newNode` parameter is the node that will replace the `oldNode` in the
+   * tree.
+   * @returns The method is returning the newNode.
+   */
   protected _replaceNode(oldNode: N, newNode: N): N {
     if (oldNode.parent) {
       if (oldNode.parent.left === oldNode) {

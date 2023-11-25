@@ -4,6 +4,8 @@ import {
   BST,
   Deque,
   DoublyLinkedList,
+  HashMap,
+  Heap,
   MaxHeap,
   MaxPriorityQueue,
   MinHeap,
@@ -12,12 +14,25 @@ import {
   RedBlackTree,
   SinglyLinkedList,
   Stack,
-  TreeMultimap
+  TreeMultimap,
+  Trie
 } from '../../src';
 import { isDebugTest } from "../config";
 
 const isDebug = isDebugTest;
 const orgArr: number[] = [6, 1, 2, 7, 5, 3, 4, 9, 8];
+const orgStrArr: string[] = [
+  "trie",
+  "trial",
+  "trick",
+  "trip",
+  "tree",
+  "trend",
+  "triangle",
+  "track",
+  "trace",
+  "transmit"
+];
 const entries: [number, number][] = [[6, 6], [1, 1], [2, 2], [7, 7], [5, 5], [3, 3], [4, 4], [9, 9], [8, 8]];
 
 describe('conversions', () => {
@@ -72,28 +87,69 @@ describe('conversions', () => {
   })
 
   it('Entry Array to BST', () => {
-    const bst = new BST<number>(orgArr);
+    const bst = new BST<number>(entries);
     expect(bst.size).toBe(9)
     isDebug && bst.print();
   })
 
   it('Entry Array to RedBlackTree', () => {
-    const rbTree = new RedBlackTree<number>(orgArr);
+    const rbTree = new RedBlackTree<number>(entries);
     expect(rbTree.size).toBe(9)
     isDebug && rbTree.print();
   })
 
   it('Entry Array to AVLTree', () => {
-    const avl = new AVLTree<number>(orgArr);
+    const avl = new AVLTree<number>(entries);
     expect(avl.size).toBe(9)
     isDebug && avl.print();
   })
 
   it('Entry Array to TreeMultimap', () => {
-    const treeMulti = new TreeMultimap<number>(orgArr);
+    const treeMulti = new TreeMultimap<number>(entries);
     expect(treeMulti.size).toBe(9)
     isDebug && treeMulti.print();
   })
+
+  it('HashMap to RedBlackTree', () => {
+    const hm = new HashMap(entries);
+    isDebug && hm.print()
+    const rbTree = new RedBlackTree<number>(hm);
+    expect(rbTree.size).toBe(9)
+    isDebug && rbTree.print();
+  })
+
+  it('PriorityQueue to BST', () => {
+    const pq = new MinPriorityQueue(orgArr);
+    isDebug && pq.print();
+    const bst = new BST<number>(pq);
+    expect(bst.size).toBe(9)
+    isDebug && bst.print();
+  })
+
+  it('Deque to RedBlackTree', () => {
+    const dq = new Deque(orgArr);
+    isDebug && dq.print();
+    const rbTree = new RedBlackTree<number>(dq);
+    expect(rbTree.size).toBe(9)
+    isDebug && rbTree.print();
+  })
+
+  it('Trie to Heap to Deque', () => {
+    const trie = new Trie(orgStrArr);
+    expect(trie.size).toBe(10);
+    isDebug && trie.print();
+    const heap = new Heap<string>(trie, { comparator: (a, b) => Number(a) - Number(b) });
+    expect(heap.size).toBe(10);
+    isDebug && heap.print();
+    const dq = new Deque<string>(heap);
+    expect(dq.size).toBe(10);
+    isDebug && dq.print();
+    const entries = dq.map((el, i) => <[number, string]>[i, el]);
+    const avl = new AVLTree<string>(entries);
+    expect(avl.size).toBe(10)
+    isDebug && avl.print();
+  })
+
 })
 
 

@@ -19,20 +19,16 @@ export class HashMap<K = any, V = any> {
   protected _hashFn: (key: K) => string;
   protected _objHashFn: (key: K) => object;
 
-  /**
-   * The constructor initializes a HashMapLinkedNode with an optional iterable of key-value pairs.
-   * @param options - The `options` parameter is an object that contains the `elements` property. The
-   * `elements` property is an iterable that contains key-value pairs represented as arrays `[K, V]`.
-   */
-  constructor(options: HashMapOptions<K, V> = {
-    elements: [],
+
+  constructor(elements?: Iterable<[K, V]>, options: HashMapOptions<K, V> = {
+
     hashFn: (key: K) => String(key),
     objHashFn: (key: K) => (<object>key)
   }) {
     this._sentinel = <HashMapLinkedNode<K, V>>{};
     this._sentinel.prev = this._sentinel.next = this._head = this._tail = this._sentinel;
 
-    const { elements, hashFn, objHashFn } = options;
+    const { hashFn, objHashFn } = options;
     this._hashFn = hashFn;
     this._objHashFn = objHashFn;
     if (elements) {
@@ -377,6 +373,10 @@ export class HashMap<K = any, V = any> {
       yield <[K, V]>[node.key, node.value];
       node = node.next;
     }
+  }
+
+  print() {
+    console.log([...this]);
   }
 
   /**

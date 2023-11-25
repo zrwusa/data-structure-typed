@@ -27,15 +27,28 @@ export class AVLTreeNode<V = any, N extends AVLTreeNode<V, N> = AVLTreeNodeNeste
   }
 }
 
+/**
+ * 1. Height-Balanced: Each node's left and right subtrees differ in height by no more than one.
+ * 2. Automatic Rebalancing: AVL trees rebalance themselves automatically during insertions and deletions.
+ * 3. Rotations for Balancing: Utilizes rotations (single or double) to maintain balance after updates.
+ * 4. Order Preservation: Maintains the binary search tree property where left child values are less than the parent, and right child values are greater.
+ * 5. Efficient Lookups: Offers O(log n) search time, where 'n' is the number of nodes, due to its balanced nature.
+ * 6. Complex Insertions and Deletions: Due to rebalancing, these operations are more complex than in a regular BST.
+ * 7. Path Length: The path length from the root to any leaf is longer compared to an unbalanced BST, but shorter than a linear chain of nodes.
+ * 8. Memory Overhead: Stores balance factors (or heights) at each node, leading to slightly higher memory usage compared to a regular BST.
+ */
 export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTreeNodeNested<V>>, TREE extends AVLTree<V, N, TREE> = AVLTree<V, N, AVLTreeNested<V, N>>>
   extends BST<V, N, TREE>
   implements IBinaryTree<V, N, TREE> {
 
   /**
-   * This is a constructor function for an AVL tree data structure in TypeScript.
-   * @param {AVLTreeOptions} [options] - The `options` parameter is an optional object that can be passed to the
-   * constructor of the AVLTree class. It allows you to customize the behavior of the AVL tree by providing different
-   * options.
+   * The constructor function initializes an AVLTree object with optional elements and options.
+   * @param [elements] - The `elements` parameter is an optional iterable of `BTNodeExemplar<V, N>`
+   * objects. It represents a collection of elements that will be added to the AVL tree during
+   * initialization.
+   * @param [options] - The `options` parameter is an optional object that allows you to customize the
+   * behavior of the AVL tree. It is of type `Partial<AVLTreeOptions>`, which means that you can
+   * provide only a subset of the properties defined in the `AVLTreeOptions` interface.
    */
   constructor(elements?: Iterable<BTNodeExemplar<V, N>>, options?: Partial<AVLTreeOptions>) {
     super([], options);
@@ -55,6 +68,13 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
     return new AVLTreeNode<V, N>(key, value) as N;
   }
 
+  /**
+   * The function creates a new AVL tree with the specified options and returns it.
+   * @param {AVLTreeOptions} [options] - The `options` parameter is an optional object that can be
+   * passed to the `createTree` function. It is used to customize the behavior of the AVL tree that is
+   * being created.
+   * @returns a new AVLTree object.
+   */
   override createTree(options?: AVLTreeOptions): TREE {
     return new AVLTree<V, N, TREE>([], {
       iterationType: this.iterationType,
@@ -65,14 +85,17 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
   /**
    * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (BST) has logarithmic time complexity.
    * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
+   */
+
+  /**
+   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (BST) has logarithmic time complexity.
+   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
    *
-   * The function overrides the add method of a class, adds a key-value pair to a data structure, and
-   * balances the structure if necessary.
-   * @param {BTNKey | N | null | undefined} keyOrNode - The `keyOrNode` parameter can be of type
-   * `BTNKey`, `N`, `null`, or `undefined`.
-   * @param {V} [value] - The `value` parameter is the value associated with the key that is being
-   * added to the binary search tree.
-   * @returns The method is returning either a node (N) or undefined.
+   * The function overrides the add method of a binary tree node and balances the tree after inserting
+   * a new node.
+   * @param keyOrNodeOrEntry - The parameter `keyOrNodeOrEntry` can be either a key, a node, or an
+   * entry.
+   * @returns The method is returning either the inserted node or `undefined`.
    */
   override add(keyOrNodeOrEntry: BTNodeExemplar<V, N>): N | undefined {
     if (keyOrNodeOrEntry === null) return undefined;

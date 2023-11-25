@@ -46,11 +46,16 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
   implements IBinaryTree<V, N, TREE> {
   Sentinel: N = new RedBlackTreeNode<V>(NaN) as unknown as N;
 
-
   /**
-   * The constructor function initializes a Red-Black Tree with an optional set of options.
-   * @param {RBTreeOptions} [options] - The `options` parameter is an optional object that can be
-   * passed to the constructor. It is used to configure the RBTree object with specific options.
+   * This is the constructor function for a Red-Black Tree data structure in TypeScript, which
+   * initializes the tree with optional elements and options.
+   * @param [elements] - The `elements` parameter is an optional iterable of `BTNodeExemplar<V, N>`
+   * objects. It represents the initial elements that will be added to the RBTree during its
+   * construction. If this parameter is provided, the `addMany` method is called to add all the
+   * elements to the
+   * @param [options] - The `options` parameter is an optional object that allows you to customize the
+   * behavior of the RBTree. It is of type `Partial<RBTreeOptions>`, which means that you can provide
+   * only a subset of the properties defined in the `RBTreeOptions` interface.
    */
   constructor(elements?: Iterable<BTNodeExemplar<V, N>>, options?: Partial<RBTreeOptions>) {
     super([], options);
@@ -71,10 +76,29 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
     return this._size;
   }
 
+  /**
+   * The function creates a new Red-Black Tree node with the specified key, value, and color.
+   * @param {BTNKey} key - The key parameter is the key value associated with the node. It is used to
+   * identify and compare nodes in the Red-Black Tree.
+   * @param {V} [value] - The `value` parameter is an optional parameter that represents the value
+   * associated with the node. It is of type `V`, which is a generic type that can be replaced with any
+   * specific type when using the `createNode` method.
+   * @param {RBTNColor} color - The "color" parameter is used to specify the color of the node in a
+   * Red-Black Tree. It can be either "RED" or "BLACK". By default, the color is set to "BLACK".
+   * @returns The method is returning a new instance of a RedBlackTreeNode with the specified key,
+   * value, and color.
+   */
   override createNode(key: BTNKey, value?: V, color: RBTNColor = RBTNColor.BLACK): N {
     return new RedBlackTreeNode<V, N>(key, value, color) as N;
   }
 
+  /**
+   * The function creates a Red-Black Tree with the specified options and returns it.
+   * @param {RBTreeOptions} [options] - The `options` parameter is an optional object that can be
+   * passed to the `createTree` function. It is used to customize the behavior of the `RedBlackTree`
+   * class.
+   * @returns a new instance of a RedBlackTree object.
+   */
   override createTree(options?: RBTreeOptions): TREE {
     return new RedBlackTree<V, N, TREE>([], {
       iterationType: this.iterationType,
@@ -85,13 +109,14 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
   /**
    * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
    * Space Complexity: O(1)
-   *
-   * The `add` function adds a new node to a Red-Black Tree data structure.
-   * @param {BTNKey | N | null | undefined} keyOrNode - The `keyOrNode` parameter can be one of the
-   * following types:
-   * @param {V} [value] - The `value` parameter is an optional value that can be associated with the
-   * key in the node being added to the Red-Black Tree.
-   * @returns The method returns either a node (`N`) or `undefined`.
+   */
+
+
+  /**
+   * The function adds a node to a Red-Black Tree data structure.
+   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter can be one of the following:
+   * @returns The method `add` returns either an instance of `N` (the node that was added) or
+   * `undefined`.
    */
   override add(keyOrNodeOrEntry: BTNodeExemplar<V, N>): N | undefined {
     let node: N;
@@ -269,6 +294,11 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
     beginRoot?: N | undefined,
     iterationType?: IterationType
   ): N | undefined;
+
+  /**
+   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
+   * Space Complexity: O(1)
+   */
 
   /**
    * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
@@ -593,6 +623,15 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
     this.root.color = RBTNColor.BLACK;
   }
 
+  /**
+   * The function replaces an old node with a new node while preserving the color of the old node.
+   * @param {N} oldNode - The `oldNode` parameter represents the node that needs to be replaced in a
+   * data structure. It is of type `N`, which is the type of the nodes in the data structure.
+   * @param {N} newNode - The `newNode` parameter is the node that will replace the `oldNode` in the
+   * data structure.
+   * @returns The method is returning the result of calling the `_replaceNode` method from the
+   * superclass, passing in the `oldNode` and `newNode` as arguments.
+   */
   protected _replaceNode(oldNode: N, newNode: N): N {
     newNode.color = oldNode.color;
 

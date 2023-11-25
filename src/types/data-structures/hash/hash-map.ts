@@ -6,7 +6,6 @@ export type HashMapLinkedNode<K, V> = {
 };
 
 export type HashMapOptions<K, V> = {
-  elements: Iterable<[K, V]>;
   hashFn: (key: K) => string;
   objHashFn: (key: K) => object
 }

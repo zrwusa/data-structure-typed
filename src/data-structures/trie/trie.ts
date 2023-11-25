@@ -29,11 +29,18 @@ export class Trie {
   constructor(words?: string[], caseSensitive = true) {
     this._root = new TrieNode('');
     this._caseSensitive = caseSensitive;
+    this._size = 0;
     if (words) {
-      for (const i of words) {
-        this.add(i);
+      for (const word of words) {
+        this.add(word);
       }
     }
+  }
+
+  protected _size: number;
+
+  get size(): number {
+    return this._size;
   }
 
   protected _caseSensitive: boolean;
@@ -64,6 +71,7 @@ export class Trie {
   add(word: string): boolean {
     word = this._caseProcess(word);
     let cur = this.root;
+    let isNewWord = false;
     for (const c of word) {
       let nodeC = cur.children.get(c);
       if (!nodeC) {
@@ -72,8 +80,12 @@ export class Trie {
       }
       cur = nodeC;
     }
-    cur.isEnd = true;
-    return true;
+    if (!cur.isEnd) {
+      isNewWord = true;
+      cur.isEnd = true;
+      this._size++;
+    }
+    return isNewWord;
   }
 
   /**
@@ -143,6 +155,9 @@ export class Trie {
     };
 
     dfs(this.root, 0);
+    if (isDeleted) {
+      this._size--;
+    }
     return isDeleted;
   }
 
@@ -375,6 +390,10 @@ export class Trie {
       index++;
     }
     return accumulator;
+  }
+
+  print() {
+    console.log([...this]);
   }
 
   /**

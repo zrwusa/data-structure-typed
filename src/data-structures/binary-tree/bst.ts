@@ -72,11 +72,28 @@ export class BSTNode<V = any, N extends BSTNode<V, N> = BSTNodeNested<V>> extend
   }
 }
 
+/**
+ * 1. Node Order: Each node's left child has a lesser value, and the right child has a greater value.
+ * 2. Unique Keys: No duplicate keys in a standard BST.
+ * 3. Efficient Search: Enables quick search, minimum, and maximum operations.
+ * 4. Inorder Traversal: Yields nodes in ascending order.
+ * 5. Logarithmic Operations: Ideal operations like insertion, deletion, and searching are O(log n) time-efficient.
+ * 6. Balance Variability: Can become unbalanced; special types maintain balance.
+ * 7. No Auto-Balancing: Standard BSTs don't automatically balance themselves.
+ */
 export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>, TREE extends BST<V, N, TREE> = BST<V, N, BSTNested<V, N>>>
   extends BinaryTree<V, N, TREE>
   implements IBinaryTree<V, N, TREE> {
 
 
+  /**
+   * This is the constructor function for a binary search tree class in TypeScript, which initializes
+   * the tree with optional elements and options.
+   * @param [elements] - An optional iterable of BTNodeExemplar objects that will be added to the
+   * binary search tree.
+   * @param [options] - The `options` parameter is an optional object that can contain additional
+   * configuration options for the binary search tree. It can have the following properties:
+   */
   constructor(elements?: Iterable<BTNodeExemplar<V, N>>, options?: Partial<BSTOptions>) {
     super([], options);
 
@@ -94,9 +111,6 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
 
   protected override _root?: N;
 
-  /**
-   * Get the root node of the binary tree.
-   */
   override get root(): N | undefined {
     return this._root;
   }
@@ -115,6 +129,13 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     return new BSTNode<V, N>(key, value) as N;
   }
 
+  /**
+   * The function creates a new binary search tree with the specified options.
+   * @param [options] - The `options` parameter is an optional object that allows you to customize the
+   * behavior of the `createTree` method. It accepts a partial `BSTOptions` object, which is a type
+   * that defines various options for creating a binary search tree.
+   * @returns a new instance of the BST class with the specified options.
+   */
   override createTree(options?: Partial<BSTOptions>): TREE {
     return new BST<V, N, TREE>([], {
       iterationType: this.iterationType,
@@ -125,14 +146,17 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   /**
    * Time Complexity: O(log n) - Average case for a balanced tree. In the worst case (unbalanced tree), it can be O(n).
    * Space Complexity: O(1) - Constant space is used.
+   */
+
+  /**
+   * Time Complexity: O(log n) - Average case for a balanced tree. In the worst case (unbalanced tree), it can be O(n).
+   * Space Complexity: O(1) - Constant space is used.
    *
-   * The `add` function adds a new node to a binary search tree based on the provided key and value.
-   * @param {BTNKey | N | null | undefined} keyOrNode - The `keyOrNode` parameter can be one of the
-   * following types:
-   * @param {V} [value] - The `value` parameter is an optional value that can be associated with the
-   * key or node being added to the binary search tree.
-   * @returns The method `add` returns a node (`N`) that was inserted into the binary search tree. If
-   * no node was inserted, it returns `undefined`.
+   * The `add` function adds a new node to a binary search tree, either by key or by providing a node
+   * object.
+   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter can be one of the following:
+   * @returns The method returns either the newly added node (`newNode`) or `undefined` if the input
+   * (`keyOrNodeOrEntry`) is null, undefined, or does not match any of the expected types.
    */
   override add(keyOrNodeOrEntry: BTNodeExemplar<V, N>): N | undefined {
     if (keyOrNodeOrEntry === null || keyOrNodeOrEntry === undefined) {
@@ -198,29 +222,25 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   }
 
   /**
-   * Time Complexity: O(log n) - Average case for a balanced tree. In the worst case (unbalanced tree), it can be O(n).
-   * Space Complexity: O(1) - Constant space is used.
+   * Time Complexity: O(k log n) - Adding each element individually in a balanced tree.
+   * Space Complexity: O(k) - Additional space is required for the sorted array.
    */
 
   /**
-   * Time Complexity: O(n log n) - Adding each element individually in a balanced tree.
-   * Space Complexity: O(n) - Additional space is required for the sorted array.
+   * Time Complexity: O(k log n) - Adding each element individually in a balanced tree.
+   * Space Complexity: O(k) - Additional space is required for the sorted array.
    *
-   * The `addMany` function is used to efficiently add multiple keys or nodes with corresponding data
-   * to a binary search tree.
-   * @param {(BTNKey | N | undefined)[]} keysOrNodes - An array of keys or nodes to be added to the
-   * binary search tree. Each element can be of type `BTNKey` (binary tree node key), `N` (binary tree
-   * node), or `undefined`.
-   * @param {(V | undefined)[]} [data] - An optional array of values to associate with the keys or
-   * nodes being added. If provided, the length of the `data` array must be the same as the length of
-   * the `keysOrNodes` array.
+   * The `addMany` function in TypeScript adds multiple nodes to a binary tree, either in a balanced or
+   * unbalanced manner, and returns an array of the inserted nodes.
+   * @param keysOrNodesOrEntries - An iterable containing keys, nodes, or entries to be added to the
+   * binary tree.
    * @param [isBalanceAdd=true] - A boolean flag indicating whether the tree should be balanced after
-   * adding the nodes. The default value is `true`.
+   * adding the nodes. The default value is true.
    * @param iterationType - The `iterationType` parameter is an optional parameter that specifies the
-   * type of iteration to use when adding multiple keys or nodes to the binary search tree. It has a
-   * default value of `this.iterationType`, which means it will use the iteration type specified in the
-   * current instance of the binary search tree
-   * @returns The function `addMany` returns an array of nodes (`N`) or `undefined` values.
+   * type of iteration to use when adding multiple keys or nodes to the binary tree. It has a default
+   * value of `this.iterationType`, which means it will use the iteration type specified by the binary
+   * tree instance.
+   * @returns The `addMany` function returns an array of `N` or `undefined` values.
    */
   override addMany(
     keysOrNodesOrEntries: Iterable<BTNodeExemplar<V, N>>,
