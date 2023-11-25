@@ -2,7 +2,7 @@ name: data-structure-typed
 
 on:
   release:
-    types: [created]
+    types: [ created ]
 
 jobs:
   build:

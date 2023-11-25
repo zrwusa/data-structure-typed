@@ -234,7 +234,7 @@ module.exports = {
        "specify": for each dependency identify whether it only exists before compilation or also after
      */
     tsPreCompilationDeps: true,
-    
+
     /* 
        list of extensions to scan that aren't javascript or compile-to-javascript. 
        Empty by default. Only put extensions in here that you want to take into
@@ -304,7 +304,7 @@ module.exports = {
 
          If you have an `exportsFields` attribute in your webpack config, that one
          will have precedence over the one specified here.
-      */ 
+      */
       exportsFields: ["exports"],
       /* List of conditions to check for in the exports field. e.g. use ['imports']
          if you're only interested in exposed es6 modules, ['require'] for commonjs,

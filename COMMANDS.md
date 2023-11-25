@@ -4,7 +4,8 @@ Overview of the commands to test, run and build this project as well as those th
 
 ## Most important commands for development
 
-- `npm install` Installs all dependencies and creates the folder `node_modules`, that is needed for all following commands.
+- `npm install` Installs all dependencies and creates the folder `node_modules`, that is needed for all following
+  commands.
 - `npm run lint` Lint src/ and test/ codebase (using ESLint)
 - `npm run format` Pretty src/ and test/ codebase (using Prettier)
 - `npm run inspect` Check src/ and test/ codebase (using TSC and ESLint)
@@ -18,6 +19,7 @@ Overview of the commands to test, run and build this project as well as those th
 - `npm run test:perf -- priority-queue.test` Run specific performance test
 
 [//]: # (- `npm run coverage-badge` Updates code coverage badge inside `README.md`)
+
 - `npm run build:docs` Generates JSDoc Documentation in folder "docs"
 - `npm run build` Build the application for production including es6(ESModule), es5(CommonJS) and minification(UMD)
 

@@ -68,9 +68,10 @@
 
 **Contributing new features**
 
-- To ensure that there are no conflicts when merging the branch into the main branch, 
-- it is necessary to perform the following steps each time new development is going to be conducted on non-main branches:
-- `git pull`, 
+- To ensure that there are no conflicts when merging the branch into the main branch,
+- it is necessary to perform the following steps each time new development is going to be conducted on non-main
+  branches:
+- `git pull`,
 - `git rebase main`
 - resolve conflicts before continuing the development.
 - After new features developed

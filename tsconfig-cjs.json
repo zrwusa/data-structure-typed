@@ -6,7 +6,7 @@
     "module": "CommonJS",
     "target": "ES2015",
     "moduleResolution": "node",
-    "sourceMap": true,
+    "sourceMap": true
   },
   "include": [
     "./src/**/*.ts"

@@ -11,11 +11,12 @@
 
 Data Structures of Javascript & TypeScript.
 
-Do you envy C++ with [STL]() (std::), Python with [collections](), and Java with [java.util]() ? Well, no need to envy anymore! JavaScript and TypeScript now have [data-structure-typed]().
+Do you envy C++ with [STL]() (std::), Python with [collections](), and Java with [java.util]() ? Well, no need to envy
+anymore! JavaScript and TypeScript now have [data-structure-typed]().
 
 Now you can use this in Node.js and browser environments
 
-CommonJS:**`require export.modules =`** 
+CommonJS:**`require export.modules =`**
 
 ESModule:&nbsp;&nbsp;&nbsp;**`import export`**
 
@@ -59,16 +60,19 @@ import {
 Copy the line below into the head tag in an HTML document.
 
 #### development
+
 ```html
 <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.js'></script>
 ```
 
 #### production
+
 ```html
 <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js'></script>
 ```
 
 Copy the code below into the script tag of your HTML, and you're good to go with your development.
+
 ```js
 const {Heap} = dataStructureTyped;
 const {
@@ -81,45 +85,44 @@ const {
 ## Vivid Examples
 
 ### Binary Tree
-[Try it out](https://vivid-algorithm.vercel.app/), or you can run your own code using our [visual tool](https://github.com/zrwusa/vivid-algorithm)
+
+[Try it out](https://vivid-algorithm.vercel.app/), or you can run your own code using
+our [visual tool](https://github.com/zrwusa/vivid-algorithm)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/binary-tree-array-to-binary-tree.webp)
 
-
-
 ### Binary Tree DFS
+
 [Try it out](https://vivid-algorithm.vercel.app/)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/binary-tree-dfs-in-order.webp)
 
-
-
 ### AVL Tree
+
 [Try it out](https://vivid-algorithm.vercel.app/)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/avl-tree-test.webp)
 
-
 ### Tree Multi Map
+
 [Try it out](https://vivid-algorithm.vercel.app/)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/tree-multiset-test.webp)
 
-
-
 ### Matrix
+
 [Try it out](https://vivid-algorithm.vercel.app/algorithm/graph/)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/matrix-cut-off-tree-for-golf.webp)
 
-
 ### Directed Graph
+
 [Try it out](https://vivid-algorithm.vercel.app/algorithm/graph/)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/directed-graph-test.webp)
 
-
 ### Map Graph
+
 [Try it out](https://vivid-algorithm.vercel.app/algorithm/graph/)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/map-graph-test.webp)
@@ -778,6 +781,7 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', '
 </table>
 
 ## Software Engineering Design Standards
+
 <table>
     <tr>
         <th>Principle</th>

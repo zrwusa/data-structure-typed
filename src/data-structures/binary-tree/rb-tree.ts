@@ -56,7 +56,7 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
     super([], options);
 
     this._root = this.Sentinel;
-    if (elements) this.addMany(elements);
+    if (elements) super.addMany(elements);
   }
 
   protected _root: N;

@@ -3,7 +3,7 @@ module.exports = {
   testEnvironment: 'node',
   testMatch: ['<rootDir>/test/unit/**/*.test.ts', '<rootDir>/test/unit/**/*.test.js'],
   collectCoverage: true,
-  coverageReporters: ['clover', 'json', 'lcov', ['text', {skipFull: true}], "json-summary"],
+  coverageReporters: ['clover', 'json', 'lcov', ['text', { skipFull: true }], "json-summary"],
   coverageDirectory: 'coverage',
   collectCoverageFrom: [
     'src/data-structures/**/*.{ts,js}',

@@ -237,7 +237,6 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     }
     const realBTNExemplars: BTNodePureExemplar<V, N>[] = [];
 
-
     const isRealBTNExemplar = (kve: BTNodeExemplar<V, N>): kve is BTNodePureExemplar<V, N> => {
       if (kve === undefined || kve === null) return false;
       return !(this.isEntry(kve) && (kve[0] === undefined || kve[0] === null));

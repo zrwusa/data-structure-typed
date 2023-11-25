@@ -39,7 +39,7 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    */
   constructor(elements?: Iterable<BTNodeExemplar<V, N>>, options?: Partial<AVLTreeOptions>) {
     super([], options);
-    if (elements) this.addMany(elements);
+    if (elements) super.addMany(elements);
   }
 
   /**

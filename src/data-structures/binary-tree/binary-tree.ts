@@ -268,18 +268,11 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    */
   addMany(nodes: Iterable<BTNodeExemplar<V, N>>): (N | null | undefined)[] {
     // TODO not sure addMany not be run multi times
-    const keysOrNodes = [...nodes];
-    return keysOrNodes.map((keyOrNode, i) => {
-      if (keyOrNode instanceof BinaryTreeNode) {
-        return this.add(keyOrNode);
-      }
-
-      if (keyOrNode === null) {
-        return this.add(null);
-      }
-
-      return this.add(keyOrNode);
-    });
+    const inserted: (N | null | undefined)[] = [];
+    for (const kne of nodes) {
+      inserted.push(this.add(kne));
+    }
+    return inserted;
   }
 
   /**
