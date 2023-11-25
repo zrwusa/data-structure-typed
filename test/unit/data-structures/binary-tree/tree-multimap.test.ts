@@ -4,7 +4,17 @@ import { isDebugTest } from '../../../config';
 const isDebug = isDebugTest;
 
 describe('TreeMultimap count', () => {
-  const tm = new TreeMultimap<number>();
+  let tm: TreeMultimap<number>;
+  beforeEach(() => {
+    tm = new TreeMultimap<number>();
+
+  })
+  it('Should added isolated node count ', () => {
+    tm.addMany([[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]]);
+    const newNode = new TreeMultimapNode(3, 33, 10);
+    tm.add(newNode);
+    expect(tm.count).toBe(15)
+  })
 
   it('Should count', () => {
     tm.addMany([[1, 1], [2, 2], [3, 3]]);
@@ -13,13 +23,13 @@ describe('TreeMultimap count', () => {
   })
 })
 
-describe('TreeMultimap operations test', () => {
-  it('should perform various operations on a Binary Search Tree with numeric values', () => {
+describe('TreeMultimap operations test1', () => {
+  it('should perform various operations on a Binary Search Tree with numeric values1', () => {
     const treeMultimap = new TreeMultimap();
 
     expect(treeMultimap instanceof TreeMultimap);
-    treeMultimap.add(11, 11);
-    treeMultimap.add(3, 3);
+    treeMultimap.add([11, 11]);
+    treeMultimap.add([3, 3]);
     const idAndValues: [number, number][] = [
       [11, 11],
       [3, 3],
@@ -48,8 +58,8 @@ describe('TreeMultimap operations test', () => {
 
     expect(treeMultimap.has(6));
 
-    expect(treeMultimap.getHeight(6)).toBe(3);
-    expect(treeMultimap.getDepth(6)).toBe(1);
+    expect(treeMultimap.getHeight(6)).toBe(4);
+    expect(treeMultimap.getDepth(6)).toBe(0);
     const nodeId10 = treeMultimap.getNode(10);
     expect(nodeId10?.key).toBe(10);
 
@@ -66,14 +76,14 @@ describe('TreeMultimap operations test', () => {
 
     const node15 = treeMultimap.getNode(15);
     const minNodeBySpecificNode = node15 && treeMultimap.getLeftMost(node15);
-    expect(minNodeBySpecificNode?.key).toBe(12);
+    expect(minNodeBySpecificNode?.key).toBe(15);
 
     let subTreeSum = 0;
     node15 && treeMultimap.subTreeTraverse((node: TreeMultimapNode<number>) => (subTreeSum += node.key), 15);
-    expect(subTreeSum).toBe(70);
+    expect(subTreeSum).toBe(31);
     let lesserSum = 0;
     treeMultimap.lesserOrGreaterTraverse((node: TreeMultimapNode<number>) => (lesserSum += node.key), CP.lt, 10);
-    expect(lesserSum).toBe(45);
+    expect(lesserSum).toBe(21);
 
     expect(node15 instanceof TreeMultimapNode);
     if (node15 instanceof TreeMultimapNode) {
@@ -230,7 +240,7 @@ describe('TreeMultimap operations test', () => {
     expect(bfsNodes[1].key).toBe(2);
     expect(bfsNodes[2].key).toBe(16);
 
-    expect(treeMultimap.count).toBe(9);
+    expect(treeMultimap.count).toBe(4);
   });
 
   it('should perform various operations on a Binary Search Tree with object values', () => {
@@ -261,7 +271,7 @@ describe('TreeMultimap operations test', () => {
 
     expect(objTreeMultimap.root).toBeInstanceOf(TreeMultimapNode);
 
-    if (objTreeMultimap.root) expect(objTreeMultimap.root.key).toBe(11);
+    if (objTreeMultimap.root) expect(objTreeMultimap.root.key).toBe(6);
 
     expect(objTreeMultimap.count).toBe(16);
 
@@ -269,13 +279,13 @@ describe('TreeMultimap operations test', () => {
   });
 });
 
-describe('TreeMultimap operations test recursively', () => {
-  it('should perform various operations on a Binary Search Tree with numeric values', () => {
+describe('TreeMultimap operations test recursively1', () => {
+  it('should perform various operations on a Binary Search Tree with numeric values1', () => {
     const treeMultimap = new TreeMultimap<number>([], { iterationType: IterationType.RECURSIVE });
 
     expect(treeMultimap instanceof TreeMultimap);
-    treeMultimap.add(11, 11);
-    treeMultimap.add(3, 3);
+    treeMultimap.add([11, 11]);
+    treeMultimap.add([3, 3]);
     const idAndValues: [number, number][] = [
       [11, 11],
       [3, 3],
@@ -297,15 +307,15 @@ describe('TreeMultimap operations test recursively', () => {
     treeMultimap.addMany(idAndValues);
     expect(treeMultimap.root).toBeInstanceOf(TreeMultimapNode);
 
-    if (treeMultimap.root) expect(treeMultimap.root.key == 11);
+    if (treeMultimap.root) expect(treeMultimap.root.key).toBe(6);
 
     expect(treeMultimap.size).toBe(16);
     expect(treeMultimap.count).toBe(18);
 
     expect(treeMultimap.has(6));
 
-    expect(treeMultimap.getHeight(6)).toBe(3);
-    expect(treeMultimap.getDepth(6)).toBe(1);
+    expect(treeMultimap.getHeight(6)).toBe(4);
+    expect(treeMultimap.getDepth(6)).toBe(0);
     const nodeId10 = treeMultimap.getNode(10);
     expect(nodeId10?.key).toBe(10);
 
@@ -322,14 +332,14 @@ describe('TreeMultimap operations test recursively', () => {
 
     const node15 = treeMultimap.getNode(15);
     const minNodeBySpecificNode = node15 && treeMultimap.getLeftMost(node15);
-    expect(minNodeBySpecificNode?.key).toBe(12);
+    expect(minNodeBySpecificNode?.key).toBe(15);
 
     let subTreeSum = 0;
     node15 && treeMultimap.subTreeTraverse((node: TreeMultimapNode<number>) => (subTreeSum += node.key), 15);
-    expect(subTreeSum).toBe(70);
+    expect(subTreeSum).toBe(31);
     let lesserSum = 0;
     treeMultimap.lesserOrGreaterTraverse((node: TreeMultimapNode<number>) => (lesserSum += node.key), CP.lt, 10);
-    expect(lesserSum).toBe(45);
+    expect(lesserSum).toBe(21);
 
     expect(node15 instanceof TreeMultimapNode);
     if (node15 instanceof TreeMultimapNode) {
@@ -346,7 +356,7 @@ describe('TreeMultimap operations test recursively', () => {
     const dfsInorderNodes = treeMultimap.dfs(node => node, 'in');
     expect(dfsInorderNodes[0].key).toBe(1);
     expect(dfsInorderNodes[dfsInorderNodes.length - 1].key).toBe(16);
-    expect(treeMultimap.isPerfectlyBalanced()).toBe(false);
+    expect(treeMultimap.isPerfectlyBalanced()).toBe(true);
 
     treeMultimap.perfectlyBalance();
 
@@ -486,7 +496,7 @@ describe('TreeMultimap operations test recursively', () => {
     expect(bfsNodes[1].key).toBe(2);
     expect(bfsNodes[2].key).toBe(16);
 
-    expect(treeMultimap.count).toBe(9);
+    expect(treeMultimap.count).toBe(4);
   });
 
   it('should perform various operations on a Binary Search Tree with object values', () => {
@@ -517,7 +527,7 @@ describe('TreeMultimap operations test recursively', () => {
 
     expect(objTreeMultimap.root).toBeInstanceOf(TreeMultimapNode);
 
-    if (objTreeMultimap.root) expect(objTreeMultimap.root.key).toBe(11);
+    if (objTreeMultimap.root) expect(objTreeMultimap.root.key).toBe(6);
 
     expect(objTreeMultimap.count).toBe(16);
 

@@ -5,8 +5,8 @@ import {
   BinaryTreeOptions,
   BiTreeDeleteResult,
   BTNCallback,
-  BTNodeExemplar,
   BTNKey,
+  BTNodeExemplar,
 } from '../types';
 
 export interface IBinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNodeNested<V>, TREE extends BinaryTree<V, N, TREE> = BinaryTreeNested<V, N>> {

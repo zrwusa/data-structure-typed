@@ -12,8 +12,8 @@ import type {
   AVLTreeOptions,
   BiTreeDeleteResult,
   BSTNodeKeyOrNode,
-  BTNodeExemplar,
-  BTNKey
+  BTNKey,
+  BTNodeExemplar
 } from '../../types';
 import { BTNCallback } from '../../types';
 import { IBinaryTree } from '../../interfaces';
@@ -117,7 +117,7 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
 
 
   /**
-   * The `_swap` function swaps the key, value, and height properties between two nodes in a binary
+   * The `_swapProperties` function swaps the key, value, and height properties between two nodes in a binary
    * tree.
    * @param {BTNKey | N | undefined} srcNode - The `srcNode` parameter represents the source node that
    * needs to be swapped with the destination node. It can be of type `BTNKey`, `N`, or `undefined`.
@@ -126,9 +126,9 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    * @returns either the `destNode` object if both `srcNode` and `destNode` are defined, or `undefined`
    * if either `srcNode` or `destNode` is undefined.
    */
-  protected override _swap(srcNode: BSTNodeKeyOrNode<N>, destNode: BSTNodeKeyOrNode<N>): N | undefined {
-    srcNode = this.ensureNotKey(srcNode);
-    destNode = this.ensureNotKey(destNode);
+  protected override _swapProperties(srcNode: BSTNodeKeyOrNode<N>, destNode: BSTNodeKeyOrNode<N>): N | undefined {
+    srcNode = this.ensureNode(srcNode);
+    destNode = this.ensureNode(destNode);
 
     if (srcNode && destNode) {
       const { key, value, height } = destNode;
@@ -440,5 +440,11 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
     this._updateHeight(A);
     B && this._updateHeight(B);
     C && this._updateHeight(C);
+  }
+
+  protected _replaceNode(oldNode: N, newNode: N): N {
+    newNode.height = oldNode.height;
+
+    return super._replaceNode(oldNode, newNode)
   }
 }

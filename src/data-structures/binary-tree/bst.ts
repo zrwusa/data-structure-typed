@@ -11,10 +11,10 @@ import type {
   BSTNodeNested,
   BSTOptions,
   BTNCallback,
-  BTNodeExemplar,
   BTNKey,
-  Comparator,
-  BTNodePureExemplar
+  BTNodeExemplar,
+  BTNodePureExemplar,
+  Comparator
 } from '../../types';
 import { CP, IterationType } from '../../types';
 import { BinaryTree, BinaryTreeNode } from './binary-tree';
@@ -135,9 +135,10 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * no node was inserted, it returns `undefined`.
    */
   override add(keyOrNodeOrEntry: BTNodeExemplar<V, N>): N | undefined {
-    if (keyOrNodeOrEntry === null) return undefined;
-    // TODO support node as a parameter
-    let inserted: N | undefined;
+    if (keyOrNodeOrEntry === null || keyOrNodeOrEntry === undefined) {
+      return undefined;
+    }
+
     let newNode: N | undefined;
     if (keyOrNodeOrEntry instanceof BSTNode) {
       newNode = keyOrNodeOrEntry;
@@ -149,64 +150,51 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
         return;
       } else {
         newNode = this.createNode(key, value);
-
       }
     } else {
-      newNode = undefined;
+      return;
     }
+
     if (this.root === undefined) {
       this._setRoot(newNode);
-      this._size = this.size + 1;
-      inserted = this.root;
-    } else {
-      let cur = this.root;
-      let traversing = true;
-      while (traversing) {
-        if (cur !== undefined && newNode !== undefined) {
-          if (this._compare(cur.key, newNode.key) === CP.eq) {
-            if (newNode) {
-              cur.value = newNode.value;
-            }
-            //Duplicates are not accepted.
-            traversing = false;
-            inserted = cur;
-          } else if (this._compare(cur.key, newNode.key) === CP.gt) {
-            // Traverse left of the node
-            if (cur.left === undefined) {
-              if (newNode) {
-                newNode.parent = cur;
-              }
-              //Add to the left of the current node
-              cur.left = newNode;
-              this._size = this.size + 1;
-              traversing = false;
-              inserted = cur.left;
-            } else {
-              //Traverse the left of the current node
-              if (cur.left) cur = cur.left;
-            }
-          } else if (this._compare(cur.key, newNode.key) === CP.lt) {
-            // Traverse right of the node
-            if (cur.right === undefined) {
-              if (newNode) {
-                newNode.parent = cur;
-              }
-              //Add to the right of the current node
-              cur.right = newNode;
-              this._size = this.size + 1;
-              traversing = false;
-              inserted = cur.right;
-            } else {
-              //Traverse the left of the current node
-              if (cur.right) cur = cur.right;
-            }
-          }
-        } else {
-          traversing = false;
+      this._size++;
+      return this.root;
+    }
+
+    let current = this.root;
+    while (current !== undefined) {
+      if (this._compare(current.key, newNode.key) === CP.eq) {
+        // if (current !== newNode) {
+        // The key value is the same but the reference is different, update the value of the existing node
+        this._replaceNode(current, newNode);
+        return newNode;
+
+        // } else {
+        // The key value is the same and the reference is the same, replace the entire node
+        // this._replaceNode(current, newNode);
+
+        //   return;
+        // }
+      } else if (this._compare(current.key, newNode.key) === CP.gt) {
+        if (current.left === undefined) {
+          current.left = newNode;
+          newNode.parent = current;
+          this._size++;
+          return newNode;
         }
+        current = current.left;
+      } else {
+        if (current.right === undefined) {
+          current.right = newNode;
+          newNode.parent = current;
+          this._size++;
+          return newNode;
+        }
+        current = current.right;
       }
     }
-    return inserted;
+
+    return undefined;
   }
 
   /**
@@ -294,7 +282,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
           const [l, r] = popped;
           if (l <= r) {
             const m = l + Math.floor((r - l) / 2);
-            const newNode = this.add(realBTNExemplars[m]);
+            const newNode = this.add(sorted[m]);
             inserted.push(newNode);
             stack.push([m + 1, r]);
             stack.push([l, m - 1]);
@@ -387,7 +375,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    */
 
   /**
-   * The function `ensureNotKey` returns the node corresponding to the given key if it is a node key,
+   * The function `ensureNode` returns the node corresponding to the given key if it is a node key,
    * otherwise it returns the key itself.
    * @param {BTNKey | N | undefined} key - The `key` parameter can be of type `BTNKey`, `N`, or
    * `undefined`.
@@ -395,7 +383,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * type of iteration to be performed. It has a default value of `IterationType.ITERATIVE`.
    * @returns either a node object (N) or undefined.
    */
-  override ensureNotKey(key: BSTNodeKeyOrNode<N>, iterationType = IterationType.ITERATIVE): N | undefined {
+  override ensureNode(key: BSTNodeKeyOrNode<N>, iterationType = IterationType.ITERATIVE): N | undefined {
     return this.isNodeKey(key) ? this.getNodeByKey(key, iterationType) : key;
   }
 
@@ -429,7 +417,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     beginRoot: BSTNodeKeyOrNode<N> = this.root,
     iterationType = this.iterationType
   ): N[] {
-    beginRoot = this.ensureNotKey(beginRoot);
+    beginRoot = this.ensureNode(beginRoot);
     if (!beginRoot) return [];
     const ans: N[] = [];
 
@@ -510,7 +498,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     targetNode: BSTNodeKeyOrNode<N> = this.root,
     iterationType = this.iterationType
   ): ReturnType<C>[] {
-    targetNode = this.ensureNotKey(targetNode);
+    targetNode = this.ensureNode(targetNode);
     const ans: ReturnType<BTNCallback<N>>[] = [];
     if (!targetNode) return ans;
     if (!this.root) return ans;

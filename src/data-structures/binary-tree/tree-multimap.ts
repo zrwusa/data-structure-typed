@@ -5,8 +5,14 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { BSTNodeKeyOrNode, BTNodeExemplar, BTNKey, TreeMultimapNodeNested, TreeMultimapOptions } from '../../types';
-import { BiTreeDeleteResult, BTNCallback, CP, FamilyPosition, IterationType, TreeMultimapNested } from '../../types';
+import type {
+  BSTNodeKeyOrNode,
+  BTNKey,
+  BTNodeExemplar,
+  TreeMultimapNodeNested,
+  TreeMultimapOptions
+} from '../../types';
+import { BiTreeDeleteResult, BTNCallback, FamilyPosition, IterationType, TreeMultimapNested } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { AVLTree, AVLTreeNode } from './avl-tree';
 
@@ -95,82 +101,28 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    * @returns a node (`N`) or `undefined`.
    */
   override add(keyOrNodeOrEntry: BTNodeExemplar<V, N>, count = 1): N | undefined {
-    if (keyOrNodeOrEntry === null) return;
-    let inserted: N | undefined = undefined,
-      newNode: N | undefined;
-    if (keyOrNodeOrEntry instanceof TreeMultimapNode) {
-      newNode = this.createNode(keyOrNodeOrEntry.key, keyOrNodeOrEntry.value, keyOrNodeOrEntry.count);
-    } else if (keyOrNodeOrEntry === undefined) {
+    let newNode: N | undefined;
+    if (keyOrNodeOrEntry === undefined || keyOrNodeOrEntry === null) {
       return;
+    } else if (keyOrNodeOrEntry instanceof TreeMultimapNode) {
+      newNode = keyOrNodeOrEntry;
+    } else if (this.isNodeKey(keyOrNodeOrEntry)) {
+      newNode = this.createNode(keyOrNodeOrEntry, undefined, count);
     } else if (this.isEntry(keyOrNodeOrEntry)) {
       const [key, value] = keyOrNodeOrEntry;
-      if (key === null || key === undefined) {
-        return
+      if (key === undefined || key === null) {
+        return;
       } else {
         newNode = this.createNode(key, value, count);
       }
-    } else if (typeof keyOrNodeOrEntry === 'number') {
-      newNode = this.createNode(keyOrNodeOrEntry, undefined, 1);
     } else {
-
-      return
+      return;
     }
-
-    if (!this.root) {
-      this._setRoot(newNode);
-      this._size = this.size + 1;
-      if (newNode) this._count += newNode.count;
-      inserted = this.root;
-    } else {
-      let cur = this.root;
-      let traversing = true;
-      while (traversing) {
-        if (cur) {
-          if (newNode) {
-            if (this._compare(cur.key, newNode.key) === CP.eq) {
-              cur.value = newNode.value;
-              cur.count += newNode.count;
-              this._count += newNode.count;
-              traversing = false;
-              inserted = cur;
-            } else if (this._compare(cur.key, newNode.key) === CP.gt) {
-              // Traverse left of the node
-              if (cur.left === undefined) {
-                //Add to the left of the current node
-                cur.left = newNode;
-                this._size = this.size + 1;
-                this._count += newNode.count;
-
-                traversing = false;
-                inserted = cur.left;
-              } else {
-                //Traverse the left of the current node
-                if (cur.left) cur = cur.left;
-              }
-            } else if (this._compare(cur.key, newNode.key) === CP.lt) {
-              // Traverse right of the node
-              if (cur.right === undefined) {
-                //Add to the right of the current node
-                cur.right = newNode;
-                this._size = this.size + 1;
-                this._count += newNode.count;
-
-                traversing = false;
-                inserted = cur.right;
-              } else {
-                //Traverse the left of the current node
-                if (cur.right) cur = cur.right;
-              }
-            }
-          } else {
-            // TODO may need to support undefined inserted
-          }
-        } else {
-          traversing = false;
-        }
-      }
+    const orgNodeCount = newNode?.count || 0;
+    const inserted = super.add(newNode);
+    if (inserted) {
+      this._count += orgNodeCount;
     }
-    if (inserted) this._balancePath(inserted);
     return inserted;
   }
 
@@ -193,23 +145,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    * @returns The function `addMany` returns an array of nodes (`N`) or `undefined` values.
    */
   override addMany(keysOrNodesOrEntries: Iterable<BTNodeExemplar<V, N>>): (N | undefined)[] {
-    const inserted: (N | undefined)[] = [];
-
-    for (const keyOrNode of keysOrNodesOrEntries) {
-
-      if (keyOrNode instanceof TreeMultimapNode) {
-        inserted.push(this.add(keyOrNode, keyOrNode.count));
-        continue;
-      }
-
-      if (keyOrNode === undefined || keyOrNode === null) {
-        inserted.push(this.add(NaN, 0));
-        continue;
-      }
-
-      inserted.push(this.add(keyOrNode, 1));
-    }
-    return inserted;
+    return super.addMany(keysOrNodesOrEntries);
   }
 
   /**
@@ -325,7 +261,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
         const leftSubTreeRightMost = curr.left ? this.getRightMost(curr.left) : undefined;
         if (leftSubTreeRightMost) {
           const parentOfLeftSubTreeMax = leftSubTreeRightMost.parent;
-          orgCurrent = this._swap(curr, leftSubTreeRightMost);
+          orgCurrent = this._swapProperties(curr, leftSubTreeRightMost);
           if (parentOfLeftSubTreeMax) {
             if (parentOfLeftSubTreeMax.right === leftSubTreeRightMost) {
               parentOfLeftSubTreeMax.right = leftSubTreeRightMost.left;
@@ -379,7 +315,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    * added, or `undefined` if no node was added.
    */
   protected override _addTo(newNode: N | undefined, parent: BSTNodeKeyOrNode<N>): N | undefined {
-    parent = this.ensureNotKey(parent);
+    parent = this.ensureNode(parent);
     if (parent) {
       if (parent.left === undefined) {
         parent.left = newNode;
@@ -405,7 +341,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
   }
 
   /**
-   * The `_swap` function swaps the key, value, count, and height properties between two nodes.
+   * The `_swapProperties` function swaps the key, value, count, and height properties between two nodes.
    * @param {BTNKey | N | undefined} srcNode - The `srcNode` parameter represents the source node from
    * which the values will be swapped. It can be of type `BTNKey`, `N`, or `undefined`.
    * @param {BTNKey | N | undefined} destNode - The `destNode` parameter represents the destination
@@ -413,9 +349,9 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    * @returns either the `destNode` object if both `srcNode` and `destNode` are defined, or `undefined`
    * if either `srcNode` or `destNode` is undefined.
    */
-  protected _swap(srcNode: BSTNodeKeyOrNode<N>, destNode: BSTNodeKeyOrNode<N>): N | undefined {
-    srcNode = this.ensureNotKey(srcNode);
-    destNode = this.ensureNotKey(destNode);
+  protected override _swapProperties(srcNode: BSTNodeKeyOrNode<N>, destNode: BSTNodeKeyOrNode<N>): N | undefined {
+    srcNode = this.ensureNode(srcNode);
+    destNode = this.ensureNode(destNode);
     if (srcNode && destNode) {
       const { key, value, count, height } = destNode;
       const tempNode = this.createNode(key, value, count);
@@ -436,5 +372,10 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
       return destNode;
     }
     return undefined;
+  }
+
+  protected _replaceNode(oldNode: N, newNode: N): N {
+    newNode.count = oldNode.count + newNode.count
+    return super._replaceNode(oldNode, newNode);
   }
 }

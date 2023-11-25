@@ -10,8 +10,8 @@ import {
   BiTreeDeleteResult,
   BSTNodeKeyOrNode,
   BTNCallback,
-  BTNodeExemplar,
   BTNKey,
+  BTNodeExemplar,
   IterationType,
   RBTNColor,
   RBTreeOptions,
@@ -126,6 +126,9 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
         } else if (node.key > x.key) {
           x = x?.right;
         } else {
+          if (node !== x) {
+            this._replaceNode(x, node)
+          }
           return;
         }
       }
@@ -295,7 +298,7 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
     iterationType = this.iterationType
   ): N | null | undefined {
     if ((identifier as any) instanceof BinaryTreeNode) callback = (node => node) as C;
-    beginRoot = this.ensureNotKey(beginRoot);
+    beginRoot = this.ensureNode(beginRoot);
     return this.getNodes(identifier, callback, true, beginRoot, iterationType)[0] ?? undefined;
   }
 
@@ -588,5 +591,11 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
       }
     }
     this.root.color = RBTNColor.BLACK;
+  }
+
+  protected _replaceNode(oldNode: N, newNode: N): N {
+    newNode.color = oldNode.color;
+
+    return super._replaceNode(oldNode, newNode)
   }
 }
