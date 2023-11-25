@@ -296,6 +296,77 @@ graph.addEdge('B', 'D');
 
 const dijkstraResult = graph.dijkstra('A');
 Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', 'D']
+
+
+```
+
+### Free conversion between data structures.
+
+```js
+const orgArr = [6, 1, 2, 7, 5, 3, 4, 9, 8];
+const orgStrArr = ["trie", "trial", "trick", "trip", "tree", "trend", "triangle", "track", "trace", "transmit"];
+const entries = [[6, 6], [1, 1], [2, 2], [7, 7], [5, 5], [3, 3], [4, 4], [9, 9], [8, 8]];
+
+const queue = new Queue(orgArr);
+queue.print();
+
+const deque = new Deque(orgArr);
+deque.print();
+
+const sList = new SinglyLinkedList(orgArr);
+sList.print();
+
+const dList = new DoublyLinkedList(orgArr);
+dList.print();
+
+const stack = new Stack(orgArr);
+stack.print();
+
+const minHeap = new MinHeap(orgArr);
+minHeap.print();
+
+const maxPQ = new MaxPriorityQueue(orgArr);
+maxPQ.print();
+
+const biTree = new BinaryTree(entries);
+biTree.print();
+
+const bst = new BST(entries);
+bst.print();
+
+const rbTree = new RedBlackTree(entries);
+rbTree.print();
+
+const avl = new AVLTree(entries);
+avl.print();
+
+const treeMulti = new TreeMultimap(entries);
+treeMulti.print();
+
+const hm = new HashMap(entries);
+hm.print()
+const rbTreeH = new RedBlackTree(hm);
+rbTreeH.print();
+
+const pq = new MinPriorityQueue(orgArr);
+pq.print();
+const bst1 = new BST(pq);
+bst1.print();
+
+const dq1 = new Deque(orgArr);
+dq1.print();
+const rbTree1 = new RedBlackTree(dq1);
+rbTree1.print();
+
+const trie2 = new Trie(orgStrArr);
+trie2.print();
+const heap2 = new Heap(trie2, { comparator: (a, b) => Number(a) - Number(b) });
+heap2.print();
+const dq2 = new Deque(heap2);
+dq2.print();
+const entries2 = dq2.map((el, i) => [i, el]);
+const avl2 = new AVLTree(entries2);
+avl2.print();
 ```
 
 ## API docs & Examples
