@@ -36,11 +36,11 @@ class MyGraph<
     return new MyEdge(srcOrV1, destOrV2, weight, value) as EO;
   }
 
-  deleteEdge(edge: EO): EO | null {
+  deleteEdge(edge: EO): EO | undefined {
     return edge;
   }
 
-  getEdge(srcOrKey: VertexKey, destOrKey: VertexKey): EO | null {
+  getEdge(srcOrKey: VertexKey, destOrKey: VertexKey): EO | undefined {
     return new MyEdge(srcOrKey, destOrKey) as EO;
   }
 
@@ -62,8 +62,8 @@ class MyGraph<
     return [new MyVertex(a, 'b') as VO];
   }
 
-  getEndsOfEdge(edge: EO): [VO, VO] | null {
-    return edge ? null : null;
+  getEndsOfEdge(edge: EO): [VO, VO] | undefined {
+    return edge ? undefined : undefined;
   }
 
   protected _addEdgeOnly(edge: EO): boolean {
