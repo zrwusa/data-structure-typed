@@ -10,11 +10,11 @@ describe('UndirectedGraph Operation Test', () => {
   });
 
   it('should edge cases', () => {
-    expect(graph.deleteEdge(new UndirectedEdge('c', 'd'))).toBe(null);
-    expect(graph.deleteEdgeBetween('c', 'd')).toBe(null);
+    expect(graph.deleteEdge(new UndirectedEdge('c', 'd'))).toBe(undefined);
+    expect(graph.deleteEdgeBetween('c', 'd')).toBe(undefined);
     expect(graph.degreeOf('c')).toBe(0);
     expect(graph.edgesOf('c').length).toBe(0);
-    expect(graph.getEndsOfEdge(new UndirectedEdge('c', 'd'))).toBe(null);
+    expect(graph.getEndsOfEdge(new UndirectedEdge('c', 'd'))).toBe(undefined);
   });
 
   it('should add vertices', () => {

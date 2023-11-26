@@ -119,18 +119,18 @@ export class DirectedGraph<
    * Space Complexity: O(1)
    *
    * The `getEdge` function retrieves an edge between two vertices based on their source and destination IDs.
-   * @param {VO | VertexKey | null} srcOrKey - The source vertex or its ID. It can be either a vertex object or a vertex ID.
-   * @param {VO | VertexKey | null} destOrKey - The `destOrKey` parameter in the `getEdge` function represents the
-   * destination vertex of the edge. It can be either a vertex object (`VO`), a vertex ID (`VertexKey`), or `null` if the
+   * @param {VO | VertexKey | undefined} srcOrKey - The source vertex or its ID. It can be either a vertex object or a vertex ID.
+   * @param {VO | VertexKey | undefined} destOrKey - The `destOrKey` parameter in the `getEdge` function represents the
+   * destination vertex of the edge. It can be either a vertex object (`VO`), a vertex ID (`VertexKey`), or `undefined` if the
    * destination is not specified.
-   * @returns the first edge found between the source and destination vertices, or null if no such edge is found.
+   * @returns the first edge found between the source and destination vertices, or undefined if no such edge is found.
    */
-  getEdge(srcOrKey: VO | VertexKey | null, destOrKey: VO | VertexKey | null): EO | null {
+  getEdge(srcOrKey: VO | VertexKey | undefined, destOrKey: VO | VertexKey | undefined): EO | undefined {
     let edges: EO[] = [];
 
-    if (srcOrKey !== null && destOrKey !== null) {
-      const src: VO | null = this._getVertex(srcOrKey);
-      const dest: VO | null = this._getVertex(destOrKey);
+    if (srcOrKey !== undefined && destOrKey !== undefined) {
+      const src: VO | undefined = this._getVertex(srcOrKey);
+      const dest: VO | undefined = this._getVertex(destOrKey);
 
       if (src && dest) {
         const srcOutEdges = this._outEdgeMap.get(src);
@@ -140,7 +140,7 @@ export class DirectedGraph<
       }
     }
 
-    return edges[0] || null;
+    return edges[0] || undefined;
   }
 
   /**
@@ -155,14 +155,14 @@ export class DirectedGraph<
    * The function removes an edge between two vertices in a graph and returns the removed edge.
    * @param {VO | VertexKey} srcOrKey - The source vertex or its ID.
    * @param {VO | VertexKey} destOrKey - The `destOrKey` parameter represents the destination vertex or its ID.
-   * @returns the removed edge (EO) if it exists, or null if either the source or destination vertex does not exist.
+   * @returns the removed edge (EO) if it exists, or undefined if either the source or destination vertex does not exist.
    */
-  deleteEdgeSrcToDest(srcOrKey: VO | VertexKey, destOrKey: VO | VertexKey): EO | null {
-    const src: VO | null = this._getVertex(srcOrKey);
-    const dest: VO | null = this._getVertex(destOrKey);
-    let removed: EO | null = null;
+  deleteEdgeSrcToDest(srcOrKey: VO | VertexKey, destOrKey: VO | VertexKey): EO | undefined {
+    const src: VO | undefined = this._getVertex(srcOrKey);
+    const dest: VO | undefined = this._getVertex(destOrKey);
+    let removed: EO | undefined = undefined;
     if (!src || !dest) {
-      return null;
+      return undefined;
     }
 
     const srcOutEdges = this._outEdgeMap.get(src);
@@ -172,7 +172,7 @@ export class DirectedGraph<
 
     const destInEdges = this._inEdgeMap.get(dest);
     if (destInEdges) {
-      removed = arrayRemove<EO>(destInEdges, (edge: EO) => edge.src === src.key)[0] || null;
+      removed = arrayRemove<EO>(destInEdges, (edge: EO) => edge.src === src.key)[0] || undefined;
     }
     return removed;
   }
@@ -186,13 +186,13 @@ export class DirectedGraph<
    * Time Complexity: O(|E|) where |E| is the number of edges
    * Space Complexity: O(1)
    *
-   * The function removes an edge from a graph and returns the removed edge, or null if the edge was not found.
+   * The function removes an edge from a graph and returns the removed edge, or undefined if the edge was not found.
    * @param {EO} edge - The `edge` parameter is an object that represents an edge in a graph. It has two properties: `src`
    * and `dest`, which represent the source and destination vertices of the edge, respectively.
-   * @returns The method `deleteEdge` returns the removed edge (`EO`) if it exists, or `null` if the edge does not exist.
+   * @returns The method `deleteEdge` returns the removed edge (`EO`) if it exists, or `undefined` if the edge does not exist.
    */
-  deleteEdge(edge: EO): EO | null {
-    let removed: EO | null = null;
+  deleteEdge(edge: EO): EO | undefined {
+    let removed: EO | undefined = undefined;
     const src = this._getVertex(edge.src);
     const dest = this._getVertex(edge.dest);
     if (src && dest) {
@@ -361,11 +361,11 @@ export class DirectedGraph<
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The function "getEdgeSrc" returns the source vertex of an edge, or null if the edge does not exist.
+   * The function "getEdgeSrc" returns the source vertex of an edge, or undefined if the edge does not exist.
    * @param {EO} e - The parameter "e" is of type EO, which represents an edge in a graph.
-   * @returns either a vertex object (VO) or null.
+   * @returns either a vertex object (VO) or undefined.
    */
-  getEdgeSrc(e: EO): VO | null {
+  getEdgeSrc(e: EO): VO | undefined {
     return this._getVertex(e.src);
   }
 
@@ -380,9 +380,9 @@ export class DirectedGraph<
    *
    * The function "getEdgeDest" returns the destination vertex of an edge.
    * @param {EO} e - The parameter "e" is of type "EO", which represents an edge in a graph.
-   * @returns either a vertex object of type VO or null.
+   * @returns either a vertex object of type VO or undefined.
    */
-  getEdgeDest(e: EO): VO | null {
+  getEdgeDest(e: EO): VO | undefined {
     return this._getVertex(e.dest);
   }
 
@@ -396,12 +396,12 @@ export class DirectedGraph<
    * Space Complexity: O(1)
    *
    * The function `getDestinations` returns an array of destination vertices connected to a given vertex.
-   * @param {VO | VertexKey | null} vertex - The `vertex` parameter represents the starting vertex from which we want to
-   * find the destinations. It can be either a `VO` object, a `VertexKey` value, or `null`.
+   * @param {VO | VertexKey | undefined} vertex - The `vertex` parameter represents the starting vertex from which we want to
+   * find the destinations. It can be either a `VO` object, a `VertexKey` value, or `undefined`.
    * @returns an array of vertices (VO[]).
    */
-  getDestinations(vertex: VO | VertexKey | null): VO[] {
-    if (vertex === null) {
+  getDestinations(vertex: VO | VertexKey | undefined): VO[] {
+    if (vertex === undefined) {
       return [];
     }
     const destinations: VO[] = [];
@@ -425,13 +425,13 @@ export class DirectedGraph<
    * Space Complexity: O(|V|)
    *
    * The `topologicalSort` function performs a topological sort on a graph and returns an array of vertices or vertex IDs
-   * in the sorted order, or null if the graph contains a cycle.
+   * in the sorted order, or undefined if the graph contains a cycle.
    * @param {'vertex' | 'key'} [propertyName] - The `propertyName` parameter is an optional parameter that specifies the
    * property to use for sorting the vertices. It can have two possible values: 'vertex' or 'key'. If 'vertex' is
    * specified, the vertices themselves will be used for sorting. If 'key' is specified, the ids of
-   * @returns an array of vertices or vertex IDs in topological order. If there is a cycle in the graph, it returns null.
+   * @returns an array of vertices or vertex IDs in topological order. If there is a cycle in the graph, it returns undefined.
    */
-  topologicalSort(propertyName?: 'vertex' | 'key'): Array<VO | VertexKey> | null {
+  topologicalSort(propertyName?: 'vertex' | 'key'): Array<VO | VertexKey> | undefined {
     propertyName = propertyName ?? 'key';
     // When judging whether there is a cycle in the undirected graph, all nodes with degree of **<= 1** are enqueued
     // When judging whether there is a cycle in the directed graph, all nodes with **in degree = 0** are enqueued
@@ -463,7 +463,7 @@ export class DirectedGraph<
       }
     }
 
-    if (hasCycle) return null;
+    if (hasCycle) return undefined;
 
     if (propertyName === 'key') sorted = sorted.map(vertex => (vertex instanceof DirectedVertex ? vertex.key : vertex));
     return sorted.reverse();
@@ -510,7 +510,7 @@ export class DirectedGraph<
       const outEdges = this.outgoingEdgesOf(vertex);
       for (const outEdge of outEdges) {
         const neighbor = this._getVertex(outEdge.dest);
-        // TODO after no-non-null-assertion not ensure the logic
+        // TODO after no-non-undefined-assertion not ensure the logic
         if (neighbor) {
           neighbors.push(neighbor);
         }
@@ -529,21 +529,21 @@ export class DirectedGraph<
    * Space Complexity: O(1)
    *
    * The function "getEndsOfEdge" returns the source and destination vertices of an edge if it exists in the graph,
-   * otherwise it returns null.
+   * otherwise it returns undefined.
    * @param {EO} edge - The parameter `edge` is of type `EO`, which represents an edge in a graph.
    * @returns The function `getEndsOfEdge` returns an array containing two vertices `[VO, VO]` if the edge exists in the
-   * graph. If the edge does not exist, it returns `null`.
+   * graph. If the edge does not exist, it returns `undefined`.
    */
-  getEndsOfEdge(edge: EO): [VO, VO] | null {
+  getEndsOfEdge(edge: EO): [VO, VO] | undefined {
     if (!this.hasEdge(edge.src, edge.dest)) {
-      return null;
+      return undefined;
     }
     const v1 = this._getVertex(edge.src);
     const v2 = this._getVertex(edge.dest);
     if (v1 && v2) {
       return [v1, v2];
     } else {
-      return null;
+      return undefined;
     }
   }
 
@@ -570,7 +570,7 @@ export class DirectedGraph<
     const srcVertex = this._getVertex(edge.src);
     const destVertex = this._getVertex(edge.dest);
 
-    // TODO after no-non-null-assertion not ensure the logic
+    // TODO after no-non-undefined-assertion not ensure the logic
     if (srcVertex && destVertex) {
       const srcOutEdges = this._outEdgeMap.get(srcVertex);
       if (srcOutEdges) {

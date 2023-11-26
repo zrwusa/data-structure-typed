@@ -100,26 +100,26 @@ export class UndirectedGraph<
    * Time Complexity: O(|E|), where |E| is the number of edges incident to the given vertex.
    * Space Complexity: O(1)
    *
-   * The function `getEdge` returns the first edge that connects two vertices, or null if no such edge exists.
-   * @param {VO | VertexKey | null} v1 - The parameter `v1` represents a vertex or vertex ID. It can be of type `VO` (vertex
-   * object), `null`, or `VertexKey` (a string or number representing the ID of a vertex).
-   * @param {VO | VertexKey | null} v2 - The parameter `v2` represents a vertex or vertex ID. It can be of type `VO` (vertex
-   * object), `null`, or `VertexKey` (vertex ID).
-   * @returns an edge (EO) or null.
+   * The function `getEdge` returns the first edge that connects two vertices, or undefined if no such edge exists.
+   * @param {VO | VertexKey | undefined} v1 - The parameter `v1` represents a vertex or vertex ID. It can be of type `VO` (vertex
+   * object), `undefined`, or `VertexKey` (a string or number representing the ID of a vertex).
+   * @param {VO | VertexKey | undefined} v2 - The parameter `v2` represents a vertex or vertex ID. It can be of type `VO` (vertex
+   * object), `undefined`, or `VertexKey` (vertex ID).
+   * @returns an edge (EO) or undefined.
    */
-  getEdge(v1: VO | VertexKey | null, v2: VO | VertexKey | null): EO | null {
+  getEdge(v1: VO | VertexKey | undefined, v2: VO | VertexKey | undefined): EO | undefined {
     let edges: EO[] | undefined = [];
 
-    if (v1 !== null && v2 !== null) {
-      const vertex1: VO | null = this._getVertex(v1);
-      const vertex2: VO | null = this._getVertex(v2);
+    if (v1 !== undefined && v2 !== undefined) {
+      const vertex1: VO | undefined = this._getVertex(v1);
+      const vertex2: VO | undefined = this._getVertex(v2);
 
       if (vertex1 && vertex2) {
         edges = this._edges.get(vertex1)?.filter(e => e.vertices.includes(vertex2.key));
       }
     }
 
-    return edges ? edges[0] || null : null;
+    return edges ? edges[0] || undefined : undefined;
   }
 
   /**
@@ -135,20 +135,20 @@ export class UndirectedGraph<
    * @param {VO | VertexKey} v1 - The parameter `v1` represents either a vertex object (`VO`) or a vertex ID (`VertexKey`).
    * @param {VO | VertexKey} v2 - VO | VertexKey - This parameter can be either a vertex object (VO) or a vertex ID
    * (VertexKey). It represents the second vertex of the edge that needs to be removed.
-   * @returns the removed edge (EO) if it exists, or null if either of the vertices (VO) does not exist.
+   * @returns the removed edge (EO) if it exists, or undefined if either of the vertices (VO) does not exist.
    */
-  deleteEdgeBetween(v1: VO | VertexKey, v2: VO | VertexKey): EO | null {
-    const vertex1: VO | null = this._getVertex(v1);
-    const vertex2: VO | null = this._getVertex(v2);
+  deleteEdgeBetween(v1: VO | VertexKey, v2: VO | VertexKey): EO | undefined {
+    const vertex1: VO | undefined = this._getVertex(v1);
+    const vertex2: VO | undefined = this._getVertex(v2);
 
     if (!vertex1 || !vertex2) {
-      return null;
+      return undefined;
     }
 
     const v1Edges = this._edges.get(vertex1);
-    let removed: EO | null = null;
+    let removed: EO | undefined = undefined;
     if (v1Edges) {
-      removed = arrayRemove<EO>(v1Edges, (e: EO) => e.vertices.includes(vertex2.key))[0] || null;
+      removed = arrayRemove<EO>(v1Edges, (e: EO) => e.vertices.includes(vertex2.key))[0] || undefined;
     }
     const v2Edges = this._edges.get(vertex2);
     if (v2Edges) {
@@ -168,9 +168,9 @@ export class UndirectedGraph<
    *
    * The deleteEdge function removes an edge between two vertices in a graph.
    * @param {EO} edge - The parameter "edge" is of type EO, which represents an edge in a graph.
-   * @returns The method is returning either the removed edge (of type EO) or null if the edge was not found.
+   * @returns The method is returning either the removed edge (of type EO) or undefined if the edge was not found.
    */
-  deleteEdge(edge: EO): EO | null {
+  deleteEdge(edge: EO): EO | undefined {
     return this.deleteEdgeBetween(edge.vertices[0], edge.vertices[1]);
   }
 
@@ -282,21 +282,21 @@ export class UndirectedGraph<
    * Space Complexity: O(1)
    *
    * The function "getEndsOfEdge" returns the vertices at the ends of an edge if the edge exists in the graph, otherwise
-   * it returns null.
+   * it returns undefined.
    * @param {EO} edge - The parameter "edge" is of type EO, which represents an edge in a graph.
    * @returns The function `getEndsOfEdge` returns an array containing two vertices `[VO, VO]` if the edge exists in the
-   * graph. If the edge does not exist, it returns `null`.
+   * graph. If the edge does not exist, it returns `undefined`.
    */
-  getEndsOfEdge(edge: EO): [VO, VO] | null {
+  getEndsOfEdge(edge: EO): [VO, VO] | undefined {
     if (!this.hasEdge(edge.vertices[0], edge.vertices[1])) {
-      return null;
+      return undefined;
     }
     const v1 = this._getVertex(edge.vertices[0]);
     const v2 = this._getVertex(edge.vertices[1]);
     if (v1 && v2) {
       return [v1, v2];
     } else {
-      return null;
+      return undefined;
     }
   }
 
@@ -316,7 +316,7 @@ export class UndirectedGraph<
   protected _addEdgeOnly(edge: EO): boolean {
     for (const end of edge.vertices) {
       const endVertex = this._getVertex(end);
-      if (endVertex === null) return false;
+      if (endVertex === undefined) return false;
       if (endVertex) {
         const edges = this._edges.get(endVertex);
         if (edges) {

@@ -89,9 +89,9 @@ export abstract class AbstractGraph<
    */
   abstract createEdge(srcOrV1: VertexKey, destOrV2: VertexKey, weight?: number, value?: E): EO;
 
-  abstract deleteEdge(edge: EO): EO | null;
+  abstract deleteEdge(edge: EO): EO | undefined;
 
-  abstract getEdge(srcOrKey: VO | VertexKey, destOrKey: VO | VertexKey): EO | null;
+  abstract getEdge(srcOrKey: VO | VertexKey, destOrKey: VO | VertexKey): EO | undefined;
 
   abstract degreeOf(vertexOrKey: VO | VertexKey): number;
 
@@ -101,7 +101,7 @@ export abstract class AbstractGraph<
 
   abstract getNeighbors(vertexOrKey: VO | VertexKey): VO[];
 
-  abstract getEndsOfEdge(edge: EO): [VO, VO] | null;
+  abstract getEndsOfEdge(edge: EO): [VO, VO] | undefined;
 
   /**
    * Time Complexity: O(1) - Constant time for Map lookup.
@@ -112,14 +112,14 @@ export abstract class AbstractGraph<
    * Time Complexity: O(1) - Constant time for Map lookup.
    * Space Complexity: O(1) - Constant space, as it creates only a few variables.
    *
-   * The function "getVertex" returns the vertex with the specified ID or null if it doesn't exist.
+   * The function "getVertex" returns the vertex with the specified ID or undefined if it doesn't exist.
    * @param {VertexKey} vertexKey - The `vertexKey` parameter is the identifier of the vertex that you want to retrieve from
    * the `_vertices` map.
    * @returns The method `getVertex` returns the vertex with the specified `vertexKey` if it exists in the `_vertices`
-   * map. If the vertex does not exist, it returns `null`.
+   * map. If the vertex does not exist, it returns `undefined`.
    */
-  getVertex(vertexKey: VertexKey): VO | null {
-    return this._vertices.get(vertexKey) || null;
+  getVertex(vertexKey: VertexKey): VO | undefined {
+    return this._vertices.get(vertexKey) || undefined;
   }
 
   /**
@@ -365,7 +365,7 @@ export abstract class AbstractGraph<
    * vertices. If `isWeight` is `false` or not provided, it uses a breadth-first search (BFS) algorithm to calculate the
    * minimum number of
    */
-  getMinCostBetween(v1: VO | VertexKey, v2: VO | VertexKey, isWeight?: boolean): number | null {
+  getMinCostBetween(v1: VO | VertexKey, v2: VO | VertexKey, isWeight?: boolean): number | undefined {
     if (isWeight === undefined) isWeight = false;
 
     if (isWeight) {
@@ -380,7 +380,7 @@ export abstract class AbstractGraph<
       const vertex2 = this._getVertex(v2);
       const vertex1 = this._getVertex(v1);
       if (!(vertex1 && vertex2)) {
-        return null;
+        return undefined;
       }
 
       const visited: Map<VO, boolean> = new Map();
@@ -406,7 +406,7 @@ export abstract class AbstractGraph<
         }
         cost++;
       }
-      return null;
+      return undefined;
     }
   }
 
@@ -432,9 +432,9 @@ export abstract class AbstractGraph<
    * followed by iterative computation of the shortest path. This approach may result in exponential time complexity,
    * so the default method is to use the Dijkstra algorithm to obtain the shortest weighted path.
    * @returns The function `getMinPathBetween` returns an array of vertices (`VO[]`) representing the minimum path between
-   * two vertices (`v1` and `v2`). If there is no path between the vertices, it returns `null`.
+   * two vertices (`v1` and `v2`). If there is no path between the vertices, it returns `undefined`.
    */
-  getMinPathBetween(v1: VO | VertexKey, v2: VO | VertexKey, isWeight?: boolean, isDFS = false): VO[] | null {
+  getMinPathBetween(v1: VO | VertexKey, v2: VO | VertexKey, isWeight?: boolean, isDFS = false): VO[] | undefined {
     if (isWeight === undefined) isWeight = false;
 
     if (isWeight) {
@@ -451,7 +451,7 @@ export abstract class AbstractGraph<
           }
           index++;
         }
-        return allPaths[minIndex] || null;
+        return allPaths[minIndex] || undefined;
       } else {
         return this.dijkstra(v1, v2, true, true)?.minPath ?? [];
       }
@@ -503,9 +503,9 @@ export abstract class AbstractGraph<
    * a graph without using a heap data structure.
    * @param {VO | VertexKey} src - The source vertex from which to start the Dijkstra's algorithm. It can be either a
    * vertex object or a vertex ID.
-   * @param {VO | VertexKey | null} [dest] - The `dest` parameter in the `dijkstraWithoutHeap` function is an optional
+   * @param {VO | VertexKey | undefined} [dest] - The `dest` parameter in the `dijkstraWithoutHeap` function is an optional
    * parameter that specifies the destination vertex for the Dijkstra algorithm. It can be either a vertex object or its
-   * identifier. If no destination is provided, the value is set to `null`.
+   * identifier. If no destination is provided, the value is set to `undefined`.
    * @param {boolean} [getMinDist] - The `getMinDist` parameter is a boolean flag that determines whether the minimum
    * distance from the source vertex to the destination vertex should be calculated and returned in the result. If
    * `getMinDist` is set to `true`, the `minDist` property in the result will contain the minimum distance
@@ -516,29 +516,29 @@ export abstract class AbstractGraph<
    */
   dijkstraWithoutHeap(
     src: VO | VertexKey,
-    dest?: VO | VertexKey | null,
+    dest?: VO | VertexKey | undefined,
     getMinDist?: boolean,
     genPaths?: boolean
   ): DijkstraResult<VO> {
     if (getMinDist === undefined) getMinDist = false;
     if (genPaths === undefined) genPaths = false;
 
-    if (dest === undefined) dest = null;
+    if (dest === undefined) dest = undefined;
     let minDist = Infinity;
-    let minDest: VO | null = null;
+    let minDest: VO | undefined = undefined;
     let minPath: VO[] = [];
     const paths: VO[][] = [];
 
     const vertices = this._vertices;
     const distMap: Map<VO, number> = new Map();
     const seen: Set<VO> = new Set();
-    const preMap: Map<VO, VO | null> = new Map(); // predecessor
+    const preMap: Map<VO, VO | undefined> = new Map(); // predecessor
     const srcVertex = this._getVertex(src);
 
-    const destVertex = dest ? this._getVertex(dest) : null;
+    const destVertex = dest ? this._getVertex(dest) : undefined;
 
     if (!srcVertex) {
-      return null;
+      return undefined;
     }
 
     for (const vertex of vertices) {
@@ -546,11 +546,11 @@ export abstract class AbstractGraph<
       if (vertexOrKey instanceof AbstractVertex) distMap.set(vertexOrKey, Infinity);
     }
     distMap.set(srcVertex, 0);
-    preMap.set(srcVertex, null);
+    preMap.set(srcVertex, undefined);
 
     const getMinOfNoSeen = () => {
       let min = Infinity;
-      let minV: VO | null = null;
+      let minV: VO | undefined = undefined;
       for (const [key, value] of distMap) {
         if (!seen.has(key)) {
           if (value < min) {
@@ -562,7 +562,7 @@ export abstract class AbstractGraph<
       return minV;
     };
 
-    const getPaths = (minV: VO | null) => {
+    const getPaths = (minV: VO | undefined) => {
       for (const vertex of vertices) {
         const vertexOrKey = vertex[1];
 
@@ -600,7 +600,7 @@ export abstract class AbstractGraph<
             if (edge) {
               const curFromMap = distMap.get(cur);
               const neighborFromMap = distMap.get(neighbor);
-              // TODO after no-non-null-assertion not ensure the logic
+              // TODO after no-non-undefined-assertion not ensure the logic
               if (curFromMap !== undefined && neighborFromMap !== undefined) {
                 if (edge.weight + curFromMap < neighborFromMap) {
                   distMap.set(neighbor, edge.weight + curFromMap);
@@ -651,7 +651,7 @@ export abstract class AbstractGraph<
    * optional destination vertex, and optionally returns the minimum distance, the paths, and other information.
    * @param {VO | VertexKey} src - The `src` parameter represents the source vertex from which the Dijkstra algorithm will
    * start. It can be either a vertex object or a vertex ID.
-   * @param {VO | VertexKey | null} [dest] - The `dest` parameter is the destination vertex or vertex ID. It specifies the
+   * @param {VO | VertexKey | undefined} [dest] - The `dest` parameter is the destination vertex or vertex ID. It specifies the
    * vertex to which the shortest path is calculated from the source vertex. If no destination is provided, the algorithm
    * will calculate the shortest paths to all other vertices from the source vertex.
    * @param {boolean} [getMinDist] - The `getMinDist` parameter is a boolean flag that determines whether the minimum
@@ -664,27 +664,27 @@ export abstract class AbstractGraph<
    */
   dijkstra(
     src: VO | VertexKey,
-    dest?: VO | VertexKey | null,
+    dest?: VO | VertexKey | undefined,
     getMinDist?: boolean,
     genPaths?: boolean
   ): DijkstraResult<VO> {
     if (getMinDist === undefined) getMinDist = false;
     if (genPaths === undefined) genPaths = false;
 
-    if (dest === undefined) dest = null;
+    if (dest === undefined) dest = undefined;
     let minDist = Infinity;
-    let minDest: VO | null = null;
+    let minDest: VO | undefined = undefined;
     let minPath: VO[] = [];
     const paths: VO[][] = [];
     const vertices = this._vertices;
     const distMap: Map<VO, number> = new Map();
     const seen: Set<VO> = new Set();
-    const preMap: Map<VO, VO | null> = new Map(); // predecessor
+    const preMap: Map<VO, VO | undefined> = new Map(); // predecessor
 
     const srcVertex = this._getVertex(src);
-    const destVertex = dest ? this._getVertex(dest) : null;
+    const destVertex = dest ? this._getVertex(dest) : undefined;
 
-    if (!srcVertex) return null;
+    if (!srcVertex) return undefined;
 
     for (const vertex of vertices) {
       const vertexOrKey = vertex[1];
@@ -695,14 +695,14 @@ export abstract class AbstractGraph<
     heap.add({ key: 0, value: srcVertex });
 
     distMap.set(srcVertex, 0);
-    preMap.set(srcVertex, null);
+    preMap.set(srcVertex, undefined);
 
     /**
      * The function `getPaths` retrieves all paths from vertices to a specified minimum vertex.
-     * @param {VO | null} minV - The parameter `minV` is of type `VO | null`. It represents the minimum vertex value or
-     * null.
+     * @param {VO | undefined} minV - The parameter `minV` is of type `VO | undefined`. It represents the minimum vertex value or
+     * undefined.
      */
-    const getPaths = (minV: VO | null) => {
+    const getPaths = (minV: VO | undefined) => {
       for (const vertex of vertices) {
         const vertexOrKey = vertex[1];
         if (vertexOrKey instanceof AbstractVertex) {
@@ -841,7 +841,7 @@ export abstract class AbstractGraph<
       }
     }
 
-    let minDest: VO | null = null;
+    let minDest: VO | undefined = undefined;
     if (getMin) {
       distMap.forEach((d, v) => {
         if (v !== srcVertex) {
@@ -920,22 +920,22 @@ export abstract class AbstractGraph<
    * graph.
    * @returns The function `floydWarshall()` returns an object with two properties: `costs` and `predecessor`. The `costs`
    * property is a 2D array of numbers representing the shortest path costs between vertices in a graph. The
-   * `predecessor` property is a 2D array of vertices (or `null`) representing the predecessor vertices in the shortest
+   * `predecessor` property is a 2D array of vertices (or `undefined`) representing the predecessor vertices in the shortest
    * path between vertices in the
    */
-  floydWarshall(): { costs: number[][]; predecessor: (VO | null)[][] } {
+  floydWarshall(): { costs: number[][]; predecessor: (VO | undefined)[][] } {
     const idAndVertices = [...this._vertices];
     const n = idAndVertices.length;
 
     const costs: number[][] = [];
-    const predecessor: (VO | null)[][] = [];
+    const predecessor: (VO | undefined)[][] = [];
     // successors
 
     for (let i = 0; i < n; i++) {
       costs[i] = [];
       predecessor[i] = [];
       for (let j = 0; j < n; j++) {
-        predecessor[i][j] = null;
+        predecessor[i][j] = undefined;
       }
     }
 
@@ -1021,7 +1021,7 @@ export abstract class AbstractGraph<
     const cutVertexes: VO[] = [];
     const bridges: EO[] = [];
     let dfn = 0;
-    const dfs = (cur: VO, parent: VO | null) => {
+    const dfs = (cur: VO, parent: VO | undefined) => {
       dfn++;
       dfnMap.set(cur, dfn);
       lowMap.set(cur, dfn);
@@ -1036,7 +1036,7 @@ export abstract class AbstractGraph<
           }
           const childLow = lowMap.get(neighbor);
           const curLow = lowMap.get(cur);
-          // TODO after no-non-null-assertion not ensure the logic
+          // TODO after no-non-undefined-assertion not ensure the logic
           if (curLow !== undefined && childLow !== undefined) {
             lowMap.set(cur, Math.min(curLow, childLow));
           }
@@ -1062,7 +1062,7 @@ export abstract class AbstractGraph<
       }
     };
 
-    dfs(root, null);
+    dfs(root, undefined);
 
     let SCCs: Map<number, VO[]> = new Map();
 
@@ -1170,9 +1170,9 @@ export abstract class AbstractGraph<
     return true;
   }
 
-  protected _getVertex(vertexOrKey: VertexKey | VO): VO | null {
+  protected _getVertex(vertexOrKey: VertexKey | VO): VO | undefined {
     const vertexKey = this._getVertexKey(vertexOrKey);
-    return this._vertices.get(vertexKey) || null;
+    return this._vertices.get(vertexKey) || undefined;
   }
 
   protected _getVertexKey(vertexOrKey: VO | VertexKey): VertexKey {

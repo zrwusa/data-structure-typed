@@ -4,8 +4,8 @@
   <meta charset='UTF-8'>
   <title>CDN Test</title>
   <!--  <script src="../../dist/umd/data-structure-typed.min.js"></script>-->
-  <script src="../../dist/umd/data-structure-typed.js"></script>
-  <!--  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js'></script>-->
+  <!--  <script src="../../dist/umd/data-structure-typed.js"></script>-->
+  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js'></script>
   <!--  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed@1.42.2/dist/umd/data-structure-typed.min.js'></script>-->
   <!--  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed@1.43.3/dist/umd/data-structure-typed.min.js'></script>-->
   <!--  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed@1.44.0/dist/umd/data-structure-typed.min.js'></script>-->
@@ -215,25 +215,25 @@
   } catch (e) {
     console.error(e);
   }
-  
+
   try {
-  const {
+    const {
       AVLTree,
-        BinaryTree,
-        BST,
-        Deque,
-        DoublyLinkedList,
-        HashMap,
-        Heap,
-        MaxPriorityQueue,
-        MinHeap,
-        MinPriorityQueue,
-        Queue,
-        RedBlackTree,
-        SinglyLinkedList,
-        Stack,
-        TreeMultimap,
-        Trie
+      BinaryTree,
+      BST,
+      Deque,
+      DoublyLinkedList,
+      HashMap,
+      Heap,
+      MaxPriorityQueue,
+      MinHeap,
+      MinPriorityQueue,
+      Queue,
+      RedBlackTree,
+      SinglyLinkedList,
+      Stack,
+      TreeMultimap,
+      Trie
     } = dataStructureTyped;
     const orgArr = [6, 1, 2, 7, 5, 3, 4, 9, 8];
     const orgStrArr = ["trie", "trial", "trick", "trip", "tree", "trend", "triangle", "track", "trace", "transmit"];
@@ -299,7 +299,7 @@
     const entries2 = dq2.map((el, i) => [i, el]);
     const avl2 = new AVLTree(entries2);
     avl2.print();
-  }  catch (e) {
+  } catch (e) {
     console.error(e);
   }
 </script>

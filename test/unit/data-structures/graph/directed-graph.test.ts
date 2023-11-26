@@ -196,7 +196,7 @@ describe('Inherit from DirectedGraph and perform operations', () => {
       expect(edge1).toBeInstanceOf(MyEdge);
       expect(edge1.src).toBe(1);
       expect(edge1).toEqual(edge2);
-      expect(edge3).toBeNull();
+      expect(edge3).toBe(undefined);
     }
   });
 
@@ -217,7 +217,7 @@ describe('Inherit from DirectedGraph and perform operations', () => {
       removedEdge && expect(removedEdge.value).toBe('edge-data1-2');
       removedEdge && expect(removedEdge.src).toBe(1);
     }
-    expect(edgeAfterRemoval).toBeNull();
+    expect(edgeAfterRemoval).toBe(undefined);
   });
 
   it('Topological sort', () => {
@@ -303,7 +303,7 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
 
     myGraph.addEdge(new MyEdge(7, 3, 73, 'edge-data7-3'));
     const topologicalSorted = myGraph.topologicalSort();
-    expect(topologicalSorted).toBeNull();
+    expect(topologicalSorted).toBe(undefined);
 
     const minPath1to7 = myGraph.getMinPathBetween(1, 7);
 
@@ -378,11 +378,11 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
 
       expect(predecessor).toBeInstanceOf(Array);
       expect(predecessor.length).toBe(9);
-      expect(predecessor[0]).toEqual([vertex2, null, vertex2, null, vertex3, null, vertex4, null, null]);
-      expect(predecessor[1]).toEqual([null, vertex1, null, vertex1, vertex3, null, vertex4, null, vertex1]);
-      expect(predecessor[5]).toEqual([null, null, null, null, null, null, null, null, null]);
-      expect(predecessor[7]).toEqual([null, null, null, null, null, null, null, null, null]);
-      expect(predecessor[8]).toEqual([vertex7, vertex7, vertex7, vertex7, vertex7, null, null, null, vertex7]);
+      expect(predecessor[0]).toEqual([vertex2, undefined, vertex2, undefined, vertex3, undefined, vertex4, undefined, undefined]);
+      expect(predecessor[1]).toEqual([undefined, vertex1, undefined, vertex1, vertex3, undefined, vertex4, undefined, vertex1]);
+      expect(predecessor[5]).toEqual([undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined]);
+      expect(predecessor[7]).toEqual([undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined]);
+      expect(predecessor[8]).toEqual([vertex7, vertex7, vertex7, vertex7, vertex7, undefined, undefined, undefined, vertex7]);
     }
 
     const dijkstraRes12tt = myGraph.dijkstra(1, 2, true, true);
@@ -436,7 +436,7 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
       expect(paths[8][1]).toBe(vertex9);
     }
 
-    const dijkstraRes1ntt = myGraph.dijkstra(1, null, true, true);
+    const dijkstraRes1ntt = myGraph.dijkstra(1, undefined, true, true);
 
     expect(dijkstraRes1ntt).toBeTruthy();
     if (dijkstraRes1ntt) {
@@ -499,7 +499,7 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
       expect(paths[8][1]).toBe(vertex9);
     }
 
-    const dijkstraWithoutHeapRes1ntt = myGraph.dijkstraWithoutHeap(1, null, true, true);
+    const dijkstraWithoutHeapRes1ntt = myGraph.dijkstraWithoutHeap(1, undefined, true, true);
     expect(dijkstraWithoutHeapRes1ntt).toBeTruthy();
     if (dijkstraWithoutHeapRes1ntt) {
       const { distMap, minDist, minPath, paths } = dijkstraWithoutHeapRes1ntt;
