@@ -333,7 +333,7 @@ describe('SinglyLinkedList Operation Test', () => {
       list.push(1);
       list.push(3);
       const result = list.find(data => data % 2 === 0);
-      expect(result).toBeNull();
+      expect(result).toBe(undefined);
     });
   });
 
@@ -402,8 +402,8 @@ describe('SinglyLinkedList', () => {
   });
 
   it('should initialize an empty list', () => {
-    expect(list.head).toBeNull();
-    expect(list.tail).toBeNull();
+    expect(list.head).toBe(undefined);
+    expect(list.tail).toBe(undefined);
     expect(list.length).toBe(0);
   });
 

@@ -27,7 +27,7 @@ export class SkipList<K, V> {
    * level in the skip list. It is used to determine the height of each node in the skip list.
    */
   constructor(maxLevel = 16, probability = 0.5) {
-    this._head = new SkipListNode<K, V>(null as any, null as any, maxLevel);
+    this._head = new SkipListNode<K, V>(undefined as any, undefined as any, maxLevel);
     this._level = 0;
     this._maxLevel = maxLevel;
     this._probability = probability;
@@ -88,7 +88,7 @@ export class SkipList<K, V> {
       update[i].forward[i] = newNode;
     }
 
-    if (newNode.forward[0] !== null) {
+    if (!newNode.forward[0]) {
       this._level = Math.max(this.level, newNode.forward.length);
     }
   }
@@ -172,7 +172,7 @@ export class SkipList<K, V> {
         }
         update[i].forward[i] = current.forward[i];
       }
-      while (this.level > 0 && this.head.forward[this.level - 1] === null) {
+      while (this.level > 0 && !this.head.forward[this.level - 1]) {
         this._level--;
       }
       return true;
@@ -259,7 +259,7 @@ export class SkipList<K, V> {
    */
   lower(key: K): V | undefined {
     let current = this.head;
-    let lastLess = null;
+    let lastLess = undefined;
 
     for (let i = this.level - 1; i >= 0; i--) {
       while (current.forward[i] && current.forward[i].key < key) {

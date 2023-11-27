@@ -7,8 +7,8 @@
  */
 export class DoublyLinkedListNode<E = any> {
   value: E;
-  next: DoublyLinkedListNode<E> | null;
-  prev: DoublyLinkedListNode<E> | null;
+  next: DoublyLinkedListNode<E> | undefined;
+  prev: DoublyLinkedListNode<E> | undefined;
 
   /**
    * The constructor function initializes the value, next, and previous properties of an object.
@@ -17,8 +17,8 @@ export class DoublyLinkedListNode<E = any> {
    */
   constructor(value: E) {
     this.value = value;
-    this.next = null;
-    this.prev = null;
+    this.next = undefined;
+    this.prev = undefined;
   }
 }
 
@@ -27,8 +27,8 @@ export class DoublyLinkedList<E = any> {
    * The constructor initializes the linked list with an empty head, tail, and length.
    */
   constructor(elements?: Iterable<E>) {
-    this._head = null;
-    this._tail = null;
+    this._head = undefined;
+    this._tail = undefined;
     this._length = 0;
     if (elements) {
       for (const el of elements) {
@@ -37,15 +37,15 @@ export class DoublyLinkedList<E = any> {
     }
   }
 
-  protected _head: DoublyLinkedListNode<E> | null;
+  protected _head: DoublyLinkedListNode<E> | undefined;
 
-  get head(): DoublyLinkedListNode<E> | null {
+  get head(): DoublyLinkedListNode<E> | undefined {
     return this._head;
   }
 
-  protected _tail: DoublyLinkedListNode<E> | null;
+  protected _tail: DoublyLinkedListNode<E> | undefined;
 
-  get tail(): DoublyLinkedListNode<E> | null {
+  get tail(): DoublyLinkedListNode<E> | undefined {
     return this._tail;
   }
 
@@ -133,17 +133,17 @@ export class DoublyLinkedList<E = any> {
    *
    * The `pop()` function removes and returns the value of the last node in a doubly linked list.
    * @returns The method is returning the value of the removed node (removedNode.value) if the list is not empty. If the
-   * list is empty, it returns null.
+   * list is empty, it returns undefined.
    */
   pop(): E | undefined {
     if (!this.tail) return undefined;
     const removedNode = this.tail;
     if (this.head === this.tail) {
-      this._head = null;
-      this._tail = null;
+      this._head = undefined;
+      this._tail = undefined;
     } else {
       this._tail = removedNode.prev;
-      this.tail!.next = null;
+      this.tail!.next = undefined;
     }
     this._length--;
     return removedNode.value;
@@ -160,7 +160,7 @@ export class DoublyLinkedList<E = any> {
    *
    * The `popLast()` function removes and returns the value of the last node in a doubly linked list.
    * @returns The method is returning the value of the removed node (removedNode.value) if the list is not empty. If the
-   * list is empty, it returns null.
+   * list is empty, it returns undefined.
    */
   popLast(): E | undefined {
     return this.pop();
@@ -183,11 +183,11 @@ export class DoublyLinkedList<E = any> {
     if (!this.head) return undefined;
     const removedNode = this.head;
     if (this.head === this.tail) {
-      this._head = null;
-      this._tail = null;
+      this._head = undefined;
+      this._tail = undefined;
     } else {
       this._head = removedNode.next;
-      this.head!.prev = null;
+      this.head!.prev = undefined;
     }
     this._length--;
     return removedNode.value;
@@ -262,8 +262,8 @@ export class DoublyLinkedList<E = any> {
    * Time Complexity: O(n), where n is the number of elements in the linked list.
    * Space Complexity: O(1)
    *
-   * The `getFirst` function returns the first node in a doubly linked list, or null if the list is empty.
-   * @returns The method `getFirst()` returns the first node of the doubly linked list, or `null` if the list is empty.
+   * The `getFirst` function returns the first node in a doubly linked list, or undefined if the list is empty.
+   * @returns The method `getFirst()` returns the first node of the doubly linked list, or `undefined` if the list is empty.
    */
   getFirst(): E | undefined {
     return this.head?.value;
@@ -278,8 +278,8 @@ export class DoublyLinkedList<E = any> {
    * Time Complexity: O(n), where n is the number of elements in the linked list.
    * Space Complexity: O(1)
    *
-   * The `getLast` function returns the last node in a doubly linked list, or null if the list is empty.
-   * @returns The method `getLast()` returns the last node of the doubly linked list, or `null` if the list is empty.
+   * The `getLast` function returns the last node in a doubly linked list, or undefined if the list is empty.
+   * @returns The method `getLast()` returns the last node of the doubly linked list, or `undefined` if the list is empty.
    */
   getLast(): E | undefined {
     return this.tail?.value;
@@ -294,11 +294,11 @@ export class DoublyLinkedList<E = any> {
    * Time Complexity: O(n), where n is the number of elements in the linked list.
    * Space Complexity: O(1)
    *
-   * The `getAt` function returns the value at a specified index in a linked list, or null if the index is out of bounds.
+   * The `getAt` function returns the value at a specified index in a linked list, or undefined if the index is out of bounds.
    * @param {number} index - The index parameter is a number that represents the position of the element we want to
    * retrieve from the list.
    * @returns The method is returning the value at the specified index in the linked list. If the index is out of bounds
-   * or the linked list is empty, it will return null.
+   * or the linked list is empty, it will return undefined.
    */
   getAt(index: number): E | undefined {
     if (index < 0 || index >= this.length) return undefined;
@@ -318,15 +318,15 @@ export class DoublyLinkedList<E = any> {
    * Time Complexity: O(n), where n is the number of elements in the linked list.
    * Space Complexity: O(1)
    *
-   * The function `getNodeAt` returns the node at a given index in a doubly linked list, or null if the index is out of
+   * The function `getNodeAt` returns the node at a given index in a doubly linked list, or undefined if the index is out of
    * range.
    * @param {number} index - The `index` parameter is a number that represents the position of the node we want to
    * retrieve from the doubly linked list. It indicates the zero-based index of the node we want to access.
    * @returns The method `getNodeAt(index: number)` returns a `DoublyLinkedListNode<E>` object if the index is within the
-   * valid range of the linked list, otherwise it returns `null`.
+   * valid range of the linked list, otherwise it returns `undefined`.
    */
-  getNodeAt(index: number): DoublyLinkedListNode<E> | null {
-    if (index < 0 || index >= this.length) return null;
+  getNodeAt(index: number): DoublyLinkedListNode<E> | undefined {
+    if (index < 0 || index >= this.length) return undefined;
     let current = this.head;
     for (let i = 0; i < index; i++) {
       current = current!.next;
@@ -344,12 +344,12 @@ export class DoublyLinkedList<E = any> {
    * Space Complexity: O(1)
    *
    * The function `findNodeByValue` searches for a node with a specific value in a doubly linked list and returns the
-   * node if found, otherwise it returns null.
+   * node if found, otherwise it returns undefined.
    * @param {E} value - The `value` parameter is the value that we want to search for in the doubly linked list.
    * @returns The function `findNodeByValue` returns a `DoublyLinkedListNode<E>` if a node with the specified value `value`
-   * is found in the linked list. If no such node is found, it returns `null`.
+   * is found in the linked list. If no such node is found, it returns `undefined`.
    */
-  getNode(value: E | null): DoublyLinkedListNode<E> | null {
+  getNode(value: E | undefined): DoublyLinkedListNode<E> | undefined {
     let current = this.head;
 
     while (current) {
@@ -359,7 +359,7 @@ export class DoublyLinkedList<E = any> {
       current = current.next;
     }
 
-    return null;
+    return undefined;
   }
 
   /**
@@ -502,7 +502,7 @@ export class DoublyLinkedList<E = any> {
    * The `deleteAt` function removes an element at a specified index from a linked list and returns the removed element.
    * @param {number} index - The index parameter represents the position of the element that needs to be deleted in the
    * data structure. It is of type number.
-   * @returns The method `deleteAt` returns the value of the node that was deleted, or `null` if the index is out of
+   * @returns The method `deleteAt` returns the value of the node that was deleted, or `undefined` if the index is out of
    * bounds.
    */
   deleteAt(index: number): E | undefined {
@@ -534,8 +534,8 @@ export class DoublyLinkedList<E = any> {
    * @returns The `delete` method returns a boolean value. It returns `true` if the value or node was successfully
    * deleted from the doubly linked list, and `false` if the value or node was not found in the list.
    */
-  delete(valOrNode: E | DoublyLinkedListNode<E> | null): boolean {
-    let node: DoublyLinkedListNode<E> | null;
+  delete(valOrNode: E | DoublyLinkedListNode<E> | undefined): boolean {
+    let node: DoublyLinkedListNode<E> | undefined;
 
     if (valOrNode instanceof DoublyLinkedListNode) {
       node = valOrNode;
@@ -569,11 +569,11 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
-   * The `clear` function resets the linked list by setting the head, tail, and length to null and 0 respectively.
+   * The `clear` function resets the linked list by setting the head, tail, and length to undefined and 0 respectively.
    */
   clear(): void {
-    this._head = null;
-    this._tail = null;
+    this._head = undefined;
+    this._tail = undefined;
     this._length = 0;
   }
 
@@ -590,9 +590,9 @@ export class DoublyLinkedList<E = any> {
    * @param callback - A function that takes a value of type E as its parameter and returns a boolean value. This
    * function is used to determine whether a particular value in the linked list satisfies a certain condition.
    * @returns The method `find` returns the first element in the linked list that satisfies the condition specified by
-   * the callback function. If no element satisfies the condition, it returns `null`.
+   * the callback function. If no element satisfies the condition, it returns `undefined`.
    */
-  find(callback: (value: E) => boolean): E | null {
+  find(callback: (value: E) => boolean): E | undefined {
     let current = this.head;
     while (current) {
       if (callback(current.value)) {
@@ -600,7 +600,7 @@ export class DoublyLinkedList<E = any> {
       }
       current = current.next;
     }
-    return null;
+    return undefined;
   }
 
   /**
@@ -641,13 +641,13 @@ export class DoublyLinkedList<E = any> {
    * Space Complexity: O(1)
    *
    * The `findBackward` function iterates through a linked list from the last node to the first node and returns the last
-   * value that satisfies the given callback function, or null if no value satisfies the callback.
+   * value that satisfies the given callback function, or undefined if no value satisfies the callback.
    * @param callback - A function that takes a value of type E as its parameter and returns a boolean value. This
    * function is used to determine whether a given value satisfies a certain condition.
    * @returns The method `findBackward` returns the last value in the linked list that satisfies the condition specified by
-   * the callback function. If no value satisfies the condition, it returns `null`.
+   * the callback function. If no value satisfies the condition, it returns `undefined`.
    */
-  findBackward(callback: (value: E) => boolean): E | null {
+  findBackward(callback: (value: E) => boolean): E | undefined {
     let current = this.tail;
     while (current) {
       if (callback(current.value)) {
@@ -655,7 +655,7 @@ export class DoublyLinkedList<E = any> {
       }
       current = current.prev;
     }
-    return null;
+    return undefined;
   }
 
   /**

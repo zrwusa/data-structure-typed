@@ -7,16 +7,16 @@
  */
 export class SinglyLinkedListNode<E = any> {
   value: E;
-  next: SinglyLinkedListNode<E> | null;
+  next: SinglyLinkedListNode<E> | undefined;
 
   /**
-   * The constructor function initializes an instance of a class with a given value and sets the next property to null.
+   * The constructor function initializes an instance of a class with a given value and sets the next property to undefined.
    * @param {E} value - The "value" parameter is of type E, which means it can be any data type. It represents the value that
    * will be stored in the node of a linked list.
    */
   constructor(value: E) {
     this.value = value;
-    this.next = null;
+    this.next = undefined;
   }
 }
 
@@ -25,8 +25,8 @@ export class SinglyLinkedList<E = any> {
    * The constructor initializes the linked list with an empty head, tail, and length.
    */
   constructor(elements?: Iterable<E>) {
-    this._head = null;
-    this._tail = null;
+    this._head = undefined;
+    this._tail = undefined;
     this._length = 0;
     if (elements) {
       for (const el of elements)
@@ -34,15 +34,15 @@ export class SinglyLinkedList<E = any> {
     }
   }
 
-  protected _head: SinglyLinkedListNode<E> | null;
+  protected _head: SinglyLinkedListNode<E> | undefined;
 
-  get head(): SinglyLinkedListNode<E> | null {
+  get head(): SinglyLinkedListNode<E> | undefined {
     return this._head;
   }
 
-  protected _tail: SinglyLinkedListNode<E> | null;
+  protected _tail: SinglyLinkedListNode<E> | undefined;
 
-  get tail(): SinglyLinkedListNode<E> | null {
+  get tail(): SinglyLinkedListNode<E> | undefined {
     return this._tail;
   }
 
@@ -128,14 +128,14 @@ export class SinglyLinkedList<E = any> {
    * The `pop()` function removes and returns the value of the last element in a linked list, updating the head and tail
    * pointers accordingly.
    * @returns The method `pop()` returns the value of the node that is being removed from the end of the linked list. If
-   * the linked list is empty, it returns `null`.
+   * the linked list is empty, it returns `undefined`.
    */
   pop(): E | undefined {
     if (!this.head) return undefined;
     if (this.head === this.tail) {
       const value = this.head.value;
-      this._head = null;
-      this._tail = null;
+      this._head = undefined;
+      this._tail = undefined;
       this._length--;
       return value;
     }
@@ -145,7 +145,7 @@ export class SinglyLinkedList<E = any> {
       current = current.next!;
     }
     const value = this.tail!.value;
-    current.next = null;
+    current.next = undefined;
     this._tail = current;
     this._length--;
     return value;
@@ -163,7 +163,7 @@ export class SinglyLinkedList<E = any> {
    * The `popLast()` function removes and returns the value of the last element in a linked list, updating the head and tail
    * pointers accordingly.
    * @returns The method `pop()` returns the value of the node that is being removed from the end of the linked list. If
-   * the linked list is empty, it returns `null`.
+   * the linked list is empty, it returns `undefined`.
    */
   popLast(): E | undefined {
     return this.pop();
@@ -256,11 +256,11 @@ export class SinglyLinkedList<E = any> {
    * Time Complexity: O(n) - Linear time, where n is the index, as it may need to traverse the list to find the desired node.
    * Space Complexity: O(1) - Constant space.
    *
-   * The function `getAt` returns the value at a specified index in a linked list, or null if the index is out of range.
+   * The function `getAt` returns the value at a specified index in a linked list, or undefined if the index is out of range.
    * @param {number} index - The index parameter is a number that represents the position of the element we want to
    * retrieve from the list.
-   * @returns The method `getAt(index: number): E | null` returns the value at the specified index in the linked list, or
-   * `null` if the index is out of bounds.
+   * @returns The method `getAt(index: number): E | undefined` returns the value at the specified index in the linked list, or
+   * `undefined` if the index is out of bounds.
    */
   getAt(index: number): E | undefined {
     if (index < 0 || index >= this.length) return undefined;
@@ -284,9 +284,9 @@ export class SinglyLinkedList<E = any> {
    * @param {number} index - The `index` parameter is a number that represents the position of the node we want to
    * retrieve from the linked list. It indicates the zero-based index of the node we want to access.
    * @returns The method `getNodeAt(index: number)` returns a `SinglyLinkedListNode<E>` object if the node at the
-   * specified index exists, or `null` if the index is out of bounds.
+   * specified index exists, or `undefined` if the index is out of bounds.
    */
-  getNodeAt(index: number): SinglyLinkedListNode<E> | null {
+  getNodeAt(index: number): SinglyLinkedListNode<E> | undefined {
     let current = this.head;
     for (let i = 0; i < index; i++) {
       current = current!.next;
@@ -306,7 +306,7 @@ export class SinglyLinkedList<E = any> {
    * The `deleteAt` function removes an element at a specified index from a linked list and returns the removed element.
    * @param {number} index - The index parameter represents the position of the element that needs to be deleted in the
    * data structure. It is of type number.
-   * @returns The method `deleteAt` returns the value of the node that was deleted, or `null` if the index is out of
+   * @returns The method `deleteAt` returns the value of the node that was deleted, or `undefined` if the index is out of
    * bounds.
    */
   deleteAt(index: number): E | undefined {
@@ -336,7 +336,7 @@ export class SinglyLinkedList<E = any> {
    * @returns The `delete` method returns a boolean value. It returns `true` if the value or node is found and
    * successfully deleted from the linked list, and `false` if the value or node is not found in the linked list.
    */
-  delete(valueOrNode: E | SinglyLinkedListNode<E> | null | undefined): boolean {
+  delete(valueOrNode: E | SinglyLinkedListNode<E> | undefined | undefined): boolean {
     if (!valueOrNode) return false;
     let value: E;
     if (valueOrNode instanceof SinglyLinkedListNode) {
@@ -345,14 +345,14 @@ export class SinglyLinkedList<E = any> {
       value = valueOrNode;
     }
     let current = this.head,
-      prev = null;
+      prev = undefined;
 
     while (current) {
       if (current.value === value) {
-        if (prev === null) {
+        if (prev === undefined) {
           this._head = current.next;
           if (current === this.tail) {
-            this._tail = null;
+            this._tail = undefined;
           }
         } else {
           prev.next = current.next;
@@ -416,11 +416,11 @@ export class SinglyLinkedList<E = any> {
   }
 
   /**
-   * The `clear` function resets the linked list by setting the head, tail, and length to null and 0 respectively.
+   * The `clear` function resets the linked list by setting the head, tail, and length to undefined and 0 respectively.
    */
   clear(): void {
-    this._head = null;
-    this._tail = null;
+    this._head = undefined;
+    this._tail = undefined;
     this._length = 0;
   }
 
@@ -461,9 +461,9 @@ export class SinglyLinkedList<E = any> {
   reverse(): void {
     if (!this.head || this.head === this.tail) return;
 
-    let prev: SinglyLinkedListNode<E> | null = null;
-    let current: SinglyLinkedListNode<E> | null = this.head;
-    let next: SinglyLinkedListNode<E> | null = null;
+    let prev: SinglyLinkedListNode<E> | undefined = undefined;
+    let current: SinglyLinkedListNode<E> | undefined = this.head;
+    let next: SinglyLinkedListNode<E> | undefined = undefined;
 
     while (current) {
       next = current.next;
@@ -488,9 +488,9 @@ export class SinglyLinkedList<E = any> {
    * @param callback - A function that takes a value of type E as its parameter and returns a boolean value. This
    * function is used to determine whether a particular value in the linked list satisfies a certain condition.
    * @returns The method `find` returns the first element in the linked list that satisfies the condition specified by
-   * the callback function. If no element satisfies the condition, it returns `null`.
+   * the callback function. If no element satisfies the condition, it returns `undefined`.
    */
-  find(callback: (value: E) => boolean): E | null {
+  find(callback: (value: E) => boolean): E | undefined {
     let current = this.head;
     while (current) {
       if (callback(current.value)) {
@@ -498,7 +498,7 @@ export class SinglyLinkedList<E = any> {
       }
       current = current.next;
     }
-    return null;
+    return undefined;
   }
 
   /**
@@ -540,12 +540,12 @@ export class SinglyLinkedList<E = any> {
    * Space Complexity: O(1) - Constant space.
    *
    * The function finds a node in a singly linked list by its value and returns the node if found, otherwise returns
-   * null.
+   * undefined.
    * @param {E} value - The value parameter is the value that we want to search for in the linked list.
    * @returns a `SinglyLinkedListNode<E>` if a node with the specified value is found in the linked list. If no node with
-   * the specified value is found, the function returns `null`.
+   * the specified value is found, the function returns `undefined`.
    */
-  getNode(value: E): SinglyLinkedListNode<E> | null {
+  getNode(value: E): SinglyLinkedListNode<E> | undefined {
     let current = this.head;
 
     while (current) {
@@ -555,7 +555,7 @@ export class SinglyLinkedList<E = any> {
       current = current.next;
     }
 
-    return null;
+    return undefined;
   }
 
   /**
@@ -620,7 +620,7 @@ export class SinglyLinkedList<E = any> {
    * existing value or node, and false if the existing value or node was not found in the linked list.
    */
   insertAfter(existingValueOrNode: E | SinglyLinkedListNode<E>, newValue: E): boolean {
-    let existingNode: E | SinglyLinkedListNode<E> | null;
+    let existingNode: E | SinglyLinkedListNode<E> | undefined;
 
     if (existingValueOrNode instanceof SinglyLinkedListNode) {
       existingNode = existingValueOrNode;

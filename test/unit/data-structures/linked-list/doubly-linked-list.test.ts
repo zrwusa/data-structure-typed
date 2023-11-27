@@ -17,8 +17,8 @@ describe('DoublyLinkedList Operation Test', () => {
   });
 
   it('should out of bound index', () => {
-    expect(list.getNodeAt(-1)).toBe(null);
-    expect(list.getNodeAt(5)).toBe(null);
+    expect(list.getNodeAt(-1)).toBe(undefined);
+    expect(list.getNodeAt(5)).toBe(undefined);
     expect(list.insertAt(5, 6)).toBe(true);
   });
 
@@ -37,16 +37,16 @@ describe('DoublyLinkedList Operation Test', () => {
     expect(list.tail?.value).toBe(4);
   });
 
-  it('should find null', () => {
-    expect(list.find(value => value === 6)).toBe(null);
+  it('should find undefined', () => {
+    expect(list.find(value => value === 6)).toBe(undefined);
   });
 
   it('should indexOf -1', () => {
     expect(list.indexOf(6)).toBe(-1);
   });
 
-  it('should findBackward null', () => {
-    expect(list.findBackward(value => value === 0)).toBe(null);
+  it('should findBackward undefined', () => {
+    expect(list.findBackward(value => value === 0)).toBe(undefined);
   });
 
   it('should insertAfter tail', () => {
@@ -69,8 +69,8 @@ describe('DoublyLinkedList Operation Test', () => {
 
   it('should initialize an empty list', () => {
     expect(list.length).toBe(0);
-    expect(list.head).toBeNull();
-    expect(list.tail).toBeNull();
+    expect(list.head).toBe(undefined);
+    expect(list.tail).toBe(undefined);
   });
 
   it('should push elements to the list', () => {
@@ -134,8 +134,8 @@ describe('DoublyLinkedList Operation Test', () => {
     // Deleting from the end
     list.deleteAt(0);
     expect(list.length).toBe(0);
-    expect(list.head).toBeNull();
-    expect(list.tail).toBeNull();
+    expect(list.head).toBe(undefined);
+    expect(list.tail).toBe(undefined);
   });
 
   it('should delete elements by value', () => {
@@ -154,8 +154,8 @@ describe('DoublyLinkedList Operation Test', () => {
 
     list.delete(3);
     expect(list.length).toBe(0);
-    expect(list.head).toBeNull();
-    expect(list.tail).toBeNull();
+    expect(list.head).toBe(undefined);
+    expect(list.tail).toBe(undefined);
   });
 
   it('should reverse the linked list', () => {
@@ -259,8 +259,8 @@ describe('DoublyLinkedList Operation Test', () => {
     list.clear();
 
     expect(list.length).toBe(0);
-    expect(list.head).toBe(null);
-    expect(list.tail).toBe(null);
+    expect(list.head).toBe(undefined);
+    expect(list.tail).toBe(undefined);
   });
 
   it('should create a reversed array of values', () => {

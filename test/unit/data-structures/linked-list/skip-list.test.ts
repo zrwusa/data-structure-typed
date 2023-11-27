@@ -81,6 +81,6 @@ describe('SkipList', () => {
 
   it('lower(key) should return the getLast element less than the given key', () => {
     expect(skipList.lower(2)).toBe('One');
-    expect(skipList.lower(1)).toBe(null);
+    expect(skipList.lower(1)).toBe(undefined);
   });
 });
