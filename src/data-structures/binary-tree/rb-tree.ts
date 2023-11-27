@@ -107,10 +107,49 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
   }
 
   /**
+   * The function checks if an exemplar is an instance of the RedBlackTreeNode class.
+   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<V, N>`.
+   * @returns a boolean value indicating whether the exemplar is an instance of the RedBlackTreeNode
+   * class.
+   */
+  override isNode(exemplar: BTNodeExemplar<V, N>): exemplar is N {
+    return exemplar instanceof RedBlackTreeNode;
+  }
+
+  /**
+   * The function `exemplarToNode` takes an exemplar and returns a node if the exemplar is valid,
+   * otherwise it returns undefined.
+   * @param exemplar - BTNodeExemplar<V, N> - A generic type representing an exemplar of a binary tree
+   * node. It can be either a node itself, an entry (key-value pair), a node key, or any other value
+   * that is not a valid exemplar.
+   * @returns a variable `node` which is of type `N | undefined`.
+   */
+  override exemplarToNode(exemplar: BTNodeExemplar<V, N>): N | undefined {
+    let node: N | undefined;
+
+    if (exemplar === null || exemplar === undefined) {
+      return;
+    } else if (this.isNode(exemplar)) {
+      node = exemplar;
+    } else if (this.isEntry(exemplar)) {
+      const [key, value] = exemplar;
+      if (key === undefined || key === null) {
+        return;
+      } else {
+        node = this.createNode(key, value, RBTNColor.RED);
+      }
+    } else if (this.isNodeKey(exemplar)) {
+      node = this.createNode(exemplar, undefined, RBTNColor.RED);
+    } else {
+      return;
+    }
+    return node;
+  }
+
+  /**
    * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
    * Space Complexity: O(1)
    */
-
 
   /**
    * The function adds a node to a Red-Black Tree data structure.
@@ -119,26 +158,11 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
    * `undefined`.
    */
   override add(keyOrNodeOrEntry: BTNodeExemplar<V, N>): N | undefined {
-    let node: N;
-    if (this.isNodeKey(keyOrNodeOrEntry)) {
-      node = this.createNode(keyOrNodeOrEntry, undefined, RBTNColor.RED);
-    } else if (keyOrNodeOrEntry instanceof RedBlackTreeNode) {
-      node = keyOrNodeOrEntry;
-    } else if (keyOrNodeOrEntry === null || keyOrNodeOrEntry === undefined) {
-      return;
-    } else if (this.isEntry(keyOrNodeOrEntry)) {
-      const [key, value] = keyOrNodeOrEntry;
-      if (key === undefined || key === null) {
-        return;
-      } else {
-        node = this.createNode(key, value, RBTNColor.RED);
-      }
-    } else {
-      return;
-    }
+    const newNode = this.exemplarToNode(keyOrNodeOrEntry);
+    if (newNode === undefined) return;
 
-    node.left = this.Sentinel;
-    node.right = this.Sentinel;
+    newNode.left = this.Sentinel;
+    newNode.right = this.Sentinel;
 
     let y: N | undefined = undefined;
     let x: N | undefined = this.root;
@@ -146,13 +170,13 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
     while (x !== this.Sentinel) {
       y = x;
       if (x) {
-        if (node.key < x.key) {
+        if (newNode.key < x.key) {
           x = x.left;
-        } else if (node.key > x.key) {
+        } else if (newNode.key > x.key) {
           x = x?.right;
         } else {
-          if (node !== x) {
-            this._replaceNode(x, node)
+          if (newNode !== x) {
+            this._replaceNode(x, newNode)
           }
           return;
         }
@@ -160,27 +184,27 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
 
     }
 
-    node.parent = y;
+    newNode.parent = y;
     if (y === undefined) {
-      this._setRoot(node);
-    } else if (node.key < y.key) {
-      y.left = node;
+      this._setRoot(newNode);
+    } else if (newNode.key < y.key) {
+      y.left = newNode;
     } else {
-      y.right = node;
+      y.right = newNode;
     }
 
-    if (node.parent === undefined) {
-      node.color = RBTNColor.BLACK;
+    if (newNode.parent === undefined) {
+      newNode.color = RBTNColor.BLACK;
       this._size++;
       return;
     }
 
-    if (node.parent.parent === undefined) {
+    if (newNode.parent.parent === undefined) {
       this._size++;
       return;
     }
 
-    this._fixInsert(node);
+    this._fixInsert(newNode);
     this._size++;
   }
 

@@ -164,6 +164,47 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   }
 
   /**
+   * The function "isNode" checks if an exemplar is an instance of the BinaryTreeNode class.
+   * @param exemplar - The `exemplar` parameter is a variable of type `BTNodeExemplar<V, N>`.
+   * @returns a boolean value indicating whether the exemplar is an instance of the class N.
+   */
+  isNode(exemplar: BTNodeExemplar<V, N>): exemplar is N {
+    return exemplar instanceof BinaryTreeNode;
+  }
+
+  /**
+   * The function `exemplarToNode` converts an exemplar of a binary tree node into an actual node
+   * object.
+   * @param exemplar - BTNodeExemplar<V, N> - A generic type representing the exemplar parameter of the
+   * function. It can be any type.
+   * @returns a value of type `N` (which represents a node), or `null`, or `undefined`.
+   */
+  exemplarToNode(exemplar: BTNodeExemplar<V, N>): N | null | undefined {
+    if (exemplar === undefined) return;
+
+    let node: N | null | undefined;
+    if (exemplar === null) {
+      node = null;
+    } else if (this.isEntry(exemplar)) {
+      const [key, value] = exemplar;
+      if (key === undefined) {
+        return;
+      } else if (key === null) {
+        node = null;
+      } else {
+        node = this.createNode(key, value);
+      }
+    } else if (this.isNode(exemplar)) {
+      node = exemplar;
+    } else if (this.isNodeKey(exemplar)) {
+      node = this.createNode(exemplar);
+    } else {
+      return;
+    }
+    return node;
+  }
+
+  /**
    * The function checks if a given value is an entry in a binary tree node.
    * @param kne - BTNodeExemplar<V, N> - A generic type representing a node in a binary tree. It has
    * two type parameters V and N, representing the value and node type respectively.
@@ -188,7 +229,9 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    */
   add(keyOrNodeOrEntry: BTNodeExemplar<V, N>): N | null | undefined {
 
-    let inserted: N | null | undefined, needInsert: N | null | undefined;
+    let inserted: N | null | undefined;
+    const newNode = this.exemplarToNode(keyOrNodeOrEntry);
+    if (newNode === undefined) return;
 
     const _bfs = (root: N, newNode: N | null): N | undefined | null => {
       const queue = new Queue<N>([root]);
@@ -205,30 +248,11 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
       }
     };
 
-    if (keyOrNodeOrEntry === null) {
-      needInsert = null;
-    } else if (this.isNodeKey(keyOrNodeOrEntry)) {
-      needInsert = this.createNode(keyOrNodeOrEntry);
-    } else if (keyOrNodeOrEntry instanceof BinaryTreeNode) {
-      needInsert = keyOrNodeOrEntry;
-    } else if (this.isEntry(keyOrNodeOrEntry)) {
-      const [key, value] = keyOrNodeOrEntry;
-      if (key === undefined) {
-        return;
-      } else if (key === null) {
-        needInsert = null;
-      } else {
-        needInsert = this.createNode(key, value);
-      }
-    } else {
-      return;
-    }
-
     if (this.root) {
-      inserted = _bfs(this.root, needInsert);
+      inserted = _bfs(this.root, newNode);
     } else {
-      this._setRoot(needInsert);
-      if (needInsert) {
+      this._setRoot(newNode);
+      if (newNode) {
         this._size = 1;
       } else {
         this._size = 0;

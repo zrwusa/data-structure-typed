@@ -144,6 +144,42 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   }
 
   /**
+   * The function checks if an exemplar is an instance of BSTNode.
+   * @param exemplar - The `exemplar` parameter is a variable of type `BTNodeExemplar<V, N>`.
+   * @returns a boolean value indicating whether the exemplar is an instance of the BSTNode class.
+   */
+  override isNode(exemplar: BTNodeExemplar<V, N>): exemplar is N {
+    return exemplar instanceof BSTNode;
+  }
+
+  /**
+   * The function `exemplarToNode` takes an exemplar and returns a corresponding node if the exemplar
+   * is valid, otherwise it returns undefined.
+   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<V, N>`.
+   * @returns a variable `node` which is of type `N` or `undefined`.
+   */
+  override exemplarToNode(exemplar: BTNodeExemplar<V, N>): N | undefined {
+    let node: N | undefined;
+    if (exemplar === null || exemplar === undefined) {
+      return;
+    } else if (this.isNode(exemplar)) {
+      node = exemplar;
+    } else if (this.isEntry(exemplar)) {
+      const [key, value] = exemplar;
+      if (key === undefined || key === null) {
+        return;
+      } else {
+        node = this.createNode(key, value);
+      }
+    } else if (this.isNodeKey(exemplar)) {
+      node = this.createNode(exemplar);
+    } else {
+      return;
+    }
+    return node;
+  }
+
+  /**
    * Time Complexity: O(log n) - Average case for a balanced tree. In the worst case (unbalanced tree), it can be O(n).
    * Space Complexity: O(1) - Constant space is used.
    */
@@ -159,25 +195,8 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * (`keyOrNodeOrEntry`) is null, undefined, or does not match any of the expected types.
    */
   override add(keyOrNodeOrEntry: BTNodeExemplar<V, N>): N | undefined {
-    if (keyOrNodeOrEntry === null || keyOrNodeOrEntry === undefined) {
-      return undefined;
-    }
-
-    let newNode: N | undefined;
-    if (keyOrNodeOrEntry instanceof BSTNode) {
-      newNode = keyOrNodeOrEntry;
-    } else if (this.isNodeKey(keyOrNodeOrEntry)) {
-      newNode = this.createNode(keyOrNodeOrEntry);
-    } else if (this.isEntry(keyOrNodeOrEntry)) {
-      const [key, value] = keyOrNodeOrEntry;
-      if (key === undefined || key === null) {
-        return;
-      } else {
-        newNode = this.createNode(key, value);
-      }
-    } else {
-      return;
-    }
+    const newNode = this.exemplarToNode(keyOrNodeOrEntry);
+    if (newNode === undefined) return;
 
     if (this.root === undefined) {
       this._setRoot(newNode);

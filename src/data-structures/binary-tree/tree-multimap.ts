@@ -81,6 +81,45 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
   }
 
   /**
+   * The function checks if an exemplar is an instance of the TreeMultimapNode class.
+   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<V, N>`.
+   * @returns a boolean value indicating whether the exemplar is an instance of the TreeMultimapNode
+   * class.
+   */
+  override isNode(exemplar: BTNodeExemplar<V, N>): exemplar is N {
+    return exemplar instanceof TreeMultimapNode;
+  }
+
+  /**
+   * The function `exemplarToNode` converts an exemplar object into a node object.
+   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<V, N>`, where `V` represents
+   * the value type and `N` represents the node type.
+   * @param [count=1] - The `count` parameter is an optional parameter that specifies the number of
+   * times the node should be created. If not provided, it defaults to 1.
+   * @returns a value of type `N` (the generic type parameter) or `undefined`.
+   */
+  override exemplarToNode(exemplar: BTNodeExemplar<V, N>, count = 1): N | undefined {
+    let node: N | undefined;
+    if (exemplar === undefined || exemplar === null) {
+      return;
+    } else if (this.isNode(exemplar)) {
+      node = exemplar;
+    } else if (this.isEntry(exemplar)) {
+      const [key, value] = exemplar;
+      if (key === undefined || key === null) {
+        return;
+      } else {
+        node = this.createNode(key, value, count);
+      }
+    } else if (this.isNodeKey(exemplar)) {
+      node = this.createNode(exemplar, undefined, count);
+    } else {
+      return;
+    }
+    return node;
+  }
+
+  /**
    * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (AVLTree) has logarithmic time complexity.
    * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
    */
@@ -98,23 +137,9 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    * @returns either a node (`N`) or `undefined`.
    */
   override add(keyOrNodeOrEntry: BTNodeExemplar<V, N>, count = 1): N | undefined {
-    let newNode: N | undefined;
-    if (keyOrNodeOrEntry === undefined || keyOrNodeOrEntry === null) {
-      return;
-    } else if (keyOrNodeOrEntry instanceof TreeMultimapNode) {
-      newNode = keyOrNodeOrEntry;
-    } else if (this.isNodeKey(keyOrNodeOrEntry)) {
-      newNode = this.createNode(keyOrNodeOrEntry, undefined, count);
-    } else if (this.isEntry(keyOrNodeOrEntry)) {
-      const [key, value] = keyOrNodeOrEntry;
-      if (key === undefined || key === null) {
-        return;
-      } else {
-        newNode = this.createNode(key, value, count);
-      }
-    } else {
-      return;
-    }
+    const newNode = this.exemplarToNode(keyOrNodeOrEntry, count);
+    if (newNode === undefined) return;
+
     const orgNodeCount = newNode?.count || 0;
     const inserted = super.add(newNode);
     if (inserted) {

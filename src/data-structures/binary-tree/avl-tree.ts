@@ -83,6 +83,15 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
   }
 
   /**
+   * The function checks if an exemplar is an instance of AVLTreeNode.
+   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<V, N>`.
+   * @returns a boolean value indicating whether the exemplar is an instance of the AVLTreeNode class.
+   */
+  override isNode(exemplar: BTNodeExemplar<V, N>): exemplar is N {
+    return exemplar instanceof AVLTreeNode;
+  }
+
+  /**
    * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (BST) has logarithmic time complexity.
    * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
    */
