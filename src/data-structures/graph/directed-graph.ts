@@ -87,7 +87,7 @@ export class DirectedGraph<
    * @returns a new instance of a DirectedVertex object, casted as type VO.
    */
   createVertex(key: VertexKey, value?: V): VO {
-    return new DirectedVertex(key, value ?? key) as VO;
+    return new DirectedVertex(key, value) as VO;
   }
 
   /**

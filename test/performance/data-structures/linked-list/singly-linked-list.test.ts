@@ -19,7 +19,7 @@ suite
   })
   .add(`${TEN_THOUSAND.toLocaleString()} insertBefore`, () => {
     const singlyList = new SinglyLinkedList<number>();
-    let midSinglyNode: SinglyLinkedListNode | null = null;
+    let midSinglyNode: SinglyLinkedListNode | undefined;
     const midIndex = Math.floor(TEN_THOUSAND / 2);
     for (let i = 0; i < TEN_THOUSAND; i++) {
       singlyList.push(i);

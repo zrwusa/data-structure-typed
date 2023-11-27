@@ -57,7 +57,7 @@ suite
   })
   .add(`${LINEAR.toLocaleString()} insertBefore`, () => {
     const doublyList = new DoublyLinkedList<number>();
-    let midNode: DoublyLinkedListNode | null = null;
+    let midNode: DoublyLinkedListNode | undefined;
     const midIndex = Math.floor(LINEAR / 2);
     for (let i = 0; i < LINEAR; i++) {
       doublyList.push(i);

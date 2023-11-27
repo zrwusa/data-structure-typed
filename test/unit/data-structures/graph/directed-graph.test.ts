@@ -595,3 +595,44 @@ describe('cycles, strongly connected components, bridges, articular points in Di
   expect(dfnMap.size).toBe(8);
   expect(lowMap.size).toBe(8);
 });
+
+describe('DirectedGraph iterative Methods', () => {
+  let graph: DirectedGraph<string>;
+  let vertices: string[];
+
+  beforeEach(() => {
+    graph = new DirectedGraph();
+    vertices = ['A', 'B', 'C', 'D'];
+    vertices.forEach(vertex => graph.addVertex(vertex));
+  });
+
+  test('[Symbol.iterator] should iterate over all vertices', () => {
+    const iteratedVertices = [];
+    for (const vertex of graph) {
+      iteratedVertices.push(vertex[0]);
+    }
+    expect(iteratedVertices).toEqual(vertices);
+  });
+
+  test('forEach should apply a function to each vertex', () => {
+    const result: VertexKey[] = [];
+    graph.forEach(vertex => result.push(vertex[0]));
+    expect(result).toEqual(vertices);
+  });
+
+  test('filter should return vertices that satisfy the condition', () => {
+    const filtered = graph.filter(vertex => vertex[0] === 'A' || vertex[0] === 'B');
+    expect(filtered).toEqual([["A", undefined], ["B", undefined]]);
+  });
+
+  test('map should apply a function to each vertex and return a new array', () => {
+    const mapped = graph.map(vertex => vertex[0] + '_mapped');
+    expect(mapped).toEqual(vertices.map(v => v + '_mapped'));
+  });
+
+  test('reduce should accumulate a value based on each vertex', () => {
+    const concatenated = graph.reduce((acc, vertex) => acc + vertex[0], '');
+    expect(concatenated).toBe(vertices.join(''));
+  });
+});
+

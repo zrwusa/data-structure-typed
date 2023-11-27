@@ -1159,6 +1159,52 @@ export abstract class AbstractGraph<
     return this.tarjan(false, true, false, false).bridges;
   }
 
+  * [Symbol.iterator](): Iterator<[VertexKey, V | undefined]> {
+    for (const vertex of this._vertices.values()) {
+      yield [vertex.key, vertex.value];
+    }
+  }
+
+  forEach(callback: (entry: [VertexKey, V | undefined], index: number, map: Map<VertexKey, VO>) => void): void {
+    let index = 0;
+    for (const vertex of this) {
+      callback(vertex, index, this._vertices);
+      index++;
+    }
+  }
+
+  filter(predicate: (entry: [VertexKey, V | undefined], index: number, map: Map<VertexKey, VO>) => boolean): [VertexKey, V | undefined][] {
+    const filtered: [VertexKey, V | undefined][] = [];
+    let index = 0;
+    for (const entry of this) {
+      if (predicate(entry, index, this._vertices)) {
+        filtered.push(entry);
+      }
+      index++;
+    }
+    return filtered;
+  }
+
+  map<T>(callback: (entry: [VertexKey, V | undefined], index: number, map: Map<VertexKey, VO>) => T): T[] {
+    const mapped: T[] = [];
+    let index = 0;
+    for (const entry of this) {
+      mapped.push(callback(entry, index, this._vertices));
+      index++;
+    }
+    return mapped;
+  }
+
+  reduce<T>(callback: (accumulator: T, entry: [VertexKey, V | undefined], index: number, map: Map<VertexKey, VO>) => T, initialValue: T): T {
+    let accumulator: T = initialValue;
+    let index = 0;
+    for (const entry of this) {
+      accumulator = callback(accumulator, entry, index, this._vertices);
+      index++;
+    }
+    return accumulator;
+  }
+
   protected abstract _addEdgeOnly(edge: EO): boolean;
 
   protected _addVertexOnly(newVertex: VO): boolean {
