@@ -28,7 +28,7 @@
     "lint:src": "eslint --fix 'src/**/*.{js,ts}'",
     "lint:test": "eslint --fix 'test/**/*.{js,ts}'",
     "lint": "npm run lint:src && npm run lint:test",
-    "inspect": "npm run check && npm run lint",
+    "inspect": "npm run build && npm run check && npm run lint",
     "format:src": "prettier --write 'src/**/*.{js,ts}'",
     "format:test": "prettier --write 'test/**/*.{js,ts}'",
     "format": "npm run format:src && npm run format:test",
