@@ -68,11 +68,11 @@ export class Stack<E = any> {
    * Time Complexity: O(1), as it only involves accessing the last element of the array.
    * Space Complexity: O(1), as it does not use any additional space.
    *
-   * The `peek` function returns the last element of an array, or null if the array is empty.
-   * @returns The `peek()` function returns the last element of the `_elements` array, or `null` if the array is empty.
+   * The `peek` function returns the last element of an array, or undefined if the array is empty.
+   * @returns The `peek()` function returns the last element of the `_elements` array, or `undefined` if the array is empty.
    */
-  peek(): E | null {
-    if (this.isEmpty()) return null;
+  peek(): E | undefined {
+    if (this.isEmpty()) return undefined;
 
     return this.elements[this.elements.length - 1];
   }
@@ -104,14 +104,14 @@ export class Stack<E = any> {
    * Time Complexity: O(1), as it only involves accessing the last element of the array.
    * Space Complexity: O(1), as it does not use any additional space.
    *
-   * The `pop` function removes and returns the last element from an array, or returns null if the array is empty.
+   * The `pop` function removes and returns the last element from an array, or returns undefined if the array is empty.
    * @returns The `pop()` method is returning the last element of the array `_elements` if the array is not empty. If the
-   * array is empty, it returns `null`.
+   * array is empty, it returns `undefined`.
    */
-  pop(): E | null {
-    if (this.isEmpty()) return null;
+  pop(): E | undefined {
+    if (this.isEmpty()) return undefined;
 
-    return this.elements.pop() || null;
+    return this.elements.pop() || undefined;
   }
 
   /**

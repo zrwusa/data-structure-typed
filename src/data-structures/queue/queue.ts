@@ -15,8 +15,8 @@ export class LinkedListQueue<E = any> extends SinglyLinkedList<E> {
   }
 
   /**
-   * The `dequeue` function removes and returns the first element from a queue, or returns null if the queue is empty.
-   * @returns The method is returning the element at the front of the queue, or null if the queue is empty.
+   * The `dequeue` function removes and returns the first element from a queue, or returns undefined if the queue is empty.
+   * @returns The method is returning the element at the front of the queue, or undefined if the queue is empty.
    */
   dequeue(): E | undefined {
     return this.shift();
@@ -112,7 +112,7 @@ export class Queue<E = any> {
    *
    * The `shift` function removes and returns the first element in the queue, and adjusts the internal data structure if
    * necessary to optimize performance.
-   * @returns The function `shift()` returns either the first element in the queue or `null` if the queue is empty.
+   * @returns The function `shift()` returns either the first element in the queue or `undefined` if the queue is empty.
    */
   shift(): E | undefined {
     if (this.size === 0) return undefined;
@@ -138,9 +138,9 @@ export class Queue<E = any> {
    * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
    * Space Complexity: O(1) - no additional space is used.
    *
-   * The `getFirst` function returns the first element of the array `_nodes` if it exists, otherwise it returns `null`.
+   * The `getFirst` function returns the first element of the array `_nodes` if it exists, otherwise it returns `undefined`.
    * @returns The `getFirst()` method returns the first element of the data structure, represented by the `_nodes` array at
-   * the `_offset` index. If the data structure is empty (size is 0), it returns `null`.
+   * the `_offset` index. If the data structure is empty (size is 0), it returns `undefined`.
    */
   getFirst(): E | undefined {
     return this.size > 0 ? this.nodes[this.offset] : undefined;
@@ -155,9 +155,9 @@ export class Queue<E = any> {
    * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
    * Space Complexity: O(1) - no additional space is used.
    *
-   * The `peek` function returns the first element of the array `_nodes` if it exists, otherwise it returns `null`.
+   * The `peek` function returns the first element of the array `_nodes` if it exists, otherwise it returns `undefined`.
    * @returns The `peek()` method returns the first element of the data structure, represented by the `_nodes` array at
-   * the `_offset` index. If the data structure is empty (size is 0), it returns `null`.
+   * the `_offset` index. If the data structure is empty (size is 0), it returns `undefined`.
    */
   peek(): E | undefined {
     return this.getFirst();
@@ -172,9 +172,9 @@ export class Queue<E = any> {
    * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
    * Space Complexity: O(1) - no additional space is used.
    *
-   * The `getLast` function returns the last element in an array-like data structure, or null if the structure is empty.
+   * The `getLast` function returns the last element in an array-like data structure, or undefined if the structure is empty.
    * @returns The method `getLast()` returns the last element of the `_nodes` array if the array is not empty. If the
-   * array is empty, it returns `null`.
+   * array is empty, it returns `undefined`.
    */
   getLast(): E | undefined {
     return this.size > 0 ? this.nodes[this.nodes.length - 1] : undefined;
@@ -189,9 +189,9 @@ export class Queue<E = any> {
    * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
    * Space Complexity: O(1) - no additional space is used.
    *
-   * The `peekLast` function returns the last element in an array-like data structure, or null if the structure is empty.
+   * The `peekLast` function returns the last element in an array-like data structure, or undefined if the structure is empty.
    * @returns The method `peekLast()` returns the last element of the `_nodes` array if the array is not empty. If the
-   * array is empty, it returns `null`.
+   * array is empty, it returns `undefined`.
    */
   peekLast(): E | undefined {
     return this.getLast();
@@ -222,8 +222,8 @@ export class Queue<E = any> {
    * Time Complexity: O(n) - same as shift().
    * Space Complexity: O(1) - same as shift().
    *
-   * The `dequeue` function removes and returns the first element from a queue, or returns null if the queue is empty.
-   * @returns The method is returning a value of type E or null.
+   * The `dequeue` function removes and returns the first element from a queue, or returns undefined if the queue is empty.
+   * @returns The method is returning a value of type E or undefined.
    */
   dequeue(): E | undefined {
     return this.shift();

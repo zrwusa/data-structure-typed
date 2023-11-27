@@ -154,7 +154,7 @@ describe('Deque', () => {
     expect(deque.getAt(2)).toBe(3);
   });
 
-  it('should return null for out-of-bounds index', () => {
+  it('should return undefined for out-of-bounds index', () => {
     // expect(deque.getAt(0)).toThrowError('Index out of bounds.');
     // expect(deque.getAt(1)).toThrow('Index out of bounds');
     // expect(deque.getAt(-1)).toThrow('Index out of bounds');

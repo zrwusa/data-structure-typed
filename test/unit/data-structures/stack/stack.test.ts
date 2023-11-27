@@ -35,9 +35,9 @@ describe('Stack', () => {
     expect(stack.size).toBe(2);
   });
 
-  it('should return null when popping from an empty stack', () => {
+  it('should return undefined when popping from an empty stack', () => {
     const poppedElement = stack.pop();
-    expect(poppedElement).toBeNull();
+    expect(poppedElement).toBe(undefined);
   });
 
   it('should convert the stack to an array', () => {
