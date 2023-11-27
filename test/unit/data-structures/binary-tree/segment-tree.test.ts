@@ -37,7 +37,7 @@ describe('SegmentTree', () => {
   it('should handle an empty input array', () => {
     // Check behavior when dealing with an empty input array
     const emptySegmentTree = new SegmentTree([]);
-    expect(emptySegmentTree.root).toBe(null);
+    expect(emptySegmentTree.root).toBe(undefined);
     expect(emptySegmentTree.querySumByRange(0, 2)).toBe(0); // Sum of an empty array should be 0
   });
 

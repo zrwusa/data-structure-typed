@@ -11,16 +11,16 @@ import type { SegmentTreeNodeVal } from '../../types';
 export class SegmentTreeNode {
   start = 0;
   end = 0;
-  value: SegmentTreeNodeVal | null = null;
+  value: SegmentTreeNodeVal | undefined = undefined;
   sum = 0;
-  left: SegmentTreeNode | null = null;
-  right: SegmentTreeNode | null = null;
+  left: SegmentTreeNode | undefined = undefined;
+  right: SegmentTreeNode | undefined = undefined;
 
-  constructor(start: number, end: number, sum: number, value?: SegmentTreeNodeVal | null) {
+  constructor(start: number, end: number, sum: number, value?: SegmentTreeNodeVal | undefined) {
     this.start = start;
     this.end = end;
     this.sum = sum;
-    this.value = value || null;
+    this.value = value || undefined;
   }
 }
 
@@ -44,7 +44,7 @@ export class SegmentTree {
     if (values.length > 0) {
       this._root = this.build(start, end);
     } else {
-      this._root = null;
+      this._root = undefined;
       this._values = [];
     }
   }
@@ -67,9 +67,9 @@ export class SegmentTree {
     return this._end;
   }
 
-  protected _root: SegmentTreeNode | null;
+  protected _root: SegmentTreeNode | undefined;
 
-  get root(): SegmentTreeNode | null {
+  get root(): SegmentTreeNode | undefined {
     return this._root;
   }
 
@@ -109,7 +109,7 @@ export class SegmentTree {
    * @returns The function does not return anything.
    */
   updateNode(index: number, sum: number, value?: SegmentTreeNodeVal) {
-    const root = this.root || null;
+    const root = this.root || undefined;
     if (!root) {
       return;
     }
@@ -145,7 +145,7 @@ export class SegmentTree {
    * @returns The function `querySumByRange` returns a number.
    */
   querySumByRange(indexA: number, indexB: number): number {
-    const root = this.root || null;
+    const root = this.root || undefined;
     if (!root) {
       return 0;
     }
