@@ -341,4 +341,20 @@ describe('AVLTree iterative methods test', () => {
     expect(entries.length).toBe(3);
     expect(entries).toEqual([[1, 'a'], [2, 'b'], [3, 'c']]);
   });
+
+  test('should clone work well', () => {
+    const cloned = avl.clone();
+    expect(cloned.root?.left?.key).toBe(1);
+    expect(cloned.root?.right?.value).toBe('c');
+  });
+
+  test('should keys', () => {
+    const keys = avl.keys();
+    expect(keys).toEqual([1, 2, 3]);
+  });
+
+  test('should values', () => {
+    const values = avl.values();
+    expect(values).toEqual(['a', 'b', 'c']);
+  });
 });

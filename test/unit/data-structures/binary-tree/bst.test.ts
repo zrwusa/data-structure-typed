@@ -900,4 +900,20 @@ describe('BST iterative methods test', () => {
     expect(entries.length).toBe(3);
     expect(entries).toEqual([[1, 'a'], [2, 'b'], [3, 'c']]);
   });
+
+  test('should clone work well', () => {
+    const cloned = bst.clone();
+    expect(cloned.root?.left).toBe(undefined);
+    expect(cloned.root?.right?.value).toBe('b');
+  });
+
+  test('should keys', () => {
+    const keys = bst.keys();
+    expect(keys).toEqual([1, 2, 3]);
+  });
+
+  test('should values', () => {
+    const values = bst.values();
+    expect(values).toEqual(['a', 'b', 'c']);
+  });
 });

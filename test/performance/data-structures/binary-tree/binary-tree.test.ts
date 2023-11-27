@@ -4,17 +4,17 @@ import { getRandomIntArray, magnitude } from '../../../utils';
 
 const suite = new Benchmark.Suite();
 const biTree = new BinaryTree<number>();
-const { N_LOG_N } = magnitude;
-const arr = getRandomIntArray(N_LOG_N, 0, N_LOG_N, true);
+const { THOUSAND } = magnitude;
+const arr = getRandomIntArray(THOUSAND, 0, THOUSAND, true);
 
 suite
-  .add(`${N_LOG_N.toLocaleString()} add randomly`, () => {
+  .add(`${THOUSAND.toLocaleString()} add randomly`, () => {
     biTree.clear();
     for (let i = 0; i < arr.length; i++) {
       biTree.add(arr[i]);
     }
   })
-  .add(`${N_LOG_N.toLocaleString()} add & delete randomly`, () => {
+  .add(`${THOUSAND.toLocaleString()} add & delete randomly`, () => {
     biTree.clear();
     for (let i = 0; i < arr.length; i++) {
       biTree.add(arr[i]);
@@ -23,23 +23,28 @@ suite
       biTree.delete(arr[i]);
     }
   })
-  .add(`${N_LOG_N.toLocaleString()} addMany`, () => {
+  .add(`${THOUSAND.toLocaleString()} addMany`, () => {
     biTree.clear();
     biTree.addMany(arr);
   })
-  .add(`${N_LOG_N.toLocaleString()} get`, () => {
+  .add(`${THOUSAND.toLocaleString()} get`, () => {
     for (let i = 0; i < arr.length; i++) {
       biTree.get(arr[i]);
     }
   })
-  .add(`${N_LOG_N.toLocaleString()} dfs`, () => {
-    for (let i = 0; i < N_LOG_N; i++) biTree.dfs();
+  .add(`${THOUSAND.toLocaleString()} has`, () => {
+    for (let i = 0; i < arr.length; i++) {
+      biTree.get(arr[i]);
+    }
   })
-  .add(`${N_LOG_N.toLocaleString()} bfs`, () => {
-    for (let i = 0; i < N_LOG_N; i++) biTree.bfs();
+  .add(`${THOUSAND.toLocaleString()} dfs`, () => {
+    for (let i = 0; i < THOUSAND; i++) biTree.dfs();
   })
-  .add(`${N_LOG_N.toLocaleString()} morris`, () => {
-    for (let i = 0; i < N_LOG_N; i++) biTree.morris(n => n, 'pre');
+  .add(`${THOUSAND.toLocaleString()} bfs`, () => {
+    for (let i = 0; i < THOUSAND; i++) biTree.bfs();
+  })
+  .add(`${THOUSAND.toLocaleString()} morris`, () => {
+    for (let i = 0; i < THOUSAND; i++) biTree.morris(n => n, 'pre');
   });
 
 export { suite };

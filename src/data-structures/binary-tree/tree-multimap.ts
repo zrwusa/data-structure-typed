@@ -319,6 +319,24 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
   }
 
   /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   */
+
+  /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   *
+   * The `clone` function creates a deep copy of a tree object.
+   * @returns The `clone()` method is returning a cloned instance of the `TREE` object.
+   */
+  override clone(): TREE {
+    const cloned = this.createTree();
+    this.bfs(node => cloned.add([node.key, node.value], node.count));
+    return cloned;
+  }
+
+  /**
    * Time Complexity: O(1) - constant time, as it performs basic pointer assignments.
    * Space Complexity: O(1) - constant space, as it only uses a constant amount of memory.
    *

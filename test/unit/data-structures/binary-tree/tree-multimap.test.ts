@@ -1,4 +1,12 @@
-import { CP, IterationType, TreeMultimap, TreeMultimapNode } from '../../../../src';
+import {
+  AVLTreeNode,
+  BinaryTreeNode,
+  BSTNode,
+  CP,
+  IterationType,
+  TreeMultimap,
+  TreeMultimapNode
+} from '../../../../src';
 import { isDebugTest } from '../../../config';
 
 const isDebug = isDebugTest;
@@ -590,5 +598,78 @@ describe('TreeMultimap Performance test', function () {
     const startL = performance.now();
     treeMS.lesserOrGreaterTraverse(node => (node.count += 1), CP.lt, inputSize / 2);
     isDebug && console.log('---lesserOrGreaterTraverse', performance.now() - startL);
+  });
+});
+
+describe('TreeMultimap iterative methods test', () => {
+  let treeMM: TreeMultimap<string>;
+  beforeEach(() => {
+    treeMM = new TreeMultimap<string>();
+    treeMM.add([1, 'a'], 10);
+    treeMM.add([2, 'b'], 10);
+    treeMM.add([3, 'c'], 1);
+  });
+
+  test('The node obtained by get Node should match the node type', () => {
+    const node3 = treeMM.getNode(3);
+    expect(node3).toBeInstanceOf(BinaryTreeNode);
+    expect(node3).toBeInstanceOf(BSTNode);
+    expect(node3).toBeInstanceOf(AVLTreeNode);
+  });
+
+  test('forEach should iterate over all elements', () => {
+    const mockCallback = jest.fn();
+    treeMM.forEach((entry) => {
+      mockCallback(entry);
+    });
+
+    expect(mockCallback.mock.calls.length).toBe(3);
+    expect(mockCallback.mock.calls[0][0]).toEqual([1, 'a']);
+    expect(mockCallback.mock.calls[1][0]).toEqual([2, 'b']);
+    expect(mockCallback.mock.calls[2][0]).toEqual([3, 'c']);
+  });
+
+  test('filter should return a new tree with filtered elements', () => {
+    const filteredTree = treeMM.filter(([key]) => key > 1);
+    expect(filteredTree.size).toBe(2);
+    expect([...filteredTree]).toEqual([[2, 'b'], [3, 'c']]);
+  });
+
+  test('map should return a new tree with modified elements', () => {
+    const mappedTree = treeMM.map(([key]) => (key * 2).toString());
+    expect(mappedTree.size).toBe(3);
+    expect([...mappedTree]).toEqual([[1, '2'], [2, '4'], [3, '6']]);
+  });
+
+  test('reduce should accumulate values', () => {
+    const sum = treeMM.reduce((acc, [key]) => acc + key, 0);
+    expect(sum).toBe(6);
+  });
+
+  test('[Symbol.iterator] should provide an iterator', () => {
+    const entries = [];
+    for (const entry of treeMM) {
+      entries.push(entry);
+    }
+
+    expect(entries.length).toBe(3);
+    expect(entries).toEqual([[1, 'a'], [2, 'b'], [3, 'c']]);
+  });
+
+  test('should clone work well', () => {
+    expect(treeMM.count).toBe(21)
+    const cloned = treeMM.clone();
+    expect(cloned.root?.left?.key).toBe(1);
+    expect(cloned.root?.right?.value).toBe('c');
+  });
+
+  test('should keys', () => {
+    const keys = treeMM.keys();
+    expect(keys).toEqual([1, 2, 3]);
+  });
+
+  test('should values', () => {
+    const values = treeMM.values();
+    expect(values).toEqual(['a', 'b', 'c']);
   });
 });

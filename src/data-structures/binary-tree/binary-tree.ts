@@ -102,9 +102,10 @@ export class BinaryTreeNode<V = any, N extends BinaryTreeNode<V, N> = BinaryTree
  * 8. Full Trees: Every node has either 0 or 2 children.
  * 9. Complete Trees: All levels are fully filled except possibly the last, filled from left to right.
  */
-export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode<V, BinaryTreeNodeNested<V>>, TREE extends BinaryTree<V, N, TREE> = BinaryTree<V, N, BinaryTreeNested<V, N>>>
-  implements IBinaryTree<V, N, TREE> {
 
+export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode<V, BinaryTreeNodeNested<V>>, TREE extends BinaryTree<V, N, TREE> = BinaryTree<V, N, BinaryTreeNested<V, N>>>
+
+  implements IBinaryTree<V, N, TREE> {
   iterationType = IterationType.ITERATIVE
 
   /**
@@ -1721,6 +1722,66 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
         break;
     }
     return ans;
+  }
+
+  /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   */
+  
+  /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   *
+   * The function "keys" returns an array of keys from a given object.
+   * @returns an array of BTNKey objects.
+   */
+  keys(): BTNKey[] {
+    const keys: BTNKey[] = [];
+    for (const entry of this) {
+      keys.push(entry[0]);
+    }
+    return keys;
+  }
+
+  /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   */
+
+  /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   *
+   * The function "values" returns an array of values from a map-like object.
+   * @returns The `values()` method is returning an array of values (`V`) from the entries in the
+   * object.
+   */
+  values(): (V | undefined)[] {
+    const values: (V | undefined)[] = [];
+    for (const entry of this) {
+      values.push(entry[1]);
+    }
+    return values;
+  }
+
+  /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   */
+
+  /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   *
+   * The `clone` function creates a new tree object and copies all the nodes from the original tree to
+   * the new tree.
+   * @returns The `clone()` method is returning a cloned instance of the `TREE` object.
+   */
+  clone(): TREE {
+    const cloned = this.createTree();
+    this.bfs(node => cloned.add([node.key, node.value]));
+    return cloned;
   }
 
   /**

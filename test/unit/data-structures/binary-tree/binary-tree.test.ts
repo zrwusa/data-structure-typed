@@ -564,7 +564,6 @@ describe('BinaryTree', () => {
   });
 });
 
-
 describe('BinaryTree iterative methods test', () => {
   let binaryTree: BinaryTree<string>;
   beforeEach(() => {
@@ -616,5 +615,21 @@ describe('BinaryTree iterative methods test', () => {
 
     expect(entries.length).toBe(3);
     expect(entries).toEqual([[2, 'b'], [1, 'a'], [3, 'c']]);
+  });
+
+  test('should clone work well', () => {
+    const cloned = binaryTree.clone();
+    expect(cloned.root?.left?.key).toBe(2);
+    expect(cloned.root?.right?.value).toBe('c');
+  });
+
+  test('should keys', () => {
+    const keys = binaryTree.keys();
+    expect(keys).toEqual([2, 1, 3]);
+  });
+
+  test('should values', () => {
+    const values = binaryTree.values();
+    expect(values).toEqual(['b', 'a', 'c']);
   });
 });
