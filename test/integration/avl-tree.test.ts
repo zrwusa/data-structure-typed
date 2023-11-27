@@ -2,10 +2,10 @@ import { AVLTree, CP } from 'avl-tree-typed';
 
 describe('AVL Tree Test', () => {
   it('should perform various operations on a AVL Tree', () => {
-    const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
+    const arr: [number, number][] = [[11, 11], [3, 3], [15, 15], [1, 1], [8, 8], [13, 13], [16, 16], [2, 2], [6, 6], [9, 9], [12,12], [14, 14], [4, 4], [7, 7], [10,10], [5,5]];
     const tree = new AVLTree();
 
-    for (const i of arr) tree.add(i, i);
+    for (const i of arr) tree.add(i);
 
     const node6 = tree.get(6);
 
