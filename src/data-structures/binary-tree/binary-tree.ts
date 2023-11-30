@@ -1728,7 +1728,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * Time complexity: O(n)
    * Space complexity: O(n)
    */
-  
+
   /**
    * Time complexity: O(n)
    * Space complexity: O(n)
