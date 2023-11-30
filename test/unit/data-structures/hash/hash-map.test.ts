@@ -245,7 +245,7 @@ describe('HashMap HOF', () => {
   });
 
   test('every() returns true if all elements match the condition', () => {
-    expect(hashMap.every((value, key) => typeof value === 'string')).toBe(true);
+    expect(hashMap.every((value) => typeof value === 'string')).toBe(true);
   });
 
   test('some() returns true if any element matches the condition', () => {
@@ -259,7 +259,7 @@ describe('HashMap HOF', () => {
   });
 
   test('map() should transform each element', () => {
-    const newHashMap = hashMap.map((value, key) => value.toUpperCase());
+    const newHashMap = hashMap.map((value) => value.toUpperCase());
     expect(newHashMap.get('key1')).toBe('VALUE1');
   });
 
@@ -269,7 +269,7 @@ describe('HashMap HOF', () => {
   });
 
   test('reduce() should accumulate values', () => {
-    const result = hashMap.reduce((acc, value, key) => acc + value, '');
+    const result = hashMap.reduce((acc, value) => acc + value, '');
     expect(result).toBe('value1value2value3');
   });
 });

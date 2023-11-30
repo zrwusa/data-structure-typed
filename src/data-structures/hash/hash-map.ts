@@ -304,6 +304,10 @@ export class HashMap<K = any, V = any> {
     return accumulator;
   }
 
+  print(): void{
+    console.log([...this.entries()]);
+  }
+
   protected _hashFn: (key: K) => string = (key: K) => String(key);
 
   protected _isObjKey(key: any): key is (object | ((...args: any[]) => any)) {
