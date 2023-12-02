@@ -727,7 +727,7 @@ avl2.print();
     <td>set</td>
   </tr>
   <tr>
-    <td>Map&lt;K, V&gt;</td>
+    <td>HashMap&lt;K, V&gt;</td>
     <td>-</td>
     <td>HashMap&lt;K, V&gt;</td>
     <td>dict</td>
@@ -757,7 +757,7 @@ avl2.print();
     <td>-</td>
   </tr>
   <tr>
-    <td>HashMap&lt;K, V&gt;</td>
+    <td>LinkedHashMap&lt;K, V&gt;</td>
     <td>-</td>
     <td>LinkedHashMap&lt;K, V&gt;</td>
     <td>-</td>
