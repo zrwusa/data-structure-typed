@@ -447,4 +447,29 @@ describe('Deque', () => {
     });
   });
 
+  describe('iterable methods', () => {
+    it('should forEach, some, every, filter, map, reduce of the deque', () => {
+      deque.push(1);
+      deque.push(2);
+      deque.push(3);
+
+      const mockCallback = jest.fn();
+      deque.forEach((element) => {
+        mockCallback(element);
+      });
+
+      expect(mockCallback.mock.calls.length).toBe(3);
+      expect(mockCallback.mock.calls[0]).toEqual([1]);
+      expect(mockCallback.mock.calls[1]).toEqual([2]);
+      expect(mockCallback.mock.calls[2]).toEqual([3]);
+
+      expect(deque.every(element => element > 0)).toBe(true);
+      expect(deque.every(element => element > 1)).toBe(false);
+      expect(deque.some(element => element > 2)).toBe(true);
+
+      expect([...deque.filter(element => element > 2)]).toEqual([3]);
+      expect([...deque.map(element => element * 2)]).toEqual([2, 4, 6]);
+      expect(deque.reduce((accumulator, element) => accumulator + element, 0)).toEqual(6);
+    });
+  });
 });

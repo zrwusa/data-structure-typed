@@ -580,30 +580,30 @@ describe('BinaryTree iterative methods test', () => {
 
   test('forEach should iterate over all elements', () => {
     const mockCallback = jest.fn();
-    binaryTree.forEach((entry) => {
-      mockCallback(entry);
+    binaryTree.forEach((value, key) => {
+      mockCallback(value, key);
     });
 
     expect(mockCallback.mock.calls.length).toBe(3);
-    expect(mockCallback.mock.calls[0][0]).toEqual([2, 'b']);
-    expect(mockCallback.mock.calls[1][0]).toEqual([1, 'a']);
-    expect(mockCallback.mock.calls[2][0]).toEqual([3, 'c']);
+    expect(mockCallback.mock.calls[0]).toEqual(['b', 2]);
+    expect(mockCallback.mock.calls[1]).toEqual(['a', 1]);
+    expect(mockCallback.mock.calls[2]).toEqual(['c', 3]);
   });
 
   test('filter should return a new tree with filtered elements', () => {
-    const filteredTree = binaryTree.filter(([key]) => key > 1);
+    const filteredTree = binaryTree.filter((value, key) => key > 1);
     expect(filteredTree.size).toBe(2);
     expect([...filteredTree]).toEqual([[3, 'c'], [2, 'b']]);
   });
 
   test('map should return a new tree with modified elements', () => {
-    const mappedTree = binaryTree.map(([key]) => (key * 2).toString());
+    const mappedTree = binaryTree.map((value, key) => (key * 2).toString());
     expect(mappedTree.size).toBe(3);
     expect([...mappedTree]).toEqual([[1, '2'], [2, '4'], [3, '6']]);
   });
 
   test('reduce should accumulate values', () => {
-    const sum = binaryTree.reduce((acc, [key]) => acc + key, 0);
+    const sum = binaryTree.reduce((acc, currentValue, currentKey) => acc + currentKey, 0);
     expect(sum).toBe(6);
   });
 
@@ -625,11 +625,11 @@ describe('BinaryTree iterative methods test', () => {
 
   test('should keys', () => {
     const keys = binaryTree.keys();
-    expect(keys).toEqual([2, 1, 3]);
+    expect([...keys]).toEqual([2, 1, 3]);
   });
 
   test('should values', () => {
     const values = binaryTree.values();
-    expect(values).toEqual(['b', 'a', 'c']);
+    expect([...values]).toEqual(['b', 'a', 'c']);
   });
 });

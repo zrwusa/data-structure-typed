@@ -5,13 +5,15 @@
  * @license MIT License
  */
 
-import type { Comparator, DFSOrderPattern } from '../../types';
+import type { Comparator, DFSOrderPattern, ElementCallback } from '../../types';
 import { HeapOptions } from "../../types";
+import { IterableElementBase } from "../base";
 
-export class Heap<E = any> {
+export class Heap<E = any> extends IterableElementBase<E> {
   options: HeapOptions<E>;
 
   constructor(elements?: Iterable<E>, options?: HeapOptions<E>) {
+    super();
     const defaultComparator = (a: E, b: E) => {
       if (!(typeof a === 'number' && typeof b === 'number')) {
         throw new Error('The a, b params of compare function must be number');
@@ -339,54 +341,73 @@ export class Heap<E = any> {
     for (let i = Math.floor(this.size / 2); i >= 0; i--) this._sinkDown(i, this.elements.length >> 1);
   }
 
-  * [Symbol.iterator]() {
-    for (const element of this.elements) {
-      yield element;
-    }
-  }
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
 
-  forEach(callback: (element: E, index: number, heap: this) => void): void {
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `filter` function creates a new Heap object containing elements that pass a given callback
+   * function.
+   * @param callback - The `callback` parameter is a function that will be called for each element in
+   * the heap. It takes three arguments: the current element, the index of the current element, and the
+   * heap itself. The callback function should return a boolean value indicating whether the current
+   * element should be included in the filtered list
+   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that specifies the value
+   * to be used as `this` when executing the `callback` function. If `thisArg` is provided, it will be
+   * passed as the `this` value to the `callback` function. If `thisArg` is
+   * @returns The `filter` method is returning a new `Heap` object that contains the elements that pass
+   * the filter condition specified by the `callback` function.
+   */
+  filter(callback: ElementCallback<E, boolean>, thisArg?: any): Heap<E> {
+    const filteredList = new Heap<E>();
     let index = 0;
-    for (const el of this) {
-      callback(el, index, this);
-      index++;
-    }
-  }
-
-  filter(predicate: (element: E, index: number, heap: Heap<E>) => boolean): Heap<E> {
-    const filteredHeap: Heap<E> = new Heap<E>([], this.options);
-    let index = 0;
-    for (const el of this) {
-      if (predicate(el, index, this)) {
-        filteredHeap.push(el);
+    for (const current of this) {
+      if (callback.call(thisArg, current, index, this)) {
+        filteredList.push(current);
       }
       index++;
     }
-    return filteredHeap;
+    return filteredList;
   }
 
-  map<T>(callback: (element: E, index: number, heap: Heap<E>) => T, comparator: Comparator<T>): Heap<T> {
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `map` function creates a new heap by applying a callback function to each element of the
+   * original heap.
+   * @param callback - The callback parameter is a function that will be called for each element in the
+   * original heap. It takes three arguments: the current element, the index of the current element,
+   * and the original heap itself. The callback function should return a value of type T, which will be
+   * added to the mapped heap.
+   * @param comparator - The `comparator` parameter is a function that is used to compare elements in
+   * the heap. It takes two arguments, `a` and `b`, and returns a negative number if `a` is less than
+   * `b`, a positive number if `a` is greater than `b`, or
+   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that allows you to
+   * specify the value of `this` within the callback function. It is used when you want to bind a
+   * specific object as the context for the callback function. If `thisArg` is not provided,
+   * `undefined` is used as
+   * @returns a new instance of the Heap class, which is created using the mapped elements from the
+   * original Heap.
+   */
+  map<T>(callback: ElementCallback<E, T>, comparator: Comparator<T>, thisArg?: any): Heap<T> {
 
     const mappedHeap: Heap<T> = new Heap<T>([], { comparator: comparator });
     let index = 0;
     for (const el of this) {
-      mappedHeap.add(callback(el, index, this));
+      mappedHeap.add(callback.call(thisArg, el, index, this));
       index++;
     }
     return mappedHeap;
-  }
-
-  reduce<T>(
-    callback: (accumulator: T, currentValue: E, currentIndex: number, heap: Heap<E>) => T,
-    initialValue: T
-  ): T {
-    let accumulator: T = initialValue;
-    let index = 0;
-    for (const el of this) {
-      accumulator = callback(accumulator, el, index, this);
-      index++;
-    }
-    return accumulator;
   }
 
   /**
@@ -396,6 +417,12 @@ export class Heap<E = any> {
 
   print(): void {
     console.log([...this]);
+  }
+
+  protected* _getIterator() {
+    for (const element of this.elements) {
+      yield element;
+    }
   }
 
   /**

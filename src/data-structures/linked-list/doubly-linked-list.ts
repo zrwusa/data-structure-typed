@@ -1,3 +1,6 @@
+import { IterableElementBase } from "../base";
+import { ElementCallback } from "../../types";
+
 /**
  * data-structure-typed
  *
@@ -22,11 +25,12 @@ export class DoublyLinkedListNode<E = any> {
   }
 }
 
-export class DoublyLinkedList<E = any> {
+export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   /**
    * The constructor initializes the linked list with an empty head, tail, and length.
    */
   constructor(elements?: Iterable<E>) {
+    super();
     this._head = undefined;
     this._tail = undefined;
     this._length = 0;
@@ -724,59 +728,32 @@ export class DoublyLinkedList<E = any> {
   }
 
   /**
-   * The function returns an iterator that iterates over the values of a linked list.
-   */
-  * [Symbol.iterator]() {
-    let current = this.head;
-
-    while (current) {
-      yield current.value;
-      current = current.next;
-    }
-  }
-
-  /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
-   * Space Complexity: O(1)
-   *
-   * The `forEach` function iterates over each element in a linked list and applies a callback function to each element.
-   * @param callback - The callback parameter is a function that takes two arguments: value and index. The value argument
-   * represents the value of the current node in the linked list, and the index argument represents the index of the
-   * current node in the linked list.
-   */
-  forEach(callback: (value: E, index: number, list: DoublyLinkedList<E>) => void): void {
-    let index = 0;
-    for (const el of this) {
-      callback(el, index, this);
-      index++;
-    }
-  }
-
-  /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(n)
    */
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
-   * The `filter` function iterates through a DoublyLinkedList and returns a new DoublyLinkedList containing only the
-   * elements that satisfy the given callback function.
-   * @param callback - The `callback` parameter is a function that takes a value of type `E` and returns a boolean value.
-   * It is used to determine whether a value should be included in the filtered list or not.
-   * @returns The filtered list, which is an instance of the DoublyLinkedList class.
+   * The `filter` function creates a new DoublyLinkedList by iterating over the elements of the current
+   * list and applying a callback function to each element, returning only the elements for which the
+   * callback function returns true.
+   * @param callback - The `callback` parameter is a function that will be called for each element in
+   * the DoublyLinkedList. It takes three arguments: the current element, the index of the current
+   * element, and the DoublyLinkedList itself. The callback function should return a boolean value
+   * indicating whether the current element should be included
+   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that specifies the value
+   * to be used as `this` when executing the `callback` function. If `thisArg` is provided, it will be
+   * passed as the `this` value to the `callback` function. If `thisArg` is
+   * @returns The `filter` method is returning a new `DoublyLinkedList` object that contains the
+   * elements that pass the filter condition specified by the `callback` function.
    */
-  filter(callback: (value: E, index: number, list: DoublyLinkedList<E>) => boolean): DoublyLinkedList<E> {
+  filter(callback: ElementCallback<E, boolean>, thisArg?: any): DoublyLinkedList<E> {
     const filteredList = new DoublyLinkedList<E>();
     let index = 0;
     for (const current of this) {
-      if (callback(current, index, this)) {
+      if (callback.call(thisArg, current, index, this)) {
         filteredList.push(current);
       }
       index++;
@@ -790,21 +767,27 @@ export class DoublyLinkedList<E = any> {
    */
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
-   * The `map` function takes a callback function and applies it to each element in the DoublyLinkedList, returning a new
-   * DoublyLinkedList with the transformed values.
-   * @param callback - The callback parameter is a function that takes a value of type E (the type of values stored in
-   * the original DoublyLinkedList) and returns a value of type T (the type of values that will be stored in the mapped
-   * DoublyLinkedList).
-   * @returns The `map` function is returning a new instance of `DoublyLinkedList<T>` that contains the mapped values.
+   * The `map` function creates a new DoublyLinkedList by applying a callback function to each element
+   * in the original list.
+   * @param callback - The callback parameter is a function that will be called for each element in the
+   * DoublyLinkedList. It takes three arguments: the current element, the index of the current element,
+   * and the DoublyLinkedList itself. The callback function should return a value that will be added to
+   * the new DoublyLinkedList that
+   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that specifies the value
+   * to be used as `this` when executing the `callback` function. If `thisArg` is provided, it will be
+   * passed as the `this` value to the `callback` function. If `thisArg` is
+   * @returns The `map` function is returning a new `DoublyLinkedList` object that contains the results
+   * of applying the provided `callback` function to each element in the original `DoublyLinkedList`
+   * object.
    */
-  map<T>(callback: (value: E, index: number, list: DoublyLinkedList<E>) => T): DoublyLinkedList<T> {
+  map<T>(callback: ElementCallback<E, T>, thisArg?: any): DoublyLinkedList<T> {
     const mappedList = new DoublyLinkedList<T>();
     let index = 0;
     for (const current of this) {
-      mappedList.push(callback(current, index, this));
+      mappedList.push(callback.call(thisArg, current, index, this));
       index++;
     }
 
@@ -816,31 +799,19 @@ export class DoublyLinkedList<E = any> {
    * Space Complexity: O(n)
    */
 
-  /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
-   * Space Complexity: O(n)
-   *
-   * The `reduce` function iterates over a linked list and applies a callback function to each element, accumulating a
-   * single value.
-   * @param callback - The `callback` parameter is a function that takes two arguments: `accumulator` and `value`. It is
-   * used to perform a specific operation on each element of the linked list.
-   * @param {T} initialValue - The `initialValue` parameter is the initial value of the accumulator. It is the starting
-   * point for the reduction operation.
-   * @returns The `reduce` method is returning the final value of the accumulator after iterating through all the
-   * elements in the linked list.
-   */
-  reduce<T>(callback: (accumulator: T, value: E, index: number, list: DoublyLinkedList<E>) => T, initialValue: T): T {
-    let accumulator = initialValue;
-    let index = 0;
-    for (const current of this) {
-      accumulator = callback(accumulator, current, index, this);
-      index++;
-    }
-
-    return accumulator;
-  }
-
   print(): void {
     console.log([...this]);
+  }
+
+  /**
+   * The function returns an iterator that iterates over the values of a linked list.
+   */
+  protected* _getIterator(): IterableIterator<E> {
+    let current = this.head;
+
+    while (current) {
+      yield current.value;
+      current = current.next;
+    }
   }
 }

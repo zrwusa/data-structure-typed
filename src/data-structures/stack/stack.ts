@@ -1,9 +1,12 @@
+import { IterableElementBase } from "../base";
+import { ElementCallback } from "../../types";
+
 /**
  * @license MIT
  * @copyright Tyler Zeng <zrwusa@gmail.com>
  * @class
  */
-export class Stack<E = any> {
+export class Stack<E = any> extends IterableElementBase<E> {
   /**
    * The constructor initializes an array of elements, which can be provided as an optional parameter.
    * @param {E[]} [elements] - The `elements` parameter is an optional parameter of type `E[]`, which represents an array
@@ -11,6 +14,7 @@ export class Stack<E = any> {
    * is provided and is an array, it is assigned to the `_elements
    */
   constructor(elements?: Iterable<E>) {
+    super();
     this._elements = [];
     if (elements) {
       for (const el of elements) {
@@ -154,33 +158,31 @@ export class Stack<E = any> {
   }
 
   /**
-   * Custom iterator for the Stack class.
-   * @returns An iterator object.
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
    */
-  * [Symbol.iterator]() {
-    for (let i = 0; i < this.elements.length; i++) {
-      yield this.elements[i];
-    }
-  }
 
   /**
-   * Applies a function to each element of the stack.
-   * @param {function(E): void} callback - A function to apply to each element.
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `filter` function creates a new stack containing elements from the original stack that satisfy
+   * a given predicate function.
+   * @param predicate - The `predicate` parameter is a callback function that takes three arguments:
+   * the current element being iterated over, the index of the current element, and the stack itself.
+   * It should return a boolean value indicating whether the element should be included in the filtered
+   * stack or not.
+   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that specifies the value
+   * to be used as `this` when executing the `predicate` function. If `thisArg` is provided, it will be
+   * passed as the `this` value to the `predicate` function. If `thisArg` is
+   * @returns The `filter` method is returning a new `Stack` object that contains the elements that
+   * satisfy the given predicate function.
    */
-  forEach(callback: (element: E, index: number, stack: this) => void): void {
-    let index = 0;
-    for (const el of this) {
-      callback(el, index, this);
-      index++;
-    }
-  }
-
-
-  filter(predicate: (element: E, index: number, stack: this) => boolean): Stack<E> {
+  filter(predicate: ElementCallback<E, boolean>, thisArg?: any): Stack<E> {
     const newStack = new Stack<E>();
     let index = 0;
     for (const el of this) {
-      if (predicate(el, index, this)) {
+      if (predicate.call(thisArg, el, index, this)) {
         newStack.push(el);
       }
       index++;
@@ -188,28 +190,45 @@ export class Stack<E = any> {
     return newStack;
   }
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
 
-  map<T>(callback: (element: E, index: number, stack: this) => T): Stack<T> {
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `map` function takes a callback function and applies it to each element in the stack,
+   * returning a new stack with the results.
+   * @param callback - The `callback` parameter is a function that will be called for each element in
+   * the stack. It takes three arguments:
+   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that specifies the value
+   * to be used as `this` when executing the `callback` function. If `thisArg` is provided, it will be
+   * passed as the `this` value to the `callback` function. If `thisArg` is
+   * @returns The `map` method is returning a new `Stack` object.
+   */
+  map<T>(callback: ElementCallback<E, T>, thisArg?: any): Stack<T> {
     const newStack = new Stack<T>();
     let index = 0;
     for (const el of this) {
-      newStack.push(callback(el, index, this));
+      newStack.push(callback.call(thisArg, el, index, this));
       index++;
     }
     return newStack;
   }
 
-  reduce<T>(callback: (accumulator: T, element: E, index: number, stack: this) => T, initialValue: T): T {
-    let accumulator = initialValue;
-    let index = 0;
-    for (const el of this) {
-      accumulator = callback(accumulator, el, index, this);
-      index++;
-    }
-    return accumulator;
-  }
-
   print(): void {
     console.log([...this]);
+  }
+
+  /**
+   * Custom iterator for the Stack class.
+   * @returns An iterator object.
+   */
+  protected* _getIterator() {
+    for (let i = 0; i < this.elements.length; i++) {
+      yield this.elements[i];
+    }
   }
 }

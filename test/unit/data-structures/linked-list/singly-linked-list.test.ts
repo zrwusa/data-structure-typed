@@ -471,3 +471,28 @@ describe('SinglyLinkedList', () => {
     expect(list1.reduce((acc, value) => acc + value, 0)).toEqual(6);
   });
 });
+
+
+describe('iterable methods', () => {
+  it('should forEach, some, every, filter, map, reduce of the deque', () => {
+    const sl = new SinglyLinkedList<number>([1, 2, 3])
+
+    const mockCallback = jest.fn();
+    sl.forEach((element) => {
+      mockCallback(element);
+    });
+
+    expect(mockCallback.mock.calls.length).toBe(3);
+    expect(mockCallback.mock.calls[0]).toEqual([1]);
+    expect(mockCallback.mock.calls[1]).toEqual([2]);
+    expect(mockCallback.mock.calls[2]).toEqual([3]);
+
+    expect(sl.every(element => element > 0)).toBe(true);
+    expect(sl.every(element => element > 1)).toBe(false);
+    expect(sl.some(element => element > 2)).toBe(true);
+
+    expect([...sl.filter(element => element > 2)]).toEqual([3]);
+    expect([...sl.map(element => element * 2)]).toEqual([2, 4, 6]);
+    expect(sl.reduce((accumulator, element) => accumulator + element, 0)).toEqual(6);
+  });
+});

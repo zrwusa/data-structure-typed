@@ -13,7 +13,7 @@ import type {
   BTNKey,
   BTNodeEntry,
   BTNodeExemplar,
-  BTNodeKeyOrNode
+  BTNodeKeyOrNode,
 } from '../../types';
 import {
   BinaryTreeNested,
@@ -22,11 +22,13 @@ import {
   DFSOrderPattern,
   FamilyPosition,
   IterationType,
-  NodeDisplayLayout
+  NodeDisplayLayout,
+  PairCallback
 } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { trampoline } from '../../utils';
 import { Queue } from '../queue';
+import { IterablePairBase } from "../base";
 
 /**
  * Represents a node in a binary tree.
@@ -103,7 +105,7 @@ export class BinaryTreeNode<V = any, N extends BinaryTreeNode<V, N> = BinaryTree
  * 9. Complete Trees: All levels are fully filled except possibly the last, filled from left to right.
  */
 
-export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode<V, BinaryTreeNodeNested<V>>, TREE extends BinaryTree<V, N, TREE> = BinaryTree<V, N, BinaryTreeNested<V, N>>>
+export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode<V, BinaryTreeNodeNested<V>>, TREE extends BinaryTree<V, N, TREE> = BinaryTree<V, N, BinaryTreeNested<V, N>>> extends IterablePairBase<BTNKey, V | undefined>
 
   implements IBinaryTree<V, N, TREE> {
   iterationType = IterationType.ITERATIVE
@@ -118,7 +120,7 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * required.
    */
   constructor(elements?: Iterable<BTNodeExemplar<V, N>>, options?: Partial<BinaryTreeOptions>) {
-
+    super();
     if (options) {
       const { iterationType } = options;
       if (iterationType) {
@@ -1733,47 +1735,6 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
    * Time complexity: O(n)
    * Space complexity: O(n)
    *
-   * The function "keys" returns an array of keys from a given object.
-   * @returns an array of BTNKey objects.
-   */
-  keys(): BTNKey[] {
-    const keys: BTNKey[] = [];
-    for (const entry of this) {
-      keys.push(entry[0]);
-    }
-    return keys;
-  }
-
-  /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
-   */
-
-  /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
-   *
-   * The function "values" returns an array of values from a map-like object.
-   * @returns The `values()` method is returning an array of values (`V`) from the entries in the
-   * object.
-   */
-  values(): (V | undefined)[] {
-    const values: (V | undefined)[] = [];
-    for (const entry of this) {
-      values.push(entry[1]);
-    }
-    return values;
-  }
-
-  /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
-   */
-
-  /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
-   *
    * The `clone` function creates a new tree object and copies all the nodes from the original tree to
    * the new tree.
    * @returns The `clone()` method is returning a cloned instance of the `TREE` object.
@@ -1785,34 +1746,30 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   }
 
   /**
-   * Time complexity: O(n)
-   * Space complexity: O(1)
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
    */
 
   /**
-   * The `forEach` function iterates over each entry in a tree and calls a callback function with the
-   * entry and the tree as arguments.
-   * @param callback - The callback parameter is a function that will be called for each entry in the
-   * tree. It takes two parameters: entry and tree.
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `filter` function creates a new tree by iterating over the elements of the current tree and
+   * adding only the elements that satisfy the given predicate function.
+   * @param predicate - The `predicate` parameter is a function that takes three arguments: `value`,
+   * `key`, and `index`. It should return a boolean value indicating whether the pair should be
+   * included in the filtered tree or not.
+   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that specifies the value
+   * to be used as the `this` value when executing the `predicate` function. If `thisArg` is provided,
+   * it will be passed as the first argument to the `predicate` function. If `thisArg` is
+   * @returns The `filter` method is returning a new tree object that contains the key-value pairs that
+   * pass the given predicate function.
    */
-  forEach(callback: (entry: [BTNKey, V | undefined], tree: this) => void): void {
-    for (const entry of this) {
-      callback(entry, this);
-    }
-  }
-
-  /**
-   * The `filter` function creates a new tree by iterating over the entries of the current tree and
-   * adding the entries that satisfy the given predicate.
-   * @param predicate - The `predicate` parameter is a function that takes two arguments: `entry` and
-   * `tree`.
-   * @returns The `filter` method is returning a new tree object that contains only the entries that
-   * satisfy the given predicate function.
-   */
-  filter(predicate: (entry: [BTNKey, V | undefined], tree: this) => boolean) {
+  filter(predicate: PairCallback<BTNKey, V | undefined, boolean>, thisArg?: any) {
     const newTree = this.createTree();
+    let index = 0;
     for (const [key, value] of this) {
-      if (predicate([key, value], this)) {
+      if (predicate.call(thisArg, value, key, index++, this)) {
         newTree.add([key, value]);
       }
     }
@@ -1820,87 +1777,43 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
   }
 
   /**
-   * The `map` function creates a new tree by applying a callback function to each entry in the current
-   * tree.
-   * @param callback - The callback parameter is a function that takes two arguments: entry and tree.
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `map` function creates a new tree by applying a callback function to each key-value pair in
+   * the original tree.
+   * @param callback - The callback parameter is a function that will be called for each key-value pair
+   * in the tree. It takes four arguments: the value of the current pair, the key of the current pair,
+   * the index of the current pair, and a reference to the tree itself. The callback function should
+   * return a new
+   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that allows you to
+   * specify the value of `this` within the callback function. If you pass a value for `thisArg`, it
+   * will be used as the `this` value when the callback function is called. If you don't pass a value
    * @returns The `map` method is returning a new tree object.
    */
-  map(callback: (entry: [BTNKey, V | undefined], tree: this) => V) {
+  map(callback: PairCallback<BTNKey, V | undefined, V>, thisArg?: any) {
     const newTree = this.createTree();
+    let index = 0;
     for (const [key, value] of this) {
-      newTree.add([key, callback([key, value], this)]);
+      newTree.add([key, callback.call(thisArg, value, key, index++, this)]);
     }
     return newTree;
   }
 
-  // TODO Type error, need to return a TREE<NV> that is a value type only for callback function.
-  // map<NV>(callback: (entry: [BTNKey, V | undefined], tree: this) => NV) {
-  //   const newTree = this.createTree();
-  //   for (const [key, value] of this) {
-  //     newTree.add(key, callback([key, value], this));
-  //   }
-  //   return newTree;
-  // }
-
-  /**
-   * The `reduce` function iterates over the entries of a tree and applies a callback function to each
-   * entry, accumulating a single value.
-   * @param callback - The callback parameter is a function that takes three arguments: accumulator,
-   * entry, and tree. It is called for each entry in the tree and is used to accumulate a single value
-   * based on the logic defined in the callback function.
-   * @param {T} initialValue - The initialValue parameter is the initial value of the accumulator. It
-   * is the value that will be passed as the first argument to the callback function when reducing the
-   * elements of the tree.
-   * @returns The `reduce` method is returning the final value of the accumulator after iterating over
-   * all the entries in the tree and applying the callback function to each entry.
-   */
-  reduce<T>(callback: (accumulator: T, entry: [BTNKey, V | undefined], tree: this) => T, initialValue: T): T {
-    let accumulator = initialValue;
-    for (const [key, value] of this) {
-      accumulator = callback(accumulator, [key, value], this);
-    }
-    return accumulator;
-  }
-
-  /**
-   * The above function is an iterator for a binary tree that can be used to traverse the tree in
-   * either an iterative or recursive manner.
-   * @param node - The `node` parameter represents the current node in the binary tree from which the
-   * iteration starts. It is an optional parameter with a default value of `this.root`, which means
-   * that if no node is provided, the iteration will start from the root of the binary tree.
-   * @returns The `*[Symbol.iterator]` method returns a generator object that yields the keys of the
-   * binary tree nodes in a specific order.
-   */
-  * [Symbol.iterator](node = this.root): Generator<[BTNKey, V | undefined], void, undefined> {
-    if (!node) return;
-
-    if (this.iterationType === IterationType.ITERATIVE) {
-      const stack: (N | null | undefined)[] = [];
-      let current: N | null | undefined = node;
-
-      while (current || stack.length > 0) {
-        while (current && !isNaN(current.key)) {
-          stack.push(current);
-          current = current.left;
-        }
-
-        current = stack.pop();
-
-        if (current && !isNaN(current.key)) {
-          yield [current.key, current.value];
-          current = current.right;
-        }
-      }
-    } else {
-      if (node.left && !isNaN(node.key)) {
-        yield* this[Symbol.iterator](node.left);
-      }
-      yield [node.key, node.value];
-      if (node.right && !isNaN(node.key)) {
-        yield* this[Symbol.iterator](node.right);
-      }
-    }
-  }
+  // // TODO Type error, need to return a TREE<NV> that is a value type only for callback function.
+  // // map<NV>(callback: (entry: [BTNKey, V | undefined], tree: this) => NV) {
+  // //   const newTree = this.createTree();
+  // //   for (const [key, value] of this) {
+  // //     newTree.add(key, callback([key, value], this));
+  // //   }
+  // //   return newTree;
+  // // }
+  //
 
   /**
    * The `print` function is used to display a binary tree structure in a visually appealing way.
@@ -1929,6 +1842,37 @@ export class BinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNode
     };
 
     display(beginRoot);
+  }
+
+  protected* _getIterator(node = this.root): IterableIterator<[BTNKey, V | undefined]> {
+    if (!node) return;
+
+    if (this.iterationType === IterationType.ITERATIVE) {
+      const stack: (N | null | undefined)[] = [];
+      let current: N | null | undefined = node;
+
+      while (current || stack.length > 0) {
+        while (current && !isNaN(current.key)) {
+          stack.push(current);
+          current = current.left;
+        }
+
+        current = stack.pop();
+
+        if (current && !isNaN(current.key)) {
+          yield [current.key, current.value];
+          current = current.right;
+        }
+      }
+    } else {
+      if (node.left && !isNaN(node.key)) {
+        yield* this[Symbol.iterator](node.left);
+      }
+      yield [node.key, node.value];
+      if (node.right && !isNaN(node.key)) {
+        yield* this[Symbol.iterator](node.right);
+      }
+    }
   }
 
   protected _displayAux(node: N | null | undefined, options: BinaryTreePrintOptions): NodeDisplayLayout {

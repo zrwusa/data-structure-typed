@@ -6,6 +6,9 @@
  * @license MIT License
  */
 
+import { IterableElementBase } from "../base";
+import { ElementCallback } from "../../types";
+
 /**
  * TrieNode represents a node in the Trie data structure. It holds a character key, a map of children nodes,
  * and a flag indicating whether it's the end of a word.
@@ -25,8 +28,9 @@ export class TrieNode {
 /**
  * Trie represents a Trie data structure. It provides basic Trie operations and additional methods.
  */
-export class Trie {
+export class Trie extends IterableElementBase<string> {
   constructor(words?: string[], caseSensitive = true) {
+    super();
     this._root = new TrieNode('');
     this._caseSensitive = caseSensitive;
     this._size = 0;
@@ -339,7 +343,70 @@ export class Trie {
     return words;
   }
 
-  * [Symbol.iterator](): IterableIterator<string> {
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `filter` function takes a predicate function and returns a new array containing all the
+   * elements for which the predicate function returns true.
+   * @param predicate - The `predicate` parameter is a callback function that takes three arguments:
+   * `word`, `index`, and `this`. It should return a boolean value indicating whether the current
+   * element should be included in the filtered results or not.
+   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that allows you to
+   * specify the value of `this` within the `predicate` function. It is used when you want to bind a
+   * specific object as the context for the `predicate` function. If `thisArg` is provided, it will be
+   * @returns The `filter` method is returning an array of strings (`string[]`).
+   */
+  filter(predicate: ElementCallback<string, boolean>, thisArg?: any): string[] {
+    const results: string[] = [];
+    let index = 0;
+    for (const word of this) {
+      if (predicate.call(thisArg, word, index, this)) {
+        results.push(word);
+      }
+      index++;
+    }
+    return results;
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `map` function creates a new Trie by applying a callback function to each element in the Trie.
+   * @param callback - The callback parameter is a function that will be called for each element in the
+   * Trie. It takes three arguments: the current element in the Trie, the index of the current element,
+   * and the Trie itself. The callback function should return a new value for the element.
+   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that specifies the value
+   * to be used as `this` when executing the `callback` function. If `thisArg` is provided, it will be
+   * passed as the `this` value to the `callback` function. If `thisArg` is
+   * @returns The `map` function is returning a new Trie object.
+   */
+  map(callback: ElementCallback<string, string>, thisArg?: any): Trie {
+    const newTrie = new Trie();
+    let index = 0;
+    for (const word of this) {
+      newTrie.add(callback.call(thisArg, word, index, this));
+      index++;
+    }
+    return newTrie;
+  }
+
+  print() {
+    console.log([...this]);
+  }
+
+  protected* _getIterator(): IterableIterator<string> {
     function* _dfs(node: TrieNode, path: string): IterableIterator<string> {
       if (node.isEnd) {
         yield path;
@@ -350,50 +417,6 @@ export class Trie {
     }
 
     yield* _dfs(this.root, '');
-  }
-
-  forEach(callback: (word: string, index: number, trie: this) => void): void {
-    let index = 0;
-    for (const word of this) {
-      callback(word, index, this);
-      index++;
-    }
-  }
-
-  filter(predicate: (word: string, index: number, trie: this) => boolean): string[] {
-    const results: string[] = [];
-    let index = 0;
-    for (const word of this) {
-      if (predicate(word, index, this)) {
-        results.push(word);
-      }
-      index++;
-    }
-    return results;
-  }
-
-  map(callback: (word: string, index: number, trie: this) => string): Trie {
-    const newTrie = new Trie();
-    let index = 0;
-    for (const word of this) {
-      newTrie.add(callback(word, index, this));
-      index++;
-    }
-    return newTrie;
-  }
-
-  reduce<T>(callback: (accumulator: T, word: string, index: number, trie: this) => T, initialValue: T): T {
-    let accumulator = initialValue;
-    let index = 0;
-    for (const word of this) {
-      accumulator = callback(accumulator, word, index, this);
-      index++;
-    }
-    return accumulator;
-  }
-
-  print() {
-    console.log([...this]);
   }
 
   /**

@@ -864,30 +864,30 @@ describe('BST iterative methods test', () => {
 
   test('forEach should iterate over all elements', () => {
     const mockCallback = jest.fn();
-    bst.forEach((entry) => {
-      mockCallback(entry);
+    bst.forEach((value, key) => {
+      mockCallback(value, key);
     });
 
     expect(mockCallback.mock.calls.length).toBe(3);
-    expect(mockCallback.mock.calls[0][0]).toEqual([1, 'a']);
-    expect(mockCallback.mock.calls[1][0]).toEqual([2, 'b']);
-    expect(mockCallback.mock.calls[2][0]).toEqual([3, 'c']);
+    expect(mockCallback.mock.calls[0]).toEqual(['a', 1]);
+    expect(mockCallback.mock.calls[1]).toEqual(['b', 2]);
+    expect(mockCallback.mock.calls[2]).toEqual(['c', 3]);
   });
 
   test('filter should return a new tree with filtered elements', () => {
-    const filteredTree = bst.filter(([key]) => key > 1);
+    const filteredTree = bst.filter((value, key) => key > 1);
     expect(filteredTree.size).toBe(2);
     expect([...filteredTree]).toEqual([[2, 'b'], [3, 'c']]);
   });
 
   test('map should return a new tree with modified elements', () => {
-    const mappedTree = bst.map(([key]) => (key * 2).toString());
+    const mappedTree = bst.map((value, key) => (key * 2).toString());
     expect(mappedTree.size).toBe(3);
     expect([...mappedTree]).toEqual([[1, '2'], [2, '4'], [3, '6']]);
   });
 
   test('reduce should accumulate values', () => {
-    const sum = bst.reduce((acc, [key]) => acc + key, 0);
+    const sum = bst.reduce((acc, value, key) => acc + key, 0);
     expect(sum).toBe(6);
   });
 
@@ -909,11 +909,11 @@ describe('BST iterative methods test', () => {
 
   test('should keys', () => {
     const keys = bst.keys();
-    expect(keys).toEqual([1, 2, 3]);
+    expect([...keys]).toEqual([1, 2, 3]);
   });
 
   test('should values', () => {
     const values = bst.values();
-    expect(values).toEqual(['a', 'b', 'c']);
+    expect([...values]).toEqual(['a', 'b', 'c']);
   });
 });

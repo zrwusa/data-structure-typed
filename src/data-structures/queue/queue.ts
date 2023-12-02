@@ -4,42 +4,10 @@
  * @class
  */
 import { SinglyLinkedList } from '../linked-list';
+import { IterableElementBase } from "../base";
+import { ElementCallback } from "../../types";
 
-export class LinkedListQueue<E = any> extends SinglyLinkedList<E> {
-  /**
-   * The enqueue function adds a value to the end of an array.
-   * @param {E} value - The value parameter represents the value that you want to add to the queue.
-   */
-  enqueue(value: E) {
-    this.push(value);
-  }
-
-  /**
-   * The `dequeue` function removes and returns the first element from a queue, or returns undefined if the queue is empty.
-   * @returns The method is returning the element at the front of the queue, or undefined if the queue is empty.
-   */
-  dequeue(): E | undefined {
-    return this.shift();
-  }
-
-  /**
-   * The `getFirst` function returns the value of the head node in a linked list, or `undefined` if the list is empty.
-   * @returns The `getFirst()` method is returning the value of the `head` node if it exists, otherwise it returns `undefined`.
-   */
-  getFirst(): E | undefined {
-    return this.head?.value;
-  }
-
-  /**
-   * The `peek` function returns the value of the head node in a linked list, or `undefined` if the list is empty.
-   * @returns The `peek()` method is returning the value of the `head` node if it exists, otherwise it returns `undefined`.
-   */
-  peek(): E | undefined {
-    return this.getFirst();
-  }
-}
-
-export class Queue<E = any> {
+export class Queue<E = any> extends IterableElementBase<E> {
   /**
    * The constructor initializes an instance of a class with an optional array of elements and sets the offset to 0.
    * @param {E[]} [elements] - The `elements` parameter is an optional array of elements of type `E`. If provided, it
@@ -47,6 +15,7 @@ export class Queue<E = any> {
    * initialized as an empty array.
    */
   constructor(elements?: E[]) {
+    super();
     this._nodes = elements || [];
     this._offset = 0;
   }
@@ -304,34 +273,6 @@ export class Queue<E = any> {
     console.log([...this]);
   }
 
-  * [Symbol.iterator]() {
-    for (const item of this.nodes) {
-      yield item;
-    }
-  }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The `forEach` function iterates over each element in a deque and applies a callback function to
-   * each element.
-   * @param callback - The callback parameter is a function that will be called for each element in the
-   * deque. It takes three parameters:
-   */
-  forEach(callback: (element: E, index: number, queue: this) => void) {
-    let index = 0;
-    for (const el of this) {
-      callback(el, index, this);
-      index++;
-    }
-  }
-
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
@@ -341,18 +282,23 @@ export class Queue<E = any> {
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
-   * The `filter` function creates a new deque containing only the elements that satisfy the given
-   * predicate function.
-   * @param predicate - The `predicate` parameter is a function that takes three arguments: `element`,
-   * `index`, and `deque`.
-   * @returns The `filter` method is returning a new `Queue` object that contains only the elements
-   * that satisfy the given `predicate` function.
+   * The `filter` function creates a new `Queue` object containing elements from the original `Queue`
+   * that satisfy a given predicate function.
+   * @param predicate - The `predicate` parameter is a callback function that takes three arguments:
+   * the current element being iterated over, the index of the current element, and the queue itself.
+   * It should return a boolean value indicating whether the element should be included in the filtered
+   * queue or not.
+   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that specifies the value
+   * to be used as `this` when executing the `predicate` function. If `thisArg` is provided, it will be
+   * passed as the `this` value to the `predicate` function. If `thisArg` is
+   * @returns The `filter` method is returning a new `Queue` object that contains the elements that
+   * satisfy the given predicate function.
    */
-  filter(predicate: (element: E, index: number, queue: this) => boolean): Queue<E> {
+  filter(predicate: ElementCallback<E, boolean>, thisArg?: any): Queue<E> {
     const newDeque = new Queue<E>([]);
     let index = 0;
     for (const el of this) {
-      if (predicate(el, index, this)) {
+      if (predicate.call(thisArg, el, index, this)) {
         newDeque.push(el);
       }
       index++;
@@ -364,33 +310,72 @@ export class Queue<E = any> {
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    */
-
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
-   * The `map` function takes a callback function and applies it to each element in the deque,
-   * returning a new deque with the results.
-   * @param callback - The `callback` parameter is a function that takes three arguments:
-   * @returns The `map` method is returning a new `Queue` object with the transformed elements.
+   * The `map` function takes a callback function and applies it to each element in the queue,
+   * returning a new queue with the results.
+   * @param callback - The callback parameter is a function that will be called for each element in the
+   * queue. It takes three arguments: the current element, the index of the current element, and the
+   * queue itself. The callback function should return a new value that will be added to the new queue.
+   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that specifies the value
+   * to be used as `this` when executing the `callback` function. If `thisArg` is provided, it will be
+   * passed as the `this` value to the `callback` function. If `thisArg` is
+   * @returns The `map` function is returning a new `Queue` object with the transformed elements.
    */
-  map<T>(callback: (element: E, index: number, queue: this) => T): Queue<T> {
+  map<T>(callback: ElementCallback<E, T>, thisArg?: any): Queue<T> {
     const newDeque = new Queue<T>([]);
     let index = 0;
     for (const el of this) {
-      newDeque.push(callback(el, index, this));
+      newDeque.push(callback.call(thisArg, el, index, this));
       index++;
     }
     return newDeque;
   }
 
-  reduce<T>(callback: (accumulator: T, element: E, index: number, queue: this) => T, initialValue: T): T {
-    let accumulator = initialValue;
-    let index = 0;
-    for (const el of this) {
-      accumulator = callback(accumulator, el, index, this);
-      index++;
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  protected* _getIterator() {
+    for (const item of this.nodes) {
+      yield item;
     }
-    return accumulator;
+  }
+}
+
+export class LinkedListQueue<E = any> extends SinglyLinkedList<E> {
+  /**
+   * The enqueue function adds a value to the end of an array.
+   * @param {E} value - The value parameter represents the value that you want to add to the queue.
+   */
+  enqueue(value: E) {
+    this.push(value);
+  }
+
+  /**
+   * The `dequeue` function removes and returns the first element from a queue, or returns undefined if the queue is empty.
+   * @returns The method is returning the element at the front of the queue, or undefined if the queue is empty.
+   */
+  dequeue(): E | undefined {
+    return this.shift();
+  }
+
+  /**
+   * The `getFirst` function returns the value of the head node in a linked list, or `undefined` if the list is empty.
+   * @returns The `getFirst()` method is returning the value of the `head` node if it exists, otherwise it returns `undefined`.
+   */
+  getFirst(): E | undefined {
+    return this.head?.value;
+  }
+
+  /**
+   * The `peek` function returns the value of the head node in a linked list, or `undefined` if the list is empty.
+   * @returns The `peek()` method is returning the value of the `head` node if it exists, otherwise it returns `undefined`.
+   */
+  peek(): E | undefined {
+    return this.getFirst();
   }
 }

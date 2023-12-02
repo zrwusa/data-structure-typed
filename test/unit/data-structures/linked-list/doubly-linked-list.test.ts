@@ -397,3 +397,31 @@ describe('DoublyLinkedList Operation Test', () => {
     expect(shiftedObj).toBe(obj1);
   });
 });
+
+
+describe('iterable methods', () => {
+  it('should forEach, some, every, filter, map, reduce of the deque', () => {
+    const dl = new DoublyLinkedList<number>()
+    dl.push(1);
+    dl.push(2);
+    dl.push(3);
+
+    const mockCallback = jest.fn();
+    dl.forEach((element) => {
+      mockCallback(element);
+    });
+
+    expect(mockCallback.mock.calls.length).toBe(3);
+    expect(mockCallback.mock.calls[0]).toEqual([1]);
+    expect(mockCallback.mock.calls[1]).toEqual([2]);
+    expect(mockCallback.mock.calls[2]).toEqual([3]);
+
+    expect(dl.every(element => element > 0)).toBe(true);
+    expect(dl.every(element => element > 1)).toBe(false);
+    expect(dl.some(element => element > 2)).toBe(true);
+
+    expect([...dl.filter(element => element > 2)]).toEqual([3]);
+    expect([...dl.map(element => element * 2)]).toEqual([2, 4, 6]);
+    expect(dl.reduce((accumulator, element) => accumulator + element, 0)).toEqual(6);
+  });
+});

@@ -7,8 +7,9 @@
  */
 
 
-import { IterableWithSizeOrLength } from "../../types";
+import { ElementCallback, IterableWithSizeOrLength } from "../../types";
 import { calcMinUnitsRequired, rangeCheck } from "../../utils";
+import { IterableElementBase } from "../base";
 
 /**
  * Deque can provide random access with O(1) time complexity
@@ -17,7 +18,7 @@ import { calcMinUnitsRequired, rangeCheck } from "../../utils";
  * Deque is implemented using a dynamic array. Inserting or deleting beyond both ends of the array may require moving elements or reallocating space.
  */
 
-export class Deque<E> {
+export class Deque<E> extends IterableElementBase<E> {
   protected _bucketFirst = 0;
   protected _firstInBucket = 0;
   protected _bucketLast = 0;
@@ -35,7 +36,7 @@ export class Deque<E> {
    * stored in each bucket. It determines the size of each bucket in the data structure.
    */
   constructor(elements: IterableWithSizeOrLength<E> = [], bucketSize = (1 << 12)) {
-
+    super();
     let _size: number;
     if ('length' in elements) {
       if (elements.length instanceof Function) _size = elements.length(); else _size = elements.length;
@@ -701,65 +702,29 @@ export class Deque<E> {
 
   /**
    * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The above function is an implementation of the iterator protocol in TypeScript, allowing the
-   * object to be iterated over using a for...of loop.
-   */
-  * [Symbol.iterator]() {
-    for (let i = 0; i < this.size; ++i) {
-      yield this.getAt(i);
-    }
-  }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The `forEach` function iterates over each element in a deque and applies a callback function to
-   * each element.
-   * @param callback - The callback parameter is a function that will be called for each element in the
-   * deque. It takes three parameters:
-   */
-  forEach(callback: (element: E, index: number, deque: this) => void) {
-    let index = 0;
-    for (const el of this) {
-      callback(el, index, this);
-      index++;
-    }
-  }
-
-  /**
-   * Time Complexity: O(n)
    * Space Complexity: O(n)
    */
-
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
-   * The `filter` function creates a new deque containing only the elements that satisfy the given
-   * predicate function.
-   * @param predicate - The `predicate` parameter is a function that takes three arguments: `element`,
-   * `index`, and `deque`.
-   * @returns The `filter` method is returning a new `Deque` object that contains only the elements
-   * that satisfy the given `predicate` function.
+   * The `filter` function creates a new deque containing elements from the original deque that satisfy
+   * a given predicate function.
+   * @param predicate - The `predicate` parameter is a callback function that takes three arguments:
+   * the current element being iterated over, the index of the current element, and the deque itself.
+   * It should return a boolean value indicating whether the element should be included in the filtered
+   * deque or not.
+   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that specifies the value
+   * to be used as `this` when executing the `predicate` function. If `thisArg` is provided, it will be
+   * passed as the `this` value to the `predicate` function. If `thisArg` is
+   * @returns The `filter` method is returning a new `Deque` object that contains the elements that
+   * satisfy the given predicate function.
    */
-  filter(predicate: (element: E, index: number, deque: this) => boolean): Deque<E> {
+  filter(predicate: ElementCallback<E, boolean>, thisArg?: any): Deque<E> {
     const newDeque = new Deque<E>([], this._bucketSize);
     let index = 0;
     for (const el of this) {
-      if (predicate(el, index, this)) {
+      if (predicate.call(thisArg, el, index, this)) {
         newDeque.push(el);
       }
       index++;
@@ -771,21 +736,24 @@ export class Deque<E> {
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    */
-
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
-   * The `map` function takes a callback function and applies it to each element in the deque,
-   * returning a new deque with the results.
-   * @param callback - The `callback` parameter is a function that takes three arguments:
-   * @returns The `map` method is returning a new `Deque` object with the transformed elements.
+   * The `map` function creates a new Deque by applying a callback function to each element of the
+   * original Deque.
+   * @param callback - The `callback` parameter is a function that will be called for each element in
+   * the deque. It takes three arguments:
+   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that specifies the value
+   * to be used as `this` when executing the `callback` function. If `thisArg` is provided, it will be
+   * passed as the `this` value to the `callback` function. If `thisArg` is
+   * @returns a new Deque object with the mapped values.
    */
-  map<T>(callback: (element: E, index: number, deque: this) => T): Deque<T> {
+  map<T>(callback: ElementCallback<E, T>, thisArg?: any): Deque<T> {
     const newDeque = new Deque<T>([], this._bucketSize);
     let index = 0;
     for (const el of this) {
-      newDeque.push(callback(el, index, this));
+      newDeque.push(callback.call(thisArg, el, index, this));
       index++;
     }
     return newDeque;
@@ -793,34 +761,24 @@ export class Deque<E> {
 
   /**
    * Time Complexity: O(n)
-   * Space Complexity: O(1)
+   * Space Complexity: O(n)
    */
+
+  print(): void {
+    console.log([...this])
+  }
 
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
-   * The `reduce` function iterates over the elements of a deque and applies a callback function to
-   * each element, accumulating a single value.
-   * @param callback - The `callback` parameter is a function that takes four arguments:
-   * @param {T} initialValue - The `initialValue` parameter is the initial value of the accumulator. It
-   * is the value that will be passed as the first argument to the `callback` function when reducing
-   * the elements of the deque.
-   * @returns the final value of the accumulator after iterating over all elements in the deque and
-   * applying the callback function to each element.
+   * The above function is an implementation of the iterator protocol in TypeScript, allowing the
+   * object to be iterated over using a for...of loop.
    */
-  reduce<T>(callback: (accumulator: T, element: E, index: number, deque: this) => T, initialValue: T): T {
-    let accumulator = initialValue;
-    let index = 0;
-    for (const el of this) {
-      accumulator = callback(accumulator, el, index, this);
-      index++;
+  protected* _getIterator() {
+    for (let i = 0; i < this.size; ++i) {
+      yield this.getAt(i);
     }
-    return accumulator;
-  }
-
-  print(): void {
-    console.log([...this])
   }
 
   /**

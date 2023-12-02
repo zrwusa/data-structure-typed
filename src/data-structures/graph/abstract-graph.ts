@@ -8,8 +8,10 @@
 import { uuidV4 } from '../../utils';
 import { PriorityQueue } from '../priority-queue';
 import type { DijkstraResult, VertexKey } from '../../types';
+import { PairCallback } from "../../types";
 import { IGraph } from '../../interfaces';
 import { Queue } from '../queue';
+import { IterablePairBase } from "../base";
 
 export abstract class AbstractVertex<V = any> {
   key: VertexKey;
@@ -64,7 +66,11 @@ export abstract class AbstractGraph<
   E = any,
   VO extends AbstractVertex<V> = AbstractVertex<V>,
   EO extends AbstractEdge<E> = AbstractEdge<E>
-> implements IGraph<V, E, VO, EO> {
+> extends IterablePairBase<VertexKey, V | undefined> implements IGraph<V, E, VO, EO> {
+  constructor() {
+    super();
+  }
+
   protected _vertices: Map<VertexKey, VO> = new Map<VertexKey, VO>();
 
   get vertices(): Map<VertexKey, VO> {
@@ -1159,50 +1165,71 @@ export abstract class AbstractGraph<
     return this.tarjan(false, true, false, false).bridges;
   }
 
-  * [Symbol.iterator](): Iterator<[VertexKey, V | undefined]> {
-    for (const vertex of this._vertices.values()) {
-      yield [vertex.key, vertex.value];
-    }
-  }
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
 
-  forEach(callback: (entry: [VertexKey, V | undefined], index: number, map: Map<VertexKey, VO>) => void): void {
-    let index = 0;
-    for (const vertex of this) {
-      callback(vertex, index, this._vertices);
-      index++;
-    }
-  }
-
-  filter(predicate: (entry: [VertexKey, V | undefined], index: number, map: Map<VertexKey, VO>) => boolean): [VertexKey, V | undefined][] {
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `filter` function iterates over key-value pairs in a data structure and returns an array of
+   * pairs that satisfy a given predicate.
+   * @param predicate - The `predicate` parameter is a callback function that takes four arguments:
+   * `value`, `key`, `index`, and `this`. It is used to determine whether an element should be included
+   * in the filtered array. The callback function should return `true` if the element should be
+   * included, and `
+   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that allows you to
+   * specify the value of `this` within the `predicate` function. It is used when you want to bind a
+   * specific object as the context for the `predicate` function. If `thisArg` is provided, it will be
+   * @returns The `filter` method returns an array of key-value pairs `[VertexKey, V | undefined][]`
+   * that satisfy the given predicate function.
+   */
+  filter(predicate: PairCallback<VertexKey, V | undefined, boolean>, thisArg?: any): [VertexKey, V | undefined][] {
     const filtered: [VertexKey, V | undefined][] = [];
     let index = 0;
-    for (const entry of this) {
-      if (predicate(entry, index, this._vertices)) {
-        filtered.push(entry);
+    for (const [key, value] of this) {
+      if (predicate.call(thisArg, value, key, index, this)) {
+        filtered.push([key, value]);
       }
       index++;
     }
     return filtered;
   }
 
-  map<T>(callback: (entry: [VertexKey, V | undefined], index: number, map: Map<VertexKey, VO>) => T): T[] {
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `map` function iterates over the elements of a collection and applies a callback function to
+   * each element, returning an array of the results.
+   * @param callback - The callback parameter is a function that will be called for each element in the
+   * map. It takes four arguments:
+   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that allows you to
+   * specify the value of `this` within the callback function. If `thisArg` is provided, it will be
+   * used as the `this` value when calling the callback function. If `thisArg` is not provided, `
+   * @returns The `map` function is returning an array of type `T[]`.
+   */
+  map<T>(callback: PairCallback<VertexKey, V | undefined, T>, thisArg?: any): T[] {
     const mapped: T[] = [];
     let index = 0;
-    for (const entry of this) {
-      mapped.push(callback(entry, index, this._vertices));
+    for (const [key, value] of this) {
+      mapped.push(callback.call(thisArg, value, key, index, this));
       index++;
     }
     return mapped;
   }
 
-  reduce<T>(callback: (accumulator: T, entry: [VertexKey, V | undefined], index: number, map: Map<VertexKey, VO>) => T, initialValue: T): T {
-    let accumulator: T = initialValue;
-    let index = 0;
-    for (const entry of this) {
-      accumulator = callback(accumulator, entry, index, this._vertices);
-      index++;
+  protected* _getIterator(): IterableIterator<[VertexKey, V | undefined]> {
+    for (const vertex of this._vertices.values()) {
+      yield [vertex.key, vertex.value];
     }
-    return accumulator;
   }
 
   protected abstract _addEdgeOnly(edge: EO): boolean;

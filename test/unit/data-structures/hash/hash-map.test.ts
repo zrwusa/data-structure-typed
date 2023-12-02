@@ -548,10 +548,10 @@ describe('LinkedHashMap setMany, keys, values', () => {
   })
 
   test('keys', () => {
-    expect(hm.keys()).toEqual([2, 3, 4, 5, 6])
+    expect([...hm.keys()]).toEqual([2, 3, 4, 5, 6])
   });
 
   test('values', () => {
-    expect(hm.values()).toEqual([2, 3, 4, 5, 6])
+    expect([...hm.values()]).toEqual([2, 3, 4, 5, 6])
   });
 });

@@ -7,9 +7,10 @@
  */
 
 import { isWeakKey, rangeCheck } from '../../utils';
-import { HashMapLinkedNode, HashMapOptions, HashMapStoreItem } from '../../types';
+import { HashMapLinkedNode, HashMapOptions, HashMapStoreItem, PairCallback } from '../../types';
+import { IterablePairBase } from "../base";
 
-export class HashMap<K = any, V = any> {
+export class HashMap<K = any, V = any> extends IterablePairBase<K, V> {
   protected _store: { [key: string]: HashMapStoreItem<K, V> } = {};
   protected _objMap: Map<object, V> = new Map();
 
@@ -24,6 +25,7 @@ export class HashMap<K = any, V = any> {
   constructor(elements: Iterable<[K, V]> = [], options?: {
     hashFn: (key: K) => string
   }) {
+    super();
     if (options) {
       const { hashFn } = options;
       if (hashFn) {
@@ -145,102 +147,14 @@ export class HashMap<K = any, V = any> {
   }
 
   /**
-   * The function returns an iterator that yields key-value pairs from both an object store and an
-   * object map.
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
    */
-  * [Symbol.iterator](): IterableIterator<[K, V]> {
-    for (const node of Object.values(this._store)) {
-      yield [node.key, node.value] as [K, V];
-    }
-    for (const node of this._objMap) {
-      yield node as [K, V];
-    }
-  }
 
   /**
-   * The function returns an iterator that yields key-value pairs from the object.
-   */
-  * entries(): IterableIterator<[K, V]> {
-    for (const item of this) {
-      yield item;
-    }
-  }
-
-  /**
-   * The function `keys()` returns an iterator that yields all the keys of the object.
-   */
-  * keys(): IterableIterator<K> {
-    for (const [key] of this) {
-      yield key;
-    }
-  }
-
-  * values(): IterableIterator<V> {
-    for (const [, value] of this) {
-      yield value;
-    }
-  }
-
-  /**
-   * The `every` function checks if every element in a HashMap satisfies a given predicate function.
-   * @param predicate - The predicate parameter is a function that takes four arguments: value, key,
-   * index, and map. It is used to test each element in the map against a condition. If the predicate
-   * function returns false for any element, the every() method will return false. If the predicate
-   * function returns true for all
-   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that specifies the value
-   * to be used as `this` when executing the `predicate` function. If `thisArg` is provided, it will be
-   * passed as the `this` value to the `predicate` function. If `thisArg` is
-   * @returns The method is returning a boolean value. It returns true if the predicate function
-   * returns true for every element in the map, and false otherwise.
-   */
-  every(predicate: (value: V, key: K, index: number, map: HashMap<K, V>) => boolean, thisArg?: any): boolean {
-    let index = 0;
-    for (const [key, value] of this) {
-      if (!predicate.call(thisArg, value, key, index++, this)) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  /**
-   * The "some" function checks if at least one element in a HashMap satisfies a given predicate.
-   * @param predicate - The `predicate` parameter is a function that takes four arguments: `value`,
-   * `key`, `index`, and `map`. It is used to determine whether a specific condition is met for a given
-   * key-value pair in the `HashMap`.
-   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that specifies the value
-   * to be used as `this` when executing the `predicate` function. If `thisArg` is provided, it will be
-   * passed as the `this` value to the `predicate` function. If `thisArg` is
-   * @returns a boolean value. It returns true if the predicate function returns true for any element
-   * in the map, and false otherwise.
-   */
-  some(predicate: (value: V, key: K, index: number, map: HashMap<K, V>) => boolean, thisArg?: any): boolean {
-    let index = 0;
-    for (const [key, value] of this) {
-      if (predicate.call(thisArg, value, key, index++, this)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  /**
-   * The `forEach` function iterates over the elements of a HashMap and applies a callback function to
-   * each element.
-   * @param callbackfn - A function that will be called for each key-value pair in the HashMap. It
-   * takes four parameters:
-   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that specifies the value
-   * to be used as `this` when executing the `callbackfn` function. If `thisArg` is provided, it will
-   * be passed as the `this` value inside the `callbackfn` function. If `thisArg
-   */
-  forEach(callbackfn: (value: V, key: K, index: number, map: HashMap<K, V>) => void, thisArg?: any): void {
-    let index = 0;
-    for (const [key, value] of this) {
-      callbackfn.call(thisArg, value, key, index++, this);
-    }
-  }
-
-  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
    * The `map` function in TypeScript creates a new HashMap by applying a callback function to each
    * key-value pair in the original HashMap.
    * @param callbackfn - The callback function that will be called for each key-value pair in the
@@ -251,7 +165,7 @@ export class HashMap<K = any, V = any> {
    * @returns The `map` method is returning a new `HashMap` object with the transformed values based on
    * the provided callback function.
    */
-  map<U>(callbackfn: (value: V, key: K, index: number, map: HashMap<K, V>) => U, thisArg?: any): HashMap<K, U> {
+  map<U>(callbackfn: PairCallback<K, V, U>, thisArg?: any): HashMap<K, U> {
     const resultMap = new HashMap<K, U>();
     let index = 0;
     for (const [key, value] of this) {
@@ -261,6 +175,14 @@ export class HashMap<K = any, V = any> {
   }
 
   /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
    * The `filter` function creates a new HashMap containing key-value pairs from the original HashMap
    * that satisfy a given predicate function.
    * @param predicate - The predicate parameter is a function that takes four arguments: value, key,
@@ -273,7 +195,7 @@ export class HashMap<K = any, V = any> {
    * @returns The `filter` method is returning a new `HashMap` object that contains the key-value pairs
    * from the original `HashMap` that pass the provided `predicate` function.
    */
-  filter(predicate: (value: V, key: K, index: number, map: HashMap<K, V>) => boolean, thisArg?: any): HashMap<K, V> {
+  filter(predicate: PairCallback<K, V, boolean>, thisArg?: any): HashMap<K, V> {
     const filteredMap = new HashMap<K, V>();
     let index = 0;
     for (const [key, value] of this) {
@@ -284,28 +206,21 @@ export class HashMap<K = any, V = any> {
     return filteredMap;
   }
 
-  /**
-   * The `reduce` function iterates over the elements of a HashMap and applies a callback function to
-   * each element, accumulating a single value.
-   * @param callbackfn - The callback function that will be called for each element in the HashMap. It
-   * takes five parameters:
-   * @param {U} initialValue - The initialValue parameter is the initial value of the accumulator. It
-   * is the value that will be used as the first argument of the callback function when reducing the
-   * elements of the map.
-   * @returns The `reduce` method is returning the final value of the accumulator after iterating over
-   * all the elements in the `HashMap`.
-   */
-  reduce<U>(callbackfn: (accumulator: U, currentValue: V, currentKey: K, index: number, map: HashMap<K, V>) => U, initialValue: U): U {
-    let accumulator = initialValue;
-    let index = 0;
-    for (const [key, value] of this) {
-      accumulator = callbackfn(accumulator, value, key, index++, this);
-    }
-    return accumulator;
+  print(): void {
+    console.log([...this.entries()]);
   }
 
-  print(): void{
-    console.log([...this.entries()]);
+  /**
+   * The function returns an iterator that yields key-value pairs from both an object store and an
+   * object map.
+   */
+  protected* _getIterator(): IterableIterator<[K, V]> {
+    for (const node of Object.values(this._store)) {
+      yield [node.key, node.value] as [K, V];
+    }
+    for (const node of this._objMap) {
+      yield node as [K, V];
+    }
   }
 
   protected _hashFn: (key: K) => string = (key: K) => String(key);
@@ -333,7 +248,7 @@ export class HashMap<K = any, V = any> {
   }
 }
 
-export class LinkedHashMap<K = any, V = any> {
+export class LinkedHashMap<K = any, V = any> extends IterablePairBase<K, V> {
 
   protected _noObjMap: Record<string, HashMapLinkedNode<K, V | undefined>> = {};
   protected _objMap = new WeakMap<object, HashMapLinkedNode<K, V | undefined>>();
@@ -349,6 +264,7 @@ export class LinkedHashMap<K = any, V = any> {
     hashFn: (key: K) => String(key),
     objHashFn: (key: K) => (<object>key)
   }) {
+    super();
     this._sentinel = <HashMapLinkedNode<K, V>>{};
     this._sentinel.prev = this._sentinel.next = this._head = this._tail = this._sentinel;
 
@@ -492,18 +408,6 @@ export class LinkedHashMap<K = any, V = any> {
     }
   }
 
-  keys(): K[] {
-    const keys: K[] = [];
-    for (const [key] of this) keys.push(key);
-    return keys;
-  }
-
-  values(): V[] {
-    const values: V[] = [];
-    for (const [, value] of this) values.push(value);
-    return values;
-  }
-
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
@@ -644,36 +548,30 @@ export class LinkedHashMap<K = any, V = any> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the LinkedHashMap.
-   * Space Complexity: O(1)
-   *
-   * The `forEach` function iterates over each element in a LinkedHashMap and executes a callback function on
-   * each element.
-   * @param callback - The callback parameter is a function that will be called for each element in the
-   * LinkedHashMap. It takes three arguments:
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
    */
-  forEach(callback: (element: [K, V], index: number, hashMap: LinkedHashMap<K, V>) => void) {
-    let index = 0;
-    let node = this._head;
-    while (node !== this._sentinel) {
-      callback(<[K, V]>[node.key, node.value], index++, this);
-      node = node.next;
-    }
-  }
 
   /**
-   * The `filter` function takes a predicate function and returns a new LinkedHashMap containing only the
-   * key-value pairs that satisfy the predicate.
-   * @param predicate - The `predicate` parameter is a function that takes two arguments: `element` and
-   * `map`.
-   * @returns a new LinkedHashMap object that contains the key-value pairs from the original LinkedHashMap that
-   * satisfy the given predicate function.
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `filter` function creates a new `LinkedHashMap` containing key-value pairs from the original
+   * map that satisfy a given predicate function.
+   * @param predicate - The `predicate` parameter is a callback function that takes four arguments:
+   * `value`, `key`, `index`, and `this`. It should return a boolean value indicating whether the
+   * current element should be included in the filtered map or not.
+   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that allows you to
+   * specify the value of `this` within the `predicate` function. It is used when you want to bind a
+   * specific object as the context for the `predicate` function. If `thisArg` is not provided, `this
+   * @returns a new `LinkedHashMap` object that contains the key-value pairs from the original
+   * `LinkedHashMap` object that satisfy the given predicate function.
    */
-  filter(predicate: (element: [K, V], index: number, map: LinkedHashMap<K, V>) => boolean): LinkedHashMap<K, V> {
+  filter(predicate: PairCallback<K, V, boolean>, thisArg?: any): LinkedHashMap<K, V> {
     const filteredMap = new LinkedHashMap<K, V>();
     let index = 0;
     for (const [key, value] of this) {
-      if (predicate([key, value], index, this)) {
+      if (predicate.call(thisArg, value, key, index, this)) {
         filteredMap.set(key, value);
       }
       index++;
@@ -682,43 +580,40 @@ export class LinkedHashMap<K = any, V = any> {
   }
 
   /**
-   * The `map` function takes a callback function and returns a new LinkedHashMap with the values transformed
-   * by the callback.
-   * @param callback - The `callback` parameter is a function that takes two arguments: `element` and
-   * `map`.
-   * @returns a new LinkedHashMap object with the values mapped according to the provided callback function.
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
    */
-  map<NV>(callback: (element: [K, V], index: number, map: LinkedHashMap<K, V>) => NV): LinkedHashMap<K, NV> {
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `map` function in TypeScript creates a new `LinkedHashMap` by applying a callback function to
+   * each key-value pair in the original map.
+   * @param callback - The callback parameter is a function that will be called for each key-value pair
+   * in the map. It takes four arguments: the value of the current key-value pair, the key of the
+   * current key-value pair, the index of the current key-value pair, and the map itself. The callback
+   * function should
+   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that allows you to
+   * specify the value of `this` within the callback function. If provided, the callback function will
+   * be called with `thisArg` as its `this` value. If not provided, `this` will refer to the current
+   * map
+   * @returns a new `LinkedHashMap` object with the values mapped according to the provided callback
+   * function.
+   */
+  map<NV>(callback: PairCallback<K, V, NV>, thisArg?: any): LinkedHashMap<K, NV> {
     const mappedMap = new LinkedHashMap<K, NV>();
     let index = 0;
     for (const [key, value] of this) {
-      const newValue = callback([key, value], index, this);
+      const newValue = callback.call(thisArg, value, key, index, this);
       mappedMap.set(key, newValue);
       index++;
     }
     return mappedMap;
   }
 
-  /**
-   * The `reduce` function iterates over the elements of a LinkedHashMap and applies a callback function to
-   * each element, accumulating a single value.
-   * @param callback - The callback parameter is a function that takes three arguments: accumulator,
-   * element, and map. It is called for each element in the LinkedHashMap and is used to accumulate a single
-   * result.
-   * @param {A} initialValue - The `initialValue` parameter is the initial value of the accumulator. It
-   * is the value that will be passed as the first argument to the `callback` function when reducing
-   * the elements of the map.
-   * @returns The `reduce` function is returning the final value of the accumulator after iterating
-   * over all the elements in the LinkedHashMap and applying the callback function to each element.
-   */
-  reduce<A>(callback: (accumulator: A, element: [K, V], index: number, map: LinkedHashMap<K, V>) => A, initialValue: A): A {
-    let accumulator = initialValue;
-    let index = 0;
-    for (const entry of this) {
-      accumulator = callback(accumulator, entry, index, this);
-      index++;
-    }
-    return accumulator;
+  print() {
+    console.log([...this]);
   }
 
   /**
@@ -727,16 +622,12 @@ export class LinkedHashMap<K = any, V = any> {
    *
    * The above function is an iterator that yields key-value pairs from a linked list.
    */
-  * [Symbol.iterator]() {
+  protected* _getIterator() {
     let node = this._head;
     while (node !== this._sentinel) {
       yield <[K, V]>[node.key, node.value];
       node = node.next;
     }
-  }
-
-  print() {
-    console.log([...this]);
   }
 
   /**
