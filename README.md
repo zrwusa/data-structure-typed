@@ -137,7 +137,7 @@ our [visual tool](https://github.com/zrwusa/vivid-algorithm)
 ```ts
 import {BST, BSTNode} from 'data-structure-typed';
 
-const bst = new BST();
+const bst = new BST<number>();
 bst.add(11);
 bst.add(3);
 bst.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
@@ -167,7 +167,7 @@ bst.print()
 //            \                          
 //            7
 
-const objBST = new BST<{height: number, age: number}>();
+const objBST = new BST<number, {height: number, age: number}>();
 
 objBST.add(11, { "name": "Pablo", "age": 15 });
 objBST.add(3, { "name": "Kirk", "age": 1 });
@@ -223,7 +223,7 @@ bfsIDs[0] === 11;               // true
 ```ts
 import {AVLTree} from 'data-structure-typed';
 
-const avlTree = new AVLTree();
+const avlTree = new AVLTree<number>();
 avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
 avlTree.isAVLBalanced();    // true
 avlTree.delete(10);
@@ -235,7 +235,7 @@ avlTree.isAVLBalanced();    // true
 ```ts
 import {RedBlackTree} from 'data-structure-typed';
 
-const rbTree = new RedBlackTree();
+const rbTree = new RedBlackTree<number>();
 rbTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
 rbTree.isAVLBalanced();    // true
 rbTree.delete(10);
@@ -257,7 +257,7 @@ rbTree.print()
 ```ts
 import {DirectedGraph} from 'data-structure-typed';
 
-const graph = new DirectedGraph();
+const graph = new DirectedGraph<string>();
 
 graph.addVertex('A');
 graph.addVertex('B');
@@ -286,7 +286,7 @@ const topologicalOrderKeys = graph.topologicalSort(); // ['A', 'B', 'C']
 ```ts
 import {UndirectedGraph} from 'data-structure-typed';
 
-const graph = new UndirectedGraph();
+const graph = new UndirectedGraph<string>();
 graph.addVertex('A');
 graph.addVertex('B');
 graph.addVertex('C');
