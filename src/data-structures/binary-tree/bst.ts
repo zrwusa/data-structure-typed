@@ -11,20 +11,18 @@ import type {
   BSTNodeNested,
   BSTOptions,
   BTNCallback,
-  BTNKey,
   BTNodeExemplar,
-  BTNodePureExemplar,
-  Comparator
+  BTNodePureExemplar
 } from '../../types';
-import { CP, IterationType } from '../../types';
+import { BSTVariant, CP, IterationType } from '../../types';
 import { BinaryTree, BinaryTreeNode } from './binary-tree';
 import { IBinaryTree } from '../../interfaces';
 import { Queue } from '../queue';
 
-export class BSTNode<V = any, N extends BSTNode<V, N> = BSTNodeNested<V>> extends BinaryTreeNode<V, N> {
+export class BSTNode<K = any, V = any, N extends BSTNode<K, V, N> = BSTNodeNested<K, V>> extends BinaryTreeNode<K, V, N> {
   override parent?: N;
 
-  constructor(key: BTNKey, value?: V) {
+  constructor(key: K, value?: V) {
     super(key, value);
     this.parent = undefined;
     this._left = undefined;
@@ -81,9 +79,9 @@ export class BSTNode<V = any, N extends BSTNode<V, N> = BSTNodeNested<V>> extend
  * 6. Balance Variability: Can become unbalanced; special types maintain balance.
  * 7. No Auto-Balancing: Standard BSTs don't automatically balance themselves.
  */
-export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>, TREE extends BST<V, N, TREE> = BST<V, N, BSTNested<V, N>>>
-  extends BinaryTree<V, N, TREE>
-  implements IBinaryTree<V, N, TREE> {
+export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BSTNodeNested<K, V>>, TREE extends BST<K, V, N, TREE> = BST<K, V, N, BSTNested<K, V, N>>>
+  extends BinaryTree<K, V, N, TREE>
+  implements IBinaryTree<K, V, N, TREE> {
 
 
   /**
@@ -94,13 +92,13 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * @param [options] - The `options` parameter is an optional object that can contain additional
    * configuration options for the binary search tree. It can have the following properties:
    */
-  constructor(elements?: Iterable<BTNodeExemplar<V, N>>, options?: Partial<BSTOptions>) {
+  constructor(elements?: Iterable<BTNodeExemplar<K, V, N>>, options?: Partial<BSTOptions<K>>) {
     super([], options);
 
     if (options) {
-      const { comparator } = options;
-      if (comparator) {
-        this.comparator = comparator;
+      const { variant } = options;
+      if (variant) {
+        this._variant = variant;
       }
     }
 
@@ -115,18 +113,22 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     return this._root;
   }
 
-  comparator: Comparator<BTNKey> = (a, b) => a - b
+  protected _variant = BSTVariant.MIN
+
+  get variant() {
+    return this._variant;
+  }
 
   /**
    * The function creates a new binary search tree node with the given key and value.
-   * @param {BTNKey} key - The key parameter is the key value that will be associated with
+   * @param {K} key - The key parameter is the key value that will be associated with
    * the new node. It is used to determine the position of the node in the binary search tree.
    * @param [value] - The parameter `value` is an optional value that can be assigned to the node. It
    * represents the value associated with the node in a binary search tree.
    * @returns a new instance of the BSTNode class with the specified key and value.
    */
-  override createNode(key: BTNKey, value?: V): N {
-    return new BSTNode<V, N>(key, value) as N;
+  override createNode(key: K, value?: V): N {
+    return new BSTNode<K, V, N>(key, value) as N;
   }
 
   /**
@@ -136,29 +138,29 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * that defines various options for creating a binary search tree.
    * @returns a new instance of the BST class with the specified options.
    */
-  override createTree(options?: Partial<BSTOptions>): TREE {
-    return new BST<V, N, TREE>([], {
+  override createTree(options?: Partial<BSTOptions<K>>): TREE {
+    return new BST<K, V, N, TREE>([], {
       iterationType: this.iterationType,
-      comparator: this.comparator, ...options
+      variant: this.variant, ...options
     }) as TREE;
   }
 
   /**
    * The function checks if an exemplar is an instance of BSTNode.
-   * @param exemplar - The `exemplar` parameter is a variable of type `BTNodeExemplar<V, N>`.
+   * @param exemplar - The `exemplar` parameter is a variable of type `BTNodeExemplar<K, V, N>`.
    * @returns a boolean value indicating whether the exemplar is an instance of the BSTNode class.
    */
-  override isNode(exemplar: BTNodeExemplar<V, N>): exemplar is N {
+  override isNode(exemplar: BTNodeExemplar<K, V, N>): exemplar is N {
     return exemplar instanceof BSTNode;
   }
 
   /**
    * The function `exemplarToNode` takes an exemplar and returns a corresponding node if the exemplar
    * is valid, otherwise it returns undefined.
-   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<V, N>`.
+   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<K, V, N>`.
    * @returns a variable `node` which is of type `N` or `undefined`.
    */
-  override exemplarToNode(exemplar: BTNodeExemplar<V, N>): N | undefined {
+  override exemplarToNode(exemplar: BTNodeExemplar<K, V, N>): N | undefined {
     let node: N | undefined;
     if (exemplar === null || exemplar === undefined) {
       return;
@@ -171,7 +173,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
       } else {
         node = this.createNode(key, value);
       }
-    } else if (this.isNodeKey(exemplar)) {
+    } else if (this.isNotNodeInstance(exemplar)) {
       node = this.createNode(exemplar);
     } else {
       return;
@@ -194,7 +196,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * @returns The method returns either the newly added node (`newNode`) or `undefined` if the input
    * (`keyOrNodeOrEntry`) is null, undefined, or does not match any of the expected types.
    */
-  override add(keyOrNodeOrEntry: BTNodeExemplar<V, N>): N | undefined {
+  override add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>): N | undefined {
     const newNode = this.exemplarToNode(keyOrNodeOrEntry);
     if (newNode === undefined) return;
 
@@ -262,7 +264,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * @returns The `addMany` function returns an array of `N` or `undefined` values.
    */
   override addMany(
-    keysOrNodesOrEntries: Iterable<BTNodeExemplar<V, N>>,
+    keysOrNodesOrEntries: Iterable<BTNodeExemplar<K, V, N>>,
     isBalanceAdd = true,
     iterationType = this.iterationType
   ): (N | undefined)[] {
@@ -274,9 +276,9 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
       }
       return inserted;
     }
-    const realBTNExemplars: BTNodePureExemplar<V, N>[] = [];
+    const realBTNExemplars: BTNodePureExemplar<K, V, N>[] = [];
 
-    const isRealBTNExemplar = (kve: BTNodeExemplar<V, N>): kve is BTNodePureExemplar<V, N> => {
+    const isRealBTNExemplar = (kve: BTNodeExemplar<K, V, N>): kve is BTNodePureExemplar<K, V, N> => {
       if (kve === undefined || kve === null) return false;
       return !(this.isEntry(kve) && (kve[0] === undefined || kve[0] === null));
     }
@@ -286,23 +288,23 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     }
 
     // TODO this addMany function is inefficient, it should be optimized
-    let sorted: BTNodePureExemplar<V, N>[] = [];
+    let sorted: BTNodePureExemplar<K, V, N>[] = [];
 
     sorted = realBTNExemplars.sort((a, b) => {
       let aR: number, bR: number;
-      if (this.isEntry(a)) aR = a[0]
-      else if (this.isRealNode(a)) aR = a.key
-      else aR = a;
+      if (this.isEntry(a)) aR = this.extractor(a[0])
+      else if (this.isRealNode(a)) aR = this.extractor(a.key)
+      else aR = this.extractor(a);
 
-      if (this.isEntry(b)) bR = b[0]
-      else if (this.isRealNode(b)) bR = b.key
-      else bR = b;
+      if (this.isEntry(b)) bR = this.extractor(b[0])
+      else if (this.isRealNode(b)) bR = this.extractor(b.key)
+      else bR = this.extractor(b);
 
       return aR - bR;
     })
 
 
-    const _dfs = (arr: BTNodePureExemplar<V, N>[]) => {
+    const _dfs = (arr: BTNodePureExemplar<K, V, N>[]) => {
       if (arr.length === 0) return;
 
       const mid = Math.floor((arr.length - 1) / 2);
@@ -337,31 +339,31 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     return inserted;
   }
 
-  /**
-   * Time Complexity: O(n log n) - Adding each element individually in a balanced tree.
-   * Space Complexity: O(n) - Additional space is required for the sorted array.
-   */
-
-  /**
-   * Time Complexity: O(log n) - Average case for a balanced tree.
-   * Space Complexity: O(1) - Constant space is used.
-   *
-   * The `lastKey` function returns the key of the rightmost node in a binary tree, or the key of the
-   * leftmost node if the comparison result is greater than.
-   * @param {BTNKey | N | undefined} beginRoot - The `beginRoot` parameter is optional and can be of
-   * type `BTNKey`, `N`, or `undefined`. It represents the starting point for finding the last key in
-   * the binary tree. If not provided, it defaults to the root of the binary tree (`this.root`).
-   * @param iterationType - The `iterationType` parameter is used to specify the type of iteration to
-   * be performed. It can have one of the following values:
-   * @returns the key of the rightmost node in the binary tree if the comparison result is less than,
-   * the key of the leftmost node if the comparison result is greater than, and the key of the
-   * rightmost node otherwise. If no node is found, it returns 0.
-   */
-  lastKey(beginRoot: BSTNodeKeyOrNode<N> = this.root, iterationType = this.iterationType): BTNKey {
-    if (this._compare(0, 1) === CP.lt) return this.getRightMost(beginRoot, iterationType)?.key ?? 0;
-    else if (this._compare(0, 1) === CP.gt) return this.getLeftMost(beginRoot, iterationType)?.key ?? 0;
-    else return this.getRightMost(beginRoot, iterationType)?.key ?? 0;
-  }
+  // /**
+  //  * Time Complexity: O(n log n) - Adding each element individually in a balanced tree.
+  //  * Space Complexity: O(n) - Additional space is required for the sorted array.
+  //  */
+  //
+  // /**
+  //  * Time Complexity: O(log n) - Average case for a balanced tree.
+  //  * Space Complexity: O(1) - Constant space is used.
+  //  *
+  //  * The `lastKey` function returns the key of the rightmost node in a binary tree, or the key of the
+  //  * leftmost node if the comparison result is greater than.
+  //  * @param {K | N | undefined} beginRoot - The `beginRoot` parameter is optional and can be of
+  //  * type `K`, `N`, or `undefined`. It represents the starting point for finding the last key in
+  //  * the binary tree. If not provided, it defaults to the root of the binary tree (`this.root`).
+  //  * @param iterationType - The `iterationType` parameter is used to specify the type of iteration to
+  //  * be performed. It can have one of the following values:
+  //  * @returns the key of the rightmost node in the binary tree if the comparison result is less than,
+  //  * the key of the leftmost node if the comparison result is greater than, and the key of the
+  //  * rightmost node otherwise. If no node is found, it returns 0.
+  //  */
+  // lastKey(beginRoot: BSTNodeKeyOrNode<K,N> = this.root, iterationType = this.iterationType): K {
+  //   if (this._compare(0, 1) === CP.lt) return this.getRightMost(beginRoot, iterationType)?.key ?? 0;
+  //   else if (this._compare(0, 1) === CP.gt) return this.getLeftMost(beginRoot, iterationType)?.key ?? 0;
+  //   else return this.getRightMost(beginRoot, iterationType)?.key ?? 0;
+  // }
 
   /**
    * Time Complexity: O(log n) - Average case for a balanced tree.
@@ -374,7 +376,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    *
    * The function `getNodeByKey` searches for a node in a binary tree based on a given key, using
    * either recursive or iterative methods.
-   * @param {BTNKey} key - The `key` parameter is the key value that we are searching for in the tree.
+   * @param {K} key - The `key` parameter is the key value that we are searching for in the tree.
    * It is used to identify the node that we want to retrieve.
    * @param iterationType - The `iterationType` parameter is an optional parameter that specifies the
    * type of iteration to use when searching for a node in the binary tree. It can have two possible
@@ -382,7 +384,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * @returns The function `getNodeByKey` returns a node (`N`) if a node with the specified key is
    * found in the binary tree. If no node is found, it returns `undefined`.
    */
-  override getNodeByKey(key: BTNKey, iterationType = IterationType.ITERATIVE): N | undefined {
+  override getNodeByKey(key: K, iterationType = IterationType.ITERATIVE): N | undefined {
     if (!this.root) return undefined;
     if (iterationType === IterationType.RECURSIVE) {
       const _dfs = (cur: N): N | undefined => {
@@ -415,14 +417,14 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   /**
    * The function `ensureNode` returns the node corresponding to the given key if it is a node key,
    * otherwise it returns the key itself.
-   * @param {BTNKey | N | undefined} key - The `key` parameter can be of type `BTNKey`, `N`, or
+   * @param {K | N | undefined} key - The `key` parameter can be of type `K`, `N`, or
    * `undefined`.
    * @param iterationType - The `iterationType` parameter is an optional parameter that specifies the
    * type of iteration to be performed. It has a default value of `IterationType.ITERATIVE`.
    * @returns either a node object (N) or undefined.
    */
-  override ensureNode(key: BSTNodeKeyOrNode<N>, iterationType = IterationType.ITERATIVE): N | undefined {
-    return this.isNodeKey(key) ? this.getNodeByKey(key, iterationType) : key;
+  override ensureNode(key: BSTNodeKeyOrNode<K, N>, iterationType = IterationType.ITERATIVE): N | undefined {
+    return this.isNotNodeInstance(key) ? this.getNodeByKey(key, iterationType) : key;
   }
 
   /**
@@ -441,7 +443,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * first node that matches the identifier. If set to true, the function will return an array
    * containing only the first matching node. If set to false (default), the function will continue
    * searching for all nodes that match the identifier and return an array containing
-   * @param {BTNKey | N | undefined} beginRoot - The `beginRoot` parameter represents the starting node
+   * @param {K | N | undefined} beginRoot - The `beginRoot` parameter represents the starting node
    * for the traversal. It can be either a key value or a node object. If it is undefined, the
    * traversal will start from the root of the tree.
    * @param iterationType - The `iterationType` parameter determines the type of iteration to be
@@ -452,7 +454,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
     identifier: ReturnType<C> | undefined,
     callback: C = this._defaultOneParamCallback as C,
     onlyOne = false,
-    beginRoot: BSTNodeKeyOrNode<N> = this.root,
+    beginRoot: BSTNodeKeyOrNode<K, N> = this.root,
     iterationType = this.iterationType
   ): N[] {
     beginRoot = this.ensureNode(beginRoot);
@@ -470,8 +472,8 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
         if (!cur.left && !cur.right) return;
         // TODO potential bug
         if (callback === this._defaultOneParamCallback) {
-          if (this._compare(cur.key, identifier as number) === CP.gt) cur.left && _traverse(cur.left);
-          if (this._compare(cur.key, identifier as number) === CP.lt) cur.right && _traverse(cur.right);
+          if (this._compare(cur.key, identifier as K) === CP.gt) cur.left && _traverse(cur.left);
+          if (this._compare(cur.key, identifier as K) === CP.lt) cur.right && _traverse(cur.right);
         } else {
           cur.left && _traverse(cur.left);
           cur.right && _traverse(cur.right);
@@ -491,8 +493,8 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
           }
           // TODO potential bug
           if (callback === this._defaultOneParamCallback) {
-            if (this._compare(cur.key, identifier as number) === CP.gt) cur.left && queue.push(cur.left);
-            if (this._compare(cur.key, identifier as number) === CP.lt) cur.right && queue.push(cur.right);
+            if (this._compare(cur.key, identifier as K) === CP.gt) cur.left && queue.push(cur.left);
+            if (this._compare(cur.key, identifier as K) === CP.lt) cur.right && queue.push(cur.right);
           } else {
             cur.left && queue.push(cur.left);
             cur.right && queue.push(cur.right);
@@ -522,7 +524,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
    * traverse nodes that are lesser than, greater than, or equal to the `targetNode`. It is of type
    * `CP`, which is a custom type representing the comparison operator. The possible values for
    * `lesserOrGreater` are
-   * @param {BTNKey | N | undefined} targetNode - The `targetNode` parameter represents the node in the
+   * @param {K | N | undefined} targetNode - The `targetNode` parameter represents the node in the
    * binary tree that you want to traverse from. It can be specified either by its key, by the node
    * object itself, or it can be left undefined to start the traversal from the root of the tree.
    * @param iterationType - The `iterationType` parameter determines the type of traversal to be
@@ -533,7 +535,7 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   lesserOrGreaterTraverse<C extends BTNCallback<N>>(
     callback: C = this._defaultOneParamCallback as C,
     lesserOrGreater: CP = CP.lt,
-    targetNode: BSTNodeKeyOrNode<N> = this.root,
+    targetNode: BSTNodeKeyOrNode<K, N> = this.root,
     iterationType = this.iterationType
   ): ReturnType<C>[] {
     targetNode = this.ensureNode(targetNode);
@@ -704,15 +706,17 @@ export class BST<V = any, N extends BSTNode<V, N> = BSTNode<V, BSTNodeNested<V>>
   /**
    * The function compares two values using a comparator function and returns whether the first value
    * is greater than, less than, or equal to the second value.
-   * @param {BTNKey} a - The parameter "a" is of type BTNKey.
-   * @param {BTNKey} b - The parameter "b" in the above code represents a BTNKey.
+   * @param {K} a - The parameter "a" is of type K.
+   * @param {K} b - The parameter "b" in the above code represents a K.
    * @returns a value of type CP (ComparisonResult). The possible return values are CP.gt (greater
    * than), CP.lt (less than), or CP.eq (equal).
    */
-  protected _compare(a: BTNKey, b: BTNKey): CP {
-    const compared = this.comparator(a, b);
-    if (compared > 0) return CP.gt;
-    else if (compared < 0) return CP.lt;
-    else return CP.eq;
+  protected _compare(a: K, b: K): CP {
+    const extractedA = this.extractor(a);
+    const extractedB = this.extractor(b);
+    const compared = this.variant === BSTVariant.MIN ? extractedA - extractedB : extractedB - extractedA;
+
+    return compared > 0 ? CP.gt : compared < 0 ? CP.lt : CP.eq;
   }
+
 }

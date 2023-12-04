@@ -145,7 +145,7 @@ describe('conversions', () => {
     expect(dq.size).toBe(10);
     isDebug && dq.print();
     const entries = dq.map((el, i) => <[number, string]>[i, el]);
-    const avl = new AVLTree<string>(entries);
+    const avl = new AVLTree<number, string>(entries);
     expect(avl.size).toBe(10)
     isDebug && avl.print();
   })

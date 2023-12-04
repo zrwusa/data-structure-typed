@@ -252,7 +252,7 @@ describe('TreeMultimap operations test1', () => {
   });
 
   it('should perform various operations on a Binary Search Tree with object values', () => {
-    const objTreeMultimap = new TreeMultimap<{ key: number; keyA: number }>();
+    const objTreeMultimap = new TreeMultimap<number, { key: number; keyA: number }>();
     expect(objTreeMultimap).toBeInstanceOf(TreeMultimap);
     objTreeMultimap.add([11, { key: 11, keyA: 11 }]);
     objTreeMultimap.add([3, { key: 3, keyA: 3 }]);
@@ -508,7 +508,7 @@ describe('TreeMultimap operations test recursively1', () => {
   });
 
   it('should perform various operations on a Binary Search Tree with object values', () => {
-    const objTreeMultimap = new TreeMultimap<{ key: number; keyA: number }>();
+    const objTreeMultimap = new TreeMultimap<number, { key: number; keyA: number }>();
     expect(objTreeMultimap).toBeInstanceOf(TreeMultimap);
     objTreeMultimap.add([11, { key: 11, keyA: 11 }]);
     objTreeMultimap.add([3, { key: 3, keyA: 3 }]);
@@ -544,7 +544,7 @@ describe('TreeMultimap operations test recursively1', () => {
 });
 
 describe('TreeMultimap Performance test', function () {
-  const treeMS = new TreeMultimap<TreeMultimapNode<number>>();
+  const treeMS = new TreeMultimap<number, number>();
   const inputSize = 100000; // Adjust input sizes as needed
 
   beforeEach(() => {
@@ -602,9 +602,9 @@ describe('TreeMultimap Performance test', function () {
 });
 
 describe('TreeMultimap iterative methods test', () => {
-  let treeMM: TreeMultimap<string>;
+  let treeMM: TreeMultimap<number, string>;
   beforeEach(() => {
-    treeMM = new TreeMultimap<string>();
+    treeMM = new TreeMultimap<number, string>();
     treeMM.add([1, 'a'], 10);
     treeMM.add([2, 'b'], 10);
     treeMM.add([3, 'c'], 1);

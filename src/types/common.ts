@@ -1,6 +1,9 @@
-import { BTNKey } from "./data-structures";
+export type Comparator<K> = (a: K, b: K) => number;
 
-export type Comparator<T> = (a: T, b: T) => number;
+export enum BSTVariant {
+  MIN = 'MIN',
+  MAX = 'MAX',
+}
 
 export type DFSOrderPattern = 'pre' | 'in' | 'post';
 
@@ -24,14 +27,14 @@ export type IterableWithSizeOrLength<T> = IterableWithSize<T> | IterableWithLeng
 
 export type BinaryTreePrintOptions = { isShowUndefined?: boolean, isShowNull?: boolean, isShowRedBlackNIL?: boolean }
 
-export type BTNodeEntry<T> = [BTNKey | null | undefined, T | undefined];
+export type BTNodeEntry<K, V> = [K | null | undefined, V | undefined];
 
-export type BTNodeKeyOrNode<N> = BTNKey | null | undefined | N;
+export type BTNodeKeyOrNode<K, N> = K | null | undefined | N;
 
-export type BTNodeExemplar<T, N> = BTNodeEntry<T> | BTNodeKeyOrNode<N>
+export type BTNodeExemplar<K, V, N> = BTNodeEntry<K, V> | BTNodeKeyOrNode<K, N>
 
-export type BTNodePureExemplar<T, N> = [BTNKey, T | undefined] | BTNodePureKeyOrNode<N>
+export type BTNodePureExemplar<K, V, N> = [K, V | undefined] | BTNodePureKeyOrNode<K, N>
 
-export type BTNodePureKeyOrNode<N> = BTNKey | N;
+export type BTNodePureKeyOrNode<K, N> = K | N;
 
-export type BSTNodeKeyOrNode<N> = BTNKey | undefined | N;
+export type BSTNodeKeyOrNode<K, N> = K | undefined | N;

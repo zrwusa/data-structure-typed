@@ -12,16 +12,15 @@ import type {
   AVLTreeOptions,
   BiTreeDeleteResult,
   BSTNodeKeyOrNode,
-  BTNKey,
   BTNodeExemplar
 } from '../../types';
 import { BTNCallback } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 
-export class AVLTreeNode<V = any, N extends AVLTreeNode<V, N> = AVLTreeNodeNested<V>> extends BSTNode<V, N> {
+export class AVLTreeNode<K = any, V = any, N extends AVLTreeNode<K, V, N> = AVLTreeNodeNested<K, V>> extends BSTNode<K, V, N> {
   height: number;
 
-  constructor(key: BTNKey, value?: V) {
+  constructor(key: K, value?: V) {
     super(key, value);
     this.height = 0;
   }
@@ -37,35 +36,35 @@ export class AVLTreeNode<V = any, N extends AVLTreeNode<V, N> = AVLTreeNodeNeste
  * 7. Path Length: The path length from the root to any leaf is longer compared to an unbalanced BST, but shorter than a linear chain of nodes.
  * 8. Memory Overhead: Stores balance factors (or heights) at each node, leading to slightly higher memory usage compared to a regular BST.
  */
-export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTreeNodeNested<V>>, TREE extends AVLTree<V, N, TREE> = AVLTree<V, N, AVLTreeNested<V, N>>>
-  extends BST<V, N, TREE>
-  implements IBinaryTree<V, N, TREE> {
+export class AVLTree<K = any, V = any, N extends AVLTreeNode<K, V, N> = AVLTreeNode<K, V, AVLTreeNodeNested<K, V>>, TREE extends AVLTree<K, V, N, TREE> = AVLTree<K, V, N, AVLTreeNested<K, V, N>>>
+  extends BST<K, V, N, TREE>
+  implements IBinaryTree<K, V, N, TREE> {
 
   /**
    * The constructor function initializes an AVLTree object with optional elements and options.
-   * @param [elements] - The `elements` parameter is an optional iterable of `BTNodeExemplar<V, N>`
+   * @param [elements] - The `elements` parameter is an optional iterable of `BTNodeExemplar<K, V, N>`
    * objects. It represents a collection of elements that will be added to the AVL tree during
    * initialization.
    * @param [options] - The `options` parameter is an optional object that allows you to customize the
    * behavior of the AVL tree. It is of type `Partial<AVLTreeOptions>`, which means that you can
    * provide only a subset of the properties defined in the `AVLTreeOptions` interface.
    */
-  constructor(elements?: Iterable<BTNodeExemplar<V, N>>, options?: Partial<AVLTreeOptions>) {
+  constructor(elements?: Iterable<BTNodeExemplar<K, V, N>>, options?: Partial<AVLTreeOptions<K>>) {
     super([], options);
     if (elements) super.addMany(elements);
   }
 
   /**
    * The function creates a new AVL tree node with the specified key and value.
-   * @param {BTNKey} key - The key parameter is the key value that will be associated with
+   * @param {K} key - The key parameter is the key value that will be associated with
    * the new node. It is used to determine the position of the node in the binary search tree.
    * @param [value] - The parameter `value` is an optional value that can be assigned to the node. It is of
    * type `V`, which means it can be any value that is assignable to the `value` property of the
    * node type `N`.
    * @returns a new AVLTreeNode object with the specified key and value.
    */
-  override createNode(key: BTNKey, value?: V): N {
-    return new AVLTreeNode<V, N>(key, value) as N;
+  override createNode(key: K, value?: V): N {
+    return new AVLTreeNode<K, V, N>(key, value) as N;
   }
 
   /**
@@ -75,19 +74,19 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    * being created.
    * @returns a new AVLTree object.
    */
-  override createTree(options?: AVLTreeOptions): TREE {
-    return new AVLTree<V, N, TREE>([], {
+  override createTree(options?: AVLTreeOptions<K>): TREE {
+    return new AVLTree<K, V, N, TREE>([], {
       iterationType: this.iterationType,
-      comparator: this.comparator, ...options
+      variant: this.variant, ...options
     }) as TREE;
   }
 
   /**
    * The function checks if an exemplar is an instance of AVLTreeNode.
-   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<V, N>`.
+   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<K, V, N>`.
    * @returns a boolean value indicating whether the exemplar is an instance of the AVLTreeNode class.
    */
-  override isNode(exemplar: BTNodeExemplar<V, N>): exemplar is N {
+  override isNode(exemplar: BTNodeExemplar<K, V, N>): exemplar is N {
     return exemplar instanceof AVLTreeNode;
   }
 
@@ -106,7 +105,7 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
    * entry.
    * @returns The method is returning either the inserted node or `undefined`.
    */
-  override add(keyOrNodeOrEntry: BTNodeExemplar<V, N>): N | undefined {
+  override add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>): N | undefined {
     if (keyOrNodeOrEntry === null) return undefined;
     const inserted = super.add(keyOrNodeOrEntry);
     if (inserted) this._balancePath(inserted);
@@ -151,14 +150,14 @@ export class AVLTree<V = any, N extends AVLTreeNode<V, N> = AVLTreeNode<V, AVLTr
   /**
    * The `_swapProperties` function swaps the key, value, and height properties between two nodes in a binary
    * tree.
-   * @param {BTNKey | N | undefined} srcNode - The `srcNode` parameter represents the source node that
-   * needs to be swapped with the destination node. It can be of type `BTNKey`, `N`, or `undefined`.
-   * @param {BTNKey | N  | undefined} destNode - The `destNode` parameter represents the destination
+   * @param {K | N | undefined} srcNode - The `srcNode` parameter represents the source node that
+   * needs to be swapped with the destination node. It can be of type `K`, `N`, or `undefined`.
+   * @param {K | N  | undefined} destNode - The `destNode` parameter represents the destination
    * node where the values from the source node will be swapped to.
    * @returns either the `destNode` object if both `srcNode` and `destNode` are defined, or `undefined`
    * if either `srcNode` or `destNode` is undefined.
    */
-  protected override _swapProperties(srcNode: BSTNodeKeyOrNode<N>, destNode: BSTNodeKeyOrNode<N>): N | undefined {
+  protected override _swapProperties(srcNode: BSTNodeKeyOrNode<K, N>, destNode: BSTNodeKeyOrNode<K, N>): N | undefined {
     srcNode = this.ensureNode(srcNode);
     destNode = this.ensureNode(destNode);
 

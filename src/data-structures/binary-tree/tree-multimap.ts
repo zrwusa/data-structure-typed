@@ -5,26 +5,21 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type {
-  BSTNodeKeyOrNode,
-  BTNKey,
-  BTNodeExemplar,
-  TreeMultimapNodeNested,
-  TreeMultimapOptions
-} from '../../types';
+import type { BSTNodeKeyOrNode, BTNodeExemplar, TreeMultimapNodeNested, TreeMultimapOptions } from '../../types';
 import { BiTreeDeleteResult, BTNCallback, FamilyPosition, IterationType, TreeMultimapNested } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { AVLTree, AVLTreeNode } from './avl-tree';
 
 export class TreeMultimapNode<
+  K = any,
   V = any,
-  N extends TreeMultimapNode<V, N> = TreeMultimapNodeNested<V>
-> extends AVLTreeNode<V, N> {
+  N extends TreeMultimapNode<K, V, N> = TreeMultimapNodeNested<K, V>
+> extends AVLTreeNode<K, V, N> {
   count: number;
 
   /**
    * The constructor function initializes a BinaryTreeNode object with a key, value, and count.
-   * @param {BTNKey} key - The `key` parameter is of type `BTNKey` and represents the unique identifier
+   * @param {K} key - The `key` parameter is of type `K` and represents the unique identifier
    * of the binary tree node.
    * @param {V} [value] - The `value` parameter is an optional parameter of type `V`. It represents the value of the binary
    * tree node. If no value is provided, it will be `undefined`.
@@ -32,7 +27,7 @@ export class TreeMultimapNode<
    * occurs in a binary tree node. It has a default value of 1, which means that if no value is provided for the `count`
    * parameter when creating a new instance of the `BinaryTreeNode` class.
    */
-  constructor(key: BTNKey, value?: V, count = 1) {
+  constructor(key: K, value?: V, count = 1) {
     super(key, value);
     this.count = count;
   }
@@ -41,12 +36,12 @@ export class TreeMultimapNode<
 /**
  * The only distinction between a TreeMultimap and a AVLTree lies in the ability of the former to store duplicate nodes through the utilization of counters.
  */
-export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultimapNode<V, TreeMultimapNodeNested<V>>,
-  TREE extends TreeMultimap<V, N, TREE> = TreeMultimap<V, N, TreeMultimapNested<V, N>>>
-  extends AVLTree<V, N, TREE>
-  implements IBinaryTree<V, N, TREE> {
+export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> = TreeMultimapNode<K, V, TreeMultimapNodeNested<K, V>>,
+  TREE extends TreeMultimap<K, V, N, TREE> = TreeMultimap<K, V, N, TreeMultimapNested<K, V, N>>>
+  extends AVLTree<K, V, N, TREE>
+  implements IBinaryTree<K, V, N, TREE> {
 
-  constructor(elements?: Iterable<BTNodeExemplar<V, N>>, options?: Partial<TreeMultimapOptions>) {
+  constructor(elements?: Iterable<BTNodeExemplar<K, V, N>>, options?: Partial<TreeMultimapOptions<K>>) {
     super([], options);
     if (elements) this.addMany(elements);
   }
@@ -62,43 +57,43 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
 
   /**
    * The function creates a new BSTNode with the given key, value, and count.
-   * @param {BTNKey} key - The key parameter is the unique identifier for the binary tree node. It is used to
+   * @param {K} key - The key parameter is the unique identifier for the binary tree node. It is used to
    * distinguish one node from another in the tree.
    * @param {N} value - The `value` parameter represents the value that will be stored in the binary search tree node.
    * @param {number} [count] - The "count" parameter is an optional parameter of type number. It represents the number of
    * occurrences of the value in the binary search tree node. If not provided, the count will default to 1.
    * @returns A new instance of the BSTNode class with the specified key, value, and count (if provided).
    */
-  override createNode(key: BTNKey, value?: V, count?: number): N {
+  override createNode(key: K, value?: V, count?: number): N {
     return new TreeMultimapNode(key, value, count) as N;
   }
 
-  override createTree(options?: TreeMultimapOptions): TREE {
-    return new TreeMultimap<V, N, TREE>([], {
+  override createTree(options?: TreeMultimapOptions<K>): TREE {
+    return new TreeMultimap<K, V, N, TREE>([], {
       iterationType: this.iterationType,
-      comparator: this.comparator, ...options
+      variant: this.variant, ...options
     }) as TREE;
   }
 
   /**
    * The function checks if an exemplar is an instance of the TreeMultimapNode class.
-   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<V, N>`.
+   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<K, V, N>`.
    * @returns a boolean value indicating whether the exemplar is an instance of the TreeMultimapNode
    * class.
    */
-  override isNode(exemplar: BTNodeExemplar<V, N>): exemplar is N {
+  override isNode(exemplar: BTNodeExemplar<K, V, N>): exemplar is N {
     return exemplar instanceof TreeMultimapNode;
   }
 
   /**
    * The function `exemplarToNode` converts an exemplar object into a node object.
-   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<V, N>`, where `V` represents
+   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<K, V, N>`, where `V` represents
    * the value type and `N` represents the node type.
    * @param [count=1] - The `count` parameter is an optional parameter that specifies the number of
    * times the node should be created. If not provided, it defaults to 1.
    * @returns a value of type `N` (the generic type parameter) or `undefined`.
    */
-  override exemplarToNode(exemplar: BTNodeExemplar<V, N>, count = 1): N | undefined {
+  override exemplarToNode(exemplar: BTNodeExemplar<K, V, N>, count = 1): N | undefined {
     let node: N | undefined;
     if (exemplar === undefined || exemplar === null) {
       return;
@@ -111,7 +106,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
       } else {
         node = this.createNode(key, value, count);
       }
-    } else if (this.isNodeKey(exemplar)) {
+    } else if (this.isNotNodeInstance(exemplar)) {
       node = this.createNode(exemplar, undefined, count);
     } else {
       return;
@@ -136,7 +131,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    * is 1.
    * @returns either a node (`N`) or `undefined`.
    */
-  override add(keyOrNodeOrEntry: BTNodeExemplar<V, N>, count = 1): N | undefined {
+  override add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>, count = 1): N | undefined {
     const newNode = this.exemplarToNode(keyOrNodeOrEntry, count);
     if (newNode === undefined) return;
 
@@ -163,7 +158,7 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    * either keys, nodes, or entries.
    * @returns The method is returning an array of type `N | undefined`.
    */
-  override addMany(keysOrNodesOrEntries: Iterable<BTNodeExemplar<V, N>>): (N | undefined)[] {
+  override addMany(keysOrNodesOrEntries: Iterable<BTNodeExemplar<K, V, N>>): (N | undefined)[] {
     return super.addMany(keysOrNodesOrEntries);
   }
 
@@ -345,13 +340,13 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
    * @param {N | undefined} newNode - The `newNode` parameter represents the node that needs to be
    * added to the binary tree. It can be of type `N` (which represents a node in the binary tree) or
    * `undefined` if there is no node to add.
-   * @param {BTNKey | N | undefined} parent - The `parent` parameter represents the parent node to
+   * @param {K | N | undefined} parent - The `parent` parameter represents the parent node to
    * which the new node will be added as a child. It can be either a node object (`N`) or a key value
-   * (`BTNKey`).
+   * (`K`).
    * @returns The method `_addTo` returns either the `parent.left` or `parent.right` node that was
    * added, or `undefined` if no node was added.
    */
-  protected override _addTo(newNode: N | undefined, parent: BSTNodeKeyOrNode<N>): N | undefined {
+  protected override _addTo(newNode: N | undefined, parent: BSTNodeKeyOrNode<K, N>): N | undefined {
     parent = this.ensureNode(parent);
     if (parent) {
       if (parent.left === undefined) {
@@ -379,14 +374,14 @@ export class TreeMultimap<V = any, N extends TreeMultimapNode<V, N> = TreeMultim
 
   /**
    * The `_swapProperties` function swaps the key, value, count, and height properties between two nodes.
-   * @param {BTNKey | N | undefined} srcNode - The `srcNode` parameter represents the source node from
-   * which the values will be swapped. It can be of type `BTNKey`, `N`, or `undefined`.
-   * @param {BTNKey | N | undefined} destNode - The `destNode` parameter represents the destination
+   * @param {K | N | undefined} srcNode - The `srcNode` parameter represents the source node from
+   * which the values will be swapped. It can be of type `K`, `N`, or `undefined`.
+   * @param {K | N | undefined} destNode - The `destNode` parameter represents the destination
    * node where the values from the source node will be swapped to.
    * @returns either the `destNode` object if both `srcNode` and `destNode` are defined, or `undefined`
    * if either `srcNode` or `destNode` is undefined.
    */
-  protected override _swapProperties(srcNode: BSTNodeKeyOrNode<N>, destNode: BSTNodeKeyOrNode<N>): N | undefined {
+  protected override _swapProperties(srcNode: BSTNodeKeyOrNode<K, N>, destNode: BSTNodeKeyOrNode<K, N>): N | undefined {
     srcNode = this.ensureNode(srcNode);
     destNode = this.ensureNode(destNode);
     if (srcNode && destNode) {

@@ -507,7 +507,7 @@ describe('RedBlackTree', () => {
 });
 
 describe('RedBlackTree iterative methods test', () => {
-  let rbTree: RedBlackTree<string>;
+  let rbTree: RedBlackTree<number, string>;
   beforeEach(() => {
     rbTree = new RedBlackTree();
     rbTree.add([1, 'a']);

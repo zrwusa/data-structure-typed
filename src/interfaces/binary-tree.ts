@@ -5,18 +5,17 @@ import {
   BinaryTreeOptions,
   BiTreeDeleteResult,
   BTNCallback,
-  BTNKey,
   BTNodeExemplar,
 } from '../types';
 
-export interface IBinaryTree<V = any, N extends BinaryTreeNode<V, N> = BinaryTreeNodeNested<V>, TREE extends BinaryTree<V, N, TREE> = BinaryTreeNested<V, N>> {
-  createNode(key: BTNKey, value?: N['value']): N;
+export interface IBinaryTree<K = number, V = any, N extends BinaryTreeNode<K, V, N> = BinaryTreeNodeNested<K, V>, TREE extends BinaryTree<K, V, N, TREE> = BinaryTreeNested<K, V, N>> {
+  createNode(key: K, value?: N['value']): N;
 
-  createTree(options?: Partial<BinaryTreeOptions>): TREE;
+  createTree(options?: Partial<BinaryTreeOptions<K>>): TREE;
 
-  add(keyOrNodeOrEntry: BTNodeExemplar<V, N>, count?: number): N | null | undefined;
+  add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>, count?: number): N | null | undefined;
 
-  addMany(nodes: Iterable<BTNodeExemplar<V, N>>): (N | null | undefined)[];
+  addMany(nodes: Iterable<BTNodeExemplar<K, V, N>>): (N | null | undefined)[];
 
   delete<C extends BTNCallback<N>>(identifier: ReturnType<C> | null, callback: C): BiTreeDeleteResult<N>[];
 }

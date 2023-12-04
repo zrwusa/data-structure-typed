@@ -264,7 +264,7 @@ describe('BinaryTree', () => {
 
 describe('BinaryTree Morris Traversal', () => {
   // Create a binary tree
-  const tree = new BinaryTree<BinaryTreeNode<number>>();
+  const tree = new BinaryTree<number, BinaryTreeNode<number>>();
   tree.add(1);
   tree.add(2);
   tree.add(3);
@@ -377,10 +377,10 @@ describe('BinaryTree traversals', () => {
 });
 
 describe('BinaryTree', () => {
-  let tree: BinaryTree<string>;
+  let tree: BinaryTree<number, string>;
 
   beforeEach(() => {
-    tree = new BinaryTree<string>([], { iterationType: IterationType.RECURSIVE });
+    tree = new BinaryTree<number, string>([], { iterationType: IterationType.RECURSIVE });
   });
 
   afterEach(() => {
@@ -518,14 +518,14 @@ describe('BinaryTree', () => {
     tree.add([3, 'B']);
     tree.add([7, 'C']);
 
-    const nodes = tree.getNodes('B', (node: BinaryTreeNode<string>) => node.value);
+    const nodes = tree.getNodes('B', (node) => node.value);
 
     expect(nodes.length).toBe(1);
     expect(nodes[0].key).toBe(3);
 
     const nodesRec = tree.getNodes(
       'B',
-      (node: BinaryTreeNode<string>) => node.value,
+      (node) => node.value,
       false,
       tree.root,
       IterationType.RECURSIVE
@@ -565,7 +565,7 @@ describe('BinaryTree', () => {
 });
 
 describe('BinaryTree iterative methods test', () => {
-  let binaryTree: BinaryTree<string>;
+  let binaryTree: BinaryTree<number, string>;
   beforeEach(() => {
     binaryTree = new BinaryTree();
     binaryTree.add([1, 'a']);

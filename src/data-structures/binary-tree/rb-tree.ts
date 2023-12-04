@@ -10,7 +10,6 @@ import {
   BiTreeDeleteResult,
   BSTNodeKeyOrNode,
   BTNCallback,
-  BTNKey,
   BTNodeExemplar,
   IterationType,
   RBTNColor,
@@ -22,13 +21,13 @@ import { BST, BSTNode } from './bst';
 import { IBinaryTree } from '../../interfaces';
 import { BinaryTreeNode } from './binary-tree';
 
-export class RedBlackTreeNode<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTreeNodeNested<V>> extends BSTNode<
-  V,
+export class RedBlackTreeNode<K = any, V = any, N extends RedBlackTreeNode<K, V, N> = RedBlackTreeNodeNested<K, V>> extends BSTNode<
+  K, V,
   N
 > {
   color: RBTNColor;
 
-  constructor(key: BTNKey, value?: V, color: RBTNColor = RBTNColor.BLACK) {
+  constructor(key: K, value?: V, color: RBTNColor = RBTNColor.BLACK) {
     super(key, value);
     this.color = color;
   }
@@ -41,15 +40,15 @@ export class RedBlackTreeNode<V = any, N extends RedBlackTreeNode<V, N> = RedBla
  * 4. Red nodes must have black children.
  * 5. Black balance: Every path from any node to each of its leaf nodes contains the same number of black nodes.
  */
-export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTreeNode<V, RedBlackTreeNodeNested<V>>, TREE extends RedBlackTree<V, N, TREE> = RedBlackTree<V, N, RedBlackTreeNested<V, N>>>
-  extends BST<V, N, TREE>
-  implements IBinaryTree<V, N, TREE> {
-  Sentinel: N = new RedBlackTreeNode<V>(NaN) as unknown as N;
+export class RedBlackTree<K = any, V = any, N extends RedBlackTreeNode<K, V, N> = RedBlackTreeNode<K, V, RedBlackTreeNodeNested<K, V>>, TREE extends RedBlackTree<K, V, N, TREE> = RedBlackTree<K, V, N, RedBlackTreeNested<K, V, N>>>
+  extends BST<K, V, N, TREE>
+  implements IBinaryTree<K, V, N, TREE> {
+  Sentinel: N = new RedBlackTreeNode<K, V>(NaN as K) as unknown as N;
 
   /**
    * This is the constructor function for a Red-Black Tree data structure in TypeScript, which
    * initializes the tree with optional elements and options.
-   * @param [elements] - The `elements` parameter is an optional iterable of `BTNodeExemplar<V, N>`
+   * @param [elements] - The `elements` parameter is an optional iterable of `BTNodeExemplar<K, V, N>`
    * objects. It represents the initial elements that will be added to the RBTree during its
    * construction. If this parameter is provided, the `addMany` method is called to add all the
    * elements to the
@@ -57,7 +56,7 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
    * behavior of the RBTree. It is of type `Partial<RBTreeOptions>`, which means that you can provide
    * only a subset of the properties defined in the `RBTreeOptions` interface.
    */
-  constructor(elements?: Iterable<BTNodeExemplar<V, N>>, options?: Partial<RBTreeOptions>) {
+  constructor(elements?: Iterable<BTNodeExemplar<K, V, N>>, options?: Partial<RBTreeOptions<K>>) {
     super([], options);
 
     this._root = this.Sentinel;
@@ -78,7 +77,7 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
 
   /**
    * The function creates a new Red-Black Tree node with the specified key, value, and color.
-   * @param {BTNKey} key - The key parameter is the key value associated with the node. It is used to
+   * @param {K} key - The key parameter is the key value associated with the node. It is used to
    * identify and compare nodes in the Red-Black Tree.
    * @param {V} [value] - The `value` parameter is an optional parameter that represents the value
    * associated with the node. It is of type `V`, which is a generic type that can be replaced with any
@@ -88,8 +87,8 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
    * @returns The method is returning a new instance of a RedBlackTreeNode with the specified key,
    * value, and color.
    */
-  override createNode(key: BTNKey, value?: V, color: RBTNColor = RBTNColor.BLACK): N {
-    return new RedBlackTreeNode<V, N>(key, value, color) as N;
+  override createNode(key: K, value?: V, color: RBTNColor = RBTNColor.BLACK): N {
+    return new RedBlackTreeNode<K, V, N>(key, value, color) as N;
   }
 
   /**
@@ -99,32 +98,32 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
    * class.
    * @returns a new instance of a RedBlackTree object.
    */
-  override createTree(options?: RBTreeOptions): TREE {
-    return new RedBlackTree<V, N, TREE>([], {
+  override createTree(options?: RBTreeOptions<K>): TREE {
+    return new RedBlackTree<K, V, N, TREE>([], {
       iterationType: this.iterationType,
-      comparator: this.comparator, ...options
+      variant: this.variant, ...options
     }) as TREE;
   }
 
   /**
    * The function checks if an exemplar is an instance of the RedBlackTreeNode class.
-   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<V, N>`.
+   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<K, V, N>`.
    * @returns a boolean value indicating whether the exemplar is an instance of the RedBlackTreeNode
    * class.
    */
-  override isNode(exemplar: BTNodeExemplar<V, N>): exemplar is N {
+  override isNode(exemplar: BTNodeExemplar<K, V, N>): exemplar is N {
     return exemplar instanceof RedBlackTreeNode;
   }
 
   /**
    * The function `exemplarToNode` takes an exemplar and returns a node if the exemplar is valid,
    * otherwise it returns undefined.
-   * @param exemplar - BTNodeExemplar<V, N> - A generic type representing an exemplar of a binary tree
+   * @param exemplar - BTNodeExemplar<K, V, N> - A generic type representing an exemplar of a binary tree
    * node. It can be either a node itself, an entry (key-value pair), a node key, or any other value
    * that is not a valid exemplar.
    * @returns a variable `node` which is of type `N | undefined`.
    */
-  override exemplarToNode(exemplar: BTNodeExemplar<V, N>): N | undefined {
+  override exemplarToNode(exemplar: BTNodeExemplar<K, V, N>): N | undefined {
     let node: N | undefined;
 
     if (exemplar === null || exemplar === undefined) {
@@ -138,7 +137,7 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
       } else {
         node = this.createNode(key, value, RBTNColor.RED);
       }
-    } else if (this.isNodeKey(exemplar)) {
+    } else if (this.isNotNodeInstance(exemplar)) {
       node = this.createNode(exemplar, undefined, RBTNColor.RED);
     } else {
       return;
@@ -157,7 +156,7 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
    * @returns The method `add` returns either an instance of `N` (the node that was added) or
    * `undefined`.
    */
-  override add(keyOrNodeOrEntry: BTNodeExemplar<V, N>): N | undefined {
+  override add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>): N | undefined {
     const newNode = this.exemplarToNode(keyOrNodeOrEntry);
     if (newNode === undefined) return;
 
@@ -298,8 +297,8 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
     return node !== this.Sentinel && node !== undefined;
   }
 
-  getNode<C extends BTNCallback<N, BTNKey>>(
-    identifier: BTNKey,
+  getNode<C extends BTNCallback<N, K>>(
+    identifier: K,
     callback?: C,
     beginRoot?: N | undefined,
     iterationType?: IterationType
@@ -337,7 +336,7 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
    * @param {C} callback - The `callback` parameter is a function that will be called for each node in
    * the binary tree. It is used to determine if a node matches the given identifier. The `callback`
    * function should take a single parameter of type `N` (the type of the nodes in the binary tree) and
-   * @param {BTNKey | N | undefined} beginRoot - The `beginRoot` parameter is the starting point for
+   * @param {K | N | undefined} beginRoot - The `beginRoot` parameter is the starting point for
    * searching for a node in a binary tree. It can be either a key value or a node object. If it is not
    * provided, the search will start from the root of the binary tree.
    * @param iterationType - The `iterationType` parameter is a variable that determines the type of
@@ -348,7 +347,7 @@ export class RedBlackTree<V = any, N extends RedBlackTreeNode<V, N> = RedBlackTr
   getNode<C extends BTNCallback<N>>(
     identifier: ReturnType<C> | undefined,
     callback: C = this._defaultOneParamCallback as C,
-    beginRoot: BSTNodeKeyOrNode<N> = this.root,
+    beginRoot: BSTNodeKeyOrNode<K, N> = this.root,
     iterationType = this.iterationType
   ): N | null | undefined {
     if ((identifier as any) instanceof BinaryTreeNode) callback = (node => node) as C;
