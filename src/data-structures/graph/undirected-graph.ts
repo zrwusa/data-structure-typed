@@ -158,17 +158,23 @@ export class UndirectedGraph<
   }
 
   /**
-   * Time Complexity: O(|E|), where |E| is the number of edges incident to the given vertex.
+   * Time Complexity: O(E), where E is the number of edges incident to the given vertex.
    * Space Complexity: O(1)
    */
 
+
   /**
-   * Time Complexity: O(|E|), where |E| is the number of edges incident to the given vertex.
+   * Time Complexity: O(E), where E is the number of edges incident to the given vertex.
    * Space Complexity: O(1)
    *
-   * The deleteEdge function removes an edge between two vertices in a graph.
-   * @param {EO} edge - The parameter "edge" is of type EO, which represents an edge in a graph.
-   * @returns The method is returning either the removed edge (of type EO) or undefined if the edge was not found.
+   * The function `deleteEdge` deletes an edge between two vertices in a graph.
+   * @param {EO | VertexKey} edgeOrOneSideVertexKey - The parameter `edgeOrOneSideVertexKey` can be
+   * either an edge object or a vertex key.
+   * @param {VertexKey} [otherSideVertexKey] - The parameter `otherSideVertexKey` is an optional
+   * parameter that represents the key of the vertex on the other side of the edge. It is used when the
+   * `edgeOrOneSideVertexKey` parameter is a vertex key, and it specifies the key of the vertex on the
+   * other side of the
+   * @returns The `deleteEdge` function returns either the deleted edge object (EO) or `undefined`.
    */
   deleteEdge(edgeOrOneSideVertexKey: EO | VertexKey, otherSideVertexKey?: VertexKey): EO | undefined {
     let oneSide: VO | undefined, otherSide: VO | undefined;
