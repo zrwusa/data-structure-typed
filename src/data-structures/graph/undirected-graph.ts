@@ -170,8 +170,70 @@ export class UndirectedGraph<
    * @param {EO} edge - The parameter "edge" is of type EO, which represents an edge in a graph.
    * @returns The method is returning either the removed edge (of type EO) or undefined if the edge was not found.
    */
-  deleteEdge(edge: EO): EO | undefined {
-    return this.deleteEdgeBetween(edge.vertices[0], edge.vertices[1]);
+  deleteEdge(edgeOrOneSideVertexKey: EO | VertexKey, otherSideVertexKey?: VertexKey): EO | undefined {
+    let oneSide: VO | undefined, otherSide: VO | undefined;
+    if (this.isVertexKey(edgeOrOneSideVertexKey)) {
+      if (this.isVertexKey(otherSideVertexKey)) {
+        oneSide = this._getVertex(edgeOrOneSideVertexKey);
+        otherSide = this._getVertex(otherSideVertexKey);
+      } else {
+        return;
+      }
+    } else {
+      oneSide = this._getVertex(edgeOrOneSideVertexKey.vertices[0]);
+      otherSide = this._getVertex(edgeOrOneSideVertexKey.vertices[1]);
+    }
+
+    if (oneSide && otherSide) {
+      return this.deleteEdgeBetween(oneSide, otherSide);
+
+    } else {
+      return;
+    }
+  }
+
+  /**
+   * Time Complexity: O(1) - Constant time for Map operations.
+   * Space Complexity: O(1) - Constant space, as it creates only a few variables.
+   */
+
+  /**
+   * Time Complexity: O(1) - Constant time for Map operations.
+   * Space Complexity: O(1) - Constant space, as it creates only a few variables.
+   *
+   * The `deleteVertex` function removes a vertex from a graph by its ID or by the vertex object itself.
+   * @param {VO | VertexKey} vertexOrKey - The parameter `vertexOrKey` can be either a vertex object (`VO`) or a vertex ID
+   * (`VertexKey`).
+   * @returns The method is returning a boolean value.
+   */
+  override deleteVertex(vertexOrKey: VO | VertexKey): boolean {
+    let vertexKey: VertexKey;
+    let vertex: VO | undefined;
+    if (this.isVertexKey(vertexOrKey)) {
+      vertex = this.getVertex(vertexOrKey);
+      vertexKey = vertexOrKey;
+    } else {
+      vertex = vertexOrKey;
+      vertexKey = this._getVertexKey(vertexOrKey)
+    }
+
+    const neighbors = this.getNeighbors(vertexOrKey)
+
+    if (vertex) {
+      neighbors.forEach(neighbor => {
+        const neighborEdges = this._edges.get(neighbor);
+        if (neighborEdges) {
+          const restEdges = neighborEdges.filter(edge => {
+            return !edge.vertices.includes(vertexKey);
+          });
+          this._edges.set(neighbor, restEdges);
+        }
+      })
+      this._edges.delete(vertex);
+
+    }
+
+    return this._vertices.delete(vertexKey);
   }
 
   /**

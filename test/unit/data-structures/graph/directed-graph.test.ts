@@ -650,5 +650,26 @@ describe('DirectedGraph iterative Methods', () => {
     expect(dg.getEdge('hello', 'hi')).toBe(undefined)
     expect(dg.getEdge('hello', 'hey')).toBeInstanceOf(DirectedEdge)
   });
+
+  test('Removing a vertex from a UndirectedGraph should remove its edges', () => {
+    const dg = new DirectedGraph();
+    dg.addVertex('hello')
+    dg.addVertex('world')
+    dg.addVertex('earth')
+
+    dg.addEdge('hello', 'world')
+    dg.addEdge('hello', 'earth')
+    dg.addEdge('world', 'earth')
+
+    expect(dg.getEdge('hello', 'world')?.src).toBe('hello');
+    expect(dg.edgeSet().length).toBe(3)
+    expect(dg.edgeSet()[0].dest).toBe('world')
+
+    dg.deleteVertex('hello')
+    expect(dg.edgeSet().length).toBe(1)
+    expect(dg.edgeSet()?.[0].src).toBe('world')
+
+    expect(dg.getEdge('hello', 'world')).toBe(undefined);
+  })
 });
 

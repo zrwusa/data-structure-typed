@@ -227,6 +227,39 @@ export class DirectedGraph<
   }
 
   /**
+   * Time Complexity: O(1) - Constant time for Map operations.
+   * Space Complexity: O(1) - Constant space, as it creates only a few variables.
+   */
+
+  /**
+   * Time Complexity: O(1) - Constant time for Map operations.
+   * Space Complexity: O(1) - Constant space, as it creates only a few variables.
+   *
+   * The `deleteVertex` function removes a vertex from a graph by its ID or by the vertex object itself.
+   * @param {VO | VertexKey} vertexOrKey - The parameter `vertexOrKey` can be either a vertex object (`VO`) or a vertex ID
+   * (`VertexKey`).
+   * @returns The method is returning a boolean value.
+   */
+  override deleteVertex(vertexOrKey: VO | VertexKey): boolean {
+    let vertexKey: VertexKey;
+    let vertex: VO | undefined;
+    if (this.isVertexKey(vertexOrKey)) {
+      vertex = this.getVertex(vertexOrKey);
+      vertexKey = vertexOrKey;
+    } else {
+      vertex = vertexOrKey;
+      vertexKey = this._getVertexKey(vertexOrKey)
+    }
+
+    if (vertex) {
+      this._outEdgeMap.delete(vertex)
+      this._inEdgeMap.delete(vertex)
+    }
+
+    return this._vertices.delete(vertexKey);
+  }
+
+  /**
    * Time Complexity: O(|E|) where |E| is the number of edges
    * Space Complexity: O(1)
    */

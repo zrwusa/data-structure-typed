@@ -173,6 +173,43 @@ describe('UndirectedGraph', () => {
     expect(minWeightedPath?.minPath?.[3]?.key).toBe('Intersection_4');
     expect(minWeightedPath?.minPath?.[4]?.key).toBe('Intersection_5');
   });
+
+  test('Removing an edge of a UndirectedGraph should not delete additional edges', () => {
+    const dg = new UndirectedGraph();
+    dg.addVertex('hello')
+    dg.addVertex('hi')
+    dg.addVertex('hey')
+    dg.addEdge('hello', 'hi')
+    dg.addEdge('hello', 'hey')
+    expect(dg.getEdge('hello', 'hi')?.vertices[0]).toBe('hello')
+    expect(dg.getEdge('hello', 'hi')?.vertices[1]).toBe('hi')
+    expect(dg.getEdge('hello', 'hey')?.vertices[0]).toBe('hello')
+    expect(dg.getEdge('hello', 'hey')?.vertices[1]).toBe('hey')
+    dg.deleteEdge('hello', 'hi')
+    expect(dg.getEdge('hello', 'hi')).toBe(undefined)
+    expect(dg.getEdge('hello', 'hey')).toBeInstanceOf(UndirectedEdge)
+  });
+
+  test('Removing a vertex from a UndirectedGraph should remove its edges', () => {
+    const dg = new UndirectedGraph();
+    dg.addVertex('hello')
+    dg.addVertex('world')
+    dg.addVertex('earth')
+
+    dg.addEdge('hello', 'world')
+    dg.addEdge('hello', 'earth')
+    dg.addEdge('world', 'earth')
+
+    expect(dg.getEdge('hello', 'world')?.vertices[0]).toBe('hello');
+    expect(dg.edgeSet().length).toBe(3)
+    expect(dg.edgeSet()[0].vertices).toEqual(['hello', 'world'])
+
+    dg.deleteVertex('hello')
+    expect(dg.edgeSet().length).toBe(1)
+    expect(dg.edgeSet()?.[0].vertices[0]).toBe('world')
+
+    expect(dg.getEdge('hello', 'world')).toBe(undefined);
+  })
 });
 
 describe('cycles, strongly connected components, bridges, articular points in UndirectedGraph', () => {
