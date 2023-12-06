@@ -7,7 +7,7 @@ describe('DirectedGraph Operation Test', () => {
     graph = new DirectedGraph();
   });
 
-  it('should add vertices', () => {
+  it('should add vertexMap', () => {
     const vertex1 = new DirectedVertex('A');
     const vertex2 = new DirectedVertex('B');
 
@@ -155,7 +155,7 @@ describe('Inherit from DirectedGraph and perform operations', () => {
     myGraph = new MyDirectedGraph();
   });
 
-  it('Add vertices', () => {
+  it('Add vertexMap', () => {
     myGraph.addVertex(1, 'data1');
     myGraph.addVertex(2, 'data2');
     myGraph.addVertex(3, 'data3');
@@ -204,7 +204,7 @@ describe('Inherit from DirectedGraph and perform operations', () => {
     expect(true).toBeTruthy();
   });
 
-  it('Remove edge between vertices', () => {
+  it('Remove edge between vertexMap', () => {
     myGraph.addVertex(1, 'data1');
     myGraph.addVertex(2, 'data2');
     myGraph.addEdge(1, 2, 10, 'edge-data1-2');
@@ -232,14 +232,14 @@ describe('Inherit from DirectedGraph and perform operations', () => {
     }
   });
 
-  it('Minimum path between vertices', () => {
+  it('Minimum path between vertexMap', () => {
     myGraph.addVertex(new MyVertex(1, 'data1'));
     myGraph.addVertex(new MyVertex(2, 'data2'));
     myGraph.addEdge(new MyEdge(1, 2, 10, 'edge-data1-2'));
   });
 
-  it('All paths between vertices', () => {
-    // Add vertices and edges as needed for this test
+  it('All paths between vertexMap', () => {
+    // Add vertexMap and edges as needed for this test
     myGraph.addVertex(new MyVertex(1, 'data1'));
     myGraph.addVertex(new MyVertex(2, 'data2'));
     myGraph.addEdge(new MyEdge(1, 2, 10, 'edge-data1-2'));
@@ -598,41 +598,41 @@ describe('cycles, strongly connected components, bridges, articular points in Di
 
 describe('DirectedGraph iterative Methods', () => {
   let graph: DirectedGraph<string>;
-  let vertices: string[];
+  let vertexMap: string[];
 
   beforeEach(() => {
     graph = new DirectedGraph();
-    vertices = ['A', 'B', 'C', 'D'];
-    vertices.forEach(vertex => graph.addVertex(vertex));
+    vertexMap = ['A', 'B', 'C', 'D'];
+    vertexMap.forEach(vertex => graph.addVertex(vertex));
   });
 
-  test('[Symbol.iterator] should iterate over all vertices', () => {
+  test('[Symbol.iterator] should iterate over all vertexMap', () => {
     const iteratedVertices = [];
     for (const vertex of graph) {
       iteratedVertices.push(vertex[0]);
     }
-    expect(iteratedVertices).toEqual(vertices);
+    expect(iteratedVertices).toEqual(vertexMap);
   });
 
   test('forEach should apply a function to each vertex', () => {
     const result: VertexKey[] = [];
     graph.forEach((value, key) => key && result.push(key));
-    expect(result).toEqual(vertices);
+    expect(result).toEqual(vertexMap);
   });
 
-  test('filter should return vertices that satisfy the condition', () => {
+  test('filter should return vertexMap that satisfy the condition', () => {
     const filtered = graph.filter((value, vertex) => vertex === 'A' || vertex === 'B');
     expect(filtered).toEqual([["A", undefined], ["B", undefined]]);
   });
 
   test('map should apply a function to each vertex and return a new array', () => {
     const mapped = graph.map((value, vertex) => vertex + '_mapped');
-    expect(mapped).toEqual(vertices.map(v => v + '_mapped'));
+    expect(mapped).toEqual(vertexMap.map(v => v + '_mapped'));
   });
 
   test('reduce should accumulate a value based on each vertex', () => {
     const concatenated = graph.reduce((acc, value, key) => acc + key, '');
-    expect(concatenated).toBe(vertices.join(''));
+    expect(concatenated).toBe(vertexMap.join(''));
   });
 
   test('Removing an edge of a DirectedGraph should not delete additional edges', () => {

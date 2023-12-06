@@ -47,24 +47,24 @@ export class MapGraph<
   EO extends MapEdge<E> = MapEdge<E>
 > extends DirectedGraph<V, E, VO, EO> {
   /**
-   * The constructor function initializes the origin and bottomRight properties of a MapGraphCoordinate object.
-   * @param {MapGraphCoordinate} origin - The `origin` parameter is a `MapGraphCoordinate` object that represents the
+   * The constructor function initializes the originCoord and bottomRight properties of a MapGraphCoordinate object.
+   * @param {MapGraphCoordinate} originCoord - The `originCoord` parameter is a `MapGraphCoordinate` object that represents the
    * starting point or reference point of the map graph. It defines the coordinates of the top-left corner of the map
    * graph.
    * @param {MapGraphCoordinate} [bottomRight] - The `bottomRight` parameter is an optional parameter of type
    * `MapGraphCoordinate`. It represents the bottom right coordinate of a map graph. If this parameter is not provided,
    * it will default to `undefined`.
    */
-  constructor(origin: MapGraphCoordinate, bottomRight?: MapGraphCoordinate) {
+  constructor(originCoord: MapGraphCoordinate, bottomRight?: MapGraphCoordinate) {
     super();
-    this._origin = origin;
+    this._originCoord = originCoord;
     this._bottomRight = bottomRight;
   }
 
-  protected _origin: MapGraphCoordinate = [0, 0];
+  protected _originCoord: MapGraphCoordinate = [0, 0];
 
-  get origin(): MapGraphCoordinate {
-    return this._origin;
+  get originCoord(): MapGraphCoordinate {
+    return this._originCoord;
   }
 
   protected _bottomRight: MapGraphCoordinate | undefined;
@@ -84,7 +84,7 @@ export class MapGraph<
    * @param {number} long - The `long` parameter represents the longitude coordinate of the vertex.
    * @returns The method is returning a new instance of the `MapVertex` class, casted as type `VO`.
    */
-  override createVertex(key: VertexKey, value?: V, lat: number = this.origin[0], long: number = this.origin[1]): VO {
+  override createVertex(key: VertexKey, value?: V, lat: number = this.originCoord[0], long: number = this.originCoord[1]): VO {
     return new MapVertex(key, value, lat, long) as VO;
   }
 

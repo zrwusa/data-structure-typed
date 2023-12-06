@@ -71,10 +71,10 @@ export abstract class AbstractGraph<
     super();
   }
 
-  protected _vertices: Map<VertexKey, VO> = new Map<VertexKey, VO>();
+  protected _vertexMap: Map<VertexKey, VO> = new Map<VertexKey, VO>();
 
-  get vertices(): Map<VertexKey, VO> {
-    return this._vertices;
+  get vertexMap(): Map<VertexKey, VO> {
+    return this._vertexMap;
   }
 
   /**
@@ -120,12 +120,12 @@ export abstract class AbstractGraph<
    *
    * The function "getVertex" returns the vertex with the specified ID or undefined if it doesn't exist.
    * @param {VertexKey} vertexKey - The `vertexKey` parameter is the identifier of the vertex that you want to retrieve from
-   * the `_vertices` map.
-   * @returns The method `getVertex` returns the vertex with the specified `vertexKey` if it exists in the `_vertices`
+   * the `_vertexMap` map.
+   * @returns The method `getVertex` returns the vertex with the specified `vertexKey` if it exists in the `_vertexMap`
    * map. If the vertex does not exist, it returns `undefined`.
    */
   getVertex(vertexKey: VertexKey): VO | undefined {
-    return this._vertices.get(vertexKey) || undefined;
+    return this._vertexMap.get(vertexKey) || undefined;
   }
 
   /**
@@ -143,7 +143,7 @@ export abstract class AbstractGraph<
    * @returns a boolean value.
    */
   hasVertex(vertexOrKey: VO | VertexKey): boolean {
-    return this._vertices.has(this._getVertexKey(vertexOrKey));
+    return this._vertexMap.has(this._getVertexKey(vertexOrKey));
   }
 
   addVertex(vertex: VO): boolean;
@@ -185,27 +185,27 @@ export abstract class AbstractGraph<
    */
   deleteVertex(vertexOrKey: VO | VertexKey): boolean {
     const vertexKey = this._getVertexKey(vertexOrKey);
-    return this._vertices.delete(vertexKey);
+    return this._vertexMap.delete(vertexKey);
   }
 
   /**
-   * Time Complexity: O(K), where K is the number of vertices to be removed.
+   * Time Complexity: O(K), where K is the number of vertexMap to be removed.
    * Space Complexity: O(1) - Constant space, as it creates only a few variables.
    */
 
   /**
-   * Time Complexity: O(K), where K is the number of vertices to be removed.
+   * Time Complexity: O(K), where K is the number of vertexMap to be removed.
    * Space Complexity: O(1) - Constant space, as it creates only a few variables.
    *
-   * The function removes all vertices from a graph and returns a boolean indicating if any vertices were removed.
-   * @param {VO[] | VertexKey[]} vertices - The `vertices` parameter can be either an array of vertices (`VO[]`) or an array
+   * The function removes all vertexMap from a graph and returns a boolean indicating if any vertexMap were removed.
+   * @param {VO[] | VertexKey[]} vertexMap - The `vertexMap` parameter can be either an array of vertexMap (`VO[]`) or an array
    * of vertex IDs (`VertexKey[]`).
-   * @returns a boolean value. It returns true if at least one vertex was successfully removed, and false if no vertices
+   * @returns a boolean value. It returns true if at least one vertex was successfully removed, and false if no vertexMap
    * were removed.
    */
-  removeManyVertices(vertices: VO[] | VertexKey[]): boolean {
+  removeManyVertices(vertexMap: VO[] | VertexKey[]): boolean {
     const removed: boolean[] = [];
-    for (const v of vertices) {
+    for (const v of vertexMap) {
       removed.push(this.deleteVertex(v));
     }
     return removed.length > 0;
@@ -220,7 +220,7 @@ export abstract class AbstractGraph<
    * Time Complexity: O(1) - Depends on the implementation in the concrete class.
    * Space Complexity: O(1) - Depends on the implementation in the concrete class.
    *
-   * The function checks if there is an edge between two vertices and returns a boolean value indicating the result.
+   * The function checks if there is an edge between two vertexMap and returns a boolean value indicating the result.
    * @param {VertexKey | VO} v1 - The parameter v1 can be either a VertexKey or a VO. A VertexKey represents the unique
    * identifier of a vertex in a graph, while VO represents the type of the vertex object itself.
    * @param {VertexKey | VO} v2 - The parameter `v2` represents the second vertex in the edge. It can be either a
@@ -266,14 +266,14 @@ export abstract class AbstractGraph<
    * Time Complexity: O(1) - Constant time for Map and Edge operations.
    * Space Complexity: O(1) - Constant space, as it creates only a few variables.
    *
-   * The function sets the weight of an edge between two vertices in a graph.
+   * The function sets the weight of an edge between two vertexMap in a graph.
    * @param {VertexKey | VO} srcOrKey - The `srcOrKey` parameter can be either a `VertexKey` or a `VO` object. It represents
    * the source vertex of the edge.
    * @param {VertexKey | VO} destOrKey - The `destOrKey` parameter represents the destination vertex of the edge. It can be
    * either a `VertexKey` or a vertex object `VO`.
    * @param {number} weight - The weight parameter represents the weight of the edge between the source vertex (srcOrKey)
    * and the destination vertex (destOrKey).
-   * @returns a boolean value. If the edge exists between the source and destination vertices, the function will update
+   * @returns a boolean value. If the edge exists between the source and destination vertexMap, the function will update
    * the weight of the edge and return true. If the edge does not exist, the function will return false.
    */
   setEdgeWeight(srcOrKey: VertexKey | VO, destOrKey: VertexKey | VO, weight: number): boolean {
@@ -295,12 +295,12 @@ export abstract class AbstractGraph<
    * Time Complexity: O(P), where P is the number of paths found (in the worst case, exploring all paths).
    * Space Complexity: O(P) - Linear space, where P is the number of paths found.
    *
-   * The function `getAllPathsBetween` finds all paths between two vertices in a graph using depth-first search.
+   * The function `getAllPathsBetween` finds all paths between two vertexMap in a graph using depth-first search.
    * @param {VO | VertexKey} v1 - The parameter `v1` represents either a vertex object (`VO`) or a vertex ID (`VertexKey`).
    * It is the starting vertex for finding paths.
    * @param {VO | VertexKey} v2 - The parameter `v2` represents either a vertex object (`VO`) or a vertex ID (`VertexKey`).
    * @param limit - The count of limitation of result array.
-   * @returns The function `getAllPathsBetween` returns an array of arrays of vertices (`VO[][]`).
+   * @returns The function `getAllPathsBetween` returns an array of arrays of vertexMap (`VO[][]`).
    */
   getAllPathsBetween(v1: VO | VertexKey, v2: VO | VertexKey, limit = 1000): VO[][] {
     const paths: VO[][] = [];
@@ -343,8 +343,8 @@ export abstract class AbstractGraph<
    * Space Complexity: O(1) - Constant space.
    *
    * The function calculates the sum of weights along a given path.
-   * @param {VO[]} path - An array of vertices (VO) representing a path in a graph.
-   * @returns The function `getPathSumWeight` returns the sum of the weights of the edges in the given path.
+   * @param {VO[]} path - An array of vertexMap (VO) representing a path in a graph.
+   * @returns The function `getPathSumWeight` returns the sum of the weights of the edgeMap in the given path.
    */
   getPathSumWeight(path: VO[]): number {
     let sum = 0;
@@ -363,17 +363,17 @@ export abstract class AbstractGraph<
    * Time Complexity: O(V + E) - Depends on the implementation (Dijkstra's algorithm).
    * Space Complexity: O(V + E) - Depends on the implementation (Dijkstra's algorithm).
    *
-   * The function `getMinCostBetween` calculates the minimum cost between two vertices in a graph, either based on edge
+   * The function `getMinCostBetween` calculates the minimum cost between two vertexMap in a graph, either based on edge
    * weights or using a breadth-first search algorithm.
    * @param {VO | VertexKey} v1 - The parameter `v1` represents the starting vertex or its ID.
    * @param {VO | VertexKey} v2 - The parameter `v2` represents the destination vertex or its ID. It is the vertex to which
    * you want to find the minimum cost or weight from the source vertex `v1`.
-   * @param {boolean} [isWeight] - isWeight is an optional parameter that indicates whether the graph edges have weights.
+   * @param {boolean} [isWeight] - isWeight is an optional parameter that indicates whether the graph edgeMap have weights.
    * If isWeight is set to true, the function will calculate the minimum cost between v1 and v2 based on the weights of
-   * the edges. If isWeight is set to false or not provided, the function will calculate the
-   * @returns The function `getMinCostBetween` returns a number representing the minimum cost between two vertices (`v1`
+   * the edgeMap. If isWeight is set to false or not provided, the function will calculate the
+   * @returns The function `getMinCostBetween` returns a number representing the minimum cost between two vertexMap (`v1`
    * and `v2`). If the `isWeight` parameter is `true`, it calculates the minimum weight among all paths between the
-   * vertices. If `isWeight` is `false` or not provided, it uses a breadth-first search (BFS) algorithm to calculate the
+   * vertexMap. If `isWeight` is `false` or not provided, it uses a breadth-first search (BFS) algorithm to calculate the
    * minimum number of
    */
   getMinCostBetween(v1: VO | VertexKey, v2: VO | VertexKey, isWeight?: boolean): number | undefined {
@@ -430,20 +430,20 @@ export abstract class AbstractGraph<
    * Time Complexity: O(V + E) - Depends on the implementation (Dijkstra's algorithm or DFS).
    * Space Complexity: O(V + E) - Depends on the implementation (Dijkstra's algorithm or DFS).
    *
-   * The function `getMinPathBetween` returns the minimum path between two vertices in a graph, either based on weight or
+   * The function `getMinPathBetween` returns the minimum path between two vertexMap in a graph, either based on weight or
    * using a breadth-first search algorithm.
    * @param {VO | VertexKey} v1 - The parameter `v1` represents the starting vertex of the path. It can be either a vertex
    * object (`VO`) or a vertex ID (`VertexKey`).
    * @param {VO | VertexKey} v2 - VO | VertexKey - The second vertex or vertex ID between which we want to find the minimum
    * path.
-   * @param {boolean} [isWeight] - A boolean flag indicating whether to consider the weight of edges in finding the
+   * @param {boolean} [isWeight] - A boolean flag indicating whether to consider the weight of edgeMap in finding the
    * minimum path. If set to true, the function will use Dijkstra's algorithm to find the minimum weighted path. If set
    * to false, the function will use breadth-first search (BFS) to find the minimum path.
    * @param isDFS - If set to true, it enforces the use of getAllPathsBetween to first obtain all possible paths,
    * followed by iterative computation of the shortest path. This approach may result in exponential time complexity,
    * so the default method is to use the Dijkstra algorithm to obtain the shortest weighted path.
-   * @returns The function `getMinPathBetween` returns an array of vertices (`VO[]`) representing the minimum path between
-   * two vertices (`v1` and `v2`). If there is no path between the vertices, it returns `undefined`.
+   * @returns The function `getMinPathBetween` returns an array of vertexMap (`VO[]`) representing the minimum path between
+   * two vertexMap (`v1` and `v2`). If there is no path between the vertexMap, it returns `undefined`.
    */
   getMinPathBetween(v1: VO | VertexKey, v2: VO | VertexKey, isWeight?: boolean, isDFS = false): VO[] | undefined {
     if (isWeight === undefined) isWeight = false;
@@ -510,7 +510,7 @@ export abstract class AbstractGraph<
    * Time Complexity: O(V^2 + E) - Quadratic time in the worst case (no heap optimization).
    * Space Complexity: O(V + E) - Depends on the implementation (Dijkstra's algorithm).
    *
-   * The function `dijkstraWithoutHeap` implements Dijkstra's algorithm to find the shortest path between two vertices in
+   * The function `dijkstraWithoutHeap` implements Dijkstra's algorithm to find the shortest path between two vertexMap in
    * a graph without using a heap data structure.
    * @param {VO | VertexKey} src - The source vertex from which to start the Dijkstra's algorithm. It can be either a
    * vertex object or a vertex ID.
@@ -522,7 +522,7 @@ export abstract class AbstractGraph<
    * `getMinDist` is set to `true`, the `minDist` property in the result will contain the minimum distance
    * @param {boolean} [genPaths] - The `genPaths` parameter is a boolean flag that determines whether or not to generate
    * paths in the Dijkstra algorithm. If `genPaths` is set to `true`, the algorithm will calculate and return the
-   * shortest paths from the source vertex to all other vertices in the graph. If `genPaths
+   * shortest paths from the source vertex to all other vertexMap in the graph. If `genPaths
    * @returns The function `dijkstraWithoutHeap` returns an object of type `DijkstraResult<VO>`.
    */
   dijkstraWithoutHeap(
@@ -540,7 +540,7 @@ export abstract class AbstractGraph<
     let minPath: VO[] = [];
     const paths: VO[][] = [];
 
-    const vertices = this._vertices;
+    const vertexMap = this._vertexMap;
     const distMap: Map<VO, number> = new Map();
     const seen: Set<VO> = new Set();
     const preMap: Map<VO, VO | undefined> = new Map(); // predecessor
@@ -552,7 +552,7 @@ export abstract class AbstractGraph<
       return undefined;
     }
 
-    for (const vertex of vertices) {
+    for (const vertex of vertexMap) {
       const vertexOrKey = vertex[1];
       if (vertexOrKey instanceof AbstractVertex) distMap.set(vertexOrKey, Infinity);
     }
@@ -574,7 +574,7 @@ export abstract class AbstractGraph<
     };
 
     const getPaths = (minV: VO | undefined) => {
-      for (const vertex of vertices) {
+      for (const vertex of vertexMap) {
         const vertexOrKey = vertex[1];
 
         if (vertexOrKey instanceof AbstractVertex) {
@@ -591,7 +591,7 @@ export abstract class AbstractGraph<
       }
     };
 
-    for (let i = 1; i < vertices.size; i++) {
+    for (let i = 1; i < vertexMap.size; i++) {
       const cur = getMinOfNoSeen();
       if (cur) {
         seen.add(cur);
@@ -643,7 +643,7 @@ export abstract class AbstractGraph<
    *  Dijkstra algorithm time: O(logVE) space: O(VO + EO)
    *
    * Dijkstra's algorithm only solves the single-source shortest path problem, while the Bellman-Ford algorithm and Floyd-Warshall algorithm can address shortest paths between all pairs of nodes.
-   * Dijkstra's algorithm is suitable for graphs with non-negative edge weights, whereas the Bellman-Ford algorithm and Floyd-Warshall algorithm can handle negative-weight edges.
+   * Dijkstra's algorithm is suitable for graphs with non-negative edge weights, whereas the Bellman-Ford algorithm and Floyd-Warshall algorithm can handle negative-weight edgeMap.
    * The time complexity of Dijkstra's algorithm and the Bellman-Ford algorithm depends on the size of the graph, while the time complexity of the Floyd-Warshall algorithm is O(VO^3), where VO is the number of nodes. For dense graphs, Floyd-Warshall might become slower.
    *
    * /
@@ -664,13 +664,13 @@ export abstract class AbstractGraph<
    * start. It can be either a vertex object or a vertex ID.
    * @param {VO | VertexKey | undefined} [dest] - The `dest` parameter is the destination vertex or vertex ID. It specifies the
    * vertex to which the shortest path is calculated from the source vertex. If no destination is provided, the algorithm
-   * will calculate the shortest paths to all other vertices from the source vertex.
+   * will calculate the shortest paths to all other vertexMap from the source vertex.
    * @param {boolean} [getMinDist] - The `getMinDist` parameter is a boolean flag that determines whether the minimum
    * distance from the source vertex to the destination vertex should be calculated and returned in the result. If
    * `getMinDist` is set to `true`, the `minDist` property in the result will contain the minimum distance
    * @param {boolean} [genPaths] - The `genPaths` parameter is a boolean flag that determines whether or not to generate
    * paths in the Dijkstra algorithm. If `genPaths` is set to `true`, the algorithm will calculate and return the
-   * shortest paths from the source vertex to all other vertices in the graph. If `genPaths
+   * shortest paths from the source vertex to all other vertexMap in the graph. If `genPaths
    * @returns The function `dijkstra` returns an object of type `DijkstraResult<VO>`.
    */
   dijkstra(
@@ -687,7 +687,7 @@ export abstract class AbstractGraph<
     let minDest: VO | undefined = undefined;
     let minPath: VO[] = [];
     const paths: VO[][] = [];
-    const vertices = this._vertices;
+    const vertexMap = this._vertexMap;
     const distMap: Map<VO, number> = new Map();
     const seen: Set<VO> = new Set();
     const preMap: Map<VO, VO | undefined> = new Map(); // predecessor
@@ -697,7 +697,7 @@ export abstract class AbstractGraph<
 
     if (!srcVertex) return undefined;
 
-    for (const vertex of vertices) {
+    for (const vertex of vertexMap) {
       const vertexOrKey = vertex[1];
       if (vertexOrKey instanceof AbstractVertex) distMap.set(vertexOrKey, Infinity);
     }
@@ -709,12 +709,12 @@ export abstract class AbstractGraph<
     preMap.set(srcVertex, undefined);
 
     /**
-     * The function `getPaths` retrieves all paths from vertices to a specified minimum vertex.
+     * The function `getPaths` retrieves all paths from vertexMap to a specified minimum vertex.
      * @param {VO | undefined} minV - The parameter `minV` is of type `VO | undefined`. It represents the minimum vertex value or
      * undefined.
      */
     const getPaths = (minV: VO | undefined) => {
-      for (const vertex of vertices) {
+      for (const vertex of vertexMap) {
         const vertexOrKey = vertex[1];
         if (vertexOrKey instanceof AbstractVertex) {
           const path: VO[] = [vertexOrKey];
@@ -795,16 +795,16 @@ export abstract class AbstractGraph<
    * Space Complexity: O(V + E) - Depends on the implementation (Bellman-Ford algorithm).
    *
    * one to rest pairs
-   * The Bellman-Ford algorithm is also used to find the shortest paths from a source node to all other nodes in a graph. Unlike Dijkstra's algorithm, it can handle edge weights that are negative. Its basic idea involves iterative relaxation of all edges for several rounds to gradually approximate the shortest paths. Due to its ability to handle negative-weight edges, the Bellman-Ford algorithm is more flexible in some scenarios.
+   * The Bellman-Ford algorithm is also used to find the shortest paths from a source node to all other nodes in a graph. Unlike Dijkstra's algorithm, it can handle edge weights that are negative. Its basic idea involves iterative relaxation of all edgeMap for several rounds to gradually approximate the shortest paths. Due to its ability to handle negative-weight edgeMap, the Bellman-Ford algorithm is more flexible in some scenarios.
    * The `bellmanFord` function implements the Bellman-Ford algorithm to find the shortest path from a source vertex to
-   * all other vertices in a graph, and optionally detects negative cycles and generates the minimum path.
+   * all other vertexMap in a graph, and optionally detects negative cycles and generates the minimum path.
    * @param {VO | VertexKey} src - The `src` parameter is the source vertex from which the Bellman-Ford algorithm will
    * start calculating the shortest paths. It can be either a vertex object or a vertex ID.
    * @param {boolean} [scanNegativeCycle] - A boolean flag indicating whether to scan for negative cycles in the graph.
    * @param {boolean} [getMin] - The `getMin` parameter is a boolean flag that determines whether the algorithm should
-   * calculate the minimum distance from the source vertex to all other vertices in the graph. If `getMin` is set to
+   * calculate the minimum distance from the source vertex to all other vertexMap in the graph. If `getMin` is set to
    * `true`, the algorithm will find the minimum distance and update the `min` variable with the minimum
-   * @param {boolean} [genPath] - A boolean flag indicating whether to generate paths for all vertices from the source
+   * @param {boolean} [genPath] - A boolean flag indicating whether to generate paths for all vertexMap from the source
    * vertex.
    * @returns The function `bellmanFord` returns an object with the following properties:
    */
@@ -823,12 +823,12 @@ export abstract class AbstractGraph<
     if (scanNegativeCycle) hasNegativeCycle = false;
     if (!srcVertex) return { hasNegativeCycle, distMap, preMap, paths, min, minPath };
 
-    const vertices = this._vertices;
-    const numOfVertices = vertices.size;
-    const edges = this.edgeSet();
-    const numOfEdges = edges.length;
+    const vertexMap = this._vertexMap;
+    const numOfVertices = vertexMap.size;
+    const edgeMap = this.edgeSet();
+    const numOfEdges = edgeMap.length;
 
-    this._vertices.forEach(vertex => {
+    this._vertexMap.forEach(vertex => {
       distMap.set(vertex, Infinity);
     });
 
@@ -836,10 +836,10 @@ export abstract class AbstractGraph<
 
     for (let i = 1; i < numOfVertices; ++i) {
       for (let j = 0; j < numOfEdges; ++j) {
-        const ends = this.getEndsOfEdge(edges[j]);
+        const ends = this.getEndsOfEdge(edgeMap[j]);
         if (ends) {
           const [s, d] = ends;
-          const weight = edges[j].weight;
+          const weight = edgeMap[j].weight;
           const sWeight = distMap.get(s);
           const dWeight = distMap.get(d);
           if (sWeight !== undefined && dWeight !== undefined) {
@@ -865,7 +865,7 @@ export abstract class AbstractGraph<
     }
 
     if (genPath) {
-      for (const vertex of vertices) {
+      for (const vertex of vertexMap) {
         const vertexOrKey = vertex[1];
         if (vertexOrKey instanceof AbstractVertex) {
           const path: VO[] = [vertexOrKey];
@@ -882,10 +882,10 @@ export abstract class AbstractGraph<
     }
 
     for (let j = 0; j < numOfEdges; ++j) {
-      const ends = this.getEndsOfEdge(edges[j]);
+      const ends = this.getEndsOfEdge(edgeMap[j]);
       if (ends) {
         const [s] = ends;
-        const weight = edges[j].weight;
+        const weight = edgeMap[j].weight;
         const sWeight = distMap.get(s);
         if (sWeight) {
           if (sWeight !== Infinity && sWeight + weight < sWeight) hasNegativeCycle = true;
@@ -908,7 +908,7 @@ export abstract class AbstractGraph<
   /**
    * BellmanFord time:O(VE) space:O(VO)
    * one to rest pairs
-   * The Bellman-Ford algorithm is also used to find the shortest paths from a source node to all other nodes in a graph. Unlike Dijkstra's algorithm, it can handle edge weights that are negative. Its basic idea involves iterative relaxation of all edges for several rounds to gradually approximate the shortest paths. Due to its ability to handle negative-weight edges, the Bellman-Ford algorithm is more flexible in some scenarios.
+   * The Bellman-Ford algorithm is also used to find the shortest paths from a source node to all other nodes in a graph. Unlike Dijkstra's algorithm, it can handle edge weights that are negative. Its basic idea involves iterative relaxation of all edgeMap for several rounds to gradually approximate the shortest paths. Due to its ability to handle negative-weight edgeMap, the Bellman-Ford algorithm is more flexible in some scenarios.
    * The `bellmanFord` function implements the Bellman-Ford algorithm to find the shortest path from a source vertex to
    */
 
@@ -917,7 +917,7 @@ export abstract class AbstractGraph<
    * Space Complexity: O(V^2) - Quadratic space (Floyd-Warshall algorithm).
    * Not support graph with negative weight cycle
    * all pairs
-   * The Floyd-Warshall algorithm is used to find the shortest paths between all pairs of nodes in a graph. It employs dynamic programming to compute the shortest paths from any node to any other node. The Floyd-Warshall algorithm's advantage lies in its ability to handle graphs with negative-weight edges, and it can simultaneously compute shortest paths between any two nodes.
+   * The Floyd-Warshall algorithm is used to find the shortest paths between all pairs of nodes in a graph. It employs dynamic programming to compute the shortest paths from any node to any other node. The Floyd-Warshall algorithm's advantage lies in its ability to handle graphs with negative-weight edgeMap, and it can simultaneously compute shortest paths between any two nodes.
    * /
 
    /**
@@ -926,16 +926,16 @@ export abstract class AbstractGraph<
    *
    * Not support graph with negative weight cycle
    * all pairs
-   * The Floyd-Warshall algorithm is used to find the shortest paths between all pairs of nodes in a graph. It employs dynamic programming to compute the shortest paths from any node to any other node. The Floyd-Warshall algorithm's advantage lies in its ability to handle graphs with negative-weight edges, and it can simultaneously compute shortest paths between any two nodes.
-   * The function implements the Floyd-Warshall algorithm to find the shortest path between all pairs of vertices in a
+   * The Floyd-Warshall algorithm is used to find the shortest paths between all pairs of nodes in a graph. It employs dynamic programming to compute the shortest paths from any node to any other node. The Floyd-Warshall algorithm's advantage lies in its ability to handle graphs with negative-weight edgeMap, and it can simultaneously compute shortest paths between any two nodes.
+   * The function implements the Floyd-Warshall algorithm to find the shortest path between all pairs of vertexMap in a
    * graph.
    * @returns The function `floydWarshall()` returns an object with two properties: `costs` and `predecessor`. The `costs`
-   * property is a 2D array of numbers representing the shortest path costs between vertices in a graph. The
-   * `predecessor` property is a 2D array of vertices (or `undefined`) representing the predecessor vertices in the shortest
-   * path between vertices in the
+   * property is a 2D array of numbers representing the shortest path costs between vertexMap in a graph. The
+   * `predecessor` property is a 2D array of vertexMap (or `undefined`) representing the predecessor vertexMap in the shortest
+   * path between vertexMap in the
    */
   floydWarshall(): { costs: number[][]; predecessor: (VO | undefined)[][] } {
-    const idAndVertices = [...this._vertices];
+    const idAndVertices = [...this._vertexMap];
     const n = idAndVertices.length;
 
     const costs: number[][] = [];
@@ -974,7 +974,7 @@ export abstract class AbstractGraph<
    * Space Complexity: O(V) - Linear space (Tarjan's algorithm).
    * Tarjan is an algorithm based on dfs,which is used to solve the connectivity problem of graphs.
    * Tarjan can find cycles in directed or undirected graph
-   * Tarjan can find the articulation points and bridges(critical edges) of undirected graphs in linear time,
+   * Tarjan can find the articulation points and bridges(critical edgeMap) of undirected graphs in linear time,
    * Tarjan solve the bi-connected components of undirected graphs;
    * Tarjan can find the SSC(strongly connected components), articulation points, and bridges of directed graphs.
    * /
@@ -985,22 +985,22 @@ export abstract class AbstractGraph<
    *
    * Tarjan is an algorithm based on dfs,which is used to solve the connectivity problem of graphs.
    * Tarjan can find cycles in directed or undirected graph
-   * Tarjan can find the articulation points and bridges(critical edges) of undirected graphs in linear time,
+   * Tarjan can find the articulation points and bridges(critical edgeMap) of undirected graphs in linear time,
    * Tarjan solve the bi-connected components of undirected graphs;
    * Tarjan can find the SSC(strongly connected components), articulation points, and bridges of directed graphs.
    * The `tarjan` function is used to perform various graph analysis tasks such as finding articulation points, bridges,
    * strongly connected components (SCCs), and cycles in a graph.
    * @param {boolean} [needCutVertexes] - A boolean value indicating whether or not to calculate and return the
-   * articulation points in the graph. Articulation points are the vertices in a graph whose removal would increase the
+   * articulation points in the graph. Articulation points are the vertexMap in a graph whose removal would increase the
    * number of connected components in the graph.
    * @param {boolean} [needBridges] - A boolean flag indicating whether the algorithm should find and return the bridges
-   * (edges whose removal would increase the number of connected components in the graph).
+   * (edgeMap whose removal would increase the number of connected components in the graph).
    * @param {boolean} [needSCCs] - A boolean value indicating whether the Strongly Connected Components (SCCs) of the
    * graph are needed. If set to true, the function will calculate and return the SCCs of the graph. If set to false, the
    * SCCs will not be calculated or returned.
    * @param {boolean} [needCycles] - A boolean flag indicating whether the algorithm should find cycles in the graph. If
    * set to true, the algorithm will return a map of cycles, where the keys are the low values of the SCCs and the values
-   * are arrays of vertices that form cycles within the SCCs.
+   * are arrays of vertexMap that form cycles within the SCCs.
    * @returns The function `tarjan` returns an object with the following properties:
    */
   tarjan(
@@ -1021,13 +1021,13 @@ export abstract class AbstractGraph<
 
     const dfnMap: Map<VO, number> = new Map();
     const lowMap: Map<VO, number> = new Map();
-    const vertices = this._vertices;
-    vertices.forEach(v => {
+    const vertexMap = this._vertexMap;
+    vertexMap.forEach(v => {
       dfnMap.set(v, -1);
       lowMap.set(v, Infinity);
     });
 
-    const [root] = vertices.values();
+    const [root] = vertexMap.values();
 
     const cutVertexes: VO[] = [];
     const bridges: EO[] = [];
@@ -1232,7 +1232,7 @@ export abstract class AbstractGraph<
   }
 
   protected* _getIterator(): IterableIterator<[VertexKey, V | undefined]> {
-    for (const vertex of this._vertices.values()) {
+    for (const vertex of this._vertexMap.values()) {
       yield [vertex.key, vertex.value];
     }
   }
@@ -1244,13 +1244,13 @@ export abstract class AbstractGraph<
       return false;
       // throw (new Error('Duplicated vertex key is not allowed'));
     }
-    this._vertices.set(newVertex.key, newVertex);
+    this._vertexMap.set(newVertex.key, newVertex);
     return true;
   }
 
   protected _getVertex(vertexOrKey: VertexKey | VO): VO | undefined {
     const vertexKey = this._getVertexKey(vertexOrKey);
-    return this._vertices.get(vertexKey) || undefined;
+    return this._vertexMap.get(vertexKey) || undefined;
   }
 
   protected _getVertexKey(vertexOrKey: VO | VertexKey): VertexKey {

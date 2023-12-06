@@ -28,7 +28,7 @@ export class DirectedEdge<E = any> extends AbstractEdge<E> {
   dest: VertexKey;
 
   /**
-   * The constructor function initializes the source and destination vertices of an edge, along with an optional weight
+   * The constructor function initializes the source and destination vertexMap of an edge, along with an optional weight
    * and value.
    * @param {VertexKey} src - The `src` parameter is the source vertex ID. It represents the starting point of an edge in
    * a graph.
@@ -80,7 +80,7 @@ export class DirectedGraph<
   /**
    * The function creates a new vertex with an optional value and returns it.
    * @param {VertexKey} key - The `key` parameter is the unique identifier for the vertex. It is of type `VertexKey`, which
-   * could be a number or a string depending on how you want to identify your vertices.
+   * could be a number or a string depending on how you want to identify your vertexMap.
    * @param [value] - The 'value' parameter is an optional value that can be assigned to the vertex. If a value is provided,
    * it will be assigned to the 'value' property of the vertex. If no value is provided, the 'value' property will be
    * assigned the same value as the 'key' parameter
@@ -96,7 +96,7 @@ export class DirectedGraph<
    */
 
   /**
-   * The function creates a directed edge between two vertices with an optional weight and value.
+   * The function creates a directed edge between two vertexMap with an optional weight and value.
    * @param {VertexKey} src - The source vertex ID of the edge. It represents the starting point of the edge.
    * @param {VertexKey} dest - The `dest` parameter is the identifier of the destination vertex for the edge.
    * @param {number} [weight] - The weight parameter is an optional number that represents the weight of the edge. If no
@@ -110,23 +110,23 @@ export class DirectedGraph<
   }
 
   /**
-   * Time Complexity: O(|V|) where |V| is the number of vertices
+   * Time Complexity: O(|V|) where |V| is the number of vertexMap
    * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(|V|) where |V| is the number of vertices
+   * Time Complexity: O(|V|) where |V| is the number of vertexMap
    * Space Complexity: O(1)
    *
-   * The `getEdge` function retrieves an edge between two vertices based on their source and destination IDs.
+   * The `getEdge` function retrieves an edge between two vertexMap based on their source and destination IDs.
    * @param {VO | VertexKey | undefined} srcOrKey - The source vertex or its ID. It can be either a vertex object or a vertex ID.
    * @param {VO | VertexKey | undefined} destOrKey - The `destOrKey` parameter in the `getEdge` function represents the
    * destination vertex of the edge. It can be either a vertex object (`VO`), a vertex ID (`VertexKey`), or `undefined` if the
    * destination is not specified.
-   * @returns the first edge found between the source and destination vertices, or undefined if no such edge is found.
+   * @returns the first edge found between the source and destination vertexMap, or undefined if no such edge is found.
    */
   getEdge(srcOrKey: VO | VertexKey | undefined, destOrKey: VO | VertexKey | undefined): EO | undefined {
-    let edges: EO[] = [];
+    let edgeMap: EO[] = [];
 
     if (srcOrKey !== undefined && destOrKey !== undefined) {
       const src: VO | undefined = this._getVertex(srcOrKey);
@@ -135,24 +135,24 @@ export class DirectedGraph<
       if (src && dest) {
         const srcOutEdges = this._outEdgeMap.get(src);
         if (srcOutEdges) {
-          edges = srcOutEdges.filter(edge => edge.dest === dest.key);
+          edgeMap = srcOutEdges.filter(edge => edge.dest === dest.key);
         }
       }
     }
 
-    return edges[0] || undefined;
+    return edgeMap[0] || undefined;
   }
 
   /**
-   * Time Complexity: O(|E|) where |E| is the number of edges
+   * Time Complexity: O(|E|) where |E| is the number of edgeMap
    * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(|E|) where |E| is the number of edges
+   * Time Complexity: O(|E|) where |E| is the number of edgeMap
    * Space Complexity: O(1)
    *
-   * The function removes an edge between two vertices in a graph and returns the removed edge.
+   * The function removes an edge between two vertexMap in a graph and returns the removed edge.
    * @param {VO | VertexKey} srcOrKey - The source vertex or its ID.
    * @param {VO | VertexKey} destOrKey - The `destOrKey` parameter represents the destination vertex or its ID.
    * @returns the removed edge (EO) if it exists, or undefined if either the source or destination vertex does not exist.
@@ -178,13 +178,13 @@ export class DirectedGraph<
   }
 
   /**
-   * Time Complexity: O(E) where E is the number of edges
+   * Time Complexity: O(E) where E is the number of edgeMap
    * Space Complexity: O(1)
    */
 
 
   /**
-   * Time Complexity: O(E) where E is the number of edges
+   * Time Complexity: O(E) where E is the number of edgeMap
    * Space Complexity: O(1)
    *
    * The `deleteEdge` function removes an edge from a graph and returns the removed edge.
@@ -256,24 +256,24 @@ export class DirectedGraph<
       this._inEdgeMap.delete(vertex)
     }
 
-    return this._vertices.delete(vertexKey);
+    return this._vertexMap.delete(vertexKey);
   }
 
   /**
-   * Time Complexity: O(|E|) where |E| is the number of edges
+   * Time Complexity: O(|E|) where |E| is the number of edgeMap
    * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(|E|) where |E| is the number of edges
+   * Time Complexity: O(|E|) where |E| is the number of edgeMap
    * Space Complexity: O(1)
    *
-   * The function removes edges between two vertices and returns the removed edges.
+   * The function removes edgeMap between two vertexMap and returns the removed edgeMap.
    * @param {VertexKey | VO} v1 - The parameter `v1` can be either a `VertexKey` or a `VO`. A `VertexKey` represents the
    * unique identifier of a vertex in a graph, while `VO` represents the actual vertex object.
    * @param {VertexKey | VO} v2 - The parameter `v2` represents either a `VertexKey` or a `VO` object. It is used to specify
    * the second vertex in the edge that needs to be removed.
-   * @returns an array of removed edges (EO[]).
+   * @returns an array of removed edgeMap (EO[]).
    */
   deleteEdgesBetween(v1: VertexKey | VO, v2: VertexKey | VO): EO[] {
     const removed: EO[] = [];
@@ -298,10 +298,10 @@ export class DirectedGraph<
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The function `incomingEdgesOf` returns an array of incoming edges for a given vertex or vertex ID.
+   * The function `incomingEdgesOf` returns an array of incoming edgeMap for a given vertex or vertex ID.
    * @param {VO | VertexKey} vertexOrKey - The parameter `vertexOrKey` can be either a vertex object (`VO`) or a vertex ID
    * (`VertexKey`).
-   * @returns The method `incomingEdgesOf` returns an array of edges (`EO[]`).
+   * @returns The method `incomingEdgesOf` returns an array of edgeMap (`EO[]`).
    */
   incomingEdgesOf(vertexOrKey: VO | VertexKey): EO[] {
     const target = this._getVertex(vertexOrKey);
@@ -320,10 +320,10 @@ export class DirectedGraph<
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The function `outgoingEdgesOf` returns an array of outgoing edges from a given vertex or vertex ID.
+   * The function `outgoingEdgesOf` returns an array of outgoing edgeMap from a given vertex or vertex ID.
    * @param {VO | VertexKey} vertexOrKey - The parameter `vertexOrKey` can accept either a vertex object (`VO`) or a vertex ID
    * (`VertexKey`).
-   * @returns The method `outgoingEdgesOf` returns an array of edges (`EO[]`).
+   * @returns The method `outgoingEdgesOf` returns an array of edgeMap (`EO[]`).
    */
   outgoingEdgesOf(vertexOrKey: VO | VertexKey): EO[] {
     const target = this._getVertex(vertexOrKey);
@@ -359,9 +359,9 @@ export class DirectedGraph<
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The function "inDegreeOf" returns the number of incoming edges for a given vertex.
+   * The function "inDegreeOf" returns the number of incoming edgeMap for a given vertex.
    * @param {VertexKey | VO} vertexOrKey - The parameter `vertexOrKey` can be either a `VertexKey` or a `VO`.
-   * @returns The number of incoming edges of the specified vertex or vertex ID.
+   * @returns The number of incoming edgeMap of the specified vertex or vertex ID.
    */
   inDegreeOf(vertexOrKey: VertexKey | VO): number {
     return this.incomingEdgesOf(vertexOrKey).length;
@@ -376,9 +376,9 @@ export class DirectedGraph<
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The function `outDegreeOf` returns the number of outgoing edges from a given vertex.
+   * The function `outDegreeOf` returns the number of outgoing edgeMap from a given vertex.
    * @param {VertexKey | VO} vertexOrKey - The parameter `vertexOrKey` can be either a `VertexKey` or a `VO`.
-   * @returns The number of outgoing edges from the specified vertex or vertex ID.
+   * @returns The number of outgoing edgeMap from the specified vertex or vertex ID.
    */
   outDegreeOf(vertexOrKey: VertexKey | VO): number {
     return this.outgoingEdgesOf(vertexOrKey).length;
@@ -393,9 +393,9 @@ export class DirectedGraph<
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The function "edgesOf" returns an array of both outgoing and incoming edges of a given vertex or vertex ID.
+   * The function "edgesOf" returns an array of both outgoing and incoming edgeMap of a given vertex or vertex ID.
    * @param {VertexKey | VO} vertexOrKey - The parameter `vertexOrKey` can be either a `VertexKey` or a `VO`.
-   * @returns The function `edgesOf` returns an array of edges.
+   * @returns The function `edgesOf` returns an array of edgeMap.
    */
   edgesOf(vertexOrKey: VertexKey | VO): EO[] {
     return [...this.outgoingEdgesOf(vertexOrKey), ...this.incomingEdgesOf(vertexOrKey)];
@@ -436,18 +436,18 @@ export class DirectedGraph<
   }
 
   /**
-   * Time Complexity: O(|E|) where |E| is the number of edges
+   * Time Complexity: O(|E|) where |E| is the number of edgeMap
    * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(|E|) where |E| is the number of edges
+   * Time Complexity: O(|E|) where |E| is the number of edgeMap
    * Space Complexity: O(1)
    *
-   * The function `getDestinations` returns an array of destination vertices connected to a given vertex.
+   * The function `getDestinations` returns an array of destination vertexMap connected to a given vertex.
    * @param {VO | VertexKey | undefined} vertex - The `vertex` parameter represents the starting vertex from which we want to
    * find the destinations. It can be either a `VO` object, a `VertexKey` value, or `undefined`.
-   * @returns an array of vertices (VO[]).
+   * @returns an array of vertexMap (VO[]).
    */
   getDestinations(vertex: VO | VertexKey | undefined): VO[] {
     if (vertex === undefined) {
@@ -465,27 +465,27 @@ export class DirectedGraph<
   }
 
   /**
-   * Time Complexity: O(|V| + |E|) where |V| is the number of vertices and |E| is the number of edges
+   * Time Complexity: O(|V| + |E|) where |V| is the number of vertexMap and |E| is the number of edgeMap
    * Space Complexity: O(|V|)
    */
 
   /**
-   * Time Complexity: O(|V| + |E|) where |V| is the number of vertices and |E| is the number of edges
+   * Time Complexity: O(|V| + |E|) where |V| is the number of vertexMap and |E| is the number of edgeMap
    * Space Complexity: O(|V|)
    *
-   * The `topologicalSort` function performs a topological sort on a graph and returns an array of vertices or vertex IDs
+   * The `topologicalSort` function performs a topological sort on a graph and returns an array of vertexMap or vertex IDs
    * in the sorted order, or undefined if the graph contains a cycle.
    * @param {'vertex' | 'key'} [propertyName] - The `propertyName` parameter is an optional parameter that specifies the
-   * property to use for sorting the vertices. It can have two possible values: 'vertex' or 'key'. If 'vertex' is
-   * specified, the vertices themselves will be used for sorting. If 'key' is specified, the ids of
-   * @returns an array of vertices or vertex IDs in topological order. If there is a cycle in the graph, it returns undefined.
+   * property to use for sorting the vertexMap. It can have two possible values: 'vertex' or 'key'. If 'vertex' is
+   * specified, the vertexMap themselves will be used for sorting. If 'key' is specified, the ids of
+   * @returns an array of vertexMap or vertex IDs in topological order. If there is a cycle in the graph, it returns undefined.
    */
   topologicalSort(propertyName?: 'vertex' | 'key'): Array<VO | VertexKey> | undefined {
     propertyName = propertyName ?? 'key';
     // When judging whether there is a cycle in the undirected graph, all nodes with degree of **<= 1** are enqueued
     // When judging whether there is a cycle in the directed graph, all nodes with **in degree = 0** are enqueued
     const statusMap: Map<VO | VertexKey, TopologicalStatus> = new Map<VO | VertexKey, TopologicalStatus>();
-    for (const entry of this.vertices) {
+    for (const entry of this.vertexMap) {
       statusMap.set(entry[1], 0);
     }
 
@@ -506,7 +506,7 @@ export class DirectedGraph<
       sorted.push(cur);
     };
 
-    for (const entry of this.vertices) {
+    for (const entry of this.vertexMap) {
       if (statusMap.get(entry[1]) === 0) {
         dfs(entry[1]);
       }
@@ -519,38 +519,38 @@ export class DirectedGraph<
   }
 
   /**
-   * Time Complexity: O(|E|) where |E| is the number of edges
+   * Time Complexity: O(|E|) where |E| is the number of edgeMap
    * Space Complexity: O(|E|)
    */
 
   /**
-   * Time Complexity: O(|E|) where |E| is the number of edges
+   * Time Complexity: O(|E|) where |E| is the number of edgeMap
    * Space Complexity: O(|E|)
    *
-   * The `edgeSet` function returns an array of all the edges in the graph.
-   * @returns The `edgeSet()` method returns an array of edges (`EO[]`).
+   * The `edgeSet` function returns an array of all the edgeMap in the graph.
+   * @returns The `edgeSet()` method returns an array of edgeMap (`EO[]`).
    */
   edgeSet(): EO[] {
-    let edges: EO[] = [];
+    let edgeMap: EO[] = [];
     this._outEdgeMap.forEach(outEdges => {
-      edges = [...edges, ...outEdges];
+      edgeMap = [...edgeMap, ...outEdges];
     });
-    return edges;
+    return edgeMap;
   }
 
   /**
-   * Time Complexity: O(|E|) where |E| is the number of edges
+   * Time Complexity: O(|E|) where |E| is the number of edgeMap
    * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(|E|) where |E| is the number of edges
+   * Time Complexity: O(|E|) where |E| is the number of edgeMap
    * Space Complexity: O(1)
    *
-   * The function `getNeighbors` returns an array of neighboring vertices of a given vertex or vertex ID in a graph.
+   * The function `getNeighbors` returns an array of neighboring vertexMap of a given vertex or vertex ID in a graph.
    * @param {VO | VertexKey} vertexOrKey - The parameter `vertexOrKey` can be either a vertex object (`VO`) or a vertex ID
    * (`VertexKey`).
-   * @returns an array of vertices (VO[]).
+   * @returns an array of vertexMap (VO[]).
    */
   getNeighbors(vertexOrKey: VO | VertexKey): VO[] {
     const neighbors: VO[] = [];
@@ -577,10 +577,10 @@ export class DirectedGraph<
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The function "getEndsOfEdge" returns the source and destination vertices of an edge if it exists in the graph,
+   * The function "getEndsOfEdge" returns the source and destination vertexMap of an edge if it exists in the graph,
    * otherwise it returns undefined.
    * @param {EO} edge - The parameter `edge` is of type `EO`, which represents an edge in a graph.
-   * @returns The function `getEndsOfEdge` returns an array containing two vertices `[VO, VO]` if the edge exists in the
+   * @returns The function `getEndsOfEdge` returns an array containing two vertexMap `[VO, VO]` if the edge exists in the
    * graph. If the edge does not exist, it returns `undefined`.
    */
   getEndsOfEdge(edge: EO): [VO, VO] | undefined {
@@ -605,7 +605,7 @@ export class DirectedGraph<
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The function `_addEdgeOnly` adds an edge to a graph if the source and destination vertices exist.
+   * The function `_addEdgeOnly` adds an edge to a graph if the source and destination vertexMap exist.
    * @param {EO} edge - The parameter `edge` is of type `EO`, which represents an edge in a graph. It is the edge that
    * needs to be added to the graph.
    * @returns a boolean value. It returns true if the edge was successfully added to the graph, and false if either the

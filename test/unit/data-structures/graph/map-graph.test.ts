@@ -52,8 +52,8 @@ describe('MapGraph', () => {
     mapGraph = new MapGraph<string, string>([0, 0], [100, 100]);
   });
 
-  // Test adding vertices to the graph
-  it('should add vertices to the graph', () => {
+  // Test adding vertexMap to the graph
+  it('should add vertexMap to the graph', () => {
     const locationA = new MapVertex('A', 'Location A', 10, 20);
     const locationB = new MapVertex('B', 'Location B', 30, 40);
 
@@ -88,7 +88,7 @@ describe('MapGraph', () => {
     const edgeAB = new MapEdge('A', 'B', 50, 'Edge from A to B');
     const edgeBC = new MapEdge('B', 'C', 60, 'Edge from B to C');
 
-    expect(mapGraph.origin).toEqual([0, 0]);
+    expect(mapGraph.originCoord).toEqual([0, 0]);
     expect(mapGraph.bottomRight).toEqual([100, 100]);
 
     mapGraph.addVertex(locationA);

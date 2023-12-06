@@ -17,7 +17,7 @@ describe('UndirectedGraph Operation Test', () => {
     expect(graph.getEndsOfEdge(new UndirectedEdge('c', 'd'))).toBe(undefined);
   });
 
-  it('should add vertices', () => {
+  it('should add vertexMap', () => {
     const vertex1 = new UndirectedVertex('A');
     const vertex2 = new UndirectedVertex('B');
 
@@ -76,8 +76,8 @@ describe('UndirectedGraph', () => {
     undirectedGraph = new UndirectedGraph<string, string>();
   });
 
-  // Test adding vertices to the graph
-  it('should add vertices to the graph', () => {
+  // Test adding vertexMap to the graph
+  it('should add vertexMap to the graph', () => {
     const vertexA = new UndirectedVertex('A', 'Location A');
     const vertexB = new UndirectedVertex('B', 'Location B');
 
@@ -130,8 +130,8 @@ describe('UndirectedGraph', () => {
     const edgeAB = new UndirectedEdge('A', 'B', 3, 'Edge between A and B');
     const edgeBC = new UndirectedEdge('B', 'C', 4, 'Edge between B and C');
 
-    edgeAB.vertices = edgeAB.vertices;
-    expect(undirectedGraph.edges.size).toBe(0);
+    edgeAB.vertexMap = edgeAB.vertexMap;
+    expect(undirectedGraph.edgeMap.size).toBe(0);
     undirectedGraph.addVertex(vertexA);
     undirectedGraph.addVertex(vertexB);
     undirectedGraph.addVertex(vertexC);
@@ -181,10 +181,10 @@ describe('UndirectedGraph', () => {
     dg.addVertex('hey')
     dg.addEdge('hello', 'hi')
     dg.addEdge('hello', 'hey')
-    expect(dg.getEdge('hello', 'hi')?.vertices[0]).toBe('hello')
-    expect(dg.getEdge('hello', 'hi')?.vertices[1]).toBe('hi')
-    expect(dg.getEdge('hello', 'hey')?.vertices[0]).toBe('hello')
-    expect(dg.getEdge('hello', 'hey')?.vertices[1]).toBe('hey')
+    expect(dg.getEdge('hello', 'hi')?.vertexMap[0]).toBe('hello')
+    expect(dg.getEdge('hello', 'hi')?.vertexMap[1]).toBe('hi')
+    expect(dg.getEdge('hello', 'hey')?.vertexMap[0]).toBe('hello')
+    expect(dg.getEdge('hello', 'hey')?.vertexMap[1]).toBe('hey')
     dg.deleteEdge('hello', 'hi')
     expect(dg.getEdge('hello', 'hi')).toBe(undefined)
     expect(dg.getEdge('hello', 'hey')).toBeInstanceOf(UndirectedEdge)
@@ -200,13 +200,13 @@ describe('UndirectedGraph', () => {
     dg.addEdge('hello', 'earth')
     dg.addEdge('world', 'earth')
 
-    expect(dg.getEdge('hello', 'world')?.vertices[0]).toBe('hello');
+    expect(dg.getEdge('hello', 'world')?.vertexMap[0]).toBe('hello');
     expect(dg.edgeSet().length).toBe(3)
-    expect(dg.edgeSet()[0].vertices).toEqual(['hello', 'world'])
+    expect(dg.edgeSet()[0].vertexMap).toEqual(['hello', 'world'])
 
     dg.deleteVertex('hello')
     expect(dg.edgeSet().length).toBe(1)
-    expect(dg.edgeSet()?.[0].vertices[0]).toBe('world')
+    expect(dg.edgeSet()?.[0].vertexMap[0]).toBe('world')
 
     expect(dg.getEdge('hello', 'world')).toBe(undefined);
   })
