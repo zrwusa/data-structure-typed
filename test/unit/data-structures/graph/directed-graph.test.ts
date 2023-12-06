@@ -634,5 +634,21 @@ describe('DirectedGraph iterative Methods', () => {
     const concatenated = graph.reduce((acc, value, key) => acc + key, '');
     expect(concatenated).toBe(vertices.join(''));
   });
+
+  test('Removing an edge of a DirectedGraph should not delete additional edges', () => {
+    const dg = new DirectedGraph();
+    dg.addVertex('hello')
+    dg.addVertex('hi')
+    dg.addVertex('hey')
+    dg.addEdge('hello', 'hi')
+    dg.addEdge('hello', 'hey')
+    expect(dg.getEdge('hello', 'hi')?.src).toBe('hello')
+    expect(dg.getEdge('hello', 'hi')?.dest).toBe('hi')
+    expect(dg.getEdge('hello', 'hey')?.src).toBe('hello')
+    expect(dg.getEdge('hello', 'hey')?.dest).toBe('hey')
+    dg.deleteEdge('hello', 'hi')
+    expect(dg.getEdge('hello', 'hi')).toBe(undefined)
+    expect(dg.getEdge('hello', 'hey')).toBeInstanceOf(DirectedEdge)
+  });
 });
 

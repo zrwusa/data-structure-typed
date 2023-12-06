@@ -178,32 +178,48 @@ export class DirectedGraph<
   }
 
   /**
-   * Time Complexity: O(|E|) where |E| is the number of edges
+   * Time Complexity: O(E) where E is the number of edges
    * Space Complexity: O(1)
    */
 
+
   /**
-   * Time Complexity: O(|E|) where |E| is the number of edges
+   * Time Complexity: O(E) where E is the number of edges
    * Space Complexity: O(1)
    *
-   * The function removes an edge from a graph and returns the removed edge, or undefined if the edge was not found.
-   * @param {EO} edge - The `edge` parameter is an object that represents an edge in a graph. It has two properties: `src`
-   * and `dest`, which represent the source and destination vertices of the edge, respectively.
-   * @returns The method `deleteEdge` returns the removed edge (`EO`) if it exists, or `undefined` if the edge does not exist.
+   * The `deleteEdge` function removes an edge from a graph and returns the removed edge.
+   * @param {EO | VertexKey} edgeOrSrcVertexKey - The `edge` parameter can be either an `EO` object (edge object) or
+   * a `VertexKey` (key of a vertex).
+   * @param {VertexKey} [destVertexKey] - The `destVertexKey` parameter is an optional parameter that
+   * represents the key of the destination vertex of the edge. It is used to specify the destination
+   * vertex when the `edge` parameter is a vertex key. If `destVertexKey` is not provided, the function
+   * assumes that the `edge`
+   * @returns the removed edge (EO) or undefined if no edge was removed.
    */
-  deleteEdge(edge: EO): EO | undefined {
+  deleteEdge(edgeOrSrcVertexKey: EO | VertexKey, destVertexKey?: VertexKey): EO | undefined {
     let removed: EO | undefined = undefined;
-    const src = this._getVertex(edge.src);
-    const dest = this._getVertex(edge.dest);
+    let src: VO | undefined, dest: VO | undefined;
+    if (this.isVertexKey(edgeOrSrcVertexKey)) {
+      if (this.isVertexKey(destVertexKey)) {
+        src = this._getVertex(edgeOrSrcVertexKey);
+        dest = this._getVertex(destVertexKey);
+      } else {
+        return;
+      }
+    } else {
+      src = this._getVertex(edgeOrSrcVertexKey.src);
+      dest = this._getVertex(edgeOrSrcVertexKey.dest);
+    }
+
     if (src && dest) {
       const srcOutEdges = this._outEdgeMap.get(src);
       if (srcOutEdges && srcOutEdges.length > 0) {
-        arrayRemove(srcOutEdges, (edge: EO) => edge.src === src.key);
+        arrayRemove(srcOutEdges, (edge: EO) => edge.src === src!.key && edge.dest === dest?.key);
       }
 
       const destInEdges = this._inEdgeMap.get(dest);
       if (destInEdges && destInEdges.length > 0) {
-        removed = arrayRemove(destInEdges, (edge: EO) => edge.dest === dest.key)[0];
+        removed = arrayRemove(destInEdges, (edge: EO) => edge.src === src!.key && edge.dest === dest!.key)[0];
       }
     }
 

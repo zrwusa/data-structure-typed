@@ -164,6 +164,11 @@ export abstract class AbstractGraph<
     }
   }
 
+  isVertexKey(potentialKey: any): potentialKey is VertexKey {
+    const potentialKeyType = typeof potentialKey;
+    return potentialKeyType === "string" || potentialKeyType === "number"
+  }
+
   /**
    * Time Complexity: O(1) - Constant time for Map operations.
    * Space Complexity: O(1) - Constant space, as it creates only a few variables.
