@@ -155,6 +155,14 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
   }
 
 
+  /**
+   * The function `exemplarToNode` takes an exemplar and returns a node if the exemplar is valid,
+   * otherwise it returns undefined.
+   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<K, V, N>`, where:
+   * @param {V} [value] - The `value` parameter is an optional value that can be passed to the
+   * `exemplarToNode` function. It represents the value associated with the exemplar node.
+   * @returns a node of type N or undefined.
+   */
   override exemplarToNode(exemplar: BTNodeExemplar<K, V, N>, value?: V): N | undefined {
     let node: N | undefined;
     if (exemplar === null || exemplar === undefined) {
@@ -181,6 +189,18 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
    * Space Complexity: O(1) - Constant space is used.
    */
 
+  /**
+   * Time Complexity: O(log n) - Average case for a balanced tree. In the worst case (unbalanced tree), it can be O(n).
+   * Space Complexity: O(1) - Constant space is used.
+   * 
+   * The `add` function adds a new node to a binary tree, updating the value if the key already exists
+   * or inserting a new node if the key is unique.
+   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter can accept three types of values:
+   * @param {V} [value] - The `value` parameter represents the value associated with the key that is
+   * being added to the binary tree.
+   * @returns The method `add` returns either the newly added node (`newNode`) or `undefined` if the
+   * node was not added.
+   */
   override add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>, value?: V): N | undefined {
     const newNode = this.exemplarToNode(keyOrNodeOrEntry, value);
     if (newNode === undefined) return;

@@ -183,6 +183,14 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
     return exemplar instanceof BinaryTreeNode;
   }
 
+  /**
+   * The function `exemplarToNode` converts an exemplar object into a node object.
+   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<K, V, N>`.
+   * @param {V} [value] - The `value` parameter is an optional value that can be passed to the
+   * `exemplarToNode` function. It represents the value associated with the exemplar node. If no value
+   * is provided, it will be `undefined`.
+   * @returns a value of type N (node), or null, or undefined.
+   */
   exemplarToNode(exemplar: BTNodeExemplar<K, V, N>, value?: V): N | null | undefined {
     if (exemplar === undefined) return;
 
@@ -224,6 +232,16 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
    */
 
 
+  /**
+   * Time Complexity O(log n) - O(n)
+   * Space Complexity O(1)
+   * 
+   * The `add` function adds a new node to a binary tree, either by creating a new node or replacing an
+   * existing node with the same key.
+   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter can be one of the following:
+   * @param {V} [value] - The value to be inserted into the binary tree.
+   * @returns The function `add` returns either a node (`N`), `null`, or `undefined`.
+   */
   add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>, value?: V): N | null | undefined {
 
     let inserted: N | null | undefined;

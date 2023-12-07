@@ -86,6 +86,17 @@ export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> 
   }
 
 
+  /**
+   * The function `exemplarToNode` converts an exemplar object into a node object.
+   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<K, V, N>`, which means it
+   * can be one of the following:
+   * @param {V} [value] - The `value` parameter is an optional argument that represents the value
+   * associated with the node. It is of type `V`, which can be any data type. If no value is provided,
+   * it defaults to `undefined`.
+   * @param [count=1] - The `count` parameter is an optional parameter that specifies the number of
+   * times the value should be added to the node. If not provided, it defaults to 1.
+   * @returns a node of type `N` or `undefined`.
+   */
   override exemplarToNode(exemplar: BTNodeExemplar<K, V, N>, value?: V, count = 1): N | undefined {
     let node: N | undefined;
     if (exemplar === undefined || exemplar === null) {
@@ -112,6 +123,22 @@ export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> 
    * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
    */
 
+  /**
+   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (AVLTree) has logarithmic time complexity.
+   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
+   * 
+   * The function overrides the add method of a binary tree node and adds a new node to the tree.
+   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter can be either a key, a node, or an
+   * entry. It represents the key, node, or entry that you want to add to the binary tree.
+   * @param {V} [value] - The `value` parameter represents the value associated with the key in the
+   * binary tree node. It is an optional parameter, meaning it can be omitted when calling the `add`
+   * method.
+   * @param [count=1] - The `count` parameter represents the number of times the key-value pair should
+   * be added to the binary tree. By default, it is set to 1, meaning that the key-value pair will be
+   * added once. However, you can specify a different value for `count` if you want to add
+   * @returns The method is returning either the newly inserted node or `undefined` if the insertion
+   * was not successful.
+   */
   override add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>, value?: V, count = 1): N | undefined {
     const newNode = this.exemplarToNode(keyOrNodeOrEntry, value, count);
     if (newNode === undefined) return;

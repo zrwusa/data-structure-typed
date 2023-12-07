@@ -115,6 +115,14 @@ export class RedBlackTree<K = any, V = any, N extends RedBlackTreeNode<K, V, N> 
     return exemplar instanceof RedBlackTreeNode;
   }
 
+  /**
+   * The function `exemplarToNode` takes an exemplar and converts it into a node object if possible.
+   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<K, V, N>`, where:
+   * @param {V} [value] - The `value` parameter is an optional value that can be passed to the
+   * `exemplarToNode` function. It represents the value associated with the exemplar node. If a value
+   * is provided, it will be used when creating the new node. If no value is provided, the new node
+   * @returns a node of type N or undefined.
+   */
   override exemplarToNode(exemplar: BTNodeExemplar<K, V, N>, value?: V): N | undefined {
     let node: N | undefined;
 
@@ -142,6 +150,18 @@ export class RedBlackTree<K = any, V = any, N extends RedBlackTreeNode<K, V, N> 
    * Space Complexity: O(1)
    */
 
+  /**
+   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
+   * Space Complexity: O(1)
+   * 
+   * The `add` function adds a new node to a binary search tree and performs necessary rotations and
+   * color changes to maintain the red-black tree properties.
+   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter can be either a key, a node, or an
+   * entry.
+   * @param {V} [value] - The `value` parameter represents the value associated with the key that is
+   * being added to the binary search tree.
+   * @returns The method `add` returns either the newly added node (`N`) or `undefined`.
+   */
   override add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>, value?: V): N | undefined {
     const newNode = this.exemplarToNode(keyOrNodeOrEntry, value);
     if (newNode === undefined) return;
