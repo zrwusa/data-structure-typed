@@ -605,9 +605,9 @@ describe('TreeMultimap iterative methods test', () => {
   let treeMM: TreeMultimap<number, string>;
   beforeEach(() => {
     treeMM = new TreeMultimap<number, string>();
-    treeMM.add([1, 'a'], 10);
-    treeMM.add([2, 'b'], 10);
-    treeMM.add([3, 'c'], 1);
+    treeMM.add(1, 'a', 10);
+    treeMM.add([2, 'b'], undefined, 10);
+    treeMM.add([3, 'c'], undefined, 1);
   });
 
   test('The node obtained by get Node should match the node type', () => {

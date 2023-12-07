@@ -154,13 +154,8 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
     return exemplar instanceof BSTNode;
   }
 
-  /**
-   * The function `exemplarToNode` takes an exemplar and returns a corresponding node if the exemplar
-   * is valid, otherwise it returns undefined.
-   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<K, V, N>`.
-   * @returns a variable `node` which is of type `N` or `undefined`.
-   */
-  override exemplarToNode(exemplar: BTNodeExemplar<K, V, N>): N | undefined {
+
+  override exemplarToNode(exemplar: BTNodeExemplar<K, V, N>, value?: V): N | undefined {
     let node: N | undefined;
     if (exemplar === null || exemplar === undefined) {
       return;
@@ -174,7 +169,7 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
         node = this.createNode(key, value);
       }
     } else if (this.isNotNodeInstance(exemplar)) {
-      node = this.createNode(exemplar);
+      node = this.createNode(exemplar, value);
     } else {
       return;
     }
@@ -186,18 +181,8 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
    * Space Complexity: O(1) - Constant space is used.
    */
 
-  /**
-   * Time Complexity: O(log n) - Average case for a balanced tree. In the worst case (unbalanced tree), it can be O(n).
-   * Space Complexity: O(1) - Constant space is used.
-   *
-   * The `add` function adds a new node to a binary search tree, either by key or by providing a node
-   * object.
-   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter can be one of the following:
-   * @returns The method returns either the newly added node (`newNode`) or `undefined` if the input
-   * (`keyOrNodeOrEntry`) is null, undefined, or does not match any of the expected types.
-   */
-  override add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>): N | undefined {
-    const newNode = this.exemplarToNode(keyOrNodeOrEntry);
+  override add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>, value?: V): N | undefined {
+    const newNode = this.exemplarToNode(keyOrNodeOrEntry, value);
     if (newNode === undefined) return;
 
     if (this.root === undefined) {

@@ -13,7 +13,7 @@ export interface IBinaryTree<K = number, V = any, N extends BinaryTreeNode<K, V,
 
   createTree(options?: Partial<BinaryTreeOptions<K>>): TREE;
 
-  add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>, count?: number): N | null | undefined;
+  add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>, value?: V, count?: number): N | null | undefined;
 
   addMany(nodes: Iterable<BTNodeExemplar<K, V, N>>): (N | null | undefined)[];
 

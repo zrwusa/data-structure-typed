@@ -569,7 +569,7 @@ describe('BinaryTree iterative methods test', () => {
   beforeEach(() => {
     binaryTree = new BinaryTree();
     binaryTree.add([1, 'a']);
-    binaryTree.add([2, 'b']);
+    binaryTree.add(2, 'b');
     binaryTree.add([3, 'c']);
   });
 

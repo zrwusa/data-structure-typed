@@ -8,10 +8,10 @@
 import { uuidV4 } from '../../utils';
 import { PriorityQueue } from '../priority-queue';
 import type { DijkstraResult, VertexKey } from '../../types';
-import { PairCallback } from "../../types";
+import { EntryCallback } from "../../types";
 import { IGraph } from '../../interfaces';
 import { Queue } from '../queue';
-import { IterablePairBase } from "../base";
+import { IterableEntryBase } from "../base";
 
 export abstract class AbstractVertex<V = any> {
   key: VertexKey;
@@ -66,7 +66,7 @@ export abstract class AbstractGraph<
   E = any,
   VO extends AbstractVertex<V> = AbstractVertex<V>,
   EO extends AbstractEdge<E> = AbstractEdge<E>
-> extends IterablePairBase<VertexKey, V | undefined> implements IGraph<V, E, VO, EO> {
+> extends IterableEntryBase<VertexKey, V | undefined> implements IGraph<V, E, VO, EO> {
   constructor() {
     super();
   }
@@ -1191,7 +1191,7 @@ export abstract class AbstractGraph<
    * @returns The `filter` method returns an array of key-value pairs `[VertexKey, V | undefined][]`
    * that satisfy the given predicate function.
    */
-  filter(predicate: PairCallback<VertexKey, V | undefined, boolean>, thisArg?: any): [VertexKey, V | undefined][] {
+  filter(predicate: EntryCallback<VertexKey, V | undefined, boolean>, thisArg?: any): [VertexKey, V | undefined][] {
     const filtered: [VertexKey, V | undefined][] = [];
     let index = 0;
     for (const [key, value] of this) {
@@ -1221,7 +1221,7 @@ export abstract class AbstractGraph<
    * used as the `this` value when calling the callback function. If `thisArg` is not provided, `
    * @returns The `map` function is returning an array of type `T[]`.
    */
-  map<T>(callback: PairCallback<VertexKey, V | undefined, T>, thisArg?: any): T[] {
+  map<T>(callback: EntryCallback<VertexKey, V | undefined, T>, thisArg?: any): T[] {
     const mapped: T[] = [];
     let index = 0;
     for (const [key, value] of this) {

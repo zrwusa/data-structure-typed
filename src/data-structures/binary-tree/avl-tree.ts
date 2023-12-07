@@ -95,19 +95,10 @@ export class AVLTree<K = any, V = any, N extends AVLTreeNode<K, V, N> = AVLTreeN
    * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
    */
 
-  /**
-   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (BST) has logarithmic time complexity.
-   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
-   *
-   * The function overrides the add method of a binary tree node and balances the tree after inserting
-   * a new node.
-   * @param keyOrNodeOrEntry - The parameter `keyOrNodeOrEntry` can be either a key, a node, or an
-   * entry.
-   * @returns The method is returning either the inserted node or `undefined`.
-   */
-  override add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>): N | undefined {
+
+  override add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>, value?: V): N | undefined {
     if (keyOrNodeOrEntry === null) return undefined;
-    const inserted = super.add(keyOrNodeOrEntry);
+    const inserted = super.add(keyOrNodeOrEntry, value);
     if (inserted) this._balancePath(inserted);
     return inserted;
   }

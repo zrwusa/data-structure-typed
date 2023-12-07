@@ -115,15 +115,7 @@ export class RedBlackTree<K = any, V = any, N extends RedBlackTreeNode<K, V, N> 
     return exemplar instanceof RedBlackTreeNode;
   }
 
-  /**
-   * The function `exemplarToNode` takes an exemplar and returns a node if the exemplar is valid,
-   * otherwise it returns undefined.
-   * @param exemplar - BTNodeExemplar<K, V, N> - A generic type representing an exemplar of a binary tree
-   * node. It can be either a node itself, an entry (key-value pair), a node key, or any other value
-   * that is not a valid exemplar.
-   * @returns a variable `node` which is of type `N | undefined`.
-   */
-  override exemplarToNode(exemplar: BTNodeExemplar<K, V, N>): N | undefined {
+  override exemplarToNode(exemplar: BTNodeExemplar<K, V, N>, value?: V): N | undefined {
     let node: N | undefined;
 
     if (exemplar === null || exemplar === undefined) {
@@ -138,7 +130,7 @@ export class RedBlackTree<K = any, V = any, N extends RedBlackTreeNode<K, V, N> 
         node = this.createNode(key, value, RBTNColor.RED);
       }
     } else if (this.isNotNodeInstance(exemplar)) {
-      node = this.createNode(exemplar, undefined, RBTNColor.RED);
+      node = this.createNode(exemplar, value, RBTNColor.RED);
     } else {
       return;
     }
@@ -150,14 +142,8 @@ export class RedBlackTree<K = any, V = any, N extends RedBlackTreeNode<K, V, N> 
    * Space Complexity: O(1)
    */
 
-  /**
-   * The function adds a node to a Red-Black Tree data structure.
-   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter can be one of the following:
-   * @returns The method `add` returns either an instance of `N` (the node that was added) or
-   * `undefined`.
-   */
-  override add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>): N | undefined {
-    const newNode = this.exemplarToNode(keyOrNodeOrEntry);
+  override add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>, value?: V): N | undefined {
+    const newNode = this.exemplarToNode(keyOrNodeOrEntry, value);
     if (newNode === undefined) return;
 
     newNode.left = this.Sentinel;

@@ -19,15 +19,15 @@ import {
   BinaryTreePrintOptions,
   BiTreeDeleteResult,
   DFSOrderPattern,
+  EntryCallback,
   FamilyPosition,
   IterationType,
-  NodeDisplayLayout,
-  PairCallback
+  NodeDisplayLayout
 } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { trampoline } from '../../utils';
 import { Queue } from '../queue';
-import { IterablePairBase } from "../base";
+import { IterableEntryBase } from "../base";
 
 /**
  * Represents a node in a binary tree.
@@ -104,7 +104,7 @@ export class BinaryTreeNode<K = any, V = any, N extends BinaryTreeNode<K, V, N> 
  * 9. Complete Trees: All levels are fully filled except possibly the last, filled from left to right.
  */
 
-export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = BinaryTreeNode<K, V, BinaryTreeNodeNested<K, V>>, TREE extends BinaryTree<K, V, N, TREE> = BinaryTree<K, V, N, BinaryTreeNested<K, V, N>>> extends IterablePairBase<K, V | undefined>
+export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = BinaryTreeNode<K, V, BinaryTreeNodeNested<K, V>>, TREE extends BinaryTree<K, V, N, TREE> = BinaryTree<K, V, N, BinaryTreeNested<K, V, N>>> extends IterableEntryBase<K, V | undefined>
 
   implements IBinaryTree<K, V, N, TREE> {
   iterationType = IterationType.ITERATIVE
@@ -183,14 +183,7 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
     return exemplar instanceof BinaryTreeNode;
   }
 
-  /**
-   * The function `exemplarToNode` converts an exemplar of a binary tree node into an actual node
-   * object.
-   * @param exemplar - BTNodeExemplar<K, V,N> - A generic type representing the exemplar parameter of the
-   * function. It can be any type.
-   * @returns a value of type `N` (which represents a node), or `null`, or `undefined`.
-   */
-  exemplarToNode(exemplar: BTNodeExemplar<K, V, N>): N | null | undefined {
+  exemplarToNode(exemplar: BTNodeExemplar<K, V, N>, value?: V): N | null | undefined {
     if (exemplar === undefined) return;
 
     let node: N | null | undefined;
@@ -208,7 +201,7 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
     } else if (this.isNode(exemplar)) {
       node = exemplar;
     } else if (this.isNotNodeInstance(exemplar)) {
-      node = this.createNode(exemplar);
+      node = this.createNode(exemplar, value);
     } else {
       return;
     }
@@ -230,18 +223,11 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
    * Space Complexity O(1)
    */
 
-  /**
-   * Time Complexity O(log n) - O(n)
-   * Space Complexity O(1)
-   *
-   * The `add` function adds a new node to a binary tree, either by key or by providing a node object.
-   * @param keyOrNodeOrEntry - The parameter `keyOrNodeOrEntry` can be one of the following:
-   * @returns The function `add` returns the inserted node (`N`), `null`, or `undefined`.
-   */
-  add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>): N | null | undefined {
+
+  add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>, value?: V): N | null | undefined {
 
     let inserted: N | null | undefined;
-    const newNode = this.exemplarToNode(keyOrNodeOrEntry);
+    const newNode = this.exemplarToNode(keyOrNodeOrEntry, value);
     if (newNode === undefined) return;
 
     const _bfs = (root: N, newNode: N | null): N | undefined | null => {
@@ -1775,7 +1761,7 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
    * @returns The `filter` method is returning a new tree object that contains the key-value pairs that
    * pass the given predicate function.
    */
-  filter(predicate: PairCallback<K, V | undefined, boolean>, thisArg?: any) {
+  filter(predicate: EntryCallback<K, V | undefined, boolean>, thisArg?: any) {
     const newTree = this.createTree();
     let index = 0;
     for (const [key, value] of this) {
@@ -1806,7 +1792,7 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
    * will be used as the `this` value when the callback function is called. If you don't pass a value
    * @returns The `map` method is returning a new tree object.
    */
-  map(callback: PairCallback<K, V | undefined, V>, thisArg?: any) {
+  map(callback: EntryCallback<K, V | undefined, V>, thisArg?: any) {
     const newTree = this.createTree();
     let index = 0;
     for (const [key, value] of this) {

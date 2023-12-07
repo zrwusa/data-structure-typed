@@ -1,6 +1,6 @@
-import { ElementCallback, PairCallback, ReduceElementCallback, ReducePairCallback } from "../../types";
+import { ElementCallback, EntryCallback, ReduceElementCallback, ReduceEntryCallback } from "../../types";
 
-export abstract class IterablePairBase<K = any, V = any> {
+export abstract class IterableEntryBase<K = any, V = any> {
 
   /**
    * Time Complexity: O(n)
@@ -87,7 +87,7 @@ export abstract class IterablePairBase<K = any, V = any> {
    * @returns The `every` method is returning a boolean value. It returns `true` if every element in
    * the collection satisfies the provided predicate function, and `false` otherwise.
    */
-  every(predicate: PairCallback<K, V, boolean>, thisArg?: any): boolean {
+  every(predicate: EntryCallback<K, V, boolean>, thisArg?: any): boolean {
     let index = 0;
     for (const item of this) {
       if (!predicate.call(thisArg, item[1], item[0], index++, this)) {
@@ -116,7 +116,7 @@ export abstract class IterablePairBase<K = any, V = any> {
    * @returns a boolean value. It returns true if the predicate function returns true for any pair in
    * the collection, and false otherwise.
    */
-  some(predicate: PairCallback<K, V, boolean>, thisArg?: any): boolean {
+  some(predicate: EntryCallback<K, V, boolean>, thisArg?: any): boolean {
     let index = 0;
     for (const item of this) {
       if (predicate.call(thisArg, item[1], item[0], index++, this)) {
@@ -143,7 +143,7 @@ export abstract class IterablePairBase<K = any, V = any> {
    * specify the value of `this` within the callback function. If `thisArg` is provided, it will be
    * used as the `this` value when calling the callback function. If `thisArg` is not provided, `
    */
-  forEach(callbackfn: PairCallback<K, V, void>, thisArg?: any): void {
+  forEach(callbackfn: EntryCallback<K, V, void>, thisArg?: any): void {
     let index = 0;
     for (const item of this) {
       const [key, value] = item;
@@ -171,7 +171,7 @@ export abstract class IterablePairBase<K = any, V = any> {
    * @returns The `reduce` method is returning the final value of the accumulator after iterating over
    * all the elements in the collection.
    */
-  reduce<U>(callbackfn: ReducePairCallback<K, V, U>, initialValue: U): U {
+  reduce<U>(callbackfn: ReduceEntryCallback<K, V, U>, initialValue: U): U {
     let accumulator = initialValue;
     let index = 0;
     for (const item of this) {

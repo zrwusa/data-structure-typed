@@ -85,15 +85,8 @@ export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> 
     return exemplar instanceof TreeMultimapNode;
   }
 
-  /**
-   * The function `exemplarToNode` converts an exemplar object into a node object.
-   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<K, V, N>`, where `V` represents
-   * the value type and `N` represents the node type.
-   * @param [count=1] - The `count` parameter is an optional parameter that specifies the number of
-   * times the node should be created. If not provided, it defaults to 1.
-   * @returns a value of type `N` (the generic type parameter) or `undefined`.
-   */
-  override exemplarToNode(exemplar: BTNodeExemplar<K, V, N>, count = 1): N | undefined {
+
+  override exemplarToNode(exemplar: BTNodeExemplar<K, V, N>, value?: V, count = 1): N | undefined {
     let node: N | undefined;
     if (exemplar === undefined || exemplar === null) {
       return;
@@ -107,7 +100,7 @@ export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> 
         node = this.createNode(key, value, count);
       }
     } else if (this.isNotNodeInstance(exemplar)) {
-      node = this.createNode(exemplar, undefined, count);
+      node = this.createNode(exemplar, value, count);
     } else {
       return;
     }
@@ -119,20 +112,8 @@ export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> 
    * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
    */
 
-  /**
-   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (AVLTree) has logarithmic time complexity.
-   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
-   *
-   * The `add` function overrides the base class `add` function to add a new node to the tree multimap
-   * and update the count.
-   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter can be one of the following:
-   * @param [count=1] - The `count` parameter is an optional parameter that specifies the number of
-   * times the key or node or entry should be added to the multimap. If not provided, the default value
-   * is 1.
-   * @returns either a node (`N`) or `undefined`.
-   */
-  override add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>, count = 1): N | undefined {
-    const newNode = this.exemplarToNode(keyOrNodeOrEntry, count);
+  override add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>, value?: V, count = 1): N | undefined {
+    const newNode = this.exemplarToNode(keyOrNodeOrEntry, value, count);
     if (newNode === undefined) return;
 
     const orgNodeCount = newNode?.count || 0;
@@ -190,7 +171,7 @@ export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> 
         if (l > r) return;
         const m = l + Math.floor((r - l) / 2);
         const midNode = sorted[m];
-        this.add([midNode.key, midNode.value], midNode.count);
+        this.add(midNode.key, midNode.value, midNode.count);
         buildBalanceBST(l, m - 1);
         buildBalanceBST(m + 1, r);
       };
@@ -206,7 +187,7 @@ export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> 
           if (l <= r) {
             const m = l + Math.floor((r - l) / 2);
             const midNode = sorted[m];
-            this.add([midNode.key, midNode.value], midNode.count);
+            this.add(midNode.key, midNode.value, midNode.count);
             stack.push([m + 1, r]);
             stack.push([l, m - 1]);
           }
@@ -327,7 +308,7 @@ export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> 
    */
   override clone(): TREE {
     const cloned = this.createTree();
-    this.bfs(node => cloned.add([node.key, node.value], node.count));
+    this.bfs(node => cloned.add(node.key, node.value, node.count));
     return cloned;
   }
 

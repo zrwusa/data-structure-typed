@@ -7,10 +7,10 @@
  */
 
 import { isWeakKey, rangeCheck } from '../../utils';
-import { HashMapLinkedNode, HashMapOptions, HashMapStoreItem, PairCallback } from '../../types';
-import { IterablePairBase } from "../base";
+import { EntryCallback, HashMapLinkedNode, HashMapOptions, HashMapStoreItem } from '../../types';
+import { IterableEntryBase } from "../base";
 
-export class HashMap<K = any, V = any> extends IterablePairBase<K, V> {
+export class HashMap<K = any, V = any> extends IterableEntryBase<K, V> {
   protected _store: { [key: string]: HashMapStoreItem<K, V> } = {};
   protected _objMap: Map<object, V> = new Map();
 
@@ -165,7 +165,7 @@ export class HashMap<K = any, V = any> extends IterablePairBase<K, V> {
    * @returns The `map` method is returning a new `HashMap` object with the transformed values based on
    * the provided callback function.
    */
-  map<U>(callbackfn: PairCallback<K, V, U>, thisArg?: any): HashMap<K, U> {
+  map<U>(callbackfn: EntryCallback<K, V, U>, thisArg?: any): HashMap<K, U> {
     const resultMap = new HashMap<K, U>();
     let index = 0;
     for (const [key, value] of this) {
@@ -195,7 +195,7 @@ export class HashMap<K = any, V = any> extends IterablePairBase<K, V> {
    * @returns The `filter` method is returning a new `HashMap` object that contains the key-value pairs
    * from the original `HashMap` that pass the provided `predicate` function.
    */
-  filter(predicate: PairCallback<K, V, boolean>, thisArg?: any): HashMap<K, V> {
+  filter(predicate: EntryCallback<K, V, boolean>, thisArg?: any): HashMap<K, V> {
     const filteredMap = new HashMap<K, V>();
     let index = 0;
     for (const [key, value] of this) {
@@ -248,7 +248,7 @@ export class HashMap<K = any, V = any> extends IterablePairBase<K, V> {
   }
 }
 
-export class LinkedHashMap<K = any, V = any> extends IterablePairBase<K, V> {
+export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
 
   protected _noObjMap: Record<string, HashMapLinkedNode<K, V | undefined>> = {};
   protected _objMap = new WeakMap<object, HashMapLinkedNode<K, V | undefined>>();
@@ -567,7 +567,7 @@ export class LinkedHashMap<K = any, V = any> extends IterablePairBase<K, V> {
    * @returns a new `LinkedHashMap` object that contains the key-value pairs from the original
    * `LinkedHashMap` object that satisfy the given predicate function.
    */
-  filter(predicate: PairCallback<K, V, boolean>, thisArg?: any): LinkedHashMap<K, V> {
+  filter(predicate: EntryCallback<K, V, boolean>, thisArg?: any): LinkedHashMap<K, V> {
     const filteredMap = new LinkedHashMap<K, V>();
     let index = 0;
     for (const [key, value] of this) {
@@ -601,7 +601,7 @@ export class LinkedHashMap<K = any, V = any> extends IterablePairBase<K, V> {
    * @returns a new `LinkedHashMap` object with the values mapped according to the provided callback
    * function.
    */
-  map<NV>(callback: PairCallback<K, V, NV>, thisArg?: any): LinkedHashMap<K, NV> {
+  map<NV>(callback: EntryCallback<K, V, NV>, thisArg?: any): LinkedHashMap<K, NV> {
     const mappedMap = new LinkedHashMap<K, NV>();
     let index = 0;
     for (const [key, value] of this) {
