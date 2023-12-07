@@ -9,6 +9,8 @@
 
 [//]: # (![npm bundle size]&#40;https://img.shields.io/bundlephobia/min/data-structure-typed&#41;)
 
+<p><a href="https://github.com/zrwusa/data-structure-typed/blob/main/README.md">English</a> | <a href="https://github.com/zrwusa/data-structure-typed/blob/main/README_zh-CN.md">简体中文</a></p>
+
 JavaScript和TypeScript的数据结构。
 
 是否羡慕C++ [STL]() (std::)、Python的 [collections]() 和Java的 [java.util]()？
