@@ -51,7 +51,7 @@ suite.add(`${HUNDRED_THOUSAND.toLocaleString()} Array push & shift`, () => {
     }
 
     for (let i = 0; i < HUNDRED_THOUSAND; i++) {
-      arr.shift();
+      arr.pop();
     }
   });
 

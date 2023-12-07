@@ -9,14 +9,61 @@
 
 [//]: # (![npm bundle size]&#40;https://img.shields.io/bundlephobia/min/data-structure-typed&#41;)
 
+## Why
+
 <p><a href="https://github.com/zrwusa/data-structure-typed/blob/main/README.md">English</a> | <a href="https://github.com/zrwusa/data-structure-typed/blob/main/README_zh-CN.md">简体中文</a></p>
-
-
-Data Structures of Javascript & TypeScript.
 
 Do you envy C++ with [STL]() (std::), Python with [collections](), and Java with [java.util]() ? Well, no need to envy
 anymore! JavaScript and TypeScript now have [data-structure-typed]().**`Benchmark`** compared with C++ STL. **`API standards`** aligned with ES6 and Java. **`Usability`** is comparable to Python
 
+
+
+### We provide data structures that are not available in JavaScript/TypeScript
+
+Heap, Binary Tree, RedBlack Tree, Linked List, Deque, Trie, Directed Graph, Undirected Graph, BST, AVL Tree, Priority Queue, Queue, Tree Multiset, Linked List.
+
+
+### Performance superior to native JavaScript/TypeScript
+
+**`Queue vs. native Array, 100,000 scale`**
+<table style="display: table; width:100%; table-layout: fixed;">
+  <thead>
+  <tr>
+    <th>Test Methods</th>
+    <th>Time Taken (ms)</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>Queue push &amp; shift</td>
+    <td>5.83</td>
+  </tr>
+  <tr>
+    <td>Array push &amp; shift</td>
+    <td>2829.59</td>
+  </tr>
+  </tbody>
+</table>
+
+**`Deque vs. native Array, 100,000 scale`**
+<table style="display: table; width:100%; table-layout: fixed;">
+  <thead>
+  <tr>
+    <th>Test Methods</th>
+    <th>Time Taken (ms)</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>Deque unshift &amp; shift</td>
+    <td>2.44</td>
+  </tr>
+  <tr>
+    <td>Array unshift &amp; shift</td>
+    <td>4750.37</td>
+  </tr>
+  </tbody>
+</table>
 
 [//]: # (![Branches]&#40;https://img.shields.io/badge/branches-55.47%25-red.svg?style=flat&#41;)
 

@@ -9,6 +9,8 @@
 
 [//]: # (![npm bundle size]&#40;https://img.shields.io/bundlephobia/min/data-structure-typed&#41;)
 
+## 为什么
+
 <p><a href="https://github.com/zrwusa/data-structure-typed/blob/main/README.md">English</a> | <a href="https://github.com/zrwusa/data-structure-typed/blob/main/README_zh-CN.md">简体中文</a></p>
 
 JavaScript和TypeScript的数据结构。
@@ -18,6 +20,54 @@ JavaScript和TypeScript的数据结构。
 不再需要羡慕了！JavaScript和TypeScript现在拥有 [data-structure-typed]()。
 
 **`基准测试`** 与C++ STL相比。**`API 标准`** 与ES6和Java对齐。**`易用性`**  可与Python媲美。
+
+
+### 提供了JavaScript/TypeScript中没有的数据结构
+
+Heap, Binary Tree, RedBlack Tree, Linked List, Deque, Trie, Directed Graph, Undirected Graph, BST, AVL Tree, Priority Queue, Queue, Tree Multiset, Linked List.
+
+
+### 性能超越原生JavaScript/TypeScript
+
+**`Queue和原生Array, 在100,000数据规模下性能对比`**
+<table style="display: table; width:100%; table-layout: fixed;">
+  <thead>
+  <tr>
+    <th>Test Methods</th>
+    <th>Time Taken (ms)</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>Queue push &amp; shift</td>
+    <td>5.83</td>
+  </tr>
+  <tr>
+    <td>Array push &amp; shift</td>
+    <td>2829.59</td>
+  </tr>
+  </tbody>
+</table>
+
+**`Deque和原生Array在100,000数据规模下的性能对比`**
+<table style="display: table; width:100%; table-layout: fixed;">
+  <thead>
+  <tr>
+    <th>Test Methods</th>
+    <th>Time Taken (ms)</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>Deque unshift &amp; shift</td>
+    <td>2.44</td>
+  </tr>
+  <tr>
+    <td>Array unshift &amp; shift</td>
+    <td>4750.37</td>
+  </tr>
+  </tbody>
+</table>
 
 [//]: # (![Branches]&#40;https://img.shields.io/badge/branches-55.47%25-red.svg?style=flat&#41;)
 
