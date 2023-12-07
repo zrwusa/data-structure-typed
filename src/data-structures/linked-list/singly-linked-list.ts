@@ -164,12 +164,12 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(n) - Linear time in the worst case, as it may need to traverse the list to find the last element.
    * Space Complexity: O(1) - Constant space.
    *
-   * The `popLast()` function removes and returns the value of the last element in a linked list, updating the head and tail
+   * The `pollLast()` function removes and returns the value of the last element in a linked list, updating the head and tail
    * pointers accordingly.
    * @returns The method `pop()` returns the value of the node that is being removed from the end of the linked list. If
    * the linked list is empty, it returns `undefined`.
    */
-  popLast(): E | undefined {
+  pollLast(): E | undefined {
     return this.pop();
   }
 
@@ -202,10 +202,10 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(1) - Constant time, as it involves adjusting pointers at the head.
    * Space Complexity: O(1) - Constant space.
    *
-   * The `popFirst()` function removes and returns the value of the first node in a linked list.
+   * The `pollFirst()` function removes and returns the value of the first node in a linked list.
    * @returns The value of the node that is being removed from the beginning of the linked list.
    */
-  popFirst(): E | undefined {
+  pollFirst(): E | undefined {
     return this.shift();
   }
 

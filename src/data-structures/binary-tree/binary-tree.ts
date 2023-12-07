@@ -248,6 +248,9 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
     const newNode = this.exemplarToNode(keyOrNodeOrEntry, value);
     if (newNode === undefined) return;
 
+    // TODO There are still some problems with the way duplicate nodes are handled
+    if (newNode !== null && this.has(newNode.key)) return undefined;
+
     const _bfs = (root: N, newNode: N | null): N | undefined | null => {
       const queue = new Queue<N>([root]);
       while (queue.size > 0) {
@@ -325,17 +328,9 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
    * Space Complexity: O(1)
    */
 
-  /**
-   * Time Complexity: O(k * n)  "n" is the number of nodes in the tree, and "k" is the number of keys to be inserted.
-   * Space Complexity: O(1)
-   *
-   * The `refill` function clears the current collection and adds new nodes, keys, or entries to it.
-   * @param nodesOrKeysOrEntries - The parameter `nodesOrKeysOrEntries` is an iterable object that can
-   * contain either `BTNodeExemplar` objects, keys, or entries.
-   */
-  refill(nodesOrKeysOrEntries: Iterable<BTNodeExemplar<K, V, N>>): void {
+  refill(nodesOrKeysOrEntries: Iterable<BTNodeExemplar<K, V, N>>, values?: Iterable<V | undefined>): void {
     this.clear();
-    this.addMany(nodesOrKeysOrEntries);
+    this.addMany(nodesOrKeysOrEntries, values);
   }
 
   /**

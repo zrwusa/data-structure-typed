@@ -359,31 +359,44 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
   }
 
 
-  // /**
-  //  * Time Complexity: O(n log n) - Adding each element individually in a balanced tree.
-  //  * Space Complexity: O(n) - Additional space is required for the sorted array.
-  //  */
-  //
-  // /**
-  //  * Time Complexity: O(log n) - Average case for a balanced tree.
-  //  * Space Complexity: O(1) - Constant space is used.
-  //  *
-  //  * The `lastKey` function returns the key of the rightmost node in a binary tree, or the key of the
-  //  * leftmost node if the comparison result is greater than.
-  //  * @param {K | N | undefined} beginRoot - The `beginRoot` parameter is optional and can be of
-  //  * type `K`, `N`, or `undefined`. It represents the starting point for finding the last key in
-  //  * the binary tree. If not provided, it defaults to the root of the binary tree (`this.root`).
-  //  * @param iterationType - The `iterationType` parameter is used to specify the type of iteration to
-  //  * be performed. It can have one of the following values:
-  //  * @returns the key of the rightmost node in the binary tree if the comparison result is less than,
-  //  * the key of the leftmost node if the comparison result is greater than, and the key of the
-  //  * rightmost node otherwise. If no node is found, it returns 0.
-  //  */
-  // lastKey(beginRoot: BSTNodeKeyOrNode<K,N> = this.root, iterationType = this.iterationType): K {
-  //   if (this._compare(0, 1) === CP.lt) return this.getRightMost(beginRoot, iterationType)?.key ?? 0;
-  //   else if (this._compare(0, 1) === CP.gt) return this.getLeftMost(beginRoot, iterationType)?.key ?? 0;
-  //   else return this.getRightMost(beginRoot, iterationType)?.key ?? 0;
-  // }
+  /**
+   * Time Complexity: O(n log n) - Adding each element individually in a balanced tree.
+   * Space Complexity: O(n) - Additional space is required for the sorted array.
+   */
+
+  /**
+   * Time Complexity: O(log n) - Average case for a balanced tree.
+   * Space Complexity: O(1) - Constant space is used.
+   *
+   * The `lastKey` function returns the key of the rightmost node in a binary tree, or the key of the
+   * leftmost node if the comparison result is greater than.
+   * @param {K | N | undefined} beginRoot - The `beginRoot` parameter is optional and can be of
+   * type `K`, `N`, or `undefined`. It represents the starting point for finding the last key in
+   * the binary tree. If not provided, it defaults to the root of the binary tree (`this.root`).
+   * @param iterationType - The `iterationType` parameter is used to specify the type of iteration to
+   * be performed. It can have one of the following values:
+   * @returns the key of the rightmost node in the binary tree if the comparison result is less than,
+   * the key of the leftmost node if the comparison result is greater than, and the key of the
+   * rightmost node otherwise. If no node is found, it returns 0.
+   */
+  lastKey(beginRoot: BSTNodeKeyOrNode<K, N> = this.root): K | undefined {
+    let current = this.ensureNode(beginRoot);
+    if (!current) return undefined;
+
+    if (this._variant === BSTVariant.MIN) {
+      // For BSTVariant.MIN, find the rightmost node
+      while (current.right !== undefined) {
+        current = current.right;
+      }
+    } else {
+      // For BSTVariant.MAX, find the leftmost node
+      while (current.left !== undefined) {
+        current = current.left;
+      }
+    }
+    return current.key;
+  }
+
 
   /**
    * Time Complexity: O(log n) - Average case for a balanced tree.
@@ -636,7 +649,6 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
           if (l <= r) {
             const m = l + Math.floor((r - l) / 2);
             const midNode = sorted[m];
-            debugger;
             this.add([midNode.key, midNode.value]);
             stack.push([m + 1, r]);
             stack.push([l, m - 1]);

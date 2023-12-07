@@ -22,13 +22,13 @@ describe('Deque Tests', () => {
     it('should delete elements from the beginning and end', () => {
       deque.addFirst(1);
       deque.addLast(2);
-      deque.popFirst();
-      deque.popLast();
+      deque.pollFirst();
+      deque.pollLast();
       expect(deque.isEmpty()).toBe(true);
     });
 
     it('should handle edge case when removing from an empty deque', () => {
-      const result = deque.popFirst();
+      const result = deque.pollFirst();
       expect(result).toBeUndefined();
     });
 
@@ -40,18 +40,18 @@ describe('Deque Tests', () => {
 
     it('should handle adding and removing elements alternately', () => {
       deque.addFirst(1);
-      expect(deque.popFirst()).toBe(1);
+      expect(deque.pollFirst()).toBe(1);
       deque.addLast(2);
-      expect(deque.popLast()).toBe(2);
+      expect(deque.pollLast()).toBe(2);
       expect(deque.isEmpty()).toBe(true);
     });
 
     it('should handle adding and removing elements in a cyclic manner', () => {
       deque.addFirst(1);
       deque.addLast(2);
-      expect(deque.popFirst()).toBe(1);
+      expect(deque.pollFirst()).toBe(1);
       deque.addFirst(3);
-      expect(deque.popLast()).toBe(2);
+      expect(deque.pollLast()).toBe(2);
       expect(deque.size).toBe(1);
     });
     // Add more test cases as needed
@@ -75,13 +75,13 @@ describe('Deque Tests', () => {
   //   it('should delete elements from the beginning and end', () => {
   //     objectDeque.addFirst('one');
   //     objectDeque.addLast('two');
-  //     objectDeque.popFirst();
-  //     objectDeque.popLast();
+  //     objectDeque.pollFirst();
+  //     objectDeque.pollLast();
   //     expect(objectDeque.isEmpty()).toBe(true);
   //   });
   //
   //   it('should handle edge case when removing from an empty deque', () => {
-  //     const result = objectDeque.popFirst();
+  //     const result = objectDeque.pollFirst();
   //     expect(result).toBeUndefined();
   //   });
   //
@@ -136,8 +136,8 @@ describe('Deque', () => {
     deque.addFirst(1);
     deque.addLast(2);
 
-    const firstElement = deque.popFirst();
-    const lastElement = deque.popLast();
+    const firstElement = deque.pollFirst();
+    const lastElement = deque.pollLast();
 
     expect(deque.size).toBe(0);
     expect(firstElement).toBe(1);
@@ -166,7 +166,7 @@ describe('Deque', () => {
     deque.addLast(1);
     expect(deque.isEmpty()).toBe(false);
 
-    deque.popFirst();
+    deque.pollFirst();
     expect(deque.isEmpty()).toBe(true);
   });
 });
@@ -200,7 +200,7 @@ describe('Deque', () => {
 //     deque.addLast(1);
 //     deque.addLast(2);
 //
-//     const removedElement = deque.popFirst();
+//     const removedElement = deque.pollFirst();
 //
 //     expect(deque.size).toBe(1);
 //     expect(removedElement).toBe(1);
@@ -211,7 +211,7 @@ describe('Deque', () => {
 //     deque.addLast(1);
 //     deque.addLast(2);
 //
-//     const removedElement = deque.popFirst();
+//     const removedElement = deque.pollFirst();
 //
 //     expect(deque.size).toBe(1);
 //     expect(removedElement).toBe(1);

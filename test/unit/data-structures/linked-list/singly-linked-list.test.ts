@@ -32,7 +32,7 @@ describe('SinglyLinkedList Operation Test', () => {
       list.push(3);
       const popped = list.pop();
       expect(popped).toBe(3);
-      expect(list.popLast()).toBe(2);
+      expect(list.pollLast()).toBe(2);
       expect(list.toArray()).toEqual([1]);
     });
 
@@ -49,7 +49,7 @@ describe('SinglyLinkedList Operation Test', () => {
       list.push(3);
       const shifted = list.shift();
       expect(shifted).toBe(1);
-      expect(list.popFirst()).toBe(2);
+      expect(list.pollFirst()).toBe(2);
       expect(list.toArray()).toEqual([3]);
     });
 

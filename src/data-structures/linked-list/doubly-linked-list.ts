@@ -162,11 +162,11 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The `popLast()` function removes and returns the value of the last node in a doubly linked list.
+   * The `pollLast()` function removes and returns the value of the last node in a doubly linked list.
    * @returns The method is returning the value of the removed node (removedNode.value) if the list is not empty. If the
    * list is empty, it returns undefined.
    */
-  popLast(): E | undefined {
+  pollLast(): E | undefined {
     return this.pop();
   }
 
@@ -206,11 +206,11 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The `popFirst()` function removes and returns the value of the first node in a doubly linked list.
+   * The `pollFirst()` function removes and returns the value of the first node in a doubly linked list.
    * @returns The method `shift()` returns the value of the node that is removed from the beginning of the doubly linked
    * list.
    */
-  popFirst(): E | undefined {
+  pollFirst(): E | undefined {
     return this.shift();
   }
 

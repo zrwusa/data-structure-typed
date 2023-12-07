@@ -625,7 +625,7 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
   protected* _getIterator() {
     let node = this._head;
     while (node !== this._sentinel) {
-      yield <[K, V]>[node.key, node.value];
+      yield [node.key, node.value] as [K, V];
       node = node.next;
     }
   }

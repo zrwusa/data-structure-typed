@@ -120,10 +120,10 @@ export class Deque<E> extends IterableElementBase<E> {
    * Time Complexity: O(1) - Removes the last element.
    * Space Complexity: O(1) - Operates in-place.
    *
-   * The function "popLast" removes and returns the last element of an array.
+   * The function "pollLast" removes and returns the last element of an array.
    * @returns The last element of the array is being returned.
    */
-  popLast(): E | undefined {
+  pollLast(): E | undefined {
     return this.pop();
   }
 
@@ -143,11 +143,11 @@ export class Deque<E> extends IterableElementBase<E> {
    * Time Complexity: O(1) - Removes the first element.
    * Space Complexity: O(1) - In-place operation.
    *
-   * The function "popFirst" removes and returns the first element of an array.
-   * @returns The method `popFirst()` is returning the first element of the array after removing it
+   * The function "pollFirst" removes and returns the first element of an array.
+   * @returns The method `pollFirst()` is returning the first element of the array after removing it
    * from the beginning. If the array is empty, it will return `undefined`.
    */
-  popFirst(): E | undefined {
+  pollFirst(): E | undefined {
     return this.shift();
   }
 
@@ -947,10 +947,10 @@ export class ObjectDeque<E = number> {
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The function `popFirst()` removes and returns the first element in a data structure.
+   * The function `pollFirst()` removes and returns the first element in a data structure.
    * @returns The element of the first element in the data structure.
    */
-  popFirst() {
+  pollFirst() {
     if (!this.size) return;
     const element = this.getFirst();
     delete this.nodes[this.first];
@@ -984,10 +984,10 @@ export class ObjectDeque<E = number> {
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The `popLast()` function removes and returns the last element in a data structure.
+   * The `pollLast()` function removes and returns the last element in a data structure.
    * @returns The element that was removed from the data structure.
    */
-  popLast() {
+  pollLast() {
     if (!this.size) return;
     const element = this.getLast();
     delete this.nodes[this.last];
