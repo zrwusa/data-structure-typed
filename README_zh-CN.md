@@ -9,14 +9,13 @@
 
 [//]: # (![npm bundle size]&#40;https://img.shields.io/bundlephobia/min/data-structure-typed&#41;)
 
-<p><a href="https://github.com/zrwusa/data-structure-typed/blob/main/README.md">English</a> | <a href="https://github.com/zrwusa/data-structure-typed/blob/main/README_zh-CN.md">简体中文</a></p>
+JavaScript和TypeScript的数据结构。
 
+是否羡慕C++ [STL]() (std::)、Python的 [collections]() 和Java的 [java.util]()？
 
-Data Structures of Javascript & TypeScript.
+不再需要羡慕了！JavaScript和TypeScript现在拥有 [data-structure-typed]()。
 
-Do you envy C++ with [STL]() (std::), Python with [collections](), and Java with [java.util]() ? Well, no need to envy
-anymore! JavaScript and TypeScript now have [data-structure-typed]().**`Benchmark`** compared with C++ STL. **`API standards`** aligned with ES6 and Java. **`Usability`** is comparable to Python
-
+**`基准测试`** 与C++ STL相比。**`API 标准`** 与ES6和Java对齐。**`易用性`**  可与Python媲美。
 
 [//]: # (![Branches]&#40;https://img.shields.io/badge/branches-55.47%25-red.svg?style=flat&#41;)
 
@@ -26,18 +25,17 @@ anymore! JavaScript and TypeScript now have [data-structure-typed]().**`Benchmar
 
 [//]: # (![Lines]&#40;https://img.shields.io/badge/lines-68.6%25-red.svg?style=flat&#41;)
 
-## Installation and Usage
+## 安装和使用
 
-Now you can use it in Node.js and browser environments
+现在你可以在 Node.js 和浏览器环境中使用它
 
-CommonJS:**`require export.modules =`**
+CommonJS：**`require export.modules =`**
 
-ESModule:&nbsp;&nbsp;&nbsp;**`import export`**
+ESModule：&nbsp;&nbsp;&nbsp;**`import export`**
 
-Typescript:&nbsp;&nbsp;&nbsp;**`import export`**
+Typescript：&nbsp;&nbsp;&nbsp;**`import export`**
 
-UMD:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**`var Deque = dataStructureTyped.Deque`**
-
+UMD：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**`var Deque = dataStructureTyped.Deque`**
 
 ### npm
 
@@ -61,21 +59,21 @@ import {
 
 ### CDN
 
-Copy the line below into the head tag in an HTML document.
+将下面的代码复制到 HTML 文档的头标签中。
 
-#### development
+#### 开发环境
 
 ```html
 <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.js'></script>
 ```
 
-#### production
+#### 生产环境
 
 ```html
 <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js'></script>
 ```
 
-Copy the code below into the script tag of your HTML, and you're good to go with your development.
+将下面的代码复制到你的 HTML 的 script 标签中，你就可以开始你的开发了。
 
 ```js
 const {Heap} = dataStructureTyped;
@@ -86,54 +84,53 @@ const {
 } = dataStructureTyped;
 ```
 
-## Vivid Examples
+## 生动示例
 
-### Binary Tree
+### Binary Tree（二叉树）
 
-[Try it out](https://vivid-algorithm.vercel.app/), or you can run your own code using
-our [visual tool](https://github.com/zrwusa/vivid-algorithm)
+[试一下](https://vivid-algorithm.vercel.app/)，或者你可以使用我们的可视化工具运行自己的代码 [visual tool](https://github.com/zrwusa/vivid-algorithm)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/binary-tree-array-to-binary-tree.webp)
 
-### Binary Tree DFS
+### Binary Tree DFS （二叉搜索树深度遍历）
 
-[Try it out](https://vivid-algorithm.vercel.app/)
+[试一下](https://vivid-algorithm.vercel.app/)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/binary-tree-dfs-in-order.webp)
 
-### AVL Tree
+### AVL Tree（AVL树）
 
-[Try it out](https://vivid-algorithm.vercel.app/)
+[试一下](https://vivid-algorithm.vercel.app/)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/avl-tree-test.webp)
 
 ### Tree Multi Map
 
-[Try it out](https://vivid-algorithm.vercel.app/)
+[试一下](https://vivid-algorithm.vercel.app/)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/tree-multiset-test.webp)
 
 ### Matrix
 
-[Try it out](https://vivid-algorithm.vercel.app/algorithm/graph/)
+[试一下](https://vivid-algorithm.vercel.app/algorithm/graph/)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/matrix-cut-off-tree-for-golf.webp)
 
-### Directed Graph
+### 有向图
 
-[Try it out](https://vivid-algorithm.vercel.app/algorithm/graph/)
+[试一下](https://vivid-algorithm.vercel.app/algorithm/graph/)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/directed-graph-test.webp)
 
-### Map Graph
+### 地图
 
-[Try it out](https://vivid-algorithm.vercel.app/algorithm/graph/)
+[试一下](https://vivid-algorithm.vercel.app/algorithm/graph/)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/map-graph-test.webp)
 
-## Code Snippets
+## 代码片段
 
-### Binary Search Tree (BST) snippet
+### 二叉搜索树 (BST) 代码示例
 
 #### TS
 
@@ -221,7 +218,7 @@ const bfsIDs = bst.bfs();
 bfsIDs[0] === 11;               // true
 ```
 
-### AVLTree snippet
+### AVL树 代码示例
 
 ```ts
 import {AVLTree} from 'data-structure-typed';
@@ -233,7 +230,7 @@ avlTree.delete(10);
 avlTree.isAVLBalanced();    // true
 ```
 
-### RedBlackTree snippet
+### 红黑树 代码示例
 
 ```ts
 import {RedBlackTree} from 'data-structure-typed';
@@ -255,7 +252,7 @@ rbTree.print()
 //                           13       16
 ```
 
-### Directed Graph simple snippet
+### 有向图代码示例
 
 ```ts
 import {DirectedGraph} from 'data-structure-typed';
@@ -284,7 +281,7 @@ graph.addEdge('B', 'C');
 const topologicalOrderKeys = graph.topologicalSort(); // ['A', 'B', 'C']
 ```
 
-### Undirected Graph snippet
+### 无向图代码示例
 
 ```ts
 import {UndirectedGraph} from 'data-structure-typed';
@@ -304,7 +301,7 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', '
 
 ```
 
-### Free conversion between data structures.
+### 不同数据结构之间互相转换
 
 ```js
 const orgArr = [6, 1, 2, 7, 5, 3, 4, 9, 8];
@@ -454,15 +451,15 @@ avl2.print();
 //          4   6     9
 ```
 
-## API docs & Examples
+## API 文档 & 演示
 
-[API Docs](https://data-structure-typed-docs.vercel.app)
+[API 文档](https://data-structure-typed-docs.vercel.app)
 
-[Live Examples](https://vivid-algorithm.vercel.app)
+[在线演示](https://vivid-algorithm.vercel.app)
 
-<a href="https://github.com/zrwusa/vivid-algorithm" target="_blank">Examples Repository</a>
+<a href="https://github.com/zrwusa/vivid-algorithm" target="_blank">演示项目代码仓库</a>
 
-## Data Structures
+## 包含的数据结构
 
 <table style="display: table; width:100%; table-layout: fixed;">
 <thead>
@@ -609,7 +606,7 @@ avl2.print();
 </tbody>
 </table>
 
-## Standard library data structure comparison
+## 不同编程语言中的数据结构对应关系
 
 <table style="display: table; width:100%; table-layout: fixed;">
   <thead>
@@ -762,7 +759,7 @@ avl2.print();
   </tbody>
 </table>
 
-## Benchmark
+## 基准测试
 
 [//]: # (No deletion!!! Start of Replace Section)
 <div class="json-to-html-collapse clearfix 0">
@@ -817,153 +814,138 @@ avl2.print();
 
 [//]: # (No deletion!!! End of Replace Section)
 
-## Built-in classic algorithms
+## 内建的经典算法
 
 <table style="display: table; width:100%; table-layout: fixed;">
   <thead>
   <tr>
-    <th>Algorithm</th>
-    <th>Function Description</th>
-    <th>Iteration Type</th>
+    <th>算法</th>
+    <th>功能描述</th>
+    <th>迭代类型</th>
   </tr>
   </thead>
   <tbody>
   <tr>
-    <td>Binary Tree DFS</td>
-    <td>Traverse a binary tree in a depth-first manner, starting from the root node, first visiting the left subtree,
-      and then the right subtree, using recursion.
-    </td>
-    <td>Recursion + Iteration</td>
+    <td>二叉树深度优先搜索(DFS)</td>
+    <td>以深度优先的方式遍历二叉树，从根节点开始，首先访问左子树，然后是右子树，使用递归。</td>
+    <td>递归 + 迭代</td>
   </tr>
   <tr>
-    <td>Binary Tree BFS</td>
-    <td>Traverse a binary tree in a breadth-first manner, starting from the root node, visiting nodes level by level
-      from left to right.
-    </td>
-    <td>Iteration</td>
+    <td>二叉树广度优先搜索(BFS)</td>
+    <td>以广度优先的方式遍历二叉树，从根节点开始，逐层从左到右访问节点。</td>
+    <td>迭代</td>
   </tr>
   <tr>
-    <td>Graph DFS</td>
-    <td>Traverse a graph in a depth-first manner, starting from a given node, exploring along one path as deeply as
-      possible, and backtracking to explore other paths. Used for finding connected components, paths, etc.
-    </td>
-    <td>Recursion + Iteration</td>
+    <td>图的深度优先搜索</td>
+    <td>以深度优先的方式遍历图，从给定节点开始，尽可能深地沿一条路径探索，然后回溯以探索其他路径。用于寻找连通分量、路径等。</td>
+    <td>递归 + 迭代</td>
   </tr>
   <tr>
-    <td>Binary Tree Morris</td>
-    <td>Morris traversal is an in-order traversal algorithm for binary trees with O(1) space complexity. It allows tree
-      traversal without additional stack or recursion.
-    </td>
-    <td>Iteration</td>
+    <td>二叉树Morris遍历</td>
+    <td>Morris遍历是一种中序遍历二叉树的算法，空间复杂度为O(1)。它允许在没有额外栈或递归的情况下遍历树。</td>
+    <td>迭代</td>
   </tr>
   <tr>
-    <td>Graph BFS</td>
-    <td>Traverse a graph in a breadth-first manner, starting from a given node, first visiting nodes directly connected
-      to the starting node, and then expanding level by level. Used for finding shortest paths, etc.
-    </td>
-    <td>Recursion + Iteration</td>
+    <td>图的广度优先搜索</td>
+    <td>以广度优先的方式遍历图，从给定节点开始，首先访问与起始节点直接相连的节点，然后逐层扩展。用于寻找最短路径等。</td>
+    <td>递归 + 迭代</td>
   </tr>
   <tr>
-    <td>Graph Tarjan's Algorithm</td>
-    <td>Find strongly connected components in a graph, typically implemented using depth-first search.</td>
-    <td>Recursion</td>
+    <td>图的Tarjan算法</td>
+    <td>在图中找到强连通分量，通常使用深度优先搜索实现。</td>
+    <td>递归</td>
   </tr>
   <tr>
-    <td>Graph Bellman-Ford Algorithm</td>
-    <td>Finding the shortest paths from a single source, can handle negative weight edges</td>
-    <td>Iteration</td>
+    <td>图的Bellman-Ford算法</td>
+    <td>从单一源点找到最短路径，可以处理负权边</td>
+    <td>迭代</td>
   </tr>
   <tr>
-    <td>Graph Dijkstra's Algorithm</td>
-    <td>Finding the shortest paths from a single source, cannot handle negative weight edges</td>
-    <td>Iteration</td>
+    <td>图的Dijkstra算法</td>
+    <td>从单一源点找到最短路径，不能处理负权边</td>
+    <td>迭代</td>
   </tr>
   <tr>
-    <td>Graph Floyd-Warshall Algorithm</td>
-    <td>Finding the shortest paths between all pairs of nodes</td>
-    <td>Iteration</td>
+    <td>图的Floyd-Warshall算法</td>
+    <td>找到所有节点对之间的最短路径</td>
+    <td>迭代</td>
   </tr>
   <tr>
-    <td>Graph getCycles</td>
-    <td>Find all cycles in a graph or detect the presence of cycles.</td>
-    <td>Recursion</td>
+    <td>图的getCycles</td>
+    <td>在图中找到所有循环或检测循环的存在。</td>
+    <td>递归</td>
   </tr>
   <tr>
-    <td>Graph getCutVertexes</td>
-    <td>Find cut vertices in a graph, which are nodes that, when removed, increase the number of connected components in
-      the graph.
-    </td>
-    <td>Recursion</td>
+    <td>图的getCutVertexes</td>
+    <td>在图中找到切点，这些是移除后会增加图中连通分量数量的节点。</td>
+    <td>递归</td>
   </tr>
   <tr>
-    <td>Graph getSCCs</td>
-    <td>Find strongly connected components in a graph, which are subgraphs where any two nodes can reach each other.
-    </td>
-    <td>Recursion</td>
+    <td>图的getSCCs</td>
+    <td>在图中找到强连通分量，这些是任意两个节点都可以相互到达的子图。</td>
+    <td>递归</td>
   </tr>
   <tr>
-    <td>Graph getBridges</td>
-    <td>Find bridges in a graph, which are edges that, when removed, increase the number of connected components in the
-      graph.
-    </td>
-    <td>Recursion</td>
+    <td>图的getBridges</td>
+    <td>在图中找到桥，这些是移除后会增加图中连通分量数量的边。</td>
+    <td>递归</td>
   </tr>
   <tr>
-    <td>Graph topologicalSort</td>
-    <td>Perform topological sorting on a directed acyclic graph (DAG) to find a linear order of nodes such that all
-      directed edges go from earlier nodes to later nodes.
-    </td>
-    <td>Recursion</td>
+    <td>图的拓扑排序</td>
+    <td>对有向无环图(DAG)进行拓扑排序，以找到节点的线性顺序，使得所有有向边都从较早的节点指向较晚的节点。</td>
+    <td>递归</td>
   </tr>
   </tbody>
 </table>
 
-## Software Engineering Design Standards
+
+## 软件工程标准
 
 <table style="display: table; width:100%; table-layout: fixed;">
     <tr>
-        <th>Principle</th>
-        <th>Description</th>
+        <th>原则</th>
+        <th>描述</th>
     </tr>
     <tr>
-        <td>Practicality</td>
-        <td>Follows ES6 and ESNext standards, offering unified and considerate optional parameters, and simplifies method names.</td>
+        <td>实用性</td>
+        <td>遵循ES6和ESNext标准，提供统一且考虑周到的可选参数，简化方法名称。</td>
     </tr>
     <tr>
-        <td>Extensibility</td>
-        <td>Adheres to OOP (Object-Oriented Programming) principles, allowing inheritance for all data structures.</td>
+        <td>可扩展性</td>
+        <td>遵循OOP（面向对象编程）原则，允许所有数据结构继承。</td>
     </tr>
     <tr>
-        <td>Modularization</td>
-        <td>Includes data structure modularization and independent NPM packages.</td>
+        <td>模块化</td>
+        <td>包括数据结构模块化和独立的NPM包。</td>
     </tr>
     <tr>
-        <td>Efficiency</td>
-        <td>All methods provide time and space complexity, comparable to native JS performance.</td>
+        <td>效率</td>
+        <td>所有方法都提供时间和空间复杂度，可与原生JS性能相媲美。</td>
     </tr>
     <tr>
-        <td>Maintainability</td>
-        <td>Follows open-source community development standards, complete documentation, continuous integration, and adheres to TDD (Test-Driven Development) patterns.</td>
+        <td>可维护性</td>
+        <td>遵循开源社区开发标准，完整文档，持续集成，并遵循TDD（测试驱动开发）模式。</td>
     </tr>
     <tr>
-        <td>Testability</td>
-        <td>Automated and customized unit testing, performance testing, and integration testing.</td>
+        <td>可测试性</td>
+        <td>自动化和定制单元测试、性能测试和集成测试。</td>
     </tr>
     <tr>
-        <td>Portability</td>
-        <td>Plans for porting to Java, Python, and C++, currently achieved to 80%.</td>
+        <td>可移植性</td>
+        <td>计划移植到Java、Python和C++，目前已完成80%。</td>
     </tr>
     <tr>
-        <td>Reusability</td>
-        <td>Fully decoupled, minimized side effects, and adheres to OOP.</td>
+        <td>可复用性</td>
+        <td>完全解耦，最小化副作用，遵循OOP。</td>
     </tr>
     <tr>
-        <td>Security</td>
-        <td>Carefully designed security for member variables and methods. Read-write separation. Data structure software does not need to consider other security aspects.</td>
+        <td>安全性</td>
+        <td>精心设计的成员变量和方法的安全性。读写分离。数据结构软件不需要考虑其他安全方面。</td>
     </tr>
     <tr>
-        <td>Scalability</td>
-        <td>Data structure software does not involve load issues.</td>
+        <td>可扩展性</td>
+        <td>数据结构软件不涉及负载问题。</td>
     </tr>
 </table>
+
 

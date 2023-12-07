@@ -5,7 +5,7 @@ import { magnitude } from '../../../utils';
 import { isCompetitor } from '../../../config';
 
 const suite = new Benchmark.Suite();
-const { LINEAR } = magnitude;
+const { LINEAR, HUNDRED_THOUSAND } = magnitude;
 
 suite.add(`${LINEAR.toLocaleString()} push`, () => {
   const queue = new Queue<number>();
@@ -23,13 +23,36 @@ if (isCompetitor) {
     }
   });
 }
-suite.add(`${LINEAR.toLocaleString()} push & shift`, () => {
+suite.add(`${HUNDRED_THOUSAND.toLocaleString()} push & shift`, () => {
   const queue = new Queue<number>();
 
-  for (let i = 0; i < LINEAR; i++) {
+  for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     queue.push(i);
+  }
+  for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     queue.shift();
   }
 });
+suite.add(`${HUNDRED_THOUSAND.toLocaleString()} Array push & shift`, () => {
+  const arr = new Array<number>();
+
+  for (let i = 0; i < HUNDRED_THOUSAND; i++) {
+    arr.push(i);
+  }
+  for (let i = 0; i < HUNDRED_THOUSAND; i++) {
+    arr.shift();
+  }
+})
+  .add(`${HUNDRED_THOUSAND.toLocaleString()} Array push & pop`, () => {
+    const arr = new Array<number>();
+
+    for (let i = 0; i < HUNDRED_THOUSAND; i++) {
+      arr.push(i);
+    }
+
+    for (let i = 0; i < HUNDRED_THOUSAND; i++) {
+      arr.shift();
+    }
+  });
 
 export { suite };
