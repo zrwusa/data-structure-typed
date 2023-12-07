@@ -126,7 +126,7 @@ export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> 
   /**
    * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (AVLTree) has logarithmic time complexity.
    * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
-   * 
+   *
    * The function overrides the add method of a binary tree node and adds a new node to the tree.
    * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter can be either a key, a node, or an
    * entry. It represents the key, node, or entry that you want to add to the binary tree.

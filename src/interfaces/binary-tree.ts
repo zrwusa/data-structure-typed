@@ -15,7 +15,7 @@ export interface IBinaryTree<K = number, V = any, N extends BinaryTreeNode<K, V,
 
   add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>, value?: V, count?: number): N | null | undefined;
 
-  addMany(nodes: Iterable<BTNodeExemplar<K, V, N>>): (N | null | undefined)[];
+  addMany(nodes: Iterable<BTNodeExemplar<K, V, N>>, values?: Iterable<V | undefined>): (N | null | undefined)[];
 
   delete<C extends BTNCallback<N>>(identifier: ReturnType<C> | null, callback: C): BiTreeDeleteResult<N>[];
 }

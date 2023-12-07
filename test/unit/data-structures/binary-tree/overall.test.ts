@@ -5,7 +5,7 @@ describe('Overall BinaryTree Test', () => {
     const bst = new BST();
     bst.add(11);
     bst.add(3);
-    bst.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5], false);
+    bst.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5], undefined, false);
     bst.size === 16; // true
     expect(bst.size).toBe(16); // true
     bst.has(6); // true

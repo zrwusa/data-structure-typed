@@ -10,7 +10,7 @@ describe('BST operations test', () => {
     bst.add([11, 11]);
     bst.add([3, 3]);
     const idsAndValues: [number, number][] = [[15, 15], [1, 1], [8, 8], [13, 13], [16, 16], [2, 2], [6, 6], [9, 9], [12, 12], [14, 14], [4, 4], [7, 7], [10, 10], [5, 5]];
-    bst.addMany(idsAndValues, false);
+    bst.addMany(idsAndValues, undefined, false);
     expect(bst.root).toBeInstanceOf(BSTNode);
 
     if (bst.root) expect(bst.root.key).toBe(11);
@@ -189,28 +189,27 @@ describe('BST operations test', () => {
   });
 
   it('should perform various operations on a Binary Search Tree with object values', () => {
-    const objBST = new BST<number, { key: number; keyA: number }>();
+    const objBST = new BST<number, { name: string; age: number }>();
     expect(objBST).toBeInstanceOf(BST);
-    objBST.add([11, { key: 11, keyA: 11 }]);
-    objBST.add([3, { key: 3, keyA: 3 }]);
-    const values: [number, { key: number; keyA: number }][] = [
-      [15, { key: 15, keyA: 15 }],
-      [1, { key: 1, keyA: 1 }],
-      [8, { key: 8, keyA: 8 }],
-      [13, { key: 13, keyA: 13 }],
-      [16, { key: 16, keyA: 16 }],
-      [2, { key: 2, keyA: 2 }],
-      [6, { key: 6, keyA: 6 }],
-      [9, { key: 9, keyA: 9 }],
-      [12, { key: 12, keyA: 12 }],
-      [14, { key: 14, keyA: 14 }],
-      [4, { key: 4, keyA: 4 }],
-      [7, { key: 7, keyA: 7 }],
-      [10, { key: 10, keyA: 10 }],
-      [5, { key: 5, keyA: 5 }]
-    ];
+    objBST.add([11, { name: '11', age: 11 }]);
+    objBST.add([3, { name: '3', age: 3 }]);
 
-    objBST.addMany(values, false);
+    objBST.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5], [
+      { "name": "Alice", "age": 15 },
+      { "name": "Bob", "age": 1 },
+      { "name": "Charlie", "age": 8 },
+      { "name": "David", "age": 13 },
+      { "name": "Emma", "age": 16 },
+      { "name": "Frank", "age": 2 },
+      { "name": "Grace", "age": 6 },
+      { "name": "Hannah", "age": 9 },
+      { "name": "Isaac", "age": 12 },
+      { "name": "Jack", "age": 14 },
+      { "name": "Katie", "age": 4 },
+      { "name": "Liam", "age": 7 },
+      { "name": "Mia", "age": 10 },
+      { "name": "Noah", "age": 5 }
+    ], false);
 
     expect(objBST.root).toBeInstanceOf(BSTNode);
 
@@ -232,7 +231,7 @@ describe('BST operations test', () => {
     expect(leftMost?.key).toBe(1);
 
     const node15 = objBST.getNode(15);
-    expect(node15?.value).toEqual({ key: 15, keyA: 15 });
+    expect(node15?.value).toEqual({ name: 'Alice', age: 15 });
     const minNodeBySpecificNode = node15 && objBST.getLeftMost(node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
 
@@ -256,7 +255,7 @@ describe('BST operations test', () => {
     objBST.perfectlyBalance();
     expect(objBST.isPerfectlyBalanced()).toBe(true);
 
-    const bfsNodesAfterBalanced: BSTNode<number, { key: number; keyA: number }>[] = [];
+    const bfsNodesAfterBalanced: BSTNode<number, { name: string; age: number }>[] = [];
     objBST.bfs(node => bfsNodesAfterBalanced.push(node));
     expect(bfsNodesAfterBalanced[0].key).toBe(8);
     expect(bfsNodesAfterBalanced[bfsNodesAfterBalanced.length - 1].key).toBe(16);
@@ -381,7 +380,7 @@ describe('BST operations test', () => {
     expect(bfsIDs[1]).toBe(12);
     expect(bfsIDs[2]).toBe(16);
 
-    const bfsNodes: BSTNode<number, { key: number; keyA: number }>[] = [];
+    const bfsNodes: BSTNode<number, { name: string; age: number }>[] = [];
     objBST.bfs(node => bfsNodes.push(node));
     expect(bfsNodes[0].key).toBe(2);
     expect(bfsNodes[1].key).toBe(12);
@@ -396,7 +395,7 @@ describe('BST operations test recursively', () => {
     bst.add([11, 11]);
     bst.add([3, 3]);
     const idsAndValues = [15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
-    bst.addMany(idsAndValues, false);
+    bst.addMany(idsAndValues, undefined, false);
     expect(bst.root).toBeInstanceOf(BSTNode);
 
     if (bst.root) expect(bst.root.key).toBe(11);
@@ -580,7 +579,7 @@ describe('BST operations test recursively', () => {
     expect(objBST).toBeInstanceOf(BST);
     objBST.add([11, { key: 11, keyA: 11 }]);
     objBST.add([3, { key: 3, keyA: 3 }]);
-    const values: [number, { key: number; keyA: number }][] = [
+    const entries: [number, { key: number; keyA: number }][] = [
       [15, { key: 15, keyA: 15 }],
       [1, { key: 1, keyA: 1 }],
       [8, { key: 8, keyA: 8 }],
@@ -598,7 +597,8 @@ describe('BST operations test recursively', () => {
     ];
 
     objBST.addMany(
-      values,
+      entries,
+      undefined,
       false
     );
 
@@ -829,7 +829,7 @@ describe('BST Performance test', function () {
 
   it('should the lastKey of a BST to be the largest key', function () {
     const bst = new BST();
-    bst.addMany([9, 8, 7, 3, 1, 2, 5, 4, 6], false);
+    bst.addMany([9, 8, 7, 3, 1, 2, 5, 4, 6], undefined, false);
     // TODO
     // expect(bst.lastKey()).toBe(9);
   });

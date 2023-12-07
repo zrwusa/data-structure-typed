@@ -235,7 +235,7 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
   /**
    * Time Complexity O(log n) - O(n)
    * Space Complexity O(1)
-   * 
+   *
    * The `add` function adds a new node to a binary tree, either by creating a new node or replacing an
    * existing node with the same key.
    * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter can be one of the following:
@@ -288,21 +288,37 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
    * Time Complexity: O(k log n) - O(k * n)
    * Space Complexity: O(1)
    *
-   * The function `addMany` takes in an iterable of `BTNodeExemplar` objects, adds each object to the
-   * current instance, and returns an array of the inserted nodes.
-   * @param nodes - The `nodes` parameter is an iterable (such as an array or a set) of
-   * `BTNodeExemplar<K, V,N>` objects.
-   * @returns The function `addMany` returns an array of values, where each value is either of type
-   * `N`, `null`, or `undefined`.
+   * The `addMany` function takes in a collection of nodes and an optional collection of values, and
+   * adds each node with its corresponding value to the data structure.
+   * @param nodes - An iterable collection of BTNodeExemplar objects.
+   * @param [values] - An optional iterable of values that will be assigned to each node being added.
+   * @returns The function `addMany` returns an array of `N`, `null`, or `undefined` values.
    */
-  addMany(nodes: Iterable<BTNodeExemplar<K, V, N>>): (N | null | undefined)[] {
+  addMany(nodes: Iterable<BTNodeExemplar<K, V, N>>, values?: Iterable<V | undefined>): (N | null | undefined)[] {
     // TODO not sure addMany not be run multi times
     const inserted: (N | null | undefined)[] = [];
-    for (const kne of nodes) {
-      inserted.push(this.add(kne));
+
+    let valuesIterator: Iterator<V | undefined> | undefined;
+    if (values) {
+      valuesIterator = values[Symbol.iterator]();
     }
+
+    for (const kne of nodes) {
+      let value: V | undefined | null = undefined;
+
+      if (valuesIterator) {
+        const valueResult = valuesIterator.next();
+        if (!valueResult.done) {
+          value = valueResult.value;
+        }
+      }
+
+      inserted.push(this.add(kne, value));
+    }
+
     return inserted;
   }
+
 
   /**
    * Time Complexity: O(k * n)  "n" is the number of nodes in the tree, and "k" is the number of keys to be inserted.

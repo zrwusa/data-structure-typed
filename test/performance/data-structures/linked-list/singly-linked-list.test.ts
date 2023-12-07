@@ -3,9 +3,20 @@ import * as Benchmark from 'benchmark';
 import { magnitude } from '../../../utils';
 
 const suite = new Benchmark.Suite();
-const { TEN_THOUSAND } = magnitude;
+const { MILLION, TEN_THOUSAND } = magnitude;
 
 suite
+  .add(`${MILLION.toLocaleString()} push & shift`, () => {
+    const list = new SinglyLinkedList<number>();
+
+    for (let i = 0; i < MILLION; i++) {
+      list.push(i);
+    }
+
+    for (let i = 0; i < MILLION; i++) {
+      list.shift();
+    }
+  })
   .add(`${TEN_THOUSAND.toLocaleString()} push & pop`, () => {
     const list = new SinglyLinkedList<number>();
 

@@ -192,7 +192,7 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
   /**
    * Time Complexity: O(log n) - Average case for a balanced tree. In the worst case (unbalanced tree), it can be O(n).
    * Space Complexity: O(1) - Constant space is used.
-   * 
+   *
    * The `add` function adds a new node to a binary tree, updating the value if the key already exists
    * or inserting a new node if the key is unique.
    * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter can accept three types of values:
@@ -256,31 +256,45 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
    * Time Complexity: O(k log n) - Adding each element individually in a balanced tree.
    * Space Complexity: O(k) - Additional space is required for the sorted array.
    *
-   * The `addMany` function in TypeScript adds multiple nodes to a binary tree, either in a balanced or
-   * unbalanced manner, and returns an array of the inserted nodes.
-   * @param keysOrNodesOrEntries - An iterable containing keys, nodes, or entries to be added to the
-   * binary tree.
-   * @param [isBalanceAdd=true] - A boolean flag indicating whether the tree should be balanced after
-   * adding the nodes. The default value is true.
+   * The `addMany` function in TypeScript adds multiple keys or nodes to a binary tree, optionally
+   * balancing the tree after each addition.
+   * @param keysOrNodesOrEntries - An iterable containing the keys, nodes, or entries to be added to
+   * the binary tree.
+   * @param [values] - An optional iterable of values to be associated with the keys or nodes being
+   * added. If provided, the values will be assigned to the corresponding keys or nodes in the same
+   * order. If not provided, undefined will be assigned as the value for each key or node.
+   * @param [isBalanceAdd=true] - A boolean flag indicating whether the add operation should be
+   * balanced or not. If set to true, the add operation will be balanced using a binary search tree
+   * algorithm. If set to false, the add operation will not be balanced and the elements will be added
+   * in the order they appear in the input.
    * @param iterationType - The `iterationType` parameter is an optional parameter that specifies the
-   * type of iteration to use when adding multiple keys or nodes to the binary tree. It has a default
-   * value of `this.iterationType`, which means it will use the iteration type specified by the binary
-   * tree instance.
-   * @returns The `addMany` function returns an array of `N` or `undefined` values.
+   * type of iteration to use when adding multiple keys or nodes. It has a default value of
+   * `this.iterationType`, which suggests that it is a property of the current object.
+   * @returns The function `addMany` returns an array of nodes (`N`) or `undefined` values.
    */
   override addMany(
     keysOrNodesOrEntries: Iterable<BTNodeExemplar<K, V, N>>,
+    values?: Iterable<V | undefined>,
     isBalanceAdd = true,
     iterationType = this.iterationType
   ): (N | undefined)[] {
-    const inserted: (N | undefined)[] = []
+    const inserted: (N | undefined)[] = [];
+
+    let valuesIterator: Iterator<V | undefined> | undefined;
+
+    if (values) {
+      valuesIterator = values[Symbol.iterator]();
+    }
+
     if (!isBalanceAdd) {
       for (const kve of keysOrNodesOrEntries) {
-        const nn = this.add(kve)
+        const value = valuesIterator?.next().value;
+        const nn = this.add(kve, value);
         inserted.push(nn);
       }
       return inserted;
     }
+
     const realBTNExemplars: BTNodePureExemplar<K, V, N>[] = [];
 
     const isRealBTNExemplar = (kve: BTNodeExemplar<K, V, N>): kve is BTNodePureExemplar<K, V, N> => {
@@ -292,22 +306,20 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
       isRealBTNExemplar(kve) && realBTNExemplars.push(kve);
     }
 
-    // TODO this addMany function is inefficient, it should be optimized
     let sorted: BTNodePureExemplar<K, V, N>[] = [];
 
     sorted = realBTNExemplars.sort((a, b) => {
       let aR: number, bR: number;
-      if (this.isEntry(a)) aR = this.extractor(a[0])
-      else if (this.isRealNode(a)) aR = this.extractor(a.key)
+      if (this.isEntry(a)) aR = this.extractor(a[0]);
+      else if (this.isRealNode(a)) aR = this.extractor(a.key);
       else aR = this.extractor(a);
 
-      if (this.isEntry(b)) bR = this.extractor(b[0])
-      else if (this.isRealNode(b)) bR = this.extractor(b.key)
+      if (this.isEntry(b)) bR = this.extractor(b[0]);
+      else if (this.isRealNode(b)) bR = this.extractor(b.key);
       else bR = this.extractor(b);
 
       return aR - bR;
-    })
-
+    });
 
     const _dfs = (arr: BTNodePureExemplar<K, V, N>[]) => {
       if (arr.length === 0) return;
@@ -318,6 +330,7 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
       _dfs(arr.slice(0, mid));
       _dfs(arr.slice(mid + 1));
     };
+
     const _iterate = () => {
       const n = sorted.length;
       const stack: [[number, number]] = [[0, n - 1]];
@@ -335,6 +348,7 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
         }
       }
     };
+
     if (iterationType === IterationType.RECURSIVE) {
       _dfs(sorted);
     } else {
@@ -343,6 +357,7 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
 
     return inserted;
   }
+
 
   // /**
   //  * Time Complexity: O(n log n) - Adding each element individually in a balanced tree.
