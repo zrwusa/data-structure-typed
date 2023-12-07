@@ -18,7 +18,7 @@ suite.add(`${HUNDRED_THOUSAND.toLocaleString()} add`, () => {
 });
 
 if (isCompetitor) {
-  suite.add(`${HUNDRED_THOUSAND.toLocaleString()} CPT add`, () => {
+  suite.add(`CPT ${HUNDRED_THOUSAND.toLocaleString()} add`, () => {
     for (let i = 0; i < arr.length; i++) {
       cOrderedMap.setElement(arr[i], arr[i]);
     }

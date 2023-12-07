@@ -15,7 +15,7 @@ suite.add(`${LINEAR.toLocaleString()} push`, () => {
   }
 });
 if (isCompetitor) {
-  suite.add(`${LINEAR.toLocaleString()} CPT push`, () => {
+  suite.add(`CPT ${LINEAR.toLocaleString()} push`, () => {
     const queue = new CQueue<number>();
 
     for (let i = 0; i < LINEAR; i++) {
@@ -33,7 +33,7 @@ suite.add(`${HUNDRED_THOUSAND.toLocaleString()} push & shift`, () => {
     queue.shift();
   }
 });
-suite.add(`${HUNDRED_THOUSAND.toLocaleString()} Array push & shift`, () => {
+suite.add(`Native Array ${HUNDRED_THOUSAND.toLocaleString()} push & shift`, () => {
   const arr = new Array<number>();
 
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
@@ -43,7 +43,7 @@ suite.add(`${HUNDRED_THOUSAND.toLocaleString()} Array push & shift`, () => {
     arr.shift();
   }
 })
-  .add(`${HUNDRED_THOUSAND.toLocaleString()} Array push & pop`, () => {
+  .add(`Native Array ${HUNDRED_THOUSAND.toLocaleString()} push & pop`, () => {
     const arr = new Array<number>();
 
     for (let i = 0; i < HUNDRED_THOUSAND; i++) {

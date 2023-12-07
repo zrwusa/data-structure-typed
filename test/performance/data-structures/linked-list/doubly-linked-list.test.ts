@@ -17,7 +17,7 @@ suite.add(`${LINEAR.toLocaleString()} push`, () => {
 
 
 if (isCompetitor) {
-  suite.add(`${LINEAR.toLocaleString()} CPT push`, () => {
+  suite.add(`CPT ${LINEAR.toLocaleString()} push`, () => {
     const list = new CLinkedList<number>();
 
     for (let i = 0; i < LINEAR; i++) {
@@ -35,7 +35,7 @@ suite.add(`${LINEAR.toLocaleString()} unshift`, () => {
 });
 
 if (isCompetitor) {
-  suite.add(`${LINEAR.toLocaleString()} CPT unshift`, () => {
+  suite.add(`CPT ${LINEAR.toLocaleString()} unshift`, () => {
     const list = new CLinkedList<number>();
 
     for (let i = 0; i < LINEAR; i++) {

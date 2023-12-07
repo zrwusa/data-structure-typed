@@ -15,7 +15,7 @@ suite.add(`${LINEAR.toLocaleString()} push`, () => {
   }
 });
 if (isCompetitor) {
-  suite.add(`${LINEAR.toLocaleString()} CPT push`, () => {
+  suite.add(`CPT ${LINEAR.toLocaleString()} push`, () => {
     const queue = new CStack<number>();
 
     for (let i = 0; i < LINEAR; i++) {
@@ -34,7 +34,7 @@ suite.add(`${LINEAR.toLocaleString()} push & pop`, () => {
   }
 });
 if (isCompetitor) {
-  suite.add(`${LINEAR.toLocaleString()} CPT push & pop`, () => {
+  suite.add(`CPT ${LINEAR.toLocaleString()} push & pop`, () => {
     const queue = new CStack<number>();
 
     for (let i = 0; i < LINEAR; i++) {

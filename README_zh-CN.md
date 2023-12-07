@@ -9,9 +9,9 @@
 
 [//]: # (![npm bundle size]&#40;https://img.shields.io/bundlephobia/min/data-structure-typed&#41;)
 
-## 为什么
-
 <p><a href="https://github.com/zrwusa/data-structure-typed/blob/main/README.md">English</a> | <a href="https://github.com/zrwusa/data-structure-typed/blob/main/README_zh-CN.md">简体中文</a></p>
+
+## 为什么
 
 JavaScript和TypeScript的数据结构。
 
@@ -22,12 +22,12 @@ JavaScript和TypeScript的数据结构。
 **`基准测试`** 与C++ STL相比。**`API 标准`** 与ES6和Java对齐。**`易用性`**  可与Python媲美。
 
 
-### 提供了JavaScript/TypeScript中没有的数据结构
+### 提供了JS/TS中没有的数据结构
 
 Heap, Binary Tree, RedBlack Tree, Linked List, Deque, Trie, Directed Graph, Undirected Graph, BST, AVL Tree, Priority Queue, Queue, Tree Multiset, Linked List.
 
 
-### 性能超越原生JavaScript/TypeScript
+### 性能超越原生JS/TS
 
 **`Queue和原生Array, 在100,000数据规模下性能对比`**
 <table style="display: table; width:100%; table-layout: fixed;">
@@ -68,6 +68,31 @@ Heap, Binary Tree, RedBlack Tree, Linked List, Deque, Trie, Directed Graph, Undi
   </tr>
   </tbody>
 </table>
+
+
+**`HashMap和原生Map/Set在100,000数据规模下的性能对比`**
+<table style="display: table; width:100%; table-layout: fixed;">
+        <thead>
+        <tr>
+          <th>Method</th>
+          <th>Time Taken (ms)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>HashMap 1,000,000 set</td>
+          <td>122.51</td>
+        </tr>
+        <tr>
+          <td>Native Map 1,000,000 set</td>
+          <td>223.80</td>
+        </tr>
+        <tr>
+          <td>Native Set 1,000,000 add</td>
+          <td>185.06</td>
+        </tr>
+        </tbody>
+      </table>
 
 [//]: # (![Branches]&#40;https://img.shields.io/badge/branches-55.47%25-red.svg?style=flat&#41;)
 

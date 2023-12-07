@@ -13,7 +13,7 @@ suite.add(`${LINEAR.toLocaleString()} push`, () => {
 });
 
 if (isCompetitor) {
-  suite.add(`${LINEAR.toLocaleString()} CPT push`, () => {
+  suite.add(`CPT ${LINEAR.toLocaleString()} push`, () => {
     const _deque = new CDeque<number>();
     for (let i = 0; i < LINEAR; i++) _deque.pushBack(i);
   });
@@ -33,7 +33,7 @@ suite.add(`${LINEAR.toLocaleString()} push & pop`, () => {
     for (let i = 0; i < HUNDRED_THOUSAND; i++) _deque.push(i);
     for (let i = 0; i < HUNDRED_THOUSAND; i++) _deque.shift();
   })
-  .add(`${HUNDRED_THOUSAND.toLocaleString()} Array push & shift`, () => {
+  .add(`Native Array ${HUNDRED_THOUSAND.toLocaleString()} push & shift`, () => {
     const _deque = new Array<number>();
 
     for (let i = 0; i < HUNDRED_THOUSAND; i++) _deque.push(i);
@@ -45,7 +45,7 @@ suite.add(`${LINEAR.toLocaleString()} push & pop`, () => {
     for (let i = 0; i < HUNDRED_THOUSAND; i++) _deque.unshift(i);
     for (let i = 0; i < HUNDRED_THOUSAND; i++) _deque.shift();
   })
-  .add(`${HUNDRED_THOUSAND.toLocaleString()} Array unshift & shift`, () => {
+  .add(`Native Array ${HUNDRED_THOUSAND.toLocaleString()} unshift & shift`, () => {
     const _deque = new Array<number>();
 
     for (let i = 0; i < HUNDRED_THOUSAND; i++) _deque.unshift(i);
