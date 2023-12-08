@@ -29,12 +29,14 @@ Heap, Binary Tree, RedBlack Tree, Linked List, Deque, Trie, Directed Graph, Undi
 
 ### 性能超越原生JS/TS
 
+
 <table style="display: table; width:100%; table-layout: fixed;">
   <thead>
   <tr>
-    <th>Method</th>
-    <th>Time Taken (ms)</th>
-    <th>Scale</th>
+    <th>方法名</th>
+    <th>耗时（毫秒）</th>
+    <th>数据规模</th>
+    <th>所属标准库</th>
   </tr>
   </thead>
   <tbody>
@@ -42,37 +44,44 @@ Heap, Binary Tree, RedBlack Tree, Linked List, Deque, Trie, Directed Graph, Undi
     <td>Queue.push &amp; shift</td>
     <td>5.83</td>
     <td>100,000</td>
+    <td>data-structure-typed</td>
   </tr>
   <tr>
-    <td>Native Array.push &amp; shift</td>
+    <td>Array.push &amp; shift</td>
     <td>2829.59</td>
     <td>100,000</td>
+    <td>原生JS</td>
   </tr>
- <tr>
+  <tr>
     <td>Deque.unshift &amp; shift</td>
     <td>2.44</td>
     <td>100,000</td>
+    <td>data-structure-typed</td>
   </tr>
   <tr>
-    <td>Native Array.unshift &amp; shift</td>
+    <td>Array.unshift &amp; shift</td>
     <td>4750.37</td>
     <td>100,000</td>
+    <td>原生JS</td>
   </tr>
-        <tr>
-          <td>HashMap.set </td>
-          <td>122.51</td>
+  <tr>
+    <td>HashMap.set</td>
+    <td>122.51</td>
     <td>1,000,000</td>
-        </tr>
-        <tr>
-          <td>Native Map.set</td>
-          <td>223.80</td>
+    <td>data-structure-typed</td>
+  </tr>
+  <tr>
+    <td>Map.set</td>
+    <td>223.80</td>
     <td>1,000,000</td>
-        </tr>
-        <tr>
-          <td>Native Set.add</td>
-          <td>185.06</td>
+    <td>原生JS</td>
+  </tr>
+  <tr>
+    <td>Set.add</td>
+    <td>185.06</td>
     <td>1,000,000</td>
-        </tr>
+    <td>原生JS</td>
+  </tr>
   </tbody>
 </table>
 
