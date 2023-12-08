@@ -264,7 +264,7 @@ describe('BinaryTree', () => {
 
 describe('BinaryTree Morris Traversal', () => {
   // Create a binary tree
-  const tree = new BinaryTree<number, BinaryTreeNode<number>>();
+  const tree = new BinaryTree<number>();
   tree.add(1);
   tree.add(2);
   tree.add(3);
@@ -448,7 +448,7 @@ describe('BinaryTree', () => {
 
   it('should get the height of the tree', () => {
     tree.add([5, 'A']);
-    tree.add([3, 'B']);
+    tree.add(3, 'B');
     tree.add([7, 'C']);
 
     expect(tree.getHeight()).toBe(1);

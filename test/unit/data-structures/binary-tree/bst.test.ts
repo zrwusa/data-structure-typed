@@ -5,7 +5,7 @@ const isDebug = isDebugTest;
 
 describe('BST operations test', () => {
   it('should perform various operations on a Binary Search Tree with numeric values', () => {
-    const bst = new BST();
+    const bst = new BST<number, number>();
     expect(bst).toBeInstanceOf(BST);
     bst.add([11, 11]);
     bst.add([3, 3]);

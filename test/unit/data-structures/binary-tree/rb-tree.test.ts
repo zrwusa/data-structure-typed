@@ -6,10 +6,10 @@ import { OrderedMap } from 'js-sdsl';
 const isDebug = isDebugTest;
 
 describe('RedBlackTree', () => {
-  let tree: RedBlackTree;
+  let tree: RedBlackTree<number>;
 
   beforeEach(() => {
-    tree = new RedBlackTree();
+    tree = new RedBlackTree<number>();
   });
 
   describe('add and getNode', () => {
@@ -141,10 +141,10 @@ describe('RedBlackTree', () => {
 });
 
 describe('RedBlackTree', () => {
-  let tree: RedBlackTree;
+  let tree: RedBlackTree<number>;
 
   beforeEach(() => {
-    tree = new RedBlackTree();
+    tree = new RedBlackTree<number>();
   });
 
   it('should add nodes into the tree', () => {
@@ -511,7 +511,7 @@ describe('RedBlackTree iterative methods test', () => {
   beforeEach(() => {
     rbTree = new RedBlackTree();
     rbTree.add([1, 'a']);
-    rbTree.add([2, 'b']);
+    rbTree.add(2, 'b');
     rbTree.add([3, 'c']);
   });
 
