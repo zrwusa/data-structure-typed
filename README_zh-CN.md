@@ -29,70 +29,52 @@ Heap, Binary Tree, RedBlack Tree, Linked List, Deque, Trie, Directed Graph, Undi
 
 ### 性能超越原生JS/TS
 
-**`Queue和原生Array, 在100,000数据规模下性能对比`**
 <table style="display: table; width:100%; table-layout: fixed;">
   <thead>
   <tr>
-    <th>Test Methods</th>
+    <th>Method</th>
     <th>Time Taken (ms)</th>
+    <th>Scale</th>
   </tr>
   </thead>
   <tbody>
   <tr>
-    <td>Queue push &amp; shift</td>
+    <td>Queue.push &amp; shift</td>
     <td>5.83</td>
+    <td>100,000</td>
   </tr>
   <tr>
-    <td>Array push &amp; shift</td>
+    <td>Native Array.push &amp; shift</td>
     <td>2829.59</td>
+    <td>100,000</td>
   </tr>
-  </tbody>
-</table>
-
-**`Deque和原生Array在100,000数据规模下的性能对比`**
-<table style="display: table; width:100%; table-layout: fixed;">
-  <thead>
-  <tr>
-    <th>Test Methods</th>
-    <th>Time Taken (ms)</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr>
-    <td>Deque unshift &amp; shift</td>
+ <tr>
+    <td>Deque.unshift &amp; shift</td>
     <td>2.44</td>
+    <td>100,000</td>
   </tr>
   <tr>
-    <td>Array unshift &amp; shift</td>
+    <td>Native Array.unshift &amp; shift</td>
     <td>4750.37</td>
+    <td>100,000</td>
   </tr>
+        <tr>
+          <td>HashMap.set </td>
+          <td>122.51</td>
+    <td>1,000,000</td>
+        </tr>
+        <tr>
+          <td>Native Map.set</td>
+          <td>223.80</td>
+    <td>1,000,000</td>
+        </tr>
+        <tr>
+          <td>Native Set.add</td>
+          <td>185.06</td>
+    <td>1,000,000</td>
+        </tr>
   </tbody>
 </table>
-
-
-**`HashMap和原生Map/Set在100,000数据规模下的性能对比`**
-<table style="display: table; width:100%; table-layout: fixed;">
-        <thead>
-        <tr>
-          <th>Method</th>
-          <th>Time Taken (ms)</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td>HashMap 1,000,000 set</td>
-          <td>122.51</td>
-        </tr>
-        <tr>
-          <td>Native Map 1,000,000 set</td>
-          <td>223.80</td>
-        </tr>
-        <tr>
-          <td>Native Set 1,000,000 add</td>
-          <td>185.06</td>
-        </tr>
-        </tbody>
-      </table>
 
 [//]: # (![Branches]&#40;https://img.shields.io/badge/branches-55.47%25-red.svg?style=flat&#41;)
 

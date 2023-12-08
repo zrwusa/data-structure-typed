@@ -17,78 +17,6 @@ Do you envy C++ with [STL]() (std::), Python with [collections](), and Java with
 anymore! JavaScript and TypeScript now have [data-structure-typed]().**`Benchmark`** compared with C++ STL. **`API standards`** aligned with ES6 and Java. **`Usability`** is comparable to Python
 
 
-
-### We provide data structures that are not available in JS/TS
-
-Heap, Binary Tree, RedBlack Tree, Linked List, Deque, Trie, Directed Graph, Undirected Graph, BST, AVL Tree, Priority Queue, Queue, Tree Multiset, Linked List.
-
-
-### Performance superior to native JS/TS
-
-**`Queue vs. native Array, 100,000 scale`**
-<table style="display: table; width:100%; table-layout: fixed;">
-  <thead>
-  <tr>
-    <th>Test Methods</th>
-    <th>Time Taken (ms)</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr>
-    <td>Queue push &amp; shift</td>
-    <td>5.83</td>
-  </tr>
-  <tr>
-    <td>Array push &amp; shift</td>
-    <td>2829.59</td>
-  </tr>
-  </tbody>
-</table>
-
-**`Deque vs. native Array, 100,000 scale`**
-<table style="display: table; width:100%; table-layout: fixed;">
-  <thead>
-  <tr>
-    <th>Test Methods</th>
-    <th>Time Taken (ms)</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr>
-    <td>Deque unshift &amp; shift</td>
-    <td>2.44</td>
-  </tr>
-  <tr>
-    <td>Array unshift &amp; shift</td>
-    <td>4750.37</td>
-  </tr>
-  </tbody>
-</table>
-
-**`HashMap vs. native Map/Set, 100,000 scale`**
-<table style="display: table; width:100%; table-layout: fixed;">
-        <thead>
-        <tr>
-          <th>Method</th>
-          <th>Time Taken (ms)</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td>HashMap 1,000,000 set</td>
-          <td>122.51</td>
-        </tr>
-        <tr>
-          <td>Native Map 1,000,000 set</td>
-          <td>223.80</td>
-        </tr>
-        <tr>
-          <td>Native Set 1,000,000 add</td>
-          <td>185.06</td>
-        </tr>
-        </tbody>
-      </table>
-
 [//]: # (![Branches]&#40;https://img.shields.io/badge/branches-55.47%25-red.svg?style=flat&#41;)
 
 [//]: # (![Statements]&#40;https://img.shields.io/badge/statements-67%25-red.svg?style=flat&#41;)
@@ -96,6 +24,60 @@ Heap, Binary Tree, RedBlack Tree, Linked List, Deque, Trie, Directed Graph, Undi
 [//]: # (![Functions]&#40;https://img.shields.io/badge/functions-66.38%25-red.svg?style=flat&#41;)
 
 [//]: # (![Lines]&#40;https://img.shields.io/badge/lines-68.6%25-red.svg?style=flat&#41;)
+
+### We provide data structures that are not available in JS/TS
+
+Heap, Binary Tree, RedBlack Tree, Linked List, Deque, Trie, Directed Graph, Undirected Graph, BST, AVL Tree, Priority Queue, Queue, Tree Multiset, Linked List.
+
+
+### Performance surpasses that of native JS/TS
+
+<table style="display: table; width:100%; table-layout: fixed;">
+  <thead>
+  <tr>
+    <th>Method</th>
+    <th>Time Taken (ms)</th>
+    <th>Scale</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>Queue.push &amp; shift</td>
+    <td>5.83</td>
+    <td>100,000</td>
+  </tr>
+  <tr>
+    <td>Native Array.push &amp; shift</td>
+    <td>2829.59</td>
+    <td>100,000</td>
+  </tr>
+ <tr>
+    <td>Deque.unshift &amp; shift</td>
+    <td>2.44</td>
+    <td>100,000</td>
+  </tr>
+  <tr>
+    <td>Native Array.unshift &amp; shift</td>
+    <td>4750.37</td>
+    <td>100,000</td>
+  </tr>
+        <tr>
+          <td>HashMap.set </td>
+          <td>122.51</td>
+    <td>1,000,000</td>
+        </tr>
+        <tr>
+          <td>Native Map.set</td>
+          <td>223.80</td>
+    <td>1,000,000</td>
+        </tr>
+        <tr>
+          <td>Native Set.add</td>
+          <td>185.06</td>
+    <td>1,000,000</td>
+        </tr>
+  </tbody>
+</table>
 
 ## Installation and Usage
 
