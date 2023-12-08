@@ -98,10 +98,6 @@ export class BinaryTreeNode<K = any, V = any, N extends BinaryTreeNode<K, V, N> 
  * 3. Depth and Height: Depth is the number of edges from the root to a node; height is the maximum depth in the tree.
  * 4. Subtrees: Each child of a node forms the root of a subtree.
  * 5. Leaf Nodes: Nodes without children are leaves.
- * 6. Internal Nodes: Nodes with at least one child are internal.
- * 7. Balanced Trees: The heights of the left and right subtrees of any node differ by no more than one.
- * 8. Full Trees: Every node has either 0 or 2 children.
- * 9. Complete Trees: All levels are fully filled except possibly the last, filled from left to right.
  */
 
 export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = BinaryTreeNode<K, V, BinaryTreeNodeNested<K, V>>, TREE extends BinaryTree<K, V, N, TREE> = BinaryTree<K, V, N, BinaryTreeNested<K, V, N>>> extends IterableEntryBase<K, V | undefined>
