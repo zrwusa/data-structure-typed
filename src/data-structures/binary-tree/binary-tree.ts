@@ -231,7 +231,6 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
    * Space Complexity O(1)
    */
 
-
   /**
    * Time Complexity O(log n) - O(n)
    * Space Complexity O(1)
@@ -243,49 +242,64 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
    * @returns The function `add` returns either a node (`N`), `null`, or `undefined`.
    */
   add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>, value?: V): N | null | undefined {
-
-    let inserted: N | null | undefined;
     const newNode = this.exemplarToNode(keyOrNodeOrEntry, value);
     if (newNode === undefined) return;
 
-    // TODO There are still some problems with the way duplicate nodes are handled
-    if (newNode !== null && this.has(newNode.key)) return undefined;
-
-    const _bfs = (root: N, newNode: N | null): N | undefined | null => {
-      const queue = new Queue<N>([root]);
-      while (queue.size > 0) {
-        const cur = queue.shift()!;
-        if (newNode && cur.key === newNode.key) {
-          this._replaceNode(cur, newNode);
-          return newNode;
-        }
-        const inserted = this._addTo(newNode, cur);
-        if (inserted !== undefined) return inserted;
-        if (cur.left) queue.push(cur.left);
-        if (cur.right) queue.push(cur.right);
-      }
-    };
-
-    if (this.root) {
-      inserted = _bfs(this.root, newNode);
-    } else {
-      this._setRoot(newNode);
-      if (newNode) {
-        this._size = 1;
-      } else {
-        this._size = 0;
-      }
-      inserted = this.root;
+    // If the tree is empty, directly set the new node as the root node
+    if (!this.root) {
+      this._root = newNode;
+      this._size = 1;
+      return newNode;
     }
-    return inserted;
+
+    const queue = new Queue<N>([this.root]);
+    let potentialParent: N | undefined; // Record the parent node of the potential insertion location
+
+    while (queue.size > 0) {
+      const cur = queue.shift();
+
+      if (!cur) continue;
+
+      // Check for duplicate keys when newNode is not null
+      if (newNode !== null && cur.key === newNode.key) {
+        this._replaceNode(cur, newNode);
+        return newNode; // If duplicate keys are found, no insertion is performed
+      }
+
+      // Record the first possible insertion location found
+      if (potentialParent === undefined && (cur.left === undefined || cur.right === undefined)) {
+        potentialParent = cur;
+      }
+
+      // Continue traversing the left and right subtrees
+      if (cur.left !== null) {
+        cur.left && queue.push(cur.left);
+      }
+      if (cur.right !== null) {
+        cur.right && queue.push(cur.right);
+      }
+    }
+
+    // At the end of the traversal, if the insertion position is found, insert
+    if (potentialParent) {
+      if (potentialParent.left === undefined) {
+        potentialParent.left = newNode;
+      } else if (potentialParent.right === undefined) {
+        potentialParent.right = newNode;
+      }
+      this._size++;
+      return newNode;
+    }
+
+    return undefined; // If the insertion position cannot be found, return undefined
   }
+
 
   /**
    * Time Complexity: O(k log n) - O(k * n)
    * Space Complexity: O(1)
    * Comments: The time complexity for adding a node depends on the depth of the tree. In the best case (when the tree is empty), it's O(1). In the worst case (when the tree is a degenerate tree), it's O(n). The space complexity is constant.
    */
-
 
   /**
    * Time Complexity: O(k log n) - O(k * n)

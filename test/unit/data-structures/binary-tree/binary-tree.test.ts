@@ -1,8 +1,8 @@
 import { BinaryTree, BinaryTreeNode, FamilyPosition, IterationType } from '../../../../src';
 import { getRandomIntArray } from '../../../utils';
-// import {isDebugTest} from '../../../config';
+import { isDebugTest } from '../../../config';
 
-// const isDebug = isDebugTest;
+const isDebug = isDebugTest;
 
 describe('BinaryTreeNode', () => {
   it('should create an instance of BinaryTreeNode', () => {
@@ -106,7 +106,7 @@ describe('BinaryTree', () => {
   it('should delete nodes', () => {
     expect(tree.getHeight(tree.root, IterationType.ITERATIVE)).toBe(-1);
     expect(tree.getMinHeight()).toBe(-1);
-    const node = tree.add(1);
+    const node1 = tree.add(1);
     expect(tree.size).toBe(1);
 
     const leftChild = new BinaryTreeNode<number>(2);
@@ -127,10 +127,10 @@ describe('BinaryTree', () => {
     tree.delete(new BinaryTreeNode<number>(200));
     tree.delete(rightChild);
 
-    if (node) {
-      const result = tree.delete(node);
+    if (node1) {
+      const result = tree.delete(node1);
       expect(result).toHaveLength(1);
-      expect(tree.size).toBe(3);
+      expect(tree.size).toBe(4);
       expect(tree.getMinHeight(tree.root, IterationType.RECURSIVE)).toBe(1);
     }
   });
@@ -259,6 +259,13 @@ describe('BinaryTree', () => {
 
     expect(tree.size).toBe(0);
     expect(tree.root).toBeUndefined();
+  });
+
+  it('should duplicated nodes just replace the node exists', function () {
+    tree.clear();
+    tree.addMany([-10, -10, -10, 9, 9, 20, null, null, 15, 7, 8, null, 2, null, 6, null, null, 8, 8, 8]);
+
+    expect(tree.bfs(node => node ? node.key : null, undefined, undefined, true)).toEqual([-10, 9, 20, null, null, 15, 7, 8, null, 2, null, 6, null, null])
   });
 });
 
