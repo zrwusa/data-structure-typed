@@ -14,7 +14,7 @@ import type {
   BTNodeExemplar,
   BTNodePureExemplar
 } from '../../types';
-import { BSTVariant, CP, IterationType } from '../../types';
+import { BSTVariant, BTNodeKeyOrNode, CP, IterationType } from '../../types';
 import { BinaryTree, BinaryTreeNode } from './binary-tree';
 import { IBinaryTree } from '../../interfaces';
 import { Queue } from '../queue';
@@ -440,6 +440,16 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
         }
       }
     }
+  }
+
+  /**
+   * The function "isNotNodeInstance" checks if a potential key is a K.
+   * @param {any} potentialKey - The potentialKey parameter is of type any, which means it can be any
+   * data type.
+   * @returns a boolean value indicating whether the potentialKey is of type number or not.
+   */
+  override isNotNodeInstance(potentialKey: BTNodeKeyOrNode<K, N>): potentialKey is K {
+    return !(potentialKey instanceof BSTNode)
   }
 
   /**

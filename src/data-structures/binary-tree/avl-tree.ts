@@ -14,7 +14,7 @@ import type {
   BSTNodeKeyOrNode,
   BTNodeExemplar
 } from '../../types';
-import { BTNCallback } from '../../types';
+import { BTNCallback, BTNodeKeyOrNode } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 
 export class AVLTreeNode<K = any, V = any, N extends AVLTreeNode<K, V, N> = AVLTreeNodeNested<K, V>> extends BSTNode<K, V, N> {
@@ -88,6 +88,16 @@ export class AVLTree<K = any, V = any, N extends AVLTreeNode<K, V, N> = AVLTreeN
    */
   override isNode(exemplar: BTNodeExemplar<K, V, N>): exemplar is N {
     return exemplar instanceof AVLTreeNode;
+  }
+
+  /**
+   * The function "isNotNodeInstance" checks if a potential key is a K.
+   * @param {any} potentialKey - The potentialKey parameter is of type any, which means it can be any
+   * data type.
+   * @returns a boolean value indicating whether the potentialKey is of type number or not.
+   */
+  override isNotNodeInstance(potentialKey: BTNodeKeyOrNode<K, N>): potentialKey is K {
+    return !(potentialKey instanceof AVLTreeNode)
   }
 
   /**

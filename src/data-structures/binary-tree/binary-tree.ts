@@ -1236,8 +1236,8 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
    * @param {any} node - The parameter `node` is of type `any`, which means it can be any data type.
    * @returns a boolean value.
    */
-  isRealNode(node: any): node is N {
-    return node instanceof BinaryTreeNode && node.key.toString() !== 'NaN';
+  isRealNode(node: BTNodeExemplar<K, V, N>): node is N {
+    return node instanceof BinaryTreeNode && String(node.key) !== 'NaN';
   }
 
   /**
@@ -1245,8 +1245,8 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
    * @param {any} node - The parameter `node` is of type `any`, which means it can be any data type.
    * @returns a boolean value.
    */
-  isNIL(node: any) {
-    return node instanceof BinaryTreeNode && node.key.toString() === 'NaN';
+  isNIL(node: BTNodeExemplar<K, V, N>) {
+    return node instanceof BinaryTreeNode && String(node.key) === 'NaN';
   }
 
   /**
@@ -1254,12 +1254,12 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
    * @param {any} node - The parameter `node` is of type `any`, which means it can be any data type.
    * @returns a boolean value.
    */
-  isNodeOrNull(node: any): node is N | null {
+  isNodeOrNull(node: BTNodeExemplar<K, V, N>): node is N | null {
     return this.isRealNode(node) || node === null;
   }
 
   /**
-   * The function "isNotNodeInstance" checks if a potential key is a number.
+   * The function "isNotNodeInstance" checks if a potential key is a K.
    * @param {any} potentialKey - The potentialKey parameter is of type any, which means it can be any
    * data type.
    * @returns a boolean value indicating whether the potentialKey is of type number or not.
@@ -1606,26 +1606,24 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
   }
 
   /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
+   * Time Complexity: O(log n)
+   * Space Complexity: O(1)
    */
-
-  getPredecessor(node: N): N;
 
   /**
-   * The function `getPredecessor` returns the predecessor node of a given node in a binary tree.
-   * @param {K | N | null | undefined} node - The `node` parameter can be of type `K`, `N`,
-   * `null`, or `undefined`.
-   * @returns The function `getPredecessor` returns a value of type `N | undefined`.
+   * Time Complexity: O(log n)
+   * Space Complexity: O(1)
+   *
+   * The function returns the predecessor of a given node in a tree.
+   * @param {N} node - The parameter `node` is of type `RedBlackTreeNode`, which represents a node in a
+   * tree.
+   * @returns the predecessor of the given 'node'.
    */
-  getPredecessor(node: BTNodeKeyOrNode<K, N>): N | undefined {
-    node = this.ensureNode(node);
-    if (!this.isRealNode(node)) return undefined;
-
-    if (node.left) {
+  getPredecessor(node: N): N {
+    if (this.isRealNode(node.left)) {
       let predecessor: N | null | undefined = node.left;
       while (!this.isRealNode(predecessor) || (this.isRealNode(predecessor.right) && predecessor.right !== node)) {
-        if (predecessor) {
+        if (this.isRealNode(predecessor)) {
           predecessor = predecessor.right;
         }
       }
@@ -1642,15 +1640,16 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
    * after the given node in the inorder traversal of the binary tree.
    */
   getSuccessor(x?: K | N | null): N | null | undefined {
-    x = this.ensureNode(x);
-    if (!x) return undefined;
 
-    if (x.right) {
+    x = this.ensureNode(x);
+    if (!this.isRealNode(x)) return undefined;
+
+    if (this.isRealNode(x.right)) {
       return this.getLeftMost(x.right);
     }
 
     let y: N | null | undefined = x.parent;
-    while (y && y && x === y.right) {
+    while (this.isRealNode(y) && x === y.right) {
       x = y;
       y = y.parent;
     }

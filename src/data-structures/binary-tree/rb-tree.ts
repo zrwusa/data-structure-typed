@@ -11,6 +11,7 @@ import {
   BSTNodeKeyOrNode,
   BTNCallback,
   BTNodeExemplar,
+  BTNodeKeyOrNode,
   IterationType,
   RBTNColor,
   RBTreeOptions,
@@ -113,6 +114,16 @@ export class RedBlackTree<K = any, V = any, N extends RedBlackTreeNode<K, V, N> 
    */
   override isNode(exemplar: BTNodeExemplar<K, V, N>): exemplar is N {
     return exemplar instanceof RedBlackTreeNode;
+  }
+
+  /**
+   * The function "isNotNodeInstance" checks if a potential key is a K.
+   * @param {any} potentialKey - The potentialKey parameter is of type any, which means it can be any
+   * data type.
+   * @returns a boolean value indicating whether the potentialKey is of type number or not.
+   */
+  override isNotNodeInstance(potentialKey: BTNodeKeyOrNode<K, N>): potentialKey is K {
+    return !(potentialKey instanceof RedBlackTreeNode)
   }
 
   /**
@@ -300,7 +311,8 @@ export class RedBlackTree<K = any, V = any, N extends RedBlackTreeNode<K, V, N> 
    */
 
   override isRealNode(node: N | undefined): node is N {
-    return node !== this.Sentinel && node !== undefined;
+    if (node === this.Sentinel || node === undefined) return false;
+    return node instanceof RedBlackTreeNode;
   }
 
   getNode<C extends BTNCallback<N, K>>(
@@ -362,38 +374,12 @@ export class RedBlackTree<K = any, V = any, N extends RedBlackTreeNode<K, V, N> 
   }
 
   /**
-   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
-   * Space Complexity: O(1)
-   *
-   * The function returns the successor of a given node in a red-black tree.
-   * @param {RedBlackTreeNode} x - RedBlackTreeNode - The node for which we want to find the successor.
-   * @returns the successor of the given RedBlackTreeNode.
-   */
-  override getSuccessor(x: N): N | undefined {
-    if (x.right !== this.Sentinel) {
-      return this.getLeftMost(x.right) ?? undefined;
-    }
-
-    let y: N | undefined = x.parent;
-    while (y !== this.Sentinel && y !== undefined && x === y.right) {
-      x = y;
-      y = y.parent;
-    }
-    return y;
-  }
-
-  /**
-   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
    * The function returns the predecessor of a given node in a red-black tree.
@@ -402,12 +388,12 @@ export class RedBlackTree<K = any, V = any, N extends RedBlackTreeNode<K, V, N> 
    * @returns the predecessor of the given RedBlackTreeNode 'x'.
    */
   override getPredecessor(x: N): N {
-    if (x.left !== this.Sentinel) {
-      return this.getRightMost(x.left!)!;
+    if (this.isRealNode(x.left)) {
+      return this.getRightMost(x.left)!;
     }
 
     let y: N | undefined = x.parent;
-    while (y !== this.Sentinel && x === y!.left) {
+    while (this.isRealNode(y) && x === y.left) {
       x = y!;
       y = y!.parent;
     }

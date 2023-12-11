@@ -6,7 +6,14 @@
  * @license MIT License
  */
 import type { BSTNodeKeyOrNode, BTNodeExemplar, TreeMultimapNodeNested, TreeMultimapOptions } from '../../types';
-import { BiTreeDeleteResult, BTNCallback, FamilyPosition, IterationType, TreeMultimapNested } from '../../types';
+import {
+  BiTreeDeleteResult,
+  BTNCallback,
+  BTNodeKeyOrNode,
+  FamilyPosition,
+  IterationType,
+  TreeMultimapNested
+} from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { AVLTree, AVLTreeNode } from './avl-tree';
 
@@ -85,6 +92,15 @@ export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> 
     return exemplar instanceof TreeMultimapNode;
   }
 
+  /**
+   * The function "isNotNodeInstance" checks if a potential key is a K.
+   * @param {any} potentialKey - The potentialKey parameter is of type any, which means it can be any
+   * data type.
+   * @returns a boolean value indicating whether the potentialKey is of type number or not.
+   */
+  override isNotNodeInstance(potentialKey: BTNodeKeyOrNode<K, N>): potentialKey is K {
+    return !(potentialKey instanceof TreeMultimapNode)
+  }
 
   /**
    * The function `exemplarToNode` converts an exemplar object into a node object.
