@@ -7,11 +7,11 @@
  */
 
 import {
-  BiTreeDeleteResult,
+  BinaryTreeDeleteResult,
   BSTNodeKeyOrNode,
   BTNCallback,
-  BTNodeExemplar,
-  BTNodeKeyOrNode,
+  BTNExemplar,
+  BTNKeyOrNode,
   IterationType,
   RBTNColor,
   RBTreeOptions,
@@ -20,7 +20,6 @@ import {
 } from '../../types';
 import { BST, BSTNode } from './bst';
 import { IBinaryTree } from '../../interfaces';
-import { BinaryTreeNode } from './binary-tree';
 
 export class RedBlackTreeNode<K = any, V = any, N extends RedBlackTreeNode<K, V, N> = RedBlackTreeNodeNested<K, V>> extends BSTNode<
   K, V,
@@ -49,7 +48,7 @@ export class RedBlackTree<K = any, V = any, N extends RedBlackTreeNode<K, V, N> 
   /**
    * This is the constructor function for a Red-Black Tree data structure in TypeScript, which
    * initializes the tree with optional elements and options.
-   * @param [elements] - The `elements` parameter is an optional iterable of `BTNodeExemplar<K, V, N>`
+   * @param [elements] - The `elements` parameter is an optional iterable of `BTNExemplar<K, V, N>`
    * objects. It represents the initial elements that will be added to the RBTree during its
    * construction. If this parameter is provided, the `addMany` method is called to add all the
    * elements to the
@@ -57,7 +56,7 @@ export class RedBlackTree<K = any, V = any, N extends RedBlackTreeNode<K, V, N> 
    * behavior of the RBTree. It is of type `Partial<RBTreeOptions>`, which means that you can provide
    * only a subset of the properties defined in the `RBTreeOptions` interface.
    */
-  constructor(elements?: Iterable<BTNodeExemplar<K, V, N>>, options?: Partial<RBTreeOptions<K>>) {
+  constructor(elements?: Iterable<BTNExemplar<K, V, N>>, options?: Partial<RBTreeOptions<K>>) {
     super([], options);
 
     this._root = this.Sentinel;
@@ -108,11 +107,11 @@ export class RedBlackTree<K = any, V = any, N extends RedBlackTreeNode<K, V, N> 
 
   /**
    * The function checks if an exemplar is an instance of the RedBlackTreeNode class.
-   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<K, V, N>`.
+   * @param exemplar - The `exemplar` parameter is of type `BTNExemplar<K, V, N>`.
    * @returns a boolean value indicating whether the exemplar is an instance of the RedBlackTreeNode
    * class.
    */
-  override isNode(exemplar: BTNodeExemplar<K, V, N>): exemplar is N {
+  override isNode(exemplar: BTNExemplar<K, V, N>): exemplar is N {
     return exemplar instanceof RedBlackTreeNode;
   }
 
@@ -122,19 +121,19 @@ export class RedBlackTree<K = any, V = any, N extends RedBlackTreeNode<K, V, N> 
    * data type.
    * @returns a boolean value indicating whether the potentialKey is of type number or not.
    */
-  override isNotNodeInstance(potentialKey: BTNodeKeyOrNode<K, N>): potentialKey is K {
+  override isNotNodeInstance(potentialKey: BTNKeyOrNode<K, N>): potentialKey is K {
     return !(potentialKey instanceof RedBlackTreeNode)
   }
 
   /**
    * The function `exemplarToNode` takes an exemplar and converts it into a node object if possible.
-   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<K, V, N>`, where:
+   * @param exemplar - The `exemplar` parameter is of type `BTNExemplar<K, V, N>`, where:
    * @param {V} [value] - The `value` parameter is an optional value that can be passed to the
    * `exemplarToNode` function. It represents the value associated with the exemplar node. If a value
    * is provided, it will be used when creating the new node. If no value is provided, the new node
    * @returns a node of type N or undefined.
    */
-  override exemplarToNode(exemplar: BTNodeExemplar<K, V, N>, value?: V): N | undefined {
+  override exemplarToNode(exemplar: BTNExemplar<K, V, N>, value?: V): N | undefined {
     let node: N | undefined;
 
     if (exemplar === null || exemplar === undefined) {
@@ -173,7 +172,7 @@ export class RedBlackTree<K = any, V = any, N extends RedBlackTreeNode<K, V, N> 
    * being added to the binary search tree.
    * @returns The method `add` returns either the newly added node (`N`) or `undefined`.
    */
-  override add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>, value?: V): N | undefined {
+  override add(keyOrNodeOrEntry: BTNExemplar<K, V, N>, value?: V): N | undefined {
     const newNode = this.exemplarToNode(keyOrNodeOrEntry, value);
     if (newNode === undefined) return;
 
@@ -242,13 +241,13 @@ export class RedBlackTree<K = any, V = any, N extends RedBlackTreeNode<K, V, N> 
    * @param {C} callback - The `callback` parameter is a function that takes a node of type `N` and
    * returns a value of type `ReturnType<C>`. It is used to determine if a node should be deleted based
    * on its identifier. The `callback` function is optional and defaults to `this._defaultOneParam
-   * @returns an array of `BiTreeDeleteResult<N>`.
+   * @returns an array of `BinaryTreeDeleteResult<N>`.
    */
   delete<C extends BTNCallback<N>>(
     identifier: ReturnType<C> | null | undefined,
     callback: C = this._defaultOneParamCallback as C
-  ): BiTreeDeleteResult<N>[] {
-    const ans: BiTreeDeleteResult<N>[] = [];
+  ): BinaryTreeDeleteResult<N>[] {
+    const ans: BinaryTreeDeleteResult<N>[] = [];
     if (identifier === null) return ans;
     const helper = (node: N | undefined): void => {
       let z: N = this.Sentinel;
@@ -368,7 +367,7 @@ export class RedBlackTree<K = any, V = any, N extends RedBlackTreeNode<K, V, N> 
     beginRoot: BSTNodeKeyOrNode<K, N> = this.root,
     iterationType = this.iterationType
   ): N | null | undefined {
-    if ((identifier as any) instanceof BinaryTreeNode) callback = (node => node) as C;
+    if ((identifier as any) instanceof RedBlackTreeNode) callback = (node => node) as C;
     beginRoot = this.ensureNode(beginRoot);
     return this.getNodes(identifier, callback, true, beginRoot, iterationType)[0] ?? undefined;
   }

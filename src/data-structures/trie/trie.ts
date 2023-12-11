@@ -7,7 +7,7 @@
  */
 
 import { IterableElementBase } from "../base";
-import { ElementCallback } from "../../types";
+import type { ElementCallback } from "../../types";
 
 /**
  * TrieNode represents a node in the Trie data structure. It holds a character key, a map of children nodes,

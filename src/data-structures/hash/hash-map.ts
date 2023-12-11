@@ -7,7 +7,7 @@
  */
 
 import { isWeakKey, rangeCheck } from '../../utils';
-import { EntryCallback, HashMapLinkedNode, HashMapOptions, HashMapStoreItem } from '../../types';
+import type { EntryCallback, HashMapLinkedNode, HashMapOptions, HashMapStoreItem } from '../../types';
 import { IterableEntryBase } from "../base";
 
 export class HashMap<K = any, V = any> extends IterableEntryBase<K, V> {

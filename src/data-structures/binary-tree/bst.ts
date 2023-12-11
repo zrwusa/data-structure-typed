@@ -11,10 +11,11 @@ import type {
   BSTNodeNested,
   BSTOptions,
   BTNCallback,
-  BTNodeExemplar,
+  BTNExemplar,
+  BTNKeyOrNode,
   BTNodePureExemplar
 } from '../../types';
-import { BSTVariant, BTNodeKeyOrNode, CP, IterationType } from '../../types';
+import { BSTVariant, CP, IterationType } from '../../types';
 import { BinaryTree, BinaryTreeNode } from './binary-tree';
 import { IBinaryTree } from '../../interfaces';
 import { Queue } from '../queue';
@@ -87,12 +88,12 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
   /**
    * This is the constructor function for a binary search tree class in TypeScript, which initializes
    * the tree with optional elements and options.
-   * @param [elements] - An optional iterable of BTNodeExemplar objects that will be added to the
+   * @param [elements] - An optional iterable of BTNExemplar objects that will be added to the
    * binary search tree.
    * @param [options] - The `options` parameter is an optional object that can contain additional
    * configuration options for the binary search tree. It can have the following properties:
    */
-  constructor(elements?: Iterable<BTNodeExemplar<K, V, N>>, options?: Partial<BSTOptions<K>>) {
+  constructor(elements?: Iterable<BTNExemplar<K, V, N>>, options?: Partial<BSTOptions<K>>) {
     super([], options);
 
     if (options) {
@@ -147,10 +148,10 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
 
   /**
    * The function checks if an exemplar is an instance of BSTNode.
-   * @param exemplar - The `exemplar` parameter is a variable of type `BTNodeExemplar<K, V, N>`.
+   * @param exemplar - The `exemplar` parameter is a variable of type `BTNExemplar<K, V, N>`.
    * @returns a boolean value indicating whether the exemplar is an instance of the BSTNode class.
    */
-  override isNode(exemplar: BTNodeExemplar<K, V, N>): exemplar is N {
+  override isNode(exemplar: BTNExemplar<K, V, N>): exemplar is N {
     return exemplar instanceof BSTNode;
   }
 
@@ -158,12 +159,12 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
   /**
    * The function `exemplarToNode` takes an exemplar and returns a node if the exemplar is valid,
    * otherwise it returns undefined.
-   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<K, V, N>`, where:
+   * @param exemplar - The `exemplar` parameter is of type `BTNExemplar<K, V, N>`, where:
    * @param {V} [value] - The `value` parameter is an optional value that can be passed to the
    * `exemplarToNode` function. It represents the value associated with the exemplar node.
    * @returns a node of type N or undefined.
    */
-  override exemplarToNode(exemplar: BTNodeExemplar<K, V, N>, value?: V): N | undefined {
+  override exemplarToNode(exemplar: BTNExemplar<K, V, N>, value?: V): N | undefined {
     let node: N | undefined;
     if (exemplar === null || exemplar === undefined) {
       return;
@@ -201,7 +202,7 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
    * @returns The method `add` returns either the newly added node (`newNode`) or `undefined` if the
    * node was not added.
    */
-  override add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>, value?: V): N | undefined {
+  override add(keyOrNodeOrEntry: BTNExemplar<K, V, N>, value?: V): N | undefined {
     const newNode = this.exemplarToNode(keyOrNodeOrEntry, value);
     if (newNode === undefined) return;
 
@@ -273,7 +274,7 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
    * @returns The function `addMany` returns an array of nodes (`N`) or `undefined` values.
    */
   override addMany(
-    keysOrNodesOrEntries: Iterable<BTNodeExemplar<K, V, N>>,
+    keysOrNodesOrEntries: Iterable<BTNExemplar<K, V, N>>,
     values?: Iterable<V | undefined>,
     isBalanceAdd = true,
     iterationType = this.iterationType
@@ -297,7 +298,7 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
 
     const realBTNExemplars: BTNodePureExemplar<K, V, N>[] = [];
 
-    const isRealBTNExemplar = (kve: BTNodeExemplar<K, V, N>): kve is BTNodePureExemplar<K, V, N> => {
+    const isRealBTNExemplar = (kve: BTNExemplar<K, V, N>): kve is BTNodePureExemplar<K, V, N> => {
       if (kve === undefined || kve === null) return false;
       return !(this.isEntry(kve) && (kve[0] === undefined || kve[0] === null));
     }
@@ -448,7 +449,7 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
    * data type.
    * @returns a boolean value indicating whether the potentialKey is of type number or not.
    */
-  override isNotNodeInstance(potentialKey: BTNodeKeyOrNode<K, N>): potentialKey is K {
+  override isNotNodeInstance(potentialKey: BTNKeyOrNode<K, N>): potentialKey is K {
     return !(potentialKey instanceof BSTNode)
   }
 

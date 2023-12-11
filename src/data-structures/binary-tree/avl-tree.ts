@@ -10,11 +10,12 @@ import type {
   AVLTreeNested,
   AVLTreeNodeNested,
   AVLTreeOptions,
-  BiTreeDeleteResult,
+  BinaryTreeDeleteResult,
   BSTNodeKeyOrNode,
-  BTNodeExemplar
+  BTNCallback,
+  BTNExemplar,
+  BTNKeyOrNode
 } from '../../types';
-import { BTNCallback, BTNodeKeyOrNode } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 
 export class AVLTreeNode<K = any, V = any, N extends AVLTreeNode<K, V, N> = AVLTreeNodeNested<K, V>> extends BSTNode<K, V, N> {
@@ -34,7 +35,6 @@ export class AVLTreeNode<K = any, V = any, N extends AVLTreeNode<K, V, N> = AVLT
  * 5. Efficient Lookups: Offers O(log n) search time, where 'n' is the number of nodes, due to its balanced nature.
  * 6. Complex Insertions and Deletions: Due to rebalancing, these operations are more complex than in a regular BST.
  * 7. Path Length: The path length from the root to any leaf is longer compared to an unbalanced BST, but shorter than a linear chain of nodes.
- * 8. Memory Overhead: Stores balance factors (or heights) at each node, leading to slightly higher memory usage compared to a regular BST.
  */
 export class AVLTree<K = any, V = any, N extends AVLTreeNode<K, V, N> = AVLTreeNode<K, V, AVLTreeNodeNested<K, V>>, TREE extends AVLTree<K, V, N, TREE> = AVLTree<K, V, N, AVLTreeNested<K, V, N>>>
   extends BST<K, V, N, TREE>
@@ -42,14 +42,14 @@ export class AVLTree<K = any, V = any, N extends AVLTreeNode<K, V, N> = AVLTreeN
 
   /**
    * The constructor function initializes an AVLTree object with optional elements and options.
-   * @param [elements] - The `elements` parameter is an optional iterable of `BTNodeExemplar<K, V, N>`
+   * @param [elements] - The `elements` parameter is an optional iterable of `BTNExemplar<K, V, N>`
    * objects. It represents a collection of elements that will be added to the AVL tree during
    * initialization.
    * @param [options] - The `options` parameter is an optional object that allows you to customize the
    * behavior of the AVL tree. It is of type `Partial<AVLTreeOptions>`, which means that you can
    * provide only a subset of the properties defined in the `AVLTreeOptions` interface.
    */
-  constructor(elements?: Iterable<BTNodeExemplar<K, V, N>>, options?: Partial<AVLTreeOptions<K>>) {
+  constructor(elements?: Iterable<BTNExemplar<K, V, N>>, options?: Partial<AVLTreeOptions<K>>) {
     super([], options);
     if (elements) super.addMany(elements);
   }
@@ -83,10 +83,10 @@ export class AVLTree<K = any, V = any, N extends AVLTreeNode<K, V, N> = AVLTreeN
 
   /**
    * The function checks if an exemplar is an instance of AVLTreeNode.
-   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<K, V, N>`.
+   * @param exemplar - The `exemplar` parameter is of type `BTNExemplar<K, V, N>`.
    * @returns a boolean value indicating whether the exemplar is an instance of the AVLTreeNode class.
    */
-  override isNode(exemplar: BTNodeExemplar<K, V, N>): exemplar is N {
+  override isNode(exemplar: BTNExemplar<K, V, N>): exemplar is N {
     return exemplar instanceof AVLTreeNode;
   }
 
@@ -96,7 +96,7 @@ export class AVLTree<K = any, V = any, N extends AVLTreeNode<K, V, N> = AVLTreeN
    * data type.
    * @returns a boolean value indicating whether the potentialKey is of type number or not.
    */
-  override isNotNodeInstance(potentialKey: BTNodeKeyOrNode<K, N>): potentialKey is K {
+  override isNotNodeInstance(potentialKey: BTNKeyOrNode<K, N>): potentialKey is K {
     return !(potentialKey instanceof AVLTreeNode)
   }
 
@@ -118,7 +118,7 @@ export class AVLTree<K = any, V = any, N extends AVLTreeNode<K, V, N> = AVLTreeN
    * being added to the binary tree.
    * @returns The method is returning either the inserted node or undefined.
    */
-  override add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>, value?: V): N | undefined {
+  override add(keyOrNodeOrEntry: BTNExemplar<K, V, N>, value?: V): N | undefined {
     if (keyOrNodeOrEntry === null) return undefined;
     const inserted = super.add(keyOrNodeOrEntry, value);
     if (inserted) this._balancePath(inserted);
@@ -143,12 +143,12 @@ export class AVLTree<K = any, V = any, N extends AVLTreeNode<K, V, N> = AVLTreeN
    * that is deleted from the binary tree. It is an optional parameter and if not provided, it will
    * default to the `_defaultOneParamCallback` function. The `callback` function should have a single
    * parameter of type `N
-   * @returns The method is returning an array of `BiTreeDeleteResult<N>`.
+   * @returns The method is returning an array of `BinaryTreeDeleteResult<N>`.
    */
   override delete<C extends BTNCallback<N>>(
     identifier: ReturnType<C>,
     callback: C = this._defaultOneParamCallback as C
-  ): BiTreeDeleteResult<N>[] {
+  ): BinaryTreeDeleteResult<N>[] {
     if ((identifier as any) instanceof AVLTreeNode) callback = (node => node) as C;
     const deletedResults = super.delete(identifier, callback);
     for (const { needBalanced } of deletedResults) {

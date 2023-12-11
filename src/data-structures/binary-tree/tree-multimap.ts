@@ -5,15 +5,17 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { BSTNodeKeyOrNode, BTNodeExemplar, TreeMultimapNodeNested, TreeMultimapOptions } from '../../types';
-import {
-  BiTreeDeleteResult,
+import type {
+  BinaryTreeDeleteResult,
+  BSTNodeKeyOrNode,
   BTNCallback,
-  BTNodeKeyOrNode,
-  FamilyPosition,
-  IterationType,
-  TreeMultimapNested
+  BTNExemplar,
+  BTNKeyOrNode,
+  TreeMultimapNested,
+  TreeMultimapNodeNested,
+  TreeMultimapOptions
 } from '../../types';
+import { FamilyPosition, IterationType } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { AVLTree, AVLTreeNode } from './avl-tree';
 
@@ -48,7 +50,7 @@ export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> 
   extends AVLTree<K, V, N, TREE>
   implements IBinaryTree<K, V, N, TREE> {
 
-  constructor(elements?: Iterable<BTNodeExemplar<K, V, N>>, options?: Partial<TreeMultimapOptions<K>>) {
+  constructor(elements?: Iterable<BTNExemplar<K, V, N>>, options?: Partial<TreeMultimapOptions<K>>) {
     super([], options);
     if (elements) this.addMany(elements);
   }
@@ -84,11 +86,11 @@ export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> 
 
   /**
    * The function checks if an exemplar is an instance of the TreeMultimapNode class.
-   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<K, V, N>`.
+   * @param exemplar - The `exemplar` parameter is of type `BTNExemplar<K, V, N>`.
    * @returns a boolean value indicating whether the exemplar is an instance of the TreeMultimapNode
    * class.
    */
-  override isNode(exemplar: BTNodeExemplar<K, V, N>): exemplar is N {
+  override isNode(exemplar: BTNExemplar<K, V, N>): exemplar is N {
     return exemplar instanceof TreeMultimapNode;
   }
 
@@ -98,13 +100,13 @@ export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> 
    * data type.
    * @returns a boolean value indicating whether the potentialKey is of type number or not.
    */
-  override isNotNodeInstance(potentialKey: BTNodeKeyOrNode<K, N>): potentialKey is K {
+  override isNotNodeInstance(potentialKey: BTNKeyOrNode<K, N>): potentialKey is K {
     return !(potentialKey instanceof TreeMultimapNode)
   }
 
   /**
    * The function `exemplarToNode` converts an exemplar object into a node object.
-   * @param exemplar - The `exemplar` parameter is of type `BTNodeExemplar<K, V, N>`, which means it
+   * @param exemplar - The `exemplar` parameter is of type `BTNExemplar<K, V, N>`, which means it
    * can be one of the following:
    * @param {V} [value] - The `value` parameter is an optional argument that represents the value
    * associated with the node. It is of type `V`, which can be any data type. If no value is provided,
@@ -113,7 +115,7 @@ export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> 
    * times the value should be added to the node. If not provided, it defaults to 1.
    * @returns a node of type `N` or `undefined`.
    */
-  override exemplarToNode(exemplar: BTNodeExemplar<K, V, N>, value?: V, count = 1): N | undefined {
+  override exemplarToNode(exemplar: BTNExemplar<K, V, N>, value?: V, count = 1): N | undefined {
     let node: N | undefined;
     if (exemplar === undefined || exemplar === null) {
       return;
@@ -155,7 +157,7 @@ export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> 
    * @returns The method is returning either the newly inserted node or `undefined` if the insertion
    * was not successful.
    */
-  override add(keyOrNodeOrEntry: BTNodeExemplar<K, V, N>, value?: V, count = 1): N | undefined {
+  override add(keyOrNodeOrEntry: BTNExemplar<K, V, N>, value?: V, count = 1): N | undefined {
     const newNode = this.exemplarToNode(keyOrNodeOrEntry, value, count);
     if (newNode === undefined) return;
 
@@ -182,7 +184,7 @@ export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> 
    * either keys, nodes, or entries.
    * @returns The method is returning an array of type `N | undefined`.
    */
-  override addMany(keysOrNodesOrEntries: Iterable<BTNodeExemplar<K, V, N>>): (N | undefined)[] {
+  override addMany(keysOrNodesOrEntries: Iterable<BTNExemplar<K, V, N>>): (N | undefined)[] {
     return super.addMany(keysOrNodesOrEntries);
   }
 
@@ -262,14 +264,14 @@ export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> 
    * being deleted. If set to true, the count of the node will not be considered and the node will be
    * deleted regardless of its count. If set to false (default), the count of the node will be
    * decremented by 1 and
-   * @returns an array of `BiTreeDeleteResult<N>`.
+   * @returns an array of `BinaryTreeDeleteResult<N>`.
    */
   override delete<C extends BTNCallback<N>>(
     identifier: ReturnType<C>,
     callback: C = this._defaultOneParamCallback as C,
     ignoreCount = false
-  ): BiTreeDeleteResult<N>[] {
-    const deletedResult: BiTreeDeleteResult<N>[] = [];
+  ): BinaryTreeDeleteResult<N>[] {
+    const deletedResult: BinaryTreeDeleteResult<N>[] = [];
     if (!this.root) return deletedResult;
 
     const curr: N | undefined = this.getNode(identifier, callback) ?? undefined;

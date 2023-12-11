@@ -7,7 +7,7 @@
  */
 
 import { Heap } from '../heap';
-import { PriorityQueueOptions } from '../../types';
+import type { PriorityQueueOptions } from '../../types';
 
 export class PriorityQueue<E = any> extends Heap<E> {
   constructor(elements?: Iterable<E>, options?: PriorityQueueOptions<E>) {

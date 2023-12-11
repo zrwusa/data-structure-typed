@@ -7,7 +7,7 @@
  */
 
 
-import { ElementCallback, IterableWithSizeOrLength } from "../../types";
+import type { ElementCallback, IterableWithSizeOrLength } from "../../types";
 import { calcMinUnitsRequired, rangeCheck } from "../../utils";
 import { IterableElementBase } from "../base";
 

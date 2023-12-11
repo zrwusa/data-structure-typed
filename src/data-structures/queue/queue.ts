@@ -5,7 +5,7 @@
  */
 import { SinglyLinkedList } from '../linked-list';
 import { IterableElementBase } from "../base";
-import { ElementCallback } from "../../types";
+import type { ElementCallback } from "../../types";
 
 export class Queue<E = any> extends IterableElementBase<E> {
   /**

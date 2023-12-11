@@ -5,8 +5,7 @@
  * @license MIT License
  */
 
-import type { Comparator, DFSOrderPattern, ElementCallback } from '../../types';
-import { HeapOptions } from "../../types";
+import type { Comparator, DFSOrderPattern, ElementCallback, HeapOptions } from '../../types';
 import { IterableElementBase } from "../base";
 
 export class Heap<E = any> extends IterableElementBase<E> {

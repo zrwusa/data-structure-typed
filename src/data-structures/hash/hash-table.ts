@@ -6,7 +6,9 @@
  * @license MIT License
  */
 
-export class HashTableNode<K, V> {
+import { HashFunction } from '../../types';
+
+export class HashTableNode<K = any, V = any> {
   key: K;
   value: V;
   next: HashTableNode<K, V> | undefined;
@@ -17,8 +19,6 @@ export class HashTableNode<K, V> {
     this.next = undefined;
   }
 }
-
-import { HashFunction } from '../../types';
 
 export class HashTable<K = any, V = any> {
   protected static readonly DEFAULT_CAPACITY = 16;

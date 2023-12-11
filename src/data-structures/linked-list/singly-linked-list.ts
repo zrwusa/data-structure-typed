@@ -1,5 +1,5 @@
 import { IterableElementBase } from "../base";
-import { ElementCallback } from "../../types";
+import type { ElementCallback } from "../../types";
 
 /**
  * data-structure-typed
