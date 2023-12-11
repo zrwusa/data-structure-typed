@@ -6,7 +6,7 @@
  * @license MIT License
  */
 import { uuidV4 } from '../../utils';
-import { PriorityQueue } from '../priority-queue';
+import { Heap } from '../heap';
 import type { DijkstraResult, VertexKey } from '../../types';
 import { EntryCallback } from "../../types";
 import { IGraph } from '../../interfaces';
@@ -527,14 +527,10 @@ export abstract class AbstractGraph<
    */
   dijkstraWithoutHeap(
     src: VO | VertexKey,
-    dest?: VO | VertexKey | undefined,
-    getMinDist?: boolean,
-    genPaths?: boolean
+    dest: VO | VertexKey | undefined = undefined,
+    getMinDist: boolean = false,
+    genPaths: boolean = false
   ): DijkstraResult<VO> {
-    if (getMinDist === undefined) getMinDist = false;
-    if (genPaths === undefined) genPaths = false;
-
-    if (dest === undefined) dest = undefined;
     let minDist = Infinity;
     let minDest: VO | undefined = undefined;
     let minPath: VO[] = [];
@@ -675,14 +671,11 @@ export abstract class AbstractGraph<
    */
   dijkstra(
     src: VO | VertexKey,
-    dest?: VO | VertexKey | undefined,
-    getMinDist?: boolean,
-    genPaths?: boolean
+    dest: VO | VertexKey | undefined = undefined,
+    getMinDist: boolean = false,
+    genPaths: boolean = false
   ): DijkstraResult<VO> {
-    if (getMinDist === undefined) getMinDist = false;
-    if (genPaths === undefined) genPaths = false;
 
-    if (dest === undefined) dest = undefined;
     let minDist = Infinity;
     let minDest: VO | undefined = undefined;
     let minPath: VO[] = [];
@@ -702,7 +695,7 @@ export abstract class AbstractGraph<
       if (vertexOrKey instanceof AbstractVertex) distMap.set(vertexOrKey, Infinity);
     }
 
-    const heap = new PriorityQueue<{ key: number; value: VO }>([], { comparator: (a, b) => a.key - b.key });
+    const heap = new Heap<{ key: number; value: VO }>([], { comparator: (a, b) => a.key - b.key });
     heap.add({ key: 0, value: srcVertex });
 
     distMap.set(srcVertex, 0);
