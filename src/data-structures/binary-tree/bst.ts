@@ -7,7 +7,7 @@
  */
 import type {
   BSTNested,
-  BSTNodeKeyOrNode,
+  BSTNKeyOrNode,
   BSTNodeNested,
   BSTOptions,
   BTNCallback,
@@ -380,7 +380,7 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
    * the key of the leftmost node if the comparison result is greater than, and the key of the
    * rightmost node otherwise. If no node is found, it returns 0.
    */
-  lastKey(beginRoot: BSTNodeKeyOrNode<K, N> = this.root): K | undefined {
+  lastKey(beginRoot: BSTNKeyOrNode<K, N> = this.root): K | undefined {
     let current = this.ensureNode(beginRoot);
     if (!current) return undefined;
 
@@ -467,7 +467,7 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
    * type of iteration to be performed. It has a default value of `IterationType.ITERATIVE`.
    * @returns either a node object (N) or undefined.
    */
-  override ensureNode(key: BSTNodeKeyOrNode<K, N>, iterationType = IterationType.ITERATIVE): N | undefined {
+  override ensureNode(key: BSTNKeyOrNode<K, N>, iterationType = IterationType.ITERATIVE): N | undefined {
     return this.isNotNodeInstance(key) ? this.getNodeByKey(key, iterationType) : key;
   }
 
@@ -498,7 +498,7 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
     identifier: ReturnType<C> | undefined,
     callback: C = this._defaultOneParamCallback as C,
     onlyOne = false,
-    beginRoot: BSTNodeKeyOrNode<K, N> = this.root,
+    beginRoot: BSTNKeyOrNode<K, N> = this.root,
     iterationType = this.iterationType
   ): N[] {
     beginRoot = this.ensureNode(beginRoot);
@@ -579,7 +579,7 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
   lesserOrGreaterTraverse<C extends BTNCallback<N>>(
     callback: C = this._defaultOneParamCallback as C,
     lesserOrGreater: CP = CP.lt,
-    targetNode: BSTNodeKeyOrNode<K, N> = this.root,
+    targetNode: BSTNKeyOrNode<K, N> = this.root,
     iterationType = this.iterationType
   ): ReturnType<C>[] {
     targetNode = this.ensureNode(targetNode);

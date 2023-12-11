@@ -5,19 +5,17 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-
-
 import type { ElementCallback, IterableWithSizeOrLength } from "../../types";
-import { calcMinUnitsRequired, rangeCheck } from "../../utils";
 import { IterableElementBase } from "../base";
+import { calcMinUnitsRequired, rangeCheck } from "../../utils";
 
 /**
- * Deque can provide random access with O(1) time complexity
- * Deque is usually more compact and efficient in memory usage because it does not require additional space to store pointers.
- * Deque may experience performance jitter, but DoublyLinkedList will not
- * Deque is implemented using a dynamic array. Inserting or deleting beyond both ends of the array may require moving elements or reallocating space.
+ * 1. Operations at Both Ends: Supports adding and removing elements at both the front and back of the queue. This allows it to be used as a stack (last in, first out) and a queue (first in, first out).
+ * 2. Efficient Random Access: Being based on an array, it offers fast random access capability, allowing constant time access to any element.
+ * 3. Continuous Memory Allocation: Since it is based on an array, all elements are stored contiguously in memory, which can bring cache friendliness and efficient memory access.
+ * 4. Efficiency: Adding and removing elements at both ends of a deque is usually very fast. However, when the dynamic array needs to expand, it may involve copying the entire array to a larger one, and this operation has a time complexity of O(n).
+ * 5. Performance jitter: Deque may experience performance jitter, but DoublyLinkedList will not
  */
-
 export class Deque<E> extends IterableElementBase<E> {
   protected _bucketFirst = 0;
   protected _firstInBucket = 0;

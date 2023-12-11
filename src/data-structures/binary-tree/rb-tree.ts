@@ -8,7 +8,7 @@
 
 import {
   BinaryTreeDeleteResult,
-  BSTNodeKeyOrNode,
+  BSTNKeyOrNode,
   BTNCallback,
   BTNExemplar,
   BTNKeyOrNode,
@@ -364,7 +364,7 @@ export class RedBlackTree<K = any, V = any, N extends RedBlackTreeNode<K, V, N> 
   getNode<C extends BTNCallback<N>>(
     identifier: ReturnType<C> | undefined,
     callback: C = this._defaultOneParamCallback as C,
-    beginRoot: BSTNodeKeyOrNode<K, N> = this.root,
+    beginRoot: BSTNKeyOrNode<K, N> = this.root,
     iterationType = this.iterationType
   ): N | null | undefined {
     if ((identifier as any) instanceof RedBlackTreeNode) callback = (node => node) as C;

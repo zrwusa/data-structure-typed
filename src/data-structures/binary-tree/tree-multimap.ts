@@ -7,7 +7,7 @@
  */
 import type {
   BinaryTreeDeleteResult,
-  BSTNodeKeyOrNode,
+  BSTNKeyOrNode,
   BTNCallback,
   BTNExemplar,
   BTNKeyOrNode,
@@ -372,7 +372,7 @@ export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> 
    * @returns The method `_addTo` returns either the `parent.left` or `parent.right` node that was
    * added, or `undefined` if no node was added.
    */
-  protected override _addTo(newNode: N | undefined, parent: BSTNodeKeyOrNode<K, N>): N | undefined {
+  protected override _addTo(newNode: N | undefined, parent: BSTNKeyOrNode<K, N>): N | undefined {
     parent = this.ensureNode(parent);
     if (parent) {
       if (parent.left === undefined) {
@@ -407,7 +407,7 @@ export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> 
    * @returns either the `destNode` object if both `srcNode` and `destNode` are defined, or `undefined`
    * if either `srcNode` or `destNode` is undefined.
    */
-  protected override _swapProperties(srcNode: BSTNodeKeyOrNode<K, N>, destNode: BSTNodeKeyOrNode<K, N>): N | undefined {
+  protected override _swapProperties(srcNode: BSTNKeyOrNode<K, N>, destNode: BSTNKeyOrNode<K, N>): N | undefined {
     srcNode = this.ensureNode(srcNode);
     destNode = this.ensureNode(destNode);
     if (srcNode && destNode) {

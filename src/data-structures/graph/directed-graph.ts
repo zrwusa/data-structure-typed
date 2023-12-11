@@ -5,10 +5,10 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import { arrayRemove } from '../../utils';
-import { AbstractEdge, AbstractGraph, AbstractVertex } from './abstract-graph';
 import type { TopologicalStatus, VertexKey } from '../../types';
+import { AbstractEdge, AbstractGraph, AbstractVertex } from './abstract-graph';
 import { IGraph } from '../../interfaces';
+import { arrayRemove } from '../../utils';
 
 export class DirectedVertex<V = any> extends AbstractVertex<V> {
   /**

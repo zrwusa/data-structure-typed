@@ -3,10 +3,19 @@
  * @copyright Tyler Zeng <zrwusa@gmail.com>
  * @class
  */
-import { SinglyLinkedList } from '../linked-list';
+import type { ElementCallback } from '../../types';
 import { IterableElementBase } from "../base";
-import type { ElementCallback } from "../../types";
+import { SinglyLinkedList } from '../linked-list';
 
+/**
+ * 1. First In, First Out (FIFO): The core feature of a queue is its first in, first out nature. The element added to the queue first will be the one to be removed first.
+ * 2. Operations: The main operations include enqueue (adding an element to the end of the queue) and dequeue (removing and returning the element at the front of the queue). Typically, there is also a peek operation (looking at the front element without removing it).
+ * 3. Uses: Queues are commonly used to manage a series of tasks or elements that need to be processed in order. For example, managing task queues in a multi-threaded environment, or in algorithms for data structures like trees and graphs for breadth-first search.
+ * 4. Task Scheduling: Managing the order of task execution in operating systems or applications.
+ * 5. Data Buffering: Acting as a buffer for data packets in network communication.
+ * 6. Breadth-First Search (BFS): In traversal algorithms for graphs and trees, queues store nodes that are to be visited.
+ * 7. Real-time Queuing: Like queuing systems in banks or supermarkets.
+ */
 export class Queue<E = any> extends IterableElementBase<E> {
   /**
    * The constructor initializes an instance of a class with an optional array of elements and sets the offset to 0.
@@ -346,6 +355,12 @@ export class Queue<E = any> extends IterableElementBase<E> {
   }
 }
 
+/**
+ * 1. First In, First Out (FIFO) Strategy: Like other queue implementations, LinkedListQueue follows the first in, first out principle, meaning the element that is added to the queue first will be the first to be removed.
+ * 2. Based on Linked List: LinkedListQueue uses a linked list to store elements. Each node in the linked list contains data and a pointer to the next node.
+ * 3. Memory Usage: Since each element requires additional space to store a pointer to the next element, linked lists may use more memory compared to arrays.
+ * 4. Frequent Enqueuing and Dequeuing Operations: If your application involves frequent enqueuing and dequeuing operations and is less concerned with random access, then LinkedListQueue is a good choice.
+ */
 export class LinkedListQueue<E = any> extends SinglyLinkedList<E> {
   /**
    * The enqueue function adds a value to the end of an array.

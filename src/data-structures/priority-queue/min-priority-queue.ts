@@ -5,8 +5,8 @@
  * @copyright Copyright (c) 2022 Kirk Qi <qilinaus@gmail.com>
  * @license MIT License
  */
-import { PriorityQueue } from './priority-queue';
 import type { PriorityQueueOptions } from '../../types';
+import { PriorityQueue } from './priority-queue';
 
 export class MinPriorityQueue<E = any> extends PriorityQueue<E> {
   constructor(elements?: Iterable<E>,

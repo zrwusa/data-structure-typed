@@ -1,10 +1,20 @@
-import { IterableElementBase } from "../base";
-import type { ElementCallback } from "../../types";
+/**
+ * data-structure-typed
+ *
+ * @author Tyler Zeng
+ * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
+ * @license MIT License
+ */
+import type { ElementCallback } from '../../types';
+import { IterableElementBase } from '../base';
 
 /**
- * @license MIT
- * @copyright Tyler Zeng <zrwusa@gmail.com>
- * @class
+ * 1. Last In, First Out (LIFO): The core characteristic of a stack is its last in, first out nature, meaning the last element added to the stack will be the first to be removed.
+ * 2. Uses: Stacks are commonly used for managing a series of tasks or elements that need to be processed in a last in, first out manner. They are widely used in various scenarios, such as in function calls in programming languages, evaluation of arithmetic expressions, and backtracking algorithms.
+ * 3. Performance: Stack operations are typically O(1) in time complexity, meaning that regardless of the stack's size, adding, removing, and viewing the top element are very fast operations.
+ * 4. Function Calls: In most modern programming languages, the records of function calls are managed through a stack. When a function is called, its record (including parameters, local variables, and return address) is 'pushed' into the stack. When the function returns, its record is 'popped' from the stack.
+ * 5. Expression Evaluation: Used for the evaluation of arithmetic or logical expressions, especially when dealing with parenthesis matching and operator precedence.
+ * 6. Backtracking Algorithms: In problems where multiple branches need to be explored but only one branch can be explored at a time, stacks can be used to save the state at each branching point.
  */
 export class Stack<E = any> extends IterableElementBase<E> {
   /**
@@ -115,7 +125,7 @@ export class Stack<E = any> extends IterableElementBase<E> {
   pop(): E | undefined {
     if (this.isEmpty()) return undefined;
 
-    return this.elements.pop() || undefined;
+    return this.elements.pop();
   }
 
   /**

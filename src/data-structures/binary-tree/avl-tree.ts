@@ -11,7 +11,7 @@ import type {
   AVLTreeNodeNested,
   AVLTreeOptions,
   BinaryTreeDeleteResult,
-  BSTNodeKeyOrNode,
+  BSTNKeyOrNode,
   BTNCallback,
   BTNExemplar,
   BTNKeyOrNode
@@ -170,7 +170,7 @@ export class AVLTree<K = any, V = any, N extends AVLTreeNode<K, V, N> = AVLTreeN
    * @returns either the `destNode` object if both `srcNode` and `destNode` are defined, or `undefined`
    * if either `srcNode` or `destNode` is undefined.
    */
-  protected override _swapProperties(srcNode: BSTNodeKeyOrNode<K, N>, destNode: BSTNodeKeyOrNode<K, N>): N | undefined {
+  protected override _swapProperties(srcNode: BSTNKeyOrNode<K, N>, destNode: BSTNKeyOrNode<K, N>): N | undefined {
     srcNode = this.ensureNode(srcNode);
     destNode = this.ensureNode(destNode);
 

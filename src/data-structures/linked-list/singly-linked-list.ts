@@ -1,6 +1,3 @@
-import { IterableElementBase } from "../base";
-import type { ElementCallback } from "../../types";
-
 /**
  * data-structure-typed
  *
@@ -8,6 +5,9 @@ import type { ElementCallback } from "../../types";
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
+import type { ElementCallback } from "../../types";
+import { IterableElementBase } from "../base";
+
 export class SinglyLinkedListNode<E = any> {
   value: E;
   next: SinglyLinkedListNode<E> | undefined;

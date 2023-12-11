@@ -5,13 +5,12 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
+import type { DijkstraResult, EntryCallback, VertexKey } from '../../types';
 import { uuidV4 } from '../../utils';
-import { Heap } from '../heap';
-import type { DijkstraResult, VertexKey } from '../../types';
-import { EntryCallback } from "../../types";
-import { IGraph } from '../../interfaces';
-import { Queue } from '../queue';
 import { IterableEntryBase } from "../base";
+import { IGraph } from '../../interfaces';
+import { Heap } from '../heap';
+import { Queue } from '../queue';
 
 export abstract class AbstractVertex<V = any> {
   key: VertexKey;

@@ -5,11 +5,16 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-
-import { isWeakKey, rangeCheck } from '../../utils';
 import type { EntryCallback, HashMapLinkedNode, HashMapOptions, HashMapStoreItem } from '../../types';
-import { IterableEntryBase } from "../base";
+import { IterableEntryBase } from '../base';
+import { isWeakKey, rangeCheck } from '../../utils';
 
+/**
+ * 1. Key-Value Pair Storage: HashMap stores key-value pairs. Each key maps to a value.
+ * 2. Fast Lookup: It's used when you need to quickly find, insert, or delete elements based on a key.
+ * 3. Unique Keys: Keys are unique. If you try to insert another entry with the same key, the old entry will be replaced by the new one.
+ * 4. Unordered Collection: HashMap does not guarantee the order of elements, and the order may change over time.
+ */
 export class HashMap<K = any, V = any> extends IterableEntryBase<K, V> {
   protected _store: { [key: string]: HashMapStoreItem<K, V> } = {};
   protected _objMap: Map<object, V> = new Map();
@@ -248,6 +253,11 @@ export class HashMap<K = any, V = any> extends IterableEntryBase<K, V> {
   }
 }
 
+/**
+ * 1. Maintaining the Order of Element Insertion: Unlike HashMap, LinkedHashMap maintains the order in which elements are inserted. Therefore, when you traverse it, elements will be returned in the order they were inserted into the map.
+ * 2. Based on Hash Table and Linked List: It combines the structures of a hash table and a linked list, using the hash table to ensure fast access, while maintaining the order of elements through the linked list.
+ * 3. Time Complexity: Similar to HashMap, LinkedHashMap offers constant-time performance for get and put operations in most cases.
+ */
 export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
 
   protected _noObjMap: Record<string, HashMapLinkedNode<K, V | undefined>> = {};

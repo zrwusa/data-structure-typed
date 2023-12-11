@@ -1,6 +1,3 @@
-import { IterableElementBase } from "../base";
-import type { ElementCallback } from "../../types";
-
 /**
  * data-structure-typed
  *
@@ -8,6 +5,9 @@ import type { ElementCallback } from "../../types";
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
+import type { ElementCallback } from '../../types';
+import { IterableElementBase } from '../base';
+
 export class DoublyLinkedListNode<E = any> {
   value: E;
   next: DoublyLinkedListNode<E> | undefined;
@@ -25,6 +25,12 @@ export class DoublyLinkedListNode<E = any> {
   }
 }
 
+/**
+ * 1. Node Structure: Each node contains three parts: a data field, a pointer (or reference) to the previous node, and a pointer to the next node. This structure allows traversal of the linked list in both directions.
+ * 2. Bidirectional Traversal: Unlike singly linked lists, doubly linked lists can be easily traversed forwards or backwards. This makes insertions and deletions in the list more flexible and efficient.
+ * 3. No Centralized Index: Unlike arrays, elements in a linked list are not stored contiguously, so there is no centralized index. Accessing elements in a linked list typically requires traversing from the head or tail node.
+ * 4. High Efficiency in Insertion and Deletion: Adding or removing elements in a linked list does not require moving other elements, making these operations more efficient than in arrays.
+ */
 export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   /**
    * The constructor initializes the linked list with an empty head, tail, and length.

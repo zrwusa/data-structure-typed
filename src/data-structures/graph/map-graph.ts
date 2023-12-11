@@ -1,4 +1,4 @@
-import { MapGraphCoordinate, VertexKey } from '../../types';
+import type { MapGraphCoordinate, VertexKey } from '../../types';
 import { DirectedEdge, DirectedGraph, DirectedVertex } from './directed-graph';
 
 export class MapVertex<V = any> extends DirectedVertex<V> {

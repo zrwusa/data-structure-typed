@@ -5,9 +5,8 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-
-import { IterableElementBase } from "../base";
-import type { ElementCallback } from "../../types";
+import type { ElementCallback } from '../../types';
+import { IterableElementBase } from '../base';
 
 /**
  * TrieNode represents a node in the Trie data structure. It holds a character key, a map of children nodes,
@@ -26,7 +25,17 @@ export class TrieNode {
 }
 
 /**
- * Trie represents a Trie data structure. It provides basic Trie operations and additional methods.
+ * 1. Node Structure: Each node in a Trie represents a string (or a part of a string). The root node typically represents an empty string.
+ * 2. Child Node Relationship: Each node's children represent the strings that can be formed by adding one character to the string at the current node. For example, if a node represents the string 'ca', one of its children might represent 'cat'.
+ * 3. Fast Retrieval: Trie allows retrieval in O(m) time complexity, where m is the length of the string to be searched.
+ * 4. Space Efficiency: Trie can store a large number of strings very space-efficiently, especially when these strings share common prefixes.
+ * 5. Autocomplete and Prediction: Trie can be used for implementing autocomplete and word prediction features, as it can quickly find all strings with a common prefix.
+ * 6. Sorting: Trie can be used to sort a set of strings in alphabetical order.
+ * 7. String Retrieval: For example, searching for a specific string in a large set of strings.
+ * 8. Autocomplete: Providing recommended words or phrases as a user types.
+ * 9. Spell Check: Checking the spelling of words.
+ * 10. IP Routing: Used in certain types of IP routing algorithms.
+ * 11. Text Word Frequency Count: Counting and storing the frequency of words in a large amount of text data."
  */
 export class Trie extends IterableElementBase<string> {
   constructor(words?: string[], caseSensitive = true) {

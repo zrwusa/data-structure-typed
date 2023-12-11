@@ -6,7 +6,7 @@
  * @license MIT License
  */
 
-import { HashFunction } from '../../types';
+import type { HashFunction } from '../../types';
 
 export class HashTableNode<K = any, V = any> {
   key: K;
