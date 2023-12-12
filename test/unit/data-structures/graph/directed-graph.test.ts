@@ -689,8 +689,7 @@ describe('DirectedGraph getCycles', () => {
     graph.addEdge('E', 'B');
     const cycles = graph.getCycles();
     expect(cycles.size).toBe(1);
-
-    console.log(Array.from(cycles.values()));
+    expect(cycles.get(2)).toEqual( [{"key": "B", "value": undefined}, {"key": "D", "value": undefined}, {"key": "E", "value": undefined}]);
   })
 })
 
