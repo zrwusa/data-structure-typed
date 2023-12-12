@@ -278,7 +278,7 @@ describe('UndirectedGraph getCycles', () => {
     graph.addEdge('E', 'B');
     const cycles = graph.getCycles();
     expect(cycles.size).toBe(2);
-    expect(cycles.get(1)).toEqual([{"key": "A", "value": "A"}, {"key": "B", "value": "B"}, {"key": "D", "value": "D"}, {"key": "C", "value": "C"}]);
-    expect(cycles.get(2)).toEqual([{"key": "B", "value": "B"}, {"key": "D", "value": "D"}, {"key": "E", "value": "E"}]);
+    expect(cycles.get(1)).toEqual([{ "key": "A", "value": "A" }, { "key": "B", "value": "B" }, { "key": "D", "value": "D" }, { "key": "C", "value": "C" }]);
+    expect(cycles.get(2)).toEqual([{ "key": "B", "value": "B" }, { "key": "D", "value": "D" }, { "key": "E", "value": "E" }]);
   })
 })
