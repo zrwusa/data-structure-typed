@@ -411,6 +411,13 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
     }
   }
 
+  hasValue(value: V): boolean {
+    for (const [, elementValue] of this) {
+      if (elementValue === value) return true;
+    }
+    return false;
+  }
+
   setMany(entries: Iterable<[K, V]>): void {
     for (const entry of entries) {
       const [key, value] = entry;

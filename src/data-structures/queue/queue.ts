@@ -188,7 +188,7 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * @param {E} value - The value parameter represents the value that you want to add to the queue.
    */
   enqueue(value: E) {
-    this.push(value);
+    return this.push(value);
   }
 
   /**

@@ -588,7 +588,7 @@ describe('cycles, strongly connected components, bridges, articular points in Di
   const cutVertexes = graph.getCutVertexes();
   const dfnMap = graph.getDFNMap();
   const lowMap = graph.getLowMap();
-  expect(cycles.size).toBe(1);
+  expect(cycles.size).toBe(2);
   expect(scCs.size).toBe(5);
   expect(bridges.length).toBe(4);
   expect(cutVertexes.length).toBe(4);
@@ -672,4 +672,25 @@ describe('DirectedGraph iterative Methods', () => {
     expect(dg.getEdge('hello', 'world')).toBe(undefined);
   })
 });
+
+describe('DirectedGraph getCycles', () => {
+  test('should getCycles return correct result', () => {
+    const graph = new DirectedGraph();
+    graph.addVertex('A');
+    graph.addVertex('B');
+    graph.addVertex('C');
+    graph.addVertex('D');
+    graph.addVertex('E');
+    graph.addEdge('A', 'B');
+    graph.addEdge('A', 'C');
+    graph.addEdge('B', 'D');
+    graph.addEdge('C', 'D');
+    graph.addEdge('D', 'E');
+    graph.addEdge('E', 'B');
+    const cycles = graph.getCycles();
+    expect(cycles.size).toBe(1);
+
+    console.log(Array.from(cycles.values()));
+  })
+})
 

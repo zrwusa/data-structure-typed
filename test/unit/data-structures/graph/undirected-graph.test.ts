@@ -237,7 +237,7 @@ describe('cycles, strongly connected components, bridges, articular points in Un
   const cutVertexes = graph.getCutVertexes();
   const dfnMap = graph.getDFNMap();
   const lowMap = graph.getLowMap();
-  expect(cycles.size).toBe(1);
+  expect(cycles.size).toBe(2);
   expect(scCs.size).toBe(5);
   expect(bridges.length).toBe(4);
   expect(cutVertexes.length).toBe(4);
@@ -261,3 +261,23 @@ it("Should return Infinity if dest is not found", () => {
   const minCost01 = graph.getMinCostBetween(0, 1, true);
   expect(minCost01).toBe(1);
 });
+
+describe('UndirectedGraph getCycles', () => {
+  test('should getCycles return correct result', () => {
+    const graph = new UndirectedGraph();
+    graph.addVertex('A');
+    graph.addVertex('B');
+    graph.addVertex('C');
+    graph.addVertex('D');
+    graph.addVertex('E');
+    graph.addEdge('A', 'B');
+    graph.addEdge('A', 'C');
+    graph.addEdge('B', 'D');
+    graph.addEdge('C', 'D');
+    graph.addEdge('D', 'E');
+    graph.addEdge('E', 'B');
+    const cycles = graph.getCycles();
+    expect(cycles.size).toBe(2);
+    console.log(Array.from(cycles.values()));
+  })
+})

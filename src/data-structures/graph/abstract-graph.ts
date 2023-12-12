@@ -1086,15 +1086,33 @@ export abstract class AbstractGraph<
     }
 
     const cycles: Map<number, VO[]> = new Map();
-    if (needCycles) {
-      let SCCs: Map<number, VO[]> = new Map();
-      if (SCCs.size < 1) {
-        SCCs = getSCCs();
-      }
 
-      SCCs.forEach((SCC, low) => {
-        if (SCC.length > 1) {
-          cycles.set(low, SCC);
+    if (needCycles) {
+      const visitedMap: Map<VO, boolean> = new Map();
+      const stack: VO[] = [];
+      const findCyclesDFS = (cur: VO, parent: VO | undefined) => {
+        visitedMap.set(cur, true);
+        stack.push(cur);
+
+        const neighbors = this.getNeighbors(cur);
+
+        for (const neighbor of neighbors) {
+          if (!visitedMap.get(neighbor)) {
+            findCyclesDFS(neighbor, cur);
+          } else if (stack.includes(neighbor) && neighbor !== parent) {
+            const cycleStartIndex = stack.indexOf(neighbor);
+            const cycle = stack.slice(cycleStartIndex);
+            const cycleLow = Math.min(...cycle.map(v => dfnMap.get(v) || Infinity));
+            cycles.set(cycleLow, cycle);
+          }
+        }
+
+        stack.pop();
+      };
+
+      vertexMap.forEach(v => {
+        if (!visitedMap.get(v)) {
+          findCyclesDFS(v, undefined);
         }
       });
     }
