@@ -55,7 +55,7 @@ suite
       list.shift();
     }
   })
-  .add(`${LINEAR.toLocaleString()} insertBefore`, () => {
+  .add(`${LINEAR.toLocaleString()} addBefore`, () => {
     const doublyList = new DoublyLinkedList<number>();
     let midNode: DoublyLinkedListNode | undefined;
     const midIndex = Math.floor(LINEAR / 2);
@@ -64,7 +64,7 @@ suite
       if (i === midIndex) {
         midNode = doublyList.getNode(i);
       } else if (i > midIndex && midNode) {
-        doublyList.insertBefore(midNode, i);
+        doublyList.addBefore(midNode, i);
       }
     }
   });

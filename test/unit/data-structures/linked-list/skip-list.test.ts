@@ -66,11 +66,11 @@ describe('SkipList', () => {
   });
 
   it('getFirst() should return the getFirst element', () => {
-    expect(skipList.getFirst()).toBe('One');
+    expect(skipList.first).toBe('One');
   });
 
   it('getLast() should return the getLast element', () => {
-    expect(skipList.getLast()).toBe('Four');
+    expect(skipList.last).toBe('Four');
   });
 
   it('higher(key) should return the getFirst element greater than the given key', () => {

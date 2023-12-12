@@ -19,11 +19,11 @@ describe('DoublyLinkedList Operation Test', () => {
   it('should out of bound index', () => {
     expect(list.getNodeAt(-1)).toBe(undefined);
     expect(list.getNodeAt(5)).toBe(undefined);
-    expect(list.insertAt(5, 6)).toBe(true);
+    expect(list.addAt(5, 6)).toBe(true);
   });
 
-  it('should insertBefore', () => {
-    expect(list.insertBefore(1, 0)).toBe(true);
+  it('should addBefore', () => {
+    expect(list.addBefore(1, 0)).toBe(true);
   });
 
   it('should deleteAt', () => {
@@ -49,11 +49,11 @@ describe('DoublyLinkedList Operation Test', () => {
     expect(list.findBackward(value => value === 0)).toBe(undefined);
   });
 
-  it('should insertAfter tail', () => {
-    expect(list.insertAfter(list.tail!, 6)).toBe(true);
+  it('should addAfter tail', () => {
+    expect(list.addAfter(list.tail!, 6)).toBe(true);
   });
 
-  it('should insertAfter tail', () => {
+  it('should addAfter tail', () => {
     expect([...list]).toEqual([1, 2, 3, 4, 5]);
   });
 });
@@ -68,7 +68,7 @@ describe('DoublyLinkedList Operation Test', () => {
   });
 
   it('should initialize an empty list', () => {
-    expect(list.length).toBe(0);
+    expect(list.size).toBe(0);
     expect(list.head).toBe(undefined);
     expect(list.tail).toBe(undefined);
   });
@@ -77,7 +77,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(1);
     list.push(2);
     list.push(3);
-    expect(list.length).toBe(3);
+    expect(list.size).toBe(3);
     expect(list.head!.value).toBe(1);
     expect(list.tail!.value).toBe(3);
   });
@@ -87,7 +87,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(2);
     const poppedValue = list.pop();
     expect(poppedValue).toBe(2);
-    expect(list.length).toBe(1);
+    expect(list.size).toBe(1);
     expect(list.head!.value).toBe(1);
     expect(list.tail!.value).toBe(1);
   });
@@ -97,20 +97,20 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(3);
 
     // Inserting at the beginning
-    list.insertAt(0, 0);
-    expect(list.length).toBe(4);
+    list.addAt(0, 0);
+    expect(list.size).toBe(4);
     expect(list.getAt(0)).toBe(0);
     expect(list.getAt(1)).toBe(1);
 
     // Inserting in the middle
-    list.insertAt(2, 1.5);
-    expect(list.length).toBe(5);
+    list.addAt(2, 1.5);
+    expect(list.size).toBe(5);
     expect(list.getAt(2)).toBe(1.5);
     expect(list.getAt(3)).toBe(2);
 
     // Inserting at the end
-    list.insertAt(5, 4);
-    expect(list.length).toBe(6);
+    list.addAt(5, 4);
+    expect(list.size).toBe(6);
     expect(list.getAt(5)).toBe(4);
     expect(list.tail!.value).toBe(4);
   });
@@ -122,18 +122,18 @@ describe('DoublyLinkedList Operation Test', () => {
 
     // Deleting from the beginning
     const deletedValue = list.deleteAt(0);
-    expect(deletedValue).toBe(1);
-    expect(list.length).toBe(2);
+    expect(deletedValue).toBe(true);
+    expect(list.size).toBe(2);
     expect(list.head!.value).toBe(2);
 
     // Deleting from the middle
     list.deleteAt(0); // Deleting the second element
-    expect(list.length).toBe(1);
+    expect(list.size).toBe(1);
     expect(list.head!.value).toBe(3);
 
     // Deleting from the end
     list.deleteAt(0);
-    expect(list.length).toBe(0);
+    expect(list.size).toBe(0);
     expect(list.head).toBe(undefined);
     expect(list.tail).toBe(undefined);
   });
@@ -144,16 +144,16 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(3);
 
     list.delete(2);
-    expect(list.length).toBe(2);
+    expect(list.size).toBe(2);
     expect(list.head!.value).toBe(1);
     expect(list.tail!.value).toBe(3);
 
     list.delete(1);
-    expect(list.length).toBe(1);
+    expect(list.size).toBe(1);
     expect(list.head!.value).toBe(3);
 
     list.delete(3);
-    expect(list.length).toBe(0);
+    expect(list.size).toBe(0);
     expect(list.head).toBe(undefined);
     expect(list.tail).toBe(undefined);
   });
@@ -206,7 +206,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(2);
     list.push(3);
 
-    list.insertAfter(2, 2.5);
+    list.addAfter(2, 2.5);
 
     expect(list.toArray()).toEqual([1, 2, 2.5, 3]);
   });
@@ -216,7 +216,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(2);
     list.push(3);
 
-    list.insertBefore(2, 1.5);
+    list.addBefore(2, 1.5);
 
     expect(list.toArray()).toEqual([1, 1.5, 2, 3]);
   });
@@ -258,7 +258,7 @@ describe('DoublyLinkedList Operation Test', () => {
 
     list.clear();
 
-    expect(list.length).toBe(0);
+    expect(list.size).toBe(0);
     expect(list.head).toBe(undefined);
     expect(list.tail).toBe(undefined);
   });
@@ -334,7 +334,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(2);
     list.push(3);
 
-    const success = list.insertAfter(2, 4);
+    const success = list.addAfter(2, 4);
     expect(success).toBe(true);
     expect(list.toArray()).toEqual([1, 2, 4, 3]);
   });
@@ -344,7 +344,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(2);
     list.push(3);
 
-    const success = list.insertBefore(2, 0);
+    const success = list.addBefore(2, 0);
     expect(success).toBe(true);
     expect(list.toArray()).toEqual([1, 0, 2, 3]);
   });
@@ -354,7 +354,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(2);
     list.push(3);
 
-    const success = list.insertAfter(4, 5);
+    const success = list.addAfter(4, 5);
     expect(success).toBe(false);
     expect(list.toArray()).toEqual([1, 2, 3]);
   });
@@ -364,7 +364,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(2);
     list.push(3);
 
-    const success = list.insertBefore(4, 0);
+    const success = list.addBefore(4, 0);
     expect(success).toBe(false);
     expect(list.toArray()).toEqual([1, 2, 3]);
   });
@@ -381,7 +381,7 @@ describe('DoublyLinkedList Operation Test', () => {
     expect(objectList.toArray()).toEqual([obj1, obj2, obj3]);
 
     const newObj = { keyA: 25 }; // Corrected newObj value
-    const insertSuccess = objectList.insertBefore(obj2, newObj);
+    const insertSuccess = objectList.addBefore(obj2, newObj);
     expect(insertSuccess).toBe(true);
 
     const getNode = objectList.getNode(newObj); // Use newObj instead of obj2

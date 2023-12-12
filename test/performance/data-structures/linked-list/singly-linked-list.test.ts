@@ -28,7 +28,7 @@ suite
       list.pop();
     }
   })
-  .add(`${TEN_THOUSAND.toLocaleString()} insertBefore`, () => {
+  .add(`${TEN_THOUSAND.toLocaleString()} addBefore`, () => {
     const singlyList = new SinglyLinkedList<number>();
     let midSinglyNode: SinglyLinkedListNode | undefined;
     const midIndex = Math.floor(TEN_THOUSAND / 2);
@@ -37,7 +37,7 @@ suite
       if (i === midIndex) {
         midSinglyNode = singlyList.getNode(i);
       } else if (i > midIndex && midSinglyNode) {
-        singlyList.insertBefore(midSinglyNode.value, i);
+        singlyList.addBefore(midSinglyNode.value, i);
       }
     }
   });

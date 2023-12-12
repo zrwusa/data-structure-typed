@@ -453,7 +453,7 @@ describe('LinkedHashMap Test2', () => {
         expect(hashMap.last).toEqual([key, value]);
         expect(hashMap.reverseBegin().next().value).toEqual([key, value]);
       } else if (index <= 1000) {
-        expect(hashMap.getAt(index)).toEqual([key, value]);
+        expect(hashMap.getAt(index)).toBe(value);
       }
       expect(hashMap.get(key)).toEqual(value);
       index++;
@@ -502,7 +502,7 @@ describe('LinkedHashMap Test2', () => {
   test('should get element at specific index', () => {
     hashMap.set('key1', 'value1');
     hashMap.set('key2', 'value2');
-    expect(hashMap.getAt(1)).toEqual(['key2', 'value2']);
+    expect(hashMap.getAt(1)).toBe('value2');
   });
 });
 

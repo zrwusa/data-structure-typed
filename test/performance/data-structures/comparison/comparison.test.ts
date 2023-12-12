@@ -47,23 +47,23 @@ if (isCompetitor) {
 }
 
 suite
-  .add(`SRC PQ ${TEN_THOUSAND.toLocaleString()} add & pop`, () => {
+  .add(`SRC PQ ${TEN_THOUSAND.toLocaleString()} add & poll`, () => {
     const pq = new SRCPriorityQueue<number>([], { comparator: (a, b) => b - a });
 
     for (let i = 0; i < TEN_THOUSAND; i++) pq.add(i);
-    for (let i = 0; i < TEN_THOUSAND; i++) pq.pop();
+    for (let i = 0; i < TEN_THOUSAND; i++) pq.poll();
   })
-  .add(`CJS PQ ${TEN_THOUSAND.toLocaleString()} add & pop`, () => {
+  .add(`CJS PQ ${TEN_THOUSAND.toLocaleString()} add & poll`, () => {
     const pq = new CJSPriorityQueue<number>([], { comparator: (a, b) => b - a });
 
     for (let i = 0; i < TEN_THOUSAND; i++) pq.add(i);
-    for (let i = 0; i < TEN_THOUSAND; i++) pq.pop();
+    for (let i = 0; i < TEN_THOUSAND; i++) pq.poll();
   })
-  .add(`MJS PQ ${TEN_THOUSAND.toLocaleString()} add & pop`, () => {
+  .add(`MJS PQ ${TEN_THOUSAND.toLocaleString()} add & poll`, () => {
     const pq = new MJSPriorityQueue<number>([], { comparator: (a, b) => b - a });
 
     for (let i = 0; i < TEN_THOUSAND; i++) pq.add(i);
-    for (let i = 0; i < TEN_THOUSAND; i++) pq.pop();
+    for (let i = 0; i < TEN_THOUSAND; i++) pq.poll();
   });
 
 

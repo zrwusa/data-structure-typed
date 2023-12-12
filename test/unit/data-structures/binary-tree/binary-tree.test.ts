@@ -1,8 +1,8 @@
 import { BinaryTree, BinaryTreeNode, FamilyPosition, IterationType } from '../../../../src';
 import { getRandomIntArray } from '../../../utils';
-import { isDebugTest } from '../../../config';
+// import { isDebugTest } from '../../../config';
 
-const isDebug = isDebugTest;
+// const isDebug = isDebugTest;
 
 describe('BinaryTreeNode', () => {
   it('should create an instance of BinaryTreeNode', () => {

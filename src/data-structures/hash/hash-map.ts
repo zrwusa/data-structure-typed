@@ -35,7 +35,6 @@ export class HashMap<K = any, V = any> extends IterableEntryBase<K, V> {
       const { hashFn } = options;
       if (hashFn) {
         this._hashFn = hashFn;
-
       }
     }
     if (elements) {
@@ -68,8 +67,7 @@ export class HashMap<K = any, V = any> extends IterableEntryBase<K, V> {
    * @param {V} value - The value parameter represents the value that you want to associate with the
    * key in the data structure.
    */
-  set(key: K, value: V) {
-
+  set(key: K, value: V): boolean {
     if (this._isObjKey(key)) {
       if (!this._objMap.has(key)) {
         this._size++;
@@ -83,6 +81,7 @@ export class HashMap<K = any, V = any> extends IterableEntryBase<K, V> {
       }
       this._store[strKey] = { key, value };
     }
+    return true;
   }
 
   /**
@@ -90,8 +89,10 @@ export class HashMap<K = any, V = any> extends IterableEntryBase<K, V> {
    * @param elements - The `elements` parameter is an iterable containing key-value pairs. Each
    * key-value pair is represented as an array with two elements: the key and the value.
    */
-  setMany(elements: Iterable<[K, V]>) {
-    for (const [key, value] of elements) this.set(key, value);
+  setMany(elements: Iterable<[K, V]>): boolean[] {
+    const results: boolean[] = [];
+    for (const [key, value] of elements) results.push(this.set(key, value));
+    return results;
   }
 
   /**
@@ -215,6 +216,10 @@ export class HashMap<K = any, V = any> extends IterableEntryBase<K, V> {
     console.log([...this.entries()]);
   }
 
+  put(key: K, value: V): boolean {
+    return this.set(key, value);
+  }
+
   /**
    * The function returns an iterator that yields key-value pairs from both an object store and an
    * object map.
@@ -286,7 +291,6 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
         this.set(el[0], el[1]);
       }
     }
-
   }
 
   protected _size = 0;
@@ -356,7 +360,7 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
    * value associated with the key being set in the data structure.
    * @returns the size of the data structure after the key-value pair has been set.
    */
-  set(key: K, value?: V) {
+  set(key: K, value?: V): boolean {
     let node;
     const isNewKey = !this.has(key); // Check if the key is new
 
@@ -398,7 +402,7 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
       this._size++;
     }
 
-    return this._size;
+    return true;
   }
 
   has(key: K): boolean {
@@ -411,18 +415,13 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
     }
   }
 
-  hasValue(value: V): boolean {
-    for (const [, elementValue] of this) {
-      if (elementValue === value) return true;
-    }
-    return false;
-  }
-
-  setMany(entries: Iterable<[K, V]>): void {
+  setMany(entries: Iterable<[K, V]>): boolean[] {
+    const results: boolean[] = [];
     for (const entry of entries) {
       const [key, value] = entry;
-      this.set(key, value);
+      results.push(this.set(key, value));
     }
+    return results;
   }
 
   /**
@@ -461,13 +460,13 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
    * the specified index in the data structure. The key-value pair is represented as a tuple `[K, V]`,
    * where `K` is the key and `V` is the value.
    */
-  getAt(index: number) {
+  getAt(index: number): V | undefined {
     rangeCheck(index, 0, this._size - 1);
     let node = this._head;
     while (index--) {
       node = node.next;
     }
-    return <[K, V]>[node.key, node.value];
+    return node.value;
   }
 
   /**
@@ -480,7 +479,7 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
    * @returns a boolean value. It returns `true` if the deletion was successful, and `false` if the key
    * was not found.
    */
-  delete(key: K) {
+  delete(key: K): boolean {
     let node;
 
     if (isWeakKey(key)) {
@@ -521,14 +520,13 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
    * deleted in the linked list.
    * @returns The size of the list after deleting the element at the specified index.
    */
-  deleteAt(index: number) {
+  deleteAt(index: number): boolean {
     rangeCheck(index, 0, this._size - 1);
     let node = this._head;
     while (index--) {
       node = node.next;
     }
-    this._deleteNode(node);
-    return this._size;
+    return this._deleteNode(node);
   }
 
   /**
@@ -539,7 +537,7 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
    * @returns The method is returning a boolean value indicating whether the size of the object is 0 or
    * not.
    */
-  isEmpty() {
+  isEmpty(): boolean {
     return this._size === 0;
   }
 
@@ -549,7 +547,7 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
    *
    * The `clear` function clears all the elements in a data structure and resets its properties.
    */
-  clear() {
+  clear(): void {
     this._noObjMap = {};
     this._size = 0;
     this._head = this._tail = this._sentinel.prev = this._sentinel.next = this._sentinel;
@@ -629,8 +627,8 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
     return mappedMap;
   }
 
-  print() {
-    console.log([...this]);
+  put(key: K, value: V): boolean {
+    return this.set(key, value);
   }
 
   /**
@@ -657,7 +655,7 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
    * represents a node in a linked list. It contains a key-value pair and references to the previous
    * and next nodes in the list.
    */
-  protected _deleteNode(node: HashMapLinkedNode<K, V | undefined>) {
+  protected _deleteNode(node: HashMapLinkedNode<K, V | undefined>): boolean {
     const { prev, next } = node;
     prev.next = next;
     next.prev = prev;
@@ -671,5 +669,6 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
     }
 
     this._size -= 1;
+    return true;
   }
 }

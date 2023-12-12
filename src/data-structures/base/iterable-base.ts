@@ -181,6 +181,21 @@ export abstract class IterableEntryBase<K = any, V = any> {
     return accumulator;
   }
 
+  hasValue(value: V): boolean {
+    for (const [, elementValue] of this) {
+      if (elementValue === value) return true;
+    }
+    return false;
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+  print(): void {
+    console.log([...this])
+  }
+
   protected abstract _getIterator(...args: any[]): IterableIterator<[K, V]>;
 }
 
@@ -323,6 +338,15 @@ export abstract class IterableElementBase<V> {
       accumulator = callbackfn(accumulator, item as V, index++, this)
     }
     return accumulator;
+  }
+
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+  print(): void {
+    console.log([...this])
   }
 
   protected abstract _getIterator(...args: any[]): IterableIterator<V>;

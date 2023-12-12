@@ -31,7 +31,7 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
     super();
     this._head = undefined;
     this._tail = undefined;
-    this._length = 0;
+    this._size = 0;
     if (elements) {
       for (const el of elements)
         this.push(el);
@@ -50,10 +50,10 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
     return this._tail;
   }
 
-  protected _length: number;
+  protected _size: number;
 
-  get length(): number {
-    return this._length;
+  get size(): number {
+    return this._size;
   }
 
   /**
@@ -91,7 +91,7 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * @param {E} value - The "value" parameter represents the value that you want to add to the linked list. It can be of
    * any type (E) as specified in the generic type declaration of the class or function.
    */
-  push(value: E): void {
+  push(value: E): boolean {
     const newNode = new SinglyLinkedListNode(value);
     if (!this.head) {
       this._head = newNode;
@@ -100,7 +100,8 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
       this.tail!.next = newNode;
       this._tail = newNode;
     }
-    this._length++;
+    this._size++;
+    return true;
   }
 
   /**
@@ -116,8 +117,8 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * @param {E} value - The "value" parameter represents the value that you want to add to the linked list. It can be of
    * any type (E) as specified in the generic type declaration of the class or function.
    */
-  addLast(value: E): void {
-    this.push(value);
+  addLast(value: E): boolean {
+    return this.push(value);
   }
 
   /**
@@ -140,7 +141,7 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
       const value = this.head.value;
       this._head = undefined;
       this._tail = undefined;
-      this._length--;
+      this._size--;
       return value;
     }
 
@@ -151,7 +152,7 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
     const value = this.tail!.value;
     current.next = undefined;
     this._tail = current;
-    this._length--;
+    this._size--;
     return value;
   }
 
@@ -189,7 +190,7 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
     if (!this.head) return undefined;
     const removedNode = this.head;
     this._head = this.head.next;
-    this._length--;
+    this._size--;
     return removedNode.value;
   }
 
@@ -222,7 +223,7 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * @param {E} value - The parameter "value" represents the value of the new node that will be added to the beginning of the
    * linked list.
    */
-  unshift(value: E): void {
+  unshift(value: E): boolean {
     const newNode = new SinglyLinkedListNode(value);
     if (!this.head) {
       this._head = newNode;
@@ -231,7 +232,8 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
       newNode.next = this.head;
       this._head = newNode;
     }
-    this._length++;
+    this._size++;
+    return true;
   }
 
   /**
@@ -247,8 +249,8 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * @param {E} value - The parameter "value" represents the value of the new node that will be added to the beginning of the
    * linked list.
    */
-  addFirst(value: E): void {
-    this.unshift(value);
+  addFirst(value: E): boolean {
+    return this.unshift(value);
   }
 
   /**
@@ -267,7 +269,7 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * `undefined` if the index is out of bounds.
    */
   getAt(index: number): E | undefined {
-    if (index < 0 || index >= this.length) return undefined;
+    if (index < 0 || index >= this.size) return undefined;
     let current = this.head;
     for (let i = 0; i < index; i++) {
       current = current!.next;
@@ -313,16 +315,22 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * @returns The method `deleteAt` returns the value of the node that was deleted, or `undefined` if the index is out of
    * bounds.
    */
-  deleteAt(index: number): E | undefined {
-    if (index < 0 || index >= this.length) return undefined;
-    if (index === 0) return this.shift();
-    if (index === this.length - 1) return this.pop();
+  deleteAt(index: number): boolean {
+    if (index < 0 || index >= this.size) return false;
+    if (index === 0) {
+      this.shift();
+      return true;
+    }
+    if (index === this.size - 1) {
+      this.pop();
+      return true;
+    }
 
     const prevNode = this.getNodeAt(index - 1);
     const removedNode = prevNode!.next;
     prevNode!.next = removedNode!.next;
-    this._length--;
-    return removedNode!.value;
+    this._size--;
+    return true;
   }
 
   /**
@@ -340,7 +348,7 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * @returns The `delete` method returns a boolean value. It returns `true` if the value or node is found and
    * successfully deleted from the linked list, and `false` if the value or node is not found in the linked list.
    */
-  delete(valueOrNode: E | SinglyLinkedListNode<E> | undefined | undefined): boolean {
+  delete(valueOrNode: E | SinglyLinkedListNode<E> | undefined ): boolean {
     if (!valueOrNode) return false;
     let value: E;
     if (valueOrNode instanceof SinglyLinkedListNode) {
@@ -364,7 +372,7 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
             this._tail = prev;
           }
         }
-        this._length--;
+        this._size--;
         return true;
       }
       prev = current;
@@ -383,7 +391,7 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(n) - Linear time, where n is the index, as it may need to traverse the list to find the desired node.
    * Space Complexity: O(1) - Constant space.
    *
-   * The `insertAt` function inserts a value at a specified index in a singly linked list.
+   * The `addAt` function inserts a value at a specified index in a singly linked list.
    * @param {number} index - The index parameter represents the position at which the new value should be inserted in the
    * linked list. It is of type number.
    * @param {E} value - The `value` parameter represents the value that you want to insert into the linked list at the
@@ -391,13 +399,13 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * @returns The `insert` method returns a boolean value. It returns `true` if the insertion is successful, and `false`
    * if the index is out of bounds.
    */
-  insertAt(index: number, value: E): boolean {
-    if (index < 0 || index > this.length) return false;
+  addAt(index: number, value: E): boolean {
+    if (index < 0 || index > this.size) return false;
     if (index === 0) {
       this.unshift(value);
       return true;
     }
-    if (index === this.length) {
+    if (index === this.size) {
       this.push(value);
       return true;
     }
@@ -406,7 +414,7 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
     const prevNode = this.getNodeAt(index - 1);
     newNode.next = prevNode!.next;
     prevNode!.next = newNode;
-    this._length++;
+    this._size++;
     return true;
   }
 
@@ -416,7 +424,7 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * @returns A boolean value indicating whether the length of the object is equal to 0.
    */
   isEmpty(): boolean {
-    return this.length === 0;
+    return this.size === 0;
   }
 
   /**
@@ -425,7 +433,7 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   clear(): void {
     this._head = undefined;
     this._tail = undefined;
-    this._length = 0;
+    this._size = 0;
   }
 
   /**
@@ -462,8 +470,8 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * The `reverse` function reverses the order of the nodes in a singly linked list.
    * @returns The reverse() method does not return anything. It has a return type of void.
    */
-  reverse(): void {
-    if (!this.head || this.head === this.tail) return;
+  reverse(): this {
+    if (!this.head || this.head === this.tail) return this;
 
     let prev: SinglyLinkedListNode<E> | undefined = undefined;
     let current: SinglyLinkedListNode<E> | undefined = this.head;
@@ -477,6 +485,7 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
     }
 
     [this._head, this._tail] = [this.tail!, this.head!];
+    return this;
   }
 
   /**
@@ -571,14 +580,14 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(n) - Linear time, where n is the length of the list, as it needs to reverse the pointers of each node.
    * Space Complexity: O(1) - Constant space.
    *
-   * The `insertBefore` function inserts a new value before an existing value in a singly linked list.
+   * The `addBefore` function inserts a new value before an existing value in a singly linked list.
    * @param {E | SinglyLinkedListNode<E>} existingValueOrNode - The existing value or node that you want to insert the
    * new value before. It can be either the value itself or a node containing the value in the linked list.
    * @param {E} newValue - The `newValue` parameter represents the value that you want to insert into the linked list.
-   * @returns The method `insertBefore` returns a boolean value. It returns `true` if the new value was successfully
+   * @returns The method `addBefore` returns a boolean value. It returns `true` if the new value was successfully
    * inserted before the existing value, and `false` otherwise.
    */
-  insertBefore(existingValueOrNode: E | SinglyLinkedListNode<E>, newValue: E): boolean {
+  addBefore(existingValueOrNode: E | SinglyLinkedListNode<E>, newValue: E): boolean {
     if (!this.head) return false;
 
     let existingValue: E;
@@ -598,7 +607,7 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
         const newNode = new SinglyLinkedListNode(newValue);
         newNode.next = current.next;
         current.next = newNode;
-        this._length++;
+        this._size++;
         return true;
       }
       current = current.next;
@@ -616,14 +625,14 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(n) - Linear time, where n is the length of the list, as it needs to reverse the pointers of each node.
    * Space Complexity: O(1) - Constant space.
    *
-   * The `insertAfter` function inserts a new node with a given value after an existing node in a singly linked list.
+   * The `addAfter` function inserts a new node with a given value after an existing node in a singly linked list.
    * @param {E | SinglyLinkedListNode<E>} existingValueOrNode - The existing value or node in the linked list after which
    * the new value will be inserted. It can be either the value of the existing node or the existing node itself.
    * @param {E} newValue - The value that you want to insert into the linked list after the existing value or node.
    * @returns The method returns a boolean value. It returns true if the new value was successfully inserted after the
    * existing value or node, and false if the existing value or node was not found in the linked list.
    */
-  insertAfter(existingValueOrNode: E | SinglyLinkedListNode<E>, newValue: E): boolean {
+  addAfter(existingValueOrNode: E | SinglyLinkedListNode<E>, newValue: E): boolean {
     let existingNode: E | SinglyLinkedListNode<E> | undefined;
 
     if (existingValueOrNode instanceof SinglyLinkedListNode) {
@@ -639,7 +648,7 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
       if (existingNode === this.tail) {
         this._tail = newNode;
       }
-      this._length++;
+      this._size++;
       return true;
     }
 
@@ -735,15 +744,6 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
     }
 
     return mappedList;
-  }
-
-  /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
-   * Space Complexity: O(n)
-   */
-
-  print(): void {
-    console.log([...this]);
   }
 
   protected* _getIterator(): IterableIterator<E> {

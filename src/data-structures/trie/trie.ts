@@ -138,7 +138,7 @@ export class Trie extends IterableElementBase<string> {
    * @param{string} word - The word to delete.
    * @returns {boolean} True if the word was successfully removed.
    */
-  delete(word: string) {
+  delete(word: string): boolean {
     word = this._caseProcess(word);
     let isDeleted = false;
     const dfs = (cur: TrieNode, i: number): boolean => {
@@ -184,7 +184,7 @@ export class Trie extends IterableElementBase<string> {
    * Space Complexity: O(1) - Constant space.
    *
    */
-  getHeight() {
+  getHeight(): number {
     const beginRoot = this.root;
     let maxDepth = 0;
     if (beginRoot) {
@@ -371,12 +371,12 @@ export class Trie extends IterableElementBase<string> {
    * specific object as the context for the `predicate` function. If `thisArg` is provided, it will be
    * @returns The `filter` method is returning an array of strings (`string[]`).
    */
-  filter(predicate: ElementCallback<string, boolean>, thisArg?: any): string[] {
-    const results: string[] = [];
+  filter(predicate: ElementCallback<string, boolean>, thisArg?: any): Trie {
+    const results: Trie = new Trie();
     let index = 0;
     for (const word of this) {
       if (predicate.call(thisArg, word, index, this)) {
-        results.push(word);
+        results.add(word);
       }
       index++;
     }
@@ -409,10 +409,6 @@ export class Trie extends IterableElementBase<string> {
       index++;
     }
     return newTrie;
-  }
-
-  print() {
-    console.log([...this]);
   }
 
   protected* _getIterator(): IterableIterator<string> {

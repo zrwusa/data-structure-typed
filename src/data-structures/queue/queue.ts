@@ -74,9 +74,9 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * @param {E} element - The `element` parameter represents the element that you want to add to the queue.
    * @returns The `add` method is returning a `Queue<E>` object.
    */
-  push(element: E): Queue<E> {
+  push(element: E): boolean {
     this.nodes.push(element);
-    return this;
+    return true;
   }
 
   /**
@@ -95,7 +95,7 @@ export class Queue<E = any> extends IterableElementBase<E> {
   shift(): E | undefined {
     if (this.size === 0) return undefined;
 
-    const first = this.getFirst();
+    const first = this.first;
     this._offset += 1;
 
     if (this.offset * 2 < this.nodes.length) return first;
@@ -116,11 +116,11 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
    * Space Complexity: O(1) - no additional space is used.
    *
-   * The `getFirst` function returns the first element of the array `_nodes` if it exists, otherwise it returns `undefined`.
-   * @returns The `getFirst()` method returns the first element of the data structure, represented by the `_nodes` array at
+   * The `first` function returns the first element of the array `_nodes` if it exists, otherwise it returns `undefined`.
+   * @returns The `get first()` method returns the first element of the data structure, represented by the `_nodes` array at
    * the `_offset` index. If the data structure is empty (size is 0), it returns `undefined`.
    */
-  getFirst(): E | undefined {
+  get first(): E | undefined {
     return this.size > 0 ? this.nodes[this.offset] : undefined;
   }
 
@@ -138,7 +138,7 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * the `_offset` index. If the data structure is empty (size is 0), it returns `undefined`.
    */
   peek(): E | undefined {
-    return this.getFirst();
+    return this.first;
   }
 
   /**
@@ -150,11 +150,11 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
    * Space Complexity: O(1) - no additional space is used.
    *
-   * The `getLast` function returns the last element in an array-like data structure, or undefined if the structure is empty.
-   * @returns The method `getLast()` returns the last element of the `_nodes` array if the array is not empty. If the
+   * The `last` function returns the last element in an array-like data structure, or undefined if the structure is empty.
+   * @returns The method `get last()` returns the last element of the `_nodes` array if the array is not empty. If the
    * array is empty, it returns `undefined`.
    */
-  getLast(): E | undefined {
+  get last(): E | undefined {
     return this.size > 0 ? this.nodes[this.nodes.length - 1] : undefined;
   }
 
@@ -172,7 +172,7 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * array is empty, it returns `undefined`.
    */
   peekLast(): E | undefined {
-    return this.getLast();
+    return this.last;
   }
 
   /**
@@ -187,7 +187,7 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * The enqueue function adds a value to the end of a queue.
    * @param {E} value - The value parameter represents the value that you want to add to the queue.
    */
-  enqueue(value: E) {
+  enqueue(value: E): boolean {
     return this.push(value);
   }
 
@@ -278,10 +278,6 @@ export class Queue<E = any> extends IterableElementBase<E> {
     return new Queue(this.nodes.slice(this.offset));
   }
 
-  print(): void {
-    console.log([...this]);
-  }
-
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
@@ -348,7 +344,7 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * Space Complexity: O(n)
    */
 
-  protected* _getIterator() {
+  protected* _getIterator(): IterableIterator<E> {
     for (const item of this.nodes) {
       yield item;
     }
@@ -366,8 +362,8 @@ export class LinkedListQueue<E = any> extends SinglyLinkedList<E> {
    * The enqueue function adds a value to the end of an array.
    * @param {E} value - The value parameter represents the value that you want to add to the queue.
    */
-  enqueue(value: E) {
-    this.push(value);
+  enqueue(value: E): boolean {
+    return  this.push(value);
   }
 
   /**
@@ -379,10 +375,10 @@ export class LinkedListQueue<E = any> extends SinglyLinkedList<E> {
   }
 
   /**
-   * The `getFirst` function returns the value of the head node in a linked list, or `undefined` if the list is empty.
-   * @returns The `getFirst()` method is returning the value of the `head` node if it exists, otherwise it returns `undefined`.
+   * The `get first` function returns the value of the head node in a linked list, or `undefined` if the list is empty.
+   * @returns The `get first()` method is returning the value of the `head` node if it exists, otherwise it returns `undefined`.
    */
-  getFirst(): E | undefined {
+  get first(): E | undefined {
     return this.head?.value;
   }
 
@@ -391,6 +387,6 @@ export class LinkedListQueue<E = any> extends SinglyLinkedList<E> {
    * @returns The `peek()` method is returning the value of the `head` node if it exists, otherwise it returns `undefined`.
    */
   peek(): E | undefined {
-    return this.getFirst();
+    return this.first;
   }
 }

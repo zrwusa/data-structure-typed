@@ -33,13 +33,13 @@ export class DoublyLinkedListNode<E = any> {
  */
 export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   /**
-   * The constructor initializes the linked list with an empty head, tail, and length.
+   * The constructor initializes the linked list with an empty head, tail, and size.
    */
   constructor(elements?: Iterable<E>) {
     super();
     this._head = undefined;
     this._tail = undefined;
-    this._length = 0;
+    this._size = 0;
     if (elements) {
       for (const el of elements) {
         this.push(el);
@@ -59,23 +59,19 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
     return this._tail;
   }
 
-  protected _length: number;
-
-  get length(): number {
-    return this._length;
-  }
+  protected _size: number;
 
   get size(): number {
-    return this.length;
+    return this._size;
   }
 
   /**
-   * Time Complexity: O(n), where n is the length of the input array.
+   * Time Complexity: O(n), where n is the size of the input array.
    * Space Complexity: O(n)
    */
 
   /**
-   * Time Complexity: O(n), where n is the length of the input array.
+   * Time Complexity: O(n), where n is the size of the input array.
    * Space Complexity: O(n)
    *
    * The `fromArray` function creates a new instance of a DoublyLinkedList and populates it with the elements from the
@@ -103,7 +99,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    * The push function adds a new node with the given value to the end of the doubly linked list.
    * @param {E} value - The value to be added to the linked list.
    */
-  push(value: E): void {
+  push(value: E): boolean {
     const newNode = new DoublyLinkedListNode(value);
     if (!this.head) {
       this._head = newNode;
@@ -113,23 +109,8 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
       this.tail!.next = newNode;
       this._tail = newNode;
     }
-    this._length++;
-  }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The addLast function adds a new node with the given value to the end of the doubly linked list.
-   * @param {E} value - The value to be added to the linked list.
-   */
-  addLast(value: E): void {
-    this.push(value);
+    this._size++;
+    return true;
   }
 
   /**
@@ -155,25 +136,8 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
       this._tail = removedNode.prev;
       this.tail!.next = undefined;
     }
-    this._length--;
+    this._size--;
     return removedNode.value;
-  }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `pollLast()` function removes and returns the value of the last node in a doubly linked list.
-   * @returns The method is returning the value of the removed node (removedNode.value) if the list is not empty. If the
-   * list is empty, it returns undefined.
-   */
-  pollLast(): E | undefined {
-    return this.pop();
   }
 
   /**
@@ -199,25 +163,8 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
       this._head = removedNode.next;
       this.head!.prev = undefined;
     }
-    this._length--;
+    this._size--;
     return removedNode.value;
-  }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `pollFirst()` function removes and returns the value of the first node in a doubly linked list.
-   * @returns The method `shift()` returns the value of the node that is removed from the beginning of the doubly linked
-   * list.
-   */
-  pollFirst(): E | undefined {
-    return this.shift();
   }
 
   /**
@@ -233,7 +180,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    * @param {E} value - The `value` parameter represents the value of the new node that will be added to the beginning of the
    * doubly linked list.
    */
-  unshift(value: E): void {
+  unshift(value: E): boolean {
     const newNode = new DoublyLinkedListNode(value);
     if (!this.head) {
       this._head = newNode;
@@ -243,56 +190,8 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
       this.head!.prev = newNode;
       this._head = newNode;
     }
-    this._length++;
-  }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The addFirst function adds a new node with the given value to the beginning of a doubly linked list.
-   * @param {E} value - The `value` parameter represents the value of the new node that will be added to the beginning of the
-   * doubly linked list.
-   */
-  addFirst(value: E): void {
-    this.unshift(value);
-  }
-
-  /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
-   * Space Complexity: O(1)
-   *
-   * The `getFirst` function returns the first node in a doubly linked list, or undefined if the list is empty.
-   * @returns The method `getFirst()` returns the first node of the doubly linked list, or `undefined` if the list is empty.
-   */
-  getFirst(): E | undefined {
-    return this.head?.value;
-  }
-
-  /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
-   * Space Complexity: O(1)
-   *
-   * The `getLast` function returns the last node in a doubly linked list, or undefined if the list is empty.
-   * @returns The method `getLast()` returns the last node of the doubly linked list, or `undefined` if the list is empty.
-   */
-  getLast(): E | undefined {
-    return this.tail?.value;
+    this._size++;
+    return true;
   }
 
   /**
@@ -311,7 +210,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    * or the linked list is empty, it will return undefined.
    */
   getAt(index: number): E | undefined {
-    if (index < 0 || index >= this.length) return undefined;
+    if (index < 0 || index >= this.size) return undefined;
     let current = this.head;
     for (let i = 0; i < index; i++) {
       current = current!.next;
@@ -336,7 +235,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    * valid range of the linked list, otherwise it returns `undefined`.
    */
   getNodeAt(index: number): DoublyLinkedListNode<E> | undefined {
-    if (index < 0 || index >= this.length) return undefined;
+    if (index < 0 || index >= this.size) return undefined;
     let current = this.head;
     for (let i = 0; i < index; i++) {
       current = current!.next;
@@ -389,13 +288,13 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    * @returns The `insert` method returns a boolean value. It returns `true` if the insertion is successful, and `false`
    * if the index is out of bounds.
    */
-  insertAt(index: number, value: E): boolean {
-    if (index < 0 || index > this.length) return false;
+  addAt(index: number, value: E): boolean {
+    if (index < 0 || index > this.size) return false;
     if (index === 0) {
       this.unshift(value);
       return true;
     }
-    if (index === this.length) {
+    if (index === this.size) {
       this.push(value);
       return true;
     }
@@ -407,7 +306,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
     newNode.next = nextNode;
     prevNode!.next = newNode;
     nextNode!.prev = newNode;
-    this._length++;
+    this._size++;
     return true;
   }
 
@@ -420,7 +319,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(n), where n is the number of elements in the linked list.
    * Space Complexity: O(1)
    *
-   * The `insertBefore` function inserts a new value before an existing value or node in a doubly linked list.
+   * The `addBefore` function inserts a new value before an existing value or node in a doubly linked list.
    * @param {E | DoublyLinkedListNode<E>} existingValueOrNode - The existing value or node in the doubly linked list
    * before which the new value will be inserted. It can be either the value of the existing node or the existing node
    * itself.
@@ -429,7 +328,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    * @returns The method returns a boolean value. It returns `true` if the insertion is successful, and `false` if the
    * insertion fails.
    */
-  insertBefore(existingValueOrNode: E | DoublyLinkedListNode<E>, newValue: E): boolean {
+  addBefore(existingValueOrNode: E | DoublyLinkedListNode<E>, newValue: E): boolean {
     let existingNode;
 
     if (existingValueOrNode instanceof DoublyLinkedListNode) {
@@ -449,7 +348,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
       if (existingNode === this.head) {
         this._head = newNode;
       }
-      this._length++;
+      this._size++;
       return true;
     }
 
@@ -465,7 +364,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(n), where n is the number of elements in the linked list.
    * Space Complexity: O(1)
    *
-   * The `insertAfter` function inserts a new node with a given value after an existing node in a doubly linked list.
+   * The `addAfter` function inserts a new node with a given value after an existing node in a doubly linked list.
    * @param {E | DoublyLinkedListNode<E>} existingValueOrNode - The existing value or node in the doubly linked list
    * after which the new value will be inserted. It can be either the value of the existing node or the existing node
    * itself.
@@ -473,7 +372,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    * @returns The method returns a boolean value. It returns true if the insertion is successful, and false if the
    * existing value or node is not found in the doubly linked list.
    */
-  insertAfter(existingValueOrNode: E | DoublyLinkedListNode<E>, newValue: E): boolean {
+  addAfter(existingValueOrNode: E | DoublyLinkedListNode<E>, newValue: E): boolean {
     let existingNode;
 
     if (existingValueOrNode instanceof DoublyLinkedListNode) {
@@ -493,7 +392,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
       if (existingNode === this.tail) {
         this._tail = newNode;
       }
-      this._length++;
+      this._size++;
       return true;
     }
 
@@ -515,18 +414,24 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    * @returns The method `deleteAt` returns the value of the node that was deleted, or `undefined` if the index is out of
    * bounds.
    */
-  deleteAt(index: number): E | undefined {
-    if (index < 0 || index >= this.length) return undefined;
-    if (index === 0) return this.shift();
-    if (index === this.length - 1) return this.pop();
+  deleteAt(index: number): boolean {
+    if (index < 0 || index >= this.size) return false;
+    if (index === 0) {
+      this.shift();
+      return true;
+    }
+    if (index === this.size - 1) {
+      this.pop();
+      return true;
+    }
 
     const removedNode = this.getNodeAt(index);
     const prevNode = removedNode!.prev;
     const nextNode = removedNode!.next;
     prevNode!.next = nextNode;
     nextNode!.prev = prevNode;
-    this._length--;
-    return removedNode!.value;
+    this._size--;
+    return true;
   }
 
   /**
@@ -563,7 +468,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
         const nextNode = node.next;
         prevNode!.next = nextNode;
         nextNode!.prev = prevNode;
-        this._length--;
+        this._size--;
       }
       return true;
     }
@@ -571,20 +476,20 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * The function checks if a variable has a length greater than zero and returns a boolean value.
+   * The function checks if a variable has a size greater than zero and returns a boolean value.
    * @returns A boolean value is being returned.
    */
   isEmpty(): boolean {
-    return this.length === 0;
+    return this.size === 0;
   }
 
   /**
-   * The `clear` function resets the linked list by setting the head, tail, and length to undefined and 0 respectively.
+   * The `clear` function resets the linked list by setting the head, tail, and size to undefined and 0 respectively.
    */
   clear(): void {
     this._head = undefined;
     this._tail = undefined;
-    this._length = 0;
+    this._size = 0;
   }
 
   /**
@@ -679,7 +584,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    *
    * The `reverse` function reverses the order of the elements in a doubly linked list.
    */
-  reverse(): void {
+  reverse(): this {
     let current = this.head;
     [this._head, this._tail] = [this.tail, this.head];
     while (current) {
@@ -687,6 +592,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
       [current.prev, current.next] = [current.next, current.prev];
       current = next;
     }
+    return this;
   }
 
   /**
@@ -801,12 +707,102 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
-   * Space Complexity: O(n)
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
-  print(): void {
-    console.log([...this]);
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The addLast function adds a new node with the given value to the end of the doubly linked list.
+   * @param {E} value - The value to be added to the linked list.
+   */
+  addLast(value: E): boolean {
+    return this.push(value);
+  }
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The `pollLast()` function removes and returns the value of the last node in a doubly linked list.
+   * @returns The method is returning the value of the removed node (removedNode.value) if the list is not empty. If the
+   * list is empty, it returns undefined.
+   */
+  pollLast(): E | undefined {
+    return this.pop();
+  }
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The `pollFirst()` function removes and returns the value of the first node in a doubly linked list.
+   * @returns The method `shift()` returns the value of the node that is removed from the beginning of the doubly linked
+   * list.
+   */
+  pollFirst(): E | undefined {
+    return this.shift();
+  }
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The addFirst function adds a new node with the given value to the beginning of a doubly linked list.
+   * @param {E} value - The `value` parameter represents the value of the new node that will be added to the beginning of the
+   * doubly linked list.
+   */
+  addFirst(value: E): void {
+    this.unshift(value);
+  }
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   *
+   * The `get first` function returns the first node in a doubly linked list, or undefined if the list is empty.
+   * @returns The method `get first()` returns the first node of the doubly linked list, or `undefined` if the list is empty.
+   */
+  get first(): E | undefined {
+    return this.head?.value;
+  }
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   *
+   * The `get last` function returns the last node in a doubly linked list, or undefined if the list is empty.
+   * @returns The method `get last()` returns the last node of the doubly linked list, or `undefined` if the list is empty.
+   */
+  get last(): E | undefined {
+    return this.tail?.value;
   }
 
   /**

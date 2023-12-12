@@ -1,7 +1,7 @@
 import { LinkedListQueue, Queue } from '../../../../src';
-import { isDebugTest } from '../../../config';
+// import { isDebugTest } from '../../../config';
 
-const isDebug = isDebugTest;
+// const isDebug = isDebugTest;
 
 describe('Queue', () => {
   let queue: Queue<number>;
@@ -224,7 +224,7 @@ describe('LinkedListQueue', () => {
     queue.enqueue('A');
     queue.enqueue('B');
     expect(queue.peek()).toBe('A');
-    expect(queue.length).toBe(2);
+    expect(queue.size).toBe(2);
   });
 
   it('should dequeue elements from the front of the queue', () => {
@@ -233,7 +233,7 @@ describe('LinkedListQueue', () => {
     const dequeued = queue.dequeue();
     expect(dequeued).toBe('A');
     expect(queue.peek()).toBe('B');
-    expect(queue.length).toBe(1);
+    expect(queue.size).toBe(1);
   });
 
   it('should peek at the front of the queue', () => {

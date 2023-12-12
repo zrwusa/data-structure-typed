@@ -843,7 +843,7 @@ describe('Trie class', () => {
 
   test('filter should return words that satisfy the predicate', () => {
     const filteredWords = trie.filter(word => word.startsWith('ba'));
-    expect(filteredWords).toEqual(['banana', 'band', 'bandana']);
+    expect([...filteredWords]).toEqual(['banana', 'band', 'bandana']);
   });
 
   test('map should apply a function to each word', () => {

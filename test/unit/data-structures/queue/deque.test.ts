@@ -1,7 +1,7 @@
 import { Deque } from '../../../../src';
-import { isDebugTest } from '../../../config';
+// import { isDebugTest } from '../../../config';
 
-const isDebug = isDebugTest;
+// const isDebug = isDebugTest;
 
 describe('Deque - Basic Operations', () => {
   let deque: Deque<number>;
@@ -57,10 +57,10 @@ describe('Deque - Complex Operations', () => {
     deque = new Deque<number>();
   });
 
-  test('insertAt should insert elements at the specified position', () => {
+  test('addAt should insert elements at the specified position', () => {
     deque.push(1);
     deque.push(3);
-    deque.insertAt(1, 2);
+    deque.addAt(1, 2);
     expect(deque.toArray()).toEqual([1, 2, 3]);
   });
 
@@ -111,7 +111,7 @@ describe('Deque - Complex Operations', () => {
     deque.push(1);
     deque.push(2);
     deque.sort((a, b) => a - b);
-    expect(deque.toArray()).toEqual([1, 2, 3]);
+    expect([...deque]).toEqual([1, 2, 3]);
   });
 
   test('shrinkToFit should reduce the memory footprint', () => {

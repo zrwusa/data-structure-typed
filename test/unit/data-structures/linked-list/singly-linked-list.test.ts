@@ -84,12 +84,12 @@ describe('SinglyLinkedList Operation Test', () => {
     });
   });
 
-  describe('insertAfter', () => {
+  describe('addAfter', () => {
     it('should insert an element after an existing value', () => {
       list.push(1);
       list.push(2);
       list.push(3);
-      list.insertAfter(2, 4);
+      list.addAfter(2, 4);
       expect(list.toArray()).toEqual([1, 2, 4, 3]);
     });
 
@@ -97,7 +97,7 @@ describe('SinglyLinkedList Operation Test', () => {
       list.push(1);
       list.push(2);
       list.push(3);
-      const result = list.insertAfter(5, 4);
+      const result = list.addAfter(5, 4);
       expect(result).toBe(false);
       expect(list.toArray()).toEqual([1, 2, 3]);
     });
@@ -164,7 +164,7 @@ describe('SinglyLinkedList Operation Test', () => {
       list.push(3);
       list.clear();
       expect(list.toArray()).toEqual([]);
-      expect(list.length).toBe(0);
+      expect(list.size).toBe(0);
       expect(list.isEmpty()).toBe(true);
     });
   });
@@ -223,19 +223,19 @@ describe('SinglyLinkedList Operation Test', () => {
     });
   });
 
-  describe('insertBefore', () => {
+  describe('addBefore', () => {
     it('should insert an element before an existing value', () => {
       list.push(1);
       list.push(2);
       list.push(3);
-      list.insertBefore(2, 4);
+      list.addBefore(2, 4);
       expect(list.toArray()).toEqual([1, 4, 2, 3]);
     });
 
     it('should insert an element at the beginning', () => {
       list.push(1);
       list.push(2);
-      list.insertBefore(1, 3);
+      list.addBefore(1, 3);
       expect(list.toArray()).toEqual([3, 1, 2]);
     });
 
@@ -243,7 +243,7 @@ describe('SinglyLinkedList Operation Test', () => {
       list.push(1);
       list.push(2);
       list.push(3);
-      const result = list.insertBefore(5, 4);
+      const result = list.addBefore(5, 4);
       expect(result).toBe(false);
       expect(list.toArray()).toEqual([1, 2, 3]);
     });
@@ -251,10 +251,10 @@ describe('SinglyLinkedList Operation Test', () => {
 
   describe('getLength', () => {
     it('should return the correct length of the list', () => {
-      expect(list.length).toBe(0);
+      expect(list.size).toBe(0);
       list.push(1);
       list.push(2);
-      expect(list.length).toBe(2);
+      expect(list.size).toBe(2);
     });
   });
 
@@ -264,21 +264,21 @@ describe('SinglyLinkedList Operation Test', () => {
       list.push(2);
       list.push(3);
       const removed = list.deleteAt(1);
-      expect(removed).toBe(2);
+      expect(removed).toBe(true);
       expect(list.toArray()).toEqual([1, 3]);
     });
 
     it('should return undefined for an out-of-bounds index', () => {
       list.push(1);
       const removed = list.deleteAt(1);
-      expect(removed).toBeUndefined();
+      expect(removed).toBe(false);
     });
 
     it('should delete and return the first element', () => {
       list.push(1);
       list.push(2);
       const removed = list.deleteAt(0);
-      expect(removed).toBe(1);
+      expect(removed).toBe(true);
       expect(list.toArray()).toEqual([2]);
     });
 
@@ -286,7 +286,7 @@ describe('SinglyLinkedList Operation Test', () => {
       list.push(1);
       list.push(2);
       const removed = list.deleteAt(1);
-      expect(removed).toBe(2);
+      expect(removed).toBe(true);
       expect(list.toArray()).toEqual([1]);
     });
   });
@@ -313,9 +313,9 @@ describe('SinglyLinkedList Operation Test', () => {
 
   describe('insert and toArray', () => {
     it('should insert elements and return array correctly', () => {
-      list.insertAt(0, 1);
-      list.insertAt(1, 3);
-      list.insertAt(1, 2);
+      list.addAt(0, 1);
+      list.addAt(1, 3);
+      list.addAt(1, 2);
       expect(list.toArray()).toEqual([1, 2, 3]);
     });
   });
@@ -377,7 +377,7 @@ describe('SinglyLinkedList Operation Test', () => {
     expect(objectList.toArray()).toEqual([obj1, obj2, obj3]);
 
     const newObj = { keyA: 2.5 }; // Corrected newObj value
-    const insertSuccess = objectList.insertBefore(obj2, newObj);
+    const insertSuccess = objectList.addBefore(obj2, newObj);
     expect(insertSuccess).toBe(true);
 
     const getNode = objectList.getNode(newObj); // Use newObj instead of obj2
@@ -404,7 +404,7 @@ describe('SinglyLinkedList', () => {
   it('should initialize an empty list', () => {
     expect(list.head).toBe(undefined);
     expect(list.tail).toBe(undefined);
-    expect(list.length).toBe(0);
+    expect(list.size).toBe(0);
   });
 
   it('should push elements to the end of the list', () => {
@@ -412,7 +412,7 @@ describe('SinglyLinkedList', () => {
     list.push(2);
     expect(list.head!.value).toBe(1);
     expect(list.tail!.value).toBe(2);
-    expect(list.length).toBe(2);
+    expect(list.size).toBe(2);
   });
 
   it('should pop elements from the end of the list', () => {
@@ -422,7 +422,7 @@ describe('SinglyLinkedList', () => {
     expect(popped).toBe(2);
     expect(list.head!.value).toBe(1);
     expect(list.tail!.value).toBe(1);
-    expect(list.length).toBe(1);
+    expect(list.size).toBe(1);
   });
 
   it('should reverse the list', () => {

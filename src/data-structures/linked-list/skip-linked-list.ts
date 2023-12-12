@@ -193,7 +193,7 @@ export class SkipList<K, V> {
    * Get the value of the first element (the smallest element) in the Skip List.
    * @returns The value of the first element, or undefined if the Skip List is empty.
    */
-  getFirst(): V | undefined {
+  get first(): V | undefined {
     const firstNode = this.head.forward[0];
     return firstNode ? firstNode.value : undefined;
   }
@@ -210,7 +210,7 @@ export class SkipList<K, V> {
    * Get the value of the last element (the largest element) in the Skip List.
    * @returns The value of the last element, or undefined if the Skip List is empty.
    */
-  getLast(): V | undefined {
+  get last(): V | undefined {
     let current = this.head;
     for (let i = this.level - 1; i >= 0; i--) {
       while (current.forward[i]) {

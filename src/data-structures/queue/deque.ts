@@ -84,106 +84,6 @@ export class Deque<E> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1) - Removes the last element.
-   * Space Complexity: O(1) - Operates in-place.
-   */
-
-  isEmpty() {
-    return this.size === 0;
-  }
-
-  /**
-   * Time Complexity: Amortized O(1) - Similar to push, resizing leads to O(n).
-   * Space Complexity: O(n) - Due to potential resizing.
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(n) - In worst case, resizing doubles the array size.
-   *
-   * The addLast function adds an element to the end of an array.
-   * @param {E} element - The element parameter represents the element that you want to add to the end of the
-   * data structure.
-   */
-  addLast(element: E): void {
-    this.push(element);
-  }
-
-  /**
-   * Time Complexity: O(1) - Removes the first element.
-   * Space Complexity: O(1) - In-place operation.
-   */
-
-  /**
-   * Time Complexity: O(1) - Removes the last element.
-   * Space Complexity: O(1) - Operates in-place.
-   *
-   * The function "pollLast" removes and returns the last element of an array.
-   * @returns The last element of the array is being returned.
-   */
-  pollLast(): E | undefined {
-    return this.pop();
-  }
-
-  /**
-   * Time Complexity: O(1).
-   * Space Complexity: O(n) - Due to potential resizing.
-   *
-   * The "addFirst" function adds an element to the beginning of an array.
-   * @param {E} element - The parameter "element" represents the element that you want to add to the
-   * beginning of the data structure.
-   */
-  addFirst(element: E): void {
-    this.unshift(element);
-  }
-
-  /**
-   * Time Complexity: O(1) - Removes the first element.
-   * Space Complexity: O(1) - In-place operation.
-   *
-   * The function "pollFirst" removes and returns the first element of an array.
-   * @returns The method `pollFirst()` is returning the first element of the array after removing it
-   * from the beginning. If the array is empty, it will return `undefined`.
-   */
-  pollFirst(): E | undefined {
-    return this.shift();
-  }
-
-  /**
-   * The clear() function resets the state of the object by initializing all variables to their default
-   * values.
-   */
-  clear() {
-    this._buckets = [new Array(this._bucketSize)];
-    this._bucketCount = 1;
-    this._bucketFirst = this._bucketLast = this._size = 0;
-    this._firstInBucket = this._lastInBucket = this._bucketSize >> 1;
-  }
-
-  /**
-   * The below function is a generator that yields elements from a collection one by one.
-   */
-  * begin(): Generator<E> {
-    let index = 0;
-    while (index < this.size) {
-      yield this.getAt(index);
-      index++;
-    }
-  }
-
-  /**
-   * The function `reverseBegin()` is a generator that yields elements in reverse order starting from
-   * the last element.
-   */
-  * reverseBegin(): Generator<E> {
-    let index = this.size - 1;
-    while (index >= 0) {
-      yield this.getAt(index);
-      index--;
-    }
-  }
-
-  /**
    * Time Complexity - Amortized O(1) (possible reallocation)
    * Space Complexity - O(n) (due to potential resizing).
    */
@@ -197,7 +97,7 @@ export class Deque<E> extends IterableElementBase<E> {
    * structure.
    * @returns The size of the data structure after the element has been pushed.
    */
-  push(element: E) {
+  push(element: E): boolean {
     if (this.size) {
       if (this._lastInBucket < this._bucketSize - 1) {
         this._lastInBucket += 1;
@@ -215,7 +115,7 @@ export class Deque<E> extends IterableElementBase<E> {
     }
     this._size += 1;
     this._buckets[this._bucketLast][this._lastInBucket] = element;
-    return this.size;
+    return true;
   }
 
   /**
@@ -231,7 +131,7 @@ export class Deque<E> extends IterableElementBase<E> {
    * internal state variables accordingly.
    * @returns The element that was removed from the data structure is being returned.
    */
-  pop() {
+  pop(): E | undefined {
     if (this.size === 0) return;
     const element = this._buckets[this._bucketLast][this._lastInBucket];
     if (this.size !== 1) {
@@ -264,7 +164,7 @@ export class Deque<E> extends IterableElementBase<E> {
    * beginning of the data structure.
    * @returns The size of the data structure after the element has been added.
    */
-  unshift(element: E) {
+  unshift(element: E): boolean {
     if (this.size) {
       if (this._firstInBucket > 0) {
         this._firstInBucket -= 1;
@@ -282,9 +182,8 @@ export class Deque<E> extends IterableElementBase<E> {
     }
     this._size += 1;
     this._buckets[this._bucketFirst][this._firstInBucket] = element;
-    return this.size;
+    return true;
   }
-
 
   /**
    * Time Complexity: O(1)
@@ -300,7 +199,7 @@ export class Deque<E> extends IterableElementBase<E> {
    * @returns The element that is being removed from the beginning of the data structure is being
    * returned.
    */
-  shift() {
+  shift(): E | undefined {
     if (this.size === 0) return;
     const element = this._buckets[this._bucketFirst][this._firstInBucket];
     if (this.size !== 1) {
@@ -316,6 +215,49 @@ export class Deque<E> extends IterableElementBase<E> {
     }
     this._size -= 1;
     return element;
+  }
+
+  /**
+   * Time Complexity: O(1) - Removes the last element.
+   * Space Complexity: O(1) - Operates in-place.
+   */
+
+  isEmpty(): boolean {
+    return this.size === 0;
+  }
+
+  /**
+   * The clear() function resets the state of the object by initializing all variables to their default
+   * values.
+   */
+  clear(): void {
+    this._buckets = [new Array(this._bucketSize)];
+    this._bucketCount = 1;
+    this._bucketFirst = this._bucketLast = this._size = 0;
+    this._firstInBucket = this._lastInBucket = this._bucketSize >> 1;
+  }
+
+  /**
+   * The below function is a generator that yields elements from a collection one by one.
+   */
+  * begin(): Generator<E> {
+    let index = 0;
+    while (index < this.size) {
+      yield this.getAt(index);
+      index++;
+    }
+  }
+
+  /**
+   * The function `reverseBegin()` is a generator that yields elements in reverse order starting from
+   * the last element.
+   */
+  * reverseBegin(): Generator<E> {
+    let index = this.size - 1;
+    while (index >= 0) {
+      yield this.getAt(index);
+      index--;
+    }
   }
 
 
@@ -359,13 +301,14 @@ export class Deque<E> extends IterableElementBase<E> {
    * @param {E} element - The `element` parameter is the value that you want to set at the specified
    * position in the data structure.
    */
-  setAt(pos: number, element: E) {
+  setAt(pos: number, element: E): boolean {
     rangeCheck(pos, 0, this.size - 1);
     const {
       bucketIndex,
       indexInBucket
     } = this._getBucketAndPosition(pos);
     this._buckets[bucketIndex][indexInBucket] = element;
+    return true;
   }
 
   /**
@@ -377,7 +320,7 @@ export class Deque<E> extends IterableElementBase<E> {
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
-   * The `insertAt` function inserts one or more elements at a specified position in an array-like data
+   * The `addAt` function inserts one or more elements at a specified position in an array-like data
    * structure.
    * @param {number} pos - The `pos` parameter represents the position at which the element(s) should
    * be inserted. It is of type `number`.
@@ -388,7 +331,7 @@ export class Deque<E> extends IterableElementBase<E> {
    * will be inserted once. However, you can provide a different value for `num` if you want
    * @returns The size of the array after the insertion is being returned.
    */
-  insertAt(pos: number, element: E, num = 1) {
+  addAt(pos: number, element: E, num = 1): boolean {
     const length = this.size;
     rangeCheck(pos, 0, length);
     if (pos === 0) {
@@ -404,7 +347,7 @@ export class Deque<E> extends IterableElementBase<E> {
       for (let i = 0; i < num; ++i) this.push(element);
       for (let i = 0; i < arr.length; ++i) this.push(arr[i]);
     }
-    return this.size;
+    return true;
   }
 
   /**
@@ -422,7 +365,7 @@ export class Deque<E> extends IterableElementBase<E> {
    * cut. It is a number that indicates the index of the character where the cut should be made.
    * @returns The method is returning the updated size of the data structure.
    */
-  cut(pos: number) {
+  cut(pos: number): number {
     if (pos < 0) {
       this.clear();
       return 0;
@@ -453,7 +396,7 @@ export class Deque<E> extends IterableElementBase<E> {
    * the index of the element to be deleted.
    * @returns The size of the data structure after the deletion operation is performed.
    */
-  deleteAt(pos: number) {
+  deleteAt(pos: number): boolean {
     rangeCheck(pos, 0, this.size - 1);
     if (pos === 0) this.shift();
     else if (pos === this.size - 1) this.pop();
@@ -474,7 +417,7 @@ export class Deque<E> extends IterableElementBase<E> {
       }
       this.pop();
     }
-    return this.size;
+    return true;
   }
 
   /**
@@ -492,9 +435,9 @@ export class Deque<E> extends IterableElementBase<E> {
    * the data structure.
    * @returns The size of the data structure after the element has been deleted.
    */
-  delete(element: E) {
+  delete(element: E): boolean {
     const size = this.size;
-    if (size === 0) return 0;
+    if (size === 0) return false;
     let i = 0;
     let index = 0;
     while (i < size) {
@@ -506,7 +449,7 @@ export class Deque<E> extends IterableElementBase<E> {
       i += 1;
     }
     this.cut(index - 1);
-    return this.size;
+    return true;
   }
 
   /**
@@ -523,7 +466,7 @@ export class Deque<E> extends IterableElementBase<E> {
    * @returns The reverse() method is returning the object itself (this) after performing the reverse
    * operation on the buckets and updating the relevant properties.
    */
-  reverse() {
+  reverse(): this {
     this._buckets.reverse().forEach(function (bucket) {
       bucket.reverse();
     });
@@ -548,9 +491,9 @@ export class Deque<E> extends IterableElementBase<E> {
    * the number of unique elements.
    * @returns The size of the modified array is being returned.
    */
-  unique() {
+  unique(): this {
     if (this.size <= 1) {
-      return this.size;
+      return this;
     }
     let index = 1;
     let prev = this.getAt(0);
@@ -562,7 +505,7 @@ export class Deque<E> extends IterableElementBase<E> {
       }
     }
     this.cut(index - 1);
-    return this.size;
+    return this;
   }
 
   /**
@@ -578,9 +521,9 @@ export class Deque<E> extends IterableElementBase<E> {
    * @param [comparator] - The `comparator` parameter is a function that takes in two elements `x` and
    * `y` of type `E` and returns a number. The comparator function is used to determine the order of
    * the elements in the sorted array.
-   * @returns The method is returning the sorted instance of the object on which the method is called.
+   * @returns Deque<E>
    */
-  sort(comparator?: (x: E, y: E) => number) {
+  sort(comparator?: (x: E, y: E) => number): this {
     const arr: E[] = [];
     for (let i = 0; i < this.size; ++i) {
       arr.push(this.getAt(i));
@@ -606,7 +549,7 @@ export class Deque<E> extends IterableElementBase<E> {
    * @returns Nothing is being returned. The function is using the `return` statement to exit early if
    * `this.size` is 0, but it does not return any value.
    */
-  shrinkToFit() {
+  shrinkToFit(): void {
     if (this.size === 0) return;
     const newBuckets = [];
     if (this._bucketFirst === this._bucketLast) return;
@@ -650,7 +593,7 @@ export class Deque<E> extends IterableElementBase<E> {
         return element;
       }
     }
-    return undefined;
+    return;
   }
 
   /**
@@ -691,11 +634,7 @@ export class Deque<E> extends IterableElementBase<E> {
    * @returns The `toArray()` method is returning an array of elements of type `E`.
    */
   toArray(): E[] {
-    const arr: E[] = [];
-    for (let i = 0; i < this.size; ++i) {
-      arr.push(this.getAt(i));
-    }
-    return arr;
+    return [...this];
   }
 
   /**
@@ -758,12 +697,60 @@ export class Deque<E> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
+   * Time Complexity: Amortized O(1) - Similar to push, resizing leads to O(n).
+   * Space Complexity: O(n) - Due to potential resizing.
    */
 
-  print(): void {
-    console.log([...this])
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(n) - In worst case, resizing doubles the array size.
+   *
+   * The addLast function adds an element to the end of an array.
+   * @param {E} element - The element parameter represents the element that you want to add to the end of the
+   * data structure.
+   */
+  addLast(element: E): boolean {
+    return this.push(element);
+  }
+
+  /**
+   * Time Complexity: O(1) - Removes the first element.
+   * Space Complexity: O(1) - In-place operation.
+   */
+
+  /**
+   * Time Complexity: O(1) - Removes the last element.
+   * Space Complexity: O(1) - Operates in-place.
+   *
+   * The function "pollLast" removes and returns the last element of an array.
+   * @returns The last element of the array is being returned.
+   */
+  pollLast(): E | undefined {
+    return this.pop();
+  }
+
+  /**
+   * Time Complexity: O(1).
+   * Space Complexity: O(n) - Due to potential resizing.
+   *
+   * The "addFirst" function adds an element to the beginning of an array.
+   * @param {E} element - The parameter "element" represents the element that you want to add to the
+   * beginning of the data structure.
+   */
+  addFirst(element: E): boolean {
+    return this.unshift(element);
+  }
+
+  /**
+   * Time Complexity: O(1) - Removes the first element.
+   * Space Complexity: O(1) - In-place operation.
+   *
+   * The function "pollFirst" removes and returns the first element of an array.
+   * @returns The method `pollFirst()` is returning the first element of the array after removing it
+   * from the beginning. If the array is empty, it will return `undefined`.
+   */
+  pollFirst(): E | undefined {
+    return this.shift();
   }
 
   /**
@@ -773,7 +760,7 @@ export class Deque<E> extends IterableElementBase<E> {
    * The above function is an implementation of the iterator protocol in TypeScript, allowing the
    * object to be iterated over using a for...of loop.
    */
-  protected* _getIterator() {
+  protected* _getIterator(): IterableIterator<E> {
     for (let i = 0; i < this.size; ++i) {
       yield this.getAt(i);
     }

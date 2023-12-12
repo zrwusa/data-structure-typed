@@ -42,7 +42,7 @@ export class Heap<E = any> extends IterableElementBase<E> {
 
     if (elements) {
       for (const el of elements) {
-        this.push(el);
+        this.add(el);
       }
       // this.fix();
     }
@@ -91,26 +91,9 @@ export class Heap<E = any> extends IterableElementBase<E> {
    * Insert an element into the heap and maintain the heap properties.
    * @param element - The element to be inserted.
    */
-  add(element: E): Heap<E> {
-    return this.push(element);
-  }
-
-  /**
-   * Time Complexity: O(log n), where n is the number of elements in the heap.
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(log n), where n is the number of elements in the heap.
-   * Space Complexity: O(1)
-   *
-   * Insert an element into the heap and maintain the heap properties.
-   * @param element - The element to be inserted.
-   */
-  push(element: E): Heap<E> {
+  add(element: E): boolean {
     this._elements.push(element);
-    this._bubbleUp(this.elements.length - 1);
-    return this;
+    return this._bubbleUp(this.elements.length - 1);
   }
 
   /**
@@ -137,22 +120,6 @@ export class Heap<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(log n), where n is the number of elements in the heap.
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(log n), where n is the number of elements in the heap.
-   * Space Complexity: O(1)
-   *
-   * Remove and return the top element (smallest or largest element) from the heap.
-   * @returns The top element or undefined if the heap is empty.
-   */
-  pop(): E | undefined {
-    return this.poll();
-  }
-
-  /**
    * Peek at the top element of the heap without removing it.
    * @returns The top element or undefined if the heap is empty.
    */
@@ -164,14 +131,14 @@ export class Heap<E = any> extends IterableElementBase<E> {
    * Check if the heap is empty.
    * @returns True if the heap is empty, otherwise false.
    */
-  isEmpty() {
+  isEmpty(): boolean {
     return this.size === 0;
   }
 
   /**
    * Reset the elements of the heap. Make the elements empty.
    */
-  clear() {
+  clear(): void {
     this._elements = [];
   }
 
@@ -187,9 +154,9 @@ export class Heap<E = any> extends IterableElementBase<E> {
    * Clear and add elements of the heap
    * @param elements
    */
-  refill(elements: E[]) {
+  refill(elements: E[]): boolean[] {
     this._elements = elements;
-    this.fix();
+    return this.fix();
   }
 
   /**
@@ -225,11 +192,11 @@ export class Heap<E = any> extends IterableElementBase<E> {
    * @returns The `delete` function is returning a boolean value. It returns `true` if the element was
    * successfully deleted from the array, and `false` if the element was not found in the array.
    */
-  delete(element: E) {
+  delete(element: E): boolean {
     const index = this.elements.indexOf(element);
     if (index < 0) return false;
     if (index === 0) {
-      this.pop();
+      this.poll();
     } else if (index === this.elements.length - 1) {
       this.elements.pop();
     } else {
@@ -348,8 +315,10 @@ export class Heap<E = any> extends IterableElementBase<E> {
    *
    * Fix the entire heap to maintain heap properties.
    */
-  fix() {
-    for (let i = Math.floor(this.size / 2); i >= 0; i--) this._sinkDown(i, this.elements.length >> 1);
+  fix(): boolean[] {
+    const results: boolean[] = [];
+    for (let i = Math.floor(this.size / 2); i >= 0; i--) results.push(this._sinkDown(i, this.elements.length >> 1));
+    return results;
   }
 
   /**
@@ -378,7 +347,7 @@ export class Heap<E = any> extends IterableElementBase<E> {
     let index = 0;
     for (const current of this) {
       if (callback.call(thisArg, current, index, this)) {
-        filteredList.push(current);
+        filteredList.add(current);
       }
       index++;
     }
@@ -421,16 +390,7 @@ export class Heap<E = any> extends IterableElementBase<E> {
     return mappedHeap;
   }
 
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   */
-
-  print(): void {
-    console.log([...this]);
-  }
-
-  protected* _getIterator() {
+  protected* _getIterator(): IterableIterator<E> {
     for (const element of this.elements) {
       yield element;
     }
@@ -448,7 +408,7 @@ export class Heap<E = any> extends IterableElementBase<E> {
    * Float operation to maintain heap properties after adding an element.
    * @param index - The index of the newly added element.
    */
-  protected _bubbleUp(index: number) {
+  protected _bubbleUp(index: number): boolean {
     const element = this.elements[index];
     while (index > 0) {
       const parent = (index - 1) >> 1;
@@ -458,6 +418,7 @@ export class Heap<E = any> extends IterableElementBase<E> {
       index = parent;
     }
     this.elements[index] = element;
+    return true;
   }
 
   /**
@@ -468,7 +429,7 @@ export class Heap<E = any> extends IterableElementBase<E> {
    * @param index - The index from which to start sinking.
    * @param halfLength
    */
-  protected _sinkDown(index: number, halfLength: number) {
+  protected _sinkDown(index: number, halfLength: number): boolean {
     const element = this.elements[index];
     while (index < halfLength) {
       let left = index << 1 | 1;
@@ -486,6 +447,7 @@ export class Heap<E = any> extends IterableElementBase<E> {
       index = left;
     }
     this.elements[index] = element;
+    return true;
   }
 }
 

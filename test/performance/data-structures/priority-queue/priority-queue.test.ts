@@ -7,7 +7,7 @@ import { isCompetitor } from '../../../config';
 const suite = new Benchmark.Suite();
 const { HUNDRED_THOUSAND } = magnitude;
 
-suite.add(`${HUNDRED_THOUSAND.toLocaleString()} add & pop`, () => {
+suite.add(`${HUNDRED_THOUSAND.toLocaleString()} add & poll`, () => {
   const pq = new PriorityQueue<number>([], { comparator: (a, b) => b - a });
 
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
@@ -15,7 +15,7 @@ suite.add(`${HUNDRED_THOUSAND.toLocaleString()} add & pop`, () => {
   }
 
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
-    pq.pop();
+    pq.poll();
   }
 });
 if (isCompetitor) {

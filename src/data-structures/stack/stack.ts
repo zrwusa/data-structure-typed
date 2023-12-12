@@ -104,9 +104,9 @@ export class Stack<E = any> extends IterableElementBase<E> {
    * @param {E} element - The parameter "element" is of type E, which means it can be any data type.
    * @returns The `push` method is returning the updated `Stack<E>` object.
    */
-  push(element: E): Stack<E> {
+  push(element: E): boolean {
     this.elements.push(element);
-    return this;
+    return true;
   }
 
   /**
@@ -123,7 +123,7 @@ export class Stack<E = any> extends IterableElementBase<E> {
    * array is empty, it returns `undefined`.
    */
   pop(): E | undefined {
-    if (this.isEmpty()) return undefined;
+    if (this.isEmpty()) return;
 
     return this.elements.pop();
   }
@@ -228,15 +228,11 @@ export class Stack<E = any> extends IterableElementBase<E> {
     return newStack;
   }
 
-  print(): void {
-    console.log([...this]);
-  }
-
   /**
    * Custom iterator for the Stack class.
    * @returns An iterator object.
    */
-  protected* _getIterator() {
+  protected* _getIterator(): IterableIterator<E> {
     for (let i = 0; i < this.elements.length; i++) {
       yield this.elements[i];
     }

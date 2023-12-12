@@ -55,7 +55,7 @@ describe('MinHeap', () => {
 
   it('should push & dfs', () => {
     for (let i = 0; i < n; i++) {
-      minHeap.push(i);
+      minHeap.add(i);
     }
     expect(minHeap.dfs()[0]).toBe(0)
     expect(minHeap.dfs()[999]).toBe(4126)
