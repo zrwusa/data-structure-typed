@@ -66,7 +66,7 @@ class MyGraph<
     return edge ? undefined : undefined;
   }
 
-  protected _addEdgeOnly(edge: EO): boolean {
+  protected _addEdge(edge: EO): boolean {
     return edge ? true : true;
   }
 }

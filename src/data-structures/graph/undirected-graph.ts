@@ -381,7 +381,7 @@ export class UndirectedGraph<
    * @param {EO} edge - The parameter "edge" is of type EO, which represents an edge in a graph.
    * @returns a boolean value.
    */
-  protected _addEdgeOnly(edge: EO): boolean {
+  protected _addEdge(edge: EO): boolean {
     for (const end of edge.vertexMap) {
       const endVertex = this._getVertex(end);
       if (endVertex === undefined) return false;

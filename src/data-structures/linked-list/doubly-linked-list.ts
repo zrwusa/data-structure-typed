@@ -71,6 +71,38 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    */
 
   /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   *
+   * The `get first` function returns the first node in a doubly linked list, or undefined if the list is empty.
+   * @returns The method `get first()` returns the first node of the doubly linked list, or `undefined` if the list is empty.
+   */
+  get first(): E | undefined {
+    return this.head?.value;
+  }
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   *
+   * The `get last` function returns the last node in a doubly linked list, or undefined if the list is empty.
+   * @returns The method `get last()` returns the last node of the doubly linked list, or `undefined` if the list is empty.
+   */
+  get last(): E | undefined {
+    return this.tail?.value;
+  }
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
    * Time Complexity: O(n), where n is the size of the input array.
    * Space Complexity: O(n)
    *
@@ -141,7 +173,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1)
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
    * Space Complexity: O(1)
    */
 
@@ -168,7 +200,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1)
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
    * Space Complexity: O(1)
    */
 
@@ -402,11 +434,6 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   /**
    * Time Complexity: O(n), where n is the number of elements in the linked list.
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
-   * Space Complexity: O(1)
    *
    * The `deleteAt` function removes an element at a specified index from a linked list and returns the removed element.
    * @param {number} index - The index parameter represents the position of the element that needs to be deleted in the
@@ -433,11 +460,6 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
     this._size--;
     return true;
   }
-
-  /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(n), where n is the number of elements in the linked list.
@@ -476,12 +498,22 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   */
+
+  /**
    * The function checks if a variable has a size greater than zero and returns a boolean value.
    * @returns A boolean value is being returned.
    */
   isEmpty(): boolean {
     return this.size === 0;
   }
+
+  /**
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Space Complexity: O(1)
+   */
 
   /**
    * The `clear` function resets the linked list by setting the head, tail, and size to undefined and 0 respectively.
@@ -548,7 +580,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
 
   /**
    * Time Complexity: O(n), where n is the number of elements in the linked list.
-   * Space Complexity: O(1)
+   * Space Complexity: O(n)
    */
 
   /**
@@ -575,7 +607,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
 
   /**
    * Time Complexity: O(n), where n is the number of elements in the linked list.
-   * Space Complexity: O(1)
+   * Space Complexity: O(n)
    */
 
   /**
@@ -596,7 +628,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(n)
    */
 
@@ -640,8 +672,8 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
@@ -674,8 +706,8 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
-   * Space Complexity: O(n)
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
@@ -740,7 +772,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1)
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
    * Space Complexity: O(1)
    */
 
@@ -757,7 +789,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1)
+   * Time Complexity: O(n), where n is the number of elements in the linked list.
    * Space Complexity: O(1)
    */
 
@@ -771,38 +803,6 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    */
   addFirst(value: E): void {
     this.unshift(value);
-  }
-
-  /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
-   * Space Complexity: O(1)
-   *
-   * The `get first` function returns the first node in a doubly linked list, or undefined if the list is empty.
-   * @returns The method `get first()` returns the first node of the doubly linked list, or `undefined` if the list is empty.
-   */
-  get first(): E | undefined {
-    return this.head?.value;
-  }
-
-  /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
-   * Space Complexity: O(1)
-   *
-   * The `get last` function returns the last node in a doubly linked list, or undefined if the list is empty.
-   * @returns The method `get last()` returns the last node of the doubly linked list, or `undefined` if the list is empty.
-   */
-  get last(): E | undefined {
-    return this.tail?.value;
   }
 
   /**

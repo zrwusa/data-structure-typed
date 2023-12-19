@@ -5,7 +5,12 @@ import { logBigOMetricsWrap } from '../../../utils';
 describe('Heap Operation Test', () => {
   it('should numeric heap work well', function () {
     const minNumHeap = new MinHeap<number>();
-    minNumHeap.add(1);minNumHeap.add(6);minNumHeap.add(2);minNumHeap.add(0);minNumHeap.add(5);minNumHeap.add(9);
+    minNumHeap.add(1);
+    minNumHeap.add(6);
+    minNumHeap.add(2);
+    minNumHeap.add(0);
+    minNumHeap.add(5);
+    minNumHeap.add(9);
     expect(minNumHeap.has(1)).toBe(true);
     expect(minNumHeap.has(2)).toBe(true);
     expect(minNumHeap.poll()).toBe(0);

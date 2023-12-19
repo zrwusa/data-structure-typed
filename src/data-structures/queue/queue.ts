@@ -50,6 +50,40 @@ export class Queue<E = any> extends IterableElementBase<E> {
   }
 
   /**
+   * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
+   * Space Complexity: O(1) - no additional space is used.
+   *
+   * The `first` function returns the first element of the array `_nodes` if it exists, otherwise it returns `undefined`.
+   * @returns The `get first()` method returns the first element of the data structure, represented by the `_nodes` array at
+   * the `_offset` index. If the data structure is empty (size is 0), it returns `undefined`.
+   */
+  get first(): E | undefined {
+    return this.size > 0 ? this.nodes[this.offset] : undefined;
+  }
+
+  /**
+   * Time Complexity: O(1) - constant time as it adds an element to the end of the array.
+   * Space Complexity: O(1) - no additional space is used.
+   */
+
+  /**
+   * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
+   * Space Complexity: O(1) - no additional space is used.
+   *
+   * The `last` function returns the last element in an array-like data structure, or undefined if the structure is empty.
+   * @returns The method `get last()` returns the last element of the `_nodes` array if the array is not empty. If the
+   * array is empty, it returns `undefined`.
+   */
+  get last(): E | undefined {
+    return this.size > 0 ? this.nodes[this.nodes.length - 1] : undefined;
+  }
+
+  /**
+   * Time Complexity: O(n) - where n is the number of elements in the queue. In the worst case, it may need to shift all elements to update the offset.
+   * Space Complexity: O(1) - no additional space is used.
+   */
+
+  /**
    * The function "fromArray" creates a new Queue object from an array of elements.Creates a queue from an existing array.
    * @public
    * @static
@@ -62,7 +96,7 @@ export class Queue<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1) - constant time as it adds an element to the end of the array.
+   * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
    * Space Complexity: O(1) - no additional space is used.
    */
 
@@ -80,7 +114,7 @@ export class Queue<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n) - where n is the number of elements in the queue. In the worst case, it may need to shift all elements to update the offset.
+   * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
    * Space Complexity: O(1) - no additional space is used.
    */
 
@@ -116,46 +150,12 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
    * Space Complexity: O(1) - no additional space is used.
    *
-   * The `first` function returns the first element of the array `_nodes` if it exists, otherwise it returns `undefined`.
-   * @returns The `get first()` method returns the first element of the data structure, represented by the `_nodes` array at
-   * the `_offset` index. If the data structure is empty (size is 0), it returns `undefined`.
-   */
-  get first(): E | undefined {
-    return this.size > 0 ? this.nodes[this.offset] : undefined;
-  }
-
-  /**
-   * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
-   * Space Complexity: O(1) - no additional space is used.
-   */
-
-  /**
-   * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
-   * Space Complexity: O(1) - no additional space is used.
-   *
    * The `peek` function returns the first element of the array `_nodes` if it exists, otherwise it returns `undefined`.
    * @returns The `peek()` method returns the first element of the data structure, represented by the `_nodes` array at
    * the `_offset` index. If the data structure is empty (size is 0), it returns `undefined`.
    */
   peek(): E | undefined {
     return this.first;
-  }
-
-  /**
-   * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
-   * Space Complexity: O(1) - no additional space is used.
-   */
-
-  /**
-   * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
-   * Space Complexity: O(1) - no additional space is used.
-   *
-   * The `last` function returns the last element in an array-like data structure, or undefined if the structure is empty.
-   * @returns The method `get last()` returns the last element of the `_nodes` array if the array is not empty. If the
-   * array is empty, it returns `undefined`.
-   */
-  get last(): E | undefined {
-    return this.size > 0 ? this.nodes[this.nodes.length - 1] : undefined;
   }
 
   /**
@@ -359,11 +359,19 @@ export class Queue<E = any> extends IterableElementBase<E> {
  */
 export class LinkedListQueue<E = any> extends SinglyLinkedList<E> {
   /**
+   * The `get first` function returns the value of the head node in a linked list, or `undefined` if the list is empty.
+   * @returns The `get first()` method is returning the value of the `head` node if it exists, otherwise it returns `undefined`.
+   */
+  get first(): E | undefined {
+    return this.head?.value;
+  }
+
+  /**
    * The enqueue function adds a value to the end of an array.
    * @param {E} value - The value parameter represents the value that you want to add to the queue.
    */
   enqueue(value: E): boolean {
-    return  this.push(value);
+    return this.push(value);
   }
 
   /**
@@ -372,14 +380,6 @@ export class LinkedListQueue<E = any> extends SinglyLinkedList<E> {
    */
   dequeue(): E | undefined {
     return this.shift();
-  }
-
-  /**
-   * The `get first` function returns the value of the head node in a linked list, or `undefined` if the list is empty.
-   * @returns The `get first()` method is returning the value of the `head` node if it exists, otherwise it returns `undefined`.
-   */
-  get first(): E | undefined {
-    return this.head?.value;
   }
 
   /**

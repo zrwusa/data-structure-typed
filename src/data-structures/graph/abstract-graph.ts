@@ -156,10 +156,10 @@ export abstract class AbstractGraph<
 
   addVertex(keyOrVertex: VertexKey | VO, value?: V): boolean {
     if (keyOrVertex instanceof AbstractVertex) {
-      return this._addVertexOnly(keyOrVertex);
+      return this._addVertex(keyOrVertex);
     } else {
       const newVertex = this.createVertex(keyOrVertex, value);
-      return this._addVertexOnly(newVertex);
+      return this._addVertex(newVertex);
     }
   }
 
@@ -242,14 +242,14 @@ export abstract class AbstractGraph<
 
   addEdge(srcOrEdge: VO | VertexKey | EO, dest?: VO | VertexKey, weight?: number, value?: E): boolean {
     if (srcOrEdge instanceof AbstractEdge) {
-      return this._addEdgeOnly(srcOrEdge);
+      return this._addEdge(srcOrEdge);
     } else {
       if (dest instanceof AbstractVertex || typeof dest === 'string' || typeof dest === 'number') {
         if (!(this.hasVertex(srcOrEdge) && this.hasVertex(dest))) return false;
         if (srcOrEdge instanceof AbstractVertex) srcOrEdge = srcOrEdge.key;
         if (dest instanceof AbstractVertex) dest = dest.key;
         const newEdge = this.createEdge(srcOrEdge, dest, weight, value);
-        return this._addEdgeOnly(newEdge);
+        return this._addEdge(newEdge);
       } else {
         throw new Error('dest must be a Vertex or vertex key while srcOrEdge is an Edge');
       }
@@ -1148,14 +1148,6 @@ export abstract class AbstractGraph<
   }
 
   /**
-   * The function `getCycles` returns a map of cycles found using the Tarjan algorithm.
-   * @returns The function `getCycles()` is returning a `Map<number, VO[]>`.
-   */
-  getCycles(): Map<number, VO[]> {
-    return this.tarjan(false, false, false, true).cycles;
-  }
-
-  /**
    * The function "getCutVertexes" returns an array of cut vertexes using the Tarjan algorithm.
    * @returns an array of VO objects, specifically the cut vertexes.
    */
@@ -1178,6 +1170,55 @@ export abstract class AbstractGraph<
    */
   getBridges() {
     return this.tarjan(false, true, false, false).bridges;
+  }
+
+  /**
+   * O(V+E+C)
+   * O(V+C)
+   */
+  getCycles(isInclude2Cycle: boolean = false): VertexKey[][] {
+    const cycles: VertexKey[][] = [];
+    const visited: Set<VO> = new Set();
+
+    const dfs = (vertex: VO, currentPath: VertexKey[], visited: Set<VO>) => {
+      if (visited.has(vertex)) {
+        if ((!isInclude2Cycle && currentPath.length > 2 || isInclude2Cycle && currentPath.length >= 2) && currentPath[0] === vertex.key) {
+          cycles.push([...currentPath]);
+        }
+        return;
+      }
+
+      visited.add(vertex);
+      currentPath.push(vertex.key);
+
+      for (const neighbor of this.getNeighbors(vertex)) {
+        neighbor && dfs(neighbor, currentPath, visited);
+      }
+
+      visited.delete(vertex);
+      currentPath.pop();
+    };
+
+    for (const vertex of this.vertexMap.values()) {
+      dfs(vertex, [], visited);
+    }
+
+    // Use a set to eliminate duplicate cycles
+    const uniqueCycles = new Map<string, VertexKey[]>();
+
+    for (const cycle of cycles) {
+      const sorted = [...cycle].sort().toString()
+
+      if (uniqueCycles.has(sorted)) continue
+      else {
+        uniqueCycles.set(sorted, cycle)
+      }
+    }
+
+    // Convert the unique cycles back to an array
+    return [...uniqueCycles].map(cycleString =>
+      cycleString[1]
+    );
   }
 
   /**
@@ -1247,9 +1288,9 @@ export abstract class AbstractGraph<
     }
   }
 
-  protected abstract _addEdgeOnly(edge: EO): boolean;
+  protected abstract _addEdge(edge: EO): boolean;
 
-  protected _addVertexOnly(newVertex: VO): boolean {
+  protected _addVertex(newVertex: VO): boolean {
     if (this.hasVertex(newVertex)) {
       return false;
       // throw (new Error('Duplicated vertex key is not allowed'));

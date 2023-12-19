@@ -596,6 +596,7 @@ export class DirectedGraph<
     }
   }
 
+
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
@@ -605,13 +606,13 @@ export class DirectedGraph<
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The function `_addEdgeOnly` adds an edge to a graph if the source and destination vertexMap exist.
+   * The function `_addEdge` adds an edge to a graph if the source and destination vertexMap exist.
    * @param {EO} edge - The parameter `edge` is of type `EO`, which represents an edge in a graph. It is the edge that
    * needs to be added to the graph.
    * @returns a boolean value. It returns true if the edge was successfully added to the graph, and false if either the
    * source or destination vertex does not exist in the graph.
    */
-  protected _addEdgeOnly(edge: EO): boolean {
+  protected _addEdge(edge: EO): boolean {
     if (!(this.hasVertex(edge.src) && this.hasVertex(edge.dest))) {
       return false;
     }

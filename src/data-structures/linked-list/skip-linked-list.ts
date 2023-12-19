@@ -63,6 +63,45 @@ export class SkipList<K, V> {
    */
 
   /**
+   * Time Complexity: O(1) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
+   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
+   *
+   * Get the value of the first element (the smallest element) in the Skip List.
+   * @returns The value of the first element, or undefined if the Skip List is empty.
+   */
+  get first(): V | undefined {
+    const firstNode = this.head.forward[0];
+    return firstNode ? firstNode.value : undefined;
+  }
+
+  /**
+   * Time Complexity: O(log n) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
+   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
+   */
+
+  /**
+   * Time Complexity: O(log n) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
+   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
+   *
+   * Get the value of the last element (the largest element) in the Skip List.
+   * @returns The value of the last element, or undefined if the Skip List is empty.
+   */
+  get last(): V | undefined {
+    let current = this.head;
+    for (let i = this.level - 1; i >= 0; i--) {
+      while (current.forward[i]) {
+        current = current.forward[i];
+      }
+    }
+    return current.value;
+  }
+
+  /**
+   * Time Complexity: O(log n) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
+   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
+   */
+
+  /**
    * Time Complexity: O(log n) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
    * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
    *
@@ -125,7 +164,7 @@ export class SkipList<K, V> {
   }
 
   /**
-   * Time Complexity: O(log n) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
+   * Time Complexity: O(1) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
    * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
    */
 
@@ -179,45 +218,6 @@ export class SkipList<K, V> {
     }
 
     return false;
-  }
-
-  /**
-   * Time Complexity: O(1) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
-   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
-   */
-
-  /**
-   * Time Complexity: O(1) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
-   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
-   *
-   * Get the value of the first element (the smallest element) in the Skip List.
-   * @returns The value of the first element, or undefined if the Skip List is empty.
-   */
-  get first(): V | undefined {
-    const firstNode = this.head.forward[0];
-    return firstNode ? firstNode.value : undefined;
-  }
-
-  /**
-   * Time Complexity: O(log n) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
-   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
-   */
-
-  /**
-   * Time Complexity: O(log n) - where n is the number of elements in the SkipList, as it traverses the levels of the SkipList.
-   * Space Complexity: O(1) - constant space, as it uses a fixed amount of space regardless of the size of the SkipList.
-   *
-   * Get the value of the last element (the largest element) in the Skip List.
-   * @returns The value of the last element, or undefined if the Skip List is empty.
-   */
-  get last(): V | undefined {
-    let current = this.head;
-    for (let i = this.level - 1; i >= 0; i--) {
-      while (current.forward[i]) {
-        current = current.forward[i];
-      }
-    }
-    return current.value;
   }
 
   /**

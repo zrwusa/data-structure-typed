@@ -237,7 +237,7 @@ describe('cycles, strongly connected components, bridges, articular points in Un
   const cutVertexes = graph.getCutVertexes();
   const dfnMap = graph.getDFNMap();
   const lowMap = graph.getLowMap();
-  expect(cycles.size).toBe(2);
+  expect(cycles.length).toBe(3);
   expect(scCs.size).toBe(5);
   expect(bridges.length).toBe(4);
   expect(cutVertexes.length).toBe(4);
@@ -277,8 +277,52 @@ describe('UndirectedGraph getCycles', () => {
     graph.addEdge('D', 'E');
     graph.addEdge('E', 'B');
     const cycles = graph.getCycles();
-    expect(cycles.size).toBe(2);
-    expect(cycles.get(1)).toEqual([{ "key": "A", "value": "A" }, { "key": "B", "value": "B" }, { "key": "D", "value": "D" }, { "key": "C", "value": "C" }]);
-    expect(cycles.get(2)).toEqual([{ "key": "B", "value": "B" }, { "key": "D", "value": "D" }, { "key": "E", "value": "E" }]);
+    expect(cycles.length).toBe(3);
+    expect(cycles).toEqual([["A", "B", "D", "C"], ["A", "B", "E", "D", "C"], ["B", "D", "E"]]);
   })
+
+  test('should simple cycles graph getCycles return correct result', () => {
+    const graph = new UndirectedGraph();
+
+    graph.addVertex('A');
+    graph.addVertex('B');
+    graph.addVertex('C');
+    graph.addVertex('D');
+
+    graph.addEdge('A', 'B');
+    graph.addEdge('B', 'C');
+    graph.addEdge('C', 'A');
+    graph.addEdge('A', 'D');
+    graph.addEdge('D', 'C');
+    const cycles = graph.getCycles();
+    expect(cycles.length).toBe(3)
+    expect(cycles).toEqual([["A", "B", "C"], ["A", "B", "C", "D"], ["A", "C", "D"]])
+  });
+
+  test('should 3 cycles graph getCycles return correct result', () => {
+    const graph = new UndirectedGraph();
+
+    graph.addVertex('A');
+    graph.addVertex('B');
+    graph.addVertex('C');
+    graph.addVertex('D');
+    graph.addVertex('E');
+    graph.addVertex('F');
+    graph.addVertex('G');
+
+    graph.addEdge('A', 'B');
+    graph.addEdge('A', 'C');
+    graph.addEdge('B', 'D');
+    graph.addEdge('C', 'D');
+    graph.addEdge('D', 'E');
+    graph.addEdge('E', 'B');
+    graph.addEdge('B', 'F');
+    graph.addEdge('F', 'E');
+    graph.addEdge('C', 'G');
+    graph.addEdge('G', 'A');
+
+    const cycles = graph.getCycles();
+    expect(cycles.length).toBe(10)
+    expect(cycles).toEqual([["A", "B", "D", "C"], ["A", "B", "D", "C", "G"], ["A", "B", "E", "D", "C"], ["A", "B", "E", "D", "C", "G"], ["A", "B", "F", "E", "D", "C"], ["A", "B", "F", "E", "D", "C", "G"], ["A", "C", "G"], ["B", "D", "E"], ["B", "D", "E", "F"], ["B", "E", "F"]]);
+  });
 })
