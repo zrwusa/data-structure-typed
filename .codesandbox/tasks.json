@@ -1,0 +1,158 @@
+{
+  // These tasks will run in order when initializing your CodeSandbox project.
+  "setupTasks": [
+    {
+      "name": "Install Dependencies",
+      "command": "npm install"
+    }
+  ],
+
+  // These tasks can be run from CodeSandbox. Running one will open a log in the app.
+  "tasks": {
+    "build": {
+      "name": "build",
+      "command": "npm run build",
+      "runAtStart": false
+    },
+    "build:mjs": {
+      "name": "build:mjs",
+      "command": "npm run build:mjs",
+      "runAtStart": false
+    },
+    "build:cjs": {
+      "name": "build:cjs",
+      "command": "npm run build:cjs",
+      "runAtStart": false
+    },
+    "build:umd": {
+      "name": "build:umd",
+      "command": "npm run build:umd",
+      "runAtStart": false
+    },
+    "build:docs": {
+      "name": "build:docs",
+      "command": "npm run build:docs",
+      "runAtStart": false
+    },
+    "test:unit": {
+      "name": "test:unit",
+      "command": "npm run test:unit",
+      "runAtStart": false
+    },
+    "test": {
+      "name": "test",
+      "command": "npm run test",
+      "runAtStart": false
+    },
+    "test:integration": {
+      "name": "test:integration",
+      "command": "npm run test:integration",
+      "runAtStart": false
+    },
+    "test:perf": {
+      "name": "test:perf",
+      "command": "npm run test:perf",
+      "runAtStart": false
+    },
+    "check": {
+      "name": "check",
+      "command": "npm run check",
+      "runAtStart": false
+    },
+    "check:circular-refs": {
+      "name": "check:circular-refs",
+      "command": "npm run check:circular-refs",
+      "runAtStart": false
+    },
+    "lint:src": {
+      "name": "lint:src",
+      "command": "npm run lint:src",
+      "runAtStart": false
+    },
+    "lint:test": {
+      "name": "lint:test",
+      "command": "npm run lint:test",
+      "runAtStart": false
+    },
+    "lint": {
+      "name": "lint",
+      "command": "npm run lint",
+      "runAtStart": false
+    },
+    "inspect": {
+      "name": "inspect",
+      "command": "npm run inspect",
+      "runAtStart": false
+    },
+    "format:src": {
+      "name": "format:src",
+      "command": "npm run format:src",
+      "runAtStart": false
+    },
+    "format:test": {
+      "name": "format:test",
+      "command": "npm run format:test",
+      "runAtStart": false
+    },
+    "format": {
+      "name": "format",
+      "command": "npm run format",
+      "runAtStart": false
+    },
+    "check:exist-latest": {
+      "name": "check:exist-latest",
+      "command": "npm run check:exist-latest",
+      "runAtStart": false
+    },
+    "ci": {
+      "name": "ci",
+      "command": "npm run ci",
+      "runAtStart": false
+    },
+    "update:subs": {
+      "name": "update:subs",
+      "command": "npm run update:subs",
+      "runAtStart": false
+    },
+    "install:all-subs": {
+      "name": "install:all-subs",
+      "command": "npm run install:all-subs",
+      "runAtStart": false
+    },
+    "changelog": {
+      "name": "changelog",
+      "command": "npm run changelog",
+      "runAtStart": false
+    },
+    "coverage:badge": {
+      "name": "coverage:badge",
+      "command": "npm run coverage:badge",
+      "runAtStart": false
+    },
+    "toc": {
+      "name": "toc",
+      "command": "npm run toc",
+      "runAtStart": false
+    },
+    "copy:to-subs": {
+      "name": "copy:to-subs",
+      "command": "npm run copy:to-subs",
+      "runAtStart": false
+    },
+    "publish:subs": {
+      "name": "publish:subs",
+      "command": "npm run publish:subs",
+      "runAtStart": false
+    },
+    "publish:docs": {
+      "name": "publish:docs",
+      "command": "npm run publish:docs",
+      "runAtStart": false
+    },
+    "publish:all": {
+      "name": "publish:all",
+      "command": "npm run publish:all",
+      "runAtStart": false
+    }
+  }
+}
