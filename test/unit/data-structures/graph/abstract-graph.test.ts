@@ -66,6 +66,17 @@ class MyGraph<
     return edge ? undefined : undefined;
   }
 
+  deleteVertex(vertexOrKey: VertexKey | VO): boolean {
+    let vertexKey: VertexKey;
+    if (this.isVertexKey(vertexOrKey)) {
+      vertexKey = vertexOrKey;
+    } else {
+      vertexKey = vertexOrKey.key;
+    }
+    this._vertexMap.delete(vertexKey);
+    return true;
+  }
+
   protected _addEdge(edge: EO): boolean {
     return edge ? true : true;
   }
