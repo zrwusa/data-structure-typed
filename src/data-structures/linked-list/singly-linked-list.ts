@@ -33,8 +33,7 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
     this._tail = undefined;
     this._size = 0;
     if (elements) {
-      for (const el of elements)
-        this.push(el);
+      for (const el of elements) this.push(el);
     }
   }
 

@@ -5,61 +5,50 @@ import { magnitude } from '../../../utils';
 import { isCompetitor } from '../../../config';
 
 const suite = new Benchmark.Suite();
-const { LINEAR } = magnitude;
+const { MILLION } = magnitude;
 
-suite.add(`${LINEAR.toLocaleString()} push`, () => {
+suite.add(`${MILLION.toLocaleString()} push`, () => {
   const list = new DoublyLinkedList<number>();
 
-  for (let i = 0; i < LINEAR; i++) {
-    list.push(i);
-  }
+  for (let i = 0; i < MILLION; i++) list.push(i);
 });
 
 
 if (isCompetitor) {
-  suite.add(`CPT ${LINEAR.toLocaleString()} push`, () => {
+  suite.add(`CPT ${MILLION.toLocaleString()} push`, () => {
     const list = new CLinkedList<number>();
 
-    for (let i = 0; i < LINEAR; i++) {
-      list.pushBack(i);
-    }
+    for (let i = 0; i < MILLION; i++) list.pushBack(i);
   });
 }
 
-suite.add(`${LINEAR.toLocaleString()} unshift`, () => {
+suite.add(`${MILLION.toLocaleString()} unshift`, () => {
   const list = new DoublyLinkedList<number>();
 
-  for (let i = 0; i < LINEAR; i++) {
-    list.unshift(i);
-  }
+  for (let i = 0; i < MILLION; i++) list.unshift(i);
 });
 
 if (isCompetitor) {
-  suite.add(`CPT ${LINEAR.toLocaleString()} unshift`, () => {
+  suite.add(`CPT ${MILLION.toLocaleString()} unshift`, () => {
     const list = new CLinkedList<number>();
 
-    for (let i = 0; i < LINEAR; i++) {
-      list.pushFront(i);
-    }
+    for (let i = 0; i < MILLION; i++) list.pushFront(i);
   });
 }
 
 suite
-  .add(`${LINEAR.toLocaleString()} unshift & shift`, () => {
+  .add(`${MILLION.toLocaleString()} unshift & shift`, () => {
     const list = new DoublyLinkedList<number>();
 
-    for (let i = 0; i < LINEAR; i++) {
-      list.unshift(i);
-    }
-    for (let i = 0; i < LINEAR; i++) {
-      list.shift();
-    }
+    for (let i = 0; i < MILLION; i++) list.unshift(i);
+
+    for (let i = 0; i < MILLION; i++) list.shift();
   })
-  .add(`${LINEAR.toLocaleString()} addBefore`, () => {
+  .add(`${MILLION.toLocaleString()} addBefore`, () => {
     const doublyList = new DoublyLinkedList<number>();
     let midNode: DoublyLinkedListNode | undefined;
-    const midIndex = Math.floor(LINEAR / 2);
-    for (let i = 0; i < LINEAR; i++) {
+    const midIndex = Math.floor(MILLION / 2);
+    for (let i = 0; i < MILLION; i++) {
       doublyList.push(i);
       if (i === midIndex) {
         midNode = doublyList.getNode(i);

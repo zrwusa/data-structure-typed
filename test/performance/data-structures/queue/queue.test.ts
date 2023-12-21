@@ -5,20 +5,20 @@ import { magnitude } from '../../../utils';
 import { isCompetitor } from '../../../config';
 
 const suite = new Benchmark.Suite();
-const { LINEAR, HUNDRED_THOUSAND } = magnitude;
+const { MILLION, HUNDRED_THOUSAND } = magnitude;
 
-suite.add(`${LINEAR.toLocaleString()} push`, () => {
+suite.add(`${MILLION.toLocaleString()} push`, () => {
   const queue = new Queue<number>();
 
-  for (let i = 0; i < LINEAR; i++) {
+  for (let i = 0; i < MILLION; i++) {
     queue.push(i);
   }
 });
 if (isCompetitor) {
-  suite.add(`CPT ${LINEAR.toLocaleString()} push`, () => {
+  suite.add(`CPT ${MILLION.toLocaleString()} push`, () => {
     const queue = new CQueue<number>();
 
-    for (let i = 0; i < LINEAR; i++) {
+    for (let i = 0; i < MILLION; i++) {
       queue.push(i);
     }
   });

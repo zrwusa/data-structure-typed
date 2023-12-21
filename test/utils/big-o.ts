@@ -2,16 +2,16 @@ import { AnyFunction } from '../types';
 import { isDebugTest } from '../config';
 
 const isDebug = isDebugTest;
-const orderReducedBy = 1; // reduction of bigO's order compared to the baseline bigO
+// const orderReducedBy = 1; // reduction of bigO's order compared to the baseline bigO
 
 export const magnitude = {
-  CONSTANT: Math.pow(10, 9),
-  LOG_N: Math.pow(10, 8 - orderReducedBy),
-  LINEAR: Math.pow(10, 7 - orderReducedBy),
-  N_LOG_N: Math.pow(10, 4 - orderReducedBy),
-  SQUARED: Math.pow(10, 3 - orderReducedBy),
-  CUBED: Math.pow(10, 2 - orderReducedBy),
-  FACTORIAL: 20 - orderReducedBy,
+  // CONSTANT: Math.pow(10, 9),
+  // LOG_N: Math.pow(10, 8 - orderReducedBy),
+  // LINEAR: Math.pow(10, 7 - orderReducedBy),
+  // N_LOG_N: Math.pow(10, 4 - orderReducedBy),
+  // SQUARED: Math.pow(10, 3 - orderReducedBy),
+  // CUBED: Math.pow(10, 2 - orderReducedBy),
+  // FACTORIAL: 20 - orderReducedBy,
   THOUSAND: 1000,
   TEN_THOUSAND: 10000,
   HUNDRED_THOUSAND: 100000,
@@ -21,12 +21,12 @@ export const magnitude = {
 };
 
 export const bigO = {
-  CONSTANT: magnitude.CONSTANT / 100000,
-  LOG_N: Math.log2(magnitude.LOG_N) / 1000,
-  LINEAR: magnitude.LINEAR / 1000,
-  N_LOG_N: (magnitude.N_LOG_N * Math.log2(magnitude.LOG_N)) / 1000,
-  SQUARED: Math.pow(magnitude.SQUARED, 2) / 1000,
-  CUBED: Math.pow(magnitude.SQUARED, 3) / 1000,
+  // CONSTANT: magnitude.CONSTANT / 100000,
+  // LOG_N: Math.log2(magnitude.LOG_N) / 1000,
+  // LINEAR: magnitude.LINEAR / 1000,
+  // N_LOG_N: (magnitude.N_LOG_N * Math.log2(magnitude.LOG_N)) / 1000,
+  // SQUARED: Math.pow(magnitude.SQUARED, 2) / 1000,
+  // CUBED: Math.pow(magnitude.SQUARED, 3) / 1000,
   FACTORIAL: 10000
 };
 

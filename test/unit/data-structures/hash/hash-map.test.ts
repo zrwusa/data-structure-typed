@@ -554,4 +554,25 @@ describe('LinkedHashMap setMany, keys, values', () => {
   test('values', () => {
     expect([...hm.values()]).toEqual([2, 3, 4, 5, 6])
   });
+
+  test('entries', () => {
+    expect([...hm.entries()]).toEqual([[2, 2], [3, 3], [4, 4], [5, 5], [6, 6]])
+  });
+
+  test('every', () => {
+    expect(hm.every(value => value > 4)).toBe(false)
+  });
+
+  test('some', () => {
+    expect(hm.some(value => value > 6)).toBe(false)
+  });
+
+  test('hasValue', () => {
+    expect(hm.hasValue(3)).toBe(true)
+    expect(hm.hasValue(7)).toBe(false)
+  });
+
+  test('print', () => {
+    hm.print();
+  });
 });

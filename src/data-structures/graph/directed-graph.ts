@@ -240,7 +240,7 @@ export class DirectedGraph<
    * (`VertexKey`).
    * @returns The method is returning a boolean value.
    */
-  override deleteVertex(vertexOrKey: VO | VertexKey): boolean {
+  deleteVertex(vertexOrKey: VO | VertexKey): boolean {
     let vertexKey: VertexKey;
     let vertex: VO | undefined;
     if (this.isVertexKey(vertexOrKey)) {
@@ -252,8 +252,12 @@ export class DirectedGraph<
     }
 
     if (vertex) {
-      this._outEdgeMap.delete(vertex)
-      this._inEdgeMap.delete(vertex)
+      const neighbors = this.getNeighbors(vertex);
+      for (const neighbor of neighbors) {
+        this._inEdgeMap.delete(neighbor);
+      }
+      this._outEdgeMap.delete(vertex);
+      this._inEdgeMap.delete(vertex);
     }
 
     return this._vertexMap.delete(vertexKey);

@@ -16,7 +16,7 @@ import { getRandomIntArray, magnitude } from '../../../utils';
 import { isCompetitor } from '../../../config';
 
 const suite = new Benchmark.Suite();
-const { TEN_THOUSAND, HUNDRED_THOUSAND, LINEAR } = magnitude;
+const { TEN_THOUSAND, HUNDRED_THOUSAND, MILLION } = magnitude;
 const cOrderedMap = new OrderedMap<number, number>();
 const arrHundredThousand = getRandomIntArray(HUNDRED_THOUSAND, 0, HUNDRED_THOUSAND, true);
 
@@ -96,10 +96,10 @@ if (isCompetitor) {
         hm.getElementByKey(i);
       }
     })
-    .add(`CPT LL ${LINEAR.toLocaleString()} unshift`, () => {
+    .add(`CPT LL ${MILLION.toLocaleString()} unshift`, () => {
       const list = new CLinkedList<number>();
 
-      for (let i = 0; i < LINEAR; i++) {
+      for (let i = 0; i < MILLION; i++) {
         list.pushFront(i);
       }
     })
@@ -114,33 +114,33 @@ if (isCompetitor) {
         pq.pop();
       }
     })
-    .add(`CPT DQ ${LINEAR.toLocaleString()} push`, () => {
+    .add(`CPT DQ ${MILLION.toLocaleString()} push`, () => {
       const deque = new CDeque<number>();
-      for (let i = 0; i < LINEAR; i++) {
+      for (let i = 0; i < MILLION; i++) {
         deque.pushBack(i);
       }
     })
-    .add(`CPT Q ${LINEAR.toLocaleString()} push`, () => {
+    .add(`CPT Q ${MILLION.toLocaleString()} push`, () => {
       const queue = new CQueue<number>();
 
-      for (let i = 0; i < LINEAR; i++) {
+      for (let i = 0; i < MILLION; i++) {
         queue.push(i);
       }
     })
-    .add(`CPT ST ${LINEAR.toLocaleString()} push`, () => {
+    .add(`CPT ST ${MILLION.toLocaleString()} push`, () => {
       const queue = new CStack<number>();
 
-      for (let i = 0; i < LINEAR; i++) {
+      for (let i = 0; i < MILLION; i++) {
         queue.push(i);
       }
     })
-    .add(`CPT ST ${LINEAR.toLocaleString()} push & pop`, () => {
+    .add(`CPT ST ${MILLION.toLocaleString()} push & pop`, () => {
       const queue = new CStack<number>();
 
-      for (let i = 0; i < LINEAR; i++) {
+      for (let i = 0; i < MILLION; i++) {
         queue.push(i);
       }
-      for (let i = 0; i < LINEAR; i++) {
+      for (let i = 0; i < MILLION; i++) {
         queue.pop();
       }
     });

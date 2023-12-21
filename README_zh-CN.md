@@ -199,9 +199,51 @@ const {
 
 ## 代码片段
 
-### 二叉搜索树 (BST) 代码示例
+### 红黑树 代码示例
 
 #### TS
+```ts
+import {RedBlackTree} from 'data-structure-typed';
+
+const rbTree = new RedBlackTree<number>();
+rbTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
+rbTree.isAVLBalanced();    // true
+rbTree.delete(10);
+rbTree.isAVLBalanced();    // true
+rbTree.print()
+//         ___6________
+//        /            \
+//      ___4_       ___11________
+//     /     \     /             \
+//    _2_    5    _8_       ____14__
+//   /   \       /   \     /        \
+//   1   3       7   9    12__     15__
+//                            \        \
+//                           13       16
+```
+
+#### JS
+```js
+import {RedBlackTree} from 'data-structure-typed';
+
+const rbTree = new RedBlackTree();
+rbTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
+rbTree.isAVLBalanced();    // true
+rbTree.delete(10);
+rbTree.isAVLBalanced();    // true
+rbTree.print()
+//         ___6________
+//        /            \
+//      ___4_       ___11________
+//     /     \     /             \
+//    _2_    5    _8_       ____14__
+//   /   \       /   \     /        \
+//   1   3       7   9    12__     15__
+//                            \        \
+//                           13       16
+```
+
+### 二叉搜索树 (BST) 代码示例
 
 ```ts
 import {BST, BSTNode} from 'data-structure-typed';
@@ -262,31 +304,6 @@ objBST.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5], [
 objBST.delete(11);
 ```
 
-#### JS
-
-```js
-const {BST, BSTNode} = require('data-structure-typed');
-
-const bst = new BST();
-bst.add(11);
-bst.add(3);
-bst.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
-bst.size === 16;                // true
-bst.has(6);                     // true
-const node6 = bst.getNode(6);
-bst.getHeight(6) === 2;         // true
-bst.getHeight() === 5;          // true
-bst.getDepth(6) === 3;          // true
-const leftMost = bst.getLeftMost();
-leftMost?.key === 1;            // true
-
-bst.delete(6);
-bst.get(6);                     // undefined
-bst.isAVLBalanced();            // true or false
-const bfsIDs = bst.bfs();
-bfsIDs[0] === 11;               // true
-```
-
 ### AVL树 代码示例
 
 ```ts
@@ -297,28 +314,6 @@ avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
 avlTree.isAVLBalanced();    // true
 avlTree.delete(10);
 avlTree.isAVLBalanced();    // true
-```
-
-### 红黑树 代码示例
-
-```ts
-import {RedBlackTree} from 'data-structure-typed';
-
-const rbTree = new RedBlackTree<number>();
-rbTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
-rbTree.isAVLBalanced();    // true
-rbTree.delete(10);
-rbTree.isAVLBalanced();    // true
-rbTree.print()
-//         ___6________
-//        /            \
-//      ___4_       ___11________
-//     /     \     /             \
-//    _2_    5    _8_       ____14__
-//   /   \       /   \     /        \
-//   1   3       7   9    12__     15__
-//                            \        \
-//                           13       16
 ```
 
 ### 有向图代码示例

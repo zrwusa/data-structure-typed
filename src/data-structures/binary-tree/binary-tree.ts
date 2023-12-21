@@ -1957,7 +1957,7 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
     }
   }
 
-  protected _defaultOneParamCallback = (node: N) => node.key;
+  protected _defaultOneParamCallback = (node: N | null | undefined) => node ? node.key : undefined;
 
   /**
    * Swap the data of two nodes in the binary tree.

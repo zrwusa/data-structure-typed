@@ -212,7 +212,7 @@ export class UndirectedGraph<
    * (`VertexKey`).
    * @returns The method is returning a boolean value.
    */
-  override deleteVertex(vertexOrKey: VO | VertexKey): boolean {
+  deleteVertex(vertexOrKey: VO | VertexKey): boolean {
     let vertexKey: VertexKey;
     let vertex: VO | undefined;
     if (this.isVertexKey(vertexOrKey)) {

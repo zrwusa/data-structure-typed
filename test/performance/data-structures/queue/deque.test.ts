@@ -5,26 +5,26 @@ import { magnitude } from '../../../utils';
 import { isCompetitor } from '../../../config';
 
 export const suite = new Benchmark.Suite();
-const { LINEAR, HUNDRED_THOUSAND } = magnitude;
+const { MILLION, HUNDRED_THOUSAND } = magnitude;
 
-suite.add(`${LINEAR.toLocaleString()} push`, () => {
+suite.add(`${MILLION.toLocaleString()} push`, () => {
   const deque = new Deque<number>();
-  for (let i = 0; i < LINEAR; i++) deque.push(i);
+  for (let i = 0; i < MILLION; i++) deque.push(i);
 });
 
 if (isCompetitor) {
-  suite.add(`CPT ${LINEAR.toLocaleString()} push`, () => {
+  suite.add(`CPT ${MILLION.toLocaleString()} push`, () => {
     const _deque = new CDeque<number>();
-    for (let i = 0; i < LINEAR; i++) _deque.pushBack(i);
+    for (let i = 0; i < MILLION; i++) _deque.pushBack(i);
   });
 }
 
 
-suite.add(`${LINEAR.toLocaleString()} push & pop`, () => {
+suite.add(`${MILLION.toLocaleString()} push & pop`, () => {
   const _deque = new Deque<number>();
 
-  for (let i = 0; i < LINEAR; i++) _deque.push(i);
-  for (let i = 0; i < LINEAR; i++) _deque.pop();
+  for (let i = 0; i < MILLION; i++) _deque.push(i);
+  for (let i = 0; i < MILLION; i++) _deque.pop();
 
 })
   .add(`${HUNDRED_THOUSAND.toLocaleString()} push & shift`, () => {

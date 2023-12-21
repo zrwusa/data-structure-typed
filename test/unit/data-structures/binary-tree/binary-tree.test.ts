@@ -639,4 +639,19 @@ describe('BinaryTree iterative methods test', () => {
     const values = binaryTree.values();
     expect([...values]).toEqual(['b', 'a', 'c']);
   });
+
+  test('should iterative method return undefined when the node is null', () => {
+    const tree = new BinaryTree()
+    tree.addMany([-10, -10, -10, 9, 9, 20, null, null, 15, 7, 8, null, 2, null, 6, null, null, 8, 8, 8]);
+    const bfsResult = tree.bfs(undefined, undefined, undefined, true);
+    expect(bfsResult).toEqual([
+      -10, 9,
+      20, undefined,
+      undefined, 15,
+      7, 8,
+      undefined, 2,
+      undefined, 6,
+      undefined, undefined
+    ]);
+  })
 });

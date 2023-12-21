@@ -9,24 +9,16 @@ suite
   .add(`${MILLION.toLocaleString()} push & shift`, () => {
     const list = new SinglyLinkedList<number>();
 
-    for (let i = 0; i < MILLION; i++) {
-      list.push(i);
-    }
+    for (let i = 0; i < MILLION; i++) list.push(i);
 
-    for (let i = 0; i < MILLION; i++) {
-      list.shift();
-    }
+    for (let i = 0; i < MILLION; i++) list.shift();
   })
   .add(`${TEN_THOUSAND.toLocaleString()} push & pop`, () => {
     const list = new SinglyLinkedList<number>();
 
-    for (let i = 0; i < TEN_THOUSAND; i++) {
-      list.push(i);
-    }
+    for (let i = 0; i < TEN_THOUSAND; i++) list.push(i);
 
-    for (let i = 0; i < TEN_THOUSAND; i++) {
-      list.pop();
-    }
+    for (let i = 0; i < TEN_THOUSAND; i++) list.pop();
   })
   .add(`${TEN_THOUSAND.toLocaleString()} addBefore`, () => {
     const singlyList = new SinglyLinkedList<number>();

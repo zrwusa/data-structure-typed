@@ -190,6 +190,19 @@ describe('UndirectedGraph', () => {
     expect(dg.getEdge('hello', 'hey')).toBeInstanceOf(UndirectedEdge)
   });
 
+
+  test('Removing a vertex of a DirectedGraph should delete additional edges', () => {
+    const graph = new UndirectedGraph();
+
+    graph.addVertex("Hello");
+    graph.addVertex("Hi");
+
+    graph.addEdge("Hello", "Hi");
+    graph.deleteVertex("Hello");
+
+    expect(graph.edgesOf("Hi")).toEqual([]);
+  })
+
   test('Removing a vertex from a UndirectedGraph should remove its edges', () => {
     const dg = new UndirectedGraph();
     dg.addVertex('hello')

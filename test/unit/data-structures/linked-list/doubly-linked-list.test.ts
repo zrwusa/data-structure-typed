@@ -424,4 +424,31 @@ describe('iterable methods', () => {
     expect([...dl.map(element => element * 2)]).toEqual([2, 4, 6]);
     expect(dl.reduce((accumulator, element) => accumulator + element, 0)).toEqual(6);
   });
+
+  test('values', () => {
+    const dl = new DoublyLinkedList<number>()
+    dl.push(1);
+    dl.push(2);
+    dl.push(3);
+    dl.delete(2);
+    dl.unshift(0);
+    dl.shift();
+    dl.pop();
+    dl.unshift(3);
+    expect([...dl.values()]).toEqual([3, 1])
+  })
+
+  test('some', () => {
+    const dl = new DoublyLinkedList<number>()
+    dl.push(1);
+    dl.push(2);
+    dl.push(3);
+    dl.delete(2);
+    dl.unshift(0);
+    dl.shift();
+    dl.pop();
+    dl.unshift(3);
+    expect(dl.some(value => value > 1)).toBe(true)
+    expect(dl.some(value => value > 100)).toBe(false)
+  })
 });
