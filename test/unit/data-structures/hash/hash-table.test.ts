@@ -185,7 +185,6 @@ describe('HashTable performance', function () {
   });
 });
 
-
 describe('HashTable methods', () => {
   let hashTable: HashTable<string, string>;
 
@@ -215,7 +214,6 @@ describe('HashTable methods', () => {
   //   }
   // });
 
-
   test('filter should return a new HashTable with elements that satisfy the condition', () => {
     const filtered = hashTable.filter(([key]) => key.endsWith('1') || key.endsWith('3'));
 
@@ -237,6 +235,4 @@ describe('HashTable methods', () => {
 
     expect(result).toBe('-value5-value7-value3-value4-value6-value0-value2-value8-value1-value9');
   });
-
 });
-

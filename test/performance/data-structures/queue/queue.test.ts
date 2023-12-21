@@ -33,16 +33,17 @@ suite.add(`${HUNDRED_THOUSAND.toLocaleString()} push & shift`, () => {
     queue.shift();
   }
 });
-suite.add(`Native Array ${HUNDRED_THOUSAND.toLocaleString()} push & shift`, () => {
-  const arr = new Array<number>();
+suite
+  .add(`Native Array ${HUNDRED_THOUSAND.toLocaleString()} push & shift`, () => {
+    const arr = new Array<number>();
 
-  for (let i = 0; i < HUNDRED_THOUSAND; i++) {
-    arr.push(i);
-  }
-  for (let i = 0; i < HUNDRED_THOUSAND; i++) {
-    arr.shift();
-  }
-})
+    for (let i = 0; i < HUNDRED_THOUSAND; i++) {
+      arr.push(i);
+    }
+    for (let i = 0; i < HUNDRED_THOUSAND; i++) {
+      arr.shift();
+    }
+  })
   .add(`Native Array ${HUNDRED_THOUSAND.toLocaleString()} push & pop`, () => {
     const arr = new Array<number>();
 

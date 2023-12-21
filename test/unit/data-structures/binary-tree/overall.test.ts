@@ -33,24 +33,22 @@ describe('Overall BinaryTree Test', () => {
     objBST.add([11, { key: 11, keyA: 11 }]);
     objBST.add([3, { key: 3, keyA: 3 }]);
 
-    objBST.addMany(
-      [
-        [15, { key: 15, keyA: 15 }],
-        [1, { key: 1, keyA: 1 }],
-        [8, { key: 8, keyA: 8 }],
-        [13, { key: 13, keyA: 13 }],
-        [16, { key: 16, keyA: 16 }],
-        [2, { key: 2, keyA: 2 }],
-        [6, { key: 6, keyA: 6 }],
-        [9, { key: 9, keyA: 9 }],
-        [12, { key: 12, keyA: 12 }],
-        [14, { key: 14, keyA: 14 }],
-        [4, { key: 4, keyA: 4 }],
-        [7, { key: 7, keyA: 7 }],
-        [10, { key: 10, keyA: 10 }],
-        [5, { key: 5, keyA: 5 }]
-      ]
-    );
+    objBST.addMany([
+      [15, { key: 15, keyA: 15 }],
+      [1, { key: 1, keyA: 1 }],
+      [8, { key: 8, keyA: 8 }],
+      [13, { key: 13, keyA: 13 }],
+      [16, { key: 16, keyA: 16 }],
+      [2, { key: 2, keyA: 2 }],
+      [6, { key: 6, keyA: 6 }],
+      [9, { key: 9, keyA: 9 }],
+      [12, { key: 12, keyA: 12 }],
+      [14, { key: 14, keyA: 14 }],
+      [4, { key: 4, keyA: 4 }],
+      [7, { key: 7, keyA: 7 }],
+      [10, { key: 10, keyA: 10 }],
+      [5, { key: 5, keyA: 5 }]
+    ]);
 
     objBST.delete(11);
 

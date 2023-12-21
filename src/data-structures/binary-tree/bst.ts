@@ -20,7 +20,11 @@ import { BinaryTree, BinaryTreeNode } from './binary-tree';
 import { IBinaryTree } from '../../interfaces';
 import { Queue } from '../queue';
 
-export class BSTNode<K = any, V = any, N extends BSTNode<K, V, N> = BSTNodeNested<K, V>> extends BinaryTreeNode<K, V, N> {
+export class BSTNode<K = any, V = any, N extends BSTNode<K, V, N> = BSTNodeNested<K, V>> extends BinaryTreeNode<
+  K,
+  V,
+  N
+> {
   override parent?: N;
 
   constructor(key: K, value?: V) {
@@ -80,11 +84,14 @@ export class BSTNode<K = any, V = any, N extends BSTNode<K, V, N> = BSTNodeNeste
  * 6. Balance Variability: Can become unbalanced; special types maintain balance.
  * 7. No Auto-Balancing: Standard BSTs don't automatically balance themselves.
  */
-export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BSTNodeNested<K, V>>, TREE extends BST<K, V, N, TREE> = BST<K, V, N, BSTNested<K, V, N>>>
+export class BST<
+  K = any,
+  V = any,
+  N extends BSTNode<K, V, N> = BSTNode<K, V, BSTNodeNested<K, V>>,
+  TREE extends BST<K, V, N, TREE> = BST<K, V, N, BSTNested<K, V, N>>
+>
   extends BinaryTree<K, V, N, TREE>
   implements IBinaryTree<K, V, N, TREE> {
-
-
   /**
    * This is the constructor function for a binary search tree class in TypeScript, which initializes
    * the tree with optional elements and options.
@@ -114,7 +121,7 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
     return this._root;
   }
 
-  protected _variant = BSTVariant.MIN
+  protected _variant = BSTVariant.MIN;
 
   get variant() {
     return this._variant;
@@ -142,7 +149,8 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
   override createTree(options?: Partial<BSTOptions<K>>): TREE {
     return new BST<K, V, N, TREE>([], {
       iterationType: this.iterationType,
-      variant: this.variant, ...options
+      variant: this.variant,
+      ...options
     }) as TREE;
   }
 
@@ -154,7 +162,6 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
   override isNode(exemplar: BTNExemplar<K, V, N>): exemplar is N {
     return exemplar instanceof BSTNode;
   }
-
 
   /**
    * The function `exemplarToNode` takes an exemplar and returns a node if the exemplar is valid,
@@ -301,7 +308,7 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
     const isRealBTNExemplar = (kve: BTNExemplar<K, V, N>): kve is BTNodePureExemplar<K, V, N> => {
       if (kve === undefined || kve === null) return false;
       return !(this.isEntry(kve) && (kve[0] === undefined || kve[0] === null));
-    }
+    };
 
     for (const kve of keysOrNodesOrEntries) {
       isRealBTNExemplar(kve) && realBTNExemplars.push(kve);
@@ -359,7 +366,6 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
     return inserted;
   }
 
-
   /**
    * Time Complexity: O(n log n) - Adding each element individually in a balanced tree.
    * Space Complexity: O(n) - Additional space is required for the sorted array.
@@ -397,7 +403,6 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
     }
     return current.key;
   }
-
 
   /**
    * Time Complexity: O(log n) - Average case for a balanced tree.
@@ -450,7 +455,7 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
    * @returns a boolean value indicating whether the potentialKey is of type number or not.
    */
   override isNotNodeInstance(potentialKey: BTNKeyOrNode<K, N>): potentialKey is K {
-    return !(potentialKey instanceof BSTNode)
+    return !(potentialKey instanceof BSTNode);
   }
 
   /**
@@ -738,7 +743,6 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
     return balanced;
   }
 
-
   protected _setRoot(v: N | undefined) {
     if (v) {
       v.parent = undefined;
@@ -761,5 +765,4 @@ export class BST<K = any, V = any, N extends BSTNode<K, V, N> = BSTNode<K, V, BS
 
     return compared > 0 ? CP.gt : compared < 0 ? CP.lt : CP.eq;
   }
-
 }

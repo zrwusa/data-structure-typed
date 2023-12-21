@@ -318,13 +318,20 @@ describe('AVLTree iterative methods test', () => {
   test('filter should return a new tree with filtered elements', () => {
     const filteredTree = avl.filter((value, key) => key > 1);
     expect(filteredTree.size).toBe(2);
-    expect([...filteredTree]).toEqual([[2, 'b'], [3, 'c']]);
+    expect([...filteredTree]).toEqual([
+      [2, 'b'],
+      [3, 'c']
+    ]);
   });
 
   test('map should return a new tree with modified elements', () => {
     const mappedTree = avl.map((value, key) => (key * 2).toString());
     expect(mappedTree.size).toBe(3);
-    expect([...mappedTree]).toEqual([[1, '2'], [2, '4'], [3, '6']]);
+    expect([...mappedTree]).toEqual([
+      [1, '2'],
+      [2, '4'],
+      [3, '6']
+    ]);
   });
 
   test('reduce should accumulate values', () => {
@@ -339,7 +346,11 @@ describe('AVLTree iterative methods test', () => {
     }
 
     expect(entries.length).toBe(3);
-    expect(entries).toEqual([[1, 'a'], [2, 'b'], [3, 'c']]);
+    expect(entries).toEqual([
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c']
+    ]);
   });
 
   test('should clone work well', () => {

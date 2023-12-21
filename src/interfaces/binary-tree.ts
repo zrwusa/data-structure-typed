@@ -5,10 +5,15 @@ import {
   BinaryTreeNodeNested,
   BinaryTreeOptions,
   BTNCallback,
-  BTNExemplar,
+  BTNExemplar
 } from '../types';
 
-export interface IBinaryTree<K = number, V = any, N extends BinaryTreeNode<K, V, N> = BinaryTreeNodeNested<K, V>, TREE extends BinaryTree<K, V, N, TREE> = BinaryTreeNested<K, V, N>> {
+export interface IBinaryTree<
+  K = number,
+  V = any,
+  N extends BinaryTreeNode<K, V, N> = BinaryTreeNodeNested<K, V>,
+  TREE extends BinaryTree<K, V, N, TREE> = BinaryTreeNested<K, V, N>
+> {
   createNode(key: K, value?: N['value']): N;
 
   createTree(options?: Partial<BinaryTreeOptions<K>>): TREE;

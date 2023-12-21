@@ -265,7 +265,22 @@ describe('BinaryTree', () => {
     tree.clear();
     tree.addMany([-10, -10, -10, 9, 9, 20, null, null, 15, 7, 8, null, 2, null, 6, null, null, 8, 8, 8]);
 
-    expect(tree.bfs(node => node ? node.key : null, undefined, undefined, true)).toEqual([-10, 9, 20, null, null, 15, 7, 8, null, 2, null, 6, null, null])
+    expect(tree.bfs(node => (node ? node.key : null), undefined, undefined, true)).toEqual([
+      -10,
+      9,
+      20,
+      null,
+      null,
+      15,
+      7,
+      8,
+      null,
+      2,
+      null,
+      6,
+      null,
+      null
+    ]);
   });
 });
 
@@ -525,18 +540,12 @@ describe('BinaryTree', () => {
     tree.add([3, 'B']);
     tree.add([7, 'C']);
 
-    const nodes = tree.getNodes('B', (node) => node.value);
+    const nodes = tree.getNodes('B', node => node.value);
 
     expect(nodes.length).toBe(1);
     expect(nodes[0].key).toBe(3);
 
-    const nodesRec = tree.getNodes(
-      'B',
-      (node) => node.value,
-      false,
-      tree.root,
-      IterationType.RECURSIVE
-    );
+    const nodesRec = tree.getNodes('B', node => node.value, false, tree.root, IterationType.RECURSIVE);
 
     expect(nodesRec.length).toBe(1);
     expect(nodesRec[0].key).toBe(3);
@@ -548,9 +557,17 @@ describe('BinaryTree', () => {
     tree.add([7, 'C']);
 
     tree.iterationType = IterationType.ITERATIVE;
-    expect([...tree]).toEqual([[3, "B"], [5, "A"], [7, "C"]]);
+    expect([...tree]).toEqual([
+      [3, 'B'],
+      [5, 'A'],
+      [7, 'C']
+    ]);
     tree.iterationType = IterationType.RECURSIVE;
-    expect([...tree]).toEqual([[3, "B"], [5, "A"], [7, "C"]]);
+    expect([...tree]).toEqual([
+      [3, 'B'],
+      [5, 'A'],
+      [7, 'C']
+    ]);
     tree.iterationType = IterationType.ITERATIVE;
 
     const result = tree.morris();
@@ -600,13 +617,20 @@ describe('BinaryTree iterative methods test', () => {
   test('filter should return a new tree with filtered elements', () => {
     const filteredTree = binaryTree.filter((value, key) => key > 1);
     expect(filteredTree.size).toBe(2);
-    expect([...filteredTree]).toEqual([[3, 'c'], [2, 'b']]);
+    expect([...filteredTree]).toEqual([
+      [3, 'c'],
+      [2, 'b']
+    ]);
   });
 
   test('map should return a new tree with modified elements', () => {
     const mappedTree = binaryTree.map((value, key) => (key * 2).toString());
     expect(mappedTree.size).toBe(3);
-    expect([...mappedTree]).toEqual([[1, '2'], [2, '4'], [3, '6']]);
+    expect([...mappedTree]).toEqual([
+      [1, '2'],
+      [2, '4'],
+      [3, '6']
+    ]);
   });
 
   test('reduce should accumulate values', () => {
@@ -621,7 +645,11 @@ describe('BinaryTree iterative methods test', () => {
     }
 
     expect(entries.length).toBe(3);
-    expect(entries).toEqual([[2, 'b'], [1, 'a'], [3, 'c']]);
+    expect(entries).toEqual([
+      [2, 'b'],
+      [1, 'a'],
+      [3, 'c']
+    ]);
   });
 
   test('should clone work well', () => {
@@ -641,17 +669,24 @@ describe('BinaryTree iterative methods test', () => {
   });
 
   test('should iterative method return undefined when the node is null', () => {
-    const tree = new BinaryTree()
+    const tree = new BinaryTree();
     tree.addMany([-10, -10, -10, 9, 9, 20, null, null, 15, 7, 8, null, 2, null, 6, null, null, 8, 8, 8]);
     const bfsResult = tree.bfs(undefined, undefined, undefined, true);
     expect(bfsResult).toEqual([
-      -10, 9,
-      20, undefined,
-      undefined, 15,
-      7, 8,
-      undefined, 2,
-      undefined, 6,
-      undefined, undefined
+      -10,
+      9,
+      20,
+      undefined,
+      undefined,
+      15,
+      7,
+      8,
+      undefined,
+      2,
+      undefined,
+      6,
+      undefined,
+      undefined
     ]);
-  })
+  });
 });

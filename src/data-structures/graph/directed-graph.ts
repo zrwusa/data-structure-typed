@@ -182,7 +182,6 @@ export class DirectedGraph<
    * Space Complexity: O(1)
    */
 
-
   /**
    * Time Complexity: O(E) where E is the number of edgeMap
    * Space Complexity: O(1)
@@ -248,7 +247,7 @@ export class DirectedGraph<
       vertexKey = vertexOrKey;
     } else {
       vertex = vertexOrKey;
-      vertexKey = this._getVertexKey(vertexOrKey)
+      vertexKey = this._getVertexKey(vertexOrKey);
     }
 
     if (vertex) {
@@ -599,7 +598,6 @@ export class DirectedGraph<
       return undefined;
     }
   }
-
 
   /**
    * Time Complexity: O(1)

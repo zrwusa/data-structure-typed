@@ -4,7 +4,7 @@
  * @class
  */
 import type { ElementCallback } from '../../types';
-import { IterableElementBase } from "../base";
+import { IterableElementBase } from '../base';
 import { SinglyLinkedList } from '../linked-list';
 
 /**

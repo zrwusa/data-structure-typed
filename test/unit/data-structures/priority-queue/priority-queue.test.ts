@@ -31,7 +31,6 @@ describe('PriorityQueue Operation Test', () => {
     expect(maxPriorityQueue.peek()).toBe(3);
     expect(
       PriorityQueue.heapify([3, 2, 1, 5, 6, 7, 8, 9, 10], {
-
         comparator: (a, b) => a - b
       }).toArray()
     ).toEqual([1, 3, 2, 5, 6, 7, 8, 9, 10]);

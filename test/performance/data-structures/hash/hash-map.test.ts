@@ -78,7 +78,6 @@ suite.add(`Native Set ${MILLION.toLocaleString()} add & has`, () => {
   for (let i = 0; i < MILLION; i++) hs.add(i);
 
   for (let i = 0; i < MILLION; i++) hs.has(i);
-
 });
 
 suite.add(`${MILLION.toLocaleString()} ObjKey set & get`, () => {
@@ -86,7 +85,7 @@ suite.add(`${MILLION.toLocaleString()} ObjKey set & get`, () => {
   const objKeys: [number, number][] = [];
   for (let i = 0; i < MILLION; i++) {
     const obj: [number, number] = [i, i];
-    objKeys.push(obj)
+    objKeys.push(obj);
     hm.set(obj, i);
   }
   for (let i = 0; i < MILLION; i++) {
@@ -99,7 +98,7 @@ suite.add(`Native Map ${MILLION.toLocaleString()} ObjKey set & get`, () => {
   const objs: [number, number][] = [];
   for (let i = 0; i < MILLION; i++) {
     const obj: [number, number] = [i, i];
-    objs.push(obj)
+    objs.push(obj);
     hm.set(obj, i);
   }
   for (let i = 0; i < MILLION; i++) {
@@ -112,7 +111,7 @@ suite.add(`Native Set ${MILLION.toLocaleString()} ObjKey add & has`, () => {
   const objs: [number, number][] = [];
   for (let i = 0; i < MILLION; i++) {
     const obj: [number, number] = [i, i];
-    objs.push(obj)
+    objs.push(obj);
     hs.add(obj);
   }
   for (let i = 0; i < MILLION; i++) {

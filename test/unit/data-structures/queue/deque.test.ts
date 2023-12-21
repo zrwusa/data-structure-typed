@@ -170,7 +170,6 @@ describe('Deque - Utility Operations', () => {
     deque.print();
     expect(consoleSpy).toHaveBeenCalledWith([1, 2]);
   });
-
 });
 describe('Deque - Additional Operations', () => {
   let deque: Deque<number>;
@@ -229,7 +228,6 @@ describe('Deque - Additional Operations', () => {
     expect(iterator.next().value).toBe(2);
     expect(iterator.next().value).toBe(1);
   });
-
 });
 describe('Deque - push Method', () => {
   let deque: Deque<number>;
@@ -264,7 +262,6 @@ describe('Deque - push Method', () => {
   });
 
   test('push should add an element and reallocate when last bucket and lastInBucket are at max', () => {
-
     for (let i = 0; i < 100; i++) {
       deque.push(i);
     }
@@ -303,8 +300,6 @@ describe('Deque - pop Method', () => {
       const lastElement = deque.last;
       expect(deque.pop()).toBe(lastElement);
     }
-
-
   });
 });
 describe('Deque - unshift Method', () => {
@@ -368,6 +363,5 @@ describe('Deque - shift Method', () => {
       const firstElement = deque.first;
       expect(deque.shift()).toBe(firstElement);
     }
-
   });
 });

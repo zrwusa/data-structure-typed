@@ -5,9 +5,9 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { ElementCallback, IterableWithSizeOrLength } from "../../types";
-import { IterableElementBase } from "../base";
-import { calcMinUnitsRequired, rangeCheck } from "../../utils";
+import type { ElementCallback, IterableWithSizeOrLength } from '../../types';
+import { IterableElementBase } from '../base';
+import { calcMinUnitsRequired, rangeCheck } from '../../utils';
 
 /**
  * 1. Operations at Both Ends: Supports adding and removing elements at both the front and back of the queue. This allows it to be used as a stack (last in, first out) and a queue (first in, first out).
@@ -33,13 +33,15 @@ export class Deque<E> extends IterableElementBase<E> {
    * @param bucketSize - The `bucketSize` parameter is the maximum number of elements that can be
    * stored in each bucket. It determines the size of each bucket in the data structure.
    */
-  constructor(elements: IterableWithSizeOrLength<E> = [], bucketSize = (1 << 12)) {
+  constructor(elements: IterableWithSizeOrLength<E> = [], bucketSize = 1 << 12) {
     super();
     let _size: number;
     if ('length' in elements) {
-      if (elements.length instanceof Function) _size = elements.length(); else _size = elements.length;
+      if (elements.length instanceof Function) _size = elements.length();
+      else _size = elements.length;
     } else {
-      if (elements.size instanceof Function) _size = elements.size(); else _size = elements.size;
+      if (elements.size instanceof Function) _size = elements.size();
+      else _size = elements.size;
     }
 
     this._bucketSize = bucketSize;
@@ -49,7 +51,7 @@ export class Deque<E> extends IterableElementBase<E> {
     }
     const needBucketNum = calcMinUnitsRequired(_size, this._bucketSize);
     this._bucketFirst = this._bucketLast = (this._bucketCount >> 1) - (needBucketNum >> 1);
-    this._firstInBucket = this._lastInBucket = (this._bucketSize - _size % this._bucketSize) >> 1;
+    this._firstInBucket = this._lastInBucket = (this._bucketSize - (_size % this._bucketSize)) >> 1;
 
     for (const element of elements) {
       this.push(element);
@@ -108,10 +110,7 @@ export class Deque<E> extends IterableElementBase<E> {
         this._bucketLast = 0;
         this._lastInBucket = 0;
       }
-      if (
-        this._bucketLast === this._bucketFirst &&
-        this._lastInBucket === this._firstInBucket
-      ) this._reallocate();
+      if (this._bucketLast === this._bucketFirst && this._lastInBucket === this._firstInBucket) this._reallocate();
     }
     this._size += 1;
     this._buckets[this._bucketLast][this._lastInBucket] = element;
@@ -175,10 +174,7 @@ export class Deque<E> extends IterableElementBase<E> {
         this._bucketFirst = this._bucketCount - 1;
         this._firstInBucket = this._bucketSize - 1;
       }
-      if (
-        this._bucketFirst === this._bucketLast &&
-        this._firstInBucket === this._lastInBucket
-      ) this._reallocate();
+      if (this._bucketFirst === this._bucketLast && this._firstInBucket === this._lastInBucket) this._reallocate();
     }
     this._size += 1;
     this._buckets[this._bucketFirst][this._firstInBucket] = element;
@@ -260,7 +256,6 @@ export class Deque<E> extends IterableElementBase<E> {
     }
   }
 
-
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
@@ -278,13 +273,9 @@ export class Deque<E> extends IterableElementBase<E> {
    */
   getAt(pos: number): E {
     rangeCheck(pos, 0, this.size - 1);
-    const {
-      bucketIndex,
-      indexInBucket
-    } = this._getBucketAndPosition(pos);
+    const { bucketIndex, indexInBucket } = this._getBucketAndPosition(pos);
     return this._buckets[bucketIndex][indexInBucket]!;
   }
-
 
   /**
    * Time Complexity: O(1)
@@ -303,10 +294,7 @@ export class Deque<E> extends IterableElementBase<E> {
    */
   setAt(pos: number, element: E): boolean {
     rangeCheck(pos, 0, this.size - 1);
-    const {
-      bucketIndex,
-      indexInBucket
-    } = this._getBucketAndPosition(pos);
+    const { bucketIndex, indexInBucket } = this._getBucketAndPosition(pos);
     this._buckets[bucketIndex][indexInBucket] = element;
     return true;
   }
@@ -370,10 +358,7 @@ export class Deque<E> extends IterableElementBase<E> {
       this.clear();
       return 0;
     }
-    const {
-      bucketIndex,
-      indexInBucket
-    } = this._getBucketAndPosition(pos);
+    const { bucketIndex, indexInBucket } = this._getBucketAndPosition(pos);
     this._bucketLast = bucketIndex;
     this._lastInBucket = indexInBucket;
     this._size = pos + 1;
@@ -402,15 +387,9 @@ export class Deque<E> extends IterableElementBase<E> {
     else if (pos === this.size - 1) this.pop();
     else {
       const length = this.size - 1;
-      let {
-        bucketIndex: curBucket,
-        indexInBucket: curPointer
-      } = this._getBucketAndPosition(pos);
+      let { bucketIndex: curBucket, indexInBucket: curPointer } = this._getBucketAndPosition(pos);
       for (let i = pos; i < length; ++i) {
-        const {
-          bucketIndex: nextBucket,
-          indexInBucket: nextPointer
-        } = this._getBucketAndPosition(pos + 1);
+        const { bucketIndex: nextBucket, indexInBucket: nextPointer } = this._getBucketAndPosition(pos + 1);
         this._buckets[curBucket][curPointer] = this._buckets[nextBucket][nextPointer];
         curBucket = nextBucket;
         curPointer = nextPointer;
@@ -827,7 +806,7 @@ export class Deque<E> extends IterableElementBase<E> {
       bucketIndex -= this._bucketCount;
     }
 
-    indexInBucket = (overallIndex + 1) % this._bucketSize - 1;
+    indexInBucket = ((overallIndex + 1) % this._bucketSize) - 1;
     if (indexInBucket < 0) {
       indexInBucket = this._bucketSize - 1;
     }

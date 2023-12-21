@@ -98,4 +98,5 @@ export const isWeakKey = (input: unknown): input is object => {
   return (inputType === 'object' && input !== null) || inputType === 'function';
 };
 
-export const calcMinUnitsRequired = (totalQuantity: number, unitSize: number) => Math.floor((totalQuantity + unitSize - 1) / unitSize)
+export const calcMinUnitsRequired = (totalQuantity: number, unitSize: number) =>
+  Math.floor((totalQuantity + unitSize - 1) / unitSize);

@@ -31,13 +31,13 @@ export class Heap<E = any> extends IterableElementBase<E> {
       } else {
         return a - b;
       }
-    }
+    };
     if (options) {
-      this.options = options
+      this.options = options;
     } else {
       this.options = {
         comparator: defaultComparator
-      }
+      };
     }
 
     if (elements) {
@@ -225,7 +225,8 @@ export class Heap<E = any> extends IterableElementBase<E> {
 
     // Auxiliary recursive function, traverses the binary heap according to the traversal order
     const _dfs = (index: number) => {
-      const left = 2 * index + 1, right = left + 1;
+      const left = 2 * index + 1,
+        right = left + 1;
       if (index < this.size) {
         if (order === 'in') {
           _dfs(left);
@@ -380,7 +381,6 @@ export class Heap<E = any> extends IterableElementBase<E> {
    * original Heap.
    */
   map<T>(callback: ElementCallback<E, T>, comparator: Comparator<T>, thisArg?: any): Heap<T> {
-
     const mappedHeap: Heap<T> = new Heap<T>([], { comparator: comparator });
     let index = 0;
     for (const el of this) {
@@ -432,13 +432,10 @@ export class Heap<E = any> extends IterableElementBase<E> {
   protected _sinkDown(index: number, halfLength: number): boolean {
     const element = this.elements[index];
     while (index < halfLength) {
-      let left = index << 1 | 1;
+      let left = (index << 1) | 1;
       const right = left + 1;
       let minItem = this.elements[left];
-      if (
-        right < this.elements.length &&
-        this.options.comparator(minItem, this.elements[right]) > 0
-      ) {
+      if (right < this.elements.length && this.options.comparator(minItem, this.elements[right]) > 0) {
         left = right;
         minItem = this.elements[right];
       }

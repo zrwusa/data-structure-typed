@@ -45,11 +45,14 @@ export class TreeMultimapNode<
 /**
  * The only distinction between a TreeMultimap and a AVLTree lies in the ability of the former to store duplicate nodes through the utilization of counters.
  */
-export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> = TreeMultimapNode<K, V, TreeMultimapNodeNested<K, V>>,
-  TREE extends TreeMultimap<K, V, N, TREE> = TreeMultimap<K, V, N, TreeMultimapNested<K, V, N>>>
+export class TreeMultimap<
+  K = any,
+  V = any,
+  N extends TreeMultimapNode<K, V, N> = TreeMultimapNode<K, V, TreeMultimapNodeNested<K, V>>,
+  TREE extends TreeMultimap<K, V, N, TREE> = TreeMultimap<K, V, N, TreeMultimapNested<K, V, N>>
+>
   extends AVLTree<K, V, N, TREE>
   implements IBinaryTree<K, V, N, TREE> {
-
   constructor(elements?: Iterable<BTNExemplar<K, V, N>>, options?: Partial<TreeMultimapOptions<K>>) {
     super([], options);
     if (elements) this.addMany(elements);
@@ -60,7 +63,7 @@ export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> 
   // TODO the _count is not accurate after nodes count modified
   get count(): number {
     let sum = 0;
-    this.subTreeTraverse(node => sum += node.count);
+    this.subTreeTraverse(node => (sum += node.count));
     return sum;
   }
 
@@ -80,7 +83,8 @@ export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> 
   override createTree(options?: TreeMultimapOptions<K>): TREE {
     return new TreeMultimap<K, V, N, TREE>([], {
       iterationType: this.iterationType,
-      variant: this.variant, ...options
+      variant: this.variant,
+      ...options
     }) as TREE;
   }
 
@@ -101,7 +105,7 @@ export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> 
    * @returns a boolean value indicating whether the potentialKey is of type number or not.
    */
   override isNotNodeInstance(potentialKey: BTNKeyOrNode<K, N>): potentialKey is K {
-    return !(potentialKey instanceof TreeMultimapNode)
+    return !(potentialKey instanceof TreeMultimapNode);
   }
 
   /**
@@ -433,7 +437,7 @@ export class TreeMultimap<K = any, V = any, N extends TreeMultimapNode<K, V, N> 
   }
 
   protected _replaceNode(oldNode: N, newNode: N): N {
-    newNode.count = oldNode.count + newNode.count
+    newNode.count = oldNode.count + newNode.count;
     return super._replaceNode(oldNode, newNode);
   }
 }

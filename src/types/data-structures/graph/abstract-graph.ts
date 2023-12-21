@@ -1,6 +1,7 @@
 export type VertexKey = string | number;
 
-export type DijkstraResult<V> = {
+export type DijkstraResult<V> =
+  | {
   distMap: Map<V, number>;
   distPaths?: Map<V, V[]>;
   preMap: Map<V, V | undefined>;
@@ -8,4 +9,5 @@ export type DijkstraResult<V> = {
   paths: V[][];
   minDist: number;
   minPath: V[];
-} | undefined;
+}
+  | undefined;

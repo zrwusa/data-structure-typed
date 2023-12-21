@@ -29,7 +29,8 @@ export class MaxHeap<E = any> extends Heap<E> {
           return b - a;
         }
       }
-    }) {
+    }
+  ) {
     super(elements, options);
   }
 }

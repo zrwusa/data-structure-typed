@@ -13,7 +13,6 @@ suite.add(`${MILLION.toLocaleString()} push`, () => {
   for (let i = 0; i < MILLION; i++) list.push(i);
 });
 
-
 if (isCompetitor) {
   suite.add(`CPT ${MILLION.toLocaleString()} push`, () => {
     const list = new CLinkedList<number>();

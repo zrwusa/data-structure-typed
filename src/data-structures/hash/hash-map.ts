@@ -27,9 +27,12 @@ export class HashMap<K = any, V = any> extends IterableEntryBase<K, V> {
    * @param [options] - The `options` parameter is an optional object that can contain additional
    * configuration options for the constructor. In this case, it has one property:
    */
-  constructor(elements: Iterable<[K, V]> = [], options?: {
-    hashFn: (key: K) => string
-  }) {
+  constructor(
+    elements: Iterable<[K, V]> = [],
+    options?: {
+      hashFn: (key: K) => string;
+    }
+  ) {
     super();
     if (options) {
       const { hashFn } = options;
@@ -73,7 +76,6 @@ export class HashMap<K = any, V = any> extends IterableEntryBase<K, V> {
         this._size++;
       }
       this._objMap.set(key, value);
-
     } else {
       const strKey = this._getNoObjKey(key);
       if (this._store[strKey] === undefined) {
@@ -137,7 +139,7 @@ export class HashMap<K = any, V = any> extends IterableEntryBase<K, V> {
   delete(key: K): boolean {
     if (this._isObjKey(key)) {
       if (this._objMap.has(key)) {
-        this._size--
+        this._size--;
       }
 
       return this._objMap.delete(key);
@@ -235,19 +237,19 @@ export class HashMap<K = any, V = any> extends IterableEntryBase<K, V> {
 
   protected _hashFn: (key: K) => string = (key: K) => String(key);
 
-  protected _isObjKey(key: any): key is (object | ((...args: any[]) => any)) {
+  protected _isObjKey(key: any): key is object | ((...args: any[]) => any) {
     const keyType = typeof key;
-    return (keyType === 'object' || keyType === 'function') && key !== null
+    return (keyType === 'object' || keyType === 'function') && key !== null;
   }
 
   protected _getNoObjKey(key: K): string {
     const keyType = typeof key;
 
     let strKey: string;
-    if (keyType !== "string" && keyType !== "number" && keyType !== "symbol") {
+    if (keyType !== 'string' && keyType !== 'number' && keyType !== 'symbol') {
       strKey = this._hashFn(key);
     } else {
-      if (keyType === "number") {
+      if (keyType === 'number') {
         // TODO numeric key should has its own hash
         strKey = <string>key;
       } else {
@@ -264,7 +266,6 @@ export class HashMap<K = any, V = any> extends IterableEntryBase<K, V> {
  * 3. Time Complexity: Similar to HashMap, LinkedHashMap offers constant-time performance for get and put operations in most cases.
  */
 export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
-
   protected _noObjMap: Record<string, HashMapLinkedNode<K, V | undefined>> = {};
   protected _objMap = new WeakMap<object, HashMapLinkedNode<K, V | undefined>>();
   protected _head: HashMapLinkedNode<K, V | undefined>;
@@ -273,12 +274,13 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
   protected _hashFn: (key: K) => string;
   protected _objHashFn: (key: K) => object;
 
-
-  constructor(elements?: Iterable<[K, V]>, options: HashMapOptions<K> = {
-
-    hashFn: (key: K) => String(key),
-    objHashFn: (key: K) => (<object>key)
-  }) {
+  constructor(
+    elements?: Iterable<[K, V]>,
+    options: HashMapOptions<K> = {
+      hashFn: (key: K) => String(key),
+      objHashFn: (key: K) => <object>key
+    }
+  ) {
     super();
     this._sentinel = <HashMapLinkedNode<K, V>>{};
     this._sentinel.prev = this._sentinel.next = this._head = this._tail = this._sentinel;

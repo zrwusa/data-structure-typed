@@ -5,20 +5,19 @@ import * as fastGlob from 'fast-glob';
 import { Color, numberFix, render } from '../utils';
 import { PerformanceTest } from './types';
 
-
 const args = process.argv.slice(2);
 
 const { GREEN, BOLD, END, YELLOW, GRAY, CYAN, BG_YELLOW } = Color;
 
 const getRelativePath = (file: string) => {
   return path.relative(__dirname, file);
-}
+};
 const coloredLabeled = (label: string, file: string) => {
   const relativeFilePath = getRelativePath(file);
   const directory = path.dirname(relativeFilePath);
   const fileName = path.basename(relativeFilePath);
   return `${BG_YELLOW} ${label} ${END} ${GRAY}${directory}/${END}${CYAN}${fileName}${END}`;
-}
+};
 
 const parentDirectory = path.resolve(__dirname, '../..');
 const reportDistPath = path.join(parentDirectory, 'benchmark');
@@ -29,19 +28,18 @@ let testFiles: string[];
 
 let isIndividual = false;
 if (args.length > 0) {
-  console.log(`arguments: ${args.join(' ')}`)
+  console.log(`arguments: ${args.join(' ')}`);
 
-  testFiles = allFiles.filter(file =>
-    args.every(word => file.includes(word))
-  );
+  testFiles = allFiles.filter(file => args.every(word => file.includes(word)));
   isIndividual = true;
-  console.log(`${testFiles.map(file => coloredLabeled('Matched', file)).join(`
-`)}`);
+  console.log(
+    `${testFiles.map(file => coloredLabeled('Matched', file)).join(`
+`)}`
+  );
 } else {
   isIndividual = false;
   testFiles = allFiles;
 }
-
 
 const report: { [key: string]: any } = {};
 
@@ -132,11 +130,12 @@ const composeReport = () => {
   html += `</div>
                     </body>
                   </html>`;
-  if (!isIndividual) replaceMarkdownContent(
-    '[//]: # (No deletion!!! Start of Replace Section)', // Start tag
-    '[//]: # (No deletion!!! End of Replace Section)', // end identifier
-    htmlTables // New content to be inserted
-  );
+  if (!isIndividual)
+    replaceMarkdownContent(
+      '[//]: # (No deletion!!! Start of Replace Section)', // Start tag
+      '[//]: # (No deletion!!! End of Replace Section)', // end identifier
+      htmlTables // New content to be inserted
+    );
   fs.writeFileSync(htmlFilePath, html);
   console.log(`Performance ${BOLD}${GREEN}report${END} file generated in file://${BOLD}${GREEN}${htmlFilePath}${END}`);
 };

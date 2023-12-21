@@ -63,7 +63,7 @@ describe('MaxPriorityQueue Operation Test', () => {
 
   it('should correctly heapify an object array', () => {
     const elements = [{ keyA: 5 }, { keyA: 3 }, { keyA: 7 }, { keyA: 1 }];
-    debugger
+    debugger;
     const maxPQ = MaxPriorityQueue.heapify<{ keyA: number }>(elements, { comparator: (a, b) => b.keyA - a.keyA });
 
     expect(maxPQ.poll()?.keyA).toBe(7);

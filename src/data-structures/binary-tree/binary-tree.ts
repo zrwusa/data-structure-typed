@@ -24,14 +24,18 @@ import { FamilyPosition, IterationType } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { trampoline } from '../../utils';
 import { Queue } from '../queue';
-import { IterableEntryBase } from "../base";
+import { IterableEntryBase } from '../base';
 
 /**
  * Represents a node in a binary tree.
  * @template V - The type of data stored in the node.
  * @template N - The type of the family relationship in the binary tree.
  */
-export class BinaryTreeNode<K = any, V = any, N extends BinaryTreeNode<K, V, N> = BinaryTreeNode<K, V, BinaryTreeNodeNested<K, V>>> {
+export class BinaryTreeNode<
+  K = any,
+  V = any,
+  N extends BinaryTreeNode<K, V, N> = BinaryTreeNode<K, V, BinaryTreeNodeNested<K, V>>
+> {
   key: K;
 
   value?: V;
@@ -97,10 +101,15 @@ export class BinaryTreeNode<K = any, V = any, N extends BinaryTreeNode<K, V, N> 
  * 5. Leaf Nodes: Nodes without children are leaves.
  */
 
-export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = BinaryTreeNode<K, V, BinaryTreeNodeNested<K, V>>, TREE extends BinaryTree<K, V, N, TREE> = BinaryTree<K, V, N, BinaryTreeNested<K, V, N>>> extends IterableEntryBase<K, V | undefined>
-
+export class BinaryTree<
+  K = any,
+  V = any,
+  N extends BinaryTreeNode<K, V, N> = BinaryTreeNode<K, V, BinaryTreeNodeNested<K, V>>,
+  TREE extends BinaryTree<K, V, N, TREE> = BinaryTree<K, V, N, BinaryTreeNested<K, V, N>>
+>
+  extends IterableEntryBase<K, V | undefined>
   implements IBinaryTree<K, V, N, TREE> {
-  iterationType = IterationType.ITERATIVE
+  iterationType = IterationType.ITERATIVE;
 
   /**
    * The constructor function initializes a binary tree object with optional elements and options.
@@ -128,7 +137,7 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
     if (elements) this.addMany(elements);
   }
 
-  protected _extractor = (key: K) => Number(key)
+  protected _extractor = (key: K) => Number(key);
 
   get extractor() {
     return this._extractor;
@@ -287,7 +296,6 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
     return undefined; // If the insertion position cannot be found, return undefined
   }
 
-
   /**
    * Time Complexity: O(k log n) - O(k * n)
    * Space Complexity: O(1)
@@ -328,7 +336,6 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
 
     return inserted;
   }
-
 
   /**
    * Time Complexity: O(k * n)  "n" is the number of nodes in the tree, and "k" is the number of keys to be inserted.
@@ -985,10 +992,7 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
    * @returns The function `getLeftMost` returns the leftmost node (`N`) in the binary tree. If there
    * is no leftmost node, it returns `null` or `undefined` depending on the input.
    */
-  getLeftMost(
-    beginRoot: BTNKeyOrNode<K, N> = this.root,
-    iterationType = this.iterationType
-  ): N | null | undefined {
+  getLeftMost(beginRoot: BTNKeyOrNode<K, N> = this.root, iterationType = this.iterationType): N | null | undefined {
     beginRoot = this.ensureNode(beginRoot);
 
     if (!beginRoot) return beginRoot;
@@ -1031,10 +1035,7 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
    * @returns The function `getRightMost` returns the rightmost node (`N`) in a binary tree. If there
    * is no rightmost node, it returns `null` or `undefined`, depending on the input.
    */
-  getRightMost(
-    beginRoot: BTNKeyOrNode<K, N> = this.root,
-    iterationType = this.iterationType
-  ): N | null | undefined {
+  getRightMost(beginRoot: BTNKeyOrNode<K, N> = this.root, iterationType = this.iterationType): N | null | undefined {
     // TODO support get right most by passing key in
     beginRoot = this.ensureNode(beginRoot);
     if (!beginRoot) return beginRoot;
@@ -1262,7 +1263,7 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
    * @returns a boolean value indicating whether the potentialKey is of type number or not.
    */
   isNotNodeInstance(potentialKey: BTNKeyOrNode<K, N>): potentialKey is K {
-    return !(potentialKey instanceof BinaryTreeNode)
+    return !(potentialKey instanceof BinaryTreeNode);
   }
 
   dfs<C extends BTNCallback<N>>(
@@ -1637,7 +1638,6 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
    * after the given node in the inorder traversal of the binary tree.
    */
   getSuccessor(x?: K | N | null): N | null | undefined {
-
     x = this.ensureNode(x);
     if (!this.isRealNode(x)) return undefined;
 
@@ -1858,11 +1858,14 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
     beginRoot = this.ensureNode(beginRoot);
     if (!beginRoot) return;
 
-    if (opts.isShowUndefined) console.log(`U for undefined
+    if (opts.isShowUndefined)
+      console.log(`U for undefined
       `);
-    if (opts.isShowNull) console.log(`N for null
+    if (opts.isShowNull)
+      console.log(`N for null
       `);
-    if (opts.isShowRedBlackNIL) console.log(`S for Sentinel Node
+    if (opts.isShowRedBlackNIL)
+      console.log(`S for Sentinel Node
       `);
 
     const display = (root: N | null | undefined): void => {
@@ -1920,30 +1923,42 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
     } else if (node !== null && node !== undefined) {
       // Display logic of normal nodes
 
-      const key = node.key, line = isNaN(this.extractor(key)) ? 'S' : this.extractor(key).toString(),
+      const key = node.key,
+        line = isNaN(this.extractor(key)) ? 'S' : this.extractor(key).toString(),
         width = line.length;
 
-      return _buildNodeDisplay(line, width, this._displayAux(node.left, options), this._displayAux(node.right, options))
-
+      return _buildNodeDisplay(
+        line,
+        width,
+        this._displayAux(node.left, options),
+        this._displayAux(node.right, options)
+      );
     } else {
       // For cases where none of the conditions are met, null, undefined, and NaN nodes are not displayed
-      const line = node === undefined ? 'U' : 'N', width = line.length;
+      const line = node === undefined ? 'U' : 'N',
+        width = line.length;
 
-      return _buildNodeDisplay(line, width, [[''], 1, 0, 0], [[''], 1, 0, 0])
+      return _buildNodeDisplay(line, width, [[''], 1, 0, 0], [[''], 1, 0, 0]);
     }
 
     function _buildNodeDisplay(line: string, width: number, left: NodeDisplayLayout, right: NodeDisplayLayout) {
       const [leftLines, leftWidth, leftHeight, leftMiddle] = left;
       const [rightLines, rightWidth, rightHeight, rightMiddle] = right;
-      const firstLine = ' '.repeat(Math.max(0, leftMiddle + 1))
-        + '_'.repeat(Math.max(0, leftWidth - leftMiddle - 1))
-        + line
-        + '_'.repeat(Math.max(0, rightMiddle))
-        + ' '.repeat(Math.max(0, rightWidth - rightMiddle));
+      const firstLine =
+        ' '.repeat(Math.max(0, leftMiddle + 1)) +
+        '_'.repeat(Math.max(0, leftWidth - leftMiddle - 1)) +
+        line +
+        '_'.repeat(Math.max(0, rightMiddle)) +
+        ' '.repeat(Math.max(0, rightWidth - rightMiddle));
 
-      const secondLine = (leftHeight > 0 ? ' '.repeat(leftMiddle) + '/' + ' '.repeat(leftWidth - leftMiddle - 1) : ' '.repeat(leftWidth))
-        + ' '.repeat(width)
-        + (rightHeight > 0 ? ' '.repeat(rightMiddle) + '\\' + ' '.repeat(rightWidth - rightMiddle - 1) : ' '.repeat(rightWidth));
+      const secondLine =
+        (leftHeight > 0
+          ? ' '.repeat(leftMiddle) + '/' + ' '.repeat(leftWidth - leftMiddle - 1)
+          : ' '.repeat(leftWidth)) +
+        ' '.repeat(width) +
+        (rightHeight > 0
+          ? ' '.repeat(rightMiddle) + '\\' + ' '.repeat(rightWidth - rightMiddle - 1)
+          : ' '.repeat(rightWidth));
 
       const mergedLines = [firstLine, secondLine];
 
@@ -1953,11 +1968,16 @@ export class BinaryTree<K = any, V = any, N extends BinaryTreeNode<K, V, N> = Bi
         mergedLines.push(leftLine + ' '.repeat(width) + rightLine);
       }
 
-      return <NodeDisplayLayout>[mergedLines, leftWidth + width + rightWidth, Math.max(leftHeight, rightHeight) + 2, leftWidth + Math.floor(width / 2)];
+      return <NodeDisplayLayout>[
+        mergedLines,
+        leftWidth + width + rightWidth,
+        Math.max(leftHeight, rightHeight) + 2,
+        leftWidth + Math.floor(width / 2)
+      ];
     }
   }
 
-  protected _defaultOneParamCallback = (node: N | null | undefined) => node ? node.key : undefined;
+  protected _defaultOneParamCallback = (node: N | null | undefined) => (node ? node.key : undefined);
 
   /**
    * Swap the data of two nodes in the binary tree.

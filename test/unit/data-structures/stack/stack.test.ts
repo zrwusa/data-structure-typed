@@ -66,7 +66,6 @@ describe('Stack', () => {
   });
 });
 
-
 describe('Stack iterative methods', () => {
   let stack: Stack<number>; // Declare a Stack instance
 
@@ -88,7 +87,7 @@ describe('Stack iterative methods', () => {
 
   test('should apply forEach to the stack', () => {
     const result: number[] = [];
-    stack.forEach((element) => {
+    stack.forEach(element => {
       result.push(element);
     });
 
@@ -96,14 +95,14 @@ describe('Stack iterative methods', () => {
   });
 
   test('should filter elements in the stack', () => {
-    const filteredStack = stack.filter((element) => element > 1);
+    const filteredStack = stack.filter(element => element > 1);
 
     expect(filteredStack.size).toBe(2);
     expect([...filteredStack]).toEqual([2, 3]);
   });
 
   test('should map elements in the stack', () => {
-    const mappedStack = stack.map((element) => element * 2);
+    const mappedStack = stack.map(element => element * 2);
 
     expect(mappedStack.size).toBe(3);
     expect([...mappedStack]).toEqual([2, 4, 6]);

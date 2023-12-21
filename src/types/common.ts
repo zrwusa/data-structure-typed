@@ -1,6 +1,6 @@
 export enum BSTVariant {
   MIN = 'MIN',
-  MAX = 'MAX',
+  MAX = 'MAX'
 }
 
 export enum CP {
@@ -46,15 +46,15 @@ export interface IterableWithLength<T> extends Iterable<T> {
   length: number | ((...args: any[]) => number);
 }
 
-export type IterableWithSizeOrLength<T> = IterableWithSize<T> | IterableWithLength<T>
+export type IterableWithSizeOrLength<T> = IterableWithSize<T> | IterableWithLength<T>;
 
-export type BinaryTreePrintOptions = { isShowUndefined?: boolean, isShowNull?: boolean, isShowRedBlackNIL?: boolean }
+export type BinaryTreePrintOptions = { isShowUndefined?: boolean; isShowNull?: boolean; isShowRedBlackNIL?: boolean };
 
 export type BTNEntry<K, V> = [K | null | undefined, V | undefined];
 
 export type BTNKeyOrNode<K, N> = K | null | undefined | N;
 
-export type BTNExemplar<K, V, N> = BTNEntry<K, V> | BTNKeyOrNode<K, N>
+export type BTNExemplar<K, V, N> = BTNEntry<K, V> | BTNKeyOrNode<K, N>;
 
 export type BTNodePureKeyOrNode<K, N> = K | N;
 

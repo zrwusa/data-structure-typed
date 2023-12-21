@@ -378,11 +378,61 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
 
       expect(predecessor).toBeInstanceOf(Array);
       expect(predecessor.length).toBe(9);
-      expect(predecessor[0]).toEqual([vertex2, undefined, vertex2, undefined, vertex3, undefined, vertex4, undefined, undefined]);
-      expect(predecessor[1]).toEqual([undefined, vertex1, undefined, vertex1, vertex3, undefined, vertex4, undefined, vertex1]);
-      expect(predecessor[5]).toEqual([undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined]);
-      expect(predecessor[7]).toEqual([undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined]);
-      expect(predecessor[8]).toEqual([vertex7, vertex7, vertex7, vertex7, vertex7, undefined, undefined, undefined, vertex7]);
+      expect(predecessor[0]).toEqual([
+        vertex2,
+        undefined,
+        vertex2,
+        undefined,
+        vertex3,
+        undefined,
+        vertex4,
+        undefined,
+        undefined
+      ]);
+      expect(predecessor[1]).toEqual([
+        undefined,
+        vertex1,
+        undefined,
+        vertex1,
+        vertex3,
+        undefined,
+        vertex4,
+        undefined,
+        vertex1
+      ]);
+      expect(predecessor[5]).toEqual([
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined
+      ]);
+      expect(predecessor[7]).toEqual([
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined
+      ]);
+      expect(predecessor[8]).toEqual([
+        vertex7,
+        vertex7,
+        vertex7,
+        vertex7,
+        vertex7,
+        undefined,
+        undefined,
+        undefined,
+        vertex7
+      ]);
     }
 
     const dijkstraRes12tt = myGraph.dijkstra(1, 2, true, true);
@@ -622,7 +672,10 @@ describe('DirectedGraph iterative Methods', () => {
 
   test('filter should return vertexMap that satisfy the condition', () => {
     const filtered = graph.filter((value, vertex) => vertex === 'A' || vertex === 'B');
-    expect(filtered).toEqual([["A", undefined], ["B", undefined]]);
+    expect(filtered).toEqual([
+      ['A', undefined],
+      ['B', undefined]
+    ]);
   });
 
   test('map should apply a function to each vertex and return a new array', () => {
@@ -637,53 +690,53 @@ describe('DirectedGraph iterative Methods', () => {
 
   test('Removing an edge of a DirectedGraph should delete additional edges', () => {
     const dg = new DirectedGraph();
-    dg.addVertex('hello')
-    dg.addVertex('hi')
-    dg.addVertex('hey')
-    dg.addEdge('hello', 'hi')
-    dg.addEdge('hello', 'hey')
-    expect(dg.getEdge('hello', 'hi')?.src).toBe('hello')
-    expect(dg.getEdge('hello', 'hi')?.dest).toBe('hi')
-    expect(dg.getEdge('hello', 'hey')?.src).toBe('hello')
-    expect(dg.getEdge('hello', 'hey')?.dest).toBe('hey')
-    dg.deleteEdge('hello', 'hi')
-    expect(dg.getEdge('hello', 'hi')).toBe(undefined)
-    expect(dg.getEdge('hello', 'hey')).toBeInstanceOf(DirectedEdge)
-    expect(dg.incomingEdgesOf("Hi")).toEqual([])
+    dg.addVertex('hello');
+    dg.addVertex('hi');
+    dg.addVertex('hey');
+    dg.addEdge('hello', 'hi');
+    dg.addEdge('hello', 'hey');
+    expect(dg.getEdge('hello', 'hi')?.src).toBe('hello');
+    expect(dg.getEdge('hello', 'hi')?.dest).toBe('hi');
+    expect(dg.getEdge('hello', 'hey')?.src).toBe('hello');
+    expect(dg.getEdge('hello', 'hey')?.dest).toBe('hey');
+    dg.deleteEdge('hello', 'hi');
+    expect(dg.getEdge('hello', 'hi')).toBe(undefined);
+    expect(dg.getEdge('hello', 'hey')).toBeInstanceOf(DirectedEdge);
+    expect(dg.incomingEdgesOf('Hi')).toEqual([]);
   });
 
   test('Removing a vertex of a DirectedGraph should delete additional edges', () => {
     const graph = new DirectedGraph();
 
-    graph.addVertex("Hello");
-    graph.addVertex("Hi");
+    graph.addVertex('Hello');
+    graph.addVertex('Hi');
 
-    graph.addEdge("Hello", "Hi");
-    graph.deleteVertex("Hello");
+    graph.addEdge('Hello', 'Hi');
+    graph.deleteVertex('Hello');
 
-    expect(graph.incomingEdgesOf("Hi")).toEqual([]);
-  })
+    expect(graph.incomingEdgesOf('Hi')).toEqual([]);
+  });
 
   test('Removing a vertex from a DirectedGraph should remove its edges', () => {
     const dg = new DirectedGraph();
-    dg.addVertex('hello')
-    dg.addVertex('world')
-    dg.addVertex('earth')
+    dg.addVertex('hello');
+    dg.addVertex('world');
+    dg.addVertex('earth');
 
-    dg.addEdge('hello', 'world')
-    dg.addEdge('hello', 'earth')
-    dg.addEdge('world', 'earth')
+    dg.addEdge('hello', 'world');
+    dg.addEdge('hello', 'earth');
+    dg.addEdge('world', 'earth');
 
     expect(dg.getEdge('hello', 'world')?.src).toBe('hello');
-    expect(dg.edgeSet().length).toBe(3)
-    expect(dg.edgeSet()[0].dest).toBe('world')
+    expect(dg.edgeSet().length).toBe(3);
+    expect(dg.edgeSet()[0].dest).toBe('world');
 
-    dg.deleteVertex('hello')
-    expect(dg.edgeSet().length).toBe(1)
-    expect(dg.edgeSet()?.[0].src).toBe('world')
+    dg.deleteVertex('hello');
+    expect(dg.edgeSet().length).toBe(1);
+    expect(dg.edgeSet()?.[0].src).toBe('world');
 
     expect(dg.getEdge('hello', 'world')).toBe(undefined);
-  })
+  });
 });
 
 describe('DirectedGraph getCycles', () => {
@@ -702,8 +755,8 @@ describe('DirectedGraph getCycles', () => {
     graph.addEdge('E', 'B');
     const cycles = graph.getCycles();
     expect(cycles.length).toBe(1);
-    expect(cycles[0]).toEqual(["B", "D", "E"]);
-  })
+    expect(cycles[0]).toEqual(['B', 'D', 'E']);
+  });
 
   test('should simple cycles graph getCycles return correct result', () => {
     const graph = new DirectedGraph();
@@ -719,8 +772,11 @@ describe('DirectedGraph getCycles', () => {
     graph.addEdge('A', 'D');
     graph.addEdge('D', 'C');
     const cycles = graph.getCycles();
-    expect(cycles.length).toBe(2)
-    expect(cycles).toEqual([["A", "B", "C"], ["A", "D", "C"]])
+    expect(cycles.length).toBe(2);
+    expect(cycles).toEqual([
+      ['A', 'B', 'C'],
+      ['A', 'D', 'C']
+    ]);
   });
 
   test('should 3 cycles graph getCycles return correct result', () => {
@@ -746,8 +802,11 @@ describe('DirectedGraph getCycles', () => {
     graph.addEdge('G', 'A');
 
     const cycles = graph.getCycles();
-    expect(cycles.length).toBe(3)
-    expect(cycles).toEqual([["A", "C", "G"], ["B", "D", "E"], ["B", "F", "E"]]);
+    expect(cycles.length).toBe(3);
+    expect(cycles).toEqual([
+      ['A', 'C', 'G'],
+      ['B', 'D', 'E'],
+      ['B', 'F', 'E']
+    ]);
   });
-})
-
+});

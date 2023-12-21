@@ -162,7 +162,6 @@ export class UndirectedGraph<
    * Space Complexity: O(1)
    */
 
-
   /**
    * Time Complexity: O(E), where E is the number of edgeMap incident to the given vertex.
    * Space Complexity: O(1)
@@ -192,7 +191,6 @@ export class UndirectedGraph<
 
     if (oneSide && otherSide) {
       return this.deleteEdgeBetween(oneSide, otherSide);
-
     } else {
       return;
     }
@@ -220,10 +218,10 @@ export class UndirectedGraph<
       vertexKey = vertexOrKey;
     } else {
       vertex = vertexOrKey;
-      vertexKey = this._getVertexKey(vertexOrKey)
+      vertexKey = this._getVertexKey(vertexOrKey);
     }
 
-    const neighbors = this.getNeighbors(vertexOrKey)
+    const neighbors = this.getNeighbors(vertexOrKey);
 
     if (vertex) {
       neighbors.forEach(neighbor => {
@@ -234,9 +232,8 @@ export class UndirectedGraph<
           });
           this._edgeMap.set(neighbor, restEdges);
         }
-      })
+      });
       this._edgeMap.delete(vertex);
-
     }
 
     return this._vertexMap.delete(vertexKey);

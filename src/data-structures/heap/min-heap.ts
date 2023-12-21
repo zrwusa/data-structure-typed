@@ -29,7 +29,8 @@ export class MinHeap<E = any> extends Heap<E> {
           return a - b;
         }
       }
-    }) {
+    }
+  ) {
     super(elements, options);
   }
 }

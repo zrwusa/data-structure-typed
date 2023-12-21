@@ -9,7 +9,22 @@ describe('BST operations test', () => {
     expect(bst).toBeInstanceOf(BST);
     bst.add([11, 11]);
     bst.add([3, 3]);
-    const idsAndValues: [number, number][] = [[15, 15], [1, 1], [8, 8], [13, 13], [16, 16], [2, 2], [6, 6], [9, 9], [12, 12], [14, 14], [4, 4], [7, 7], [10, 10], [5, 5]];
+    const idsAndValues: [number, number][] = [
+      [15, 15],
+      [1, 1],
+      [8, 8],
+      [13, 13],
+      [16, 16],
+      [2, 2],
+      [6, 6],
+      [9, 9],
+      [12, 12],
+      [14, 14],
+      [4, 4],
+      [7, 7],
+      [10, 10],
+      [5, 5]
+    ];
     bst.addMany(idsAndValues, undefined, false);
     expect(bst.root).toBeInstanceOf(BSTNode);
 
@@ -194,22 +209,26 @@ describe('BST operations test', () => {
     objBST.add([11, { name: '11', age: 11 }]);
     objBST.add([3, { name: '3', age: 3 }]);
 
-    objBST.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5], [
-      { "name": "Alice", "age": 15 },
-      { "name": "Bob", "age": 1 },
-      { "name": "Charlie", "age": 8 },
-      { "name": "David", "age": 13 },
-      { "name": "Emma", "age": 16 },
-      { "name": "Frank", "age": 2 },
-      { "name": "Grace", "age": 6 },
-      { "name": "Hannah", "age": 9 },
-      { "name": "Isaac", "age": 12 },
-      { "name": "Jack", "age": 14 },
-      { "name": "Katie", "age": 4 },
-      { "name": "Liam", "age": 7 },
-      { "name": "Mia", "age": 10 },
-      { "name": "Noah", "age": 5 }
-    ], false);
+    objBST.addMany(
+      [15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5],
+      [
+        { name: 'Alice', age: 15 },
+        { name: 'Bob', age: 1 },
+        { name: 'Charlie', age: 8 },
+        { name: 'David', age: 13 },
+        { name: 'Emma', age: 16 },
+        { name: 'Frank', age: 2 },
+        { name: 'Grace', age: 6 },
+        { name: 'Hannah', age: 9 },
+        { name: 'Isaac', age: 12 },
+        { name: 'Jack', age: 14 },
+        { name: 'Katie', age: 4 },
+        { name: 'Liam', age: 7 },
+        { name: 'Mia', age: 10 },
+        { name: 'Noah', age: 5 }
+      ],
+      false
+    );
 
     expect(objBST.root).toBeInstanceOf(BSTNode);
 
@@ -596,11 +615,7 @@ describe('BST operations test recursively', () => {
       [5, { key: 5, keyA: 5 }]
     ];
 
-    objBST.addMany(
-      entries,
-      undefined,
-      false
-    );
+    objBST.addMany(entries, undefined, false);
 
     expect(objBST.root).toBeInstanceOf(BSTNode);
 
@@ -878,13 +893,20 @@ describe('BST iterative methods test', () => {
   test('filter should return a new tree with filtered elements', () => {
     const filteredTree = bst.filter((value, key) => key > 1);
     expect(filteredTree.size).toBe(2);
-    expect([...filteredTree]).toEqual([[2, 'b'], [3, 'c']]);
+    expect([...filteredTree]).toEqual([
+      [2, 'b'],
+      [3, 'c']
+    ]);
   });
 
   test('map should return a new tree with modified elements', () => {
     const mappedTree = bst.map((value, key) => (key * 2).toString());
     expect(mappedTree.size).toBe(3);
-    expect([...mappedTree]).toEqual([[1, '2'], [2, '4'], [3, '6']]);
+    expect([...mappedTree]).toEqual([
+      [1, '2'],
+      [2, '4'],
+      [3, '6']
+    ]);
   });
 
   test('reduce should accumulate values', () => {
@@ -899,7 +921,11 @@ describe('BST iterative methods test', () => {
     }
 
     expect(entries.length).toBe(3);
-    expect(entries).toEqual([[1, 'a'], [2, 'b'], [3, 'c']]);
+    expect(entries).toEqual([
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c']
+    ]);
   });
 
   test('should clone work well', () => {

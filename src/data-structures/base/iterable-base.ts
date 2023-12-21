@@ -1,7 +1,6 @@
-import { ElementCallback, EntryCallback, ReduceElementCallback, ReduceEntryCallback } from "../../types";
+import { ElementCallback, EntryCallback, ReduceElementCallback, ReduceEntryCallback } from '../../types';
 
 export abstract class IterableEntryBase<K = any, V = any> {
-
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
@@ -147,7 +146,7 @@ export abstract class IterableEntryBase<K = any, V = any> {
     let index = 0;
     for (const item of this) {
       const [key, value] = item;
-      callbackfn.call(thisArg, value, key, index++, this)
+      callbackfn.call(thisArg, value, key, index++, this);
     }
   }
 
@@ -176,7 +175,7 @@ export abstract class IterableEntryBase<K = any, V = any> {
     let index = 0;
     for (const item of this) {
       const [key, value] = item;
-      accumulator = callbackfn(accumulator, value, key, index++, this)
+      accumulator = callbackfn(accumulator, value, key, index++, this);
     }
     return accumulator;
   }
@@ -193,14 +192,13 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * Space Complexity: O(n)
    */
   print(): void {
-    console.log([...this])
+    console.log([...this]);
   }
 
   protected abstract _getIterator(...args: any[]): IterableIterator<[K, V]>;
 }
 
 export abstract class IterableElementBase<V> {
-
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
@@ -310,7 +308,7 @@ export abstract class IterableElementBase<V> {
   forEach(callbackfn: ElementCallback<V, void>, thisArg?: any): void {
     let index = 0;
     for (const item of this) {
-      callbackfn.call(thisArg, item as V, index++, this)
+      callbackfn.call(thisArg, item as V, index++, this);
     }
   }
 
@@ -335,18 +333,17 @@ export abstract class IterableElementBase<V> {
     let accumulator = initialValue;
     let index = 0;
     for (const item of this) {
-      accumulator = callbackfn(accumulator, item as V, index++, this)
+      accumulator = callbackfn(accumulator, item as V, index++, this);
     }
     return accumulator;
   }
-
 
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    */
   print(): void {
-    console.log([...this])
+    console.log([...this]);
   }
 
   protected abstract _getIterator(...args: any[]): IterableIterator<V>;

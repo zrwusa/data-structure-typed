@@ -472,13 +472,12 @@ describe('SinglyLinkedList', () => {
   });
 });
 
-
 describe('iterable methods', () => {
   it('should forEach, some, every, filter, map, reduce of the deque', () => {
-    const sl = new SinglyLinkedList<number>([1, 2, 3])
+    const sl = new SinglyLinkedList<number>([1, 2, 3]);
 
     const mockCallback = jest.fn();
-    sl.forEach((element) => {
+    sl.forEach(element => {
       mockCallback(element);
     });
 

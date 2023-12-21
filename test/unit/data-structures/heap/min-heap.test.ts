@@ -50,17 +50,15 @@ describe('MinHeap', () => {
     expect(minHeap.isEmpty()).toBe(true);
   });
 
-
   const n = 100000;
 
   it('should push & dfs', () => {
     for (let i = 0; i < n; i++) {
       minHeap.add(i);
     }
-    expect(minHeap.dfs()[0]).toBe(0)
-    expect(minHeap.dfs()[999]).toBe(4126)
+    expect(minHeap.dfs()[0]).toBe(0);
+    expect(minHeap.dfs()[999]).toBe(4126);
   });
-
 });
 
 describe('Heap iterative methods', () => {
@@ -89,7 +87,10 @@ describe('Heap iterative methods', () => {
   });
 
   test('map method correctly maps elements', () => {
-    const result = heap.map(x => x / 10, (a: number, b: number) => a - b);
+    const result = heap.map(
+      x => x / 10,
+      (a: number, b: number) => a - b
+    );
     expect([...result]).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
   });
 

@@ -54,7 +54,6 @@ describe('HashMap Test1', () => {
     hashMap.set('one', 1);
     hashMap.set('two', 2);
     hashMap.set('three', 3);
-
   });
 
   it('should resize the table when load factor is exceeded', () => {
@@ -181,7 +180,6 @@ describe('HashMap Test2', () => {
     }
     compareHashMaps(hashMap, stdMap);
   });
-
 });
 
 describe('HashMap for coordinate object keys', () => {
@@ -207,30 +205,39 @@ describe('HashMap for coordinate object keys', () => {
 
   test('delete elements in hash map', () => {
     for (let i = 0; i < 1000; i++) {
-      if (i === 500) expect(hashMap.size).toBe(500)
+      if (i === 500) expect(hashMap.size).toBe(500);
       const codObj = codObjs[i];
       if (codObj) hashMap.delete(codObj);
     }
     expect(hashMap.size).toBe(0);
   });
-
 });
 
 describe('HashMap setMany, keys, values', () => {
   const hm: HashMap<number, number> = new HashMap<number, number>();
 
   beforeEach(() => {
-    hm.clear()
-    hm.setMany([[2, 2], [3, 3], [4, 4], [5, 5]])
-    hm.setMany([[2, 2], [3, 3], [4, 4], [6, 6]])
-  })
+    hm.clear();
+    hm.setMany([
+      [2, 2],
+      [3, 3],
+      [4, 4],
+      [5, 5]
+    ]);
+    hm.setMany([
+      [2, 2],
+      [3, 3],
+      [4, 4],
+      [6, 6]
+    ]);
+  });
 
   test('keys', () => {
-    expect([...hm.keys()]).toEqual([2, 3, 4, 5, 6])
+    expect([...hm.keys()]).toEqual([2, 3, 4, 5, 6]);
   });
 
   test('values', () => {
-    expect([...hm.values()]).toEqual([2, 3, 4, 5, 6])
+    expect([...hm.values()]).toEqual([2, 3, 4, 5, 6]);
   });
 });
 
@@ -245,7 +252,7 @@ describe('HashMap HOF', () => {
   });
 
   test('every() returns true if all elements match the condition', () => {
-    expect(hashMap.every((value) => typeof value === 'string')).toBe(true);
+    expect(hashMap.every(value => typeof value === 'string')).toBe(true);
   });
 
   test('some() returns true if any element matches the condition', () => {
@@ -259,7 +266,7 @@ describe('HashMap HOF', () => {
   });
 
   test('map() should transform each element', () => {
-    const newHashMap = hashMap.map((value) => value.toUpperCase());
+    const newHashMap = hashMap.map(value => value.toUpperCase());
     expect(newHashMap.get('key1')).toBe('VALUE1');
   });
 
@@ -273,7 +280,6 @@ describe('HashMap HOF', () => {
     expect(result).toBe('value1value2value3');
   });
 });
-
 
 describe('LinkedHashMap Test1', () => {
   let hashMap: LinkedHashMap<string, number>;
@@ -367,7 +373,6 @@ describe('LinkedHashMap Test1', () => {
     // Make sure they are stored separately.
     // expect(hashMap.table[0].length).toBe(2);
   });
-
 
   // it('should handle number keys correctly', () => {
   //   const hm = new LinkedHashMap();
@@ -529,47 +534,62 @@ describe('LinkedHashMap for coordinate object keys', () => {
 
   test('delete elements in hash map', () => {
     for (let i = 0; i < 1000; i++) {
-      if (i === 500) expect(hashMap.size).toBe(500)
+      if (i === 500) expect(hashMap.size).toBe(500);
       const codObj = codObjs[i];
       if (codObj) hashMap.delete(codObj);
     }
     expect(hashMap.size).toBe(0);
   });
-
 });
 
 describe('LinkedHashMap setMany, keys, values', () => {
   const hm: LinkedHashMap<number, number> = new LinkedHashMap<number, number>();
 
   beforeEach(() => {
-    hm.clear()
-    hm.setMany([[2, 2], [3, 3], [4, 4], [5, 5]])
-    hm.setMany([[2, 2], [3, 3], [4, 4], [6, 6]])
-  })
+    hm.clear();
+    hm.setMany([
+      [2, 2],
+      [3, 3],
+      [4, 4],
+      [5, 5]
+    ]);
+    hm.setMany([
+      [2, 2],
+      [3, 3],
+      [4, 4],
+      [6, 6]
+    ]);
+  });
 
   test('keys', () => {
-    expect([...hm.keys()]).toEqual([2, 3, 4, 5, 6])
+    expect([...hm.keys()]).toEqual([2, 3, 4, 5, 6]);
   });
 
   test('values', () => {
-    expect([...hm.values()]).toEqual([2, 3, 4, 5, 6])
+    expect([...hm.values()]).toEqual([2, 3, 4, 5, 6]);
   });
 
   test('entries', () => {
-    expect([...hm.entries()]).toEqual([[2, 2], [3, 3], [4, 4], [5, 5], [6, 6]])
+    expect([...hm.entries()]).toEqual([
+      [2, 2],
+      [3, 3],
+      [4, 4],
+      [5, 5],
+      [6, 6]
+    ]);
   });
 
   test('every', () => {
-    expect(hm.every(value => value > 4)).toBe(false)
+    expect(hm.every(value => value > 4)).toBe(false);
   });
 
   test('some', () => {
-    expect(hm.some(value => value > 6)).toBe(false)
+    expect(hm.some(value => value > 6)).toBe(false);
   });
 
   test('hasValue', () => {
-    expect(hm.hasValue(3)).toBe(true)
-    expect(hm.hasValue(7)).toBe(false)
+    expect(hm.hasValue(3)).toBe(true);
+    expect(hm.hasValue(7)).toBe(false);
   });
 
   test('print', () => {

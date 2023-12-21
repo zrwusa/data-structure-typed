@@ -19,14 +19,13 @@ if (isCompetitor) {
   });
 }
 
+suite
+  .add(`${MILLION.toLocaleString()} push & pop`, () => {
+    const _deque = new Deque<number>();
 
-suite.add(`${MILLION.toLocaleString()} push & pop`, () => {
-  const _deque = new Deque<number>();
-
-  for (let i = 0; i < MILLION; i++) _deque.push(i);
-  for (let i = 0; i < MILLION; i++) _deque.pop();
-
-})
+    for (let i = 0; i < MILLION; i++) _deque.push(i);
+    for (let i = 0; i < MILLION; i++) _deque.pop();
+  })
   .add(`${HUNDRED_THOUSAND.toLocaleString()} push & shift`, () => {
     const _deque = new Deque<number>();
 

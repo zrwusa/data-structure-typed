@@ -7,7 +7,7 @@
  */
 import type { DijkstraResult, EntryCallback, VertexKey } from '../../types';
 import { uuidV4 } from '../../utils';
-import { IterableEntryBase } from "../base";
+import { IterableEntryBase } from '../base';
 import { IGraph } from '../../interfaces';
 import { Heap } from '../heap';
 import { Queue } from '../queue';
@@ -65,7 +65,9 @@ export abstract class AbstractGraph<
   E = any,
   VO extends AbstractVertex<V> = AbstractVertex<V>,
   EO extends AbstractEdge<E> = AbstractEdge<E>
-> extends IterableEntryBase<VertexKey, V | undefined> implements IGraph<V, E, VO, EO> {
+>
+  extends IterableEntryBase<VertexKey, V | undefined>
+  implements IGraph<V, E, VO, EO> {
   constructor() {
     super();
   }
@@ -165,7 +167,7 @@ export abstract class AbstractGraph<
 
   isVertexKey(potentialKey: any): potentialKey is VertexKey {
     const potentialKeyType = typeof potentialKey;
-    return potentialKeyType === "string" || potentialKeyType === "number"
+    return potentialKeyType === 'string' || potentialKeyType === 'number';
   }
 
   /**
@@ -662,7 +664,6 @@ export abstract class AbstractGraph<
     getMinDist: boolean = false,
     genPaths: boolean = false
   ): DijkstraResult<VO> {
-
     let minDist = Infinity;
     let minDest: VO | undefined = undefined;
     let minPath: VO[] = [];
@@ -1170,7 +1171,10 @@ export abstract class AbstractGraph<
 
     const dfs = (vertex: VO, currentPath: VertexKey[], visited: Set<VO>) => {
       if (visited.has(vertex)) {
-        if ((!isInclude2Cycle && currentPath.length > 2 || isInclude2Cycle && currentPath.length >= 2) && currentPath[0] === vertex.key) {
+        if (
+          ((!isInclude2Cycle && currentPath.length > 2) || (isInclude2Cycle && currentPath.length >= 2)) &&
+          currentPath[0] === vertex.key
+        ) {
           cycles.push([...currentPath]);
         }
         return;
@@ -1195,18 +1199,16 @@ export abstract class AbstractGraph<
     const uniqueCycles = new Map<string, VertexKey[]>();
 
     for (const cycle of cycles) {
-      const sorted = [...cycle].sort().toString()
+      const sorted = [...cycle].sort().toString();
 
-      if (uniqueCycles.has(sorted)) continue
+      if (uniqueCycles.has(sorted)) continue;
       else {
-        uniqueCycles.set(sorted, cycle)
+        uniqueCycles.set(sorted, cycle);
       }
     }
 
     // Convert the unique cycles back to an array
-    return [...uniqueCycles].map(cycleString =>
-      cycleString[1]
-    );
+    return [...uniqueCycles].map(cycleString => cycleString[1]);
   }
 
   /**

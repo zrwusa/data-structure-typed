@@ -22,25 +22,20 @@ const arrHundredThousand = getRandomIntArray(HUNDRED_THOUSAND, 0, HUNDRED_THOUSA
 
 suite
   .add(`SRC PQ ${TEN_THOUSAND.toLocaleString()} add`, () => {
-
     const pq = new SRCPriorityQueue<number>();
     for (let i = 0; i < TEN_THOUSAND; i++) pq.add(i);
   })
   .add(`CJS PQ ${TEN_THOUSAND.toLocaleString()} add`, () => {
-
-
     const pq = new CJSPriorityQueue<number>();
     for (let i = 0; i < TEN_THOUSAND; i++) pq.add(i);
   })
   .add(`MJS PQ ${TEN_THOUSAND.toLocaleString()} add`, () => {
-
     const pq = new MJSPriorityQueue<number>([], { comparator: (a, b) => b - a });
     for (let i = 0; i < TEN_THOUSAND; i++) pq.add(i);
   });
 
 if (isCompetitor) {
   suite.add(`CPT PQ ${TEN_THOUSAND.toLocaleString()} add`, () => {
-
     const pq = new CPriorityQueue<number>();
     for (let i = 0; i < TEN_THOUSAND; i++) pq.push(i);
   });
@@ -66,14 +61,14 @@ suite
     for (let i = 0; i < TEN_THOUSAND; i++) pq.poll();
   });
 
-
 if (isCompetitor) {
-  suite.add(`CPT PQ ${TEN_THOUSAND.toLocaleString()} add & pop`, () => {
-    const pq = new CPriorityQueue<number>();
+  suite
+    .add(`CPT PQ ${TEN_THOUSAND.toLocaleString()} add & pop`, () => {
+      const pq = new CPriorityQueue<number>();
 
-    for (let i = 0; i < TEN_THOUSAND; i++) pq.push(i);
-    for (let i = 0; i < TEN_THOUSAND; i++) pq.pop();
-  })
+      for (let i = 0; i < TEN_THOUSAND; i++) pq.push(i);
+      for (let i = 0; i < TEN_THOUSAND; i++) pq.pop();
+    })
     .add(`CPT OM ${HUNDRED_THOUSAND.toLocaleString()} add`, () => {
       for (let i = 0; i < arrHundredThousand.length; i++) {
         cOrderedMap.setElement(arrHundredThousand[i], arrHundredThousand[i]);

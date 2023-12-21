@@ -15,21 +15,30 @@ describe('TreeMultimap count', () => {
   let tm: TreeMultimap<number>;
   beforeEach(() => {
     tm = new TreeMultimap<number>();
-
-  })
+  });
   it('Should added isolated node count ', () => {
-    tm.addMany([[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]]);
+    tm.addMany([
+      [1, 1],
+      [2, 2],
+      [3, 3],
+      [4, 4],
+      [5, 5]
+    ]);
     const newNode = new TreeMultimapNode(3, 33, 10);
     tm.add(newNode);
-    expect(tm.count).toBe(15)
-  })
+    expect(tm.count).toBe(15);
+  });
 
   it('Should count', () => {
-    tm.addMany([[1, 1], [2, 2], [3, 3]]);
-    tm.lesserOrGreaterTraverse(node => node.count += 2, CP.gt, 1);
-    expect(tm.count).toBe(7)
-  })
-})
+    tm.addMany([
+      [1, 1],
+      [2, 2],
+      [3, 3]
+    ]);
+    tm.lesserOrGreaterTraverse(node => (node.count += 2), CP.gt, 1);
+    expect(tm.count).toBe(7);
+  });
+});
 
 describe('TreeMultimap operations test1', () => {
   it('should perform various operations on a Binary Search Tree with numeric values1', () => {
@@ -256,7 +265,7 @@ describe('TreeMultimap operations test1', () => {
     expect(objTreeMultimap).toBeInstanceOf(TreeMultimap);
     objTreeMultimap.add([11, { key: 11, keyA: 11 }]);
     objTreeMultimap.add([3, { key: 3, keyA: 3 }]);
-    const values: [number, { key: number, keyA: number }][] = [
+    const values: [number, { key: number; keyA: number }][] = [
       [15, { key: 15, keyA: 15 }],
       [1, { key: 1, keyA: 1 }],
       [8, { key: 8, keyA: 8 }],
@@ -273,9 +282,7 @@ describe('TreeMultimap operations test1', () => {
       [5, { key: 5, keyA: 5 }]
     ];
 
-    objTreeMultimap.addMany(
-      values
-    );
+    objTreeMultimap.addMany(values);
 
     expect(objTreeMultimap.root).toBeInstanceOf(TreeMultimapNode);
 
@@ -529,9 +536,7 @@ describe('TreeMultimap operations test recursively1', () => {
       [5, { key: 5, keyA: 5 }]
     ];
 
-    objTreeMultimap.addMany(
-      values
-    );
+    objTreeMultimap.addMany(values);
 
     expect(objTreeMultimap.root).toBeInstanceOf(TreeMultimapNode);
 
@@ -632,13 +637,20 @@ describe('TreeMultimap iterative methods test', () => {
   test('filter should return a new tree with filtered elements', () => {
     const filteredTree = treeMM.filter((value, key) => key > 1);
     expect(filteredTree.size).toBe(2);
-    expect([...filteredTree]).toEqual([[2, 'b'], [3, 'c']]);
+    expect([...filteredTree]).toEqual([
+      [2, 'b'],
+      [3, 'c']
+    ]);
   });
 
   test('map should return a new tree with modified elements', () => {
     const mappedTree = treeMM.map((value, key) => (key * 2).toString());
     expect(mappedTree.size).toBe(3);
-    expect([...mappedTree]).toEqual([[1, '2'], [2, '4'], [3, '6']]);
+    expect([...mappedTree]).toEqual([
+      [1, '2'],
+      [2, '4'],
+      [3, '6']
+    ]);
   });
 
   test('reduce should accumulate values', () => {
@@ -653,11 +665,15 @@ describe('TreeMultimap iterative methods test', () => {
     }
 
     expect(entries.length).toBe(3);
-    expect(entries).toEqual([[1, 'a'], [2, 'b'], [3, 'c']]);
+    expect(entries).toEqual([
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c']
+    ]);
   });
 
   test('should clone work well', () => {
-    expect(treeMM.count).toBe(21)
+    expect(treeMM.count).toBe(21);
     const cloned = treeMM.clone();
     expect(cloned.root?.left?.key).toBe(1);
     expect(cloned.root?.right?.value).toBe('c');

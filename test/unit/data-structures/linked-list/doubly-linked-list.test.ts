@@ -398,16 +398,15 @@ describe('DoublyLinkedList Operation Test', () => {
   });
 });
 
-
 describe('iterable methods', () => {
   it('should forEach, some, every, filter, map, reduce of the deque', () => {
-    const dl = new DoublyLinkedList<number>()
+    const dl = new DoublyLinkedList<number>();
     dl.push(1);
     dl.push(2);
     dl.push(3);
 
     const mockCallback = jest.fn();
-    dl.forEach((element) => {
+    dl.forEach(element => {
       mockCallback(element);
     });
 
@@ -426,7 +425,7 @@ describe('iterable methods', () => {
   });
 
   test('values', () => {
-    const dl = new DoublyLinkedList<number>()
+    const dl = new DoublyLinkedList<number>();
     dl.push(1);
     dl.push(2);
     dl.push(3);
@@ -435,11 +434,11 @@ describe('iterable methods', () => {
     dl.shift();
     dl.pop();
     dl.unshift(3);
-    expect([...dl.values()]).toEqual([3, 1])
-  })
+    expect([...dl.values()]).toEqual([3, 1]);
+  });
 
   test('some', () => {
-    const dl = new DoublyLinkedList<number>()
+    const dl = new DoublyLinkedList<number>();
     dl.push(1);
     dl.push(2);
     dl.push(3);
@@ -448,7 +447,7 @@ describe('iterable methods', () => {
     dl.shift();
     dl.pop();
     dl.unshift(3);
-    expect(dl.some(value => value > 1)).toBe(true)
-    expect(dl.some(value => value > 100)).toBe(false)
-  })
+    expect(dl.some(value => value > 1)).toBe(true);
+    expect(dl.some(value => value > 100)).toBe(false);
+  });
 });

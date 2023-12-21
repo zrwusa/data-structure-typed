@@ -21,10 +21,11 @@ import {
 import { BST, BSTNode } from './bst';
 import { IBinaryTree } from '../../interfaces';
 
-export class RedBlackTreeNode<K = any, V = any, N extends RedBlackTreeNode<K, V, N> = RedBlackTreeNodeNested<K, V>> extends BSTNode<
-  K, V,
-  N
-> {
+export class RedBlackTreeNode<
+  K = any,
+  V = any,
+  N extends RedBlackTreeNode<K, V, N> = RedBlackTreeNodeNested<K, V>
+> extends BSTNode<K, V, N> {
   color: RBTNColor;
 
   constructor(key: K, value?: V, color: RBTNColor = RBTNColor.BLACK) {
@@ -40,7 +41,12 @@ export class RedBlackTreeNode<K = any, V = any, N extends RedBlackTreeNode<K, V,
  * 4. Red nodes must have black children.
  * 5. Black balance: Every path from any node to each of its leaf nodes contains the same number of black nodes.
  */
-export class RedBlackTree<K = any, V = any, N extends RedBlackTreeNode<K, V, N> = RedBlackTreeNode<K, V, RedBlackTreeNodeNested<K, V>>, TREE extends RedBlackTree<K, V, N, TREE> = RedBlackTree<K, V, N, RedBlackTreeNested<K, V, N>>>
+export class RedBlackTree<
+  K = any,
+  V = any,
+  N extends RedBlackTreeNode<K, V, N> = RedBlackTreeNode<K, V, RedBlackTreeNodeNested<K, V>>,
+  TREE extends RedBlackTree<K, V, N, TREE> = RedBlackTree<K, V, N, RedBlackTreeNested<K, V, N>>
+>
   extends BST<K, V, N, TREE>
   implements IBinaryTree<K, V, N, TREE> {
   Sentinel: N = new RedBlackTreeNode<K, V>(NaN as K) as unknown as N;
@@ -101,7 +107,8 @@ export class RedBlackTree<K = any, V = any, N extends RedBlackTreeNode<K, V, N> 
   override createTree(options?: RBTreeOptions<K>): TREE {
     return new RedBlackTree<K, V, N, TREE>([], {
       iterationType: this.iterationType,
-      variant: this.variant, ...options
+      variant: this.variant,
+      ...options
     }) as TREE;
   }
 
@@ -122,7 +129,7 @@ export class RedBlackTree<K = any, V = any, N extends RedBlackTreeNode<K, V, N> 
    * @returns a boolean value indicating whether the potentialKey is of type number or not.
    */
   override isNotNodeInstance(potentialKey: BTNKeyOrNode<K, N>): potentialKey is K {
-    return !(potentialKey instanceof RedBlackTreeNode)
+    return !(potentialKey instanceof RedBlackTreeNode);
   }
 
   /**
@@ -191,12 +198,11 @@ export class RedBlackTree<K = any, V = any, N extends RedBlackTreeNode<K, V, N> 
           x = x?.right;
         } else {
           if (newNode !== x) {
-            this._replaceNode(x, newNode)
+            this._replaceNode(x, newNode);
           }
           return;
         }
       }
-
     }
 
     newNode.parent = y;
@@ -649,6 +655,6 @@ export class RedBlackTree<K = any, V = any, N extends RedBlackTreeNode<K, V, N> 
   protected _replaceNode(oldNode: N, newNode: N): N {
     newNode.color = oldNode.color;
 
-    return super._replaceNode(oldNode, newNode)
+    return super._replaceNode(oldNode, newNode);
   }
 }

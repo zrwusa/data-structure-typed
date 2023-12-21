@@ -7,7 +7,7 @@ export type HashMapLinkedNode<K, V> = {
 
 export type HashMapOptions<K> = {
   hashFn: (key: K) => string;
-  objHashFn: (key: K) => object
-}
+  objHashFn: (key: K) => object;
+};
 
-export type HashMapStoreItem<K, V> = { key: K, value: V };
+export type HashMapStoreItem<K, V> = { key: K; value: V };

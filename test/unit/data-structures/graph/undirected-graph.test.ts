@@ -176,53 +176,52 @@ describe('UndirectedGraph', () => {
 
   test('Removing an edge of a UndirectedGraph should not delete additional edges', () => {
     const dg = new UndirectedGraph();
-    dg.addVertex('hello')
-    dg.addVertex('hi')
-    dg.addVertex('hey')
-    dg.addEdge('hello', 'hi')
-    dg.addEdge('hello', 'hey')
-    expect(dg.getEdge('hello', 'hi')?.vertexMap[0]).toBe('hello')
-    expect(dg.getEdge('hello', 'hi')?.vertexMap[1]).toBe('hi')
-    expect(dg.getEdge('hello', 'hey')?.vertexMap[0]).toBe('hello')
-    expect(dg.getEdge('hello', 'hey')?.vertexMap[1]).toBe('hey')
-    dg.deleteEdge('hello', 'hi')
-    expect(dg.getEdge('hello', 'hi')).toBe(undefined)
-    expect(dg.getEdge('hello', 'hey')).toBeInstanceOf(UndirectedEdge)
+    dg.addVertex('hello');
+    dg.addVertex('hi');
+    dg.addVertex('hey');
+    dg.addEdge('hello', 'hi');
+    dg.addEdge('hello', 'hey');
+    expect(dg.getEdge('hello', 'hi')?.vertexMap[0]).toBe('hello');
+    expect(dg.getEdge('hello', 'hi')?.vertexMap[1]).toBe('hi');
+    expect(dg.getEdge('hello', 'hey')?.vertexMap[0]).toBe('hello');
+    expect(dg.getEdge('hello', 'hey')?.vertexMap[1]).toBe('hey');
+    dg.deleteEdge('hello', 'hi');
+    expect(dg.getEdge('hello', 'hi')).toBe(undefined);
+    expect(dg.getEdge('hello', 'hey')).toBeInstanceOf(UndirectedEdge);
   });
-
 
   test('Removing a vertex of a DirectedGraph should delete additional edges', () => {
     const graph = new UndirectedGraph();
 
-    graph.addVertex("Hello");
-    graph.addVertex("Hi");
+    graph.addVertex('Hello');
+    graph.addVertex('Hi');
 
-    graph.addEdge("Hello", "Hi");
-    graph.deleteVertex("Hello");
+    graph.addEdge('Hello', 'Hi');
+    graph.deleteVertex('Hello');
 
-    expect(graph.edgesOf("Hi")).toEqual([]);
-  })
+    expect(graph.edgesOf('Hi')).toEqual([]);
+  });
 
   test('Removing a vertex from a UndirectedGraph should remove its edges', () => {
     const dg = new UndirectedGraph();
-    dg.addVertex('hello')
-    dg.addVertex('world')
-    dg.addVertex('earth')
+    dg.addVertex('hello');
+    dg.addVertex('world');
+    dg.addVertex('earth');
 
-    dg.addEdge('hello', 'world')
-    dg.addEdge('hello', 'earth')
-    dg.addEdge('world', 'earth')
+    dg.addEdge('hello', 'world');
+    dg.addEdge('hello', 'earth');
+    dg.addEdge('world', 'earth');
 
     expect(dg.getEdge('hello', 'world')?.vertexMap[0]).toBe('hello');
-    expect(dg.edgeSet().length).toBe(3)
-    expect(dg.edgeSet()[0].vertexMap).toEqual(['hello', 'world'])
+    expect(dg.edgeSet().length).toBe(3);
+    expect(dg.edgeSet()[0].vertexMap).toEqual(['hello', 'world']);
 
-    dg.deleteVertex('hello')
-    expect(dg.edgeSet().length).toBe(1)
-    expect(dg.edgeSet()?.[0].vertexMap[0]).toBe('world')
+    dg.deleteVertex('hello');
+    expect(dg.edgeSet().length).toBe(1);
+    expect(dg.edgeSet()?.[0].vertexMap[0]).toBe('world');
 
     expect(dg.getEdge('hello', 'world')).toBe(undefined);
-  })
+  });
 });
 
 describe('cycles, strongly connected components, bridges, articular points in UndirectedGraph', () => {
@@ -258,8 +257,7 @@ describe('cycles, strongly connected components, bridges, articular points in Un
   expect(lowMap.size).toBe(8);
 });
 
-it("Should return Infinity if dest is not found", () => {
-
+it('Should return Infinity if dest is not found', () => {
   const graph = new UndirectedGraph<string>();
 
   for (let i = 0; i < 3; ++i) {
@@ -291,8 +289,12 @@ describe('UndirectedGraph getCycles', () => {
     graph.addEdge('E', 'B');
     const cycles = graph.getCycles();
     expect(cycles.length).toBe(3);
-    expect(cycles).toEqual([["A", "B", "D", "C"], ["A", "B", "E", "D", "C"], ["B", "D", "E"]]);
-  })
+    expect(cycles).toEqual([
+      ['A', 'B', 'D', 'C'],
+      ['A', 'B', 'E', 'D', 'C'],
+      ['B', 'D', 'E']
+    ]);
+  });
 
   test('should simple cycles graph getCycles return correct result', () => {
     const graph = new UndirectedGraph();
@@ -308,8 +310,12 @@ describe('UndirectedGraph getCycles', () => {
     graph.addEdge('A', 'D');
     graph.addEdge('D', 'C');
     const cycles = graph.getCycles();
-    expect(cycles.length).toBe(3)
-    expect(cycles).toEqual([["A", "B", "C"], ["A", "B", "C", "D"], ["A", "C", "D"]])
+    expect(cycles.length).toBe(3);
+    expect(cycles).toEqual([
+      ['A', 'B', 'C'],
+      ['A', 'B', 'C', 'D'],
+      ['A', 'C', 'D']
+    ]);
   });
 
   test('should 3 cycles graph getCycles return correct result', () => {
@@ -335,7 +341,18 @@ describe('UndirectedGraph getCycles', () => {
     graph.addEdge('G', 'A');
 
     const cycles = graph.getCycles();
-    expect(cycles.length).toBe(10)
-    expect(cycles).toEqual([["A", "B", "D", "C"], ["A", "B", "D", "C", "G"], ["A", "B", "E", "D", "C"], ["A", "B", "E", "D", "C", "G"], ["A", "B", "F", "E", "D", "C"], ["A", "B", "F", "E", "D", "C", "G"], ["A", "C", "G"], ["B", "D", "E"], ["B", "D", "E", "F"], ["B", "E", "F"]]);
+    expect(cycles.length).toBe(10);
+    expect(cycles).toEqual([
+      ['A', 'B', 'D', 'C'],
+      ['A', 'B', 'D', 'C', 'G'],
+      ['A', 'B', 'E', 'D', 'C'],
+      ['A', 'B', 'E', 'D', 'C', 'G'],
+      ['A', 'B', 'F', 'E', 'D', 'C'],
+      ['A', 'B', 'F', 'E', 'D', 'C', 'G'],
+      ['A', 'C', 'G'],
+      ['B', 'D', 'E'],
+      ['B', 'D', 'E', 'F'],
+      ['B', 'E', 'F']
+    ]);
   });
-})
+});
