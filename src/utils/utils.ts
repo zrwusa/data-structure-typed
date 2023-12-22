@@ -100,3 +100,8 @@ export const isWeakKey = (input: unknown): input is object => {
 
 export const calcMinUnitsRequired = (totalQuantity: number, unitSize: number) =>
   Math.floor((totalQuantity + unitSize - 1) / unitSize);
+
+export const roundFixed = (num: number, digit: number = 10) => {
+  const multiplier = Math.pow(10, digit);
+  return Math.round(num * multiplier) / multiplier;
+};

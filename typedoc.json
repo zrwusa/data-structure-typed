@@ -1,0 +1,30 @@
+{
+  "visibilityFilters": {
+    "protected": false,
+    "private": false,
+    "inherited": true,
+    "external": false,
+    "@alpha": false,
+    "@beta": false
+  },
+  "excludeNotDocumented": true,
+  "excludeNotDocumentedKinds": [
+    "Module",
+    "Namespace",
+    "Enum",
+    "Variable",
+    "Function",
+    "Interface",
+    "Constructor",
+    "Property",
+    "Method",
+    "CallSignature",
+    "IndexSignature",
+    "ConstructorSignature",
+    "Accessor",
+    "GetSignature",
+    "SetSignature",
+    "TypeAlias",
+    "Reference"
+  ]
+}

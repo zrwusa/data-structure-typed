@@ -2033,43 +2033,6 @@ export class BinaryTree<
   }
 
   /**
-   * The function `_addTo` adds a new node to a binary tree if there is an available position.
-   * @param {N | null | undefined} newNode - The `newNode` parameter represents the node that you want to add to
-   * the binary tree. It can be either a node object or `null`.
-   * @param {N} parent - The `parent` parameter represents the parent node to which the new node will
-   * be added as a child.
-   * @returns either the left or right child node of the parent node, depending on which child is
-   * available for adding the new node. If a new node is added, the function also updates the size of
-   * the binary tree. If neither the left nor right child is available, the function returns undefined.
-   * If the parent node is null, the function also returns undefined.
-   */
-  protected _addTo(newNode: N | null | undefined, parent: BTNKeyOrNode<K, N>): N | null | undefined {
-    if (this.isNotNodeInstance(parent)) parent = this.getNode(parent);
-
-    if (parent) {
-      // When all leaf nodes are null, it will no longer be possible to add new entity nodes to this binary tree.
-      // In this scenario, null nodes serve as "sentinel nodes," "virtual nodes," or "placeholder nodes."
-      if (parent.left === undefined) {
-        parent.left = newNode;
-        if (newNode) {
-          this._size = this.size + 1;
-        }
-        return parent.left;
-      } else if (parent.right === undefined) {
-        parent.right = newNode;
-        if (newNode) {
-          this._size = this.size + 1;
-        }
-        return parent.right;
-      } else {
-        return;
-      }
-    } else {
-      return;
-    }
-  }
-
-  /**
    * The function sets the root property of an object to a given value, and if the value is not null,
    * it also sets the parent property of the value to undefined.
    * @param {N | null | undefined} v - The parameter `v` is of type `N | null | undefined`, which means it can either be of

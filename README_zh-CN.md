@@ -25,7 +25,7 @@ JavaScript和TypeScript的数据结构。
 
 ### 提供了JS/TS中没有的数据结构
 
-Heap, Binary Tree, RedBlack Tree, Linked List, Deque, Trie, Directed Graph, Undirected Graph, BST, AVL Tree, Priority Queue, Queue, Tree Multiset, Linked List.
+Heap, Binary Tree, RedBlack Tree, Linked List, Deque, Trie, Directed Graph, Undirected Graph, BST, AVL Tree, Priority Queue, Queue, Tree Multiset.
 
 
 ### 性能超越原生JS/TS

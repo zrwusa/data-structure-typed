@@ -28,7 +28,7 @@ anymore! JavaScript and TypeScript now have [data-structure-typed]().**`Benchmar
 
 ### We provide data structures that are not available in JS/TS
 
-Heap, Binary Tree, RedBlack Tree, Linked List, Deque, Trie, Directed Graph, Undirected Graph, BST, AVL Tree, Priority Queue, Queue, Tree Multiset, Linked List.
+Heap, Binary Tree, RedBlack Tree, Linked List, Deque, Trie, Directed Graph, Undirected Graph, BST, AVL Tree, Priority Queue, Queue, Tree Multiset.
 
 
 ### Performance surpasses that of native JS/TS
@@ -1033,5 +1033,3 @@ avl2.print();
     </div>
 
 [//]: # (No deletion!!! End of Replace Section)
-
-

@@ -362,47 +362,6 @@ export class TreeMultimap<
   }
 
   /**
-   * Time Complexity: O(1) - constant time, as it performs basic pointer assignments.
-   * Space Complexity: O(1) - constant space, as it only uses a constant amount of memory.
-   *
-   * The function adds a new node to a binary tree, either as the left child or the right child of a
-   * given parent node.
-   * @param {N | undefined} newNode - The `newNode` parameter represents the node that needs to be
-   * added to the binary tree. It can be of type `N` (which represents a node in the binary tree) or
-   * `undefined` if there is no node to add.
-   * @param {K | N | undefined} parent - The `parent` parameter represents the parent node to
-   * which the new node will be added as a child. It can be either a node object (`N`) or a key value
-   * (`K`).
-   * @returns The method `_addTo` returns either the `parent.left` or `parent.right` node that was
-   * added, or `undefined` if no node was added.
-   */
-  protected override _addTo(newNode: N | undefined, parent: BSTNKeyOrNode<K, N>): N | undefined {
-    parent = this.ensureNode(parent);
-    if (parent) {
-      if (parent.left === undefined) {
-        parent.left = newNode;
-        if (newNode !== undefined) {
-          this._size = this.size + 1;
-          this._count += newNode.count;
-        }
-
-        return parent.left;
-      } else if (parent.right === undefined) {
-        parent.right = newNode;
-        if (newNode !== undefined) {
-          this._size = this.size + 1;
-          this._count += newNode.count;
-        }
-        return parent.right;
-      } else {
-        return;
-      }
-    } else {
-      return;
-    }
-  }
-
-  /**
    * The `_swapProperties` function swaps the key, value, count, and height properties between two nodes.
    * @param {K | N | undefined} srcNode - The `srcNode` parameter represents the source node from
    * which the values will be swapped. It can be of type `K`, `N`, or `undefined`.

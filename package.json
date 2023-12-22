@@ -14,11 +14,12 @@
     }
   },
   "scripts": {
-    "build": "npm run build:mjs && npm run build:cjs && npm run build:umd && npm run build:docs",
+    "build": "npm run build:mjs && npm run build:cjs && npm run build:umd && npm run build:docs-class",
     "build:mjs": "rm -rf dist/mjs && tsc -p tsconfig-mjs.json",
     "build:cjs": "rm -rf dist/cjs && tsc -p tsconfig-cjs.json",
     "build:umd": "tsup",
     "build:docs": "typedoc --out docs ./src",
+    "build:docs-class": "typedoc --out docs ./src/data-structures",
     "test:unit": "jest --runInBand",
     "test": "npm run test:unit",
     "test:integration": "npm run update:subs && jest --config jest.integration.config.js",
@@ -87,7 +88,7 @@
     "ts-loader": "^9.4.4",
     "ts-node": "^10.9.1",
     "tsup": "^7.2.0",
-    "typedoc": "^0.25.1",
+    "typedoc": "^0.25.4",
     "typescript": "^5.3.2"
   },
   "keywords": [
