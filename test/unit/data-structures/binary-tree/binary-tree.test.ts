@@ -224,15 +224,15 @@ describe('BinaryTree', () => {
       new BinaryTreeNode(4, 4)
     ]);
 
-    expect(tree.isSubtreeBST(tree.getNode(4), IterationType.RECURSIVE)).toBe(true);
-    expect(tree.isSubtreeBST(tree.getNode(4), IterationType.ITERATIVE)).toBe(true);
+    expect(tree.isBST(tree.getNode(4), IterationType.RECURSIVE)).toBe(true);
+    expect(tree.isBST(tree.getNode(4), IterationType.ITERATIVE)).toBe(true);
   });
 
   it('should isSubtreeBST', () => {
     tree.addMany([4, 2, 6, 1, 3, 5, 7, 4]);
 
-    expect(tree.isSubtreeBST(tree.getNode(4), IterationType.RECURSIVE)).toBe(true);
-    expect(tree.isSubtreeBST(tree.getNode(4), IterationType.ITERATIVE)).toBe(true);
+    expect(tree.isBST(tree.getNode(4), IterationType.RECURSIVE)).toBe(true);
+    expect(tree.isBST(tree.getNode(4), IterationType.ITERATIVE)).toBe(true);
     expect(tree.getNodes(2, undefined, false, null)).toEqual([]);
     expect(tree.getNodes(tree.getNodeByKey(2), undefined, false, tree.root)).toEqual([tree.getNodeByKey(2)]);
   });

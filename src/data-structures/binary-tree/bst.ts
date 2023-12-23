@@ -121,7 +121,7 @@ export class BST<
     return this._root;
   }
 
-  protected _variant = BSTVariant.MIN;
+  protected _variant = BSTVariant.STANDARD;
 
   get variant() {
     return this._variant;
@@ -390,7 +390,7 @@ export class BST<
     let current = this.ensureNode(beginRoot);
     if (!current) return undefined;
 
-    if (this._variant === BSTVariant.MIN) {
+    if (this._variant === BSTVariant.STANDARD) {
       // For BSTVariant.MIN, find the rightmost node
       while (current.right !== undefined) {
         current = current.right;
@@ -761,7 +761,7 @@ export class BST<
   protected _compare(a: K, b: K): CP {
     const extractedA = this.extractor(a);
     const extractedB = this.extractor(b);
-    const compared = this.variant === BSTVariant.MIN ? extractedA - extractedB : extractedB - extractedA;
+    const compared = this.variant === BSTVariant.STANDARD ? extractedA - extractedB : extractedB - extractedA;
 
     return compared > 0 ? CP.gt : compared < 0 ? CP.lt : CP.eq;
   }

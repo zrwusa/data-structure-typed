@@ -1,6 +1,6 @@
 export enum BSTVariant {
-  MIN = 'MIN',
-  MAX = 'MAX'
+  STANDARD = 'STANDARD',
+  INVERSE = 'INVERSE'
 }
 
 export enum CP {

@@ -1,4 +1,4 @@
-import { BinaryTreeNode, BST, BSTNode, CP, IterationType } from '../../../../src';
+import { BinaryTreeNode, BST, BSTNode, BSTVariant, CP, IterationType } from '../../../../src';
 import { isDebugTest } from '../../../config';
 
 const isDebug = isDebugTest;
@@ -46,6 +46,8 @@ describe('BST operations test', () => {
 
     const leftMost = bst.getLeftMost();
     expect(leftMost?.key).toBe(1);
+
+    expect(bst.isBST()).toBe(true);
 
     const node15 = bst.getNode(15);
     const minNodeBySpecificNode = node15 && bst.getLeftMost(node15);
@@ -792,6 +794,20 @@ describe('BST operations test recursively', () => {
     expect(bfsNodes[0].key).toBe(2);
     expect(bfsNodes[1].key).toBe(12);
     expect(bfsNodes[2].key).toBe(16);
+  });
+});
+
+describe('BST isBST', function () {
+  test('isBST', () => {
+    const bst = new BST<number, number>();
+    bst.addMany([1, 2, 3, 9, 8, 5, 6, 7, 4]);
+    expect(bst.isBST()).toBe(true);
+  });
+
+  test('isBST when variant is Max', () => {
+    const bst = new BST<number, number>([1, 2, 3, 9, 8, 5, 6, 7, 4], { variant: BSTVariant.INVERSE });
+    bst.addMany([1, 2, 3, 9, 8, 5, 6, 7, 4]);
+    expect(bst.isBST()).toBe(true);
   });
 });
 

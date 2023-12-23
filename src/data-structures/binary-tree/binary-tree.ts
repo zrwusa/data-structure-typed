@@ -1075,7 +1075,7 @@ export class BinaryTree<
    * possible values:
    * @returns a boolean value.
    */
-  isSubtreeBST(beginRoot: BTNKeyOrNode<K, N>, iterationType = this.iterationType): boolean {
+  isBST(beginRoot: BTNKeyOrNode<K, N> = this.root, iterationType = this.iterationType): boolean {
     // TODO there is a bug
     beginRoot = this.ensureNode(beginRoot);
     if (!beginRoot) return true;
@@ -1088,45 +1088,32 @@ export class BinaryTree<
         return dfs(cur.left, min, numKey) && dfs(cur.right, numKey, max);
       };
 
-      return dfs(beginRoot, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
+      const isStandardBST = dfs(beginRoot, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
+      const isInverseBST = dfs(beginRoot, Number.MAX_SAFE_INTEGER, Number.MIN_SAFE_INTEGER);
+      return isStandardBST || isInverseBST;
     } else {
-      const stack = [];
-      let prev = Number.MIN_SAFE_INTEGER,
-        curr: N | null | undefined = beginRoot;
-      while (curr || stack.length > 0) {
-        while (curr) {
-          stack.push(curr);
-          curr = curr.left;
+      const checkBST = (checkMax = false) => {
+        const stack = [];
+        let prev = checkMax ? Number.MAX_SAFE_INTEGER : Number.MIN_SAFE_INTEGER;
+        // @ts-ignore
+        let curr: N | null | undefined = beginRoot;
+        while (curr || stack.length > 0) {
+          while (curr) {
+            stack.push(curr);
+            curr = curr.left;
+          }
+          curr = stack.pop()!;
+          const numKey = this.extractor(curr.key);
+          if (!curr || (!checkMax && prev >= numKey) || (checkMax && prev <= numKey)) return false;
+          prev = numKey;
+          curr = curr.right;
         }
-        curr = stack.pop()!;
-        const numKey = this.extractor(curr.key);
-        if (!curr || prev >= numKey) return false;
-        prev = numKey;
-        curr = curr.right;
-      }
-      return true;
+        return true;
+      };
+      const isStandardBST = checkBST(false),
+        isInverseBST = checkBST(true);
+      return isStandardBST || isInverseBST;
     }
-  }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The function checks if a binary tree is a binary search tree.
-   * @param iterationType - The parameter "iterationType" is used to specify the type of iteration to
-   * be used when checking if the binary tree is a binary search tree (BST). It is an optional
-   * parameter with a default value of "this.iterationType". The value of "this.iterationType" is
-   * expected to be
-   * @returns a boolean value.
-   */
-  isBST(iterationType = this.iterationType): boolean {
-    if (this.root === null) return true;
-    return this.isSubtreeBST(this.root, iterationType);
   }
 
   /**
