@@ -10,18 +10,14 @@ const { MILLION } = magnitude;
 suite.add(`${MILLION.toLocaleString()} set`, () => {
   const hm = new HashMap<number, number>();
 
-  for (let i = 0; i < MILLION; i++) {
-    hm.set(i, i);
-  }
+  for (let i = 0; i < MILLION; i++) hm.set(i, i);
 });
 
 if (isCompetitor) {
   suite.add(`CPT ${MILLION.toLocaleString()} set`, () => {
     const hm = new CHashMap<number, number>();
 
-    for (let i = 0; i < MILLION; i++) {
-      hm.setElement(i, i);
-    }
+    for (let i = 0; i < MILLION; i++) hm.setElement(i, i);
   });
 }
 
@@ -40,43 +36,30 @@ suite.add(`Native Set ${MILLION.toLocaleString()} add`, () => {
 suite.add(`${MILLION.toLocaleString()} set & get`, () => {
   const hm = new HashMap<number, number>();
 
-  for (let i = 0; i < MILLION; i++) {
-    hm.set(i, i);
-  }
-  for (let i = 0; i < MILLION; i++) {
-    hm.get(i);
-  }
+  for (let i = 0; i < MILLION; i++) hm.set(i, i);
+  for (let i = 0; i < MILLION; i++) hm.get(i);
 });
 
 if (isCompetitor) {
   suite.add(`CPT ${MILLION.toLocaleString()} set & get`, () => {
     const hm = new CHashMap<number, number>();
 
-    for (let i = 0; i < MILLION; i++) {
-      hm.setElement(i, i);
-    }
-    for (let i = 0; i < MILLION; i++) {
-      hm.getElementByKey(i);
-    }
+    for (let i = 0; i < MILLION; i++) hm.setElement(i, i);
+    for (let i = 0; i < MILLION; i++) hm.getElementByKey(i);
   });
 }
 
 suite.add(`Native Map ${MILLION.toLocaleString()} set & get`, () => {
   const hm = new Map<number, number>();
 
-  for (let i = 0; i < MILLION; i++) {
-    hm.set(i, i);
-  }
-  for (let i = 0; i < MILLION; i++) {
-    hm.get(i);
-  }
+  for (let i = 0; i < MILLION; i++) hm.set(i, i);
+  for (let i = 0; i < MILLION; i++) hm.get(i);
 });
 
 suite.add(`Native Set ${MILLION.toLocaleString()} add & has`, () => {
   const hs = new Set<number>();
 
   for (let i = 0; i < MILLION; i++) hs.add(i);
-
   for (let i = 0; i < MILLION; i++) hs.has(i);
 });
 
@@ -88,9 +71,7 @@ suite.add(`${MILLION.toLocaleString()} ObjKey set & get`, () => {
     objKeys.push(obj);
     hm.set(obj, i);
   }
-  for (let i = 0; i < MILLION; i++) {
-    hm.get(objKeys[i]);
-  }
+  for (let i = 0; i < MILLION; i++) hm.get(objKeys[i]);
 });
 
 suite.add(`Native Map ${MILLION.toLocaleString()} ObjKey set & get`, () => {
@@ -101,9 +82,7 @@ suite.add(`Native Map ${MILLION.toLocaleString()} ObjKey set & get`, () => {
     objs.push(obj);
     hm.set(obj, i);
   }
-  for (let i = 0; i < MILLION; i++) {
-    hm.get(objs[i]);
-  }
+  for (let i = 0; i < MILLION; i++) hm.get(objs[i]);
 });
 
 suite.add(`Native Set ${MILLION.toLocaleString()} ObjKey add & has`, () => {
@@ -114,9 +93,7 @@ suite.add(`Native Set ${MILLION.toLocaleString()} ObjKey add & has`, () => {
     objs.push(obj);
     hs.add(obj);
   }
-  for (let i = 0; i < MILLION; i++) {
-    hs.has(objs[i]);
-  }
+  for (let i = 0; i < MILLION; i++) hs.has(objs[i]);
 });
 
 export { suite };

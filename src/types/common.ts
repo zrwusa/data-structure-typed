@@ -54,7 +54,7 @@ export type BTNEntry<K, V> = [K | null | undefined, V | undefined];
 
 export type BTNKeyOrNode<K, N> = K | null | undefined | N;
 
-export type BTNExemplar<K, V, N> = BTNEntry<K, V> | BTNKeyOrNode<K, N>;
+export type KeyOrNodeOrEntry<K, V, N> = BTNEntry<K, V> | BTNKeyOrNode<K, N>;
 
 export type BTNodePureKeyOrNode<K, N> = K | N;
 

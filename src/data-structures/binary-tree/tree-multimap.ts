@@ -9,8 +9,7 @@ import type {
   BinaryTreeDeleteResult,
   BSTNKeyOrNode,
   BTNCallback,
-  BTNExemplar,
-  BTNKeyOrNode,
+  KeyOrNodeOrEntry,
   TreeMultimapNested,
   TreeMultimapNodeNested,
   TreeMultimapOptions
@@ -53,9 +52,9 @@ export class TreeMultimap<
 >
   extends AVLTree<K, V, N, TREE>
   implements IBinaryTree<K, V, N, TREE> {
-  constructor(elements?: Iterable<BTNExemplar<K, V, N>>, options?: Partial<TreeMultimapOptions<K>>) {
+  constructor(nodes?: Iterable<KeyOrNodeOrEntry<K, V, N>>, options?: Partial<TreeMultimapOptions<K>>) {
     super([], options);
-    if (elements) this.addMany(elements);
+    if (nodes) this.addMany(nodes);
   }
 
   private _count = 0;
@@ -89,28 +88,8 @@ export class TreeMultimap<
   }
 
   /**
-   * The function checks if an exemplar is an instance of the TreeMultimapNode class.
-   * @param exemplar - The `exemplar` parameter is of type `BTNExemplar<K, V, N>`.
-   * @returns a boolean value indicating whether the exemplar is an instance of the TreeMultimapNode
-   * class.
-   */
-  override isNode(exemplar: BTNExemplar<K, V, N>): exemplar is N {
-    return exemplar instanceof TreeMultimapNode;
-  }
-
-  /**
-   * The function "isNotNodeInstance" checks if a potential key is a K.
-   * @param {any} potentialKey - The potentialKey parameter is of type any, which means it can be any
-   * data type.
-   * @returns a boolean value indicating whether the potentialKey is of type number or not.
-   */
-  override isNotNodeInstance(potentialKey: BTNKeyOrNode<K, N>): potentialKey is K {
-    return !(potentialKey instanceof TreeMultimapNode);
-  }
-
-  /**
-   * The function `exemplarToNode` converts an exemplar object into a node object.
-   * @param exemplar - The `exemplar` parameter is of type `BTNExemplar<K, V, N>`, which means it
+   * The function `exemplarToNode` converts an keyOrNodeOrEntry object into a node object.
+   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter is of type `KeyOrNodeOrEntry<K, V, N>`, which means it
    * can be one of the following:
    * @param {V} [value] - The `value` parameter is an optional argument that represents the value
    * associated with the node. It is of type `V`, which can be any data type. If no value is provided,
@@ -119,21 +98,21 @@ export class TreeMultimap<
    * times the value should be added to the node. If not provided, it defaults to 1.
    * @returns a node of type `N` or `undefined`.
    */
-  override exemplarToNode(exemplar: BTNExemplar<K, V, N>, value?: V, count = 1): N | undefined {
+  override exemplarToNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>, value?: V, count = 1): N | undefined {
     let node: N | undefined;
-    if (exemplar === undefined || exemplar === null) {
+    if (keyOrNodeOrEntry === undefined || keyOrNodeOrEntry === null) {
       return;
-    } else if (this.isNode(exemplar)) {
-      node = exemplar;
-    } else if (this.isEntry(exemplar)) {
-      const [key, value] = exemplar;
+    } else if (this.isNode(keyOrNodeOrEntry)) {
+      node = keyOrNodeOrEntry;
+    } else if (this.isEntry(keyOrNodeOrEntry)) {
+      const [key, value] = keyOrNodeOrEntry;
       if (key === undefined || key === null) {
         return;
       } else {
         node = this.createNode(key, value, count);
       }
-    } else if (this.isNotNodeInstance(exemplar)) {
-      node = this.createNode(exemplar, value, count);
+    } else if (this.isNotNodeInstance(keyOrNodeOrEntry)) {
+      node = this.createNode(keyOrNodeOrEntry, value, count);
     } else {
       return;
     }
@@ -141,13 +120,34 @@ export class TreeMultimap<
   }
 
   /**
-   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (AVLTree) has logarithmic time complexity.
-   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
+   * The function checks if an keyOrNodeOrEntry is an instance of the TreeMultimapNode class.
+   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter is of type `KeyOrNodeOrEntry<K, V, N>`.
+   * @returns a boolean value indicating whether the keyOrNodeOrEntry is an instance of the TreeMultimapNode
+   * class.
+   */
+  override isNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>): keyOrNodeOrEntry is N {
+    return keyOrNodeOrEntry instanceof TreeMultimapNode;
+  }
+
+  /**
+   * The function "isNotNodeInstance" checks if a potential key is a K.
+   * @param {any} potentialKey - The potentialKey parameter is of type any, which means it can be any
+   * data type.
+   * @returns a boolean value indicating whether the potentialKey is of type number or not.
+   */
+  override isNotNodeInstance(potentialKey: KeyOrNodeOrEntry<K, V, N>): potentialKey is K {
+    return !(potentialKey instanceof TreeMultimapNode);
+  }
+
+  /**
+   * Time Complexity: O(log n)
+   * Space Complexity: O(1)
+   * logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (AVLTree) has logarithmic time complexity. constant space, as it doesn't use additional data structures that scale with input size.
    */
 
   /**
-   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (AVLTree) has logarithmic time complexity.
-   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
+   * Time Complexity: O(log n)
+   * Space Complexity: O(1)
    *
    * The function overrides the add method of a binary tree node and adds a new node to the tree.
    * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter can be either a key, a node, or an
@@ -161,26 +161,27 @@ export class TreeMultimap<
    * @returns The method is returning either the newly inserted node or `undefined` if the insertion
    * was not successful.
    */
-  override add(keyOrNodeOrEntry: BTNExemplar<K, V, N>, value?: V, count = 1): N | undefined {
+  override add(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>, value?: V, count = 1): boolean {
     const newNode = this.exemplarToNode(keyOrNodeOrEntry, value, count);
-    if (newNode === undefined) return;
+    if (newNode === undefined) return false;
 
     const orgNodeCount = newNode?.count || 0;
     const inserted = super.add(newNode);
     if (inserted) {
       this._count += orgNodeCount;
     }
-    return inserted;
+    return true;
   }
 
   /**
-   * Time Complexity: O(k log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (AVLTree) has logarithmic time complexity.
-   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
+   * Time Complexity: O(k log n)
+   * Space Complexity: O(1)
+   * logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (AVLTree) has logarithmic time complexity. constant space, as it doesn't use additional data structures that scale with input size.
    */
 
   /**
-   * Time Complexity: O(k log n) - logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (AVLTree) has logarithmic time complexity.
-   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
+   * Time Complexity: O(k log n)
+   * Space Complexity: O(1)
    *
    * The function overrides the addMany method to add multiple keys, nodes, or entries to a data
    * structure.
@@ -188,18 +189,19 @@ export class TreeMultimap<
    * either keys, nodes, or entries.
    * @returns The method is returning an array of type `N | undefined`.
    */
-  override addMany(keysOrNodesOrEntries: Iterable<BTNExemplar<K, V, N>>): (N | undefined)[] {
+  override addMany(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, N>>): boolean[] {
     return super.addMany(keysOrNodesOrEntries);
   }
 
   /**
-   * Time Complexity: O(1) - constant time, as it performs basic pointer assignments.
-   * Space Complexity: O(1) - constant space, as it only uses a constant amount of memory.
+   * Time Complexity: O(n log n)
+   * Space Complexity: O(n)
+   * logarithmic time for each insertion, where "n" is the number of nodes in the tree. This is because the method calls the add method for each node. linear space, as it creates an array to store the sorted nodes.
    */
 
   /**
-   * Time Complexity: O(n log n) - logarithmic time for each insertion, where "n" is the number of nodes in the tree. This is because the method calls the add method for each node.
-   * Space Complexity: O(n) - linear space, as it creates an array to store the sorted nodes.
+   * Time Complexity: O(n log n)
+   * Space Complexity: O(n)
    *
    * The `perfectlyBalance` function takes a sorted array of nodes and builds a balanced binary search
    * tree using either a recursive or iterative approach.
@@ -247,13 +249,14 @@ export class TreeMultimap<
   }
 
   /**
-   * Time Complexity: O(k log n) - logarithmic time for each insertion, where "n" is the number of nodes in the tree, and "k" is the number of keys to be inserted. This is because the method iterates through the keys and calls the add method for each.
-   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
+   * Time Complexity: O(k log n)
+   * Space Complexity: O(1)
+   * logarithmic time for each insertion, where "n" is the number of nodes in the tree, and "k" is the number of keys to be inserted. This is because the method iterates through the keys and calls the add method for each. constant space, as it doesn't use additional data structures that scale with input size.
    */
 
   /**
-   * Time Complexity: O(log n) - logarithmic time, where "n" is the number of nodes in the tree. The delete method of the superclass (AVLTree) has logarithmic time complexity.
-   * Space Complexity: O(1) - constant space, as it doesn't use additional data structures that scale with input size.
+   * Time Complexity: O(k log n)
+   * Space Complexity: O(1)
    *
    * The `delete` function in TypeScript is used to remove a node from a binary tree, taking into
    * account the count of the node and balancing the tree if necessary.
@@ -331,11 +334,14 @@ export class TreeMultimap<
   }
 
   /**
-   * Time Complexity: O(n log n) - logarithmic time for each insertion, where "n" is the number of nodes in the tree. This is because the method calls the add method for each node.
-   * Space Complexity: O(n) - linear space, as it creates an array to store the sorted nodes.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The clear() function clears the contents of a data structure and sets the count to zero.
    */
   override clear() {

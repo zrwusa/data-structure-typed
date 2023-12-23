@@ -10,9 +10,8 @@ import {
   BinaryTreeDeleteResult,
   BSTNKeyOrNode,
   BTNCallback,
-  BTNExemplar,
-  BTNKeyOrNode,
   IterationType,
+  KeyOrNodeOrEntry,
   RBTNColor,
   RBTreeOptions,
   RedBlackTreeNested,
@@ -53,20 +52,20 @@ export class RedBlackTree<
 
   /**
    * This is the constructor function for a Red-Black Tree data structure in TypeScript, which
-   * initializes the tree with optional elements and options.
-   * @param [elements] - The `elements` parameter is an optional iterable of `BTNExemplar<K, V, N>`
-   * objects. It represents the initial elements that will be added to the RBTree during its
+   * initializes the tree with optional nodes and options.
+   * @param [nodes] - The `nodes` parameter is an optional iterable of `KeyOrNodeOrEntry<K, V, N>`
+   * objects. It represents the initial nodes that will be added to the RBTree during its
    * construction. If this parameter is provided, the `addMany` method is called to add all the
-   * elements to the
+   * nodes to the
    * @param [options] - The `options` parameter is an optional object that allows you to customize the
    * behavior of the RBTree. It is of type `Partial<RBTreeOptions>`, which means that you can provide
    * only a subset of the properties defined in the `RBTreeOptions` interface.
    */
-  constructor(elements?: Iterable<BTNExemplar<K, V, N>>, options?: Partial<RBTreeOptions<K>>) {
+  constructor(nodes?: Iterable<KeyOrNodeOrEntry<K, V, N>>, options?: Partial<RBTreeOptions<K>>) {
     super([], options);
 
     this._root = this.Sentinel;
-    if (elements) super.addMany(elements);
+    if (nodes) super.addMany(nodes);
   }
 
   protected _root: N;
@@ -113,13 +112,53 @@ export class RedBlackTree<
   }
 
   /**
-   * The function checks if an exemplar is an instance of the RedBlackTreeNode class.
-   * @param exemplar - The `exemplar` parameter is of type `BTNExemplar<K, V, N>`.
-   * @returns a boolean value indicating whether the exemplar is an instance of the RedBlackTreeNode
+   * The function `exemplarToNode` takes an keyOrNodeOrEntry and converts it into a node object if possible.
+   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter is of type `KeyOrNodeOrEntry<K, V, N>`, where:
+   * @param {V} [value] - The `value` parameter is an optional value that can be passed to the
+   * `exemplarToNode` function. It represents the value associated with the keyOrNodeOrEntry node. If a value
+   * is provided, it will be used when creating the new node. If no value is provided, the new node
+   * @returns a node of type N or undefined.
+   */
+  override exemplarToNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>, value?: V): N | undefined {
+    let node: N | undefined;
+
+    if (keyOrNodeOrEntry === null || keyOrNodeOrEntry === undefined) {
+      return;
+    } else if (this.isNode(keyOrNodeOrEntry)) {
+      node = keyOrNodeOrEntry;
+    } else if (this.isEntry(keyOrNodeOrEntry)) {
+      const [key, value] = keyOrNodeOrEntry;
+      if (key === undefined || key === null) {
+        return;
+      } else {
+        node = this.createNode(key, value, RBTNColor.RED);
+      }
+    } else if (this.isNotNodeInstance(keyOrNodeOrEntry)) {
+      node = this.createNode(keyOrNodeOrEntry, value, RBTNColor.RED);
+    } else {
+      return;
+    }
+    return node;
+  }
+
+  /**
+   * The function checks if an keyOrNodeOrEntry is an instance of the RedBlackTreeNode class.
+   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter is of type `KeyOrNodeOrEntry<K, V, N>`.
+   * @returns a boolean value indicating whether the keyOrNodeOrEntry is an instance of the RedBlackTreeNode
    * class.
    */
-  override isNode(exemplar: BTNExemplar<K, V, N>): exemplar is N {
-    return exemplar instanceof RedBlackTreeNode;
+  override isNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>): keyOrNodeOrEntry is N {
+    return keyOrNodeOrEntry instanceof RedBlackTreeNode;
+  }
+
+  /**
+   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
+   * Space Complexity: O(1)
+   */
+
+  override isRealNode(node: N | undefined): node is N {
+    if (node === this.Sentinel || node === undefined) return false;
+    return node instanceof RedBlackTreeNode;
   }
 
   /**
@@ -128,47 +167,18 @@ export class RedBlackTree<
    * data type.
    * @returns a boolean value indicating whether the potentialKey is of type number or not.
    */
-  override isNotNodeInstance(potentialKey: BTNKeyOrNode<K, N>): potentialKey is K {
+  override isNotNodeInstance(potentialKey: KeyOrNodeOrEntry<K, V, N>): potentialKey is K {
     return !(potentialKey instanceof RedBlackTreeNode);
   }
 
   /**
-   * The function `exemplarToNode` takes an exemplar and converts it into a node object if possible.
-   * @param exemplar - The `exemplar` parameter is of type `BTNExemplar<K, V, N>`, where:
-   * @param {V} [value] - The `value` parameter is an optional value that can be passed to the
-   * `exemplarToNode` function. It represents the value associated with the exemplar node. If a value
-   * is provided, it will be used when creating the new node. If no value is provided, the new node
-   * @returns a node of type N or undefined.
-   */
-  override exemplarToNode(exemplar: BTNExemplar<K, V, N>, value?: V): N | undefined {
-    let node: N | undefined;
-
-    if (exemplar === null || exemplar === undefined) {
-      return;
-    } else if (this.isNode(exemplar)) {
-      node = exemplar;
-    } else if (this.isEntry(exemplar)) {
-      const [key, value] = exemplar;
-      if (key === undefined || key === null) {
-        return;
-      } else {
-        node = this.createNode(key, value, RBTNColor.RED);
-      }
-    } else if (this.isNotNodeInstance(exemplar)) {
-      node = this.createNode(exemplar, value, RBTNColor.RED);
-    } else {
-      return;
-    }
-    return node;
-  }
-
-  /**
-   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
+   *  on average (where n is the number of nodes in the tree)
    */
 
   /**
-   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
    * The `add` function adds a new node to a binary search tree and performs necessary rotations and
@@ -179,9 +189,9 @@ export class RedBlackTree<
    * being added to the binary search tree.
    * @returns The method `add` returns either the newly added node (`N`) or `undefined`.
    */
-  override add(keyOrNodeOrEntry: BTNExemplar<K, V, N>, value?: V): N | undefined {
+  override add(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>, value?: V): boolean {
     const newNode = this.exemplarToNode(keyOrNodeOrEntry, value);
-    if (newNode === undefined) return;
+    if (newNode === undefined) return false;
 
     newNode.left = this.Sentinel;
     newNode.right = this.Sentinel;
@@ -200,7 +210,7 @@ export class RedBlackTree<
           if (newNode !== x) {
             this._replaceNode(x, newNode);
           }
-          return;
+          return false;
         }
       }
     }
@@ -217,25 +227,27 @@ export class RedBlackTree<
     if (newNode.parent === undefined) {
       newNode.color = RBTNColor.BLACK;
       this._size++;
-      return;
+      return false;
     }
 
     if (newNode.parent.parent === undefined) {
       this._size++;
-      return;
+      return false;
     }
 
     this._fixInsert(newNode);
     this._size++;
+    return true;
   }
 
   /**
-   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
+   *  on average (where n is the number of nodes in the tree)
    */
 
   /**
-   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
    * The `delete` function removes a node from a binary tree based on a given identifier and updates
@@ -310,16 +322,6 @@ export class RedBlackTree<
     return ans;
   }
 
-  /**
-   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
-   * Space Complexity: O(1)
-   */
-
-  override isRealNode(node: N | undefined): node is N {
-    if (node === this.Sentinel || node === undefined) return false;
-    return node instanceof RedBlackTreeNode;
-  }
-
   getNode<C extends BTNCallback<N, K>>(
     identifier: K,
     callback?: C,
@@ -342,12 +344,12 @@ export class RedBlackTree<
   ): N | undefined;
 
   /**
-   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
    * The function `getNode` retrieves a single node from a binary tree based on a given identifier and
@@ -407,7 +409,7 @@ export class RedBlackTree<
   }
 
   /**
-   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
+   * Time Complexity: O(1)
    * Space Complexity: O(1)
    */
 
@@ -489,12 +491,12 @@ export class RedBlackTree<
   }
 
   /**
-   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
    * The function `_fixDelete` is used to fix the red-black tree after a node deletion.
@@ -585,12 +587,12 @@ export class RedBlackTree<
   }
 
   /**
-   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
    * The `_fixInsert` function is used to fix the red-black tree after an insertion operation.

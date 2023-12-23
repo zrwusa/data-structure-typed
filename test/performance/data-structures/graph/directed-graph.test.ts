@@ -9,9 +9,7 @@ const vertexes = getRandomWords(THOUSAND);
 
 suite
   .add(`${THOUSAND.toLocaleString()} addVertex`, () => {
-    for (const v of vertexes) {
-      graph.addVertex(v);
-    }
+    for (const v of vertexes) graph.addVertex(v);
   })
   .add(`${THOUSAND.toLocaleString()} addEdge`, () => {
     for (let i = 0; i < THOUSAND; i++) {
@@ -21,29 +19,20 @@ suite
     }
   })
   .add(`${THOUSAND.toLocaleString()} getVertex`, () => {
-    for (let i = 0; i < THOUSAND; i++) {
-      graph.getVertex(vertexes[getRandomIndex(vertexes)]);
-    }
+    for (let i = 0; i < THOUSAND; i++) graph.getVertex(vertexes[getRandomIndex(vertexes)]);
   })
   .add(`${THOUSAND.toLocaleString()} getEdge`, () => {
-    for (let i = 0; i < THOUSAND; i++) {
+    for (let i = 0; i < THOUSAND; i++)
       graph.getEdge(vertexes[getRandomIndex(vertexes)], vertexes[getRandomIndex(vertexes)]);
-    }
   })
   .add(`tarjan`, () => {
-    // for (let i = 0; i < THOUSAND; i++) {
     graph.tarjan(true);
-    // }
   })
   .add(`tarjan all`, () => {
-    // for (let i = 0; i < THOUSAND; i++) {
     graph.tarjan(true, true, true, true);
-    // }
   })
   .add(`topologicalSort`, () => {
-    // for (let i = 0; i < THOUSAND; i++) {
     graph.topologicalSort('key');
-    // }
   });
 
 export { suite };

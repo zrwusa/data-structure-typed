@@ -106,7 +106,8 @@ describe('BinaryTree', () => {
   it('should delete nodes', () => {
     expect(tree.getHeight(tree.root, IterationType.ITERATIVE)).toBe(-1);
     expect(tree.getMinHeight()).toBe(-1);
-    const node1 = tree.add(1);
+    const node1 = tree.createNode(1);
+    tree.add(node1);
     expect(tree.size).toBe(1);
 
     const leftChild = new BinaryTreeNode<number>(2);

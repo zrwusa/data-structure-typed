@@ -40,7 +40,6 @@ suite
     const list = new DoublyLinkedList<number>();
 
     for (let i = 0; i < MILLION; i++) list.unshift(i);
-
     for (let i = 0; i < MILLION; i++) list.shift();
   })
   .add(`${MILLION.toLocaleString()} addBefore`, () => {

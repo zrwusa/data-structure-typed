@@ -10,32 +10,22 @@ const arr = getRandomIntArray(THOUSAND, 0, THOUSAND, true);
 suite
   .add(`${THOUSAND.toLocaleString()} add randomly`, () => {
     biTree.clear();
-    for (let i = 0; i < arr.length; i++) {
-      biTree.add(arr[i]);
-    }
+    for (let i = 0; i < arr.length; i++) biTree.add(arr[i]);
   })
   .add(`${THOUSAND.toLocaleString()} add & delete randomly`, () => {
     biTree.clear();
-    for (let i = 0; i < arr.length; i++) {
-      biTree.add(arr[i]);
-    }
-    for (let i = 0; i < arr.length; i++) {
-      biTree.delete(arr[i]);
-    }
+    for (let i = 0; i < arr.length; i++) biTree.add(arr[i]);
+    for (let i = 0; i < arr.length; i++) biTree.delete(arr[i]);
   })
   .add(`${THOUSAND.toLocaleString()} addMany`, () => {
     biTree.clear();
     biTree.addMany(arr);
   })
   .add(`${THOUSAND.toLocaleString()} get`, () => {
-    for (let i = 0; i < arr.length; i++) {
-      biTree.get(arr[i]);
-    }
+    for (let i = 0; i < arr.length; i++) biTree.get(arr[i]);
   })
   .add(`${THOUSAND.toLocaleString()} has`, () => {
-    for (let i = 0; i < arr.length; i++) {
-      biTree.get(arr[i]);
-    }
+    for (let i = 0; i < arr.length; i++) biTree.get(arr[i]);
   })
   .add(`${THOUSAND.toLocaleString()} dfs`, () => {
     for (let i = 0; i < THOUSAND; i++) biTree.dfs();
@@ -47,4 +37,4 @@ suite
     for (let i = 0; i < THOUSAND; i++) biTree.morris(n => n, 'pre');
   });
 
-export { suite };
+// export { suite };
