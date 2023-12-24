@@ -909,6 +909,8 @@ avl2.print();
 
 ## 软件工程标准
 
+严格尊重计算机科学理论和软件开发规范，我们的LinkedList就是传统意义的LinkedList数据结构，而不是用Deque去代替以便标榜性能测试数据。当然我们也同时实现了基于动态数组的Deque。
+
 <table style="display: table; width:100%; table-layout: fixed;">
     <tr>
         <th>原则</th>

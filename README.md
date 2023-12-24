@@ -931,6 +931,9 @@ avl2.print();
 
 ## Software Engineering Design Standards
 
+We strictly adhere to computer science theory and software development standards. Our LinkedList is designed in the traditional sense of the LinkedList data structure, and we refrain from substituting it with a Deque solely for the purpose of showcasing performance test data. However, we have also implemented a Deque based on a dynamic array concurrently.
+
+
 <table style="display: table; width:100%; table-layout: fixed;">
     <tr>
         <th>Principle</th>
