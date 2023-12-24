@@ -23,17 +23,14 @@ export class Stack<E = any> extends IterableElementBase<E> {
    * of elements of type `E`. It is used to initialize the `_elements` property of the class. If the `elements` parameter
    * is provided and is an array, it is assigned to the `_elements
    */
-  constructor(elements?: Iterable<E>) {
+  constructor(elements: Iterable<E> = []) {
     super();
-    this._elements = [];
     if (elements) {
-      for (const el of elements) {
-        this.push(el);
-      }
+      for (const el of elements) this.push(el);
     }
   }
 
-  protected _elements: E[];
+  protected _elements: E[] = [];
 
   get elements(): E[] {
     return this._elements;

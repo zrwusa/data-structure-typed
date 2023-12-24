@@ -53,7 +53,7 @@ export class RedBlackTree<
   /**
    * This is the constructor function for a Red-Black Tree data structure in TypeScript, which
    * initializes the tree with optional nodes and options.
-   * @param [nodes] - The `nodes` parameter is an optional iterable of `KeyOrNodeOrEntry<K, V, N>`
+   * @param [keysOrNodesOrEntries] - The `keysOrNodesOrEntries` parameter is an optional iterable of `KeyOrNodeOrEntry<K, V, N>`
    * objects. It represents the initial nodes that will be added to the RBTree during its
    * construction. If this parameter is provided, the `addMany` method is called to add all the
    * nodes to the
@@ -61,11 +61,11 @@ export class RedBlackTree<
    * behavior of the RBTree. It is of type `Partial<RBTreeOptions>`, which means that you can provide
    * only a subset of the properties defined in the `RBTreeOptions` interface.
    */
-  constructor(nodes?: Iterable<KeyOrNodeOrEntry<K, V, N>>, options?: Partial<RBTreeOptions<K>>) {
+  constructor(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, N>> = [], options?: RBTreeOptions<K>) {
     super([], options);
 
     this._root = this.Sentinel;
-    if (nodes) super.addMany(nodes);
+    if (keysOrNodesOrEntries) super.addMany(keysOrNodesOrEntries);
   }
 
   protected _root: N;

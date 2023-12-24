@@ -32,7 +32,7 @@ describe('SkipList', () => {
 
     skipList.delete(2);
 
-    expect(skipList.get(2)).toBeUndefined(); // 修改这里的断言
+    expect(skipList.get(2)).toBeUndefined();
   });
 
   it('should handle random data correctly', () => {

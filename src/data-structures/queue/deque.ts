@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { ElementCallback, IterableWithSizeOrLength } from '../../types';
+import type { DequeOptions, ElementCallback, IterableWithSizeOrLength } from '../../types';
 import { IterableElementBase } from '../base';
 import { calcMinUnitsRequired, rangeCheck } from '../../utils';
 
@@ -22,19 +22,16 @@ export class Deque<E> extends IterableElementBase<E> {
   protected _bucketLast = 0;
   protected _lastInBucket = 0;
   protected _bucketCount = 0;
-  protected readonly _bucketSize: number;
+  protected readonly _bucketSize: number = 1 << 12;
 
-  /**
-   * The constructor initializes a data structure with a specified bucket size and populates it with
-   * elements from an iterable.
-   * @param elements - The `elements` parameter is an iterable object (such as an array or a Set) that
-   * contains the initial elements to be stored in the data structure. It can also be an object with a
-   * `length` property or a `size` property, which represents the number of elements in the iterable.
-   * @param bucketSize - The `bucketSize` parameter is the maximum number of elements that can be
-   * stored in each bucket. It determines the size of each bucket in the data structure.
-   */
-  constructor(elements: IterableWithSizeOrLength<E> = [], bucketSize = 1 << 12) {
+  constructor(elements: IterableWithSizeOrLength<E> = [], options?: DequeOptions) {
     super();
+
+    if (options) {
+      const { bucketSize } = options;
+      if (typeof bucketSize === 'number') this._bucketSize = bucketSize;
+    }
+
     let _size: number;
     if ('length' in elements) {
       if (elements.length instanceof Function) _size = elements.length();
@@ -44,7 +41,6 @@ export class Deque<E> extends IterableElementBase<E> {
       else _size = elements.size;
     }
 
-    this._bucketSize = bucketSize;
     this._bucketCount = calcMinUnitsRequired(_size, this._bucketSize) || 1;
     for (let i = 0; i < this._bucketCount; ++i) {
       this._buckets.push(new Array(this._bucketSize));
@@ -637,7 +633,7 @@ export class Deque<E> extends IterableElementBase<E> {
    * satisfy the given predicate function.
    */
   filter(predicate: ElementCallback<E, boolean>, thisArg?: any): Deque<E> {
-    const newDeque = new Deque<E>([], this._bucketSize);
+    const newDeque = new Deque<E>([], { bucketSize: this._bucketSize });
     let index = 0;
     for (const el of this) {
       if (predicate.call(thisArg, el, index, this)) {
@@ -666,7 +662,7 @@ export class Deque<E> extends IterableElementBase<E> {
    * @returns a new Deque object with the mapped values.
    */
   map<T>(callback: ElementCallback<E, T>, thisArg?: any): Deque<T> {
-    const newDeque = new Deque<T>([], this._bucketSize);
+    const newDeque = new Deque<T>([], { bucketSize: this._bucketSize });
     let index = 0;
     for (const el of this) {
       newDeque.push(callback.call(thisArg, el, index, this));

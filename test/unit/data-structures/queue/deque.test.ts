@@ -231,10 +231,10 @@ describe('Deque - Additional Operations', () => {
 });
 describe('Deque - push Method', () => {
   let deque: Deque<number>;
-  const bucketSize = 10; // 假设的 bucket 大小
+  const bucketSize = 10;
 
   beforeEach(() => {
-    deque = new Deque<number>([], bucketSize);
+    deque = new Deque<number>([], { bucketSize });
   });
 
   test('push should add an element when deque is empty', () => {
@@ -276,7 +276,7 @@ describe('Deque - pop Method', () => {
   const bucketSize = 10;
 
   beforeEach(() => {
-    deque = new Deque<number>([], bucketSize);
+    deque = new Deque<number>([], { bucketSize });
   });
 
   test('pop should remove and return the last element', () => {
@@ -307,7 +307,7 @@ describe('Deque - unshift Method', () => {
   const bucketSize = 10;
 
   beforeEach(() => {
-    deque = new Deque<number>([], bucketSize);
+    deque = new Deque<number>([], { bucketSize });
   });
 
   test('unshift should add an element to the beginning when deque is empty', () => {
@@ -339,7 +339,7 @@ describe('Deque - shift Method', () => {
   const bucketSize = 10;
 
   beforeEach(() => {
-    deque = new Deque<number>([], bucketSize);
+    deque = new Deque<number>([], { bucketSize });
   });
 
   test('shift should remove and return the first element', () => {

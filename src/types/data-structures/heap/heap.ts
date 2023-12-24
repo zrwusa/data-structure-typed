@@ -1,3 +1,3 @@
 import { Comparator } from '../../common';
 
-export type HeapOptions<T> = { comparator: Comparator<T> };
+export type HeapOptions<T> = { comparator?: Comparator<T> };

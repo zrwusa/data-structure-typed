@@ -13,29 +13,30 @@ import { SinglyLinkedList } from '../linked-list';
  * 3. Uses: Queues are commonly used to manage a series of tasks or elements that need to be processed in order. For example, managing task queues in a multi-threaded environment, or in algorithms for data structures like trees and graphs for breadth-first search.
  * 4. Task Scheduling: Managing the order of task execution in operating systems or applications.
  * 5. Data Buffering: Acting as a buffer for data packets in network communication.
- * 6. Breadth-First Search (BFS): In traversal algorithms for graphs and trees, queues store nodes that are to be visited.
+ * 6. Breadth-First Search (BFS): In traversal algorithms for graphs and trees, queues store elements that are to be visited.
  * 7. Real-time Queuing: Like queuing systems in banks or supermarkets.
  */
 export class Queue<E = any> extends IterableElementBase<E> {
   /**
    * The constructor initializes an instance of a class with an optional array of elements and sets the offset to 0.
    * @param {E[]} [elements] - The `elements` parameter is an optional array of elements of type `E`. If provided, it
-   * will be used to initialize the `_nodes` property of the class. If not provided, the `_nodes` property will be
+   * will be used to initialize the `_elements` property of the class. If not provided, the `_elements` property will be
    * initialized as an empty array.
    */
-  constructor(elements?: E[]) {
+  constructor(elements: Iterable<E> = []) {
     super();
-    this._nodes = elements || [];
-    this._offset = 0;
+    if (elements) {
+      for (const el of elements) this.push(el);
+    }
   }
 
-  protected _nodes: E[];
+  protected _elements: E[] = [];
 
-  get nodes(): E[] {
-    return this._nodes;
+  get elements(): E[] {
+    return this._elements;
   }
 
-  protected _offset: number;
+  protected _offset: number = 0;
 
   get offset(): number {
     return this._offset;
@@ -46,19 +47,19 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * @returns {number} The size of the array, which is the difference between the length of the array and the offset.
    */
   get size(): number {
-    return this.nodes.length - this.offset;
+    return this.elements.length - this.offset;
   }
 
   /**
    * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
    * Space Complexity: O(1) - no additional space is used.
    *
-   * The `first` function returns the first element of the array `_nodes` if it exists, otherwise it returns `undefined`.
-   * @returns The `get first()` method returns the first element of the data structure, represented by the `_nodes` array at
+   * The `first` function returns the first element of the array `_elements` if it exists, otherwise it returns `undefined`.
+   * @returns The `get first()` method returns the first element of the data structure, represented by the `_elements` array at
    * the `_offset` index. If the data structure is empty (size is 0), it returns `undefined`.
    */
   get first(): E | undefined {
-    return this.size > 0 ? this.nodes[this.offset] : undefined;
+    return this.size > 0 ? this.elements[this.offset] : undefined;
   }
 
   /**
@@ -71,11 +72,11 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * Space Complexity: O(1) - no additional space is used.
    *
    * The `last` function returns the last element in an array-like data structure, or undefined if the structure is empty.
-   * @returns The method `get last()` returns the last element of the `_nodes` array if the array is not empty. If the
+   * @returns The method `get last()` returns the last element of the `_elements` array if the array is not empty. If the
    * array is empty, it returns `undefined`.
    */
   get last(): E | undefined {
-    return this.size > 0 ? this.nodes[this.nodes.length - 1] : undefined;
+    return this.size > 0 ? this.elements[this.elements.length - 1] : undefined;
   }
 
   /**
@@ -109,7 +110,7 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * @returns The `add` method is returning a `Queue<E>` object.
    */
   push(element: E): boolean {
-    this.nodes.push(element);
+    this.elements.push(element);
     return true;
   }
 
@@ -132,11 +133,11 @@ export class Queue<E = any> extends IterableElementBase<E> {
     const first = this.first;
     this._offset += 1;
 
-    if (this.offset * 2 < this.nodes.length) return first;
+    if (this.offset * 2 < this.elements.length) return first;
 
     // only delete dequeued elements when reaching half size
     // to decrease latency of shifting elements.
-    this._nodes = this.nodes.slice(this.offset);
+    this._elements = this.elements.slice(this.offset);
     this._offset = 0;
     return first;
   }
@@ -150,8 +151,8 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
    * Space Complexity: O(1) - no additional space is used.
    *
-   * The `peek` function returns the first element of the array `_nodes` if it exists, otherwise it returns `undefined`.
-   * @returns The `peek()` method returns the first element of the data structure, represented by the `_nodes` array at
+   * The `peek` function returns the first element of the array `_elements` if it exists, otherwise it returns `undefined`.
+   * @returns The `peek()` method returns the first element of the data structure, represented by the `_elements` array at
    * the `_offset` index. If the data structure is empty (size is 0), it returns `undefined`.
    */
   peek(): E | undefined {
@@ -168,7 +169,7 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * Space Complexity: O(1) - no additional space is used.
    *
    * The `peekLast` function returns the last element in an array-like data structure, or undefined if the structure is empty.
-   * @returns The method `peekLast()` returns the last element of the `_nodes` array if the array is not empty. If the
+   * @returns The method `peekLast()` returns the last element of the `_elements` array if the array is not empty. If the
    * array is empty, it returns `undefined`.
    */
   peekLast(): E | undefined {
@@ -219,7 +220,7 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * @param index
    */
   getAt(index: number): E | undefined {
-    return this.nodes[index];
+    return this.elements[index];
   }
 
   /**
@@ -247,18 +248,18 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(1) - constant time as it returns a shallow copy of the internal array.
    * Space Complexity: O(n) - where n is the number of elements in the queue.
    *
-   * The toArray() function returns an array of elements from the current offset to the end of the _nodes array.
+   * The toArray() function returns an array of elements from the current offset to the end of the _elements array.
    * @returns An array of type E is being returned.
    */
   toArray(): E[] {
-    return this.nodes.slice(this.offset);
+    return this.elements.slice(this.offset);
   }
 
   /**
-   * The clear function resets the nodes array and offset to their initial values.
+   * The clear function resets the elements array and offset to their initial values.
    */
   clear(): void {
-    this._nodes = [];
+    this._elements = [];
     this._offset = 0;
   }
 
@@ -275,7 +276,7 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * @returns The `clone()` method is returning a new instance of the `Queue` class.
    */
   clone(): Queue<E> {
-    return new Queue(this.nodes.slice(this.offset));
+    return new Queue(this.elements.slice(this.offset));
   }
 
   /**
@@ -345,7 +346,7 @@ export class Queue<E = any> extends IterableElementBase<E> {
    */
 
   protected* _getIterator(): IterableIterator<E> {
-    for (const item of this.nodes) {
+    for (const item of this.elements) {
       yield item;
     }
   }

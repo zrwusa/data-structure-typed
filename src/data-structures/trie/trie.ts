@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { ElementCallback } from '../../types';
+import type { ElementCallback, TrieOptions } from '../../types';
 import { IterableElementBase } from '../base';
 
 /**
@@ -38,31 +38,30 @@ export class TrieNode {
  * 11. Text Word Frequency Count: Counting and storing the frequency of words in a large amount of text data."
  */
 export class Trie extends IterableElementBase<string> {
-  constructor(words?: string[], caseSensitive = true) {
+  constructor(words: Iterable<string> = [], options?: TrieOptions) {
     super();
-    this._root = new TrieNode('');
-    this._caseSensitive = caseSensitive;
-    this._size = 0;
+    if (options) {
+      const { caseSensitive } = options;
+      if (caseSensitive !== undefined) this._caseSensitive = caseSensitive;
+    }
     if (words) {
-      for (const word of words) {
-        this.add(word);
-      }
+      for (const word of words) this.add(word);
     }
   }
 
-  protected _size: number;
+  protected _size: number = 0;
 
   get size(): number {
     return this._size;
   }
 
-  protected _caseSensitive: boolean;
+  protected _caseSensitive: boolean = true;
 
   get caseSensitive(): boolean {
     return this._caseSensitive;
   }
 
-  protected _root: TrieNode;
+  protected _root: TrieNode = new TrieNode('');
 
   get root() {
     return this._root;

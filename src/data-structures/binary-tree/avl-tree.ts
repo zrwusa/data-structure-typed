@@ -48,17 +48,17 @@ export class AVLTree<
   extends BST<K, V, N, TREE>
   implements IBinaryTree<K, V, N, TREE> {
   /**
-   * The constructor function initializes an AVLTree object with optional nodes and options.
-   * @param [nodes] - The `nodes` parameter is an optional iterable of `KeyOrNodeOrEntry<K, V, N>`
+   * The constructor function initializes an AVLTree object with optional keysOrNodesOrEntries and options.
+   * @param [keysOrNodesOrEntries] - The `keysOrNodesOrEntries` parameter is an optional iterable of `KeyOrNodeOrEntry<K, V, N>`
    * objects. It represents a collection of nodes that will be added to the AVL tree during
    * initialization.
    * @param [options] - The `options` parameter is an optional object that allows you to customize the
    * behavior of the AVL tree. It is of type `Partial<AVLTreeOptions>`, which means that you can
    * provide only a subset of the properties defined in the `AVLTreeOptions` interface.
    */
-  constructor(nodes?: Iterable<KeyOrNodeOrEntry<K, V, N>>, options?: Partial<AVLTreeOptions<K>>) {
+  constructor(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, N>> = [], options?: AVLTreeOptions<K>) {
     super([], options);
-    if (nodes) super.addMany(nodes);
+    if (keysOrNodesOrEntries) super.addMany(keysOrNodesOrEntries);
   }
 
   /**

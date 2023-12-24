@@ -1,1 +1,1 @@
-export {};
+export type DequeOptions = { bucketSize?: number };

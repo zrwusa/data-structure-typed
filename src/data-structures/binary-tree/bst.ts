@@ -92,25 +92,23 @@ export class BST<
   implements IBinaryTree<K, V, N, TREE> {
   /**
    * This is the constructor function for a binary search tree class in TypeScript, which initializes
-   * the tree with optional nodes and options.
-   * @param [nodes] - An optional iterable of KeyOrNodeOrEntry objects that will be added to the
+   * the tree with optional keysOrNodesOrEntries and options.
+   * @param [keysOrNodesOrEntries] - An optional iterable of KeyOrNodeOrEntry objects that will be added to the
    * binary search tree.
    * @param [options] - The `options` parameter is an optional object that can contain additional
    * configuration options for the binary search tree. It can have the following properties:
    */
-  constructor(nodes?: Iterable<KeyOrNodeOrEntry<K, V, N>>, options?: Partial<BSTOptions<K>>) {
+  constructor(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, N>> = [], options?: BSTOptions<K>) {
     super([], options);
 
     if (options) {
       const { variant } = options;
-      if (variant) {
-        this._variant = variant;
-      }
+      if (variant) this._variant = variant;
     }
 
     this._root = undefined;
 
-    if (nodes) this.addMany(nodes);
+    if (keysOrNodesOrEntries) this.addMany(keysOrNodesOrEntries);
   }
 
   protected override _root?: N;

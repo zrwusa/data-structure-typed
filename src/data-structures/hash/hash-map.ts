@@ -5,34 +5,35 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { EntryCallback, HashMapLinkedNode, HashMapOptions, HashMapStoreItem } from '../../types';
+import type {
+  EntryCallback,
+  HashMapLinkedNode,
+  HashMapOptions,
+  HashMapStoreItem,
+  LinkedHashMapOptions
+} from '../../types';
 import { IterableEntryBase } from '../base';
 import { isWeakKey, rangeCheck } from '../../utils';
 
 /**
  * 1. Key-Value Pair Storage: HashMap stores key-value pairs. Each key maps to a value.
- * 2. Fast Lookup: It's used when you need to quickly find, insert, or delete elements based on a key.
+ * 2. Fast Lookup: It's used when you need to quickly find, insert, or delete entries based on a key.
  * 3. Unique Keys: Keys are unique. If you try to insert another entry with the same key, the old entry will be replaced by the new one.
- * 4. Unordered Collection: HashMap does not guarantee the order of elements, and the order may change over time.
+ * 4. Unordered Collection: HashMap does not guarantee the order of entries, and the order may change over time.
  */
 export class HashMap<K = any, V = any> extends IterableEntryBase<K, V> {
   protected _store: { [key: string]: HashMapStoreItem<K, V> } = {};
   protected _objMap: Map<object, V> = new Map();
 
   /**
-   * The constructor function initializes a new instance of a class with optional elements and options.
-   * @param elements - The `elements` parameter is an iterable containing key-value pairs `[K, V]`. It
+   * The constructor function initializes a new instance of a class with optional entries and options.
+   * @param entries - The `entries` parameter is an iterable containing key-value pairs `[K, V]`. It
    * is optional and defaults to an empty array `[]`. This parameter is used to initialize the map with
    * key-value pairs.
    * @param [options] - The `options` parameter is an optional object that can contain additional
    * configuration options for the constructor. In this case, it has one property:
    */
-  constructor(
-    elements: Iterable<[K, V]> = [],
-    options?: {
-      hashFn: (key: K) => string;
-    }
-  ) {
+  constructor(entries: Iterable<[K, V]> = [], options?: HashMapOptions<K>) {
     super();
     if (options) {
       const { hashFn } = options;
@@ -40,8 +41,8 @@ export class HashMap<K = any, V = any> extends IterableEntryBase<K, V> {
         this._hashFn = hashFn;
       }
     }
-    if (elements) {
-      this.setMany(elements);
+    if (entries) {
+      this.setMany(entries);
     }
   }
 
@@ -88,12 +89,12 @@ export class HashMap<K = any, V = any> extends IterableEntryBase<K, V> {
 
   /**
    * The function "setMany" sets multiple key-value pairs in a map.
-   * @param elements - The `elements` parameter is an iterable containing key-value pairs. Each
-   * key-value pair is represented as an array with two elements: the key and the value.
+   * @param entries - The `entries` parameter is an iterable containing key-value pairs. Each
+   * key-value pair is represented as an array with two entries: the key and the value.
    */
-  setMany(elements: Iterable<[K, V]>): boolean[] {
+  setMany(entries: Iterable<[K, V]>): boolean[] {
     const results: boolean[] = [];
-    for (const [key, value] of elements) results.push(this.set(key, value));
+    for (const [key, value] of entries) results.push(this.set(key, value));
     return results;
   }
 
@@ -214,10 +215,6 @@ export class HashMap<K = any, V = any> extends IterableEntryBase<K, V> {
     return filteredMap;
   }
 
-  print(): void {
-    console.log([...this.entries()]);
-  }
-
   put(key: K, value: V): boolean {
     return this.set(key, value);
   }
@@ -261,8 +258,8 @@ export class HashMap<K = any, V = any> extends IterableEntryBase<K, V> {
 }
 
 /**
- * 1. Maintaining the Order of Element Insertion: Unlike HashMap, LinkedHashMap maintains the order in which elements are inserted. Therefore, when you traverse it, elements will be returned in the order they were inserted into the map.
- * 2. Based on Hash Table and Linked List: It combines the structures of a hash table and a linked list, using the hash table to ensure fast access, while maintaining the order of elements through the linked list.
+ * 1. Maintaining the Order of Element Insertion: Unlike HashMap, LinkedHashMap maintains the order in which entries are inserted. Therefore, when you traverse it, entries will be returned in the order they were inserted into the map.
+ * 2. Based on Hash Table and Linked List: It combines the structures of a hash table and a linked list, using the hash table to ensure fast access, while maintaining the order of entries through the linked list.
  * 3. Time Complexity: Similar to HashMap, LinkedHashMap offers constant-time performance for get and put operations in most cases.
  */
 export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
@@ -271,25 +268,20 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
   protected _head: HashMapLinkedNode<K, V | undefined>;
   protected _tail: HashMapLinkedNode<K, V | undefined>;
   protected readonly _sentinel: HashMapLinkedNode<K, V | undefined>;
-  protected _hashFn: (key: K) => string;
-  protected _objHashFn: (key: K) => object;
 
-  constructor(
-    elements?: Iterable<[K, V]>,
-    options: HashMapOptions<K> = {
-      hashFn: (key: K) => String(key),
-      objHashFn: (key: K) => <object>key
-    }
-  ) {
+  constructor(entries?: Iterable<[K, V]>, options?: LinkedHashMapOptions<K>) {
     super();
     this._sentinel = <HashMapLinkedNode<K, V>>{};
     this._sentinel.prev = this._sentinel.next = this._head = this._tail = this._sentinel;
 
-    const { hashFn, objHashFn } = options;
-    this._hashFn = hashFn;
-    this._objHashFn = objHashFn;
-    if (elements) {
-      for (const el of elements) {
+    if (options) {
+      const { hashFn, objHashFn } = options;
+      if (hashFn) this._hashFn = hashFn;
+      if (objHashFn) this._objHashFn = objHashFn;
+    }
+
+    if (entries) {
+      for (const el of entries) {
         this.set(el[0], el[1]);
       }
     }
@@ -547,7 +539,7 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The `clear` function clears all the elements in a data structure and resets its properties.
+   * The `clear` function clears all the entries in a data structure and resets its properties.
    */
   clear(): void {
     this._noObjMap = {};
@@ -563,11 +555,6 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
     }
     return cloned;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -599,11 +586,6 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
    *
    * The `map` function in TypeScript creates a new `LinkedHashMap` by applying a callback function to
    * each key-value pair in the original map.
@@ -629,12 +611,26 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
     return mappedMap;
   }
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
   put(key: K, value: V): boolean {
     return this.set(key, value);
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the LinkedHashMap.
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  protected _hashFn: (key: K) => string = (key: K) => String(key);
+
+  protected _objHashFn: (key: K) => object = (key: K) => <object>key;
+
+  /**
+   * Time Complexity: O(n), where n is the number of entries in the LinkedHashMap.
    * Space Complexity: O(1)
    *
    * The above function is an iterator that yields key-value pairs from a linked list.

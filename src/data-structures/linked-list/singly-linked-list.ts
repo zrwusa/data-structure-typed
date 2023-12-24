@@ -27,11 +27,8 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   /**
    * The constructor initializes the linked list with an empty head, tail, and length.
    */
-  constructor(elements?: Iterable<E>) {
+  constructor(elements: Iterable<E> = []) {
     super();
-    this._head = undefined;
-    this._tail = undefined;
-    this._size = 0;
     if (elements) {
       for (const el of elements) this.push(el);
     }
@@ -49,7 +46,7 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
     return this._tail;
   }
 
-  protected _size: number;
+  protected _size: number = 0;
 
   get size(): number {
     return this._size;

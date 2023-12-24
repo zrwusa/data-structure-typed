@@ -17,7 +17,7 @@ import { Heap } from '../heap';
  * 6. Kth Largest Element in a Data Stream: Used to maintain a min-heap of size K for quickly finding the Kth largest element in stream data
  */
 export class PriorityQueue<E = any> extends Heap<E> {
-  constructor(elements?: Iterable<E>, options?: PriorityQueueOptions<E>) {
+  constructor(elements: Iterable<E> = [], options?: PriorityQueueOptions<E>) {
     super(elements, options);
   }
 }

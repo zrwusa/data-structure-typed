@@ -52,9 +52,9 @@ export class TreeMultimap<
 >
   extends AVLTree<K, V, N, TREE>
   implements IBinaryTree<K, V, N, TREE> {
-  constructor(nodes?: Iterable<KeyOrNodeOrEntry<K, V, N>>, options?: Partial<TreeMultimapOptions<K>>) {
+  constructor(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, N>> = [], options?: TreeMultimapOptions<K>) {
     super([], options);
-    if (nodes) this.addMany(nodes);
+    if (keysOrNodesOrEntries) this.addMany(keysOrNodesOrEntries);
   }
 
   private _count = 0;

@@ -35,7 +35,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   /**
    * The constructor initializes the linked list with an empty head, tail, and size.
    */
-  constructor(elements?: Iterable<E>) {
+  constructor(elements: Iterable<E> = []) {
     super();
     this._head = undefined;
     this._tail = undefined;

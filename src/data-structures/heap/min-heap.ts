@@ -20,7 +20,7 @@ import { Heap } from './heap';
  */
 export class MinHeap<E = any> extends Heap<E> {
   constructor(
-    elements?: Iterable<E>,
+    elements: Iterable<E> = [],
     options: HeapOptions<E> = {
       comparator: (a: E, b: E) => {
         if (!(typeof a === 'number' && typeof b === 'number')) {

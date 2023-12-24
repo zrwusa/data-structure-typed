@@ -6,6 +6,6 @@ export type BinaryTreeNodeNested<K, V> = BinaryTreeNode<K, V, BinaryTreeNode<K, 
 export type BinaryTreeNested<K, V, N extends BinaryTreeNode<K, V, N>> = BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, BinaryTree<K, V, N, any>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 export type BinaryTreeOptions<K> = {
-  iterationType: IterationType,
-  extractor: (key: K) => number
+  iterationType?: IterationType,
+  extractor?: (key: K) => number
 }

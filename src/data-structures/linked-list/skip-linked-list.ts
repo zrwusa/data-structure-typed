@@ -5,6 +5,7 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
+import type { SkipLinkedListOptions } from '../../types';
 
 export class SkipListNode<K, V> {
   key: K;
@@ -19,39 +20,37 @@ export class SkipListNode<K, V> {
 }
 
 export class SkipList<K, V> {
-  /**
-   * The constructor initializes a SkipList with a specified maximum level and probability.
-   * @param [maxLevel=16] - The `maxLevel` parameter represents the maximum level that a skip list can have. It determines
-   * the maximum number of levels that can be created in the skip list.
-   * @param [probability=0.5] - The probability parameter represents the probability of a node being promoted to a higher
-   * level in the skip list. It is used to determine the height of each node in the skip list.
-   */
-  constructor(maxLevel = 16, probability = 0.5) {
-    this._head = new SkipListNode<K, V>(undefined as any, undefined as any, maxLevel);
-    this._level = 0;
-    this._maxLevel = maxLevel;
-    this._probability = probability;
+  constructor(elements: Iterable<[K, V]> = [], options?: SkipLinkedListOptions) {
+    if (options) {
+      const { maxLevel, probability } = options;
+      if (typeof maxLevel === 'number') this._maxLevel = maxLevel;
+      if (typeof probability === 'number') this._probability = probability;
+    }
+
+    if (elements) {
+      for (const [key, value] of elements) this.add(key, value);
+    }
   }
 
-  protected _head: SkipListNode<K, V>;
+  protected _head: SkipListNode<K, V> = new SkipListNode<K, V>(undefined as any, undefined as any, this.maxLevel);
 
   get head(): SkipListNode<K, V> {
     return this._head;
   }
 
-  protected _level: number;
+  protected _level: number = 0;
 
   get level(): number {
     return this._level;
   }
 
-  protected _maxLevel: number;
+  protected _maxLevel: number = 16;
 
   get maxLevel(): number {
     return this._maxLevel;
   }
 
-  protected _probability: number;
+  protected _probability: number = 0.5;
 
   get probability(): number {
     return this._probability;

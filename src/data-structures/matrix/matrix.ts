@@ -5,6 +5,7 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
+import type { MatrixOptions } from '../../types';
 
 export class Matrix {
   /**
@@ -14,16 +15,7 @@ export class Matrix {
    * @param [options] - The `options` parameter is an optional object that can contain the following
    * properties:
    */
-  constructor(
-    data: number[][],
-    options?: {
-      rows?: number;
-      cols?: number;
-      addFn?: (a: number, b: number) => any;
-      subtractFn?: (a: number, b: number) => any;
-      multiplyFn?: (a: number, b: number) => any;
-    }
-  ) {
+  constructor(data: number[][], options?: MatrixOptions) {
     if (options) {
       const { rows, cols, addFn, subtractFn, multiplyFn } = options;
       if (typeof rows === 'number' && rows > 0) this._rows = rows;

@@ -111,29 +111,25 @@ export class BinaryTree<
   iterationType = IterationType.ITERATIVE;
 
   /**
-   * The constructor function initializes a binary tree object with optional nodes and options.
-   * @param [nodes] - An optional iterable of KeyOrNodeOrEntry objects. These objects represent the
+   * The constructor function initializes a binary tree object with optional keysOrNodesOrEntries and options.
+   * @param [keysOrNodesOrEntries] - An optional iterable of KeyOrNodeOrEntry objects. These objects represent the
    * nodes to be added to the binary tree.
    * @param [options] - The `options` parameter is an optional object that can contain additional
    * configuration options for the binary tree. In this case, it is of type
    * `Partial<BinaryTreeOptions>`, which means that not all properties of `BinaryTreeOptions` are
    * required.
    */
-  constructor(nodes?: Iterable<KeyOrNodeOrEntry<K, V, N>>, options?: Partial<BinaryTreeOptions<K>>) {
+  constructor(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, N>> = [], options?: BinaryTreeOptions<K>) {
     super();
     if (options) {
       const { iterationType, extractor } = options;
-      if (iterationType) {
-        this.iterationType = iterationType;
-      }
-      if (extractor) {
-        this._extractor = extractor;
-      }
+      if (iterationType) this.iterationType = iterationType;
+      if (extractor) this._extractor = extractor;
     }
 
     this._size = 0;
 
-    if (nodes) this.addMany(nodes);
+    if (keysOrNodesOrEntries) this.addMany(keysOrNodesOrEntries);
   }
 
   protected _extractor = (key: K) => Number(key);

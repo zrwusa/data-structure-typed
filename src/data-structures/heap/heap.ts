@@ -21,23 +21,12 @@ import { IterableElementBase } from '../base';
  * 8. Graph Algorithms: Such as Dijkstra's shortest path algorithm and Prim's minimum spanning tree algorithm, which use heaps to improve performance.
  */
 export class Heap<E = any> extends IterableElementBase<E> {
-  options: HeapOptions<E>;
-
-  constructor(elements?: Iterable<E>, options?: HeapOptions<E>) {
+  constructor(elements: Iterable<E> = [], options?: HeapOptions<E>) {
     super();
-    const defaultComparator = (a: E, b: E) => {
-      if (!(typeof a === 'number' && typeof b === 'number')) {
-        throw new Error('The a, b params of compare function must be number');
-      } else {
-        return a - b;
-      }
-    };
+
     if (options) {
-      this.options = options;
-    } else {
-      this.options = {
-        comparator: defaultComparator
-      };
+      const { comparator } = options;
+      if (comparator) this._comparator = comparator;
     }
 
     if (elements) {
@@ -46,6 +35,18 @@ export class Heap<E = any> extends IterableElementBase<E> {
       }
       // this.fix();
     }
+  }
+
+  protected _comparator = (a: E, b: E) => {
+    if (!(typeof a === 'number' && typeof b === 'number')) {
+      throw new Error('The a, b params of compare function must be number');
+    } else {
+      return a - b;
+    }
+  };
+
+  get comparator() {
+    return this._comparator;
   }
 
   protected _elements: E[] = [];
@@ -278,7 +279,7 @@ export class Heap<E = any> extends IterableElementBase<E> {
    * @returns A new Heap instance containing the same elements.
    */
   clone(): Heap<E> {
-    const clonedHeap = new Heap<E>([], this.options);
+    const clonedHeap = new Heap<E>([], { comparator: this.comparator });
     clonedHeap._elements = [...this.elements];
     return clonedHeap;
   }
@@ -413,7 +414,7 @@ export class Heap<E = any> extends IterableElementBase<E> {
     while (index > 0) {
       const parent = (index - 1) >> 1;
       const parentItem = this.elements[parent];
-      if (this.options.comparator(parentItem, element) <= 0) break;
+      if (this.comparator(parentItem, element) <= 0) break;
       this.elements[index] = parentItem;
       index = parent;
     }
@@ -435,11 +436,11 @@ export class Heap<E = any> extends IterableElementBase<E> {
       let left = (index << 1) | 1;
       const right = left + 1;
       let minItem = this.elements[left];
-      if (right < this.elements.length && this.options.comparator(minItem, this.elements[right]) > 0) {
+      if (right < this.elements.length && this.comparator(minItem, this.elements[right]) > 0) {
         left = right;
         minItem = this.elements[right];
       }
-      if (this.options.comparator(minItem, element) >= 0) break;
+      if (this.comparator(minItem, element) >= 0) break;
       this.elements[index] = minItem;
       index = left;
     }

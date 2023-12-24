@@ -10,7 +10,7 @@ import { PriorityQueue } from './priority-queue';
 
 export class MinPriorityQueue<E = any> extends PriorityQueue<E> {
   constructor(
-    elements?: Iterable<E>,
+    elements: Iterable<E> = [],
     options: PriorityQueueOptions<E> = {
       comparator: (a: E, b: E) => {
         if (!(typeof a === 'number' && typeof b === 'number')) {
