@@ -128,6 +128,20 @@ describe('HashMap Test2', () => {
     expect(eHM.get('one')).toBe(1);
   });
 
+  test('should raw elements toEntry', () => {
+    const rawCollection = [
+      { id: 1, name: 'item 1' },
+      { id: 2, name: 'item 2' }
+    ];
+    const hm = new HashMap<number, string, { id: number; name: string }>(rawCollection, {
+      toEntryFn: rawElement => [rawElement.id, rawElement.name]
+    });
+
+    expect(hm.has(1)).toBe(true);
+    expect(hm.get(2)).toBe('item 2');
+    expect(hm.size).toBe(2);
+  });
+
   it('should update the value for an existing key', () => {
     hashMap.set('key1', 'value1');
     hashMap.set('key1', 'newValue');

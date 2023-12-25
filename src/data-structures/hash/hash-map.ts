@@ -21,28 +21,48 @@ import { isWeakKey, rangeCheck } from '../../utils';
  * 3. Unique Keys: Keys are unique. If you try to insert another entry with the same key, the old entry will be replaced by the new one.
  * 4. Unordered Collection: HashMap does not guarantee the order of entries, and the order may change over time.
  */
-export class HashMap<K = any, V = any> extends IterableEntryBase<K, V> {
+export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, V> {
   protected _store: { [key: string]: HashMapStoreItem<K, V> } = {};
   protected _objMap: Map<object, V> = new Map();
+  protected _toEntryFn: (rawElement: R) => [K, V] = (rawElement: R) => {
+    if (this.isEntry(rawElement)) {
+      // TODO, For performance optimization, it may be necessary to only inspect the first element traversed.
+      return rawElement;
+    } else {
+      throw new Error(
+        "If the provided rawCollection does not adhere to the [key, value] type format, the toEntryFn in the constructor's options parameter needs to specified."
+      );
+    }
+  };
+
+  get toEntryFn() {
+    return this._toEntryFn;
+  }
+
+  isEntry(rawElement: any): rawElement is [K, V] {
+    return Array.isArray(rawElement) && rawElement.length === 2;
+  }
 
   /**
-   * The constructor function initializes a new instance of a class with optional entries and options.
-   * @param entries - The `entries` parameter is an iterable containing key-value pairs `[K, V]`. It
-   * is optional and defaults to an empty array `[]`. This parameter is used to initialize the map with
-   * key-value pairs.
-   * @param [options] - The `options` parameter is an optional object that can contain additional
-   * configuration options for the constructor. In this case, it has one property:
+   * The constructor function initializes a HashMap object with an optional initial collection and
+   * options.
+   * @param rawCollection - The `rawCollection` parameter is an iterable collection of elements of type
+   * `T`. It is an optional parameter and its default value is an empty array `[]`.
+   * @param [options] - The `options` parameter is an optional object that can contain two properties:
    */
-  constructor(entries: Iterable<[K, V]> = [], options?: HashMapOptions<K>) {
+  constructor(rawCollection: Iterable<R> = [], options?: HashMapOptions<K, V, R>) {
     super();
     if (options) {
-      const { hashFn } = options;
+      const { hashFn, toEntryFn } = options;
       if (hashFn) {
         this._hashFn = hashFn;
       }
+      if (toEntryFn) {
+        this._toEntryFn = toEntryFn;
+      }
     }
-    if (entries) {
-      this.setMany(entries);
+    if (rawCollection) {
+      this.setMany(rawCollection);
     }
   }
 
@@ -88,13 +108,18 @@ export class HashMap<K = any, V = any> extends IterableEntryBase<K, V> {
   }
 
   /**
-   * The function "setMany" sets multiple key-value pairs in a map.
-   * @param entries - The `entries` parameter is an iterable containing key-value pairs. Each
-   * key-value pair is represented as an array with two entries: the key and the value.
+   * The function `setMany` takes an iterable collection of objects, maps each object to a key-value
+   * pair using a mapping function, and sets each key-value pair in the current object.
+   * @param rawCollection - The `rawCollection` parameter is an iterable collection of elements of type
+   * `T`.
+   * @returns The `setMany` function is returning an array of booleans.
    */
-  setMany(entries: Iterable<[K, V]>): boolean[] {
+  setMany(rawCollection: Iterable<R>): boolean[] {
     const results: boolean[] = [];
-    for (const [key, value] of entries) results.push(this.set(key, value));
+    for (const rawEle of rawCollection) {
+      const [key, value] = this.toEntryFn(rawEle);
+      results.push(this.set(key, value));
+    }
     return results;
   }
 
@@ -223,7 +248,7 @@ export class HashMap<K = any, V = any> extends IterableEntryBase<K, V> {
    * The function returns an iterator that yields key-value pairs from both an object store and an
    * object map.
    */
-  protected* _getIterator(): IterableIterator<[K, V]> {
+  protected *_getIterator(): IterableIterator<[K, V]> {
     for (const node of Object.values(this._store)) {
       yield [node.key, node.value] as [K, V];
     }
@@ -322,7 +347,7 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
   /**
    * The `begin()` function in TypeScript iterates over a linked list and yields key-value pairs.
    */
-  * begin() {
+  *begin() {
     let node = this._head;
     while (node !== this._sentinel) {
       yield [node.key, node.value];
@@ -334,7 +359,7 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
    * The function `reverseBegin()` iterates over a linked list in reverse order, yielding each node's
    * key and value.
    */
-  * reverseBegin() {
+  *reverseBegin() {
     let node = this._tail;
     while (node !== this._sentinel) {
       yield [node.key, node.value];
@@ -635,7 +660,7 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
    *
    * The above function is an iterator that yields key-value pairs from a linked list.
    */
-  protected* _getIterator() {
+  protected *_getIterator() {
     let node = this._head;
     while (node !== this._sentinel) {
       yield [node.key, node.value] as [K, V];

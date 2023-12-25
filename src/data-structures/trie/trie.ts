@@ -410,7 +410,7 @@ export class Trie extends IterableElementBase<string> {
     return newTrie;
   }
 
-  protected* _getIterator(): IterableIterator<string> {
+  protected *_getIterator(): IterableIterator<string> {
     function* _dfs(node: TrieNode, path: string): IterableIterator<string> {
       if (node.isEnd) {
         yield path;

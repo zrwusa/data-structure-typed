@@ -391,7 +391,7 @@ export class Heap<E = any> extends IterableElementBase<E> {
     return mappedHeap;
   }
 
-  protected* _getIterator(): IterableIterator<E> {
+  protected *_getIterator(): IterableIterator<E> {
     for (const element of this.elements) {
       yield element;
     }

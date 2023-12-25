@@ -83,13 +83,14 @@ export class BSTNode<K = any, V = any, N extends BSTNode<K, V, N> = BSTNodeNeste
  * 7. No Auto-Balancing: Standard BSTs don't automatically balance themselves.
  */
 export class BST<
-  K = any,
-  V = any,
-  N extends BSTNode<K, V, N> = BSTNode<K, V, BSTNodeNested<K, V>>,
-  TREE extends BST<K, V, N, TREE> = BST<K, V, N, BSTNested<K, V, N>>
->
+    K = any,
+    V = any,
+    N extends BSTNode<K, V, N> = BSTNode<K, V, BSTNodeNested<K, V>>,
+    TREE extends BST<K, V, N, TREE> = BST<K, V, N, BSTNested<K, V, N>>
+  >
   extends BinaryTree<K, V, N, TREE>
-  implements IBinaryTree<K, V, N, TREE> {
+  implements IBinaryTree<K, V, N, TREE>
+{
   /**
    * This is the constructor function for a binary search tree class in TypeScript, which initializes
    * the tree with optional keysOrNodesOrEntries and options.

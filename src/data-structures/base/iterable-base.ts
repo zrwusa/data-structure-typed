@@ -15,7 +15,7 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * allows the function to accept any number of arguments as an array. In this case, the `args`
    * parameter is used to pass any additional arguments to the `_getIterator` method.
    */
-  * [Symbol.iterator](...args: any[]): IterableIterator<[K, V]> {
+  *[Symbol.iterator](...args: any[]): IterableIterator<[K, V]> {
     yield* this._getIterator(...args);
   }
 
@@ -30,7 +30,7 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * The function returns an iterator that yields key-value pairs from the object, where the value can
    * be undefined.
    */
-  * entries(): IterableIterator<[K, V | undefined]> {
+  *entries(): IterableIterator<[K, V | undefined]> {
     for (const item of this) {
       yield item;
     }
@@ -46,7 +46,7 @@ export abstract class IterableEntryBase<K = any, V = any> {
    *
    * The function returns an iterator that yields the keys of a data structure.
    */
-  * keys(): IterableIterator<K> {
+  *keys(): IterableIterator<K> {
     for (const item of this) {
       yield item[0];
     }
@@ -62,7 +62,7 @@ export abstract class IterableEntryBase<K = any, V = any> {
    *
    * The function returns an iterator that yields the values of a collection.
    */
-  * values(): IterableIterator<V> {
+  *values(): IterableIterator<V> {
     for (const item of this) {
       yield item[1];
     }
@@ -212,7 +212,7 @@ export abstract class IterableElementBase<V> {
    * allows the function to accept any number of arguments as an array. In this case, the `args`
    * parameter is used to pass any number of arguments to the `_getIterator` method.
    */
-  * [Symbol.iterator](...args: any[]): IterableIterator<V> {
+  *[Symbol.iterator](...args: any[]): IterableIterator<V> {
     yield* this._getIterator(...args);
   }
 
@@ -226,7 +226,7 @@ export abstract class IterableElementBase<V> {
    *
    * The function returns an iterator that yields all the values in the object.
    */
-  * values(): IterableIterator<V> {
+  *values(): IterableIterator<V> {
     for (const item of this) {
       yield item;
     }

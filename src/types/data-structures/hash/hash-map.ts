@@ -10,8 +10,9 @@ export type LinkedHashMapOptions<K> = {
   objHashFn?: (key: K) => object;
 };
 
-export type HashMapOptions<K> = {
+export type HashMapOptions<K, V, T> = {
   hashFn?: (key: K) => string;
+  toEntryFn?: (rawElement: T) => [K, V];
 };
 
 export type HashMapStoreItem<K, V> = { key: K; value: V };

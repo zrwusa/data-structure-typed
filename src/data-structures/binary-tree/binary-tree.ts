@@ -101,13 +101,14 @@ export class BinaryTreeNode<
  */
 
 export class BinaryTree<
-  K = any,
-  V = any,
-  N extends BinaryTreeNode<K, V, N> = BinaryTreeNode<K, V, BinaryTreeNodeNested<K, V>>,
-  TREE extends BinaryTree<K, V, N, TREE> = BinaryTree<K, V, N, BinaryTreeNested<K, V, N>>
->
+    K = any,
+    V = any,
+    N extends BinaryTreeNode<K, V, N> = BinaryTreeNode<K, V, BinaryTreeNodeNested<K, V>>,
+    TREE extends BinaryTree<K, V, N, TREE> = BinaryTree<K, V, N, BinaryTreeNested<K, V, N>>
+  >
   extends IterableEntryBase<K, V | undefined>
-  implements IBinaryTree<K, V, N, TREE> {
+  implements IBinaryTree<K, V, N, TREE>
+{
   iterationType = IterationType.ITERATIVE;
 
   /**
@@ -1922,7 +1923,7 @@ export class BinaryTree<
     display(beginRoot);
   }
 
-  protected* _getIterator(node = this.root): IterableIterator<[K, V | undefined]> {
+  protected *_getIterator(node = this.root): IterableIterator<[K, V | undefined]> {
     if (!node) return;
 
     if (this.iterationType === IterationType.ITERATIVE) {

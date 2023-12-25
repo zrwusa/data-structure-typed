@@ -61,13 +61,14 @@ export abstract class AbstractEdge<E = any> {
 }
 
 export abstract class AbstractGraph<
-  V = any,
-  E = any,
-  VO extends AbstractVertex<V> = AbstractVertex<V>,
-  EO extends AbstractEdge<E> = AbstractEdge<E>
->
+    V = any,
+    E = any,
+    VO extends AbstractVertex<V> = AbstractVertex<V>,
+    EO extends AbstractEdge<E> = AbstractEdge<E>
+  >
   extends IterableEntryBase<VertexKey, V | undefined>
-  implements IGraph<V, E, VO, EO> {
+  implements IGraph<V, E, VO, EO>
+{
   constructor() {
     super();
   }
@@ -610,14 +611,14 @@ export abstract class AbstractGraph<
     }
 
     getMinDist &&
-    distMap.forEach((d, v) => {
-      if (v !== srcVertex) {
-        if (d < minDist) {
-          minDist = d;
-          if (genPaths) minDest = v;
+      distMap.forEach((d, v) => {
+        if (v !== srcVertex) {
+          if (d < minDist) {
+            minDist = d;
+            if (genPaths) minDest = v;
+          }
         }
-      }
-    });
+      });
 
     genPaths && getPaths(minDest);
 
@@ -1272,7 +1273,7 @@ export abstract class AbstractGraph<
     return mapped;
   }
 
-  protected* _getIterator(): IterableIterator<[VertexKey, V | undefined]> {
+  protected *_getIterator(): IterableIterator<[VertexKey, V | undefined]> {
     for (const vertex of this._vertexMap.values()) {
       yield [vertex.key, vertex.value];
     }

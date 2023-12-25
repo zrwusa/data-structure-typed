@@ -45,13 +45,14 @@ export class TreeMultimapNode<
  * The only distinction between a TreeMultimap and a AVLTree lies in the ability of the former to store duplicate nodes through the utilization of counters.
  */
 export class TreeMultimap<
-  K = any,
-  V = any,
-  N extends TreeMultimapNode<K, V, N> = TreeMultimapNode<K, V, TreeMultimapNodeNested<K, V>>,
-  TREE extends TreeMultimap<K, V, N, TREE> = TreeMultimap<K, V, N, TreeMultimapNested<K, V, N>>
->
+    K = any,
+    V = any,
+    N extends TreeMultimapNode<K, V, N> = TreeMultimapNode<K, V, TreeMultimapNodeNested<K, V>>,
+    TREE extends TreeMultimap<K, V, N, TREE> = TreeMultimap<K, V, N, TreeMultimapNested<K, V, N>>
+  >
   extends AVLTree<K, V, N, TREE>
-  implements IBinaryTree<K, V, N, TREE> {
+  implements IBinaryTree<K, V, N, TREE>
+{
   constructor(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, N>> = [], options?: TreeMultimapOptions<K>) {
     super([], options);
     if (keysOrNodesOrEntries) this.addMany(keysOrNodesOrEntries);

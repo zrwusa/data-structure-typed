@@ -41,13 +41,14 @@ export class RedBlackTreeNode<
  * 5. Black balance: Every path from any node to each of its leaf nodes contains the same number of black nodes.
  */
 export class RedBlackTree<
-  K = any,
-  V = any,
-  N extends RedBlackTreeNode<K, V, N> = RedBlackTreeNode<K, V, RedBlackTreeNodeNested<K, V>>,
-  TREE extends RedBlackTree<K, V, N, TREE> = RedBlackTree<K, V, N, RedBlackTreeNested<K, V, N>>
->
+    K = any,
+    V = any,
+    N extends RedBlackTreeNode<K, V, N> = RedBlackTreeNode<K, V, RedBlackTreeNodeNested<K, V>>,
+    TREE extends RedBlackTree<K, V, N, TREE> = RedBlackTree<K, V, N, RedBlackTreeNested<K, V, N>>
+  >
   extends BST<K, V, N, TREE>
-  implements IBinaryTree<K, V, N, TREE> {
+  implements IBinaryTree<K, V, N, TREE>
+{
   Sentinel: N = new RedBlackTreeNode<K, V>(NaN as K) as unknown as N;
 
   /**

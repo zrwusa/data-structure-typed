@@ -114,8 +114,7 @@ describe('Deque - Complex Operations', () => {
     expect([...deque]).toEqual([1, 2, 3]);
   });
 
-  test('shrinkToFit should reduce the memory footprint', () => {
-  });
+  test('shrinkToFit should reduce the memory footprint', () => {});
 });
 describe('Deque - Utility Operations', () => {
   let deque: Deque<number>;
