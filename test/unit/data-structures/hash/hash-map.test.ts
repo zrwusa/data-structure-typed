@@ -108,12 +108,25 @@ describe('HashMap Test2', () => {
     expect(hashMap.get(keyObj)).toBe('objectValue');
   });
 
-  // it('should handle number keys correctly', () => {
-  //   hashMap.set(999, { a: '999Value' });
-  //   hashMap.set('999', {a: '999StrValue'})
-  //   expect(hashMap.get(999)).toEqual({ a: '999Value' });
-  //   expect(hashMap.get('999')).toEqual({ a: '999StrValue' });
-  // });
+  test('Inheritability test', () => {
+    class ExtendedHashMap<K, V> extends HashMap<K, V> {
+      constructor(
+        elements: Iterable<[K, V]> = [],
+        options?: {
+          hashFn?: (key: K) => string;
+          someOtherParam: string;
+        }
+      ) {
+        const { someOtherParam, ...restOptions } = options || {};
+        // do something with someOtherParam
+        super(elements, restOptions);
+      }
+    }
+
+    const eHM = new ExtendedHashMap<string, number>([], { someOtherParam: 'someOtherParam' });
+    eHM.set('one', 1);
+    expect(eHM.get('one')).toBe(1);
+  });
 
   it('should update the value for an existing key', () => {
     hashMap.set('key1', 'value1');

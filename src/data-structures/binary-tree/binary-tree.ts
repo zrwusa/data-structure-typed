@@ -1509,8 +1509,8 @@ export class BinaryTree<
           if (current && this.isNodeOrNull(current.left)) queue.push(current.left);
           if (current && this.isNodeOrNull(current.right)) queue.push(current.right);
         } else {
-          if (current.left) queue.push(current.left);
-          if (current.right) queue.push(current.right);
+          if (this.isRealNode(current.left)) queue.push(current.left);
+          if (this.isRealNode(current.right)) queue.push(current.right);
         }
 
         traverse(level + 1);
@@ -1530,8 +1530,8 @@ export class BinaryTree<
             if (current && this.isNodeOrNull(current.left)) queue.push(current.left);
             if (current && this.isNodeOrNull(current.right)) queue.push(current.right);
           } else {
-            if (current.left) queue.push(current.left);
-            if (current.right) queue.push(current.right);
+            if (this.isRealNode(current.left)) queue.push(current.left);
+            if (this.isRealNode(current.right)) queue.push(current.right);
           }
         }
       }

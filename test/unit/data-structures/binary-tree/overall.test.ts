@@ -1,4 +1,4 @@
-import { AVLTree, BST } from '../../../../src';
+import { AVLTree, BST, BSTVariant, IterationType, RedBlackTree, TreeMultimap } from '../../../../src';
 
 describe('Overall BinaryTree Test', () => {
   it('should perform various operations on BinaryTree', () => {
@@ -59,5 +59,184 @@ describe('Overall BinaryTree Test', () => {
     avlTree.delete(10);
     avlTree.isAVLBalanced(); // true
     expect(avlTree.isAVLBalanced()).toBe(true); // true
+  });
+
+  it('Should clone a BST works fine', () => {
+    const bst = new BST<number>([3, 6, 7, 1, 9], {
+      iterationType: IterationType.RECURSIVE,
+      variant: BSTVariant.INVERSE,
+      extractor: key => key
+    });
+    expect(bst.size).toBe(5);
+    expect(bst.root?.key).toBe(6);
+    expect(bst.root?.left?.key).toBe(7);
+    expect(bst.root?.left?.left?.key).toBe(9);
+    expect(bst.root?.right?.key).toBe(1);
+    expect(bst.root?.right?.left?.key).toBe(3);
+    expect(bst.getNodeByKey(7)?.left?.key).toBe(9);
+    expect(bst.getHeight()).toBe(2);
+    expect(bst.has(9)).toBe(true);
+    expect(bst.has(7)).toBe(true);
+    expect(bst.delete(7)[0].deleted?.key).toBe(7);
+    expect(bst.has(7)).toBe(false);
+    expect(bst.size).toBe(4);
+    expect(bst.root?.key).toBe(6);
+    expect(bst.root?.left?.key).toBe(9);
+    expect(bst.root?.right?.key).toBe(1);
+    expect(bst.root?.right?.left?.key).toBe(3);
+    expect(bst.getNodeByKey(6)?.left?.key).toBe(9);
+    expect(bst.getHeight()).toBe(2);
+    expect(bst.has(9)).toBe(true);
+    expect(bst.has(7)).toBe(false);
+    expect(bst.bfs()).toEqual([6, 9, 1, 3]);
+    const clonedBST = bst.clone();
+    expect(clonedBST.size).toBe(4);
+    expect(clonedBST.root?.key).toBe(6);
+    expect(clonedBST.root?.left?.key).toBe(9);
+    expect(clonedBST.root?.right?.key).toBe(1);
+    expect(clonedBST.root?.right?.left?.key).toBe(3);
+    expect(clonedBST.getNodeByKey(6)?.left?.key).toBe(9);
+    expect(clonedBST.getHeight()).toBe(2);
+    expect(clonedBST.has(9)).toBe(true);
+    expect(clonedBST.has(7)).toBe(false);
+    expect(clonedBST.bfs()).toEqual([6, 9, 1, 3]);
+  });
+
+  it('Should clone a AVLTree works fine', () => {
+    const avl = new AVLTree<number>([3, 6, 7, 1, 9], {
+      iterationType: IterationType.RECURSIVE,
+      variant: BSTVariant.INVERSE,
+      extractor: key => key
+    });
+    expect(avl.size).toBe(5);
+    avl.add(2);
+    avl.add(5);
+    avl.add(4);
+    expect(avl.root?.key).toBe(3);
+    expect(avl.root?.left?.key).toBe(7);
+    expect(avl.root?.left?.left?.key).toBe(9);
+    expect(avl.root?.right?.key).toBe(1);
+    expect(avl.root?.right?.left?.key).toBe(2);
+    expect(avl.getNodeByKey(7)?.left?.key).toBe(9);
+    expect(avl.getHeight()).toBe(3);
+    expect(avl.has(9)).toBe(true);
+    expect(avl.has(7)).toBe(true);
+    expect(avl.delete(7)[0].deleted?.key).toBe(7);
+    expect(avl.has(7)).toBe(false);
+    expect(avl.size).toBe(7);
+    expect(avl.root?.key).toBe(3);
+    expect(avl.root?.left?.key).toBe(5);
+    expect(avl.root?.right?.key).toBe(1);
+    expect(avl.root?.right?.left?.key).toBe(2);
+    expect(avl.getNodeByKey(6)?.left?.key).toBe(undefined);
+    expect(avl.getHeight()).toBe(3);
+    expect(avl.has(9)).toBe(true);
+    expect(avl.has(7)).toBe(false);
+    expect(avl.bfs()).toEqual([3, 5, 1, 9, 4, 2, 6]);
+    const clonedAVL = avl.clone();
+    expect(clonedAVL.size).toBe(7);
+    expect(clonedAVL.root?.key).toBe(3);
+    expect(clonedAVL.root?.left?.key).toBe(5);
+    expect(clonedAVL.root?.right?.key).toBe(1);
+    expect(clonedAVL.root?.right?.left?.key).toBe(2);
+    expect(clonedAVL.getNodeByKey(6)?.left?.key).toBe(undefined);
+    expect(clonedAVL.getHeight()).toBe(3);
+    expect(clonedAVL.has(9)).toBe(true);
+    expect(clonedAVL.has(7)).toBe(false);
+    expect(clonedAVL.bfs()).toEqual([3, 5, 1, 9, 4, 2, 6]);
+  });
+
+  it('Should clone a TreeMultimap works fine', () => {
+    const tmm = new TreeMultimap<number>([3, 6, 7, 1, 9], {
+      iterationType: IterationType.RECURSIVE,
+      variant: BSTVariant.INVERSE,
+      extractor: key => key
+    });
+    expect(tmm.size).toBe(5);
+    tmm.add(2);
+    tmm.add(2);
+    tmm.add(2);
+    tmm.add(5);
+    tmm.add(4);
+    expect(tmm.count).toBe(10);
+    expect(tmm.root?.key).toBe(3);
+    expect(tmm.root?.left?.key).toBe(7);
+    expect(tmm.root?.left?.left?.key).toBe(9);
+    expect(tmm.root?.right?.key).toBe(1);
+    expect(tmm.root?.right?.left?.key).toBe(2);
+    expect(tmm.getNodeByKey(7)?.left?.key).toBe(9);
+    expect(tmm.getHeight()).toBe(3);
+    expect(tmm.has(9)).toBe(true);
+    expect(tmm.has(7)).toBe(true);
+    expect(tmm.delete(7)[0].deleted?.key).toBe(7);
+    expect(tmm.has(7)).toBe(false);
+    expect(tmm.size).toBe(7);
+    expect(tmm.count).toBe(9);
+    expect(tmm.root?.key).toBe(3);
+    expect(tmm.root?.left?.key).toBe(5);
+    expect(tmm.root?.right?.key).toBe(1);
+    expect(tmm.root?.right?.left?.key).toBe(2);
+    expect(tmm.getNodeByKey(6)?.left?.key).toBe(undefined);
+    expect(tmm.getHeight()).toBe(3);
+    expect(tmm.has(9)).toBe(true);
+    expect(tmm.has(7)).toBe(false);
+    expect(tmm.bfs()).toEqual([3, 5, 1, 9, 4, 2, 6]);
+    const clonedTMM = tmm.clone();
+    expect(clonedTMM.size).toBe(7);
+    expect(clonedTMM.count).toBe(9);
+    expect(clonedTMM.root?.key).toBe(3);
+    expect(clonedTMM.root?.left?.key).toBe(5);
+    expect(clonedTMM.root?.right?.key).toBe(1);
+    expect(clonedTMM.root?.right?.left?.key).toBe(2);
+    expect(clonedTMM.getNodeByKey(6)?.left?.key).toBe(undefined);
+    expect(clonedTMM.getHeight()).toBe(3);
+    expect(clonedTMM.has(9)).toBe(true);
+    expect(clonedTMM.has(7)).toBe(false);
+    expect(clonedTMM.bfs()).toEqual([3, 5, 1, 9, 4, 2, 6]);
+  });
+
+  it('Should clone a RedBlackTree works fine', () => {
+    const rbTree = new RedBlackTree<number>([3, 6, 7, 1, 9], {
+      iterationType: IterationType.RECURSIVE,
+      extractor: key => key
+    });
+    expect(rbTree.size).toBe(5);
+    rbTree.add(2);
+    rbTree.add(2);
+    rbTree.add(2);
+    rbTree.add(5);
+    rbTree.add(4);
+    expect(rbTree.root?.key).toBe(3);
+    expect(rbTree.root?.left?.key).toBe(1);
+    expect(rbTree.root?.left?.left?.key).toBe(NaN);
+    expect(rbTree.root?.right?.key).toBe(7);
+    expect(rbTree.root?.right?.left?.key).toBe(5);
+    expect(rbTree.getNodeByKey(7)?.left?.key).toBe(5);
+    expect(rbTree.getHeight()).toBe(4);
+    expect(rbTree.has(9)).toBe(true);
+    expect(rbTree.has(7)).toBe(true);
+    expect(rbTree.delete(7)?.[0]?.deleted?.key).toBe(7);
+    expect(rbTree.has(7)).toBe(false);
+    expect(rbTree.size).toBe(7);
+    expect(rbTree.root?.key).toBe(3);
+    expect(rbTree.root?.left?.key).toBe(1);
+    expect(rbTree.root?.right?.key).toBe(5);
+    expect(rbTree.root?.right?.left?.key).toBe(4);
+    expect(rbTree.getNodeByKey(6)?.left?.key).toBe(NaN);
+    expect(rbTree.getHeight()).toBe(4);
+    expect(rbTree.has(9)).toBe(true);
+    expect(rbTree.has(7)).toBe(false);
+    expect(rbTree.bfs()).toEqual([3, 1, 5, 2, 4, 9, 6]);
+    const clonedRbTree = rbTree.clone();
+    expect(clonedRbTree.size).toBe(7);
+    expect(clonedRbTree.root?.key).toBe(3);
+    expect(clonedRbTree.root?.left?.key).toBe(1);
+    expect(clonedRbTree.root?.right?.key).toBe(5);
+    expect(clonedRbTree.root?.right?.left?.key).toBe(4);
+    expect(clonedRbTree.getNodeByKey(6)?.left?.key).toBe(NaN);
+    expect(clonedRbTree.getHeight()).toBe(4);
+    expect(clonedRbTree.has(9)).toBe(true);
+    expect(clonedRbTree.has(7)).toBe(false);
+    expect(clonedRbTree.bfs()).toEqual([3, 1, 5, 2, 4, 9, 6]);
   });
 });

@@ -4,8 +4,8 @@
   <meta charset='UTF-8'>
   <title>CDN Test</title>
   <!--  <script src="../../dist/umd/data-structure-typed.min.js"></script>-->
-  <!--  <script src="../../dist/umd/data-structure-typed.js"></script>-->
-  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js'></script>
+    <script src="../../dist/umd/data-structure-typed.js"></script>
+<!--  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js'></script>-->
   <!--  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed@1.42.2/dist/umd/data-structure-typed.min.js'></script>-->
   <!--  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed@1.43.3/dist/umd/data-structure-typed.min.js'></script>-->
   <!--  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed@1.44.0/dist/umd/data-structure-typed.min.js'></script>-->
@@ -114,7 +114,7 @@
   try {
     const { PriorityQueue: CPriorityQueue } = sdsl;
     const { PriorityQueue } = dataStructureTyped;
-    const pq = new PriorityQueue({ comparator: (a, b) => b - a });
+    const pq = new PriorityQueue([], { comparator: (a, b) => b - a });
 
     const tS = performance.now();
     const n = 1000000;
@@ -123,7 +123,7 @@
     }
 
     for (let i = 0; i < n; i++) {
-      pq.pop();
+      pq.poll();
     }
     console.log((performance.now() - tS).toFixed(2), `PriorityQueue ${n.toLocaleString()} add`);
     console.log(pq.size, `pq.size`);

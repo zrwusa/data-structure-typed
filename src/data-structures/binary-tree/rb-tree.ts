@@ -106,7 +106,6 @@ export class RedBlackTree<
   override createTree(options?: RBTreeOptions<K>): TREE {
     return new RedBlackTree<K, V, N, TREE>([], {
       iterationType: this.iterationType,
-      variant: this.variant,
       ...options
     }) as TREE;
   }
@@ -316,9 +315,9 @@ export class RedBlackTree<
         this._fixDelete(x!);
       }
       this._size--;
+      ans.push({ deleted: z, needBalanced: undefined });
     };
     helper(this.root);
-    // TODO
     return ans;
   }
 
