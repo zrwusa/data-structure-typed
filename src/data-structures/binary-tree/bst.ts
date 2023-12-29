@@ -547,6 +547,14 @@ export class BST<
   // }
 
   /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   */
+
+  /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   *
    * The function overrides the depth-first search method and returns an array of the return types of
    * the callback function.
    * @param {C} callback - The `callback` parameter is a function that will be called for each node
@@ -572,6 +580,14 @@ export class BST<
   }
 
   /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   */
+
+  /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   *
    * The function overrides the breadth-first search method and returns an array of the return types of
    * the callback function.
    * @param {C} callback - The `callback` parameter is a function that will be called for each node
@@ -594,6 +610,14 @@ export class BST<
   }
 
   /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   */
+
+  /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   *
    * The function overrides the listLevels method and returns an array of arrays containing the return
    * type of the callback function for each level of the tree.
    * @param {C} callback - The `callback` parameter is a generic type `C` that extends
