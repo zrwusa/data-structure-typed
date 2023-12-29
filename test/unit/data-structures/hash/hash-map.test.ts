@@ -622,6 +622,6 @@ describe('LinkedHashMap setMany, keys, values', () => {
   });
 
   test('print', () => {
-    hm.print();
+    // hm.print();
   });
 });

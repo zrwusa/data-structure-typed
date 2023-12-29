@@ -10,7 +10,7 @@
 
 [//]: # (![npm bundle size]&#40;https://img.shields.io/bundlephobia/min/data-structure-typed&#41;)
 
-<p><a href="https://github.com/zrwusa/data-structure-typed/blob/main/README.md">English</a> | <a href="https://github.com/zrwusa/data-structure-typed/blob/main/README_zh-CN.md">简体中文</a></p>
+[//]: # (<p><a href="https://github.com/zrwusa/data-structure-typed/blob/main/README.md">English</a> | <a href="https://github.com/zrwusa/data-structure-typed/blob/main/README_zh-CN.md">简体中文</a></p>)
 
 ## Why
 
@@ -91,17 +91,6 @@ Heap, Binary Tree, RedBlack Tree, Linked List, Deque, Trie, Directed Graph, Undi
 
 ## Installation and Usage
 
-Now you can use it in Node.js and browser environments
-
-CommonJS:**`require export.modules =`**
-
-ESModule:&nbsp;&nbsp;&nbsp;**`import export`**
-
-Typescript:&nbsp;&nbsp;&nbsp;**`import export`**
-
-UMD:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**`var Deque = dataStructureTyped.Deque`**
-
-
 ### npm
 
 ```bash
@@ -122,51 +111,12 @@ import {
 } from 'data-structure-typed';
 ```
 
-### CDN
-
-Copy the line below into the head tag in an HTML document.
-
-#### development
-
-```html
-<script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.js'></script>
-```
-
-#### production
-
-```html
-<script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js'></script>
-```
-
-Copy the code below into the script tag of your HTML, and you're good to go with your development.
-
-```js
-const {Heap} = dataStructureTyped;
-const {
-  BinaryTree, Graph, Queue, Stack, PriorityQueue, BST, Trie, DoublyLinkedList,
-  AVLTree, MinHeap, SinglyLinkedList, DirectedGraph, TreeMultimap,
-  DirectedVertex, AVLTreeNode
-} = dataStructureTyped;
-```
-
 ## Vivid Examples
-
-### Binary Tree
-
-[Try it out](https://vivid-algorithm.vercel.app/), or you can run your own code using
-our [visual tool](https://github.com/zrwusa/vivid-algorithm)
-
-![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/binary-tree-array-to-binary-tree.webp)
-
-### Binary Tree DFS
-
-[Try it out](https://vivid-algorithm.vercel.app/)
-
-![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/binary-tree-dfs-in-order.webp)
 
 ### AVL Tree
 
-[Try it out](https://vivid-algorithm.vercel.app/)
+[Try it out](https://vivid-algorithm.vercel.app/), or you can run your own code using
+our [visual tool](https://github.com/zrwusa/vivid-algorithm)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/avl-tree-test.webp)
 
@@ -175,12 +125,6 @@ our [visual tool](https://github.com/zrwusa/vivid-algorithm)
 [Try it out](https://vivid-algorithm.vercel.app/)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/tree-multiset-test.webp)
-
-### Matrix
-
-[Try it out](https://vivid-algorithm.vercel.app/algorithm/graph/)
-
-![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/matrix-cut-off-tree-for-golf.webp)
 
 ### Directed Graph
 
@@ -240,6 +184,156 @@ rbTree.print()
 //   1   3       7   9    12__     15__
 //                            \        \
 //                           13       16
+```
+
+### Free conversion between data structures.
+
+```js
+const orgArr = [6, 1, 2, 7, 5, 3, 4, 9, 8];
+const orgStrArr = ["trie", "trial", "trick", "trip", "tree", "trend", "triangle", "track", "trace", "transmit"];
+const entries = [[6, "6"], [1, "1"], [2, "2"], [7, "7"], [5, "5"], [3, "3"], [4, "4"], [9, "9"], [8, "8"]];
+
+const queue = new Queue(orgArr);
+queue.print();      
+// [6, 1, 2, 7, 5, 3, 4, 9, 8]
+
+const deque = new Deque(orgArr);
+deque.print();      
+// [6, 1, 2, 7, 5, 3, 4, 9, 8]
+
+const sList = new SinglyLinkedList(orgArr);
+sList.print();      
+// [6, 1, 2, 7, 5, 3, 4, 9, 8]
+
+const dList = new DoublyLinkedList(orgArr);
+dList.print();      
+// [6, 1, 2, 7, 5, 3, 4, 9, 8]
+
+const stack = new Stack(orgArr);
+stack.print();      
+// [6, 1, 2, 7, 5, 3, 4, 9, 8]
+
+const minHeap = new MinHeap(orgArr);
+minHeap.print();    
+// [1, 5, 2, 7, 6, 3, 4, 9, 8]
+
+const maxPQ = new MaxPriorityQueue(orgArr);
+maxPQ.print();      
+// [9, 8, 4, 7, 5, 2, 3, 1, 6]
+
+const biTree = new BinaryTree(entries);
+biTree.print();
+//         ___6___
+//        /       \
+//     ___1_     _2_
+//    /     \   /   \
+//   _7_    5   3   4
+//  /   \
+//  9   8
+
+const bst = new BST(entries);
+bst.print();
+//     _____5___
+//    /         \
+//   _2_       _7_
+//  /   \     /   \
+//  1   3_    6   8_
+//        \         \
+//        4         9
+
+
+const rbTree = new RedBlackTree(entries);
+rbTree.print();
+//     ___4___
+//    /       \
+//   _2_     _6___
+//  /   \   /     \
+//  1   3   5    _8_
+//              /   \
+//              7   9
+
+
+const avl = new AVLTree(entries);
+avl.print();
+//     ___4___
+//    /       \
+//   _2_     _6___
+//  /   \   /     \
+//  1   3   5    _8_
+//              /   \
+//              7   9
+
+const treeMulti = new TreeMultimap(entries);
+treeMulti.print();
+//     ___4___
+//    /       \
+//   _2_     _6___
+//  /   \   /     \
+//  1   3   5    _8_
+//              /   \
+//              7   9
+
+const hm = new HashMap(entries);
+hm.print()    
+// [[6, "6"], [1, "1"], [2, "2"], [7, "7"], [5, "5"], [3, "3"], [4, "4"], [9, "9"], [8, "8"]]
+
+const rbTreeH = new RedBlackTree(hm);
+rbTreeH.print();
+//     ___4___
+//    /       \
+//   _2_     _6___
+//  /   \   /     \
+//  1   3   5    _8_
+//              /   \
+//              7   9
+
+const pq = new MinPriorityQueue(orgArr);
+pq.print();   
+// [1, 5, 2, 7, 6, 3, 4, 9, 8]
+
+const bst1 = new BST(pq);
+bst1.print();
+//     _____5___
+//    /         \
+//   _2_       _7_
+//  /   \     /   \
+//  1   3_    6   8_
+//        \         \
+//        4         9
+
+const dq1 = new Deque(orgArr);
+dq1.print();    
+// [6, 1, 2, 7, 5, 3, 4, 9, 8]
+const rbTree1 = new RedBlackTree(dq1);
+rbTree1.print();
+//    _____5___
+//   /         \
+//  _2___     _7___
+// /     \   /     \
+// 1    _4   6    _9
+//      /         /
+//      3         8
+
+
+const trie2 = new Trie(orgStrArr);
+trie2.print();    
+// ['trie', 'trial', 'triangle', 'trick', 'trip', 'tree', 'trend', 'track', 'trace', 'transmit']
+const heap2 = new Heap(trie2, { comparator: (a, b) => Number(a) - Number(b) });
+heap2.print();    
+// ['transmit', 'trace', 'tree', 'trend', 'track', 'trial', 'trip', 'trie', 'trick', 'triangle']
+const dq2 = new Deque(heap2);
+dq2.print();      
+// ['transmit', 'trace', 'tree', 'trend', 'track', 'trial', 'trip', 'trie', 'trick', 'triangle']
+const entries2 = dq2.map((el, i) => [i, el]);
+const avl2 = new AVLTree(entries2);
+avl2.print();
+//     ___3_______
+//    /           \
+//   _1_       ___7_
+//  /   \     /     \
+//  0   2    _5_    8_
+//          /   \     \
+//          4   6     9
 ```
 
 ### Binary Search Tree (BST) snippet
@@ -362,156 +456,6 @@ const dijkstraResult = graph.dijkstra('A');
 Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', 'D']
 
 
-```
-
-### Free conversion between data structures.
-
-```js
-const orgArr = [6, 1, 2, 7, 5, 3, 4, 9, 8];
-const orgStrArr = ["trie", "trial", "trick", "trip", "tree", "trend", "triangle", "track", "trace", "transmit"];
-const entries = [[6, 6], [1, 1], [2, 2], [7, 7], [5, 5], [3, 3], [4, 4], [9, 9], [8, 8]];
-
-const queue = new Queue(orgArr);
-queue.print();      
-// [6, 1, 2, 7, 5, 3, 4, 9, 8]
-
-const deque = new Deque(orgArr);
-deque.print();      
-// [6, 1, 2, 7, 5, 3, 4, 9, 8]
-
-const sList = new SinglyLinkedList(orgArr);
-sList.print();      
-// [6, 1, 2, 7, 5, 3, 4, 9, 8]
-
-const dList = new DoublyLinkedList(orgArr);
-dList.print();      
-// [6, 1, 2, 7, 5, 3, 4, 9, 8]
-
-const stack = new Stack(orgArr);
-stack.print();      
-// [6, 1, 2, 7, 5, 3, 4, 9, 8]
-
-const minHeap = new MinHeap(orgArr);
-minHeap.print();    
-// [1, 5, 2, 7, 6, 3, 4, 9, 8]
-
-const maxPQ = new MaxPriorityQueue(orgArr);
-maxPQ.print();      
-// [9, 8, 4, 7, 5, 2, 3, 1, 6]
-
-const biTree = new BinaryTree(entries);
-biTree.print();
-//         ___6___
-//        /       \
-//     ___1_     _2_
-//    /     \   /   \
-//   _7_    5   3   4
-//  /   \
-//  9   8
-
-const bst = new BST(entries);
-bst.print();
-//     _____5___
-//    /         \
-//   _2_       _7_
-//  /   \     /   \
-//  1   3_    6   8_
-//        \         \
-//        4         9
-
-
-const rbTree = new RedBlackTree(entries);
-rbTree.print();
-//     ___4___
-//    /       \
-//   _2_     _6___
-//  /   \   /     \
-//  1   3   5    _8_
-//              /   \
-//              7   9
-
-
-const avl = new AVLTree(entries);
-avl.print();
-//     ___4___
-//    /       \
-//   _2_     _6___
-//  /   \   /     \
-//  1   3   5    _8_
-//              /   \
-//              7   9
-
-const treeMulti = new TreeMultimap(entries);
-treeMulti.print();
-//     ___4___
-//    /       \
-//   _2_     _6___
-//  /   \   /     \
-//  1   3   5    _8_
-//              /   \
-//              7   9
-
-const hm = new HashMap(entries);
-hm.print()    
-// [[6, 6], [1, 1], [2, 2], [7, 7], [5, 5], [3, 3], [4, 4], [9, 9], [8, 8]]
-
-const rbTreeH = new RedBlackTree(hm);
-rbTreeH.print();
-//     ___4___
-//    /       \
-//   _2_     _6___
-//  /   \   /     \
-//  1   3   5    _8_
-//              /   \
-//              7   9
-
-const pq = new MinPriorityQueue(orgArr);
-pq.print();   
-// [1, 5, 2, 7, 6, 3, 4, 9, 8]
-
-const bst1 = new BST(pq);
-bst1.print();
-//     _____5___
-//    /         \
-//   _2_       _7_
-//  /   \     /   \
-//  1   3_    6   8_
-//        \         \
-//        4         9
-
-const dq1 = new Deque(orgArr);
-dq1.print();    
-// [6, 1, 2, 7, 5, 3, 4, 9, 8]
-const rbTree1 = new RedBlackTree(dq1);
-rbTree1.print();
-//    _____5___
-//   /         \
-//  _2___     _7___
-// /     \   /     \
-// 1    _4   6    _9
-//      /         /
-//      3         8
-
-
-const trie2 = new Trie(orgStrArr);
-trie2.print();    
-// ['trie', 'trial', 'triangle', 'trick', 'trip', 'tree', 'trend', 'track', 'trace', 'transmit']
-const heap2 = new Heap(trie2, { comparator: (a, b) => Number(a) - Number(b) });
-heap2.print();    
-// ['transmit', 'trace', 'tree', 'trend', 'track', 'trial', 'trip', 'trie', 'trick', 'triangle']
-const dq2 = new Deque(heap2);
-dq2.print();      
-// ['transmit', 'trace', 'tree', 'trend', 'track', 'trial', 'trip', 'trie', 'trick', 'triangle']
-const entries2 = dq2.map((el, i) => [i, el]);
-const avl2 = new AVLTree(entries2);
-avl2.print();
-//     ___3_______
-//    /           \
-//   _1_       ___7_
-//  /   \     /     \
-//  0   2    _5_    8_
-//          /   \     \
-//          4   6     9
 ```
 
 ## API docs & Examples
@@ -1027,3 +971,43 @@ We strictly adhere to computer science theory and software development standards
     </div>
 
 [//]: # (No deletion!!! End of Replace Section)
+
+
+
+## supported module system
+Now you can use it in Node.js and browser environments
+
+CommonJS:**`require export.modules =`**
+
+ESModule:&nbsp;&nbsp;&nbsp;**`import export`**
+
+Typescript:&nbsp;&nbsp;&nbsp;**`import export`**
+
+UMD:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**`var Deque = dataStructureTyped.Deque`**
+
+### CDN
+
+Copy the line below into the head tag in an HTML document.
+
+#### development
+
+```html
+<script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.js'></script>
+```
+
+#### production
+
+```html
+<script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js'></script>
+```
+
+Copy the code below into the script tag of your HTML, and you're good to go with your development.
+
+```js
+const {Heap} = dataStructureTyped;
+const {
+  BinaryTree, Graph, Queue, Stack, PriorityQueue, BST, Trie, DoublyLinkedList,
+  AVLTree, MinHeap, SinglyLinkedList, DirectedGraph, TreeMultimap,
+  DirectedVertex, AVLTreeNode
+} = dataStructureTyped;
+```
