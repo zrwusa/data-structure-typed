@@ -345,7 +345,7 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * Space Complexity: O(n)
    */
 
-  protected *_getIterator(): IterableIterator<E> {
+  protected* _getIterator(): IterableIterator<E> {
     for (const item of this.elements) {
       yield item;
     }

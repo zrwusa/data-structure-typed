@@ -54,7 +54,7 @@ describe('BST operations test', () => {
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    node15 && bst.subTreeTraverse(node => (subTreeSum += node.key), 15);
+    node15 && bst.dfs(node => (subTreeSum += node.key), 'pre', 15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
@@ -257,7 +257,7 @@ describe('BST operations test', () => {
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    node15 && objBST.subTreeTraverse(node => (subTreeSum += node.key), node15);
+    node15 && objBST.dfs(node => (subTreeSum += node.key), 'pre', node15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
@@ -444,7 +444,7 @@ describe('BST operations test recursively', () => {
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    node15 && bst.subTreeTraverse(node => (subTreeSum += node.key), 15);
+    node15 && bst.dfs(node => (subTreeSum += node.key), 'pre', 15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
@@ -645,7 +645,7 @@ describe('BST operations test recursively', () => {
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    node15 && objBST.subTreeTraverse(node => (subTreeSum += node.key), node15);
+    node15 && objBST.dfs(node => (subTreeSum += node.key), 'pre', node15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
@@ -868,14 +868,10 @@ describe('BST Performance test', function () {
   it('should subTreeTraverse, null should be ignored', () => {
     const bst = new BST();
     bst.addMany([4, 2, 6, 1, 3, 5, 7]);
-    expect(bst.subTreeTraverse(node => node.key, bst.getNode(6), IterationType.ITERATIVE)).toEqual([6, 5, 7]);
-    expect(bst.subTreeTraverse(node => node.key, bst.getNode(6), IterationType.RECURSIVE)).toEqual([6, 5, 7]);
-    expect(bst.subTreeTraverse(node => node?.key ?? undefined, bst.getNode(6), IterationType.ITERATIVE, true)).toEqual([
-      6, 5, 7
-    ]);
-    expect(bst.subTreeTraverse(node => node?.key ?? undefined, bst.getNode(6), IterationType.RECURSIVE, true)).toEqual([
-      6, 5, 7
-    ]);
+    expect(bst.dfs(node => node.key, 'pre', bst.getNode(6), IterationType.ITERATIVE)).toEqual([6, 5, 7]);
+    expect(bst.dfs(node => node.key, 'pre', bst.getNode(6), IterationType.RECURSIVE)).toEqual([6, 5, 7]);
+    expect(bst.dfs(node => node?.key ?? undefined, 'pre', bst.getNode(6), IterationType.ITERATIVE)).toEqual([6, 5, 7]);
+    expect(bst.dfs(node => node?.key ?? undefined, 'pre', bst.getNode(6), IterationType.RECURSIVE)).toEqual([6, 5, 7]);
   });
 });
 

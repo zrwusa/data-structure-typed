@@ -96,7 +96,7 @@ describe('TreeMultimap operations test1', () => {
     expect(minNodeBySpecificNode?.key).toBe(15);
 
     let subTreeSum = 0;
-    node15 && treeMultimap.subTreeTraverse((node: TreeMultimapNode<number>) => (subTreeSum += node.key), 15);
+    node15 && treeMultimap.dfs(node => (subTreeSum += node.key), 'pre', 15);
     expect(subTreeSum).toBe(31);
     let lesserSum = 0;
     treeMultimap.lesserOrGreaterTraverse((node: TreeMultimapNode<number>) => (lesserSum += node.key), CP.lt, 10);
@@ -104,7 +104,7 @@ describe('TreeMultimap operations test1', () => {
 
     expect(node15 instanceof TreeMultimapNode);
     if (node15 instanceof TreeMultimapNode) {
-      const subTreeAdd = treeMultimap.subTreeTraverse((node: TreeMultimapNode<number>) => (node.count += 1), 15);
+      const subTreeAdd = treeMultimap.dfs(node => (node.count += 1), 'pre', 15);
       expect(subTreeAdd);
     }
     const node11 = treeMultimap.getNode(11);
@@ -350,7 +350,7 @@ describe('TreeMultimap operations test recursively1', () => {
     expect(minNodeBySpecificNode?.key).toBe(15);
 
     let subTreeSum = 0;
-    node15 && treeMultimap.subTreeTraverse((node: TreeMultimapNode<number>) => (subTreeSum += node.key), 15);
+    node15 && treeMultimap.dfs(node => (subTreeSum += node.key), 'pre', 15);
     expect(subTreeSum).toBe(31);
     let lesserSum = 0;
     treeMultimap.lesserOrGreaterTraverse((node: TreeMultimapNode<number>) => (lesserSum += node.key), CP.lt, 10);
@@ -358,7 +358,7 @@ describe('TreeMultimap operations test recursively1', () => {
 
     expect(node15 instanceof TreeMultimapNode);
     if (node15 instanceof TreeMultimapNode) {
-      const subTreeAdd = treeMultimap.subTreeTraverse((node: TreeMultimapNode<number>) => (node.count += 1), 15);
+      const subTreeAdd = treeMultimap.dfs(node => (node.count += 1), 'pre', 15);
       expect(subTreeAdd);
     }
     const node11 = treeMultimap.getNode(11);

@@ -45,14 +45,13 @@ export class TreeMultimapNode<
  * The only distinction between a TreeMultimap and a AVLTree lies in the ability of the former to store duplicate nodes through the utilization of counters.
  */
 export class TreeMultimap<
-    K = any,
-    V = any,
-    N extends TreeMultimapNode<K, V, N> = TreeMultimapNode<K, V, TreeMultimapNodeNested<K, V>>,
-    TREE extends TreeMultimap<K, V, N, TREE> = TreeMultimap<K, V, N, TreeMultimapNested<K, V, N>>
-  >
+  K = any,
+  V = any,
+  N extends TreeMultimapNode<K, V, N> = TreeMultimapNode<K, V, TreeMultimapNodeNested<K, V>>,
+  TREE extends TreeMultimap<K, V, N, TREE> = TreeMultimap<K, V, N, TreeMultimapNested<K, V, N>>
+>
   extends AVLTree<K, V, N, TREE>
-  implements IBinaryTree<K, V, N, TREE>
-{
+  implements IBinaryTree<K, V, N, TREE> {
   constructor(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, N>> = [], options?: TreeMultimapOptions<K>) {
     super([], options);
     if (keysOrNodesOrEntries) this.addMany(keysOrNodesOrEntries);
@@ -63,7 +62,7 @@ export class TreeMultimap<
   // TODO the _count is not accurate after nodes count modified
   get count(): number {
     let sum = 0;
-    this.subTreeTraverse(node => (sum += node.count));
+    this.dfs(node => (sum += node.count));
     return sum;
   }
 
@@ -112,7 +111,7 @@ export class TreeMultimap<
       } else {
         node = this.createNode(key, value, count);
       }
-    } else if (this.isNotNodeInstance(keyOrNodeOrEntry)) {
+    } else if (!this.isNode(keyOrNodeOrEntry)) {
       node = this.createNode(keyOrNodeOrEntry, value, count);
     } else {
       return;
@@ -128,16 +127,6 @@ export class TreeMultimap<
    */
   override isNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>): keyOrNodeOrEntry is N {
     return keyOrNodeOrEntry instanceof TreeMultimapNode;
-  }
-
-  /**
-   * The function "isNotNodeInstance" checks if a potential key is a K.
-   * @param {any} potentialKey - The potentialKey parameter is of type any, which means it can be any
-   * data type.
-   * @returns a boolean value indicating whether the potentialKey is of type number or not.
-   */
-  override isNotNodeInstance(potentialKey: KeyOrNodeOrEntry<K, V, N>): potentialKey is K {
-    return !(potentialKey instanceof TreeMultimapNode);
   }
 
   /**

@@ -24,24 +24,6 @@ import { isWeakKey, rangeCheck } from '../../utils';
 export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, V> {
   protected _store: { [key: string]: HashMapStoreItem<K, V> } = {};
   protected _objMap: Map<object, V> = new Map();
-  protected _toEntryFn: (rawElement: R) => [K, V] = (rawElement: R) => {
-    if (this.isEntry(rawElement)) {
-      // TODO, For performance optimization, it may be necessary to only inspect the first element traversed.
-      return rawElement;
-    } else {
-      throw new Error(
-        "If the provided rawCollection does not adhere to the [key, value] type format, the toEntryFn in the constructor's options parameter needs to specified."
-      );
-    }
-  };
-
-  get toEntryFn() {
-    return this._toEntryFn;
-  }
-
-  isEntry(rawElement: any): rawElement is [K, V] {
-    return Array.isArray(rawElement) && rawElement.length === 2;
-  }
 
   /**
    * The constructor function initializes a HashMap object with an optional initial collection and
@@ -66,10 +48,29 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
     }
   }
 
+  protected _toEntryFn: (rawElement: R) => [K, V] = (rawElement: R) => {
+    if (this.isEntry(rawElement)) {
+      // TODO, For performance optimization, it may be necessary to only inspect the first element traversed.
+      return rawElement;
+    } else {
+      throw new Error(
+        "If the provided rawCollection does not adhere to the [key, value] type format, the toEntryFn in the constructor's options parameter needs to specified."
+      );
+    }
+  };
+
+  get toEntryFn() {
+    return this._toEntryFn;
+  }
+
   protected _size = 0;
 
   get size(): number {
     return this._size;
+  }
+
+  isEntry(rawElement: any): rawElement is [K, V] {
+    return Array.isArray(rawElement) && rawElement.length === 2;
   }
 
   isEmpty(): boolean {
@@ -248,7 +249,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * The function returns an iterator that yields key-value pairs from both an object store and an
    * object map.
    */
-  protected *_getIterator(): IterableIterator<[K, V]> {
+  protected* _getIterator(): IterableIterator<[K, V]> {
     for (const node of Object.values(this._store)) {
       yield [node.key, node.value] as [K, V];
     }
@@ -347,7 +348,7 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
   /**
    * The `begin()` function in TypeScript iterates over a linked list and yields key-value pairs.
    */
-  *begin() {
+  * begin() {
     let node = this._head;
     while (node !== this._sentinel) {
       yield [node.key, node.value];
@@ -359,7 +360,7 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
    * The function `reverseBegin()` iterates over a linked list in reverse order, yielding each node's
    * key and value.
    */
-  *reverseBegin() {
+  * reverseBegin() {
     let node = this._tail;
     while (node !== this._sentinel) {
       yield [node.key, node.value];
@@ -660,7 +661,7 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
    *
    * The above function is an iterator that yields key-value pairs from a linked list.
    */
-  protected *_getIterator() {
+  protected* _getIterator() {
     let node = this._head;
     while (node !== this._sentinel) {
       yield [node.key, node.value] as [K, V];

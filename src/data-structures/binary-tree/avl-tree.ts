@@ -40,14 +40,13 @@ export class AVLTreeNode<K = any, V = any, N extends AVLTreeNode<K, V, N> = AVLT
  * 7. Path Length: The path length from the root to any leaf is longer compared to an unbalanced BST, but shorter than a linear chain of nodes.
  */
 export class AVLTree<
-    K = any,
-    V = any,
-    N extends AVLTreeNode<K, V, N> = AVLTreeNode<K, V, AVLTreeNodeNested<K, V>>,
-    TREE extends AVLTree<K, V, N, TREE> = AVLTree<K, V, N, AVLTreeNested<K, V, N>>
-  >
+  K = any,
+  V = any,
+  N extends AVLTreeNode<K, V, N> = AVLTreeNode<K, V, AVLTreeNodeNested<K, V>>,
+  TREE extends AVLTree<K, V, N, TREE> = AVLTree<K, V, N, AVLTreeNested<K, V, N>>
+>
   extends BST<K, V, N, TREE>
-  implements IBinaryTree<K, V, N, TREE>
-{
+  implements IBinaryTree<K, V, N, TREE> {
   /**
    * The constructor function initializes an AVLTree object with optional keysOrNodesOrEntries and options.
    * @param [keysOrNodesOrEntries] - The `keysOrNodesOrEntries` parameter is an optional iterable of `KeyOrNodeOrEntry<K, V, N>`
@@ -97,16 +96,6 @@ export class AVLTree<
    */
   override isNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>): keyOrNodeOrEntry is N {
     return keyOrNodeOrEntry instanceof AVLTreeNode;
-  }
-
-  /**
-   * The function "isNotNodeInstance" checks if a potential key is a K.
-   * @param {any} potentialKey - The potentialKey parameter is of type any, which means it can be any
-   * data type.
-   * @returns a boolean value indicating whether the potentialKey is of type number or not.
-   */
-  override isNotNodeInstance(potentialKey: KeyOrNodeOrEntry<K, V, N>): potentialKey is K {
-    return !(potentialKey instanceof AVLTreeNode);
   }
 
   /**
@@ -278,7 +267,7 @@ export class AVLTree<
       // Balance Restoration: If a balance issue is discovered after inserting a node, it requires balance restoration operations. Balance restoration includes four basic cases where rotation operations need to be performed to fix the balance:
       switch (
         this._balanceFactor(A) // second O(1)
-      ) {
+        ) {
         case -2:
           if (A && A.left) {
             if (this._balanceFactor(A.left) <= 0) {

@@ -229,7 +229,7 @@ export class Stack<E = any> extends IterableElementBase<E> {
    * Custom iterator for the Stack class.
    * @returns An iterator object.
    */
-  protected *_getIterator(): IterableIterator<E> {
+  protected* _getIterator(): IterableIterator<E> {
     for (let i = 0; i < this.elements.length; i++) {
       yield this.elements[i];
     }

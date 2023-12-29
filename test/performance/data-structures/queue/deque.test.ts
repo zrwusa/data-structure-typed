@@ -1,11 +1,11 @@
 import { Deque } from '../../../../src';
 import { Deque as CDeque } from 'js-sdsl';
 import * as Benchmark from 'benchmark';
-import { magnitude } from '../../../utils';
+import { getRandomInt, magnitude } from '../../../utils';
 import { isCompetitor } from '../../../config';
 
 export const suite = new Benchmark.Suite();
-const { MILLION, HUNDRED_THOUSAND } = magnitude;
+const { MILLION, HUNDRED_THOUSAND, TEN_THOUSAND } = magnitude;
 
 suite.add(`${MILLION.toLocaleString()} push`, () => {
   const deque = new Deque<number>();
@@ -20,6 +20,12 @@ if (isCompetitor) {
 }
 
 suite
+  .add(`${TEN_THOUSAND.toLocaleString()} push & delete`, () => {
+    const _deque = new Deque<number>();
+
+    for (let i = 0; i < TEN_THOUSAND; i++) _deque.push(i);
+    for (let i = 0; i < TEN_THOUSAND; i++) _deque.delete(getRandomInt(0, TEN_THOUSAND - 1));
+  })
   .add(`${MILLION.toLocaleString()} push & pop`, () => {
     const _deque = new Deque<number>();
 

@@ -41,14 +41,13 @@ export class RedBlackTreeNode<
  * 5. Black balance: Every path from any node to each of its leaf nodes contains the same number of black nodes.
  */
 export class RedBlackTree<
-    K = any,
-    V = any,
-    N extends RedBlackTreeNode<K, V, N> = RedBlackTreeNode<K, V, RedBlackTreeNodeNested<K, V>>,
-    TREE extends RedBlackTree<K, V, N, TREE> = RedBlackTree<K, V, N, RedBlackTreeNested<K, V, N>>
-  >
+  K = any,
+  V = any,
+  N extends RedBlackTreeNode<K, V, N> = RedBlackTreeNode<K, V, RedBlackTreeNodeNested<K, V>>,
+  TREE extends RedBlackTree<K, V, N, TREE> = RedBlackTree<K, V, N, RedBlackTreeNested<K, V, N>>
+>
   extends BST<K, V, N, TREE>
-  implements IBinaryTree<K, V, N, TREE>
-{
+  implements IBinaryTree<K, V, N, TREE> {
   Sentinel: N = new RedBlackTreeNode<K, V>(NaN as K) as unknown as N;
 
   /**
@@ -133,7 +132,7 @@ export class RedBlackTree<
       } else {
         node = this.createNode(key, value, RBTNColor.RED);
       }
-    } else if (this.isNotNodeInstance(keyOrNodeOrEntry)) {
+    } else if (!this.isNode(keyOrNodeOrEntry)) {
       node = this.createNode(keyOrNodeOrEntry, value, RBTNColor.RED);
     } else {
       return;
@@ -159,16 +158,6 @@ export class RedBlackTree<
   override isRealNode(node: N | undefined): node is N {
     if (node === this.Sentinel || node === undefined) return false;
     return node instanceof RedBlackTreeNode;
-  }
-
-  /**
-   * The function "isNotNodeInstance" checks if a potential key is a K.
-   * @param {any} potentialKey - The potentialKey parameter is of type any, which means it can be any
-   * data type.
-   * @returns a boolean value indicating whether the potentialKey is of type number or not.
-   */
-  override isNotNodeInstance(potentialKey: KeyOrNodeOrEntry<K, V, N>): potentialKey is K {
-    return !(potentialKey instanceof RedBlackTreeNode);
   }
 
   /**

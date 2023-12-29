@@ -13,7 +13,7 @@ import type {
   BTNodePureExemplar,
   KeyOrNodeOrEntry
 } from '../../types';
-import { BSTVariant, CP, IterationType } from '../../types';
+import { BSTVariant, CP, DFSOrderPattern, IterationType } from '../../types';
 import { BinaryTree, BinaryTreeNode } from './binary-tree';
 import { IBinaryTree } from '../../interfaces';
 import { Queue } from '../queue';
@@ -83,14 +83,13 @@ export class BSTNode<K = any, V = any, N extends BSTNode<K, V, N> = BSTNodeNeste
  * 7. No Auto-Balancing: Standard BSTs don't automatically balance themselves.
  */
 export class BST<
-    K = any,
-    V = any,
-    N extends BSTNode<K, V, N> = BSTNode<K, V, BSTNodeNested<K, V>>,
-    TREE extends BST<K, V, N, TREE> = BST<K, V, N, BSTNested<K, V, N>>
-  >
+  K = any,
+  V = any,
+  N extends BSTNode<K, V, N> = BSTNode<K, V, BSTNodeNested<K, V>>,
+  TREE extends BST<K, V, N, TREE> = BST<K, V, N, BSTNested<K, V, N>>
+>
   extends BinaryTree<K, V, N, TREE>
-  implements IBinaryTree<K, V, N, TREE>
-{
+  implements IBinaryTree<K, V, N, TREE> {
   /**
    * This is the constructor function for a binary search tree class in TypeScript, which initializes
    * the tree with optional keysOrNodesOrEntries and options.
@@ -172,7 +171,7 @@ export class BST<
       } else {
         node = this.createNode(key, value);
       }
-    } else if (this.isNotNodeInstance(keyOrNodeOrEntry)) {
+    } else if (!this.isNode(keyOrNodeOrEntry)) {
       node = this.createNode(keyOrNodeOrEntry, value);
     } else {
       return;
@@ -211,16 +210,6 @@ export class BST<
       if (keyOrNodeOrEntry) res = this.getNodeByKey(keyOrNodeOrEntry, iterationType);
     }
     return res;
-  }
-
-  /**
-   * The function "isNotNodeInstance" checks if a potential key is a K.
-   * @param {any} potentialKey - The potentialKey parameter is of type any, which means it can be any
-   * data type.
-   * @returns a boolean value indicating whether the potentialKey is of type number or not.
-   */
-  override isNotNodeInstance(potentialKey: KeyOrNodeOrEntry<K, V, N>): potentialKey is K {
-    return !(potentialKey instanceof BSTNode);
   }
 
   /**
@@ -409,43 +398,6 @@ export class BST<
   }
 
   /**
-   * Time Complexity: O(n log n)
-   * Space Complexity: O(n)
-   * Adding each element individually in a balanced tree. Additional space is required for the sorted array.
-   */
-
-  /**
-   * Time Complexity: O(n log n)
-   * Space Complexity: O(n)
-   *
-   * The `lastKey` function returns the key of the rightmost node in a binary tree, or the key of the
-   * leftmost node if the comparison result is greater than.
-   * @param {K | N | undefined} beginRoot - The `beginRoot` parameter is optional and can be of
-   * type `K`, `N`, or `undefined`. It represents the starting point for finding the last key in
-   * the binary tree. If not provided, it defaults to the root of the binary tree (`this.root`).
-   * @returns the key of the rightmost node in the binary tree if the comparison result is less than,
-   * the key of the leftmost node if the comparison result is greater than, and the key of the
-   * rightmost node otherwise. If no node is found, it returns 0.
-   */
-  lastKey(beginRoot: KeyOrNodeOrEntry<K, V, N> = this.root): K | undefined {
-    let current = this.ensureNode(beginRoot);
-    if (!current) return undefined;
-
-    if (this._variant === BSTVariant.STANDARD) {
-      // For BSTVariant.MIN, find the rightmost node
-      while (current.right !== undefined) {
-        current = current.right;
-      }
-    } else {
-      // For BSTVariant.MAX, find the leftmost node
-      while (current.left !== undefined) {
-        current = current.left;
-      }
-    }
-    return current.key;
-  }
-
-  /**
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
    */
@@ -572,6 +524,133 @@ export class BST<
     }
 
     return ans;
+  }
+
+  // /**
+  //  * The function overrides the subTreeTraverse method and returns the result of calling the super
+  //  * method with the provided arguments.
+  //  * @param {C} callback - The `callback` parameter is a function that will be called for each node in
+  //  * the subtree traversal. It should accept a single parameter of type `N`, which represents a node in
+  //  * the tree. The return type of the callback function can be any type.
+  //  * @param beginRoot - The `beginRoot` parameter is the starting point for traversing the subtree. It
+  //  * can be either a key, a node, or an entry.
+  //  * @param iterationType - The `iterationType` parameter is used to specify the type of iteration to
+  //  * be performed during the traversal of the subtree. It can have one of the following values:
+  //  * @returns The method is returning an array of the return type of the callback function.
+  //  */
+  // override subTreeTraverse<C extends BTNCallback<N>>(
+  //   callback: C = this._defaultOneParamCallback as C,
+  //   beginRoot: KeyOrNodeOrEntry<K, V, N> = this.root,
+  //   iterationType = this.iterationType
+  // ): ReturnType<C>[] {
+  //   return super.subTreeTraverse(callback, beginRoot, iterationType, false);
+  // }
+
+  /**
+   * The function overrides the depth-first search method and returns an array of the return types of
+   * the callback function.
+   * @param {C} callback - The `callback` parameter is a function that will be called for each node
+   * during the depth-first search traversal. It is an optional parameter and if not provided, a
+   * default callback function will be used.
+   * @param {DFSOrderPattern} [pattern=in] - The `pattern` parameter specifies the order in which the
+   * nodes are visited during the depth-first search. It can have one of the following values:
+   * @param beginRoot - The `beginRoot` parameter is used to specify the starting point for the
+   * Depth-First Search (DFS) traversal. It can be either a key, a node, or an entry in the tree. If no
+   * value is provided, the DFS traversal will start from the root of the tree.
+   * @param {IterationType} iterationType - The `iterationType` parameter specifies the type of
+   * iteration to be used during the Depth-First Search (DFS) traversal. It can have one of the
+   * following values:
+   * @returns The method is returning an array of the return type of the callback function.
+   */
+  override dfs<C extends BTNCallback<N>>(
+    callback: C = this._defaultOneParamCallback as C,
+    pattern: DFSOrderPattern = 'in',
+    beginRoot: KeyOrNodeOrEntry<K, V, N> = this.root,
+    iterationType: IterationType = IterationType.ITERATIVE
+  ): ReturnType<C>[] {
+    return super.dfs(callback, pattern, beginRoot, iterationType, false);
+  }
+
+  /**
+   * The function overrides the breadth-first search method and returns an array of the return types of
+   * the callback function.
+   * @param {C} callback - The `callback` parameter is a function that will be called for each node
+   * visited during the breadth-first search traversal. It is an optional parameter and if not
+   * provided, a default callback function will be used.
+   * @param beginRoot - The `beginRoot` parameter is the starting point for the breadth-first search
+   * traversal. It can be either a key, a node, or an entry in the tree. If not specified, the root of
+   * the tree is used as the starting point.
+   * @param iterationType - The `iterationType` parameter is used to specify the type of iteration to
+   * be performed during the breadth-first search (BFS) traversal. It determines the order in which the
+   * nodes are visited.
+   * @returns The method is returning an array of the return type of the callback function.
+   */
+  override bfs<C extends BTNCallback<N>>(
+    callback: C = this._defaultOneParamCallback as C,
+    beginRoot: KeyOrNodeOrEntry<K, V, N> = this.root,
+    iterationType = this.iterationType
+  ): ReturnType<C>[] {
+    return super.bfs(callback, beginRoot, iterationType, false);
+  }
+
+  /**
+   * The function overrides the listLevels method and returns an array of arrays containing the return
+   * type of the callback function for each level of the tree.
+   * @param {C} callback - The `callback` parameter is a generic type `C` that extends
+   * `BTNCallback<N>`. It represents a callback function that will be called for each node in the tree
+   * during the level listing process.
+   * @param beginRoot - The `beginRoot` parameter is used to specify the starting point for listing the
+   * levels of a binary tree. It can be either a key, a node, or an entry in the binary tree. If not
+   * provided, the root of the binary tree is used as the starting point.
+   * @param iterationType - The `iterationType` parameter is used to specify the type of iteration to
+   * be performed on the tree. It determines the order in which the nodes are visited during the
+   * iteration.
+   * @returns The method is returning a two-dimensional array of the return type of the callback
+   * function.
+   */
+  override listLevels<C extends BTNCallback<N>>(
+    callback: C = this._defaultOneParamCallback as C,
+    beginRoot: KeyOrNodeOrEntry<K, V, N> = this.root,
+    iterationType = this.iterationType
+  ): ReturnType<C>[][] {
+    return super.listLevels(callback, beginRoot, iterationType, false);
+  }
+
+  /**
+   * Time Complexity: O(n log n)
+   * Space Complexity: O(n)
+   * Adding each element individually in a balanced tree. Additional space is required for the sorted array.
+   */
+
+  /**
+   * Time Complexity: O(n log n)
+   * Space Complexity: O(n)
+   *
+   * The `lastKey` function returns the key of the rightmost node in a binary tree, or the key of the
+   * leftmost node if the comparison result is greater than.
+   * @param {K | N | undefined} beginRoot - The `beginRoot` parameter is optional and can be of
+   * type `K`, `N`, or `undefined`. It represents the starting point for finding the last key in
+   * the binary tree. If not provided, it defaults to the root of the binary tree (`this.root`).
+   * @returns the key of the rightmost node in the binary tree if the comparison result is less than,
+   * the key of the leftmost node if the comparison result is greater than, and the key of the
+   * rightmost node otherwise. If no node is found, it returns 0.
+   */
+  lastKey(beginRoot: KeyOrNodeOrEntry<K, V, N> = this.root): K | undefined {
+    let current = this.ensureNode(beginRoot);
+    if (!current) return undefined;
+
+    if (this._variant === BSTVariant.STANDARD) {
+      // For BSTVariant.MIN, find the rightmost node
+      while (current.right !== undefined) {
+        current = current.right;
+      }
+    } else {
+      // For BSTVariant.MAX, find the leftmost node
+      while (current.left !== undefined) {
+        current = current.left;
+      }
+    }
+    return current.key;
   }
 
   /**

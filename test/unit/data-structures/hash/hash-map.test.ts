@@ -110,6 +110,8 @@ describe('HashMap Test2', () => {
 
   test('Inheritability test', () => {
     class ExtendedHashMap<K, V> extends HashMap<K, V> {
+      someOtherParam?: string;
+
       constructor(
         elements: Iterable<[K, V]> = [],
         options?: {
@@ -118,8 +120,8 @@ describe('HashMap Test2', () => {
         }
       ) {
         const { someOtherParam, ...restOptions } = options || {};
-        // do something with someOtherParam
         super(elements, restOptions);
+        this.someOtherParam = someOtherParam;
       }
     }
 

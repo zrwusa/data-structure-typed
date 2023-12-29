@@ -232,7 +232,7 @@ export class Deque<E> extends IterableElementBase<E> {
   /**
    * The below function is a generator that yields elements from a collection one by one.
    */
-  *begin(): Generator<E> {
+  * begin(): Generator<E> {
     let index = 0;
     while (index < this.size) {
       yield this.getAt(index);
@@ -244,7 +244,7 @@ export class Deque<E> extends IterableElementBase<E> {
    * The function `reverseBegin()` is a generator that yields elements in reverse order starting from
    * the last element.
    */
-  *reverseBegin(): Generator<E> {
+  * reverseBegin(): Generator<E> {
     let index = this.size - 1;
     while (index >= 0) {
       yield this.getAt(index);
@@ -735,7 +735,7 @@ export class Deque<E> extends IterableElementBase<E> {
    * The above function is an implementation of the iterator protocol in TypeScript, allowing the
    * object to be iterated over using a for...of loop.
    */
-  protected *_getIterator(): IterableIterator<E> {
+  protected* _getIterator(): IterableIterator<E> {
     for (let i = 0; i < this.size; ++i) {
       yield this.getAt(i);
     }

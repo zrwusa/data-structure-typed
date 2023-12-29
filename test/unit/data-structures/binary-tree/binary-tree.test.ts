@@ -238,16 +238,45 @@ describe('BinaryTree', () => {
     expect(tree.getNodes(tree.getNodeByKey(2), undefined, false, tree.root)).toEqual([tree.getNodeByKey(2)]);
   });
 
-  it('should subTreeTraverse', () => {
+  // it('should subTreeTraverse', () => {
+  //   tree.addMany([4, 2, 6, null, 1, 3, null, 5, null, 7]);
+  //   expect(tree.subTreeTraverse(node => node.key, tree.getNode(6), IterationType.ITERATIVE)).toEqual([6, 3, 7]);
+  //   expect(tree.subTreeTraverse(node => node.key, tree.getNode(6), IterationType.ITERATIVE, false)).toEqual([6, 3, 7]);
+  //   expect(tree.subTreeTraverse(node => node.key, tree.getNode(6), IterationType.RECURSIVE)).toEqual([6, 3, 7]);
+  //   expect(
+  //     tree.subTreeTraverse(node => (node ? node.key : null), tree.getNode(6), IterationType.ITERATIVE, true)
+  //   ).toEqual([6, 3, 7, null]);
+  //   expect(
+  //     tree.subTreeTraverse(node => (node ? node.key : node), tree.getNode(6), IterationType.ITERATIVE, true)
+  //   ).toEqual([6, 3, 7, null]);
+  //   expect(
+  //     tree.subTreeTraverse(node => (node ? node.key : null), tree.getNode(6), IterationType.RECURSIVE, true)
+  //   ).toEqual([6, 3, 7, null]);
+  // });
+
+  it('should sub tree traverse', () => {
     tree.addMany([4, 2, 6, null, 1, 3, null, 5, null, 7]);
-    expect(tree.subTreeTraverse(node => node.key, tree.getNode(6), IterationType.ITERATIVE)).toEqual([6, 3, 7]);
-    expect(tree.subTreeTraverse(node => node.key, tree.getNode(6), IterationType.RECURSIVE)).toEqual([6, 3, 7]);
-    expect(
-      tree.subTreeTraverse(node => (node ? node.key : null), tree.getNode(6), IterationType.ITERATIVE, true)
-    ).toEqual([6, 3, 7, null]);
-    expect(
-      tree.subTreeTraverse(node => (node ? node.key : null), tree.getNode(6), IterationType.RECURSIVE, true)
-    ).toEqual([6, 3, 7, null]);
+    expect(tree.dfs(node => node.key, 'pre', tree.getNode(6), IterationType.ITERATIVE)).toEqual([6, 3, 7]);
+    expect(tree.dfs(node => node.key, 'pre', tree.getNode(6), IterationType.ITERATIVE, false)).toEqual([6, 3, 7]);
+    expect(tree.dfs(node => node.key, 'pre', tree.getNode(6), IterationType.RECURSIVE)).toEqual([6, 3, 7]);
+    expect(tree.dfs(node => (node ? node.key : null), 'pre', tree.getNode(6), IterationType.ITERATIVE, true)).toEqual([
+      6,
+      3,
+      7,
+      null
+    ]);
+    expect(tree.dfs(node => (node ? node.key : node), 'pre', tree.getNode(6), IterationType.ITERATIVE, true)).toEqual([
+      6,
+      3,
+      7,
+      null
+    ]);
+    expect(tree.dfs(node => (node ? node.key : null), 'pre', tree.getNode(6), IterationType.RECURSIVE, true)).toEqual([
+      6,
+      3,
+      7,
+      null
+    ]);
   });
 
   it('should clear the tree', () => {

@@ -741,7 +741,7 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
     return mappedList;
   }
 
-  protected *_getIterator(): IterableIterator<E> {
+  protected* _getIterator(): IterableIterator<E> {
     let current = this.head;
 
     while (current) {
