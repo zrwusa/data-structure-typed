@@ -147,7 +147,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param {K} key - The parameter "key" is of type K, which means it can be any type.
    * @returns The `has` method is returning a boolean value.
    */
-  has(key: K): boolean {
+  override has(key: K): boolean {
     if (this._isObjKey(key)) {
       return this._objMap.has(key);
     } else {
@@ -457,7 +457,7 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
    * property of the key. If the key is a string key, the value is retrieved from the `_noObjMap` object
    * using the key itself. If the key is not found, `undefined` is
    */
-  get(key: K): V | undefined {
+  override get(key: K): V | undefined {
     if (isWeakKey(key)) {
       const hash = this._objHashFn(key);
       const node = this._objMap.get(hash);

@@ -558,32 +558,6 @@ export class Deque<E> extends IterableElementBase<E> {
    * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
-   * The `find` function iterates over the elements in a deque and returns the first element for which
-   * the callback function returns true, or undefined if no such element is found.
-   * @param callback - A function that takes three parameters: element, index, and deque. It should
-   * return a boolean value indicating whether the element satisfies a certain condition.
-   * @returns The method `find` returns the first element in the deque that satisfies the condition
-   * specified by the callback function. If no element satisfies the condition, it returns `undefined`.
-   */
-  find(callback: (element: E, index: number, deque: Deque<E>) => boolean): E | undefined {
-    for (let i = 0; i < this.size; ++i) {
-      const element = this.getAt(i);
-      if (callback(element, i, this)) {
-        return element;
-      }
-    }
-    return;
-  }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
    * The function "indexOf" returns the index of the first occurrence of a given element in an array,
    * or -1 if the element is not found.
    * @param {E} element - The "element" parameter represents the element that you want to find the

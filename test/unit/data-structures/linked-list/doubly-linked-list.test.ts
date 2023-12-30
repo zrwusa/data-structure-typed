@@ -39,6 +39,8 @@ describe('DoublyLinkedList Operation Test', () => {
 
   it('should find undefined', () => {
     expect(list.find(value => value === 6)).toBe(undefined);
+    expect(list.find(value => value === 4)).toBe(4);
+    expect(list.find(value => value === 3)).toBe(3);
   });
 
   it('should indexOf -1', () => {

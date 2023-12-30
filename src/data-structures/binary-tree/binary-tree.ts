@@ -810,7 +810,7 @@ export class BinaryTree<
    * be performed in a pre-order, in-order, or post-order manner.
    * @returns a boolean value.
    */
-  has<C extends BTNCallback<N>>(
+  override has<C extends BTNCallback<N>>(
     identifier: ReturnType<C> | null | undefined,
     callback: C = this._defaultOneParamCallback as C,
     beginRoot: KeyOrNodeOrEntry<K, V, N> = this.root,
@@ -968,7 +968,7 @@ export class BinaryTree<
    * @returns The value of the node with the given identifier is being returned. If the node is not
    * found, `undefined` is returned.
    */
-  get<C extends BTNCallback<N>>(
+  override get<C extends BTNCallback<N>>(
     identifier: ReturnType<C> | null | undefined,
     callback: C = this._defaultOneParamCallback as C,
     beginRoot: KeyOrNodeOrEntry<K, V, N> = this.root,

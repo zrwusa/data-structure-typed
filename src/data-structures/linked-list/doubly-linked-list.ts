@@ -529,32 +529,6 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(n), where n is the number of elements in the linked list.
    * Space Complexity: O(1)
    *
-   * The `find` function iterates through a linked list and returns the first element that satisfies a given condition.
-   * @param callback - A function that takes a value of type E as its parameter and returns a boolean value. This
-   * function is used to determine whether a particular value in the linked list satisfies a certain condition.
-   * @returns The method `find` returns the first element in the linked list that satisfies the condition specified by
-   * the callback function. If no element satisfies the condition, it returns `undefined`.
-   */
-  find(callback: (value: E) => boolean): E | undefined {
-    let current = this.head;
-    while (current) {
-      if (callback(current.value)) {
-        return current.value;
-      }
-      current = current.next;
-    }
-    return undefined;
-  }
-
-  /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
-   * Space Complexity: O(1)
-   *
    * The function returns the index of the first occurrence of a given value in a linked list.
    * @param {E} value - The parameter `value` is of type `E`, which means it can be any data type. It represents the value
    * that we are searching for in the linked list.

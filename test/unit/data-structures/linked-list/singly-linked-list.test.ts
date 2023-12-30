@@ -327,6 +327,7 @@ describe('SinglyLinkedList Operation Test', () => {
       list.push(3);
       const result = list.find(data => data % 2 === 0);
       expect(result).toBe(2);
+      expect(list.find(value => value === 3)).toBe(3);
     });
 
     it('should return undefined if element is not found', () => {

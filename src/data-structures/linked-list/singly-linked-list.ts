@@ -493,32 +493,6 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(n) - Linear time, where n is the length of the list, as it needs to reverse the pointers of each node.
    * Space Complexity: O(1) - Constant space.
    *
-   * The `find` function iterates through a linked list and returns the first element that satisfies a given condition.
-   * @param callback - A function that takes a value of type E as its parameter and returns a boolean value. This
-   * function is used to determine whether a particular value in the linked list satisfies a certain condition.
-   * @returns The method `find` returns the first element in the linked list that satisfies the condition specified by
-   * the callback function. If no element satisfies the condition, it returns `undefined`.
-   */
-  find(callback: (value: E) => boolean): E | undefined {
-    let current = this.head;
-    while (current) {
-      if (callback(current.value)) {
-        return current.value;
-      }
-      current = current.next;
-    }
-    return undefined;
-  }
-
-  /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as it needs to reverse the pointers of each node.
-   * Space Complexity: O(1) - Constant space.
-   */
-
-  /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as it needs to reverse the pointers of each node.
-   * Space Complexity: O(1) - Constant space.
-   *
    * The `indexOf` function returns the index of the first occurrence of a given value in a linked list.
    * @param {E} value - The value parameter is the value that you want to find the index of in the linked list.
    * @returns The method is returning the index of the first occurrence of the specified value in the linked list. If the
