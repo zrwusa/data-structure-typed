@@ -373,6 +373,34 @@ export class Matrix {
     });
   }
 
+  /**
+   * The function checks if a given row and column index is valid within a specified range.
+   * @param {number} row - The `row` parameter represents the row index of a two-dimensional array or
+   * matrix. It is a number that indicates the specific row in the matrix.
+   * @param {number} col - The "col" parameter represents the column index in a two-dimensional array
+   * or grid. It is used to check if the given column index is valid within the bounds of the grid.
+   * @returns A boolean value is being returned.
+   */
+  isValidIndex(row: number, col: number): boolean {
+    return row >= 0 && row < this.rows && col >= 0 && col < this.cols;
+  }
+
+  /**
+   * The `clone` function returns a new instance of the Matrix class with the same data and properties
+   * as the original instance.
+   * @returns The `clone()` method is returning a new instance of the `Matrix` class with the same data
+   * and properties as the current instance.
+   */
+  clone(): Matrix {
+    return new Matrix(this.data, {
+      rows: this.rows,
+      cols: this.cols,
+      addFn: this.addFn,
+      subtractFn: this.subtractFn,
+      multiplyFn: this.multiplyFn
+    });
+  }
+
   protected _addFn(a: number | undefined, b: number): number | undefined {
     if (a === undefined) return b;
     return a + b;
@@ -384,18 +412,6 @@ export class Matrix {
 
   protected _multiplyFn(a: number, b: number) {
     return a * b;
-  }
-
-  /**
-   * The function checks if a given row and column index is valid within a specified range.
-   * @param {number} row - The `row` parameter represents the row index of a two-dimensional array or
-   * matrix. It is a number that indicates the specific row in the matrix.
-   * @param {number} col - The "col" parameter represents the column index in a two-dimensional array
-   * or grid. It is used to check if the given column index is valid within the bounds of the grid.
-   * @returns A boolean value is being returned.
-   */
-  protected isValidIndex(row: number, col: number): boolean {
-    return row >= 0 && row < this.rows && col >= 0 && col < this.cols;
   }
 
   /**

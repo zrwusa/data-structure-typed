@@ -360,6 +360,23 @@ export class Trie extends IterableElementBase<string> {
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
+   * The `clone` function returns a new instance of the Trie class with the same values and case
+   * sensitivity as the original Trie.
+   * @returns A new instance of the Trie class is being returned.
+   */
+  clone(): Trie {
+    return new Trie(this.values(), { caseSensitive: this.caseSensitive });
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
    * The `filter` function takes a predicate function and returns a new array containing all the
    * elements for which the predicate function returns true.
    * @param predicate - The `predicate` parameter is a callback function that takes three arguments:

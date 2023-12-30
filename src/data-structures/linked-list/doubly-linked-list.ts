@@ -112,11 +112,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    * @returns The `fromArray` function returns a DoublyLinkedList object.
    */
   static fromArray<E>(data: E[]) {
-    const doublyLinkedList = new DoublyLinkedList<E>();
-    for (const item of data) {
-      doublyLinkedList.push(item);
-    }
-    return doublyLinkedList;
+    return new DoublyLinkedList<E>(data);
   }
 
   /**
@@ -669,6 +665,24 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
       current = current.prev;
     }
     return array;
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `clone` function creates a new instance of the `DoublyLinkedList` class with the same values
+   * as the original list.
+   * @returns The `clone()` method is returning a new instance of the `DoublyLinkedList` class, which
+   * is a copy of the original list.
+   */
+  clone(): DoublyLinkedList<E> {
+    return new DoublyLinkedList(this.values());
   }
 
   /**

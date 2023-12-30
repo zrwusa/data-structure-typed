@@ -111,14 +111,14 @@ export class RedBlackTree<
   }
 
   /**
-   * The function `exemplarToNode` takes an keyOrNodeOrEntry and converts it into a node object if possible.
+   * The function `keyValueOrEntryToNode` takes an keyOrNodeOrEntry and converts it into a node object if possible.
    * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter is of type `KeyOrNodeOrEntry<K, V, N>`, where:
    * @param {V} [value] - The `value` parameter is an optional value that can be passed to the
-   * `exemplarToNode` function. It represents the value associated with the keyOrNodeOrEntry node. If a value
+   * `keyValueOrEntryToNode` function. It represents the value associated with the keyOrNodeOrEntry node. If a value
    * is provided, it will be used when creating the new node. If no value is provided, the new node
    * @returns a node of type N or undefined.
    */
-  override exemplarToNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>, value?: V): N | undefined {
+  override keyValueOrEntryToNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>, value?: V): N | undefined {
     let node: N | undefined;
 
     if (keyOrNodeOrEntry === null || keyOrNodeOrEntry === undefined) {
@@ -179,7 +179,7 @@ export class RedBlackTree<
    * @returns The method `add` returns either the newly added node (`N`) or `undefined`.
    */
   override add(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>, value?: V): boolean {
-    const newNode = this.exemplarToNode(keyOrNodeOrEntry, value);
+    const newNode = this.keyValueOrEntryToNode(keyOrNodeOrEntry, value);
     if (newNode === undefined) return false;
 
     newNode.left = this.Sentinel;

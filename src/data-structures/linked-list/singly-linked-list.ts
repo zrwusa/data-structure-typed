@@ -687,6 +687,24 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
+   * The `clone` function returns a new instance of the `SinglyLinkedList` class with the same values
+   * as the original list.
+   * @returns The `clone()` method is returning a new instance of the `SinglyLinkedList` class, which
+   * is a clone of the original list.
+   */
+  clone(): SinglyLinkedList<E> {
+    return new SinglyLinkedList<E>(this.values());
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
    * The `filter` function creates a new SinglyLinkedList by iterating over the elements of the current
    * list and applying a callback function to each element to determine if it should be included in the
    * filtered list.

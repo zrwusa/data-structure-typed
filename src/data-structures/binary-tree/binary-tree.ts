@@ -172,14 +172,14 @@ export class BinaryTree<
   }
 
   /**
-   * The function `exemplarToNode` converts an keyOrNodeOrEntry object into a node object.
+   * The function `keyValueOrEntryToNode` converts an keyOrNodeOrEntry object into a node object.
    * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter is of type `KeyOrNodeOrEntry<K, V, N>`.
    * @param {V} [value] - The `value` parameter is an optional value that can be passed to the
-   * `exemplarToNode` function. It represents the value associated with the keyOrNodeOrEntry node. If no value
+   * `keyValueOrEntryToNode` function. It represents the value associated with the keyOrNodeOrEntry node. If no value
    * is provided, it will be `undefined`.
    * @returns a value of type N (node), or null, or undefined.
    */
-  exemplarToNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>, value?: V): N | null | undefined {
+  keyValueOrEntryToNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>, value?: V): N | null | undefined {
     if (keyOrNodeOrEntry === undefined) return;
 
     let node: N | null | undefined;
@@ -308,7 +308,7 @@ export class BinaryTree<
    * @returns The function `add` returns either a node (`N`), `null`, or `undefined`.
    */
   add(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>, value?: V): boolean {
-    const newNode = this.exemplarToNode(keyOrNodeOrEntry, value);
+    const newNode = this.keyValueOrEntryToNode(keyOrNodeOrEntry, value);
     if (newNode === undefined) return false;
 
     // If the tree is empty, directly set the new node as the root node

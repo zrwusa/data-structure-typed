@@ -88,7 +88,7 @@ export class TreeMultimap<
   }
 
   /**
-   * The function `exemplarToNode` converts an keyOrNodeOrEntry object into a node object.
+   * The function `keyValueOrEntryToNode` converts an keyOrNodeOrEntry object into a node object.
    * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter is of type `KeyOrNodeOrEntry<K, V, N>`, which means it
    * can be one of the following:
    * @param {V} [value] - The `value` parameter is an optional argument that represents the value
@@ -98,7 +98,7 @@ export class TreeMultimap<
    * times the value should be added to the node. If not provided, it defaults to 1.
    * @returns a node of type `N` or `undefined`.
    */
-  override exemplarToNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>, value?: V, count = 1): N | undefined {
+  override keyValueOrEntryToNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>, value?: V, count = 1): N | undefined {
     let node: N | undefined;
     if (keyOrNodeOrEntry === undefined || keyOrNodeOrEntry === null) {
       return;
@@ -152,7 +152,7 @@ export class TreeMultimap<
    * was not successful.
    */
   override add(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>, value?: V, count = 1): boolean {
-    const newNode = this.exemplarToNode(keyOrNodeOrEntry, value, count);
+    const newNode = this.keyValueOrEntryToNode(keyOrNodeOrEntry, value, count);
     if (newNode === undefined) return false;
 
     const orgNodeCount = newNode?.count || 0;

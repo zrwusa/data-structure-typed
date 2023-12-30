@@ -54,6 +54,10 @@ export class Deque<E> extends IterableElementBase<E> {
     }
   }
 
+  get bucketSize() {
+    return this._bucketSize;
+  }
+
   protected _buckets: E[][] = [];
 
   get buckets() {
@@ -616,6 +620,25 @@ export class Deque<E> extends IterableElementBase<E> {
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `clone()` function returns a new instance of the `Deque` class with the same elements and
+   * bucket size as the original instance.
+   * @returns The `clone()` method is returning a new instance of the `Deque` class with the same
+   * elements as the original deque (`this`) and the same bucket size.
+   */
+  clone(): Deque<E> {
+    return new Deque<E>([...this], { bucketSize: this.bucketSize });
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
