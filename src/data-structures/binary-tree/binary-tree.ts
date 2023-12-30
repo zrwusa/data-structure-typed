@@ -768,21 +768,21 @@ export class BinaryTree<
    * Space Complexity: O(log n).
    */
 
-  has<C extends BTNCallback<N, K>>(
+  override has<C extends BTNCallback<N, K>>(
     identifier: K,
     callback?: C,
     beginRoot?: KeyOrNodeOrEntry<K, V, N>,
     iterationType?: IterationType
   ): boolean;
 
-  has<C extends BTNCallback<N, N>>(
+  override has<C extends BTNCallback<N, N>>(
     identifier: N | null | undefined,
     callback?: C,
     beginRoot?: KeyOrNodeOrEntry<K, V, N>,
     iterationType?: IterationType
   ): boolean;
 
-  has<C extends BTNCallback<N>>(
+  override has<C extends BTNCallback<N>>(
     identifier: ReturnType<C> | null | undefined,
     callback: C,
     beginRoot?: KeyOrNodeOrEntry<K, V, N>,
@@ -925,21 +925,21 @@ export class BinaryTree<
     }
   }
 
-  get<C extends BTNCallback<N, K>>(
+  override get<C extends BTNCallback<N, K>>(
     identifier: K,
     callback?: C,
     beginRoot?: KeyOrNodeOrEntry<K, V, N>,
     iterationType?: IterationType
   ): V | undefined;
 
-  get<C extends BTNCallback<N, N>>(
+  override get<C extends BTNCallback<N, N>>(
     identifier: N | null | undefined,
     callback?: C,
     beginRoot?: KeyOrNodeOrEntry<K, V, N>,
     iterationType?: IterationType
   ): V | undefined;
 
-  get<C extends BTNCallback<N>>(
+  override get<C extends BTNCallback<N>>(
     identifier: ReturnType<C>,
     callback: C,
     beginRoot?: KeyOrNodeOrEntry<K, V, N>,

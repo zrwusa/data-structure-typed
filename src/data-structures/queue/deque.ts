@@ -239,7 +239,7 @@ export class Deque<E> extends IterableElementBase<E> {
   * begin(): Generator<E> {
     let index = 0;
     while (index < this.size) {
-      yield this.getAt(index);
+      yield this.at(index);
       index++;
     }
   }
@@ -251,7 +251,7 @@ export class Deque<E> extends IterableElementBase<E> {
   * reverseBegin(): Generator<E> {
     let index = this.size - 1;
     while (index >= 0) {
-      yield this.getAt(index);
+      yield this.at(index);
       index--;
     }
   }
@@ -265,13 +265,13 @@ export class Deque<E> extends IterableElementBase<E> {
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The `getAt` function retrieves an element at a specified position in an array-like data structure.
+   * The `at` function retrieves an element at a specified position in an array-like data structure.
    * @param {number} pos - The `pos` parameter represents the position of the element that you want to
    * retrieve from the data structure. It is of type `number` and should be a valid index within the
    * range of the data structure.
    * @returns The element at the specified position in the data structure is being returned.
    */
-  getAt(pos: number): E {
+  at(pos: number): E {
     rangeCheck(pos, 0, this.size - 1);
     const { bucketIndex, indexInBucket } = this._getBucketAndPosition(pos);
     return this._buckets[bucketIndex][indexInBucket]!;
@@ -329,7 +329,7 @@ export class Deque<E> extends IterableElementBase<E> {
     } else {
       const arr: E[] = [];
       for (let i = pos; i < this.size; ++i) {
-        arr.push(this.getAt(i));
+        arr.push(this.at(i));
       }
       this.cut(pos - 1);
       for (let i = 0; i < num; ++i) this.push(element);
@@ -420,7 +420,7 @@ export class Deque<E> extends IterableElementBase<E> {
     let i = 0;
     let index = 0;
     while (i < size) {
-      const oldElement = this.getAt(i);
+      const oldElement = this.at(i);
       if (oldElement !== element) {
         this.setAt(index, oldElement!);
         index += 1;
@@ -475,9 +475,9 @@ export class Deque<E> extends IterableElementBase<E> {
       return this;
     }
     let index = 1;
-    let prev = this.getAt(0);
+    let prev = this.at(0);
     for (let i = 1; i < this.size; ++i) {
-      const cur = this.getAt(i);
+      const cur = this.at(i);
       if (cur !== prev) {
         prev = cur;
         this.setAt(index++, cur);
@@ -505,7 +505,7 @@ export class Deque<E> extends IterableElementBase<E> {
   sort(comparator?: (x: E, y: E) => number): this {
     const arr: E[] = [];
     for (let i = 0; i < this.size; ++i) {
-      arr.push(this.getAt(i));
+      arr.push(this.at(i));
     }
     arr.sort(comparator);
     for (let i = 0; i < this.size; ++i) {
@@ -567,7 +567,7 @@ export class Deque<E> extends IterableElementBase<E> {
    */
   indexOf(element: E): number {
     for (let i = 0; i < this.size; ++i) {
-      if (this.getAt(i) === element) {
+      if (this.at(i) === element) {
         return i;
       }
     }
@@ -734,7 +734,7 @@ export class Deque<E> extends IterableElementBase<E> {
    */
   protected* _getIterator(): IterableIterator<E> {
     for (let i = 0; i < this.size; ++i) {
-      yield this.getAt(i);
+      yield this.at(i);
     }
   }
 

@@ -156,17 +156,17 @@ describe('Queue - Additional Methods', () => {
     expect(queue.peekLast()).toBeUndefined();
   });
 
-  test('getAt should return the element at the specified index', () => {
+  test('at should return the element at the specified index', () => {
     queue.push(1);
     queue.push(2);
     queue.push(3);
-    expect(queue.getAt(1)).toBe(2);
+    expect(queue.at(1)).toBe(2);
   });
 
-  test('getAt should return undefined for an invalid index', () => {
+  test('at should return undefined for an invalid index', () => {
     queue.push(1);
-    expect(queue.getAt(3)).toBeUndefined();
-    expect(queue.getAt(-1)).toBeUndefined();
+    expect(queue.at(3)).toBeUndefined();
+    expect(queue.at(-1)).toBeUndefined();
   });
 
   test('print should not throw any errors', () => {

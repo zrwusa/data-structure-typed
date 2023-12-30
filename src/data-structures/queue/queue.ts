@@ -219,7 +219,7 @@ export class Queue<E = any> extends IterableElementBase<E> {
    *
    * @param index
    */
-  getAt(index: number): E | undefined {
+  at(index: number): E | undefined {
     return this.elements[index];
   }
 

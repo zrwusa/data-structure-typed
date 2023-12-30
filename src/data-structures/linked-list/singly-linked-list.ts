@@ -258,13 +258,13 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(n) - Linear time, where n is the index, as it may need to traverse the list to find the desired node.
    * Space Complexity: O(1) - Constant space.
    *
-   * The function `getAt` returns the value at a specified index in a linked list, or undefined if the index is out of range.
+   * The function `at` returns the value at a specified index in a linked list, or undefined if the index is out of range.
    * @param {number} index - The index parameter is a number that represents the position of the element we want to
    * retrieve from the list.
-   * @returns The method `getAt(index: number): E | undefined` returns the value at the specified index in the linked list, or
+   * @returns The method `at(index: number): E | undefined` returns the value at the specified index in the linked list, or
    * `undefined` if the index is out of bounds.
    */
-  getAt(index: number): E | undefined {
+  at(index: number): E | undefined {
     if (index < 0 || index >= this.size) return undefined;
     let current = this.head;
     for (let i = 0; i < index; i++) {

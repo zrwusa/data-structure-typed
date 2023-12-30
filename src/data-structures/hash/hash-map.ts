@@ -132,7 +132,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @returns The method `get(key: K)` returns a value of type `V` if the key exists in the `_objMap`
    * or `_store`, otherwise it returns `undefined`.
    */
-  get(key: K): V | undefined {
+  override get(key: K): V | undefined {
     if (this._isObjKey(key)) {
       return this._objMap.get(key);
     } else {
@@ -425,16 +425,6 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
     return true;
   }
 
-  has(key: K): boolean {
-    if (isWeakKey(key)) {
-      const hash = this._objHashFn(key);
-      return this._objMap.has(hash);
-    } else {
-      const hash = this._hashFn(key);
-      return hash in this._noObjMap;
-    }
-  }
-
   setMany(entries: Iterable<[K, V]>): boolean[] {
     const results: boolean[] = [];
     for (const entry of entries) {
@@ -442,6 +432,16 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
       results.push(this.set(key, value));
     }
     return results;
+  }
+
+  override has(key: K): boolean {
+    if (isWeakKey(key)) {
+      const hash = this._objHashFn(key);
+      return this._objMap.has(hash);
+    } else {
+      const hash = this._hashFn(key);
+      return hash in this._noObjMap;
+    }
   }
 
   /**
@@ -473,14 +473,14 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
    * Time Complexity: O(n), where n is the index.
    * Space Complexity: O(1)
    *
-   * The function `getAt` retrieves the key-value pair at a specified index in a linked list.
+   * The function `at` retrieves the key-value pair at a specified index in a linked list.
    * @param {number} index - The index parameter is a number that represents the position of the
    * element we want to retrieve from the data structure.
-   * @returns The method `getAt(index: number)` is returning an array containing the key-value pair at
+   * @returns The method `at(index: number)` is returning an array containing the key-value pair at
    * the specified index in the data structure. The key-value pair is represented as a tuple `[K, V]`,
    * where `K` is the key and `V` is the value.
    */
-  getAt(index: number): V | undefined {
+  at(index: number): V | undefined {
     rangeCheck(index, 0, this._size - 1);
     let node = this._head;
     while (index--) {

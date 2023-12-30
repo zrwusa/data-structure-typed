@@ -101,19 +101,19 @@ describe('DoublyLinkedList Operation Test', () => {
     // Inserting at the beginning
     list.addAt(0, 0);
     expect(list.size).toBe(4);
-    expect(list.getAt(0)).toBe(0);
-    expect(list.getAt(1)).toBe(1);
+    expect(list.at(0)).toBe(0);
+    expect(list.at(1)).toBe(1);
 
     // Inserting in the middle
     list.addAt(2, 1.5);
     expect(list.size).toBe(5);
-    expect(list.getAt(2)).toBe(1.5);
-    expect(list.getAt(3)).toBe(2);
+    expect(list.at(2)).toBe(1.5);
+    expect(list.at(3)).toBe(2);
 
     // Inserting at the end
     list.addAt(5, 4);
     expect(list.size).toBe(6);
-    expect(list.getAt(5)).toBe(4);
+    expect(list.at(5)).toBe(4);
     expect(list.tail!.value).toBe(4);
   });
 

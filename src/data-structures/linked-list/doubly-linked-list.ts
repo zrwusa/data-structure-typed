@@ -231,13 +231,13 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(n), where n is the number of elements in the linked list.
    * Space Complexity: O(1)
    *
-   * The `getAt` function returns the value at a specified index in a linked list, or undefined if the index is out of bounds.
+   * The `at` function returns the value at a specified index in a linked list, or undefined if the index is out of bounds.
    * @param {number} index - The index parameter is a number that represents the position of the element we want to
    * retrieve from the list.
    * @returns The method is returning the value at the specified index in the linked list. If the index is out of bounds
    * or the linked list is empty, it will return undefined.
    */
-  getAt(index: number): E | undefined {
+  at(index: number): E | undefined {
     if (index < 0 || index >= this.size) return undefined;
     let current = this.head;
     for (let i = 0; i < index; i++) {
