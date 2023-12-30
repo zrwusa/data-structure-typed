@@ -38,58 +38,58 @@ Heap, Binary Tree, Red Black Tree, Linked List, Deque, Trie, Directed Graph, Und
   <thead>
   <tr>
     <th>Method</th>
-    <th>Time Taken (ms)</th>
-    <th>Scale</th>
+    <th>Time Taken</th>
+    <th>Data Scale</th>
     <th>Belongs To</th>
-    <th>Time Complexity</th>
+    <th>Complexity</th>
   </tr>
   </thead>
   <tbody>
   <tr>
     <td>Queue.push &amp; shift</td>
-    <td>5.83</td>
+    <td>5.83 ms</td>
     <td>100,000</td>
-    <td>data-structure-typed</td>
+    <td>Ours</td>
     <td>O(1)</td>
   </tr>
   <tr>
     <td>Array.push &amp; shift</td>
-    <td>2829.59</td>
+    <td>2829.59 ms</td>
     <td>100,000</td>
     <td>Native JS</td>
     <td>O(n)</td>
   </tr>
   <tr>
     <td>Deque.unshift &amp; shift</td>
-    <td>2.44</td>
+    <td>2.44 ms</td>
     <td>100,000</td>
-    <td>data-structure-typed</td>
+    <td>Ours</td>
     <td>O(1)</td>
   </tr>
   <tr>
     <td>Array.unshift &amp; shift</td>
-    <td>4750.37</td>
+    <td>4750.37 ms</td>
     <td>100,000</td>
     <td>Native JS</td>
     <td>O(n)</td>
   </tr>
   <tr>
     <td>HashMap.set</td>
-    <td>122.51</td>
+    <td>122.51 ms</td>
     <td>1,000,000</td>
-    <td>data-structure-typed</td>
+    <td>Ours</td>
     <td>O(1)</td>
   </tr>
   <tr>
     <td>Map.set</td>
-    <td>223.80</td>
+    <td>223.80 ms</td>
     <td>1,000,000</td>
     <td>Native JS</td>
     <td>O(1)</td>
   </tr>
   <tr>
     <td>Set.add</td>
-    <td>185.06</td>
+    <td>185.06 ms</td>
     <td>1,000,000</td>
     <td>Native JS</td>
     <td>O(1)</td>
