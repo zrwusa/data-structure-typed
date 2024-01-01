@@ -42,30 +42,54 @@ export class Matrix {
 
   protected _rows: number = 0;
 
+  /**
+   * The function returns the number of rows.
+   * @returns The number of rows.
+   */
   get rows(): number {
     return this._rows;
   }
 
   protected _cols: number = 0;
 
+  /**
+   * The function returns the value of the private variable _cols.
+   * @returns The number of columns.
+   */
   get cols(): number {
     return this._cols;
   }
 
   protected _data: number[][];
 
+  /**
+   * The function returns a two-dimensional array of numbers.
+   * @returns The data property, which is a two-dimensional array of numbers.
+   */
   get data(): number[][] {
     return this._data;
   }
 
+  /**
+   * The above function returns the value of the _addFn property.
+   * @returns The value of the property `_addFn` is being returned.
+   */
   get addFn() {
     return this._addFn;
   }
 
+  /**
+   * The function returns the value of the _subtractFn property.
+   * @returns The `_subtractFn` property is being returned.
+   */
   get subtractFn() {
     return this._subtractFn;
   }
 
+  /**
+   * The function returns the value of the _multiplyFn property.
+   * @returns The `_multiplyFn` property is being returned.
+   */
   get multiplyFn() {
     return this._multiplyFn;
   }

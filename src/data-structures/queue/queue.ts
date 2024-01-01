@@ -32,12 +32,20 @@ export class Queue<E = any> extends IterableElementBase<E> {
 
   protected _elements: E[] = [];
 
+  /**
+   * The elements function returns the elements of this set.
+   * @return An array of the elements in the stack
+   */
   get elements(): E[] {
     return this._elements;
   }
 
   protected _offset: number = 0;
 
+  /**
+   * The offset function returns the offset of the current page.
+   * @return The value of the private variable _offset
+   */
   get offset(): number {
     return this._offset;
   }

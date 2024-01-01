@@ -24,6 +24,17 @@ export class Deque<E> extends IterableElementBase<E> {
   protected _bucketCount = 0;
   protected readonly _bucketSize: number = 1 << 12;
 
+  /**
+   * The constructor initializes a Deque object with an optional iterable of elements and options.
+   * @param elements - An iterable object (such as an array or a Set) that contains the initial
+   * elements to be added to the deque. It can also be an object with a `length` or `size` property
+   * that represents the number of elements in the iterable object. If no elements are provided, an
+   * empty deque
+   * @param {DequeOptions} [options] - The `options` parameter is an optional object that can contain
+   * configuration options for the deque. In this code, it is used to set the `bucketSize` option,
+   * which determines the size of each bucket in the deque. If the `bucketSize` option is not provided
+   * or is not a number
+   */
   constructor(elements: IterableWithSizeOrLength<E> = [], options?: DequeOptions) {
     super();
 
@@ -54,18 +65,32 @@ export class Deque<E> extends IterableElementBase<E> {
     }
   }
 
+  /**
+   * The bucketSize function returns the size of the bucket.
+   *
+   * @return The size of the bucket
+   */
   get bucketSize() {
     return this._bucketSize;
   }
 
   protected _buckets: E[][] = [];
 
+  /**
+   * The buckets function returns the buckets property of the object.
+   *
+   * @return The buckets property
+   */
   get buckets() {
     return this._buckets;
   }
 
   protected _size = 0;
 
+  /**
+   * The size function returns the number of items in the stack.
+   * @return The number of values in the set
+   */
   get size() {
     return this._size;
   }
@@ -80,6 +105,10 @@ export class Deque<E> extends IterableElementBase<E> {
     return this._buckets[this._bucketFirst][this._firstInBucket];
   }
 
+  /**
+   * The last function returns the last element in the queue.
+   * @return The last element in the array
+   */
   get last(): E | undefined {
     if (this.size === 0) return;
     return this._buckets[this._bucketLast][this._lastInBucket];

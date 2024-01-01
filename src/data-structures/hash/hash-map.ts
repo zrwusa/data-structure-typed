@@ -59,24 +59,46 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
     }
   };
 
+  /**
+   * The function returns the value of the _toEntryFn property.
+   * @returns The function being returned is `this._toEntryFn`.
+   */
   get toEntryFn() {
     return this._toEntryFn;
   }
 
   protected _size = 0;
 
+  /**
+   * The function returns the size of an object.
+   * @returns The size of the object, which is a number.
+   */
   get size(): number {
     return this._size;
   }
 
+  /**
+   * The function checks if a given element is an array with exactly two elements.
+   * @param {any} rawElement - The `rawElement` parameter is of type `any`, which means it can be any
+   * data type.
+   * @returns a boolean value.
+   */
   isEntry(rawElement: any): rawElement is [K, V] {
     return Array.isArray(rawElement) && rawElement.length === 2;
   }
 
+  /**
+   * The function checks if the size of an object is equal to zero and returns a boolean value.
+   * @returns A boolean value indicating whether the size of the object is 0 or not.
+   */
   isEmpty(): boolean {
     return this.size === 0;
   }
 
+  /**
+   * The clear() function resets the state of an object by clearing its internal store, object map, and
+   * size.
+   */
   clear() {
     this._store = {};
     this._objMap.clear();
@@ -241,6 +263,14 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
     return filteredMap;
   }
 
+  /**
+   * The put function sets a value in a data structure using a specified key.
+   * @param {K} key - The key parameter is of type K, which represents the type of the key being passed
+   * to the function.
+   * @param {V} value - The value parameter represents the value that you want to associate with the
+   * specified key in the data structure.
+   * @returns The method is returning a boolean value.
+   */
   put(key: K, value: V): boolean {
     return this.set(key, value);
   }
@@ -288,33 +318,70 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
  * 2. Based on Hash Table and Linked List: It combines the structures of a hash table and a linked list, using the hash table to ensure fast access, while maintaining the order of entries through the linked list.
  * 3. Time Complexity: Similar to HashMap, LinkedHashMap offers constant-time performance for get and put operations in most cases.
  */
-export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
+export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, V> {
   protected _noObjMap: Record<string, HashMapLinkedNode<K, V | undefined>> = {};
   protected _objMap = new WeakMap<object, HashMapLinkedNode<K, V | undefined>>();
   protected _head: HashMapLinkedNode<K, V | undefined>;
   protected _tail: HashMapLinkedNode<K, V | undefined>;
   protected readonly _sentinel: HashMapLinkedNode<K, V | undefined>;
 
-  constructor(entries?: Iterable<[K, V]>, options?: LinkedHashMapOptions<K>) {
+  /**
+   * The constructor initializes a LinkedHashMap object with an optional raw collection and options.
+   * @param rawCollection - The `rawCollection` parameter is an iterable collection of elements. It is
+   * used to initialize the HashMapLinked instance with key-value pairs. Each element in the
+   * `rawCollection` is converted to a key-value pair using the `toEntryFn` function (if provided) and
+   * then added to the HashMap
+   * @param [options] - The `options` parameter is an optional object that can contain the following
+   * properties:
+   */
+  constructor(rawCollection: Iterable<R> = [], options?: LinkedHashMapOptions<K, V, R>) {
     super();
     this._sentinel = <HashMapLinkedNode<K, V>>{};
     this._sentinel.prev = this._sentinel.next = this._head = this._tail = this._sentinel;
 
     if (options) {
-      const { hashFn, objHashFn } = options;
+      const { hashFn, objHashFn, toEntryFn } = options;
       if (hashFn) this._hashFn = hashFn;
       if (objHashFn) this._objHashFn = objHashFn;
+
+      if (toEntryFn) {
+        this._toEntryFn = toEntryFn;
+      }
     }
 
-    if (entries) {
-      for (const el of entries) {
-        this.set(el[0], el[1]);
+    if (rawCollection) {
+      for (const el of rawCollection) {
+        const [key, value] = this.toEntryFn(el);
+        this.set(key, value);
       }
     }
   }
 
+  protected _toEntryFn: (rawElement: R) => [K, V] = (rawElement: R) => {
+    if (this.isEntry(rawElement)) {
+      // TODO, For performance optimization, it may be necessary to only inspect the first element traversed.
+      return rawElement;
+    } else {
+      throw new Error(
+        "If the provided rawCollection does not adhere to the [key, value] type format, the toEntryFn in the constructor's options parameter needs to specified."
+      );
+    }
+  };
+
+  /**
+   * The function returns the value of the _toEntryFn property.
+   * @returns The function being returned is `this._toEntryFn`.
+   */
+  get toEntryFn() {
+    return this._toEntryFn;
+  }
+
   protected _size = 0;
 
+  /**
+   * The function returns the size of an object.
+   * @returns The size of the object.
+   */
   get size() {
     return this._size;
   }
@@ -425,15 +492,29 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
     return true;
   }
 
-  setMany(entries: Iterable<[K, V]>): boolean[] {
+  /**
+   * The function `setMany` takes an iterable collection, converts each element into a key-value pair
+   * using a provided function, and sets each key-value pair in the current object, returning an array
+   * of booleans indicating the success of each set operation.
+   * @param rawCollection - The rawCollection parameter is an iterable collection of elements of type
+   * R.
+   * @returns The `setMany` function returns an array of booleans.
+   */
+  setMany(rawCollection: Iterable<R>): boolean[] {
     const results: boolean[] = [];
-    for (const entry of entries) {
-      const [key, value] = entry;
+    for (const rawEle of rawCollection) {
+      const [key, value] = this.toEntryFn(rawEle);
       results.push(this.set(key, value));
     }
     return results;
   }
 
+  /**
+   * The function checks if a given key exists in a map, using different logic depending on whether the
+   * key is a weak key or not.
+   * @param {K} key - The `key` parameter is the key that is being checked for existence in the map.
+   * @returns The method `has` is returning a boolean value.
+   */
   override has(key: K): boolean {
     if (isWeakKey(key)) {
       const hash = this._objHashFn(key);
@@ -532,7 +613,7 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the index.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
    * The `deleteAt` function deletes a node at a specified index in a linked list.
@@ -562,6 +643,16 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
   }
 
   /**
+   * The function checks if a given element is an array with exactly two elements.
+   * @param {any} rawElement - The `rawElement` parameter is of type `any`, which means it can be any
+   * data type.
+   * @returns a boolean value.
+   */
+  isEntry(rawElement: any): rawElement is [K, V] {
+    return Array.isArray(rawElement) && rawElement.length === 2;
+  }
+
+  /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
@@ -573,6 +664,20 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
     this._head = this._tail = this._sentinel.prev = this._sentinel.next = this._sentinel;
   }
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `clone` function creates a new instance of a `LinkedHashMap` with the same key-value pairs as
+   * the original.
+   * @returns The `clone()` method is returning a new instance of `LinkedHashMap<K, V>` that is a clone
+   * of the original `LinkedHashMap` object.
+   */
   clone(): LinkedHashMap<K, V> {
     const cloned = new LinkedHashMap<K, V>([], { hashFn: this._hashFn, objHashFn: this._objHashFn });
     for (const entry of this) {
@@ -638,26 +743,33 @@ export class LinkedHashMap<K = any, V = any> extends IterableEntryBase<K, V> {
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The put function sets a value in a data structure using a specified key.
+   * @param {K} key - The key parameter is of type K, which represents the type of the key being passed
+   * to the function.
+   * @param {V} value - The value parameter represents the value that you want to associate with the
+   * specified key in the data structure.
+   * @returns The method is returning a boolean value.
+   */
   put(key: K, value: V): boolean {
     return this.set(key, value);
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   protected _hashFn: (key: K) => string = (key: K) => String(key);
 
   protected _objHashFn: (key: K) => object = (key: K) => <object>key;
 
   /**
-   * Time Complexity: O(n), where n is the number of entries in the LinkedHashMap.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
+   * where n is the number of entries in the LinkedHashMap.
    *
    * The above function is an iterator that yields key-value pairs from a linked list.
    */

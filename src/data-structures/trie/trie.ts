@@ -38,6 +38,12 @@ export class TrieNode {
  * 11. Text Word Frequency Count: Counting and storing the frequency of words in a large amount of text data."
  */
 export class Trie extends IterableElementBase<string> {
+  /**
+   * The constructor function for the Trie class.
+   * @param words: Iterable string Initialize the trie with a set of words
+   * @param options?: TrieOptions Allow the user to pass in options for the trie
+   * @return This
+   */
   constructor(words: Iterable<string> = [], options?: TrieOptions) {
     super();
     if (options) {
@@ -51,18 +57,31 @@ export class Trie extends IterableElementBase<string> {
 
   protected _size: number = 0;
 
+  /**
+   * The size function returns the size of the stack.
+   * @return The number of elements in the list
+   */
   get size(): number {
     return this._size;
   }
 
   protected _caseSensitive: boolean = true;
 
+  /**
+   * The caseSensitive function is a getter that returns the value of the private _caseSensitive property.
+   *
+   * @return The value of the _casesensitive private variable
+   */
   get caseSensitive(): boolean {
     return this._caseSensitive;
   }
 
   protected _root: TrieNode = new TrieNode('');
 
+  /**
+   * The root function returns the root node of the tree.
+   * @return The root node
+   */
   get root() {
     return this._root;
   }

@@ -25,7 +25,10 @@ export class SinglyLinkedListNode<E = any> {
 
 export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   /**
-   * The constructor initializes the linked list with an empty head, tail, and length.
+   * The constructor initializes a new instance of a class with an optional iterable of elements.
+   * @param elements - The `elements` parameter is an optional iterable object that contains the
+   * initial elements to be added to the instance of the class. If no `elements` are provided, an empty
+   * array will be used as the default value.
    */
   constructor(elements: Iterable<E> = []) {
     super();
@@ -36,30 +39,44 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
 
   protected _head: SinglyLinkedListNode<E> | undefined;
 
+  /**
+   * The `head` function returns the first node of a singly linked list.
+   * @returns The method is returning either a SinglyLinkedListNode object or undefined.
+   */
   get head(): SinglyLinkedListNode<E> | undefined {
     return this._head;
   }
 
   protected _tail: SinglyLinkedListNode<E> | undefined;
 
+  /**
+   * The `tail` function returns the last node of a singly linked list.
+   * @returns The method is returning either a SinglyLinkedListNode object or undefined.
+   */
   get tail(): SinglyLinkedListNode<E> | undefined {
     return this._tail;
   }
 
   protected _size: number = 0;
 
+  /**
+   * The function returns the size of an object.
+   * @returns The size of the object, which is a number.
+   */
   get size(): number {
     return this._size;
   }
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the input array, as it performs a loop to push each element into the linked list.
-   * Space Complexity: O(n) - Linear space, as it creates a new node for each element in the array.
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   * Linear time, where n is the length of the input array, as it performs a loop to push each element into the linked list.
+   * Linear space, as it creates a new node for each element in the array.
    */
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the input array, as it performs a loop to push each element into the linked list.
-   * Space Complexity: O(n) - Linear space, as it creates a new node for each element in the array.
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
    *
    * The `fromArray` function creates a new SinglyLinkedList instance and populates it with the elements from the given
    * array.
@@ -75,13 +92,15 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1) - Constant time, as it involves basic pointer adjustments.
-   * Space Complexity: O(1) - Constant space, as it only creates a new node.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   * Constant time, as it involves basic pointer adjustments.
+   * Constant space, as it only creates a new node.
    */
 
   /**
-   * Time Complexity: O(1) - Constant time, as it involves basic pointer adjustments.
-   * Space Complexity: O(1) - Constant space, as it only creates a new node.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    *
    * The `push` function adds a new node with the given value to the end of a singly linked list.
    * @param {E} value - The "value" parameter represents the value that you want to add to the linked list. It can be of
@@ -101,13 +120,13 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1) - Constant time, as it involves basic pointer adjustments.
-   * Space Complexity: O(1) - Constant space, as it only creates a new node.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(1) - Constant time, as it involves basic pointer adjustments.
-   * Space Complexity: O(1) - Constant space, as it only creates a new node.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    *
    * The `push` function adds a new node with the given value to the end of a singly linked list.
    * @param {E} value - The "value" parameter represents the value that you want to add to the linked list. It can be of
@@ -118,13 +137,14 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n) - Linear time in the worst case, as it may need to traverse the list to find the last element.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   * Linear time in the worst case, as it may need to traverse the list to find the last element.
    */
 
   /**
-   * Time Complexity: O(n) - Linear time in the worst case, as it may need to traverse the list to find the last element.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    *
    * The `pop()` function removes and returns the value of the last element in a linked list, updating the head and tail
    * pointers accordingly.
@@ -153,13 +173,13 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n) - Linear time in the worst case, as it may need to traverse the list to find the last element.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n) - Linear time in the worst case, as it may need to traverse the list to find the last element.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    *
    * The `pollLast()` function removes and returns the value of the last element in a linked list, updating the head and tail
    * pointers accordingly.
@@ -171,13 +191,13 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1) - Constant time, as it involves adjusting pointers at the head.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(1) - Constant time, as it involves adjusting pointers at the head.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    *
    * The `shift()` function removes and returns the value of the first node in a linked list.
    * @returns The value of the node that is being removed from the beginning of the linked list.
@@ -191,13 +211,13 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1) - Constant time, as it involves adjusting pointers at the head.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(1) - Constant time, as it involves adjusting pointers at the head.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    *
    * The `pollFirst()` function removes and returns the value of the first node in a linked list.
    * @returns The value of the node that is being removed from the beginning of the linked list.
@@ -207,13 +227,13 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1) - Constant time, as it involves adjusting pointers at the head.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(1) - Constant time, as it involves adjusting pointers at the head.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    *
    * The unshift function adds a new node with the given value to the beginning of a singly linked list.
    * @param {E} value - The parameter "value" represents the value of the new node that will be added to the beginning of the
@@ -233,13 +253,13 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1) - Constant time, as it involves adjusting pointers at the head.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(1) - Constant time, as it involves adjusting pointers at the head.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    *
    * The addFirst function adds a new node with the given value to the beginning of a singly linked list.
    * @param {E} value - The parameter "value" represents the value of the new node that will be added to the beginning of the
@@ -250,13 +270,14 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the index, as it may need to traverse the list to find the desired node.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   * Linear time, where n is the index, as it may need to traverse the list to find the desired node.
    */
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the index, as it may need to traverse the list to find the desired node.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    *
    * The function `at` returns the value at a specified index in a linked list, or undefined if the index is out of range.
    * @param {number} index - The index parameter is a number that represents the position of the element we want to
@@ -274,13 +295,13 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the index, as it may need to traverse the list to find the desired node.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the index, as it may need to traverse the list to find the desired node.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    *
    * The function `getNodeAt` returns the node at a given index in a singly linked list.
    * @param {number} index - The `index` parameter is a number that represents the position of the node we want to
@@ -297,13 +318,13 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the index, as it may need to traverse the list to find the desired node.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the index, as it may need to traverse the list to find the desired node.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    *
    * The `deleteAt` function removes an element at a specified index from a linked list and returns the removed element.
    * @param {number} index - The index parameter represents the position of the element that needs to be deleted in the
@@ -330,13 +351,13 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the index, as it may need to traverse the list to find the desired node.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the index, as it may need to traverse the list to find the desired node.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    *
    * The delete function removes a node with a specific value from a singly linked list.
    * @param {E | SinglyLinkedListNode<E>} valueOrNode - The `valueOrNode` parameter can accept either a value of type `E`
@@ -379,13 +400,13 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the index, as it may need to traverse the list to find the desired node.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the index, as it may need to traverse the list to find the desired node.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    *
    * The `addAt` function inserts a value at a specified index in a singly linked list.
    * @param {number} index - The index parameter represents the position at which the new value should be inserted in the
@@ -433,13 +454,15 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as it needs to traverse the entire list to convert it to an array.
-   * Space Complexity: O(n) - Linear space, as it creates an array with the same length as the list.
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   * Linear time, where n is the length of the list, as it needs to traverse the entire list to convert it to an array.
+   * Linear space, as it creates an array with the same length as the list.
    */
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as it needs to traverse the entire list to convert it to an array.
-   * Space Complexity: O(n) - Linear space, as it creates an array with the same length as the list.
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
    *
    * The `toArray` function converts a linked list into an array.
    * @returns The `toArray()` method is returning an array of type `E[]`.
@@ -455,13 +478,13 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as it needs to reverse the pointers of each node.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as it needs to reverse the pointers of each node.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    *
    * The `reverse` function reverses the order of the nodes in a singly linked list.
    * @returns The reverse() method does not return anything. It has a return type of void.
@@ -485,13 +508,13 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as it needs to reverse the pointers of each node.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as it needs to reverse the pointers of each node.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    *
    * The `indexOf` function returns the index of the first occurrence of a given value in a linked list.
    * @param {E} value - The value parameter is the value that you want to find the index of in the linked list.
@@ -514,13 +537,13 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as it needs to reverse the pointers of each node.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as it needs to reverse the pointers of each node.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    *
    * The function finds a node in a singly linked list by its value and returns the node if found, otherwise returns
    * undefined.
@@ -542,13 +565,13 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as it needs to reverse the pointers of each node.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as it needs to reverse the pointers of each node.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    *
    * The `addBefore` function inserts a new value before an existing value in a singly linked list.
    * @param {E | SinglyLinkedListNode<E>} existingValueOrNode - The existing value or node that you want to insert the
@@ -587,13 +610,13 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as it needs to reverse the pointers of each node.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as it needs to reverse the pointers of each node.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    *
    * The `addAfter` function inserts a new node with a given value after an existing node in a singly linked list.
    * @param {E | SinglyLinkedListNode<E>} existingValueOrNode - The existing value or node in the linked list after which
@@ -626,13 +649,13 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as it needs to reverse the pointers of each node.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n) - Linear time, where n is the length of the list, as it needs to reverse the pointers of each node.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    *
    * The function counts the number of occurrences of a given value in a linked list.
    * @param {E} value - The value parameter is the value that you want to count the occurrences of in the linked list.
@@ -733,6 +756,9 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
     return mappedList;
   }
 
+  /**
+   * The function `_getIterator` returns an iterable iterator that yields the values of a linked list.
+   */
   protected* _getIterator(): IterableIterator<E> {
     let current = this.head;
 
