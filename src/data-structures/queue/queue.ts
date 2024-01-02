@@ -32,12 +32,20 @@ export class Queue<E = any> extends IterableElementBase<E> {
 
   protected _elements: E[] = [];
 
+  /**
+   * The elements function returns the elements of this set.
+   * @return An array of the elements in the stack
+   */
   get elements(): E[] {
     return this._elements;
   }
 
   protected _offset: number = 0;
 
+  /**
+   * The offset function returns the offset of the current page.
+   * @return The value of the private variable _offset
+   */
   get offset(): number {
     return this._offset;
   }
@@ -219,7 +227,7 @@ export class Queue<E = any> extends IterableElementBase<E> {
    *
    * @param index
    */
-  getAt(index: number): E | undefined {
+  at(index: number): E | undefined {
     return this.elements[index];
   }
 
@@ -264,13 +272,14 @@ export class Queue<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n) - where n is the number of elements in the queue. It creates a shallow copy of the internal array.
-   * Space Complexity: O(n) - the space required is proportional to the number of elements in the queue.
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   * where n is the number of elements in the queue. It creates a shallow copy of the internal array. the space required is proportional to the number of elements in the queue.
    */
 
   /**
-   * Time Complexity: O(n) - where n is the number of elements in the queue. It creates a shallow copy of the internal array.
-   * Space Complexity: O(n) - the space required is proportional to the number of elements in the queue.
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
    *
    * The `clone()` function returns a new Queue object with the same elements as the original Queue.
    * @returns The `clone()` method is returning a new instance of the `Queue` class.
@@ -389,5 +398,22 @@ export class LinkedListQueue<E = any> extends SinglyLinkedList<E> {
    */
   peek(): E | undefined {
     return this.first;
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   * The `clone` function returns a new instance of the `LinkedListQueue` class with the same values as
+   * the current instance.
+   * @returns The `clone()` method is returning a new instance of `LinkedListQueue` with the same
+   * values as the original `LinkedListQueue`.
+   */
+  clone(): LinkedListQueue<E> {
+    return new LinkedListQueue<E>(this.values());
   }
 }

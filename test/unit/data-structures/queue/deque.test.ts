@@ -40,14 +40,14 @@ describe('Deque - Basic Operations', () => {
     expect(deque.isEmpty()).toBeTruthy();
   });
 
-  test('getAt should retrieve the correct element', () => {
-    expect(deque.getAt(0)).toBe(1);
-    expect(deque.getAt(1)).toBe(2);
+  test('at should retrieve the correct element', () => {
+    expect(deque.at(0)).toBe(1);
+    expect(deque.at(1)).toBe(2);
   });
 
   test('setAt should set the correct element', () => {
     deque.setAt(0, 3);
-    expect(deque.getAt(0)).toBe(3);
+    expect(deque.at(0)).toBe(3);
   });
 });
 describe('Deque - Complex Operations', () => {

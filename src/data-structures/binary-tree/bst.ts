@@ -151,14 +151,14 @@ export class BST<
   }
 
   /**
-   * The function `exemplarToNode` takes an keyOrNodeOrEntry and returns a node if the keyOrNodeOrEntry is valid,
+   * The function `keyValueOrEntryToNode` takes an keyOrNodeOrEntry and returns a node if the keyOrNodeOrEntry is valid,
    * otherwise it returns undefined.
    * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter is of type `KeyOrNodeOrEntry<K, V, N>`, where:
    * @param {V} [value] - The `value` parameter is an optional value that can be passed to the
-   * `exemplarToNode` function. It represents the value associated with the keyOrNodeOrEntry node.
+   * `keyValueOrEntryToNode` function. It represents the value associated with the keyOrNodeOrEntry node.
    * @returns a node of type N or undefined.
    */
-  override exemplarToNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>, value?: V): N | undefined {
+  override keyValueOrEntryToNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>, value?: V): N | undefined {
     let node: N | undefined;
     if (keyOrNodeOrEntry === null || keyOrNodeOrEntry === undefined) {
       return;
@@ -240,7 +240,7 @@ export class BST<
    * node was not added.
    */
   override add(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>, value?: V): boolean {
-    const newNode = this.exemplarToNode(keyOrNodeOrEntry, value);
+    const newNode = this.keyValueOrEntryToNode(keyOrNodeOrEntry, value);
     if (newNode === undefined) return false;
 
     if (this.root === undefined) {

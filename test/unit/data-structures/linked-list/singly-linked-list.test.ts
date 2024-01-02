@@ -72,14 +72,14 @@ describe('SinglyLinkedList Operation Test', () => {
       list.push(1);
       list.push(2);
       list.push(3);
-      const element = list.getAt(1);
+      const element = list.at(1);
       expect(element).toBe(2);
       expect(list.getNodeAt(2)?.value).toBe(3);
     });
 
     it('should return undefined for an out-of-bounds index', () => {
       list.push(1);
-      const element = list.getAt(1);
+      const element = list.at(1);
       expect(element).toBeUndefined();
     });
   });
@@ -327,6 +327,7 @@ describe('SinglyLinkedList Operation Test', () => {
       list.push(3);
       const result = list.find(data => data % 2 === 0);
       expect(result).toBe(2);
+      expect(list.find(value => value === 3)).toBe(3);
     });
 
     it('should return undefined if element is not found', () => {

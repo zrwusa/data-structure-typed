@@ -33,7 +33,10 @@ export class DoublyLinkedListNode<E = any> {
  */
 export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   /**
-   * The constructor initializes the linked list with an empty head, tail, and size.
+   * The constructor initializes a linked list with optional elements.
+   * @param elements - The `elements` parameter is an optional iterable object that contains the
+   * initial elements to be added to the data structure. It defaults to an empty array if no elements
+   * are provided.
    */
   constructor(elements: Iterable<E> = []) {
     super();
@@ -49,29 +52,43 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
 
   protected _head: DoublyLinkedListNode<E> | undefined;
 
+  /**
+   * The `head` function returns the first node of a doubly linked list.
+   * @returns The method `getHead()` returns either a `DoublyLinkedListNode<E>` object or `undefined`.
+   */
   get head(): DoublyLinkedListNode<E> | undefined {
     return this._head;
   }
 
   protected _tail: DoublyLinkedListNode<E> | undefined;
 
+  /**
+   * The `tail` function returns the last node of a doubly linked list.
+   * @returns The `get tail()` method is returning either a `DoublyLinkedListNode<E>` object or
+   * `undefined`.
+   */
   get tail(): DoublyLinkedListNode<E> | undefined {
     return this._tail;
   }
 
   protected _size: number;
 
+  /**
+   * The function returns the size of an object.
+   * @returns The size of the object, which is a number.
+   */
   get size(): number {
     return this._size;
   }
 
   /**
-   * Time Complexity: O(n), where n is the size of the input array.
+   * Time Complexity: O(n)
    * Space Complexity: O(n)
+   * where n is the number of elements in the linked list.
    */
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
    * The `get first` function returns the first node in a doubly linked list, or undefined if the list is empty.
@@ -87,7 +104,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    */
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
    * The `get last` function returns the last node in a doubly linked list, or undefined if the list is empty.
@@ -112,11 +129,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    * @returns The `fromArray` function returns a DoublyLinkedList object.
    */
   static fromArray<E>(data: E[]) {
-    const doublyLinkedList = new DoublyLinkedList<E>();
-    for (const item of data) {
-      doublyLinkedList.push(item);
-    }
-    return doublyLinkedList;
+    return new DoublyLinkedList<E>(data);
   }
 
   /**
@@ -173,7 +186,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    */
 
@@ -200,7 +213,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    */
 
@@ -227,21 +240,21 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
-   * The `getAt` function returns the value at a specified index in a linked list, or undefined if the index is out of bounds.
+   * The `at` function returns the value at a specified index in a linked list, or undefined if the index is out of bounds.
    * @param {number} index - The index parameter is a number that represents the position of the element we want to
    * retrieve from the list.
    * @returns The method is returning the value at the specified index in the linked list. If the index is out of bounds
    * or the linked list is empty, it will return undefined.
    */
-  getAt(index: number): E | undefined {
+  at(index: number): E | undefined {
     if (index < 0 || index >= this.size) return undefined;
     let current = this.head;
     for (let i = 0; i < index; i++) {
@@ -251,12 +264,12 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
    * The function `getNodeAt` returns the node at a given index in a doubly linked list, or undefined if the index is out of
@@ -276,12 +289,12 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
    * The function `findNodeByValue` searches for a node with a specific value in a doubly linked list and returns the
@@ -304,12 +317,12 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
    * The `insert` function inserts a value at a specified index in a doubly linked list.
@@ -343,12 +356,13 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
+   * where n is the number of elements in the linked list.
    */
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
    * The `addBefore` function inserts a new value before an existing value or node in a doubly linked list.
@@ -388,12 +402,12 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
    * The `addAfter` function inserts a new node with a given value after an existing node in a doubly linked list.
@@ -432,7 +446,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
    * The `deleteAt` function removes an element at a specified index from a linked list and returns the removed element.
@@ -462,7 +476,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
    * The `delete` function removes a node from a doubly linked list based on either the node itself or its value.
@@ -498,7 +512,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(1)
    * Space Complexity: O(1)
    */
 
@@ -511,7 +525,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(1)
    * Space Complexity: O(1)
    */
 
@@ -525,38 +539,12 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
-   * Space Complexity: O(1)
-   *
-   * The `find` function iterates through a linked list and returns the first element that satisfies a given condition.
-   * @param callback - A function that takes a value of type E as its parameter and returns a boolean value. This
-   * function is used to determine whether a particular value in the linked list satisfies a certain condition.
-   * @returns The method `find` returns the first element in the linked list that satisfies the condition specified by
-   * the callback function. If no element satisfies the condition, it returns `undefined`.
-   */
-  find(callback: (value: E) => boolean): E | undefined {
-    let current = this.head;
-    while (current) {
-      if (callback(current.value)) {
-        return current.value;
-      }
-      current = current.next;
-    }
-    return undefined;
-  }
-
-  /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
    * The function returns the index of the first occurrence of a given value in a linked list.
@@ -579,12 +567,12 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(n)
    */
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
    * The `findBackward` function iterates through a linked list from the last node to the first node and returns the last
@@ -606,12 +594,12 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(n)
    */
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
    * The `reverse` function reverses the order of the elements in a doubly linked list.
@@ -633,7 +621,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    */
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
    * The `toArray` function converts a linked list into an array.
@@ -650,12 +638,12 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(n)
    */
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
    * The `toReversedArray` function converts a doubly linked list into an array in reverse order.
@@ -669,6 +657,24 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
       current = current.prev;
     }
     return array;
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `clone` function creates a new instance of the `DoublyLinkedList` class with the same values
+   * as the original list.
+   * @returns The `clone()` method is returning a new instance of the `DoublyLinkedList` class, which
+   * is a copy of the original list.
+   */
+  clone(): DoublyLinkedList<E> {
+    return new DoublyLinkedList(this.values());
   }
 
   /**
@@ -772,7 +778,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    */
 
@@ -789,7 +795,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    */
 

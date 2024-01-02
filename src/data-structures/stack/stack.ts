@@ -32,6 +32,10 @@ export class Stack<E = any> extends IterableElementBase<E> {
 
   protected _elements: E[] = [];
 
+  /**
+   * The elements function returns the elements of this set.
+   * @return An array of elements
+   */
   get elements(): E[] {
     return this._elements;
   }

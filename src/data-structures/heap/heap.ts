@@ -21,6 +21,16 @@ import { IterableElementBase } from '../base';
  * 8. Graph Algorithms: Such as Dijkstra's shortest path algorithm and Prim's minimum spanning tree algorithm, which use heaps to improve performance.
  */
 export class Heap<E = any> extends IterableElementBase<E> {
+  /**
+   * The constructor initializes a heap data structure with optional elements and options.
+   * @param elements - The `elements` parameter is an iterable object that contains the initial
+   * elements to be added to the heap. It is an optional parameter and if not provided, the heap will
+   * be initialized as empty.
+   * @param [options] - The `options` parameter is an optional object that can contain additional
+   * configuration options for the heap. In this case, it is used to specify a custom comparator
+   * function for comparing elements in the heap. The comparator function is used to determine the
+   * order of elements in the heap.
+   */
   constructor(elements: Iterable<E> = [], options?: HeapOptions<E>) {
     super();
 
@@ -45,12 +55,20 @@ export class Heap<E = any> extends IterableElementBase<E> {
     }
   };
 
+  /**
+   * The function returns the value of the _comparator property.
+   * @returns The `_comparator` property is being returned.
+   */
   get comparator() {
     return this._comparator;
   }
 
   protected _elements: E[] = [];
 
+  /**
+   * The function returns an array of elements.
+   * @returns The elements array is being returned.
+   */
   get elements(): E[] {
     return this._elements;
   }
@@ -81,12 +99,13 @@ export class Heap<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(log n), where n is the number of elements in the heap.
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
+   * where n is the number of elements in the heap.
    */
 
   /**
-   * Time Complexity: O(log n), where n is the number of elements in the heap.
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
    * Insert an element into the heap and maintain the heap properties.
@@ -98,12 +117,13 @@ export class Heap<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(log n), where n is the number of elements in the heap.
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
+   * where n is the number of elements in the heap.
    */
 
   /**
-   * Time Complexity: O(log n), where n is the number of elements in the heap.
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
    * Remove and return the top element (smallest or largest element) from the heap.
@@ -121,6 +141,9 @@ export class Heap<E = any> extends IterableElementBase<E> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * Peek at the top element of the heap without removing it.
    * @returns The top element or undefined if the heap is empty.
    */
@@ -391,6 +414,9 @@ export class Heap<E = any> extends IterableElementBase<E> {
     return mappedHeap;
   }
 
+  /**
+   * The function `_getIterator` returns an iterable iterator for the elements in the class.
+   */
   protected* _getIterator(): IterableIterator<E> {
     for (const element of this.elements) {
       yield element;
@@ -458,6 +484,16 @@ export class FibonacciHeapNode<E> {
   parent?: FibonacciHeapNode<E>;
   marked: boolean;
 
+  /**
+   * The constructor function initializes an object with an element and a degree, and sets the marked
+   * property to false.
+   * @param {E} element - The "element" parameter represents the value or data that will be stored in
+   * the node of a data structure. It can be any type of data, such as a number, string, object, or
+   * even another data structure.
+   * @param [degree=0] - The degree parameter represents the degree of the element in a data structure
+   * called a Fibonacci heap. The degree of a node is the number of children it has. By default, the
+   * degree is set to 0 when a new node is created.
+   */
   constructor(element: E, degree = 0) {
     this.element = element;
     this.degree = degree;
@@ -466,6 +502,13 @@ export class FibonacciHeapNode<E> {
 }
 
 export class FibonacciHeap<E> {
+  /**
+   * The constructor function initializes a FibonacciHeap object with an optional comparator function.
+   * @param [comparator] - The `comparator` parameter is an optional argument that represents a
+   * function used to compare elements in the FibonacciHeap. If a comparator function is provided, it
+   * will be used to determine the order of elements in the heap. If no comparator function is
+   * provided, a default comparator function will be used.
+   */
   constructor(comparator?: Comparator<E>) {
     this.clear();
     this._comparator = comparator || this._defaultComparator;
@@ -477,24 +520,41 @@ export class FibonacciHeap<E> {
 
   protected _root?: FibonacciHeapNode<E>;
 
+  /**
+   * The function returns the root node of a Fibonacci heap.
+   * @returns The method is returning either a FibonacciHeapNode object or undefined.
+   */
   get root(): FibonacciHeapNode<E> | undefined {
     return this._root;
   }
 
   protected _size = 0;
 
+  /**
+   * The function returns the size of an object.
+   * @returns The size of the object, which is a number.
+   */
   get size(): number {
     return this._size;
   }
 
   protected _min?: FibonacciHeapNode<E>;
 
+  /**
+   * The function returns the minimum node in a Fibonacci heap.
+   * @returns The method is returning the minimum node of the Fibonacci heap, which is of type
+   * `FibonacciHeapNode<E>`. If there is no minimum node, it will return `undefined`.
+   */
   get min(): FibonacciHeapNode<E> | undefined {
     return this._min;
   }
 
   protected _comparator: Comparator<E>;
 
+  /**
+   * The function returns the comparator used for comparing elements.
+   * @returns The `_comparator` property of the object.
+   */
   get comparator(): Comparator<E> {
     return this._comparator;
   }
@@ -808,12 +868,12 @@ export class FibonacciHeap<E> {
   }
 
   /**
-   * Time Complexity: O(n log n), where n is the number of elements in the heap.
+   * Time Complexity: O(n log n)
    * Space Complexity: O(n)
    */
 
   /**
-   * Time Complexity: O(n log n), where n is the number of elements in the heap.
+   * Time Complexity: O(n log n)
    * Space Complexity: O(n)
    *
    * Remove and return the top element (smallest or largest element) from the heap.

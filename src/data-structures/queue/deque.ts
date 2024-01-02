@@ -24,6 +24,17 @@ export class Deque<E> extends IterableElementBase<E> {
   protected _bucketCount = 0;
   protected readonly _bucketSize: number = 1 << 12;
 
+  /**
+   * The constructor initializes a Deque object with an optional iterable of elements and options.
+   * @param elements - An iterable object (such as an array or a Set) that contains the initial
+   * elements to be added to the deque. It can also be an object with a `length` or `size` property
+   * that represents the number of elements in the iterable object. If no elements are provided, an
+   * empty deque
+   * @param {DequeOptions} [options] - The `options` parameter is an optional object that can contain
+   * configuration options for the deque. In this code, it is used to set the `bucketSize` option,
+   * which determines the size of each bucket in the deque. If the `bucketSize` option is not provided
+   * or is not a number
+   */
   constructor(elements: IterableWithSizeOrLength<E> = [], options?: DequeOptions) {
     super();
 
@@ -54,14 +65,32 @@ export class Deque<E> extends IterableElementBase<E> {
     }
   }
 
+  /**
+   * The bucketSize function returns the size of the bucket.
+   *
+   * @return The size of the bucket
+   */
+  get bucketSize() {
+    return this._bucketSize;
+  }
+
   protected _buckets: E[][] = [];
 
+  /**
+   * The buckets function returns the buckets property of the object.
+   *
+   * @return The buckets property
+   */
   get buckets() {
     return this._buckets;
   }
 
   protected _size = 0;
 
+  /**
+   * The size function returns the number of items in the stack.
+   * @return The number of values in the set
+   */
   get size() {
     return this._size;
   }
@@ -76,6 +105,10 @@ export class Deque<E> extends IterableElementBase<E> {
     return this._buckets[this._bucketFirst][this._firstInBucket];
   }
 
+  /**
+   * The last function returns the last element in the queue.
+   * @return The last element in the array
+   */
   get last(): E | undefined {
     if (this.size === 0) return;
     return this._buckets[this._bucketLast][this._lastInBucket];
@@ -235,7 +268,7 @@ export class Deque<E> extends IterableElementBase<E> {
   * begin(): Generator<E> {
     let index = 0;
     while (index < this.size) {
-      yield this.getAt(index);
+      yield this.at(index);
       index++;
     }
   }
@@ -247,7 +280,7 @@ export class Deque<E> extends IterableElementBase<E> {
   * reverseBegin(): Generator<E> {
     let index = this.size - 1;
     while (index >= 0) {
-      yield this.getAt(index);
+      yield this.at(index);
       index--;
     }
   }
@@ -261,13 +294,13 @@ export class Deque<E> extends IterableElementBase<E> {
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The `getAt` function retrieves an element at a specified position in an array-like data structure.
+   * The `at` function retrieves an element at a specified position in an array-like data structure.
    * @param {number} pos - The `pos` parameter represents the position of the element that you want to
    * retrieve from the data structure. It is of type `number` and should be a valid index within the
    * range of the data structure.
    * @returns The element at the specified position in the data structure is being returned.
    */
-  getAt(pos: number): E {
+  at(pos: number): E {
     rangeCheck(pos, 0, this.size - 1);
     const { bucketIndex, indexInBucket } = this._getBucketAndPosition(pos);
     return this._buckets[bucketIndex][indexInBucket]!;
@@ -325,7 +358,7 @@ export class Deque<E> extends IterableElementBase<E> {
     } else {
       const arr: E[] = [];
       for (let i = pos; i < this.size; ++i) {
-        arr.push(this.getAt(i));
+        arr.push(this.at(i));
       }
       this.cut(pos - 1);
       for (let i = 0; i < num; ++i) this.push(element);
@@ -416,7 +449,7 @@ export class Deque<E> extends IterableElementBase<E> {
     let i = 0;
     let index = 0;
     while (i < size) {
-      const oldElement = this.getAt(i);
+      const oldElement = this.at(i);
       if (oldElement !== element) {
         this.setAt(index, oldElement!);
         index += 1;
@@ -471,9 +504,9 @@ export class Deque<E> extends IterableElementBase<E> {
       return this;
     }
     let index = 1;
-    let prev = this.getAt(0);
+    let prev = this.at(0);
     for (let i = 1; i < this.size; ++i) {
-      const cur = this.getAt(i);
+      const cur = this.at(i);
       if (cur !== prev) {
         prev = cur;
         this.setAt(index++, cur);
@@ -501,7 +534,7 @@ export class Deque<E> extends IterableElementBase<E> {
   sort(comparator?: (x: E, y: E) => number): this {
     const arr: E[] = [];
     for (let i = 0; i < this.size; ++i) {
-      arr.push(this.getAt(i));
+      arr.push(this.at(i));
     }
     arr.sort(comparator);
     for (let i = 0; i < this.size; ++i) {
@@ -554,32 +587,6 @@ export class Deque<E> extends IterableElementBase<E> {
    * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
-   * The `find` function iterates over the elements in a deque and returns the first element for which
-   * the callback function returns true, or undefined if no such element is found.
-   * @param callback - A function that takes three parameters: element, index, and deque. It should
-   * return a boolean value indicating whether the element satisfies a certain condition.
-   * @returns The method `find` returns the first element in the deque that satisfies the condition
-   * specified by the callback function. If no element satisfies the condition, it returns `undefined`.
-   */
-  find(callback: (element: E, index: number, deque: Deque<E>) => boolean): E | undefined {
-    for (let i = 0; i < this.size; ++i) {
-      const element = this.getAt(i);
-      if (callback(element, i, this)) {
-        return element;
-      }
-    }
-    return;
-  }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
    * The function "indexOf" returns the index of the first occurrence of a given element in an array,
    * or -1 if the element is not found.
    * @param {E} element - The "element" parameter represents the element that you want to find the
@@ -589,7 +596,7 @@ export class Deque<E> extends IterableElementBase<E> {
    */
   indexOf(element: E): number {
     for (let i = 0; i < this.size; ++i) {
-      if (this.getAt(i) === element) {
+      if (this.at(i) === element) {
         return i;
       }
     }
@@ -616,6 +623,25 @@ export class Deque<E> extends IterableElementBase<E> {
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `clone()` function returns a new instance of the `Deque` class with the same elements and
+   * bucket size as the original instance.
+   * @returns The `clone()` method is returning a new instance of the `Deque` class with the same
+   * elements as the original deque (`this`) and the same bucket size.
+   */
+  clone(): Deque<E> {
+    return new Deque<E>([...this], { bucketSize: this.bucketSize });
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
@@ -737,7 +763,7 @@ export class Deque<E> extends IterableElementBase<E> {
    */
   protected* _getIterator(): IterableIterator<E> {
     for (let i = 0; i < this.size; ++i) {
-      yield this.getAt(i);
+      yield this.at(i);
     }
   }
 
