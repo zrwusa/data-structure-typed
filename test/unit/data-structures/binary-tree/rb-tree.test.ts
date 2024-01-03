@@ -138,9 +138,46 @@ describe('RedBlackTree', () => {
       expect(predecessorNode).toBe(tree.getNode(10));
     });
   });
+
+  it('should the clone method', () => {
+    function checkTreeStructure(rbTree: RedBlackTree<string, number>) {
+      expect(rbTree.size).toBe(4);
+      expect(rbTree.root?.key).toBe('2');
+      expect(rbTree.root?.left?.key).toBe('1');
+      expect(rbTree.root?.left?.left?.key).toBe(NaN);
+      expect(rbTree.root?.left?.right?.key).toBe(NaN);
+      expect(rbTree.root?.right?.key).toBe('4');
+      expect(rbTree.root?.right?.left?.key).toBe(NaN);
+      expect(rbTree.root?.right?.right?.key).toBe('5');
+    }
+
+    const rbTree = new RedBlackTree<string, number>();
+    rbTree.addMany([
+      ['2', 2],
+      ['4', 4],
+      ['5', 5],
+      ['3', 3],
+      ['1', 1]
+    ]);
+    expect(rbTree.size).toBe(5);
+    expect(rbTree.root?.key).toBe('2');
+    expect(rbTree.root?.left?.key).toBe('1');
+    expect(rbTree.root?.left?.left?.key).toBe(NaN);
+    expect(rbTree.root?.left?.right?.key).toBe(NaN);
+    expect(rbTree.root?.right?.key).toBe('4');
+    expect(rbTree.root?.right?.left?.key).toBe('3');
+    expect(rbTree.root?.right?.right?.key).toBe('5');
+    rbTree.delete('3');
+    checkTreeStructure(rbTree);
+    const cloned = rbTree.clone();
+    checkTreeStructure(cloned);
+    cloned.delete('1');
+    expect(rbTree.size).toBe(4);
+    expect(cloned.size).toBe(3);
+  });
 });
 
-describe('RedBlackTree', () => {
+describe('RedBlackTree 2', () => {
   let tree: RedBlackTree<number>;
 
   beforeEach(() => {

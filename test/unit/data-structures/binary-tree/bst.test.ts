@@ -795,6 +795,70 @@ describe('BST operations test recursively', () => {
     expect(bfsNodes[1].key).toBe(12);
     expect(bfsNodes[2].key).toBe(16);
   });
+
+  it('should delete', () => {
+    const numBST = new BST<number>();
+    numBST.addMany([2, 4, 5, 3, 1]);
+    expect(numBST.size).toBe(5);
+    numBST.delete(1);
+    expect(numBST.size).toBe(4);
+
+    numBST.delete(2);
+    numBST.delete(3);
+    numBST.delete(4);
+    numBST.delete(5);
+    expect(numBST.size).toBe(0);
+    numBST.delete(5);
+    expect(numBST.size).toBe(0);
+  });
+
+  it('should the clone method', () => {
+    function checkTreeStructure(bst: BST<string, number>) {
+      expect(bst.size).toBe(4);
+      expect(bst.root?.key).toBe('2');
+      expect(bst.root?.left?.key).toBe('1');
+      expect(bst.root?.left?.left?.key).toBe(undefined);
+      expect(bst.root?.left?.right?.key).toBe(undefined);
+      expect(bst.root?.right?.key).toBe('4');
+      expect(bst.root?.right?.left?.key).toBe(undefined);
+      expect(bst.root?.right?.right?.key).toBe('5');
+    }
+
+    const bst = new BST<string, number>();
+    bst.addMany([
+      ['2', 2],
+      ['4', 4],
+      ['5', 5],
+      ['3', 3],
+      ['1', 1]
+    ]);
+    expect(bst.size).toBe(5);
+    expect(bst.root?.key).toBe('3');
+    expect(bst.root?.left?.key).toBe('1');
+    expect(bst.root?.left?.left?.key).toBe(undefined);
+    expect(bst.root?.left?.right?.key).toBe('2');
+    expect(bst.root?.right?.key).toBe('4');
+    expect(bst.root?.right?.left?.key).toBe(undefined);
+    expect(bst.root?.right?.right?.key).toBe('5');
+    bst.delete('3');
+    checkTreeStructure(bst);
+    const cloned = bst.clone();
+    checkTreeStructure(cloned);
+    bst.delete('2');
+    bst.delete('1');
+    bst.delete('4');
+    bst.delete('5');
+    expect(bst.size).toBe(0);
+
+    cloned.delete('1');
+    expect(bst.size).toBe(0);
+    expect(cloned.size).toBe(3);
+    cloned.delete('2');
+    cloned.delete('3');
+    cloned.delete('4');
+    cloned.delete('5');
+    expect(cloned.size).toBe(0);
+  });
 });
 
 describe('BST isBST', function () {
@@ -865,7 +929,7 @@ describe('BST Performance test', function () {
     // expect(bst.lastKey()).toBe(9);
   });
 
-  it('should subTreeTraverse, null should be ignored', () => {
+  it('should dfs as sub tree traversal, null should be ignored', () => {
     const bst = new BST();
     bst.addMany([4, 2, 6, 1, 3, 5, 7]);
     expect(bst.dfs(node => node.key, 'pre', bst.getNode(6), IterationType.ITERATIVE)).toEqual([6, 5, 7]);

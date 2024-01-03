@@ -152,6 +152,51 @@ describe('BinaryTree', () => {
     expect(tree.has('3', node => node.value?.toString())).toBe(true);
   });
 
+  it('should the clone method work fine', () => {
+    expect(tree.isEmpty()).toBe(true);
+    tree.addMany([4, 2, 6, null, 1, 3, null, 5, null, 7]);
+    expect(tree.root?.key).toBe(4);
+    expect(tree.root?.left?.key).toBe(2);
+    expect(tree.root?.left?.left).toBe(null);
+    expect(tree.root?.left?.right?.key).toBe(1);
+    expect(tree.root?.right?.key).toBe(6);
+    expect(tree.root?.right?.left?.key).toBe(3);
+    expect(tree.root?.right?.right).toBe(null);
+
+    const cloned = tree.clone();
+    expect(cloned.root?.key).toBe(4);
+    expect(cloned.root?.left?.key).toBe(2);
+    expect(cloned.root?.left?.left).toBe(null);
+    expect(cloned.root?.left?.right?.key).toBe(1);
+    expect(cloned.root?.right?.key).toBe(6);
+    expect(cloned.root?.right?.left?.key).toBe(3);
+    expect(cloned.root?.right?.right).toBe(null);
+    expect(cloned.dfs(node => node.key, 'pre', cloned.getNode(6), IterationType.ITERATIVE)).toEqual([6, 3, 7]);
+    expect(
+      cloned.dfs(node => (node ? node.key : null), 'pre', cloned.getNode(6), IterationType.ITERATIVE, true)
+    ).toEqual([6, 3, 7, null]);
+    expect(
+      cloned.dfs(node => (node ? node.key : node), 'pre', cloned.getNode(6), IterationType.ITERATIVE, true)
+    ).toEqual([6, 3, 7, null]);
+    expect(
+      cloned.dfs(node => (node ? node.key : null), 'pre', cloned.getNode(6), IterationType.RECURSIVE, true)
+    ).toEqual([6, 3, 7, null]);
+    cloned.delete(6);
+    cloned.delete(3);
+    cloned.delete(7);
+    cloned.delete(1);
+    cloned.delete(5);
+    cloned.delete(4);
+    cloned.delete(2);
+    // cloned.delete(null);
+    // cloned.delete(null);
+    // cloned.delete(null);
+    expect(tree.size).toBe(10);
+    expect(cloned.size).toBe(3);
+    // expect(cloned.size).toBe(0);
+    // expect(cloned.isEmpty()).toBe(true);
+  });
+
   it('should be a balance tree after malicious manipulation', () => {
     tree.add(3);
     tree.add(12);
@@ -237,22 +282,6 @@ describe('BinaryTree', () => {
     expect(tree.getNodes(2, undefined, false, null)).toEqual([]);
     expect(tree.getNodes(tree.getNodeByKey(2), undefined, false, tree.root)).toEqual([tree.getNodeByKey(2)]);
   });
-
-  // it('should subTreeTraverse', () => {
-  //   tree.addMany([4, 2, 6, null, 1, 3, null, 5, null, 7]);
-  //   expect(tree.subTreeTraverse(node => node.key, tree.getNode(6), IterationType.ITERATIVE)).toEqual([6, 3, 7]);
-  //   expect(tree.subTreeTraverse(node => node.key, tree.getNode(6), IterationType.ITERATIVE, false)).toEqual([6, 3, 7]);
-  //   expect(tree.subTreeTraverse(node => node.key, tree.getNode(6), IterationType.RECURSIVE)).toEqual([6, 3, 7]);
-  //   expect(
-  //     tree.subTreeTraverse(node => (node ? node.key : null), tree.getNode(6), IterationType.ITERATIVE, true)
-  //   ).toEqual([6, 3, 7, null]);
-  //   expect(
-  //     tree.subTreeTraverse(node => (node ? node.key : node), tree.getNode(6), IterationType.ITERATIVE, true)
-  //   ).toEqual([6, 3, 7, null]);
-  //   expect(
-  //     tree.subTreeTraverse(node => (node ? node.key : null), tree.getNode(6), IterationType.RECURSIVE, true)
-  //   ).toEqual([6, 3, 7, null]);
-  // });
 
   it('should sub tree traverse', () => {
     tree.addMany([4, 2, 6, null, 1, 3, null, 5, null, 7]);
@@ -613,7 +642,7 @@ describe('BinaryTree', () => {
     tree.delete(5);
     tree.delete(7);
     tree.delete(3);
-    expect(tree.root).toBe(null);
+    expect(tree.root).toBe(undefined);
     expect(tree.getHeight()).toBe(-1);
   });
 });

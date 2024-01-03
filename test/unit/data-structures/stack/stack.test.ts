@@ -35,6 +35,23 @@ describe('Stack', () => {
     expect(stack.size).toBe(2);
   });
 
+  it('should clone', function () {
+    const stack = new Stack<string>();
+    stack.push('1');
+    stack.push('6');
+    stack.push('2');
+    stack.push('0');
+    stack.push('5');
+    stack.push('9');
+    stack.delete('2');
+    expect([...stack]).toEqual(['1', '6', '0', '5', '9']);
+    const cloned = stack.clone();
+    expect([...cloned]).toEqual(['1', '6', '0', '5', '9']);
+    stack.delete('5');
+    expect([...stack]).toEqual(['1', '6', '0', '9']);
+    expect([...cloned]).toEqual(['1', '6', '0', '5', '9']);
+  });
+
   it('should return undefined when popping from an empty stack', () => {
     const poppedElement = stack.pop();
     expect(poppedElement).toBe(undefined);

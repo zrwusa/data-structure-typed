@@ -85,6 +85,29 @@ describe('HashMap', () => {
     // expect(hashMap.table[0].length).toBe(2);
   });
 
+  it('should clone', () => {
+    hashMap = new HashMap<string, number>();
+
+    hashMap.set('one', 1);
+    hashMap.set('two', 2);
+    for (let i = 3; i <= 100; i++) {
+      hashMap.set(i.toString(), i);
+    }
+
+    expect(hashMap.get('one')).toBe(1);
+    expect(hashMap.get('two')).toBe(2);
+    expect(hashMap.get('86')).toBe(86);
+    expect(hashMap.size).toBe(100);
+    hashMap.delete('two');
+    expect(hashMap.size).toBe(99);
+
+    const cloned = hashMap.clone();
+    expect(cloned.get('one')).toBe(1);
+    expect(cloned.get('two')).toBe(undefined);
+    expect(cloned.get('86')).toBe(86);
+    expect(cloned.size).toBe(99);
+  });
+
   describe('HashMap Test2', () => {
     let hashMap: HashMap;
 

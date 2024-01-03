@@ -37,7 +37,7 @@ export class TrieNode {
  * 10. IP Routing: Used in certain types of IP routing algorithms.
  * 11. Text Word Frequency Count: Counting and storing the frequency of words in a large amount of text data."
  */
-export class Trie extends IterableElementBase<string> {
+export class Trie extends IterableElementBase<string, Trie> {
   /**
    * The constructor function for the Trie class.
    * @param words: Iterable string Initialize the trie with a set of words
@@ -141,6 +141,14 @@ export class Trie extends IterableElementBase<string> {
       cur = nodeC;
     }
     return cur.isEnd;
+  }
+
+  /**
+   * The isEmpty function checks if the size of the queue is 0.
+   * @return True if the size of the queue is 0
+   */
+  isEmpty(): boolean {
+    return this.size === 0;
   }
 
   /**

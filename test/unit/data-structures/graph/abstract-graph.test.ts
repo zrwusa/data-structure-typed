@@ -77,6 +77,14 @@ class MyGraph<
     return true;
   }
 
+  isEmpty(): boolean {
+    return true;
+  }
+
+  clone(): any {
+    return {};
+  }
+
   protected _addEdge(edge: EO): boolean {
     return edge ? true : true;
   }

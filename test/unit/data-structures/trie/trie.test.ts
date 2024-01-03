@@ -56,6 +56,23 @@ describe('Trie', () => {
     expect(trie.hasPrefix('banana')).toBe(false);
   });
 
+  it('should clone', function () {
+    const trie = new Trie();
+    trie.add('1');
+    trie.add('6');
+    trie.add('2');
+    trie.add('0');
+    trie.add('5');
+    trie.add('9');
+    trie.delete('2');
+    expect([...trie]).toEqual(['1', '6', '0', '5', '9']);
+    const cloned = trie.clone();
+    expect([...cloned]).toEqual(['1', '6', '0', '5', '9']);
+    trie.delete('5');
+    expect([...trie]).toEqual(['1', '6', '0', '9']);
+    expect([...cloned]).toEqual(['1', '6', '0', '5', '9']);
+  });
+
   it('should check if a string is a common prefix', () => {
     const trie = new Trie();
     trie.add('apple');

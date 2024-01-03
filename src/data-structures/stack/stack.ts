@@ -130,6 +130,26 @@ export class Stack<E = any> extends IterableElementBase<E> {
   }
 
   /**
+   * The delete function removes an element from the stack.
+   * @param element: E Specify the element to be deleted
+   * @return A boolean value indicating whether the element was successfully deleted or not
+   */
+  delete(element: E): boolean {
+    const index = this.elements.indexOf(element);
+    return this.deleteAt(index);
+  }
+
+  /**
+   * The deleteAt function deletes the element at a given index.
+   * @param index: number Determine the index of the element to be deleted
+   * @return A boolean value
+   */
+  deleteAt(index: number): boolean {
+    const spliced = this.elements.splice(index, 1);
+    return spliced.length === 1;
+  }
+
+  /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    */

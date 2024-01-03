@@ -21,8 +21,8 @@ import { AVLTree, AVLTreeNode } from './avl-tree';
 export class TreeMultimapNode<
   K = any,
   V = any,
-  N extends TreeMultimapNode<K, V, N> = TreeMultimapNodeNested<K, V>
-> extends AVLTreeNode<K, V, N> {
+  NODE extends TreeMultimapNode<K, V, NODE> = TreeMultimapNodeNested<K, V>
+> extends AVLTreeNode<K, V, NODE> {
   count: number;
 
   /**
@@ -47,12 +47,12 @@ export class TreeMultimapNode<
 export class TreeMultimap<
   K = any,
   V = any,
-  N extends TreeMultimapNode<K, V, N> = TreeMultimapNode<K, V, TreeMultimapNodeNested<K, V>>,
-  TREE extends TreeMultimap<K, V, N, TREE> = TreeMultimap<K, V, N, TreeMultimapNested<K, V, N>>
+  NODE extends TreeMultimapNode<K, V, NODE> = TreeMultimapNode<K, V, TreeMultimapNodeNested<K, V>>,
+  TREE extends TreeMultimap<K, V, NODE, TREE> = TreeMultimap<K, V, NODE, TreeMultimapNested<K, V, NODE>>
 >
-  extends AVLTree<K, V, N, TREE>
-  implements IBinaryTree<K, V, N, TREE> {
-  constructor(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, N>> = [], options?: TreeMultimapOptions<K>) {
+  extends AVLTree<K, V, NODE, TREE>
+  implements IBinaryTree<K, V, NODE, TREE> {
+  constructor(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, NODE>> = [], options?: TreeMultimapOptions<K>) {
     super([], options);
     if (keysOrNodesOrEntries) this.addMany(keysOrNodesOrEntries);
   }
@@ -70,17 +70,17 @@ export class TreeMultimap<
    * The function creates a new BSTNode with the given key, value, and count.
    * @param {K} key - The key parameter is the unique identifier for the binary tree node. It is used to
    * distinguish one node from another in the tree.
-   * @param {N} value - The `value` parameter represents the value that will be stored in the binary search tree node.
+   * @param {NODE} value - The `value` parameter represents the value that will be stored in the binary search tree node.
    * @param {number} [count] - The "count" parameter is an optional parameter of type number. It represents the number of
    * occurrences of the value in the binary search tree node. If not provided, the count will default to 1.
    * @returns A new instance of the BSTNode class with the specified key, value, and count (if provided).
    */
-  override createNode(key: K, value?: V, count?: number): N {
-    return new TreeMultimapNode(key, value, count) as N;
+  override createNode(key: K, value?: V, count?: number): NODE {
+    return new TreeMultimapNode(key, value, count) as NODE;
   }
 
   override createTree(options?: TreeMultimapOptions<K>): TREE {
-    return new TreeMultimap<K, V, N, TREE>([], {
+    return new TreeMultimap<K, V, NODE, TREE>([], {
       iterationType: this.iterationType,
       variant: this.variant,
       ...options
@@ -89,17 +89,21 @@ export class TreeMultimap<
 
   /**
    * The function `keyValueOrEntryToNode` converts an keyOrNodeOrEntry object into a node object.
-   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter is of type `KeyOrNodeOrEntry<K, V, N>`, which means it
+   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter is of type `KeyOrNodeOrEntry<K, V, NODE>`, which means it
    * can be one of the following:
    * @param {V} [value] - The `value` parameter is an optional argument that represents the value
    * associated with the node. It is of type `V`, which can be any data type. If no value is provided,
    * it defaults to `undefined`.
    * @param [count=1] - The `count` parameter is an optional parameter that specifies the number of
    * times the value should be added to the node. If not provided, it defaults to 1.
-   * @returns a node of type `N` or `undefined`.
+   * @returns a node of type `NODE` or `undefined`.
    */
-  override keyValueOrEntryToNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>, value?: V, count = 1): N | undefined {
-    let node: N | undefined;
+  override keyValueOrEntryToNode(
+    keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>,
+    value?: V,
+    count = 1
+  ): NODE | undefined {
+    let node: NODE | undefined;
     if (keyOrNodeOrEntry === undefined || keyOrNodeOrEntry === null) {
       return;
     } else if (this.isNode(keyOrNodeOrEntry)) {
@@ -121,11 +125,11 @@ export class TreeMultimap<
 
   /**
    * The function checks if an keyOrNodeOrEntry is an instance of the TreeMultimapNode class.
-   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter is of type `KeyOrNodeOrEntry<K, V, N>`.
+   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter is of type `KeyOrNodeOrEntry<K, V, NODE>`.
    * @returns a boolean value indicating whether the keyOrNodeOrEntry is an instance of the TreeMultimapNode
    * class.
    */
-  override isNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>): keyOrNodeOrEntry is N {
+  override isNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>): keyOrNodeOrEntry is NODE {
     return keyOrNodeOrEntry instanceof TreeMultimapNode;
   }
 
@@ -151,7 +155,7 @@ export class TreeMultimap<
    * @returns The method is returning either the newly inserted node or `undefined` if the insertion
    * was not successful.
    */
-  override add(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>, value?: V, count = 1): boolean {
+  override add(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>, value?: V, count = 1): boolean {
     const newNode = this.keyValueOrEntryToNode(keyOrNodeOrEntry, value, count);
     if (newNode === undefined) return false;
 
@@ -177,9 +181,9 @@ export class TreeMultimap<
    * structure.
    * @param keysOrNodesOrEntries - The parameter `keysOrNodesOrEntries` is an iterable that can contain
    * either keys, nodes, or entries.
-   * @returns The method is returning an array of type `N | undefined`.
+   * @returns The method is returning an array of type `NODE | undefined`.
    */
-  override addMany(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, N>>): boolean[] {
+  override addMany(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, NODE>>): boolean[] {
     return super.addMany(keysOrNodesOrEntries);
   }
 
@@ -261,22 +265,22 @@ export class TreeMultimap<
    * being deleted. If set to true, the count of the node will not be considered and the node will be
    * deleted regardless of its count. If set to false (default), the count of the node will be
    * decremented by 1 and
-   * @returns an array of `BinaryTreeDeleteResult<N>`.
+   * @returns an array of `BinaryTreeDeleteResult<NODE>`.
    */
-  override delete<C extends BTNCallback<N>>(
+  override delete<C extends BTNCallback<NODE>>(
     identifier: ReturnType<C>,
     callback: C = this._defaultOneParamCallback as C,
     ignoreCount = false
-  ): BinaryTreeDeleteResult<N>[] {
-    const deletedResult: BinaryTreeDeleteResult<N>[] = [];
+  ): BinaryTreeDeleteResult<NODE>[] {
+    const deletedResult: BinaryTreeDeleteResult<NODE>[] = [];
     if (!this.root) return deletedResult;
 
-    const curr: N | undefined = this.getNode(identifier, callback) ?? undefined;
+    const curr: NODE | undefined = this.getNode(identifier, callback) ?? undefined;
     if (!curr) return deletedResult;
 
-    const parent: N | undefined = curr?.parent ? curr.parent : undefined;
-    let needBalanced: N | undefined = undefined,
-      orgCurrent: N | undefined = curr;
+    const parent: NODE | undefined = curr?.parent ? curr.parent : undefined;
+    let needBalanced: NODE | undefined = undefined,
+      orgCurrent: NODE | undefined = curr;
 
     if (curr.count > 1 && !ignoreCount) {
       curr.count--;
@@ -359,14 +363,17 @@ export class TreeMultimap<
 
   /**
    * The `_swapProperties` function swaps the key, value, count, and height properties between two nodes.
-   * @param {K | N | undefined} srcNode - The `srcNode` parameter represents the source node from
-   * which the values will be swapped. It can be of type `K`, `N`, or `undefined`.
-   * @param {K | N | undefined} destNode - The `destNode` parameter represents the destination
+   * @param {K | NODE | undefined} srcNode - The `srcNode` parameter represents the source node from
+   * which the values will be swapped. It can be of type `K`, `NODE`, or `undefined`.
+   * @param {K | NODE | undefined} destNode - The `destNode` parameter represents the destination
    * node where the values from the source node will be swapped to.
    * @returns either the `destNode` object if both `srcNode` and `destNode` are defined, or `undefined`
    * if either `srcNode` or `destNode` is undefined.
    */
-  protected override _swapProperties(srcNode: BSTNKeyOrNode<K, N>, destNode: BSTNKeyOrNode<K, N>): N | undefined {
+  protected override _swapProperties(
+    srcNode: BSTNKeyOrNode<K, NODE>,
+    destNode: BSTNKeyOrNode<K, NODE>
+  ): NODE | undefined {
     srcNode = this.ensureNode(srcNode);
     destNode = this.ensureNode(destNode);
     if (srcNode && destNode) {
@@ -391,7 +398,7 @@ export class TreeMultimap<
     return undefined;
   }
 
-  protected _replaceNode(oldNode: N, newNode: N): N {
+  protected _replaceNode(oldNode: NODE, newNode: NODE): NODE {
     newNode.count = oldNode.count + newNode.count;
     return super._replaceNode(oldNode, newNode);
   }

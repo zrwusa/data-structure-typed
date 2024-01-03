@@ -235,6 +235,43 @@ describe('AVLTree APIs test', () => {
     const bfsRes = avl.bfs(node => node.key);
     expect(bfsRes[0]).toBe(2);
   });
+
+  it('should the clone method', () => {
+    function checkTreeStructure(avl: AVLTree<string, number>) {
+      expect(avl.size).toBe(4);
+      expect(avl.root?.key).toBe('2');
+      expect(avl.root?.left?.key).toBe('1');
+      expect(avl.root?.left?.left?.key).toBe(undefined);
+      expect(avl.root?.left?.right?.key).toBe(undefined);
+      expect(avl.root?.right?.key).toBe('4');
+      expect(avl.root?.right?.left?.key).toBe(undefined);
+      expect(avl.root?.right?.right?.key).toBe('5');
+    }
+
+    const avl = new AVLTree<string, number>();
+    avl.addMany([
+      ['2', 2],
+      ['4', 4],
+      ['5', 5],
+      ['3', 3],
+      ['1', 1]
+    ]);
+    expect(avl.size).toBe(5);
+    expect(avl.root?.key).toBe('2');
+    expect(avl.root?.left?.key).toBe('1');
+    expect(avl.root?.left?.left?.key).toBe(undefined);
+    expect(avl.root?.left?.right?.key).toBe(undefined);
+    expect(avl.root?.right?.key).toBe('4');
+    expect(avl.root?.right?.left?.key).toBe('3');
+    expect(avl.root?.right?.right?.key).toBe('5');
+    avl.delete('3');
+    checkTreeStructure(avl);
+    const cloned = avl.clone();
+    checkTreeStructure(cloned);
+    cloned.delete('1');
+    expect(avl.size).toBe(4);
+    expect(cloned.size).toBe(3);
+  });
 });
 
 describe('AVLTree', () => {

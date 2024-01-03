@@ -1,4 +1,4 @@
-import { FibonacciHeap, MaxHeap, MinHeap } from '../../../../src';
+import { FibonacciHeap, Heap, MaxHeap, MinHeap } from '../../../../src';
 import { logBigOMetricsWrap } from '../../../utils';
 
 describe('Heap Operation Test', () => {
@@ -24,6 +24,23 @@ describe('Heap Operation Test', () => {
     expect(arrFromHeap[2]).toBe(9);
     expect(arrFromHeap[3]).toBe(6);
     expect(minNumHeap.sort()).toEqual([2, 5, 6, 9]);
+  });
+
+  it('should clone', function () {
+    const minNumHeap = new Heap<string>([], { comparator: (a, b) => Number(a) - Number(b) });
+    minNumHeap.add('1');
+    minNumHeap.add('6');
+    minNumHeap.add('2');
+    minNumHeap.add('0');
+    minNumHeap.add('5');
+    minNumHeap.add('9');
+    minNumHeap.delete('2');
+    expect([...minNumHeap]).toEqual(['0', '1', '9', '6', '5']);
+    const cloned = minNumHeap.clone();
+    expect([...cloned]).toEqual(['0', '1', '9', '6', '5']);
+    minNumHeap.delete('5');
+    expect([...minNumHeap]).toEqual(['0', '1', '9', '6']);
+    expect([...cloned]).toEqual(['0', '1', '9', '6', '5']);
   });
 
   it('should object heap work well', function () {

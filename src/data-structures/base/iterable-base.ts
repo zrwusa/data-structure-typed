@@ -287,10 +287,14 @@ export abstract class IterableEntryBase<K = any, V = any> {
     console.log([...this]);
   }
 
+  abstract isEmpty(): boolean;
+
+  abstract clone(): any;
+
   protected abstract _getIterator(...args: any[]): IterableIterator<[K, V]>;
 }
 
-export abstract class IterableElementBase<E> {
+export abstract class IterableElementBase<E = any, C = any> {
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
@@ -490,6 +494,10 @@ export abstract class IterableElementBase<E> {
   print(): void {
     console.log([...this]);
   }
+
+  abstract isEmpty(): boolean;
+
+  abstract clone(): C;
 
   protected abstract _getIterator(...args: any[]): IterableIterator<E>;
 }

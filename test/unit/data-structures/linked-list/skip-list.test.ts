@@ -54,7 +54,7 @@ describe('SkipList', () => {
   });
 });
 
-describe('SkipList', () => {
+describe('SkipList Test2', () => {
   let skipList: SkipList<number, string>;
 
   beforeEach(() => {

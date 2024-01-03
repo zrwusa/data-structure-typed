@@ -89,6 +89,23 @@ describe('Queue', () => {
     }
     expect(queue.isEmpty()).toBeTruthy();
   });
+
+  it('should clone', function () {
+    const queue = new Queue<string>();
+    queue.push('1');
+    queue.push('6');
+    queue.push('2');
+    queue.push('0');
+    queue.push('5');
+    queue.push('9');
+    queue.delete('2');
+    expect([...queue]).toEqual(['1', '6', '0', '5', '9']);
+    const cloned = queue.clone();
+    expect([...cloned]).toEqual(['1', '6', '0', '5', '9']);
+    queue.delete('5');
+    expect([...queue]).toEqual(['1', '6', '0', '9']);
+    expect([...cloned]).toEqual(['1', '6', '0', '5', '9']);
+  });
 });
 
 describe('Queue - Advanced Methods', () => {

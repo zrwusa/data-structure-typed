@@ -37,6 +37,23 @@ describe('DoublyLinkedList Operation Test', () => {
     expect(list.tail?.value).toBe(4);
   });
 
+  it('should clone', function () {
+    const dList = new DoublyLinkedList<string>();
+    dList.addLast('1');
+    dList.addLast('6');
+    dList.addLast('2');
+    dList.addLast('0');
+    dList.addLast('5');
+    dList.addLast('9');
+    dList.delete('2');
+    expect([...dList]).toEqual(['1', '6', '0', '5', '9']);
+    const cloned = dList.clone();
+    expect([...cloned]).toEqual(['1', '6', '0', '5', '9']);
+    dList.delete('5');
+    expect([...dList]).toEqual(['1', '6', '0', '9']);
+    expect([...cloned]).toEqual(['1', '6', '0', '5', '9']);
+  });
+
   it('should find undefined', () => {
     expect(list.find(value => value === 6)).toBe(undefined);
     expect(list.find(value => value === 4)).toBe(4);

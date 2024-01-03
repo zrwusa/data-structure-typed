@@ -4,3 +4,5 @@ export type TrlFn = (...args: any[]) => any;
 export type TrlAsyncFn = (...args: any[]) => any;
 
 export type SpecifyOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+
+export type Any = string | number | boolean | object | null | undefined | symbol;

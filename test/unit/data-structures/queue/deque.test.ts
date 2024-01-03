@@ -49,6 +49,23 @@ describe('Deque - Basic Operations', () => {
     deque.setAt(0, 3);
     expect(deque.at(0)).toBe(3);
   });
+
+  it('should clone', function () {
+    const deque = new Deque<string>();
+    deque.addLast('1');
+    deque.addLast('6');
+    deque.addLast('2');
+    deque.addLast('0');
+    deque.addLast('5');
+    deque.addLast('9');
+    deque.delete('2');
+    expect([...deque]).toEqual(['1', '6', '0', '5', '9']);
+    const cloned = deque.clone();
+    expect([...cloned]).toEqual(['1', '6', '0', '5', '9']);
+    deque.delete('5');
+    expect([...deque]).toEqual(['1', '6', '0', '9']);
+    expect([...cloned]).toEqual(['1', '6', '0', '5', '9']);
+  });
 });
 describe('Deque - Complex Operations', () => {
   let deque: Deque<number>;

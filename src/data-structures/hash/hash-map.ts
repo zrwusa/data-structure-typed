@@ -32,7 +32,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * `T`. It is an optional parameter and its default value is an empty array `[]`.
    * @param [options] - The `options` parameter is an optional object that can contain two properties:
    */
-  constructor(rawCollection: Iterable<R> = [], options?: HashMapOptions<K, V, R>) {
+  constructor(rawCollection: Iterable<R | [K, V]> = [], options?: HashMapOptions<K, V, R>) {
     super();
     if (options) {
       const { hashFn, toEntryFn } = options;
@@ -65,6 +65,16 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    */
   get toEntryFn() {
     return this._toEntryFn;
+  }
+
+  /**
+   * The hasFn function is a function that takes in an item and returns a boolean
+   * indicating whether the item is contained within the hash table.
+   *
+   * @return The hash function
+   */
+  get hasFn() {
+    return this._hashFn;
   }
 
   protected _size = 0;
@@ -137,10 +147,18 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * `T`.
    * @returns The `setMany` function is returning an array of booleans.
    */
-  setMany(rawCollection: Iterable<R>): boolean[] {
+  setMany(rawCollection: Iterable<R | [K, V]>): boolean[] {
     const results: boolean[] = [];
     for (const rawEle of rawCollection) {
-      const [key, value] = this.toEntryFn(rawEle);
+      let key, value;
+      if (this.isEntry(rawEle)) {
+        key = rawEle[0];
+        value = rawEle[1];
+      } else {
+        const item = this.toEntryFn(rawEle);
+        key = item[0];
+        value = item[1];
+      }
       results.push(this.set(key, value));
     }
     return results;
@@ -201,6 +219,17 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
       }
       return false;
     }
+  }
+
+  /**
+   * The clone function creates a new HashMap with the same key-value pairs as
+   * this one. The clone function is useful for creating a copy of an existing
+   * HashMap, and then modifying that copy without affecting the original.
+   *
+   * @return A new hashmap with the same values as this one
+   */
+  clone(): HashMap<K, V, R> {
+    return new HashMap<K, V, R>(this, { hashFn: this._hashFn, toEntryFn: this.toEntryFn });
   }
 
   /**

@@ -64,6 +64,10 @@ export class UndirectedGraph<
     return this._edgeMap;
   }
 
+  set edgeMap(v: Map<VO, EO[]>) {
+    this._edgeMap = v;
+  }
+
   /**
    * The function creates a new vertex with an optional value and returns it.
    * @param {VertexKey} key - The `key` parameter is the unique identifier for the vertex. It is used to distinguish one
@@ -363,6 +367,30 @@ export class UndirectedGraph<
     } else {
       return undefined;
     }
+  }
+
+  /**
+   * The isEmpty function checks if the graph is empty.
+   * @return True if the graph is empty and false otherwise
+   */
+  isEmpty(): boolean {
+    return this.vertexMap.size === 0 && this.edgeMap.size === 0;
+  }
+
+  /**
+   * The clone function creates a new UndirectedGraph object and copies the
+   * vertexMap and edgeMap from this graph to the new one. This is done by
+   * assigning each of these properties to their respective counterparts in the
+   * cloned graph. The clone function returns a reference to this newly created,
+   * cloned UndirectedGraph object.
+   *
+   * @return A new instance of the undirectedgraph class
+   */
+  clone(): UndirectedGraph<V, E, VO, EO> {
+    const cloned = new UndirectedGraph<V, E, VO, EO>();
+    cloned.vertexMap = new Map<VertexKey, VO>(this.vertexMap);
+    cloned.edgeMap = new Map<VO, EO[]>(this.edgeMap);
+    return cloned;
   }
 
   /**

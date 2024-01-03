@@ -66,10 +66,18 @@ export class DirectedGraph<
     return this._outEdgeMap;
   }
 
+  set outEdgeMap(v: Map<VO, EO[]>) {
+    this._outEdgeMap = v;
+  }
+
   protected _inEdgeMap: Map<VO, EO[]> = new Map<VO, EO[]>();
 
   get inEdgeMap(): Map<VO, EO[]> {
     return this._inEdgeMap;
+  }
+
+  set inEdgeMap(v: Map<VO, EO[]>) {
+    this._inEdgeMap = v;
   }
 
   /**
@@ -597,6 +605,28 @@ export class DirectedGraph<
     } else {
       return undefined;
     }
+  }
+
+  /**
+   * The isEmpty function checks if the graph is empty.
+   *
+   * @return A boolean value
+   */
+  isEmpty(): boolean {
+    return this.vertexMap.size === 0 && this.inEdgeMap.size === 0 && this.outEdgeMap.size === 0;
+  }
+
+  /**
+   * The clone function creates a new DirectedGraph object with the same vertices and edges as the original.
+   *
+   * @return A new instance of the directedgraph class
+   */
+  clone(): DirectedGraph<V, E, VO, EO> {
+    const cloned = new DirectedGraph<V, E, VO, EO>();
+    cloned.vertexMap = new Map<VertexKey, VO>(this.vertexMap);
+    cloned.inEdgeMap = new Map<VO, EO[]>(this.inEdgeMap);
+    cloned.outEdgeMap = new Map<VO, EO[]>(this.outEdgeMap);
+    return cloned;
   }
 
   /**

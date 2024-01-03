@@ -555,38 +555,6 @@ describe('TreeMultimap Performance test', function () {
   beforeEach(() => {
     treeMS.clear();
   });
-  it(`Observe the time consumption of TreeMultimap.add fitting O(n log n)`, function () {
-    // // Create a benchmark suite
-    // const suite = new Benchmark.Suite();
-    // // Define a function to generate a random array of a given size
-    // function generateRandomArray(size: number): number[] {
-    //   const arr: number[] = [];
-    //   for (let i = 0; i < size; i++) {
-    //     arr.push(Math.floor(Math.random() * size));
-    //   }
-    //   return arr;
-    // }
-    // const inputArray = generateRandomArray(inputSize[0]);
-    //
-    // suite.add(`TreeMultimap addMany (n=${inputSize[0]})`, () => {
-    //   treeMS.addMany([...inputArray]);
-    // });
-    //
-    // // Run the benchmarks
-    // suite
-    //   .on('cycle', (event: any) => {
-    //     const benchmark = event.target;
-    //     const n = parseInt(benchmark.name.split('=')[1]);
-    //     const observedTime = benchmark.times.elapsed;
-    //     const expected = expectedTime(n);
-    //     console.log(`Input size (n): ${n}, Observed time: ${observedTime.toFixed(2)}ms, Expected time: ${expected.toFixed(2)}ms`);
-    //   })
-    //   .on('complete', () => {
-    //     console.log(`Benchmark (n=${inputSize[0]}) completed.`);
-    //     done(); // Call done to indicate the test is complete
-    //   })
-    //   .run({async: true});
-  });
 
   it(`Observe the time consumption of TreeMultimap.dfs be good`, function () {
     const startDFS = performance.now();
@@ -603,6 +571,43 @@ describe('TreeMultimap Performance test', function () {
     const startL = performance.now();
     treeMS.lesserOrGreaterTraverse(node => (node.count += 1), CP.lt, inputSize / 2);
     isDebug && console.log('---lesserOrGreaterTraverse', performance.now() - startL);
+  });
+
+  it('should the clone method', () => {
+    function checkTreeStructure(treeMultimap: TreeMultimap<string, number>) {
+      expect(treeMultimap.size).toBe(4);
+      expect(treeMultimap.root?.key).toBe('2');
+      expect(treeMultimap.root?.left?.key).toBe('1');
+      expect(treeMultimap.root?.left?.left?.key).toBe(undefined);
+      expect(treeMultimap.root?.left?.right?.key).toBe(undefined);
+      expect(treeMultimap.root?.right?.key).toBe('4');
+      expect(treeMultimap.root?.right?.left?.key).toBe(undefined);
+      expect(treeMultimap.root?.right?.right?.key).toBe('5');
+    }
+
+    const treeMultimap = new TreeMultimap<string, number>();
+    treeMultimap.addMany([
+      ['2', 2],
+      ['4', 4],
+      ['5', 5],
+      ['3', 3],
+      ['1', 1]
+    ]);
+    expect(treeMultimap.size).toBe(5);
+    expect(treeMultimap.root?.key).toBe('2');
+    expect(treeMultimap.root?.left?.key).toBe('1');
+    expect(treeMultimap.root?.left?.left?.key).toBe(undefined);
+    expect(treeMultimap.root?.left?.right?.key).toBe(undefined);
+    expect(treeMultimap.root?.right?.key).toBe('4');
+    expect(treeMultimap.root?.right?.left?.key).toBe('3');
+    expect(treeMultimap.root?.right?.right?.key).toBe('5');
+    treeMultimap.delete('3');
+    checkTreeStructure(treeMultimap);
+    const cloned = treeMultimap.clone();
+    checkTreeStructure(cloned);
+    cloned.delete('1');
+    expect(treeMultimap.size).toBe(4);
+    expect(cloned.size).toBe(3);
   });
 });
 

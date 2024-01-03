@@ -348,6 +348,23 @@ describe('SinglyLinkedList Operation Test', () => {
     });
   });
 
+  it('should clone', function () {
+    const sList = new SinglyLinkedList<string>();
+    sList.addLast('1');
+    sList.addLast('6');
+    sList.addLast('2');
+    sList.addLast('0');
+    sList.addLast('5');
+    sList.addLast('9');
+    sList.delete('2');
+    expect([...sList]).toEqual(['1', '6', '0', '5', '9']);
+    const cloned = sList.clone();
+    expect([...cloned]).toEqual(['1', '6', '0', '5', '9']);
+    sList.delete('5');
+    expect([...sList]).toEqual(['1', '6', '0', '9']);
+    expect([...cloned]).toEqual(['1', '6', '0', '5', '9']);
+  });
+
   describe('countOccurrences', () => {
     it('should count occurrences of a value', () => {
       list.push(1);
