@@ -10,7 +10,6 @@ import {
   BinaryTreeDeleteResult,
   BSTNKeyOrNode,
   BTNCallback,
-  IterationType,
   KeyOrNodeOrEntry,
   RBTNColor,
   RBTreeOptions,
@@ -150,11 +149,6 @@ export class RedBlackTree<
     return keyOrNodeOrEntry instanceof RedBlackTreeNode;
   }
 
-  /**
-   * Time Complexity: O(log n) on average (where n is the number of nodes in the tree)
-   * Space Complexity: O(1)
-   */
-
   override isRealNode(node: NODE | undefined): node is NODE {
     if (node === this.Sentinel || node === undefined) return false;
     return node instanceof RedBlackTreeNode;
@@ -163,7 +157,7 @@ export class RedBlackTree<
   /**
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
-   *  on average (where n is the number of nodes in the tree)
+   * On average (where n is the number of nodes in the tree)
    */
 
   /**
@@ -232,7 +226,6 @@ export class RedBlackTree<
   /**
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
-   *  on average (where n is the number of nodes in the tree)
    */
 
   /**
@@ -311,27 +304,6 @@ export class RedBlackTree<
     return ans;
   }
 
-  getNode<C extends BTNCallback<NODE, K>>(
-    identifier: K,
-    callback?: C,
-    beginRoot?: NODE | undefined,
-    iterationType?: IterationType
-  ): NODE | undefined;
-
-  getNode<C extends BTNCallback<NODE, NODE>>(
-    identifier: NODE | undefined,
-    callback?: C,
-    beginRoot?: NODE | undefined,
-    iterationType?: IterationType
-  ): NODE | undefined;
-
-  getNode<C extends BTNCallback<NODE>>(
-    identifier: ReturnType<C>,
-    callback: C,
-    beginRoot?: NODE | undefined,
-    iterationType?: IterationType
-  ): NODE | undefined;
-
   /**
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
@@ -370,6 +342,16 @@ export class RedBlackTree<
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  override clear() {
+    this._root = this.Sentinel;
+    this._size = 0;
+  }
+
+  /**
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
    */
@@ -395,16 +377,6 @@ export class RedBlackTree<
     }
 
     return y!;
-  }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
-
-  override clear() {
-    this._root = this.Sentinel;
-    this._size = 0;
   }
 
   protected override _setRoot(v: NODE) {
@@ -477,6 +449,65 @@ export class RedBlackTree<
       y.right = x;
       x.parent = y;
     }
+  }
+
+  /**
+   * Time Complexity: O(log n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(log n)
+   * Space Complexity: O(1)
+   *
+   * The `_fixInsert` function is used to fix the red-black tree after an insertion operation.
+   * @param {RedBlackTreeNode} k - The parameter `k` is a RedBlackTreeNode object, which represents a node in a
+   * red-black tree.
+   */
+  protected _fixInsert(k: NODE): void {
+    let u: NODE | undefined;
+    while (k.parent && k.parent.color === 1) {
+      if (k.parent.parent && k.parent === k.parent.parent.right) {
+        u = k.parent.parent.left;
+        if (u && u.color === 1) {
+          u.color = RBTNColor.BLACK;
+          k.parent.color = RBTNColor.BLACK;
+          k.parent.parent.color = RBTNColor.RED;
+          k = k.parent.parent;
+        } else {
+          if (k === k.parent.left) {
+            k = k.parent;
+            this._rightRotate(k);
+          }
+
+          k.parent!.color = RBTNColor.BLACK;
+          k.parent!.parent!.color = RBTNColor.RED;
+          this._leftRotate(k.parent!.parent!);
+        }
+      } else {
+        u = k.parent.parent!.right;
+
+        if (u && u.color === 1) {
+          u.color = RBTNColor.BLACK;
+          k.parent.color = RBTNColor.BLACK;
+          k.parent.parent!.color = RBTNColor.RED;
+          k = k.parent.parent!;
+        } else {
+          if (k === k.parent.right) {
+            k = k.parent;
+            this._leftRotate(k);
+          }
+
+          k.parent!.color = RBTNColor.BLACK;
+          k.parent!.parent!.color = RBTNColor.RED;
+          this._rightRotate(k.parent!.parent!);
+        }
+      }
+      if (k === this.root) {
+        break;
+      }
+    }
+    this.root.color = RBTNColor.BLACK;
   }
 
   /**
@@ -573,65 +604,6 @@ export class RedBlackTree<
       u.parent.right = v;
     }
     v.parent = u.parent;
-  }
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   *
-   * The `_fixInsert` function is used to fix the red-black tree after an insertion operation.
-   * @param {RedBlackTreeNode} k - The parameter `k` is a RedBlackTreeNode object, which represents a node in a
-   * red-black tree.
-   */
-  protected _fixInsert(k: NODE): void {
-    let u: NODE | undefined;
-    while (k.parent && k.parent.color === 1) {
-      if (k.parent.parent && k.parent === k.parent.parent.right) {
-        u = k.parent.parent.left;
-        if (u && u.color === 1) {
-          u.color = RBTNColor.BLACK;
-          k.parent.color = RBTNColor.BLACK;
-          k.parent.parent.color = RBTNColor.RED;
-          k = k.parent.parent;
-        } else {
-          if (k === k.parent.left) {
-            k = k.parent;
-            this._rightRotate(k);
-          }
-
-          k.parent!.color = RBTNColor.BLACK;
-          k.parent!.parent!.color = RBTNColor.RED;
-          this._leftRotate(k.parent!.parent!);
-        }
-      } else {
-        u = k.parent.parent!.right;
-
-        if (u && u.color === 1) {
-          u.color = RBTNColor.BLACK;
-          k.parent.color = RBTNColor.BLACK;
-          k.parent.parent!.color = RBTNColor.RED;
-          k = k.parent.parent!;
-        } else {
-          if (k === k.parent.right) {
-            k = k.parent;
-            this._leftRotate(k);
-          }
-
-          k.parent!.color = RBTNColor.BLACK;
-          k.parent!.parent!.color = RBTNColor.RED;
-          this._rightRotate(k.parent!.parent!);
-        }
-      }
-      if (k === this.root) {
-        break;
-      }
-    }
-    this.root.color = RBTNColor.BLACK;
   }
 
   /**

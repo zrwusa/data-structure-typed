@@ -360,7 +360,7 @@ export class Deque<E> extends IterableElementBase<E> {
       for (let i = pos; i < this.size; ++i) {
         arr.push(this.at(i));
       }
-      this.cut(pos - 1);
+      this.cut(pos - 1, true);
       for (let i = 0; i < num; ++i) this.push(element);
       for (let i = 0; i < arr.length; ++i) this.push(arr[i]);
     }
@@ -380,18 +380,51 @@ export class Deque<E> extends IterableElementBase<E> {
    * updated size.
    * @param {number} pos - The `pos` parameter represents the position at which the string should be
    * cut. It is a number that indicates the index of the character where the cut should be made.
+   * @param {boolean} isCutSelf - If true, the original deque will not be cut, and return a new deque
    * @returns The method is returning the updated size of the data structure.
    */
-  cut(pos: number): number {
-    if (pos < 0) {
-      this.clear();
-      return 0;
+  cut(pos: number, isCutSelf = false): Deque<E> {
+    if (isCutSelf) {
+      if (pos < 0) {
+        this.clear();
+        return this;
+      }
+      const { bucketIndex, indexInBucket } = this._getBucketAndPosition(pos);
+      this._bucketLast = bucketIndex;
+      this._lastInBucket = indexInBucket;
+      this._size = pos + 1;
+      return this;
+    } else {
+      const newDeque = new Deque<E>([], { bucketSize: this._bucketSize });
+
+      for (let i = 0; i <= pos; i++) {
+        newDeque.push(this.at(i));
+      }
+
+      return newDeque;
     }
-    const { bucketIndex, indexInBucket } = this._getBucketAndPosition(pos);
-    this._bucketLast = bucketIndex;
-    this._lastInBucket = indexInBucket;
-    this._size = pos + 1;
-    return this.size;
+  }
+
+  cutRest(pos: number, isCutSelf = false): Deque<E> {
+    if (isCutSelf) {
+      if (pos < 0) {
+        this.clear();
+        return this;
+      }
+      const { bucketIndex, indexInBucket } = this._getBucketAndPosition(pos);
+      this._bucketFirst = bucketIndex;
+      this._firstInBucket = indexInBucket;
+      this._size = this._size - pos;
+      return this;
+    } else {
+      const newDeque = new Deque<E>([], { bucketSize: this._bucketSize });
+
+      for (let i = pos; i < this.size; i++) {
+        newDeque.push(this.at(i));
+      }
+
+      return newDeque;
+    }
   }
 
   /**
@@ -456,7 +489,7 @@ export class Deque<E> extends IterableElementBase<E> {
       }
       i += 1;
     }
-    this.cut(index - 1);
+    this.cut(index - 1, true);
     return true;
   }
 
@@ -512,7 +545,7 @@ export class Deque<E> extends IterableElementBase<E> {
         this.setAt(index++, cur);
       }
     }
-    this.cut(index - 1);
+    this.cut(index - 1, true);
     return this;
   }
 

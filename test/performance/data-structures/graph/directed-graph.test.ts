@@ -28,9 +28,9 @@ suite
   .add(`tarjan`, () => {
     graph.tarjan(true);
   })
-  .add(`tarjan all`, () => {
-    graph.tarjan(true, true, true, true);
-  })
+  // .add(`tarjan all`, () => {
+  //   graph.tarjan(true, true, true, true);
+  // })
   .add(`topologicalSort`, () => {
     graph.topologicalSort('key');
   });

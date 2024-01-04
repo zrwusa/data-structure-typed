@@ -136,7 +136,6 @@ export class TreeMultimap<
   /**
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
-   * logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (AVLTree) has logarithmic time complexity. constant space, as it doesn't use additional data structures that scale with input size.
    */
 
   /**
@@ -168,88 +167,12 @@ export class TreeMultimap<
   }
 
   /**
-   * Time Complexity: O(k log n)
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
-   * logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (AVLTree) has logarithmic time complexity. constant space, as it doesn't use additional data structures that scale with input size.
    */
 
   /**
-   * Time Complexity: O(k log n)
-   * Space Complexity: O(1)
-   *
-   * The function overrides the addMany method to add multiple keys, nodes, or entries to a data
-   * structure.
-   * @param keysOrNodesOrEntries - The parameter `keysOrNodesOrEntries` is an iterable that can contain
-   * either keys, nodes, or entries.
-   * @returns The method is returning an array of type `NODE | undefined`.
-   */
-  override addMany(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, NODE>>): boolean[] {
-    return super.addMany(keysOrNodesOrEntries);
-  }
-
-  /**
-   * Time Complexity: O(n log n)
-   * Space Complexity: O(n)
-   * logarithmic time for each insertion, where "n" is the number of nodes in the tree. This is because the method calls the add method for each node. linear space, as it creates an array to store the sorted nodes.
-   */
-
-  /**
-   * Time Complexity: O(n log n)
-   * Space Complexity: O(n)
-   *
-   * The `perfectlyBalance` function takes a sorted array of nodes and builds a balanced binary search
-   * tree using either a recursive or iterative approach.
-   * @param iterationType - The `iterationType` parameter is an optional parameter that specifies the
-   * type of iteration to use when building the balanced binary search tree. It can have two possible
-   * values:
-   * @returns a boolean value.
-   */
-  override perfectlyBalance(iterationType = this.iterationType): boolean {
-    const sorted = this.dfs(node => node, 'in'),
-      n = sorted.length;
-    if (sorted.length < 1) return false;
-
-    this.clear();
-
-    if (iterationType === IterationType.RECURSIVE) {
-      const buildBalanceBST = (l: number, r: number) => {
-        if (l > r) return;
-        const m = l + Math.floor((r - l) / 2);
-        const midNode = sorted[m];
-        this.add(midNode.key, midNode.value, midNode.count);
-        buildBalanceBST(l, m - 1);
-        buildBalanceBST(m + 1, r);
-      };
-
-      buildBalanceBST(0, n - 1);
-      return true;
-    } else {
-      const stack: [[number, number]] = [[0, n - 1]];
-      while (stack.length > 0) {
-        const popped = stack.pop();
-        if (popped) {
-          const [l, r] = popped;
-          if (l <= r) {
-            const m = l + Math.floor((r - l) / 2);
-            const midNode = sorted[m];
-            this.add(midNode.key, midNode.value, midNode.count);
-            stack.push([m + 1, r]);
-            stack.push([l, m - 1]);
-          }
-        }
-      }
-      return true;
-    }
-  }
-
-  /**
-   * Time Complexity: O(k log n)
-   * Space Complexity: O(1)
-   * logarithmic time for each insertion, where "n" is the number of nodes in the tree, and "k" is the number of keys to be inserted. This is because the method iterates through the keys and calls the add method for each. constant space, as it doesn't use additional data structures that scale with input size.
-   */
-
-  /**
-   * Time Complexity: O(k log n)
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
    * The `delete` function in TypeScript is used to remove a node from a binary tree, taking into
@@ -341,6 +264,60 @@ export class TreeMultimap<
   override clear() {
     super.clear();
     this._count = 0;
+  }
+
+  /**
+   * Time Complexity: O(n log n)
+   * Space Complexity: O(log n)
+   */
+
+  /**
+   * Time Complexity: O(n log n)
+   * Space Complexity: O(log n)
+   *
+   * The `perfectlyBalance` function takes a sorted array of nodes and builds a balanced binary search
+   * tree using either a recursive or iterative approach.
+   * @param iterationType - The `iterationType` parameter is an optional parameter that specifies the
+   * type of iteration to use when building the balanced binary search tree. It can have two possible
+   * values:
+   * @returns a boolean value.
+   */
+  override perfectlyBalance(iterationType = this.iterationType): boolean {
+    const sorted = this.dfs(node => node, 'in'),
+      n = sorted.length;
+    if (sorted.length < 1) return false;
+
+    this.clear();
+
+    if (iterationType === IterationType.RECURSIVE) {
+      const buildBalanceBST = (l: number, r: number) => {
+        if (l > r) return;
+        const m = l + Math.floor((r - l) / 2);
+        const midNode = sorted[m];
+        this.add(midNode.key, midNode.value, midNode.count);
+        buildBalanceBST(l, m - 1);
+        buildBalanceBST(m + 1, r);
+      };
+
+      buildBalanceBST(0, n - 1);
+      return true;
+    } else {
+      const stack: [[number, number]] = [[0, n - 1]];
+      while (stack.length > 0) {
+        const popped = stack.pop();
+        if (popped) {
+          const [l, r] = popped;
+          if (l <= r) {
+            const m = l + Math.floor((r - l) / 2);
+            const midNode = sorted[m];
+            this.add(midNode.key, midNode.value, midNode.count);
+            stack.push([m + 1, r]);
+            stack.push([l, m - 1]);
+          }
+        }
+      }
+      return true;
+    }
   }
 
   /**

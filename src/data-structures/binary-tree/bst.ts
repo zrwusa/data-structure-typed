@@ -34,17 +34,10 @@ export class BSTNode<K = any, V = any, NODE extends BSTNode<K, V, NODE> = BSTNod
 
   protected override _left?: NODE;
 
-  /**
-   * Get the left child node.
-   */
   override get left(): NODE | undefined {
     return this._left;
   }
 
-  /**
-   * Set the left child node.
-   * @param {NODE | undefined} v - The left child node.
-   */
   override set left(v: NODE | undefined) {
     if (v) {
       v.parent = this as unknown as NODE;
@@ -54,17 +47,10 @@ export class BSTNode<K = any, V = any, NODE extends BSTNode<K, V, NODE> = BSTNod
 
   protected override _right?: NODE;
 
-  /**
-   * Get the right child node.
-   */
   override get right(): NODE | undefined {
     return this._right;
   }
 
-  /**
-   * Set the right child node.
-   * @param {NODE | undefined} v - The right child node.
-   */
   override set right(v: NODE | undefined) {
     if (v) {
       v.parent = this as unknown as NODE;
@@ -182,7 +168,6 @@ export class BST<
   /**
    * Time Complexity: O(log n)
    * Space Complexity: O(log n)
-   * Average case for a balanced tree. Space for the recursive call stack in the worst case.
    */
 
   /**
@@ -224,7 +209,6 @@ export class BST<
   /**
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
-   *  - Average case for a balanced tree. In the worst case (unbalanced tree), it can be O(n).
    */
 
   /**
@@ -266,7 +250,6 @@ export class BST<
       } else if (this._compare(current.key, newNode.key) === CP.gt) {
         if (current.left === undefined) {
           current.left = newNode;
-          newNode.parent = current;
           this._size++;
           return true;
         }
@@ -274,7 +257,6 @@ export class BST<
       } else {
         if (current.right === undefined) {
           current.right = newNode;
-          newNode.parent = current;
           this._size++;
           return true;
         }
@@ -287,13 +269,12 @@ export class BST<
 
   /**
    * Time Complexity: O(k log n)
-   * Space Complexity: O(k)
-   * Adding each element individually in a balanced tree. Additional space is required for the sorted array.
+   * Space Complexity: O(k + log n)
    */
 
   /**
    * Time Complexity: O(k log n)
-   * Space Complexity: O(k)
+   * Space Complexity: O(k + log n)
    *
    * The `addMany` function in TypeScript adds multiple keys or nodes to a binary tree, optionally
    * balancing the tree after each addition.
@@ -443,13 +424,12 @@ export class BST<
 
   /**
    * Time Complexity: O(log n)
-   * Space Complexity: O(log n)
-   * Average case for a balanced tree. O(n) - Visiting each node once when identifier is not node's key. Space for the recursive call stack in the worst case.
+   * Space Complexity: O(k + log n)
    * /
 
    /**
    * Time Complexity: O(log n)
-   * Space Complexity: O(log n)
+   * Space Complexity: O(k + log n)
    *
    * The function `getNodes` returns an array of nodes that match a given identifier, using either a
    * recursive or iterative approach.
@@ -525,26 +505,6 @@ export class BST<
 
     return ans;
   }
-
-  // /**
-  //  * The function overrides the subTreeTraverse method and returns the result of calling the super
-  //  * method with the provided arguments.
-  //  * @param {C} callback - The `callback` parameter is a function that will be called for each node in
-  //  * the subtree traversal. It should accept a single parameter of type `NODE`, which represents a node in
-  //  * the tree. The return type of the callback function can be any type.
-  //  * @param beginRoot - The `beginRoot` parameter is the starting point for traversing the subtree. It
-  //  * can be either a key, a node, or an entry.
-  //  * @param iterationType - The `iterationType` parameter is used to specify the type of iteration to
-  //  * be performed during the traversal of the subtree. It can have one of the following values:
-  //  * @returns The method is returning an array of the return type of the callback function.
-  //  */
-  // override subTreeTraverse<C extends BTNCallback<NODE>>(
-  //   callback: C = this._defaultOneParamCallback as C,
-  //   beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
-  //   iterationType = this.iterationType
-  // ): ReturnType<C>[] {
-  //   return super.subTreeTraverse(callback, beginRoot, iterationType, false);
-  // }
 
   /**
    * Time complexity: O(n)
@@ -641,14 +601,13 @@ export class BST<
   }
 
   /**
-   * Time Complexity: O(n log n)
-   * Space Complexity: O(n)
-   * Adding each element individually in a balanced tree. Additional space is required for the sorted array.
+   * Time Complexity: O(log n)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n log n)
-   * Space Complexity: O(n)
+   * Time Complexity: O(log n)
+   * Space Complexity: O(1)
    *
    * The `lastKey` function returns the key of the rightmost node in a binary tree, or the key of the
    * leftmost node if the comparison result is greater than.
@@ -680,7 +639,6 @@ export class BST<
   /**
    * Time Complexity: O(log n)
    * Space Complexity: O(log n)
-   * Average case for a balanced tree. O(n) - Visiting each node once when identifier is not node's key. Space for the recursive call stack in the worst case.
    */
 
   /**
@@ -809,8 +767,8 @@ export class BST<
    */
 
   /**
-   * Time Complexity: O(n) - Building a balanced tree from a sorted array.
-   * Space Complexity: O(n) - Additional space is required for the sorted array.
+   * Time Complexity: O(n)
+   * Space Complexity: O(log n)
    */
 
   /**

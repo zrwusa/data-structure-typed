@@ -58,13 +58,24 @@ describe('Deque - Basic Operations', () => {
     deque.addLast('0');
     deque.addLast('5');
     deque.addLast('9');
+    expect(deque.size).toBe(6);
     deque.delete('2');
+    expect(deque.size).toBe(5);
     expect([...deque]).toEqual(['1', '6', '0', '5', '9']);
     const cloned = deque.clone();
     expect([...cloned]).toEqual(['1', '6', '0', '5', '9']);
+    expect(deque.size).toBe(5);
     deque.delete('5');
+    expect(deque.size).toBe(4);
     expect([...deque]).toEqual(['1', '6', '0', '9']);
     expect([...cloned]).toEqual(['1', '6', '0', '5', '9']);
+    expect(cloned.size).toBe(5);
+    cloned.addLast('8');
+    expect(cloned.size).toBe(6);
+    cloned.delete('6');
+    expect(cloned.size).toBe(5);
+    cloned.delete('6');
+    expect(cloned.size).toBe(5);
   });
 });
 describe('Deque - Complex Operations', () => {
@@ -85,8 +96,40 @@ describe('Deque - Complex Operations', () => {
     deque.push(1);
     deque.push(2);
     deque.push(3);
-    deque.cut(1);
+    expect(deque.size).toBe(3);
+    deque.cut(1, true);
+    expect(deque.size).toBe(2);
     expect(deque.toArray()).toEqual([1, 2]);
+
+    const dq1 = new Deque([1, 2, 3, 4, 5, 6, 7]);
+    expect(dq1.size).toBe(7);
+    expect([...dq1.cut(3, true)]).toEqual([1, 2, 3, 4]);
+    expect(dq1.size).toBe(4);
+    expect([...dq1]).toEqual([1, 2, 3, 4]);
+  });
+
+  test('cutRest should remove elements after the specified position', () => {
+    deque.push(1);
+    deque.push(2);
+    deque.push(3);
+    deque.cutRest(1, true);
+    expect(deque.toArray()).toEqual([2, 3]);
+
+    const dq = new Deque([1, 2, 3, 4, 5, 6, 7]);
+    expect([...dq.cutRest(3, true)]).toEqual([4, 5, 6, 7]);
+    expect([...dq]).toEqual([4, 5, 6, 7]);
+
+    const deque1 = new Deque<number>();
+
+    deque1.push(1);
+    deque1.push(2);
+    deque1.push(3);
+    expect(deque1.toArray()).toEqual([1, 2, 3]);
+    expect(deque1.cutRest(1).toArray()).toEqual([2, 3]);
+
+    const dq1 = new Deque([1, 2, 3, 4, 5, 6, 7]);
+    expect([...dq1.cutRest(3)]).toEqual([4, 5, 6, 7]);
+    expect([...dq1]).toEqual([1, 2, 3, 4, 5, 6, 7]);
   });
 
   test('deleteAt should remove the element at the specified position', () => {
