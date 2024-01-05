@@ -53,7 +53,7 @@ export class SkipList<K, V> {
   protected _level: number = 0;
 
   /**
-   * The function returns the value of the private variable _level.
+   * The function returns the value of the protected variable _level.
    * @returns The level property of the object.
    */
   get level(): number {
@@ -74,7 +74,7 @@ export class SkipList<K, V> {
 
   /**
    * The function returns the probability value.
-   * @returns The probability value stored in the private variable `_probability` is being returned.
+   * @returns The probability value stored in the protected variable `_probability` is being returned.
    */
   get probability(): number {
     return this._probability;

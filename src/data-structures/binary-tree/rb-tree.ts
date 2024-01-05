@@ -24,11 +24,38 @@ export class RedBlackTreeNode<
   V = any,
   NODE extends RedBlackTreeNode<K, V, NODE> = RedBlackTreeNodeNested<K, V>
 > extends BSTNode<K, V, NODE> {
-  color: RBTNColor;
-
+  /**
+   * The constructor function initializes a Red-Black Tree Node with a key, an optional value, and a
+   * color.
+   * @param {K} key - The key parameter is of type K and represents the key of the node in the
+   * Red-Black Tree.
+   * @param {V} [value] - The `value` parameter is an optional parameter that represents the value
+   * associated with the key in the Red-Black Tree Node. It is not required and can be omitted when
+   * creating a new instance of the Red-Black Tree Node.
+   * @param {RBTNColor} color - The `color` parameter is used to specify the color of the Red-Black
+   * Tree Node. It is an optional parameter with a default value of `RBTNColor.BLACK`.
+   */
   constructor(key: K, value?: V, color: RBTNColor = RBTNColor.BLACK) {
     super(key, value);
-    this.color = color;
+    this._color = color;
+  }
+
+  protected _color: RBTNColor;
+
+  /**
+   * The function returns the color value of a variable.
+   * @returns The color value stored in the protected variable `_color`.
+   */
+  get color(): RBTNColor {
+    return this._color;
+  }
+
+  /**
+   * The function sets the color property to the specified value.
+   * @param {RBTNColor} value - The value parameter is of type RBTNColor.
+   */
+  set color(value: RBTNColor) {
+    this._color = value;
   }
 }
 
@@ -47,8 +74,6 @@ export class RedBlackTree<
 >
   extends BST<K, V, NODE, TREE>
   implements IBinaryTree<K, V, NODE, TREE> {
-  Sentinel: NODE = new RedBlackTreeNode<K, V>(NaN as K) as unknown as NODE;
-
   /**
    * This is the constructor function for a Red-Black Tree data structure in TypeScript, which
    * initializes the tree with optional nodes and options.
@@ -63,18 +88,36 @@ export class RedBlackTree<
   constructor(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, NODE>> = [], options?: RBTreeOptions<K>) {
     super([], options);
 
-    this._root = this.Sentinel;
+    this._root = this._Sentinel;
     if (keysOrNodesOrEntries) super.addMany(keysOrNodesOrEntries);
+  }
+
+  protected _Sentinel: NODE = new RedBlackTreeNode<K, V>(NaN as K) as unknown as NODE;
+
+  /**
+   * The function returns the value of the `_Sentinel` property.
+   * @returns The method is returning the value of the `_Sentinel` property.
+   */
+  get Sentinel(): NODE {
+    return this._Sentinel;
   }
 
   protected _root: NODE;
 
+  /**
+   * The function returns the root node.
+   * @returns The root node of the data structure.
+   */
   get root(): NODE {
     return this._root;
   }
 
   protected _size: number = 0;
 
+  /**
+   * The function returns the size of an object.
+   * @returns The size of the object, which is a number.
+   */
   get size(): number {
     return this._size;
   }
@@ -149,8 +192,14 @@ export class RedBlackTree<
     return keyOrNodeOrEntry instanceof RedBlackTreeNode;
   }
 
+  /**
+   * The function checks if a given node is a real node in a Red-Black Tree.
+   * @param {NODE | undefined} node - The `node` parameter is of type `NODE | undefined`, which means
+   * it can either be of type `NODE` or `undefined`.
+   * @returns a boolean value.
+   */
   override isRealNode(node: NODE | undefined): node is NODE {
-    if (node === this.Sentinel || node === undefined) return false;
+    if (node === this._Sentinel || node === undefined) return false;
     return node instanceof RedBlackTreeNode;
   }
 
@@ -176,13 +225,13 @@ export class RedBlackTree<
     const newNode = this.keyValueOrEntryToNode(keyOrNodeOrEntry, value);
     if (newNode === undefined) return false;
 
-    newNode.left = this.Sentinel;
-    newNode.right = this.Sentinel;
+    newNode.left = this._Sentinel;
+    newNode.right = this._Sentinel;
 
     let y: NODE | undefined = undefined;
     let x: NODE | undefined = this.root;
 
-    while (x !== this.Sentinel) {
+    while (x !== this._Sentinel) {
       y = x;
       if (x) {
         if (newNode.key < x.key) {
@@ -250,9 +299,9 @@ export class RedBlackTree<
     const ans: BinaryTreeDeleteResult<NODE>[] = [];
     if (identifier === null) return ans;
     const helper = (node: NODE | undefined): void => {
-      let z: NODE = this.Sentinel;
+      let z: NODE = this._Sentinel;
       let x: NODE | undefined, y: NODE;
-      while (node !== this.Sentinel) {
+      while (node !== this._Sentinel) {
         if (node && callback(node) === identifier) {
           z = node;
         }
@@ -264,17 +313,17 @@ export class RedBlackTree<
         }
       }
 
-      if (z === this.Sentinel) {
+      if (z === this._Sentinel) {
         this._size--;
         return;
       }
 
       y = z;
       let yOriginalColor: number = y.color;
-      if (z.left === this.Sentinel) {
+      if (z.left === this._Sentinel) {
         x = z.right;
         this._rbTransplant(z, z.right!);
-      } else if (z.right === this.Sentinel) {
+      } else if (z.right === this._Sentinel) {
         x = z.left;
         this._rbTransplant(z, z.left!);
       } else {
@@ -346,8 +395,14 @@ export class RedBlackTree<
    * Space Complexity: O(1)
    */
 
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The "clear" function sets the root node to the sentinel node and resets the size to 0.
+   */
   override clear() {
-    this._root = this.Sentinel;
+    this._root = this._Sentinel;
     this._size = 0;
   }
 
@@ -379,6 +434,12 @@ export class RedBlackTree<
     return y!;
   }
 
+  /**
+   * The function sets the root node of a tree structure and updates the parent property of the new
+   * root node.
+   * @param {NODE} v - The parameter "v" is of type "NODE", which represents a node in a data
+   * structure.
+   */
   protected override _setRoot(v: NODE) {
     if (v) {
       v.parent = undefined;
@@ -402,7 +463,7 @@ export class RedBlackTree<
     if (x.right) {
       const y: NODE = x.right;
       x.right = y.left;
-      if (y.left !== this.Sentinel) {
+      if (y.left !== this._Sentinel) {
         if (y.left) y.left.parent = x;
       }
       y.parent = x.parent;
@@ -435,7 +496,7 @@ export class RedBlackTree<
     if (x.left) {
       const y: NODE = x.left;
       x.left = y.right;
-      if (y.right !== this.Sentinel) {
+      if (y.right !== this._Sentinel) {
         if (y.right) y.right.parent = x;
       }
       y.parent = x.parent;

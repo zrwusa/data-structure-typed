@@ -9,18 +9,136 @@
 import type { SegmentTreeNodeVal } from '../../types';
 
 export class SegmentTreeNode {
-  start = 0;
-  end = 0;
-  value: SegmentTreeNodeVal | undefined = undefined;
-  sum = 0;
-  left: SegmentTreeNode | undefined = undefined;
-  right: SegmentTreeNode | undefined = undefined;
-
+  /**
+   * The constructor initializes the properties of a SegmentTreeNode object.
+   * @param {number} start - The `start` parameter represents the starting index of the segment covered
+   * by this node in a segment tree.
+   * @param {number} end - The `end` parameter represents the end index of the segment covered by this
+   * node in a segment tree.
+   * @param {number} sum - The `sum` parameter represents the sum of the values in the range covered by
+   * the segment tree node.
+   * @param {SegmentTreeNodeVal | undefined} [value] - The `value` parameter is an optional parameter
+   * of type `SegmentTreeNodeVal`. It represents the value associated with the segment tree node.
+   */
   constructor(start: number, end: number, sum: number, value?: SegmentTreeNodeVal | undefined) {
-    this.start = start;
-    this.end = end;
-    this.sum = sum;
-    this.value = value || undefined;
+    this._start = start;
+    this._end = end;
+    this._sum = sum;
+    this._value = value || undefined;
+  }
+
+  protected _start = 0;
+
+  /**
+   * The function returns the value of the protected variable _start.
+   * @returns The start value, which is of type number.
+   */
+  get start(): number {
+    return this._start;
+  }
+
+  /**
+   * The above function sets the value of the "start" property.
+   * @param {number} value - The value parameter is of type number.
+   */
+  set start(value: number) {
+    this._start = value;
+  }
+
+  protected _end = 0;
+
+  /**
+   * The function returns the value of the protected variable `_end`.
+   * @returns The value of the protected property `_end`.
+   */
+  get end(): number {
+    return this._end;
+  }
+
+  /**
+   * The above function sets the value of the "end" property.
+   * @param {number} value - The value parameter is a number that represents the new value for the end
+   * property.
+   */
+  set end(value: number) {
+    this._end = value;
+  }
+
+  protected _value: SegmentTreeNodeVal | undefined = undefined;
+
+  /**
+   * The function returns the value of a segment tree node.
+   * @returns The value being returned is either a `SegmentTreeNodeVal` object or `undefined`.
+   */
+  get value(): SegmentTreeNodeVal | undefined {
+    return this._value;
+  }
+
+  /**
+   * The function sets the value of a segment tree node.
+   * @param {SegmentTreeNodeVal | undefined} value - The `value` parameter is of type
+   * `SegmentTreeNodeVal` or `undefined`.
+   */
+  set value(value: SegmentTreeNodeVal | undefined) {
+    this._value = value;
+  }
+
+  protected _sum = 0;
+
+  /**
+   * The function returns the value of the sum property.
+   * @returns The method is returning the value of the variable `_sum`.
+   */
+  get sum(): number {
+    return this._sum;
+  }
+
+  /**
+   * The above function sets the value of the sum property.
+   * @param {number} value - The parameter "value" is of type "number".
+   */
+  set sum(value: number) {
+    this._sum = value;
+  }
+
+  protected _left: SegmentTreeNode | undefined = undefined;
+
+  /**
+   * The function returns the left child of a segment tree node.
+   * @returns The `left` property of the `SegmentTreeNode` object is being returned. It is of type
+   * `SegmentTreeNode` or `undefined`.
+   */
+  get left(): SegmentTreeNode | undefined {
+    return this._left;
+  }
+
+  /**
+   * The function sets the value of the left property of a SegmentTreeNode object.
+   * @param {SegmentTreeNode | undefined} value - The value parameter is of type SegmentTreeNode or
+   * undefined.
+   */
+  set left(value: SegmentTreeNode | undefined) {
+    this._left = value;
+  }
+
+  protected _right: SegmentTreeNode | undefined = undefined;
+
+  /**
+   * The function returns the right child of a segment tree node.
+   * @returns The `getRight()` method is returning a value of type `SegmentTreeNode` or `undefined`.
+   */
+  get right(): SegmentTreeNode | undefined {
+    return this._right;
+  }
+
+  /**
+   * The function sets the right child of a segment tree node.
+   * @param {SegmentTreeNode | undefined} value - The `value` parameter is of type `SegmentTreeNode |
+   * undefined`. This means that it can accept either a `SegmentTreeNode` object or `undefined` as its
+   * value.
+   */
+  set right(value: SegmentTreeNode | undefined) {
+    this._right = value;
   }
 }
 
@@ -51,24 +169,40 @@ export class SegmentTree {
 
   protected _values: number[] = [];
 
+  /**
+   * The function returns an array of numbers.
+   * @returns An array of numbers is being returned.
+   */
   get values(): number[] {
     return this._values;
   }
 
   protected _start = 0;
 
+  /**
+   * The function returns the value of the protected variable _start.
+   * @returns The start value, which is of type number.
+   */
   get start(): number {
     return this._start;
   }
 
   protected _end: number;
 
+  /**
+   * The function returns the value of the protected variable `_end`.
+   * @returns The value of the protected property `_end`.
+   */
   get end(): number {
     return this._end;
   }
 
   protected _root: SegmentTreeNode | undefined;
 
+  /**
+   * The function returns the root node of a segment tree.
+   * @returns The `root` property of the class `SegmentTreeNode` or `undefined` if it is not defined.
+   */
   get root(): SegmentTreeNode | undefined {
     return this._root;
   }

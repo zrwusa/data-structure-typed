@@ -43,7 +43,6 @@ export class Heap<E = any> extends IterableElementBase<E> {
       for (const el of elements) {
         this.add(el);
       }
-      // this.fix();
     }
   }
 
@@ -143,6 +142,11 @@ export class Heap<E = any> extends IterableElementBase<E> {
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    *
    * Peek at the top element of the heap without removing it.
    * @returns The top element or undefined if the heap is empty.
@@ -167,12 +171,12 @@ export class Heap<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the elements array.
+   * Time Complexity: O(n)
    * Space Complexity: O(n)
    */
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the elements array.
+   * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
    * Clear and add elements of the heap
@@ -184,12 +188,12 @@ export class Heap<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the heap.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the heap.
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
    * Use a comparison function to check whether a binary heap contains a specific element.
@@ -201,12 +205,13 @@ export class Heap<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity:  O(n). The worst-case  O(n), where n is the number of elements in the heap. This is because, in the worst case, the element to be deleted is located at the end of the heap (not the root), and after deletion, we may need to reorganize the elements by performing a sinkDown operation.
+   * Time Complexity:  O(n)
    * Space Complexity: O(1)
+   * The worst-case  O(n) This is because, in the worst case, the element to be deleted is located at the end of the heap (not the root), and after deletion, we may need to reorganize the elements by performing a sinkDown operation.
    */
 
   /**
-   * Time Complexity:  O(n). The worst-case  O(n), where n is the number of elements in the heap. This is because, in the worst case, the element to be deleted is located at the end of the heap (not the root), and after deletion, we may need to reorganize the elements by performing a sinkDown operation.
+   * Time Complexity:  O(n)
    * Space Complexity: O(1)
    *
    * The `delete` function removes an element from an array-like data structure, maintaining the order
@@ -232,13 +237,14 @@ export class Heap<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the heap.
-   * Space Complexity: O(h), where h is the height of the heap.
+   * Time Complexity: O(n)
+   * Space Complexity: O(log n)
+   * where log n is the height of the heap.
    */
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the heap.
-   * Space Complexity: O(h), where h is the height of the heap.
+   * Time Complexity: O(n)
+   * Space Complexity: O(log n)
    *
    * Depth-first search (DFS) method, different traversal orders can be selected。
    * @param order - Traverse order parameter: 'in' (in-order), 'pre' (pre-order) or 'post' (post-order).
@@ -330,13 +336,13 @@ export class Heap<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
+   * Time Complexity: O(n log n)
+   * Space Complexity: O(n)
    */
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
+   * Time Complexity: O(n log n)
+   * Space Complexity: O(n)
    *
    * Fix the entire heap to maintain heap properties.
    */
@@ -424,7 +430,7 @@ export class Heap<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n)
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
    */
 
@@ -447,6 +453,11 @@ export class Heap<E = any> extends IterableElementBase<E> {
     this.elements[index] = element;
     return true;
   }
+
+  /**
+   * Time Complexity: O(log n)
+   * Space Complexity: O(1)
+   */
 
   /**
    * Time Complexity: O(log n)
@@ -683,12 +694,12 @@ export class FibonacciHeap<E> {
   }
 
   /**
-   * Time Complexity: O(log n), where n is the number of elements in the heap.
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(log n), where n is the number of elements in the heap.
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
    * Remove and return the top element (smallest or largest element) from the heap.
@@ -699,12 +710,12 @@ export class FibonacciHeap<E> {
   }
 
   /**
-   * Time Complexity: O(log n), where n is the number of elements in the heap.
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(log n), where n is the number of elements in the heap.
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
    * Remove and return the top element (smallest or largest element) from the heap.

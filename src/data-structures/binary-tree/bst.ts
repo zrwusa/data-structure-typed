@@ -34,10 +34,19 @@ export class BSTNode<K = any, V = any, NODE extends BSTNode<K, V, NODE> = BSTNod
 
   protected override _left?: NODE;
 
+  /**
+   * The function returns the value of the `_left` property.
+   * @returns The `_left` property of the current object is being returned.
+   */
   override get left(): NODE | undefined {
     return this._left;
   }
 
+  /**
+   * The function sets the left child of a node and updates the parent reference of the child.
+   * @param {NODE | undefined} v - The parameter `v` is of type `NODE | undefined`. It can either be an
+   * instance of the `NODE` class or `undefined`.
+   */
   override set left(v: NODE | undefined) {
     if (v) {
       v.parent = this as unknown as NODE;
@@ -47,10 +56,20 @@ export class BSTNode<K = any, V = any, NODE extends BSTNode<K, V, NODE> = BSTNod
 
   protected override _right?: NODE;
 
+  /**
+   * The function returns the right node of a binary tree or undefined if there is no right node.
+   * @returns The method is returning the value of the `_right` property, which is of type `NODE` or
+   * `undefined`.
+   */
   override get right(): NODE | undefined {
     return this._right;
   }
 
+  /**
+   * The function sets the right child of a node and updates the parent reference of the child.
+   * @param {NODE | undefined} v - The parameter `v` is of type `NODE | undefined`. It can either be a
+   * `NODE` object or `undefined`.
+   */
   override set right(v: NODE | undefined) {
     if (v) {
       v.parent = this as unknown as NODE;
@@ -77,10 +96,10 @@ export class BST<
   extends BinaryTree<K, V, NODE, TREE>
   implements IBinaryTree<K, V, NODE, TREE> {
   /**
-   * This is the constructor function for a binary search tree class in TypeScript, which initializes
-   * the tree with optional keysOrNodesOrEntries and options.
-   * @param [keysOrNodesOrEntries] - An optional iterable of KeyOrNodeOrEntry objects that will be added to the
-   * binary search tree.
+   * This is the constructor function for a TypeScript class that initializes a binary search tree with
+   * optional keys or nodes or entries and options.
+   * @param keysOrNodesOrEntries - An iterable object that contains keys, nodes, or entries. It is used
+   * to initialize the binary search tree with the provided keys, nodes, or entries.
    * @param [options] - The `options` parameter is an optional object that can contain additional
    * configuration options for the binary search tree. It can have the following properties:
    */
@@ -99,23 +118,31 @@ export class BST<
 
   protected override _root?: NODE;
 
+  /**
+   * The function returns the root node of a tree structure.
+   * @returns The `_root` property of the object, which is of type `NODE` or `undefined`.
+   */
   override get root(): NODE | undefined {
     return this._root;
   }
 
   protected _variant = BSTVariant.STANDARD;
 
+  /**
+   * The function returns the value of the _variant property.
+   * @returns The value of the `_variant` property.
+   */
   get variant() {
     return this._variant;
   }
 
   /**
-   * The function creates a new binary search tree node with the given key and value.
-   * @param {K} key - The key parameter is the key value that will be associated with
-   * the new node. It is used to determine the position of the node in the binary search tree.
-   * @param [value] - The parameter `value` is an optional value that can be assigned to the node. It
-   * represents the value associated with the node in a binary search tree.
-   * @returns a new instance of the BSTNode class with the specified key and value.
+   * The function creates a new BSTNode with the given key and value and returns it.
+   * @param {K} key - The key parameter is of type K, which represents the type of the key for the node
+   * being created.
+   * @param {V} [value] - The "value" parameter is an optional parameter of type V. It represents the
+   * value associated with the key in the node being created.
+   * @returns The method is returning a new instance of the BSTNode class, casted as the NODE type.
    */
   override createNode(key: K, value?: V): NODE {
     return new BSTNode<K, V, NODE>(key, value) as NODE;
@@ -124,9 +151,10 @@ export class BST<
   /**
    * The function creates a new binary search tree with the specified options.
    * @param [options] - The `options` parameter is an optional object that allows you to customize the
-   * behavior of the `createTree` method. It accepts a partial `BSTOptions` object, which is a type
-   * that defines various options for creating a binary search tree.
-   * @returns a new instance of the BST class with the specified options.
+   * behavior of the `createTree` method. It is of type `Partial<BSTOptions<K>>`, which means it is a
+   * partial object of type `BSTOptions<K>`.
+   * @returns a new instance of the BST class, with the provided options merged with the default
+   * options. The returned value is casted as TREE.
    */
   override createTree(options?: Partial<BSTOptions<K>>): TREE {
     return new BST<K, V, NODE, TREE>([], {
@@ -824,6 +852,11 @@ export class BST<
     return balanced;
   }
 
+  /**
+   * The function sets the root property of an object and updates the parent property of the new root.
+   * @param {NODE | undefined} v - The parameter `v` is of type `NODE | undefined`. This means that it
+   * can either be an object of type `NODE` or it can be `undefined`.
+   */
   protected _setRoot(v: NODE | undefined) {
     if (v) {
       v.parent = undefined;

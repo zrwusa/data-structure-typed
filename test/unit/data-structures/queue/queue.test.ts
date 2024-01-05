@@ -104,6 +104,8 @@ describe('Queue', () => {
     expect([...cloned]).toEqual(['1', '6', '0', '5', '9']);
     queue.delete('5');
     expect([...queue]).toEqual(['1', '6', '0', '9']);
+    queue.deleteAt(2);
+    expect([...queue]).toEqual(['1', '6', '9']);
     expect([...cloned]).toEqual(['1', '6', '0', '5', '9']);
   });
 });

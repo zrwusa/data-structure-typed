@@ -53,7 +53,7 @@ export class Matrix {
   protected _cols: number = 0;
 
   /**
-   * The function returns the value of the private variable _cols.
+   * The function returns the value of the protected variable _cols.
    * @returns The number of columns.
    */
   get cols(): number {

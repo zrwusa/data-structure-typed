@@ -44,7 +44,7 @@ export class Queue<E = any> extends IterableElementBase<E> {
 
   /**
    * The offset function returns the offset of the current page.
-   * @return The value of the private variable _offset
+   * @return The value of the protected variable _offset
    */
   get offset(): number {
     return this._offset;
@@ -59,8 +59,13 @@ export class Queue<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
-   * Space Complexity: O(1) - no additional space is used.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    *
    * The `first` function returns the first element of the array `_elements` if it exists, otherwise it returns `undefined`.
    * @returns The `get first()` method returns the first element of the data structure, represented by the `_elements` array at
@@ -71,13 +76,13 @@ export class Queue<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1) - constant time as it adds an element to the end of the array.
-   * Space Complexity: O(1) - no additional space is used.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
-   * Space Complexity: O(1) - no additional space is used.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    *
    * The `last` function returns the last element in an array-like data structure, or undefined if the structure is empty.
    * @returns The method `get last()` returns the last element of the `_elements` array if the array is not empty. If the
@@ -88,11 +93,14 @@ export class Queue<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n) - where n is the number of elements in the queue. In the worst case, it may need to shift all elements to update the offset.
-   * Space Complexity: O(1) - no additional space is used.
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
    */
 
   /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
    * The function "fromArray" creates a new Queue object from an array of elements.Creates a queue from an existing array.
    * @public
    * @static
@@ -105,13 +113,13 @@ export class Queue<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
-   * Space Complexity: O(1) - no additional space is used.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(1) - constant time as it adds an element to the end of the array.
-   * Space Complexity: O(1) - no additional space is used.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    *
    * The push function adds an element to the end of the queue and returns the updated queue.Adds an element at the back of the queue.
    * @param {E} element - The `element` parameter represents the element that you want to add to the queue.
@@ -123,13 +131,13 @@ export class Queue<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
-   * Space Complexity: O(1) - no additional space is used.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n) - where n is the number of elements in the queue. In the worst case, it may need to shift all elements to update the offset.
-   * Space Complexity: O(1) - no additional space is used.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    *
    * The `shift` function removes and returns the first element in the queue, and adjusts the internal data structure if
    * necessary to optimize performance.
@@ -171,13 +179,13 @@ export class Queue<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
-   * Space Complexity: O(1) - no additional space is used.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
-   * Space Complexity: O(1) - no additional space is used.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    *
    * The `peek` function returns the first element of the array `_elements` if it exists, otherwise it returns `undefined`.
    * @returns The `peek()` method returns the first element of the data structure, represented by the `_elements` array at
@@ -188,13 +196,13 @@ export class Queue<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
-   * Space Complexity: O(1) - no additional space is used.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
-   * Space Complexity: O(1) - no additional space is used.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    *
    * The `peekLast` function returns the last element in an array-like data structure, or undefined if the structure is empty.
    * @returns The method `peekLast()` returns the last element of the `_elements` array if the array is not empty. If the
@@ -205,13 +213,13 @@ export class Queue<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
-   * Space Complexity: O(1) - no additional space is used.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(1) - constant time as it retrieves the value at the current offset.
-   * Space Complexity: O(1) - no additional space is used.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    *
    * The enqueue function adds a value to the end of a queue.
    * @param {E} value - The value parameter represents the value that you want to add to the queue.
@@ -221,13 +229,13 @@ export class Queue<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n) - same as shift().
-   * Space Complexity: O(1) - same as shift().
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n) - same as shift().
-   * Space Complexity: O(1) - same as shift().
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    *
    * The `dequeue` function removes and returns the first element from a queue, or returns undefined if the queue is empty.
    * @returns The method is returning a value of type E or undefined.
@@ -237,13 +245,13 @@ export class Queue<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1) - constant time as it retrieves the value at the specified index.
-   * Space Complexity: O(1) - no additional space is used.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(1) - constant time as it retrieves the value at the specified index.
-   * Space Complexity: O(1) - no additional space is used.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    *
    * @param index
    */
@@ -252,13 +260,13 @@ export class Queue<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1) - constant time as it retrieves the value at the specified index.
-   * Space Complexity: O(1) - no additional space is used.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(1) - constant time as it retrieves the value at the specified index.
-   * Space Complexity: O(1) - no additional space is used.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    *
    * The function checks if a data structure is empty by comparing its size to zero.
    * @returns {boolean} A boolean value indicating whether the size of the object is 0 or not.
@@ -268,13 +276,13 @@ export class Queue<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1) - constant time as it returns a shallow copy of the internal array.
-   * Space Complexity: O(n) - where n is the number of elements in the queue.
+   * Time Complexity: O(1)
+   * Space Complexity: O(n)
    */
 
   /**
-   * Time Complexity: O(1) - constant time as it returns a shallow copy of the internal array.
-   * Space Complexity: O(n) - where n is the number of elements in the queue.
+   * Time Complexity: O(1)
+   * Space Complexity: O(n)
    *
    * The toArray() function returns an array of elements from the current offset to the end of the _elements array.
    * @returns An array of type E is being returned.
@@ -284,6 +292,14 @@ export class Queue<E = any> extends IterableElementBase<E> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The clear function resets the elements array and offset to their initial values.
    */
   clear(): void {
@@ -345,6 +361,7 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    */
+
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
@@ -374,6 +391,12 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * Space Complexity: O(n)
    */
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The function `_getIterator` returns an iterable iterator for the elements in the class.
+   */
   protected* _getIterator(): IterableIterator<E> {
     for (const item of this.elements) {
       yield item;

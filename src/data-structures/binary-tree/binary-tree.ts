@@ -44,7 +44,7 @@ export class BinaryTreeNode<
   /**
    * The constructor function initializes an object with a key and an optional value.
    * @param {K} key - The "key" parameter is of type K, which represents the type of the key for the
-   * constructor. It is used to set the value of the "key" property of the object being created.
+   * constructor. It is used to set the key property of the object being created.
    * @param {V} [value] - The "value" parameter is an optional parameter of type V. It represents the
    * value associated with the key in the constructor.
    */

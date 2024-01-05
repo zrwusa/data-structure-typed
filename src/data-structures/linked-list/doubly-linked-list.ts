@@ -9,19 +9,75 @@ import type { ElementCallback } from '../../types';
 import { IterableElementBase } from '../base';
 
 export class DoublyLinkedListNode<E = any> {
-  value: E;
-  next: DoublyLinkedListNode<E> | undefined;
-  prev: DoublyLinkedListNode<E> | undefined;
-
   /**
    * The constructor function initializes the value, next, and previous properties of an object.
    * @param {E} value - The "value" parameter is the value that will be stored in the node. It can be of any data type, as it
    * is defined as a generic type "E".
    */
   constructor(value: E) {
-    this.value = value;
-    this.next = undefined;
-    this.prev = undefined;
+    this._value = value;
+    this._next = undefined;
+    this._prev = undefined;
+  }
+
+  protected _value: E;
+
+  /**
+   * The function returns the value of a protected variable.
+   * @returns The value of the variable `_value` is being returned.
+   */
+  get value(): E {
+    return this._value;
+  }
+
+  /**
+   * The above function sets the value of a variable.
+   * @param {E} value - The parameter "value" is of type E, which means it can be any type.
+   */
+  set value(value: E) {
+    this._value = value;
+  }
+
+  protected _next: DoublyLinkedListNode<E> | undefined;
+
+  /**
+   * The "next" function returns the next node in a doubly linked list.
+   * @returns The `next` property is being returned. It can be either a `DoublyLinkedListNode<E>`
+   * object or `undefined`.
+   */
+  get next(): DoublyLinkedListNode<E> | undefined {
+    return this._next;
+  }
+
+  /**
+   * The "next" property of a DoublyLinkedListNode is set to the provided value.
+   * @param {DoublyLinkedListNode<E> | undefined} value - The `value` parameter is of type
+   * `DoublyLinkedListNode<E> | undefined`. This means that it can accept either a
+   * `DoublyLinkedListNode` object or `undefined` as its value.
+   */
+  set next(value: DoublyLinkedListNode<E> | undefined) {
+    this._next = value;
+  }
+
+  protected _prev: DoublyLinkedListNode<E> | undefined;
+
+  /**
+   * The `prev` function returns the previous node in a doubly linked list.
+   * @returns The `prev` property of the `DoublyLinkedListNode` class is being returned. It can either
+   * be a `DoublyLinkedListNode` object or `undefined`.
+   */
+  get prev(): DoublyLinkedListNode<E> | undefined {
+    return this._prev;
+  }
+
+  /**
+   * The function sets the previous node of a doubly linked list node.
+   * @param {DoublyLinkedListNode<E> | undefined} value - The `value` parameter is of type
+   * `DoublyLinkedListNode<E> | undefined`. This means that it can accept either a
+   * `DoublyLinkedListNode` object or `undefined` as its value.
+   */
+  set prev(value: DoublyLinkedListNode<E> | undefined) {
+    this._prev = value;
   }
 }
 
@@ -82,13 +138,13 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    * where n is the number of elements in the linked list.
    */
 
   /**
-   * Time Complexity: O(n)
+   * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
    * The `get first` function returns the first node in a doubly linked list, or undefined if the list is empty.
@@ -104,7 +160,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    */
 
   /**
-   * Time Complexity: O(n)
+   * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
    * The `get last` function returns the last node in a doubly linked list, or undefined if the list is empty.
@@ -115,12 +171,12 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
    */
 
   /**
-   * Time Complexity: O(n), where n is the size of the input array.
+   * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
    * The `fromArray` function creates a new instance of a DoublyLinkedList and populates it with the elements from the
@@ -186,7 +242,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n)
+   * Time Complexity: O(1)
    * Space Complexity: O(1)
    */
 
@@ -213,7 +269,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n)
+   * Time Complexity: O(1)
    * Space Complexity: O(1)
    */
 
@@ -356,13 +412,13 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n)
+   * Time Complexity: O(1) or O(n)
    * Space Complexity: O(1)
    * where n is the number of elements in the linked list.
    */
 
   /**
-   * Time Complexity: O(n)
+   * Time Complexity: O(1) or O(n)
    * Space Complexity: O(1)
    *
    * The `addBefore` function inserts a new value before an existing value or node in a doubly linked list.
@@ -402,12 +458,12 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n)
+   * Time Complexity: O(1) or O(n)
    * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(n)
+   * Time Complexity: O(1) or O(n)
    * Space Complexity: O(1)
    *
    * The `addAfter` function inserts a new node with a given value after an existing node in a doubly linked list.
@@ -476,7 +532,12 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n)
+   * Time Complexity: O(1) or O(n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1) or O(n)
    * Space Complexity: O(1)
    *
    * The `delete` function removes a node from a doubly linked list based on either the node itself or its value.
@@ -517,6 +578,9 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    */
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The function checks if a variable has a size greater than zero and returns a boolean value.
    * @returns A boolean value is being returned.
    */
@@ -530,6 +594,9 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    */
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The `clear` function resets the linked list by setting the head, tail, and size to undefined and 0 respectively.
    */
   clear(): void {
@@ -568,7 +635,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
 
   /**
    * Time Complexity: O(n)
-   * Space Complexity: O(n)
+   * Space Complexity: O(1)
    */
 
   /**
@@ -595,7 +662,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
 
   /**
    * Time Complexity: O(n)
-   * Space Complexity: O(n)
+   * Space Complexity: O(1)
    */
 
   /**
@@ -678,8 +745,8 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
    */
 
   /**
@@ -712,8 +779,8 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
    */
 
   /**
@@ -778,7 +845,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n)
+   * Time Complexity: O(1)
    * Space Complexity: O(1)
    */
 
@@ -795,7 +862,7 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n)
+   * Time Complexity: O(1)
    * Space Complexity: O(1)
    */
 

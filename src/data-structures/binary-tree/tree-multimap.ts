@@ -23,8 +23,6 @@ export class TreeMultimapNode<
   V = any,
   NODE extends TreeMultimapNode<K, V, NODE> = TreeMultimapNodeNested<K, V>
 > extends AVLTreeNode<K, V, NODE> {
-  count: number;
-
   /**
    * The constructor function initializes a BinaryTreeNode object with a key, value, and count.
    * @param {K} key - The `key` parameter is of type `K` and represents the unique identifier
@@ -38,6 +36,25 @@ export class TreeMultimapNode<
   constructor(key: K, value?: V, count = 1) {
     super(key, value);
     this.count = count;
+  }
+
+  protected _count: number = 1;
+
+  /**
+   * The function returns the value of the protected variable _count.
+   * @returns The count property of the object, which is of type number.
+   */
+  get count(): number {
+    return this._count;
+  }
+
+  /**
+   * The above function sets the value of the count property.
+   * @param {number} value - The value parameter is of type number, which means it can accept any
+   * numeric value.
+   */
+  set count(value: number) {
+    this._count = value;
   }
 }
 
@@ -57,9 +74,14 @@ export class TreeMultimap<
     if (keysOrNodesOrEntries) this.addMany(keysOrNodesOrEntries);
   }
 
-  private _count = 0;
+  protected _count = 0;
 
   // TODO the _count is not accurate after nodes count modified
+  /**
+   * The function calculates the sum of the count property of all nodes in a tree using depth-first
+   * search.
+   * @returns the sum of the count property of all nodes in the tree.
+   */
   get count(): number {
     let sum = 0;
     this.dfs(node => (sum += node.count));
@@ -79,6 +101,15 @@ export class TreeMultimap<
     return new TreeMultimapNode(key, value, count) as NODE;
   }
 
+  /**
+   * The function creates a new TreeMultimap object with the specified options and returns it.
+   * @param [options] - The `options` parameter is an optional object that contains additional
+   * configuration options for creating the `TreeMultimap` object. It can include properties such as
+   * `iterationType` and `variant`, which are used to specify the type of iteration and the variant of
+   * the tree, respectively. These properties can be
+   * @returns a new instance of the `TreeMultimap` class, with the provided options merged with the
+   * default options. The returned value is casted as `TREE`.
+   */
   override createTree(options?: TreeMultimapOptions<K>): TREE {
     return new TreeMultimap<K, V, NODE, TREE>([], {
       iterationType: this.iterationType,
@@ -375,6 +406,14 @@ export class TreeMultimap<
     return undefined;
   }
 
+  /**
+   * The function replaces an old node with a new node and updates the count property of the new node.
+   * @param {NODE} oldNode - The `oldNode` parameter is of type `NODE` and represents the node that
+   * needs to be replaced in a data structure.
+   * @param {NODE} newNode - The `newNode` parameter is an object of type `NODE`.
+   * @returns The method is returning the result of calling the `_replaceNode` method from the
+   * superclass, after updating the `count` property of the `newNode` object.
+   */
   protected _replaceNode(oldNode: NODE, newNode: NODE): NODE {
     newNode.count = oldNode.count + newNode.count;
     return super._replaceNode(oldNode, newNode);

@@ -41,11 +41,6 @@ export class Stack<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the input array. Similar to the constructor, it requires iterating through each element.
-   * Space Complexity: O(n), as it creates a new stack with the elements from the input array.
-   */
-
-  /**
    * The size() function returns the number of elements in an array.
    * @returns The size of the elements array.
    */
@@ -54,8 +49,13 @@ export class Stack<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the input array. Similar to the constructor, it requires iterating through each element.
-   * Space Complexity: O(n), as it creates a new stack with the elements from the input array.
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
    *
    * The function "fromArray" creates a new Stack object from an array of elements.
    * @param {E[]} elements - The `elements` parameter is an array of elements of type `E`.
@@ -75,13 +75,13 @@ export class Stack<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1), as it only involves accessing the last element of the array.
-   * Space Complexity: O(1), as it does not use any additional space.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(1), as it only involves accessing the last element of the array.
-   * Space Complexity: O(1), as it does not use any additional space.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    *
    * The `peek` function returns the last element of an array, or undefined if the array is empty.
    * @returns The `peek()` function returns the last element of the `_elements` array, or `undefined` if the array is empty.
@@ -93,13 +93,13 @@ export class Stack<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1), as it only involves accessing the last element of the array.
-   * Space Complexity: O(1), as it does not use any additional space.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(1), as it only involves accessing the last element of the array.
-   * Space Complexity: O(1), as it does not use any additional space.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    *
    * The push function adds an element to the stack and returns the updated stack.
    * @param {E} element - The parameter "element" is of type E, which means it can be any data type.
@@ -111,13 +111,13 @@ export class Stack<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1), as it only involves accessing the last element of the array.
-   * Space Complexity: O(1), as it does not use any additional space.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(1), as it only involves accessing the last element of the array.
-   * Space Complexity: O(1), as it does not use any additional space.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    *
    * The `pop` function removes and returns the last element from an array, or returns undefined if the array is empty.
    * @returns The `pop()` method is returning the last element of the array `_elements` if the array is not empty. If the
@@ -166,6 +166,14 @@ export class Stack<E = any> extends IterableElementBase<E> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The clear function clears the elements array.
    */
   clear(): void {
@@ -173,13 +181,13 @@ export class Stack<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the stack, as it creates a new stack and copies all elements into it.
-   * Space Complexity: O(n), as it creates a new stack.
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
    */
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the stack, as it creates a new stack and copies all elements into it.
-   * Space Complexity: O(n), as it creates a new stack.
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
    *
    * The `clone()` function returns a new `Stack` object with the same elements as the original stack.
    * @returns The `clone()` method is returning a new `Stack` object with a copy of the `_elements` array.
@@ -250,6 +258,14 @@ export class Stack<E = any> extends IterableElementBase<E> {
   }
 
   /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
    * Custom iterator for the Stack class.
    * @returns An iterator object.
    */

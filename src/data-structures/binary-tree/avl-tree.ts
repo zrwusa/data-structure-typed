@@ -22,11 +22,36 @@ export class AVLTreeNode<
   V = any,
   NODE extends AVLTreeNode<K, V, NODE> = AVLTreeNodeNested<K, V>
 > extends BSTNode<K, V, NODE> {
-  height: number;
-
+  /**
+   * The constructor function initializes a new instance of a class with a key and an optional value,
+   * and sets the height property to 0.
+   * @param {K} key - The "key" parameter is of type K, which represents the type of the key for the
+   * constructor. It is used to initialize the key property of the object being created.
+   * @param {V} [value] - The "value" parameter is an optional parameter of type V. It represents the
+   * value associated with the key in the constructor.
+   */
   constructor(key: K, value?: V) {
     super(key, value);
-    this.height = 0;
+    this._height = 0;
+  }
+
+  protected _height: number;
+
+  /**
+   * The function returns the value of the height property.
+   * @returns The height of the object.
+   */
+  get height(): number {
+    return this._height;
+  }
+
+  /**
+   * The above function sets the value of the height property.
+   * @param {number} value - The value parameter is a number that represents the new height value to be
+   * set.
+   */
+  set height(value: number) {
+    this._height = value;
   }
 }
 
@@ -488,6 +513,15 @@ export class AVLTree<
     }
   }
 
+  /**
+   * The function replaces an old node with a new node while preserving the height of the old node.
+   * @param {NODE} oldNode - The `oldNode` parameter is the node that you want to replace with the
+   * `newNode`.
+   * @param {NODE} newNode - The `newNode` parameter is the new node that will replace the `oldNode` in
+   * the data structure.
+   * @returns the result of calling the `_replaceNode` method on the superclass, passing in the
+   * `oldNode` and `newNode` as arguments.
+   */
   protected _replaceNode(oldNode: NODE, newNode: NODE): NODE {
     newNode.height = oldNode.height;
 

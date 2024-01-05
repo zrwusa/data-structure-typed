@@ -13,14 +13,70 @@ import { IterableElementBase } from '../base';
  * and a flag indicating whether it's the end of a word.
  */
 export class TrieNode {
-  key: string;
-  children: Map<string, TrieNode>;
-  isEnd: boolean;
-
   constructor(key: string) {
-    this.key = key;
-    this.isEnd = false;
-    this.children = new Map<string, TrieNode>();
+    this._key = key;
+    this._isEnd = false;
+    this._children = new Map<string, TrieNode>();
+  }
+
+  protected _key: string;
+
+  /**
+   * The function returns the value of the private variable _key.
+   * @returns The value of the `_key` property, which is a string.
+   */
+  get key(): string {
+    return this._key;
+  }
+
+  /**
+   * The above function sets the value of a private variable called "key".
+   * @param {string} value - The value parameter is a string that represents the value to be assigned
+   * to the key.
+   */
+  set key(value: string) {
+    this._key = value;
+  }
+
+  protected _children: Map<string, TrieNode>;
+
+  /**
+   * The function returns the children of a TrieNode as a Map.
+   * @returns The `children` property of the TrieNode object, which is a Map containing string keys and
+   * TrieNode values.
+   */
+  get children(): Map<string, TrieNode> {
+    return this._children;
+  }
+
+  /**
+   * The function sets the value of the `_children` property of a TrieNode object.
+   * @param value - The value parameter is a Map object that represents the children of a TrieNode. The
+   * keys of the map are strings, which represent the characters that are associated with each child
+   * TrieNode. The values of the map are TrieNode objects, which represent the child nodes of the
+   * current TrieNode.
+   */
+  set children(value: Map<string, TrieNode>) {
+    this._children = value;
+  }
+
+  protected _isEnd: boolean;
+
+  /**
+   * The function returns a boolean value indicating whether a certain condition is met.
+   * @returns The method is returning a boolean value, specifically the value of the variable `_isEnd`.
+   */
+  get isEnd(): boolean {
+    return this._isEnd;
+  }
+
+  /**
+   * The function sets the value of the "_isEnd" property.
+   * @param {boolean} value - The value parameter is a boolean value that indicates whether the current
+   * state is the end state or not.
+   */
+  set isEnd(value: boolean) {
+    this._isEnd = value;
   }
 }
 
@@ -68,9 +124,8 @@ export class Trie extends IterableElementBase<string, Trie> {
   protected _caseSensitive: boolean = true;
 
   /**
-   * The caseSensitive function is a getter that returns the value of the private _caseSensitive property.
-   *
-   * @return The value of the _casesensitive private variable
+   * The caseSensitive function is a getter that returns the value of the protected _caseSensitive property.
+   * @return The value of the _caseSensitive protected variable
    */
   get caseSensitive(): boolean {
     return this._caseSensitive;
@@ -87,13 +142,13 @@ export class Trie extends IterableElementBase<string, Trie> {
   }
 
   /**
-   * Time Complexity: O(M), where M is the length of the word being added.
-   * Space Complexity: O(M) - Each character in the word adds a TrieNode.
+   * Time Complexity: O(l), where l is the length of the word being added.
+   * Space Complexity: O(l) - Each character in the word adds a TrieNode.
    */
 
   /**
-   * Time Complexity: O(M), where M is the length of the word being added.
-   * Space Complexity: O(M) - Each character in the word adds a TrieNode.
+   * Time Complexity: O(l), where l is the length of the word being added.
+   * Space Complexity: O(l) - Each character in the word adds a TrieNode.
    *
    * Add a word to the Trie structure.
    * @param {string} word - The word to add.
@@ -120,12 +175,12 @@ export class Trie extends IterableElementBase<string, Trie> {
   }
 
   /**
-   * Time Complexity: O(M), where M is the length of the input word.
+   * Time Complexity: O(l), where l is the length of the input word.
    * Space Complexity: O(1) - Constant space.
    */
 
   /**
-   * Time Complexity: O(M), where M is the length of the input word.
+   * Time Complexity: O(l), where l is the length of the input word.
    * Space Complexity: O(1) - Constant space.
    *
    * Check if the Trie contains a given word.
@@ -144,6 +199,14 @@ export class Trie extends IterableElementBase<string, Trie> {
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The isEmpty function checks if the size of the queue is 0.
    * @return True if the size of the queue is 0
    */
@@ -152,13 +215,13 @@ export class Trie extends IterableElementBase<string, Trie> {
   }
 
   /**
-   * Time Complexity: O(M), where M is the length of the word being deleted.
-   * Space Complexity: O(M) - Due to the recursive DFS approach.
+   * Time Complexity: O(l), where l is the length of the word being deleted.
+   * Space Complexity: O(n) - Due to the recursive DFS approach.
    */
 
   /**
-   * Time Complexity: O(M), where M is the length of the word being deleted.
-   * Space Complexity: O(M) - Due to the recursive DFS approach.
+   * Time Complexity: O(l), where l is the length of the word being deleted.
+   * Space Complexity: O(n) - Due to the recursive DFS approach.
    *
    * Remove a word from the Trie structure.
    * @param{string} word - The word to delete.
@@ -201,12 +264,12 @@ export class Trie extends IterableElementBase<string, Trie> {
   }
 
   /**
-   * Time Complexity: O(N), where N is the total number of nodes in the trie.
+   * Time Complexity: O(n), where n is the total number of nodes in the trie.
    * Space Complexity: O(1) - Constant space.
    */
 
   /**
-   * Time Complexity: O(N), where N is the total number of nodes in the trie.
+   * Time Complexity: O(n), where n is the total number of nodes in the trie.
    * Space Complexity: O(1) - Constant space.
    *
    */
@@ -231,12 +294,12 @@ export class Trie extends IterableElementBase<string, Trie> {
   }
 
   /**
-   * Time Complexity: O(M), where M is the length of the input prefix.
+   * Time Complexity: O(l), where l is the length of the input prefix.
    * Space Complexity: O(1) - Constant space.
    */
 
   /**
-   * Time Complexity: O(M), where M is the length of the input prefix.
+   * Time Complexity: O(l), where l is the length of the input prefix.
    * Space Complexity: O(1) - Constant space.
    *
    * Check if a given input string has an absolute prefix in the Trie, meaning it's not a complete word.
@@ -255,12 +318,12 @@ export class Trie extends IterableElementBase<string, Trie> {
   }
 
   /**
-   * Time Complexity: O(M), where M is the length of the input prefix.
+   * Time Complexity: O(l), where l is the length of the input prefix.
    * Space Complexity: O(1) - Constant space.
    */
 
   /**
-   * Time Complexity: O(M), where M is the length of the input prefix.
+   * Time Complexity: O(l), where l is the length of the input prefix.
    * Space Complexity: O(1) - Constant space.
    *
    * Check if a given input string is a prefix of any existing word in the Trie, whether as an absolute prefix or a complete word.
@@ -279,13 +342,13 @@ export class Trie extends IterableElementBase<string, Trie> {
   }
 
   /**
-   * Time Complexity: O(N), where N is the total number of nodes in the trie.
-   * Space Complexity: O(M), where M is the length of the input prefix.
+   * Time Complexity: O(n), where n is the total number of nodes in the trie.
+   * Space Complexity: O(l), where l is the length of the input prefix.
    */
 
   /**
-   * Time Complexity: O(N), where N is the total number of nodes in the trie.
-   * Space Complexity: O(M), where M is the length of the input prefix.
+   * Time Complexity: O(n), where n is the total number of nodes in the trie.
+   * Space Complexity: O(l), where l is the length of the input prefix.
    *
    * Check if the input string is a common prefix in the Trie, meaning it's a prefix shared by all words in the Trie.
    * @param {string} input - The input string representing the common prefix to check for.
@@ -306,13 +369,13 @@ export class Trie extends IterableElementBase<string, Trie> {
   }
 
   /**
-   * Time Complexity: O(N), where N is the total number of nodes in the trie.
-   * Space Complexity: O(M), where M is the length of the longest common prefix.
+   * Time Complexity: O(n), where n is the total number of nodes in the trie.
+   * Space Complexity: O(l), where l is the length of the longest common prefix.
    */
 
   /**
-   * Time Complexity: O(N), where N is the total number of nodes in the trie.
-   * Space Complexity: O(M), where M is the length of the longest common prefix.
+   * Time Complexity: O(n), where n is the total number of nodes in the trie.
+   * Space Complexity: O(l), where l is the length of the longest common prefix.
    *
    * Get the longest common prefix among all the words stored in the Trie.
    * @returns {string} The longest common prefix found in the Trie.
@@ -330,13 +393,13 @@ export class Trie extends IterableElementBase<string, Trie> {
   }
 
   /**
-   * Time Complexity: O(K * L), where K is the number of words retrieved, and L is the average length of the words.
-   * Space Complexity: O(K * L) - The space required for the output array.
+   * Time Complexity: O(w * l), where w is the number of words retrieved, and l is the average length of the words.
+   * Space Complexity: O(w * l) - The space required for the output array.
    */
 
   /**
-   * Time Complexity: O(K * L), where K is the number of words retrieved, and L is the average length of the words.
-   * Space Complexity: O(K * L) - The space required for the output array.
+   * Time Complexity: O(w * l), where w is the number of words retrieved, and l is the average length of the words.
+   * Space Complexity: O(w * l) - The space required for the output array.
    *
    * The `getAll` function returns an array of all words in a Trie data structure that start with a given prefix.
    * @param {string} prefix - The `prefix` parameter is a string that represents the prefix that we want to search for in the
@@ -454,6 +517,18 @@ export class Trie extends IterableElementBase<string, Trie> {
     return newTrie;
   }
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The function `_getIterator` returns an iterable iterator that performs a depth-first search on a
+   * trie data structure and yields all the paths to the end nodes.
+   */
   protected* _getIterator(): IterableIterator<string> {
     function* _dfs(node: TrieNode, path: string): IterableIterator<string> {
       if (node.isEnd) {
@@ -468,12 +543,12 @@ export class Trie extends IterableElementBase<string, Trie> {
   }
 
   /**
-   * Time Complexity: O(M), where M is the length of the input string.
+   * Time Complexity: O(l), where l is the length of the input string.
    * Space Complexity: O(1) - Constant space.
    */
 
   /**
-   * Time Complexity: O(M), where M is the length of the input string.
+   * Time Complexity: O(l), where l is the length of the input string.
    * Space Complexity: O(1) - Constant space.
    *
    * @param str

@@ -9,17 +9,53 @@ import type { ElementCallback } from '../../types';
 import { IterableElementBase } from '../base';
 
 export class SinglyLinkedListNode<E = any> {
-  value: E;
-  next: SinglyLinkedListNode<E> | undefined;
-
   /**
    * The constructor function initializes an instance of a class with a given value and sets the next property to undefined.
    * @param {E} value - The "value" parameter is of type E, which means it can be any data type. It represents the value that
    * will be stored in the node of a linked list.
    */
   constructor(value: E) {
-    this.value = value;
-    this.next = undefined;
+    this._value = value;
+    this._next = undefined;
+  }
+
+  protected _value: E;
+
+  /**
+   * The function returns the value of a protected variable.
+   * @returns The value of the variable `_value` is being returned.
+   */
+  get value(): E {
+    return this._value;
+  }
+
+  /**
+   * The above function sets the value of a variable.
+   * @param {E} value - The parameter "value" is of type E, which means it can be any type.
+   */
+  set value(value: E) {
+    this._value = value;
+  }
+
+  protected _next: SinglyLinkedListNode<E> | undefined;
+
+  /**
+   * The `next` function returns the next node in a singly linked list.
+   * @returns The `next` property is being returned. It can be either a `SinglyLinkedListNode<E>`
+   * object or `undefined`.
+   */
+  get next(): SinglyLinkedListNode<E> | undefined {
+    return this._next;
+  }
+
+  /**
+   * The "next" property of a SinglyLinkedListNode is set to the provided value.
+   * @param {SinglyLinkedListNode<E> | undefined} value - The `value` parameter is of type
+   * `SinglyLinkedListNode<E> | undefined`. This means that it can accept either a
+   * `SinglyLinkedListNode` object or `undefined` as its value.
+   */
+  set next(value: SinglyLinkedListNode<E> | undefined) {
+    this._next = value;
   }
 }
 
@@ -728,7 +764,7 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
+   * Time Complexity: O(n)
    * Space Complexity: O(n)
    */
   /**

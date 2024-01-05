@@ -17,13 +17,6 @@ import { calcMinUnitsRequired, rangeCheck } from '../../utils';
  * 5. Performance jitter: Deque may experience performance jitter, but DoublyLinkedList will not
  */
 export class Deque<E> extends IterableElementBase<E> {
-  protected _bucketFirst = 0;
-  protected _firstInBucket = 0;
-  protected _bucketLast = 0;
-  protected _lastInBucket = 0;
-  protected _bucketCount = 0;
-  protected readonly _bucketSize: number = 1 << 12;
-
   /**
    * The constructor initializes a Deque object with an optional iterable of elements and options.
    * @param elements - An iterable object (such as an array or a Set) that contains the initial
@@ -65,6 +58,8 @@ export class Deque<E> extends IterableElementBase<E> {
     }
   }
 
+  protected _bucketSize: number = 1 << 12;
+
   /**
    * The bucketSize function returns the size of the bucket.
    *
@@ -74,11 +69,62 @@ export class Deque<E> extends IterableElementBase<E> {
     return this._bucketSize;
   }
 
+  protected _bucketFirst = 0;
+
+  /**
+   * The function returns the value of the protected variable `_bucketFirst`.
+   * @returns The value of the `_bucketFirst` property.
+   */
+  get bucketFirst(): number {
+    return this._bucketFirst;
+  }
+
+  protected _firstInBucket = 0;
+
+  /**
+   * The function returns the value of the protected variable _firstInBucket.
+   * @returns The method is returning the value of the variable `_firstInBucket`, which is of type
+   * `number`.
+   */
+  get firstInBucket(): number {
+    return this._firstInBucket;
+  }
+
+  protected _bucketLast = 0;
+
+  /**
+   * The function returns the value of the protected variable `_bucketLast`.
+   * @returns The value of the `_bucketLast` property, which is a number.
+   */
+  get bucketLast(): number {
+    return this._bucketLast;
+  }
+
+  protected _lastInBucket = 0;
+
+  /**
+   * The function returns the value of the protected variable _lastInBucket.
+   * @returns The method is returning the value of the variable `_lastInBucket`, which is of type
+   * `number`.
+   */
+  get lastInBucket(): number {
+    return this._lastInBucket;
+  }
+
+  protected _bucketCount = 0;
+
+  /**
+   * The function returns the number of buckets.
+   * @returns The number of buckets.
+   */
+  get bucketCount(): number {
+    return this._bucketCount;
+  }
+
   protected _buckets: E[][] = [];
 
   /**
    * The buckets function returns the buckets property of the object.
-   *
    * @return The buckets property
    */
   get buckets() {
@@ -243,15 +289,30 @@ export class Deque<E> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1) - Removes the last element.
-   * Space Complexity: O(1) - Operates in-place.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The function checks if the size of an object is equal to zero and returns a boolean value.
+   * @returns A boolean value indicating whether the size of the object is 0 or not.
+   */
   isEmpty(): boolean {
     return this.size === 0;
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The clear() function resets the state of the object by initializing all variables to their default
    * values.
    */
@@ -405,6 +466,26 @@ export class Deque<E> extends IterableElementBase<E> {
     }
   }
 
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1) or O(n)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1) or O(n)
+   *
+   * The `cutRest` function cuts the elements from a specified position in a deque and returns a new
+   * deque with the cut elements.
+   * @param {number} pos - The `pos` parameter represents the position from which to cut the Deque. It
+   * is a number that indicates the index of the element in the Deque where the cut should start.
+   * @param [isCutSelf=false] - isCutSelf is a boolean parameter that determines whether the original
+   * Deque should be modified or a new Deque should be created. If isCutSelf is true, the original
+   * Deque will be modified by cutting off elements starting from the specified position. If isCutSelf
+   * is false, a new De
+   * @returns The function `cutRest` returns either the modified original deque (`this`) or a new deque
+   * (`newDeque`) depending on the value of the `isCutSelf` parameter.
+   */
   cutRest(pos: number, isCutSelf = false): Deque<E> {
     if (isCutSelf) {
       if (pos < 0) {
@@ -429,12 +510,12 @@ export class Deque<E> extends IterableElementBase<E> {
 
   /**
    * Time Complexity: O(n)
-   * Space Complexity: O(1)
+   * Space Complexity: O(1) or O(n)
    */
 
   /**
    * Time Complexity: O(n)
-   * Space Complexity: O(1)
+   * Space Complexity: O(1) or O(n)
    *
    * The `deleteAt` function removes an element at a specified position in an array-like data
    * structure.
@@ -736,8 +817,8 @@ export class Deque<E> extends IterableElementBase<E> {
    */
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(n) - In worst case, resizing doubles the array size.
+   * Time Complexity: Amortized O(1) - Similar to push, resizing leads to O(n).
+   * Space Complexity: O(n) - Due to potential resizing.
    *
    * The addLast function adds an element to the end of an array.
    * @param {E} element - The element parameter represents the element that you want to add to the end of the
@@ -748,13 +829,13 @@ export class Deque<E> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1) - Removes the first element.
-   * Space Complexity: O(1) - In-place operation.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
-   * Time Complexity: O(1) - Removes the last element.
-   * Space Complexity: O(1) - Operates in-place.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    *
    * The function "pollLast" removes and returns the last element of an array.
    * @returns The last element of the array is being returned.
@@ -764,8 +845,13 @@ export class Deque<E> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1).
-   * Space Complexity: O(n) - Due to potential resizing.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   * /
+
+   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    *
    * The "addFirst" function adds an element to the beginning of an array.
    * @param {E} element - The parameter "element" represents the element that you want to add to the
@@ -776,8 +862,13 @@ export class Deque<E> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1) - Removes the first element.
-   * Space Complexity: O(1) - In-place operation.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   * /
+
+   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    *
    * The function "pollFirst" removes and returns the first element of an array.
    * @returns The method `pollFirst()` is returning the first element of the array after removing it
@@ -788,6 +879,11 @@ export class Deque<E> extends IterableElementBase<E> {
   }
 
   /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   * /
+
+   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
