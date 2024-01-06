@@ -617,6 +617,23 @@ export class DirectedGraph<
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The clear function resets the vertex map, in-edge map, and out-edge map.
+   */
+  clear() {
+    this._vertexMap = new Map<VertexKey, VO>();
+    this._inEdgeMap = new Map<VO, EO[]>();
+    this._outEdgeMap = new Map<VO, EO[]>();
+  }
+
+  /**
    * The clone function creates a new DirectedGraph object with the same vertices and edges as the original.
    *
    * @return A new instance of the directedgraph class

@@ -81,6 +81,9 @@ class MyGraph<
     return true;
   }
 
+  clear(): void {
+  }
+
   clone(): any {
     return {};
   }

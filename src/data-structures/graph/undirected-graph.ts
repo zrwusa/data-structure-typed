@@ -378,6 +378,22 @@ export class UndirectedGraph<
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The clear function resets the vertex and edge maps to empty maps.
+   */
+  clear() {
+    this._vertexMap = new Map<VertexKey, VO>();
+    this._edgeMap = new Map<VO, EO[]>();
+  }
+
+  /**
    * The clone function creates a new UndirectedGraph object and copies the
    * vertexMap and edgeMap from this graph to the new one. This is done by
    * assigning each of these properties to their respective counterparts in the

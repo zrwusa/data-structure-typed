@@ -289,7 +289,13 @@ export abstract class IterableEntryBase<K = any, V = any> {
 
   abstract isEmpty(): boolean;
 
+  abstract clear(): void;
+
   abstract clone(): any;
+
+  abstract map(...args: any[]): any;
+
+  abstract filter(...args: any[]): any;
 
   protected abstract _getIterator(...args: any[]): IterableIterator<[K, V]>;
 }
@@ -497,7 +503,13 @@ export abstract class IterableElementBase<E = any, C = any> {
 
   abstract isEmpty(): boolean;
 
+  abstract clear(): void;
+
   abstract clone(): C;
+
+  abstract map(...args: any[]): any;
+
+  abstract filter(...args: any[]): any;
 
   protected abstract _getIterator(...args: any[]): IterableIterator<E>;
 }

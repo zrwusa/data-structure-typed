@@ -22,7 +22,7 @@ export class TrieNode {
   protected _key: string;
 
   /**
-   * The function returns the value of the private variable _key.
+   * The function returns the value of the protected variable _key.
    * @returns The value of the `_key` property, which is a string.
    */
   get key(): string {
@@ -30,7 +30,7 @@ export class TrieNode {
   }
 
   /**
-   * The above function sets the value of a private variable called "key".
+   * The above function sets the value of a protected variable called "key".
    * @param {string} value - The value parameter is a string that represents the value to be assigned
    * to the key.
    */
@@ -212,6 +212,22 @@ export class Trie extends IterableElementBase<string, Trie> {
    */
   isEmpty(): boolean {
     return this.size === 0;
+  }
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The clear function resets the size of the Trie to 0 and creates a new root TrieNode.
+   */
+  clear(): void {
+    this._size = 0;
+    this._root = new TrieNode('');
   }
 
   /**

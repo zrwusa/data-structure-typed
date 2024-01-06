@@ -15,10 +15,10 @@ export class TreeNode<V = any> {
     this._children = children || [];
   }
 
-  private _key: string;
+  protected _key: string;
 
   /**
-   * The function returns the value of the private variable _key.
+   * The function returns the value of the protected variable _key.
    * @returns The value of the `_key` property, which is a string.
    */
   get key(): string {
@@ -26,7 +26,7 @@ export class TreeNode<V = any> {
   }
 
   /**
-   * The above function sets the value of a private variable called "key".
+   * The above function sets the value of a protected variable called "key".
    * @param {string} value - The value parameter is a string that represents the value to be assigned
    * to the key.
    */
@@ -34,7 +34,7 @@ export class TreeNode<V = any> {
     this._key = value;
   }
 
-  private _value?: V | undefined;
+  protected _value?: V | undefined;
 
   /**
    * The function returns the value stored in a variable, or undefined if the variable is empty.
@@ -53,7 +53,7 @@ export class TreeNode<V = any> {
     this._value = value;
   }
 
-  private _children?: TreeNode<V>[] | undefined;
+  protected _children?: TreeNode<V>[] | undefined;
 
   /**
    * The function returns an array of TreeNode objects or undefined.
