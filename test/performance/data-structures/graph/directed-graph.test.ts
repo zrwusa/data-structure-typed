@@ -26,7 +26,7 @@ suite
       graph.getEdge(vertexes[getRandomIndex(vertexes)], vertexes[getRandomIndex(vertexes)]);
   })
   .add(`tarjan`, () => {
-    graph.tarjan(true);
+    graph.tarjan();
   })
   // .add(`tarjan all`, () => {
   //   graph.tarjan(true, true, true, true);

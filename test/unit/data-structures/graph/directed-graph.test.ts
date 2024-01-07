@@ -639,11 +639,11 @@ describe('cycles, strongly connected components, bridges, articular points in Di
   const dfnMap = graph.getDFNMap();
   const lowMap = graph.getLowMap();
   expect(cycles.length).toBe(2);
-  // expect(scCs.size).toBe(5);
+  expect(scCs.size).toBe(5);
   // expect(bridges.length).toBe(4);
   // expect(cutVertices.length).toBe(4);
-  // expect(dfnMap.size).toBe(8);
-  // expect(lowMap.size).toBe(8);
+  expect(dfnMap.size).toBe(8);
+  expect(lowMap.size).toBe(8);
 });
 
 describe('DirectedGraph iterative Methods', () => {
