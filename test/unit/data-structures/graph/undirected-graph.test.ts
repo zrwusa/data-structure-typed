@@ -1,5 +1,5 @@
 import { UndirectedEdge, UndirectedGraph, UndirectedVertex } from '../../../../src';
-import saltyVertexes from './salty-vertexes.json';
+import saltyVertices from './salty-vertexes.json';
 import saltyEdges from './salty-edges.json';
 
 describe('UndirectedGraph Operation Test', () => {
@@ -17,7 +17,7 @@ describe('UndirectedGraph Operation Test', () => {
     expect(graph.getEndsOfEdge(new UndirectedEdge('c', 'd'))).toBe(undefined);
   });
 
-  it('should add vertexMap', () => {
+  it('should add vertices', () => {
     const vertex1 = new UndirectedVertex('A');
     const vertex2 = new UndirectedVertex('B');
 
@@ -76,8 +76,8 @@ describe('UndirectedGraph', () => {
     undirectedGraph = new UndirectedGraph<string, string>();
   });
 
-  // Test adding vertexMap to the graph
-  it('should add vertexMap to the graph', () => {
+  // Test adding vertices to the graph
+  it('should add vertices to the graph', () => {
     const vertexA = new UndirectedVertex('A', 'Location A');
     const vertexB = new UndirectedVertex('B', 'Location B');
 
@@ -130,7 +130,7 @@ describe('UndirectedGraph', () => {
     const edgeAB = new UndirectedEdge('A', 'B', 3, 'Edge between A and B');
     const edgeBC = new UndirectedEdge('B', 'C', 4, 'Edge between B and C');
 
-    edgeAB.vertexMap = edgeAB.vertexMap;
+    edgeAB.endpoints = edgeAB.endpoints;
     expect(undirectedGraph.edgeMap.size).toBe(0);
     undirectedGraph.addVertex(vertexA);
     undirectedGraph.addVertex(vertexB);
@@ -151,7 +151,7 @@ describe('UndirectedGraph', () => {
 
   it('should getAllPathsBetween work well in 66 vertexes 97 edges graph', () => {
     const graph = new UndirectedGraph<{ name: string }, number>();
-    for (const v of saltyVertexes) {
+    for (const v of saltyVertices) {
       graph.addVertex(v.name, v);
     }
     for (const e of saltyEdges) {
@@ -181,16 +181,16 @@ describe('UndirectedGraph', () => {
     dg.addVertex('hey');
     dg.addEdge('hello', 'hi');
     dg.addEdge('hello', 'hey');
-    expect(dg.getEdge('hello', 'hi')?.vertexMap[0]).toBe('hello');
-    expect(dg.getEdge('hello', 'hi')?.vertexMap[1]).toBe('hi');
-    expect(dg.getEdge('hello', 'hey')?.vertexMap[0]).toBe('hello');
-    expect(dg.getEdge('hello', 'hey')?.vertexMap[1]).toBe('hey');
+    expect(dg.getEdge('hello', 'hi')?.endpoints[0]).toBe('hello');
+    expect(dg.getEdge('hello', 'hi')?.endpoints[1]).toBe('hi');
+    expect(dg.getEdge('hello', 'hey')?.endpoints[0]).toBe('hello');
+    expect(dg.getEdge('hello', 'hey')?.endpoints[1]).toBe('hey');
     dg.deleteEdge('hello', 'hi');
     expect(dg.getEdge('hello', 'hi')).toBe(undefined);
     expect(dg.getEdge('hello', 'hey')).toBeInstanceOf(UndirectedEdge);
   });
 
-  test('Removing a vertex of a DirectedGraph should delete additional edges', () => {
+  test('Removing a vertex of a UndirectedGraph should delete additional edges', () => {
     const graph = new UndirectedGraph();
 
     graph.addVertex('Hello');
@@ -212,13 +212,13 @@ describe('UndirectedGraph', () => {
     dg.addEdge('hello', 'earth');
     dg.addEdge('world', 'earth');
 
-    expect(dg.getEdge('hello', 'world')?.vertexMap[0]).toBe('hello');
+    expect(dg.getEdge('hello', 'world')?.endpoints[0]).toBe('hello');
     expect(dg.edgeSet().length).toBe(3);
-    expect(dg.edgeSet()[0].vertexMap).toEqual(['hello', 'world']);
+    expect(dg.edgeSet()[0].endpoints).toEqual(['hello', 'world']);
 
     dg.deleteVertex('hello');
     expect(dg.edgeSet().length).toBe(1);
-    expect(dg.edgeSet()?.[0].vertexMap[0]).toBe('world');
+    expect(dg.edgeSet()?.[0].endpoints[0]).toBe('world');
 
     expect(dg.getEdge('hello', 'world')).toBe(undefined);
   });
@@ -244,15 +244,15 @@ describe('cycles, strongly connected components, bridges, articular points in Un
   graph.addEdge('E', 'H');
   graph.addEdge('H', 'F');
   const cycles = graph.getCycles();
-  const scCs = graph.getSCCs();
+  // const cCs = graph.getCCs();
   const bridges = graph.getBridges();
-  const cutVertexes = graph.getCutVertexes();
+  const cutVertices = graph.getCutVertices();
   const dfnMap = graph.getDFNMap();
   const lowMap = graph.getLowMap();
   expect(cycles.length).toBe(3);
-  expect(scCs.size).toBe(5);
+  // expect(cCs.size).toBe(5);
   expect(bridges.length).toBe(4);
-  expect(cutVertexes.length).toBe(4);
+  expect(cutVertices.length).toBe(4);
   expect(dfnMap.size).toBe(8);
   expect(lowMap.size).toBe(8);
 });
@@ -355,4 +355,249 @@ describe('UndirectedGraph getCycles', () => {
       ['B', 'E', 'F']
     ]);
   });
+});
+
+describe('UndirectedGraph tarjan', () => {
+  test('should simple cycles graph tarjan cycles return correct result', () => {
+    const graph = new UndirectedGraph();
+
+    graph.addVertex('A');
+    graph.addVertex('B');
+    graph.addVertex('C');
+    graph.addVertex('D');
+
+    graph.addEdge('A', 'B');
+    graph.addEdge('B', 'C');
+    graph.addEdge('C', 'A');
+    graph.addEdge('A', 'D');
+    graph.addEdge('D', 'C');
+    const cycles = graph.getCycles();
+    expect(cycles.length).toBe(3);
+    expect(cycles).toEqual([
+      ['A', 'B', 'C'],
+      ['A', 'B', 'C', 'D'],
+      ['A', 'C', 'D']
+    ]);
+  });
+
+  function createExampleGraph1() {
+    const graph = new UndirectedGraph();
+    graph.addVertex('A');
+    graph.addVertex('B');
+    graph.addVertex('C');
+    graph.addVertex('D');
+    graph.addVertex('E');
+    graph.addEdge('A', 'B');
+    graph.addEdge('A', 'C');
+    graph.addEdge('B', 'D');
+    graph.addEdge('C', 'D');
+    graph.addEdge('D', 'E');
+    graph.addEdge('E', 'B');
+    return graph;
+  }
+
+  test('should tarjan cut vertexes return correct result', () => {
+    const graph = createExampleGraph1();
+    const cutVertices = graph.tarjan().cutVertices;
+    expect(cutVertices.length).toBe(0);
+  });
+
+  test('should tarjan bridges return correct result', () => {
+    const graph = createExampleGraph1();
+    const bridges = graph.tarjan().bridges;
+    expect(bridges.length).toBe(0);
+  });
+
+  test('should 3 cycles graph tarjan cut vertexes return correct result', () => {
+    const graph = createExampleGraph1();
+    const cutVertices = graph.tarjan().cutVertices;
+    expect(cutVertices.length).toBe(0);
+  });
+
+  test('should 3 cycles graph tarjan bridges return correct result', () => {
+    const graph = createExampleGraph1();
+    const bridges = graph.tarjan().bridges;
+    expect(bridges.length).toBe(0);
+  });
+
+  test('should cuttable graph tarjan cut vertexes return correct result', () => {
+    const graph = createExampleGraph3();
+    const cutVertices = graph.tarjan().cutVertices;
+    expect(cutVertices.length).toBe(3);
+    expect(cutVertices.map(cv => cv.key)).toEqual(['B', 'E', 'A']);
+  });
+
+  test('should cuttable graph tarjan bridges return correct result', () => {
+    const graph = createExampleGraph3();
+    const bridges = graph.tarjan().bridges;
+    expect(bridges.length).toBe(2);
+    expect(bridges.map(edge => edge.endpoints)).toEqual([
+      ['A', 'B'],
+      ['A', 'E']
+    ]);
+  });
+
+  test('should more cuttable graph tarjan cut vertexes return correct result', () => {
+    const graph = createExampleGraph4();
+    const cutVertices = graph.tarjan().cutVertices;
+    expect(cutVertices.length).toBe(4);
+    expect(cutVertices.map(cv => cv.key)).toEqual(['H', 'B', 'E', 'A']);
+  });
+
+  test('should more cuttable graph tarjan bridges return correct result', () => {
+    const graph = createExampleGraph4();
+    const bridges = graph.tarjan().bridges;
+    expect(bridges.length).toBe(2);
+    expect(bridges.map(edge => edge.endpoints)).toEqual([
+      ['A', 'B'],
+      ['A', 'E']
+    ]);
+  });
+
+  test('should uncuttable graph tarjan cut vertexes return correct result', () => {
+    const graph = createExampleGraph5();
+    const cutVertices = graph.tarjan().cutVertices;
+    expect(cutVertices.length).toBe(1);
+  });
+
+  test('should uncuttable graph tarjan bridges return correct result', () => {
+    const graph = createExampleGraph5();
+    const bridges = graph.tarjan().bridges;
+    expect(bridges.length).toBe(0);
+  });
+
+  function createExampleGraph2() {
+    const graph = createExampleGraph1();
+    graph.addVertex('F');
+    graph.addVertex('G');
+    graph.addEdge('B', 'F');
+    graph.addEdge('F', 'E');
+    graph.addEdge('C', 'G');
+    graph.addEdge('G', 'A');
+    return graph;
+  }
+
+  test('should 3 cycles graph tarjan cycles return correct result', () => {
+    const graph = createExampleGraph2();
+    const cycles = graph.getCycles();
+    expect(cycles.length).toBe(10);
+    expect(cycles).toEqual([
+      ['A', 'B', 'D', 'C'],
+      ['A', 'B', 'D', 'C', 'G'],
+      ['A', 'B', 'E', 'D', 'C'],
+      ['A', 'B', 'E', 'D', 'C', 'G'],
+      ['A', 'B', 'F', 'E', 'D', 'C'],
+      ['A', 'B', 'F', 'E', 'D', 'C', 'G'],
+      ['A', 'C', 'G'],
+      ['B', 'D', 'E'],
+      ['B', 'D', 'E', 'F'],
+      ['B', 'E', 'F']
+    ]);
+  });
+
+  function createExampleGraph3() {
+    const graph = new UndirectedGraph();
+    graph.addVertex('A');
+    graph.addVertex('B');
+    graph.addVertex('C');
+    graph.addVertex('D');
+    graph.addVertex('E');
+    graph.addVertex('F');
+    graph.addVertex('G');
+    graph.addEdge('A', 'B');
+    graph.addEdge('B', 'C');
+    graph.addEdge('C', 'D');
+    graph.addEdge('D', 'B');
+    graph.addEdge('A', 'E');
+    graph.addEdge('E', 'F');
+    graph.addEdge('F', 'G');
+    graph.addEdge('G', 'E');
+    return graph;
+  }
+
+  test('should cuttable graph tarjan cycles return correct result', () => {
+    const graph = createExampleGraph3();
+    const cycles = graph.getCycles();
+    expect(cycles.length).toBe(2);
+    expect(cycles).toEqual([
+      ['B', 'C', 'D'],
+      ['E', 'F', 'G']
+    ]);
+  });
+
+  // test('should cuttable graph tarjan CCs return correct result', () => {
+    // const graph = createExampleGraph3();
+    // const ccs = graph.tarjan().CCs;
+    // expect(ccs.size).toBe(3);
+    // expect(getAsVerticesArrays(ccs)).toEqual([["D", "C", "B"], ["G", "F", "E"], ["A"]]);
+  // });
+
+  function createExampleGraph4() {
+    const graph = createExampleGraph3();
+    graph.addVertex('H');
+    graph.addVertex('I');
+    graph.addVertex('J');
+    graph.addVertex('K');
+    graph.addEdge('C', 'H');
+    graph.addEdge('H', 'I');
+    graph.addEdge('I', 'D');
+    graph.addEdge('H', 'J');
+    graph.addEdge('J', 'K');
+    graph.addEdge('K', 'H');
+    return graph;
+  }
+
+  test('should more cuttable graph tarjan cycles return correct result', () => {
+    const graph = createExampleGraph4();
+    const cycles = graph.getCycles();
+    expect(cycles.length).toBe(5);
+    expect(cycles).toEqual([
+      ['B', 'C', 'D'],
+      ['B', 'C', 'H', 'I', 'D'],
+      ['C', 'D', 'I', 'H'],
+      ['E', 'F', 'G'],
+      ['H', 'J', 'K']
+    ]);
+  });
+
+  // test('should more cuttable graph tarjan SCCs return correct result', () => {
+  //   const graph = createExampleGraph4();
+  //   const ccs = graph.tarjan().CCs;
+  //   expect(ccs.size).toBe(3);
+  //   expect(getAsVerticesArrays(ccs)).toEqual([["K", "J", "I", "H", "D", "C", "B"], ["G", "F", "E"], ["A"]]);
+  // });
+
+  function createExampleGraph5() {
+    const graph = createExampleGraph4();
+    graph.addEdge('F', 'H');
+    return graph;
+  }
+
+  test('should uncuttable graph tarjan cycles return correct result', () => {
+    const graph = createExampleGraph5();
+    const cycles = graph.getCycles();
+    expect(cycles.length).toBe(13);
+    expect(cycles).toEqual([
+      ['A', 'B', 'C', 'D', 'I', 'H', 'F', 'E'],
+      ['A', 'B', 'C', 'D', 'I', 'H', 'F', 'G', 'E'],
+      ['A', 'B', 'C', 'H', 'F', 'E'],
+      ['A', 'B', 'C', 'H', 'F', 'G', 'E'],
+      ['A', 'B', 'D', 'C', 'H', 'F', 'E'],
+      ['A', 'B', 'D', 'C', 'H', 'F', 'G', 'E'],
+      ['A', 'B', 'D', 'I', 'H', 'F', 'E'],
+      ['A', 'B', 'D', 'I', 'H', 'F', 'G', 'E'],
+      ['B', 'C', 'D'],
+      ['B', 'C', 'H', 'I', 'D'],
+      ['C', 'D', 'I', 'H'],
+      ['E', 'F', 'G'],
+      ['H', 'J', 'K']
+    ]);
+  });
+
+  // test('should uncuttable graph tarjan SCCs return correct result', () => {
+  //   const graph = createExampleGraph5();
+  //   const ccs = graph.tarjan().CCs;
+  //   expect(ccs.size).toBe(3);
+  //   expect(getAsVerticesArrays(ccs)).toEqual([["K", "J", "I", "H", "D", "C", "B"], ["G", "F", "E"], ["A"]]);
+  // });
 });

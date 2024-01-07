@@ -647,6 +647,111 @@ export class DirectedGraph<
   }
 
   /**
+   *  Time Complexity: O(V + E)
+   *  Space Complexity: O(V)
+   *  Tarjan is an algorithm based on dfs,which is used to solve the connectivity problem of graphs.
+   *  Tarjan can find the SSC(strongly connected components), articulation points, and bridges of directed graphs.
+   */
+
+  /**
+   *  Time Complexity: O(V + E)
+   *  Space Complexity: O(V)
+   *  Tarjan is an algorithm based on dfs,which is used to solve the connectivity problem of graphs.
+   *  Tarjan can find the SSC(strongly connected components), articulation points, and bridges of directed graphs.
+   *
+   * The function `tarjan` implements the Tarjan's algorithm to find strongly connected components in a
+   * graph.
+   * @returns The function `tarjan()` returns an object with three properties: `dfnMap`, `lowMap`, and
+   * `SCCs`.
+   */
+  tarjan(): { dfnMap: Map<VO, number>; lowMap: Map<VO, number>; SCCs: Map<number, VO[]> } {
+    const dfnMap = new Map<VO, number>();
+    const lowMap = new Map<VO, number>();
+    const SCCs = new Map<number, VO[]>();
+
+    let time = 0;
+
+    const stack: VO[] = [];
+    const inStack: Set<VO> = new Set();
+
+    const dfs = (vertex: VO) => {
+      dfnMap.set(vertex, time);
+      lowMap.set(vertex, time);
+      time++;
+
+      stack.push(vertex);
+      inStack.add(vertex);
+
+      const neighbors = this.getNeighbors(vertex);
+      for (const neighbor of neighbors) {
+        if (!dfnMap.has(neighbor)) {
+          dfs(neighbor);
+          lowMap.set(vertex, Math.min(lowMap.get(vertex)!, lowMap.get(neighbor)!));
+        } else if (inStack.has(neighbor)) {
+          lowMap.set(vertex, Math.min(lowMap.get(vertex)!, dfnMap.get(neighbor)!));
+        }
+      }
+
+      if (dfnMap.get(vertex) === lowMap.get(vertex)) {
+        const SCC: VO[] = [];
+        let poppedVertex: VO | undefined;
+
+        do {
+          poppedVertex = stack.pop();
+          inStack.delete(poppedVertex!);
+          SCC.push(poppedVertex!);
+        } while (poppedVertex !== vertex);
+
+        SCCs.set(SCCs.size, SCC);
+      }
+    };
+
+    for (const vertex of this.vertexMap.values()) {
+      if (!dfnMap.has(vertex)) {
+        dfs(vertex);
+      }
+    }
+
+    return { dfnMap, lowMap, SCCs };
+  }
+
+  /**
+   * Time Complexity: O(V + E) - Depends on the implementation (Tarjan's algorithm).
+   * Space Complexity: O(V) - Depends on the implementation (Tarjan's algorithm).
+   */
+
+  /**
+   * Time Complexity: O(V + E) - Depends on the implementation (Tarjan's algorithm).
+   * Space Complexity: O(V) - Depends on the implementation (Tarjan's algorithm).
+   *
+   * The function returns a map that associates each vertex object with its corresponding depth-first
+   * number.
+   * @returns A Map object with keys of type VO and values of type number.
+   */
+  getDFNMap(): Map<VO, number> {
+    return this.tarjan().dfnMap;
+  }
+
+  /**
+   * The function returns a Map object that contains the low values of each vertex in a Tarjan
+   * algorithm.
+   * @returns The method `getLowMap()` is returning a `Map` object with keys of type `VO` and values of
+   * type `number`.
+   */
+  getLowMap(): Map<VO, number> {
+    return this.tarjan().lowMap;
+  }
+
+  /**
+   * The function "getSCCs" returns a map of strongly connected components (SCCs) using the Tarjan
+   * algorithm.
+   * @returns a map where the keys are numbers and the values are arrays of VO objects.
+   */
+  getSCCs(): Map<number, VO[]> {
+    return this.tarjan().SCCs;
+  }
+
+  /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    */

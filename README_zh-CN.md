@@ -885,7 +885,7 @@ avl2.print();
     <td>递归</td>
   </tr>
   <tr>
-    <td>图的getCutVertexes</td>
+    <td>图的getCutVertices</td>
     <td>在图中找到切点，这些是移除后会增加图中连通分量数量的节点。</td>
     <td>递归</td>
   </tr>

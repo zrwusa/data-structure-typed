@@ -854,7 +854,7 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', '
     <td>Recursion</td>
   </tr>
   <tr>
-    <td>Graph getCutVertexes</td>
+    <td>Graph getCutVertices</td>
     <td>Find cut vertices in a graph, which are nodes that, when removed, increase the number of connected components in
       the graph.
     </td>
