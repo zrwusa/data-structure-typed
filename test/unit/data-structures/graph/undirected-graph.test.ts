@@ -526,10 +526,10 @@ describe('UndirectedGraph tarjan', () => {
   });
 
   // test('should cuttable graph tarjan CCs return correct result', () => {
-    // const graph = createExampleGraph3();
-    // const ccs = graph.tarjan().CCs;
-    // expect(ccs.size).toBe(3);
-    // expect(getAsVerticesArrays(ccs)).toEqual([["D", "C", "B"], ["G", "F", "E"], ["A"]]);
+  // const graph = createExampleGraph3();
+  // const ccs = graph.tarjan().CCs;
+  // expect(ccs.size).toBe(3);
+  // expect(getAsVerticesArrays(ccs)).toEqual([["D", "C", "B"], ["G", "F", "E"], ["A"]]);
   // });
 
   function createExampleGraph4() {

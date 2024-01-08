@@ -708,9 +708,8 @@ export class BST<
         const compared = this._compare(cur.key, targetKey);
         if (compared === lesserOrGreater) ans.push(callback(cur));
 
-        if (!cur.left && !cur.right) return;
-        if (cur.left && this._compare(cur.left.key, targetKey) === lesserOrGreater) _traverse(cur.left);
-        if (cur.right && this._compare(cur.right.key, targetKey) === lesserOrGreater) _traverse(cur.right);
+        if (this.isRealNode(cur.left)) _traverse(cur.left);
+        if (this.isRealNode(cur.right)) _traverse(cur.right);
       };
 
       _traverse(this.root);
@@ -719,12 +718,12 @@ export class BST<
       const queue = new Queue<NODE>([this.root]);
       while (queue.size > 0) {
         const cur = queue.shift();
-        if (cur) {
+        if (this.isRealNode(cur)) {
           const compared = this._compare(cur.key, targetKey);
           if (compared === lesserOrGreater) ans.push(callback(cur));
 
-          if (cur.left && this._compare(cur.left.key, targetKey) === lesserOrGreater) queue.push(cur.left);
-          if (cur.right && this._compare(cur.right.key, targetKey) === lesserOrGreater) queue.push(cur.right);
+          if (this.isRealNode(cur.left)) queue.push(cur.left);
+          if (this.isRealNode(cur.right)) queue.push(cur.right);
         }
       }
       return ans;

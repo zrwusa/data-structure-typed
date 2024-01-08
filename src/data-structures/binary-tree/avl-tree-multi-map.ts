@@ -6,22 +6,22 @@
  * @license MIT License
  */
 import type {
+  AVLTreeMultiMapNested,
+  AVLTreeMultiMapNodeNested,
+  AVLTreeMultiMapOptions,
   BinaryTreeDeleteResult,
   BSTNKeyOrNode,
   BTNCallback,
-  KeyOrNodeOrEntry,
-  TreeMultimapNested,
-  TreeMultimapNodeNested,
-  TreeMultimapOptions
+  KeyOrNodeOrEntry
 } from '../../types';
 import { FamilyPosition, IterationType } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { AVLTree, AVLTreeNode } from './avl-tree';
 
-export class TreeMultimapNode<
+export class AVLTreeMultiMapNode<
   K = any,
   V = any,
-  NODE extends TreeMultimapNode<K, V, NODE> = TreeMultimapNodeNested<K, V>
+  NODE extends AVLTreeMultiMapNode<K, V, NODE> = AVLTreeMultiMapNodeNested<K, V>
 > extends AVLTreeNode<K, V, NODE> {
   /**
    * The constructor function initializes a BinaryTreeNode object with a key, value, and count.
@@ -59,17 +59,17 @@ export class TreeMultimapNode<
 }
 
 /**
- * The only distinction between a TreeMultimap and a AVLTree lies in the ability of the former to store duplicate nodes through the utilization of counters.
+ * The only distinction between a AVLTreeMultiMap and a AVLTree lies in the ability of the former to store duplicate nodes through the utilization of counters.
  */
-export class TreeMultimap<
+export class AVLTreeMultiMap<
   K = any,
   V = any,
-  NODE extends TreeMultimapNode<K, V, NODE> = TreeMultimapNode<K, V, TreeMultimapNodeNested<K, V>>,
-  TREE extends TreeMultimap<K, V, NODE, TREE> = TreeMultimap<K, V, NODE, TreeMultimapNested<K, V, NODE>>
+  NODE extends AVLTreeMultiMapNode<K, V, NODE> = AVLTreeMultiMapNode<K, V, AVLTreeMultiMapNodeNested<K, V>>,
+  TREE extends AVLTreeMultiMap<K, V, NODE, TREE> = AVLTreeMultiMap<K, V, NODE, AVLTreeMultiMapNested<K, V, NODE>>
 >
   extends AVLTree<K, V, NODE, TREE>
   implements IBinaryTree<K, V, NODE, TREE> {
-  constructor(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, NODE>> = [], options?: TreeMultimapOptions<K>) {
+  constructor(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, NODE>> = [], options?: AVLTreeMultiMapOptions<K>) {
     super([], options);
     if (keysOrNodesOrEntries) this.addMany(keysOrNodesOrEntries);
   }
@@ -98,20 +98,20 @@ export class TreeMultimap<
    * @returns A new instance of the BSTNode class with the specified key, value, and count (if provided).
    */
   override createNode(key: K, value?: V, count?: number): NODE {
-    return new TreeMultimapNode(key, value, count) as NODE;
+    return new AVLTreeMultiMapNode(key, value, count) as NODE;
   }
 
   /**
-   * The function creates a new TreeMultimap object with the specified options and returns it.
+   * The function creates a new AVLTreeMultiMap object with the specified options and returns it.
    * @param [options] - The `options` parameter is an optional object that contains additional
-   * configuration options for creating the `TreeMultimap` object. It can include properties such as
+   * configuration options for creating the `AVLTreeMultiMap` object. It can include properties such as
    * `iterationType` and `variant`, which are used to specify the type of iteration and the variant of
    * the tree, respectively. These properties can be
-   * @returns a new instance of the `TreeMultimap` class, with the provided options merged with the
+   * @returns a new instance of the `AVLTreeMultiMap` class, with the provided options merged with the
    * default options. The returned value is casted as `TREE`.
    */
-  override createTree(options?: TreeMultimapOptions<K>): TREE {
-    return new TreeMultimap<K, V, NODE, TREE>([], {
+  override createTree(options?: AVLTreeMultiMapOptions<K>): TREE {
+    return new AVLTreeMultiMap<K, V, NODE, TREE>([], {
       iterationType: this.iterationType,
       variant: this.variant,
       ...options
@@ -155,13 +155,13 @@ export class TreeMultimap<
   }
 
   /**
-   * The function checks if an keyOrNodeOrEntry is an instance of the TreeMultimapNode class.
+   * The function checks if an keyOrNodeOrEntry is an instance of the AVLTreeMultiMapNode class.
    * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter is of type `KeyOrNodeOrEntry<K, V, NODE>`.
-   * @returns a boolean value indicating whether the keyOrNodeOrEntry is an instance of the TreeMultimapNode
+   * @returns a boolean value indicating whether the keyOrNodeOrEntry is an instance of the AVLTreeMultiMapNode
    * class.
    */
   override isNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>): keyOrNodeOrEntry is NODE {
-    return keyOrNodeOrEntry instanceof TreeMultimapNode;
+    return keyOrNodeOrEntry instanceof AVLTreeMultiMapNode;
   }
 
   /**

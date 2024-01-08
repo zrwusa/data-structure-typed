@@ -527,12 +527,14 @@ export class RedBlackTree<
    */
   protected _fixInsert(k: NODE): void {
     let u: NODE | undefined;
-    while (k.parent && k.parent.color === 1) {
+    while (k.parent && k.parent.color === RBTNColor.RED) {
       if (k.parent.parent && k.parent === k.parent.parent.right) {
         u = k.parent.parent.left;
-        if (u && u.color === 1) {
-          u.color = RBTNColor.BLACK;
+
+        if (u && u.color === RBTNColor.RED) {
+          // Delay color flip
           k.parent.color = RBTNColor.BLACK;
+          u.color = RBTNColor.BLACK;
           k.parent.parent.color = RBTNColor.RED;
           k = k.parent.parent;
         } else {
@@ -541,16 +543,20 @@ export class RedBlackTree<
             this._rightRotate(k);
           }
 
-          k.parent!.color = RBTNColor.BLACK;
-          k.parent!.parent!.color = RBTNColor.RED;
+          // Check color before rotation
+          if (k.parent!.color === RBTNColor.RED) {
+            k.parent!.color = RBTNColor.BLACK;
+            k.parent!.parent!.color = RBTNColor.RED;
+          }
           this._leftRotate(k.parent!.parent!);
         }
       } else {
-        u = k.parent.parent!.right;
+        u = k.parent!.parent!.right;
 
-        if (u && u.color === 1) {
-          u.color = RBTNColor.BLACK;
+        if (u && u.color === RBTNColor.RED) {
+          // Delay color flip
           k.parent.color = RBTNColor.BLACK;
+          u.color = RBTNColor.BLACK;
           k.parent.parent!.color = RBTNColor.RED;
           k = k.parent.parent!;
         } else {
@@ -559,11 +565,15 @@ export class RedBlackTree<
             this._leftRotate(k);
           }
 
-          k.parent!.color = RBTNColor.BLACK;
-          k.parent!.parent!.color = RBTNColor.RED;
+          // Check color before rotation
+          if (k.parent!.color === RBTNColor.RED) {
+            k.parent!.color = RBTNColor.BLACK;
+            k.parent!.parent!.color = RBTNColor.RED;
+          }
           this._rightRotate(k.parent!.parent!);
         }
       }
+
       if (k === this.root) {
         break;
       }

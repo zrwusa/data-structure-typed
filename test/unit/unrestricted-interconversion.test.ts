@@ -14,7 +14,7 @@ import {
   RedBlackTree,
   SinglyLinkedList,
   Stack,
-  TreeMultimap,
+  TreeMultiMap,
   Trie
 } from '../../src';
 import { isDebugTest } from '../config';
@@ -167,8 +167,8 @@ describe('conversions', () => {
     ]);
   });
 
-  it('Entry Array to TreeMultimap', () => {
-    const treeMulti = new TreeMultimap<number>(entries);
+  it('Entry Array to TreeMultiMap', () => {
+    const treeMulti = new TreeMultiMap<number>(entries);
     expect(treeMulti.size).toBe(9);
     isDebug && treeMulti.print();
     expect([...treeMulti]).toEqual([

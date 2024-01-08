@@ -121,7 +121,7 @@ yarn add data-structure-typed
 ```js
 import {
   BinaryTree, Graph, Queue, Stack, PriorityQueue, BST, Trie, DoublyLinkedList,
-  AVLTree, MinHeap, SinglyLinkedList, DirectedGraph, TreeMultimap,
+  AVLTree, MinHeap, SinglyLinkedList, DirectedGraph, TreeMultiMap,
   DirectedVertex, AVLTreeNode
 } from 'data-structure-typed';
 ```
@@ -148,7 +148,7 @@ import {
 const {Heap} = dataStructureTyped;
 const {
   BinaryTree, Graph, Queue, Stack, PriorityQueue, BST, Trie, DoublyLinkedList,
-  AVLTree, MinHeap, SinglyLinkedList, DirectedGraph, TreeMultimap,
+  AVLTree, MinHeap, SinglyLinkedList, DirectedGraph, TreeMultiMap,
   DirectedVertex, AVLTreeNode
 } = dataStructureTyped;
 ```
@@ -442,7 +442,7 @@ avl.print();
 //              /   \
 //              7   9
 
-const treeMulti = new TreeMultimap(entries);
+const treeMulti = new TreeMultiMap(entries);
 treeMulti.print();
 //     ___4___
 //    /       \
@@ -563,7 +563,7 @@ avl2.print();
 <td>Tree Multimap</td>
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/TreeMultimap.html"><span>View</span></a></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/TreeMultiMap.html"><span>View</span></a></td>
 </tr>
 <tr>
 <td>Heap</td>
@@ -743,13 +743,13 @@ avl2.print();
     <td>-</td>
   </tr>
   <tr>
-    <td>TreeMultimap&lt;K, V&gt;</td>
+    <td>TreeMultiMap&lt;K, V&gt;</td>
     <td>multimap&lt;K, V&gt;</td>
     <td>-</td>
     <td>-</td>
   </tr>
   <tr>
-    <td>TreeMultimap&lt;E&gt;</td>
+    <td>TreeMultiMap&lt;E&gt;</td>
     <td>multiset&lt;T&gt;</td>
     <td>-</td>
     <td>-</td>

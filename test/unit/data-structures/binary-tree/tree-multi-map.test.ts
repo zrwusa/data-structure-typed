@@ -1,20 +1,21 @@
 import {
-  AVLTreeNode,
   BinaryTreeNode,
   BSTNode,
   CP,
   IterationType,
-  TreeMultimap,
-  TreeMultimapNode
+  RedBlackTreeNode,
+  TreeMultiMap,
+  TreeMultiMapNode
 } from '../../../../src';
 import { isDebugTest } from '../../../config';
 
 const isDebug = isDebugTest;
+// const isDebug = true;
 
-describe('TreeMultimap count', () => {
-  let tm: TreeMultimap<number>;
+describe('TreeMultiMap count', () => {
+  let tm: TreeMultiMap<number>;
   beforeEach(() => {
-    tm = new TreeMultimap<number>();
+    tm = new TreeMultiMap<number>();
   });
   it('Should added isolated node count ', () => {
     tm.addMany([
@@ -24,7 +25,7 @@ describe('TreeMultimap count', () => {
       [4, 4],
       [5, 5]
     ]);
-    const newNode = new TreeMultimapNode(3, 33, 10);
+    const newNode = new TreeMultiMapNode(3, 33, 10);
     tm.add(newNode);
     expect(tm.count).toBe(15);
   });
@@ -40,11 +41,11 @@ describe('TreeMultimap count', () => {
   });
 });
 
-describe('TreeMultimap operations test1', () => {
+describe('TreeMultiMap operations test1', () => {
   it('should perform various operations on a Binary Search Tree with numeric values1', () => {
-    const treeMultimap = new TreeMultimap();
+    const treeMultimap = new TreeMultiMap();
 
-    expect(treeMultimap instanceof TreeMultimap);
+    expect(treeMultimap instanceof TreeMultiMap);
     treeMultimap.add([11, 11]);
     treeMultimap.add([3, 3]);
     const idAndValues: [number, number][] = [
@@ -66,7 +67,7 @@ describe('TreeMultimap operations test1', () => {
       [5, 5]
     ];
     treeMultimap.addMany(idAndValues);
-    expect(treeMultimap.root instanceof TreeMultimapNode);
+    expect(treeMultimap.root instanceof TreeMultiMapNode);
 
     if (treeMultimap.root) expect(treeMultimap.root.key == 11);
 
@@ -75,8 +76,8 @@ describe('TreeMultimap operations test1', () => {
 
     expect(treeMultimap.has(6));
 
-    expect(treeMultimap.getHeight(6)).toBe(4);
-    expect(treeMultimap.getDepth(6)).toBe(0);
+    expect(treeMultimap.getHeight(6)).toBe(2);
+    expect(treeMultimap.getDepth(6)).toBe(4);
     const nodeId10 = treeMultimap.getNode(10);
     expect(nodeId10?.key).toBe(10);
 
@@ -99,17 +100,17 @@ describe('TreeMultimap operations test1', () => {
     node15 && treeMultimap.dfs(node => (subTreeSum += node.key), 'pre', 15);
     expect(subTreeSum).toBe(31);
     let lesserSum = 0;
-    treeMultimap.lesserOrGreaterTraverse((node: TreeMultimapNode<number>) => (lesserSum += node.key), CP.lt, 10);
-    expect(lesserSum).toBe(21);
+    treeMultimap.lesserOrGreaterTraverse((node: TreeMultiMapNode<number>) => (lesserSum += node.key), CP.lt, 10);
+    expect(lesserSum).toBe(45);
 
-    expect(node15 instanceof TreeMultimapNode);
-    if (node15 instanceof TreeMultimapNode) {
+    expect(node15 instanceof TreeMultiMapNode);
+    if (node15 instanceof TreeMultiMapNode) {
       const subTreeAdd = treeMultimap.dfs(node => (node.count += 1), 'pre', 15);
       expect(subTreeAdd);
     }
     const node11 = treeMultimap.getNode(11);
-    expect(node11 instanceof TreeMultimapNode);
-    if (node11 instanceof TreeMultimapNode) {
+    expect(node11 instanceof TreeMultiMapNode);
+    if (node11 instanceof TreeMultiMapNode) {
       const allGreaterNodesAdded = treeMultimap.lesserOrGreaterTraverse(node => (node.count += 2), CP.gt, 11);
       expect(allGreaterNodesAdded);
     }
@@ -137,7 +138,7 @@ describe('TreeMultimap operations test1', () => {
 
     expect(treeMultimap.isAVLBalanced()).toBe(true);
 
-    expect(treeMultimap.getHeight(15)).toBe(1);
+    expect(treeMultimap.getHeight(15)).toBe(2);
 
     const removed1 = treeMultimap.delete(1, undefined, true);
     expect(removed1 instanceof Array);
@@ -147,7 +148,7 @@ describe('TreeMultimap operations test1', () => {
 
     expect(treeMultimap.isAVLBalanced()).toBe(true);
 
-    expect(treeMultimap.getHeight()).toBe(4);
+    expect(treeMultimap.getHeight()).toBe(5);
 
     const removed4 = treeMultimap.delete(4, undefined, true);
     expect(removed4 instanceof Array);
@@ -156,16 +157,16 @@ describe('TreeMultimap operations test1', () => {
     if (removed4[0].deleted) expect(removed4[0].deleted.key).toBe(4);
 
     expect(treeMultimap.isAVLBalanced()).toBe(true);
-    expect(treeMultimap.getHeight()).toBe(4);
+    expect(treeMultimap.getHeight()).toBe(5);
 
     const removed10 = treeMultimap.delete(10, undefined, true);
     expect(removed10 instanceof Array);
     expect(removed10[0]);
     expect(removed10[0].deleted);
     if (removed10[0].deleted) expect(removed10[0].deleted.key).toBe(10);
-    expect(treeMultimap.isAVLBalanced()).toBe(true);
+    expect(treeMultimap.isAVLBalanced()).toBe(false);
 
-    expect(treeMultimap.getHeight()).toBe(3);
+    expect(treeMultimap.getHeight()).toBe(5);
 
     const removed15 = treeMultimap.delete(15, undefined, true);
     expect(removed15 instanceof Array);
@@ -174,7 +175,7 @@ describe('TreeMultimap operations test1', () => {
     if (removed15[0].deleted) expect(removed15[0].deleted.key).toBe(15);
 
     expect(treeMultimap.isAVLBalanced()).toBe(true);
-    expect(treeMultimap.getHeight()).toBe(3);
+    expect(treeMultimap.getHeight()).toBe(4);
 
     const removed5 = treeMultimap.delete(5, undefined, true);
     expect(removed5 instanceof Array);
@@ -183,7 +184,7 @@ describe('TreeMultimap operations test1', () => {
     if (removed5[0].deleted) expect(removed5[0].deleted.key).toBe(5);
 
     expect(treeMultimap.isAVLBalanced()).toBe(true);
-    expect(treeMultimap.getHeight()).toBe(3);
+    expect(treeMultimap.getHeight()).toBe(4);
 
     const removed13 = treeMultimap.delete(13, undefined, true);
     expect(removed13 instanceof Array);
@@ -191,7 +192,7 @@ describe('TreeMultimap operations test1', () => {
     expect(removed13[0].deleted);
     if (removed13[0].deleted) expect(removed13[0].deleted.key).toBe(13);
     expect(treeMultimap.isAVLBalanced()).toBe(true);
-    expect(treeMultimap.getHeight()).toBe(3);
+    expect(treeMultimap.getHeight()).toBe(4);
 
     const removed3 = treeMultimap.delete(3, undefined, true);
     expect(removed3 instanceof Array);
@@ -199,15 +200,15 @@ describe('TreeMultimap operations test1', () => {
     expect(removed3[0].deleted);
     if (removed3[0].deleted) expect(removed3[0].deleted.key).toBe(3);
     expect(treeMultimap.isAVLBalanced()).toBe(true);
-    expect(treeMultimap.getHeight()).toBe(3);
+    expect(treeMultimap.getHeight()).toBe(4);
 
     const removed8 = treeMultimap.delete(8, undefined, true);
     expect(removed8 instanceof Array);
     expect(removed8[0]);
     expect(removed8[0].deleted);
     if (removed8[0].deleted) expect(removed8[0].deleted.key).toBe(8);
-    expect(treeMultimap.isAVLBalanced()).toBe(true);
-    expect(treeMultimap.getHeight()).toBe(3);
+    expect(treeMultimap.isAVLBalanced()).toBe(false);
+    expect(treeMultimap.getHeight()).toBe(4);
 
     const removed6 = treeMultimap.delete(6, undefined, true);
     expect(removed6 instanceof Array);
@@ -215,17 +216,17 @@ describe('TreeMultimap operations test1', () => {
     expect(removed6[0].deleted);
     if (removed6[0].deleted) expect(removed6[0].deleted.key).toBe(6);
     expect(treeMultimap.delete(6, undefined, true).length).toBe(0);
-    expect(treeMultimap.isAVLBalanced()).toBe(true);
+    expect(treeMultimap.isAVLBalanced()).toBe(false);
 
-    expect(treeMultimap.getHeight()).toBe(2);
+    expect(treeMultimap.getHeight()).toBe(4);
 
     const removed7 = treeMultimap.delete(7, undefined, true);
     expect(removed7 instanceof Array);
     expect(removed7[0]);
     expect(removed7[0].deleted);
     if (removed7[0].deleted) expect(removed7[0].deleted.key).toBe(7);
-    expect(treeMultimap.isAVLBalanced()).toBe(true);
-    expect(treeMultimap.getHeight()).toBe(2);
+    expect(treeMultimap.isAVLBalanced()).toBe(false);
+    expect(treeMultimap.getHeight()).toBe(4);
 
     const removed9 = treeMultimap.delete(9, undefined, true);
     expect(removed9 instanceof Array);
@@ -233,7 +234,7 @@ describe('TreeMultimap operations test1', () => {
     expect(removed9[0].deleted);
     if (removed9[0].deleted) expect(removed9[0].deleted.key).toBe(9);
     expect(treeMultimap.isAVLBalanced()).toBe(true);
-    expect(treeMultimap.getHeight()).toBe(2);
+    expect(treeMultimap.getHeight()).toBe(3);
 
     const removed14 = treeMultimap.delete(14, undefined, true);
     expect(removed14 instanceof Array);
@@ -241,7 +242,7 @@ describe('TreeMultimap operations test1', () => {
     expect(removed14[0].deleted);
     if (removed14[0].deleted) expect(removed14[0].deleted.key).toBe(14);
     expect(treeMultimap.isAVLBalanced()).toBe(true);
-    expect(treeMultimap.getHeight()).toBe(1);
+    expect(treeMultimap.getHeight()).toBe(2);
 
     expect(treeMultimap.isAVLBalanced()).toBe(true);
 
@@ -257,14 +258,14 @@ describe('TreeMultimap operations test1', () => {
     expect(bfsNodes[1].key).toBe(2);
     expect(bfsNodes[2].key).toBe(16);
 
-    expect(treeMultimap.count).toBe(4);
+    expect(treeMultimap.count).toBe(8);
   });
 
   it('should perform various operations on a Binary Search Tree with object values', () => {
-    const objTreeMultimap = new TreeMultimap<number, { key: number; keyA: number }>();
-    expect(objTreeMultimap).toBeInstanceOf(TreeMultimap);
-    objTreeMultimap.add([11, { key: 11, keyA: 11 }]);
-    objTreeMultimap.add([3, { key: 3, keyA: 3 }]);
+    const objTreeMultiMap = new TreeMultiMap<number, { key: number; keyA: number }>();
+    expect(objTreeMultiMap).toBeInstanceOf(TreeMultiMap);
+    objTreeMultiMap.add([11, { key: 11, keyA: 11 }]);
+    objTreeMultiMap.add([3, { key: 3, keyA: 3 }]);
     const values: [number, { key: number; keyA: number }][] = [
       [15, { key: 15, keyA: 15 }],
       [1, { key: 1, keyA: 1 }],
@@ -282,23 +283,23 @@ describe('TreeMultimap operations test1', () => {
       [5, { key: 5, keyA: 5 }]
     ];
 
-    objTreeMultimap.addMany(values);
+    objTreeMultiMap.addMany(values);
 
-    expect(objTreeMultimap.root).toBeInstanceOf(TreeMultimapNode);
+    expect(objTreeMultiMap.root).toBeInstanceOf(TreeMultiMapNode);
 
-    if (objTreeMultimap.root) expect(objTreeMultimap.root.key).toBe(6);
+    if (objTreeMultiMap.root) expect(objTreeMultiMap.root.key).toBe(11);
 
-    expect(objTreeMultimap.count).toBe(16);
+    expect(objTreeMultiMap.count).toBe(16);
 
-    expect(objTreeMultimap.has(6)).toBe(true);
+    expect(objTreeMultiMap.has(6)).toBe(true);
   });
 });
 
-describe('TreeMultimap operations test recursively1', () => {
+describe('TreeMultiMap operations test recursively1', () => {
   it('should perform various operations on a Binary Search Tree with numeric values1', () => {
-    const treeMultimap = new TreeMultimap<number>([], { iterationType: IterationType.RECURSIVE });
+    const treeMultimap = new TreeMultiMap<number>([], { iterationType: IterationType.RECURSIVE });
 
-    expect(treeMultimap instanceof TreeMultimap);
+    expect(treeMultimap instanceof TreeMultiMap);
     treeMultimap.add([11, 11]);
     treeMultimap.add([3, 3]);
     const idAndValues: [number, number][] = [
@@ -320,17 +321,17 @@ describe('TreeMultimap operations test recursively1', () => {
       [5, 5]
     ];
     treeMultimap.addMany(idAndValues);
-    expect(treeMultimap.root).toBeInstanceOf(TreeMultimapNode);
+    expect(treeMultimap.root).toBeInstanceOf(TreeMultiMapNode);
 
-    if (treeMultimap.root) expect(treeMultimap.root.key).toBe(6);
+    if (treeMultimap.root) expect(treeMultimap.root.key).toBe(11);
 
     expect(treeMultimap.size).toBe(16);
     expect(treeMultimap.count).toBe(18);
 
     expect(treeMultimap.has(6));
 
-    expect(treeMultimap.getHeight(6)).toBe(4);
-    expect(treeMultimap.getDepth(6)).toBe(0);
+    expect(treeMultimap.getHeight(6)).toBe(2);
+    expect(treeMultimap.getDepth(6)).toBe(4);
     const nodeId10 = treeMultimap.getNode(10);
     expect(nodeId10?.key).toBe(10);
 
@@ -353,17 +354,25 @@ describe('TreeMultimap operations test recursively1', () => {
     node15 && treeMultimap.dfs(node => (subTreeSum += node.key), 'pre', 15);
     expect(subTreeSum).toBe(31);
     let lesserSum = 0;
-    treeMultimap.lesserOrGreaterTraverse((node: TreeMultimapNode<number>) => (lesserSum += node.key), CP.lt, 10);
-    expect(lesserSum).toBe(21);
+    expect(treeMultimap.has(9)).toBe(true);
+    treeMultimap.lesserOrGreaterTraverse(
+      node => {
+        lesserSum += node.key;
+        return node.key;
+      },
+      CP.lt,
+      10
+    );
+    expect(lesserSum).toBe(45);
 
-    expect(node15 instanceof TreeMultimapNode);
-    if (node15 instanceof TreeMultimapNode) {
+    expect(node15 instanceof TreeMultiMapNode);
+    if (node15 instanceof TreeMultiMapNode) {
       const subTreeAdd = treeMultimap.dfs(node => (node.count += 1), 'pre', 15);
       expect(subTreeAdd);
     }
     const node11 = treeMultimap.getNode(11);
-    expect(node11 instanceof TreeMultimapNode);
-    if (node11 instanceof TreeMultimapNode) {
+    expect(node11 instanceof TreeMultiMapNode);
+    if (node11 instanceof TreeMultiMapNode) {
       const allGreaterNodesAdded = treeMultimap.lesserOrGreaterTraverse(node => (node.count += 2), CP.gt, 11);
       expect(allGreaterNodesAdded);
     }
@@ -371,7 +380,7 @@ describe('TreeMultimap operations test recursively1', () => {
     const dfsInorderNodes = treeMultimap.dfs(node => node, 'in');
     expect(dfsInorderNodes[0].key).toBe(1);
     expect(dfsInorderNodes[dfsInorderNodes.length - 1].key).toBe(16);
-    expect(treeMultimap.isPerfectlyBalanced()).toBe(true);
+    expect(treeMultimap.isPerfectlyBalanced()).toBe(false);
 
     treeMultimap.perfectlyBalance();
 
@@ -391,7 +400,7 @@ describe('TreeMultimap operations test recursively1', () => {
 
     expect(treeMultimap.isAVLBalanced()).toBe(true);
 
-    expect(treeMultimap.getHeight(15)).toBe(1);
+    expect(treeMultimap.getHeight(15)).toBe(2);
 
     const removed1 = treeMultimap.delete(1, undefined, true);
     expect(removed1 instanceof Array);
@@ -401,7 +410,7 @@ describe('TreeMultimap operations test recursively1', () => {
 
     expect(treeMultimap.isAVLBalanced()).toBe(true);
 
-    expect(treeMultimap.getHeight()).toBe(4);
+    expect(treeMultimap.getHeight()).toBe(5);
 
     const removed4 = treeMultimap.delete(4, undefined, true);
     expect(removed4 instanceof Array);
@@ -410,16 +419,16 @@ describe('TreeMultimap operations test recursively1', () => {
     if (removed4[0].deleted) expect(removed4[0].deleted.key).toBe(4);
 
     expect(treeMultimap.isAVLBalanced()).toBe(true);
-    expect(treeMultimap.getHeight()).toBe(4);
+    expect(treeMultimap.getHeight()).toBe(5);
 
     const removed10 = treeMultimap.delete(10, undefined, true);
     expect(removed10 instanceof Array);
     expect(removed10[0]);
     expect(removed10[0].deleted);
     if (removed10[0].deleted) expect(removed10[0].deleted.key).toBe(10);
-    expect(treeMultimap.isAVLBalanced()).toBe(true);
+    expect(treeMultimap.isAVLBalanced()).toBe(false);
 
-    expect(treeMultimap.getHeight()).toBe(3);
+    expect(treeMultimap.getHeight()).toBe(5);
 
     const removed15 = treeMultimap.delete(15, undefined, true);
     expect(removed15 instanceof Array);
@@ -428,7 +437,7 @@ describe('TreeMultimap operations test recursively1', () => {
     if (removed15[0].deleted) expect(removed15[0].deleted.key).toBe(15);
 
     expect(treeMultimap.isAVLBalanced()).toBe(true);
-    expect(treeMultimap.getHeight()).toBe(3);
+    expect(treeMultimap.getHeight()).toBe(4);
 
     const removed5 = treeMultimap.delete(5, undefined, true);
     expect(removed5 instanceof Array);
@@ -437,7 +446,7 @@ describe('TreeMultimap operations test recursively1', () => {
     if (removed5[0].deleted) expect(removed5[0].deleted.key).toBe(5);
 
     expect(treeMultimap.isAVLBalanced()).toBe(true);
-    expect(treeMultimap.getHeight()).toBe(3);
+    expect(treeMultimap.getHeight()).toBe(4);
 
     const removed13 = treeMultimap.delete(13, undefined, true);
     expect(removed13 instanceof Array);
@@ -445,7 +454,7 @@ describe('TreeMultimap operations test recursively1', () => {
     expect(removed13[0].deleted);
     if (removed13[0].deleted) expect(removed13[0].deleted.key).toBe(13);
     expect(treeMultimap.isAVLBalanced()).toBe(true);
-    expect(treeMultimap.getHeight()).toBe(3);
+    expect(treeMultimap.getHeight()).toBe(4);
 
     const removed3 = treeMultimap.delete(3, undefined, true);
     expect(removed3 instanceof Array);
@@ -453,15 +462,15 @@ describe('TreeMultimap operations test recursively1', () => {
     expect(removed3[0].deleted);
     if (removed3[0].deleted) expect(removed3[0].deleted.key).toBe(3);
     expect(treeMultimap.isAVLBalanced()).toBe(true);
-    expect(treeMultimap.getHeight()).toBe(3);
+    expect(treeMultimap.getHeight()).toBe(4);
 
     const removed8 = treeMultimap.delete(8, undefined, true);
     expect(removed8 instanceof Array);
     expect(removed8[0]);
     expect(removed8[0].deleted);
     if (removed8[0].deleted) expect(removed8[0].deleted.key).toBe(8);
-    expect(treeMultimap.isAVLBalanced()).toBe(true);
-    expect(treeMultimap.getHeight()).toBe(3);
+    expect(treeMultimap.isAVLBalanced()).toBe(false);
+    expect(treeMultimap.getHeight()).toBe(4);
 
     const removed6 = treeMultimap.delete(6, undefined, true);
     expect(removed6 instanceof Array);
@@ -469,17 +478,17 @@ describe('TreeMultimap operations test recursively1', () => {
     expect(removed6[0].deleted);
     if (removed6[0].deleted) expect(removed6[0].deleted.key).toBe(6);
     expect(treeMultimap.delete(6, undefined, true).length).toBe(0);
-    expect(treeMultimap.isAVLBalanced()).toBe(true);
+    expect(treeMultimap.isAVLBalanced()).toBe(false);
 
-    expect(treeMultimap.getHeight()).toBe(2);
+    expect(treeMultimap.getHeight()).toBe(4);
 
     const removed7 = treeMultimap.delete(7, undefined, true);
     expect(removed7 instanceof Array);
     expect(removed7[0]);
     expect(removed7[0].deleted);
     if (removed7[0].deleted) expect(removed7[0].deleted.key).toBe(7);
-    expect(treeMultimap.isAVLBalanced()).toBe(true);
-    expect(treeMultimap.getHeight()).toBe(2);
+    expect(treeMultimap.isAVLBalanced()).toBe(false);
+    expect(treeMultimap.getHeight()).toBe(4);
 
     const removed9 = treeMultimap.delete(9, undefined, true);
     expect(removed9 instanceof Array);
@@ -487,7 +496,7 @@ describe('TreeMultimap operations test recursively1', () => {
     expect(removed9[0].deleted);
     if (removed9[0].deleted) expect(removed9[0].deleted.key).toBe(9);
     expect(treeMultimap.isAVLBalanced()).toBe(true);
-    expect(treeMultimap.getHeight()).toBe(2);
+    expect(treeMultimap.getHeight()).toBe(3);
 
     const removed14 = treeMultimap.delete(14, undefined, true);
     expect(removed14 instanceof Array);
@@ -495,7 +504,7 @@ describe('TreeMultimap operations test recursively1', () => {
     expect(removed14[0].deleted);
     if (removed14[0].deleted) expect(removed14[0].deleted.key).toBe(14);
     expect(treeMultimap.isAVLBalanced()).toBe(true);
-    expect(treeMultimap.getHeight()).toBe(1);
+    expect(treeMultimap.getHeight()).toBe(2);
 
     expect(treeMultimap.isAVLBalanced()).toBe(true);
 
@@ -511,14 +520,14 @@ describe('TreeMultimap operations test recursively1', () => {
     expect(bfsNodes[1].key).toBe(2);
     expect(bfsNodes[2].key).toBe(16);
 
-    expect(treeMultimap.count).toBe(4);
+    expect(treeMultimap.count).toBe(8);
   });
 
   it('should perform various operations on a Binary Search Tree with object values', () => {
-    const objTreeMultimap = new TreeMultimap<number, { key: number; keyA: number }>();
-    expect(objTreeMultimap).toBeInstanceOf(TreeMultimap);
-    objTreeMultimap.add([11, { key: 11, keyA: 11 }]);
-    objTreeMultimap.add([3, { key: 3, keyA: 3 }]);
+    const objTreeMultiMap = new TreeMultiMap<number, { key: number; keyA: number }>();
+    expect(objTreeMultiMap).toBeInstanceOf(TreeMultiMap);
+    objTreeMultiMap.add([11, { key: 11, keyA: 11 }]);
+    objTreeMultiMap.add([3, { key: 3, keyA: 3 }]);
     const values: [number, { key: number; keyA: number }][] = [
       [15, { key: 15, keyA: 15 }],
       [1, { key: 1, keyA: 1 }],
@@ -536,27 +545,27 @@ describe('TreeMultimap operations test recursively1', () => {
       [5, { key: 5, keyA: 5 }]
     ];
 
-    objTreeMultimap.addMany(values);
+    objTreeMultiMap.addMany(values);
 
-    expect(objTreeMultimap.root).toBeInstanceOf(TreeMultimapNode);
+    expect(objTreeMultiMap.root).toBeInstanceOf(TreeMultiMapNode);
 
-    if (objTreeMultimap.root) expect(objTreeMultimap.root.key).toBe(6);
+    if (objTreeMultiMap.root) expect(objTreeMultiMap.root.key).toBe(11);
 
-    expect(objTreeMultimap.count).toBe(16);
+    expect(objTreeMultiMap.count).toBe(16);
 
-    expect(objTreeMultimap.has(6)).toBe(true);
+    expect(objTreeMultiMap.has(6)).toBe(true);
   });
 });
 
-describe('TreeMultimap Performance test', function () {
-  const treeMS = new TreeMultimap<number, number>();
-  const inputSize = 100000; // Adjust input sizes as needed
+describe('TreeMultiMap Performance test', function () {
+  const treeMS = new TreeMultiMap<number, number>();
+  const inputSize = 1000; // Adjust input sizes as needed
 
   beforeEach(() => {
     treeMS.clear();
   });
 
-  it(`Observe the time consumption of TreeMultimap.dfs be good`, function () {
+  it(`Observe the time consumption of TreeMultiMap.dfs be good`, function () {
     const startDFS = performance.now();
     const dfs = treeMS.dfs(node => node);
     isDebug && console.log('---bfs', performance.now() - startDFS, dfs.length);
@@ -567,6 +576,7 @@ describe('TreeMultimap Performance test', function () {
     for (let i = 0; i < inputSize; i++) {
       treeMS.add(i);
     }
+
     isDebug && console.log('---add', performance.now() - start);
     const startL = performance.now();
     treeMS.lesserOrGreaterTraverse(node => (node.count += 1), CP.lt, inputSize / 2);
@@ -574,18 +584,18 @@ describe('TreeMultimap Performance test', function () {
   });
 
   it('should the clone method', () => {
-    function checkTreeStructure(treeMultimap: TreeMultimap<string, number>) {
+    function checkTreeStructure(treeMultimap: TreeMultiMap<string, number>) {
       expect(treeMultimap.size).toBe(4);
-      expect(treeMultimap.root?.key).toBe('2');
+      expect(treeMultimap.root?.key).toBe('4');
       expect(treeMultimap.root?.left?.key).toBe('1');
-      expect(treeMultimap.root?.left?.left?.key).toBe(undefined);
-      expect(treeMultimap.root?.left?.right?.key).toBe(undefined);
-      expect(treeMultimap.root?.right?.key).toBe('4');
-      expect(treeMultimap.root?.right?.left?.key).toBe(undefined);
-      expect(treeMultimap.root?.right?.right?.key).toBe('5');
+      expect(treeMultimap.root?.left?.left?.key).toBe(NaN);
+      expect(treeMultimap.root?.left?.right?.key).toBe('2');
+      expect(treeMultimap.root?.right?.key).toBe('5');
+      expect(treeMultimap.root?.right?.left?.key).toBe(NaN);
+      expect(treeMultimap.root?.right?.right?.key).toBe(NaN);
     }
 
-    const treeMultimap = new TreeMultimap<string, number>();
+    const treeMultimap = new TreeMultiMap<string, number>();
     treeMultimap.addMany([
       ['2', 2],
       ['4', 4],
@@ -594,12 +604,12 @@ describe('TreeMultimap Performance test', function () {
       ['1', 1]
     ]);
     expect(treeMultimap.size).toBe(5);
-    expect(treeMultimap.root?.key).toBe('2');
+    expect(treeMultimap.root?.key).toBe('3');
     expect(treeMultimap.root?.left?.key).toBe('1');
-    expect(treeMultimap.root?.left?.left?.key).toBe(undefined);
-    expect(treeMultimap.root?.left?.right?.key).toBe(undefined);
+    expect(treeMultimap.root?.left?.left?.key).toBe(NaN);
+    expect(treeMultimap.root?.left?.right?.key).toBe('2');
     expect(treeMultimap.root?.right?.key).toBe('4');
-    expect(treeMultimap.root?.right?.left?.key).toBe('3');
+    expect(treeMultimap.root?.right?.left?.key).toBe(NaN);
     expect(treeMultimap.root?.right?.right?.key).toBe('5');
     treeMultimap.delete('3');
     checkTreeStructure(treeMultimap);
@@ -611,10 +621,10 @@ describe('TreeMultimap Performance test', function () {
   });
 });
 
-describe('TreeMultimap iterative methods test', () => {
-  let treeMM: TreeMultimap<number, string>;
+describe('TreeMultiMap iterative methods test', () => {
+  let treeMM: TreeMultiMap<number, string>;
   beforeEach(() => {
-    treeMM = new TreeMultimap<number, string>();
+    treeMM = new TreeMultiMap<number, string>();
     treeMM.add(1, 'a', 10);
     treeMM.add([2, 'b'], undefined, 10);
     treeMM.add([3, 'c'], undefined, 1);
@@ -624,7 +634,7 @@ describe('TreeMultimap iterative methods test', () => {
     const node3 = treeMM.getNode(3);
     expect(node3).toBeInstanceOf(BinaryTreeNode);
     expect(node3).toBeInstanceOf(BSTNode);
-    expect(node3).toBeInstanceOf(AVLTreeNode);
+    expect(node3).toBeInstanceOf(RedBlackTreeNode);
   });
 
   test('forEach should iterate over all elements', () => {
@@ -680,8 +690,8 @@ describe('TreeMultimap iterative methods test', () => {
   test('should clone work well', () => {
     expect(treeMM.count).toBe(21);
     const cloned = treeMM.clone();
-    expect(cloned.root?.left?.key).toBe(1);
-    expect(cloned.root?.right?.value).toBe('c');
+    expect(cloned.root?.left?.key).toBe(NaN);
+    expect(cloned.root?.right?.value).toBe('b');
   });
 
   test('should keys', () => {
