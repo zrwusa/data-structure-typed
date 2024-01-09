@@ -25,13 +25,13 @@ suite
     avlTree.clear();
     for (let i = 0; i < arr.length; i++) avlTree.add(arr[i]);
   })
+  .add(`${TEN_THOUSAND.toLocaleString()} AVLTree get`, () => {
+    for (let i = 0; i < arr.length; i++) avlTree.get(arr[i]);
+  })
   .add(`${TEN_THOUSAND.toLocaleString()} AVLTree add & delete randomly`, () => {
     avlTree.clear();
     for (let i = 0; i < arr.length; i++) avlTree.add(arr[i]);
     for (let i = 0; i < arr.length; i++) avlTree.delete(arr[i]);
-  })
-  .add(`${TEN_THOUSAND.toLocaleString()} AVLTree get`, () => {
-    for (let i = 0; i < arr.length; i++) avlTree.get(arr[i]);
   });
 
 export { suite };

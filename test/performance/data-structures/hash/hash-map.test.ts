@@ -21,13 +21,13 @@ if (isCompetitor) {
   });
 }
 
-suite.add(`Native Map ${MILLION.toLocaleString()} set`, () => {
+suite.add(`Native JS Map ${MILLION.toLocaleString()} set`, () => {
   const hm = new Map<number, number>();
 
   for (let i = 0; i < MILLION; i++) hm.set(i, i);
 });
 
-suite.add(`Native Set ${MILLION.toLocaleString()} add`, () => {
+suite.add(`Native JS Set ${MILLION.toLocaleString()} add`, () => {
   const hs = new Set<number>();
 
   for (let i = 0; i < MILLION; i++) hs.add(i);
@@ -49,14 +49,14 @@ if (isCompetitor) {
   });
 }
 
-suite.add(`Native Map ${MILLION.toLocaleString()} set & get`, () => {
+suite.add(`Native JS Map ${MILLION.toLocaleString()} set & get`, () => {
   const hm = new Map<number, number>();
 
   for (let i = 0; i < MILLION; i++) hm.set(i, i);
   for (let i = 0; i < MILLION; i++) hm.get(i);
 });
 
-suite.add(`Native Set ${MILLION.toLocaleString()} add & has`, () => {
+suite.add(`Native JS Set ${MILLION.toLocaleString()} add & has`, () => {
   const hs = new Set<number>();
 
   for (let i = 0; i < MILLION; i++) hs.add(i);
@@ -74,7 +74,7 @@ suite.add(`${MILLION.toLocaleString()} ObjKey set & get`, () => {
   for (let i = 0; i < MILLION; i++) hm.get(objKeys[i]);
 });
 
-suite.add(`Native Map ${MILLION.toLocaleString()} ObjKey set & get`, () => {
+suite.add(`Native JS Map ${MILLION.toLocaleString()} ObjKey set & get`, () => {
   const hm = new Map<[number, number], number>();
   const objs: [number, number][] = [];
   for (let i = 0; i < MILLION; i++) {
@@ -85,7 +85,7 @@ suite.add(`Native Map ${MILLION.toLocaleString()} ObjKey set & get`, () => {
   for (let i = 0; i < MILLION; i++) hm.get(objs[i]);
 });
 
-suite.add(`Native Set ${MILLION.toLocaleString()} ObjKey add & has`, () => {
+suite.add(`Native JS Set ${MILLION.toLocaleString()} ObjKey add & has`, () => {
   const hs = new Set<[number, number]>();
   const objs: [number, number][] = [];
   for (let i = 0; i < MILLION; i++) {

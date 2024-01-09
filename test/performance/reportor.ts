@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import * as fastGlob from 'fast-glob';
 import { Color, numberFix, render } from '../utils';
 import { PerformanceTest } from './types';
+import * as console from 'console';
 
 const args = process.argv.slice(2);
 
@@ -171,7 +172,48 @@ function replaceMarkdownContent(startMarker: string, endMarker: string, newText:
   });
 }
 
-performanceTests.forEach(item => {
+const order = [
+  'heap',
+  'rb-tree',
+  'queue',
+  'deque',
+  'hash-map',
+  'trie',
+  'avl-tree',
+  'binary-tree-overall',
+  'directed-graph',
+  'doubly-linked-list',
+  'singly-linked-list',
+  'priority-queue',
+  'stack'
+];
+
+const sortedPerformanceTests = [...performanceTests].sort((a, b) => {
+  const indexA = order.indexOf(a.testName);
+  const indexB = order.indexOf(b.testName);
+
+  // If both a and b are in the order, sort them according to their indices in the order.
+  if (indexA !== -1 && indexB !== -1) {
+    return indexA - indexB;
+  }
+
+  // If there is only 'a' in the order, then place 'b' in front.
+  if (indexA !== -1) {
+    return 1;
+  }
+
+  // If only b is in the order, then a should be placed before it.
+  if (indexB !== -1) {
+    return -1;
+  }
+
+  // If neither a nor b are in order, keep their original order
+  return 0;
+});
+
+console.log(`${GREEN} Found tests${END}: ${sortedPerformanceTests.map(test => test.testName)}`);
+
+sortedPerformanceTests.forEach(item => {
   const { suite, testName, file } = item;
 
   console.log(coloredLabeled('Running', file));

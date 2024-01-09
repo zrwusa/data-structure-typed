@@ -21,17 +21,17 @@ if (isCompetitor) {
 }
 
 suite
-  // .add(`${TEN_THOUSAND.toLocaleString()} push & delete`, () => {
-  //   const deque = new Deque<number>();
-  //
-  //   for (let i = 0; i < TEN_THOUSAND; i++) deque.push(i);
-  //   for (let i = 0; i < TEN_THOUSAND; i++) deque.delete(randomIndicesTenThousand[i]);
-  // })
   .add(`${MILLION.toLocaleString()} push & pop`, () => {
     const deque = new Deque<number>();
 
     for (let i = 0; i < MILLION; i++) deque.push(i);
     for (let i = 0; i < MILLION; i++) deque.pop();
+  })
+  .add(`${MILLION.toLocaleString()} push & shift`, () => {
+    const deque = new Deque<number>();
+
+    for (let i = 0; i < MILLION; i++) deque.push(i);
+    for (let i = 0; i < MILLION; i++) deque.shift();
   })
   .add(`${HUNDRED_THOUSAND.toLocaleString()} push & shift`, () => {
     const deque = new Deque<number>();
@@ -39,7 +39,7 @@ suite
     for (let i = 0; i < HUNDRED_THOUSAND; i++) deque.push(i);
     for (let i = 0; i < HUNDRED_THOUSAND; i++) deque.shift();
   })
-  .add(`Native Array ${HUNDRED_THOUSAND.toLocaleString()} push & shift`, () => {
+  .add(`Native JS Array ${HUNDRED_THOUSAND.toLocaleString()} push & shift`, () => {
     const array = new Array<number>();
 
     for (let i = 0; i < HUNDRED_THOUSAND; i++) array.push(i);
@@ -51,7 +51,7 @@ suite
     for (let i = 0; i < HUNDRED_THOUSAND; i++) deque.unshift(i);
     for (let i = 0; i < HUNDRED_THOUSAND; i++) deque.shift();
   })
-  .add(`Native Array ${HUNDRED_THOUSAND.toLocaleString()} unshift & shift`, () => {
+  .add(`Native JS Array ${HUNDRED_THOUSAND.toLocaleString()} unshift & shift`, () => {
     const array = new Array<number>();
 
     for (let i = 0; i < HUNDRED_THOUSAND; i++) array.unshift(i);

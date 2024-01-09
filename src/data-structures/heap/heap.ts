@@ -200,7 +200,7 @@ export class Heap<E = any> extends IterableElementBase<E> {
    * @param element - the element to check.
    * @returns Returns true if the specified element is contained; otherwise, returns false.
    */
-  has(element: E): boolean {
+  override has(element: E): boolean {
     return this.elements.includes(element);
   }
 

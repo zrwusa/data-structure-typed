@@ -6,6 +6,8 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * Space Complexity: O(1)
    */
 
+  abstract get size(): number;
+
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
@@ -124,6 +126,11 @@ export abstract class IterableEntryBase<K = any, V = any> {
     }
     return false;
   }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   */
 
   /**
    * Time Complexity: O(n)
@@ -251,11 +258,6 @@ export abstract class IterableEntryBase<K = any, V = any> {
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The `reduce` function iterates over key-value pairs and applies a callback function to each pair,
    * accumulating a single value.
@@ -301,6 +303,8 @@ export abstract class IterableEntryBase<K = any, V = any> {
 }
 
 export abstract class IterableElementBase<E = any, C = any> {
+  abstract get size(): number;
+
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
@@ -361,6 +365,11 @@ export abstract class IterableElementBase<E = any, C = any> {
     }
     return true;
   }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   */
 
   /**
    * Time Complexity: O(n)
@@ -444,11 +453,6 @@ export abstract class IterableElementBase<E = any, C = any> {
 
     return;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(n)

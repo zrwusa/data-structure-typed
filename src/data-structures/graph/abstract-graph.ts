@@ -82,6 +82,10 @@ export abstract class AbstractGraph<
     this._vertexMap = v;
   }
 
+  get size(): number {
+    return this._vertexMap.size;
+  }
+
   /**
    * In TypeScript, a subclass inherits the interface implementation of its parent class, without needing to implement the same interface again in the subclass. This behavior differs from Java's approach. In Java, if a parent class implements an interface, the subclass needs to explicitly implement the same interface, even if the parent class has already implemented it.
    * This means that using abstract methods in the parent class cannot constrain the grandchild classes. Defining methods within an interface also cannot constrain the descendant classes. When inheriting from this class, developers need to be aware that this method needs to be overridden.

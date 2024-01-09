@@ -25,18 +25,11 @@ suite.add(`${HUNDRED_THOUSAND.toLocaleString()} push & shift`, () => {
   for (let i = 0; i < HUNDRED_THOUSAND; i++) queue.push(i);
   for (let i = 0; i < HUNDRED_THOUSAND; i++) queue.shift();
 });
-suite
-  .add(`Native Array ${HUNDRED_THOUSAND.toLocaleString()} push & shift`, () => {
-    const arr = new Array<number>();
+suite.add(`Native JS Array ${HUNDRED_THOUSAND.toLocaleString()} push & shift`, () => {
+  const arr = new Array<number>();
 
-    for (let i = 0; i < HUNDRED_THOUSAND; i++) arr.push(i);
-    for (let i = 0; i < HUNDRED_THOUSAND; i++) arr.shift();
-  })
-  .add(`Native Array ${HUNDRED_THOUSAND.toLocaleString()} push & pop`, () => {
-    const arr = new Array<number>();
-
-    for (let i = 0; i < HUNDRED_THOUSAND; i++) arr.push(i);
-    for (let i = 0; i < HUNDRED_THOUSAND; i++) arr.pop();
-  });
+  for (let i = 0; i < HUNDRED_THOUSAND; i++) arr.push(i);
+  for (let i = 0; i < HUNDRED_THOUSAND; i++) arr.shift();
+});
 
 export { suite };
