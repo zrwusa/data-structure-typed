@@ -194,14 +194,13 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    */
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The push function adds a new node with the given value to the end of the doubly linked list.
-   * @param {E} value - The value to be added to the linked list.
+   * The push function adds a new element to the end of a doubly linked list.
+   * @param {E} element - The "element" parameter represents the value that you want to add to the
+   * doubly linked list.
+   * @returns The `push` method is returning a boolean value, `true`.
    */
-  push(value: E): boolean {
-    const newNode = new DoublyLinkedListNode(value);
+  push(element: E): boolean {
+    const newNode = new DoublyLinkedListNode(element);
     if (!this.head) {
       this._head = newNode;
       this._tail = newNode;
@@ -220,12 +219,8 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    */
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `pop()` function removes and returns the value of the last node in a doubly linked list.
-   * @returns The method is returning the value of the removed node (removedNode.value) if the list is not empty. If the
-   * list is empty, it returns undefined.
+   * The `pop()` function removes and returns the value of the last element in a linked list.
+   * @returns The method is returning the value of the removed node.
    */
   pop(): E | undefined {
     if (!this.tail) return undefined;
@@ -247,12 +242,8 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    */
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `shift()` function removes and returns the value of the first node in a doubly linked list.
-   * @returns The method `shift()` returns the value of the node that is removed from the beginning of the doubly linked
-   * list.
+   * The `shift()` function removes and returns the value of the first element in a doubly linked list.
+   * @returns The value of the removed node.
    */
   shift(): E | undefined {
     if (!this.head) return undefined;
@@ -274,15 +265,13 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    */
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The unshift function adds a new node with the given value to the beginning of a doubly linked list.
-   * @param {E} value - The `value` parameter represents the value of the new node that will be added to the beginning of the
-   * doubly linked list.
+   * The unshift function adds a new element to the beginning of a doubly linked list.
+   * @param {E} element - The "element" parameter represents the value of the element that you want to
+   * add to the beginning of the doubly linked list.
+   * @returns The `unshift` method is returning a boolean value, `true`.
    */
-  unshift(value: E): boolean {
-    const newNode = new DoublyLinkedListNode(value);
+  unshift(element: E): boolean {
+    const newNode = new DoublyLinkedListNode(element);
     if (!this.head) {
       this._head = newNode;
       this._tail = newNode;
@@ -809,73 +798,6 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
     }
 
     return mappedList;
-  }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The addLast function adds a new node with the given value to the end of the doubly linked list.
-   * @param {E} value - The value to be added to the linked list.
-   */
-  addLast(value: E): boolean {
-    return this.push(value);
-  }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `pollLast()` function removes and returns the value of the last node in a doubly linked list.
-   * @returns The method is returning the value of the removed node (removedNode.value) if the list is not empty. If the
-   * list is empty, it returns undefined.
-   */
-  pollLast(): E | undefined {
-    return this.pop();
-  }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `pollFirst()` function removes and returns the value of the first node in a doubly linked list.
-   * @returns The method `shift()` returns the value of the node that is removed from the beginning of the doubly linked
-   * list.
-   */
-  pollFirst(): E | undefined {
-    return this.shift();
-  }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The addFirst function adds a new node with the given value to the beginning of a doubly linked list.
-   * @param {E} value - The `value` parameter represents the value of the new node that will be added to the beginning of the
-   * doubly linked list.
-   */
-  addFirst(value: E): void {
-    this.unshift(value);
   }
 
   /**

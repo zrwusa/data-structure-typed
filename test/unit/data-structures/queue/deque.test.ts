@@ -52,12 +52,12 @@ describe('Deque - Basic Operations', () => {
 
   it('should clone', function () {
     const deque = new Deque<string>();
-    deque.addLast('1');
-    deque.addLast('6');
-    deque.addLast('2');
-    deque.addLast('0');
-    deque.addLast('5');
-    deque.addLast('9');
+    deque.push('1');
+    deque.push('6');
+    deque.push('2');
+    deque.push('0');
+    deque.push('5');
+    deque.push('9');
     expect(deque.size).toBe(6);
     deque.delete('2');
     expect(deque.size).toBe(5);
@@ -70,7 +70,7 @@ describe('Deque - Basic Operations', () => {
     expect([...deque]).toEqual(['1', '6', '0', '9']);
     expect([...cloned]).toEqual(['1', '6', '0', '5', '9']);
     expect(cloned.size).toBe(5);
-    cloned.addLast('8');
+    cloned.push('8');
     expect(cloned.size).toBe(6);
     cloned.delete('6');
     expect(cloned.size).toBe(5);
@@ -239,52 +239,52 @@ describe('Deque - Additional Operations', () => {
     deque = new Deque<number>();
   });
 
-  test('addLast should add an element to the end', () => {
-    deque.addLast(1);
-    deque.addLast(2);
+  test('push should add an element to the end', () => {
+    deque.push(1);
+    deque.push(2);
     expect(deque.last).toBe(2);
     expect(deque.size).toBe(2);
   });
 
-  test('pollLast should remove and return the last element', () => {
-    deque.addLast(1);
-    deque.addLast(2);
-    expect(deque.pollLast()).toBe(2);
+  test('pop should remove and return the last element', () => {
+    deque.push(1);
+    deque.push(2);
+    expect(deque.pop()).toBe(2);
     expect(deque.size).toBe(1);
   });
 
-  test('addFirst should add an element to the beginning', () => {
-    deque.addFirst(1);
-    deque.addFirst(2);
+  test('unshift should add an element to the beginning', () => {
+    deque.unshift(1);
+    deque.unshift(2);
     expect(deque.first).toBe(2);
     expect(deque.size).toBe(2);
   });
 
-  test('pollFirst should remove and return the first element', () => {
-    deque.addFirst(1);
-    deque.addFirst(2);
-    expect(deque.pollFirst()).toBe(2);
+  test('shift should remove and return the first element', () => {
+    deque.unshift(1);
+    deque.unshift(2);
+    expect(deque.shift()).toBe(2);
     expect(deque.size).toBe(1);
   });
 
   test('clear should reset the deque', () => {
-    deque.addFirst(1);
+    deque.unshift(1);
     deque.clear();
     expect(deque.size).toBe(0);
     expect(deque.isEmpty()).toBeTruthy();
   });
 
   test('begin should yield elements from the beginning', () => {
-    deque.addLast(1);
-    deque.addLast(2);
+    deque.push(1);
+    deque.push(2);
     const iterator = deque.begin();
     expect(iterator.next().value).toBe(1);
     expect(iterator.next().value).toBe(2);
   });
 
   test('reverseBegin should yield elements in reverse order', () => {
-    deque.addLast(1);
-    deque.addLast(2);
+    deque.push(1);
+    deque.push(2);
     const iterator = deque.reverseBegin();
     expect(iterator.next().value).toBe(2);
     expect(iterator.next().value).toBe(1);

@@ -65,21 +65,21 @@ describe('SkipList Test2', () => {
     skipList.add(4, 'Four');
   });
 
-  it('getFirst() should return the getFirst element', () => {
+  it('first() should return the first element', () => {
     expect(skipList.first).toBe('One');
   });
 
-  it('getLast() should return the getLast element', () => {
+  it('last() should return the last element', () => {
     expect(skipList.last).toBe('Four');
   });
 
-  it('higher(key) should return the getFirst element greater than the given key', () => {
+  it('higher(key) should return the first element greater than the given key', () => {
     expect(skipList.higher(2)).toBe('Three');
     expect(skipList.higher(3)).toBe('Four');
     expect(skipList.higher(4)).toBeUndefined();
   });
 
-  it('lower(key) should return the getLast element less than the given key', () => {
+  it('lower(key) should return the last element less than the given key', () => {
     expect(skipList.lower(2)).toBe('One');
     expect(skipList.lower(1)).toBe(undefined);
   });

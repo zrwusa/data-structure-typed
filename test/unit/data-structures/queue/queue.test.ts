@@ -23,24 +23,24 @@ describe('Queue', () => {
 
   test('shift should remove the first element', () => {
     queue.push(1);
-    queue.enqueue(2);
+    queue.push(2);
     expect(queue.shift()).toBe(1);
     expect(queue.size).toBe(1);
   });
 
   test('shift should return undefined if queue is empty', () => {
-    expect(queue.dequeue()).toBeUndefined();
+    expect(queue.shift()).toBeUndefined();
   });
 
-  test('peek should return the first element without removing it', () => {
+  test('first should return the first element without removing it', () => {
     queue.push(1);
     queue.push(2);
-    expect(queue.peek()).toBe(1);
+    expect(queue.first).toBe(1);
     expect(queue.size).toBe(2);
   });
 
-  test('peek should return undefined if queue is empty', () => {
-    expect(queue.peek()).toBeUndefined();
+  test('first should return undefined if queue is empty', () => {
+    expect(queue.first).toBeUndefined();
   });
 
   test('size should return the number of elements', () => {
@@ -167,12 +167,12 @@ describe('Queue - Additional Methods', () => {
   test('peekLast should return the last element without removing it', () => {
     queue.push(1);
     queue.push(2);
-    expect(queue.peekLast()).toBe(2);
+    expect(queue.last).toBe(2);
     expect(queue.size).toBe(2);
   });
 
   test('peekLast should return undefined if queue is empty', () => {
-    expect(queue.peekLast()).toBeUndefined();
+    expect(queue.last).toBeUndefined();
   });
 
   test('at should return the element at the specified index', () => {
@@ -239,25 +239,25 @@ describe('LinkedListQueue', () => {
     queue = new LinkedListQueue<string>();
   });
 
-  it('should enqueue elements to the end of the queue', () => {
-    queue.enqueue('A');
-    queue.enqueue('B');
-    expect(queue.peek()).toBe('A');
+  it('should push elements to the end of the queue', () => {
+    queue.push('A');
+    queue.push('B');
+    expect(queue.first).toBe('A');
     expect(queue.size).toBe(2);
   });
 
-  it('should dequeue elements from the front of the queue', () => {
-    queue.enqueue('A');
-    queue.enqueue('B');
-    const dequeued = queue.dequeue();
+  it('should shift elements from the front of the queue', () => {
+    queue.push('A');
+    queue.push('B');
+    const dequeued = queue.shift();
     expect(dequeued).toBe('A');
-    expect(queue.peek()).toBe('B');
+    expect(queue.first).toBe('B');
     expect(queue.size).toBe(1);
   });
 
   it('should peek at the front of the queue', () => {
-    queue.enqueue('A');
-    queue.enqueue('B');
-    expect(queue.peek()).toBe('A');
+    queue.push('A');
+    queue.push('B');
+    expect(queue.first).toBe('A');
   });
 });

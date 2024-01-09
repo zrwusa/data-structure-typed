@@ -32,7 +32,7 @@ describe('SinglyLinkedList Operation Test', () => {
       list.push(3);
       const popped = list.pop();
       expect(popped).toBe(3);
-      expect(list.pollLast()).toBe(2);
+      expect(list.pop()).toBe(2);
       expect(list.toArray()).toEqual([1]);
     });
 
@@ -49,7 +49,7 @@ describe('SinglyLinkedList Operation Test', () => {
       list.push(3);
       const shifted = list.shift();
       expect(shifted).toBe(1);
-      expect(list.pollFirst()).toBe(2);
+      expect(list.shift()).toBe(2);
       expect(list.toArray()).toEqual([3]);
     });
 
@@ -62,7 +62,7 @@ describe('SinglyLinkedList Operation Test', () => {
   describe('unshift', () => {
     it('should add elements to the beginning of the list', () => {
       list.unshift(1);
-      list.addFirst(2);
+      list.unshift(2);
       expect(list.toArray()).toEqual([2, 1]);
     });
   });
@@ -350,12 +350,12 @@ describe('SinglyLinkedList Operation Test', () => {
 
   it('should clone', function () {
     const sList = new SinglyLinkedList<string>();
-    sList.addLast('1');
-    sList.addLast('6');
-    sList.addLast('2');
-    sList.addLast('0');
-    sList.addLast('5');
-    sList.addLast('9');
+    sList.push('1');
+    sList.push('6');
+    sList.push('2');
+    sList.push('0');
+    sList.push('5');
+    sList.push('9');
     sList.delete('2');
     expect([...sList]).toEqual(['1', '6', '0', '5', '9']);
     const cloned = sList.clone();
@@ -478,7 +478,7 @@ describe('SinglyLinkedList', () => {
   });
 
   it('should map the list', () => {
-    list.addLast(1);
+    list.push(1);
     list.push(2);
     list.push(3);
     expect(list.map(value => value * 2).toArray()).toEqual([2, 4, 6]);

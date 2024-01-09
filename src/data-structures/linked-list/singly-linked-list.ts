@@ -93,6 +93,24 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
     return this._tail;
   }
 
+  /**
+   * The above function returns the value of the first element in a linked list, or undefined if the
+   * list is empty.
+   * @returns The value of the first node in the linked list, or undefined if the linked list is empty.
+   */
+  get first(): E | undefined {
+    return this.head?.value;
+  }
+
+  /**
+   * The function returns the value of the last element in a linked list, or undefined if the list is
+   * empty.
+   * @returns The value of the last node in the linked list, or undefined if the linked list is empty.
+   */
+  get last(): E | undefined {
+    return this.tail?.value;
+  }
+
   protected _size: number = 0;
 
   /**
@@ -130,20 +148,19 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   * Constant time, as it involves basic pointer adjustments.
-   * Constant space, as it only creates a new node.
    */
 
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The `push` function adds a new node with the given value to the end of a singly linked list.
-   * @param {E} value - The "value" parameter represents the value that you want to add to the linked list. It can be of
-   * any type (E) as specified in the generic type declaration of the class or function.
+   * The push function adds a new element to the end of a singly linked list.
+   * @param {E} element - The "element" parameter represents the value of the element that you want to
+   * add to the linked list.
+   * @returns The `push` method is returning a boolean value, `true`.
    */
-  push(value: E): boolean {
-    const newNode = new SinglyLinkedListNode(value);
+  push(element: E): boolean {
+    const newNode = new SinglyLinkedListNode(element);
     if (!this.head) {
       this._head = newNode;
       this._tail = newNode;
@@ -156,23 +173,6 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `push` function adds a new node with the given value to the end of a singly linked list.
-   * @param {E} value - The "value" parameter represents the value that you want to add to the linked list. It can be of
-   * any type (E) as specified in the generic type declaration of the class or function.
-   */
-  addLast(value: E): boolean {
-    return this.push(value);
-  }
-
-  /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
    * Linear time in the worst case, as it may need to traverse the list to find the last element.
@@ -182,10 +182,9 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
-   * The `pop()` function removes and returns the value of the last element in a linked list, updating the head and tail
-   * pointers accordingly.
-   * @returns The method `pop()` returns the value of the node that is being removed from the end of the linked list. If
-   * the linked list is empty, it returns `undefined`.
+   * The `pop` function removes and returns the value of the last element in a linked list.
+   * @returns The method is returning the value of the element that is being popped from the end of the
+   * list.
    */
   pop(): E | undefined {
     if (!this.head) return undefined;
@@ -209,24 +208,6 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The `pollLast()` function removes and returns the value of the last element in a linked list, updating the head and tail
-   * pointers accordingly.
-   * @returns The method `pop()` returns the value of the node that is being removed from the end of the linked list. If
-   * the linked list is empty, it returns `undefined`.
-   */
-  pollLast(): E | undefined {
-    return this.pop();
-  }
-
-  /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    */
@@ -235,8 +216,8 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The `shift()` function removes and returns the value of the first node in a linked list.
-   * @returns The value of the node that is being removed from the beginning of the linked list.
+   * The `shift()` function removes and returns the value of the first element in a linked list.
+   * @returns The value of the removed node.
    */
   shift(): E | undefined {
     if (!this.head) return undefined;
@@ -255,28 +236,13 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The `pollFirst()` function removes and returns the value of the first node in a linked list.
-   * @returns The value of the node that is being removed from the beginning of the linked list.
+   * The unshift function adds a new element to the beginning of a singly linked list.
+   * @param {E} element - The "element" parameter represents the value of the element that you want to
+   * add to the beginning of the singly linked list.
+   * @returns The `unshift` method is returning a boolean value, `true`.
    */
-  pollFirst(): E | undefined {
-    return this.shift();
-  }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The unshift function adds a new node with the given value to the beginning of a singly linked list.
-   * @param {E} value - The parameter "value" represents the value of the new node that will be added to the beginning of the
-   * linked list.
-   */
-  unshift(value: E): boolean {
-    const newNode = new SinglyLinkedListNode(value);
+  unshift(element: E): boolean {
+    const newNode = new SinglyLinkedListNode(element);
     if (!this.head) {
       this._head = newNode;
       this._tail = newNode;
@@ -289,26 +255,8 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The addFirst function adds a new node with the given value to the beginning of a singly linked list.
-   * @param {E} value - The parameter "value" represents the value of the new node that will be added to the beginning of the
-   * linked list.
-   */
-  addFirst(value: E): boolean {
-    return this.unshift(value);
-  }
-
-  /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   * Linear time, where n is the index, as it may need to traverse the list to find the desired node.
    */
 
   /**

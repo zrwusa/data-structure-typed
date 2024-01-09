@@ -187,72 +187,6 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The `peek` function returns the first element of the array `_elements` if it exists, otherwise it returns `undefined`.
-   * @returns The `peek()` method returns the first element of the data structure, represented by the `_elements` array at
-   * the `_offset` index. If the data structure is empty (size is 0), it returns `undefined`.
-   */
-  peek(): E | undefined {
-    return this.first;
-  }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `peekLast` function returns the last element in an array-like data structure, or undefined if the structure is empty.
-   * @returns The method `peekLast()` returns the last element of the `_elements` array if the array is not empty. If the
-   * array is empty, it returns `undefined`.
-   */
-  peekLast(): E | undefined {
-    return this.last;
-  }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The enqueue function adds a value to the end of a queue.
-   * @param {E} value - The value parameter represents the value that you want to add to the queue.
-   */
-  enqueue(value: E): boolean {
-    return this.push(value);
-  }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `dequeue` function removes and returns the first element from a queue, or returns undefined if the queue is empty.
-   * @returns The method is returning a value of type E or undefined.
-   */
-  dequeue(): E | undefined {
-    return this.shift();
-  }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
    * @param index
    */
   at(index: number): E | undefined {
@@ -411,38 +345,6 @@ export class Queue<E = any> extends IterableElementBase<E> {
  * 4. Frequent Enqueuing and Dequeuing Operations: If your application involves frequent enqueuing and dequeuing operations and is less concerned with random access, then LinkedListQueue is a good choice.
  */
 export class LinkedListQueue<E = any> extends SinglyLinkedList<E> {
-  /**
-   * The `get first` function returns the value of the head node in a linked list, or `undefined` if the list is empty.
-   * @returns The `get first()` method is returning the value of the `head` node if it exists, otherwise it returns `undefined`.
-   */
-  get first(): E | undefined {
-    return this.head?.value;
-  }
-
-  /**
-   * The enqueue function adds a value to the end of an array.
-   * @param {E} value - The value parameter represents the value that you want to add to the queue.
-   */
-  enqueue(value: E): boolean {
-    return this.push(value);
-  }
-
-  /**
-   * The `dequeue` function removes and returns the first element from a queue, or returns undefined if the queue is empty.
-   * @returns The method is returning the element at the front of the queue, or undefined if the queue is empty.
-   */
-  dequeue(): E | undefined {
-    return this.shift();
-  }
-
-  /**
-   * The `peek` function returns the value of the head node in a linked list, or `undefined` if the list is empty.
-   * @returns The `peek()` method is returning the value of the `head` node if it exists, otherwise it returns `undefined`.
-   */
-  peek(): E | undefined {
-    return this.first;
-  }
-
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)

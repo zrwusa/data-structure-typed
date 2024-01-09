@@ -68,7 +68,7 @@
 
 ### 使用通俗易懂业界常用命名
 
-- `enqueue`, `dequeue`, `push`, `pop`, `poll`, `addLast`, `addFirst`, `pollFirst`, `pollLast`, `isEmpty`, `clear`, `print`, `clone`
+- `enqueue`, `dequeue`, `push`, `pop`, `poll`, `push`, `unshift`, `shift`, `pop`, `isEmpty`, `clear`, `print`, `clone`
 
 ### 尽量实现可定制化功能
 

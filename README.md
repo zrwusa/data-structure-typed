@@ -1,6 +1,5 @@
 # data-structure-typed
 
-
 ![npm](https://img.shields.io/npm/dm/data-structure-typed)
 ![GitHub contributors](https://img.shields.io/github/contributors/zrwusa/data-structure-typed)
 ![npm package minimized gzipped size (select exports)](https://img.shields.io/bundlejs/size/data-structure-typed)
@@ -17,7 +16,8 @@
 ## Why
 
 Do you envy C++ with [STL]() (std::), Python with [collections](), and Java with [java.util]() ? Well, no need to envy
-anymore! JavaScript and TypeScript now have [data-structure-typed]().**`Benchmark`** compared with C++ STL. **`API standards`** aligned with ES6 and Java. **`Usability`** is comparable to Python
+anymore! JavaScript and TypeScript now have [data-structure-typed]().**`Benchmark`** compared with C++ STL. *
+*`API standards`** aligned with ES6 and Java. **`Usability`** is comparable to Python
 
 
 [//]: # (![Branches]&#40;https://img.shields.io/badge/branches-55.47%25-red.svg?style=flat&#41;)
@@ -28,13 +28,15 @@ anymore! JavaScript and TypeScript now have [data-structure-typed]().**`Benchmar
 
 [//]: # (![Lines]&#40;https://img.shields.io/badge/lines-68.6%25-red.svg?style=flat&#41;)
 
-### We provide data structures that are not available in JS/TS
+### Data structures available
 
-Heap, Binary Tree, Red Black Tree, Linked List, Deque, Trie, Directed Graph, Undirected Graph, BST, AVL Tree, Priority Queue, Queue, Tree Multiset.
+We provide data structures that are not available in JS/TS
+Heap, Binary Tree, Red Black Tree, Linked List, Deque, Trie, Directed Graph, Undirected Graph, BST, AVL Tree, Priority
+Queue, Queue, Tree Multiset.
 
+### Performance
 
-### Performance surpasses that of native JS/TS
-
+Performance surpasses that of native JS/TS
 
 <table style="display: table; width:100%; table-layout: fixed;">
   <thead>
@@ -99,6 +101,53 @@ Heap, Binary Tree, Red Black Tree, Linked List, Deque, Trie, Directed Graph, Und
   </tbody>
 </table>
 
+### Conciseness and uniformity
+In Java.utils, you need to memorize a table for all sequential data structures(Queue, Deque, LinkedList),
+
+<table>
+        <thead>
+            <tr>
+                <th>Operation</th>
+                <th>Java ArrayList</th>
+                <th>Java Queue</th>
+                <th>Java ArrayDeque</th>
+                <th>Java LinkedList</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>push</td>
+                <td>add</td>
+                <td>offer</td>
+                <td>push</td>
+                <td>push</td>
+            </tr>
+            <tr>
+                <td>pop</td>
+                <td>remove</td>
+                <td>poll</td>
+                <td>removeLast</td>
+                <td>removeLast</td>
+            </tr>
+            <tr>
+                <td>shift</td>
+                <td>remove</td>
+                <td>poll</td>
+                <td>removeFirst</td>
+                <td>removeFirst</td>
+            </tr>
+            <tr>
+                <td>unshift</td>
+                <td>add(0, element)</td>
+                <td>offerFirst</td>
+                <td>unshift</td>
+                <td>unshift</td>
+            </tr>
+        </tbody>
+    </table>
+
+whereas in our data-structure-typed, you **only** need to remember four methods: `push`, `pop`, `shift`, and `unshift` for all sequential data structures.
+
 ## Installation and Usage
 
 ### npm
@@ -155,7 +204,7 @@ our [visual tool](https://github.com/zrwusa/vivid-algorithm)
 #### TS
 
 ```ts
-import {RedBlackTree} from 'data-structure-typed';
+import { RedBlackTree } from 'data-structure-typed';
 
 const rbTree = new RedBlackTree<number>();
 rbTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
@@ -177,7 +226,7 @@ rbTree.print()
 #### JS
 
 ```js
-import {RedBlackTree} from 'data-structure-typed';
+import { RedBlackTree } from 'data-structure-typed';
 
 const rbTree = new RedBlackTree();
 rbTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
@@ -204,31 +253,31 @@ const orgStrArr = ["trie", "trial", "trick", "trip", "tree", "trend", "triangle"
 const entries = [[6, "6"], [1, "1"], [2, "2"], [7, "7"], [5, "5"], [3, "3"], [4, "4"], [9, "9"], [8, "8"]];
 
 const queue = new Queue(orgArr);
-queue.print();      
+queue.print();
 // [6, 1, 2, 7, 5, 3, 4, 9, 8]
 
 const deque = new Deque(orgArr);
-deque.print();      
+deque.print();
 // [6, 1, 2, 7, 5, 3, 4, 9, 8]
 
 const sList = new SinglyLinkedList(orgArr);
-sList.print();      
+sList.print();
 // [6, 1, 2, 7, 5, 3, 4, 9, 8]
 
 const dList = new DoublyLinkedList(orgArr);
-dList.print();      
+dList.print();
 // [6, 1, 2, 7, 5, 3, 4, 9, 8]
 
 const stack = new Stack(orgArr);
-stack.print();      
+stack.print();
 // [6, 1, 2, 7, 5, 3, 4, 9, 8]
 
 const minHeap = new MinHeap(orgArr);
-minHeap.print();    
+minHeap.print();
 // [1, 5, 2, 7, 6, 3, 4, 9, 8]
 
 const maxPQ = new MaxPriorityQueue(orgArr);
-maxPQ.print();      
+maxPQ.print();
 // [9, 8, 4, 7, 5, 2, 3, 1, 6]
 
 const biTree = new BinaryTree(entries);
@@ -284,7 +333,7 @@ treeMulti.print();
 //              7   9
 
 const hm = new HashMap(entries);
-hm.print()    
+hm.print()
 // [[6, "6"], [1, "1"], [2, "2"], [7, "7"], [5, "5"], [3, "3"], [4, "4"], [9, "9"], [8, "8"]]
 
 const rbTreeH = new RedBlackTree(hm);
@@ -298,7 +347,7 @@ rbTreeH.print();
 //              7   9
 
 const pq = new MinPriorityQueue(orgArr);
-pq.print();   
+pq.print();
 // [1, 5, 2, 7, 6, 3, 4, 9, 8]
 
 const bst1 = new BST(pq);
@@ -312,7 +361,7 @@ bst1.print();
 //        4         9
 
 const dq1 = new Deque(orgArr);
-dq1.print();    
+dq1.print();
 // [6, 1, 2, 7, 5, 3, 4, 9, 8]
 const rbTree1 = new RedBlackTree(dq1);
 rbTree1.print();
@@ -326,13 +375,13 @@ rbTree1.print();
 
 
 const trie2 = new Trie(orgStrArr);
-trie2.print();    
+trie2.print();
 // ['trie', 'trial', 'triangle', 'trick', 'trip', 'tree', 'trend', 'track', 'trace', 'transmit']
 const heap2 = new Heap(trie2, { comparator: (a, b) => Number(a) - Number(b) });
-heap2.print();    
+heap2.print();
 // ['transmit', 'trace', 'tree', 'trend', 'track', 'trial', 'trip', 'trie', 'trick', 'triangle']
 const dq2 = new Deque(heap2);
-dq2.print();      
+dq2.print();
 // ['transmit', 'trace', 'tree', 'trend', 'track', 'trial', 'trip', 'trie', 'trick', 'triangle']
 const entries2 = dq2.map((el, i) => [i, el]);
 const avl2 = new AVLTree(entries2);
@@ -349,7 +398,7 @@ avl2.print();
 ### Binary Search Tree (BST) snippet
 
 ```ts
-import {BST, BSTNode} from 'data-structure-typed';
+import { BST, BSTNode } from 'data-structure-typed';
 
 const bst = new BST<number>();
 bst.add(11);
@@ -381,7 +430,7 @@ bst.print()
 //            \                          
 //            7
 
-const objBST = new BST<number, {height: number, age: number}>();
+const objBST = new BST<number, { height: number, age: number }>();
 
 objBST.add(11, { "name": "Pablo", "age": 15 });
 objBST.add(3, { "name": "Kirk", "age": 1 });
@@ -410,7 +459,7 @@ objBST.delete(11);
 ### AVLTree snippet
 
 ```ts
-import {AVLTree} from 'data-structure-typed';
+import { AVLTree } from 'data-structure-typed';
 
 const avlTree = new AVLTree<number>();
 avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
@@ -422,7 +471,7 @@ avlTree.isAVLBalanced();    // true
 ### Directed Graph simple snippet
 
 ```ts
-import {DirectedGraph} from 'data-structure-typed';
+import { DirectedGraph } from 'data-structure-typed';
 
 const graph = new DirectedGraph<string>();
 
@@ -451,7 +500,7 @@ const topologicalOrderKeys = graph.topologicalSort(); // ['A', 'B', 'C']
 ### Undirected Graph snippet
 
 ```ts
-import {UndirectedGraph} from 'data-structure-typed';
+import { UndirectedGraph } from 'data-structure-typed';
 
 const graph = new UndirectedGraph<string>();
 graph.addVertex('A');
@@ -885,7 +934,10 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', '
 
 ## Software Engineering Design Standards
 
-We strictly adhere to computer science theory and software development standards. Our LinkedList is designed in the traditional sense of the LinkedList data structure, and we refrain from substituting it with a Deque solely for the purpose of showcasing performance test data. However, we have also implemented a Deque based on a dynamic array concurrently.
+We strictly adhere to computer science theory and software development standards. Our LinkedList is designed in the
+traditional sense of the LinkedList data structure, and we refrain from substituting it with a Deque solely for the
+purpose of showcasing performance test data. However, we have also implemented a Deque based on a dynamic array
+concurrently.
 
 
 <table style="display: table; width:100%; table-layout: fixed;">
@@ -935,7 +987,6 @@ We strictly adhere to computer science theory and software development standards
     </tr>
 </table>
 
-
 ## Benchmark
 
 [//]: # (No deletion!!! Start of Replace Section)
@@ -982,9 +1033,8 @@ We strictly adhere to computer science theory and software development standards
 
 [//]: # (No deletion!!! End of Replace Section)
 
-
-
 ## supported module system
+
 Now you can use it in Node.js and browser environments
 
 CommonJS:**`require export.modules =`**
@@ -1002,19 +1052,21 @@ Copy the line below into the head tag in an HTML document.
 #### development
 
 ```html
+
 <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.js'></script>
 ```
 
 #### production
 
 ```html
+
 <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js'></script>
 ```
 
 Copy the code below into the script tag of your HTML, and you're good to go with your development.
 
 ```js
-const {Heap} = dataStructureTyped;
+const { Heap } = dataStructureTyped;
 const {
   BinaryTree, Graph, Queue, Stack, PriorityQueue, BST, Trie, DoublyLinkedList,
   AVLTree, MinHeap, SinglyLinkedList, DirectedGraph, TreeMultiMap,

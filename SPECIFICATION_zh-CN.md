@@ -54,3 +54,28 @@
 ### Comprehensive Documentation
 
 - The documentation not only explains the purpose of methods but also annotates time and space complexity across the entire series.
+
+像getter和setter是优于Java的getXxx和setXxx
+
+Java中
+添加元素（类似 push）：
+add(E element): 将元素添加到列表的末尾。
+add(int index, E element): 在指定的索引位置插入元素。
+
+移除元素（类似 pop）：
+remove(int index): 移除指定索引位置的元素。
+
+获取并移除首个元素（类似 shift）：
+remove(0): 移除索引为0的元素。
+
+在首位插入元素（类似 unshift）：
+add(0, E element): 在指定索引（0）处插入元素。
+
+
+大多数程序员更喜欢JS中的Array的push, pop, shift, unshift。
+
+原因有以下几点：
+
+命名更直观。JS中的push, pop, shift, unshift的命名更加直观，可以直接理解其操作的含义。而Java中的add和remove的命名则比较抽象，需要一定的理解才能理解其操作的含义。
+使用更方便。JS中的push, pop, shift, unshift的操作更加方便，只需要一个参数即可完成操作。而Java中的add和remove的操作则需要两个参数，第一个参数指定操作的索引，第二个参数指定操作的值。
+性能更高。JS中的push, pop, shift, unshift的性能更高，因为其操作只需要修改数组的长度即可完成。而Java中的add和remove的性能则较低，因为其操作需要移动数组中的元素。
