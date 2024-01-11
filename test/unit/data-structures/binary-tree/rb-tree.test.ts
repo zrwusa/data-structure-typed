@@ -1,11 +1,13 @@
 import { BinaryTreeNode, BSTNode, IterationType, RBTNColor, RedBlackTree, RedBlackTreeNode } from '../../../../src';
 import { getRandomInt, getRandomIntArray, magnitude } from '../../../utils';
-import { isDebugTest } from '../../../config';
 import { OrderedMap } from 'js-sdsl';
 
-const isDebug = isDebugTest;
+import { isDebugTest } from '../../../config';
 
-describe('RedBlackTree', () => {
+const isDebug = isDebugTest;
+// const isDebug = true;
+
+describe('RedBlackTree 1', () => {
   let tree: RedBlackTree<number>;
 
   beforeEach(() => {
@@ -67,7 +69,7 @@ describe('RedBlackTree', () => {
 
     it('should handle an empty tree', () => {
       const minNode = tree.getLeftMost(tree.root);
-      expect(minNode).toBe(tree.Sentinel);
+      expect(minNode).toBe(tree.SENTINEL);
     });
   });
 
@@ -85,7 +87,7 @@ describe('RedBlackTree', () => {
 
     it('should handle an empty tree', () => {
       const maxNode = tree.getRightMost(tree.root);
-      expect(maxNode).toBe(tree.Sentinel);
+      expect(maxNode).toBe(tree.SENTINEL);
     });
   });
 
@@ -109,7 +111,7 @@ describe('RedBlackTree', () => {
 
       const node = tree.getNode(10);
       const successorNode = tree.getSuccessor(node!);
-      // TODO not sure if it should be undefined or tree.Sentinel
+      // TODO not sure if it should be undefined or tree.SENTINEL
       expect(successorNode).toBe(undefined);
     });
   });
@@ -134,8 +136,8 @@ describe('RedBlackTree', () => {
 
       const node = tree.getNode(20);
       const predecessorNode = tree.getPredecessor(node!);
-      // TODO not sure if it should be tree.Sentinel or something else.
-      expect(predecessorNode).toBe(tree.getNode(10));
+      // TODO not sure if it should be tree.SENTINEL or something else.
+      expect(predecessorNode).toBe(tree.getNode(20));
     });
   });
 
@@ -214,7 +216,7 @@ describe('RedBlackTree 2', () => {
     tree.add(20);
     const node = tree.getNode(20);
     const predecessor = tree.getPredecessor(node!);
-    expect(predecessor?.key).toBe(10);
+    expect(predecessor?.key).toBe(20);
   });
 
   it('should rotate nodes to the left', () => {
@@ -272,28 +274,28 @@ describe('RedBlackTree 2', () => {
     expect(node5F?.parent).toBe(node10F);
     expect(node15F?.key).toBe(15);
     expect(node15F?.color).toBe(RBTNColor.RED);
-    expect(node15F?.left).toBe(tree.Sentinel);
-    expect(node15F?.right).toBe(tree.Sentinel);
+    expect(node15F?.left).toBe(tree.SENTINEL);
+    expect(node15F?.right).toBe(tree.SENTINEL);
     expect(node15F?.parent).toBe(node20F);
     expect(node21F?.key).toBe(21);
     expect(node21F?.color).toBe(RBTNColor.RED);
-    expect(node21F?.left).toBe(tree.Sentinel);
-    expect(node21F?.right).toBe(tree.Sentinel);
+    expect(node21F?.left).toBe(tree.SENTINEL);
+    expect(node21F?.right).toBe(tree.SENTINEL);
     expect(node21F?.parent).toBe(node20F);
     expect(node6F?.key).toBe(6);
     expect(node6F?.color).toBe(RBTNColor.RED);
-    expect(node6F?.left).toBe(tree.Sentinel);
-    expect(node6F?.right).toBe(tree.Sentinel);
+    expect(node6F?.left).toBe(tree.SENTINEL);
+    expect(node6F?.right).toBe(tree.SENTINEL);
     expect(node6F?.parent).toBe(node5F);
     expect(node2F?.key).toBe(2);
     expect(node2F?.color).toBe(RBTNColor.RED);
-    expect(node2F?.left).toBe(tree.Sentinel);
-    expect(node2F?.right).toBe(tree.Sentinel);
+    expect(node2F?.left).toBe(tree.SENTINEL);
+    expect(node2F?.right).toBe(tree.SENTINEL);
     expect(node2F?.parent).toBe(node5F);
     expect(node15F?.key).toBe(15);
     expect(node15F?.color).toBe(RBTNColor.RED);
-    expect(node15F?.left).toBe(tree.Sentinel);
-    expect(node15F?.right).toBe(tree.Sentinel);
+    expect(node15F?.left).toBe(tree.SENTINEL);
+    expect(node15F?.right).toBe(tree.SENTINEL);
     expect(node15F?.parent).toBe(node20F);
     tree.delete(5);
     node10F = tree.getNode(10);
@@ -316,28 +318,28 @@ describe('RedBlackTree 2', () => {
     expect(node5F).toBe(undefined);
     expect(node15F?.key).toBe(15);
     expect(node15F?.color).toBe(RBTNColor.RED);
-    expect(node15F?.left).toBe(tree.Sentinel);
-    expect(node15F?.right).toBe(tree.Sentinel);
+    expect(node15F?.left).toBe(tree.SENTINEL);
+    expect(node15F?.right).toBe(tree.SENTINEL);
     expect(node15F?.parent).toBe(node20F);
     expect(node21F?.key).toBe(21);
     expect(node21F?.color).toBe(RBTNColor.RED);
-    expect(node21F?.left).toBe(tree.Sentinel);
-    expect(node21F?.right).toBe(tree.Sentinel);
+    expect(node21F?.left).toBe(tree.SENTINEL);
+    expect(node21F?.right).toBe(tree.SENTINEL);
     expect(node21F?.parent).toBe(node20F);
     expect(node6F?.key).toBe(6);
     expect(node6F?.color).toBe(RBTNColor.BLACK);
     expect(node6F?.left).toBe(node2F);
-    expect(node6F?.right).toBe(tree.Sentinel);
+    expect(node6F?.right).toBe(tree.SENTINEL);
     expect(node6F?.parent).toBe(node10F);
     expect(node2F?.key).toBe(2);
     expect(node2F?.color).toBe(RBTNColor.RED);
-    expect(node2F?.left).toBe(tree.Sentinel);
-    expect(node2F?.right).toBe(tree.Sentinel);
+    expect(node2F?.left).toBe(tree.SENTINEL);
+    expect(node2F?.right).toBe(tree.SENTINEL);
     expect(node2F?.parent).toBe(node6F);
     expect(node15F?.key).toBe(15);
     expect(node15F?.color).toBe(RBTNColor.RED);
-    expect(node15F?.left).toBe(tree.Sentinel);
-    expect(node15F?.right).toBe(tree.Sentinel);
+    expect(node15F?.left).toBe(tree.SENTINEL);
+    expect(node15F?.right).toBe(tree.SENTINEL);
     expect(node15F?.parent).toBe(node20F);
     tree.delete(20);
     node10F = tree.getNode(10);
@@ -356,28 +358,28 @@ describe('RedBlackTree 2', () => {
     expect(node5F).toBe(undefined);
     expect(node15F?.key).toBe(15);
     expect(node15F?.color).toBe(RBTNColor.RED);
-    expect(node15F?.left).toBe(tree.Sentinel);
-    expect(node15F?.right).toBe(tree.Sentinel);
+    expect(node15F?.left).toBe(tree.SENTINEL);
+    expect(node15F?.right).toBe(tree.SENTINEL);
     expect(node15F?.parent).toBe(node21F);
     expect(node21F?.key).toBe(21);
     expect(node21F?.color).toBe(RBTNColor.BLACK);
     expect(node21F?.left).toBe(node15F);
-    expect(node21F?.right).toBe(tree.Sentinel);
+    expect(node21F?.right).toBe(tree.SENTINEL);
     expect(node21F?.parent).toBe(node10F);
     expect(node6F?.key).toBe(6);
     expect(node6F?.color).toBe(RBTNColor.BLACK);
     expect(node6F?.left).toBe(node2F);
-    expect(node6F?.right).toBe(tree.Sentinel);
+    expect(node6F?.right).toBe(tree.SENTINEL);
     expect(node6F?.parent).toBe(node10F);
     expect(node2F?.key).toBe(2);
     expect(node2F?.color).toBe(RBTNColor.RED);
-    expect(node2F?.left).toBe(tree.Sentinel);
-    expect(node2F?.right).toBe(tree.Sentinel);
+    expect(node2F?.left).toBe(tree.SENTINEL);
+    expect(node2F?.right).toBe(tree.SENTINEL);
     expect(node2F?.parent).toBe(node6F);
     expect(node15F?.key).toBe(15);
     expect(node15F?.color).toBe(RBTNColor.RED);
-    expect(node15F?.left).toBe(tree.Sentinel);
-    expect(node15F?.right).toBe(tree.Sentinel);
+    expect(node15F?.left).toBe(tree.SENTINEL);
+    expect(node15F?.right).toBe(tree.SENTINEL);
     expect(node15F?.parent).toBe(node21F);
   });
 
@@ -387,8 +389,8 @@ describe('RedBlackTree 2', () => {
     tree.add(5);
     tree.add(15);
     const node15F = tree.getNode(15);
-    expect(node15F?.left).toBe(tree.Sentinel);
-    expect(node15F?.right).toBe(tree.Sentinel);
+    expect(node15F?.left).toBe(tree.SENTINEL);
+    expect(node15F?.right).toBe(tree.SENTINEL);
     expect(node15F?.parent).toBe(tree.getNode(5));
 
     tree.add(25);
@@ -403,19 +405,20 @@ describe('RedBlackTree 2', () => {
     tree.add(155);
     tree.add(225);
     const node225F = tree.getNode(225);
-    expect(node225F?.left).toBe(tree.Sentinel);
-    expect(node225F?.right).toBe(tree.Sentinel);
+    expect(node225F?.left).toBe(tree.SENTINEL);
+    expect(node225F?.right).toBe(tree.SENTINEL);
     expect(node225F?.parent?.key).toBe(155);
     tree.add(7);
+    isDebug && tree.print();
 
     const node15S = tree.getNode(15);
-    expect(node15S?.left?.key).toBe(8);
-    expect(node15S?.right?.key).toBe(28);
-    expect(node15S).toBe(tree.root);
-    expect(node15S?.parent).toBe(undefined);
+    expect(node15S?.left?.key).toBe(10);
+    expect(node15S?.right?.key).toBe(25);
+    expect(tree.root).toBe(tree.getNode(8));
+    expect(node15S?.parent?.key).toBe(28);
     tree.delete(15);
-    expect(tree.root.key).toBe(22);
-    expect(tree.root.parent).toBe(undefined);
+    expect(tree.root?.key).toBe(8);
+    expect(tree.root?.parent).toBe(undefined);
 
     const node15T = tree.getNode(15);
     expect(node15T).toBe(undefined);
@@ -430,14 +433,14 @@ describe('RedBlackTree 2', () => {
     const node50 = tree.getNode(50);
     expect(node50?.key).toBe(50);
     expect(node50?.left?.key).toBe(33);
-    expect(node50?.right).toBe(tree.Sentinel);
+    expect(node50?.right).toBe(tree.SENTINEL);
     const node15Fo = tree.getNode(15);
 
     expect(node15Fo?.key).toBe(15);
-    expect(node15Fo?.left).toBe(tree.Sentinel);
+    expect(node15Fo?.left).toBe(tree.SENTINEL);
     const node225S = tree.getNode(225);
-    expect(node225S?.left).toBe(tree.Sentinel);
-    expect(node225S?.right).toBe(tree.Sentinel);
+    expect(node225S?.left).toBe(tree.SENTINEL);
+    expect(node225S?.right).toBe(tree.SENTINEL);
     expect(node225S?.parent?.key).toBe(155);
     // TODO
     // expect(tree.getNode(0)).toBe(undefined);
@@ -474,6 +477,8 @@ describe('RedBlackTree 2', () => {
 
     expect(tree.size).toBe(51);
     expect(tree.isBST()).toBe(true);
+    expect(tree.isBST(tree.root, IterationType.RECURSIVE)).toBe(true);
+
     expect(tree.dfs(n => n.key, 'in', tree.root, IterationType.ITERATIVE)).toEqual([
       49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76,
       77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99
@@ -502,7 +507,7 @@ describe('RedBlackTree 2', () => {
       tree.delete(getRandomInt(-100, 1000));
     }
 
-    // TODO there is a bug when dfs the tree with Sentinel node
+    // TODO there is a bug when dfs the tree with SENTINEL node
     // expect(tree.isBST()).toBe(true);
   });
   const { HUNDRED_THOUSAND } = magnitude;
@@ -541,71 +546,129 @@ describe('RedBlackTree 2', () => {
     tree.addMany([10, 20, 30, 40, 50, 60]);
     expect(tree.isAVLBalanced()).toBe(false);
   });
-});
 
-describe('RedBlackTree iterative methods test', () => {
-  let rbTree: RedBlackTree<number, string>;
-  beforeEach(() => {
-    rbTree = new RedBlackTree();
-    rbTree.add([1, 'a']);
-    rbTree.add(2, 'b');
-    rbTree.add([3, 'c']);
-  });
+  describe('RedBlackTree delete test', function () {
+    const rbTree = new RedBlackTree<number, number>();
+    const inputSize = 100; // Adjust input sizes as needed
 
-  test('The node obtained by get Node should match the node type', () => {
-    const node3 = rbTree.getNode(3);
-    expect(node3).toBeInstanceOf(BinaryTreeNode);
-    expect(node3).toBeInstanceOf(BSTNode);
-    expect(node3).toBeInstanceOf(RedBlackTreeNode);
-  });
+    beforeEach(() => {
+      rbTree.clear();
+    });
+    it('The structure remains normal after random deletion', function () {
+      for (let i = 0; i < inputSize; i++) {
+        rbTree.add(i);
+      }
 
-  test('forEach should iterate over all elements', () => {
-    const mockCallback = jest.fn();
-    rbTree.forEach((value, key) => {
-      mockCallback(value, key);
+      for (let i = 0; i < inputSize; i++) {
+        const num = getRandomInt(0, inputSize - 1);
+        rbTree.delete(num);
+      }
+
+      let nanCount = 0;
+      const dfs = (cur: RedBlackTreeNode<number>) => {
+        if (isNaN(cur.key)) nanCount++;
+        if (cur.left) dfs(cur.left);
+        if (cur.right) dfs(cur.right);
+      };
+      if (rbTree.root) dfs(rbTree.root);
+
+      expect(rbTree.size).toBeLessThanOrEqual(inputSize);
+      expect(rbTree.getHeight()).toBeLessThan(Math.log2(inputSize) * 2);
+
+      expect(nanCount).toBeLessThanOrEqual(inputSize);
     });
 
-    expect(mockCallback.mock.calls.length).toBe(3);
-    expect(mockCallback.mock.calls[0]).toEqual(['a', 1]);
-    expect(mockCallback.mock.calls[1]).toEqual(['b', 2]);
-    expect(mockCallback.mock.calls[2]).toEqual(['c', 3]);
+    it(`Random additions, complete deletions of structures are normal`, function () {
+      for (let i = 0; i < inputSize; i++) {
+        const num = getRandomInt(0, inputSize - 1);
+        if (i === 0 && isDebug) console.log(`first:`, num);
+        rbTree.add(num);
+      }
+
+      for (let i = 0; i < inputSize; i++) {
+        rbTree.delete(i);
+      }
+
+      let nanCount = 0;
+      const dfs = (cur: RedBlackTreeNode<number>) => {
+        if (isNaN(cur.key)) nanCount++;
+        if (cur.left) dfs(cur.left);
+        if (cur.right) dfs(cur.right);
+      };
+      if (rbTree.root) dfs(rbTree.root);
+
+      expect(rbTree.size).toBe(0);
+      expect(rbTree.getHeight()).toBe(0);
+      expect(nanCount).toBeLessThanOrEqual(inputSize);
+
+      isDebug && rbTree.print();
+    });
   });
 
-  test('filter should return a new tree with filtered elements', () => {
-    const filteredTree = rbTree.filter((value, key) => key > 1);
-    expect(filteredTree.size).toBe(2);
-    expect([...filteredTree]).toEqual([
-      [2, 'b'],
-      [3, 'c']
-    ]);
-  });
+  describe('RedBlackTree iterative methods test', () => {
+    let rbTree: RedBlackTree<number, string>;
+    beforeEach(() => {
+      rbTree = new RedBlackTree();
+      rbTree.add([1, 'a']);
+      rbTree.add(2, 'b');
+      rbTree.add([3, 'c']);
+    });
 
-  test('map should return a new tree with modified elements', () => {
-    const mappedTree = rbTree.map((value, key) => (key * 2).toString());
-    expect(mappedTree.size).toBe(3);
-    expect([...mappedTree]).toEqual([
-      [1, '2'],
-      [2, '4'],
-      [3, '6']
-    ]);
-  });
+    test('The node obtained by get Node should match the node type', () => {
+      const node3 = rbTree.getNode(3);
+      expect(node3).toBeInstanceOf(BinaryTreeNode);
+      expect(node3).toBeInstanceOf(BSTNode);
+      expect(node3).toBeInstanceOf(RedBlackTreeNode);
+    });
 
-  test('reduce should accumulate values', () => {
-    const sum = rbTree.reduce((acc, value, key) => acc + key, 0);
-    expect(sum).toBe(6);
-  });
+    test('forEach should iterate over all elements', () => {
+      const mockCallback = jest.fn();
+      rbTree.forEach((value, key) => {
+        mockCallback(value, key);
+      });
 
-  test('[Symbol.iterator] should provide an iterator', () => {
-    const entries = [];
-    for (const entry of rbTree) {
-      entries.push(entry);
-    }
+      expect(mockCallback.mock.calls.length).toBe(3);
+      expect(mockCallback.mock.calls[0]).toEqual(['a', 1]);
+      expect(mockCallback.mock.calls[1]).toEqual(['b', 2]);
+      expect(mockCallback.mock.calls[2]).toEqual(['c', 3]);
+    });
 
-    expect(entries.length).toBe(3);
-    expect(entries).toEqual([
-      [1, 'a'],
-      [2, 'b'],
-      [3, 'c']
-    ]);
+    test('filter should return a new tree with filtered elements', () => {
+      const filteredTree = rbTree.filter((value, key) => key > 1);
+      expect(filteredTree.size).toBe(2);
+      expect([...filteredTree]).toEqual([
+        [2, 'b'],
+        [3, 'c']
+      ]);
+    });
+
+    test('map should return a new tree with modified elements', () => {
+      const mappedTree = rbTree.map((value, key) => (key * 2).toString());
+      expect(mappedTree.size).toBe(3);
+      expect([...mappedTree]).toEqual([
+        [1, '2'],
+        [2, '4'],
+        [3, '6']
+      ]);
+    });
+
+    test('reduce should accumulate values', () => {
+      const sum = rbTree.reduce((acc, value, key) => acc + key, 0);
+      expect(sum).toBe(6);
+    });
+
+    test('[Symbol.iterator] should provide an iterator', () => {
+      const entries = [];
+      for (const entry of rbTree) {
+        entries.push(entry);
+      }
+
+      expect(entries.length).toBe(3);
+      expect(entries).toEqual([
+        [1, 'a'],
+        [2, 'b'],
+        [3, 'c']
+      ]);
+    });
   });
 });

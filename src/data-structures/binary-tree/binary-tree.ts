@@ -934,7 +934,7 @@ export class BinaryTree<
 
     if (iterationType === IterationType.RECURSIVE) {
       const dfs = (cur: NODE | null | undefined, min: number, max: number): boolean => {
-        if (!cur) return true;
+        if (!this.isRealNode(cur)) return true;
         const numKey = this.extractor(cur.key);
         if (numKey <= min || numKey >= max) return false;
         return dfs(cur.left, min, numKey) && dfs(cur.right, numKey, max);
@@ -949,14 +949,14 @@ export class BinaryTree<
         let prev = checkMax ? Number.MAX_SAFE_INTEGER : Number.MIN_SAFE_INTEGER;
         // @ts-ignore
         let curr: NODE | null | undefined = beginRoot;
-        while (curr || stack.length > 0) {
-          while (curr) {
+        while (this.isRealNode(curr) || stack.length > 0) {
+          while (this.isRealNode(curr)) {
             stack.push(curr);
             curr = curr.left;
           }
           curr = stack.pop()!;
           const numKey = this.extractor(curr.key);
-          if (!curr || (!checkMax && prev >= numKey) || (checkMax && prev <= numKey)) return false;
+          if (!this.isRealNode(curr) || (!checkMax && prev >= numKey) || (checkMax && prev <= numKey)) return false;
           prev = numKey;
           curr = curr.right;
         }
@@ -1025,7 +1025,7 @@ export class BinaryTree<
 
     if (iterationType === IterationType.RECURSIVE) {
       const _getMaxHeight = (cur: NODE | null | undefined): number => {
-        if (!cur) return -1;
+        if (!this.isRealNode(cur)) return -1;
         const leftHeight = _getMaxHeight(cur.left);
         const rightHeight = _getMaxHeight(cur.right);
         return Math.max(leftHeight, rightHeight) + 1;
@@ -1039,8 +1039,8 @@ export class BinaryTree<
       while (stack.length > 0) {
         const { node, depth } = stack.pop()!;
 
-        if (node.left) stack.push({ node: node.left, depth: depth + 1 });
-        if (node.right) stack.push({ node: node.right, depth: depth + 1 });
+        if (this.isRealNode(node.left)) stack.push({ node: node.left, depth: depth + 1 });
+        if (this.isRealNode(node.right)) stack.push({ node: node.right, depth: depth + 1 });
 
         maxHeight = Math.max(maxHeight, depth);
       }
@@ -1354,34 +1354,34 @@ export class BinaryTree<
         switch (pattern) {
           case 'in':
             if (includeNull) {
-              if (node && this.isNodeOrNull(node.left)) _traverse(node.left);
+              if (this.isRealNode(node) && this.isNodeOrNull(node.left)) _traverse(node.left);
               this.isNodeOrNull(node) && ans.push(callback(node));
-              if (node && this.isNodeOrNull(node.right)) _traverse(node.right);
+              if (this.isRealNode(node) && this.isNodeOrNull(node.right)) _traverse(node.right);
             } else {
-              if (node && node.left) _traverse(node.left);
+              if (this.isRealNode(node) && this.isRealNode(node.left)) _traverse(node.left);
               this.isRealNode(node) && ans.push(callback(node));
-              if (node && node.right) _traverse(node.right);
+              if (this.isRealNode(node) && this.isRealNode(node.right)) _traverse(node.right);
             }
             break;
           case 'pre':
             if (includeNull) {
               this.isNodeOrNull(node) && ans.push(callback(node));
-              if (node && this.isNodeOrNull(node.left)) _traverse(node.left);
-              if (node && this.isNodeOrNull(node.right)) _traverse(node.right);
+              if (this.isRealNode(node) && this.isNodeOrNull(node.left)) _traverse(node.left);
+              if (this.isRealNode(node) && this.isNodeOrNull(node.right)) _traverse(node.right);
             } else {
               this.isRealNode(node) && ans.push(callback(node));
-              if (node && node.left) _traverse(node.left);
-              if (node && node.right) _traverse(node.right);
+              if (this.isRealNode(node) && this.isRealNode(node.left)) _traverse(node.left);
+              if (this.isRealNode(node) && this.isRealNode(node.right)) _traverse(node.right);
             }
             break;
           case 'post':
             if (includeNull) {
-              if (node && this.isNodeOrNull(node.left)) _traverse(node.left);
-              if (node && this.isNodeOrNull(node.right)) _traverse(node.right);
+              if (this.isRealNode(node) && this.isNodeOrNull(node.left)) _traverse(node.left);
+              if (this.isRealNode(node) && this.isNodeOrNull(node.right)) _traverse(node.right);
               this.isNodeOrNull(node) && ans.push(callback(node));
             } else {
-              if (node && node.left) _traverse(node.left);
-              if (node && node.right) _traverse(node.right);
+              if (this.isRealNode(node) && this.isRealNode(node.left)) _traverse(node.left);
+              if (this.isRealNode(node) && this.isRealNode(node.right)) _traverse(node.right);
               this.isRealNode(node) && ans.push(callback(node));
             }
 

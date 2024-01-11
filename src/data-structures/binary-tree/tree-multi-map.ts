@@ -88,10 +88,13 @@ export class TreeMultiMap<
    * @returns the sum of the count property of all nodes in the tree.
    */
   get count(): number {
+    return this._count;
+  }
+
+  getMutableCount(): number {
     let sum = 0;
     this.dfs(node => (sum += node.count));
     return sum;
-    // return this._count;
   }
 
   /**
@@ -192,14 +195,15 @@ export class TreeMultiMap<
    */
   override add(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>, value?: V, count = 1): boolean {
     const newNode = this.keyValueOrEntryToNode(keyOrNodeOrEntry, value, count);
-    if (newNode === undefined) return false;
+    const orgCount = newNode?.count || 0;
+    const isSuccessAdded = super.add(newNode);
 
-    const orgNodeCount = newNode?.count || 0;
-    const inserted = super.add(newNode);
-    if (inserted) {
-      this._count += orgNodeCount;
+    if (isSuccessAdded) {
+      this._count += orgCount;
+      return true;
+    } else {
+      return false;
     }
-    return true;
   }
 
   /**
@@ -232,92 +236,91 @@ export class TreeMultiMap<
     callback: C = this._defaultOneParamCallback as C,
     ignoreCount = false
   ): BinaryTreeDeleteResult<NODE>[] {
-    const deleteResults: BinaryTreeDeleteResult<NODE>[] = [];
-    if (identifier === null) return deleteResults;
+    if (identifier === null) return [];
+    const results: BinaryTreeDeleteResult<NODE>[] = [];
 
-    // Helper function to perform deletion
-    const deleteHelper = (node: NODE | undefined): void => {
-      // Initialize targetNode to the sentinel node
-      let targetNode: NODE = this._Sentinel;
-      let currentNode: NODE | undefined;
+    const nodeToDelete = this.isRealNode(identifier) ? identifier : this.getNode(identifier, callback);
 
-      // Find the node to be deleted based on the identifier
-      while (node !== this._Sentinel) {
-        // Update targetNode if the current node matches the identifier
-        if (node && callback(node) === identifier) {
-          targetNode = node;
-        }
+    if (!nodeToDelete) {
+      return results;
+    }
 
-        // Move to the right or left based on the comparison with the identifier
-        if (node && identifier && callback(node) <= identifier) {
-          node = node.right;
-        } else {
-          node = node?.left;
-        }
-      }
+    let originalColor = nodeToDelete.color;
+    let replacementNode: NODE | undefined;
 
-      // If the target node is not found, decrement size and return
-      if (targetNode === this._Sentinel) {
-        return;
-      }
-
-      if (ignoreCount || targetNode.count <= 1) {
-        // Store the parent of the target node and its original color
-        let parentNode = targetNode;
-        let parentNodeOriginalColor: number = parentNode.color;
-
-        // Handle deletion based on the number of children of the target node
-        if (targetNode.left === this._Sentinel) {
-          // Target node has no left child - deletion case 1
-          currentNode = targetNode.right;
-          this._rbTransplant(targetNode, targetNode.right!);
-        } else if (targetNode.right === this._Sentinel) {
-          // Target node has no right child - deletion case 2
-          currentNode = targetNode.left;
-          this._rbTransplant(targetNode, targetNode.left!);
-        } else {
-          // Target node has both left and right children - deletion case 3
-          parentNode = this.getLeftMost(targetNode.right)!;
-          parentNodeOriginalColor = parentNode.color;
-          currentNode = parentNode.right;
-
-          if (parentNode.parent === targetNode) {
-            // Target node's right child becomes its parent's left child
-            currentNode!.parent = parentNode;
-          } else {
-            // Replace parentNode with its right child and update connections
-            this._rbTransplant(parentNode, parentNode.right!);
-            parentNode.right = targetNode.right;
-            parentNode.right!.parent = parentNode;
-          }
-
-          // Replace the target node with its in-order successor
-          this._rbTransplant(targetNode, parentNode);
-          parentNode.left = targetNode.left;
-          parentNode.left!.parent = parentNode;
-          parentNode.color = targetNode.color;
-        }
-
-        // Fix the Red-Black Tree properties after deletion
-        if (parentNodeOriginalColor === RBTNColor.BLACK) {
-          this._fixDelete(currentNode!);
-        }
-
-        // Decrement the size and store information about the deleted node
-        this._size--;
-        this._count -= targetNode.count;
-        deleteResults.push({ deleted: targetNode, needBalanced: undefined });
+    if (!this.isRealNode(nodeToDelete.left)) {
+      replacementNode = nodeToDelete.right;
+      if (ignoreCount || nodeToDelete.count <= 1) {
+        this._transplant(nodeToDelete, nodeToDelete.right);
+        this._count -= nodeToDelete.count;
       } else {
-        targetNode.count--;
+        nodeToDelete.count--;
         this._count--;
+        results.push({ deleted: nodeToDelete, needBalanced: undefined });
+        return results;
       }
-    };
+    } else if (!this.isRealNode(nodeToDelete.right)) {
+      replacementNode = nodeToDelete.left;
+      if (ignoreCount || nodeToDelete.count <= 1) {
+        this._transplant(nodeToDelete, nodeToDelete.left);
+        this._count -= nodeToDelete.count;
+      } else {
+        nodeToDelete.count--;
+        this._count--;
+        results.push({ deleted: nodeToDelete, needBalanced: undefined });
+        return results;
+      }
+    } else {
+      const successor = this.getLeftMost(nodeToDelete.right);
+      if (successor) {
+        originalColor = successor.color;
+        replacementNode = successor.right;
 
-    // Call the helper function with the root of the tree
-    deleteHelper(this.root);
+        if (successor.parent === nodeToDelete) {
+          if (this.isRealNode(replacementNode)) {
+            replacementNode.parent = successor;
+          }
+        } else {
+          if (ignoreCount || nodeToDelete.count <= 1) {
+            this._transplant(successor, successor.right);
+            this._count -= nodeToDelete.count;
+          } else {
+            nodeToDelete.count--;
+            this._count--;
+            results.push({ deleted: nodeToDelete, needBalanced: undefined });
+            return results;
+          }
+          successor.right = nodeToDelete.right;
+          if (this.isRealNode(successor.right)) {
+            successor.right.parent = successor;
+          }
+        }
+        if (ignoreCount || nodeToDelete.count <= 1) {
+          this._transplant(nodeToDelete, successor);
+          this._count -= nodeToDelete.count;
+        } else {
+          nodeToDelete.count--;
+          this._count--;
+          results.push({ deleted: nodeToDelete, needBalanced: undefined });
+          return results;
+        }
+        successor.left = nodeToDelete.left;
+        if (this.isRealNode(successor.left)) {
+          successor.left.parent = successor;
+        }
+        successor.color = nodeToDelete.color;
+      }
+    }
+    this._size--;
 
-    // Return the result array
-    return deleteResults;
+    // If the original color was black, fix the tree
+    if (originalColor === RBTNColor.BLACK) {
+      this._deleteFixup(replacementNode);
+    }
+
+    results.push({ deleted: nodeToDelete, needBalanced: undefined });
+
+    return results;
   }
 
   /**
