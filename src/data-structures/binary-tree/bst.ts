@@ -426,14 +426,14 @@ export class BST<
    * found in the binary tree. If no node is found, it returns `undefined`.
    */
   override getNodeByKey(key: K, iterationType = IterationType.ITERATIVE): NODE | undefined {
-    if (!this.root) return undefined;
+    if (!this.isRealNode(this.root)) return undefined;
     if (iterationType === IterationType.RECURSIVE) {
       const _dfs = (cur: NODE): NODE | undefined => {
         if (cur.key === key) return cur;
-        if (!cur.left && !cur.right) return;
+        if (!this.isRealNode(cur.left) && !this.isRealNode(cur.right)) return;
 
-        if (this._compare(cur.key, key) === CP.gt && cur.left) return _dfs(cur.left);
-        if (this._compare(cur.key, key) === CP.lt && cur.right) return _dfs(cur.right);
+        if (this._compare(cur.key, key) === CP.gt && this.isRealNode(cur.left)) return _dfs(cur.left);
+        if (this._compare(cur.key, key) === CP.lt && this.isRealNode(cur.right)) return _dfs(cur.right);
       };
 
       return _dfs(this.root);
@@ -441,10 +441,10 @@ export class BST<
       const queue = new Queue<NODE>([this.root]);
       while (queue.size > 0) {
         const cur = queue.shift();
-        if (cur) {
+        if (this.isRealNode(cur)) {
           if (this._compare(cur.key, key) === CP.eq) return cur;
-          if (this._compare(cur.key, key) === CP.gt) cur.left && queue.push(cur.left);
-          if (this._compare(cur.key, key) === CP.lt) cur.right && queue.push(cur.right);
+          if (this._compare(cur.key, key) === CP.gt) this.isRealNode(cur.left) && queue.push(cur.left);
+          if (this._compare(cur.key, key) === CP.lt) this.isRealNode(cur.right) && queue.push(cur.right);
         }
       }
     }
@@ -497,14 +497,14 @@ export class BST<
           if (onlyOne) return;
         }
 
-        if (!cur.left && !cur.right) return;
+        if (!this.isRealNode(cur.left) && !this.isRealNode(cur.right)) return;
         // TODO potential bug
         if (callback === this._defaultOneParamCallback) {
-          if (this._compare(cur.key, identifier as K) === CP.gt) cur.left && _traverse(cur.left);
-          if (this._compare(cur.key, identifier as K) === CP.lt) cur.right && _traverse(cur.right);
+          if (this._compare(cur.key, identifier as K) === CP.gt) this.isRealNode(cur.left) && _traverse(cur.left);
+          if (this._compare(cur.key, identifier as K) === CP.lt) this.isRealNode(cur.right) && _traverse(cur.right);
         } else {
-          cur.left && _traverse(cur.left);
-          cur.right && _traverse(cur.right);
+          this.isRealNode(cur.left) && _traverse(cur.left);
+          this.isRealNode(cur.right) && _traverse(cur.right);
         }
       };
 
@@ -513,7 +513,7 @@ export class BST<
       const queue = new Queue<NODE>([beginRoot]);
       while (queue.size > 0) {
         const cur = queue.shift();
-        if (cur) {
+        if (this.isRealNode(cur)) {
           const callbackResult = callback(cur);
           if (callbackResult === identifier) {
             ans.push(cur);
@@ -521,11 +521,11 @@ export class BST<
           }
           // TODO potential bug
           if (callback === this._defaultOneParamCallback) {
-            if (this._compare(cur.key, identifier as K) === CP.gt) cur.left && queue.push(cur.left);
-            if (this._compare(cur.key, identifier as K) === CP.lt) cur.right && queue.push(cur.right);
+            if (this._compare(cur.key, identifier as K) === CP.gt) this.isRealNode(cur.left) && queue.push(cur.left);
+            if (this._compare(cur.key, identifier as K) === CP.lt) this.isRealNode(cur.right) && queue.push(cur.right);
           } else {
-            cur.left && queue.push(cur.left);
-            cur.right && queue.push(cur.right);
+            this.isRealNode(cur.left) && queue.push(cur.left);
+            this.isRealNode(cur.right) && queue.push(cur.right);
           }
         }
       }

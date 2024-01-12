@@ -235,8 +235,7 @@ export class RedBlackTree<
     iterationType = this.iterationType
   ): NODE | null | undefined {
     if ((identifier as any) instanceof RedBlackTreeNode) callback = (node => node) as C;
-    beginRoot = this.ensureNode(beginRoot);
-    return this.getNodes(identifier, callback, true, beginRoot, iterationType)[0] ?? undefined;
+    return super.getNodes(identifier, callback, true, beginRoot, iterationType)[0] ?? undefined;
   }
 
   /**

@@ -1021,7 +1021,7 @@ export class BinaryTree<
    */
   getHeight(beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root, iterationType = this.iterationType): number {
     beginRoot = this.ensureNode(beginRoot);
-    if (!beginRoot) return -1;
+    if (!this.isRealNode(beginRoot)) return -1;
 
     if (iterationType === IterationType.RECURSIVE) {
       const _getMaxHeight = (cur: NODE | null | undefined): number => {
@@ -1073,8 +1073,8 @@ export class BinaryTree<
 
     if (iterationType === IterationType.RECURSIVE) {
       const _getMinHeight = (cur: NODE | null | undefined): number => {
-        if (!cur) return 0;
-        if (!cur.left && !cur.right) return 0;
+        if (!this.isRealNode(cur)) return 0;
+        if (!this.isRealNode(cur.left) && !this.isRealNode(cur.right)) return 0;
         const leftMinHeight = _getMinHeight(cur.left);
         const rightMinHeight = _getMinHeight(cur.right);
         return Math.min(leftMinHeight, rightMinHeight) + 1;
@@ -1088,16 +1088,16 @@ export class BinaryTree<
       const depths: Map<NODE, number> = new Map();
 
       while (stack.length > 0 || node) {
-        if (node) {
+        if (this.isRealNode(node)) {
           stack.push(node);
           node = node.left;
         } else {
           node = stack[stack.length - 1];
-          if (!node.right || last === node.right) {
+          if (!this.isRealNode(node.right) || last === node.right) {
             node = stack.pop();
-            if (node) {
-              const leftMinHeight = node.left ? depths.get(node.left) ?? -1 : -1;
-              const rightMinHeight = node.right ? depths.get(node.right) ?? -1 : -1;
+            if (this.isRealNode(node)) {
+              const leftMinHeight = this.isRealNode(node.left) ? depths.get(node.left) ?? -1 : -1;
+              const rightMinHeight = this.isRealNode(node.right) ? depths.get(node.right) ?? -1 : -1;
               depths.set(node, 1 + Math.min(leftMinHeight, rightMinHeight));
               last = node;
               node = null;
@@ -1169,9 +1169,10 @@ export class BinaryTree<
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType = this.iterationType
   ): NODE | null | undefined {
+    if (this.isNIL(beginRoot)) return beginRoot as NODE;
     beginRoot = this.ensureNode(beginRoot);
 
-    if (!beginRoot) return beginRoot;
+    if (!this.isRealNode(beginRoot)) return beginRoot;
 
     if (iterationType === IterationType.RECURSIVE) {
       const _traverse = (cur: NODE): NODE => {
@@ -1215,6 +1216,7 @@ export class BinaryTree<
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType = this.iterationType
   ): NODE | null | undefined {
+    if (this.isNIL(beginRoot)) return beginRoot as NODE;
     // TODO support get right most by passing key in
     beginRoot = this.ensureNode(beginRoot);
     if (!beginRoot) return beginRoot;

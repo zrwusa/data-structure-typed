@@ -35,7 +35,7 @@ describe('AVLTreeMultiMap count', () => {
       [2, 2],
       [3, 3]
     ]);
-    tm.add([2, 2], undefined, 10)
+    tm.add([2, 2], undefined, 10);
     tm.lesserOrGreaterTraverse(node => (node.count += 2), CP.gt, 1);
     tm.delete(2);
     expect(tm.count).toBe(12);
