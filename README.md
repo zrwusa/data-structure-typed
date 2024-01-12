@@ -107,7 +107,6 @@ In Java.utils, you need to memorize a table for all sequential data structures(Q
 <table>
         <thead>
             <tr>
-                <th>Operation</th>
                 <th>Java ArrayList</th>
                 <th>Java Queue</th>
                 <th>Java ArrayDeque</th>
@@ -116,28 +115,24 @@ In Java.utils, you need to memorize a table for all sequential data structures(Q
         </thead>
         <tbody>
             <tr>
-                <td>push</td>
                 <td>add</td>
                 <td>offer</td>
                 <td>push</td>
                 <td>push</td>
             </tr>
             <tr>
-                <td>pop</td>
                 <td>remove</td>
                 <td>poll</td>
                 <td>removeLast</td>
                 <td>removeLast</td>
             </tr>
             <tr>
-                <td>shift</td>
                 <td>remove</td>
                 <td>poll</td>
                 <td>removeFirst</td>
                 <td>removeFirst</td>
             </tr>
             <tr>
-                <td>unshift</td>
                 <td>add(0, element)</td>
                 <td>offerFirst</td>
                 <td>unshift</td>

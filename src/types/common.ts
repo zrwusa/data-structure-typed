@@ -63,3 +63,10 @@ export type BTNodePureExemplar<K, V, N> = [K, V | undefined] | BTNodePureKeyOrNo
 export type BSTNKeyOrNode<K, N> = K | undefined | N;
 
 export type BinaryTreeDeleteResult<N> = { deleted: N | null | undefined; needBalanced: N | null | undefined };
+
+export enum CRUD {
+  CREATED = 'CREATED',
+  READ = 'READ',
+  UPDATED = 'UPDATED',
+  DELETED = 'DELETED'
+}

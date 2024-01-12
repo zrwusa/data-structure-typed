@@ -7,7 +7,7 @@ import type {
   RedBlackTreeNested,
   RedBlackTreeNodeNested
 } from '../../types';
-import { RBTNColor } from '../../types';
+import { CRUD, RBTNColor } from '../../types';
 import { BST, BSTNode } from './bst';
 import { IBinaryTree } from '../../interfaces';
 
@@ -208,7 +208,7 @@ export class RedBlackTree<
    * @returns a boolean value.
    */
   override isRealNode(node: NODE | undefined): node is NODE {
-    if (node === this._SENTINEL || node === undefined) return false;
+    if (node === this.SENTINEL || node === undefined) return false;
     return node instanceof RedBlackTreeNode;
   }
 
@@ -290,7 +290,7 @@ export class RedBlackTree<
 
     const insertStatus = this._insert(newNode);
 
-    if (insertStatus === 'inserted') {
+    if (insertStatus === CRUD.CREATED) {
       // Ensure the root is black
       if (this.isRealNode(this._root)) {
         this._root.color = RBTNColor.BLACK;
@@ -299,7 +299,7 @@ export class RedBlackTree<
       }
       this._size++;
       return true;
-    } else return insertStatus === 'updated';
+    } else return insertStatus === CRUD.UPDATED;
   }
 
   /**
@@ -434,7 +434,7 @@ export class RedBlackTree<
    * node in the tree.
    * @returns {'inserted' | 'updated'} - The result of the insertion.
    */
-  protected _insert(node: NODE): 'inserted' | 'updated' {
+  protected _insert(node: NODE): CRUD {
     let current = this.root;
     let parent: NODE | undefined = undefined;
 
@@ -446,7 +446,7 @@ export class RedBlackTree<
         current = current.right ?? this.SENTINEL;
       } else {
         this._replaceNode(current, node);
-        return 'updated';
+        return CRUD.UPDATED;
       }
     }
 
@@ -465,7 +465,7 @@ export class RedBlackTree<
     node.color = RBTNColor.RED;
 
     this._insertFixup(node);
-    return 'inserted';
+    return CRUD.CREATED;
   }
 
   /**
