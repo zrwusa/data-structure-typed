@@ -856,7 +856,7 @@ export class BST<
    * @param {NODE | undefined} v - The parameter `v` is of type `NODE | undefined`. This means that it
    * can either be an object of type `NODE` or it can be `undefined`.
    */
-  protected _setRoot(v: NODE | undefined) {
+  protected override _setRoot(v: NODE | undefined) {
     if (v) {
       v.parent = undefined;
     }

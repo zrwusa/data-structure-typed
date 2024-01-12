@@ -1837,7 +1837,7 @@ export class BinaryTree<
    * following types:
    * @param {BinaryTreePrintOptions} [options={ isShowUndefined: false, isShowNull: false, isShowRedBlackNIL: false}] - Options object that controls printing behavior. You can specify whether to display undefined, null, or sentinel nodes.
    */
-  print(beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root, options?: BinaryTreePrintOptions): void {
+  override print(beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root, options?: BinaryTreePrintOptions): void {
     const opts = { isShowUndefined: false, isShowNull: false, isShowRedBlackNIL: false, ...options };
     beginRoot = this.ensureNode(beginRoot);
     if (!beginRoot) return;

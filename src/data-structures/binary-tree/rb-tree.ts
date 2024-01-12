@@ -89,24 +89,14 @@ export class RedBlackTree<
     return this._SENTINEL;
   }
 
-  protected _root: NODE | undefined;
+  protected override _root: NODE | undefined;
 
   /**
    * The function returns the root node of a tree or undefined if there is no root.
    * @returns The root node of the tree structure, or undefined if there is no root node.
    */
-  get root(): NODE | undefined {
+  override get root(): NODE | undefined {
     return this._root;
-  }
-
-  protected _size: number = 0;
-
-  /**
-   * The function returns the size of an object.
-   * @returns The size of the object, which is a number.
-   */
-  get size(): number {
-    return this._size;
   }
 
   /**
@@ -262,8 +252,8 @@ export class RedBlackTree<
    * size counter to zero.
    */
   override clear() {
+    super.clear();
     this._root = this.SENTINEL;
-    this._size = 0;
   }
 
   /**

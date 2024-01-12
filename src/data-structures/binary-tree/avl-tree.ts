@@ -522,7 +522,7 @@ export class AVLTree<
    * @returns the result of calling the `_replaceNode` method on the superclass, passing in the
    * `oldNode` and `newNode` as arguments.
    */
-  protected _replaceNode(oldNode: NODE, newNode: NODE): NODE {
+  protected override _replaceNode(oldNode: NODE, newNode: NODE): NODE {
     newNode.height = oldNode.height;
 
     return super._replaceNode(oldNode, newNode);

@@ -83,6 +83,10 @@ export class AVLTreeMultiMap<
    * @returns the sum of the count property of all nodes in the tree.
    */
   get count(): number {
+    return this._count;
+  }
+
+  getMutableCount(): number {
     let sum = 0;
     this.dfs(node => (sum += node.count));
     return sum;
@@ -414,7 +418,7 @@ export class AVLTreeMultiMap<
    * @returns The method is returning the result of calling the `_replaceNode` method from the
    * superclass, after updating the `count` property of the `newNode` object.
    */
-  protected _replaceNode(oldNode: NODE, newNode: NODE): NODE {
+  protected override _replaceNode(oldNode: NODE, newNode: NODE): NODE {
     newNode.count = oldNode.count + newNode.count;
     return super._replaceNode(oldNode, newNode);
   }
