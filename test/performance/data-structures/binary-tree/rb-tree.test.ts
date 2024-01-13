@@ -12,34 +12,28 @@ const cOrderedMap = new OrderedMap<number, number>();
 
 suite
   .add(`${HUNDRED_THOUSAND.toLocaleString()} add orderly`, () => {
+    rbTree.clear();
     for (let i = 0; i < randomArray.length; i++) rbTree.add(i);
   })
-  .add(`${HUNDRED_THOUSAND.toLocaleString()} delete orderly`, () => {
+  .add(`${HUNDRED_THOUSAND.toLocaleString()} add & delete orderly`, () => {
+    rbTree.clear();
+    for (let i = 0; i < randomArray.length; i++) rbTree.add(i);
     for (let i = 0; i < randomArray.length; i++) rbTree.delete(i);
   })
   .add(`${HUNDRED_THOUSAND.toLocaleString()} add randomly`, () => {
     rbTree.clear();
     for (let i = 0; i < randomArray.length; i++) rbTree.add(randomArray[i]);
   })
-  .add(`${HUNDRED_THOUSAND.toLocaleString()} delete randomly`, () => {
+  .add(`${HUNDRED_THOUSAND.toLocaleString()} add & delete randomly`, () => {
+    rbTree.clear();
+    for (let i = 0; i < randomArray.length; i++) rbTree.add(randomArray[i]);
     for (let i = 0; i < randomArray.length; i++) rbTree.delete(randomArray[i]);
   })
-  .add(`${HUNDRED_THOUSAND.toLocaleString()} add orderly`, () => {
-    for (let i = 0; i < randomArray.length; i++) rbTree.add(i);
-  })
-  .add(`${HUNDRED_THOUSAND.toLocaleString()} delete randomly`, () => {
-    for (let i = 0; i < randomArray.length; i++) rbTree.delete(randomArray[i]);
+  .add(`${HUNDRED_THOUSAND.toLocaleString()} add & get randomly`, () => {
+    rbTree.clear();
+    for (let i = 0; i < randomArray.length; i++) rbTree.add(randomArray[i]);
+    for (let i = 0; i < randomArray.length; i++) rbTree.get(randomArray[i]);
   });
-
-if (isCompetitor) {
-  suite.add(`CPT ${HUNDRED_THOUSAND.toLocaleString()} add`, () => {
-    for (let i = 0; i < randomArray.length; i++) cOrderedMap.setElement(randomArray[i], randomArray[i]);
-  });
-}
-
-suite.add(`${HUNDRED_THOUSAND.toLocaleString()} getNode randomly`, () => {
-  for (let i = 0; i < randomArray.length; i++) rbTree.getNode(randomArray[i]);
-});
 
 suite.add(`${HUNDRED_THOUSAND.toLocaleString()} add & iterator`, () => {
   rbTree.clear();
@@ -47,5 +41,11 @@ suite.add(`${HUNDRED_THOUSAND.toLocaleString()} add & iterator`, () => {
   const entries = [...rbTree];
   return entries.length === HUNDRED_THOUSAND;
 });
+
+if (isCompetitor) {
+  suite.add(`CPT ${HUNDRED_THOUSAND.toLocaleString()} add`, () => {
+    for (let i = 0; i < randomArray.length; i++) cOrderedMap.setElement(randomArray[i], randomArray[i]);
+  });
+}
 
 export { suite };

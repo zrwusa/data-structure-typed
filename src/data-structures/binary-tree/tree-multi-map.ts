@@ -14,7 +14,7 @@ import type {
   TreeMultiMapNodeNested,
   TreeMultiMapOptions
 } from '../../types';
-import { IterationType, RBTNColor } from '../../types';
+import { RBTNColor } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { RedBlackTree, RedBlackTreeNode } from './rb-tree';
 
@@ -363,7 +363,7 @@ export class TreeMultiMap<
 
     this.clear();
 
-    if (iterationType === IterationType.RECURSIVE) {
+    if (iterationType === 'RECURSIVE') {
       const buildBalanceBST = (l: number, r: number) => {
         if (l > r) return;
         const m = l + Math.floor((r - l) / 2);

@@ -1,4 +1,4 @@
-import { BinaryTreeNode, BSTNode, IterationType, RBTNColor, RedBlackTree, RedBlackTreeNode } from '../../../../src';
+import { BinaryTreeNode, BSTNode, RBTNColor, RedBlackTree, RedBlackTreeNode } from '../../../../src';
 import { getRandomInt, getRandomIntArray, magnitude } from '../../../utils';
 import { OrderedMap } from 'js-sdsl';
 
@@ -52,6 +52,11 @@ describe('RedBlackTree 1', () => {
       rbTree.delete(15);
 
       expect(rbTree.getNode(15)).toBe(undefined);
+    });
+
+    it('should getNode performance O(log n)', () => {
+      for (let i = 0; i < 10; i++) rbTree.add(i);
+      rbTree.getNode(6);
     });
   });
 
@@ -477,13 +482,13 @@ describe('RedBlackTree 2', () => {
 
     expect(rbTree.size).toBe(51);
     expect(rbTree.isBST()).toBe(true);
-    expect(rbTree.isBST(rbTree.root, IterationType.RECURSIVE)).toBe(true);
+    expect(rbTree.isBST(rbTree.root, 'RECURSIVE')).toBe(true);
 
-    expect(rbTree.dfs(n => n.key, 'in', rbTree.root, IterationType.ITERATIVE)).toEqual([
+    expect(rbTree.dfs(n => n.key, 'in', rbTree.root, 'ITERATIVE')).toEqual([
       49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76,
       77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99
     ]);
-    expect(rbTree.dfs(n => n.key, 'in', rbTree.root, IterationType.RECURSIVE)).toEqual([
+    expect(rbTree.dfs(n => n.key, 'in', rbTree.root, 'RECURSIVE')).toEqual([
       49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76,
       77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99
     ]);
@@ -499,7 +504,7 @@ describe('RedBlackTree 2', () => {
 
     expect(rbTree.size).toBe(0);
     expect(rbTree.isBST()).toBe(true);
-    expect(rbTree.dfs(n => n.key, 'in', rbTree.root, IterationType.ITERATIVE)).toEqual([]);
+    expect(rbTree.dfs(n => n.key, 'in', rbTree.root, 'ITERATIVE')).toEqual([]);
 
     rbTree.clear();
     for (let i = 0; i < 1000; i++) {

@@ -126,7 +126,7 @@ export class BST<
     return this._root;
   }
 
-  protected _variant = BSTVariant.STANDARD;
+  protected _variant: BSTVariant = 'STANDARD';
 
   /**
    * The function returns the value of the _variant property.
@@ -207,13 +207,10 @@ export class BST<
    * @param {K | NODE | undefined} keyOrNodeOrEntry - The `key` parameter can be of type `K`, `NODE`, or
    * `undefined`.
    * @param iterationType - The `iterationType` parameter is an optional parameter that specifies the
-   * type of iteration to be performed. It has a default value of `IterationType.ITERATIVE`.
+   * type of iteration to be performed. It has a default value of `'ITERATIVE'`.
    * @returns either a node object (NODE) or undefined.
    */
-  override ensureNode(
-    keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>,
-    iterationType = IterationType.ITERATIVE
-  ): NODE | undefined {
+  override ensureNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>, iterationType = 'ITERATIVE'): NODE | undefined {
     let res: NODE | undefined;
     if (this.isRealNode(keyOrNodeOrEntry)) {
       res = keyOrNodeOrEntry;
@@ -263,7 +260,7 @@ export class BST<
 
     let current = this.root;
     while (current !== undefined) {
-      if (this._compare(current.key, newNode.key) === CP.eq) {
+      if (this._compare(current.key, newNode.key) === 'EQ') {
         // if (current !== newNode) {
         // The key value is the same but the reference is different, update the value of the existing node
         this._replaceNode(current, newNode);
@@ -275,7 +272,7 @@ export class BST<
 
         //   return;
         // }
-      } else if (this._compare(current.key, newNode.key) === CP.gt) {
+      } else if (this._compare(current.key, newNode.key) === 'GT') {
         if (current.left === undefined) {
           current.left = newNode;
           this._size++;
@@ -397,7 +394,7 @@ export class BST<
       }
     };
 
-    if (iterationType === IterationType.RECURSIVE) {
+    if (iterationType === 'RECURSIVE') {
       _dfs(sorted);
     } else {
       _iterate();
@@ -425,15 +422,15 @@ export class BST<
    * @returns The function `getNodeByKey` returns a node (`NODE`) if a node with the specified key is
    * found in the binary tree. If no node is found, it returns `undefined`.
    */
-  override getNodeByKey(key: K, iterationType = IterationType.ITERATIVE): NODE | undefined {
+  override getNodeByKey(key: K, iterationType = 'ITERATIVE'): NODE | undefined {
     if (!this.isRealNode(this.root)) return undefined;
-    if (iterationType === IterationType.RECURSIVE) {
+    if (iterationType === 'RECURSIVE') {
       const _dfs = (cur: NODE): NODE | undefined => {
         if (cur.key === key) return cur;
         if (!this.isRealNode(cur.left) && !this.isRealNode(cur.right)) return;
 
-        if (this._compare(cur.key, key) === CP.gt && this.isRealNode(cur.left)) return _dfs(cur.left);
-        if (this._compare(cur.key, key) === CP.lt && this.isRealNode(cur.right)) return _dfs(cur.right);
+        if (this._compare(cur.key, key) === 'GT' && this.isRealNode(cur.left)) return _dfs(cur.left);
+        if (this._compare(cur.key, key) === 'LT' && this.isRealNode(cur.right)) return _dfs(cur.right);
       };
 
       return _dfs(this.root);
@@ -442,9 +439,9 @@ export class BST<
       while (queue.size > 0) {
         const cur = queue.shift();
         if (this.isRealNode(cur)) {
-          if (this._compare(cur.key, key) === CP.eq) return cur;
-          if (this._compare(cur.key, key) === CP.gt) this.isRealNode(cur.left) && queue.push(cur.left);
-          if (this._compare(cur.key, key) === CP.lt) this.isRealNode(cur.right) && queue.push(cur.right);
+          if (this._compare(cur.key, key) === 'EQ') return cur;
+          if (this._compare(cur.key, key) === 'GT') this.isRealNode(cur.left) && queue.push(cur.left);
+          if (this._compare(cur.key, key) === 'LT') this.isRealNode(cur.right) && queue.push(cur.right);
         }
       }
     }
@@ -489,7 +486,7 @@ export class BST<
     if (!beginRoot) return [];
     const ans: NODE[] = [];
 
-    if (iterationType === IterationType.RECURSIVE) {
+    if (iterationType === 'RECURSIVE') {
       const _traverse = (cur: NODE) => {
         const callbackResult = callback(cur);
         if (callbackResult === identifier) {
@@ -500,8 +497,8 @@ export class BST<
         if (!this.isRealNode(cur.left) && !this.isRealNode(cur.right)) return;
         // TODO potential bug
         if (callback === this._defaultOneParamCallback) {
-          if (this._compare(cur.key, identifier as K) === CP.gt) this.isRealNode(cur.left) && _traverse(cur.left);
-          if (this._compare(cur.key, identifier as K) === CP.lt) this.isRealNode(cur.right) && _traverse(cur.right);
+          if (this.isRealNode(cur.left) && this._compare(cur.key, identifier as K) === 'GT') _traverse(cur.left);
+          if (this.isRealNode(cur.right) && this._compare(cur.key, identifier as K) === 'LT') _traverse(cur.right);
         } else {
           this.isRealNode(cur.left) && _traverse(cur.left);
           this.isRealNode(cur.right) && _traverse(cur.right);
@@ -510,9 +507,9 @@ export class BST<
 
       _traverse(beginRoot);
     } else {
-      const queue = new Queue<NODE>([beginRoot]);
-      while (queue.size > 0) {
-        const cur = queue.shift();
+      const stack = [beginRoot];
+      while (stack.length > 0) {
+        const cur = stack.pop();
         if (this.isRealNode(cur)) {
           const callbackResult = callback(cur);
           if (callbackResult === identifier) {
@@ -521,11 +518,19 @@ export class BST<
           }
           // TODO potential bug
           if (callback === this._defaultOneParamCallback) {
-            if (this._compare(cur.key, identifier as K) === CP.gt) this.isRealNode(cur.left) && queue.push(cur.left);
-            if (this._compare(cur.key, identifier as K) === CP.lt) this.isRealNode(cur.right) && queue.push(cur.right);
+            if (this.isRealNode(cur.right) && this._compare(cur.key, identifier as K) === 'LT') stack.push(cur.right);
+            if (this.isRealNode(cur.left) && this._compare(cur.key, identifier as K) === 'GT') stack.push(cur.left);
+
+            // if (this.isRealNode(cur.right) && this._lt(cur.key, identifier as K)) stack.push(cur.right);
+            // if (this.isRealNode(cur.left) && this._gt(cur.key, identifier as K)) stack.push(cur.left);
+
+            // // @ts-ignore
+            // if (this.isRealNode(cur.right) && cur.key > identifier) stack.push(cur.right);
+            // // @ts-ignore
+            // if (this.isRealNode(cur.left) && cur.key < identifier) stack.push(cur.left);
           } else {
-            this.isRealNode(cur.left) && queue.push(cur.left);
-            this.isRealNode(cur.right) && queue.push(cur.right);
+            this.isRealNode(cur.right) && stack.push(cur.right);
+            this.isRealNode(cur.left) && stack.push(cur.left);
           }
         }
       }
@@ -562,7 +567,7 @@ export class BST<
     callback: C = this._defaultOneParamCallback as C,
     pattern: DFSOrderPattern = 'in',
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
-    iterationType: IterationType = IterationType.ITERATIVE
+    iterationType: IterationType = 'ITERATIVE'
   ): ReturnType<C>[] {
     return super.dfs(callback, pattern, beginRoot, iterationType, false);
   }
@@ -650,7 +655,7 @@ export class BST<
     let current = this.ensureNode(beginRoot);
     if (!current) return undefined;
 
-    if (this._variant === BSTVariant.STANDARD) {
+    if (this._variant === 'STANDARD') {
       // For BSTVariant.MIN, find the rightmost node
       while (current.right !== undefined) {
         current = current.right;
@@ -692,7 +697,7 @@ export class BST<
    */
   lesserOrGreaterTraverse<C extends BTNCallback<NODE>>(
     callback: C = this._defaultOneParamCallback as C,
-    lesserOrGreater: CP = CP.lt,
+    lesserOrGreater: CP = 'LT',
     targetNode: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType = this.iterationType
   ): ReturnType<C>[] {
@@ -703,7 +708,7 @@ export class BST<
 
     const targetKey = targetNode.key;
 
-    if (iterationType === IterationType.RECURSIVE) {
+    if (iterationType === 'RECURSIVE') {
       const _traverse = (cur: NODE) => {
         const compared = this._compare(cur.key, targetKey);
         if (compared === lesserOrGreater) ans.push(callback(cur));
@@ -752,7 +757,7 @@ export class BST<
     this.clear();
 
     if (sorted.length < 1) return false;
-    if (iterationType === IterationType.RECURSIVE) {
+    if (iterationType === 'RECURSIVE') {
       const buildBalanceBST = (l: number, r: number) => {
         if (l > r) return;
         const m = l + Math.floor((r - l) / 2);
@@ -812,7 +817,7 @@ export class BST<
 
     let balanced = true;
 
-    if (iterationType === IterationType.RECURSIVE) {
+    if (iterationType === 'RECURSIVE') {
       const _height = (cur: NODE | undefined): number => {
         if (!cur) return 0;
         const leftHeight = _height(cur.left),
@@ -868,14 +873,32 @@ export class BST<
    * is greater than, less than, or equal to the second value.
    * @param {K} a - The parameter "a" is of type K.
    * @param {K} b - The parameter "b" in the above code represents a K.
-   * @returns a value of type CP (ComparisonResult). The possible return values are CP.gt (greater
-   * than), CP.lt (less than), or CP.eq (equal).
+   * @returns a value of type CP (ComparisonResult). The possible return values are 'GT' (greater
+   * than), 'LT' (less than), or 'EQ' (equal).
    */
   protected _compare(a: K, b: K): CP {
     const extractedA = this.extractor(a);
     const extractedB = this.extractor(b);
-    const compared = this.variant === BSTVariant.STANDARD ? extractedA - extractedB : extractedB - extractedA;
+    const compared = this.variant === 'STANDARD' ? extractedA - extractedB : extractedB - extractedA;
 
-    return compared > 0 ? CP.gt : compared < 0 ? CP.lt : CP.eq;
+    return compared > 0 ? 'GT' : compared < 0 ? 'LT' : 'EQ';
+  }
+
+  protected _lt(a: K, b: K): boolean {
+    const extractedA = this.extractor(a);
+    const extractedB = this.extractor(b);
+    // return this.variant === BSTVariant.STANDARD ? extractedA < extractedB : extractedA > extractedB;
+    return this.variant === 'STANDARD' ? extractedA < extractedB : extractedA > extractedB;
+    // return extractedA < extractedB;
+    // return a < b;
+  }
+
+  protected _gt(a: K, b: K): boolean {
+    const extractedA = this.extractor(a);
+    const extractedB = this.extractor(b);
+    // return this.variant === BSTVariant.STANDARD  ? extractedA > extractedB : extractedA < extractedB;
+    return this.variant === 'STANDARD' ? extractedA > extractedB : extractedA < extractedB;
+    // return extractedA > extractedB;
+    // return a > b;
   }
 }

@@ -234,8 +234,8 @@ export class RedBlackTree<
     beginRoot: BSTNKeyOrNode<K, NODE> = this.root,
     iterationType = this.iterationType
   ): NODE | null | undefined {
-    if ((identifier as any) instanceof RedBlackTreeNode) callback = (node => node) as C;
-    return super.getNodes(identifier, callback, true, beginRoot, iterationType)[0] ?? undefined;
+    // if ((identifier as any) instanceof RedBlackTreeNode) callback = (node => node) as C;
+    return this.getNodes(identifier, callback, true, beginRoot, iterationType)[0] ?? undefined;
   }
 
   /**
@@ -279,7 +279,7 @@ export class RedBlackTree<
 
     const insertStatus = this._insert(newNode);
 
-    if (insertStatus === CRUD.CREATED) {
+    if (insertStatus === 'CREATED') {
       // Ensure the root is black
       if (this.isRealNode(this._root)) {
         this._root.color = RBTNColor.BLACK;
@@ -288,7 +288,7 @@ export class RedBlackTree<
       }
       this._size++;
       return true;
-    } else return insertStatus === CRUD.UPDATED;
+    } else return insertStatus === 'UPDATED';
   }
 
   /**
@@ -435,7 +435,7 @@ export class RedBlackTree<
         current = current.right ?? this.SENTINEL;
       } else {
         this._replaceNode(current, node);
-        return CRUD.UPDATED;
+        return 'UPDATED';
       }
     }
 
@@ -454,7 +454,7 @@ export class RedBlackTree<
     node.color = RBTNColor.RED;
 
     this._insertFixup(node);
-    return CRUD.CREATED;
+    return 'CREATED';
   }
 
   /**

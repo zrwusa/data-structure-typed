@@ -1,13 +1,5 @@
-export enum BSTVariant {
-  STANDARD = 'STANDARD',
-  INVERSE = 'INVERSE'
-}
-
-export enum CP {
-  lt = 'lt',
-  eq = 'eq',
-  gt = 'gt'
-}
+export type BSTVariant = 'STANDARD' | 'INVERSE';
+export type CP = 'LT' | 'EQ' | 'GT';
 
 /**
  * Enum representing different loop types.
@@ -15,20 +7,9 @@ export enum CP {
  * - `iterative`: Indicates the iterative loop type (with loops that use iterations).
  * - `recursive`: Indicates the recursive loop type (with loops that call themselves).
  */
-export enum IterationType {
-  ITERATIVE = 'ITERATIVE',
-  RECURSIVE = 'RECURSIVE'
-}
+export type IterationType = 'ITERATIVE' | 'RECURSIVE';
 
-export enum FamilyPosition {
-  ROOT = 'ROOT',
-  LEFT = 'LEFT',
-  RIGHT = 'RIGHT',
-  ROOT_LEFT = 'ROOT_LEFT',
-  ROOT_RIGHT = 'ROOT_RIGHT',
-  ISOLATED = 'ISOLATED',
-  MAL_NODE = 'MAL_NODE'
-}
+export type FamilyPosition = 'ROOT' | 'LEFT' | 'RIGHT' | 'ROOT_LEFT' | 'ROOT_RIGHT' | 'ISOLATED' | 'MAL_NODE';
 
 export type Comparator<K> = (a: K, b: K) => number;
 
@@ -64,9 +45,4 @@ export type BSTNKeyOrNode<K, N> = K | undefined | N;
 
 export type BinaryTreeDeleteResult<N> = { deleted: N | null | undefined; needBalanced: N | null | undefined };
 
-export enum CRUD {
-  CREATED = 'CREATED',
-  READ = 'READ',
-  UPDATED = 'UPDATED',
-  DELETED = 'DELETED'
-}
+export type CRUD = 'CREATED' | 'READ' | 'UPDATED' | 'DELETED';

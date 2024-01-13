@@ -1,4 +1,4 @@
-import { BinaryTreeNode, BST, BSTNode, BSTVariant, CP, IterationType } from '../../../../src';
+import { BinaryTreeNode, BST, BSTNode } from '../../../../src';
 import { isDebugTest } from '../../../config';
 
 const isDebug = isDebugTest;
@@ -58,7 +58,7 @@ describe('BST operations test', () => {
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
-    bst.lesserOrGreaterTraverse(node => (lesserSum += node.key), CP.lt, 10);
+    bst.lesserOrGreaterTraverse(node => (lesserSum += node.key), 'LT', 10);
     expect(lesserSum).toBe(45);
 
     expect(node15).toBeInstanceOf(BSTNode);
@@ -261,7 +261,7 @@ describe('BST operations test', () => {
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
-    objBST.lesserOrGreaterTraverse(node => (lesserSum += node.key), CP.lt, 10);
+    objBST.lesserOrGreaterTraverse(node => (lesserSum += node.key), 'LT', 10);
     expect(lesserSum).toBe(45);
 
     expect(node15).toBeInstanceOf(BSTNode);
@@ -411,7 +411,7 @@ describe('BST operations test', () => {
 
 describe('BST operations test recursively', () => {
   it('should perform various operations on a Binary Search Tree with numeric values', () => {
-    const bst = new BST<number>([], { iterationType: IterationType.RECURSIVE });
+    const bst = new BST<number>([], { iterationType: 'RECURSIVE' });
     expect(bst).toBeInstanceOf(BST);
     bst.add([11, 11]);
     bst.add([3, 3]);
@@ -448,7 +448,7 @@ describe('BST operations test recursively', () => {
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
-    bst.lesserOrGreaterTraverse(node => (lesserSum += node.key), CP.lt, 10);
+    bst.lesserOrGreaterTraverse(node => (lesserSum += node.key), 'LT', 10);
     expect(lesserSum).toBe(45);
 
     expect(node15).toBeInstanceOf(BSTNode);
@@ -649,7 +649,7 @@ describe('BST operations test recursively', () => {
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
-    objBST.lesserOrGreaterTraverse(node => (lesserSum += node.key), CP.lt, 10);
+    objBST.lesserOrGreaterTraverse(node => (lesserSum += node.key), 'LT', 10);
     expect(lesserSum).toBe(45);
 
     expect(node15).toBeInstanceOf(BSTNode);
@@ -869,7 +869,7 @@ describe('BST isBST', function () {
   });
 
   test('isBST when variant is Max', () => {
-    const bst = new BST<number, number>([1, 2, 3, 9, 8, 5, 6, 7, 4], { variant: BSTVariant.INVERSE });
+    const bst = new BST<number, number>([1, 2, 3, 9, 8, 5, 6, 7, 4], { variant: 'INVERSE' });
     bst.addMany([1, 2, 3, 9, 8, 5, 6, 7, 4]);
     expect(bst.isBST()).toBe(true);
   });
@@ -902,7 +902,7 @@ describe('BST Performance test', function () {
       node => {
         node.key - 1;
       },
-      CP.lt,
+      'LT',
       inputSize / 2
     );
     isDebug && console.log('---lesserOrGreaterTraverse', performance.now() - startL);
@@ -932,10 +932,10 @@ describe('BST Performance test', function () {
   it('should dfs as sub tree traversal, null should be ignored', () => {
     const bst = new BST();
     bst.addMany([4, 2, 6, 1, 3, 5, 7]);
-    expect(bst.dfs(node => node.key, 'pre', bst.getNode(6), IterationType.ITERATIVE)).toEqual([6, 5, 7]);
-    expect(bst.dfs(node => node.key, 'pre', bst.getNode(6), IterationType.RECURSIVE)).toEqual([6, 5, 7]);
-    expect(bst.dfs(node => node?.key ?? undefined, 'pre', bst.getNode(6), IterationType.ITERATIVE)).toEqual([6, 5, 7]);
-    expect(bst.dfs(node => node?.key ?? undefined, 'pre', bst.getNode(6), IterationType.RECURSIVE)).toEqual([6, 5, 7]);
+    expect(bst.dfs(node => node.key, 'pre', bst.getNode(6), 'ITERATIVE')).toEqual([6, 5, 7]);
+    expect(bst.dfs(node => node.key, 'pre', bst.getNode(6), 'RECURSIVE')).toEqual([6, 5, 7]);
+    expect(bst.dfs(node => node?.key ?? undefined, 'pre', bst.getNode(6), 'ITERATIVE')).toEqual([6, 5, 7]);
+    expect(bst.dfs(node => node?.key ?? undefined, 'pre', bst.getNode(6), 'RECURSIVE')).toEqual([6, 5, 7]);
   });
 });
 

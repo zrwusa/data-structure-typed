@@ -14,7 +14,6 @@ import type {
   BTNCallback,
   KeyOrNodeOrEntry
 } from '../../types';
-import { FamilyPosition, IterationType } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { AVLTree, AVLTreeNode } from './avl-tree';
 
@@ -249,9 +248,9 @@ export class AVLTreeMultiMap<
           if (curr.right !== undefined) this._setRoot(curr.right);
         } else {
           const { familyPosition: fp } = curr;
-          if (fp === FamilyPosition.LEFT || fp === FamilyPosition.ROOT_LEFT) {
+          if (fp === 'LEFT' || fp === 'ROOT_LEFT') {
             parent.left = curr.right;
-          } else if (fp === FamilyPosition.RIGHT || fp === FamilyPosition.ROOT_RIGHT) {
+          } else if (fp === 'RIGHT' || fp === 'ROOT_RIGHT') {
             parent.right = curr.right;
           }
           needBalanced = parent;
@@ -324,7 +323,7 @@ export class AVLTreeMultiMap<
 
     this.clear();
 
-    if (iterationType === IterationType.RECURSIVE) {
+    if (iterationType === 'RECURSIVE') {
       const buildBalanceBST = (l: number, r: number) => {
         if (l > r) return;
         const m = l + Math.floor((r - l) / 2);

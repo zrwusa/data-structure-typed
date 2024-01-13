@@ -1,12 +1,4 @@
-import {
-  AVLTreeMultiMap,
-  AVLTreeMultiMapNode,
-  AVLTreeNode,
-  BinaryTreeNode,
-  BSTNode,
-  CP,
-  IterationType
-} from '../../../../src';
+import { AVLTreeMultiMap, AVLTreeMultiMapNode, AVLTreeNode, BinaryTreeNode, BSTNode } from '../../../../src';
 import { isDebugTest } from '../../../config';
 
 const isDebug = isDebugTest;
@@ -36,7 +28,7 @@ describe('AVLTreeMultiMap count', () => {
       [3, 3]
     ]);
     tm.add([2, 2], undefined, 10);
-    tm.lesserOrGreaterTraverse(node => (node.count += 2), CP.gt, 1);
+    tm.lesserOrGreaterTraverse(node => (node.count += 2), 'GT', 1);
     tm.delete(2);
     expect(tm.count).toBe(12);
     expect(tm.getMutableCount()).toBe(16);
@@ -102,7 +94,7 @@ describe('AVLTreeMultiMap operations test1', () => {
     node15 && treeMultimap.dfs(node => (subTreeSum += node.key), 'pre', 15);
     expect(subTreeSum).toBe(31);
     let lesserSum = 0;
-    treeMultimap.lesserOrGreaterTraverse((node: AVLTreeMultiMapNode<number>) => (lesserSum += node.key), CP.lt, 10);
+    treeMultimap.lesserOrGreaterTraverse((node: AVLTreeMultiMapNode<number>) => (lesserSum += node.key), 'LT', 10);
     expect(lesserSum).toBe(45);
 
     expect(node15 instanceof AVLTreeMultiMapNode);
@@ -113,7 +105,7 @@ describe('AVLTreeMultiMap operations test1', () => {
     const node11 = treeMultimap.getNode(11);
     expect(node11 instanceof AVLTreeMultiMapNode);
     if (node11 instanceof AVLTreeMultiMapNode) {
-      const allGreaterNodesAdded = treeMultimap.lesserOrGreaterTraverse(node => (node.count += 2), CP.gt, 11);
+      const allGreaterNodesAdded = treeMultimap.lesserOrGreaterTraverse(node => (node.count += 2), 'GT', 11);
       expect(allGreaterNodesAdded);
     }
 
@@ -299,7 +291,7 @@ describe('AVLTreeMultiMap operations test1', () => {
 
 describe('AVLTreeMultiMap operations test recursively1', () => {
   it('should perform various operations on a Binary Search Tree with numeric values1', () => {
-    const treeMultimap = new AVLTreeMultiMap<number>([], { iterationType: IterationType.RECURSIVE });
+    const treeMultimap = new AVLTreeMultiMap<number>([], { iterationType: 'RECURSIVE' });
 
     expect(treeMultimap instanceof AVLTreeMultiMap);
     treeMultimap.add([11, 11]);
@@ -356,7 +348,7 @@ describe('AVLTreeMultiMap operations test recursively1', () => {
     node15 && treeMultimap.dfs(node => (subTreeSum += node.key), 'pre', 15);
     expect(subTreeSum).toBe(31);
     let lesserSum = 0;
-    treeMultimap.lesserOrGreaterTraverse((node: AVLTreeMultiMapNode<number>) => (lesserSum += node.key), CP.lt, 10);
+    treeMultimap.lesserOrGreaterTraverse((node: AVLTreeMultiMapNode<number>) => (lesserSum += node.key), 'LT', 10);
     expect(lesserSum).toBe(45);
 
     expect(node15 instanceof AVLTreeMultiMapNode);
@@ -367,7 +359,7 @@ describe('AVLTreeMultiMap operations test recursively1', () => {
     const node11 = treeMultimap.getNode(11);
     expect(node11 instanceof AVLTreeMultiMapNode);
     if (node11 instanceof AVLTreeMultiMapNode) {
-      const allGreaterNodesAdded = treeMultimap.lesserOrGreaterTraverse(node => (node.count += 2), CP.gt, 11);
+      const allGreaterNodesAdded = treeMultimap.lesserOrGreaterTraverse(node => (node.count += 2), 'GT', 11);
       expect(allGreaterNodesAdded);
     }
 
@@ -572,7 +564,7 @@ describe('AVLTreeMultiMap Performance test', function () {
     }
     isDebug && console.log('---add', performance.now() - start);
     const startL = performance.now();
-    treeMS.lesserOrGreaterTraverse(node => (node.count += 1), CP.lt, inputSize / 2);
+    treeMS.lesserOrGreaterTraverse(node => (node.count += 1), 'LT', inputSize / 2);
     isDebug && console.log('---lesserOrGreaterTraverse', performance.now() - startL);
   });
 

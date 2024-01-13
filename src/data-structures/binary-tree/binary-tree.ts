@@ -107,16 +107,16 @@ export class BinaryTreeNode<
   get familyPosition(): FamilyPosition {
     const that = this as unknown as NODE;
     if (!this.parent) {
-      return this.left || this.right ? FamilyPosition.ROOT : FamilyPosition.ISOLATED;
+      return this.left || this.right ? 'ROOT' : 'ISOLATED';
     }
 
     if (this.parent.left === that) {
-      return this.left || this.right ? FamilyPosition.ROOT_LEFT : FamilyPosition.LEFT;
+      return this.left || this.right ? 'ROOT_LEFT' : 'LEFT';
     } else if (this.parent.right === that) {
-      return this.left || this.right ? FamilyPosition.ROOT_RIGHT : FamilyPosition.RIGHT;
+      return this.left || this.right ? 'ROOT_RIGHT' : 'RIGHT';
     }
 
-    return FamilyPosition.MAL_NODE;
+    return 'MAL_NODE';
   }
 }
 
@@ -136,7 +136,7 @@ export class BinaryTree<
 >
   extends IterableEntryBase<K, V | undefined>
   implements IBinaryTree<K, V, NODE, TREE> {
-  iterationType = IterationType.ITERATIVE;
+  iterationType: IterationType = 'ITERATIVE';
 
   /**
    * The constructor function initializes a binary tree object with optional keysOrNodesOrEntries and options.
@@ -160,7 +160,7 @@ export class BinaryTree<
     if (keysOrNodesOrEntries) this.addMany(keysOrNodesOrEntries);
   }
 
-  protected _extractor = (key: K) => Number(key);
+  protected _extractor = (key: K) => (typeof key === 'number' ? key : Number(key));
 
   /**
    * The function returns the value of the `_extractor` property.
@@ -260,14 +260,11 @@ export class BinaryTree<
    * `null`, or `undefined`. It represents a key used to identify a node in a binary tree.
    * @param iterationType - The `iterationType` parameter is an optional parameter that specifies the
    * type of iteration to be used when searching for a node by key. It has a default value of
-   * `IterationType.ITERATIVE`.
+   * `'ITERATIVE'`.
    * @returns either the node corresponding to the given key if it is a valid node key, or the key
    * itself if it is not a valid node key.
    */
-  ensureNode(
-    keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>,
-    iterationType = IterationType.ITERATIVE
-  ): NODE | null | undefined {
+  ensureNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>, iterationType = 'ITERATIVE'): NODE | null | undefined {
     let res: NODE | null | undefined;
     if (this.isRealNode(keyOrNodeOrEntry)) {
       res = keyOrNodeOrEntry;
@@ -521,9 +518,9 @@ export class BinaryTree<
       }
     } else if (parent) {
       const { familyPosition: fp } = curr;
-      if (fp === FamilyPosition.LEFT || fp === FamilyPosition.ROOT_LEFT) {
+      if (fp === 'LEFT' || fp === 'ROOT_LEFT') {
         parent.left = curr.right;
-      } else if (fp === FamilyPosition.RIGHT || fp === FamilyPosition.ROOT_RIGHT) {
+      } else if (fp === 'RIGHT' || fp === 'ROOT_RIGHT') {
         parent.right = curr.right;
       }
       needBalanced = parent;
@@ -606,7 +603,7 @@ export class BinaryTree<
 
     const ans: NODE[] = [];
 
-    if (iterationType === IterationType.RECURSIVE) {
+    if (iterationType === 'RECURSIVE') {
       const _traverse = (cur: NODE) => {
         if (callback(cur) === identifier) {
           ans.push(cur);
@@ -714,9 +711,9 @@ export class BinaryTree<
    * @returns The function `getNodeByKey` returns a node (`NODE`) if a node with the specified key is
    * found in the binary tree. If no node is found, it returns `undefined`.
    */
-  getNodeByKey(key: K, iterationType = IterationType.ITERATIVE): NODE | undefined {
+  getNodeByKey(key: K, iterationType = 'ITERATIVE'): NODE | undefined {
     if (!this.root) return undefined;
-    if (iterationType === IterationType.RECURSIVE) {
+    if (iterationType === 'RECURSIVE') {
       const _dfs = (cur: NODE): NODE | undefined => {
         if (cur.key === key) return cur;
 
@@ -932,7 +929,7 @@ export class BinaryTree<
     beginRoot = this.ensureNode(beginRoot);
     if (!beginRoot) return true;
 
-    if (iterationType === IterationType.RECURSIVE) {
+    if (iterationType === 'RECURSIVE') {
       const dfs = (cur: NODE | null | undefined, min: number, max: number): boolean => {
         if (!this.isRealNode(cur)) return true;
         const numKey = this.extractor(cur.key);
@@ -1023,7 +1020,7 @@ export class BinaryTree<
     beginRoot = this.ensureNode(beginRoot);
     if (!this.isRealNode(beginRoot)) return -1;
 
-    if (iterationType === IterationType.RECURSIVE) {
+    if (iterationType === 'RECURSIVE') {
       const _getMaxHeight = (cur: NODE | null | undefined): number => {
         if (!this.isRealNode(cur)) return -1;
         const leftHeight = _getMaxHeight(cur.left);
@@ -1071,7 +1068,7 @@ export class BinaryTree<
     beginRoot = this.ensureNode(beginRoot);
     if (!beginRoot) return -1;
 
-    if (iterationType === IterationType.RECURSIVE) {
+    if (iterationType === 'RECURSIVE') {
       const _getMinHeight = (cur: NODE | null | undefined): number => {
         if (!this.isRealNode(cur)) return 0;
         if (!this.isRealNode(cur.left) && !this.isRealNode(cur.right)) return 0;
@@ -1174,7 +1171,7 @@ export class BinaryTree<
 
     if (!this.isRealNode(beginRoot)) return beginRoot;
 
-    if (iterationType === IterationType.RECURSIVE) {
+    if (iterationType === 'RECURSIVE') {
       const _traverse = (cur: NODE): NODE => {
         if (!this.isRealNode(cur.left)) return cur;
         return _traverse(cur.left);
@@ -1221,7 +1218,7 @@ export class BinaryTree<
     beginRoot = this.ensureNode(beginRoot);
     if (!beginRoot) return beginRoot;
 
-    if (iterationType === IterationType.RECURSIVE) {
+    if (iterationType === 'RECURSIVE') {
       const _traverse = (cur: NODE): NODE => {
         if (!this.isRealNode(cur.right)) return cur;
         return _traverse(cur.right);
@@ -1345,13 +1342,13 @@ export class BinaryTree<
     callback: C = this._defaultOneParamCallback as C,
     pattern: DFSOrderPattern = 'in',
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
-    iterationType: IterationType = IterationType.ITERATIVE,
+    iterationType: IterationType = 'ITERATIVE',
     includeNull = false
   ): ReturnType<C>[] {
     beginRoot = this.ensureNode(beginRoot);
     if (!beginRoot) return [];
     const ans: ReturnType<C>[] = [];
-    if (iterationType === IterationType.RECURSIVE) {
+    if (iterationType === 'RECURSIVE') {
       const _traverse = (node: NODE | null | undefined) => {
         switch (pattern) {
           case 'in':
@@ -1487,7 +1484,7 @@ export class BinaryTree<
 
     const ans: ReturnType<BTNCallback<NODE>>[] = [];
 
-    if (iterationType === IterationType.RECURSIVE) {
+    if (iterationType === 'RECURSIVE') {
       const queue: Queue<NODE | null | undefined> = new Queue<NODE | null | undefined>([beginRoot]);
 
       const traverse = (level: number) => {
@@ -1580,7 +1577,7 @@ export class BinaryTree<
     const levelsNodes: ReturnType<C>[][] = [];
     if (!beginRoot) return levelsNodes;
 
-    if (iterationType === IterationType.RECURSIVE) {
+    if (iterationType === 'RECURSIVE') {
       const _recursive = (node: NODE | null, level: number) => {
         if (!levelsNodes[level]) levelsNodes[level] = [];
         levelsNodes[level].push(callback(node));
@@ -1876,7 +1873,7 @@ export class BinaryTree<
   protected* _getIterator(node = this.root): IterableIterator<[K, V | undefined]> {
     if (!node) return;
 
-    if (this.iterationType === IterationType.ITERATIVE) {
+    if (this.iterationType === 'ITERATIVE') {
       const stack: (NODE | null | undefined)[] = [];
       let current: NODE | null | undefined = node;
 

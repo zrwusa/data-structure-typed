@@ -1,4 +1,4 @@
-import { AVLTree, AVLTreeNode, BinaryTreeNode, BSTNode, CP, IterationType } from '../../../../src';
+import { AVLTree, AVLTreeNode, BinaryTreeNode, BSTNode } from '../../../../src';
 
 describe('AVL Tree Test', () => {
   it('should perform various operations on a AVL Tree', () => {
@@ -28,7 +28,7 @@ describe('AVL Tree Test', () => {
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
-    tree.lesserOrGreaterTraverse(node => (lesserSum += node.key), CP.lt, 10);
+    tree.lesserOrGreaterTraverse(node => (lesserSum += node.key), 'LT', 10);
     expect(lesserSum).toBe(45);
 
     // node15 has type problem. After the uniform design, the generics of containers (DirectedGraph, BST) are based on the type of value. However, this design has a drawback: when I attempt to inherit from the Vertex or BSTNode classes, the types of the results obtained by all methods are those of the parent class.
@@ -112,7 +112,7 @@ describe('AVL Tree Test', () => {
 describe('AVL Tree Test recursively', () => {
   it('should perform various operations on a AVL Tree', () => {
     const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
-    const tree = new AVLTree<number>([], { iterationType: IterationType.RECURSIVE });
+    const tree = new AVLTree<number>([], { iterationType: 'RECURSIVE' });
 
     for (const i of arr) tree.add([i, i]);
 
@@ -136,7 +136,7 @@ describe('AVL Tree Test recursively', () => {
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
-    tree.lesserOrGreaterTraverse(node => (lesserSum += node.key), CP.lt, 10);
+    tree.lesserOrGreaterTraverse(node => (lesserSum += node.key), 'LT', 10);
     expect(lesserSum).toBe(45);
 
     // node15 has type problem. After the uniform design, the generics of containers (DirectedGraph, BST) are based on the type of value. However, this design has a drawback: when I attempt to inherit from the Vertex or BSTNode classes, the types of the results obtained by all methods are those of the parent class.
