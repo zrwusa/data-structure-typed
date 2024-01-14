@@ -9,6 +9,7 @@ import type {
   BinaryTreeDeleteResult,
   BSTNKeyOrNode,
   BTNCallback,
+  IterationType,
   KeyOrNodeOrEntry,
   TreeMultiMapNested,
   TreeMultiMapNodeNested,
@@ -356,7 +357,7 @@ export class TreeMultiMap<
    * values:
    * @returns a boolean value.
    */
-  override perfectlyBalance(iterationType = this.iterationType): boolean {
+  override perfectlyBalance(iterationType: IterationType = this.iterationType): boolean {
     const sorted = this.dfs(node => node, 'in'),
       n = sorted.length;
     if (sorted.length < 1) return false;

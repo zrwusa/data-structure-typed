@@ -2,6 +2,7 @@ import type {
   BinaryTreeDeleteResult,
   BSTNKeyOrNode,
   BTNCallback,
+  IterationType,
   KeyOrNodeOrEntry,
   RBTreeOptions,
   RedBlackTreeNested,
@@ -232,9 +233,8 @@ export class RedBlackTree<
     identifier: ReturnType<C> | undefined,
     callback: C = this._defaultOneParamCallback as C,
     beginRoot: BSTNKeyOrNode<K, NODE> = this.root,
-    iterationType = this.iterationType
+    iterationType: IterationType = this.iterationType
   ): NODE | null | undefined {
-    // if ((identifier as any) instanceof RedBlackTreeNode) callback = (node => node) as C;
     return this.getNodes(identifier, callback, true, beginRoot, iterationType)[0] ?? undefined;
   }
 

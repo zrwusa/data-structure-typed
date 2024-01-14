@@ -12,6 +12,7 @@ import type {
   BinaryTreeDeleteResult,
   BSTNKeyOrNode,
   BTNCallback,
+  IterationType,
   KeyOrNodeOrEntry
 } from '../../types';
 import { IBinaryTree } from '../../interfaces';
@@ -316,7 +317,7 @@ export class AVLTreeMultiMap<
    * values:
    * @returns a boolean value.
    */
-  override perfectlyBalance(iterationType = this.iterationType): boolean {
+  override perfectlyBalance(iterationType: IterationType = this.iterationType): boolean {
     const sorted = this.dfs(node => node, 'in'),
       n = sorted.length;
     if (sorted.length < 1) return false;

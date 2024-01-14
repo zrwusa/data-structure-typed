@@ -264,7 +264,10 @@ export class BinaryTree<
    * @returns either the node corresponding to the given key if it is a valid node key, or the key
    * itself if it is not a valid node key.
    */
-  ensureNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>, iterationType = 'ITERATIVE'): NODE | null | undefined {
+  ensureNode(
+    keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>,
+    iterationType: IterationType = 'ITERATIVE'
+  ): NODE | null | undefined {
     let res: NODE | null | undefined;
     if (this.isRealNode(keyOrNodeOrEntry)) {
       res = keyOrNodeOrEntry;
@@ -594,7 +597,7 @@ export class BinaryTree<
     callback: C = this._defaultOneParamCallback as C,
     onlyOne = false,
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
-    iterationType = this.iterationType
+    iterationType: IterationType = this.iterationType
   ): NODE[] {
     if ((!callback || callback === this._defaultOneParamCallback) && (identifier as any) instanceof BinaryTreeNode)
       callback = (node => node) as C;
@@ -684,7 +687,7 @@ export class BinaryTree<
     identifier: ReturnType<C> | null | undefined,
     callback: C = this._defaultOneParamCallback as C,
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
-    iterationType = this.iterationType
+    iterationType: IterationType = this.iterationType
   ): NODE | null | undefined {
     if ((!callback || callback === this._defaultOneParamCallback) && (identifier as any) instanceof BinaryTreeNode)
       callback = (node => node) as C;
@@ -711,7 +714,7 @@ export class BinaryTree<
    * @returns The function `getNodeByKey` returns a node (`NODE`) if a node with the specified key is
    * found in the binary tree. If no node is found, it returns `undefined`.
    */
-  getNodeByKey(key: K, iterationType = 'ITERATIVE'): NODE | undefined {
+  getNodeByKey(key: K, iterationType: IterationType = 'ITERATIVE'): NODE | undefined {
     if (!this.root) return undefined;
     if (iterationType === 'RECURSIVE') {
       const _dfs = (cur: NODE): NODE | undefined => {
@@ -788,7 +791,7 @@ export class BinaryTree<
     identifier: ReturnType<C> | null | undefined,
     callback: C = this._defaultOneParamCallback as C,
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
-    iterationType = this.iterationType
+    iterationType: IterationType = this.iterationType
   ): V | undefined {
     if ((!callback || callback === this._defaultOneParamCallback) && (identifier as any) instanceof BinaryTreeNode)
       callback = (node => node) as C;
@@ -847,7 +850,7 @@ export class BinaryTree<
     identifier: ReturnType<C> | null | undefined,
     callback: C = this._defaultOneParamCallback as C,
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
-    iterationType = this.iterationType
+    iterationType: IterationType = this.iterationType
   ): boolean {
     if ((!callback || callback === this._defaultOneParamCallback) && (identifier as any) instanceof BinaryTreeNode)
       callback = (node => node) as C;
@@ -924,7 +927,10 @@ export class BinaryTree<
    * possible values:
    * @returns a boolean value.
    */
-  isBST(beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root, iterationType = this.iterationType): boolean {
+  isBST(
+    beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
+    iterationType: IterationType = this.iterationType
+  ): boolean {
     // TODO there is a bug
     beginRoot = this.ensureNode(beginRoot);
     if (!beginRoot) return true;
@@ -1016,7 +1022,10 @@ export class BinaryTree<
    * values:
    * @returns the height of the binary tree.
    */
-  getHeight(beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root, iterationType = this.iterationType): number {
+  getHeight(
+    beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
+    iterationType: IterationType = this.iterationType
+  ): number {
     beginRoot = this.ensureNode(beginRoot);
     if (!this.isRealNode(beginRoot)) return -1;
 
@@ -1064,7 +1073,10 @@ export class BinaryTree<
    * to calculate the minimum height of a binary tree. It can have two possible values:
    * @returns The function `getMinHeight` returns the minimum height of a binary tree.
    */
-  getMinHeight(beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root, iterationType = this.iterationType): number {
+  getMinHeight(
+    beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
+    iterationType: IterationType = this.iterationType
+  ): number {
     beginRoot = this.ensureNode(beginRoot);
     if (!beginRoot) return -1;
 
@@ -1164,7 +1176,7 @@ export class BinaryTree<
    */
   getLeftMost(
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
-    iterationType = this.iterationType
+    iterationType: IterationType = this.iterationType
   ): NODE | null | undefined {
     if (this.isNIL(beginRoot)) return beginRoot as NODE;
     beginRoot = this.ensureNode(beginRoot);
@@ -1211,7 +1223,7 @@ export class BinaryTree<
    */
   getRightMost(
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
-    iterationType = this.iterationType
+    iterationType: IterationType = this.iterationType
   ): NODE | null | undefined {
     if (this.isNIL(beginRoot)) return beginRoot as NODE;
     // TODO support get right most by passing key in
@@ -1476,7 +1488,7 @@ export class BinaryTree<
   bfs<C extends BTNCallback<NODE | null>>(
     callback: C = this._defaultOneParamCallback as C,
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
-    iterationType = this.iterationType,
+    iterationType: IterationType = this.iterationType,
     includeNull = false
   ): ReturnType<C>[] {
     beginRoot = this.ensureNode(beginRoot);
@@ -1570,7 +1582,7 @@ export class BinaryTree<
   listLevels<C extends BTNCallback<NODE | null>>(
     callback: C = this._defaultOneParamCallback as C,
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
-    iterationType = this.iterationType,
+    iterationType: IterationType = this.iterationType,
     includeNull = false
   ): ReturnType<C>[][] {
     beginRoot = this.ensureNode(beginRoot);

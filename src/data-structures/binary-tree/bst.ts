@@ -210,7 +210,10 @@ export class BST<
    * type of iteration to be performed. It has a default value of `'ITERATIVE'`.
    * @returns either a node object (NODE) or undefined.
    */
-  override ensureNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>, iterationType = 'ITERATIVE'): NODE | undefined {
+  override ensureNode(
+    keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>,
+    iterationType: IterationType = 'ITERATIVE'
+  ): NODE | undefined {
     let res: NODE | undefined;
     if (this.isRealNode(keyOrNodeOrEntry)) {
       res = keyOrNodeOrEntry;
@@ -321,7 +324,7 @@ export class BST<
     keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, NODE>>,
     values?: Iterable<V | undefined>,
     isBalanceAdd = true,
-    iterationType = this.iterationType
+    iterationType: IterationType = this.iterationType
   ): boolean[] {
     const inserted: boolean[] = [];
 
@@ -422,7 +425,8 @@ export class BST<
    * @returns The function `getNodeByKey` returns a node (`NODE`) if a node with the specified key is
    * found in the binary tree. If no node is found, it returns `undefined`.
    */
-  override getNodeByKey(key: K, iterationType = 'ITERATIVE'): NODE | undefined {
+  override getNodeByKey(key: K, iterationType: IterationType = 'ITERATIVE'): NODE | undefined {
+    // return this.getNodes(key, this._defaultOneParamCallback, true, this.root, iterationType)[0];
     if (!this.isRealNode(this.root)) return undefined;
     if (iterationType === 'RECURSIVE') {
       const _dfs = (cur: NODE): NODE | undefined => {
@@ -480,7 +484,7 @@ export class BST<
     callback: C = this._defaultOneParamCallback as C,
     onlyOne = false,
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
-    iterationType = this.iterationType
+    iterationType: IterationType = this.iterationType
   ): NODE[] {
     beginRoot = this.ensureNode(beginRoot);
     if (!beginRoot) return [];
@@ -597,7 +601,7 @@ export class BST<
   override bfs<C extends BTNCallback<NODE>>(
     callback: C = this._defaultOneParamCallback as C,
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
-    iterationType = this.iterationType
+    iterationType: IterationType = this.iterationType
   ): ReturnType<C>[] {
     return super.bfs(callback, beginRoot, iterationType, false);
   }
@@ -628,7 +632,7 @@ export class BST<
   override listLevels<C extends BTNCallback<NODE>>(
     callback: C = this._defaultOneParamCallback as C,
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
-    iterationType = this.iterationType
+    iterationType: IterationType = this.iterationType
   ): ReturnType<C>[][] {
     return super.listLevels(callback, beginRoot, iterationType, false);
   }
@@ -699,7 +703,7 @@ export class BST<
     callback: C = this._defaultOneParamCallback as C,
     lesserOrGreater: CP = 'LT',
     targetNode: KeyOrNodeOrEntry<K, V, NODE> = this.root,
-    iterationType = this.iterationType
+    iterationType: IterationType = this.iterationType
   ): ReturnType<C>[] {
     targetNode = this.ensureNode(targetNode);
     const ans: ReturnType<BTNCallback<NODE>>[] = [];
@@ -751,7 +755,7 @@ export class BST<
    * values:
    * @returns The function `perfectlyBalance` returns a boolean value.
    */
-  perfectlyBalance(iterationType = this.iterationType): boolean {
+  perfectlyBalance(iterationType: IterationType = this.iterationType): boolean {
     const sorted = this.dfs(node => node, 'in'),
       n = sorted.length;
     this.clear();
@@ -812,7 +816,7 @@ export class BST<
    * to check if the AVL tree is balanced. It can have two possible values:
    * @returns a boolean value.
    */
-  isAVLBalanced(iterationType = this.iterationType): boolean {
+  isAVLBalanced(iterationType: IterationType = this.iterationType): boolean {
     if (!this.root) return true;
 
     let balanced = true;

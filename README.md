@@ -16,8 +16,8 @@
 ## Why
 
 Do you envy C++ with [STL]() (std::), Python with [collections](), and Java with [java.util]() ? Well, no need to envy
-anymore! JavaScript and TypeScript now have [data-structure-typed]().**`Benchmark`** compared with C++ STL. *
-*`API standards`** aligned with ES6 and Java. **`Usability`** is comparable to Python
+anymore! JavaScript and TypeScript now have [data-structure-typed]().**`Benchmark`** compared with C++ STL. 
+**`API standards`** aligned with ES6 and Java. **`Usability`** is comparable to Python
 
 
 [//]: # (![Branches]&#40;https://img.shields.io/badge/branches-55.47%25-red.svg?style=flat&#41;)
@@ -45,56 +45,56 @@ Performance surpasses that of native JS/TS
     <th>Time Taken</th>
     <th>Data Scale</th>
     <th>Belongs To</th>
-    <th>Complexity</th>
+    <th>big O</th>
   </tr>
   </thead>
   <tbody>
   <tr>
     <td>Queue.push &amp; shift</td>
     <td>5.83 ms</td>
-    <td>100,000</td>
+    <td>100K</td>
     <td>Ours</td>
     <td>O(1)</td>
   </tr>
   <tr>
     <td>Array.push &amp; shift</td>
     <td>2829.59 ms</td>
-    <td>100,000</td>
+    <td>100K</td>
     <td>Native JS</td>
     <td>O(n)</td>
   </tr>
   <tr>
     <td>Deque.unshift &amp; shift</td>
     <td>2.44 ms</td>
-    <td>100,000</td>
+    <td>100K</td>
     <td>Ours</td>
     <td>O(1)</td>
   </tr>
   <tr>
     <td>Array.unshift &amp; shift</td>
     <td>4750.37 ms</td>
-    <td>100,000</td>
+    <td>100K</td>
     <td>Native JS</td>
     <td>O(n)</td>
   </tr>
   <tr>
     <td>HashMap.set</td>
     <td>122.51 ms</td>
-    <td>1,000,000</td>
+    <td>1M</td>
     <td>Ours</td>
     <td>O(1)</td>
   </tr>
   <tr>
     <td>Map.set</td>
     <td>223.80 ms</td>
-    <td>1,000,000</td>
+    <td>1M</td>
     <td>Native JS</td>
     <td>O(1)</td>
   </tr>
   <tr>
     <td>Set.add</td>
     <td>185.06 ms</td>
-    <td>1,000,000</td>
+    <td>1M</td>
     <td>Native JS</td>
     <td>O(1)</td>
   </tr>
@@ -102,7 +102,7 @@ Performance surpasses that of native JS/TS
 </table>
 
 ### Conciseness and uniformity
-In Java.utils, you need to memorize a table for all sequential data structures(Queue, Deque, LinkedList),
+In [java.utils](), you need to memorize a table for all sequential data structures(Queue, Deque, LinkedList),
 
 <table>
         <thead>
@@ -141,7 +141,7 @@ In Java.utils, you need to memorize a table for all sequential data structures(Q
         </tbody>
     </table>
 
-whereas in our data-structure-typed, you **only** need to remember four methods: `push`, `pop`, `shift`, and `unshift` for all sequential data structures.
+whereas in our [data-structure-typed](), you **only** need to remember four methods: `push`, `pop`, `shift`, and `unshift` for all sequential data structures(Queue, Deque, DoublyLinkedList, SinglyLinkedList and Array).
 
 ## Installation and Usage
 
