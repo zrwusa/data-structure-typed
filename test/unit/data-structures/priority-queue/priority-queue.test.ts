@@ -42,9 +42,9 @@ describe('PriorityQueue Operation Test', () => {
     const clonedPriorityQueue = minPQ1.clone();
     expect(clonedPriorityQueue.elements).toEqual(minPQ1.elements);
     expect(clonedPriorityQueue.sort()).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
-    expect(minPQ1.dfs('in')).toEqual([4, 3, 2, 5, 1, 8, 6, 7]);
-    expect(minPQ1.dfs('post')).toEqual([4, 3, 5, 2, 8, 7, 6, 1]);
-    expect(minPQ1.dfs('pre')).toEqual([1, 2, 3, 4, 5, 6, 8, 7]);
+    expect(minPQ1.dfs('IN')).toEqual([4, 3, 2, 5, 1, 8, 6, 7]);
+    expect(minPQ1.dfs('POST')).toEqual([4, 3, 5, 2, 8, 7, 6, 1]);
+    expect(minPQ1.dfs('PRE')).toEqual([1, 2, 3, 4, 5, 6, 8, 7]);
   });
 });
 

@@ -34,7 +34,7 @@ suite
     for (let i = 0; i < THOUSAND; i++) biTree.bfs();
   })
   .add(`${THOUSAND.toLocaleString()} morris`, () => {
-    for (let i = 0; i < THOUSAND; i++) biTree.morris(n => n, 'pre');
+    for (let i = 0; i < THOUSAND; i++) biTree.morris(n => n, 'PRE');
   });
 
 // export { suite };

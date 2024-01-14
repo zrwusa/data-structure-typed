@@ -25,17 +25,19 @@ export class TreeMultiMapNode<
   NODE extends TreeMultiMapNode<K, V, NODE> = TreeMultiMapNodeNested<K, V>
 > extends RedBlackTreeNode<K, V, NODE> {
   /**
-   * The constructor function initializes an instance of a class with a key, value, and count.
-   * @param {K} key - The key parameter is of type K, which represents the type of the key for the
-   * constructor. It is required and must be provided when creating an instance of the class.
-   * @param {V} [value] - The `value` parameter is an optional parameter of type `V`. It represents the
-   * value associated with the key in the constructor. If no value is provided, it will be `undefined`.
-   * @param [count=1] - The "count" parameter is an optional parameter that specifies the number of
-   * times the key-value pair should be repeated. If no value is provided for "count", it defaults to
-   * 1.
+   * The constructor function initializes a Red-Black Tree node with a key, value, count, and color.
+   * @param {K} key - The key parameter represents the key of the node in the Red-Black Tree. It is
+   * used to identify and locate the node within the tree.
+   * @param {V} [value] - The `value` parameter is an optional parameter that represents the value
+   * associated with the key in the Red-Black Tree node. It is not required and can be omitted when
+   * creating a new node.
+   * @param [count=1] - The `count` parameter represents the number of occurrences of a particular key
+   * in the Red-Black Tree. It is an optional parameter with a default value of 1.
+   * @param {RBTNColor} [color=BLACK] - The `color` parameter is used to specify the color of the node
+   * in a Red-Black Tree. It is optional and has a default value of `'BLACK'`.
    */
-  constructor(key: K, value?: V, count = 1) {
-    super(key, value);
+  constructor(key: K, value?: V, count = 1, color: RBTNColor = 'BLACK') {
+    super(key, value, color);
     this.count = count;
   }
 
@@ -92,25 +94,41 @@ export class TreeMultiMap<
     return this._count;
   }
 
-  getMutableCount(): number {
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
+   * The function calculates the sum of the count property of all nodes in a tree using depth-first
+   * search.
+   * @returns the sum of the count property of all nodes in the tree.
+   */
+  getComputedCount(): number {
     let sum = 0;
     this.dfs(node => (sum += node.count));
     return sum;
   }
 
   /**
-   * The function creates a new TreeMultiMapNode object with the specified key, value, and count.
+   * The function creates a new TreeMultiMapNode with the specified key, value, color, and count.
    * @param {K} key - The key parameter represents the key of the node being created. It is of type K,
-   * which is a generic type that can be replaced with any specific type when using the function.
-   * @param {V} [value] - The `value` parameter is an optional parameter that represents the value
-   * associated with the key in the node. It is of type `V`, which can be any data type.
-   * @param {number} [count] - The `count` parameter represents the number of occurrences of a
-   * key-value pair in the TreeMultiMap. It is an optional parameter, so if it is not provided, it will
-   * default to 1.
-   * @returns a new instance of the TreeMultiMapNode class, casted as NODE.
+   * which is a generic type representing the key type of the node.
+   * @param {V} [value] - The `value` parameter represents the value associated with the key in the
+   * node. It is an optional parameter, which means it can be omitted when calling the `createNode`
+   * function. If provided, it should be of type `V`.
+   * @param {RBTNColor} [color=BLACK] - The color parameter is used to specify the color of the node in
+   * a Red-Black Tree. It can have two possible values: 'RED' or 'BLACK'. The default value is 'BLACK'.
+   * @param {number} [count] - The `count` parameter represents the number of occurrences of a key in
+   * the tree. It is an optional parameter and is used to keep track of the number of values associated
+   * with a key in the tree.
+   * @returns A new instance of the TreeMultiMapNode class is being returned.
    */
-  override createNode(key: K, value?: V, count?: number): NODE {
-    return new TreeMultiMapNode(key, value, count) as NODE;
+  override createNode(key: K, value?: V, color: RBTNColor = 'BLACK', count?: number): NODE {
+    return new TreeMultiMapNode(key, value, count, color) as NODE;
   }
 
   /**
@@ -154,10 +172,10 @@ export class TreeMultiMap<
       if (key === undefined || key === null) {
         return;
       } else {
-        node = this.createNode(key, value, count);
+        node = this.createNode(key, value, 'BLACK', count);
       }
     } else if (!this.isNode(keyOrNodeOrEntry)) {
-      node = this.createNode(keyOrNodeOrEntry, value, count);
+      node = this.createNode(keyOrNodeOrEntry, value, 'BLACK', count);
     } else {
       return;
     }
@@ -315,7 +333,7 @@ export class TreeMultiMap<
     this._size--;
 
     // If the original color was black, fix the tree
-    if (originalColor === RBTNColor.BLACK) {
+    if (originalColor === 'BLACK') {
       this._deleteFixup(replacementNode);
     }
 
@@ -358,7 +376,7 @@ export class TreeMultiMap<
    * @returns a boolean value.
    */
   override perfectlyBalance(iterationType: IterationType = this.iterationType): boolean {
-    const sorted = this.dfs(node => node, 'in'),
+    const sorted = this.dfs(node => node, 'IN'),
       n = sorted.length;
     if (sorted.length < 1) return false;
 
@@ -432,7 +450,7 @@ export class TreeMultiMap<
     destNode = this.ensureNode(destNode);
     if (srcNode && destNode) {
       const { key, value, count, color } = destNode;
-      const tempNode = this.createNode(key, value, count);
+      const tempNode = this.createNode(key, value, color, count);
       if (tempNode) {
         tempNode.color = color;
 

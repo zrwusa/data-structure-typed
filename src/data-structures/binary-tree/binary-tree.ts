@@ -1352,7 +1352,7 @@ export class BinaryTree<
    */
   dfs<C extends BTNCallback<NODE | null | undefined>>(
     callback: C = this._defaultOneParamCallback as C,
-    pattern: DFSOrderPattern = 'in',
+    pattern: DFSOrderPattern = 'IN',
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = 'ITERATIVE',
     includeNull = false
@@ -1363,7 +1363,7 @@ export class BinaryTree<
     if (iterationType === 'RECURSIVE') {
       const _traverse = (node: NODE | null | undefined) => {
         switch (pattern) {
-          case 'in':
+          case 'IN':
             if (includeNull) {
               if (this.isRealNode(node) && this.isNodeOrNull(node.left)) _traverse(node.left);
               this.isNodeOrNull(node) && ans.push(callback(node));
@@ -1374,7 +1374,7 @@ export class BinaryTree<
               if (this.isRealNode(node) && this.isRealNode(node.right)) _traverse(node.right);
             }
             break;
-          case 'pre':
+          case 'PRE':
             if (includeNull) {
               this.isNodeOrNull(node) && ans.push(callback(node));
               if (this.isRealNode(node) && this.isNodeOrNull(node.left)) _traverse(node.left);
@@ -1385,7 +1385,7 @@ export class BinaryTree<
               if (this.isRealNode(node) && this.isRealNode(node.right)) _traverse(node.right);
             }
             break;
-          case 'post':
+          case 'POST':
             if (includeNull) {
               if (this.isRealNode(node) && this.isNodeOrNull(node.left)) _traverse(node.left);
               if (this.isRealNode(node) && this.isNodeOrNull(node.right)) _traverse(node.right);
@@ -1417,17 +1417,17 @@ export class BinaryTree<
           ans.push(callback(cur.node));
         } else {
           switch (pattern) {
-            case 'in':
+            case 'IN':
               cur.node && stack.push({ opt: 0, node: cur.node.right });
               stack.push({ opt: 1, node: cur.node });
               cur.node && stack.push({ opt: 0, node: cur.node.left });
               break;
-            case 'pre':
+            case 'PRE':
               cur.node && stack.push({ opt: 0, node: cur.node.right });
               cur.node && stack.push({ opt: 0, node: cur.node.left });
               stack.push({ opt: 1, node: cur.node });
               break;
-            case 'post':
+            case 'POST':
               stack.push({ opt: 1, node: cur.node });
               cur.node && stack.push({ opt: 0, node: cur.node.right });
               cur.node && stack.push({ opt: 0, node: cur.node.left });
@@ -1652,7 +1652,7 @@ export class BinaryTree<
    */
   morris<C extends BTNCallback<NODE>>(
     callback: C = this._defaultOneParamCallback as C,
-    pattern: DFSOrderPattern = 'in',
+    pattern: DFSOrderPattern = 'IN',
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root
   ): ReturnType<C>[] {
     beginRoot = this.ensureNode(beginRoot);
@@ -1681,7 +1681,7 @@ export class BinaryTree<
       _reverseEdge(tail);
     };
     switch (pattern) {
-      case 'in':
+      case 'IN':
         while (cur) {
           if (cur.left) {
             const predecessor = this.getPredecessor(cur);
@@ -1697,7 +1697,7 @@ export class BinaryTree<
           cur = cur.right;
         }
         break;
-      case 'pre':
+      case 'PRE':
         while (cur) {
           if (cur.left) {
             const predecessor = this.getPredecessor(cur);
@@ -1715,7 +1715,7 @@ export class BinaryTree<
           cur = cur.right;
         }
         break;
-      case 'post':
+      case 'POST':
         while (cur) {
           if (cur.left) {
             const predecessor = this.getPredecessor(cur);

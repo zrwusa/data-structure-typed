@@ -13,7 +13,7 @@ export type FamilyPosition = 'ROOT' | 'LEFT' | 'RIGHT' | 'ROOT_LEFT' | 'ROOT_RIG
 
 export type Comparator<K> = (a: K, b: K) => number;
 
-export type DFSOrderPattern = 'pre' | 'in' | 'post';
+export type DFSOrderPattern = 'PRE' | 'IN' | 'POST';
 
 export type NodeDisplayLayout = [string[], number, number, number];
 

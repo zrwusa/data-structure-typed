@@ -171,20 +171,20 @@ describe('BinaryTree', () => {
     expect(cloned.root?.right?.key).toBe(6);
     expect(cloned.root?.right?.left?.key).toBe(3);
     expect(cloned.root?.right?.right).toBe(null);
-    expect(cloned.dfs(node => node.key, 'pre', cloned.getNode(6), 'ITERATIVE')).toEqual([6, 3, 7]);
-    expect(cloned.dfs(node => (node ? node.key : null), 'pre', cloned.getNode(6), 'ITERATIVE', true)).toEqual([
+    expect(cloned.dfs(node => node.key, 'PRE', cloned.getNode(6), 'ITERATIVE')).toEqual([6, 3, 7]);
+    expect(cloned.dfs(node => (node ? node.key : null), 'PRE', cloned.getNode(6), 'ITERATIVE', true)).toEqual([
       6,
       3,
       7,
       null
     ]);
-    expect(cloned.dfs(node => (node ? node.key : node), 'pre', cloned.getNode(6), 'ITERATIVE', true)).toEqual([
+    expect(cloned.dfs(node => (node ? node.key : node), 'PRE', cloned.getNode(6), 'ITERATIVE', true)).toEqual([
       6,
       3,
       7,
       null
     ]);
-    expect(cloned.dfs(node => (node ? node.key : null), 'pre', cloned.getNode(6), 'RECURSIVE', true)).toEqual([
+    expect(cloned.dfs(node => (node ? node.key : null), 'PRE', cloned.getNode(6), 'RECURSIVE', true)).toEqual([
       6,
       3,
       7,
@@ -294,22 +294,22 @@ describe('BinaryTree', () => {
 
   it('should sub tree traverse', () => {
     tree.addMany([4, 2, 6, null, 1, 3, null, 5, null, 7]);
-    expect(tree.dfs(node => node.key, 'pre', tree.getNode(6), 'ITERATIVE')).toEqual([6, 3, 7]);
-    expect(tree.dfs(node => node.key, 'pre', tree.getNode(6), 'ITERATIVE', false)).toEqual([6, 3, 7]);
-    expect(tree.dfs(node => node.key, 'pre', tree.getNode(6), 'RECURSIVE')).toEqual([6, 3, 7]);
-    expect(tree.dfs(node => (node ? node.key : null), 'pre', tree.getNode(6), 'ITERATIVE', true)).toEqual([
+    expect(tree.dfs(node => node.key, 'PRE', tree.getNode(6), 'ITERATIVE')).toEqual([6, 3, 7]);
+    expect(tree.dfs(node => node.key, 'PRE', tree.getNode(6), 'ITERATIVE', false)).toEqual([6, 3, 7]);
+    expect(tree.dfs(node => node.key, 'PRE', tree.getNode(6), 'RECURSIVE')).toEqual([6, 3, 7]);
+    expect(tree.dfs(node => (node ? node.key : null), 'PRE', tree.getNode(6), 'ITERATIVE', true)).toEqual([
       6,
       3,
       7,
       null
     ]);
-    expect(tree.dfs(node => (node ? node.key : node), 'pre', tree.getNode(6), 'ITERATIVE', true)).toEqual([
+    expect(tree.dfs(node => (node ? node.key : node), 'PRE', tree.getNode(6), 'ITERATIVE', true)).toEqual([
       6,
       3,
       7,
       null
     ]);
-    expect(tree.dfs(node => (node ? node.key : null), 'pre', tree.getNode(6), 'RECURSIVE', true)).toEqual([
+    expect(tree.dfs(node => (node ? node.key : null), 'PRE', tree.getNode(6), 'RECURSIVE', true)).toEqual([
       6,
       3,
       7,
@@ -362,36 +362,36 @@ describe('BinaryTree Morris Traversal', () => {
   tree.add(5);
   it('should perform in-order Morris traversal correctly as dfs traversal', () => {
     // Perform in-order Morris traversal
-    const result = tree.morris(node => node.key, 'in');
+    const result = tree.morris(node => node.key, 'IN');
 
     // Expected in-order traversal result
     const expected = [4, 2, 5, 1, 3];
 
     expect(result).toEqual(expected);
-    expect(tree.dfs(node => node.key, 'in')).toEqual(expected);
-    expect(tree.dfs(node => node.key, 'in', tree.root, 'RECURSIVE')).toEqual(expected);
+    expect(tree.dfs(node => node.key, 'IN')).toEqual(expected);
+    expect(tree.dfs(node => node.key, 'IN', tree.root, 'RECURSIVE')).toEqual(expected);
   });
 
   it('should perform pre-order Morris traversal correctly as dfs traversal', () => {
     // Perform pre-order Morris traversal
-    const result = tree.morris(node => node.key, 'pre');
+    const result = tree.morris(node => node.key, 'PRE');
 
     // Expected pre-order traversal result
     const expected = [1, 2, 4, 5, 3];
 
     expect(result).toEqual(expected);
-    expect(tree.dfs(node => node.key, 'pre')).toEqual(expected);
+    expect(tree.dfs(node => node.key, 'PRE')).toEqual(expected);
   });
 
   it('should perform post-order Morris traversal correctly as dfs traversal', () => {
     // Perform post-order Morris traversal
-    const result = tree.morris(node => node.key, 'post');
+    const result = tree.morris(node => node.key, 'POST');
 
     // Expected post-order traversal result
     const expected = [4, 5, 2, 3, 1];
 
     expect(result).toEqual([4, 5, 2, 3, 1]);
-    expect(tree.dfs(node => node.key, 'post')).toEqual(expected);
+    expect(tree.dfs(node => node.key, 'POST')).toEqual(expected);
   });
 
   it('after morris traversals should the structure of the tree be correct', () => {
@@ -445,11 +445,11 @@ describe('BinaryTree traversals', () => {
     35, 20, 40, 15, 29, 50, 16, 28, 30, 45, 55
   ]);
 
-  expect(tree.dfs(node => node.key, 'pre')).toEqual([35, 20, 15, 16, 29, 28, 30, 40, 50, 45, 55]);
-  expect(tree.dfs(node => node.key, 'pre', tree.root, 'RECURSIVE')).toEqual([
+  expect(tree.dfs(node => node.key, 'PRE')).toEqual([35, 20, 15, 16, 29, 28, 30, 40, 50, 45, 55]);
+  expect(tree.dfs(node => node.key, 'PRE', tree.root, 'RECURSIVE')).toEqual([
     35, 20, 15, 16, 29, 28, 30, 40, 50, 45, 55
   ]);
-  expect(tree.dfs(node => node, 'pre', tree.root, 'ITERATIVE', true).map(node => (node ? node.key : null))).toEqual([
+  expect(tree.dfs(node => node, 'PRE', tree.root, 'ITERATIVE', true).map(node => (node ? node.key : null))).toEqual([
     35,
     20,
     15,
@@ -464,7 +464,7 @@ describe('BinaryTree traversals', () => {
     45,
     55
   ]);
-  expect(tree.dfs(node => node, 'pre', tree.root, 'RECURSIVE', true).map(node => (node ? node.key : null))).toEqual([
+  expect(tree.dfs(node => node, 'PRE', tree.root, 'RECURSIVE', true).map(node => (node ? node.key : null))).toEqual([
     35,
     20,
     15,
@@ -480,9 +480,9 @@ describe('BinaryTree traversals', () => {
     55
   ]);
 
-  expect(tree.dfs(node => node.key, 'in')).toEqual([15, 16, 20, 28, 29, 30, 35, 40, 45, 50, 55]);
-  expect(tree.dfs(node => node.key, 'post')).toEqual([16, 15, 28, 30, 29, 20, 45, 55, 50, 40, 35]);
-  expect(tree.dfs(node => node.key, 'post', tree.root, 'RECURSIVE')).toEqual([
+  expect(tree.dfs(node => node.key, 'IN')).toEqual([15, 16, 20, 28, 29, 30, 35, 40, 45, 50, 55]);
+  expect(tree.dfs(node => node.key, 'POST')).toEqual([16, 15, 28, 30, 29, 20, 45, 55, 50, 40, 35]);
+  expect(tree.dfs(node => node.key, 'POST', tree.root, 'RECURSIVE')).toEqual([
     16, 15, 28, 30, 29, 20, 45, 55, 50, 40, 35
   ]);
   expect(tree.bfs(node => node.key, tree.root, 'RECURSIVE')).toEqual([35, 20, 40, 15, 29, 50, 16, 28, 30, 45, 55]);

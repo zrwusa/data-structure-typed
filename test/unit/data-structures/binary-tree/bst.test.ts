@@ -54,7 +54,7 @@ describe('BST operations test', () => {
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    node15 && bst.dfs(node => (subTreeSum += node.key), 'pre', 15);
+    node15 && bst.dfs(node => (subTreeSum += node.key), 'PRE', 15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
@@ -66,7 +66,7 @@ describe('BST operations test', () => {
     const node11 = bst.getNode(11);
     expect(node11).toBeInstanceOf(BSTNode);
 
-    const dfsInorderNodes = bst.dfs(node => node, 'in');
+    const dfsInorderNodes = bst.dfs(node => node, 'IN');
     expect(dfsInorderNodes[0].key).toBe(1);
     expect(dfsInorderNodes[dfsInorderNodes.length - 1].key).toBe(16);
 
@@ -257,7 +257,7 @@ describe('BST operations test', () => {
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    node15 && objBST.dfs(node => (subTreeSum += node.key), 'pre', node15);
+    node15 && objBST.dfs(node => (subTreeSum += node.key), 'PRE', node15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
@@ -269,7 +269,7 @@ describe('BST operations test', () => {
     const node11 = objBST.getNode(11);
     expect(node11).toBeInstanceOf(BSTNode);
 
-    const dfsInorderNodes = objBST.dfs(node => node, 'in');
+    const dfsInorderNodes = objBST.dfs(node => node, 'IN');
     expect(dfsInorderNodes[0].key).toBe(1);
     expect(dfsInorderNodes[dfsInorderNodes.length - 1].key).toBe(16);
 
@@ -444,7 +444,7 @@ describe('BST operations test recursively', () => {
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    node15 && bst.dfs(node => (subTreeSum += node.key), 'pre', 15);
+    node15 && bst.dfs(node => (subTreeSum += node.key), 'PRE', 15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
@@ -456,7 +456,7 @@ describe('BST operations test recursively', () => {
     const node11 = bst.getNode(11);
     expect(node11).toBeInstanceOf(BSTNode);
 
-    const dfsInorderNodes = bst.dfs(node => node, 'in');
+    const dfsInorderNodes = bst.dfs(node => node, 'IN');
     expect(dfsInorderNodes[0].key).toBe(1);
     expect(dfsInorderNodes[dfsInorderNodes.length - 1].key).toBe(16);
 
@@ -645,7 +645,7 @@ describe('BST operations test recursively', () => {
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    node15 && objBST.dfs(node => (subTreeSum += node.key), 'pre', node15);
+    node15 && objBST.dfs(node => (subTreeSum += node.key), 'PRE', node15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
@@ -657,7 +657,7 @@ describe('BST operations test recursively', () => {
     const node11 = objBST.getNode(11);
     expect(node11).toBeInstanceOf(BSTNode);
 
-    const dfsInorderNodes = objBST.dfs(node => node, 'in');
+    const dfsInorderNodes = objBST.dfs(node => node, 'IN');
     expect(dfsInorderNodes[0].key).toBe(1);
     expect(dfsInorderNodes[dfsInorderNodes.length - 1].key).toBe(16);
 
@@ -932,10 +932,10 @@ describe('BST Performance test', function () {
   it('should dfs as sub tree traversal, null should be ignored', () => {
     const bst = new BST();
     bst.addMany([4, 2, 6, 1, 3, 5, 7]);
-    expect(bst.dfs(node => node.key, 'pre', bst.getNode(6), 'ITERATIVE')).toEqual([6, 5, 7]);
-    expect(bst.dfs(node => node.key, 'pre', bst.getNode(6), 'RECURSIVE')).toEqual([6, 5, 7]);
-    expect(bst.dfs(node => node?.key ?? undefined, 'pre', bst.getNode(6), 'ITERATIVE')).toEqual([6, 5, 7]);
-    expect(bst.dfs(node => node?.key ?? undefined, 'pre', bst.getNode(6), 'RECURSIVE')).toEqual([6, 5, 7]);
+    expect(bst.dfs(node => node.key, 'PRE', bst.getNode(6), 'ITERATIVE')).toEqual([6, 5, 7]);
+    expect(bst.dfs(node => node.key, 'PRE', bst.getNode(6), 'RECURSIVE')).toEqual([6, 5, 7]);
+    expect(bst.dfs(node => node?.key ?? undefined, 'PRE', bst.getNode(6), 'ITERATIVE')).toEqual([6, 5, 7]);
+    expect(bst.dfs(node => node?.key ?? undefined, 'PRE', bst.getNode(6), 'RECURSIVE')).toEqual([6, 5, 7]);
   });
 });
 

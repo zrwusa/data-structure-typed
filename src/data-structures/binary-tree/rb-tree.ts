@@ -26,9 +26,9 @@ export class RedBlackTreeNode<
    * associated with the key in the Red-Black Tree Node. It is not required and can be omitted when
    * creating a new instance of the Red-Black Tree Node.
    * @param {RBTNColor} color - The `color` parameter is used to specify the color of the Red-Black
-   * Tree Node. It is an optional parameter with a default value of `RBTNColor.BLACK`.
+   * Tree Node. It is an optional parameter with a default value of `'BLACK'`.
    */
-  constructor(key: K, value?: V, color: RBTNColor = RBTNColor.BLACK) {
+  constructor(key: K, value?: V, color: RBTNColor = 'BLACK') {
     super(key, value);
     this._color = color;
   }
@@ -107,12 +107,12 @@ export class RedBlackTree<
    * @param {V} [value] - The `value` parameter is an optional parameter that represents the value
    * associated with the key in the node. It is not required and can be omitted if not needed.
    * @param {RBTNColor} color - The "color" parameter is used to specify the color of the node in a
-   * Red-Black Tree. It is an optional parameter with a default value of "RBTNColor.BLACK". The color
-   * can be either "RBTNColor.RED" or "RBTNColor.BLACK".
+   * Red-Black Tree. It is an optional parameter with a default value of "'BLACK'". The color
+   * can be either "'RED'" or "'BLACK'".
    * @returns The method is returning a new instance of a RedBlackTreeNode with the specified key,
    * value, and color.
    */
-  override createNode(key: K, value?: V, color: RBTNColor = RBTNColor.BLACK): NODE {
+  override createNode(key: K, value?: V, color: RBTNColor = 'BLACK'): NODE {
     return new RedBlackTreeNode<K, V, NODE>(key, value, color) as NODE;
   }
 
@@ -157,10 +157,10 @@ export class RedBlackTree<
       if (key === undefined || key === null) {
         return;
       } else {
-        node = this.createNode(key, value, RBTNColor.RED);
+        node = this.createNode(key, value, 'RED');
       }
     } else if (!this.isNode(keyOrNodeOrEntry)) {
-      node = this.createNode(keyOrNodeOrEntry, value, RBTNColor.RED);
+      node = this.createNode(keyOrNodeOrEntry, value, 'RED');
     } else {
       return;
     }
@@ -282,7 +282,7 @@ export class RedBlackTree<
     if (insertStatus === 'CREATED') {
       // Ensure the root is black
       if (this.isRealNode(this._root)) {
-        this._root.color = RBTNColor.BLACK;
+        this._root.color = 'BLACK';
       } else {
         return false;
       }
@@ -363,7 +363,7 @@ export class RedBlackTree<
     this._size--;
 
     // If the original color was black, fix the tree
-    if (originalColor === RBTNColor.BLACK) {
+    if (originalColor === 'BLACK') {
       this._deleteFixup(replacementNode);
     }
 
@@ -451,7 +451,7 @@ export class RedBlackTree<
 
     node.left = this.SENTINEL;
     node.right = this.SENTINEL;
-    node.color = RBTNColor.RED;
+    node.color = 'RED';
 
     this._insertFixup(node);
     return 'CREATED';
@@ -500,16 +500,16 @@ export class RedBlackTree<
    */
   protected _insertFixup(z: NODE | undefined): void {
     // Continue fixing the tree as long as the parent of z is red
-    while (z?.parent?.color === RBTNColor.RED) {
+    while (z?.parent?.color === 'RED') {
       // Check if the parent of z is the left child of its parent
       if (z.parent === z.parent.parent?.left) {
         // Case 1: The uncle (y) of z is red
         const y = z.parent.parent.right;
-        if (y?.color === RBTNColor.RED) {
+        if (y?.color === 'RED') {
           // Set colors to restore properties of Red-Black Tree
-          z.parent.color = RBTNColor.BLACK;
-          y.color = RBTNColor.BLACK;
-          z.parent.parent.color = RBTNColor.RED;
+          z.parent.color = 'BLACK';
+          y.color = 'BLACK';
+          z.parent.parent.color = 'RED';
           // Move up the tree to continue fixing
           z = z.parent.parent;
         } else {
@@ -523,8 +523,8 @@ export class RedBlackTree<
           // Case 3: The uncle (y) of z is black, and z is a left child
           // Adjust colors and perform a right rotation
           if (z && this.isRealNode(z.parent) && this.isRealNode(z.parent.parent)) {
-            z.parent.color = RBTNColor.BLACK;
-            z.parent.parent.color = RBTNColor.RED;
+            z.parent.color = 'BLACK';
+            z.parent.parent.color = 'RED';
             this._rightRotate(z.parent.parent);
           }
         }
@@ -532,10 +532,10 @@ export class RedBlackTree<
         // Symmetric case for the right child (left and right exchanged)
         // Follow the same logic as above with left and right exchanged
         const y: NODE | undefined = z?.parent?.parent?.left;
-        if (y?.color === RBTNColor.RED) {
-          z.parent.color = RBTNColor.BLACK;
-          y.color = RBTNColor.BLACK;
-          z.parent.parent!.color = RBTNColor.RED;
+        if (y?.color === 'RED') {
+          z.parent.color = 'BLACK';
+          y.color = 'BLACK';
+          z.parent.parent!.color = 'RED';
           z = z.parent.parent;
         } else {
           if (z === z.parent.left) {
@@ -544,8 +544,8 @@ export class RedBlackTree<
           }
 
           if (z && this.isRealNode(z.parent) && this.isRealNode(z.parent.parent)) {
-            z.parent.color = RBTNColor.BLACK;
-            z.parent.parent.color = RBTNColor.RED;
+            z.parent.color = 'BLACK';
+            z.parent.parent.color = 'RED';
             this._leftRotate(z.parent.parent);
           }
         }
@@ -553,7 +553,7 @@ export class RedBlackTree<
     }
 
     // Ensure that the root is black after fixing
-    if (this.isRealNode(this._root)) this._root.color = RBTNColor.BLACK;
+    if (this.isRealNode(this._root)) this._root.color = 'BLACK';
   }
 
   /**
@@ -573,14 +573,14 @@ export class RedBlackTree<
    */
   protected _deleteFixup(node: NODE | undefined): void {
     // Early exit condition
-    if (!node || node === this.root || node.color === RBTNColor.BLACK) {
+    if (!node || node === this.root || node.color === 'BLACK') {
       if (node) {
-        node.color = RBTNColor.BLACK; // Ensure the final node is black
+        node.color = 'BLACK'; // Ensure the final node is black
       }
       return;
     }
 
-    while (node && node !== this.root && node.color === RBTNColor.BLACK) {
+    while (node && node !== this.root && node.color === 'BLACK') {
       const parent: NODE | undefined = node.parent;
 
       if (!parent) {
@@ -591,22 +591,22 @@ export class RedBlackTree<
         let sibling = parent.right;
 
         // Cases 1 and 2: Sibling is red or both children of sibling are black
-        if (sibling?.color === RBTNColor.RED) {
-          sibling.color = RBTNColor.BLACK;
-          parent.color = RBTNColor.RED;
+        if (sibling?.color === 'RED') {
+          sibling.color = 'BLACK';
+          parent.color = 'RED';
           this._leftRotate(parent);
           sibling = parent.right;
         }
 
         // Case 3: Sibling's left child is black
-        if ((sibling?.left?.color ?? RBTNColor.BLACK) === RBTNColor.BLACK) {
-          if (sibling) sibling.color = RBTNColor.RED;
+        if ((sibling?.left?.color ?? 'BLACK') === 'BLACK') {
+          if (sibling) sibling.color = 'RED';
           node = parent;
         } else {
           // Case 4: Adjust colors and perform a right rotation
-          if (sibling?.left) sibling.left.color = RBTNColor.BLACK;
+          if (sibling?.left) sibling.left.color = 'BLACK';
           if (sibling) sibling.color = parent.color;
-          parent.color = RBTNColor.BLACK;
+          parent.color = 'BLACK';
           this._rightRotate(parent);
           node = this.root;
         }
@@ -615,22 +615,22 @@ export class RedBlackTree<
         let sibling = parent.left;
 
         // Cases 1 and 2: Sibling is red or both children of sibling are black
-        if (sibling?.color === RBTNColor.RED) {
-          sibling.color = RBTNColor.BLACK;
-          if (parent) parent.color = RBTNColor.RED;
+        if (sibling?.color === 'RED') {
+          sibling.color = 'BLACK';
+          if (parent) parent.color = 'RED';
           this._rightRotate(parent);
           if (parent) sibling = parent.left;
         }
 
         // Case 3: Sibling's left child is black
-        if ((sibling?.right?.color ?? RBTNColor.BLACK) === RBTNColor.BLACK) {
-          if (sibling) sibling.color = RBTNColor.RED;
+        if ((sibling?.right?.color ?? 'BLACK') === 'BLACK') {
+          if (sibling) sibling.color = 'RED';
           node = parent;
         } else {
           // Case 4: Adjust colors and perform a left rotation
-          if (sibling?.right) sibling.right.color = RBTNColor.BLACK;
+          if (sibling?.right) sibling.right.color = 'BLACK';
           if (sibling) sibling.color = parent.color;
-          if (parent) parent.color = RBTNColor.BLACK;
+          if (parent) parent.color = 'BLACK';
           this._leftRotate(parent);
           node = this.root;
         }
@@ -639,7 +639,7 @@ export class RedBlackTree<
 
     // Ensure that the final node (possibly the root) is black
     if (node) {
-      node.color = RBTNColor.BLACK;
+      node.color = 'BLACK';
     }
   }
 

@@ -569,7 +569,7 @@ export class BST<
    */
   override dfs<C extends BTNCallback<NODE>>(
     callback: C = this._defaultOneParamCallback as C,
-    pattern: DFSOrderPattern = 'in',
+    pattern: DFSOrderPattern = 'IN',
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = 'ITERATIVE'
   ): ReturnType<C>[] {
@@ -756,7 +756,7 @@ export class BST<
    * @returns The function `perfectlyBalance` returns a boolean value.
    */
   perfectlyBalance(iterationType: IterationType = this.iterationType): boolean {
-    const sorted = this.dfs(node => node, 'in'),
+    const sorted = this.dfs(node => node, 'IN'),
       n = sorted.length;
     this.clear();
 
@@ -888,6 +888,15 @@ export class BST<
     return compared > 0 ? 'GT' : compared < 0 ? 'LT' : 'EQ';
   }
 
+  /**
+   * The function `_lt` compares two values `a` and `b` using an extractor function and returns true if
+   * `a` is less than `b` based on the specified variant.
+   * @param {K} a - The parameter "a" is of type "K", which means it can be any type. It represents the
+   * first value to be compared in the function.
+   * @param {K} b - The parameter `b` is of type `K`, which means it can be any type. It is used as one
+   * of the arguments for the comparison in the `_lt` function.
+   * @returns a boolean value.
+   */
   protected _lt(a: K, b: K): boolean {
     const extractedA = this.extractor(a);
     const extractedB = this.extractor(b);
@@ -897,6 +906,14 @@ export class BST<
     // return a < b;
   }
 
+  /**
+   * The function compares two values using a custom extractor function and returns true if the first
+   * value is greater than the second value.
+   * @param {K} a - The parameter "a" is of type K, which means it can be any type.
+   * @param {K} b - The parameter "b" is of type K, which means it can be any type. It is used as one
+   * of the arguments for the comparison in the function.
+   * @returns a boolean value.
+   */
   protected _gt(a: K, b: K): boolean {
     const extractedA = this.extractor(a);
     const extractedB = this.extractor(b);

@@ -22,7 +22,7 @@ describe('TreeMultiMap count', () => {
     const newNode = new TreeMultiMapNode(3, 33, 10);
     tmm.add(newNode);
     expect(tmm.count).toBe(15);
-    expect(tmm.getMutableCount()).toBe(15);
+    expect(tmm.getComputedCount()).toBe(15);
     expect(tmm.getNode(3)?.count).toBe(11);
   });
 
@@ -33,7 +33,7 @@ describe('TreeMultiMap count', () => {
       [3, 3]
     ]);
     tmm.lesserOrGreaterTraverse(node => (node.count += 2), 'GT', 1);
-    expect(tmm.getMutableCount()).toBe(7);
+    expect(tmm.getComputedCount()).toBe(7);
     expect(tmm.count).toBe(3);
   });
 });
@@ -57,7 +57,7 @@ describe('TreeMultiMap operations test1', () => {
     tmm.add([11, 11]);
     tmm.add([3, 3]);
     expect(tmm.count).toBe(2);
-    expect(tmm.getMutableCount()).toBe(2);
+    expect(tmm.getComputedCount()).toBe(2);
     expect(tmm.size).toBe(2);
 
     const keyValuePairs: [number, number][] = [
@@ -82,13 +82,13 @@ describe('TreeMultiMap operations test1', () => {
     tmm.addMany(keyValuePairs);
     expect(tmm.size).toBe(16);
     expect(tmm.count).toBe(18);
-    expect(tmm.getMutableCount()).toBe(18);
+    expect(tmm.getComputedCount()).toBe(18);
     tmm.delete(11);
     expect(tmm.count).toBe(17);
-    expect(tmm.getMutableCount()).toBe(17);
+    expect(tmm.getComputedCount()).toBe(17);
     tmm.delete(3, undefined, true);
     expect(tmm.count).toBe(15);
-    expect(tmm.getMutableCount()).toBe(15);
+    expect(tmm.getComputedCount()).toBe(15);
   });
 
   it('should perform various operations on a Binary Search Tree with numeric values1', () => {
@@ -123,7 +123,7 @@ describe('TreeMultiMap operations test1', () => {
 
     expect(tmm.size).toBe(16);
     expect(tmm.count).toBe(18);
-    expect(tmm.getMutableCount()).toBe(18);
+    expect(tmm.getComputedCount()).toBe(18);
 
     expect(tmm.has(6));
     isDebug && tmm.print();
@@ -148,7 +148,7 @@ describe('TreeMultiMap operations test1', () => {
     expect(minNodeBySpecificNode?.key).toBe(14);
 
     let subTreeSum = 0;
-    node15 && tmm.dfs(node => (subTreeSum += node.key), 'pre', 15);
+    node15 && tmm.dfs(node => (subTreeSum += node.key), 'PRE', 15);
     expect(subTreeSum).toBe(45);
     let lesserSum = 0;
     tmm.lesserOrGreaterTraverse((node: TreeMultiMapNode<number>) => (lesserSum += node.key), 'LT', 10);
@@ -156,7 +156,7 @@ describe('TreeMultiMap operations test1', () => {
 
     expect(node15 instanceof TreeMultiMapNode);
     if (node15 instanceof TreeMultiMapNode) {
-      const subTreeAdd = tmm.dfs(node => (node.count += 1), 'pre', 15);
+      const subTreeAdd = tmm.dfs(node => (node.count += 1), 'PRE', 15);
       expect(subTreeAdd);
     }
     const node11 = tmm.getNode(11);
@@ -166,7 +166,7 @@ describe('TreeMultiMap operations test1', () => {
       expect(allGreaterNodesAdded);
     }
 
-    const dfsInorderNodes = tmm.dfs(node => node, 'in');
+    const dfsInorderNodes = tmm.dfs(node => node, 'IN');
     expect(dfsInorderNodes[0].key).toBe(1);
     expect(dfsInorderNodes[dfsInorderNodes.length - 1].key).toBe(16);
     expect(tmm.isPerfectlyBalanced()).toBe(false);
@@ -309,7 +309,7 @@ describe('TreeMultiMap operations test1', () => {
     expect(bfsNodes[2].key).toBe(16);
 
     expect(tmm.count).toBe(6);
-    expect(tmm.getMutableCount()).toBe(8);
+    expect(tmm.getComputedCount()).toBe(8);
   });
 
   it('should perform various operations on a Binary Search Tree with object values', () => {
@@ -341,7 +341,7 @@ describe('TreeMultiMap operations test1', () => {
     if (objTreeMultiMap.root) expect(objTreeMultiMap.root.key).toBe(5);
 
     expect(objTreeMultiMap.count).toBe(16);
-    expect(objTreeMultiMap.getMutableCount()).toBe(16);
+    expect(objTreeMultiMap.getComputedCount()).toBe(16);
 
     expect(objTreeMultiMap.has(6)).toBe(true);
   });
@@ -379,7 +379,7 @@ describe('TreeMultiMap operations test recursively1', () => {
 
     expect(tmm.size).toBe(16);
     expect(tmm.count).toBe(18);
-    expect(tmm.getMutableCount()).toBe(18);
+    expect(tmm.getComputedCount()).toBe(18);
 
     expect(tmm.has(6));
 
@@ -404,7 +404,7 @@ describe('TreeMultiMap operations test recursively1', () => {
     expect(minNodeBySpecificNode?.key).toBe(14);
 
     let subTreeSum = 0;
-    node15 && tmm.dfs(node => (subTreeSum += node.key), 'pre', 15);
+    node15 && tmm.dfs(node => (subTreeSum += node.key), 'PRE', 15);
     expect(subTreeSum).toBe(45);
     let lesserSum = 0;
     expect(tmm.has(9)).toBe(true);
@@ -420,7 +420,7 @@ describe('TreeMultiMap operations test recursively1', () => {
 
     expect(node15 instanceof TreeMultiMapNode);
     if (node15 instanceof TreeMultiMapNode) {
-      const subTreeAdd = tmm.dfs(node => (node.count += 1), 'pre', 15);
+      const subTreeAdd = tmm.dfs(node => (node.count += 1), 'PRE', 15);
       expect(subTreeAdd);
     }
     const node11 = tmm.getNode(11);
@@ -430,7 +430,7 @@ describe('TreeMultiMap operations test recursively1', () => {
       expect(allGreaterNodesAdded);
     }
 
-    const dfsInorderNodes = tmm.dfs(node => node, 'in');
+    const dfsInorderNodes = tmm.dfs(node => node, 'IN');
     expect(dfsInorderNodes[0].key).toBe(1);
     expect(dfsInorderNodes[dfsInorderNodes.length - 1].key).toBe(16);
     expect(tmm.isPerfectlyBalanced()).toBe(false);
@@ -574,7 +574,7 @@ describe('TreeMultiMap operations test recursively1', () => {
     expect(bfsNodes[2].key).toBe(16);
 
     expect(tmm.count).toBe(6);
-    expect(tmm.getMutableCount()).toBe(8);
+    expect(tmm.getComputedCount()).toBe(8);
   });
 
   it('should perform various operations on a Binary Search Tree with object values', () => {
@@ -606,7 +606,7 @@ describe('TreeMultiMap operations test recursively1', () => {
     if (objTreeMultiMap.root) expect(objTreeMultiMap.root.key).toBe(5);
 
     expect(objTreeMultiMap.count).toBe(16);
-    expect(objTreeMultiMap.getMutableCount()).toBe(16);
+    expect(objTreeMultiMap.getComputedCount()).toBe(16);
 
     expect(objTreeMultiMap.has(6)).toBe(true);
   });
@@ -811,7 +811,7 @@ describe('TreeMultiMap iterative methods test', () => {
 
   test('should clone work well', () => {
     expect(treeMM.count).toBe(21);
-    expect(treeMM.getMutableCount()).toBe(21);
+    expect(treeMM.getComputedCount()).toBe(21);
     const cloned = treeMM.clone();
     expect(cloned.root?.left?.key).toBe(1);
     expect(cloned.root?.right?.value).toBe('c');

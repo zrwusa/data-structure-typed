@@ -86,7 +86,20 @@ export class AVLTreeMultiMap<
     return this._count;
   }
 
-  getMutableCount(): number {
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
+   * The function calculates the sum of the count property of all nodes in a tree using depth-first
+   * search.
+   * @returns the sum of the count property of all nodes in the tree.
+   */
+  getComputedCount(): number {
     let sum = 0;
     this.dfs(node => (sum += node.count));
     return sum;
@@ -318,7 +331,7 @@ export class AVLTreeMultiMap<
    * @returns a boolean value.
    */
   override perfectlyBalance(iterationType: IterationType = this.iterationType): boolean {
-    const sorted = this.dfs(node => node, 'in'),
+    const sorted = this.dfs(node => node, 'IN'),
       n = sorted.length;
     if (sorted.length < 1) return false;
 

@@ -31,7 +31,7 @@ describe('AVLTreeMultiMap count', () => {
     tm.lesserOrGreaterTraverse(node => (node.count += 2), 'GT', 1);
     tm.delete(2);
     expect(tm.count).toBe(12);
-    expect(tm.getMutableCount()).toBe(16);
+    expect(tm.getComputedCount()).toBe(16);
   });
 });
 
@@ -91,7 +91,7 @@ describe('AVLTreeMultiMap operations test1', () => {
     expect(minNodeBySpecificNode?.key).toBe(15);
 
     let subTreeSum = 0;
-    node15 && treeMultimap.dfs(node => (subTreeSum += node.key), 'pre', 15);
+    node15 && treeMultimap.dfs(node => (subTreeSum += node.key), 'PRE', 15);
     expect(subTreeSum).toBe(31);
     let lesserSum = 0;
     treeMultimap.lesserOrGreaterTraverse((node: AVLTreeMultiMapNode<number>) => (lesserSum += node.key), 'LT', 10);
@@ -99,7 +99,7 @@ describe('AVLTreeMultiMap operations test1', () => {
 
     expect(node15 instanceof AVLTreeMultiMapNode);
     if (node15 instanceof AVLTreeMultiMapNode) {
-      const subTreeAdd = treeMultimap.dfs(node => (node.count += 1), 'pre', 15);
+      const subTreeAdd = treeMultimap.dfs(node => (node.count += 1), 'PRE', 15);
       expect(subTreeAdd);
     }
     const node11 = treeMultimap.getNode(11);
@@ -109,7 +109,7 @@ describe('AVLTreeMultiMap operations test1', () => {
       expect(allGreaterNodesAdded);
     }
 
-    const dfsInorderNodes = treeMultimap.dfs(node => node, 'in');
+    const dfsInorderNodes = treeMultimap.dfs(node => node, 'IN');
     expect(dfsInorderNodes[0].key).toBe(1);
     expect(dfsInorderNodes[dfsInorderNodes.length - 1].key).toBe(16);
     expect(treeMultimap.isPerfectlyBalanced()).toBe(false);
@@ -345,7 +345,7 @@ describe('AVLTreeMultiMap operations test recursively1', () => {
     expect(minNodeBySpecificNode?.key).toBe(15);
 
     let subTreeSum = 0;
-    node15 && treeMultimap.dfs(node => (subTreeSum += node.key), 'pre', 15);
+    node15 && treeMultimap.dfs(node => (subTreeSum += node.key), 'PRE', 15);
     expect(subTreeSum).toBe(31);
     let lesserSum = 0;
     treeMultimap.lesserOrGreaterTraverse((node: AVLTreeMultiMapNode<number>) => (lesserSum += node.key), 'LT', 10);
@@ -353,7 +353,7 @@ describe('AVLTreeMultiMap operations test recursively1', () => {
 
     expect(node15 instanceof AVLTreeMultiMapNode);
     if (node15 instanceof AVLTreeMultiMapNode) {
-      const subTreeAdd = treeMultimap.dfs(node => (node.count += 1), 'pre', 15);
+      const subTreeAdd = treeMultimap.dfs(node => (node.count += 1), 'PRE', 15);
       expect(subTreeAdd);
     }
     const node11 = treeMultimap.getNode(11);
@@ -363,7 +363,7 @@ describe('AVLTreeMultiMap operations test recursively1', () => {
       expect(allGreaterNodesAdded);
     }
 
-    const dfsInorderNodes = treeMultimap.dfs(node => node, 'in');
+    const dfsInorderNodes = treeMultimap.dfs(node => node, 'IN');
     expect(dfsInorderNodes[0].key).toBe(1);
     expect(dfsInorderNodes[dfsInorderNodes.length - 1].key).toBe(16);
     expect(treeMultimap.isPerfectlyBalanced()).toBe(true);

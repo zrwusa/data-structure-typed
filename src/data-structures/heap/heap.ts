@@ -247,10 +247,10 @@ export class Heap<E = any> extends IterableElementBase<E> {
    * Space Complexity: O(log n)
    *
    * Depth-first search (DFS) method, different traversal orders can be selected。
-   * @param order - Traverse order parameter: 'in' (in-order), 'pre' (pre-order) or 'post' (post-order).
+   * @param order - Traverse order parameter: 'IN' (in-order), 'PRE' (pre-order) or 'POST' (post-order).
    * @returns An array containing elements traversed in the specified order.
    */
-  dfs(order: DFSOrderPattern = 'pre'): E[] {
+  dfs(order: DFSOrderPattern = 'PRE'): E[] {
     const result: E[] = [];
 
     // Auxiliary recursive function, traverses the binary heap according to the traversal order
@@ -258,15 +258,15 @@ export class Heap<E = any> extends IterableElementBase<E> {
       const left = 2 * index + 1,
         right = left + 1;
       if (index < this.size) {
-        if (order === 'in') {
+        if (order === 'IN') {
           _dfs(left);
           result.push(this.elements[index]);
           _dfs(right);
-        } else if (order === 'pre') {
+        } else if (order === 'PRE') {
           result.push(this.elements[index]);
           _dfs(left);
           _dfs(right);
-        } else if (order === 'post') {
+        } else if (order === 'POST') {
           _dfs(left);
           _dfs(right);
           result.push(this.elements[index]);

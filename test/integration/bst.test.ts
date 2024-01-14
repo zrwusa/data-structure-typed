@@ -34,7 +34,7 @@ describe('Individual package BST operations test', () => {
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    node15 && bst.dfs(node => (subTreeSum += node.key), 'in', 15);
+    node15 && bst.dfs(node => (subTreeSum += node.key), 'IN', 15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
@@ -46,7 +46,7 @@ describe('Individual package BST operations test', () => {
     const node11 = bst.getNode(11);
     expect(node11).toBeInstanceOf(BSTNode);
 
-    const dfsInorderNodes = bst.dfs(node => node, 'in');
+    const dfsInorderNodes = bst.dfs(node => node, 'IN');
     expect(dfsInorderNodes[0].key).toBe(1);
     expect(dfsInorderNodes[dfsInorderNodes.length - 1].key).toBe(16);
 
@@ -231,7 +231,7 @@ describe('Individual package BST operations test', () => {
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    node15 && objBST.dfs(node => (subTreeSum += node.key), 'in', node15);
+    node15 && objBST.dfs(node => (subTreeSum += node.key), 'IN', node15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
@@ -243,7 +243,7 @@ describe('Individual package BST operations test', () => {
     const node11 = objBST.getNode(11);
     expect(node11).toBeInstanceOf(BSTNode);
 
-    const dfsInorderNodes = objBST.dfs(node => node, 'in');
+    const dfsInorderNodes = objBST.dfs(node => node, 'IN');
     expect(dfsInorderNodes[0].key).toBe(1);
     expect(dfsInorderNodes[dfsInorderNodes.length - 1].key).toBe(16);
 
