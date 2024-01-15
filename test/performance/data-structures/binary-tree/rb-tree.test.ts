@@ -15,6 +15,10 @@ suite
     rbTree.clear();
     for (let i = 0; i < randomArray.length; i++) rbTree.add(i);
   })
+  .add(`${HUNDRED_THOUSAND.toLocaleString()} add randomly`, () => {
+    rbTree.clear();
+    for (let i = 0; i < randomArray.length; i++) rbTree.add(randomArray[i]);
+  })
   .add(`${HUNDRED_THOUSAND.toLocaleString()} get`, () => {
     for (let i = 0; i < randomArray.length; i++) rbTree.get(randomArray[i]);
   })

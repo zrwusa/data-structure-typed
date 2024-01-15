@@ -74,7 +74,7 @@ describe('RedBlackTree 1', () => {
 
     it('should handle an empty rbTree', () => {
       const minNode = rbTree.getLeftMost(rbTree.root);
-      expect(minNode).toBe(rbTree.SENTINEL);
+      expect(minNode).toBe(rbTree.NIL);
     });
   });
 
@@ -92,7 +92,7 @@ describe('RedBlackTree 1', () => {
 
     it('should handle an empty rbTree', () => {
       const maxNode = rbTree.getRightMost(rbTree.root);
-      expect(maxNode).toBe(rbTree.SENTINEL);
+      expect(maxNode).toBe(rbTree.NIL);
     });
   });
 
@@ -116,7 +116,7 @@ describe('RedBlackTree 1', () => {
 
       const node = rbTree.getNode(10);
       const successorNode = rbTree.getSuccessor(node!);
-      // TODO not sure if it should be undefined or rbTree.SENTINEL
+      // TODO not sure if it should be undefined or rbTree.NIL
       expect(successorNode).toBe(undefined);
     });
   });
@@ -141,7 +141,7 @@ describe('RedBlackTree 1', () => {
 
       const node = rbTree.getNode(20);
       const predecessorNode = rbTree.getPredecessor(node!);
-      // TODO not sure if it should be rbTree.SENTINEL or something else.
+      // TODO not sure if it should be rbTree.NIL or something else.
       expect(predecessorNode).toBe(rbTree.getNode(20));
     });
   });
@@ -279,28 +279,28 @@ describe('RedBlackTree 2', () => {
     expect(node5F?.parent).toBe(node10F);
     expect(node15F?.key).toBe(15);
     expect(node15F?.color).toBe('RED');
-    expect(node15F?.left).toBe(rbTree.SENTINEL);
-    expect(node15F?.right).toBe(rbTree.SENTINEL);
+    expect(node15F?.left).toBe(rbTree.NIL);
+    expect(node15F?.right).toBe(rbTree.NIL);
     expect(node15F?.parent).toBe(node20F);
     expect(node21F?.key).toBe(21);
     expect(node21F?.color).toBe('RED');
-    expect(node21F?.left).toBe(rbTree.SENTINEL);
-    expect(node21F?.right).toBe(rbTree.SENTINEL);
+    expect(node21F?.left).toBe(rbTree.NIL);
+    expect(node21F?.right).toBe(rbTree.NIL);
     expect(node21F?.parent).toBe(node20F);
     expect(node6F?.key).toBe(6);
     expect(node6F?.color).toBe('RED');
-    expect(node6F?.left).toBe(rbTree.SENTINEL);
-    expect(node6F?.right).toBe(rbTree.SENTINEL);
+    expect(node6F?.left).toBe(rbTree.NIL);
+    expect(node6F?.right).toBe(rbTree.NIL);
     expect(node6F?.parent).toBe(node5F);
     expect(node2F?.key).toBe(2);
     expect(node2F?.color).toBe('RED');
-    expect(node2F?.left).toBe(rbTree.SENTINEL);
-    expect(node2F?.right).toBe(rbTree.SENTINEL);
+    expect(node2F?.left).toBe(rbTree.NIL);
+    expect(node2F?.right).toBe(rbTree.NIL);
     expect(node2F?.parent).toBe(node5F);
     expect(node15F?.key).toBe(15);
     expect(node15F?.color).toBe('RED');
-    expect(node15F?.left).toBe(rbTree.SENTINEL);
-    expect(node15F?.right).toBe(rbTree.SENTINEL);
+    expect(node15F?.left).toBe(rbTree.NIL);
+    expect(node15F?.right).toBe(rbTree.NIL);
     expect(node15F?.parent).toBe(node20F);
     rbTree.delete(5);
     node10F = rbTree.getNode(10);
@@ -323,28 +323,28 @@ describe('RedBlackTree 2', () => {
     expect(node5F).toBe(undefined);
     expect(node15F?.key).toBe(15);
     expect(node15F?.color).toBe('RED');
-    expect(node15F?.left).toBe(rbTree.SENTINEL);
-    expect(node15F?.right).toBe(rbTree.SENTINEL);
+    expect(node15F?.left).toBe(rbTree.NIL);
+    expect(node15F?.right).toBe(rbTree.NIL);
     expect(node15F?.parent).toBe(node20F);
     expect(node21F?.key).toBe(21);
     expect(node21F?.color).toBe('RED');
-    expect(node21F?.left).toBe(rbTree.SENTINEL);
-    expect(node21F?.right).toBe(rbTree.SENTINEL);
+    expect(node21F?.left).toBe(rbTree.NIL);
+    expect(node21F?.right).toBe(rbTree.NIL);
     expect(node21F?.parent).toBe(node20F);
     expect(node6F?.key).toBe(6);
     expect(node6F?.color).toBe('BLACK');
     expect(node6F?.left).toBe(node2F);
-    expect(node6F?.right).toBe(rbTree.SENTINEL);
+    expect(node6F?.right).toBe(rbTree.NIL);
     expect(node6F?.parent).toBe(node10F);
     expect(node2F?.key).toBe(2);
     expect(node2F?.color).toBe('RED');
-    expect(node2F?.left).toBe(rbTree.SENTINEL);
-    expect(node2F?.right).toBe(rbTree.SENTINEL);
+    expect(node2F?.left).toBe(rbTree.NIL);
+    expect(node2F?.right).toBe(rbTree.NIL);
     expect(node2F?.parent).toBe(node6F);
     expect(node15F?.key).toBe(15);
     expect(node15F?.color).toBe('RED');
-    expect(node15F?.left).toBe(rbTree.SENTINEL);
-    expect(node15F?.right).toBe(rbTree.SENTINEL);
+    expect(node15F?.left).toBe(rbTree.NIL);
+    expect(node15F?.right).toBe(rbTree.NIL);
     expect(node15F?.parent).toBe(node20F);
     rbTree.delete(20);
     node10F = rbTree.getNode(10);
@@ -363,28 +363,28 @@ describe('RedBlackTree 2', () => {
     expect(node5F).toBe(undefined);
     expect(node15F?.key).toBe(15);
     expect(node15F?.color).toBe('RED');
-    expect(node15F?.left).toBe(rbTree.SENTINEL);
-    expect(node15F?.right).toBe(rbTree.SENTINEL);
+    expect(node15F?.left).toBe(rbTree.NIL);
+    expect(node15F?.right).toBe(rbTree.NIL);
     expect(node15F?.parent).toBe(node21F);
     expect(node21F?.key).toBe(21);
     expect(node21F?.color).toBe('BLACK');
     expect(node21F?.left).toBe(node15F);
-    expect(node21F?.right).toBe(rbTree.SENTINEL);
+    expect(node21F?.right).toBe(rbTree.NIL);
     expect(node21F?.parent).toBe(node10F);
     expect(node6F?.key).toBe(6);
     expect(node6F?.color).toBe('BLACK');
     expect(node6F?.left).toBe(node2F);
-    expect(node6F?.right).toBe(rbTree.SENTINEL);
+    expect(node6F?.right).toBe(rbTree.NIL);
     expect(node6F?.parent).toBe(node10F);
     expect(node2F?.key).toBe(2);
     expect(node2F?.color).toBe('RED');
-    expect(node2F?.left).toBe(rbTree.SENTINEL);
-    expect(node2F?.right).toBe(rbTree.SENTINEL);
+    expect(node2F?.left).toBe(rbTree.NIL);
+    expect(node2F?.right).toBe(rbTree.NIL);
     expect(node2F?.parent).toBe(node6F);
     expect(node15F?.key).toBe(15);
     expect(node15F?.color).toBe('RED');
-    expect(node15F?.left).toBe(rbTree.SENTINEL);
-    expect(node15F?.right).toBe(rbTree.SENTINEL);
+    expect(node15F?.left).toBe(rbTree.NIL);
+    expect(node15F?.right).toBe(rbTree.NIL);
     expect(node15F?.parent).toBe(node21F);
   });
 
@@ -394,8 +394,8 @@ describe('RedBlackTree 2', () => {
     rbTree.add(5);
     rbTree.add(15);
     const node15F = rbTree.getNode(15);
-    expect(node15F?.left).toBe(rbTree.SENTINEL);
-    expect(node15F?.right).toBe(rbTree.SENTINEL);
+    expect(node15F?.left).toBe(rbTree.NIL);
+    expect(node15F?.right).toBe(rbTree.NIL);
     expect(node15F?.parent).toBe(rbTree.getNode(5));
 
     rbTree.add(25);
@@ -410,8 +410,8 @@ describe('RedBlackTree 2', () => {
     rbTree.add(155);
     rbTree.add(225);
     const node225F = rbTree.getNode(225);
-    expect(node225F?.left).toBe(rbTree.SENTINEL);
-    expect(node225F?.right).toBe(rbTree.SENTINEL);
+    expect(node225F?.left).toBe(rbTree.NIL);
+    expect(node225F?.right).toBe(rbTree.NIL);
     expect(node225F?.parent?.key).toBe(155);
     rbTree.add(7);
     isDebug && rbTree.print();
@@ -438,14 +438,14 @@ describe('RedBlackTree 2', () => {
     const node50 = rbTree.getNode(50);
     expect(node50?.key).toBe(50);
     expect(node50?.left?.key).toBe(33);
-    expect(node50?.right).toBe(rbTree.SENTINEL);
+    expect(node50?.right).toBe(rbTree.NIL);
     const node15Fo = rbTree.getNode(15);
 
     expect(node15Fo?.key).toBe(15);
-    expect(node15Fo?.left).toBe(rbTree.SENTINEL);
+    expect(node15Fo?.left).toBe(rbTree.NIL);
     const node225S = rbTree.getNode(225);
-    expect(node225S?.left).toBe(rbTree.SENTINEL);
-    expect(node225S?.right).toBe(rbTree.SENTINEL);
+    expect(node225S?.left).toBe(rbTree.NIL);
+    expect(node225S?.right).toBe(rbTree.NIL);
     expect(node225S?.parent?.key).toBe(155);
     // TODO
     // expect(rbTree.getNode(0)).toBe(undefined);
@@ -512,7 +512,7 @@ describe('RedBlackTree 2', () => {
       rbTree.delete(getRandomInt(-100, 1000));
     }
 
-    // TODO there is a bug when dfs the rbTree with SENTINEL node
+    // TODO there is a bug when dfs the rbTree with NIL node
     // expect(rbTree.isBST()).toBe(true);
   });
   const { HUNDRED_THOUSAND } = magnitude;

@@ -20,8 +20,8 @@ describe('Overall BinaryTree Test', () => {
     leftMost?.key === 1; // true
     expect(leftMost?.key).toBe(1);
     bst.delete(6);
-    bst.getNode(6); // null
-    expect(bst.getNode(6)).toBeNull();
+    bst.getNode(6); // undefined
+    expect(bst.getNode(6)).toBe(undefined);
     bst.isAVLBalanced(); // true or false
     expect(bst.isAVLBalanced()).toBe(true);
     const bfsIDs: number[] = [];

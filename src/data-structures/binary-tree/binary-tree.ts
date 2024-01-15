@@ -191,6 +191,16 @@ export class BinaryTree<
     return this._size;
   }
 
+  protected _NIL: NODE = new BinaryTreeNode<K, V>(NaN as K) as unknown as NODE;
+
+  /**
+   * The function returns the value of the _NIL property.
+   * @returns The method is returning the value of the `_NIL` property.
+   */
+  get NIL(): NODE {
+    return this._NIL;
+  }
+
   /**
    * Creates a new instance of BinaryTreeNode with the given key and value.
    * @param {K} key - The key for the new node.
@@ -282,12 +292,41 @@ export class BinaryTree<
   }
 
   /**
+   * The function checks if a given node is a real node or null.
+   * @param {any} node - The parameter `node` is of type `any`, which means it can be any data type.
+   * @returns a boolean value.
+   */
+  isNodeOrNull(node: KeyOrNodeOrEntry<K, V, NODE>): node is NODE | null {
+    return this.isRealNode(node) || node === null;
+  }
+
+  /**
    * The function "isNode" checks if an keyOrNodeOrEntry is an instance of the BinaryTreeNode class.
    * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter is a variable of type `KeyOrNodeOrEntry<K, V,NODE>`.
    * @returns a boolean value indicating whether the keyOrNodeOrEntry is an instance of the class NODE.
    */
   isNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>): keyOrNodeOrEntry is NODE {
     return keyOrNodeOrEntry instanceof BinaryTreeNode;
+  }
+
+  /**
+   * The function checks if a given node is a real node by verifying if it is an instance of
+   * BinaryTreeNode and its key is not NaN.
+   * @param {any} node - The parameter `node` is of type `any`, which means it can be any data type.
+   * @returns a boolean value.
+   */
+  isRealNode(node: KeyOrNodeOrEntry<K, V, NODE>): node is NODE {
+    if (!this.isNode(node)) return false;
+    return node !== this.NIL;
+  }
+
+  /**
+   * The function checks if a given node is a BinaryTreeNode instance and has a key value of NaN.
+   * @param {any} node - The parameter `node` is of type `any`, which means it can be any data type.
+   * @returns a boolean value.
+   */
+  isNIL(node: KeyOrNodeOrEntry<K, V, NODE>) {
+    return node === this.NIL;
   }
 
   /**
@@ -298,34 +337,6 @@ export class BinaryTree<
    */
   isEntry(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>): keyOrNodeOrEntry is BTNEntry<K, V> {
     return Array.isArray(keyOrNodeOrEntry) && keyOrNodeOrEntry.length === 2;
-  }
-
-  /**
-   * The function checks if a given node is a real node by verifying if it is an instance of
-   * BinaryTreeNode and its key is not NaN.
-   * @param {any} node - The parameter `node` is of type `any`, which means it can be any data type.
-   * @returns a boolean value.
-   */
-  isRealNode(node: KeyOrNodeOrEntry<K, V, NODE>): node is NODE {
-    return node instanceof BinaryTreeNode && String(node.key) !== 'NaN';
-  }
-
-  /**
-   * The function checks if a given node is a BinaryTreeNode instance and has a key value of NaN.
-   * @param {any} node - The parameter `node` is of type `any`, which means it can be any data type.
-   * @returns a boolean value.
-   */
-  isNIL(node: KeyOrNodeOrEntry<K, V, NODE>) {
-    return node instanceof BinaryTreeNode && String(node.key) === 'NaN';
-  }
-
-  /**
-   * The function checks if a given node is a real node or null.
-   * @param {any} node - The parameter `node` is of type `any`, which means it can be any data type.
-   * @returns a boolean value.
-   */
-  isNodeOrNull(node: KeyOrNodeOrEntry<K, V, NODE>): node is NODE | null {
-    return this.isRealNode(node) || node === null;
   }
 
   /**
@@ -612,9 +623,9 @@ export class BinaryTree<
           ans.push(cur);
           if (onlyOne) return;
         }
-        if (!cur.left && !cur.right) return;
-        cur.left && dfs(cur.left);
-        cur.right && dfs(cur.right);
+        if (!this.isRealNode(cur.left) && !this.isRealNode(cur.right)) return;
+        this.isRealNode(cur.left) && dfs(cur.left);
+        this.isRealNode(cur.right) && dfs(cur.right);
       };
 
       dfs(beginRoot);
@@ -622,13 +633,13 @@ export class BinaryTree<
       const stack = [beginRoot];
       while (stack.length > 0) {
         const cur = stack.pop();
-        if (cur) {
+        if (this.isRealNode(cur)) {
           if (callback(cur) === identifier) {
             ans.push(cur);
             if (onlyOne) return ans;
           }
-          cur.left && stack.push(cur.left);
-          cur.right && stack.push(cur.right);
+          this.isRealNode(cur.left) && stack.push(cur.left);
+          this.isRealNode(cur.right) && stack.push(cur.right);
         }
       }
     }
@@ -689,9 +700,6 @@ export class BinaryTree<
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): NODE | null | undefined {
-    if ((!callback || callback === this._DEFAULT_CALLBACK) && (identifier as any) instanceof BinaryTreeNode)
-      callback = (node => node) as C;
-
     return this.getNodes(identifier, callback, true, beginRoot, iterationType)[0] ?? null;
   }
 
@@ -793,9 +801,6 @@ export class BinaryTree<
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): V | undefined {
-    if ((!callback || callback === this._DEFAULT_CALLBACK) && (identifier as any) instanceof BinaryTreeNode)
-      callback = (node => node) as C;
-
     return this.getNode(identifier, callback, beginRoot, iterationType)?.value ?? undefined;
   }
 

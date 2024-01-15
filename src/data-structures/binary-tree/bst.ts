@@ -13,7 +13,7 @@ import type {
   BTNodePureExemplar,
   KeyOrNodeOrEntry
 } from '../../types';
-import { BSTVariant, CP, DFSOrderPattern, IterationType } from '../../types';
+import { BSTNKeyOrNode, BSTVariant, CP, DFSOrderPattern, IterationType } from '../../types';
 import { BinaryTree, BinaryTreeNode } from './binary-tree';
 import { IBinaryTree } from '../../interfaces';
 import { Queue } from '../queue';
@@ -541,6 +541,41 @@ export class BST<
     }
 
     return ans;
+  }
+
+  /**
+   * Time Complexity: O(log n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(log n)
+   * Space Complexity: O(1)
+   *
+   * The `getNode` function retrieves a node from a Red-Black Tree based on the provided identifier and
+   * callback function.
+   * @param {ReturnType<C> | undefined} identifier - The `identifier` parameter is the value or key
+   * that you want to search for in the binary search tree. It can be of any type that is compatible
+   * with the type of nodes in the tree.
+   * @param {C} callback - The `callback` parameter is a function that will be called for each node in
+   * the tree. It is used to determine whether a node matches the given identifier. The `callback`
+   * function should take a node as its parameter and return a value that can be compared to the
+   * `identifier` parameter.
+   * @param beginRoot - The `beginRoot` parameter is the starting point for the search in the binary
+   * search tree. It can be either a key or a node. If it is a key, it will be converted to a node
+   * using the `ensureNode` method. If it is not provided, the `root`
+   * @param iterationType - The `iterationType` parameter is used to specify the type of iteration to
+   * be performed when searching for nodes in the binary search tree. It is an optional parameter and
+   * its default value is taken from the `iterationType` property of the class.
+   * @returns The method is returning a value of type `NODE | null | undefined`.
+   */
+  override getNode<C extends BTNCallback<NODE>>(
+    identifier: ReturnType<C> | undefined,
+    callback: C = this._DEFAULT_CALLBACK as C,
+    beginRoot: BSTNKeyOrNode<K, NODE> = this.root,
+    iterationType: IterationType = this.iterationType
+  ): NODE | undefined {
+    return this.getNodes(identifier, callback, true, beginRoot, iterationType)[0] ?? undefined;
   }
 
   /**

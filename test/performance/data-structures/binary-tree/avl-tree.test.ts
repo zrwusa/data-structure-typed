@@ -12,6 +12,10 @@ suite
     avlTree.clear();
     for (let i = 0; i < randomArray.length; i++) avlTree.add(i);
   })
+  .add(`${HUNDRED_THOUSAND.toLocaleString()} add randomly`, () => {
+    avlTree.clear();
+    for (let i = 0; i < randomArray.length; i++) avlTree.add(randomArray[i]);
+  })
   .add(`${HUNDRED_THOUSAND.toLocaleString()} get`, () => {
     for (let i = 0; i < randomArray.length; i++) avlTree.get(randomArray[i]);
   })

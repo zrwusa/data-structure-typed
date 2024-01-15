@@ -1,8 +1,6 @@
 import type {
   BinaryTreeDeleteResult,
-  BSTNKeyOrNode,
   BTNCallback,
-  IterationType,
   KeyOrNodeOrEntry,
   RBTreeOptions,
   RedBlackTreeNested,
@@ -73,21 +71,11 @@ export class RedBlackTree<
   constructor(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, NODE>> = [], options?: RBTreeOptions<K>) {
     super([], options);
 
-    this._root = this.SENTINEL;
+    this._root = this.NIL;
 
     if (keysOrNodesOrEntries) {
       this.addMany(keysOrNodesOrEntries);
     }
-  }
-
-  protected _SENTINEL: NODE = new RedBlackTreeNode<K, V>(NaN as K) as unknown as NODE;
-
-  /**
-   * The function returns the value of the _SENTINEL property.
-   * @returns The method is returning the value of the `_SENTINEL` property.
-   */
-  get SENTINEL(): NODE {
-    return this._SENTINEL;
   }
 
   protected override _root: NODE | undefined;
@@ -193,66 +181,12 @@ export class RedBlackTree<
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The function checks if a given node is a real node in a Red-Black Tree.
-   * @param {NODE | undefined} node - The `node` parameter is of type `NODE | undefined`, which means
-   * it can either be of type `NODE` or `undefined`.
-   * @returns a boolean value.
-   */
-  override isRealNode(node: NODE | undefined): node is NODE {
-    if (node === this.SENTINEL || node === undefined) return false;
-    return node instanceof RedBlackTreeNode;
-  }
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   *
-   * The `getNode` function retrieves a node from a Red-Black Tree based on the provided identifier and
-   * callback function.
-   * @param {ReturnType<C> | undefined} identifier - The `identifier` parameter is the value or key
-   * that you want to search for in the binary search tree. It can be of any type that is compatible
-   * with the type of nodes in the tree.
-   * @param {C} callback - The `callback` parameter is a function that will be called for each node in
-   * the tree. It is used to determine whether a node matches the given identifier. The `callback`
-   * function should take a node as its parameter and return a value that can be compared to the
-   * `identifier` parameter.
-   * @param beginRoot - The `beginRoot` parameter is the starting point for the search in the binary
-   * search tree. It can be either a key or a node. If it is a key, it will be converted to a node
-   * using the `ensureNode` method. If it is not provided, the `root`
-   * @param iterationType - The `iterationType` parameter is used to specify the type of iteration to
-   * be performed when searching for nodes in the binary search tree. It is an optional parameter and
-   * its default value is taken from the `iterationType` property of the class.
-   * @returns The method is returning a value of type `NODE | null | undefined`.
-   */
-  override getNode<C extends BTNCallback<NODE>>(
-    identifier: ReturnType<C> | undefined,
-    callback: C = this._DEFAULT_CALLBACK as C,
-    beginRoot: BSTNKeyOrNode<K, NODE> = this.root,
-    iterationType: IterationType = this.iterationType
-  ): NODE | null | undefined {
-    return this.getNodes(identifier, callback, true, beginRoot, iterationType)[0] ?? undefined;
-  }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
    * The "clear" function sets the root node of a data structure to a sentinel value and resets the
    * size counter to zero.
    */
   override clear() {
     super.clear();
-    this._root = this.SENTINEL;
+    this._root = this.NIL;
   }
 
   /**
@@ -430,9 +364,9 @@ export class RedBlackTree<
     while (this.isRealNode(current)) {
       parent = current;
       if (node.key < current.key) {
-        current = current.left ?? this.SENTINEL;
+        current = current.left ?? this.NIL;
       } else if (node.key > current.key) {
-        current = current.right ?? this.SENTINEL;
+        current = current.right ?? this.NIL;
       } else {
         this._replaceNode(current, node);
         return 'UPDATED';
@@ -449,8 +383,8 @@ export class RedBlackTree<
       parent.right = node;
     }
 
-    node.left = this.SENTINEL;
-    node.right = this.SENTINEL;
+    node.left = this.NIL;
+    node.right = this.NIL;
     node.color = 'RED';
 
     this._insertFixup(node);
