@@ -231,7 +231,7 @@ export class RedBlackTree<
    */
   override getNode<C extends BTNCallback<NODE>>(
     identifier: ReturnType<C> | undefined,
-    callback: C = this._defaultOneParamCallback as C,
+    callback: C = this._DEFAULT_CALLBACK as C,
     beginRoot: BSTNKeyOrNode<K, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): NODE | null | undefined {
@@ -308,13 +308,13 @@ export class RedBlackTree<
    * deleted is not found.
    * @param {C} callback - The `callback` parameter is a function that is used to retrieve a node from
    * the binary tree based on its identifier. It is an optional parameter and if not provided, the
-   * `_defaultOneParamCallback` function is used as the default callback. The callback function should
+   * `_DEFAULT_CALLBACK` function is used as the default callback. The callback function should
    * return the identifier of the node to
    * @returns an array of BinaryTreeDeleteResult<NODE> objects.
    */
   override delete<C extends BTNCallback<NODE>>(
     identifier: ReturnType<C> | null | undefined,
-    callback: C = this._defaultOneParamCallback as C
+    callback: C = this._DEFAULT_CALLBACK as C
   ): BinaryTreeDeleteResult<NODE>[] {
     if (identifier === null) return [];
     const results: BinaryTreeDeleteResult<NODE>[] = [];

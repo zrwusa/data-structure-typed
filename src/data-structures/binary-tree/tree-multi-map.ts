@@ -242,7 +242,7 @@ export class TreeMultiMap<
    * function. It can also be null or undefined if no node needs to be deleted.
    * @param {C} callback - The `callback` parameter is a function that takes a node of type `NODE` as
    * input and returns a value of type `ReturnType<C>`. It is used to determine if a node matches the
-   * identifier for deletion. If no callback is provided, the `_defaultOneParamCallback` function is
+   * identifier for deletion. If no callback is provided, the `_DEFAULT_CALLBACK` function is
    * used
    * @param [ignoreCount=false] - A boolean value indicating whether to ignore the count of the target
    * node when performing deletion. If set to true, the count of the target node will not be considered
@@ -252,7 +252,7 @@ export class TreeMultiMap<
    */
   override delete<C extends BTNCallback<NODE>>(
     identifier: ReturnType<C> | null | undefined,
-    callback: C = this._defaultOneParamCallback as C,
+    callback: C = this._DEFAULT_CALLBACK as C,
     ignoreCount = false
   ): BinaryTreeDeleteResult<NODE>[] {
     if (identifier === null) return [];

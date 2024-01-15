@@ -240,7 +240,7 @@ export class AVLTreeMultiMap<
    */
   override delete<C extends BTNCallback<NODE>>(
     identifier: ReturnType<C>,
-    callback: C = this._defaultOneParamCallback as C,
+    callback: C = this._DEFAULT_CALLBACK as C,
     ignoreCount = false
   ): BinaryTreeDeleteResult<NODE>[] {
     const deletedResult: BinaryTreeDeleteResult<NODE>[] = [];

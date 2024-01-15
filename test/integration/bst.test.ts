@@ -1,4 +1,4 @@
-import { BST, BSTNode, CP } from 'bst-typed';
+import { BST, BSTNode } from 'bst-typed';
 
 describe('Individual package BST operations test', () => {
   it('should perform various operations on a Binary Search Tree with numeric values', () => {

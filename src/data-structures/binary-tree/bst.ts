@@ -214,15 +214,15 @@ export class BST<
     keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>,
     iterationType: IterationType = 'ITERATIVE'
   ): NODE | undefined {
-    let res: NODE | undefined;
     if (this.isRealNode(keyOrNodeOrEntry)) {
-      res = keyOrNodeOrEntry;
+      return keyOrNodeOrEntry;
     } else if (this.isEntry(keyOrNodeOrEntry)) {
-      if (keyOrNodeOrEntry[0]) res = this.getNodeByKey(keyOrNodeOrEntry[0], iterationType);
+      if (keyOrNodeOrEntry[0] === null || keyOrNodeOrEntry[0] === undefined) return;
+      return this.getNodeByKey(keyOrNodeOrEntry[0], iterationType);
     } else {
-      if (keyOrNodeOrEntry) res = this.getNodeByKey(keyOrNodeOrEntry, iterationType);
+      if (keyOrNodeOrEntry === null || keyOrNodeOrEntry === undefined) return;
+      return this.getNodeByKey(keyOrNodeOrEntry, iterationType);
     }
-    return res;
   }
 
   /**
@@ -426,26 +426,26 @@ export class BST<
    * found in the binary tree. If no node is found, it returns `undefined`.
    */
   override getNodeByKey(key: K, iterationType: IterationType = 'ITERATIVE'): NODE | undefined {
-    // return this.getNodes(key, this._defaultOneParamCallback, true, this.root, iterationType)[0];
-    if (!this.isRealNode(this.root)) return undefined;
+    // return this.getNodes(key, this._DEFAULT_CALLBACK, true, this.root, iterationType)[0];
+    if (!this.isRealNode(this.root)) return;
     if (iterationType === 'RECURSIVE') {
-      const _dfs = (cur: NODE): NODE | undefined => {
+      const dfs = (cur: NODE): NODE | undefined => {
         if (cur.key === key) return cur;
         if (!this.isRealNode(cur.left) && !this.isRealNode(cur.right)) return;
 
-        if (this._compare(cur.key, key) === 'GT' && this.isRealNode(cur.left)) return _dfs(cur.left);
-        if (this._compare(cur.key, key) === 'LT' && this.isRealNode(cur.right)) return _dfs(cur.right);
+        if (this.isRealNode(cur.left) && this._compare(cur.key, key) === 'GT') return dfs(cur.left);
+        if (this.isRealNode(cur.right) && this._compare(cur.key, key) === 'LT') return dfs(cur.right);
       };
 
-      return _dfs(this.root);
+      return dfs(this.root);
     } else {
-      const queue = new Queue<NODE>([this.root]);
-      while (queue.size > 0) {
-        const cur = queue.shift();
+      const stack = [this.root];
+      while (stack.length > 0) {
+        const cur = stack.pop();
         if (this.isRealNode(cur)) {
           if (this._compare(cur.key, key) === 'EQ') return cur;
-          if (this._compare(cur.key, key) === 'GT') this.isRealNode(cur.left) && queue.push(cur.left);
-          if (this._compare(cur.key, key) === 'LT') this.isRealNode(cur.right) && queue.push(cur.right);
+          if (this.isRealNode(cur.left) && this._compare(cur.key, key) === 'GT') stack.push(cur.left);
+          if (this.isRealNode(cur.right) && this._compare(cur.key, key) === 'LT') stack.push(cur.right);
         }
       }
     }
@@ -481,7 +481,7 @@ export class BST<
    */
   override getNodes<C extends BTNCallback<NODE>>(
     identifier: ReturnType<C> | undefined,
-    callback: C = this._defaultOneParamCallback as C,
+    callback: C = this._DEFAULT_CALLBACK as C,
     onlyOne = false,
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
@@ -491,7 +491,7 @@ export class BST<
     const ans: NODE[] = [];
 
     if (iterationType === 'RECURSIVE') {
-      const _traverse = (cur: NODE) => {
+      const dfs = (cur: NODE) => {
         const callbackResult = callback(cur);
         if (callbackResult === identifier) {
           ans.push(cur);
@@ -500,16 +500,16 @@ export class BST<
 
         if (!this.isRealNode(cur.left) && !this.isRealNode(cur.right)) return;
         // TODO potential bug
-        if (callback === this._defaultOneParamCallback) {
-          if (this.isRealNode(cur.left) && this._compare(cur.key, identifier as K) === 'GT') _traverse(cur.left);
-          if (this.isRealNode(cur.right) && this._compare(cur.key, identifier as K) === 'LT') _traverse(cur.right);
+        if (callback === this._DEFAULT_CALLBACK) {
+          if (this.isRealNode(cur.left) && this._compare(cur.key, identifier as K) === 'GT') dfs(cur.left);
+          if (this.isRealNode(cur.right) && this._compare(cur.key, identifier as K) === 'LT') dfs(cur.right);
         } else {
-          this.isRealNode(cur.left) && _traverse(cur.left);
-          this.isRealNode(cur.right) && _traverse(cur.right);
+          this.isRealNode(cur.left) && dfs(cur.left);
+          this.isRealNode(cur.right) && dfs(cur.right);
         }
       };
 
-      _traverse(beginRoot);
+      dfs(beginRoot);
     } else {
       const stack = [beginRoot];
       while (stack.length > 0) {
@@ -521,7 +521,7 @@ export class BST<
             if (onlyOne) return ans;
           }
           // TODO potential bug
-          if (callback === this._defaultOneParamCallback) {
+          if (callback === this._DEFAULT_CALLBACK) {
             if (this.isRealNode(cur.right) && this._compare(cur.key, identifier as K) === 'LT') stack.push(cur.right);
             if (this.isRealNode(cur.left) && this._compare(cur.key, identifier as K) === 'GT') stack.push(cur.left);
 
@@ -568,7 +568,7 @@ export class BST<
    * @returns The method is returning an array of the return type of the callback function.
    */
   override dfs<C extends BTNCallback<NODE>>(
-    callback: C = this._defaultOneParamCallback as C,
+    callback: C = this._DEFAULT_CALLBACK as C,
     pattern: DFSOrderPattern = 'IN',
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = 'ITERATIVE'
@@ -599,7 +599,7 @@ export class BST<
    * @returns The method is returning an array of the return type of the callback function.
    */
   override bfs<C extends BTNCallback<NODE>>(
-    callback: C = this._defaultOneParamCallback as C,
+    callback: C = this._DEFAULT_CALLBACK as C,
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): ReturnType<C>[] {
@@ -630,7 +630,7 @@ export class BST<
    * function.
    */
   override listLevels<C extends BTNCallback<NODE>>(
-    callback: C = this._defaultOneParamCallback as C,
+    callback: C = this._DEFAULT_CALLBACK as C,
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): ReturnType<C>[][] {
@@ -700,7 +700,7 @@ export class BST<
    * `ReturnType<C>`, which is the return type of the callback function passed as an argument.
    */
   lesserOrGreaterTraverse<C extends BTNCallback<NODE>>(
-    callback: C = this._defaultOneParamCallback as C,
+    callback: C = this._DEFAULT_CALLBACK as C,
     lesserOrGreater: CP = 'LT',
     targetNode: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
@@ -713,15 +713,15 @@ export class BST<
     const targetKey = targetNode.key;
 
     if (iterationType === 'RECURSIVE') {
-      const _traverse = (cur: NODE) => {
+      const dfs = (cur: NODE) => {
         const compared = this._compare(cur.key, targetKey);
         if (compared === lesserOrGreater) ans.push(callback(cur));
 
-        if (this.isRealNode(cur.left)) _traverse(cur.left);
-        if (this.isRealNode(cur.right)) _traverse(cur.right);
+        if (this.isRealNode(cur.left)) dfs(cur.left);
+        if (this.isRealNode(cur.right)) dfs(cur.right);
       };
 
-      _traverse(this.root);
+      dfs(this.root);
       return ans;
     } else {
       const queue = new Queue<NODE>([this.root]);

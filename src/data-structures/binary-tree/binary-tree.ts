@@ -268,17 +268,17 @@ export class BinaryTree<
     keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>,
     iterationType: IterationType = 'ITERATIVE'
   ): NODE | null | undefined {
-    let res: NODE | null | undefined;
     if (this.isRealNode(keyOrNodeOrEntry)) {
-      res = keyOrNodeOrEntry;
+      return keyOrNodeOrEntry;
     } else if (this.isEntry(keyOrNodeOrEntry)) {
-      if (keyOrNodeOrEntry[0] === null) res = null;
-      else if (keyOrNodeOrEntry[0] !== undefined) res = this.getNodeByKey(keyOrNodeOrEntry[0], iterationType);
+      if (keyOrNodeOrEntry[0] === null) return null;
+      if (keyOrNodeOrEntry[0] === undefined) return;
+      return this.getNodeByKey(keyOrNodeOrEntry[0], iterationType);
     } else {
-      if (keyOrNodeOrEntry === null) res = null;
-      else if (keyOrNodeOrEntry !== undefined) res = this.getNodeByKey(keyOrNodeOrEntry, iterationType);
+      if (keyOrNodeOrEntry === null) return null;
+      if (keyOrNodeOrEntry === undefined) return;
+      return this.getNodeByKey(keyOrNodeOrEntry, iterationType);
     }
-    return res;
   }
 
   /**
@@ -486,16 +486,16 @@ export class BinaryTree<
    * specific node based on its value or object.
    * @param {C} callback - The `callback` parameter is a function that is used to determine the
    * identifier of the node to be deleted. It is optional and has a default value of
-   * `this._defaultOneParamCallback`. The `callback` function should return the identifier of the node.
+   * `this._DEFAULT_CALLBACK`. The `callback` function should return the identifier of the node.
    * @returns an array of `BinaryTreeDeleteResult<NODE>`.
    */
   delete<C extends BTNCallback<NODE>>(
     identifier: ReturnType<C> | null | undefined,
-    callback: C = this._defaultOneParamCallback as C
+    callback: C = this._DEFAULT_CALLBACK as C
   ): BinaryTreeDeleteResult<NODE>[] {
     const deletedResult: BinaryTreeDeleteResult<NODE>[] = [];
     if (!this.root) return deletedResult;
-    if ((!callback || callback === this._defaultOneParamCallback) && (identifier as any) instanceof BinaryTreeNode)
+    if ((!callback || callback === this._DEFAULT_CALLBACK) && (identifier as any) instanceof BinaryTreeNode)
       callback = (node => node) as C;
 
     const curr = this.getNode(identifier, callback);
@@ -579,7 +579,7 @@ export class BinaryTree<
    * specific value.
    * @param {C} callback - The `callback` parameter is a function that takes a node of type `NODE` as
    * input and returns a value of type `C`. It is used to determine if a node matches the given
-   * identifier. If no callback is provided, the `_defaultOneParamCallback` function is used as the
+   * identifier. If no callback is provided, the `_DEFAULT_CALLBACK` function is used as the
    * default
    * @param [onlyOne=false] - A boolean value indicating whether to only return the first node that
    * matches the identifier. If set to true, the function will stop iterating once it finds a matching
@@ -594,12 +594,12 @@ export class BinaryTree<
    */
   getNodes<C extends BTNCallback<NODE>>(
     identifier: ReturnType<C> | null | undefined,
-    callback: C = this._defaultOneParamCallback as C,
+    callback: C = this._DEFAULT_CALLBACK as C,
     onlyOne = false,
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): NODE[] {
-    if ((!callback || callback === this._defaultOneParamCallback) && (identifier as any) instanceof BinaryTreeNode)
+    if ((!callback || callback === this._DEFAULT_CALLBACK) && (identifier as any) instanceof BinaryTreeNode)
       callback = (node => node) as C;
     beginRoot = this.ensureNode(beginRoot);
     if (!beginRoot) return [];
@@ -607,28 +607,28 @@ export class BinaryTree<
     const ans: NODE[] = [];
 
     if (iterationType === 'RECURSIVE') {
-      const _traverse = (cur: NODE) => {
+      const dfs = (cur: NODE) => {
         if (callback(cur) === identifier) {
           ans.push(cur);
           if (onlyOne) return;
         }
         if (!cur.left && !cur.right) return;
-        cur.left && _traverse(cur.left);
-        cur.right && _traverse(cur.right);
+        cur.left && dfs(cur.left);
+        cur.right && dfs(cur.right);
       };
 
-      _traverse(beginRoot);
+      dfs(beginRoot);
     } else {
-      const queue = new Queue<NODE>([beginRoot]);
-      while (queue.size > 0) {
-        const cur = queue.shift();
+      const stack = [beginRoot];
+      while (stack.length > 0) {
+        const cur = stack.pop();
         if (cur) {
           if (callback(cur) === identifier) {
             ans.push(cur);
             if (onlyOne) return ans;
           }
-          cur.left && queue.push(cur.left);
-          cur.right && queue.push(cur.right);
+          cur.left && stack.push(cur.left);
+          cur.right && stack.push(cur.right);
         }
       }
     }
@@ -685,11 +685,11 @@ export class BinaryTree<
    */
   getNode<C extends BTNCallback<NODE>>(
     identifier: ReturnType<C> | null | undefined,
-    callback: C = this._defaultOneParamCallback as C,
+    callback: C = this._DEFAULT_CALLBACK as C,
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): NODE | null | undefined {
-    if ((!callback || callback === this._defaultOneParamCallback) && (identifier as any) instanceof BinaryTreeNode)
+    if ((!callback || callback === this._DEFAULT_CALLBACK) && (identifier as any) instanceof BinaryTreeNode)
       callback = (node => node) as C;
 
     return this.getNodes(identifier, callback, true, beginRoot, iterationType)[0] ?? null;
@@ -717,23 +717,23 @@ export class BinaryTree<
   getNodeByKey(key: K, iterationType: IterationType = 'ITERATIVE'): NODE | undefined {
     if (!this.root) return undefined;
     if (iterationType === 'RECURSIVE') {
-      const _dfs = (cur: NODE): NODE | undefined => {
+      const dfs = (cur: NODE): NODE | undefined => {
         if (cur.key === key) return cur;
 
         if (!cur.left && !cur.right) return;
-        if (cur.left) return _dfs(cur.left);
-        if (cur.right) return _dfs(cur.right);
+        if (cur.left) return dfs(cur.left);
+        if (cur.right) return dfs(cur.right);
       };
 
-      return _dfs(this.root);
+      return dfs(this.root);
     } else {
-      const queue = new Queue<NODE>([this.root]);
-      while (queue.size > 0) {
-        const cur = queue.shift();
+      const stack = [this.root];
+      while (stack.length > 0) {
+        const cur = stack.pop();
         if (cur) {
           if (cur.key === key) return cur;
-          cur.left && queue.push(cur.left);
-          cur.right && queue.push(cur.right);
+          cur.left && stack.push(cur.left);
+          cur.right && stack.push(cur.right);
         }
       }
     }
@@ -789,11 +789,11 @@ export class BinaryTree<
    */
   override get<C extends BTNCallback<NODE>>(
     identifier: ReturnType<C> | null | undefined,
-    callback: C = this._defaultOneParamCallback as C,
+    callback: C = this._DEFAULT_CALLBACK as C,
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): V | undefined {
-    if ((!callback || callback === this._defaultOneParamCallback) && (identifier as any) instanceof BinaryTreeNode)
+    if ((!callback || callback === this._DEFAULT_CALLBACK) && (identifier as any) instanceof BinaryTreeNode)
       callback = (node => node) as C;
 
     return this.getNode(identifier, callback, beginRoot, iterationType)?.value ?? undefined;
@@ -848,11 +848,11 @@ export class BinaryTree<
    */
   override has<C extends BTNCallback<NODE>>(
     identifier: ReturnType<C> | null | undefined,
-    callback: C = this._defaultOneParamCallback as C,
+    callback: C = this._DEFAULT_CALLBACK as C,
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): boolean {
-    if ((!callback || callback === this._defaultOneParamCallback) && (identifier as any) instanceof BinaryTreeNode)
+    if ((!callback || callback === this._DEFAULT_CALLBACK) && (identifier as any) instanceof BinaryTreeNode)
       callback = (node => node) as C;
 
     return this.getNodes(identifier, callback, true, beginRoot, iterationType).length > 0;
@@ -1184,20 +1184,20 @@ export class BinaryTree<
     if (!this.isRealNode(beginRoot)) return beginRoot;
 
     if (iterationType === 'RECURSIVE') {
-      const _traverse = (cur: NODE): NODE => {
+      const dfs = (cur: NODE): NODE => {
         if (!this.isRealNode(cur.left)) return cur;
-        return _traverse(cur.left);
+        return dfs(cur.left);
       };
 
-      return _traverse(beginRoot);
+      return dfs(beginRoot);
     } else {
       // Indirect implementation of iteration using tail recursion optimization
-      const _traverse = trampoline((cur: NODE) => {
+      const dfs = trampoline((cur: NODE) => {
         if (!this.isRealNode(cur.left)) return cur;
-        return _traverse.cont(cur.left);
+        return dfs.cont(cur.left);
       });
 
-      return _traverse(beginRoot);
+      return dfs(beginRoot);
     }
   }
 
@@ -1231,20 +1231,20 @@ export class BinaryTree<
     if (!beginRoot) return beginRoot;
 
     if (iterationType === 'RECURSIVE') {
-      const _traverse = (cur: NODE): NODE => {
+      const dfs = (cur: NODE): NODE => {
         if (!this.isRealNode(cur.right)) return cur;
-        return _traverse(cur.right);
+        return dfs(cur.right);
       };
 
-      return _traverse(beginRoot);
+      return dfs(beginRoot);
     } else {
       // Indirect implementation of iteration using tail recursion optimization
-      const _traverse = trampoline((cur: NODE) => {
+      const dfs = trampoline((cur: NODE) => {
         if (!this.isRealNode(cur.right)) return cur;
-        return _traverse.cont(cur.right);
+        return dfs.cont(cur.right);
       });
 
-      return _traverse(beginRoot);
+      return dfs(beginRoot);
     }
   }
 
@@ -1351,7 +1351,7 @@ export class BinaryTree<
    * @returns an array of values that are the return values of the callback function.
    */
   dfs<C extends BTNCallback<NODE | null | undefined>>(
-    callback: C = this._defaultOneParamCallback as C,
+    callback: C = this._DEFAULT_CALLBACK as C,
     pattern: DFSOrderPattern = 'IN',
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = 'ITERATIVE',
@@ -1361,38 +1361,38 @@ export class BinaryTree<
     if (!beginRoot) return [];
     const ans: ReturnType<C>[] = [];
     if (iterationType === 'RECURSIVE') {
-      const _traverse = (node: NODE | null | undefined) => {
+      const dfs = (node: NODE | null | undefined) => {
         switch (pattern) {
           case 'IN':
             if (includeNull) {
-              if (this.isRealNode(node) && this.isNodeOrNull(node.left)) _traverse(node.left);
+              if (this.isRealNode(node) && this.isNodeOrNull(node.left)) dfs(node.left);
               this.isNodeOrNull(node) && ans.push(callback(node));
-              if (this.isRealNode(node) && this.isNodeOrNull(node.right)) _traverse(node.right);
+              if (this.isRealNode(node) && this.isNodeOrNull(node.right)) dfs(node.right);
             } else {
-              if (this.isRealNode(node) && this.isRealNode(node.left)) _traverse(node.left);
+              if (this.isRealNode(node) && this.isRealNode(node.left)) dfs(node.left);
               this.isRealNode(node) && ans.push(callback(node));
-              if (this.isRealNode(node) && this.isRealNode(node.right)) _traverse(node.right);
+              if (this.isRealNode(node) && this.isRealNode(node.right)) dfs(node.right);
             }
             break;
           case 'PRE':
             if (includeNull) {
               this.isNodeOrNull(node) && ans.push(callback(node));
-              if (this.isRealNode(node) && this.isNodeOrNull(node.left)) _traverse(node.left);
-              if (this.isRealNode(node) && this.isNodeOrNull(node.right)) _traverse(node.right);
+              if (this.isRealNode(node) && this.isNodeOrNull(node.left)) dfs(node.left);
+              if (this.isRealNode(node) && this.isNodeOrNull(node.right)) dfs(node.right);
             } else {
               this.isRealNode(node) && ans.push(callback(node));
-              if (this.isRealNode(node) && this.isRealNode(node.left)) _traverse(node.left);
-              if (this.isRealNode(node) && this.isRealNode(node.right)) _traverse(node.right);
+              if (this.isRealNode(node) && this.isRealNode(node.left)) dfs(node.left);
+              if (this.isRealNode(node) && this.isRealNode(node.right)) dfs(node.right);
             }
             break;
           case 'POST':
             if (includeNull) {
-              if (this.isRealNode(node) && this.isNodeOrNull(node.left)) _traverse(node.left);
-              if (this.isRealNode(node) && this.isNodeOrNull(node.right)) _traverse(node.right);
+              if (this.isRealNode(node) && this.isNodeOrNull(node.left)) dfs(node.left);
+              if (this.isRealNode(node) && this.isNodeOrNull(node.right)) dfs(node.right);
               this.isNodeOrNull(node) && ans.push(callback(node));
             } else {
-              if (this.isRealNode(node) && this.isRealNode(node.left)) _traverse(node.left);
-              if (this.isRealNode(node) && this.isRealNode(node.right)) _traverse(node.right);
+              if (this.isRealNode(node) && this.isRealNode(node.left)) dfs(node.left);
+              if (this.isRealNode(node) && this.isRealNode(node.right)) dfs(node.right);
               this.isRealNode(node) && ans.push(callback(node));
             }
 
@@ -1400,7 +1400,7 @@ export class BinaryTree<
         }
       };
 
-      _traverse(beginRoot);
+      dfs(beginRoot);
     } else {
       // 0: visit, 1: print
       const stack: { opt: 0 | 1; node: NODE | null | undefined }[] = [{ opt: 0, node: beginRoot }];
@@ -1486,7 +1486,7 @@ export class BinaryTree<
    * the breadth-first traversal of a binary tree.
    */
   bfs<C extends BTNCallback<NODE | null>>(
-    callback: C = this._defaultOneParamCallback as C,
+    callback: C = this._DEFAULT_CALLBACK as C,
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType,
     includeNull = false
@@ -1499,7 +1499,7 @@ export class BinaryTree<
     if (iterationType === 'RECURSIVE') {
       const queue: Queue<NODE | null | undefined> = new Queue<NODE | null | undefined>([beginRoot]);
 
-      const traverse = (level: number) => {
+      const dfs = (level: number) => {
         if (queue.size === 0) return;
 
         const current = queue.shift()!;
@@ -1513,10 +1513,10 @@ export class BinaryTree<
           if (this.isRealNode(current.right)) queue.push(current.right);
         }
 
-        traverse(level + 1);
+        dfs(level + 1);
       };
 
-      traverse(0);
+      dfs(0);
     } else {
       const queue = new Queue<NODE | null | undefined>([beginRoot]);
       while (queue.size > 0) {
@@ -1580,7 +1580,7 @@ export class BinaryTree<
    * @returns The function `listLevels` returns a two-dimensional array of type `ReturnType<C>[][]`.
    */
   listLevels<C extends BTNCallback<NODE | null>>(
-    callback: C = this._defaultOneParamCallback as C,
+    callback: C = this._DEFAULT_CALLBACK as C,
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType,
     includeNull = false
@@ -1651,7 +1651,7 @@ export class BinaryTree<
    * by the return type of the `callback` function.
    */
   morris<C extends BTNCallback<NODE>>(
-    callback: C = this._defaultOneParamCallback as C,
+    callback: C = this._DEFAULT_CALLBACK as C,
     pattern: DFSOrderPattern = 'IN',
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root
   ): ReturnType<C>[] {
@@ -1995,7 +1995,7 @@ export class BinaryTree<
     }
   }
 
-  protected _defaultOneParamCallback = (node: NODE | null | undefined) => (node ? node.key : undefined);
+  protected _DEFAULT_CALLBACK = (node: NODE | null | undefined) => (node ? node.key : undefined);
 
   /**
    * Swap the data of two nodes in the binary tree.

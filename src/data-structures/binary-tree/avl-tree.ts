@@ -164,13 +164,13 @@ export class AVLTree<
    * `callback` function.
    * @param {C} callback - The `callback` parameter is a function that will be called for each node
    * that is deleted from the binary tree. It is an optional parameter and if not provided, it will
-   * default to the `_defaultOneParamCallback` function. The `callback` function should have a single
+   * default to the `_DEFAULT_CALLBACK` function. The `callback` function should have a single
    * parameter of type `NODE
    * @returns The method is returning an array of `BinaryTreeDeleteResult<NODE>`.
    */
   override delete<C extends BTNCallback<NODE>>(
     identifier: ReturnType<C>,
-    callback: C = this._defaultOneParamCallback as C
+    callback: C = this._DEFAULT_CALLBACK as C
   ): BinaryTreeDeleteResult<NODE>[] {
     if ((identifier as any) instanceof AVLTreeNode) callback = (node => node) as C;
     const deletedResults = super.delete(identifier, callback);

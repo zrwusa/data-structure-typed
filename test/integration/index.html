@@ -28,14 +28,14 @@
     const n = 1000000;
     const startEn = performance.now();
     for (let i = 0; i < n; i++) {
-      queue.enqueue(i);
+      queue.push(i);
     }
     console.log((performance.now() - startEn).toFixed(2), `Queue ${n.toLocaleString()} enqueue `);
     let last = 0;
     const startTime = performance.now();
 
     for (let i = 0; i < n; i++) {
-      last = queue.dequeue();
+      last = queue.shift();
     }
 
     console.log((performance.now() - startTime).toFixed(2), `Queue ${n.toLocaleString()} dequeue `);

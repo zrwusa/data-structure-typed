@@ -45,6 +45,7 @@ describe('TreeMultiMap operations test1', () => {
     expect(tmm.getMinHeight()).toBe(-1);
 
     tmm.addMany([1, 6, 7, 2, 3, 4, 9, 11, 8, 5, 10, 12, 16, 14, 13, 15]);
+    // tmm.print()
     expect(tmm.getHeight()).toBe(5);
     expect(tmm.getMinHeight()).toBe(2);
   });
