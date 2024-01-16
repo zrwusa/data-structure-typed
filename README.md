@@ -13,6 +13,35 @@
 
 [//]: # (<p><a href="https://github.com/zrwusa/data-structure-typed/blob/main/README.md">English</a> | <a href="https://github.com/zrwusa/data-structure-typed/blob/main/README_zh-CN.md">简体中文</a></p>)
 
+
+## Installation and Usage
+
+### npm
+
+```bash
+npm i data-structure-typed --save
+```
+
+### yarn
+
+```bash
+yarn add data-structure-typed
+```
+
+```js
+import {
+  Heap, Graph, Queue, Deque, PriorityQueue, BST, Trie, DoublyLinkedList,
+  AVLTree, SinglyLinkedList, DirectedGraph, RedBlackTree, TreeMultiMap,
+  DirectedVertex, Stack, AVLTreeNode
+} from 'data-structure-typed';
+```
+
+If you only want to use a specific data structure independently, you can install it separately, for example, by running
+
+```bash
+npm i heap-typed --save
+```
+
 ## Why
 
 Do you envy C++ with [STL]() (std::), Python with [collections](), and Java with [java.util]() ? Well, no need to envy
@@ -27,12 +56,6 @@ anymore! JavaScript and TypeScript now have [data-structure-typed]().**`Benchmar
 [//]: # (![Functions]&#40;https://img.shields.io/badge/functions-66.38%25-red.svg?style=flat&#41;)
 
 [//]: # (![Lines]&#40;https://img.shields.io/badge/lines-68.6%25-red.svg?style=flat&#41;)
-
-### Data structures available
-
-We provide data structures that are not available in JS/TS
-[Heap](https://www.npmjs.com/package/heap-typed), [Binary Tree](https://www.npmjs.com/package/binary-tree-typed), [Red Black Tree](https://www.npmjs.com/package/red-black-tree-typed), [Linked List](https://www.npmjs.com/package/linked-list-typed), [Deque](https://www.npmjs.com/package/deque-typed), [Trie](https://www.npmjs.com/package/trie-typed), [Directed Graph](https://www.npmjs.com/package/directed-graph-typed), [Undirected Graph](https://www.npmjs.com/package/undirected-graph-typed), [BST](https://www.npmjs.com/package/bst-typed), [AVL Tree](https://www.npmjs.com/package/avl-tree-typed), [Priority
-Queue](https://www.npmjs.com/package/priority-queue-typed), [Queue](https://www.npmjs.com/package/queue-typed), [Tree Multiset](https://www.npmjs.com/package/tree-multimap-typed).
 
 ### Performance
 
@@ -143,27 +166,174 @@ In [java.utils](), you need to memorize a table for all sequential data structur
 
 whereas in our [data-structure-typed](), you **only** need to remember four methods: `push`, `pop`, `shift`, and `unshift` for all sequential data structures(Queue, Deque, DoublyLinkedList, SinglyLinkedList and Array).
 
-## Installation and Usage
+### Data structures available
 
-### npm
+We provide data structures that are not available in JS/TS
 
-```bash
-npm i data-structure-typed --save
-```
-
-### yarn
-
-```bash
-yarn add data-structure-typed
-```
-
-```js
-import {
-  Heap, Graph, Queue, Deque, PriorityQueue, BST, Trie, DoublyLinkedList,
-  AVLTree, SinglyLinkedList, DirectedGraph, RedBlackTree, TreeMultiMap,
-  DirectedVertex, Stack, AVLTreeNode
-} from 'data-structure-typed';
-```
+<table style="display: table; width:100%; table-layout: fixed;">
+<thead>
+<tr>
+<th>Data Structure</th>
+<th>Unit Test</th>
+<th>Perf Test</th>
+<th>API Doc</th>
+<th>NPM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Binary Tree</td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/BinaryTree.html"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/binary-tree-typed"><span>View</span></a></td>
+</tr>
+<tr>
+<td>Binary Search Tree (BST)</td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/BST.html"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/bst-typed"><span>View</span></a></td>
+</tr>
+<tr>
+<td>AVL Tree</td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/AVLTree.html"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/avl-tree-typed"><span>View</span></a></td>
+</tr>
+<tr>
+<td>Red Black Tree</td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/RedBlackTree.html"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/red-black-tree-typed"><span>View</span></a></td>
+</tr>
+<tr>
+<td>Tree Multimap</td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/TreeMultiMap.html"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/tree-multimap-typed"><span>View</span></a></td>
+</tr>
+<tr>
+<td>Heap</td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/Heap.html"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/heap-typed"><span>View</span></a></td>
+</tr>
+<tr>
+<td>Priority Queue</td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/PriorityQueue.html"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/priority-queue-typed"><span>View</span></a></td>
+</tr>
+<tr>
+<td>Max Priority Queue</td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/MaxPriorityQueue.html"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/max-priority-queue-typed"><span>View</span></a></td>
+</tr>
+<tr>
+<td>Min Priority Queue</td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/MinPriorityQueue.html"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/min-priority-queue-typed"><span>View</span></a></td>
+</tr>
+<tr>
+<td>Trie</td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/Trie.html"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/trie-typed"><span>View</span></a></td>
+</tr>
+<tr>
+<td>Graph</td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/AbstractGraph.html"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/graph-typed"><span>View</span></a></td>
+</tr>
+<tr>
+<td>Directed Graph</td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/DirectedGraph.html"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/directed-graph-typed"><span>View</span></a></td>
+</tr>
+<tr>
+<td>Undirected Graph</td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/UndirectedGraph.html"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/undirected-graph-typed"><span>View</span></a></td>
+</tr>
+<tr>
+<td>Queue</td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/Queue.html"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/queue-graph-typed"><span>View</span></a></td>
+</tr>
+<tr>
+<td>Deque</td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/Deque.html"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/deque-graph-typed"><span>View</span></a></td>
+</tr>
+<tr>
+<td>Hash Map</td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/HashMap.html"><span>View</span></a></td>
+</tr>
+<tr>
+<td>Linked List</td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/SinglyLinkedList.html"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/linked-list-typed"><span>View</span></a></td>
+</tr>
+<tr>
+<td>Singly Linked List</td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/SinglyLinkedList.html"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/singly-linked-list-typed"><span>View</span></a></td>
+</tr>
+<tr>
+<td>Doubly Linked List</td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/DoublyLinkedList.html"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/doubly-linked-list-typed"><span>View</span></a></td>
+</tr>
+<tr>
+<td>Stack</td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/Stack.html"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/stack-typed"><span>View</span></a></td>
+</tr>
+<tr>
+<td>Segment Tree</td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/SegmentTree.html"><span>View</span></a></td>
+</tr>
+<tr>
+<td>Binary Indexed Tree</td>
+<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
+<td></td>
+<td><a href="https://data-structure-typed-docs.vercel.app/classes/BinaryIndexedTree.html"><span>View</span></a></td>
+</tr>
+</tbody>
+</table>
 
 ## Vivid Examples
 
@@ -519,153 +689,6 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', '
 [Live Examples](https://vivid-algorithm.vercel.app)
 
 <a href="https://github.com/zrwusa/vivid-algorithm" target="_blank">Examples Repository</a>
-
-## Data Structures
-
-<table style="display: table; width:100%; table-layout: fixed;">
-<thead>
-<tr>
-<th>Data Structure</th>
-<th>Unit Test</th>
-<th>Performance Test</th>
-<th>API Docs</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Binary Tree</td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/BinaryTree.html"><span>View</span></a></td>
-</tr>
-<tr>
-<td>Binary Search Tree (BST)</td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/BST.html"><span>View</span></a></td>
-</tr>
-<tr>
-<td>AVL Tree</td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/AVLTree.html"><span>View</span></a></td>
-</tr>
-<tr>
-<td>Red Black Tree</td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/RedBlackTree.html"><span>View</span></a></td>
-</tr>
-<tr>
-<td>Tree Multimap</td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/TreeMultiMap.html"><span>View</span></a></td>
-</tr>
-<tr>
-<td>Heap</td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/Heap.html"><span>View</span></a></td>
-</tr>
-<tr>
-<td>Priority Queue</td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/PriorityQueue.html"><span>View</span></a></td>
-</tr>
-<tr>
-<td>Max Priority Queue</td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/MaxPriorityQueue.html"><span>View</span></a></td>
-</tr>
-<tr>
-<td>Min Priority Queue</td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/MinPriorityQueue.html"><span>View</span></a></td>
-</tr>
-<tr>
-<td>Trie</td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/Trie.html"><span>View</span></a></td>
-</tr>
-<tr>
-<td>Graph</td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/AbstractGraph.html"><span>View</span></a></td>
-</tr>
-<tr>
-<td>Directed Graph</td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/DirectedGraph.html"><span>View</span></a></td>
-</tr>
-<tr>
-<td>Undirected Graph</td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/UndirectedGraph.html"><span>View</span></a></td>
-</tr>
-<tr>
-<td>Queue</td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/Queue.html"><span>View</span></a></td>
-</tr>
-<tr>
-<td>Deque</td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/Deque.html"><span>View</span></a></td>
-</tr>
-<tr>
-<td>Hash Map</td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/HashMap.html"><span>View</span></a></td>
-</tr>
-<tr>
-<td>Linked List</td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/SinglyLinkedList.html"><span>View</span></a></td>
-</tr>
-<tr>
-<td>Singly Linked List</td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/SinglyLinkedList.html"><span>View</span></a></td>
-</tr>
-<tr>
-<td>Doubly Linked List</td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/DoublyLinkedList.html"><span>View</span></a></td>
-</tr>
-<tr>
-<td>Stack</td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/Stack.html"><span>View</span></a></td>
-</tr>
-<tr>
-<td>Segment Tree</td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/SegmentTree.html"><span>View</span></a></td>
-</tr>
-<tr>
-<td>Binary Indexed Tree</td>
-<td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
-<td></td>
-<td><a href="https://data-structure-typed-docs.vercel.app/classes/BinaryIndexedTree.html"><span>View</span></a></td>
-</tr>
-</tbody>
-</table>
 
 ## Benchmark
 
