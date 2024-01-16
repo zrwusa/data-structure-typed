@@ -31,8 +31,8 @@ anymore! JavaScript and TypeScript now have [data-structure-typed]().**`Benchmar
 ### Data structures available
 
 We provide data structures that are not available in JS/TS
-Heap, Binary Tree, Red Black Tree, Linked List, Deque, Trie, Directed Graph, Undirected Graph, BST, AVL Tree, Priority
-Queue, Queue, Tree Multiset.
+[Heap](https://www.npmjs.com/package/heap-typed), [Binary Tree](https://www.npmjs.com/package/binary-tree-typed), [Red Black Tree](https://www.npmjs.com/package/red-black-tree-typed), [Linked List](https://www.npmjs.com/package/linked-list-typed), [Deque](https://www.npmjs.com/package/deque-typed), [Trie](https://www.npmjs.com/package/trie-typed), [Directed Graph](https://www.npmjs.com/package/directed-graph-typed), [Undirected Graph](https://www.npmjs.com/package/undirected-graph-typed), [BST](https://www.npmjs.com/package/bst-typed), [AVL Tree](https://www.npmjs.com/package/avl-tree-typed), [Priority
+Queue](https://www.npmjs.com/package/priority-queue-typed), [Queue](https://www.npmjs.com/package/queue-typed), [Tree Multiset](https://www.npmjs.com/package/tree-multimap-typed).
 
 ### Performance
 
