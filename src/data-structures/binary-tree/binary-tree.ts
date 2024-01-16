@@ -316,8 +316,8 @@ export class BinaryTree<
    * @returns a boolean value.
    */
   isRealNode(node: KeyOrNodeOrEntry<K, V, NODE>): node is NODE {
-    if (!this.isNode(node)) return false;
-    return node !== this.NIL;
+    if (node === this.NIL || node === null || node === undefined) return false;
+    return this.isNode(node);
   }
 
   /**

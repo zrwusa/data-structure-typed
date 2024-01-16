@@ -291,6 +291,7 @@ We provide data structures that are not available in JS/TS
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/HashMap.html"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/hashmap-typed"><span></span></a></td>
 </tr>
 <tr>
 <td>Linked List</td>
@@ -325,12 +326,14 @@ We provide data structures that are not available in JS/TS
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/SegmentTree.html"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/segment-tree-typed"><span></span></a></td>
 </tr>
 <tr>
 <td>Binary Indexed Tree</td>
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/BinaryIndexedTree.html"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/binary-indexed-tree-typed"><span></span></a></td>
 </tr>
 </tbody>
 </table>
