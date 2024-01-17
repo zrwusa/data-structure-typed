@@ -695,7 +695,7 @@ export class BST<
     if (!current) return undefined;
 
     if (this._variant === 'STANDARD') {
-      // For BSTVariant.MIN, find the rightmost node
+      // For 'STANDARD', find the rightmost node
       while (current.right !== undefined) {
         current = current.right;
       }
