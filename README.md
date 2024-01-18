@@ -187,6 +187,7 @@ We provide data structures that are not available in JS/TS
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/BinaryTree.html"><span>View</span></a></td>
 <td><a href="https://www.npmjs.com/package/binary-tree-typed"><span>View</span></a></td>
+<td><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/binary-tree-typed"></td>
 </tr>
 <tr>
 <td>Binary Search Tree (BST)</td>
@@ -194,6 +195,7 @@ We provide data structures that are not available in JS/TS
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/BST.html"><span>View</span></a></td>
 <td><a href="https://www.npmjs.com/package/bst-typed"><span>View</span></a></td>
+<td><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/bst-typed"></td>
 </tr>
 <tr>
 <td>AVL Tree</td>
@@ -201,6 +203,7 @@ We provide data structures that are not available in JS/TS
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/AVLTree.html"><span>View</span></a></td>
 <td><a href="https://www.npmjs.com/package/avl-tree-typed"><span>View</span></a></td>
+<td><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/avl-tree-typed"></td>
 </tr>
 <tr>
 <td>Red Black Tree</td>
@@ -208,6 +211,7 @@ We provide data structures that are not available in JS/TS
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/RedBlackTree.html"><span>View</span></a></td>
 <td><a href="https://www.npmjs.com/package/red-black-tree-typed"><span>View</span></a></td>
+<td><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/red-black-tree-typed"></td>
 </tr>
 <tr>
 <td>Tree Multimap</td>
@@ -215,6 +219,7 @@ We provide data structures that are not available in JS/TS
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/TreeMultiMap.html"><span>View</span></a></td>
 <td><a href="https://www.npmjs.com/package/tree-multimap-typed"><span>View</span></a></td>
+<td><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/tree-multimap-typed"></td>
 </tr>
 <tr>
 <td>Heap</td>
@@ -222,6 +227,7 @@ We provide data structures that are not available in JS/TS
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/Heap.html"><span>View</span></a></td>
 <td><a href="https://www.npmjs.com/package/heap-typed"><span>View</span></a></td>
+<td><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/heap-typed"></td>
 </tr>
 <tr>
 <td>Priority Queue</td>
@@ -229,6 +235,7 @@ We provide data structures that are not available in JS/TS
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/PriorityQueue.html"><span>View</span></a></td>
 <td><a href="https://www.npmjs.com/package/priority-queue-typed"><span>View</span></a></td>
+<td><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/priority-queue-typed"></td>
 </tr>
 <tr>
 <td>Max Priority Queue</td>
@@ -236,6 +243,7 @@ We provide data structures that are not available in JS/TS
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/MaxPriorityQueue.html"><span>View</span></a></td>
 <td><a href="https://www.npmjs.com/package/max-priority-queue-typed"><span>View</span></a></td>
+<td><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/max-priority-queue-typed"></td>
 </tr>
 <tr>
 <td>Min Priority Queue</td>
@@ -243,6 +251,7 @@ We provide data structures that are not available in JS/TS
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/MinPriorityQueue.html"><span>View</span></a></td>
 <td><a href="https://www.npmjs.com/package/min-priority-queue-typed"><span>View</span></a></td>
+<td><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/min-priority-queue-typed"></td>
 </tr>
 <tr>
 <td>Trie</td>
@@ -250,6 +259,7 @@ We provide data structures that are not available in JS/TS
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/Trie.html"><span>View</span></a></td>
 <td><a href="https://www.npmjs.com/package/trie-typed"><span>View</span></a></td>
+<td><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/trie-typed"></td>
 </tr>
 <tr>
 <td>Graph</td>
@@ -257,6 +267,7 @@ We provide data structures that are not available in JS/TS
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/AbstractGraph.html"><span>View</span></a></td>
 <td><a href="https://www.npmjs.com/package/graph-typed"><span>View</span></a></td>
+<td><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/graph-typed"></td>
 </tr>
 <tr>
 <td>Directed Graph</td>
@@ -264,6 +275,7 @@ We provide data structures that are not available in JS/TS
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/DirectedGraph.html"><span>View</span></a></td>
 <td><a href="https://www.npmjs.com/package/directed-graph-typed"><span>View</span></a></td>
+<td><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/directed-graph-typed"></td>
 </tr>
 <tr>
 <td>Undirected Graph</td>
@@ -271,6 +283,7 @@ We provide data structures that are not available in JS/TS
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/UndirectedGraph.html"><span>View</span></a></td>
 <td><a href="https://www.npmjs.com/package/undirected-graph-typed"><span>View</span></a></td>
+<td><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/undirected-graph-typed"></td>
 </tr>
 <tr>
 <td>Queue</td>
@@ -278,6 +291,7 @@ We provide data structures that are not available in JS/TS
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/Queue.html"><span>View</span></a></td>
 <td><a href="https://www.npmjs.com/package/queue-typed"><span>View</span></a></td>
+<td><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/queue-typed"></td>
 </tr>
 <tr>
 <td>Deque</td>
@@ -285,6 +299,7 @@ We provide data structures that are not available in JS/TS
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/Deque.html"><span>View</span></a></td>
 <td><a href="https://www.npmjs.com/package/deque-typed"><span>View</span></a></td>
+<td><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/deque-typed"></td>
 </tr>
 <tr>
 <td>Hash Map</td>
@@ -292,6 +307,7 @@ We provide data structures that are not available in JS/TS
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/HashMap.html"><span>View</span></a></td>
 <td><a href="https://www.npmjs.com/package/hashmap-typed"><span></span></a></td>
+<td><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/hashmap-typed"></td>
 </tr>
 <tr>
 <td>Linked List</td>
@@ -299,6 +315,7 @@ We provide data structures that are not available in JS/TS
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/SinglyLinkedList.html"><span>View</span></a></td>
 <td><a href="https://www.npmjs.com/package/linked-list-typed"><span>View</span></a></td>
+<td><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/linked-list-typed"></td>
 </tr>
 <tr>
 <td>Singly Linked List</td>
@@ -306,6 +323,7 @@ We provide data structures that are not available in JS/TS
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/SinglyLinkedList.html"><span>View</span></a></td>
 <td><a href="https://www.npmjs.com/package/singly-linked-list-typed"><span>View</span></a></td>
+<td><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/singly-linked-list-typed"></td>
 </tr>
 <tr>
 <td>Doubly Linked List</td>
@@ -313,6 +331,7 @@ We provide data structures that are not available in JS/TS
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/DoublyLinkedList.html"><span>View</span></a></td>
 <td><a href="https://www.npmjs.com/package/doubly-linked-list-typed"><span>View</span></a></td>
+<td><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/doubly-linked-list-typed"></td>
 </tr>
 <tr>
 <td>Stack</td>
@@ -320,6 +339,7 @@ We provide data structures that are not available in JS/TS
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/Stack.html"><span>View</span></a></td>
 <td><a href="https://www.npmjs.com/package/stack-typed"><span>View</span></a></td>
+<td><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/stack-typed"></td>
 </tr>
 <tr>
 <td>Segment Tree</td>
@@ -327,6 +347,7 @@ We provide data structures that are not available in JS/TS
 <td></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/SegmentTree.html"><span>View</span></a></td>
 <td><a href="https://www.npmjs.com/package/segment-tree-typed"><span></span></a></td>
+<td><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/segment-tree-typed"></td>
 </tr>
 <tr>
 <td>Binary Indexed Tree</td>
@@ -334,6 +355,7 @@ We provide data structures that are not available in JS/TS
 <td></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/BinaryIndexedTree.html"><span>View</span></a></td>
 <td><a href="https://www.npmjs.com/package/binary-indexed-tree-typed"><span></span></a></td>
+<td><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/binary-indexed-tree-typed"></td>
 </tr>
 </tbody>
 </table>
