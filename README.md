@@ -277,14 +277,14 @@ We provide data structures that are not available in JS/TS
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/Queue.html"><span>View</span></a></td>
-<td><a href="https://www.npmjs.com/package/queue-graph-typed"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/queue-typed"><span>View</span></a></td>
 </tr>
 <tr>
 <td>Deque</td>
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><img src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/tick.svg" alt=""></td>
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/Deque.html"><span>View</span></a></td>
-<td><a href="https://www.npmjs.com/package/deque-graph-typed"><span>View</span></a></td>
+<td><a href="https://www.npmjs.com/package/deque-typed"><span>View</span></a></td>
 </tr>
 <tr>
 <td>Hash Map</td>
