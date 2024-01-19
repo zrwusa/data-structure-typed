@@ -278,17 +278,19 @@ export class BinaryTree<
     keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>,
     iterationType: IterationType = 'ITERATIVE'
   ): NODE | null | undefined {
+    if (keyOrNodeOrEntry === this.NIL) return;
     if (this.isRealNode(keyOrNodeOrEntry)) {
       return keyOrNodeOrEntry;
-    } else if (this.isEntry(keyOrNodeOrEntry)) {
-      if (keyOrNodeOrEntry[0] === null) return null;
-      if (keyOrNodeOrEntry[0] === undefined) return;
-      return this.getNodeByKey(keyOrNodeOrEntry[0], iterationType);
-    } else {
-      if (keyOrNodeOrEntry === null) return null;
-      if (keyOrNodeOrEntry === undefined) return;
-      return this.getNodeByKey(keyOrNodeOrEntry, iterationType);
     }
+    if (this.isEntry(keyOrNodeOrEntry)) {
+      const key = keyOrNodeOrEntry[0];
+      if (key === null) return null;
+      if (key === undefined) return;
+      return this.getNodeByKey(key, iterationType);
+    }
+    if (keyOrNodeOrEntry === null) return null;
+    if (keyOrNodeOrEntry === undefined) return;
+    return this.getNodeByKey(keyOrNodeOrEntry, iterationType);
   }
 
   /**
@@ -722,29 +724,8 @@ export class BinaryTree<
    * @returns The function `getNodeByKey` returns a node (`NODE`) if a node with the specified key is
    * found in the binary tree. If no node is found, it returns `undefined`.
    */
-  getNodeByKey(key: K, iterationType: IterationType = 'ITERATIVE'): NODE | undefined {
-    if (!this.root) return undefined;
-    if (iterationType === 'RECURSIVE') {
-      const dfs = (cur: NODE): NODE | undefined => {
-        if (cur.key === key) return cur;
-
-        if (!cur.left && !cur.right) return;
-        if (cur.left) return dfs(cur.left);
-        if (cur.right) return dfs(cur.right);
-      };
-
-      return dfs(this.root);
-    } else {
-      const stack = [this.root];
-      while (stack.length > 0) {
-        const cur = stack.pop();
-        if (cur) {
-          if (cur.key === key) return cur;
-          cur.left && stack.push(cur.left);
-          cur.right && stack.push(cur.right);
-        }
-      }
-    }
+  getNodeByKey(key: K, iterationType: IterationType = 'ITERATIVE'): NODE | null | undefined {
+    return this.getNode(key, this._DEFAULT_CALLBACK, this.root, iterationType);
   }
 
   override get<C extends BTNCallback<NODE, K>>(
@@ -801,7 +782,7 @@ export class BinaryTree<
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): V | undefined {
-    return this.getNode(identifier, callback, beginRoot, iterationType)?.value ?? undefined;
+    return this.getNode(identifier, callback, beginRoot, iterationType)?.value;
   }
 
   override has<C extends BTNCallback<NODE, K>>(

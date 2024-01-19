@@ -6,7 +6,7 @@ import type {
   RedBlackTreeNested,
   RedBlackTreeNodeNested
 } from '../../types';
-import { CRUD, RBTNColor } from '../../types';
+import { CP, CRUD, RBTNColor } from '../../types';
 import { BST, BSTNode } from './bst';
 import { IBinaryTree } from '../../interfaces';
 
@@ -655,5 +655,22 @@ export class RedBlackTree<
 
     x.right = y;
     y.parent = x;
+  }
+
+  /**
+   * The function compares two values using a comparator function and returns whether the first value
+   * is greater than, less than, or equal to the second value.
+   * @param {K} a - The parameter "a" is of type K.
+   * @param {K} b - The parameter "b" in the above code represents a K.
+   * @returns a value of type CP (ComparisonResult). The possible return values are 'GT' (greater
+   * than), 'LT' (less than), or 'EQ' (equal).
+   */
+  protected override _compare(a: K, b: K): CP {
+    const extractedA = this.extractor(a);
+    const extractedB = this.extractor(b);
+    const compared = extractedA - extractedB;
+    if (compared > 0) return 'GT';
+    if (compared < 0) return 'LT';
+    return 'EQ';
   }
 }

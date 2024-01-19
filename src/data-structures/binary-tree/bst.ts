@@ -214,15 +214,20 @@ export class BST<
     keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>,
     iterationType: IterationType = 'ITERATIVE'
   ): NODE | undefined {
+    if (keyOrNodeOrEntry === this.NIL) return;
     if (this.isRealNode(keyOrNodeOrEntry)) {
       return keyOrNodeOrEntry;
-    } else if (this.isEntry(keyOrNodeOrEntry)) {
-      if (keyOrNodeOrEntry[0] === null || keyOrNodeOrEntry[0] === undefined) return;
-      return this.getNodeByKey(keyOrNodeOrEntry[0], iterationType);
-    } else {
-      if (keyOrNodeOrEntry === null || keyOrNodeOrEntry === undefined) return;
-      return this.getNodeByKey(keyOrNodeOrEntry, iterationType);
     }
+
+    if (this.isEntry(keyOrNodeOrEntry)) {
+      const key = keyOrNodeOrEntry[0];
+      if (key === null || key === undefined) return;
+      return this.getNodeByKey(key, iterationType);
+    }
+
+    const key = keyOrNodeOrEntry;
+    if (key === null || key === undefined) return;
+    return this.getNodeByKey(key, iterationType);
   }
 
   /**
@@ -408,51 +413,6 @@ export class BST<
 
   /**
    * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   *
-   * The function `getNodeByKey` searches for a node in a binary tree based on a given key, using
-   * either recursive or iterative methods.
-   * @param {K} key - The `key` parameter is the key value that we are searching for in the tree.
-   * It is used to identify the node that we want to retrieve.
-   * @param iterationType - The `iterationType` parameter is an optional parameter that specifies the
-   * type of iteration to use when searching for a node in the binary tree. It can have two possible
-   * values:
-   * @returns The function `getNodeByKey` returns a node (`NODE`) if a node with the specified key is
-   * found in the binary tree. If no node is found, it returns `undefined`.
-   */
-  override getNodeByKey(key: K, iterationType: IterationType = 'ITERATIVE'): NODE | undefined {
-    // return this.getNodes(key, this._DEFAULT_CALLBACK, true, this.root, iterationType)[0];
-    if (!this.isRealNode(this.root)) return;
-    if (iterationType === 'RECURSIVE') {
-      const dfs = (cur: NODE): NODE | undefined => {
-        if (cur.key === key) return cur;
-        if (!this.isRealNode(cur.left) && !this.isRealNode(cur.right)) return;
-
-        if (this.isRealNode(cur.left) && this._compare(cur.key, key) === 'GT') return dfs(cur.left);
-        if (this.isRealNode(cur.right) && this._compare(cur.key, key) === 'LT') return dfs(cur.right);
-      };
-
-      return dfs(this.root);
-    } else {
-      const stack = [this.root];
-      while (stack.length > 0) {
-        const cur = stack.pop();
-        if (this.isRealNode(cur)) {
-          if (this._compare(cur.key, key) === 'EQ') return cur;
-          if (this.isRealNode(cur.left) && this._compare(cur.key, key) === 'GT') stack.push(cur.left);
-          if (this.isRealNode(cur.right) && this._compare(cur.key, key) === 'LT') stack.push(cur.right);
-        }
-      }
-    }
-  }
-
-  /**
-   * Time Complexity: O(log n)
    * Space Complexity: O(k + log n)
    * /
 
@@ -513,29 +473,27 @@ export class BST<
     } else {
       const stack = [beginRoot];
       while (stack.length > 0) {
-        const cur = stack.pop();
-        if (this.isRealNode(cur)) {
-          const callbackResult = callback(cur);
-          if (callbackResult === identifier) {
-            ans.push(cur);
-            if (onlyOne) return ans;
-          }
-          // TODO potential bug
-          if (callback === this._DEFAULT_CALLBACK) {
-            if (this.isRealNode(cur.right) && this._compare(cur.key, identifier as K) === 'LT') stack.push(cur.right);
-            if (this.isRealNode(cur.left) && this._compare(cur.key, identifier as K) === 'GT') stack.push(cur.left);
+        const cur = stack.pop()!;
+        const callbackResult = callback(cur);
+        if (callbackResult === identifier) {
+          ans.push(cur);
+          if (onlyOne) return ans;
+        }
+        // TODO potential bug
+        if (callback === this._DEFAULT_CALLBACK) {
+          if (this.isRealNode(cur.right) && this._compare(cur.key, identifier as K) === 'LT') stack.push(cur.right);
+          if (this.isRealNode(cur.left) && this._compare(cur.key, identifier as K) === 'GT') stack.push(cur.left);
 
-            // if (this.isRealNode(cur.right) && this._lt(cur.key, identifier as K)) stack.push(cur.right);
-            // if (this.isRealNode(cur.left) && this._gt(cur.key, identifier as K)) stack.push(cur.left);
+          // if (this.isRealNode(cur.right) && this._lt(cur.key, identifier as K)) stack.push(cur.right);
+          // if (this.isRealNode(cur.left) && this._gt(cur.key, identifier as K)) stack.push(cur.left);
 
-            // // @ts-ignore
-            // if (this.isRealNode(cur.right) && cur.key > identifier) stack.push(cur.right);
-            // // @ts-ignore
-            // if (this.isRealNode(cur.left) && cur.key < identifier) stack.push(cur.left);
-          } else {
-            this.isRealNode(cur.right) && stack.push(cur.right);
-            this.isRealNode(cur.left) && stack.push(cur.left);
-          }
+          // // @ts-ignore
+          // if (this.isRealNode(cur.right) && cur.key > identifier) stack.push(cur.right);
+          // // @ts-ignore
+          // if (this.isRealNode(cur.left) && cur.key < identifier) stack.push(cur.left);
+        } else {
+          this.isRealNode(cur.right) && stack.push(cur.right);
+          this.isRealNode(cur.left) && stack.push(cur.left);
         }
       }
     }
@@ -576,6 +534,29 @@ export class BST<
     iterationType: IterationType = this.iterationType
   ): NODE | undefined {
     return this.getNodes(identifier, callback, true, beginRoot, iterationType)[0] ?? undefined;
+  }
+
+  /**
+   * Time Complexity: O(log n)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(log n)
+   * Space Complexity: O(1)
+   *
+   * The function `getNodeByKey` searches for a node in a binary tree based on a given key, using
+   * either recursive or iterative methods.
+   * @param {K} key - The `key` parameter is the key value that we are searching for in the tree.
+   * It is used to identify the node that we want to retrieve.
+   * @param iterationType - The `iterationType` parameter is an optional parameter that specifies the
+   * type of iteration to use when searching for a node in the binary tree. It can have two possible
+   * values:
+   * @returns The function `getNodeByKey` returns a node (`NODE`) if a node with the specified key is
+   * found in the binary tree. If no node is found, it returns `undefined`.
+   */
+  override getNodeByKey(key: K, iterationType: IterationType = 'ITERATIVE'): NODE | undefined {
+    return this.getNode(key, this._DEFAULT_CALLBACK, this.root, iterationType);
   }
 
   /**
@@ -920,7 +901,9 @@ export class BST<
     const extractedB = this.extractor(b);
     const compared = this.variant === 'STANDARD' ? extractedA - extractedB : extractedB - extractedA;
 
-    return compared > 0 ? 'GT' : compared < 0 ? 'LT' : 'EQ';
+    if (compared > 0) return 'GT';
+    if (compared < 0) return 'LT';
+    return 'EQ';
   }
 
   /**
@@ -935,10 +918,7 @@ export class BST<
   protected _lt(a: K, b: K): boolean {
     const extractedA = this.extractor(a);
     const extractedB = this.extractor(b);
-    // return this.variant === BSTVariant.STANDARD ? extractedA < extractedB : extractedA > extractedB;
     return this.variant === 'STANDARD' ? extractedA < extractedB : extractedA > extractedB;
-    // return extractedA < extractedB;
-    // return a < b;
   }
 
   /**
@@ -952,9 +932,6 @@ export class BST<
   protected _gt(a: K, b: K): boolean {
     const extractedA = this.extractor(a);
     const extractedB = this.extractor(b);
-    // return this.variant === BSTVariant.STANDARD  ? extractedA > extractedB : extractedA < extractedB;
     return this.variant === 'STANDARD' ? extractedA > extractedB : extractedA < extractedB;
-    // return extractedA > extractedB;
-    // return a > b;
   }
 }
