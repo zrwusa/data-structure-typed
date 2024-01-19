@@ -245,6 +245,7 @@ export class AVLTreeMultiMap<
   ): BinaryTreeDeleteResult<NODE>[] {
     const deletedResult: BinaryTreeDeleteResult<NODE>[] = [];
     if (!this.root) return deletedResult;
+    callback = this._ensureCallback(identifier, callback);
 
     const curr: NODE | undefined = this.getNode(identifier, callback) ?? undefined;
     if (!curr) return deletedResult;

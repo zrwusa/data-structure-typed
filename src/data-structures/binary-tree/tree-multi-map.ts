@@ -257,6 +257,7 @@ export class TreeMultiMap<
   ): BinaryTreeDeleteResult<NODE>[] {
     if (identifier === null) return [];
     const results: BinaryTreeDeleteResult<NODE>[] = [];
+    callback = this._ensureCallback(identifier, callback);
 
     const nodeToDelete = this.isRealNode(identifier) ? identifier : this.getNode(identifier, callback);
 

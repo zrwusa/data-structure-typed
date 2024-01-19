@@ -448,6 +448,7 @@ export class BST<
   ): NODE[] {
     beginRoot = this.ensureNode(beginRoot);
     if (!beginRoot) return [];
+    callback = this._ensureCallback(identifier, callback);
     const ans: NODE[] = [];
 
     if (iterationType === 'RECURSIVE') {

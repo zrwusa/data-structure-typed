@@ -172,7 +172,6 @@ export class AVLTree<
     identifier: ReturnType<C>,
     callback: C = this._DEFAULT_CALLBACK as C
   ): BinaryTreeDeleteResult<NODE>[] {
-    if ((identifier as any) instanceof AVLTreeNode) callback = (node => node) as C;
     const deletedResults = super.delete(identifier, callback);
     for (const { needBalanced } of deletedResults) {
       if (needBalanced) {

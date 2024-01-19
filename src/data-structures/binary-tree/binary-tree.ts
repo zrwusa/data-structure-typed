@@ -508,8 +508,7 @@ export class BinaryTree<
   ): BinaryTreeDeleteResult<NODE>[] {
     const deletedResult: BinaryTreeDeleteResult<NODE>[] = [];
     if (!this.root) return deletedResult;
-    if ((!callback || callback === this._DEFAULT_CALLBACK) && (identifier as any) instanceof BinaryTreeNode)
-      callback = (node => node) as C;
+    callback = this._ensureCallback(identifier, callback);
 
     const curr = this.getNode(identifier, callback);
     if (!curr) return deletedResult;
@@ -612,10 +611,9 @@ export class BinaryTree<
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): NODE[] {
-    if ((!callback || callback === this._DEFAULT_CALLBACK) && (identifier as any) instanceof BinaryTreeNode)
-      callback = (node => node) as C;
     beginRoot = this.ensureNode(beginRoot);
     if (!beginRoot) return [];
+    callback = this._ensureCallback(identifier, callback);
 
     const ans: NODE[] = [];
 
@@ -838,8 +836,7 @@ export class BinaryTree<
     beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): boolean {
-    if ((!callback || callback === this._DEFAULT_CALLBACK) && (identifier as any) instanceof BinaryTreeNode)
-      callback = (node => node) as C;
+    callback = this._ensureCallback(identifier, callback);
 
     return this.getNodes(identifier, callback, true, beginRoot, iterationType).length > 0;
   }
@@ -2050,5 +2047,16 @@ export class BinaryTree<
       v.parent = undefined;
     }
     this._root = v;
+  }
+
+  protected _ensureCallback<C extends BTNCallback<NODE>>(
+    identifier: ReturnType<C> | null | undefined,
+    callback: C = this._DEFAULT_CALLBACK as C
+  ): C {
+    if ((!callback || callback === this._DEFAULT_CALLBACK) && this.isNode(identifier)) {
+      callback = (node => node) as C;
+    }
+
+    return callback;
   }
 }
