@@ -371,6 +371,76 @@
   } catch (e) {
     console.error(e);
   }
+
+  function heapTest() {
+    const heap = new dataStructureTyped.Heap([], { comparator: (a, b) => b - a });
+
+    heap.add(10);
+    heap.add(5);
+    heap.add(15);
+
+    const max = heap.poll();
+    console.log(max);     // 15
+
+    const max2 = heap.peek();
+    console.log(max2);    // 15
+
+    let isEmpty = heap.isEmpty();
+    console.log(isEmpty); // false
+
+    heap.clear();
+    isEmpty = heap.isEmpty();
+    console.log(isEmpty); // true
+
+    const minNumHeap = new dataStructureTyped.MinHeap([1, 6, 2, 0, 5]);
+    minNumHeap.add(9);
+    minNumHeap.has(1)        //  true
+    minNumHeap.has(2)        //  true
+    minNumHeap.poll()        //  0
+    minNumHeap.poll()        //  1
+    minNumHeap.peek()        //  2
+    minNumHeap.has(1);       // false
+    minNumHeap.has(2);       // true
+
+    const arrFromHeap = minNumHeap.toArray();
+    arrFromHeap.length       //  4
+    arrFromHeap[0]           //  2
+    arrFromHeap[1]           //  5
+    arrFromHeap[2]           //  9
+    arrFromHeap[3]           //  6
+    minNumHeap.sort()        //  [2, 5, 6, 9]
+
+    const maxHeap = new dataStructureTyped.MaxHeap([], { comparator: (a, b) => b.keyA - a.keyA });
+    const obj1 = { keyA: 'a1' }, obj6 = { keyA: 'a6' }, obj5 = { keyA: 'a5' }, obj2 = { keyA: 'a2' },
+      obj0 = { keyA: 'a0' }, obj9 = { keyA: 'a9' };
+
+    maxHeap.add(obj1);
+    maxHeap.has(obj1)                       // true
+    maxHeap.has(obj9)                       // false
+    maxHeap.add(obj6);
+    maxHeap.has(obj6)                       // true
+    maxHeap.add(obj5);
+    maxHeap.add(obj2);
+    maxHeap.add(obj0);
+    maxHeap.add(obj9);
+    maxHeap.has(obj9)                       // true
+
+    const peek9 = maxHeap.peek();
+    console.log(peek9.keyA)             // 'a9'
+
+    const heapToArr = maxHeap.toArray();
+    console.log(heapToArr.map(ele => ele?.keyA));  // ['a9', 'a2', 'a6', 'a1', 'a0', 'a5']
+
+    const values = ['a9', 'a6', 'a5', 'a2', 'a1', 'a0'];
+    let i = 0;
+    while (maxHeap.size > 0) {
+      const polled = maxHeap.poll();
+      console.log(polled.keyA)           // values[i]
+      i++;
+    }
+  }
+
+
 </script>
 
 </body>

@@ -9,18 +9,19 @@ import type {
   BinaryTreeDeleteResult,
   BSTNKeyOrNode,
   BTNCallback,
+  Comparable,
   IterationType,
   KeyOrNodeOrEntry,
+  RBTNColor,
   TreeMultiMapNested,
   TreeMultiMapNodeNested,
   TreeMultiMapOptions
 } from '../../types';
-import { RBTNColor } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { RedBlackTree, RedBlackTreeNode } from './rb-tree';
 
 export class TreeMultiMapNode<
-  K = any,
+  K extends Comparable,
   V = any,
   NODE extends TreeMultiMapNode<K, V, NODE> = TreeMultiMapNodeNested<K, V>
 > extends RedBlackTreeNode<K, V, NODE> {
@@ -62,7 +63,7 @@ export class TreeMultiMapNode<
 }
 
 export class TreeMultiMap<
-  K = any,
+  K extends Comparable,
   V = any,
   NODE extends TreeMultiMapNode<K, V, NODE> = TreeMultiMapNode<K, V, TreeMultiMapNodeNested<K, V>>,
   TREE extends TreeMultiMap<K, V, NODE, TREE> = TreeMultiMap<K, V, NODE, TreeMultiMapNested<K, V, NODE>>

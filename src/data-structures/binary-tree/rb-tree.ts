@@ -1,17 +1,20 @@
 import type {
   BinaryTreeDeleteResult,
   BTNCallback,
+  Comparable,
+  CP,
+  CRUD,
   KeyOrNodeOrEntry,
+  RBTNColor,
   RBTreeOptions,
   RedBlackTreeNested,
   RedBlackTreeNodeNested
 } from '../../types';
-import { CP, CRUD, RBTNColor } from '../../types';
 import { BST, BSTNode } from './bst';
 import { IBinaryTree } from '../../interfaces';
 
 export class RedBlackTreeNode<
-  K = any,
+  K extends Comparable,
   V = any,
   NODE extends RedBlackTreeNode<K, V, NODE> = RedBlackTreeNodeNested<K, V>
 > extends BSTNode<K, V, NODE> {
@@ -51,7 +54,7 @@ export class RedBlackTreeNode<
 }
 
 export class RedBlackTree<
-  K = any,
+  K extends Comparable,
   V = any,
   NODE extends RedBlackTreeNode<K, V, NODE> = RedBlackTreeNode<K, V, RedBlackTreeNodeNested<K, V>>,
   TREE extends RedBlackTree<K, V, NODE, TREE> = RedBlackTree<K, V, NODE, RedBlackTreeNested<K, V, NODE>>

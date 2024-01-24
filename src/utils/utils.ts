@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { Thunk, ToThunkFn, TrlAsyncFn, TrlFn } from '../types';
+import type { Comparable, Thunk, ToThunkFn, TrlAsyncFn, TrlFn } from '../types';
 
 export const uuidV4 = function () {
   return 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'.replace(/[x]/g, function (c) {
@@ -105,3 +105,22 @@ export const roundFixed = (num: number, digit: number = 10) => {
   const multiplier = Math.pow(10, digit);
   return Math.round(num * multiplier) / multiplier;
 };
+
+export function isComparable(key: any): key is Comparable {
+  const keyType = typeof key;
+  if (keyType === 'number') return isNaN(key);
+  if (keyType === 'string') return true;
+  if (keyType === 'bigint') return true;
+  if (keyType === 'boolean') return true;
+  if (keyType === 'symbol') return false;
+  if (keyType === 'undefined') return false;
+  if (keyType === 'function') return isComparable(key());
+  if (keyType === 'object') {
+    if (key === null) return true;
+    if (typeof key.valueOf === 'function') return isComparable(key.valueOf());
+    if (typeof key.toString === 'function') return isComparable(key.toString());
+    return false;
+  }
+
+  return false;
+}

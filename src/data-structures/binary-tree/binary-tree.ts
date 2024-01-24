@@ -14,12 +14,14 @@ import type {
   BinaryTreePrintOptions,
   BTNCallback,
   BTNEntry,
+  Comparable,
   DFSOrderPattern,
   EntryCallback,
+  FamilyPosition,
+  IterationType,
   KeyOrNodeOrEntry,
   NodeDisplayLayout
 } from '../../types';
-import { FamilyPosition, IterationType } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { trampoline } from '../../utils';
 import { Queue } from '../queue';
@@ -31,7 +33,7 @@ import { IterableEntryBase } from '../base';
  * @template NODE - The type of the family relationship in the binary tree.
  */
 export class BinaryTreeNode<
-  K = any,
+  K extends Comparable,
   V = any,
   NODE extends BinaryTreeNode<K, V, NODE> = BinaryTreeNode<K, V, BinaryTreeNodeNested<K, V>>
 > {
@@ -129,7 +131,7 @@ export class BinaryTreeNode<
  */
 
 export class BinaryTree<
-  K = any,
+  K extends Comparable,
   V = any,
   NODE extends BinaryTreeNode<K, V, NODE> = BinaryTreeNode<K, V, BinaryTreeNodeNested<K, V>>,
   TREE extends BinaryTree<K, V, NODE, TREE> = BinaryTree<K, V, NODE, BinaryTreeNested<K, V, NODE>>
@@ -160,7 +162,7 @@ export class BinaryTree<
     if (keysOrNodesOrEntries) this.addMany(keysOrNodesOrEntries);
   }
 
-  protected _extractor = (key: K) => (typeof key === 'number' ? key : Number(key));
+  protected _extractor = (key: K | null | undefined) => (typeof key === 'number' ? key : Number(key));
 
   /**
    * The function returns the value of the `_extractor` property.
@@ -973,15 +975,15 @@ export class BinaryTree<
    * @returns the depth of the `dist` relative to the `beginRoot`.
    */
   getDepth(dist: KeyOrNodeOrEntry<K, V, NODE>, beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root): number {
-    dist = this.ensureNode(dist);
-    beginRoot = this.ensureNode(beginRoot);
+    let distEnsured = this.ensureNode(dist);
+    const beginRootEnsured = this.ensureNode(beginRoot);
     let depth = 0;
-    while (dist?.parent) {
-      if (dist === beginRoot) {
+    while (distEnsured?.parent) {
+      if (distEnsured === beginRootEnsured) {
         return depth;
       }
       depth++;
-      dist = dist.parent;
+      distEnsured = distEnsured.parent;
     }
     return depth;
   }
@@ -1124,17 +1126,17 @@ export class BinaryTree<
   getPathToRoot(beginNode: KeyOrNodeOrEntry<K, V, NODE>, isReverse = true): NODE[] {
     // TODO to support get path through passing key
     const result: NODE[] = [];
-    beginNode = this.ensureNode(beginNode);
+    let beginNodeEnsured = this.ensureNode(beginNode);
 
-    if (!beginNode) return result;
+    if (!beginNodeEnsured) return result;
 
-    while (beginNode.parent) {
+    while (beginNodeEnsured.parent) {
       // Array.push + Array.reverse is more efficient than Array.unshift
       // TODO may consider using Deque, so far this is not the performance bottleneck
-      result.push(beginNode);
-      beginNode = beginNode.parent;
+      result.push(beginNodeEnsured);
+      beginNodeEnsured = beginNodeEnsured.parent;
     }
-    result.push(beginNode);
+    result.push(beginNodeEnsured);
     return isReverse ? result.reverse() : result;
   }
 

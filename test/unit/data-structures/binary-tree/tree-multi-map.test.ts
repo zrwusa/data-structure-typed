@@ -93,7 +93,7 @@ describe('TreeMultiMap operations test1', () => {
   });
 
   it('should perform various operations on a Binary Search Tree with numeric values1', () => {
-    const tmm = new TreeMultiMap();
+    const tmm = new TreeMultiMap<number, number>();
 
     expect(tmm instanceof TreeMultiMap);
 
@@ -152,7 +152,7 @@ describe('TreeMultiMap operations test1', () => {
     node15 && tmm.dfs(node => (subTreeSum += node.key), 'PRE', 15);
     expect(subTreeSum).toBe(45);
     let lesserSum = 0;
-    tmm.lesserOrGreaterTraverse((node: TreeMultiMapNode<number>) => (lesserSum += node.key), 'LT', 10);
+    tmm.lesserOrGreaterTraverse(node => (lesserSum += node.key), 'LT', 10);
     expect(lesserSum).toBe(45);
 
     expect(node15 instanceof TreeMultiMapNode);

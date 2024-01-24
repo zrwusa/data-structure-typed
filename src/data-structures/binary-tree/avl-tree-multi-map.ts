@@ -12,6 +12,7 @@ import type {
   BinaryTreeDeleteResult,
   BSTNKeyOrNode,
   BTNCallback,
+  Comparable,
   IterationType,
   KeyOrNodeOrEntry
 } from '../../types';
@@ -19,7 +20,7 @@ import { IBinaryTree } from '../../interfaces';
 import { AVLTree, AVLTreeNode } from './avl-tree';
 
 export class AVLTreeMultiMapNode<
-  K = any,
+  K extends Comparable,
   V = any,
   NODE extends AVLTreeMultiMapNode<K, V, NODE> = AVLTreeMultiMapNodeNested<K, V>
 > extends AVLTreeNode<K, V, NODE> {
@@ -62,7 +63,7 @@ export class AVLTreeMultiMapNode<
  * The only distinction between a AVLTreeMultiMap and a AVLTree lies in the ability of the former to store duplicate nodes through the utilization of counters.
  */
 export class AVLTreeMultiMap<
-  K = any,
+  K extends Comparable,
   V = any,
   NODE extends AVLTreeMultiMapNode<K, V, NODE> = AVLTreeMultiMapNode<K, V, AVLTreeMultiMapNodeNested<K, V>>,
   TREE extends AVLTreeMultiMap<K, V, NODE, TREE> = AVLTreeMultiMap<K, V, NODE, AVLTreeMultiMapNested<K, V, NODE>>

@@ -2,7 +2,7 @@ import { AVLTree, BST, RedBlackTree, TreeMultiMap } from '../../../../src';
 
 describe('Overall BinaryTree Test', () => {
   it('should perform various operations on BinaryTree', () => {
-    const bst = new BST();
+    const bst = new BST<number>();
     bst.add(11);
     bst.add(3);
     bst.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5], undefined, false);
@@ -65,7 +65,7 @@ describe('Overall BinaryTree Test', () => {
     const bst = new BST<number>([3, 6, 7, 1, 9], {
       iterationType: 'RECURSIVE',
       variant: 'INVERSE',
-      extractor: key => key
+      extractor: key => Number(key)
     });
     expect(bst.size).toBe(5);
     expect(bst.root?.key).toBe(6);
@@ -106,7 +106,7 @@ describe('Overall BinaryTree Test', () => {
     const avl = new AVLTree<number>([3, 6, 7, 1, 9], {
       iterationType: 'RECURSIVE',
       variant: 'INVERSE',
-      extractor: key => key
+      extractor: key => Number(key)
     });
     expect(avl.size).toBe(5);
     avl.add(2);
@@ -149,7 +149,7 @@ describe('Overall BinaryTree Test', () => {
   it('Should clone a TreeMultiMap works fine', () => {
     const tmm = new TreeMultiMap<number>([3, 6, 7, 1, 9], {
       iterationType: 'RECURSIVE',
-      extractor: key => key
+      extractor: key => Number(key)
     });
     expect(tmm.size).toBe(5);
     tmm.add(2);
@@ -198,7 +198,7 @@ describe('Overall BinaryTree Test', () => {
   it('Should clone a RedBlackTree works fine', () => {
     const rbTree = new RedBlackTree<number>([3, 6, 7, 1, 9], {
       iterationType: 'RECURSIVE',
-      extractor: key => key
+      extractor: key => Number(key)
     });
     expect(rbTree.size).toBe(5);
     rbTree.add(2);

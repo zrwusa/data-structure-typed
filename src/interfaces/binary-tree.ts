@@ -1,15 +1,16 @@
 import { BinaryTree, BinaryTreeNode } from '../data-structures';
-import {
+import type {
   BinaryTreeDeleteResult,
   BinaryTreeNested,
   BinaryTreeNodeNested,
   BinaryTreeOptions,
   BTNCallback,
+  Comparable,
   KeyOrNodeOrEntry
 } from '../types';
 
 export interface IBinaryTree<
-  K = number,
+  K extends Comparable,
   V = any,
   N extends BinaryTreeNode<K, V, N> = BinaryTreeNodeNested<K, V>,
   TREE extends BinaryTree<K, V, N, TREE> = BinaryTreeNested<K, V, N>

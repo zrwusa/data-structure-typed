@@ -5,4 +5,17 @@ export type TrlAsyncFn = (...args: any[]) => any;
 
 export type SpecifyOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
-export type Any = string | number | boolean | object | null | undefined | symbol;
+export type Any = string | number | bigint | boolean | symbol | undefined | object;
+
+export type Comparable =
+  | number
+  | string
+  | bigint
+  | boolean
+  | ({ [key in string]: any } & {
+  valueOf(): Comparable;
+})
+  | ({ [key in string]: any } & {
+  toString(): Comparable;
+})
+  | (() => Comparable);

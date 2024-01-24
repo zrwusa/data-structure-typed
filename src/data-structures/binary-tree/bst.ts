@@ -7,22 +7,27 @@
  */
 import type {
   BSTNested,
+  BSTNKeyOrNode,
   BSTNodeNested,
   BSTOptions,
+  BSTVariant,
   BTNCallback,
   BTNodePureExemplar,
+  Comparable,
+  CP,
+  DFSOrderPattern,
+  IterationType,
   KeyOrNodeOrEntry
 } from '../../types';
-import { BSTNKeyOrNode, BSTVariant, CP, DFSOrderPattern, IterationType } from '../../types';
 import { BinaryTree, BinaryTreeNode } from './binary-tree';
 import { IBinaryTree } from '../../interfaces';
 import { Queue } from '../queue';
 
-export class BSTNode<K = any, V = any, NODE extends BSTNode<K, V, NODE> = BSTNodeNested<K, V>> extends BinaryTreeNode<
-  K,
-  V,
-  NODE
-> {
+export class BSTNode<
+  K extends Comparable,
+  V = any,
+  NODE extends BSTNode<K, V, NODE> = BSTNodeNested<K, V>
+> extends BinaryTreeNode<K, V, NODE> {
   override parent?: NODE;
 
   constructor(key: K, value?: V) {
@@ -88,7 +93,7 @@ export class BSTNode<K = any, V = any, NODE extends BSTNode<K, V, NODE> = BSTNod
  * 7. No Auto-Balancing: Standard BSTs don't automatically balance themselves.
  */
 export class BST<
-  K = any,
+  K extends Comparable,
   V = any,
   NODE extends BSTNode<K, V, NODE> = BSTNode<K, V, BSTNodeNested<K, V>>,
   TREE extends BST<K, V, NODE, TREE> = BST<K, V, NODE, BSTNested<K, V, NODE>>
@@ -363,8 +368,9 @@ export class BST<
 
     sorted = realBTNExemplars.sort((a, b) => {
       let aR: number, bR: number;
-      if (this.isEntry(a)) aR = this.extractor(a[0]);
-      else if (this.isRealNode(a)) aR = this.extractor(a.key);
+      if (this.isEntry(a)) {
+        aR = this.extractor(a[0]);
+      } else if (this.isRealNode(a)) aR = this.extractor(a.key);
       else aR = this.extractor(a);
 
       if (this.isEntry(b)) bR = this.extractor(b[0]);
@@ -722,12 +728,12 @@ export class BST<
     targetNode: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): ReturnType<C>[] {
-    targetNode = this.ensureNode(targetNode);
+    const targetNodeEnsured = this.ensureNode(targetNode);
     const ans: ReturnType<BTNCallback<NODE>>[] = [];
-    if (!targetNode) return ans;
+    if (!targetNodeEnsured) return ans;
     if (!this.root) return ans;
 
-    const targetKey = targetNode.key;
+    const targetKey = targetNodeEnsured.key;
 
     if (iterationType === 'RECURSIVE') {
       const dfs = (cur: NODE) => {
@@ -898,13 +904,22 @@ export class BST<
    * than), 'LT' (less than), or 'EQ' (equal).
    */
   protected _compare(a: K, b: K): CP {
-    const extractedA = this.extractor(a);
-    const extractedB = this.extractor(b);
-    const compared = this.variant === 'STANDARD' ? extractedA - extractedB : extractedB - extractedA;
-
-    if (compared > 0) return 'GT';
-    if (compared < 0) return 'LT';
-    return 'EQ';
+    if (this.variant === 'STANDARD') {
+      if (a > b) return 'GT';
+      if (a < b) return 'LT';
+      return 'EQ';
+    } else {
+      if (a > b) return 'LT';
+      if (a < b) return 'GT';
+      return 'EQ';
+    }
+    // const extractedA = this.extractor(a);
+    // const extractedB = this.extractor(b);
+    // const compared = this.variant === 'STANDARD' ? extractedA - extractedB : extractedB - extractedA;
+    //
+    // if (compared > 0) return 'GT';
+    // if (compared < 0) return 'LT';
+    // return 'EQ';
   }
 
   /**
@@ -917,9 +932,10 @@ export class BST<
    * @returns a boolean value.
    */
   protected _lt(a: K, b: K): boolean {
-    const extractedA = this.extractor(a);
-    const extractedB = this.extractor(b);
-    return this.variant === 'STANDARD' ? extractedA < extractedB : extractedA > extractedB;
+    return this.variant === 'STANDARD' ? a < b : a > b;
+    // const extractedA = this.extractor(a);
+    // const extractedB = this.extractor(b);
+    // return this.variant === 'STANDARD' ? extractedA < extractedB : extractedA > extractedB;
   }
 
   /**
@@ -931,8 +947,10 @@ export class BST<
    * @returns a boolean value.
    */
   protected _gt(a: K, b: K): boolean {
-    const extractedA = this.extractor(a);
-    const extractedB = this.extractor(b);
-    return this.variant === 'STANDARD' ? extractedA > extractedB : extractedA < extractedB;
+    return this.variant === 'STANDARD' ? a > b : a < b;
+
+    // const extractedA = this.extractor(a);
+    // const extractedB = this.extractor(b);
+    // return this.variant === 'STANDARD' ? extractedA > extractedB : extractedA < extractedB;
   }
 }

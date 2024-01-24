@@ -93,7 +93,7 @@ export class Heap<E = any> extends IterableElementBase<E> {
    * @param elements
    * @param options
    */
-  static heapify<E>(elements: Iterable<E>, options: { comparator: Comparator<E> }): Heap<E> {
+  static heapify<E>(elements: Iterable<E>, options: HeapOptions<E>): Heap<E> {
     return new Heap<E>(elements, options);
   }
 

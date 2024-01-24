@@ -13,12 +13,13 @@ import type {
   BinaryTreeDeleteResult,
   BSTNKeyOrNode,
   BTNCallback,
+  Comparable,
   KeyOrNodeOrEntry
 } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 
 export class AVLTreeNode<
-  K = any,
+  K extends Comparable,
   V = any,
   NODE extends AVLTreeNode<K, V, NODE> = AVLTreeNodeNested<K, V>
 > extends BSTNode<K, V, NODE> {
@@ -65,7 +66,7 @@ export class AVLTreeNode<
  * 7. Path Length: The path length from the root to any leaf is longer compared to an unbalanced BST, but shorter than a linear chain of nodes.
  */
 export class AVLTree<
-  K = any,
+  K extends Comparable,
   V = any,
   NODE extends AVLTreeNode<K, V, NODE> = AVLTreeNode<K, V, AVLTreeNodeNested<K, V>>,
   TREE extends AVLTree<K, V, NODE, TREE> = AVLTree<K, V, NODE, AVLTreeNested<K, V, NODE>>
@@ -195,26 +196,26 @@ export class AVLTree<
     srcNode: BSTNKeyOrNode<K, NODE>,
     destNode: BSTNKeyOrNode<K, NODE>
   ): NODE | undefined {
-    srcNode = this.ensureNode(srcNode);
-    destNode = this.ensureNode(destNode);
+    const srcNodeEnsured = this.ensureNode(srcNode);
+    const destNodeEnsured = this.ensureNode(destNode);
 
-    if (srcNode && destNode) {
-      const { key, value, height } = destNode;
+    if (srcNodeEnsured && destNodeEnsured) {
+      const { key, value, height } = destNodeEnsured;
       const tempNode = this.createNode(key, value);
 
       if (tempNode) {
         tempNode.height = height;
 
-        destNode.key = srcNode.key;
-        destNode.value = srcNode.value;
-        destNode.height = srcNode.height;
+        destNodeEnsured.key = srcNodeEnsured.key;
+        destNodeEnsured.value = srcNodeEnsured.value;
+        destNodeEnsured.height = srcNodeEnsured.height;
 
-        srcNode.key = tempNode.key;
-        srcNode.value = tempNode.value;
-        srcNode.height = tempNode.height;
+        srcNodeEnsured.key = tempNode.key;
+        srcNodeEnsured.value = tempNode.value;
+        srcNodeEnsured.height = tempNode.height;
       }
 
-      return destNode;
+      return destNodeEnsured;
     }
     return undefined;
   }
