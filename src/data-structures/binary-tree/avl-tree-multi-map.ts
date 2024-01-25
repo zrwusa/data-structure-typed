@@ -119,19 +119,10 @@ export class AVLTreeMultiMap<
     return new AVLTreeMultiMapNode(key, value, count) as NODE;
   }
 
-  /**
-   * The function creates a new AVLTreeMultiMap object with the specified options and returns it.
-   * @param [options] - The `options` parameter is an optional object that contains additional
-   * configuration options for creating the `AVLTreeMultiMap` object. It can include properties such as
-   * `iterationType` and `variant`, which are used to specify the type of iteration and the variant of
-   * the tree, respectively. These properties can be
-   * @returns a new instance of the `AVLTreeMultiMap` class, with the provided options merged with the
-   * default options. The returned value is casted as `TREE`.
-   */
   override createTree(options?: AVLTreeMultiMapOptions<K>): TREE {
     return new AVLTreeMultiMap<K, V, NODE, TREE>([], {
       iterationType: this.iterationType,
-      variant: this.variant,
+      comparator: this.comparator,
       ...options
     }) as TREE;
   }

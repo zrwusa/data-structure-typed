@@ -869,7 +869,7 @@ describe('BST isBST', function () {
   });
 
   test('isBST when variant is Max', () => {
-    const bst = new BST<number, number>([1, 2, 3, 9, 8, 5, 6, 7, 4], { variant: 'INVERSE' });
+    const bst = new BST<number, number>([1, 2, 3, 9, 8, 5, 6, 7, 4], { comparator: (a, b) => b - a });
     bst.addMany([1, 2, 3, 9, 8, 5, 6, 7, 4]);
     expect(bst.isBST()).toBe(true);
   });

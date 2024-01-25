@@ -110,7 +110,7 @@ export class AVLTree<
   override createTree(options?: AVLTreeOptions<K>): TREE {
     return new AVLTree<K, V, NODE, TREE>([], {
       iterationType: this.iterationType,
-      variant: this.variant,
+      comparator: this.comparator,
       ...options
     }) as TREE;
   }

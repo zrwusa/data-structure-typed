@@ -10,10 +10,10 @@ import type {
   BSTNKeyOrNode,
   BSTNodeNested,
   BSTOptions,
-  BSTVariant,
   BTNCallback,
   BTNodePureExemplar,
   Comparable,
+  Comparator,
   CP,
   DFSOrderPattern,
   IterationType,
@@ -101,10 +101,11 @@ export class BST<
   extends BinaryTree<K, V, NODE, TREE>
   implements IBinaryTree<K, V, NODE, TREE> {
   /**
-   * This is the constructor function for a TypeScript class that initializes a binary search tree with
-   * optional keys or nodes or entries and options.
-   * @param keysOrNodesOrEntries - An iterable object that contains keys, nodes, or entries. It is used
-   * to initialize the binary search tree with the provided keys, nodes, or entries.
+   * This is the constructor function for a Binary Search Tree class in TypeScript, which initializes
+   * the tree with keys, nodes, or entries and optional options.
+   * @param keysOrNodesOrEntries - The `keysOrNodesOrEntries` parameter is an iterable object that can
+   * contain keys, nodes, or entries. It is used to initialize the binary search tree with the provided
+   * keys, nodes, or entries.
    * @param [options] - The `options` parameter is an optional object that can contain additional
    * configuration options for the binary search tree. It can have the following properties:
    */
@@ -112,16 +113,14 @@ export class BST<
     super([], options);
 
     if (options) {
-      const { variant } = options;
-      if (variant) this._variant = variant;
+      const { comparator } = options;
+      if (comparator) this._comparator = comparator;
     }
-
-    this._root = undefined;
 
     if (keysOrNodesOrEntries) this.addMany(keysOrNodesOrEntries);
   }
 
-  protected override _root?: NODE;
+  protected override _root?: NODE = undefined;
 
   /**
    * The function returns the root node of a tree structure.
@@ -131,14 +130,18 @@ export class BST<
     return this._root;
   }
 
-  protected _variant: BSTVariant = 'STANDARD';
+  protected _comparator: Comparator<K> = (a: K, b: K): CP => {
+    if (a > b) return 1;
+    if (a < b) return -1;
+    return 0;
+  };
 
   /**
-   * The function returns the value of the _variant property.
-   * @returns The value of the `_variant` property.
+   * The function returns the value of the _comparator property.
+   * @returns The `_comparator` property is being returned.
    */
-  get variant() {
-    return this._variant;
+  get comparator() {
+    return this._comparator;
   }
 
   /**
@@ -164,7 +167,7 @@ export class BST<
   override createTree(options?: Partial<BSTOptions<K>>): TREE {
     return new BST<K, V, NODE, TREE>([], {
       iterationType: this.iterationType,
-      variant: this.variant,
+      comparator: this.comparator,
       ...options
     }) as TREE;
   }
@@ -253,13 +256,11 @@ export class BST<
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
-   * The `add` function adds a new node to a binary tree, updating the value if the key already exists
-   * or inserting a new node if the key is unique.
-   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter can accept three types of values:
-   * @param {V} [value] - The `value` parameter represents the value associated with the key that is
-   * being added to the binary tree.
-   * @returns The method `add` returns either the newly added node (`newNode`) or `undefined` if the
-   * node was not added.
+   * The `add` function in TypeScript adds a new node to a binary search tree based on the key value,
+   * updating the value if the key already exists.
+   * @param keyOrNodeOrEntry - It is a parameter that can accept three types of values:
+   * @param {V} [value] - The value to be added to the binary search tree.
+   * @returns The method returns a boolean value.
    */
   override add(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>, value?: V): boolean {
     const newNode = this.keyValueOrEntryToNode(keyOrNodeOrEntry, value);
@@ -273,7 +274,7 @@ export class BST<
 
     let current = this.root;
     while (current !== undefined) {
-      if (this._compare(current.key, newNode.key) === 0) {
+      if (this.comparator(current.key, newNode.key) === 0) {
         // if (current !== newNode) {
         // The key value is the same but the reference is different, update the value of the existing node
         this._replaceNode(current, newNode);
@@ -285,7 +286,7 @@ export class BST<
 
         //   return;
         // }
-      } else if (this._compare(current.key, newNode.key) === 1) {
+      } else if (this.comparator(current.key, newNode.key) > 0) {
         if (current.left === undefined) {
           current.left = newNode;
           this._size++;
@@ -314,21 +315,24 @@ export class BST<
    * Time Complexity: O(k log n)
    * Space Complexity: O(k + log n)
    *
-   * The `addMany` function in TypeScript adds multiple keys or nodes to a binary tree, optionally
-   * balancing the tree after each addition.
-   * @param keysOrNodesOrEntries - An iterable containing the keys, nodes, or entries to be added to
-   * the binary tree.
+   * The `addMany` function in TypeScript adds multiple keys or nodes to a data structure, balancing
+   * the structure if specified, and returns an array indicating whether each key or node was
+   * successfully inserted.
+   * @param keysOrNodesOrEntries - An iterable containing keys, nodes, or entries to be added to the
+   * data structure.
    * @param [values] - An optional iterable of values to be associated with the keys or nodes being
    * added. If provided, the values will be assigned to the corresponding keys or nodes in the same
    * order. If not provided, undefined will be assigned as the value for each key or node.
-   * @param [isBalanceAdd=true] - A boolean flag indicating whether the add operation should be
-   * balanced or not. If set to true, the add operation will be balanced using a binary search tree
-   * algorithm. If set to false, the add operation will not be balanced and the nodes will be added
-   * in the order they appear in the input.
-   * @param iterationType - The `iterationType` parameter is an optional parameter that specifies the
-   * type of iteration to use when adding multiple keys or nodes. It has a default value of
-   * `this.iterationType`, which suggests that it is a property of the current object.
-   * @returns The function `addMany` returns an array of nodes (`NODE`) or `undefined` values.
+   * @param [isBalanceAdd=true] - A boolean flag indicating whether the tree should be balanced after
+   * adding the elements. If set to true, the tree will be balanced using a binary search tree
+   * algorithm. If set to false, the elements will be added without balancing the tree. The default
+   * value is true.
+   * @param {IterationType} iterationType - The `iterationType` parameter is an optional parameter that
+   * specifies the type of iteration to use when adding multiple keys or nodes to the binary tree. It
+   * has a default value of `this.iterationType`, which means it will use the iteration type specified
+   * in the binary tree instance.
+   * @returns The function `addMany` returns an array of booleans indicating whether each key or node
+   * or entry was successfully inserted into the data structure.
    */
   override addMany(
     keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, NODE>>,
@@ -378,7 +382,7 @@ export class BST<
       else keyB = b;
 
       if (keyA !== undefined && keyA !== null && keyB !== undefined && keyB !== null) {
-        return this._compare(keyA, keyB);
+        return this.comparator(keyA, keyB);
       }
       return 0;
     });
@@ -471,8 +475,8 @@ export class BST<
         if (!this.isRealNode(cur.left) && !this.isRealNode(cur.right)) return;
         // TODO potential bug
         if (callback === this._DEFAULT_CALLBACK) {
-          if (this.isRealNode(cur.left) && this._compare(cur.key, identifier as K) === 1) dfs(cur.left);
-          if (this.isRealNode(cur.right) && this._compare(cur.key, identifier as K) === -1) dfs(cur.right);
+          if (this.isRealNode(cur.left) && this.comparator(cur.key, identifier as K) > 0) dfs(cur.left);
+          if (this.isRealNode(cur.right) && this.comparator(cur.key, identifier as K) < 0) dfs(cur.right);
         } else {
           this.isRealNode(cur.left) && dfs(cur.left);
           this.isRealNode(cur.right) && dfs(cur.right);
@@ -491,8 +495,8 @@ export class BST<
         }
         // TODO potential bug
         if (callback === this._DEFAULT_CALLBACK) {
-          if (this.isRealNode(cur.right) && this._compare(cur.key, identifier as K) === -1) stack.push(cur.right);
-          if (this.isRealNode(cur.left) && this._compare(cur.key, identifier as K) === 1) stack.push(cur.left);
+          if (this.isRealNode(cur.right) && this.comparator(cur.key, identifier as K) < 0) stack.push(cur.right);
+          if (this.isRealNode(cur.left) && this.comparator(cur.key, identifier as K) > 0) stack.push(cur.left);
 
           // if (this.isRealNode(cur.right) && this._lt(cur.key, identifier as K)) stack.push(cur.right);
           // if (this.isRealNode(cur.left) && this._gt(cur.key, identifier as K)) stack.push(cur.left);
@@ -665,42 +669,6 @@ export class BST<
 
   /**
    * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   *
-   * The `lastKey` function returns the key of the rightmost node in a binary tree, or the key of the
-   * leftmost node if the comparison result is greater than.
-   * @param {K | NODE | undefined} beginRoot - The `beginRoot` parameter is optional and can be of
-   * type `K`, `NODE`, or `undefined`. It represents the starting point for finding the last key in
-   * the binary tree. If not provided, it defaults to the root of the binary tree (`this.root`).
-   * @returns the key of the rightmost node in the binary tree if the comparison result is less than,
-   * the key of the leftmost node if the comparison result is greater than, and the key of the
-   * rightmost node otherwise. If no node is found, it returns 0.
-   */
-  lastKey(beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root): K | undefined {
-    let current = this.ensureNode(beginRoot);
-    if (!current) return undefined;
-
-    if (this._variant === 'STANDARD') {
-      // For 'STANDARD', find the rightmost node
-      while (current.right !== undefined) {
-        current = current.right;
-      }
-    } else {
-      // For BSTVariant.MAX, find the leftmost node
-      while (current.left !== undefined) {
-        current = current.left;
-      }
-    }
-    return current.key;
-  }
-
-  /**
-   * Time Complexity: O(log n)
    * Space Complexity: O(log n)
    */
 
@@ -740,8 +708,8 @@ export class BST<
 
     if (iterationType === 'RECURSIVE') {
       const dfs = (cur: NODE) => {
-        const compared = this._compare(cur.key, targetKey);
-        if (compared === lesserOrGreater) ans.push(callback(cur));
+        const compared = this.comparator(cur.key, targetKey);
+        if (Math.sign(compared) === lesserOrGreater) ans.push(callback(cur));
 
         if (this.isRealNode(cur.left)) dfs(cur.left);
         if (this.isRealNode(cur.right)) dfs(cur.right);
@@ -754,8 +722,8 @@ export class BST<
       while (queue.size > 0) {
         const cur = queue.shift();
         if (this.isRealNode(cur)) {
-          const compared = this._compare(cur.key, targetKey);
-          if (compared === lesserOrGreater) ans.push(callback(cur));
+          const compared = this.comparator(cur.key, targetKey);
+          if (Math.sign(compared) === lesserOrGreater) ans.push(callback(cur));
 
           if (this.isRealNode(cur.left)) queue.push(cur.left);
           if (this.isRealNode(cur.right)) queue.push(cur.right);
@@ -896,25 +864,5 @@ export class BST<
       v.parent = undefined;
     }
     this._root = v;
-  }
-
-  /**
-   * The function compares two values using a comparator function and returns whether the first value
-   * is greater than, less than, or equal to the second value.
-   * @param {K} a - The parameter "a" is of type K.
-   * @param {K} b - The parameter "b" in the above code represents a K.
-   * @returns a value of type CP (ComparisonResult). The possible return values are '1' (greater
-   * than), -1 (less than), or 0 (equal).
-   */
-  protected _compare(a: K, b: K): CP {
-    if (this.variant === 'STANDARD') {
-      if (a > b) return 1;
-      if (a < b) return -1;
-      return 0;
-    } else {
-      if (a > b) return -1;
-      if (a < b) return 1;
-      return 0;
-    }
   }
 }

@@ -2,7 +2,6 @@ import type {
   BinaryTreeDeleteResult,
   BTNCallback,
   Comparable,
-  CP,
   CRUD,
   KeyOrNodeOrEntry,
   RBTNColor,
@@ -366,9 +365,10 @@ export class RedBlackTree<
 
     while (this.isRealNode(current)) {
       parent = current;
-      if (node.key < current.key) {
+      const compared = this.comparator(node.key, current.key);
+      if (compared < 0) {
         current = current.left ?? this.NIL;
-      } else if (node.key > current.key) {
+      } else if (compared > 0) {
         current = current.right ?? this.NIL;
       } else {
         this._replaceNode(current, node);
@@ -658,19 +658,5 @@ export class RedBlackTree<
 
     x.right = y;
     y.parent = x;
-  }
-
-  /**
-   * The function compares two values using a comparator function and returns whether the first value
-   * is greater than, less than, or equal to the second value.
-   * @param {K} a - The parameter "a" is of type K.
-   * @param {K} b - The parameter "b" in the above code represents a K.
-   * @returns a value of type CP (ComparisonResult). The possible return values are '1' (greater
-   * than), -1 (less than), or 0 (equal).
-   */
-  protected override _compare(a: K, b: K): CP {
-    if (a > b) return 1;
-    if (a < b) return -1;
-    return 0;
   }
 }
