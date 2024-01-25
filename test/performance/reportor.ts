@@ -2,13 +2,12 @@ import * as Benchmark from 'benchmark';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as fastGlob from 'fast-glob';
-import { Color, numberFix, render } from '../utils';
+import { ConsoleColor, numberFix, render } from '../utils';
 import { PerformanceTest } from './types';
-import * as console from 'console';
 
 const args = process.argv.slice(2);
 
-const { GREEN, BOLD, END, YELLOW, GRAY, CYAN, BG_YELLOW } = Color;
+const { GREEN, BOLD, END, YELLOW, GRAY, CYAN, BG_YELLOW } = ConsoleColor;
 
 const getRelativePath = (file: string) => {
   return path.relative(__dirname, file);

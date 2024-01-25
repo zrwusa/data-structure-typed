@@ -44,7 +44,7 @@ describe('AVL Tree Test', () => {
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
-    tree.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
+    tree.lesserOrGreaterTraverse(node => (lesserSum += node.key), 'LT', 10);
     expect(lesserSum).toBe(45);
 
     // node15 has type problem. After the uniform design, the generics of containers (DirectedGraph, BST) are based on the type of value. However, this design has a drawback: when I attempt to inherit from the Vertex or BSTNode classes, the types of the results obtained by all methods are those of the parent class.

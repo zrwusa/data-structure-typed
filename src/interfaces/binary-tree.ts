@@ -17,7 +17,7 @@ export interface IBinaryTree<
 > {
   createNode(key: K, value?: N['value']): N;
 
-  createTree(options?: Partial<BinaryTreeOptions<K>>): TREE;
+  createTree(options?: Partial<BinaryTreeOptions>): TREE;
 
   add(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>, value?: V, count?: number): boolean;
 

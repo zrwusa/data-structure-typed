@@ -149,7 +149,7 @@ export class BinaryTree<
    * `Partial<BinaryTreeOptions>`, which means that not all properties of `BinaryTreeOptions` are
    * required.
    */
-  constructor(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, NODE>> = [], options?: BinaryTreeOptions<K>) {
+  constructor(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, NODE>> = [], options?: BinaryTreeOptions) {
     super();
     if (options) {
       const { iterationType } = options;
@@ -209,7 +209,7 @@ export class BinaryTree<
    * you can provide only a subset of the properties defined in the `BinaryTreeOptions` interface.
    * @returns a new instance of a binary tree.
    */
-  createTree(options?: Partial<BinaryTreeOptions<K>>): TREE {
+  createTree(options?: Partial<BinaryTreeOptions>): TREE {
     return new BinaryTree<K, V, NODE, TREE>([], { iterationType: this.iterationType, ...options }) as TREE;
   }
 
@@ -1831,10 +1831,10 @@ export class BinaryTree<
       console.log(`U for undefined
       `);
     if (opts.isShowNull)
-      console.log(`NODE for null
+      console.log(`N for null
       `);
     if (opts.isShowRedBlackNIL)
-      console.log(`S for Sentinel Node
+      console.log(`S for Sentinel Node(NIL)
       `);
 
     const display = (root: NODE | null | undefined): void => {
