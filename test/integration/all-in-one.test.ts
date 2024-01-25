@@ -3,7 +3,7 @@ import { AVLTree } from 'data-structure-typed';
 describe('AVL Tree Test from data-structure-typed', () => {
   it('should perform various operations on a AVL Tree from data-structure-typed', () => {
     const keys = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
-    const tree = new AVLTree();
+    const tree = new AVLTree<number>();
 
     for (const i of keys) tree.add([i, i]);
 

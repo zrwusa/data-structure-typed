@@ -665,15 +665,12 @@ export class RedBlackTree<
    * is greater than, less than, or equal to the second value.
    * @param {K} a - The parameter "a" is of type K.
    * @param {K} b - The parameter "b" in the above code represents a K.
-   * @returns a value of type CP (ComparisonResult). The possible return values are 'GT' (greater
-   * than), 'LT' (less than), or 'EQ' (equal).
+   * @returns a value of type CP (ComparisonResult). The possible return values are '1' (greater
+   * than), -1 (less than), or 0 (equal).
    */
   protected override _compare(a: K, b: K): CP {
-    const extractedA = this.extractor(a);
-    const extractedB = this.extractor(b);
-    const compared = extractedA - extractedB;
-    if (compared > 0) return 'GT';
-    if (compared < 0) return 'LT';
-    return 'EQ';
+    if (a > b) return 1;
+    if (a < b) return -1;
+    return 0;
   }
 }

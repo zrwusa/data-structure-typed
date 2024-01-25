@@ -152,24 +152,13 @@ export class BinaryTree<
   constructor(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, NODE>> = [], options?: BinaryTreeOptions<K>) {
     super();
     if (options) {
-      const { iterationType, extractor } = options;
+      const { iterationType } = options;
       if (iterationType) this.iterationType = iterationType;
-      if (extractor) this._extractor = extractor;
     }
 
     this._size = 0;
 
     if (keysOrNodesOrEntries) this.addMany(keysOrNodesOrEntries);
-  }
-
-  protected _extractor = (key: K | null | undefined) => (typeof key === 'number' ? key : Number(key));
-
-  /**
-   * The function returns the value of the `_extractor` property.
-   * @returns The `_extractor` property is being returned.
-   */
-  get extractor() {
-    return this._extractor;
   }
 
   protected _root?: NODE | null;
@@ -923,7 +912,7 @@ export class BinaryTree<
     if (iterationType === 'RECURSIVE') {
       const dfs = (cur: NODE | null | undefined, min: number, max: number): boolean => {
         if (!this.isRealNode(cur)) return true;
-        const numKey = this.extractor(cur.key);
+        const numKey = Number(cur.key);
         if (numKey <= min || numKey >= max) return false;
         return dfs(cur.left, min, numKey) && dfs(cur.right, numKey, max);
       };
@@ -943,7 +932,7 @@ export class BinaryTree<
             curr = curr.left;
           }
           curr = stack.pop()!;
-          const numKey = this.extractor(curr.key);
+          const numKey = Number(curr.key);
           if (!this.isRealNode(curr) || (!checkMax && prev >= numKey) || (checkMax && prev <= numKey)) return false;
           prev = numKey;
           curr = curr.right;
@@ -1875,24 +1864,24 @@ export class BinaryTree<
       let current: NODE | null | undefined = node;
 
       while (current || stack.length > 0) {
-        while (current && !isNaN(this.extractor(current.key))) {
+        while (this.isRealNode(current)) {
           stack.push(current);
           current = current.left;
         }
 
         current = stack.pop();
 
-        if (current && !isNaN(this.extractor(current.key))) {
+        if (this.isRealNode(current)) {
           yield [current.key, current.value];
           current = current.right;
         }
       }
     } else {
-      if (node.left && !isNaN(this.extractor(node.key))) {
+      if (node.left && this.isRealNode(node)) {
         yield* this[Symbol.iterator](node.left);
       }
       yield [node.key, node.value];
-      if (node.right && !isNaN(this.extractor(node.key))) {
+      if (node.right && this.isRealNode(node)) {
         yield* this[Symbol.iterator](node.right);
       }
     }
@@ -1921,13 +1910,13 @@ export class BinaryTree<
       return emptyDisplayLayout;
     } else if (node === undefined && !isShowUndefined) {
       return emptyDisplayLayout;
-    } else if (node !== null && node !== undefined && isNaN(this.extractor(node.key)) && !isShowRedBlackNIL) {
+    } else if (this.isNIL(node) && !isShowRedBlackNIL) {
       return emptyDisplayLayout;
     } else if (node !== null && node !== undefined) {
       // Display logic of normal nodes
 
       const key = node.key,
-        line = isNaN(this.extractor(key)) ? 'S' : this.extractor(key).toString(),
+        line = this.isNIL(node) ? 'S' : key.toString(),
         width = line.length;
 
       return _buildNodeDisplay(

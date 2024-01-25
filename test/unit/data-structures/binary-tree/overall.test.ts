@@ -64,16 +64,15 @@ describe('Overall BinaryTree Test', () => {
   it('Should clone a BST works fine', () => {
     const bst = new BST<number>([3, 6, 7, 1, 9], {
       iterationType: 'RECURSIVE',
-      variant: 'INVERSE',
-      extractor: key => Number(key)
+      variant: 'INVERSE'
     });
     expect(bst.size).toBe(5);
     expect(bst.root?.key).toBe(6);
-    expect(bst.root?.left?.key).toBe(7);
-    expect(bst.root?.left?.left?.key).toBe(9);
-    expect(bst.root?.right?.key).toBe(1);
-    expect(bst.root?.right?.left?.key).toBe(3);
-    expect(bst.getNodeByKey(7)?.left?.key).toBe(9);
+    expect(bst.root?.left?.key).toBe(9);
+    expect(bst.root?.left?.right?.key).toBe(7);
+    expect(bst.root?.right?.key).toBe(3);
+    expect(bst.root?.right?.right?.key).toBe(1);
+    expect(bst.getNodeByKey(9)?.right?.key).toBe(7);
     expect(bst.getHeight()).toBe(2);
     expect(bst.has(9)).toBe(true);
     expect(bst.has(7)).toBe(true);
@@ -82,31 +81,30 @@ describe('Overall BinaryTree Test', () => {
     expect(bst.size).toBe(4);
     expect(bst.root?.key).toBe(6);
     expect(bst.root?.left?.key).toBe(9);
-    expect(bst.root?.right?.key).toBe(1);
-    expect(bst.root?.right?.left?.key).toBe(3);
+    expect(bst.root?.right?.key).toBe(3);
+    expect(bst.root?.right?.right?.key).toBe(1);
     expect(bst.getNodeByKey(6)?.left?.key).toBe(9);
     expect(bst.getHeight()).toBe(2);
     expect(bst.has(9)).toBe(true);
     expect(bst.has(7)).toBe(false);
-    expect(bst.bfs()).toEqual([6, 9, 1, 3]);
+    expect(bst.bfs()).toEqual([6, 9, 3, 1]);
     const clonedBST = bst.clone();
     expect(clonedBST.size).toBe(4);
     expect(clonedBST.root?.key).toBe(6);
     expect(clonedBST.root?.left?.key).toBe(9);
-    expect(clonedBST.root?.right?.key).toBe(1);
-    expect(clonedBST.root?.right?.left?.key).toBe(3);
+    expect(clonedBST.root?.right?.key).toBe(3);
+    expect(clonedBST.root?.right?.right?.key).toBe(1);
     expect(clonedBST.getNodeByKey(6)?.left?.key).toBe(9);
     expect(clonedBST.getHeight()).toBe(2);
     expect(clonedBST.has(9)).toBe(true);
     expect(clonedBST.has(7)).toBe(false);
-    expect(clonedBST.bfs()).toEqual([6, 9, 1, 3]);
+    expect(clonedBST.bfs()).toEqual([6, 9, 3, 1]);
   });
 
   it('Should clone a AVLTree works fine', () => {
     const avl = new AVLTree<number>([3, 6, 7, 1, 9], {
       iterationType: 'RECURSIVE',
-      variant: 'INVERSE',
-      extractor: key => Number(key)
+      variant: 'INVERSE'
     });
     expect(avl.size).toBe(5);
     avl.add(2);
@@ -148,8 +146,7 @@ describe('Overall BinaryTree Test', () => {
 
   it('Should clone a TreeMultiMap works fine', () => {
     const tmm = new TreeMultiMap<number>([3, 6, 7, 1, 9], {
-      iterationType: 'RECURSIVE',
-      extractor: key => Number(key)
+      iterationType: 'RECURSIVE'
     });
     expect(tmm.size).toBe(5);
     tmm.add(2);
@@ -197,8 +194,7 @@ describe('Overall BinaryTree Test', () => {
 
   it('Should clone a RedBlackTree works fine', () => {
     const rbTree = new RedBlackTree<number>([3, 6, 7, 1, 9], {
-      iterationType: 'RECURSIVE',
-      extractor: key => Number(key)
+      iterationType: 'RECURSIVE'
     });
     expect(rbTree.size).toBe(5);
     rbTree.add(2);

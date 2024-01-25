@@ -273,7 +273,7 @@ export class BST<
 
     let current = this.root;
     while (current !== undefined) {
-      if (this._compare(current.key, newNode.key) === 'EQ') {
+      if (this._compare(current.key, newNode.key) === 0) {
         // if (current !== newNode) {
         // The key value is the same but the reference is different, update the value of the existing node
         this._replaceNode(current, newNode);
@@ -285,7 +285,7 @@ export class BST<
 
         //   return;
         // }
-      } else if (this._compare(current.key, newNode.key) === 'GT') {
+      } else if (this._compare(current.key, newNode.key) === 1) {
         if (current.left === undefined) {
           current.left = newNode;
           this._size++;
@@ -367,17 +367,20 @@ export class BST<
     let sorted: BTNodePureExemplar<K, V, NODE>[] = [];
 
     sorted = realBTNExemplars.sort((a, b) => {
-      let aR: number, bR: number;
+      let keyA: K | undefined | null, keyB: K | undefined | null;
       if (this.isEntry(a)) {
-        aR = this.extractor(a[0]);
-      } else if (this.isRealNode(a)) aR = this.extractor(a.key);
-      else aR = this.extractor(a);
+        keyA = a[0];
+      } else if (this.isRealNode(a)) keyA = a.key;
+      else keyA = a;
 
-      if (this.isEntry(b)) bR = this.extractor(b[0]);
-      else if (this.isRealNode(b)) bR = this.extractor(b.key);
-      else bR = this.extractor(b);
+      if (this.isEntry(b)) keyB = b[0];
+      else if (this.isRealNode(b)) keyB = b.key;
+      else keyB = b;
 
-      return aR - bR;
+      if (keyA !== undefined && keyA !== null && keyB !== undefined && keyB !== null) {
+        return this._compare(keyA, keyB);
+      }
+      return 0;
     });
 
     const _dfs = (arr: BTNodePureExemplar<K, V, NODE>[]) => {
@@ -468,8 +471,8 @@ export class BST<
         if (!this.isRealNode(cur.left) && !this.isRealNode(cur.right)) return;
         // TODO potential bug
         if (callback === this._DEFAULT_CALLBACK) {
-          if (this.isRealNode(cur.left) && this._compare(cur.key, identifier as K) === 'GT') dfs(cur.left);
-          if (this.isRealNode(cur.right) && this._compare(cur.key, identifier as K) === 'LT') dfs(cur.right);
+          if (this.isRealNode(cur.left) && this._compare(cur.key, identifier as K) === 1) dfs(cur.left);
+          if (this.isRealNode(cur.right) && this._compare(cur.key, identifier as K) === -1) dfs(cur.right);
         } else {
           this.isRealNode(cur.left) && dfs(cur.left);
           this.isRealNode(cur.right) && dfs(cur.right);
@@ -488,8 +491,8 @@ export class BST<
         }
         // TODO potential bug
         if (callback === this._DEFAULT_CALLBACK) {
-          if (this.isRealNode(cur.right) && this._compare(cur.key, identifier as K) === 'LT') stack.push(cur.right);
-          if (this.isRealNode(cur.left) && this._compare(cur.key, identifier as K) === 'GT') stack.push(cur.left);
+          if (this.isRealNode(cur.right) && this._compare(cur.key, identifier as K) === -1) stack.push(cur.right);
+          if (this.isRealNode(cur.left) && this._compare(cur.key, identifier as K) === 1) stack.push(cur.left);
 
           // if (this.isRealNode(cur.right) && this._lt(cur.key, identifier as K)) stack.push(cur.right);
           // if (this.isRealNode(cur.left) && this._gt(cur.key, identifier as K)) stack.push(cur.left);
@@ -724,7 +727,7 @@ export class BST<
    */
   lesserOrGreaterTraverse<C extends BTNCallback<NODE>>(
     callback: C = this._DEFAULT_CALLBACK as C,
-    lesserOrGreater: CP = 'LT',
+    lesserOrGreater: CP = -1,
     targetNode: KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): ReturnType<C>[] {
@@ -900,57 +903,18 @@ export class BST<
    * is greater than, less than, or equal to the second value.
    * @param {K} a - The parameter "a" is of type K.
    * @param {K} b - The parameter "b" in the above code represents a K.
-   * @returns a value of type CP (ComparisonResult). The possible return values are 'GT' (greater
-   * than), 'LT' (less than), or 'EQ' (equal).
+   * @returns a value of type CP (ComparisonResult). The possible return values are '1' (greater
+   * than), -1 (less than), or 0 (equal).
    */
   protected _compare(a: K, b: K): CP {
     if (this.variant === 'STANDARD') {
-      if (a > b) return 'GT';
-      if (a < b) return 'LT';
-      return 'EQ';
+      if (a > b) return 1;
+      if (a < b) return -1;
+      return 0;
     } else {
-      if (a > b) return 'LT';
-      if (a < b) return 'GT';
-      return 'EQ';
+      if (a > b) return -1;
+      if (a < b) return 1;
+      return 0;
     }
-    // const extractedA = this.extractor(a);
-    // const extractedB = this.extractor(b);
-    // const compared = this.variant === 'STANDARD' ? extractedA - extractedB : extractedB - extractedA;
-    //
-    // if (compared > 0) return 'GT';
-    // if (compared < 0) return 'LT';
-    // return 'EQ';
-  }
-
-  /**
-   * The function `_lt` compares two values `a` and `b` using an extractor function and returns true if
-   * `a` is less than `b` based on the specified variant.
-   * @param {K} a - The parameter "a" is of type "K", which means it can be any type. It represents the
-   * first value to be compared in the function.
-   * @param {K} b - The parameter `b` is of type `K`, which means it can be any type. It is used as one
-   * of the arguments for the comparison in the `_lt` function.
-   * @returns a boolean value.
-   */
-  protected _lt(a: K, b: K): boolean {
-    return this.variant === 'STANDARD' ? a < b : a > b;
-    // const extractedA = this.extractor(a);
-    // const extractedB = this.extractor(b);
-    // return this.variant === 'STANDARD' ? extractedA < extractedB : extractedA > extractedB;
-  }
-
-  /**
-   * The function compares two values using a custom extractor function and returns true if the first
-   * value is greater than the second value.
-   * @param {K} a - The parameter "a" is of type K, which means it can be any type.
-   * @param {K} b - The parameter "b" is of type K, which means it can be any type. It is used as one
-   * of the arguments for the comparison in the function.
-   * @returns a boolean value.
-   */
-  protected _gt(a: K, b: K): boolean {
-    return this.variant === 'STANDARD' ? a > b : a < b;
-
-    // const extractedA = this.extractor(a);
-    // const extractedB = this.extractor(b);
-    // return this.variant === 'STANDARD' ? extractedA > extractedB : extractedA < extractedB;
   }
 }

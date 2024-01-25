@@ -32,7 +32,7 @@ describe('TreeMultiMap count', () => {
       [2, 2],
       [3, 3]
     ]);
-    tmm.lesserOrGreaterTraverse(node => (node.count += 2), 'GT', 1);
+    tmm.lesserOrGreaterTraverse(node => (node.count += 2), 1, 1);
     expect(tmm.getComputedCount()).toBe(7);
     expect(tmm.count).toBe(3);
   });
@@ -152,7 +152,7 @@ describe('TreeMultiMap operations test1', () => {
     node15 && tmm.dfs(node => (subTreeSum += node.key), 'PRE', 15);
     expect(subTreeSum).toBe(45);
     let lesserSum = 0;
-    tmm.lesserOrGreaterTraverse(node => (lesserSum += node.key), 'LT', 10);
+    tmm.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
     expect(lesserSum).toBe(45);
 
     expect(node15 instanceof TreeMultiMapNode);
@@ -163,7 +163,7 @@ describe('TreeMultiMap operations test1', () => {
     const node11 = tmm.getNode(11);
     expect(node11 instanceof TreeMultiMapNode);
     if (node11 instanceof TreeMultiMapNode) {
-      const allGreaterNodesAdded = tmm.lesserOrGreaterTraverse(node => (node.count += 2), 'GT', 11);
+      const allGreaterNodesAdded = tmm.lesserOrGreaterTraverse(node => (node.count += 2), 1, 11);
       expect(allGreaterNodesAdded);
     }
 
@@ -414,7 +414,7 @@ describe('TreeMultiMap operations test recursively1', () => {
         lesserSum += node.key;
         return node.key;
       },
-      'LT',
+      -1,
       10
     );
     expect(lesserSum).toBe(45);
@@ -427,7 +427,7 @@ describe('TreeMultiMap operations test recursively1', () => {
     const node11 = tmm.getNode(11);
     expect(node11 instanceof TreeMultiMapNode);
     if (node11 instanceof TreeMultiMapNode) {
-      const allGreaterNodesAdded = tmm.lesserOrGreaterTraverse(node => (node.count += 2), 'GT', 11);
+      const allGreaterNodesAdded = tmm.lesserOrGreaterTraverse(node => (node.count += 2), 1, 11);
       expect(allGreaterNodesAdded);
     }
 

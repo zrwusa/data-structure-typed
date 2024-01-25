@@ -1,5 +1,5 @@
 export type BSTVariant = 'STANDARD' | 'INVERSE';
-export type CP = 'LT' | 'EQ' | 'GT';
+export type CP = 1 | -1 | 0;
 
 /**
  * Enum representing different loop types.

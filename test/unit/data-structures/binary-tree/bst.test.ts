@@ -58,7 +58,7 @@ describe('BST operations test', () => {
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
-    bst.lesserOrGreaterTraverse(node => (lesserSum += node.key), 'LT', 10);
+    bst.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
     expect(lesserSum).toBe(45);
 
     expect(node15).toBeInstanceOf(BSTNode);
@@ -261,7 +261,7 @@ describe('BST operations test', () => {
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
-    objBST.lesserOrGreaterTraverse(node => (lesserSum += node.key), 'LT', 10);
+    objBST.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
     expect(lesserSum).toBe(45);
 
     expect(node15).toBeInstanceOf(BSTNode);
@@ -448,7 +448,7 @@ describe('BST operations test recursively', () => {
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
-    bst.lesserOrGreaterTraverse(node => (lesserSum += node.key), 'LT', 10);
+    bst.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
     expect(lesserSum).toBe(45);
 
     expect(node15).toBeInstanceOf(BSTNode);
@@ -649,7 +649,7 @@ describe('BST operations test recursively', () => {
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
-    objBST.lesserOrGreaterTraverse(node => (lesserSum += node.key), 'LT', 10);
+    objBST.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
     expect(lesserSum).toBe(45);
 
     expect(node15).toBeInstanceOf(BSTNode);
@@ -902,7 +902,7 @@ describe('BST Performance test', function () {
       node => {
         node.key - 1;
       },
-      'LT',
+      -1,
       inputSize / 2
     );
     isDebug && console.log('---lesserOrGreaterTraverse', performance.now() - startL);
