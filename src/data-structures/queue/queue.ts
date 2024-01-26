@@ -358,7 +358,7 @@ export class LinkedListQueue<E = any> extends SinglyLinkedList<E> {
    * @returns The `clone()` method is returning a new instance of `LinkedListQueue` with the same
    * values as the original `LinkedListQueue`.
    */
-  clone(): LinkedListQueue<E> {
+  override clone(): LinkedListQueue<E> {
     return new LinkedListQueue<E>(this.values());
   }
 }

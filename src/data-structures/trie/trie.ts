@@ -91,7 +91,7 @@ export class TrieNode {
  * 8. Autocomplete: Providing recommended words or phrases as a user types.
  * 9. Spell Check: Checking the spelling of words.
  * 10. IP Routing: Used in certain types of IP routing algorithms.
- * 11. Text Word Frequency Count: Counting and storing the frequency of words in a large amount of text data."
+ * 11. Text Word Frequency Count: Counting and storing the frequency of words in a large amount of text data.
  */
 export class Trie extends IterableElementBase<string, Trie> {
   /**
@@ -187,7 +187,7 @@ export class Trie extends IterableElementBase<string, Trie> {
    * @param {string} word - The word to check for.
    * @returns {boolean} True if the word is present in the Trie.
    */
-  has(word: string): boolean {
+  override has(word: string): boolean {
     word = this._caseProcess(word);
     let cur = this.root;
     for (const c of word) {

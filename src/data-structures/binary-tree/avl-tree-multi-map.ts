@@ -16,6 +16,7 @@ import type {
   IterationType,
   KeyOrNodeOrEntry
 } from '../../types';
+import { BTNEntry } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { AVLTree, AVLTreeNode } from './avl-tree';
 
@@ -65,19 +66,36 @@ export class AVLTreeMultiMapNode<
 export class AVLTreeMultiMap<
   K extends Comparable,
   V = any,
+  R = BTNEntry<K, V>,
   NODE extends AVLTreeMultiMapNode<K, V, NODE> = AVLTreeMultiMapNode<K, V, AVLTreeMultiMapNodeNested<K, V>>,
-  TREE extends AVLTreeMultiMap<K, V, NODE, TREE> = AVLTreeMultiMap<K, V, NODE, AVLTreeMultiMapNested<K, V, NODE>>
+  TREE extends AVLTreeMultiMap<K, V, R, NODE, TREE> = AVLTreeMultiMap<
+    K,
+    V,
+    R,
+    NODE,
+    AVLTreeMultiMapNested<K, V, R, NODE>
+  >
 >
-  extends AVLTree<K, V, NODE, TREE>
-  implements IBinaryTree<K, V, NODE, TREE> {
-  constructor(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, NODE>> = [], options?: AVLTreeMultiMapOptions<K>) {
+  extends AVLTree<K, V, R, NODE, TREE>
+  implements IBinaryTree<K, V, R, NODE, TREE> {
+  /**
+   * The constructor initializes a new AVLTreeMultiMap object with optional initial elements.
+   * @param keysOrNodesOrEntriesOrRawElements - The `keysOrNodesOrEntriesOrRawElements` parameter is an
+   * iterable object that can contain either keys, nodes, entries, or raw elements.
+   * @param [options] - The `options` parameter is an optional object that can be used to customize the
+   * behavior of the AVLTreeMultiMap. It can include properties such as `compareKeys` and
+   * `compareValues` functions to define custom comparison logic for keys and values, respectively.
+   */
+  constructor(
+    keysOrNodesOrEntriesOrRawElements: Iterable<R | KeyOrNodeOrEntry<K, V, NODE>> = [],
+    options?: AVLTreeMultiMapOptions<K, V, R>
+  ) {
     super([], options);
-    if (keysOrNodesOrEntries) this.addMany(keysOrNodesOrEntries);
+    if (keysOrNodesOrEntriesOrRawElements) this.addMany(keysOrNodesOrEntriesOrRawElements);
   }
 
   protected _count = 0;
 
-  // TODO the _count is not accurate after nodes count modified
   /**
    * The function calculates the sum of the count property of all nodes in a tree using depth-first
    * search.
@@ -107,20 +125,29 @@ export class AVLTreeMultiMap<
   }
 
   /**
-   * The function creates a new BSTNode with the given key, value, and count.
-   * @param {K} key - The key parameter is the unique identifier for the binary tree node. It is used to
-   * distinguish one node from another in the tree.
-   * @param {NODE} value - The `value` parameter represents the value that will be stored in the binary search tree node.
-   * @param {number} [count] - The "count" parameter is an optional parameter of type number. It represents the number of
-   * occurrences of the value in the binary search tree node. If not provided, the count will default to 1.
-   * @returns A new instance of the BSTNode class with the specified key, value, and count (if provided).
+   * The function creates a new AVLTreeMultiMapNode with the specified key, value, and count.
+   * @param {K} key - The key parameter represents the key of the node being created. It is of type K,
+   * which is a generic type that can be replaced with any specific type when using the function.
+   * @param {V} [value] - The `value` parameter is an optional parameter that represents the value
+   * associated with the key in the node. It is of type `V`, which can be any data type.
+   * @param {number} [count] - The `count` parameter represents the number of occurrences of a
+   * key-value pair in the AVLTreeMultiMapNode. It is an optional parameter, so it can be omitted when
+   * calling the `createNode` method. If provided, it specifies the initial count for the node.
+   * @returns a new instance of the AVLTreeMultiMapNode class, casted as NODE.
    */
   override createNode(key: K, value?: V, count?: number): NODE {
     return new AVLTreeMultiMapNode(key, value, count) as NODE;
   }
 
-  override createTree(options?: AVLTreeMultiMapOptions<K>): TREE {
-    return new AVLTreeMultiMap<K, V, NODE, TREE>([], {
+  /**
+   * The function creates a new AVLTreeMultiMap object with the specified options and returns it.
+   * @param [options] - The `options` parameter is an optional object that contains additional
+   * configuration options for creating the AVLTreeMultiMap. It can have the following properties:
+   * @returns a new instance of the AVLTreeMultiMap class, with the specified options, as a TREE
+   * object.
+   */
+  override createTree(options?: AVLTreeMultiMapOptions<K, V, R>): TREE {
+    return new AVLTreeMultiMap<K, V, R, NODE, TREE>([], {
       iterationType: this.iterationType,
       comparator: this.comparator,
       ...options
@@ -128,49 +155,52 @@ export class AVLTreeMultiMap<
   }
 
   /**
-   * The function `keyValueOrEntryToNode` converts an keyOrNodeOrEntry object into a node object.
-   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter is of type `KeyOrNodeOrEntry<K, V, NODE>`, which means it
-   * can be one of the following:
-   * @param {V} [value] - The `value` parameter is an optional argument that represents the value
-   * associated with the node. It is of type `V`, which can be any data type. If no value is provided,
-   * it defaults to `undefined`.
-   * @param [count=1] - The `count` parameter is an optional parameter that specifies the number of
-   * times the value should be added to the node. If not provided, it defaults to 1.
-   * @returns a node of type `NODE` or `undefined`.
+   * The function checks if the input is an instance of AVLTreeMultiMapNode.
+   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
+   * `keyOrNodeOrEntryOrRawElement` can be of type `R` or `KeyOrNodeOrEntry<K, V, NODE>`.
+   * @returns a boolean value indicating whether the input parameter `keyOrNodeOrEntryOrRawElement` is
+   * an instance of the `AVLTreeMultiMapNode` class.
    */
-  override keyValueOrEntryToNode(
-    keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>,
-    value?: V,
-    count = 1
-  ): NODE | undefined {
-    let node: NODE | undefined;
-    if (keyOrNodeOrEntry === undefined || keyOrNodeOrEntry === null) {
-      return;
-    } else if (this.isNode(keyOrNodeOrEntry)) {
-      node = keyOrNodeOrEntry;
-    } else if (this.isEntry(keyOrNodeOrEntry)) {
-      const [key, value] = keyOrNodeOrEntry;
-      if (key === undefined || key === null) {
-        return;
-      } else {
-        node = this.createNode(key, value, count);
-      }
-    } else if (!this.isNode(keyOrNodeOrEntry)) {
-      node = this.createNode(keyOrNodeOrEntry, value, count);
-    } else {
-      return;
-    }
-    return node;
+  override isNode(
+    keyOrNodeOrEntryOrRawElement: R | KeyOrNodeOrEntry<K, V, NODE>
+  ): keyOrNodeOrEntryOrRawElement is NODE {
+    return keyOrNodeOrEntryOrRawElement instanceof AVLTreeMultiMapNode;
   }
 
   /**
-   * The function checks if an keyOrNodeOrEntry is an instance of the AVLTreeMultiMapNode class.
-   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter is of type `KeyOrNodeOrEntry<K, V, NODE>`.
-   * @returns a boolean value indicating whether the keyOrNodeOrEntry is an instance of the AVLTreeMultiMapNode
-   * class.
+   * The function `keyValueOrEntryOrRawElementToNode` converts a key, value, entry, or raw element into
+   * a node object.
+   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The
+   * `keyOrNodeOrEntryOrRawElement` parameter can be of type `R` or `KeyOrNodeOrEntry<K, V, NODE>`.
+   * @param {V} [value] - The `value` parameter is an optional value that can be passed to the
+   * `override` function. It represents the value associated with the key in the data structure. If no
+   * value is provided, it will default to `undefined`.
+   * @param [count=1] - The `count` parameter is an optional parameter that specifies the number of
+   * times the key-value pair should be added to the data structure. If not provided, it defaults to 1.
+   * @returns either a NODE object or undefined.
    */
-  override isNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>): keyOrNodeOrEntry is NODE {
-    return keyOrNodeOrEntry instanceof AVLTreeMultiMapNode;
+  override keyValueOrEntryOrRawElementToNode(
+    keyOrNodeOrEntryOrRawElement: R | KeyOrNodeOrEntry<K, V, NODE>,
+    value?: V,
+    count = 1
+  ): NODE | undefined {
+    if (keyOrNodeOrEntryOrRawElement === undefined || keyOrNodeOrEntryOrRawElement === null) return;
+    if (this.isNode(keyOrNodeOrEntryOrRawElement)) return keyOrNodeOrEntryOrRawElement;
+
+    if (this.toEntryFn) {
+      const [key, entryValue] = this.toEntryFn(keyOrNodeOrEntryOrRawElement as R);
+      if (key) return this.createNode(key, entryValue ?? value, count);
+    }
+
+    if (this.isEntry(keyOrNodeOrEntryOrRawElement)) {
+      const [key, value] = keyOrNodeOrEntryOrRawElement;
+      if (key === undefined || key === null) return;
+      else return this.createNode(key, value, count);
+    }
+
+    if (this.isKey(keyOrNodeOrEntryOrRawElement)) return this.createNode(keyOrNodeOrEntryOrRawElement, value, count);
+
+    return;
   }
 
   /**
@@ -182,20 +212,21 @@ export class AVLTreeMultiMap<
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
-   * The function overrides the add method of a binary tree node and adds a new node to the tree.
-   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter can be either a key, a node, or an
-   * entry. It represents the key, node, or entry that you want to add to the binary tree.
+   * The function overrides the add method of a TypeScript class to add a new node to a data structure
+   * and update the count.
+   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The
+   * `keyOrNodeOrEntryOrRawElement` parameter can accept a value of type `R`, which can be any type. It
+   * can also accept a value of type `KeyOrNodeOrEntry<K, V, NODE>`, which represents a key, node,
+   * entry, or raw element
    * @param {V} [value] - The `value` parameter represents the value associated with the key in the
-   * binary tree node. It is an optional parameter, meaning it can be omitted when calling the `add`
-   * method.
+   * data structure. It is an optional parameter, so it can be omitted if not needed.
    * @param [count=1] - The `count` parameter represents the number of times the key-value pair should
-   * be added to the binary tree. By default, it is set to 1, meaning that the key-value pair will be
-   * added once. However, you can specify a different value for `count` if you want to add
-   * @returns The method is returning either the newly inserted node or `undefined` if the insertion
-   * was not successful.
+   * be added to the data structure. By default, it is set to 1, meaning that the key-value pair will
+   * be added once. However, you can specify a different value for `count` if you want to add
+   * @returns a boolean value.
    */
-  override add(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>, value?: V, count = 1): boolean {
-    const newNode = this.keyValueOrEntryToNode(keyOrNodeOrEntry, value, count);
+  override add(keyOrNodeOrEntryOrRawElement: R | KeyOrNodeOrEntry<K, V, NODE>, value?: V, count = 1): boolean {
+    const newNode = this.keyValueOrEntryOrRawElementToNode(keyOrNodeOrEntryOrRawElement, value, count);
     if (newNode === undefined) return false;
 
     const orgNodeCount = newNode?.count || 0;
@@ -215,19 +246,19 @@ export class AVLTreeMultiMap<
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
-   * The `delete` function in TypeScript is used to remove a node from a binary tree, taking into
-   * account the count of the node and balancing the tree if necessary.
-   * @param identifier - The identifier is the value or key that is used to identify the node that
-   * needs to be deleted from the binary tree. It can be of any type that is returned by the callback
+   * The `delete` function in a binary tree data structure deletes a node based on its identifier and
+   * returns the deleted node along with the parent node that needs to be balanced.
+   * @param identifier - The identifier parameter is the value used to identify the node that needs to
+   * be deleted from the binary tree. It can be of any type and is the return type of the callback
    * function.
-   * @param {C} callback - The `callback` parameter is a function that is used to determine if a node
-   * should be deleted. It is optional and defaults to a default callback function. The `callback`
-   * function takes one parameter, which is the identifier of the node, and returns a value that is
-   * used to identify the node to
+   * @param {C} callback - The `callback` parameter is a function that is used to determine the
+   * equality of nodes in the binary tree. It is optional and has a default value of
+   * `this._DEFAULT_CALLBACK`. The `callback` function takes a single argument, which is the identifier
+   * of a node, and returns a value that
    * @param [ignoreCount=false] - A boolean flag indicating whether to ignore the count of the node
    * being deleted. If set to true, the count of the node will not be considered and the node will be
-   * deleted regardless of its count. If set to false (default), the count of the node will be
-   * decremented by 1 and
+   * deleted regardless of its count. If set to false (default), the count of the node will be taken
+   * into account and the node
    * @returns an array of `BinaryTreeDeleteResult<NODE>`.
    */
   override delete<C extends BTNCallback<NODE>>(
@@ -300,7 +331,8 @@ export class AVLTreeMultiMap<
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The clear() function clears the contents of a data structure and sets the count to zero.
+   * The "clear" function overrides the parent class's "clear" function and also resets the count to
+   * zero.
    */
   override clear() {
     super.clear();
@@ -315,13 +347,14 @@ export class AVLTreeMultiMap<
   /**
    * Time Complexity: O(n log n)
    * Space Complexity: O(log n)
-   *
    * The `perfectlyBalance` function takes a sorted array of nodes and builds a balanced binary search
    * tree using either a recursive or iterative approach.
-   * @param iterationType - The `iterationType` parameter is an optional parameter that specifies the
-   * type of iteration to use when building the balanced binary search tree. It can have two possible
-   * values:
-   * @returns a boolean value.
+   * @param {IterationType} iterationType - The `iterationType` parameter is an optional parameter that
+   * specifies the type of iteration to use when building the balanced binary search tree. It has a
+   * default value of `this.iterationType`, which means it will use the iteration type currently set in
+   * the object.
+   * @returns The function `perfectlyBalance` returns a boolean value. It returns `true` if the
+   * balancing operation is successful, and `false` if there are no nodes to balance.
    */
   override perfectlyBalance(iterationType: IterationType = this.iterationType): boolean {
     const sorted = this.dfs(node => node, 'IN'),
@@ -370,7 +403,7 @@ export class AVLTreeMultiMap<
    * Time complexity: O(n)
    * Space complexity: O(n)
    *
-   * The `clone` function creates a deep copy of a tree object.
+   * The function overrides the clone method to create a deep copy of a tree object.
    * @returns The `clone()` method is returning a cloned instance of the `TREE` object.
    */
   override clone(): TREE {
@@ -380,17 +413,26 @@ export class AVLTreeMultiMap<
   }
 
   /**
-   * The `_swapProperties` function swaps the key, value, count, and height properties between two nodes.
-   * @param {K | NODE | undefined} srcNode - The `srcNode` parameter represents the source node from
-   * which the values will be swapped. It can be of type `K`, `NODE`, or `undefined`.
-   * @param {K | NODE | undefined} destNode - The `destNode` parameter represents the destination
-   * node where the values from the source node will be swapped to.
-   * @returns either the `destNode` object if both `srcNode` and `destNode` are defined, or `undefined`
-   * if either `srcNode` or `destNode` is undefined.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The `_swapProperties` function swaps the properties (key, value, count, height) between two nodes
+   * in a binary search tree.
+   * @param {R | BSTNKeyOrNode<K, NODE>} srcNode - The `srcNode` parameter represents the source node
+   * that will be swapped with the `destNode`.
+   * @param {R | BSTNKeyOrNode<K, NODE>} destNode - The `destNode` parameter represents the destination
+   * node where the properties will be swapped with the source node.
+   * @returns The method is returning the `destNode` after swapping its properties with the `srcNode`.
+   * If either `srcNode` or `destNode` is undefined, it returns `undefined`.
    */
   protected override _swapProperties(
-    srcNode: BSTNKeyOrNode<K, NODE>,
-    destNode: BSTNKeyOrNode<K, NODE>
+    srcNode: R | BSTNKeyOrNode<K, NODE>,
+    destNode: R | BSTNKeyOrNode<K, NODE>
   ): NODE | undefined {
     srcNode = this.ensureNode(srcNode);
     destNode = this.ensureNode(destNode);
@@ -417,12 +459,20 @@ export class AVLTreeMultiMap<
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The function replaces an old node with a new node and updates the count property of the new node.
-   * @param {NODE} oldNode - The `oldNode` parameter is of type `NODE` and represents the node that
-   * needs to be replaced in a data structure.
-   * @param {NODE} newNode - The `newNode` parameter is an object of type `NODE`.
+   * @param {NODE} oldNode - The oldNode parameter represents the node that needs to be replaced in the
+   * data structure. It is of type NODE.
+   * @param {NODE} newNode - The `newNode` parameter is an instance of the `NODE` class.
    * @returns The method is returning the result of calling the `_replaceNode` method from the
-   * superclass, after updating the `count` property of the `newNode` object.
+   * superclass, which is of type `NODE`.
    */
   protected override _replaceNode(oldNode: NODE, newNode: NODE): NODE {
     newNode.count = oldNode.count + newNode.count;

@@ -11,7 +11,7 @@ import type {
   BSTNodeNested,
   BSTOptions,
   BTNCallback,
-  BTNodePureExemplar,
+  BTNPureKeyOrNodeOrEntry,
   Comparable,
   Comparator,
   CP,
@@ -19,6 +19,7 @@ import type {
   IterationType,
   KeyOrNodeOrEntry
 } from '../../types';
+import { BTNEntry } from '../../types';
 import { BinaryTree, BinaryTreeNode } from './binary-tree';
 import { IBinaryTree } from '../../interfaces';
 import { Queue } from '../queue';
@@ -95,21 +96,24 @@ export class BSTNode<
 export class BST<
   K extends Comparable,
   V = any,
+  R = BTNEntry<K, V>,
   NODE extends BSTNode<K, V, NODE> = BSTNode<K, V, BSTNodeNested<K, V>>,
-  TREE extends BST<K, V, NODE, TREE> = BST<K, V, NODE, BSTNested<K, V, NODE>>
+  TREE extends BST<K, V, R, NODE, TREE> = BST<K, V, R, NODE, BSTNested<K, V, R, NODE>>
 >
-  extends BinaryTree<K, V, NODE, TREE>
-  implements IBinaryTree<K, V, NODE, TREE> {
+  extends BinaryTree<K, V, R, NODE, TREE>
+  implements IBinaryTree<K, V, R, NODE, TREE> {
   /**
-   * This is the constructor function for a Binary Search Tree class in TypeScript, which initializes
-   * the tree with keys, nodes, or entries and optional options.
-   * @param keysOrNodesOrEntries - The `keysOrNodesOrEntries` parameter is an iterable object that can
-   * contain keys, nodes, or entries. It is used to initialize the binary search tree with the provided
-   * keys, nodes, or entries.
-   * @param [options] - The `options` parameter is an optional object that can contain additional
-   * configuration options for the binary search tree. It can have the following properties:
+   * This is the constructor function for a Binary Search Tree class in TypeScript.
+   * @param keysOrNodesOrEntriesOrRawElements - The `keysOrNodesOrEntriesOrRawElements` parameter is an
+   * iterable that can contain either keys, nodes, entries, or raw elements. These elements will be
+   * added to the binary search tree during the construction of the object.
+   * @param [options] - An optional object that contains additional options for the Binary Search Tree.
+   * It can include a comparator function that defines the order of the elements in the tree.
    */
-  constructor(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, NODE>> = [], options?: BSTOptions<K>) {
+  constructor(
+    keysOrNodesOrEntriesOrRawElements: Iterable<R | KeyOrNodeOrEntry<K, V, NODE>> = [],
+    options?: BSTOptions<K, V, R>
+  ) {
     super([], options);
 
     if (options) {
@@ -117,7 +121,7 @@ export class BST<
       if (comparator) this._comparator = comparator;
     }
 
-    if (keysOrNodesOrEntries) this.addMany(keysOrNodesOrEntries);
+    if (keysOrNodesOrEntriesOrRawElements) this.addMany(keysOrNodesOrEntriesOrRawElements);
   }
 
   protected override _root?: NODE = undefined;
@@ -128,20 +132,6 @@ export class BST<
    */
   override get root(): NODE | undefined {
     return this._root;
-  }
-
-  protected _comparator: Comparator<K> = (a: K, b: K): CP => {
-    if (a > b) return 1;
-    if (a < b) return -1;
-    return 0;
-  };
-
-  /**
-   * The function returns the value of the _comparator property.
-   * @returns The `_comparator` property is being returned.
-   */
-  get comparator() {
-    return this._comparator;
   }
 
   /**
@@ -159,13 +149,12 @@ export class BST<
   /**
    * The function creates a new binary search tree with the specified options.
    * @param [options] - The `options` parameter is an optional object that allows you to customize the
-   * behavior of the `createTree` method. It is of type `Partial<BSTOptions<K>>`, which means it is a
-   * partial object of type `BSTOptions<K>`.
-   * @returns a new instance of the BST class, with the provided options merged with the default
-   * options. The returned value is casted as TREE.
+   * behavior of the `createTree` method. It accepts a partial `BSTOptions` object, which has the
+   * following properties:
+   * @returns a new instance of the BST class with the provided options.
    */
-  override createTree(options?: Partial<BSTOptions<K>>): TREE {
-    return new BST<K, V, NODE, TREE>([], {
+  override createTree(options?: Partial<BSTOptions<K, V, R>>): TREE {
+    return new BST<K, V, R, NODE, TREE>([], {
       iterationType: this.iterationType,
       comparator: this.comparator,
       ...options
@@ -173,97 +162,69 @@ export class BST<
   }
 
   /**
-   * The function `keyValueOrEntryToNode` takes an keyOrNodeOrEntry and returns a node if the keyOrNodeOrEntry is valid,
-   * otherwise it returns undefined.
-   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter is of type `KeyOrNodeOrEntry<K, V, NODE>`, where:
-   * @param {V} [value] - The `value` parameter is an optional value that can be passed to the
-   * `keyValueOrEntryToNode` function. It represents the value associated with the keyOrNodeOrEntry node.
-   * @returns a node of type NODE or undefined.
+   * The function overrides a method and converts a key, value pair or entry or raw element to a node.
+   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - A variable that can be of
+   * type R or KeyOrNodeOrEntry<K, V, NODE>. It represents either a key, a node, an entry, or a raw
+   * element.
+   * @param {V} [value] - The `value` parameter is an optional value of type `V`. It represents the
+   * value associated with a key in a key-value pair.
+   * @returns either a NODE object or undefined.
    */
-  override keyValueOrEntryToNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>, value?: V): NODE | undefined {
-    let node: NODE | undefined;
-    if (keyOrNodeOrEntry === null || keyOrNodeOrEntry === undefined) {
-      return;
-    } else if (this.isNode(keyOrNodeOrEntry)) {
-      node = keyOrNodeOrEntry;
-    } else if (this.isEntry(keyOrNodeOrEntry)) {
-      const [key, value] = keyOrNodeOrEntry;
-      if (key === undefined || key === null) {
-        return;
-      } else {
-        node = this.createNode(key, value);
-      }
-    } else if (!this.isNode(keyOrNodeOrEntry)) {
-      node = this.createNode(keyOrNodeOrEntry, value);
-    } else {
-      return;
-    }
-    return node;
+  override keyValueOrEntryOrRawElementToNode(
+    keyOrNodeOrEntryOrRawElement: R | KeyOrNodeOrEntry<K, V, NODE>,
+    value?: V
+  ): NODE | undefined {
+    return super.keyValueOrEntryOrRawElementToNode(keyOrNodeOrEntryOrRawElement, value) ?? undefined;
   }
 
   /**
    * Time Complexity: O(log n)
    * Space Complexity: O(log n)
-   */
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(log n)
    *
-   * The function `ensureNode` returns the node corresponding to the given key if it is a node key,
-   * otherwise it returns the key itself.
-   * @param {K | NODE | undefined} keyOrNodeOrEntry - The `key` parameter can be of type `K`, `NODE`, or
-   * `undefined`.
-   * @param iterationType - The `iterationType` parameter is an optional parameter that specifies the
-   * type of iteration to be performed. It has a default value of `'ITERATIVE'`.
-   * @returns either a node object (NODE) or undefined.
+   * The function ensures the existence of a node in a data structure and returns it, or undefined if
+   * it doesn't exist.
+   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
+   * `keyOrNodeOrEntryOrRawElement` can accept a value of type `R`, which represents the key, node,
+   * entry, or raw element that needs to be ensured in the tree.
+   * @param {IterationType} [iterationType=ITERATIVE] - The `iterationType` parameter is an optional
+   * parameter that specifies the type of iteration to be used when ensuring a node. It has a default
+   * value of `'ITERATIVE'`.
+   * @returns The method is returning either the node that was ensured or `undefined` if the node could
+   * not be ensured.
    */
   override ensureNode(
-    keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>,
+    keyOrNodeOrEntryOrRawElement: R | KeyOrNodeOrEntry<K, V, NODE>,
     iterationType: IterationType = 'ITERATIVE'
   ): NODE | undefined {
-    if (keyOrNodeOrEntry === this.NIL) return;
-    if (this.isRealNode(keyOrNodeOrEntry)) {
-      return keyOrNodeOrEntry;
-    }
-
-    if (this.isEntry(keyOrNodeOrEntry)) {
-      const key = keyOrNodeOrEntry[0];
-      if (key === null || key === undefined) return;
-      return this.getNodeByKey(key, iterationType);
-    }
-
-    const key = keyOrNodeOrEntry;
-    if (key === null || key === undefined) return;
-    return this.getNodeByKey(key, iterationType);
+    return super.ensureNode(keyOrNodeOrEntryOrRawElement, iterationType) ?? undefined;
   }
 
   /**
-   * The function checks if an keyOrNodeOrEntry is an instance of BSTNode.
-   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter is a variable of type `KeyOrNodeOrEntry<K, V, NODE>`.
-   * @returns a boolean value indicating whether the keyOrNodeOrEntry is an instance of the BSTNode class.
+   * The function checks if the input is an instance of the BSTNode class.
+   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
+   * `keyOrNodeOrEntryOrRawElement` can be of type `R` or `KeyOrNodeOrEntry<K, V, NODE>`.
+   * @returns a boolean value indicating whether the input parameter `keyOrNodeOrEntryOrRawElement` is
+   * an instance of the `BSTNode` class.
    */
-  override isNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>): keyOrNodeOrEntry is NODE {
-    return keyOrNodeOrEntry instanceof BSTNode;
+  override isNode(
+    keyOrNodeOrEntryOrRawElement: R | KeyOrNodeOrEntry<K, V, NODE>
+  ): keyOrNodeOrEntryOrRawElement is NODE {
+    return keyOrNodeOrEntryOrRawElement instanceof BSTNode;
   }
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
-   * The `add` function in TypeScript adds a new node to a binary search tree based on the key value,
-   * updating the value if the key already exists.
-   * @param keyOrNodeOrEntry - It is a parameter that can accept three types of values:
-   * @param {V} [value] - The value to be added to the binary search tree.
-   * @returns The method returns a boolean value.
+   * The `add` function in TypeScript adds a new node to a binary search tree based on the key value.
+   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
+   * `keyOrNodeOrEntryOrRawElement` can accept a value of type `R` or `KeyOrNodeOrEntry<K, V, NODE>`.
+   * @param {V} [value] - The `value` parameter is an optional value that can be associated with the
+   * key in the binary search tree. If provided, it will be stored in the node along with the key.
+   * @returns a boolean value.
    */
-  override add(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>, value?: V): boolean {
-    const newNode = this.keyValueOrEntryToNode(keyOrNodeOrEntry, value);
+  override add(keyOrNodeOrEntryOrRawElement: R | KeyOrNodeOrEntry<K, V, NODE>, value?: V): boolean {
+    const newNode = this.keyValueOrEntryOrRawElementToNode(keyOrNodeOrEntryOrRawElement, value);
     if (newNode === undefined) return false;
 
     if (this.root === undefined) {
@@ -275,17 +236,8 @@ export class BST<
     let current = this.root;
     while (current !== undefined) {
       if (this.comparator(current.key, newNode.key) === 0) {
-        // if (current !== newNode) {
-        // The key value is the same but the reference is different, update the value of the existing node
         this._replaceNode(current, newNode);
         return true;
-
-        // } else {
-        // The key value is the same and the reference is the same, replace the entire node
-        // this._replaceNode(current, newNode);
-
-        //   return;
-        // }
       } else if (this.comparator(current.key, newNode.key) > 0) {
         if (current.left === undefined) {
           current.left = newNode;
@@ -307,19 +259,18 @@ export class BST<
   }
 
   /**
-   * Time Complexity: O(k log n)
-   * Space Complexity: O(k + log n)
+   * Time Complexity: O(log n)
+   * Space Complexity: O(log n)
    */
 
   /**
    * Time Complexity: O(k log n)
    * Space Complexity: O(k + log n)
    *
-   * The `addMany` function in TypeScript adds multiple keys or nodes to a data structure, balancing
-   * the structure if specified, and returns an array indicating whether each key or node was
-   * successfully inserted.
-   * @param keysOrNodesOrEntries - An iterable containing keys, nodes, or entries to be added to the
-   * data structure.
+   * The `addMany` function in TypeScript adds multiple keys or nodes to a data structure and returns
+   * an array indicating whether each key or node was successfully inserted.
+   * @param keysOrNodesOrEntriesOrRawElements - An iterable containing keys, nodes, entries, or raw
+   * elements to be added to the data structure.
    * @param [values] - An optional iterable of values to be associated with the keys or nodes being
    * added. If provided, the values will be assigned to the corresponding keys or nodes in the same
    * order. If not provided, undefined will be assigned as the value for each key or node.
@@ -328,14 +279,13 @@ export class BST<
    * algorithm. If set to false, the elements will be added without balancing the tree. The default
    * value is true.
    * @param {IterationType} iterationType - The `iterationType` parameter is an optional parameter that
-   * specifies the type of iteration to use when adding multiple keys or nodes to the binary tree. It
-   * has a default value of `this.iterationType`, which means it will use the iteration type specified
-   * in the binary tree instance.
-   * @returns The function `addMany` returns an array of booleans indicating whether each key or node
-   * or entry was successfully inserted into the data structure.
+   * specifies the type of iteration to use when adding multiple keys or nodes to the binary search
+   * tree. It can have two possible values:
+   * @returns The function `addMany` returns an array of booleans indicating whether each element was
+   * successfully inserted into the data structure.
    */
   override addMany(
-    keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, NODE>>,
+    keysOrNodesOrEntriesOrRawElements: Iterable<R | KeyOrNodeOrEntry<K, V, NODE>>,
     values?: Iterable<V | undefined>,
     isBalanceAdd = true,
     iterationType: IterationType = this.iterationType
@@ -349,7 +299,7 @@ export class BST<
     }
 
     if (!isBalanceAdd) {
-      for (const kve of keysOrNodesOrEntries) {
+      for (const kve of keysOrNodesOrEntriesOrRawElements) {
         const value = valuesIterator?.next().value;
         const nn = this.add(kve, value);
         inserted.push(nn);
@@ -357,29 +307,36 @@ export class BST<
       return inserted;
     }
 
-    const realBTNExemplars: BTNodePureExemplar<K, V, NODE>[] = [];
+    const realBTNExemplars: (R | BTNPureKeyOrNodeOrEntry<K, V, NODE>)[] = [];
 
-    const isRealBTNExemplar = (kve: KeyOrNodeOrEntry<K, V, NODE>): kve is BTNodePureExemplar<K, V, NODE> => {
+    const isRealBTNExemplar = (kve: R | KeyOrNodeOrEntry<K, V, NODE>): kve is BTNPureKeyOrNodeOrEntry<K, V, NODE> => {
       if (kve === undefined || kve === null) return false;
       return !(this.isEntry(kve) && (kve[0] === undefined || kve[0] === null));
     };
 
-    for (const kve of keysOrNodesOrEntries) {
+    for (const kve of keysOrNodesOrEntriesOrRawElements) {
       isRealBTNExemplar(kve) && realBTNExemplars.push(kve);
     }
 
-    let sorted: BTNodePureExemplar<K, V, NODE>[] = [];
+    let sorted: (R | BTNPureKeyOrNodeOrEntry<K, V, NODE>)[] = [];
 
     sorted = realBTNExemplars.sort((a, b) => {
       let keyA: K | undefined | null, keyB: K | undefined | null;
-      if (this.isEntry(a)) {
-        keyA = a[0];
-      } else if (this.isRealNode(a)) keyA = a.key;
-      else keyA = a;
+      if (this.isEntry(a)) keyA = a[0];
+      else if (this.isRealNode(a)) keyA = a.key;
+      else if (this.toEntryFn) {
+        keyA = this.toEntryFn(a as R)[0];
+      } else {
+        keyA = a as K;
+      }
 
       if (this.isEntry(b)) keyB = b[0];
       else if (this.isRealNode(b)) keyB = b.key;
-      else keyB = b;
+      else if (this.toEntryFn) {
+        keyB = this.toEntryFn(b as R)[0];
+      } else {
+        keyB = b as K;
+      }
 
       if (keyA !== undefined && keyA !== null && keyB !== undefined && keyB !== null) {
         return this.comparator(keyA, keyB);
@@ -387,7 +344,7 @@ export class BST<
       return 0;
     });
 
-    const _dfs = (arr: BTNodePureExemplar<K, V, NODE>[]) => {
+    const _dfs = (arr: (R | BTNPureKeyOrNodeOrEntry<K, V, NODE>)[]) => {
       if (arr.length === 0) return;
 
       const mid = Math.floor((arr.length - 1) / 2);
@@ -427,36 +384,30 @@ export class BST<
   /**
    * Time Complexity: O(log n)
    * Space Complexity: O(k + log n)
-   * /
-
-   /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(k + log n)
    *
-   * The function `getNodes` returns an array of nodes that match a given identifier, using either a
-   * recursive or iterative approach.
+   * The `getNodes` function in TypeScript retrieves nodes from a binary tree based on a given
+   * identifier and callback function.
    * @param {ReturnType<C> | undefined} identifier - The `identifier` parameter is the value that you
-   * want to search for in the nodes of the binary tree. It can be of any type that is returned by the
-   * callback function `C`.
-   * @param {C} callback - The `callback` parameter is a function that takes a node of type `NODE` as its
-   * argument and returns a value of type `ReturnType<C>`. The `C` type parameter represents a callback
-   * function type that extends the `BTNCallback<NODE>` type. The `BTNCallback<NODE>` type is
-   * @param [onlyOne=false] - A boolean flag indicating whether to stop searching after finding the
-   * first node that matches the identifier. If set to true, the function will return an array
-   * containing only the first matching node. If set to false (default), the function will continue
-   * searching for all nodes that match the identifier and return an array containing
-   * @param {K | NODE | undefined} beginRoot - The `beginRoot` parameter represents the starting node
-   * for the traversal. It can be either a key value or a node object. If it is undefined, the
-   * traversal will start from the root of the tree.
-   * @param iterationType - The `iterationType` parameter determines the type of iteration to be
-   * performed on the binary tree. It can have two possible values:
-   * @returns The method returns an array of nodes (`NODE[]`).
+   * want to search for in the binary tree. It can be of any type that is returned by the callback
+   * function.
+   * @param {C} callback - The `callback` parameter is a function that takes a node as input and
+   * returns a value. This value is used to identify the nodes that match the given identifier. The
+   * `callback` function is optional and defaults to `this._DEFAULT_CALLBACK`.
+   * @param [onlyOne=false] - A boolean value indicating whether to return only the first matching node
+   * or all matching nodes. If set to true, only the first matching node will be returned. If set to
+   * false, all matching nodes will be returned. The default value is false.
+   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter is the starting
+   * point for the search in the binary tree. It can be either a node object, a key-value pair, or an
+   * entry object. If it is not provided, the `root` of the binary tree is used as the starting point.
+   * @param {IterationType} iterationType - The `iterationType` parameter determines the type of
+   * iteration to be performed. It can have two possible values:
+   * @returns The method `getNodes` returns an array of `NODE` objects.
    */
   override getNodes<C extends BTNCallback<NODE>>(
     identifier: ReturnType<C> | undefined,
     callback: C = this._DEFAULT_CALLBACK as C,
     onlyOne = false,
-    beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
+    beginRoot: R | KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): NODE[] {
     beginRoot = this.ensureNode(beginRoot);
@@ -524,58 +475,57 @@ export class BST<
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
-   * The `getNode` function retrieves a node from a Red-Black Tree based on the provided identifier and
-   * callback function.
-   * @param {ReturnType<C> | undefined} identifier - The `identifier` parameter is the value or key
-   * that you want to search for in the binary search tree. It can be of any type that is compatible
-   * with the type of nodes in the tree.
-   * @param {C} callback - The `callback` parameter is a function that will be called for each node in
-   * the tree. It is used to determine whether a node matches the given identifier. The `callback`
-   * function should take a node as its parameter and return a value that can be compared to the
-   * `identifier` parameter.
+   * The function `getNode` returns the first node that matches the given identifier and callback
+   * function in a binary search tree.
+   * @param {ReturnType<C> | undefined} identifier - The `identifier` parameter is the value that you
+   * want to search for in the binary search tree. It can be of any type that is compatible with the
+   * type returned by the callback function.
+   * @param {C} callback - The `callback` parameter is a function that will be used to determine if a
+   * node matches the desired criteria. It should be a function that takes a node as an argument and
+   * returns a boolean value indicating whether the node matches the criteria or not. If no callback is
+   * provided, the default callback will be
    * @param beginRoot - The `beginRoot` parameter is the starting point for the search in the binary
-   * search tree. It can be either a key or a node. If it is a key, it will be converted to a node
-   * using the `ensureNode` method. If it is not provided, the `root`
-   * @param iterationType - The `iterationType` parameter is used to specify the type of iteration to
-   * be performed when searching for nodes in the binary search tree. It is an optional parameter and
-   * its default value is taken from the `iterationType` property of the class.
-   * @returns The method is returning a value of type `NODE | null | undefined`.
+   * search tree. It can be either a key or a node. If it is a key, the search will start from the node
+   * with that key. If it is a node, the search will start from that node.
+   * @param {IterationType} iterationType - The `iterationType` parameter is used to specify the type
+   * of iteration to be performed when searching for nodes in the binary search tree. It can have one
+   * of the following values:
+   * @returns The method is returning a NODE object or undefined.
    */
   override getNode<C extends BTNCallback<NODE>>(
     identifier: ReturnType<C> | undefined,
     callback: C = this._DEFAULT_CALLBACK as C,
-    beginRoot: BSTNKeyOrNode<K, NODE> = this.root,
+    beginRoot: R | BSTNKeyOrNode<K, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): NODE | undefined {
     return this.getNodes(identifier, callback, true, beginRoot, iterationType)[0] ?? undefined;
   }
 
   /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
+   * Time Complexity: O(k log n)
+   * Space Complexity: O(k + log n)
    */
 
   /**
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
-   * The function `getNodeByKey` searches for a node in a binary tree based on a given key, using
-   * either recursive or iterative methods.
-   * @param {K} key - The `key` parameter is the key value that we are searching for in the tree.
-   * It is used to identify the node that we want to retrieve.
-   * @param iterationType - The `iterationType` parameter is an optional parameter that specifies the
-   * type of iteration to use when searching for a node in the binary tree. It can have two possible
-   * values:
-   * @returns The function `getNodeByKey` returns a node (`NODE`) if a node with the specified key is
-   * found in the binary tree. If no node is found, it returns `undefined`.
+   * The function `getNodeByKey` returns a node with a specific key from a tree data structure.
+   * @param {K} key - The key parameter is the value used to search for a specific node in the tree. It
+   * is typically a unique identifier or a value that can be used to determine the position of the node
+   * in the tree structure.
+   * @param {IterationType} [iterationType=ITERATIVE] - The `iterationType` parameter is an optional
+   * parameter that specifies the type of iteration to be used when searching for a node in the tree.
+   * It has a default value of `'ITERATIVE'`.
+   * @returns The method is returning a NODE object or undefined.
    */
   override getNodeByKey(key: K, iterationType: IterationType = 'ITERATIVE'): NODE | undefined {
     return this.getNode(key, this._DEFAULT_CALLBACK, this.root, iterationType);
   }
 
   /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
+   * Time Complexity: O(log n)
+   * Space Complexity: O(k + log n)
    */
 
   /**
@@ -585,30 +535,31 @@ export class BST<
    * The function overrides the depth-first search method and returns an array of the return types of
    * the callback function.
    * @param {C} callback - The `callback` parameter is a function that will be called for each node
-   * during the depth-first search traversal. It is an optional parameter and if not provided, a
-   * default callback function will be used.
-   * @param {DFSOrderPattern} [pattern=in] - The `pattern` parameter specifies the order in which the
-   * nodes are visited during the depth-first search. It can have one of the following values:
-   * @param beginRoot - The `beginRoot` parameter is used to specify the starting point for the
-   * Depth-First Search (DFS) traversal. It can be either a key, a node, or an entry in the tree. If no
-   * value is provided, the DFS traversal will start from the root of the tree.
-   * @param {IterationType} iterationType - The `iterationType` parameter specifies the type of
-   * iteration to be used during the Depth-First Search (DFS) traversal. It can have one of the
+   * during the depth-first search traversal. It is an optional parameter and defaults to
+   * `this._DEFAULT_CALLBACK`. The type `C` represents the type of the callback function.
+   * @param {DFSOrderPattern} [pattern=IN] - The "pattern" parameter in the code snippet refers to the
+   * order in which the Depth-First Search (DFS) algorithm visits the nodes in a tree or graph. It can
+   * take one of the following values:
+   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter is the starting
+   * point for the depth-first search traversal. It can be either a root node, a key-value pair, or a
+   * node entry. If not specified, the default value is the root of the tree.
+   * @param {IterationType} [iterationType=ITERATIVE] - The `iterationType` parameter specifies the
+   * type of iteration to be used during the Depth-First Search (DFS) traversal. It can have one of the
    * following values:
    * @returns The method is returning an array of the return type of the callback function.
    */
   override dfs<C extends BTNCallback<NODE>>(
     callback: C = this._DEFAULT_CALLBACK as C,
     pattern: DFSOrderPattern = 'IN',
-    beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
+    beginRoot: R | KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = 'ITERATIVE'
   ): ReturnType<C>[] {
     return super.dfs(callback, pattern, beginRoot, iterationType, false);
   }
 
   /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
+   * Time Complexity: O(log n)
+   * Space Complexity: O(1)
    */
 
   /**
@@ -618,85 +569,85 @@ export class BST<
    * The function overrides the breadth-first search method and returns an array of the return types of
    * the callback function.
    * @param {C} callback - The `callback` parameter is a function that will be called for each node
-   * visited during the breadth-first search traversal. It is an optional parameter and if not
-   * provided, a default callback function will be used.
-   * @param beginRoot - The `beginRoot` parameter is the starting point for the breadth-first search
-   * traversal. It can be either a key, a node, or an entry in the tree. If not specified, the root of
-   * the tree is used as the starting point.
-   * @param iterationType - The `iterationType` parameter is used to specify the type of iteration to
-   * be performed during the breadth-first search (BFS) traversal. It determines the order in which the
-   * nodes are visited.
-   * @returns The method is returning an array of the return type of the callback function.
+   * visited during the breadth-first search. It should take a single argument, which is the current
+   * node being visited, and it can return a value of any type.
+   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter is the starting
+   * point for the breadth-first search. It can be either a root node, a key-value pair, or an entry
+   * object. If no value is provided, the default value is the root of the tree.
+   * @param {IterationType} iterationType - The `iterationType` parameter is used to specify the type
+   * of iteration to be performed during the breadth-first search (BFS) traversal. It can have one of
+   * the following values:
+   * @returns an array of the return type of the callback function.
    */
   override bfs<C extends BTNCallback<NODE>>(
     callback: C = this._DEFAULT_CALLBACK as C,
-    beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
+    beginRoot: R | KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): ReturnType<C>[] {
     return super.bfs(callback, beginRoot, iterationType, false);
   }
 
   /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
+   * Time Complexity: O(log n)
+   * Space Complexity: O(1)
    */
 
   /**
    * Time complexity: O(n)
    * Space complexity: O(n)
    *
-   * The function overrides the listLevels method and returns an array of arrays containing the return
-   * type of the callback function for each level of the tree.
+   * The function overrides the listLevels method from the superclass and returns an array of arrays
+   * containing the results of the callback function applied to each level of the tree.
    * @param {C} callback - The `callback` parameter is a generic type `C` that extends
-   * `BTNCallback<NODE>`. It represents a callback function that will be called for each node in the tree
-   * during the level listing process.
-   * @param beginRoot - The `beginRoot` parameter is used to specify the starting point for listing the
-   * levels of a binary tree. It can be either a key, a node, or an entry in the binary tree. If not
-   * provided, the root of the binary tree is used as the starting point.
-   * @param iterationType - The `iterationType` parameter is used to specify the type of iteration to
-   * be performed on the tree. It determines the order in which the nodes are visited during the
-   * iteration.
+   * `BTNCallback<NODE>`. It represents a callback function that will be called for each node in the
+   * tree during the iteration process.
+   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter is the starting
+   * point for listing the levels of the binary tree. It can be either a root node of the tree, a
+   * key-value pair representing a node in the tree, or a key representing a node in the tree. If no
+   * value is provided, the root of
+   * @param {IterationType} iterationType - The `iterationType` parameter is used to specify the type
+   * of iteration to be performed on the tree. It can have one of the following values:
    * @returns The method is returning a two-dimensional array of the return type of the callback
    * function.
    */
   override listLevels<C extends BTNCallback<NODE>>(
     callback: C = this._DEFAULT_CALLBACK as C,
-    beginRoot: KeyOrNodeOrEntry<K, V, NODE> = this.root,
+    beginRoot: R | KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): ReturnType<C>[][] {
     return super.listLevels(callback, beginRoot, iterationType, false);
   }
 
   /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(log n)
+   * Time complexity: O(n)
+   * Space complexity: O(n)
    */
 
   /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(log n)
+   * Time complexity: O(n)
+   * Space complexity: O(n)
    *
-   * The `lesserOrGreaterTraverse` function traverses a binary tree and returns an array of nodes that
-   * are either lesser or greater than a target node, depending on the specified comparison type.
+   * The `lesserOrGreaterTraverse` function traverses a binary tree and applies a callback function to
+   * each node that meets a certain condition based on a target node and a comparison value.
    * @param {C} callback - The `callback` parameter is a function that will be called for each node
-   * that satisfies the condition specified by the `lesserOrGreater` parameter. It takes a single
-   * parameter of type `NODE` (the node type) and returns a value of any type.
+   * that meets the condition specified by the `lesserOrGreater` parameter. It takes a single argument,
+   * which is the current node being traversed, and returns a value of any type.
    * @param {CP} lesserOrGreater - The `lesserOrGreater` parameter is used to determine whether to
-   * traverse nodes that are lesser than, greater than, or equal to the `targetNode`. It is of type
-   * `CP`, which is a custom type representing the comparison operator. The possible values for
-   * `lesserOrGreater` are
-   * @param {K | NODE | undefined} targetNode - The `targetNode` parameter represents the node in the
-   * binary tree that you want to traverse from. It can be specified either by its key, by the node
-   * object itself, or it can be left undefined to start the traversal from the root of the tree.
-   * @param iterationType - The `iterationType` parameter determines the type of traversal to be
-   * performed on the binary tree. It can have two possible values:
+   * traverse nodes that are lesser, greater, or both than the `targetNode`. It accepts the values -1,
+   * 0, or 1, where:
+   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} targetNode - The `targetNode` parameter is the node in
+   * the binary tree that you want to start traversing from. It can be specified either by providing
+   * the key of the node, the node itself, or an entry containing the key and value of the node. If no
+   * `targetNode` is provided,
+   * @param {IterationType} iterationType - The `iterationType` parameter determines the type of
+   * traversal to be performed on the binary tree. It can have two possible values:
    * @returns The function `lesserOrGreaterTraverse` returns an array of values of type
    * `ReturnType<C>`, which is the return type of the callback function passed as an argument.
    */
   lesserOrGreaterTraverse<C extends BTNCallback<NODE>>(
     callback: C = this._DEFAULT_CALLBACK as C,
     lesserOrGreater: CP = -1,
-    targetNode: KeyOrNodeOrEntry<K, V, NODE> = this.root,
+    targetNode: R | KeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): ReturnType<C>[] {
     const targetNodeEnsured = this.ensureNode(targetNode);
@@ -734,19 +685,20 @@ export class BST<
   }
 
   /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(log n)
+   * Time complexity: O(n)
+   * Space complexity: O(n)
    */
 
   /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(log n)
+   * Time complexity: O(n)
+   * Space complexity: O(n)
    *
-   * The `perfectlyBalance` function balances a binary search tree by adding nodes in a way that
-   * ensures the tree is perfectly balanced.
-   * @param iterationType - The `iterationType` parameter is an optional parameter that specifies the
-   * type of iteration to use when building a balanced binary search tree. It can have two possible
-   * values:
+   * The `perfectlyBalance` function takes an optional `iterationType` parameter and returns `true` if
+   * the binary search tree is perfectly balanced, otherwise it returns `false`.
+   * @param {IterationType} iterationType - The `iterationType` parameter is an optional parameter that
+   * specifies the type of iteration to use when building a balanced binary search tree. It has a
+   * default value of `this.iterationType`, which means it will use the iteration type specified in the
+   * current instance of the class.
    * @returns The function `perfectlyBalance` returns a boolean value.
    */
   perfectlyBalance(iterationType: IterationType = this.iterationType): boolean {
@@ -787,27 +739,20 @@ export class BST<
   }
 
   /**
-   * Balancing Adjustment:
-   * Perfectly Balanced Binary Tree: Since the balance of a perfectly balanced binary tree is already fixed, no additional balancing adjustment is needed. Any insertion or deletion operation will disrupt the perfect balance, often requiring a complete reconstruction of the tree.
-   * AVL Tree: After insertion or deletion operations, an AVL tree performs rotation adjustments based on the balance factor of nodes to restore the tree's balance. These rotations can be left rotations, right rotations, left-right rotations, or right-left rotations, performed as needed.
-   *
-   * Use Cases and Efficiency:
-   * Perfectly Balanced Binary Tree: Perfectly balanced binary trees are typically used in specific scenarios such as complete binary heaps in heap sort or certain types of Huffman trees. However, they are not suitable for dynamic operations requiring frequent insertions and deletions, as these operations often necessitate full tree reconstruction.
-   * AVL Tree: AVL trees are well-suited for scenarios involving frequent searching, insertion, and deletion operations. Through rotation adjustments, AVL trees maintain their balance, ensuring average and worst-case time complexity of O(log n).
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(log n)
+   * Time complexity: O(n)
+   * Space complexity: O(n)
    */
 
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(log n)
    *
-   * The function checks if a binary tree is AVL balanced using either recursive or iterative approach.
-   * @param iterationType - The `iterationType` parameter is used to determine the method of iteration
-   * to check if the AVL tree is balanced. It can have two possible values:
+   * The function `isAVLBalanced` checks if a binary tree is AVL balanced using either a recursive or
+   * iterative approach.
+   * @param {IterationType} iterationType - The `iterationType` parameter is an optional parameter that
+   * specifies the type of iteration to use when checking if the AVL tree is balanced. It has a default
+   * value of `this.iterationType`, which means it will use the iteration type specified in the current
+   * instance of the AVL tree.
    * @returns a boolean value.
    */
   isAVLBalanced(iterationType: IterationType = this.iterationType): boolean {
@@ -855,9 +800,45 @@ export class BST<
   }
 
   /**
-   * The function sets the root property of an object and updates the parent property of the new root.
-   * @param {NODE | undefined} v - The parameter `v` is of type `NODE | undefined`. This means that it
-   * can either be an object of type `NODE` or it can be `undefined`.
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   */
+
+  protected _DEFAULT_COMPARATOR = (a: K, b: K): number => {
+    if (typeof a === 'object' && typeof b === 'object' && this.comparator === this._DEFAULT_COMPARATOR) {
+      throw TypeError(
+        'When comparing two object types, it is necessary to customize a [comparator] function of options parameter during the instantiation of the data structure.'
+      );
+    }
+    if (a > b) return 1;
+    if (a < b) return -1;
+    return 0;
+  };
+
+  /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   */
+
+  protected _comparator: Comparator<K> = this._DEFAULT_COMPARATOR;
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(log n)
+   */
+
+  /**
+   * The function returns the value of the _comparator property.
+   * @returns The `_comparator` property is being returned.
+   */
+  get comparator() {
+    return this._comparator;
+  }
+
+  /**
+   * The function sets the root of a tree-like structure and updates the parent property of the new
+   * root.
+   * @param {NODE | undefined} v - v is a parameter of type NODE or undefined.
    */
   protected override _setRoot(v: NODE | undefined) {
     if (v) {

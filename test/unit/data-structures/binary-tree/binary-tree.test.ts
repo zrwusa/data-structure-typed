@@ -403,6 +403,62 @@ describe('BinaryTree Morris Traversal', () => {
   });
 });
 
+describe('BinaryTree toEntryFn', () => {
+  it('should toEntryFn 1', () => {
+    const tree = new BinaryTree<number, number, { obj: { id: number } }>([], {
+      toEntryFn: ele => [ele.obj.id, ele.obj.id]
+    });
+    tree.add({ obj: { id: 1 } });
+    tree.add({ obj: { id: 2 } });
+    tree.add({ obj: { id: 3 } });
+    tree.add({ obj: { id: 4 } });
+    tree.add({ obj: { id: 5 } });
+
+    const expected = [4, 2, 5, 1, 3];
+
+    expect(tree.morris(node => node.key, 'IN')).toEqual(expected);
+    expect(tree.dfs(node => node.key, 'IN')).toEqual(expected);
+    expect(tree.dfs(node => node.key, 'IN', tree.root, 'RECURSIVE')).toEqual(expected);
+  });
+
+  it('should toEntryFn 2', () => {
+    const tree = new BinaryTree<number, number, { obj: { id: number } }>(
+      [{ obj: { id: 1 } }, { obj: { id: 2 } }, { obj: { id: 3 } }, { obj: { id: 4 } }, { obj: { id: 5 } }],
+      {
+        toEntryFn: ele => [ele.obj.id, ele.obj.id]
+      }
+    );
+
+    const expected = [4, 2, 5, 1, 3];
+
+    expect(tree.morris(node => node.key, 'IN')).toEqual(expected);
+    expect(tree.dfs(node => node.key, 'IN')).toEqual(expected);
+    expect(tree.dfs(node => node.key, 'IN', tree.root, 'RECURSIVE')).toEqual(expected);
+  });
+
+  it('should toEntryFn 3', () => {
+    const tree = new BinaryTree<{ obj: { id: number } }, number>([
+      { obj: { id: 1 } },
+      { obj: { id: 2 } },
+      { obj: { id: 3 } },
+      { obj: { id: 4 } },
+      { obj: { id: 5 } }
+    ]);
+
+    const expected = [
+      { obj: { id: 4 } },
+      { obj: { id: 2 } },
+      { obj: { id: 5 } },
+      { obj: { id: 1 } },
+      { obj: { id: 3 } }
+    ];
+
+    expect(tree.morris(node => node.key, 'IN')).toEqual(expected);
+    expect(tree.dfs(node => node.key, 'IN')).toEqual(expected);
+    expect(tree.dfs(node => node.key, 'IN', tree.root, 'RECURSIVE')).toEqual(expected);
+  });
+});
+
 describe('BinaryTree traversals', () => {
   const tree = new BinaryTree<number>();
 

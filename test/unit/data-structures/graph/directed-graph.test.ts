@@ -132,11 +132,11 @@ class MyDirectedGraph<
   VO extends MyVertex<V> = MyVertex<V>,
   EO extends MyEdge<E> = MyEdge<E>
 > extends DirectedGraph<V, E, VO, EO> {
-  createVertex(key: VertexKey, value: V): VO {
+  override createVertex(key: VertexKey, value: V): VO {
     return new MyVertex(key, value) as VO;
   }
 
-  createEdge(src: VertexKey, dest: VertexKey, weight?: number, value?: E): EO {
+  override createEdge(src: VertexKey, dest: VertexKey, weight?: number, value?: E): EO {
     return new MyEdge(src, dest, weight ?? 1, value) as EO;
   }
 

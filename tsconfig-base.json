@@ -16,6 +16,7 @@
     "strict": true,                       // Enable strict type checking, including enabling all strict options.
     "traceResolution": false,             // Whether to trace the module resolution process.
     "types": ["node", "jest"],            // Specifies the name of the type declaration file to include.
+    "noImplicitOverride": true,
     "typeRoots": ["node_modules/@types", "src/types", "test/types"]
   },
   "compileOnSave": false,                 // Whether to automatically compile when saving.

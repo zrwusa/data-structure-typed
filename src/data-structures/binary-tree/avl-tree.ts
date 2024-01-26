@@ -16,6 +16,7 @@ import type {
   Comparable,
   KeyOrNodeOrEntry
 } from '../../types';
+import { BTNEntry } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 
 export class AVLTreeNode<
@@ -68,33 +69,39 @@ export class AVLTreeNode<
 export class AVLTree<
   K extends Comparable,
   V = any,
+  R = BTNEntry<K, V>,
   NODE extends AVLTreeNode<K, V, NODE> = AVLTreeNode<K, V, AVLTreeNodeNested<K, V>>,
-  TREE extends AVLTree<K, V, NODE, TREE> = AVLTree<K, V, NODE, AVLTreeNested<K, V, NODE>>
+  TREE extends AVLTree<K, V, R, NODE, TREE> = AVLTree<K, V, R, NODE, AVLTreeNested<K, V, R, NODE>>
 >
-  extends BST<K, V, NODE, TREE>
-  implements IBinaryTree<K, V, NODE, TREE> {
+  extends BST<K, V, R, NODE, TREE>
+  implements IBinaryTree<K, V, R, NODE, TREE> {
   /**
-   * The constructor function initializes an AVLTree object with optional keysOrNodesOrEntries and options.
-   * @param [keysOrNodesOrEntries] - The `keysOrNodesOrEntries` parameter is an optional iterable of `KeyOrNodeOrEntry<K, V, NODE>`
-   * objects. It represents a collection of nodes that will be added to the AVL tree during
-   * initialization.
-   * @param [options] - The `options` parameter is an optional object that allows you to customize the
-   * behavior of the AVL tree. It is of type `Partial<AVLTreeOptions>`, which means that you can
-   * provide only a subset of the properties defined in the `AVLTreeOptions` interface.
+   * This is a constructor function for an AVLTree class that initializes the tree with keys, nodes,
+   * entries, or raw elements.
+   * @param keysOrNodesOrEntriesOrRawElements - The `keysOrNodesOrEntriesOrRawElements` parameter is an
+   * iterable object that can contain either keys, nodes, entries, or raw elements. These elements will
+   * be used to initialize the AVLTree.
+   * @param [options] - The `options` parameter is an optional object that can be used to customize the
+   * behavior of the AVLTree. It can include properties such as `compareFn` (a function used to compare
+   * keys), `allowDuplicates` (a boolean indicating whether duplicate keys are allowed), and
+   * `nodeBuilder` (
    */
-  constructor(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, NODE>> = [], options?: AVLTreeOptions<K>) {
+  constructor(
+    keysOrNodesOrEntriesOrRawElements: Iterable<R | KeyOrNodeOrEntry<K, V, NODE>> = [],
+    options?: AVLTreeOptions<K, V, R>
+  ) {
     super([], options);
-    if (keysOrNodesOrEntries) super.addMany(keysOrNodesOrEntries);
+    if (keysOrNodesOrEntriesOrRawElements) super.addMany(keysOrNodesOrEntriesOrRawElements);
   }
 
   /**
-   * The function creates a new AVL tree node with the specified key and value.
-   * @param {K} key - The key parameter is the key value that will be associated with
-   * the new node. It is used to determine the position of the node in the binary search tree.
-   * @param [value] - The parameter `value` is an optional value that can be assigned to the node. It is of
-   * type `V`, which means it can be any value that is assignable to the `value` property of the
-   * node type `NODE`.
-   * @returns a new AVLTreeNode object with the specified key and value.
+   * The function creates a new AVL tree node with the given key and value.
+   * @param {K} key - The key parameter is of type K, which represents the key of the node being
+   * created.
+   * @param {V} [value] - The "value" parameter is an optional parameter of type V. It represents the
+   * value associated with the key in the node being created.
+   * @returns The method is returning a new instance of the AVLTreeNode class, casted as the generic
+   * type NODE.
    */
   override createNode(key: K, value?: V): NODE {
     return new AVLTreeNode<K, V, NODE>(key, value) as NODE;
@@ -107,8 +114,8 @@ export class AVLTree<
    * being created.
    * @returns a new AVLTree object.
    */
-  override createTree(options?: AVLTreeOptions<K>): TREE {
-    return new AVLTree<K, V, NODE, TREE>([], {
+  override createTree(options?: AVLTreeOptions<K, V, R>): TREE {
+    return new AVLTree<K, V, R, NODE, TREE>([], {
       iterationType: this.iterationType,
       comparator: this.comparator,
       ...options
@@ -116,12 +123,16 @@ export class AVLTree<
   }
 
   /**
-   * The function checks if an keyOrNodeOrEntry is an instance of AVLTreeNode.
-   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter is of type `KeyOrNodeOrEntry<K, V, NODE>`.
-   * @returns a boolean value indicating whether the keyOrNodeOrEntry is an instance of the AVLTreeNode class.
+   * The function checks if the input is an instance of AVLTreeNode.
+   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
+   * `keyOrNodeOrEntryOrRawElement` can be of type `R` or `KeyOrNodeOrEntry<K, V, NODE>`.
+   * @returns a boolean value indicating whether the input parameter `keyOrNodeOrEntryOrRawElement` is
+   * an instance of the `AVLTreeNode` class.
    */
-  override isNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>): keyOrNodeOrEntry is NODE {
-    return keyOrNodeOrEntry instanceof AVLTreeNode;
+  override isNode(
+    keyOrNodeOrEntryOrRawElement: R | KeyOrNodeOrEntry<K, V, NODE>
+  ): keyOrNodeOrEntryOrRawElement is NODE {
+    return keyOrNodeOrEntryOrRawElement instanceof AVLTreeNode;
   }
 
   /**
@@ -134,18 +145,19 @@ export class AVLTree<
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
-   * The function overrides the add method of a binary tree node and balances the tree after inserting
-   * a new node.
-   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter can be either a key, a node, or an
-   * entry.
-   * @param {V} [value] - The `value` parameter represents the value associated with the key that is
-   * being added to the binary tree.
-   * @returns The method is returning either the inserted node or undefined.
+   * The function overrides the add method of a class and inserts a key-value pair into a data
+   * structure, then balances the path.
+   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
+   * `keyOrNodeOrEntryOrRawElement` can accept values of type `R`, `KeyOrNodeOrEntry<K, V, NODE>`, or
+   * `RawElement`.
+   * @param {V} [value] - The `value` parameter is an optional value that you want to associate with
+   * the key or node being added to the data structure.
+   * @returns The method is returning a boolean value.
    */
-  override add(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>, value?: V): boolean {
-    if (keyOrNodeOrEntry === null) return false;
-    const inserted = super.add(keyOrNodeOrEntry, value);
-    if (inserted) this._balancePath(keyOrNodeOrEntry);
+  override add(keyOrNodeOrEntryOrRawElement: R | KeyOrNodeOrEntry<K, V, NODE>, value?: V): boolean {
+    if (keyOrNodeOrEntryOrRawElement === null) return false;
+    const inserted = super.add(keyOrNodeOrEntryOrRawElement, value);
+    if (inserted) this._balancePath(keyOrNodeOrEntryOrRawElement);
     return inserted;
   }
 
@@ -158,16 +170,14 @@ export class AVLTree<
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
-   * The function overrides the delete method of a binary tree, performs the deletion, and then
-   * balances the tree if necessary.
+   * The function overrides the delete method of a binary tree class and performs additional operations
+   * to balance the tree after deletion.
    * @param identifier - The `identifier` parameter is the value or condition used to identify the
-   * node(s) to be deleted from the binary tree. It can be of any type and is the return type of the
-   * `callback` function.
-   * @param {C} callback - The `callback` parameter is a function that will be called for each node
-   * that is deleted from the binary tree. It is an optional parameter and if not provided, it will
-   * default to the `_DEFAULT_CALLBACK` function. The `callback` function should have a single
-   * parameter of type `NODE
-   * @returns The method is returning an array of `BinaryTreeDeleteResult<NODE>`.
+   * node(s) to be deleted from the binary tree. It can be of any type that is compatible with the
+   * binary tree's node type.
+   * @param {C} callback - The `callback` parameter is a function that will be used to determine if a
+   * node should be deleted or not. It is optional and has a default value of `this._DEFAULT_CALLBACK`.
+   * @returns The method is returning an array of BinaryTreeDeleteResult<NODE> objects.
    */
   override delete<C extends BTNCallback<NODE>>(
     identifier: ReturnType<C>,
@@ -183,18 +193,26 @@ export class AVLTree<
   }
 
   /**
-   * The `_swapProperties` function swaps the key, value, and height properties between two nodes in a binary
-   * tree.
-   * @param {K | NODE | undefined} srcNode - The `srcNode` parameter represents the source node that
-   * needs to be swapped with the destination node. It can be of type `K`, `NODE`, or `undefined`.
-   * @param {K | NODE  | undefined} destNode - The `destNode` parameter represents the destination
-   * node where the values from the source node will be swapped to.
-   * @returns either the `destNode` object if both `srcNode` and `destNode` are defined, or `undefined`
-   * if either `srcNode` or `destNode` is undefined.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The `_swapProperties` function swaps the key, value, and height properties between two nodes in a
+   * binary search tree.
+   * @param {R | BSTNKeyOrNode<K, NODE>} srcNode - The `srcNode` parameter represents either a node
+   * object (`NODE`) or a key-value pair (`R`) that is being swapped with another node.
+   * @param {R | BSTNKeyOrNode<K, NODE>} destNode - The `destNode` parameter is either an instance of
+   * `R` or an instance of `BSTNKeyOrNode<K, NODE>`.
+   * @returns The method is returning the `destNodeEnsured` object if both `srcNodeEnsured` and
+   * `destNodeEnsured` are truthy. Otherwise, it returns `undefined`.
    */
   protected override _swapProperties(
-    srcNode: BSTNKeyOrNode<K, NODE>,
-    destNode: BSTNKeyOrNode<K, NODE>
+    srcNode: R | BSTNKeyOrNode<K, NODE>,
+    destNode: R | BSTNKeyOrNode<K, NODE>
   ): NODE | undefined {
     const srcNodeEnsured = this.ensureNode(srcNode);
     const destNodeEnsured = this.ensureNode(destNode);
@@ -230,7 +248,8 @@ export class AVLTree<
    * Space Complexity: O(1)
    *
    * The function calculates the balance factor of a node in a binary tree.
-   * @param {NODE} node - The parameter "node" represents a node in a binary tree data structure.
+   * @param {NODE} node - The parameter "node" is of type "NODE", which likely represents a node in a
+   * binary tree data structure.
    * @returns the balance factor of a given node. The balance factor is calculated by subtracting the
    * height of the left subtree from the height of the right subtree.
    */
@@ -275,7 +294,7 @@ export class AVLTree<
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The function `_balanceLL` performs a left-left rotation to balance a binary tree.
+   * The `_balanceLL` function performs a left-left rotation to balance a binary search tree.
    * @param {NODE} A - A is a node in a binary tree.
    */
   protected _balanceLL(A: NODE): void {
@@ -470,10 +489,10 @@ export class AVLTree<
    *
    * The `_balancePath` function is used to update the heights of nodes and perform rotation operations
    * to restore balance in an AVL tree after inserting a node.
-   * @param {NODE} node - The `node` parameter in the `_balancePath` function represents the node in the
-   * AVL tree that needs to be balanced.
+   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} node - The `node` parameter can be of type `R` or
+   * `KeyOrNodeOrEntry<K, V, NODE>`.
    */
-  protected _balancePath(node: KeyOrNodeOrEntry<K, V, NODE>): void {
+  protected _balancePath(node: R | KeyOrNodeOrEntry<K, V, NODE>): void {
     node = this.ensureNode(node);
     const path = this.getPathToRoot(node, false); // first O(log n) + O(log n)
     for (let i = 0; i < path.length; i++) {
@@ -514,13 +533,22 @@ export class AVLTree<
   }
 
   /**
-   * The function replaces an old node with a new node while preserving the height of the old node.
-   * @param {NODE} oldNode - The `oldNode` parameter is the node that you want to replace with the
-   * `newNode`.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The function replaces an old node with a new node and sets the height of the new node to be the
+   * same as the old node.
+   * @param {NODE} oldNode - The `oldNode` parameter represents the node that needs to be replaced in
+   * the data structure.
    * @param {NODE} newNode - The `newNode` parameter is the new node that will replace the `oldNode` in
    * the data structure.
-   * @returns the result of calling the `_replaceNode` method on the superclass, passing in the
-   * `oldNode` and `newNode` as arguments.
+   * @returns The method is returning the result of calling the `_replaceNode` method from the
+   * superclass, with the `oldNode` and `newNode` as arguments.
    */
   protected override _replaceNode(oldNode: NODE, newNode: NODE): NODE {
     newNode.height = oldNode.height;

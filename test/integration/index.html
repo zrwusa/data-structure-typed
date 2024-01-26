@@ -11,6 +11,20 @@
   <!--  <script src='https://cdn.jsdelivr.net/npm/data-structure-typed@1.44.0/dist/umd/data-structure-typed.min.js'></script>-->
 
   <script src='https://unpkg.com/js-sdsl@4.4.2/dist/umd/js-sdsl.js'></script>
+  <script>
+    const logPerf = function (label = 'function running cost', fn, args, thisArg) {
+      const start = performance.now();
+      let result;
+      if (thisArg) {
+        if (args && args.length > 0) result = fn.apply(thisArg, args);
+        else result = fn.apply(thisArg);
+      } else {
+        if (args && args.length > 0) result = fn(...args);
+        else result = fn();
+      }
+      console.log(`${(performance.now() - start).toFixed(2)} ms, ${label}, ${result}`);
+    }
+  </script>
 </head>
 <body>
 <div id='app'>
@@ -26,19 +40,19 @@
     const { Queue } = dataStructureTyped;
     const queue = new Queue();
     const n = 1000000;
-    const startEn = performance.now();
-    for (let i = 0; i < n; i++) {
-      queue.push(i);
-    }
-    console.log((performance.now() - startEn).toFixed(2), `Queue ${n.toLocaleString()} enqueue `);
+    logPerf(`Queue ${n.toLocaleString()} enqueue`, () => {
+      for (let i = 0; i < n; i++) {
+        queue.push(i);
+      }
+    })
+
     let last = 0;
-    const startTime = performance.now();
 
-    for (let i = 0; i < n; i++) {
-      last = queue.shift();
-    }
-
-    console.log((performance.now() - startTime).toFixed(2), `Queue ${n.toLocaleString()} dequeue `);
+    logPerf(`Queue ${n.toLocaleString()} dequeue `, () => {
+      for (let i = 0; i < n; i++) {
+        last = queue.shift();
+      }
+    })
 
   } catch (e) {
     console.error(e);

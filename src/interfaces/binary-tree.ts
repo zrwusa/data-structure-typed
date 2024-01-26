@@ -12,16 +12,17 @@ import type {
 export interface IBinaryTree<
   K extends Comparable,
   V = any,
-  N extends BinaryTreeNode<K, V, N> = BinaryTreeNodeNested<K, V>,
-  TREE extends BinaryTree<K, V, N, TREE> = BinaryTreeNested<K, V, N>
+  R = [K, V],
+  NODE extends BinaryTreeNode<K, V, NODE> = BinaryTreeNodeNested<K, V>,
+  TREE extends BinaryTree<K, V, R, NODE, TREE> = BinaryTreeNested<K, V, R, NODE>
 > {
-  createNode(key: K, value?: N['value']): N;
+  createNode(key: K, value?: NODE['value']): NODE;
 
-  createTree(options?: Partial<BinaryTreeOptions>): TREE;
+  createTree(options?: Partial<BinaryTreeOptions<K, V, R>>): TREE;
 
-  add(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, N>, value?: V, count?: number): boolean;
+  add(keyOrNodeOrEntryOrRawElement: KeyOrNodeOrEntry<K, V, NODE>, value?: V, count?: number): boolean;
 
-  addMany(nodes: Iterable<KeyOrNodeOrEntry<K, V, N>>, values?: Iterable<V | undefined>): boolean[];
+  addMany(nodes: Iterable<KeyOrNodeOrEntry<K, V, NODE>>, values?: Iterable<V | undefined>): boolean[];
 
-  delete<C extends BTNCallback<N>>(identifier: ReturnType<C> | null, callback: C): BinaryTreeDeleteResult<N>[];
+  delete<C extends BTNCallback<NODE>>(identifier: ReturnType<C> | null, callback: C): BinaryTreeDeleteResult<NODE>[];
 }

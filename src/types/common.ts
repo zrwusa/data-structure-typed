@@ -1,4 +1,3 @@
-export type BSTVariant = 'STANDARD' | 'INVERSE';
 export type CP = 1 | -1 | 0;
 
 /**
@@ -39,7 +38,7 @@ export type KeyOrNodeOrEntry<K, V, N> = BTNEntry<K, V> | BTNKeyOrNode<K, N>;
 
 export type BTNodePureKeyOrNode<K, N> = K | N;
 
-export type BTNodePureExemplar<K, V, N> = [K, V | undefined] | BTNodePureKeyOrNode<K, N>;
+export type BTNPureKeyOrNodeOrEntry<K, V, N> = [K, V | undefined] | BTNodePureKeyOrNode<K, N>;
 
 export type BSTNKeyOrNode<K, N> = K | undefined | N;
 

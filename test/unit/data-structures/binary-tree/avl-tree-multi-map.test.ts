@@ -689,3 +689,71 @@ describe('AVLTreeMultiMap iterative methods test', () => {
     expect([...values]).toEqual(['a', 'b', 'c']);
   });
 });
+
+describe('AVLTree toEntryFn', () => {
+  it('should toEntryFn 1', () => {
+    const tree = new AVLTreeMultiMap<number, number, { obj: { id: number } }>([], {
+      toEntryFn: ele => [ele.obj.id, ele.obj.id]
+    });
+    tree.add({ obj: { id: 1 } });
+    tree.add({ obj: { id: 2 } });
+    tree.add({ obj: { id: 3 } });
+    tree.add({ obj: { id: 4 } });
+    tree.add({ obj: { id: 5 } });
+
+    const expected = [1, 2, 3, 4, 5];
+
+    expect(tree.morris(node => node.key, 'IN')).toEqual(expected);
+    expect(tree.dfs(node => node.key, 'IN')).toEqual(expected);
+    expect(tree.dfs(node => node.key, 'IN', tree.root, 'RECURSIVE')).toEqual(expected);
+  });
+
+  it('should toEntryFn 2', () => {
+    const tree = new AVLTreeMultiMap<number, number, { obj: { id: number } }>(
+      [{ obj: { id: 1 } }, { obj: { id: 2 } }, { obj: { id: 3 } }, { obj: { id: 4 } }, { obj: { id: 5 } }],
+      {
+        toEntryFn: ele => [ele.obj.id, ele.obj.id]
+      }
+    );
+
+    const expected = [1, 2, 3, 4, 5];
+
+    expect(tree.morris(node => node.key, 'IN')).toEqual(expected);
+    expect(tree.dfs(node => node.key, 'IN')).toEqual(expected);
+    expect(tree.dfs(node => node.key, 'IN', tree.root, 'RECURSIVE')).toEqual(expected);
+  });
+
+  it('should toEntryFn throw error', () => {
+    expect(
+      () =>
+        new AVLTreeMultiMap<{ obj: { id: number } }, number>([
+          { obj: { id: 1 } },
+          { obj: { id: 2 } },
+          { obj: { id: 3 } },
+          { obj: { id: 4 } },
+          { obj: { id: 5 } }
+        ])
+    ).toThrowError(
+      'When comparing two object types, it is necessary to customize a [comparator] function of options parameter during the instantiation of the data structure.'
+    );
+  });
+
+  it('should toEntryFn 3', () => {
+    const tree = new AVLTreeMultiMap<{ obj: { id: number } }, number>(
+      [{ obj: { id: 1 } }, { obj: { id: 2 } }, { obj: { id: 3 } }, { obj: { id: 4 } }, { obj: { id: 5 } }],
+      { comparator: (a, b) => a.obj.id - b.obj.id }
+    );
+
+    const expected = [
+      { obj: { id: 1 } },
+      { obj: { id: 2 } },
+      { obj: { id: 3 } },
+      { obj: { id: 4 } },
+      { obj: { id: 5 } }
+    ];
+
+    expect(tree.morris(node => node.key, 'IN')).toEqual(expected);
+    expect(tree.dfs(node => node.key, 'IN')).toEqual(expected);
+    expect(tree.dfs(node => node.key, 'IN', tree.root, 'RECURSIVE')).toEqual(expected);
+  });
+});

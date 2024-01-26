@@ -17,6 +17,7 @@ import type {
   TreeMultiMapNodeNested,
   TreeMultiMapOptions
 } from '../../types';
+import { BTNEntry } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { RedBlackTree, RedBlackTreeNode } from './rb-tree';
 
@@ -65,23 +66,27 @@ export class TreeMultiMapNode<
 export class TreeMultiMap<
   K extends Comparable,
   V = any,
+  R = BTNEntry<K, V>,
   NODE extends TreeMultiMapNode<K, V, NODE> = TreeMultiMapNode<K, V, TreeMultiMapNodeNested<K, V>>,
-  TREE extends TreeMultiMap<K, V, NODE, TREE> = TreeMultiMap<K, V, NODE, TreeMultiMapNested<K, V, NODE>>
+  TREE extends TreeMultiMap<K, V, R, NODE, TREE> = TreeMultiMap<K, V, R, NODE, TreeMultiMapNested<K, V, R, NODE>>
 >
-  extends RedBlackTree<K, V, NODE, TREE>
-  implements IBinaryTree<K, V, NODE, TREE> {
+  extends RedBlackTree<K, V, R, NODE, TREE>
+  implements IBinaryTree<K, V, R, NODE, TREE> {
   /**
-   * The constructor function initializes a new instance of the TreeMultiMap class with optional
-   * initial keys, nodes, or entries.
-   * @param keysOrNodesOrEntries - The `keysOrNodesOrEntries` parameter is an iterable object that can
-   * contain keys, nodes, or entries. It is used to initialize the TreeMultiMap with the provided keys,
-   * nodes, or entries.
-   * @param [options] - The `options` parameter is an optional object that can be passed to the
-   * constructor. It allows you to customize the behavior of the `TreeMultiMap` instance.
+   * The constructor function initializes a TreeMultiMap object with optional initial data.
+   * @param keysOrNodesOrEntriesOrRawElements - The parameter `keysOrNodesOrEntriesOrRawElements` is an
+   * iterable that can contain keys, nodes, entries, or raw elements. It is used to initialize the
+   * TreeMultiMap with initial data.
+   * @param [options] - The `options` parameter is an optional object that can be used to customize the
+   * behavior of the `TreeMultiMap` constructor. It can include properties such as `compareKeys` and
+   * `compareValues`, which are functions used to compare keys and values respectively.
    */
-  constructor(keysOrNodesOrEntries: Iterable<KeyOrNodeOrEntry<K, V, NODE>> = [], options?: TreeMultiMapOptions<K>) {
+  constructor(
+    keysOrNodesOrEntriesOrRawElements: Iterable<KeyOrNodeOrEntry<K, V, NODE>> = [],
+    options?: TreeMultiMapOptions<K, V, R>
+  ) {
     super([], options);
-    if (keysOrNodesOrEntries) this.addMany(keysOrNodesOrEntries);
+    if (keysOrNodesOrEntriesOrRawElements) this.addMany(keysOrNodesOrEntriesOrRawElements);
   }
 
   protected _count = 0;
@@ -117,16 +122,15 @@ export class TreeMultiMap<
   /**
    * The function creates a new TreeMultiMapNode with the specified key, value, color, and count.
    * @param {K} key - The key parameter represents the key of the node being created. It is of type K,
-   * which is a generic type representing the key type of the node.
-   * @param {V} [value] - The `value` parameter represents the value associated with the key in the
-   * node. It is an optional parameter, which means it can be omitted when calling the `createNode`
-   * function. If provided, it should be of type `V`.
+   * which is a generic type representing the type of keys in the tree.
+   * @param {V} [value] - The `value` parameter is an optional parameter that represents the value
+   * associated with the key in the node. It is of type `V`, which can be any data type.
    * @param {RBTNColor} [color=BLACK] - The color parameter is used to specify the color of the node in
    * a Red-Black Tree. It can have two possible values: 'RED' or 'BLACK'. The default value is 'BLACK'.
    * @param {number} [count] - The `count` parameter represents the number of occurrences of a key in
    * the tree. It is an optional parameter and is used to keep track of the number of values associated
    * with a key in the tree.
-   * @returns A new instance of the TreeMultiMapNode class is being returned.
+   * @returns A new instance of the TreeMultiMapNode class, casted as NODE.
    */
   override createNode(key: K, value?: V, color: RBTNColor = 'BLACK', count?: number): NODE {
     return new TreeMultiMapNode(key, value, count, color) as NODE;
@@ -135,64 +139,67 @@ export class TreeMultiMap<
   /**
    * The function creates a new instance of a TreeMultiMap with the specified options and returns it.
    * @param [options] - The `options` parameter is an optional object that contains additional
-   * configuration options for creating the `TreeMultiMap`. It can include properties such as
-   * `keyComparator`, `valueComparator`, `allowDuplicates`, etc.
+   * configuration options for creating the `TreeMultiMap`. It is of type `TreeMultiMapOptions<K, V,
+   * R>`.
    * @returns a new instance of the `TreeMultiMap` class, with the provided options merged with the
-   * existing `iterationType` option. The returned value is casted as `TREE`.
+   * existing `iterationType` property. The returned value is casted as `TREE`.
    */
-  override createTree(options?: TreeMultiMapOptions<K>): TREE {
-    return new TreeMultiMap<K, V, NODE, TREE>([], {
+  override createTree(options?: TreeMultiMapOptions<K, V, R>): TREE {
+    return new TreeMultiMap<K, V, R, NODE, TREE>([], {
       iterationType: this.iterationType,
       ...options
     }) as TREE;
   }
 
   /**
-   * The function `keyValueOrEntryToNode` takes a key, value, and count and returns a node if the input
-   * is valid.
-   * @param keyOrNodeOrEntry - The parameter `keyOrNodeOrEntry` can be of type `KeyOrNodeOrEntry<K, V,
-   * NODE>`. It can accept three types of values:
-   * @param {V} [value] - The `value` parameter is an optional value of type `V`. It represents the
-   * value associated with a key in a key-value pair.
-   * @param [count=1] - The count parameter is an optional parameter that specifies the number of times
-   * the key-value pair should be added to the node. If not provided, it defaults to 1.
-   * @returns a NODE object or undefined.
+   * The function `keyValueOrEntryOrRawElementToNode` takes in a key, value, and count and returns a
+   * node based on the input.
+   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
+   * `keyOrNodeOrEntryOrRawElement` can be of type `R` or `KeyOrNodeOrEntry<K, V, NODE>`.
+   * @param {V} [value] - The `value` parameter is an optional value that represents the value
+   * associated with the key in the node. It is used when creating a new node or updating the value of
+   * an existing node.
+   * @param [count=1] - The `count` parameter is an optional parameter that specifies the number of
+   * times the key-value pair should be added to the data structure. If not provided, it defaults to 1.
+   * @returns either a NODE object or undefined.
    */
-  override keyValueOrEntryToNode(
-    keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>,
+  override keyValueOrEntryOrRawElementToNode(
+    keyOrNodeOrEntryOrRawElement: R | KeyOrNodeOrEntry<K, V, NODE>,
     value?: V,
     count = 1
   ): NODE | undefined {
-    let node: NODE | undefined;
-    if (keyOrNodeOrEntry === undefined || keyOrNodeOrEntry === null) {
-      return;
-    } else if (this.isNode(keyOrNodeOrEntry)) {
-      node = keyOrNodeOrEntry;
-    } else if (this.isEntry(keyOrNodeOrEntry)) {
-      const [key, value] = keyOrNodeOrEntry;
-      if (key === undefined || key === null) {
-        return;
-      } else {
-        node = this.createNode(key, value, 'BLACK', count);
-      }
-    } else if (!this.isNode(keyOrNodeOrEntry)) {
-      node = this.createNode(keyOrNodeOrEntry, value, 'BLACK', count);
-    } else {
-      return;
+    if (keyOrNodeOrEntryOrRawElement === undefined || keyOrNodeOrEntryOrRawElement === null) return;
+
+    if (this.isNode(keyOrNodeOrEntryOrRawElement)) return keyOrNodeOrEntryOrRawElement;
+
+    if (this.toEntryFn) {
+      const [key] = this.toEntryFn(keyOrNodeOrEntryOrRawElement as R);
+      if (key) return this.getNodeByKey(key);
     }
-    return node;
+
+    if (this.isEntry(keyOrNodeOrEntryOrRawElement)) {
+      const [key, value] = keyOrNodeOrEntryOrRawElement;
+      if (key === undefined || key === null) return;
+      else return this.createNode(key, value, 'BLACK', count);
+    }
+
+    if (this.isKey(keyOrNodeOrEntryOrRawElement))
+      return this.createNode(keyOrNodeOrEntryOrRawElement, value, 'BLACK', count);
+
+    return;
   }
 
   /**
-   * The function "isNode" checks if a given key, node, or entry is an instance of the TreeMultiMapNode
-   * class.
-   * @param keyOrNodeOrEntry - The parameter `keyOrNodeOrEntry` can be of type `KeyOrNodeOrEntry<K, V,
-   * NODE>`.
-   * @returns a boolean value indicating whether the input parameter `keyOrNodeOrEntry` is an instance
-   * of the `TreeMultiMapNode` class.
+   * The function checks if the input is an instance of the TreeMultiMapNode class.
+   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
+   * `keyOrNodeOrEntryOrRawElement` can be of type `R` or `KeyOrNodeOrEntry<K, V, NODE>`.
+   * @returns a boolean value indicating whether the input parameter `keyOrNodeOrEntryOrRawElement` is
+   * an instance of the `TreeMultiMapNode` class.
    */
-  override isNode(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>): keyOrNodeOrEntry is NODE {
-    return keyOrNodeOrEntry instanceof TreeMultiMapNode;
+  override isNode(
+    keyOrNodeOrEntryOrRawElement: R | KeyOrNodeOrEntry<K, V, NODE>
+  ): keyOrNodeOrEntryOrRawElement is NODE {
+    return keyOrNodeOrEntryOrRawElement instanceof TreeMultiMapNode;
   }
 
   /**
@@ -204,17 +211,20 @@ export class TreeMultiMap<
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
-   * The function overrides the add method in TypeScript and adds a new node to the data structure.
-   * @param keyOrNodeOrEntry - The `keyOrNodeOrEntry` parameter can accept three types of values:
+   * The function overrides the add method of a class and adds a new node to a data structure, updating
+   * the count and returning a boolean indicating success.
+   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The
+   * `keyOrNodeOrEntryOrRawElement` parameter can accept one of the following types:
    * @param {V} [value] - The `value` parameter represents the value associated with the key in the
-   * data structure.
+   * data structure. It is an optional parameter, so it can be omitted if not needed.
    * @param [count=1] - The `count` parameter represents the number of times the key-value pair should
-   * be added to the data structure. By default, it is set to 1, meaning that the key-value pair will
-   * be added once. However, you can specify a different value for `count` if you want to add
-   * @returns a boolean value.
+   * be added to the data structure. By default, it is set to 1, meaning that if no value is provided
+   * for `count`, the key-value pair will be added once.
+   * @returns The method is returning a boolean value. It returns true if the addition of the new node
+   * was successful, and false otherwise.
    */
-  override add(keyOrNodeOrEntry: KeyOrNodeOrEntry<K, V, NODE>, value?: V, count = 1): boolean {
-    const newNode = this.keyValueOrEntryToNode(keyOrNodeOrEntry, value, count);
+  override add(keyOrNodeOrEntryOrRawElement: R | KeyOrNodeOrEntry<K, V, NODE>, value?: V, count = 1): boolean {
+    const newNode = this.keyValueOrEntryOrRawElementToNode(keyOrNodeOrEntryOrRawElement, value, count);
     const orgCount = newNode?.count || 0;
     const isSuccessAdded = super.add(newNode);
 
@@ -235,20 +245,18 @@ export class TreeMultiMap<
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
-   * The `delete` function in a TypeScript class is used to delete nodes from a binary tree based on a
-   * given identifier, and it returns an array of results containing information about the deleted
-   * nodes.
-   * @param {ReturnType<C> | null | undefined} identifier - The identifier parameter is the value used
-   * to identify the node to be deleted. It can be of any type that is returned by the callback
-   * function. It can also be null or undefined if no node needs to be deleted.
-   * @param {C} callback - The `callback` parameter is a function that takes a node of type `NODE` as
-   * input and returns a value of type `ReturnType<C>`. It is used to determine if a node matches the
-   * identifier for deletion. If no callback is provided, the `_DEFAULT_CALLBACK` function is
-   * used
-   * @param [ignoreCount=false] - A boolean value indicating whether to ignore the count of the target
-   * node when performing deletion. If set to true, the count of the target node will not be considered
-   * and the node will be deleted regardless of its count. If set to false (default), the count of the
-   * target node will be decremented
+   * The function `delete` is used to remove a node from a binary tree and fix the tree if necessary.
+   * @param {ReturnType<C> | null | undefined} identifier - The `identifier` parameter is the value or
+   * key that is used to identify the node that needs to be deleted from the binary tree. It can be of
+   * any type that is returned by the callback function `C`. It can also be `null` or `undefined` if
+   * the node to be deleted
+   * @param {C} callback - The `callback` parameter is a function that is used to determine the
+   * equality of nodes in the binary tree. It is optional and has a default value of
+   * `this._DEFAULT_CALLBACK`. The `callback` function is used to compare nodes when searching for a
+   * specific node or when performing other operations on the
+   * @param [ignoreCount=false] - A boolean flag indicating whether to ignore the count of the node
+   * being deleted. If set to true, the count of the node will not be taken into account when deleting
+   * it. If set to false, the count of the node will be decremented by 1 before deleting it.
    * @returns an array of BinaryTreeDeleteResult<NODE> objects.
    */
   override delete<C extends BTNCallback<NODE>>(
@@ -372,10 +380,12 @@ export class TreeMultiMap<
    *
    * The `perfectlyBalance` function takes a sorted array of nodes and builds a balanced binary search
    * tree using either a recursive or iterative approach.
-   * @param iterationType - The `iterationType` parameter is an optional parameter that specifies the
-   * type of iteration to use when building the balanced binary search tree. It can have two possible
-   * values:
-   * @returns a boolean value.
+   * @param {IterationType} iterationType - The `iterationType` parameter is an optional parameter that
+   * specifies the type of iteration to use when building the balanced binary search tree. It has a
+   * default value of `this.iterationType`, which means it will use the iteration type specified by the
+   * `iterationType` property of the current object.
+   * @returns The function `perfectlyBalance` returns a boolean value. It returns `true` if the
+   * balancing operation is successful, and `false` if there are no nodes to balance.
    */
   override perfectlyBalance(iterationType: IterationType = this.iterationType): boolean {
     const sorted = this.dfs(node => node, 'IN'),
@@ -434,19 +444,27 @@ export class TreeMultiMap<
   }
 
   /**
-   * The function swaps the properties of two nodes in a binary search tree.
-   * @param srcNode - The source node that needs to be swapped with the destination node. It can be
-   * either a key or a node object.
-   * @param destNode - The `destNode` parameter is the node in the binary search tree where the
-   * properties will be swapped with the `srcNode`.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   */
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The `_swapProperties` function swaps the properties (key, value, count, color) between two nodes
+   * in a binary search tree.
+   * @param {R | BSTNKeyOrNode<K, NODE>} srcNode - The `srcNode` parameter represents the source node
+   * that will be swapped with the `destNode`. It can be either an instance of the `R` class or an
+   * instance of the `BSTNKeyOrNode<K, NODE>` class.
+   * @param {R | BSTNKeyOrNode<K, NODE>} destNode - The `destNode` parameter represents the destination
+   * node where the properties will be swapped with the source node.
    * @returns The method is returning the `destNode` after swapping its properties with the `srcNode`.
-   * If both `srcNode` and `destNode` are valid nodes, the method swaps their `key`, `value`, `count`,
-   * and `color` properties. If the swapping is successful, the method returns the modified `destNode`.
-   * If either `srcNode` or `destNode` is
+   * If either `srcNode` or `destNode` is undefined, it returns undefined.
    */
   protected override _swapProperties(
-    srcNode: BSTNKeyOrNode<K, NODE>,
-    destNode: BSTNKeyOrNode<K, NODE>
+    srcNode: R | BSTNKeyOrNode<K, NODE>,
+    destNode: R | BSTNKeyOrNode<K, NODE>
   ): NODE | undefined {
     srcNode = this.ensureNode(srcNode);
     destNode = this.ensureNode(destNode);
@@ -473,14 +491,22 @@ export class TreeMultiMap<
   }
 
   /**
-   * The function replaces an old node with a new node and updates the count property of the new node.
-   * @param {NODE} oldNode - The `oldNode` parameter is of type `NODE` and represents the node that
-   * needs to be replaced in the data structure.
-   * @param {NODE} newNode - The `newNode` parameter is an object of type `NODE`.
-   * @returns The method is returning the result of calling the `_replaceNode` method from the
-   * superclass, after updating the `count` property of the `newNode` object.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
-  protected _replaceNode(oldNode: NODE, newNode: NODE): NODE {
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The function replaces an old node with a new node and updates the count property of the new node.
+   * @param {NODE} oldNode - The `oldNode` parameter is the node that you want to replace in the data
+   * structure.
+   * @param {NODE} newNode - The `newNode` parameter is an instance of the `NODE` class.
+   * @returns The method is returning the result of calling the `_replaceNode` method from the
+   * superclass, which is of type `NODE`.
+   */
+  protected override _replaceNode(oldNode: NODE, newNode: NODE): NODE {
     newNode.count = oldNode.count + newNode.count;
     return super._replaceNode(oldNode, newNode);
   }

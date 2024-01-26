@@ -108,7 +108,7 @@ export const roundFixed = (num: number, digit: number = 10) => {
 
 export function isComparable(key: any): key is Comparable {
   const keyType = typeof key;
-  if (keyType === 'number') return isNaN(key);
+  if (keyType === 'number') return !isNaN(key);
   if (keyType === 'string') return true;
   if (keyType === 'bigint') return true;
   if (keyType === 'boolean') return true;
@@ -117,8 +117,8 @@ export function isComparable(key: any): key is Comparable {
   if (keyType === 'function') return isComparable(key());
   if (keyType === 'object') {
     if (key === null) return true;
-    if (typeof key.valueOf === 'function') return isComparable(key.valueOf());
-    if (typeof key.toString === 'function') return isComparable(key.toString());
+    // if (typeof key.valueOf === 'function') return isComparable(key.valueOf());   // This will keep recursing because every object has a valueOf method.
+    // if (typeof key.toString === 'function') return isComparable(key.toString()); // This will also keep recursing because every string type has a toString method.
     return false;
   }
 

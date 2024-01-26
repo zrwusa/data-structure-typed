@@ -16,20 +16,21 @@ import { IterableEntryBase } from '../base';
 import { isWeakKey, rangeCheck } from '../../utils';
 
 /**
- * 1. Key-Value Pair Storage: HashMap stores key-value pairs. Each key maps to a value.
+ * 1. Key-Value Pair Storage: HashMap stores key-value pairs. Each key map to a value.
  * 2. Fast Lookup: It's used when you need to quickly find, insert, or delete entries based on a key.
- * 3. Unique Keys: Keys are unique. If you try to insert another entry with the same key, the old entry will be replaced by the new one.
+ * 3. Unique Keys: Keys are unique.
+ * If you try to insert another entry with the same key, the new one will replace the old entry.
  * 4. Unordered Collection: HashMap does not guarantee the order of entries, and the order may change over time.
  */
 export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, V> {
   /**
    * The constructor function initializes a HashMap object with an optional initial collection and
    * options.
-   * @param rawCollection - The `rawCollection` parameter is an iterable collection of elements of type
+   * @param entryOrRawElements - The `entryOrRawElements` parameter is an iterable collection of elements of a type
    * `T`. It is an optional parameter and its default value is an empty array `[]`.
    * @param [options] - The `options` parameter is an optional object that can contain two properties:
    */
-  constructor(rawCollection: Iterable<R | [K, V]> = [], options?: HashMapOptions<K, V, R>) {
+  constructor(entryOrRawElements: Iterable<R | [K, V]> = [], options?: HashMapOptions<K, V, R>) {
     super();
     if (options) {
       const { hashFn, toEntryFn } = options;
@@ -40,8 +41,8 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
         this._toEntryFn = toEntryFn;
       }
     }
-    if (rawCollection) {
-      this.setMany(rawCollection);
+    if (entryOrRawElements) {
+      this.setMany(entryOrRawElements);
     }
   }
 
@@ -67,16 +68,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
     return this._objMap;
   }
 
-  protected _toEntryFn: (rawElement: R) => [K, V] = (rawElement: R) => {
-    if (this.isEntry(rawElement)) {
-      // TODO, For performance optimization, it may be necessary to only inspect the first element traversed.
-      return rawElement;
-    } else {
-      throw new Error(
-        "If the provided rawCollection does not adhere to the [key, value] type format, the toEntryFn in the constructor's options parameter needs to specified."
-      );
-    }
-  };
+  protected _toEntryFn?: (rawElement: R) => [K, V];
 
   /**
    * The function returns the value of the _toEntryFn property.
@@ -164,23 +156,24 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
   /**
    * The function `setMany` takes an iterable collection of objects, maps each object to a key-value
    * pair using a mapping function, and sets each key-value pair in the current object.
-   * @param rawCollection - The `rawCollection` parameter is an iterable collection of elements of type
+   * @param entryOrRawElements - The `entryOrRawElements` parameter is an iterable collection of elements of a type
    * `T`.
    * @returns The `setMany` function is returning an array of booleans.
    */
-  setMany(rawCollection: Iterable<R | [K, V]>): boolean[] {
+  setMany(entryOrRawElements: Iterable<R | [K, V]>): boolean[] {
     const results: boolean[] = [];
-    for (const rawEle of rawCollection) {
-      let key, value;
+    for (const rawEle of entryOrRawElements) {
+      let key: K | undefined, value: V | undefined;
       if (this.isEntry(rawEle)) {
         key = rawEle[0];
         value = rawEle[1];
-      } else {
+      } else if (this.toEntryFn) {
         const item = this.toEntryFn(rawEle);
         key = item[0];
         value = item[1];
       }
-      results.push(this.set(key, value));
+
+      if (key !== undefined && value !== undefined) results.push(this.set(key, value));
     }
     return results;
   }
@@ -383,14 +376,14 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
 
   /**
    * The constructor initializes a LinkedHashMap object with an optional raw collection and options.
-   * @param rawCollection - The `rawCollection` parameter is an iterable collection of elements. It is
+   * @param entryOrRawElements - The `entryOrRawElements` parameter is an iterable collection of elements. It is
    * used to initialize the HashMapLinked instance with key-value pairs. Each element in the
-   * `rawCollection` is converted to a key-value pair using the `toEntryFn` function (if provided) and
+   * `entryOrRawElements` is converted to a key-value pair using the `toEntryFn` function (if provided) and
    * then added to the HashMap
    * @param [options] - The `options` parameter is an optional object that can contain the following
    * properties:
    */
-  constructor(rawCollection: Iterable<R> = [], options?: LinkedHashMapOptions<K, V, R>) {
+  constructor(entryOrRawElements: Iterable<R> = [], options?: LinkedHashMapOptions<K, V, R>) {
     super();
     this._sentinel = <HashMapLinkedNode<K, V>>{};
     this._sentinel.prev = this._sentinel.next = this._head = this._tail = this._sentinel;
@@ -405,8 +398,8 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
       }
     }
 
-    if (rawCollection) {
-      for (const el of rawCollection) {
+    if (entryOrRawElements) {
+      for (const el of entryOrRawElements) {
         const [key, value] = this.toEntryFn(el);
         this.set(key, value);
       }
@@ -460,7 +453,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
   /**
    * The function returns the head node of a HashMapLinkedNode.
    * @returns The method `getHead()` is returning a `HashMapLinkedNode` object with key type `K` and
-   * value type `V | undefined`.
+   * a value type `V | undefined`.
    */
   get head(): HashMapLinkedNode<K, V | undefined> {
     return this._head;
@@ -482,7 +475,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
       return rawElement;
     } else {
       throw new Error(
-        "If the provided rawCollection does not adhere to the [key, value] type format, the toEntryFn in the constructor's options parameter needs to specified."
+        "If the provided entryOrRawElements does not adhere to the [key, value] type format, the toEntryFn in the constructor's options parameter needs to specified."
       );
     }
   };
@@ -590,7 +583,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
       node = this.objMap.get(hash);
 
       if (!node && isNewKey) {
-        // Create new node
+        // Create a new node
         node = { key: <K>hash, value, prev: this.tail, next: this._sentinel };
         this.objMap.set(hash, node);
       } else if (node) {
@@ -630,13 +623,13 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
    * The function `setMany` takes an iterable collection, converts each element into a key-value pair
    * using a provided function, and sets each key-value pair in the current object, returning an array
    * of booleans indicating the success of each set operation.
-   * @param rawCollection - The rawCollection parameter is an iterable collection of elements of type
+   * @param entryOrRawElements - The entryOrRawElements parameter is an iterable collection of elements of type
    * R.
    * @returns The `setMany` function returns an array of booleans.
    */
-  setMany(rawCollection: Iterable<R>): boolean[] {
+  setMany(entryOrRawElements: Iterable<R>): boolean[] {
     const results: boolean[] = [];
-    for (const rawEle of rawCollection) {
+    for (const rawEle of entryOrRawElements) {
       const [key, value] = this.toEntryFn(rawEle);
       results.push(this.set(key, value));
     }
@@ -692,9 +685,9 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   * /
+   */
 
-   /**
+  /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
@@ -717,9 +710,9 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   * /
+   */
 
-   /**
+  /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
@@ -764,9 +757,9 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   * /
+   */
 
-   /**
+  /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
@@ -787,9 +780,9 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   * /
+   */
 
-   /**
+  /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
@@ -814,9 +807,9 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   * /
+   */
 
-   /**
+  /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
@@ -854,9 +847,9 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   * /
+   */
 
-   /**
+  /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
@@ -886,9 +879,9 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   * /
+   */
 
-   /**
+  /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
@@ -940,9 +933,9 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
    * Time Complexity: O(n)
    * Space Complexity: O(1)
    * where n is the number of entries in the LinkedHashMap.
-   * /
+   */
 
-   /**
+  /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
    * where n is the number of entries in the LinkedHashMap.

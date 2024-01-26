@@ -206,14 +206,20 @@ export function logBigOMetrics(target: any, propertyKey: string, descriptor: Pro
   return descriptor;
 }
 
-export const logPerf = function (fn: (...args: any[]) => any, args: any[], thisArg?: any) {
+export const logPerf = function (
+  label: string = 'function running cost',
+  fn: (...args: any[]) => any,
+  args: any[],
+  thisArg?: any
+) {
   const start = performance.now();
+  let result: any;
   if (thisArg) {
-    if (args && args.length > 0) fn.apply(thisArg, args);
-    else fn.apply(thisArg);
+    if (args && args.length > 0) result = fn.apply(thisArg, args);
+    else result = fn.apply(thisArg);
   } else {
-    if (args && args.length > 0) fn(...args);
-    else fn();
+    if (args && args.length > 0) result = fn(...args);
+    else result = fn();
   }
-  console.log(`function running cost : ${(performance.now() - start).toFixed(2)} ms`);
+  console.log(`${(performance.now() - start).toFixed(2)} ms, ${label}, ${result}`);
 };
