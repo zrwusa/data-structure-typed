@@ -2,7 +2,7 @@ import { BST, BSTNode } from 'bst-typed';
 
 describe('Individual package BST operations test', () => {
   it('should perform various operations on a Binary Search Tree with numeric values', () => {
-    const bst = new BST();
+    const bst = new BST<number>();
     expect(bst).toBeInstanceOf(BST);
     bst.add([11, 11]);
     bst.add([3, 3]);
@@ -38,7 +38,7 @@ describe('Individual package BST operations test', () => {
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
-    bst.lesserOrGreaterTraverse(node => (lesserSum += node.key), 'LT', 10);
+    bst.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
     expect(lesserSum).toBe(45);
 
     expect(node15).toBeInstanceOf(BSTNode);
@@ -235,7 +235,7 @@ describe('Individual package BST operations test', () => {
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
-    objBST.lesserOrGreaterTraverse(node => (lesserSum += node.key), 'LT', 10);
+    objBST.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
     expect(lesserSum).toBe(45);
 
     expect(node15).toBeInstanceOf(BSTNode);
