@@ -393,9 +393,9 @@ export class Heap<E = any> extends IterableElementBase<E> {
   }
 
   protected _DEFAULT_COMPARATOR = (a: E, b: E): number => {
-    if (typeof a === 'object' && typeof b === 'object' && this.comparator === this._DEFAULT_COMPARATOR) {
+    if (typeof a === 'object' || typeof b === 'object') {
       throw TypeError(
-        'When comparing two object types, it is necessary to customize a [comparator] function of options parameter during the instantiation of the data structure.'
+        `When comparing object types, a custom comparator must be defined in the constructor's options parameter.`
       );
     }
     if (a > b) return 1;
@@ -404,7 +404,6 @@ export class Heap<E = any> extends IterableElementBase<E> {
   };
 
   protected _comparator: Comparator<E> = this._DEFAULT_COMPARATOR;
-
 
   /**
    * The function returns the value of the _comparator property.

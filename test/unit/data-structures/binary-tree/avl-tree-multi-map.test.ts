@@ -734,7 +734,7 @@ describe('AVLTree toEntryFn', () => {
           { obj: { id: 5 } }
         ])
     ).toThrowError(
-      'When comparing two object types, it is necessary to customize a [comparator] function of options parameter during the instantiation of the data structure.'
+      `When comparing object types, a custom comparator must be defined in the constructor's options parameter.`
     );
   });
 

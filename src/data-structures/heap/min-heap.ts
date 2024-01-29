@@ -19,18 +19,7 @@ import { Heap } from './heap';
  * 8. Graph Algorithms: Such as Dijkstra's shortest path algorithm and Prim's minimum spanning tree algorithm, which use heaps to improve performance.
  */
 export class MinHeap<E = any> extends Heap<E> {
-  constructor(
-    elements: Iterable<E> = [],
-    options: HeapOptions<E> = {
-      comparator: (a: E, b: E) => {
-        if (!(typeof a === 'number' && typeof b === 'number')) {
-          throw new Error('The a, b params of compare function must be number');
-        } else {
-          return a - b;
-        }
-      }
-    }
-  ) {
+  constructor(elements: Iterable<E> = [], options?: HeapOptions<E>) {
     super(elements, options);
   }
 }

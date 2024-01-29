@@ -22,12 +22,15 @@ export class MaxHeap<E = any> extends Heap<E> {
   constructor(
     elements: Iterable<E> = [],
     options: HeapOptions<E> = {
-      comparator: (a: E, b: E) => {
-        if (!(typeof a === 'number' && typeof b === 'number')) {
-          throw new Error('The a, b params of compare function must be number');
-        } else {
-          return b - a;
+      comparator: (a: E, b: E): number => {
+        if (typeof a === 'object' || typeof b === 'object') {
+          throw TypeError(
+            `When comparing object types, a custom comparator must be defined in the constructor's options parameter.`
+          );
         }
+        if (a < b) return 1;
+        if (a > b) return -1;
+        return 0;
       }
     }
   ) {
