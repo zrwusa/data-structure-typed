@@ -18,17 +18,20 @@ import { IterableElementBase } from '../base';
  * 5. Managing Dynamic Data Sets: Heaps effectively manage dynamic data sets, especially when frequent access to the largest or smallest elements is required.
  * 6. Non-linear Search: While a heap allows rapid access to its largest or smallest element, it is less efficient for other operations, such as searching for a specific element, as it is not designed for these tasks.
  * 7. Efficient Sorting Algorithms: For example, heap sort. Heap sort uses the properties of a heap to sort elements.
- * 8. Graph Algorithms: Such as Dijkstra's shortest path algorithm and Prim's minimum spanning tree algorithm, which use heaps to improve performance.
+ * 8. Graph Algorithms: Such as Dijkstra's shortest path algorithm and Prime's minimum-spanning tree algorithm, which use heaps to improve performance.
  */
 export class Heap<E = any> extends IterableElementBase<E> {
   /**
    * The constructor initializes a heap data structure with optional elements and options.
    * @param elements - The `elements` parameter is an iterable object that contains the initial
-   * elements to be added to the heap. It is an optional parameter and if not provided, the heap will
+   * elements to be added to the heap.
+   * It is an optional parameter, and if not provided, the heap will
    * be initialized as empty.
    * @param [options] - The `options` parameter is an optional object that can contain additional
-   * configuration options for the heap. In this case, it is used to specify a custom comparator
-   * function for comparing elements in the heap. The comparator function is used to determine the
+   * configuration options for the heap.
+   * In this case, it is used to specify a custom comparator
+   * function for comparing elements in the heap.
+   * The comparator function is used to determine the
    * order of elements in the heap.
    */
   constructor(elements: Iterable<E> = [], options?: HeapOptions<E>) {
@@ -46,27 +49,11 @@ export class Heap<E = any> extends IterableElementBase<E> {
     }
   }
 
-  protected _comparator = (a: E, b: E) => {
-    if (!(typeof a === 'number' && typeof b === 'number')) {
-      throw new Error('The a, b params of compare function must be number');
-    } else {
-      return a - b;
-    }
-  };
-
-  /**
-   * The function returns the value of the _comparator property.
-   * @returns The `_comparator` property is being returned.
-   */
-  get comparator() {
-    return this._comparator;
-  }
-
   protected _elements: E[] = [];
 
   /**
    * The function returns an array of elements.
-   * @returns The elements array is being returned.
+   * @returns The element array is being returned.
    */
   get elements(): E[] {
     return this._elements;
@@ -100,12 +87,6 @@ export class Heap<E = any> extends IterableElementBase<E> {
   /**
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
-   * where n is the number of elements in the heap.
-   */
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
    *
    * Insert an element into the heap and maintain the heap properties.
    * @param element - The element to be inserted.
@@ -118,14 +99,8 @@ export class Heap<E = any> extends IterableElementBase<E> {
   /**
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
-   * where n is the number of elements in the heap.
-   */
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
    *
-   * Remove and return the top element (smallest or largest element) from the heap.
+   * Remove and return the top element (the smallest or largest element) from the heap.
    * @returns The top element or undefined if the heap is empty.
    */
   poll(): E | undefined {
@@ -142,11 +117,6 @@ export class Heap<E = any> extends IterableElementBase<E> {
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * Peek at the top element of the heap without removing it.
    * @returns The top element or undefined if the heap is empty.
@@ -154,6 +124,12 @@ export class Heap<E = any> extends IterableElementBase<E> {
   peek(): E | undefined {
     return this.elements[0];
   }
+
+  /**
+   * Time Complexity: O(log n)
+   * Space Complexity: O(1)
+   * where n is the number of elements in the heap.
+   */
 
   /**
    * Check if the heap is empty.
@@ -164,6 +140,12 @@ export class Heap<E = any> extends IterableElementBase<E> {
   }
 
   /**
+   * Time Complexity: O(log n)
+   * Space Complexity: O(1)
+   * where n is the number of elements in the heap.
+   */
+
+  /**
    * Reset the elements of the heap. Make the elements empty.
    */
   clear(): void {
@@ -171,8 +153,8 @@ export class Heap<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
    */
 
   /**
@@ -190,11 +172,6 @@ export class Heap<E = any> extends IterableElementBase<E> {
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * Use a comparison function to check whether a binary heap contains a specific element.
    * @param element - the element to check.
@@ -205,13 +182,7 @@ export class Heap<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity:  O(n)
-   * Space Complexity: O(1)
-   * The worst-case  O(n) This is because, in the worst case, the element to be deleted is located at the end of the heap (not the root), and after deletion, we may need to reorganize the elements by performing a sinkDown operation.
-   */
-
-  /**
-   * Time Complexity:  O(n)
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
    * The `delete` function removes an element from an array-like data structure, maintaining the order
@@ -238,8 +209,7 @@ export class Heap<E = any> extends IterableElementBase<E> {
 
   /**
    * Time Complexity: O(n)
-   * Space Complexity: O(log n)
-   * where log n is the height of the heap.
+   * Space Complexity: O(n)
    */
 
   /**
@@ -281,7 +251,7 @@ export class Heap<E = any> extends IterableElementBase<E> {
 
   /**
    * Time Complexity: O(n)
-   * Space Complexity: O(n)
+   * Space Complexity: O(1)
    */
 
   /**
@@ -296,8 +266,9 @@ export class Heap<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
+   * Time Complexity:  O(n)
+   * Space Complexity: O(1)
+   * The worst-case  O(n) This is because, in the worst case, the element to be deleted is located at the end of the heap (not the root), and after deletion, we may need to reorganize the elements by performing a sinkDown operation.
    */
 
   /**
@@ -314,8 +285,9 @@ export class Heap<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n log n)
-   * Space Complexity: O(n)
+   * Time Complexity: O(n)
+   * Space Complexity: O(log n)
+   * where log n is the height of the heap.
    */
 
   /**
@@ -336,7 +308,7 @@ export class Heap<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n log n)
+   * Time Complexity: O(n)
    * Space Complexity: O(n)
    */
 
@@ -386,7 +358,7 @@ export class Heap<E = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(n)
+   * Time Complexity: O(n log n)
    * Space Complexity: O(n)
    */
 
@@ -418,6 +390,28 @@ export class Heap<E = any> extends IterableElementBase<E> {
       index++;
     }
     return mappedHeap;
+  }
+
+  protected _DEFAULT_COMPARATOR = (a: E, b: E): number => {
+    if (typeof a === 'object' && typeof b === 'object' && this.comparator === this._DEFAULT_COMPARATOR) {
+      throw TypeError(
+        'When comparing two object types, it is necessary to customize a [comparator] function of options parameter during the instantiation of the data structure.'
+      );
+    }
+    if (a > b) return 1;
+    if (a < b) return -1;
+    return 0;
+  };
+
+  protected _comparator: Comparator<E> = this._DEFAULT_COMPARATOR;
+
+
+  /**
+   * The function returns the value of the _comparator property.
+   * @returns The `_comparator` property is being returned.
+   */
+  get comparator() {
+    return this._comparator;
   }
 
   /**
@@ -702,7 +696,7 @@ export class FibonacciHeap<E> {
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
-   * Remove and return the top element (smallest or largest element) from the heap.
+   * Remove and return the top element (the smallest or largest element) from the heap.
    * @returns The top element or undefined if the heap is empty.
    */
   poll(): E | undefined {
@@ -718,7 +712,7 @@ export class FibonacciHeap<E> {
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
-   * Remove and return the top element (smallest or largest element) from the heap.
+   * Remove and return the top element (the smallest or largest element) from the heap.
    * @returns The top element or undefined if the heap is empty.
    */
   pop(): E | undefined {
@@ -844,8 +838,8 @@ export class FibonacciHeap<E> {
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   *.
-   * Remove and return the top element (smallest or largest element) from the heap.
+   *
+   * Remove and return the top element (the smallest or largest element) from the heap.
    * @param node - The node to be removed.
    * @protected
    */
@@ -864,7 +858,7 @@ export class FibonacciHeap<E> {
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * Remove and return the top element (smallest or largest element) from the heap.
+   * Remove and return the top element (the smallest or largest element) from the heap.
    * @param y
    * @param x
    * @protected
@@ -887,7 +881,7 @@ export class FibonacciHeap<E> {
    * Time Complexity: O(n log n)
    * Space Complexity: O(n)
    *
-   * Remove and return the top element (smallest or largest element) from the heap.
+   * Remove and return the top element (the smallest or largest element) from the heap.
    * @protected
    */
   protected _consolidate(): void {

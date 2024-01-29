@@ -12,7 +12,6 @@ import type {
   BSTOptions,
   BTNCallback,
   BTNPureKeyOrNodeOrEntry,
-  Comparable,
   Comparator,
   CP,
   DFSOrderPattern,
@@ -24,11 +23,11 @@ import { BinaryTree, BinaryTreeNode } from './binary-tree';
 import { IBinaryTree } from '../../interfaces';
 import { Queue } from '../queue';
 
-export class BSTNode<
-  K extends Comparable,
-  V = any,
-  NODE extends BSTNode<K, V, NODE> = BSTNodeNested<K, V>
-> extends BinaryTreeNode<K, V, NODE> {
+export class BSTNode<K = any, V = any, NODE extends BSTNode<K, V, NODE> = BSTNodeNested<K, V>> extends BinaryTreeNode<
+  K,
+  V,
+  NODE
+> {
   override parent?: NODE;
 
   constructor(key: K, value?: V) {
@@ -94,7 +93,7 @@ export class BSTNode<
  * 7. No Auto-Balancing: Standard BSTs don't automatically balance themselves.
  */
 export class BST<
-  K extends Comparable,
+  K = any,
   V = any,
   R = BTNEntry<K, V>,
   NODE extends BSTNode<K, V, NODE> = BSTNode<K, V, BSTNodeNested<K, V>>,
@@ -799,11 +798,6 @@ export class BST<
     return balanced;
   }
 
-  /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
-   */
-
   protected _DEFAULT_COMPARATOR = (a: K, b: K): number => {
     if (typeof a === 'object' && typeof b === 'object' && this.comparator === this._DEFAULT_COMPARATOR) {
       throw TypeError(
@@ -814,11 +808,6 @@ export class BST<
     if (a < b) return -1;
     return 0;
   };
-
-  /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
-   */
 
   protected _comparator: Comparator<K> = this._DEFAULT_COMPARATOR;
 

@@ -14,7 +14,6 @@ import type {
   BinaryTreePrintOptions,
   BTNCallback,
   BTNEntry,
-  Comparable,
   DFSOrderPattern,
   EntryCallback,
   FamilyPosition,
@@ -33,7 +32,7 @@ import { IterableEntryBase } from '../base';
  * @template NODE - The type of the family relationship in the binary tree.
  */
 export class BinaryTreeNode<
-  K extends Comparable,
+  K = any,
   V = any,
   NODE extends BinaryTreeNode<K, V, NODE> = BinaryTreeNode<K, V, BinaryTreeNodeNested<K, V>>
 > {
@@ -131,7 +130,7 @@ export class BinaryTreeNode<
  */
 
 export class BinaryTree<
-  K extends Comparable,
+  K = any,
   V = any,
   R = BTNEntry<K, V>,
   NODE extends BinaryTreeNode<K, V, NODE> = BinaryTreeNode<K, V, BinaryTreeNodeNested<K, V>>,
@@ -143,7 +142,7 @@ export class BinaryTree<
 
   /**
    * The constructor function initializes a binary tree object with optional keysOrNodesOrEntriesOrRawElements and options.
-   * @param [keysOrNodesOrEntriesOrRawElements] - An optional iterable of KeyOrNodeOrEntry objects. These objects represent the
+   * @param [keysOrNodesOrEntriesOrRawElements] - Optional iterable of KeyOrNodeOrEntry objects. These objects represent the
    * nodes to be added to the binary tree.
    * @param [options] - The `options` parameter is an optional object that can contain additional
    * configuration options for the binary tree. In this case, it is of type
@@ -2001,7 +2000,7 @@ export class BinaryTree<
       // Display logic of normal nodes
 
       const key = node.key,
-        line = this.isNIL(node) ? 'S' : key.toString(),
+        line = this.isNIL(node) ? 'S' : String(key),
         width = line.length;
 
       return _buildNodeDisplay(
@@ -2012,7 +2011,7 @@ export class BinaryTree<
       );
     } else {
       // For cases where none of the conditions are met, null, undefined, and NaN nodes are not displayed
-      const line = node === undefined ? 'U' : 'NODE',
+      const line = node === undefined ? 'U' : 'N',
         width = line.length;
 
       return _buildNodeDisplay(line, width, [[''], 1, 0, 0], [[''], 1, 0, 0]);

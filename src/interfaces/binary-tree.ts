@@ -5,12 +5,11 @@ import type {
   BinaryTreeNodeNested,
   BinaryTreeOptions,
   BTNCallback,
-  Comparable,
   KeyOrNodeOrEntry
 } from '../types';
 
 export interface IBinaryTree<
-  K extends Comparable,
+  K = any,
   V = any,
   R = [K, V],
   NODE extends BinaryTreeNode<K, V, NODE> = BinaryTreeNodeNested<K, V>,

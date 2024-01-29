@@ -13,14 +13,13 @@ import type {
   BinaryTreeDeleteResult,
   BSTNKeyOrNode,
   BTNCallback,
-  Comparable,
   KeyOrNodeOrEntry
 } from '../../types';
 import { BTNEntry } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 
 export class AVLTreeNode<
-  K extends Comparable,
+  K = any,
   V = any,
   NODE extends AVLTreeNode<K, V, NODE> = AVLTreeNodeNested<K, V>
 > extends BSTNode<K, V, NODE> {
@@ -67,7 +66,7 @@ export class AVLTreeNode<
  * 7. Path Length: The path length from the root to any leaf is longer compared to an unbalanced BST, but shorter than a linear chain of nodes.
  */
 export class AVLTree<
-  K extends Comparable,
+  K = any,
   V = any,
   R = BTNEntry<K, V>,
   NODE extends AVLTreeNode<K, V, NODE> = AVLTreeNode<K, V, AVLTreeNodeNested<K, V>>,
