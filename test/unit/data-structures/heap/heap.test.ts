@@ -87,6 +87,48 @@ describe('Heap Operation Test', () => {
       maxI++;
     }
   });
+
+  it('should object heap', () => {
+    const heap = new Heap<{ rawItem: { id: number } }>(
+      [
+        { rawItem: { id: 4 } },
+        { rawItem: { id: 8 } },
+        { rawItem: { id: 6 } },
+        { rawItem: { id: 7 } },
+        { rawItem: { id: 1 } },
+        { rawItem: { id: 3 } },
+        { rawItem: { id: 5 } }
+      ],
+      { comparator: (a, b) => a.rawItem.id - b.rawItem.id }
+    );
+
+    expect([...heap.sort()]).toEqual([
+      { rawItem: { id: 1 } },
+      { rawItem: { id: 3 } },
+      { rawItem: { id: 4 } },
+      { rawItem: { id: 5 } },
+      { rawItem: { id: 6 } },
+      { rawItem: { id: 7 } },
+      { rawItem: { id: 8 } }
+    ]);
+  });
+
+  it('should toElementFn', () => {
+    const heap = new Heap<number, { rawItem: { id: number } }>(
+      [
+        { rawItem: { id: 4 } },
+        { rawItem: { id: 8 } },
+        { rawItem: { id: 6 } },
+        { rawItem: { id: 7 } },
+        { rawItem: { id: 1 } },
+        { rawItem: { id: 3 } },
+        { rawItem: { id: 5 } }
+      ],
+      { toElementFn: rawElement => rawElement.rawItem.id }
+    );
+
+    expect([...heap.sort()]).toEqual([1, 3, 4, 5, 6, 7, 8]);
+  });
 });
 
 describe('FibonacciHeap', () => {

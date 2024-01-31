@@ -16,12 +16,11 @@ import { Heap } from './heap';
  * 5. Managing Dynamic Data Sets: Heaps effectively manage dynamic data sets, especially when frequent access to the largest or smallest elements is required.
  * 6. Non-linear Search: While a heap allows rapid access to its largest or smallest element, it is less efficient for other operations, such as searching for a specific element, as it is not designed for these tasks.
  * 7. Efficient Sorting Algorithms: For example, heap sort. Heap sort uses the properties of a heap to sort elements.
- * 8. Graph Algorithms: Such as Dijkstra's shortest path algorithm and Prim's minimum spanning tree algorithm, which use heaps to improve performance.
+ * 8. Graph Algorithms: Such as Dijkstra's shortest path algorithm and Prim's minimum-spanning tree algorithm, which use heaps to improve performance.
  */
-export class MaxHeap<E = any> extends Heap<E> {
-  constructor(
-    elements: Iterable<E> = [],
-    options: HeapOptions<E> = {
+export class MaxHeap<E = any, R = any> extends Heap<E> {
+  constructor(elements: Iterable<E> | Iterable<R> = [], options?: HeapOptions<E, R>) {
+    super(elements, {
       comparator: (a: E, b: E): number => {
         if (typeof a === 'object' || typeof b === 'object') {
           throw TypeError(
@@ -31,9 +30,8 @@ export class MaxHeap<E = any> extends Heap<E> {
         if (a < b) return 1;
         if (a > b) return -1;
         return 0;
-      }
-    }
-  ) {
-    super(elements, options);
+      },
+      ...options
+    });
   }
 }

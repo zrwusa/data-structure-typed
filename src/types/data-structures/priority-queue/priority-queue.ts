@@ -1,3 +1,3 @@
 import { HeapOptions } from '../heap';
 
-export type PriorityQueueOptions<T> = HeapOptions<T> & {};
+export type PriorityQueueOptions<E, R> = HeapOptions<E, R> & {};

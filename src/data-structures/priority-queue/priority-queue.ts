@@ -16,16 +16,16 @@ import { Heap } from '../heap';
  * 5. Huffman Coding: Used to select the smallest node combination when constructing a Huffman tree.
  * 6. Kth Largest Element in a Data Stream: Used to maintain a min-heap of size K for quickly finding the Kth largest element in stream data
  */
-export class PriorityQueue<E = any> extends Heap<E> {
+export class PriorityQueue<E = any, R = any> extends Heap<E, R> {
   /**
    * The constructor initializes a priority queue with optional elements and options.
    * @param elements - The `elements` parameter is an iterable object that contains the initial
-   * elements to be added to the priority queue. It is an optional parameter and if not provided, the
+   * elements to be added to the priority queue. It is an optional parameter, and if not provided, the
    * priority queue will be initialized as empty.
    * @param [options] - The `options` parameter is an optional object that can be used to customize the
    * behavior of the priority queue. It can contain the following properties:
    */
-  constructor(elements: Iterable<E> = [], options?: PriorityQueueOptions<E>) {
+  constructor(elements: Iterable<E> | Iterable<R> = [], options?: PriorityQueueOptions<E, R>) {
     super(elements, options);
   }
 }

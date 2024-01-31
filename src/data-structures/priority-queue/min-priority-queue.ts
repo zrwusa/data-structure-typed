@@ -8,7 +8,7 @@
 import type { PriorityQueueOptions } from '../../types';
 import { PriorityQueue } from './priority-queue';
 
-export class MinPriorityQueue<E = any> extends PriorityQueue<E> {
+export class MinPriorityQueue<E = any, R = any> extends PriorityQueue<E> {
   /**
    * The constructor initializes a PriorityQueue with optional elements and options, including a
    * comparator function.
@@ -16,22 +16,11 @@ export class MinPriorityQueue<E = any> extends PriorityQueue<E> {
    * elements to be added to the priority queue. It is optional and defaults to an empty array if not
    * provided.
    * @param options - The `options` parameter is an object that contains additional configuration
-   * options for the priority queue. In this case, it has a property called `comparator` which is a
+   * options for the priority queue. In this case, it has a property called `comparator,` which is a
    * function used to compare elements in the priority queue. The `comparator` function takes two
-   * parameters `a` and `b`,
+   * parameters `a` and `b`
    */
-  constructor(
-    elements: Iterable<E> = [],
-    options: PriorityQueueOptions<E> = {
-      comparator: (a: E, b: E) => {
-        if (!(typeof a === 'number' && typeof b === 'number')) {
-          throw new Error('The a, b params of compare function must be number');
-        } else {
-          return a - b;
-        }
-      }
-    }
-  ) {
+  constructor(elements: Iterable<E> | Iterable<R> = [], options?: PriorityQueueOptions<E, R>) {
     super(elements, options);
   }
 }

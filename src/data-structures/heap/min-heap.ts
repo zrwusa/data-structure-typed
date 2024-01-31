@@ -18,8 +18,8 @@ import { Heap } from './heap';
  * 7. Efficient Sorting Algorithms: For example, heap sort. Heap sort uses the properties of a heap to sort elements.
  * 8. Graph Algorithms: Such as Dijkstra's shortest path algorithm and Prim's minimum spanning tree algorithm, which use heaps to improve performance.
  */
-export class MinHeap<E = any> extends Heap<E> {
-  constructor(elements: Iterable<E> = [], options?: HeapOptions<E>) {
+export class MinHeap<E = any, R = any> extends Heap<E> {
+  constructor(elements: Iterable<E> | Iterable<R> = [], options?: HeapOptions<E, R>) {
     super(elements, options);
   }
 }

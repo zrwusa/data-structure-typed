@@ -20,7 +20,7 @@ import { IterableElementBase } from '../base';
  * 7. Efficient Sorting Algorithms: For example, heap sort. Heap sort uses the properties of a heap to sort elements.
  * 8. Graph Algorithms: Such as Dijkstra's shortest path algorithm and Prime's minimum-spanning tree algorithm, which use heaps to improve performance.
  */
-export class Heap<E = any> extends IterableElementBase<E> {
+export class Heap<E = any, R = any> extends IterableElementBase<E> {
   /**
    * The constructor initializes a heap data structure with optional elements and options.
    * @param elements - The `elements` parameter is an iterable object that contains the initial
@@ -34,17 +34,18 @@ export class Heap<E = any> extends IterableElementBase<E> {
    * The comparator function is used to determine the
    * order of elements in the heap.
    */
-  constructor(elements: Iterable<E> = [], options?: HeapOptions<E>) {
+  constructor(elements: Iterable<E> | Iterable<R> = [], options?: HeapOptions<E, R>) {
     super();
-
     if (options) {
-      const { comparator } = options;
+      const { comparator, toElementFn } = options;
       if (comparator) this._comparator = comparator;
+      if (toElementFn) this._toElementFn = toElementFn;
     }
 
     if (elements) {
       for (const el of elements) {
-        this.add(el);
+        if (this._toElementFn) this.add(this._toElementFn(el as R));
+        else this.add(el as E);
       }
     }
   }
@@ -57,6 +58,12 @@ export class Heap<E = any> extends IterableElementBase<E> {
    */
   get elements(): E[] {
     return this._elements;
+  }
+
+  protected _toElementFn?: (rawElement: R) => E;
+
+  get toElementFn() {
+    return this._toElementFn;
   }
 
   /**
@@ -80,7 +87,7 @@ export class Heap<E = any> extends IterableElementBase<E> {
    * @param elements
    * @param options
    */
-  static heapify<E>(elements: Iterable<E>, options: HeapOptions<E>): Heap<E> {
+  static heapify<E = any, R = any>(elements: Iterable<E>, options: HeapOptions<E, R>): Heap<E> {
     return new Heap<E>(elements, options);
   }
 

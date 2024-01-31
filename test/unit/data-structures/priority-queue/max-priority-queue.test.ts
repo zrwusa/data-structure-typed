@@ -71,4 +71,46 @@ describe('MaxPriorityQueue Operation Test', () => {
     expect(maxPQ.poll()?.keyA).toBe(3);
     expect(maxPQ.poll()?.keyA).toBe(1);
   });
+
+  it('should object priority queue', () => {
+    const maxPQ = new MaxPriorityQueue<{ rawItem: { id: number } }>(
+      [
+        { rawItem: { id: 4 } },
+        { rawItem: { id: 8 } },
+        { rawItem: { id: 6 } },
+        { rawItem: { id: 7 } },
+        { rawItem: { id: 1 } },
+        { rawItem: { id: 3 } },
+        { rawItem: { id: 5 } }
+      ],
+      { comparator: (a, b) => b.rawItem.id - a.rawItem.id }
+    );
+
+    expect([...maxPQ.sort()]).toEqual([
+      { rawItem: { id: 8 } },
+      { rawItem: { id: 7 } },
+      { rawItem: { id: 6 } },
+      { rawItem: { id: 5 } },
+      { rawItem: { id: 4 } },
+      { rawItem: { id: 3 } },
+      { rawItem: { id: 1 } }
+    ]);
+  });
+
+  it('should toElementFn', () => {
+    const maxPQ = new MaxPriorityQueue<number, { rawItem: { id: number } }>(
+      [
+        { rawItem: { id: 4 } },
+        { rawItem: { id: 8 } },
+        { rawItem: { id: 6 } },
+        { rawItem: { id: 7 } },
+        { rawItem: { id: 1 } },
+        { rawItem: { id: 3 } },
+        { rawItem: { id: 5 } }
+      ],
+      { toElementFn: rawElement => rawElement.rawItem.id }
+    );
+
+    expect([...maxPQ.sort()]).toEqual([8, 7, 6, 5, 4, 3, 1]);
+  });
 });
