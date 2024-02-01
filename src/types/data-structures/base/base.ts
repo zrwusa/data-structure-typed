@@ -17,7 +17,7 @@ export type ReduceElementCallback<E, R, RT, C> = (
 ) => RT;
 
 // export type IterableEntryBaseOptions<K, V, R> = {
-  // toEntryFn?: (rawElement: R) => BTNEntry<K, V>;
+//   toEntryFn?: (rawElement: R) => BTNEntry<K, V>;
 // };
 
 export type IterableElementBaseOptions<E, R> = {
