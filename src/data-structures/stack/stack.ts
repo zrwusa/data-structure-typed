@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { ElementCallback } from '../../types';
+import type { ElementCallback, StackOptions } from '../../types';
 import { IterableElementBase } from '../base';
 
 /**
@@ -16,17 +16,17 @@ import { IterableElementBase } from '../base';
  * 5. Expression Evaluation: Used for the evaluation of arithmetic or logical expressions, especially when dealing with parenthesis matching and operator precedence.
  * 6. Backtracking Algorithms: In problems where multiple branches need to be explored but only one branch can be explored at a time, stacks can be used to save the state at each branching point.
  */
-export class Stack<E = any> extends IterableElementBase<E> {
-  /**
-   * The constructor initializes an array of elements, which can be provided as an optional parameter.
-   * @param {E[]} [elements] - The `elements` parameter is an optional parameter of type `E[]`, which represents an array
-   * of elements of type `E`. It is used to initialize the `_elements` property of the class. If the `elements` parameter
-   * is provided and is an array, it is assigned to the `_elements
-   */
-  constructor(elements: Iterable<E> = []) {
-    super();
+export class Stack<E = any, R = any> extends IterableElementBase<E, R, Stack<E, R>> {
+  constructor(elements: Iterable<E> | Iterable<R> = [], options?: StackOptions<E, R>) {
+    super(options);
     if (elements) {
-      for (const el of elements) this.push(el);
+      for (const el of elements) {
+        if (this.toElementFn) {
+          this.push(this.toElementFn(el as R));
+        } else {
+          this.push(el as E);
+        }
+      }
     }
   }
 
@@ -192,8 +192,8 @@ export class Stack<E = any> extends IterableElementBase<E> {
    * The `clone()` function returns a new `Stack` object with the same elements as the original stack.
    * @returns The `clone()` method is returning a new `Stack` object with a copy of the `_elements` array.
    */
-  clone(): Stack<E> {
-    return new Stack(this.elements.slice());
+  clone(): Stack<E, R> {
+    return new Stack<E, R>(this, { toElementFn: this.toElementFn });
   }
 
   /**
@@ -217,8 +217,8 @@ export class Stack<E = any> extends IterableElementBase<E> {
    * @returns The `filter` method is returning a new `Stack` object that contains the elements that
    * satisfy the given predicate function.
    */
-  filter(predicate: ElementCallback<E, boolean>, thisArg?: any): Stack<E> {
-    const newStack = new Stack<E>();
+  filter(predicate: ElementCallback<E, R, boolean, Stack<E, R>>, thisArg?: any): Stack<E, R> {
+    const newStack = new Stack<E, R>([], { toElementFn: this.toElementFn });
     let index = 0;
     for (const el of this) {
       if (predicate.call(thisArg, el, index, this)) {
@@ -235,20 +235,25 @@ export class Stack<E = any> extends IterableElementBase<E> {
    */
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
    * The `map` function takes a callback function and applies it to each element in the stack,
    * returning a new stack with the results.
-   * @param callback - The `callback` parameter is a function that will be called for each element in
-   * the stack. It takes three arguments:
-   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that specifies the value
-   * to be used as `this` when executing the `callback` function. If `thisArg` is provided, it will be
-   * passed as the `this` value to the `callback` function. If `thisArg` is
-   * @returns The `map` method is returning a new `Stack` object.
+   * @param callback - The callback parameter is a function that will be called for each element in the
+   * stack. It takes three arguments: the current element, the index of the element, and the stack
+   * itself. It should return a new value that will be added to the new stack.
+   * @param [toElementFn] - The `toElementFn` parameter is an optional function that can be used to
+   * transform the raw element (`RM`) into a new element (`EM`) before pushing it into the new stack.
+   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that allows you to
+   * specify the value of `this` within the callback function. It is used to set the context or scope
+   * in which the callback function will be executed. If `thisArg` is provided, it will be used as the
+   * value of
+   * @returns a new Stack object with elements of type EM and raw elements of type RM.
    */
-  map<T>(callback: ElementCallback<E, T>, thisArg?: any): Stack<T> {
-    const newStack = new Stack<T>();
+  map<EM, RM>(
+    callback: ElementCallback<E, R, EM, Stack<E, R>>,
+    toElementFn?: (rawElement: RM) => EM,
+    thisArg?: any
+  ): Stack<EM, RM> {
+    const newStack = new Stack<EM, RM>([], { toElementFn });
     let index = 0;
     for (const el of this) {
       newStack.push(callback.call(thisArg, el, index, this));

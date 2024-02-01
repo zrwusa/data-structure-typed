@@ -158,6 +158,7 @@ export class BinaryTree<
       const { iterationType, toEntryFn } = options;
       if (iterationType) this.iterationType = iterationType;
       if (typeof toEntryFn === 'function') this._toEntryFn = toEntryFn;
+      else if (toEntryFn) throw TypeError('toEntryFn must be a function type');
     }
 
     if (keysOrNodesOrEntriesOrRawElements) this.addMany(keysOrNodesOrEntriesOrRawElements);

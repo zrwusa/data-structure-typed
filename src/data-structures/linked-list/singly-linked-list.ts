@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { ElementCallback } from '../../types';
+import type { ElementCallback, SinglyLinkedListOptions } from '../../types';
 import { IterableElementBase } from '../base';
 
 export class SinglyLinkedListNode<E = any> {
@@ -59,17 +59,17 @@ export class SinglyLinkedListNode<E = any> {
   }
 }
 
-export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
-  /**
-   * The constructor initializes a new instance of a class with an optional iterable of elements.
-   * @param elements - The `elements` parameter is an optional iterable object that contains the
-   * initial elements to be added to the instance of the class. If no `elements` are provided, an empty
-   * array will be used as the default value.
-   */
-  constructor(elements: Iterable<E> = []) {
-    super();
+export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R, SinglyLinkedList<E, R>> {
+  constructor(elements: Iterable<E> | Iterable<R> = [], options?: SinglyLinkedListOptions<E, R>) {
+    super(options);
     if (elements) {
-      for (const el of elements) this.push(el);
+      for (const el of elements) {
+        if (this.toElementFn) {
+          this.push(this.toElementFn(el as R));
+        } else {
+          this.push(el as E);
+        }
+      }
     }
   }
 
@@ -673,8 +673,8 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * @returns The `clone()` method is returning a new instance of the `SinglyLinkedList` class, which
    * is a clone of the original list.
    */
-  clone(): SinglyLinkedList<E> {
-    return new SinglyLinkedList<E>(this.values());
+  clone(): SinglyLinkedList<E, R> {
+    return new SinglyLinkedList<E, R>(this, { toElementFn: this.toElementFn });
   }
 
   /**
@@ -699,8 +699,8 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * @returns The `filter` method is returning a new `SinglyLinkedList` object that contains the
    * elements that pass the filter condition specified by the `callback` function.
    */
-  filter(callback: ElementCallback<E, boolean>, thisArg?: any): SinglyLinkedList<E> {
-    const filteredList = new SinglyLinkedList<E>();
+  filter(callback: ElementCallback<E, R, boolean, SinglyLinkedList<E, R>>, thisArg?: any): SinglyLinkedList<E, R> {
+    const filteredList = new SinglyLinkedList<E, R>([], { toElementFn: this.toElementFn });
     let index = 0;
     for (const current of this) {
       if (callback.call(thisArg, current, index, this)) {
@@ -715,22 +715,30 @@ export class SinglyLinkedList<E = any> extends IterableElementBase<E> {
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    */
+
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `map` function creates a new SinglyLinkedList by applying a callback function to each element
-   * of the original list.
+   * The `map` function takes a callback function and returns a new SinglyLinkedList with the results
+   * of applying the callback to each element in the original list.
    * @param callback - The `callback` parameter is a function that will be called for each element in
-   * the linked list. It takes three arguments:
-   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that specifies the value
-   * to be used as `this` when executing the `callback` function. If `thisArg` is provided, it will be
-   * passed as the `this` value to the `callback` function. If `thisArg` is
-   * @returns The `map` function is returning a new `SinglyLinkedList` object that contains the results
-   * of applying the provided `callback` function to each element in the original list.
+   * the original list. It takes three arguments: `current` (the current element being processed),
+   * `index` (the index of the current element), and `this` (the original list). It should return a
+   * value
+   * @param [toElementFn] - The `toElementFn` parameter is an optional function that can be used to
+   * convert the raw element (`RR`) to the desired element type (`T`). It takes the raw element as
+   * input and returns the converted element. If this parameter is not provided, the raw element will
+   * be used as is.
+   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that allows you to
+   * specify the value of `this` within the callback function. It is used to set the context or scope
+   * in which the callback function will be executed. If `thisArg` is provided, it will be used as the
+   * value of
+   * @returns a new instance of the `SinglyLinkedList` class with the mapped elements.
    */
-  map<T>(callback: ElementCallback<E, T>, thisArg?: any): SinglyLinkedList<T> {
-    const mappedList = new SinglyLinkedList<T>();
+  map<EM, RM>(
+    callback: ElementCallback<E, R, EM, SinglyLinkedList<E, R>>,
+    toElementFn?: (rawElement: RM) => EM,
+    thisArg?: any
+  ): SinglyLinkedList<EM, RM> {
+    const mappedList = new SinglyLinkedList<EM, RM>([], { toElementFn });
     let index = 0;
     for (const current of this) {
       mappedList.push(callback.call(thisArg, current, index, this));

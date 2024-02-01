@@ -93,21 +93,27 @@ export class TrieNode {
  * 10. IP Routing: Used in certain types of IP routing algorithms.
  * 11. Text Word Frequency Count: Counting and storing the frequency of words in a large amount of text data.
  */
-export class Trie extends IterableElementBase<string, Trie> {
+export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
   /**
    * The constructor function for the Trie class.
    * @param words: Iterable string Initialize the trie with a set of words
    * @param options?: TrieOptions Allow the user to pass in options for the trie
    * @return This
    */
-  constructor(words: Iterable<string> = [], options?: TrieOptions) {
-    super();
+  constructor(words: Iterable<string> | Iterable<R> = [], options?: TrieOptions<R>) {
+    super(options);
     if (options) {
       const { caseSensitive } = options;
       if (caseSensitive !== undefined) this._caseSensitive = caseSensitive;
     }
     if (words) {
-      for (const word of words) this.add(word);
+      for (const word of words) {
+        if (this.toElementFn) {
+          this.add(this.toElementFn(word as R));
+        } else {
+          this.add(word as string);
+        }
+      }
     }
   }
 
@@ -470,8 +476,8 @@ export class Trie extends IterableElementBase<string, Trie> {
    * sensitivity as the original Trie.
    * @returns A new instance of the Trie class is being returned.
    */
-  clone(): Trie {
-    return new Trie(this.values(), { caseSensitive: this.caseSensitive });
+  clone(): Trie<R> {
+    return new Trie<R>(this, { caseSensitive: this.caseSensitive, toElementFn: this.toElementFn });
   }
 
   /**
@@ -493,8 +499,8 @@ export class Trie extends IterableElementBase<string, Trie> {
    * specific object as the context for the `predicate` function. If `thisArg` is provided, it will be
    * @returns The `filter` method is returning an array of strings (`string[]`).
    */
-  filter(predicate: ElementCallback<string, boolean>, thisArg?: any): Trie {
-    const results: Trie = new Trie();
+  filter(predicate: ElementCallback<string, R, boolean, Trie<R>>, thisArg?: any): Trie<R> {
+    const results = new Trie<R>([], { toElementFn: this.toElementFn, caseSensitive: this.caseSensitive });
     let index = 0;
     for (const word of this) {
       if (predicate.call(thisArg, word, index, this)) {
@@ -514,17 +520,26 @@ export class Trie extends IterableElementBase<string, Trie> {
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
-   * The `map` function creates a new Trie by applying a callback function to each element in the Trie.
+   * The `map` function creates a new Trie by applying a callback function to each element in the
+   * current Trie.
    * @param callback - The callback parameter is a function that will be called for each element in the
-   * Trie. It takes three arguments: the current element in the Trie, the index of the current element,
-   * and the Trie itself. The callback function should return a new value for the element.
-   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that specifies the value
-   * to be used as `this` when executing the `callback` function. If `thisArg` is provided, it will be
-   * passed as the `this` value to the `callback` function. If `thisArg` is
-   * @returns The `map` function is returning a new Trie object.
+   * Trie. It takes four arguments:
+   * @param [toElementFn] - The `toElementFn` parameter is an optional function that can be used to
+   * convert the raw element (`RM`) into a string representation. This can be useful if the raw element
+   * is not already a string or if you want to customize how the element is converted into a string. If
+   * this parameter is
+   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that allows you to
+   * specify the value of `this` within the callback function. It is used to set the context or scope
+   * in which the callback function will be executed. If `thisArg` is provided, it will be used as the
+   * value of
+   * @returns a new Trie object.
    */
-  map(callback: ElementCallback<string, string>, thisArg?: any): Trie {
-    const newTrie = new Trie();
+  map<RM>(
+    callback: ElementCallback<string, R, string, Trie<R>>,
+    toElementFn?: (rawElement: RM) => string,
+    thisArg?: any
+  ): Trie<RM> {
+    const newTrie = new Trie<RM>([], { toElementFn, caseSensitive: this.caseSensitive });
     let index = 0;
     for (const word of this) {
       newTrie.add(callback.call(thisArg, word, index, this));

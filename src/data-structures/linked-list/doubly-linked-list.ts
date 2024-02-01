@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { ElementCallback } from '../../types';
+import type { DoublyLinkedListOptions, ElementCallback } from '../../types';
 import { IterableElementBase } from '../base';
 
 export class DoublyLinkedListNode<E = any> {
@@ -87,21 +87,17 @@ export class DoublyLinkedListNode<E = any> {
  * 3. No Centralized Index: Unlike arrays, elements in a linked list are not stored contiguously, so there is no centralized index. Accessing elements in a linked list typically requires traversing from the head or tail node.
  * 4. High Efficiency in Insertion and Deletion: Adding or removing elements in a linked list does not require moving other elements, making these operations more efficient than in arrays.
  */
-export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
-  /**
-   * The constructor initializes a linked list with optional elements.
-   * @param elements - The `elements` parameter is an optional iterable object that contains the
-   * initial elements to be added to the data structure. It defaults to an empty array if no elements
-   * are provided.
-   */
-  constructor(elements: Iterable<E> = []) {
-    super();
+export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R, DoublyLinkedList<E, R>> {
+  constructor(elements: Iterable<E> | Iterable<R> = [], options?: DoublyLinkedListOptions<E, R>) {
+    super(options);
     this._head = undefined;
     this._tail = undefined;
     this._size = 0;
     if (elements) {
       for (const el of elements) {
-        this.push(el);
+        if (this.toElementFn) {
+          this.push(this.toElementFn(el as R));
+        } else this.push(el as E);
       }
     }
   }
@@ -729,8 +725,8 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    * @returns The `clone()` method is returning a new instance of the `DoublyLinkedList` class, which
    * is a copy of the original list.
    */
-  clone(): DoublyLinkedList<E> {
-    return new DoublyLinkedList(this.values());
+  clone(): DoublyLinkedList<E, R> {
+    return new DoublyLinkedList<E, R>(this);
   }
 
   /**
@@ -755,8 +751,8 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    * @returns The `filter` method is returning a new `DoublyLinkedList` object that contains the
    * elements that pass the filter condition specified by the `callback` function.
    */
-  filter(callback: ElementCallback<E, boolean>, thisArg?: any): DoublyLinkedList<E> {
-    const filteredList = new DoublyLinkedList<E>();
+  filter(callback: ElementCallback<E, R, boolean, DoublyLinkedList<E, R>>, thisArg?: any): DoublyLinkedList<E, R> {
+    const filteredList = new DoublyLinkedList<E, R>([], { toElementFn: this.toElementFn });
     let index = 0;
     for (const current of this) {
       if (callback.call(thisArg, current, index, this)) {
@@ -773,24 +769,28 @@ export class DoublyLinkedList<E = any> extends IterableElementBase<E> {
    */
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `map` function creates a new DoublyLinkedList by applying a callback function to each element
-   * in the original list.
+   * The `map` function takes a callback function and returns a new DoublyLinkedList with the results
+   * of applying the callback to each element in the original list.
    * @param callback - The callback parameter is a function that will be called for each element in the
-   * DoublyLinkedList. It takes three arguments: the current element, the index of the current element,
-   * and the DoublyLinkedList itself. The callback function should return a value that will be added to
-   * the new DoublyLinkedList that
-   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that specifies the value
-   * to be used as `this` when executing the `callback` function. If `thisArg` is provided, it will be
-   * passed as the `this` value to the `callback` function. If `thisArg` is
-   * @returns The `map` function is returning a new `DoublyLinkedList` object that contains the results
-   * of applying the provided `callback` function to each element in the original `DoublyLinkedList`
-   * object.
+   * original DoublyLinkedList. It takes three arguments: current (the current element being
+   * processed), index (the index of the current element), and this (the original DoublyLinkedList).
+   * The callback function should return a value of type
+   * @param [toElementFn] - The `toElementFn` parameter is an optional function that can be used to
+   * convert the raw element (`RR`) to the desired element type (`T`). It takes the raw element as
+   * input and returns the converted element. If this parameter is not provided, the raw element will
+   * be used as is.
+   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that allows you to
+   * specify the value of `this` within the callback function. It is used to set the context or scope
+   * in which the callback function will be executed. If `thisArg` is provided, it will be used as the
+   * value of
+   * @returns a new instance of the `DoublyLinkedList` class with elements of type `T` and `RR`.
    */
-  map<T>(callback: ElementCallback<E, T>, thisArg?: any): DoublyLinkedList<T> {
-    const mappedList = new DoublyLinkedList<T>();
+  map<EM, RM>(
+    callback: ElementCallback<E, R, EM, DoublyLinkedList<E, R>>,
+    toElementFn?: (rawElement: RM) => EM,
+    thisArg?: any
+  ): DoublyLinkedList<EM, RM> {
+    const mappedList = new DoublyLinkedList<EM, RM>([], { toElementFn });
     let index = 0;
     for (const current of this) {
       mappedList.push(callback.call(thisArg, current, index, this));

@@ -5,7 +5,7 @@ describe('MinHeap', () => {
   let minHeap: MinHeap<number>;
 
   beforeEach(() => {
-    minHeap = new MinHeap([], { comparator: numberComparator });
+    minHeap = new MinHeap<number>([], { comparator: numberComparator });
   });
 
   it('add and poll elements in ascending order', () => {
@@ -38,6 +38,23 @@ describe('MinHeap', () => {
 
     const sortedArray = minHeap.sort();
     expect(sortedArray).toEqual([1, 2, 3, 4]);
+  });
+
+  it('should clone', function () {
+    const minHeap = new MinHeap<string>();
+    minHeap.add('1');
+    minHeap.add('6');
+    minHeap.add('2');
+    minHeap.add('0');
+    minHeap.add('5');
+    minHeap.add('9');
+    minHeap.delete('2');
+    expect([...minHeap]).toEqual(['0', '1', '9', '6', '5']);
+    const cloned = minHeap.clone();
+    expect([...cloned]).toEqual(['0', '1', '9', '6', '5']);
+    minHeap.delete('5');
+    expect([...minHeap]).toEqual(['0', '1', '9', '6']);
+    expect([...cloned]).toEqual(['0', '1', '9', '6', '5']);
   });
 
   it('check if the heap is empty', () => {

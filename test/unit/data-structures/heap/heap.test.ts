@@ -88,6 +88,44 @@ describe('Heap Operation Test', () => {
     }
   });
 
+  it('should object heap map & filter', function () {
+    const minHeap = new MinHeap<{ a: string; key: number }>(
+      [
+        { key: 1, a: 'a1' },
+        { key: 6, a: 'a6' },
+        { key: 5, a: 'a5' },
+        { key: 3, a: 'a3' },
+        { key: 2, a: 'a2' },
+        { key: 4, a: 'a4' },
+        { key: 0, a: 'a0' }
+      ],
+      { comparator: (a, b) => a.key - b.key }
+    );
+
+    const mappedMinHeap = minHeap.map(
+      item => item.key,
+      (a, b) => a - b
+    );
+    expect(mappedMinHeap.peek()).toBe(0);
+    expect(mappedMinHeap.sort()).toEqual([0, 1, 2, 3, 4, 5, 6]);
+
+    const mappedToElementFnMinHeap = minHeap.map<string, { id: string }>(
+      item => item.key.toString(),
+      (a, b) => Number(a) - Number(b),
+      rawElement => rawElement.id
+    );
+    expect(mappedToElementFnMinHeap.peek()).toBe('0');
+    expect(mappedToElementFnMinHeap.sort()).toEqual(['0', '1', '2', '3', '4', '5', '6']);
+
+    const filteredHeap = minHeap.filter(item => item.key > 3);
+    expect(filteredHeap.peek()).toEqual({ a: 'a4', key: 4 });
+    expect(filteredHeap.sort()).toEqual([
+      { a: 'a4', key: 4 },
+      { a: 'a5', key: 5 },
+      { a: 'a6', key: 6 }
+    ]);
+  });
+
   it('should object heap', () => {
     const heap = new Heap<{ rawItem: { id: number } }>(
       [

@@ -16,9 +16,9 @@ import { calcMinUnitsRequired, rangeCheck } from '../../utils';
  * 4. Efficiency: Adding and removing elements at both ends of a deque is usually very fast. However, when the dynamic array needs to expand, it may involve copying the entire array to a larger one, and this operation has a time complexity of O(n).
  * 5. Performance jitter: Deque may experience performance jitter, but DoublyLinkedList will not
  */
-export class Deque<E> extends IterableElementBase<E> {
+export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, R>> {
   /**
-   * The constructor initializes a Deque object with an optional iterable of elements and options.
+   * The constructor initializes a Deque object with optional iterable of elements and options.
    * @param elements - An iterable object (such as an array or a Set) that contains the initial
    * elements to be added to the deque. It can also be an object with a `length` or `size` property
    * that represents the number of elements in the iterable object. If no elements are provided, an
@@ -28,8 +28,8 @@ export class Deque<E> extends IterableElementBase<E> {
    * which determines the size of each bucket in the deque. If the `bucketSize` option is not provided
    * or is not a number
    */
-  constructor(elements: IterableWithSizeOrLength<E> = [], options?: DequeOptions) {
-    super();
+  constructor(elements: IterableWithSizeOrLength<E> | IterableWithSizeOrLength<R> = [], options?: DequeOptions<E, R>) {
+    super(options);
 
     if (options) {
       const { bucketSize } = options;
@@ -53,8 +53,12 @@ export class Deque<E> extends IterableElementBase<E> {
     this._bucketFirst = this._bucketLast = (this._bucketCount >> 1) - (needBucketNum >> 1);
     this._firstInBucket = this._lastInBucket = (this._bucketSize - (_size % this._bucketSize)) >> 1;
 
-    for (const element of elements) {
-      this.push(element);
+    for (const el of elements) {
+      if (this.toElementFn) {
+        this.push(this.toElementFn(el as R));
+      } else {
+        this.push(el as E);
+      }
     }
   }
 
@@ -747,8 +751,8 @@ export class Deque<E> extends IterableElementBase<E> {
    * @returns The `clone()` method is returning a new instance of the `Deque` class with the same
    * elements as the original deque (`this`) and the same bucket size.
    */
-  clone(): Deque<E> {
-    return new Deque<E>([...this], { bucketSize: this.bucketSize });
+  clone(): Deque<E, R> {
+    return new Deque<E, R>(this, { bucketSize: this.bucketSize, toElementFn: this.toElementFn });
   }
 
   /**
@@ -772,8 +776,8 @@ export class Deque<E> extends IterableElementBase<E> {
    * @returns The `filter` method is returning a new `Deque` object that contains the elements that
    * satisfy the given predicate function.
    */
-  filter(predicate: ElementCallback<E, boolean>, thisArg?: any): Deque<E> {
-    const newDeque = new Deque<E>([], { bucketSize: this._bucketSize });
+  filter(predicate: ElementCallback<E, R, boolean, Deque<E, R>>, thisArg?: any): Deque<E, R> {
+    const newDeque = new Deque<E, R>([], { bucketSize: this._bucketSize, toElementFn: this.toElementFn });
     let index = 0;
     for (const el of this) {
       if (predicate.call(thisArg, el, index, this)) {
@@ -788,21 +792,28 @@ export class Deque<E> extends IterableElementBase<E> {
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    */
+
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `map` function creates a new Deque by applying a callback function to each element of the
-   * original Deque.
-   * @param callback - The `callback` parameter is a function that will be called for each element in
-   * the deque. It takes three arguments:
-   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that specifies the value
-   * to be used as `this` when executing the `callback` function. If `thisArg` is provided, it will be
-   * passed as the `this` value to the `callback` function. If `thisArg` is
-   * @returns a new Deque object with the mapped values.
+   * The `map` function takes a callback function and applies it to each element in the deque,
+   * returning a new deque with the results.
+   * @param callback - The callback parameter is a function that will be called for each element in the
+   * deque. It takes three arguments: the current element, the index of the element, and the deque
+   * itself. It should return a value of type EM.
+   * @param [toElementFn] - The `toElementFn` parameter is an optional function that can be used to
+   * transform the raw element (`RM`) into a new element (`EM`) before adding it to the new deque. If
+   * provided, this function will be called for each raw element in the original deque.
+   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that allows you to
+   * specify the value of `this` within the callback function. It is used to set the context or scope
+   * in which the callback function will be executed. If `thisArg` is provided, it will be used as the
+   * value of
+   * @returns a new Deque object with elements of type EM and raw elements of type RM.
    */
-  map<T>(callback: ElementCallback<E, T>, thisArg?: any): Deque<T> {
-    const newDeque = new Deque<T>([], { bucketSize: this._bucketSize });
+  map<EM, RM>(
+    callback: ElementCallback<E, R, EM, Deque<E, R>>,
+    toElementFn?: (rawElement: RM) => EM,
+    thisArg?: any
+  ): Deque<EM, RM> {
+    const newDeque = new Deque<EM, RM>([], { bucketSize: this._bucketSize, toElementFn });
     let index = 0;
     for (const el of this) {
       newDeque.push(callback.call(thisArg, el, index, this));

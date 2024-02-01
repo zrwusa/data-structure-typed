@@ -50,6 +50,36 @@ describe('Deque - Basic Operations', () => {
     expect(deque.at(0)).toBe(3);
   });
 
+  test('should at after shifting', () => {
+    deque.clear();
+    for (let i = 0; i < 100; i++) {
+      deque.push(i);
+    }
+
+    for (let i = 0; i < 10; i++) {
+      expect(deque.shift()).toBe(i);
+    }
+
+    for (let i = 0; i < 90; i++) {
+      expect(deque.at(i)).toBe(i + 10);
+    }
+  });
+
+  test('should at after popping', () => {
+    deque.clear();
+    for (let i = 0; i < 100; i++) {
+      deque.push(i);
+    }
+
+    for (let i = 0; i < 10; i++) {
+      expect(deque.pop()).toBe(99 - i);
+    }
+
+    for (let i = 0; i < 90; i++) {
+      expect(deque.at(i)).toBe(i);
+    }
+  });
+
   it('should clone', function () {
     const deque = new Deque<string>();
     deque.push('1');

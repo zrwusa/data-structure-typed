@@ -270,8 +270,8 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @returns The `map` method is returning a new `HashMap` object with the transformed values based on
    * the provided callback function.
    */
-  map<U>(callbackfn: EntryCallback<K, V, U>, thisArg?: any): HashMap<K, U> {
-    const resultMap = new HashMap<K, U>();
+  map<VM>(callbackfn: EntryCallback<K, V, VM>, thisArg?: any): HashMap<K, VM> {
+    const resultMap = new HashMap<K, VM>();
     let index = 0;
     for (const [key, value] of this) {
       resultMap.set(key, callbackfn.call(thisArg, value, key, index++, this));
@@ -898,8 +898,8 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
    * @returns a new `LinkedHashMap` object with the values mapped according to the provided callback
    * function.
    */
-  map<NV>(callback: EntryCallback<K, V, NV>, thisArg?: any): LinkedHashMap<K, NV> {
-    const mappedMap = new LinkedHashMap<K, NV>();
+  map<VM>(callback: EntryCallback<K, V, VM>, thisArg?: any): LinkedHashMap<K, VM> {
+    const mappedMap = new LinkedHashMap<K, VM>();
     let index = 0;
     for (const [key, value] of this) {
       const newValue = callback.call(thisArg, value, key, index, this);

@@ -3,7 +3,7 @@
  * @copyright Tyler Zeng <zrwusa@gmail.com>
  * @class
  */
-import type { ElementCallback } from '../../types';
+import type { ElementCallback, QueueOptions } from '../../types';
 import { IterableElementBase } from '../base';
 import { SinglyLinkedList } from '../linked-list';
 
@@ -16,17 +16,14 @@ import { SinglyLinkedList } from '../linked-list';
  * 6. Breadth-First Search (BFS): In traversal algorithms for graphs and trees, queues store elements that are to be visited.
  * 7. Real-time Queuing: Like queuing systems in banks or supermarkets.
  */
-export class Queue<E = any> extends IterableElementBase<E> {
-  /**
-   * The constructor initializes an instance of a class with an optional array of elements and sets the offset to 0.
-   * @param {E[]} [elements] - The `elements` parameter is an optional array of elements of type `E`. If provided, it
-   * will be used to initialize the `_elements` property of the class. If not provided, the `_elements` property will be
-   * initialized as an empty array.
-   */
-  constructor(elements: Iterable<E> = []) {
-    super();
+export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, R>> {
+  constructor(elements: Iterable<E> | Iterable<R> = [], options?: QueueOptions<E, R>) {
+    super(options);
     if (elements) {
-      for (const el of elements) this.push(el);
+      for (const el of elements) {
+        if (this.toElementFn) this.push(this.toElementFn(el as R));
+        else this.push(el as E);
+      }
     }
   }
 
@@ -190,7 +187,7 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * @param index
    */
   at(index: number): E | undefined {
-    return this.elements[index];
+    return this.elements[index + this._offset];
   }
 
   /**
@@ -254,8 +251,8 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * The `clone()` function returns a new Queue object with the same elements as the original Queue.
    * @returns The `clone()` method is returning a new instance of the `Queue` class.
    */
-  clone(): Queue<E> {
-    return new Queue(this.elements.slice(this.offset));
+  clone(): Queue<E, R> {
+    return new Queue(this.elements.slice(this.offset), { toElementFn: this.toElementFn });
   }
 
   /**
@@ -279,8 +276,8 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * @returns The `filter` method is returning a new `Queue` object that contains the elements that
    * satisfy the given predicate function.
    */
-  filter(predicate: ElementCallback<E, boolean>, thisArg?: any): Queue<E> {
-    const newDeque = new Queue<E>([]);
+  filter(predicate: ElementCallback<E, R, boolean, Queue<E, R>>, thisArg?: any): Queue<E, R> {
+    const newDeque = new Queue<E, R>([], { toElementFn: this.toElementFn });
     let index = 0;
     for (const el of this) {
       if (predicate.call(thisArg, el, index, this)) {
@@ -296,22 +293,12 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * Space Complexity: O(n)
    */
 
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `map` function takes a callback function and applies it to each element in the queue,
-   * returning a new queue with the results.
-   * @param callback - The callback parameter is a function that will be called for each element in the
-   * queue. It takes three arguments: the current element, the index of the current element, and the
-   * queue itself. The callback function should return a new value that will be added to the new queue.
-   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that specifies the value
-   * to be used as `this` when executing the `callback` function. If `thisArg` is provided, it will be
-   * passed as the `this` value to the `callback` function. If `thisArg` is
-   * @returns The `map` function is returning a new `Queue` object with the transformed elements.
-   */
-  map<T>(callback: ElementCallback<E, T>, thisArg?: any): Queue<T> {
-    const newDeque = new Queue<T>([]);
+  map<EM, RM>(
+    callback: ElementCallback<E, R, EM, Queue<E, R>>,
+    toElementFn?: (rawElement: RM) => EM,
+    thisArg?: any
+  ): Queue<EM, RM> {
+    const newDeque = new Queue<EM, RM>([], { toElementFn });
     let index = 0;
     for (const el of this) {
       newDeque.push(callback.call(thisArg, el, index, this));
@@ -332,7 +319,7 @@ export class Queue<E = any> extends IterableElementBase<E> {
    * The function `_getIterator` returns an iterable iterator for the elements in the class.
    */
   protected* _getIterator(): IterableIterator<E> {
-    for (const item of this.elements) {
+    for (const item of this.elements.slice(this.offset)) {
       yield item;
     }
   }
@@ -344,7 +331,7 @@ export class Queue<E = any> extends IterableElementBase<E> {
  * 3. Memory Usage: Since each element requires additional space to store a pointer to the next element, linked lists may use more memory compared to arrays.
  * 4. Frequent Enqueuing and Dequeuing Operations: If your application involves frequent enqueuing and dequeuing operations and is less concerned with random access, then LinkedListQueue is a good choice.
  */
-export class LinkedListQueue<E = any> extends SinglyLinkedList<E> {
+export class LinkedListQueue<E = any, R = any> extends SinglyLinkedList<E, R> {
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
@@ -358,7 +345,7 @@ export class LinkedListQueue<E = any> extends SinglyLinkedList<E> {
    * @returns The `clone()` method is returning a new instance of `LinkedListQueue` with the same
    * values as the original `LinkedListQueue`.
    */
-  override clone(): LinkedListQueue<E> {
-    return new LinkedListQueue<E>(this.values());
+  override clone(): LinkedListQueue<E, R> {
+    return new LinkedListQueue<E, R>(this, { toElementFn: this.toElementFn });
   }
 }

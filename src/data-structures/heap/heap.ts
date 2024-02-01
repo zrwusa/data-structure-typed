@@ -20,7 +20,7 @@ import { IterableElementBase } from '../base';
  * 7. Efficient Sorting Algorithms: For example, heap sort. Heap sort uses the properties of a heap to sort elements.
  * 8. Graph Algorithms: Such as Dijkstra's shortest path algorithm and Prime's minimum-spanning tree algorithm, which use heaps to improve performance.
  */
-export class Heap<E = any, R = any> extends IterableElementBase<E> {
+export class Heap<E = any, R = any> extends IterableElementBase<E, R, Heap<E, R>> {
   /**
    * The constructor initializes a heap data structure with optional elements and options.
    * @param elements - The `elements` parameter is an iterable object that contains the initial
@@ -35,16 +35,16 @@ export class Heap<E = any, R = any> extends IterableElementBase<E> {
    * order of elements in the heap.
    */
   constructor(elements: Iterable<E> | Iterable<R> = [], options?: HeapOptions<E, R>) {
-    super();
+    super(options);
+
     if (options) {
-      const { comparator, toElementFn } = options;
+      const { comparator } = options;
       if (comparator) this._comparator = comparator;
-      if (toElementFn) this._toElementFn = toElementFn;
     }
 
     if (elements) {
       for (const el of elements) {
-        if (this._toElementFn) this.add(this._toElementFn(el as R));
+        if (this.toElementFn) this.add(this.toElementFn(el as R));
         else this.add(el as E);
       }
     }
@@ -58,12 +58,6 @@ export class Heap<E = any, R = any> extends IterableElementBase<E> {
    */
   get elements(): E[] {
     return this._elements;
-  }
-
-  protected _toElementFn?: (rawElement: R) => E;
-
-  get toElementFn() {
-    return this._toElementFn;
   }
 
   /**
@@ -133,12 +127,6 @@ export class Heap<E = any, R = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   * where n is the number of elements in the heap.
-   */
-
-  /**
    * Check if the heap is empty.
    * @returns True if the heap is empty, otherwise false.
    */
@@ -147,22 +135,11 @@ export class Heap<E = any, R = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   * where n is the number of elements in the heap.
-   */
-
-  /**
    * Reset the elements of the heap. Make the elements empty.
    */
   clear(): void {
     this._elements = [];
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -216,11 +193,6 @@ export class Heap<E = any, R = any> extends IterableElementBase<E> {
 
   /**
    * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
-
-  /**
-   * Time Complexity: O(n)
    * Space Complexity: O(log n)
    *
    * Depth-first search (DFS) method, different traversal orders can be selected。
@@ -258,11 +230,6 @@ export class Heap<E = any, R = any> extends IterableElementBase<E> {
 
   /**
    * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
    * Convert the heap to an array.
@@ -273,29 +240,15 @@ export class Heap<E = any, R = any> extends IterableElementBase<E> {
   }
 
   /**
-   * Time Complexity:  O(n)
-   * Space Complexity: O(1)
-   * The worst-case  O(n) This is because, in the worst case, the element to be deleted is located at the end of the heap (not the root), and after deletion, we may need to reorganize the elements by performing a sinkDown operation.
-   */
-
-  /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
    * Clone the heap, creating a new heap with the same elements.
    * @returns A new Heap instance containing the same elements.
    */
-  clone(): Heap<E> {
-    const clonedHeap = new Heap<E>([], { comparator: this.comparator });
-    clonedHeap._elements = [...this.elements];
-    return clonedHeap;
+  clone(): Heap<E, R> {
+    return new Heap<E, R>(this, { comparator: this.comparator, toElementFn: this.toElementFn });
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(log n)
-   * where log n is the height of the heap.
-   */
 
   /**
    * Time Complexity: O(n log n)
@@ -306,18 +259,13 @@ export class Heap<E = any, R = any> extends IterableElementBase<E> {
    */
   sort(): E[] {
     const visitedNode: E[] = [];
-    const cloned = this.clone();
+    const cloned = new Heap<E, R>(this, { comparator: this.comparator });
     while (cloned.size !== 0) {
       const top = cloned.poll();
-      if (top) visitedNode.push(top);
+      if (top !== undefined) visitedNode.push(top);
     }
     return visitedNode;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n log n)
@@ -330,11 +278,6 @@ export class Heap<E = any, R = any> extends IterableElementBase<E> {
     for (let i = Math.floor(this.size / 2); i >= 0; i--) results.push(this._sinkDown(i, this.elements.length >> 1));
     return results;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -352,8 +295,8 @@ export class Heap<E = any, R = any> extends IterableElementBase<E> {
    * @returns The `filter` method is returning a new `Heap` object that contains the elements that pass
    * the filter condition specified by the `callback` function.
    */
-  filter(callback: ElementCallback<E, boolean>, thisArg?: any): Heap<E> {
-    const filteredList = new Heap<E>();
+  filter(callback: ElementCallback<E, R, boolean, Heap<E, R>>, thisArg?: any): Heap<E, R> {
+    const filteredList = new Heap<E, R>([], { toElementFn: this.toElementFn, comparator: this.comparator });
     let index = 0;
     for (const current of this) {
       if (callback.call(thisArg, current, index, this)) {
@@ -367,30 +310,31 @@ export class Heap<E = any, R = any> extends IterableElementBase<E> {
   /**
    * Time Complexity: O(n log n)
    * Space Complexity: O(n)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
    *
    * The `map` function creates a new heap by applying a callback function to each element of the
    * original heap.
-   * @param callback - The callback parameter is a function that will be called for each element in the
-   * original heap. It takes three arguments: the current element, the index of the current element,
-   * and the original heap itself. The callback function should return a value of type T, which will be
-   * added to the mapped heap.
-   * @param comparator - The `comparator` parameter is a function that is used to compare elements in
-   * the heap. It takes two arguments, `a` and `b`, and returns a negative number if `a` is less than
-   * `b`, a positive number if `a` is greater than `b`, or
+   * @param callback - The `callback` parameter is a function that will be called for each element in
+   * the heap. It takes three arguments: `el` (the current element), `index` (the index of the current
+   * element), and `this` (the heap itself). The callback function should return a value of
+   * @param comparator - The `comparator` parameter is a function that defines the order of the
+   * elements in the heap. It takes two elements `a` and `b` as arguments and returns a negative number
+   * if `a` should be placed before `b`, a positive number if `a` should be placed after
+   * @param [toElementFn] - The `toElementFn` parameter is an optional function that converts the raw
+   * element `RR` to the desired type `T`. It takes a single argument `rawElement` of type `RR` and
+   * returns a value of type `T`. This function is used to transform the elements of the original
    * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that allows you to
-   * specify the value of `this` within the callback function. It is used when you want to bind a
-   * specific object as the context for the callback function. If `thisArg` is not provided,
-   * `undefined` is used as
-   * @returns a new instance of the Heap class, which is created using the mapped elements from the
-   * original Heap.
+   * specify the value of `this` within the callback function. It is used to set the context or scope
+   * in which the callback function will be executed. If `thisArg` is provided, it will be used as the
+   * value of
+   * @returns a new instance of the `Heap` class with the mapped elements.
    */
-  map<T>(callback: ElementCallback<E, T>, comparator: Comparator<T>, thisArg?: any): Heap<T> {
-    const mappedHeap: Heap<T> = new Heap<T>([], { comparator: comparator });
+  map<EM, RM>(
+    callback: ElementCallback<E, R, EM, Heap<E, R>>,
+    comparator: Comparator<EM>,
+    toElementFn?: (rawElement: RM) => EM,
+    thisArg?: any
+  ): Heap<EM, RM> {
+    const mappedHeap: Heap<EM, RM> = new Heap<EM, RM>([], { comparator, toElementFn });
     let index = 0;
     for (const el of this) {
       mappedHeap.add(callback.call(thisArg, el, index, this));
@@ -432,11 +376,6 @@ export class Heap<E = any, R = any> extends IterableElementBase<E> {
   /**
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
    *
    * Float operation to maintain heap properties after adding an element.
    * @param index - The index of the newly added element.
@@ -453,11 +392,6 @@ export class Heap<E = any, R = any> extends IterableElementBase<E> {
     this.elements[index] = element;
     return true;
   }
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(log n)
@@ -583,11 +517,6 @@ export class FibonacciHeap<E> {
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * Insert an element into the heap and maintain the heap properties.
    * @param element
@@ -596,11 +525,6 @@ export class FibonacciHeap<E> {
   add(element: E): FibonacciHeap<E> {
     return this.push(element);
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -623,11 +547,6 @@ export class FibonacciHeap<E> {
     this._size++;
     return this;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)

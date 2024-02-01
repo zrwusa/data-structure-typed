@@ -90,6 +90,62 @@ describe('Queue', () => {
     expect(queue.isEmpty()).toBeTruthy();
   });
 
+  test('should at after shifting', () => {
+    for (let i = 0; i < 100; i++) {
+      queue.push(i);
+    }
+
+    for (let i = 0; i < 10; i++) {
+      expect(queue.shift()).toBe(i);
+    }
+
+    for (let i = 0; i < 90; i++) {
+      expect(queue.at(i)).toBe(i + 10);
+    }
+  });
+
+  test('should toElementFn', () => {
+    const queue = new Queue<string, { id: string }>([{ id: '1' }, { id: '5' }, { id: '3' }, { id: '4' }, { id: '2' }], {
+      toElementFn: rawElement => rawElement.id
+    });
+
+    expect(queue.size).toBe(5);
+    queue.shift();
+    expect(queue.size).toBe(4);
+    expect(queue.at(1)).toBe('3');
+  });
+
+  it('should object queue map & filter', function () {
+    const queue = new Queue<{ a: string; key: number }>([
+      { key: 1, a: 'a1' },
+      { key: 6, a: 'a6' },
+      { key: 5, a: 'a5' },
+      { key: 3, a: 'a3' },
+      { key: 2, a: 'a2' },
+      { key: 4, a: 'a4' },
+      { key: 0, a: 'a0' }
+    ]);
+
+    const mappedQueue = queue.map(item => item.key);
+    expect(mappedQueue.at(0)).toBe(1);
+    expect([...mappedQueue]).toEqual([1, 6, 5, 3, 2, 4, 0]);
+
+    const mappedToElementFnQueue = queue.map<string, { id: string }>(
+      item => item.key.toString(),
+      rawElement => rawElement.id
+    );
+    expect(mappedToElementFnQueue.at(0)).toBe('1');
+    expect([...mappedToElementFnQueue]).toEqual(['1', '6', '5', '3', '2', '4', '0']);
+
+    const filteredQueue = queue.filter(item => item.key > 3);
+    expect(filteredQueue.at(0)).toEqual({ a: 'a6', key: 6 });
+    expect([...filteredQueue]).toEqual([
+      { a: 'a6', key: 6 },
+      { a: 'a5', key: 5 },
+      { a: 'a4', key: 4 }
+    ]);
+  });
+
   it('should clone', function () {
     const queue = new Queue<string>();
     queue.push('1');
