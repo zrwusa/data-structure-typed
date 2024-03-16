@@ -261,7 +261,8 @@ export class DirectedGraph<
     if (vertex) {
       const neighbors = this.getNeighbors(vertex);
       for (const neighbor of neighbors) {
-        this._inEdgeMap.delete(neighbor);
+        // this._inEdgeMap.delete(neighbor);
+        this.deleteEdgeSrcToDest(vertex, neighbor);
       }
       this._outEdgeMap.delete(vertex);
       this._inEdgeMap.delete(vertex);
