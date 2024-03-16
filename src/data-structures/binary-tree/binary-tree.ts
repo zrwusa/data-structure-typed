@@ -14,12 +14,13 @@ import type {
   BinaryTreePrintOptions,
   BTNCallback,
   BTNEntry,
+  BTNKeyOrNodeOrEntry,
   DFSOrderPattern,
   EntryCallback,
   FamilyPosition,
   IterationType,
-  KeyOrNodeOrEntry,
-  NodeDisplayLayout
+  NodeDisplayLayout,
+  OptBTNOrNull
 } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { trampoline } from '../../utils';
@@ -62,16 +63,16 @@ export class BinaryTreeNode<
    * @returns The left node of the current node is being returned. It can be either a NODE object,
    * null, or undefined.
    */
-  get left(): NODE | null | undefined {
+  get left(): OptBTNOrNull<NODE> {
     return this._left;
   }
 
   /**
    * The function sets the left child of a node and updates its parent reference.
-   * @param {NODE | null | undefined} v - The parameter `v` can be of type `NODE`, `null`, or
+   * @param {OptBTNOrNull<NODE>} v - The parameter `v` can be of type `NODE`, `null`, or
    * `undefined`.
    */
-  set left(v: NODE | null | undefined) {
+  set left(v: OptBTNOrNull<NODE>) {
     if (v) {
       v.parent = this as unknown as NODE;
     }
@@ -85,16 +86,16 @@ export class BinaryTreeNode<
    * @returns The method is returning the value of the `_right` property, which can be a `NODE` object,
    * `null`, or `undefined`.
    */
-  get right(): NODE | null | undefined {
+  get right(): OptBTNOrNull<NODE> {
     return this._right;
   }
 
   /**
    * The function sets the right child of a node and updates its parent.
-   * @param {NODE | null | undefined} v - The parameter `v` can be of type `NODE`, `null`, or
+   * @param {OptBTNOrNull<NODE>} v - The parameter `v` can be of type `NODE`, `null`, or
    * `undefined`.
    */
-  set right(v: NODE | null | undefined) {
+  set right(v: OptBTNOrNull<NODE>) {
     if (v) {
       v.parent = this as unknown as NODE;
     }
@@ -142,7 +143,7 @@ export class BinaryTree<
 
   /**
    * The constructor function initializes a binary tree object with optional keysOrNodesOrEntriesOrRawElements and options.
-   * @param [keysOrNodesOrEntriesOrRawElements] - Optional iterable of KeyOrNodeOrEntry objects. These objects represent the
+   * @param [keysOrNodesOrEntriesOrRawElements] - Optional iterable of BTNKeyOrNodeOrEntry objects. These objects represent the
    * nodes to be added to the binary tree.
    * @param [options] - The `options` parameter is an optional object that can contain additional
    * configuration options for the binary tree. In this case, it is of type
@@ -150,7 +151,7 @@ export class BinaryTree<
    * required.
    */
   constructor(
-    keysOrNodesOrEntriesOrRawElements: Iterable<R | KeyOrNodeOrEntry<K, V, NODE>> = [],
+    keysOrNodesOrEntriesOrRawElements: Iterable<R | BTNKeyOrNodeOrEntry<K, V, NODE>> = [],
     options?: BinaryTreeOptions<K, V, R>
   ) {
     super();
@@ -164,14 +165,14 @@ export class BinaryTree<
     if (keysOrNodesOrEntriesOrRawElements) this.addMany(keysOrNodesOrEntriesOrRawElements);
   }
 
-  protected _root?: NODE | null;
+  protected _root?: OptBTNOrNull<NODE>;
 
   /**
    * The function returns the root node, which can be of type NODE, null, or undefined.
    * @returns The method is returning the value of the `_root` property, which can be of type `NODE`,
    * `null`, or `undefined`.
    */
-  get root(): NODE | null | undefined {
+  get root(): OptBTNOrNull<NODE> {
     return this._root;
   }
 
@@ -229,8 +230,8 @@ export class BinaryTree<
   /**
    * The function `keyValueOrEntryOrRawElementToNode` converts a key-value pair, entry, or raw element
    * into a node object.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
-   * `keyOrNodeOrEntryOrRawElement` can be of type `R` or `KeyOrNodeOrEntry<K, V, NODE>`.
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
+   * `keyOrNodeOrEntryOrRawElement` can be of type `R` or `BTNKeyOrNodeOrEntry<K, V, NODE>`.
    * @param {V} [value] - The `value` parameter is an optional value that can be passed to the
    * `keyValueOrEntryOrRawElementToNode` function. It represents the value associated with a key in a
    * key-value pair. If provided, it will be used to create a node with the specified key and value.
@@ -238,9 +239,9 @@ export class BinaryTree<
    * or `undefined`.
    */
   keyValueOrEntryOrRawElementToNode(
-    keyOrNodeOrEntryOrRawElement: R | KeyOrNodeOrEntry<K, V, NODE>,
+    keyOrNodeOrEntryOrRawElement: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     value?: V
-  ): NODE | null | undefined {
+  ): OptBTNOrNull<NODE> {
     if (keyOrNodeOrEntryOrRawElement === undefined) return;
     if (keyOrNodeOrEntryOrRawElement === null) return null;
 
@@ -275,8 +276,8 @@ export class BinaryTree<
    *
    * The `ensureNode` function checks if the input is a valid node and returns it, or converts it to a
    * node if it is a key or entry.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
-   * `keyOrNodeOrEntryOrRawElement` can accept a value of type `R`, `KeyOrNodeOrEntry<K, V, NODE>`, or
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
+   * `keyOrNodeOrEntryOrRawElement` can accept a value of type `R`, `BTNKeyOrNodeOrEntry<K, V, NODE>`, or
    * a raw element.
    * @param {IterationType} [iterationType=ITERATIVE] - The `iterationType` parameter is an optional
    * parameter that specifies the type of iteration to be used when searching for a node. It has a
@@ -284,9 +285,9 @@ export class BinaryTree<
    * @returns The function `ensureNode` returns either a `NODE` object, `null`, or `undefined`.
    */
   ensureNode(
-    keyOrNodeOrEntryOrRawElement: R | KeyOrNodeOrEntry<K, V, NODE>,
+    keyOrNodeOrEntryOrRawElement: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     iterationType: IterationType = 'ITERATIVE'
-  ): NODE | null | undefined {
+  ): OptBTNOrNull<NODE> {
     if (keyOrNodeOrEntryOrRawElement === null) return null;
     if (keyOrNodeOrEntryOrRawElement === undefined) return;
     if (keyOrNodeOrEntryOrRawElement === this.NIL) return;
@@ -310,55 +311,55 @@ export class BinaryTree<
 
   /**
    * The function checks if the input is an instance of the BinaryTreeNode class.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
-   * `keyOrNodeOrEntryOrRawElement` can be of type `R` or `KeyOrNodeOrEntry<K, V, NODE>`.
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
+   * `keyOrNodeOrEntryOrRawElement` can be of type `R` or `BTNKeyOrNodeOrEntry<K, V, NODE>`.
    * @returns a boolean value indicating whether the input parameter `keyOrNodeOrEntryOrRawElement` is
    * an instance of the `BinaryTreeNode` class.
    */
-  isNode(keyOrNodeOrEntryOrRawElement: R | KeyOrNodeOrEntry<K, V, NODE>): keyOrNodeOrEntryOrRawElement is NODE {
+  isNode(keyOrNodeOrEntryOrRawElement: R | BTNKeyOrNodeOrEntry<K, V, NODE>): keyOrNodeOrEntryOrRawElement is NODE {
     return keyOrNodeOrEntryOrRawElement instanceof BinaryTreeNode;
   }
 
   /**
    * The function checks if a given node is a valid node in a binary search tree.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} node - The parameter `node` can be of type `R` or
-   * `KeyOrNodeOrEntry<K, V, NODE>`.
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} node - The parameter `node` can be of type `R` or
+   * `BTNKeyOrNodeOrEntry<K, V, NODE>`.
    * @returns a boolean value.
    */
-  isRealNode(node: R | KeyOrNodeOrEntry<K, V, NODE>): node is NODE {
+  isRealNode(node: R | BTNKeyOrNodeOrEntry<K, V, NODE>): node is NODE {
     if (node === this.NIL || node === null || node === undefined) return false;
     return this.isNode(node);
   }
 
   /**
    * The function checks if a given node is a real node or null.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} node - The parameter `node` can be of type `R` or
-   * `KeyOrNodeOrEntry<K, V, NODE>`.
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} node - The parameter `node` can be of type `R` or
+   * `BTNKeyOrNodeOrEntry<K, V, NODE>`.
    * @returns a boolean value.
    */
-  isNodeOrNull(node: R | KeyOrNodeOrEntry<K, V, NODE>): node is NODE | null {
+  isNodeOrNull(node: R | BTNKeyOrNodeOrEntry<K, V, NODE>): node is NODE | null {
     return this.isRealNode(node) || node === null;
   }
 
   /**
    * The function checks if a given node is equal to the NIL value.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} node - The parameter `node` can be of type `R` or
-   * `KeyOrNodeOrEntry<K, V, NODE>`.
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} node - The parameter `node` can be of type `R` or
+   * `BTNKeyOrNodeOrEntry<K, V, NODE>`.
    * @returns a boolean value.
    */
-  isNIL(node: R | KeyOrNodeOrEntry<K, V, NODE>) {
+  isNIL(node: R | BTNKeyOrNodeOrEntry<K, V, NODE>) {
     return node === this.NIL;
   }
 
   /**
    * The function checks if the input is an array with two elements, indicating it is a binary tree
    * node entry.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
-   * `keyOrNodeOrEntryOrRawElement` can be of type `R` or `KeyOrNodeOrEntry<K, V, NODE>`.
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
+   * `keyOrNodeOrEntryOrRawElement` can be of type `R` or `BTNKeyOrNodeOrEntry<K, V, NODE>`.
    * @returns a boolean value.
    */
   isEntry(
-    keyOrNodeOrEntryOrRawElement: R | KeyOrNodeOrEntry<K, V, NODE>
+    keyOrNodeOrEntryOrRawElement: R | BTNKeyOrNodeOrEntry<K, V, NODE>
   ): keyOrNodeOrEntryOrRawElement is BTNEntry<K, V> {
     return Array.isArray(keyOrNodeOrEntryOrRawElement) && keyOrNodeOrEntryOrRawElement.length === 2;
   }
@@ -402,17 +403,17 @@ export class BinaryTree<
    *
    * The `add` function is used to insert a new node into a binary tree, checking for duplicate keys
    * and finding the appropriate insertion position.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The
    * `keyOrNodeOrEntryOrRawElement` parameter can accept a value of type `R`, which represents the key,
    * node, entry, or raw element to be added to the tree. It can also accept a value of type
-   * `KeyOrNodeOrEntry<K, V, NODE>
+   * `BTNKeyOrNodeOrEntry<K, V, NODE>
    * @param {V} [value] - The `value` parameter is an optional value that can be associated with the
    * key being added to the tree. It represents the value that will be stored in the tree for the given
    * key.
    * @returns a boolean value. It returns `true` if the insertion is successful, and `false` if the
    * insertion position cannot be found or if there are duplicate keys.
    */
-  add(keyOrNodeOrEntryOrRawElement: R | KeyOrNodeOrEntry<K, V, NODE>, value?: V): boolean {
+  add(keyOrNodeOrEntryOrRawElement: R | BTNKeyOrNodeOrEntry<K, V, NODE>, value?: V): boolean {
     const newNode = this.keyValueOrEntryOrRawElementToNode(keyOrNodeOrEntryOrRawElement, value);
     if (newNode === undefined) return false;
 
@@ -486,7 +487,7 @@ export class BinaryTree<
    * successfully added to the data structure.
    */
   addMany(
-    keysOrNodesOrEntriesOrRawElements: Iterable<R | KeyOrNodeOrEntry<K, V, NODE>>,
+    keysOrNodesOrEntriesOrRawElements: Iterable<R | BTNKeyOrNodeOrEntry<K, V, NODE>>,
     values?: Iterable<V | undefined>
   ): boolean[] {
     // TODO not sure addMany not be run multi times
@@ -525,13 +526,13 @@ export class BinaryTree<
    *
    * The `refill` function clears the current data and adds new data to the collection.
    * @param keysOrNodesOrEntriesOrRawElements - An iterable collection of keys, nodes, entries, or raw
-   * elements. These can be of any type (R) or a specific type (KeyOrNodeOrEntry<K, V, NODE>).
+   * elements. These can be of any type (R) or a specific type (BTNKeyOrNodeOrEntry<K, V, NODE>).
    * @param [values] - The `values` parameter is an optional iterable of values that will be associated
    * with the keys or nodes being added. If provided, the values will be assigned to the corresponding
    * keys or nodes. If not provided, the values will be set to `undefined`.
    */
   refill(
-    keysOrNodesOrEntriesOrRawElements: Iterable<R | KeyOrNodeOrEntry<K, V, NODE>>,
+    keysOrNodesOrEntriesOrRawElements: Iterable<R | BTNKeyOrNodeOrEntry<K, V, NODE>>,
     values?: Iterable<V | undefined>
   ): void {
     this.clear();
@@ -541,7 +542,7 @@ export class BinaryTree<
   delete<C extends BTNCallback<NODE, K>>(identifier: K, callback?: C): BinaryTreeDeleteResult<NODE>[];
 
   delete<C extends BTNCallback<NODE, NODE>>(
-    identifier: NODE | null | undefined,
+    identifier: OptBTNOrNull<NODE>,
     callback?: C
   ): BinaryTreeDeleteResult<NODE>[];
 
@@ -619,15 +620,15 @@ export class BinaryTree<
     identifier: K,
     callback?: C,
     onlyOne?: boolean,
-    beginRoot?: R | KeyOrNodeOrEntry<K, V, NODE>,
+    beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     iterationType?: IterationType
   ): NODE[];
 
   getNodes<C extends BTNCallback<NODE, NODE>>(
-    identifier: NODE | null | undefined,
+    identifier: OptBTNOrNull<NODE>,
     callback?: C,
     onlyOne?: boolean,
-    beginRoot?: R | KeyOrNodeOrEntry<K, V, NODE>,
+    beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     iterationType?: IterationType
   ): NODE[];
 
@@ -635,7 +636,7 @@ export class BinaryTree<
     identifier: ReturnType<C>,
     callback: C,
     onlyOne?: boolean,
-    beginRoot?: R | KeyOrNodeOrEntry<K, V, NODE>,
+    beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     iterationType?: IterationType
   ): NODE[];
 
@@ -661,7 +662,7 @@ export class BinaryTree<
    * the identifier or all nodes that match the identifier. If set to true, only the first matching
    * node will be returned. If set to false, all matching nodes will be returned. The default value is
    * false.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter is the starting
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter is the starting
    * point for the search. It can be either a node object, a key-value pair, or a key. If it is not
    * provided, the `root` of the data structure is used as the starting point.
    * @param {IterationType} iterationType - The `iterationType` parameter determines the type of
@@ -672,7 +673,7 @@ export class BinaryTree<
     identifier: ReturnType<C> | null | undefined,
     callback: C = this._DEFAULT_CALLBACK as C,
     onlyOne = false,
-    beginRoot: R | KeyOrNodeOrEntry<K, V, NODE> = this.root,
+    beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): NODE[] {
     beginRoot = this.ensureNode(beginRoot);
@@ -714,23 +715,23 @@ export class BinaryTree<
   getNode<C extends BTNCallback<NODE, K>>(
     identifier: K,
     callback?: C,
-    beginRoot?: R | KeyOrNodeOrEntry<K, V, NODE>,
+    beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     iterationType?: IterationType
-  ): NODE | null | undefined;
+  ): OptBTNOrNull<NODE>;
 
   getNode<C extends BTNCallback<NODE, NODE>>(
-    identifier: NODE | null | undefined,
+    identifier: OptBTNOrNull<NODE>,
     callback?: C,
-    beginRoot?: R | KeyOrNodeOrEntry<K, V, NODE>,
+    beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     iterationType?: IterationType
-  ): NODE | null | undefined;
+  ): OptBTNOrNull<NODE>;
 
   getNode<C extends BTNCallback<NODE>>(
     identifier: ReturnType<C>,
     callback: C,
-    beginRoot?: R | KeyOrNodeOrEntry<K, V, NODE>,
+    beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     iterationType?: IterationType
-  ): NODE | null | undefined;
+  ): OptBTNOrNull<NODE>;
 
   /**
    * Time Complexity: O(n)
@@ -748,7 +749,7 @@ export class BinaryTree<
    * the `C` callback function, or it can be `null` or `undefined`.
    * @param {C} callback - The `callback` parameter is a function that will be used to determine if a
    * node matches the desired criteria. It should return a value that can be used to identify the node.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter is the starting
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter is the starting
    * point for searching nodes in a tree structure. It can be either a root node, a key-value pair, or
    * a node entry. If not provided, the search will start from the root of the tree.
    * @param {IterationType} iterationType - The `iterationType` parameter is used to specify the type
@@ -758,9 +759,9 @@ export class BinaryTree<
   getNode<C extends BTNCallback<NODE>>(
     identifier: ReturnType<C> | null | undefined,
     callback: C = this._DEFAULT_CALLBACK as C,
-    beginRoot: R | KeyOrNodeOrEntry<K, V, NODE> = this.root,
+    beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
-  ): NODE | null | undefined {
+  ): OptBTNOrNull<NODE> {
     return this.getNodes(identifier, callback, true, beginRoot, iterationType)[0] ?? null;
   }
 
@@ -781,28 +782,28 @@ export class BinaryTree<
    * It has a default value of `'ITERATIVE'`.
    * @returns a value of type NODE, null, or undefined.
    */
-  getNodeByKey(key: K, iterationType: IterationType = 'ITERATIVE'): NODE | null | undefined {
+  getNodeByKey(key: K, iterationType: IterationType = 'ITERATIVE'): OptBTNOrNull<NODE> {
     return this.getNode(key, this._DEFAULT_CALLBACK, this.root, iterationType);
   }
 
   override get<C extends BTNCallback<NODE, K>>(
     identifier: K,
     callback?: C,
-    beginRoot?: R | KeyOrNodeOrEntry<K, V, NODE>,
+    beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     iterationType?: IterationType
   ): V | undefined;
 
   override get<C extends BTNCallback<NODE, NODE>>(
-    identifier: NODE | null | undefined,
+    identifier: OptBTNOrNull<NODE>,
     callback?: C,
-    beginRoot?: R | KeyOrNodeOrEntry<K, V, NODE>,
+    beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     iterationType?: IterationType
   ): V | undefined;
 
   override get<C extends BTNCallback<NODE>>(
     identifier: ReturnType<C>,
     callback: C,
-    beginRoot?: R | KeyOrNodeOrEntry<K, V, NODE>,
+    beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     iterationType?: IterationType
   ): V | undefined;
 
@@ -822,7 +823,7 @@ export class BinaryTree<
    * callback function `C`. It can also be `null` or `undefined` if no identifier is provided.
    * @param {C} callback - The `callback` parameter is a function that will be used to determine if a
    * node matches the given identifier. It is optional and defaults to `this._DEFAULT_CALLBACK`.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter is the starting
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter is the starting
    * point for the search in the binary tree. It can be either a root node of the tree or a key, node,
    * or entry object that exists in the tree. If no specific starting point is provided, the search
    * will begin from the root of the
@@ -835,7 +836,7 @@ export class BinaryTree<
   override get<C extends BTNCallback<NODE>>(
     identifier: ReturnType<C> | null | undefined,
     callback: C = this._DEFAULT_CALLBACK as C,
-    beginRoot: R | KeyOrNodeOrEntry<K, V, NODE> = this.root,
+    beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): V | undefined {
     return this.getNode(identifier, callback, beginRoot, iterationType)?.value;
@@ -844,21 +845,21 @@ export class BinaryTree<
   override has<C extends BTNCallback<NODE, K>>(
     identifier: K,
     callback?: C,
-    beginRoot?: R | KeyOrNodeOrEntry<K, V, NODE>,
+    beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     iterationType?: IterationType
   ): boolean;
 
   override has<C extends BTNCallback<NODE, NODE>>(
-    identifier: NODE | null | undefined,
+    identifier: OptBTNOrNull<NODE>,
     callback?: C,
-    beginRoot?: R | KeyOrNodeOrEntry<K, V, NODE>,
+    beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     iterationType?: IterationType
   ): boolean;
 
   override has<C extends BTNCallback<NODE>>(
     identifier: ReturnType<C> | null | undefined,
     callback: C,
-    beginRoot?: R | KeyOrNodeOrEntry<K, V, NODE>,
+    beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     iterationType?: IterationType
   ): boolean;
 
@@ -880,7 +881,7 @@ export class BinaryTree<
    * @param {C} callback - The `callback` parameter is a function that will be used to determine
    * whether a node should be included in the result or not. It is of type `C`, which extends the
    * `BTNCallback<NODE>` type.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter is the starting
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter is the starting
    * point for the iteration in the data structure. It can be either a root node, a key-value pair, or
    * a node entry. If not specified, it defaults to the root of the data structure.
    * @param {IterationType} iterationType - The `iterationType` parameter is used to specify the type
@@ -890,7 +891,7 @@ export class BinaryTree<
   override has<C extends BTNCallback<NODE>>(
     identifier: ReturnType<C> | null | undefined,
     callback: C = this._DEFAULT_CALLBACK as C,
-    beginRoot: R | KeyOrNodeOrEntry<K, V, NODE> = this.root,
+    beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): boolean {
     callback = this._ensureCallback(identifier, callback);
@@ -941,13 +942,13 @@ export class BinaryTree<
    *
    * The function checks if a binary tree is perfectly balanced by comparing the minimum height and the
    * height of the tree.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} beginRoot - The parameter `beginRoot` is optional and
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The parameter `beginRoot` is optional and
    * has a default value of `this.root`. It represents the starting point for checking if the tree is
    * perfectly balanced. It can be either a root node (`R`), a key or node or entry
-   * (`KeyOrNodeOrEntry<K, V, NODE
+   * (`BTNKeyOrNodeOrEntry<K, V, NODE
    * @returns a boolean value.
    */
-  isPerfectlyBalanced(beginRoot: R | KeyOrNodeOrEntry<K, V, NODE> = this.root): boolean {
+  isPerfectlyBalanced(beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root): boolean {
     return this.getMinHeight(beginRoot) + 1 >= this.getHeight(beginRoot);
   }
 
@@ -961,7 +962,7 @@ export class BinaryTree<
    * Space Complexity: O(1)
    *
    * The function `isBST` checks if a binary search tree is valid, either recursively or iteratively.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter represents the
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter represents the
    * starting point for checking if a binary search tree (BST) is valid. It can be either a root node
    * of the BST, a key value of a node in the BST, or an entry object containing both the key and value
    * of a node in the BST
@@ -971,7 +972,7 @@ export class BinaryTree<
    * @returns a boolean value.
    */
   isBST(
-    beginRoot: R | KeyOrNodeOrEntry<K, V, NODE> = this.root,
+    beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): boolean {
     // TODO there is a bug
@@ -979,7 +980,7 @@ export class BinaryTree<
     if (!beginRoot) return true;
 
     if (iterationType === 'RECURSIVE') {
-      const dfs = (cur: NODE | null | undefined, min: number, max: number): boolean => {
+      const dfs = (cur: OptBTNOrNull<NODE>, min: number, max: number): boolean => {
         if (!this.isRealNode(cur)) return true;
         const numKey = Number(cur.key);
         if (numKey <= min || numKey >= max) return false;
@@ -994,7 +995,7 @@ export class BinaryTree<
         const stack = [];
         let prev = checkMax ? Number.MAX_SAFE_INTEGER : Number.MIN_SAFE_INTEGER;
         // @ts-ignore
-        let curr: NODE | null | undefined = beginRoot;
+        let curr: OptBTNOrNull<NODE> = beginRoot;
         while (this.isRealNode(curr) || stack.length > 0) {
           while (this.isRealNode(curr)) {
             stack.push(curr);
@@ -1024,16 +1025,19 @@ export class BinaryTree<
    * Space Complexity: O(1)
    *
    * The function calculates the depth of a given node or key in a tree-like data structure.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} dist - The `dist` parameter can be either a `R`
-   * (representing a root node), or a `KeyOrNodeOrEntry<K, V, NODE>` (representing a key, node, or
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} dist - The `dist` parameter can be either a `R`
+   * (representing a root node), or a `BTNKeyOrNodeOrEntry<K, V, NODE>` (representing a key, node, or
    * entry).
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter is optional and
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter is optional and
    * represents the starting point from which to calculate the depth. It can be either a reference to a
    * node in the tree or a key-value pair or an entry object. If not provided, the default value is
    * `this.root`, which refers to the root node
    * @returns the depth of a node in a tree structure.
    */
-  getDepth(dist: R | KeyOrNodeOrEntry<K, V, NODE>, beginRoot: R | KeyOrNodeOrEntry<K, V, NODE> = this.root): number {
+  getDepth(
+    dist: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
+    beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root
+  ): number {
     let distEnsured = this.ensureNode(dist);
     const beginRootEnsured = this.ensureNode(beginRoot);
     let depth = 0;
@@ -1058,22 +1062,22 @@ export class BinaryTree<
    *
    * The `getHeight` function calculates the maximum height of a binary tree using either a recursive
    * or iterative approach.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter represents the
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter represents the
    * starting point for calculating the height of a tree. It can be either a root node (`R`), a key or
-   * node or entry (`KeyOrNodeOrEntry<K, V, NODE>`), or it defaults to the root of the current tree.
+   * node or entry (`BTNKeyOrNodeOrEntry<K, V, NODE>`), or it defaults to the root of the current tree.
    * @param {IterationType} iterationType - The `iterationType` parameter determines the type of
    * iteration used to calculate the height of the tree. It can have two possible values:
    * @returns the maximum height of the binary tree.
    */
   getHeight(
-    beginRoot: R | KeyOrNodeOrEntry<K, V, NODE> = this.root,
+    beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): number {
     beginRoot = this.ensureNode(beginRoot);
     if (!this.isRealNode(beginRoot)) return -1;
 
     if (iterationType === 'RECURSIVE') {
-      const _getMaxHeight = (cur: NODE | null | undefined): number => {
+      const _getMaxHeight = (cur: OptBTNOrNull<NODE>): number => {
         if (!this.isRealNode(cur)) return -1;
         const leftHeight = _getMaxHeight(cur.left);
         const rightHeight = _getMaxHeight(cur.right);
@@ -1109,9 +1113,9 @@ export class BinaryTree<
    *
    * The `getMinHeight` function calculates the minimum height of a binary tree using either a
    * recursive or iterative approach.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter represents the
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter represents the
    * starting point for calculating the minimum height of a tree. It can be either a root node (`R`), a
-   * key or node or entry (`KeyOrNodeOrEntry<K, V, NODE>`), or it defaults to the root of the current
+   * key or node or entry (`BTNKeyOrNodeOrEntry<K, V, NODE>`), or it defaults to the root of the current
    * tree.
    * @param {IterationType} iterationType - The `iterationType` parameter determines the type of
    * iteration to be used when calculating the minimum height of the tree. It can have two possible
@@ -1120,14 +1124,14 @@ export class BinaryTree<
    * binary tree.
    */
   getMinHeight(
-    beginRoot: R | KeyOrNodeOrEntry<K, V, NODE> = this.root,
+    beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): number {
     beginRoot = this.ensureNode(beginRoot);
     if (!beginRoot) return -1;
 
     if (iterationType === 'RECURSIVE') {
-      const _getMinHeight = (cur: NODE | null | undefined): number => {
+      const _getMinHeight = (cur: OptBTNOrNull<NODE>): number => {
         if (!this.isRealNode(cur)) return 0;
         if (!this.isRealNode(cur.left) && !this.isRealNode(cur.right)) return 0;
         const leftMinHeight = _getMinHeight(cur.left);
@@ -1138,8 +1142,8 @@ export class BinaryTree<
       return _getMinHeight(beginRoot);
     } else {
       const stack: NODE[] = [];
-      let node: NODE | null | undefined = beginRoot,
-        last: NODE | null | undefined = null;
+      let node: OptBTNOrNull<NODE> = beginRoot,
+        last: OptBTNOrNull<NODE> = null;
       const depths: Map<NODE, number> = new Map();
 
       while (stack.length > 0 || node) {
@@ -1176,14 +1180,14 @@ export class BinaryTree<
    *
    * The function `getPathToRoot` returns an array of nodes starting from a given node and traversing
    * up to the root node, with an option to reverse the order of the nodes.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} beginNode - The `beginNode` parameter can be either of
-   * type `R` or `KeyOrNodeOrEntry<K, V, NODE>`.
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginNode - The `beginNode` parameter can be either of
+   * type `R` or `BTNKeyOrNodeOrEntry<K, V, NODE>`.
    * @param [isReverse=true] - The `isReverse` parameter is a boolean flag that determines whether the
    * resulting path should be reversed or not. If `isReverse` is set to `true`, the path will be
    * reversed before returning it. If `isReverse` is set to `false` or not provided, the path will
    * @returns The function `getPathToRoot` returns an array of `NODE` objects.
    */
-  getPathToRoot(beginNode: R | KeyOrNodeOrEntry<K, V, NODE>, isReverse = true): NODE[] {
+  getPathToRoot(beginNode: R | BTNKeyOrNodeOrEntry<K, V, NODE>, isReverse = true): NODE[] {
     const result: NODE[] = [];
     let beginNodeEnsured = this.ensureNode(beginNode);
 
@@ -1209,17 +1213,17 @@ export class BinaryTree<
    *
    * The `getLeftMost` function returns the leftmost node in a binary tree, either using recursive or
    * iterative traversal.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter represents the
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter represents the
    * starting point for finding the leftmost node in a binary tree. It can be either a root node (`R`),
-   * a key or node or entry (`KeyOrNodeOrEntry<K, V, NODE>`), or `null` or `undefined`.
+   * a key or node or entry (`BTNKeyOrNodeOrEntry<K, V, NODE>`), or `null` or `undefined`.
    * @param {IterationType} iterationType - The `iterationType` parameter is used to specify the type
    * of iteration to be performed. It can have two possible values:
    * @returns The function `getLeftMost` returns the leftmost node in a binary tree.
    */
   getLeftMost(
-    beginRoot: R | KeyOrNodeOrEntry<K, V, NODE> = this.root,
+    beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
-  ): NODE | null | undefined {
+  ): OptBTNOrNull<NODE> {
     if (this.isNIL(beginRoot)) return beginRoot as NODE;
     beginRoot = this.ensureNode(beginRoot);
 
@@ -1254,18 +1258,18 @@ export class BinaryTree<
    *
    * The `getRightMost` function returns the rightmost node in a binary tree, either recursively or
    * iteratively.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter represents the
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter represents the
    * starting point for finding the rightmost node in a binary tree. It can be either a root node
-   * (`R`), a key or node or entry (`KeyOrNodeOrEntry<K, V, NODE>`), or `null` or `undefined`.
+   * (`R`), a key or node or entry (`BTNKeyOrNodeOrEntry<K, V, NODE>`), or `null` or `undefined`.
    * @param {IterationType} iterationType - The `iterationType` parameter is used to specify the type
    * of iteration to be performed when finding the rightmost node in a binary tree. It can have two
    * possible values:
    * @returns The function `getRightMost` returns a NODE object, `null`, or `undefined`.
    */
   getRightMost(
-    beginRoot: R | KeyOrNodeOrEntry<K, V, NODE> = this.root,
+    beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
-  ): NODE | null | undefined {
+  ): OptBTNOrNull<NODE> {
     if (this.isNIL(beginRoot)) return beginRoot as NODE;
     // TODO support get right most by passing key in
     beginRoot = this.ensureNode(beginRoot);
@@ -1305,7 +1309,7 @@ export class BinaryTree<
    */
   getPredecessor(node: NODE): NODE {
     if (this.isRealNode(node.left)) {
-      let predecessor: NODE | null | undefined = node.left;
+      let predecessor: OptBTNOrNull<NODE> = node.left;
       while (!this.isRealNode(predecessor) || (this.isRealNode(predecessor.right) && predecessor.right !== node)) {
         if (this.isRealNode(predecessor)) {
           predecessor = predecessor.right;
@@ -1331,7 +1335,7 @@ export class BinaryTree<
    * @returns The function `getSuccessor` returns a `NODE` object if a successor exists, `null` if
    * there is no successor, and `undefined` if the input `x` is not a valid node.
    */
-  getSuccessor(x?: K | NODE | null): NODE | null | undefined {
+  getSuccessor(x?: K | NODE | null): OptBTNOrNull<NODE> {
     x = this.ensureNode(x);
     if (!this.isRealNode(x)) return undefined;
 
@@ -1339,7 +1343,7 @@ export class BinaryTree<
       return this.getLeftMost(x.right);
     }
 
-    let y: NODE | null | undefined = x.parent;
+    let y: OptBTNOrNull<NODE> = x.parent;
     while (this.isRealNode(y) && x === y.right) {
       x = y;
       y = y.parent;
@@ -1350,7 +1354,7 @@ export class BinaryTree<
   dfs<C extends BTNCallback<NODE>>(
     callback?: C,
     pattern?: DFSOrderPattern,
-    beginRoot?: R | KeyOrNodeOrEntry<K, V, NODE>,
+    beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     iterationType?: IterationType,
     includeNull?: false
   ): ReturnType<C>[];
@@ -1358,7 +1362,7 @@ export class BinaryTree<
   dfs<C extends BTNCallback<NODE | null>>(
     callback?: C,
     pattern?: DFSOrderPattern,
-    beginRoot?: R | KeyOrNodeOrEntry<K, V, NODE>,
+    beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     iterationType?: IterationType,
     includeNull?: true
   ): ReturnType<C>[];
@@ -1379,7 +1383,7 @@ export class BinaryTree<
    * return type of the callback function is determined by the generic type `C`.
    * @param {DFSOrderPattern} [pattern=IN] - The `pattern` parameter determines the order in which the
    * nodes are visited during the depth-first search. It can have one of the following values:
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter is the starting
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter is the starting
    * point of the depth-first search. It can be either a node object, a key-value pair, or a key. If it
    * is a key or key-value pair, the method will find the corresponding node in the tree and start the
    * search from there.
@@ -1391,10 +1395,10 @@ export class BinaryTree<
    * values will
    * @returns an array of the return types of the callback function.
    */
-  dfs<C extends BTNCallback<NODE | null | undefined>>(
+  dfs<C extends BTNCallback<OptBTNOrNull<NODE>>>(
     callback: C = this._DEFAULT_CALLBACK as C,
     pattern: DFSOrderPattern = 'IN',
-    beginRoot: R | KeyOrNodeOrEntry<K, V, NODE> = this.root,
+    beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = 'ITERATIVE',
     includeNull = false
   ): ReturnType<C>[] {
@@ -1402,7 +1406,7 @@ export class BinaryTree<
     if (!beginRoot) return [];
     const ans: ReturnType<C>[] = [];
     if (iterationType === 'RECURSIVE') {
-      const dfs = (node: NODE | null | undefined) => {
+      const dfs = (node: OptBTNOrNull<NODE>) => {
         switch (pattern) {
           case 'IN':
             if (includeNull) {
@@ -1444,7 +1448,7 @@ export class BinaryTree<
       dfs(beginRoot);
     } else {
       // 0: visit, 1: print
-      const stack: { opt: 0 | 1; node: NODE | null | undefined }[] = [{ opt: 0, node: beginRoot }];
+      const stack: { opt: 0 | 1; node: OptBTNOrNull<NODE> }[] = [{ opt: 0, node: beginRoot }];
 
       while (stack.length > 0) {
         const cur = stack.pop();
@@ -1488,14 +1492,14 @@ export class BinaryTree<
 
   bfs<C extends BTNCallback<NODE>>(
     callback?: C,
-    beginRoot?: R | KeyOrNodeOrEntry<K, V, NODE>,
+    beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     iterationType?: IterationType,
     includeNull?: false
   ): ReturnType<C>[];
 
   bfs<C extends BTNCallback<NODE | null>>(
     callback?: C,
-    beginRoot?: R | KeyOrNodeOrEntry<K, V, NODE>,
+    beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     iterationType?: IterationType,
     includeNull?: true
   ): ReturnType<C>[];
@@ -1514,7 +1518,7 @@ export class BinaryTree<
    * @param {C} callback - The `callback` parameter is a function that will be called for each node in
    * the breadth-first search traversal. It takes a single argument, which is the current node being
    * visited, and returns a value of any type.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter represents the
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter represents the
    * starting point of the breadth-first search. It can be either a root node of a tree or a key, node,
    * or entry object. If no value is provided, the `root` property of the class is used as the default
    * starting point.
@@ -1529,7 +1533,7 @@ export class BinaryTree<
    */
   bfs<C extends BTNCallback<NODE | null>>(
     callback: C = this._DEFAULT_CALLBACK as C,
-    beginRoot: R | KeyOrNodeOrEntry<K, V, NODE> = this.root,
+    beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType,
     includeNull = false
   ): ReturnType<C>[] {
@@ -1539,7 +1543,7 @@ export class BinaryTree<
     const ans: ReturnType<BTNCallback<NODE>>[] = [];
 
     if (iterationType === 'RECURSIVE') {
-      const queue: Queue<NODE | null | undefined> = new Queue<NODE | null | undefined>([beginRoot]);
+      const queue: Queue<OptBTNOrNull<NODE>> = new Queue<OptBTNOrNull<NODE>>([beginRoot]);
 
       const dfs = (level: number) => {
         if (queue.size === 0) return;
@@ -1560,7 +1564,7 @@ export class BinaryTree<
 
       dfs(0);
     } else {
-      const queue = new Queue<NODE | null | undefined>([beginRoot]);
+      const queue = new Queue<OptBTNOrNull<NODE>>([beginRoot]);
       while (queue.size > 0) {
         const levelSize = queue.size;
 
@@ -1583,14 +1587,14 @@ export class BinaryTree<
 
   listLevels<C extends BTNCallback<NODE>>(
     callback?: C,
-    beginRoot?: R | KeyOrNodeOrEntry<K, V, NODE>,
+    beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     iterationType?: IterationType,
     includeNull?: false
   ): ReturnType<C>[][];
 
   listLevels<C extends BTNCallback<NODE | null>>(
     callback?: C,
-    beginRoot?: R | KeyOrNodeOrEntry<K, V, NODE>,
+    beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     iterationType?: IterationType,
     includeNull?: true
   ): ReturnType<C>[][];
@@ -1609,7 +1613,7 @@ export class BinaryTree<
    * @param {C} callback - The `callback` parameter is a function that will be called for each node in
    * the tree. It takes a node as an argument and returns a value. The return type of the callback
    * function is determined by the generic type `C` which extends `BTNCallback<NODE | null>`.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter represents the
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter represents the
    * starting point for traversing the tree. It can be either a root node, a key-value pair, or a node
    * entry. If no value is provided, the `root` property of the class is used as the default starting
    * point.
@@ -1623,7 +1627,7 @@ export class BinaryTree<
    */
   listLevels<C extends BTNCallback<NODE | null>>(
     callback: C = this._DEFAULT_CALLBACK as C,
-    beginRoot: R | KeyOrNodeOrEntry<K, V, NODE> = this.root,
+    beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType,
     includeNull = false
   ): ReturnType<C>[][] {
@@ -1686,7 +1690,7 @@ export class BinaryTree<
    * @param {DFSOrderPattern} [pattern=IN] - The `pattern` parameter in the `morris` function is used
    * to specify the order in which the nodes of a binary tree are traversed. It can take one of the
    * following values:
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter is the starting
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter is the starting
    * point for the traversal. It can be either a node object, a key, or an entry object. If no value is
    * provided, the `root` of the tree is used as the starting point.
    * @returns The function `morris` returns an array of values that are the return values of the
@@ -1695,16 +1699,16 @@ export class BinaryTree<
   morris<C extends BTNCallback<NODE>>(
     callback: C = this._DEFAULT_CALLBACK as C,
     pattern: DFSOrderPattern = 'IN',
-    beginRoot: R | KeyOrNodeOrEntry<K, V, NODE> = this.root
+    beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root
   ): ReturnType<C>[] {
     beginRoot = this.ensureNode(beginRoot);
     if (beginRoot === null) return [];
     const ans: ReturnType<BTNCallback<NODE>>[] = [];
 
-    let cur: NODE | null | undefined = beginRoot;
-    const _reverseEdge = (node: NODE | null | undefined) => {
-      let pre: NODE | null | undefined = null;
-      let next: NODE | null | undefined = null;
+    let cur: OptBTNOrNull<NODE> = beginRoot;
+    const _reverseEdge = (node: OptBTNOrNull<NODE>) => {
+      let pre: OptBTNOrNull<NODE> = null;
+      let next: OptBTNOrNull<NODE> = null;
       while (node) {
         next = node.right;
         node.right = pre;
@@ -1713,9 +1717,9 @@ export class BinaryTree<
       }
       return pre;
     };
-    const _printEdge = (node: NODE | null | undefined) => {
-      const tail: NODE | null | undefined = _reverseEdge(node);
-      let cur: NODE | null | undefined = tail;
+    const _printEdge = (node: OptBTNOrNull<NODE>) => {
+      const tail: OptBTNOrNull<NODE> = _reverseEdge(node);
+      let cur: OptBTNOrNull<NODE> = tail;
       while (cur) {
         ans.push(callback(cur));
         cur = cur.right;
@@ -1884,7 +1888,7 @@ export class BinaryTree<
    * Space Complexity: O(n)
    *
    * The `print` function in TypeScript prints the binary tree structure with customizable options.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter is the starting
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter is the starting
    * point for printing the binary tree. It can be either a node of the binary tree or a key or entry
    * that exists in the binary tree. If no value is provided, the root of the binary tree will be used
    * as the starting point.
@@ -1893,7 +1897,7 @@ export class BinaryTree<
    * @returns Nothing is being returned. The function has a return type of `void`, which means it does
    * not return any value.
    */
-  override print(beginRoot: R | KeyOrNodeOrEntry<K, V, NODE> = this.root, options?: BinaryTreePrintOptions): void {
+  override print(beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root, options?: BinaryTreePrintOptions): void {
     const opts = { isShowUndefined: false, isShowNull: false, isShowRedBlackNIL: false, ...options };
     beginRoot = this.ensureNode(beginRoot);
     if (!beginRoot) return;
@@ -1908,7 +1912,7 @@ export class BinaryTree<
       console.log(`S for Sentinel Node(NIL)
       `);
 
-    const display = (root: NODE | null | undefined): void => {
+    const display = (root: OptBTNOrNull<NODE>): void => {
       const [lines, , ,] = this._displayAux(root, opts);
       for (const line of lines) {
         console.log(line);
@@ -1937,8 +1941,8 @@ export class BinaryTree<
     if (!node) return;
 
     if (this.iterationType === 'ITERATIVE') {
-      const stack: (NODE | null | undefined)[] = [];
-      let current: NODE | null | undefined = node;
+      const stack: OptBTNOrNull<NODE>[] = [];
+      let current: OptBTNOrNull<NODE> = node;
 
       while (current || stack.length > 0) {
         while (this.isRealNode(current)) {
@@ -1975,7 +1979,7 @@ export class BinaryTree<
    *
    * The `_displayAux` function is responsible for generating the display layout of a binary tree node,
    * taking into account various options such as whether to show null, undefined, or NaN nodes.
-   * @param {NODE | null | undefined} node - The `node` parameter represents a node in a binary tree.
+   * @param {OptBTNOrNull<NODE>} node - The `node` parameter represents a node in a binary tree.
    * It can be of type `NODE`, `null`, or `undefined`.
    * @param {BinaryTreePrintOptions} options - The `options` parameter is an object that contains the
    * following properties:
@@ -1986,7 +1990,7 @@ export class BinaryTree<
    * 3. `totalHeight`: The total height of the node display.
    * 4. `middleIndex`: The index of the middle character
    */
-  protected _displayAux(node: NODE | null | undefined, options: BinaryTreePrintOptions): NodeDisplayLayout {
+  protected _displayAux(node: OptBTNOrNull<NODE>, options: BinaryTreePrintOptions): NodeDisplayLayout {
     const { isShowNull, isShowUndefined, isShowRedBlackNIL } = options;
     const emptyDisplayLayout = <NodeDisplayLayout>[['─'], 1, 0, 0];
 
@@ -2054,7 +2058,7 @@ export class BinaryTree<
     }
   }
 
-  protected _DEFAULT_CALLBACK = (node: NODE | null | undefined) => (node ? node.key : undefined);
+  protected _DEFAULT_CALLBACK = (node: OptBTNOrNull<NODE>) => (node ? node.key : undefined);
 
   /**
    * Time Complexity: O(1)
@@ -2066,17 +2070,17 @@ export class BinaryTree<
    * Space Complexity: O(1)
    *
    * The function `_swapProperties` swaps the key-value properties between two nodes.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} srcNode - The source node that will be swapped with the
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} srcNode - The source node that will be swapped with the
    * destination node. It can be either an instance of the class `R`, or an object of type
-   * `KeyOrNodeOrEntry<K, V, NODE>`.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} destNode - The `destNode` parameter is the node where
+   * `BTNKeyOrNodeOrEntry<K, V, NODE>`.
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} destNode - The `destNode` parameter is the node where
    * the properties will be swapped with the `srcNode`.
    * @returns either the `destNode` object with its properties swapped with the `srcNode` object's
    * properties, or `undefined` if either `srcNode` or `destNode` is falsy.
    */
   protected _swapProperties(
-    srcNode: R | KeyOrNodeOrEntry<K, V, NODE>,
-    destNode: R | KeyOrNodeOrEntry<K, V, NODE>
+    srcNode: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
+    destNode: R | BTNKeyOrNodeOrEntry<K, V, NODE>
   ): NODE | undefined {
     srcNode = this.ensureNode(srcNode);
     destNode = this.ensureNode(destNode);
@@ -2144,10 +2148,10 @@ export class BinaryTree<
    *
    * The function sets the root property of an object to the provided value, and also updates the
    * parent property of the new root.
-   * @param {NODE | null | undefined} v - The parameter `v` is of type `NODE | null | undefined`. This
+   * @param {OptBTNOrNull<NODE>} v - The parameter `v` is of type `OptBTNOrNull<NODE>`. This
    * means that it can accept a value of type `NODE`, `null`, or `undefined`.
    */
-  protected _setRoot(v: NODE | null | undefined) {
+  protected _setRoot(v: OptBTNOrNull<NODE>) {
     if (v) {
       v.parent = undefined;
     }

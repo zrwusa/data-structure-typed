@@ -12,8 +12,8 @@ import type {
   BinaryTreeDeleteResult,
   BSTNKeyOrNode,
   BTNCallback,
-  IterationType,
-  KeyOrNodeOrEntry
+  BTNKeyOrNodeOrEntry,
+  IterationType
 } from '../../types';
 import { BTNEntry } from '../../types';
 import { IBinaryTree } from '../../interfaces';
@@ -86,7 +86,7 @@ export class AVLTreeMultiMap<
    * `compareValues` functions to define custom comparison logic for keys and values, respectively.
    */
   constructor(
-    keysOrNodesOrEntriesOrRawElements: Iterable<R | KeyOrNodeOrEntry<K, V, NODE>> = [],
+    keysOrNodesOrEntriesOrRawElements: Iterable<R | BTNKeyOrNodeOrEntry<K, V, NODE>> = [],
     options?: AVLTreeMultiMapOptions<K, V, R>
   ) {
     super([], options);
@@ -155,13 +155,13 @@ export class AVLTreeMultiMap<
 
   /**
    * The function checks if the input is an instance of AVLTreeMultiMapNode.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
-   * `keyOrNodeOrEntryOrRawElement` can be of type `R` or `KeyOrNodeOrEntry<K, V, NODE>`.
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
+   * `keyOrNodeOrEntryOrRawElement` can be of type `R` or `BTNKeyOrNodeOrEntry<K, V, NODE>`.
    * @returns a boolean value indicating whether the input parameter `keyOrNodeOrEntryOrRawElement` is
    * an instance of the `AVLTreeMultiMapNode` class.
    */
   override isNode(
-    keyOrNodeOrEntryOrRawElement: R | KeyOrNodeOrEntry<K, V, NODE>
+    keyOrNodeOrEntryOrRawElement: R | BTNKeyOrNodeOrEntry<K, V, NODE>
   ): keyOrNodeOrEntryOrRawElement is NODE {
     return keyOrNodeOrEntryOrRawElement instanceof AVLTreeMultiMapNode;
   }
@@ -169,8 +169,8 @@ export class AVLTreeMultiMap<
   /**
    * The function `keyValueOrEntryOrRawElementToNode` converts a key, value, entry, or raw element into
    * a node object.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The
-   * `keyOrNodeOrEntryOrRawElement` parameter can be of type `R` or `KeyOrNodeOrEntry<K, V, NODE>`.
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The
+   * `keyOrNodeOrEntryOrRawElement` parameter can be of type `R` or `BTNKeyOrNodeOrEntry<K, V, NODE>`.
    * @param {V} [value] - The `value` parameter is an optional value that can be passed to the
    * `override` function. It represents the value associated with the key in the data structure. If no
    * value is provided, it will default to `undefined`.
@@ -179,7 +179,7 @@ export class AVLTreeMultiMap<
    * @returns either a NODE object or undefined.
    */
   override keyValueOrEntryOrRawElementToNode(
-    keyOrNodeOrEntryOrRawElement: R | KeyOrNodeOrEntry<K, V, NODE>,
+    keyOrNodeOrEntryOrRawElement: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     value?: V,
     count = 1
   ): NODE | undefined {
@@ -213,9 +213,9 @@ export class AVLTreeMultiMap<
    *
    * The function overrides the add method of a TypeScript class to add a new node to a data structure
    * and update the count.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The
    * `keyOrNodeOrEntryOrRawElement` parameter can accept a value of type `R`, which can be any type. It
-   * can also accept a value of type `KeyOrNodeOrEntry<K, V, NODE>`, which represents a key, node,
+   * can also accept a value of type `BTNKeyOrNodeOrEntry<K, V, NODE>`, which represents a key, node,
    * entry, or raw element
    * @param {V} [value] - The `value` parameter represents the value associated with the key in the
    * data structure. It is an optional parameter, so it can be omitted if not needed.
@@ -224,7 +224,7 @@ export class AVLTreeMultiMap<
    * be added once. However, you can specify a different value for `count` if you want to add
    * @returns a boolean value.
    */
-  override add(keyOrNodeOrEntryOrRawElement: R | KeyOrNodeOrEntry<K, V, NODE>, value?: V, count = 1): boolean {
+  override add(keyOrNodeOrEntryOrRawElement: R | BTNKeyOrNodeOrEntry<K, V, NODE>, value?: V, count = 1): boolean {
     const newNode = this.keyValueOrEntryOrRawElementToNode(keyOrNodeOrEntryOrRawElement, value, count);
     if (newNode === undefined) return false;
 

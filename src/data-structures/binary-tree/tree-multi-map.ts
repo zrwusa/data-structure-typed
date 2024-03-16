@@ -9,8 +9,8 @@ import type {
   BinaryTreeDeleteResult,
   BSTNKeyOrNode,
   BTNCallback,
+  BTNKeyOrNodeOrEntry,
   IterationType,
-  KeyOrNodeOrEntry,
   RBTNColor,
   TreeMultiMapNested,
   TreeMultiMapNodeNested,
@@ -81,7 +81,7 @@ export class TreeMultiMap<
    * `compareValues`, which are functions used to compare keys and values respectively.
    */
   constructor(
-    keysOrNodesOrEntriesOrRawElements: Iterable<KeyOrNodeOrEntry<K, V, NODE>> = [],
+    keysOrNodesOrEntriesOrRawElements: Iterable<BTNKeyOrNodeOrEntry<K, V, NODE>> = [],
     options?: TreeMultiMapOptions<K, V, R>
   ) {
     super([], options);
@@ -153,8 +153,8 @@ export class TreeMultiMap<
   /**
    * The function `keyValueOrEntryOrRawElementToNode` takes in a key, value, and count and returns a
    * node based on the input.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
-   * `keyOrNodeOrEntryOrRawElement` can be of type `R` or `KeyOrNodeOrEntry<K, V, NODE>`.
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
+   * `keyOrNodeOrEntryOrRawElement` can be of type `R` or `BTNKeyOrNodeOrEntry<K, V, NODE>`.
    * @param {V} [value] - The `value` parameter is an optional value that represents the value
    * associated with the key in the node. It is used when creating a new node or updating the value of
    * an existing node.
@@ -163,7 +163,7 @@ export class TreeMultiMap<
    * @returns either a NODE object or undefined.
    */
   override keyValueOrEntryOrRawElementToNode(
-    keyOrNodeOrEntryOrRawElement: R | KeyOrNodeOrEntry<K, V, NODE>,
+    keyOrNodeOrEntryOrRawElement: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     value?: V,
     count = 1
   ): NODE | undefined {
@@ -190,13 +190,13 @@ export class TreeMultiMap<
 
   /**
    * The function checks if the input is an instance of the TreeMultiMapNode class.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
-   * `keyOrNodeOrEntryOrRawElement` can be of type `R` or `KeyOrNodeOrEntry<K, V, NODE>`.
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
+   * `keyOrNodeOrEntryOrRawElement` can be of type `R` or `BTNKeyOrNodeOrEntry<K, V, NODE>`.
    * @returns a boolean value indicating whether the input parameter `keyOrNodeOrEntryOrRawElement` is
    * an instance of the `TreeMultiMapNode` class.
    */
   override isNode(
-    keyOrNodeOrEntryOrRawElement: R | KeyOrNodeOrEntry<K, V, NODE>
+    keyOrNodeOrEntryOrRawElement: R | BTNKeyOrNodeOrEntry<K, V, NODE>
   ): keyOrNodeOrEntryOrRawElement is NODE {
     return keyOrNodeOrEntryOrRawElement instanceof TreeMultiMapNode;
   }
@@ -212,7 +212,7 @@ export class TreeMultiMap<
    *
    * The function overrides the add method of a class and adds a new node to a data structure, updating
    * the count and returning a boolean indicating success.
-   * @param {R | KeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The
    * `keyOrNodeOrEntryOrRawElement` parameter can accept one of the following types:
    * @param {V} [value] - The `value` parameter represents the value associated with the key in the
    * data structure. It is an optional parameter, so it can be omitted if not needed.
@@ -222,7 +222,7 @@ export class TreeMultiMap<
    * @returns The method is returning a boolean value. It returns true if the addition of the new node
    * was successful, and false otherwise.
    */
-  override add(keyOrNodeOrEntryOrRawElement: R | KeyOrNodeOrEntry<K, V, NODE>, value?: V, count = 1): boolean {
+  override add(keyOrNodeOrEntryOrRawElement: R | BTNKeyOrNodeOrEntry<K, V, NODE>, value?: V, count = 1): boolean {
     const newNode = this.keyValueOrEntryOrRawElementToNode(keyOrNodeOrEntryOrRawElement, value, count);
     const orgCount = newNode?.count || 0;
     const isSuccessAdded = super.add(newNode);

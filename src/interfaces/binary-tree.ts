@@ -5,7 +5,7 @@ import type {
   BinaryTreeNodeNested,
   BinaryTreeOptions,
   BTNCallback,
-  KeyOrNodeOrEntry
+  BTNKeyOrNodeOrEntry
 } from '../types';
 
 export interface IBinaryTree<
@@ -19,9 +19,9 @@ export interface IBinaryTree<
 
   createTree(options?: Partial<BinaryTreeOptions<K, V, R>>): TREE;
 
-  add(keyOrNodeOrEntryOrRawElement: KeyOrNodeOrEntry<K, V, NODE>, value?: V, count?: number): boolean;
+  add(keyOrNodeOrEntryOrRawElement: BTNKeyOrNodeOrEntry<K, V, NODE>, value?: V, count?: number): boolean;
 
-  addMany(nodes: Iterable<KeyOrNodeOrEntry<K, V, NODE>>, values?: Iterable<V | undefined>): boolean[];
+  addMany(nodes: Iterable<BTNKeyOrNodeOrEntry<K, V, NODE>>, values?: Iterable<V | undefined>): boolean[];
 
   delete<C extends BTNCallback<NODE>>(identifier: ReturnType<C> | null, callback: C): BinaryTreeDeleteResult<NODE>[];
 }

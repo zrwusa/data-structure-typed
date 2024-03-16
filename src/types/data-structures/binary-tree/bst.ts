@@ -9,3 +9,10 @@ export type BSTNested<K, V, R, NODE extends BSTNode<K, V, NODE>> = BST<K, V, R, 
 export type BSTOptions<K, V, R> = BinaryTreeOptions<K, V, R> & {
   comparator?: Comparator<K>
 }
+
+export type OptBSTNKey<K> = K | undefined;
+
+export type OptBSTN<NODE> = NODE | undefined;
+
+export type BSTNKeyOrNode<K, NODE> = OptBSTNKey<K> | NODE;
+
