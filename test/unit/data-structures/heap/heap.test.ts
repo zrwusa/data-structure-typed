@@ -2,6 +2,26 @@ import { FibonacciHeap, Heap, MaxHeap, MinHeap } from '../../../../src';
 import { logBigOMetricsWrap } from '../../../utils';
 
 describe('Heap Operation Test', () => {
+
+  it('should heap add and delete work well', function () {
+    const hp = new MinHeap<number>();
+
+    hp.add(2);
+    hp.add(3);
+    hp.add(1);
+    hp.add(4);
+    hp.add(6);
+    hp.add(5);
+    hp.add(7);
+
+    hp.delete(4);
+    hp.delete(7);
+    hp.delete(1);
+
+    expect(hp.size).toBe(4);
+    expect(hp.peek()).toBe(2);
+  });
+
   it('should numeric heap work well', function () {
     const minNumHeap = new MinHeap<number>();
     minNumHeap.add(1);

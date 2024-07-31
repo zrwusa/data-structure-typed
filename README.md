@@ -124,6 +124,93 @@ Performance surpasses that of native JS/TS
   </tbody>
 </table>
 
+### What are the differences
+
+<table>
+  <tr>
+    <th>Data Structure</th>
+    <th>Plain Language Definition</th>
+    <th>Diagram</th>
+  </tr>
+  <tr>
+    <td>Linked List (Singly Linked List)</td>
+    <td>A line of bunnies, where each bunny holds the tail of the bunny in front of it (each bunny only knows the name of the bunny behind it). You want to find a bunny named Pablo, and you have to start searching from the first bunny. If it's not Pablo, you continue following that bunny's tail to the next one. So, you might need to search n times to find Pablo (O(n) time complexity). If you want to insert a bunny named Remi between Pablo and Vicky, it's very simple. You just need to let Vicky release Pablo's tail, let Remi hold Pablo's tail, and then let Vicky hold Remi's tail (O(1) time complexity).</td>
+    <td><img alt="singly linked list" src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/singly-linked-list.png"></td>  
+  </tr>
+  <tr>
+    <td>Array</td>
+    <td>A line of numbered bunnies. If you want to find the bunny named Pablo, you can directly shout out Pablo's number 0680 (finding the element directly through array indexing, O(1) time complexity). However, if you don't know Pablo's number, you still need to search one by one (O(n) time complexity). Moreover, if you want to add a bunny named Vicky behind Pablo, you will need to renumber all the bunnies after Vicky (O(n) time complexity).</td>
+    <td><img alt="array" src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/array.png"></td>  
+  </tr>
+  <tr>
+    <td>Queue</td>
+    <td>A line of numbered bunnies with a sticky note on the first bunny. For this line with a sticky note on the first bunny, whenever we want to remove a bunny from the front of the line, we only need to move the sticky note to the face of the next bunny without actually removing the bunny to avoid renumbering all the bunnies behind (removing from the front is also O(1) time complexity). For the tail of the line, we don't need to worry because each new bunny added to the tail is directly given a new number (O(1) time complexity) without needing to renumber all the previous bunnies.</td>
+    <td><img alt="queue" src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/queue.jpg"></td>  
+  </tr>
+  <tr>
+    <td>Deque</td>
+    <td>A line of grouped, numbered bunnies with a sticky note on the first bunny. For this line, we manage it by groups. Each time we remove a bunny from the front of the line, we only move the sticky note to the next bunny. This way, we don't need to renumber all the bunnies behind the first bunny each time a bunny is removed. Only when all members of a group are removed do we reassign numbers and regroup. The tail is handled similarly. This is a strategy of delaying and batching operations to offset the drawbacks of the Array data structure that requires moving all elements behind when inserting or deleting elements in the middle.</td>
+    <td><img alt="deque" src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/deque.png"></td>  
+  </tr>
+  <tr>
+    <td>Doubly Linked List</td>
+    <td>A line of bunnies where each bunny holds the tail of the bunny in front (each bunny knows the names of the two adjacent bunnies). This provides the Singly Linked List the ability to search forward, and that's all. For example, if you directly come to the bunny Remi in the line and ask her where Vicky is, she will say the one holding my tail behind me, and if you ask her where Pablo is, she will say right in front.</td>
+    <td><img alt="doubly linked list" src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/doubly-linked-list.png"></td>  
+  </tr>
+  <tr>
+    <td>Stack</td>
+    <td>A line of bunnies in a dead-end tunnel, where bunnies can only be removed from the tunnel entrance (end), and new bunnies can only be added at the entrance (end) as well.</td>
+    <td><img alt="stack" src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/stack.jpg"></td>  
+  </tr>
+  <tr>
+    <td>Binary Tree</td>
+    <td>As the name suggests, it's a tree where each node has at most two children. When you add consecutive data such as [4, 2, 6, 1, 3, 5, 7], it will be a complete binary tree. When you add data like [4, 2, 6, null, 1, 3, null, 5, null, 7], you can specify whether any left or right child node is null, and the shape of the tree is fully controllable.</td>
+    <td><img alt="binary tree" src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/binary-tree.png"></td>  
+  </tr>
+  <tr>
+    <td>Binary Search Tree (BST)</td>
+    <td>A bunny group in the form of a tree, where each bunny can grow at most 2 tails (Doubly Linked List). The most important data structure in a binary tree (the core is that the time complexity for insertion, deletion, modification, and search is O(log n)). The data stored in a BST is structured and ordered, not in strict order like 1, 2, 3, 4, 5, but maintaining that all nodes in the left subtree are less than the node, and all nodes in the right subtree are greater than the node. This order provides O(log n) time complexity for insertion, deletion, modification, and search. Reducing O(n) to O(log n) is the most common algorithm complexity optimization in the computer field, an exponential improvement in efficiency. It's also the most efficient way to organize unordered data into ordered data (most sorting algorithms only maintain O(n log n)). Of course, the binary search trees we provide support organizing data in both ascending and descending order. Remember that basic BSTs do not have self-balancing capabilities, and if you sequentially add sorted data to this data structure, it will degrade into a list, thus losing the O(log n) capability. Of course, our addMany method is specially handled to prevent degradation. However, for practical applications, please use Red-black Tree or AVL Tree as much as possible, as they inherently have self-balancing functions.</td>
+    <td><img alt="binary search tree" src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/binary-search-tree.png"></td>  
+  </tr>
+  <tr>
+    <td>Red-black Tree</td>
+    <td>A self-balancing binary search tree. Each node is marked with a red-black label. Ensuring that no path is more than twice as long as any other (maintaining a certain balance to improve the speed of search, addition, and deletion).</td>
+    <td><img alt="red-black tree" src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/red-black tree.png"></td>  
+  </tr>
+  <tr>
+    <td>AVL Tree</td>
+    <td>A self-balancing binary search tree. Each node is marked with a balance factor, representing the height difference between its left and right subtrees. The absolute value of the balance factor does not exceed 1 (maintaining stricter balance, which makes search efficiency higher than Red-black Tree, but insertion and deletion operations will be more complex and relatively less efficient).</td>
+    <td><img alt="avl tree" src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/avl-tree.png"></td>  
+  </tr>
+  <tr>
+    <td>Heap</td>
+    <td>A special type of complete binary tree, often stored in an array, where the children nodes of the node at index i are at indices 2i+1 and 2i+2. Naturally, the parent node of any node is at ⌊(i−1)/2⌋.</td>
+    <td><img alt="heap" src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/heap.jpg"></td>  
+  </tr>
+  <tr>
+    <td>Priority Queue</td>
+    <td>It's actually a Heap.</td>
+    <td><img alt="priority queue" src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/priority-queue.png"></td>  
+  </tr>
+  <tr>
+    <td>Graph</td>
+    <td>The base class for Directed Graph and Undirected Graph, providing some common methods.</td>
+    <td><img alt="graph" src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/graph.png"></td>  
+  </tr>
+  <tr>
+    <td>Directed Graph</td>
+    <td>A network-like bunny group where each bunny can have up to n tails (Singly Linked List).</td>
+    <td><img alt="directed graph" src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/directed-graph.png"></td>  
+  </tr>
+  <tr>
+    <td>Undirected Graph</td>
+    <td>A network-like bunny group where each bunny can have up to n tails (Doubly Linked List).</td>
+    <td><img alt="undirected graph" src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/undirected-graph.png"></td>  
+  </tr>
+</table>
+
+
+
 ### Conciseness and uniformity
 In [java.utils](), you need to memorize a table for all sequential data structures(Queue, Deque, LinkedList),
 
