@@ -124,7 +124,7 @@ Performance surpasses that of native JS/TS
   </tbody>
 </table>
 
-### What are the differences
+### Plain language explanations
 
 <table>
   <tr>
