@@ -190,7 +190,7 @@ Performance surpasses that of native JS/TS
   <tr>
     <td>Priority Queue</td>
     <td>It's actually a Heap.</td>
-    <td><img alt="priority queue" src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/priority-queue.png"></td>  
+    <td><img alt="priority queue" src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/heap.jpg"></td>  
   </tr>
   <tr>
     <td>Graph</td>
