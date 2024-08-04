@@ -32,8 +32,9 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
     super(options);
 
     if (options) {
-      const { bucketSize } = options;
+      const { bucketSize, maxLen } = options;
       if (typeof bucketSize === 'number') this._bucketSize = bucketSize;
+      if (typeof maxLen === 'number' && maxLen > 0 && maxLen % 1 === 0) this._maxLen = maxLen;
     }
 
     let _size: number;
@@ -71,6 +72,17 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
    */
   get bucketSize() {
     return this._bucketSize;
+  }
+
+  protected _maxLen: number = -1;
+
+  /**
+   * The maxLen function returns the max length of the deque.
+   *
+   * @return The max length of the deque
+   */
+  get maxLen() {
+    return this._maxLen;
   }
 
   protected _bucketFirst = 0;
@@ -193,6 +205,7 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
     }
     this._size += 1;
     this._buckets[this._bucketLast][this._lastInBucket] = element;
+    if (this._maxLen > 0 && this._size > this._maxLen) this.shift();
     return true;
   }
 
@@ -257,6 +270,7 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
     }
     this._size += 1;
     this._buckets[this._bucketFirst][this._firstInBucket] = element;
+    if (this._maxLen > 0 && this._size > this._maxLen) this.pop();
     return true;
   }
 

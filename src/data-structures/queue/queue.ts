@@ -100,7 +100,6 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
    *
    * The function "fromArray" creates a new Queue object from an array of elements.Creates a queue from an existing array.
    * @public
-   * @static
    * @param {E[]} elements - The "elements" parameter is an array of elements of type E.
    * @returns The method is returning a new instance of the Queue class, initialized with the elements from the input
    * array.

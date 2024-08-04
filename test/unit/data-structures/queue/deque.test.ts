@@ -260,6 +260,25 @@ describe('Deque - Utility Operations', () => {
     // deque.print();
     // expect(consoleSpy).toHaveBeenCalledWith([1, 2]);
   });
+
+  test('should maxLen work well', () => {
+    const dequeMaxLen = new Deque([3, 4, 5, 6, 7], { maxLen: 3 });
+    expect(dequeMaxLen.size).toBe(3);
+    expect(dequeMaxLen.toArray()).toEqual([5, 6 ,7]);
+    dequeMaxLen.unshift(4);
+    dequeMaxLen.unshift(3);
+    expect(dequeMaxLen.size).toBe(3);
+    expect(dequeMaxLen.toArray()).toEqual([3, 4, 5]);
+
+    const dequeNoMaxLen = new Deque([3, 4, 5, 6, 7]);
+    expect(dequeNoMaxLen.size).toBe(5);
+    expect(dequeNoMaxLen.toArray()).toEqual([3, 4, 5, 6, 7]);
+    dequeNoMaxLen.unshift(4);
+    dequeNoMaxLen.unshift(3);
+    expect(dequeNoMaxLen.size).toBe(7);
+    expect(dequeNoMaxLen.toArray()).toEqual([3, 4, 3, 4, 5, 6, 7]);
+
+  });
 });
 
 describe('Deque - Additional Operations', () => {
