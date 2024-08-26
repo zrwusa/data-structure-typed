@@ -147,7 +147,9 @@ describe('HashMap', () => {
         }
       }
 
-      const eHM = new ExtendedHashMap<string, number>([], { someOtherParam: 'someOtherParam' });
+      const eHM = new ExtendedHashMap<string, number>([], {
+        someOtherParam: 'someOtherParam'
+      });
       eHM.set('one', 1);
       expect(eHM.get('one')).toBe(1);
     });
@@ -357,7 +359,9 @@ describe('LinkedHashMap', () => {
 
   it('should handle number keys correctly', () => {
     hashMap.set(999, { a: '999Value' });
-    expect(hashMap.get(999)).toEqual({ a: '999Value' });
+    expect(hashMap.get(999)).toEqual({
+      a: '999Value'
+    });
   });
 
   it('should update the value for an existing key', () => {

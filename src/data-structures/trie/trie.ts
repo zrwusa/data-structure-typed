@@ -560,7 +560,7 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
    * The function `_getIterator` returns an iterable iterator that performs a depth-first search on a
    * trie data structure and yields all the paths to the end nodes.
    */
-  protected* _getIterator(): IterableIterator<string> {
+  protected *_getIterator(): IterableIterator<string> {
     function* _dfs(node: TrieNode, path: string): IterableIterator<string> {
       if (node.isEnd) {
         yield path;

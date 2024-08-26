@@ -998,7 +998,6 @@ describe('DirectedGraph tarjan', () => {
 
 describe('delete', () => {
   it(`deleteVertex deletes all of it's neighbors from the inEdge Map`, () => {
-
     const graph = new DirectedGraph();
     graph.addVertex('A');
     graph.addVertex('B');
@@ -1008,18 +1007,18 @@ describe('delete', () => {
     graph.addEdge('C', 'A');
 
     // 'Incoming to A should contain ['B','C']
-    expect(graph.incomingEdgesOf('A').map((e) => e.src)).toEqual(['B','C']); //  ['B','C']
+    expect(graph.incomingEdgesOf('A').map(e => e.src)).toEqual(['B', 'C']); //  ['B','C']
 
     // Now delete B, which has no direct link to C, only that C -> A.
     graph.deleteVertex('B');
 
     // Now if we do the same call to incoming edges for we should get only ['C']
-    expect(graph.incomingEdgesOf('A').map((e) => e.src)).toEqual(['C']); // [];
+    expect(graph.incomingEdgesOf('A').map(e => e.src)).toEqual(['C']); // [];
 
     // but it only shows an empty array, since we deleted all of `A's edges, not just the one to `B`.
 
     // If we check C, it correctly shows A as an outgoing edge,
     // even though A no longer has any knowledge of C linking to it.
-    expect(graph.outgoingEdgesOf('C').map((e) => e.dest)).toEqual(['A']);
+    expect(graph.outgoingEdgesOf('C').map(e => e.dest)).toEqual(['A']);
   });
-})
+});

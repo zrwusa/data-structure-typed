@@ -131,14 +131,15 @@ export class BinaryTreeNode<
  */
 
 export class BinaryTree<
-  K = any,
-  V = any,
-  R = BTNEntry<K, V>,
-  NODE extends BinaryTreeNode<K, V, NODE> = BinaryTreeNode<K, V, BinaryTreeNodeNested<K, V>>,
-  TREE extends BinaryTree<K, V, R, NODE, TREE> = BinaryTree<K, V, R, NODE, BinaryTreeNested<K, V, R, NODE>>
->
+    K = any,
+    V = any,
+    R = BTNEntry<K, V>,
+    NODE extends BinaryTreeNode<K, V, NODE> = BinaryTreeNode<K, V, BinaryTreeNodeNested<K, V>>,
+    TREE extends BinaryTree<K, V, R, NODE, TREE> = BinaryTree<K, V, R, NODE, BinaryTreeNested<K, V, R, NODE>>
+  >
   extends IterableEntryBase<K, V | undefined>
-  implements IBinaryTree<K, V, R, NODE, TREE> {
+  implements IBinaryTree<K, V, R, NODE, TREE>
+{
   iterationType: IterationType = 'ITERATIVE';
 
   /**
@@ -1155,8 +1156,8 @@ export class BinaryTree<
           if (!this.isRealNode(node.right) || last === node.right) {
             node = stack.pop();
             if (this.isRealNode(node)) {
-              const leftMinHeight = this.isRealNode(node.left) ? depths.get(node.left) ?? -1 : -1;
-              const rightMinHeight = this.isRealNode(node.right) ? depths.get(node.right) ?? -1 : -1;
+              const leftMinHeight = this.isRealNode(node.left) ? (depths.get(node.left) ?? -1) : -1;
+              const rightMinHeight = this.isRealNode(node.right) ? (depths.get(node.right) ?? -1) : -1;
               depths.set(node, 1 + Math.min(leftMinHeight, rightMinHeight));
               last = node;
               node = null;
@@ -1937,7 +1938,7 @@ export class BinaryTree<
    * initially set to the root node of the tree.
    * @returns an IterableIterator<[K, V | undefined]>.
    */
-  protected* _getIterator(node = this.root): IterableIterator<[K, V | undefined]> {
+  protected *_getIterator(node = this.root): IterableIterator<[K, V | undefined]> {
     if (!node) return;
 
     if (this.iterationType === 'ITERATIVE') {

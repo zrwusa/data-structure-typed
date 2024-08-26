@@ -51,11 +51,19 @@ testFiles.forEach((file: string) => {
   const testName = path.basename(file, '.test.ts');
   const testFunction = require(file);
   const { suite } = testFunction;
-  if (suite) performanceTests.push({ testName, suite, file });
+  if (suite)
+    performanceTests.push({
+      testName,
+      suite,
+      file
+    });
 });
 
 const composeReport = () => {
-  if (!fs.existsSync(reportDistPath)) fs.mkdirSync(reportDistPath, { recursive: true });
+  if (!fs.existsSync(reportDistPath))
+    fs.mkdirSync(reportDistPath, {
+      recursive: true
+    });
 
   const filePath = path.join(reportDistPath, 'report.json');
   const htmlFilePath = path.join(reportDistPath, 'report.html');
@@ -114,9 +122,18 @@ const composeReport = () => {
           {
             '<>': 'tr',
             html: [
-              { '<>': 'td', html: '${name}' },
-              { '<>': 'td', html: '${periodMS}' },
-              { '<>': 'td', html: '${mean}' }
+              {
+                '<>': 'td',
+                html: '${name}'
+              },
+              {
+                '<>': 'td',
+                html: '${periodMS}'
+              },
+              {
+                '<>': 'td',
+                html: '${mean}'
+              }
             ]
           }
         ]
@@ -242,9 +259,7 @@ sortedPerformanceTests.forEach(item => {
         console.log(
           // `Files: ${GREEN}${testFileCount}${END} `,
           // `Suites: ${GREEN}${performanceTests.length}${END} `,
-          `Suites Progress: ${isDone ? GREEN : YELLOW}${completedCount}${END}/${isDone ? GREEN : YELLOW}${
-            performanceTests.length
-          }${END}`,
+          `Suites Progress: ${isDone ? GREEN : YELLOW}${completedCount}${END}/${isDone ? GREEN : YELLOW}${performanceTests.length}${END}`,
           `Time: ${isTimeWarn ? YELLOW : GREEN}${runTime}s${END}`
         );
         if (isDone) {

@@ -795,7 +795,9 @@ describe('Trie operations', () => {
   });
 
   it('Case Sensitivity', () => {
-    const caseInsensitiveTrie = new Trie(['apple', 'Banana'], { caseSensitive: false });
+    const caseInsensitiveTrie = new Trie(['apple', 'Banana'], {
+      caseSensitive: false
+    });
     expect(caseInsensitiveTrie.has('APPLE')).toBe(true);
     expect(caseInsensitiveTrie.has('banana')).toBe(true);
     expect(caseInsensitiveTrie.has('Cherry')).toBe(false);

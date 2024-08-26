@@ -322,7 +322,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * The function returns an iterator that yields key-value pairs from both an object store and an
    * object map.
    */
-  protected* _getIterator(): IterableIterator<[K, V]> {
+  protected *_getIterator(): IterableIterator<[K, V]> {
     for (const node of Object.values(this.store)) {
       yield [node.key, node.value] as [K, V];
     }
@@ -537,7 +537,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
   /**
    * The `begin()` function in TypeScript iterates over a linked list and yields key-value pairs.
    */
-  * begin() {
+  *begin() {
     let node = this.head;
     while (node !== this._sentinel) {
       yield [node.key, node.value];
@@ -549,7 +549,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
    * The function `reverseBegin()` iterates over a linked list in reverse order, yielding each node's
    * key and value.
    */
-  * reverseBegin() {
+  *reverseBegin() {
     let node = this.tail;
     while (node !== this._sentinel) {
       yield [node.key, node.value];
@@ -942,7 +942,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
    *
    * The above function is an iterator that yields key-value pairs from a linked list.
    */
-  protected* _getIterator() {
+  protected *_getIterator() {
     let node = this.head;
     while (node !== this._sentinel) {
       yield [node.key, node.value] as [K, V];

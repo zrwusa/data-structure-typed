@@ -228,7 +228,10 @@ describe('AVLTree APIs test', () => {
     avl.add(1);
     const node2 = new AVLTreeNode(2);
     avl.add(node2);
-    const node3 = new AVLTreeNode(3, { id: 3, text: 'text3' });
+    const node3 = new AVLTreeNode(3, {
+      id: 3,
+      text: 'text3'
+    });
     avl.add(node3);
     avl.add([3, { id: 3, text: 'text33' }]);
 
@@ -314,7 +317,10 @@ describe('AVLTree', () => {
       avl.add(1);
       const node2 = new AVLTreeNode(2);
       avl.add(node2);
-      const node3 = new AVLTreeNode(3, { id: 3, text: 'text3' });
+      const node3 = new AVLTreeNode(3, {
+        id: 3,
+        text: 'text3'
+      });
       avl.add(node3);
       avl.add([3, { id: 3, text: 'text33' }]);
 

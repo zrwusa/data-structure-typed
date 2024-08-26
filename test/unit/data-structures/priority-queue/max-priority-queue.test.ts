@@ -16,7 +16,11 @@ describe('MaxPriorityQueue Operation Test', () => {
   });
 
   it('should add elements and maintain heap property in a object MaxPriorityQueue', () => {
-    const priorityQueue = new MaxPriorityQueue<{ keyA: number }>([], { comparator: (a, b) => b.keyA - a.keyA });
+    const priorityQueue = new MaxPriorityQueue<{
+      keyA: number;
+    }>([], {
+      comparator: (a, b) => b.keyA - a.keyA
+    });
     priorityQueue.refill([{ keyA: 5 }, { keyA: 3 }, { keyA: 1 }]);
     priorityQueue.add({ keyA: 7 });
 
@@ -52,7 +56,9 @@ describe('MaxPriorityQueue Operation Test', () => {
 
   it('should correctly heapify an array', () => {
     const array = [5, 3, 7, 1];
-    const heap = MaxPriorityQueue.heapify<number>(array, { comparator: (a, b) => b - a });
+    const heap = MaxPriorityQueue.heapify<number>(array, {
+      comparator: (a, b) => b - a
+    });
     heap.refill(array);
 
     expect(heap.poll()).toBe(7);
@@ -64,7 +70,11 @@ describe('MaxPriorityQueue Operation Test', () => {
   it('should correctly heapify an object array', () => {
     const elements = [{ keyA: 5 }, { keyA: 3 }, { keyA: 7 }, { keyA: 1 }];
     debugger;
-    const maxPQ = MaxPriorityQueue.heapify<{ keyA: number }>(elements, { comparator: (a, b) => b.keyA - a.keyA });
+    const maxPQ = MaxPriorityQueue.heapify<{
+      keyA: number;
+    }>(elements, {
+      comparator: (a, b) => b.keyA - a.keyA
+    });
 
     expect(maxPQ.poll()?.keyA).toBe(7);
     expect(maxPQ.poll()?.keyA).toBe(5);
@@ -73,7 +83,9 @@ describe('MaxPriorityQueue Operation Test', () => {
   });
 
   it('should object priority queue', () => {
-    const maxPQ = new MaxPriorityQueue<{ rawItem: { id: number } }>(
+    const maxPQ = new MaxPriorityQueue<{
+      rawItem: { id: number };
+    }>(
       [
         { rawItem: { id: 4 } },
         { rawItem: { id: 8 } },
@@ -83,7 +95,9 @@ describe('MaxPriorityQueue Operation Test', () => {
         { rawItem: { id: 3 } },
         { rawItem: { id: 5 } }
       ],
-      { comparator: (a, b) => b.rawItem.id - a.rawItem.id }
+      {
+        comparator: (a, b) => b.rawItem.id - a.rawItem.id
+      }
     );
 
     expect([...maxPQ.sort()]).toEqual([
@@ -108,7 +122,9 @@ describe('MaxPriorityQueue Operation Test', () => {
         { rawItem: { id: 3 } },
         { rawItem: { id: 5 } }
       ],
-      { toElementFn: rawElement => rawElement.rawItem.id }
+      {
+        toElementFn: rawElement => rawElement.rawItem.id
+      }
     );
 
     expect([...maxPQ.sort()]).toEqual([8, 7, 6, 5, 4, 3, 1]);

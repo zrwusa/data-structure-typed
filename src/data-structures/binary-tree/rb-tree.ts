@@ -53,14 +53,15 @@ export class RedBlackTreeNode<
 }
 
 export class RedBlackTree<
-  K = any,
-  V = any,
-  R = BTNEntry<K, V>,
-  NODE extends RedBlackTreeNode<K, V, NODE> = RedBlackTreeNode<K, V, RedBlackTreeNodeNested<K, V>>,
-  TREE extends RedBlackTree<K, V, R, NODE, TREE> = RedBlackTree<K, V, R, NODE, RedBlackTreeNested<K, V, R, NODE>>
->
+    K = any,
+    V = any,
+    R = BTNEntry<K, V>,
+    NODE extends RedBlackTreeNode<K, V, NODE> = RedBlackTreeNode<K, V, RedBlackTreeNodeNested<K, V>>,
+    TREE extends RedBlackTree<K, V, R, NODE, TREE> = RedBlackTree<K, V, R, NODE, RedBlackTreeNested<K, V, R, NODE>>
+  >
   extends BST<K, V, R, NODE, TREE>
-  implements IBinaryTree<K, V, R, NODE, TREE> {
+  implements IBinaryTree<K, V, R, NODE, TREE>
+{
   /**
    * This is the constructor function for a Red-Black Tree data structure in TypeScript.
    * @param keysOrNodesOrEntriesOrRawElements - The `keysOrNodesOrEntriesOrRawElements` parameter is an

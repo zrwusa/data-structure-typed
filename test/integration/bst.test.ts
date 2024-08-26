@@ -226,7 +226,10 @@ describe('Individual package BST operations test', () => {
     expect(leftMost?.key).toBe(1);
 
     const node15 = objBST.getNode(15);
-    expect(node15?.value).toEqual({ key: 15, keyA: 15 });
+    expect(node15?.value).toEqual({
+      key: 15,
+      keyA: 15
+    });
     const minNodeBySpecificNode = node15 && objBST.getLeftMost(node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
 

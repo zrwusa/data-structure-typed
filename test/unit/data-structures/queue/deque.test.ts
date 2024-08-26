@@ -204,8 +204,7 @@ describe('Deque - Complex Operations', () => {
     expect([...deque]).toEqual([1, 2, 3]);
   });
 
-  test('shrinkToFit should reduce the memory footprint', () => {
-  });
+  test('shrinkToFit should reduce the memory footprint', () => {});
 });
 describe('Deque - Utility Operations', () => {
   let deque: Deque<number>;
@@ -264,7 +263,7 @@ describe('Deque - Utility Operations', () => {
   test('should maxLen work well', () => {
     const dequeMaxLen = new Deque([3, 4, 5, 6, 7], { maxLen: 3 });
     expect(dequeMaxLen.size).toBe(3);
-    expect(dequeMaxLen.toArray()).toEqual([5, 6 ,7]);
+    expect(dequeMaxLen.toArray()).toEqual([5, 6, 7]);
     dequeMaxLen.unshift(4);
     dequeMaxLen.unshift(3);
     expect(dequeMaxLen.size).toBe(3);
@@ -277,7 +276,6 @@ describe('Deque - Utility Operations', () => {
     dequeNoMaxLen.unshift(3);
     expect(dequeNoMaxLen.size).toBe(7);
     expect(dequeNoMaxLen.toArray()).toEqual([3, 4, 3, 4, 5, 6, 7]);
-
   });
 });
 
@@ -344,7 +342,9 @@ describe('Deque - push Method', () => {
   const bucketSize = 10;
 
   beforeEach(() => {
-    deque = new Deque<number>([], { bucketSize });
+    deque = new Deque<number>([], {
+      bucketSize
+    });
   });
 
   test('push should add an element when deque is empty', () => {
@@ -386,7 +386,9 @@ describe('Deque - pop Method', () => {
   const bucketSize = 10;
 
   beforeEach(() => {
-    deque = new Deque<number>([], { bucketSize });
+    deque = new Deque<number>([], {
+      bucketSize
+    });
   });
 
   test('pop should remove and return the last element', () => {
@@ -417,7 +419,9 @@ describe('Deque - unshift Method', () => {
   const bucketSize = 10;
 
   beforeEach(() => {
-    deque = new Deque<number>([], { bucketSize });
+    deque = new Deque<number>([], {
+      bucketSize
+    });
   });
 
   test('unshift should add an element to the beginning when deque is empty', () => {
@@ -449,7 +453,9 @@ describe('Deque - shift Method', () => {
   const bucketSize = 10;
 
   beforeEach(() => {
-    deque = new Deque<number>([], { bucketSize });
+    deque = new Deque<number>([], {
+      bucketSize
+    });
   });
 
   test('shift should remove and return the first element', () => {

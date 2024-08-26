@@ -5,7 +5,9 @@ describe('MaxHeap', () => {
   let maxHeap: MaxHeap<number>;
 
   beforeEach(() => {
-    maxHeap = new MaxHeap<number>([], { comparator: numberComparator });
+    maxHeap = new MaxHeap<number>([], {
+      comparator: numberComparator
+    });
   });
 
   it('add and poll elements in descending order', () => {
@@ -51,7 +53,10 @@ describe('MaxHeap', () => {
   });
 
   it('should object heap map & filter', function () {
-    const maxHeap = new MaxHeap<{ a: string; key: number }>(
+    const maxHeap = new MaxHeap<{
+      a: string;
+      key: number;
+    }>(
       [
         { key: 1, a: 'a1' },
         { key: 6, a: 'a6' },
@@ -61,7 +66,9 @@ describe('MaxHeap', () => {
         { key: 4, a: 'a4' },
         { key: 0, a: 'a0' }
       ],
-      { comparator: (a, b) => b.key - a.key }
+      {
+        comparator: (a, b) => b.key - a.key
+      }
     );
 
     const mappedMaxHeap = maxHeap.map(

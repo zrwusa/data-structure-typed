@@ -803,7 +803,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * The function returns an iterator that iterates over the values of a linked list.
    */
-  protected* _getIterator(): IterableIterator<E> {
+  protected *_getIterator(): IterableIterator<E> {
     let current = this.head;
 
     while (current) {

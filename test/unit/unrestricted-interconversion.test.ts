@@ -245,7 +245,9 @@ describe('conversions', () => {
     const trie = new Trie(orgStrArr);
     expect(trie.size).toBe(10);
     isDebug && trie.print();
-    const heap = new Heap<string>(trie, { comparator: (a, b) => Number(a) - Number(b) });
+    const heap = new Heap<string>(trie, {
+      comparator: (a, b) => Number(a) - Number(b)
+    });
     expect(heap.size).toBe(10);
     isDebug && heap.print();
     expect([...heap]).toEqual([

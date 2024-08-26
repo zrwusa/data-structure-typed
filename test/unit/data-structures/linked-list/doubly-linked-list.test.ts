@@ -79,7 +79,9 @@ describe('DoublyLinkedList Operation Test', () => {
 
 describe('DoublyLinkedList Operation Test', () => {
   let list: DoublyLinkedList<number>;
-  let objectList: DoublyLinkedList<{ keyA: number }>;
+  let objectList: DoublyLinkedList<{
+    keyA: number;
+  }>;
 
   beforeEach(() => {
     list = new DoublyLinkedList();

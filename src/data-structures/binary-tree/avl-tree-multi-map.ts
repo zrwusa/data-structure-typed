@@ -63,20 +63,21 @@ export class AVLTreeMultiMapNode<
  * The only distinction between a AVLTreeMultiMap and a AVLTree lies in the ability of the former to store duplicate nodes through the utilization of counters.
  */
 export class AVLTreeMultiMap<
-  K = any,
-  V = any,
-  R = BTNEntry<K, V>,
-  NODE extends AVLTreeMultiMapNode<K, V, NODE> = AVLTreeMultiMapNode<K, V, AVLTreeMultiMapNodeNested<K, V>>,
-  TREE extends AVLTreeMultiMap<K, V, R, NODE, TREE> = AVLTreeMultiMap<
-    K,
-    V,
-    R,
-    NODE,
-    AVLTreeMultiMapNested<K, V, R, NODE>
+    K = any,
+    V = any,
+    R = BTNEntry<K, V>,
+    NODE extends AVLTreeMultiMapNode<K, V, NODE> = AVLTreeMultiMapNode<K, V, AVLTreeMultiMapNodeNested<K, V>>,
+    TREE extends AVLTreeMultiMap<K, V, R, NODE, TREE> = AVLTreeMultiMap<
+      K,
+      V,
+      R,
+      NODE,
+      AVLTreeMultiMapNested<K, V, R, NODE>
+    >
   >
->
   extends AVLTree<K, V, R, NODE, TREE>
-  implements IBinaryTree<K, V, R, NODE, TREE> {
+  implements IBinaryTree<K, V, R, NODE, TREE>
+{
   /**
    * The constructor initializes a new AVLTreeMultiMap object with optional initial elements.
    * @param keysOrNodesOrEntriesOrRawElements - The `keysOrNodesOrEntriesOrRawElements` parameter is an

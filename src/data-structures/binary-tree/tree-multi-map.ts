@@ -63,14 +63,15 @@ export class TreeMultiMapNode<
 }
 
 export class TreeMultiMap<
-  K = any,
-  V = any,
-  R = BTNEntry<K, V>,
-  NODE extends TreeMultiMapNode<K, V, NODE> = TreeMultiMapNode<K, V, TreeMultiMapNodeNested<K, V>>,
-  TREE extends TreeMultiMap<K, V, R, NODE, TREE> = TreeMultiMap<K, V, R, NODE, TreeMultiMapNested<K, V, R, NODE>>
->
+    K = any,
+    V = any,
+    R = BTNEntry<K, V>,
+    NODE extends TreeMultiMapNode<K, V, NODE> = TreeMultiMapNode<K, V, TreeMultiMapNodeNested<K, V>>,
+    TREE extends TreeMultiMap<K, V, R, NODE, TREE> = TreeMultiMap<K, V, R, NODE, TreeMultiMapNested<K, V, R, NODE>>
+  >
   extends RedBlackTree<K, V, R, NODE, TREE>
-  implements IBinaryTree<K, V, R, NODE, TREE> {
+  implements IBinaryTree<K, V, R, NODE, TREE>
+{
   /**
    * The constructor function initializes a TreeMultiMap object with optional initial data.
    * @param keysOrNodesOrEntriesOrRawElements - The parameter `keysOrNodesOrEntriesOrRawElements` is an

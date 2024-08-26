@@ -751,7 +751,7 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * The function `_getIterator` returns an iterable iterator that yields the values of a linked list.
    */
-  protected* _getIterator(): IterableIterator<E> {
+  protected *_getIterator(): IterableIterator<E> {
     let current = this.head;
 
     while (current) {

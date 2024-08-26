@@ -94,14 +94,15 @@ export class BSTNode<K = any, V = any, NODE extends BSTNode<K, V, NODE> = BSTNod
  * 7. No Auto-Balancing: Standard BSTs don't automatically balance themselves.
  */
 export class BST<
-  K = any,
-  V = any,
-  R = BTNEntry<K, V>,
-  NODE extends BSTNode<K, V, NODE> = BSTNode<K, V, BSTNodeNested<K, V>>,
-  TREE extends BST<K, V, R, NODE, TREE> = BST<K, V, R, NODE, BSTNested<K, V, R, NODE>>
->
+    K = any,
+    V = any,
+    R = BTNEntry<K, V>,
+    NODE extends BSTNode<K, V, NODE> = BSTNode<K, V, BSTNodeNested<K, V>>,
+    TREE extends BST<K, V, R, NODE, TREE> = BST<K, V, R, NODE, BSTNested<K, V, R, NODE>>
+  >
   extends BinaryTree<K, V, R, NODE, TREE>
-  implements IBinaryTree<K, V, R, NODE, TREE> {
+  implements IBinaryTree<K, V, R, NODE, TREE>
+{
   /**
    * This is the constructor function for a Binary Search Tree class in TypeScript.
    * @param keysOrNodesOrEntriesOrRawElements - The `keysOrNodesOrEntriesOrRawElements` parameter is an
@@ -786,8 +787,8 @@ export class BST<
           if (!node.right || last === node.right) {
             node = stack.pop();
             if (node) {
-              const left = node.left ? depths.get(node.left) ?? -1 : -1;
-              const right = node.right ? depths.get(node.right) ?? -1 : -1;
+              const left = node.left ? (depths.get(node.left) ?? -1) : -1;
+              const right = node.right ? (depths.get(node.right) ?? -1) : -1;
               if (Math.abs(left - right) > 1) return false;
               depths.set(node, 1 + Math.max(left, right));
               last = node;

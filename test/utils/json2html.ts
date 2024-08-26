@@ -14,13 +14,9 @@ function makeLabelDiv(options: any, level: number, keyName: string | number, dat
     return `<div class='index'><span class='json-to-html-label'>${keyName}&nbsp;</span></div>`;
   } else if (typeof keyName === 'string') {
     if (datatype === 'array') {
-      return `<div class='collapsible level${level}' ${toggleJS(
-        options
-      )}><span class='json-to-html-label'>${keyName}</span></div>`;
+      return `<div class='collapsible level${level}' ${toggleJS(options)}><span class='json-to-html-label'>${keyName}</span></div>`;
     } else if (datatype === 'object') {
-      return `<div class='attribute collapsible level${level}' ${toggleJS(
-        options
-      )}><span class='json-to-html-label'>${keyName}:</span></div>`;
+      return `<div class='attribute collapsible level${level}' ${toggleJS(options)}><span class='json-to-html-label'>${keyName}:</span></div>`;
     } else {
       return `<div class='leaf level${level}'><span class='json-to-html-label'>${keyName}:</span></div>`;
     }

@@ -42,7 +42,7 @@ export abstract class IterableElementBase<E, R, C> {
    * allows the function to accept any number of arguments as an array. In this case, the `args`
    * parameter is used to pass any number of arguments to the `_getIterator` method.
    */
-  * [Symbol.iterator](...args: any[]): IterableIterator<E> {
+  *[Symbol.iterator](...args: any[]): IterableIterator<E> {
     yield* this._getIterator(...args);
   }
 
@@ -56,7 +56,7 @@ export abstract class IterableElementBase<E, R, C> {
    *
    * The function returns an iterator that yields all the values in the object.
    */
-  * values(): IterableIterator<E> {
+  *values(): IterableIterator<E> {
     for (const item of this) {
       yield item;
     }

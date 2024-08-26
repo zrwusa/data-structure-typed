@@ -350,7 +350,9 @@ describe('TreeMultiMap operations test1', () => {
 
 describe('TreeMultiMap operations test recursively1', () => {
   it('should perform various operations on a Binary Search Tree with numeric values1', () => {
-    const tmm = new TreeMultiMap<number>([], { iterationType: 'RECURSIVE' });
+    const tmm = new TreeMultiMap<number>([], {
+      iterationType: 'RECURSIVE'
+    });
 
     expect(tmm instanceof TreeMultiMap);
     tmm.add([11, 11]);

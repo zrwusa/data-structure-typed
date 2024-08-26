@@ -570,7 +570,9 @@ describe('BinaryTree', () => {
   let tree: BinaryTree<number, string>;
 
   beforeEach(() => {
-    tree = new BinaryTree<number, string>([], { iterationType: 'RECURSIVE' });
+    tree = new BinaryTree<number, string>([], {
+      iterationType: 'RECURSIVE'
+    });
   });
 
   afterEach(() => {

@@ -2,7 +2,6 @@ import { FibonacciHeap, Heap, MaxHeap, MinHeap } from '../../../../src';
 import { logBigOMetricsWrap } from '../../../utils';
 
 describe('Heap Operation Test', () => {
-
   it('should heap add and delete work well', function () {
     const hp = new MinHeap<number>();
 
@@ -47,7 +46,9 @@ describe('Heap Operation Test', () => {
   });
 
   it('should clone', function () {
-    const minNumHeap = new Heap<string>([], { comparator: (a, b) => Number(a) - Number(b) });
+    const minNumHeap = new Heap<string>([], {
+      comparator: (a, b) => Number(a) - Number(b)
+    });
     minNumHeap.add('1');
     minNumHeap.add('6');
     minNumHeap.add('2');
@@ -64,13 +65,21 @@ describe('Heap Operation Test', () => {
   });
 
   it('should object heap work well', function () {
-    const minHeap = new MinHeap<{ a: string; key: number }>([], { comparator: (a, b) => a.key - b.key });
+    const minHeap = new MinHeap<{
+      a: string;
+      key: number;
+    }>([], {
+      comparator: (a, b) => a.key - b.key
+    });
     minHeap.add({ key: 1, a: 'a1' });
     minHeap.add({ key: 6, a: 'a6' });
     minHeap.add({ key: 2, a: 'a2' });
     minHeap.add({ key: 0, a: 'a0' });
 
-    expect(minHeap.peek()).toEqual({ a: 'a0', key: 0 });
+    expect(minHeap.peek()).toEqual({
+      a: 'a0',
+      key: 0
+    });
     expect(minHeap.toArray().map(item => ({ a: item.a }))).toEqual([
       { a: 'a0' },
       { a: 'a1' },
@@ -80,18 +89,28 @@ describe('Heap Operation Test', () => {
     let i = 0;
     const expectPolled = [{ a: 'a0' }, { a: 'a1' }, { a: 'a2' }, { a: 'a6' }];
     while (minHeap.size > 0) {
-      expect({ a: minHeap.poll()?.a }).toEqual(expectPolled[i]);
+      expect({
+        a: minHeap.poll()?.a
+      }).toEqual(expectPolled[i]);
       i++;
     }
 
-    const maxHeap = new MaxHeap<{ key: number; a: string }>([], { comparator: (a, b) => b.key - a.key });
+    const maxHeap = new MaxHeap<{
+      key: number;
+      a: string;
+    }>([], {
+      comparator: (a, b) => b.key - a.key
+    });
     maxHeap.add({ key: 1, a: 'a1' });
     maxHeap.add({ key: 6, a: 'a6' });
     maxHeap.add({ key: 5, a: 'a5' });
     maxHeap.add({ key: 2, a: 'a2' });
     maxHeap.add({ key: 0, a: 'a0' });
     maxHeap.add({ key: 9, a: 'a9' });
-    expect(maxHeap.peek()).toEqual({ a: 'a9', key: 9 });
+    expect(maxHeap.peek()).toEqual({
+      a: 'a9',
+      key: 9
+    });
     expect(maxHeap.toArray().map(item => ({ a: item.a }))).toEqual([
       { a: 'a9' },
       { a: 'a2' },
@@ -103,13 +122,18 @@ describe('Heap Operation Test', () => {
     const maxExpectPolled = [{ a: 'a9' }, { a: 'a6' }, { a: 'a5' }, { a: 'a2' }, { a: 'a1' }, { a: 'a0' }];
     let maxI = 0;
     while (maxHeap.size > 0) {
-      expect({ a: maxHeap.poll()?.a }).toEqual(maxExpectPolled[maxI]);
+      expect({
+        a: maxHeap.poll()?.a
+      }).toEqual(maxExpectPolled[maxI]);
       maxI++;
     }
   });
 
   it('should object heap map & filter', function () {
-    const minHeap = new MinHeap<{ a: string; key: number }>(
+    const minHeap = new MinHeap<{
+      a: string;
+      key: number;
+    }>(
       [
         { key: 1, a: 'a1' },
         { key: 6, a: 'a6' },
@@ -119,7 +143,9 @@ describe('Heap Operation Test', () => {
         { key: 4, a: 'a4' },
         { key: 0, a: 'a0' }
       ],
-      { comparator: (a, b) => a.key - b.key }
+      {
+        comparator: (a, b) => a.key - b.key
+      }
     );
 
     const mappedMinHeap = minHeap.map(
@@ -147,7 +173,9 @@ describe('Heap Operation Test', () => {
   });
 
   it('should object heap', () => {
-    const heap = new Heap<{ rawItem: { id: number } }>(
+    const heap = new Heap<{
+      rawItem: { id: number };
+    }>(
       [
         { rawItem: { id: 4 } },
         { rawItem: { id: 8 } },
@@ -157,7 +185,9 @@ describe('Heap Operation Test', () => {
         { rawItem: { id: 3 } },
         { rawItem: { id: 5 } }
       ],
-      { comparator: (a, b) => a.rawItem.id - b.rawItem.id }
+      {
+        comparator: (a, b) => a.rawItem.id - b.rawItem.id
+      }
     );
 
     expect([...heap.sort()]).toEqual([
@@ -182,7 +212,9 @@ describe('Heap Operation Test', () => {
         { rawItem: { id: 3 } },
         { rawItem: { id: 5 } }
       ],
-      { toElementFn: rawElement => rawElement.rawItem.id }
+      {
+        toElementFn: rawElement => rawElement.rawItem.id
+      }
     );
 
     expect([...heap.sort()]).toEqual([1, 3, 4, 5, 6, 7, 8]);

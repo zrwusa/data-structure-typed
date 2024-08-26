@@ -66,14 +66,15 @@ export class AVLTreeNode<
  * 7. Path Length: The path length from the root to any leaf is longer compared to an unbalanced BST, but shorter than a linear chain of nodes.
  */
 export class AVLTree<
-  K = any,
-  V = any,
-  R = BTNEntry<K, V>,
-  NODE extends AVLTreeNode<K, V, NODE> = AVLTreeNode<K, V, AVLTreeNodeNested<K, V>>,
-  TREE extends AVLTree<K, V, R, NODE, TREE> = AVLTree<K, V, R, NODE, AVLTreeNested<K, V, R, NODE>>
->
+    K = any,
+    V = any,
+    R = BTNEntry<K, V>,
+    NODE extends AVLTreeNode<K, V, NODE> = AVLTreeNode<K, V, AVLTreeNodeNested<K, V>>,
+    TREE extends AVLTree<K, V, R, NODE, TREE> = AVLTree<K, V, R, NODE, AVLTreeNested<K, V, R, NODE>>
+  >
   extends BST<K, V, R, NODE, TREE>
-  implements IBinaryTree<K, V, R, NODE, TREE> {
+  implements IBinaryTree<K, V, R, NODE, TREE>
+{
   /**
    * This is a constructor function for an AVLTree class that initializes the tree with keys, nodes,
    * entries, or raw elements.
@@ -503,7 +504,7 @@ export class AVLTree<
       // Balance Restoration: If a balance issue is discovered after inserting a node, it requires balance restoration operations. Balance restoration includes four basic cases where rotation operations need to be performed to fix the balance:
       switch (
         this._balanceFactor(A) // second O(1)
-        ) {
+      ) {
         case -2:
           if (A && A.left) {
             if (this._balanceFactor(A.left) <= 0) {

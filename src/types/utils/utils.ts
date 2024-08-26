@@ -13,9 +13,9 @@ export type Comparable =
   | bigint
   | boolean
   | ({ [key in string]: any } & {
-  valueOf(): Comparable;
-})
+      valueOf(): Comparable;
+    })
   | ({ [key in string]: any } & {
-  toString(): Comparable;
-})
+      toString(): Comparable;
+    })
   | (() => Comparable);

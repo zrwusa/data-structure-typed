@@ -291,7 +291,9 @@ describe('AVLTreeMultiMap operations test1', () => {
 
 describe('AVLTreeMultiMap operations test recursively1', () => {
   it('should perform various operations on a Binary Search Tree with numeric values1', () => {
-    const treeMultimap = new AVLTreeMultiMap<number>([], { iterationType: 'RECURSIVE' });
+    const treeMultimap = new AVLTreeMultiMap<number>([], {
+      iterationType: 'RECURSIVE'
+    });
 
     expect(treeMultimap instanceof AVLTreeMultiMap);
     treeMultimap.add([11, 11]);
@@ -741,7 +743,9 @@ describe('AVLTree toEntryFn', () => {
   it('should toEntryFn 3', () => {
     const tree = new AVLTreeMultiMap<{ obj: { id: number } }, number>(
       [{ obj: { id: 1 } }, { obj: { id: 2 } }, { obj: { id: 3 } }, { obj: { id: 4 } }, { obj: { id: 5 } }],
-      { comparator: (a, b) => a.obj.id - b.obj.id }
+      {
+        comparator: (a, b) => a.obj.id - b.obj.id
+      }
     );
 
     const expected = [

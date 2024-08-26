@@ -252,7 +252,10 @@ describe('BST operations test', () => {
     expect(leftMost?.key).toBe(1);
 
     const node15 = objBST.getNode(15);
-    expect(node15?.value).toEqual({ name: 'Alice', age: 15 });
+    expect(node15?.value).toEqual({
+      name: 'Alice',
+      age: 15
+    });
     const minNodeBySpecificNode = node15 && objBST.getLeftMost(node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
 
@@ -411,7 +414,9 @@ describe('BST operations test', () => {
 
 describe('BST operations test recursively', () => {
   it('should perform various operations on a Binary Search Tree with numeric values', () => {
-    const bst = new BST<number>([], { iterationType: 'RECURSIVE' });
+    const bst = new BST<number>([], {
+      iterationType: 'RECURSIVE'
+    });
     expect(bst).toBeInstanceOf(BST);
     bst.add([11, 11]);
     bst.add([3, 3]);
@@ -626,7 +631,10 @@ describe('BST operations test recursively', () => {
     expect(objBST.has(6)).toBe(true);
 
     const node6 = objBST.getNode(6);
-    expect(objBST.get(6)).toEqual({ key: 6, keyA: 6 });
+    expect(objBST.get(6)).toEqual({
+      key: 6,
+      keyA: 6
+    });
     expect(node6 && objBST.getHeight(node6)).toBe(2);
     expect(node6 && objBST.getDepth(node6)).toBe(3);
 
@@ -640,7 +648,10 @@ describe('BST operations test recursively', () => {
     expect(leftMost?.key).toBe(1);
 
     const node15 = objBST.getNode(15);
-    expect(node15?.value).toEqual({ key: 15, keyA: 15 });
+    expect(node15?.value).toEqual({
+      key: 15,
+      keyA: 15
+    });
     const minNodeBySpecificNode = node15 && objBST.getLeftMost(node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
 
@@ -869,7 +880,9 @@ describe('BST isBST', function () {
   });
 
   test('isBST when variant is Max', () => {
-    const bst = new BST<number, number>([1, 2, 3, 9, 8, 5, 6, 7, 4], { comparator: (a, b) => b - a });
+    const bst = new BST<number, number>([1, 2, 3, 9, 8, 5, 6, 7, 4], {
+      comparator: (a, b) => b - a
+    });
     bst.addMany([1, 2, 3, 9, 8, 5, 6, 7, 4]);
     expect(bst.isBST()).toBe(true);
   });

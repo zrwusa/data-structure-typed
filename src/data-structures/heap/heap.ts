@@ -367,7 +367,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R, Heap<E, R>
   /**
    * The function `_getIterator` returns an iterable iterator for the elements in the class.
    */
-  protected* _getIterator(): IterableIterator<E> {
+  protected *_getIterator(): IterableIterator<E> {
     for (const element of this.elements) {
       yield element;
     }
