@@ -19,6 +19,12 @@ import { SinglyLinkedList } from '../linked-list';
 export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, R>> {
   constructor(elements: Iterable<E> | Iterable<R> = [], options?: QueueOptions<E, R>) {
     super(options);
+
+    if (options) {
+      const { autoCompactRatio = 0.5 } = options;
+      this._autoCompactRatio = autoCompactRatio;
+    }
+
     if (elements) {
       for (const el of elements) {
         if (this.toElementFn) this.push(this.toElementFn(el as R));
@@ -89,6 +95,25 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
     return this.size > 0 ? this.elements[this.elements.length - 1] : undefined;
   }
 
+  _autoCompactRatio: number = 0.5;
+
+  /**
+   * This function returns the value of the autoCompactRatio property.
+   * @returns The `autoCompactRatio` property of the object, which is a number.
+   */
+  get autoCompactRatio(): number {
+    return this._autoCompactRatio;
+  }
+
+  /**
+   * The above function sets the autoCompactRatio property to a specified number in TypeScript.
+   * @param {number} v - The parameter `v` represents the value that will be assigned to the
+   * `_autoCompactRatio` property.
+   */
+  set autoCompactRatio(v: number) {
+    this._autoCompactRatio = v;
+  }
+
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
@@ -145,12 +170,7 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
     const first = this.first;
     this._offset += 1;
 
-    if (this.offset * 2 < this.elements.length) return first;
-
-    // only delete dequeued elements when reaching half size
-    // to decrease latency of shifting elements.
-    this._elements = this.elements.slice(this.offset);
-    this._offset = 0;
+    if (this.offset / this.elements.length > this.autoCompactRatio) this.compact();
     return first;
   }
 
@@ -238,6 +258,17 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
   }
 
   /**
+   * The `compact` function in TypeScript slices the elements array based on the offset and resets the
+   * offset to zero.
+   * @returns The `compact()` method is returning a boolean value of `true`.
+   */
+  compact(): boolean {
+    this._elements = this.elements.slice(this.offset);
+    this._offset = 0;
+    return true;
+  }
+
+  /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    * where n is the number of elements in the queue. It creates a shallow copy of the internal array. the space required is proportional to the number of elements in the queue.
@@ -317,7 +348,7 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
    *
    * The function `_getIterator` returns an iterable iterator for the elements in the class.
    */
-  protected* _getIterator(): IterableIterator<E> {
+  protected *_getIterator(): IterableIterator<E> {
     for (const item of this.elements.slice(this.offset)) {
       yield item;
     }

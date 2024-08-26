@@ -90,6 +90,16 @@ describe('Queue', () => {
     expect(queue.isEmpty()).toBeTruthy();
   });
 
+  test('compact method should work well', () => {
+    for (let i = 0; i < 1000; i++) queue.push(i);
+
+    for (let i = 0; i < 499; i++) queue.shift();
+
+    expect(queue.elements.length).toBe(1000);
+    queue.compact();
+    expect(queue.elements.length).toBe(501);
+  });
+
   test('should at after shifting', () => {
     for (let i = 0; i < 100; i++) {
       queue.push(i);
@@ -116,7 +126,10 @@ describe('Queue', () => {
   });
 
   it('should object queue map & filter', function () {
-    const queue = new Queue<{ a: string; key: number }>([
+    const queue = new Queue<{
+      a: string;
+      key: number;
+    }>([
       { key: 1, a: 'a1' },
       { key: 6, a: 'a6' },
       { key: 5, a: 'a5' },
