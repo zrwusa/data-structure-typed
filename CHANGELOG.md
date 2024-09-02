@@ -8,7 +8,11 @@ All notable changes to this project will be documented in this file.
 - [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - [`auto-changelog`](https://github.com/CookPete/auto-changelog)
 
-## [v1.52.1](https://github.com/zrwusa/data-structure-typed/compare/v1.51.5...main) (upcoming)
+## [v1.52.3](https://github.com/zrwusa/data-structure-typed/compare/v1.51.5...main) (upcoming)
+
+### Changes
+
+- fix(trie): trie returns invalid string when only the fist character m… [`#94`](https://github.com/zrwusa/data-structure-typed/pull/94)
 
 ## [v1.51.5](https://github.com/zrwusa/data-structure-typed/compare/v1.35.0...v1.51.5) (18 January 2024)
 
