@@ -836,6 +836,22 @@ describe('Trie operations', () => {
     expect(words).toEqual(['apple', 'appetizer']);
   });
 
+  it('Get no words when prefix not found, with no match from the first character', () => {
+    trie.add('apple');
+    trie.add('appetizer');
+    trie.add('banana');
+    const words = trie.getWords('cd');
+    expect(words).toEqual([]);
+  });
+
+  it('Get no words when prefix not found, with no match from the second character', () => {
+    trie.add('apple');
+    trie.add('appetizer');
+    trie.add('banana');
+    const words = trie.getWords('ab');
+    expect(words).toEqual([]);
+  });
+
   it('Tree Height', () => {
     trie.add('apple');
     trie.add('banana');
