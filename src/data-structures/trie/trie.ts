@@ -454,7 +454,12 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
     if (prefix) {
       for (const c of prefix) {
         const nodeC = startNode.children.get(c);
-        if (nodeC) startNode = nodeC;
+        if (nodeC) {
+          startNode = nodeC;
+        } else {
+          // Early return if the whole prefix is not found
+          return [];
+        }
       }
     }
 
