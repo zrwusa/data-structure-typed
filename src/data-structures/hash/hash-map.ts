@@ -34,12 +34,8 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
     super();
     if (options) {
       const { hashFn, toEntryFn } = options;
-      if (hashFn) {
-        this._hashFn = hashFn;
-      }
-      if (toEntryFn) {
-        this._toEntryFn = toEntryFn;
-      }
+      if (hashFn) this._hashFn = hashFn;
+      if (toEntryFn) this._toEntryFn = toEntryFn;
     }
     if (entryOrRawElements) {
       this.setMany(entryOrRawElements);
