@@ -142,9 +142,9 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The push function adds an element to the end of the queue and returns the updated queue.Adds an element at the back of the queue.
+   * The push function adds an element to the end of the queue and returns true. Adds an element at the back of the queue.
    * @param {E} element - The `element` parameter represents the element that you want to add to the queue.
-   * @returns The `add` method is returning a `Queue<E>` object.
+   * @returns Always returns true, indicating the element was successfully added.
    */
   push(element: E): boolean {
     this.elements.push(element);
@@ -176,7 +176,7 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
 
   /**
    * The delete function removes an element from the list.
-   * @param element: E Specify the element to be deleted
+   * @param {E} element - Specify the element to be deleted
    * @return A boolean value indicating whether the element was successfully deleted or not
    */
   delete(element: E): boolean {
@@ -186,7 +186,7 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
 
   /**
    * The deleteAt function deletes the element at a given index.
-   * @param index: number Determine the index of the element to be deleted
+   * @param {number} index - Determine the index of the element to be deleted
    * @return A boolean value
    */
   deleteAt(index: number): boolean {
