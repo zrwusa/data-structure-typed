@@ -22,14 +22,12 @@ JavaScript和TypeScript的数据结构。
 
 **`基准测试`** 与C++ STL相比。**`API 标准`** 与ES6和Java对齐。**`易用性`**  可与Python媲美。
 
-
 ### 提供了JS/TS中没有的数据结构
 
-Heap, Binary Tree, RedBlack Tree, Linked List, Deque, Trie, Directed Graph, Undirected Graph, BST, AVL Tree, Priority Queue, Queue, Tree Multiset.
-
+Heap, Binary Tree, RedBlack Tree, Linked List, Deque, Trie, Directed Graph, Undirected Graph, BST, AVL Tree, Priority
+Queue, Queue, Tree Multiset.
 
 ### 性能超越原生JS/TS
-
 
 <table style="display: table; width:100%; table-layout: fixed;">
   <thead>
@@ -133,19 +131,21 @@ import {
 #### 开发环境
 
 ```html
+
 <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.js'></script>
 ```
 
 #### 生产环境
 
 ```html
+
 <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js'></script>
 ```
 
 将下面的代码复制到你的 HTML 的 script 标签中，你就可以开始你的开发了。
 
 ```js
-const {Heap} = dataStructureTyped;
+const { Heap } = dataStructureTyped;
 const {
   BinaryTree, Graph, Queue, Stack, PriorityQueue, BST, Trie, DoublyLinkedList,
   AVLTree, MinHeap, SinglyLinkedList, DirectedGraph, TreeMultiMap,
@@ -157,7 +157,8 @@ const {
 
 ### Binary Tree（二叉树）
 
-[试一下](https://vivid-algorithm.vercel.app/)，或者你可以使用我们的可视化工具运行自己的代码 [visual tool](https://github.com/zrwusa/vivid-algorithm)
+[试一下](https://vivid-algorithm.vercel.app/)
+，或者你可以使用我们的可视化工具运行自己的代码 [visual tool](https://github.com/zrwusa/vivid-algorithm)
 
 ![](https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/examples/videos/webp_output/binary-tree-array-to-binary-tree.webp)
 
@@ -202,8 +203,9 @@ const {
 ### 红黑树 代码示例
 
 #### TS
+
 ```ts
-import {RedBlackTree} from 'data-structure-typed';
+import { RedBlackTree } from 'data-structure-typed';
 
 const rbTree = new RedBlackTree<number>();
 rbTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
@@ -223,8 +225,9 @@ rbTree.print()
 ```
 
 #### JS
+
 ```js
-import {RedBlackTree} from 'data-structure-typed';
+import { RedBlackTree } from 'data-structure-typed';
 
 const rbTree = new RedBlackTree();
 rbTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
@@ -246,7 +249,7 @@ rbTree.print()
 ### 二叉搜索树 (BST) 代码示例
 
 ```ts
-import {BST, BSTNode} from 'data-structure-typed';
+import { BST, BSTNode } from 'data-structure-typed';
 
 const bst = new BST<number>();
 bst.add(11);
@@ -278,7 +281,7 @@ bst.print()
 //            \                          
 //            7
 
-const objBST = new BST<number, {height: number, age: number}>();
+const objBST = new BST<number, { height: number, age: number }>();
 
 objBST.add(11, { "name": "Pablo", "age": 15 });
 objBST.add(3, { "name": "Kirk", "age": 1 });
@@ -307,7 +310,7 @@ objBST.delete(11);
 ### AVL树 代码示例
 
 ```ts
-import {AVLTree} from 'data-structure-typed';
+import { AVLTree } from 'data-structure-typed';
 
 const avlTree = new AVLTree<number>();
 avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
@@ -319,7 +322,7 @@ avlTree.isAVLBalanced();    // true
 ### 有向图代码示例
 
 ```ts
-import {DirectedGraph} from 'data-structure-typed';
+import { DirectedGraph } from 'data-structure-typed';
 
 const graph = new DirectedGraph<string>();
 
@@ -348,7 +351,7 @@ const topologicalOrderKeys = graph.topologicalSort(); // ['A', 'B', 'C']
 ### 无向图代码示例
 
 ```ts
-import {UndirectedGraph} from 'data-structure-typed';
+import { UndirectedGraph } from 'data-structure-typed';
 
 const graph = new UndirectedGraph<string>();
 graph.addVertex('A');
@@ -373,31 +376,31 @@ const orgStrArr = ["trie", "trial", "trick", "trip", "tree", "trend", "triangle"
 const entries = [[6, 6], [1, 1], [2, 2], [7, 7], [5, 5], [3, 3], [4, 4], [9, 9], [8, 8]];
 
 const queue = new Queue(orgArr);
-queue.print();      
+queue.print();
 // [6, 1, 2, 7, 5, 3, 4, 9, 8]
 
 const deque = new Deque(orgArr);
-deque.print();      
+deque.print();
 // [6, 1, 2, 7, 5, 3, 4, 9, 8]
 
 const sList = new SinglyLinkedList(orgArr);
-sList.print();      
+sList.print();
 // [6, 1, 2, 7, 5, 3, 4, 9, 8]
 
 const dList = new DoublyLinkedList(orgArr);
-dList.print();      
+dList.print();
 // [6, 1, 2, 7, 5, 3, 4, 9, 8]
 
 const stack = new Stack(orgArr);
-stack.print();      
+stack.print();
 // [6, 1, 2, 7, 5, 3, 4, 9, 8]
 
 const minHeap = new MinHeap(orgArr);
-minHeap.print();    
+minHeap.print();
 // [1, 5, 2, 7, 6, 3, 4, 9, 8]
 
 const maxPQ = new MaxPriorityQueue(orgArr);
-maxPQ.print();      
+maxPQ.print();
 // [9, 8, 4, 7, 5, 2, 3, 1, 6]
 
 const biTree = new BinaryTree(entries);
@@ -453,7 +456,7 @@ treeMulti.print();
 //              7   9
 
 const hm = new HashMap(entries);
-hm.print()    
+hm.print()
 // [[6, 6], [1, 1], [2, 2], [7, 7], [5, 5], [3, 3], [4, 4], [9, 9], [8, 8]]
 
 const rbTreeH = new RedBlackTree(hm);
@@ -467,7 +470,7 @@ rbTreeH.print();
 //              7   9
 
 const pq = new MinPriorityQueue(orgArr);
-pq.print();   
+pq.print();
 // [1, 5, 2, 7, 6, 3, 4, 9, 8]
 
 const bst1 = new BST(pq);
@@ -481,7 +484,7 @@ bst1.print();
 //        4         9
 
 const dq1 = new Deque(orgArr);
-dq1.print();    
+dq1.print();
 // [6, 1, 2, 7, 5, 3, 4, 9, 8]
 const rbTree1 = new RedBlackTree(dq1);
 rbTree1.print();
@@ -495,13 +498,13 @@ rbTree1.print();
 
 
 const trie2 = new Trie(orgStrArr);
-trie2.print();    
+trie2.print();
 // ['trie', 'trial', 'triangle', 'trick', 'trip', 'tree', 'trend', 'track', 'trace', 'transmit']
 const heap2 = new Heap(trie2, { comparator: (a, b) => Number(a) - Number(b) });
-heap2.print();    
+heap2.print();
 // ['transmit', 'trace', 'tree', 'trend', 'track', 'trial', 'trip', 'trie', 'trick', 'triangle']
 const dq2 = new Deque(heap2);
-dq2.print();      
+dq2.print();
 // ['transmit', 'trace', 'tree', 'trend', 'track', 'trial', 'trip', 'trie', 'trick', 'triangle']
 const entries2 = dq2.map((el, i) => [i, el]);
 const avl2 = new AVLTree(entries2);
@@ -668,6 +671,193 @@ avl2.print();
 <td><a href="https://data-structure-typed-docs.vercel.app/classes/BinaryIndexedTree.html"><span>View</span></a></td>
 </tr>
 </tbody>
+</table>
+
+## 形象比喻与选型
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>分类</th>
+        <th>数据结构</th>
+        <th>选型原因</th>
+        <th>大白话描述</th>
+        <th>图示</th>
+    </tr>
+    <tr>
+        <td rowspan="7">线性结构</td>
+        <td>Array</td>
+        <td>需要快速随机访问，固定大小，元素类型相同</td>
+        <td>
+            一排编号的兔子。如果你想找到名叫Pablo的兔子，你可以直接喊出Pablo的号码0680（通过数组索引直接找到元素，时间复杂度O(1)）。但是，如果你不知道Pablo的号码，你仍然需要逐个搜索（时间复杂度O(n)）。此外，如果你想在Pablo后面添加一只名叫Vicky的兔子，你需要重新为Vicky之后的所有兔子编号（时间复杂度O(n)）。
+        </td>
+        <td><img width="200" alt="array"
+                 src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/array.png"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Linked List</td>
+        <td>需要频繁插入删除，大小可变</td>
+        <td>
+            一排兔子，每只兔子抓着前面兔子的尾巴（每只兔子只知道它后面兔子的名字）。你想找一只名叫Pablo的兔子，你必须从第一只兔子开始搜索。如果不是Pablo，你就继续顺着那只兔子的尾巴找下一只。所以，你可能需要搜索n次才能找到Pablo（时间复杂度O(n)）。如果你想在Pablo和Vicky之间插入一只名叫Remi的兔子，这很简单。你只需让Vicky放开Pablo的尾巴，让Remi抓住Pablo的尾巴，然后让Vicky抓住Remi的尾巴（时间复杂度O(1)）。
+        </td>
+        <td><img width="200" alt="singly linked list"
+                 src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/singly-linked-list.png"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Singly Linked List</td>
+        <td>只需要单向遍历，内存占用较少</td>
+        <td>与链表描述相同。</td>
+        <td><img width="200" alt="singly linked list"
+                 src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/singly-linked-list.png"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Doubly Linked List</td>
+        <td>需要双向遍历，允许从尾部快速删除</td>
+        <td>
+            一排兔子，每只兔子抓着前面兔子的尾巴（每只兔子知道相邻两只兔子的名字）。这为单向链表提供了向前搜索的能力，仅此而已。例如，如果你直接来到队列中的Remi兔子那里，问她Vicky在哪里，她会说在我后面抓着我尾巴的那只，如果你问她Pablo在哪里，她会说就在前面。
+        </td>
+        <td><img width="200" alt="doubly linked list"
+                 src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/doubly-linked-list.png"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Queue</td>
+        <td>需要先进先出（FIFO）的处理顺序</td>
+        <td>
+            一排编号的兔子，第一只兔子身上贴着便利贴。对于这个贴有便利贴的队列，每当我们想从队列前面移除一只兔子时，我们只需要将便利贴移到下一只兔子的脸上，而不需要实际移除兔子，以避免重新为后面所有的兔子编号（从前面移除也是O(1)时间复杂度）。对于队列尾部，我们不需要担心，因为每只新添加到尾部的兔子直接被赋予一个新编号（O(1)时间复杂度），不需要重新为之前所有的兔子编号。
+        </td>
+        <td><img width="200" alt="queue"
+                 src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/queue.jpg"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Deque</td>
+        <td>需要在两端都能快速插入和删除</td>
+        <td>
+            一排分组编号的兔子，第一只兔子身上贴着便利贴。对于这个队列，我们按组管理。每次从队列前面移除一只兔子时，我们只将便利贴移到下一只兔子身上。这样，我们不需要每次移除第一只兔子时都重新为后面所有的兔子编号。只有当一个组的所有成员都被移除时，我们才重新分配编号和分组。尾部的处理也是类似的。这是一种延迟和批量操作的策略，以抵消数组数据结构在中间插入或删除元素时需要移动所有后续元素的缺点。
+        </td>
+        <td><img width="200" alt="deque"
+                 src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/deque.png"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Stack</td>
+        <td>需要后进先出（LIFO）的处理顺序</td>
+        <td>一排兔子在一个死胡同隧道里，兔子只能从隧道入口（末端）被移除，新兔子也只能从入口（末端）被添加。</td>
+        <td><img width="200" alt="stack"
+                 src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/stack.jpg"/>
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="5">树结构</td>
+        <td>Binary Tree</td>
+        <td>需要层次结构，每个节点最多有两个子节点</td>
+        <td>顾名思义，它是一棵每个节点最多有两个子节点的树。当你添加连续的数据如[4, 2, 6, 1, 3, 5, 7]时，它将是一个完全二叉树。当你添加像[4,
+            2, 6, null, 1, 3, null, 5, null, 7]这样的数据时，你可以指定任何左或右子节点是否为空，树的形状是完全可控的。
+        </td>
+        <td><img width="200" alt="binary tree"
+                 src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/binary-tree.png"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Binary Search Tree</td>
+        <td>需要快速查找、插入和删除，但不要求严格平衡</td>
+        <td>一个由双向链表组成的树状兔子群落，每只兔子最多有两条尾巴。这些兔子有纪律且听话，按照一定的顺序排列在自己的位置上。二叉树中最重要的数据结构（核心是插入、删除、修改、查找的时间复杂度为O(log
+            n)）。BST中存储的数据是结构化和有序的，不是严格的1、2、3、4、5这样的顺序，而是保持左子树中的所有节点小于节点，右子树中的所有节点大于节点。这种顺序为插入、删除、修改和搜索提供了O(log
+            n)的时间复杂度。将O(n)降低到O(log n)是计算机领域最常见的算法复杂度优化，效率提升是指数级的。它也是将无序数据组织成有序数据的最有效方式（大多数排序算法只能保持O(n
+            log n)）。当然，我们提供的二叉搜索树支持以升序和降序组织数据。请记住，基本的BST没有自平衡能力，如果你顺序添加已排序的数据到这个数据结构中，它将退化成一个列表，从而失去O(log
+            n)的能力。当然，我们的addMany方法经过特殊处理以防止退化。但是，对于实际应用，请尽可能使用红黑树或AVL树，因为它们天生就具有自平衡功能。
+        </td>
+        <td><img width="200" alt="binary search tree"
+                 src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/binary-search-tree.png"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Red Black Tree</td>
+        <td>需要自平衡的二叉搜索树，保证最坏情况下的性能</td>
+        <td>
+            一个由双向链表组成的树状兔子群落，每只兔子最多有两条尾巴。这些兔子不仅听话，而且聪明，会自动按照一定的顺序排列自己的位置。一种自平衡的二叉搜索树。每个节点都标有红黑标记。确保没有任何路径比其他路径长两倍以上（保持一定的平衡以提高搜索、添加和删除的速度）。
+        </td>
+        <td><img width="200" alt="red-black tree"
+                 src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/red-black tree.png"/>
+        </td>
+    </tr>
+    <tr>
+        <td>AVL Tree</td>
+        <td>需要严格平衡的二叉搜索树，读取操作频繁</td>
+        <td>
+            一个由双向链表组成的树状兔子群落，每只兔子最多有两条尾巴。这些兔子不仅听话和聪明，会自动按照一定的顺序排列自己的位置，而且遵循非常严格的规则。一种自平衡的二叉搜索树。每个节点都标有平衡因子，表示其左右子树的高度差。平衡因子的绝对值不超过1（保持更严格的平衡，使得搜索效率高于红黑树，但插入和删除操作会更复杂，相对效率较低）。
+        </td>
+        <td><img width="200" alt="avl tree"
+                 src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/avl-tree.png"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Trie</td>
+        <td>需要高效地存储和搜索字符串，特别是前缀匹配</td>
+        <td>一种特殊的树结构，用于高效存储和检索字符串数据集中的键。这种结构特别适用于实现字典和支持前缀搜索。</td>
+        <td>（图示暂缺）</td>
+    </tr>
+    <tr>
+        <td rowspan="2">堆</td>
+        <td>Heap</td>
+        <td>需要快速获取最大或最小元素</td>
+        <td>
+            一种特殊的完全二叉树，通常存储在数组中，其中索引为i的节点的子节点位于索引2i+1和2i+2处。自然地，任何节点的父节点位于⌊(i−1)/2⌋处。
+        </td>
+        <td><img width="200" alt="heap"
+                 src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/heap.jpg"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Priority Queue</td>
+        <td>需要按优先级处理元素</td>
+        <td>实际上就是一个堆。</td>
+        <td><img width="200" alt="priority queue"
+                 src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/heap.jpg"/>
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="3">图结构</td>
+        <td>Graph</td>
+        <td>需要表示复杂的关系网络</td>
+        <td>有向图和无向图的基类，提供一些公共方法。</td>
+        <td><img width="200" alt="graph"
+                 src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/graph.png"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Directed Graph</td>
+        <td>需要表示单向关系</td>
+        <td>一个网络状的兔子群，每只兔子最多可以有n条尾巴（单向链表）。</td>
+        <td><img width="200" alt="directed graph"
+                 src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/directed-graph.png"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Undirected Graph</td>
+        <td>需要表示双向关系</td>
+        <td>一个网络状的兔子群，每只兔子最多可以有n条尾巴（双向链表）。</td>
+        <td><img width="200" alt="undirected graph"
+                 src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/undirected-graph.png"/>
+        </td>
+    </tr>
+    <tr>
+        <td>哈希结构</td>
+        <td>HashMap</td>
+        <td>需要快速的键值对查找</td>
+        <td>一种基于键的哈希值来存储数据的结构，允许以接近O(1)的时间复杂度进行插入、删除和查找操作。</td>
+        <td>（图示暂缺）</td>
+    </tr>
+    <tr>
+        <td>集合结构</td>
+        <td>Multiset</td>
+        <td>需要存储重复元素并快速统计元素出现次数</td>
+        <td>一种允许重复元素的集合，通常用于需要快速统计元素出现次数的场景。</td>
+        <td>（图示暂缺）</td>
+    </tr>
 </table>
 
 ## 不同编程语言中的数据结构对应关系
