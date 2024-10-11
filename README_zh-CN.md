@@ -675,7 +675,7 @@ avl2.print();
 
 ## 形象比喻与选型
 
-<table border="1" cellpadding="10">
+<table>
     <tr>
         <th>分类</th>
         <th>数据结构</th>
