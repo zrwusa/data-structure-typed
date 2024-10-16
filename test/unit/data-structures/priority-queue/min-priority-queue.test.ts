@@ -60,4 +60,21 @@ describe('MinPriorityQueue Operation Test', () => {
     const sortedArray = priorityQueue.sort();
     expect(sortedArray).toEqual([1, 3, 5, 7]);
   });
+
+  it('should MinPriorityQueue filter, map work well', function () {
+    const minPQ2 = new MinPriorityQueue<number>([]);
+    minPQ2.refill([2, 5, 8, 1, 6, 7, 4]);
+
+    const cloned = minPQ2.clone();
+    const filtered = cloned.filter(item => item % 2 === 1);
+    expect(filtered instanceof MinPriorityQueue).toBe(true);
+    expect([...filtered]).toEqual([1, 5, 7]);
+
+    const mapped = filtered.map(
+      item => ({ key: item }),
+      (a, b) => a.key - b.key
+    );
+    expect(mapped instanceof MinPriorityQueue).toBe(true);
+    expect([...mapped]).toEqual([{ key: 1 }, { key: 5 }, { key: 7 }]);
+  });
 });

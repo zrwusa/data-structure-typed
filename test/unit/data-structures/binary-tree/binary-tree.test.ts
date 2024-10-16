@@ -767,12 +767,12 @@ describe('BinaryTree iterative methods test', () => {
     binaryTree.add([3, 'c']);
   });
 
-  test('The node obtained by get Node should match the node type', () => {
+  it('The node obtained by get Node should match the node type', () => {
     const node3 = binaryTree.getNode(3);
     expect(node3).toBeInstanceOf(BinaryTreeNode);
   });
 
-  test('forEach should iterate over all elements', () => {
+  it('forEach should iterate over all elements', () => {
     const mockCallback = jest.fn();
     binaryTree.forEach((value, key) => {
       mockCallback(value, key);
@@ -784,7 +784,7 @@ describe('BinaryTree iterative methods test', () => {
     expect(mockCallback.mock.calls[2]).toEqual(['c', 3]);
   });
 
-  test('filter should return a new tree with filtered elements', () => {
+  it('filter should return a new tree with filtered elements', () => {
     const filteredTree = binaryTree.filter((value, key) => key > 1);
     expect(filteredTree.size).toBe(2);
     expect([...filteredTree]).toEqual([
@@ -793,7 +793,7 @@ describe('BinaryTree iterative methods test', () => {
     ]);
   });
 
-  test('map should return a new tree with modified elements', () => {
+  it('map should return a new tree with modified elements', () => {
     const mappedTree = binaryTree.map((value, key) => (key * 2).toString());
     expect(mappedTree.size).toBe(3);
     expect([...mappedTree]).toEqual([
@@ -803,12 +803,12 @@ describe('BinaryTree iterative methods test', () => {
     ]);
   });
 
-  test('reduce should accumulate values', () => {
+  it('reduce should accumulate values', () => {
     const sum = binaryTree.reduce((acc, currentValue, currentKey) => acc + currentKey, 0);
     expect(sum).toBe(6);
   });
 
-  test('[Symbol.iterator] should provide an iterator', () => {
+  it('[Symbol.iterator] should provide an iterator', () => {
     const entries = [];
     for (const entry of binaryTree) {
       entries.push(entry);
@@ -822,23 +822,23 @@ describe('BinaryTree iterative methods test', () => {
     ]);
   });
 
-  test('should clone work well', () => {
+  it('should clone work well', () => {
     const cloned = binaryTree.clone();
     expect(cloned.root?.left?.key).toBe(2);
     expect(cloned.root?.right?.value).toBe('c');
   });
 
-  test('should keys', () => {
+  it('should keys', () => {
     const keys = binaryTree.keys();
     expect([...keys]).toEqual([2, 1, 3]);
   });
 
-  test('should values', () => {
+  it('should values', () => {
     const values = binaryTree.values();
     expect([...values]).toEqual(['b', 'a', 'c']);
   });
 
-  test('should iterative method return undefined when the node is null', () => {
+  it('should iterative method return undefined when the node is null', () => {
     const tree = new BinaryTree();
     tree.addMany([-10, -10, -10, 9, 9, 20, null, null, 15, 7, 8, null, 2, null, 6, null, null, 8, 8, 8]);
     const bfsResult = tree.bfs(undefined, undefined, undefined, true);

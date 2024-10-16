@@ -2,9 +2,15 @@ import { FibonacciHeap, Heap, MaxHeap, MinHeap } from '../../../../src';
 import { logBigOMetricsWrap } from '../../../utils';
 
 describe('Heap Operation Test', () => {
+  it('should initiate heap', function () {
+    const hp = new Heap<number>();
+    hp.add(1);
+    expect(hp.size).toBe(1);
+  });
+
   it('should heap add and delete work well', function () {
     const hp = new MinHeap<number>();
-
+    expect(hp.delete(1)).toBe(false);
     hp.add(2);
     hp.add(3);
     hp.add(1);
@@ -23,6 +29,7 @@ describe('Heap Operation Test', () => {
 
   it('should numeric heap work well', function () {
     const minNumHeap = new MinHeap<number>();
+    expect(minNumHeap.poll()).toBe(undefined);
     minNumHeap.add(1);
     minNumHeap.add(6);
     minNumHeap.add(2);
@@ -219,8 +226,47 @@ describe('Heap Operation Test', () => {
 
     expect([...heap.sort()]).toEqual([1, 3, 4, 5, 6, 7, 8]);
   });
+
+  it('should getter leaf', function () {
+    const hp = new Heap<number>();
+    expect(hp.leaf).toBe(undefined);
+    hp.add(1);
+    expect(hp.leaf).toBe(1);
+  });
+
+  it('should error', function () {
+    expect(() => {
+      new Heap([{ key: 1 }, { key: 2 }, { key: 3 }]);
+    }).toThrow(
+      "When comparing object types, a custom comparator must be defined in the constructor's options parameter."
+    );
+  });
 });
 
+describe('Heap HOF', () => {
+  let hp: Heap;
+
+  beforeEach(() => {
+    hp = new Heap([{ key: 1 }, { key: 2 }, { key: 3 }], { comparator: (a, b) => a.key - b.key });
+  });
+
+  it('should filter', () => {
+    const filtered = hp.filter(({ key }) => key % 2 === 1);
+    expect([...filtered]).toEqual([{ key: 1 }, { key: 3 }]);
+  });
+
+  it('should map', () => {
+    const mapped = hp.map(
+      ({ key }) => [key, key],
+      (a, b) => a[0] - b[0]
+    );
+    expect([...mapped]).toEqual([
+      [1, 1],
+      [2, 2],
+      [3, 3]
+    ]);
+  });
+});
 describe('FibonacciHeap', () => {
   let heap: FibonacciHeap<number>;
 
@@ -411,41 +457,3 @@ describe('FibonacciHeap Stress Test', () => {
     );
   });
 });
-
-// describe('Competitor performance compare', () => {
-//   const minHeap = new MinHeap<number>();
-//   const cHeap = new CHeap<number>();
-//   const cPQ = new PriorityQueue<number>(undefined, (a, b) => a - b);
-//   const n = 100000;
-//
-//   it('should add performance well', () => {
-//     const heapCost = calcRunTime(() => {
-//       for (let i = 0; i < n; i++) {
-//         minHeap.add(i);
-//       }
-//     })
-//
-//     console.log(`heapCost: ${heapCost}`)
-//   });
-//
-//   it('should add performance well', () => {
-//
-//     const cHeapCost = calcRunTime(() => {
-//       for (let i = 0; i < n; i++) {
-//         cHeap.push(i);
-//       }
-//     })
-//
-//     console.log(`cHeapCost: ${cHeapCost}`)
-//   });
-//
-//   it('should add performance well', () => {
-//
-//     const cPQCost = calcRunTime(() => {
-//       for (let i = 0; i < n; i++) {
-//         cPQ.push(i);
-//       }
-//     })
-//     console.log(`cPQCost: ${cPQCost}`)
-//   });
-// });

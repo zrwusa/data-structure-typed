@@ -20,14 +20,27 @@ describe('DoublyLinkedList Operation Test', () => {
     expect(list.getNodeAt(-1)).toBe(undefined);
     expect(list.getNodeAt(5)).toBe(undefined);
     expect(list.addAt(5, 6)).toBe(true);
+    expect(list.addAt(-1, 6)).toBe(false);
+    expect(list.addAt(7, 6)).toBe(false);
+    expect(list.addAt(100, 6)).toBe(false);
   });
 
   it('should addBefore', () => {
     expect(list.addBefore(1, 0)).toBe(true);
+    expect(list.addBefore(list.getNode(1)!, 2)).toBe(true);
+    expect([...list]).toEqual([0, 2, 1, 2, 3, 4, 5]);
   });
 
   it('should deleteAt', () => {
-    expect(list.deleteAt(1)).toBeTruthy();
+    expect(list.deleteAt(1)).toBe(true);
+    expect(list.deleteAt(-1)).toBe(false);
+    expect(list.deleteAt(list.size)).toBe(false);
+    expect(list.size).toBe(4);
+    expect(list.deleteAt(4)).toBe(false);
+    expect([...list]).toEqual([1, 3, 4, 5]);
+    expect(list.isEmpty()).toBe(false);
+    expect(list.deleteAt(3)).toBe(true);
+    expect([...list]).toEqual([1, 3, 4]);
   });
 
   it('should delete tail', () => {
@@ -94,6 +107,13 @@ describe('DoublyLinkedList Operation Test', () => {
     expect(list.tail).toBe(undefined);
   });
 
+  it('should initialize with toElementFn', () => {
+    const dl = new DoublyLinkedList([{ key: 1 }, { key: 2 }, { key: 3 }], { toElementFn: ({ key }) => key });
+    expect([...dl]).toEqual([1, 2, 3]);
+    expect(dl.first).toBe(1);
+    expect(dl.last).toBe(3);
+  });
+
   it('should push elements to the list', () => {
     list.push(1);
     list.push(2);
@@ -111,8 +131,13 @@ describe('DoublyLinkedList Operation Test', () => {
     expect(list.size).toBe(1);
     expect(list.head!.value).toBe(1);
     expect(list.tail!.value).toBe(1);
+    list.pop();
+    expect([...list]).toEqual([]);
+    list.pop();
+    expect([...list]).toEqual([]);
   });
   it('should insert elements at specific positions', () => {
+    expect(list.at(0)).toBe(undefined);
     list.push(1);
     list.push(2);
     list.push(3);
@@ -134,6 +159,8 @@ describe('DoublyLinkedList Operation Test', () => {
     expect(list.size).toBe(6);
     expect(list.at(5)).toBe(4);
     expect(list.tail!.value).toBe(4);
+    expect(list.at(-1)).toBe(undefined);
+    expect(list.at(6)).toBe(undefined);
   });
 
   it('should delete elements at specific positions', () => {
@@ -445,9 +472,11 @@ describe('iterable methods', () => {
     expect(dl.reduce((accumulator, element) => accumulator + element, 0)).toEqual(6);
   });
 
-  test('values', () => {
+  it('values', () => {
     const dl = new DoublyLinkedList<number>();
-    dl.push(1);
+    dl.shift();
+    expect([...dl]).toEqual([]);
+    dl.unshift(1);
     dl.push(2);
     dl.push(3);
     dl.delete(2);
@@ -458,7 +487,7 @@ describe('iterable methods', () => {
     expect([...dl.values()]).toEqual([3, 1]);
   });
 
-  test('some', () => {
+  it('some', () => {
     const dl = new DoublyLinkedList<number>();
     dl.push(1);
     dl.push(2);

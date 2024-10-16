@@ -22,6 +22,14 @@ describe('Matrix', () => {
     ]);
   });
 
+  it('should initiate with empty', () => {
+    matrix = new Matrix([], { rows: 2, cols: 2 });
+    expect(matrix.data).toEqual([
+      [0, 0],
+      [0, 0]
+    ]);
+  });
+
   it('should get a value at a specific position', () => {
     expect(matrix.get(1, 1)).toBe(0);
     expect(matrix.get(2, 2)).toBe(0);
@@ -213,7 +221,7 @@ describe('Matrix', () => {
   });
 
   describe('transpose', () => {
-    test('should transpose a matrix with numeric values correctly', () => {
+    it('should transpose a matrix with numeric values correctly', () => {
       const originalMatrix = new Matrix([
         [1, 2, 3],
         [4, 5, 6],
@@ -231,7 +239,7 @@ describe('Matrix', () => {
       ]);
     });
 
-    test('should transpose an empty matrix correctly', () => {
+    it('should transpose an empty matrix correctly', () => {
       const originalMatrix = new Matrix([]);
 
       const transposedMatrix = originalMatrix.transpose();
@@ -241,7 +249,7 @@ describe('Matrix', () => {
       expect(transposedMatrix.data).toEqual([]);
     });
 
-    test('should throw an error when transposing a non-rectangular matrix', () => {
+    it('should throw an error when transposing a non-rectangular matrix', () => {
       const originalMatrix = new Matrix([
         [1, 2, 3],
         [4, 5]
@@ -292,10 +300,32 @@ describe('Matrix', () => {
         [-0.046511627906976744, -0.023255813953488372, 0.23255813953488372]
       ]);
     });
+
+    it('should throw error when cols does not equal to rows', () => {
+      const data: number[][] = [
+        [4, 7, 2],
+        [2, 6, 3]
+      ];
+
+      const matrix = new Matrix(data);
+      expect(() => matrix.inverse()).toThrow('Matrix must be square for inversion.');
+    });
+
+    it('should clone', () => {
+      const data: number[][] = [
+        [4, 7, 2],
+        [2, 6, 3]
+      ];
+
+      const matrix = new Matrix(data);
+      const cloned = matrix.clone();
+      expect(cloned instanceof Matrix).toBe(true);
+      expect(cloned.data).toEqual(data);
+    });
   });
 
   describe('dot', () => {
-    test('should calculate the dot product of two matrices', () => {
+    it('should calculate the dot product of two matrices', () => {
       const matrix1 = new Matrix([
         [1, 2],
         [3, 4]
@@ -313,7 +343,7 @@ describe('Matrix', () => {
       ]);
     });
 
-    test('should throw an error for incompatible matrices', () => {
+    it('should throw an error for incompatible matrices', () => {
       const matrix1 = new Matrix([
         [1, 2],
         [3, 4]

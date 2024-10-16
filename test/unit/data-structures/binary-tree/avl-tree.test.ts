@@ -339,14 +339,14 @@ describe('AVLTree iterative methods test', () => {
     avl.add([3, 'c']);
   });
 
-  test('The node obtained by get Node should match the node type', () => {
+  it('The node obtained by get Node should match the node type', () => {
     const node3 = avl.getNode(3);
     expect(node3).toBeInstanceOf(BinaryTreeNode);
     expect(node3).toBeInstanceOf(BSTNode);
     expect(node3).toBeInstanceOf(AVLTreeNode);
   });
 
-  test('forEach should iterate over all elements', () => {
+  it('forEach should iterate over all elements', () => {
     const mockCallback = jest.fn();
     avl.forEach((value, key) => {
       mockCallback(value, key);
@@ -358,7 +358,7 @@ describe('AVLTree iterative methods test', () => {
     expect(mockCallback.mock.calls[2]).toEqual(['c', 3]);
   });
 
-  test('filter should return a new tree with filtered elements', () => {
+  it('filter should return a new tree with filtered elements', () => {
     const filteredTree = avl.filter((value, key) => key > 1);
     expect(filteredTree.size).toBe(2);
     expect([...filteredTree]).toEqual([
@@ -367,7 +367,7 @@ describe('AVLTree iterative methods test', () => {
     ]);
   });
 
-  test('map should return a new tree with modified elements', () => {
+  it('map should return a new tree with modified elements', () => {
     const mappedTree = avl.map((value, key) => (key * 2).toString());
     expect(mappedTree.size).toBe(3);
     expect([...mappedTree]).toEqual([
@@ -377,12 +377,12 @@ describe('AVLTree iterative methods test', () => {
     ]);
   });
 
-  test('reduce should accumulate values', () => {
+  it('reduce should accumulate values', () => {
     const sum = avl.reduce((acc, value, key) => acc + key, 0);
     expect(sum).toBe(6);
   });
 
-  test('[Symbol.iterator] should provide an iterator', () => {
+  it('[Symbol.iterator] should provide an iterator', () => {
     const entries = [];
     for (const entry of avl) {
       entries.push(entry);
@@ -396,18 +396,18 @@ describe('AVLTree iterative methods test', () => {
     ]);
   });
 
-  test('should clone work well', () => {
+  it('should clone work well', () => {
     const cloned = avl.clone();
     expect(cloned.root?.left?.key).toBe(1);
     expect(cloned.root?.right?.value).toBe('c');
   });
 
-  test('should keys', () => {
+  it('should keys', () => {
     const keys = avl.keys();
     expect([...keys]).toEqual([1, 2, 3]);
   });
 
-  test('should values', () => {
+  it('should values', () => {
     const values = avl.values();
     expect([...values]).toEqual(['a', 'b', 'c']);
   });

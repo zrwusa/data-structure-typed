@@ -139,14 +139,6 @@ class MyDirectedGraph<
   override createEdge(src: VertexKey, dest: VertexKey, weight?: number, value?: E): EO {
     return new MyEdge(src, dest, weight ?? 1, value) as EO;
   }
-
-  setInEdgeMap(value: Map<VO, EO[]>) {
-    this._inEdgeMap = value;
-  }
-
-  setOutEdgeMap(value: Map<VO, EO[]>) {
-    this._outEdgeMap = value;
-  }
 }
 
 describe('Inherit from DirectedGraph and perform operations', () => {
@@ -172,8 +164,8 @@ describe('Inherit from DirectedGraph and perform operations', () => {
     myGraph.addVertex(2, 'data2');
     myGraph.addEdge(1, 2, 10, 'edge-data1-2');
     myGraph.addEdge(new MyEdge(2, 1, 20, 'edge-data2-1'));
-    myGraph.setInEdgeMap(myGraph.inEdgeMap);
-    myGraph.setOutEdgeMap(myGraph.outEdgeMap);
+    myGraph.inEdgeMap = myGraph.inEdgeMap;
+    myGraph.outEdgeMap = myGraph.outEdgeMap;
 
     expect(myGraph.edgeSet().length).toBe(2);
     // TODO
@@ -205,11 +197,14 @@ describe('Inherit from DirectedGraph and perform operations', () => {
   });
 
   it('Remove edge between vertexMap', () => {
+    expect(myGraph.isEmpty()).toBe(true);
     myGraph.addVertex(1, 'data1');
     myGraph.addVertex(2, 'data2');
     myGraph.addEdge(1, 2, 10, 'edge-data1-2');
+    expect(myGraph.isEmpty()).toBe(false);
 
     const removedEdge = myGraph.deleteEdgeSrcToDest(1, 2);
+    expect(myGraph.deleteEdgeSrcToDest(2, 10)).toBe(undefined);
     const edgeAfterRemoval = myGraph.getEdge(1, 2);
 
     expect(removedEdge).toBeInstanceOf(MyEdge);
@@ -218,6 +213,25 @@ describe('Inherit from DirectedGraph and perform operations', () => {
       removedEdge && expect(removedEdge.src).toBe(1);
     }
     expect(edgeAfterRemoval).toBe(undefined);
+  });
+
+  it('should clear', () => {
+    expect(myGraph.isEmpty()).toBe(true);
+    myGraph.addVertex(1, 'data1');
+    myGraph.addVertex(2, 'data2');
+    myGraph.addEdge(1, 2, 10, 'edge-data1-2');
+    expect(myGraph.isEmpty()).toBe(false);
+    myGraph.clear();
+    expect(myGraph.isEmpty()).toBe(true);
+  });
+
+  it('should clone', () => {
+    myGraph.addVertex(1, 'data1');
+    myGraph.addVertex(2, 'data2');
+    myGraph.addEdge(1, 2, 10, 'edge-data1-2');
+    const cloned = myGraph.clone();
+    expect(cloned.hasVertex(1)).toBe(true);
+    expect(cloned.hasEdge(1, 2)).toBe(true);
   });
 
   it('Topological sort', () => {
@@ -656,7 +670,7 @@ describe('DirectedGraph iterative Methods', () => {
     vertexMap.forEach(vertex => graph.addVertex(vertex));
   });
 
-  test('[Symbol.iterator] should iterate over all vertexMap', () => {
+  it('[Symbol.iterator] should iterate over all vertexMap', () => {
     const iteratedVertices = [];
     for (const vertex of graph) {
       iteratedVertices.push(vertex[0]);
@@ -664,13 +678,13 @@ describe('DirectedGraph iterative Methods', () => {
     expect(iteratedVertices).toEqual(vertexMap);
   });
 
-  test('forEach should apply a function to each vertex', () => {
+  it('forEach should apply a function to each vertex', () => {
     const result: VertexKey[] = [];
     graph.forEach((value, key) => key && result.push(key));
     expect(result).toEqual(vertexMap);
   });
 
-  test('filter should return vertexMap that satisfy the condition', () => {
+  it('filter should return vertexMap that satisfy the condition', () => {
     const filtered = graph.filter((value, vertex) => vertex === 'A' || vertex === 'B');
     expect(filtered).toEqual([
       ['A', undefined],
@@ -678,17 +692,17 @@ describe('DirectedGraph iterative Methods', () => {
     ]);
   });
 
-  test('map should apply a function to each vertex and return a new array', () => {
+  it('map should apply a function to each vertex and return a new array', () => {
     const mapped = graph.map((value, vertex) => vertex + '_mapped');
     expect(mapped).toEqual(vertexMap.map(v => v + '_mapped'));
   });
 
-  test('reduce should accumulate a value based on each vertex', () => {
+  it('reduce should accumulate a value based on each vertex', () => {
     const concatenated = graph.reduce((acc, value, key) => acc + key, '');
     expect(concatenated).toBe(vertexMap.join(''));
   });
 
-  test('Removing an edge of a DirectedGraph should delete additional edges', () => {
+  it('Removing an edge of a DirectedGraph should delete additional edges', () => {
     const dg = new DirectedGraph();
     dg.addVertex('hello');
     dg.addVertex('hi');
@@ -705,7 +719,7 @@ describe('DirectedGraph iterative Methods', () => {
     expect(dg.incomingEdgesOf('Hi')).toEqual([]);
   });
 
-  test('Removing a vertex of a DirectedGraph should delete additional edges', () => {
+  it('Removing a vertex of a DirectedGraph should delete additional edges', () => {
     const graph = new DirectedGraph();
 
     graph.addVertex('Hello');
@@ -717,7 +731,7 @@ describe('DirectedGraph iterative Methods', () => {
     expect(graph.incomingEdgesOf('Hi')).toEqual([]);
   });
 
-  test('Removing a vertex from a DirectedGraph should remove its edges', () => {
+  it('Removing a vertex from a DirectedGraph should remove its edges', () => {
     const dg = new DirectedGraph();
     dg.addVertex('hello');
     dg.addVertex('world');
@@ -740,7 +754,7 @@ describe('DirectedGraph iterative Methods', () => {
 });
 
 describe('DirectedGraph getCycles', () => {
-  test('should getCycles return correct result', () => {
+  it('should getCycles return correct result', () => {
     const graph = new DirectedGraph();
     graph.addVertex('A');
     graph.addVertex('B');
@@ -758,7 +772,7 @@ describe('DirectedGraph getCycles', () => {
     expect(cycles[0]).toEqual(['B', 'D', 'E']);
   });
 
-  test('should simple cycles graph getCycles return correct result', () => {
+  it('should simple cycles graph getCycles return correct result', () => {
     const graph = new DirectedGraph();
 
     graph.addVertex('A');
@@ -779,7 +793,7 @@ describe('DirectedGraph getCycles', () => {
     ]);
   });
 
-  test('should 3 cycles graph getCycles return correct result', () => {
+  it('should 3 cycles graph getCycles return correct result', () => {
     const graph = new DirectedGraph();
 
     graph.addVertex('A');
@@ -812,7 +826,7 @@ describe('DirectedGraph getCycles', () => {
 });
 
 describe('DirectedGraph tarjan', () => {
-  test('should simple cycles graph tarjan cycles return correct result', () => {
+  it('should simple cycles graph tarjan cycles return correct result', () => {
     const graph = new DirectedGraph();
 
     graph.addVertex('A');
@@ -853,14 +867,14 @@ describe('DirectedGraph tarjan', () => {
     return graph;
   }
 
-  test('should tarjan cycles return correct result', () => {
+  it('should tarjan cycles return correct result', () => {
     const graph = createExampleGraph1();
     const cycles = graph.getCycles();
     expect(cycles.length).toBe(1);
     expect(cycles).toEqual([['B', 'D', 'E']]);
   });
 
-  test('should tarjan SCCs return correct result', () => {
+  it('should tarjan SCCs return correct result', () => {
     const graph = createExampleGraph1();
     const sccs = graph.tarjan().SCCs;
     expect(sccs.size).toBe(3);
@@ -878,7 +892,7 @@ describe('DirectedGraph tarjan', () => {
     return graph;
   }
 
-  test('should 3 cycles graph tarjan cycles return correct result', () => {
+  it('should 3 cycles graph tarjan cycles return correct result', () => {
     const graph = createExampleGraph2();
     const cycles = graph.getCycles();
     expect(cycles.length).toBe(3);
@@ -889,7 +903,7 @@ describe('DirectedGraph tarjan', () => {
     ]);
   });
 
-  test('should 3 cycles graph tarjan SCCs return correct result', () => {
+  it('should 3 cycles graph tarjan SCCs return correct result', () => {
     const graph = createExampleGraph2();
     const sccs = graph.tarjan().SCCs;
     expect(sccs.size).toBe(2);
@@ -919,7 +933,7 @@ describe('DirectedGraph tarjan', () => {
     return graph;
   }
 
-  test('should cuttable graph tarjan cycles return correct result', () => {
+  it('should cuttable graph tarjan cycles return correct result', () => {
     const graph = createExampleGraph3();
     const cycles = graph.getCycles();
     expect(cycles.length).toBe(2);
@@ -929,7 +943,7 @@ describe('DirectedGraph tarjan', () => {
     ]);
   });
 
-  test('should cuttable graph tarjan SCCs return correct result', () => {
+  it('should cuttable graph tarjan SCCs return correct result', () => {
     const graph = createExampleGraph3();
     const sccs = graph.tarjan().SCCs;
     expect(sccs.size).toBe(3);
@@ -951,7 +965,7 @@ describe('DirectedGraph tarjan', () => {
     return graph;
   }
 
-  test('should more cuttable graph tarjan cycles return correct result', () => {
+  it('should more cuttable graph tarjan cycles return correct result', () => {
     const graph = createExampleGraph4();
     const cycles = graph.getCycles();
     expect(cycles.length).toBe(4);
@@ -963,7 +977,7 @@ describe('DirectedGraph tarjan', () => {
     ]);
   });
 
-  test('should more cuttable graph tarjan SCCs return correct result', () => {
+  it('should more cuttable graph tarjan SCCs return correct result', () => {
     const graph = createExampleGraph4();
     const sccs = graph.tarjan().SCCs;
     expect(sccs.size).toBe(3);
@@ -976,7 +990,7 @@ describe('DirectedGraph tarjan', () => {
     return graph;
   }
 
-  test('should uncuttable graph tarjan cycles return correct result', () => {
+  it('should uncuttable graph tarjan cycles return correct result', () => {
     const graph = createExampleGraph5();
     const cycles = graph.getCycles();
     expect(cycles.length).toBe(4);
@@ -988,7 +1002,7 @@ describe('DirectedGraph tarjan', () => {
     ]);
   });
 
-  test('should uncuttable graph tarjan SCCs return correct result', () => {
+  it('should uncuttable graph tarjan SCCs return correct result', () => {
     const graph = createExampleGraph5();
     const sccs = graph.tarjan().SCCs;
     expect(sccs.size).toBe(3);

@@ -507,7 +507,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
   cutRest(pos: number, isCutSelf = false): Deque<E> {
     if (isCutSelf) {
       if (pos < 0) {
-        this.clear();
         return this;
       }
       const { bucketIndex, indexInBucket } = this._getBucketAndPosition(pos);
@@ -517,7 +516,7 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
       return this;
     } else {
       const newDeque = new Deque<E>([], { bucketSize: this._bucketSize });
-
+      if (pos < 0) pos = 0;
       for (let i = pos; i < this.size; i++) {
         newDeque.push(this.at(i));
       }

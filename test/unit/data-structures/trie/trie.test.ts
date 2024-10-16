@@ -22,6 +22,31 @@ describe('TrieNode', () => {
     node.isEnd = true;
     expect(node.isEnd).toBe(true);
   });
+
+  it('should set key property correctly', () => {
+    const node = new TrieNode('a');
+    node.isEnd = false;
+    expect(node).toEqual({
+      _children: new Map(),
+      _isEnd: false,
+      _key: 'a'
+    });
+    node.key = 'b';
+    expect(node.key).toBe('b');
+    expect(node).toEqual({
+      _children: new Map(),
+      _isEnd: false,
+      _key: 'b'
+    });
+  });
+
+  it('should set children property correctly', () => {
+    const node = new TrieNode('a');
+    node.isEnd = false;
+    const children = new Map<string, TrieNode>([['p', new TrieNode('p')]]);
+    node.children = children;
+    expect(node.children).toEqual(children);
+  });
 });
 
 describe('Trie', () => {
@@ -865,29 +890,45 @@ describe('Trie class', () => {
     trie = new Trie(['apple', 'app', 'banana', 'band', 'bandana']);
   });
 
-  test('[Symbol.iterator] should iterate over all words', () => {
+  it('[Symbol.iterator] should iterate over all words', () => {
     const words = [...trie];
     expect(words).toEqual(['app', 'apple', 'banana', 'band', 'bandana']);
   });
 
-  test('forEach should execute a callback for each word', () => {
+  it('forEach should execute a callback for each word', () => {
     const mockCallback = jest.fn();
     trie.forEach(mockCallback);
     expect(mockCallback).toHaveBeenCalledTimes(5);
   });
 
-  test('filter should return words that satisfy the predicate', () => {
+  it('filter should return words that satisfy the predicate', () => {
     const filteredWords = trie.filter(word => word.startsWith('ba'));
     expect([...filteredWords]).toEqual(['banana', 'band', 'bandana']);
   });
 
-  test('map should apply a function to each word', () => {
+  it('map should apply a function to each word', () => {
     const mappedWords = trie.map(word => word.length.toString());
     expect([...mappedWords]).toEqual(['3', '5', '6', '4', '7']);
   });
 
-  test('reduce should reduce the words to a single value', () => {
+  it('reduce should reduce the words to a single value', () => {
     const concatenatedWords = trie.reduce((acc, word) => acc + word, '');
     expect(concatenatedWords).toEqual('appapplebananabandbandana');
+  });
+
+  it('reduce should new Trie with toElementFn be correct', () => {
+    const trieB = new Trie([{ name: 'apple' }, { name: 'app' }, { name: 'arm' }], { toElementFn: item => item.name });
+    expect(trieB.isEmpty()).toBe(false);
+    expect(trieB.size).toBe(3);
+    expect(trieB.has('apple')).toBe(true);
+    expect(trieB.has('app')).toBe(true);
+    expect(trieB.has('arm')).toBe(true);
+    expect(trieB.hasPrefix('ap')).toBe(true);
+    trieB.clear();
+    expect(trieB.size).toBe(0);
+    expect(trieB.has('apple')).toBe(false);
+    expect(trieB.has('app')).toBe(false);
+    expect(trieB.has('arm')).toBe(false);
+    expect(trieB.hasPrefix('ap')).toBe(false);
   });
 });

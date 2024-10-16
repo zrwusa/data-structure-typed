@@ -873,13 +873,13 @@ describe('BST operations test recursively', () => {
 });
 
 describe('BST isBST', function () {
-  test('isBST', () => {
+  it('isBST', () => {
     const bst = new BST<number, number>();
     bst.addMany([1, 2, 3, 9, 8, 5, 6, 7, 4]);
     expect(bst.isBST()).toBe(true);
   });
 
-  test('isBST when variant is Max', () => {
+  it('isBST when variant is Max', () => {
     const bst = new BST<number, number>([1, 2, 3, 9, 8, 5, 6, 7, 4], {
       comparator: (a, b) => b - a
     });
@@ -961,13 +961,13 @@ describe('BST iterative methods test', () => {
     bst.add([3, 'c']);
   });
 
-  test('The node obtained by get Node should match the node type', () => {
+  it('The node obtained by get Node should match the node type', () => {
     const node3 = bst.getNode(3);
     expect(node3).toBeInstanceOf(BinaryTreeNode);
     expect(node3).toBeInstanceOf(BSTNode);
   });
 
-  test('forEach should iterate over all elements', () => {
+  it('forEach should iterate over all elements', () => {
     const mockCallback = jest.fn();
     bst.forEach((value, key) => {
       mockCallback(value, key);
@@ -979,7 +979,7 @@ describe('BST iterative methods test', () => {
     expect(mockCallback.mock.calls[2]).toEqual(['c', 3]);
   });
 
-  test('filter should return a new tree with filtered elements', () => {
+  it('filter should return a new tree with filtered elements', () => {
     const filteredTree = bst.filter((value, key) => key > 1);
     expect(filteredTree.size).toBe(2);
     expect([...filteredTree]).toEqual([
@@ -988,7 +988,7 @@ describe('BST iterative methods test', () => {
     ]);
   });
 
-  test('map should return a new tree with modified elements', () => {
+  it('map should return a new tree with modified elements', () => {
     const mappedTree = bst.map((value, key) => (key * 2).toString());
     expect(mappedTree.size).toBe(3);
     expect([...mappedTree]).toEqual([
@@ -998,12 +998,12 @@ describe('BST iterative methods test', () => {
     ]);
   });
 
-  test('reduce should accumulate values', () => {
+  it('reduce should accumulate values', () => {
     const sum = bst.reduce((acc, value, key) => acc + key, 0);
     expect(sum).toBe(6);
   });
 
-  test('[Symbol.iterator] should provide an iterator', () => {
+  it('[Symbol.iterator] should provide an iterator', () => {
     const entries = [];
     for (const entry of bst) {
       entries.push(entry);
@@ -1017,18 +1017,18 @@ describe('BST iterative methods test', () => {
     ]);
   });
 
-  test('should clone work well', () => {
+  it('should clone work well', () => {
     const cloned = bst.clone();
     expect(cloned.root?.left).toBe(undefined);
     expect(cloned.root?.right?.value).toBe('b');
   });
 
-  test('should keys', () => {
+  it('should keys', () => {
     const keys = bst.keys();
     expect([...keys]).toEqual([1, 2, 3]);
   });
 
-  test('should values', () => {
+  it('should values', () => {
     const values = bst.values();
     expect([...values]).toEqual(['a', 'b', 'c']);
   });

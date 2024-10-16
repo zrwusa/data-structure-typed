@@ -617,14 +617,14 @@ describe('AVLTreeMultiMap iterative methods test', () => {
     treeMM.add([3, 'c'], undefined, 1);
   });
 
-  test('The node obtained by get Node should match the node type', () => {
+  it('The node obtained by get Node should match the node type', () => {
     const node3 = treeMM.getNode(3);
     expect(node3).toBeInstanceOf(BinaryTreeNode);
     expect(node3).toBeInstanceOf(BSTNode);
     expect(node3).toBeInstanceOf(AVLTreeNode);
   });
 
-  test('forEach should iterate over all elements', () => {
+  it('forEach should iterate over all elements', () => {
     const mockCallback = jest.fn();
     treeMM.forEach((value, key) => {
       mockCallback(value, key);
@@ -636,7 +636,7 @@ describe('AVLTreeMultiMap iterative methods test', () => {
     expect(mockCallback.mock.calls[2]).toEqual(['c', 3]);
   });
 
-  test('filter should return a new tree with filtered elements', () => {
+  it('filter should return a new tree with filtered elements', () => {
     const filteredTree = treeMM.filter((value, key) => key > 1);
     expect(filteredTree.size).toBe(2);
     expect([...filteredTree]).toEqual([
@@ -645,7 +645,7 @@ describe('AVLTreeMultiMap iterative methods test', () => {
     ]);
   });
 
-  test('map should return a new tree with modified elements', () => {
+  it('map should return a new tree with modified elements', () => {
     const mappedTree = treeMM.map((value, key) => (key * 2).toString());
     expect(mappedTree.size).toBe(3);
     expect([...mappedTree]).toEqual([
@@ -655,12 +655,12 @@ describe('AVLTreeMultiMap iterative methods test', () => {
     ]);
   });
 
-  test('reduce should accumulate values', () => {
+  it('reduce should accumulate values', () => {
     const sum = treeMM.reduce((acc, value, key) => acc + key, 0);
     expect(sum).toBe(6);
   });
 
-  test('[Symbol.iterator] should provide an iterator', () => {
+  it('[Symbol.iterator] should provide an iterator', () => {
     const entries = [];
     for (const entry of treeMM) {
       entries.push(entry);
@@ -674,19 +674,19 @@ describe('AVLTreeMultiMap iterative methods test', () => {
     ]);
   });
 
-  test('should clone work well', () => {
+  it('should clone work well', () => {
     expect(treeMM.count).toBe(21);
     const cloned = treeMM.clone();
     expect(cloned.root?.left?.key).toBe(1);
     expect(cloned.root?.right?.value).toBe('c');
   });
 
-  test('should keys', () => {
+  it('should keys', () => {
     const keys = treeMM.keys();
     expect([...keys]).toEqual([1, 2, 3]);
   });
 
-  test('should values', () => {
+  it('should values', () => {
     const values = treeMM.values();
     expect([...values]).toEqual(['a', 'b', 'c']);
   });

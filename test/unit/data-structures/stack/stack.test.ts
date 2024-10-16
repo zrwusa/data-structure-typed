@@ -19,6 +19,7 @@ describe('Stack', () => {
   });
 
   it('should peek at the top element without removing it', () => {
+    expect(stack.peek()).toBe(undefined);
     stack.push(1);
     stack.push(2);
     stack.push(3);
@@ -93,7 +94,7 @@ describe('Stack iterative methods', () => {
     stack.push(3);
   });
 
-  test('should iterate through the stack', () => {
+  it('should iterate through the stack', () => {
     const result: number[] = [];
     for (const element of stack) {
       result.push(element);
@@ -102,7 +103,7 @@ describe('Stack iterative methods', () => {
     expect(result).toEqual([1, 2, 3]); // iteration should start from the top of the stack
   });
 
-  test('should apply forEach to the stack', () => {
+  it('should apply forEach to the stack', () => {
     const result: number[] = [];
     stack.forEach(element => {
       result.push(element);
@@ -111,23 +112,36 @@ describe('Stack iterative methods', () => {
     expect(result).toEqual([1, 2, 3]);
   });
 
-  test('should filter elements in the stack', () => {
+  it('should filter elements in the stack', () => {
     const filteredStack = stack.filter(element => element > 1);
 
     expect(filteredStack.size).toBe(2);
     expect([...filteredStack]).toEqual([2, 3]);
   });
 
-  test('should map elements in the stack', () => {
+  it('should map elements in the stack', () => {
     const mappedStack = stack.map(element => element * 2);
 
     expect(mappedStack.size).toBe(3);
     expect([...mappedStack]).toEqual([2, 4, 6]);
   });
 
-  test('should reduce elements in the stack', () => {
+  it('should reduce elements in the stack', () => {
     const sum = stack.reduce((accumulator, element) => accumulator + element, 0);
 
     expect(sum).toBe(6);
+  });
+
+  it('should toElementFn', () => {
+    const stack = new Stack([{ key: 1 }, { key: 2 }, { key: 5 }, { key: 3 }], { toElementFn: item => item.key });
+    expect(stack.size).toBe(4);
+    expect([...stack]).toEqual([1, 2, 5, 3]);
+  });
+
+  it('should fromArray', () => {
+    const stack = Stack.fromArray([1, 2, 5, 3]);
+    expect(stack instanceof Stack).toBe(true);
+    expect(stack.size).toBe(4);
+    expect([...stack]).toEqual([1, 2, 5, 3]);
   });
 });

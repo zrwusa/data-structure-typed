@@ -174,7 +174,7 @@ describe('UndirectedGraph', () => {
     expect(minWeightedPath?.minPath?.[4]?.key).toBe('Intersection_5');
   });
 
-  test('Removing an edge of a UndirectedGraph should not delete additional edges', () => {
+  it('Removing an edge of a UndirectedGraph should not delete additional edges', () => {
     const dg = new UndirectedGraph();
     dg.addVertex('hello');
     dg.addVertex('hi');
@@ -190,7 +190,7 @@ describe('UndirectedGraph', () => {
     expect(dg.getEdge('hello', 'hey')).toBeInstanceOf(UndirectedEdge);
   });
 
-  test('Removing a vertex of a UndirectedGraph should delete additional edges', () => {
+  it('Removing a vertex of a UndirectedGraph should delete additional edges', () => {
     const graph = new UndirectedGraph();
 
     graph.addVertex('Hello');
@@ -202,7 +202,7 @@ describe('UndirectedGraph', () => {
     expect(graph.edgesOf('Hi')).toEqual([]);
   });
 
-  test('Removing a vertex from a UndirectedGraph should remove its edges', () => {
+  it('Removing a vertex from a UndirectedGraph should remove its edges', () => {
     const dg = new UndirectedGraph();
     dg.addVertex('hello');
     dg.addVertex('world');
@@ -274,7 +274,7 @@ it('Should return Infinity if dest is not found', () => {
 });
 
 describe('UndirectedGraph getCycles', () => {
-  test('should getCycles return correct result', () => {
+  it('should getCycles return correct result', () => {
     const graph = new UndirectedGraph();
     graph.addVertex('A');
     graph.addVertex('B');
@@ -296,7 +296,7 @@ describe('UndirectedGraph getCycles', () => {
     ]);
   });
 
-  test('should simple cycles graph getCycles return correct result', () => {
+  it('should simple cycles graph getCycles return correct result', () => {
     const graph = new UndirectedGraph();
 
     graph.addVertex('A');
@@ -318,7 +318,7 @@ describe('UndirectedGraph getCycles', () => {
     ]);
   });
 
-  test('should 3 cycles graph getCycles return correct result', () => {
+  it('should 3 cycles graph getCycles return correct result', () => {
     const graph = new UndirectedGraph();
 
     graph.addVertex('A');
@@ -358,7 +358,7 @@ describe('UndirectedGraph getCycles', () => {
 });
 
 describe('UndirectedGraph tarjan', () => {
-  test('should simple cycles graph tarjan cycles return correct result', () => {
+  it('should simple cycles graph tarjan cycles return correct result', () => {
     const graph = new UndirectedGraph();
 
     graph.addVertex('A');
@@ -396,38 +396,38 @@ describe('UndirectedGraph tarjan', () => {
     return graph;
   }
 
-  test('should tarjan cut vertexes return correct result', () => {
+  it('should tarjan cut vertexes return correct result', () => {
     const graph = createExampleGraph1();
     const cutVertices = graph.tarjan().cutVertices;
     expect(cutVertices.length).toBe(0);
   });
 
-  test('should tarjan bridges return correct result', () => {
+  it('should tarjan bridges return correct result', () => {
     const graph = createExampleGraph1();
     const bridges = graph.tarjan().bridges;
     expect(bridges.length).toBe(0);
   });
 
-  test('should 3 cycles graph tarjan cut vertexes return correct result', () => {
+  it('should 3 cycles graph tarjan cut vertexes return correct result', () => {
     const graph = createExampleGraph1();
     const cutVertices = graph.tarjan().cutVertices;
     expect(cutVertices.length).toBe(0);
   });
 
-  test('should 3 cycles graph tarjan bridges return correct result', () => {
+  it('should 3 cycles graph tarjan bridges return correct result', () => {
     const graph = createExampleGraph1();
     const bridges = graph.tarjan().bridges;
     expect(bridges.length).toBe(0);
   });
 
-  test('should cuttable graph tarjan cut vertexes return correct result', () => {
+  it('should cuttable graph tarjan cut vertexes return correct result', () => {
     const graph = createExampleGraph3();
     const cutVertices = graph.tarjan().cutVertices;
     expect(cutVertices.length).toBe(3);
     expect(cutVertices.map(cv => cv.key)).toEqual(['B', 'E', 'A']);
   });
 
-  test('should cuttable graph tarjan bridges return correct result', () => {
+  it('should cuttable graph tarjan bridges return correct result', () => {
     const graph = createExampleGraph3();
     const bridges = graph.tarjan().bridges;
     expect(bridges.length).toBe(2);
@@ -437,14 +437,14 @@ describe('UndirectedGraph tarjan', () => {
     ]);
   });
 
-  test('should more cuttable graph tarjan cut vertexes return correct result', () => {
+  it('should more cuttable graph tarjan cut vertexes return correct result', () => {
     const graph = createExampleGraph4();
     const cutVertices = graph.tarjan().cutVertices;
     expect(cutVertices.length).toBe(4);
     expect(cutVertices.map(cv => cv.key)).toEqual(['H', 'B', 'E', 'A']);
   });
 
-  test('should more cuttable graph tarjan bridges return correct result', () => {
+  it('should more cuttable graph tarjan bridges return correct result', () => {
     const graph = createExampleGraph4();
     const bridges = graph.tarjan().bridges;
     expect(bridges.length).toBe(2);
@@ -454,13 +454,13 @@ describe('UndirectedGraph tarjan', () => {
     ]);
   });
 
-  test('should uncuttable graph tarjan cut vertexes return correct result', () => {
+  it('should uncuttable graph tarjan cut vertexes return correct result', () => {
     const graph = createExampleGraph5();
     const cutVertices = graph.tarjan().cutVertices;
     expect(cutVertices.length).toBe(1);
   });
 
-  test('should uncuttable graph tarjan bridges return correct result', () => {
+  it('should uncuttable graph tarjan bridges return correct result', () => {
     const graph = createExampleGraph5();
     const bridges = graph.tarjan().bridges;
     expect(bridges.length).toBe(0);
@@ -477,7 +477,7 @@ describe('UndirectedGraph tarjan', () => {
     return graph;
   }
 
-  test('should 3 cycles graph tarjan cycles return correct result', () => {
+  it('should 3 cycles graph tarjan cycles return correct result', () => {
     const graph = createExampleGraph2();
     const cycles = graph.getCycles();
     expect(cycles.length).toBe(10);
@@ -515,7 +515,7 @@ describe('UndirectedGraph tarjan', () => {
     return graph;
   }
 
-  test('should cuttable graph tarjan cycles return correct result', () => {
+  it('should cuttable graph tarjan cycles return correct result', () => {
     const graph = createExampleGraph3();
     const cycles = graph.getCycles();
     expect(cycles.length).toBe(2);
@@ -525,7 +525,7 @@ describe('UndirectedGraph tarjan', () => {
     ]);
   });
 
-  // test('should cuttable graph tarjan CCs return correct result', () => {
+  // it('should cuttable graph tarjan CCs return correct result', () => {
   // const graph = createExampleGraph3();
   // const ccs = graph.tarjan().CCs;
   // expect(ccs.size).toBe(3);
@@ -547,7 +547,7 @@ describe('UndirectedGraph tarjan', () => {
     return graph;
   }
 
-  test('should more cuttable graph tarjan cycles return correct result', () => {
+  it('should more cuttable graph tarjan cycles return correct result', () => {
     const graph = createExampleGraph4();
     const cycles = graph.getCycles();
     expect(cycles.length).toBe(5);
@@ -560,7 +560,7 @@ describe('UndirectedGraph tarjan', () => {
     ]);
   });
 
-  // test('should more cuttable graph tarjan SCCs return correct result', () => {
+  // it('should more cuttable graph tarjan SCCs return correct result', () => {
   //   const graph = createExampleGraph4();
   //   const ccs = graph.tarjan().CCs;
   //   expect(ccs.size).toBe(3);
@@ -573,7 +573,7 @@ describe('UndirectedGraph tarjan', () => {
     return graph;
   }
 
-  test('should uncuttable graph tarjan cycles return correct result', () => {
+  it('should uncuttable graph tarjan cycles return correct result', () => {
     const graph = createExampleGraph5();
     const cycles = graph.getCycles();
     expect(cycles.length).toBe(13);
@@ -594,7 +594,7 @@ describe('UndirectedGraph tarjan', () => {
     ]);
   });
 
-  // test('should uncuttable graph tarjan SCCs return correct result', () => {
+  // it('should uncuttable graph tarjan SCCs return correct result', () => {
   //   const graph = createExampleGraph5();
   //   const ccs = graph.tarjan().CCs;
   //   expect(ccs.size).toBe(3);

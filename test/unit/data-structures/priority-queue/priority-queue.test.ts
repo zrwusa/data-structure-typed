@@ -52,6 +52,23 @@ describe('PriorityQueue Operation Test', () => {
     expect(minPQ1.dfs('POST')).toEqual([4, 3, 5, 2, 8, 7, 6, 1]);
     expect(minPQ1.dfs('PRE')).toEqual([1, 2, 3, 4, 5, 6, 8, 7]);
   });
+
+  it('should PriorityQueue filter, map work well', function () {
+    const minPQ2 = new PriorityQueue<number>([], {
+      comparator: (a, b) => a - b
+    });
+    minPQ2.refill([2, 5, 8, 3, 1, 6, 7, 4]);
+    const filtered = minPQ2.filter(item => item % 2 === 1);
+    expect(filtered instanceof PriorityQueue).toBe(true);
+    expect([...filtered]).toEqual([1, 3, 5, 7]);
+
+    const mapped = filtered.map(
+      item => ({ key: item }),
+      (a, b) => a.key - b.key
+    );
+    expect(mapped instanceof PriorityQueue).toBe(true);
+    expect([...mapped]).toEqual([{ key: 1 }, { key: 3 }, { key: 5 }, { key: 7 }]);
+  });
 });
 
 describe('Priority Queue Performance Test', () => {

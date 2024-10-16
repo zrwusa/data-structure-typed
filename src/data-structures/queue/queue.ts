@@ -95,7 +95,7 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
     return this.size > 0 ? this.elements[this.elements.length - 1] : undefined;
   }
 
-  _autoCompactRatio: number = 0.5;
+  protected _autoCompactRatio: number = 0.5;
 
   /**
    * This function returns the value of the autoCompactRatio property.

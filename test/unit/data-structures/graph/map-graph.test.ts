@@ -1,8 +1,9 @@
 import { MapEdge, MapGraph, MapVertex } from '../../../../src';
 
 describe('MapGraph Operation Test', () => {
-  it('dijkstra shortest path', () => {
-    const mapGraph = new MapGraph([5.500338, 100.173665]);
+  let mapGraph: MapGraph;
+  beforeEach(() => {
+    mapGraph = new MapGraph([5.500338, 100.173665]);
 
     mapGraph.addVertex(new MapVertex('Surin', '', 5.466724, 100.274805));
     mapGraph.addVertex(new MapVertex('Batu Feringgi Beach', '', 5.475141, 100.27667));
@@ -27,6 +28,9 @@ describe('MapGraph Operation Test', () => {
     mapGraph.addEdge('Trinity Auto', 'Saanen Goat Farm', 26.3);
     mapGraph.addEdge('The Breeza', 'Penang Airport', 24.8);
     mapGraph.addEdge('Penang Airport', 'Saanen Goat Farm', 21.2);
+  });
+
+  it('dijkstra shortest path', () => {
     const expected1 = ['Surin', 'Lotus', 'The Breeza', 'Trinity Auto', 'Saanen Goat Farm'];
 
     const minPathBetween = mapGraph.getMinPathBetween('Surin', 'Saanen Goat Farm');
@@ -39,6 +43,24 @@ describe('MapGraph Operation Test', () => {
     const minPathBetweenViaBFB = mapGraph.getMinPathBetween('Surin', 'Saanen Goat Farm', true);
     expect(minPathBetweenViaBFB?.map(v => v.key)).toEqual(expected2);
     const surinToSaanenGoatFarmViaDij = mapGraph.dijkstra('Surin', 'Saanen Goat Farm', true, true);
+    expect(surinToSaanenGoatFarmViaDij?.minPath.map(v => v.key)).toEqual(expected2);
+    expect(surinToSaanenGoatFarmViaDij?.minDist).toBe(25.2);
+  });
+
+  it('should clone', () => {
+    const cloned = mapGraph.clone();
+    const expected1 = ['Surin', 'Lotus', 'The Breeza', 'Trinity Auto', 'Saanen Goat Farm'];
+
+    const minPathBetween = cloned.getMinPathBetween('Surin', 'Saanen Goat Farm');
+    expect(minPathBetween?.map(v => v.key)).toEqual(expected1);
+    const surinToSaanenGoatFarmDij = cloned.dijkstra('Surin', 'Saanen Goat Farm', true, true);
+    expect(surinToSaanenGoatFarmDij?.minPath.map(v => v.key)).toEqual(expected1);
+    expect(surinToSaanenGoatFarmDij?.minDist).toBe(41.1);
+    cloned.addEdge('Surin', 'Batu Feringgi Beach', 1.5);
+    const expected2 = ['Surin', 'Batu Feringgi Beach', 'Hard Rock Hotel', 'Saanen Goat Farm'];
+    const minPathBetweenViaBFB = cloned.getMinPathBetween('Surin', 'Saanen Goat Farm', true);
+    expect(minPathBetweenViaBFB?.map(v => v.key)).toEqual(expected2);
+    const surinToSaanenGoatFarmViaDij = cloned.dijkstra('Surin', 'Saanen Goat Farm', true, true);
     expect(surinToSaanenGoatFarmViaDij?.minPath.map(v => v.key)).toEqual(expected2);
     expect(surinToSaanenGoatFarmViaDij?.minDist).toBe(25.2);
   });

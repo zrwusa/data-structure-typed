@@ -10,68 +10,68 @@ describe('Queue', () => {
     queue = new Queue<number>();
   });
 
-  test('new Queue() should create an empty queue', () => {
+  it('new Queue() should create an empty queue', () => {
     expect(queue.size).toBe(0);
     expect(queue.isEmpty()).toBeTruthy();
   });
 
-  test('push should add elements to the queue', () => {
+  it('push should add elements to the queue', () => {
     queue.push(1);
     queue.push(2);
     expect(queue.size).toBe(2);
   });
 
-  test('shift should remove the first element', () => {
+  it('shift should remove the first element', () => {
     queue.push(1);
     queue.push(2);
     expect(queue.shift()).toBe(1);
     expect(queue.size).toBe(1);
   });
 
-  test('shift should return undefined if queue is empty', () => {
+  it('shift should return undefined if queue is empty', () => {
     expect(queue.shift()).toBeUndefined();
   });
 
-  test('first should return the first element without removing it', () => {
+  it('first should return the first element without removing it', () => {
     queue.push(1);
     queue.push(2);
     expect(queue.first).toBe(1);
     expect(queue.size).toBe(2);
   });
 
-  test('first should return undefined if queue is empty', () => {
+  it('first should return undefined if queue is empty', () => {
     expect(queue.first).toBeUndefined();
   });
 
-  test('size should return the number of elements', () => {
+  it('size should return the number of elements', () => {
     queue.push(1);
     queue.push(2);
     expect(queue.size).toBe(2);
   });
 
-  test('isEmpty should return true if the queue is empty', () => {
+  it('isEmpty should return true if the queue is empty', () => {
     expect(queue.isEmpty()).toBeTruthy();
   });
 
-  test('isEmpty should return false if the queue is not empty', () => {
+  it('isEmpty should return false if the queue is not empty', () => {
     queue.push(1);
     expect(queue.isEmpty()).toBeFalsy();
   });
 
-  test('toArray should return an array of queue elements', () => {
+  it('toArray should return an array of queue elements', () => {
     queue.push(1);
     queue.push(2);
     expect(queue.toArray()).toEqual([1, 2]);
   });
 
-  test('clear should remove all elements from the queue', () => {
+  it('clear should remove all elements from the queue', () => {
     queue.push(1);
     queue.push(2);
     queue.clear();
     expect(queue.size).toBe(0);
   });
 
-  test('forEach should iterate over all elements', () => {
+  it('forEach should iterate over all elements', () => {
     const arr: number[] = [];
     queue.push(1);
     queue.push(2);
@@ -80,7 +80,7 @@ describe('Queue', () => {
   });
 
   // Boundary value testing
-  test('push and shift with many elements', () => {
+  it('push and shift with many elements', () => {
     for (let i = 0; i < 1000; i++) {
       queue.push(i);
     }
@@ -90,7 +90,7 @@ describe('Queue', () => {
     expect(queue.isEmpty()).toBeTruthy();
   });
 
-  test('compact method should work well', () => {
+  it('compact method should work well', () => {
     for (let i = 0; i < 1000; i++) queue.push(i);
 
     for (let i = 0; i < 499; i++) queue.shift();
@@ -100,7 +100,7 @@ describe('Queue', () => {
     expect(queue.elements.length).toBe(501);
   });
 
-  test('should at after shifting', () => {
+  it('should at after shifting', () => {
     for (let i = 0; i < 100; i++) {
       queue.push(i);
     }
@@ -114,7 +114,7 @@ describe('Queue', () => {
     }
   });
 
-  test('should toElementFn', () => {
+  it('should toElementFn', () => {
     const queue = new Queue<string, { id: string }>([{ id: '1' }, { id: '5' }, { id: '3' }, { id: '4' }, { id: '2' }], {
       toElementFn: rawElement => rawElement.id
     });
@@ -177,6 +177,29 @@ describe('Queue', () => {
     expect([...queue]).toEqual(['1', '6', '9']);
     expect([...cloned]).toEqual(['1', '6', '0', '5', '9']);
   });
+
+  it('should set autoCompactRatio', function () {
+    const queue = new Queue<number>();
+
+    queue.autoCompactRatio = 0.3;
+    queue.push(1);
+    queue.push(2);
+    queue.push(3);
+    queue.push(4);
+    queue.push(5);
+    queue.push(6);
+    queue.push(7);
+    queue.push(8);
+    queue.push(9);
+    queue.push(10);
+    expect(queue.elements.length).toBe(10);
+    while (queue.size > 7) queue.shift();
+    expect(queue.size).toBe(7);
+    expect(queue.elements.length).toBe(10);
+    queue.shift();
+    expect(queue.size).toBe(6);
+    expect(queue.elements.length).toBe(6);
+  });
 });
 
 describe('Queue - Advanced Methods', () => {
@@ -186,7 +209,7 @@ describe('Queue - Advanced Methods', () => {
     queue = new Queue<number>();
   });
 
-  test('reduce should apply a function against an accumulator and each element', () => {
+  it('reduce should apply a function against an accumulator and each element', () => {
     queue.push(1);
     queue.push(2);
     queue.push(3);
@@ -194,13 +217,13 @@ describe('Queue - Advanced Methods', () => {
     expect(sum).toBe(6);
   });
 
-  test('reduce should return initial value for empty queue', () => {
+  it('reduce should return initial value for empty queue', () => {
     const initialValue = 0;
     const sum = queue.reduce((acc, val) => acc + val, initialValue);
     expect(sum).toBe(initialValue);
   });
 
-  test('filter should return a new queue with all elements that pass the test implemented by provided function', () => {
+  it('filter should return a new queue with all elements that pass the test implemented by provided function', () => {
     queue.push(1);
     queue.push(2);
     queue.push(3);
@@ -208,12 +231,12 @@ describe('Queue - Advanced Methods', () => {
     expect(filteredQueue.toArray()).toEqual([2, 3]);
   });
 
-  test('filter should return an empty queue for empty queue', () => {
+  it('filter should return an empty queue for empty queue', () => {
     const filteredQueue = queue.filter(val => val > 1);
     expect(filteredQueue.isEmpty()).toBeTruthy();
   });
 
-  test('map should create a new queue with the results of calling a provided function on every element', () => {
+  it('map should create a new queue with the results of calling a provided function on every element', () => {
     queue.push(1);
     queue.push(2);
     queue.push(3);
@@ -221,7 +244,7 @@ describe('Queue - Advanced Methods', () => {
     expect(mappedQueue.toArray()).toEqual([2, 4, 6]);
   });
 
-  test('map should return an empty queue for empty queue', () => {
+  it('map should return an empty queue for empty queue', () => {
     const mappedQueue = queue.map(val => val * 2);
     expect(mappedQueue.isEmpty()).toBeTruthy();
   });
@@ -233,31 +256,31 @@ describe('Queue - Additional Methods', () => {
     queue = new Queue<number>();
   });
 
-  test('peekLast should return the last element without removing it', () => {
+  it('peekLast should return the last element without removing it', () => {
     queue.push(1);
     queue.push(2);
     expect(queue.last).toBe(2);
     expect(queue.size).toBe(2);
   });
 
-  test('peekLast should return undefined if queue is empty', () => {
+  it('peekLast should return undefined if queue is empty', () => {
     expect(queue.last).toBeUndefined();
   });
 
-  test('at should return the element at the specified index', () => {
+  it('at should return the element at the specified index', () => {
     queue.push(1);
     queue.push(2);
     queue.push(3);
     expect(queue.at(1)).toBe(2);
   });
 
-  test('at should return undefined for an invalid index', () => {
+  it('at should return undefined for an invalid index', () => {
     queue.push(1);
     expect(queue.at(3)).toBeUndefined();
     expect(queue.at(-1)).toBeUndefined();
   });
 
-  test('print should not throw any errors', () => {
+  it('print should not throw any errors', () => {
     expect(() => {
       queue.push(1);
       // queue.print();
@@ -266,19 +289,19 @@ describe('Queue - Additional Methods', () => {
 });
 
 describe('Queue - Static and Clone Methods', () => {
-  test('fromArray should create a new queue from an array', () => {
+  it('fromArray should create a new queue from an array', () => {
     const array = [1, 2, 3];
     const queue = Queue.fromArray(array);
     expect(queue.toArray()).toEqual(array);
     expect(queue.size).toBe(array.length);
   });
 
-  test('fromArray should create an empty queue from an empty array', () => {
+  it('fromArray should create an empty queue from an empty array', () => {
     const queue = Queue.fromArray([]);
     expect(queue.isEmpty()).toBeTruthy();
   });
 
-  test('clone should create a new queue with the same elements', () => {
+  it('clone should create a new queue with the same elements', () => {
     const originalQueue = new Queue<number>();
     originalQueue.push(1);
     originalQueue.push(2);
@@ -288,7 +311,7 @@ describe('Queue - Static and Clone Methods', () => {
     expect(clonedQueue.size).toBe(originalQueue.size);
   });
 
-  test('clone should not affect the original queue when mutated', () => {
+  it('clone should not affect the original queue when mutated', () => {
     const originalQueue = new Queue<number>();
     originalQueue.push(1);
     originalQueue.push(2);
@@ -306,18 +329,16 @@ describe('LinkedListQueue', () => {
 
   beforeEach(() => {
     queue = new LinkedListQueue<string>();
+    queue.push('A');
+    queue.push('B');
   });
 
   it('should push elements to the end of the queue', () => {
-    queue.push('A');
-    queue.push('B');
     expect(queue.first).toBe('A');
     expect(queue.size).toBe(2);
   });
 
   it('should shift elements from the front of the queue', () => {
-    queue.push('A');
-    queue.push('B');
     const dequeued = queue.shift();
     expect(dequeued).toBe('A');
     expect(queue.first).toBe('B');
@@ -325,8 +346,12 @@ describe('LinkedListQueue', () => {
   });
 
   it('should peek at the front of the queue', () => {
-    queue.push('A');
-    queue.push('B');
     expect(queue.first).toBe('A');
+  });
+
+  it('should clone method work correctly', () => {
+    const cloned = queue.clone();
+    expect(cloned instanceof LinkedListQueue).toBe(true);
+    expect(cloned.size).toBe(2);
   });
 });

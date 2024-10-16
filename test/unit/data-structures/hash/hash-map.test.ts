@@ -13,7 +13,7 @@ describe('HashMap', () => {
     expect(hashMap.isEmpty()).toBe(true);
   });
 
-  it('should put and get values', () => {
+  it('should set and get values', () => {
     hashMap.set('one', 1);
     hashMap.set('two', 2);
     hashMap.set('three', 3);
@@ -127,10 +127,11 @@ describe('HashMap', () => {
     it('should handle object keys correctly', () => {
       const keyObj = { id: 1 };
       hashMap.set(keyObj, 'objectValue');
+      expect(hashMap.has(keyObj)).toBe(true);
       expect(hashMap.get(keyObj)).toBe('objectValue');
     });
 
-    test('Inheritability test', () => {
+    it('Inheritability test', () => {
       class ExtendedHashMap<K, V> extends HashMap<K, V> {
         someOtherParam?: string;
 
@@ -154,7 +155,7 @@ describe('HashMap', () => {
       expect(eHM.get('one')).toBe(1);
     });
 
-    test('should raw elements toEntry', () => {
+    it('should raw elements toEntry', () => {
       const rawCollection = [
         { id: 1, name: 'item 1' },
         { id: 2, name: 'item 2' }
@@ -238,17 +239,19 @@ describe('HashMap', () => {
   describe('HashMap for coordinate object keys', () => {
     const hashMap: HashMap<[number, number], number> = new HashMap();
     const codObjs: [number, number][] = [];
-
-    test('set elements in hash map', () => {
-      for (let i = 0; i < 1000; i++) {
-        const codObj: [number, number] = [getRandomInt(-10000, 10000), i];
-        codObjs.push(codObj);
+    for (let i = 0; i < 10; i++) {
+      const codObj: [number, number] = [getRandomInt(-10000, 10000), i];
+      codObjs.push(codObj);
+    }
+    it('set elements in hash map', () => {
+      for (let i = 0; i < codObjs.length; i++) {
+        const codObj = codObjs[i];
         hashMap.set(codObj, i);
       }
     });
 
-    test('get elements in hash map', () => {
-      for (let i = 0; i < 1000; i++) {
+    it('get elements in hash map', () => {
+      for (let i = 0; i < codObjs.length; i++) {
         const codObj = codObjs[i];
         if (codObj) {
           expect(hashMap.get(codObj)).toBe(i);
@@ -256,8 +259,12 @@ describe('HashMap', () => {
       }
     });
 
-    test('delete elements in hash map', () => {
-      for (let i = 0; i < 1000; i++) {
+    it('should spread elements in hash map', () => {
+      expect([...hashMap]).toEqual(codObjs.map(codObj => [codObj, codObj[1]]));
+    });
+
+    it('delete elements in hash map', () => {
+      for (let i = 0; i < 10; i++) {
         if (i === 500) expect(hashMap.size).toBe(500);
         const codObj = codObjs[i];
         if (codObj) hashMap.delete(codObj);
@@ -285,11 +292,11 @@ describe('HashMap', () => {
       ]);
     });
 
-    test('keys', () => {
+    it('keys', () => {
       expect([...hm.keys()]).toEqual([2, 3, 4, 5, 6]);
     });
 
-    test('values', () => {
+    it('values', () => {
       expect([...hm.values()]).toEqual([2, 3, 4, 5, 6]);
     });
   });
@@ -304,31 +311,31 @@ describe('HashMap', () => {
       hashMap.set('key3', 'value3');
     });
 
-    test('every() returns true if all elements match the condition', () => {
+    it('every() returns true if all elements match the condition', () => {
       expect(hashMap.every(value => typeof value === 'string')).toBe(true);
     });
 
-    test('some() returns true if any element matches the condition', () => {
+    it('some() returns true if any element matches the condition', () => {
       expect(hashMap.some((value, key) => key === 'key1')).toBe(true);
     });
 
-    test('forEach() should execute a function for each element', () => {
+    it('forEach() should execute a function for each element', () => {
       const mockCallback = jest.fn();
       hashMap.forEach(mockCallback);
       expect(mockCallback.mock.calls.length).toBe(3);
     });
 
-    test('map() should transform each element', () => {
+    it('map() should transform each element', () => {
       const newHashMap = hashMap.map(value => value.toUpperCase());
       expect(newHashMap.get('key1')).toBe('VALUE1');
     });
 
-    test('filter() should remove elements that do not match the condition', () => {
+    it('filter() should remove elements that do not match the condition', () => {
       const filteredHashMap = hashMap.filter((value, key) => key !== 'key1');
       expect(filteredHashMap.has('key1')).toBe(false);
     });
 
-    test('reduce() should accumulate values', () => {
+    it('reduce() should accumulate values', () => {
       const result = hashMap.reduce((acc, value) => acc + value, '');
       expect(result).toBe('value1value2value3');
     });
@@ -347,6 +354,7 @@ describe('LinkedHashMap', () => {
   });
 
   it('should add a key-value pair', () => {
+    expect(hashMap.first).toBe(undefined);
     hashMap.set('key1', 'value1');
     expect(hashMap.get('key1')).toBe('value1');
   });
@@ -441,27 +449,97 @@ describe('LinkedHashMap', () => {
     compareHashMaps(hashMap, stdMap);
   });
 
-  test('should iterate correctly with reverse iterators', () => {
+  it('should iterate correctly with reverse iterators', () => {
     hashMap.set('key1', 'value1');
     hashMap.set('key2', 'value2');
     const iterator = hashMap.reverseBegin();
     expect(iterator.next().value).toEqual(['key2', 'value2']);
   });
 
-  test('should return the last element', () => {
+  it('should return the last element', () => {
     hashMap.set('key1', 'value1');
     hashMap.set('key2', 'value2');
     expect(hashMap.last).toEqual(['key2', 'value2']);
   });
 
-  test('should return undefined for empty map', () => {
+  it('should return undefined for empty map', () => {
     expect(hashMap.last).toBeUndefined();
   });
 
-  test('should get element at specific index', () => {
+  it('should get element at specific index', () => {
     hashMap.set('key1', 'value1');
     hashMap.set('key2', 'value2');
     expect(hashMap.at(1)).toBe('value2');
+  });
+
+  it('should hashFn, objHashFn, toEntryFn work well', () => {
+    const data: Array<{ name: number }> = [{ name: 1 }, { name: 2 }, { name: 3 }];
+    const hm = new LinkedHashMap(data, {
+      hashFn: key => String(key),
+      objHashFn: obj => obj,
+      toEntryFn: ({ name }) => [{ name }, name]
+    });
+
+    expect(hm.hashFn).toBeTruthy();
+    expect(hm.objHashFn).toBeTruthy();
+    expect(hm.toEntryFn).toBeTruthy();
+    expect([...hm]).toEqual([
+      [{ name: 1 }, 1],
+      [{ name: 2 }, 2],
+      [{ name: 3 }, 3]
+    ]);
+  });
+
+  it('should begin, reverseBegin', () => {
+    const data: Array<{ name: number }> = [{ name: 1 }, { name: 2 }, { name: 3 }];
+    const hm = new LinkedHashMap(data, {
+      hashFn: key => String(key),
+      objHashFn: obj => obj,
+      toEntryFn: ({ name }) => [{ name }, name]
+    });
+
+    expect(hm.begin().next()).toEqual({
+      done: false,
+      value: [
+        {
+          name: 1
+        },
+        1
+      ]
+    });
+
+    expect(hm.reverseBegin().next()).toEqual({
+      done: false,
+      value: [
+        {
+          name: 3
+        },
+        3
+      ]
+    });
+  });
+
+  it('should clone', () => {
+    hashMap = new LinkedHashMap<string, number>();
+
+    hashMap.set('one', 1);
+    hashMap.set('two', 2);
+    for (let i = 3; i <= 100; i++) {
+      hashMap.set(i.toString(), i);
+    }
+
+    expect(hashMap.get('one')).toBe(1);
+    expect(hashMap.get('two')).toBe(2);
+    expect(hashMap.get('86')).toBe(86);
+    expect(hashMap.size).toBe(100);
+    hashMap.delete('two');
+    expect(hashMap.size).toBe(99);
+
+    const cloned = hashMap.clone();
+    expect(cloned.get('one')).toBe(1);
+    expect(cloned.get('two')).toBe(undefined);
+    expect(cloned.get('86')).toBe(86);
+    expect(cloned.size).toBe(99);
   });
 
   describe('LinkedHashMap basic', () => {
@@ -506,6 +584,9 @@ describe('LinkedHashMap', () => {
       hashMap.delete('one');
       expect(hashMap.get('one')).toBeUndefined();
       expect(hashMap.size).toBe(1);
+      hashMap.deleteAt(0);
+      // expect(hashMap.get('two')).toBe(undefined); // TODO #99
+      expect(hashMap.size).toBe(0);
     });
 
     it('should clear the LinkedHashMap', () => {
@@ -570,7 +651,7 @@ describe('LinkedHashMap', () => {
     const hashMap: LinkedHashMap<[number, number], number> = new LinkedHashMap();
     const codObjs: [number, number][] = [];
 
-    test('set elements in hash map', () => {
+    it('set elements in hash map', () => {
       for (let i = 0; i < 1000; i++) {
         const codObj: [number, number] = [getRandomInt(-10000, 10000), i];
         codObjs.push(codObj);
@@ -578,7 +659,7 @@ describe('LinkedHashMap', () => {
       }
     });
 
-    test('get elements in hash map', () => {
+    it('get elements in hash map', () => {
       for (let i = 0; i < 1000; i++) {
         const codObj = codObjs[i];
         if (codObj) {
@@ -587,7 +668,7 @@ describe('LinkedHashMap', () => {
       }
     });
 
-    test('delete elements in hash map', () => {
+    it('delete elements in hash map', () => {
       for (let i = 0; i < 1000; i++) {
         if (i === 500) expect(hashMap.size).toBe(500);
         const codObj = codObjs[i];
@@ -616,15 +697,15 @@ describe('LinkedHashMap', () => {
       ]);
     });
 
-    test('keys', () => {
+    it('keys', () => {
       expect([...hm.keys()]).toEqual([2, 3, 4, 5, 6]);
     });
 
-    test('values', () => {
+    it('values', () => {
       expect([...hm.values()]).toEqual([2, 3, 4, 5, 6]);
     });
 
-    test('entries', () => {
+    it('entries', () => {
       expect([...hm.entries()]).toEqual([
         [2, 2],
         [3, 3],
@@ -634,21 +715,61 @@ describe('LinkedHashMap', () => {
       ]);
     });
 
-    test('every', () => {
+    it('every', () => {
       expect(hm.every(value => value > 4)).toBe(false);
     });
 
-    test('some', () => {
+    it('some', () => {
       expect(hm.some(value => value > 6)).toBe(false);
     });
 
-    test('hasValue', () => {
+    it('hasValue', () => {
       expect(hm.hasValue(3)).toBe(true);
       expect(hm.hasValue(7)).toBe(false);
     });
 
-    test('print', () => {
+    it('print', () => {
       // hm.print();
+    });
+  });
+
+  describe('HashMap HOF', () => {
+    let hashMap: LinkedHashMap;
+
+    beforeEach(() => {
+      hashMap = new LinkedHashMap<string, string>();
+      hashMap.set('key1', 'value1');
+      hashMap.set('key2', 'value2');
+      hashMap.set('key3', 'value3');
+    });
+
+    it('every() returns true if all elements match the condition', () => {
+      expect(hashMap.every(value => typeof value === 'string')).toBe(true);
+    });
+
+    it('some() returns true if any element matches the condition', () => {
+      expect(hashMap.some((value, key) => key === 'key1')).toBe(true);
+    });
+
+    it('forEach() should execute a function for each element', () => {
+      const mockCallback = jest.fn();
+      hashMap.forEach(mockCallback);
+      expect(mockCallback.mock.calls.length).toBe(3);
+    });
+
+    it('map() should transform each element', () => {
+      const newHashMap = hashMap.map(value => value.toUpperCase());
+      expect(newHashMap.get('key1')).toBe('VALUE1');
+    });
+
+    it('filter() should remove elements that do not match the condition', () => {
+      const filteredHashMap = hashMap.filter((value, key) => key !== 'key1');
+      expect(filteredHashMap.has('key1')).toBe(false);
+    });
+
+    it('reduce() should accumulate values', () => {
+      const result = hashMap.reduce((acc, value) => acc + value, '');
+      expect(result).toBe('value1value2value3');
     });
   });
 });

@@ -9,6 +9,16 @@ describe('SinglyLinkedListNode', () => {
   });
 });
 
+describe('SinglyLinkedList Initiate Test', () => {
+  it('should initiate with toElementFn', () => {
+    const sl = new SinglyLinkedList([{ key: 1 }, { key: 2 }, { key: 3 }, { key: 4 }, { key: 5 }], {
+      toElementFn: ({ key }) => key
+    });
+
+    expect([...sl]).toEqual([1, 2, 3, 4, 5]);
+  });
+});
+
 describe('SinglyLinkedList Operation Test', () => {
   let list: SinglyLinkedList<number>;
   let objectList: SinglyLinkedList<{
@@ -95,6 +105,10 @@ describe('SinglyLinkedList Operation Test', () => {
       list.push(3);
       list.addAfter(2, 4);
       expect(list.toArray()).toEqual([1, 2, 4, 3]);
+      list.addAfter(list.getNode(2)!, 4);
+      expect(list.toArray()).toEqual([1, 2, 4, 4, 3]);
+      list.addAfter(list.getNode(3)!, 4);
+      expect(list.toArray()).toEqual([1, 2, 4, 4, 3, 4]);
     });
 
     it('should return false if the existing value is not found', () => {
@@ -132,12 +146,17 @@ describe('SinglyLinkedList Operation Test', () => {
       list.push(3);
       list.push(4);
       list.push(5);
+      expect(list.delete(undefined)).toBe(false);
       expect(list.delete(2)).toBe(true);
       expect(list.toArray()).toEqual([1, 3, 4, 5]);
       expect(list.delete(1)).toBe(true);
       expect(list.toArray()).toEqual([3, 4, 5]);
       expect(list.delete(5)).toBe(true);
       expect(list.toArray()).toEqual([3, 4]);
+      expect(list.delete(4)).toBe(true);
+      expect(list.toArray()).toEqual([3]);
+      expect(list.delete(3)).toBe(true);
+      expect(list.toArray()).toEqual([]);
     });
 
     it('should return false if the value is not found', () => {
@@ -229,11 +248,14 @@ describe('SinglyLinkedList Operation Test', () => {
 
   describe('addBefore', () => {
     it('should insert an element before an existing value', () => {
+      expect(list.addBefore(2, 4)).toBe(false);
       list.push(1);
       list.push(2);
       list.push(3);
       list.addBefore(2, 4);
       expect(list.toArray()).toEqual([1, 4, 2, 3]);
+      expect(list.addBefore(list.getNode(2)!, 4)).toBe(true);
+      expect([...list]).toEqual([1, 4, 4, 2, 3]);
     });
 
     it('should insert an element at the beginning', () => {
@@ -281,7 +303,11 @@ describe('SinglyLinkedList Operation Test', () => {
     it('should delete and return the first element', () => {
       list.push(1);
       list.push(2);
+      expect(list.first).toBe(1);
+      expect(list.last).toBe(2);
       const removed = list.deleteAt(0);
+      expect(list.first).toBe(2);
+      expect(list.last).toBe(2);
       expect(removed).toBe(true);
       expect(list.toArray()).toEqual([2]);
     });
@@ -321,6 +347,9 @@ describe('SinglyLinkedList Operation Test', () => {
       list.addAt(1, 3);
       list.addAt(1, 2);
       expect(list.toArray()).toEqual([1, 2, 3]);
+      expect(list.addAt(5, 5)).toBe(false);
+      expect(list.addAt(-1, -1)).toBe(false);
+      expect(list.toArray()).toEqual([1, 2, 3]);
     });
   });
 
@@ -354,6 +383,7 @@ describe('SinglyLinkedList Operation Test', () => {
 
   it('should clone', function () {
     const sList = new SinglyLinkedList<string>();
+    sList.delete('1');
     sList.push('1');
     sList.push('6');
     sList.push('2');
@@ -367,6 +397,8 @@ describe('SinglyLinkedList Operation Test', () => {
     sList.delete('5');
     expect([...sList]).toEqual(['1', '6', '0', '9']);
     expect([...cloned]).toEqual(['1', '6', '0', '5', '9']);
+    sList.delete(sList.getNode('0'));
+    expect([...sList]).toEqual(['1', '6', '9']);
   });
 
   describe('countOccurrences', () => {

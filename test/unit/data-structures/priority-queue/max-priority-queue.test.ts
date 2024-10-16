@@ -129,4 +129,35 @@ describe('MaxPriorityQueue Operation Test', () => {
 
     expect([...maxPQ.sort()]).toEqual([8, 7, 6, 5, 4, 3, 1]);
   });
+
+  it('should MaxPriorityQueue filter, map work well', function () {
+    const minPQ2 = new MaxPriorityQueue<number>([]);
+    minPQ2.refill([2, 5, 8, 1, 6, 7, 4]);
+
+    const cloned = minPQ2.clone();
+    const filtered = cloned.filter(item => item % 2 === 1);
+    expect(filtered instanceof MaxPriorityQueue).toBe(true);
+    expect([...filtered]).toEqual([7, 1, 5]);
+
+    const mapped = filtered.map(
+      item => ({ key: item }),
+      (a, b) => b.key - a.key
+    );
+    expect(mapped instanceof MaxPriorityQueue).toBe(true);
+    expect([...mapped]).toEqual([{ key: 7 }, { key: 1 }, { key: 5 }]);
+  });
+
+  it('should MaxPriorityQueue throw an error while initialed with object data', function () {
+    expect(() => {
+      new MaxPriorityQueue<{ key: number }>([{ key: 7 }, { key: 1 }, { key: 7 }]);
+    }).toThrow(
+      "When comparing object types, a custom comparator must be defined in the constructor's options parameter."
+    );
+  });
+
+  it('should MaxPriorityQueue comparator return 0 when equal values are added', function () {
+    const duplicated = new MaxPriorityQueue<number>([7, 1, 7, 7]);
+    expect(duplicated.size).toBe(4);
+    expect([...duplicated]).toEqual([7, 7, 7, 1]);
+  });
 });

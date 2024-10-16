@@ -350,7 +350,7 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * successfully deleted from the linked list, and `false` if the value or node is not found in the linked list.
    */
   delete(valueOrNode: E | SinglyLinkedListNode<E> | undefined): boolean {
-    if (!valueOrNode) return false;
+    if (valueOrNode === undefined) return false;
     let value: E;
     if (valueOrNode instanceof SinglyLinkedListNode) {
       value = valueOrNode.value;

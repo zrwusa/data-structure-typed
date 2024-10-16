@@ -163,8 +163,8 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
       if (this.isEntry(rawEle)) {
         key = rawEle[0];
         value = rawEle[1];
-      } else if (this.toEntryFn) {
-        const item = this.toEntryFn(rawEle);
+      } else if (this._toEntryFn) {
+        const item = this._toEntryFn(rawEle);
         key = item[0];
         value = item[1];
       }
@@ -244,7 +244,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @return A new hashmap with the same values as this one
    */
   clone(): HashMap<K, V, R> {
-    return new HashMap<K, V, R>(this, { hashFn: this.hashFn, toEntryFn: this.toEntryFn });
+    return new HashMap<K, V, R>(this, { hashFn: this._hashFn, toEntryFn: this._toEntryFn });
   }
 
   /**
@@ -303,18 +303,6 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
   }
 
   /**
-   * The put function sets a value in a data structure using a specified key.
-   * @param {K} key - The key parameter is of type K, which represents the type of the key being passed
-   * to the function.
-   * @param {V} value - The value parameter represents the value that you want to associate with the
-   * specified key in the data structure.
-   * @returns The method is returning a boolean value.
-   */
-  put(key: K, value: V): boolean {
-    return this.set(key, value);
-  }
-
-  /**
    * The function returns an iterator that yields key-value pairs from both an object store and an
    * object map.
    */
@@ -349,7 +337,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
 
     let strKey: string;
     if (keyType !== 'string' && keyType !== 'number' && keyType !== 'symbol') {
-      strKey = this.hashFn(key);
+      strKey = this._hashFn(key);
     } else {
       if (keyType === 'number') {
         // TODO numeric key should has its own hash
@@ -379,7 +367,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
    * @param [options] - The `options` parameter is an optional object that can contain the following
    * properties:
    */
-  constructor(entryOrRawElements: Iterable<R> = [], options?: LinkedHashMapOptions<K, V, R>) {
+  constructor(entryOrRawElements: Iterable<R | [K, V]> = [], options?: LinkedHashMapOptions<K, V, R>) {
     super();
     this._sentinel = <HashMapLinkedNode<K, V>>{};
     this._sentinel.prev = this._sentinel.next = this._head = this._tail = this._sentinel;
@@ -395,10 +383,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     }
 
     if (entryOrRawElements) {
-      for (const el of entryOrRawElements) {
-        const [key, value] = this.toEntryFn(el);
-        this.set(key, value);
-      }
+      this.setMany(entryOrRawElements);
     }
   }
 
@@ -465,7 +450,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     return this._tail;
   }
 
-  protected _toEntryFn: (rawElement: R) => [K, V] = (rawElement: R) => {
+  protected _toEntryFn?: (rawElement: R) => [K, V] = (rawElement: R) => {
     if (this.isEntry(rawElement)) {
       // TODO, For performance optimization, it may be necessary to only inspect the first element traversed.
       return rawElement;
@@ -575,7 +560,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     const isNewKey = !this.has(key); // Check if the key is new
 
     if (isWeakKey(key)) {
-      const hash = this.objHashFn(key);
+      const hash = this._objHashFn(key);
       node = this.objMap.get(hash);
 
       if (!node && isNewKey) {
@@ -587,7 +572,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
         node.value = value;
       }
     } else {
-      const hash = this.hashFn(key);
+      const hash = this._hashFn(key);
       node = this.noObjMap[hash];
 
       if (!node && isNewKey) {
@@ -623,11 +608,20 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
    * R.
    * @returns The `setMany` function returns an array of booleans.
    */
-  setMany(entryOrRawElements: Iterable<R>): boolean[] {
+  setMany(entryOrRawElements: Iterable<R | [K, V]>): boolean[] {
     const results: boolean[] = [];
     for (const rawEle of entryOrRawElements) {
-      const [key, value] = this.toEntryFn(rawEle);
-      results.push(this.set(key, value));
+      let key: K | undefined, value: V | undefined;
+      if (this.isEntry(rawEle)) {
+        key = rawEle[0];
+        value = rawEle[1];
+      } else if (this._toEntryFn) {
+        const item = this._toEntryFn(rawEle);
+        key = item[0];
+        value = item[1];
+      }
+
+      if (key !== undefined && value !== undefined) results.push(this.set(key, value));
     }
     return results;
   }
@@ -640,10 +634,10 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
    */
   override has(key: K): boolean {
     if (isWeakKey(key)) {
-      const hash = this.objHashFn(key);
+      const hash = this._objHashFn(key);
       return this.objMap.has(hash);
     } else {
-      const hash = this.hashFn(key);
+      const hash = this._hashFn(key);
       return hash in this.noObjMap;
     }
   }
@@ -668,11 +662,11 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
    */
   override get(key: K): V | undefined {
     if (isWeakKey(key)) {
-      const hash = this.objHashFn(key);
+      const hash = this._objHashFn(key);
       const node = this.objMap.get(hash);
       return node ? node.value : undefined;
     } else {
-      const hash = this.hashFn(key);
+      const hash = this._hashFn(key);
       const node = this.noObjMap[hash];
       return node ? node.value : undefined;
     }
@@ -722,7 +716,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     let node;
 
     if (isWeakKey(key)) {
-      const hash = this.objHashFn(key);
+      const hash = this._objHashFn(key);
       // Get nodes from WeakMap
       node = this.objMap.get(hash);
 
@@ -733,7 +727,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
       // Remove nodes from WeakMap
       this.objMap.delete(hash);
     } else {
-      const hash = this.hashFn(key);
+      const hash = this._hashFn(key);
       // Get nodes from noObjMap
       node = this.noObjMap[hash];
 
@@ -832,7 +826,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
    * of the original `LinkedHashMap` object.
    */
   clone(): LinkedHashMap<K, V> {
-    const cloned = new LinkedHashMap<K, V>([], { hashFn: this.hashFn, objHashFn: this.objHashFn });
+    const cloned = new LinkedHashMap<K, V>([], { hashFn: this._hashFn, objHashFn: this._objHashFn });
     for (const entry of this) {
       const [key, value] = entry;
       cloned.set(key, value);
@@ -903,26 +897,6 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
       index++;
     }
     return mappedMap;
-  }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The put function sets a value in a data structure using a specified key.
-   * @param {K} key - The key parameter is of type K, which represents the type of the key being passed
-   * to the function.
-   * @param {V} value - The value parameter represents the value that you want to associate with the
-   * specified key in the data structure.
-   * @returns The method is returning a boolean value.
-   */
-  put(key: K, value: V): boolean {
-    return this.set(key, value);
   }
 
   /**
