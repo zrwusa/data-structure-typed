@@ -122,6 +122,8 @@ describe('HashMap', () => {
     it('should add a key-value pair', () => {
       hashMap.set('key1', 'value1');
       expect(hashMap.get('key1')).toBe('value1');
+      expect(hashMap.hasValue('value1')).toBe(true);
+      expect(hashMap.hasValue('value2')).toBe(false);
     });
 
     it('should handle object keys correctly', () => {
@@ -302,7 +304,7 @@ describe('HashMap', () => {
   });
 
   describe('HashMap HOF', () => {
-    let hashMap: HashMap;
+    let hashMap: HashMap<string, string>;
 
     beforeEach(() => {
       hashMap = new HashMap<string, string>();
@@ -338,6 +340,63 @@ describe('HashMap', () => {
     it('reduce() should accumulate values', () => {
       const result = hashMap.reduce((acc, value) => acc + value, '');
       expect(result).toBe('value1value2value3');
+    });
+
+    it('should spread in an array', () => {
+      expect([...hashMap]).toEqual([
+        ['key1', 'value1'],
+        ['key2', 'value2'],
+        ['key3', 'value3']
+      ]);
+    });
+
+    it('should find', () => {
+      const found = hashMap.find(value => value === 'value1');
+      expect(found).toEqual(['key1', 'value1']);
+      const notFound = hashMap.find(value => value === 'value6');
+      expect(notFound).toEqual(undefined);
+    });
+
+    it('should every', () => {
+      const isEvery = hashMap.every(value => value.substring(0, 5) === 'value');
+      expect(isEvery).toEqual(true);
+      const isEvery4 = hashMap.every(value => value.substring(0, 4) === 'value');
+      expect(isEvery4).toEqual(false);
+    });
+
+    it('should some', () => {
+      const isSome = hashMap.some(value => value.substring(5, 6) === '2');
+      expect(isSome).toEqual(true);
+      const isSome4 = hashMap.some(value => value.substring(0, 5) === 'value');
+      expect(isSome4).toEqual(true);
+    });
+
+    it('should forEach', () => {
+      hashMap.forEach((value, key, index) => expect(value.substring(5, 6)).toBe(String(index + 1)));
+    });
+
+    it('should entries', () => {
+      const entries = hashMap.entries();
+      expect(entries.next()).toEqual({ done: false, value: ['key1', 'value1'] });
+      expect(entries.next()).toEqual({ done: false, value: ['key2', 'value2'] });
+      expect(entries.next()).toEqual({ done: false, value: ['key3', 'value3'] });
+      expect(entries.next()).toEqual({ done: true, value: undefined });
+    });
+
+    it('should keys', () => {
+      const keys = hashMap.keys();
+      expect(keys.next()).toEqual({ done: false, value: 'key1' });
+      expect(keys.next()).toEqual({ done: false, value: 'key2' });
+      expect(keys.next()).toEqual({ done: false, value: 'key3' });
+      expect(keys.next()).toEqual({ done: true, value: undefined });
+    });
+
+    it('should values', () => {
+      const values = hashMap.values();
+      expect(values.next()).toEqual({ done: false, value: 'value1' });
+      expect(values.next()).toEqual({ done: false, value: 'value2' });
+      expect(values.next()).toEqual({ done: false, value: 'value3' });
+      expect(values.next()).toEqual({ done: true, value: undefined });
     });
   });
 });

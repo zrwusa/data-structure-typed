@@ -197,7 +197,7 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * the provided callback function. If no element satisfies the callback function, `undefined` is
    * returned.
    */
-  find(callbackfn: EntryCallback<K, V, [K, V]>, thisArg?: any): [K, V] | undefined {
+  find(callbackfn: EntryCallback<K, V, boolean>, thisArg?: any): [K, V] | undefined {
     let index = 0;
     for (const item of this) {
       const [key, value] = item;

@@ -144,4 +144,15 @@ describe('Stack iterative methods', () => {
     expect(stack.size).toBe(4);
     expect([...stack]).toEqual([1, 2, 5, 3]);
   });
+
+  it('should iterable-element-base toElementFn', () => {
+    const stack = new Stack<{ key: number }>([1, 2, 5, 3], { toElementFn: key => ({ key }) });
+    expect([...stack]).toEqual([{ key: 1 }, { key: 2 }, { key: 5 }, { key: 3 }]);
+    expect(() => {
+      new Stack<{ key: number }>([1, 2, 5, 3], {
+        // @ts-ignore
+        toElementFn: {}
+      });
+    }).toThrow('toElementFn must be a function type');
+  });
 });
