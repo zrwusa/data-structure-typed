@@ -1100,7 +1100,7 @@ describe('BST iterative methods test', () => {
       true
     );
 
-    expect(balanced.leaves()).toEqual([1, 4, 6, 9]);
-    expect(balanced.leaves(node => node?.value)).toEqual(['a', 'd', 'f', 'i']);
+    expect(balanced.leaves()).toEqual([1, 6, 4, 9]);
+    expect(balanced.leaves(node => node?.value)).toEqual(['a', 'f', 'd', 'i']);
   });
 });

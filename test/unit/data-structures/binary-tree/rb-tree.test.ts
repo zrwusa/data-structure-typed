@@ -785,7 +785,7 @@ describe('RedBlackTree - _deleteFixup', () => {
     expect(tree.root?.left?.left?.key).toBe(5);
     expect(tree.root?.left?.right?.color).toBe('BLACK');
     expect(tree.root?.left?.right?.key).toBe(15);
-    expect(tree.leaves(node => (node === null ? '' : `${node.key} ${node.color}`))).toEqual([
+    expect(tree.leaves(node => (node === null ? '' : `${node.key} ${node.color}`), tree.root, 'RECURSIVE')).toEqual([
       '8 RED',
       '15 BLACK',
       '25 RED',
