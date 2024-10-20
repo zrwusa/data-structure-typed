@@ -288,7 +288,7 @@ export class BinaryTree<
    */
   ensureNode(
     keyOrNodeOrEntryOrRawElement: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
-    iterationType: IterationType = 'ITERATIVE'
+    iterationType: IterationType = this.iterationType
   ): OptBTNOrNull<NODE> {
     if (keyOrNodeOrEntryOrRawElement === null) return null;
     if (keyOrNodeOrEntryOrRawElement === undefined) return;
@@ -800,7 +800,7 @@ export class BinaryTree<
    * It has a default value of `'ITERATIVE'`.
    * @returns a value of type NODE, null, or undefined.
    */
-  getNodeByKey(key: K, iterationType: IterationType = 'ITERATIVE'): OptBTNOrNull<NODE> {
+  getNodeByKey(key: K, iterationType: IterationType = this.iterationType): OptBTNOrNull<NODE> {
     return this.getNode(key, this._DEFAULT_CALLBACK, this.root, iterationType);
   }
 
@@ -1417,7 +1417,7 @@ export class BinaryTree<
     callback: C = this._DEFAULT_CALLBACK as C,
     pattern: DFSOrderPattern = 'IN',
     beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root,
-    iterationType: IterationType = 'ITERATIVE',
+    iterationType: IterationType = this.iterationType,
     includeNull = false
   ): ReturnType<C>[] {
     beginRoot = this.ensureNode(beginRoot);

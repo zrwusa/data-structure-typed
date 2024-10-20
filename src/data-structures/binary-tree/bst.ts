@@ -195,7 +195,7 @@ export class BST<
    */
   override ensureNode(
     keyOrNodeOrEntryOrRawElement: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
-    iterationType: IterationType = 'ITERATIVE'
+    iterationType: IterationType = this.iterationType
   ): OptBSTN<NODE> {
     return super.ensureNode(keyOrNodeOrEntryOrRawElement, iterationType) ?? undefined;
   }
@@ -522,7 +522,7 @@ export class BST<
    * It has a default value of `'ITERATIVE'`.
    * @returns The method is returning a NODE object or undefined.
    */
-  override getNodeByKey(key: K, iterationType: IterationType = 'ITERATIVE'): OptBSTN<NODE> {
+  override getNodeByKey(key: K, iterationType: IterationType = this.iterationType): OptBSTN<NODE> {
     return this.getNode(key, this._DEFAULT_CALLBACK, this.root, iterationType);
   }
 
@@ -555,7 +555,7 @@ export class BST<
     callback: C = this._DEFAULT_CALLBACK as C,
     pattern: DFSOrderPattern = 'IN',
     beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root,
-    iterationType: IterationType = 'ITERATIVE'
+    iterationType: IterationType = this.iterationType
   ): ReturnType<C>[] {
     return super.dfs(callback, pattern, beginRoot, iterationType, false);
   }
