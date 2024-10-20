@@ -829,4 +829,9 @@ describe('TreeMultiMap iterative methods test', () => {
     const values = treeMM.values();
     expect([...values]).toEqual(['a', 'b', 'c']);
   });
+
+  it('should leaves', () => {
+    const leaves = treeMM.leaves();
+    expect(leaves).toEqual([1, 3]);
+  });
 });

@@ -838,6 +838,11 @@ describe('BinaryTree iterative methods test', () => {
     expect([...values]).toEqual(['b', 'a', 'c']);
   });
 
+  it('should leaves', () => {
+    const leaves = binaryTree.leaves();
+    expect(leaves).toEqual([2, 3]);
+  });
+
   it('should iterative method return undefined when the node is null', () => {
     const tree = new BinaryTree();
     tree.addMany([-10, -10, -10, 9, 9, 20, null, null, 15, 7, 8, null, 2, null, 6, null, null, 8, 8, 8]);

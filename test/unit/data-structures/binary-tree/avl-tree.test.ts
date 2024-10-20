@@ -411,4 +411,9 @@ describe('AVLTree iterative methods test', () => {
     const values = avl.values();
     expect([...values]).toEqual(['a', 'b', 'c']);
   });
+
+  it('should leaves', () => {
+    const leaves = avl.leaves();
+    expect(leaves).toEqual([1, 3]);
+  });
 });

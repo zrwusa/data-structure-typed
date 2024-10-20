@@ -956,9 +956,15 @@ describe('BST iterative methods test', () => {
   let bst: BST<number, string>;
   beforeEach(() => {
     bst = new BST();
-    bst.add([1, 'a']);
-    bst.add([2, 'b']);
-    bst.add([3, 'c']);
+    bst.addMany(
+      [
+        [1, 'a'],
+        [2, 'b'],
+        [3, 'c']
+      ],
+      [],
+      false
+    );
   });
 
   it('The node obtained by get Node should match the node type', () => {
@@ -1031,5 +1037,70 @@ describe('BST iterative methods test', () => {
   it('should values', () => {
     const values = bst.values();
     expect([...values]).toEqual(['a', 'b', 'c']);
+  });
+
+  it('should leaves', () => {
+    const leaves = bst.leaves();
+    expect(leaves).toEqual([3]);
+  });
+
+  it('should collapsed, unbalanced, balanced bst leaves', () => {
+    const collapsedToLinkedList = new BST();
+    collapsedToLinkedList.addMany(
+      [
+        [1, 'a'],
+        [2, 'b'],
+        [3, 'c'],
+        [4, 'd'],
+        [5, 'e'],
+        [6, 'f'],
+        [7, 'g'],
+        [8, 'h'],
+        [9, 'i']
+      ],
+      [],
+      false
+    );
+
+    expect(collapsedToLinkedList.leaves()).toEqual([9]);
+
+    const unbalanced = new BST();
+    unbalanced.addMany(
+      [
+        [2, 'b'],
+        [1, 'a'],
+        [3, 'c'],
+        [4, 'd'],
+        [5, 'e'],
+        [6, 'f'],
+        [7, 'g'],
+        [8, 'h'],
+        [9, 'i']
+      ],
+      [],
+      false
+    );
+
+    expect(unbalanced.leaves()).toEqual([1, 9]);
+
+    const balanced = new BST();
+    balanced.addMany(
+      [
+        [2, 'b'],
+        [1, 'a'],
+        [3, 'c'],
+        [4, 'd'],
+        [5, 'e'],
+        [6, 'f'],
+        [7, 'g'],
+        [8, 'h'],
+        [9, 'i']
+      ],
+      [],
+      true
+    );
+
+    expect(balanced.leaves()).toEqual([1, 4, 6, 9]);
+    expect(balanced.leaves(node => node?.value)).toEqual(['a', 'd', 'f', 'i']);
   });
 });

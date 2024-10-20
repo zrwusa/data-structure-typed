@@ -26,6 +26,7 @@ import { IBinaryTree } from '../../interfaces';
 import { trampoline } from '../../utils';
 import { Queue } from '../queue';
 import { IterableEntryBase } from '../base';
+import * as console from 'console';
 
 /**
  * Represents a node in a binary tree.
@@ -348,8 +349,24 @@ export class BinaryTree<
    * `BTNKeyOrNodeOrEntry<K, V, NODE>`.
    * @returns a boolean value.
    */
-  isNIL(node: R | BTNKeyOrNodeOrEntry<K, V, NODE>) {
+  isNIL(node: R | BTNKeyOrNodeOrEntry<K, V, NODE>): boolean {
     return node === this.NIL;
+  }
+
+  /**
+   * The function `isLeaf` determines whether a given node is a leaf node in a binary tree structure.
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} node - The `node` parameter in the `isLeaf` function
+   * can be either a regular node (`R`) or a `BTNKeyOrNodeOrEntry<K, V, NODE>`.
+   * @returns The `isLeaf` function is checking if the provided node is a leaf node in a binary tree.
+   * If the node is `undefined`, it returns `false`. If the node is `null`, it returns `true`.
+   * Otherwise, it checks if both the left and right children of the node are not real nodes, and
+   * returns `true` if they are not, indicating that the node is a
+   */
+  isLeaf(node: R | BTNKeyOrNodeOrEntry<K, V, NODE>): boolean {
+    node = this.ensureNode(node);
+    if (node === undefined) return false;
+    if (node === null) return true;
+    return !this.isRealNode(node.left) && !this.isRealNode(node.right);
   }
 
   /**
@@ -1586,6 +1603,36 @@ export class BinaryTree<
     return ans;
   }
 
+  /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   */
+
+  /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   *
+   * The `leaves` function collects and returns the leaves of a binary tree using a specified callback.
+   * @param {C} callback - The `callback` parameter is a function that will be called for each node in
+   * the tree. It is a generic type `C` that extends `BTNCallback<NODE | null>`, where `NODE` is the
+   * type of nodes in the tree. The default value for `callback` is `
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter in the `leaves`
+   * method is used to specify the starting point for collecting leaves in a binary tree. It can be
+   * either a root node of the tree or a key-value pair or an entry that will be converted to a node.
+   * If not provided, the default
+   * @returns The `leaves` method is returning an array of values that are the return type of the
+   * callback function provided as an argument.
+   */
+  leaves<C extends BTNCallback<NODE | null>>(
+    callback: C = this._DEFAULT_CALLBACK as C,
+    beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root
+  ): ReturnType<C>[] {
+    beginRoot = this.ensureNode(beginRoot);
+    const leaves: ReturnType<BTNCallback<NODE>> = [];
+    this._collectLeaves(callback, beginRoot, leaves);
+    return leaves;
+  }
+
   listLevels<C extends BTNCallback<NODE>>(
     callback?: C,
     beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
@@ -1915,9 +1962,11 @@ export class BinaryTree<
 
     const display = (root: OptBTNOrNull<NODE>): void => {
       const [lines, , ,] = this._displayAux(root, opts);
+      let paragraph = '';
       for (const line of lines) {
-        console.log(line);
+        paragraph += line + '\n';
       }
+      console.log(paragraph);
     };
 
     display(beginRoot);
@@ -2186,5 +2235,49 @@ export class BinaryTree<
     }
 
     return callback;
+  }
+
+  /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   */
+
+  /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   *
+   * The function `_collectLeaves` recursively collects leaf nodes in a binary tree using a specified
+   * callback function.
+   * @param {C} callback - The `callback` parameter in the `_collectLeaves` method is a function that
+   * takes a node (of type `NODE` or `null`) as an argument and returns a value. It is a generic type
+   * `C` that extends the `BTNCallback` type. The default value for `
+   * @param node - The `node` parameter in the `_collectLeaves` method represents a binary tree node.
+   * It can either be a valid node of type `NODE` or `null`. The method checks if the node is a leaf
+   * node (i.e., it has no left or right children) and collects the
+   * @param {ReturnType<BTNCallback<NODE>>[]} leaves - The `leaves` parameter in the `_collectLeaves`
+   * method is an array that stores the return values of the callback function for each leaf node
+   * encountered during the traversal of the binary tree. It accumulates these values as leaf nodes are
+   * visited in the tree.
+   * @returns In the provided code snippet, the method `_collectLeaves` is a recursive function that
+   * collects leaf nodes in a binary tree. The function takes a callback function `callback`, a node
+   * `node`, and an array `leaves` as parameters.
+   */
+  protected _collectLeaves<C extends BTNCallback<NODE | null>>(
+    callback: C = this._DEFAULT_CALLBACK as C,
+    node: OptBTNOrNull<NODE>,
+    leaves: ReturnType<BTNCallback<NODE>>[]
+  ): void {
+    if (!this.isRealNode(node)) {
+      return;
+    }
+
+    // If both left and right are NIL, it's a leaf node
+    if (this.isLeaf(node)) {
+      leaves.push(callback(node));
+    }
+
+    // Recurse for both left and right children
+    this._collectLeaves(callback, node.left, leaves);
+    this._collectLeaves(callback, node.right, leaves);
   }
 }

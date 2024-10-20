@@ -677,3 +677,126 @@ describe('RedBlackTree 2', () => {
     });
   });
 });
+
+describe('RedBlackTree - _deleteFixup', () => {
+  let tree: RedBlackTree<number, number>;
+
+  beforeEach(() => {
+    tree = new RedBlackTree();
+  });
+
+  it('should handle deleting a red leaf node', () => {
+    tree.add(10, 10);
+    tree.add(5, 5); // Red leaf
+    tree.add(20, 20);
+
+    expect(tree.delete(5)).toHaveLength(1); // Delete red leaf
+    expect(tree.root?.left).toBe(tree.NIL); // Left child should be NIL
+  });
+
+  it('should handle deleting a black leaf node', () => {
+    tree.add(10, 10);
+    tree.add(5, 5); // Black node
+    tree.add(20, 20);
+    tree.add(1, 1); // Black leaf node
+
+    expect(tree.delete(1)).toHaveLength(1); // Delete black leaf
+    expect(tree.root?.left?.left).toBe(tree.NIL);
+  });
+
+  it('should handle deleting black node with red sibling', () => {
+    tree.add(10, 10);
+    tree.add(5, 5); // Black node
+    tree.add(20, 20); // Red sibling
+    tree.add(25, 25); // Force the sibling to be red
+
+    expect(tree.delete(5)).toHaveLength(1); // Delete black node
+    expect(tree.root?.right?.color).toBe('BLACK'); // Ensure sibling color is black after fixup
+  });
+
+  it('should handle deleting black node with black sibling', () => {
+    tree.add(10, 10);
+    tree.add(5, 5); // Black node
+    tree.add(20, 20); // Black sibling
+
+    expect(tree.delete(5)).toHaveLength(1); // Delete black node
+    expect(tree.root?.left).toBe(tree.NIL);
+  });
+
+  it('should handle deleting the root node', () => {
+    tree.add(10, 10); // Root node
+    tree.add(5, 5);
+    tree.add(20, 20);
+
+    expect(tree.delete(10)).toHaveLength(1); // Delete root node
+    expect(tree.root?.key).toBe(20); // New root should be 20
+  });
+
+  it('should handle complex case with multiple rotations', () => {
+    tree.add(10, 10);
+    tree.add(5, 5);
+    tree.add(15, 15);
+    tree.add(12, 12);
+    tree.add(18, 18);
+    tree.add(16, 16);
+
+    // Delete a node that will cause rotations and color changes
+    expect(tree.delete(5)).toHaveLength(1);
+
+    // Verify the color and structure after fixup
+    expect(tree.root?.color).toBe('BLACK');
+    expect(tree.root?.left).toBe(tree.NIL);
+    expect(tree.root?.right?.left?.color).toBe('BLACK');
+  });
+
+  it('should handle complex delete fixup scenarios', () => {
+    const tree = new RedBlackTree<number, number>();
+
+    // Build a tree that will require complex fixup
+    tree.add(20, 20);
+    tree.add(10, 10);
+    tree.add(30, 30);
+    tree.add(5, 5);
+    tree.add(15, 15);
+    tree.add(25, 25);
+    tree.add(35, 35);
+    tree.add(2, 2);
+    tree.add(8, 8);
+
+    // This deletion should trigger a complex fixup
+    tree.delete(2);
+    // tree.print(tree.root, { isShowNull: true, isShowRedBlackNIL: true, isShowUndefined: false });
+
+    expect(tree.isLeaf(2)).toBe(false);
+    expect(tree.isLeaf(8)).toBe(true);
+    expect(tree.isLeaf(15)).toBe(true);
+    expect(tree.isLeaf(25)).toBe(true);
+    expect(tree.isLeaf(35)).toBe(true);
+    expect(tree.isLeaf(20)).toBe(false);
+    expect(tree.isLeaf(30)).toBe(false);
+    // Verify tree structure and colors after fixup
+    expect(tree.root?.color).toBe('BLACK');
+    expect(tree.root?.key).toBe(20);
+    expect(tree.root?.left?.color).toBe('RED');
+    expect(tree.root?.left?.key).toBe(10);
+    expect(tree.root?.right?.color).toBe('BLACK');
+    expect(tree.root?.right?.key).toBe(30);
+    expect(tree.root?.left?.left?.color).toBe('BLACK');
+    expect(tree.root?.left?.left?.key).toBe(5);
+    expect(tree.root?.left?.right?.color).toBe('BLACK');
+    expect(tree.root?.left?.right?.key).toBe(15);
+    expect(tree.leaves(node => (node === null ? '' : `${node.key} ${node.color}`))).toEqual([
+      '8 RED',
+      '15 BLACK',
+      '25 RED',
+      '35 RED'
+    ]);
+    expect(tree.listLevels(node => (node === tree.NIL ? 'NIL' : `${node.key} ${node.color}`))).toEqual([
+      ['20 BLACK'],
+      ['10 RED', '30 BLACK'],
+      ['5 BLACK', '15 BLACK', '25 RED', '35 RED'],
+      ['NIL', '8 RED', 'NIL', 'NIL', 'NIL', 'NIL', 'NIL', 'NIL'],
+      ['NIL', 'NIL']
+    ]);
+  });
+});
