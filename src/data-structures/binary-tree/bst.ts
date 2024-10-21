@@ -557,7 +557,7 @@ export class BST<
     beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): ReturnType<C>[] {
-    return super.dfs(callback, pattern, beginRoot, iterationType, false);
+    return super.dfs(callback, pattern, beginRoot, iterationType);
   }
 
   /**

@@ -27,6 +27,7 @@ import { trampoline } from '../../utils';
 import { Queue } from '../queue';
 import { IterableEntryBase } from '../base';
 import * as console from 'console';
+import { DFSOperation, DFSStackItem } from '../../types';
 
 /**
  * Represents a node in a binary tree.
@@ -1373,8 +1374,7 @@ export class BinaryTree<
     callback?: C,
     pattern?: DFSOrderPattern,
     beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
-    iterationType?: IterationType,
-    includeNull?: false
+    iterationType?: IterationType
   ): ReturnType<C>[];
 
   dfs<C extends BTNCallback<NODE | null>>(
@@ -1382,7 +1382,7 @@ export class BinaryTree<
     pattern?: DFSOrderPattern,
     beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     iterationType?: IterationType,
-    includeNull?: true
+    includeNull?: boolean
   ): ReturnType<C>[];
 
   /**
@@ -1422,90 +1422,7 @@ export class BinaryTree<
   ): ReturnType<C>[] {
     beginRoot = this.ensureNode(beginRoot);
     if (!beginRoot) return [];
-    const ans: ReturnType<C>[] = [];
-    if (iterationType === 'RECURSIVE') {
-      const dfs = (node: OptBTNOrNull<NODE>) => {
-        switch (pattern) {
-          case 'IN':
-            if (includeNull) {
-              if (this.isRealNode(node) && this.isNodeOrNull(node.left)) dfs(node.left);
-              this.isNodeOrNull(node) && ans.push(callback(node));
-              if (this.isRealNode(node) && this.isNodeOrNull(node.right)) dfs(node.right);
-            } else {
-              if (this.isRealNode(node) && this.isRealNode(node.left)) dfs(node.left);
-              this.isRealNode(node) && ans.push(callback(node));
-              if (this.isRealNode(node) && this.isRealNode(node.right)) dfs(node.right);
-            }
-            break;
-          case 'PRE':
-            if (includeNull) {
-              this.isNodeOrNull(node) && ans.push(callback(node));
-              if (this.isRealNode(node) && this.isNodeOrNull(node.left)) dfs(node.left);
-              if (this.isRealNode(node) && this.isNodeOrNull(node.right)) dfs(node.right);
-            } else {
-              this.isRealNode(node) && ans.push(callback(node));
-              if (this.isRealNode(node) && this.isRealNode(node.left)) dfs(node.left);
-              if (this.isRealNode(node) && this.isRealNode(node.right)) dfs(node.right);
-            }
-            break;
-          case 'POST':
-            if (includeNull) {
-              if (this.isRealNode(node) && this.isNodeOrNull(node.left)) dfs(node.left);
-              if (this.isRealNode(node) && this.isNodeOrNull(node.right)) dfs(node.right);
-              this.isNodeOrNull(node) && ans.push(callback(node));
-            } else {
-              if (this.isRealNode(node) && this.isRealNode(node.left)) dfs(node.left);
-              if (this.isRealNode(node) && this.isRealNode(node.right)) dfs(node.right);
-              this.isRealNode(node) && ans.push(callback(node));
-            }
-
-            break;
-        }
-      };
-
-      dfs(beginRoot);
-    } else {
-      // 0: visit, 1: print
-      const stack: { opt: 0 | 1; node: OptBTNOrNull<NODE> }[] = [{ opt: 0, node: beginRoot }];
-
-      while (stack.length > 0) {
-        const cur = stack.pop();
-        if (cur === undefined || this.isNIL(cur.node)) continue;
-        if (includeNull) {
-          if (cur.node === undefined) continue;
-        } else {
-          if (cur.node === null || cur.node === undefined) continue;
-        }
-        if (cur.opt === 1) {
-          ans.push(callback(cur.node));
-        } else {
-          switch (pattern) {
-            case 'IN':
-              cur.node && stack.push({ opt: 0, node: cur.node.right });
-              stack.push({ opt: 1, node: cur.node });
-              cur.node && stack.push({ opt: 0, node: cur.node.left });
-              break;
-            case 'PRE':
-              cur.node && stack.push({ opt: 0, node: cur.node.right });
-              cur.node && stack.push({ opt: 0, node: cur.node.left });
-              stack.push({ opt: 1, node: cur.node });
-              break;
-            case 'POST':
-              stack.push({ opt: 1, node: cur.node });
-              cur.node && stack.push({ opt: 0, node: cur.node.right });
-              cur.node && stack.push({ opt: 0, node: cur.node.left });
-              break;
-            default:
-              cur.node && stack.push({ opt: 0, node: cur.node.right });
-              stack.push({ opt: 1, node: cur.node });
-              cur.node && stack.push({ opt: 0, node: cur.node.left });
-              break;
-          }
-        }
-      }
-    }
-
-    return ans;
+    return this._dfs(callback, pattern, beginRoot, iterationType, includeNull);
   }
 
   bfs<C extends BTNCallback<NODE>>(
@@ -2002,6 +1919,163 @@ export class BinaryTree<
     };
 
     display(beginRoot);
+  }
+
+  protected _dfs<C extends BTNCallback<NODE>>(
+    callback?: C,
+    pattern?: DFSOrderPattern,
+    beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
+    iterationType?: IterationType
+  ): ReturnType<C>[];
+
+  protected _dfs<C extends BTNCallback<NODE | null>>(
+    callback?: C,
+    pattern?: DFSOrderPattern,
+    beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
+    iterationType?: IterationType,
+    includeNull?: boolean
+  ): ReturnType<C>[];
+
+  /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   */
+
+  /**
+   * Time complexity: O(n)
+   * Space complexity: O(n)
+   *
+   * The `dfs` function performs a depth-first search traversal on a binary tree, executing a callback
+   * function on each node according to a specified pattern and iteration type.
+   * @param {C} callback - The `callback` parameter is a function that will be called for each node
+   * visited during the depth-first search. It takes a node as an argument and returns a value. The
+   * return type of the callback function is determined by the generic type `C`.
+   * @param {DFSOrderPattern} [pattern=IN] - The `pattern` parameter determines the order in which the
+   * nodes are visited during the depth-first search. It can have one of the following values:
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter is the starting
+   * point of the depth-first search. It can be either a node object, a key-value pair, or a key. If it
+   * is a key or key-value pair, the method will find the corresponding node in the tree and start the
+   * search from there.
+   * @param {IterationType} [iterationType=ITERATIVE] - The `iterationType` parameter determines the
+   * type of iteration to use during the depth-first search. It can have two possible values:
+   * @param [includeNull=false] - The `includeNull` parameter is a boolean value that determines
+   * whether or not to include null values in the depth-first search traversal. If `includeNull` is set
+   * to `true`, null values will be included in the traversal. If `includeNull` is set to `false`, null
+   * values will
+   * @returns an array of the return types of the callback function.
+   */
+  protected _dfs<C extends BTNCallback<OptBTNOrNull<NODE>>>(
+    callback: C = this._DEFAULT_CALLBACK as C,
+    pattern: DFSOrderPattern = 'IN',
+    beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root,
+    iterationType: IterationType = this.iterationType,
+    includeNull = false
+  ): ReturnType<C>[] {
+    beginRoot = this.ensureNode(beginRoot);
+    if (!beginRoot) return [];
+    const ans: ReturnType<C>[] = [];
+    if (iterationType === 'RECURSIVE') {
+      const visitNullableLeft = (node: OptBTNOrNull<NODE>) => {
+        if (node && this.isNodeOrNull(node.left)) dfs(node.left);
+      };
+      const visitLeft = (node: OptBTNOrNull<NODE>) => {
+        if (node && this.isRealNode(node.left)) dfs(node.left);
+      };
+      const visitNullableRight = (node: OptBTNOrNull<NODE>) => {
+        if (node && this.isNodeOrNull(node.right)) dfs(node.right);
+      };
+      const visitRight = (node: OptBTNOrNull<NODE>) => {
+        if (node && this.isRealNode(node.right)) dfs(node.right);
+      };
+
+      const dfs = (node: OptBTNOrNull<NODE>) => {
+        switch (pattern) {
+          case 'IN':
+            if (includeNull) {
+              visitNullableLeft(node);
+              ans.push(callback(node));
+              visitNullableRight(node);
+            } else {
+              visitLeft(node);
+              ans.push(callback(node));
+              visitRight(node);
+            }
+            break;
+          case 'PRE':
+            if (includeNull) {
+              ans.push(callback(node));
+              visitNullableLeft(node);
+              visitNullableRight(node);
+            } else {
+              ans.push(callback(node));
+              visitLeft(node);
+              visitRight(node);
+            }
+            break;
+          case 'POST':
+            if (includeNull) {
+              visitNullableLeft(node);
+              visitNullableRight(node);
+              ans.push(callback(node));
+            } else {
+              visitLeft(node);
+              visitRight(node);
+              ans.push(callback(node));
+            }
+            break;
+        }
+      };
+
+      dfs(beginRoot);
+    } else {
+      const stack: DFSStackItem<NODE>[] = [{ opt: DFSOperation.VISIT, node: beginRoot }];
+      const pushLeft = (cur: DFSStackItem<NODE>) => {
+        cur.node && stack.push({ opt: DFSOperation.VISIT, node: cur.node.left });
+      };
+      const pushRight = (cur: DFSStackItem<NODE>) => {
+        cur.node && stack.push({ opt: DFSOperation.VISIT, node: cur.node.right });
+      };
+      const pushParent = (cur: DFSStackItem<NODE>) => {
+        stack.push({ opt: DFSOperation.PROCESS, node: cur.node });
+      };
+      while (stack.length > 0) {
+        const cur = stack.pop();
+        if (cur === undefined) continue;
+        if (includeNull) {
+          if (!this.isNodeOrNull(cur.node)) continue;
+        } else {
+          if (!this.isRealNode(cur.node)) continue;
+        }
+        if (cur.opt === 1) {
+          ans.push(callback(cur.node));
+        } else {
+          switch (pattern) {
+            case 'IN':
+              pushRight(cur);
+              pushParent(cur);
+              pushLeft(cur);
+              break;
+            case 'PRE':
+              pushRight(cur);
+              pushLeft(cur);
+              pushParent(cur);
+              break;
+            case 'POST':
+              pushParent(cur);
+              pushRight(cur);
+              pushLeft(cur);
+              break;
+            default:
+              pushRight(cur);
+              pushParent(cur);
+              pushLeft(cur);
+              break;
+          }
+        }
+      }
+    }
+
+    return ans;
   }
 
   /**

@@ -292,28 +292,177 @@ describe('BinaryTree', () => {
     expect(tree.getNodes(tree.getNodeByKey(2), undefined, false, tree.root)).toEqual([tree.getNodeByKey(2)]);
   });
 
+  it('should tree traverse', () => {
+    tree.addMany([4, 2, 6, null, 1, 3, null, 5, null, 7]);
+    expect(tree.dfs(node => node.key, 'PRE', undefined, 'ITERATIVE')).toEqual([4, 2, 1, 5, 6, 3, 7]);
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'PRE', undefined, 'ITERATIVE', false)).toEqual([
+      4, 2, 1, 5, 6, 3, 7
+    ]);
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'PRE', undefined, 'ITERATIVE', true)).toEqual([
+      4,
+      2,
+      null,
+      1,
+      5,
+      null,
+      6,
+      3,
+      7,
+      null
+    ]);
+
+    expect(tree.dfs(node => node.key, 'PRE', undefined, 'RECURSIVE')).toEqual([4, 2, 1, 5, 6, 3, 7]);
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'PRE', undefined, 'RECURSIVE', false)).toEqual([
+      4, 2, 1, 5, 6, 3, 7
+    ]);
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'PRE', undefined, 'RECURSIVE', true)).toEqual([
+      4,
+      2,
+      null,
+      1,
+      5,
+      null,
+      6,
+      3,
+      7,
+      null
+    ]);
+
+    expect(tree.dfs(node => node.key, 'IN', undefined, 'ITERATIVE')).toEqual([2, 5, 1, 4, 7, 3, 6]);
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'IN', undefined, 'ITERATIVE', false)).toEqual([
+      2, 5, 1, 4, 7, 3, 6
+    ]);
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'IN', undefined, 'ITERATIVE', true)).toEqual([
+      null,
+      2,
+      5,
+      1,
+      null,
+      4,
+      7,
+      3,
+      6,
+      null
+    ]);
+
+    expect(tree.dfs(node => node.key, 'IN', undefined, 'RECURSIVE')).toEqual([2, 5, 1, 4, 7, 3, 6]);
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'IN', undefined, 'RECURSIVE', false)).toEqual([
+      2, 5, 1, 4, 7, 3, 6
+    ]);
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'IN', undefined, 'RECURSIVE', true)).toEqual([
+      null,
+      2,
+      5,
+      1,
+      null,
+      4,
+      7,
+      3,
+      6,
+      null
+    ]);
+
+    expect(tree.dfs(node => node.key, 'POST', undefined, 'ITERATIVE')).toEqual([5, 1, 2, 7, 3, 6, 4]);
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'POST', undefined, 'ITERATIVE', false)).toEqual([
+      5, 1, 2, 7, 3, 6, 4
+    ]);
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'POST', undefined, 'ITERATIVE', true)).toEqual([
+      null,
+      5,
+      null,
+      1,
+      2,
+      7,
+      3,
+      null,
+      6,
+      4
+    ]);
+
+    expect(tree.dfs(node => node.key, 'POST', undefined, 'RECURSIVE')).toEqual([5, 1, 2, 7, 3, 6, 4]);
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'POST', undefined, 'RECURSIVE', false)).toEqual([
+      5, 1, 2, 7, 3, 6, 4
+    ]);
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'POST', undefined, 'RECURSIVE', true)).toEqual([
+      null,
+      5,
+      null,
+      1,
+      2,
+      7,
+      3,
+      null,
+      6,
+      4
+    ]);
+  });
+
   it('should sub tree traverse', () => {
     tree.addMany([4, 2, 6, null, 1, 3, null, 5, null, 7]);
     expect(tree.dfs(node => node.key, 'PRE', tree.getNode(6), 'ITERATIVE')).toEqual([6, 3, 7]);
-    expect(tree.dfs(node => node.key, 'PRE', tree.getNode(6), 'ITERATIVE', false)).toEqual([6, 3, 7]);
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'PRE', tree.getNode(6), 'ITERATIVE', false)).toEqual([
+      6, 3, 7
+    ]);
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'PRE', tree.getNode(6), 'ITERATIVE', true)).toEqual([
+      6,
+      3,
+      7,
+      null
+    ]);
+
     expect(tree.dfs(node => node.key, 'PRE', tree.getNode(6), 'RECURSIVE')).toEqual([6, 3, 7]);
-    expect(tree.dfs(node => (node ? node.key : null), 'PRE', tree.getNode(6), 'ITERATIVE', true)).toEqual([
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'PRE', tree.getNode(6), 'RECURSIVE', false)).toEqual([
+      6, 3, 7
+    ]);
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'PRE', tree.getNode(6), 'RECURSIVE', true)).toEqual([
       6,
       3,
       7,
       null
     ]);
-    expect(tree.dfs(node => (node ? node.key : node), 'PRE', tree.getNode(6), 'ITERATIVE', true)).toEqual([
-      6,
-      3,
+
+    expect(tree.dfs(node => node.key, 'IN', tree.getNode(6), 'ITERATIVE')).toEqual([7, 3, 6]);
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'IN', tree.getNode(6), 'ITERATIVE', false)).toEqual([
+      7, 3, 6
+    ]);
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'IN', tree.getNode(6), 'ITERATIVE', true)).toEqual([
       7,
+      3,
+      6,
       null
     ]);
-    expect(tree.dfs(node => (node ? node.key : null), 'PRE', tree.getNode(6), 'RECURSIVE', true)).toEqual([
-      6,
-      3,
+
+    expect(tree.dfs(node => node.key, 'IN', tree.getNode(6), 'RECURSIVE')).toEqual([7, 3, 6]);
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'IN', tree.getNode(6), 'RECURSIVE', false)).toEqual([
+      7, 3, 6
+    ]);
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'IN', tree.getNode(6), 'RECURSIVE', true)).toEqual([
       7,
+      3,
+      6,
       null
+    ]);
+
+    expect(tree.dfs(node => node.key, 'POST', tree.getNode(6), 'ITERATIVE')).toEqual([7, 3, 6]);
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'POST', tree.getNode(6), 'ITERATIVE', false)).toEqual([
+      7, 3, 6
+    ]);
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'POST', tree.getNode(6), 'ITERATIVE', true)).toEqual([
+      7,
+      3,
+      null,
+      6
+    ]);
+
+    expect(tree.dfs(node => node.key, 'POST', tree.getNode(6), 'RECURSIVE')).toEqual([7, 3, 6]);
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'POST', tree.getNode(6), 'RECURSIVE', false)).toEqual([
+      7, 3, 6
+    ]);
+    expect(tree.dfs(node => (node !== null ? node.key : null), 'POST', tree.getNode(6), 'RECURSIVE', true)).toEqual([
+      7,
+      3,
+      null,
+      6
     ]);
   });
 

@@ -29,3 +29,10 @@ export type BTNPureKeyOrNodeOrEntry<K, V, NODE> = [K, OptValue<V>] | BTNPureKeyO
 export type BinaryTreeDeleteResult<NODE> = { deleted: OptBTNOrNull<NODE>; needBalanced: OptBTNOrNull<NODE> };
 
 export type BTNCallback<NODE, D = any> = (node: NODE) => D;
+
+export enum DFSOperation {
+  VISIT = 0,
+  PROCESS = 1,
+}
+
+export type DFSStackItem<NODE> = { opt: DFSOperation; node: OptBTNOrNull<NODE> }
