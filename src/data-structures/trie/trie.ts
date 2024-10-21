@@ -150,11 +150,6 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
   /**
    * Time Complexity: O(l), where l is the length of the word being added.
    * Space Complexity: O(l) - Each character in the word adds a TrieNode.
-   */
-
-  /**
-   * Time Complexity: O(l), where l is the length of the word being added.
-   * Space Complexity: O(l) - Each character in the word adds a TrieNode.
    *
    * Add a word to the Trie structure.
    * @param {string} word - The word to add.
@@ -183,11 +178,6 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
   /**
    * Time Complexity: O(l), where l is the length of the input word.
    * Space Complexity: O(1) - Constant space.
-   */
-
-  /**
-   * Time Complexity: O(l), where l is the length of the input word.
-   * Space Complexity: O(1) - Constant space.
    *
    * Check if the Trie contains a given word.
    * @param {string} word - The word to check for.
@@ -207,11 +197,6 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The isEmpty function checks if the size of the queue is 0.
    * @return True if the size of the queue is 0
@@ -223,11 +208,6 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The clear function resets the size of the Trie to 0 and creates a new root TrieNode.
    */
@@ -235,11 +215,6 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
     this._size = 0;
     this._root = new TrieNode('');
   }
-
-  /**
-   * Time Complexity: O(l), where l is the length of the word being deleted.
-   * Space Complexity: O(n) - Due to the recursive DFS approach.
-   */
 
   /**
    * Time Complexity: O(l), where l is the length of the word being deleted.
@@ -288,11 +263,6 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
   /**
    * Time Complexity: O(n), where n is the total number of nodes in the trie.
    * Space Complexity: O(1) - Constant space.
-   */
-
-  /**
-   * Time Complexity: O(n), where n is the total number of nodes in the trie.
-   * Space Complexity: O(1) - Constant space.
    *
    */
   getHeight(): number {
@@ -318,11 +288,6 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
   /**
    * Time Complexity: O(l), where l is the length of the input prefix.
    * Space Complexity: O(1) - Constant space.
-   */
-
-  /**
-   * Time Complexity: O(l), where l is the length of the input prefix.
-   * Space Complexity: O(1) - Constant space.
    *
    * Check if a given input string has an absolute prefix in the Trie, meaning it's not a complete word.
    * @param {string} input - The input string to check.
@@ -342,11 +307,6 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
   /**
    * Time Complexity: O(l), where l is the length of the input prefix.
    * Space Complexity: O(1) - Constant space.
-   */
-
-  /**
-   * Time Complexity: O(l), where l is the length of the input prefix.
-   * Space Complexity: O(1) - Constant space.
    *
    * Check if a given input string is a prefix of any existing word in the Trie, whether as an absolute prefix or a complete word.
    * @param {string} input - The input string representing the prefix to check.
@@ -362,11 +322,6 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
     }
     return true;
   }
-
-  /**
-   * Time Complexity: O(n), where n is the total number of nodes in the trie.
-   * Space Complexity: O(l), where l is the length of the input prefix.
-   */
 
   /**
    * Time Complexity: O(n), where n is the total number of nodes in the trie.
@@ -393,11 +348,6 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
   /**
    * Time Complexity: O(n), where n is the total number of nodes in the trie.
    * Space Complexity: O(l), where l is the length of the longest common prefix.
-   */
-
-  /**
-   * Time Complexity: O(n), where n is the total number of nodes in the trie.
-   * Space Complexity: O(l), where l is the length of the longest common prefix.
    *
    * Get the longest common prefix among all the words stored in the Trie.
    * @returns {string} The longest common prefix found in the Trie.
@@ -413,11 +363,6 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
     dfs(this.root);
     return commonPre;
   }
-
-  /**
-   * Time Complexity: O(w * l), where w is the number of words retrieved, and l is the average length of the words.
-   * Space Complexity: O(w * l) - The space required for the output array.
-   */
 
   /**
    * Time Complexity: O(w * l), where w is the number of words retrieved, and l is the average length of the words.
@@ -471,11 +416,6 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
    *
    * The `clone` function returns a new instance of the Trie class with the same values and case
    * sensitivity as the original Trie.
@@ -484,11 +424,6 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
   clone(): Trie<R> {
     return new Trie<R>(this, { caseSensitive: this.caseSensitive, toElementFn: this.toElementFn });
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -515,11 +450,6 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
     }
     return results;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -556,11 +486,6 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
    *
    * The function `_getIterator` returns an iterable iterator that performs a depth-first search on a
    * trie data structure and yields all the paths to the end nodes.
@@ -577,11 +502,6 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
 
     yield* _dfs(this.root, '');
   }
-
-  /**
-   * Time Complexity: O(l), where l is the length of the input string.
-   * Space Complexity: O(1) - Constant space.
-   */
 
   /**
    * Time Complexity: O(l), where l is the length of the input string.

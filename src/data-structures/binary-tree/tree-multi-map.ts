@@ -103,11 +103,6 @@ export class TreeMultiMap<
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The function calculates the sum of the count property of all nodes in a tree using depth-first
    * search.
@@ -205,11 +200,6 @@ export class TreeMultiMap<
   /**
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
    *
    * The function overrides the add method of a class and adds a new node to a data structure, updating
    * the count and returning a boolean indicating success.
@@ -235,11 +225,6 @@ export class TreeMultiMap<
       return false;
     }
   }
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(log n)
@@ -355,11 +340,6 @@ export class TreeMultiMap<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The "clear" function overrides the parent class's "clear" function and also resets the count to
    * zero.
@@ -368,11 +348,6 @@ export class TreeMultiMap<
     super.clear();
     this._count = 0;
   }
-
-  /**
-   * Time Complexity: O(n log n)
-   * Space Complexity: O(log n)
-   */
 
   /**
    * Time Complexity: O(n log n)
@@ -428,11 +403,6 @@ export class TreeMultiMap<
   /**
    * Time complexity: O(n)
    * Space complexity: O(n)
-   */
-
-  /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
    *
    * The function overrides the clone method to create a deep copy of a tree object.
    * @returns The `clone()` method is returning a cloned instance of the `TREE` object.
@@ -442,11 +412,6 @@ export class TreeMultiMap<
     this.bfs(node => cloned.add(node.key, node.value, node.count));
     return cloned;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -489,11 +454,6 @@ export class TreeMultiMap<
     }
     return undefined;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)

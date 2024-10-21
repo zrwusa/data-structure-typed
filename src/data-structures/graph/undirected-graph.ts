@@ -99,11 +99,6 @@ export class UndirectedGraph<
   /**
    * Time Complexity: O(|E|), where |E| is the number of edgeMap incident to the given vertex.
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(|E|), where |E| is the number of edgeMap incident to the given vertex.
-   * Space Complexity: O(1)
    *
    * The function `getEdge` returns the first edge that connects two endpoints, or undefined if no such edge exists.
    * @param {VO | VertexKey | undefined} v1 - The parameter `v1` represents a vertex or vertex ID. It can be of type `VO` (vertex
@@ -126,11 +121,6 @@ export class UndirectedGraph<
 
     return edgeMap ? edgeMap[0] || undefined : undefined;
   }
-
-  /**
-   * Time Complexity: O(|E|), where |E| is the number of edgeMap incident to the given vertex.
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(|E|), where |E| is the number of edgeMap incident to the given vertex.
@@ -165,11 +155,6 @@ export class UndirectedGraph<
   /**
    * Time Complexity: O(E), where E is the number of edgeMap incident to the given vertex.
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(E), where E is the number of edgeMap incident to the given vertex.
-   * Space Complexity: O(1)
    *
    * The function `deleteEdge` deletes an edge between two endpoints in a graph.
    * @param {EO | VertexKey} edgeOrOneSideVertexKey - The parameter `edgeOrOneSideVertexKey` can be
@@ -200,11 +185,6 @@ export class UndirectedGraph<
       return;
     }
   }
-
-  /**
-   * Time Complexity: O(1) - Constant time for Map operations.
-   * Space Complexity: O(1) - Constant space, as it creates only a few variables.
-   */
 
   /**
    * Time Complexity: O(1) - Constant time for Map operations.
@@ -247,11 +227,6 @@ export class UndirectedGraph<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The function `degreeOf` returns the degree of a vertex in a graph, which is the number of edgeMap connected to that
    * vertex.
@@ -267,11 +242,6 @@ export class UndirectedGraph<
       return 0;
     }
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -294,11 +264,6 @@ export class UndirectedGraph<
   /**
    * Time Complexity: O(|V| + |E|), where |V| is the number of vertexMap and |E| is the number of edgeMap.
    * Space Complexity: O(|E|)
-   */
-
-  /**
-   * Time Complexity: O(|V| + |E|), where |V| is the number of vertexMap and |E| is the number of edgeMap.
-   * Space Complexity: O(|E|)
    *
    * The function "edgeSet" returns an array of unique edgeMap from a set of edgeMap.
    * @returns The method `edgeSet()` returns an array of type `EO[]`.
@@ -312,11 +277,6 @@ export class UndirectedGraph<
     });
     return [...edgeSet];
   }
-
-  /**
-   * Time Complexity: O(|V| + |E|), where |V| is the number of vertexMap and |E| is the number of edgeMap.
-   * Space Complexity: O(|E|)
-   */
 
   /**
    * Time Complexity: O(|V| + |E|), where |V| is the number of vertexMap and |E| is the number of edgeMap.
@@ -341,11 +301,6 @@ export class UndirectedGraph<
     }
     return neighbors;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -381,11 +336,6 @@ export class UndirectedGraph<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The clear function resets the vertex and edge maps to empty maps.
    */
@@ -409,11 +359,6 @@ export class UndirectedGraph<
     cloned.edgeMap = new Map<VO, EO[]>(this.edgeMap);
     return cloned;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    *  Time Complexity: O(V + E)
@@ -483,13 +428,6 @@ export class UndirectedGraph<
       cutVertices
     };
   }
-
-  /**
-   *  Time Complexity: O(V + E)
-   *  Space Complexity: O(V)
-   *  Tarjan is an algorithm based on dfs,which is used to solve the connectivity problem of graphs.
-   *  1. Tarjan can find the articulation points and bridges(critical edgeMap) of undirected graphs in linear time
-   */
 
   /**
    * The function "getBridges" returns an array of bridges in a graph using the Tarjan's algorithm.

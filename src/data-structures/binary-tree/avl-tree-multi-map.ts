@@ -108,11 +108,6 @@ export class AVLTreeMultiMap<
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The function calculates the sum of the count property of all nodes in a tree using depth-first
    * search.
@@ -206,11 +201,6 @@ export class AVLTreeMultiMap<
   /**
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
    *
    * The function overrides the add method of a TypeScript class to add a new node to a data structure
    * and update the count.
@@ -236,11 +226,6 @@ export class AVLTreeMultiMap<
     }
     return true;
   }
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(log n)
@@ -325,11 +310,6 @@ export class AVLTreeMultiMap<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The "clear" function overrides the parent class's "clear" function and also resets the count to
    * zero.
@@ -338,11 +318,6 @@ export class AVLTreeMultiMap<
     super.clear();
     this._count = 0;
   }
-
-  /**
-   * Time Complexity: O(n log n)
-   * Space Complexity: O(log n)
-   */
 
   /**
    * Time Complexity: O(n log n)
@@ -397,11 +372,6 @@ export class AVLTreeMultiMap<
   /**
    * Time complexity: O(n)
    * Space complexity: O(n)
-   */
-
-  /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
    *
    * The function overrides the clone method to create a deep copy of a tree object.
    * @returns The `clone()` method is returning a cloned instance of the `TREE` object.
@@ -411,11 +381,6 @@ export class AVLTreeMultiMap<
     this.bfs(node => cloned.add(node.key, node.value, node.count));
     return cloned;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -457,11 +422,6 @@ export class AVLTreeMultiMap<
     }
     return undefined;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)

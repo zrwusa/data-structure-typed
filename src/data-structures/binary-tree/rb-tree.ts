@@ -129,11 +129,6 @@ export class RedBlackTree<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The function checks if the input is an instance of the RedBlackTreeNode class.
    * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
@@ -186,11 +181,6 @@ export class RedBlackTree<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The "clear" function sets the root node of a data structure to a sentinel value and resets the
    * size counter to zero.
@@ -199,11 +189,6 @@ export class RedBlackTree<
     super.clear();
     this._root = this.NIL;
   }
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(log n)
@@ -237,11 +222,6 @@ export class RedBlackTree<
       return true;
     } else return insertStatus === 'UPDATED';
   }
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(log n)
@@ -322,11 +302,6 @@ export class RedBlackTree<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The function sets the root of a tree-like structure and updates the parent property of the new
    * root.
@@ -338,11 +313,6 @@ export class RedBlackTree<
     }
     this._root = v;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -361,11 +331,6 @@ export class RedBlackTree<
 
     return super._replaceNode(oldNode, newNode);
   }
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(log n)
@@ -417,11 +382,6 @@ export class RedBlackTree<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The function `_transplant` is used to replace a node `u` with another node `v` in a binary tree.
    * @param {NODE} u - The parameter "u" represents a node in a binary tree.
@@ -441,11 +401,6 @@ export class RedBlackTree<
       v.parent = u.parent;
     }
   }
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(log n)
@@ -512,11 +467,6 @@ export class RedBlackTree<
     // Ensure that the root is black after fixing
     if (this.isRealNode(this._root)) this._root.color = 'BLACK';
   }
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(log n)
@@ -604,11 +554,6 @@ export class RedBlackTree<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The `_leftRotate` function performs a left rotation on a given node in a binary tree.
    * @param {NODE | undefined} x - The parameter `x` is of type `NODE | undefined`. It represents a
@@ -640,11 +585,6 @@ export class RedBlackTree<
     y.left = x;
     x.parent = y;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)

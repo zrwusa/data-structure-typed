@@ -32,10 +32,6 @@ export abstract class IterableElementBase<E, R, C> {
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The function is an implementation of the Symbol.iterator method that returns an IterableIterator.
    * @param {any[]} args - The `args` parameter in the code snippet represents a rest parameter. It
@@ -49,10 +45,6 @@ export abstract class IterableElementBase<E, R, C> {
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   */
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
    *
    * The function returns an iterator that yields all the values in the object.
    */
@@ -62,10 +54,6 @@ export abstract class IterableElementBase<E, R, C> {
     }
   }
 
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
@@ -93,15 +81,6 @@ export abstract class IterableElementBase<E, R, C> {
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The "some" function checks if at least one element in a collection satisfies a given predicate.
    * @param predicate - The `predicate` parameter is a callback function that takes three arguments:
@@ -126,11 +105,6 @@ export abstract class IterableElementBase<E, R, C> {
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The `forEach` function iterates over each element in an array-like object and calls a callback
    * function for each element.
@@ -147,11 +121,6 @@ export abstract class IterableElementBase<E, R, C> {
       callbackfn.call(thisArg, item, index++, this);
     }
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -198,10 +167,6 @@ export abstract class IterableElementBase<E, R, C> {
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The `reduce` function iterates over the elements of an array-like object and applies a callback
    * function to reduce them into a single value.
@@ -220,11 +185,6 @@ export abstract class IterableElementBase<E, R, C> {
     }
     return accumulator;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)

@@ -124,13 +124,6 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   * Linear time, where n is the length of the input array, as it performs a loop to push each element into the linked list.
-   * Linear space, as it creates a new node for each element in the array.
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
    *
    * The `fromArray` function creates a new SinglyLinkedList instance and populates it with the elements from the given
    * array.
@@ -144,11 +137,6 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     }
     return singlyLinkedList;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -171,12 +159,6 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     this._size++;
     return true;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   * Linear time in the worst case, as it may need to traverse the list to find the last element.
-   */
 
   /**
    * Time Complexity: O(n)
@@ -210,11 +192,6 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The `shift()` function removes and returns the value of the first element in a linked list.
    * @returns The value of the removed node.
@@ -226,11 +203,6 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     this._size--;
     return removedNode.value;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -257,11 +229,6 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The function `at` returns the value at a specified index in a linked list, or undefined if the index is out of range.
    * @param {number} index - The index parameter is a number that represents the position of the element we want to
@@ -281,11 +248,6 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The function `getNodeAt` returns the node at a given index in a singly linked list.
    * @param {number} index - The `index` parameter is a number that represents the position of the node we want to
@@ -300,11 +262,6 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     }
     return current;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -333,11 +290,6 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     this._size--;
     return true;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -382,11 +334,6 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
 
     return false;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -440,13 +387,6 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   * Linear time, where n is the length of the list, as it needs to traverse the entire list to convert it to an array.
-   * Linear space, as it creates an array with the same length as the list.
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
    *
    * The `toArray` function converts a linked list into an array.
    * @returns The `toArray()` method is returning an array of type `E[]`.
@@ -460,11 +400,6 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     }
     return array;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -494,11 +429,6 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The `indexOf` function returns the index of the first occurrence of a given value in a linked list.
    * @param {E} value - The value parameter is the value that you want to find the index of in the linked list.
@@ -523,11 +453,6 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The function finds a node in a singly linked list by its value and returns the node if found, otherwise returns
    * undefined.
@@ -547,11 +472,6 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
 
     return undefined;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -596,11 +516,6 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The `addAfter` function inserts a new node with a given value after an existing node in a singly linked list.
    * @param {E | SinglyLinkedListNode<E>} existingValueOrNode - The existing value or node in the linked list after which
@@ -635,11 +550,6 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The function counts the number of occurrences of a given value in a linked list.
    * @param {E} value - The value parameter is the value that you want to count the occurrences of in the linked list.
@@ -662,11 +572,6 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
    *
    * The `clone` function returns a new instance of the `SinglyLinkedList` class with the same values
    * as the original list.
@@ -676,11 +581,6 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   clone(): SinglyLinkedList<E, R> {
     return new SinglyLinkedList<E, R>(this, { toElementFn: this.toElementFn });
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -714,9 +614,7 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   */
-
-  /**
+   *
    * The `map` function takes a callback function and returns a new SinglyLinkedList with the results
    * of applying the callback to each element in the original list.
    * @param callback - The `callback` parameter is a function that will be called for each element in

@@ -177,11 +177,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
   }
 
   /**
-   * Time Complexity - Amortized O(1) (possible reallocation)
-   * Space Complexity - O(n) (due to potential resizing).
-   */
-
-  /**
    * Time Complexity - Amortized O(1) (possible reallocation),
    * Space Complexity - O(n) (due to potential resizing).
    *
@@ -212,11 +207,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The `pop()` function removes and returns the last element from a data structure, updating the
    * internal state variables accordingly.
@@ -239,11 +229,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
     this._size -= 1;
     return element;
   }
-
-  /**
-   * Time Complexity: Amortized O(1)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: Amortized O(1)
@@ -277,11 +262,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The `shift()` function removes and returns the first element from a data structure, updating the
    * internal state variables accordingly.
@@ -309,11 +289,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The function checks if the size of an object is equal to zero and returns a boolean value.
    * @returns A boolean value indicating whether the size of the object is 0 or not.
@@ -321,11 +296,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
   isEmpty(): boolean {
     return this.size === 0;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -367,11 +337,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The `at` function retrieves an element at a specified position in an array-like data structure.
    * @param {number} pos - The `pos` parameter represents the position of the element that you want to
@@ -384,11 +349,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
     const { bucketIndex, indexInBucket } = this._getBucketAndPosition(pos);
     return this._buckets[bucketIndex][indexInBucket]!;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -406,11 +366,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
     this._buckets[bucketIndex][indexInBucket] = element;
     return true;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -449,11 +404,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The `cut` function updates the state of the object based on the given position and returns the
    * updated size.
@@ -483,11 +433,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
       return newDeque;
     }
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1) or O(n)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -528,11 +473,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1) or O(n)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1) or O(n)
    *
    * The `deleteAt` function removes an element at a specified position in an array-like data
    * structure.
@@ -558,11 +498,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
     }
     return true;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -594,11 +529,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The reverse() function reverses the order of the buckets and the elements within each bucket in a
    * data structure.
@@ -616,11 +546,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
     this._lastInBucket = this._bucketSize - _firstInBucket - 1;
     return this;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -650,11 +575,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
   /**
    * Time Complexity: O(n log n)
    * Space Complexity: O(n)
-   */
-
-  /**
-   * Time Complexity: O(n log n)
-   * Space Complexity: O(n)
    *
    * The `sort` function sorts the elements in a data structure using a provided comparator function.
    * @param [comparator] - The `comparator` parameter is a function that takes in two elements `x` and
@@ -673,11 +593,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
     }
     return this;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -712,11 +627,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The function "indexOf" returns the index of the first occurrence of a given element in an array,
    * or -1 if the element is not found.
@@ -737,11 +647,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
    *
    * The `toArray` function converts the elements of a data structure into an array.
    * @returns The `toArray()` method is returning an array of elements of type `E`.
@@ -749,11 +654,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
   toArray(): E[] {
     return [...this];
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -767,11 +667,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
   clone(): Deque<E, R> {
     return new Deque<E, R>(this, { bucketSize: this.bucketSize, toElementFn: this.toElementFn });
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -804,9 +699,7 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   */
-
-  /**
+   *
    * The `map` function takes a callback function and applies it to each element in the deque,
    * returning a new deque with the results.
    * @param callback - The callback parameter is a function that will be called for each element in the
@@ -838,11 +731,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The above function is an implementation of the iterator protocol in TypeScript, allowing the
    * object to be iterated over using a for...of loop.
@@ -852,11 +740,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
       yield this.at(i);
     }
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -888,11 +771,6 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
     this._buckets = newBuckets;
     this._bucketCount = newBuckets.length;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)

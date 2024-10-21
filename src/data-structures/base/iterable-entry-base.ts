@@ -9,11 +9,6 @@ export abstract class IterableEntryBase<K = any, V = any> {
   //   }
   // }
 
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
-
   abstract get size(): number;
 
   // protected _toEntryFn?: (rawElement: R) => BTNEntry<K, V>;
@@ -42,10 +37,6 @@ export abstract class IterableEntryBase<K = any, V = any> {
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   */
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
    *
    * The function returns an iterator that yields key-value pairs from the object, where the value can
    * be undefined.
@@ -56,10 +47,6 @@ export abstract class IterableEntryBase<K = any, V = any> {
     }
   }
 
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
@@ -75,10 +62,6 @@ export abstract class IterableEntryBase<K = any, V = any> {
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   */
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
    *
    * The function returns an iterator that yields the values of a collection.
    */
@@ -88,10 +71,6 @@ export abstract class IterableEntryBase<K = any, V = any> {
     }
   }
 
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
@@ -116,10 +95,6 @@ export abstract class IterableEntryBase<K = any, V = any> {
     return true;
   }
 
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
@@ -148,15 +123,6 @@ export abstract class IterableEntryBase<K = any, V = any> {
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The `forEach` function iterates over each key-value pair in a collection and executes a callback
    * function for each pair.
@@ -174,11 +140,6 @@ export abstract class IterableEntryBase<K = any, V = any> {
       callbackfn.call(thisArg, value, key, index++, this);
     }
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -209,11 +170,6 @@ export abstract class IterableEntryBase<K = any, V = any> {
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The function checks if a given key exists in a collection.
    * @param {K} key - The parameter "key" is of type K, which means it can be any type. It represents
@@ -232,11 +188,6 @@ export abstract class IterableEntryBase<K = any, V = any> {
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The function checks if a given value exists in a collection.
    * @param {V} value - The parameter "value" is the value that we want to check if it exists in the
@@ -249,11 +200,6 @@ export abstract class IterableEntryBase<K = any, V = any> {
     }
     return false;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -298,11 +244,6 @@ export abstract class IterableEntryBase<K = any, V = any> {
     }
     return accumulator;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)

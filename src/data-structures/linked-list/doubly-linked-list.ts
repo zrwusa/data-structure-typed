@@ -136,12 +136,6 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   * where n is the number of elements in the linked list.
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The `get first` function returns the first node in a doubly linked list, or undefined if the list is empty.
    * @returns The method `get first()` returns the first node of the doubly linked list, or `undefined` if the list is empty.
@@ -153,11 +147,6 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The `get last` function returns the last node in a doubly linked list, or undefined if the list is empty.
    * @returns The method `get last()` returns the last node of the doubly linked list, or `undefined` if the list is empty.
@@ -165,11 +154,6 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   get last(): E | undefined {
     return this.tail?.value;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -187,9 +171,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
+   *
    * The push function adds a new element to the end of a doubly linked list.
    * @param {E} element - The "element" parameter represents the value that you want to add to the
    * doubly linked list.
@@ -212,9 +194,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
+   *
    * The `pop()` function removes and returns the value of the last element in a linked list.
    * @returns The method is returning the value of the removed node.
    */
@@ -235,9 +215,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
+   *
    * The `shift()` function removes and returns the value of the first element in a doubly linked list.
    * @returns The value of the removed node.
    */
@@ -258,9 +236,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
+   *
    * The unshift function adds a new element to the beginning of a doubly linked list.
    * @param {E} element - The "element" parameter represents the value of the element that you want to
    * add to the beginning of the doubly linked list.
@@ -283,11 +259,6 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The `at` function returns the value at a specified index in a linked list, or undefined if the index is out of bounds.
    * @param {number} index - The index parameter is a number that represents the position of the element we want to
@@ -303,11 +274,6 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     }
     return current!.value;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -332,11 +298,6 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The function `findNodeByValue` searches for a node with a specific value in a doubly linked list and returns the
    * node if found, otherwise it returns undefined.
@@ -356,11 +317,6 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
 
     return undefined;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -395,12 +351,6 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     this._size++;
     return true;
   }
-
-  /**
-   * Time Complexity: O(1) or O(n)
-   * Space Complexity: O(1)
-   * where n is the number of elements in the linked list.
-   */
 
   /**
    * Time Complexity: O(1) or O(n)
@@ -441,11 +391,6 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
 
     return false;
   }
-
-  /**
-   * Time Complexity: O(1) or O(n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1) or O(n)
@@ -519,11 +464,6 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(1) or O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1) or O(n)
-   * Space Complexity: O(1)
    *
    * The `delete` function removes a node from a doubly linked list based on either the node itself or its value.
    * @param {E | DoublyLinkedListNode<E>} valOrNode - The `valOrNode` parameter can accept either a value of type `E` or
@@ -560,11 +500,6 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The function checks if a variable has a size greater than zero and returns a boolean value.
    * @returns A boolean value is being returned.
@@ -572,11 +507,6 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   isEmpty(): boolean {
     return this.size === 0;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -589,11 +519,6 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     this._tail = undefined;
     this._size = 0;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -621,11 +546,6 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The `findBackward` function iterates through a linked list from the last node to the first node and returns the last
    * value that satisfies the given callback function, or undefined if no value satisfies the callback.
@@ -648,11 +568,6 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The `reverse` function reverses the order of the elements in a doubly linked list.
    */
@@ -666,11 +581,6 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     }
     return this;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -692,11 +602,6 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
    *
    * The `toReversedArray` function converts a doubly linked list into an array in reverse order.
    * @returns The `toReversedArray()` function returns an array of type `E[]`.
@@ -714,11 +619,6 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
    *
    * The `clone` function creates a new instance of the `DoublyLinkedList` class with the same values
    * as the original list.
@@ -728,11 +628,6 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   clone(): DoublyLinkedList<E, R> {
     return new DoublyLinkedList<E, R>(this);
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -766,9 +661,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   */
-
-  /**
+   *
    * The `map` function takes a callback function and returns a new DoublyLinkedList with the results
    * of applying the callback to each element in the original list.
    * @param callback - The callback parameter is a function that will be called for each element in the

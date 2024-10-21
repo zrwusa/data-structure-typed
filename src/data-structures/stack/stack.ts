@@ -77,11 +77,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R, Stack<E, 
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The `peek` function returns the last element of an array, or undefined if the array is empty.
    * @returns The `peek()` function returns the last element of the `_elements` array, or `undefined` if the array is empty.
@@ -95,11 +90,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R, Stack<E, 
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The push function adds an element to the stack and returns the updated stack.
    * @param {E} element - The parameter "element" is of type E, which means it can be any data type.
@@ -109,11 +99,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R, Stack<E, 
     this.elements.push(element);
     return true;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -152,11 +137,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R, Stack<E, 
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
    *
    * The toArray function returns a copy of the elements in an array.
    * @returns An array of type E.
@@ -164,11 +144,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R, Stack<E, 
   toArray(): E[] {
     return this.elements.slice();
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -183,11 +158,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R, Stack<E, 
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
    *
    * The `clone()` function returns a new `Stack` object with the same elements as the original stack.
    * @returns The `clone()` method is returning a new `Stack` object with a copy of the `_elements` array.
@@ -195,11 +165,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R, Stack<E, 
   clone(): Stack<E, R> {
     return new Stack<E, R>(this, { toElementFn: this.toElementFn });
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -232,9 +197,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R, Stack<E, 
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   */
-
-  /**
+   *
    * The `map` function takes a callback function and applies it to each element in the stack,
    * returning a new stack with the results.
    * @param callback - The callback parameter is a function that will be called for each element in the
@@ -261,11 +224,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R, Stack<E, 
     }
     return newStack;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)

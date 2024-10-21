@@ -271,11 +271,6 @@ export class BinaryTree<
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(log n)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(log n)
    *
    * The `ensureNode` function checks if the input is a valid node and returns it, or converts it to a
    * node if it is a key or entry.
@@ -414,11 +409,6 @@ export class BinaryTree<
   /**
    * Time Complexity O(n)
    * Space Complexity O(1)
-   */
-
-  /**
-   * Time Complexity O(n)
-   * Space Complexity O(1)
    *
    * The `add` function is used to insert a new node into a binary tree, checking for duplicate keys
    * and finding the appropriate insertion position.
@@ -488,12 +478,6 @@ export class BinaryTree<
   /**
    * Time Complexity: O(k * n)
    * Space Complexity: O(1)
-   * Comments: The time complexity for adding a node depends on the depth of the tree. In the best case (when the tree is empty), it's O(1). In the worst case (when the tree is a degenerate tree), it's O(n). The space complexity is constant.
-   */
-
-  /**
-   * Time Complexity: O(k * n)
-   * Space Complexity: O(1)
    *
    * The `addMany` function takes in an iterable of keys or nodes or entries or raw elements, and an
    * optional iterable of values, and adds each key or node or entry with its corresponding value to a
@@ -536,12 +520,6 @@ export class BinaryTree<
   /**
    * Time Complexity: O(k * n)
    * Space Complexity: O(1)
-   * "n" is the number of nodes in the tree, and "k" is the number of keys to be inserted.
-   */
-
-  /**
-   * Time Complexity: O(k * n)
-   * Space Complexity: O(1)
    *
    * The `refill` function clears the current data and adds new data to the collection.
    * @param keysOrNodesOrEntriesOrRawElements - An iterable collection of keys, nodes, entries, or raw
@@ -566,11 +544,6 @@ export class BinaryTree<
   ): BinaryTreeDeleteResult<NODE>[];
 
   delete<C extends BTNCallback<NODE>>(identifier: ReturnType<C>, callback: C): BinaryTreeDeleteResult<NODE>[];
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -658,11 +631,6 @@ export class BinaryTree<
     beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     iterationType?: IterationType
   ): NODE[];
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(k + log n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -755,11 +723,6 @@ export class BinaryTree<
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(log n).
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(log n).
    *
    * The function `getNode` returns the first node that matches the given identifier and callback,
    * starting from the specified root node and using the specified iteration type.
@@ -783,11 +746,6 @@ export class BinaryTree<
   ): OptBTNOrNull<NODE> {
     return this.getNodes(identifier, callback, true, beginRoot, iterationType)[0] ?? null;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(log n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -825,11 +783,6 @@ export class BinaryTree<
     beginRoot?: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
     iterationType?: IterationType
   ): V | undefined;
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(log n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -885,11 +838,6 @@ export class BinaryTree<
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(log n)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(log n)
    *
    * The `has` function checks if a given identifier exists in the data structure and returns a boolean
    * value.
@@ -921,11 +869,6 @@ export class BinaryTree<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * Clear the binary tree, removing all nodes.
    */
@@ -937,11 +880,6 @@ export class BinaryTree<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * Check if the binary tree is empty.
    * @returns {boolean} - True if the binary tree is empty, false otherwise.
@@ -949,11 +887,6 @@ export class BinaryTree<
   isEmpty(): boolean {
     return this.size === 0;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(log n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -970,11 +903,6 @@ export class BinaryTree<
   isPerfectlyBalanced(beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root): boolean {
     return this.getMinHeight(beginRoot) + 1 >= this.getHeight(beginRoot);
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -1037,11 +965,6 @@ export class BinaryTree<
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The function calculates the depth of a given node or key in a tree-like data structure.
    * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} dist - The `dist` parameter can be either a `R`
@@ -1069,11 +992,6 @@ export class BinaryTree<
     }
     return depth;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -1120,11 +1038,6 @@ export class BinaryTree<
       return maxHeight;
     }
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(log n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -1191,11 +1104,6 @@ export class BinaryTree<
   /**
    * Time Complexity: O(log n)
    * Space Complexity: O(log n)
-   */
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(log n)
    *
    * The function `getPathToRoot` returns an array of nodes starting from a given node and traversing
    * up to the root node, with an option to reverse the order of the nodes.
@@ -1220,11 +1128,6 @@ export class BinaryTree<
     result.push(beginNodeEnsured);
     return isReverse ? result.reverse() : result;
   }
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(log n)
@@ -1265,11 +1168,6 @@ export class BinaryTree<
       return dfs(beginRoot);
     }
   }
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(log n)
@@ -1315,11 +1213,6 @@ export class BinaryTree<
   /**
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
    *
    * The function returns the predecessor node of a given node in a binary tree.
    * @param {NODE} node - The parameter "node" is of type "NODE", which represents a node in a binary
@@ -1339,11 +1232,6 @@ export class BinaryTree<
       return node;
     }
   }
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(log n)
@@ -1384,11 +1272,6 @@ export class BinaryTree<
     iterationType?: IterationType,
     includeNull?: boolean
   ): ReturnType<C>[];
-
-  /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
-   */
 
   /**
    * Time complexity: O(n)
@@ -1438,11 +1321,6 @@ export class BinaryTree<
     iterationType?: IterationType,
     includeNull?: true
   ): ReturnType<C>[];
-
-  /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
-   */
 
   /**
    * Time complexity: O(n)
@@ -1523,11 +1401,6 @@ export class BinaryTree<
   /**
    * Time complexity: O(n)
    * Space complexity: O(n)
-   */
-
-  /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
    *
    * The `leaves` function in TypeScript iterates through a binary tree to find and return the leaf
    * nodes based on a specified callback and iteration type.
@@ -1599,11 +1472,6 @@ export class BinaryTree<
   /**
    * Time complexity: O(n)
    * Space complexity: O(n)
-   */
-
-  /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
    *
    * The `listLevels` function returns an array of arrays, where each inner array represents a level in
    * a binary tree and contains the results of applying a callback function to the nodes at that level.
@@ -1668,11 +1536,6 @@ export class BinaryTree<
 
     return levelsNodes;
   }
-
-  /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
-   */
 
   /**
    * Time complexity: O(n)
@@ -1782,11 +1645,6 @@ export class BinaryTree<
   /**
    * Time complexity: O(n)
    * Space complexity: O(n)
-   */
-
-  /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
    *
    * The `clone` function creates a deep copy of a tree object.
    * @returns The `clone()` method is returning a cloned instance of the `TREE` object.
@@ -1804,11 +1662,6 @@ export class BinaryTree<
     );
     return cloned;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -1835,11 +1688,6 @@ export class BinaryTree<
     }
     return newTree;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -1874,11 +1722,6 @@ export class BinaryTree<
   // //   return newTree;
   // // }
   //
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -1935,11 +1778,6 @@ export class BinaryTree<
     iterationType?: IterationType,
     includeNull?: boolean
   ): ReturnType<C>[];
-
-  /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
-   */
 
   /**
    * Time complexity: O(n)
@@ -2080,11 +1918,6 @@ export class BinaryTree<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The function `_getIterator` is a generator function that returns an iterator for the key-value
    * pairs in a binary search tree.
@@ -2122,11 +1955,6 @@ export class BinaryTree<
       }
     }
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -2218,11 +2046,6 @@ export class BinaryTree<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The function `_swapProperties` swaps the key-value properties between two nodes.
    * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} srcNode - The source node that will be swapped with the
@@ -2260,11 +2083,6 @@ export class BinaryTree<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The function replaces a node in a binary tree with a new node, updating the parent, left child,
    * right child, and root if necessary.
@@ -2295,11 +2113,6 @@ export class BinaryTree<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The function sets the root property of an object to the provided value, and also updates the
    * parent property of the new root.
@@ -2312,11 +2125,6 @@ export class BinaryTree<
     }
     this._root = v;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)

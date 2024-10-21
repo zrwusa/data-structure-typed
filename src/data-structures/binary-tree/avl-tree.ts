@@ -138,12 +138,6 @@ export class AVLTree<
   /**
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
-   * logarithmic time, where "n" is the number of nodes in the tree. The add method of the superclass (BST) has logarithmic time complexity. constant space, as it doesn't use additional data structures that scale with input size.
-   */
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
    *
    * The function overrides the add method of a class and inserts a key-value pair into a data
    * structure, then balances the path.
@@ -160,11 +154,6 @@ export class AVLTree<
     if (inserted) this._balancePath(keyOrNodeOrEntryOrRawElement);
     return inserted;
   }
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(log n)
@@ -191,11 +180,6 @@ export class AVLTree<
     }
     return deletedResults;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -241,11 +225,6 @@ export class AVLTree<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The function calculates the balance factor of a node in a binary tree.
    * @param {NODE} node - The parameter "node" is of type "NODE", which likely represents a node in a
@@ -266,11 +245,6 @@ export class AVLTree<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The function updates the height of a node in a binary tree based on the heights of its left and
    * right children.
@@ -284,11 +258,6 @@ export class AVLTree<
     } else if (!node.right) node.height = 1 + node.left.height;
     else node.height = 1 + Math.max(node.right.height, node.left.height);
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -322,11 +291,6 @@ export class AVLTree<
     this._updateHeight(A);
     if (B) this._updateHeight(B);
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -382,11 +346,6 @@ export class AVLTree<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The function `_balanceRR` performs a right-right rotation to balance a binary tree.
    * @param {NODE} A - A is a node in a binary tree.
@@ -421,11 +380,6 @@ export class AVLTree<
     this._updateHeight(A);
     B && this._updateHeight(B);
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -480,12 +434,6 @@ export class AVLTree<
   /**
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
-   * logarithmic time, where "n" is the number of nodes in the tree. The method traverses the path from the inserted node to the root. constant space, as it doesn't use additional data structures that scale with input size.
-   */
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
    *
    * The `_balancePath` function is used to update the heights of nodes and perform rotation operations
    * to restore balance in an AVL tree after inserting a node.
@@ -531,11 +479,6 @@ export class AVLTree<
       // TODO So far, no sure if this is necessary that Recursive Repair: Once rotation operations are executed, it may cause imbalance issues at higher levels of the tree. Therefore, you need to recursively check and repair imbalance problems upwards until you reach the root node.
     }
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)

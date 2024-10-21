@@ -64,11 +64,6 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The `first` function returns the first element of the array `_elements` if it exists, otherwise it returns `undefined`.
    * @returns The `get first()` method returns the first element of the data structure, represented by the `_elements` array at
@@ -77,11 +72,6 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
   get first(): E | undefined {
     return this.size > 0 ? this.elements[this.offset] : undefined;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -117,11 +107,6 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
    *
    * The function "fromArray" creates a new Queue object from an array of elements.Creates a queue from an existing array.
    * @public
@@ -136,11 +121,6 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The push function adds an element to the end of the queue and returns true. Adds an element at the back of the queue.
    * @param {E} element - The `element` parameter represents the element that you want to add to the queue.
@@ -150,11 +130,6 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
     this.elements.push(element);
     return true;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -197,22 +172,12 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * @param index
    */
   at(index: number): E | undefined {
     return this.elements[index + this._offset];
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -228,11 +193,6 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(n)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(n)
    *
    * The toArray() function returns an array of elements from the current offset to the end of the _elements array.
    * @returns An array of type E is being returned.
@@ -240,11 +200,6 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
   toArray(): E[] {
     return this.elements.slice(this.offset);
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -271,12 +226,6 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   * where n is the number of elements in the queue. It creates a shallow copy of the internal array. the space required is proportional to the number of elements in the queue.
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
    *
    * The `clone()` function returns a new Queue object with the same elements as the original Queue.
    * @returns The `clone()` method is returning a new instance of the `Queue` class.
@@ -284,11 +233,6 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
   clone(): Queue<E, R> {
     return new Queue(this.elements.slice(this.offset), { toElementFn: this.toElementFn });
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -322,7 +266,6 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    */
-
   map<EM, RM>(
     callback: ElementCallback<E, R, EM, Queue<E, R>>,
     toElementFn?: (rawElement: RM) => EM,
@@ -336,11 +279,6 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
     }
     return newDeque;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -362,11 +300,6 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
  * 4. Frequent Enqueuing and Dequeuing Operations: If your application involves frequent enqueuing and dequeuing operations and is less concerned with random access, then LinkedListQueue is a good choice.
  */
 export class LinkedListQueue<E = any, R = any> extends SinglyLinkedList<E, R> {
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
-
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)

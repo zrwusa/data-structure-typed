@@ -234,9 +234,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   */
-
-  /**
+   *
    * The clone function creates a new HashMap with the same key-value pairs as
    * this one. The clone function is useful for creating a copy of an existing
    * HashMap, and then modifying that copy without affecting the original.
@@ -246,11 +244,6 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
   clone(): HashMap<K, V, R> {
     return new HashMap<K, V, R>(this, { hashFn: this._hashFn, toEntryFn: this._toEntryFn });
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -482,11 +475,6 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The function returns the key-value pair at the front of a data structure.
    * @returns The front element of the data structure, represented as a tuple with a key (K) and a
@@ -496,11 +484,6 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     if (this._size === 0) return;
     return <[K, V]>[this.head.key, this.head.value];
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -537,11 +520,6 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
       node = node.prev;
     }
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -645,11 +623,6 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The function `get` retrieves the value associated with a given key from a map, either by using the
    * key directly or by using an index stored in the key object.
@@ -675,11 +648,6 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The function `at` retrieves the key-value pair at a specified index in a linked list.
    * @param {number} index - The index parameter is a number that represents the position of the
@@ -696,11 +664,6 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     }
     return node.value;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -747,11 +710,6 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
    *
    * The `deleteAt` function deletes a node at a specified index in a linked list.
    * @param {number} index - The index parameter represents the position at which the node should be
@@ -766,11 +724,6 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     }
     return this._deleteNode(node);
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -797,11 +750,6 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The `clear` function clears all the entries in a data structure and resets its properties.
    */
@@ -810,11 +758,6 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     this._size = 0;
     this._head = this._tail = this._sentinel.prev = this._sentinel.next = this._sentinel;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -833,11 +776,6 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     }
     return cloned;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -865,11 +803,6 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     }
     return filteredMap;
   }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -903,12 +836,6 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
    * Time Complexity: O(n)
    * Space Complexity: O(1)
    * where n is the number of entries in the LinkedHashMap.
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   * where n is the number of entries in the LinkedHashMap.
    *
    * The above function is an iterator that yields key-value pairs from a linked list.
    */
@@ -919,11 +846,6 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
       node = node.next;
     }
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)

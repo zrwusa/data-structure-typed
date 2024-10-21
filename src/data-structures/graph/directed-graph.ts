@@ -82,11 +82,6 @@ export class DirectedGraph<
   }
 
   /**
-   * In TypeScript, a subclass inherits the interface implementation of its parent class, without needing to implement the same interface again in the subclass. This behavior differs from Java's approach. In Java, if a parent class implements an interface, the subclass needs to explicitly implement the same interface, even if the parent class has already implemented it.
-   * This means that using abstract methods in the parent class cannot constrain the grandchild classes. Defining methods within an interface also cannot constrain the descendant classes. When inheriting from this class, developers need to be aware that this method needs to be overridden.
-   */
-
-  /**
    * The function creates a new vertex with an optional value and returns it.
    * @param {VertexKey} key - The `key` parameter is the unique identifier for the vertex. It is of type `VertexKey`, which
    * could be a number or a string depending on how you want to identify your vertexMap.
@@ -98,11 +93,6 @@ export class DirectedGraph<
   createVertex(key: VertexKey, value?: V): VO {
     return new DirectedVertex(key, value) as VO;
   }
-
-  /**
-   * In TypeScript, a subclass inherits the interface implementation of its parent class, without needing to implement the same interface again in the subclass. This behavior differs from Java's approach. In Java, if a parent class implements an interface, the subclass needs to explicitly implement the same interface, even if the parent class has already implemented it.
-   * This means that using abstract methods in the parent class cannot constrain the grandchild classes. Defining methods within an interface also cannot constrain the descendant classes. When inheriting from this class, developers need to be aware that this method needs to be overridden.
-   */
 
   /**
    * The function creates a directed edge between two vertexMap with an optional weight and value.
@@ -117,11 +107,6 @@ export class DirectedGraph<
   createEdge(src: VertexKey, dest: VertexKey, weight?: number, value?: E): EO {
     return new DirectedEdge(src, dest, weight ?? 1, value) as EO;
   }
-
-  /**
-   * Time Complexity: O(|V|) where |V| is the number of vertexMap
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(|V|) where |V| is the number of vertexMap
@@ -155,11 +140,6 @@ export class DirectedGraph<
   /**
    * Time Complexity: O(|E|) where |E| is the number of edgeMap
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(|E|) where |E| is the number of edgeMap
-   * Space Complexity: O(1)
    *
    * The function removes an edge between two vertexMap in a graph and returns the removed edge.
    * @param {VO | VertexKey} srcOrKey - The source vertex or its ID.
@@ -185,11 +165,6 @@ export class DirectedGraph<
     }
     return removed;
   }
-
-  /**
-   * Time Complexity: O(E) where E is the number of edgeMap
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(E) where E is the number of edgeMap
@@ -237,11 +212,6 @@ export class DirectedGraph<
   /**
    * Time Complexity: O(1) - Constant time for Map operations.
    * Space Complexity: O(1) - Constant space, as it creates only a few variables.
-   */
-
-  /**
-   * Time Complexity: O(1) - Constant time for Map operations.
-   * Space Complexity: O(1) - Constant space, as it creates only a few variables.
    *
    * The `deleteVertex` function removes a vertex from a graph by its ID or by the vertex object itself.
    * @param {VO | VertexKey} vertexOrKey - The parameter `vertexOrKey` can be either a vertex object (`VO`) or a vertex ID
@@ -275,11 +245,6 @@ export class DirectedGraph<
   /**
    * Time Complexity: O(|E|) where |E| is the number of edgeMap
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(|E|) where |E| is the number of edgeMap
-   * Space Complexity: O(1)
    *
    * The function removes edgeMap between two vertexMap and returns the removed edgeMap.
    * @param {VertexKey | VO} v1 - The parameter `v1` can be either a `VertexKey` or a `VO`. A `VertexKey` represents the
@@ -305,11 +270,6 @@ export class DirectedGraph<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The function `incomingEdgesOf` returns an array of incoming edgeMap for a given vertex or vertex ID.
    * @param {VO | VertexKey} vertexOrKey - The parameter `vertexOrKey` can be either a vertex object (`VO`) or a vertex ID
@@ -323,11 +283,6 @@ export class DirectedGraph<
     }
     return [];
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -349,11 +304,6 @@ export class DirectedGraph<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The function "degreeOf" returns the total degree of a vertex, which is the sum of its out-degree and in-degree.
    * @param {VertexKey | VO} vertexOrKey - The parameter `vertexOrKey` can be either a `VertexKey` or a `VO`.
@@ -362,11 +312,6 @@ export class DirectedGraph<
   degreeOf(vertexOrKey: VertexKey | VO): number {
     return this.outDegreeOf(vertexOrKey) + this.inDegreeOf(vertexOrKey);
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -383,11 +328,6 @@ export class DirectedGraph<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The function `outDegreeOf` returns the number of outgoing edgeMap from a given vertex.
    * @param {VertexKey | VO} vertexOrKey - The parameter `vertexOrKey` can be either a `VertexKey` or a `VO`.
@@ -396,11 +336,6 @@ export class DirectedGraph<
   outDegreeOf(vertexOrKey: VertexKey | VO): number {
     return this.outgoingEdgesOf(vertexOrKey).length;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -417,11 +352,6 @@ export class DirectedGraph<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The function "getEdgeSrc" returns the source vertex of an edge, or undefined if the edge does not exist.
    * @param {EO} e - The parameter "e" is of type EO, which represents an edge in a graph.
@@ -434,11 +364,6 @@ export class DirectedGraph<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The function "getEdgeDest" returns the destination vertex of an edge.
    * @param {EO} e - The parameter "e" is of type "EO", which represents an edge in a graph.
@@ -447,11 +372,6 @@ export class DirectedGraph<
   getEdgeDest(e: EO): VO | undefined {
     return this._getVertex(e.dest);
   }
-
-  /**
-   * Time Complexity: O(|E|) where |E| is the number of edgeMap
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(|E|) where |E| is the number of edgeMap
@@ -476,11 +396,6 @@ export class DirectedGraph<
     }
     return destinations;
   }
-
-  /**
-   * Time Complexity: O(|V| + |E|) where |V| is the number of vertexMap and |E| is the number of edgeMap
-   * Space Complexity: O(|V|)
-   */
 
   /**
    * Time Complexity: O(|V| + |E|) where |V| is the number of vertexMap and |E| is the number of edgeMap
@@ -534,11 +449,6 @@ export class DirectedGraph<
   /**
    * Time Complexity: O(|E|) where |E| is the number of edgeMap
    * Space Complexity: O(|E|)
-   */
-
-  /**
-   * Time Complexity: O(|E|) where |E| is the number of edgeMap
-   * Space Complexity: O(|E|)
    *
    * The `edgeSet` function returns an array of all the edgeMap in the graph.
    * @returns The `edgeSet()` method returns an array of edgeMap (`EO[]`).
@@ -550,11 +460,6 @@ export class DirectedGraph<
     });
     return edgeMap;
   }
-
-  /**
-   * Time Complexity: O(|E|) where |E| is the number of edgeMap
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(|E|) where |E| is the number of edgeMap
@@ -580,11 +485,6 @@ export class DirectedGraph<
     }
     return neighbors;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -621,11 +521,6 @@ export class DirectedGraph<
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * The clear function resets the vertex map, in-edge map, and out-edge map.
    */
@@ -647,13 +542,6 @@ export class DirectedGraph<
     cloned.outEdgeMap = new Map<VO, EO[]>(this.outEdgeMap);
     return cloned;
   }
-
-  /**
-   *  Time Complexity: O(V + E)
-   *  Space Complexity: O(V)
-   *  Tarjan is an algorithm based on dfs,which is used to solve the connectivity problem of graphs.
-   *  Tarjan can find the SSC(strongly connected components), articulation points, and bridges of directed graphs.
-   */
 
   /**
    *  Time Complexity: O(V + E)
@@ -720,11 +608,6 @@ export class DirectedGraph<
   /**
    * Time Complexity: O(V + E) - Depends on the implementation (Tarjan's algorithm).
    * Space Complexity: O(V) - Depends on the implementation (Tarjan's algorithm).
-   */
-
-  /**
-   * Time Complexity: O(V + E) - Depends on the implementation (Tarjan's algorithm).
-   * Space Complexity: O(V) - Depends on the implementation (Tarjan's algorithm).
    *
    * The function returns a map that associates each vertex object with its corresponding depth-first
    * number.
@@ -752,11 +635,6 @@ export class DirectedGraph<
   getSCCs(): Map<number, VO[]> {
     return this.tarjan().SCCs;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)

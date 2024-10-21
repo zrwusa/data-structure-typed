@@ -260,11 +260,6 @@ export class BST<
   }
 
   /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(log n)
-   */
-
-  /**
    * Time Complexity: O(k log n)
    * Space Complexity: O(k + log n)
    *
@@ -472,11 +467,6 @@ export class BST<
   /**
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
    *
    * The function `getNode` returns the first node that matches the given identifier and callback
    * function in a binary search tree.
@@ -505,11 +495,6 @@ export class BST<
   }
 
   /**
-   * Time Complexity: O(k log n)
-   * Space Complexity: O(k + log n)
-   */
-
-  /**
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
@@ -525,11 +510,6 @@ export class BST<
   override getNodeByKey(key: K, iterationType: IterationType = this.iterationType): OptBSTN<NODE> {
     return this.getNode(key, this._DEFAULT_CALLBACK, this.root, iterationType);
   }
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(k + log n)
-   */
 
   /**
    * Time complexity: O(n)
@@ -561,11 +541,6 @@ export class BST<
   }
 
   /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   */
-
-  /**
    * Time complexity: O(n)
    * Space complexity: O(n)
    *
@@ -589,11 +564,6 @@ export class BST<
   ): ReturnType<C>[] {
     return super.bfs(callback, beginRoot, iterationType, false);
   }
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time complexity: O(n)
@@ -620,11 +590,6 @@ export class BST<
   ): ReturnType<C>[][] {
     return super.listLevels(callback, beginRoot, iterationType, false);
   }
-
-  /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
-   */
 
   /**
    * Time complexity: O(n)
@@ -690,11 +655,6 @@ export class BST<
   /**
    * Time complexity: O(n)
    * Space complexity: O(n)
-   */
-
-  /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
    *
    * The `perfectlyBalance` function takes an optional `iterationType` parameter and returns `true` if
    * the binary search tree is perfectly balanced, otherwise it returns `false`.
@@ -740,11 +700,6 @@ export class BST<
       return true;
     }
   }
-
-  /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n)
@@ -814,11 +769,6 @@ export class BST<
   };
 
   protected _comparator: Comparator<K> = this._DEFAULT_COMPARATOR;
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(log n)
-   */
 
   /**
    * The function returns the value of the _comparator property.

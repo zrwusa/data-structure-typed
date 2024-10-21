@@ -563,11 +563,6 @@ export class FibonacciHeap<E> {
   /**
    * Time Complexity: O(n), where n is the number of elements in the linked list.
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(n), where n is the number of elements in the linked list.
-   * Space Complexity: O(1)
    *
    * Get the size (number of elements) of the heap.
    * @param {FibonacciHeapNode<E>} head - The head of the linked list.
@@ -615,11 +610,6 @@ export class FibonacciHeap<E> {
   /**
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
    *
    * Remove and return the top element (the smallest or largest element) from the heap.
    * @returns The top element or undefined if the heap is empty.
@@ -627,11 +617,6 @@ export class FibonacciHeap<E> {
   poll(): E | undefined {
     return this.pop();
   }
-
-  /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(log n)
@@ -666,11 +651,6 @@ export class FibonacciHeap<E> {
 
     return z.element;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -735,11 +715,6 @@ export class FibonacciHeap<E> {
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * Merge the given node with the root list.
    * @param node - The node to be merged.
@@ -758,11 +733,6 @@ export class FibonacciHeap<E> {
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
-   */
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
    *
    * Remove and return the top element (the smallest or largest element) from the heap.
    * @param node - The node to be removed.
@@ -773,11 +743,6 @@ export class FibonacciHeap<E> {
     if (node.left) node.left.right = node.right;
     if (node.right) node.right.left = node.left;
   }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   */
 
   /**
    * Time Complexity: O(1)
@@ -796,11 +761,6 @@ export class FibonacciHeap<E> {
     x.degree++;
     y.parent = x;
   }
-
-  /**
-   * Time Complexity: O(n log n)
-   * Space Complexity: O(n)
-   */
 
   /**
    * Time Complexity: O(n log n)
