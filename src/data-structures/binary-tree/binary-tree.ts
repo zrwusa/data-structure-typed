@@ -22,12 +22,12 @@ import type {
   NodeDisplayLayout,
   OptBTNOrNull
 } from '../../types';
+import { DFSOperation, DFSStackItem } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { trampoline } from '../../utils';
 import { Queue } from '../queue';
 import { IterableEntryBase } from '../base';
 import * as console from 'console';
-import { DFSOperation, DFSStackItem } from '../../types';
 
 /**
  * Represents a node in a binary tree.
@@ -340,7 +340,7 @@ export class BinaryTree<
    * `BTNKeyOrNodeOrEntry<K, V, NODE>`.
    * @returns a boolean value.
    */
-  isNodeOrNull(node: R | BTNKeyOrNodeOrEntry<K, V, NODE>): node is NODE | null {
+  isRealNodeOrNull(node: R | BTNKeyOrNodeOrEntry<K, V, NODE>): node is NODE | null {
     return this.isRealNode(node) || node === null;
   }
 
@@ -1487,8 +1487,8 @@ export class BinaryTree<
         ans.push(callback(current));
 
         if (includeNull) {
-          if (current && this.isNodeOrNull(current.left)) queue.push(current.left);
-          if (current && this.isNodeOrNull(current.right)) queue.push(current.right);
+          if (current && this.isRealNodeOrNull(current.left)) queue.push(current.left);
+          if (current && this.isRealNodeOrNull(current.right)) queue.push(current.right);
         } else {
           if (this.isRealNode(current.left)) queue.push(current.left);
           if (this.isRealNode(current.right)) queue.push(current.right);
@@ -1508,8 +1508,8 @@ export class BinaryTree<
           ans.push(callback(current));
 
           if (includeNull) {
-            if (current && this.isNodeOrNull(current.left)) queue.push(current.left);
-            if (current && this.isNodeOrNull(current.right)) queue.push(current.right);
+            if (current && this.isRealNodeOrNull(current.left)) queue.push(current.left);
+            if (current && this.isRealNodeOrNull(current.right)) queue.push(current.right);
           } else {
             if (this.isRealNode(current.left)) queue.push(current.left);
             if (this.isRealNode(current.right)) queue.push(current.right);
@@ -1637,8 +1637,8 @@ export class BinaryTree<
         if (!levelsNodes[level]) levelsNodes[level] = [];
         levelsNodes[level].push(callback(node));
         if (includeNull) {
-          if (node && this.isNodeOrNull(node.left)) _recursive(node.left, level + 1);
-          if (node && this.isNodeOrNull(node.right)) _recursive(node.right, level + 1);
+          if (node && this.isRealNodeOrNull(node.left)) _recursive(node.left, level + 1);
+          if (node && this.isRealNodeOrNull(node.right)) _recursive(node.right, level + 1);
         } else {
           if (node && node.left) _recursive(node.left, level + 1);
           if (node && node.right) _recursive(node.right, level + 1);
@@ -1657,8 +1657,8 @@ export class BinaryTree<
         levelsNodes[level].push(callback(node));
 
         if (includeNull) {
-          if (node && this.isNodeOrNull(node.right)) stack.push([node.right, level + 1]);
-          if (node && this.isNodeOrNull(node.left)) stack.push([node.left, level + 1]);
+          if (node && this.isRealNodeOrNull(node.right)) stack.push([node.right, level + 1]);
+          if (node && this.isRealNodeOrNull(node.left)) stack.push([node.left, level + 1]);
         } else {
           if (node && node.right) stack.push([node.right, level + 1]);
           if (node && node.left) stack.push([node.left, level + 1]);
@@ -1945,83 +1945,89 @@ export class BinaryTree<
    * Time complexity: O(n)
    * Space complexity: O(n)
    *
-   * The `dfs` function performs a depth-first search traversal on a binary tree, executing a callback
-   * function on each node according to a specified pattern and iteration type.
-   * @param {C} callback - The `callback` parameter is a function that will be called for each node
-   * visited during the depth-first search. It takes a node as an argument and returns a value. The
-   * return type of the callback function is determined by the generic type `C`.
-   * @param {DFSOrderPattern} [pattern=IN] - The `pattern` parameter determines the order in which the
-   * nodes are visited during the depth-first search. It can have one of the following values:
-   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter is the starting
-   * point of the depth-first search. It can be either a node object, a key-value pair, or a key. If it
-   * is a key or key-value pair, the method will find the corresponding node in the tree and start the
-   * search from there.
-   * @param {IterationType} [iterationType=ITERATIVE] - The `iterationType` parameter determines the
-   * type of iteration to use during the depth-first search. It can have two possible values:
-   * @param [includeNull=false] - The `includeNull` parameter is a boolean value that determines
-   * whether or not to include null values in the depth-first search traversal. If `includeNull` is set
-   * to `true`, null values will be included in the traversal. If `includeNull` is set to `false`, null
-   * values will
-   * @returns an array of the return types of the callback function.
+   * The function `_dfs` performs a depth-first search traversal on a binary tree structure based on
+   * the specified order pattern and callback function.
+   * @param {C} callback - The `callback` parameter is a function that will be called on each node
+   * visited during the depth-first search. It is of type `C`, which extends
+   * `BTNCallback<OptBTNOrNull<NODE>>`. The default value is set to `this._DEFAULT_CALLBACK` if not
+   * provided.
+   * @param {DFSOrderPattern} [pattern=IN] - The `pattern` parameter in the `_dfs` method specifies the
+   * order in which the Depth-First Search (DFS) algorithm should traverse the nodes in a binary tree.
+   * It can have one of the following values:
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter in the `_dfs`
+   * method is used to specify the starting point for the depth-first search traversal in a binary
+   * tree. It can be provided as either the root node of the tree or a key, node, or entry that exists
+   * in the tree. If no specific `
+   * @param {IterationType} iterationType - The `iterationType` parameter in the `_dfs` method
+   * specifies the type of iteration to be performed during the Depth-First Search (DFS) traversal. It
+   * can have two possible values:
+   * @param [includeNull=false] - The `includeNull` parameter in the `_dfs` method is a boolean flag
+   * that determines whether null nodes should be included in the depth-first search traversal. If
+   * `includeNull` is set to `true`, the traversal will consider null nodes as valid nodes to visit and
+   * process. If set to `
+   * @param shouldVisitLeft - The `shouldVisitLeft` parameter is a function that takes a node as input
+   * and returns a boolean value. It is used to determine whether the left child of a node should be
+   * visited during the depth-first search traversal. By default, it checks if the node is truthy (not
+   * null or undefined
+   * @param shouldVisitRight - The `shouldVisitRight` parameter is a function that takes a node as
+   * input and returns a boolean value. It is used to determine whether the right child of a node
+   * should be visited during the depth-first search traversal. The default implementation checks if
+   * the node is truthy before visiting the right child.
+   * @param shouldVisitRoot - The `shouldVisitRoot` parameter is a function that takes a node as an
+   * argument and returns a boolean value. It is used to determine whether a given node should be
+   * visited during the depth-first search traversal based on certain conditions. The default
+   * implementation checks if the node is a real node or null based
+   * @param shouldProcessRoot - The `shouldProcessRoot` parameter is a function that takes a node as
+   * input and returns a boolean value indicating whether the node should be processed during the
+   * depth-first search traversal. The default implementation of this function simply returns `true`,
+   * meaning that by default all nodes will be processed. However, you can
+   * @returns The `_dfs` method returns an array of the return type of the callback function provided
+   * as input.
    */
   protected _dfs<C extends BTNCallback<OptBTNOrNull<NODE>>>(
     callback: C = this._DEFAULT_CALLBACK as C,
     pattern: DFSOrderPattern = 'IN',
     beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType,
-    includeNull = false
+    includeNull = false,
+    shouldVisitLeft: (node: OptBTNOrNull<NODE>) => boolean = node => !!node,
+    shouldVisitRight: (node: OptBTNOrNull<NODE>) => boolean = node => !!node,
+    shouldVisitRoot: (node: OptBTNOrNull<NODE>) => boolean = node => {
+      if (includeNull) return this.isRealNodeOrNull(node);
+      return this.isRealNode(node);
+    },
+    shouldProcessRoot: (node: OptBTNOrNull<NODE>) => boolean = node => true
   ): ReturnType<C>[] {
     beginRoot = this.ensureNode(beginRoot);
     if (!beginRoot) return [];
     const ans: ReturnType<C>[] = [];
-    if (iterationType === 'RECURSIVE') {
-      const visitNullableLeft = (node: OptBTNOrNull<NODE>) => {
-        if (node && this.isNodeOrNull(node.left)) dfs(node.left);
-      };
-      const visitLeft = (node: OptBTNOrNull<NODE>) => {
-        if (node && this.isRealNode(node.left)) dfs(node.left);
-      };
-      const visitNullableRight = (node: OptBTNOrNull<NODE>) => {
-        if (node && this.isNodeOrNull(node.right)) dfs(node.right);
-      };
-      const visitRight = (node: OptBTNOrNull<NODE>) => {
-        if (node && this.isRealNode(node.right)) dfs(node.right);
-      };
 
+    if (iterationType === 'RECURSIVE') {
       const dfs = (node: OptBTNOrNull<NODE>) => {
+        if (!shouldVisitRoot(node)) return;
+
+        const visitLeft = () => {
+          if (shouldVisitLeft(node)) dfs(node?.left);
+        };
+        const visitRight = () => {
+          if (shouldVisitRight(node)) dfs(node?.right);
+        };
+
         switch (pattern) {
           case 'IN':
-            if (includeNull) {
-              visitNullableLeft(node);
-              ans.push(callback(node));
-              visitNullableRight(node);
-            } else {
-              visitLeft(node);
-              ans.push(callback(node));
-              visitRight(node);
-            }
+            visitLeft();
+            if (shouldProcessRoot(node)) ans.push(callback(node));
+            visitRight();
             break;
           case 'PRE':
-            if (includeNull) {
-              ans.push(callback(node));
-              visitNullableLeft(node);
-              visitNullableRight(node);
-            } else {
-              ans.push(callback(node));
-              visitLeft(node);
-              visitRight(node);
-            }
+            if (shouldProcessRoot(node)) ans.push(callback(node));
+            visitLeft();
+            visitRight();
             break;
           case 'POST':
-            if (includeNull) {
-              visitNullableLeft(node);
-              visitNullableRight(node);
-              ans.push(callback(node));
-            } else {
-              visitLeft(node);
-              visitRight(node);
-              ans.push(callback(node));
-            }
+            visitLeft();
+            visitRight();
+            if (shouldProcessRoot(node)) ans.push(callback(node));
             break;
         }
       };
@@ -2029,45 +2035,38 @@ export class BinaryTree<
       dfs(beginRoot);
     } else {
       const stack: DFSStackItem<NODE>[] = [{ opt: DFSOperation.VISIT, node: beginRoot }];
+
       const pushLeft = (cur: DFSStackItem<NODE>) => {
-        cur.node && stack.push({ opt: DFSOperation.VISIT, node: cur.node.left });
+        if (shouldVisitLeft(cur.node)) stack.push({ opt: DFSOperation.VISIT, node: cur.node?.left });
       };
       const pushRight = (cur: DFSStackItem<NODE>) => {
-        cur.node && stack.push({ opt: DFSOperation.VISIT, node: cur.node.right });
+        if (shouldVisitRight(cur.node)) stack.push({ opt: DFSOperation.VISIT, node: cur.node?.right });
       };
-      const pushParent = (cur: DFSStackItem<NODE>) => {
-        stack.push({ opt: DFSOperation.PROCESS, node: cur.node });
+      const pushRoot = (cur: DFSStackItem<NODE>) => {
+        if (shouldVisitRoot(cur.node)) stack.push({ opt: DFSOperation.PROCESS, node: cur.node });
       };
+
       while (stack.length > 0) {
         const cur = stack.pop();
         if (cur === undefined) continue;
-        if (includeNull) {
-          if (!this.isNodeOrNull(cur.node)) continue;
-        } else {
-          if (!this.isRealNode(cur.node)) continue;
-        }
-        if (cur.opt === 1) {
-          ans.push(callback(cur.node));
+        if (!shouldVisitRoot(cur.node)) continue;
+        if (cur.opt === DFSOperation.PROCESS) {
+          if (shouldProcessRoot(cur.node)) ans.push(callback(cur.node));
         } else {
           switch (pattern) {
             case 'IN':
               pushRight(cur);
-              pushParent(cur);
+              pushRoot(cur);
               pushLeft(cur);
               break;
             case 'PRE':
               pushRight(cur);
               pushLeft(cur);
-              pushParent(cur);
+              pushRoot(cur);
               break;
             case 'POST':
-              pushParent(cur);
+              pushRoot(cur);
               pushRight(cur);
-              pushLeft(cur);
-              break;
-            default:
-              pushRight(cur);
-              pushParent(cur);
               pushLeft(cur);
               break;
           }
