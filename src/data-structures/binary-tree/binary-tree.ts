@@ -27,7 +27,6 @@ import { IBinaryTree } from '../../interfaces';
 import { trampoline } from '../../utils';
 import { Queue } from '../queue';
 import { IterableEntryBase } from '../base';
-import * as console from 'console';
 
 /**
  * Represents a node in a binary tree.
