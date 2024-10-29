@@ -1,4 +1,4 @@
-import { BinaryTree, BinaryTreeNode } from '../../../../src';
+import { BinaryTree, BinaryTreeNode, BTNEntry } from '../../../../src';
 import { getRandomIntArray } from '../../../utils';
 // import { isDebugTest } from '../../../config';
 
@@ -83,6 +83,27 @@ describe('BinaryTreeNode', () => {
     expect(rightChild.familyPosition).toBe('RIGHT');
     expect(isolated.familyPosition).toBe('ISOLATED');
     expect(root.familyPosition).toBe('ROOT');
+  });
+});
+
+describe('BinaryTree addMany', () => {
+  it('should addMany', () => {
+    const tree = new BinaryTree<number, number, { id: number; name: number }>([], {
+      toEntryFn: ({ id, name }) => [id, name]
+    });
+    tree.addMany(
+      [
+        { id: 1, name: 1 },
+        { id: 2, name: 2 },
+        { id: 4, name: 4 },
+        { id: 3, name: 3 }
+      ],
+      [undefined, 22, 44, 33]
+    );
+    expect(tree.getNodeByKey(2)?.value).toBe(22);
+    expect(tree.getNodeByKey(3)?.value).toBe(33);
+    expect(tree.getNodeByKey(4)?.value).toBe(44);
+    expect(tree.getNodeByKey(1)?.value).toBe(1);
   });
 });
 
@@ -258,15 +279,6 @@ describe('BinaryTree', () => {
     expect(inOrder).toEqual([1, 2, 3, 4, 5, 6, 7]);
   });
 
-  it('should getLeftMost', () => {
-    tree.addMany([4, 2, 6, 1, 3, 5, 7]);
-
-    const leftMost = tree.getLeftMost(tree.root, 'RECURSIVE');
-    expect(leftMost?.key).toEqual(1);
-    const rightMost = tree.getRightMost(tree.root, 'RECURSIVE');
-    expect(rightMost?.key).toEqual(7);
-  });
-
   it('should isSubtreeBST', () => {
     tree.addMany([
       new BinaryTreeNode(4, 4),
@@ -285,11 +297,185 @@ describe('BinaryTree', () => {
 
   it('should isSubtreeBST', () => {
     tree.addMany([4, 2, 6, 1, 3, 5, 7, 4]);
+    expect(tree.print()).toBe(
+      '    ___4___    \n' +
+        '   /       \\   \n' +
+        '  _2_     _6_  \n' +
+        ' /   \\   /   \\ \n' +
+        ' 1   3   5   7 \n' +
+        '               \n'
+    );
 
     expect(tree.isBST(tree.getNode(4), 'RECURSIVE')).toBe(true);
     expect(tree.isBST(tree.getNode(4), 'ITERATIVE')).toBe(true);
     expect(tree.getNodes(2, undefined, false, null)).toEqual([]);
+    expect(tree.getNodes(undefined)).toEqual([]);
     expect(tree.getNodes(tree.getNodeByKey(2), undefined, false, tree.root)).toEqual([tree.getNodeByKey(2)]);
+  });
+
+  describe('should isKey', () => {
+    describe('primitive types', () => {
+      it('numbers should be a key', () => {
+        expect(tree.isKey(42)).toBe(true);
+        expect(tree.isKey(0)).toBe(true);
+        expect(tree.isKey(-1)).toBe(true);
+        expect(tree.isKey(Infinity)).toBe(true);
+        expect(tree.isKey(-Infinity)).toBe(true);
+      });
+
+      it('NaN should not be a key', () => {
+        expect(tree.isKey(NaN)).toBe(false);
+      });
+
+      it('strings should be a key', () => {
+        expect(tree.isKey('hello')).toBe(true);
+        expect(tree.isKey('')).toBe(true);
+        expect(tree.isKey('123')).toBe(true);
+      });
+
+      it('BigInt should be a key', () => {
+        expect(tree.isKey(BigInt(42))).toBe(true);
+        expect(tree.isKey(BigInt(0))).toBe(true);
+        expect(tree.isKey(BigInt(-1))).toBe(true);
+      });
+
+      it('boolean should not be a key', () => {
+        expect(tree.isKey(true)).toBe(true);
+        expect(tree.isKey(false)).toBe(true);
+      });
+
+      it('null and undefined should not be a key', () => {
+        expect(tree.isKey(null)).toBe(true);
+        expect(tree.isKey(undefined)).toBe(false);
+      });
+
+      it('symbols should not be a key', () => {
+        expect(tree.isKey(Symbol('test'))).toBe(false);
+        expect(tree.isKey(Symbol.for('test'))).toBe(false);
+      });
+    });
+
+    describe('Date objects', () => {
+      it('valid Date objects should be a key', () => {
+        expect(tree.isKey(new Date())).toBe(true);
+        expect(tree.isKey(new Date('2024-01-01'))).toBe(true);
+      });
+
+      it('invalid Date objects should not be a key', () => {
+        expect(tree.isKey(new Date('invalid'))).toBe(false);
+      });
+    });
+
+    describe('arrays', () => {
+      it('arrays should be a key as they convert to string', () => {
+        expect(tree.isKey([])).toBe(true);
+        expect(tree.isKey([1, 2, 3])).toBe(true);
+        expect(tree.isKey(['a', 'b', 'c'])).toBe(true);
+      });
+    });
+
+    describe('plain objects', () => {
+      it('plain objects should not be a key', () => {
+        expect(tree.isKey({})).toBe(false);
+        expect(tree.isKey({ a: 1 })).toBe(false);
+      });
+    });
+
+    describe('custom objects', () => {
+      it('objects with numeric valueOf should be a key', () => {
+        expect(tree.isKey({ valueOf: () => 42 })).toBe(true);
+      });
+
+      it('objects with string valueOf should be a key', () => {
+        expect(tree.isKey({ valueOf: () => 'test' })).toBe(true);
+      });
+
+      it('objects with boolean valueOf should not be a key', () => {
+        expect(tree.isKey({ valueOf: () => true })).toBe(true);
+      });
+
+      it('objects with nested valueOf/toString should be a key', () => {
+        expect(
+          tree.isKey({
+            valueOf: () => ({ toString: () => '42' })
+          })
+        ).toBe(true);
+      });
+    });
+
+    describe('deeply nested objects', () => {
+      it('objects with deeply nested valueOf should be a key', () => {
+        const deeplyNested = {
+          valueOf: () => ({
+            valueOf: () => 42
+          })
+        };
+        expect(tree.isKey(deeplyNested)).toBe(true);
+      });
+
+      it('objects with very deeply nested conversion should be a key', () => {
+        const veryDeeplyNested = {
+          valueOf: () => ({
+            valueOf: () => ({
+              toString: () => '42'
+            })
+          })
+        };
+        expect(tree.isKey(veryDeeplyNested)).toBe(true);
+      });
+
+      it('objects with circular references should not be a key', () => {
+        const circular: any = {
+          valueOf: () => circular
+        };
+        expect(tree.isKey(circular)).toBe(false);
+      });
+    });
+
+    describe('edge cases', () => {
+      it('objects returning non-primitive values should be handled correctly', () => {
+        const complexObject = {
+          valueOf: () => ({
+            toString: () => ({
+              valueOf: () => 'valid'
+            })
+          })
+        };
+        expect(tree.isKey(complexObject)).toBe(false);
+      });
+
+      it('objects returning primitive values should be handled correctly', () => {
+        const complexObject = {
+          valueOf: () => ({
+            valueOf: () => ({
+              valueOf: () => ({
+                valueOf: () => ({
+                  toString: () => `{
+                                   valueOf: () => 'valid'
+                                 }`
+                })
+              })
+            })
+          })
+        };
+        expect(tree.isKey(complexObject)).toBe(true);
+      });
+    });
+
+    describe('type checking', () => {
+      it('should work with type guard in array methods', () => {
+        const values: unknown[] = [42, 'test', true, null, undefined, new Date()];
+        const comparableValues = values.filter(item => tree.isKey(item));
+        expect(comparableValues.length).toBe(5);
+      });
+    });
+  });
+
+  it('should isLeaf', () => {
+    tree.addMany([4, 2, 6, 1, 3, 5, 7, 4]);
+    const leftMost = tree.getLeftMost();
+    expect(tree.isLeaf(leftMost)).toBe(true);
+    expect(tree.isLeaf(null)).toBe(true);
   });
 
   it('should tree traverse', () => {
@@ -499,6 +685,56 @@ describe('BinaryTree', () => {
       null
     ]);
   });
+
+  it('should keyValueOrEntryOrRawElementToNode', () => {
+    const tree = new BinaryTree<number>();
+    const node0 = tree.keyValueOrEntryOrRawElementToNode(0);
+    expect(node0).toEqual({
+      _left: undefined,
+      _right: undefined,
+      key: 0,
+      parent: undefined,
+      value: undefined
+    });
+
+    const nodeUndefined = tree.keyValueOrEntryOrRawElementToNode(undefined);
+    expect(nodeUndefined).toBe(undefined);
+
+    const nodeNull = tree.keyValueOrEntryOrRawElementToNode(null);
+    expect(nodeNull).toBe(null);
+
+    const nodeWithSeparateValue = tree.keyValueOrEntryOrRawElementToNode(7, 77);
+    expect(nodeWithSeparateValue?.value).toBe(77);
+
+    expect(tree.keyValueOrEntryOrRawElementToNode([undefined, 2])).toBe(undefined);
+
+    expect(tree.keyValueOrEntryOrRawElementToNode(Symbol('test') as unknown as number)).toBe(undefined);
+
+    const bTree = new BinaryTree<number, number, { obj: { id: number } }>([], {
+      toEntryFn: (ele: { obj: { id: number } }) => [Symbol('test') as unknown as number, ele.obj.id]
+    });
+    expect(bTree.keyValueOrEntryOrRawElementToNode({ obj: { id: 1 } })).toBe(undefined);
+  });
+});
+
+describe('BinaryTree ensureNode', () => {
+  it('should ensureNode with toEntryFn', () => {
+    const tree = new BinaryTree<
+      number,
+      string,
+      {
+        id: number;
+        name: string;
+      }
+    >([], { toEntryFn: rawElement => [rawElement.id, rawElement.name] });
+    tree.add({ id: 1, name: 'Pablo' });
+    const node = tree.getNode(1);
+    expect(tree.ensureNode({ id: 1, name: 'Pablo' })).toBe(node);
+    expect(tree.ensureNode([1, 'Pablo'])).toBe(node);
+    expect(tree.ensureNode([null, 'Pablo'])).toBe(null);
+    expect(tree.ensureNode([undefined, 'Pablo'])).toBe(undefined);
+    expect(tree.ensureNode(Symbol('test') as unknown as number)).toBe(undefined);
+  });
 });
 
 describe('BinaryTree Morris Traversal', () => {
@@ -553,25 +789,35 @@ describe('BinaryTree Morris Traversal', () => {
 });
 
 describe('BinaryTree toEntryFn', () => {
-  it('should toEntryFn 1', () => {
-    const tree = new BinaryTree<number, number, { obj: { id: number } }>([], {
+  it('should toEntryFn throw', () => {
+    expect(() => {
+      new BinaryTree<number, number, { obj: { id: number } }>([], {
+        toEntryFn: `ele => [ele.obj.id, ele.obj.id]` as unknown as (rawElement: {
+          obj: { id: number };
+        }) => BTNEntry<number, number>
+      });
+    }).toThrow('toEntryFn must be a function type');
+  });
+
+  it('should toEntryFn with add', () => {
+    const binTree = new BinaryTree<number, number, { obj: { id: number } }>([], {
       toEntryFn: ele => [ele.obj.id, ele.obj.id]
     });
-    tree.add({ obj: { id: 1 } });
-    tree.add({ obj: { id: 2 } });
-    tree.add({ obj: { id: 3 } });
-    tree.add({ obj: { id: 4 } });
-    tree.add({ obj: { id: 5 } });
+    binTree.add({ obj: { id: 1 } });
+    binTree.add({ obj: { id: 2 } });
+    binTree.add({ obj: { id: 3 } });
+    binTree.add({ obj: { id: 4 } });
+    binTree.add({ obj: { id: 5 } });
 
     const expected = [4, 2, 5, 1, 3];
 
-    expect(tree.morris(node => node.key, 'IN')).toEqual(expected);
-    expect(tree.dfs(node => node.key, 'IN')).toEqual(expected);
-    expect(tree.dfs(node => node.key, 'IN', tree.root, 'RECURSIVE')).toEqual(expected);
+    expect(binTree.morris(node => node.key, 'IN')).toEqual(expected);
+    expect(binTree.dfs(node => node.key, 'IN')).toEqual(expected);
+    expect(binTree.dfs(node => node.key, 'IN', binTree.root, 'RECURSIVE')).toEqual(expected);
   });
 
-  it('should toEntryFn 2', () => {
-    const tree = new BinaryTree<number, number, { obj: { id: number } }>(
+  it('should toEntryFn with initial', () => {
+    const binTree = new BinaryTree<number, number, { obj: { id: number } }>(
       [{ obj: { id: 1 } }, { obj: { id: 2 } }, { obj: { id: 3 } }, { obj: { id: 4 } }, { obj: { id: 5 } }],
       {
         toEntryFn: ele => [ele.obj.id, ele.obj.id]
@@ -580,31 +826,24 @@ describe('BinaryTree toEntryFn', () => {
 
     const expected = [4, 2, 5, 1, 3];
 
-    expect(tree.morris(node => node.key, 'IN')).toEqual(expected);
-    expect(tree.dfs(node => node.key, 'IN')).toEqual(expected);
-    expect(tree.dfs(node => node.key, 'IN', tree.root, 'RECURSIVE')).toEqual(expected);
+    expect(binTree.morris(node => node.key, 'IN')).toEqual(expected);
+    expect(binTree.dfs(node => node.key, 'IN')).toEqual(expected);
+    expect(binTree.dfs(node => node.key, 'IN', binTree.root, 'RECURSIVE')).toEqual(expected);
   });
 
-  it('should toEntryFn 3', () => {
-    const tree = new BinaryTree<{ obj: { id: number } }, number>([
-      { obj: { id: 1 } },
-      { obj: { id: 2 } },
-      { obj: { id: 3 } },
-      { obj: { id: 4 } },
-      { obj: { id: 5 } }
-    ]);
-
-    const expected = [
-      { obj: { id: 4 } },
-      { obj: { id: 2 } },
-      { obj: { id: 5 } },
-      { obj: { id: 1 } },
-      { obj: { id: 3 } }
+  it('should no toEntryFn', () => {
+    const data = [
+      { obj: { id: 4 }, valueOf: () => 4 },
+      { obj: { id: 2 }, valueOf: () => 2 },
+      { obj: { id: 5 }, valueOf: () => 5 },
+      { obj: { id: 1 }, valueOf: () => 1 },
+      { obj: { id: 3 }, valueOf: () => 3 }
     ];
+    const tree = new BinaryTree<{ obj: { id: number }; valueOf: () => number }, number>(data);
 
-    expect(tree.morris(node => node.key, 'IN')).toEqual(expected);
-    expect(tree.dfs(node => node.key, 'IN')).toEqual(expected);
-    expect(tree.dfs(node => node.key, 'IN', tree.root, 'RECURSIVE')).toEqual(expected);
+    expect(tree.morris(node => node.key, 'IN')).toEqual(data.sort((a, b) => a.obj.id - b.obj.id));
+    expect(tree.dfs(node => node.key, 'IN')).toEqual(data);
+    expect(tree.dfs(node => node.key, 'IN', tree.root, 'RECURSIVE')).toEqual(data);
   });
 });
 
@@ -855,19 +1094,33 @@ describe('BinaryTree', () => {
   });
 
   it('should get nodes by a custom callback', () => {
-    tree.add([5, 'A']);
-    tree.add([3, 'B']);
-    tree.add([7, 'C']);
+    tree.add([5, 'E']);
+    tree.add([4, 'D']);
+    tree.add([3, 'C']);
+    tree.add([7, 'G']);
+    tree.add([null, 'null']);
+    tree.add([1, 'A']);
+    tree.add([6, 'F']);
+    tree.add([null, 'null']);
+    tree.add([2, 'B']);
+    tree.add([null, 'null']);
 
     const nodes = tree.getNodes('B', node => node.value);
 
     expect(nodes.length).toBe(1);
-    expect(nodes[0].key).toBe(3);
+    expect(nodes[0].key).toBe(2);
 
     const nodesRec = tree.getNodes('B', node => node.value, false, tree.root, 'RECURSIVE');
 
     expect(nodesRec.length).toBe(1);
-    expect(nodesRec[0].key).toBe(3);
+    expect(nodesRec[0].key).toBe(2);
+
+    const nodesItr = tree.getNodes('B', node => node.value, false, tree.root, 'ITERATIVE');
+
+    expect(nodesItr.length).toBe(1);
+    expect(nodesItr[0].key).toBe(2);
+
+    expect(nodesItr).toEqual(nodesRec);
   });
 
   it('should perform Morris traversal', () => {

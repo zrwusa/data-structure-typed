@@ -84,10 +84,10 @@ describe('AVLTreeMultiMap operations test1', () => {
     const nodesByCount2 = treeMultimap.getNodes(2, node => node.count);
     expect(nodesByCount2.length).toBe(2);
     const leftMost = treeMultimap.getLeftMost();
-    expect(leftMost?.key).toBe(1);
+    expect(leftMost).toBe(1);
 
     const node15 = treeMultimap.getNode(15);
-    const minNodeBySpecificNode = node15 && treeMultimap.getLeftMost(node15);
+    const minNodeBySpecificNode = node15 && treeMultimap.getLeftMost(node => node, node15);
     expect(minNodeBySpecificNode?.key).toBe(15);
 
     let subTreeSum = 0;
@@ -340,10 +340,10 @@ describe('AVLTreeMultiMap operations test recursively1', () => {
     const nodesByCount2 = treeMultimap.getNodes(2, node => node.count);
     expect(nodesByCount2.length).toBe(2);
     const leftMost = treeMultimap.getLeftMost();
-    expect(leftMost?.key).toBe(1);
+    expect(leftMost).toBe(1);
 
     const node15 = treeMultimap.getNode(15);
-    const minNodeBySpecificNode = node15 && treeMultimap.getLeftMost(node15);
+    const minNodeBySpecificNode = node15 && treeMultimap.getLeftMost(node => node, node15);
     expect(minNodeBySpecificNode?.key).toBe(15);
 
     let subTreeSum = 0;

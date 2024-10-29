@@ -142,10 +142,10 @@ describe('TreeMultiMap operations test1', () => {
     const nodesByCount2 = tmm.getNodes(2, node => node.count);
     expect(nodesByCount2.length).toBe(2);
     const leftMost = tmm.getLeftMost();
-    expect(leftMost?.key).toBe(1);
+    expect(leftMost).toBe(1);
 
     const node15 = tmm.getNode(15);
-    const minNodeBySpecificNode = node15 && tmm.getLeftMost(node15);
+    const minNodeBySpecificNode = node15 && tmm.getLeftMost(node => node, node15);
     expect(minNodeBySpecificNode?.key).toBe(14);
 
     let subTreeSum = 0;
@@ -400,10 +400,10 @@ describe('TreeMultiMap operations test recursively1', () => {
     const nodesByCount2 = tmm.getNodes(2, node => node.count);
     expect(nodesByCount2.length).toBe(2);
     const leftMost = tmm.getLeftMost();
-    expect(leftMost?.key).toBe(1);
+    expect(leftMost).toBe(1);
 
     const node15 = tmm.getNode(15);
-    const minNodeBySpecificNode = node15 && tmm.getLeftMost(node15);
+    const minNodeBySpecificNode = node15 && tmm.getLeftMost(node => node, node15);
     expect(minNodeBySpecificNode?.key).toBe(14);
 
     let subTreeSum = 0;

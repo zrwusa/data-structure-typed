@@ -23,6 +23,7 @@ import { BTNEntry } from '../../types';
 import { BinaryTree, BinaryTreeNode } from './binary-tree';
 import { IBinaryTree } from '../../interfaces';
 import { Queue } from '../queue';
+import { isComparable } from '../../utils';
 
 export class BSTNode<K = any, V = any, NODE extends BSTNode<K, V, NODE> = BSTNodeNested<K, V>> extends BinaryTreeNode<
   K,
@@ -211,6 +212,10 @@ export class BST<
     keyOrNodeOrEntryOrRawElement: R | BTNKeyOrNodeOrEntry<K, V, NODE>
   ): keyOrNodeOrEntryOrRawElement is NODE {
     return keyOrNodeOrEntryOrRawElement instanceof BSTNode;
+  }
+
+  override isKey(key: any): key is K {
+    return isComparable(key, this.comparator !== this._DEFAULT_COMPARATOR);
   }
 
   /**
@@ -408,6 +413,8 @@ export class BST<
     beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): NODE[] {
+    if (identifier === undefined) return [];
+    if (identifier === null) return [];
     beginRoot = this.ensureNode(beginRoot);
     if (!beginRoot) return [];
     callback = this._ensureCallback(identifier, callback);

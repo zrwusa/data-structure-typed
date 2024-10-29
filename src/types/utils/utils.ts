@@ -1,21 +1,23 @@
-export type ToThunkFn = () => ReturnType<TrlFn>;
-export type Thunk = () => ReturnType<ToThunkFn> & { __THUNK__: symbol };
-export type TrlFn = (...args: any[]) => any;
+export type ToThunkFn<R = any> = () => R;
+export type Thunk<R = any> = ToThunkFn<R> & { __THUNK__?: symbol };
+export type TrlFn<A extends any[] = any[], R = any> = (...args: A) => R;
 export type TrlAsyncFn = (...args: any[]) => any;
 
 export type SpecifyOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 export type Any = string | number | bigint | boolean | symbol | undefined | object;
 
-export type Comparable =
-  | number
-  | string
-  | bigint
-  | boolean
-  | ({ [key in string]: any } & {
-      valueOf(): Comparable;
-    })
-  | ({ [key in string]: any } & {
-      toString(): Comparable;
-    })
-  | (() => Comparable);
+export type ComparablePrimitive = number | bigint | string | boolean;
+
+// TODO type safety looks not strict
+export type ComparableObject = { [key in string]: any } & (
+  | {
+      valueOf: () => ComparablePrimitive | ComparableObject;
+      toString?: () => string;
+    }
+  | {
+      toString: () => string;
+    }
+);
+
+export type Comparable = ComparablePrimitive | Date | ComparableObject;

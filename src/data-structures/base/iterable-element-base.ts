@@ -192,8 +192,8 @@ export abstract class IterableElementBase<E, R, C> {
    *
    * The print function logs the elements of an array to the console.
    */
-  print(): void {
-    console.log([...this]);
+  print(): E[] {
+    return [...this];
   }
 
   abstract isEmpty(): boolean;

@@ -18,7 +18,7 @@ describe('Overall BinaryTree Test', () => {
     expect(bst.getDepth(6)).toBe(3); // true
     const leftMost = bst.getLeftMost();
     leftMost?.key === 1; // true
-    expect(leftMost?.key).toBe(1);
+    expect(leftMost).toBe(1);
     bst.delete(6);
     bst.getNode(6); // undefined
     expect(bst.getNode(6)).toBe(undefined);

@@ -182,15 +182,15 @@ export class AVLTreeMultiMap<
     if (keyOrNodeOrEntryOrRawElement === undefined || keyOrNodeOrEntryOrRawElement === null) return;
     if (this.isNode(keyOrNodeOrEntryOrRawElement)) return keyOrNodeOrEntryOrRawElement;
 
-    if (this.toEntryFn) {
-      const [key, entryValue] = this.toEntryFn(keyOrNodeOrEntryOrRawElement as R);
-      if (key) return this.createNode(key, entryValue ?? value, count);
+    if (this.isEntry(keyOrNodeOrEntryOrRawElement)) {
+      const [key, entryValue] = keyOrNodeOrEntryOrRawElement;
+      if (key === undefined || key === null) return;
+      if (this.isKey(key)) return this.createNode(key, value ?? entryValue, count);
     }
 
-    if (this.isEntry(keyOrNodeOrEntryOrRawElement)) {
-      const [key, value] = keyOrNodeOrEntryOrRawElement;
-      if (key === undefined || key === null) return;
-      else return this.createNode(key, value, count);
+    if (this.toEntryFn) {
+      const [key, entryValue] = this.toEntryFn(keyOrNodeOrEntryOrRawElement as R);
+      if (this.isKey(key)) return this.createNode(key, value ?? entryValue, count);
     }
 
     if (this.isKey(keyOrNodeOrEntryOrRawElement)) return this.createNode(keyOrNodeOrEntryOrRawElement, value, count);
@@ -279,7 +279,7 @@ export class AVLTreeMultiMap<
           needBalanced = parent;
         }
       } else {
-        const leftSubTreeRightMost = curr.left ? this.getRightMost(curr.left) : undefined;
+        const leftSubTreeRightMost = curr.left ? this.getRightMost(node => node, curr.left) : undefined;
         if (leftSubTreeRightMost) {
           const parentOfLeftSubTreeMax = leftSubTreeRightMost.parent;
           orgCurrent = this._swapProperties(curr, leftSubTreeRightMost);

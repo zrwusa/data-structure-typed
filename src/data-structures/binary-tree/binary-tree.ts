@@ -24,7 +24,7 @@ import type {
 } from '../../types';
 import { DFSOperation, DFSStackItem } from '../../types';
 import { IBinaryTree } from '../../interfaces';
-import { trampoline } from '../../utils';
+import { isComparable, trampoline } from '../../utils';
 import { Queue } from '../queue';
 import { IterableEntryBase } from '../base';
 
@@ -56,7 +56,7 @@ export class BinaryTreeNode<
     this.value = value;
   }
 
-  protected _left?: NODE | null;
+  protected _left?: OptBTNOrNull<NODE>;
 
   /**
    * The function returns the value of the `_left` property, which can be of type `NODE`, `null`, or
@@ -80,7 +80,7 @@ export class BinaryTreeNode<
     this._left = v;
   }
 
-  protected _right?: NODE | null;
+  protected _right?: OptBTNOrNull<NODE>;
 
   /**
    * The function returns the right node of a binary tree or null if it doesn't exist.
@@ -249,17 +249,17 @@ export class BinaryTree<
 
     if (this.isNode(keyOrNodeOrEntryOrRawElement)) return keyOrNodeOrEntryOrRawElement;
 
-    if (this.toEntryFn) {
-      const [key, entryValue] = this.toEntryFn(keyOrNodeOrEntryOrRawElement as R);
-      if (key) return this.createNode(key, entryValue ?? value);
-      else return;
-    }
-
     if (this.isEntry(keyOrNodeOrEntryOrRawElement)) {
-      const [key, value] = keyOrNodeOrEntryOrRawElement;
+      const [key, entryValue] = keyOrNodeOrEntryOrRawElement;
       if (key === undefined) return;
       else if (key === null) return null;
-      else return this.createNode(key, value);
+      if (this.isKey(key)) return this.createNode(key, value ?? entryValue);
+    }
+
+    if (this.toEntryFn) {
+      const [key, entryValue] = this.toEntryFn(keyOrNodeOrEntryOrRawElement as R);
+      if (this.isKey(key)) return this.createNode(key, value ?? entryValue);
+      else return;
     }
 
     if (this.isKey(keyOrNodeOrEntryOrRawElement)) return this.createNode(keyOrNodeOrEntryOrRawElement, value);
@@ -292,7 +292,7 @@ export class BinaryTree<
 
     if (this.toEntryFn) {
       const [key] = this.toEntryFn(keyOrNodeOrEntryOrRawElement as R);
-      if (key) return this.getNodeByKey(key);
+      if (this.isKey(key)) return this.getNodeByKey(key);
     }
 
     if (this.isEntry(keyOrNodeOrEntryOrRawElement)) {
@@ -378,31 +378,19 @@ export class BinaryTree<
   }
 
   /**
-   * The function checks if a given value is a valid key by evaluating its type and value.
-   * @param {any} key - The `key` parameter can be of any type. It is the value that we want to check
-   * if it is a valid key.
-   * @param [isCheckValueOf=true] - The `isCheckValueOf` parameter is a boolean flag that determines
-   * whether the function should check the valueOf() method of an object when the key is of type
-   * 'object'. If `isCheckValueOf` is true, the function will recursively call itself with the value
-   * returned by key.valueOf().
-   * @returns a boolean value.
+   * Time Complexity O(1)
+   * Space Complexity O(1)
+   *
+   * The function `isKey` checks if a given key is comparable.
+   * @param {any} key - The `key` parameter is of type `any`, which means it can be any data type in
+   * TypeScript.
+   * @returns The function `isKey` is checking if the `key` parameter is `null` or if it is comparable.
+   * If the `key` is `null`, the function returns `true`. Otherwise, it returns the result of the
+   * `isComparable` function, which is not provided in the code snippet.
    */
-  isKey(key: any, isCheckValueOf = true): key is K {
+  isKey(key: any): key is K {
     if (key === null) return true;
-    const keyType = typeof key;
-    if (keyType === 'string' || keyType === 'bigint' || keyType === 'boolean') return true;
-    if (keyType === 'number') return !isNaN(key);
-    if (keyType === 'symbol' || keyType === 'undefined') return false;
-    if (keyType === 'function') return this.isKey(key());
-    if (keyType === 'object') {
-      if (typeof key.toString === 'function') return true;
-      if (isCheckValueOf && typeof key.valueOf === 'function') {
-        this.isKey(key.valueOf(), false);
-      }
-      return false;
-    }
-
-    return false;
+    return isComparable(key);
   }
 
   /**
@@ -577,7 +565,7 @@ export class BinaryTree<
     if (!curr.left && !curr.right && !parent) {
       this._setRoot(undefined);
     } else if (curr.left) {
-      const leftSubTreeRightMost = this.getRightMost(curr.left);
+      const leftSubTreeRightMost = this.getRightMost(node => node, curr.left);
       if (leftSubTreeRightMost) {
         const parentOfLeftSubTreeMax = leftSubTreeRightMost.parent;
         orgCurrent = this._swapProperties(curr, leftSubTreeRightMost);
@@ -662,6 +650,8 @@ export class BinaryTree<
     beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
   ): NODE[] {
+    if (identifier === undefined) return [];
+    if (identifier === null) return [];
     beginRoot = this.ensureNode(beginRoot);
     if (!beginRoot) return [];
     callback = this._ensureCallback(identifier, callback);
@@ -1132,23 +1122,32 @@ export class BinaryTree<
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
-   * The `getLeftMost` function returns the leftmost node in a binary tree, either using recursive or
-   * iterative traversal.
-   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter represents the
-   * starting point for finding the leftmost node in a binary tree. It can be either a root node (`R`),
-   * a key or node or entry (`BTNKeyOrNodeOrEntry<K, V, NODE>`), or `null` or `undefined`.
-   * @param {IterationType} iterationType - The `iterationType` parameter is used to specify the type
-   * of iteration to be performed. It can have two possible values:
-   * @returns The function `getLeftMost` returns the leftmost node in a binary tree.
+   * The function `getLeftMost` retrieves the leftmost node in a binary tree using either recursive or
+   * tail-recursive iteration.
+   * @param {C} callback - The `callback` parameter is a function that will be called with the leftmost
+   * node of a binary tree or null if the tree is empty. It has a default value of `_DEFAULT_CALLBACK`
+   * if not provided explicitly.
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter in the
+   * `getLeftMost` function represents the starting point for finding the leftmost node in a binary
+   * tree. It can be either a reference to the root node of the tree (`R`), or a key, node, or entry in
+   * the binary tree structure (`
+   * @param {IterationType} iterationType - The `iterationType` parameter in the `getLeftMost` function
+   * specifies the type of iteration to be used when traversing the binary tree nodes. It can have two
+   * possible values:
+   * @returns The `getLeftMost` function returns the result of the callback function `C` applied to the
+   * leftmost node in the binary tree starting from the `beginRoot` node. If the `beginRoot` is `NIL`,
+   * it returns the result of the callback function applied to `undefined`. If the `beginRoot` is not a
+   * real node, it returns the result of the callback function applied
    */
-  getLeftMost(
+  getLeftMost<C extends BTNCallback<OptBTNOrNull<NODE>>>(
+    callback: C = this._DEFAULT_CALLBACK as C,
     beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
-  ): OptBTNOrNull<NODE> {
-    if (this.isNIL(beginRoot)) return beginRoot as NODE;
+  ): ReturnType<C> {
+    if (this.isNIL(beginRoot)) return callback(undefined);
     beginRoot = this.ensureNode(beginRoot);
 
-    if (!this.isRealNode(beginRoot)) return beginRoot;
+    if (!this.isRealNode(beginRoot)) return callback(beginRoot);
 
     if (iterationType === 'RECURSIVE') {
       const dfs = (cur: NODE): NODE => {
@@ -1156,15 +1155,15 @@ export class BinaryTree<
         return dfs(cur.left);
       };
 
-      return dfs(beginRoot);
+      return callback(dfs(beginRoot));
     } else {
       // Indirect implementation of iteration using tail recursion optimization
-      const dfs = trampoline((cur: NODE) => {
+      const dfs = trampoline((cur: NODE): NODE => {
         if (!this.isRealNode(cur.left)) return cur;
         return dfs.cont(cur.left);
       });
 
-      return dfs(beginRoot);
+      return callback(dfs(beginRoot));
     }
   }
 
@@ -1172,24 +1171,33 @@ export class BinaryTree<
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
-   * The `getRightMost` function returns the rightmost node in a binary tree, either recursively or
-   * iteratively.
-   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter represents the
-   * starting point for finding the rightmost node in a binary tree. It can be either a root node
-   * (`R`), a key or node or entry (`BTNKeyOrNodeOrEntry<K, V, NODE>`), or `null` or `undefined`.
-   * @param {IterationType} iterationType - The `iterationType` parameter is used to specify the type
-   * of iteration to be performed when finding the rightmost node in a binary tree. It can have two
-   * possible values:
-   * @returns The function `getRightMost` returns a NODE object, `null`, or `undefined`.
+   * The function `getRightMost` retrieves the rightmost node in a binary tree using either recursive
+   * or iterative traversal methods.
+   * @param {C} callback - The `callback` parameter is a function that will be called with the result
+   * of the operation. It has a generic type `C` which extends `BTNCallback<OptBTNOrNull<NODE>>`. The
+   * default value for `callback` is `this._DEFAULT_CALLBACK` if it is not provided.
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter in the
+   * `getRightMost` function represents the starting point for finding the rightmost node in a binary
+   * tree. It can be either a reference to the root node of the tree (`this.root`) or a specific key,
+   * node, or entry in the tree. If
+   * @param {IterationType} iterationType - The `iterationType` parameter in the `getRightMost`
+   * function specifies the type of iteration to be used when finding the rightmost node in a binary
+   * tree. It can have two possible values:
+   * @returns The `getRightMost` function returns the result of the callback function `C` applied to
+   * the rightmost node in the binary tree. The rightmost node is found either through a recursive
+   * depth-first search (if `iterationType` is 'RECURSIVE') or through an indirect implementation of
+   * iteration using tail recursion optimization. The result of the callback function applied to the
+   * rightmost node is returned
    */
-  getRightMost(
+  getRightMost<C extends BTNCallback<OptBTNOrNull<NODE>>>(
+    callback: C = this._DEFAULT_CALLBACK as C,
     beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root,
     iterationType: IterationType = this.iterationType
-  ): OptBTNOrNull<NODE> {
-    if (this.isNIL(beginRoot)) return beginRoot as NODE;
+  ): ReturnType<C> {
+    if (this.isNIL(beginRoot)) return callback(undefined);
     // TODO support get right most by passing key in
     beginRoot = this.ensureNode(beginRoot);
-    if (!beginRoot) return beginRoot;
+    if (!beginRoot) return callback(beginRoot);
 
     if (iterationType === 'RECURSIVE') {
       const dfs = (cur: NODE): NODE => {
@@ -1197,7 +1205,7 @@ export class BinaryTree<
         return dfs(cur.right);
       };
 
-      return dfs(beginRoot);
+      return callback(dfs(beginRoot));
     } else {
       // Indirect implementation of iteration using tail recursion optimization
       const dfs = trampoline((cur: NODE) => {
@@ -1205,7 +1213,7 @@ export class BinaryTree<
         return dfs.cont(cur.right);
       });
 
-      return dfs(beginRoot);
+      return callback(dfs(beginRoot));
     }
   }
 
@@ -1246,7 +1254,7 @@ export class BinaryTree<
     if (!this.isRealNode(x)) return undefined;
 
     if (this.isRealNode(x.right)) {
-      return this.getLeftMost(x.right);
+      return this.getLeftMost(node => node, x.right);
     }
 
     let y: OptBTNOrNull<NODE> = x.parent;
@@ -1736,20 +1744,21 @@ export class BinaryTree<
    * @returns Nothing is being returned. The function has a return type of `void`, which means it does
    * not return any value.
    */
-  override print(beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root, options?: BinaryTreePrintOptions): void {
+  override print(beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root, options?: BinaryTreePrintOptions): string {
     const opts = { isShowUndefined: false, isShowNull: false, isShowRedBlackNIL: false, ...options };
     beginRoot = this.ensureNode(beginRoot);
-    if (!beginRoot) return;
+    let output = '';
+    if (!beginRoot) return output;
 
     if (opts.isShowUndefined)
-      console.log(`U for undefined
-      `);
+      output += `U for undefined
+      `;
     if (opts.isShowNull)
-      console.log(`N for null
-      `);
+      output += `N for null
+      `;
     if (opts.isShowRedBlackNIL)
-      console.log(`S for Sentinel Node(NIL)
-      `);
+      output += `S for Sentinel Node(NIL)
+      `;
 
     const display = (root: OptBTNOrNull<NODE>): void => {
       const [lines, , ,] = this._displayAux(root, opts);
@@ -1757,10 +1766,11 @@ export class BinaryTree<
       for (const line of lines) {
         paragraph += line + '\n';
       }
-      console.log(paragraph);
+      output += paragraph;
     };
 
     display(beginRoot);
+    return output;
   }
 
   protected _dfs<C extends BTNCallback<NODE>>(

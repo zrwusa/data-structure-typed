@@ -164,7 +164,7 @@ export class RedBlackTree<
   //
   //   if (this.toEntryFn) {
   //     const [key, entryValue] = this.toEntryFn(keyOrNodeOrEntryOrRawElement as R);
-  //     if (key) return this.createNode(key, entryValue ?? value, 'RED');
+  //     if (this.isKey(key)) return this.createNode(key, entryValue ?? value, 'RED');
   //   }
   //
   //   if (this.isEntry(keyOrNodeOrEntryOrRawElement)) {
@@ -262,7 +262,7 @@ export class RedBlackTree<
       replacementNode = nodeToDelete.left;
       this._transplant(nodeToDelete, nodeToDelete.left);
     } else {
-      const successor = this.getLeftMost(nodeToDelete.right);
+      const successor = this.getLeftMost(node => node, nodeToDelete.right);
       if (successor) {
         originalColor = successor.color;
         replacementNode = successor.right;

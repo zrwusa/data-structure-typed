@@ -251,8 +251,8 @@ export abstract class IterableEntryBase<K = any, V = any> {
    *
    * The print function logs the elements of an array to the console.
    */
-  print(): void {
-    console.log([...this]);
+  print(): [K, V][] | string {
+    return [...this];
   }
 
   abstract isEmpty(): boolean;

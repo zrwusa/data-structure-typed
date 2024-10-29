@@ -301,6 +301,16 @@ describe('HashMap', () => {
     it('values', () => {
       expect([...hm.values()]).toEqual([2, 3, 4, 5, 6]);
     });
+
+    it('print', () => {
+      expect(hm.print()).toEqual([
+        [2, 2],
+        [3, 3],
+        [4, 4],
+        [5, 5],
+        [6, 6]
+      ]);
+    });
   });
 
   describe('HashMap HOF', () => {

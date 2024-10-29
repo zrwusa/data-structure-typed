@@ -65,6 +65,7 @@ describe('DoublyLinkedList Operation Test', () => {
     dList.delete('5');
     expect([...dList]).toEqual(['1', '6', '0', '9']);
     expect([...cloned]).toEqual(['1', '6', '0', '5', '9']);
+    expect(cloned.print()).toEqual(['1', '6', '0', '5', '9']);
   });
 
   it('should find undefined', () => {

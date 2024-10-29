@@ -167,15 +167,15 @@ export class TreeMultiMap<
 
     if (this.isNode(keyOrNodeOrEntryOrRawElement)) return keyOrNodeOrEntryOrRawElement;
 
-    if (this.toEntryFn) {
-      const [key] = this.toEntryFn(keyOrNodeOrEntryOrRawElement as R);
-      if (key) return this.getNodeByKey(key);
+    if (this.isEntry(keyOrNodeOrEntryOrRawElement)) {
+      const [key, entryValue] = keyOrNodeOrEntryOrRawElement;
+      if (key === undefined || key === null) return;
+      if (this.isKey(key)) return this.createNode(key, value ?? entryValue, 'BLACK', count);
     }
 
-    if (this.isEntry(keyOrNodeOrEntryOrRawElement)) {
-      const [key, value] = keyOrNodeOrEntryOrRawElement;
-      if (key === undefined || key === null) return;
-      else return this.createNode(key, value, 'BLACK', count);
+    if (this.toEntryFn) {
+      const [key, entryValue] = this.toEntryFn(keyOrNodeOrEntryOrRawElement as R);
+      if (this.isKey(key)) return this.createNode(key, value ?? entryValue, 'BLACK', count);
     }
 
     if (this.isKey(keyOrNodeOrEntryOrRawElement))
@@ -285,7 +285,7 @@ export class TreeMultiMap<
         return results;
       }
     } else {
-      const successor = this.getLeftMost(nodeToDelete.right);
+      const successor = this.getLeftMost(node => node, nodeToDelete.right);
       if (successor) {
         originalColor = successor.color;
         replacementNode = successor.right;

@@ -68,13 +68,13 @@ describe('RedBlackTree 1', () => {
       rbTree.add(15);
       rbTree.add(3);
 
-      const minNode = rbTree.getLeftMost(rbTree.root);
+      const minNode = rbTree.getLeftMost(node => node, rbTree.root);
       expect(minNode?.key).toBe(3);
     });
 
     it('should handle an empty rbTree', () => {
-      const minNode = rbTree.getLeftMost(rbTree.root);
-      expect(minNode).toBe(rbTree.NIL);
+      const minNode = rbTree.getLeftMost(node => node, rbTree.root);
+      expect(minNode).toBe(undefined);
     });
   });
 
@@ -86,13 +86,13 @@ describe('RedBlackTree 1', () => {
       rbTree.add(15);
       rbTree.add(25);
 
-      const maxNode = rbTree.getRightMost(rbTree.root);
+      const maxNode = rbTree.getRightMost(node => node, rbTree.root);
       expect(maxNode?.key).toBe(25);
     });
 
     it('should handle an empty rbTree', () => {
-      const maxNode = rbTree.getRightMost(rbTree.root);
-      expect(maxNode).toBe(rbTree.NIL);
+      const maxNode = rbTree.getRightMost(node => node, rbTree.root);
+      expect(maxNode).toBe(undefined);
     });
   });
 
@@ -433,7 +433,7 @@ describe('RedBlackTree 2', () => {
     rbTree.add(15);
 
     const nodeLM = rbTree.getLeftMost();
-    expect(nodeLM?.key).toBe(1);
+    expect(nodeLM).toBe(1);
 
     const node50 = rbTree.getNode(50);
     expect(node50?.key).toBe(50);

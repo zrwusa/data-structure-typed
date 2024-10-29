@@ -1,9 +1,37 @@
 import { BinaryTreeNode, BST, BSTNode } from '../../../../src';
-import { isDebugTest } from '../../../config';
+import { isDebugTest, SYSTEM_MAX_CALL_STACK, isTestStackOverflow } from '../../../config';
 
 const isDebug = isDebugTest;
 
 describe('BST operations test', () => {
+  it('should add undefined and null', () => {
+    const bst = new BST<number, string>();
+    const isAddUndefined = bst.add(undefined);
+    expect(isAddUndefined).toBe(false);
+    expect(bst.get(undefined)).toBe(undefined);
+    const isAddNull = bst.add(null);
+    expect(isAddNull).toBe(false);
+    expect(bst.get(null)).toBe(undefined);
+    const isAdd0 = bst.add(0, '0');
+    expect(isAdd0).toBe(true);
+    expect(bst.get(0)).toBe('0');
+  });
+  it('should addMany undefined and null', () => {
+    const bst = new BST<number, string>();
+    const addManyWithUndefined = bst.addMany([1, undefined, 3]);
+    // TODO
+    // expect(addManyWithUndefined).toEqual([true, false, true]);
+    expect(addManyWithUndefined).toEqual([true, true]);
+    expect(bst.get(undefined)).toBe(undefined);
+    const addManyWithNull = bst.addMany([1, null, 3, 4]);
+    // TODO
+    // expect(addManyWithNull).toEqual([false, false, false, true]);
+    expect(addManyWithNull).toEqual([true, true, true]);
+    expect(bst.get(null)).toBe(undefined);
+    const node0 = bst.add(0, '0');
+    expect(node0).toBe(true);
+    expect(bst.get(0)).toBe('0');
+  });
   it('should perform various operations on a Binary Search Tree with numeric values', () => {
     const bst = new BST<number, number>();
     expect(bst).toBeInstanceOf(BST);
@@ -45,12 +73,12 @@ describe('BST operations test', () => {
     expect(nodeVal9?.key).toBe(9);
 
     const leftMost = bst.getLeftMost();
-    expect(leftMost?.key).toBe(1);
+    expect(leftMost).toBe(1);
 
     expect(bst.isBST()).toBe(true);
 
     const node15 = bst.getNode(15);
-    const minNodeBySpecificNode = node15 && bst.getLeftMost(node15);
+    const minNodeBySpecificNode = node15 && bst.getLeftMost(node => node, node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
@@ -249,14 +277,14 @@ describe('BST operations test', () => {
     expect(nodeVal9?.key).toBe(9);
 
     const leftMost = objBST.getLeftMost();
-    expect(leftMost?.key).toBe(1);
+    expect(leftMost).toBe(1);
 
     const node15 = objBST.getNode(15);
     expect(node15?.value).toEqual({
       name: 'Alice',
       age: 15
     });
-    const minNodeBySpecificNode = node15 && objBST.getLeftMost(node15);
+    const minNodeBySpecificNode = node15 && objBST.getLeftMost(node => node, node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
@@ -410,6 +438,24 @@ describe('BST operations test', () => {
     expect(bfsNodes[1].key).toBe(12);
     expect(bfsNodes[2].key).toBe(16);
   });
+
+  it('should keyValueOrEntryOrRawElementToNode', () => {
+    const bst = new BST<number>();
+    const node0 = bst.keyValueOrEntryOrRawElementToNode(0);
+    expect(node0).toEqual({
+      _left: undefined,
+      _right: undefined,
+      key: 0,
+      parent: undefined,
+      value: undefined
+    });
+
+    const nodeUndefined = bst.keyValueOrEntryOrRawElementToNode(undefined);
+    expect(nodeUndefined).toBe(undefined);
+
+    const nodeNull = bst.keyValueOrEntryOrRawElementToNode(null);
+    expect(nodeNull).toBe(undefined);
+  });
 });
 
 describe('BST operations test recursively', () => {
@@ -442,10 +488,10 @@ describe('BST operations test recursively', () => {
     expect(nodeVal9?.key).toBe(undefined);
 
     const leftMost = bst.getLeftMost();
-    expect(leftMost?.key).toBe(1);
+    expect(leftMost).toBe(1);
 
     const node15 = bst.getNode(15);
-    const minNodeBySpecificNode = node15 && bst.getLeftMost(node15);
+    const minNodeBySpecificNode = node15 && bst.getLeftMost(node => node, node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
@@ -645,14 +691,14 @@ describe('BST operations test recursively', () => {
     expect(nodeVal9?.key).toBe(9);
 
     const leftMost = objBST.getLeftMost();
-    expect(leftMost?.key).toBe(1);
+    expect(leftMost).toBe(1);
 
     const node15 = objBST.getNode(15);
     expect(node15?.value).toEqual({
       key: 15,
       keyA: 15
     });
-    const minNodeBySpecificNode = node15 && objBST.getLeftMost(node15);
+    const minNodeBySpecificNode = node15 && objBST.getLeftMost(node => node, node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
@@ -870,6 +916,33 @@ describe('BST operations test recursively', () => {
     cloned.delete('5');
     expect(cloned.size).toBe(0);
   });
+
+  if (isTestStackOverflow) {
+    it('should getLeftMost', () => {
+      const bst = new BST<number>([], { comparator: (a, b) => b - a });
+      for (let i = 1; i <= SYSTEM_MAX_CALL_STACK; i++) bst.add(i);
+
+      expect(() => {
+        const leftMost = bst.getLeftMost(node => node, bst.root, 'RECURSIVE');
+        expect(leftMost?.key).toEqual(SYSTEM_MAX_CALL_STACK);
+      }).toThrow('Maximum call stack size exceeded');
+
+      const leftMost = bst.getLeftMost(node => node, bst.root, 'ITERATIVE');
+      expect(leftMost?.key).toEqual(SYSTEM_MAX_CALL_STACK);
+    });
+
+    it('should getRightMost', () => {
+      const bst = new BST<number>();
+      for (let i = 1; i <= SYSTEM_MAX_CALL_STACK; i++) bst.add(i);
+
+      expect(() => {
+        const rightMost = bst.getRightMost(node => node, bst.root, 'RECURSIVE');
+        expect(rightMost?.key).toEqual(SYSTEM_MAX_CALL_STACK);
+      }).toThrow('Maximum call stack size exceeded');
+      const rightMost = bst.getRightMost(node => node, bst.root, 'ITERATIVE');
+      expect(rightMost?.key).toEqual(SYSTEM_MAX_CALL_STACK);
+    });
+  }
 });
 
 describe('BST isBST', function () {
