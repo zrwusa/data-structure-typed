@@ -36,7 +36,7 @@ describe('AVL Tree Test', () => {
     expect(getMinNodeByRoot?.key).toBe(1);
 
     const node15 = tree.getNode(15);
-    const getMinNodeBySpecificNode = node15 && tree.getLeftMost(node15);
+    const getMinNodeBySpecificNode = node15 && tree.getLeftMost(node => node, node15);
     expect(getMinNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;

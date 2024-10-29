@@ -12,6 +12,7 @@ export class TreeNode<V = any> {
   constructor(key: string, value?: V, children?: TreeNode<V>[]) {
     this._key = key;
     this._value = value || undefined;
+    if (children) this._children = children;
   }
 
   protected _key: string;

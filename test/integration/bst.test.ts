@@ -30,7 +30,7 @@ describe('Individual package BST operations test', () => {
     expect(leftMost?.key).toBe(1);
 
     const node15 = bst.getNode(15);
-    const minNodeBySpecificNode = node15 && bst.getLeftMost(node15);
+    const minNodeBySpecificNode = node15 && bst.getLeftMost(node => node, node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
@@ -230,7 +230,7 @@ describe('Individual package BST operations test', () => {
       key: 15,
       keyA: 15
     });
-    const minNodeBySpecificNode = node15 && objBST.getLeftMost(node15);
+    const minNodeBySpecificNode = node15 && objBST.getLeftMost(node => node, node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;

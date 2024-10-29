@@ -335,7 +335,7 @@ export class BinaryTree<
    * @returns a boolean value.
    */
   isRealNodeOrNull(node: R | BTNKeyOrNodeOrEntry<K, V, NODE>): node is NODE | null {
-    return this.isRealNode(node) || node === null;
+    return node === null || this.isRealNode(node);
   }
 
   /**
@@ -1843,7 +1843,7 @@ export class BinaryTree<
       if (includeNull) return this.isRealNodeOrNull(node);
       return this.isRealNode(node);
     },
-    shouldProcessRoot: (node: OptBTNOrNull<NODE>) => boolean = node => true
+    shouldProcessRoot: (node: OptBTNOrNull<NODE>) => boolean = node => this.isRealNodeOrNull(node)
   ): ReturnType<C>[] {
     beginRoot = this.ensureNode(beginRoot);
     if (!beginRoot) return [];
