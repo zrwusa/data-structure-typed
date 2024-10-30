@@ -1,8 +1,8 @@
 /**
  * data-structure-typed
  *
- * @author Tyler Zeng
- * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
+ * @author Pablo Zeng
+ * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
 import type { ElementCallback, TrieOptions } from '../../types';
@@ -202,7 +202,7 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
    * @return True if the size of the queue is 0
    */
   isEmpty(): boolean {
-    return this.size === 0;
+    return this._size === 0;
   }
 
   /**

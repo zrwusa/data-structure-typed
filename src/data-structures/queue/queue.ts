@@ -1,6 +1,6 @@
 /**
  * @license MIT
- * @copyright Tyler Zeng <zrwusa@gmail.com>
+ * @copyright Pablo Zeng <zrwusa@gmail.com>
  * @class
  */
 import type { ElementCallback, QueueOptions } from '../../types';

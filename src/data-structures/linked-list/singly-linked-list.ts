@@ -1,8 +1,8 @@
 /**
  * data-structure-typed
  *
- * @author Tyler Zeng
- * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
+ * @author Pablo Zeng
+ * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
 import type { ElementCallback, SinglyLinkedListOptions } from '../../types';
@@ -237,7 +237,7 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * `undefined` if the index is out of bounds.
    */
   at(index: number): E | undefined {
-    if (index < 0 || index >= this.size) return undefined;
+    if (index < 0 || index >= this._size) return undefined;
     let current = this.head;
     for (let i = 0; i < index; i++) {
       current = current!.next;
@@ -274,12 +274,12 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * bounds.
    */
   deleteAt(index: number): boolean {
-    if (index < 0 || index >= this.size) return false;
+    if (index < 0 || index >= this._size) return false;
     if (index === 0) {
       this.shift();
       return true;
     }
-    if (index === this.size - 1) {
+    if (index === this._size - 1) {
       this.pop();
       return true;
     }
@@ -348,12 +348,12 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * if the index is out of bounds.
    */
   addAt(index: number, value: E): boolean {
-    if (index < 0 || index > this.size) return false;
+    if (index < 0 || index > this._size) return false;
     if (index === 0) {
       this.unshift(value);
       return true;
     }
-    if (index === this.size) {
+    if (index === this._size) {
       this.push(value);
       return true;
     }
@@ -372,7 +372,7 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * @returns A boolean value indicating whether the length of the object is equal to 0.
    */
   isEmpty(): boolean {
-    return this.size === 0;
+    return this._size === 0;
   }
 
   /**

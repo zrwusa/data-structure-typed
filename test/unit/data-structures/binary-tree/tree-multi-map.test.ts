@@ -87,7 +87,7 @@ describe('TreeMultiMap operations test1', () => {
     tmm.delete(11);
     expect(tmm.count).toBe(17);
     expect(tmm.getComputedCount()).toBe(17);
-    tmm.delete(3, undefined, true);
+    tmm.delete(3, true);
     expect(tmm.count).toBe(15);
     expect(tmm.getComputedCount()).toBe(15);
   });
@@ -133,13 +133,13 @@ describe('TreeMultiMap operations test1', () => {
     const nodeId10 = tmm.getNode(10);
     expect(nodeId10?.key).toBe(10);
 
-    const nodeVal9 = tmm.getNode(9, node => node.value);
+    const nodeVal9 = tmm.getNode(node => node.value === 9);
     expect(nodeVal9?.key).toBe(9);
 
-    const nodesByCount1 = tmm.getNodes(1, node => node.count);
+    const nodesByCount1 = tmm.getNodes(node => node.count === 1);
     expect(nodesByCount1.length).toBe(14);
 
-    const nodesByCount2 = tmm.getNodes(2, node => node.count);
+    const nodesByCount2 = tmm.getNodes(node => node.count === 2);
     expect(nodesByCount2.length).toBe(2);
     const leftMost = tmm.getLeftMost();
     expect(leftMost).toBe(1);
@@ -180,7 +180,7 @@ describe('TreeMultiMap operations test1', () => {
     expect(bfsNodesAfterBalanced[0].key).toBe(6);
     expect(bfsNodesAfterBalanced[bfsNodesAfterBalanced.length - 1].key).toBe(16);
 
-    const removed11 = tmm.delete(11, undefined, true);
+    const removed11 = tmm.delete(11, true);
     expect(removed11 instanceof Array);
     expect(removed11[0]);
     expect(removed11[0].deleted);
@@ -191,7 +191,7 @@ describe('TreeMultiMap operations test1', () => {
 
     expect(tmm.getHeight(15)).toBe(1);
 
-    const removed1 = tmm.delete(1, undefined, true);
+    const removed1 = tmm.delete(1, true);
     expect(removed1 instanceof Array);
     expect(removed1[0]);
     expect(removed1[0].deleted);
@@ -201,7 +201,7 @@ describe('TreeMultiMap operations test1', () => {
 
     expect(tmm.getHeight()).toBe(5);
 
-    const removed4 = tmm.delete(4, undefined, true);
+    const removed4 = tmm.delete(4, true);
     expect(removed4 instanceof Array);
     expect(removed4[0]);
     expect(removed4[0].deleted);
@@ -210,7 +210,7 @@ describe('TreeMultiMap operations test1', () => {
     expect(tmm.isAVLBalanced()).toBe(false);
     expect(tmm.getHeight()).toBe(5);
 
-    const removed10 = tmm.delete(10, undefined, true);
+    const removed10 = tmm.delete(10, true);
     expect(removed10 instanceof Array);
     expect(removed10[0]);
     expect(removed10[0].deleted);
@@ -219,7 +219,7 @@ describe('TreeMultiMap operations test1', () => {
 
     expect(tmm.getHeight()).toBe(4);
 
-    const removed15 = tmm.delete(15, undefined, true);
+    const removed15 = tmm.delete(15, true);
     expect(removed15 instanceof Array);
     expect(removed15[0]);
     expect(removed15[0].deleted);
@@ -228,7 +228,7 @@ describe('TreeMultiMap operations test1', () => {
     expect(tmm.isAVLBalanced()).toBe(false);
     expect(tmm.getHeight()).toBe(3);
 
-    const removed5 = tmm.delete(5, undefined, true);
+    const removed5 = tmm.delete(5, true);
     expect(removed5 instanceof Array);
     expect(removed5[0]);
     expect(removed5[0].deleted);
@@ -237,7 +237,7 @@ describe('TreeMultiMap operations test1', () => {
     expect(tmm.isAVLBalanced()).toBe(true);
     expect(tmm.getHeight()).toBe(3);
 
-    const removed13 = tmm.delete(13, undefined, true);
+    const removed13 = tmm.delete(13, true);
     expect(removed13 instanceof Array);
     expect(removed13[0]);
     expect(removed13[0].deleted);
@@ -245,7 +245,7 @@ describe('TreeMultiMap operations test1', () => {
     expect(tmm.isAVLBalanced()).toBe(true);
     expect(tmm.getHeight()).toBe(3);
 
-    const removed3 = tmm.delete(3, undefined, true);
+    const removed3 = tmm.delete(3, true);
     expect(removed3 instanceof Array);
     expect(removed3[0]);
     expect(removed3[0].deleted);
@@ -253,7 +253,7 @@ describe('TreeMultiMap operations test1', () => {
     expect(tmm.isAVLBalanced()).toBe(false);
     expect(tmm.getHeight()).toBe(3);
 
-    const removed8 = tmm.delete(8, undefined, true);
+    const removed8 = tmm.delete(8, true);
     expect(removed8 instanceof Array);
     expect(removed8[0]);
     expect(removed8[0].deleted);
@@ -261,17 +261,17 @@ describe('TreeMultiMap operations test1', () => {
     expect(tmm.isAVLBalanced()).toBe(false);
     expect(tmm.getHeight()).toBe(3);
 
-    const removed6 = tmm.delete(6, undefined, true);
+    const removed6 = tmm.delete(6, true);
     expect(removed6 instanceof Array);
     expect(removed6[0]);
     expect(removed6[0].deleted);
     if (removed6[0].deleted) expect(removed6[0].deleted.key).toBe(6);
-    expect(tmm.delete(6, undefined, true).length).toBe(0);
+    expect(tmm.delete(6, true).length).toBe(0);
     expect(tmm.isAVLBalanced()).toBe(false);
 
     expect(tmm.getHeight()).toBe(3);
 
-    const removed7 = tmm.delete(7, undefined, true);
+    const removed7 = tmm.delete(7, true);
     expect(removed7 instanceof Array);
     expect(removed7[0]);
     expect(removed7[0].deleted);
@@ -279,7 +279,7 @@ describe('TreeMultiMap operations test1', () => {
     expect(tmm.isAVLBalanced()).toBe(false);
     expect(tmm.getHeight()).toBe(3);
 
-    const removed9 = tmm.delete(9, undefined, true);
+    const removed9 = tmm.delete(9, true);
     expect(removed9 instanceof Array);
     expect(removed9[0]);
     expect(removed9[0].deleted);
@@ -287,7 +287,7 @@ describe('TreeMultiMap operations test1', () => {
     expect(tmm.isAVLBalanced()).toBe(true);
     expect(tmm.getHeight()).toBe(2);
 
-    const removed14 = tmm.delete(14, undefined, true);
+    const removed14 = tmm.delete(14, true);
     expect(removed14 instanceof Array);
     expect(removed14[0]);
     expect(removed14[0].deleted);
@@ -391,13 +391,13 @@ describe('TreeMultiMap operations test recursively1', () => {
     const nodeId10 = tmm.getNode(10);
     expect(nodeId10?.key).toBe(10);
 
-    const nodeVal9 = tmm.getNode(9, node => node.value);
+    const nodeVal9 = tmm.getNode(node => node.value === 9);
     expect(nodeVal9?.key).toBe(9);
 
-    const nodesByCount1 = tmm.getNodes(1, node => node.count);
+    const nodesByCount1 = tmm.getNodes(node => node.count === 1);
     expect(nodesByCount1.length).toBe(14);
 
-    const nodesByCount2 = tmm.getNodes(2, node => node.count);
+    const nodesByCount2 = tmm.getNodes(node => node.count === 2);
     expect(nodesByCount2.length).toBe(2);
     const leftMost = tmm.getLeftMost();
     expect(leftMost).toBe(1);
@@ -447,7 +447,7 @@ describe('TreeMultiMap operations test recursively1', () => {
     expect(bfsNodesAfterBalanced[0].key).toBe(6);
     expect(bfsNodesAfterBalanced[bfsNodesAfterBalanced.length - 1].key).toBe(16);
 
-    const removed11 = tmm.delete(11, undefined, true);
+    const removed11 = tmm.delete(11, true);
     expect(removed11 instanceof Array);
     expect(removed11[0]);
     expect(removed11[0].deleted);
@@ -458,7 +458,7 @@ describe('TreeMultiMap operations test recursively1', () => {
 
     expect(tmm.getHeight(15)).toBe(1);
 
-    const removed1 = tmm.delete(1, undefined, true);
+    const removed1 = tmm.delete(1, true);
     expect(removed1 instanceof Array);
     expect(removed1[0]);
     expect(removed1[0].deleted);
@@ -468,7 +468,7 @@ describe('TreeMultiMap operations test recursively1', () => {
 
     expect(tmm.getHeight()).toBe(5);
 
-    const removed4 = tmm.delete(4, undefined, true);
+    const removed4 = tmm.delete(4, true);
     expect(removed4 instanceof Array);
     expect(removed4[0]);
     expect(removed4[0].deleted);
@@ -477,7 +477,7 @@ describe('TreeMultiMap operations test recursively1', () => {
     expect(tmm.isAVLBalanced()).toBe(false);
     expect(tmm.getHeight()).toBe(5);
 
-    const removed10 = tmm.delete(10, undefined, true);
+    const removed10 = tmm.delete(10, true);
     expect(removed10 instanceof Array);
     expect(removed10[0]);
     expect(removed10[0].deleted);
@@ -486,7 +486,7 @@ describe('TreeMultiMap operations test recursively1', () => {
 
     expect(tmm.getHeight()).toBe(4);
 
-    const removed15 = tmm.delete(15, undefined, true);
+    const removed15 = tmm.delete(15, true);
     expect(removed15 instanceof Array);
     expect(removed15[0]);
     expect(removed15[0].deleted);
@@ -495,7 +495,7 @@ describe('TreeMultiMap operations test recursively1', () => {
     expect(tmm.isAVLBalanced()).toBe(false);
     expect(tmm.getHeight()).toBe(3);
 
-    const removed5 = tmm.delete(5, undefined, true);
+    const removed5 = tmm.delete(5, true);
     expect(removed5 instanceof Array);
     expect(removed5[0]);
     expect(removed5[0].deleted);
@@ -504,7 +504,7 @@ describe('TreeMultiMap operations test recursively1', () => {
     expect(tmm.isAVLBalanced()).toBe(true);
     expect(tmm.getHeight()).toBe(3);
 
-    const removed13 = tmm.delete(13, undefined, true);
+    const removed13 = tmm.delete(13, true);
     expect(removed13 instanceof Array);
     expect(removed13[0]);
     expect(removed13[0].deleted);
@@ -512,7 +512,7 @@ describe('TreeMultiMap operations test recursively1', () => {
     expect(tmm.isAVLBalanced()).toBe(true);
     expect(tmm.getHeight()).toBe(3);
 
-    const removed3 = tmm.delete(3, undefined, true);
+    const removed3 = tmm.delete(3, true);
     expect(removed3 instanceof Array);
     expect(removed3[0]);
     expect(removed3[0].deleted);
@@ -520,7 +520,7 @@ describe('TreeMultiMap operations test recursively1', () => {
     expect(tmm.isAVLBalanced()).toBe(false);
     expect(tmm.getHeight()).toBe(3);
 
-    const removed8 = tmm.delete(8, undefined, true);
+    const removed8 = tmm.delete(8, true);
     expect(removed8 instanceof Array);
     expect(removed8[0]);
     expect(removed8[0].deleted);
@@ -528,17 +528,17 @@ describe('TreeMultiMap operations test recursively1', () => {
     expect(tmm.isAVLBalanced()).toBe(false);
     expect(tmm.getHeight()).toBe(3);
 
-    const removed6 = tmm.delete(6, undefined, true);
+    const removed6 = tmm.delete(6, true);
     expect(removed6 instanceof Array);
     expect(removed6[0]);
     expect(removed6[0].deleted);
     if (removed6[0].deleted) expect(removed6[0].deleted.key).toBe(6);
-    expect(tmm.delete(6, undefined, true).length).toBe(0);
+    expect(tmm.delete(6, true).length).toBe(0);
     expect(tmm.isAVLBalanced()).toBe(false);
 
     expect(tmm.getHeight()).toBe(3);
 
-    const removed7 = tmm.delete(7, undefined, true);
+    const removed7 = tmm.delete(7, true);
     expect(removed7 instanceof Array);
     expect(removed7[0]);
     expect(removed7[0].deleted);
@@ -546,7 +546,7 @@ describe('TreeMultiMap operations test recursively1', () => {
     expect(tmm.isAVLBalanced()).toBe(false);
     expect(tmm.getHeight()).toBe(3);
 
-    const removed9 = tmm.delete(9, undefined, true);
+    const removed9 = tmm.delete(9, true);
     expect(removed9 instanceof Array);
     expect(removed9[0]);
     expect(removed9[0].deleted);
@@ -554,7 +554,7 @@ describe('TreeMultiMap operations test recursively1', () => {
     expect(tmm.isAVLBalanced()).toBe(true);
     expect(tmm.getHeight()).toBe(2);
 
-    const removed14 = tmm.delete(14, undefined, true);
+    const removed14 = tmm.delete(14, true);
     expect(removed14 instanceof Array);
     expect(removed14[0]);
     expect(removed14[0].deleted);
@@ -664,7 +664,7 @@ describe('TreeMultiMap delete test', function () {
     }
 
     for (let i = 0; i < inputSize; i++) {
-      tmm.delete(i, undefined, true);
+      tmm.delete(i, true);
     }
 
     let nilCount = 0;

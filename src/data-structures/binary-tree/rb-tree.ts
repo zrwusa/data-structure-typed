@@ -1,14 +1,15 @@
 import type {
   BinaryTreeDeleteResult,
-  BTNCallback,
   BTNKeyOrNodeOrEntry,
+  BTNPredicate,
   CRUD,
+  OptBSTN,
   RBTNColor,
   RBTreeOptions,
   RedBlackTreeNested,
-  RedBlackTreeNodeNested
+  RedBlackTreeNodeNested,
+  BTNEntry
 } from '../../types';
-import { BTNEntry } from '../../types';
 import { BST, BSTNode } from './bst';
 import { IBinaryTree } from '../../interfaces';
 
@@ -64,7 +65,7 @@ export class RedBlackTree<
 {
   /**
    * This is the constructor function for a Red-Black Tree data structure in TypeScript.
-   * @param keysOrNodesOrEntriesOrRawElements - The `keysOrNodesOrEntriesOrRawElements` parameter is an
+   * @param keysOrNodesOrEntriesOrRaws - The `keysOrNodesOrEntriesOrRaws` parameter is an
    * iterable object that can contain either keys, nodes, entries, or raw elements. It is used to
    * initialize the RBTree with the provided elements.
    * @param [options] - The `options` parameter is an optional object that can be passed to the
@@ -73,15 +74,15 @@ export class RedBlackTree<
    * depend on the implementation
    */
   constructor(
-    keysOrNodesOrEntriesOrRawElements: Iterable<R | BTNKeyOrNodeOrEntry<K, V, NODE>> = [],
+    keysOrNodesOrEntriesOrRaws: Iterable<R | BTNKeyOrNodeOrEntry<K, V, NODE>> = [],
     options?: RBTreeOptions<K, V, R>
   ) {
     super([], options);
 
     this._root = this.NIL;
 
-    if (keysOrNodesOrEntriesOrRawElements) {
-      this.addMany(keysOrNodesOrEntriesOrRawElements);
+    if (keysOrNodesOrEntriesOrRaws) {
+      this.addMany(keysOrNodesOrEntriesOrRaws);
     }
   }
 
@@ -122,6 +123,8 @@ export class RedBlackTree<
   override createTree(options?: RBTreeOptions<K, V, R>): TREE {
     return new RedBlackTree<K, V, R, NODE, TREE>([], {
       iterationType: this.iterationType,
+      comparator: this._comparator,
+      toEntryFn: this._toEntryFn,
       ...options
     }) as TREE;
   }
@@ -131,15 +134,13 @@ export class RedBlackTree<
    * Space Complexity: O(1)
    *
    * The function checks if the input is an instance of the RedBlackTreeNode class.
-   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
-   * `keyOrNodeOrEntryOrRawElement` can be of type `R` or `BTNKeyOrNodeOrEntry<K, V, NODE>`.
-   * @returns a boolean value indicating whether the input parameter `keyOrNodeOrEntryOrRawElement` is
+   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R} keyOrNodeOrEntryOrRaw - The parameter
+   * `keyOrNodeOrEntryOrRaw` can be of type `R` or `BTNKeyOrNodeOrEntry<K, V, NODE>`.
+   * @returns a boolean value indicating whether the input parameter `keyOrNodeOrEntryOrRaw` is
    * an instance of the `RedBlackTreeNode` class.
    */
-  override isNode(
-    keyOrNodeOrEntryOrRawElement: R | BTNKeyOrNodeOrEntry<K, V, NODE>
-  ): keyOrNodeOrEntryOrRawElement is NODE {
-    return keyOrNodeOrEntryOrRawElement instanceof RedBlackTreeNode;
+  override isNode(keyOrNodeOrEntryOrRaw: BTNKeyOrNodeOrEntry<K, V, NODE> | R): keyOrNodeOrEntryOrRaw is NODE {
+    return keyOrNodeOrEntryOrRaw instanceof RedBlackTreeNode;
   }
 
   // /**
@@ -153,27 +154,27 @@ export class RedBlackTree<
   //  *
   //  * The function `keyValueOrEntryOrRawElementToNode` takes a key, value, or entry and returns a node if it is
   //  * valid, otherwise it returns undefined.
-  //  * @param {BTNKeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The key, value, or entry to convert.
-  //  * @param {V} [value] - The value associated with the key (if `keyOrNodeOrEntryOrRawElement` is a key).
+  //  * @param {BTNKeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRaw - The key, value, or entry to convert.
+  //  * @param {V} [value] - The value associated with the key (if `keyOrNodeOrEntryOrRaw` is a key).
   //  * @returns {NODE | undefined} - The corresponding Red-Black Tree node, or `undefined` if conversion fails.
   //  */
-  // override keyValueOrEntryOrRawElementToNode(keyOrNodeOrEntryOrRawElement: R | BTNKeyOrNodeOrEntry<K, V, NODE>, value?: V): NODE | undefined {
+  // override keyValueOrEntryOrRawElementToNode(keyOrNodeOrEntryOrRaw: BTNKeyOrNodeOrEntry<K, V, NODE> | R, value?: V): NODE | undefined {
   //
-  //   if (keyOrNodeOrEntryOrRawElement === null || keyOrNodeOrEntryOrRawElement === undefined) return;
-  //   if (this.isNode(keyOrNodeOrEntryOrRawElement)) return keyOrNodeOrEntryOrRawElement;
+  //   if (keyOrNodeOrEntryOrRaw === null || keyOrNodeOrEntryOrRaw === undefined) return;
+  //   if (this.isNode(keyOrNodeOrEntryOrRaw)) return keyOrNodeOrEntryOrRaw;
   //
-  //   if (this.toEntryFn) {
-  //     const [key, entryValue] = this.toEntryFn(keyOrNodeOrEntryOrRawElement as R);
+  //   if (this._toEntryFn) {
+  //     const [key, entryValue] = this._toEntryFn(keyOrNodeOrEntryOrRaw as R);
   //     if (this.isKey(key)) return this.createNode(key, entryValue ?? value, 'RED');
   //   }
   //
-  //   if (this.isEntry(keyOrNodeOrEntryOrRawElement)) {
-  //     const [key, value] = keyOrNodeOrEntryOrRawElement;
+  //   if (this.isEntry(keyOrNodeOrEntryOrRaw)) {
+  //     const [key, value] = keyOrNodeOrEntryOrRaw;
   //     if (key === undefined || key === null) return;
   //     else return  this.createNode(key, value, 'RED');
   //   }
   //
-  //   if (this.isKey(keyOrNodeOrEntryOrRawElement)) return this.createNode(keyOrNodeOrEntryOrRawElement, value, 'RED');
+  //   if (this.isKey(keyOrNodeOrEntryOrRaw)) return this.createNode(keyOrNodeOrEntryOrRaw, value, 'RED');
   //
   //   return ;
   // }
@@ -196,8 +197,8 @@ export class RedBlackTree<
    *
    * The function adds a new node to a binary search tree and returns true if the node was successfully
    * added.
-   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
-   * `keyOrNodeOrEntryOrRawElement` can accept a value of type `R` or `BTNKeyOrNodeOrEntry<K, V, NODE>`.
+   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R} keyOrNodeOrEntryOrRaw - The parameter
+   * `keyOrNodeOrEntryOrRaw` can accept a value of type `R` or `BTNKeyOrNodeOrEntry<K, V, NODE>`.
    * @param {V} [value] - The `value` parameter is an optional value that you want to associate with
    * the key in the data structure. It represents the value that you want to add or update in the data
    * structure.
@@ -205,8 +206,8 @@ export class RedBlackTree<
    * the method returns true. If the node already exists and its value is updated, the method also
    * returns true. If the node cannot be added or updated, the method returns false.
    */
-  override add(keyOrNodeOrEntryOrRawElement: R | BTNKeyOrNodeOrEntry<K, V, NODE>, value?: V): boolean {
-    const newNode = this.keyValueOrEntryOrRawElementToNode(keyOrNodeOrEntryOrRawElement, value);
+  override add(keyOrNodeOrEntryOrRaw: BTNKeyOrNodeOrEntry<K, V, NODE> | R, value?: V): boolean {
+    const newNode = this.keyValueOrEntryOrRawElementToNode(keyOrNodeOrEntryOrRaw, value);
     if (!this.isRealNode(newNode)) return false;
 
     const insertStatus = this._insert(newNode);
@@ -227,26 +228,23 @@ export class RedBlackTree<
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
-   * The function overrides the delete method of a binary tree data structure, allowing for the
-   * deletion of a node and maintaining the balance of the tree.
-   * @param {ReturnType<C> | null | undefined} identifier - The `identifier` parameter is the value
-   * that identifies the node to be deleted from the binary tree. It can be of any type that is
-   * returned by the callback function `C`. It can also be `null` or `undefined` if there is no node to
-   * delete.
-   * @param {C} callback - The `callback` parameter is a function that is used to determine the
-   * equality of nodes in the binary tree. It is optional and has a default value of
-   * `this._DEFAULT_CALLBACK`. The type of the `callback` parameter is `C`, which is a generic type
-   * that extends the `BTNCallback
-   * @returns an array of BinaryTreeDeleteResult<NODE> objects.
+   * The function overrides the delete method in a binary tree data structure to remove a node based on
+   * a given predicate and maintain the binary search tree properties.
+   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R | BTNPredicate<NODE>} predicate - The `predicate`
+   * parameter in the `override delete` method is used to specify the condition or key based on which a
+   * node should be deleted from the binary tree. It can be a key, a node, an entry, or a predicate
+   * function that determines which node(s) should be deleted.
+   * @returns The `override delete` method is returning an array of `BinaryTreeDeleteResult<NODE>`
+   * objects. Each object in the array contains information about the deleted node and whether
+   * balancing is needed.
    */
-  override delete<C extends BTNCallback<NODE>>(
-    identifier: ReturnType<C> | null | undefined,
-    callback: C = this._DEFAULT_CALLBACK as C
-  ): BinaryTreeDeleteResult<NODE>[] {
-    if (identifier === null) return [];
+  override delete(predicate: BTNKeyOrNodeOrEntry<K, V, NODE> | R | BTNPredicate<NODE>): BinaryTreeDeleteResult<NODE>[] {
+    if (predicate === null) return [];
+
     const results: BinaryTreeDeleteResult<NODE>[] = [];
-    callback = this._ensureCallback(identifier, callback);
-    const nodeToDelete = this.isRealNode(identifier) ? identifier : this.getNode(identifier, callback);
+    let nodeToDelete: OptBSTN<NODE>;
+    if (this._isPredicated(predicate)) nodeToDelete = this.getNode(predicate);
+    else nodeToDelete = this.isRealNode(predicate) ? predicate : this.getNode(predicate);
 
     if (!nodeToDelete) {
       return results;

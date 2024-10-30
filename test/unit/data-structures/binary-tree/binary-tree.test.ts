@@ -169,8 +169,8 @@ describe('BinaryTree', () => {
     expect(tree.has(4)).toBe(false);
     const node4 = tree.getNode(4);
     expect(tree.has(node4)).toBe(false);
-    expect(tree.has(node4, node => node)).toBe(false);
-    expect(tree.has('3', node => node.value?.toString())).toBe(true);
+    expect(tree.has(node => node === node4)).toBe(false);
+    expect(tree.has(node => node.value?.toString() === '3')).toBe(true);
   });
 
   it('should the clone method work fine', () => {
@@ -323,9 +323,9 @@ describe('BinaryTree', () => {
 
     expect(tree.isBST(tree.getNode(4), 'RECURSIVE')).toBe(true);
     expect(tree.isBST(tree.getNode(4), 'ITERATIVE')).toBe(true);
-    expect(tree.getNodes(2, undefined, false, null)).toEqual([]);
+    expect(tree.getNodes(2, false, null)).toEqual([]);
     expect(tree.getNodes(undefined)).toEqual([]);
-    expect(tree.getNodes(tree.getNodeByKey(2), undefined, false, tree.root)).toEqual([tree.getNodeByKey(2)]);
+    expect(tree.getNodes(tree.getNodeByKey(2), false, tree.root)).toEqual([tree.getNodeByKey(2)]);
   });
 
   describe('should isKey', () => {
@@ -1130,17 +1130,17 @@ describe('BinaryTree', () => {
     tree.add([2, 'B']);
     tree.add([null, 'null']);
 
-    const nodes = tree.getNodes('B', node => node.value);
+    const nodes = tree.getNodes(node => node.value === 'B');
 
     expect(nodes.length).toBe(1);
     expect(nodes[0].key).toBe(2);
 
-    const nodesRec = tree.getNodes('B', node => node.value, false, tree.root, 'RECURSIVE');
+    const nodesRec = tree.getNodes(node => node.value === 'B', false, tree.root, 'RECURSIVE');
 
     expect(nodesRec.length).toBe(1);
     expect(nodesRec[0].key).toBe(2);
 
-    const nodesItr = tree.getNodes('B', node => node.value, false, tree.root, 'ITERATIVE');
+    const nodesItr = tree.getNodes(node => node.value === 'B', false, tree.root, 'ITERATIVE');
 
     expect(nodesItr.length).toBe(1);
     expect(nodesItr[0].key).toBe(2);

@@ -1,8 +1,8 @@
 /**
  * data-structure-typed
  *
- * @author Tyler Zeng
- * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
+ * @author Pablo Zeng
+ * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
 import { BST, BSTNode } from './bst';
@@ -12,10 +12,10 @@ import type {
   AVLTreeOptions,
   BinaryTreeDeleteResult,
   BSTNKeyOrNode,
-  BTNCallback,
-  BTNKeyOrNodeOrEntry
+  BTNKeyOrNodeOrEntry,
+  BTNPredicate,
+  BTNEntry
 } from '../../types';
-import { BTNEntry } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 
 export class AVLTreeNode<
@@ -78,7 +78,7 @@ export class AVLTree<
   /**
    * This is a constructor function for an AVLTree class that initializes the tree with keys, nodes,
    * entries, or raw elements.
-   * @param keysOrNodesOrEntriesOrRawElements - The `keysOrNodesOrEntriesOrRawElements` parameter is an
+   * @param keysOrNodesOrEntriesOrRaws - The `keysOrNodesOrEntriesOrRaws` parameter is an
    * iterable object that can contain either keys, nodes, entries, or raw elements. These elements will
    * be used to initialize the AVLTree.
    * @param [options] - The `options` parameter is an optional object that can be used to customize the
@@ -87,11 +87,11 @@ export class AVLTree<
    * `nodeBuilder` (
    */
   constructor(
-    keysOrNodesOrEntriesOrRawElements: Iterable<R | BTNKeyOrNodeOrEntry<K, V, NODE>> = [],
+    keysOrNodesOrEntriesOrRaws: Iterable<R | BTNKeyOrNodeOrEntry<K, V, NODE>> = [],
     options?: AVLTreeOptions<K, V, R>
   ) {
     super([], options);
-    if (keysOrNodesOrEntriesOrRawElements) super.addMany(keysOrNodesOrEntriesOrRawElements);
+    if (keysOrNodesOrEntriesOrRaws) super.addMany(keysOrNodesOrEntriesOrRaws);
   }
 
   /**
@@ -117,22 +117,21 @@ export class AVLTree<
   override createTree(options?: AVLTreeOptions<K, V, R>): TREE {
     return new AVLTree<K, V, R, NODE, TREE>([], {
       iterationType: this.iterationType,
-      comparator: this.comparator,
+      comparator: this._comparator,
+      toEntryFn: this._toEntryFn,
       ...options
     }) as TREE;
   }
 
   /**
    * The function checks if the input is an instance of AVLTreeNode.
-   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
-   * `keyOrNodeOrEntryOrRawElement` can be of type `R` or `BTNKeyOrNodeOrEntry<K, V, NODE>`.
-   * @returns a boolean value indicating whether the input parameter `keyOrNodeOrEntryOrRawElement` is
+   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R} keyOrNodeOrEntryOrRaw - The parameter
+   * `keyOrNodeOrEntryOrRaw` can be of type `R` or `BTNKeyOrNodeOrEntry<K, V, NODE>`.
+   * @returns a boolean value indicating whether the input parameter `keyOrNodeOrEntryOrRaw` is
    * an instance of the `AVLTreeNode` class.
    */
-  override isNode(
-    keyOrNodeOrEntryOrRawElement: R | BTNKeyOrNodeOrEntry<K, V, NODE>
-  ): keyOrNodeOrEntryOrRawElement is NODE {
-    return keyOrNodeOrEntryOrRawElement instanceof AVLTreeNode;
+  override isNode(keyOrNodeOrEntryOrRaw: BTNKeyOrNodeOrEntry<K, V, NODE> | R): keyOrNodeOrEntryOrRaw is NODE {
+    return keyOrNodeOrEntryOrRaw instanceof AVLTreeNode;
   }
 
   /**
@@ -141,17 +140,17 @@ export class AVLTree<
    *
    * The function overrides the add method of a class and inserts a key-value pair into a data
    * structure, then balances the path.
-   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
-   * `keyOrNodeOrEntryOrRawElement` can accept values of type `R`, `BTNKeyOrNodeOrEntry<K, V, NODE>`, or
+   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R} keyOrNodeOrEntryOrRaw - The parameter
+   * `keyOrNodeOrEntryOrRaw` can accept values of type `R`, `BTNKeyOrNodeOrEntry<K, V, NODE>`, or
    * `RawElement`.
    * @param {V} [value] - The `value` parameter is an optional value that you want to associate with
    * the key or node being added to the data structure.
    * @returns The method is returning a boolean value.
    */
-  override add(keyOrNodeOrEntryOrRawElement: R | BTNKeyOrNodeOrEntry<K, V, NODE>, value?: V): boolean {
-    if (keyOrNodeOrEntryOrRawElement === null) return false;
-    const inserted = super.add(keyOrNodeOrEntryOrRawElement, value);
-    if (inserted) this._balancePath(keyOrNodeOrEntryOrRawElement);
+  override add(keyOrNodeOrEntryOrRaw: BTNKeyOrNodeOrEntry<K, V, NODE> | R, value?: V): boolean {
+    if (keyOrNodeOrEntryOrRaw === null) return false;
+    const inserted = super.add(keyOrNodeOrEntryOrRaw, value);
+    if (inserted) this._balancePath(keyOrNodeOrEntryOrRaw);
     return inserted;
   }
 
@@ -159,20 +158,17 @@ export class AVLTree<
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
-   * The function overrides the delete method of a binary tree class and performs additional operations
-   * to balance the tree after deletion.
-   * @param identifier - The `identifier` parameter is the value or condition used to identify the
-   * node(s) to be deleted from the binary tree. It can be of any type that is compatible with the
-   * binary tree's node type.
-   * @param {C} callback - The `callback` parameter is a function that will be used to determine if a
-   * node should be deleted or not. It is optional and has a default value of `this._DEFAULT_CALLBACK`.
-   * @returns The method is returning an array of BinaryTreeDeleteResult<NODE> objects.
+   * The function overrides the delete method in a TypeScript class, performs deletion, and then
+   * balances the tree if necessary.
+   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R | BTNPredicate<NODE>} predicate - The `predicate`
+   * parameter in the `override delete` method can be one of the following types:
+   * @returns The `delete` method is being overridden in this code snippet. It first calls the `delete`
+   * method from the superclass (presumably a parent class) with the provided `predicate`, which could
+   * be a key, node, entry, or a custom predicate. The result of this deletion operation is stored in
+   * `deletedResults`, which is an array of `BinaryTreeDeleteResult` objects.
    */
-  override delete<C extends BTNCallback<NODE>>(
-    identifier: ReturnType<C>,
-    callback: C = this._DEFAULT_CALLBACK as C
-  ): BinaryTreeDeleteResult<NODE>[] {
-    const deletedResults = super.delete(identifier, callback);
+  override delete(predicate: BTNKeyOrNodeOrEntry<K, V, NODE> | R | BTNPredicate<NODE>): BinaryTreeDeleteResult<NODE>[] {
+    const deletedResults = super.delete(predicate);
     for (const { needBalanced } of deletedResults) {
       if (needBalanced) {
         this._balancePath(needBalanced);
@@ -437,10 +433,10 @@ export class AVLTree<
    *
    * The `_balancePath` function is used to update the heights of nodes and perform rotation operations
    * to restore balance in an AVL tree after inserting a node.
-   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} node - The `node` parameter can be of type `R` or
+   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R} node - The `node` parameter can be of type `R` or
    * `BTNKeyOrNodeOrEntry<K, V, NODE>`.
    */
-  protected _balancePath(node: R | BTNKeyOrNodeOrEntry<K, V, NODE>): void {
+  protected _balancePath(node: BTNKeyOrNodeOrEntry<K, V, NODE> | R): void {
     node = this.ensureNode(node);
     const path = this.getPathToRoot(node => node, node, false); // first O(log n) + O(log n)
     for (let i = 0; i < path.length; i++) {

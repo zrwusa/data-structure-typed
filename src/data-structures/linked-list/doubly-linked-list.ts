@@ -1,8 +1,8 @@
 /**
  * data-structure-typed
  *
- * @author Tyler Zeng
- * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
+ * @author Pablo Zeng
+ * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
 import type { DoublyLinkedListOptions, ElementCallback } from '../../types';
@@ -267,7 +267,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * or the linked list is empty, it will return undefined.
    */
   at(index: number): E | undefined {
-    if (index < 0 || index >= this.size) return undefined;
+    if (index < 0 || index >= this._size) return undefined;
     let current = this.head;
     for (let i = 0; i < index; i++) {
       current = current!.next;
@@ -287,7 +287,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * valid range of the linked list, otherwise it returns `undefined`.
    */
   getNodeAt(index: number): DoublyLinkedListNode<E> | undefined {
-    if (index < 0 || index >= this.size) return undefined;
+    if (index < 0 || index >= this._size) return undefined;
     let current = this.head;
     for (let i = 0; i < index; i++) {
       current = current!.next;
@@ -331,12 +331,12 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * if the index is out of bounds.
    */
   addAt(index: number, value: E): boolean {
-    if (index < 0 || index > this.size) return false;
+    if (index < 0 || index > this._size) return false;
     if (index === 0) {
       this.unshift(value);
       return true;
     }
-    if (index === this.size) {
+    if (index === this._size) {
       this.push(value);
       return true;
     }
@@ -442,12 +442,12 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * bounds.
    */
   deleteAt(index: number): boolean {
-    if (index < 0 || index >= this.size) return false;
+    if (index < 0 || index >= this._size) return false;
     if (index === 0) {
       this.shift();
       return true;
     }
-    if (index === this.size - 1) {
+    if (index === this._size - 1) {
       this.pop();
       return true;
     }
@@ -505,7 +505,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * @returns A boolean value is being returned.
    */
   isEmpty(): boolean {
-    return this.size === 0;
+    return this._size === 0;
   }
 
   /**

@@ -44,6 +44,8 @@ describe('UndirectedGraph Operation Test', () => {
 
     expect(graph.hasEdge('A', 'B')).toBe(true);
     expect(graph.hasEdge('B', 'A')).toBe(true);
+    expect(graph.has('A')).toBe(true);
+    expect(graph.get('A')).toBe(undefined);
   });
 
   it('should delete edges', () => {

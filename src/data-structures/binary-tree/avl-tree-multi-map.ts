@@ -1,8 +1,8 @@
 /**
  * data-structure-typed
  *
- * @author Tyler Zeng
- * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
+ * @author Pablo Zeng
+ * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
 import type {
@@ -11,11 +11,11 @@ import type {
   AVLTreeMultiMapOptions,
   BinaryTreeDeleteResult,
   BSTNKeyOrNode,
-  BTNCallback,
   BTNKeyOrNodeOrEntry,
-  IterationType
+  BTNPredicate,
+  IterationType,
+  BTNEntry
 } from '../../types';
-import { BTNEntry } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { AVLTree, AVLTreeNode } from './avl-tree';
 
@@ -80,18 +80,18 @@ export class AVLTreeMultiMap<
 {
   /**
    * The constructor initializes a new AVLTreeMultiMap object with optional initial elements.
-   * @param keysOrNodesOrEntriesOrRawElements - The `keysOrNodesOrEntriesOrRawElements` parameter is an
+   * @param keysOrNodesOrEntriesOrRaws - The `keysOrNodesOrEntriesOrRaws` parameter is an
    * iterable object that can contain either keys, nodes, entries, or raw elements.
    * @param [options] - The `options` parameter is an optional object that can be used to customize the
    * behavior of the AVLTreeMultiMap. It can include properties such as `compareKeys` and
    * `compareValues` functions to define custom comparison logic for keys and values, respectively.
    */
   constructor(
-    keysOrNodesOrEntriesOrRawElements: Iterable<R | BTNKeyOrNodeOrEntry<K, V, NODE>> = [],
+    keysOrNodesOrEntriesOrRaws: Iterable<R | BTNKeyOrNodeOrEntry<K, V, NODE>> = [],
     options?: AVLTreeMultiMapOptions<K, V, R>
   ) {
     super([], options);
-    if (keysOrNodesOrEntriesOrRawElements) this.addMany(keysOrNodesOrEntriesOrRawElements);
+    if (keysOrNodesOrEntriesOrRaws) this.addMany(keysOrNodesOrEntriesOrRaws);
   }
 
   protected _count = 0;
@@ -144,29 +144,28 @@ export class AVLTreeMultiMap<
   override createTree(options?: AVLTreeMultiMapOptions<K, V, R>): TREE {
     return new AVLTreeMultiMap<K, V, R, NODE, TREE>([], {
       iterationType: this.iterationType,
-      comparator: this.comparator,
+      comparator: this._comparator,
+      toEntryFn: this._toEntryFn,
       ...options
     }) as TREE;
   }
 
   /**
    * The function checks if the input is an instance of AVLTreeMultiMapNode.
-   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The parameter
-   * `keyOrNodeOrEntryOrRawElement` can be of type `R` or `BTNKeyOrNodeOrEntry<K, V, NODE>`.
-   * @returns a boolean value indicating whether the input parameter `keyOrNodeOrEntryOrRawElement` is
+   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R} keyOrNodeOrEntryOrRaw - The parameter
+   * `keyOrNodeOrEntryOrRaw` can be of type `R` or `BTNKeyOrNodeOrEntry<K, V, NODE>`.
+   * @returns a boolean value indicating whether the input parameter `keyOrNodeOrEntryOrRaw` is
    * an instance of the `AVLTreeMultiMapNode` class.
    */
-  override isNode(
-    keyOrNodeOrEntryOrRawElement: R | BTNKeyOrNodeOrEntry<K, V, NODE>
-  ): keyOrNodeOrEntryOrRawElement is NODE {
-    return keyOrNodeOrEntryOrRawElement instanceof AVLTreeMultiMapNode;
+  override isNode(keyOrNodeOrEntryOrRaw: BTNKeyOrNodeOrEntry<K, V, NODE> | R): keyOrNodeOrEntryOrRaw is NODE {
+    return keyOrNodeOrEntryOrRaw instanceof AVLTreeMultiMapNode;
   }
 
   /**
    * The function `keyValueOrEntryOrRawElementToNode` converts a key, value, entry, or raw element into
    * a node object.
-   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The
-   * `keyOrNodeOrEntryOrRawElement` parameter can be of type `R` or `BTNKeyOrNodeOrEntry<K, V, NODE>`.
+   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R} keyOrNodeOrEntryOrRaw - The
+   * `keyOrNodeOrEntryOrRaw` parameter can be of type `R` or `BTNKeyOrNodeOrEntry<K, V, NODE>`.
    * @param {V} [value] - The `value` parameter is an optional value that can be passed to the
    * `override` function. It represents the value associated with the key in the data structure. If no
    * value is provided, it will default to `undefined`.
@@ -175,25 +174,25 @@ export class AVLTreeMultiMap<
    * @returns either a NODE object or undefined.
    */
   override keyValueOrEntryOrRawElementToNode(
-    keyOrNodeOrEntryOrRawElement: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
+    keyOrNodeOrEntryOrRaw: BTNKeyOrNodeOrEntry<K, V, NODE> | R,
     value?: V,
     count = 1
   ): NODE | undefined {
-    if (keyOrNodeOrEntryOrRawElement === undefined || keyOrNodeOrEntryOrRawElement === null) return;
-    if (this.isNode(keyOrNodeOrEntryOrRawElement)) return keyOrNodeOrEntryOrRawElement;
+    if (keyOrNodeOrEntryOrRaw === undefined || keyOrNodeOrEntryOrRaw === null) return;
+    if (this.isNode(keyOrNodeOrEntryOrRaw)) return keyOrNodeOrEntryOrRaw;
 
-    if (this.isEntry(keyOrNodeOrEntryOrRawElement)) {
-      const [key, entryValue] = keyOrNodeOrEntryOrRawElement;
+    if (this.isEntry(keyOrNodeOrEntryOrRaw)) {
+      const [key, entryValue] = keyOrNodeOrEntryOrRaw;
       if (key === undefined || key === null) return;
       if (this.isKey(key)) return this.createNode(key, value ?? entryValue, count);
     }
 
-    if (this.toEntryFn) {
-      const [key, entryValue] = this.toEntryFn(keyOrNodeOrEntryOrRawElement as R);
+    if (this._toEntryFn) {
+      const [key, entryValue] = this._toEntryFn(keyOrNodeOrEntryOrRaw as R);
       if (this.isKey(key)) return this.createNode(key, value ?? entryValue, count);
     }
 
-    if (this.isKey(keyOrNodeOrEntryOrRawElement)) return this.createNode(keyOrNodeOrEntryOrRawElement, value, count);
+    if (this.isKey(keyOrNodeOrEntryOrRaw)) return this.createNode(keyOrNodeOrEntryOrRaw, value, count);
 
     return;
   }
@@ -204,8 +203,8 @@ export class AVLTreeMultiMap<
    *
    * The function overrides the add method of a TypeScript class to add a new node to a data structure
    * and update the count.
-   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} keyOrNodeOrEntryOrRawElement - The
-   * `keyOrNodeOrEntryOrRawElement` parameter can accept a value of type `R`, which can be any type. It
+   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R} keyOrNodeOrEntryOrRaw - The
+   * `keyOrNodeOrEntryOrRaw` parameter can accept a value of type `R`, which can be any type. It
    * can also accept a value of type `BTNKeyOrNodeOrEntry<K, V, NODE>`, which represents a key, node,
    * entry, or raw element
    * @param {V} [value] - The `value` parameter represents the value associated with the key in the
@@ -215,8 +214,8 @@ export class AVLTreeMultiMap<
    * be added once. However, you can specify a different value for `count` if you want to add
    * @returns a boolean value.
    */
-  override add(keyOrNodeOrEntryOrRawElement: R | BTNKeyOrNodeOrEntry<K, V, NODE>, value?: V, count = 1): boolean {
-    const newNode = this.keyValueOrEntryOrRawElementToNode(keyOrNodeOrEntryOrRawElement, value, count);
+  override add(keyOrNodeOrEntryOrRaw: BTNKeyOrNodeOrEntry<K, V, NODE> | R, value?: V, count = 1): boolean {
+    const newNode = this.keyValueOrEntryOrRawElementToNode(keyOrNodeOrEntryOrRaw, value, count);
     if (newNode === undefined) return false;
 
     const orgNodeCount = newNode?.count || 0;
@@ -231,31 +230,29 @@ export class AVLTreeMultiMap<
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
-   * The `delete` function in a binary tree data structure deletes a node based on its identifier and
-   * returns the deleted node along with the parent node that needs to be balanced.
-   * @param identifier - The identifier parameter is the value used to identify the node that needs to
-   * be deleted from the binary tree. It can be of any type and is the return type of the callback
-   * function.
-   * @param {C} callback - The `callback` parameter is a function that is used to determine the
-   * equality of nodes in the binary tree. It is optional and has a default value of
-   * `this._DEFAULT_CALLBACK`. The `callback` function takes a single argument, which is the identifier
-   * of a node, and returns a value that
-   * @param [ignoreCount=false] - A boolean flag indicating whether to ignore the count of the node
-   * being deleted. If set to true, the count of the node will not be considered and the node will be
-   * deleted regardless of its count. If set to false (default), the count of the node will be taken
-   * into account and the node
-   * @returns an array of `BinaryTreeDeleteResult<NODE>`.
+   * The function overrides the delete method in a binary tree data structure, handling deletion of
+   * nodes and maintaining balance in the tree.
+   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R | BTNPredicate<NODE>} predicate - The `predicate`
+   * parameter in the `delete` method is used to specify the condition for deleting a node from the
+   * binary tree. It can be a key, node, entry, or a custom predicate function that determines which
+   * node(s) should be deleted.
+   * @param [ignoreCount=false] - The `ignoreCount` parameter in the `override delete` method is a
+   * boolean flag that determines whether to ignore the count of the node being deleted. If
+   * `ignoreCount` is set to `true`, the method will delete the node regardless of its count. If
+   * `ignoreCount` is set to
+   * @returns The `delete` method overrides the default delete behavior in a binary tree data
+   * structure. It takes a predicate or node to be deleted and an optional flag to ignore count. The
+   * method returns an array of `BinaryTreeDeleteResult` objects, each containing information about the
+   * deleted node and whether balancing is needed in the tree.
    */
-  override delete<C extends BTNCallback<NODE>>(
-    identifier: ReturnType<C>,
-    callback: C = this._DEFAULT_CALLBACK as C,
+  override delete(
+    predicate: BTNKeyOrNodeOrEntry<K, V, NODE> | R | BTNPredicate<NODE>,
     ignoreCount = false
   ): BinaryTreeDeleteResult<NODE>[] {
     const deletedResult: BinaryTreeDeleteResult<NODE>[] = [];
     if (!this.root) return deletedResult;
-    callback = this._ensureCallback(identifier, callback);
 
-    const curr: NODE | undefined = this.getNode(identifier, callback) ?? undefined;
+    const curr: NODE | undefined = this.getNode(predicate) ?? undefined;
     if (!curr) return deletedResult;
 
     const parent: NODE | undefined = curr?.parent ? curr.parent : undefined;
@@ -293,7 +290,7 @@ export class AVLTreeMultiMap<
           }
         }
       }
-      this._size = this.size - 1;
+      this._size = this._size - 1;
       // TODO How to handle when the count of target node is lesser than current node's count
       if (orgCurrent) this._count -= orgCurrent.count;
     }

@@ -626,7 +626,7 @@ export class FibonacciHeap<E> {
    * @returns The top element or undefined if the heap is empty.
    */
   pop(): E | undefined {
-    if (this.size === 0) return undefined;
+    if (this._size === 0) return undefined;
 
     const z = this.min!;
     if (z.child) {
@@ -770,7 +770,7 @@ export class FibonacciHeap<E> {
    * @protected
    */
   protected _consolidate(): void {
-    const A: (FibonacciHeapNode<E> | undefined)[] = new Array(this.size);
+    const A: (FibonacciHeapNode<E> | undefined)[] = new Array(this._size);
     const elements = this.consumeLinkedList(this.root);
     let x: FibonacciHeapNode<E> | undefined,
       y: FibonacciHeapNode<E> | undefined,
@@ -798,7 +798,7 @@ export class FibonacciHeap<E> {
       A[d] = x;
     }
 
-    for (let i = 0; i < this.size; i++) {
+    for (let i = 0; i < this._size; i++) {
       if (A[i] && this.comparator(A[i]!.element, this.min!.element) <= 0) {
         this._min = A[i]!;
       }

@@ -1,8 +1,8 @@
 /**
  * data-structure-typed
  *
- * @author Tyler Zeng
- * @copyright Copyright (c) 2022 Tyler Zeng <zrwusa@gmail.com>
+ * @author Pablo Zeng
+ * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
 import type { DequeOptions, ElementCallback, IterableWithSizeOrLength } from '../../types';
@@ -163,7 +163,7 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
    * @returns The first element of the collection, of type E, is being returned.
    */
   get first(): E | undefined {
-    if (this.size === 0) return;
+    if (this._size === 0) return;
     return this._buckets[this._bucketFirst][this._firstInBucket];
   }
 
@@ -172,7 +172,7 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
    * @return The last element in the array
    */
   get last(): E | undefined {
-    if (this.size === 0) return;
+    if (this._size === 0) return;
     return this._buckets[this._bucketLast][this._lastInBucket];
   }
 
@@ -186,7 +186,7 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
    * @returns The size of the data structure after the element has been pushed.
    */
   push(element: E): boolean {
-    if (this.size) {
+    if (this._size) {
       if (this._lastInBucket < this._bucketSize - 1) {
         this._lastInBucket += 1;
       } else if (this._bucketLast < this._bucketCount - 1) {
@@ -213,9 +213,9 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
    * @returns The element that was removed from the data structure is being returned.
    */
   pop(): E | undefined {
-    if (this.size === 0) return;
+    if (this._size === 0) return;
     const element = this._buckets[this._bucketLast][this._lastInBucket];
-    if (this.size !== 1) {
+    if (this._size !== 1) {
       if (this._lastInBucket > 0) {
         this._lastInBucket -= 1;
       } else if (this._bucketLast > 0) {
@@ -241,7 +241,7 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
    * @returns The size of the data structure after the element has been added.
    */
   unshift(element: E): boolean {
-    if (this.size) {
+    if (this._size) {
       if (this._firstInBucket > 0) {
         this._firstInBucket -= 1;
       } else if (this._bucketFirst > 0) {
@@ -269,9 +269,9 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
    * returned.
    */
   shift(): E | undefined {
-    if (this.size === 0) return;
+    if (this._size === 0) return;
     const element = this._buckets[this._bucketFirst][this._firstInBucket];
-    if (this.size !== 1) {
+    if (this._size !== 1) {
       if (this._firstInBucket < this._bucketSize - 1) {
         this._firstInBucket += 1;
       } else if (this._bucketFirst < this._bucketCount - 1) {
@@ -294,7 +294,7 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
    * @returns A boolean value indicating whether the size of the object is 0 or not.
    */
   isEmpty(): boolean {
-    return this.size === 0;
+    return this._size === 0;
   }
 
   /**
@@ -316,7 +316,7 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
    */
   *begin(): Generator<E> {
     let index = 0;
-    while (index < this.size) {
+    while (index < this._size) {
       yield this.at(index);
       index++;
     }
@@ -327,7 +327,7 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
    * the last element.
    */
   *reverseBegin(): Generator<E> {
-    let index = this.size - 1;
+    let index = this._size - 1;
     while (index >= 0) {
       yield this.at(index);
       index--;
@@ -345,7 +345,7 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
    * @returns The element at the specified position in the data structure is being returned.
    */
   at(pos: number): E {
-    rangeCheck(pos, 0, this.size - 1);
+    rangeCheck(pos, 0, this._size - 1);
     const { bucketIndex, indexInBucket } = this._getBucketAndPosition(pos);
     return this._buckets[bucketIndex][indexInBucket]!;
   }
@@ -361,7 +361,7 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
    * position in the data structure.
    */
   setAt(pos: number, element: E): boolean {
-    rangeCheck(pos, 0, this.size - 1);
+    rangeCheck(pos, 0, this._size - 1);
     const { bucketIndex, indexInBucket } = this._getBucketAndPosition(pos);
     this._buckets[bucketIndex][indexInBucket] = element;
     return true;
@@ -383,15 +383,15 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
    * @returns The size of the array after the insertion is being returned.
    */
   addAt(pos: number, element: E, num = 1): boolean {
-    const length = this.size;
+    const length = this._size;
     rangeCheck(pos, 0, length);
     if (pos === 0) {
       while (num--) this.unshift(element);
-    } else if (pos === this.size) {
+    } else if (pos === this._size) {
       while (num--) this.push(element);
     } else {
       const arr: E[] = [];
-      for (let i = pos; i < this.size; ++i) {
+      for (let i = pos; i < this._size; ++i) {
         arr.push(this.at(i));
       }
       this.cut(pos - 1, true);
@@ -462,7 +462,7 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
     } else {
       const newDeque = new Deque<E>([], { bucketSize: this._bucketSize });
       if (pos < 0) pos = 0;
-      for (let i = pos; i < this.size; i++) {
+      for (let i = pos; i < this._size; i++) {
         newDeque.push(this.at(i));
       }
 
@@ -482,11 +482,11 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
    * @returns The size of the data structure after the deletion operation is performed.
    */
   deleteAt(pos: number): boolean {
-    rangeCheck(pos, 0, this.size - 1);
+    rangeCheck(pos, 0, this._size - 1);
     if (pos === 0) this.shift();
-    else if (pos === this.size - 1) this.pop();
+    else if (pos === this._size - 1) this.pop();
     else {
-      const length = this.size - 1;
+      const length = this._size - 1;
       let { bucketIndex: curBucket, indexInBucket: curPointer } = this._getBucketAndPosition(pos);
       for (let i = pos; i < length; ++i) {
         const { bucketIndex: nextBucket, indexInBucket: nextPointer } = this._getBucketAndPosition(pos + 1);
@@ -510,7 +510,7 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
    * @returns The size of the data structure after the element has been deleted.
    */
   delete(element: E): boolean {
-    const size = this.size;
+    const size = this._size;
     if (size === 0) return false;
     let i = 0;
     let index = 0;
@@ -556,12 +556,12 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
    * @returns The size of the modified array is being returned.
    */
   unique(): this {
-    if (this.size <= 1) {
+    if (this._size <= 1) {
       return this;
     }
     let index = 1;
     let prev = this.at(0);
-    for (let i = 1; i < this.size; ++i) {
+    for (let i = 1; i < this._size; ++i) {
       const cur = this.at(i);
       if (cur !== prev) {
         prev = cur;
@@ -584,11 +584,11 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
    */
   sort(comparator?: (x: E, y: E) => number): this {
     const arr: E[] = [];
-    for (let i = 0; i < this.size; ++i) {
+    for (let i = 0; i < this._size; ++i) {
       arr.push(this.at(i));
     }
     arr.sort(comparator);
-    for (let i = 0; i < this.size; ++i) {
+    for (let i = 0; i < this._size; ++i) {
       this.setAt(i, arr[i]);
     }
     return this;
@@ -601,10 +601,10 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
    * The `shrinkToFit` function reorganizes the elements in an array-like data structure to minimize
    * memory usage.
    * @returns Nothing is being returned. The function is using the `return` statement to exit early if
-   * `this.size` is 0, but it does not return any value.
+   * `this._size` is 0, but it does not return any value.
    */
   shrinkToFit(): void {
-    if (this.size === 0) return;
+    if (this._size === 0) return;
     const newBuckets = [];
     if (this._bucketFirst === this._bucketLast) return;
     else if (this._bucketFirst < this._bucketLast) {
@@ -636,7 +636,7 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
    * in the data structure. If the element is not found, it returns -1.
    */
   indexOf(element: E): number {
-    for (let i = 0; i < this.size; ++i) {
+    for (let i = 0; i < this._size; ++i) {
       if (this.at(i) === element) {
         return i;
       }
@@ -736,7 +736,7 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
    * object to be iterated over using a for...of loop.
    */
   protected *_getIterator(): IterableIterator<E> {
-    for (let i = 0; i < this.size; ++i) {
+    for (let i = 0; i < this._size; ++i) {
       yield this.at(i);
     }
   }

@@ -69,7 +69,7 @@ describe('BST operations test', () => {
     const nodeId10 = bst.getNode(10);
     expect(nodeId10?.key).toBe(10);
 
-    const nodeVal9 = bst.getNode(9, node => node.value);
+    const nodeVal9 = bst.getNode(node => node.value === 9);
     expect(nodeVal9?.key).toBe(9);
 
     const leftMost = bst.getLeftMost();
@@ -81,7 +81,7 @@ describe('BST operations test', () => {
     const minNodeBySpecificNode = node15 && bst.getLeftMost(node => node, node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
 
-    const nodes = bst.getNodes(15, node => node.value);
+    const nodes = bst.getNodes(node => node.value === 15);
     expect(nodes.map(node => node.key)).toEqual([15]);
 
     let subTreeSum = 0;
@@ -490,7 +490,7 @@ describe('BST operations test recursively', () => {
     expect(bst.get(10)).toBe(undefined);
     expect(nodeId10?.key).toBe(10);
 
-    const nodeVal9 = bst.getNode(9, node => node.value);
+    const nodeVal9 = bst.getNode(node => node.value === 9);
     expect(nodeVal9?.key).toBe(undefined);
 
     const leftMost = bst.getLeftMost();
