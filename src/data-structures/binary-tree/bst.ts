@@ -318,7 +318,7 @@ export class BST<
     };
 
     for (const kve of keysOrNodesOrEntriesOrRawElements) {
-      isRealBTNExemplar(kve) && realBTNExemplars.push(kve);
+      if (isRealBTNExemplar(kve)) realBTNExemplars.push(kve);
     }
 
     let sorted: (R | BTNPureKeyOrNodeOrEntry<K, V, NODE>)[] = [];
@@ -434,8 +434,8 @@ export class BST<
           if (this.isRealNode(cur.left) && this.comparator(cur.key, identifier as K) > 0) dfs(cur.left);
           if (this.isRealNode(cur.right) && this.comparator(cur.key, identifier as K) < 0) dfs(cur.right);
         } else {
-          this.isRealNode(cur.left) && dfs(cur.left);
-          this.isRealNode(cur.right) && dfs(cur.right);
+          if (this.isRealNode(cur.left)) dfs(cur.left);
+          if (this.isRealNode(cur.right)) dfs(cur.right);
         }
       };
 
@@ -462,8 +462,8 @@ export class BST<
           // // @ts-ignore
           // if (this.isRealNode(cur.left) && cur.key < identifier) stack.push(cur.left);
         } else {
-          this.isRealNode(cur.right) && stack.push(cur.right);
-          this.isRealNode(cur.left) && stack.push(cur.left);
+          if (this.isRealNode(cur.right)) stack.push(cur.right);
+          if (this.isRealNode(cur.left)) stack.push(cur.left);
         }
       }
     }
@@ -627,8 +627,8 @@ export class BST<
   ): ReturnType<C>[] {
     const targetNodeEnsured = this.ensureNode(targetNode);
     const ans: ReturnType<BTNCallback<NODE>>[] = [];
-    if (!targetNodeEnsured) return ans;
     if (!this.root) return ans;
+    if (!targetNodeEnsured) return ans;
 
     const targetKey = targetNodeEnsured.key;
 
@@ -749,8 +749,8 @@ export class BST<
           if (!node.right || last === node.right) {
             node = stack.pop();
             if (node) {
-              const left = node.left ? (depths.get(node.left) ?? -1) : -1;
-              const right = node.right ? (depths.get(node.right) ?? -1) : -1;
+              const left = node.left ? depths.get(node.left)! : -1;
+              const right = node.right ? depths.get(node.right)! : -1;
               if (Math.abs(left - right) > 1) return false;
               depths.set(node, 1 + Math.max(left, right));
               last = node;

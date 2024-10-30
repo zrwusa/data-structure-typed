@@ -415,7 +415,7 @@ export class BinaryTree<
 
     // If the tree is empty, directly set the new node as the root node
     if (!this.root) {
-      this._root = newNode;
+      this._setRoot(newNode);
       this._size = 1;
       return true;
     }
@@ -441,10 +441,10 @@ export class BinaryTree<
 
       // Continue traversing the left and right subtrees
       if (cur.left !== null) {
-        cur.left && queue.push(cur.left);
+        if (cur.left) queue.push(cur.left);
       }
       if (cur.right !== null) {
-        cur.right && queue.push(cur.right);
+        if (cur.right) queue.push(cur.right);
       }
     }
 
@@ -665,8 +665,8 @@ export class BinaryTree<
           if (onlyOne) return;
         }
         if (!this.isRealNode(cur.left) && !this.isRealNode(cur.right)) return;
-        this.isRealNode(cur.left) && dfs(cur.left);
-        this.isRealNode(cur.right) && dfs(cur.right);
+        if (this.isRealNode(cur.left)) dfs(cur.left);
+        if (this.isRealNode(cur.right)) dfs(cur.right);
       };
 
       dfs(beginRoot);
@@ -679,8 +679,8 @@ export class BinaryTree<
             ans.push(cur);
             if (onlyOne) return ans;
           }
-          this.isRealNode(cur.left) && stack.push(cur.left);
-          this.isRealNode(cur.right) && stack.push(cur.right);
+          if (this.isRealNode(cur.left)) stack.push(cur.left);
+          if (this.isRealNode(cur.right)) stack.push(cur.right);
         }
       }
     }
@@ -1076,8 +1076,8 @@ export class BinaryTree<
           if (!this.isRealNode(node.right) || last === node.right) {
             node = stack.pop();
             if (this.isRealNode(node)) {
-              const leftMinHeight = this.isRealNode(node.left) ? (depths.get(node.left) ?? -1) : -1;
-              const rightMinHeight = this.isRealNode(node.right) ? (depths.get(node.right) ?? -1) : -1;
+              const leftMinHeight = this.isRealNode(node.left) ? depths.get(node.left)! : -1;
+              const rightMinHeight = this.isRealNode(node.right) ? depths.get(node.right)! : -1;
               depths.set(node, 1 + Math.min(leftMinHeight, rightMinHeight));
               last = node;
               node = null;
@@ -1086,7 +1086,7 @@ export class BinaryTree<
         }
       }
 
-      return depths.get(beginRoot) ?? -1;
+      return depths.get(beginRoot)!;
     }
   }
 
@@ -1094,27 +1094,39 @@ export class BinaryTree<
    * Time Complexity: O(log n)
    * Space Complexity: O(log n)
    *
-   * The function `getPathToRoot` returns an array of nodes starting from a given node and traversing
-   * up to the root node, with an option to reverse the order of the nodes.
-   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginNode - The `beginNode` parameter can be either of
-   * type `R` or `BTNKeyOrNodeOrEntry<K, V, NODE>`.
-   * @param [isReverse=true] - The `isReverse` parameter is a boolean flag that determines whether the
-   * resulting path should be reversed or not. If `isReverse` is set to `true`, the path will be
-   * reversed before returning it. If `isReverse` is set to `false` or not provided, the path will
-   * @returns The function `getPathToRoot` returns an array of `NODE` objects.
+   * The function `getPathToRoot` in TypeScript retrieves the path from a given node to the root node
+   * in a tree structure, applying a specified callback function along the way.
+   * @param {C} callback - The `callback` parameter is a function that is expected to be of type
+   * `BTNCallback<OptBTNOrNull<NODE>>`. It is used to process each node as the function traverses up
+   * the tree from the `beginNode`.
+   * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginNode - The `beginNode` parameter in the
+   * `getPathToRoot` function represents the starting node from which you want to traverse up to the
+   * root node in a tree structure. It can be either a reference to a node (`NODE`), a key-value pair
+   * (`K, V`), or an entry
+   * @param [isReverse=true] - The `isReverse` parameter in the `getPathToRoot` function determines
+   * whether the resulting path from the given node to the root should be reversed before returning it.
+   * If `isReverse` is set to `true`, the path will be reversed; otherwise, it will be returned as is.
+   * @returns The function `getPathToRoot` returns an array of the return type of the callback function
+   * `C`. The array contains the results of invoking the callback function on each node starting from
+   * the `beginNode` up to the root node in the tree structure. The order of nodes in the array can be
+   * reversed based on the `isReverse` parameter.
    */
-  getPathToRoot(beginNode: R | BTNKeyOrNodeOrEntry<K, V, NODE>, isReverse = true): NODE[] {
-    const result: NODE[] = [];
+  getPathToRoot<C extends BTNCallback<OptBTNOrNull<NODE>>>(
+    callback: C = this._DEFAULT_CALLBACK as C,
+    beginNode: R | BTNKeyOrNodeOrEntry<K, V, NODE>,
+    isReverse = true
+  ): ReturnType<C>[] {
+    const result: ReturnType<C>[] = [];
     let beginNodeEnsured = this.ensureNode(beginNode);
 
     if (!beginNodeEnsured) return result;
 
     while (beginNodeEnsured.parent) {
       // Array.push + Array.reverse is more efficient than Array.unshift
-      result.push(beginNodeEnsured);
+      result.push(callback(beginNodeEnsured));
       beginNodeEnsured = beginNodeEnsured.parent;
     }
-    result.push(beginNodeEnsured);
+    result.push(callback(beginNodeEnsured));
     return isReverse ? result.reverse() : result;
   }
 
@@ -1431,17 +1443,16 @@ export class BinaryTree<
   ): ReturnType<C>[] {
     beginRoot = this.ensureNode(beginRoot);
     const leaves: ReturnType<BTNCallback<NODE>>[] = [];
-    if (!this.isRealNode(beginRoot)) {
-      return [];
-    }
+    if (!this.isRealNode(beginRoot)) return [];
+
     if (iterationType === 'RECURSIVE') {
       const dfs = (cur: NODE) => {
         if (this.isLeaf(cur)) {
           leaves.push(callback(cur));
         }
         if (!this.isRealNode(cur.left) && !this.isRealNode(cur.right)) return;
-        this.isRealNode(cur.left) && dfs(cur.left);
-        this.isRealNode(cur.right) && dfs(cur.right);
+        if (this.isRealNode(cur.left)) dfs(cur.left);
+        if (this.isRealNode(cur.right)) dfs(cur.right);
       };
 
       dfs(beginRoot);
@@ -1453,8 +1464,8 @@ export class BinaryTree<
           if (this.isLeaf(cur)) {
             leaves.push(callback(cur));
           }
-          this.isRealNode(cur.left) && queue.push(cur.left);
-          this.isRealNode(cur.right) && queue.push(cur.right);
+          if (this.isRealNode(cur.left)) queue.push(cur.left);
+          if (this.isRealNode(cur.right)) queue.push(cur.right);
         }
       }
     }
@@ -1569,7 +1580,7 @@ export class BinaryTree<
     beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root
   ): ReturnType<C>[] {
     beginRoot = this.ensureNode(beginRoot);
-    if (beginRoot === null) return [];
+    if (!beginRoot) return [];
     const ans: ReturnType<BTNCallback<NODE>>[] = [];
 
     let cur: OptBTNOrNull<NODE> = beginRoot;
@@ -1734,7 +1745,7 @@ export class BinaryTree<
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
-   * The `print` function in TypeScript prints the binary tree structure with customizable options.
+   * The `toVisual` function in TypeScript prints the binary tree structure with customizable options.
    * @param {R | BTNKeyOrNodeOrEntry<K, V, NODE>} beginRoot - The `beginRoot` parameter is the starting
    * point for printing the binary tree. It can be either a node of the binary tree or a key or entry
    * that exists in the binary tree. If no value is provided, the root of the binary tree will be used
@@ -1744,7 +1755,10 @@ export class BinaryTree<
    * @returns Nothing is being returned. The function has a return type of `void`, which means it does
    * not return any value.
    */
-  override print(beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root, options?: BinaryTreePrintOptions): string {
+  override toVisual(
+    beginRoot: R | BTNKeyOrNodeOrEntry<K, V, NODE> = this.root,
+    options?: BinaryTreePrintOptions
+  ): string {
     const opts = { isShowUndefined: false, isShowNull: false, isShowRedBlackNIL: false, ...options };
     beginRoot = this.ensureNode(beginRoot);
     let output = '';
@@ -2113,7 +2127,7 @@ export class BinaryTree<
     newNode.right = oldNode.right;
     newNode.parent = oldNode.parent;
     if (this.root === oldNode) {
-      this._root = newNode;
+      this._setRoot(newNode);
     }
 
     return newNode;

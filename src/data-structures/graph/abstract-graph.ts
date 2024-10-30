@@ -564,7 +564,7 @@ export abstract class AbstractGraph<
       }
     }
 
-    getMinDist &&
+    if (getMinDist)
       distMap.forEach((d, v) => {
         if (v !== srcVertex) {
           if (d < minDist) {
@@ -574,7 +574,7 @@ export abstract class AbstractGraph<
         }
       });
 
-    genPaths && getPaths(minDest);
+    if (genPaths) getPaths(minDest);
 
     return { distMap, preMap, seen, paths, minDist, minPath };
   }
@@ -761,7 +761,7 @@ export abstract class AbstractGraph<
           if (sWeight !== undefined && dWeight !== undefined) {
             if (distMap.get(s) !== Infinity && sWeight + weight < dWeight) {
               distMap.set(d, sWeight + weight);
-              genPath && preMap.set(d, s);
+              if (genPath) preMap.set(d, s);
             }
           }
         }
@@ -900,7 +900,7 @@ export abstract class AbstractGraph<
       currentPath.push(vertex.key);
 
       for (const neighbor of this.getNeighbors(vertex)) {
-        neighbor && dfs(neighbor, currentPath, visited);
+        if (neighbor) dfs(neighbor, currentPath, visited);
       }
 
       visited.delete(vertex);

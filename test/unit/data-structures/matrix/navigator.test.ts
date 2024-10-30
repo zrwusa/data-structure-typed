@@ -176,7 +176,7 @@ describe('Navigator', () => {
     navigator.start();
 
     // The character should not move
-    isDebug && console.log(visitedCells);
+    if (isDebug) console.log(visitedCells);
     expect(visitedCells).toEqual([
       [0, 1],
       [1, 1],
@@ -226,7 +226,7 @@ describe('Navigator', () => {
     navigator.start();
 
     // The character should have navigated the grid, handled turns, and edge cases
-    isDebug && console.log(visitedCells);
+    if (isDebug) console.log(visitedCells);
     expect(visitedCells).toEqual([
       [0, 1],
       [0, 2],

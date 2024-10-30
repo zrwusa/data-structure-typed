@@ -303,7 +303,7 @@ describe('HashMap', () => {
     });
 
     it('print', () => {
-      expect(hm.print()).toEqual([
+      expect(hm.toVisual()).toEqual([
         [2, 2],
         [3, 3],
         [4, 4],

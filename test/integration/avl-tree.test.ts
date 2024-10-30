@@ -33,14 +33,14 @@ describe('AVL Tree Test', () => {
     expect(getValueById).toBe(10);
 
     const getMinNodeByRoot = tree.getLeftMost();
-    expect(getMinNodeByRoot?.key).toBe(1);
+    expect(getMinNodeByRoot).toBe(1);
 
     const node15 = tree.getNode(15);
     const getMinNodeBySpecificNode = node15 && tree.getLeftMost(node => node, node15);
     expect(getMinNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    node15 && tree.dfs(node => (subTreeSum += node.key), 'IN', 15);
+    if (node15) tree.dfs(node => (subTreeSum += node.key), 'IN', 15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;

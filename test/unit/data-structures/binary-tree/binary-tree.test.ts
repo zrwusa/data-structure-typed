@@ -296,14 +296,29 @@ describe('BinaryTree', () => {
   });
 
   it('should isSubtreeBST', () => {
+    expect(tree.toVisual()).toBe('');
     tree.addMany([4, 2, 6, 1, 3, 5, 7, 4]);
-    expect(tree.print()).toBe(
+    expect(tree.toVisual()).toBe(
       '    ___4___    \n' +
         '   /       \\   \n' +
         '  _2_     _6_  \n' +
         ' /   \\   /   \\ \n' +
         ' 1   3   5   7 \n' +
         '               \n'
+    );
+    const visualized = tree.toVisual(undefined, { isShowUndefined: true, isShowNull: true, isShowRedBlackNIL: true });
+    expect(visualized).toBe(
+      'U for undefined\n' +
+        '      N for null\n' +
+        '      S for Sentinel Node(NIL)\n' +
+        '              _______4_______        \n' +
+        '       /               \\       \n' +
+        '    ___2___         ___6___    \n' +
+        '   /       \\       /       \\   \n' +
+        '  _1_     _3_     _5_     _7_  \n' +
+        ' /   \\   /   \\   /   \\   /   \\ \n' +
+        ' U   U   U   U   U   U   U   U \n' +
+        '                               \n'
     );
 
     expect(tree.isBST(tree.getNode(4), 'RECURSIVE')).toBe(true);
@@ -472,13 +487,20 @@ describe('BinaryTree', () => {
   });
 
   it('should isLeaf', () => {
+    expect(tree.getLeftMost()).toBe(undefined);
+    expect(tree.getRightMost()).toBe(undefined);
     tree.addMany([4, 2, 6, 1, 3, 5, 7, 4]);
     const leftMost = tree.getLeftMost();
     expect(tree.isLeaf(leftMost)).toBe(true);
     expect(tree.isLeaf(null)).toBe(true);
+    const rightMost = tree.getRightMost();
+    expect(tree.isLeaf(rightMost)).toBe(true);
+    expect(tree.isLeaf(null)).toBe(true);
   });
 
   it('should tree traverse', () => {
+    expect(tree.dfs()).toEqual([]);
+    expect([...tree.values()]).toEqual([]);
     tree.addMany([4, 2, 6, null, 1, 3, null, 5, null, 7]);
     expect(tree.dfs(node => node.key, 'PRE', undefined, 'ITERATIVE')).toEqual([4, 2, 1, 5, 6, 3, 7]);
     expect(tree.dfs(node => (node !== null ? node.key : null), 'PRE', undefined, 'ITERATIVE', false)).toEqual([
@@ -666,6 +688,7 @@ describe('BinaryTree', () => {
 
   it('should duplicated nodes just replace the node exists', function () {
     tree.clear();
+    expect(tree.bfs()).toEqual([]);
     tree.addMany([-10, -10, -10, 9, 9, 20, null, null, 15, 7, 8, null, 2, null, 6, null, null, 8, 8, 8]);
 
     expect(tree.bfs(node => (node ? node.key : null), undefined, undefined, true)).toEqual([
@@ -941,6 +964,8 @@ describe('BinaryTree traversals', () => {
       [15, 29, null, 50],
       [null, 16, 28, 30, 45, 55]
     ]);
+    tree.clear();
+    expect(tree.listLevels()).toEqual([]);
   });
 });
 
@@ -1017,6 +1042,7 @@ describe('BinaryTree', () => {
   });
 
   it('should get the height of the tree', () => {
+    expect(tree.getMinHeight()).toBe(-1);
     tree.add([5, 'A']);
     tree.add(3, 'B');
     tree.add([7, 'C']);
@@ -1073,6 +1099,15 @@ describe('BinaryTree', () => {
 
     expect(tree.size).toBe(2);
     expect(tree.getNode(3)).toBe(null);
+  });
+
+  it('should getPathToRoot', () => {
+    tree.add([5, 'A']);
+    tree.add([3, 'B']);
+    tree.add([7, 'C']);
+
+    expect(tree.getPathToRoot(undefined, 7)).toEqual([5, 7]);
+    expect(tree.getPathToRoot(undefined, 1)).toEqual([]);
   });
 
   it('should check if the tree is perfectly balanced', () => {
@@ -1134,7 +1169,8 @@ describe('BinaryTree', () => {
 
     const result = tree.morris();
     expect(result).toEqual([3, 5, 7]);
-    // Add assertions for the result of Morris traversal
+    tree.clear();
+    expect(tree.morris()).toEqual([]);
   });
 
   it('should perform delete all', () => {
@@ -1233,6 +1269,8 @@ describe('BinaryTree iterative methods test', () => {
   it('should leaves', () => {
     const leaves = binaryTree.leaves();
     expect(leaves).toEqual([2, 3]);
+    binaryTree.clear();
+    expect(binaryTree.leaves()).toEqual([]);
   });
 
   it('should iterative method return undefined when the node is null', () => {

@@ -1,25 +1,7 @@
 import { EntryCallback, ReduceEntryCallback } from '../../types';
 
 export abstract class IterableEntryBase<K = any, V = any> {
-  // protected constructor(options?: IterableEntryBaseOptions<K, V, R>) {
-  //   if (options) {
-  //     const { toEntryFn } = options;
-  //     if (typeof toEntryFn === 'function') this._toEntryFn = toEntryFn
-  //     else throw new TypeError('toEntryFn must be a function type');
-  //   }
-  // }
-
   abstract get size(): number;
-
-  // protected _toEntryFn?: (rawElement: R) => BTNEntry<K, V>;
-  //
-  // /**
-  //  * The function returns the value of the _toEntryFn property.
-  //  * @returns The function being returned is `this._toEntryFn`.
-  //  */
-  // get toEntryFn() {
-  //   return this._toEntryFn;
-  // }
 
   /**
    * Time Complexity: O(n)
@@ -251,8 +233,18 @@ export abstract class IterableEntryBase<K = any, V = any> {
    *
    * The print function logs the elements of an array to the console.
    */
-  print(): [K, V][] | string {
+  toVisual(): [K, V][] | string {
     return [...this];
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The print function logs the elements of an array to the console.
+   */
+  print(): void {
+    console.log(this.toVisual());
   }
 
   abstract isEmpty(): boolean;

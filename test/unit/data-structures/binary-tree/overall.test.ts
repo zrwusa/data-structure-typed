@@ -6,18 +6,13 @@ describe('Overall BinaryTree Test', () => {
     bst.add(11);
     bst.add(3);
     bst.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5], undefined, false);
-    bst.size === 16; // true
     expect(bst.size).toBe(16); // true
     bst.has(6); // true
     expect(bst.has(6)).toBe(true); // true
-    bst.getHeight(6) === 2; // true
-    bst.getHeight() === 5; // true
-    bst.getDepth(6) === 3; // true
     expect(bst.getHeight(6)).toBe(2); // true
     expect(bst.getHeight()).toBe(5); // true
     expect(bst.getDepth(6)).toBe(3); // true
     const leftMost = bst.getLeftMost();
-    leftMost?.key === 1; // true
     expect(leftMost).toBe(1);
     bst.delete(6);
     bst.getNode(6); // undefined
@@ -26,7 +21,6 @@ describe('Overall BinaryTree Test', () => {
     expect(bst.isAVLBalanced()).toBe(true);
     const bfsIDs: number[] = [];
     bst.bfs(node => bfsIDs.push(node.key));
-    bfsIDs[0] === 11; // true
     expect(bfsIDs[0]).toBe(11);
 
     const objBST = new BST<number, { key: number; keyA: number }>();

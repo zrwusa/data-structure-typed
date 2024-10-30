@@ -339,8 +339,8 @@ export class AVLTree<
     }
 
     this._updateHeight(A);
-    B && this._updateHeight(B);
-    C && this._updateHeight(C);
+    if (B) this._updateHeight(B);
+    if (C) this._updateHeight(C);
   }
 
   /**
@@ -378,7 +378,7 @@ export class AVLTree<
       B.left = A;
     }
     this._updateHeight(A);
-    B && this._updateHeight(B);
+    if (B) this._updateHeight(B);
   }
 
   /**
@@ -427,8 +427,8 @@ export class AVLTree<
     if (C) C.right = B;
 
     this._updateHeight(A);
-    B && this._updateHeight(B);
-    C && this._updateHeight(C);
+    if (B) this._updateHeight(B);
+    if (C) this._updateHeight(C);
   }
 
   /**
@@ -442,41 +442,43 @@ export class AVLTree<
    */
   protected _balancePath(node: R | BTNKeyOrNodeOrEntry<K, V, NODE>): void {
     node = this.ensureNode(node);
-    const path = this.getPathToRoot(node, false); // first O(log n) + O(log n)
+    const path = this.getPathToRoot(node => node, node, false); // first O(log n) + O(log n)
     for (let i = 0; i < path.length; i++) {
       // second O(log n)
       const A = path[i];
-      // Update Heights: After inserting a node, backtrack from the insertion point to the root node, updating the height of each node along the way.
-      this._updateHeight(A); // first O(1)
-      // Check Balance: Simultaneously with height updates, check if each node violates the balance property of an AVL tree.
-      // Balance Restoration: If a balance issue is discovered after inserting a node, it requires balance restoration operations. Balance restoration includes four basic cases where rotation operations need to be performed to fix the balance:
-      switch (
-        this._balanceFactor(A) // second O(1)
-      ) {
-        case -2:
-          if (A && A.left) {
-            if (this._balanceFactor(A.left) <= 0) {
-              // second O(1)
-              // Left Rotation (LL Rotation): When the inserted node is in the left subtree of the left subtree, causing an imbalance.
-              this._balanceLL(A);
-            } else {
-              // Left-Right Rotation (LR Rotation): When the inserted node is in the right subtree of the left subtree, causing an imbalance.
-              this._balanceLR(A);
+      if (A) {
+        // Update Heights: After inserting a node, backtrack from the insertion point to the root node, updating the height of each node along the way.
+        this._updateHeight(A); // first O(1)
+        // Check Balance: Simultaneously with height updates, check if each node violates the balance property of an AVL tree.
+        // Balance Restoration: If a balance issue is discovered after inserting a node, it requires balance restoration operations. Balance restoration includes four basic cases where rotation operations need to be performed to fix the balance:
+        switch (
+          this._balanceFactor(A) // second O(1)
+        ) {
+          case -2:
+            if (A && A.left) {
+              if (this._balanceFactor(A.left) <= 0) {
+                // second O(1)
+                // Left Rotation (LL Rotation): When the inserted node is in the left subtree of the left subtree, causing an imbalance.
+                this._balanceLL(A);
+              } else {
+                // Left-Right Rotation (LR Rotation): When the inserted node is in the right subtree of the left subtree, causing an imbalance.
+                this._balanceLR(A);
+              }
             }
-          }
-          break;
-        case +2:
-          if (A && A.right) {
-            if (this._balanceFactor(A.right) >= 0) {
-              // Right Rotation (RR Rotation): When the inserted node is in the right subtree of the right subtree, causing an imbalance.
-              this._balanceRR(A);
-            } else {
-              // Right-Left Rotation (RL Rotation): When the inserted node is in the left subtree of the right subtree, causing an imbalance.
-              this._balanceRL(A);
+            break;
+          case +2:
+            if (A && A.right) {
+              if (this._balanceFactor(A.right) >= 0) {
+                // Right Rotation (RR Rotation): When the inserted node is in the right subtree of the right subtree, causing an imbalance.
+                this._balanceRR(A);
+              } else {
+                // Right-Left Rotation (RL Rotation): When the inserted node is in the left subtree of the right subtree, causing an imbalance.
+                this._balanceRL(A);
+              }
             }
-          }
+        }
+        // TODO So far, no sure if this is necessary that Recursive Repair: Once rotation operations are executed, it may cause imbalance issues at higher levels of the tree. Therefore, you need to recursively check and repair imbalance problems upwards until you reach the root node.
       }
-      // TODO So far, no sure if this is necessary that Recursive Repair: Once rotation operations are executed, it may cause imbalance issues at higher levels of the tree. Therefore, you need to recursively check and repair imbalance problems upwards until you reach the root node.
     }
   }
 

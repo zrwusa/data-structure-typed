@@ -158,12 +158,12 @@ export function logBigOMetricsWrap<F extends AnyFunction>(fn: F, args: Parameter
     methodLog.push([runTime, maxDataSize]);
 
     if (methodLog.length >= 20) {
-      isDebug && console.log('triggered', methodName, methodLog);
+      if (isDebug) console.log('triggered', methodName, methodLog);
       const bigO = estimateBigO(
         methodLog.map(([runTime]) => runTime),
         methodLog.map(([runTime]) => runTime)
       );
-      isDebug && console.log(`Estimated Big O: ${bigO}`);
+      if (isDebug) console.log(`Estimated Big O: ${bigO}`);
       methodLogs.delete(methodName);
     }
   }
@@ -192,12 +192,13 @@ export function logBigOMetrics(target: any, propertyKey: string, descriptor: Pro
       methodLog.push([runTime, maxDataSize]);
 
       if (methodLog.length >= 20) {
-        isDebug && console.log('triggered', methodName, methodLog);
+        if (isDebug) console.log('triggered', methodName, methodLog);
         const bigO = estimateBigO(
           methodLog.map(([runTime]) => runTime),
           methodLog.map(([runTime]) => runTime)
         );
-        isDebug && console.log(`Estimated Big O: ${bigO}`);
+
+        if (isDebug) console.log(`Estimated Big O: ${bigO}`);
         methodLogs.delete(methodName);
       }
     }

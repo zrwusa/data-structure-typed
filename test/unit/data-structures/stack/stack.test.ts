@@ -18,6 +18,12 @@ describe('Stack', () => {
     expect(stack.size).toBe(3);
   });
 
+  it('should has and get', () => {
+    const stack = new Stack<number, { id: number; name: string }>([], { toElementFn: rawElement => rawElement.id });
+    expect(stack.has(1)).toBe(false);
+    expect(stack.size).toBe(0);
+  });
+
   it('should peek at the top element without removing it', () => {
     expect(stack.peek()).toBe(undefined);
     stack.push(1);

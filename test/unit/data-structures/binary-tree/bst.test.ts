@@ -81,8 +81,11 @@ describe('BST operations test', () => {
     const minNodeBySpecificNode = node15 && bst.getLeftMost(node => node, node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
 
+    const nodes = bst.getNodes(15, node => node.value);
+    expect(nodes.map(node => node.key)).toEqual([15]);
+
     let subTreeSum = 0;
-    node15 && bst.dfs(node => (subTreeSum += node.key), 'PRE', 15);
+    if (node15) bst.dfs(node => (subTreeSum += node.key), 'PRE', 15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
@@ -231,6 +234,9 @@ describe('BST operations test', () => {
     expect(bfsNodes[0].key).toBe(2);
     expect(bfsNodes[1].key).toBe(12);
     expect(bfsNodes[2].key).toBe(16);
+    bst.clear();
+    expect(bst.perfectlyBalance()).toBe(false);
+    expect(bst.isAVLBalanced()).toBe(true);
   });
 
   it('should perform various operations on a Binary Search Tree with object values', () => {
@@ -288,7 +294,7 @@ describe('BST operations test', () => {
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    node15 && objBST.dfs(node => (subTreeSum += node.key), 'PRE', node15);
+    if (node15) objBST.dfs(node => (subTreeSum += node.key), 'PRE', node15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
@@ -495,7 +501,7 @@ describe('BST operations test recursively', () => {
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    node15 && bst.dfs(node => (subTreeSum += node.key), 'PRE', 15);
+    if (node15) bst.dfs(node => (subTreeSum += node.key), 'PRE', 15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
@@ -702,7 +708,7 @@ describe('BST operations test recursively', () => {
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    node15 && objBST.dfs(node => (subTreeSum += node.key), 'PRE', node15);
+    if (node15) objBST.dfs(node => (subTreeSum += node.key), 'PRE', node15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
@@ -869,6 +875,28 @@ describe('BST operations test recursively', () => {
     expect(numBST.size).toBe(0);
   });
 
+  it('should listLevels', () => {
+    const bst = new BST<number>();
+    bst.addMany([2, 4, 5, 3, 1]);
+    expect(bst.size).toBe(5);
+    bst.delete(1);
+    bst.delete(5);
+    const levelKeys = bst.listLevels();
+    expect(levelKeys).toEqual([[3], [2, 4]]);
+  });
+
+  it('should lesserOrGreaterTraverse', () => {
+    const bst = new BST<number>();
+    const levelKeys = bst.lesserOrGreaterTraverse();
+    expect(levelKeys).toEqual([]);
+    bst.addMany([2, 4, 5, 3, 1]);
+    expect(bst.size).toBe(5);
+    bst.delete(1);
+    bst.delete(5);
+    const levelKeys1 = bst.lesserOrGreaterTraverse();
+    expect(levelKeys1).toEqual([2]);
+  });
+
   it('should the clone method', () => {
     function checkTreeStructure(bst: BST<string, number>) {
       expect(bst.size).toBe(4);
@@ -972,7 +1000,7 @@ describe('BST Performance test', function () {
   it(`Observe the time consumption of BST.dfs be good`, function () {
     const startDFS = performance.now();
     const dfs = bst.dfs(node => node);
-    isDebug && console.log('---bfs', performance.now() - startDFS, dfs.length);
+    if (isDebug) console.log('---bfs', performance.now() - startDFS, dfs.length);
   });
 
   it('Should the time consumption of lesserOrGreaterTraverse fitting O(n log n)', function () {
@@ -982,16 +1010,16 @@ describe('BST Performance test', function () {
     }
     const start = performance.now();
     bst.addMany(nodes);
-    isDebug && console.log('---add', performance.now() - start);
+    if (isDebug) console.log('---add', performance.now() - start);
     const startL = performance.now();
     bst.lesserOrGreaterTraverse(
       node => {
-        node.key - 1;
+        node.key -= 1;
       },
       -1,
       inputSize / 2
     );
-    isDebug && console.log('---lesserOrGreaterTraverse', performance.now() - startL);
+    if (isDebug) console.log('---lesserOrGreaterTraverse', performance.now() - startL);
   });
 
   it('Should the time consumption of listLevels fitting well', function () {
@@ -1001,11 +1029,11 @@ describe('BST Performance test', function () {
     }
     const start = performance.now();
     bst.addMany(nodes);
-    isDebug && console.log('---add', performance.now() - start);
+    if (isDebug) console.log('---add', performance.now() - start);
     const startL = performance.now();
     const arr: number[][] = bst.listLevels(node => node.key);
-    isDebug && console.log('---listLevels', arr);
-    isDebug && console.log('---listLevels', performance.now() - startL);
+    if (isDebug) console.log('---listLevels', arr);
+    if (isDebug) console.log('---listLevels', performance.now() - startL);
   });
 
   it('should the lastKey of a BST to be the largest key', function () {

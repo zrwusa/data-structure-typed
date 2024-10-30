@@ -91,7 +91,7 @@ describe('AVLTreeMultiMap operations test1', () => {
     expect(minNodeBySpecificNode?.key).toBe(15);
 
     let subTreeSum = 0;
-    node15 && treeMultimap.dfs(node => (subTreeSum += node.key), 'PRE', 15);
+    if (node15) treeMultimap.dfs(node => (subTreeSum += node.key), 'PRE', 15);
     expect(subTreeSum).toBe(31);
     let lesserSum = 0;
     treeMultimap.lesserOrGreaterTraverse((node: AVLTreeMultiMapNode<number>) => (lesserSum += node.key), -1, 10);
@@ -347,7 +347,7 @@ describe('AVLTreeMultiMap operations test recursively1', () => {
     expect(minNodeBySpecificNode?.key).toBe(15);
 
     let subTreeSum = 0;
-    node15 && treeMultimap.dfs(node => (subTreeSum += node.key), 'PRE', 15);
+    if (node15) treeMultimap.dfs(node => (subTreeSum += node.key), 'PRE', 15);
     expect(subTreeSum).toBe(31);
     let lesserSum = 0;
     treeMultimap.lesserOrGreaterTraverse((node: AVLTreeMultiMapNode<number>) => (lesserSum += node.key), -1, 10);
@@ -556,7 +556,7 @@ describe('AVLTreeMultiMap Performance test', function () {
   it(`Observe the time consumption of AVLTreeMultiMap.dfs be good`, function () {
     const startDFS = performance.now();
     const dfs = treeMS.dfs(node => node);
-    isDebug && console.log('---bfs', performance.now() - startDFS, dfs.length);
+    if (isDebug) console.log('---bfs', performance.now() - startDFS, dfs.length);
   });
 
   it('Should the time consumption of lesserOrGreaterTraverse fitting O(n log n)', function () {
@@ -564,10 +564,10 @@ describe('AVLTreeMultiMap Performance test', function () {
     for (let i = 0; i < inputSize; i++) {
       treeMS.add(i);
     }
-    isDebug && console.log('---add', performance.now() - start);
+    if (isDebug) console.log('---add', performance.now() - start);
     const startL = performance.now();
     treeMS.lesserOrGreaterTraverse(node => (node.count += 1), -1, inputSize / 2);
-    isDebug && console.log('---lesserOrGreaterTraverse', performance.now() - startL);
+    if (isDebug) console.log('---lesserOrGreaterTraverse', performance.now() - startL);
   });
 
   it('should the clone method', () => {

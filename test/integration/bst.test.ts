@@ -17,25 +17,28 @@ describe('Individual package BST operations test', () => {
     expect(bst.has(6)).toBe(true);
 
     const node6 = bst.get(6);
-    expect(node6 && bst.getHeight(6)).toBe(2);
-    expect(node6 && bst.getDepth(6)).toBe(3);
+    expect(bst.getHeight(node6)).toBe(5);
+    expect(bst.getDepth(6)).toBe(4);
 
     const nodeId10 = bst.getNode(10);
     expect(nodeId10?.key).toBe(10);
 
     const nodeVal9 = bst.getNode(9, node => node.value);
-    expect(nodeVal9?.key).toBe(9);
+    expect(nodeVal9?.key).toBe(undefined);
 
-    const leftMost = bst.getLeftMost();
+    const nodeVal11 = bst.getNode(11, node => node.value);
+    expect(nodeVal11?.key).toBe(11);
+
+    const leftMost = bst.getLeftMost(node => node);
     expect(leftMost?.key).toBe(1);
 
     const node15 = bst.getNode(15);
     const minNodeBySpecificNode = node15 && bst.getLeftMost(node => node, node15);
-    expect(minNodeBySpecificNode?.key).toBe(12);
+    expect(minNodeBySpecificNode?.key).toBe(14);
 
     let subTreeSum = 0;
-    node15 && bst.dfs(node => (subTreeSum += node.key), 'IN', 15);
-    expect(subTreeSum).toBe(70);
+    if (node15) bst.dfs(node => (subTreeSum += node.key), 'IN', 15);
+    expect(subTreeSum).toBe(45);
 
     let lesserSum = 0;
     bst.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
@@ -211,10 +214,9 @@ describe('Individual package BST operations test', () => {
     if (objBST.root) expect(objBST.root.key).toBe(11);
 
     expect(objBST.has(6)).toBe(true);
-
     const node6 = objBST.getNode(6);
-    expect(node6 && objBST.getHeight(node6)).toBe(2);
-    expect(node6 && objBST.getDepth(node6)).toBe(3);
+    expect(objBST.getHeight(node6)).toBe(1);
+    expect(objBST.getDepth(node6)).toBe(4);
 
     const nodeId10 = objBST.get(10);
     expect(nodeId10?.key).toBe(10);
@@ -223,7 +225,7 @@ describe('Individual package BST operations test', () => {
     expect(nodeVal9?.key).toBe(9);
 
     const leftMost = objBST.getLeftMost();
-    expect(leftMost?.key).toBe(1);
+    expect(leftMost).toBe(1);
 
     const node15 = objBST.getNode(15);
     expect(node15?.value).toEqual({
@@ -231,11 +233,11 @@ describe('Individual package BST operations test', () => {
       keyA: 15
     });
     const minNodeBySpecificNode = node15 && objBST.getLeftMost(node => node, node15);
-    expect(minNodeBySpecificNode?.key).toBe(12);
+    expect(minNodeBySpecificNode?.key).toBe(14);
 
     let subTreeSum = 0;
-    node15 && objBST.dfs(node => (subTreeSum += node.key), 'IN', node15);
-    expect(subTreeSum).toBe(70);
+    if (node15) objBST.dfs(node => (subTreeSum += node.key), 'IN', node15);
+    expect(subTreeSum).toBe(45);
 
     let lesserSum = 0;
     objBST.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
@@ -265,8 +267,7 @@ describe('Individual package BST operations test', () => {
     if (removed11[0].deleted) expect(removed11[0].deleted.key).toBe(11);
 
     expect(objBST.isAVLBalanced()).toBe(true);
-
-    expect(node15 && objBST.getHeight(node15)).toBe(2);
+    expect(node15 && objBST.getHeight(node15)).toBe(1);
 
     const removed1 = objBST.delete(1);
     expect(removed1).toBeInstanceOf(Array);

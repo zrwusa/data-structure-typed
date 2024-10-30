@@ -127,7 +127,7 @@ describe('TreeMultiMap operations test1', () => {
     expect(tmm.getComputedCount()).toBe(18);
 
     expect(tmm.has(6));
-    isDebug && tmm.print();
+    if (isDebug) tmm.print();
     expect(tmm.getHeight(6)).toBe(1);
     expect(tmm.getDepth(6)).toBe(3);
     const nodeId10 = tmm.getNode(10);
@@ -149,7 +149,7 @@ describe('TreeMultiMap operations test1', () => {
     expect(minNodeBySpecificNode?.key).toBe(14);
 
     let subTreeSum = 0;
-    node15 && tmm.dfs(node => (subTreeSum += node.key), 'PRE', 15);
+    if (node15) tmm.dfs(node => (subTreeSum += node.key), 'PRE', 15);
     expect(subTreeSum).toBe(45);
     let lesserSum = 0;
     tmm.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
@@ -407,7 +407,7 @@ describe('TreeMultiMap operations test recursively1', () => {
     expect(minNodeBySpecificNode?.key).toBe(14);
 
     let subTreeSum = 0;
-    node15 && tmm.dfs(node => (subTreeSum += node.key), 'PRE', 15);
+    if (node15) tmm.dfs(node => (subTreeSum += node.key), 'PRE', 15);
     expect(subTreeSum).toBe(45);
     let lesserSum = 0;
     expect(tmm.has(9)).toBe(true);
@@ -626,7 +626,7 @@ describe('TreeMultiMap delete test', function () {
   it(`Observe the time consumption of TreeMultiMap.dfs be good`, function () {
     const startDFS = performance.now();
     const dfs = tmm.dfs(node => node);
-    isDebug && console.log('---bfs', performance.now() - startDFS, dfs.length);
+    if (isDebug) console.log('---bfs', performance.now() - startDFS, dfs.length);
   });
 
   it('The structure remains normal after random deletion', function () {
@@ -679,7 +679,7 @@ describe('TreeMultiMap delete test', function () {
     expect(tmm.getHeight()).toBe(-1);
     expect(nilCount).toBe(tmm.size + 1);
 
-    isDebug && tmm.print();
+    if (isDebug) tmm.print();
   });
 
   it(`Random additions, count deletions of structures are normal`, function () {
@@ -705,7 +705,7 @@ describe('TreeMultiMap delete test', function () {
     expect(tmm.getHeight()).toBeGreaterThanOrEqual(0);
     expect(nanCount).toBeLessThanOrEqual(inputSize);
 
-    isDebug && tmm.print();
+    if (isDebug) tmm.print();
   });
 
   it('should the clone method', () => {

@@ -209,8 +209,8 @@ describe('Inherit from DirectedGraph and perform operations', () => {
 
     expect(removedEdge).toBeInstanceOf(MyEdge);
     if (removedEdge) {
-      removedEdge && expect(removedEdge.value).toBe('edge-data1-2');
-      removedEdge && expect(removedEdge.src).toBe(1);
+      if (removedEdge) expect(removedEdge.value).toBe('edge-data1-2');
+      if (removedEdge) expect(removedEdge.src).toBe(1);
     }
     expect(edgeAfterRemoval).toBe(undefined);
   });
@@ -241,8 +241,8 @@ describe('Inherit from DirectedGraph and perform operations', () => {
     if (sorted && sorted.length > 0) {
       expect(sorted.length).toBe(9);
       if (sorted[0] instanceof MyVertex) expect(sorted[0].data).toBe('data9');
-      sorted[3] instanceof MyVertex && expect(sorted[3].data).toBe('data6');
-      sorted[8] instanceof MyVertex && expect(sorted[8].key).toBe(1);
+      if (sorted[3] instanceof MyVertex) expect(sorted[3].data).toBe('data6');
+      if (sorted[8] instanceof MyVertex) expect(sorted[8].key).toBe(1);
     }
   });
 

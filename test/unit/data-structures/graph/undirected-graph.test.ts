@@ -18,14 +18,19 @@ describe('UndirectedGraph Operation Test', () => {
   });
 
   it('should add vertices', () => {
+    expect(graph.isEmpty()).toBe(true);
     const vertex1 = new UndirectedVertex('A');
     const vertex2 = new UndirectedVertex('B');
 
     graph.addVertex(vertex1);
+    expect(graph.isEmpty()).toBe(false);
     graph.addVertex(vertex2);
 
     expect(graph.hasVertex(vertex1)).toBe(true);
     expect(graph.hasVertex(vertex2)).toBe(true);
+    expect(graph.isEmpty()).toBe(false);
+    graph.clear();
+    expect(graph.isEmpty()).toBe(true);
   });
 
   it('should add edges', () => {
@@ -577,7 +582,7 @@ describe('UndirectedGraph tarjan', () => {
     const graph = createExampleGraph5();
     const cycles = graph.getCycles();
     expect(cycles.length).toBe(13);
-    expect(cycles).toEqual([
+    const expectedCycles = [
       ['A', 'B', 'C', 'D', 'I', 'H', 'F', 'E'],
       ['A', 'B', 'C', 'D', 'I', 'H', 'F', 'G', 'E'],
       ['A', 'B', 'C', 'H', 'F', 'E'],
@@ -591,7 +596,12 @@ describe('UndirectedGraph tarjan', () => {
       ['C', 'D', 'I', 'H'],
       ['E', 'F', 'G'],
       ['H', 'J', 'K']
-    ]);
+    ];
+    expect(cycles).toEqual(expectedCycles);
+    const cloned = graph.clone();
+    const clonedCycles = cloned.getCycles();
+    expect(clonedCycles.length).toBe(13);
+    expect(clonedCycles).toEqual(expectedCycles);
   });
 
   // it('should uncuttable graph tarjan SCCs return correct result', () => {

@@ -76,6 +76,6 @@ describe('MinPriorityQueue Operation Test', () => {
     );
     expect(mapped instanceof MinPriorityQueue).toBe(true);
     expect([...mapped]).toEqual([{ key: 1 }, { key: 5 }, { key: 7 }]);
-    expect(mapped.print()).toEqual([{ key: 1 }, { key: 5 }, { key: 7 }]);
+    expect(mapped.toVisual()).toEqual([{ key: 1 }, { key: 5 }, { key: 7 }]);
   });
 });

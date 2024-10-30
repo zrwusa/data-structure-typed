@@ -86,8 +86,8 @@ describe('Priority Queue Performance Test', () => {
     // for (let i = 0; i < 10000; i++) {
     //   pq.pop();
     // }
-    isDebug && console.log(performance.now() - tS);
-    isDebug && console.log(pq.size);
+    if (isDebug) console.log(performance.now() - tS);
+    if (isDebug) console.log(pq.size);
     const cS = performance.now();
     const cpq = new CPriorityQueue();
 
@@ -98,7 +98,7 @@ describe('Priority Queue Performance Test', () => {
     // for (let i = 0; i < 10000; i++) {
     //   cpq.pop();
     // }
-    isDebug && console.log(performance.now() - cS);
-    isDebug && console.log(cpq.size());
+    if (isDebug) console.log(performance.now() - cS);
+    if (isDebug) console.log(cpq.size());
   });
 });

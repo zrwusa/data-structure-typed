@@ -192,8 +192,18 @@ export abstract class IterableElementBase<E, R, C> {
    *
    * The print function logs the elements of an array to the console.
    */
-  print(): E[] {
+  toVisual(): E[] {
     return [...this];
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The print function logs the elements of an array to the console.
+   */
+  print(): void {
+    console.log(this.toVisual());
   }
 
   abstract isEmpty(): boolean;

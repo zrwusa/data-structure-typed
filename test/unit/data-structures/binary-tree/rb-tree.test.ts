@@ -414,7 +414,7 @@ describe('RedBlackTree 2', () => {
     expect(node225F?.right).toBe(rbTree.NIL);
     expect(node225F?.parent?.key).toBe(155);
     rbTree.add(7);
-    isDebug && rbTree.print();
+    if (isDebug) rbTree.print();
 
     const node15S = rbTree.getNode(15);
     expect(node15S?.left?.key).toBe(10);
@@ -463,7 +463,7 @@ describe('RedBlackTree 2', () => {
     rbTree.add(19);
     rbTree.add(110);
 
-    isDebug && rbTree.print();
+    if (isDebug) rbTree.print();
 
     expect(rbTree.dfs()).toEqual([
       1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 22, 23, 25, 28, 33, 50, 110, 111, 155, 225
@@ -525,19 +525,19 @@ describe('RedBlackTree 2', () => {
     for (let i = 0; i < arr.length; i++) {
       rbTree.add(arr[i]);
     }
-    isDebug && console.log(performance.now() - tS);
+    if (isDebug) console.log(performance.now() - tS);
 
     const cS = performance.now();
 
     for (let i = 0; i < arr.length; i++) {
       competitor.setElement(arr[i], arr[i]);
     }
-    isDebug && console.log(performance.now() - cS);
+    if (isDebug) console.log(performance.now() - cS);
   });
 
   it('duplicates', () => {
     rbTree.addMany([9, 8, 7, 8, 8, 8, 2, 3, 6, 5, 5, 4]);
-    isDebug && rbTree.print();
+    if (isDebug) rbTree.print();
 
     expect(rbTree.size).toBe(8);
     expect(rbTree.isBST()).toBe(true);
@@ -606,7 +606,7 @@ describe('RedBlackTree 2', () => {
       expect(rbTree.getHeight()).toBe(-1);
       expect(nanCount).toBeLessThanOrEqual(inputSize);
 
-      isDebug && rbTree.print();
+      if (isDebug) rbTree.print();
     });
   });
 

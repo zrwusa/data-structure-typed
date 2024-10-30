@@ -3,7 +3,12 @@ const { MinHeap } = require('heap-typed');
 describe('JS Heap Operation Test', () => {
   it('should numeric heap work well', function () {
     const minNumHeap = new MinHeap();
-    minNumHeap.add(1).add(6).add(2).add(0).add(5).add(9);
+    minNumHeap.add(1);
+    minNumHeap.add(6);
+    minNumHeap.add(2);
+    minNumHeap.add(0);
+    minNumHeap.add(5);
+    minNumHeap.add(9);
     expect(minNumHeap.poll()).toBe(0);
     expect(minNumHeap.poll()).toBe(1);
     expect(minNumHeap.peek()).toBe(2);

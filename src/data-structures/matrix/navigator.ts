@@ -42,7 +42,7 @@ export class Navigator<T = number> {
     this._cur = cur;
     this._character = new Character(charDir, turning);
     this.onMove = onMove;
-    this.onMove && this.onMove(this._cur);
+    if (this.onMove) this.onMove(this._cur);
     this._VISITED = VISITED;
     this._matrix[this._cur[0]][this._cur[1]] = this._VISITED;
   }
@@ -116,6 +116,6 @@ export class Navigator<T = number> {
 
     const [i, j] = this._cur;
     this._matrix[i][j] = this._VISITED;
-    this.onMove && this.onMove(this._cur);
+    if (this.onMove) this.onMove(this._cur);
   }
 }

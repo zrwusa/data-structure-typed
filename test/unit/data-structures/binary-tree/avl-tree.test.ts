@@ -24,7 +24,7 @@ describe('AVL Tree Test', () => {
     expect(getMinNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    node15 && tree.dfs(node => (subTreeSum += node.key), 'PRE', node15);
+    if (node15) tree.dfs(node => (subTreeSum += node.key), 'PRE', node15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
@@ -132,7 +132,7 @@ describe('AVL Tree Test recursively', () => {
     expect(getMinNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    node15 && tree.dfs(node => (subTreeSum += node.key), 'PRE', node15);
+    if (node15) tree.dfs(node => (subTreeSum += node.key), 'PRE', node15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;

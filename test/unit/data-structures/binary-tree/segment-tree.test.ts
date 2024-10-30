@@ -1,50 +1,104 @@
-import { SegmentTree } from '../../../../src';
+import { SegmentTree, SegmentTreeNode } from '../../../../src';
+
+describe('SegmentTreeNode', () => {
+  it('should initialize with correct start, end, sum, and optional value', () => {
+    const node = new SegmentTreeNode(0, 1, 10, 2);
+    expect(node.start).toBe(0);
+    expect(node.end).toBe(1);
+    expect(node.sum).toBe(10);
+    expect(node.value).toBe(2);
+  });
+
+  it('should allow setting start, end, sum, value, left, and right', () => {
+    const node = new SegmentTreeNode(0, 1, 10);
+    node.start = 2;
+    node.end = 3;
+    node.sum = 15;
+    node.value = 2;
+
+    const leftNode = new SegmentTreeNode(0, 1, 5);
+    const rightNode = new SegmentTreeNode(2, 3, 10);
+
+    node.left = leftNode;
+    node.right = rightNode;
+
+    expect(node.start).toBe(2);
+    expect(node.end).toBe(3);
+    expect(node.sum).toBe(15);
+    expect(node.value).toBe(2);
+    expect(node.left).toBe(leftNode);
+    expect(node.right).toBe(rightNode);
+  });
+});
 
 describe('SegmentTree', () => {
-  let segmentTree: SegmentTree;
+  it('should initialize with correct values, start, end, and root', () => {
+    const values = [1, 2, 3, 4];
+    const tree = new SegmentTree(values);
 
-  beforeEach(() => {
-    // Create an example SegmentTree for testing
-    const values = [1, 2, 3, 4, 5];
-    segmentTree = new SegmentTree(values);
+    expect(tree.values).toEqual(values);
+    expect(tree.start).toBe(0);
+    expect(tree.end).toBe(3);
+    expect(tree.root).toBeDefined();
   });
 
-  it('should build a valid segment tree', () => {
-    // Check if the root node's sum is correct
-    expect(segmentTree.root?.sum).toBe(15);
+  it('should correctly build segment tree with sum of values', () => {
+    const values = [1, 2, 3, 4];
+    const tree = new SegmentTree(values);
+
+    expect(tree.root?.sum).toBe(10); // 1 + 2 + 3 + 4
   });
 
-  it('should update a node in the segment tree', () => {
-    // Update a node value
-    segmentTree.updateNode(2, 10);
-
-    // Check if the sum of the root node is correct after the update
-    expect(segmentTree.root?.sum).toBe(22);
+  it('should handle empty values array gracefully', () => {
+    const tree = new SegmentTree([]);
+    expect(tree.values).toEqual([]);
+    expect(tree.root).toBeUndefined();
   });
 
-  it('should query sum by range correctly', () => {
-    // Check if the sum within a specific range is correct
-    expect(segmentTree.querySumByRange(1, 3)).toBe(9); // 2 + 3 + 4 = 9
+  describe('updateNode', () => {
+    it('should update node value and sum correctly', () => {
+      const values = [1, 2, 3, 4];
+      const tree = new SegmentTree(values);
+      tree.updateNode(1, 5, 2);
+
+      expect(tree.root?.sum).toBe(13); // 1 + 5 + 3 + 4
+      expect(tree.root?.left?.right?.sum).toBe(5);
+      expect(tree.root?.left?.right?.value).toBe(2);
+    });
+
+    it('should do nothing if root is undefined', () => {
+      const tree = new SegmentTree([]);
+      tree.updateNode(0, 10);
+      expect(tree.root).toBeUndefined();
+    });
   });
 
-  it('should handle edge cases for querySumByRange', () => {
-    // Check behavior when the range goes beyond boundaries
-    expect(segmentTree.querySumByRange(0, 4)).toBe(15); // Valid range, should return sum of the specified range
-    expect(segmentTree.querySumByRange(3, 2)).toBe(NaN); // End index is less than start index, should return NaN
-    expect(segmentTree.querySumByRange(0, 10)).toBe(NaN); // Beyond upper bound, should return NaN
-  });
+  describe('querySumByRange', () => {
+    it('should return sum for a given range', () => {
+      const values = [1, 2, 3, 4, 5];
+      const tree = new SegmentTree(values);
+      const result = tree.querySumByRange(1, 3); // 2 + 3 + 4 = 9
+      expect(result).toBe(9);
+    });
 
-  it('should handle an empty input array', () => {
-    // Check behavior when dealing with an empty input array
-    const emptySegmentTree = new SegmentTree([]);
-    expect(emptySegmentTree.root).toBe(undefined);
-    expect(emptySegmentTree.querySumByRange(0, 2)).toBe(0); // Sum of an empty array should be 0
-  });
+    it('should return NaN for an invalid range', () => {
+      const values = [1, 2, 3, 4, 5];
+      const tree = new SegmentTree(values);
+      const result = tree.querySumByRange(3, 1); // Invalid range
+      expect(result).toBeNaN();
+    });
 
-  it('should handle a single-element input array', () => {
-    // Check behavior when the input array contains a single element
-    const singleElementSegmentTree = new SegmentTree([42]);
-    expect(singleElementSegmentTree.root?.sum).toBe(42);
-    expect(singleElementSegmentTree.querySumByRange(0, 0)).toBe(42); // Range covering the only element should return that element's value
+    it('should return 0 if root is undefined', () => {
+      const tree = new SegmentTree([]);
+      const result = tree.querySumByRange(0, 1);
+      expect(result).toBe(0);
+    });
+
+    it('should return NaN if range is out of bounds', () => {
+      const values = [1, 2, 3, 4];
+      const tree = new SegmentTree(values);
+      const result = tree.querySumByRange(-1, 10);
+      expect(result).toBeNaN();
+    });
   });
 });

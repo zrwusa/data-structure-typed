@@ -45,7 +45,7 @@ class MyGraph<
   }
 
   degreeOf(vertexOrKey: VO | VertexKey): number {
-    return 1 ?? Number(vertexOrKey);
+    return Number(vertexOrKey);
   }
 
   edgeSet(): EO[] {

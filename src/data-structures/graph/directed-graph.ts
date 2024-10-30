@@ -260,8 +260,8 @@ export class DirectedGraph<
       const v1ToV2 = this.deleteEdgeSrcToDest(v1, v2);
       const v2ToV1 = this.deleteEdgeSrcToDest(v2, v1);
 
-      v1ToV2 && removed.push(v1ToV2);
-      v2ToV1 && removed.push(v2ToV1);
+      if (v1ToV2) removed.push(v1ToV2);
+      if (v2ToV1) removed.push(v2ToV1);
     }
 
     return removed;
