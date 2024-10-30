@@ -1,6 +1,6 @@
 {
   "name": "data-structure-typed",
-  "version": "1.52.6",
+  "version": "1.52.7",
   "description": "Javascript Data Structure. Heap, Binary Tree, Red Black Tree, Linked List, Deque, Trie, HashMap, Directed Graph, Undirected Graph, Binary Search Tree(BST), AVL Tree, Priority Queue, Graph, Queue, Tree Multiset, Singly Linked List, Doubly Linked List, Max Heap, Max Priority Queue, Min Heap, Min Priority Queue, Stack. Benchmark compared with C++ STL. API aligned with ES6 and Java.util. Usability is comparable to Python",
   "main": "dist/cjs/index.js",
   "module": "dist/mjs/index.js",
@@ -13,7 +13,6 @@
     }
   },
   "scripts": {
-    "install:all-packages": "npm install @swc/core @types/benchmark @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser auto-changelog avl-tree-typed benchmark binary-tree-typed bst-typed data-structure-typed dependency-cruiser doctoc eslint eslint-config-prettier eslint-import-resolver-alias eslint-import-resolver-typescript eslint-plugin-import fast-glob heap-typed istanbul-badges-readme jest js-sdsl prettier ts-jest ts-loader ts-node tsup typedoc typescript --save-dev",
     "build": "npm run build:mjs && npm run build:cjs && npm run build:umd && npm run build:docs-class",
     "build:mjs": "rm -rf dist/mjs && tsc -p tsconfig-mjs.json",
     "build:cjs": "rm -rf dist/cjs && tsc -p tsconfig-cjs.json",
