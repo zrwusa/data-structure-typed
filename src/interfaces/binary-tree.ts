@@ -4,7 +4,6 @@ import type {
   BinaryTreeNested,
   BinaryTreeNodeNested,
   BinaryTreeOptions,
-  BTNCallback,
   BTNKeyOrNodeOrEntry,
   BTNPredicate
 } from '../types';
