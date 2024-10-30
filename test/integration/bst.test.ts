@@ -23,10 +23,10 @@ describe('Individual package BST operations test', () => {
     const nodeId10 = bst.getNode(10);
     expect(nodeId10?.key).toBe(10);
 
-    const nodeVal9 = bst.getNode(9, node => node.value);
+    const nodeVal9 = bst.getNode(node => node.value === 9);
     expect(nodeVal9?.key).toBe(undefined);
 
-    const nodeVal11 = bst.getNode(11, node => node.value);
+    const nodeVal11 = bst.getNode(node => node.value === 11);
     expect(nodeVal11?.key).toBe(11);
 
     const leftMost = bst.getLeftMost(node => node);
