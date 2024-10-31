@@ -13,7 +13,6 @@ import type {
   BinaryTreeDeleteResult,
   BSTNKeyOrNode,
   BTNKeyOrNodeOrEntry,
-  BTNPredicate,
   BTNEntry
 } from '../../types';
 import { IBinaryTree } from '../../interfaces';

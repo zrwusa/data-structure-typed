@@ -9,7 +9,6 @@ import type {
   BinaryTreeDeleteResult,
   BSTNKeyOrNode,
   BTNKeyOrNodeOrEntry,
-  BTNPredicate,
   IterationType,
   OptBSTN,
   RBTNColor,

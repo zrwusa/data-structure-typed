@@ -14,7 +14,6 @@ import type {
   BTNEntry,
   BTNKeyOrNodeOrEntry,
   BTNPredicate,
-  BTNPureKeyOrNodeOrEntry,
   Comparator,
   CP,
   DFSOrderPattern,
