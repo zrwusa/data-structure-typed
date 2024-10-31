@@ -232,9 +232,9 @@ export class AVLTreeMultiMap<
    *
    * The function overrides the delete method in a binary tree data structure, handling deletion of
    * nodes and maintaining balance in the tree.
-   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R | BTNPredicate<NODE>} predicate - The `predicate`
+   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R} keyOrNodeOrEntryOrRaw - The `predicate`
    * parameter in the `delete` method is used to specify the condition for deleting a node from the
-   * binary tree. It can be a key, node, entry, or a custom predicate function that determines which
+   * binary tree. It can be a key, node, or entry that determines which
    * node(s) should be deleted.
    * @param [ignoreCount=false] - The `ignoreCount` parameter in the `override delete` method is a
    * boolean flag that determines whether to ignore the count of the node being deleted. If
@@ -246,13 +246,13 @@ export class AVLTreeMultiMap<
    * deleted node and whether balancing is needed in the tree.
    */
   override delete(
-    predicate: BTNKeyOrNodeOrEntry<K, V, NODE> | R | BTNPredicate<NODE>,
+    keyOrNodeOrEntryOrRaw: BTNKeyOrNodeOrEntry<K, V, NODE> | R,
     ignoreCount = false
   ): BinaryTreeDeleteResult<NODE>[] {
     const deletedResult: BinaryTreeDeleteResult<NODE>[] = [];
     if (!this.root) return deletedResult;
 
-    const curr: NODE | undefined = this.getNode(predicate) ?? undefined;
+    const curr: NODE | undefined = this.getNode(keyOrNodeOrEntryOrRaw) ?? undefined;
     if (!curr) return deletedResult;
 
     const parent: NODE | undefined = curr?.parent ? curr.parent : undefined;

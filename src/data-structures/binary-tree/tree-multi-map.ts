@@ -232,10 +232,9 @@ export class TreeMultiMap<
    *
    * The function `delete` in TypeScript overrides the deletion operation in a binary tree data
    * structure, handling cases where nodes have children and maintaining balance in the tree.
-   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R | BTNPredicate<NODE>} predicate - The `predicate`
+   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R} keyOrNodeOrEntryOrRaw - The `predicate`
    * parameter in the `delete` method is used to specify the condition or key based on which a node
-   * should be deleted from the binary tree. It can be a key, a node, an entry, or a predicate
-   * function.
+   * should be deleted from the binary tree. It can be a key, a node, or an entry.
    * @param [ignoreCount=false] - The `ignoreCount` parameter in the `override delete` method is a
    * boolean flag that determines whether to ignore the count of nodes when performing deletion. If
    * `ignoreCount` is set to `true`, the method will delete the node regardless of its count. If
@@ -243,16 +242,19 @@ export class TreeMultiMap<
    * @returns The `override delete` method returns an array of `BinaryTreeDeleteResult<NODE>` objects.
    */
   override delete(
-    predicate: BTNKeyOrNodeOrEntry<K, V, NODE> | R | BTNPredicate<NODE>,
+    keyOrNodeOrEntryOrRaw: BTNKeyOrNodeOrEntry<K, V, NODE> | R,
     ignoreCount = false
   ): BinaryTreeDeleteResult<NODE>[] {
-    if (predicate === null) return [];
+    if (keyOrNodeOrEntryOrRaw === null) return [];
 
     const results: BinaryTreeDeleteResult<NODE>[] = [];
 
     let nodeToDelete: OptBSTN<NODE>;
-    if (this._isPredicated(predicate)) nodeToDelete = this.getNode(predicate);
-    else nodeToDelete = this.isRealNode(predicate) ? predicate : this.getNode(predicate);
+    if (this._isPredicated(keyOrNodeOrEntryOrRaw)) nodeToDelete = this.getNode(keyOrNodeOrEntryOrRaw);
+    else
+      nodeToDelete = this.isRealNode(keyOrNodeOrEntryOrRaw)
+        ? keyOrNodeOrEntryOrRaw
+        : this.getNode(keyOrNodeOrEntryOrRaw);
 
     if (!nodeToDelete) {
       return results;

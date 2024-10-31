@@ -230,7 +230,7 @@ export class RedBlackTree<
    *
    * The function overrides the delete method in a binary tree data structure to remove a node based on
    * a given predicate and maintain the binary search tree properties.
-   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R | BTNPredicate<NODE>} predicate - The `predicate`
+   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R} keyOrNodeOrEntryOrRaw - The `keyOrNodeOrEntryOrRaw`
    * parameter in the `override delete` method is used to specify the condition or key based on which a
    * node should be deleted from the binary tree. It can be a key, a node, an entry, or a predicate
    * function that determines which node(s) should be deleted.
@@ -238,13 +238,16 @@ export class RedBlackTree<
    * objects. Each object in the array contains information about the deleted node and whether
    * balancing is needed.
    */
-  override delete(predicate: BTNKeyOrNodeOrEntry<K, V, NODE> | R | BTNPredicate<NODE>): BinaryTreeDeleteResult<NODE>[] {
-    if (predicate === null) return [];
+  override delete(keyOrNodeOrEntryOrRaw: BTNKeyOrNodeOrEntry<K, V, NODE> | R): BinaryTreeDeleteResult<NODE>[] {
+    if (keyOrNodeOrEntryOrRaw === null) return [];
 
     const results: BinaryTreeDeleteResult<NODE>[] = [];
     let nodeToDelete: OptBSTN<NODE>;
-    if (this._isPredicated(predicate)) nodeToDelete = this.getNode(predicate);
-    else nodeToDelete = this.isRealNode(predicate) ? predicate : this.getNode(predicate);
+    if (this._isPredicated(keyOrNodeOrEntryOrRaw)) nodeToDelete = this.getNode(keyOrNodeOrEntryOrRaw);
+    else
+      nodeToDelete = this.isRealNode(keyOrNodeOrEntryOrRaw)
+        ? keyOrNodeOrEntryOrRaw
+        : this.getNode(keyOrNodeOrEntryOrRaw);
 
     if (!nodeToDelete) {
       return results;

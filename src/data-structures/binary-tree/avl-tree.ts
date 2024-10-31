@@ -160,15 +160,15 @@ export class AVLTree<
    *
    * The function overrides the delete method in a TypeScript class, performs deletion, and then
    * balances the tree if necessary.
-   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R | BTNPredicate<NODE>} predicate - The `predicate`
+   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R} keyOrNodeOrEntryOrRaw - The `keyOrNodeOrEntryOrRaw`
    * parameter in the `override delete` method can be one of the following types:
    * @returns The `delete` method is being overridden in this code snippet. It first calls the `delete`
    * method from the superclass (presumably a parent class) with the provided `predicate`, which could
    * be a key, node, entry, or a custom predicate. The result of this deletion operation is stored in
    * `deletedResults`, which is an array of `BinaryTreeDeleteResult` objects.
    */
-  override delete(predicate: BTNKeyOrNodeOrEntry<K, V, NODE> | R | BTNPredicate<NODE>): BinaryTreeDeleteResult<NODE>[] {
-    const deletedResults = super.delete(predicate);
+  override delete(keyOrNodeOrEntryOrRaw: BTNKeyOrNodeOrEntry<K, V, NODE> | R): BinaryTreeDeleteResult<NODE>[] {
+    const deletedResults = super.delete(keyOrNodeOrEntryOrRaw);
     for (const { needBalanced } of deletedResults) {
       if (needBalanced) {
         this._balancePath(needBalanced);
