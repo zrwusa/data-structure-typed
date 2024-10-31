@@ -515,7 +515,7 @@ export class BinaryTree<
    *
    * The function `delete` in TypeScript implements the deletion of a node in a binary tree and returns
    * the deleted node along with information for tree balancing.
-   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R | BTNPredicate<NODE>} keyOrNodeOrEntryOrRawOrPredicate
+   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R} keyOrNodeOrEntryOrRawOr
    * - The `delete` method you provided is used to delete a node from a binary tree based on the key,
    * node, entry, raw data, or a custom predicate. The method returns an array of
    * `BinaryTreeDeleteResult` objects containing information about the deleted node and whether
@@ -525,12 +525,12 @@ export class BinaryTree<
    * need to be balanced (`needBalanced`).
    */
   delete(
-    keyOrNodeOrEntryOrRawOrPredicate: BTNKeyOrNodeOrEntry<K, V, NODE> | R | BTNPredicate<NODE>
+    keyOrNodeOrEntryOrRawOr: BTNKeyOrNodeOrEntry<K, V, NODE> | R
   ): BinaryTreeDeleteResult<NODE>[] {
     const deletedResult: BinaryTreeDeleteResult<NODE>[] = [];
     if (!this._root) return deletedResult;
 
-    const curr = this.getNode(keyOrNodeOrEntryOrRawOrPredicate);
+    const curr = this.getNode(keyOrNodeOrEntryOrRawOr);
     if (!curr) return deletedResult;
 
     const parent: NODE | undefined = curr?.parent;
