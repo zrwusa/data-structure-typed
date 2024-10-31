@@ -105,6 +105,27 @@ describe('BinaryTree addMany', () => {
     expect(tree.getNodeByKey(4)?.value).toBe(44);
     expect(tree.getNodeByKey(1)?.value).toBe(1);
   });
+
+  it('should addMany undefined and null', () => {
+    const binaryTree = new BinaryTree<number, string>();
+    const addManyWithUndefined = binaryTree.addMany([1, undefined, 3]);
+    expect(addManyWithUndefined).toEqual([true, false, true]);
+    expect(binaryTree.get(undefined)).toBe(undefined);
+    const addManyWithNull = binaryTree.addMany([1, null, 3, 4]);
+    expect(addManyWithNull).toEqual([true, true, true, true]);
+    const addManyEntriesWithNull = binaryTree.addMany([
+      [1, '1'],
+      [null, 'null'],
+      [3, '3'],
+      [4, '4']
+    ]);
+    expect(addManyEntriesWithNull).toEqual([true, true, true, true]);
+    expect(binaryTree.get(null)).toBe(undefined);
+    expect(binaryTree.getNode(null)).toBe(null);
+    const node0 = binaryTree.add(0, '0');
+    expect(node0).toBe(true);
+    expect(binaryTree.get(0)).toBe('0');
+  });
 });
 
 describe('BinaryTree', () => {

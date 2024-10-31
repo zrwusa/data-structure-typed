@@ -310,28 +310,26 @@ export class BST<
     if (!isBalanceAdd) {
       for (const kve of keysOrNodesOrEntriesOrRaws) {
         const value = valuesIterator?.next().value;
-        const nn = this.add(kve, value);
-        inserted.push(nn);
+        inserted.push(this.add(kve, value));
       }
       return inserted;
     }
 
-    const realBTNExemplars: (R | BTNPureKeyOrNodeOrEntry<K, V, NODE>)[] = [];
+    const realBTNExemplars: {
+      key: R | BTNKeyOrNodeOrEntry<K, V, NODE>;
+      value: V | undefined;
+      orgIndex: number;
+    }[] = [];
 
-    const isRealBTNExemplar = (
-      kve: BTNKeyOrNodeOrEntry<K, V, NODE> | R
-    ): kve is BTNPureKeyOrNodeOrEntry<K, V, NODE> => {
-      if (kve === undefined || kve === null) return false;
-      return !(this.isEntry(kve) && (kve[0] === undefined || kve[0] === null));
-    };
-
+    let i = 0;
     for (const kve of keysOrNodesOrEntriesOrRaws) {
-      if (isRealBTNExemplar(kve)) realBTNExemplars.push(kve);
+      realBTNExemplars.push({ key: kve, value: valuesIterator?.next().value, orgIndex: i });
+      i++;
     }
 
-    let sorted: (R | BTNPureKeyOrNodeOrEntry<K, V, NODE>)[] = [];
+    let sorted: { key: R | BTNKeyOrNodeOrEntry<K, V, NODE>; value: V | undefined; orgIndex: number }[] = [];
 
-    sorted = realBTNExemplars.sort((a, b) => {
+    sorted = realBTNExemplars.sort(({ key: a }, { key: b }) => {
       let keyA: K | undefined | null, keyB: K | undefined | null;
       if (this.isEntry(a)) keyA = a[0];
       else if (this.isRealNode(a)) keyA = a.key;
@@ -355,12 +353,12 @@ export class BST<
       return 0;
     });
 
-    const _dfs = (arr: (R | BTNPureKeyOrNodeOrEntry<K, V, NODE>)[]) => {
+    const _dfs = (arr: { key: R | BTNKeyOrNodeOrEntry<K, V, NODE>; value: V | undefined; orgIndex: number }[]) => {
       if (arr.length === 0) return;
 
       const mid = Math.floor((arr.length - 1) / 2);
-      const newNode = this.add(arr[mid]);
-      inserted.push(newNode);
+      const { key, value, orgIndex } = arr[mid];
+      inserted[orgIndex] = this.add(key, value);
       _dfs(arr.slice(0, mid));
       _dfs(arr.slice(mid + 1));
     };
@@ -374,8 +372,8 @@ export class BST<
           const [l, r] = popped;
           if (l <= r) {
             const m = l + Math.floor((r - l) / 2);
-            const newNode = this.add(sorted[m]);
-            inserted.push(newNode);
+            const { key, value, orgIndex } = sorted[m];
+            inserted[orgIndex] = this.add(key, value);
             stack.push([m + 1, r]);
             stack.push([l, m - 1]);
           }

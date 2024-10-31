@@ -1681,20 +1681,14 @@ export class BinaryTree<
     beginRoot: BTNKeyOrNodeOrEntry<K, V, NODE> | R = this._root,
     options?: BinaryTreePrintOptions
   ): string {
-    const opts = { isShowUndefined: false, isShowNull: false, isShowRedBlackNIL: false, ...options };
+    const opts = { isShowUndefined: false, isShowNull: true, isShowRedBlackNIL: false, ...options };
     beginRoot = this.ensureNode(beginRoot);
     let output = '';
     if (!beginRoot) return output;
 
-    if (opts.isShowUndefined)
-      output += `U for undefined
-      `;
-    if (opts.isShowNull)
-      output += `N for null
-      `;
-    if (opts.isShowRedBlackNIL)
-      output += `S for Sentinel Node(NIL)
-      `;
+    if (opts.isShowUndefined) output += `U for undefined\n`;
+    if (opts.isShowNull) output += `N for null\n`;
+    if (opts.isShowRedBlackNIL) output += `S for Sentinel Node(NIL)\n`;
 
     const display = (root: OptBTNOrNull<NODE>): void => {
       const [lines, , ,] = this._displayAux(root, opts);
@@ -1707,6 +1701,10 @@ export class BinaryTree<
 
     display(beginRoot);
     return output;
+  }
+
+  override print(options?: BinaryTreePrintOptions, beginRoot: BTNKeyOrNodeOrEntry<K, V, NODE> | R = this._root) {
+    console.log(this.toVisual(beginRoot, options));
   }
 
   protected _dfs<C extends BTNCallback<NODE>>(

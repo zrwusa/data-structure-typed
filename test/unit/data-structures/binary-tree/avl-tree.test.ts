@@ -292,6 +292,26 @@ describe('AVLTree', () => {
     // You can add more specific assertions to check the tree's balance and structure.
   });
 
+  it('should addMany undefined and null', () => {
+    const avl = new AVLTree<number, string>();
+    const addManyWithUndefined = avl.addMany([1, undefined, 3]);
+    expect(addManyWithUndefined).toEqual([true, false, true]);
+    expect(avl.get(undefined)).toBe(undefined);
+    const addManyWithNull = avl.addMany([1, null, 3, 4]);
+    expect(addManyWithNull).toEqual([true, false, true, true]);
+    const addManyEntriesWithNull = avl.addMany([
+      [1, '1'],
+      [null, 'null'],
+      [3, '3'],
+      [4, '4']
+    ]);
+    expect(addManyEntriesWithNull).toEqual([true, false, true, true]);
+    expect(avl.get(null)).toBe(undefined);
+    const node0 = avl.add(0, '0');
+    expect(node0).toBe(true);
+    expect(avl.get(0)).toBe('0');
+  });
+
   it('should balance the tree using _balanceLR when nodes are deleted', () => {
     const avlTree = new AVLTree();
     avlTree.add([10, 'A']);

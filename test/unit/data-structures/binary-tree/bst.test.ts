@@ -16,22 +16,27 @@ describe('BST operations test', () => {
     expect(isAdd0).toBe(true);
     expect(bst.get(0)).toBe('0');
   });
+
   it('should addMany undefined and null', () => {
     const bst = new BST<number, string>();
     const addManyWithUndefined = bst.addMany([1, undefined, 3]);
-    // TODO
-    // expect(addManyWithUndefined).toEqual([true, false, true]);
-    expect(addManyWithUndefined).toEqual([true, true]);
+    expect(addManyWithUndefined).toEqual([true, false, true]);
     expect(bst.get(undefined)).toBe(undefined);
     const addManyWithNull = bst.addMany([1, null, 3, 4]);
-    // TODO
-    // expect(addManyWithNull).toEqual([false, false, false, true]);
-    expect(addManyWithNull).toEqual([true, true, true]);
+    expect(addManyWithNull).toEqual([true, false, true, true]);
+    const addManyEntriesWithNull = bst.addMany([
+      [1, '1'],
+      [null, 'null'],
+      [3, '3'],
+      [4, '4']
+    ]);
+    expect(addManyEntriesWithNull).toEqual([true, false, true, true]);
     expect(bst.get(null)).toBe(undefined);
     const node0 = bst.add(0, '0');
     expect(node0).toBe(true);
     expect(bst.get(0)).toBe('0');
   });
+
   it('should perform various operations on a Binary Search Tree with numeric values', () => {
     const bst = new BST<number, number>();
     expect(bst).toBeInstanceOf(BST);
