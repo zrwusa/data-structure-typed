@@ -319,27 +319,26 @@ describe('BinaryTree', () => {
   it('should isSubtreeBST', () => {
     expect(tree.toVisual()).toBe('');
     tree.addMany([4, 2, 6, 1, 3, 5, 7, 4]);
-    expect(tree.toVisual()).toBe(
+    expect(tree.toVisual()).toBe('N for null\n' +
       '    ___4___    \n' +
-        '   /       \\   \n' +
-        '  _2_     _6_  \n' +
-        ' /   \\   /   \\ \n' +
-        ' 1   3   5   7 \n' +
-        '               \n'
-    );
+      '   /       \\   \n' +
+      '  _2_     _6_  \n' +
+      ' /   \\   /   \\ \n' +
+      ' 1   3   5   7 \n' +
+      '               \n');
     const visualized = tree.toVisual(undefined, { isShowUndefined: true, isShowNull: true, isShowRedBlackNIL: true });
     expect(visualized).toBe(
       'U for undefined\n' +
-        '      N for null\n' +
-        '      S for Sentinel Node(NIL)\n' +
-        '              _______4_______        \n' +
-        '       /               \\       \n' +
-        '    ___2___         ___6___    \n' +
-        '   /       \\       /       \\   \n' +
-        '  _1_     _3_     _5_     _7_  \n' +
-        ' /   \\   /   \\   /   \\   /   \\ \n' +
-        ' U   U   U   U   U   U   U   U \n' +
-        '                               \n'
+      'N for null\n' +
+      'S for Sentinel Node(NIL)\n' +
+      '        _______4_______        \n' +
+      '       /               \\       \n' +
+      '    ___2___         ___6___    \n' +
+      '   /       \\       /       \\   \n' +
+      '  _1_     _3_     _5_     _7_  \n' +
+      ' /   \\   /   \\   /   \\   /   \\ \n' +
+      ' U   U   U   U   U   U   U   U \n' +
+      '                               \n'
     );
 
     expect(tree.isBST(tree.getNode(4), 'RECURSIVE')).toBe(true);

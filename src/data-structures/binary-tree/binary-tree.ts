@@ -1703,24 +1703,24 @@ export class BinaryTree<
     return output;
   }
 
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The function `print` in TypeScript overrides the default print behavior to log a visual
+   * representation of the binary tree to the console.
+   * @param {BinaryTreePrintOptions} [options] - The `options` parameter is used to specify the
+   * printing options for the binary tree. It is an optional parameter that allows you to customize how
+   * the binary tree is printed, such as choosing between different traversal orders or formatting
+   * options.
+   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R} beginRoot - The `beginRoot` parameter in the
+   * `override print` method is used to specify the starting point for printing the binary tree. It can
+   * be either a key, a node, an entry, or the root of the tree. If no specific starting point is
+   * provided, the default value is set to
+   */
   override print(options?: BinaryTreePrintOptions, beginRoot: BTNKeyOrNodeOrEntry<K, V, NODE> | R = this._root) {
     console.log(this.toVisual(beginRoot, options));
   }
-
-  protected _dfs<C extends BTNCallback<NODE>>(
-    callback?: C,
-    pattern?: DFSOrderPattern,
-    beginRoot?: BTNKeyOrNodeOrEntry<K, V, NODE> | R,
-    iterationType?: IterationType
-  ): ReturnType<C>[];
-
-  protected _dfs<C extends BTNCallback<NODE | null>>(
-    callback?: C,
-    pattern?: DFSOrderPattern,
-    beginRoot?: BTNKeyOrNodeOrEntry<K, V, NODE> | R,
-    iterationType?: IterationType,
-    includeNull?: boolean
-  ): ReturnType<C>[];
 
   /**
    * Time complexity: O(n)
