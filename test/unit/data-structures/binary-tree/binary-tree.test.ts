@@ -20,6 +20,8 @@ describe('BinaryTreeNode', () => {
 
   it('should set and get the value correctly', () => {
     const node: BinaryTreeNode<number> = new BinaryTreeNode<number>(1, 42);
+    expect(node.key).toBe(1);
+
     expect(node.value).toBe(42);
 
     node.value = 55;
@@ -319,26 +321,28 @@ describe('BinaryTree', () => {
   it('should isSubtreeBST', () => {
     expect(tree.toVisual()).toBe('');
     tree.addMany([4, 2, 6, 1, 3, 5, 7, 4]);
-    expect(tree.toVisual()).toBe('N for null\n' +
-      '    ___4___    \n' +
-      '   /       \\   \n' +
-      '  _2_     _6_  \n' +
-      ' /   \\   /   \\ \n' +
-      ' 1   3   5   7 \n' +
-      '               \n');
+    expect(tree.toVisual()).toBe(
+      'N for null\n' +
+        '    ___4___    \n' +
+        '   /       \\   \n' +
+        '  _2_     _6_  \n' +
+        ' /   \\   /   \\ \n' +
+        ' 1   3   5   7 \n' +
+        '               \n'
+    );
     const visualized = tree.toVisual(undefined, { isShowUndefined: true, isShowNull: true, isShowRedBlackNIL: true });
     expect(visualized).toBe(
       'U for undefined\n' +
-      'N for null\n' +
-      'S for Sentinel Node(NIL)\n' +
-      '        _______4_______        \n' +
-      '       /               \\       \n' +
-      '    ___2___         ___6___    \n' +
-      '   /       \\       /       \\   \n' +
-      '  _1_     _3_     _5_     _7_  \n' +
-      ' /   \\   /   \\   /   \\   /   \\ \n' +
-      ' U   U   U   U   U   U   U   U \n' +
-      '                               \n'
+        'N for null\n' +
+        'S for Sentinel Node(NIL)\n' +
+        '        _______4_______        \n' +
+        '       /               \\       \n' +
+        '    ___2___         ___6___    \n' +
+        '   /       \\       /       \\   \n' +
+        '  _1_     _3_     _5_     _7_  \n' +
+        ' /   \\   /   \\   /   \\   /   \\ \n' +
+        ' U   U   U   U   U   U   U   U \n' +
+        '                               \n'
     );
 
     expect(tree.isBST(tree.getNode(4), 'RECURSIVE')).toBe(true);
@@ -729,34 +733,40 @@ describe('BinaryTree', () => {
     ]);
   });
 
-  it('should keyValueOrEntryOrRawElementToNode', () => {
+  it('should keyValueNodeEntryRawToNodeAndValue', () => {
     const tree = new BinaryTree<number>();
-    const node0 = tree.keyValueOrEntryOrRawElementToNode(0);
-    expect(node0).toEqual({
-      _left: undefined,
-      _right: undefined,
-      key: 0,
-      parent: undefined,
-      value: undefined
-    });
+    const node0 = tree.keyValueNodeEntryRawToNodeAndValue(0);
+    expect(node0).toEqual([
+      {
+        _left: undefined,
+        _right: undefined,
+        key: 0,
+        parent: undefined,
+        value: undefined
+      },
+      undefined
+    ]);
 
-    const nodeUndefined = tree.keyValueOrEntryOrRawElementToNode(undefined);
-    expect(nodeUndefined).toBe(undefined);
+    const nodeUndefined = tree.keyValueNodeEntryRawToNodeAndValue(undefined);
+    expect(nodeUndefined).toEqual([undefined, undefined]);
 
-    const nodeNull = tree.keyValueOrEntryOrRawElementToNode(null);
-    expect(nodeNull).toBe(null);
+    const nodeNull = tree.keyValueNodeEntryRawToNodeAndValue(null);
+    expect(nodeNull).toEqual([null, undefined]);
 
-    const nodeWithSeparateValue = tree.keyValueOrEntryOrRawElementToNode(7, 77);
-    expect(nodeWithSeparateValue?.value).toBe(77);
+    const [, nodeWithSeparateValue] = tree.keyValueNodeEntryRawToNodeAndValue(7, 77);
+    expect(nodeWithSeparateValue).toBe(77);
 
-    expect(tree.keyValueOrEntryOrRawElementToNode([undefined, 2])).toBe(undefined);
+    expect(tree.keyValueNodeEntryRawToNodeAndValue([undefined, 2])).toEqual([undefined, undefined]);
 
-    expect(tree.keyValueOrEntryOrRawElementToNode(Symbol('test') as unknown as number)).toBe(undefined);
+    expect(tree.keyValueNodeEntryRawToNodeAndValue(Symbol('test') as unknown as number)).toEqual([
+      undefined,
+      undefined
+    ]);
 
     const bTree = new BinaryTree<number, number, { obj: { id: number } }>([], {
       toEntryFn: (ele: { obj: { id: number } }) => [Symbol('test') as unknown as number, ele.obj.id]
     });
-    expect(bTree.keyValueOrEntryOrRawElementToNode({ obj: { id: 1 } })).toBe(undefined);
+    expect(bTree.keyValueNodeEntryRawToNodeAndValue({ obj: { id: 1 } })).toEqual([undefined, undefined]);
   });
 });
 
@@ -1150,17 +1160,21 @@ describe('BinaryTree', () => {
     tree.add([2, 'B']);
     tree.add([null, 'null']);
 
-    const nodes = tree.getNodes(node => node.value === 'B');
+    const nodes = tree.isMapMode ? tree.getNodes(node => node.key === 2) : tree.getNodes(node => node.value === 'B');
 
     expect(nodes.length).toBe(1);
     expect(nodes[0].key).toBe(2);
 
-    const nodesRec = tree.getNodes(node => node.value === 'B', false, tree.root, 'RECURSIVE');
+    const nodesRec = tree.isMapMode
+      ? tree.getNodes(node => node.key === 2, false, tree.root, 'RECURSIVE')
+      : tree.getNodes(node => node.value === 'B', false, tree.root, 'RECURSIVE');
 
     expect(nodesRec.length).toBe(1);
     expect(nodesRec[0].key).toBe(2);
 
-    const nodesItr = tree.getNodes(node => node.value === 'B', false, tree.root, 'ITERATIVE');
+    const nodesItr = tree.isMapMode
+      ? tree.getNodes(node => node.key === 2, false, tree.root, 'ITERATIVE')
+      : tree.getNodes(node => node.value === 'B', false, tree.root, 'ITERATIVE');
 
     expect(nodesItr.length).toBe(1);
     expect(nodesItr[0].key).toBe(2);
@@ -1203,6 +1217,98 @@ describe('BinaryTree', () => {
     tree.delete(3);
     expect(tree.root).toBe(undefined);
     expect(tree.getHeight()).toBe(-1);
+  });
+});
+
+describe('BinaryTree map mode', () => {
+  let tree: BinaryTree<number, string>;
+
+  beforeEach(() => {
+    tree = new BinaryTree<number, string>([], {
+      iterationType: 'RECURSIVE',
+      isMapMode: true
+    });
+  });
+
+  afterEach(() => {
+    tree.clear();
+  });
+
+  it('should add and find nodes', () => {
+    tree.add([1, 1]);
+    tree.add(undefined);
+    tree.add([2, 2]);
+    tree.add([3, 3]);
+
+    expect(tree.has(1)).toBe(true);
+    expect(tree.has(2)).toBe(true);
+    expect(tree.has(3)).toBe(true);
+    expect(tree.has(4)).toBe(false);
+    const node4 = tree.getNode(4);
+    expect(tree.has(node4)).toBe(false);
+    expect(tree.has(node => node === node4)).toBe(false);
+    if (tree.isMapMode) expect(tree.has(node => node.key?.toString() === '3')).toBe(true);
+    else expect(tree.has(node => node.value?.toString() === '3')).toBe(true);
+  });
+
+  it('should isSubtreeBST', () => {
+    tree.addMany([
+      new BinaryTreeNode(4),
+      new BinaryTreeNode(2),
+      new BinaryTreeNode(6),
+      new BinaryTreeNode(1),
+      new BinaryTreeNode(3),
+      new BinaryTreeNode(5),
+      new BinaryTreeNode(7),
+      new BinaryTreeNode(4)
+    ]);
+
+    expect(tree.isBST(tree.getNode(4), 'RECURSIVE')).toBe(true);
+    expect(tree.isBST(tree.getNode(4), 'ITERATIVE')).toBe(true);
+  });
+
+  it('should get nodes by key', () => {
+    tree.add([5, 'A']);
+    tree.add([3, 'B']);
+    tree.add([7, 'C']);
+
+    const nodeA = tree.getNode(5);
+    const nodeB = tree.getNode(3);
+
+    expect(nodeA?.key).toBe(5);
+    expect(tree.get(nodeA)).toBe('A');
+    expect(nodeB?.key).toBe(3);
+    expect(tree.get(nodeB)).toBe('B');
+  });
+
+  it('should get nodes by a custom callback', () => {
+    tree.add([5, 'E']);
+    tree.add([4, 'D']);
+    tree.add([3, 'C']);
+    tree.add([7, 'G']);
+    tree.add([null, 'null']);
+    tree.add([1, 'A']);
+    tree.add([6, 'F']);
+    tree.add([null, 'null']);
+    tree.add([2, 'B']);
+    tree.add([null, 'null']);
+
+    const nodes = tree.getNodes(node => node.key === 2);
+
+    expect(nodes.length).toBe(1);
+    expect(nodes[0].key).toBe(2);
+
+    const nodesRec = tree.getNodes(node => node.key === 2, false, tree.root, 'RECURSIVE');
+
+    expect(nodesRec.length).toBe(1);
+    expect(nodesRec[0].key).toBe(2);
+
+    const nodesItr = tree.getNodes(node => node.key === 2, false, tree.root, 'ITERATIVE');
+
+    expect(nodesItr.length).toBe(1);
+    expect(nodesItr[0].key).toBe(2);
+
+    expect(nodesItr).toEqual(nodesRec);
   });
 });
 
@@ -1273,7 +1379,8 @@ describe('BinaryTree iterative methods test', () => {
   it('should clone work well', () => {
     const cloned = binaryTree.clone();
     expect(cloned.root?.left?.key).toBe(2);
-    expect(cloned.root?.right?.value).toBe('c');
+    if (cloned.isMapMode) expect(cloned.get(cloned.root?.right)).toBe('c');
+    else expect(cloned.root?.right?.value).toBe('c');
   });
 
   it('should keys', () => {
@@ -1313,5 +1420,21 @@ describe('BinaryTree iterative methods test', () => {
       undefined,
       undefined
     ]);
+  });
+});
+
+describe('BinaryTree map mode iterative methods test', () => {
+  let binaryTree: BinaryTree<number, string>;
+  beforeEach(() => {
+    binaryTree = new BinaryTree<number, string>([], { isMapMode: true });
+    binaryTree.add([1, 'a']);
+    binaryTree.add(2, 'b');
+    binaryTree.add([3, 'c']);
+  });
+
+  it('should clone work well', () => {
+    const cloned = binaryTree.clone();
+    expect(cloned.root?.left?.key).toBe(2);
+    expect(cloned.get(cloned.root?.right)).toBe('c');
   });
 });

@@ -1,5 +1,5 @@
 import { BinaryTreeNode, BST, BSTNode } from '../../../../src';
-import { isDebugTest, SYSTEM_MAX_CALL_STACK, isTestStackOverflow } from '../../../config';
+import { isDebugTest, isTestStackOverflow, SYSTEM_MAX_CALL_STACK } from '../../../config';
 
 const isDebug = isDebugTest;
 
@@ -450,22 +450,25 @@ describe('BST operations test', () => {
     expect(bfsNodes[2].key).toBe(16);
   });
 
-  it('should keyValueOrEntryOrRawElementToNode', () => {
+  it('should keyValueNodeEntryRawToNodeAndValue', () => {
     const bst = new BST<number>();
-    const node0 = bst.keyValueOrEntryOrRawElementToNode(0);
-    expect(node0).toEqual({
-      _left: undefined,
-      _right: undefined,
-      key: 0,
-      parent: undefined,
-      value: undefined
-    });
+    const node0 = bst.keyValueNodeEntryRawToNodeAndValue(0);
+    expect(node0).toEqual([
+      {
+        _left: undefined,
+        _right: undefined,
+        key: 0,
+        parent: undefined,
+        value: undefined
+      },
+      undefined
+    ]);
 
-    const nodeUndefined = bst.keyValueOrEntryOrRawElementToNode(undefined);
-    expect(nodeUndefined).toBe(undefined);
+    const nodeUndefined = bst.keyValueNodeEntryRawToNodeAndValue(undefined);
+    expect(nodeUndefined).toEqual([undefined, undefined]);
 
-    const nodeNull = bst.keyValueOrEntryOrRawElementToNode(null);
-    expect(nodeNull).toBe(undefined);
+    const nodeNull = bst.keyValueNodeEntryRawToNodeAndValue(null);
+    expect(nodeNull).toEqual([undefined, undefined]);
   });
 });
 
@@ -496,7 +499,7 @@ describe('BST operations test recursively', () => {
     expect(nodeId10?.key).toBe(10);
 
     const nodeVal9 = bst.getNode(node => node.value === 9);
-    expect(nodeVal9?.key).toBe(undefined);
+    expect(bst.get(nodeVal9?.key)).toBe(undefined);
 
     const leftMost = bst.getLeftMost();
     expect(leftMost).toBe(1);
@@ -1208,5 +1211,302 @@ describe('BST iterative methods test', () => {
 
     expect(balanced.leaves()).toEqual([1, 6, 4, 9]);
     expect(balanced.leaves(node => node?.value)).toEqual(['a', 'f', 'd', 'i']);
+  });
+});
+
+describe('BST operations map mode test', () => {
+  it('should perform various operations on a Binary Search Tree with numeric values', () => {
+    const bst = new BST<number, number>([], { isMapMode: true });
+    expect(bst).toBeInstanceOf(BST);
+    bst.add([11, 11]);
+    bst.add([3, 3]);
+    const idsAndValues: [number, number][] = [
+      [15, 15],
+      [1, 1],
+      [8, 8],
+      [13, 13],
+      [16, 16],
+      [2, 2],
+      [6, 6],
+      [9, 9],
+      [12, 12],
+      [14, 14],
+      [4, 4],
+      [7, 7],
+      [10, 10],
+      [5, 5]
+    ];
+    bst.addMany(idsAndValues, undefined, false);
+    expect(bst.root).toBeInstanceOf(BSTNode);
+
+    if (bst.root) expect(bst.root.key).toBe(11);
+
+    expect(bst.size).toBe(16);
+
+    expect(bst.has(6)).toBe(true);
+
+    const node6 = bst.getNode(6);
+    expect(node6 && bst.getHeight(6)).toBe(2);
+    expect(node6 && bst.getDepth(6)).toBe(3);
+
+    const nodeId10 = bst.getNode(10);
+    expect(nodeId10?.key).toBe(10);
+
+    const nodeVal9 = bst.getNode(node => node.key === 9);
+    expect(nodeVal9?.key).toBe(9);
+
+    const leftMost = bst.getLeftMost();
+    expect(leftMost).toBe(1);
+
+    expect(bst.isBST()).toBe(true);
+
+    const node15 = bst.getNode(15);
+    const minNodeBySpecificNode = node15 && bst.getLeftMost(node => node, node15);
+    expect(minNodeBySpecificNode?.key).toBe(12);
+
+    const nodes = bst.getNodes(node => node.key === 15);
+    expect(nodes.map(node => node.key)).toEqual([15]);
+  });
+
+  it('should perform various operations on a Binary Search Tree with object values', () => {
+    const objBST = new BST<number, { name: string; age: number }>([], { isMapMode: true });
+    expect(objBST).toBeInstanceOf(BST);
+    objBST.add([11, { name: '11', age: 11 }]);
+    objBST.add([3, { name: '3', age: 3 }]);
+
+    objBST.addMany(
+      [15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5],
+      [
+        { name: 'Alice', age: 15 },
+        { name: 'Bob', age: 1 },
+        { name: 'Charlie', age: 8 },
+        { name: 'David', age: 13 },
+        { name: 'Emma', age: 16 },
+        { name: 'Frank', age: 2 },
+        { name: 'Grace', age: 6 },
+        { name: 'Hannah', age: 9 },
+        { name: 'Isaac', age: 12 },
+        { name: 'Jack', age: 14 },
+        { name: 'Katie', age: 4 },
+        { name: 'Liam', age: 7 },
+        { name: 'Mia', age: 10 },
+        { name: 'Noah', age: 5 }
+      ],
+      false
+    );
+
+    expect(objBST.root).toBeInstanceOf(BSTNode);
+
+    if (objBST.root) expect(objBST.root.key).toBe(11);
+
+    expect(objBST.has(6)).toBe(true);
+
+    const node6 = objBST.getNode(6);
+    expect(node6 && objBST.getHeight(node6)).toBe(2);
+    expect(node6 && objBST.getDepth(node6)).toBe(3);
+
+    const nodeId10 = objBST.getNode(10);
+    expect(nodeId10?.key).toBe(10);
+
+    const nodeVal9 = objBST.getNode(9);
+    expect(nodeVal9?.key).toBe(9);
+
+    const leftMost = objBST.getLeftMost();
+    expect(leftMost).toBe(1);
+
+    const node15 = objBST.getNode(15);
+    expect(objBST.get(node15)).toEqual({
+      name: 'Alice',
+      age: 15
+    });
+  });
+
+  it('should keyValueNodeEntryRawToNodeAndValue', () => {
+    const bst = new BST<number>([], { isMapMode: true });
+    const node0 = bst.keyValueNodeEntryRawToNodeAndValue(0);
+    expect(node0).toEqual([
+      {
+        _left: undefined,
+        _right: undefined,
+        key: 0,
+        parent: undefined,
+        value: undefined
+      },
+      undefined
+    ]);
+
+    const nodeUndefined = bst.keyValueNodeEntryRawToNodeAndValue(undefined);
+    expect(nodeUndefined).toEqual([undefined, undefined]);
+
+    const nodeNull = bst.keyValueNodeEntryRawToNodeAndValue(null);
+    expect(nodeNull).toEqual([undefined, undefined]);
+  });
+});
+
+describe('BST operations map mode test recursively', () => {
+  it('should perform various operations on a Binary Search Tree with numeric values', () => {
+    const bst = new BST<number>([], {
+      iterationType: 'RECURSIVE',
+      isMapMode: true
+    });
+    expect(bst).toBeInstanceOf(BST);
+    bst.add([11, 11]);
+    bst.add([3, 3]);
+    const idsAndValues = [15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
+    bst.addMany(idsAndValues, undefined, false);
+    expect(bst.root).toBeInstanceOf(BSTNode);
+
+    if (bst.root) expect(bst.root.key).toBe(11);
+
+    expect(bst.size).toBe(16);
+
+    expect(bst.has(6)).toBe(true);
+
+    const node6 = bst.getNode(6);
+    expect(node6 && bst.getHeight(6)).toBe(2);
+    expect(node6 && bst.getDepth(6)).toBe(3);
+
+    const nodeId10 = bst.getNode(10);
+    expect(bst.get(10)).toBe(undefined);
+    expect(nodeId10?.key).toBe(10);
+
+    const nodeVal9 = bst.getNode(node => node.key === 9);
+    expect(bst.get(nodeVal9?.key)).toBe(undefined);
+  });
+
+  it('should perform various operations on a Binary Search Tree with object values', () => {
+    const objBST = new BST<number, { key: number; keyA: number }>([], { isMapMode: true });
+    expect(objBST).toBeInstanceOf(BST);
+    objBST.add([11, { key: 11, keyA: 11 }]);
+    objBST.add([3, { key: 3, keyA: 3 }]);
+    const entries: [number, { key: number; keyA: number }][] = [
+      [15, { key: 15, keyA: 15 }],
+      [1, { key: 1, keyA: 1 }],
+      [8, { key: 8, keyA: 8 }],
+      [13, { key: 13, keyA: 13 }],
+      [16, { key: 16, keyA: 16 }],
+      [2, { key: 2, keyA: 2 }],
+      [6, { key: 6, keyA: 6 }],
+      [9, { key: 9, keyA: 9 }],
+      [12, { key: 12, keyA: 12 }],
+      [14, { key: 14, keyA: 14 }],
+      [4, { key: 4, keyA: 4 }],
+      [7, { key: 7, keyA: 7 }],
+      [10, { key: 10, keyA: 10 }],
+      [5, { key: 5, keyA: 5 }]
+    ];
+
+    objBST.addMany(entries, undefined, false);
+
+    expect(objBST.root).toBeInstanceOf(BSTNode);
+
+    if (objBST.root) expect(objBST.root.key).toBe(11);
+
+    expect(objBST.has(6)).toBe(true);
+
+    const node6 = objBST.getNode(6);
+    expect(objBST.get(6)).toEqual({
+      key: 6,
+      keyA: 6
+    });
+    expect(node6 && objBST.getHeight(node6)).toBe(2);
+    expect(node6 && objBST.getDepth(node6)).toBe(3);
+
+    const nodeId10 = objBST.getNode(10);
+    expect(nodeId10?.key).toBe(10);
+
+    const nodeVal9 = objBST.getNode(9);
+    expect(nodeVal9?.key).toBe(9);
+
+    const leftMost = objBST.getLeftMost();
+    expect(leftMost).toBe(1);
+
+    const node15 = objBST.getNode(15);
+    expect(objBST.get(node15)).toEqual({
+      key: 15,
+      keyA: 15
+    });
+  });
+});
+
+describe('BST iterative methods map mode test', () => {
+  let bst: BST<number, string>;
+  beforeEach(() => {
+    bst = new BST();
+    bst.addMany(
+      [
+        [1, 'a'],
+        [2, 'b'],
+        [3, 'c']
+      ],
+      [],
+      false
+    );
+  });
+
+  it('should clone work well', () => {
+    const cloned = bst.clone();
+    expect(cloned.root?.left).toBe(undefined);
+    expect(cloned.get(cloned.root?.right)).toBe('b');
+  });
+
+  it('should collapsed, unbalanced, balanced bst leaves', () => {
+    const collapsedToLinkedList = new BST();
+    collapsedToLinkedList.addMany(
+      [
+        [1, 'a'],
+        [2, 'b'],
+        [3, 'c'],
+        [4, 'd'],
+        [5, 'e'],
+        [6, 'f'],
+        [7, 'g'],
+        [8, 'h'],
+        [9, 'i']
+      ],
+      [],
+      false
+    );
+
+    expect(collapsedToLinkedList.leaves()).toEqual([9]);
+
+    const unbalanced = new BST();
+    unbalanced.addMany(
+      [
+        [2, 'b'],
+        [1, 'a'],
+        [3, 'c'],
+        [4, 'd'],
+        [5, 'e'],
+        [6, 'f'],
+        [7, 'g'],
+        [8, 'h'],
+        [9, 'i']
+      ],
+      [],
+      false
+    );
+
+    expect(unbalanced.leaves()).toEqual([1, 9]);
+
+    const balanced = new BST();
+    balanced.addMany(
+      [
+        [2, 'b'],
+        [1, 'a'],
+        [3, 'c'],
+        [4, 'd'],
+        [5, 'e'],
+        [6, 'f'],
+        [7, 'g'],
+        [8, 'h'],
+        [9, 'i']
+      ],
+      [],
+      true
+    );
+
+    expect(balanced.leaves()).toEqual([1, 6, 4, 9]);
+    expect(balanced.leaves(node => balanced.get(node?.key))).toEqual(['a', 'f', 'd', 'i']);
   });
 });

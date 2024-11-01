@@ -7,15 +7,14 @@
  */
 import type {
   BinaryTreeDeleteResult,
-  BSTNKeyOrNode,
-  BTNKeyOrNodeOrEntry,
+  BSTNOptKeyOrNode,
+  BTNRep,
   IterationType,
-  OptBSTN,
+  OptNode,
   RBTNColor,
   TreeMultiMapNested,
   TreeMultiMapNodeNested,
-  TreeMultiMapOptions,
-  BTNEntry
+  TreeMultiMapOptions
 } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { RedBlackTree, RedBlackTreeNode } from './rb-tree';
@@ -65,7 +64,7 @@ export class TreeMultiMapNode<
 export class TreeMultiMap<
     K = any,
     V = any,
-    R = BTNEntry<K, V>,
+    R = object,
     NODE extends TreeMultiMapNode<K, V, NODE> = TreeMultiMapNode<K, V, TreeMultiMapNodeNested<K, V>>,
     TREE extends TreeMultiMap<K, V, R, NODE, TREE> = TreeMultiMap<K, V, R, NODE, TreeMultiMapNested<K, V, R, NODE>>
   >
@@ -74,19 +73,16 @@ export class TreeMultiMap<
 {
   /**
    * The constructor function initializes a TreeMultiMap object with optional initial data.
-   * @param keysOrNodesOrEntriesOrRaws - The parameter `keysOrNodesOrEntriesOrRaws` is an
+   * @param keysNodesEntriesOrRaws - The parameter `keysNodesEntriesOrRaws` is an
    * iterable that can contain keys, nodes, entries, or raw elements. It is used to initialize the
    * TreeMultiMap with initial data.
    * @param [options] - The `options` parameter is an optional object that can be used to customize the
    * behavior of the `TreeMultiMap` constructor. It can include properties such as `compareKeys` and
    * `compareValues`, which are functions used to compare keys and values respectively.
    */
-  constructor(
-    keysOrNodesOrEntriesOrRaws: Iterable<BTNKeyOrNodeOrEntry<K, V, NODE>> = [],
-    options?: TreeMultiMapOptions<K, V, R>
-  ) {
+  constructor(keysNodesEntriesOrRaws: Iterable<BTNRep<K, V, NODE>> = [], options?: TreeMultiMapOptions<K, V, R>) {
     super([], options);
-    if (keysOrNodesOrEntriesOrRaws) this.addMany(keysOrNodesOrEntriesOrRaws);
+    if (keysNodesEntriesOrRaws) this.addMany(keysNodesEntriesOrRaws);
   }
 
   protected _count = 0;
@@ -142,6 +138,7 @@ export class TreeMultiMap<
   override createTree(options?: TreeMultiMapOptions<K, V, R>): TREE {
     return new TreeMultiMap<K, V, R, NODE, TREE>([], {
       iterationType: this.iterationType,
+      isMapMode: this._isMapMode,
       comparator: this._comparator,
       toEntryFn: this._toEntryFn,
       ...options
@@ -149,10 +146,10 @@ export class TreeMultiMap<
   }
 
   /**
-   * The function `keyValueOrEntryOrRawElementToNode` takes in a key, value, and count and returns a
+   * The function `keyValueNodeEntryRawToNodeAndValue` takes in a key, value, and count and returns a
    * node based on the input.
-   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R} keyOrNodeOrEntryOrRaw - The parameter
-   * `keyOrNodeOrEntryOrRaw` can be of type `R` or `BTNKeyOrNodeOrEntry<K, V, NODE>`.
+   * @param {BTNRep<K, V, NODE> | R} keyNodeEntryOrRaw - The parameter
+   * `keyNodeEntryOrRaw` can be of type `R` or `BTNRep<K, V, NODE>`.
    * @param {V} [value] - The `value` parameter is an optional value that represents the value
    * associated with the key in the node. It is used when creating a new node or updating the value of
    * an existing node.
@@ -160,40 +157,42 @@ export class TreeMultiMap<
    * times the key-value pair should be added to the data structure. If not provided, it defaults to 1.
    * @returns either a NODE object or undefined.
    */
-  override keyValueOrEntryOrRawElementToNode(
-    keyOrNodeOrEntryOrRaw: BTNKeyOrNodeOrEntry<K, V, NODE> | R,
+  override keyValueNodeEntryRawToNodeAndValue(
+    keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R,
     value?: V,
     count = 1
-  ): NODE | undefined {
-    if (keyOrNodeOrEntryOrRaw === undefined || keyOrNodeOrEntryOrRaw === null) return;
+  ): [NODE | undefined, V | undefined] {
+    if (keyNodeEntryOrRaw === undefined || keyNodeEntryOrRaw === null) return [undefined, undefined];
 
-    if (this.isNode(keyOrNodeOrEntryOrRaw)) return keyOrNodeOrEntryOrRaw;
+    if (this.isNode(keyNodeEntryOrRaw)) return [keyNodeEntryOrRaw, value];
 
-    if (this.isEntry(keyOrNodeOrEntryOrRaw)) {
-      const [key, entryValue] = keyOrNodeOrEntryOrRaw;
-      if (key === undefined || key === null) return;
-      if (this.isKey(key)) return this.createNode(key, value ?? entryValue, 'BLACK', count);
+    if (this.isEntry(keyNodeEntryOrRaw)) {
+      const [key, entryValue] = keyNodeEntryOrRaw;
+      if (key === undefined || key === null) return [undefined, undefined];
+      const finalValue = value ?? entryValue;
+      if (this.isKey(key)) return [this.createNode(key, finalValue, 'BLACK', count), finalValue];
     }
 
     if (this._toEntryFn) {
-      const [key, entryValue] = this._toEntryFn(keyOrNodeOrEntryOrRaw as R);
-      if (this.isKey(key)) return this.createNode(key, value ?? entryValue, 'BLACK', count);
+      const [key, entryValue] = this._toEntryFn(keyNodeEntryOrRaw as R);
+      const finalValue = value ?? entryValue;
+      if (this.isKey(key)) return [this.createNode(key, finalValue, 'BLACK', count), finalValue];
     }
 
-    if (this.isKey(keyOrNodeOrEntryOrRaw)) return this.createNode(keyOrNodeOrEntryOrRaw, value, 'BLACK', count);
+    if (this.isKey(keyNodeEntryOrRaw)) return [this.createNode(keyNodeEntryOrRaw, value, 'BLACK', count), value];
 
-    return;
+    return [undefined, undefined];
   }
 
   /**
    * The function checks if the input is an instance of the TreeMultiMapNode class.
-   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R} keyOrNodeOrEntryOrRaw - The parameter
-   * `keyOrNodeOrEntryOrRaw` can be of type `R` or `BTNKeyOrNodeOrEntry<K, V, NODE>`.
-   * @returns a boolean value indicating whether the input parameter `keyOrNodeOrEntryOrRaw` is
+   * @param {BTNRep<K, V, NODE> | R} keyNodeEntryOrRaw - The parameter
+   * `keyNodeEntryOrRaw` can be of type `R` or `BTNRep<K, V, NODE>`.
+   * @returns a boolean value indicating whether the input parameter `keyNodeEntryOrRaw` is
    * an instance of the `TreeMultiMapNode` class.
    */
-  override isNode(keyOrNodeOrEntryOrRaw: BTNKeyOrNodeOrEntry<K, V, NODE> | R): keyOrNodeOrEntryOrRaw is NODE {
-    return keyOrNodeOrEntryOrRaw instanceof TreeMultiMapNode;
+  override isNode(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R): keyNodeEntryOrRaw is NODE {
+    return keyNodeEntryOrRaw instanceof TreeMultiMapNode;
   }
 
   /**
@@ -202,8 +201,8 @@ export class TreeMultiMap<
    *
    * The function overrides the add method of a class and adds a new node to a data structure, updating
    * the count and returning a boolean indicating success.
-   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R} keyOrNodeOrEntryOrRaw - The
-   * `keyOrNodeOrEntryOrRaw` parameter can accept one of the following types:
+   * @param {BTNRep<K, V, NODE> | R} keyNodeEntryOrRaw - The
+   * `keyNodeEntryOrRaw` parameter can accept one of the following types:
    * @param {V} [value] - The `value` parameter represents the value associated with the key in the
    * data structure. It is an optional parameter, so it can be omitted if not needed.
    * @param [count=1] - The `count` parameter represents the number of times the key-value pair should
@@ -212,10 +211,10 @@ export class TreeMultiMap<
    * @returns The method is returning a boolean value. It returns true if the addition of the new node
    * was successful, and false otherwise.
    */
-  override add(keyOrNodeOrEntryOrRaw: BTNKeyOrNodeOrEntry<K, V, NODE> | R, value?: V, count = 1): boolean {
-    const newNode = this.keyValueOrEntryOrRawElementToNode(keyOrNodeOrEntryOrRaw, value, count);
+  override add(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R, value?: V, count = 1): boolean {
+    const [newNode, newValue] = this.keyValueNodeEntryRawToNodeAndValue(keyNodeEntryOrRaw, value, count);
     const orgCount = newNode?.count || 0;
-    const isSuccessAdded = super.add(newNode);
+    const isSuccessAdded = super.add(newNode, newValue);
 
     if (isSuccessAdded) {
       this._count += orgCount;
@@ -231,7 +230,7 @@ export class TreeMultiMap<
    *
    * The function `delete` in TypeScript overrides the deletion operation in a binary tree data
    * structure, handling cases where nodes have children and maintaining balance in the tree.
-   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R} keyOrNodeOrEntryOrRaw - The `predicate`
+   * @param {BTNRep<K, V, NODE> | R} keyNodeEntryOrRaw - The `predicate`
    * parameter in the `delete` method is used to specify the condition or key based on which a node
    * should be deleted from the binary tree. It can be a key, a node, or an entry.
    * @param [ignoreCount=false] - The `ignoreCount` parameter in the `override delete` method is a
@@ -240,20 +239,14 @@ export class TreeMultiMap<
    * `ignoreCount` is `false
    * @returns The `override delete` method returns an array of `BinaryTreeDeleteResult<NODE>` objects.
    */
-  override delete(
-    keyOrNodeOrEntryOrRaw: BTNKeyOrNodeOrEntry<K, V, NODE> | R,
-    ignoreCount = false
-  ): BinaryTreeDeleteResult<NODE>[] {
-    if (keyOrNodeOrEntryOrRaw === null) return [];
+  override delete(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R, ignoreCount = false): BinaryTreeDeleteResult<NODE>[] {
+    if (keyNodeEntryOrRaw === null) return [];
 
     const results: BinaryTreeDeleteResult<NODE>[] = [];
 
-    let nodeToDelete: OptBSTN<NODE>;
-    if (this._isPredicated(keyOrNodeOrEntryOrRaw)) nodeToDelete = this.getNode(keyOrNodeOrEntryOrRaw);
-    else
-      nodeToDelete = this.isRealNode(keyOrNodeOrEntryOrRaw)
-        ? keyOrNodeOrEntryOrRaw
-        : this.getNode(keyOrNodeOrEntryOrRaw);
+    let nodeToDelete: OptNode<NODE>;
+    if (this._isPredicate(keyNodeEntryOrRaw)) nodeToDelete = this.getNode(keyNodeEntryOrRaw);
+    else nodeToDelete = this.isRealNode(keyNodeEntryOrRaw) ? keyNodeEntryOrRaw : this.getNode(keyNodeEntryOrRaw);
 
     if (!nodeToDelete) {
       return results;
@@ -374,7 +367,8 @@ export class TreeMultiMap<
         if (l > r) return;
         const m = l + Math.floor((r - l) / 2);
         const midNode = sorted[m];
-        this.add(midNode.key, midNode.value, midNode.count);
+        if (this._isMapMode) this.add(midNode.key, undefined, midNode.count);
+        else this.add(midNode.key, midNode.value, midNode.count);
         buildBalanceBST(l, m - 1);
         buildBalanceBST(m + 1, r);
       };
@@ -390,7 +384,8 @@ export class TreeMultiMap<
           if (l <= r) {
             const m = l + Math.floor((r - l) / 2);
             const midNode = sorted[m];
-            this.add(midNode.key, midNode.value, midNode.count);
+            if (this._isMapMode) this.add(midNode.key, undefined, midNode.count);
+            else this.add(midNode.key, midNode.value, midNode.count);
             stack.push([m + 1, r]);
             stack.push([l, m - 1]);
           }
@@ -409,7 +404,8 @@ export class TreeMultiMap<
    */
   override clone(): TREE {
     const cloned = this.createTree();
-    this.bfs(node => cloned.add(node.key, node.value, node.count));
+    this.bfs(node => cloned.add(node.key, undefined, node.count));
+    if (this._isMapMode) cloned._store = this._store;
     return cloned;
   }
 
@@ -419,17 +415,17 @@ export class TreeMultiMap<
    *
    * The `_swapProperties` function swaps the properties (key, value, count, color) between two nodes
    * in a binary search tree.
-   * @param {R | BSTNKeyOrNode<K, NODE>} srcNode - The `srcNode` parameter represents the source node
+   * @param {R | BSTNOptKeyOrNode<K, NODE>} srcNode - The `srcNode` parameter represents the source node
    * that will be swapped with the `destNode`. It can be either an instance of the `R` class or an
-   * instance of the `BSTNKeyOrNode<K, NODE>` class.
-   * @param {R | BSTNKeyOrNode<K, NODE>} destNode - The `destNode` parameter represents the destination
+   * instance of the `BSTNOptKeyOrNode<K, NODE>` class.
+   * @param {R | BSTNOptKeyOrNode<K, NODE>} destNode - The `destNode` parameter represents the destination
    * node where the properties will be swapped with the source node.
    * @returns The method is returning the `destNode` after swapping its properties with the `srcNode`.
    * If either `srcNode` or `destNode` is undefined, it returns undefined.
    */
   protected override _swapProperties(
-    srcNode: R | BSTNKeyOrNode<K, NODE>,
-    destNode: R | BSTNKeyOrNode<K, NODE>
+    srcNode: R | BSTNOptKeyOrNode<K, NODE>,
+    destNode: R | BSTNOptKeyOrNode<K, NODE>
   ): NODE | undefined {
     srcNode = this.ensureNode(srcNode);
     destNode = this.ensureNode(destNode);
@@ -440,12 +436,12 @@ export class TreeMultiMap<
         tempNode.color = color;
 
         destNode.key = srcNode.key;
-        destNode.value = srcNode.value;
+        if (!this._isMapMode) destNode.value = srcNode.value;
         destNode.count = srcNode.count;
         destNode.color = srcNode.color;
 
         srcNode.key = tempNode.key;
-        srcNode.value = tempNode.value;
+        if (!this._isMapMode) srcNode.value = tempNode.value;
         srcNode.count = tempNode.count;
         srcNode.color = tempNode.color;
       }

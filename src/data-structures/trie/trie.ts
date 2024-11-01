@@ -266,9 +266,9 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
    *
    */
   getHeight(): number {
-    const beginRoot = this.root;
+    const startNode = this.root;
     let maxDepth = 0;
-    if (beginRoot) {
+    if (startNode) {
       const bfs = (node: TrieNode, level: number) => {
         if (level > maxDepth) {
           maxDepth = level;
@@ -280,7 +280,7 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
           }
         }
       };
-      bfs(beginRoot, 0);
+      bfs(startNode, 0);
     }
     return maxDepth;
   }

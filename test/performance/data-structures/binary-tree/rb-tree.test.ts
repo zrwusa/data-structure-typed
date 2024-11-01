@@ -5,7 +5,7 @@ import { OrderedMap } from 'js-sdsl';
 import { isCompetitor } from '../../../config';
 
 const suite = new Benchmark.Suite();
-const rbTree = new RedBlackTree();
+const rbTree = new RedBlackTree<number>([], { isMapMode: true });
 const { HUNDRED_THOUSAND } = magnitude;
 const randomArray = getRandomIntArray(HUNDRED_THOUSAND, 0, HUNDRED_THOUSAND - 1, true);
 const cOrderedMap = new OrderedMap<number, number>();

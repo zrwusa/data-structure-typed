@@ -11,9 +11,8 @@ import type {
   AVLTreeNodeNested,
   AVLTreeOptions,
   BinaryTreeDeleteResult,
-  BSTNKeyOrNode,
-  BTNKeyOrNodeOrEntry,
-  BTNEntry
+  BSTNOptKeyOrNode,
+  BTNRep
 } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 
@@ -67,7 +66,7 @@ export class AVLTreeNode<
 export class AVLTree<
     K = any,
     V = any,
-    R = BTNEntry<K, V>,
+    R = object,
     NODE extends AVLTreeNode<K, V, NODE> = AVLTreeNode<K, V, AVLTreeNodeNested<K, V>>,
     TREE extends AVLTree<K, V, R, NODE, TREE> = AVLTree<K, V, R, NODE, AVLTreeNested<K, V, R, NODE>>
   >
@@ -77,7 +76,7 @@ export class AVLTree<
   /**
    * This is a constructor function for an AVLTree class that initializes the tree with keys, nodes,
    * entries, or raw elements.
-   * @param keysOrNodesOrEntriesOrRaws - The `keysOrNodesOrEntriesOrRaws` parameter is an
+   * @param keysNodesEntriesOrRaws - The `keysNodesEntriesOrRaws` parameter is an
    * iterable object that can contain either keys, nodes, entries, or raw elements. These elements will
    * be used to initialize the AVLTree.
    * @param [options] - The `options` parameter is an optional object that can be used to customize the
@@ -85,12 +84,9 @@ export class AVLTree<
    * keys), `allowDuplicates` (a boolean indicating whether duplicate keys are allowed), and
    * `nodeBuilder` (
    */
-  constructor(
-    keysOrNodesOrEntriesOrRaws: Iterable<R | BTNKeyOrNodeOrEntry<K, V, NODE>> = [],
-    options?: AVLTreeOptions<K, V, R>
-  ) {
+  constructor(keysNodesEntriesOrRaws: Iterable<R | BTNRep<K, V, NODE>> = [], options?: AVLTreeOptions<K, V, R>) {
     super([], options);
-    if (keysOrNodesOrEntriesOrRaws) super.addMany(keysOrNodesOrEntriesOrRaws);
+    if (keysNodesEntriesOrRaws) super.addMany(keysNodesEntriesOrRaws);
   }
 
   /**
@@ -116,6 +112,7 @@ export class AVLTree<
   override createTree(options?: AVLTreeOptions<K, V, R>): TREE {
     return new AVLTree<K, V, R, NODE, TREE>([], {
       iterationType: this.iterationType,
+      isMapMode: this._isMapMode,
       comparator: this._comparator,
       toEntryFn: this._toEntryFn,
       ...options
@@ -124,13 +121,13 @@ export class AVLTree<
 
   /**
    * The function checks if the input is an instance of AVLTreeNode.
-   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R} keyOrNodeOrEntryOrRaw - The parameter
-   * `keyOrNodeOrEntryOrRaw` can be of type `R` or `BTNKeyOrNodeOrEntry<K, V, NODE>`.
-   * @returns a boolean value indicating whether the input parameter `keyOrNodeOrEntryOrRaw` is
+   * @param {BTNRep<K, V, NODE> | R} keyNodeEntryOrRaw - The parameter
+   * `keyNodeEntryOrRaw` can be of type `R` or `BTNRep<K, V, NODE>`.
+   * @returns a boolean value indicating whether the input parameter `keyNodeEntryOrRaw` is
    * an instance of the `AVLTreeNode` class.
    */
-  override isNode(keyOrNodeOrEntryOrRaw: BTNKeyOrNodeOrEntry<K, V, NODE> | R): keyOrNodeOrEntryOrRaw is NODE {
-    return keyOrNodeOrEntryOrRaw instanceof AVLTreeNode;
+  override isNode(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R): keyNodeEntryOrRaw is NODE {
+    return keyNodeEntryOrRaw instanceof AVLTreeNode;
   }
 
   /**
@@ -139,17 +136,17 @@ export class AVLTree<
    *
    * The function overrides the add method of a class and inserts a key-value pair into a data
    * structure, then balances the path.
-   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R} keyOrNodeOrEntryOrRaw - The parameter
-   * `keyOrNodeOrEntryOrRaw` can accept values of type `R`, `BTNKeyOrNodeOrEntry<K, V, NODE>`, or
+   * @param {BTNRep<K, V, NODE> | R} keyNodeEntryOrRaw - The parameter
+   * `keyNodeEntryOrRaw` can accept values of type `R`, `BTNRep<K, V, NODE>`, or
    * `RawElement`.
    * @param {V} [value] - The `value` parameter is an optional value that you want to associate with
    * the key or node being added to the data structure.
    * @returns The method is returning a boolean value.
    */
-  override add(keyOrNodeOrEntryOrRaw: BTNKeyOrNodeOrEntry<K, V, NODE> | R, value?: V): boolean {
-    if (keyOrNodeOrEntryOrRaw === null) return false;
-    const inserted = super.add(keyOrNodeOrEntryOrRaw, value);
-    if (inserted) this._balancePath(keyOrNodeOrEntryOrRaw);
+  override add(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R, value?: V): boolean {
+    if (keyNodeEntryOrRaw === null) return false;
+    const inserted = super.add(keyNodeEntryOrRaw, value);
+    if (inserted) this._balancePath(keyNodeEntryOrRaw);
     return inserted;
   }
 
@@ -159,15 +156,15 @@ export class AVLTree<
    *
    * The function overrides the delete method in a TypeScript class, performs deletion, and then
    * balances the tree if necessary.
-   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R} keyOrNodeOrEntryOrRaw - The `keyOrNodeOrEntryOrRaw`
+   * @param {BTNRep<K, V, NODE> | R} keyNodeEntryOrRaw - The `keyNodeEntryOrRaw`
    * parameter in the `override delete` method can be one of the following types:
    * @returns The `delete` method is being overridden in this code snippet. It first calls the `delete`
    * method from the superclass (presumably a parent class) with the provided `predicate`, which could
    * be a key, node, entry, or a custom predicate. The result of this deletion operation is stored in
    * `deletedResults`, which is an array of `BinaryTreeDeleteResult` objects.
    */
-  override delete(keyOrNodeOrEntryOrRaw: BTNKeyOrNodeOrEntry<K, V, NODE> | R): BinaryTreeDeleteResult<NODE>[] {
-    const deletedResults = super.delete(keyOrNodeOrEntryOrRaw);
+  override delete(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R): BinaryTreeDeleteResult<NODE>[] {
+    const deletedResults = super.delete(keyNodeEntryOrRaw);
     for (const { needBalanced } of deletedResults) {
       if (needBalanced) {
         this._balancePath(needBalanced);
@@ -182,16 +179,16 @@ export class AVLTree<
    *
    * The `_swapProperties` function swaps the key, value, and height properties between two nodes in a
    * binary search tree.
-   * @param {R | BSTNKeyOrNode<K, NODE>} srcNode - The `srcNode` parameter represents either a node
+   * @param {R | BSTNOptKeyOrNode<K, NODE>} srcNode - The `srcNode` parameter represents either a node
    * object (`NODE`) or a key-value pair (`R`) that is being swapped with another node.
-   * @param {R | BSTNKeyOrNode<K, NODE>} destNode - The `destNode` parameter is either an instance of
-   * `R` or an instance of `BSTNKeyOrNode<K, NODE>`.
+   * @param {R | BSTNOptKeyOrNode<K, NODE>} destNode - The `destNode` parameter is either an instance of
+   * `R` or an instance of `BSTNOptKeyOrNode<K, NODE>`.
    * @returns The method is returning the `destNodeEnsured` object if both `srcNodeEnsured` and
    * `destNodeEnsured` are truthy. Otherwise, it returns `undefined`.
    */
   protected override _swapProperties(
-    srcNode: R | BSTNKeyOrNode<K, NODE>,
-    destNode: R | BSTNKeyOrNode<K, NODE>
+    srcNode: R | BSTNOptKeyOrNode<K, NODE>,
+    destNode: R | BSTNOptKeyOrNode<K, NODE>
   ): NODE | undefined {
     const srcNodeEnsured = this.ensureNode(srcNode);
     const destNodeEnsured = this.ensureNode(destNode);
@@ -204,11 +201,11 @@ export class AVLTree<
         tempNode.height = height;
 
         destNodeEnsured.key = srcNodeEnsured.key;
-        destNodeEnsured.value = srcNodeEnsured.value;
+        if (!this._isMapMode) destNodeEnsured.value = srcNodeEnsured.value;
         destNodeEnsured.height = srcNodeEnsured.height;
 
         srcNodeEnsured.key = tempNode.key;
-        srcNodeEnsured.value = tempNode.value;
+        if (!this._isMapMode) srcNodeEnsured.value = tempNode.value;
         srcNodeEnsured.height = tempNode.height;
       }
 
@@ -432,10 +429,10 @@ export class AVLTree<
    *
    * The `_balancePath` function is used to update the heights of nodes and perform rotation operations
    * to restore balance in an AVL tree after inserting a node.
-   * @param {BTNKeyOrNodeOrEntry<K, V, NODE> | R} node - The `node` parameter can be of type `R` or
-   * `BTNKeyOrNodeOrEntry<K, V, NODE>`.
+   * @param {BTNRep<K, V, NODE> | R} node - The `node` parameter can be of type `R` or
+   * `BTNRep<K, V, NODE>`.
    */
-  protected _balancePath(node: BTNKeyOrNodeOrEntry<K, V, NODE> | R): void {
+  protected _balancePath(node: BTNRep<K, V, NODE> | R): void {
     node = this.ensureNode(node);
     const path = this.getPathToRoot(node => node, node, false); // first O(log n) + O(log n)
     for (let i = 0; i < path.length; i++) {

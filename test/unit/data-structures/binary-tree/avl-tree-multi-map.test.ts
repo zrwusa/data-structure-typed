@@ -678,7 +678,7 @@ describe('AVLTreeMultiMap iterative methods test', () => {
     expect(treeMM.count).toBe(21);
     const cloned = treeMM.clone();
     expect(cloned.root?.left?.key).toBe(1);
-    expect(cloned.root?.right?.value).toBe('c');
+    expect(cloned.get(cloned.root?.right)).toBe('c');
   });
 
   it('should keys', () => {
@@ -759,5 +759,117 @@ describe('AVLTree toEntryFn', () => {
     expect(tree.morris(node => node.key, 'IN')).toEqual(expected);
     expect(tree.dfs(node => node.key, 'IN')).toEqual(expected);
     expect(tree.dfs(node => node.key, 'IN', tree.root, 'RECURSIVE')).toEqual(expected);
+  });
+});
+
+describe('AVLTreeMultiMap map mode count', () => {
+  let tm: AVLTreeMultiMap<number>;
+  beforeEach(() => {
+    tm = new AVLTreeMultiMap<number>([], { isMapMode: true });
+  });
+  it('Should added isolated node count ', () => {
+    tm.addMany([
+      [1, 1],
+      [2, 2],
+      [3, 3],
+      [4, 4],
+      [5, 5]
+    ]);
+    const newNode = new AVLTreeMultiMapNode(3, undefined, 10);
+    tm.add(newNode, 33);
+    expect(tm.count).toBe(15);
+  });
+});
+
+describe('AVLTreeMultiMap map mode operations test1', () => {
+  it('should perform various operations on a Binary Search Tree with numeric values1', () => {
+    const treeMultimap = new AVLTreeMultiMap<number>([], { isMapMode: true });
+
+    expect(treeMultimap instanceof AVLTreeMultiMap);
+    treeMultimap.add([11, 11]);
+    treeMultimap.add([3, 3]);
+    const idAndValues: [number, number][] = [
+      [11, 11],
+      [3, 3],
+      [15, 15],
+      [1, 1],
+      [8, 8],
+      [13, 13],
+      [16, 16],
+      [2, 2],
+      [6, 6],
+      [9, 9],
+      [12, 12],
+      [14, 14],
+      [4, 4],
+      [7, 7],
+      [10, 10],
+      [5, 5]
+    ];
+    treeMultimap.addMany(idAndValues);
+    expect(treeMultimap.root instanceof AVLTreeMultiMapNode);
+
+    if (treeMultimap.root) expect(treeMultimap.root.key == 11);
+
+    expect(treeMultimap.size).toBe(16);
+    expect(treeMultimap.count).toBe(18);
+
+    expect(treeMultimap.has(6));
+
+    expect(treeMultimap.getHeight(6)).toBe(4);
+    expect(treeMultimap.getDepth(6)).toBe(0);
+    const nodeId10 = treeMultimap.getNode(10);
+    expect(nodeId10?.key).toBe(10);
+
+    const nodeVal9 = treeMultimap.getNode(node => node.key === 9);
+    expect(nodeVal9?.key).toBe(9);
+  });
+});
+
+describe('AVLTreeMultiMap map mode operations test recursively1', () => {
+  it('should perform various operations on a Binary Search Tree with numeric values1', () => {
+    const treeMultimap = new AVLTreeMultiMap<number>([], {
+      iterationType: 'RECURSIVE',
+      isMapMode: true
+    });
+
+    expect(treeMultimap instanceof AVLTreeMultiMap);
+    treeMultimap.add([11, 11]);
+    treeMultimap.add([3, 3]);
+    const idAndValues: [number, number][] = [
+      [11, 11],
+      [3, 3],
+      [15, 15],
+      [1, 1],
+      [8, 8],
+      [13, 13],
+      [16, 16],
+      [2, 2],
+      [6, 6],
+      [9, 9],
+      [12, 12],
+      [14, 14],
+      [4, 4],
+      [7, 7],
+      [10, 10],
+      [5, 5]
+    ];
+    treeMultimap.addMany(idAndValues);
+    expect(treeMultimap.root).toBeInstanceOf(AVLTreeMultiMapNode);
+
+    if (treeMultimap.root) expect(treeMultimap.root.key).toBe(6);
+
+    expect(treeMultimap.size).toBe(16);
+    expect(treeMultimap.count).toBe(18);
+
+    expect(treeMultimap.has(6));
+
+    expect(treeMultimap.getHeight(6)).toBe(4);
+    expect(treeMultimap.getDepth(6)).toBe(0);
+    const nodeId10 = treeMultimap.getNode(10);
+    expect(nodeId10?.key).toBe(10);
+
+    const nodeVal9 = treeMultimap.getNode(node => node.key === 9);
+    expect(nodeVal9?.key).toBe(9);
   });
 });

@@ -6,31 +6,30 @@ export type BinaryTreeNodeNested<K, V> = BinaryTreeNode<K, V, BinaryTreeNode<K, 
 
 export type BinaryTreeNested<K, V, R, NODE extends BinaryTreeNode<K, V, NODE>> = BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, BinaryTree<K, V, R, NODE, any>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+export type ToEntryFn<K, V, R> = (rawElement: R) => BTNEntry<K, V>;
+
 export type BinaryTreeOptions<K, V, R> = {
-  iterationType?: IterationType;
-  toEntryFn?: (rawElement: R) => BTNEntry<K, V>;
+    iterationType?: IterationType;
+    toEntryFn?: ToEntryFn<K, V, R>;
+    isMapMode?: boolean;
 }
 
 export type BinaryTreePrintOptions = { isShowUndefined?: boolean; isShowNull?: boolean; isShowRedBlackNIL?: boolean };
 
-export type OptBTNOrNull<NODE> = NODE | null | undefined;
+export type OptNodeOrNull<NODE> = NODE | null | undefined;
 
-export type OptBTNKeyOrNull<K> = K | null | undefined;
+export type BTNOptKeyOrNull<K> = K | null | undefined;
 
-export type BTNEntry<K, V> = [OptBTNKeyOrNull<K>, OptValue<V>];
+export type BTNEntry<K, V> = [BTNOptKeyOrNull<K>, OptValue<V>];
 
-export type BTNKeyOrNode<K, NODE> = OptBTNKeyOrNull<K> | NODE;
+export type BTNOptKeyNodeOrNull<K, NODE> = BTNOptKeyOrNull<K> | NODE;
 
-export type BTNKeyOrNodeOrEntry<K, V, NODE> = BTNEntry<K, V> | BTNKeyOrNode<K, NODE>;
+export type BTNRep<K, V, NODE> = BTNEntry<K, V> | BTNOptKeyNodeOrNull<K, NODE>;
 
-export type BTNPureKeyOrNode<K, NODE> = K | NODE;
+export type BinaryTreeDeleteResult<NODE> = { deleted: OptNodeOrNull<NODE>; needBalanced: OptNodeOrNull<NODE> };
 
-export type BTNPureKeyOrNodeOrEntry<K, V, NODE> = [K, OptValue<V>] | BTNPureKeyOrNode<K, NODE>;
+export type NodeCallback<NODE, D = any> = (node: NODE) => D;
 
-export type BinaryTreeDeleteResult<NODE> = { deleted: OptBTNOrNull<NODE>; needBalanced: OptBTNOrNull<NODE> };
+export type NodePredicate<NODE> = (node: NODE) => boolean;
 
-export type BTNCallback<NODE, D = any> = (node: NODE) => D;
-
-export type BTNPredicate<NODE> = (node: NODE) => boolean;
-
-export type DFSStackItem<NODE> = { opt: DFSOperation; node: OptBTNOrNull<NODE> }
+export type DFSStackItem<NODE> = { opt: DFSOperation; node: OptNodeOrNull<NODE> }

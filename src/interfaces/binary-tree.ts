@@ -4,14 +4,14 @@ import type {
   BinaryTreeNested,
   BinaryTreeNodeNested,
   BinaryTreeOptions,
-  BTNKeyOrNodeOrEntry,
-  BTNPredicate
+  BTNRep,
+  NodePredicate
 } from '../types';
 
 export interface IBinaryTree<
   K = any,
   V = any,
-  R = [K, V],
+  R = object,
   NODE extends BinaryTreeNode<K, V, NODE> = BinaryTreeNodeNested<K, V>,
   TREE extends BinaryTree<K, V, R, NODE, TREE> = BinaryTreeNested<K, V, R, NODE>
 > {
@@ -19,9 +19,9 @@ export interface IBinaryTree<
 
   createTree(options?: Partial<BinaryTreeOptions<K, V, R>>): TREE;
 
-  add(keyOrNodeOrEntryOrRawElement: BTNKeyOrNodeOrEntry<K, V, NODE>, value?: V, count?: number): boolean;
+  add(keyOrNodeOrEntryOrRawElement: BTNRep<K, V, NODE>, value?: V, count?: number): boolean;
 
-  addMany(nodes: Iterable<BTNKeyOrNodeOrEntry<K, V, NODE>>, values?: Iterable<V | undefined>): boolean[];
+  addMany(nodes: Iterable<BTNRep<K, V, NODE>>, values?: Iterable<V | undefined>): boolean[];
 
-  delete(predicate: R | BTNKeyOrNodeOrEntry<K, V, NODE> | BTNPredicate<NODE>): BinaryTreeDeleteResult<NODE>[];
+  delete(predicate: R | BTNRep<K, V, NODE> | NodePredicate<NODE>): BinaryTreeDeleteResult<NODE>[];
 }

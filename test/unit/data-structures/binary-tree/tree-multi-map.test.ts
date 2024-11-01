@@ -817,7 +817,8 @@ describe('TreeMultiMap iterative methods test', () => {
     expect(treeMM.getComputedCount()).toBe(21);
     const cloned = treeMM.clone();
     expect(cloned.root?.left?.key).toBe(1);
-    expect(cloned.root?.right?.value).toBe('c');
+    if (cloned.isMapMode) expect(cloned.get(cloned.root?.right)).toBe('c');
+    else expect(cloned.root?.right?.value).toBe(undefined);
   });
 
   it('should keys', () => {
@@ -833,5 +834,142 @@ describe('TreeMultiMap iterative methods test', () => {
   it('should leaves', () => {
     const leaves = treeMM.leaves();
     expect(leaves).toEqual([1, 3]);
+  });
+});
+
+describe('TreeMultiMap count map mode', () => {
+  let tmm: TreeMultiMap<number>;
+  beforeEach(() => {
+    tmm = new TreeMultiMap<number>([], { isMapMode: true });
+  });
+
+  it('Should added node count ', () => {
+    tmm.addMany([
+      [1, 1],
+      [2, 2],
+      [3, 3],
+      [4, 4],
+      [5, 5]
+    ]);
+    const newNode = new TreeMultiMapNode(3, undefined, 10);
+    tmm.add(newNode, 33, 20);
+    // TODO expect(tmm.count).toBe(25);
+    expect(tmm.count).toBe(15);
+    expect(tmm.getComputedCount()).toBe(15);
+    expect(tmm.getNode(3)?.count).toBe(11);
+  });
+});
+
+describe('TreeMultiMap operations test1 map mode', () => {
+  it('should perform various operations on a Binary Search Tree with numeric values1', () => {
+    const tmm = new TreeMultiMap<number, number>([], { isMapMode: true });
+
+    expect(tmm instanceof TreeMultiMap);
+
+    tmm.add([11, 11]);
+    tmm.add([3, 3]);
+    const idAndValues: [number, number][] = [
+      [11, 11],
+      [3, 3],
+      [15, 15],
+      [1, 1],
+      [8, 8],
+      [13, 13],
+      [16, 16],
+      [2, 2],
+      [6, 6],
+      [9, 9],
+      [12, 12],
+      [14, 14],
+      [4, 4],
+      [7, 7],
+      [10, 10],
+      [5, 5]
+    ];
+    tmm.addMany(idAndValues);
+    expect(tmm.root instanceof TreeMultiMapNode);
+
+    if (tmm.root) expect(tmm.root.key == 11);
+
+    expect(tmm.size).toBe(16);
+    expect(tmm.count).toBe(18);
+    expect(tmm.getComputedCount()).toBe(18);
+
+    expect(tmm.has(6));
+    if (isDebug) tmm.print();
+    expect(tmm.getHeight(6)).toBe(1);
+    expect(tmm.getDepth(6)).toBe(3);
+    const nodeId10 = tmm.getNode(10);
+    expect(nodeId10?.key).toBe(10);
+
+    const nodeVal9 = tmm.getNode(node => node.key === 9);
+    expect(nodeVal9?.key).toBe(9);
+  });
+});
+
+describe('TreeMultiMap operations test recursively1 map mode', () => {
+  it('should perform various operations on a Binary Search Tree with numeric values1', () => {
+    const tmm = new TreeMultiMap<number>([], {
+      iterationType: 'RECURSIVE',
+      isMapMode: true
+    });
+
+    expect(tmm instanceof TreeMultiMap);
+    tmm.add([11, 11]);
+    tmm.add([3, 3]);
+    const idAndValues: [number, number][] = [
+      [11, 11],
+      [3, 3],
+      [15, 15],
+      [1, 1],
+      [8, 8],
+      [13, 13],
+      [16, 16],
+      [2, 2],
+      [6, 6],
+      [9, 9],
+      [12, 12],
+      [14, 14],
+      [4, 4],
+      [7, 7],
+      [10, 10],
+      [5, 5]
+    ];
+    tmm.addMany(idAndValues);
+    expect(tmm.root).toBeInstanceOf(TreeMultiMapNode);
+
+    if (tmm.root) expect(tmm.root.key).toBe(5);
+
+    expect(tmm.size).toBe(16);
+    expect(tmm.count).toBe(18);
+    expect(tmm.getComputedCount()).toBe(18);
+
+    expect(tmm.has(6));
+
+    expect(tmm.getHeight(6)).toBe(1);
+    expect(tmm.getDepth(6)).toBe(3);
+    const nodeId10 = tmm.getNode(10);
+    expect(nodeId10?.key).toBe(10);
+
+    const nodeVal9 = tmm.getNode(node => node.key === 9);
+    expect(nodeVal9?.key).toBe(9);
+  });
+});
+
+describe('TreeMultiMap iterative methods testm ap mode', () => {
+  let treeMM: TreeMultiMap<number, string>;
+  beforeEach(() => {
+    treeMM = new TreeMultiMap<number, string>([], { isMapMode: true });
+    treeMM.add(1, 'a', 10);
+    treeMM.add([2, 'b'], undefined, 10);
+    treeMM.add([3, 'c'], undefined, 1);
+  });
+
+  it('should clone work well', () => {
+    expect(treeMM.count).toBe(21);
+    expect(treeMM.getComputedCount()).toBe(21);
+    const cloned = treeMM.clone();
+    expect(cloned.root?.left?.key).toBe(1);
+    expect(cloned.get(cloned.root?.right)).toBe('c');
   });
 });

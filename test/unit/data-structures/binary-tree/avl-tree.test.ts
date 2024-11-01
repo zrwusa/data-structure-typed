@@ -33,7 +33,6 @@ describe('AVL Tree Test', () => {
 
     // node15 has type problem. After the uniform design, the generics of containers (DirectedGraph, BST) are based on the type of value. However, this design has a drawback: when I attempt to inherit from the Vertex or BSTNode classes, the types of the results obtained by all methods are those of the parent class.
     expect(node15?.value).toBe(15);
-
     const dfs = tree.dfs(node => node, 'IN');
     expect(dfs[0].key).toBe(1);
     expect(dfs[dfs.length - 1].key).toBe(16);
@@ -435,5 +434,92 @@ describe('AVLTree iterative methods test', () => {
   it('should leaves', () => {
     const leaves = avl.leaves();
     expect(leaves).toEqual([1, 3]);
+  });
+});
+
+describe('AVL Tree map mode', () => {
+  it('should perform various operations on a AVL Tree', () => {
+    const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
+    const tree = new AVLTree<number>([], { isMapMode: true });
+
+    for (const i of arr) tree.add([i, i]);
+
+    tree.add(null);
+    const node6 = tree.getNode(6);
+
+    expect(node6 && tree.getHeight(node6)).toBe(3);
+    expect(node6 && tree.getDepth(node6)).toBe(1);
+
+    const getNodeById = tree.getNode(10);
+    expect(getNodeById?.key).toBe(10);
+
+    const getMinNodeByRoot = tree.getLeftMost();
+    expect(getMinNodeByRoot).toBe(1);
+
+    const node15 = tree.getNode(15);
+    const getMinNodeBySpecificNode = node15 && tree.getLeftMost(node => node, node15);
+    expect(getMinNodeBySpecificNode?.key).toBe(12);
+
+    let subTreeSum = 0;
+    if (node15) tree.dfs(node => (subTreeSum += node.key), 'PRE', node15);
+    expect(subTreeSum).toBe(70);
+
+    let lesserSum = 0;
+    tree.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
+    expect(lesserSum).toBe(45);
+
+    // node15 has type problem. After the uniform design, the generics of containers (DirectedGraph, BST) are based on the type of value. However, this design has a drawback: when I attempt to inherit from the Vertex or BSTNode classes, the types of the results obtained by all methods are those of the parent class.
+    expect(tree.get(node15)).toBe(15);
+  });
+});
+
+describe('AVL Tree map mode test recursively', () => {
+  it('should perform various operations on a AVL Tree', () => {
+    const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
+    const tree = new AVLTree<number>([], { iterationType: 'RECURSIVE', isMapMode: true });
+
+    for (const i of arr) tree.add([i, i]);
+
+    const node6 = tree.getNode(6);
+
+    expect(node6 && tree.getHeight(node6)).toBe(3);
+    expect(node6 && tree.getDepth(node6)).toBe(1);
+
+    const getNodeById = tree.getNode(10);
+    expect(getNodeById?.key).toBe(10);
+
+    const getMinNodeByRoot = tree.getLeftMost();
+    expect(getMinNodeByRoot).toBe(1);
+
+    const node15 = tree.getNode(15);
+    const getMinNodeBySpecificNode = node15 && tree.getLeftMost(node => node, node15);
+    expect(getMinNodeBySpecificNode?.key).toBe(12);
+
+    let subTreeSum = 0;
+    if (node15) tree.dfs(node => (subTreeSum += node.key), 'PRE', node15);
+    expect(subTreeSum).toBe(70);
+
+    let lesserSum = 0;
+    tree.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
+    expect(lesserSum).toBe(45);
+
+    // node15 has type problem. After the uniform design, the generics of containers (DirectedGraph, BST) are based on the type of value. However, this design has a drawback: when I attempt to inherit from the Vertex or BSTNode classes, the types of the results obtained by all methods are those of the parent class.
+    expect(tree.get(node15)).toBe(15);
+  });
+});
+
+describe('AVLTree iterative methods map mode', () => {
+  let avl: AVLTree<number, string>;
+  beforeEach(() => {
+    avl = new AVLTree<number, string>([], { isMapMode: true });
+    avl.add([1, 'a']);
+    avl.add([2, 'b']);
+    avl.add([3, 'c']);
+  });
+
+  it('should clone work well', () => {
+    const cloned = avl.clone();
+    expect(cloned.root?.left?.key).toBe(1);
+    expect(cloned.get(cloned.root?.right?.key)).toBe('c');
   });
 });
