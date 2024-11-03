@@ -74,7 +74,7 @@ describe('BST operations test', () => {
     const nodeId10 = bst.getNode(10);
     expect(nodeId10?.key).toBe(10);
 
-    const nodeVal9 = bst.getNode(node => node.value === 9);
+    const nodeVal9 = bst.getNode(node => node.key === 9);
     expect(nodeVal9?.key).toBe(9);
 
     const leftMost = bst.getLeftMost();
@@ -86,7 +86,7 @@ describe('BST operations test', () => {
     const minNodeBySpecificNode = node15 && bst.getLeftMost(node => node, node15);
     expect(minNodeBySpecificNode?.key).toBe(12);
 
-    const nodes = bst.getNodes(node => node.value === 15);
+    const nodes = bst.getNodes(node => node.key === 15);
     expect(nodes.map(node => node.key)).toEqual([15]);
 
     let subTreeSum = 0;
@@ -291,7 +291,7 @@ describe('BST operations test', () => {
     expect(leftMost).toBe(1);
 
     const node15 = objBST.getNode(15);
-    expect(node15?.value).toEqual({
+    expect(objBST.get(node15)).toEqual({
       name: 'Alice',
       age: 15
     });
@@ -469,6 +469,25 @@ describe('BST operations test', () => {
 
     const nodeNull = bst.keyValueNodeEntryRawToNodeAndValue(null);
     expect(nodeNull).toEqual([undefined, undefined]);
+  });
+
+  it('should replace value', () => {
+    const tree = new BST<number, string>([4, 5, [1, '1'], 2, 3], { isMapMode: false });
+    expect(tree.get(1)).toBe('1');
+    expect(tree.getNode(1)?.value).toBe('1');
+    tree.add(1, 'a');
+    expect(tree.get(1)).toBe('a');
+    tree.add([1, 'b']);
+    expect(tree.getNode(1)?.value).toBe('b');
+    expect(tree.get(1)).toBe('b');
+    const treeMap = new BST<number>([4, 5, [1, '1'], 2, 3]);
+    expect(treeMap.get(1)).toBe('1');
+    expect(treeMap.getNode(1)?.value).toBe(undefined);
+    treeMap.add(1, 'a');
+    expect(treeMap.get(1)).toBe('a');
+    treeMap.add([1, 'b']);
+    expect(treeMap.getNode(1)?.value).toBe(undefined);
+    expect(treeMap.get(1)).toBe('b');
   });
 });
 
@@ -708,7 +727,7 @@ describe('BST operations test recursively', () => {
     expect(leftMost).toBe(1);
 
     const node15 = objBST.getNode(15);
-    expect(node15?.value).toEqual({
+    expect(objBST.get(node15)).toEqual({
       key: 15,
       keyA: 15
     });
@@ -1135,7 +1154,7 @@ describe('BST iterative methods test', () => {
   it('should clone work well', () => {
     const cloned = bst.clone();
     expect(cloned.root?.left).toBe(undefined);
-    expect(cloned.root?.right?.value).toBe('b');
+    expect(cloned.root?.right?.value).toBe(undefined);
   });
 
   it('should keys', () => {
@@ -1210,13 +1229,13 @@ describe('BST iterative methods test', () => {
     );
 
     expect(balanced.leaves()).toEqual([1, 6, 4, 9]);
-    expect(balanced.leaves(node => node?.value)).toEqual(['a', 'f', 'd', 'i']);
+    expect(balanced.leaves(node => balanced.get(node))).toEqual(['a', 'f', 'd', 'i']);
   });
 });
 
-describe('BST operations map mode test', () => {
+describe('BST operations not map mode test', () => {
   it('should perform various operations on a Binary Search Tree with numeric values', () => {
-    const bst = new BST<number, number>([], { isMapMode: true });
+    const bst = new BST<number, number>([], { isMapMode: false });
     expect(bst).toBeInstanceOf(BST);
     bst.add([11, 11]);
     bst.add([3, 3]);
@@ -1269,7 +1288,7 @@ describe('BST operations map mode test', () => {
   });
 
   it('should perform various operations on a Binary Search Tree with object values', () => {
-    const objBST = new BST<number, { name: string; age: number }>([], { isMapMode: true });
+    const objBST = new BST<number, { name: string; age: number }>([], { isMapMode: false });
     expect(objBST).toBeInstanceOf(BST);
     objBST.add([11, { name: '11', age: 11 }]);
     objBST.add([3, { name: '3', age: 3 }]);
@@ -1322,7 +1341,7 @@ describe('BST operations map mode test', () => {
   });
 
   it('should keyValueNodeEntryRawToNodeAndValue', () => {
-    const bst = new BST<number>([], { isMapMode: true });
+    const bst = new BST<number>([], { isMapMode: false });
     const node0 = bst.keyValueNodeEntryRawToNodeAndValue(0);
     expect(node0).toEqual([
       {
@@ -1343,11 +1362,11 @@ describe('BST operations map mode test', () => {
   });
 });
 
-describe('BST operations map mode test recursively', () => {
+describe('BST operations not map mode test recursively', () => {
   it('should perform various operations on a Binary Search Tree with numeric values', () => {
     const bst = new BST<number>([], {
       iterationType: 'RECURSIVE',
-      isMapMode: true
+      isMapMode: false
     });
     expect(bst).toBeInstanceOf(BST);
     bst.add([11, 11]);
@@ -1375,7 +1394,7 @@ describe('BST operations map mode test recursively', () => {
   });
 
   it('should perform various operations on a Binary Search Tree with object values', () => {
-    const objBST = new BST<number, { key: number; keyA: number }>([], { isMapMode: true });
+    const objBST = new BST<number, { key: number; keyA: number }>([], { isMapMode: false });
     expect(objBST).toBeInstanceOf(BST);
     objBST.add([11, { key: 11, keyA: 11 }]);
     objBST.add([3, { key: 3, keyA: 3 }]);
@@ -1429,7 +1448,7 @@ describe('BST operations map mode test recursively', () => {
   });
 });
 
-describe('BST iterative methods map mode test', () => {
+describe('BST iterative methods not map mode test', () => {
   let bst: BST<number, string>;
   beforeEach(() => {
     bst = new BST();

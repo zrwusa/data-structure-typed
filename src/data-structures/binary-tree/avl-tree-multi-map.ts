@@ -129,7 +129,7 @@ export class AVLTreeMultiMap<
    * @returns a new instance of the AVLTreeMultiMapNode class, casted as NODE.
    */
   override createNode(key: K, value?: V, count?: number): NODE {
-    return new AVLTreeMultiMapNode(key, value, count) as NODE;
+    return new AVLTreeMultiMapNode(key, this._isMapMode ? undefined : value, count) as NODE;
   }
 
   /**

@@ -141,7 +141,7 @@ export class BST<
    * @returns The method is returning a new instance of the BSTNode class, casted as the NODE type.
    */
   override createNode(key: K, value?: V): NODE {
-    return new BSTNode<K, V, NODE>(key, value) as NODE;
+    return new BSTNode<K, V, NODE>(key, this._isMapMode ? undefined : value) as NODE;
   }
 
   /**
@@ -174,9 +174,9 @@ export class BST<
     keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R,
     value?: V
   ): [OptNode<NODE>, V | undefined] {
-    const [node, tValue] = super.keyValueNodeEntryRawToNodeAndValue(keyNodeEntryOrRaw, value);
+    const [node, entryValue] = super.keyValueNodeEntryRawToNodeAndValue(keyNodeEntryOrRaw, value);
     if (node === null) return [undefined, undefined];
-    return [node, tValue ?? value];
+    return [node, value ?? entryValue];
   }
 
   /**
@@ -250,6 +250,7 @@ export class BST<
     while (current !== undefined) {
       if (this.comparator(current.key, newNode.key) === 0) {
         this._replaceNode(current, newNode);
+        if (this._isMapMode) this._setValue(current.key, newValue);
         return true;
       } else if (this.comparator(current.key, newNode.key) > 0) {
         if (current.left === undefined) {

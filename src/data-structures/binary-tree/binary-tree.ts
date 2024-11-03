@@ -135,7 +135,7 @@ export class BinaryTree<
     if (keysNodesEntriesOrRaws) this.addMany(keysNodesEntriesOrRaws);
   }
 
-  protected _isMapMode = false;
+  protected _isMapMode = true;
 
   get isMapMode() {
     return this._isMapMode;
@@ -181,7 +181,7 @@ export class BinaryTree<
    * as NODE.
    */
   createNode(key: K, value?: V): NODE {
-    return new BinaryTreeNode<K, V, NODE>(key, value) as NODE;
+    return new BinaryTreeNode<K, V, NODE>(key, this._isMapMode ? undefined : value) as NODE;
   }
 
   /**

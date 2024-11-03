@@ -106,7 +106,7 @@ export class RedBlackTree<
    * returned.
    */
   override createNode(key: K, value?: V, color: RBTNColor = 'BLACK'): NODE {
-    return new RedBlackTreeNode<K, V, NODE>(key, value, color) as NODE;
+    return new RedBlackTreeNode<K, V, NODE>(key, this._isMapMode ? undefined : value, color) as NODE;
   }
 
   /**
@@ -218,7 +218,12 @@ export class RedBlackTree<
       if (this._isMapMode) this._setValue(newNode.key, newValue);
       this._size++;
       return true;
-    } else return insertStatus === 'UPDATED';
+    }
+    if (insertStatus === 'UPDATED') {
+      if (this._isMapMode) this._setValue(newNode.key, newValue);
+      return true;
+    }
+    return false;
   }
 
   /**

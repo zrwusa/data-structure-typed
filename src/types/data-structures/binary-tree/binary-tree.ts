@@ -1,6 +1,6 @@
-import { BinaryTree, BinaryTreeNode } from '../../../data-structures';
-import { IterationType, OptValue } from '../../common';
-import { DFSOperation } from '../../../constants';
+import {BinaryTree, BinaryTreeNode} from '../../../data-structures';
+import {IterationType, OptValue} from '../../common';
+import {DFSOperation} from '../../../constants';
 
 export type BinaryTreeNodeNested<K, V> = BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, BinaryTreeNode<K, V, any>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -9,9 +9,9 @@ export type BinaryTreeNested<K, V, R, NODE extends BinaryTreeNode<K, V, NODE>> =
 export type ToEntryFn<K, V, R> = (rawElement: R) => BTNEntry<K, V>;
 
 export type BinaryTreeOptions<K, V, R> = {
-    iterationType?: IterationType;
-    toEntryFn?: ToEntryFn<K, V, R>;
-    isMapMode?: boolean;
+  iterationType?: IterationType;
+  toEntryFn?: ToEntryFn<K, V, R>;
+  isMapMode?: boolean;
 }
 
 export type BinaryTreePrintOptions = { isShowUndefined?: boolean; isShowNull?: boolean; isShowRedBlackNIL?: boolean };

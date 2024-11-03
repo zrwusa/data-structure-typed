@@ -182,6 +182,25 @@ describe('RedBlackTree 1', () => {
     expect(rbTree.size).toBe(4);
     expect(cloned.size).toBe(3);
   });
+
+  it('should replace value', () => {
+    const tree = new RedBlackTree<number, string>([4, 5, [1, '1'], 2, 3], { isMapMode: false });
+    expect(tree.get(1)).toBe('1');
+    expect(tree.getNode(1)?.value).toBe('1');
+    tree.add(1, 'a');
+    expect(tree.get(1)).toBe('a');
+    tree.add([1, 'b']);
+    expect(tree.getNode(1)?.value).toBe('b');
+    expect(tree.get(1)).toBe('b');
+    const treeMap = new RedBlackTree<number>([4, 5, [1, '1'], 2, 3]);
+    expect(treeMap.get(1)).toBe('1');
+    expect(treeMap.getNode(1)?.value).toBe(undefined);
+    treeMap.add(1, 'a');
+    expect(treeMap.get(1)).toBe('a');
+    treeMap.add([1, 'b']);
+    expect(treeMap.getNode(1)?.value).toBe(undefined);
+    expect(treeMap.get(1)).toBe('b');
+  });
 });
 
 describe('RedBlackTree 2', () => {

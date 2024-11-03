@@ -75,7 +75,7 @@ describe('AVLTreeMultiMap operations test1', () => {
     const nodeId10 = treeMultimap.getNode(10);
     expect(nodeId10?.key).toBe(10);
 
-    const nodeVal9 = treeMultimap.getNode(node => node.value === 9);
+    const nodeVal9 = treeMultimap.getNode(node => node.key === 9);
     expect(nodeVal9?.key).toBe(9);
 
     const nodesByCount1 = treeMultimap.getNodes(node => node.count === 1);
@@ -331,7 +331,7 @@ describe('AVLTreeMultiMap operations test recursively1', () => {
     const nodeId10 = treeMultimap.getNode(10);
     expect(nodeId10?.key).toBe(10);
 
-    const nodeVal9 = treeMultimap.getNode(node => node.value === 9);
+    const nodeVal9 = treeMultimap.getNode(node => node.key === 9);
     expect(nodeVal9?.key).toBe(9);
 
     const nodesByCount1 = treeMultimap.getNodes(node => node.count === 1);
@@ -762,10 +762,10 @@ describe('AVLTree toEntryFn', () => {
   });
 });
 
-describe('AVLTreeMultiMap map mode count', () => {
+describe('AVLTreeMultiMap not map mode count', () => {
   let tm: AVLTreeMultiMap<number>;
   beforeEach(() => {
-    tm = new AVLTreeMultiMap<number>([], { isMapMode: true });
+    tm = new AVLTreeMultiMap<number>([], { isMapMode: false });
   });
   it('Should added isolated node count ', () => {
     tm.addMany([
@@ -781,9 +781,9 @@ describe('AVLTreeMultiMap map mode count', () => {
   });
 });
 
-describe('AVLTreeMultiMap map mode operations test1', () => {
+describe('AVLTreeMultiMap not map mode operations test1', () => {
   it('should perform various operations on a Binary Search Tree with numeric values1', () => {
-    const treeMultimap = new AVLTreeMultiMap<number>([], { isMapMode: true });
+    const treeMultimap = new AVLTreeMultiMap<number>([], { isMapMode: false });
 
     expect(treeMultimap instanceof AVLTreeMultiMap);
     treeMultimap.add([11, 11]);
@@ -826,11 +826,11 @@ describe('AVLTreeMultiMap map mode operations test1', () => {
   });
 });
 
-describe('AVLTreeMultiMap map mode operations test recursively1', () => {
+describe('AVLTreeMultiMap not map mode operations test recursively1', () => {
   it('should perform various operations on a Binary Search Tree with numeric values1', () => {
     const treeMultimap = new AVLTreeMultiMap<number>([], {
       iterationType: 'RECURSIVE',
-      isMapMode: true
+      isMapMode: false
     });
 
     expect(treeMultimap instanceof AVLTreeMultiMap);

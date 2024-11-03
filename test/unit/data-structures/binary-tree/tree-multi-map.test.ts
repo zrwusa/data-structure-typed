@@ -133,7 +133,7 @@ describe('TreeMultiMap operations test1', () => {
     const nodeId10 = tmm.getNode(10);
     expect(nodeId10?.key).toBe(10);
 
-    const nodeVal9 = tmm.getNode(node => node.value === 9);
+    const nodeVal9 = tmm.getNode(node => node.key === 9);
     expect(nodeVal9?.key).toBe(9);
 
     const nodesByCount1 = tmm.getNodes(node => node.count === 1);
@@ -391,7 +391,7 @@ describe('TreeMultiMap operations test recursively1', () => {
     const nodeId10 = tmm.getNode(10);
     expect(nodeId10?.key).toBe(10);
 
-    const nodeVal9 = tmm.getNode(node => node.value === 9);
+    const nodeVal9 = tmm.getNode(node => node.key === 9);
     expect(nodeVal9?.key).toBe(9);
 
     const nodesByCount1 = tmm.getNodes(node => node.count === 1);
@@ -837,10 +837,10 @@ describe('TreeMultiMap iterative methods test', () => {
   });
 });
 
-describe('TreeMultiMap count map mode', () => {
+describe('TreeMultiMap count not map mode', () => {
   let tmm: TreeMultiMap<number>;
   beforeEach(() => {
-    tmm = new TreeMultiMap<number>([], { isMapMode: true });
+    tmm = new TreeMultiMap<number>([], { isMapMode: false });
   });
 
   it('Should added node count ', () => {
@@ -860,9 +860,9 @@ describe('TreeMultiMap count map mode', () => {
   });
 });
 
-describe('TreeMultiMap operations test1 map mode', () => {
+describe('TreeMultiMap operations test1 not map mode', () => {
   it('should perform various operations on a Binary Search Tree with numeric values1', () => {
-    const tmm = new TreeMultiMap<number, number>([], { isMapMode: true });
+    const tmm = new TreeMultiMap<number, number>([], { isMapMode: false });
 
     expect(tmm instanceof TreeMultiMap);
 
@@ -907,11 +907,11 @@ describe('TreeMultiMap operations test1 map mode', () => {
   });
 });
 
-describe('TreeMultiMap operations test recursively1 map mode', () => {
+describe('TreeMultiMap operations test recursively1 not map mode', () => {
   it('should perform various operations on a Binary Search Tree with numeric values1', () => {
     const tmm = new TreeMultiMap<number>([], {
       iterationType: 'RECURSIVE',
-      isMapMode: true
+      isMapMode: false
     });
 
     expect(tmm instanceof TreeMultiMap);
@@ -956,10 +956,10 @@ describe('TreeMultiMap operations test recursively1 map mode', () => {
   });
 });
 
-describe('TreeMultiMap iterative methods testm ap mode', () => {
+describe('TreeMultiMap iterative methods test not map mode', () => {
   let treeMM: TreeMultiMap<number, string>;
   beforeEach(() => {
-    treeMM = new TreeMultiMap<number, string>([], { isMapMode: true });
+    treeMM = new TreeMultiMap<number, string>([], { isMapMode: false });
     treeMM.add(1, 'a', 10);
     treeMM.add([2, 'b'], undefined, 10);
     treeMM.add([3, 'c'], undefined, 1);
@@ -970,6 +970,6 @@ describe('TreeMultiMap iterative methods testm ap mode', () => {
     expect(treeMM.getComputedCount()).toBe(21);
     const cloned = treeMM.clone();
     expect(cloned.root?.left?.key).toBe(1);
-    expect(cloned.get(cloned.root?.right)).toBe('c');
+    expect(cloned.get(cloned.root?.right)).toBe(undefined);
   });
 });

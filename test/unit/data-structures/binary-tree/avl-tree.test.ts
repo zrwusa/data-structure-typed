@@ -32,7 +32,7 @@ describe('AVL Tree Test', () => {
     expect(lesserSum).toBe(45);
 
     // node15 has type problem. After the uniform design, the generics of containers (DirectedGraph, BST) are based on the type of value. However, this design has a drawback: when I attempt to inherit from the Vertex or BSTNode classes, the types of the results obtained by all methods are those of the parent class.
-    expect(node15?.value).toBe(15);
+    expect(node15?.value).toBe(undefined);
     const dfs = tree.dfs(node => node, 'IN');
     expect(dfs[0].key).toBe(1);
     expect(dfs[dfs.length - 1].key).toBe(16);
@@ -106,6 +106,25 @@ describe('AVL Tree Test', () => {
     expect(lastBFSNodes[1].key).toBe(2);
     expect(lastBFSNodes[2].key).toBe(16);
   });
+
+  it('should replace value', () => {
+    const tree = new AVLTree<number, string>([4, 5, [1, '1'], 2, 3], { isMapMode: false });
+    expect(tree.get(1)).toBe('1');
+    expect(tree.getNode(1)?.value).toBe('1');
+    tree.add(1, 'a');
+    expect(tree.get(1)).toBe('a');
+    tree.add([1, 'b']);
+    expect(tree.getNode(1)?.value).toBe('b');
+    expect(tree.get(1)).toBe('b');
+    const treeMap = new AVLTree<number>([4, 5, [1, '1'], 2, 3]);
+    expect(treeMap.get(1)).toBe('1');
+    expect(treeMap.getNode(1)?.value).toBe(undefined);
+    treeMap.add(1, 'a');
+    expect(treeMap.get(1)).toBe('a');
+    treeMap.add([1, 'b']);
+    expect(treeMap.getNode(1)?.value).toBe(undefined);
+    expect(treeMap.get(1)).toBe('b');
+  });
 });
 
 describe('AVL Tree Test recursively', () => {
@@ -139,7 +158,7 @@ describe('AVL Tree Test recursively', () => {
     expect(lesserSum).toBe(45);
 
     // node15 has type problem. After the uniform design, the generics of containers (DirectedGraph, BST) are based on the type of value. However, this design has a drawback: when I attempt to inherit from the Vertex or BSTNode classes, the types of the results obtained by all methods are those of the parent class.
-    expect(node15?.value).toBe(15);
+    expect(node15?.value).toBe(undefined);
 
     const dfs = tree.dfs(node => node, 'IN');
     expect(dfs[0].key).toBe(1);
@@ -418,7 +437,7 @@ describe('AVLTree iterative methods test', () => {
   it('should clone work well', () => {
     const cloned = avl.clone();
     expect(cloned.root?.left?.key).toBe(1);
-    expect(cloned.root?.right?.value).toBe('c');
+    expect(cloned.root?.right?.value).toBe(undefined);
   });
 
   it('should keys', () => {
@@ -437,10 +456,10 @@ describe('AVLTree iterative methods test', () => {
   });
 });
 
-describe('AVL Tree map mode', () => {
+describe('AVL Tree not map mode', () => {
   it('should perform various operations on a AVL Tree', () => {
     const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
-    const tree = new AVLTree<number>([], { isMapMode: true });
+    const tree = new AVLTree<number>([], { isMapMode: false });
 
     for (const i of arr) tree.add([i, i]);
 
@@ -473,10 +492,10 @@ describe('AVL Tree map mode', () => {
   });
 });
 
-describe('AVL Tree map mode test recursively', () => {
+describe('AVL Tree not map mode test recursively', () => {
   it('should perform various operations on a AVL Tree', () => {
     const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
-    const tree = new AVLTree<number>([], { iterationType: 'RECURSIVE', isMapMode: true });
+    const tree = new AVLTree<number>([], { iterationType: 'RECURSIVE', isMapMode: false });
 
     for (const i of arr) tree.add([i, i]);
 
@@ -508,10 +527,10 @@ describe('AVL Tree map mode test recursively', () => {
   });
 });
 
-describe('AVLTree iterative methods map mode', () => {
+describe('AVLTree iterative methods not map mode', () => {
   let avl: AVLTree<number, string>;
   beforeEach(() => {
-    avl = new AVLTree<number, string>([], { isMapMode: true });
+    avl = new AVLTree<number, string>([], { isMapMode: false });
     avl.add([1, 'a']);
     avl.add([2, 'b']);
     avl.add([3, 'c']);

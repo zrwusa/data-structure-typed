@@ -124,7 +124,7 @@ export class TreeMultiMap<
    * @returns A new instance of the TreeMultiMapNode class, casted as NODE.
    */
   override createNode(key: K, value?: V, color: RBTNColor = 'BLACK', count?: number): NODE {
-    return new TreeMultiMapNode(key, value, count, color) as NODE;
+    return new TreeMultiMapNode(key, this._isMapMode ? undefined : value, count, color) as NODE;
   }
 
   /**
