@@ -1035,4 +1035,18 @@ describe('delete', () => {
     // even though A no longer has any knowledge of C linking to it.
     expect(graph.outgoingEdgesOf('C').map(e => e.dest)).toEqual(['A']);
   });
+
+  // it('should print', () => {
+  //   const graph = new DirectedGraph();
+  //   graph.addVertex('A');
+  //   graph.addVertex('B');
+  //   graph.addVertex('C');
+  //
+  //   graph.addEdge('A', 'B');
+  //   graph.addEdge('A', 'C');
+  //   graph.addEdge('B', 'C');
+  //   graph.addEdge('C', 'B');
+  //   graph.print();
+  //
+  // })
 });

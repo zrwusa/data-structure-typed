@@ -3,7 +3,7 @@ import * as Benchmark from 'benchmark';
 import { getRandomIntArray, magnitude } from '../../../utils';
 
 const suite = new Benchmark.Suite();
-const biTree = new BinaryTree<number>([], { isMapMode: true });
+const biTree = new BinaryTree<number>();
 const { THOUSAND } = magnitude;
 const arr = getRandomIntArray(THOUSAND, 0, THOUSAND, true);
 

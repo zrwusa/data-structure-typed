@@ -1,5 +1,5 @@
-import {RedBlackTree, RedBlackTreeNode} from '../../../data-structures';
-import type {BSTOptions} from "./bst";
+import { RedBlackTree, RedBlackTreeNode } from '../../../data-structures';
+import type { BSTOptions } from "./bst";
 
 export type RBTNColor = 'RED' | 'BLACK';
 

@@ -1,19 +1,22 @@
 import { getRandomInt } from './number';
 
-export function getRandomIntArray(length: number = 1000, min: number = -1000, max: number = 1000, isDistinct = true) {
-  if (isDistinct) {
-    const set = new Set<number>();
-    const ans: number[] = [];
-    while (ans.length < length) {
-      const num = getRandomInt(min, max);
-      if (!set.has(num)) {
-        ans.push(num);
-        set.add(num);
-      }
+export function getRandomIntArray(length: number = 1000, min: number = -1000, max: number = 1000, unique = true) {
+  if (unique) {
+    if (max - min + 1 < length) {
+      throw new Error('Range too small for unique values with the specified length');
     }
-    return ans;
+
+    const allNumbers = Array.from({ length: max - min + 1 }, (_, i) => i + min);
+
+    for (let i = allNumbers.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [allNumbers[i], allNumbers[j]] = [allNumbers[j], allNumbers[i]];
+    }
+
+    return allNumbers.slice(0, length);
+  } else {
+    return Array.from({ length }, () => Math.floor(Math.random() * (max - min + 1)) + min);
   }
-  return new Array<number>(length).fill(0).map(() => getRandomInt(min, max));
 }
 
 const words = [

@@ -1,5 +1,5 @@
-import {TreeMultiMap, TreeMultiMapNode} from '../../../data-structures';
-import type {RBTreeOptions} from './rb-tree';
+import { TreeMultiMap, TreeMultiMapNode } from '../../../data-structures';
+import type { RBTreeOptions } from './rb-tree';
 
 export type TreeMultiMapNodeNested<K, V> = TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, TreeMultiMapNode<K, V, any>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 

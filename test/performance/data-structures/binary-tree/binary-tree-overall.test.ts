@@ -3,8 +3,8 @@ import * as Benchmark from 'benchmark';
 import { getRandomIntArray, magnitude } from '../../../utils';
 
 const suite = new Benchmark.Suite();
-const rbTree = new RedBlackTree<number>([], { isMapMode: true });
-const avlTree = new AVLTree<number>([], { isMapMode: true });
+const rbTree = new RedBlackTree<number>();
+const avlTree = new AVLTree<number>();
 const { TEN_THOUSAND } = magnitude;
 const arr = getRandomIntArray(TEN_THOUSAND, 0, TEN_THOUSAND - 1, true);
 
