@@ -457,3 +457,178 @@ describe('FibonacciHeap Stress Test', () => {
     );
   });
 });
+
+describe('classic use', () => {
+  it('heap sort', () => {
+    function heapSort(arr: number[]): number[] {
+      const heap = new Heap<number>(arr, { comparator: (a, b) => a - b });
+      const sorted: number[] = [];
+      while (!heap.isEmpty()) {
+        sorted.push(heap.poll()!); // Poll minimum element
+      }
+      return sorted;
+    }
+
+    const array = [5, 3, 8, 4, 1, 2];
+    expect(heapSort(array)).toEqual([1, 2, 3, 4, 5, 8]);
+  });
+
+  it('top k', () => {
+    function topKElements(arr: number[], k: number): number[] {
+      const heap = new Heap<number>([], { comparator: (a, b) => b - a }); // Max heap
+      arr.forEach(num => {
+        heap.add(num);
+        if (heap.size > k) heap.poll(); // Keep the heap size at K
+      });
+      return heap.toArray();
+    }
+
+    const numbers = [10, 30, 20, 5, 15, 25];
+    console.log('Top K:', topKElements(numbers, 3)); // [15, 10, 5]
+    expect(topKElements(numbers, 3)).toEqual([15, 10, 5]);
+  });
+
+  it('merge sorted sequences', () => {
+    function mergeSortedSequences(sequences: number[][]): number[] {
+      const heap = new Heap<{ value: number; seqIndex: number; itemIndex: number }>([], {
+        comparator: (a, b) => a.value - b.value // Min heap
+      });
+
+      // Initialize heap
+      sequences.forEach((seq, seqIndex) => {
+        if (seq.length) {
+          heap.add({ value: seq[0], seqIndex, itemIndex: 0 });
+        }
+      });
+
+      const merged: number[] = [];
+      while (!heap.isEmpty()) {
+        const { value, seqIndex, itemIndex } = heap.poll()!;
+        merged.push(value);
+
+        if (itemIndex + 1 < sequences[seqIndex].length) {
+          heap.add({
+            value: sequences[seqIndex][itemIndex + 1],
+            seqIndex,
+            itemIndex: itemIndex + 1
+          });
+        }
+      }
+
+      return merged;
+    }
+
+    const sequences = [
+      [1, 4, 7],
+      [2, 5, 8],
+      [3, 6, 9]
+    ];
+    console.log('Merged Sequences:', mergeSortedSequences(sequences)); // [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    expect(mergeSortedSequences(sequences)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  });
+
+  it('@example median finder', () => {
+    class MedianFinder {
+      private low: MaxHeap<number>; // Max heap, stores the smaller half
+      private high: MinHeap<number>; // Min heap, stores the larger half
+
+      constructor() {
+        this.low = new MaxHeap<number>([]);
+        this.high = new MinHeap<number>([]);
+      }
+
+      addNum(num: number): void {
+        if (this.low.isEmpty() || num <= this.low.peek()!) this.low.add(num);
+        else this.high.add(num);
+
+        // Balance heaps
+        if (this.low.size > this.high.size + 1) this.high.add(this.low.poll()!);
+        else if (this.high.size > this.low.size) this.low.add(this.high.poll()!);
+      }
+
+      findMedian(): number {
+        return this.low.peek()!;
+      }
+    }
+
+    const medianFinder = new MedianFinder();
+    medianFinder.addNum(10);
+    expect(medianFinder.findMedian()).toBe(10);
+    medianFinder.addNum(20);
+    expect(medianFinder.findMedian()).toBe(10);
+    medianFinder.addNum(30);
+    expect(medianFinder.findMedian()).toBe(20);
+    medianFinder.addNum(40);
+    expect(medianFinder.findMedian()).toBe(20);
+    medianFinder.addNum(50);
+    expect(medianFinder.findMedian()).toBe(30);
+  });
+
+  it('schedule tasks', () => {
+    type Task = [string, number];
+
+    function scheduleTasks(tasks: Task[], machines: number): Map<number, Task[]> {
+      const machineHeap = new Heap<{ id: number; load: number }>([], { comparator: (a, b) => a.load - b.load }); // Min heap
+      const allocation = new Map<number, Task[]>();
+
+      // Initialize the load on each machine
+      for (let i = 0; i < machines; i++) {
+        machineHeap.add({ id: i, load: 0 });
+        allocation.set(i, []);
+      }
+
+      // Assign tasks
+      tasks.forEach(([task, load]) => {
+        const machine = machineHeap.poll()!;
+        allocation.get(machine.id)!.push([task, load]);
+        machine.load += load;
+        machineHeap.add(machine); // The machine after updating the load is re-entered into the heap
+      });
+
+      return allocation;
+    }
+
+    const tasks: Task[] = [
+      ['Task1', 3],
+      ['Task2', 1],
+      ['Task3', 2],
+      ['Task4', 5],
+      ['Task5', 4]
+    ];
+    const expectedMap = new Map<number, Task[]>();
+    expectedMap.set(0, [
+      ['Task1', 3],
+      ['Task4', 5]
+    ]);
+    expectedMap.set(1, [
+      ['Task2', 1],
+      ['Task3', 2],
+      ['Task5', 4]
+    ]);
+    expect(scheduleTasks(tasks, 2)).toEqual(expectedMap);
+  });
+
+  it('@example Use Heap for load balancing', () => {
+    function loadBalance(requests: number[], servers: number): number[] {
+      const serverHeap = new Heap<{ id: number; load: number }>([], { comparator: (a, b) => a.load - b.load }); // min heap
+      const serverLoads = new Array(servers).fill(0);
+
+      for (let i = 0; i < servers; i++) {
+        serverHeap.add({ id: i, load: 0 });
+      }
+
+      requests.forEach(req => {
+        const server = serverHeap.poll()!;
+        serverLoads[server.id] += req;
+        server.load += req;
+        serverHeap.add(server); // The server after updating the load is re-entered into the heap
+      });
+
+      return serverLoads;
+    }
+
+    const requests = [5, 2, 8, 3, 7];
+    const serversLoads = loadBalance(requests, 3);
+    expect(serversLoads).toEqual([12, 8, 5]);
+  });
+});

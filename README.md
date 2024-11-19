@@ -798,6 +798,12 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', '
 
 ```
 
+
+[//]: # (No deletion!!! Start of Example Replace Section)
+
+
+[//]: # (No deletion!!! End of Example Replace Section)
+
 ## API docs & Examples
 
 [API Docs](https://data-structure-typed-docs.vercel.app)
