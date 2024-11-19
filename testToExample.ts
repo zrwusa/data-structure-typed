@@ -105,16 +105,16 @@ function addExamplesToSourceFile(
     const classEnd = classNode.getEnd();
     const classText = classNode.getFullText(sourceFile);
 
-    // 提取注释内容
+    // Extract annotation content
     const existingCommentMatch = classText.match(/\/\*\*([\s\S]*?)\*\//);
     if (!existingCommentMatch) {
       console.warn(`No existing comment found for class: ${className}`);
       return;
     }
 
-    const existingCommentInner = existingCommentMatch[1]; // 提取注释内容（不包括`/**`和`*/`）
+    const existingCommentInner = existingCommentMatch[1]; // Extract comment content (excluding `/**` and `*/`)
 
-    // 替换 @example 部分
+    // Replace @example part
     const exampleSection = examples
       .map(
         example =>
@@ -133,7 +133,7 @@ function addExamplesToSourceFile(
     }
 
 
-    // 替换原始内容
+    // Replace original content
     updatedContent =
       sourceContent.slice(0, classStart - existingCommentInner.length - 1) +
       newComment +
