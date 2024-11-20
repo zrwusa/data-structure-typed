@@ -82,13 +82,13 @@ export class DoublyLinkedListNode<E = any> {
 }
 
 /**
- * 1. Node Structure: Each node contains three parts: a data field, a pointer (or reference) to the previous node, and a pointer to the next node. This structure allows traversal of the linked list in both directions.
+ *1. Node Structure: Each node contains three parts: a data field, a pointer (or reference) to the previous node, and a pointer to the next node. This structure allows traversal of the linked list in both directions.
  * 2. Bidirectional Traversal: Unlike singly linked lists, doubly linked lists can be easily traversed forwards or backwards. This makes insertions and deletions in the list more flexible and efficient.
  * 3. No Centralized Index: Unlike arrays, elements in a linked list are not stored contiguously, so there is no centralized index. Accessing elements in a linked list typically requires traversing from the head or tail node.
  * 4. High Efficiency in Insertion and Deletion: Adding or removing elements in a linked list does not require moving other elements, making these operations more efficient than in arrays.
  * @example
  * // text editor operation history
- * const actions = [
+ *     const actions = [
  *       { type: 'insert', content: 'first line of text' },
  *       { type: 'insert', content: 'second line of text' },
  *       { type: 'delete', content: 'delete the first line' }
@@ -100,7 +100,7 @@ export class DoublyLinkedListNode<E = any> {
  *     console.log(editorHistory.last?.type); // 'insert'
  * @example
  * // Browser history
- * const browserHistory = new DoublyLinkedList<string>();
+ *     const browserHistory = new DoublyLinkedList<string>();
  *
  *     browserHistory.push('home page');
  *     browserHistory.push('search page');
@@ -111,7 +111,7 @@ export class DoublyLinkedListNode<E = any> {
  *     console.log(browserHistory.last); // 'search page'
  * @example
  * // Use DoublyLinkedList to implement music player
- * // Define the Song interface
+ *     // Define the Song interface
  *     interface Song {
  *       title: string;
  *       artist: string;
@@ -236,7 +236,7 @@ export class DoublyLinkedListNode<E = any> {
  *  //    ]
  * @example
  * // Use DoublyLinkedList to implement LRU cache
- * interface CacheEntry<K, V> {
+ *     interface CacheEntry<K, V> {
  *       key: K;
  *       value: V;
  *     }
@@ -398,7 +398,7 @@ export class DoublyLinkedListNode<E = any> {
  *     console.log(cache.isEmpty); // true
  * @example
  * // finding lyrics by timestamp in Coldplay's "Fix You"
- * // Create a DoublyLinkedList to store song lyrics with timestamps
+ *     // Create a DoublyLinkedList to store song lyrics with timestamps
  *     const lyricsList = new DoublyLinkedList<{ time: number; text: string }>();
  *
  *     // Detailed lyrics with precise timestamps (in milliseconds)
@@ -438,7 +438,7 @@ export class DoublyLinkedListNode<E = any> {
  *     console.log(lateTimeLyric?.text); // 'And I will try to fix you'
  * @example
  * // cpu process schedules
- * class Process {
+ *     class Process {
  *       constructor(
  *         public id: number,
  *         public priority: number

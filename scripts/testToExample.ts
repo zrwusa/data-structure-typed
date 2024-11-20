@@ -1,13 +1,27 @@
+// @ts-ignore
 import fs from 'fs';
+// @ts-ignore
 import path from 'path';
 import * as ts from 'typescript';
-import { toPascalCase } from './test/utils';
+
+const filePath = path.resolve(__dirname, './config.json');
+const fileContent = fs.readFileSync(filePath, 'utf-8');
+const config = JSON.parse(fileContent);
+
+function toPascalCase(str: string): string {
+  return str
+    .replace(/([a-z])([A-Z])/g, '$1 $2') // Add space between lowercase and uppercase letters
+    .replace(/[^a-zA-Z0-9]+/g, ' ') // Replace non-alphanumeric characters with spaces
+    .split(' ') // Separate strings by spaces
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // The first letter is capitalized, the rest are lowercase
+    .join(''); // Combine into a string
+}
 
 const isReplaceMD = true;
 const START_MARKER = '[//]: # (No deletion!!! Start of Example Replace Section)';
 const END_MARKER = '[//]: # (No deletion!!! End of Example Replace Section)';
 
-const pkgRootDir = '/Users/revone/projects/data-structure-typed-individuals';
+const pkgRootDir = config.individualsDir;
 const dirMap: Record<string, string | string[]> = {
   Heap: "heap-typed",
   AvlTree: "avl-tree-typed",
@@ -93,6 +107,7 @@ function extractExamplesFromFile(filePath: string): { name: string; body: string
           }
         )
         .replace(
+          // @ts-ignore
           /expect\((.*?)\)\.(toEqual|toBe|toStrictEqual|toHaveLength|toMatchObject)\((.*?)\);/gs, // Use `s` flag for multiline
           (match, actual, method, expected) => {
               expected = expected.replace(/\n/g, '\n //')
@@ -151,11 +166,15 @@ function addExamplesToSourceFile(
     // Replace @example part
     const exampleSection = examples
       .map(
-        example =>
-          ` * @example \n * \/\/ ${example.name} \n${example.body
+        example => {
+          const indentedBody = '    ' + example.body;
+          return ` * @example\n * \/\/ ${example.name}\n${indentedBody
             .split('\n')
-            .map(line => ` * ${line}`)
+            .map(line => {
+              if (line.trim() === '') return ` *`
+              return ` * ${line}`})
             .join('\n')}`
+        }
       )
       .join('\n') + '\n ';
 
@@ -163,7 +182,7 @@ function addExamplesToSourceFile(
     if (existingCommentInner.includes('@example')) {
       newComment = existingCommentInner.replace(/ \* @example[\s\S]*?(?=\*\/|$)/g, exampleSection);
     } else {
-      newComment = existingCommentInner + `${exampleSection}`;
+      newComment = existingCommentInner + `${exampleSection.trimStart()}`;
     }
 
 
@@ -210,7 +229,9 @@ function updateExamples(testDir: string, sourceBaseDir: string): void {
 
 
     const newExamples = examples.map(
-      example => `### ${example.name}\n\`\`\`typescript\n${example.body}\n\`\`\``
+      example => {
+        const indentedBody = '    ' + example.body;
+        return `### ${example.name}\n\`\`\`typescript\n${indentedBody}\n\`\`\``}
     );
 
     if (isReplaceMD && newExamples.length > 0) {
@@ -252,7 +273,7 @@ function replaceExamplesInReadme(readmePath: string, newExamples: string[]): voi
 }
 
 // Run the script
-const testDir = path.resolve(__dirname, 'test/unit');
-const sourceBaseDir = path.resolve(__dirname, 'src');
+const testDir = path.resolve(__dirname, '../test/unit');
+const sourceBaseDir = path.resolve(__dirname, '../src');
 
 updateExamples(testDir, sourceBaseDir);

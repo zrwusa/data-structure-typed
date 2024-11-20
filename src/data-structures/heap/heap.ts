@@ -21,7 +21,7 @@ import { IterableElementBase } from '../base';
  * 8. Graph Algorithms: Such as Dijkstra's shortest path algorithm and Prime's minimum-spanning tree algorithm, which use heaps to improve performance.
  * @example
  * // Use Heap to sort an array
- * function heapSort(arr: number[]): number[] {
+ *     function heapSort(arr: number[]): number[] {
  *       const heap = new Heap<number>(arr, { comparator: (a, b) => a - b });
  *       const sorted: number[] = [];
  *       while (!heap.isEmpty()) {
@@ -34,7 +34,7 @@ import { IterableElementBase } from '../base';
  *     console.log(heapSort(array)); // [1, 2, 3, 4, 5, 8]
  * @example
  * // Use Heap to solve top k problems
- * function topKElements(arr: number[], k: number): number[] {
+ *     function topKElements(arr: number[], k: number): number[] {
  *       const heap = new Heap<number>([], { comparator: (a, b) => b - a }); // Max heap
  *       arr.forEach(num => {
  *         heap.add(num);
@@ -47,7 +47,7 @@ import { IterableElementBase } from '../base';
  *     console.log(topKElements(numbers, 3)); // [15, 10, 5]
  * @example
  * // Use Heap to merge sorted sequences
- * function mergeSortedSequences(sequences: number[][]): number[] {
+ *     function mergeSortedSequences(sequences: number[][]): number[] {
  *       const heap = new Heap<{ value: number; seqIndex: number; itemIndex: number }>([], {
  *         comparator: (a, b) => a.value - b.value // Min heap
  *       });
@@ -84,7 +84,7 @@ import { IterableElementBase } from '../base';
  *     console.log(mergeSortedSequences(sequences)); // [1, 2, 3, 4, 5, 6, 7, 8, 9]
  * @example
  * // Use Heap to dynamically maintain the median
- * class MedianFinder {
+ *     class MedianFinder {
  *       private low: MaxHeap<number>; // Max heap, stores the smaller half
  *       private high: MinHeap<number>; // Min heap, stores the larger half
  *
@@ -121,7 +121,7 @@ import { IterableElementBase } from '../base';
  *     console.log(medianFinder.findMedian()); // 30
  * @example
  * // Use Heap for load balancing
- * function loadBalance(requests: number[], servers: number): number[] {
+ *     function loadBalance(requests: number[], servers: number): number[] {
  *       const serverHeap = new Heap<{ id: number; load: number }>([], { comparator: (a, b) => a.load - b.load }); // min heap
  *       const serverLoads = new Array(servers).fill(0);
  *
@@ -143,7 +143,7 @@ import { IterableElementBase } from '../base';
  *     console.log(loadBalance(requests, 3)); // [12, 8, 5]
  * @example
  * // Use Heap to schedule tasks
- * type Task = [string, number];
+ *     type Task = [string, number];
  *
  *     function scheduleTasks(tasks: Task[], machines: number): Map<number, Task[]> {
  *       const machineHeap = new Heap<{ id: number; load: number }>([], { comparator: (a, b) => a.load - b.load }); // Min heap
