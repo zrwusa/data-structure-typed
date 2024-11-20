@@ -459,7 +459,7 @@ describe('FibonacciHeap Stress Test', () => {
 });
 
 describe('classic use', () => {
-  it('heap sort', () => {
+  it('@example Use Heap to sort an array', () => {
     function heapSort(arr: number[]): number[] {
       const heap = new Heap<number>(arr, { comparator: (a, b) => a - b });
       const sorted: number[] = [];
@@ -473,7 +473,7 @@ describe('classic use', () => {
     expect(heapSort(array)).toEqual([1, 2, 3, 4, 5, 8]);
   });
 
-  it('top k', () => {
+  it('@example Use Heap to solve top k problems', () => {
     function topKElements(arr: number[], k: number): number[] {
       const heap = new Heap<number>([], { comparator: (a, b) => b - a }); // Max heap
       arr.forEach(num => {
@@ -484,11 +484,10 @@ describe('classic use', () => {
     }
 
     const numbers = [10, 30, 20, 5, 15, 25];
-    console.log('Top K:', topKElements(numbers, 3)); // [15, 10, 5]
     expect(topKElements(numbers, 3)).toEqual([15, 10, 5]);
   });
 
-  it('merge sorted sequences', () => {
+  it('@example Use Heap to merge sorted sequences', () => {
     function mergeSortedSequences(sequences: number[][]): number[] {
       const heap = new Heap<{ value: number; seqIndex: number; itemIndex: number }>([], {
         comparator: (a, b) => a.value - b.value // Min heap
@@ -523,11 +522,10 @@ describe('classic use', () => {
       [2, 5, 8],
       [3, 6, 9]
     ];
-    console.log('Merged Sequences:', mergeSortedSequences(sequences)); // [1, 2, 3, 4, 5, 6, 7, 8, 9]
     expect(mergeSortedSequences(sequences)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
   });
 
-  it('@example median finder', () => {
+  it('@example Use Heap to dynamically maintain the median', () => {
     class MedianFinder {
       private low: MaxHeap<number>; // Max heap, stores the smaller half
       private high: MinHeap<number>; // Min heap, stores the larger half
@@ -547,6 +545,7 @@ describe('classic use', () => {
       }
 
       findMedian(): number {
+        if (this.low.size === this.high.size) return (this.low.peek()! + this.high.peek()!) / 2;
         return this.low.peek()!;
       }
     }
@@ -555,16 +554,39 @@ describe('classic use', () => {
     medianFinder.addNum(10);
     expect(medianFinder.findMedian()).toBe(10);
     medianFinder.addNum(20);
-    expect(medianFinder.findMedian()).toBe(10);
+    expect(medianFinder.findMedian()).toBe(15);
     medianFinder.addNum(30);
     expect(medianFinder.findMedian()).toBe(20);
     medianFinder.addNum(40);
-    expect(medianFinder.findMedian()).toBe(20);
+    expect(medianFinder.findMedian()).toBe(25);
     medianFinder.addNum(50);
     expect(medianFinder.findMedian()).toBe(30);
   });
 
-  it('schedule tasks', () => {
+  it('@example Use Heap for load balancing', () => {
+    function loadBalance(requests: number[], servers: number): number[] {
+      const serverHeap = new Heap<{ id: number; load: number }>([], { comparator: (a, b) => a.load - b.load }); // min heap
+      const serverLoads = new Array(servers).fill(0);
+
+      for (let i = 0; i < servers; i++) {
+        serverHeap.add({ id: i, load: 0 });
+      }
+
+      requests.forEach(req => {
+        const server = serverHeap.poll()!;
+        serverLoads[server.id] += req;
+        server.load += req;
+        serverHeap.add(server); // The server after updating the load is re-entered into the heap
+      });
+
+      return serverLoads;
+    }
+
+    const requests = [5, 2, 8, 3, 7];
+    expect(loadBalance(requests, 3)).toEqual([12, 8, 5]);
+  });
+
+  it('@example Use Heap to schedule tasks', () => {
     type Task = [string, number];
 
     function scheduleTasks(tasks: Task[], machines: number): Map<number, Task[]> {
@@ -606,29 +628,5 @@ describe('classic use', () => {
       ['Task5', 4]
     ]);
     expect(scheduleTasks(tasks, 2)).toEqual(expectedMap);
-  });
-
-  it('@example Use Heap for load balancing', () => {
-    function loadBalance(requests: number[], servers: number): number[] {
-      const serverHeap = new Heap<{ id: number; load: number }>([], { comparator: (a, b) => a.load - b.load }); // min heap
-      const serverLoads = new Array(servers).fill(0);
-
-      for (let i = 0; i < servers; i++) {
-        serverHeap.add({ id: i, load: 0 });
-      }
-
-      requests.forEach(req => {
-        const server = serverHeap.poll()!;
-        serverLoads[server.id] += req;
-        server.load += req;
-        serverHeap.add(server); // The server after updating the load is re-entered into the heap
-      });
-
-      return serverLoads;
-    }
-
-    const requests = [5, 2, 8, 3, 7];
-    const serversLoads = loadBalance(requests, 3);
-    expect(serversLoads).toEqual([12, 8, 5]);
   });
 });

@@ -60,9 +60,17 @@ function extractExamplesFromFile(filePath: string): { name: string; body: string
 
       const transformedBody = exampleBody
         .replace(
-          /expect\((.*?)\)\.(toEqual|toBe|toStrictEqual|toHaveLength|toMatchObject)\((.*?)\);/g,
+          /expect\((.*?)\)\.(toEqual|toBe|toStrictEqual|toHaveLength|toMatchObject)\((.*?)\);/gs, // Use `s` flag for multiline
           (match, actual, method, expected) => {
-            return `console.log(${actual}); // ${expected.trim()}`;
+              expected = expected.replace(/\n/g, '\n //')
+            return `console.log(${actual}); // ${expected}`;
+          }
+        )
+        .replace(
+          /expect\((.*?)\)\.(toBeUndefined|toBeNull)\(\);/g,
+          (match, actual, method) => {
+            const expectedValue = method === 'toBeUndefined' ? 'undefined' : 'null';
+            return `console.log(${actual}); // ${expectedValue}`;
           }
         )
         .trim();
@@ -112,30 +120,30 @@ function addExamplesToSourceFile(
       return;
     }
 
-    const existingCommentInner = existingCommentMatch[1]; // Extract comment content (excluding `/**` and `*/`)
+    const existingCommentInner = existingCommentMatch[1].replace(/^\n \* /, ''); // Extract comment content (excluding `/**` and `*/`)
 
     // Replace @example part
     const exampleSection = examples
       .map(
         example =>
-          `@example \n * \/\/ ${example.name} \n${example.body
+          ` * @example \n * \/\/ ${example.name} \n${example.body
             .split('\n')
             .map(line => ` * ${line}`)
-            .join('\n')}\n * \n`
+            .join('\n')}`
       )
-      .join('\n');
+      .join('\n') + '\n ';
 
     let newComment = '';
     if (existingCommentInner.includes('@example')) {
-      newComment = existingCommentInner.replace(/@example[\s\S]*?(?=\*\/|$)/g, exampleSection);
+      newComment = existingCommentInner.replace(/ \* @example[\s\S]*?(?=\*\/|$)/g, exampleSection);
     } else {
-      newComment = existingCommentInner + `\n * ${exampleSection}`;
+      newComment = existingCommentInner + `${exampleSection}`;
     }
 
 
     // Replace original content
     updatedContent =
-      sourceContent.slice(0, classStart - existingCommentInner.length - 1) +
+      sourceContent.slice(0, classStart - existingCommentInner.length - 3) +
       newComment +
       classText.slice(existingCommentMatch[0].length).trim() +
       sourceContent.slice(classEnd);

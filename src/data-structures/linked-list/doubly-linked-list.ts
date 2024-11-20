@@ -86,6 +86,432 @@ export class DoublyLinkedListNode<E = any> {
  * 2. Bidirectional Traversal: Unlike singly linked lists, doubly linked lists can be easily traversed forwards or backwards. This makes insertions and deletions in the list more flexible and efficient.
  * 3. No Centralized Index: Unlike arrays, elements in a linked list are not stored contiguously, so there is no centralized index. Accessing elements in a linked list typically requires traversing from the head or tail node.
  * 4. High Efficiency in Insertion and Deletion: Adding or removing elements in a linked list does not require moving other elements, making these operations more efficient than in arrays.
+ * @example
+ * // text editor operation history
+ * const actions = [
+ *       { type: 'insert', content: 'first line of text' },
+ *       { type: 'insert', content: 'second line of text' },
+ *       { type: 'delete', content: 'delete the first line' }
+ *     ];
+ *     const editorHistory = new DoublyLinkedList<{ type: string; content: string }>(actions);
+ *
+ *     console.log(editorHistory.last?.type); // 'delete'
+ *     console.log(editorHistory.pop()?.content); // 'delete the first line'
+ *     console.log(editorHistory.last?.type); // 'insert'
+ * @example
+ * // Browser history
+ * const browserHistory = new DoublyLinkedList<string>();
+ *
+ *     browserHistory.push('home page');
+ *     browserHistory.push('search page');
+ *     browserHistory.push('details page');
+ *
+ *     console.log(browserHistory.last); // 'details page'
+ *     console.log(browserHistory.pop()); // 'details page'
+ *     console.log(browserHistory.last); // 'search page'
+ * @example
+ * // Use DoublyLinkedList to implement music player
+ * // Define the Song interface
+ *     interface Song {
+ *       title: string;
+ *       artist: string;
+ *       duration: number; // duration in seconds
+ *     }
+ *
+ *     class Player {
+ *       private playlist: DoublyLinkedList<Song>;
+ *       private currentSong: ReturnType<typeof this.playlist.getNodeAt> | undefined;
+ *
+ *       constructor(songs: Song[]) {
+ *         this.playlist = new DoublyLinkedList<Song>();
+ *         songs.forEach(song => this.playlist.push(song));
+ *         this.currentSong = this.playlist.head;
+ *       }
+ *
+ *       // Play the next song in the playlist
+ *       playNext(): Song | undefined {
+ *         if (!this.currentSong?.next) {
+ *           this.currentSong = this.playlist.head; // Loop to the first song
+ *         } else {
+ *           this.currentSong = this.currentSong.next;
+ *         }
+ *         return this.currentSong?.value;
+ *       }
+ *
+ *       // Play the previous song in the playlist
+ *       playPrevious(): Song | undefined {
+ *         if (!this.currentSong?.prev) {
+ *           this.currentSong = this.playlist.tail; // Loop to the last song
+ *         } else {
+ *           this.currentSong = this.currentSong.prev;
+ *         }
+ *         return this.currentSong?.value;
+ *       }
+ *
+ *       // Get the current song
+ *       getCurrentSong(): Song | undefined {
+ *         return this.currentSong?.value;
+ *       }
+ *
+ *       // Loop through the playlist twice
+ *       loopThroughPlaylist(): Song[] {
+ *         const playedSongs: Song[] = [];
+ *         const initialNode = this.currentSong;
+ *
+ *         // Loop through the playlist twice
+ *         for (let i = 0; i < this.playlist.size * 2; i++) {
+ *           playedSongs.push(this.currentSong!.value);
+ *           this.currentSong = this.currentSong!.next || this.playlist.head; // Loop back to the start if needed
+ *         }
+ *
+ *         // Reset the current song to the initial song
+ *         this.currentSong = initialNode;
+ *         return playedSongs;
+ *       }
+ *     }
+ *
+ *     const songs = [
+ *       { title: 'Bohemian Rhapsody', artist: 'Queen', duration: 354 },
+ *       { title: 'Hotel California', artist: 'Eagles', duration: 391 },
+ *       { title: 'Shape of You', artist: 'Ed Sheeran', duration: 233 },
+ *       { title: 'Billie Jean', artist: 'Michael Jackson', duration: 294 }
+ *     ];
+ *     let player = new Player(songs);
+ *     // should play the next song
+ *     player = new Player(songs);
+ *     const firstSong = player.getCurrentSong();
+ *     const nextSong = player.playNext();
+ *
+ *     // Expect the next song to be "Hotel California by Eagles"
+ *     console.log(nextSong); // { title: 'Hotel California', artist: 'Eagles', duration: 391 }
+ *     console.log(firstSong); // { title: 'Bohemian Rhapsody', artist: 'Queen', duration: 354 }
+ *
+ *     // should play the previous song
+ *     player = new Player(songs);
+ *     player.playNext(); // Move to the second song
+ *     const currentSong = player.getCurrentSong();
+ *     const previousSong = player.playPrevious();
+ *
+ *     // Expect the previous song to be "Bohemian Rhapsody by Queen"
+ *     console.log(previousSong); // { title: 'Bohemian Rhapsody', artist: 'Queen', duration: 354 }
+ *     console.log(currentSong); // { title: 'Hotel California', artist: 'Eagles', duration: 391 }
+ *
+ *     // should loop to the first song when playing next from the last song
+ *     player = new Player(songs);
+ *     player.playNext(); // Move to the second song
+ *     player.playNext(); // Move to the third song
+ *     player.playNext(); // Move to the fourth song
+ *
+ *     const nextSongToFirst = player.playNext(); // Should loop to the first song
+ *
+ *     // Expect the next song to be "Bohemian Rhapsody by Queen"
+ *     console.log(nextSongToFirst); // { title: 'Bohemian Rhapsody', artist: 'Queen', duration: 354 }
+ *
+ *     // should loop to the last song when playing previous from the first song
+ *     player = new Player(songs);
+ *     player.playNext(); // Move to the first song
+ *     player.playNext(); // Move to the second song
+ *     player.playNext(); // Move to the third song
+ *     player.playNext(); // Move to the fourth song
+ *
+ *     const previousToLast = player.playPrevious(); // Should loop to the last song
+ *
+ *     // Expect the previous song to be "Billie Jean by Michael Jackson"
+ *     console.log(previousToLast); // { title: 'Billie Jean', artist: 'Michael Jackson', duration: 294 }
+ *
+ *     // should loop through the entire playlist
+ *     player = new Player(songs);
+ *     const playedSongs = player.loopThroughPlaylist();
+ *
+ *     // The expected order of songs for two loops
+ *     console.log(playedSongs); // [
+ *  //      { title: 'Bohemian Rhapsody', artist: 'Queen', duration: 354 },
+ *  //      { title: 'Hotel California', artist: 'Eagles', duration: 391 },
+ *  //      { title: 'Shape of You', artist: 'Ed Sheeran', duration: 233 },
+ *  //      { title: 'Billie Jean', artist: 'Michael Jackson', duration: 294 },
+ *  //      { title: 'Bohemian Rhapsody', artist: 'Queen', duration: 354 },
+ *  //      { title: 'Hotel California', artist: 'Eagles', duration: 391 },
+ *  //      { title: 'Shape of You', artist: 'Ed Sheeran', duration: 233 },
+ *  //      { title: 'Billie Jean', artist: 'Michael Jackson', duration: 294 }
+ *  //    ]
+ * @example
+ * // Use DoublyLinkedList to implement LRU cache
+ * interface CacheEntry<K, V> {
+ *       key: K;
+ *       value: V;
+ *     }
+ *
+ *     class LRUCache<K = string, V = any> {
+ *       private readonly capacity: number;
+ *       private list: DoublyLinkedList<CacheEntry<K, V>>;
+ *       private map: Map<K, DoublyLinkedListNode<CacheEntry<K, V>>>;
+ *
+ *       constructor(capacity: number) {
+ *         if (capacity <= 0) {
+ *           throw new Error('lru cache capacity must be greater than 0');
+ *         }
+ *         this.capacity = capacity;
+ *         this.list = new DoublyLinkedList<CacheEntry<K, V>>();
+ *         this.map = new Map<K, DoublyLinkedListNode<CacheEntry<K, V>>>();
+ *       }
+ *
+ *       // Get cached value
+ *       get(key: K): V | undefined {
+ *         const node = this.map.get(key);
+ *
+ *         if (!node) return undefined;
+ *
+ *         // Move the visited node to the head of the linked list (most recently used)
+ *         this.moveToFront(node);
+ *
+ *         return node.value.value;
+ *       }
+ *
+ *       // Set cache value
+ *       set(key: K, value: V): void {
+ *         // Check if it already exists
+ *         const node = this.map.get(key);
+ *
+ *         if (node) {
+ *           // Update value and move to head
+ *           node.value.value = value;
+ *           this.moveToFront(node);
+ *           return;
+ *         }
+ *
+ *         // Check capacity
+ *         if (this.list.size >= this.capacity) {
+ *           // Delete the least recently used element (the tail of the linked list)
+ *           const removedNode = this.list.tail;
+ *           if (removedNode) {
+ *             this.map.delete(removedNode.value.key);
+ *             this.list.pop();
+ *           }
+ *         }
+ *
+ *         // Create new node and add to head
+ *         const newEntry: CacheEntry<K, V> = { key, value };
+ *         this.list.unshift(newEntry);
+ *
+ *         // Save node reference in map
+ *         const newNode = this.list.head;
+ *         if (newNode) {
+ *           this.map.set(key, newNode);
+ *         }
+ *       }
+ *
+ *       // Move the node to the head of the linked list
+ *       private moveToFront(node: DoublyLinkedListNode<CacheEntry<K, V>>): void {
+ *         this.list.delete(node);
+ *         this.list.unshift(node.value);
+ *       }
+ *
+ *       // Delete specific key
+ *       delete(key: K): boolean {
+ *         const node = this.map.get(key);
+ *         if (!node) return false;
+ *
+ *         // Remove from linked list
+ *         this.list.delete(node);
+ *         // Remove from map
+ *         this.map.delete(key);
+ *
+ *         return true;
+ *       }
+ *
+ *       // Clear cache
+ *       clear(): void {
+ *         this.list.clear();
+ *         this.map.clear();
+ *       }
+ *
+ *       // Get the current cache size
+ *       get size(): number {
+ *         return this.list.size;
+ *       }
+ *
+ *       // Check if it is empty
+ *       get isEmpty(): boolean {
+ *         return this.list.isEmpty();
+ *       }
+ *     }
+ *
+ *     // should set and get values correctly
+ *     const cache = new LRUCache<string, number>(3);
+ *     cache.set('a', 1);
+ *     cache.set('b', 2);
+ *     cache.set('c', 3);
+ *
+ *     console.log(cache.get('a')); // 1
+ *     console.log(cache.get('b')); // 2
+ *     console.log(cache.get('c')); // 3
+ *
+ *     // The least recently used element should be evicted when capacity is exceeded
+ *     cache.clear();
+ *     cache.set('a', 1);
+ *     cache.set('b', 2);
+ *     cache.set('c', 3);
+ *     cache.set('d', 4); // This will eliminate 'a'
+ *
+ *     console.log(cache.get('a')).toBeUndefined();
+ *     expect(cache.get('b')); // 2
+ *     console.log(cache.get('c')); // 3
+ *     console.log(cache.get('d')); // 4
+ *
+ *     // The priority of an element should be updated when it is accessed
+ *     cache.clear();
+ *     cache.set('a', 1);
+ *     cache.set('b', 2);
+ *     cache.set('c', 3);
+ *
+ *     cache.get('a'); // access 'a'
+ *     cache.set('d', 4); // This will eliminate 'b'
+ *
+ *     console.log(cache.get('a')); // 1
+ *     console.log(cache.get('b')).toBeUndefined();
+ *     expect(cache.get('c')); // 3
+ *     console.log(cache.get('d')); // 4
+ *
+ *     // Should support updating existing keys
+ *     cache.clear();
+ *     cache.set('a', 1);
+ *     cache.set('a', 10);
+ *
+ *     console.log(cache.get('a')); // 10
+ *
+ *     // Should support deleting specified keys
+ *     cache.clear();
+ *     cache.set('a', 1);
+ *     cache.set('b', 2);
+ *
+ *     console.log(cache.delete('a')); // true
+ *     console.log(cache.get('a')).toBeUndefined();
+ *     expect(cache.size); // 1
+ *
+ *     // Should support clearing cache
+ *     cache.clear();
+ *     cache.set('a', 1);
+ *     cache.set('b', 2);
+ *     cache.clear();
+ *
+ *     console.log(cache.size); // 0
+ *     console.log(cache.isEmpty); // true
+ * @example
+ * // finding lyrics by timestamp in Coldplay's "Fix You"
+ * // Create a DoublyLinkedList to store song lyrics with timestamps
+ *     const lyricsList = new DoublyLinkedList<{ time: number; text: string }>();
+ *
+ *     // Detailed lyrics with precise timestamps (in milliseconds)
+ *     const lyrics = [
+ *       { time: 0, text: "When you try your best, but you don't succeed" },
+ *       { time: 4000, text: 'When you get what you want, but not what you need' },
+ *       { time: 8000, text: "When you feel so tired, but you can't sleep" },
+ *       { time: 12000, text: 'Stuck in reverse' },
+ *       { time: 16000, text: 'And the tears come streaming down your face' },
+ *       { time: 20000, text: "When you lose something you can't replace" },
+ *       { time: 24000, text: 'When you love someone, but it goes to waste' },
+ *       { time: 28000, text: 'Could it be worse?' },
+ *       { time: 32000, text: 'Lights will guide you home' },
+ *       { time: 36000, text: 'And ignite your bones' },
+ *       { time: 40000, text: 'And I will try to fix you' }
+ *     ];
+ *
+ *     // Populate the DoublyLinkedList with lyrics
+ *     lyrics.forEach(lyric => lyricsList.push(lyric));
+ *
+ *     // Test different scenarios of lyric synchronization
+ *
+ *     // 1. Find lyric at exact timestamp
+ *     const exactTimeLyric = lyricsList.findBackward(lyric => lyric.time <= 36000);
+ *     console.log(exactTimeLyric?.text); // 'And ignite your bones'
+ *
+ *     // 2. Find lyric between timestamps
+ *     const betweenTimeLyric = lyricsList.findBackward(lyric => lyric.time <= 22000);
+ *     console.log(betweenTimeLyric?.text); // "When you lose something you can't replace"
+ *
+ *     // 3. Find first lyric when timestamp is less than first entry
+ *     const earlyTimeLyric = lyricsList.findBackward(lyric => lyric.time <= -1000);
+ *     console.log(earlyTimeLyric).toBeUndefined();
+ *
+ *     // 4. Find last lyric when timestamp is after last entry
+ *     const lateTimeLyric = lyricsList.findBackward(lyric => lyric.time <= 50000);
+ *     expect(lateTimeLyric?.text); // 'And I will try to fix you'
+ * @example
+ * // cpu process schedules
+ * class Process {
+ *       constructor(
+ *         public id: number,
+ *         public priority: number
+ *       ) {}
+ *
+ *       execute(): string {
+ *         return `Process ${this.id} executed.`;
+ *       }
+ *     }
+ *
+ *     class Scheduler {
+ *       private queue: DoublyLinkedList<Process>;
+ *
+ *       constructor() {
+ *         this.queue = new DoublyLinkedList<Process>();
+ *       }
+ *
+ *       addProcess(process: Process): void {
+ *         // Insert processes into a queue based on priority, keeping priority in descending order
+ *         let current = this.queue.head;
+ *         while (current && current.value.priority >= process.priority) {
+ *           current = current.next;
+ *         }
+ *
+ *         if (!current) {
+ *           this.queue.push(process);
+ *         } else {
+ *           this.queue.addBefore(current, process);
+ *         }
+ *       }
+ *
+ *       executeNext(): string | undefined {
+ *         // Execute tasks at the head of the queue in order
+ *         const process = this.queue.shift();
+ *         return process ? process.execute() : undefined;
+ *       }
+ *
+ *       listProcesses(): string[] {
+ *         return this.queue.toArray().map(process => `Process ${process.id} (Priority: ${process.priority})`);
+ *       }
+ *
+ *       clear(): void {
+ *         this.queue.clear();
+ *       }
+ *     }
+ *
+ *     // should add processes based on priority
+ *     let scheduler = new Scheduler();
+ *     scheduler.addProcess(new Process(1, 10));
+ *     scheduler.addProcess(new Process(2, 20));
+ *     scheduler.addProcess(new Process(3, 15));
+ *
+ *     console.log(scheduler.listProcesses()); // [
+ *  //      'Process 2 (Priority: 20)',
+ *  //      'Process 3 (Priority: 15)',
+ *  //      'Process 1 (Priority: 10)'
+ *  //    ]
+ *
+ *     // should execute the highest priority process
+ *     scheduler = new Scheduler();
+ *     scheduler.addProcess(new Process(1, 10));
+ *     scheduler.addProcess(new Process(2, 20));
+ *
+ *     console.log(scheduler.executeNext()); // 'Process 2 executed.'
+ *     console.log(scheduler.listProcesses()); // ['Process 1 (Priority: 10)']
+ *
+ *     // should clear all processes
+ *     scheduler = new Scheduler();
+ *     scheduler.addProcess(new Process(1, 10));
+ *     scheduler.addProcess(new Process(2, 20));
+ *
+ *     scheduler.clear();
+ *     console.log(scheduler.listProcesses()); // []
  */
 export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R, DoublyLinkedList<E, R>> {
   constructor(elements: Iterable<E> | Iterable<R> = [], options?: DoublyLinkedListOptions<E, R>) {
@@ -488,8 +914,8 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
       } else {
         const prevNode = node.prev;
         const nextNode = node.next;
-        prevNode!.next = nextNode;
-        nextNode!.prev = prevNode;
+        if (prevNode) prevNode.next = nextNode;
+        if (nextNode) nextNode.prev = prevNode;
         this._size--;
       }
       return true;

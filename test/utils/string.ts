@@ -2,9 +2,7 @@
  * Convert any string to CamelCase format
  */
 export function toCamelCase(str: string): string {
-  return str
-    .toLowerCase()
-    .replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase());
+  return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase());
 }
 
 /**
@@ -25,7 +23,7 @@ export function toPascalCase(str: string): string {
     .replace(/([a-z])([A-Z])/g, '$1 $2') // Add space between lowercase and uppercase letters
     .replace(/[^a-zA-Z0-9]+/g, ' ') // Replace non-alphanumeric characters with spaces
     .split(' ') // Separate strings by spaces
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // The first letter is capitalized, the rest are lowercase
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // The first letter is capitalized, the rest are lowercase
     .join(''); // Combine into a string
 }
 
@@ -42,10 +40,7 @@ export function toSeparatedCase(str: string, separator: string = '_'): string {
 /**
  * Convert the string to all uppercase and delimit it using the specified delimiter
  */
-export function toUpperSeparatedCase(
-  str: string,
-  separator: string = '_',
-): string {
+export function toUpperSeparatedCase(str: string, separator: string = '_'): string {
   return str
     .toUpperCase() // Convert all letters to uppercase
     .replace(/([a-z0-9])([A-Z])/g, '$1' + separator + '$2') // Add separator between lowercase letters and uppercase letters
