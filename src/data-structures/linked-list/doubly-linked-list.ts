@@ -967,7 +967,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * Space Complexity: O(1)
    *
    * This function finds the index of a specified element, node, or predicate in a doubly linked list.
-   * @param {E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)}
+   * @param {E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)} elementNodeOrPredicate
    * elementNodeOrPredicate - The `indexOf` method takes in a parameter `elementNodeOrPredicate`, which
    * can be one of the following:
    * @returns The `indexOf` method returns the index of the element in the doubly linked list that

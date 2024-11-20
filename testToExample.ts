@@ -3,9 +3,35 @@ import path from 'path';
 import * as ts from 'typescript';
 import { toPascalCase } from './test/utils';
 
-const isReplaceMD = false;
+const isReplaceMD = true;
 const START_MARKER = '[//]: # (No deletion!!! Start of Example Replace Section)';
 const END_MARKER = '[//]: # (No deletion!!! End of Example Replace Section)';
+
+const pkgRootDir = '/Users/revone/projects/data-structure-typed-individuals';
+const dirMap: Record<string, string | string[]> = {
+  Heap: "heap-typed",
+  AvlTree: "avl-tree-typed",
+  BinaryTree: "binary-tree-typed",
+  BST: "bst-typed",
+  Deque: "deque-typed",
+  DirectedGraph: "directed-graph-typed",
+  DoublyLinkedList: ["doubly-linked-list-typed", "linked-list-typed"],
+  Graph: "graph-typed",
+  LinkedList: "linked-list-typed",
+  MaxHeap: "max-heap-typed",
+  MaxPriorityQueue: "max-priority-queue-typed",
+  MinHeap: "min-heap-typed",
+  MinPriorityQueue: "min-priority-queue-typed",
+  PriorityQueue: "priority-queue-typed",
+  SinglyLinkedList: "singly-linked-list-typed",
+  Queue: "queue-typed",
+  RedBlackTree: "red-black-tree-typed",
+  Stack: "stack-typed",
+  TreeMultimap: "tree-multimap-typed",
+  Trie: "trie-typed",
+  UndirectedGraph: "undirected-graph-typed",
+};
+const fileName = 'README.md';
 
 /**
  * Recursively retrieve all `.ts` files in a directory.
@@ -157,10 +183,10 @@ function addExamplesToSourceFile(
 /**
  * Process all test files and update README.md and source files.
  */
-function updateExamples(testDir: string, readmePath: string, sourceBaseDir: string): void {
+function updateExamples(testDir: string, sourceBaseDir: string): void {
+
   const testFiles = getAllTestFiles(testDir);
 
-  let allExamples: string[] = [];
   for (const file of testFiles) {
     const examples = extractExamplesFromFile(file);
 
@@ -171,17 +197,35 @@ function updateExamples(testDir: string, readmePath: string, sourceBaseDir: stri
 
     const relativePath = path.relative(testDir, file);
     const sourceFilePath = path.resolve(sourceBaseDir, relativePath.replace('.test.ts', '.ts'));
-    const className = path.basename(sourceFilePath, '.ts');
+    const className = toPascalCase(path.basename(sourceFilePath, '.ts'));
 
     addExamplesToSourceFile(sourceFilePath, toPascalCase(className), examples);
+    const dirKey = dirMap[className];
 
-    allExamples = allExamples.concat(
-      examples.map(example => `### ${example.name}\n\`\`\`typescript\n${example.body}\n\`\`\``)
+    if (!dirKey) {
+      console.warn(`No directory mapping found for class: ${className}`);
+      continue;
+    }
+
+
+
+    const newExamples = examples.map(
+      example => `### ${example.name}\n\`\`\`typescript\n${example.body}\n\`\`\``
     );
-  }
 
-  if (isReplaceMD && allExamples.length > 0) {
-    replaceExamplesInReadme(readmePath, allExamples);
+    if (isReplaceMD && newExamples.length > 0) {
+      if (dirKey instanceof Array && dirKey.length > 0) {
+        for (const readmeRoot of dirKey) {
+          const readmePath = path.resolve(pkgRootDir, readmeRoot, fileName);
+          replaceExamplesInReadme(readmePath, newExamples);
+        }
+      }
+      if (typeof dirKey === 'string') {
+        const readmePath = path.resolve(pkgRootDir, dirKey, fileName);
+        replaceExamplesInReadme(readmePath, newExamples);
+      }
+
+    }
   }
 }
 
@@ -209,7 +253,6 @@ function replaceExamplesInReadme(readmePath: string, newExamples: string[]): voi
 
 // Run the script
 const testDir = path.resolve(__dirname, 'test/unit');
-const readmePath = path.resolve(__dirname, 'README.md');
 const sourceBaseDir = path.resolve(__dirname, 'src');
 
-updateExamples(testDir, readmePath, sourceBaseDir);
+updateExamples(testDir, sourceBaseDir);
