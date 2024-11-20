@@ -78,8 +78,8 @@ describe('DoublyLinkedList Operation Test', () => {
     expect(list.indexOf(6)).toBe(-1);
   });
 
-  it('should findBackward undefined', () => {
-    expect(list.findBackward(value => value === 0)).toBe(undefined);
+  it('should getBackward undefined', () => {
+    expect(list.getBackward(node => node.value === 0)).toBe(undefined);
   });
 
   it('should addAfter tail', () => {
@@ -295,7 +295,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(3);
     list.push(4);
 
-    const lastEven = list.findBackward(value => value % 2 === 0);
+    const lastEven = list.getBackward(node => node.value % 2 === 0);
 
     expect(lastEven).toBe(4);
   });
@@ -843,19 +843,19 @@ describe('classic use', () => {
     // Test different scenarios of lyric synchronization
 
     // 1. Find lyric at exact timestamp
-    const exactTimeLyric = lyricsList.findBackward(lyric => lyric.time <= 36000);
+    const exactTimeLyric = lyricsList.getBackward(lyric => lyric.value.time <= 36000);
     expect(exactTimeLyric?.text).toBe('And ignite your bones');
 
     // 2. Find lyric between timestamps
-    const betweenTimeLyric = lyricsList.findBackward(lyric => lyric.time <= 22000);
+    const betweenTimeLyric = lyricsList.getBackward(lyric => lyric.value.time <= 22000);
     expect(betweenTimeLyric?.text).toBe("When you lose something you can't replace");
 
     // 3. Find first lyric when timestamp is less than first entry
-    const earlyTimeLyric = lyricsList.findBackward(lyric => lyric.time <= -1000);
+    const earlyTimeLyric = lyricsList.getBackward(lyric => lyric.value.time <= -1000);
     expect(earlyTimeLyric).toBeUndefined();
 
     // 4. Find last lyric when timestamp is after last entry
-    const lateTimeLyric = lyricsList.findBackward(lyric => lyric.time <= 50000);
+    const lateTimeLyric = lyricsList.getBackward(lyric => lyric.value.time <= 50000);
     expect(lateTimeLyric?.text).toBe('And I will try to fix you');
   });
 
