@@ -353,8 +353,8 @@ export class DoublyLinkedListNode<E = any> {
  *     cache.set('c', 3);
  *     cache.set('d', 4); // This will eliminate 'a'
  *
- *     console.log(cache.get('a')).toBeUndefined();
- *     expect(cache.get('b')); // 2
+ *     console.log(cache.get('a')); // undefined
+ *     console.log(cache.get('b')); // 2
  *     console.log(cache.get('c')); // 3
  *     console.log(cache.get('d')); // 4
  *
@@ -368,8 +368,8 @@ export class DoublyLinkedListNode<E = any> {
  *     cache.set('d', 4); // This will eliminate 'b'
  *
  *     console.log(cache.get('a')); // 1
- *     console.log(cache.get('b')).toBeUndefined();
- *     expect(cache.get('c')); // 3
+ *     console.log(cache.get('b')); // undefined
+ *     console.log(cache.get('c')); // 3
  *     console.log(cache.get('d')); // 4
  *
  *     // Should support updating existing keys
@@ -385,8 +385,8 @@ export class DoublyLinkedListNode<E = any> {
  *     cache.set('b', 2);
  *
  *     console.log(cache.delete('a')); // true
- *     console.log(cache.get('a')).toBeUndefined();
- *     expect(cache.size); // 1
+ *     console.log(cache.get('a')); // undefined
+ *     console.log(cache.size); // 1
  *
  *     // Should support clearing cache
  *     cache.clear();
@@ -431,11 +431,11 @@ export class DoublyLinkedListNode<E = any> {
  *
  *     // 3. Find first lyric when timestamp is less than first entry
  *     const earlyTimeLyric = lyricsList.findBackward(lyric => lyric.time <= -1000);
- *     console.log(earlyTimeLyric).toBeUndefined();
+ *     console.log(earlyTimeLyric); // undefined
  *
  *     // 4. Find last lyric when timestamp is after last entry
  *     const lateTimeLyric = lyricsList.findBackward(lyric => lyric.time <= 50000);
- *     expect(lateTimeLyric?.text); // 'And I will try to fix you'
+ *     console.log(lateTimeLyric?.text); // 'And I will try to fix you'
  * @example
  * // cpu process schedules
  * class Process {

@@ -60,17 +60,17 @@ function extractExamplesFromFile(filePath: string): { name: string; body: string
 
       const transformedBody = exampleBody
         .replace(
-          /expect\((.*?)\)\.(toEqual|toBe|toStrictEqual|toHaveLength|toMatchObject)\((.*?)\);/gs, // Use `s` flag for multiline
-          (match, actual, method, expected) => {
-              expected = expected.replace(/\n/g, '\n //')
-            return `console.log(${actual}); // ${expected}`;
-          }
-        )
-        .replace(
           /expect\((.*?)\)\.(toBeUndefined|toBeNull)\(\);/g,
           (match, actual, method) => {
             const expectedValue = method === 'toBeUndefined' ? 'undefined' : 'null';
             return `console.log(${actual}); // ${expectedValue}`;
+          }
+        )
+        .replace(
+          /expect\((.*?)\)\.(toEqual|toBe|toStrictEqual|toHaveLength|toMatchObject)\((.*?)\);/gs, // Use `s` flag for multiline
+          (match, actual, method, expected) => {
+              expected = expected.replace(/\n/g, '\n //')
+            return `console.log(${actual}); // ${expected}`;
           }
         )
         .trim();
