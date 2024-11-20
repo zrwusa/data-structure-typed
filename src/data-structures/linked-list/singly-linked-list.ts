@@ -122,33 +122,16 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `fromArray` function creates a new SinglyLinkedList instance and populates it with the elements from the given
-   * array.
-   * @param {E[]} data - The `data` parameter is an array of elements of type `E`.
-   * @returns The `fromArray` function returns a `SinglyLinkedList` object.
-   */
-  static fromArray<E>(data: E[]) {
-    const singlyLinkedList = new SinglyLinkedList<E>();
-    for (const item of data) {
-      singlyLinkedList.push(item);
-    }
-    return singlyLinkedList;
-  }
-
-  /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The push function adds a new element to the end of a singly linked list.
-   * @param {E} element - The "element" parameter represents the value of the element that you want to
-   * add to the linked list.
-   * @returns The `push` method is returning a boolean value, `true`.
+   * The `push` function adds a new element or node to the end of a singly linked list.
+   * @param {E | SinglyLinkedListNode<E>} elementOrNode - The `elementOrNode` parameter in the `push`
+   * method can accept either an element of type `E` or a `SinglyLinkedListNode<E>` object.
+   * @returns The `push` method is returning a boolean value, specifically `true`.
    */
-  push(element: E): boolean {
-    const newNode = new SinglyLinkedListNode(element);
+  push(elementOrNode: E | SinglyLinkedListNode<E>): boolean {
+    const newNode = this._ensureNode(elementOrNode);
     if (!this.head) {
       this._head = newNode;
       this._tail = newNode;
@@ -208,13 +191,15 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The unshift function adds a new element to the beginning of a singly linked list.
-   * @param {E} element - The "element" parameter represents the value of the element that you want to
-   * add to the beginning of the singly linked list.
-   * @returns The `unshift` method is returning a boolean value, `true`.
+   * The unshift function adds a new element or node to the beginning of a singly linked list in
+   * TypeScript.
+   * @param {E | SinglyLinkedListNode<E>} elementOrNode - The `elementOrNode` parameter in the
+   * `unshift` method can be either an element of type `E` or a `SinglyLinkedListNode` containing an
+   * element of type `E`.
+   * @returns The `unshift` method is returning a boolean value, specifically `true`.
    */
-  unshift(element: E): boolean {
-    const newNode = new SinglyLinkedListNode(element);
+  unshift(elementOrNode: E | SinglyLinkedListNode<E>): boolean {
+    const newNode = this._ensureNode(elementOrNode);
     if (!this.head) {
       this._head = newNode;
       this._tail = newNode;
@@ -224,6 +209,30 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     }
     this._size++;
     return true;
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
+   * This function searches for a specific element in a singly linked list based on a given node or
+   * predicate.
+   * @param {E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean)} elementNodeOrPredicate
+   * elementNodeOrPredicate - The `elementNodeOrPredicate` parameter in the `get` method can be one of
+   * the following types:
+   * @returns The `get` method returns the value of the first node in the singly linked list that
+   * satisfies the provided predicate function. If no such node is found, it returns `undefined`.
+   */
+  get(
+    elementNodeOrPredicate: E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean)
+  ): E | undefined {
+    const predicate = this._ensurePredicate(elementNodeOrPredicate);
+    let current = this.head;
+    while (current) {
+      if (predicate(current)) return current.value;
+      current = current.next;
+    }
+    return undefined;
   }
 
   /**
@@ -243,6 +252,25 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
       current = current!.next;
     }
     return current!.value;
+  }
+
+  /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The function `isNode` in TypeScript checks if the input is an instance of `SinglyLinkedListNode`.
+   * @param {E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean)} elementNodeOrPredicate
+   * elementNodeOrPredicate - The `elementNodeOrPredicate` parameter in the `isNode` function can be
+   * one of the following types:
+   * @returns The `isNode` function is checking if the `elementNodeOrPredicate` parameter is an
+   * instance of `SinglyLinkedListNode<E>`. If it is, the function returns `true`, indicating that the
+   * parameter is a `SinglyLinkedListNode<E>`. If it is not an instance of `SinglyLinkedListNode<E>`,
+   * the function returns `false`.
+   */
+  isNode(
+    elementNodeOrPredicate: E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean)
+  ): elementNodeOrPredicate is SinglyLinkedListNode<E> {
+    return elementNodeOrPredicate instanceof SinglyLinkedListNode;
   }
 
   /**
@@ -296,18 +324,18 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * Space Complexity: O(1)
    *
    * The delete function removes a node with a specific value from a singly linked list.
-   * @param {E | SinglyLinkedListNode<E>} valueOrNode - The `valueOrNode` parameter can accept either a value of type `E`
+   * @param {E | SinglyLinkedListNode<E>} elementOrNode - The `elementOrNode` parameter can accept either a value of type `E`
    * or a `SinglyLinkedListNode<E>` object.
    * @returns The `delete` method returns a boolean value. It returns `true` if the value or node is found and
    * successfully deleted from the linked list, and `false` if the value or node is not found in the linked list.
    */
-  delete(valueOrNode: E | SinglyLinkedListNode<E> | undefined): boolean {
-    if (valueOrNode === undefined) return false;
+  delete(elementOrNode: E | SinglyLinkedListNode<E> | undefined): boolean {
+    if (elementOrNode === undefined) return false;
     let value: E;
-    if (valueOrNode instanceof SinglyLinkedListNode) {
-      value = valueOrNode.value;
+    if (elementOrNode instanceof SinglyLinkedListNode) {
+      value = elementOrNode.value;
     } else {
-      value = valueOrNode;
+      value = elementOrNode;
     }
     let current = this.head,
       prev = undefined;
@@ -339,26 +367,30 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
-   * The `addAt` function inserts a value at a specified index in a singly linked list.
-   * @param {number} index - The index parameter represents the position at which the new value should be inserted in the
-   * linked list. It is of type number.
-   * @param {E} value - The `value` parameter represents the value that you want to insert into the linked list at the
-   * specified index.
-   * @returns The `insert` method returns a boolean value. It returns `true` if the insertion is successful, and `false`
-   * if the index is out of bounds.
+   * The `addAt` function inserts a new element or node at a specified index in a singly linked list.
+   * @param {number} index - The `index` parameter represents the position at which you want to add a
+   * new element or node in the linked list. It is a number that indicates the index where the new
+   * element or node should be inserted.
+   * @param {E | SinglyLinkedListNode<E>} newElementOrNode - The `newElementOrNode` parameter in the
+   * `addAt` method can be either a value of type `E` or a `SinglyLinkedListNode<E>` object. This
+   * parameter represents the element or node that you want to add to the linked list at the specified
+   * index.
+   * @returns The `addAt` method returns a boolean value - `true` if the element or node was
+   * successfully added at the specified index, and `false` if the index is out of bounds.
    */
-  addAt(index: number, value: E): boolean {
+  addAt(index: number, newElementOrNode: E | SinglyLinkedListNode<E>): boolean {
     if (index < 0 || index > this._size) return false;
+
     if (index === 0) {
-      this.unshift(value);
+      this.unshift(newElementOrNode);
       return true;
     }
     if (index === this._size) {
-      this.push(value);
+      this.push(newElementOrNode);
       return true;
     }
 
-    const newNode = new SinglyLinkedListNode(value);
+    const newNode = this._ensureNode(newElementOrNode);
     const prevNode = this.getNodeAt(index - 1);
     newNode.next = prevNode!.next;
     prevNode!.next = newNode;
@@ -430,17 +462,22 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
-   * The `indexOf` function returns the index of the first occurrence of a given value in a linked list.
-   * @param {E} value - The value parameter is the value that you want to find the index of in the linked list.
-   * @returns The method is returning the index of the first occurrence of the specified value in the linked list. If the
-   * value is not found, it returns -1.
+   * The `indexOf` function in TypeScript searches for a specific element or node in a singly linked
+   * list and returns its index if found.
+   * @param {E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean)} elementNodeOrPredicate
+   * elementNodeOrPredicate - The `elementNodeOrPredicate` parameter in the `indexOf` method can be one
+   * of the following types:
+   * @returns The `indexOf` method returns the index of the first occurrence of the element that
+   * matches the provided predicate in the singly linked list. If no matching element is found, it
+   * returns -1.
    */
-  indexOf(value: E): number {
+  indexOf(elementNodeOrPredicate: E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean)): number {
+    const predicate = this._ensurePredicate(elementNodeOrPredicate);
     let index = 0;
     let current = this.head;
 
     while (current) {
-      if (current.value === value) {
+      if (predicate(current)) {
         return index;
       }
       index++;
@@ -454,17 +491,24 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
-   * The function finds a node in a singly linked list by its value and returns the node if found, otherwise returns
-   * undefined.
-   * @param {E} value - The value parameter is the value that we want to search for in the linked list.
-   * @returns a `SinglyLinkedListNode<E>` if a node with the specified value is found in the linked list. If no node with
-   * the specified value is found, the function returns `undefined`.
+   * The function `getNode` in TypeScript searches for a node in a singly linked list based on a given
+   * element, node, or predicate.
+   * @param {E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean) | undefined} elementNodeOrPredicate
+   * elementNodeOrPredicate - The `elementNodeOrPredicate` parameter in the `getNode` method can be one
+   * of the following types:
+   * @returns The `getNode` method returns either a `SinglyLinkedListNode<E>` if a matching node is
+   * found based on the provided predicate, or it returns `undefined` if no matching node is found or
+   * if the input parameter is `undefined`.
    */
-  getNode(value: E): SinglyLinkedListNode<E> | undefined {
+  getNode(
+    elementNodeOrPredicate: E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean) | undefined
+  ): SinglyLinkedListNode<E> | undefined {
+    if (elementNodeOrPredicate === undefined) return;
+    const predicate = this._ensurePredicate(elementNodeOrPredicate);
     let current = this.head;
 
     while (current) {
-      if (current.value === value) {
+      if (predicate(current)) {
         return current;
       }
       current = current.next;
@@ -477,31 +521,39 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
-   * The `addBefore` function inserts a new value before an existing value in a singly linked list.
-   * @param {E | SinglyLinkedListNode<E>} existingValueOrNode - The existing value or node that you want to insert the
-   * new value before. It can be either the value itself or a node containing the value in the linked list.
-   * @param {E} newValue - The `newValue` parameter represents the value that you want to insert into the linked list.
-   * @returns The method `addBefore` returns a boolean value. It returns `true` if the new value was successfully
-   * inserted before the existing value, and `false` otherwise.
+   * The function `addBefore` in TypeScript adds a new element or node before an existing element or
+   * node in a singly linked list.
+   * @param {E | SinglyLinkedListNode<E>} existingElementOrNode - existingElementOrNode represents the
+   * element or node in the linked list before which you want to add a new element or node.
+   * @param {E | SinglyLinkedListNode<E>} newElementOrNode - The `newElementOrNode` parameter in the
+   * `addBefore` method represents the element or node that you want to insert before the existing
+   * element or node in the linked list. This new element can be of type `E` or a
+   * `SinglyLinkedListNode<E>`.
+   * @returns The `addBefore` method returns a boolean value - `true` if the new element or node was
+   * successfully added before the existing element or node, and `false` if the operation was
+   * unsuccessful.
    */
-  addBefore(existingValueOrNode: E | SinglyLinkedListNode<E>, newValue: E): boolean {
+  addBefore(
+    existingElementOrNode: E | SinglyLinkedListNode<E>,
+    newElementOrNode: E | SinglyLinkedListNode<E>
+  ): boolean {
     if (!this.head) return false;
 
     let existingValue: E;
-    if (existingValueOrNode instanceof SinglyLinkedListNode) {
-      existingValue = existingValueOrNode.value;
+    if (this.isNode(existingElementOrNode)) {
+      existingValue = existingElementOrNode.value;
     } else {
-      existingValue = existingValueOrNode;
+      existingValue = existingElementOrNode;
     }
     if (this.head.value === existingValue) {
-      this.unshift(newValue);
+      this.unshift(newElementOrNode);
       return true;
     }
 
     let current = this.head;
     while (current.next) {
       if (current.next.value === existingValue) {
-        const newNode = new SinglyLinkedListNode(newValue);
+        const newNode = this._ensureNode(newElementOrNode);
         newNode.next = current.next;
         current.next = newNode;
         this._size++;
@@ -517,24 +569,23 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
-   * The `addAfter` function inserts a new node with a given value after an existing node in a singly linked list.
-   * @param {E | SinglyLinkedListNode<E>} existingValueOrNode - The existing value or node in the linked list after which
-   * the new value will be inserted. It can be either the value of the existing node or the existing node itself.
-   * @param {E} newValue - The value that you want to insert into the linked list after the existing value or node.
-   * @returns The method returns a boolean value. It returns true if the new value was successfully inserted after the
-   * existing value or node, and false if the existing value or node was not found in the linked list.
+   * The `addAfter` function in TypeScript adds a new element or node after an existing element or node
+   * in a singly linked list.
+   * @param {E | SinglyLinkedListNode<E>} existingElementOrNode - existingElementOrNode can be either
+   * an element of type E or a SinglyLinkedListNode of type E.
+   * @param {E | SinglyLinkedListNode<E>} newElementOrNode - The `newElementOrNode` parameter in the
+   * `addAfter` method represents the element or node that you want to add after the existing element
+   * or node in a singly linked list. This parameter can be either the value of the new element or a
+   * reference to a `SinglyLinkedListNode` containing
+   * @returns The `addAfter` method returns a boolean value - `true` if the new element or node was
+   * successfully added after the existing element or node, and `false` if the existing element or node
+   * was not found.
    */
-  addAfter(existingValueOrNode: E | SinglyLinkedListNode<E>, newValue: E): boolean {
-    let existingNode: E | SinglyLinkedListNode<E> | undefined;
-
-    if (existingValueOrNode instanceof SinglyLinkedListNode) {
-      existingNode = existingValueOrNode;
-    } else {
-      existingNode = this.getNode(existingValueOrNode);
-    }
+  addAfter(existingElementOrNode: E | SinglyLinkedListNode<E>, newElementOrNode: E | SinglyLinkedListNode<E>): boolean {
+    const existingNode: SinglyLinkedListNode<E> | undefined = this.getNode(existingElementOrNode);
 
     if (existingNode) {
-      const newNode = new SinglyLinkedListNode(newValue);
+      const newNode = this._ensureNode(newElementOrNode);
       newNode.next = existingNode.next;
       existingNode.next = newNode;
       if (existingNode === this.tail) {
@@ -551,16 +602,20 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
-   * The function counts the number of occurrences of a given value in a linked list.
-   * @param {E} value - The value parameter is the value that you want to count the occurrences of in the linked list.
-   * @returns The count of occurrences of the given value in the linked list.
+   * The function `countOccurrences` iterates through a singly linked list and counts the occurrences
+   * of a specified element or nodes that satisfy a given predicate.
+   * @param {E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean)} elementOrNode
+   * - The `elementOrNode` parameter in the `countOccurrences` method can accept three types of values:
+   * @returns The `countOccurrences` method returns the number of occurrences of the specified element,
+   * node, or predicate function in the singly linked list.
    */
-  countOccurrences(value: E): number {
+  countOccurrences(elementOrNode: E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean)): number {
+    const predicate = this._ensurePredicate(elementOrNode);
     let count = 0;
     let current = this.head;
 
     while (current) {
-      if (current.value === value) {
+      if (predicate(current)) {
         count++;
       }
       current = current.next;
@@ -656,5 +711,71 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
       yield current.value;
       current = current.next;
     }
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `fromArray` function creates a new SinglyLinkedList instance and populates it with the elements from the given
+   * array.
+   * @param {E[]} data - The `data` parameter is an array of elements of type `E`.
+   * @returns The `fromArray` function returns a `SinglyLinkedList` object.
+   */
+  static fromArray<E>(data: E[]) {
+    const singlyLinkedList = new SinglyLinkedList<E>();
+    for (const item of data) {
+      singlyLinkedList.push(item);
+    }
+    return singlyLinkedList;
+  }
+
+  /**
+   * The _isPredicate function in TypeScript checks if the input is a function that takes a
+   * SinglyLinkedListNode as an argument and returns a boolean.
+   * @param {E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean)} elementNodeOrPredicate
+   * elementNodeOrPredicate - The `elementNodeOrPredicate` parameter can be one of the following types:
+   * @returns The _isPredicate method is returning a boolean value based on whether the
+   * elementNodeOrPredicate parameter is a function or not. If the elementNodeOrPredicate is a
+   * function, the method will return true, indicating that it is a predicate function. If it is not a
+   * function, the method will return false.
+   */
+  protected _isPredicate(
+    elementNodeOrPredicate: E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean)
+  ): elementNodeOrPredicate is (node: SinglyLinkedListNode<E>) => boolean {
+    return typeof elementNodeOrPredicate === 'function';
+  }
+
+  /**
+   * The function `_ensureNode` ensures that the input is a valid node and returns it, creating a new
+   * node if necessary.
+   * @param {E | SinglyLinkedListNode<E>} elementOrNode - The `elementOrNode` parameter can be either
+   * an element of type `E` or a `SinglyLinkedListNode` containing an element of type `E`.
+   * @returns A SinglyLinkedListNode<E> object is being returned.
+   */
+  protected _ensureNode(elementOrNode: E | SinglyLinkedListNode<E>) {
+    if (this.isNode(elementOrNode)) return elementOrNode;
+
+    return new SinglyLinkedListNode<E>(elementOrNode);
+  }
+
+  /**
+   * The function `_ensurePredicate` in TypeScript ensures that the input is either a node, a predicate
+   * function, or a value to compare with the node's value.
+   * @param {E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean)} elementNodeOrPredicate
+   * elementNodeOrPredicate - The `elementNodeOrPredicate` parameter can be one of the following types:
+   * @returns A function is being returned. If the input `elementNodeOrPredicate` is already a node, a
+   * function is returned that checks if a given node is equal to the input node. If the input is a
+   * predicate function, it is returned as is. If the input is neither a node nor a predicate function,
+   * a function is returned that checks if a given node's value is equal to the input
+   */
+  protected _ensurePredicate(
+    elementNodeOrPredicate: E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean)
+  ) {
+    if (this.isNode(elementNodeOrPredicate)) return (node: SinglyLinkedListNode<E>) => node === elementNodeOrPredicate;
+
+    if (this._isPredicate(elementNodeOrPredicate)) return elementNodeOrPredicate;
+
+    return (node: SinglyLinkedListNode<E>) => node.value === elementNodeOrPredicate;
   }
 }

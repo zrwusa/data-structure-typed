@@ -819,13 +819,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     existingElementOrNode: E | DoublyLinkedListNode<E>,
     newElementOrNode: E | DoublyLinkedListNode<E>
   ): boolean {
-    let existingNode;
-
-    if (existingElementOrNode instanceof DoublyLinkedListNode) {
-      existingNode = existingElementOrNode;
-    } else {
-      existingNode = this.getNode(existingElementOrNode);
-    }
+    const existingNode: DoublyLinkedListNode<E> | undefined = this.getNode(existingElementOrNode);
 
     if (existingNode) {
       const newNode = this._ensureNode(newElementOrNode);
@@ -862,13 +856,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * was not found in the linked list.
    */
   addAfter(existingElementOrNode: E | DoublyLinkedListNode<E>, newElementOrNode: E | DoublyLinkedListNode<E>): boolean {
-    let existingNode;
-
-    if (existingElementOrNode instanceof DoublyLinkedListNode) {
-      existingNode = existingElementOrNode;
-    } else {
-      existingNode = this.getNode(existingElementOrNode);
-    }
+    const existingNode: DoublyLinkedListNode<E> | undefined = this.getNode(existingElementOrNode);
 
     if (existingNode) {
       const newNode = this._ensureNode(newElementOrNode);
@@ -978,17 +966,15 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
-   * The indexOf function in TypeScript returns the index of a specified element or node in a Doubly
-   * Linked List.
-   * @param {E | DoublyLinkedListNode<E>} elementOrNode - The `elementOrNode` parameter in the
-   * `indexOf` method can be either an element of type `E` or a `DoublyLinkedListNode` containing an
-   * element of type `E`.
-   * @returns The `indexOf` method is returning the index of the element or node in the doubly linked
-   * list. If the element or node is found in the list, the method returns the index of that element or
-   * node. If the element or node is not found in the list, the method returns -1.
+   * This function finds the index of a specified element, node, or predicate in a doubly linked list.
+   * @param {E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)}
+   * elementNodeOrPredicate - The `indexOf` method takes in a parameter `elementNodeOrPredicate`, which
+   * can be one of the following:
+   * @returns The `indexOf` method returns the index of the element in the doubly linked list that
+   * matches the provided element, node, or predicate. If no match is found, it returns -1.
    */
-  indexOf(elementOrNode: E | DoublyLinkedListNode<E>): number {
-    const predicate = this._ensurePredicate(elementOrNode);
+  indexOf(elementNodeOrPredicate: E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)): number {
+    const predicate = this._ensurePredicate(elementNodeOrPredicate);
     let index = 0;
     let current = this.head;
     while (current) {
@@ -1005,8 +991,6 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
-   */
-  /**
    * This function retrieves an element from a doubly linked list based on a given element
    * node or predicate.
    * @param {E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)} elementNodeOrPredicate
@@ -1178,6 +1162,26 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     }
 
     return mappedList;
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
+   */
+  countOccurrences(elementOrNode: E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)): number {
+    const predicate = this._ensurePredicate(elementOrNode);
+    let count = 0;
+    let current = this.head;
+
+    while (current) {
+      if (predicate(current)) {
+        count++;
+      }
+      current = current.next;
+    }
+
+    return count;
   }
 
   /**
