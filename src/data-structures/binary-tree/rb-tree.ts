@@ -51,6 +51,10 @@ export class RedBlackTreeNode<
   }
 }
 
+/**
+ * 1. Efficient self-balancing, but not completely balanced. Compared with AVLTree, the addition and deletion efficiency is high but the query efficiency is slightly lower.
+ * 2. It is BST itself. Compared with Heap which is not completely ordered, RedBlackTree is completely ordered.
+ */
 export class RedBlackTree<
     K = any,
     V = any,
@@ -351,7 +355,7 @@ export class RedBlackTree<
 
     while (this.isRealNode(current)) {
       parent = current;
-      const compared = this.comparator(node.key, current.key);
+      const compared = this._compare(node.key, current.key);
       if (compared < 0) {
         current = current.left ?? this.NIL;
       } else if (compared > 0) {

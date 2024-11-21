@@ -1,4 +1,4 @@
-import { BinaryTreeNode, BST, BSTNode } from '../../../../src';
+import { BinaryTreeNode, BST, BSTNode, Range } from '../../../../src';
 import { isDebugTest, isTestStackOverflow, SYSTEM_MAX_CALL_STACK } from '../../../config';
 
 const isDebug = isDebugTest;
@@ -1550,20 +1550,10 @@ describe('classic use', () => {
 
   // Test case for finding elements in a given range
   it('@example Find elements in a range', () => {
-    const bst = new BST<number>([10, 5, 15, 3, 7, 12, 18]);
-
-    // Helper function to find elements in range
-    const findElementsInRange = (min: number, max: number): number[] => {
-      return bst.search(
-        node => node.key >= min && node.key <= max,
-        false,
-        node => node.key
-      );
-    };
-
-    // Assertions
-    expect(findElementsInRange(4, 12)).toEqual([10, 5, 7, 12]);
-    expect(findElementsInRange(15, 20)).toEqual([15, 18]);
+    const bst = new BST<number>([10, 5, 15, 3, 7, 12, 18], { isReverse: true });
+    expect(bst.search(new Range(5, 10))).toEqual([10, 5, 7]);
+    expect(bst.search(new Range(4, 12))).toEqual([10, 5, 7, 12]);
+    expect(bst.search(new Range(15, 20))).toEqual([15, 18]);
   });
 
   // Test case for Huffman coding simulation

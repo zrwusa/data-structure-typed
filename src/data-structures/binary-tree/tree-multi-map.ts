@@ -173,8 +173,8 @@ export class TreeMultiMap<
       if (this.isKey(key)) return [this.createNode(key, finalValue, 'BLACK', count), finalValue];
     }
 
-    if (this._toEntryFn) {
-      const [key, entryValue] = this._toEntryFn(keyNodeEntryOrRaw as R);
+    if (this.isRaw(keyNodeEntryOrRaw)) {
+      const [key, entryValue] = this._toEntryFn!(keyNodeEntryOrRaw);
       const finalValue = value ?? entryValue;
       if (this.isKey(key)) return [this.createNode(key, finalValue, 'BLACK', count), finalValue];
     }

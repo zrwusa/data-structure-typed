@@ -23,6 +23,7 @@ import { BinaryTree, BinaryTreeNode } from './binary-tree';
 import { IBinaryTree } from '../../interfaces';
 import { Queue } from '../queue';
 import { isComparable } from '../../utils';
+import { Range } from '../../common';
 
 export class BSTNode<K = any, V = any, NODE extends BSTNode<K, V, NODE> = BSTNodeNested<K, V>> extends BinaryTreeNode<
   K,
@@ -167,8 +168,9 @@ export class BST<
     super([], options);
 
     if (options) {
-      const { comparator } = options;
-      if (comparator) this._comparator = comparator;
+      const { comparator, isReverse } = options;
+      if (isReverse !== undefined) this._isReverse = isReverse;
+      if (comparator !== undefined) this._comparator = comparator;
     }
 
     if (keysNodesEntriesOrRaws) this.addMany(keysNodesEntriesOrRaws);
@@ -182,6 +184,12 @@ export class BST<
    */
   override get root(): OptNode<NODE> {
     return this._root;
+  }
+
+  protected _isReverse = false;
+
+  get isReverse() {
+    return this._isReverse;
   }
 
   /**
@@ -269,11 +277,11 @@ export class BST<
    * @param {any} key - The `key` parameter is a value that will be checked to determine if it is of
    * type `K`.
    * @returns The `override isKey(key: any): key is K` function is returning a boolean value based on
-   * the result of the `isComparable` function with the condition `this.comparator !==
+   * the result of the `isComparable` function with the condition `this._compare !==
    * this._DEFAULT_COMPARATOR`.
    */
   override isKey(key: any): key is K {
-    return isComparable(key, this.comparator !== this._DEFAULT_COMPARATOR);
+    return isComparable(key, this._compare !== this._DEFAULT_COMPARATOR);
   }
 
   /**
@@ -300,11 +308,11 @@ export class BST<
 
     let current = this._root;
     while (current !== undefined) {
-      if (this.comparator(current.key, newNode.key) === 0) {
+      if (this._compare(current.key, newNode.key) === 0) {
         this._replaceNode(current, newNode);
         if (this._isMapMode) this._setValue(current.key, newValue);
         return true;
-      } else if (this.comparator(current.key, newNode.key) > 0) {
+      } else if (this._compare(current.key, newNode.key) > 0) {
         if (current.left === undefined) {
           current.left = newNode;
           if (this._isMapMode) this._setValue(newNode?.key, newValue);
@@ -402,7 +410,7 @@ export class BST<
       }
 
       if (keyA !== undefined && keyA !== null && keyB !== undefined && keyB !== null) {
-        return this.comparator(keyA, keyB);
+        return this._compare(keyA, keyB);
       }
       return 0;
     });
@@ -445,6 +453,14 @@ export class BST<
   }
 
   /**
+   * Time Complexity: O(k * n)
+   * Space Complexity: O(1)
+   */
+  override merge(anotherTree: BST<K, V, R, NODE, TREE>) {
+    this.addMany(anotherTree, [], false);
+  }
+
+  /**
    * Time Complexity: O(log n)
    * Space Complexity: O(k + log n)
    *
@@ -473,7 +489,7 @@ export class BST<
    * collected in an array and returned as the output of the method.
    */
   override search<C extends NodeCallback<NODE>>(
-    keyNodeEntryRawOrPredicate: BTNRep<K, V, NODE> | R | NodePredicate<NODE>,
+    keyNodeEntryRawOrPredicate: BTNRep<K, V, NODE> | R | NodePredicate<NODE> | Range<K>,
     onlyOne = false,
     callback: C = this._DEFAULT_NODE_CALLBACK as C,
     startNode: BTNRep<K, V, NODE> | R = this._root,
@@ -483,9 +499,36 @@ export class BST<
     if (keyNodeEntryRawOrPredicate === null) return [];
     startNode = this.ensureNode(startNode);
     if (!startNode) return [];
-    const predicate = this._ensurePredicate(keyNodeEntryRawOrPredicate);
-    const ans: ReturnType<C>[] = [];
+    let predicate: NodePredicate<NODE>;
 
+    const isRange = this.isRange(keyNodeEntryRawOrPredicate);
+    // Set predicate based on parameter type
+    if (isRange) {
+      predicate = node => keyNodeEntryRawOrPredicate.isInRange(node.key, this._comparator);
+    } else {
+      predicate = this._ensurePredicate(keyNodeEntryRawOrPredicate);
+    }
+    const isToLeftByRange = (cur: NODE) => {
+      if (isRange) {
+        const range = keyNodeEntryRawOrPredicate;
+        const leftS = this.isReverse ? range.high : range.low;
+        const leftI = this.isReverse ? range.includeHigh : range.includeLow;
+        return (leftI && this._compare(cur.key, leftS) >= 0) || (!leftI && this._compare(cur.key, leftS) > 0);
+      }
+      return false;
+    };
+
+    const isToRightByRange = (cur: NODE) => {
+      if (isRange) {
+        const range = keyNodeEntryRawOrPredicate;
+        const rightS = this.isReverse ? range.low : range.high;
+        const rightI = this.isReverse ? range.includeLow : range.includeLow;
+
+        return (rightI && this._compare(cur.key, rightS) <= 0) || (!rightI && this._compare(cur.key, rightS) < 0);
+      }
+      return false;
+    };
+    const ans: ReturnType<C>[] = [];
     if (iterationType === 'RECURSIVE') {
       const dfs = (cur: NODE) => {
         if (predicate(cur)) {
@@ -494,20 +537,24 @@ export class BST<
         }
 
         if (!this.isRealNode(cur.left) && !this.isRealNode(cur.right)) return;
-        if (!this._isPredicate(keyNodeEntryRawOrPredicate)) {
+
+        if (isRange) {
+          if (this.isRealNode(cur.left) && isToLeftByRange(cur)) dfs(cur.left);
+          if (this.isRealNode(cur.right) && isToRightByRange(cur)) dfs(cur.right);
+        } else if (!this._isPredicate(keyNodeEntryRawOrPredicate)) {
           const benchmarkKey = this._extractKey(keyNodeEntryRawOrPredicate);
           if (
             this.isRealNode(cur.left) &&
             benchmarkKey !== null &&
             benchmarkKey !== undefined &&
-            this.comparator(cur.key, benchmarkKey) > 0
+            this._compare(cur.key, benchmarkKey) > 0
           )
             dfs(cur.left);
           if (
             this.isRealNode(cur.right) &&
             benchmarkKey !== null &&
             benchmarkKey !== undefined &&
-            this.comparator(cur.key, benchmarkKey) < 0
+            this._compare(cur.key, benchmarkKey) < 0
           )
             dfs(cur.right);
         } else {
@@ -525,20 +572,23 @@ export class BST<
           ans.push(callback(cur));
           if (onlyOne) return ans;
         }
-        if (!this._isPredicate(keyNodeEntryRawOrPredicate)) {
+        if (isRange) {
+          if (this.isRealNode(cur.left) && isToLeftByRange(cur)) stack.push(cur.left);
+          if (this.isRealNode(cur.right) && isToRightByRange(cur)) stack.push(cur.right);
+        } else if (!this._isPredicate(keyNodeEntryRawOrPredicate)) {
           const benchmarkKey = this._extractKey(keyNodeEntryRawOrPredicate);
           if (
             this.isRealNode(cur.right) &&
             benchmarkKey !== null &&
             benchmarkKey !== undefined &&
-            this.comparator(cur.key, benchmarkKey) < 0
+            this._compare(cur.key, benchmarkKey) < 0
           )
             stack.push(cur.right);
           if (
             this.isRealNode(cur.left) &&
             benchmarkKey !== null &&
             benchmarkKey !== undefined &&
-            this.comparator(cur.key, benchmarkKey) > 0
+            this._compare(cur.key, benchmarkKey) > 0
           )
             stack.push(cur.left);
         } else {
@@ -712,7 +762,7 @@ export class BST<
 
     if (iterationType === 'RECURSIVE') {
       const dfs = (cur: NODE) => {
-        const compared = this.comparator(cur.key, targetKey);
+        const compared = this._compare(cur.key, targetKey);
         if (Math.sign(compared) === lesserOrGreater) ans.push(callback(cur));
 
         if (this.isRealNode(cur.left)) dfs(cur.left);
@@ -726,7 +776,7 @@ export class BST<
       while (queue.size > 0) {
         const cur = queue.shift();
         if (this.isRealNode(cur)) {
-          const compared = this.comparator(cur.key, targetKey);
+          const compared = this._compare(cur.key, targetKey);
           if (Math.sign(compared) === lesserOrGreater) ans.push(callback(cur));
 
           if (this.isRealNode(cur.left)) queue.push(cur.left);
@@ -875,5 +925,9 @@ export class BST<
       v.parent = undefined;
     }
     this._root = v;
+  }
+
+  protected _compare(a: K, b: K) {
+    return this._isReverse ? -this._comparator(a, b) : this._comparator(a, b);
   }
 }

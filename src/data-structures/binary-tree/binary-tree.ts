@@ -29,7 +29,7 @@ import { IBinaryTree } from '../../interfaces';
 import { isComparable, trampoline } from '../../utils';
 import { Queue } from '../queue';
 import { IterableEntryBase } from '../base';
-import { DFSOperation } from '../../constants';
+import { DFSOperation, Range } from '../../common';
 
 /**
  * Represents a node in a binary tree.
@@ -233,16 +233,13 @@ export class BinaryTree<
       return [this.createNode(key, finalValue), finalValue];
     }
 
-    if (this.isKey(keyNodeEntryOrRaw)) return [this.createNode(keyNodeEntryOrRaw, value), value];
-
     if (this.isRaw(keyNodeEntryOrRaw)) {
-      if (this._toEntryFn) {
-        const [key, entryValue] = this._toEntryFn(keyNodeEntryOrRaw);
-        const finalValue = value ?? entryValue;
-        if (this.isKey(key)) return [this.createNode(key, finalValue), finalValue];
-      }
-      return [undefined, undefined];
+      const [key, entryValue] = this._toEntryFn!(keyNodeEntryOrRaw);
+      const finalValue = value ?? entryValue;
+      if (this.isKey(key)) return [this.createNode(key, finalValue), finalValue];
     }
+
+    if (this.isKey(keyNodeEntryOrRaw)) return [this.createNode(keyNodeEntryOrRaw, value), value];
 
     return [undefined, undefined];
   }
@@ -310,7 +307,7 @@ export class BinaryTree<
    * indicating that it is of type `R`.
    */
   isRaw(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R): keyNodeEntryOrRaw is R {
-    return typeof keyNodeEntryOrRaw === 'object';
+    return this._toEntryFn !== undefined && typeof keyNodeEntryOrRaw === 'object';
   }
 
   /**
@@ -350,6 +347,12 @@ export class BinaryTree<
    */
   isNIL(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R): boolean {
     return keyNodeEntryOrRaw === this._NIL;
+  }
+
+  isRange(
+    keyNodeEntryRawOrPredicate: BTNRep<K, V, NODE> | R | NodePredicate<NODE> | Range<K>
+  ): keyNodeEntryRawOrPredicate is Range<K> {
+    return keyNodeEntryRawOrPredicate instanceof Range;
   }
 
   /**
@@ -513,6 +516,14 @@ export class BinaryTree<
     }
 
     return inserted;
+  }
+
+  /**
+   * Time Complexity: O(k * n)
+   * Space Complexity: O(1)
+   */
+  merge(anotherTree: BinaryTree<K, V, R, NODE, TREE>) {
+    this.addMany(anotherTree, []);
   }
 
   /**

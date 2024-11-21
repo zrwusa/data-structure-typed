@@ -7,7 +7,8 @@ export type BSTNodeNested<K, V> = BSTNode<K, V, BSTNode<K, V, BSTNode<K, V, BSTN
 export type BSTNested<K, V, R, NODE extends BSTNode<K, V, NODE>> = BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, BST<K, V, R, NODE, any>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 export type BSTOptions<K, V, R> = BinaryTreeOptions<K, V, R> & {
-  comparator?: Comparator<K>
+  comparator?: Comparator<K>;
+  isReverse?: boolean;
 }
 
 export type BSTNOptKey<K> = K | undefined;

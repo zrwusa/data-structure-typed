@@ -187,16 +187,13 @@ export class AVLTreeMultiMap<
       return [this.createNode(key, finalValue, count), finalValue];
     }
 
-    if (this.isKey(keyNodeEntryOrRaw)) return [this.createNode(keyNodeEntryOrRaw, value, count), value];
-
     if (this.isRaw(keyNodeEntryOrRaw)) {
-      if (this._toEntryFn) {
-        const [key, entryValue] = this._toEntryFn(keyNodeEntryOrRaw as R);
-        const finalValue = value ?? entryValue;
-        if (this.isKey(key)) return [this.createNode(key, finalValue, count), finalValue];
-      }
-      return [undefined, undefined];
+      const [key, entryValue] = this._toEntryFn!(keyNodeEntryOrRaw);
+      const finalValue = value ?? entryValue;
+      if (this.isKey(key)) return [this.createNode(key, finalValue, count), finalValue];
     }
+
+    if (this.isKey(keyNodeEntryOrRaw)) return [this.createNode(keyNodeEntryOrRaw, value, count), value];
 
     return [undefined, undefined];
   }
