@@ -999,7 +999,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * @returns The `get` method returns the value of the first node in the doubly linked list that
    * satisfies the provided predicate function. If no such node is found, it returns `undefined`.
    */
-  get(
+  search(
     elementNodeOrPredicate: E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)
   ): E | undefined {
     const predicate = this._ensurePredicate(elementNodeOrPredicate);

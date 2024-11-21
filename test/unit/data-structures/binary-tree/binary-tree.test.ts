@@ -1155,8 +1155,8 @@ describe('BinaryTree', () => {
     tree.add([3, 'B']);
     tree.add([7, 'C']);
 
-    expect(tree.getPathToRoot(undefined, 7)).toEqual([5, 7]);
-    expect(tree.getPathToRoot(undefined, 1)).toEqual([]);
+    expect(tree.getPathToRoot(7)).toEqual([7, 5]);
+    expect(tree.getPathToRoot(1)).toEqual([]);
   });
 
   it('should check if the tree is perfectly balanced', () => {

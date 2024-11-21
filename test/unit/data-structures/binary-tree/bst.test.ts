@@ -1529,3 +1529,87 @@ describe('BST iterative methods not map mode test', () => {
     expect(balanced.leaves(node => balanced.get(node?.key))).toEqual(['a', 'f', 'd', 'i']);
   });
 });
+
+describe('classic use', () => {
+  // Test case for finding the kth smallest element
+  it('@example Find kth smallest element', () => {
+    // Create a BST with some elements
+    const bst = new BST<number>([5, 3, 7, 1, 4, 6, 8]);
+    const sortedKeys = bst.dfs(node => node.key, 'IN');
+
+    // Helper function to find kth smallest
+    const findKthSmallest = (k: number): number | undefined => {
+      return sortedKeys[k - 1];
+    };
+
+    // Assertions
+    expect(findKthSmallest(1)).toBe(1);
+    expect(findKthSmallest(3)).toBe(4);
+    expect(findKthSmallest(7)).toBe(8);
+  });
+
+  // Test case for finding elements in a given range
+  it('@example Find elements in a range', () => {
+    const bst = new BST<number>([10, 5, 15, 3, 7, 12, 18]);
+
+    // Helper function to find elements in range
+    const findElementsInRange = (min: number, max: number): number[] => {
+      return bst.search(
+        node => node.key >= min && node.key <= max,
+        false,
+        node => node.key
+      );
+    };
+
+    // Assertions
+    expect(findElementsInRange(4, 12)).toEqual([10, 5, 7, 12]);
+    expect(findElementsInRange(15, 20)).toEqual([15, 18]);
+  });
+
+  // Test case for Huffman coding simulation
+  it('Huffman coding frequency simulation', () => {
+    // Create a BST to simulate Huffman tree
+    const frequencyBST = new BST<string, number>([
+      ['a', 5],
+      ['b', 9],
+      ['c', 12],
+      ['d', 13],
+      ['e', 16],
+      ['f', 45]
+    ]);
+
+    // Sort nodes by frequency
+    const sortedFrequencies = frequencyBST.dfs(node => ({ char: node.key, freq: node.value }), 'IN');
+
+    // Build Huffman tree simulation
+    expect(sortedFrequencies[0].char).toBe('a');
+    expect(sortedFrequencies[5].char).toBe('f');
+  });
+
+  // Test case for Lowest Common Ancestor (LCA)
+  it('@example Find lowest common ancestor', () => {
+    const bst = new BST<number>([20, 10, 30, 5, 15, 25, 35, 3, 7, 12, 18]);
+
+    function findFirstCommon(arr1: number[], arr2: number[]): number | undefined {
+      for (const num of arr1) {
+        if (arr2.indexOf(num) !== -1) {
+          return num;
+        }
+      }
+      return undefined;
+    }
+
+    // LCA helper function
+    const findLCA = (num1: number, num2: number): number | undefined => {
+      const path1 = bst.getPathToRoot(num1);
+      const path2 = bst.getPathToRoot(num2);
+      // Find the first common ancestor
+      return findFirstCommon(path1, path2);
+    };
+
+    // Assertions
+    expect(findLCA(3, 10)).toBe(7);
+    expect(findLCA(5, 35)).toBe(15);
+    expect(findLCA(20, 30)).toBe(25);
+  });
+});

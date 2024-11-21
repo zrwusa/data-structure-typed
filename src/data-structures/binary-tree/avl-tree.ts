@@ -434,7 +434,7 @@ export class AVLTree<
    */
   protected _balancePath(node: BTNRep<K, V, NODE> | R): void {
     node = this.ensureNode(node);
-    const path = this.getPathToRoot(node => node, node, false); // first O(log n) + O(log n)
+    const path = this.getPathToRoot(node, node => node, false); // first O(log n) + O(log n)
     for (let i = 0; i < path.length; i++) {
       // second O(log n)
       const A = path[i];

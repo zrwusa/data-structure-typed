@@ -223,7 +223,7 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * @returns The `get` method returns the value of the first node in the singly linked list that
    * satisfies the provided predicate function. If no such node is found, it returns `undefined`.
    */
-  get(
+  search(
     elementNodeOrPredicate: E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean)
   ): E | undefined {
     const predicate = this._ensurePredicate(elementNodeOrPredicate);

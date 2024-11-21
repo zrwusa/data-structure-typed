@@ -302,6 +302,13 @@ export class BinaryTree<
     return keyNodeEntryOrRaw instanceof BinaryTreeNode;
   }
 
+  /**
+   * The function `isRaw` checks if the input parameter is of type `R` by verifying if it is an object.
+   * @param {BTNRep<K, V, NODE> | R} keyNodeEntryOrRaw - BTNRep<K, V, NODE> | R
+   * @returns The function `isRaw` is checking if the `keyNodeEntryOrRaw` parameter is of type `R` by
+   * checking if it is an object. If the parameter is an object, the function will return `true`,
+   * indicating that it is of type `R`.
+   */
   isRaw(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R): keyNodeEntryOrRaw is R {
     return typeof keyNodeEntryOrRaw === 'object';
   }
@@ -589,6 +596,75 @@ export class BinaryTree<
    * Time Complexity: O(n)
    * Space Complexity: O(k + log n)
    *
+   * The `search` function in TypeScript performs a depth-first or breadth-first search on a tree
+   * structure based on a given predicate or key, with options to return multiple results or just one.
+   * @param {BTNRep<K, V, NODE> | R | NodePredicate<NODE>} keyNodeEntryRawOrPredicate - The
+   * `keyNodeEntryRawOrPredicate` parameter in the `search` function can accept three types of values:
+   * @param [onlyOne=false] - The `onlyOne` parameter in the `search` function is a boolean flag that
+   * determines whether the search should stop after finding the first matching node. If `onlyOne` is
+   * set to `true`, the search will return as soon as a matching node is found. If `onlyOne` is
+   * @param {C} callback - The `callback` parameter in the `search` function is a callback function
+   * that will be called on each node that matches the search criteria. It is of type `C`, which
+   * extends `NodeCallback<NODE>`. The default value for `callback` is `this._DEFAULT_NODE_CALLBACK` if
+   * @param {BTNRep<K, V, NODE> | R} startNode - The `startNode` parameter in the `search` function is
+   * used to specify the node from which the search operation should begin. It represents the starting
+   * point in the binary tree where the search will be performed. If no specific `startNode` is
+   * provided, the search operation will start from the root
+   * @param {IterationType} iterationType - The `iterationType` parameter in the `search` function
+   * specifies the type of iteration to be used when searching for nodes in a binary tree. It can have
+   * two possible values:
+   * @returns The `search` function returns an array of values that match the provided criteria based
+   * on the search algorithm implemented within the function.
+   */
+  search<C extends NodeCallback<NODE>>(
+    keyNodeEntryRawOrPredicate: BTNRep<K, V, NODE> | R | NodePredicate<NODE>,
+    onlyOne = false,
+    callback: C = this._DEFAULT_NODE_CALLBACK as C,
+    startNode: BTNRep<K, V, NODE> | R = this._root,
+    iterationType: IterationType = this.iterationType
+  ): ReturnType<C>[] {
+    if (keyNodeEntryRawOrPredicate === undefined) return [];
+    if (keyNodeEntryRawOrPredicate === null) return [];
+    startNode = this.ensureNode(startNode);
+    if (!startNode) return [];
+    const predicate = this._ensurePredicate(keyNodeEntryRawOrPredicate);
+
+    const ans: ReturnType<C>[] = [];
+
+    if (iterationType === 'RECURSIVE') {
+      const dfs = (cur: NODE) => {
+        if (predicate(cur)) {
+          ans.push(callback(cur));
+          if (onlyOne) return;
+        }
+        if (!this.isRealNode(cur.left) && !this.isRealNode(cur.right)) return;
+        if (this.isRealNode(cur.left)) dfs(cur.left);
+        if (this.isRealNode(cur.right)) dfs(cur.right);
+      };
+
+      dfs(startNode);
+    } else {
+      const stack = [startNode];
+      while (stack.length > 0) {
+        const cur = stack.pop();
+        if (this.isRealNode(cur)) {
+          if (predicate(cur)) {
+            ans.push(callback(cur));
+            if (onlyOne) return ans;
+          }
+          if (this.isRealNode(cur.left)) stack.push(cur.left);
+          if (this.isRealNode(cur.right)) stack.push(cur.right);
+        }
+      }
+    }
+
+    return ans;
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(k + log n)
+   *
    * The function `getNodes` retrieves nodes from a binary tree based on a key, node, entry, raw data,
    * or predicate, with options for recursive or iterative traversal.
    * @param {BTNRep<K, V, NODE> | R | NodePredicate<NODE>} keyNodeEntryRawOrPredicate
@@ -612,42 +688,7 @@ export class BinaryTree<
     startNode: BTNRep<K, V, NODE> | R = this._root,
     iterationType: IterationType = this.iterationType
   ): NODE[] {
-    if (keyNodeEntryRawOrPredicate === undefined) return [];
-    if (keyNodeEntryRawOrPredicate === null) return [];
-    startNode = this.ensureNode(startNode);
-    if (!startNode) return [];
-    const callback = this._ensurePredicate(keyNodeEntryRawOrPredicate);
-
-    const ans: NODE[] = [];
-
-    if (iterationType === 'RECURSIVE') {
-      const dfs = (cur: NODE) => {
-        if (callback(cur)) {
-          ans.push(cur);
-          if (onlyOne) return;
-        }
-        if (!this.isRealNode(cur.left) && !this.isRealNode(cur.right)) return;
-        if (this.isRealNode(cur.left)) dfs(cur.left);
-        if (this.isRealNode(cur.right)) dfs(cur.right);
-      };
-
-      dfs(startNode);
-    } else {
-      const stack = [startNode];
-      while (stack.length > 0) {
-        const cur = stack.pop();
-        if (this.isRealNode(cur)) {
-          if (callback(cur)) {
-            ans.push(cur);
-            if (onlyOne) return ans;
-          }
-          if (this.isRealNode(cur.left)) stack.push(cur.left);
-          if (this.isRealNode(cur.right)) stack.push(cur.right);
-        }
-      }
-    }
-
-    return ans;
+    return this.search(keyNodeEntryRawOrPredicate, onlyOne, node => node, startNode, iterationType);
   }
 
   /**
@@ -675,7 +716,7 @@ export class BinaryTree<
     startNode: BTNRep<K, V, NODE> | R = this._root,
     iterationType: IterationType = this.iterationType
   ): OptNodeOrNull<NODE> {
-    return this.getNodes(keyNodeEntryRawOrPredicate, true, startNode, iterationType)[0] ?? null;
+    return this.search(keyNodeEntryRawOrPredicate, true, node => node, startNode, iterationType)[0] ?? null;
   }
 
   /**
@@ -723,7 +764,7 @@ export class BinaryTree<
     iterationType: IterationType = this.iterationType
   ): V | undefined {
     if (this._isMapMode) {
-      const key = this._getKey(keyNodeEntryRawOrPredicate);
+      const key = this._extractKey(keyNodeEntryRawOrPredicate);
       if (key === null || key === undefined) return;
       return this._store.get(key);
     }
@@ -756,7 +797,7 @@ export class BinaryTree<
     startNode: BTNRep<K, V, NODE> | R = this._root,
     iterationType: IterationType = this.iterationType
   ): boolean {
-    return this.getNodes(keyNodeEntryRawOrPredicate, true, startNode, iterationType).length > 0;
+    return this.search(keyNodeEntryRawOrPredicate, true, node => node, startNode, iterationType).length > 0;
   }
 
   /**
@@ -1023,9 +1064,9 @@ export class BinaryTree<
    * parameter.
    */
   getPathToRoot<C extends NodeCallback<OptNodeOrNull<NODE>>>(
-    callback: C = this._DEFAULT_NODE_CALLBACK as C,
     beginNode: BTNRep<K, V, NODE> | R,
-    isReverse = true
+    callback: C = this._DEFAULT_NODE_CALLBACK as C,
+    isReverse = false
   ): ReturnType<C>[] {
     const result: ReturnType<C>[] = [];
     let beginNodeEnsured = this.ensureNode(beginNode);
@@ -2144,16 +2185,16 @@ export class BinaryTree<
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The function `_getKey` in TypeScript returns the key from a given input, which can be a node,
+   * The function `_extractKey` in TypeScript returns the key from a given input, which can be a node,
    * entry, raw data, or null/undefined.
-   * @param {BTNRep<K, V, NODE> | R} keyNodeEntryOrRaw - The `_getKey` method you provided is a
+   * @param {BTNRep<K, V, NODE> | R} keyNodeEntryOrRaw - The `_extractKey` method you provided is a
    * TypeScript method that takes in a parameter `keyNodeEntryOrRaw` of type `BTNRep<K, V, NODE> | R`,
    * where `BTNRep` is a generic type with keys `K`, `V`, and `NODE`, and `
-   * @returns The `_getKey` method returns the key value extracted from the `keyNodeEntryOrRaw`
+   * @returns The `_extractKey` method returns the key value extracted from the `keyNodeEntryOrRaw`
    * parameter. The return value can be a key value of type `K`, `null`, or `undefined`, depending on
    * the conditions checked in the method.
    */
-  protected _getKey(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R): K | null | undefined {
+  protected _extractKey(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R): K | null | undefined {
     if (keyNodeEntryOrRaw === null) return null;
     if (keyNodeEntryOrRaw === undefined) return;
     if (keyNodeEntryOrRaw === this._NIL) return;

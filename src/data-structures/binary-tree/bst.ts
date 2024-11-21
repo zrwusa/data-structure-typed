@@ -92,6 +92,58 @@ export class BSTNode<K = any, V = any, NODE extends BSTNode<K, V, NODE> = BSTNod
  * 5. Logarithmic Operations: Ideal operations like insertion, deletion, and searching are O(log n) time-efficient.
  * 6. Balance Variability: Can become unbalanced; special types maintain balance.
  * 7. No Auto-Balancing: Standard BSTs don't automatically balance themselves.
+ * @example
+ * // Find kth smallest element
+ *     // Create a BST with some elements
+ *     const bst = new BST<number>([5, 3, 7, 1, 4, 6, 8]);
+ *     const sortedKeys = bst.dfs(node => node.key, 'IN');
+ *
+ *     // Helper function to find kth smallest
+ *     const findKthSmallest = (k: number): number | undefined => {
+ *       return sortedKeys[k - 1];
+ *     };
+ *
+ *     // Assertions
+ *     console.log(findKthSmallest(1)); // 1
+ *     console.log(findKthSmallest(3)); // 4
+ *     console.log(findKthSmallest(7)); // 8
+ * @example
+ * // Find elements in a range
+ *     const bst = new BST<number>([10, 5, 15, 3, 7, 12, 18]);
+ *
+ *     // Helper function to find elements in range
+ *     const findElementsInRange = (min: number, max: number): number[] => {
+ *       return bst.search(node => node.key >= min && node.key <= max, false, node => node.key);
+ *     };
+ *
+ *     // Assertions
+ *     console.log(findElementsInRange(4, 12)); // [10, 5, 7, 12]
+ *     console.log(findElementsInRange(15, 20)); // [15, 18]
+ * @example
+ * // Find lowest common ancestor
+ *     const bst = new BST<number>([20, 10, 30, 5, 15, 25, 35, 3, 7, 12, 18]);
+ *
+ *     function findFirstCommon(arr1: number[], arr2: number[]): number | undefined {
+ *       for (const num of arr1) {
+ *         if (arr2.indexOf(num) !== -1) {
+ *           return num;
+ *         }
+ *       }
+ *       return undefined;
+ *     }
+ *
+ *     // LCA helper function
+ *     const findLCA = (num1: number, num2: number): number | undefined => {
+ *       const path1 = bst.getPathToRoot(num1);
+ *       const path2 = bst.getPathToRoot(num2);
+ *       // Find the first common ancestor
+ *       return findFirstCommon(path1, path2);
+ *     };
+ *
+ *     // Assertions
+ *     console.log(findLCA(3, 10)); // 7
+ *     console.log(findLCA(5, 35)); // 15
+ *     console.log(findLCA(20, 30)); // 25
  */
 export class BST<
     K = any,
@@ -396,48 +448,54 @@ export class BST<
    * Time Complexity: O(log n)
    * Space Complexity: O(k + log n)
    *
-   * The function `getNodes` in TypeScript overrides the base class method to retrieve nodes based on a
-   * given keyNodeEntryRawOrPredicate and iteration type.
-   * @param {BTNRep<K, V, NODE> | R | NodePredicate<NODE>} keyNodeEntryRawOrPredicate - The `keyNodeEntryRawOrPredicate`
-   * parameter in the `getNodes` method is used to filter the nodes that will be returned. It can be a
-   * key, a node, an entry, or a custom keyNodeEntryRawOrPredicate function that determines whether a node should be
-   * included in the result.
-   * @param [onlyOne=false] - The `onlyOne` parameter in the `getNodes` method is a boolean flag that
-   * determines whether to return only the first node that matches the keyNodeEntryRawOrPredicate (`true`) or all nodes
-   * that match the keyNodeEntryRawOrPredicate (`false`). If `onlyOne` is set to `true`, the method will stop iterating
-   * and
-   * @param {BTNRep<K, V, NODE> | R} startNode - The `startNode` parameter in the
-   * `getNodes` method is used to specify the starting point for traversing the tree when searching for
-   * nodes that match a given keyNodeEntryRawOrPredicate. It represents the root node of the subtree where the search
-   * should begin. If not explicitly provided, the default value for `begin
-   * @param {IterationType} iterationType - The `iterationType` parameter in the `getNodes` method
-   * specifies the type of iteration to be performed when traversing the nodes of a binary tree. It can
-   * have two possible values:
-   * @returns The `getNodes` method returns an array of nodes that satisfy the given keyNodeEntryRawOrPredicate.
+   * The function `search` in TypeScript overrides the search behavior in a binary tree structure based
+   * on specified criteria.
+   * @param {BTNRep<K, V, NODE> | R | NodePredicate<NODE>} keyNodeEntryRawOrPredicate - The
+   * `keyNodeEntryRawOrPredicate` parameter in the `override search` method can accept one of the
+   * following types:
+   * @param [onlyOne=false] - The `onlyOne` parameter is a boolean flag that determines whether the
+   * search should stop after finding the first matching node. If `onlyOne` is set to `true`, the
+   * search will return as soon as a matching node is found. If `onlyOne` is set to `false`, the
+   * @param {C} callback - The `callback` parameter in the `override search` function is a function
+   * that will be called on each node that matches the search criteria. It is of type `C`, which
+   * extends `NodeCallback<NODE>`. The callback function should accept a node of type `NODE` as its
+   * argument and
+   * @param {BTNRep<K, V, NODE> | R} startNode - The `startNode` parameter in the `override search`
+   * method represents the node from which the search operation will begin. It is the starting point
+   * for searching within the tree data structure. The method ensures that the `startNode` is a valid
+   * node before proceeding with the search operation. If the `
+   * @param {IterationType} iterationType - The `iterationType` parameter in the `override search`
+   * function determines the type of iteration to be used during the search operation. It can have two
+   * possible values:
+   * @returns The `override search` method returns an array of values that match the search criteria
+   * specified by the input parameters. The method performs a search operation on a binary tree
+   * structure based on the provided key, predicate, and other options. The search results are
+   * collected in an array and returned as the output of the method.
    */
-  override getNodes(
+  override search<C extends NodeCallback<NODE>>(
     keyNodeEntryRawOrPredicate: BTNRep<K, V, NODE> | R | NodePredicate<NODE>,
     onlyOne = false,
+    callback: C = this._DEFAULT_NODE_CALLBACK as C,
     startNode: BTNRep<K, V, NODE> | R = this._root,
     iterationType: IterationType = this.iterationType
-  ): NODE[] {
+  ): ReturnType<C>[] {
     if (keyNodeEntryRawOrPredicate === undefined) return [];
     if (keyNodeEntryRawOrPredicate === null) return [];
     startNode = this.ensureNode(startNode);
     if (!startNode) return [];
-    const callback = this._ensurePredicate(keyNodeEntryRawOrPredicate);
-    const ans: NODE[] = [];
+    const predicate = this._ensurePredicate(keyNodeEntryRawOrPredicate);
+    const ans: ReturnType<C>[] = [];
 
     if (iterationType === 'RECURSIVE') {
       const dfs = (cur: NODE) => {
-        if (callback(cur)) {
-          ans.push(cur);
+        if (predicate(cur)) {
+          ans.push(callback(cur));
           if (onlyOne) return;
         }
 
         if (!this.isRealNode(cur.left) && !this.isRealNode(cur.right)) return;
         if (!this._isPredicate(keyNodeEntryRawOrPredicate)) {
-          const benchmarkKey = this._getKey(keyNodeEntryRawOrPredicate);
+          const benchmarkKey = this._extractKey(keyNodeEntryRawOrPredicate);
           if (
             this.isRealNode(cur.left) &&
             benchmarkKey !== null &&
@@ -463,12 +521,12 @@ export class BST<
       const stack = [startNode];
       while (stack.length > 0) {
         const cur = stack.pop()!;
-        if (callback(cur)) {
-          ans.push(cur);
+        if (predicate(cur)) {
+          ans.push(callback(cur));
           if (onlyOne) return ans;
         }
         if (!this._isPredicate(keyNodeEntryRawOrPredicate)) {
-          const benchmarkKey = this._getKey(keyNodeEntryRawOrPredicate);
+          const benchmarkKey = this._extractKey(keyNodeEntryRawOrPredicate);
           if (
             this.isRealNode(cur.right) &&
             benchmarkKey !== null &&

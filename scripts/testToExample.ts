@@ -216,9 +216,9 @@ function updateExamples(testDir: string, sourceBaseDir: string): void {
 
     const relativePath = path.relative(testDir, file);
     const sourceFilePath = path.resolve(sourceBaseDir, relativePath.replace('.test.ts', '.ts'));
-    const className = toPascalCase(path.basename(sourceFilePath, '.ts'));
-
-    addExamplesToSourceFile(sourceFilePath, toPascalCase(className), examples);
+    let className = toPascalCase(path.basename(sourceFilePath, '.ts'));
+    if (className === 'Bst') className = 'BST';
+    addExamplesToSourceFile(sourceFilePath, className, examples);
     const dirKey = dirMap[className];
 
     if (!dirKey) {
