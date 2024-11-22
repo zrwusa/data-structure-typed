@@ -272,15 +272,15 @@ export class BinaryTree<
       const key = keyNodeEntryOrRaw[0];
       if (key === null) return null;
       if (key === undefined) return;
-      return this.getNodeByKey(key, iterationType);
+      return this.getNode(key, this._root, iterationType);
     }
 
     if (this._toEntryFn) {
       const [key] = this._toEntryFn(keyNodeEntryOrRaw as R);
-      if (this.isKey(key)) return this.getNodeByKey(key);
+      if (this.isKey(key)) return this.getNode(key);
     }
 
-    if (this.isKey(keyNodeEntryOrRaw)) return this.getNodeByKey(keyNodeEntryOrRaw, iterationType);
+    if (this.isKey(keyNodeEntryOrRaw)) return this.getNode(keyNodeEntryOrRaw, this._root, iterationType);
     return;
   }
 
@@ -521,6 +521,10 @@ export class BinaryTree<
   /**
    * Time Complexity: O(k * n)
    * Space Complexity: O(1)
+   *
+   * The `merge` function in TypeScript merges another binary tree into the current tree by adding all
+   * elements from the other tree.
+   * @param anotherTree - `BinaryTree<K, V, R, NODE, TREE>`
    */
   merge(anotherTree: BinaryTree<K, V, R, NODE, TREE>) {
     this.addMany(anotherTree, []);
@@ -728,23 +732,6 @@ export class BinaryTree<
     iterationType: IterationType = this.iterationType
   ): OptNodeOrNull<NODE> {
     return this.search(keyNodeEntryRawOrPredicate, true, node => node, startNode, iterationType)[0] ?? null;
-  }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(log n)
-   *
-   * The function `getNodeByKey` retrieves a node by its key from a binary tree structure.
-   * @param {K} key - The `key` parameter is the value used to search for a specific node in a data
-   * structure.
-   * @param {IterationType} iterationType - The `iterationType` parameter is a type of iteration that
-   * specifies how the tree nodes should be traversed when searching for a node with the given key. It
-   * is an optional parameter with a default value of `this.iterationType`.
-   * @returns The `getNodeByKey` function is returning an optional binary tree node
-   * (`OptNodeOrNull<NODE>`).
-   */
-  getNodeByKey(key: K, iterationType: IterationType = this.iterationType): OptNodeOrNull<NODE> {
-    return this.getNode(key, this._root, iterationType);
   }
 
   /**
@@ -1170,7 +1157,6 @@ export class BinaryTree<
     iterationType: IterationType = this.iterationType
   ): ReturnType<C> {
     if (this.isNIL(startNode)) return callback(undefined);
-    // TODO support get right most by passing key in
     startNode = this.ensureNode(startNode);
     if (!startNode) return callback(startNode);
 
@@ -2245,6 +2231,9 @@ export class BinaryTree<
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The _clearNodes function sets the root node to undefined and resets the size to 0.
    */
   protected _clearNodes() {
@@ -2253,6 +2242,9 @@ export class BinaryTree<
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The _clearValues function clears all values stored in the _store object.
    */
   protected _clearValues() {

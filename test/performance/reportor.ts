@@ -8,6 +8,22 @@ import { PerformanceTest } from './types';
 const args = process.argv.slice(2);
 
 const { GREEN, BOLD, END, YELLOW, GRAY, CYAN, BG_YELLOW } = ConsoleColor;
+const isOnlyOrdered = true;
+const runOrder = [
+  'heap',
+  'avl-tree',
+  'rb-tree',
+  'doubly-linked-list',
+  'directed-graph',
+  'queue',
+  'deque',
+  'hash-map',
+  'trie',
+  'stack'
+  // 'singly-linked-list',
+  // 'priority-queue',
+  // 'binary-tree-overall'
+];
 
 const getRelativePath = (file: string) => {
   return path.relative(__dirname, file);
@@ -80,7 +96,7 @@ const composeReport = () => {
                                 #json-to-html {
                                 padding: 0 10px 20px;
                                 }
-                                
+
                                 .json-to-html-label {
                                     font-size: 2rem;
                                     margin: 2rem 0 0 3px;
@@ -92,19 +108,19 @@ const composeReport = () => {
                                   margin-top: 10px;
                                   font-size: 16px;
                                 }
-                            
+
                                 .content table th,
                                 .content table td {
                                   padding: 8px 12px;
                                   text-align: left;
                                   border: 1px solid #ddd;
                                 }
-                            
+
                                 .content table th {
                                   background-color: #f2f2f2;
                                   font-weight: bold;
                                 }
-                            
+
                                 .content table tr:nth-child(odd) {
                                   background-color: #ffffff;
                                 }
@@ -188,46 +204,35 @@ function replaceMarkdownContent(startMarker: string, endMarker: string, newText:
   });
 }
 
-const order = [
-  'heap',
-  'rb-tree',
-  'queue',
-  'deque',
-  'hash-map',
-  'trie',
-  'avl-tree',
-  'binary-tree-overall',
-  'directed-graph',
-  'doubly-linked-list',
-  'singly-linked-list',
-  'priority-queue',
-  'stack'
-];
+const sortedPerformanceTests = (
+  isOnlyOrdered ? [...performanceTests].filter(test => runOrder.includes(test.testName)) : [...performanceTests]
+).sort((a, b) => {
+  const indexA = runOrder.indexOf(a.testName);
+  const indexB = runOrder.indexOf(b.testName);
 
-const sortedPerformanceTests = [...performanceTests].sort((a, b) => {
-  const indexA = order.indexOf(a.testName);
-  const indexB = order.indexOf(b.testName);
-
-  // If both a and b are in the order, sort them according to their indices in the order.
+  // If both a and b are in the runOrder, sort them according to their indices in the runOrder.
   if (indexA !== -1 && indexB !== -1) {
     return indexA - indexB;
   }
 
-  // If there is only 'a' in the order, then place 'b' in front.
+  // If there is only 'a' in the runOrder, then place 'b' in front.
   if (indexA !== -1) {
     return 1;
   }
 
-  // If only b is in the order, then a should be placed before it.
+  // If only b is in the runOrder, then a should be placed before it.
   if (indexB !== -1) {
     return -1;
   }
 
-  // If neither a nor b are in order, keep their original order
+  // If neither a nor b are in runOrder, keep their original runOrder
   return 0;
 });
 
-console.log(`${GREEN} Found tests${END}: ${sortedPerformanceTests.map(test => test.testName)}`);
+console.log(`${GREEN} Found tests (${performanceTests.length})${END}: ${performanceTests.map(test => test.testName)}`);
+console.log(
+  `${GREEN} Running tests (${sortedPerformanceTests.length})${END}: ${sortedPerformanceTests.map(test => test.testName)}`
+);
 
 sortedPerformanceTests.forEach(item => {
   const { suite, testName, file } = item;
@@ -245,22 +250,22 @@ sortedPerformanceTests.forEach(item => {
           return {
             'test name': benchmark.name,
             'time taken (ms)': numberFix(benchmark.times.period * 1000, 2),
-            'executions per sec': numberFix(benchmark.hz, 2),
+            // 'executions per sec': numberFix(benchmark.hz, 2),
             // 'executed times': numberFix(benchmark.count, 0),
-            // 'sample mean (secs)': numberFix(benchmark.stats.mean, 2),
+            'sample mean (secs)': numberFix(benchmark.stats.mean, 2),
             'sample deviation': numberFix(benchmark.stats.deviation, 2)
           };
         });
 
         report[testName].testName = testName;
-        const isDone = completedCount === performanceTests.length;
+        const isDone = completedCount === sortedPerformanceTests.length;
         runTime = Number(runTime.toFixed(2));
         const isTimeWarn = runTime > 120;
         console.log(
           // `Files: ${GREEN}${testFileCount}${END} `,
           // `Suites: ${GREEN}${performanceTests.length}${END} `,
-          `Suites Progress: ${isDone ? GREEN : YELLOW}${completedCount}${END}/${isDone ? GREEN : YELLOW}${performanceTests.length}${END}`,
-          `Time: ${isTimeWarn ? YELLOW : GREEN}${runTime}s${END}`
+          `Suites Progress: ${isDone ? GREEN : YELLOW}${completedCount}${END}/${isDone ? GREEN : YELLOW}${sortedPerformanceTests.length}${END}`,
+          `Time Costs: ${isTimeWarn ? YELLOW : GREEN}${runTime}s${END}`
         );
         if (isDone) {
           composeReport();

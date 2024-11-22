@@ -19,6 +19,9 @@ suite
   .add(`${HUNDRED_THOUSAND.toLocaleString()} get`, () => {
     for (let i = 0; i < randomArray.length; i++) avlTree.get(randomArray[i]);
   })
+  .add(`${HUNDRED_THOUSAND.toLocaleString()} getNode`, () => {
+    for (let i = 0; i < randomArray.length; i++) avlTree.getNode(randomArray[i]);
+  })
   .add(`${HUNDRED_THOUSAND.toLocaleString()} iterator`, () => {
     const entries = [...avlTree];
     return entries.length === HUNDRED_THOUSAND;

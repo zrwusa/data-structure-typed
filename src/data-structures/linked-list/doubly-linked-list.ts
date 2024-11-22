@@ -819,7 +819,9 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     existingElementOrNode: E | DoublyLinkedListNode<E>,
     newElementOrNode: E | DoublyLinkedListNode<E>
   ): boolean {
-    const existingNode: DoublyLinkedListNode<E> | undefined = this.getNode(existingElementOrNode);
+    const existingNode: DoublyLinkedListNode<E> | undefined = this.isNode(existingElementOrNode)
+      ? existingElementOrNode
+      : this.getNode(existingElementOrNode);
 
     if (existingNode) {
       const newNode = this._ensureNode(newElementOrNode);
@@ -856,7 +858,9 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * was not found in the linked list.
    */
   addAfter(existingElementOrNode: E | DoublyLinkedListNode<E>, newElementOrNode: E | DoublyLinkedListNode<E>): boolean {
-    const existingNode: DoublyLinkedListNode<E> | undefined = this.getNode(existingElementOrNode);
+    const existingNode: DoublyLinkedListNode<E> | undefined = this.isNode(existingElementOrNode)
+      ? existingElementOrNode
+      : this.getNode(existingElementOrNode);
 
     if (existingNode) {
       const newNode = this._ensureNode(newElementOrNode);

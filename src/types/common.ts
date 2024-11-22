@@ -23,5 +23,3 @@ export type OptValue<V> = V | undefined;
 export type IterableWithSizeOrLength<T> = IterableWithSize<T> | IterableWithLength<T>;
 
 export type CRUD = 'CREATED' | 'READ' | 'UPDATED' | 'DELETED';
-
-export type Arithmetic = number | bigint;

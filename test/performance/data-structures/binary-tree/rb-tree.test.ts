@@ -23,9 +23,12 @@ suite
   .add(`${HUNDRED_THOUSAND.toLocaleString()} get`, () => {
     for (let i = 0; i < randomArray.length; i++) rbTree.get(randomArray[i]);
   })
+  .add(`${HUNDRED_THOUSAND.toLocaleString()} getNode`, () => {
+    for (let i = 0; i < randomArray.length; i++) rbTree.getNode(randomArray[i]);
+  })
   .add(`${HUNDRED_THOUSAND.toLocaleString()} node mode add randomly`, () => {
     rbTreeNodeMode.clear();
-    for (let i = 0; i < randomArray.length; i++) rbTree.add(randomArray[i]);
+    for (let i = 0; i < randomArray.length; i++) rbTreeNodeMode.add(randomArray[i]);
   })
   .add(`${HUNDRED_THOUSAND.toLocaleString()} node mode get`, () => {
     for (let i = 0; i < randomArray.length; i++) rbTreeNodeMode.get(randomArray[i]);

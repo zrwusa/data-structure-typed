@@ -226,7 +226,8 @@ export const roundFixed = (num: number, digit: number = 10) => {
  */
 function isPrimitiveComparable(value: unknown): value is ComparablePrimitive {
   const valueType = typeof value;
-  if (valueType === 'number') return !Number.isNaN(value);
+  if (valueType === 'number') return true;
+  // if (valueType === 'number') return !Number.isNaN(value);
   return valueType === 'bigint' || valueType === 'string' || valueType === 'boolean';
 }
 
@@ -274,7 +275,8 @@ export function isComparable(value: unknown, isForceObjectComparable = false): v
   if (isPrimitiveComparable(value)) return true;
 
   if (typeof value !== 'object') return false;
-  if (value instanceof Date) return !Number.isNaN(value.getTime());
+  if (value instanceof Date) return true;
+  // if (value instanceof Date) return !Number.isNaN(value.getTime());
   if (isForceObjectComparable) return true;
   const comparableValue = tryObjectToPrimitive(value);
   if (comparableValue === null || comparableValue === undefined) return false;

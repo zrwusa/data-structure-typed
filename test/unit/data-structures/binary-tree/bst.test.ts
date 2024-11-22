@@ -974,7 +974,7 @@ describe('BST operations test recursively', () => {
 
   if (isTestStackOverflow) {
     it('should getLeftMost', () => {
-      const bst = new BST<number>([], { comparator: (a, b) => b - a });
+      const bst = new BST<number>([], { extractComparable: key => key });
       for (let i = 1; i <= SYSTEM_MAX_CALL_STACK; i++) bst.add(i);
 
       expect(() => {
@@ -1009,7 +1009,7 @@ describe('BST isBST', function () {
 
   it('isBST when variant is Max', () => {
     const bst = new BST<number, number>([1, 2, 3, 9, 8, 5, 6, 7, 4], {
-      comparator: (a, b) => b - a
+      isReverse: true
     });
     bst.addMany([1, 2, 3, 9, 8, 5, 6, 7, 4]);
     expect(bst.isBST()).toBe(true);
@@ -1550,10 +1550,12 @@ describe('classic use', () => {
 
   // Test case for finding elements in a given range
   it('@example Find elements in a range', () => {
-    const bst = new BST<number>([10, 5, 15, 3, 7, 12, 18], { isReverse: true });
+    const bst = new BST<number>([10, 5, 15, 3, 7, 12, 18]);
     expect(bst.search(new Range(5, 10))).toEqual([10, 5, 7]);
-    expect(bst.search(new Range(4, 12))).toEqual([10, 5, 7, 12]);
+    expect(bst.search(new Range(4, 12))).toEqual([10, 12, 5, 7]);
+    expect(bst.search(new Range(4, 12, true, false))).toEqual([10, 5, 7]);
     expect(bst.search(new Range(15, 20))).toEqual([15, 18]);
+    expect(bst.search(new Range(15, 20, false))).toEqual([18]);
   });
 
   // Test case for Huffman coding simulation

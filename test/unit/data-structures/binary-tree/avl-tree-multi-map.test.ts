@@ -736,7 +736,7 @@ describe('AVLTree toEntryFn', () => {
           { obj: { id: 5 } }
         ])
     ).toThrowError(
-      `When comparing object types, a custom comparator must be defined in the constructor's options parameter.`
+      `When comparing object types, a custom extractComparable must be defined in the constructor's options parameter.`
     );
   });
 
@@ -744,7 +744,7 @@ describe('AVLTree toEntryFn', () => {
     const tree = new AVLTreeMultiMap<{ obj: { id: number } }, number>(
       [{ obj: { id: 1 } }, { obj: { id: 2 } }, { obj: { id: 3 } }, { obj: { id: 4 } }, { obj: { id: 5 } }],
       {
-        comparator: (a, b) => a.obj.id - b.obj.id
+        extractComparable: key => key.obj.id
       }
     );
 

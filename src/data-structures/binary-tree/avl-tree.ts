@@ -113,8 +113,9 @@ export class AVLTree<
     return new AVLTree<K, V, R, NODE, TREE>([], {
       iterationType: this.iterationType,
       isMapMode: this._isMapMode,
-      comparator: this._comparator,
+      extractComparable: this._extractComparable,
       toEntryFn: this._toEntryFn,
+      isReverse: this._isReverse,
       ...options
     }) as TREE;
   }

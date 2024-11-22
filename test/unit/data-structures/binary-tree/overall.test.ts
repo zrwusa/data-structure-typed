@@ -58,11 +58,7 @@ describe('Overall BinaryTree Test', () => {
   it('Should clone a BST works fine', () => {
     const bst = new BST<number>([3, 6, 7, 1, 9], {
       iterationType: 'RECURSIVE',
-      comparator: (a, b) => {
-        if (a > b) return -1;
-        if (a < b) return 1;
-        return 0;
-      }
+      isReverse: true
     });
     expect(bst.size).toBe(5);
     expect(bst.root?.key).toBe(6);
@@ -70,7 +66,7 @@ describe('Overall BinaryTree Test', () => {
     expect(bst.root?.left?.right?.key).toBe(7);
     expect(bst.root?.right?.key).toBe(3);
     expect(bst.root?.right?.right?.key).toBe(1);
-    expect(bst.getNodeByKey(9)?.right?.key).toBe(7);
+    expect(bst.getNode(9)?.right?.key).toBe(7);
     expect(bst.getHeight()).toBe(2);
     expect(bst.has(9)).toBe(true);
     expect(bst.has(7)).toBe(true);
@@ -81,7 +77,7 @@ describe('Overall BinaryTree Test', () => {
     expect(bst.root?.left?.key).toBe(9);
     expect(bst.root?.right?.key).toBe(3);
     expect(bst.root?.right?.right?.key).toBe(1);
-    expect(bst.getNodeByKey(6)?.left?.key).toBe(9);
+    expect(bst.getNode(6)?.left?.key).toBe(9);
     expect(bst.getHeight()).toBe(2);
     expect(bst.has(9)).toBe(true);
     expect(bst.has(7)).toBe(false);
@@ -92,7 +88,7 @@ describe('Overall BinaryTree Test', () => {
     expect(clonedBST.root?.left?.key).toBe(9);
     expect(clonedBST.root?.right?.key).toBe(3);
     expect(clonedBST.root?.right?.right?.key).toBe(1);
-    expect(clonedBST.getNodeByKey(6)?.left?.key).toBe(9);
+    expect(clonedBST.getNode(6)?.left?.key).toBe(9);
     expect(clonedBST.getHeight()).toBe(2);
     expect(clonedBST.has(9)).toBe(true);
     expect(clonedBST.has(7)).toBe(false);
@@ -102,11 +98,7 @@ describe('Overall BinaryTree Test', () => {
   it('Should clone a AVLTree works fine', () => {
     const avl = new AVLTree<number>([3, 6, 7, 1, 9], {
       iterationType: 'RECURSIVE',
-      comparator: (a, b) => {
-        if (a > b) return -1;
-        if (a < b) return 1;
-        return 0;
-      }
+      isReverse: true
     });
     expect(avl.size).toBe(5);
     avl.add(2);
@@ -117,7 +109,7 @@ describe('Overall BinaryTree Test', () => {
     expect(avl.root?.left?.left?.key).toBe(9);
     expect(avl.root?.right?.key).toBe(1);
     expect(avl.root?.right?.left?.key).toBe(2);
-    expect(avl.getNodeByKey(7)?.left?.key).toBe(9);
+    expect(avl.getNode(7)?.left?.key).toBe(9);
     expect(avl.getHeight()).toBe(3);
     expect(avl.has(9)).toBe(true);
     expect(avl.has(7)).toBe(true);
@@ -128,7 +120,7 @@ describe('Overall BinaryTree Test', () => {
     expect(avl.root?.left?.key).toBe(5);
     expect(avl.root?.right?.key).toBe(1);
     expect(avl.root?.right?.left?.key).toBe(2);
-    expect(avl.getNodeByKey(6)?.left?.key).toBe(undefined);
+    expect(avl.getNode(6)?.left?.key).toBe(undefined);
     expect(avl.getHeight()).toBe(3);
     expect(avl.has(9)).toBe(true);
     expect(avl.has(7)).toBe(false);
@@ -139,7 +131,7 @@ describe('Overall BinaryTree Test', () => {
     expect(clonedAVL.root?.left?.key).toBe(5);
     expect(clonedAVL.root?.right?.key).toBe(1);
     expect(clonedAVL.root?.right?.left?.key).toBe(2);
-    expect(clonedAVL.getNodeByKey(6)?.left?.key).toBe(undefined);
+    expect(clonedAVL.getNode(6)?.left?.key).toBe(undefined);
     expect(clonedAVL.getHeight()).toBe(3);
     expect(clonedAVL.has(9)).toBe(true);
     expect(clonedAVL.has(7)).toBe(false);
@@ -162,7 +154,7 @@ describe('Overall BinaryTree Test', () => {
     expect(tmm.root?.left?.left?.key).toBe(NaN);
     expect(tmm.root?.right?.key).toBe(7);
     expect(tmm.root?.right?.left?.key).toBe(5);
-    expect(tmm.getNodeByKey(7)?.left?.key).toBe(5);
+    expect(tmm.getNode(7)?.left?.key).toBe(5);
     expect(tmm.getHeight()).toBe(3);
     expect(tmm.has(9)).toBe(true);
     expect(tmm.has(7)).toBe(true);
@@ -174,7 +166,7 @@ describe('Overall BinaryTree Test', () => {
     expect(tmm.root?.left?.key).toBe(1);
     expect(tmm.root?.right?.key).toBe(9);
     expect(tmm.root?.right?.left?.key).toBe(5);
-    expect(tmm.getNodeByKey(6)?.left?.key).toBe(NaN);
+    expect(tmm.getNode(6)?.left?.key).toBe(NaN);
     expect(tmm.getHeight()).toBe(3);
     expect(tmm.has(9)).toBe(true);
     expect(tmm.has(7)).toBe(false);
@@ -187,7 +179,7 @@ describe('Overall BinaryTree Test', () => {
     expect(clonedTMM.root?.left?.key).toBe(1);
     expect(clonedTMM.root?.right?.key).toBe(5);
     expect(clonedTMM.root?.right?.left?.key).toBe(4);
-    expect(clonedTMM.getNodeByKey(6)?.left?.key).toBe(NaN);
+    expect(clonedTMM.getNode(6)?.left?.key).toBe(NaN);
     expect(clonedTMM.getHeight()).toBe(3);
     expect(clonedTMM.has(9)).toBe(true);
     expect(clonedTMM.has(7)).toBe(false);
@@ -209,7 +201,7 @@ describe('Overall BinaryTree Test', () => {
     expect(rbTree.root?.left?.left?.key).toBe(NaN);
     expect(rbTree.root?.right?.key).toBe(7);
     expect(rbTree.root?.right?.left?.key).toBe(5);
-    expect(rbTree.getNodeByKey(7)?.left?.key).toBe(5);
+    expect(rbTree.getNode(7)?.left?.key).toBe(5);
     expect(rbTree.getHeight()).toBe(3);
     expect(rbTree.has(9)).toBe(true);
     expect(rbTree.has(7)).toBe(true);
@@ -220,7 +212,7 @@ describe('Overall BinaryTree Test', () => {
     expect(rbTree.root?.left?.key).toBe(1);
     expect(rbTree.root?.right?.key).toBe(9);
     expect(rbTree.root?.right?.left?.key).toBe(5);
-    expect(rbTree.getNodeByKey(6)?.left?.key).toBe(NaN);
+    expect(rbTree.getNode(6)?.left?.key).toBe(NaN);
     expect(rbTree.getHeight()).toBe(3);
     expect(rbTree.has(9)).toBe(true);
     expect(rbTree.has(7)).toBe(false);
@@ -232,7 +224,7 @@ describe('Overall BinaryTree Test', () => {
     expect(clonedRbTree.root?.left?.key).toBe(1);
     expect(clonedRbTree.root?.right?.key).toBe(5);
     expect(clonedRbTree.root?.right?.left?.key).toBe(4);
-    expect(clonedRbTree.getNodeByKey(6)?.left?.key).toBe(NaN);
+    expect(clonedRbTree.getNode(6)?.left?.key).toBe(NaN);
     expect(clonedRbTree.getHeight()).toBe(3);
     expect(clonedRbTree.has(9)).toBe(true);
     expect(clonedRbTree.has(7)).toBe(false);

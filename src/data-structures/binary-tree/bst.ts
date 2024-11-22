@@ -11,6 +11,7 @@ import type {
   BSTNOptKeyOrNode,
   BSTOptions,
   BTNRep,
+  Comparable,
   Comparator,
   CP,
   DFSOrderPattern,
@@ -168,9 +169,9 @@ export class BST<
     super([], options);
 
     if (options) {
-      const { comparator, isReverse } = options;
+      const { extractComparable, isReverse } = options;
+      if (typeof extractComparable === 'function') this._extractComparable = extractComparable;
       if (isReverse !== undefined) this._isReverse = isReverse;
-      if (comparator !== undefined) this._comparator = comparator;
     }
 
     if (keysNodesEntriesOrRaws) this.addMany(keysNodesEntriesOrRaws);
@@ -186,9 +187,14 @@ export class BST<
     return this._root;
   }
 
-  protected _isReverse = false;
+  protected _isReverse: boolean = false;
 
-  get isReverse() {
+  /**
+   * The above function is a getter method in TypeScript that returns the value of the private property
+   * `_isReverse`.
+   * @returns The `isReverse` property of the object, which is a boolean value.
+   */
+  get isReverse(): boolean {
     return this._isReverse;
   }
 
@@ -215,8 +221,9 @@ export class BST<
     return new BST<K, V, R, NODE, TREE>([], {
       iterationType: this.iterationType,
       isMapMode: this._isMapMode,
-      comparator: this._comparator,
+      extractComparable: this._extractComparable,
       toEntryFn: this._toEntryFn,
+      isReverse: this._isReverse,
       ...options
     }) as TREE;
   }
@@ -281,7 +288,7 @@ export class BST<
    * this._DEFAULT_COMPARATOR`.
    */
   override isKey(key: any): key is K {
-    return isComparable(key, this._compare !== this._DEFAULT_COMPARATOR);
+    return isComparable(key, this._extractComparable !== undefined);
   }
 
   /**
@@ -453,8 +460,13 @@ export class BST<
   }
 
   /**
-   * Time Complexity: O(k * n)
+   * Time Complexity: O(n)
    * Space Complexity: O(1)
+   *
+   * The `merge` function overrides the base class method by adding elements from another
+   * binary search tree.
+   * @param anotherTree - `anotherTree` is an instance of a Binary Search Tree (BST) with key type `K`,
+   * value type `V`, return type `R`, node type `NODE`, and tree type `TREE`.
    */
   override merge(anotherTree: BST<K, V, R, NODE, TREE>) {
     this.addMany(anotherTree, [], false);
@@ -630,23 +642,6 @@ export class BST<
   }
 
   /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   *
-   * The function `getNodeByKey` returns a node with a specific key from a tree data structure.
-   * @param {K} key - The key parameter is the value used to search for a specific node in the tree. It
-   * is typically a unique identifier or a value that can be used to determine the position of the node
-   * in the tree structure.
-   * @param {IterationType} [iterationType=ITERATIVE] - The `iterationType` parameter is an optional
-   * parameter that specifies the type of iteration to be used when searching for a node in the tree.
-   * It has a default value of `'ITERATIVE'`.
-   * @returns The method is returning a NODE object or undefined.
-   */
-  override getNodeByKey(key: K, iterationType: IterationType = this.iterationType): OptNode<NODE> {
-    return this.getNode(key, this._root, iterationType);
-  }
-
-  /**
    * Time complexity: O(n)
    * Space complexity: O(n)
    *
@@ -764,7 +759,7 @@ export class BST<
       const dfs = (cur: NODE) => {
         const compared = this._compare(cur.key, targetKey);
         if (Math.sign(compared) === lesserOrGreater) ans.push(callback(cur));
-
+        // TODO here can be optimized to O(log n)
         if (this.isRealNode(cur.left)) dfs(cur.left);
         if (this.isRealNode(cur.right)) dfs(cur.right);
       };
@@ -894,18 +889,25 @@ export class BST<
     return balanced;
   }
 
-  protected _DEFAULT_COMPARATOR = (a: K, b: K): number => {
+  protected _comparator: Comparator<K> = (a: K, b: K): number => {
+    if (isComparable(a) && isComparable(b)) {
+      if (a > b) return 1;
+      if (a < b) return -1;
+      return 0;
+    }
+    if (this._extractComparable) {
+      if (this._extractComparable(a) > this._extractComparable(b)) return 1;
+      if (this._extractComparable(a) < this._extractComparable(b)) return -1;
+      return 0;
+    }
     if (typeof a === 'object' || typeof b === 'object') {
       throw TypeError(
-        `When comparing object types, a custom comparator must be defined in the constructor's options parameter.`
+        `When comparing object types, a custom extractComparable must be defined in the constructor's options parameter.`
       );
     }
-    if (a > b) return 1;
-    if (a < b) return -1;
+
     return 0;
   };
-
-  protected _comparator: Comparator<K> = this._DEFAULT_COMPARATOR;
 
   /**
    * The function returns the value of the _comparator property.
@@ -913,6 +915,17 @@ export class BST<
    */
   get comparator() {
     return this._comparator;
+  }
+
+  protected _extractComparable?: (key: K) => Comparable;
+
+  /**
+   * This function returns the value of the `_extractComparable` property.
+   * @returns The method `extractComparable()` is being returned, which is a getter method for the
+   * `_extractComparable` property.
+   */
+  get extractComparable() {
+    return this._extractComparable;
   }
 
   /**

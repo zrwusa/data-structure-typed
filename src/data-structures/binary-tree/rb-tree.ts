@@ -123,7 +123,7 @@ export class RedBlackTree<
     return new RedBlackTree<K, V, R, NODE, TREE>([], {
       iterationType: this.iterationType,
       isMapMode: this._isMapMode,
-      comparator: this._comparator,
+      extractComparable: this._extractComparable,
       toEntryFn: this._toEntryFn,
       ...options
     }) as TREE;
