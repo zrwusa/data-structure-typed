@@ -92,13 +92,106 @@ export class TrieNode {
  * 9. Spell Check: Checking the spelling of words.
  * 10. IP Routing: Used in certain types of IP routing algorithms.
  * 11. Text Word Frequency Count: Counting and storing the frequency of words in a large amount of text data.
+ * @example
+ * // Autocomplete: Prefix validation and checking
+ *     const autocomplete = new Trie<string>([
+ *       'gmail.com',
+ *       'gmail.co.nz',
+ *       'gmail.co.jp',
+ *       'yahoo.com',
+ *       'outlook.com'
+ *     ]);
+ *
+ *     // Get all completions for a prefix
+ *     const gmailCompletions = autocomplete.getWords('gmail');
+ *     console.log(gmailCompletions); // ['gmail.com','gmail.co.nz','gmail.co.jp']
+ * @example
+ * // File System Path Operations
+ *     const fileSystem = new Trie<string>([
+ *       '/home/user/documents/file1.txt',
+ *       '/home/user/documents/file2.txt',
+ *       '/home/user/pictures/photo.jpg',
+ *       '/home/user/pictures/vacation/',
+ *       '/home/user/downloads'
+ *     ]);
+ *
+ *     // Find common directory prefix
+ *     console.log(fileSystem.getLongestCommonPrefix()); // '/home/user/'
+ *
+ *     // List all files in a directory
+ *     const documentsFiles = fileSystem.getWords('/home/user/documents/');
+ *     console.log(documentsFiles); // ['/home/user/documents/file1.txt', '/home/user/documents/file2.txt']
+ * @example
+ * // Autocomplete: Basic word suggestions
+ *     // Create a trie for autocomplete
+ *     const autocomplete = new Trie<string>([
+ *       'function',
+ *       'functional',
+ *       'functions',
+ *       'class',
+ *       'classes',
+ *       'classical',
+ *       'closure',
+ *       'const',
+ *       'constructor'
+ *     ]);
+ *
+ *     // Test autocomplete with different prefixes
+ *     console.log(autocomplete.getWords('fun')); // ['functional', 'functions','function']
+ *     console.log(autocomplete.getWords('cla')); // ['classes', 'classical','class', ]
+ *     console.log(autocomplete.getWords('con')); // ['constructor', 'const']
+ *
+ *     // Test with non-matching prefix
+ *     console.log(autocomplete.getWords('xyz')); // []
+ * @example
+ * // Dictionary: Case-insensitive word lookup
+ *     // Create a case-insensitive dictionary
+ *     const dictionary = new Trie<string>([], { caseSensitive: false });
+ *
+ *     // Add words with mixed casing
+ *     dictionary.add('Hello');
+ *     dictionary.add('WORLD');
+ *     dictionary.add('JavaScript');
+ *
+ *     // Test lookups with different casings
+ *     console.log(dictionary.has('hello')); // true
+ *     console.log(dictionary.has('HELLO')); // true
+ *     console.log(dictionary.has('Hello')); // true
+ *     console.log(dictionary.has('javascript')); // true
+ *     console.log(dictionary.has('JAVASCRIPT')); // true
+ * @example
+ * // IP Address Routing Table
+ *     // Add IP address prefixes and their corresponding routes
+ *     const routes = {
+ *       '192.168.1': 'LAN_SUBNET_1',
+ *       '192.168.2': 'LAN_SUBNET_2',
+ *       '10.0.0': 'PRIVATE_NETWORK_1',
+ *       '10.0.1': 'PRIVATE_NETWORK_2'
+ *     };
+ *
+ *     const ipRoutingTable = new Trie<string>(Object.keys(routes));
+ *
+ *     // Check IP address prefix matching
+ *     console.log(ipRoutingTable.hasPrefix('192.168.1')); // true
+ *     console.log(ipRoutingTable.hasPrefix('192.168.2')); // true
+ *
+ *     // Validate IP address belongs to subnet
+ *     const ip = '192.168.1.100';
+ *     const subnet = ip.split('.').slice(0, 3).join('.');
+ *     console.log(ipRoutingTable.hasPrefix(subnet)); // true
  */
 export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
   /**
-   * The constructor function for the Trie class.
-   * @param words: Iterable string Initialize the trie with a set of words
-   * @param options?: TrieOptions Allow the user to pass in options for the trie
-   * @return This
+   * The constructor initializes a Trie data structure with optional options and words provided as
+   * input.
+   * @param {Iterable<string> | Iterable<R>} words - The `words` parameter in the constructor is an
+   * iterable containing either strings or elements of type `R`. It is used to initialize the Trie with
+   * a list of words or elements. If no `words` are provided, an empty iterable is used as the default
+   * value.
+   * @param [options] - The `options` parameter in the constructor is an optional object that can
+   * contain configuration options for the Trie data structure. One of the options it can have is
+   * `caseSensitive`, which is a boolean value indicating whether the Trie should be case-sensitive or
+   * not. If `caseSensitive` is set to `
    */
   constructor(words: Iterable<string> | Iterable<R> = [], options?: TrieOptions<R>) {
     super(options);
@@ -107,13 +200,7 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
       if (caseSensitive !== undefined) this._caseSensitive = caseSensitive;
     }
     if (words) {
-      for (const word of words) {
-        if (this.toElementFn) {
-          this.add(this.toElementFn(word as R));
-        } else {
-          this.add(word as string);
-        }
-      }
+      this.addMany(words);
     }
   }
 
@@ -173,6 +260,30 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
       this._size++;
     }
     return isNewWord;
+  }
+
+  /**
+   * Time Complexity: O(n * l)
+   * Space Complexity: O(1)
+   *
+   * The `addMany` function in TypeScript takes an iterable of strings or elements of type R, converts
+   * them using a provided function if available, and adds them to a data structure while returning an
+   * array of boolean values indicating success.
+   * @param {Iterable<string> | Iterable<R>} words - The `words` parameter in the `addMany` function is
+   * an iterable that contains either strings or elements of type `R`.
+   * @returns The `addMany` method returns an array of boolean values indicating whether each word in
+   * the input iterable was successfully added to the data structure.
+   */
+  addMany(words: Iterable<string> | Iterable<R> = []): boolean[] {
+    const ans: boolean[] = [];
+    for (const word of words) {
+      if (this.toElementFn) {
+        ans.push(this.add(this.toElementFn(word as R)));
+      } else {
+        ans.push(this.add(word as string));
+      }
+    }
+    return ans;
   }
 
   /**

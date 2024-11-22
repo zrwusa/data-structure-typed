@@ -932,3 +932,154 @@ describe('Trie class', () => {
     expect(trieB.hasPrefix('ap')).toBe(false);
   });
 });
+
+describe('Trie basic', () => {
+  test('Dictionary: Basic word lookup functionality', () => {
+    // Initialize a new Trie and add dictionary words
+    const dictionary = new Trie<string>();
+    const words = ['apple', 'app', 'application', 'approve', 'bread', 'break'];
+    words.forEach(word => dictionary.add(word));
+
+    // Test exact word matches
+    expect(dictionary.has('apple')).toBe(true);
+    expect(dictionary.has('app')).toBe(true);
+    expect(dictionary.has('bread')).toBe(true);
+
+    // Test non-existent words
+    expect(dictionary.has('appl')).toBe(false);
+    expect(dictionary.has('breaking')).toBe(false);
+
+    // Verify dictionary size
+    expect(dictionary.size).toBe(words.length);
+  });
+
+  test('Autocomplete: Limited suggestions with max results', () => {
+    const autocomplete = new Trie<string>();
+
+    // Add city names
+    const cities = ['New York', 'New Orleans', 'New Delhi', 'New Jersey', 'New Mexico', 'New Hampshire'];
+
+    cities.forEach(city => autocomplete.add(city));
+
+    // Get limited number of suggestions
+    const maxSuggestions = 3;
+    const suggestions = autocomplete.getWords('New', maxSuggestions);
+
+    expect(suggestions.length).toBe(maxSuggestions);
+    suggestions.forEach(suggestion => {
+      expect(suggestion.startsWith('New')).toBe(true);
+    });
+  });
+
+  test('Dictionary: Word removal and updates', () => {
+    const dictionary = new Trie<string>();
+
+    // Add initial words
+    dictionary.add('delete');
+    dictionary.add('deletion');
+    dictionary.add('deleted');
+
+    // Verify initial state
+    expect(dictionary.has('delete')).toBe(true);
+    expect(dictionary.size).toBe(3);
+
+    // Remove a word
+    const deleted = dictionary.delete('delete');
+    expect(deleted).toBe(true);
+    expect(dictionary.has('delete')).toBe(false);
+    expect(dictionary.has('deletion')).toBe(true);
+    expect(dictionary.has('deleted')).toBe(true);
+    expect(dictionary.size).toBe(2);
+
+    // Try to remove non-existent word
+    expect(dictionary.delete('notexist')).toBe(false);
+  });
+});
+
+describe('classic use', () => {
+  test('@example Autocomplete: Prefix validation and checking', () => {
+    const autocomplete = new Trie<string>(['gmail.com', 'gmail.co.nz', 'gmail.co.jp', 'yahoo.com', 'outlook.com']);
+
+    // Get all completions for a prefix
+    const gmailCompletions = autocomplete.getWords('gmail');
+    expect(gmailCompletions).toEqual(['gmail.com', 'gmail.co.nz', 'gmail.co.jp']);
+  });
+
+  test('@example File System Path Operations', () => {
+    const fileSystem = new Trie<string>([
+      '/home/user/documents/file1.txt',
+      '/home/user/documents/file2.txt',
+      '/home/user/pictures/photo.jpg',
+      '/home/user/pictures/vacation/',
+      '/home/user/downloads'
+    ]);
+
+    // Find common directory prefix
+    expect(fileSystem.getLongestCommonPrefix()).toBe('/home/user/');
+
+    // List all files in a directory
+    const documentsFiles = fileSystem.getWords('/home/user/documents/');
+    expect(documentsFiles).toEqual(['/home/user/documents/file1.txt', '/home/user/documents/file2.txt']);
+  });
+
+  test('@example Autocomplete: Basic word suggestions', () => {
+    // Create a trie for autocomplete
+    const autocomplete = new Trie<string>([
+      'function',
+      'functional',
+      'functions',
+      'class',
+      'classes',
+      'classical',
+      'closure',
+      'const',
+      'constructor'
+    ]);
+
+    // Test autocomplete with different prefixes
+    expect(autocomplete.getWords('fun')).toEqual(['functional', 'functions', 'function']);
+    expect(autocomplete.getWords('cla')).toEqual(['classes', 'classical', 'class']);
+    expect(autocomplete.getWords('con')).toEqual(['constructor', 'const']);
+
+    // Test with non-matching prefix
+    expect(autocomplete.getWords('xyz')).toEqual([]);
+  });
+
+  test('@example Dictionary: Case-insensitive word lookup', () => {
+    // Create a case-insensitive dictionary
+    const dictionary = new Trie<string>([], { caseSensitive: false });
+
+    // Add words with mixed casing
+    dictionary.add('Hello');
+    dictionary.add('WORLD');
+    dictionary.add('JavaScript');
+
+    // Test lookups with different casings
+    expect(dictionary.has('hello')).toBe(true);
+    expect(dictionary.has('HELLO')).toBe(true);
+    expect(dictionary.has('Hello')).toBe(true);
+    expect(dictionary.has('javascript')).toBe(true);
+    expect(dictionary.has('JAVASCRIPT')).toBe(true);
+  });
+
+  test('@example IP Address Routing Table', () => {
+    // Add IP address prefixes and their corresponding routes
+    const routes = {
+      '192.168.1': 'LAN_SUBNET_1',
+      '192.168.2': 'LAN_SUBNET_2',
+      '10.0.0': 'PRIVATE_NETWORK_1',
+      '10.0.1': 'PRIVATE_NETWORK_2'
+    };
+
+    const ipRoutingTable = new Trie<string>(Object.keys(routes));
+
+    // Check IP address prefix matching
+    expect(ipRoutingTable.hasPrefix('192.168.1')).toBe(true);
+    expect(ipRoutingTable.hasPrefix('192.168.2')).toBe(true);
+
+    // Validate IP address belongs to subnet
+    const ip = '192.168.1.100';
+    const subnet = ip.split('.').slice(0, 3).join('.');
+    expect(ipRoutingTable.hasPrefix(subnet)).toBe(true);
+  });
+});

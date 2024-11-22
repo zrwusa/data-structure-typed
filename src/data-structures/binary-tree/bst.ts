@@ -112,15 +112,11 @@ export class BSTNode<K = any, V = any, NODE extends BSTNode<K, V, NODE> = BSTNod
  * @example
  * // Find elements in a range
  *     const bst = new BST<number>([10, 5, 15, 3, 7, 12, 18]);
- *
- *     // Helper function to find elements in range
- *     const findElementsInRange = (min: number, max: number): number[] => {
- *       return bst.search(node => node.key >= min && node.key <= max, false, node => node.key);
- *     };
- *
- *     // Assertions
- *     console.log(findElementsInRange(4, 12)); // [10, 5, 7, 12]
- *     console.log(findElementsInRange(15, 20)); // [15, 18]
+ *     console.log(bst.search(new Range(5, 10))); // [10, 5, 7]
+ *     console.log(bst.search(new Range(4, 12))); // [10, 12, 5, 7]
+ *     console.log(bst.search(new Range(4, 12, true, false))); // [10, 5, 7]
+ *     console.log(bst.search(new Range(15, 20))); // [15, 18]
+ *     console.log(bst.search(new Range(15, 20, false))); // [18]
  * @example
  * // Find lowest common ancestor
  *     const bst = new BST<number>([20, 10, 30, 5, 15, 25, 35, 3, 7, 12, 18]);
