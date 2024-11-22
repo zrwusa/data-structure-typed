@@ -254,7 +254,14 @@ function updateExamples(testDir: string, sourceBaseDir: string): void {
  * Replace content between markers in README.md.
  */
 function replaceExamplesInReadme(readmePath: string, newExamples: string[]): void {
-  const readmeContent = fs.readFileSync(readmePath, 'utf-8');
+  let readmeContent: string;
+
+  try {
+    readmeContent = fs.readFileSync(readmePath, 'utf-8');
+  } catch (error) {
+    console.warn(`Failed to read ${fileName} at ${readmePath}: ${error}`);
+    return;
+  }
 
   const startIdx = readmeContent.indexOf(START_MARKER);
   const endIdx = readmeContent.indexOf(END_MARKER);
@@ -269,7 +276,7 @@ function replaceExamplesInReadme(readmePath: string, newExamples: string[]): voi
   const updatedContent = `${before}\n\n${newExamples.join('\n\n')}\n\n${after}`;
   fs.writeFileSync(readmePath, updatedContent, 'utf-8');
 
-  console.log(`README.md updated with new examples.`);
+  console.log(`${fileName} updated with new examples.`);
 }
 
 // Run the script
