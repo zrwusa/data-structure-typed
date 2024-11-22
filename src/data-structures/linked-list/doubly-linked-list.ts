@@ -514,6 +514,16 @@ export class DoublyLinkedListNode<E = any> {
  *     console.log(scheduler.listProcesses()); // []
  */
 export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R, DoublyLinkedList<E, R>> {
+  /**
+   * This TypeScript constructor initializes a DoublyLinkedList with optional elements and options.
+   * @param {Iterable<E> | Iterable<R>} elements - The `elements` parameter in the constructor is an
+   * iterable collection of elements of type `E` or `R`. It is used to initialize the DoublyLinkedList
+   * with the elements provided in the iterable. If no elements are provided, the default value is an
+   * empty iterable.
+   * @param [options] - The `options` parameter in the constructor is of type
+   * `DoublyLinkedListOptions<E, R>`. It is an optional parameter that allows you to pass additional
+   * configuration options to customize the behavior of the DoublyLinkedList.
+   */
   constructor(elements: Iterable<E> | Iterable<R> = [], options?: DoublyLinkedListOptions<E, R>) {
     super(options);
     this._head = undefined;

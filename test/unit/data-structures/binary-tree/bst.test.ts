@@ -450,26 +450,26 @@ describe('BST operations test', () => {
     expect(bfsNodes[2].key).toBe(16);
   });
 
-  it('should keyValueNodeEntryRawToNodeAndValue', () => {
-    const bst = new BST<number>();
-    const node0 = bst.keyValueNodeEntryRawToNodeAndValue(0);
-    expect(node0).toEqual([
-      {
-        _left: undefined,
-        _right: undefined,
-        key: 0,
-        parent: undefined,
-        value: undefined
-      },
-      undefined
-    ]);
-
-    const nodeUndefined = bst.keyValueNodeEntryRawToNodeAndValue(undefined);
-    expect(nodeUndefined).toEqual([undefined, undefined]);
-
-    const nodeNull = bst.keyValueNodeEntryRawToNodeAndValue(null);
-    expect(nodeNull).toEqual([undefined, undefined]);
-  });
+  // it('should keyValueNodeEntryRawToNodeAndValue', () => {
+  //   const bst = new BST<number>();
+  //   const node0 = bst.keyValueNodeEntryRawToNodeAndValue(0);
+  //   expect(node0).toEqual([
+  //     {
+  //       _left: undefined,
+  //       _right: undefined,
+  //       key: 0,
+  //       parent: undefined,
+  //       value: undefined
+  //     },
+  //     undefined
+  //   ]);
+  //
+  //   const nodeUndefined = bst.keyValueNodeEntryRawToNodeAndValue(undefined);
+  //   expect(nodeUndefined).toEqual([undefined, undefined]);
+  //
+  //   const nodeNull = bst.keyValueNodeEntryRawToNodeAndValue(null);
+  //   expect(nodeNull).toEqual([undefined, undefined]);
+  // });
 
   it('should replace value', () => {
     const tree = new BST<number, string>([4, 5, [1, '1'], 2, 3], { isMapMode: false });
@@ -1340,26 +1340,26 @@ describe('BST operations not map mode test', () => {
     });
   });
 
-  it('should keyValueNodeEntryRawToNodeAndValue', () => {
-    const bst = new BST<number>([], { isMapMode: false });
-    const node0 = bst.keyValueNodeEntryRawToNodeAndValue(0);
-    expect(node0).toEqual([
-      {
-        _left: undefined,
-        _right: undefined,
-        key: 0,
-        parent: undefined,
-        value: undefined
-      },
-      undefined
-    ]);
-
-    const nodeUndefined = bst.keyValueNodeEntryRawToNodeAndValue(undefined);
-    expect(nodeUndefined).toEqual([undefined, undefined]);
-
-    const nodeNull = bst.keyValueNodeEntryRawToNodeAndValue(null);
-    expect(nodeNull).toEqual([undefined, undefined]);
-  });
+  // it('should keyValueNodeEntryRawToNodeAndValue', () => {
+  //   const bst = new BST<number>([], { isMapMode: false });
+  //   const node0 = bst.keyValueNodeEntryRawToNodeAndValue(0);
+  //   expect(node0).toEqual([
+  //     {
+  //       _left: undefined,
+  //       _right: undefined,
+  //       key: 0,
+  //       parent: undefined,
+  //       value: undefined
+  //     },
+  //     undefined
+  //   ]);
+  //
+  //   const nodeUndefined = bst.keyValueNodeEntryRawToNodeAndValue(undefined);
+  //   expect(nodeUndefined).toEqual([undefined, undefined]);
+  //
+  //   const nodeNull = bst.keyValueNodeEntryRawToNodeAndValue(null);
+  //   expect(nodeNull).toEqual([undefined, undefined]);
+  // });
 });
 
 describe('BST operations not map mode test recursively', () => {

@@ -94,17 +94,11 @@ export class TrieNode {
  * 11. Text Word Frequency Count: Counting and storing the frequency of words in a large amount of text data.
  * @example
  * // Autocomplete: Prefix validation and checking
- *     const autocomplete = new Trie<string>([
- *       'gmail.com',
- *       'gmail.co.nz',
- *       'gmail.co.jp',
- *       'yahoo.com',
- *       'outlook.com'
- *     ]);
+ *     const autocomplete = new Trie<string>(['gmail.com', 'gmail.co.nz', 'gmail.co.jp', 'yahoo.com', 'outlook.com']);
  *
  *     // Get all completions for a prefix
  *     const gmailCompletions = autocomplete.getWords('gmail');
- *     console.log(gmailCompletions); // ['gmail.com','gmail.co.nz','gmail.co.jp']
+ *     console.log(gmailCompletions); // ['gmail.com', 'gmail.co.nz', 'gmail.co.jp']
  * @example
  * // File System Path Operations
  *     const fileSystem = new Trie<string>([
@@ -137,8 +131,8 @@ export class TrieNode {
  *     ]);
  *
  *     // Test autocomplete with different prefixes
- *     console.log(autocomplete.getWords('fun')); // ['functional', 'functions','function']
- *     console.log(autocomplete.getWords('cla')); // ['classes', 'classical','class', ]
+ *     console.log(autocomplete.getWords('fun')); // ['functional', 'functions', 'function']
+ *     console.log(autocomplete.getWords('cla')); // ['classes', 'classical', 'class']
  *     console.log(autocomplete.getWords('con')); // ['constructor', 'const']
  *
  *     // Test with non-matching prefix

@@ -233,11 +233,11 @@ export class BST<
    * value associated with a key in a key-value pair.
    * @returns either a NODE object or undefined.
    */
-  override keyValueNodeEntryRawToNodeAndValue(
+  protected override _keyValueNodeEntryRawToNodeAndValue(
     keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R,
     value?: V
   ): [OptNode<NODE>, V | undefined] {
-    const [node, entryValue] = super.keyValueNodeEntryRawToNodeAndValue(keyNodeEntryOrRaw, value);
+    const [node, entryValue] = super._keyValueNodeEntryRawToNodeAndValue(keyNodeEntryOrRaw, value);
     if (node === null) return [undefined, undefined];
     return [node, value ?? entryValue];
   }
@@ -299,7 +299,7 @@ export class BST<
    * @returns a boolean value.
    */
   override add(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R, value?: V): boolean {
-    const [newNode, newValue] = this.keyValueNodeEntryRawToNodeAndValue(keyNodeEntryOrRaw, value);
+    const [newNode, newValue] = this._keyValueNodeEntryRawToNodeAndValue(keyNodeEntryOrRaw, value);
     if (newNode === undefined) return false;
 
     if (this._root === undefined) {

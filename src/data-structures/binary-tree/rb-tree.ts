@@ -207,7 +207,7 @@ export class RedBlackTree<
    * returns true. If the node cannot be added or updated, the method returns false.
    */
   override add(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R, value?: V): boolean {
-    const [newNode, newValue] = this.keyValueNodeEntryRawToNodeAndValue(keyNodeEntryOrRaw, value);
+    const [newNode, newValue] = this._keyValueNodeEntryRawToNodeAndValue(keyNodeEntryOrRaw, value);
     if (!this.isRealNode(newNode)) return false;
 
     const insertStatus = this._insert(newNode);

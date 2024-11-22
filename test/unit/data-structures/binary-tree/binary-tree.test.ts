@@ -733,41 +733,41 @@ describe('BinaryTree', () => {
     ]);
   });
 
-  it('should keyValueNodeEntryRawToNodeAndValue', () => {
-    const tree = new BinaryTree<number>();
-    const node0 = tree.keyValueNodeEntryRawToNodeAndValue(0);
-    expect(node0).toEqual([
-      {
-        _left: undefined,
-        _right: undefined,
-        key: 0,
-        parent: undefined,
-        value: undefined
-      },
-      undefined
-    ]);
-
-    const nodeUndefined = tree.keyValueNodeEntryRawToNodeAndValue(undefined);
-    expect(nodeUndefined).toEqual([undefined, undefined]);
-
-    const nodeNull = tree.keyValueNodeEntryRawToNodeAndValue(null);
-    expect(nodeNull).toEqual([null, undefined]);
-
-    const [, nodeWithSeparateValue] = tree.keyValueNodeEntryRawToNodeAndValue(7, 77);
-    expect(nodeWithSeparateValue).toBe(77);
-
-    expect(tree.keyValueNodeEntryRawToNodeAndValue([undefined, 2])).toEqual([undefined, undefined]);
-
-    expect(tree.keyValueNodeEntryRawToNodeAndValue(Symbol('test') as unknown as number)).toEqual([
-      undefined,
-      undefined
-    ]);
-
-    const bTree = new BinaryTree<number, number, { obj: { id: number } }>([], {
-      toEntryFn: (ele: { obj: { id: number } }) => [Symbol('test') as unknown as number, ele.obj.id]
-    });
-    expect(bTree.keyValueNodeEntryRawToNodeAndValue({ obj: { id: 1 } })).toEqual([undefined, undefined]);
-  });
+  // it('should keyValueNodeEntryRawToNodeAndValue', () => {
+  //   const tree = new BinaryTree<number>();
+  //   const node0 = tree.keyValueNodeEntryRawToNodeAndValue(0);
+  //   expect(node0).toEqual([
+  //     {
+  //       _left: undefined,
+  //       _right: undefined,
+  //       key: 0,
+  //       parent: undefined,
+  //       value: undefined
+  //     },
+  //     undefined
+  //   ]);
+  //
+  //   const nodeUndefined = tree.keyValueNodeEntryRawToNodeAndValue(undefined);
+  //   expect(nodeUndefined).toEqual([undefined, undefined]);
+  //
+  //   const nodeNull = tree.keyValueNodeEntryRawToNodeAndValue(null);
+  //   expect(nodeNull).toEqual([null, undefined]);
+  //
+  //   const [, nodeWithSeparateValue] = tree.keyValueNodeEntryRawToNodeAndValue(7, 77);
+  //   expect(nodeWithSeparateValue).toBe(77);
+  //
+  //   expect(tree.keyValueNodeEntryRawToNodeAndValue([undefined, 2])).toEqual([undefined, undefined]);
+  //
+  //   expect(tree.keyValueNodeEntryRawToNodeAndValue(Symbol('test') as unknown as number)).toEqual([
+  //     undefined,
+  //     undefined
+  //   ]);
+  //
+  //   const bTree = new BinaryTree<number, number, { obj: { id: number } }>([], {
+  //     toEntryFn: (ele: { obj: { id: number } }) => [Symbol('test') as unknown as number, ele.obj.id]
+  //   });
+  //   expect(bTree.keyValueNodeEntryRawToNodeAndValue({ obj: { id: 1 } })).toEqual([undefined, undefined]);
+  // });
 
   it('should replace value', () => {
     const tree = new BinaryTree<number, string>([4, 5, [1, '1'], 2, 3], { isMapMode: false });

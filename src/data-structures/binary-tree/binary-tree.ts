@@ -216,7 +216,7 @@ export class BinaryTree<
    * input parameter (`keyNodeEntryOrRaw`) and processes it accordingly to return a node or null
    * value.
    */
-  keyValueNodeEntryRawToNodeAndValue(
+  protected _keyValueNodeEntryRawToNodeAndValue(
     keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R,
     value?: V
   ): [OptNodeOrNull<NODE>, V | undefined] {
@@ -420,7 +420,7 @@ export class BinaryTree<
    * key was found and the node was replaced instead of inserted.
    */
   add(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R, value?: V): boolean {
-    const [newNode, newValue] = this.keyValueNodeEntryRawToNodeAndValue(keyNodeEntryOrRaw, value);
+    const [newNode, newValue] = this._keyValueNodeEntryRawToNodeAndValue(keyNodeEntryOrRaw, value);
     if (newNode === undefined) return false;
 
     // If the tree is empty, directly set the new node as the root node

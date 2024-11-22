@@ -173,7 +173,7 @@ export class AVLTreeMultiMap<
    * times the key-value pair should be added to the data structure. If not provided, it defaults to 1.
    * @returns either a NODE object or undefined.
    */
-  override keyValueNodeEntryRawToNodeAndValue(
+  protected override _keyValueNodeEntryRawToNodeAndValue(
     keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R,
     value?: V,
     count = 1
@@ -217,7 +217,7 @@ export class AVLTreeMultiMap<
    * @returns a boolean value.
    */
   override add(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R, value?: V, count = 1): boolean {
-    const [newNode, newValue] = this.keyValueNodeEntryRawToNodeAndValue(keyNodeEntryOrRaw, value, count);
+    const [newNode, newValue] = this._keyValueNodeEntryRawToNodeAndValue(keyNodeEntryOrRaw, value, count);
     if (newNode === undefined) return false;
 
     const orgNodeCount = newNode?.count || 0;
