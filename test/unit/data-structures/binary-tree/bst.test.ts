@@ -489,6 +489,13 @@ describe('BST operations test', () => {
     expect(treeMap.getNode(1)?.value).toBe(undefined);
     expect(treeMap.get(1)).toBe('b');
   });
+
+  it('should search in range', () => {
+    const bst = new BST<number>([10, 5, 15, 3, 7, 12, 18]);
+    expect(bst.rangeSearch([4, 12])).toEqual([10, 12, 5, 7]);
+    expect(() => bst.rangeSearch([12, 4])).toThrow('low must be less than or equal to high');
+    expect(bst.rangeSearch([12, 12])).toEqual([12]);
+  });
 });
 
 describe('BST operations test recursively', () => {
@@ -1552,9 +1559,9 @@ describe('classic use', () => {
   it('@example Find elements in a range', () => {
     const bst = new BST<number>([10, 5, 15, 3, 7, 12, 18]);
     expect(bst.search(new Range(5, 10))).toEqual([10, 5, 7]);
-    expect(bst.search(new Range(4, 12))).toEqual([10, 12, 5, 7]);
+    expect(bst.rangeSearch([4, 12], false, node => node.key.toString())).toEqual(['10', '12', '5', '7']);
     expect(bst.search(new Range(4, 12, true, false))).toEqual([10, 5, 7]);
-    expect(bst.search(new Range(15, 20))).toEqual([15, 18]);
+    expect(bst.rangeSearch([15, 20])).toEqual([15, 18]);
     expect(bst.search(new Range(15, 20, false))).toEqual([18]);
   });
 

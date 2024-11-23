@@ -611,6 +611,41 @@ export class BST<
 
   /**
    * Time Complexity: O(log n)
+   * Space Complexity: O(n)
+   *
+   * The `rangeSearch` function searches for nodes within a specified range in a binary search tree.
+   * @param {Range<K> | [K, K]} range - The `range` parameter in the `rangeSearch` function can be
+   * either a `Range` object or an array of two elements representing the range boundaries.
+   * @param [onlyOne=false] - The `onlyOne` parameter is a boolean flag that indicates whether you want
+   * to stop the search after finding the first matching node within the specified range. If `onlyOne`
+   * is set to `true`, the search will return as soon as a single matching node is found. If `onlyOne`
+   * @param {C} callback - The `callback` parameter in the `rangeSearch` function is a callback
+   * function that is used to process each node that is found within the specified range during the
+   * search operation. It is of type `NodeCallback<NODE>`, where `NODE` is the type of nodes in the
+   * data structure.
+   * @param {BTNRep<K, V, NODE> | R} startNode - The `startNode` parameter in the `rangeSearch`
+   * function represents the node from which the search for nodes within the specified range will
+   * begin. It is the starting point for the range search operation.
+   * @param {IterationType} iterationType - The `iterationType` parameter in the `rangeSearch` function
+   * is used to specify the type of iteration to be performed during the search operation. It has a
+   * default value of `this.iterationType`, which suggests that it is likely a property of the class or
+   * object that the `rangeSearch`
+   * @returns The `rangeSearch` function is returning the result of calling the `search` method with
+   * the specified parameters.
+   */
+  rangeSearch<C extends NodeCallback<NODE>>(
+    range: Range<K> | [K, K],
+    onlyOne = false,
+    callback: C = this._DEFAULT_NODE_CALLBACK as C,
+    startNode: BTNRep<K, V, NODE> | R = this._root,
+    iterationType: IterationType = this.iterationType
+  ) {
+    const searchRange: Range<K> = range instanceof Range ? range : new Range(range[0], range[1]);
+    return this.search(searchRange, onlyOne, callback, startNode, iterationType);
+  }
+
+  /**
+   * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
    * This function retrieves a node based on a given keyNodeEntryRawOrPredicate within a binary search tree structure.
