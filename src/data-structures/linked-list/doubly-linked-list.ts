@@ -697,6 +697,19 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     return true;
   }
 
+  /**
+   * Time Complexity: O(k)
+   * Space Complexity: O(k)
+   *
+   * The function `pushMany` iterates over elements and pushes them into a data structure, applying a
+   * transformation function if provided.
+   * @param {Iterable<E> | Iterable<R> | Iterable<DoublyLinkedListNode<E>>} elements - The `elements`
+   * parameter in the `pushMany` function can accept an iterable containing elements of type `E`, `R`,
+   * or `DoublyLinkedListNode<E>`. The function iterates over each element in the iterable and pushes
+   * it onto the linked list. If a transformation function `to
+   * @returns The `pushMany` function is returning an array of boolean values (`ans`) which indicate
+   * the success or failure of pushing each element into the data structure.
+   */
   pushMany(elements: Iterable<E> | Iterable<R> | Iterable<DoublyLinkedListNode<E>>) {
     const ans: boolean[] = [];
     for (const el of elements) {
@@ -709,6 +722,20 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     return ans;
   }
 
+  /**
+   * Time Complexity: O(k)
+   * Space Complexity: O(k)
+   *
+   * The function `unshiftMany` iterates through a collection of elements and adds them to the
+   * beginning of a Doubly Linked List, returning an array of boolean values indicating the success of
+   * each insertion.
+   * @param {Iterable<E> | Iterable<R> | Iterable<DoublyLinkedListNode<E>>} elements - The `elements`
+   * parameter in the `unshiftMany` function can accept an iterable containing elements of type `E`,
+   * `R`, or `DoublyLinkedListNode<E>`. The function iterates over each element in the iterable and
+   * performs an `unshift` operation on the doubly linked list
+   * @returns The `unshiftMany` function returns an array of boolean values indicating the success of
+   * each unshift operation performed on the elements passed as input.
+   */
   unshiftMany(elements: Iterable<E> | Iterable<R> | Iterable<DoublyLinkedListNode<E>>) {
     const ans: boolean[] = [];
     for (const el of elements) {
@@ -1203,6 +1230,12 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
+   * The function `countOccurrences` iterates through a doubly linked list and counts the occurrences
+   * of a specified element or nodes that satisfy a given predicate.
+   * @param {E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)} elementOrNode
+   * - The `elementOrNode` parameter in the `countOccurrences` method can accept three types of values:
+   * @returns The `countOccurrences` method returns the number of occurrences of the specified element,
+   * node, or predicate function in the doubly linked list.
    */
   countOccurrences(elementOrNode: E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)): number {
     const predicate = this._ensurePredicate(elementOrNode);

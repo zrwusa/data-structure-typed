@@ -366,9 +366,14 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the total number of nodes in the trie.
-   * Space Complexity: O(1) - Constant space.
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
    *
+   * The function `getHeight` calculates the height of a trie data structure starting from the root
+   * node.
+   * @returns The `getHeight` method returns the maximum depth or height of the trie tree starting from
+   * the root node. It calculates the depth using a breadth-first search (BFS) traversal of the trie
+   * tree and returns the maximum depth found.
    */
   getHeight(): number {
     const startNode = this.root;

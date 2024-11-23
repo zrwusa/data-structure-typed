@@ -97,6 +97,9 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The function checks if a given element is an array with exactly two elements.
    * @param {any} rawElement - The `rawElement` parameter is of type `any`, which means it can be any
    * data type.
@@ -107,6 +110,9 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The function checks if the size of an object is equal to zero and returns a boolean value.
    * @returns A boolean value indicating whether the size of the object is 0 or not.
    */
@@ -115,6 +121,9 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The clear() function resets the state of an object by clearing its internal store, object map, and
    * size.
    */
@@ -125,6 +134,9 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The `set` function adds a key-value pair to a map-like data structure, incrementing the size if
    * the key is not already present.
    * @param {K} key - The key parameter is the key used to identify the value in the data structure. It
@@ -150,6 +162,9 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
   }
 
   /**
+   * Time Complexity: O(k)
+   * Space Complexity: O(k)
+   *
    * The function `setMany` takes an iterable collection of objects, maps each object to a key-value
    * pair using a mapping function, and sets each key-value pair in the current object.
    * @param entryOrRawElements - The `entryOrRawElements` parameter is an iterable collection of elements of a type
@@ -175,6 +190,9 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The `get` function retrieves a value from a map based on a given key, either from an object map or
    * a string map.
    * @param {K} key - The `key` parameter is the key used to retrieve a value from the map. It can be
@@ -192,6 +210,9 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The `has` function checks if a given key exists in the `_objMap` or `_store` based on whether it
    * is an object key or not.
    * @param {K} key - The parameter "key" is of type K, which means it can be any type.
@@ -207,6 +228,9 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The `delete` function removes an element from a map-like data structure based on the provided key.
    * @param {K} key - The `key` parameter is the key of the element that you want to delete from the
    * data structure.
@@ -579,6 +603,9 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
   }
 
   /**
+   * Time Complexity: O(k)
+   * Space Complexity: O(k)
+   *
    * The function `setMany` takes an iterable collection, converts each element into a key-value pair
    * using a provided function, and sets each key-value pair in the current object, returning an array
    * of booleans indicating the success of each set operation.
@@ -605,6 +632,9 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The function checks if a given key exists in a map, using different logic depending on whether the
    * key is a weak key or not.
    * @param {K} key - The `key` parameter is the key that is being checked for existence in the map.

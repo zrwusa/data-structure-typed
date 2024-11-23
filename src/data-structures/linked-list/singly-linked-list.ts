@@ -206,6 +206,18 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     return true;
   }
 
+  /**
+   * Time Complexity: O(k)
+   * Space Complexity: O(k)
+   *
+   * The function `pushMany` iterates over elements and pushes them into a data structure, applying a
+   * transformation function if provided.
+   * @param {Iterable<E> | Iterable<R> | Iterable<SinglyLinkedListNode<E>>} elements - The `elements`
+   * parameter in the `pushMany` function can accept an iterable containing elements of type `E`, `R`,
+   * or `SinglyLinkedListNode<E>`.
+   * @returns The `pushMany` function returns an array of boolean values indicating whether each
+   * element was successfully pushed into the data structure.
+   */
   pushMany(elements: Iterable<E> | Iterable<R> | Iterable<SinglyLinkedListNode<E>>) {
     const ans: boolean[] = [];
     for (const el of elements) {
@@ -218,6 +230,19 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     return ans;
   }
 
+  /**
+   * Time Complexity: O(k)
+   * Space Complexity: O(k)
+   *
+   * The function `unshiftMany` iterates over elements and adds them to a data structure, optionally
+   * converting them using a provided function.
+   * @param {Iterable<E> | Iterable<R> | Iterable<SinglyLinkedListNode<E>>} elements - The `elements`
+   * parameter in the `unshiftMany` function can accept an iterable containing elements of type `E`,
+   * `R`, or `SinglyLinkedListNode<E>`. The function iterates over each element in the iterable and
+   * performs an `unshift` operation on the linked list for each
+   * @returns The `unshiftMany` function is returning an array of boolean values, where each value
+   * represents the result of calling the `unshift` method on the current instance of the class.
+   */
   unshiftMany(elements: Iterable<E> | Iterable<R> | Iterable<SinglyLinkedListNode<E>>) {
     const ans: boolean[] = [];
     for (const el of elements) {
@@ -418,6 +443,9 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The function checks if the length of a data structure is equal to zero and returns a boolean value indicating
    * whether it is empty or not.
    * @returns A boolean value indicating whether the length of the object is equal to 0.
@@ -427,6 +455,9 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The `clear` function resets the linked list by setting the head, tail, and length to undefined and 0 respectively.
    */
   clear(): void {

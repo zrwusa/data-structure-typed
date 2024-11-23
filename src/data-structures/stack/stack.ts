@@ -108,7 +108,14 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R, Stack<E, 
    * Time Complexity: O(k)
    * Space Complexity: O(1)
    *
-   *
+   * The function `pushMany` iterates over elements and pushes them into an array after applying a
+   * transformation function if provided.
+   * @param {Iterable<E> | Iterable<R>} elements - The `elements` parameter in the `pushMany` function
+   * is an iterable containing elements of type `E` or `R`. The function iterates over each element in
+   * the iterable and pushes it into the data structure. If a transformation function `toElementFn` is
+   * provided, it is used to
+   * @returns The `pushMany` function is returning an array of boolean values indicating whether each
+   * element was successfully pushed into the data structure.
    */
   pushMany(elements: Iterable<E> | Iterable<R>) {
     const ans: boolean[] = [];

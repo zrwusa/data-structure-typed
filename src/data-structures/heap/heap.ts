@@ -249,12 +249,30 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R, Heap<E, R>
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
+   * The add function pushes an element into an array and then triggers a bubble-up operation.
+   * @param {E} element - The `element` parameter represents the element that you want to add to the
+   * data structure.
+   * @returns The `add` method is returning a boolean value, which is the result of calling the
+   * `_bubbleUp` method with the index `this.elements.length - 1` as an argument.
    */
   add(element: E): boolean {
     this._elements.push(element as E);
     return this._bubbleUp(this.elements.length - 1);
   }
 
+  /**
+   * Time Complexity: O(k log n)
+   * Space Complexity: O(1)
+   *
+   * The `addMany` function iterates over elements and adds them to a collection, returning an array of
+   * boolean values indicating success or failure.
+   * @param {Iterable<E> | Iterable<R>} elements - The `elements` parameter in the `addMany` method is
+   * an iterable containing elements of type `E` or `R`. The method iterates over each element in the
+   * iterable and adds them to the data structure. If a transformation function `_toElementFn` is
+   * provided, it transforms the element
+   * @returns The `addMany` method returns an array of boolean values indicating whether each element
+   * in the input iterable was successfully added to the data structure.
+   */
   addMany(elements: Iterable<E> | Iterable<R>): boolean[] {
     const ans: boolean[] = [];
     for (const el of elements) {
@@ -478,7 +496,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R, Heap<E, R>
   }
 
   /**
-   * Time Complexity: O(n log n)
+   * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
    * The `map` function creates a new heap by applying a callback function to each element of the

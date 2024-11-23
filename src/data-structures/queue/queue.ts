@@ -126,6 +126,17 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
     return true;
   }
 
+  /**
+   * Time Complexity: O(k)
+   * Space Complexity: O(k)
+   *
+   * The `pushMany` function iterates over elements and pushes them into an array after applying a
+   * transformation function if provided.
+   * @param {Iterable<E> | Iterable<R>} elements - The `elements` parameter in the `pushMany` function
+   * is an iterable containing elements of type `E` or `R`.
+   * @returns The `pushMany` function is returning an array of boolean values indicating whether each
+   * element was successfully pushed into the data structure.
+   */
   pushMany(elements: Iterable<E> | Iterable<R>) {
     const ans: boolean[] = [];
     for (const el of elements) {
@@ -154,6 +165,9 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
   }
 
   /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
    * The delete function removes an element from the list.
    * @param {E} element - Specify the element to be deleted
    * @return A boolean value indicating whether the element was successfully deleted or not
@@ -164,6 +178,9 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
   }
 
   /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
    * The deleteAt function deletes the element at a given index.
    * @param {number} index - Determine the index of the element to be deleted
    * @return A boolean value
@@ -177,7 +194,12 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * @param index
+   * The `at` function returns the element at a specified index adjusted by an offset, or `undefined`
+   * if the index is out of bounds.
+   * @param {number} index - The `index` parameter represents the position of the element you want to
+   * retrieve from the data structure.
+   * @returns The `at` method is returning the element at the specified index adjusted by the offset
+   * `_offset`.
    */
   at(index: number): E | undefined {
     return this.elements[index + this._offset];
@@ -217,6 +239,9 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
   }
 
   /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
    * The `compact` function in TypeScript slices the elements array based on the offset and resets the
    * offset to zero.
    * @returns The `compact()` method is returning a boolean value of `true`.
@@ -269,6 +294,20 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
+   *
+   * The `map` function in TypeScript creates a new Queue by applying a callback function to each
+   * element in the original Queue.
+   * @param callback - The `callback` parameter is a function that will be applied to each element in
+   * the queue. It takes the current element, its index, and the queue itself as arguments, and returns
+   * a new element.
+   * @param [toElementFn] - The `toElementFn` parameter is an optional function that can be provided to
+   * convert a raw element of type `RM` to a new element of type `EM`. This function is used within the
+   * `map` method to transform each raw element before passing it to the `callback` function. If
+   * @param {any} [thisArg] - The `thisArg` parameter in the `map` function is used to specify the
+   * value of `this` when executing the `callback` function. It allows you to set the context (the
+   * value of `this`) within the callback function. If `thisArg` is provided, it will be
+   * @returns A new Queue object containing elements of type EM, which are the result of applying the
+   * callback function to each element in the original Queue object.
    */
   map<EM, RM>(
     callback: ElementCallback<E, R, EM, Queue<E, R>>,

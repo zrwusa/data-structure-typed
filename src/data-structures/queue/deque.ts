@@ -279,6 +279,20 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
     return true;
   }
 
+  /**
+   * Time Complexity: O(k)
+   * Space Complexity: O(k)
+   *
+   * The function `pushMany` iterates over elements and pushes them into an array after applying a
+   * transformation function if provided.
+   * @param {IterableWithSizeOrLength<E> | IterableWithSizeOrLength<R>} elements - The `elements`
+   * parameter in the `pushMany` function is expected to be an iterable containing elements of type `E`
+   * or `R`. It can be either an `IterableWithSizeOrLength<E>` or an `IterableWithSizeOrLength<R>`. The
+   * function iterates over each element
+   * @returns The `pushMany` function is returning an array of boolean values, where each value
+   * represents the result of calling the `push` method on the current object instance with the
+   * corresponding element from the input `elements` iterable.
+   */
   pushMany(elements: IterableWithSizeOrLength<E> | IterableWithSizeOrLength<R>) {
     const ans: boolean[] = [];
     for (const el of elements) {
@@ -291,6 +305,19 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
     return ans;
   }
 
+  /**
+   * Time Complexity: O(k)
+   * Space Complexity: O(k)
+   *
+   * The `unshiftMany` function in TypeScript iterates over elements and adds them to the beginning of
+   * an array, optionally converting them using a provided function.
+   * @param {IterableWithSizeOrLength<E> | IterableWithSizeOrLength<R>} elements - The `elements`
+   * parameter in the `unshiftMany` function is an iterable containing elements of type `E` or `R`. It
+   * can be an array or any other iterable data structure that has a known size or length. The function
+   * iterates over each element in the `elements` iterable and
+   * @returns The `unshiftMany` function returns an array of boolean values indicating whether each
+   * element was successfully added to the beginning of the array.
+   */
   unshiftMany(elements: IterableWithSizeOrLength<E> | IterableWithSizeOrLength<R> = []) {
     const ans: boolean[] = [];
     for (const el of elements) {
