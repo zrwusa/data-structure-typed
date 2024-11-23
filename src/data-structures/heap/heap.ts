@@ -207,12 +207,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R, Heap<E, R>
       if (comparator) this._comparator = comparator;
     }
 
-    if (elements) {
-      for (const el of elements) {
-        if (this.toElementFn) this.add(this.toElementFn(el as R));
-        else this.add(el as E);
-      }
-    }
+    this.addMany(elements);
   }
 
   protected _elements: E[] = [];
@@ -254,12 +249,22 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R, Heap<E, R>
    * Time Complexity: O(log n)
    * Space Complexity: O(1)
    *
-   * Insert an element into the heap and maintain the heap properties.
-   * @param element - The element to be inserted.
    */
   add(element: E): boolean {
-    this._elements.push(element);
+    this._elements.push(element as E);
     return this._bubbleUp(this.elements.length - 1);
+  }
+
+  addMany(elements: Iterable<E> | Iterable<R>): boolean[] {
+    const ans: boolean[] = [];
+    for (const el of elements) {
+      if (this._toElementFn) {
+        ans.push(this.add(this._toElementFn(el as R)));
+        continue;
+      }
+      ans.push(this.add(el as E));
+    }
+    return ans;
   }
 
   /**

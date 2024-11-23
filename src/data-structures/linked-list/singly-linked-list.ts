@@ -60,17 +60,12 @@ export class SinglyLinkedListNode<E = any> {
 }
 
 export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R, SinglyLinkedList<E, R>> {
-  constructor(elements: Iterable<E> | Iterable<R> = [], options?: SinglyLinkedListOptions<E, R>) {
+  constructor(
+    elements: Iterable<E> | Iterable<R> | Iterable<SinglyLinkedListNode<E>> = [],
+    options?: SinglyLinkedListOptions<E, R>
+  ) {
     super(options);
-    if (elements) {
-      for (const el of elements) {
-        if (this.toElementFn) {
-          this.push(this.toElementFn(el as R));
-        } else {
-          this.push(el as E);
-        }
-      }
-    }
+    this.pushMany(elements);
   }
 
   protected _head: SinglyLinkedListNode<E> | undefined;
@@ -209,6 +204,30 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     }
     this._size++;
     return true;
+  }
+
+  pushMany(elements: Iterable<E> | Iterable<R> | Iterable<SinglyLinkedListNode<E>>) {
+    const ans: boolean[] = [];
+    for (const el of elements) {
+      if (this.toElementFn) {
+        ans.push(this.push(this.toElementFn(el as R)));
+        continue;
+      }
+      ans.push(this.push(el as E | SinglyLinkedListNode<E>));
+    }
+    return ans;
+  }
+
+  unshiftMany(elements: Iterable<E> | Iterable<R> | Iterable<SinglyLinkedListNode<E>>) {
+    const ans: boolean[] = [];
+    for (const el of elements) {
+      if (this.toElementFn) {
+        ans.push(this.unshift(this.toElementFn(el as R)));
+        continue;
+      }
+      ans.push(this.unshift(el as E | SinglyLinkedListNode<E>));
+    }
+    return ans;
   }
 
   /**

@@ -53,14 +53,7 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
     const needBucketNum = calcMinUnitsRequired(_size, this._bucketSize);
     this._bucketFirst = this._bucketLast = (this._bucketCount >> 1) - (needBucketNum >> 1);
     this._firstInBucket = this._lastInBucket = (this._bucketSize - (_size % this._bucketSize)) >> 1;
-
-    for (const el of elements) {
-      if (this.toElementFn) {
-        this.push(this.toElementFn(el as R));
-      } else {
-        this.push(el as E);
-      }
-    }
+    this.pushMany(elements);
   }
 
   protected _bucketSize: number = 1 << 12;
@@ -231,6 +224,33 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The `shift()` function removes and returns the first element from a data structure, updating the
+   * internal state variables accordingly.
+   * @returns The element that is being removed from the beginning of the data structure is being
+   * returned.
+   */
+  shift(): E | undefined {
+    if (this._size === 0) return;
+    const element = this._buckets[this._bucketFirst][this._firstInBucket];
+    if (this._size !== 1) {
+      if (this._firstInBucket < this._bucketSize - 1) {
+        this._firstInBucket += 1;
+      } else if (this._bucketFirst < this._bucketCount - 1) {
+        this._bucketFirst += 1;
+        this._firstInBucket = 0;
+      } else {
+        this._bucketFirst = 0;
+        this._firstInBucket = 0;
+      }
+    }
+    this._size -= 1;
+    return element;
+  }
+
+  /**
    * Time Complexity: Amortized O(1)
    * Space Complexity: O(n)
    *
@@ -259,31 +279,28 @@ export class Deque<E = any, R = any> extends IterableElementBase<E, R, Deque<E, 
     return true;
   }
 
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `shift()` function removes and returns the first element from a data structure, updating the
-   * internal state variables accordingly.
-   * @returns The element that is being removed from the beginning of the data structure is being
-   * returned.
-   */
-  shift(): E | undefined {
-    if (this._size === 0) return;
-    const element = this._buckets[this._bucketFirst][this._firstInBucket];
-    if (this._size !== 1) {
-      if (this._firstInBucket < this._bucketSize - 1) {
-        this._firstInBucket += 1;
-      } else if (this._bucketFirst < this._bucketCount - 1) {
-        this._bucketFirst += 1;
-        this._firstInBucket = 0;
+  pushMany(elements: IterableWithSizeOrLength<E> | IterableWithSizeOrLength<R>) {
+    const ans: boolean[] = [];
+    for (const el of elements) {
+      if (this.toElementFn) {
+        ans.push(this.push(this.toElementFn(el as R)));
       } else {
-        this._bucketFirst = 0;
-        this._firstInBucket = 0;
+        ans.push(this.push(el as E));
       }
     }
-    this._size -= 1;
-    return element;
+    return ans;
+  }
+
+  unshiftMany(elements: IterableWithSizeOrLength<E> | IterableWithSizeOrLength<R> = []) {
+    const ans: boolean[] = [];
+    for (const el of elements) {
+      if (this.toElementFn) {
+        ans.push(this.unshift(this.toElementFn(el as R)));
+      } else {
+        ans.push(this.unshift(el as E));
+      }
+    }
+    return ans;
   }
 
   /**

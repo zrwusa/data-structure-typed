@@ -524,18 +524,15 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * `DoublyLinkedListOptions<E, R>`. It is an optional parameter that allows you to pass additional
    * configuration options to customize the behavior of the DoublyLinkedList.
    */
-  constructor(elements: Iterable<E> | Iterable<R> = [], options?: DoublyLinkedListOptions<E, R>) {
+  constructor(
+    elements: Iterable<E> | Iterable<R> | Iterable<DoublyLinkedListNode<E>> = [],
+    options?: DoublyLinkedListOptions<E, R>
+  ) {
     super(options);
     this._head = undefined;
     this._tail = undefined;
     this._size = 0;
-    if (elements) {
-      for (const el of elements) {
-        if (this.toElementFn) {
-          this.push(this.toElementFn(el as R));
-        } else this.push(el as E);
-      }
-    }
+    this.pushMany(elements);
   }
 
   protected _head: DoublyLinkedListNode<E> | undefined;
@@ -698,6 +695,30 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     }
     this._size++;
     return true;
+  }
+
+  pushMany(elements: Iterable<E> | Iterable<R> | Iterable<DoublyLinkedListNode<E>>) {
+    const ans: boolean[] = [];
+    for (const el of elements) {
+      if (this.toElementFn) {
+        ans.push(this.push(this.toElementFn(el as R)));
+        continue;
+      }
+      ans.push(this.push(el as E | DoublyLinkedListNode<E>));
+    }
+    return ans;
+  }
+
+  unshiftMany(elements: Iterable<E> | Iterable<R> | Iterable<DoublyLinkedListNode<E>>) {
+    const ans: boolean[] = [];
+    for (const el of elements) {
+      if (this.toElementFn) {
+        ans.push(this.unshift(this.toElementFn(el as R)));
+        continue;
+      }
+      ans.push(this.unshift(el as E | DoublyLinkedListNode<E>));
+    }
+    return ans;
   }
 
   /**

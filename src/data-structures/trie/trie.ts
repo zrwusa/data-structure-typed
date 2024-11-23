@@ -268,7 +268,7 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
    * @returns The `addMany` method returns an array of boolean values indicating whether each word in
    * the input iterable was successfully added to the data structure.
    */
-  addMany(words: Iterable<string> | Iterable<R> = []): boolean[] {
+  addMany(words: Iterable<string> | Iterable<R>): boolean[] {
     const ans: boolean[] = [];
     for (const word of words) {
       if (this.toElementFn) {

@@ -19,15 +19,7 @@ import { IterableElementBase } from '../base';
 export class Stack<E = any, R = any> extends IterableElementBase<E, R, Stack<E, R>> {
   constructor(elements: Iterable<E> | Iterable<R> = [], options?: StackOptions<E, R>) {
     super(options);
-    if (elements) {
-      for (const el of elements) {
-        if (this.toElementFn) {
-          this.push(this.toElementFn(el as R));
-        } else {
-          this.push(el as E);
-        }
-      }
-    }
+    this.pushMany(elements);
   }
 
   protected _elements: E[] = [];
@@ -51,11 +43,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R, Stack<E, 
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(n)
-   */
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
    *
    * The function "fromArray" creates a new Stack object from an array of elements.
    * @param {E[]} elements - The `elements` parameter is an array of elements of type `E`.
@@ -67,6 +54,9 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R, Stack<E, 
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The function checks if an array is empty and returns a boolean value.
    * @returns A boolean value indicating whether the `_elements` array is empty or not.
    */
@@ -115,9 +105,29 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R, Stack<E, 
   }
 
   /**
-   * The delete function removes an element from the stack.
-   * @param element: E Specify the element to be deleted
-   * @return A boolean value indicating whether the element was successfully deleted or not
+   * Time Complexity: O(k)
+   * Space Complexity: O(1)
+   *
+   *
+   */
+  pushMany(elements: Iterable<E> | Iterable<R>) {
+    const ans: boolean[] = [];
+    for (const el of elements) {
+      if (this.toElementFn) {
+        ans.push(this.push(this.toElementFn(el as R)));
+      } else {
+        ans.push(this.push(el as E));
+      }
+    }
+    return ans;
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
+   * The toArray function returns a copy of the elements in an array.
+   * @returns An array of type E.
    */
   delete(element: E): boolean {
     const index = this.elements.indexOf(element);
@@ -125,9 +135,11 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R, Stack<E, 
   }
 
   /**
-   * The deleteAt function deletes the element at a given index.
-   * @param index: number Determine the index of the element to be deleted
-   * @return A boolean value
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
+   * The toArray function returns a copy of the elements in an array.
+   * @returns An array of type E.
    */
   deleteAt(index: number): boolean {
     const spliced = this.elements.splice(index, 1);

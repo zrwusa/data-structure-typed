@@ -25,12 +25,7 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
       this._autoCompactRatio = autoCompactRatio;
     }
 
-    if (elements) {
-      for (const el of elements) {
-        if (this.toElementFn) this.push(this.toElementFn(el as R));
-        else this.push(el as E);
-      }
-    }
+    this.pushMany(elements);
   }
 
   protected _elements: E[] = [];
@@ -129,6 +124,15 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
   push(element: E): boolean {
     this.elements.push(element);
     return true;
+  }
+
+  pushMany(elements: Iterable<E> | Iterable<R>) {
+    const ans: boolean[] = [];
+    for (const el of elements) {
+      if (this.toElementFn) ans.push(this.push(this.toElementFn(el as R)));
+      else ans.push(this.push(el as E));
+    }
+    return ans;
   }
 
   /**
