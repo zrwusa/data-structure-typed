@@ -7,12 +7,12 @@
  */
 import { BST, BSTNode } from './bst';
 import type {
-  AVLTreeNested,
   AVLTreeNodeNested,
   AVLTreeOptions,
   BinaryTreeDeleteResult,
   BSTNOptKeyOrNode,
-  BTNRep
+  BTNRep,
+  EntryCallback
 } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 
@@ -67,11 +67,10 @@ export class AVLTree<
     K = any,
     V = any,
     R = object,
-    NODE extends AVLTreeNode<K, V, NODE> = AVLTreeNode<K, V, AVLTreeNodeNested<K, V>>,
-    TREE extends AVLTree<K, V, R, NODE, TREE> = AVLTree<K, V, R, NODE, AVLTreeNested<K, V, R, NODE>>
+    NODE extends AVLTreeNode<K, V, NODE> = AVLTreeNode<K, V, AVLTreeNodeNested<K, V>>
   >
-  extends BST<K, V, R, NODE, TREE>
-  implements IBinaryTree<K, V, R, NODE, TREE>
+  extends BST<K, V, R, NODE>
+  implements IBinaryTree<K, V, R, NODE>
 {
   /**
    * This is a constructor function for an AVLTree class that initializes the tree with keys, nodes,
@@ -103,21 +102,25 @@ export class AVLTree<
   }
 
   /**
-   * The function creates a new AVL tree with the specified options and returns it.
-   * @param {AVLTreeOptions} [options] - The `options` parameter is an optional object that can be
-   * passed to the `createTree` function. It is used to customize the behavior of the AVL tree that is
-   * being created.
-   * @returns a new AVLTree object.
+   * The function `createTree` in TypeScript overrides the default AVLTree creation with the provided
+   * options.
+   * @param [options] - The `options` parameter in the `createTree` function is an object that contains
+   * configuration options for creating an AVL tree. These options can include properties such as
+   * `iterationType`, `isMapMode`, `specifyComparable`, `toEntryFn`, and `isReverse`. The function
+   * creates a
+   * @returns An AVLTree object is being returned with the specified options and properties inherited
+   * from the current object.
    */
-  override createTree(options?: AVLTreeOptions<K, V, R>): TREE {
-    return new AVLTree<K, V, R, NODE, TREE>([], {
+  // @ts-ignore
+  override createTree(options?: AVLTreeOptions<K, V, R>) {
+    return new AVLTree<K, V, R, NODE>([], {
       iterationType: this.iterationType,
       isMapMode: this._isMapMode,
-      extractComparable: this._extractComparable,
+      specifyComparable: this._specifyComparable,
       toEntryFn: this._toEntryFn,
       isReverse: this._isReverse,
       ...options
-    }) as TREE;
+    });
   }
 
   /**
@@ -172,6 +175,20 @@ export class AVLTree<
       }
     }
     return deletedResults;
+  }
+
+  // @ts-ignore
+  override map<MK, MV, MR>(
+    callback: EntryCallback<K, V | undefined, [MK, MV]>,
+    options?: AVLTreeOptions<MK, MV, MR>,
+    thisArg?: any
+  ) {
+    const newTree = new AVLTree<MK, MV, MR>([], options);
+    let index = 0;
+    for (const [key, value] of this) {
+      newTree.add(callback.call(thisArg, key, value, index++, this));
+    }
+    return newTree;
   }
 
   /**

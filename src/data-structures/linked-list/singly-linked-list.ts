@@ -117,6 +117,23 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   }
 
   /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `fromArray` function creates a new SinglyLinkedList instance and populates it with the elements from the given
+   * array.
+   * @param {E[]} data - The `data` parameter is an array of elements of type `E`.
+   * @returns The `fromArray` function returns a `SinglyLinkedList` object.
+   */
+  static fromArray<E>(data: E[]) {
+    const singlyLinkedList = new SinglyLinkedList<E>();
+    for (const item of data) {
+      singlyLinkedList.push(item);
+    }
+    return singlyLinkedList;
+  }
+
+  /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
@@ -761,23 +778,6 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
       yield current.value;
       current = current.next;
     }
-  }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `fromArray` function creates a new SinglyLinkedList instance and populates it with the elements from the given
-   * array.
-   * @param {E[]} data - The `data` parameter is an array of elements of type `E`.
-   * @returns The `fromArray` function returns a `SinglyLinkedList` object.
-   */
-  static fromArray<E>(data: E[]) {
-    const singlyLinkedList = new SinglyLinkedList<E>();
-    for (const item of data) {
-      singlyLinkedList.push(item);
-    }
-    return singlyLinkedList;
   }
 
   /**

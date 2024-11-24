@@ -397,7 +397,7 @@ describe('AVLTree iterative methods test', () => {
   });
 
   it('filter should return a new tree with filtered elements', () => {
-    const filteredTree = avl.filter((value, key) => key > 1);
+    const filteredTree = avl.filter(key => key > 1);
     expect(filteredTree.size).toBe(2);
     expect([...filteredTree]).toEqual([
       [2, 'b'],
@@ -406,12 +406,12 @@ describe('AVLTree iterative methods test', () => {
   });
 
   it('map should return a new tree with modified elements', () => {
-    const mappedTree = avl.map((value, key) => (key * 2).toString());
+    const mappedTree = avl.map((key, value) => [(key * 2).toString(), value]);
     expect(mappedTree.size).toBe(3);
     expect([...mappedTree]).toEqual([
-      [1, '2'],
-      [2, '4'],
-      [3, '6']
+      ['2', 'a'],
+      ['4', 'b'],
+      ['6', 'c']
     ]);
   });
 

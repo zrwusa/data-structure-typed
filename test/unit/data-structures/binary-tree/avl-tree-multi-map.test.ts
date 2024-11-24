@@ -637,7 +637,7 @@ describe('AVLTreeMultiMap iterative methods test', () => {
   });
 
   it('filter should return a new tree with filtered elements', () => {
-    const filteredTree = treeMM.filter((value, key) => key > 1);
+    const filteredTree = treeMM.filter(key => key > 1);
     expect(filteredTree.size).toBe(2);
     expect([...filteredTree]).toEqual([
       [2, 'b'],
@@ -646,12 +646,12 @@ describe('AVLTreeMultiMap iterative methods test', () => {
   });
 
   it('map should return a new tree with modified elements', () => {
-    const mappedTree = treeMM.map((value, key) => (key * 2).toString());
+    const mappedTree = treeMM.map((key, value) => [(key * 2).toString(), value]);
     expect(mappedTree.size).toBe(3);
     expect([...mappedTree]).toEqual([
-      [1, '2'],
-      [2, '4'],
-      [3, '6']
+      ['2', 'a'],
+      ['4', 'b'],
+      ['6', 'c']
     ]);
   });
 
@@ -736,7 +736,7 @@ describe('AVLTree toEntryFn', () => {
           { obj: { id: 5 } }
         ])
     ).toThrowError(
-      `When comparing object types, a custom extractComparable must be defined in the constructor's options parameter.`
+      `When comparing object types, a custom specifyComparable must be defined in the constructor's options parameter.`
     );
   });
 
@@ -744,7 +744,7 @@ describe('AVLTree toEntryFn', () => {
     const tree = new AVLTreeMultiMap<{ obj: { id: number } }, number>(
       [{ obj: { id: 1 } }, { obj: { id: 2 } }, { obj: { id: 3 } }, { obj: { id: 4 } }, { obj: { id: 5 } }],
       {
-        extractComparable: key => key.obj.id
+        specifyComparable: key => key.obj.id
       }
     );
 

@@ -9,14 +9,14 @@ const { TEN_THOUSAND } = magnitude;
 const arr = getRandomIntArray(TEN_THOUSAND, 0, TEN_THOUSAND - 1, true);
 
 suite
-  .add(`${TEN_THOUSAND.toLocaleString()} RBTree add randomly`, () => {
+  .add(`${TEN_THOUSAND.toLocaleString()} RedBlackTree add randomly`, () => {
     rbTree.clear();
     for (let i = 0; i < arr.length; i++) rbTree.add(arr[i]);
   })
-  .add(`${TEN_THOUSAND.toLocaleString()} RBTree get randomly`, () => {
+  .add(`${TEN_THOUSAND.toLocaleString()} RedBlackTree get randomly`, () => {
     for (let i = 0; i < arr.length; i++) rbTree.get(arr[i]);
   })
-  .add(`${TEN_THOUSAND.toLocaleString()} RBTree add & delete randomly`, () => {
+  .add(`${TEN_THOUSAND.toLocaleString()} RedBlackTree add & delete randomly`, () => {
     rbTree.clear();
     for (let i = 0; i < arr.length; i++) rbTree.add(arr[i]);
     for (let i = 0; i < arr.length; i++) rbTree.delete(arr[i]);

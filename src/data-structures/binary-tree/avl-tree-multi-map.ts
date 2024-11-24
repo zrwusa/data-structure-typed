@@ -6,12 +6,12 @@
  * @license MIT License
  */
 import type {
-  AVLTreeMultiMapNested,
   AVLTreeMultiMapNodeNested,
   AVLTreeMultiMapOptions,
   BinaryTreeDeleteResult,
   BSTNOptKeyOrNode,
   BTNRep,
+  EntryCallback,
   IterationType
 } from '../../types';
 import { IBinaryTree } from '../../interfaces';
@@ -64,17 +64,10 @@ export class AVLTreeMultiMap<
     K = any,
     V = any,
     R = object,
-    NODE extends AVLTreeMultiMapNode<K, V, NODE> = AVLTreeMultiMapNode<K, V, AVLTreeMultiMapNodeNested<K, V>>,
-    TREE extends AVLTreeMultiMap<K, V, R, NODE, TREE> = AVLTreeMultiMap<
-      K,
-      V,
-      R,
-      NODE,
-      AVLTreeMultiMapNested<K, V, R, NODE>
-    >
+    NODE extends AVLTreeMultiMapNode<K, V, NODE> = AVLTreeMultiMapNode<K, V, AVLTreeMultiMapNodeNested<K, V>>
   >
-  extends AVLTree<K, V, R, NODE, TREE>
-  implements IBinaryTree<K, V, R, NODE, TREE>
+  extends AVLTree<K, V, R, NODE>
+  implements IBinaryTree<K, V, R, NODE>
 {
   /**
    * The constructor initializes a new AVLTreeMultiMap object with optional initial elements.
@@ -139,15 +132,16 @@ export class AVLTreeMultiMap<
    * @returns a new instance of the AVLTreeMultiMap class, with the specified options, as a TREE
    * object.
    */
-  override createTree(options?: AVLTreeMultiMapOptions<K, V, R>): TREE {
-    return new AVLTreeMultiMap<K, V, R, NODE, TREE>([], {
+  // @ts-ignore
+  override createTree(options?: AVLTreeMultiMapOptions<K, V, R>) {
+    return new AVLTreeMultiMap<K, V, R, NODE>([], {
       iterationType: this.iterationType,
       isMapMode: this._isMapMode,
-      extractComparable: this._extractComparable,
+      specifyComparable: this._specifyComparable,
       toEntryFn: this._toEntryFn,
       isReverse: this._isReverse,
       ...options
-    }) as TREE;
+    });
   }
 
   /**
@@ -159,44 +153,6 @@ export class AVLTreeMultiMap<
    */
   override isNode(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R): keyNodeEntryOrRaw is NODE {
     return keyNodeEntryOrRaw instanceof AVLTreeMultiMapNode;
-  }
-
-  /**
-   * The function `keyValueNodeEntryRawToNodeAndValue` converts a key, value, entry, or raw element into
-   * a node object.
-   * @param {BTNRep<K, V, NODE> | R} keyNodeEntryOrRaw - The
-   * `keyNodeEntryOrRaw` parameter can be of type `R` or `BTNRep<K, V, NODE>`.
-   * @param {V} [value] - The `value` parameter is an optional value that can be passed to the
-   * `override` function. It represents the value associated with the key in the data structure. If no
-   * value is provided, it will default to `undefined`.
-   * @param [count=1] - The `count` parameter is an optional parameter that specifies the number of
-   * times the key-value pair should be added to the data structure. If not provided, it defaults to 1.
-   * @returns either a NODE object or undefined.
-   */
-  protected override _keyValueNodeEntryRawToNodeAndValue(
-    keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R,
-    value?: V,
-    count = 1
-  ): [NODE | undefined, V | undefined] {
-    if (keyNodeEntryOrRaw === undefined || keyNodeEntryOrRaw === null) return [undefined, undefined];
-    if (this.isNode(keyNodeEntryOrRaw)) return [keyNodeEntryOrRaw, value];
-
-    if (this.isEntry(keyNodeEntryOrRaw)) {
-      const [key, entryValue] = keyNodeEntryOrRaw;
-      if (key === undefined || key === null) return [undefined, undefined];
-      const finalValue = value ?? entryValue;
-      return [this.createNode(key, finalValue, count), finalValue];
-    }
-
-    if (this.isRaw(keyNodeEntryOrRaw)) {
-      const [key, entryValue] = this._toEntryFn!(keyNodeEntryOrRaw);
-      const finalValue = value ?? entryValue;
-      if (this.isKey(key)) return [this.createNode(key, finalValue, count), finalValue];
-    }
-
-    if (this.isKey(keyNodeEntryOrRaw)) return [this.createNode(keyNodeEntryOrRaw, value, count), value];
-
-    return [undefined, undefined];
   }
 
   /**
@@ -374,12 +330,83 @@ export class AVLTreeMultiMap<
    * The function overrides the clone method to create a deep copy of a tree object.
    * @returns The `clone()` method is returning a cloned instance of the `TREE` object.
    */
-  override clone(): TREE {
+  // @ts-ignore
+  override clone() {
     const cloned = this.createTree();
     if (this._isMapMode) this.bfs(node => cloned.add(node.key, undefined, node.count));
     else this.bfs(node => cloned.add(node.key, node.value, node.count));
     if (this._isMapMode) cloned._store = this._store;
     return cloned;
+  }
+
+  /**
+   * The `map` function in TypeScript overrides the default behavior to create a new AVLTreeMultiMap
+   * with modified entries based on a provided callback.
+   * @param callback - The `callback` parameter is a function that will be called for each entry in the
+   * AVLTreeMultiMap. It takes four arguments:
+   * @param [options] - The `options` parameter in the `override map` function is of type
+   * `AVLTreeMultiMapOptions<MK, MV, MR>`. This parameter allows you to provide additional
+   * configuration options when creating a new `AVLTreeMultiMap` instance within the `map` function.
+   * These options
+   * @param {any} [thisArg] - The `thisArg` parameter in the `override map` function is used to specify
+   * the value of `this` when executing the `callback` function. It allows you to set the context
+   * (value of `this`) for the callback function. This can be useful when you want to access properties
+   * or
+   * @returns The `map` method is returning a new `AVLTreeMultiMap` instance with the entries
+   * transformed by the provided `callback` function. Each entry in the original tree is passed to the
+   * `callback` function along with the index and the original tree itself. The transformed entries are
+   * then added to the new `AVLTreeMultiMap` instance, which is returned at the end.
+   */
+  // @ts-ignore
+  override map<MK, MV, MR>(
+    callback: EntryCallback<K, V | undefined, [MK, MV]>,
+    options?: AVLTreeMultiMapOptions<MK, MV, MR>,
+    thisArg?: any
+  ) {
+    const newTree = new AVLTreeMultiMap<MK, MV, MR>([], options);
+    let index = 0;
+    for (const [key, value] of this) {
+      newTree.add(callback.call(thisArg, key, value, index++, this));
+    }
+    return newTree;
+  }
+
+  /**
+   * The function `keyValueNodeEntryRawToNodeAndValue` converts a key, value, entry, or raw element into
+   * a node object.
+   * @param {BTNRep<K, V, NODE> | R} keyNodeEntryOrRaw - The
+   * `keyNodeEntryOrRaw` parameter can be of type `R` or `BTNRep<K, V, NODE>`.
+   * @param {V} [value] - The `value` parameter is an optional value that can be passed to the
+   * `override` function. It represents the value associated with the key in the data structure. If no
+   * value is provided, it will default to `undefined`.
+   * @param [count=1] - The `count` parameter is an optional parameter that specifies the number of
+   * times the key-value pair should be added to the data structure. If not provided, it defaults to 1.
+   * @returns either a NODE object or undefined.
+   */
+  protected override _keyValueNodeEntryRawToNodeAndValue(
+    keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R,
+    value?: V,
+    count = 1
+  ): [NODE | undefined, V | undefined] {
+    if (keyNodeEntryOrRaw === undefined || keyNodeEntryOrRaw === null) return [undefined, undefined];
+    if (this.isNode(keyNodeEntryOrRaw)) return [keyNodeEntryOrRaw, value];
+
+    if (this.isEntry(keyNodeEntryOrRaw)) {
+      const [key, entryValue] = keyNodeEntryOrRaw;
+      if (key === undefined || key === null) return [undefined, undefined];
+      const finalValue = value ?? entryValue;
+      return [this.createNode(key, finalValue, count), finalValue];
+    }
+
+    if (this.isRaw(keyNodeEntryOrRaw)) {
+      const [key, entryValue] = this._toEntryFn!(keyNodeEntryOrRaw);
+      const finalValue = value ?? entryValue;
+      if (this.isKey(key)) return [this.createNode(key, finalValue, count), finalValue];
+    }
+
+    if (this.isKey(keyNodeEntryOrRaw)) return [this.createNode(keyNodeEntryOrRaw, value, count), value];
+
+    return [undefined, undefined];
   }
 
   /**

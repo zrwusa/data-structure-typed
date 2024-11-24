@@ -5,8 +5,7 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type {
-  BSTNested,
+import {
   BSTNodeNested,
   BSTNOptKeyOrNode,
   BSTOptions,
@@ -15,6 +14,7 @@ import type {
   Comparator,
   CP,
   DFSOrderPattern,
+  EntryCallback,
   IterationType,
   NodeCallback,
   NodePredicate,
@@ -151,15 +151,9 @@ export class BSTNode<K = any, V = any, NODE extends BSTNode<K, V, NODE> = BSTNod
  *     console.log(findLCA(5, 35)); // 15
  *     console.log(findLCA(20, 30)); // 25
  */
-export class BST<
-    K = any,
-    V = any,
-    R = object,
-    NODE extends BSTNode<K, V, NODE> = BSTNode<K, V, BSTNodeNested<K, V>>,
-    TREE extends BST<K, V, R, NODE, TREE> = BST<K, V, R, NODE, BSTNested<K, V, R, NODE>>
-  >
-  extends BinaryTree<K, V, R, NODE, TREE>
-  implements IBinaryTree<K, V, R, NODE, TREE>
+export class BST<K = any, V = any, R = object, NODE extends BSTNode<K, V, NODE> = BSTNode<K, V, BSTNodeNested<K, V>>>
+  extends BinaryTree<K, V, R, NODE>
+  implements IBinaryTree<K, V, R, NODE>
 {
   /**
    * This is the constructor function for a Binary Search Tree class in TypeScript.
@@ -173,8 +167,8 @@ export class BST<
     super([], options);
 
     if (options) {
-      const { extractComparable, isReverse } = options;
-      if (typeof extractComparable === 'function') this._extractComparable = extractComparable;
+      const { specifyComparable, isReverse } = options;
+      if (typeof specifyComparable === 'function') this._specifyComparable = specifyComparable;
       if (isReverse !== undefined) this._isReverse = isReverse;
     }
 
@@ -202,6 +196,45 @@ export class BST<
     return this._isReverse;
   }
 
+  protected _comparator: Comparator<K> = (a: K, b: K): number => {
+    if (isComparable(a) && isComparable(b)) {
+      if (a > b) return 1;
+      if (a < b) return -1;
+      return 0;
+    }
+    if (this._specifyComparable) {
+      if (this._specifyComparable(a) > this._specifyComparable(b)) return 1;
+      if (this._specifyComparable(a) < this._specifyComparable(b)) return -1;
+      return 0;
+    }
+    if (typeof a === 'object' || typeof b === 'object') {
+      throw TypeError(
+        `When comparing object types, a custom specifyComparable must be defined in the constructor's options parameter.`
+      );
+    }
+
+    return 0;
+  };
+
+  /**
+   * The function returns the value of the _comparator property.
+   * @returns The `_comparator` property is being returned.
+   */
+  get comparator() {
+    return this._comparator;
+  }
+
+  protected _specifyComparable?: (key: K) => Comparable;
+
+  /**
+   * This function returns the value of the `_specifyComparable` property.
+   * @returns The method `specifyComparable()` is being returned, which is a getter method for the
+   * `_specifyComparable` property.
+   */
+  get specifyComparable() {
+    return this._specifyComparable;
+  }
+
   /**
    * The function creates a new BSTNode with the given key and value and returns it.
    * @param {K} key - The key parameter is of type K, which represents the type of the key for the node
@@ -215,39 +248,26 @@ export class BST<
   }
 
   /**
-   * The function creates a new binary search tree with the specified options.
-   * @param [options] - The `options` parameter is an optional object that allows you to customize the
-   * behavior of the `createTree` method. It accepts a partial `BSTOptions` object, which has the
-   * following properties:
-   * @returns a new instance of the BST class with the provided options.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The `createTree` function in TypeScript overrides the default options with the provided options to
+   * create a new Binary Search Tree.
+   * @param [options] - The `options` parameter in the `createTree` method is an optional object that
+   * can contain the following properties:
+   * @returns A new instance of a Binary Search Tree (BST) is being returned with the specified options
+   * and properties inherited from the current instance.
    */
-  override createTree(options?: BSTOptions<K, V, R>): TREE {
-    return new BST<K, V, R, NODE, TREE>([], {
+  // @ts-ignore
+  override createTree(options?: BSTOptions<K, V, R>) {
+    return new BST<K, V, R>([], {
       iterationType: this.iterationType,
       isMapMode: this._isMapMode,
-      extractComparable: this._extractComparable,
+      specifyComparable: this._specifyComparable,
       toEntryFn: this._toEntryFn,
       isReverse: this._isReverse,
       ...options
-    }) as TREE;
-  }
-
-  /**
-   * The function overrides a method and converts a key, value pair or entry or raw element to a node.
-   * @param {BTNRep<K, V, NODE> | R} keyNodeEntryOrRaw - A variable that can be of
-   * type R or BTNRep<K, V, NODE>. It represents either a key, a node, an entry, or a raw
-   * element.
-   * @param {V} [value] - The `value` parameter is an optional value of type `V`. It represents the
-   * value associated with a key in a key-value pair.
-   * @returns either a NODE object or undefined.
-   */
-  protected override _keyValueNodeEntryRawToNodeAndValue(
-    keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R,
-    value?: V
-  ): [OptNode<NODE>, V | undefined] {
-    const [node, entryValue] = super._keyValueNodeEntryRawToNodeAndValue(keyNodeEntryOrRaw, value);
-    if (node === null) return [undefined, undefined];
-    return [node, value ?? entryValue];
+    });
   }
 
   /**
@@ -292,7 +312,7 @@ export class BST<
    * this._DEFAULT_COMPARATOR`.
    */
   override isKey(key: any): key is K {
-    return isComparable(key, this._extractComparable !== undefined);
+    return isComparable(key, this._specifyComparable !== undefined);
   }
 
   /**
@@ -472,7 +492,7 @@ export class BST<
    * @param anotherTree - `anotherTree` is an instance of a Binary Search Tree (BST) with key type `K`,
    * value type `V`, return type `R`, node type `NODE`, and tree type `TREE`.
    */
-  override merge(anotherTree: BST<K, V, R, NODE, TREE>) {
+  override merge(anotherTree: this) {
     this.addMany(anotherTree, [], false);
   }
 
@@ -924,43 +944,36 @@ export class BST<
     return balanced;
   }
 
-  protected _comparator: Comparator<K> = (a: K, b: K): number => {
-    if (isComparable(a) && isComparable(b)) {
-      if (a > b) return 1;
-      if (a < b) return -1;
-      return 0;
+  // @ts-ignore
+  override map<MK, MV, MR>(
+    callback: EntryCallback<K, V | undefined, [MK, MV]>,
+    options?: BSTOptions<MK, MV, MR>,
+    thisArg?: any
+  ) {
+    const newTree = new BST<MK, MV, MR>([], options);
+    let index = 0;
+    for (const [key, value] of this) {
+      newTree.add(callback.call(thisArg, key, value, index++, this));
     }
-    if (this._extractComparable) {
-      if (this._extractComparable(a) > this._extractComparable(b)) return 1;
-      if (this._extractComparable(a) < this._extractComparable(b)) return -1;
-      return 0;
-    }
-    if (typeof a === 'object' || typeof b === 'object') {
-      throw TypeError(
-        `When comparing object types, a custom extractComparable must be defined in the constructor's options parameter.`
-      );
-    }
-
-    return 0;
-  };
-
-  /**
-   * The function returns the value of the _comparator property.
-   * @returns The `_comparator` property is being returned.
-   */
-  get comparator() {
-    return this._comparator;
+    return newTree;
   }
 
-  protected _extractComparable?: (key: K) => Comparable;
-
   /**
-   * This function returns the value of the `_extractComparable` property.
-   * @returns The method `extractComparable()` is being returned, which is a getter method for the
-   * `_extractComparable` property.
+   * The function overrides a method and converts a key, value pair or entry or raw element to a node.
+   * @param {BTNRep<K, V, NODE> | R} keyNodeEntryOrRaw - A variable that can be of
+   * type R or BTNRep<K, V, NODE>. It represents either a key, a node, an entry, or a raw
+   * element.
+   * @param {V} [value] - The `value` parameter is an optional value of type `V`. It represents the
+   * value associated with a key in a key-value pair.
+   * @returns either a NODE object or undefined.
    */
-  get extractComparable() {
-    return this._extractComparable;
+  protected override _keyValueNodeEntryRawToNodeAndValue(
+    keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R,
+    value?: V
+  ): [OptNode<NODE>, V | undefined] {
+    const [node, entryValue] = super._keyValueNodeEntryRawToNodeAndValue(keyNodeEntryOrRaw, value);
+    if (node === null) return [undefined, undefined];
+    return [node, value ?? entryValue];
   }
 
   /**

@@ -8,7 +8,6 @@
 
 import {
   BinaryTreeDeleteResult,
-  BinaryTreeNested,
   BinaryTreeNodeNested,
   BinaryTreeOptions,
   BinaryTreePrintOptions,
@@ -105,11 +104,10 @@ export class BinaryTree<
     K = any,
     V = any,
     R = object,
-    NODE extends BinaryTreeNode<K, V, NODE> = BinaryTreeNode<K, V, BinaryTreeNodeNested<K, V>>,
-    TREE extends BinaryTree<K, V, R, NODE, TREE> = BinaryTree<K, V, R, NODE, BinaryTreeNested<K, V, R, NODE>>
+    NODE extends BinaryTreeNode<K, V, NODE> = BinaryTreeNode<K, V, BinaryTreeNodeNested<K, V>>
   >
   extends IterableEntryBase<K, V | undefined>
-  implements IBinaryTree<K, V, R, NODE, TREE>
+  implements IBinaryTree<K, V, R, NODE>
 {
   iterationType: IterationType = 'ITERATIVE';
 
@@ -172,6 +170,9 @@ export class BinaryTree<
   }
 
   /**
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
    * The function creates a new binary tree node with a specified key and optional value.
    * @param {K} key - The `key` parameter is the key of the node being created in the binary tree.
    * @param {V} [value] - The `value` parameter in the `createNode` function is optional, meaning it is
@@ -185,63 +186,26 @@ export class BinaryTree<
   }
 
   /**
-   * The function creates a binary tree with the specified options.
-   * @param [options] - The `options` parameter in the `createTree` function is an optional parameter
-   * that allows you to provide partial configuration options for creating a binary tree. It is of type
-   * `Partial<BinaryTreeOptions<K, V, R>>`, which means you can pass in an object containing a subset
-   * of properties
-   * @returns A new instance of a binary tree with the specified options is being returned.
+   * Time Complexity: O(1)
+   * Space Complexity: O(1)
+   *
+   * The `createTree` function creates a new binary tree based on the provided options.
+   * @param [options] - The `options` parameter in the `createTree` method is of type
+   * `BinaryTreeOptions<K, V, R>`. This type likely contains configuration options for creating a
+   * binary tree, such as the iteration type, whether the tree is in map mode, and functions for
+   * converting entries.
+   * @returns The `createTree` method is returning an instance of the `BinaryTree` class with the
+   * provided options. The method is creating a new `BinaryTree` object with an empty array as the
+   * initial data, and then setting various options such as `iterationType`, `isMapMode`, and
+   * `toEntryFn` based on the current object's properties and the provided `options`. Finally, it
    */
-  createTree(options?: BinaryTreeOptions<K, V, R>): TREE {
-    return new BinaryTree<K, V, R, NODE, TREE>([], {
+  createTree(options?: BinaryTreeOptions<K, V, R>): typeof this {
+    return new BinaryTree<K, V, R>([], {
       iterationType: this.iterationType,
       isMapMode: this._isMapMode,
       toEntryFn: this._toEntryFn,
       ...options
-    }) as TREE;
-  }
-
-  /**
-   * The function `keyValueNodeEntryRawToNodeAndValue` converts various input types into a node object
-   * or returns null.
-   * @param {BTNRep<K, V, NODE> | R} keyNodeEntryOrRaw - The
-   * `keyValueNodeEntryRawToNodeAndValue` function takes in a parameter `keyNodeEntryOrRaw`, which
-   * can be of type `BTNRep<K, V, NODE>` or `R`. This parameter represents either a key, a
-   * node, an entry
-   * @param {V} [value] - The `value` parameter in the `keyValueNodeEntryRawToNodeAndValue` function is
-   * an optional parameter of type `V`. It represents the value associated with the key in the node
-   * being created. If a `value` is provided, it will be used when creating the node. If
-   * @returns The `keyValueNodeEntryRawToNodeAndValue` function returns an optional node
-   * (`OptNodeOrNull<NODE>`) based on the input parameters provided. The function checks the type of the
-   * input parameter (`keyNodeEntryOrRaw`) and processes it accordingly to return a node or null
-   * value.
-   */
-  protected _keyValueNodeEntryRawToNodeAndValue(
-    keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R,
-    value?: V
-  ): [OptNodeOrNull<NODE>, V | undefined] {
-    if (keyNodeEntryOrRaw === undefined) return [undefined, undefined];
-    if (keyNodeEntryOrRaw === null) return [null, undefined];
-
-    if (this.isNode(keyNodeEntryOrRaw)) return [keyNodeEntryOrRaw, value];
-
-    if (this.isEntry(keyNodeEntryOrRaw)) {
-      const [key, entryValue] = keyNodeEntryOrRaw;
-      if (key === undefined) return [undefined, undefined];
-      else if (key === null) return [null, undefined];
-      const finalValue = value ?? entryValue;
-      return [this.createNode(key, finalValue), finalValue];
-    }
-
-    if (this.isRaw(keyNodeEntryOrRaw)) {
-      const [key, entryValue] = this._toEntryFn!(keyNodeEntryOrRaw);
-      const finalValue = value ?? entryValue;
-      if (this.isKey(key)) return [this.createNode(key, finalValue), finalValue];
-    }
-
-    if (this.isKey(keyNodeEntryOrRaw)) return [this.createNode(keyNodeEntryOrRaw, value), value];
-
-    return [undefined, undefined];
+    }) as unknown as typeof this;
   }
 
   /**
@@ -526,7 +490,7 @@ export class BinaryTree<
    * elements from the other tree.
    * @param anotherTree - `BinaryTree<K, V, R, NODE, TREE>`
    */
-  merge(anotherTree: BinaryTree<K, V, R, NODE, TREE>) {
+  merge(anotherTree: this) {
     this.addMany(anotherTree, []);
   }
 
@@ -1635,7 +1599,7 @@ export class BinaryTree<
    * original tree using breadth-first search (bfs), and adds the nodes to the new tree. If a node in
    * the original tree is null, a null node is added to the cloned tree. If a node
    */
-  clone(): TREE {
+  clone() {
     const cloned = this.createTree();
     this.bfs(
       node => {
@@ -1673,7 +1637,7 @@ export class BinaryTree<
     const newTree = this.createTree();
     let index = 0;
     for (const [key, value] of this) {
-      if (predicate.call(thisArg, value, key, index++, this)) {
+      if (predicate.call(thisArg, key, value, index++, this)) {
         newTree.add([key, value]);
       }
     }
@@ -1684,35 +1648,33 @@ export class BinaryTree<
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
-   * The `map` function iterates over key-value pairs in a tree data structure, applies a callback
-   * function to each value, and returns a new tree with the updated values.
-   * @param callback - The `callback` parameter in the `map` method is a function that will be called
-   * on each entry in the tree. It takes four arguments:
-   * @param {any} [thisArg] - The `thisArg` parameter in the `map` function is an optional parameter
-   * that specifies the value to be passed as `this` when executing the callback function. If provided,
-   * the `thisArg` value will be used as the `this` value within the callback function. If `thisArg
-   * @returns The `map` method is returning a new tree with the entries modified by the provided
-   * callback function. Each entry in the original tree is passed to the callback function, and the
-   * result of the callback function is added to the new tree.
+   * The `map` function in TypeScript creates a new BinaryTree by applying a callback function to each
+   * entry in the original BinaryTree.
+   * @param callback - A function that will be called for each entry in the current binary tree. It
+   * takes the key, value (which can be undefined), and an array containing the mapped key and value as
+   * arguments.
+   * @param [options] - The `options` parameter in the `map` method is of type `BinaryTreeOptions<MK,
+   * MV, MR>`. It is an optional parameter that allows you to specify additional options for the binary
+   * tree being created during the mapping process. These options could include things like custom
+   * comparators, initial
+   * @param {any} [thisArg] - The `thisArg` parameter in the `map` method is used to specify the value
+   * of `this` when executing the `callback` function. It allows you to set the context (value of
+   * `this`) within the callback function. If `thisArg` is provided, it will be passed
+   * @returns The `map` function is returning a new `BinaryTree` instance filled with entries that are
+   * the result of applying the provided `callback` function to each entry in the original tree.
    */
-  map(callback: EntryCallback<K, V | undefined, V>, thisArg?: any) {
-    const newTree = this.createTree();
+  map<MK, MV, MR>(
+    callback: EntryCallback<K, V | undefined, [MK, MV]>,
+    options?: BinaryTreeOptions<MK, MV, MR>,
+    thisArg?: any
+  ) {
+    const newTree = new BinaryTree<MK, MV, MR>([], options);
     let index = 0;
     for (const [key, value] of this) {
-      newTree.add([key, callback.call(thisArg, value, key, index++, this)]);
+      newTree.add(callback.call(thisArg, key, value, index++, this));
     }
     return newTree;
   }
-
-  // // TODO Type error, need to return a TREE<NV> that is a value type only for callback function.
-  // // map<NV>(callback: (entry: [K, V | undefined], tree: this) => NV) {
-  // //   const newTree = this.createTree();
-  // //   for (const [key, value] of this) {
-  // //     newTree.add(key, callback([key, value], this));
-  // //   }
-  // //   return newTree;
-  // // }
-  //
 
   /**
    * Time Complexity: O(n)
@@ -1743,7 +1705,7 @@ export class BinaryTree<
     if (opts.isShowRedBlackNIL) output += `S for Sentinel Node(NIL)\n`;
 
     const display = (root: OptNodeOrNull<NODE>): void => {
-      const [lines, , ,] = this._displayAux(root, opts);
+      const [lines, ,] = this._displayAux(root, opts);
       let paragraph = '';
       for (const line of lines) {
         paragraph += line + '\n';
@@ -1772,6 +1734,49 @@ export class BinaryTree<
    */
   override print(options?: BinaryTreePrintOptions, startNode: BTNRep<K, V, NODE> | R = this._root) {
     console.log(this.toVisual(startNode, options));
+  }
+
+  /**
+   * The function `keyValueNodeEntryRawToNodeAndValue` converts various input types into a node object
+   * or returns null.
+   * @param {BTNRep<K, V, NODE> | R} keyNodeEntryOrRaw - The
+   * `keyValueNodeEntryRawToNodeAndValue` function takes in a parameter `keyNodeEntryOrRaw`, which
+   * can be of type `BTNRep<K, V, NODE>` or `R`. This parameter represents either a key, a
+   * node, an entry
+   * @param {V} [value] - The `value` parameter in the `keyValueNodeEntryRawToNodeAndValue` function is
+   * an optional parameter of type `V`. It represents the value associated with the key in the node
+   * being created. If a `value` is provided, it will be used when creating the node. If
+   * @returns The `keyValueNodeEntryRawToNodeAndValue` function returns an optional node
+   * (`OptNodeOrNull<NODE>`) based on the input parameters provided. The function checks the type of the
+   * input parameter (`keyNodeEntryOrRaw`) and processes it accordingly to return a node or null
+   * value.
+   */
+  protected _keyValueNodeEntryRawToNodeAndValue(
+    keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R,
+    value?: V
+  ): [OptNodeOrNull<NODE>, V | undefined] {
+    if (keyNodeEntryOrRaw === undefined) return [undefined, undefined];
+    if (keyNodeEntryOrRaw === null) return [null, undefined];
+
+    if (this.isNode(keyNodeEntryOrRaw)) return [keyNodeEntryOrRaw, value];
+
+    if (this.isEntry(keyNodeEntryOrRaw)) {
+      const [key, entryValue] = keyNodeEntryOrRaw;
+      if (key === undefined) return [undefined, undefined];
+      else if (key === null) return [null, undefined];
+      const finalValue = value ?? entryValue;
+      return [this.createNode(key, finalValue), finalValue];
+    }
+
+    if (this.isRaw(keyNodeEntryOrRaw)) {
+      const [key, entryValue] = this._toEntryFn!(keyNodeEntryOrRaw);
+      const finalValue = value ?? entryValue;
+      if (this.isKey(key)) return [this.createNode(key, finalValue), finalValue];
+    }
+
+    if (this.isKey(keyNodeEntryOrRaw)) return [this.createNode(keyNodeEntryOrRaw, value), value];
+
+    return [undefined, undefined];
   }
 
   /**

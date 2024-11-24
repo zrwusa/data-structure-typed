@@ -3,6 +3,7 @@ import { getRandomInt, getRandomIntArray, magnitude } from '../../../utils';
 import { OrderedMap } from 'js-sdsl';
 
 import { isDebugTest } from '../../../config';
+import { costOfLiving } from './data/cost-of-living-by-country';
 
 const isDebug = isDebugTest;
 // const isDebug = true;
@@ -658,7 +659,7 @@ describe('RedBlackTree 2', () => {
     });
 
     it('filter should return a new rbTree with filtered elements', () => {
-      const filteredTree = rbTree.filter((value, key) => key > 1);
+      const filteredTree = rbTree.filter(key => key > 1);
       expect(filteredTree.size).toBe(2);
       expect([...filteredTree]).toEqual([
         [2, 'b'],
@@ -667,12 +668,12 @@ describe('RedBlackTree 2', () => {
     });
 
     it('map should return a new rbTree with modified elements', () => {
-      const mappedTree = rbTree.map((value, key) => (key * 2).toString());
+      const mappedTree = rbTree.map((key, value) => [(key * 2).toString(), value]);
       expect(mappedTree.size).toBe(3);
       expect([...mappedTree]).toEqual([
-        [1, '2'],
-        [2, '4'],
-        [3, '6']
+        ['2', 'a'],
+        ['4', 'b'],
+        ['6', 'c']
       ]);
     });
 
@@ -816,6 +817,25 @@ describe('RedBlackTree - _deleteFixup', () => {
       ['5 BLACK', '15 BLACK', '25 RED', '35 RED'],
       ['NIL', '8 RED', 'NIL', 'NIL', 'NIL', 'NIL', 'NIL', 'NIL'],
       ['NIL', 'NIL']
+    ]);
+  });
+});
+
+describe('real world data', () => {
+  it('cost of living', () => {
+    const indexedByRank = new RedBlackTree(costOfLiving, {
+      specifyComparable: node => node.rank,
+      toEntryFn: raw => [raw, undefined]
+    });
+    expect(indexedByRank.size).toBe(7);
+    expect(indexedByRank.dfs(node => node?.key?.country)).toEqual([
+      'Switzerland',
+      'New Zealand',
+      'Mexico',
+      'South Africa',
+      'Japan',
+      'Brazil',
+      'Taiwan'
     ]);
   });
 });

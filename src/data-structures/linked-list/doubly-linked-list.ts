@@ -589,6 +589,19 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   }
 
   /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `fromArray` function creates a new instance of a DoublyLinkedList and populates it with the elements from the
+   * given array.
+   * @param {E[]} data - The `data` parameter is an array of elements of type `E`.
+   * @returns The `fromArray` function returns a DoublyLinkedList object.
+   */
+  static fromArray<E>(data: E[]) {
+    return new DoublyLinkedList<E>(data);
+  }
+
+  /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
@@ -1250,19 +1263,6 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     }
 
     return count;
-  }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `fromArray` function creates a new instance of a DoublyLinkedList and populates it with the elements from the
-   * given array.
-   * @param {E[]} data - The `data` parameter is an array of elements of type `E`.
-   * @returns The `fromArray` function returns a DoublyLinkedList object.
-   */
-  static fromArray<E>(data: E[]) {
-    return new DoublyLinkedList<E>(data);
   }
 
   /**

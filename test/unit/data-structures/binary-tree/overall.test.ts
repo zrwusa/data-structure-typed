@@ -82,7 +82,9 @@ describe('Overall BinaryTree Test', () => {
     expect(bst.has(9)).toBe(true);
     expect(bst.has(7)).toBe(false);
     expect(bst.bfs()).toEqual([6, 9, 3, 1]);
+
     const clonedBST = bst.clone();
+
     expect(clonedBST.size).toBe(4);
     expect(clonedBST.root?.key).toBe(6);
     expect(clonedBST.root?.left?.key).toBe(9);

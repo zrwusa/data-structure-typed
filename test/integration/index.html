@@ -102,7 +102,7 @@
   try {
     const { OrderedMap } = sdsl;
     const { RedBlackTree } = dataStructureTyped;
-    const cRBTree = new OrderedMap();
+    const cRedBlackTree = new OrderedMap();
     const rbTree = new RedBlackTree();
     const tS = performance.now();
     const n = 100000;
@@ -117,10 +117,10 @@
     rbTree.print(rbTree.root, { isShowRedBlackNIL: true });
     const cS = performance.now();
     for (let i = 1; i < 100000; i++) {
-      cRBTree.setElement(i, i);
+      cRedBlackTree.setElement(i, i);
     }
     console.log((performance.now() - cS).toFixed(2), `CRedBlackTree ${n.toLocaleString()} add`);
-    console.log(cRBTree.size(), `cRBTree.size()`);
+    console.log(cRedBlackTree.size(), `cRedBlackTree.size()`);
   } catch (e) {
     console.error(e);
   }

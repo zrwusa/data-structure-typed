@@ -685,7 +685,7 @@ describe('DirectedGraph iterative Methods', () => {
   });
 
   it('filter should return vertexMap that satisfy the condition', () => {
-    const filtered = graph.filter((value, vertex) => vertex === 'A' || vertex === 'B');
+    const filtered = graph.filter(vertex => vertex === 'A' || vertex === 'B');
     expect(filtered).toEqual([
       ['A', undefined],
       ['B', undefined]
@@ -693,8 +693,8 @@ describe('DirectedGraph iterative Methods', () => {
   });
 
   it('map should apply a function to each vertex and return a new array', () => {
-    const mapped = graph.map((value, vertex) => vertex + '_mapped');
-    expect(mapped).toEqual(vertexMap.map(v => v + '_mapped'));
+    const mapped = graph.map(vertex => vertex + '_mapped');
+    expect(mapped).toEqual(vertexMap.map(key => key + '_mapped'));
   });
 
   it('reduce should accumulate a value based on each vertex', () => {

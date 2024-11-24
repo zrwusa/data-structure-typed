@@ -981,7 +981,7 @@ describe('BST operations test recursively', () => {
 
   if (isTestStackOverflow) {
     it('should getLeftMost', () => {
-      const bst = new BST<number>([], { extractComparable: key => key });
+      const bst = new BST<number>([], { specifyComparable: key => key });
       for (let i = 1; i <= SYSTEM_MAX_CALL_STACK; i++) bst.add(i);
 
       expect(() => {
@@ -1121,7 +1121,7 @@ describe('BST iterative methods test', () => {
   });
 
   it('filter should return a new tree with filtered elements', () => {
-    const filteredTree = bst.filter((value, key) => key > 1);
+    const filteredTree = bst.filter((key, value) => key > 1);
     expect(filteredTree.size).toBe(2);
     expect([...filteredTree]).toEqual([
       [2, 'b'],
@@ -1130,12 +1130,12 @@ describe('BST iterative methods test', () => {
   });
 
   it('map should return a new tree with modified elements', () => {
-    const mappedTree = bst.map((value, key) => (key * 2).toString());
+    const mappedTree = bst.map((key, value) => [(key * 2).toString(), value]);
     expect(mappedTree.size).toBe(3);
     expect([...mappedTree]).toEqual([
-      [1, '2'],
-      [2, '4'],
-      [3, '6']
+      ['2', 'a'],
+      ['4', 'b'],
+      ['6', 'c']
     ]);
   });
 

@@ -2,10 +2,10 @@ import type {
   BinaryTreeDeleteResult,
   BTNRep,
   CRUD,
+  EntryCallback,
   OptNode,
   RBTNColor,
-  RBTreeOptions,
-  RedBlackTreeNested,
+  RedBlackTreeOptions,
   RedBlackTreeNodeNested
 } from '../../types';
 import { BST, BSTNode } from './bst';
@@ -83,18 +83,15 @@ export class RedBlackTreeNode<
  *
  *     // Create a Red-Black Tree to index stock records by price
  *     // Simulates a database index with stock price as the key for quick lookups
- *     const priceIndex = new RedBlackTree<number, StockTableRecord, StockRecord>(
- *       marketStockData,
- *       {
- *         toEntryFn: stockRecord => [
- *           stockRecord.price, // Use stock price as the key
- *           {
- *             ...stockRecord,
- *             lastUpdated: new Date() // Add a timestamp for when the record was indexed
- *           }
- *         ]
- *       }
- *     );
+ *     const priceIndex = new RedBlackTree<number, StockTableRecord, StockRecord>(marketStockData, {
+ *       toEntryFn: stockRecord => [
+ *         stockRecord.price, // Use stock price as the key
+ *         {
+ *           ...stockRecord,
+ *           lastUpdated: new Date() // Add a timestamp for when the record was indexed
+ *         }
+ *       ]
+ *     });
  *
  *     // Query the stock with the highest price
  *     const highestPricedStock = priceIndex.getRightMost();
@@ -111,23 +108,22 @@ export class RedBlackTree<
     K = any,
     V = any,
     R = object,
-    NODE extends RedBlackTreeNode<K, V, NODE> = RedBlackTreeNode<K, V, RedBlackTreeNodeNested<K, V>>,
-    TREE extends RedBlackTree<K, V, R, NODE, TREE> = RedBlackTree<K, V, R, NODE, RedBlackTreeNested<K, V, R, NODE>>
+    NODE extends RedBlackTreeNode<K, V, NODE> = RedBlackTreeNode<K, V, RedBlackTreeNodeNested<K, V>>
   >
-  extends BST<K, V, R, NODE, TREE>
-  implements IBinaryTree<K, V, R, NODE, TREE>
+  extends BST<K, V, R, NODE>
+  implements IBinaryTree<K, V, R, NODE>
 {
   /**
    * This is the constructor function for a Red-Black Tree data structure in TypeScript.
    * @param keysNodesEntriesOrRaws - The `keysNodesEntriesOrRaws` parameter is an
    * iterable object that can contain either keys, nodes, entries, or raw elements. It is used to
-   * initialize the RBTree with the provided elements.
+   * initialize the RedBlackTree with the provided elements.
    * @param [options] - The `options` parameter is an optional object that can be passed to the
-   * constructor. It is of type `RBTreeOptions<K, V, R>`. This object can contain various options for
+   * constructor. It is of type `RedBlackTreeOptions<K, V, R>`. This object can contain various options for
    * configuring the behavior of the Red-Black Tree. The specific properties and their meanings would
    * depend on the implementation
    */
-  constructor(keysNodesEntriesOrRaws: Iterable<R | BTNRep<K, V, NODE>> = [], options?: RBTreeOptions<K, V, R>) {
+  constructor(keysNodesEntriesOrRaws: Iterable<R | BTNRep<K, V, NODE>> = [], options?: RedBlackTreeOptions<K, V, R>) {
     super([], options);
 
     this._root = this.NIL;
@@ -166,19 +162,23 @@ export class RedBlackTree<
   }
 
   /**
-   * The function creates a new Red-Black Tree with the specified options.
-   * @param [options] - The `options` parameter is an optional object that contains additional
-   * configuration options for creating the Red-Black Tree. It has the following properties:
-   * @returns a new instance of a RedBlackTree object.
+   * The function `createTree` overrides the default implementation to create a Red-Black Tree with
+   * specified options in TypeScript.
+   * @param [options] - The `options` parameter in the `createTree` method is of type `RedBlackTreeOptions<K,
+   * V, R>`, which is a generic type with three type parameters `K`, `V`, and `R`. This parameter
+   * allows you to pass additional configuration options when creating a new Red-
+   * @returns A new instance of a RedBlackTree with the specified options and properties from the
+   * current object is being returned.
    */
-  override createTree(options?: RBTreeOptions<K, V, R>): TREE {
-    return new RedBlackTree<K, V, R, NODE, TREE>([], {
+  // @ts-ignore
+  override createTree(options?: RedBlackTreeOptions<K, V, R>) {
+    return new RedBlackTree<K, V, R>([], {
       iterationType: this.iterationType,
       isMapMode: this._isMapMode,
-      extractComparable: this._extractComparable,
+      specifyComparable: this._specifyComparable,
       toEntryFn: this._toEntryFn,
       ...options
-    }) as TREE;
+    });
   }
 
   /**
@@ -194,42 +194,6 @@ export class RedBlackTree<
   override isNode(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R): keyNodeEntryOrRaw is NODE {
     return keyNodeEntryOrRaw instanceof RedBlackTreeNode;
   }
-
-  // /**
-  //  * Time Complexity: O(1)
-  //  * Space Complexity: O(1)
-  //  */
-  //
-  // /**
-  //  * Time Complexity: O(1)
-  //  * Space Complexity: O(1)
-  //  *
-  //  * The function `keyValueNodeEntryRawToNodeAndValue` takes a key, value, or entry and returns a node if it is
-  //  * valid, otherwise it returns undefined.
-  //  * @param {BTNRep<K, V, NODE>} keyNodeEntryOrRaw - The key, value, or entry to convert.
-  //  * @param {V} [value] - The value associated with the key (if `keyNodeEntryOrRaw` is a key).
-  //  * @returns {NODE | undefined} - The corresponding Red-Black Tree node, or `undefined` if conversion fails.
-  //  */
-  // override keyValueNodeEntryRawToNodeAndValue(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R, value?: V): NODE | undefined {
-  //
-  //   if (keyNodeEntryOrRaw === null || keyNodeEntryOrRaw === undefined) return;
-  //   if (this.isNode(keyNodeEntryOrRaw)) return keyNodeEntryOrRaw;
-  //
-  //   if (this._toEntryFn) {
-  //     const [key, entryValue] = this._toEntryFn(keyNodeEntryOrRaw as R);
-  //     if (this.isKey(key)) return this.createNode(key, value ?? entryValue, 'RED');
-  //   }
-  //
-  //   if (this.isEntry(keyNodeEntryOrRaw)) {
-  //     const [key, value] = keyNodeEntryOrRaw;
-  //     if (key === undefined || key === null) return;
-  //     else return  this.createNode(key, value, 'RED');
-  //   }
-  //
-  //   if (this.isKey(keyNodeEntryOrRaw)) return this.createNode(keyNodeEntryOrRaw, value, 'RED');
-  //
-  //   return ;
-  // }
 
   /**
    * Time Complexity: O(1)
@@ -357,6 +321,40 @@ export class RedBlackTree<
   }
 
   /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `map` function in TypeScript overrides the default behavior to create a new Red-Black Tree by
+   * applying a callback to each entry in the original tree.
+   * @param callback - A function that will be called for each entry in the tree, with parameters
+   * representing the key, value, index, and the tree itself. It should return an entry for the new
+   * tree.
+   * @param [options] - The `options` parameter in the `map` method is of type `RedBlackTreeOptions<MK, MV,
+   * MR>`. This parameter allows you to specify additional options or configurations for the Red-Black
+   * Tree that will be created during the mapping process. These options could include things like
+   * custom comparators
+   * @param {any} [thisArg] - The `thisArg` parameter in the `override map` function is used to specify
+   * the value of `this` when executing the `callback` function. It allows you to set the context
+   * (value of `this`) for the callback function. This can be useful when you want to access properties
+   * or
+   * @returns A new Red-Black Tree is being returned, where each entry has been transformed using the
+   * provided callback function.
+   */
+  // @ts-ignore
+  override map<MK, MV, MR>(
+    callback: EntryCallback<K, V | undefined, [MK, MV]>,
+    options?: RedBlackTreeOptions<MK, MV, MR>,
+    thisArg?: any
+  ) {
+    const newTree = new RedBlackTree<MK, MV, MR>([], options);
+    let index = 0;
+    for (const [key, value] of this) {
+      newTree.add(callback.call(thisArg, key, value, index++, this));
+    }
+    return newTree;
+  }
+
+  /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
@@ -422,7 +420,7 @@ export class RedBlackTree<
 
     if (!parent) {
       this._setRoot(node);
-    } else if (node.key < parent.key) {
+    } else if (this._compare(node.key, parent.key) < 0) {
       parent.left = node;
     } else {
       parent.right = node;

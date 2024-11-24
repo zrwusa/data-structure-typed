@@ -1353,7 +1353,7 @@ describe('BinaryTree iterative methods test', () => {
   });
 
   it('filter should return a new tree with filtered elements', () => {
-    const filteredTree = binaryTree.filter((value, key) => key > 1);
+    const filteredTree = binaryTree.filter((key, value) => key > 1);
     expect(filteredTree.size).toBe(2);
     expect([...filteredTree]).toEqual([
       [3, 'c'],
@@ -1362,12 +1362,12 @@ describe('BinaryTree iterative methods test', () => {
   });
 
   it('map should return a new tree with modified elements', () => {
-    const mappedTree = binaryTree.map((value, key) => (key * 2).toString());
+    const mappedTree = binaryTree.map((key, value) => [(key * 2).toString(), value]);
     expect(mappedTree.size).toBe(3);
     expect([...mappedTree]).toEqual([
-      [1, '2'],
-      [2, '4'],
-      [3, '6']
+      ['2', 'a'],
+      ['4', 'b'],
+      ['6', 'c']
     ]);
   });
 
