@@ -1342,14 +1342,14 @@ describe('BinaryTree iterative methods test', () => {
 
   it('forEach should iterate over all elements', () => {
     const mockCallback = jest.fn();
-    binaryTree.forEach((value, key) => {
-      mockCallback(value, key);
+    binaryTree.forEach((key, value) => {
+      mockCallback(key, value);
     });
 
     expect(mockCallback.mock.calls.length).toBe(3);
-    expect(mockCallback.mock.calls[0]).toEqual(['b', 2]);
-    expect(mockCallback.mock.calls[1]).toEqual(['a', 1]);
-    expect(mockCallback.mock.calls[2]).toEqual(['c', 3]);
+    expect(mockCallback.mock.calls[0]).toEqual([2, 'b']);
+    expect(mockCallback.mock.calls[1]).toEqual([1, 'a']);
+    expect(mockCallback.mock.calls[2]).toEqual([3, 'c']);
   });
 
   it('filter should return a new tree with filtered elements', () => {

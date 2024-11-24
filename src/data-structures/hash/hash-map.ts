@@ -287,7 +287,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
     const resultMap = new HashMap<K, VM>();
     let index = 0;
     for (const [key, value] of this) {
-      resultMap.set(key, callbackfn.call(thisArg, value, key, index++, this));
+      resultMap.set(key, callbackfn.call(thisArg, key, value, index++, this));
     }
     return resultMap;
   }
@@ -312,7 +312,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
     const filteredMap = new HashMap<K, V>();
     let index = 0;
     for (const [key, value] of this) {
-      if (predicate.call(thisArg, value, key, index++, this)) {
+      if (predicate.call(thisArg, key, value, index++, this)) {
         filteredMap.set(key, value);
       }
     }
@@ -826,7 +826,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     const filteredMap = new LinkedHashMap<K, V>();
     let index = 0;
     for (const [key, value] of this) {
-      if (predicate.call(thisArg, value, key, index, this)) {
+      if (predicate.call(thisArg, key, value, index, this)) {
         filteredMap.set(key, value);
       }
       index++;
@@ -851,12 +851,12 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
    * @returns a new `LinkedHashMap` object with the values mapped according to the provided callback
    * function.
    */
-  map<VM>(callback: EntryCallback<K, V, VM>, thisArg?: any): LinkedHashMap<K, VM> {
-    const mappedMap = new LinkedHashMap<K, VM>();
+  map<MK, MV>(callback: EntryCallback<K, V, [MK, MV]>, thisArg?: any): LinkedHashMap<MK, MV> {
+    const mappedMap = new LinkedHashMap<MK, MV>();
     let index = 0;
     for (const [key, value] of this) {
-      const newValue = callback.call(thisArg, value, key, index, this);
-      mappedMap.set(key, newValue);
+      const [newKey, newValue] = callback.call(thisArg, key, value, index, this);
+      mappedMap.set(newKey, newValue);
       index++;
     }
     return mappedMap;

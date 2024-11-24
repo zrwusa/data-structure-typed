@@ -680,7 +680,7 @@ describe('DirectedGraph iterative Methods', () => {
 
   it('forEach should apply a function to each vertex', () => {
     const result: VertexKey[] = [];
-    graph.forEach((value, key) => key && result.push(key));
+    graph.forEach(key => key && result.push(key));
     expect(result).toEqual(vertexMap);
   });
 

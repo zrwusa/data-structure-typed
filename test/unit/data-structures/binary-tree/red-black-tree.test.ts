@@ -648,14 +648,14 @@ describe('RedBlackTree 2', () => {
 
     it('forEach should iterate over all elements', () => {
       const mockCallback = jest.fn();
-      rbTree.forEach((value, key) => {
-        mockCallback(value, key);
+      rbTree.forEach((key, value) => {
+        mockCallback(key, value);
       });
 
       expect(mockCallback.mock.calls.length).toBe(3);
-      expect(mockCallback.mock.calls[0]).toEqual(['a', 1]);
-      expect(mockCallback.mock.calls[1]).toEqual(['b', 2]);
-      expect(mockCallback.mock.calls[2]).toEqual(['c', 3]);
+      expect(mockCallback.mock.calls[0]).toEqual([1, 'a']);
+      expect(mockCallback.mock.calls[1]).toEqual([2, 'b']);
+      expect(mockCallback.mock.calls[2]).toEqual([3, 'c']);
     });
 
     it('filter should return a new rbTree with filtered elements', () => {
