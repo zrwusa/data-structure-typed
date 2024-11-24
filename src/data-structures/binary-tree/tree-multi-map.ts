@@ -17,7 +17,7 @@ import type {
   TreeMultiMapOptions
 } from '../../types';
 import { IBinaryTree } from '../../interfaces';
-import { RedBlackTree, RedBlackTreeNode } from './rb-tree';
+import { RedBlackTree, RedBlackTreeNode } from './red-black-tree';
 
 export class TreeMultiMapNode<
   K = any,

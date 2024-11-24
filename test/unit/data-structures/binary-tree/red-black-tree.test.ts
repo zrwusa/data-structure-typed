@@ -821,100 +821,55 @@ describe('RedBlackTree - _deleteFixup', () => {
 });
 
 describe('classic use', () => {
-  it('Database Index: Add, Search, and Delete Records', () => {
-    const dbIndex = new RedBlackTree<number, string>();
-
-    // Insert records
-    dbIndex.add(1, 'Alice');
-    dbIndex.add(2, 'Bob');
-    dbIndex.add(3, 'Charlie');
-
-    // Search for records
-    expect(dbIndex.get(1)).toBe('Alice');
-    expect(dbIndex.get(2)).toBe('Bob');
-    expect(dbIndex.get(3)).toBe('Charlie');
-
-    // Delete a record
-    dbIndex.delete(2);
-    expect(dbIndex.get(2)).toBeUndefined();
-  });
-
-  it('@example Merge 3 sorted datasets', () => {
-    const dataset1 = new RedBlackTree<number, string>([
-      [1, 'A'],
-      [7, 'G']
-    ]);
-    const dataset2 = [
-      [2, 'B'],
-      [6, 'F']
-    ];
-    const dataset3 = new RedBlackTree<number, string>([
-      [3, 'C'],
-      [5, 'E'],
-      [4, 'D']
-    ]);
-
-    // Merge datasets into a single Red-Black Tree
-    const merged = new RedBlackTree<number, string>(dataset1);
-    merged.addMany(dataset2);
-    merged.merge(dataset3);
-
-    // Verify merged dataset is in sorted order
-    expect([...merged.values()]).toEqual(['A', 'B', 'C', 'D', 'E', 'F', 'G']);
-  });
-
   // Test case for finding elements in a given range
-  it('Find elements in a range', () => {
+  it('@example Find elements in a range', () => {
     const bst = new RedBlackTree<number>([10, 5, 15, 3, 7, 12, 18]);
     expect(bst.search(new Range(5, 10))).toEqual([5, 10, 7]);
     expect(bst.search(new Range(4, 12))).toEqual([5, 10, 12, 7]);
     expect(bst.search(new Range(15, 20))).toEqual([15, 18]);
   });
 
-  it('Timer List: Manage Timed Tasks', () => {
-    const timerList = new RedBlackTree<number, string>(); // Key: Time in ms, Value: Task Name
+  it('@example using Red-Black Tree as a price-based index for stock data', () => {
+    // Define the structure of individual stock records
+    interface StockRecord {
+      price: number; // Stock price (key for indexing)
+      symbol: string; // Stock ticker symbol
+      volume: number; // Trade volume
+    }
 
-    // Schedule tasks
-    timerList.add(100, 'Task A');
-    timerList.add(200, 'Task B');
-    timerList.add(50, 'Task C');
+    // Simulate stock market data as it might come from an external feed
+    const marketStockData: StockRecord[] = [
+      { price: 142.5, symbol: 'AAPL', volume: 1000000 },
+      { price: 335.2, symbol: 'MSFT', volume: 800000 },
+      { price: 3285.04, symbol: 'AMZN', volume: 500000 },
+      { price: 267.98, symbol: 'META', volume: 750000 },
+      { price: 234.57, symbol: 'GOOGL', volume: 900000 }
+    ];
 
-    // Verify the order of tasks by retrieval
-    expect([...timerList.values()]).toEqual(['Task C', 'Task A', 'Task B']); // Sorted by key (time)
+    // Extend the stock record type to include metadata for database usage
+    type StockTableRecord = StockRecord & { lastUpdated: Date };
 
-    // Remove the earliest task
-    timerList.delete(50);
-    expect([...timerList.values()]).toEqual(['Task A', 'Task B']);
-  });
+    // Create a Red-Black Tree to index stock records by price
+    // Simulates a database index with stock price as the key for quick lookups
+    const priceIndex = new RedBlackTree<number, StockTableRecord, StockRecord>(marketStockData, {
+      toEntryFn: stockRecord => [
+        stockRecord.price, // Use stock price as the key
+        {
+          ...stockRecord,
+          lastUpdated: new Date() // Add a timestamp for when the record was indexed
+        }
+      ]
+    });
 
-  it('Scheduler: Manage Tasks by Priority', () => {
-    const scheduler = new RedBlackTree<number, string>(); // Key: Priority, Value: Task Name
+    // Query the stock with the highest price
+    const highestPricedStock = priceIndex.getRightMost();
+    expect(priceIndex.get(highestPricedStock)?.symbol).toBe('AMZN'); // Amazon has the highest price
 
-    // Add tasks with different priorities
-    scheduler.add(3, 'Low Priority Task');
-    scheduler.add(1, 'High Priority Task');
-    scheduler.add(2, 'Medium Priority Task');
-
-    // Verify the order of tasks by retrieval
-    expect([...scheduler.values()]).toEqual(['High Priority Task', 'Medium Priority Task', 'Low Priority Task']);
-
-    // Remove the highest priority task
-    scheduler.delete(1);
-    expect([...scheduler.values()]).toEqual(['Medium Priority Task', 'Low Priority Task']);
-  });
-
-  it('Routing Table: Manage IP Routes', () => {
-    const routingTable = new RedBlackTree<number, string>(); // Key: IP Address, Value: Route
-
-    // Add routes
-    routingTable.add(1921680101, 'Route A');
-    routingTable.add(1921680102, 'Route B');
-    routingTable.add(1921680100, 'Route C');
-
-    // Search for a specific route
-    expect(routingTable.get(1921680101)).toBe('Route A');
-
-    // Verify all routes in sorted order
-    expect([...routingTable.values()]).toEqual(['Route C', 'Route A', 'Route B']);
+    // Query stocks within a specific price range (200 to 400)
+    const stocksInRange = priceIndex.rangeSearch(
+      [200, 400], // Price range
+      node => priceIndex.get(node)?.symbol // Extract stock symbols for the result
+    );
+    expect(stocksInRange).toEqual(['GOOGL', 'MSFT', 'META']); // Verify stocks in the range
   });
 });

@@ -95,31 +95,47 @@ export class BSTNode<K = any, V = any, NODE extends BSTNode<K, V, NODE> = BSTNod
  * 6. Balance Variability: Can become unbalanced; special types maintain balance.
  * 7. No Auto-Balancing: Standard BSTs don't automatically balance themselves.
  * @example
- * // Find kth smallest element
- *     // Create a BST with some elements
- *     const bst = new BST<number>([5, 3, 7, 1, 4, 6, 8]);
- *     const sortedKeys = bst.dfs(node => node.key, 'IN');
+ * // Merge 3 sorted datasets
+ *     const dataset1 = new BST<number, string>([
+ *       [1, 'A'],
+ *       [7, 'G']
+ *     ]);
+ *     const dataset2 = [
+ *       [2, 'B'],
+ *       [6, 'F']
+ *     ];
+ *     const dataset3 = new BST<number, string>([
+ *       [3, 'C'],
+ *       [5, 'E'],
+ *       [4, 'D']
+ *     ]);
  *
- *     // Helper function to find kth smallest
- *     const findKthSmallest = (k: number): number | undefined => {
- *       return sortedKeys[k - 1];
- *     };
+ *     // Merge datasets into a single BinarySearchTree
+ *     const merged = new BST<number, string>(dataset1);
+ *     merged.addMany(dataset2);
+ *     merged.merge(dataset3);
  *
- *     // Assertions
- *     console.log(findKthSmallest(1)); // 1
- *     console.log(findKthSmallest(3)); // 4
- *     console.log(findKthSmallest(7)); // 8
+ *     // Verify merged dataset is in sorted order
+ *     console.log([...merged.values()]); // ['A', 'B', 'C', 'D', 'E', 'F', 'G']
  * @example
  * // Find elements in a range
  *     const bst = new BST<number>([10, 5, 15, 3, 7, 12, 18]);
  *     console.log(bst.search(new Range(5, 10))); // [10, 5, 7]
- *     console.log(bst.search(new Range(4, 12))); // [10, 12, 5, 7]
+ *     console.log(bst.rangeSearch([4, 12], node => node.key.toString())); // ['10', '12', '5', '7']
  *     console.log(bst.search(new Range(4, 12, true, false))); // [10, 5, 7]
- *     console.log(bst.search(new Range(15, 20))); // [15, 18]
+ *     console.log(bst.rangeSearch([15, 20])); // [15, 18]
  *     console.log(bst.search(new Range(15, 20, false))); // [18]
  * @example
  * // Find lowest common ancestor
  *     const bst = new BST<number>([20, 10, 30, 5, 15, 25, 35, 3, 7, 12, 18]);
+ *
+ *     // LCA helper function
+ *     const findLCA = (num1: number, num2: number): number | undefined => {
+ *       const path1 = bst.getPathToRoot(num1);
+ *       const path2 = bst.getPathToRoot(num2);
+ *       // Find the first common ancestor
+ *       return findFirstCommon(path1, path2);
+ *     };
  *
  *     function findFirstCommon(arr1: number[], arr2: number[]): number | undefined {
  *       for (const num of arr1) {
@@ -129,14 +145,6 @@ export class BSTNode<K = any, V = any, NODE extends BSTNode<K, V, NODE> = BSTNod
  *       }
  *       return undefined;
  *     }
- *
- *     // LCA helper function
- *     const findLCA = (num1: number, num2: number): number | undefined => {
- *       const path1 = bst.getPathToRoot(num1);
- *       const path2 = bst.getPathToRoot(num2);
- *       // Find the first common ancestor
- *       return findFirstCommon(path1, path2);
- *     };
  *
  *     // Assertions
  *     console.log(findLCA(3, 10)); // 7
@@ -616,9 +624,6 @@ export class BST<
    * The `rangeSearch` function searches for nodes within a specified range in a binary search tree.
    * @param {Range<K> | [K, K]} range - The `range` parameter in the `rangeSearch` function can be
    * either a `Range` object or an array of two elements representing the range boundaries.
-   * @param [onlyOne=false] - The `onlyOne` parameter is a boolean flag that indicates whether you want
-   * to stop the search after finding the first matching node within the specified range. If `onlyOne`
-   * is set to `true`, the search will return as soon as a single matching node is found. If `onlyOne`
    * @param {C} callback - The `callback` parameter in the `rangeSearch` function is a callback
    * function that is used to process each node that is found within the specified range during the
    * search operation. It is of type `NodeCallback<NODE>`, where `NODE` is the type of nodes in the
@@ -635,13 +640,12 @@ export class BST<
    */
   rangeSearch<C extends NodeCallback<NODE>>(
     range: Range<K> | [K, K],
-    onlyOne = false,
     callback: C = this._DEFAULT_NODE_CALLBACK as C,
     startNode: BTNRep<K, V, NODE> | R = this._root,
     iterationType: IterationType = this.iterationType
   ) {
     const searchRange: Range<K> = range instanceof Range ? range : new Range(range[0], range[1]);
-    return this.search(searchRange, onlyOne, callback, startNode, iterationType);
+    return this.search(searchRange, false, callback, startNode, iterationType);
   }
 
   /**

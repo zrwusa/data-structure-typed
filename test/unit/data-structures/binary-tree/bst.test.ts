@@ -58,7 +58,7 @@ describe('BST operations test', () => {
       [10, 10],
       [5, 5]
     ];
-    bst.addMany(idsAndValues, undefined, false);
+    bst.addMany(idsAndValues, [], false);
     expect(bst.root).toBeInstanceOf(BSTNode);
 
     if (bst.root) expect(bst.root.key).toBe(11);
@@ -1538,56 +1538,51 @@ describe('BST iterative methods not map mode test', () => {
 });
 
 describe('classic use', () => {
-  // Test case for finding the kth smallest element
-  it('@example Find kth smallest element', () => {
-    // Create a BST with some elements
-    const bst = new BST<number>([5, 3, 7, 1, 4, 6, 8]);
-    const sortedKeys = bst.dfs(node => node.key, 'IN');
+  it('@example Merge 3 sorted datasets', () => {
+    const dataset1 = new BST<number, string>([
+      [1, 'A'],
+      [7, 'G']
+    ]);
+    const dataset2 = [
+      [2, 'B'],
+      [6, 'F']
+    ];
+    const dataset3 = new BST<number, string>([
+      [3, 'C'],
+      [5, 'E'],
+      [4, 'D']
+    ]);
 
-    // Helper function to find kth smallest
-    const findKthSmallest = (k: number): number | undefined => {
-      return sortedKeys[k - 1];
-    };
+    // Merge datasets into a single BinarySearchTree
+    const merged = new BST<number, string>(dataset1);
+    merged.addMany(dataset2);
+    merged.merge(dataset3);
 
-    // Assertions
-    expect(findKthSmallest(1)).toBe(1);
-    expect(findKthSmallest(3)).toBe(4);
-    expect(findKthSmallest(7)).toBe(8);
+    // Verify merged dataset is in sorted order
+    expect([...merged.values()]).toEqual(['A', 'B', 'C', 'D', 'E', 'F', 'G']);
   });
 
   // Test case for finding elements in a given range
   it('@example Find elements in a range', () => {
     const bst = new BST<number>([10, 5, 15, 3, 7, 12, 18]);
     expect(bst.search(new Range(5, 10))).toEqual([10, 5, 7]);
-    expect(bst.rangeSearch([4, 12], false, node => node.key.toString())).toEqual(['10', '12', '5', '7']);
+    expect(bst.rangeSearch([4, 12], node => node.key.toString())).toEqual(['10', '12', '5', '7']);
     expect(bst.search(new Range(4, 12, true, false))).toEqual([10, 5, 7]);
     expect(bst.rangeSearch([15, 20])).toEqual([15, 18]);
     expect(bst.search(new Range(15, 20, false))).toEqual([18]);
   });
 
-  // Test case for Huffman coding simulation
-  it('Huffman coding frequency simulation', () => {
-    // Create a BST to simulate Huffman tree
-    const frequencyBST = new BST<string, number>([
-      ['a', 5],
-      ['b', 9],
-      ['c', 12],
-      ['d', 13],
-      ['e', 16],
-      ['f', 45]
-    ]);
-
-    // Sort nodes by frequency
-    const sortedFrequencies = frequencyBST.dfs(node => ({ char: node.key, freq: node.value }), 'IN');
-
-    // Build Huffman tree simulation
-    expect(sortedFrequencies[0].char).toBe('a');
-    expect(sortedFrequencies[5].char).toBe('f');
-  });
-
   // Test case for Lowest Common Ancestor (LCA)
   it('@example Find lowest common ancestor', () => {
     const bst = new BST<number>([20, 10, 30, 5, 15, 25, 35, 3, 7, 12, 18]);
+
+    // LCA helper function
+    const findLCA = (num1: number, num2: number): number | undefined => {
+      const path1 = bst.getPathToRoot(num1);
+      const path2 = bst.getPathToRoot(num2);
+      // Find the first common ancestor
+      return findFirstCommon(path1, path2);
+    };
 
     function findFirstCommon(arr1: number[], arr2: number[]): number | undefined {
       for (const num of arr1) {
@@ -1597,14 +1592,6 @@ describe('classic use', () => {
       }
       return undefined;
     }
-
-    // LCA helper function
-    const findLCA = (num1: number, num2: number): number | undefined => {
-      const path1 = bst.getPathToRoot(num1);
-      const path2 = bst.getPathToRoot(num2);
-      // Find the first common ancestor
-      return findFirstCommon(path1, path2);
-    };
 
     // Assertions
     expect(findLCA(3, 10)).toBe(7);
