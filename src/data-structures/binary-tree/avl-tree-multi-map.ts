@@ -6,6 +6,7 @@
  * @license MIT License
  */
 import type {
+  AVLTreeMultiMapNested,
   AVLTreeMultiMapNodeNested,
   AVLTreeMultiMapOptions,
   BinaryTreeDeleteResult,
@@ -36,25 +37,6 @@ export class AVLTreeMultiMapNode<
     super(key, value);
     this.count = count;
   }
-
-  protected _count: number = 1;
-
-  /**
-   * The function returns the value of the protected variable _count.
-   * @returns The count property of the object, which is of type number.
-   */
-  get count(): number {
-    return this._count;
-  }
-
-  /**
-   * The above function sets the value of the count property.
-   * @param {number} value - The value parameter is of type number, which means it can accept any
-   * numeric value.
-   */
-  set count(value: number) {
-    this._count = value;
-  }
 }
 
 /**
@@ -64,10 +46,23 @@ export class AVLTreeMultiMap<
     K = any,
     V = any,
     R = object,
-    NODE extends AVLTreeMultiMapNode<K, V, NODE> = AVLTreeMultiMapNode<K, V, AVLTreeMultiMapNodeNested<K, V>>
+    MK = any,
+    MV = any,
+    MR = object,
+    NODE extends AVLTreeMultiMapNode<K, V, NODE> = AVLTreeMultiMapNode<K, V, AVLTreeMultiMapNodeNested<K, V>>,
+    TREE extends AVLTreeMultiMap<K, V, R, MK, MV, MR, NODE, TREE> = AVLTreeMultiMap<
+      K,
+      V,
+      R,
+      MK,
+      MV,
+      MR,
+      NODE,
+      AVLTreeMultiMapNested<K, V, R, MK, MV, MR, NODE>
+    >
   >
-  extends AVLTree<K, V, R, NODE>
-  implements IBinaryTree<K, V, R, NODE>
+  extends AVLTree<K, V, R, MK, MV, MR, NODE, TREE>
+  implements IBinaryTree<K, V, R, MK, MV, MR, NODE, TREE>
 {
   /**
    * The constructor initializes a new AVLTreeMultiMap object with optional initial elements.
@@ -132,16 +127,15 @@ export class AVLTreeMultiMap<
    * @returns a new instance of the AVLTreeMultiMap class, with the specified options, as a TREE
    * object.
    */
-  // @ts-ignore
-  override createTree(options?: AVLTreeMultiMapOptions<K, V, R>) {
-    return new AVLTreeMultiMap<K, V, R, NODE>([], {
+  override createTree(options?: AVLTreeMultiMapOptions<K, V, R>): TREE {
+    return new AVLTreeMultiMap<K, V, R, MK, MV, MR, NODE, TREE>([], {
       iterationType: this.iterationType,
       isMapMode: this._isMapMode,
       specifyComparable: this._specifyComparable,
       toEntryFn: this._toEntryFn,
       isReverse: this._isReverse,
       ...options
-    });
+    }) as TREE;
   }
 
   /**
@@ -220,7 +214,7 @@ export class AVLTreeMultiMap<
     } else {
       if (!curr.left) {
         if (!parent) {
-          if (curr.right !== undefined) this._setRoot(curr.right);
+          if (curr.right !== undefined && curr.right !== null) this._setRoot(curr.right);
         } else {
           const { familyPosition: fp } = curr;
           if (fp === 'LEFT' || fp === 'ROOT_LEFT') {
@@ -330,8 +324,7 @@ export class AVLTreeMultiMap<
    * The function overrides the clone method to create a deep copy of a tree object.
    * @returns The `clone()` method is returning a cloned instance of the `TREE` object.
    */
-  // @ts-ignore
-  override clone() {
+  override clone(): TREE {
     const cloned = this.createTree();
     if (this._isMapMode) this.bfs(node => cloned.add(node.key, undefined, node.count));
     else this.bfs(node => cloned.add(node.key, node.value, node.count));
@@ -357,12 +350,11 @@ export class AVLTreeMultiMap<
    * `callback` function along with the index and the original tree itself. The transformed entries are
    * then added to the new `AVLTreeMultiMap` instance, which is returned at the end.
    */
-  // @ts-ignore
   override map<MK, MV, MR>(
     callback: EntryCallback<K, V | undefined, [MK, MV]>,
     options?: AVLTreeMultiMapOptions<MK, MV, MR>,
     thisArg?: any
-  ) {
+  ): AVLTreeMultiMap<MK, MV, MR> {
     const newTree = new AVLTreeMultiMap<MK, MV, MR>([], options);
     let index = 0;
     for (const [key, value] of this) {

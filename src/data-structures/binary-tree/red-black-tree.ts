@@ -6,6 +6,7 @@ import type {
   OptNode,
   RBTNColor,
   RedBlackTreeOptions,
+  RedBlackTreeNested,
   RedBlackTreeNodeNested
 } from '../../types';
 import { BST, BSTNode } from './bst';
@@ -30,24 +31,6 @@ export class RedBlackTreeNode<
   constructor(key: K, value?: V, color: RBTNColor = 'BLACK') {
     super(key, value);
     this._color = color;
-  }
-
-  protected _color: RBTNColor;
-
-  /**
-   * The function returns the color value of a variable.
-   * @returns The color value stored in the private variable `_color`.
-   */
-  get color(): RBTNColor {
-    return this._color;
-  }
-
-  /**
-   * The function sets the color property to the specified value.
-   * @param {RBTNColor} value - The value parameter is of type RBTNColor.
-   */
-  set color(value: RBTNColor) {
-    this._color = value;
   }
 }
 
@@ -108,16 +91,29 @@ export class RedBlackTree<
     K = any,
     V = any,
     R = object,
-    NODE extends RedBlackTreeNode<K, V, NODE> = RedBlackTreeNode<K, V, RedBlackTreeNodeNested<K, V>>
+    MK = any,
+    MV = any,
+    MR = object,
+    NODE extends RedBlackTreeNode<K, V, NODE> = RedBlackTreeNode<K, V, RedBlackTreeNodeNested<K, V>>,
+    TREE extends RedBlackTree<K, V, R, MK, MV, MR, NODE, TREE> = RedBlackTree<
+      K,
+      V,
+      R,
+      MK,
+      MV,
+      MR,
+      NODE,
+      RedBlackTreeNested<K, V, R, MK, MV, MR, NODE>
+    >
   >
-  extends BST<K, V, R, NODE>
-  implements IBinaryTree<K, V, R, NODE>
+  extends BST<K, V, R, MK, MV, MR, NODE, TREE>
+  implements IBinaryTree<K, V, R, MK, MV, MR, NODE, TREE>
 {
   /**
    * This is the constructor function for a Red-Black Tree data structure in TypeScript.
    * @param keysNodesEntriesOrRaws - The `keysNodesEntriesOrRaws` parameter is an
    * iterable object that can contain either keys, nodes, entries, or raw elements. It is used to
-   * initialize the RedBlackTree with the provided elements.
+   * initialize the RBTree with the provided elements.
    * @param [options] - The `options` parameter is an optional object that can be passed to the
    * constructor. It is of type `RedBlackTreeOptions<K, V, R>`. This object can contain various options for
    * configuring the behavior of the Red-Black Tree. The specific properties and their meanings would
@@ -162,23 +158,19 @@ export class RedBlackTree<
   }
 
   /**
-   * The function `createTree` overrides the default implementation to create a Red-Black Tree with
-   * specified options in TypeScript.
-   * @param [options] - The `options` parameter in the `createTree` method is of type `RedBlackTreeOptions<K,
-   * V, R>`, which is a generic type with three type parameters `K`, `V`, and `R`. This parameter
-   * allows you to pass additional configuration options when creating a new Red-
-   * @returns A new instance of a RedBlackTree with the specified options and properties from the
-   * current object is being returned.
+   * The function creates a new Red-Black Tree with the specified options.
+   * @param [options] - The `options` parameter is an optional object that contains additional
+   * configuration options for creating the Red-Black Tree. It has the following properties:
+   * @returns a new instance of a RedBlackTree object.
    */
-  // @ts-ignore
-  override createTree(options?: RedBlackTreeOptions<K, V, R>) {
-    return new RedBlackTree<K, V, R>([], {
+  override createTree(options?: RedBlackTreeOptions<K, V, R>): TREE {
+    return new RedBlackTree<K, V, R, MK, MV, MR, NODE, TREE>([], {
       iterationType: this.iterationType,
       isMapMode: this._isMapMode,
       specifyComparable: this._specifyComparable,
       toEntryFn: this._toEntryFn,
       ...options
-    });
+    }) as TREE;
   }
 
   /**
@@ -276,8 +268,10 @@ export class RedBlackTree<
     let replacementNode: NODE | undefined;
 
     if (!this.isRealNode(nodeToDelete.left)) {
-      replacementNode = nodeToDelete.right;
-      this._transplant(nodeToDelete, nodeToDelete.right);
+      if (nodeToDelete.right !== null) {
+        replacementNode = nodeToDelete.right;
+        this._transplant(nodeToDelete, nodeToDelete.right);
+      }
     } else if (!this.isRealNode(nodeToDelete.right)) {
       replacementNode = nodeToDelete.left;
       this._transplant(nodeToDelete, nodeToDelete.left);
@@ -285,15 +279,17 @@ export class RedBlackTree<
       const successor = this.getLeftMost(node => node, nodeToDelete.right);
       if (successor) {
         originalColor = successor.color;
-        replacementNode = successor.right;
+        if (successor.right !== null) replacementNode = successor.right;
 
         if (successor.parent === nodeToDelete) {
           if (this.isRealNode(replacementNode)) {
             replacementNode.parent = successor;
           }
         } else {
-          this._transplant(successor, successor.right);
-          successor.right = nodeToDelete.right;
+          if (successor.right !== null) {
+            this._transplant(successor, successor.right);
+            successor.right = nodeToDelete.right;
+          }
           if (this.isRealNode(successor.right)) {
             successor.right.parent = successor;
           }
@@ -318,40 +314,6 @@ export class RedBlackTree<
     results.push({ deleted: nodeToDelete, needBalanced: undefined });
 
     return results;
-  }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `map` function in TypeScript overrides the default behavior to create a new Red-Black Tree by
-   * applying a callback to each entry in the original tree.
-   * @param callback - A function that will be called for each entry in the tree, with parameters
-   * representing the key, value, index, and the tree itself. It should return an entry for the new
-   * tree.
-   * @param [options] - The `options` parameter in the `map` method is of type `RedBlackTreeOptions<MK, MV,
-   * MR>`. This parameter allows you to specify additional options or configurations for the Red-Black
-   * Tree that will be created during the mapping process. These options could include things like
-   * custom comparators
-   * @param {any} [thisArg] - The `thisArg` parameter in the `override map` function is used to specify
-   * the value of `this` when executing the `callback` function. It allows you to set the context
-   * (value of `this`) for the callback function. This can be useful when you want to access properties
-   * or
-   * @returns A new Red-Black Tree is being returned, where each entry has been transformed using the
-   * provided callback function.
-   */
-  // @ts-ignore
-  override map<MK, MV, MR>(
-    callback: EntryCallback<K, V | undefined, [MK, MV]>,
-    options?: RedBlackTreeOptions<MK, MV, MR>,
-    thisArg?: any
-  ) {
-    const newTree = new RedBlackTree<MK, MV, MR>([], options);
-    let index = 0;
-    for (const [key, value] of this) {
-      newTree.add(callback.call(thisArg, key, value, index++, this));
-    }
-    return newTree;
   }
 
   /**
@@ -498,7 +460,7 @@ export class RedBlackTree<
       } else {
         // Symmetric case for the right child (left and right exchanged)
         // Follow the same logic as above with left and right exchanged
-        const y: NODE | undefined = z?.parent?.parent?.left;
+        const y: NODE | undefined = z?.parent?.parent?.left ?? undefined;
         if (y?.color === 'RED') {
           z.parent.color = 'BLACK';
           y.color = 'BLACK';
@@ -674,5 +636,38 @@ export class RedBlackTree<
 
     x.right = y;
     y.parent = x;
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `map` function in TypeScript overrides the default behavior to create a new Red-Black Tree by
+   * applying a callback to each entry in the original tree.
+   * @param callback - A function that will be called for each entry in the tree, with parameters
+   * representing the key, value, index, and the tree itself. It should return an entry for the new
+   * tree.
+   * @param [options] - The `options` parameter in the `map` method is of type `RedBlackTreeOptions<MK, MV,
+   * MR>`. This parameter allows you to specify additional options or configurations for the Red-Black
+   * Tree that will be created during the mapping process. These options could include things like
+   * custom comparators
+   * @param {any} [thisArg] - The `thisArg` parameter in the `override map` function is used to specify
+   * the value of `this` when executing the `callback` function. It allows you to set the context
+   * (value of `this`) for the callback function. This can be useful when you want to access properties
+   * or
+   * @returns A new Red-Black Tree is being returned, where each entry has been transformed using the
+   * provided callback function.
+   */
+  override map(
+    callback: EntryCallback<K, V | undefined, [MK, MV]>,
+    options?: RedBlackTreeOptions<MK, MV, MR>,
+    thisArg?: any
+  ): RedBlackTree<MK, MV, MR> {
+    const newTree = new RedBlackTree<MK, MV, MR>([], options);
+    let index = 0;
+    for (const [key, value] of this) {
+      newTree.add(callback.call(thisArg, key, value, index++, this));
+    }
+    return newTree;
   }
 }

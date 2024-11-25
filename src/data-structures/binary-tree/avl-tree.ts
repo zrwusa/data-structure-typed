@@ -7,6 +7,7 @@
  */
 import { BST, BSTNode } from './bst';
 import type {
+  AVLTreeNested,
   AVLTreeNodeNested,
   AVLTreeOptions,
   BinaryTreeDeleteResult,
@@ -31,26 +32,6 @@ export class AVLTreeNode<
    */
   constructor(key: K, value?: V) {
     super(key, value);
-    this._height = 0;
-  }
-
-  protected _height: number;
-
-  /**
-   * The function returns the value of the height property.
-   * @returns The height of the object.
-   */
-  get height(): number {
-    return this._height;
-  }
-
-  /**
-   * The above function sets the value of the height property.
-   * @param {number} value - The value parameter is a number that represents the new height value to be
-   * set.
-   */
-  set height(value: number) {
-    this._height = value;
   }
 }
 
@@ -67,10 +48,23 @@ export class AVLTree<
     K = any,
     V = any,
     R = object,
-    NODE extends AVLTreeNode<K, V, NODE> = AVLTreeNode<K, V, AVLTreeNodeNested<K, V>>
+    MK = any,
+    MV = any,
+    MR = object,
+    NODE extends AVLTreeNode<K, V, NODE> = AVLTreeNode<K, V, AVLTreeNodeNested<K, V>>,
+    TREE extends AVLTree<K, V, R, MK, MV, MR, NODE, TREE> = AVLTree<
+      K,
+      V,
+      R,
+      MK,
+      MV,
+      MR,
+      NODE,
+      AVLTreeNested<K, V, R, MK, MV, MR, NODE>
+    >
   >
-  extends BST<K, V, R, NODE>
-  implements IBinaryTree<K, V, R, NODE>
+  extends BST<K, V, R, MK, MV, MR, NODE, TREE>
+  implements IBinaryTree<K, V, R, MK, MV, MR, NODE, TREE>
 {
   /**
    * This is a constructor function for an AVLTree class that initializes the tree with keys, nodes,
@@ -102,25 +96,21 @@ export class AVLTree<
   }
 
   /**
-   * The function `createTree` in TypeScript overrides the default AVLTree creation with the provided
-   * options.
-   * @param [options] - The `options` parameter in the `createTree` function is an object that contains
-   * configuration options for creating an AVL tree. These options can include properties such as
-   * `iterationType`, `isMapMode`, `specifyComparable`, `toEntryFn`, and `isReverse`. The function
-   * creates a
-   * @returns An AVLTree object is being returned with the specified options and properties inherited
-   * from the current object.
+   * The function creates a new AVL tree with the specified options and returns it.
+   * @param {AVLTreeOptions} [options] - The `options` parameter is an optional object that can be
+   * passed to the `createTree` function. It is used to customize the behavior of the AVL tree that is
+   * being created.
+   * @returns a new AVLTree object.
    */
-  // @ts-ignore
-  override createTree(options?: AVLTreeOptions<K, V, R>) {
-    return new AVLTree<K, V, R, NODE>([], {
+  override createTree(options?: AVLTreeOptions<K, V, R>): TREE {
+    return new AVLTree<K, V, R, MK, MV, MR, NODE, TREE>([], {
       iterationType: this.iterationType,
       isMapMode: this._isMapMode,
       specifyComparable: this._specifyComparable,
       toEntryFn: this._toEntryFn,
       isReverse: this._isReverse,
       ...options
-    });
+    }) as TREE;
   }
 
   /**
@@ -177,12 +167,11 @@ export class AVLTree<
     return deletedResults;
   }
 
-  // @ts-ignore
-  override map<MK, MV, MR>(
+  override map(
     callback: EntryCallback<K, V | undefined, [MK, MV]>,
     options?: AVLTreeOptions<MK, MV, MR>,
     thisArg?: any
-  ) {
+  ): AVLTree<MK, MV, MR> {
     const newTree = new AVLTree<MK, MV, MR>([], options);
     let index = 0;
     for (const [key, value] of this) {
@@ -279,7 +268,7 @@ export class AVLTree<
   protected _balanceLL(A: NODE): void {
     const parentOfA = A.parent;
     const B = A.left;
-    A.parent = B;
+    if (B !== null) A.parent = B;
     if (B && B.right) {
       B.right.parent = A;
     }
@@ -316,12 +305,12 @@ export class AVLTree<
     if (B) {
       C = B.right;
     }
-    if (A) A.parent = C;
-    if (B) B.parent = C;
+    if (A && C !== null) A.parent = C;
+    if (B && C !== null) B.parent = C;
 
     if (C) {
       if (C.left) {
-        C.left.parent = B;
+        if (B !== null) C.left.parent = B;
       }
       if (C.right) {
         C.right.parent = A;
@@ -363,7 +352,7 @@ export class AVLTree<
   protected _balanceRR(A: NODE): void {
     const parentOfA = A.parent;
     const B = A.right;
-    A.parent = B;
+    if (B !== null) A.parent = B;
     if (B) {
       if (B.left) {
         B.left.parent = A;
@@ -406,15 +395,15 @@ export class AVLTree<
       C = B.left;
     }
 
-    A.parent = C;
-    if (B) B.parent = C;
+    if (C !== null) A.parent = C;
+    if (B && C !== null) B.parent = C;
 
     if (C) {
       if (C.left) {
         C.left.parent = A;
       }
       if (C.right) {
-        C.right.parent = B;
+        if (B !== null) C.right.parent = B;
       }
       C.parent = parentOfA;
     }
