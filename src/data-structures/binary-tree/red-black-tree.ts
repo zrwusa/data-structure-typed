@@ -4,19 +4,14 @@ import type {
   CRUD,
   EntryCallback,
   OptNode,
+  OptNodeOrNull,
   RBTNColor,
-  RedBlackTreeOptions,
-  RedBlackTreeNested,
-  RedBlackTreeNodeNested
+  RedBlackTreeOptions
 } from '../../types';
 import { BST, BSTNode } from './bst';
 import { IBinaryTree } from '../../interfaces';
 
-export class RedBlackTreeNode<
-  K = any,
-  V = any,
-  NODE extends RedBlackTreeNode<K, V, NODE> = RedBlackTreeNodeNested<K, V>
-> extends BSTNode<K, V, NODE> {
+export class RedBlackTreeNode<K = any, V = any> extends BSTNode<K, V> {
   /**
    * The constructor function initializes a Red-Black Tree Node with a key, an optional value, and a
    * color.
@@ -31,6 +26,34 @@ export class RedBlackTreeNode<
   constructor(key: K, value?: V, color: RBTNColor = 'BLACK') {
     super(key, value);
     this._color = color;
+  }
+
+  override parent?: RedBlackTreeNode<K, V> = undefined;
+
+  override _left?: OptNodeOrNull<RedBlackTreeNode<K, V>> = undefined;
+
+  override get left(): OptNodeOrNull<RedBlackTreeNode<K, V>> {
+    return this._left;
+  }
+
+  override set left(v: OptNodeOrNull<RedBlackTreeNode<K, V>>) {
+    if (v) {
+      v.parent = this;
+    }
+    this._left = v;
+  }
+
+  override _right?: OptNodeOrNull<RedBlackTreeNode<K, V>> = undefined;
+
+  override get right(): OptNodeOrNull<RedBlackTreeNode<K, V>> {
+    return this._right;
+  }
+
+  override set right(v: OptNodeOrNull<RedBlackTreeNode<K, V>>) {
+    if (v) {
+      v.parent = this;
+    }
+    this._right = v;
   }
 }
 
@@ -87,27 +110,9 @@ export class RedBlackTreeNode<
  *     );
  *     console.log(stocksInRange); // ['GOOGL', 'MSFT', 'META']
  */
-export class RedBlackTree<
-    K = any,
-    V = any,
-    R = object,
-    MK = any,
-    MV = any,
-    MR = object,
-    NODE extends RedBlackTreeNode<K, V, NODE> = RedBlackTreeNode<K, V, RedBlackTreeNodeNested<K, V>>,
-    TREE extends RedBlackTree<K, V, R, MK, MV, MR, NODE, TREE> = RedBlackTree<
-      K,
-      V,
-      R,
-      MK,
-      MV,
-      MR,
-      NODE,
-      RedBlackTreeNested<K, V, R, MK, MV, MR, NODE>
-    >
-  >
-  extends BST<K, V, R, MK, MV, MR, NODE, TREE>
-  implements IBinaryTree<K, V, R, MK, MV, MR, NODE, TREE>
+export class RedBlackTree<K = any, V = any, R = object, MK = any, MV = any, MR = object>
+  extends BST<K, V, R, MK, MV, MR>
+  implements IBinaryTree<K, V, R, MK, MV, MR>
 {
   /**
    * This is the constructor function for a Red-Black Tree data structure in TypeScript.
@@ -119,7 +124,10 @@ export class RedBlackTree<
    * configuring the behavior of the Red-Black Tree. The specific properties and their meanings would
    * depend on the implementation
    */
-  constructor(keysNodesEntriesOrRaws: Iterable<R | BTNRep<K, V, NODE>> = [], options?: RedBlackTreeOptions<K, V, R>) {
+  constructor(
+    keysNodesEntriesOrRaws: Iterable<R | BTNRep<K, V, RedBlackTreeNode<K, V>>> = [],
+    options?: RedBlackTreeOptions<K, V, R>
+  ) {
     super([], options);
 
     this._root = this.NIL;
@@ -129,13 +137,13 @@ export class RedBlackTree<
     }
   }
 
-  protected override _root: NODE | undefined;
+  protected override _root: RedBlackTreeNode<K, V> | undefined;
 
   /**
    * The function returns the root node of a tree or undefined if there is no root.
    * @returns The root node of the tree structure, or undefined if there is no root node.
    */
-  override get root(): NODE | undefined {
+  override get root(): RedBlackTreeNode<K, V> | undefined {
     return this._root;
   }
 
@@ -153,8 +161,8 @@ export class RedBlackTree<
    * @returns A new instance of a RedBlackTreeNode with the specified key, value, and color is being
    * returned.
    */
-  override createNode(key: K, value?: V, color: RBTNColor = 'BLACK'): NODE {
-    return new RedBlackTreeNode<K, V, NODE>(key, this._isMapMode ? undefined : value, color) as NODE;
+  override createNode(key: K, value?: V, color: RBTNColor = 'BLACK'): RedBlackTreeNode<K, V> {
+    return new RedBlackTreeNode<K, V>(key, this._isMapMode ? undefined : value, color) as RedBlackTreeNode<K, V>;
   }
 
   /**
@@ -163,14 +171,14 @@ export class RedBlackTree<
    * configuration options for creating the Red-Black Tree. It has the following properties:
    * @returns a new instance of a RedBlackTree object.
    */
-  override createTree(options?: RedBlackTreeOptions<K, V, R>): TREE {
-    return new RedBlackTree<K, V, R, MK, MV, MR, NODE, TREE>([], {
+  override createTree(options?: RedBlackTreeOptions<K, V, R>) {
+    return new RedBlackTree<K, V, R, MK, MV, MR>([], {
       iterationType: this.iterationType,
       isMapMode: this._isMapMode,
       specifyComparable: this._specifyComparable,
       toEntryFn: this._toEntryFn,
       ...options
-    }) as TREE;
+    });
   }
 
   /**
@@ -178,12 +186,14 @@ export class RedBlackTree<
    * Space Complexity: O(1)
    *
    * The function checks if the input is an instance of the RedBlackTreeNode class.
-   * @param {BTNRep<K, V, NODE> | R} keyNodeEntryOrRaw - The parameter
-   * `keyNodeEntryOrRaw` can be of type `R` or `BTNRep<K, V, NODE>`.
+   * @param {BTNRep<K, V, RedBlackTreeNode<K, V>> | R} keyNodeEntryOrRaw - The parameter
+   * `keyNodeEntryOrRaw` can be of type `R` or `BTNRep<K, V, RedBlackTreeNode<K, V>>`.
    * @returns a boolean value indicating whether the input parameter `keyNodeEntryOrRaw` is
    * an instance of the `RedBlackTreeNode` class.
    */
-  override isNode(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R): keyNodeEntryOrRaw is NODE {
+  override isNode(
+    keyNodeEntryOrRaw: BTNRep<K, V, RedBlackTreeNode<K, V>> | R
+  ): keyNodeEntryOrRaw is RedBlackTreeNode<K, V> {
     return keyNodeEntryOrRaw instanceof RedBlackTreeNode;
   }
 
@@ -205,8 +215,8 @@ export class RedBlackTree<
    *
    * The function adds a new node to a binary search tree and returns true if the node was successfully
    * added.
-   * @param {BTNRep<K, V, NODE> | R} keyNodeEntryOrRaw - The parameter
-   * `keyNodeEntryOrRaw` can accept a value of type `R` or `BTNRep<K, V, NODE>`.
+   * @param {BTNRep<K, V, RedBlackTreeNode<K, V>> | R} keyNodeEntryOrRaw - The parameter
+   * `keyNodeEntryOrRaw` can accept a value of type `R` or `BTNRep<K, V, RedBlackTreeNode<K, V>>`.
    * @param {V} [value] - The `value` parameter is an optional value that you want to associate with
    * the key in the data structure. It represents the value that you want to add or update in the data
    * structure.
@@ -214,7 +224,7 @@ export class RedBlackTree<
    * the method returns true. If the node already exists and its value is updated, the method also
    * returns true. If the node cannot be added or updated, the method returns false.
    */
-  override add(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R, value?: V): boolean {
+  override add(keyNodeEntryOrRaw: BTNRep<K, V, RedBlackTreeNode<K, V>> | R, value?: V): boolean {
     const [newNode, newValue] = this._keyValueNodeEntryRawToNodeAndValue(keyNodeEntryOrRaw, value);
     if (!this.isRealNode(newNode)) return false;
 
@@ -244,19 +254,21 @@ export class RedBlackTree<
    *
    * The function overrides the delete method in a binary tree data structure to remove a node based on
    * a given predicate and maintain the binary search tree properties.
-   * @param {BTNRep<K, V, NODE> | R} keyNodeEntryOrRaw - The `keyNodeEntryOrRaw`
+   * @param {BTNRep<K, V, RedBlackTreeNode<K, V>> | R} keyNodeEntryOrRaw - The `keyNodeEntryOrRaw`
    * parameter in the `override delete` method is used to specify the condition or key based on which a
    * node should be deleted from the binary tree. It can be a key, a node, an entry, or a predicate
    * function that determines which node(s) should be deleted.
-   * @returns The `override delete` method is returning an array of `BinaryTreeDeleteResult<NODE>`
+   * @returns The `override delete` method is returning an array of `BinaryTreeDeleteResult<RedBlackTreeNode<K, V>>`
    * objects. Each object in the array contains information about the deleted node and whether
    * balancing is needed.
    */
-  override delete(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R): BinaryTreeDeleteResult<NODE>[] {
+  override delete(
+    keyNodeEntryOrRaw: BTNRep<K, V, RedBlackTreeNode<K, V>> | R
+  ): BinaryTreeDeleteResult<RedBlackTreeNode<K, V>>[] {
     if (keyNodeEntryOrRaw === null) return [];
 
-    const results: BinaryTreeDeleteResult<NODE>[] = [];
-    let nodeToDelete: OptNode<NODE>;
+    const results: BinaryTreeDeleteResult<RedBlackTreeNode<K, V>>[] = [];
+    let nodeToDelete: OptNode<RedBlackTreeNode<K, V>>;
     if (this._isPredicate(keyNodeEntryOrRaw)) nodeToDelete = this.getNode(keyNodeEntryOrRaw);
     else nodeToDelete = this.isRealNode(keyNodeEntryOrRaw) ? keyNodeEntryOrRaw : this.getNode(keyNodeEntryOrRaw);
 
@@ -265,7 +277,7 @@ export class RedBlackTree<
     }
 
     let originalColor = nodeToDelete.color;
-    let replacementNode: NODE | undefined;
+    let replacementNode: RedBlackTreeNode<K, V> | undefined;
 
     if (!this.isRealNode(nodeToDelete.left)) {
       if (nodeToDelete.right !== null) {
@@ -317,14 +329,53 @@ export class RedBlackTree<
   }
 
   /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `map` function in TypeScript overrides the default behavior to create a new Red-Black Tree by
+   * applying a callback to each entry in the original tree.
+   * @param callback - A function that will be called for each entry in the tree, with parameters
+   * representing the key, value, index, and the tree itself. It should return an entry for the new
+   * tree.
+   * @param [options] - The `options` parameter in the `map` method is of type `RedBlackTreeOptions<MK, MV,
+   * MR>`. This parameter allows you to specify additional options or configurations for the Red-Black
+   * Tree that will be created during the mapping process. These options could include things like
+   * custom comparators
+   * @param {any} [thisArg] - The `thisArg` parameter in the `override map` function is used to specify
+   * the value of `this` when executing the `callback` function. It allows you to set the context
+   * (value of `this`) for the callback function. This can be useful when you want to access properties
+   * or
+   * @returns A new Red-Black Tree is being returned, where each entry has been transformed using the
+   * provided callback function.
+   */
+  override map(
+    callback: EntryCallback<K, V | undefined, [MK, MV]>,
+    options?: RedBlackTreeOptions<MK, MV, MR>,
+    thisArg?: any
+  ): RedBlackTree<MK, MV, MR> {
+    const newTree = new RedBlackTree<MK, MV, MR>([], options);
+    let index = 0;
+    for (const [key, value] of this) {
+      newTree.add(callback.call(thisArg, key, value, index++, this));
+    }
+    return newTree;
+  }
+
+  override clone() {
+    const cloned = this.createTree();
+    this._clone(cloned);
+    return cloned;
+  }
+
+  /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
    * The function sets the root of a tree-like structure and updates the parent property of the new
    * root.
-   * @param {NODE | undefined} v - v is a parameter of type NODE or undefined.
+   * @param {RedBlackTreeNode<K, V> | undefined} v - v is a parameter of type RedBlackTreeNode<K, V> or undefined.
    */
-  protected override _setRoot(v: NODE | undefined) {
+  protected override _setRoot(v: RedBlackTreeNode<K, V> | undefined) {
     if (v) {
       v.parent = undefined;
     }
@@ -336,14 +387,17 @@ export class RedBlackTree<
    * Space Complexity: O(1)
    *
    * The function replaces an old node with a new node while preserving the color of the old node.
-   * @param {NODE} oldNode - The `oldNode` parameter represents the node that needs to be replaced in
+   * @param {RedBlackTreeNode<K, V>} oldNode - The `oldNode` parameter represents the node that needs to be replaced in
    * the data structure.
-   * @param {NODE} newNode - The `newNode` parameter is of type `NODE`, which represents a node in a
+   * @param {RedBlackTreeNode<K, V>} newNode - The `newNode` parameter is of type `RedBlackTreeNode<K, V>`, which represents a node in a
    * data structure.
    * @returns The method is returning the result of calling the `_replaceNode` method from the
    * superclass, with the `oldNode` and `newNode` parameters.
    */
-  protected override _replaceNode(oldNode: NODE, newNode: NODE): NODE {
+  protected override _replaceNode(
+    oldNode: RedBlackTreeNode<K, V>,
+    newNode: RedBlackTreeNode<K, V>
+  ): RedBlackTreeNode<K, V> {
     newNode.color = oldNode.color;
 
     return super._replaceNode(oldNode, newNode);
@@ -355,15 +409,15 @@ export class RedBlackTree<
    *
    * The `_insert` function inserts a node into a binary search tree and performs necessary fix-ups to
    * maintain the red-black tree properties.
-   * @param {NODE} node - The `node` parameter represents the node that needs to be inserted into the
+   * @param {RedBlackTreeNode<K, V>} node - The `node` parameter represents the node that needs to be inserted into the
    * binary search tree.
    * @returns a string value indicating the result of the insertion operation. It can return either
    * 'UPDATED' if the node with the same key already exists and was updated, or 'CREATED' if a new node
    * was created and inserted into the tree.
    */
-  protected _insert(node: NODE): CRUD {
+  protected _insert(node: RedBlackTreeNode<K, V>): CRUD {
     let current = this.root;
-    let parent: NODE | undefined = undefined;
+    let parent: RedBlackTreeNode<K, V> | undefined = undefined;
 
     while (this.isRealNode(current)) {
       parent = current;
@@ -401,11 +455,11 @@ export class RedBlackTree<
    * Space Complexity: O(1)
    *
    * The function `_transplant` is used to replace a node `u` with another node `v` in a binary tree.
-   * @param {NODE} u - The parameter "u" represents a node in a binary tree.
-   * @param {NODE | undefined} v - The parameter `v` is of type `NODE | undefined`, which means it can
-   * either be a `NODE` object or `undefined`.
+   * @param {RedBlackTreeNode<K, V>} u - The parameter "u" represents a node in a binary tree.
+   * @param {RedBlackTreeNode<K, V> | undefined} v - The parameter `v` is of type `RedBlackTreeNode<K, V> | undefined`, which means it can
+   * either be a `RedBlackTreeNode<K, V>` object or `undefined`.
    */
-  protected _transplant(u: NODE, v: NODE | undefined): void {
+  protected _transplant(u: RedBlackTreeNode<K, V>, v: RedBlackTreeNode<K, V> | undefined): void {
     if (!u.parent) {
       this._setRoot(v);
     } else if (u === u.parent.left) {
@@ -424,10 +478,10 @@ export class RedBlackTree<
    * Space Complexity: O(1)
    *
    * The `_insertFixup` function is used to fix the Red-Black Tree after inserting a new node.
-   * @param {NODE | undefined} z - The parameter `z` represents a node in the Red-Black Tree data
+   * @param {RedBlackTreeNode<K, V> | undefined} z - The parameter `z` represents a node in the Red-Black Tree data
    * structure. It can either be a valid node or `undefined`.
    */
-  protected _insertFixup(z: NODE | undefined): void {
+  protected _insertFixup(z: RedBlackTreeNode<K, V> | undefined): void {
     // Continue fixing the tree as long as the parent of z is red
     while (z?.parent?.color === 'RED') {
       // Check if the parent of z is the left child of its parent
@@ -460,7 +514,7 @@ export class RedBlackTree<
       } else {
         // Symmetric case for the right child (left and right exchanged)
         // Follow the same logic as above with left and right exchanged
-        const y: NODE | undefined = z?.parent?.parent?.left ?? undefined;
+        const y: RedBlackTreeNode<K, V> | undefined = z?.parent?.parent?.left ?? undefined;
         if (y?.color === 'RED') {
           z.parent.color = 'BLACK';
           y.color = 'BLACK';
@@ -491,12 +545,12 @@ export class RedBlackTree<
    *
    * The `_deleteFixup` function is used to fix the red-black tree after a node deletion by adjusting
    * the colors and performing rotations.
-   * @param {NODE | undefined} node - The `node` parameter represents a node in a binary tree. It can
+   * @param {RedBlackTreeNode<K, V> | undefined} node - The `node` parameter represents a node in a binary tree. It can
    * be either a valid node object or `undefined`.
    * @returns The function does not return any value. It has a return type of `void`, which means it
    * does not return anything.
    */
-  protected _deleteFixup(node: NODE | undefined): void {
+  protected _deleteFixup(node: RedBlackTreeNode<K, V> | undefined): void {
     // Early exit condition
     if (!node || node === this.root || node.color === 'BLACK') {
       if (node) {
@@ -506,7 +560,7 @@ export class RedBlackTree<
     }
 
     while (node && node !== this.root && node.color === 'BLACK') {
-      const parent: NODE | undefined = node.parent;
+      const parent: RedBlackTreeNode<K, V> | undefined = node.parent;
 
       if (!parent) {
         break; // Ensure the loop terminates if there's an issue with the tree structure
@@ -573,11 +627,11 @@ export class RedBlackTree<
    * Space Complexity: O(1)
    *
    * The `_leftRotate` function performs a left rotation on a given node in a binary tree.
-   * @param {NODE | undefined} x - The parameter `x` is of type `NODE | undefined`. It represents a
+   * @param {RedBlackTreeNode<K, V> | undefined} x - The parameter `x` is of type `RedBlackTreeNode<K, V> | undefined`. It represents a
    * node in a binary tree or `undefined` if there is no node.
    * @returns void, which means it does not return any value.
    */
-  protected _leftRotate(x: NODE | undefined): void {
+  protected _leftRotate(x: RedBlackTreeNode<K, V> | undefined): void {
     if (!x || !x.right) {
       return;
     }
@@ -608,11 +662,11 @@ export class RedBlackTree<
    * Space Complexity: O(1)
    *
    * The `_rightRotate` function performs a right rotation on a given node in a binary tree.
-   * @param {NODE | undefined} y - The parameter `y` is of type `NODE | undefined`. It represents a
+   * @param {RedBlackTreeNode<K, V> | undefined} y - The parameter `y` is of type `RedBlackTreeNode<K, V> | undefined`. It represents a
    * node in a binary tree or `undefined` if there is no node.
    * @returns void, which means it does not return any value.
    */
-  protected _rightRotate(y: NODE | undefined): void {
+  protected _rightRotate(y: RedBlackTreeNode<K, V> | undefined): void {
     if (!y || !y.left) {
       return;
     }
@@ -636,38 +690,5 @@ export class RedBlackTree<
 
     x.right = y;
     y.parent = x;
-  }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `map` function in TypeScript overrides the default behavior to create a new Red-Black Tree by
-   * applying a callback to each entry in the original tree.
-   * @param callback - A function that will be called for each entry in the tree, with parameters
-   * representing the key, value, index, and the tree itself. It should return an entry for the new
-   * tree.
-   * @param [options] - The `options` parameter in the `map` method is of type `RedBlackTreeOptions<MK, MV,
-   * MR>`. This parameter allows you to specify additional options or configurations for the Red-Black
-   * Tree that will be created during the mapping process. These options could include things like
-   * custom comparators
-   * @param {any} [thisArg] - The `thisArg` parameter in the `override map` function is used to specify
-   * the value of `this` when executing the `callback` function. It allows you to set the context
-   * (value of `this`) for the callback function. This can be useful when you want to access properties
-   * or
-   * @returns A new Red-Black Tree is being returned, where each entry has been transformed using the
-   * provided callback function.
-   */
-  override map(
-    callback: EntryCallback<K, V | undefined, [MK, MV]>,
-    options?: RedBlackTreeOptions<MK, MV, MR>,
-    thisArg?: any
-  ): RedBlackTree<MK, MV, MR> {
-    const newTree = new RedBlackTree<MK, MV, MR>([], options);
-    let index = 0;
-    for (const [key, value] of this) {
-      newTree.add(callback.call(thisArg, key, value, index++, this));
-    }
-    return newTree;
   }
 }

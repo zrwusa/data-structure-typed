@@ -12,7 +12,7 @@
 
   <script src='https://unpkg.com/js-sdsl@4.4.2/dist/umd/js-sdsl.js'></script>
   <script>
-    const logPerf = function (label = 'function running cost', fn, args, thisArg) {
+    const logPerf = function(label = 'function running cost', fn, args, thisArg) {
       const start = performance.now();
       let result;
       if (thisArg) {
@@ -23,7 +23,7 @@
         else result = fn();
       }
       console.log(`${(performance.now() - start).toFixed(2)} ms, ${label}, ${result}`);
-    }
+    };
   </script>
 </head>
 <body>
@@ -44,7 +44,7 @@
       for (let i = 0; i < n; i++) {
         queue.push(i);
       }
-    })
+    });
 
     let last = 0;
 
@@ -52,7 +52,7 @@
       for (let i = 0; i < n; i++) {
         last = queue.shift();
       }
-    })
+    });
 
   } catch (e) {
     console.error(e);
@@ -80,7 +80,7 @@
     const tree = new BinaryTree();
     tree.add(3);
     tree.add(12);
-    tree.addMany([1, 6, 9, 8, 5, 2, 3, 4, 7])
+    tree.addMany([1, 6, 9, 8, 5, 2, 3, 4, 7]);
     tree.add(10);
     console.log(tree.isPerfectlyBalanced(), `tree.isPerfectlyBalanced()`);
     tree.print(undefined, { isShowUndefined: true });
@@ -112,7 +112,7 @@
     console.log((performance.now() - tS).toFixed(2), `RedBlackTree ${n.toLocaleString()} add`);
     console.log(`rbTree.size`, rbTree.size);
     for (let i = 0; i < n - 8; i++) {
-      rbTree.delete(i)
+      rbTree.delete(i);
     }
     rbTree.print(rbTree.root, { isShowRedBlackNIL: true });
     const cS = performance.now();
@@ -181,34 +181,34 @@
 
     const objBST = new BST();
 
-    objBST.add(11, { "name": "Pablo", "age": 15 });
-    objBST.add(3, { "name": "Kirk", "age": 1 });
+    objBST.add(11, { 'name': 'Pablo', 'age': 15 });
+    objBST.add(3, { 'name': 'Kirk', 'age': 1 });
 
     objBST.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5], [
-        { "name": "Alice", "age": 15 },
-        { "name": "Bob", "age": 1 },
-        { "name": "Charlie", "age": 8 },
-        { "name": "David", "age": 13 },
-        { "name": "Emma", "age": 16 },
-        { "name": "Frank", "age": 2 },
-        { "name": "Grace", "age": 6 },
-        { "name": "Hannah", "age": 9 },
-        { "name": "Isaac", "age": 12 },
-        { "name": "Jack", "age": 14 },
-        { "name": "Katie", "age": 4 },
-        { "name": "Liam", "age": 7 },
-        { "name": "Mia", "age": 10 },
-        { "name": "Noah", "age": 5 }
+        { 'name': 'Alice', 'age': 15 },
+        { 'name': 'Bob', 'age': 1 },
+        { 'name': 'Charlie', 'age': 8 },
+        { 'name': 'David', 'age': 13 },
+        { 'name': 'Emma', 'age': 16 },
+        { 'name': 'Frank', 'age': 2 },
+        { 'name': 'Grace', 'age': 6 },
+        { 'name': 'Hannah', 'age': 9 },
+        { 'name': 'Isaac', 'age': 12 },
+        { 'name': 'Jack', 'age': 14 },
+        { 'name': 'Katie', 'age': 4 },
+        { 'name': 'Liam', 'age': 7 },
+        { 'name': 'Mia', 'age': 10 },
+        { 'name': 'Noah', 'age': 5 }
       ]
     );
-    objBST.print()
+    objBST.print();
 
     objBST.delete(11);
-    objBST.print()
+    objBST.print();
 
 
     const rbTree = new RedBlackTree();
-    rbTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
+    rbTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
     rbTree.isAVLBalanced();    // true
     rbTree.delete(10);
     rbTree.isAVLBalanced();    // true
@@ -216,16 +216,16 @@
     rbTree.print();
 
     rbTree.delete(14);
-    rbTree.print()
+    rbTree.print();
 
     const avlTree = new AVLTree();
-    avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5])
+    avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
     avlTree.isAVLBalanced();    // true
     avlTree.delete(10);
     avlTree.isAVLBalanced();    // true
-    avlTree.print()
+    avlTree.print();
     avlTree.delete(14);
-    avlTree.print()
+    avlTree.print();
   } catch (e) {
     console.error(e);
   }
@@ -250,7 +250,7 @@
       Trie
     } = dataStructureTyped;
     const orgArr = [6, 1, 2, 7, 5, 3, 4, 9, 8];
-    const orgStrArr = ["trie", "trial", "trick", "trip", "tree", "trend", "triangle", "track", "trace", "transmit"];
+    const orgStrArr = ['trie', 'trial', 'trick', 'trip', 'tree', 'trend', 'triangle', 'track', 'trace', 'transmit'];
     const entries = [[6, 6], [1, 1], [2, 2], [7, 7], [5, 5], [3, 3], [4, 4], [9, 9], [8, 8]];
 
     const queue = new Queue(orgArr);
@@ -327,7 +327,7 @@
     //              7   9
 
     const hm = new HashMap(entries);
-    hm.print()    // [[6, 6], [1, 1], [2, 2], [7, 7], [5, 5], [3, 3], [4, 4], [9, 9], [8, 8]]
+    hm.print();    // [[6, 6], [1, 1], [2, 2], [7, 7], [5, 5], [3, 3], [4, 4], [9, 9], [8, 8]]
 
     const rbTreeH = new RedBlackTree(hm);
     rbTreeH.print();
@@ -408,39 +408,39 @@
 
     const minNumHeap = new dataStructureTyped.MinHeap([1, 6, 2, 0, 5]);
     minNumHeap.add(9);
-    minNumHeap.has(1)        //  true
-    minNumHeap.has(2)        //  true
-    minNumHeap.poll()        //  0
-    minNumHeap.poll()        //  1
-    minNumHeap.peek()        //  2
+    minNumHeap.has(1);        //  true
+    minNumHeap.has(2);        //  true
+    minNumHeap.poll();        //  0
+    minNumHeap.poll();        //  1
+    minNumHeap.peek();        //  2
     minNumHeap.has(1);       // false
     minNumHeap.has(2);       // true
 
     const arrFromHeap = minNumHeap.toArray();
-    arrFromHeap.length       //  4
-    arrFromHeap[0]           //  2
-    arrFromHeap[1]           //  5
-    arrFromHeap[2]           //  9
-    arrFromHeap[3]           //  6
-    minNumHeap.sort()        //  [2, 5, 6, 9]
+    arrFromHeap.length;       //  4
+    arrFromHeap[0];           //  2
+    arrFromHeap[1];           //  5
+    arrFromHeap[2];           //  9
+    arrFromHeap[3];           //  6
+    minNumHeap.sort();        //  [2, 5, 6, 9]
 
     const maxHeap = new dataStructureTyped.MaxHeap([], { comparator: (a, b) => b.keyA - a.keyA });
     const obj1 = { keyA: 'a1' }, obj6 = { keyA: 'a6' }, obj5 = { keyA: 'a5' }, obj2 = { keyA: 'a2' },
       obj0 = { keyA: 'a0' }, obj9 = { keyA: 'a9' };
 
     maxHeap.add(obj1);
-    maxHeap.has(obj1)                       // true
-    maxHeap.has(obj9)                       // false
+    maxHeap.has(obj1);                       // true
+    maxHeap.has(obj9);                       // false
     maxHeap.add(obj6);
-    maxHeap.has(obj6)                       // true
+    maxHeap.has(obj6);                       // true
     maxHeap.add(obj5);
     maxHeap.add(obj2);
     maxHeap.add(obj0);
     maxHeap.add(obj9);
-    maxHeap.has(obj9)                       // true
+    maxHeap.has(obj9);                       // true
 
     const peek9 = maxHeap.peek();
-    console.log(peek9.keyA)             // 'a9'
+    console.log(peek9.keyA);             // 'a9'
 
     const heapToArr = maxHeap.toArray();
     console.log(heapToArr.map(ele => ele?.keyA));  // ['a9', 'a2', 'a6', 'a1', 'a0', 'a5']
@@ -449,7 +449,7 @@
     let i = 0;
     while (maxHeap.size > 0) {
       const polled = maxHeap.poll();
-      console.log(polled.keyA)           // values[i]
+      console.log(polled.keyA);           // values[i]
       i++;
     }
   }

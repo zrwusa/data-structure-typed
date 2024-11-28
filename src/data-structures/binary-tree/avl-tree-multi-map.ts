@@ -6,23 +6,18 @@
  * @license MIT License
  */
 import type {
-  AVLTreeMultiMapNested,
-  AVLTreeMultiMapNodeNested,
   AVLTreeMultiMapOptions,
   BinaryTreeDeleteResult,
   BSTNOptKeyOrNode,
   BTNRep,
   EntryCallback,
-  IterationType
+  IterationType,
+  OptNodeOrNull
 } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { AVLTree, AVLTreeNode } from './avl-tree';
 
-export class AVLTreeMultiMapNode<
-  K = any,
-  V = any,
-  NODE extends AVLTreeMultiMapNode<K, V, NODE> = AVLTreeMultiMapNodeNested<K, V>
-> extends AVLTreeNode<K, V, NODE> {
+export class AVLTreeMultiMapNode<K = any, V = any> extends AVLTreeNode<K, V> {
   /**
    * The constructor function initializes a BinaryTreeNode object with a key, value, and count.
    * @param {K} key - The `key` parameter is of type `K` and represents the unique identifier
@@ -37,32 +32,42 @@ export class AVLTreeMultiMapNode<
     super(key, value);
     this.count = count;
   }
+
+  override parent?: AVLTreeMultiMapNode<K, V> = undefined;
+
+  override _left?: OptNodeOrNull<AVLTreeMultiMapNode<K, V>> = undefined;
+
+  override get left(): OptNodeOrNull<AVLTreeMultiMapNode<K, V>> {
+    return this._left;
+  }
+
+  override set left(v: OptNodeOrNull<AVLTreeMultiMapNode<K, V>>) {
+    if (v) {
+      v.parent = this;
+    }
+    this._left = v;
+  }
+
+  override _right?: OptNodeOrNull<AVLTreeMultiMapNode<K, V>> = undefined;
+
+  override get right(): OptNodeOrNull<AVLTreeMultiMapNode<K, V>> {
+    return this._right;
+  }
+
+  override set right(v: OptNodeOrNull<AVLTreeMultiMapNode<K, V>>) {
+    if (v) {
+      v.parent = this;
+    }
+    this._right = v;
+  }
 }
 
 /**
  * The only distinction between a AVLTreeMultiMap and a AVLTree lies in the ability of the former to store duplicate nodes through the utilization of counters.
  */
-export class AVLTreeMultiMap<
-    K = any,
-    V = any,
-    R = object,
-    MK = any,
-    MV = any,
-    MR = object,
-    NODE extends AVLTreeMultiMapNode<K, V, NODE> = AVLTreeMultiMapNode<K, V, AVLTreeMultiMapNodeNested<K, V>>,
-    TREE extends AVLTreeMultiMap<K, V, R, MK, MV, MR, NODE, TREE> = AVLTreeMultiMap<
-      K,
-      V,
-      R,
-      MK,
-      MV,
-      MR,
-      NODE,
-      AVLTreeMultiMapNested<K, V, R, MK, MV, MR, NODE>
-    >
-  >
-  extends AVLTree<K, V, R, MK, MV, MR, NODE, TREE>
-  implements IBinaryTree<K, V, R, MK, MV, MR, NODE, TREE>
+export class AVLTreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR = object>
+  extends AVLTree<K, V, R, MK, MV, MR>
+  implements IBinaryTree<K, V, R, MK, MV, MR>
 {
   /**
    * The constructor initializes a new AVLTreeMultiMap object with optional initial elements.
@@ -73,7 +78,7 @@ export class AVLTreeMultiMap<
    * `compareValues` functions to define custom comparison logic for keys and values, respectively.
    */
   constructor(
-    keysNodesEntriesOrRaws: Iterable<R | BTNRep<K, V, NODE>> = [],
+    keysNodesEntriesOrRaws: Iterable<R | BTNRep<K, V, AVLTreeMultiMapNode<K, V>>> = [],
     options?: AVLTreeMultiMapOptions<K, V, R>
   ) {
     super([], options);
@@ -114,10 +119,10 @@ export class AVLTreeMultiMap<
    * @param {number} [count] - The `count` parameter represents the number of occurrences of a
    * key-value pair in the AVLTreeMultiMapNode. It is an optional parameter, so it can be omitted when
    * calling the `createNode` method. If provided, it specifies the initial count for the node.
-   * @returns a new instance of the AVLTreeMultiMapNode class, casted as NODE.
+   * @returns a new instance of the AVLTreeMultiMapNode class, casted as AVLTreeMultiMapNode<K, V>.
    */
-  override createNode(key: K, value?: V, count?: number): NODE {
-    return new AVLTreeMultiMapNode(key, this._isMapMode ? undefined : value, count) as NODE;
+  override createNode(key: K, value?: V, count?: number): AVLTreeMultiMapNode<K, V> {
+    return new AVLTreeMultiMapNode(key, this._isMapMode ? undefined : value, count) as AVLTreeMultiMapNode<K, V>;
   }
 
   /**
@@ -127,25 +132,27 @@ export class AVLTreeMultiMap<
    * @returns a new instance of the AVLTreeMultiMap class, with the specified options, as a TREE
    * object.
    */
-  override createTree(options?: AVLTreeMultiMapOptions<K, V, R>): TREE {
-    return new AVLTreeMultiMap<K, V, R, MK, MV, MR, NODE, TREE>([], {
+  override createTree(options?: AVLTreeMultiMapOptions<K, V, R>) {
+    return new AVLTreeMultiMap<K, V, R, MK, MV, MR>([], {
       iterationType: this.iterationType,
       isMapMode: this._isMapMode,
       specifyComparable: this._specifyComparable,
       toEntryFn: this._toEntryFn,
       isReverse: this._isReverse,
       ...options
-    }) as TREE;
+    });
   }
 
   /**
    * The function checks if the input is an instance of AVLTreeMultiMapNode.
-   * @param {BTNRep<K, V, NODE> | R} keyNodeEntryOrRaw - The parameter
-   * `keyNodeEntryOrRaw` can be of type `R` or `BTNRep<K, V, NODE>`.
+   * @param {BTNRep<K, V, AVLTreeMultiMapNode<K, V>> | R} keyNodeEntryOrRaw - The parameter
+   * `keyNodeEntryOrRaw` can be of type `R` or `BTNRep<K, V, AVLTreeMultiMapNode<K, V>>`.
    * @returns a boolean value indicating whether the input parameter `keyNodeEntryOrRaw` is
    * an instance of the `AVLTreeMultiMapNode` class.
    */
-  override isNode(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R): keyNodeEntryOrRaw is NODE {
+  override isNode(
+    keyNodeEntryOrRaw: BTNRep<K, V, AVLTreeMultiMapNode<K, V>> | R
+  ): keyNodeEntryOrRaw is AVLTreeMultiMapNode<K, V> {
     return keyNodeEntryOrRaw instanceof AVLTreeMultiMapNode;
   }
 
@@ -155,9 +162,9 @@ export class AVLTreeMultiMap<
    *
    * The function overrides the add method of a TypeScript class to add a new node to a data structure
    * and update the count.
-   * @param {BTNRep<K, V, NODE> | R} keyNodeEntryOrRaw - The
+   * @param {BTNRep<K, V, AVLTreeMultiMapNode<K, V>> | R} keyNodeEntryOrRaw - The
    * `keyNodeEntryOrRaw` parameter can accept a value of type `R`, which can be any type. It
-   * can also accept a value of type `BTNRep<K, V, NODE>`, which represents a key, node,
+   * can also accept a value of type `BTNRep<K, V, AVLTreeMultiMapNode<K, V>>`, which represents a key, node,
    * entry, or raw element
    * @param {V} [value] - The `value` parameter represents the value associated with the key in the
    * data structure. It is an optional parameter, so it can be omitted if not needed.
@@ -166,7 +173,7 @@ export class AVLTreeMultiMap<
    * be added once. However, you can specify a different value for `count` if you want to add
    * @returns a boolean value.
    */
-  override add(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R, value?: V, count = 1): boolean {
+  override add(keyNodeEntryOrRaw: BTNRep<K, V, AVLTreeMultiMapNode<K, V>> | R, value?: V, count = 1): boolean {
     const [newNode, newValue] = this._keyValueNodeEntryRawToNodeAndValue(keyNodeEntryOrRaw, value, count);
     if (newNode === undefined) return false;
 
@@ -184,7 +191,7 @@ export class AVLTreeMultiMap<
    *
    * The function overrides the delete method in a binary tree data structure, handling deletion of
    * nodes and maintaining balance in the tree.
-   * @param {BTNRep<K, V, NODE> | R} keyNodeEntryOrRaw - The `predicate`
+   * @param {BTNRep<K, V, AVLTreeMultiMapNode<K, V>> | R} keyNodeEntryOrRaw - The `predicate`
    * parameter in the `delete` method is used to specify the condition for deleting a node from the
    * binary tree. It can be a key, node, or entry that determines which
    * node(s) should be deleted.
@@ -197,16 +204,19 @@ export class AVLTreeMultiMap<
    * method returns an array of `BinaryTreeDeleteResult` objects, each containing information about the
    * deleted node and whether balancing is needed in the tree.
    */
-  override delete(keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R, ignoreCount = false): BinaryTreeDeleteResult<NODE>[] {
-    const deletedResult: BinaryTreeDeleteResult<NODE>[] = [];
+  override delete(
+    keyNodeEntryOrRaw: BTNRep<K, V, AVLTreeMultiMapNode<K, V>> | R,
+    ignoreCount = false
+  ): BinaryTreeDeleteResult<AVLTreeMultiMapNode<K, V>>[] {
+    const deletedResult: BinaryTreeDeleteResult<AVLTreeMultiMapNode<K, V>>[] = [];
     if (!this.root) return deletedResult;
 
-    const curr: NODE | undefined = this.getNode(keyNodeEntryOrRaw) ?? undefined;
+    const curr: AVLTreeMultiMapNode<K, V> | undefined = this.getNode(keyNodeEntryOrRaw) ?? undefined;
     if (!curr) return deletedResult;
 
-    const parent: NODE | undefined = curr?.parent ? curr.parent : undefined;
-    let needBalanced: NODE | undefined = undefined,
-      orgCurrent: NODE | undefined = curr;
+    const parent: AVLTreeMultiMapNode<K, V> | undefined = curr?.parent ? curr.parent : undefined;
+    let needBalanced: AVLTreeMultiMapNode<K, V> | undefined = undefined,
+      orgCurrent: AVLTreeMultiMapNode<K, V> | undefined = curr;
 
     if (curr.count > 1 && !ignoreCount) {
       curr.count--;
@@ -324,7 +334,7 @@ export class AVLTreeMultiMap<
    * The function overrides the clone method to create a deep copy of a tree object.
    * @returns The `clone()` method is returning a cloned instance of the `TREE` object.
    */
-  override clone(): TREE {
+  override clone() {
     const cloned = this.createTree();
     if (this._isMapMode) this.bfs(node => cloned.add(node.key, undefined, node.count));
     else this.bfs(node => cloned.add(node.key, node.value, node.count));
@@ -366,20 +376,20 @@ export class AVLTreeMultiMap<
   /**
    * The function `keyValueNodeEntryRawToNodeAndValue` converts a key, value, entry, or raw element into
    * a node object.
-   * @param {BTNRep<K, V, NODE> | R} keyNodeEntryOrRaw - The
-   * `keyNodeEntryOrRaw` parameter can be of type `R` or `BTNRep<K, V, NODE>`.
+   * @param {BTNRep<K, V, AVLTreeMultiMapNode<K, V>> | R} keyNodeEntryOrRaw - The
+   * `keyNodeEntryOrRaw` parameter can be of type `R` or `BTNRep<K, V, AVLTreeMultiMapNode<K, V>>`.
    * @param {V} [value] - The `value` parameter is an optional value that can be passed to the
    * `override` function. It represents the value associated with the key in the data structure. If no
    * value is provided, it will default to `undefined`.
    * @param [count=1] - The `count` parameter is an optional parameter that specifies the number of
    * times the key-value pair should be added to the data structure. If not provided, it defaults to 1.
-   * @returns either a NODE object or undefined.
+   * @returns either a AVLTreeMultiMapNode<K, V> object or undefined.
    */
   protected override _keyValueNodeEntryRawToNodeAndValue(
-    keyNodeEntryOrRaw: BTNRep<K, V, NODE> | R,
+    keyNodeEntryOrRaw: BTNRep<K, V, AVLTreeMultiMapNode<K, V>> | R,
     value?: V,
     count = 1
-  ): [NODE | undefined, V | undefined] {
+  ): [AVLTreeMultiMapNode<K, V> | undefined, V | undefined] {
     if (keyNodeEntryOrRaw === undefined || keyNodeEntryOrRaw === null) return [undefined, undefined];
     if (this.isNode(keyNodeEntryOrRaw)) return [keyNodeEntryOrRaw, value];
 
@@ -407,17 +417,17 @@ export class AVLTreeMultiMap<
    *
    * The `_swapProperties` function swaps the properties (key, value, count, height) between two nodes
    * in a binary search tree.
-   * @param {R | BSTNOptKeyOrNode<K, NODE>} srcNode - The `srcNode` parameter represents the source node
+   * @param {R | BSTNOptKeyOrNode<K, AVLTreeMultiMapNode<K, V>>} srcNode - The `srcNode` parameter represents the source node
    * that will be swapped with the `destNode`.
-   * @param {R | BSTNOptKeyOrNode<K, NODE>} destNode - The `destNode` parameter represents the destination
+   * @param {R | BSTNOptKeyOrNode<K, AVLTreeMultiMapNode<K, V>>} destNode - The `destNode` parameter represents the destination
    * node where the properties will be swapped with the source node.
    * @returns The method is returning the `destNode` after swapping its properties with the `srcNode`.
    * If either `srcNode` or `destNode` is undefined, it returns `undefined`.
    */
   protected override _swapProperties(
-    srcNode: R | BSTNOptKeyOrNode<K, NODE>,
-    destNode: R | BSTNOptKeyOrNode<K, NODE>
-  ): NODE | undefined {
+    srcNode: R | BSTNOptKeyOrNode<K, AVLTreeMultiMapNode<K, V>>,
+    destNode: R | BSTNOptKeyOrNode<K, AVLTreeMultiMapNode<K, V>>
+  ): AVLTreeMultiMapNode<K, V> | undefined {
     srcNode = this.ensureNode(srcNode);
     destNode = this.ensureNode(destNode);
     if (srcNode && destNode) {
@@ -447,13 +457,16 @@ export class AVLTreeMultiMap<
    * Space Complexity: O(1)
    *
    * The function replaces an old node with a new node and updates the count property of the new node.
-   * @param {NODE} oldNode - The oldNode parameter represents the node that needs to be replaced in the
-   * data structure. It is of type NODE.
-   * @param {NODE} newNode - The `newNode` parameter is an instance of the `NODE` class.
+   * @param {AVLTreeMultiMapNode<K, V>} oldNode - The oldNode parameter represents the node that needs to be replaced in the
+   * data structure. It is of type AVLTreeMultiMapNode<K, V>.
+   * @param {AVLTreeMultiMapNode<K, V>} newNode - The `newNode` parameter is an instance of the `AVLTreeMultiMapNode<K, V>` class.
    * @returns The method is returning the result of calling the `_replaceNode` method from the
-   * superclass, which is of type `NODE`.
+   * superclass, which is of type `AVLTreeMultiMapNode<K, V>`.
    */
-  protected override _replaceNode(oldNode: NODE, newNode: NODE): NODE {
+  protected override _replaceNode(
+    oldNode: AVLTreeMultiMapNode<K, V>,
+    newNode: AVLTreeMultiMapNode<K, V>
+  ): AVLTreeMultiMapNode<K, V> {
     newNode.count = oldNode.count + newNode.count;
     return super._replaceNode(oldNode, newNode);
   }

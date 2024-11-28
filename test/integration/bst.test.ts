@@ -27,7 +27,7 @@ describe('Individual package BST operations test', () => {
     expect(nodeVal9?.key).toBe(undefined);
 
     const nodeVal11 = bst.getNode(node => node.value === 11);
-    expect(nodeVal11?.key).toBe(11);
+    expect(nodeVal11?.key).toBe(undefined);
 
     const leftMost = bst.getLeftMost(node => node);
     expect(leftMost?.key).toBe(1);
@@ -186,7 +186,7 @@ describe('Individual package BST operations test', () => {
   });
 
   it('should perform various operations on a Binary Search Tree with object values', () => {
-    const objBST = new BST<number, { key: number; keyA: number }>();
+    const objBST = new BST<number, { key: number; keyA: number }>([], { isMapMode: false });
     expect(objBST).toBeInstanceOf(BST);
     objBST.add([11, { key: 11, keyA: 11 }]);
     objBST.add([3, { key: 3, keyA: 3 }]);
