@@ -49,7 +49,7 @@ if (args.length > 0) {
   testFiles = allFiles.filter(file => args.every(word => file.includes(word)));
   isIndividual = true;
   console.log(
-    `${testFiles.map(file => coloredLabeled('Matched', file)).join(`
+    `${testFiles.map(file => coloredLabeled('Found', file)).join(`
 `)}`
   );
 } else {
@@ -229,9 +229,11 @@ const sortedPerformanceTests = (
   return 0;
 });
 
-console.log(`${GREEN} Found tests (${performanceTests.length})${END}: ${performanceTests.map(test => test.testName)}`);
 console.log(
-  `${GREEN} Running tests (${sortedPerformanceTests.length})${END}: ${sortedPerformanceTests.map(test => test.testName)}`
+  `${GREEN} Matched Suites (${performanceTests.length})${END}: ${performanceTests.map(test => test.testName)}`
+);
+console.log(
+  `${GREEN} Running Suites (${sortedPerformanceTests.length})${END}: ${sortedPerformanceTests.map(test => test.testName)}`
 );
 
 sortedPerformanceTests.forEach(item => {

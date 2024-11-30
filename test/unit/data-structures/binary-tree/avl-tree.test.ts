@@ -3,119 +3,119 @@ import { AVLTree, AVLTreeNode, BinaryTreeNode, BSTNode } from '../../../../src';
 describe('AVL Tree Test', () => {
   it('should perform various operations on a AVL Tree', () => {
     const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
-    const tree = new AVLTree<number>();
+    const avlTree = new AVLTree<number>();
 
-    for (const i of arr) tree.add([i, i]);
+    for (const i of arr) avlTree.add([i, i]);
 
-    tree.add(null);
-    const node6 = tree.getNode(6);
+    avlTree.add(null);
+    const node6 = avlTree.getNode(6);
 
-    expect(node6 && tree.getHeight(node6)).toBe(3);
-    expect(node6 && tree.getDepth(node6)).toBe(1);
+    expect(node6 && avlTree.getHeight(node6)).toBe(3);
+    expect(node6 && avlTree.getDepth(node6)).toBe(1);
 
-    const getNodeById = tree.getNode(10);
+    const getNodeById = avlTree.getNode(10);
     expect(getNodeById?.key).toBe(10);
 
-    const getMinNodeByRoot = tree.getLeftMost();
+    const getMinNodeByRoot = avlTree.getLeftMost();
     expect(getMinNodeByRoot).toBe(1);
 
-    const node15 = tree.getNode(15);
-    const getMinNodeBySpecificNode = node15 && tree.getLeftMost(node => node, node15);
+    const node15 = avlTree.getNode(15);
+    const getMinNodeBySpecificNode = node15 && avlTree.getLeftMost(node => node, node15);
     expect(getMinNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    if (node15) tree.dfs(node => (subTreeSum += node.key), 'PRE', node15);
+    if (node15) avlTree.dfs(node => (subTreeSum += node.key), 'PRE', node15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
-    tree.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
+    avlTree.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
     expect(lesserSum).toBe(45);
 
     // node15 has type problem. After the uniform design, the generics of containers (DirectedGraph, BST) are based on the type of value. However, this design has a drawback: when I attempt to inherit from the Vertex or BSTNode classes, the types of the results obtained by all methods are those of the parent class.
     expect(node15?.value).toBe(undefined);
-    const dfs = tree.dfs(node => node, 'IN');
+    const dfs = avlTree.dfs(node => node, 'IN');
     expect(dfs[0].key).toBe(1);
     expect(dfs[dfs.length - 1].key).toBe(16);
-    tree.perfectlyBalance();
-    const bfs = tree.bfs(node => node);
-    expect(tree.isPerfectlyBalanced()).toBe(true);
+    avlTree.perfectlyBalance();
+    const bfs = avlTree.bfs(node => node);
+    expect(avlTree.isPerfectlyBalanced()).toBe(true);
     expect(bfs[0].key).toBe(8);
     expect(bfs[bfs.length - 1].key).toBe(16);
 
-    expect(tree.delete(tree.getNode(11))[0].deleted?.key).toBe(11);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(node15 && tree.getHeight(node15)).toBe(2);
+    expect(avlTree.delete(avlTree.getNode(11))[0].deleted?.key).toBe(11);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(node15 && avlTree.getHeight(node15)).toBe(2);
 
-    expect(tree.delete(1)[0].deleted?.key).toBe(1);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(tree.getHeight()).toBe(4);
+    expect(avlTree.delete(1)[0].deleted?.key).toBe(1);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(avlTree.getHeight()).toBe(4);
 
-    expect(tree.delete(4)[0].deleted?.key).toBe(4);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(tree.getHeight()).toBe(4);
+    expect(avlTree.delete(4)[0].deleted?.key).toBe(4);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(avlTree.getHeight()).toBe(4);
 
-    expect(tree.delete(10)[0].deleted?.key).toBe(10);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(tree.getHeight()).toBe(3);
+    expect(avlTree.delete(10)[0].deleted?.key).toBe(10);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(avlTree.getHeight()).toBe(3);
 
-    expect(tree.delete(15)[0].deleted?.key).toBe(15);
-    expect(tree.isAVLBalanced()).toBe(true);
+    expect(avlTree.delete(15)[0].deleted?.key).toBe(15);
+    expect(avlTree.isAVLBalanced()).toBe(true);
 
-    expect(tree.getHeight()).toBe(3);
+    expect(avlTree.getHeight()).toBe(3);
 
-    expect(tree.delete(5)[0].deleted?.key).toBe(5);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(tree.getHeight()).toBe(3);
+    expect(avlTree.delete(5)[0].deleted?.key).toBe(5);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(avlTree.getHeight()).toBe(3);
 
-    expect(tree.delete(13)[0].deleted?.key).toBe(13);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(tree.getHeight()).toBe(3);
+    expect(avlTree.delete(13)[0].deleted?.key).toBe(13);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(avlTree.getHeight()).toBe(3);
 
-    expect(tree.delete(3)[0].deleted?.key).toBe(3);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(tree.getHeight()).toBe(3);
+    expect(avlTree.delete(3)[0].deleted?.key).toBe(3);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(avlTree.getHeight()).toBe(3);
 
-    expect(tree.delete(8)[0].deleted?.key).toBe(8);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(tree.getHeight()).toBe(3);
+    expect(avlTree.delete(8)[0].deleted?.key).toBe(8);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(avlTree.getHeight()).toBe(3);
 
-    expect(tree.delete(6)[0].deleted?.key).toBe(6);
-    expect(tree.delete(6).length).toBe(0);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(tree.getHeight()).toBe(2);
+    expect(avlTree.delete(6)[0].deleted?.key).toBe(6);
+    expect(avlTree.delete(6).length).toBe(0);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(avlTree.getHeight()).toBe(2);
 
-    expect(tree.delete(7)[0].deleted?.key).toBe(7);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(tree.getHeight()).toBe(2);
+    expect(avlTree.delete(7)[0].deleted?.key).toBe(7);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(avlTree.getHeight()).toBe(2);
 
-    expect(tree.delete(9)[0].deleted?.key).toBe(9);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(tree.getHeight()).toBe(2);
-    expect(tree.delete(14)[0].deleted?.key).toBe(14);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(tree.getHeight()).toBe(1);
+    expect(avlTree.delete(9)[0].deleted?.key).toBe(9);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(avlTree.getHeight()).toBe(2);
+    expect(avlTree.delete(14)[0].deleted?.key).toBe(14);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(avlTree.getHeight()).toBe(1);
 
-    expect(tree.isAVLBalanced()).toBe(true);
-    const lastBFSIds = tree.bfs();
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    const lastBFSIds = avlTree.bfs();
     expect(lastBFSIds[0]).toBe(12);
     expect(lastBFSIds[1]).toBe(2);
     expect(lastBFSIds[2]).toBe(16);
 
-    const lastBFSNodes = tree.bfs(node => node);
+    const lastBFSNodes = avlTree.bfs(node => node);
     expect(lastBFSNodes[0].key).toBe(12);
     expect(lastBFSNodes[1].key).toBe(2);
     expect(lastBFSNodes[2].key).toBe(16);
   });
 
   it('should replace value', () => {
-    const tree = new AVLTree<number, string>([4, 5, [1, '1'], 2, 3], { isMapMode: false });
-    expect(tree.get(1)).toBe('1');
-    expect(tree.getNode(1)?.value).toBe('1');
-    tree.add(1, 'a');
-    expect(tree.get(1)).toBe('a');
-    tree.add([1, 'b']);
-    expect(tree.getNode(1)?.value).toBe('b');
-    expect(tree.get(1)).toBe('b');
+    const avlTree = new AVLTree<number, string>([4, 5, [1, '1'], 2, 3], { isMapMode: false });
+    expect(avlTree.get(1)).toBe('1');
+    expect(avlTree.getNode(1)?.value).toBe('1');
+    avlTree.add(1, 'a');
+    expect(avlTree.get(1)).toBe('a');
+    avlTree.add([1, 'b']);
+    expect(avlTree.getNode(1)?.value).toBe('b');
+    expect(avlTree.get(1)).toBe('b');
     const treeMap = new AVLTree<number>([4, 5, [1, '1'], 2, 3]);
     expect(treeMap.get(1)).toBe('1');
     expect(treeMap.getNode(1)?.value).toBe(undefined);
@@ -130,106 +130,106 @@ describe('AVL Tree Test', () => {
 describe('AVL Tree Test recursively', () => {
   it('should perform various operations on a AVL Tree', () => {
     const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
-    const tree = new AVLTree<number>([], { iterationType: 'RECURSIVE' });
+    const avlTree = new AVLTree<number>([], { iterationType: 'RECURSIVE' });
 
-    for (const i of arr) tree.add([i, i]);
+    for (const i of arr) avlTree.add([i, i]);
 
-    const node6 = tree.getNode(6);
+    const node6 = avlTree.getNode(6);
 
-    expect(node6 && tree.getHeight(node6)).toBe(3);
-    expect(node6 && tree.getDepth(node6)).toBe(1);
+    expect(node6 && avlTree.getHeight(node6)).toBe(3);
+    expect(node6 && avlTree.getDepth(node6)).toBe(1);
 
-    const getNodeById = tree.getNode(10);
+    const getNodeById = avlTree.getNode(10);
     expect(getNodeById?.key).toBe(10);
 
-    const getMinNodeByRoot = tree.getLeftMost();
+    const getMinNodeByRoot = avlTree.getLeftMost();
     expect(getMinNodeByRoot).toBe(1);
 
-    const node15 = tree.getNode(15);
-    const getMinNodeBySpecificNode = node15 && tree.getLeftMost(node => node, node15);
+    const node15 = avlTree.getNode(15);
+    const getMinNodeBySpecificNode = node15 && avlTree.getLeftMost(node => node, node15);
     expect(getMinNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    if (node15) tree.dfs(node => (subTreeSum += node.key), 'PRE', node15);
+    if (node15) avlTree.dfs(node => (subTreeSum += node.key), 'PRE', node15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
-    tree.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
+    avlTree.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
     expect(lesserSum).toBe(45);
 
     // node15 has type problem. After the uniform design, the generics of containers (DirectedGraph, BST) are based on the type of value. However, this design has a drawback: when I attempt to inherit from the Vertex or BSTNode classes, the types of the results obtained by all methods are those of the parent class.
     expect(node15?.value).toBe(undefined);
 
-    const dfs = tree.dfs(node => node, 'IN');
+    const dfs = avlTree.dfs(node => node, 'IN');
     expect(dfs[0].key).toBe(1);
     expect(dfs[dfs.length - 1].key).toBe(16);
 
-    tree.perfectlyBalance();
-    const bfs = tree.bfs(node => node);
-    expect(tree.isPerfectlyBalanced()).toBe(true);
+    avlTree.perfectlyBalance();
+    const bfs = avlTree.bfs(node => node);
+    expect(avlTree.isPerfectlyBalanced()).toBe(true);
     expect(bfs[0].key).toBe(8);
     expect(bfs[bfs.length - 1].key).toBe(16);
 
-    expect(tree.delete(11)[0].deleted?.key).toBe(11);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(node15 && tree.getHeight(node15)).toBe(2);
+    expect(avlTree.delete(11)[0].deleted?.key).toBe(11);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(node15 && avlTree.getHeight(node15)).toBe(2);
 
-    expect(tree.delete(1)[0].deleted?.key).toBe(1);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(tree.getHeight()).toBe(4);
+    expect(avlTree.delete(1)[0].deleted?.key).toBe(1);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(avlTree.getHeight()).toBe(4);
 
-    expect(tree.delete(4)[0].deleted?.key).toBe(4);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(tree.getHeight()).toBe(4);
+    expect(avlTree.delete(4)[0].deleted?.key).toBe(4);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(avlTree.getHeight()).toBe(4);
 
-    expect(tree.delete(10)[0].deleted?.key).toBe(10);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(tree.getHeight()).toBe(3);
+    expect(avlTree.delete(10)[0].deleted?.key).toBe(10);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(avlTree.getHeight()).toBe(3);
 
-    expect(tree.delete(15)[0].deleted?.key).toBe(15);
-    expect(tree.isAVLBalanced()).toBe(true);
+    expect(avlTree.delete(15)[0].deleted?.key).toBe(15);
+    expect(avlTree.isAVLBalanced()).toBe(true);
 
-    expect(tree.getHeight()).toBe(3);
+    expect(avlTree.getHeight()).toBe(3);
 
-    expect(tree.delete(5)[0].deleted?.key).toBe(5);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(tree.getHeight()).toBe(3);
+    expect(avlTree.delete(5)[0].deleted?.key).toBe(5);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(avlTree.getHeight()).toBe(3);
 
-    expect(tree.delete(13)[0].deleted?.key).toBe(13);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(tree.getHeight()).toBe(3);
+    expect(avlTree.delete(13)[0].deleted?.key).toBe(13);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(avlTree.getHeight()).toBe(3);
 
-    expect(tree.delete(3)[0].deleted?.key).toBe(3);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(tree.getHeight()).toBe(3);
+    expect(avlTree.delete(3)[0].deleted?.key).toBe(3);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(avlTree.getHeight()).toBe(3);
 
-    expect(tree.delete(8)[0].deleted?.key).toBe(8);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(tree.getHeight()).toBe(3);
+    expect(avlTree.delete(8)[0].deleted?.key).toBe(8);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(avlTree.getHeight()).toBe(3);
 
-    expect(tree.delete(6)[0].deleted?.key).toBe(6);
-    expect(tree.delete(6).length).toBe(0);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(tree.getHeight()).toBe(2);
+    expect(avlTree.delete(6)[0].deleted?.key).toBe(6);
+    expect(avlTree.delete(6).length).toBe(0);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(avlTree.getHeight()).toBe(2);
 
-    expect(tree.delete(7)[0].deleted?.key).toBe(7);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(tree.getHeight()).toBe(2);
+    expect(avlTree.delete(7)[0].deleted?.key).toBe(7);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(avlTree.getHeight()).toBe(2);
 
-    expect(tree.delete(9)[0].deleted?.key).toBe(9);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(tree.getHeight()).toBe(2);
-    expect(tree.delete(14)[0].deleted?.key).toBe(14);
-    expect(tree.isAVLBalanced()).toBe(true);
-    expect(tree.getHeight()).toBe(1);
+    expect(avlTree.delete(9)[0].deleted?.key).toBe(9);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(avlTree.getHeight()).toBe(2);
+    expect(avlTree.delete(14)[0].deleted?.key).toBe(14);
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    expect(avlTree.getHeight()).toBe(1);
 
-    expect(tree.isAVLBalanced()).toBe(true);
-    const lastBFSIds = tree.bfs();
+    expect(avlTree.isAVLBalanced()).toBe(true);
+    const lastBFSIds = avlTree.bfs();
     expect(lastBFSIds[0]).toBe(12);
     expect(lastBFSIds[1]).toBe(2);
     expect(lastBFSIds[2]).toBe(16);
 
-    const lastBFSNodes = tree.bfs(node => node);
+    const lastBFSNodes = avlTree.bfs(node => node);
     expect(lastBFSNodes[0].key).toBe(12);
     expect(lastBFSNodes[1].key).toBe(2);
     expect(lastBFSNodes[2].key).toBe(16);
@@ -237,66 +237,66 @@ describe('AVL Tree Test recursively', () => {
 });
 
 describe('AVLTree APIs test', () => {
-  const avl = new AVLTree<number, { id: number; text: string }>();
+  const avlTree = new AVLTree<number, { id: number; text: string }>();
   beforeEach(() => {
-    avl.clear();
+    avlTree.clear();
   });
 
   it('add', () => {
-    avl.add(1);
+    avlTree.add(1);
     const node2 = new AVLTreeNode(2);
-    avl.add(node2);
+    avlTree.add(node2);
     const node3 = new AVLTreeNode(3, {
       id: 3,
       text: 'text3'
     });
-    avl.add(node3);
-    avl.add([3, { id: 3, text: 'text33' }]);
+    avlTree.add(node3);
+    avlTree.add([3, { id: 3, text: 'text33' }]);
 
-    const bfsRes = avl.bfs(node => node.key);
+    const bfsRes = avlTree.bfs(node => node.key);
     expect(bfsRes[0]).toBe(2);
   });
 
   it('should the clone method', () => {
-    function checkTreeStructure(avl: AVLTree<string, number>) {
-      expect(avl.size).toBe(4);
-      expect(avl.root?.key).toBe('2');
-      expect(avl.root?.left?.key).toBe('1');
-      expect(avl.root?.left?.left?.key).toBe(undefined);
-      expect(avl.root?.left?.right?.key).toBe(undefined);
-      expect(avl.root?.right?.key).toBe('4');
-      expect(avl.root?.right?.left?.key).toBe(undefined);
-      expect(avl.root?.right?.right?.key).toBe('5');
+    function checkTreeStructure(avlTree: AVLTree<string, number>) {
+      expect(avlTree.size).toBe(4);
+      expect(avlTree.root?.key).toBe('2');
+      expect(avlTree.root?.left?.key).toBe('1');
+      expect(avlTree.root?.left?.left?.key).toBe(undefined);
+      expect(avlTree.root?.left?.right?.key).toBe(undefined);
+      expect(avlTree.root?.right?.key).toBe('4');
+      expect(avlTree.root?.right?.left?.key).toBe(undefined);
+      expect(avlTree.root?.right?.right?.key).toBe('5');
     }
 
-    const avl = new AVLTree<string, number>();
-    avl.addMany([
+    const avlTree = new AVLTree<string, number>();
+    avlTree.addMany([
       ['2', 2],
       ['4', 4],
       ['5', 5],
       ['3', 3],
       ['1', 1]
     ]);
-    expect(avl.size).toBe(5);
-    expect(avl.root?.key).toBe('2');
-    expect(avl.root?.left?.key).toBe('1');
-    expect(avl.root?.left?.left?.key).toBe(undefined);
-    expect(avl.root?.left?.right?.key).toBe(undefined);
-    expect(avl.root?.right?.key).toBe('4');
-    expect(avl.root?.right?.left?.key).toBe('3');
-    expect(avl.root?.right?.right?.key).toBe('5');
-    avl.delete('3');
-    checkTreeStructure(avl);
-    const cloned = avl.clone();
+    expect(avlTree.size).toBe(5);
+    expect(avlTree.root?.key).toBe('2');
+    expect(avlTree.root?.left?.key).toBe('1');
+    expect(avlTree.root?.left?.left?.key).toBe(undefined);
+    expect(avlTree.root?.left?.right?.key).toBe(undefined);
+    expect(avlTree.root?.right?.key).toBe('4');
+    expect(avlTree.root?.right?.left?.key).toBe('3');
+    expect(avlTree.root?.right?.right?.key).toBe('5');
+    avlTree.delete('3');
+    checkTreeStructure(avlTree);
+    const cloned = avlTree.clone();
     checkTreeStructure(cloned);
     cloned.delete('1');
-    expect(avl.size).toBe(4);
+    expect(avlTree.size).toBe(4);
     expect(cloned.size).toBe(3);
   });
 });
 
 describe('AVLTree', () => {
-  it('should balance the tree using _balanceLR when nodes are added', () => {
+  it('should balance the avlTree using _balanceLR when nodes are added', () => {
     const avlTree = new AVLTree();
     avlTree.add([10, 'A']);
     avlTree.add([5, 'B']);
@@ -307,30 +307,30 @@ describe('AVLTree', () => {
     // Adding nodes to trigger _balanceLR
     avlTree.add([12, 'F']);
 
-    // You can add more specific assertions to check the tree's balance and structure.
+    // You can add more specific assertions to check the avlTree's balance and structure.
   });
 
   it('should addMany undefined and null', () => {
-    const avl = new AVLTree<number, string>();
-    const addManyWithUndefined = avl.addMany([1, undefined, 3]);
+    const avlTree = new AVLTree<number, string>();
+    const addManyWithUndefined = avlTree.addMany([1, undefined, 3]);
     expect(addManyWithUndefined).toEqual([true, false, true]);
-    expect(avl.get(undefined)).toBe(undefined);
-    const addManyWithNull = avl.addMany([1, null, 3, 4]);
+    expect(avlTree.get(undefined)).toBe(undefined);
+    const addManyWithNull = avlTree.addMany([1, null, 3, 4]);
     expect(addManyWithNull).toEqual([true, false, true, true]);
-    const addManyEntriesWithNull = avl.addMany([
+    const addManyEntriesWithNull = avlTree.addMany([
       [1, '1'],
       [null, 'null'],
       [3, '3'],
       [4, '4']
     ]);
     expect(addManyEntriesWithNull).toEqual([true, false, true, true]);
-    expect(avl.get(null)).toBe(undefined);
-    const node0 = avl.add(0, '0');
+    expect(avlTree.get(null)).toBe(undefined);
+    const node0 = avlTree.add(0, '0');
     expect(node0).toBe(true);
-    expect(avl.get(0)).toBe('0');
+    expect(avlTree.get(0)).toBe('0');
   });
 
-  it('should balance the tree using _balanceLR when nodes are deleted', () => {
+  it('should balance the avlTree using _balanceLR when nodes are deleted', () => {
     const avlTree = new AVLTree();
     avlTree.add([10, 'A']);
     avlTree.add([5, 'B']);
@@ -342,43 +342,43 @@ describe('AVLTree', () => {
     // Deleting nodes to trigger _balanceLR
     avlTree.delete(3);
 
-    // You can add more specific assertions to check the tree's balance and structure.
+    // You can add more specific assertions to check the avlTree's balance and structure.
   });
 
-  describe('BinaryTree APIs test', () => {
-    const avl = new AVLTree<number, { id: number; text: string }>();
+  describe('AVLTree APIs test', () => {
+    const avlTree = new AVLTree<number, { id: number; text: string }>();
     beforeEach(() => {
-      avl.clear();
+      avlTree.clear();
     });
 
     it('add', () => {
-      avl.add(1);
+      avlTree.add(1);
       const node2 = new AVLTreeNode(2);
-      avl.add(node2);
+      avlTree.add(node2);
       const node3 = new AVLTreeNode(3, {
         id: 3,
         text: 'text3'
       });
-      avl.add(node3);
-      avl.add([3, { id: 3, text: 'text33' }]);
+      avlTree.add(node3);
+      avlTree.add([3, { id: 3, text: 'text33' }]);
 
-      const bfsRes = avl.bfs(node => node);
+      const bfsRes = avlTree.bfs(node => node);
       expect(bfsRes[0]?.key).toBe(2);
     });
   });
 });
 
 describe('AVLTree iterative methods test', () => {
-  let avl: AVLTree<number, string>;
+  let avlTree: AVLTree<number, string>;
   beforeEach(() => {
-    avl = new AVLTree();
-    avl.add([1, 'a']);
-    avl.add([2, 'b']);
-    avl.add([3, 'c']);
+    avlTree = new AVLTree();
+    avlTree.add([1, 'a']);
+    avlTree.add([2, 'b']);
+    avlTree.add([3, 'c']);
   });
 
   it('The node obtained by get Node should match the node type', () => {
-    const node3 = avl.getNode(3);
+    const node3 = avlTree.getNode(3);
     expect(node3).toBeInstanceOf(BinaryTreeNode);
     expect(node3).toBeInstanceOf(BSTNode);
     expect(node3).toBeInstanceOf(AVLTreeNode);
@@ -386,7 +386,7 @@ describe('AVLTree iterative methods test', () => {
 
   it('forEach should iterate over all elements', () => {
     const mockCallback = jest.fn();
-    avl.forEach((key, value) => {
+    avlTree.forEach((key, value) => {
       mockCallback(key, value);
     });
 
@@ -396,8 +396,8 @@ describe('AVLTree iterative methods test', () => {
     expect(mockCallback.mock.calls[2]).toEqual([3, 'c']);
   });
 
-  it('filter should return a new tree with filtered elements', () => {
-    const filteredTree = avl.filter(key => key > 1);
+  it('filter should return a new avlTree with filtered elements', () => {
+    const filteredTree = avlTree.filter(key => key > 1);
     expect(filteredTree.size).toBe(2);
     expect([...filteredTree]).toEqual([
       [2, 'b'],
@@ -405,8 +405,8 @@ describe('AVLTree iterative methods test', () => {
     ]);
   });
 
-  it('map should return a new tree with modified elements', () => {
-    const mappedTree = avl.map((key, value) => [(key * 2).toString(), value]);
+  it('map should return a new avlTree with modified elements', () => {
+    const mappedTree = avlTree.map((key, value) => [(key * 2).toString(), value]);
     expect(mappedTree.size).toBe(3);
     expect([...mappedTree]).toEqual([
       ['2', 'a'],
@@ -416,13 +416,13 @@ describe('AVLTree iterative methods test', () => {
   });
 
   it('reduce should accumulate values', () => {
-    const sum = avl.reduce((acc, value, key) => acc + key, 0);
+    const sum = avlTree.reduce((acc, value, key) => acc + key, 0);
     expect(sum).toBe(6);
   });
 
   it('[Symbol.iterator] should provide an iterator', () => {
     const entries = [];
-    for (const entry of avl) {
+    for (const entry of avlTree) {
       entries.push(entry);
     }
 
@@ -435,23 +435,23 @@ describe('AVLTree iterative methods test', () => {
   });
 
   it('should clone work well', () => {
-    const cloned = avl.clone();
+    const cloned = avlTree.clone();
     expect(cloned.root?.left?.key).toBe(1);
     expect(cloned.root?.right?.value).toBe(undefined);
   });
 
   it('should keys', () => {
-    const keys = avl.keys();
+    const keys = avlTree.keys();
     expect([...keys]).toEqual([1, 2, 3]);
   });
 
   it('should values', () => {
-    const values = avl.values();
+    const values = avlTree.values();
     expect([...values]).toEqual(['a', 'b', 'c']);
   });
 
   it('should leaves', () => {
-    const leaves = avl.leaves();
+    const leaves = avlTree.leaves();
     expect(leaves).toEqual([1, 3]);
   });
 });
@@ -459,85 +459,85 @@ describe('AVLTree iterative methods test', () => {
 describe('AVL Tree not map mode', () => {
   it('should perform various operations on a AVL Tree', () => {
     const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
-    const tree = new AVLTree<number>([], { isMapMode: false });
+    const avlTree = new AVLTree<number>([], { isMapMode: false });
 
-    for (const i of arr) tree.add([i, i]);
+    for (const i of arr) avlTree.add([i, i]);
 
-    tree.add(null);
-    const node6 = tree.getNode(6);
+    avlTree.add(null);
+    const node6 = avlTree.getNode(6);
 
-    expect(node6 && tree.getHeight(node6)).toBe(3);
-    expect(node6 && tree.getDepth(node6)).toBe(1);
+    expect(node6 && avlTree.getHeight(node6)).toBe(3);
+    expect(node6 && avlTree.getDepth(node6)).toBe(1);
 
-    const getNodeById = tree.getNode(10);
+    const getNodeById = avlTree.getNode(10);
     expect(getNodeById?.key).toBe(10);
 
-    const getMinNodeByRoot = tree.getLeftMost();
+    const getMinNodeByRoot = avlTree.getLeftMost();
     expect(getMinNodeByRoot).toBe(1);
 
-    const node15 = tree.getNode(15);
-    const getMinNodeBySpecificNode = node15 && tree.getLeftMost(node => node, node15);
+    const node15 = avlTree.getNode(15);
+    const getMinNodeBySpecificNode = node15 && avlTree.getLeftMost(node => node, node15);
     expect(getMinNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    if (node15) tree.dfs(node => (subTreeSum += node.key), 'PRE', node15);
+    if (node15) avlTree.dfs(node => (subTreeSum += node.key), 'PRE', node15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
-    tree.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
+    avlTree.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
     expect(lesserSum).toBe(45);
 
     // node15 has type problem. After the uniform design, the generics of containers (DirectedGraph, BST) are based on the type of value. However, this design has a drawback: when I attempt to inherit from the Vertex or BSTNode classes, the types of the results obtained by all methods are those of the parent class.
-    expect(tree.get(node15)).toBe(15);
+    expect(avlTree.get(node15)).toBe(15);
   });
 });
 
 describe('AVL Tree not map mode test recursively', () => {
   it('should perform various operations on a AVL Tree', () => {
     const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
-    const tree = new AVLTree<number>([], { iterationType: 'RECURSIVE', isMapMode: false });
+    const avlTree = new AVLTree<number>([], { iterationType: 'RECURSIVE', isMapMode: false });
 
-    for (const i of arr) tree.add([i, i]);
+    for (const i of arr) avlTree.add([i, i]);
 
-    const node6 = tree.getNode(6);
+    const node6 = avlTree.getNode(6);
 
-    expect(node6 && tree.getHeight(node6)).toBe(3);
-    expect(node6 && tree.getDepth(node6)).toBe(1);
+    expect(node6 && avlTree.getHeight(node6)).toBe(3);
+    expect(node6 && avlTree.getDepth(node6)).toBe(1);
 
-    const getNodeById = tree.getNode(10);
+    const getNodeById = avlTree.getNode(10);
     expect(getNodeById?.key).toBe(10);
 
-    const getMinNodeByRoot = tree.getLeftMost();
+    const getMinNodeByRoot = avlTree.getLeftMost();
     expect(getMinNodeByRoot).toBe(1);
 
-    const node15 = tree.getNode(15);
-    const getMinNodeBySpecificNode = node15 && tree.getLeftMost(node => node, node15);
+    const node15 = avlTree.getNode(15);
+    const getMinNodeBySpecificNode = node15 && avlTree.getLeftMost(node => node, node15);
     expect(getMinNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    if (node15) tree.dfs(node => (subTreeSum += node.key), 'PRE', node15);
+    if (node15) avlTree.dfs(node => (subTreeSum += node.key), 'PRE', node15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
-    tree.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
+    avlTree.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
     expect(lesserSum).toBe(45);
 
     // node15 has type problem. After the uniform design, the generics of containers (DirectedGraph, BST) are based on the type of value. However, this design has a drawback: when I attempt to inherit from the Vertex or BSTNode classes, the types of the results obtained by all methods are those of the parent class.
-    expect(tree.get(node15)).toBe(15);
+    expect(avlTree.get(node15)).toBe(15);
   });
 });
 
 describe('AVLTree iterative methods not map mode', () => {
-  let avl: AVLTree<number, string>;
+  let avlTree: AVLTree<number, string>;
   beforeEach(() => {
-    avl = new AVLTree<number, string>([], { isMapMode: false });
-    avl.add([1, 'a']);
-    avl.add([2, 'b']);
-    avl.add([3, 'c']);
+    avlTree = new AVLTree<number, string>([], { isMapMode: false });
+    avlTree.add([1, 'a']);
+    avlTree.add([2, 'b']);
+    avlTree.add([3, 'c']);
   });
 
   it('should clone work well', () => {
-    const cloned = avl.clone();
+    const cloned = avlTree.clone();
     expect(cloned.root?.left?.key).toBe(1);
     expect(cloned.get(cloned.root?.right?.key)).toBe('c');
   });

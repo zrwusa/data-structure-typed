@@ -185,14 +185,14 @@ describe('RedBlackTree 1', () => {
   });
 
   it('should replace value', () => {
-    const tree = new RedBlackTree<number, string>([4, 5, [1, '1'], 2, 3], { isMapMode: false });
-    expect(tree.get(1)).toBe('1');
-    expect(tree.getNode(1)?.value).toBe('1');
-    tree.add(1, 'a');
-    expect(tree.get(1)).toBe('a');
-    tree.add([1, 'b']);
-    expect(tree.getNode(1)?.value).toBe('b');
-    expect(tree.get(1)).toBe('b');
+    const rbTree = new RedBlackTree<number, string>([4, 5, [1, '1'], 2, 3], { isMapMode: false });
+    expect(rbTree.get(1)).toBe('1');
+    expect(rbTree.getNode(1)?.value).toBe('1');
+    rbTree.add(1, 'a');
+    expect(rbTree.get(1)).toBe('a');
+    rbTree.add([1, 'b']);
+    expect(rbTree.getNode(1)?.value).toBe('b');
+    expect(rbTree.get(1)).toBe('b');
     const treeMap = new RedBlackTree<number>([4, 5, [1, '1'], 2, 3]);
     expect(treeMap.get(1)).toBe('1');
     expect(treeMap.getNode(1)?.value).toBe(undefined);
@@ -668,9 +668,9 @@ describe('RedBlackTree 2', () => {
     });
 
     it('map should return a new rbTree with modified elements', () => {
-      const mappedTree = rbTree.map((key, value) => [(key * 2).toString(), value]);
-      expect(mappedTree.size).toBe(3);
-      expect([...mappedTree]).toEqual([
+      const rbTreeMapped = rbTree.map((key, value) => [(key * 2).toString(), value]);
+      expect(rbTreeMapped.size).toBe(3);
+      expect([...rbTreeMapped]).toEqual([
         ['2', 'a'],
         ['4', 'b'],
         ['6', 'c']
@@ -699,119 +699,116 @@ describe('RedBlackTree 2', () => {
 });
 
 describe('RedBlackTree - _deleteFixup', () => {
-  let tree: RedBlackTree<number, number>;
+  let rbTree: RedBlackTree<number, number>;
 
   beforeEach(() => {
-    tree = new RedBlackTree();
+    rbTree = new RedBlackTree();
   });
 
   it('should handle deleting a red leaf node', () => {
-    tree.add(10, 10);
-    tree.add(5, 5); // Red leaf
-    tree.add(20, 20);
+    rbTree.add(10, 10);
+    rbTree.add(5, 5); // Red leaf
+    rbTree.add(20, 20);
 
-    expect(tree.delete(5)).toHaveLength(1); // Delete red leaf
-    expect(tree.root?.left).toBe(tree.NIL); // Left child should be NIL
+    expect(rbTree.delete(5)).toHaveLength(1); // Delete red leaf
+    expect(rbTree.root?.left).toBe(rbTree.NIL); // Left child should be NIL
   });
 
   it('should handle deleting a black leaf node', () => {
-    tree.add(10, 10);
-    tree.add(5, 5); // Black node
-    tree.add(20, 20);
-    tree.add(1, 1); // Black leaf node
+    rbTree.add(10, 10);
+    rbTree.add(5, 5); // Black node
+    rbTree.add(20, 20);
+    rbTree.add(1, 1); // Black leaf node
 
-    expect(tree.delete(1)).toHaveLength(1); // Delete black leaf
-    expect(tree.root?.left?.left).toBe(tree.NIL);
+    expect(rbTree.delete(1)).toHaveLength(1); // Delete black leaf
+    expect(rbTree.root?.left?.left).toBe(rbTree.NIL);
   });
 
   it('should handle deleting black node with red sibling', () => {
-    tree.add(10, 10);
-    tree.add(5, 5); // Black node
-    tree.add(20, 20); // Red sibling
-    tree.add(25, 25); // Force the sibling to be red
+    rbTree.add(10, 10);
+    rbTree.add(5, 5); // Black node
+    rbTree.add(20, 20); // Red sibling
+    rbTree.add(25, 25); // Force the sibling to be red
 
-    expect(tree.delete(5)).toHaveLength(1); // Delete black node
-    expect(tree.root?.right?.color).toBe('BLACK'); // Ensure sibling color is black after fixup
+    expect(rbTree.delete(5)).toHaveLength(1); // Delete black node
+    expect(rbTree.root?.right?.color).toBe('BLACK'); // Ensure sibling color is black after fixup
   });
 
   it('should handle deleting black node with black sibling', () => {
-    tree.add(10, 10);
-    tree.add(5, 5); // Black node
-    tree.add(20, 20); // Black sibling
+    rbTree.add(10, 10);
+    rbTree.add(5, 5); // Black node
+    rbTree.add(20, 20); // Black sibling
 
-    expect(tree.delete(5)).toHaveLength(1); // Delete black node
-    expect(tree.root?.left).toBe(tree.NIL);
+    expect(rbTree.delete(5)).toHaveLength(1); // Delete black node
+    expect(rbTree.root?.left).toBe(rbTree.NIL);
   });
 
   it('should handle deleting the root node', () => {
-    tree.add(10, 10); // Root node
-    tree.add(5, 5);
-    tree.add(20, 20);
+    rbTree.add(10, 10); // Root node
+    rbTree.add(5, 5);
+    rbTree.add(20, 20);
 
-    expect(tree.delete(10)).toHaveLength(1); // Delete root node
-    expect(tree.root?.key).toBe(20); // New root should be 20
+    expect(rbTree.delete(10)).toHaveLength(1); // Delete root node
+    expect(rbTree.root?.key).toBe(20); // New root should be 20
   });
 
   it('should handle complex case with multiple rotations', () => {
-    tree.add(10, 10);
-    tree.add(5, 5);
-    tree.add(15, 15);
-    tree.add(12, 12);
-    tree.add(18, 18);
-    tree.add(16, 16);
+    rbTree.add(10, 10);
+    rbTree.add(5, 5);
+    rbTree.add(15, 15);
+    rbTree.add(12, 12);
+    rbTree.add(18, 18);
+    rbTree.add(16, 16);
 
     // Delete a node that will cause rotations and color changes
-    expect(tree.delete(5)).toHaveLength(1);
+    expect(rbTree.delete(5)).toHaveLength(1);
 
     // Verify the color and structure after fixup
-    expect(tree.root?.color).toBe('BLACK');
-    expect(tree.root?.left).toBe(tree.NIL);
-    expect(tree.root?.right?.left?.color).toBe('BLACK');
+    expect(rbTree.root?.color).toBe('BLACK');
+    expect(rbTree.root?.left).toBe(rbTree.NIL);
+    expect(rbTree.root?.right?.left?.color).toBe('BLACK');
   });
 
   it('should handle complex delete fixup scenarios', () => {
-    const tree = new RedBlackTree<number, number>();
+    const rbTree = new RedBlackTree<number, number>();
 
-    // Build a tree that will require complex fixup
-    tree.add(20, 20);
-    tree.add(10, 10);
-    tree.add(30, 30);
-    tree.add(5, 5);
-    tree.add(15, 15);
-    tree.add(25, 25);
-    tree.add(35, 35);
-    tree.add(2, 2);
-    tree.add(8, 8);
+    // Build a rbTree that will require complex fixup
+    rbTree.add(20, 20);
+    rbTree.add(10, 10);
+    rbTree.add(30, 30);
+    rbTree.add(5, 5);
+    rbTree.add(15, 15);
+    rbTree.add(25, 25);
+    rbTree.add(35, 35);
+    rbTree.add(2, 2);
+    rbTree.add(8, 8);
 
     // This deletion should trigger a complex fixup
-    tree.delete(2);
-    // tree.print(tree.root, { isShowNull: true, isShowRedBlackNIL: true, isShowUndefined: false });
+    rbTree.delete(2);
+    // rbTree.print(rbTree.root, { isShowNull: true, isShowRedBlackNIL: true, isShowUndefined: false });
 
-    expect(tree.isLeaf(2)).toBe(false);
-    expect(tree.isLeaf(8)).toBe(true);
-    expect(tree.isLeaf(15)).toBe(true);
-    expect(tree.isLeaf(25)).toBe(true);
-    expect(tree.isLeaf(35)).toBe(true);
-    expect(tree.isLeaf(20)).toBe(false);
-    expect(tree.isLeaf(30)).toBe(false);
-    // Verify tree structure and colors after fixup
-    expect(tree.root?.color).toBe('BLACK');
-    expect(tree.root?.key).toBe(20);
-    expect(tree.root?.left?.color).toBe('RED');
-    expect(tree.root?.left?.key).toBe(10);
-    expect(tree.root?.right?.color).toBe('BLACK');
-    expect(tree.root?.right?.key).toBe(30);
-    expect(tree.root?.left?.left?.color).toBe('BLACK');
-    expect(tree.root?.left?.left?.key).toBe(5);
-    expect(tree.root?.left?.right?.color).toBe('BLACK');
-    expect(tree.root?.left?.right?.key).toBe(15);
-    expect(tree.leaves(node => (node === null ? '' : `${node.key} ${node.color}`), tree.root, 'RECURSIVE')).toEqual([
-      '8 RED',
-      '15 BLACK',
-      '25 RED',
-      '35 RED'
-    ]);
-    expect(tree.listLevels(node => (node === tree.NIL ? 'NIL' : `${node.key} ${node.color}`))).toEqual([
+    expect(rbTree.isLeaf(2)).toBe(false);
+    expect(rbTree.isLeaf(8)).toBe(true);
+    expect(rbTree.isLeaf(15)).toBe(true);
+    expect(rbTree.isLeaf(25)).toBe(true);
+    expect(rbTree.isLeaf(35)).toBe(true);
+    expect(rbTree.isLeaf(20)).toBe(false);
+    expect(rbTree.isLeaf(30)).toBe(false);
+    // Verify rbTree structure and colors after fixup
+    expect(rbTree.root?.color).toBe('BLACK');
+    expect(rbTree.root?.key).toBe(20);
+    expect(rbTree.root?.left?.color).toBe('RED');
+    expect(rbTree.root?.left?.key).toBe(10);
+    expect(rbTree.root?.right?.color).toBe('BLACK');
+    expect(rbTree.root?.right?.key).toBe(30);
+    expect(rbTree.root?.left?.left?.color).toBe('BLACK');
+    expect(rbTree.root?.left?.left?.key).toBe(5);
+    expect(rbTree.root?.left?.right?.color).toBe('BLACK');
+    expect(rbTree.root?.left?.right?.key).toBe(15);
+    expect(rbTree.leaves(node => (node === null ? '' : `${node.key} ${node.color}`), rbTree.root, 'RECURSIVE')).toEqual(
+      ['8 RED', '15 BLACK', '25 RED', '35 RED']
+    );
+    expect(rbTree.listLevels(node => (node === rbTree.NIL ? 'NIL' : `${node.key} ${node.color}`))).toEqual([
       ['20 BLACK'],
       ['10 RED', '30 BLACK'],
       ['5 BLACK', '15 BLACK', '25 RED', '35 RED'],

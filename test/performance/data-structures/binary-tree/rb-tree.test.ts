@@ -7,18 +7,19 @@ import { isCompetitor } from '../../../config';
 const suite = new Benchmark.Suite();
 const rbTree = new RedBlackTree<number>();
 const rbTreeNodeMode = new RedBlackTree<number>([], { isMapMode: false });
+
 const { HUNDRED_THOUSAND } = magnitude;
 const randomArray = getRandomIntArray(HUNDRED_THOUSAND, 0, HUNDRED_THOUSAND - 1, true);
 const cOrderedMap = new OrderedMap<number, number>();
 
 suite
-  .add(`${HUNDRED_THOUSAND.toLocaleString()} add`, () => {
-    rbTree.clear();
-    for (let i = 0; i < randomArray.length; i++) rbTree.add(i);
-  })
   .add(`${HUNDRED_THOUSAND.toLocaleString()} add randomly`, () => {
     rbTree.clear();
     for (let i = 0; i < randomArray.length; i++) rbTree.add(randomArray[i]);
+  })
+  .add(`${HUNDRED_THOUSAND.toLocaleString()} add`, () => {
+    rbTree.clear();
+    for (let i = 0; i < randomArray.length; i++) rbTree.add(i);
   })
   .add(`${HUNDRED_THOUSAND.toLocaleString()} get`, () => {
     for (let i = 0; i < randomArray.length; i++) rbTree.get(randomArray[i]);

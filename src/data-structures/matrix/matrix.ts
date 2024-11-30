@@ -7,6 +7,9 @@
  */
 import type { MatrixOptions } from '../../types';
 
+/**
+ *
+ */
 export class Matrix {
   /**
    * The constructor function initializes a matrix object with the provided data and options, or with

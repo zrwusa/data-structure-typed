@@ -343,7 +343,7 @@ describe('HashMap', () => {
     });
 
     it('filter() should remove elements that do not match the condition', () => {
-      const filteredHashMap = hashMap.filter((key, value) => key !== 'key1');
+      const filteredHashMap = hashMap.filter(key => key !== 'key1');
       expect(filteredHashMap.has('key1')).toBe(false);
     });
 

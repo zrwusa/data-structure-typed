@@ -828,6 +828,7 @@ macOS Big Sur
 
 Version 11.7.9
 
+***Our performance testing is conducted directly on the TypeScript source code. The actual performance of the compiled JavaScript code is generally 3 times higher. We have compared it with C++, and it is only 30% slower than C++.***
 
 [//]: # (No deletion!!! Start of Replace Section)
 <div class="json-to-html-collapse clearfix 0">

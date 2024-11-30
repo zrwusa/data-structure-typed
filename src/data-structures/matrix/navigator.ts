@@ -25,6 +25,9 @@ export class Character {
   }
 }
 
+/**
+ *
+ */
 export class Navigator<T = number> {
   onMove: (cur: [number, number]) => void;
   protected readonly _matrix: T[][];

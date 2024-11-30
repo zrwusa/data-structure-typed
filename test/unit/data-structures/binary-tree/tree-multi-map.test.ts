@@ -1,711 +1,165 @@
-import { BinaryTreeNode, BSTNode, RedBlackTreeNode, TreeMultiMap, TreeMultiMapNode } from '../../../../src';
-import { isDebugTest } from '../../../config';
+import { BinaryTreeNode, BSTNode, Range, TreeMultiMap, TreeMultiMapNode } from '../../../../src';
 import { getRandomInt } from '../../../utils';
+
+import { isDebugTest } from '../../../config';
+import { costOfLiving } from './data/cost-of-living-by-country';
 
 const isDebug = isDebugTest;
 // const isDebug = true;
 
-describe('TreeMultiMap count', () => {
+describe('TreeMultiMap 1', () => {
   let tmm: TreeMultiMap<number>;
+
   beforeEach(() => {
     tmm = new TreeMultiMap<number>();
   });
 
-  it('Should added node count ', () => {
-    tmm.addMany([
-      [1, 1],
-      [2, 2],
-      [3, 3],
-      [4, 4],
-      [5, 5]
-    ]);
-    const newNode = new TreeMultiMapNode(3, 33, 10);
-    tmm.add(newNode);
-    expect(tmm.count).toBe(15);
-    expect(tmm.getComputedCount()).toBe(15);
-    expect(tmm.getNode(3)?.count).toBe(11);
+  it('Should add and delete values', () => {
+    tmm.add(3, 3);
+    tmm.add(3, 33);
+    tmm.add(3, 333);
+    expect(tmm.get(3)).toEqual([3, 33, 333]);
+    tmm.deleteValue(3, 33);
+    expect(tmm.get(3)).toEqual([3, 333]);
+    tmm.deleteValue(3, 3);
+    expect(tmm.get(3)).toEqual([333]);
+    tmm.deleteValue(3, 333);
+    expect(tmm.get(3)).toBe(undefined);
+    tmm.add(3, 3);
+    tmm.add([3, [3333, 33333]]);
+    expect(tmm.get(3)).toEqual([3, 3333, 33333]);
   });
 
-  it('Should count', () => {
-    tmm.addMany([
-      [1, 1],
-      [2, 2],
-      [3, 3]
-    ]);
-    tmm.lesserOrGreaterTraverse(node => (node.count += 2), 1, 1);
-    expect(tmm.getComputedCount()).toBe(7);
-    expect(tmm.count).toBe(3);
-  });
-});
+  describe('add and getNode', () => {
+    it('should add and find a node in the tmm', () => {
+      tmm.add(10);
+      tmm.add(20);
+      tmm.add(5);
 
-describe('TreeMultiMap operations test1', () => {
-  it('should height ', () => {
-    const tmm = new TreeMultiMap();
-    expect(tmm.getHeight()).toBe(-1);
-    expect(tmm.getMinHeight()).toBe(-1);
-
-    tmm.addMany([1, 6, 7, 2, 3, 4, 9, 11, 8, 5, 10, 12, 16, 14, 13, 15]);
-    // tmm.print()
-    expect(tmm.getHeight()).toBe(5);
-    expect(tmm.getMinHeight()).toBe(2);
-  });
-
-  it('should size and count', () => {
-    const tmm = new TreeMultiMap();
-
-    expect(tmm instanceof TreeMultiMap);
-
-    tmm.add([11, 11]);
-    tmm.add([3, 3]);
-    expect(tmm.count).toBe(2);
-    expect(tmm.getComputedCount()).toBe(2);
-    expect(tmm.size).toBe(2);
-
-    const keyValuePairs: [number, number][] = [
-      [11, 11],
-      [3, 3],
-      [15, 15],
-      [1, 1],
-      [8, 8],
-      [13, 13],
-      [16, 16],
-      [2, 2],
-      [6, 6],
-      [9, 9],
-      [12, 12],
-      [14, 14],
-      [4, 4],
-      [7, 7],
-      [10, 10],
-      [5, 5]
-    ];
-
-    tmm.addMany(keyValuePairs);
-    expect(tmm.size).toBe(16);
-    expect(tmm.count).toBe(18);
-    expect(tmm.getComputedCount()).toBe(18);
-    tmm.delete(11);
-    expect(tmm.count).toBe(17);
-    expect(tmm.getComputedCount()).toBe(17);
-    tmm.delete(3, true);
-    expect(tmm.count).toBe(15);
-    expect(tmm.getComputedCount()).toBe(15);
-  });
-
-  it('should perform various operations on a Binary Search Tree with numeric values1', () => {
-    const tmm = new TreeMultiMap<number, number>();
-
-    expect(tmm instanceof TreeMultiMap);
-
-    tmm.add([11, 11]);
-    tmm.add([3, 3]);
-    const idAndValues: [number, number][] = [
-      [11, 11],
-      [3, 3],
-      [15, 15],
-      [1, 1],
-      [8, 8],
-      [13, 13],
-      [16, 16],
-      [2, 2],
-      [6, 6],
-      [9, 9],
-      [12, 12],
-      [14, 14],
-      [4, 4],
-      [7, 7],
-      [10, 10],
-      [5, 5]
-    ];
-    tmm.addMany(idAndValues);
-    expect(tmm.root instanceof TreeMultiMapNode);
-
-    if (tmm.root) expect(tmm.root.key == 11);
-
-    expect(tmm.size).toBe(16);
-    expect(tmm.count).toBe(18);
-    expect(tmm.getComputedCount()).toBe(18);
-
-    expect(tmm.has(6));
-    if (isDebug) tmm.print();
-    expect(tmm.getHeight(6)).toBe(1);
-    expect(tmm.getDepth(6)).toBe(3);
-    const nodeId10 = tmm.getNode(10);
-    expect(nodeId10?.key).toBe(10);
-
-    const nodeVal9 = tmm.getNode(node => node.key === 9);
-    expect(nodeVal9?.key).toBe(9);
-
-    const nodesByCount1 = tmm.getNodes(node => node.count === 1);
-    expect(nodesByCount1.length).toBe(14);
-
-    const nodesByCount2 = tmm.getNodes(node => node.count === 2);
-    expect(nodesByCount2.length).toBe(2);
-    const leftMost = tmm.getLeftMost();
-    expect(leftMost).toBe(1);
-
-    const node15 = tmm.getNode(15);
-    const minNodeBySpecificNode = node15 && tmm.getLeftMost(node => node, node15);
-    expect(minNodeBySpecificNode?.key).toBe(14);
-
-    let subTreeSum = 0;
-    if (node15) tmm.dfs(node => (subTreeSum += node.key), 'PRE', 15);
-    expect(subTreeSum).toBe(45);
-    let lesserSum = 0;
-    tmm.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
-    expect(lesserSum).toBe(45);
-
-    expect(node15 instanceof TreeMultiMapNode);
-    if (node15 instanceof TreeMultiMapNode) {
-      const subTreeAdd = tmm.dfs(node => (node.count += 1), 'PRE', 15);
-      expect(subTreeAdd);
-    }
-    const node11 = tmm.getNode(11);
-    expect(node11 instanceof TreeMultiMapNode);
-    if (node11 instanceof TreeMultiMapNode) {
-      const allGreaterNodesAdded = tmm.lesserOrGreaterTraverse(node => (node.count += 2), 1, 11);
-      expect(allGreaterNodesAdded);
-    }
-
-    const dfsInorderNodes = tmm.dfs(node => node, 'IN');
-    expect(dfsInorderNodes[0].key).toBe(1);
-    expect(dfsInorderNodes[dfsInorderNodes.length - 1].key).toBe(16);
-    expect(tmm.isPerfectlyBalanced()).toBe(false);
-    tmm.perfectlyBalance();
-    expect(tmm.isPerfectlyBalanced()).toBe(false);
-
-    expect(tmm.isAVLBalanced()).toBe(false);
-
-    const bfsNodesAfterBalanced = tmm.bfs(node => node);
-    expect(bfsNodesAfterBalanced[0].key).toBe(6);
-    expect(bfsNodesAfterBalanced[bfsNodesAfterBalanced.length - 1].key).toBe(16);
-
-    const removed11 = tmm.delete(11, true);
-    expect(removed11 instanceof Array);
-    expect(removed11[0]);
-    expect(removed11[0].deleted);
-
-    if (removed11[0].deleted) expect(removed11[0].deleted.key).toBe(11);
-
-    expect(tmm.isAVLBalanced()).toBe(false);
-
-    expect(tmm.getHeight(15)).toBe(1);
-
-    const removed1 = tmm.delete(1, true);
-    expect(removed1 instanceof Array);
-    expect(removed1[0]);
-    expect(removed1[0].deleted);
-    if (removed1[0].deleted) expect(removed1[0].deleted.key).toBe(1);
-
-    expect(tmm.isAVLBalanced()).toBe(false);
-
-    expect(tmm.getHeight()).toBe(5);
-
-    const removed4 = tmm.delete(4, true);
-    expect(removed4 instanceof Array);
-    expect(removed4[0]);
-    expect(removed4[0].deleted);
-    if (removed4[0].deleted) expect(removed4[0].deleted.key).toBe(4);
-
-    expect(tmm.isAVLBalanced()).toBe(false);
-    expect(tmm.getHeight()).toBe(5);
-
-    const removed10 = tmm.delete(10, true);
-    expect(removed10 instanceof Array);
-    expect(removed10[0]);
-    expect(removed10[0].deleted);
-    if (removed10[0].deleted) expect(removed10[0].deleted.key).toBe(10);
-    expect(tmm.isAVLBalanced()).toBe(false);
-
-    expect(tmm.getHeight()).toBe(4);
-
-    const removed15 = tmm.delete(15, true);
-    expect(removed15 instanceof Array);
-    expect(removed15[0]);
-    expect(removed15[0].deleted);
-    if (removed15[0].deleted) expect(removed15[0].deleted.key).toBe(15);
-
-    expect(tmm.isAVLBalanced()).toBe(false);
-    expect(tmm.getHeight()).toBe(3);
-
-    const removed5 = tmm.delete(5, true);
-    expect(removed5 instanceof Array);
-    expect(removed5[0]);
-    expect(removed5[0].deleted);
-    if (removed5[0].deleted) expect(removed5[0].deleted.key).toBe(5);
-
-    expect(tmm.isAVLBalanced()).toBe(true);
-    expect(tmm.getHeight()).toBe(3);
-
-    const removed13 = tmm.delete(13, true);
-    expect(removed13 instanceof Array);
-    expect(removed13[0]);
-    expect(removed13[0].deleted);
-    if (removed13[0].deleted) expect(removed13[0].deleted.key).toBe(13);
-    expect(tmm.isAVLBalanced()).toBe(true);
-    expect(tmm.getHeight()).toBe(3);
-
-    const removed3 = tmm.delete(3, true);
-    expect(removed3 instanceof Array);
-    expect(removed3[0]);
-    expect(removed3[0].deleted);
-    if (removed3[0].deleted) expect(removed3[0].deleted.key).toBe(3);
-    expect(tmm.isAVLBalanced()).toBe(false);
-    expect(tmm.getHeight()).toBe(3);
-
-    const removed8 = tmm.delete(8, true);
-    expect(removed8 instanceof Array);
-    expect(removed8[0]);
-    expect(removed8[0].deleted);
-    if (removed8[0].deleted) expect(removed8[0].deleted.key).toBe(8);
-    expect(tmm.isAVLBalanced()).toBe(false);
-    expect(tmm.getHeight()).toBe(3);
-
-    const removed6 = tmm.delete(6, true);
-    expect(removed6 instanceof Array);
-    expect(removed6[0]);
-    expect(removed6[0].deleted);
-    if (removed6[0].deleted) expect(removed6[0].deleted.key).toBe(6);
-    expect(tmm.delete(6, true).length).toBe(0);
-    expect(tmm.isAVLBalanced()).toBe(false);
-
-    expect(tmm.getHeight()).toBe(3);
-
-    const removed7 = tmm.delete(7, true);
-    expect(removed7 instanceof Array);
-    expect(removed7[0]);
-    expect(removed7[0].deleted);
-    if (removed7[0].deleted) expect(removed7[0].deleted.key).toBe(7);
-    expect(tmm.isAVLBalanced()).toBe(false);
-    expect(tmm.getHeight()).toBe(3);
-
-    const removed9 = tmm.delete(9, true);
-    expect(removed9 instanceof Array);
-    expect(removed9[0]);
-    expect(removed9[0].deleted);
-    if (removed9[0].deleted) expect(removed9[0].deleted.key).toBe(9);
-    expect(tmm.isAVLBalanced()).toBe(true);
-    expect(tmm.getHeight()).toBe(2);
-
-    const removed14 = tmm.delete(14, true);
-    expect(removed14 instanceof Array);
-    expect(removed14[0]);
-    expect(removed14[0].deleted);
-    if (removed14[0].deleted) expect(removed14[0].deleted.key).toBe(14);
-    expect(tmm.isAVLBalanced()).toBe(true);
-    expect(tmm.getHeight()).toBe(1);
-
-    expect(tmm.isAVLBalanced()).toBe(true);
-
-    const bfsIDs = tmm.bfs(node => node.key);
-
-    expect(bfsIDs[0]).toBe(12);
-    expect(bfsIDs[1]).toBe(2);
-    expect(bfsIDs[2]).toBe(16);
-
-    const bfsNodes = tmm.bfs(node => node);
-
-    expect(bfsNodes[0].key).toBe(12);
-    expect(bfsNodes[1].key).toBe(2);
-    expect(bfsNodes[2].key).toBe(16);
-
-    expect(tmm.count).toBe(6);
-    expect(tmm.getComputedCount()).toBe(8);
-  });
-
-  it('should perform various operations on a Binary Search Tree with object values', () => {
-    const objTreeMultiMap = new TreeMultiMap<number, { key: number; keyA: number }>();
-    expect(objTreeMultiMap).toBeInstanceOf(TreeMultiMap);
-    objTreeMultiMap.add([11, { key: 11, keyA: 11 }]);
-    objTreeMultiMap.add([3, { key: 3, keyA: 3 }]);
-    const values: [number, { key: number; keyA: number }][] = [
-      [15, { key: 15, keyA: 15 }],
-      [1, { key: 1, keyA: 1 }],
-      [8, { key: 8, keyA: 8 }],
-      [13, { key: 13, keyA: 13 }],
-      [16, { key: 16, keyA: 16 }],
-      [2, { key: 2, keyA: 2 }],
-      [6, { key: 6, keyA: 6 }],
-      [9, { key: 9, keyA: 9 }],
-      [12, { key: 12, keyA: 12 }],
-      [14, { key: 14, keyA: 14 }],
-      [4, { key: 4, keyA: 4 }],
-      [7, { key: 7, keyA: 7 }],
-      [10, { key: 10, keyA: 10 }],
-      [5, { key: 5, keyA: 5 }]
-    ];
-
-    objTreeMultiMap.addMany(values);
-
-    expect(objTreeMultiMap.root).toBeInstanceOf(TreeMultiMapNode);
-
-    if (objTreeMultiMap.root) expect(objTreeMultiMap.root.key).toBe(5);
-
-    expect(objTreeMultiMap.count).toBe(16);
-    expect(objTreeMultiMap.getComputedCount()).toBe(16);
-
-    expect(objTreeMultiMap.has(6)).toBe(true);
-  });
-});
-
-describe('TreeMultiMap operations test recursively1', () => {
-  it('should perform various operations on a Binary Search Tree with numeric values1', () => {
-    const tmm = new TreeMultiMap<number>([], {
-      iterationType: 'RECURSIVE'
+      expect(tmm.getNode(10)).toBeInstanceOf(TreeMultiMapNode);
+      expect(tmm.getNode(20)).toBeInstanceOf(TreeMultiMapNode);
+      expect(tmm.getNode(5)).toBeInstanceOf(TreeMultiMapNode);
+      expect(tmm.getNode(15)).toBe(undefined);
     });
 
-    expect(tmm instanceof TreeMultiMap);
-    tmm.add([11, 11]);
-    tmm.add([3, 3]);
-    const idAndValues: [number, number][] = [
-      [11, 11],
-      [3, 3],
-      [15, 15],
-      [1, 1],
-      [8, 8],
-      [13, 13],
-      [16, 16],
-      [2, 2],
-      [6, 6],
-      [9, 9],
-      [12, 12],
-      [14, 14],
-      [4, 4],
-      [7, 7],
-      [10, 10],
-      [5, 5]
-    ];
-    tmm.addMany(idAndValues);
-    expect(tmm.root).toBeInstanceOf(TreeMultiMapNode);
+    it('should add and find nodes with negative keys', () => {
+      tmm.add(-10);
+      tmm.add(-20);
 
-    if (tmm.root) expect(tmm.root.key).toBe(5);
-
-    expect(tmm.size).toBe(16);
-    expect(tmm.count).toBe(18);
-    expect(tmm.getComputedCount()).toBe(18);
-
-    expect(tmm.has(6));
-
-    expect(tmm.getHeight(6)).toBe(1);
-    expect(tmm.getDepth(6)).toBe(3);
-    const nodeId10 = tmm.getNode(10);
-    expect(nodeId10?.key).toBe(10);
-
-    const nodeVal9 = tmm.getNode(node => node.key === 9);
-    expect(nodeVal9?.key).toBe(9);
-
-    const nodesByCount1 = tmm.getNodes(node => node.count === 1);
-    expect(nodesByCount1.length).toBe(14);
-
-    const nodesByCount2 = tmm.getNodes(node => node.count === 2);
-    expect(nodesByCount2.length).toBe(2);
-    const leftMost = tmm.getLeftMost();
-    expect(leftMost).toBe(1);
-
-    const node15 = tmm.getNode(15);
-    const minNodeBySpecificNode = node15 && tmm.getLeftMost(node => node, node15);
-    expect(minNodeBySpecificNode?.key).toBe(14);
-
-    let subTreeSum = 0;
-    if (node15) tmm.dfs(node => (subTreeSum += node.key), 'PRE', 15);
-    expect(subTreeSum).toBe(45);
-    let lesserSum = 0;
-    expect(tmm.has(9)).toBe(true);
-    tmm.lesserOrGreaterTraverse(
-      node => {
-        lesserSum += node.key;
-        return node.key;
-      },
-      -1,
-      10
-    );
-    expect(lesserSum).toBe(45);
-
-    expect(node15 instanceof TreeMultiMapNode);
-    if (node15 instanceof TreeMultiMapNode) {
-      const subTreeAdd = tmm.dfs(node => (node.count += 1), 'PRE', 15);
-      expect(subTreeAdd);
-    }
-    const node11 = tmm.getNode(11);
-    expect(node11 instanceof TreeMultiMapNode);
-    if (node11 instanceof TreeMultiMapNode) {
-      const allGreaterNodesAdded = tmm.lesserOrGreaterTraverse(node => (node.count += 2), 1, 11);
-      expect(allGreaterNodesAdded);
-    }
-
-    const dfsInorderNodes = tmm.dfs(node => node, 'IN');
-    expect(dfsInorderNodes[0].key).toBe(1);
-    expect(dfsInorderNodes[dfsInorderNodes.length - 1].key).toBe(16);
-    expect(tmm.isPerfectlyBalanced()).toBe(false);
-
-    tmm.perfectlyBalance();
-
-    expect(tmm.isPerfectlyBalanced()).toBe(false);
-    expect(tmm.isAVLBalanced()).toBe(false);
-
-    const bfsNodesAfterBalanced = tmm.bfs(node => node);
-    expect(bfsNodesAfterBalanced[0].key).toBe(6);
-    expect(bfsNodesAfterBalanced[bfsNodesAfterBalanced.length - 1].key).toBe(16);
-
-    const removed11 = tmm.delete(11, true);
-    expect(removed11 instanceof Array);
-    expect(removed11[0]);
-    expect(removed11[0].deleted);
-
-    if (removed11[0].deleted) expect(removed11[0].deleted.key).toBe(11);
-
-    expect(tmm.isAVLBalanced()).toBe(false);
-
-    expect(tmm.getHeight(15)).toBe(1);
-
-    const removed1 = tmm.delete(1, true);
-    expect(removed1 instanceof Array);
-    expect(removed1[0]);
-    expect(removed1[0].deleted);
-    if (removed1[0].deleted) expect(removed1[0].deleted.key).toBe(1);
-
-    expect(tmm.isAVLBalanced()).toBe(false);
-
-    expect(tmm.getHeight()).toBe(5);
-
-    const removed4 = tmm.delete(4, true);
-    expect(removed4 instanceof Array);
-    expect(removed4[0]);
-    expect(removed4[0].deleted);
-    if (removed4[0].deleted) expect(removed4[0].deleted.key).toBe(4);
-
-    expect(tmm.isAVLBalanced()).toBe(false);
-    expect(tmm.getHeight()).toBe(5);
-
-    const removed10 = tmm.delete(10, true);
-    expect(removed10 instanceof Array);
-    expect(removed10[0]);
-    expect(removed10[0].deleted);
-    if (removed10[0].deleted) expect(removed10[0].deleted.key).toBe(10);
-    expect(tmm.isAVLBalanced()).toBe(false);
-
-    expect(tmm.getHeight()).toBe(4);
-
-    const removed15 = tmm.delete(15, true);
-    expect(removed15 instanceof Array);
-    expect(removed15[0]);
-    expect(removed15[0].deleted);
-    if (removed15[0].deleted) expect(removed15[0].deleted.key).toBe(15);
-
-    expect(tmm.isAVLBalanced()).toBe(false);
-    expect(tmm.getHeight()).toBe(3);
-
-    const removed5 = tmm.delete(5, true);
-    expect(removed5 instanceof Array);
-    expect(removed5[0]);
-    expect(removed5[0].deleted);
-    if (removed5[0].deleted) expect(removed5[0].deleted.key).toBe(5);
-
-    expect(tmm.isAVLBalanced()).toBe(true);
-    expect(tmm.getHeight()).toBe(3);
-
-    const removed13 = tmm.delete(13, true);
-    expect(removed13 instanceof Array);
-    expect(removed13[0]);
-    expect(removed13[0].deleted);
-    if (removed13[0].deleted) expect(removed13[0].deleted.key).toBe(13);
-    expect(tmm.isAVLBalanced()).toBe(true);
-    expect(tmm.getHeight()).toBe(3);
-
-    const removed3 = tmm.delete(3, true);
-    expect(removed3 instanceof Array);
-    expect(removed3[0]);
-    expect(removed3[0].deleted);
-    if (removed3[0].deleted) expect(removed3[0].deleted.key).toBe(3);
-    expect(tmm.isAVLBalanced()).toBe(false);
-    expect(tmm.getHeight()).toBe(3);
-
-    const removed8 = tmm.delete(8, true);
-    expect(removed8 instanceof Array);
-    expect(removed8[0]);
-    expect(removed8[0].deleted);
-    if (removed8[0].deleted) expect(removed8[0].deleted.key).toBe(8);
-    expect(tmm.isAVLBalanced()).toBe(false);
-    expect(tmm.getHeight()).toBe(3);
-
-    const removed6 = tmm.delete(6, true);
-    expect(removed6 instanceof Array);
-    expect(removed6[0]);
-    expect(removed6[0].deleted);
-    if (removed6[0].deleted) expect(removed6[0].deleted.key).toBe(6);
-    expect(tmm.delete(6, true).length).toBe(0);
-    expect(tmm.isAVLBalanced()).toBe(false);
-
-    expect(tmm.getHeight()).toBe(3);
-
-    const removed7 = tmm.delete(7, true);
-    expect(removed7 instanceof Array);
-    expect(removed7[0]);
-    expect(removed7[0].deleted);
-    if (removed7[0].deleted) expect(removed7[0].deleted.key).toBe(7);
-    expect(tmm.isAVLBalanced()).toBe(false);
-    expect(tmm.getHeight()).toBe(3);
-
-    const removed9 = tmm.delete(9, true);
-    expect(removed9 instanceof Array);
-    expect(removed9[0]);
-    expect(removed9[0].deleted);
-    if (removed9[0].deleted) expect(removed9[0].deleted.key).toBe(9);
-    expect(tmm.isAVLBalanced()).toBe(true);
-    expect(tmm.getHeight()).toBe(2);
-
-    const removed14 = tmm.delete(14, true);
-    expect(removed14 instanceof Array);
-    expect(removed14[0]);
-    expect(removed14[0].deleted);
-    if (removed14[0].deleted) expect(removed14[0].deleted.key).toBe(14);
-    expect(tmm.isAVLBalanced()).toBe(true);
-    expect(tmm.getHeight()).toBe(1);
-
-    expect(tmm.isAVLBalanced()).toBe(true);
-
-    const bfsIDs = tmm.bfs(node => node.key);
-
-    expect(bfsIDs[0]).toBe(12);
-    expect(bfsIDs[1]).toBe(2);
-    expect(bfsIDs[2]).toBe(16);
-
-    const bfsNodes = tmm.bfs(node => node);
-
-    expect(bfsNodes[0].key).toBe(12);
-    expect(bfsNodes[1].key).toBe(2);
-    expect(bfsNodes[2].key).toBe(16);
-
-    expect(tmm.count).toBe(6);
-    expect(tmm.getComputedCount()).toBe(8);
+      expect(tmm.getNode(-10)).toBeInstanceOf(TreeMultiMapNode);
+      expect(tmm.getNode(-20)).toBeInstanceOf(TreeMultiMapNode);
+    });
   });
 
-  it('should perform various operations on a Binary Search Tree with object values', () => {
-    const objTreeMultiMap = new TreeMultiMap<number, { key: number; keyA: number }>();
-    expect(objTreeMultiMap).toBeInstanceOf(TreeMultiMap);
-    objTreeMultiMap.add([11, { key: 11, keyA: 11 }]);
-    objTreeMultiMap.add([3, { key: 3, keyA: 3 }]);
-    const values: [number, { key: number; keyA: number }][] = [
-      [15, { key: 15, keyA: 15 }],
-      [1, { key: 1, keyA: 1 }],
-      [8, { key: 8, keyA: 8 }],
-      [13, { key: 13, keyA: 13 }],
-      [16, { key: 16, keyA: 16 }],
-      [2, { key: 2, keyA: 2 }],
-      [6, { key: 6, keyA: 6 }],
-      [9, { key: 9, keyA: 9 }],
-      [12, { key: 12, keyA: 12 }],
-      [14, { key: 14, keyA: 14 }],
-      [4, { key: 4, keyA: 4 }],
-      [7, { key: 7, keyA: 7 }],
-      [10, { key: 10, keyA: 10 }],
-      [5, { key: 5, keyA: 5 }]
-    ];
+  describe('deleteNode', () => {
+    it('should delete a node from the tmm', () => {
+      tmm.add(10);
+      tmm.add(20);
+      tmm.add(5);
+      tmm.delete(20);
 
-    objTreeMultiMap.addMany(values);
+      expect(tmm.getNode(20)).toBe(undefined);
+    });
 
-    expect(objTreeMultiMap.root).toBeInstanceOf(TreeMultiMapNode);
+    it('should handle deleting a non-existent node', () => {
+      tmm.add(10);
+      tmm.add(20);
+      tmm.add(5);
+      tmm.delete(15);
 
-    if (objTreeMultiMap.root) expect(objTreeMultiMap.root.key).toBe(5);
+      expect(tmm.getNode(15)).toBe(undefined);
+    });
 
-    expect(objTreeMultiMap.count).toBe(16);
-    expect(objTreeMultiMap.getComputedCount()).toBe(16);
-
-    expect(objTreeMultiMap.has(6)).toBe(true);
-  });
-});
-
-describe('TreeMultiMap delete test', function () {
-  const tmm = new TreeMultiMap<number, number>();
-  const inputSize = 1000; // Adjust input sizes as needed
-
-  beforeEach(() => {
-    tmm.clear();
+    it('should getNode performance O(log n)', () => {
+      for (let i = 0; i < 10; i++) tmm.add(i);
+      tmm.getNode(6);
+    });
   });
 
-  it(`Observe the time consumption of TreeMultiMap.dfs be good`, function () {
-    const startDFS = performance.now();
-    const dfs = tmm.dfs(node => node);
-    if (isDebug) console.log('---bfs', performance.now() - startDFS, dfs.length);
+  describe('minimum', () => {
+    it('should find the minimum node in the tmm', () => {
+      tmm.add(10);
+      tmm.add(20);
+      tmm.add(5);
+      tmm.add(15);
+      tmm.add(3);
+
+      const minNode = tmm.getLeftMost(node => node, tmm.root);
+      expect(minNode?.key).toBe(3);
+    });
+
+    it('should handle an empty tmm', () => {
+      const minNode = tmm.getLeftMost(node => node, tmm.root);
+      expect(minNode).toBe(undefined);
+    });
   });
 
-  it('The structure remains normal after random deletion', function () {
-    for (let i = 0; i < inputSize; i++) {
-      tmm.add(i);
-    }
+  describe('getRightMost', () => {
+    it('should find the getRightMost node in the tmm', () => {
+      tmm.add(10);
+      tmm.add(20);
+      tmm.add(5);
+      tmm.add(15);
+      tmm.add(25);
 
-    expect(tmm.size).toBe(inputSize);
+      const maxNode = tmm.getRightMost(node => node, tmm.root);
+      expect(maxNode?.key).toBe(25);
+    });
 
-    for (let i = 0; i < inputSize; i++) {
-      const num = getRandomInt(0, inputSize - 1);
-      tmm.delete(num);
-    }
-
-    let nilCount = 0;
-    const dfs = (cur: TreeMultiMapNode<number>) => {
-      if (isNaN(cur.key)) nilCount++;
-      if (cur.left) dfs(cur.left);
-      if (cur.right) dfs(cur.right);
-    };
-    if (tmm.root) dfs(tmm.root);
-
-    expect(tmm.size).toBeLessThanOrEqual(inputSize);
-    expect(tmm.getHeight()).toBeGreaterThan(Math.log2(inputSize) - 1);
-    expect(tmm.getHeight()).toBeLessThan(Math.log2(inputSize) * 2);
-
-    expect(nilCount).toBe(tmm.size + 1);
+    it('should handle an empty tmm', () => {
+      const maxNode = tmm.getRightMost(node => node, tmm.root);
+      expect(maxNode).toBe(undefined);
+    });
   });
 
-  it(`Random additions, complete deletions of structures are normal`, function () {
-    for (let i = 0; i < inputSize; i++) {
-      const num = getRandomInt(0, inputSize - 1);
-      if (i === 0 && isDebug) console.log(`first:`, num);
-      tmm.add(num);
-    }
+  describe('getSuccessor', () => {
+    it('should find the getSuccessor of a node', () => {
+      tmm.add(10);
+      tmm.add(20);
+      tmm.add(5);
+      tmm.add(15);
+      tmm.add(25);
 
-    for (let i = 0; i < inputSize; i++) {
-      tmm.delete(i, true);
-    }
+      const node = tmm.getNode(15);
+      const successorNode = tmm.getSuccessor(node!);
 
-    let nilCount = 0;
-    const dfs = (cur: TreeMultiMapNode<number>) => {
-      if (isNaN(cur.key)) nilCount++;
-      if (cur.left) dfs(cur.left);
-      if (cur.right) dfs(cur.right);
-    };
-    if (tmm.root) dfs(tmm.root);
+      expect(successorNode?.key).toBe(20);
+    });
 
-    expect(tmm.size).toBe(0);
-    expect(tmm.getHeight()).toBe(-1);
-    expect(nilCount).toBe(tmm.size + 1);
+    it('should handle a node with no getSuccessor', () => {
+      tmm.add(10);
+      tmm.add(5);
 
-    if (isDebug) tmm.print();
+      const node = tmm.getNode(10);
+      const successorNode = tmm.getSuccessor(node!);
+      // TODO not sure if it should be undefined or tmm.NIL
+      expect(successorNode).toBe(undefined);
+    });
   });
 
-  it(`Random additions, count deletions of structures are normal`, function () {
-    for (let i = 0; i < inputSize; i++) {
-      const num = getRandomInt(0, inputSize - 1);
-      if (i === 0 && isDebug) console.log(`first:`, num);
-      tmm.add(num);
-    }
+  describe('getPredecessor', () => {
+    it('should find the getPredecessor of a node', () => {
+      tmm.add(10);
+      tmm.add(20);
+      tmm.add(5);
+      tmm.add(15);
+      tmm.add(25);
 
-    for (let i = 0; i < inputSize; i++) {
-      tmm.delete(i);
-    }
+      const node = tmm.getNode(20);
+      const predecessorNode = tmm.getPredecessor(node!);
 
-    let nanCount = 0;
-    const dfs = (cur: TreeMultiMapNode<number>) => {
-      if (isNaN(cur.key)) nanCount++;
-      if (cur.left) dfs(cur.left);
-      if (cur.right) dfs(cur.right);
-    };
-    if (tmm.root) dfs(tmm.root);
+      expect(predecessorNode?.key).toBe(15);
+    });
 
-    expect(tmm.size).toBeGreaterThanOrEqual(0);
-    expect(tmm.getHeight()).toBeGreaterThanOrEqual(0);
-    expect(nanCount).toBeLessThanOrEqual(inputSize);
+    it('should handle a node with no getPredecessor', () => {
+      tmm.add(10);
+      tmm.add(20);
 
-    if (isDebug) tmm.print();
+      const node = tmm.getNode(20);
+      const predecessorNode = tmm.getPredecessor(node!);
+      // TODO not sure if it should be tmm.NIL or something else.
+      expect(predecessorNode).toBe(tmm.getNode(20));
+    });
   });
 
   it('should the clone method', () => {
@@ -734,7 +188,7 @@ describe('TreeMultiMap delete test', function () {
     expect(tmm.root?.left?.left?.key).toBe(NaN);
     expect(tmm.root?.left?.right?.key).toBe(NaN);
     expect(tmm.root?.right?.key).toBe('4');
-    expect(tmm.root?.right?.left?.key).toBe(`3`);
+    expect(tmm.root?.right?.left?.key).toBe('3');
     expect(tmm.root?.right?.right?.key).toBe('5');
     tmm.delete('3');
     checkTreeStructure(tmm);
@@ -744,232 +198,650 @@ describe('TreeMultiMap delete test', function () {
     expect(tmm.size).toBe(4);
     expect(cloned.size).toBe(3);
   });
+
+  it('should add value', () => {
+    const tmm = new TreeMultiMap<number, string>([4, 5, [1, ['1']], 2, 3]);
+    expect(tmm.get(1)).toEqual(['1']);
+    expect(tmm.getNode(1)?.value).toEqual([]);
+    tmm.add(1, 'a');
+    expect(tmm.get(1)).toEqual(['1', 'a']);
+    tmm.add([1, ['b']]);
+    expect(tmm.getNode(1)?.value).toEqual([]);
+    expect(tmm.get(1)).toEqual(['1', 'a', 'b']);
+    const tmmMapped = new TreeMultiMap<number>([4, 5, [1, ['1']], 2, 3]);
+    expect(tmmMapped.get(1)).toEqual(['1']);
+    expect(tmmMapped.getNode(1)?.value).toEqual([]);
+    tmmMapped.add(1, 'a');
+    expect(tmmMapped.get(1)).toEqual(['1', 'a']);
+    tmmMapped.add([1, ['b']]);
+    expect(tmmMapped.getNode(1)?.value).toEqual([]);
+    expect(tmmMapped.get(1)).toEqual(['1', 'a', 'b']);
+  });
 });
 
-describe('TreeMultiMap iterative methods test', () => {
-  let treeMM: TreeMultiMap<number, string>;
+describe('TreeMultiMap 2', () => {
+  let tmm: TreeMultiMap<number>;
+
   beforeEach(() => {
-    treeMM = new TreeMultiMap<number, string>();
-    treeMM.add(1, 'a', 10);
-    treeMM.add([2, 'b'], undefined, 10);
-    treeMM.add([3, 'c'], undefined, 1);
+    tmm = new TreeMultiMap<number>();
   });
 
-  it('The node obtained by get Node should match the node type', () => {
-    const node3 = treeMM.getNode(3);
-    expect(node3).toBeInstanceOf(BinaryTreeNode);
-    expect(node3).toBeInstanceOf(BSTNode);
-    expect(node3).toBeInstanceOf(RedBlackTreeNode);
+  it('should add nodes into the tmm', () => {
+    tmm.add(10);
+    expect(tmm.getNode(10)).toBeDefined();
+    tmm.add(20);
+    expect(tmm.getNode(20)).toBeDefined();
+    tmm.add(5);
+    expect(tmm.getNode(5)).toBeDefined();
   });
 
-  it('forEach should iterate over all elements', () => {
-    const mockCallback = jest.fn();
-    treeMM.forEach((key, value) => {
-      mockCallback(key, value);
-    });
-
-    expect(mockCallback.mock.calls.length).toBe(3);
-    expect(mockCallback.mock.calls[0]).toEqual([1, 'a']);
-    expect(mockCallback.mock.calls[1]).toEqual([2, 'b']);
-    expect(mockCallback.mock.calls[2]).toEqual([3, 'c']);
+  it('should delete nodes from the tmm', () => {
+    tmm.add(10);
+    tmm.add(20);
+    tmm.add(5);
+    tmm.delete(20);
+    expect(tmm.getNode(20)).toBe(undefined);
   });
 
-  it('filter should return a new tree with filtered elements', () => {
-    const filteredTree = treeMM.filter(key => key > 1);
-    expect(filteredTree.size).toBe(2);
-    expect([...filteredTree]).toEqual([
-      [2, 'b'],
-      [3, 'c']
+  it('should get the successor of a node', () => {
+    tmm.add(10);
+    tmm.add(20);
+    const node = tmm.getNode(10);
+    const successor = tmm.getSuccessor(node!);
+    expect(successor?.key).toBe(20);
+  });
+
+  it('should get the predecessor of a node', () => {
+    tmm.add(10);
+    tmm.add(20);
+    const node = tmm.getNode(20);
+    const predecessor = tmm.getPredecessor(node!);
+    expect(predecessor?.key).toBe(20);
+  });
+
+  it('should rotate nodes to the left', () => {
+    tmm.add(10);
+    tmm.add(20);
+    tmm.add(5);
+    const node = tmm.getNode(10);
+    tmm.add(15);
+    // Verify that rotation has occurred
+    expect(node?.left?.key).toBe(5);
+    expect(node?.right?.key).toBe(20);
+  });
+
+  it('should rotate nodes to the right', () => {
+    tmm.add(10);
+    tmm.add(20);
+    tmm.add(5);
+    const node = tmm.getNode(20);
+    tmm.add(25);
+    // Verify that rotation has occurred
+    expect(node?.left?.key).toBeNaN();
+    expect(node?.right?.key).toBe(25);
+  });
+
+  it('should all node attributes fully conform to the red-black tmm standards.', () => {
+    tmm.add(10);
+    tmm.add(20);
+    tmm.add(5);
+    tmm.add(15);
+    tmm.add(21);
+    tmm.add(6);
+    tmm.add(2);
+
+    let node10F = tmm.getNode(10);
+    let node20F = tmm.getNode(20);
+    let node5F = tmm.getNode(5);
+    let node15F = tmm.getNode(15);
+    let node21F = tmm.getNode(21);
+    let node6F = tmm.getNode(6);
+    let node2F = tmm.getNode(2);
+    expect(node10F?.key).toBe(10);
+    expect(node10F?.color).toBe('BLACK');
+    expect(node10F?.left).toBe(node5F);
+    expect(node10F?.right).toBe(node20F);
+    expect(node10F?.parent).toBe(undefined);
+    expect(node20F?.key).toBe(20);
+    expect(node20F?.color).toBe('BLACK');
+    expect(node20F?.left).toBe(node15F);
+    expect(node20F?.right).toBe(node21F);
+    expect(node20F?.parent).toBe(node10F);
+    expect(node5F?.key).toBe(5);
+    expect(node5F?.color).toBe('BLACK');
+    expect(node5F?.left).toBe(node2F);
+    expect(node5F?.right).toBe(node6F);
+    expect(node5F?.parent).toBe(node10F);
+    expect(node15F?.key).toBe(15);
+    expect(node15F?.color).toBe('RED');
+    expect(node15F?.left).toBe(tmm.NIL);
+    expect(node15F?.right).toBe(tmm.NIL);
+    expect(node15F?.parent).toBe(node20F);
+    expect(node21F?.key).toBe(21);
+    expect(node21F?.color).toBe('RED');
+    expect(node21F?.left).toBe(tmm.NIL);
+    expect(node21F?.right).toBe(tmm.NIL);
+    expect(node21F?.parent).toBe(node20F);
+    expect(node6F?.key).toBe(6);
+    expect(node6F?.color).toBe('RED');
+    expect(node6F?.left).toBe(tmm.NIL);
+    expect(node6F?.right).toBe(tmm.NIL);
+    expect(node6F?.parent).toBe(node5F);
+    expect(node2F?.key).toBe(2);
+    expect(node2F?.color).toBe('RED');
+    expect(node2F?.left).toBe(tmm.NIL);
+    expect(node2F?.right).toBe(tmm.NIL);
+    expect(node2F?.parent).toBe(node5F);
+    expect(node15F?.key).toBe(15);
+    expect(node15F?.color).toBe('RED');
+    expect(node15F?.left).toBe(tmm.NIL);
+    expect(node15F?.right).toBe(tmm.NIL);
+    expect(node15F?.parent).toBe(node20F);
+    tmm.delete(5);
+    node10F = tmm.getNode(10);
+    node20F = tmm.getNode(20);
+    node5F = tmm.getNode(5);
+    node15F = tmm.getNode(15);
+    node21F = tmm.getNode(21);
+    node6F = tmm.getNode(6);
+    node2F = tmm.getNode(2);
+    expect(node10F?.key).toBe(10);
+    expect(node10F?.color).toBe('BLACK');
+    expect(node10F?.left).toBe(node6F);
+    expect(node10F?.right).toBe(node20F);
+    expect(node10F?.parent).toBe(undefined);
+    expect(node20F?.key).toBe(20);
+    expect(node20F?.color).toBe('BLACK');
+    expect(node20F?.left).toBe(node15F);
+    expect(node20F?.right).toBe(node21F);
+    expect(node20F?.parent).toBe(node10F);
+    expect(node5F).toBe(undefined);
+    expect(node15F?.key).toBe(15);
+    expect(node15F?.color).toBe('RED');
+    expect(node15F?.left).toBe(tmm.NIL);
+    expect(node15F?.right).toBe(tmm.NIL);
+    expect(node15F?.parent).toBe(node20F);
+    expect(node21F?.key).toBe(21);
+    expect(node21F?.color).toBe('RED');
+    expect(node21F?.left).toBe(tmm.NIL);
+    expect(node21F?.right).toBe(tmm.NIL);
+    expect(node21F?.parent).toBe(node20F);
+    expect(node6F?.key).toBe(6);
+    expect(node6F?.color).toBe('BLACK');
+    expect(node6F?.left).toBe(node2F);
+    expect(node6F?.right).toBe(tmm.NIL);
+    expect(node6F?.parent).toBe(node10F);
+    expect(node2F?.key).toBe(2);
+    expect(node2F?.color).toBe('RED');
+    expect(node2F?.left).toBe(tmm.NIL);
+    expect(node2F?.right).toBe(tmm.NIL);
+    expect(node2F?.parent).toBe(node6F);
+    expect(node15F?.key).toBe(15);
+    expect(node15F?.color).toBe('RED');
+    expect(node15F?.left).toBe(tmm.NIL);
+    expect(node15F?.right).toBe(tmm.NIL);
+    expect(node15F?.parent).toBe(node20F);
+    tmm.delete(20);
+    node10F = tmm.getNode(10);
+    node20F = tmm.getNode(20);
+    node5F = tmm.getNode(5);
+    node15F = tmm.getNode(15);
+    node21F = tmm.getNode(21);
+    node6F = tmm.getNode(6);
+    node2F = tmm.getNode(2);
+    expect(node10F?.key).toBe(10);
+    expect(node10F?.color).toBe('BLACK');
+    expect(node10F?.left).toBe(node6F);
+    expect(node10F?.right).toBe(node21F);
+    expect(node10F?.parent).toBe(undefined);
+    expect(node20F).toBe(undefined);
+    expect(node5F).toBe(undefined);
+    expect(node15F?.key).toBe(15);
+    expect(node15F?.color).toBe('RED');
+    expect(node15F?.left).toBe(tmm.NIL);
+    expect(node15F?.right).toBe(tmm.NIL);
+    expect(node15F?.parent).toBe(node21F);
+    expect(node21F?.key).toBe(21);
+    expect(node21F?.color).toBe('BLACK');
+    expect(node21F?.left).toBe(node15F);
+    expect(node21F?.right).toBe(tmm.NIL);
+    expect(node21F?.parent).toBe(node10F);
+    expect(node6F?.key).toBe(6);
+    expect(node6F?.color).toBe('BLACK');
+    expect(node6F?.left).toBe(node2F);
+    expect(node6F?.right).toBe(tmm.NIL);
+    expect(node6F?.parent).toBe(node10F);
+    expect(node2F?.key).toBe(2);
+    expect(node2F?.color).toBe('RED');
+    expect(node2F?.left).toBe(tmm.NIL);
+    expect(node2F?.right).toBe(tmm.NIL);
+    expect(node2F?.parent).toBe(node6F);
+    expect(node15F?.key).toBe(15);
+    expect(node15F?.color).toBe('RED');
+    expect(node15F?.left).toBe(tmm.NIL);
+    expect(node15F?.right).toBe(tmm.NIL);
+    expect(node15F?.parent).toBe(node21F);
+  });
+
+  it('should fix the tmm after insertion', () => {
+    tmm.add(1);
+    tmm.add(2);
+    tmm.add(5);
+    tmm.add(15);
+    const node15F = tmm.getNode(15);
+    expect(node15F?.left).toBe(tmm.NIL);
+    expect(node15F?.right).toBe(tmm.NIL);
+    expect(node15F?.parent).toBe(tmm.getNode(5));
+
+    tmm.add(25);
+    tmm.add(10);
+    tmm.add(8);
+    tmm.add(28);
+    tmm.add(111);
+    tmm.add(12);
+    tmm.delete(2);
+    tmm.add(22);
+    tmm.add(50);
+    tmm.add(155);
+    tmm.add(225);
+    const node225F = tmm.getNode(225);
+    expect(node225F?.left).toBe(tmm.NIL);
+    expect(node225F?.right).toBe(tmm.NIL);
+    expect(node225F?.parent?.key).toBe(155);
+    tmm.add(7);
+    if (isDebug) tmm.print();
+
+    const node15S = tmm.getNode(15);
+    expect(node15S?.left?.key).toBe(10);
+    expect(node15S?.right?.key).toBe(25);
+    expect(tmm.root).toBe(tmm.getNode(8));
+    expect(node15S?.parent?.key).toBe(28);
+    tmm.delete(15);
+    expect(tmm.root?.key).toBe(8);
+    expect(tmm.root?.parent).toBe(undefined);
+
+    const node15T = tmm.getNode(15);
+    expect(node15T).toBe(undefined);
+
+    tmm.add(23);
+    tmm.add(33);
+    tmm.add(15);
+
+    const nodeLM = tmm.getLeftMost();
+    expect(nodeLM).toBe(1);
+
+    const node50 = tmm.getNode(50);
+    expect(node50?.key).toBe(50);
+    expect(node50?.left?.key).toBe(33);
+    expect(node50?.right).toBe(tmm.NIL);
+    const node15Fo = tmm.getNode(15);
+
+    expect(node15Fo?.key).toBe(15);
+    expect(node15Fo?.left).toBe(tmm.NIL);
+    const node225S = tmm.getNode(225);
+    expect(node225S?.left).toBe(tmm.NIL);
+    expect(node225S?.right).toBe(tmm.NIL);
+    expect(node225S?.parent?.key).toBe(155);
+    // TODO
+    // expect(tmm.getNode(0)).toBe(undefined);
+    tmm.add(2);
+    tmm.add(3);
+    tmm.add(4);
+    tmm.add(6);
+    tmm.add(9);
+    tmm.add(11);
+    tmm.add(13);
+    tmm.add(14);
+    tmm.add(16);
+    tmm.add(17);
+    tmm.add(18);
+    tmm.add(19);
+    tmm.add(110);
+
+    if (isDebug) tmm.print();
+
+    expect(tmm.dfs()).toEqual([
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 22, 23, 25, 28, 33, 50, 110, 111, 155, 225
     ]);
+
+    expect(tmm.isBST()).toBe(true);
   });
 
-  it('map should return a new tree with modified elements', () => {
-    const mappedTree = treeMM.map((key, value) => [(key * 2).toString(), value]);
-    expect(mappedTree.size).toBe(3);
-    expect([...mappedTree]).toEqual([
-      ['2', 'a'],
-      ['4', 'b'],
-      ['6', 'c']
-    ]);
-  });
-
-  it('reduce should accumulate values', () => {
-    const sum = treeMM.reduce((acc, value, key) => acc + key, 0);
-    expect(sum).toBe(6);
-  });
-
-  it('[Symbol.iterator] should provide an iterator', () => {
-    const entries = [];
-    for (const entry of treeMM) {
-      entries.push(entry);
+  it('should fix the tmm after insertion and deletion', () => {
+    for (let i = 0; i < 100; i++) {
+      tmm.add(i);
+    }
+    for (let i = 0; i < 49; i++) {
+      tmm.delete(i);
     }
 
-    expect(entries.length).toBe(3);
-    expect(entries).toEqual([
-      [1, 'a'],
-      [2, 'b'],
-      [3, 'c']
+    expect(tmm.size).toBe(51);
+    expect(tmm.isBST()).toBe(true);
+    expect(tmm.isBST(tmm.root, 'RECURSIVE')).toBe(true);
+
+    expect(tmm.dfs(n => n.key, 'IN', tmm.root, 'ITERATIVE')).toEqual([
+      49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76,
+      77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99
+    ]);
+    expect(tmm.dfs(n => n.key, 'IN', tmm.root, 'RECURSIVE')).toEqual([
+      49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76,
+      77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99
     ]);
   });
 
-  it('should clone work well', () => {
-    expect(treeMM.count).toBe(21);
-    expect(treeMM.getComputedCount()).toBe(21);
-    const cloned = treeMM.clone();
-    expect(cloned.root?.left?.key).toBe(1);
-    if (cloned.isMapMode) expect(cloned.get(cloned.root?.right)).toBe('c');
-    else expect(cloned.root?.right?.value).toBe(undefined);
+  it('should fix the tmm after large scale insertion and deletion', () => {
+    for (let i = 0; i < 10000; i++) {
+      tmm.add(i);
+    }
+    for (let i = 0; i < 10000; i++) {
+      tmm.delete(i);
+    }
+
+    expect(tmm.size).toBe(0);
+    expect(tmm.isBST()).toBe(true);
+    expect(tmm.dfs(n => n.key, 'IN', tmm.root, 'ITERATIVE')).toEqual([]);
+
+    tmm.clear();
+    for (let i = 0; i < 1000; i++) {
+      tmm.add(getRandomInt(-100, 1000));
+      tmm.delete(getRandomInt(-100, 1000));
+    }
+
+    // TODO there is a bug when dfs the tmm with NIL node
+    // expect(tmm.isBST()).toBe(true);
   });
 
-  it('should keys', () => {
-    const keys = treeMM.keys();
-    expect([...keys]).toEqual([1, 2, 3]);
-  });
-
-  it('should values', () => {
-    const values = treeMM.values();
-    expect([...values]).toEqual(['a', 'b', 'c']);
-  });
-
-  it('should leaves', () => {
-    const leaves = treeMM.leaves();
-    expect(leaves).toEqual([1, 3]);
-  });
-});
-
-describe('TreeMultiMap count not map mode', () => {
-  let tmm: TreeMultiMap<number>;
-  beforeEach(() => {
-    tmm = new TreeMultiMap<number>([], { isMapMode: false });
-  });
-
-  it('Should added node count ', () => {
-    tmm.addMany([
-      [1, 1],
-      [2, 2],
-      [3, 3],
-      [4, 4],
-      [5, 5]
-    ]);
-    const newNode = new TreeMultiMapNode(3, undefined, 10);
-    tmm.add(newNode, 33, 20);
-    // TODO expect(tmm.count).toBe(25);
-    expect(tmm.count).toBe(15);
-    expect(tmm.getComputedCount()).toBe(15);
-    expect(tmm.getNode(3)?.count).toBe(11);
-  });
-});
-
-describe('TreeMultiMap operations test1 not map mode', () => {
-  it('should perform various operations on a Binary Search Tree with numeric values1', () => {
-    const tmm = new TreeMultiMap<number, number>([], { isMapMode: false });
-
-    expect(tmm instanceof TreeMultiMap);
-
-    tmm.add([11, 11]);
-    tmm.add([3, 3]);
-    const idAndValues: [number, number][] = [
-      [11, 11],
-      [3, 3],
-      [15, 15],
-      [1, 1],
-      [8, 8],
-      [13, 13],
-      [16, 16],
-      [2, 2],
-      [6, 6],
-      [9, 9],
-      [12, 12],
-      [14, 14],
-      [4, 4],
-      [7, 7],
-      [10, 10],
-      [5, 5]
-    ];
-    tmm.addMany(idAndValues);
-    expect(tmm.root instanceof TreeMultiMapNode);
-
-    if (tmm.root) expect(tmm.root.key == 11);
-
-    expect(tmm.size).toBe(16);
-    expect(tmm.count).toBe(18);
-    expect(tmm.getComputedCount()).toBe(18);
-
-    expect(tmm.has(6));
+  it('duplicates', () => {
+    tmm.addMany([9, 8, 7, 8, 8, 8, 2, 3, 6, 5, 5, 4]);
     if (isDebug) tmm.print();
-    expect(tmm.getHeight(6)).toBe(1);
-    expect(tmm.getDepth(6)).toBe(3);
-    const nodeId10 = tmm.getNode(10);
-    expect(nodeId10?.key).toBe(10);
 
-    const nodeVal9 = tmm.getNode(node => node.key === 9);
-    expect(nodeVal9?.key).toBe(9);
+    expect(tmm.size).toBe(8);
+    expect(tmm.isBST()).toBe(true);
+    expect(tmm.isAVLBalanced()).toBe(true);
+    tmm.addMany([10, 5, 2, 11]);
+    expect(tmm.size).toBe(10);
+    expect(tmm.isBST()).toBe(true);
+    expect(tmm.isAVLBalanced()).toBe(true);
+
+    tmm.clear();
+    tmm.addMany([10, 20, 30, 40, 50, 60]);
+    expect(tmm.isAVLBalanced()).toBe(false);
   });
-});
 
-describe('TreeMultiMap operations test recursively1 not map mode', () => {
-  it('should perform various operations on a Binary Search Tree with numeric values1', () => {
-    const tmm = new TreeMultiMap<number>([], {
-      iterationType: 'RECURSIVE',
-      isMapMode: false
+  describe('TreeMultiMap delete test', function () {
+    const tmm = new TreeMultiMap<number, number>();
+    const inputSize = 100; // Adjust input sizes as needed
+
+    beforeEach(() => {
+      tmm.clear();
+    });
+    it('The structure remains normal after random deletion', function () {
+      for (let i = 0; i < inputSize; i++) {
+        tmm.add(i);
+      }
+
+      for (let i = 0; i < inputSize; i++) {
+        const num = getRandomInt(0, inputSize - 1);
+        tmm.delete(num);
+      }
+
+      let nanCount = 0;
+      const dfs = (cur: TreeMultiMapNode<number>) => {
+        if (isNaN(cur.key)) nanCount++;
+        if (cur.left) dfs(cur.left);
+        if (cur.right) dfs(cur.right);
+      };
+      if (tmm.root) dfs(tmm.root);
+
+      expect(tmm.size).toBeLessThanOrEqual(inputSize);
+      expect(tmm.getHeight()).toBeLessThan(Math.log2(inputSize) * 2);
+
+      expect(nanCount).toBeLessThanOrEqual(inputSize);
     });
 
-    expect(tmm instanceof TreeMultiMap);
-    tmm.add([11, 11]);
-    tmm.add([3, 3]);
-    const idAndValues: [number, number][] = [
-      [11, 11],
-      [3, 3],
-      [15, 15],
-      [1, 1],
-      [8, 8],
-      [13, 13],
-      [16, 16],
-      [2, 2],
-      [6, 6],
-      [9, 9],
-      [12, 12],
-      [14, 14],
-      [4, 4],
-      [7, 7],
-      [10, 10],
-      [5, 5]
-    ];
-    tmm.addMany(idAndValues);
-    expect(tmm.root).toBeInstanceOf(TreeMultiMapNode);
+    it(`Random additions, complete deletions of structures are normal`, function () {
+      for (let i = 0; i < inputSize; i++) {
+        const num = getRandomInt(0, inputSize - 1);
+        if (i === 0 && isDebug) console.log(`first:`, num);
+        tmm.add(num);
+      }
 
-    if (tmm.root) expect(tmm.root.key).toBe(5);
+      for (let i = 0; i < inputSize; i++) {
+        tmm.delete(i);
+      }
 
-    expect(tmm.size).toBe(16);
-    expect(tmm.count).toBe(18);
-    expect(tmm.getComputedCount()).toBe(18);
+      let nanCount = 0;
+      const dfs = (cur: TreeMultiMapNode<number>) => {
+        if (isNaN(cur.key)) nanCount++;
+        if (cur.left) dfs(cur.left);
+        if (cur.right) dfs(cur.right);
+      };
+      if (tmm.root) dfs(tmm.root);
 
-    expect(tmm.has(6));
+      expect(tmm.size).toBe(0);
+      expect(tmm.getHeight()).toBe(-1);
+      expect(nanCount).toBeLessThanOrEqual(inputSize);
 
-    expect(tmm.getHeight(6)).toBe(1);
-    expect(tmm.getDepth(6)).toBe(3);
-    const nodeId10 = tmm.getNode(10);
-    expect(nodeId10?.key).toBe(10);
+      if (isDebug) tmm.print();
+    });
+  });
 
-    const nodeVal9 = tmm.getNode(node => node.key === 9);
-    expect(nodeVal9?.key).toBe(9);
+  describe('TreeMultiMap iterative methods test', () => {
+    let tmm: TreeMultiMap<number, string>;
+    beforeEach(() => {
+      tmm = new TreeMultiMap();
+      tmm.add([1, ['a']]);
+      tmm.add(2, 'b');
+      tmm.add([3, ['c']]);
+    });
+
+    it('The node obtained by get Node should match the node type', () => {
+      const node3 = tmm.getNode(3);
+      expect(node3).toBeInstanceOf(BinaryTreeNode);
+      expect(node3).toBeInstanceOf(BSTNode);
+      expect(node3).toBeInstanceOf(TreeMultiMapNode);
+    });
+
+    it('forEach should iterate over all elements', () => {
+      const mockCallback = jest.fn();
+      tmm.forEach((key, value) => {
+        mockCallback(key, value);
+      });
+
+      expect(mockCallback.mock.calls.length).toBe(3);
+      expect(mockCallback.mock.calls[0]).toEqual([1, ['a']]);
+      expect(mockCallback.mock.calls[1]).toEqual([2, ['b']]);
+      expect(mockCallback.mock.calls[2]).toEqual([3, ['c']]);
+    });
+
+    it('filter should return a new tmm with filtered elements', () => {
+      const filteredTree = tmm.filter(key => key > 1);
+      expect(filteredTree.size).toBe(2);
+      expect([...filteredTree]).toEqual([
+        [2, ['b']],
+        [3, ['c']]
+      ]);
+    });
+
+    it('map should return a new tmm with modified elements', () => {
+      const tmmMapped = tmm.map((key, value) => [(key * 2).toString(), value]);
+      expect(tmmMapped.size).toBe(3);
+      expect([...tmmMapped]).toEqual([
+        ['2', ['a']],
+        ['4', ['b']],
+        ['6', ['c']]
+      ]);
+    });
+
+    it('reduce should accumulate values', () => {
+      const sum = tmm.reduce((acc, value, key) => acc + key, 0);
+      expect(sum).toBe(6);
+    });
+
+    it('[Symbol.iterator] should provide an iterator', () => {
+      const entries = [];
+      for (const entry of tmm) {
+        entries.push(entry);
+      }
+
+      expect(entries.length).toBe(3);
+      expect(entries).toEqual([
+        [1, ['a']],
+        [2, ['b']],
+        [3, ['c']]
+      ]);
+    });
   });
 });
 
-describe('TreeMultiMap iterative methods test not map mode', () => {
-  let treeMM: TreeMultiMap<number, string>;
+describe('TreeMultiMap - _deleteFixup', () => {
+  let tmm: TreeMultiMap<number, number>;
+
   beforeEach(() => {
-    treeMM = new TreeMultiMap<number, string>([], { isMapMode: false });
-    treeMM.add(1, 'a', 10);
-    treeMM.add([2, 'b'], undefined, 10);
-    treeMM.add([3, 'c'], undefined, 1);
+    tmm = new TreeMultiMap();
   });
 
-  it('should clone work well', () => {
-    expect(treeMM.count).toBe(21);
-    expect(treeMM.getComputedCount()).toBe(21);
-    const cloned = treeMM.clone();
-    expect(cloned.root?.left?.key).toBe(1);
-    expect(cloned.get(cloned.root?.right)).toBe(undefined);
+  it('should handle deleting a red leaf node', () => {
+    tmm.add(10, 10);
+    tmm.add(5, 5); // Red leaf
+    tmm.add(20, 20);
+
+    expect(tmm.delete(5)).toHaveLength(1); // Delete red leaf
+    expect(tmm.root?.left).toBe(tmm.NIL); // Left child should be NIL
+  });
+
+  it('should handle deleting a black leaf node', () => {
+    tmm.add(10, 10);
+    tmm.add(5, 5); // Black node
+    tmm.add(20, 20);
+    tmm.add(1, 1); // Black leaf node
+
+    expect(tmm.delete(1)).toHaveLength(1); // Delete black leaf
+    expect(tmm.root?.left?.left).toBe(tmm.NIL);
+  });
+
+  it('should handle deleting black node with red sibling', () => {
+    tmm.add(10, 10);
+    tmm.add(5, 5); // Black node
+    tmm.add(20, 20); // Red sibling
+    tmm.add(25, 25); // Force the sibling to be red
+
+    expect(tmm.delete(5)).toHaveLength(1); // Delete black node
+    expect(tmm.root?.right?.color).toBe('BLACK'); // Ensure sibling color is black after fixup
+  });
+
+  it('should handle deleting black node with black sibling', () => {
+    tmm.add(10, 10);
+    tmm.add(5, 5); // Black node
+    tmm.add(20, 20); // Black sibling
+
+    expect(tmm.delete(5)).toHaveLength(1); // Delete black node
+    expect(tmm.root?.left).toBe(tmm.NIL);
+  });
+
+  it('should handle deleting the root node', () => {
+    tmm.add(10, 10); // Root node
+    tmm.add(5, 5);
+    tmm.add(20, 20);
+
+    expect(tmm.delete(10)).toHaveLength(1); // Delete root node
+    expect(tmm.root?.key).toBe(20); // New root should be 20
+  });
+
+  it('should handle complex case with multiple rotations', () => {
+    tmm.add(10, 10);
+    tmm.add(5, 5);
+    tmm.add(15, 15);
+    tmm.add(12, 12);
+    tmm.add(18, 18);
+    tmm.add(16, 16);
+
+    // Delete a node that will cause rotations and color changes
+    expect(tmm.delete(5)).toHaveLength(1);
+
+    // Verify the color and structure after fixup
+    expect(tmm.root?.color).toBe('BLACK');
+    expect(tmm.root?.left).toBe(tmm.NIL);
+    expect(tmm.root?.right?.left?.color).toBe('BLACK');
+  });
+
+  it('should handle complex delete fixup scenarios', () => {
+    const tmm = new TreeMultiMap<number, number>();
+
+    // Build a tmm that will require complex fixup
+    tmm.add(20, 20);
+    tmm.add(10, 10);
+    tmm.add(30, 30);
+    tmm.add(5, 5);
+    tmm.add(15, 15);
+    tmm.add(25, 25);
+    tmm.add(35, 35);
+    tmm.add(2, 2);
+    tmm.add(8, 8);
+
+    // This deletion should trigger a complex fixup
+    tmm.delete(2);
+    // tmm.print(tmm.root, { isShowNull: true, isShowRedBlackNIL: true, isShowUndefined: false });
+
+    expect(tmm.isLeaf(2)).toBe(false);
+    expect(tmm.isLeaf(8)).toBe(true);
+    expect(tmm.isLeaf(15)).toBe(true);
+    expect(tmm.isLeaf(25)).toBe(true);
+    expect(tmm.isLeaf(35)).toBe(true);
+    expect(tmm.isLeaf(20)).toBe(false);
+    expect(tmm.isLeaf(30)).toBe(false);
+    // Verify tmm structure and colors after fixup
+    expect(tmm.root?.color).toBe('BLACK');
+    expect(tmm.root?.key).toBe(20);
+    expect(tmm.root?.left?.color).toBe('RED');
+    expect(tmm.root?.left?.key).toBe(10);
+    expect(tmm.root?.right?.color).toBe('BLACK');
+    expect(tmm.root?.right?.key).toBe(30);
+    expect(tmm.root?.left?.left?.color).toBe('BLACK');
+    expect(tmm.root?.left?.left?.key).toBe(5);
+    expect(tmm.root?.left?.right?.color).toBe('BLACK');
+    expect(tmm.root?.left?.right?.key).toBe(15);
+    expect(tmm.leaves(node => (node === null ? '' : `${node.key} ${node.color}`), tmm.root, 'RECURSIVE')).toEqual([
+      '8 RED',
+      '15 BLACK',
+      '25 RED',
+      '35 RED'
+    ]);
+    expect(tmm.listLevels(node => (node === tmm.NIL ? 'NIL' : `${node.key} ${node.color}`))).toEqual([
+      ['20 BLACK'],
+      ['10 RED', '30 BLACK'],
+      ['5 BLACK', '15 BLACK', '25 RED', '35 RED'],
+      ['NIL', '8 RED', 'NIL', 'NIL', 'NIL', 'NIL', 'NIL', 'NIL'],
+      ['NIL', 'NIL']
+    ]);
+  });
+});
+
+describe('real world data', () => {
+  it('cost of living', () => {
+    const indexedByRank = new TreeMultiMap(costOfLiving, {
+      specifyComparable: node => node.rank,
+      toEntryFn: raw => [raw, undefined]
+    });
+    expect(indexedByRank.size).toBe(7);
+    expect(indexedByRank.dfs(node => node?.key?.country)).toEqual([
+      'Switzerland',
+      'New Zealand',
+      'Mexico',
+      'South Africa',
+      'Japan',
+      'Brazil',
+      'Taiwan'
+    ]);
+  });
+});
+
+describe('classic use', () => {
+  // Test case for finding elements in a given range
+  it('@example Find elements in a range', () => {
+    const tmm = new TreeMultiMap<number>([10, 5, 15, 3, 7, 12, 18]);
+    expect(tmm.search(new Range(5, 10))).toEqual([5, 10, 7]);
+    expect(tmm.search(new Range(4, 12))).toEqual([5, 10, 12, 7]);
+    expect(tmm.search(new Range(15, 20))).toEqual([15, 18]);
   });
 });

@@ -3,19 +3,19 @@
   "version": "1.54.0",
   "description": "Javascript Data Structure. Heap, Binary Tree, Red Black Tree, Linked List, Deque, Trie, HashMap, Directed Graph, Undirected Graph, Binary Search Tree(BST), AVL Tree, Priority Queue, Graph, Queue, Tree Multiset, Singly Linked List, Doubly Linked List, Max Heap, Max Priority Queue, Min Heap, Min Priority Queue, Stack. Benchmark compared with C++ STL. API aligned with ES6 and Java.util. Usability is comparable to Python",
   "main": "dist/cjs/index.js",
-  "module": "dist/mjs/index.js",
+  "module": "dist/esm/index.js",
   "browser": "dist/umd/data-structure-typed.min.js",
-  "types": "dist/mjs/index.d.ts",
+  "types": "dist/esm/index.d.ts",
   "umd:main": "dist/umd/data-structure-typed.min.js",
   "exports": {
     ".": {
-      "import": "./dist/mjs/index.js",
+      "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.js"
     }
   },
   "scripts": {
-    "build": "npm run build:mjs && npm run build:cjs && npm run build:umd && npm run build:docs-class",
-    "build:mjs": "rm -rf dist/mjs && tsc -p tsconfig-mjs.json",
+    "build": "npm run build:esm && npm run build:cjs && npm run build:umd && npm run build:docs-class",
+    "build:esm": "rm -rf dist/esm && tsc -p tsconfig-esm.json",
     "build:cjs": "rm -rf dist/cjs && tsc -p tsconfig-cjs.json",
     "build:umd": "tsup",
     "build:docs": "npm run gen:examples && typedoc --out docs ./src",
@@ -24,7 +24,7 @@
     "test:in-band": "jest --runInBand",
     "test": "npm run test:in-band",
     "test:integration": "npm run update:subs && jest --config jest.integration.config.js && tsc test/integration/compile.ts",
-    "test:perf": "npm run build:cjs && npm run build:mjs && ts-node test/performance/reportor.ts",
+    "test:perf": "npm run build:cjs && npm run build:esm && ts-node test/performance/reportor.ts",
     "check": "tsc --noEmit",
     "check:circular-refs": "dependency-cruiser src",
     "lint:src": "eslint --fix 'src/**/*.{js,ts}'",
@@ -54,7 +54,7 @@
     "url": "https://github.com/zrwusa/data-structure-typed/issues"
   },
   "homepage": "https://data-structure-typed-docs.vercel.app",
-  "author": "Tyler Zeng <zrwusa@gmail.com>",
+  "author": "Pablo Zeng <zrwusa@gmail.com>",
   "license": "MIT",
   "publishConfig": {
     "@zrwusa:registry": "https://npm.pkg.github.com"

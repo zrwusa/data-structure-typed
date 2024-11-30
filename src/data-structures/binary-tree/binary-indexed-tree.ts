@@ -7,6 +7,9 @@
  */
 import { getMSB } from '../../utils';
 
+/**
+ *
+ */
 export class BinaryIndexedTree {
   protected readonly _freq: number;
   protected readonly _max: number;

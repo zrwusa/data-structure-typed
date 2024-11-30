@@ -8,13 +8,13 @@ const { HUNDRED_THOUSAND } = magnitude;
 const randomArray = getRandomIntArray(HUNDRED_THOUSAND, 0, HUNDRED_THOUSAND - 1, true);
 
 suite
-  .add(`${HUNDRED_THOUSAND.toLocaleString()} add`, () => {
-    avlTree.clear();
-    for (let i = 0; i < randomArray.length; i++) avlTree.add(i);
-  })
   .add(`${HUNDRED_THOUSAND.toLocaleString()} add randomly`, () => {
     avlTree.clear();
     for (let i = 0; i < randomArray.length; i++) avlTree.add(randomArray[i]);
+  })
+  .add(`${HUNDRED_THOUSAND.toLocaleString()} add`, () => {
+    avlTree.clear();
+    for (let i = 0; i < randomArray.length; i++) avlTree.add(i);
   })
   .add(`${HUNDRED_THOUSAND.toLocaleString()} get`, () => {
     for (let i = 0; i < randomArray.length; i++) avlTree.get(randomArray[i]);

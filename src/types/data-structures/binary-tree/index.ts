@@ -5,3 +5,5 @@ export * from './segment-tree';
 export * from './avl-tree-multi-map';
 export * from './rb-tree';
 export * from './tree-multi-map';
+export * from './tree-counter';
+export * from './avl-tree-counter';

@@ -1,6 +1,6 @@
-import { PriorityQueue as MJSPriorityQueue } from '../../../../dist/cjs';
+import { PriorityQueue as MJSPriorityQueue } from '../../../../dist/esm';
 import { PriorityQueue as SRCPriorityQueue } from '../../../../src';
-import { PriorityQueue as CJSPriorityQueue } from '../../../../dist/mjs';
+import { PriorityQueue as CJSPriorityQueue } from '../../../../dist/cjs';
 import {
   Deque as CDeque,
   HashMap as CHashMap,

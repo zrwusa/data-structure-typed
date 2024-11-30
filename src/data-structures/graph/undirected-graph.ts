@@ -42,6 +42,9 @@ export class UndirectedEdge<E = number> extends AbstractEdge<E> {
   }
 }
 
+/**
+ *
+ */
 export class UndirectedGraph<
     V = any,
     E = any,

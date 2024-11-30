@@ -8,6 +8,9 @@
 import type { Comparator, ElementCallback, PriorityQueueOptions } from '../../types';
 import { PriorityQueue } from './priority-queue';
 
+/**
+ *
+ */
 export class MinPriorityQueue<E = any, R = any> extends PriorityQueue<E, R> {
   /**
    * The constructor initializes a PriorityQueue with optional elements and options, including a

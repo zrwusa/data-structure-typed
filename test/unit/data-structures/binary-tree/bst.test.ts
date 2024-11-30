@@ -1121,7 +1121,7 @@ describe('BST iterative methods test', () => {
   });
 
   it('filter should return a new tree with filtered elements', () => {
-    const filteredTree = bst.filter((key, value) => key > 1);
+    const filteredTree = bst.filter(key => key > 1);
     expect(filteredTree.size).toBe(2);
     expect([...filteredTree]).toEqual([
       [2, 'b'],

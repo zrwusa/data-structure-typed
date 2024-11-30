@@ -8,10 +8,6 @@
 import type { ElementCallback, TrieOptions } from '../../types';
 import { IterableElementBase } from '../base';
 
-/**
- * TrieNode represents a node in the Trie data structure. It holds a character key, a map of children nodes,
- * and a flag indicating whether it's the end of a word.
- */
 export class TrieNode {
   constructor(key: string) {
     this._key = key;

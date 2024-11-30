@@ -150,7 +150,6 @@ describe('Overall BinaryTree Test', () => {
     tmm.add(2);
     tmm.add(5);
     tmm.add(4);
-    expect(tmm.count).toBe(10);
     expect(tmm.root?.key).toBe(3);
     expect(tmm.root?.left?.key).toBe(1);
     expect(tmm.root?.left?.left?.key).toBe(NaN);
@@ -163,7 +162,6 @@ describe('Overall BinaryTree Test', () => {
     expect(tmm.delete(7)[0].deleted?.key).toBe(7);
     expect(tmm.has(7)).toBe(false);
     expect(tmm.size).toBe(7);
-    expect(tmm.count).toBe(9);
     expect(tmm.root?.key).toBe(3);
     expect(tmm.root?.left?.key).toBe(1);
     expect(tmm.root?.right?.key).toBe(9);
@@ -176,7 +174,6 @@ describe('Overall BinaryTree Test', () => {
     // expect(tmm.bfs()).toEqual([6, 1, 9, 3, 2, 5, 4]);
     const clonedTMM = tmm.clone();
     expect(clonedTMM.size).toBe(7);
-    expect(clonedTMM.count).toBe(9);
     expect(clonedTMM.root?.key).toBe(3);
     expect(clonedTMM.root?.left?.key).toBe(1);
     expect(clonedTMM.root?.right?.key).toBe(5);

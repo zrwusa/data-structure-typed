@@ -1,6 +1,7 @@
 'use strict';
 Object.defineProperty(exports, '__esModule', { value: true });
 var data_structure_typed_1 = require('data-structure-typed');
+
 var orgArr = [6, 1, 2, 7, 5, 3, 4, 9, 8];
 var orgStrArr = ['trie', 'trial', 'trick', 'trip', 'tree', 'trend', 'triangle', 'track', 'trace', 'transmit'];
 var entries = [

@@ -59,6 +59,9 @@ export class SinglyLinkedListNode<E = any> {
   }
 }
 
+/**
+ *
+ */
 export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R, SinglyLinkedList<E, R>> {
   constructor(
     elements: Iterable<E> | Iterable<R> | Iterable<SinglyLinkedListNode<E>> = [],

@@ -45,6 +45,9 @@ export class DirectedEdge<E = any> extends AbstractEdge<E> {
   }
 }
 
+/**
+ *
+ */
 export class DirectedGraph<
     V = any,
     E = any,

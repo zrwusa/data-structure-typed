@@ -19,6 +19,9 @@ export class SkipListNode<K, V> {
   }
 }
 
+/**
+ *
+ */
 export class SkipList<K, V> {
   /**
    * The constructor function initializes a SkipLinkedList object with optional options and elements.

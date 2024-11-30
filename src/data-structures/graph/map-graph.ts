@@ -40,6 +40,9 @@ export class MapEdge<E = any> extends DirectedEdge<E> {
   }
 }
 
+/**
+ *
+ */
 export class MapGraph<
   V = any,
   E = any,

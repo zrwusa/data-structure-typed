@@ -6,3 +6,5 @@ export * from './avl-tree';
 export * from './red-black-tree';
 export * from './avl-tree-multi-map';
 export * from './tree-multi-map';
+export * from './tree-counter';
+export * from './avl-tree-counter';
