@@ -664,7 +664,7 @@ describe('TreeMultiMap 2', () => {
     });
 
     it('map should return a new tmm with modified elements', () => {
-      const tmmMapped = tmm.map((key, value) => [(key * 2).toString(), value ? value :[]]);
+      const tmmMapped = tmm.map((key, value) => [(key * 2).toString(), value ? value : []]);
       expect(tmmMapped.size).toBe(3);
       expect([...tmmMapped]).toEqual([
         ['2', ['a']],

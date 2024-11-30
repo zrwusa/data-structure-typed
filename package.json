@@ -1,23 +1,18 @@
 {
   "name": "data-structure-typed",
-  "version": "1.54.1",
+  "version": "1.54.2",
   "description": "Javascript Data Structure. Heap, Binary Tree, Red Black Tree, Linked List, Deque, Trie, HashMap, Directed Graph, Undirected Graph, Binary Search Tree(BST), AVL Tree, Priority Queue, Graph, Queue, Tree Multiset, Singly Linked List, Doubly Linked List, Max Heap, Max Priority Queue, Min Heap, Min Priority Queue, Stack. Benchmark compared with C++ STL. API aligned with ES6 and Java.util. Usability is comparable to Python",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "browser": "dist/umd/data-structure-typed.min.js",
   "types": "dist/esm/index.d.ts",
   "umd:main": "dist/umd/data-structure-typed.min.js",
-  "exports": {
-    ".": {
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js"
-    }
-  },
   "scripts": {
-    "build": "npm run build:esm && npm run build:cjs && npm run build:umd && npm run build:docs-class",
+    "build": "npm run build:ecu && npm run build:docs-class",
     "build:esm": "rm -rf dist/esm && tsc -p tsconfig-esm.json",
     "build:cjs": "rm -rf dist/cjs && tsc -p tsconfig-cjs.json",
     "build:umd": "tsup",
+    "build:ecu": "npm run build:esm && npm run build:cjs && npm run build:umd",
     "build:docs": "npm run gen:examples && typedoc --out docs ./src",
     "build:docs-class": "npm run gen:examples && typedoc --out docs ./src/data-structures",
     "gen:examples": "ts-node scripts/testToExample.ts",
