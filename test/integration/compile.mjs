@@ -13,28 +13,28 @@ const entries = [
   [8, '8']
 ];
 const queue = new Queue(orgArr);
-queue.print();
+
 // [6, 1, 2, 7, 5, 3, 4, 9, 8]
 const deque = new Deque(orgArr);
-deque.print();
+
 // [6, 1, 2, 7, 5, 3, 4, 9, 8]
 const sList = new SinglyLinkedList(orgArr);
-sList.print();
+
 // [6, 1, 2, 7, 5, 3, 4, 9, 8]
 const dList = new DoublyLinkedList(orgArr);
-dList.print();
+
 // [6, 1, 2, 7, 5, 3, 4, 9, 8]
 const stack = new Stack(orgArr);
-stack.print();
+
 // [6, 1, 2, 7, 5, 3, 4, 9, 8]
 const minHeap = new MinHeap(orgArr);
-minHeap.print();
+
 // [1, 5, 2, 7, 6, 3, 4, 9, 8]
 const maxPQ = new MaxPriorityQueue(orgArr);
-maxPQ.print();
+
 // [9, 8, 4, 7, 5, 2, 3, 1, 6]
 const biTree = new BinaryTree(entries);
-biTree.print();
+
 //         ___6___
 //        /       \
 //     ___1_     _2_
@@ -43,7 +43,7 @@ biTree.print();
 //  /   \
 //  9   8
 const bst = new BST(entries);
-bst.print();
+
 //     _____5___
 //    /         \
 //   _2_       _7_
@@ -52,7 +52,7 @@ bst.print();
 //        \         \
 //        4         9
 const rbTree = new RedBlackTree(entries);
-rbTree.print();
+
 //     ___4___
 //    /       \
 //   _2_     _6___
@@ -61,7 +61,7 @@ rbTree.print();
 //              /   \
 //              7   9
 const avl = new AVLTree(entries);
-avl.print();
+
 //     ___4___
 //    /       \
 //   _2_     _6___
@@ -70,7 +70,7 @@ avl.print();
 //              /   \
 //              7   9
 const treeMulti = new TreeMultiMap(entries);
-treeMulti.print();
+
 //     ___4___
 //    /       \
 //   _2_     _6___
@@ -79,10 +79,10 @@ treeMulti.print();
 //              /   \
 //              7   9
 const hm = new HashMap(entries);
-hm.print();
+
 // [[6, "6"], [1, "1"], [2, "2"], [7, "7"], [5, "5"], [3, "3"], [4, "4"], [9, "9"], [8, "8"]]
 const rbTreeH = new RedBlackTree(hm);
-rbTreeH.print();
+
 //     ___4___
 //    /       \
 //   _2_     _6___
@@ -91,10 +91,10 @@ rbTreeH.print();
 //              /   \
 //              7   9
 const pq = new MinPriorityQueue(orgArr);
-pq.print();
+
 // [1, 5, 2, 7, 6, 3, 4, 9, 8]
 const bst1 = new BST(pq);
-bst1.print();
+
 //     _____5___
 //    /         \
 //   _2_       _7_
@@ -103,10 +103,10 @@ bst1.print();
 //        \         \
 //        4         9
 const dq1 = new Deque(orgArr);
-dq1.print();
+
 // [6, 1, 2, 7, 5, 3, 4, 9, 8]
 const rbTree1 = new RedBlackTree(dq1);
-rbTree1.print();
+
 //    _____5___
 //   /         \
 //  _2___     _7___
@@ -115,13 +115,13 @@ rbTree1.print();
 //      /         /
 //      3         8
 const trie2 = new Trie(orgStrArr);
-trie2.print();
+
 // ['trie', 'trial', 'triangle', 'trick', 'trip', 'tree', 'trend', 'track', 'trace', 'transmit']
 const heap2 = new Heap(trie2, { comparator: (a, b) => Number(a) - Number(b) });
-heap2.print();
+
 // ['transmit', 'trace', 'tree', 'trend', 'track', 'trial', 'trip', 'trie', 'trick', 'triangle']
 const dq2 = new Deque(heap2);
-dq2.print();
+
 // ['transmit', 'trace', 'tree', 'trend', 'track', 'trial', 'trip', 'trie', 'trick', 'triangle']
 const entries2 = dq2.map((el, i) => [i, el]);
 const avl2 = new AVLTree(entries2);

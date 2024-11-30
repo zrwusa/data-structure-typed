@@ -1,6 +1,6 @@
 src/types/data-structures/binary-tree/binary-tree.ts
 src/types/data-structures/binary-tree/bst.ts
 src/types/data-structures/binary-tree/avl-tree.ts
-src/types/data-structures/binary-tree/rb-tree.ts
+src/types/data-structures/binary-tree/red-black-tree.ts
 src/types/data-structures/binary-tree/tree-multi-map.ts
 src/types/data-structures/binary-tree/avl-tree-multi-map.ts

@@ -1,14 +1,268 @@
 import * as path from 'path';
 import * as fs from 'fs';
-import * as fastGlob from 'fast-glob';
-import { ConsoleColor, numberFix, render } from '../utils';
+import fastGlob from 'fast-glob';
+import { fileURLToPath } from 'url';
+
+const isNumber = (value) => {
+  return typeof value === 'number';
+};
+const isString = (value) => {
+  return typeof value === 'string';
+};
+const isBoolean = (value) => {
+  return typeof value === 'boolean';
+};
+const isDate = (value) => {
+  return value instanceof Date;
+};
+const isNull = (value) => {
+  return value === null;
+};
+const isUndefined = (value) => {
+  return typeof value === 'undefined';
+};
+const isFunction = (value) => {
+  return typeof value === 'function';
+};
+const isObject = (value) => {
+  return typeof value === 'object';
+};
+const isArray = (value) => {
+  return Array.isArray(value);
+};
+const isEqual = (objA, objB) => {
+  if (objA === objB) {
+    return true;
+  }
+  if (typeof objA !== 'object' || typeof objB !== 'object' || objA === null || objB === null) {
+    return false;
+  }
+  const keysA = Object.keys(objA);
+  const keysB = Object.keys(objB);
+  if (keysA.length !== keysB.length) {
+    return false;
+  }
+  for (const key of keysA) {
+    if (!keysB.includes(key)) {
+      return false;
+    }
+    if (!isEqual(objA[key], objB[key])) {
+      return false;
+    }
+  }
+  return true;
+};
+
+function toggleJS(options) {
+  if (options === null || options === void 0 ? void 0 : options.plainHtml) {
+    return '';
+  }
+  else {
+    return 'onclick="json-to-html.toggleVisibility(this);return false"';
+  }
+}
+function makeLabelDiv(options, level, keyName, datatype) {
+  if (typeof keyName === 'number') {
+    return `<div class='index'><span class='json-to-html-label'>${keyName}&nbsp;</span></div>`;
+  }
+  else if (typeof keyName === 'string') {
+    if (datatype === 'array') {
+      return `<div class='collapsible level${level}' ${toggleJS(options)}><span class='json-to-html-label'>${keyName}</span></div>`;
+    }
+    else if (datatype === 'object') {
+      return `<div class='attribute collapsible level${level}' ${toggleJS(options)}><span class='json-to-html-label'>${keyName}:</span></div>`;
+    }
+    else {
+      return `<div class='leaf level${level}'><span class='json-to-html-label'>${keyName}:</span></div>`;
+    }
+  }
+  else {
+    return '';
+  }
+}
+function getContentClass(keyName) {
+  if (typeof keyName === 'string') {
+    return 'content';
+  }
+  else {
+    return '';
+  }
+}
+function isPlainObject(val) {
+  let lastKey;
+  let lastOwnKey;
+  for (const key in val) {
+    if (val.hasOwnProperty(key)) {
+      lastOwnKey = key;
+    }
+  }
+  for (const key in val) {
+    lastKey = key;
+  }
+  return lastOwnKey === lastKey;
+}
+function isLeafValue(val) {
+  return (isNumber(val) ||
+    isString(val) ||
+    isBoolean(val) ||
+    isDate(val) ||
+    isNull(val) ||
+    isUndefined(val) ||
+    isNaN(val) ||
+    isFunction(val) ||
+    !isPlainObject(val));
+}
+function isLeafObject(obj) {
+  if (!isObject(obj)) {
+    return false;
+  }
+  for (const key in obj) {
+    const val = obj[key];
+    if (!isLeafValue(val)) {
+      return false;
+    }
+  }
+  return true;
+}
+function isTable(arr) {
+  if (!isArray(arr)) {
+    return false;
+  }
+  if (arr.length === 0 || !isObject(arr[0])) {
+    return false;
+  }
+  else {
+    let nonCompliant = arr.find(row => !isLeafObject(row));
+    if (nonCompliant) {
+      return false;
+    }
+    else {
+      const cols = Object.keys(arr[0]);
+      nonCompliant = arr.find((row) => !isEqual(cols, Object.keys(row)));
+      return !nonCompliant;
+    }
+  }
+}
+function drawTable(arr) {
+  function drawRow(headers, rowObj) {
+    return '<td>' + headers.map(header => rowObj[header]).join('</td><td>') + '</td>';
+  }
+  const cols = Object.keys(arr[0]);
+  const content = arr.map(rowObj => drawRow(cols, rowObj));
+  const headingHtml = '<tr><th>' + cols.join('</th><th>') + '</th></tr>';
+  const contentHtml = '<tr>' + content.join('</tr><tr>') + '</tr>';
+  return '<table style="display: table; width:100%; table-layout: fixed;">' + headingHtml + contentHtml + '</table>';
+}
+function _render(name, data, options, level, altRow) {
+  const contentClass = getContentClass(name);
+  if (isArray(data)) {
+    const title = makeLabelDiv(options, level, `${name}`, 'array');
+    let subs;
+    if (isTable(data)) {
+      subs = drawTable(data);
+    }
+    else {
+      subs =
+        "<div class='altRows'>" +
+        data
+          .map((val, idx) => _render(idx.toString(), val, options, level + 1, idx % 2))
+          .join("</div><div class='altRows'>") +
+        '</div>';
+    }
+    return `<div class="json-to-html-collapse clearfix ${altRow}">
+      ${title}
+      <div class="${contentClass}">${subs}</div>
+    </div>`;
+  }
+  else if (isLeafValue(data)) {
+    const title = makeLabelDiv(options, level, name);
+    if (isFunction(data)) {
+      return `${title}<span class='json-to-html-value'>&nbsp;&nbsp;-function() can't _render-</span>`;
+    }
+    else if (!isPlainObject(data)) {
+      if (isFunction(data.toString)) {
+        return `${title}<span class='json-to-html-value'>&nbsp;&nbsp;${data.toString()}</span>`;
+      }
+      else {
+        return `${title}<span class='json-to-html-value'>&nbsp;&nbsp;-instance object, can't render-</span>`;
+      }
+    }
+    else {
+      return `${title}<span class='json-to-html-value'>&nbsp;&nbsp;${data}</span>`;
+    }
+  }
+  else {
+    const title = makeLabelDiv(options, level, name, 'object');
+    let count = 0;
+    const subs = '<div>' +
+      Object.entries(data)
+        .map(([key, val]) => _render(key, val, options, level + 1, count++ % 2))
+        .join('</div><div>') +
+      '</div>';
+    const inner = `<div class="json-to-html-expand clearfix ${altRow}">
+      ${title}
+      <div class="${contentClass}">${subs}</div>
+    </div>`;
+    return `${level === 0 ? "<div id='json-to-html'>" : ''}
+      ${inner}
+      ${level === 0 ? '</div>' : ''}`;
+  }
+}
+export function render(name, json, options) {
+  return `${_render(name, json, options, 0, 0)}`;
+}
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+function numberFix(num, decimalPlaces) {
+  if (num > 10000 || num < 0.001) {
+    const [mantissa, exponent] = num.toExponential().split('e');
+    const formattedMantissa = Number(mantissa).toFixed(decimalPlaces);
+    return `${formattedMantissa}e${exponent}`;
+  } else {
+    return num.toFixed(decimalPlaces);
+  }
+}
+const ConsoleColor = {
+  END: '\x1b[0m',
+  BOLD: '\x1b[1m',
+  DIM: '\x1b[2m',
+  ITALIC: '\x1b[3m',
+  UNDERLINE: '\x1b[4m',
+  INVERSE: '\x1b[7m',
+  STRIKETHROUGH: '\x1b[9m',
+  NO_BOLD: '\x1b[22m',
+  NO_ITALIC: '\x1b[23m',
+  NO_UNDERLINE: '\x1b[24m',
+  NO_INVERSE: '\x1b[27m',
+  NO_STRIKETHROUGH: '\x1b[29m',
+  BLACK: '\x1b[30m',
+  RED: '\x1b[31m',
+  GREEN: '\x1b[32m',
+  YELLOW: '\x1b[33m',
+  BLUE: '\x1b[34m',
+  MAGENTA: '\x1b[35m',
+  GRAY: '\x1b[90m',
+  CYAN: '\x1b[36m',
+  WHITE: '\x1b[37m',
+  BG_BLACK: '\x1b[40m',
+  BG_RED: '\x1b[41m',
+  BG_GREEN: '\x1b[42m',
+  BG_YELLOW: '\x1b[43m',
+  BG_BLUE: '\x1b[44m',
+  BG_MAGENTA: '\x1b[45m',
+  BG_CYAN: '\x1b[46m',
+  BG_WHITE: '\x1b[47m'
+};
 const args = process.argv.slice(2);
 const { GREEN, BOLD, END, YELLOW, GRAY, CYAN, BG_YELLOW } = ConsoleColor;
 const isOnlyOrdered = true;
 const runOrder = [
   'heap',
   'avl-tree',
-  'rb-tree',
+  'red-black-tree',
   'doubly-linked-list',
   'directed-graph',
   'queue',
@@ -24,6 +278,7 @@ const getRelativePath = file => {
   return path.relative(__dirname, file);
 };
 const coloredLabeled = (label, file) => {
+
   const relativeFilePath = getRelativePath(file);
   const directory = path.dirname(relativeFilePath);
   const fileName = path.basename(relativeFilePath);
@@ -32,7 +287,8 @@ const coloredLabeled = (label, file) => {
 const parentDirectory = path.resolve(__dirname, '../..');
 const reportDistPath = path.join(parentDirectory, 'benchmark');
 const testDir = path.join(__dirname, 'data-structures');
-const allFiles = fastGlob.sync(path.join(testDir, '**', '*.test.js'));
+let allFiles = fastGlob.sync(path.join(testDir, '**', '*.test.mjs'));
+
 let testFiles;
 let isIndividual = false;
 if (args.length > 0) {
@@ -50,9 +306,9 @@ if (args.length > 0) {
 const report = {};
 let completedCount = 0;
 const performanceTests = [];
-testFiles.forEach(file => {
-  const testName = path.basename(file, '.test.ts');
-  const testFunction = require(file);
+for (const file of testFiles) {
+  const testName = path.basename(file, '.test.mjs');
+  const testFunction = await import(file);
   const { suite } = testFunction;
   if (suite)
     performanceTests.push({
@@ -60,7 +316,8 @@ testFiles.forEach(file => {
       suite,
       file
     });
-});
+}
+
 const composeReport = () => {
   if (!fs.existsSync(reportDistPath))
     fs.mkdirSync(reportDistPath, {

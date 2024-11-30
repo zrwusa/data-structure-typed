@@ -12,7 +12,7 @@ const isOnlyOrdered = true;
 const runOrder = [
   'heap',
   'avl-tree',
-  'rb-tree',
+  'red-black-tree',
   'doubly-linked-list',
   'directed-graph',
   'queue',

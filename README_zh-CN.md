@@ -1161,7 +1161,7 @@ avl2.print();
       <div class='collapsible level0' ><span class='json-to-html-label'>bst</span></div>
       <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>10,000 add randomly</td><td>55.04</td><td>18.17</td><td>0.01</td></tr><tr><td>10,000 add & delete randomly</td><td>129.85</td><td>7.70</td><td>0.01</td></tr><tr><td>10,000 addMany</td><td>50.40</td><td>19.84</td><td>0.01</td></tr><tr><td>10,000 get</td><td>63.39</td><td>15.78</td><td>0.01</td></tr></table></div>
     </div><div class="json-to-html-collapse clearfix 0">
-      <div class='collapsible level0' ><span class='json-to-html-label'>rb-tree</span></div>
+      <div class='collapsible level0' ><span class='json-to-html-label'>red-black-tree</span></div>
       <div class="content"><table style="display: table; width:100%; table-layout: fixed;"><tr><th>test name</th><th>time taken (ms)</th><th>executions per sec</th><th>sample deviation</th></tr><tr><td>100,000 add</td><td>113.25</td><td>8.83</td><td>0.02</td></tr><tr><td>100,000 add & delete randomly</td><td>305.28</td><td>3.28</td><td>0.03</td></tr><tr><td>100,000 getNode</td><td>73.20</td><td>13.66</td><td>0.03</td></tr><tr><td>100,000 add & iterator</td><td>159.80</td><td>6.26</td><td>0.06</td></tr></table></div>
     </div><div class="json-to-html-collapse clearfix 0">
       <div class='collapsible level0' ><span class='json-to-html-label'>comparison</span></div>
