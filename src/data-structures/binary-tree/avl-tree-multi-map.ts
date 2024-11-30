@@ -7,6 +7,7 @@
  */
 import { AVLTreeMultiMapOptions, BTNOptKeyOrNull, BTNRep, OptNodeOrNull } from '../../types';
 import { AVLTree, AVLTreeNode } from './avl-tree';
+import { IBinaryTree } from '../../interfaces';
 
 export class AVLTreeMultiMapNode<K = any, V = any> extends AVLTreeNode<K, V[]> {
   /**
@@ -54,14 +55,10 @@ export class AVLTreeMultiMapNode<K = any, V = any> extends AVLTreeNode<K, V[]> {
 /**
  *
  */
-export class AVLTreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR = object> extends AVLTree<
-  K,
-  V[],
-  R,
-  MK,
-  MV,
-  MR
-> {
+export class AVLTreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR = object>
+  extends AVLTree<K, V[], R, MK, MV[], MR>
+  implements IBinaryTree<K, V[], R, MK, MV[], MR>
+{
   /**
    * The constructor initializes an AVLTreeMultiMap with the provided keys, nodes, entries, or raw data
    * and options.

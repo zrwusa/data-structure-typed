@@ -7,6 +7,7 @@
  */
 import type { BTNOptKeyOrNull, BTNRep, OptNodeOrNull, TreeMultiMapOptions } from '../../types';
 import { RedBlackTree, RedBlackTreeNode } from './red-black-tree';
+import { IBinaryTree } from '../../interfaces';
 
 export class TreeMultiMapNode<K = any, V = any> extends RedBlackTreeNode<K, V[]> {
   /**
@@ -60,14 +61,10 @@ export class TreeMultiMapNode<K = any, V = any> extends RedBlackTreeNode<K, V[]>
  *     console.log(tmm.search(new Range(4, 12))); // [5, 10, 12, 7]
  *     console.log(tmm.search(new Range(15, 20))); // [15, 18]
  */
-export class TreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR = object> extends RedBlackTree<
-  K,
-  V[],
-  R,
-  MK,
-  MV,
-  MR
-> {
+export class TreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR = object>
+  extends RedBlackTree<K, V[], R, MK, MV[], MR>
+  implements IBinaryTree<K, V[], R, MK, MV[], MR>
+{
   /**
    * The constructor initializes an TreeMultiMap with the provided keys, nodes, entries, or raw data
    * and options.
