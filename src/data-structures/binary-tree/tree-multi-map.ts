@@ -63,7 +63,7 @@ export class TreeMultiMapNode<K = any, V = any> extends RedBlackTreeNode<K, V[]>
  */
 export class TreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR = object>
   extends RedBlackTree<K, V[], R, MK, MV[], MR>
-  implements IBinaryTree<K, V[], R, MK, MV[], MR>
+  implements IBinaryTree<K, V[], R, MK, MV, MR>
 {
   /**
    * The constructor initializes an TreeMultiMap with the provided keys, nodes, entries, or raw data

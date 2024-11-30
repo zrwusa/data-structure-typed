@@ -399,7 +399,7 @@ describe('AVLTreeMultiMap', () => {
 });
 
 describe('AVLTreeMultiMap iterative methods test', () => {
-  let avlTmm: AVLTreeMultiMap<number, string>;
+  let avlTmm: AVLTreeMultiMap<number, string, object, string, string, object>;
   beforeEach(() => {
     avlTmm = new AVLTreeMultiMap();
     avlTmm.add([1, ['a']]);
@@ -435,7 +435,7 @@ describe('AVLTreeMultiMap iterative methods test', () => {
   });
 
   it('map should return a new avlTmm with modified elements', () => {
-    const avlTmmMapped = avlTmm.map((key, value) => [(key * 2).toString(), value]);
+    const avlTmmMapped = avlTmm.map((key, value) => [(key * 2).toString(), value ? value :[]]);
     expect(avlTmmMapped.size).toBe(3);
     expect([...avlTmmMapped]).toEqual([
       ['2', ['a']],
