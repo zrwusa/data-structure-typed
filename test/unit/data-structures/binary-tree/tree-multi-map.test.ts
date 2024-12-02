@@ -519,11 +519,11 @@ describe('TreeMultiMap 2', () => {
     expect(tmm.isBST()).toBe(true);
     expect(tmm.isBST(tmm.root, 'RECURSIVE')).toBe(true);
 
-    expect(tmm.dfs(n => n.key, 'IN', tmm.root, 'ITERATIVE')).toEqual([
+    expect(tmm.dfs(n => n.key, 'IN', false, tmm.root, 'ITERATIVE')).toEqual([
       49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76,
       77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99
     ]);
-    expect(tmm.dfs(n => n.key, 'IN', tmm.root, 'RECURSIVE')).toEqual([
+    expect(tmm.dfs(n => n.key, 'IN', false, tmm.root, 'RECURSIVE')).toEqual([
       49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76,
       77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99
     ]);
@@ -539,7 +539,7 @@ describe('TreeMultiMap 2', () => {
 
     expect(tmm.size).toBe(0);
     expect(tmm.isBST()).toBe(true);
-    expect(tmm.dfs(n => n.key, 'IN', tmm.root, 'ITERATIVE')).toEqual([]);
+    expect(tmm.dfs(n => n.key, 'IN', false, tmm.root, 'ITERATIVE')).toEqual([]);
 
     tmm.clear();
     for (let i = 0; i < 1000; i++) {
@@ -840,8 +840,8 @@ describe('classic use', () => {
   // Test case for finding elements in a given range
   it('@example Find elements in a range', () => {
     const tmm = new TreeMultiMap<number>([10, 5, 15, 3, 7, 12, 18]);
-    expect(tmm.search(new Range(5, 10))).toEqual([5, 10, 7]);
-    expect(tmm.search(new Range(4, 12))).toEqual([5, 10, 12, 7]);
+    expect(tmm.search(new Range(5, 10))).toEqual([5, 7, 10]);
+    expect(tmm.search(new Range(4, 12))).toEqual([5, 7, 10, 12]);
     expect(tmm.search(new Range(15, 20))).toEqual([15, 18]);
   });
 });

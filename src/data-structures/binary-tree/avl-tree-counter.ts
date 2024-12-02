@@ -9,15 +9,15 @@ import type {
   AVLTreeCounterOptions,
   BinaryTreeDeleteResult,
   BSTNOptKeyOrNode,
-  BTNRep,
   EntryCallback,
-  IterationType,
-  OptNodeOrNull
+  IterationType
 } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 import { AVLTree, AVLTreeNode } from './avl-tree';
 
 export class AVLTreeCounterNode<K = any, V = any> extends AVLTreeNode<K, V> {
+  override parent?: AVLTreeCounterNode<K, V> = undefined;
+
   /**
    * The constructor function initializes a BinaryTreeNode object with a key, value, and count.
    * @param {K} key - The `key` parameter is of type `K` and represents the unique identifier
@@ -33,28 +33,26 @@ export class AVLTreeCounterNode<K = any, V = any> extends AVLTreeNode<K, V> {
     this.count = count;
   }
 
-  override parent?: AVLTreeCounterNode<K, V> = undefined;
+  override _left?: AVLTreeCounterNode<K, V> | null | undefined = undefined;
 
-  override _left?: OptNodeOrNull<AVLTreeCounterNode<K, V>> = undefined;
-
-  override get left(): OptNodeOrNull<AVLTreeCounterNode<K, V>> {
+  override get left(): AVLTreeCounterNode<K, V> | null | undefined {
     return this._left;
   }
 
-  override set left(v: OptNodeOrNull<AVLTreeCounterNode<K, V>>) {
+  override set left(v: AVLTreeCounterNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
     }
     this._left = v;
   }
 
-  override _right?: OptNodeOrNull<AVLTreeCounterNode<K, V>> = undefined;
+  override _right?: AVLTreeCounterNode<K, V> | null | undefined = undefined;
 
-  override get right(): OptNodeOrNull<AVLTreeCounterNode<K, V>> {
+  override get right(): AVLTreeCounterNode<K, V> | null | undefined {
     return this._right;
   }
 
-  override set right(v: OptNodeOrNull<AVLTreeCounterNode<K, V>>) {
+  override set right(v: AVLTreeCounterNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
     }
@@ -78,7 +76,9 @@ export class AVLTreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR
    * `compareValues` functions to define custom comparison logic for keys and values, respectively.
    */
   constructor(
-    keysNodesEntriesOrRaws: Iterable<BTNRep<K, V, AVLTreeCounterNode<K, V>> | R> = [],
+    keysNodesEntriesOrRaws: Iterable<
+      K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | R
+    > = [],
     options?: AVLTreeCounterOptions<K, V, R>
   ) {
     super([], options);
@@ -145,12 +145,14 @@ export class AVLTreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR
 
   /**
    * The function checks if the input is an instance of AVLTreeCounterNode.
-   * @param {BTNRep<K, V, AVLTreeCounterNode<K, V>>} keyNodeOrEntry - The parameter
-   * `keyNodeOrEntry` can be of type `R` or `BTNRep<K, V, AVLTreeCounterNode<K, V>>`.
+   * @param {K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined} keyNodeOrEntry - The parameter
+   * `keyNodeOrEntry` can be of type `R` or `K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined`.
    * @returns a boolean value indicating whether the input parameter `keyNodeOrEntry` is
    * an instance of the `AVLTreeCounterNode` class.
    */
-  override isNode(keyNodeOrEntry: BTNRep<K, V, AVLTreeCounterNode<K, V>>): keyNodeOrEntry is AVLTreeCounterNode<K, V> {
+  override isNode(
+    keyNodeOrEntry: K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined
+  ): keyNodeOrEntry is AVLTreeCounterNode<K, V> {
     return keyNodeOrEntry instanceof AVLTreeCounterNode;
   }
 
@@ -160,9 +162,9 @@ export class AVLTreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR
    *
    * The function overrides the add method of a TypeScript class to add a new node to a data structure
    * and update the count.
-   * @param {BTNRep<K, V, AVLTreeCounterNode<K, V>>} keyNodeOrEntry - The
+   * @param {K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined} keyNodeOrEntry - The
    * `keyNodeOrEntry` parameter can accept a value of type `R`, which can be any type. It
-   * can also accept a value of type `BTNRep<K, V, AVLTreeCounterNode<K, V>>`, which represents a key, node,
+   * can also accept a value of type `K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined`, which represents a key, node,
    * entry, or raw element
    * @param {V} [value] - The `value` parameter represents the value associated with the key in the
    * data structure. It is an optional parameter, so it can be omitted if not needed.
@@ -171,7 +173,11 @@ export class AVLTreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR
    * be added once. However, you can specify a different value for `count` if you want to add
    * @returns a boolean value.
    */
-  override add(keyNodeOrEntry: BTNRep<K, V, AVLTreeCounterNode<K, V>>, value?: V, count = 1): boolean {
+  override add(
+    keyNodeOrEntry: K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
+    value?: V,
+    count = 1
+  ): boolean {
     const [newNode, newValue] = this._keyValueNodeOrEntryToNodeAndValue(keyNodeOrEntry, value, count);
     if (newNode === undefined) return false;
 
@@ -189,7 +195,7 @@ export class AVLTreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR
    *
    * The function overrides the delete method in a binary tree data structure, handling deletion of
    * nodes and maintaining balance in the tree.
-   * @param {BTNRep<K, V, AVLTreeCounterNode<K, V>>} keyNodeOrEntry - The `predicate`
+   * @param {K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined} keyNodeOrEntry - The `predicate`
    * parameter in the `delete` method is used to specify the condition for deleting a node from the
    * binary tree. It can be a key, node, or entry that determines which
    * node(s) should be deleted.
@@ -203,7 +209,7 @@ export class AVLTreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR
    * deleted node and whether balancing is needed in the tree.
    */
   override delete(
-    keyNodeOrEntry: BTNRep<K, V, AVLTreeCounterNode<K, V>>,
+    keyNodeOrEntry: K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     ignoreCount = false
   ): BinaryTreeDeleteResult<AVLTreeCounterNode<K, V>>[] {
     const deletedResult: BinaryTreeDeleteResult<AVLTreeCounterNode<K, V>>[] = [];
@@ -276,6 +282,7 @@ export class AVLTreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR
   /**
    * Time Complexity: O(n log n)
    * Space Complexity: O(log n)
+   *
    * The `perfectlyBalance` function takes a sorted array of nodes and builds a balanced binary search
    * tree using either a recursive or iterative approach.
    * @param {IterationType} iterationType - The `iterationType` parameter is an optional parameter that
@@ -374,8 +381,8 @@ export class AVLTreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR
   /**
    * The function `keyValueNodeEntryRawToNodeAndValue` converts a key, value, entry, or raw element into
    * a node object.
-   * @param {BTNRep<K, V, AVLTreeCounterNode<K, V>>} keyNodeOrEntry - The
-   * `keyNodeOrEntry` parameter can be of type `R` or `BTNRep<K, V, AVLTreeCounterNode<K, V>>`.
+   * @param {K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined} keyNodeOrEntry - The
+   * `keyNodeOrEntry` parameter can be of type `R` or `K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined`.
    * @param {V} [value] - The `value` parameter is an optional value that can be passed to the
    * `override` function. It represents the value associated with the key in the data structure. If no
    * value is provided, it will default to `undefined`.
@@ -384,7 +391,7 @@ export class AVLTreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR
    * @returns either a AVLTreeCounterNode<K, V> object or undefined.
    */
   protected override _keyValueNodeOrEntryToNodeAndValue(
-    keyNodeOrEntry: BTNRep<K, V, AVLTreeCounterNode<K, V>>,
+    keyNodeOrEntry: K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     value?: V,
     count = 1
   ): [AVLTreeCounterNode<K, V> | undefined, V | undefined] {

@@ -149,7 +149,7 @@ describe('TreeCounter operations test1', () => {
     expect(minNodeBySpecificNode?.key).toBe(14);
 
     let subTreeSum = 0;
-    if (node15) treeCounter.dfs(node => (subTreeSum += node.key), 'PRE', 15);
+    if (node15) treeCounter.dfs(node => (subTreeSum += node.key), 'PRE', false, 15);
     expect(subTreeSum).toBe(45);
     let lesserSum = 0;
     treeCounter.lesserOrGreaterTraverse(node => (lesserSum += node.key), -1, 10);
@@ -157,7 +157,7 @@ describe('TreeCounter operations test1', () => {
 
     expect(node15 instanceof TreeCounterNode);
     if (node15 instanceof TreeCounterNode) {
-      const subTreeAdd = treeCounter.dfs(node => (node.count += 1), 'PRE', 15);
+      const subTreeAdd = treeCounter.dfs(node => (node.count += 1), 'PRE', false, 15);
       expect(subTreeAdd);
     }
     const node11 = treeCounter.getNode(11);
@@ -407,7 +407,7 @@ describe('TreeCounter operations test recursively1', () => {
     expect(minNodeBySpecificNode?.key).toBe(14);
 
     let subTreeSum = 0;
-    if (node15) treeCounter.dfs(node => (subTreeSum += node.key), 'PRE', 15);
+    if (node15) treeCounter.dfs(node => (subTreeSum += node.key), 'PRE', false, 15);
     expect(subTreeSum).toBe(45);
     let lesserSum = 0;
     expect(treeCounter.has(9)).toBe(true);
@@ -423,7 +423,7 @@ describe('TreeCounter operations test recursively1', () => {
 
     expect(node15 instanceof TreeCounterNode);
     if (node15 instanceof TreeCounterNode) {
-      const subTreeAdd = treeCounter.dfs(node => (node.count += 1), 'PRE', 15);
+      const subTreeAdd = treeCounter.dfs(node => (node.count += 1), 'PRE', false, 15);
       expect(subTreeAdd);
     }
     const node11 = treeCounter.getNode(11);

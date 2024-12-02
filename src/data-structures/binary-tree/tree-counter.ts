@@ -8,11 +8,9 @@
 import type {
   BinaryTreeDeleteResult,
   BSTNOptKeyOrNode,
-  BTNRep,
   EntryCallback,
   IterationType,
   OptNode,
-  OptNodeOrNull,
   RBTNColor,
   TreeCounterOptions
 } from '../../types';
@@ -20,6 +18,8 @@ import { IBinaryTree } from '../../interfaces';
 import { RedBlackTree, RedBlackTreeNode } from './red-black-tree';
 
 export class TreeCounterNode<K = any, V = any> extends RedBlackTreeNode<K, V> {
+  override parent?: TreeCounterNode<K, V> = undefined;
+
   /**
    * The constructor function initializes a Red-Black Tree node with a key, value, count, and color.
    * @param {K} key - The key parameter represents the key of the node in the Red-Black Tree. It is
@@ -37,28 +37,26 @@ export class TreeCounterNode<K = any, V = any> extends RedBlackTreeNode<K, V> {
     this.count = count;
   }
 
-  override parent?: TreeCounterNode<K, V> = undefined;
+  override _left?: TreeCounterNode<K, V> | null | undefined = undefined;
 
-  override _left?: OptNodeOrNull<TreeCounterNode<K, V>> = undefined;
-
-  override get left(): OptNodeOrNull<TreeCounterNode<K, V>> {
+  override get left(): TreeCounterNode<K, V> | null | undefined {
     return this._left;
   }
 
-  override set left(v: OptNodeOrNull<TreeCounterNode<K, V>>) {
+  override set left(v: TreeCounterNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
     }
     this._left = v;
   }
 
-  override _right?: OptNodeOrNull<TreeCounterNode<K, V>> = undefined;
+  override _right?: TreeCounterNode<K, V> | null | undefined = undefined;
 
-  override get right(): OptNodeOrNull<TreeCounterNode<K, V>> {
+  override get right(): TreeCounterNode<K, V> | null | undefined {
     return this._right;
   }
 
-  override set right(v: OptNodeOrNull<TreeCounterNode<K, V>>) {
+  override set right(v: TreeCounterNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
     }
@@ -83,7 +81,9 @@ export class TreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR = 
    * `compareValues`, which are functions used to compare keys and values respectively.
    */
   constructor(
-    keysNodesEntriesOrRaws: Iterable<BTNRep<K, V, TreeCounterNode<K, V>> | R> = [],
+    keysNodesEntriesOrRaws: Iterable<
+      K | TreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | R
+    > = [],
     options?: TreeCounterOptions<K, V, R>
   ) {
     super([], options);
@@ -111,7 +111,7 @@ export class TreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR = 
    */
   getComputedCount(): number {
     let sum = 0;
-    this.dfs(node => (sum += node.count));
+    this.dfs(node => (sum += node ? node.count : 0));
     return sum;
   }
 
@@ -152,12 +152,14 @@ export class TreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR = 
 
   /**
    * The function checks if the input is an instance of the TreeCounterNode class.
-   * @param {BTNRep<K, V, TreeCounterNode<K, V>>} keyNodeOrEntry - The parameter
-   * `keyNodeOrEntry` can be of type `R` or `BTNRep<K, V, TreeCounterNode<K, V>>`.
+   * @param {K | TreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined} keyNodeOrEntry - The parameter
+   * `keyNodeOrEntry` can be of type `R` or `K | TreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined`.
    * @returns a boolean value indicating whether the input parameter `keyNodeOrEntry` is
    * an instance of the `TreeCounterNode` class.
    */
-  override isNode(keyNodeOrEntry: BTNRep<K, V, TreeCounterNode<K, V>>): keyNodeOrEntry is TreeCounterNode<K, V> {
+  override isNode(
+    keyNodeOrEntry: K | TreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined
+  ): keyNodeOrEntry is TreeCounterNode<K, V> {
     return keyNodeOrEntry instanceof TreeCounterNode;
   }
 
@@ -167,7 +169,7 @@ export class TreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR = 
    *
    * The function overrides the add method of a class and adds a new node to a data structure, updating
    * the count and returning a boolean indicating success.
-   * @param {BTNRep<K, V, TreeCounterNode<K, V>>} keyNodeOrEntry - The
+   * @param {K | TreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined} keyNodeOrEntry - The
    * `keyNodeOrEntry` parameter can accept one of the following types:
    * @param {V} [value] - The `value` parameter represents the value associated with the key in the
    * data structure. It is an optional parameter, so it can be omitted if not needed.
@@ -177,7 +179,11 @@ export class TreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR = 
    * @returns The method is returning a boolean value. It returns true if the addition of the new node
    * was successful, and false otherwise.
    */
-  override add(keyNodeOrEntry: BTNRep<K, V, TreeCounterNode<K, V>>, value?: V, count = 1): boolean {
+  override add(
+    keyNodeOrEntry: K | TreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
+    value?: V,
+    count = 1
+  ): boolean {
     const [newNode, newValue] = this._keyValueNodeOrEntryToNodeAndValue(keyNodeOrEntry, value, count);
     const orgCount = newNode?.count || 0;
     const isSuccessAdded = super.add(newNode, newValue);
@@ -196,7 +202,7 @@ export class TreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR = 
    *
    * The function `delete` in TypeScript overrides the deletion operation in a binary tree data
    * structure, handling cases where nodes have children and maintaining balance in the tree.
-   * @param {BTNRep<K, V, TreeCounterNode<K, V>>} keyNodeOrEntry - The `predicate`
+   * @param {K | TreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined} keyNodeOrEntry - The `predicate`
    * parameter in the `delete` method is used to specify the condition or key based on which a node
    * should be deleted from the binary tree. It can be a key, a node, or an entry.
    * @param [ignoreCount=false] - The `ignoreCount` parameter in the `override delete` method is a
@@ -206,7 +212,7 @@ export class TreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR = 
    * @returns The `override delete` method returns an array of `BinaryTreeDeleteResult<TreeCounterNode<K, V>>` objects.
    */
   override delete(
-    keyNodeOrEntry: BTNRep<K, V, TreeCounterNode<K, V>>,
+    keyNodeOrEntry: K | TreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     ignoreCount = false
   ): BinaryTreeDeleteResult<TreeCounterNode<K, V>>[] {
     if (keyNodeOrEntry === null) return [];
@@ -340,8 +346,8 @@ export class TreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR = 
         if (l > r) return;
         const m = l + Math.floor((r - l) / 2);
         const midNode = sorted[m];
-        if (this._isMapMode) this.add(midNode.key, undefined, midNode.count);
-        else this.add(midNode.key, midNode.value, midNode.count);
+        if (this._isMapMode && midNode !== null) this.add(midNode.key, undefined, midNode.count);
+        else if (midNode !== null) this.add(midNode.key, midNode.value, midNode.count);
         buildBalanceBST(l, m - 1);
         buildBalanceBST(m + 1, r);
       };
@@ -357,8 +363,8 @@ export class TreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR = 
           if (l <= r) {
             const m = l + Math.floor((r - l) / 2);
             const midNode = sorted[m];
-            if (this._isMapMode) this.add(midNode.key, undefined, midNode.count);
-            else this.add(midNode.key, midNode.value, midNode.count);
+            if (this._isMapMode && midNode !== null) this.add(midNode.key, undefined, midNode.count);
+            else if (midNode !== null) this.add(midNode.key, midNode.value, midNode.count);
             stack.push([m + 1, r]);
             stack.push([l, m - 1]);
           }
@@ -377,7 +383,7 @@ export class TreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR = 
    */
   override clone() {
     const cloned = this.createTree();
-    this.bfs(node => cloned.add(node.key, undefined, node.count));
+    this.bfs(node => cloned.add(node === null ? null : node.key, undefined, node === null ? 0 : node.count));
     if (this._isMapMode) cloned._store = this._store;
     return cloned;
   }
@@ -413,8 +419,8 @@ export class TreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR = 
   /**
    * The function `keyValueNodeEntryRawToNodeAndValue` takes in a key, value, and count and returns a
    * node based on the input.
-   * @param {BTNRep<K, V, TreeCounterNode<K, V>>} keyNodeOrEntry - The parameter
-   * `keyNodeOrEntry` can be of type `R` or `BTNRep<K, V, TreeCounterNode<K, V>>`.
+   * @param {K | TreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined} keyNodeOrEntry - The parameter
+   * `keyNodeOrEntry` can be of type `R` or `K | TreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined`.
    * @param {V} [value] - The `value` parameter is an optional value that represents the value
    * associated with the key in the node. It is used when creating a new node or updating the value of
    * an existing node.
@@ -423,7 +429,7 @@ export class TreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR = 
    * @returns either a TreeCounterNode<K, V> object or undefined.
    */
   protected override _keyValueNodeOrEntryToNodeAndValue(
-    keyNodeOrEntry: BTNRep<K, V, TreeCounterNode<K, V>>,
+    keyNodeOrEntry: K | TreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     value?: V,
     count = 1
   ): [TreeCounterNode<K, V> | undefined, V | undefined] {

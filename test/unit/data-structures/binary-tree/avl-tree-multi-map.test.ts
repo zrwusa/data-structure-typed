@@ -50,7 +50,7 @@ describe('AVLTreeMultiMap Test', () => {
     expect(getMinNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    if (node15) avlTmm.dfs(node => (subTreeSum += node.key), 'PRE', node15);
+    if (node15) avlTmm.dfs(node => (subTreeSum += node.key), 'PRE', false, node15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
@@ -176,7 +176,7 @@ describe('AVLTreeMultiMap Test recursively', () => {
     expect(getMinNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    if (node15) avlTmm.dfs(node => (subTreeSum += node.key), 'PRE', node15);
+    if (node15) avlTmm.dfs(node => (subTreeSum += node.key), 'PRE', false, node15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
@@ -509,7 +509,7 @@ describe('AVLTreeMultiMap not map mode', () => {
     expect(getMinNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    if (node15) avlTmm.dfs(node => (subTreeSum += node.key), 'PRE', node15);
+    if (node15) avlTmm.dfs(node => (subTreeSum += node.key), 'PRE', false, node15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
@@ -527,7 +527,6 @@ describe('AVLTreeMultiMap not map mode test recursively', () => {
     const avlTmm = new AVLTreeMultiMap<number>([], { iterationType: 'RECURSIVE' });
 
     for (const i of arr) avlTmm.add([i, [i]]);
-
     const node6 = avlTmm.getNode(6);
 
     expect(node6 && avlTmm.getHeight(node6)).toBe(3);
@@ -544,7 +543,7 @@ describe('AVLTreeMultiMap not map mode test recursively', () => {
     expect(getMinNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    if (node15) avlTmm.dfs(node => (subTreeSum += node.key), 'PRE', node15);
+    if (node15) avlTmm.dfs(node => (subTreeSum += node.key), 'PRE', false, node15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;

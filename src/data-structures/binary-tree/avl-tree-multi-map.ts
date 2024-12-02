@@ -5,11 +5,13 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import { AVLTreeMultiMapOptions, BTNOptKeyOrNull, BTNRep, OptNodeOrNull } from '../../types';
+import { AVLTreeMultiMapOptions, BTNOptKeyOrNull } from '../../types';
 import { AVLTree, AVLTreeNode } from './avl-tree';
 import { IBinaryTree } from '../../interfaces';
 
 export class AVLTreeMultiMapNode<K = any, V = any> extends AVLTreeNode<K, V[]> {
+  override parent?: AVLTreeMultiMapNode<K, V> = undefined;
+
   /**
    * This TypeScript constructor initializes an object with a key of type K and an array of values of
    * type V.
@@ -23,28 +25,26 @@ export class AVLTreeMultiMapNode<K = any, V = any> extends AVLTreeNode<K, V[]> {
     super(key, value);
   }
 
-  override parent?: AVLTreeMultiMapNode<K, V> = undefined;
+  override _left?: AVLTreeMultiMapNode<K, V> | null | undefined = undefined;
 
-  override _left?: OptNodeOrNull<AVLTreeMultiMapNode<K, V>> = undefined;
-
-  override get left(): OptNodeOrNull<AVLTreeMultiMapNode<K, V>> {
+  override get left(): AVLTreeMultiMapNode<K, V> | null | undefined {
     return this._left;
   }
 
-  override set left(v: OptNodeOrNull<AVLTreeMultiMapNode<K, V>>) {
+  override set left(v: AVLTreeMultiMapNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
     }
     this._left = v;
   }
 
-  override _right?: OptNodeOrNull<AVLTreeMultiMapNode<K, V>> = undefined;
+  override _right?: AVLTreeMultiMapNode<K, V> | null | undefined = undefined;
 
-  override get right(): OptNodeOrNull<AVLTreeMultiMapNode<K, V>> {
+  override get right(): AVLTreeMultiMapNode<K, V> | null | undefined {
     return this._right;
   }
 
-  override set right(v: OptNodeOrNull<AVLTreeMultiMapNode<K, V>>) {
+  override set right(v: AVLTreeMultiMapNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
     }
@@ -71,7 +71,9 @@ export class AVLTreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, M
    * additional options for configuring the AVLTreeMultiMap instance.
    */
   constructor(
-    keysNodesEntriesOrRaws: Iterable<BTNRep<K, V[], AVLTreeMultiMapNode<K, V>> | R> = [],
+    keysNodesEntriesOrRaws: Iterable<
+      K | AVLTreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined | R
+    > = [],
     options?: AVLTreeMultiMapOptions<K, V[], R>
   ) {
     super([], { ...options, isMapMode: true });
@@ -117,7 +119,9 @@ export class AVLTreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, M
     return new AVLTreeMultiMapNode<K, V>(key, []);
   }
 
-  override add(node: BTNRep<K, V[], AVLTreeMultiMapNode<K, V>>): boolean;
+  override add(
+    node: K | AVLTreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined
+  ): boolean;
 
   override add(key: K, value: V): boolean;
 
@@ -127,7 +131,7 @@ export class AVLTreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, M
    *
    * The function `add` in TypeScript overrides the superclass method to add key-value pairs to an AVL
    * tree multi-map.
-   * @param {BTNRep<K, V[], AVLTreeMultiMapNode<K, V>> | K} keyNodeOrEntry - The `keyNodeOrEntry`
+   * @param {K | AVLTreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined | K} keyNodeOrEntry - The `keyNodeOrEntry`
    * parameter in the `override add` method can be either a key-value pair entry or just a key. If it
    * is a key-value pair entry, it will be in the format `[key, values]`, where `key` is the key and
    * `values`
@@ -137,7 +141,10 @@ export class AVLTreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, M
    * @returns The `override add` method is returning a boolean value, which indicates whether the
    * addition operation was successful or not.
    */
-  override add(keyNodeOrEntry: BTNRep<K, V[], AVLTreeMultiMapNode<K, V>> | K, value?: V): boolean {
+  override add(
+    keyNodeOrEntry: K | AVLTreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined | K,
+    value?: V
+  ): boolean {
     if (this.isRealNode(keyNodeOrEntry)) return super.add(keyNodeOrEntry);
 
     const _commonAdd = (key?: BTNOptKeyOrNull<K>, values?: V[]) => {
@@ -180,7 +187,7 @@ export class AVLTreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, M
    *
    * The function `deleteValue` removes a specific value from a key in an AVLTreeMultiMap data
    * structure and deletes the entire node if no values are left for that key.
-   * @param {BTNRep<K, V[], AVLTreeMultiMapNode<K, V>> | K} keyNodeOrEntry - The `keyNodeOrEntry`
+   * @param {K | AVLTreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined | K} keyNodeOrEntry - The `keyNodeOrEntry`
    * parameter in the `deleteValue` function can be either a `BTNRep` object representing a key-value
    * pair in the AVLTreeMultiMapNode, or just the key itself.
    * @param {V} value - The `value` parameter in the `deleteValue` function represents the specific
@@ -191,7 +198,10 @@ export class AVLTreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, M
    * `value` was successfully deleted from the array of values associated with the `keyNodeOrEntry`. If
    * the value was not found in the array, it returns `false`.
    */
-  deleteValue(keyNodeOrEntry: BTNRep<K, V[], AVLTreeMultiMapNode<K, V>> | K, value: V): boolean {
+  deleteValue(
+    keyNodeOrEntry: K | AVLTreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined | K,
+    value: V
+  ): boolean {
     const values = this.get(keyNodeOrEntry);
     if (Array.isArray(values)) {
       const index = values.indexOf(value);

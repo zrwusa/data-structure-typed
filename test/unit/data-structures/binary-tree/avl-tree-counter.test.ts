@@ -91,7 +91,7 @@ describe('AVLTreeCounter operations test1', () => {
     expect(minNodeBySpecificNode?.key).toBe(15);
 
     let subTreeSum = 0;
-    if (node15) avlCounter.dfs(node => (subTreeSum += node.key), 'PRE', 15);
+    if (node15) avlCounter.dfs(node => (subTreeSum += node.key), 'PRE', false, 15);
     expect(subTreeSum).toBe(31);
     let lesserSum = 0;
     avlCounter.lesserOrGreaterTraverse((node: AVLTreeCounterNode<number>) => (lesserSum += node.key), -1, 10);
@@ -99,7 +99,7 @@ describe('AVLTreeCounter operations test1', () => {
 
     expect(node15 instanceof AVLTreeCounterNode);
     if (node15 instanceof AVLTreeCounterNode) {
-      const subTreeAdd = avlCounter.dfs(node => (node.count += 1), 'PRE', 15);
+      const subTreeAdd = avlCounter.dfs(node => (node.count += 1), 'PRE', false, 15);
       expect(subTreeAdd);
     }
     const node11 = avlCounter.getNode(11);
@@ -347,7 +347,7 @@ describe('AVLTreeCounter operations test recursively1', () => {
     expect(minNodeBySpecificNode?.key).toBe(15);
 
     let subTreeSum = 0;
-    if (node15) avlCounter.dfs(node => (subTreeSum += node.key), 'PRE', 15);
+    if (node15) avlCounter.dfs(node => (subTreeSum += node.key), 'PRE', false, 15);
     expect(subTreeSum).toBe(31);
     let lesserSum = 0;
     avlCounter.lesserOrGreaterTraverse((node: AVLTreeCounterNode<number>) => (lesserSum += node.key), -1, 10);
@@ -355,7 +355,7 @@ describe('AVLTreeCounter operations test recursively1', () => {
 
     expect(node15 instanceof AVLTreeCounterNode);
     if (node15 instanceof AVLTreeCounterNode) {
-      const subTreeAdd = avlCounter.dfs(node => (node.count += 1), 'PRE', 15);
+      const subTreeAdd = avlCounter.dfs(node => (node.count += 1), 'PRE', false, 15);
       expect(subTreeAdd);
     }
     const node11 = avlCounter.getNode(11);
@@ -709,7 +709,7 @@ describe('AVLTreeCounter toEntryFn', () => {
 
     expect(avlCounter.morris(node => node.key, 'IN')).toEqual(expected);
     expect(avlCounter.dfs(node => node.key, 'IN')).toEqual(expected);
-    expect(avlCounter.dfs(node => node.key, 'IN', avlCounter.root, 'RECURSIVE')).toEqual(expected);
+    expect(avlCounter.dfs(node => node.key, 'IN', false, avlCounter.root, 'RECURSIVE')).toEqual(expected);
   });
 
   it('should toEntryFn 2', () => {
@@ -724,7 +724,7 @@ describe('AVLTreeCounter toEntryFn', () => {
 
     expect(avlCounter.morris(node => node.key, 'IN')).toEqual(expected);
     expect(avlCounter.dfs(node => node.key, 'IN')).toEqual(expected);
-    expect(avlCounter.dfs(node => node.key, 'IN', avlCounter.root, 'RECURSIVE')).toEqual(expected);
+    expect(avlCounter.dfs(node => node.key, 'IN', false, avlCounter.root, 'RECURSIVE')).toEqual(expected);
   });
 
   it('should toEntryFn throw error', () => {
@@ -760,7 +760,7 @@ describe('AVLTreeCounter toEntryFn', () => {
 
     expect(avlCounter.morris(node => node.key, 'IN')).toEqual(expected);
     expect(avlCounter.dfs(node => node.key, 'IN')).toEqual(expected);
-    expect(avlCounter.dfs(node => node.key, 'IN', avlCounter.root, 'RECURSIVE')).toEqual(expected);
+    expect(avlCounter.dfs(node => node.key, 'IN', false, avlCounter.root, 'RECURSIVE')).toEqual(expected);
   });
 });
 

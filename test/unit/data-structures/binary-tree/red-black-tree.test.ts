@@ -504,11 +504,11 @@ describe('RedBlackTree 2', () => {
     expect(rbTree.isBST()).toBe(true);
     expect(rbTree.isBST(rbTree.root, 'RECURSIVE')).toBe(true);
 
-    expect(rbTree.dfs(n => n.key, 'IN', rbTree.root, 'ITERATIVE')).toEqual([
+    expect(rbTree.dfs(n => n.key, 'IN', false, rbTree.root, 'ITERATIVE')).toEqual([
       49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76,
       77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99
     ]);
-    expect(rbTree.dfs(n => n.key, 'IN', rbTree.root, 'RECURSIVE')).toEqual([
+    expect(rbTree.dfs(n => n.key, 'IN', false, rbTree.root, 'RECURSIVE')).toEqual([
       49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76,
       77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99
     ]);
@@ -524,7 +524,7 @@ describe('RedBlackTree 2', () => {
 
     expect(rbTree.size).toBe(0);
     expect(rbTree.isBST()).toBe(true);
-    expect(rbTree.dfs(n => n.key, 'IN', rbTree.root, 'ITERATIVE')).toEqual([]);
+    expect(rbTree.dfs(n => n.key, 'IN', false, rbTree.root, 'ITERATIVE')).toEqual([]);
 
     rbTree.clear();
     for (let i = 0; i < 1000; i++) {
@@ -838,14 +838,6 @@ describe('real world data', () => {
 });
 
 describe('classic use', () => {
-  // Test case for finding elements in a given range
-  it('@example Find elements in a range', () => {
-    const bst = new RedBlackTree<number>([10, 5, 15, 3, 7, 12, 18]);
-    expect(bst.search(new Range(5, 10))).toEqual([5, 10, 7]);
-    expect(bst.search(new Range(4, 12))).toEqual([5, 10, 12, 7]);
-    expect(bst.search(new Range(15, 20))).toEqual([15, 18]);
-  });
-
   it('@example using Red-Black Tree as a price-based index for stock data', () => {
     // Define the structure of individual stock records
     interface StockRecord {
@@ -887,6 +879,6 @@ describe('classic use', () => {
       [200, 400], // Price range
       node => priceIndex.get(node)?.symbol // Extract stock symbols for the result
     );
-    expect(stocksInRange).toEqual(['GOOGL', 'MSFT', 'META']); // Verify stocks in the range
+    expect(stocksInRange).toEqual(['GOOGL', 'META', 'MSFT']); // Verify stocks in the range
   });
 });

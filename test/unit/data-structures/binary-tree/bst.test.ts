@@ -90,7 +90,7 @@ describe('BST operations test', () => {
     expect(nodes.map(node => node.key)).toEqual([15]);
 
     let subTreeSum = 0;
-    if (node15) bst.dfs(node => (subTreeSum += node.key), 'PRE', 15);
+    if (node15) bst.dfs(node => (subTreeSum += node.key), 'PRE', false, 15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
@@ -299,7 +299,7 @@ describe('BST operations test', () => {
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    if (node15) objBST.dfs(node => (subTreeSum += node.key), 'PRE', node15);
+    if (node15) objBST.dfs(node => (subTreeSum += node.key), 'PRE', false, node15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
@@ -492,7 +492,7 @@ describe('BST operations test', () => {
 
   it('should search in range', () => {
     const bst = new BST<number>([10, 5, 15, 3, 7, 12, 18]);
-    expect(bst.rangeSearch([4, 12])).toEqual([10, 12, 5, 7]);
+    expect(bst.rangeSearch([4, 12])).toEqual([5, 7, 10, 12]);
     expect(() => bst.rangeSearch([12, 4])).toThrow('low must be less than or equal to high');
     expect(bst.rangeSearch([12, 12])).toEqual([12]);
   });
@@ -535,7 +535,7 @@ describe('BST operations test recursively', () => {
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    if (node15) bst.dfs(node => (subTreeSum += node.key), 'PRE', 15);
+    if (node15) bst.dfs(node => (subTreeSum += node.key), 'PRE', false, 15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
@@ -742,7 +742,7 @@ describe('BST operations test recursively', () => {
     expect(minNodeBySpecificNode?.key).toBe(12);
 
     let subTreeSum = 0;
-    if (node15) objBST.dfs(node => (subTreeSum += node.key), 'PRE', node15);
+    if (node15) objBST.dfs(node => (subTreeSum += node.key), 'PRE', false, node15);
     expect(subTreeSum).toBe(70);
 
     let lesserSum = 0;
@@ -1080,10 +1080,10 @@ describe('BST Performance test', function () {
   it('should dfs as sub tree traversal, null should be ignored', () => {
     const bst = new BST();
     bst.addMany([4, 2, 6, 1, 3, 5, 7]);
-    expect(bst.dfs(node => node.key, 'PRE', bst.getNode(6), 'ITERATIVE')).toEqual([6, 5, 7]);
-    expect(bst.dfs(node => node.key, 'PRE', bst.getNode(6), 'RECURSIVE')).toEqual([6, 5, 7]);
-    expect(bst.dfs(node => node?.key ?? undefined, 'PRE', bst.getNode(6), 'ITERATIVE')).toEqual([6, 5, 7]);
-    expect(bst.dfs(node => node?.key ?? undefined, 'PRE', bst.getNode(6), 'RECURSIVE')).toEqual([6, 5, 7]);
+    expect(bst.dfs(node => node.key, 'PRE', false, bst.getNode(6), 'ITERATIVE')).toEqual([6, 5, 7]);
+    expect(bst.dfs(node => node.key, 'PRE', false, bst.getNode(6), 'RECURSIVE')).toEqual([6, 5, 7]);
+    expect(bst.dfs(node => node?.key ?? undefined, 'PRE', false, bst.getNode(6), 'ITERATIVE')).toEqual([6, 5, 7]);
+    expect(bst.dfs(node => node?.key ?? undefined, 'PRE', false, bst.getNode(6), 'RECURSIVE')).toEqual([6, 5, 7]);
   });
 });
 
@@ -1565,9 +1565,9 @@ describe('classic use', () => {
   // Test case for finding elements in a given range
   it('@example Find elements in a range', () => {
     const bst = new BST<number>([10, 5, 15, 3, 7, 12, 18]);
-    expect(bst.search(new Range(5, 10))).toEqual([10, 5, 7]);
-    expect(bst.rangeSearch([4, 12], node => node.key.toString())).toEqual(['10', '12', '5', '7']);
-    expect(bst.search(new Range(4, 12, true, false))).toEqual([10, 5, 7]);
+    expect(bst.search(new Range(5, 10))).toEqual([5, 7, 10]);
+    expect(bst.rangeSearch([4, 12], node => node.key.toString())).toEqual(['5', '7', '10', '12']);
+    expect(bst.search(new Range(4, 12, true, false))).toEqual([5, 7, 10]);
     expect(bst.rangeSearch([15, 20])).toEqual([15, 18]);
     expect(bst.search(new Range(15, 20, false))).toEqual([18]);
   });

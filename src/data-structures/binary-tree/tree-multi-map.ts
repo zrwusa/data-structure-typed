@@ -5,11 +5,13 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { BTNOptKeyOrNull, BTNRep, OptNodeOrNull, TreeMultiMapOptions } from '../../types';
+import type { BTNOptKeyOrNull, TreeMultiMapOptions } from '../../types';
 import { RedBlackTree, RedBlackTreeNode } from './red-black-tree';
 import { IBinaryTree } from '../../interfaces';
 
 export class TreeMultiMapNode<K = any, V = any> extends RedBlackTreeNode<K, V[]> {
+  override parent?: TreeMultiMapNode<K, V> = undefined;
+
   /**
    * This TypeScript constructor initializes an object with a key of type K and an array of values of
    * type V.
@@ -23,28 +25,26 @@ export class TreeMultiMapNode<K = any, V = any> extends RedBlackTreeNode<K, V[]>
     super(key, value);
   }
 
-  override parent?: TreeMultiMapNode<K, V> = undefined;
+  override _left?: TreeMultiMapNode<K, V> | null | undefined = undefined;
 
-  override _left?: OptNodeOrNull<TreeMultiMapNode<K, V>> = undefined;
-
-  override get left(): OptNodeOrNull<TreeMultiMapNode<K, V>> {
+  override get left(): TreeMultiMapNode<K, V> | null | undefined {
     return this._left;
   }
 
-  override set left(v: OptNodeOrNull<TreeMultiMapNode<K, V>>) {
+  override set left(v: TreeMultiMapNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
     }
     this._left = v;
   }
 
-  override _right?: OptNodeOrNull<TreeMultiMapNode<K, V>> = undefined;
+  override _right?: TreeMultiMapNode<K, V> | null | undefined = undefined;
 
-  override get right(): OptNodeOrNull<TreeMultiMapNode<K, V>> {
+  override get right(): TreeMultiMapNode<K, V> | null | undefined {
     return this._right;
   }
 
-  override set right(v: OptNodeOrNull<TreeMultiMapNode<K, V>>) {
+  override set right(v: TreeMultiMapNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
     }
@@ -77,7 +77,9 @@ export class TreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR =
    * additional options for configuring the TreeMultiMap instance.
    */
   constructor(
-    keysNodesEntriesOrRaws: Iterable<BTNRep<K, V[], TreeMultiMapNode<K, V>> | R> = [],
+    keysNodesEntriesOrRaws: Iterable<
+      K | TreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined | R
+    > = [],
     options?: TreeMultiMapOptions<K, V[], R>
   ) {
     super([], { ...options, isMapMode: true });
@@ -124,7 +126,7 @@ export class TreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR =
     return new TreeMultiMapNode<K, V>(key, []);
   }
 
-  override add(node: BTNRep<K, V[], TreeMultiMapNode<K, V>>): boolean;
+  override add(node: K | TreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined): boolean;
 
   override add(key: K, value: V): boolean;
 
@@ -134,7 +136,7 @@ export class TreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR =
    *
    * The function `add` in TypeScript overrides the superclass method to add key-value pairs to a
    * TreeMultiMapNode, handling different input types and scenarios.
-   * @param {BTNRep<K, V[], TreeMultiMapNode<K, V>> | K} keyNodeOrEntry - The `keyNodeOrEntry`
+   * @param {K | TreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined} keyNodeOrEntry - The `keyNodeOrEntry`
    * parameter in the `override add` method can be either a `BTNRep` object containing a key, an array
    * of values, and a `TreeMultiMapNode`, or just a key.
    * @param {V} [value] - The `value` parameter in the `override add` method represents the value that
@@ -143,7 +145,10 @@ export class TreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR =
    * @returns The `add` method is returning a boolean value, which indicates whether the operation was
    * successful or not.
    */
-  override add(keyNodeOrEntry: BTNRep<K, V[], TreeMultiMapNode<K, V>> | K, value?: V): boolean {
+  override add(
+    keyNodeOrEntry: K | TreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined,
+    value?: V
+  ): boolean {
     if (this.isRealNode(keyNodeOrEntry)) return super.add(keyNodeOrEntry);
 
     const _commonAdd = (key?: BTNOptKeyOrNull<K>, values?: V[]) => {
@@ -186,7 +191,7 @@ export class TreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR =
    *
    * The function `deleteValue` removes a specific value from a key in a TreeMultiMap data structure
    * and deletes the entire node if no values are left for that key.
-   * @param {BTNRep<K, V[], TreeMultiMapNode<K, V>> | K} keyNodeOrEntry - The `keyNodeOrEntry`
+   * @param {K | TreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined} keyNodeOrEntry - The `keyNodeOrEntry`
    * parameter in the `deleteValue` function can be either a `BTNRep` object containing a key and an
    * array of values, or just a key itself.
    * @param {V} value - The `value` parameter in the `deleteValue` function represents the specific
@@ -196,7 +201,10 @@ export class TreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR =
    * @returns The `deleteValue` function returns a boolean value - `true` if the specified `value` was
    * successfully deleted from the values associated with the `keyNodeOrEntry`, and `false` otherwise.
    */
-  deleteValue(keyNodeOrEntry: BTNRep<K, V[], TreeMultiMapNode<K, V>> | K, value: V): boolean {
+  deleteValue(
+    keyNodeOrEntry: K | TreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined,
+    value: V
+  ): boolean {
     const values = this.get(keyNodeOrEntry);
     if (Array.isArray(values)) {
       const index = values.indexOf(value);

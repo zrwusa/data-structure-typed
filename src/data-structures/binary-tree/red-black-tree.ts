@@ -1,17 +1,10 @@
-import type {
-  BinaryTreeDeleteResult,
-  BTNRep,
-  CRUD,
-  EntryCallback,
-  OptNode,
-  OptNodeOrNull,
-  RBTNColor,
-  RedBlackTreeOptions
-} from '../../types';
+import type { BinaryTreeDeleteResult, CRUD, EntryCallback, OptNode, RBTNColor, RedBlackTreeOptions } from '../../types';
 import { BST, BSTNode } from './bst';
 import { IBinaryTree } from '../../interfaces';
 
 export class RedBlackTreeNode<K = any, V = any> extends BSTNode<K, V> {
+  override parent?: RedBlackTreeNode<K, V> = undefined;
+
   /**
    * The constructor initializes a node with a key, value, and color for a Red-Black Tree.
    * @param {K} key - The `key` parameter is a key of type `K` that is used to identify the node in a
@@ -27,28 +20,26 @@ export class RedBlackTreeNode<K = any, V = any> extends BSTNode<K, V> {
     this._color = color;
   }
 
-  override parent?: RedBlackTreeNode<K, V> = undefined;
+  override _left?: RedBlackTreeNode<K, V> | null | undefined = undefined;
 
-  override _left?: OptNodeOrNull<RedBlackTreeNode<K, V>> = undefined;
-
-  override get left(): OptNodeOrNull<RedBlackTreeNode<K, V>> {
+  override get left(): RedBlackTreeNode<K, V> | null | undefined {
     return this._left;
   }
 
-  override set left(v: OptNodeOrNull<RedBlackTreeNode<K, V>>) {
+  override set left(v: RedBlackTreeNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
     }
     this._left = v;
   }
 
-  override _right?: OptNodeOrNull<RedBlackTreeNode<K, V>> = undefined;
+  override _right?: RedBlackTreeNode<K, V> | null | undefined = undefined;
 
-  override get right(): OptNodeOrNull<RedBlackTreeNode<K, V>> {
+  override get right(): RedBlackTreeNode<K, V> | null | undefined {
     return this._right;
   }
 
-  override set right(v: OptNodeOrNull<RedBlackTreeNode<K, V>>) {
+  override set right(v: RedBlackTreeNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
     }
@@ -117,7 +108,7 @@ export class RedBlackTree<K = any, V = any, R = object, MK = any, MV = any, MR =
    * This TypeScript constructor initializes a Red-Black Tree with optional keys, nodes, entries, or
    * raw data.
    * @param keysNodesEntriesOrRaws - The `keysNodesEntriesOrRaws` parameter in the constructor is an
-   * iterable that can contain either `BTNRep<K, V, RedBlackTreeNode<K, V>>` objects or `R` objects. It
+   * iterable that can contain either `K | RedBlackTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined` objects or `R` objects. It
    * is used to initialize the Red-Black Tree with keys, nodes, entries, or
    * @param [options] - The `options` parameter in the constructor is of type `RedBlackTreeOptions<K,
    * V, R>`. It is an optional parameter that allows you to specify additional options for the
@@ -125,7 +116,9 @@ export class RedBlackTree<K = any, V = any, R = object, MK = any, MV = any, MR =
    * any other parameters that are specific to
    */
   constructor(
-    keysNodesEntriesOrRaws: Iterable<BTNRep<K, V, RedBlackTreeNode<K, V>> | R> = [],
+    keysNodesEntriesOrRaws: Iterable<
+      K | RedBlackTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | R
+    > = [],
     options?: RedBlackTreeOptions<K, V, R>
   ) {
     super([], options);
@@ -188,12 +181,14 @@ export class RedBlackTree<K = any, V = any, R = object, MK = any, MV = any, MR =
    * Space Complexity: O(1)
    *
    * The function checks if the input is an instance of the RedBlackTreeNode class.
-   * @param {BTNRep<K, V, RedBlackTreeNode<K, V>>} keyNodeOrEntry - The parameter
-   * `keyNodeOrEntry` can be of type `R` or `BTNRep<K, V, RedBlackTreeNode<K, V>>`.
+   * @param {K | RedBlackTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined} keyNodeOrEntry - The parameter
+   * `keyNodeOrEntry` can be of type `R` or `K | RedBlackTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined`.
    * @returns a boolean value indicating whether the input parameter `keyNodeOrEntry` is
    * an instance of the `RedBlackTreeNode` class.
    */
-  override isNode(keyNodeOrEntry: BTNRep<K, V, RedBlackTreeNode<K, V>>): keyNodeOrEntry is RedBlackTreeNode<K, V> {
+  override isNode(
+    keyNodeOrEntry: K | RedBlackTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined
+  ): keyNodeOrEntry is RedBlackTreeNode<K, V> {
     return keyNodeOrEntry instanceof RedBlackTreeNode;
   }
 
@@ -215,8 +210,8 @@ export class RedBlackTree<K = any, V = any, R = object, MK = any, MV = any, MR =
    *
    * The function adds a new node to a binary search tree and returns true if the node was successfully
    * added.
-   * @param {BTNRep<K, V, RedBlackTreeNode<K, V>>} keyNodeOrEntry - The parameter
-   * `keyNodeOrEntry` can accept a value of type `R` or `BTNRep<K, V, RedBlackTreeNode<K, V>>`.
+   * @param {K | RedBlackTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined} keyNodeOrEntry - The parameter
+   * `keyNodeOrEntry` can accept a value of type `R` or `K | RedBlackTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined`.
    * @param {V} [value] - The `value` parameter is an optional value that you want to associate with
    * the key in the data structure. It represents the value that you want to add or update in the data
    * structure.
@@ -224,7 +219,10 @@ export class RedBlackTree<K = any, V = any, R = object, MK = any, MV = any, MR =
    * the method returns true. If the node already exists and its value is updated, the method also
    * returns true. If the node cannot be added or updated, the method returns false.
    */
-  override add(keyNodeOrEntry: BTNRep<K, V, RedBlackTreeNode<K, V>>, value?: V): boolean {
+  override add(
+    keyNodeOrEntry: K | RedBlackTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
+    value?: V
+  ): boolean {
     const [newNode, newValue] = this._keyValueNodeOrEntryToNodeAndValue(keyNodeOrEntry, value);
     if (!this.isRealNode(newNode)) return false;
 
@@ -254,7 +252,7 @@ export class RedBlackTree<K = any, V = any, R = object, MK = any, MV = any, MR =
    *
    * The function overrides the delete method in a binary tree data structure to remove a node based on
    * a given predicate and maintain the binary search tree properties.
-   * @param {BTNRep<K, V, RedBlackTreeNode<K, V>>} keyNodeOrEntry - The `keyNodeOrEntry`
+   * @param {K | RedBlackTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined} keyNodeOrEntry - The `keyNodeOrEntry`
    * parameter in the `override delete` method is used to specify the condition or key based on which a
    * node should be deleted from the binary tree. It can be a key, a node, an entry, or a predicate
    * function that determines which node(s) should be deleted.
@@ -263,7 +261,7 @@ export class RedBlackTree<K = any, V = any, R = object, MK = any, MV = any, MR =
    * balancing is needed.
    */
   override delete(
-    keyNodeOrEntry: BTNRep<K, V, RedBlackTreeNode<K, V>>
+    keyNodeOrEntry: K | RedBlackTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined
   ): BinaryTreeDeleteResult<RedBlackTreeNode<K, V>>[] {
     if (keyNodeOrEntry === null) return [];
 
