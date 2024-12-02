@@ -2,7 +2,7 @@ import type { BinaryTreeOptions } from './binary-tree';
 import { Comparable } from '../../utils';
 import { OptValue } from '../../common';
 
-export type BSTOptions<K, V, R> = BinaryTreeOptions<K, V, R> & {
+export type BSTOptions<K, V, R> = Omit<BinaryTreeOptions<K, V, R>, 'isDuplicate'> & {
   specifyComparable?: (key: K) => Comparable
   isReverse?: boolean;
 }

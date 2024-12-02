@@ -1434,3 +1434,69 @@ describe('BinaryTree not map mode iterative methods test', () => {
     expect(cloned.get(cloned.root?.right)).toBe('c');
   });
 });
+
+describe('classic use', () => {
+  it('@example determine loan approval using a decision tree', () => {
+    // Decision tree structure
+    const loanDecisionTree = new BinaryTree<string>(
+      ['stableIncome', 'goodCredit', 'Rejected', 'Approved', 'Rejected'],
+      { isDuplicate: true }
+    );
+
+    function determineLoanApproval(
+      node?: BinaryTreeNode<string> | null,
+      conditions?: { [key: string]: boolean }
+    ): string {
+      if (!node) throw new Error('Invalid node');
+
+      // If it's a leaf node, return the decision result
+      if (!node.left && !node.right) return node.key;
+
+      // Check if a valid condition exists for the current node's key
+      return conditions?.[node.key]
+        ? determineLoanApproval(node.left, conditions)
+        : determineLoanApproval(node.right, conditions);
+    }
+
+    // Test case 1: Stable income and good credit score
+    expect(determineLoanApproval(loanDecisionTree.root, { stableIncome: true, goodCredit: true })).toBe('Approved');
+
+    // Test case 2: Stable income but poor credit score
+    expect(determineLoanApproval(loanDecisionTree.root, { stableIncome: true, goodCredit: false })).toBe('Rejected');
+
+    // Test case 3: No stable income
+    expect(determineLoanApproval(loanDecisionTree.root, { stableIncome: false, goodCredit: true })).toBe('Rejected');
+
+    // Test case 4: No stable income and poor credit score
+    expect(determineLoanApproval(loanDecisionTree.root, { stableIncome: false, goodCredit: false })).toBe('Rejected');
+  });
+
+  it('@example evaluate the arithmetic expression represented by the binary tree', () => {
+    const expressionTree = new BinaryTree<number | string>(['+', 3, '*', null, null, 5, '-', null, null, 2, 8]);
+
+    function evaluate(node?: BinaryTreeNode<number | string> | null): number {
+      if (!node) return 0;
+
+      if (typeof node.key === 'number') return node.key;
+
+      const leftValue = evaluate(node.left); // Evaluate the left subtree
+      const rightValue = evaluate(node.right); // Evaluate the right subtree
+
+      // Perform the operation based on the current node's operator
+      switch (node.key) {
+        case '+':
+          return leftValue + rightValue;
+        case '-':
+          return leftValue - rightValue;
+        case '*':
+          return leftValue * rightValue;
+        case '/':
+          return rightValue !== 0 ? leftValue / rightValue : 0; // Handle division by zero
+        default:
+          throw new Error(`Unsupported operator: ${node.key}`);
+      }
+    }
+
+    expect(evaluate(expressionTree.root)).toBe(-27);
+  });
+});

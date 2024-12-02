@@ -152,9 +152,10 @@ export class BinaryTree<K = any, V = any, R = object, MK = any, MV = any, MR = o
   ) {
     super();
     if (options) {
-      const { iterationType, toEntryFn, isMapMode } = options;
+      const { iterationType, toEntryFn, isMapMode, isDuplicate } = options;
       if (iterationType) this.iterationType = iterationType;
       if (isMapMode !== undefined) this._isMapMode = isMapMode;
+      if (isDuplicate !== undefined) this._isDuplicate = isDuplicate;
       if (typeof toEntryFn === 'function') this._toEntryFn = toEntryFn;
       else if (toEntryFn) throw TypeError('toEntryFn must be a function type');
     }
@@ -168,6 +169,12 @@ export class BinaryTree<K = any, V = any, R = object, MK = any, MV = any, MR = o
 
   get isMapMode() {
     return this._isMapMode;
+  }
+
+  protected _isDuplicate = false;
+
+  get isDuplicate() {
+    return this._isDuplicate;
   }
 
   protected _store = new Map<K, V | undefined>();
@@ -356,8 +363,8 @@ export class BinaryTree<K = any, V = any, R = object, MK = any, MV = any, MR = o
    * Space Complexity: O(1)
    *
    * The function `isRange` checks if the input parameter is an instance of the `Range` class.
-   * @param {BTNRep<K, V, BinaryTreeNode<K, V>> | NodePredicate<BinaryTreeNode<K, V>> | Range<K>}
-   * keyNodeEntryOrPredicate - The `keyNodeEntryOrPredicate` parameter in the `isRange` function can be
+   * @param {BTNRep<K, V, BinaryTreeNode<K, V>> | NodePredicate<BinaryTreeNode<K, V>> | Range<K>} keyNodeEntryOrPredicate
+   * - The `keyNodeEntryOrPredicate` parameter in the `isRange` function can be
    * of type `BTNRep<K, V, BinaryTreeNode<K, V>>`, `NodePredicate<BinaryTreeNode<K, V>>`, or
    * `Range<K>`. The function checks if the `keyNodeEntry
    * @returns The `isRange` function is checking if the `keyNodeEntryOrPredicate` parameter is an
@@ -461,11 +468,13 @@ export class BinaryTree<K = any, V = any, R = object, MK = any, MV = any, MR = o
 
       if (!cur) continue;
 
-      // Check for duplicate keys when newNode is not null
-      if (newNode !== null && cur.key === newNode.key) {
-        this._replaceNode(cur, newNode);
-        if (this._isMapMode) this._setValue(cur.key, newValue);
-        return true; // If duplicate keys are found, no insertion is performed
+      if (!this._isDuplicate) {
+        // Check for duplicate keys when newNode is not null
+        if (newNode !== null && cur.key === newNode.key) {
+          this._replaceNode(cur, newNode);
+          if (this._isMapMode) this._setValue(cur.key, newValue);
+          return true; // If duplicate keys are found, no insertion is performed
+        }
       }
 
       // Record the first possible insertion location found

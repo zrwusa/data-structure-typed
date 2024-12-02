@@ -1017,7 +1017,7 @@ pnpm perf:rbtree
     <td>Counter</td>
   </tr>
   <tr>
-    <td>LinkedHashMap&lt;K, V&gt;</td>
+    <td>ES6 Map&lt;K, V&gt;</td>
     <td>-</td>
     <td>LinkedHashMap&lt;K, V&gt;</td>
     <td>OrderedDict</td>

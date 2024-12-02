@@ -7,6 +7,7 @@ export type BinaryTreeOptions<K, V, R> = {
   iterationType?: IterationType;
   toEntryFn?: ToEntryFn<K, V, R>;
   isMapMode?: boolean;
+  isDuplicate?: boolean;
 }
 
 export type BinaryTreePrintOptions = { isShowUndefined?: boolean; isShowNull?: boolean; isShowRedBlackNIL?: boolean };
