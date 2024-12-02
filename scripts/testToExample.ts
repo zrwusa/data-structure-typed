@@ -45,6 +45,14 @@ const dirMap: Record<string, string | string[]> = {
   Trie: "trie-typed",
   UndirectedGraph: "undirected-graph-typed",
 };
+
+const classMap: Record<string, string> = {
+  Bst: "BST",
+  AvlTree: "AVLTree",
+  AvlTreeMultiMap: "AVLTreeMultiMap",
+  AvlTreeCounter: "AVLTreeCounter"
+}
+
 const fileName = 'README.md';
 
 /**
@@ -218,6 +226,8 @@ function updateExamples(testDir: string, sourceBaseDir: string): void {
     const sourceFilePath = path.resolve(sourceBaseDir, relativePath.replace('.test.ts', '.ts'));
     let className = toPascalCase(path.basename(sourceFilePath, '.ts'));
     if (className === 'Bst') className = 'BST';
+    if (className === 'AvlTree') className = 'AVLTree';
+    className = classMap[className] || className;
     addExamplesToSourceFile(sourceFilePath, className, examples);
     const dirKey = dirMap[className];
 

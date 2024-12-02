@@ -102,9 +102,9 @@ export class BSTNode<K = any, V = any> extends BinaryTreeNode<K, V> {
  * @example
  * // Find elements in a range
  *     const bst = new BST<number>([10, 5, 15, 3, 7, 12, 18]);
- *     console.log(bst.search(new Range(5, 10))); // [10, 5, 7]
- *     console.log(bst.rangeSearch([4, 12], node => node.key.toString())); // ['10', '12', '5', '7']
- *     console.log(bst.search(new Range(4, 12, true, false))); // [10, 5, 7]
+ *     console.log(bst.search(new Range(5, 10))); // [5, 7, 10]
+ *     console.log(bst.rangeSearch([4, 12], node => node.key.toString())); // ['5', '7', '10', '12']
+ *     console.log(bst.search(new Range(4, 12, true, false))); // [5, 7, 10]
  *     console.log(bst.rangeSearch([15, 20])); // [15, 18]
  *     console.log(bst.search(new Range(15, 20, false))); // [18]
  * @example
@@ -441,14 +441,14 @@ export class BST<K = any, V = any, R = object, MK = any, MV = any, MR = object>
       if (arr.length === 0) return;
 
       const mid = Math.floor((arr.length - 1) / 2);
-      let { key, value } = arr[mid];
+      const { key, value } = arr[mid];
       const { orgIndex } = arr[mid];
       if (this.isRaw(key)) {
         const entry = this._toEntryFn!(key);
-        key = entry[0];
-        value = entry[1] ?? value;
+        inserted[orgIndex] = this.add(entry);
+      } else {
+        inserted[orgIndex] = this.add(key, value);
       }
-      inserted[orgIndex] = this.add(key, value);
       _dfs(arr.slice(0, mid));
       _dfs(arr.slice(mid + 1));
     };
@@ -462,14 +462,14 @@ export class BST<K = any, V = any, R = object, MK = any, MV = any, MR = object>
           const [l, r] = popped;
           if (l <= r) {
             const m = l + Math.floor((r - l) / 2);
-            let { key, value } = sorted[m];
+            const { key, value } = sorted[m];
             const { orgIndex } = sorted[m];
             if (this.isRaw(key)) {
               const entry = this._toEntryFn!(key);
-              key = entry[0];
-              value = entry[1] ?? value;
+              inserted[orgIndex] = this.add(entry);
+            } else {
+              inserted[orgIndex] = this.add(key, value);
             }
-            inserted[orgIndex] = this.add(key, value);
             stack.push([m + 1, r]);
             stack.push([l, m - 1]);
           }

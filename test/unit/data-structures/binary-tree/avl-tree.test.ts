@@ -546,6 +546,7 @@ describe('AVLTree iterative methods not map mode', () => {
 describe('classic use', () => {
   // Test case for finding elements in a given range
   it('@example Find elements in a range', () => {
+    // In interval queries, AVL trees, with their strictly balanced structure and lower height, offer better query efficiency, making them ideal for frequent and high-performance interval queries. In contrast, Red-Black trees, with lower update costs, are more suitable for scenarios involving frequent insertions and deletions where the requirements for interval queries are less demanding.
     type Datum = { timestamp: Date; temperature: number };
     // Fixed dataset of CPU temperature readings
     const cpuData: Datum[] = [
@@ -594,18 +595,18 @@ describe('classic use', () => {
       temperature: cpuTemperatureTree.get(node ? node.key : undefined)
     }));
 
-    expect(rangeResults).toEqual( [
-            { minute: 5, temperature: 59.4 },
-            { minute: 6, temperature: 60.1 },
-            { minute: 7, temperature: 61.3 },
-            { minute: 8, temperature: 62 },
-            { minute: 9, temperature: 63.5 },
-            { minute: 10, temperature: 64 },
-            { minute: 11, temperature: 62.8 },
-            { minute: 12, temperature: 61.5 },
-            { minute: 13, temperature: 60.2 },
-            { minute: 14, temperature: 59.8 },
-            { minute: 15, temperature: 58.6 }
-          ]);
+    expect(rangeResults).toEqual([
+      { minute: 5, temperature: 59.4 },
+      { minute: 6, temperature: 60.1 },
+      { minute: 7, temperature: 61.3 },
+      { minute: 8, temperature: 62 },
+      { minute: 9, temperature: 63.5 },
+      { minute: 10, temperature: 64 },
+      { minute: 11, temperature: 62.8 },
+      { minute: 12, temperature: 61.5 },
+      { minute: 13, temperature: 60.2 },
+      { minute: 14, temperature: 59.8 },
+      { minute: 15, temperature: 58.6 }
+    ]);
   });
 });

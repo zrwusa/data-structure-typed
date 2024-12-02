@@ -51,12 +51,6 @@ export class RedBlackTreeNode<K = any, V = any> extends BSTNode<K, V> {
  * 1. Efficient self-balancing, but not completely balanced. Compared with AVLTree, the addition and deletion efficiency is high but the query efficiency is slightly lower.
  * 2. It is BST itself. Compared with Heap which is not completely ordered, RedBlackTree is completely ordered.
  * @example
- * // Find elements in a range
- *     const bst = new RedBlackTree<number>([10, 5, 15, 3, 7, 12, 18]);
- *     console.log(bst.search(new Range(5, 10))); // [5, 10, 7]
- *     console.log(bst.search(new Range(4, 12))); // [5, 10, 12, 7]
- *     console.log(bst.search(new Range(15, 20))); // [15, 18]
- * @example
  * // using Red-Black Tree as a price-based index for stock data
  *     // Define the structure of individual stock records
  *     interface StockRecord {
@@ -98,7 +92,7 @@ export class RedBlackTreeNode<K = any, V = any> extends BSTNode<K, V> {
  *       [200, 400], // Price range
  *       node => priceIndex.get(node)?.symbol // Extract stock symbols for the result
  *     );
- *     console.log(stocksInRange); // ['GOOGL', 'MSFT', 'META']
+ *     console.log(stocksInRange); // ['GOOGL', 'META', 'MSFT']
  */
 export class RedBlackTree<K = any, V = any, R = object, MK = any, MV = any, MR = object>
   extends BST<K, V, R, MK, MV, MR>

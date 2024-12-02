@@ -570,3 +570,171 @@ describe('AVLTreeMultiMap iterative methods not map mode', () => {
     expect(cloned.get(cloned.root?.right?.key)).toEqual(['c']);
   });
 });
+
+describe('classic use', () => {
+  // Test suite for TreeMultiMap with player ranking and equipment
+  it('players ranked by score with their equipment', () => {
+    type Equipment = {
+      name: string; // Equipment name
+      quality: 'legendary' | 'epic' | 'rare' | 'common';
+      level: number;
+    };
+
+    type Player = {
+      name: string;
+      score: number;
+      equipments: Equipment[];
+    };
+
+    // Mock player data with their scores and equipment
+    const players: Player[] = [
+      {
+        name: 'DragonSlayer',
+        score: 8750,
+        equipments: [
+          { name: 'AWM', quality: 'legendary', level: 85 },
+          { name: 'Level 3 Helmet', quality: 'epic', level: 80 },
+          { name: 'Extended Quickdraw Mag', quality: 'rare', level: 75 },
+          { name: 'Compensator', quality: 'epic', level: 78 },
+          { name: 'Vertical Grip', quality: 'rare', level: 72 }
+        ]
+      },
+      {
+        name: 'ShadowNinja',
+        score: 7200,
+        equipments: [
+          { name: 'M416', quality: 'epic', level: 75 },
+          { name: 'Ghillie Suit', quality: 'rare', level: 70 },
+          { name: 'Red Dot Sight', quality: 'common', level: 65 },
+          { name: 'Extended QuickDraw Mag', quality: 'rare', level: 68 }
+        ]
+      },
+      {
+        name: 'RuneMaster',
+        score: 9100,
+        equipments: [
+          { name: 'KAR98K', quality: 'legendary', level: 90 },
+          { name: 'Level 3 Vest', quality: 'legendary', level: 85 },
+          { name: 'Holographic Sight', quality: 'epic', level: 82 },
+          { name: 'Suppressor', quality: 'legendary', level: 88 },
+          { name: 'Level 3 Backpack', quality: 'epic', level: 80 }
+        ]
+      },
+      {
+        name: 'BattleKing',
+        score: 8500,
+        equipments: [
+          { name: 'AUG', quality: 'epic', level: 82 },
+          { name: 'Red Dot Sight', quality: 'rare', level: 75 },
+          { name: 'Extended Mag', quality: 'common', level: 70 },
+          { name: 'Tactical Stock', quality: 'rare', level: 76 }
+        ]
+      },
+      {
+        name: 'SniperElite',
+        score: 7800,
+        equipments: [
+          { name: 'M24', quality: 'legendary', level: 88 },
+          { name: 'Compensator', quality: 'epic', level: 80 },
+          { name: 'Scope 8x', quality: 'legendary', level: 85 },
+          { name: 'Level 2 Helmet', quality: 'rare', level: 75 }
+        ]
+      },
+      {
+        name: 'RushMaster',
+        score: 7500,
+        equipments: [
+          { name: 'Vector', quality: 'rare', level: 72 },
+          { name: 'Level 2 Helmet', quality: 'common', level: 65 },
+          { name: 'Quickdraw Mag', quality: 'common', level: 60 },
+          { name: 'Laser Sight', quality: 'rare', level: 68 }
+        ]
+      },
+      {
+        name: 'GhostWarrior',
+        score: 8200,
+        equipments: [
+          { name: 'SCAR-L', quality: 'epic', level: 78 },
+          { name: 'Extended Quickdraw Mag', quality: 'rare', level: 70 },
+          { name: 'Holographic Sight', quality: 'epic', level: 75 },
+          { name: 'Suppressor', quality: 'rare', level: 72 },
+          { name: 'Vertical Grip', quality: 'common', level: 65 }
+        ]
+      },
+      {
+        name: 'DeathDealer',
+        score: 7300,
+        equipments: [
+          { name: 'SKS', quality: 'epic', level: 76 },
+          { name: 'Holographic Sight', quality: 'rare', level: 68 },
+          { name: 'Extended Mag', quality: 'common', level: 65 }
+        ]
+      },
+      {
+        name: 'StormRider',
+        score: 8900,
+        equipments: [
+          { name: 'MK14', quality: 'legendary', level: 92 },
+          { name: 'Level 3 Backpack', quality: 'legendary', level: 85 },
+          { name: 'Scope 8x', quality: 'epic', level: 80 },
+          { name: 'Suppressor', quality: 'legendary', level: 88 },
+          { name: 'Tactical Stock', quality: 'rare', level: 75 }
+        ]
+      },
+      {
+        name: 'CombatLegend',
+        score: 7600,
+        equipments: [
+          { name: 'UMP45', quality: 'rare', level: 74 },
+          { name: 'Level 2 Vest', quality: 'common', level: 67 },
+          { name: 'Red Dot Sight', quality: 'common', level: 62 },
+          { name: 'Extended Mag', quality: 'rare', level: 70 }
+        ]
+      }
+    ];
+
+    // Create a TreeMultiMap for player rankings
+    const playerRankings = new AVLTreeMultiMap<number, Equipment, Player>(players, {
+      toEntryFn: ({ score, equipments }) => [score, equipments],
+      isMapMode: false
+    });
+
+    const topPlayersEquipments = playerRankings.rangeSearch([8900, 10000], node => playerRankings.get(node));
+    expect(topPlayersEquipments).toEqual([
+      [
+        {
+          name: 'MK14',
+          quality: 'legendary',
+          level: 92
+        },
+        { name: 'Level 3 Backpack', quality: 'legendary', level: 85 },
+        {
+          name: 'Scope 8x',
+          quality: 'epic',
+          level: 80
+        },
+        { name: 'Suppressor', quality: 'legendary', level: 88 },
+        {
+          name: 'Tactical Stock',
+          quality: 'rare',
+          level: 75
+        }
+      ],
+      [
+        { name: 'KAR98K', quality: 'legendary', level: 90 },
+        {
+          name: 'Level 3 Vest',
+          quality: 'legendary',
+          level: 85
+        },
+        { name: 'Holographic Sight', quality: 'epic', level: 82 },
+        {
+          name: 'Suppressor',
+          quality: 'legendary',
+          level: 88
+        },
+        { name: 'Level 3 Backpack', quality: 'epic', level: 80 }
+      ]
+    ]);
+  });
+});

@@ -100,6 +100,7 @@ export class AVLTreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, M
       specifyComparable: this._specifyComparable,
       toEntryFn: this._toEntryFn,
       isReverse: this._isReverse,
+      isMapMode: this._isMapMode,
       ...options
     });
   }
@@ -108,19 +109,23 @@ export class AVLTreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, M
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The function `createNode` overrides the method to create a new AVLTreeMultiMapNode with a
-   * specified key and an empty array of values.
-   * @param {K} key - The `key` parameter in the `createNode` method represents the key of the node
-   * that will be created in the AVLTreeMultiMap.
-   * @returns An AVLTreeMultiMapNode object is being returned, initialized with the provided key and an
-   * empty array.
+   * The `createNode` function in TypeScript overrides the default implementation to create a new
+   * AVLTreeMultiMapNode with a specified key and value array.
+   * @param {K} key - The `key` parameter represents the key of the node being created in the
+   * AVLTreeMultiMap.
+   * @param {V[]} value - The `value` parameter in the `createNode` method represents an array of
+   * values associated with a specific key in the AVLTreeMultiMapNode. If no value is provided when
+   * calling the method, an empty array `[]` is used as the default value.
+   * @returns An AVLTreeMultiMapNode object is being returned, with the specified key and value. If the
+   * AVLTreeMultiMap is in map mode, an empty array is used as the value, otherwise the provided value
+   * array is used.
    */
-  override createNode(key: K): AVLTreeMultiMapNode<K, V> {
-    return new AVLTreeMultiMapNode<K, V>(key, []);
+  override createNode(key: K, value: V[] = []): AVLTreeMultiMapNode<K, V> {
+    return new AVLTreeMultiMapNode<K, V>(key, this._isMapMode ? [] : value);
   }
 
   override add(
-    node: K | AVLTreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined
+    keyNodeOrEntry: K | AVLTreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined
   ): boolean;
 
   override add(key: K, value: V): boolean;
@@ -129,17 +134,16 @@ export class AVLTreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, M
    * Time Complexity: O(log n)
    * Space Complexity: O(log n)
    *
-   * The function `add` in TypeScript overrides the superclass method to add key-value pairs to an AVL
-   * tree multi-map.
-   * @param {K | AVLTreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined | K} keyNodeOrEntry - The `keyNodeOrEntry`
-   * parameter in the `override add` method can be either a key-value pair entry or just a key. If it
-   * is a key-value pair entry, it will be in the format `[key, values]`, where `key` is the key and
-   * `values`
-   * @param {V} [value] - The `value` parameter in the `override add` method represents the value that
-   * you want to add to the AVLTreeMultiMap. It can be a single value or an array of values associated
-   * with a specific key.
-   * @returns The `override add` method is returning a boolean value, which indicates whether the
-   * addition operation was successful or not.
+   * The function `add` in this TypeScript code overrides the superclass method to add key-value pairs
+   * to an AVLTreeMultiMap, handling different input types and scenarios.
+   * @param [key] - The `key` parameter in the `override add` method represents the key of the entry to
+   * be added to the AVLTreeMultiMap. It can be of type `K`, which is the key type of the map. The key
+   * can be a single key value, a node of the AVLTree
+   * @param {V[]} [values] - The `values` parameter in the `add` method represents an array of values
+   * that you want to add to the AVLTreeMultiMap. It can contain one or more values associated with a
+   * specific key.
+   * @returns The `add` method is returning a boolean value, which indicates whether the operation was
+   * successful or not.
    */
   override add(
     keyNodeOrEntry: K | AVLTreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined | K,
@@ -150,27 +154,38 @@ export class AVLTreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, M
     const _commonAdd = (key?: BTNOptKeyOrNull<K>, values?: V[]) => {
       if (key === undefined || key === null) return false;
 
-      const existingValues = this.get(key);
-      if (existingValues !== undefined && values !== undefined) {
-        for (const value of values) existingValues.push(value);
-        return true;
-      }
-
-      const existingNode = this.getNode(key);
-      if (this.isRealNode(existingNode)) {
-        if (existingValues === undefined) {
-          super.add(key, values);
-          return true;
-        }
-        if (values !== undefined) {
+      const _addToValues = () => {
+        const existingValues = this.get(key);
+        if (existingValues !== undefined && values !== undefined) {
           for (const value of values) existingValues.push(value);
           return true;
-        } else {
-          return false;
         }
-      } else {
-        return super.add(key, values);
+        return false;
+      };
+
+      const _addByNode = () => {
+        const existingNode = this.getNode(key);
+        if (this.isRealNode(existingNode)) {
+          const existingValues = this.get(existingNode);
+          if (existingValues === undefined) {
+            super.add(key, values);
+            return true;
+          }
+          if (values !== undefined) {
+            for (const value of values) existingValues.push(value);
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+          return super.add(key, values);
+        }
+      };
+
+      if (this._isMapMode) {
+        return _addByNode() || _addToValues();
       }
+      return _addToValues() || _addByNode();
     };
 
     if (this.isEntry(keyNodeOrEntry)) {

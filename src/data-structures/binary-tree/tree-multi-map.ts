@@ -21,7 +21,7 @@ export class TreeMultiMapNode<K = any, V = any> extends RedBlackTreeNode<K, V[]>
    * @param {V[]} value - The `value` parameter in the constructor represents an array of values of
    * type `V`.
    */
-  constructor(key: K, value: V[]) {
+  constructor(key: K, value?: V[]) {
     super(key, value);
   }
 
@@ -57,8 +57,8 @@ export class TreeMultiMapNode<K = any, V = any> extends RedBlackTreeNode<K, V[]>
  * @example
  * // Find elements in a range
  *     const tmm = new TreeMultiMap<number>([10, 5, 15, 3, 7, 12, 18]);
- *     console.log(tmm.search(new Range(5, 10))); // [5, 10, 7]
- *     console.log(tmm.search(new Range(4, 12))); // [5, 10, 12, 7]
+ *     console.log(tmm.search(new Range(5, 10))); // [5, 7, 10]
+ *     console.log(tmm.search(new Range(4, 12))); // [5, 7, 10, 12]
  *     console.log(tmm.search(new Range(15, 20))); // [15, 18]
  */
 export class TreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR = object>
@@ -82,7 +82,7 @@ export class TreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR =
     > = [],
     options?: TreeMultiMapOptions<K, V[], R>
   ) {
-    super([], { ...options, isMapMode: true });
+    super([], { ...options });
     if (keysNodesEntriesOrRaws) {
       this.addMany(keysNodesEntriesOrRaws);
     }
@@ -107,6 +107,7 @@ export class TreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR =
       specifyComparable: this._specifyComparable,
       toEntryFn: this._toEntryFn,
       isReverse: this._isReverse,
+      isMapMode: this._isMapMode,
       ...options
     });
   }
@@ -115,18 +116,23 @@ export class TreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR =
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The function `createNode` overrides the method to create a new `TreeMultiMapNode` with a specified
-   * key and an empty array of values.
-   * @param {K} key - The `key` parameter in the `createNode` method represents the key of the node
-   * that will be created in the TreeMultiMap data structure.
-   * @returns A new instance of `TreeMultiMapNode<K, V>` is being returned, with the specified key and
-   * an empty array as its value.
+   * The function `createNode` overrides the creation of a new TreeMultiMapNode with a specified key
+   * and value array.
+   * @param {K} key - The `key` parameter represents the key of the node being created in the
+   * `TreeMultiMap`.
+   * @param {V[]} value - The `value` parameter in the `createNode` method represents an array of
+   * values associated with a specific key in the TreeMultiMap data structure.
+   * @returns A new instance of `TreeMultiMapNode<K, V>` is being returned with the specified key and
+   * value. If `_isMapMode` is true, an empty array is passed as the value, otherwise the provided
+   * value is used.
    */
-  override createNode(key: K): TreeMultiMapNode<K, V> {
-    return new TreeMultiMapNode<K, V>(key, []);
+  override createNode(key: K, value: V[] = []): TreeMultiMapNode<K, V> {
+    return new TreeMultiMapNode<K, V>(key, this._isMapMode ? [] : value);
   }
 
-  override add(node: K | TreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined): boolean;
+  override add(
+    keyNodeOrEntry: K | TreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined
+  ): boolean;
 
   override add(key: K, value: V): boolean;
 
@@ -134,14 +140,13 @@ export class TreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR =
    * Time Complexity: O(log n)
    * Space Complexity: O(log n)
    *
-   * The function `add` in TypeScript overrides the superclass method to add key-value pairs to a
-   * TreeMultiMapNode, handling different input types and scenarios.
-   * @param {K | TreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined} keyNodeOrEntry - The `keyNodeOrEntry`
-   * parameter in the `override add` method can be either a `BTNRep` object containing a key, an array
-   * of values, and a `TreeMultiMapNode`, or just a key.
-   * @param {V} [value] - The `value` parameter in the `override add` method represents the value that
-   * you want to add to the TreeMultiMap. If the key is already present in the map, the new value will
-   * be added to the existing list of values associated with that key. If the key is not present,
+   * The function overrides the add method to handle different types of input for a TreeMultiMap data
+   * structure.
+   * @param [key] - The `key` parameter in the `override add` method represents the key of the entry to
+   * be added to the TreeMultiMap. It can be of type `K`, which is the key type of the TreeMultiMap, or
+   * it can be a TreeMultiMapNode containing the key and its
+   * @param {V[]} [values] - The `values` parameter in the `add` method represents an array of values
+   * that you want to add to the TreeMultiMap. It can contain one or more values of type `V`.
    * @returns The `add` method is returning a boolean value, which indicates whether the operation was
    * successful or not.
    */
@@ -154,27 +159,38 @@ export class TreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR =
     const _commonAdd = (key?: BTNOptKeyOrNull<K>, values?: V[]) => {
       if (key === undefined || key === null) return false;
 
-      const existingValues = this.get(key);
-      if (existingValues !== undefined && values !== undefined) {
-        for (const value of values) existingValues.push(value);
-        return true;
-      }
-
-      const existingNode = this.getNode(key);
-      if (this.isRealNode(existingNode)) {
-        if (existingValues === undefined) {
-          super.add(key, values);
-          return true;
-        }
-        if (values !== undefined) {
+      const _addToValues = () => {
+        const existingValues = this.get(key);
+        if (existingValues !== undefined && values !== undefined) {
           for (const value of values) existingValues.push(value);
           return true;
-        } else {
-          return false;
         }
-      } else {
-        return super.add(key, values);
+        return false;
+      };
+
+      const _addByNode = () => {
+        const existingNode = this.getNode(key);
+        if (this.isRealNode(existingNode)) {
+          const existingValues = this.get(existingNode);
+          if (existingValues === undefined) {
+            super.add(key, values);
+            return true;
+          }
+          if (values !== undefined) {
+            for (const value of values) existingValues.push(value);
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+          return super.add(key, values);
+        }
+      };
+
+      if (this._isMapMode) {
+        return _addByNode() || _addToValues();
       }
+      return _addToValues() || _addByNode();
     };
 
     if (this.isEntry(keyNodeOrEntry)) {

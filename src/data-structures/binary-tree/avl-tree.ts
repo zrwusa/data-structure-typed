@@ -60,6 +60,69 @@ export class AVLTreeNode<K = any, V = any> extends BSTNode<K, V> {
  * 5. Efficient Lookups: Offers O(log n) search time, where 'n' is the number of nodes, due to its balanced nature.
  * 6. Complex Insertions and Deletions: Due to rebalancing, these operations are more complex than in a regular BST.
  * 7. Path Length: The path length from the root to any leaf is longer compared to an unbalanced BST, but shorter than a linear chain of nodes.
+ * @example
+ * // Find elements in a range
+ *     type Datum = { timestamp: Date; temperature: number };
+ *     // Fixed dataset of CPU temperature readings
+ *     const cpuData: Datum[] = [
+ *       { timestamp: new Date('2024-12-02T00:00:00'), temperature: 55.1 },
+ *       { timestamp: new Date('2024-12-02T00:01:00'), temperature: 56.3 },
+ *       { timestamp: new Date('2024-12-02T00:02:00'), temperature: 54.8 },
+ *       { timestamp: new Date('2024-12-02T00:03:00'), temperature: 57.2 },
+ *       { timestamp: new Date('2024-12-02T00:04:00'), temperature: 58.0 },
+ *       { timestamp: new Date('2024-12-02T00:05:00'), temperature: 59.4 },
+ *       { timestamp: new Date('2024-12-02T00:06:00'), temperature: 60.1 },
+ *       { timestamp: new Date('2024-12-02T00:07:00'), temperature: 61.3 },
+ *       { timestamp: new Date('2024-12-02T00:08:00'), temperature: 62.0 },
+ *       { timestamp: new Date('2024-12-02T00:09:00'), temperature: 63.5 },
+ *       { timestamp: new Date('2024-12-02T00:10:00'), temperature: 64.0 },
+ *       { timestamp: new Date('2024-12-02T00:11:00'), temperature: 62.8 },
+ *       { timestamp: new Date('2024-12-02T00:12:00'), temperature: 61.5 },
+ *       { timestamp: new Date('2024-12-02T00:13:00'), temperature: 60.2 },
+ *       { timestamp: new Date('2024-12-02T00:14:00'), temperature: 59.8 },
+ *       { timestamp: new Date('2024-12-02T00:15:00'), temperature: 58.6 },
+ *       { timestamp: new Date('2024-12-02T00:16:00'), temperature: 57.4 },
+ *       { timestamp: new Date('2024-12-02T00:17:00'), temperature: 56.2 },
+ *       { timestamp: new Date('2024-12-02T00:18:00'), temperature: 55.7 },
+ *       { timestamp: new Date('2024-12-02T00:19:00'), temperature: 54.5 },
+ *       { timestamp: new Date('2024-12-02T00:20:00'), temperature: 53.2 },
+ *       { timestamp: new Date('2024-12-02T00:21:00'), temperature: 52.8 },
+ *       { timestamp: new Date('2024-12-02T00:22:00'), temperature: 51.9 },
+ *       { timestamp: new Date('2024-12-02T00:23:00'), temperature: 50.5 },
+ *       { timestamp: new Date('2024-12-02T00:24:00'), temperature: 49.8 },
+ *       { timestamp: new Date('2024-12-02T00:25:00'), temperature: 48.7 },
+ *       { timestamp: new Date('2024-12-02T00:26:00'), temperature: 47.5 },
+ *       { timestamp: new Date('2024-12-02T00:27:00'), temperature: 46.3 },
+ *       { timestamp: new Date('2024-12-02T00:28:00'), temperature: 45.9 },
+ *       { timestamp: new Date('2024-12-02T00:29:00'), temperature: 45.0 }
+ *     ];
+ *
+ *     // Create an AVL tree to store CPU temperature data
+ *     const cpuTemperatureTree = new AVLTree<Date, number, Datum>(cpuData, {
+ *       toEntryFn: ({ timestamp, temperature }) => [timestamp, temperature]
+ *     });
+ *
+ *     // Query a specific time range (e.g., from 00:05 to 00:15)
+ *     const rangeStart = new Date('2024-12-02T00:05:00');
+ *     const rangeEnd = new Date('2024-12-02T00:15:00');
+ *     const rangeResults = cpuTemperatureTree.rangeSearch([rangeStart, rangeEnd], node => ({
+ *       minute: node ? node.key.getMinutes() : 0,
+ *       temperature: cpuTemperatureTree.get(node ? node.key : undefined)
+ *     }));
+ *
+ *     console.log(rangeResults); //  [
+ *  //            { minute: 5, temperature: 59.4 },
+ *  //            { minute: 6, temperature: 60.1 },
+ *  //            { minute: 7, temperature: 61.3 },
+ *  //            { minute: 8, temperature: 62 },
+ *  //            { minute: 9, temperature: 63.5 },
+ *  //            { minute: 10, temperature: 64 },
+ *  //            { minute: 11, temperature: 62.8 },
+ *  //            { minute: 12, temperature: 61.5 },
+ *  //            { minute: 13, temperature: 60.2 },
+ *  //            { minute: 14, temperature: 59.8 },
+ *  //            { minute: 15, temperature: 58.6 }
+ *  //          ]
  */
 export class AVLTree<K = any, V = any, R = object, MK = any, MV = any, MR = object>
   extends BST<K, V, R, MK, MV, MR>

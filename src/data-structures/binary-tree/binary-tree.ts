@@ -129,6 +129,68 @@ export class BinaryTreeNode<K = any, V = any> {
  * 3. Depth and Height: Depth is the number of edges from the root to a node; height is the maximum depth in the tree.
  * 4. Subtrees: Each child of a node forms the root of a subtree.
  * 5. Leaf Nodes: Nodes without children are leaves.
+ * @example
+ * // determine loan approval using a decision tree
+ *     // Decision tree structure
+ *     const loanDecisionTree = new BinaryTree<string>(
+ *       ['stableIncome', 'goodCredit', 'Rejected', 'Approved', 'Rejected'],
+ *       { isDuplicate: true }
+ *     );
+ *
+ *     function determineLoanApproval(
+ *       node?: BinaryTreeNode<string> | null,
+ *       conditions?: { [key: string]: boolean }
+ *     ): string {
+ *       if (!node) throw new Error('Invalid node');
+ *
+ *       // If it's a leaf node, return the decision result
+ *       if (!node.left && !node.right) return node.key;
+ *
+ *       // Check if a valid condition exists for the current node's key
+ *       return conditions?.[node.key]
+ *         ? determineLoanApproval(node.left, conditions)
+ *         : determineLoanApproval(node.right, conditions);
+ *     }
+ *
+ *     // Test case 1: Stable income and good credit score
+ *     console.log(determineLoanApproval(loanDecisionTree.root, { stableIncome: true, goodCredit: true })); // 'Approved'
+ *
+ *     // Test case 2: Stable income but poor credit score
+ *     console.log(determineLoanApproval(loanDecisionTree.root, { stableIncome: true, goodCredit: false })); // 'Rejected'
+ *
+ *     // Test case 3: No stable income
+ *     console.log(determineLoanApproval(loanDecisionTree.root, { stableIncome: false, goodCredit: true })); // 'Rejected'
+ *
+ *     // Test case 4: No stable income and poor credit score
+ *     console.log(determineLoanApproval(loanDecisionTree.root, { stableIncome: false, goodCredit: false })); // 'Rejected'
+ * @example
+ * // evaluate the arithmetic expression represented by the binary tree
+ *     const expressionTree = new BinaryTree<number | string>(['+', 3, '*', null, null, 5, '-', null, null, 2, 8]);
+ *
+ *     function evaluate(node?: BinaryTreeNode<number | string> | null): number {
+ *       if (!node) return 0;
+ *
+ *       if (typeof node.key === 'number') return node.key;
+ *
+ *       const leftValue = evaluate(node.left); // Evaluate the left subtree
+ *       const rightValue = evaluate(node.right); // Evaluate the right subtree
+ *
+ *       // Perform the operation based on the current node's operator
+ *       switch (node.key) {
+ *         case '+':
+ *           return leftValue + rightValue;
+ *         case '-':
+ *           return leftValue - rightValue;
+ *         case '*':
+ *           return leftValue * rightValue;
+ *         case '/':
+ *           return rightValue !== 0 ? leftValue / rightValue : 0; // Handle division by zero
+ *         default:
+ *           throw new Error(`Unsupported operator: ${node.key}`);
+ *       }
+ *     }
+ *
+ *     console.log(evaluate(expressionTree.root)); // -27
  */
 export class BinaryTree<K = any, V = any, R = object, MK = any, MV = any, MR = object>
   extends IterableEntryBase<K, V | undefined>
