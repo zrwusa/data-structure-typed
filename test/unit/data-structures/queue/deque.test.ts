@@ -776,4 +776,41 @@ describe('classic uses', () => {
     roulette.rotateCounterClockwise(2);
     expect(roulette.display()).toBe('Headphones'); // Headphones
   });
+
+  it('@example sliding window', () => {
+    // Maximum function of sliding window
+    function maxSlidingWindow(nums: number[], k: number): number[] {
+      const n = nums.length;
+      if (n * k === 0) return [];
+
+      const deq = new Deque<number>();
+      const result: number[] = [];
+
+      for (let i = 0; i < n; i++) {
+        // Delete indexes in the queue that are not within the window range
+        if (deq.length > 0 && deq.first! === i - k) {
+          deq.shift();
+        }
+
+        // Remove all indices less than the current value from the tail of the queue
+        while (deq.length > 0 && nums[deq.last!] < nums[i]) {
+          deq.pop();
+        }
+
+        // Add the current index to the end of the queue
+        deq.push(i);
+
+        // Add the maximum value of the window to the results
+        if (i >= k - 1) {
+          result.push(nums[deq.first!]);
+        }
+      }
+
+      return result;
+    }
+
+    const nums = [1, 3, -1, -3, 5, 3, 6, 7];
+    const k = 3;
+    expect(maxSlidingWindow(nums, k)).toEqual([3, 3, 5, 5, 6, 7]); // Output: [3, 3, 5, 5, 6, 7]
+  });
 });
