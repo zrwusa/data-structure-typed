@@ -159,7 +159,7 @@ export class DoublyLinkedListNode<E = any> {
  *         const initialNode = this.currentSong;
  *
  *         // Loop through the playlist twice
- *         for (let i = 0; i < this.playlist.size * 2; i++) {
+ *         for (let i = 0; i < this.playlist.length * 2; i++) {
  *           playedSongs.push(this.currentSong!.value);
  *           this.currentSong = this.currentSong!.next || this.playlist.head; // Loop back to the start if needed
  *         }
@@ -280,7 +280,7 @@ export class DoublyLinkedListNode<E = any> {
  *         }
  *
  *         // Check capacity
- *         if (this.list.size >= this.capacity) {
+ *         if (this.list.length >= this.capacity) {
  *           // Delete the least recently used element (the tail of the linked list)
  *           const removedNode = this.list.tail;
  *           if (removedNode) {
@@ -325,9 +325,9 @@ export class DoublyLinkedListNode<E = any> {
  *         this.map.clear();
  *       }
  *
- *       // Get the current cache size
- *       get size(): number {
- *         return this.list.size;
+ *       // Get the current cache length
+ *       get length(): number {
+ *         return this.list.length;
  *       }
  *
  *       // Check if it is empty
@@ -386,7 +386,7 @@ export class DoublyLinkedListNode<E = any> {
  *
  *     console.log(cache.delete('a')); // true
  *     console.log(cache.get('a')); // undefined
- *     console.log(cache.size); // 1
+ *     console.log(cache.length); // 1
  *
  *     // Should support clearing cache
  *     cache.clear();
@@ -394,7 +394,7 @@ export class DoublyLinkedListNode<E = any> {
  *     cache.set('b', 2);
  *     cache.clear();
  *
- *     console.log(cache.size); // 0
+ *     console.log(cache.length); // 0
  *     console.log(cache.isEmpty); // true
  * @example
  * // finding lyrics by timestamp in Coldplay's "Fix You"
@@ -531,7 +531,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     super(options);
     this._head = undefined;
     this._tail = undefined;
-    this._size = 0;
+    this._length = 0;
 
     if (options) {
       const { maxLen } = options;
@@ -562,14 +562,14 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     return this._tail;
   }
 
-  protected _size: number;
+  protected _length: number;
 
   /**
-   * The function returns the size of an object.
-   * @returns The size of the object, which is a number.
+   * The function returns the length of an object.
+   * @returns The length of the object, which is a number.
    */
-  get size(): number {
-    return this._size;
+  get length(): number {
+    return this._length;
   }
 
   protected _maxLen: number = -1;
@@ -652,8 +652,8 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
       this.tail!.next = newNode;
       this._tail = newNode;
     }
-    this._size++;
-    if (this._maxLen > 0 && this.size > this._maxLen) this.shift();
+    this._length++;
+    if (this._maxLen > 0 && this.length > this._maxLen) this.shift();
     return true;
   }
 
@@ -674,7 +674,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
       this._tail = removedNode.prev;
       this.tail!.next = undefined;
     }
-    this._size--;
+    this._length--;
     return removedNode.value;
   }
 
@@ -695,7 +695,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
       this._head = removedNode.next;
       this.head!.prev = undefined;
     }
-    this._size--;
+    this._length--;
     return removedNode.value;
   }
 
@@ -719,8 +719,8 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
       this.head!.prev = newNode;
       this._head = newNode;
     }
-    this._size++;
-    if (this._maxLen > 0 && this._size > this._maxLen) this.pop();
+    this._length++;
+    if (this._maxLen > 0 && this._length > this._maxLen) this.pop();
     return true;
   }
 
@@ -786,7 +786,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * or the linked list is empty, it will return undefined.
    */
   at(index: number): E | undefined {
-    if (index < 0 || index >= this._size) return undefined;
+    if (index < 0 || index >= this._length) return undefined;
     let current = this.head;
     for (let i = 0; i < index; i++) {
       current = current!.next;
@@ -806,7 +806,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * valid range of the linked list, otherwise it returns `undefined`.
    */
   getNodeAt(index: number): DoublyLinkedListNode<E> | undefined {
-    if (index < 0 || index >= this._size) return undefined;
+    if (index < 0 || index >= this._length) return undefined;
     let current = this.head;
     for (let i = 0; i < index; i++) {
       current = current!.next;
@@ -861,15 +861,15 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * `addAt` method can be either a value of type `E` or a `DoublyLinkedListNode<E>` object.
    * @returns The `addAt` method returns a boolean value. It returns `true` if the element or node was
    * successfully added at the specified index, and `false` if the index is out of bounds (less than 0
-   * or greater than the size of the list).
+   * or greater than the length of the list).
    */
   addAt(index: number, newElementOrNode: E | DoublyLinkedListNode<E>): boolean {
-    if (index < 0 || index > this._size) return false;
+    if (index < 0 || index > this._length) return false;
     if (index === 0) {
       this.unshift(newElementOrNode);
       return true;
     }
-    if (index === this._size) {
+    if (index === this._length) {
       this.push(newElementOrNode);
       return true;
     }
@@ -881,7 +881,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     newNode.next = nextNode;
     prevNode!.next = newNode;
     nextNode!.prev = newNode;
-    this._size++;
+    this._length++;
     return true;
   }
 
@@ -919,7 +919,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
       if (existingNode === this.head) {
         this._head = newNode;
       }
-      this._size++;
+      this._length++;
       return true;
     }
 
@@ -958,7 +958,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
       if (existingNode === this.tail) {
         this._tail = newNode;
       }
-      this._size++;
+      this._length++;
       return true;
     }
 
@@ -976,12 +976,12 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * bounds.
    */
   deleteAt(index: number): boolean {
-    if (index < 0 || index >= this._size) return false;
+    if (index < 0 || index >= this._length) return false;
     if (index === 0) {
       this.shift();
       return true;
     }
-    if (index === this._size - 1) {
+    if (index === this._length - 1) {
       this.pop();
       return true;
     }
@@ -991,7 +991,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     const nextNode = removedNode!.next;
     prevNode!.next = nextNode;
     nextNode!.prev = prevNode;
-    this._size--;
+    this._length--;
     return true;
   }
 
@@ -1021,7 +1021,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
         const nextNode = node.next;
         if (prevNode) prevNode.next = nextNode;
         if (nextNode) nextNode.prev = prevNode;
-        this._size--;
+        this._length--;
       }
       return true;
     }
@@ -1032,23 +1032,23 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The function checks if a variable has a size greater than zero and returns a boolean value.
+   * The function checks if a variable has a length greater than zero and returns a boolean value.
    * @returns A boolean value is being returned.
    */
   isEmpty(): boolean {
-    return this._size === 0;
+    return this._length === 0;
   }
 
   /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The `clear` function resets the linked list by setting the head, tail, and size to undefined and 0 respectively.
+   * The `clear` function resets the linked list by setting the head, tail, and length to undefined and 0 respectively.
    */
   clear(): void {
     this._head = undefined;
     this._tail = undefined;
-    this._size = 0;
+    this._length = 0;
   }
 
   /**

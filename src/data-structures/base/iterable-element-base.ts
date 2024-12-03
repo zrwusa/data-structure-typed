@@ -14,7 +14,7 @@ export abstract class IterableElementBase<E, R, C> {
     }
   }
 
-  abstract get size(): number;
+  // abstract get size(): number;
 
   protected _toElementFn?: (rawElement: R) => E;
 

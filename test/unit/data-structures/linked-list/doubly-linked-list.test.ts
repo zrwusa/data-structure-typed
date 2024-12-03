@@ -34,8 +34,8 @@ describe('DoublyLinkedList Operation Test', () => {
   it('should deleteAt', () => {
     expect(list.deleteAt(1)).toBe(true);
     expect(list.deleteAt(-1)).toBe(false);
-    expect(list.deleteAt(list.size)).toBe(false);
-    expect(list.size).toBe(4);
+    expect(list.deleteAt(list.length)).toBe(false);
+    expect(list.length).toBe(4);
     expect(list.deleteAt(4)).toBe(false);
     expect([...list]).toEqual([1, 3, 4, 5]);
     expect(list.isEmpty()).toBe(false);
@@ -103,7 +103,7 @@ describe('DoublyLinkedList Operation Test', () => {
   });
 
   it('should initialize an empty list', () => {
-    expect(list.size).toBe(0);
+    expect(list.length).toBe(0);
     expect(list.head).toBe(undefined);
     expect(list.tail).toBe(undefined);
   });
@@ -119,7 +119,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(1);
     list.push(2);
     list.push(3);
-    expect(list.size).toBe(3);
+    expect(list.length).toBe(3);
     expect(list.head!.value).toBe(1);
     expect(list.tail!.value).toBe(3);
   });
@@ -130,7 +130,7 @@ describe('DoublyLinkedList Operation Test', () => {
       list.push(i);
     }
     expect(list.maxLen).toBe(10);
-    expect(list.size).toBe(10);
+    expect(list.length).toBe(10);
     expect(list.first).toBe(990);
 
     list.clear();
@@ -139,7 +139,7 @@ describe('DoublyLinkedList Operation Test', () => {
     }
 
     expect(list.maxLen).toBe(10);
-    expect(list.size).toBe(10);
+    expect(list.length).toBe(10);
     expect(list.last).toBe(990);
   });
 
@@ -148,7 +148,7 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(2);
     const poppedValue = list.pop();
     expect(poppedValue).toBe(2);
-    expect(list.size).toBe(1);
+    expect(list.length).toBe(1);
     expect(list.head!.value).toBe(1);
     expect(list.tail!.value).toBe(1);
     list.pop();
@@ -164,19 +164,19 @@ describe('DoublyLinkedList Operation Test', () => {
 
     // Inserting at the beginning
     list.addAt(0, 0);
-    expect(list.size).toBe(4);
+    expect(list.length).toBe(4);
     expect(list.at(0)).toBe(0);
     expect(list.at(1)).toBe(1);
 
     // Inserting in the middle
     list.addAt(2, 1.5);
-    expect(list.size).toBe(5);
+    expect(list.length).toBe(5);
     expect(list.at(2)).toBe(1.5);
     expect(list.at(3)).toBe(2);
 
     // Inserting at the end
     list.addAt(5, 4);
-    expect(list.size).toBe(6);
+    expect(list.length).toBe(6);
     expect(list.at(5)).toBe(4);
     expect(list.tail!.value).toBe(4);
     expect(list.at(-1)).toBe(undefined);
@@ -191,17 +191,17 @@ describe('DoublyLinkedList Operation Test', () => {
     // Deleting from the beginning
     const deletedValue = list.deleteAt(0);
     expect(deletedValue).toBe(true);
-    expect(list.size).toBe(2);
+    expect(list.length).toBe(2);
     expect(list.head!.value).toBe(2);
 
     // Deleting from the middle
     list.deleteAt(0); // Deleting the second element
-    expect(list.size).toBe(1);
+    expect(list.length).toBe(1);
     expect(list.head!.value).toBe(3);
 
     // Deleting from the end
     list.deleteAt(0);
-    expect(list.size).toBe(0);
+    expect(list.length).toBe(0);
     expect(list.head).toBe(undefined);
     expect(list.tail).toBe(undefined);
   });
@@ -212,16 +212,16 @@ describe('DoublyLinkedList Operation Test', () => {
     list.push(3);
 
     list.delete(2);
-    expect(list.size).toBe(2);
+    expect(list.length).toBe(2);
     expect(list.head!.value).toBe(1);
     expect(list.tail!.value).toBe(3);
 
     list.delete(1);
-    expect(list.size).toBe(1);
+    expect(list.length).toBe(1);
     expect(list.head!.value).toBe(3);
 
     list.delete(3);
-    expect(list.size).toBe(0);
+    expect(list.length).toBe(0);
     expect(list.head).toBe(undefined);
     expect(list.tail).toBe(undefined);
   });
@@ -326,7 +326,7 @@ describe('DoublyLinkedList Operation Test', () => {
 
     list.clear();
 
-    expect(list.size).toBe(0);
+    expect(list.length).toBe(0);
     expect(list.head).toBe(undefined);
     expect(list.tail).toBe(undefined);
   });
@@ -597,7 +597,7 @@ describe('classic use', () => {
         const initialNode = this.currentSong;
 
         // Loop through the playlist twice
-        for (let i = 0; i < this.playlist.size * 2; i++) {
+        for (let i = 0; i < this.playlist.length * 2; i++) {
           playedSongs.push(this.currentSong!.value);
           this.currentSong = this.currentSong!.next || this.playlist.head; // Loop back to the start if needed
         }
@@ -719,7 +719,7 @@ describe('classic use', () => {
         }
 
         // Check capacity
-        if (this.list.size >= this.capacity) {
+        if (this.list.length >= this.capacity) {
           // Delete the least recently used element (the tail of the linked list)
           const removedNode = this.list.tail;
           if (removedNode) {
@@ -764,9 +764,9 @@ describe('classic use', () => {
         this.map.clear();
       }
 
-      // Get the current cache size
-      get size(): number {
-        return this.list.size;
+      // Get the current cache length
+      get length(): number {
+        return this.list.length;
       }
 
       // Check if it is empty
@@ -825,7 +825,7 @@ describe('classic use', () => {
 
     expect(cache.delete('a')).toBe(true);
     expect(cache.get('a')).toBeUndefined();
-    expect(cache.size).toBe(1);
+    expect(cache.length).toBe(1);
 
     // Should support clearing cache
     cache.clear();
@@ -833,7 +833,7 @@ describe('classic use', () => {
     cache.set('b', 2);
     cache.clear();
 
-    expect(cache.size).toBe(0);
+    expect(cache.length).toBe(0);
     expect(cache.isEmpty).toBe(true);
   });
 

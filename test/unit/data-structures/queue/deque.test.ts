@@ -11,13 +11,13 @@ describe('Deque - Basic Operations', () => {
   });
 
   it('push should add elements to the end', () => {
-    expect(deque.size).toBe(2);
+    expect(deque.length).toBe(2);
     expect(deque.last).toBe(2);
   });
 
   it('pop should remove elements from the end', () => {
     expect(deque.pop()).toBe(2);
-    expect(deque.size).toBe(1);
+    expect(deque.length).toBe(1);
     expect(deque.pop()).toBe(1);
     expect(deque.isEmpty()).toBeTruthy();
   });
@@ -26,7 +26,7 @@ describe('Deque - Basic Operations', () => {
     deque.clear();
     deque.unshift(1);
     deque.unshift(2);
-    expect(deque.size).toBe(2);
+    expect(deque.length).toBe(2);
     expect(deque.first).toBe(2);
   });
 
@@ -35,7 +35,7 @@ describe('Deque - Basic Operations', () => {
     deque.unshift(1);
     deque.unshift(2);
     expect(deque.shift()).toBe(2);
-    expect(deque.size).toBe(1);
+    expect(deque.length).toBe(1);
     expect(deque.shift()).toBe(1);
     expect(deque.isEmpty()).toBeTruthy();
   });
@@ -88,24 +88,24 @@ describe('Deque - Basic Operations', () => {
     deque.push('0');
     deque.push('5');
     deque.push('9');
-    expect(deque.size).toBe(6);
+    expect(deque.length).toBe(6);
     deque.delete('2');
-    expect(deque.size).toBe(5);
+    expect(deque.length).toBe(5);
     expect([...deque]).toEqual(['1', '6', '0', '5', '9']);
     const cloned = deque.clone();
     expect([...cloned]).toEqual(['1', '6', '0', '5', '9']);
-    expect(deque.size).toBe(5);
+    expect(deque.length).toBe(5);
     deque.delete('5');
-    expect(deque.size).toBe(4);
+    expect(deque.length).toBe(4);
     expect([...deque]).toEqual(['1', '6', '0', '9']);
     expect([...cloned]).toEqual(['1', '6', '0', '5', '9']);
-    expect(cloned.size).toBe(5);
+    expect(cloned.length).toBe(5);
     cloned.push('8');
-    expect(cloned.size).toBe(6);
+    expect(cloned.length).toBe(6);
     cloned.delete('6');
-    expect(cloned.size).toBe(5);
+    expect(cloned.length).toBe(5);
     cloned.delete('6');
-    expect(cloned.size).toBe(5);
+    expect(cloned.length).toBe(5);
   });
 });
 describe('Deque - Complex Operations', () => {
@@ -126,15 +126,15 @@ describe('Deque - Complex Operations', () => {
     deque.push(1);
     deque.push(2);
     deque.push(3);
-    expect(deque.size).toBe(3);
+    expect(deque.length).toBe(3);
     deque.cut(1, true);
-    expect(deque.size).toBe(2);
+    expect(deque.length).toBe(2);
     expect(deque.toArray()).toEqual([1, 2]);
 
     const dq1 = new Deque([1, 2, 3, 4, 5, 6, 7]);
-    expect(dq1.size).toBe(7);
+    expect(dq1.length).toBe(7);
     expect([...dq1.cut(3, true)]).toEqual([1, 2, 3, 4]);
-    expect(dq1.size).toBe(4);
+    expect(dq1.length).toBe(4);
     expect([...dq1]).toEqual([1, 2, 3, 4]);
     const dqCut = dq1.cut(2);
     expect(dqCut.toArray()).toEqual([1, 2, 3]);
@@ -228,7 +228,7 @@ describe('Deque - Complex Operations', () => {
 
   it('shrinkToFit should reduce the memory footprint', () => {
     deque.shrinkToFit();
-    expect(deque.size).toBe(0);
+    expect(deque.length).toBe(0);
     expect(deque.has(1)).toBe(false);
     expect(deque.bucketFirst).toBe(0);
     expect(deque.bucketLast).toBe(0);
@@ -241,7 +241,7 @@ describe('Deque - Complex Operations', () => {
     deque.shrinkToFit();
 
     deque = new Deque([1, 2, 3, 4, 5], { bucketSize: 2 });
-    expect(deque.size).toBe(5);
+    expect(deque.length).toBe(5);
     expect(deque.has(1)).toBe(true);
     expect(deque.bucketFirst).toBe(0);
     expect(deque.bucketLast).toBe(2);
@@ -322,19 +322,19 @@ describe('Deque - Utility Operations', () => {
 
   it('should maxLen work well', () => {
     const dequeMaxLen = new Deque([3, 4, 5, 6, 7], { maxLen: 3 });
-    expect(dequeMaxLen.size).toBe(3);
+    expect(dequeMaxLen.length).toBe(3);
     expect(dequeMaxLen.toArray()).toEqual([5, 6, 7]);
     dequeMaxLen.unshift(4);
     dequeMaxLen.unshift(3);
-    expect(dequeMaxLen.size).toBe(3);
+    expect(dequeMaxLen.length).toBe(3);
     expect(dequeMaxLen.toArray()).toEqual([3, 4, 5]);
 
     const dequeNoMaxLen = new Deque([3, 4, 5, 6, 7]);
-    expect(dequeNoMaxLen.size).toBe(5);
+    expect(dequeNoMaxLen.length).toBe(5);
     expect(dequeNoMaxLen.toArray()).toEqual([3, 4, 5, 6, 7]);
     dequeNoMaxLen.unshift(4);
     dequeNoMaxLen.unshift(3);
-    expect(dequeNoMaxLen.size).toBe(7);
+    expect(dequeNoMaxLen.length).toBe(7);
     expect(dequeNoMaxLen.toArray()).toEqual([3, 4, 3, 4, 5, 6, 7]);
   });
 });
@@ -350,21 +350,21 @@ describe('Deque - Additional Operations', () => {
     deque.push(1);
     deque.push(2);
     expect(deque.last).toBe(2);
-    expect(deque.size).toBe(2);
+    expect(deque.length).toBe(2);
   });
 
   it('pop should remove and return the last element', () => {
     deque.push(1);
     deque.push(2);
     expect(deque.pop()).toBe(2);
-    expect(deque.size).toBe(1);
+    expect(deque.length).toBe(1);
   });
 
   it('unshift should add an element to the beginning', () => {
     deque.unshift(1);
     deque.unshift(2);
     expect(deque.first).toBe(2);
-    expect(deque.size).toBe(2);
+    expect(deque.length).toBe(2);
   });
 
   it('shift should remove and return the first element', () => {
@@ -372,13 +372,13 @@ describe('Deque - Additional Operations', () => {
     deque.unshift(1);
     deque.unshift(2);
     expect(deque.shift()).toBe(2);
-    expect(deque.size).toBe(1);
+    expect(deque.length).toBe(1);
   });
 
   it('clear should reset the deque', () => {
     deque.unshift(1);
     deque.clear();
-    expect(deque.size).toBe(0);
+    expect(deque.length).toBe(0);
     expect(deque.isEmpty()).toBeTruthy();
   });
 
@@ -411,7 +411,7 @@ describe('Deque - push Method', () => {
   it('push should add an element when deque is empty', () => {
     deque.push(1);
     expect(deque.last).toBe(1);
-    expect(deque.size).toBe(1);
+    expect(deque.length).toBe(1);
   });
 
   it('push should add an element when lastInBucket is not at max', () => {
@@ -420,7 +420,7 @@ describe('Deque - push Method', () => {
     }
     deque.push(bucketSize);
     expect(deque.last).toBe(bucketSize);
-    expect(deque.size).toBe(bucketSize);
+    expect(deque.length).toBe(bucketSize);
   });
 
   it('push should add an element and move to next bucket when last bucket is full', () => {
@@ -429,7 +429,7 @@ describe('Deque - push Method', () => {
     }
     deque.push(bucketSize + 1);
     expect(deque.last).toBe(bucketSize + 1);
-    expect(deque.size).toBe(bucketSize + 1);
+    expect(deque.length).toBe(bucketSize + 1);
   });
 
   it('push should add an element and reallocate when last bucket and lastInBucket are at max', () => {
@@ -439,7 +439,7 @@ describe('Deque - push Method', () => {
 
     deque.push(100);
     expect(deque.last).toBe(100);
-    expect(deque.size).toBeGreaterThan(bucketSize);
+    expect(deque.length).toBeGreaterThan(bucketSize);
   });
 });
 describe('Deque - pop Method', () => {
@@ -456,7 +456,7 @@ describe('Deque - pop Method', () => {
     deque.push(1);
     deque.push(2);
     expect(deque.pop()).toBe(2);
-    expect(deque.size).toBe(1);
+    expect(deque.length).toBe(1);
   });
 
   it('pop should handle popping the only element', () => {
@@ -488,7 +488,7 @@ describe('Deque - unshift Method', () => {
   it('unshift should add an element to the beginning when deque is empty', () => {
     deque.unshift(1);
     expect(deque.first).toBe(1);
-    expect(deque.size).toBe(1);
+    expect(deque.length).toBe(1);
   });
 
   it('unshift should add an element to the beginning and adjust firstInBucket', () => {
@@ -523,7 +523,7 @@ describe('Deque - shift Method', () => {
     deque.push(1);
     deque.push(2);
     expect(deque.shift()).toBe(1);
-    expect(deque.size).toBe(1);
+    expect(deque.length).toBe(1);
   });
 
   it('shift should handle shifting the only element', () => {
@@ -565,7 +565,7 @@ describe('Deque', () => {
 
     const numbers = new IterableNumbers([1, 6, 7, 3, 2, 4, 5]);
     const deque = new Deque(numbers, { bucketSize: 3 });
-    expect(deque.size).toBe(7);
+    expect(deque.length).toBe(7);
     expect(deque.bucketSize).toBe(3);
     expect(deque.maxLen).toBe(-1);
   });
@@ -591,7 +591,7 @@ describe('Deque', () => {
 
     const numbers = new IterableNumbersWithSize([1, 6, 7, 3, 2, 4, 5]);
     const deque = new Deque(numbers, { bucketSize: 3 });
-    expect(deque.size).toBe(7);
+    expect(deque.length).toBe(7);
     expect(deque.bucketSize).toBe(3);
     expect(deque.maxLen).toBe(-1);
   });
@@ -601,7 +601,7 @@ describe('Deque', () => {
       key: number;
     }> = [{ key: 1 }, { key: 6 }, { key: 7 }, { key: 3 }, { key: 2 }, { key: 4 }, { key: 5 }];
     const deque = new Deque<number>(objArr, { toElementFn: item => item.key });
-    expect(deque.size).toBe(7);
+    expect(deque.length).toBe(7);
     expect(deque.has(1)).toBe(true);
     expect(deque.has(7)).toBe(true);
     expect(deque.has(8)).toBe(false);
@@ -612,7 +612,7 @@ describe('Deque', () => {
       key: number;
     }> = [{ key: 1 }, { key: 6 }, { key: 7 }, { key: 3 }, { key: 2 }, { key: 4 }, { key: 5 }];
     const deque = new Deque<number>(objArr, { toElementFn: item => item.key, bucketSize: 3 });
-    expect(deque.size).toBe(7);
+    expect(deque.length).toBe(7);
     expect(deque.has(1)).toBe(true);
     expect(deque.bucketFirst).toBe(0);
     expect(deque.bucketLast).toBe(2);
@@ -628,7 +628,7 @@ describe('Deque', () => {
 
   it('should pop work well when bucket boundary is reached', () => {
     const deque = new Deque<number>([1, 6, 7, 3, 2, 4, 5], { bucketSize: 3 });
-    expect(deque.size).toBe(7);
+    expect(deque.length).toBe(7);
     expect(deque.has(1)).toBe(true);
     expect(deque.bucketFirst).toBe(0);
     expect(deque.bucketLast).toBe(2);
@@ -641,7 +641,7 @@ describe('Deque', () => {
       [4, 5]
     ]);
     for (let i = 0; i < 3; ++i) deque.pop();
-    expect(deque.size).toBe(4);
+    expect(deque.length).toBe(4);
     expect(deque.has(1)).toBe(true);
     expect(deque.bucketFirst).toBe(0);
     expect(deque.bucketLast).toBe(1);
@@ -654,7 +654,7 @@ describe('Deque', () => {
       [4, 5]
     ]); // TODO may be a problem
     deque.pop();
-    expect(deque.size).toBe(3);
+    expect(deque.length).toBe(3);
     expect(deque.has(1)).toBe(true);
     expect(deque.bucketFirst).toBe(0);
     expect(deque.bucketLast).toBe(1);
@@ -670,7 +670,7 @@ describe('Deque', () => {
 
   it('should shift work well when bucket boundary is reached and should shrinkToFit', () => {
     const deque = new Deque<number>([1, 6, 7, 3, 2, 4, 5], { bucketSize: 3 });
-    expect(deque.size).toBe(7);
+    expect(deque.length).toBe(7);
     expect(deque.has(1)).toBe(true);
     expect(deque.bucketFirst).toBe(0);
     expect(deque.bucketLast).toBe(2);
@@ -683,7 +683,7 @@ describe('Deque', () => {
       [4, 5]
     ]);
     for (let i = 0; i < 3; ++i) deque.shift();
-    expect(deque.size).toBe(4);
+    expect(deque.length).toBe(4);
     expect(deque.has(1)).toBe(false);
     expect(deque.bucketFirst).toBe(1);
     expect(deque.bucketLast).toBe(2);
@@ -696,7 +696,7 @@ describe('Deque', () => {
       [4, 5]
     ]); // TODO may be a problem
     deque.shift();
-    expect(deque.size).toBe(3);
+    expect(deque.length).toBe(3);
     expect(deque.has(1)).toBe(false);
     expect(deque.bucketFirst).toBe(1);
     expect(deque.bucketLast).toBe(2);
@@ -709,7 +709,7 @@ describe('Deque', () => {
       [4, 5]
     ]); // TODO may be a problem
     deque.shrinkToFit();
-    expect(deque.size).toBe(3);
+    expect(deque.length).toBe(3);
     expect(deque.has(1)).toBe(false);
     expect(deque.bucketFirst).toBe(0);
     expect(deque.bucketLast).toBe(1);
@@ -735,7 +735,7 @@ describe('classic uses', () => {
 
       // Rotate clockwise to the right (forward)
       rotateClockwise(steps: number): void {
-        const n = this.deque.size;
+        const n = this.deque.length;
         if (n === 0) return;
 
         for (let i = 0; i < steps; i++) {
@@ -746,7 +746,7 @@ describe('classic uses', () => {
 
       // Rotate counterclockwise to the left (backward)
       rotateCounterClockwise(steps: number): void {
-        const n = this.deque.size;
+        const n = this.deque.length;
         if (n === 0) return;
 
         for (let i = 0; i < steps; i++) {

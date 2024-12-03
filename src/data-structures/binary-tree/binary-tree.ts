@@ -544,7 +544,7 @@ export class BinaryTree<K = any, V = any, R = object, MK = any, MV = any, MR = o
     const queue = new Queue<BinaryTreeNode<K, V>>([this._root]);
     let potentialParent: BinaryTreeNode<K, V> | undefined; // Record the parent node of the potential insertion location
 
-    while (queue.size > 0) {
+    while (queue.length > 0) {
       const cur = queue.shift();
 
       if (!cur) continue;
@@ -1530,7 +1530,7 @@ export class BinaryTree<K = any, V = any, R = object, MK = any, MV = any, MR = o
       ]);
 
       const dfs = (level: number) => {
-        if (queue.size === 0) return;
+        if (queue.length === 0) return;
 
         const current = queue.shift()!;
         ans.push(callback(current));
@@ -1549,8 +1549,8 @@ export class BinaryTree<K = any, V = any, R = object, MK = any, MV = any, MR = o
       dfs(0);
     } else {
       const queue = new Queue<OptNodeOrNull<BinaryTreeNode<K, V>>>([startNode]);
-      while (queue.size > 0) {
-        const levelSize = queue.size;
+      while (queue.length > 0) {
+        const levelSize = queue.length;
 
         for (let i = 0; i < levelSize; i++) {
           const current = queue.shift()!;
@@ -1609,7 +1609,7 @@ export class BinaryTree<K = any, V = any, R = object, MK = any, MV = any, MR = o
       dfs(startNode);
     } else {
       const queue = new Queue([startNode]);
-      while (queue.size > 0) {
+      while (queue.length > 0) {
         const cur = queue.shift();
         if (this.isRealNode(cur)) {
           if (this.isLeaf(cur)) {

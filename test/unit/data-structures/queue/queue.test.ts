@@ -11,21 +11,21 @@ describe('Queue', () => {
   });
 
   it('new Queue() should create an empty queue', () => {
-    expect(queue.size).toBe(0);
+    expect(queue.length).toBe(0);
     expect(queue.isEmpty()).toBeTruthy();
   });
 
   it('push should add elements to the queue', () => {
     queue.push(1);
     queue.push(2);
-    expect(queue.size).toBe(2);
+    expect(queue.length).toBe(2);
   });
 
   it('shift should remove the first element', () => {
     queue.push(1);
     queue.push(2);
     expect(queue.shift()).toBe(1);
-    expect(queue.size).toBe(1);
+    expect(queue.length).toBe(1);
   });
 
   it('shift should return undefined if queue is empty', () => {
@@ -36,17 +36,17 @@ describe('Queue', () => {
     queue.push(1);
     queue.push(2);
     expect(queue.first).toBe(1);
-    expect(queue.size).toBe(2);
+    expect(queue.length).toBe(2);
   });
 
   it('first should return undefined if queue is empty', () => {
     expect(queue.first).toBeUndefined();
   });
 
-  it('size should return the number of elements', () => {
+  it('length should return the number of elements', () => {
     queue.push(1);
     queue.push(2);
-    expect(queue.size).toBe(2);
+    expect(queue.length).toBe(2);
   });
 
   it('isEmpty should return true if the queue is empty', () => {
@@ -68,7 +68,7 @@ describe('Queue', () => {
     queue.push(1);
     queue.push(2);
     queue.clear();
-    expect(queue.size).toBe(0);
+    expect(queue.length).toBe(0);
   });
 
   it('forEach should iterate over all elements', () => {
@@ -96,7 +96,7 @@ describe('Queue', () => {
       queue.push(i);
     }
     expect(queue.maxLen).toBe(10);
-    expect(queue.size).toBe(10);
+    expect(queue.length).toBe(10);
     expect(queue.first).toBe(990);
   });
 
@@ -129,9 +129,9 @@ describe('Queue', () => {
       toElementFn: rawElement => rawElement.id
     });
 
-    expect(queue.size).toBe(5);
+    expect(queue.length).toBe(5);
     queue.shift();
-    expect(queue.size).toBe(4);
+    expect(queue.length).toBe(4);
     expect(queue.at(1)).toBe('3');
   });
 
@@ -203,11 +203,11 @@ describe('Queue', () => {
     queue.push(9);
     queue.push(10);
     expect(queue.elements.length).toBe(10);
-    while (queue.size > 7) queue.shift();
-    expect(queue.size).toBe(7);
+    while (queue.length > 7) queue.shift();
+    expect(queue.length).toBe(7);
     expect(queue.elements.length).toBe(10);
     queue.shift();
-    expect(queue.size).toBe(6);
+    expect(queue.length).toBe(6);
     expect(queue.elements.length).toBe(6);
   });
 });
@@ -270,7 +270,7 @@ describe('Queue - Additional Methods', () => {
     queue.push(1);
     queue.push(2);
     expect(queue.last).toBe(2);
-    expect(queue.size).toBe(2);
+    expect(queue.length).toBe(2);
   });
 
   it('peekLast should return undefined if queue is empty', () => {
@@ -303,7 +303,7 @@ describe('Queue - Static and Clone Methods', () => {
     const array = [1, 2, 3];
     const queue = Queue.fromArray(array);
     expect(queue.toArray()).toEqual(array);
-    expect(queue.size).toBe(array.length);
+    expect(queue.length).toBe(array.length);
   });
 
   it('fromArray should create an empty queue from an empty array', () => {
@@ -318,7 +318,7 @@ describe('Queue - Static and Clone Methods', () => {
 
     const clonedQueue = originalQueue.clone();
     expect(clonedQueue.toArray()).toEqual(originalQueue.toArray());
-    expect(clonedQueue.size).toBe(originalQueue.size);
+    expect(clonedQueue.length).toBe(originalQueue.length);
   });
 
   it('clone should not affect the original queue when mutated', () => {
@@ -329,7 +329,7 @@ describe('Queue - Static and Clone Methods', () => {
     const clonedQueue = originalQueue.clone();
     clonedQueue.push(3);
 
-    expect(clonedQueue.size).not.toBe(originalQueue.size);
+    expect(clonedQueue.length).not.toBe(originalQueue.length);
     expect(originalQueue.toArray()).not.toContain(3);
   });
 });
@@ -345,14 +345,14 @@ describe('LinkedListQueue', () => {
 
   it('should push elements to the end of the queue', () => {
     expect(queue.first).toBe('A');
-    expect(queue.size).toBe(2);
+    expect(queue.length).toBe(2);
   });
 
   it('should shift elements from the front of the queue', () => {
     const dequeued = queue.shift();
     expect(dequeued).toBe('A');
     expect(queue.first).toBe('B');
-    expect(queue.size).toBe(1);
+    expect(queue.length).toBe(1);
   });
 
   it('should peek at the front of the queue', () => {
@@ -362,6 +362,6 @@ describe('LinkedListQueue', () => {
   it('should clone method work correctly', () => {
     const cloned = queue.clone();
     expect(cloned instanceof LinkedListQueue).toBe(true);
-    expect(cloned.size).toBe(2);
+    expect(cloned.length).toBe(2);
   });
 });

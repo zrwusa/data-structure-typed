@@ -792,7 +792,7 @@ export class BST<K = any, V = any, R = object, MK = any, MV = any, MR = object>
       return ans;
     } else {
       const queue = new Queue<BSTNode<K, V>>([this._root]);
-      while (queue.size > 0) {
+      while (queue.length > 0) {
         const cur = queue.shift();
         if (this.isRealNode(cur)) {
           const compared = this._compare(cur.key, targetKey);

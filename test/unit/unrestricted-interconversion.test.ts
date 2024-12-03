@@ -263,7 +263,7 @@ describe('conversions', () => {
       'triangle'
     ]);
     const dq = new Deque<string>(heap);
-    expect(dq.size).toBe(10);
+    expect(dq.length).toBe(10);
     if (isDebug) dq.print();
     expect([...dq]).toEqual([
       'transmit',

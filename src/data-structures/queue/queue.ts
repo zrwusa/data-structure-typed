@@ -52,10 +52,10 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
   }
 
   /**
-   * The size function returns the number of elements in an array.
-   * @returns {number} The size of the array, which is the difference between the length of the array and the offset.
+   * The length function returns the number of elements in an array.
+   * @returns {number} The length of the array, which is the difference between the length of the array and the offset.
    */
-  get size(): number {
+  get length(): number {
     return this.elements.length - this.offset;
   }
 
@@ -65,10 +65,10 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
    *
    * The `first` function returns the first element of the array `_elements` if it exists, otherwise it returns `undefined`.
    * @returns The `get first()` method returns the first element of the data structure, represented by the `_elements` array at
-   * the `_offset` index. If the data structure is empty (size is 0), it returns `undefined`.
+   * the `_offset` index. If the data structure is empty (length is 0), it returns `undefined`.
    */
   get first(): E | undefined {
-    return this.size > 0 ? this.elements[this.offset] : undefined;
+    return this.length > 0 ? this.elements[this.offset] : undefined;
   }
 
   /**
@@ -80,7 +80,7 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
    * array is empty, it returns `undefined`.
    */
   get last(): E | undefined {
-    return this.size > 0 ? this.elements[this.elements.length - 1] : undefined;
+    return this.length > 0 ? this.elements[this.elements.length - 1] : undefined;
   }
 
   protected _autoCompactRatio: number = 0.5;
@@ -126,7 +126,7 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
    */
   push(element: E): boolean {
     this.elements.push(element);
-    if (this._maxLen > 0 && this.size > this._maxLen) this.shift();
+    if (this._maxLen > 0 && this.length > this._maxLen) this.shift();
     return true;
   }
 
@@ -159,7 +159,7 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
    * @returns The function `shift()` returns either the first element in the queue or `undefined` if the queue is empty.
    */
   shift(): E | undefined {
-    if (this.size === 0) return undefined;
+    if (this.length === 0) return undefined;
 
     const first = this.first;
     this._offset += 1;
@@ -213,11 +213,11 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
-   * The function checks if a data structure is empty by comparing its size to zero.
-   * @returns {boolean} A boolean value indicating whether the size of the object is 0 or not.
+   * The function checks if a data structure is empty by comparing its length to zero.
+   * @returns {boolean} A boolean value indicating whether the length of the object is 0 or not.
    */
   isEmpty(): boolean {
-    return this.size === 0;
+    return this.length === 0;
   }
 
   /**

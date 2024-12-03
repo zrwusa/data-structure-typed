@@ -121,14 +121,14 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     return this._maxLen;
   }
 
-  protected _size: number = 0;
+  protected _length: number = 0;
 
   /**
-   * The function returns the size of an object.
-   * @returns The size of the object, which is a number.
+   * The function returns the length of an object.
+   * @returns The length of the object, which is a number.
    */
-  get size(): number {
-    return this._size;
+  get length(): number {
+    return this._length;
   }
 
   /**
@@ -166,8 +166,8 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
       this.tail!.next = newNode;
       this._tail = newNode;
     }
-    this._size++;
-    if (this._maxLen > 0 && this.size > this._maxLen) this.shift();
+    this._length++;
+    if (this._maxLen > 0 && this.length > this._maxLen) this.shift();
     return true;
   }
 
@@ -185,7 +185,7 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
       const value = this.head.value;
       this._head = undefined;
       this._tail = undefined;
-      this._size--;
+      this._length--;
       return value;
     }
 
@@ -196,7 +196,7 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     const value = this.tail!.value;
     current.next = undefined;
     this._tail = current;
-    this._size--;
+    this._length--;
     return value;
   }
 
@@ -211,7 +211,7 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     if (!this.head) return undefined;
     const removedNode = this.head;
     this._head = this.head.next;
-    this._size--;
+    this._length--;
     return removedNode.value;
   }
 
@@ -235,7 +235,7 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
       newNode.next = this.head;
       this._head = newNode;
     }
-    this._size++;
+    this._length++;
     return true;
   }
 
@@ -323,7 +323,7 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * `undefined` if the index is out of bounds.
    */
   at(index: number): E | undefined {
-    if (index < 0 || index >= this._size) return undefined;
+    if (index < 0 || index >= this._length) return undefined;
     let current = this.head;
     for (let i = 0; i < index; i++) {
       current = current!.next;
@@ -379,12 +379,12 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * bounds.
    */
   deleteAt(index: number): boolean {
-    if (index < 0 || index >= this._size) return false;
+    if (index < 0 || index >= this._length) return false;
     if (index === 0) {
       this.shift();
       return true;
     }
-    if (index === this._size - 1) {
+    if (index === this._length - 1) {
       this.pop();
       return true;
     }
@@ -392,7 +392,7 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     const prevNode = this.getNodeAt(index - 1);
     const removedNode = prevNode!.next;
     prevNode!.next = removedNode!.next;
-    this._size--;
+    this._length--;
     return true;
   }
 
@@ -430,7 +430,7 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
             this._tail = prev;
           }
         }
-        this._size--;
+        this._length--;
         return true;
       }
       prev = current;
@@ -456,13 +456,13 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * successfully added at the specified index, and `false` if the index is out of bounds.
    */
   addAt(index: number, newElementOrNode: E | SinglyLinkedListNode<E>): boolean {
-    if (index < 0 || index > this._size) return false;
+    if (index < 0 || index > this._length) return false;
 
     if (index === 0) {
       this.unshift(newElementOrNode);
       return true;
     }
-    if (index === this._size) {
+    if (index === this._length) {
       this.push(newElementOrNode);
       return true;
     }
@@ -471,7 +471,7 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     const prevNode = this.getNodeAt(index - 1);
     newNode.next = prevNode!.next;
     prevNode!.next = newNode;
-    this._size++;
+    this._length++;
     return true;
   }
 
@@ -484,7 +484,7 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * @returns A boolean value indicating whether the length of the object is equal to 0.
    */
   isEmpty(): boolean {
-    return this._size === 0;
+    return this._length === 0;
   }
 
   /**
@@ -496,7 +496,7 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   clear(): void {
     this._head = undefined;
     this._tail = undefined;
-    this._size = 0;
+    this._length = 0;
   }
 
   /**
@@ -639,7 +639,7 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
         const newNode = this._ensureNode(newElementOrNode);
         newNode.next = current.next;
         current.next = newNode;
-        this._size++;
+        this._length++;
         return true;
       }
       current = current.next;
@@ -674,7 +674,7 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
       if (existingNode === this.tail) {
         this._tail = newNode;
       }
-      this._size++;
+      this._length++;
       return true;
     }
 

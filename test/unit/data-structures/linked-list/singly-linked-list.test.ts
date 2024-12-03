@@ -44,7 +44,7 @@ describe('SinglyLinkedList Operation Test', () => {
         list.push(i);
       }
       expect(list.maxLen).toBe(10);
-      expect(list.size).toBe(10);
+      expect(list.length).toBe(10);
       expect(list.first).toBe(990);
     });
   });
@@ -197,7 +197,7 @@ describe('SinglyLinkedList Operation Test', () => {
       list.push(3);
       list.clear();
       expect(list.toArray()).toEqual([]);
-      expect(list.size).toBe(0);
+      expect(list.length).toBe(0);
       expect(list.isEmpty()).toBe(true);
     });
   });
@@ -287,10 +287,10 @@ describe('SinglyLinkedList Operation Test', () => {
 
   describe('getLength', () => {
     it('should return the correct length of the list', () => {
-      expect(list.size).toBe(0);
+      expect(list.length).toBe(0);
       list.push(1);
       list.push(2);
-      expect(list.size).toBe(2);
+      expect(list.length).toBe(2);
     });
   });
 
@@ -468,7 +468,7 @@ describe('SinglyLinkedList', () => {
   it('should initialize an empty list', () => {
     expect(list.head).toBe(undefined);
     expect(list.tail).toBe(undefined);
-    expect(list.size).toBe(0);
+    expect(list.length).toBe(0);
   });
 
   it('should push elements to the end of the list', () => {
@@ -476,7 +476,7 @@ describe('SinglyLinkedList', () => {
     list.push(2);
     expect(list.head!.value).toBe(1);
     expect(list.tail!.value).toBe(2);
-    expect(list.size).toBe(2);
+    expect(list.length).toBe(2);
   });
 
   it('should pop elements from the end of the list', () => {
@@ -486,7 +486,7 @@ describe('SinglyLinkedList', () => {
     expect(popped).toBe(2);
     expect(list.head!.value).toBe(1);
     expect(list.tail!.value).toBe(1);
-    expect(list.size).toBe(1);
+    expect(list.length).toBe(1);
   });
 
   it('should reverse the list', () => {

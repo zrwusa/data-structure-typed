@@ -356,8 +356,8 @@ export abstract class AbstractGraph<
       const queue = new Queue<VO>([vertex1]);
       visited.set(vertex1, true);
       let cost = 0;
-      while (queue.size > 0) {
-        for (let i = 0; i < queue.size; i++) {
+      while (queue.length > 0) {
+        for (let i = 0; i < queue.length; i++) {
           const cur = queue.shift();
           if (cur === vertex2) {
             return cost;
