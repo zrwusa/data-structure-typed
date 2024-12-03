@@ -62,6 +62,7 @@ export class AVLTreeNode<K = any, V = any> extends BSTNode<K, V> {
  * 7. Path Length: The path length from the root to any leaf is longer compared to an unbalanced BST, but shorter than a linear chain of nodes.
  * @example
  * // Find elements in a range
+ *     // In interval queries, AVL trees, with their strictly balanced structure and lower height, offer better query efficiency, making them ideal for frequent and high-performance interval queries. In contrast, Red-Black trees, with lower update costs, are more suitable for scenarios involving frequent insertions and deletions where the requirements for interval queries are less demanding.
  *     type Datum = { timestamp: Date; temperature: number };
  *     // Fixed dataset of CPU temperature readings
  *     const cpuData: Datum[] = [
@@ -110,19 +111,19 @@ export class AVLTreeNode<K = any, V = any> extends BSTNode<K, V> {
  *       temperature: cpuTemperatureTree.get(node ? node.key : undefined)
  *     }));
  *
- *     console.log(rangeResults); //  [
- *  //            { minute: 5, temperature: 59.4 },
- *  //            { minute: 6, temperature: 60.1 },
- *  //            { minute: 7, temperature: 61.3 },
- *  //            { minute: 8, temperature: 62 },
- *  //            { minute: 9, temperature: 63.5 },
- *  //            { minute: 10, temperature: 64 },
- *  //            { minute: 11, temperature: 62.8 },
- *  //            { minute: 12, temperature: 61.5 },
- *  //            { minute: 13, temperature: 60.2 },
- *  //            { minute: 14, temperature: 59.8 },
- *  //            { minute: 15, temperature: 58.6 }
- *  //          ]
+ *     console.log(rangeResults); // [
+ *  //      { minute: 5, temperature: 59.4 },
+ *  //      { minute: 6, temperature: 60.1 },
+ *  //      { minute: 7, temperature: 61.3 },
+ *  //      { minute: 8, temperature: 62 },
+ *  //      { minute: 9, temperature: 63.5 },
+ *  //      { minute: 10, temperature: 64 },
+ *  //      { minute: 11, temperature: 62.8 },
+ *  //      { minute: 12, temperature: 61.5 },
+ *  //      { minute: 13, temperature: 60.2 },
+ *  //      { minute: 14, temperature: 59.8 },
+ *  //      { minute: 15, temperature: 58.6 }
+ *  //    ]
  */
 export class AVLTree<K = any, V = any, R = object, MK = any, MV = any, MR = object>
   extends BST<K, V, R, MK, MV, MR>

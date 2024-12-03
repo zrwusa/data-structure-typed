@@ -532,6 +532,12 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     this._head = undefined;
     this._tail = undefined;
     this._size = 0;
+
+    if (options) {
+      const { maxLen } = options;
+      if (typeof maxLen === 'number' && maxLen > 0 && maxLen % 1 === 0) this._maxLen = maxLen;
+    }
+
     this.pushMany(elements);
   }
 
@@ -564,6 +570,12 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    */
   get size(): number {
     return this._size;
+  }
+
+  protected _maxLen: number = -1;
+
+  get maxLen() {
+    return this._maxLen;
   }
 
   /**
@@ -641,6 +653,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
       this._tail = newNode;
     }
     this._size++;
+    if (this._maxLen > 0 && this.size > this._maxLen) this.shift();
     return true;
   }
 
@@ -707,6 +720,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
       this._head = newNode;
     }
     this._size++;
+    if (this._maxLen > 0 && this._size > this._maxLen) this.pop();
     return true;
   }
 

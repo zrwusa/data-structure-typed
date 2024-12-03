@@ -37,6 +37,16 @@ describe('SinglyLinkedList Operation Test', () => {
       list.push(2);
       expect(list.toArray()).toEqual([1, 2]);
     });
+
+    it('push with maxLen', () => {
+      const list = new SinglyLinkedList<number>([], { maxLen: 10 });
+      for (let i = 0; i < 1000; i++) {
+        list.push(i);
+      }
+      expect(list.maxLen).toBe(10);
+      expect(list.size).toBe(10);
+      expect(list.first).toBe(990);
+    });
   });
 
   describe('pop', () => {

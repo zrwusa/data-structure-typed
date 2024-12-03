@@ -1,4 +1,4 @@
-import { DoublyLinkedList, DoublyLinkedListNode } from '../../../../src';
+import { DoublyLinkedList, DoublyLinkedListNode, SinglyLinkedList } from '../../../../src';
 
 describe('DoublyLinkedListNode', () => {
   it('should DoublyLinkedListNode', () => {
@@ -122,6 +122,25 @@ describe('DoublyLinkedList Operation Test', () => {
     expect(list.size).toBe(3);
     expect(list.head!.value).toBe(1);
     expect(list.tail!.value).toBe(3);
+  });
+
+  it('push with maxLen', () => {
+    const list = new DoublyLinkedList<number>([], { maxLen: 10 });
+    for (let i = 0; i < 1000; i++) {
+      list.push(i);
+    }
+    expect(list.maxLen).toBe(10);
+    expect(list.size).toBe(10);
+    expect(list.first).toBe(990);
+
+    list.clear();
+    for (let i = 0; i < 1000; i++) {
+      list.unshift(i);
+    }
+
+    expect(list.maxLen).toBe(10);
+    expect(list.size).toBe(10);
+    expect(list.last).toBe(990);
   });
 
   it('should pop elements from the end of the list', () => {

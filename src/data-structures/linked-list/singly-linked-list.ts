@@ -68,6 +68,12 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     options?: SinglyLinkedListOptions<E, R>
   ) {
     super(options);
+
+    if (options) {
+      const { maxLen } = options;
+      if (typeof maxLen === 'number' && maxLen > 0 && maxLen % 1 === 0) this._maxLen = maxLen;
+    }
+
     this.pushMany(elements);
   }
 
@@ -107,6 +113,12 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    */
   get last(): E | undefined {
     return this.tail?.value;
+  }
+
+  protected _maxLen: number = -1;
+
+  get maxLen() {
+    return this._maxLen;
   }
 
   protected _size: number = 0;
@@ -155,6 +167,7 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
       this._tail = newNode;
     }
     this._size++;
+    if (this._maxLen > 0 && this.size > this._maxLen) this.shift();
     return true;
   }
 

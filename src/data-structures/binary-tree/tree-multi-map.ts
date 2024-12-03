@@ -55,11 +55,169 @@ export class TreeMultiMapNode<K = any, V = any> extends RedBlackTreeNode<K, V[]>
 /**
  *
  * @example
- * // Find elements in a range
- *     const tmm = new TreeMultiMap<number>([10, 5, 15, 3, 7, 12, 18]);
- *     console.log(tmm.search(new Range(5, 10))); // [5, 7, 10]
- *     console.log(tmm.search(new Range(4, 12))); // [5, 7, 10, 12]
- *     console.log(tmm.search(new Range(15, 20))); // [15, 18]
+ * // players ranked by score with their equipment
+ *     type Equipment = {
+ *       name: string; // Equipment name
+ *       quality: 'legendary' | 'epic' | 'rare' | 'common';
+ *       level: number;
+ *     };
+ *
+ *     type Player = {
+ *       name: string;
+ *       score: number;
+ *       equipments: Equipment[];
+ *     };
+ *
+ *     // Mock player data with their scores and equipment
+ *     const players: Player[] = [
+ *       {
+ *         name: 'DragonSlayer',
+ *         score: 8750,
+ *         equipments: [
+ *           { name: 'AWM', quality: 'legendary', level: 85 },
+ *           { name: 'Level 3 Helmet', quality: 'epic', level: 80 },
+ *           { name: 'Extended Quickdraw Mag', quality: 'rare', level: 75 },
+ *           { name: 'Compensator', quality: 'epic', level: 78 },
+ *           { name: 'Vertical Grip', quality: 'rare', level: 72 }
+ *         ]
+ *       },
+ *       {
+ *         name: 'ShadowNinja',
+ *         score: 7200,
+ *         equipments: [
+ *           { name: 'M416', quality: 'epic', level: 75 },
+ *           { name: 'Ghillie Suit', quality: 'rare', level: 70 },
+ *           { name: 'Red Dot Sight', quality: 'common', level: 65 },
+ *           { name: 'Extended QuickDraw Mag', quality: 'rare', level: 68 }
+ *         ]
+ *       },
+ *       {
+ *         name: 'RuneMaster',
+ *         score: 9100,
+ *         equipments: [
+ *           { name: 'KAR98K', quality: 'legendary', level: 90 },
+ *           { name: 'Level 3 Vest', quality: 'legendary', level: 85 },
+ *           { name: 'Holographic Sight', quality: 'epic', level: 82 },
+ *           { name: 'Suppressor', quality: 'legendary', level: 88 },
+ *           { name: 'Level 3 Backpack', quality: 'epic', level: 80 }
+ *         ]
+ *       },
+ *       {
+ *         name: 'BattleKing',
+ *         score: 8500,
+ *         equipments: [
+ *           { name: 'AUG', quality: 'epic', level: 82 },
+ *           { name: 'Red Dot Sight', quality: 'rare', level: 75 },
+ *           { name: 'Extended Mag', quality: 'common', level: 70 },
+ *           { name: 'Tactical Stock', quality: 'rare', level: 76 }
+ *         ]
+ *       },
+ *       {
+ *         name: 'SniperElite',
+ *         score: 7800,
+ *         equipments: [
+ *           { name: 'M24', quality: 'legendary', level: 88 },
+ *           { name: 'Compensator', quality: 'epic', level: 80 },
+ *           { name: 'Scope 8x', quality: 'legendary', level: 85 },
+ *           { name: 'Level 2 Helmet', quality: 'rare', level: 75 }
+ *         ]
+ *       },
+ *       {
+ *         name: 'RushMaster',
+ *         score: 7500,
+ *         equipments: [
+ *           { name: 'Vector', quality: 'rare', level: 72 },
+ *           { name: 'Level 2 Helmet', quality: 'common', level: 65 },
+ *           { name: 'Quickdraw Mag', quality: 'common', level: 60 },
+ *           { name: 'Laser Sight', quality: 'rare', level: 68 }
+ *         ]
+ *       },
+ *       {
+ *         name: 'GhostWarrior',
+ *         score: 8200,
+ *         equipments: [
+ *           { name: 'SCAR-L', quality: 'epic', level: 78 },
+ *           { name: 'Extended Quickdraw Mag', quality: 'rare', level: 70 },
+ *           { name: 'Holographic Sight', quality: 'epic', level: 75 },
+ *           { name: 'Suppressor', quality: 'rare', level: 72 },
+ *           { name: 'Vertical Grip', quality: 'common', level: 65 }
+ *         ]
+ *       },
+ *       {
+ *         name: 'DeathDealer',
+ *         score: 7300,
+ *         equipments: [
+ *           { name: 'SKS', quality: 'epic', level: 76 },
+ *           { name: 'Holographic Sight', quality: 'rare', level: 68 },
+ *           { name: 'Extended Mag', quality: 'common', level: 65 }
+ *         ]
+ *       },
+ *       {
+ *         name: 'StormRider',
+ *         score: 8900,
+ *         equipments: [
+ *           { name: 'MK14', quality: 'legendary', level: 92 },
+ *           { name: 'Level 3 Backpack', quality: 'legendary', level: 85 },
+ *           { name: 'Scope 8x', quality: 'epic', level: 80 },
+ *           { name: 'Suppressor', quality: 'legendary', level: 88 },
+ *           { name: 'Tactical Stock', quality: 'rare', level: 75 }
+ *         ]
+ *       },
+ *       {
+ *         name: 'CombatLegend',
+ *         score: 7600,
+ *         equipments: [
+ *           { name: 'UMP45', quality: 'rare', level: 74 },
+ *           { name: 'Level 2 Vest', quality: 'common', level: 67 },
+ *           { name: 'Red Dot Sight', quality: 'common', level: 62 },
+ *           { name: 'Extended Mag', quality: 'rare', level: 70 }
+ *         ]
+ *       }
+ *     ];
+ *
+ *     // Create a TreeMultiMap for player rankings
+ *     const playerRankings = new TreeMultiMap<number, Equipment, Player>(players, {
+ *       toEntryFn: ({ score, equipments }) => [score, equipments],
+ *       isMapMode: false
+ *     });
+ *
+ *     const topPlayersEquipments = playerRankings.rangeSearch([8900, 10000], node => playerRankings.get(node));
+ *     console.log(topPlayersEquipments); // [
+ *  //      [
+ *  //        {
+ *  //          name: 'MK14',
+ *  //          quality: 'legendary',
+ *  //          level: 92
+ *  //        },
+ *  //        { name: 'Level 3 Backpack', quality: 'legendary', level: 85 },
+ *  //        {
+ *  //          name: 'Scope 8x',
+ *  //          quality: 'epic',
+ *  //          level: 80
+ *  //        },
+ *  //        { name: 'Suppressor', quality: 'legendary', level: 88 },
+ *  //        {
+ *  //          name: 'Tactical Stock',
+ *  //          quality: 'rare',
+ *  //          level: 75
+ *  //        }
+ *  //      ],
+ *  //      [
+ *  //        { name: 'KAR98K', quality: 'legendary', level: 90 },
+ *  //        {
+ *  //          name: 'Level 3 Vest',
+ *  //          quality: 'legendary',
+ *  //          level: 85
+ *  //        },
+ *  //        { name: 'Holographic Sight', quality: 'epic', level: 82 },
+ *  //        {
+ *  //          name: 'Suppressor',
+ *  //          quality: 'legendary',
+ *  //          level: 88
+ *  //        },
+ *  //        { name: 'Level 3 Backpack', quality: 'epic', level: 80 }
+ *  //      ]
+ *  //    ]
  */
 export class TreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR = object>
   extends RedBlackTree<K, V[], R, MK, MV[], MR>

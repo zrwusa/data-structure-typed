@@ -722,3 +722,58 @@ describe('Deque', () => {
     ]); // TODO may be a problem
   });
 });
+
+describe('classic uses', () => {
+  it('@example prize roulette', () => {
+    class PrizeRoulette {
+      private deque: Deque<string>;
+
+      constructor(prizes: string[]) {
+        // Initialize the deque with prizes
+        this.deque = new Deque<string>(prizes);
+      }
+
+      // Rotate clockwise to the right (forward)
+      rotateClockwise(steps: number): void {
+        const n = this.deque.size;
+        if (n === 0) return;
+
+        for (let i = 0; i < steps; i++) {
+          const last = this.deque.pop(); // Remove the last element
+          this.deque.unshift(last!); // Add it to the front
+        }
+      }
+
+      // Rotate counterclockwise to the left (backward)
+      rotateCounterClockwise(steps: number): void {
+        const n = this.deque.size;
+        if (n === 0) return;
+
+        for (let i = 0; i < steps; i++) {
+          const first = this.deque.shift(); // Remove the first element
+          this.deque.push(first!); // Add it to the back
+        }
+      }
+
+      // Display the current prize at the head
+      display() {
+        return this.deque.first;
+      }
+    }
+
+    // Example usage
+    const prizes = ['Car', 'Bike', 'Laptop', 'Phone', 'Watch', 'Headphones']; // Initialize the prize list
+    const roulette = new PrizeRoulette(prizes);
+
+    // Display the initial state
+    expect(roulette.display()).toBe('Car'); // Car
+
+    // Rotate clockwise by 3 steps
+    roulette.rotateClockwise(3);
+    expect(roulette.display()).toBe('Phone'); // Phone
+
+    // Rotate counterclockwise by 2 steps
+    roulette.rotateCounterClockwise(2);
+    expect(roulette.display()).toBe('Headphones'); // Headphones
+  });
+});

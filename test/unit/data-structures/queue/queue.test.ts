@@ -90,6 +90,16 @@ describe('Queue', () => {
     expect(queue.isEmpty()).toBeTruthy();
   });
 
+  it('push with maxLen', () => {
+    const queue = new Queue<number>([], { maxLen: 10 });
+    for (let i = 0; i < 1000; i++) {
+      queue.push(i);
+    }
+    expect(queue.maxLen).toBe(10);
+    expect(queue.size).toBe(10);
+    expect(queue.first).toBe(990);
+  });
+
   it('compact method should work well', () => {
     for (let i = 0; i < 1000; i++) queue.push(i);
 

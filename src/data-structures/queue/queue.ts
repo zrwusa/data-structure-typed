@@ -21,8 +21,9 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
     super(options);
 
     if (options) {
-      const { autoCompactRatio = 0.5 } = options;
+      const { autoCompactRatio = 0.5, maxLen } = options;
       this._autoCompactRatio = autoCompactRatio;
+      if (typeof maxLen === 'number' && maxLen > 0 && maxLen % 1 === 0) this._maxLen = maxLen;
     }
 
     this.pushMany(elements);
@@ -30,12 +31,14 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
 
   protected _elements: E[] = [];
 
-  /**
-   * The elements function returns the elements of this set.
-   * @return An array of the elements in the stack
-   */
   get elements(): E[] {
     return this._elements;
+  }
+
+  protected _maxLen: number = -1;
+
+  get maxLen() {
+    return this._maxLen;
   }
 
   protected _offset: number = 0;
@@ -123,6 +126,7 @@ export class Queue<E = any, R = any> extends IterableElementBase<E, R, Queue<E, 
    */
   push(element: E): boolean {
     this.elements.push(element);
+    if (this._maxLen > 0 && this.size > this._maxLen) this.shift();
     return true;
   }
 
