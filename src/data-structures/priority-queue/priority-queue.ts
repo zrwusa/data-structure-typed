@@ -55,7 +55,7 @@ export class PriorityQueue<E = any, R = any> extends Heap<E, R> {
    * @returns The `filter` method is returning a new `PriorityQueue` object that contains the elements that pass
    * the filter condition specified by the `callback` function.
    */
-  override filter(callback: ElementCallback<E, R, boolean, PriorityQueue<E, R>>, thisArg?: any): PriorityQueue<E, R> {
+  override filter(callback: ElementCallback<E, R, boolean>, thisArg?: any): PriorityQueue<E, R> {
     const filteredPriorityQueue = new PriorityQueue<E, R>([], {
       toElementFn: this.toElementFn,
       comparator: this.comparator
@@ -92,7 +92,7 @@ export class PriorityQueue<E = any, R = any> extends Heap<E, R> {
    * @returns a new instance of the `PriorityQueue` class with the mapped elements.
    */
   override map<EM, RM>(
-    callback: ElementCallback<E, R, EM, PriorityQueue<E, R>>,
+    callback: ElementCallback<E, R, EM>,
     comparator: Comparator<EM>,
     toElementFn?: (rawElement: RM) => EM,
     thisArg?: any

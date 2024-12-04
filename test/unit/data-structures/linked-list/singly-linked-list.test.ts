@@ -458,6 +458,95 @@ describe('SinglyLinkedList Operation Test', () => {
   });
 });
 
+describe('SinglyLinkedList Additional Methods', () => {
+  // Slice method implementation and test
+  test('slice should return a new list with specified range', () => {
+    const list = new SinglyLinkedList([1, 2, 3, 4, 5]);
+    const slicedList = list.slice(1, 4);
+
+    expect(slicedList.toArray()).toEqual([2, 3, 4]);
+    expect(list.length).toBe(5); // Original list unchanged
+  });
+
+  // Splice method implementation
+  test('splice should modify list and return removed elements', () => {
+    const list = new SinglyLinkedList([1, 2, 3, 4, 5]);
+    const removedList = list.splice(2, 2, 6, 7);
+
+    expect(list.toArray()).toEqual([1, 2, 6, 7, 5]);
+    expect(removedList.toArray()).toEqual([3, 4]);
+  });
+
+  // Concat method test
+  test('concat should combine multiple lists', () => {
+    const list1 = new SinglyLinkedList([1, 2]);
+    const list2 = new SinglyLinkedList([3, 4]);
+    const list3 = new SinglyLinkedList([5, 6]);
+
+    const concatenatedList = list1.concat(list2, list3);
+    expect(concatenatedList.toArray()).toEqual([1, 2, 3, 4, 5, 6]);
+  });
+
+  // Sort method test
+  test('sort should order elements in ascending order', () => {
+    const list = new SinglyLinkedList([5, 2, 8, 1, 9]);
+    list.sort((a, b) => a - b);
+
+    expect(list.toArray()).toEqual([1, 2, 5, 8, 9]);
+  });
+
+  // Reverse method test
+  test('reverse should invert the list order', () => {
+    const list = new SinglyLinkedList([1, 2, 3, 4, 5]);
+    list.reverse();
+
+    expect(list.toArray()).toEqual([5, 4, 3, 2, 1]);
+  });
+
+  // Join method test
+  test('join should convert list to string with separator', () => {
+    const list = new SinglyLinkedList(['a', 'b', 'c']);
+
+    expect(list.join('-')).toBe('a-b-c');
+    expect(list.join()).toBe('a,b,c');
+  });
+
+  // IndexOf method test
+  test('indexOf should return first occurrence index', () => {
+    const list = new SinglyLinkedList([1, 2, 3, 2, 1]);
+
+    expect(list.indexOf(2)).toBe(1);
+    expect(list.indexOf(4)).toBe(-1);
+  });
+
+  // LastIndexOf method test
+  test('lastIndexOf should return last occurrence index', () => {
+    const list = new SinglyLinkedList([1, 2, 3, 2, 1]);
+
+    expect(list.lastIndexOf(2)).toBe(3);
+    expect(list.lastIndexOf(4)).toBe(-1);
+  });
+
+  // findIndex method test
+  test('findIndex should return first occurrence index', () => {
+    const list = new SinglyLinkedList([1, 2, 3, 2, 1]);
+    expect(list.findIndex(item => item === 2)).toBe(1);
+    expect(list.findIndex(item => item === 4)).toBe(-1);
+  });
+
+  // fill method test
+  test('fill should return fill all the list', () => {
+    let list = new SinglyLinkedList([1, 2, 3, 2, 1]);
+    expect([...list.fill(9)]).toEqual([9, 9, 9, 9, 9]);
+    list = new SinglyLinkedList([1, 2, 3, 2, 1]);
+    expect([...list.fill(9, 2, 3)]).toEqual([1, 2, 9, 2, 1]);
+    list = new SinglyLinkedList([1, 2, 3, 2, 1]);
+    expect([...list.fill(9, -3, -2)]).toEqual([1, 2, 9, 2, 1]);
+    list = new SinglyLinkedList([1, 2, 3, 2, 1]);
+    expect([...list.fill(9, -2, -3)]).toEqual([1, 2, 3, 2, 1]);
+  });
+});
+
 describe('SinglyLinkedList', () => {
   let list: SinglyLinkedList<number>;
 
@@ -555,7 +644,8 @@ describe('iterable methods', () => {
     expect(sl.some(element => element > 2)).toBe(true);
 
     expect([...sl.filter(element => element > 2)]).toEqual([3]);
-    expect([...sl.map(element => element * 2)]).toEqual([2, 4, 6]);
+    const mappedSl = sl.map(element => element * 2);
+    expect([...mappedSl]).toEqual([2, 4, 6]);
     expect(sl.reduce((accumulator, element) => accumulator + element, 0)).toEqual(6);
   });
 });

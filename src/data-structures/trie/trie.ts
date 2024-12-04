@@ -170,7 +170,7 @@ export class TrieNode {
  *     const subnet = ip.split('.').slice(0, 3).join('.');
  *     console.log(ipRoutingTable.hasPrefix(subnet)); // true
  */
-export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
+export class Trie<R = any> extends IterableElementBase<string, R> {
   /**
    * The constructor initializes a Trie data structure with optional options and words provided as
    * input.
@@ -545,7 +545,7 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
    * specific object as the context for the `predicate` function. If `thisArg` is provided, it will be
    * @returns The `filter` method is returning an array of strings (`string[]`).
    */
-  filter(predicate: ElementCallback<string, R, boolean, Trie<R>>, thisArg?: any): Trie<R> {
+  filter(predicate: ElementCallback<string, R, boolean>, thisArg?: any): Trie<R> {
     const results = new Trie<R>([], { toElementFn: this.toElementFn, caseSensitive: this.caseSensitive });
     let index = 0;
     for (const word of this) {
@@ -576,7 +576,7 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
    * @returns a new Trie object.
    */
   map<RM>(
-    callback: ElementCallback<string, R, string, Trie<R>>,
+    callback: ElementCallback<string, R, string>,
     toElementFn?: (rawElement: RM) => string,
     thisArg?: any
   ): Trie<RM> {
@@ -607,6 +607,10 @@ export class Trie<R = any> extends IterableElementBase<string, R, Trie<R>> {
     }
 
     yield* _dfs(this.root, '');
+  }
+
+  protected get _total() {
+    return this._size;
   }
 
   /**

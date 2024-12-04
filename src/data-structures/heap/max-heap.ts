@@ -61,7 +61,7 @@ export class MaxHeap<E = any, R = any> extends Heap<E, R> {
    * @returns The `filter` method is returning a new `MaxHeap` object that contains the elements that pass
    * the filter condition specified by the `callback` function.
    */
-  override filter(callback: ElementCallback<E, R, boolean, MaxHeap<E, R>>, thisArg?: any): MaxHeap<E, R> {
+  override filter(callback: ElementCallback<E, R, boolean>, thisArg?: any): MaxHeap<E, R> {
     const filteredList = new MaxHeap<E, R>([], { toElementFn: this.toElementFn, comparator: this.comparator });
     let index = 0;
     for (const current of this) {
@@ -95,7 +95,7 @@ export class MaxHeap<E = any, R = any> extends Heap<E, R> {
    * @returns a new instance of the `MaxHeap` class with the mapped elements.
    */
   override map<EM, RM>(
-    callback: ElementCallback<E, R, EM, MaxHeap<E, R>>,
+    callback: ElementCallback<E, R, EM>,
     comparator: Comparator<EM>,
     toElementFn?: (rawElement: RM) => EM,
     thisArg?: any

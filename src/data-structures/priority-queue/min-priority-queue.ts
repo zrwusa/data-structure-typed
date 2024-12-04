@@ -53,10 +53,7 @@ export class MinPriorityQueue<E = any, R = any> extends PriorityQueue<E, R> {
    * @returns The `filter` method is returning a new `MinPriorityQueue` object that contains the elements that pass
    * the filter condition specified by the `callback` function.
    */
-  override filter(
-    callback: ElementCallback<E, R, boolean, MinPriorityQueue<E, R>>,
-    thisArg?: any
-  ): MinPriorityQueue<E, R> {
+  override filter(callback: ElementCallback<E, R, boolean>, thisArg?: any): MinPriorityQueue<E, R> {
     const filteredPriorityQueue = new MinPriorityQueue<E, R>([], {
       toElementFn: this.toElementFn,
       comparator: this.comparator
@@ -93,7 +90,7 @@ export class MinPriorityQueue<E = any, R = any> extends PriorityQueue<E, R> {
    * @returns a new instance of the `MinPriorityQueue` class with the mapped elements.
    */
   override map<EM, RM>(
-    callback: ElementCallback<E, R, EM, MinPriorityQueue<E, R>>,
+    callback: ElementCallback<E, R, EM>,
     comparator: Comparator<EM>,
     toElementFn?: (rawElement: RM) => EM,
     thisArg?: any

@@ -64,10 +64,7 @@ export class MaxPriorityQueue<E = any, R = any> extends PriorityQueue<E, R> {
    * @returns The `filter` method is returning a new `MaxPriorityQueue` object that contains the elements that pass
    * the filter condition specified by the `callback` function.
    */
-  override filter(
-    callback: ElementCallback<E, R, boolean, MaxPriorityQueue<E, R>>,
-    thisArg?: any
-  ): MaxPriorityQueue<E, R> {
+  override filter(callback: ElementCallback<E, R, boolean>, thisArg?: any): MaxPriorityQueue<E, R> {
     const filteredPriorityQueue = new MaxPriorityQueue<E, R>([], {
       toElementFn: this.toElementFn,
       comparator: this.comparator
@@ -104,7 +101,7 @@ export class MaxPriorityQueue<E = any, R = any> extends PriorityQueue<E, R> {
    * @returns a new instance of the `MaxPriorityQueue` class with the mapped elements.
    */
   override map<EM, RM>(
-    callback: ElementCallback<E, R, EM, MaxPriorityQueue<E, R>>,
+    callback: ElementCallback<E, R, EM>,
     comparator: Comparator<EM>,
     toElementFn?: (rawElement: RM) => EM,
     thisArg?: any

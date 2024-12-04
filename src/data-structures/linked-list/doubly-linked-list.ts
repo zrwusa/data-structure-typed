@@ -6,7 +6,7 @@
  * @license MIT License
  */
 import type { DoublyLinkedListOptions, ElementCallback } from '../../types';
-import { IterableElementBase } from '../base';
+import { LinearLinkedBase } from '../base/linear-base';
 
 export class DoublyLinkedListNode<E = any> {
   /**
@@ -22,60 +22,30 @@ export class DoublyLinkedListNode<E = any> {
 
   protected _value: E;
 
-  /**
-   * The function returns the value of a protected variable.
-   * @returns The value of the variable `_value` is being returned.
-   */
   get value(): E {
     return this._value;
   }
 
-  /**
-   * The above function sets the value of a variable.
-   * @param {E} value - The parameter "value" is of type E, which means it can be any type.
-   */
   set value(value: E) {
     this._value = value;
   }
 
   protected _next: DoublyLinkedListNode<E> | undefined;
 
-  /**
-   * The "next" function returns the next node in a doubly linked list.
-   * @returns The `next` property is being returned. It can be either a `DoublyLinkedListNode<E>`
-   * object or `undefined`.
-   */
   get next(): DoublyLinkedListNode<E> | undefined {
     return this._next;
   }
 
-  /**
-   * The "next" property of a DoublyLinkedListNode is set to the provided value.
-   * @param {DoublyLinkedListNode<E> | undefined} value - The `value` parameter is of type
-   * `DoublyLinkedListNode<E> | undefined`. This means that it can accept either a
-   * `DoublyLinkedListNode` object or `undefined` as its value.
-   */
   set next(value: DoublyLinkedListNode<E> | undefined) {
     this._next = value;
   }
 
   protected _prev: DoublyLinkedListNode<E> | undefined;
 
-  /**
-   * The `prev` function returns the previous node in a doubly linked list.
-   * @returns The `prev` property of the `DoublyLinkedListNode` class is being returned. It can either
-   * be a `DoublyLinkedListNode` object or `undefined`.
-   */
   get prev(): DoublyLinkedListNode<E> | undefined {
     return this._prev;
   }
 
-  /**
-   * The function sets the previous node of a doubly linked list node.
-   * @param {DoublyLinkedListNode<E> | undefined} value - The `value` parameter is of type
-   * `DoublyLinkedListNode<E> | undefined`. This means that it can accept either a
-   * `DoublyLinkedListNode` object or `undefined` as its value.
-   */
   set prev(value: DoublyLinkedListNode<E> | undefined) {
     this._prev = value;
   }
@@ -513,7 +483,7 @@ export class DoublyLinkedListNode<E = any> {
  *     scheduler.clear();
  *     console.log(scheduler.listProcesses()); // []
  */
-export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R, DoublyLinkedList<E, R>> {
+export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, DoublyLinkedListNode<E>> {
   /**
    * This TypeScript constructor initializes a DoublyLinkedList with optional elements and options.
    * @param {Iterable<E> | Iterable<R>} elements - The `elements` parameter in the constructor is an
@@ -543,39 +513,20 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
 
   protected _head: DoublyLinkedListNode<E> | undefined;
 
-  /**
-   * The `head` function returns the first node of a doubly linked list.
-   * @returns The method `getHead()` returns either a `DoublyLinkedListNode<E>` object or `undefined`.
-   */
   get head(): DoublyLinkedListNode<E> | undefined {
     return this._head;
   }
 
   protected _tail: DoublyLinkedListNode<E> | undefined;
 
-  /**
-   * The `tail` function returns the last node of a doubly linked list.
-   * @returns The `get tail()` method is returning either a `DoublyLinkedListNode<E>` object or
-   * `undefined`.
-   */
   get tail(): DoublyLinkedListNode<E> | undefined {
     return this._tail;
   }
 
   protected _length: number;
 
-  /**
-   * The function returns the length of an object.
-   * @returns The length of the object, which is a number.
-   */
   get length(): number {
     return this._length;
-  }
-
-  protected _maxLen: number = -1;
-
-  get maxLen() {
-    return this._maxLen;
   }
 
   /**
@@ -969,6 +920,28 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
+   * The function `setAt` updates the value at a specified index in a data structure if the index
+   * exists.
+   * @param {number} index - The `index` parameter in the `setAt` method refers to the position in the
+   * data structure where you want to set a new value.
+   * @param {E} value - The `value` parameter in the `setAt` method represents the new value that you
+   * want to set at the specified index in the data structure.
+   * @returns The `setAt` method returns a boolean value - `true` if the value at the specified index
+   * is successfully updated, and `false` if the index is out of bounds.
+   */
+  setAt(index: number, value: E): boolean {
+    const node = this.getNodeAt(index);
+    if (node) {
+      node.value = value;
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
    * The `deleteAt` function removes an element at a specified index from a linked list and returns the removed element.
    * @param {number} index - The index parameter represents the position of the element that needs to be deleted in the
    * data structure. It is of type number.
@@ -1055,31 +1028,6 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
-   * This function finds the index of a specified element, node, or predicate in a doubly linked list.
-   * @param {E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)} elementNodeOrPredicate
-   * elementNodeOrPredicate - The `indexOf` method takes in a parameter `elementNodeOrPredicate`, which
-   * can be one of the following:
-   * @returns The `indexOf` method returns the index of the element in the doubly linked list that
-   * matches the provided element, node, or predicate. If no match is found, it returns -1.
-   */
-  indexOf(elementNodeOrPredicate: E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)): number {
-    const predicate = this._ensurePredicate(elementNodeOrPredicate);
-    let index = 0;
-    let current = this.head;
-    while (current) {
-      if (predicate(current)) {
-        return index;
-      }
-      index++;
-      current = current.next;
-    }
-    return -1;
-  }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
    * This function retrieves an element from a doubly linked list based on a given element
    * node or predicate.
    * @param {E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)} elementNodeOrPredicate
@@ -1146,47 +1094,13 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
-   * The `toArray` function converts a linked list into an array.
-   * @returns The `toArray()` method is returning an array of type `E[]`.
-   */
-  toArray(): E[] {
-    const array: E[] = [];
-    let current = this.head;
-    while (current) {
-      array.push(current.value);
-      current = current.next;
-    }
-    return array;
-  }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `toReversedArray` function converts a doubly linked list into an array in reverse order.
-   * @returns The `toReversedArray()` function returns an array of type `E[]`.
-   */
-  toReversedArray(): E[] {
-    const array: E[] = [];
-    let current = this.tail;
-    while (current) {
-      array.push(current.value);
-      current = current.prev;
-    }
-    return array;
-  }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
    * The `clone` function creates a new instance of the `DoublyLinkedList` class with the same values
    * as the original list.
    * @returns The `clone()` method is returning a new instance of the `DoublyLinkedList` class, which
    * is a copy of the original list.
    */
-  clone(): DoublyLinkedList<E, R> {
-    return new DoublyLinkedList<E, R>(this);
+  clone(): this {
+    return new DoublyLinkedList<E, R>(this, { toElementFn: this._toElementFn, maxLen: this._maxLen }) as this;
   }
 
   /**
@@ -1206,7 +1120,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * @returns The `filter` method is returning a new `DoublyLinkedList` object that contains the
    * elements that pass the filter condition specified by the `callback` function.
    */
-  filter(callback: ElementCallback<E, R, boolean, DoublyLinkedList<E, R>>, thisArg?: any): DoublyLinkedList<E, R> {
+  filter(callback: ElementCallback<E, R, boolean>, thisArg?: any): DoublyLinkedList<E, R> {
     const filteredList = new DoublyLinkedList<E, R>([], { toElementFn: this.toElementFn });
     let index = 0;
     for (const current of this) {
@@ -1239,7 +1153,7 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * @returns a new instance of the `DoublyLinkedList` class with elements of type `T` and `RR`.
    */
   map<EM, RM>(
-    callback: ElementCallback<E, R, EM, DoublyLinkedList<E, R>>,
+    callback: ElementCallback<E, R, EM>,
     toElementFn?: (rawElement: RM) => EM,
     thisArg?: any
   ): DoublyLinkedList<EM, RM> {
@@ -1338,5 +1252,31 @@ export class DoublyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     if (this._isPredicate(elementNodeOrPredicate)) return elementNodeOrPredicate;
 
     return (node: DoublyLinkedListNode<E>) => node.value === elementNodeOrPredicate;
+  }
+
+  /**
+   * The function `_createInstance` returns a new instance of `DoublyLinkedList` with the specified
+   * options.
+   * @param [options] - The `options` parameter in the `_createInstance` method is of type
+   * `DoublyLinkedListOptions<E, R>`. It is an optional parameter that allows you to pass additional
+   * configuration options when creating a new instance of the `DoublyLinkedList` class.
+   * @returns An instance of the `DoublyLinkedList` class with an empty array and the provided options
+   * is being returned, cast as the current class type.
+   */
+  protected override _createInstance(options?: DoublyLinkedListOptions<E, R>): this {
+    return new DoublyLinkedList<E, R>([], options) as this;
+  }
+
+  /**
+   * The function returns an iterator that iterates over the elements of a data structure in reverse
+   * order.
+   */
+  protected *_getReverseIterator(): IterableIterator<E> {
+    let current = this.tail;
+
+    while (current) {
+      yield current.value;
+      current = current.prev;
+    }
   }
 }

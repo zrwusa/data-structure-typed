@@ -1,6 +1,5 @@
-import { IterableElementBaseOptions } from '../base';
+import { LinearBaseOptions } from '../base';
 
-export type QueueOptions<E, R> = IterableElementBaseOptions<E, R> & {
+export type QueueOptions<E, R> = LinearBaseOptions<E, R> & {
   autoCompactRatio?: number;
-  maxLen?: number;
 };

@@ -185,7 +185,7 @@ import { IterableElementBase } from '../base';
  *     ]);
  *     console.log(scheduleTasks(tasks, 2)); // expectedMap
  */
-export class Heap<E = any, R = any> extends IterableElementBase<E, R, Heap<E, R>> {
+export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
   /**
    * The constructor initializes a heap data structure with optional elements and options.
    * @param elements - The `elements` parameter is an iterable object that contains the initial
@@ -420,17 +420,6 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R, Heap<E, R>
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
-   * Convert the heap to an array.
-   * @returns An array containing the elements of the heap.
-   */
-  toArray(): E[] {
-    return [...this.elements];
-  }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
    * Clone the heap, creating a new heap with the same elements.
    * @returns A new Heap instance containing the same elements.
    */
@@ -483,7 +472,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R, Heap<E, R>
    * @returns The `filter` method is returning a new `Heap` object that contains the elements that pass
    * the filter condition specified by the `callback` function.
    */
-  filter(callback: ElementCallback<E, R, boolean, Heap<E, R>>, thisArg?: any): Heap<E, R> {
+  filter(callback: ElementCallback<E, R, boolean>, thisArg?: any): Heap<E, R> {
     const filteredList = new Heap<E, R>([], { toElementFn: this.toElementFn, comparator: this.comparator });
     let index = 0;
     for (const current of this) {
@@ -517,7 +506,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R, Heap<E, R>
    * @returns a new instance of the `Heap` class with the mapped elements.
    */
   map<EM, RM>(
-    callback: ElementCallback<E, R, EM, Heap<E, R>>,
+    callback: ElementCallback<E, R, EM>,
     comparator: Comparator<EM>,
     toElementFn?: (rawElement: RM) => EM,
     thisArg?: any

@@ -1,6 +1,5 @@
-import { IterableElementBaseOptions } from '../base';
+import { LinearBaseOptions } from '../base';
 
 export type DequeOptions<E, R> = {
   bucketSize?: number;
-  maxLen?: number;
-} & IterableElementBaseOptions<E, R>;
+} & LinearBaseOptions<E, R>;

@@ -16,7 +16,7 @@ import { IterableElementBase } from '../base';
  * 5. Expression Evaluation: Used for the evaluation of arithmetic or logical expressions, especially when dealing with parenthesis matching and operator precedence.
  * 6. Backtracking Algorithms: In problems where multiple branches need to be explored but only one branch can be explored at a time, stacks can be used to save the state at each branching point.
  */
-export class Stack<E = any, R = any> extends IterableElementBase<E, R, Stack<E, R>> {
+export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
   constructor(elements: Iterable<E> | Iterable<R> = [], options?: StackOptions<E, R>) {
     super(options);
     this.pushMany(elements);
@@ -154,17 +154,6 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R, Stack<E, 
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The toArray function returns a copy of the elements in an array.
-   * @returns An array of type E.
-   */
-  toArray(): E[] {
-    return this.elements.slice();
-  }
-
-  /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
@@ -201,7 +190,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R, Stack<E, 
    * @returns The `filter` method is returning a new `Stack` object that contains the elements that
    * satisfy the given predicate function.
    */
-  filter(predicate: ElementCallback<E, R, boolean, Stack<E, R>>, thisArg?: any): Stack<E, R> {
+  filter(predicate: ElementCallback<E, R, boolean>, thisArg?: any): Stack<E, R> {
     const newStack = new Stack<E, R>([], { toElementFn: this.toElementFn });
     let index = 0;
     for (const el of this) {
@@ -230,11 +219,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R, Stack<E, 
    * value of
    * @returns a new Stack object with elements of type EM and raw elements of type RM.
    */
-  map<EM, RM>(
-    callback: ElementCallback<E, R, EM, Stack<E, R>>,
-    toElementFn?: (rawElement: RM) => EM,
-    thisArg?: any
-  ): Stack<EM, RM> {
+  map<EM, RM>(callback: ElementCallback<E, R, EM>, toElementFn?: (rawElement: RM) => EM, thisArg?: any): Stack<EM, RM> {
     const newStack = new Stack<EM, RM>([], { toElementFn });
     let index = 0;
     for (const el of this) {

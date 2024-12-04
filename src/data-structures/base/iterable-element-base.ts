@@ -1,6 +1,6 @@
 import { ElementCallback, IterableElementBaseOptions, ReduceElementCallback } from '../../types';
 
-export abstract class IterableElementBase<E, R, C> {
+export abstract class IterableElementBase<E, R> {
   /**
    * The protected constructor initializes the options for the IterableElementBase class, including the
    * toElementFn function.
@@ -14,17 +14,8 @@ export abstract class IterableElementBase<E, R, C> {
     }
   }
 
-  // abstract get size(): number;
-
   protected _toElementFn?: (rawElement: R) => E;
 
-  /**
-   * The function returns the _toElementFn property, which is a function that converts a raw element to
-   * a specific type.
-   * @returns The function `get toElementFn()` is returning either a function that takes a raw element
-   * `rawElement` of type `R` and returns an element `E`, or `undefined` if no function is assigned to
-   * `_toElementFn`.
-   */
   get toElementFn(): ((rawElement: R) => E) | undefined {
     return this._toElementFn;
   }
@@ -68,7 +59,7 @@ export abstract class IterableElementBase<E, R, C> {
    * @returns The `every` method is returning a boolean value. It returns `true` if every element in
    * the array satisfies the provided predicate function, and `false` otherwise.
    */
-  every(predicate: ElementCallback<E, R, boolean, C>, thisArg?: any): boolean {
+  every(predicate: ElementCallback<E, R, boolean>, thisArg?: any): boolean {
     let index = 0;
     for (const item of this) {
       if (!predicate.call(thisArg, item, index++, this)) {
@@ -92,7 +83,7 @@ export abstract class IterableElementBase<E, R, C> {
    * @returns a boolean value. It returns true if the predicate function returns true for any element
    * in the collection, and false otherwise.
    */
-  some(predicate: ElementCallback<E, R, boolean, C>, thisArg?: any): boolean {
+  some(predicate: ElementCallback<E, R, boolean>, thisArg?: any): boolean {
     let index = 0;
     for (const item of this) {
       if (predicate.call(thisArg, item, index++, this)) {
@@ -115,12 +106,15 @@ export abstract class IterableElementBase<E, R, C> {
    * to be used as `this` when executing the `callbackfn` function. If `thisArg` is provided, it will
    * be passed as the `this` value to the `callbackfn` function. If `thisArg
    */
-  forEach(callbackfn: ElementCallback<E, R, void, C>, thisArg?: any): void {
+  forEach(callbackfn: ElementCallback<E, R, void>, thisArg?: any): void {
     let index = 0;
     for (const item of this) {
       callbackfn.call(thisArg, item, index++, this);
     }
   }
+
+  find<S extends E>(predicate: ElementCallback<E, R, S>, thisArg?: any): S | undefined;
+  find(predicate: ElementCallback<E, R, unknown>, thisArg?: any): E | undefined;
 
   /**
    * Time Complexity: O(n)
@@ -128,7 +122,7 @@ export abstract class IterableElementBase<E, R, C> {
    *
    * The `find` function iterates over the elements of an array-like object and returns the first
    * element that satisfies the provided callback function.
-   * @param callbackfn - The callbackfn parameter is a function that will be called for each element in
+   * @param predicate - The predicate parameter is a function that will be called for each element in
    * the array. It takes three arguments: the current element being processed, the index of the current
    * element, and the array itself. The function should return a boolean value indicating whether the
    * current element matches the desired condition.
@@ -138,10 +132,10 @@ export abstract class IterableElementBase<E, R, C> {
    * @returns The `find` method returns the first element in the array that satisfies the provided
    * callback function. If no element satisfies the callback function, `undefined` is returned.
    */
-  find(callbackfn: ElementCallback<E, R, boolean, C>, thisArg?: any): E | undefined {
+  find(predicate: ElementCallback<E, R, boolean>, thisArg?: any): E | undefined {
     let index = 0;
     for (const item of this) {
-      if (callbackfn.call(thisArg, item, index++, this)) return item;
+      if (predicate.call(thisArg, item, index++, this)) return item;
     }
 
     return;
@@ -164,6 +158,10 @@ export abstract class IterableElementBase<E, R, C> {
     return false;
   }
 
+  reduce(callbackfn: ReduceElementCallback<E, R>): E;
+  reduce(callbackfn: ReduceElementCallback<E, R>, initialValue: E): E;
+  reduce<U>(callbackfn: ReduceElementCallback<E, R, U>, initialValue: U): U;
+
   /**
    * Time Complexity: O(n)
    * Space Complexity: O(1)
@@ -177,13 +175,24 @@ export abstract class IterableElementBase<E, R, C> {
    * @returns The `reduce` method is returning the final value of the accumulator after iterating over
    * all the elements in the array and applying the callback function to each element.
    */
-  reduce<U>(callbackfn: ReduceElementCallback<E, R, U, C>, initialValue: U): U {
-    let accumulator = initialValue;
+  reduce<U>(callbackfn: ReduceElementCallback<E, R, U>, initialValue?: U): U {
+    let accumulator = initialValue ?? (0 as U);
     let index = 0;
     for (const item of this) {
-      accumulator = callbackfn(accumulator, item as E, index++, this);
+      accumulator = callbackfn(accumulator, item, index++, this);
     }
     return accumulator;
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
+   * The `toArray` function converts a linked list into an array.
+   * @returns The `toArray()` method is returning an array of type `E[]`.
+   */
+  toArray(): E[] {
+    return [...this];
   }
 
   /**
@@ -210,7 +219,7 @@ export abstract class IterableElementBase<E, R, C> {
 
   abstract clear(): void;
 
-  abstract clone(): C;
+  abstract clone(): IterableElementBase<E, R>;
 
   abstract map(...args: any[]): any;
 

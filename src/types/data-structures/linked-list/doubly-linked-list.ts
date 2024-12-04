@@ -1,5 +1,3 @@
-import { IterableElementBaseOptions } from '../base';
+import { LinearBaseOptions } from '../base';
 
-export type DoublyLinkedListOptions<E, R> = IterableElementBaseOptions<E, R> & {
-  maxLen?: number;
-};
+export type DoublyLinkedListOptions<E, R> = LinearBaseOptions<E, R> & {};

@@ -6,7 +6,7 @@
  * @license MIT License
  */
 import type { ElementCallback, SinglyLinkedListOptions } from '../../types';
-import { IterableElementBase } from '../base';
+import { LinearLinkedBase } from '../base/linear-base';
 
 export class SinglyLinkedListNode<E = any> {
   /**
@@ -62,7 +62,7 @@ export class SinglyLinkedListNode<E = any> {
 /**
  *
  */
-export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R, SinglyLinkedList<E, R>> {
+export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, SinglyLinkedListNode<E>> {
   constructor(
     elements: Iterable<E> | Iterable<R> | Iterable<SinglyLinkedListNode<E>> = [],
     options?: SinglyLinkedListOptions<E, R>
@@ -70,8 +70,6 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     super(options);
 
     if (options) {
-      const { maxLen } = options;
-      if (typeof maxLen === 'number' && maxLen > 0 && maxLen % 1 === 0) this._maxLen = maxLen;
     }
 
     this.pushMany(elements);
@@ -79,54 +77,26 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
 
   protected _head: SinglyLinkedListNode<E> | undefined;
 
-  /**
-   * The `head` function returns the first node of a singly linked list.
-   * @returns The method is returning either a SinglyLinkedListNode object or undefined.
-   */
   get head(): SinglyLinkedListNode<E> | undefined {
     return this._head;
   }
 
   protected _tail: SinglyLinkedListNode<E> | undefined;
 
-  /**
-   * The `tail` function returns the last node of a singly linked list.
-   * @returns The method is returning either a SinglyLinkedListNode object or undefined.
-   */
   get tail(): SinglyLinkedListNode<E> | undefined {
     return this._tail;
   }
 
-  /**
-   * The above function returns the value of the first element in a linked list, or undefined if the
-   * list is empty.
-   * @returns The value of the first node in the linked list, or undefined if the linked list is empty.
-   */
   get first(): E | undefined {
     return this.head?.value;
   }
 
-  /**
-   * The function returns the value of the last element in a linked list, or undefined if the list is
-   * empty.
-   * @returns The value of the last node in the linked list, or undefined if the linked list is empty.
-   */
   get last(): E | undefined {
     return this.tail?.value;
   }
 
-  protected _maxLen: number = -1;
-
-  get maxLen() {
-    return this._maxLen;
-  }
-
   protected _length: number = 0;
 
-  /**
-   * The function returns the length of an object.
-   * @returns The length of the object, which is a number.
-   */
   get length(): number {
     return this._length;
   }
@@ -476,6 +446,29 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
   }
 
   /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
+   * The function setAt(index, value) updates the value at a specified index in a data structure if the
+   * index exists.
+   * @param {number} index - The `index` parameter in the `setAt` method refers to the position in the
+   * data structure where you want to set a new value.
+   * @param {E} value - The `value` parameter in the `setAt` method represents the new value that you
+   * want to set at the specified index in the data structure.
+   * @returns The `setAt` method returns a boolean value - `true` if the value at the specified index
+   * is successfully updated, and `false` if the index is out of bounds (i.e., the node at that index
+   * does not exist).
+   */
+  setAt(index: number, value: E): boolean {
+    const node = this.getNodeAt(index);
+    if (node) {
+      node.value = value;
+      return true;
+    }
+    return false;
+  }
+
+  /**
    * Time Complexity: O(1)
    * Space Complexity: O(1)
    *
@@ -501,23 +494,6 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
 
   /**
    * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `toArray` function converts a linked list into an array.
-   * @returns The `toArray()` method is returning an array of type `E[]`.
-   */
-  toArray(): E[] {
-    const array: E[] = [];
-    let current = this.head;
-    while (current) {
-      array.push(current.value);
-      current = current.next;
-    }
-    return array;
-  }
-
-  /**
-   * Time Complexity: O(n)
    * Space Complexity: O(1)
    *
    * The `reverse` function reverses the order of the nodes in a singly linked list.
@@ -539,35 +515,6 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
 
     [this._head, this._tail] = [this.tail!, this.head!];
     return this;
-  }
-
-  /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The `indexOf` function in TypeScript searches for a specific element or node in a singly linked
-   * list and returns its index if found.
-   * @param {E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean)} elementNodeOrPredicate
-   * elementNodeOrPredicate - The `elementNodeOrPredicate` parameter in the `indexOf` method can be one
-   * of the following types:
-   * @returns The `indexOf` method returns the index of the first occurrence of the element that
-   * matches the provided predicate in the singly linked list. If no matching element is found, it
-   * returns -1.
-   */
-  indexOf(elementNodeOrPredicate: E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean)): number {
-    const predicate = this._ensurePredicate(elementNodeOrPredicate);
-    let index = 0;
-    let current = this.head;
-
-    while (current) {
-      if (predicate(current)) {
-        return index;
-      }
-      index++;
-      current = current.next;
-    }
-
-    return -1;
   }
 
   /**
@@ -716,8 +663,8 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * @returns The `clone()` method is returning a new instance of the `SinglyLinkedList` class, which
    * is a clone of the original list.
    */
-  clone(): SinglyLinkedList<E, R> {
-    return new SinglyLinkedList<E, R>(this, { toElementFn: this.toElementFn });
+  clone(): this {
+    return new SinglyLinkedList<E, R>(this, { toElementFn: this.toElementFn, maxLen: this._maxLen }) as this;
   }
 
   /**
@@ -737,7 +684,7 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * @returns The `filter` method is returning a new `SinglyLinkedList` object that contains the
    * elements that pass the filter condition specified by the `callback` function.
    */
-  filter(callback: ElementCallback<E, R, boolean, SinglyLinkedList<E, R>>, thisArg?: any): SinglyLinkedList<E, R> {
+  filter(callback: ElementCallback<E, R, boolean>, thisArg?: any): SinglyLinkedList<E, R> {
     const filteredList = new SinglyLinkedList<E, R>([], { toElementFn: this.toElementFn });
     let index = 0;
     for (const current of this) {
@@ -770,7 +717,7 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
    * @returns a new instance of the `SinglyLinkedList` class with the mapped elements.
    */
   map<EM, RM>(
-    callback: ElementCallback<E, R, EM, SinglyLinkedList<E, R>>,
+    callback: ElementCallback<E, R, EM>,
     toElementFn?: (rawElement: RM) => EM,
     thisArg?: any
   ): SinglyLinkedList<EM, RM> {
@@ -843,5 +790,30 @@ export class SinglyLinkedList<E = any, R = any> extends IterableElementBase<E, R
     if (this._isPredicate(elementNodeOrPredicate)) return elementNodeOrPredicate;
 
     return (node: SinglyLinkedListNode<E>) => node.value === elementNodeOrPredicate;
+  }
+
+  /**
+   * The function `_createInstance` returns a new instance of `SinglyLinkedList` with the specified
+   * options.
+   * @param [options] - The `options` parameter in the `_createInstance` method is of type
+   * `SinglyLinkedListOptions<E, R>`, which is used to configure the behavior of the `SinglyLinkedList`
+   * instance being created. It is an optional parameter, meaning it can be omitted when calling the
+   * method.
+   * @returns An instance of the `SinglyLinkedList` class with an empty array and the provided options
+   * is being returned.
+   */
+  protected override _createInstance(options?: SinglyLinkedListOptions<E, R>): this {
+    return new SinglyLinkedList<E, R>([], options) as this;
+  }
+
+  /**
+   * The function returns an iterator that iterates over the elements of a collection in reverse order.
+   */
+  protected *_getReverseIterator(): IterableIterator<E> {
+    const reversedArr = [...this].reverse();
+
+    for (const item of reversedArr) {
+      yield item;
+    }
   }
 }
