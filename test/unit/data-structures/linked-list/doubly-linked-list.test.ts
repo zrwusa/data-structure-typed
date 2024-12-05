@@ -32,14 +32,14 @@ describe('DoublyLinkedList Operation Test', () => {
   });
 
   it('should deleteAt', () => {
-    expect(list.deleteAt(1)).toBe(true);
-    expect(list.deleteAt(-1)).toBe(false);
-    expect(list.deleteAt(list.length)).toBe(false);
+    expect(list.deleteAt(1)).toBe(2);
+    expect(list.deleteAt(-1)).toBe(undefined);
+    expect(list.deleteAt(list.length)).toBe(undefined);
     expect(list.length).toBe(4);
-    expect(list.deleteAt(4)).toBe(false);
+    expect(list.deleteAt(4)).toBe(undefined);
     expect([...list]).toEqual([1, 3, 4, 5]);
     expect(list.isEmpty()).toBe(false);
-    expect(list.deleteAt(3)).toBe(true);
+    expect(list.deleteAt(3)).toBe(5);
     expect([...list]).toEqual([1, 3, 4]);
   });
 
@@ -190,7 +190,7 @@ describe('DoublyLinkedList Operation Test', () => {
 
     // Deleting from the beginning
     const deletedValue = list.deleteAt(0);
-    expect(deletedValue).toBe(true);
+    expect(deletedValue).toBe(1);
     expect(list.length).toBe(2);
     expect(list.head!.value).toBe(2);
 

@@ -300,14 +300,14 @@ describe('SinglyLinkedList Operation Test', () => {
       list.push(2);
       list.push(3);
       const removed = list.deleteAt(1);
-      expect(removed).toBe(true);
+      expect(removed).toBe(2);
       expect(list.toArray()).toEqual([1, 3]);
     });
 
     it('should return undefined for an out-of-bounds index', () => {
       list.push(1);
       const removed = list.deleteAt(1);
-      expect(removed).toBe(false);
+      expect(removed).toBe(undefined);
     });
 
     it('should delete and return the first element', () => {
@@ -318,7 +318,7 @@ describe('SinglyLinkedList Operation Test', () => {
       const removed = list.deleteAt(0);
       expect(list.first).toBe(2);
       expect(list.last).toBe(2);
-      expect(removed).toBe(true);
+      expect(removed).toBe(1);
       expect(list.toArray()).toEqual([2]);
     });
 
@@ -326,7 +326,7 @@ describe('SinglyLinkedList Operation Test', () => {
       list.push(1);
       list.push(2);
       const removed = list.deleteAt(1);
-      expect(removed).toBe(true);
+      expect(removed).toBe(2);
       expect(list.toArray()).toEqual([1]);
     });
   });

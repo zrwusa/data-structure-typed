@@ -154,7 +154,7 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    */
   delete(element: E): boolean {
     const index = this.elements.indexOf(element);
-    return this.deleteAt(index);
+    return !!this.deleteAt(index);
   }
 
   /**
@@ -165,9 +165,10 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @param {number} index - Determine the index of the element to be deleted
    * @return A boolean value
    */
-  deleteAt(index: number): boolean {
-    const spliced = this.elements.splice(index, 1);
-    return spliced.length === 1;
+  deleteAt(index: number): E | undefined {
+    const deleted = this.elements[index];
+    this.elements.splice(index, 1);
+    return deleted;
   }
 
   /**
@@ -279,6 +280,40 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Time Complexity: O(n)
    * Space Complexity: O(n)
    *
+   * The function overrides the splice method to remove and insert elements in a queue-like data
+   * structure.
+   * @param {number} start - The `start` parameter in the `splice` method specifies the index at which
+   * to start changing the array. Items will be added or removed starting from this index.
+   * @param {number} [deleteCount=0] - The `deleteCount` parameter in the `splice` method specifies the
+   * number of elements to remove from the array starting at the specified `start` index. If
+   * `deleteCount` is not provided, it defaults to 0, meaning no elements will be removed but new
+   * elements can still be inserted at
+   * @param {E[]} items - The `items` parameter in the `splice` method represents the elements that
+   * will be added to the array at the specified `start` index. These elements will replace the
+   * existing elements starting from the `start` index for the `deleteCount` number of elements.
+   * @returns The `splice` method is returning the `removedQueue`, which is an instance of the same
+   * class as the original object.
+   */
+  override splice(start: number, deleteCount: number = 0, ...items: E[]): this {
+    const removedQueue = this._createInstance();
+
+    start = Math.max(0, Math.min(start, this.length));
+    deleteCount = Math.max(0, Math.min(deleteCount, this.length - start));
+
+    const globalStartIndex = this.offset + start;
+
+    const removedElements = this._elements.splice(globalStartIndex, deleteCount, ...items);
+    removedQueue.pushMany(removedElements);
+
+    this.compact();
+
+    return removedQueue;
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(n)
+   *
    * The `clone()` function returns a new Queue object with the same elements as the original Queue.
    * @returns The `clone()` method is returning a new instance of the `Queue` class.
    */
@@ -303,7 +338,11 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * satisfy the given predicate function.
    */
   filter(predicate: ElementCallback<E, R, boolean>, thisArg?: any): Queue<E, R> {
-    const newDeque = new Queue<E, R>([], { toElementFn: this.toElementFn });
+    const newDeque = this._createInstance({
+      toElementFn: this._toElementFn,
+      autoCompactRatio: this._autoCompactRatio,
+      maxLen: this._maxLen
+    });
     let index = 0;
     for (const el of this) {
       if (predicate.call(thisArg, el, index, this)) {
@@ -333,7 +372,11 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * callback function to each element in the original Queue object.
    */
   map<EM, RM>(callback: ElementCallback<E, R, EM>, toElementFn?: (rawElement: RM) => EM, thisArg?: any): Queue<EM, RM> {
-    const newDeque = new Queue<EM, RM>([], { toElementFn });
+    const newDeque = new Queue<EM, RM>([], {
+      toElementFn,
+      autoCompactRatio: this._autoCompactRatio,
+      maxLen: this._maxLen
+    });
     let index = 0;
     for (const el of this) {
       newDeque.push(callback.call(thisArg, el, index, this));

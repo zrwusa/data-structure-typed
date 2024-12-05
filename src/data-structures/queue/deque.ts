@@ -486,7 +486,11 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
       this._length = pos + 1;
       return this;
     } else {
-      const newDeque = new Deque<E>([], { bucketSize: this._bucketSize });
+      const newDeque = this._createInstance({
+        bucketSize: this._bucketSize,
+        toElementFn: this._toElementFn,
+        maxLen: this._maxLen
+      });
 
       for (let i = 0; i <= pos; i++) {
         newDeque.push(this.at(i));
@@ -494,6 +498,61 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
 
       return newDeque;
     }
+  }
+
+  /**
+   * Time Complexity: O(n)
+   * Space Complexity: O(1)
+   *
+   * The `splice` function in TypeScript overrides the default behavior to remove and insert elements
+   * in a Deque data structure while ensuring the starting position and delete count are within bounds.
+   * @param {number} start - The `start` parameter in the `splice` method represents the index at which
+   * to start changing the array. Items will be removed or added starting from this index.
+   * @param {number} deleteCount - The `deleteCount` parameter in the `splice` method represents the
+   * number of elements to remove from the array starting at the specified `start` index. If
+   * `deleteCount` is not provided, it defaults to the number of elements from the `start` index to the
+   * end of the array (`
+   * @param {E[]} items - The `items` parameter in the `splice` method represents the elements that
+   * will be inserted into the deque at the specified `start` index. These elements will be inserted in
+   * place of the elements that are removed based on the `start` and `deleteCount` parameters.
+   * @returns The `splice` method is returning the array `deletedElements` which contains the elements
+   * that were removed from the Deque during the splice operation.
+   */
+  override splice(start: number, deleteCount: number = this._length - start, ...items: E[]): this {
+    // Check whether the starting position is legal
+    rangeCheck(start, 0, this._length);
+
+    // Adjust the value of deleteCount
+    if (deleteCount < 0) deleteCount = 0;
+    if (start + deleteCount > this._length) deleteCount = this._length - start;
+
+    // Save deleted elements
+    const deletedElements = this._createInstance();
+
+    // Add removed elements to the result
+    for (let i = 0; i < deleteCount; i++) {
+      deletedElements.push(this.at(start + i));
+    }
+
+    // Calculate the range that needs to be deleted
+    const elementsAfter = [];
+    for (let i = start + deleteCount; i < this._length; i++) {
+      elementsAfter.push(this.at(i));
+    }
+
+    // Adjust the length of the current Deque
+    this.cut(start - 1, true);
+
+    for (const item of items) {
+      this.push(item);
+    }
+
+    // Insert subsequent elements back
+    for (const element of elementsAfter) {
+      this.push(element);
+    }
+
+    return deletedElements;
   }
 
   /**
@@ -522,7 +581,11 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
       this._length = this._length - pos;
       return this;
     } else {
-      const newDeque = new Deque<E>([], { bucketSize: this._bucketSize });
+      const newDeque = this._createInstance({
+        bucketSize: this._bucketSize,
+        toElementFn: this._toElementFn,
+        maxLen: this._maxLen
+      });
       if (pos < 0) pos = 0;
       for (let i = pos; i < this._length; i++) {
         newDeque.push(this.at(i));
@@ -543,22 +606,34 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * the index of the element to be deleted.
    * @returns The size of the data structure after the deletion operation is performed.
    */
-  deleteAt(pos: number): boolean {
+  deleteAt(pos: number): E | undefined {
     rangeCheck(pos, 0, this._length - 1);
-    if (pos === 0) this.shift();
-    else if (pos === this._length - 1) this.pop();
-    else {
-      const length = this._length - 1;
-      let { bucketIndex: curBucket, indexInBucket: curPointer } = this._getBucketAndPosition(pos);
-      for (let i = pos; i < length; ++i) {
-        const { bucketIndex: nextBucket, indexInBucket: nextPointer } = this._getBucketAndPosition(pos + 1);
-        this._buckets[curBucket][curPointer] = this._buckets[nextBucket][nextPointer];
-        curBucket = nextBucket;
-        curPointer = nextPointer;
-      }
+
+    let deleted: E | undefined;
+    if (pos === 0) {
+      //If it is the first element, use shift() directly
+      return this.shift();
+    } else if (pos === this._length - 1) {
+      // If it is the last element, just use pop()
+      deleted = this.last;
       this.pop();
+      return deleted;
+    } else {
+      // Delete the middle element
+      const length = this._length - 1;
+      const { bucketIndex: targetBucket, indexInBucket: targetPointer } = this._getBucketAndPosition(pos);
+      deleted = this._buckets[targetBucket][targetPointer];
+
+      for (let i = pos; i < length; i++) {
+        const { bucketIndex: curBucket, indexInBucket: curPointer } = this._getBucketAndPosition(i);
+        const { bucketIndex: nextBucket, indexInBucket: nextPointer } = this._getBucketAndPosition(i + 1);
+        this._buckets[curBucket][curPointer] = this._buckets[nextBucket][nextPointer];
+      }
+
+      // Remove last duplicate element
+      this.pop();
+      return deleted;
     }
-    return true;
   }
 
   /**
@@ -588,6 +663,21 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
     return true;
   }
 
+  // /**
+  //  * Time Complexity: O(n)
+  //  * Space Complexity: O(1)
+  //  *
+  //  * This function overrides the indexOf method to search for an element within a custom data
+  //  * structure.
+  //  * @param {E} searchElement - The `searchElement` parameter is the element that you are searching for
+  //  * within the data structure. The `indexOf` method will return the index of the first occurrence of
+  //  * this element within the data structure.
+  //  * @param {number} [fromIndex=0] - The `fromIndex` parameter in the `indexOf` method specifies the
+  //  * index at which to start searching for the `searchElement` within the data structure. If provided,
+  //  * the search will begin at this index instead of the beginning of the data structure.
+  //  * @returns The indexOf method is returning the index of the searchElement if it is found in the data
+  //  * structure, or -1 if the searchElement is not found.
+  //  */
   // override indexOf(searchElement: E, fromIndex: number = 0): number {
   //   let index = fromIndex;
   //   let bucketIndex = this._bucketFirst;
@@ -720,7 +810,11 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * satisfy the given predicate function.
    */
   filter(predicate: ElementCallback<E, R, boolean>, thisArg?: any): Deque<E, R> {
-    const newDeque = new Deque<E, R>([], { bucketSize: this._bucketSize, toElementFn: this.toElementFn });
+    const newDeque = this._createInstance({
+      bucketSize: this._bucketSize,
+      toElementFn: this.toElementFn,
+      maxLen: this._maxLen
+    });
     let index = 0;
     for (const el of this) {
       if (predicate.call(thisArg, el, index, this)) {
@@ -750,7 +844,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @returns a new Deque object with elements of type EM and raw elements of type RM.
    */
   map<EM, RM>(callback: ElementCallback<E, R, EM>, toElementFn?: (rawElement: RM) => EM, thisArg?: any): Deque<EM, RM> {
-    const newDeque = new Deque<EM, RM>([], { bucketSize: this._bucketSize, toElementFn });
+    const newDeque = new Deque<EM, RM>([], { bucketSize: this._bucketSize, toElementFn, maxLen: this._maxLen });
     let index = 0;
     for (const el of this) {
       newDeque.push(callback.call(thisArg, el, index, this));

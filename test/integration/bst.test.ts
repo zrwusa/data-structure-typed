@@ -37,7 +37,7 @@ describe('Individual package BST operations test', () => {
     expect(minNodeBySpecificNode?.key).toBe(14);
 
     let subTreeSum = 0;
-    if (node15) bst.dfs(node => (subTreeSum += node.key), 'IN', 15);
+    if (node15) bst.dfs(node => (subTreeSum += node.key), 'IN', false, 15);
     expect(subTreeSum).toBe(45);
 
     let lesserSum = 0;
@@ -236,7 +236,7 @@ describe('Individual package BST operations test', () => {
     expect(minNodeBySpecificNode?.key).toBe(14);
 
     let subTreeSum = 0;
-    if (node15) objBST.dfs(node => (subTreeSum += node.key), 'IN', node15);
+    if (node15) objBST.dfs(node => (subTreeSum += node.key), 'IN', false, node15);
     expect(subTreeSum).toBe(45);
 
     let lesserSum = 0;

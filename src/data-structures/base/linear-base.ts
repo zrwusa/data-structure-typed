@@ -1,7 +1,45 @@
 import { ElementCallback, LinearBaseOptions, ReduceLinearCallback } from '../../types';
 import { IterableElementBase } from './iterable-element-base';
 
-export abstract class LinearBase<E, R = any, NODE = any> extends IterableElementBase<E, R> {
+export class LinkedListNode<E = any> {
+  constructor(value: E) {
+    this._value = value;
+    this._next = undefined;
+  }
+
+  protected _value: E;
+
+  get value(): E {
+    return this._value;
+  }
+
+  set value(value: E) {
+    this._value = value;
+  }
+
+  protected _next: LinkedListNode<E> | undefined;
+
+  get next(): LinkedListNode<E> | undefined {
+    return this._next;
+  }
+
+  set next(value: LinkedListNode<E> | undefined) {
+    this._next = value;
+  }
+}
+
+export abstract class LinearBase<
+  E,
+  R = any,
+  NODE extends LinkedListNode<E> = LinkedListNode<E>
+> extends IterableElementBase<E, R> {
+  /**
+   * The constructor initializes the LinearBase class with optional options, setting the maximum length
+   * if provided.
+   * @param [options] - The `options` parameter is an optional object that can be passed to the
+   * constructor. It is of type `LinearBaseOptions<E, R>`. The constructor checks if the `options`
+   * object is provided and then extracts the `maxLen` property from it. If `maxLen` is a
+   */
   protected constructor(options?: LinearBaseOptions<E, R>) {
     super(options);
     if (options) {
@@ -103,7 +141,7 @@ export abstract class LinearBase<E, R = any, NODE = any> extends IterableElement
     return -1;
   }
 
-  concat(...items: LinearBase<E, R>[]): this;
+  concat(...items: this[]): this;
 
   /**
    * Time Complexity: O(n + m)
@@ -111,12 +149,12 @@ export abstract class LinearBase<E, R = any, NODE = any> extends IterableElement
    *
    * The `concat` function in TypeScript concatenates multiple items into a new list, handling both
    * individual elements and instances of `LinearBase`.
-   * @param {(E | LinearBase<E, R>)[]} items - The `concat` method takes in an array of items, where
+   * @param {(E | this)[]} items - The `concat` method takes in an array of items, where
    * each item can be either of type `E` or an instance of `LinearBase<E, R>`.
    * @returns The `concat` method is returning a new instance of the class that it belongs to, with the
    * items passed as arguments concatenated to it.
    */
-  concat(...items: (E | LinearBase<E, R>)[]): this {
+  concat(...items: (E | this)[]): this {
     const newList = this.clone();
 
     for (const item of items) {
@@ -171,30 +209,27 @@ export abstract class LinearBase<E, R = any, NODE = any> extends IterableElement
    * during the operation.
    */
   splice(start: number, deleteCount: number = 0, ...items: E[]): this {
+    const removedList = this._createInstance();
+
+    // Handling negative indexes and bounds
     start = start < 0 ? this.length + start : start;
-    if (start < 0) start = 0;
-    if (start > this.length) start = this.length;
-
-    const removedList = this._createInstance({ toElementFn: this._toElementFn });
-
-    // Move to starting position
-    let currentNode = this.at(start);
-    let currentIndex = start;
+    start = Math.max(0, Math.min(start, this.length));
+    deleteCount = Math.max(0, Math.min(deleteCount, this.length - start));
 
     // Delete elements
-    for (let i = 0; i < deleteCount && currentNode !== undefined; i++) {
-      removedList.push(currentNode);
-      this.delete(currentNode);
-      currentNode = this.at(currentIndex); // Update node reference
+    for (let i = 0; i < deleteCount; i++) {
+      const removed = this.deleteAt(start); // Always delete the start position
+      if (removed !== undefined) {
+        removedList.push(removed); // Add removed elements to the returned list
+      }
     }
 
     // Insert new element
-    for (const item of items) {
-      this.addAt(currentIndex, item);
-      currentIndex++;
+    for (let i = 0; i < items.length; i++) {
+      this.addAt(start + i, items[i]); // Insert new elements one by one at the current position
     }
 
-    return removedList;
+    return removedList; // Returns a list of removed elements
   }
 
   /**
@@ -337,7 +372,7 @@ export abstract class LinearBase<E, R = any, NODE = any> extends IterableElement
 
   abstract at(index: number): E | undefined;
 
-  abstract deleteAt(pos: number): boolean;
+  abstract deleteAt(pos: number): E | undefined;
 
   abstract addAt(index: number, newElementOrNode: E | NODE): boolean;
 
@@ -346,7 +381,18 @@ export abstract class LinearBase<E, R = any, NODE = any> extends IterableElement
   protected abstract _getReverseIterator(...args: any[]): IterableIterator<E>;
 }
 
-export abstract class LinearLinkedBase<E, R = any, NODE = any> extends LinearBase<E, R, NODE> {
+export abstract class LinearLinkedBase<
+  E,
+  R = any,
+  NODE extends LinkedListNode<E> = LinkedListNode<E>
+> extends LinearBase<E, R, NODE> {
+  /**
+   * The constructor initializes the LinearBase class with optional options, setting the maximum length
+   * if provided and valid.
+   * @param [options] - The `options` parameter is an optional object that can be passed to the
+   * constructor. It is of type `LinearBaseOptions<E, R>`. This object may contain properties such as
+   * `maxLen`, which is a number representing the maximum length. If `maxLen` is a positive integer,
+   */
   protected constructor(options?: LinearBaseOptions<E, R>) {
     super(options);
     if (options) {
@@ -459,6 +505,41 @@ export abstract class LinearLinkedBase<E, R = any, NODE = any> extends LinearBas
   }
 
   /**
+   * Time Complexity: O(m)
+   * Space Complexity: O(m)
+   *
+   * The `slice` method is overridden to improve performance by creating a new instance and iterating
+   * through the array to extract a subset based on the specified start and end indices.
+   * @param {number} [start=0] - The `start` parameter in the `slice` method specifies the index at
+   * which to begin extracting elements from the array. If no `start` parameter is provided, the
+   * default value is 0, indicating that extraction should start from the beginning of the array.
+   * @param {number} end - The `end` parameter in the `slice` method represents the index at which to
+   * end the slicing of the array. If not provided, it defaults to the length of the array.
+   * @returns The `slice` method is returning a new instance of the array implementation with elements
+   * sliced from the original array based on the `start` and `end` parameters.
+   */
+  override slice(start: number = 0, end: number = this.length): this {
+    // In order to improve performance, it is best to override this method in the subclass of the array implementation
+    start = start < 0 ? this.length + start : start;
+    end = end < 0 ? this.length + end : end;
+
+    const newList = this._createInstance();
+    const iterator = this._getIterator();
+    let current = iterator.next();
+    let c = 0;
+    while (c < start) {
+      current = iterator.next();
+      c++;
+    }
+    for (let i = start; i < end; i++) {
+      newList.push(current.value);
+      current = iterator.next();
+    }
+
+    return newList;
+  }
+
+  /**
    * Time Complexity: O(n + m)
    * Space Complexity: O(m)
    *
@@ -478,27 +559,45 @@ export abstract class LinearLinkedBase<E, R = any, NODE = any> extends LinearBas
    * elements provided in the `items` array.
    */
   override splice(start: number, deleteCount: number = 0, ...items: E[]): this {
+    const removedList = this._createInstance(); // Used to store deleted elements
+
+    // Handling negative indexes
     start = start < 0 ? this.length + start : start;
-    if (start < 0) start = 0;
-    if (start > this.length) start = this.length;
+    start = Math.max(0, Math.min(start, this.length)); // Correct start range
+    deleteCount = Math.max(0, deleteCount); // Make sure deleteCount is non-negative
 
-    const removedList = this._createInstance({ toElementFn: this._toElementFn });
+    let currentIndex = 0;
+    let currentNode: NODE | undefined = undefined;
+    let previousNode: NODE | undefined = undefined;
 
-    // Move to starting position
-    let currentNode = this.at(start);
-    let currentIndex = start;
-
-    // Delete elements
-    for (let i = 0; i < deleteCount && currentNode !== undefined; i++) {
-      removedList.push(currentNode);
-      this.delete(currentNode);
-      currentNode = this.at(currentIndex); // Update node reference
+    // Find the starting point using an iterator
+    const iterator = this._getNodeIterator();
+    for (const node of iterator) {
+      if (currentIndex === start) {
+        currentNode = node; // Find the starting node
+        break;
+      }
+      previousNode = node; // Update the previous node
+      currentIndex++;
     }
 
-    // Insert new element
-    for (const item of items) {
-      this.addAt(currentIndex, item);
-      currentIndex++;
+    // Delete nodes
+    for (let i = 0; i < deleteCount && currentNode; i++) {
+      removedList.push(currentNode.value); // Store the deleted value in removedList
+      const nextNode = currentNode.next; // Save next node
+      this.delete(currentNode); // Delete current node
+      currentNode = nextNode as NODE;
+    }
+
+    // Insert new value
+    for (let i = 0; i < items.length; i++) {
+      if (previousNode) {
+        this.addAfter(previousNode, items[i]); // Insert after previousNode
+        previousNode = previousNode.next as NODE; // Move to newly inserted node
+      } else {
+        this.addAt(0, items[i]); // Insert at the head of the linked list
+        previousNode = this._getNodeIterator().next().value; // Update the head node to be the first inserted node
+      }
     }
 
     return removedList;
@@ -534,38 +633,17 @@ export abstract class LinearLinkedBase<E, R = any, NODE = any> extends LinearBas
     return accumulator;
   }
 
-  /**
-   * Time Complexity: O(m)
-   * Space Complexity: O(m)
-   *
-   * The `slice` method is overridden to improve performance by creating a new instance and iterating
-   * through the array to extract a subset based on the specified start and end indices.
-   * @param {number} [start=0] - The `start` parameter in the `slice` method specifies the index at
-   * which to begin extracting elements from the array. If no `start` parameter is provided, the
-   * default value is 0, indicating that extraction should start from the beginning of the array.
-   * @param {number} end - The `end` parameter in the `slice` method represents the index at which to
-   * end the slicing of the array. If not provided, it defaults to the length of the array.
-   * @returns The `slice` method is returning a new instance of the array implementation with elements
-   * sliced from the original array based on the `start` and `end` parameters.
-   */
-  override slice(start: number = 0, end: number = this.length): this {
-    // In order to improve performance, it is best to override this method in the subclass of the array implementation
-    start = start < 0 ? this.length + start : start;
-    end = end < 0 ? this.length + end : end;
+  abstract override delete(elementOrNode: E | NODE | undefined): boolean;
 
-    const newList = this._createInstance();
-    const iterator = this._getIterator();
-    let current = iterator.next();
-    let c = 0;
-    while (c < start) {
-      current = iterator.next();
-      c++;
-    }
-    for (let i = start; i < end; i++) {
-      newList.push(current.value);
-      current = iterator.next();
-    }
+  abstract addBefore(existingElementOrNode: E | NODE, newElementOrNode: E | NODE): boolean;
 
-    return newList;
-  }
+  abstract addAfter(existingElementOrNode: E | NODE, newElementOrNode: E | NODE): boolean;
+
+  abstract getNodeAt(index: number): NODE | undefined;
+
+  protected abstract _getNodeIterator(...args: any[]): IterableIterator<NODE>;
+
+  // protected abstract _getReverseNodeIterator(...args: any[]): IterableIterator<NODE>;
+
+  protected abstract _getPrevNode(node: NODE): NODE | undefined;
 }
