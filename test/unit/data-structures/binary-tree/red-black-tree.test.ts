@@ -1,4 +1,4 @@
-import { BinaryTreeNode, BSTNode, Range, RedBlackTree, RedBlackTreeNode } from '../../../../src';
+import { BinaryTreeNode, BSTNode, RedBlackTree, RedBlackTreeNode } from '../../../../src';
 import { getRandomInt, getRandomIntArray, magnitude } from '../../../utils';
 import { OrderedMap } from 'js-sdsl';
 

@@ -842,3 +842,138 @@ describe('LinkedHashMap', () => {
     });
   });
 });
+
+describe('classic uses', () => {
+  it('@example should maintain insertion order', () => {
+    const linkedHashMap = new LinkedHashMap<number, string>();
+    linkedHashMap.set(1, 'A');
+    linkedHashMap.set(2, 'B');
+    linkedHashMap.set(3, 'C');
+
+    const result = Array.from(linkedHashMap);
+    expect(result).toEqual([
+      [1, 'A'],
+      [2, 'B'],
+      [3, 'C']
+    ]);
+  });
+
+  it('should allow reverse iteration', () => {
+    const linkedHashMap = new LinkedHashMap<number, string>();
+    linkedHashMap.set(1, 'A');
+    linkedHashMap.set(2, 'B');
+    linkedHashMap.set(3, 'C');
+
+    const result = Array.from(linkedHashMap.reverseBegin());
+    expect(result).toEqual([
+      [3, 'C'],
+      [2, 'B'],
+      [1, 'A']
+    ]);
+  });
+
+  it('should allow fast deletion at an index', () => {
+    const linkedHashMap = new LinkedHashMap<number, string>();
+    linkedHashMap.set(1, 'A');
+    linkedHashMap.set(2, 'B');
+    linkedHashMap.set(3, 'C');
+
+    linkedHashMap.deleteAt(1);
+
+    const result = Array.from(linkedHashMap);
+    expect(result).toEqual([
+      [1, 'A'],
+      [3, 'C']
+    ]);
+  });
+
+  it('should filter entries correctly', () => {
+    const linkedHashMap = new LinkedHashMap<number, string>();
+    linkedHashMap.set(1, 'A');
+    linkedHashMap.set(2, 'B');
+    linkedHashMap.set(3, 'C');
+
+    const filteredMap = linkedHashMap.filter((key, value) => value !== 'B');
+
+    const result = Array.from(filteredMap);
+    expect(result).toEqual([
+      [1, 'A'],
+      [3, 'C']
+    ]);
+  });
+
+  it('should map entries to a new LinkedHashMap', () => {
+    const linkedHashMap = new LinkedHashMap<number, string>();
+    linkedHashMap.set(1, 'A');
+    linkedHashMap.set(2, 'B');
+
+    const mappedMap = linkedHashMap.map((key, value) => [value, key]);
+
+    const result = Array.from(mappedMap);
+    expect(result).toEqual([
+      ['A', 1],
+      ['B', 2]
+    ]);
+  });
+});
+
+describe('classic uses', () => {
+  it('@example fast lookup of values by key', () => {
+    const hashMap = new HashMap<number, string>();
+    hashMap.set(1, 'A');
+    hashMap.set(2, 'B');
+    hashMap.set(3, 'C');
+
+    expect(hashMap.get(1)).toBe('A');
+    expect(hashMap.get(2)).toBe('B');
+    expect(hashMap.get(3)).toBe('C');
+    expect(hashMap.get(99)).toBeUndefined(); // Key not present
+  });
+
+  it('@example remove duplicates when adding multiple entries', () => {
+    const hashMap = new HashMap<number, string>();
+    hashMap.set(1, 'A');
+    hashMap.set(2, 'B');
+    hashMap.set(1, 'C'); // Update value for key 1
+
+    expect(hashMap.size).toBe(2);
+    expect(hashMap.get(1)).toBe('C');
+    expect(hashMap.get(2)).toBe('B');
+  });
+
+  it('@example count occurrences of keys', () => {
+    const data = [1, 2, 1, 3, 2, 1];
+
+    const countMap = new HashMap<number, number>();
+    for (const key of data) {
+      countMap.set(key, (countMap.get(key) || 0) + 1);
+    }
+
+    expect(countMap.get(1)).toBe(3);
+    expect(countMap.get(2)).toBe(2);
+    expect(countMap.get(3)).toBe(1);
+  });
+
+  it('should group entries by a key-derived property', () => {
+    const entries = [
+      { id: 1, group: 'A' },
+      { id: 2, group: 'B' },
+      { id: 3, group: 'A' },
+      { id: 4, group: 'B' }
+    ];
+
+    const groupedMap = new HashMap<string, number[]>();
+
+    for (const entry of entries) {
+      const group = entry.group;
+      const id = entry.id;
+      if (!groupedMap.has(group)) {
+        groupedMap.set(group, []);
+      }
+      groupedMap.get(group)?.push(id);
+    }
+
+    expect(groupedMap.get('A')).toEqual([1, 3]);
+    expect(groupedMap.get('B')).toEqual([2, 4]);
+  });
+});

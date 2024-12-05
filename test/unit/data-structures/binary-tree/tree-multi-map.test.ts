@@ -1,4 +1,4 @@
-import { BinaryTreeNode, BSTNode, Range, TreeMultiMap, TreeMultiMapNode } from '../../../../src';
+import { BinaryTreeNode, BSTNode, TreeMultiMap, TreeMultiMapNode } from '../../../../src';
 import { getRandomInt } from '../../../utils';
 
 import { isDebugTest } from '../../../config';

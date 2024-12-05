@@ -454,3 +454,217 @@ describe('LinkedListQueue', () => {
     expect(cloned.length).toBe(2);
   });
 });
+
+describe('Queue', () => {
+  // Test queue initialization
+  it('should initialize correctly with no elements', () => {
+    const queue = new Queue();
+    expect(queue.isEmpty()).toBe(true);
+    expect(queue.length).toBe(0);
+    expect(queue.first).toBeUndefined();
+    expect(queue.last).toBeUndefined();
+  });
+
+  it('should initialize correctly with given elements', () => {
+    const queue = new Queue([1, 2, 3]);
+    expect(queue.length).toBe(3);
+    expect(queue.first).toBe(1);
+    expect(queue.last).toBe(3);
+  });
+
+  // Test push and pushMany
+  it('should add elements to the queue', () => {
+    const queue = new Queue<number>();
+    queue.push(1);
+    queue.push(2);
+    expect(queue.length).toBe(2);
+    expect(queue.first).toBe(1);
+    expect(queue.last).toBe(2);
+  });
+
+  it('should add multiple elements using pushMany', () => {
+    const queue = new Queue<number>();
+    queue.pushMany([1, 2, 3]);
+    expect(queue.length).toBe(3);
+    expect(queue.elements).toEqual([1, 2, 3]);
+  });
+
+  // Test shift
+  it('should remove the first element from the queue', () => {
+    const queue = new Queue([1, 2, 3]);
+    const shifted = queue.shift();
+    expect(shifted).toBe(1);
+    expect(queue.length).toBe(2);
+    expect(queue.first).toBe(2);
+  });
+
+  // Test delete and deleteAt
+  it('should delete an element from the queue', () => {
+    const queue = new Queue([1, 2, 3]);
+    const result = queue.delete(2);
+    expect(result).toBe(true);
+    expect(queue.elements).toEqual([1, 3]);
+  });
+
+  it('should delete an element at a specific index', () => {
+    const queue = new Queue([1, 2, 3]);
+    const deleted = queue.deleteAt(1);
+    expect(deleted).toBe(2);
+    expect(queue.elements).toEqual([1, 3]);
+  });
+
+  // Test at
+  it('should retrieve an element by index', () => {
+    const queue = new Queue([1, 2, 3]);
+    expect(queue.at(0)).toBe(1);
+    expect(queue.at(2)).toBe(3);
+  });
+
+  // Test reverse
+  it('should reverse the queue', () => {
+    const queue = new Queue([1, 2, 3]);
+    queue.reverse();
+    expect(queue.elements).toEqual([3, 2, 1]);
+    expect(queue.first).toBe(3);
+    expect(queue.last).toBe(1);
+  });
+
+  // Test addAt
+  it('should add an element at a specific index', () => {
+    const queue = new Queue([1, 3]);
+    const result = queue.addAt(1, 2);
+    expect(result).toBe(true);
+    expect(queue.elements).toEqual([1, 2, 3]);
+  });
+
+  // Test setAt
+  it('should set an element at a specific index', () => {
+    const queue = new Queue([1, 2, 3]);
+    const result = queue.setAt(1, 10);
+    expect(result).toBe(true);
+    expect(queue.elements).toEqual([1, 10, 3]);
+  });
+
+  // Test clear
+  it('should clear the queue', () => {
+    const queue = new Queue([1, 2, 3]);
+    queue.clear();
+    expect(queue.isEmpty()).toBe(true);
+    expect(queue.length).toBe(0);
+  });
+
+  // Test compact
+  it('should compact the queue', () => {
+    const queue = new Queue([1, 2, 3]);
+    queue.shift();
+    queue.shift();
+    queue.compact();
+    expect(queue.elements).toEqual([3]);
+  });
+
+  // Test splice
+  it('should splice elements from the queue', () => {
+    const queue = new Queue([1, 2, 3, 4]);
+    const removed = queue.splice(1, 2);
+    expect(removed.elements).toEqual([2, 3]);
+    expect(queue.elements).toEqual([1, 4]);
+  });
+
+  // Test clone
+  it('should create a clone of the queue', () => {
+    const queue = new Queue([1, 2, 3]);
+    const clone = queue.clone();
+    expect(clone.elements).toEqual(queue.elements);
+    clone.push(4);
+    expect(queue.elements).not.toContain(4);
+  });
+
+  // Test filter
+  it('should filter elements based on a predicate', () => {
+    const queue = new Queue([1, 2, 3, 4]);
+    const filtered = queue.filter(el => el % 2 === 0);
+    expect(filtered.elements).toEqual([2, 4]);
+  });
+
+  // Test map
+  it('should map elements to a new queue', () => {
+    const queue = new Queue([1, 2, 3]);
+    const mapped = queue.map(el => el * 2);
+    expect(mapped.elements).toEqual([2, 4, 6]);
+  });
+});
+
+describe('classic uses', () => {
+  it('@example Sliding Window using Queue', () => {
+    const nums = [2, 3, 4, 1, 5];
+    const k = 2;
+    const queue = new Queue<number>();
+
+    let maxSum = 0;
+    let currentSum = 0;
+
+    nums.forEach((num, i) => {
+      queue.push(num);
+      currentSum += num;
+
+      if (queue.length > k) {
+        currentSum -= queue.shift()!;
+      }
+
+      if (queue.length === k) {
+        maxSum = Math.max(maxSum, currentSum);
+      }
+    });
+
+    expect(maxSum).toBe(7); // Maximum sum is from subarray [3, 4].
+  });
+
+  it('@example Breadth-First Search (BFS) using Queue', () => {
+    const graph: { [key in number]: number[] } = {
+      1: [2, 3],
+      2: [4, 5],
+      3: [],
+      4: [],
+      5: []
+    };
+
+    const queue = new Queue<number>();
+    const visited: number[] = [];
+
+    queue.push(1);
+
+    while (!queue.isEmpty()) {
+      const node = queue.shift()!;
+      if (!visited.includes(node)) {
+        visited.push(node);
+        graph[node].forEach(neighbor => queue.push(neighbor));
+      }
+    }
+
+    expect(visited).toEqual([1, 2, 3, 4, 5]); // Expected BFS traversal order.
+  });
+
+  it('Task Scheduling using Queue', () => {
+    const tasks = ['A', 'A', 'A', 'B', 'B', 'B'];
+    const cooldown = 2;
+
+    const taskQueue = new Queue<string>();
+    const cooldownQueue = new Queue<string>();
+
+    for (const task of tasks) {
+      while (!cooldownQueue.isEmpty() && cooldownQueue.first === task) {
+        cooldownQueue.shift();
+        taskQueue.push('idle');
+      }
+
+      taskQueue.push(task);
+      cooldownQueue.push(task);
+      if (cooldownQueue.length > cooldown) {
+        cooldownQueue.shift();
+      }
+    }
+
+    const scheduled = taskQueue.elements;
+    expect(scheduled).toEqual(['A', 'idle', 'A', 'idle', 'A', 'B', 'B', 'idle', 'idle', 'B']);
+  });
+});

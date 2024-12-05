@@ -15,6 +15,53 @@ import { LinearBase } from '../base/linear-base';
  * 5. Data Buffering: Acting as a buffer for data packets in network communication.
  * 6. Breadth-First Search (BFS): In traversal algorithms for graphs and trees, queues store elements that are to be visited.
  * 7. Real-time Queuing: Like queuing systems in banks or supermarkets.
+ * @example
+ * // Sliding Window using Queue
+ *     const nums = [2, 3, 4, 1, 5];
+ *     const k = 2;
+ *     const queue = new Queue<number>();
+ *
+ *     let maxSum = 0;
+ *     let currentSum = 0;
+ *
+ *     nums.forEach((num, i) => {
+ *       queue.push(num);
+ *       currentSum += num;
+ *
+ *       if (queue.length > k) {
+ *         currentSum -= queue.shift()!;
+ *       }
+ *
+ *       if (queue.length === k) {
+ *         maxSum = Math.max(maxSum, currentSum);
+ *       }
+ *     });
+ *
+ *     console.log(maxSum); // 7
+ * @example
+ * // Breadth-First Search (BFS) using Queue
+ *     const graph: { [key in number]: number[] } = {
+ *       1: [2, 3],
+ *       2: [4, 5],
+ *       3: [],
+ *       4: [],
+ *       5: []
+ *     };
+ *
+ *     const queue = new Queue<number>();
+ *     const visited: number[] = [];
+ *
+ *     queue.push(1);
+ *
+ *     while (!queue.isEmpty()) {
+ *       const node = queue.shift()!;
+ *       if (!visited.includes(node)) {
+ *         visited.push(node);
+ *         graph[node].forEach(neighbor => queue.push(neighbor));
+ *       }
+ *     }
+ *
+ *     console.log(visited); // [1, 2, 3, 4, 5]
  */
 export class Queue<E = any, R = any> extends LinearBase<E, R> {
   constructor(elements: Iterable<E> | Iterable<R> = [], options?: QueueOptions<E, R>) {

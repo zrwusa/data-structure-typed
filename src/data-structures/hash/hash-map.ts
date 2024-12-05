@@ -21,6 +21,52 @@ import { isWeakKey, rangeCheck } from '../../utils';
  * 3. Unique Keys: Keys are unique.
  * If you try to insert another entry with the same key, the new one will replace the old entry.
  * 4. Unordered Collection: HashMap does not guarantee the order of entries, and the order may change over time.
+ * @example
+ * // should maintain insertion order
+ *     const linkedHashMap = new LinkedHashMap<number, string>();
+ *     linkedHashMap.set(1, 'A');
+ *     linkedHashMap.set(2, 'B');
+ *     linkedHashMap.set(3, 'C');
+ *
+ *     const result = Array.from(linkedHashMap);
+ *     console.log(result); // [
+ *  //      [1, 'A'],
+ *  //      [2, 'B'],
+ *  //      [3, 'C']
+ *  //    ]
+ * @example
+ * // fast lookup of values by key
+ *     const hashMap = new HashMap<number, string>();
+ *     hashMap.set(1, 'A');
+ *     hashMap.set(2, 'B');
+ *     hashMap.set(3, 'C');
+ *
+ *     console.log(hashMap.get(1)); // 'A'
+ *     console.log(hashMap.get(2)); // 'B'
+ *     console.log(hashMap.get(3)); // 'C'
+ *     console.log(hashMap.get(99)); // undefined
+ * @example
+ * // remove duplicates when adding multiple entries
+ *     const hashMap = new HashMap<number, string>();
+ *     hashMap.set(1, 'A');
+ *     hashMap.set(2, 'B');
+ *     hashMap.set(1, 'C'); // Update value for key 1
+ *
+ *     console.log(hashMap.size); // 2
+ *     console.log(hashMap.get(1)); // 'C'
+ *     console.log(hashMap.get(2)); // 'B'
+ * @example
+ * // count occurrences of keys
+ *     const data = [1, 2, 1, 3, 2, 1];
+ *
+ *     const countMap = new HashMap<number, number>();
+ *     for (const key of data) {
+ *       countMap.set(key, (countMap.get(key) || 0) + 1);
+ *     }
+ *
+ *     console.log(countMap.get(1)); // 3
+ *     console.log(countMap.get(2)); // 2
+ *     console.log(countMap.get(3)); // 1
  */
 export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, V> {
   /**

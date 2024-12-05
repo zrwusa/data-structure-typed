@@ -1,4 +1,4 @@
-import { AVLTree, AVLTreeNode, BinaryTreeNode, BSTNode, Range } from '../../../../src';
+import { AVLTree, AVLTreeNode, BinaryTreeNode, BSTNode } from '../../../../src';
 
 describe('AVL Tree Test', () => {
   it('should perform various operations on a AVL Tree', () => {
