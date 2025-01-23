@@ -1,7 +1,7 @@
 {
   "name": "data-structure-typed",
-  "version": "2.0.0",
-  "description": "Javascript Data Structure. Heap, Binary Tree, Red Black Tree, Linked List, Deque, Trie, HashMap, Directed Graph, Undirected Graph, Binary Search Tree(BST), AVL Tree, Priority Queue, Graph, Queue, Tree Multiset, Singly Linked List, Doubly Linked List, Max Heap, Max Priority Queue, Min Heap, Min Priority Queue, Stack. Benchmark compared with C++ STL. API aligned with ES6 and Java.util. Usability is comparable to Python",
+  "version": "2.0.1",
+  "description": "Standard data structure",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "browser": "dist/umd/data-structure-typed.min.js",

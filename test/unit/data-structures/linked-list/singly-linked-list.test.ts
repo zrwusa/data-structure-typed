@@ -1,4 +1,4 @@
-import { SinglyLinkedList, SinglyLinkedListNode } from '../../../../src';
+import { SinglyLinkedList, SinglyLinkedListNode, Stack } from '../../../../src';
 
 describe('SinglyLinkedListNode', () => {
   it('should SinglyLinkedList', () => {
@@ -647,5 +647,95 @@ describe('iterable methods', () => {
     const mappedSl = sl.map(element => element * 2);
     expect([...mappedSl]).toEqual([2, 4, 6]);
     expect(sl.reduce((accumulator, element) => accumulator + element, 0)).toEqual(6);
+  });
+});
+
+describe('classic uses', () => {
+
+  it('@example implementation of a basic text editor', () => {
+
+    class TextEditor {
+      private content: SinglyLinkedList<string>;
+      private cursorIndex: number;
+      private undoStack: Stack<{ operation: string; data?: any }>;
+
+      constructor() {
+        this.content = new SinglyLinkedList<string>();
+        this.cursorIndex = 0; // Cursor starts at the beginning
+        this.undoStack = new Stack<{ operation: string; data?: any }>(); // Stack to keep track of operations for undo
+      }
+
+      /**
+       * Inserts a character at the current cursor position.
+       * @param char - The character to insert.
+       */
+      insert(char: string) {
+        this.content.addAt(this.cursorIndex, char);
+        this.cursorIndex++;
+        this.undoStack.push({ operation: 'insert', data: { index: this.cursorIndex - 1 } });
+      }
+
+      /**
+       * Deletes the character at the current cursor position.
+       * If the cursor is at the end, deletes the character before the cursor.
+       */
+      delete() {
+        if (this.cursorIndex === 0) return; // Nothing to delete
+        const deleted = this.content.deleteAt(this.cursorIndex - 1);
+        this.cursorIndex--;
+        this.undoStack.push({ operation: 'delete', data: { index: this.cursorIndex, char: deleted } });
+      }
+
+      /**
+       * Moves the cursor to a specific position.
+       * @param index - The position to move the cursor to.
+       */
+      moveCursor(index: number) {
+        this.cursorIndex = Math.max(0, Math.min(index, this.content.length));
+      }
+
+      /**
+       * Undoes the last operation (insert or delete).
+       */
+      undo() {
+        if (this.undoStack.size === 0) return; // No operations to undo
+        const lastAction = this.undoStack.pop();
+
+        if (lastAction!.operation === 'insert') {
+          this.content.deleteAt(lastAction!.data.index);
+          this.cursorIndex = lastAction!.data.index;
+        } else if (lastAction!.operation === 'delete') {
+          this.content.addAt(lastAction!.data.index, lastAction!.data.char);
+          this.cursorIndex = lastAction!.data.index + 1;
+        }
+      }
+
+      /**
+       * Displays the current text content of the editor.
+       * @returns The concatenated string representation of the text.
+       */
+      getText(): string {
+        return [...this.content].join('');
+      }
+    }
+
+    // Example Usage
+    const editor = new TextEditor();
+    editor.insert('H');
+    editor.insert('e');
+    editor.insert('l');
+    editor.insert('l');
+    editor.insert('o');
+    expect(editor.getText()).toBe('Hello'); // Output: "Hello"
+
+    editor.delete();
+    expect(editor.getText()).toBe('Hell'); // Output: "Hell"
+
+    editor.undo();
+    expect(editor.getText()).toBe('Hello'); // Output: "Hello"
+
+    editor.moveCursor(1);
+    editor.insert('a');
+    expect(editor.getText()).toBe('Haello'); // Output: "Haello"
   });
 });

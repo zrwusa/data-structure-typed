@@ -341,9 +341,9 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
     expect(distMap.get(vertex3)).toBe(35);
     expect(distMap.get(vertex4)).toBe(14);
     expect(distMap.get(vertex5)).toBe(70);
-    expect(distMap.get(vertex6)).toBe(Infinity);
+    expect(distMap.get(vertex6)).toBe(Number.MAX_SAFE_INTEGER);
     expect(distMap.get(vertex7)).toBe(61);
-    expect(distMap.get(vertex8)).toBe(Infinity);
+    expect(distMap.get(vertex8)).toBe(Number.MAX_SAFE_INTEGER);
     expect(distMap.get(vertex9)).toBe(19);
 
     expect(preMap).toBeInstanceOf(Map);
@@ -351,7 +351,7 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
 
     expect(paths).toBeInstanceOf(Array);
     expect(paths.length).toBe(0);
-    expect(min).toBe(Infinity);
+    expect(min).toBe(Number.MAX_SAFE_INTEGER);
     expect(minPath).toBeInstanceOf(Array);
 
     const floydResult = myGraph.floydWarshall();
@@ -360,35 +360,35 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
       const { costs, predecessor } = floydResult;
       expect(costs).toBeInstanceOf(Array);
       expect(costs.length).toBe(9);
-      expect(costs[0]).toEqual([32, 12, 35, 14, 70, Infinity, 61, Infinity, 19]);
-      expect(costs[1]).toEqual([20, 32, 23, 34, 58, Infinity, 81, Infinity, 39]);
-      expect(costs[2]).toEqual([3, 15, 38, 17, 35, Infinity, 64, Infinity, 22]);
-      expect(costs[3]).toEqual([123, 135, 120, 137, 155, Infinity, 47, Infinity, 126]);
-      expect(costs[4]).toEqual([133, 145, 130, 147, 165, Infinity, 57, Infinity, 136]);
+      expect(costs[0]).toEqual([32, 12, 35, 14, 70, Number.MAX_SAFE_INTEGER, 61, Number.MAX_SAFE_INTEGER, 19]);
+      expect(costs[1]).toEqual([20, 32, 23, 34, 58, Number.MAX_SAFE_INTEGER, 81, Number.MAX_SAFE_INTEGER, 39]);
+      expect(costs[2]).toEqual([3, 15, 38, 17, 35, Number.MAX_SAFE_INTEGER, 64, Number.MAX_SAFE_INTEGER, 22]);
+      expect(costs[3]).toEqual([123, 135, 120, 137, 155, Number.MAX_SAFE_INTEGER, 47, Number.MAX_SAFE_INTEGER, 126]);
+      expect(costs[4]).toEqual([133, 145, 130, 147, 165, Number.MAX_SAFE_INTEGER, 57, Number.MAX_SAFE_INTEGER, 136]);
       expect(costs[5]).toEqual([
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity
+        Number.MAX_SAFE_INTEGER,
+        Number.MAX_SAFE_INTEGER,
+        Number.MAX_SAFE_INTEGER,
+        Number.MAX_SAFE_INTEGER,
+        Number.MAX_SAFE_INTEGER,
+        Number.MAX_SAFE_INTEGER,
+        Number.MAX_SAFE_INTEGER,
+        Number.MAX_SAFE_INTEGER,
+        Number.MAX_SAFE_INTEGER
       ]);
-      expect(costs[6]).toEqual([76, 88, 73, 90, 108, Infinity, 137, Infinity, 79]);
+      expect(costs[6]).toEqual([76, 88, 73, 90, 108, Number.MAX_SAFE_INTEGER, 137, Number.MAX_SAFE_INTEGER, 79]);
       expect(costs[7]).toEqual([
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity,
-        Infinity
+        Number.MAX_SAFE_INTEGER,
+        Number.MAX_SAFE_INTEGER,
+        Number.MAX_SAFE_INTEGER,
+        Number.MAX_SAFE_INTEGER,
+        Number.MAX_SAFE_INTEGER,
+        Number.MAX_SAFE_INTEGER,
+        Number.MAX_SAFE_INTEGER,
+        Number.MAX_SAFE_INTEGER,
+        Number.MAX_SAFE_INTEGER
       ]);
-      expect(costs[8]).toEqual([173, 185, 170, 187, 205, Infinity, 97, Infinity, 176]);
+      expect(costs[8]).toEqual([173, 185, 170, 187, 205, Number.MAX_SAFE_INTEGER, 97, Number.MAX_SAFE_INTEGER, 176]);
 
       expect(predecessor).toBeInstanceOf(Array);
       expect(predecessor.length).toBe(9);
@@ -458,12 +458,12 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
       expect(distMap.size).toBe(9);
       expect(distMap.get(vertex1)).toBe(0);
       expect(distMap.get(vertex2)).toBe(12);
-      expect(distMap.get(vertex3)).toBe(Infinity);
+      expect(distMap.get(vertex3)).toBe(Number.MAX_SAFE_INTEGER);
       expect(distMap.get(vertex4)).toBe(14);
-      expect(distMap.get(vertex5)).toBe(Infinity);
-      expect(distMap.get(vertex6)).toBe(Infinity);
-      expect(distMap.get(vertex7)).toBe(Infinity);
-      expect(distMap.get(vertex8)).toBe(Infinity);
+      expect(distMap.get(vertex5)).toBe(Number.MAX_SAFE_INTEGER);
+      expect(distMap.get(vertex6)).toBe(Number.MAX_SAFE_INTEGER);
+      expect(distMap.get(vertex7)).toBe(Number.MAX_SAFE_INTEGER);
+      expect(distMap.get(vertex8)).toBe(Number.MAX_SAFE_INTEGER);
       expect(distMap.get(vertex9)).toBe(19);
 
       expect(minDist).toBe(12);
@@ -512,9 +512,9 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
       expect(distMap.get(vertex3)).toBe(35);
       expect(distMap.get(vertex4)).toBe(14);
       expect(distMap.get(vertex5)).toBe(70);
-      expect(distMap.get(vertex6)).toBe(Infinity);
+      expect(distMap.get(vertex6)).toBe(Number.MAX_SAFE_INTEGER);
       expect(distMap.get(vertex7)).toBe(61);
-      expect(distMap.get(vertex8)).toBe(Infinity);
+      expect(distMap.get(vertex8)).toBe(Number.MAX_SAFE_INTEGER);
       expect(distMap.get(vertex9)).toBe(19);
 
       expect(minDist).toBe(12);
@@ -574,9 +574,9 @@ describe('Inherit from DirectedGraph and perform operations test2.', () => {
       expect(distMap.get(vertex3)).toBe(35);
       expect(distMap.get(vertex4)).toBe(14);
       expect(distMap.get(vertex5)).toBe(70);
-      expect(distMap.get(vertex6)).toBe(Infinity);
+      expect(distMap.get(vertex6)).toBe(Number.MAX_SAFE_INTEGER);
       expect(distMap.get(vertex7)).toBe(61);
-      expect(distMap.get(vertex8)).toBe(Infinity);
+      expect(distMap.get(vertex8)).toBe(Number.MAX_SAFE_INTEGER);
       expect(distMap.get(vertex9)).toBe(19);
 
       expect(minDist).toBe(12);

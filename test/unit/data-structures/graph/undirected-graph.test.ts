@@ -264,7 +264,7 @@ describe('cycles, strongly connected components, bridges, articular points in Un
   expect(lowMap.size).toBe(8);
 });
 
-it('Should return Infinity if dest is not found', () => {
+it('Should return Number.MAX_SAFE_INTEGER if dest is not found', () => {
   const graph = new UndirectedGraph<string>();
 
   for (let i = 0; i < 3; ++i) {
@@ -274,7 +274,7 @@ it('Should return Infinity if dest is not found', () => {
   graph.addEdge(0, 1, 1);
 
   const minCost02 = graph.getMinCostBetween(0, 2, true);
-  expect(minCost02).toBe(Infinity);
+  expect(minCost02).toBe(Number.MAX_SAFE_INTEGER);
 
   const minCost01 = graph.getMinCostBetween(0, 1, true);
   expect(minCost01).toBe(1);

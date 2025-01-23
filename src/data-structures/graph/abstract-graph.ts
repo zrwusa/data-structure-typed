@@ -339,7 +339,7 @@ export abstract class AbstractGraph<
 
     if (isWeight) {
       const allPaths = this.getAllPathsBetween(v1, v2);
-      let min = Infinity;
+      let min = Number.MAX_SAFE_INTEGER;
       for (const path of allPaths) {
         min = Math.min(this.getPathSumWeight(path), min);
       }
@@ -404,7 +404,7 @@ export abstract class AbstractGraph<
     if (isWeight) {
       if (isDFS) {
         const allPaths = this.getAllPathsBetween(v1, v2, 10000);
-        let min = Infinity;
+        let min = Number.MAX_SAFE_INTEGER;
         let minIndex = -1;
         let index = 0;
         for (const path of allPaths) {
@@ -475,7 +475,7 @@ export abstract class AbstractGraph<
     getMinDist: boolean = false,
     genPaths: boolean = false
   ): DijkstraResult<VO> {
-    let minDist = Infinity;
+    let minDist = Number.MAX_SAFE_INTEGER;
     let minDest: VO | undefined = undefined;
     let minPath: VO[] = [];
     const paths: VO[][] = [];
@@ -494,13 +494,13 @@ export abstract class AbstractGraph<
 
     for (const vertex of vertexMap) {
       const vertexOrKey = vertex[1];
-      if (vertexOrKey instanceof AbstractVertex) distMap.set(vertexOrKey, Infinity);
+      if (vertexOrKey instanceof AbstractVertex) distMap.set(vertexOrKey, Number.MAX_SAFE_INTEGER);
     }
     distMap.set(srcVertex, 0);
     preMap.set(srcVertex, undefined);
 
     const getMinOfNoSeen = () => {
-      let min = Infinity;
+      let min = Number.MAX_SAFE_INTEGER;
       let minV: VO | undefined = undefined;
       for (const [key, value] of distMap) {
         if (!seen.has(key)) {
@@ -537,7 +537,7 @@ export abstract class AbstractGraph<
         seen.add(cur);
         if (destVertex && destVertex === cur) {
           if (getMinDist) {
-            minDist = distMap.get(destVertex) || Infinity;
+            minDist = distMap.get(destVertex) || Number.MAX_SAFE_INTEGER;
           }
           if (genPaths) {
             getPaths(destVertex);
@@ -605,7 +605,7 @@ export abstract class AbstractGraph<
     getMinDist: boolean = false,
     genPaths: boolean = false
   ): DijkstraResult<VO> {
-    let minDist = Infinity;
+    let minDist = Number.MAX_SAFE_INTEGER;
     let minDest: VO | undefined = undefined;
     let minPath: VO[] = [];
     const paths: VO[][] = [];
@@ -621,7 +621,7 @@ export abstract class AbstractGraph<
 
     for (const vertex of vertexMap) {
       const vertexOrKey = vertex[1];
-      if (vertexOrKey instanceof AbstractVertex) distMap.set(vertexOrKey, Infinity);
+      if (vertexOrKey instanceof AbstractVertex) distMap.set(vertexOrKey, Number.MAX_SAFE_INTEGER);
     }
 
     const heap = new Heap<{ key: number; value: VO }>([], { comparator: (a, b) => a.key - b.key });
@@ -661,7 +661,7 @@ export abstract class AbstractGraph<
           seen.add(cur);
           if (destVertex && destVertex === cur) {
             if (getMinDist) {
-              minDist = distMap.get(destVertex) || Infinity;
+              minDist = distMap.get(destVertex) || Number.MAX_SAFE_INTEGER;
             }
             if (genPaths) {
               getPaths(destVertex);
@@ -732,7 +732,7 @@ export abstract class AbstractGraph<
     const paths: VO[][] = [];
     const distMap: Map<VO, number> = new Map();
     const preMap: Map<VO, VO> = new Map(); // predecessor
-    let min = Infinity;
+    let min = Number.MAX_SAFE_INTEGER;
     let minPath: VO[] = [];
     // TODO
     let hasNegativeCycle: boolean | undefined;
@@ -745,7 +745,7 @@ export abstract class AbstractGraph<
     const numOfEdges = edgeMap.length;
 
     this._vertexMap.forEach(vertex => {
-      distMap.set(vertex, Infinity);
+      distMap.set(vertex, Number.MAX_SAFE_INTEGER);
     });
 
     distMap.set(srcVertex, 0);
@@ -759,7 +759,7 @@ export abstract class AbstractGraph<
           const sWeight = distMap.get(s);
           const dWeight = distMap.get(d);
           if (sWeight !== undefined && dWeight !== undefined) {
-            if (distMap.get(s) !== Infinity && sWeight + weight < dWeight) {
+            if (distMap.get(s) !== Number.MAX_SAFE_INTEGER && sWeight + weight < dWeight) {
               distMap.set(d, sWeight + weight);
               if (genPath) preMap.set(d, s);
             }
@@ -804,7 +804,7 @@ export abstract class AbstractGraph<
         const weight = edgeMap[j].weight;
         const sWeight = distMap.get(s);
         if (sWeight) {
-          if (sWeight !== Infinity && sWeight + weight < sWeight) hasNegativeCycle = true;
+          if (sWeight !== Number.MAX_SAFE_INTEGER && sWeight + weight < sWeight) hasNegativeCycle = true;
         }
       }
     }
@@ -860,7 +860,7 @@ export abstract class AbstractGraph<
 
     for (let i = 0; i < n; i++) {
       for (let j = 0; j < n; j++) {
-        costs[i][j] = this.getEdge(idAndVertices[i][1], idAndVertices[j][1])?.weight || Infinity;
+        costs[i][j] = this.getEdge(idAndVertices[i][1], idAndVertices[j][1])?.weight || Number.MAX_SAFE_INTEGER;
       }
     }
 
