@@ -24,7 +24,7 @@ import { LinearBase } from '../base/linear-base';
  *     let maxSum = 0;
  *     let currentSum = 0;
  *
- *     nums.forEach((num, i) => {
+ *     nums.forEach((num) => {
  *       queue.push(num);
  *       currentSum += num;
  *
