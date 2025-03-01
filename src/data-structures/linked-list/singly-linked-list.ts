@@ -38,6 +38,72 @@ export class SinglyLinkedListNode<E = any> extends LinkedListNode<E> {
  * 4. High Efficiency in Insertion and Deletion: Adding or removing elements in a linked list does not require moving other elements, making these operations more efficient than in arrays.
  * Caution: Although our linked list classes provide methods such as at, setAt, addAt, and indexOf that are based on array indices, their time complexity, like that of the native Array.lastIndexOf, is 𝑂(𝑛). If you need to use these methods frequently, you might want to consider other data structures, such as Deque or Queue (designed for random access). Similarly, since the native Array.shift method has a time complexity of 𝑂(𝑛), using an array to simulate a queue can be inefficient. In such cases, you should use Queue or Deque, as these data structures leverage deferred array rearrangement, effectively reducing the average time complexity to 𝑂(1).
  *
+ * @example
+ * // implementation of a basic text editor
+ *     class TextEditor {
+ *       private content: SinglyLinkedList<string>;
+ *       private cursorIndex: number;
+ *       private undoStack: Stack<{ operation: string; data?: any }>;
+ *
+ *       constructor() {
+ *         this.content = new SinglyLinkedList<string>();
+ *         this.cursorIndex = 0; // Cursor starts at the beginning
+ *         this.undoStack = new Stack<{ operation: string; data?: any }>(); // Stack to keep track of operations for undo
+ *       }
+ *
+ *       insert(char: string) {
+ *         this.content.addAt(this.cursorIndex, char);
+ *         this.cursorIndex++;
+ *         this.undoStack.push({ operation: 'insert', data: { index: this.cursorIndex - 1 } });
+ *       }
+ *
+ *       delete() {
+ *         if (this.cursorIndex === 0) return; // Nothing to delete
+ *         const deleted = this.content.deleteAt(this.cursorIndex - 1);
+ *         this.cursorIndex--;
+ *         this.undoStack.push({ operation: 'delete', data: { index: this.cursorIndex, char: deleted } });
+ *       }
+ *
+ *       moveCursor(index: number) {
+ *         this.cursorIndex = Math.max(0, Math.min(index, this.content.length));
+ *       }
+ *
+ *       undo() {
+ *         if (this.undoStack.size === 0) return; // No operations to undo
+ *         const lastAction = this.undoStack.pop();
+ *
+ *         if (lastAction!.operation === 'insert') {
+ *           this.content.deleteAt(lastAction!.data.index);
+ *           this.cursorIndex = lastAction!.data.index;
+ *         } else if (lastAction!.operation === 'delete') {
+ *           this.content.addAt(lastAction!.data.index, lastAction!.data.char);
+ *           this.cursorIndex = lastAction!.data.index + 1;
+ *         }
+ *       }
+ *
+ *       getText(): string {
+ *         return [...this.content].join('');
+ *       }
+ *     }
+ *
+ *     // Example Usage
+ *     const editor = new TextEditor();
+ *     editor.insert('H');
+ *     editor.insert('e');
+ *     editor.insert('l');
+ *     editor.insert('l');
+ *     editor.insert('o');
+ *     console.log(editor.getText()); // 'Hello' // Output: "Hello"
+ *
+ *     editor.delete();
+ *     console.log(editor.getText()); // 'Hell' // Output: "Hell"
+ *
+ *     editor.undo();
+ *     console.log(editor.getText()); // 'Hello' // Output: "Hello"
+ *
+ *     editor.moveCursor(1);
+ *     editor.insert('a');
+ *     console.log(editor.getText()); // 'Haello'
  */
 export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, SinglyLinkedListNode<E>> {
   constructor(

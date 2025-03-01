@@ -1,10 +1,10 @@
+import { isComparable, trampoline } from '../../../src';
+
 describe('isNaN', () => {
   it('should isNaN', function () {
     expect(isNaN('string' as unknown as number)).toBe(true);
   });
 });
-
-import { isComparable } from '../../../src';
 
 describe('isComparable', () => {
   describe('primitive types', () => {
@@ -170,5 +170,40 @@ describe('isComparable', () => {
       const comparableValues = values.filter(item => isComparable(item));
       expect(comparableValues.length).toBe(4);
     });
+  });
+});
+
+describe('Factorial Performance Tests', () => {
+  const depth = 5000;
+  let arr: number[];
+
+  const recurseTrampoline = (n: number, arr: number[], acc = 1): (() => any) | number => {
+    if (n === 0) return acc;
+    arr.unshift(1);
+    return () => recurseTrampoline(n - 1, arr, acc);
+  };
+
+  const recurse = (n: number, arr: number[], acc = 1): number => {
+    if (n === 0) return acc;
+    arr.unshift(1);
+    return recurse(n - 1, arr, acc);
+  };
+
+  beforeEach(() => {
+    arr = new Array(depth).fill(0);
+  });
+
+  it('should calculate recursive function using trampoline without stack overflow', () => {
+    const result = trampoline(() => recurseTrampoline(depth, arr));
+    expect(result).toBe(1);
+    expect(arr.length).toBe(depth + depth);
+  });
+
+  it('should calculate recursive directly and possibly stack overflow', () => {
+    console.time('recurse');
+    const result = recurse(depth, arr);
+    console.timeEnd('recurse');
+    expect(result).toBe(1);
+    expect(arr.length).toBe(depth + depth);
   });
 });

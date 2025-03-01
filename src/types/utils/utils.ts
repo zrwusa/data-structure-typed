@@ -1,9 +1,4 @@
-export type ToThunkFn<R = any> = () => R;
-export type Thunk<R = any> = ToThunkFn<R> & { __THUNK__?: symbol };
-export type TrlFn<A extends any[] = any[], R = any> = (...args: A) => R;
-export type TrlAsyncFn = (...args: any[]) => any;
-
-export type SpecifyOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+export type Thunk<T> = () => T | Thunk<T>;
 
 export type Any = string | number | bigint | boolean | symbol | undefined | object;
 
