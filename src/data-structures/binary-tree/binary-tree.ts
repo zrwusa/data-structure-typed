@@ -20,7 +20,7 @@ import type {
   NodeDisplayLayout,
   NodePredicate,
   OptNodeOrNull,
-  RBTNColor, Thunk,
+  RBTNColor,
   ToEntryFn
 } from '../../types';
 import { IBinaryTree } from '../../interfaces';
@@ -1304,12 +1304,12 @@ export class BinaryTree<K = any, V = any, R = object, MK = any, MV = any, MR = o
       return callback(dfs(startNode));
     } else {
       // Indirect implementation of iteration using tail recursion optimization
-      const dfs = (cur: BinaryTreeNode<K, V>): BinaryTreeNode<K, V> | Thunk<BinaryTreeNode<K, V>> => {
+      const dfs = trampoline((cur: BinaryTreeNode<K, V>): BinaryTreeNode<K, V> => {
         if (!this.isRealNode(cur.left)) return cur;
-        return () => dfs(cur.left!);
-      };
+        return dfs.cont(cur.left);
+      });
 
-      return callback(trampoline(() => dfs(startNode)));
+      return callback(dfs(startNode));
     }
   }
 
@@ -1352,12 +1352,13 @@ export class BinaryTree<K = any, V = any, R = object, MK = any, MV = any, MR = o
 
       return callback(dfs(startNode));
     } else {
-      const dfs = (cur: BinaryTreeNode<K, V>) => {
+      // Indirect implementation of iteration using tail recursion optimization
+      const dfs = trampoline((cur: BinaryTreeNode<K, V>) => {
         if (!this.isRealNode(cur.right)) return cur;
-        return () => dfs(cur.right!) as Thunk<BinaryTreeNode<K, V>>;
-      };
+        return dfs.cont(cur.right);
+      });
 
-      return callback(trampoline(() => dfs(startNode)));
+      return callback(dfs(startNode));
     }
   }
 

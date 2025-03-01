@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { Comparable, ComparablePrimitive, Thunk } from '../types';
+import type { Comparable, ComparablePrimitive, Thunk, ToThunkFn, TrlAsyncFn, TrlFn } from '../types';
 
 /**
  * The function generates a random UUID (Universally Unique Identifier) in TypeScript.
@@ -47,18 +47,90 @@ export const arrayRemove = function <T>(array: T[], predicate: (item: T, index: 
   return result;
 };
 
+export const THUNK_SYMBOL = Symbol('thunk');
 
-export function isThunk<T>(result: T | Thunk<T>): result is Thunk<T> {
-  return typeof result === 'function';
-}
+/**
+ * The function `isThunk` checks if a given value is a function with a specific symbol property.
+ * @param {any} fnOrValue - The `fnOrValue` parameter in the `isThunk` function can be either a
+ * function or a value that you want to check if it is a thunk. Thunks are functions that are wrapped
+ * around a value or computation for lazy evaluation. The function checks if the `fnOrValue` is
+ * @returns The function `isThunk` is checking if the input `fnOrValue` is a function and if it has a
+ * property `__THUNK__` equal to `THUNK_SYMBOL`. The return value will be `true` if both conditions are
+ * met, otherwise it will be `false`.
+ */
+export const isThunk = (fnOrValue: any) => {
+  return typeof fnOrValue === 'function' && fnOrValue.__THUNK__ === THUNK_SYMBOL;
+};
 
-export function trampoline<T>(thunk: Thunk<T>): T {
-  let result: T | Thunk<T> = thunk;
-  while (isThunk(result)) {
-    result = result();
-  }
-  return result;
-}
+/**
+ * The `toThunk` function in TypeScript converts a function into a thunk by wrapping it in a closure.
+ * @param {ToThunkFn} fn - `fn` is a function that will be converted into a thunk.
+ * @returns A thunk function is being returned. Thunk functions are functions that delay the evaluation
+ * of an expression or operation until it is explicitly called or invoked. In this case, the `toThunk`
+ * function takes a function `fn` as an argument and returns a thunk function that, when called, will
+ * execute the `fn` function provided as an argument.
+ */
+export const toThunk = (fn: ToThunkFn): Thunk => {
+  const thunk = () => fn();
+  thunk.__THUNK__ = THUNK_SYMBOL;
+  return thunk;
+};
+
+/**
+ * The `trampoline` function in TypeScript enables tail call optimization by using thunks to avoid
+ * stack overflow.
+ * @param {TrlFn} fn - The `fn` parameter in the `trampoline` function is a function that takes any
+ * number of arguments and returns a value.
+ * @returns The `trampoline` function returns an object with two properties:
+ * 1. A function that executes the provided function `fn` and continues to execute any thunks returned
+ * by `fn` until a non-thunk value is returned.
+ * 2. A `cont` property that is a function which creates a thunk for the provided function `fn`.
+ */
+export const trampoline = (fn: TrlFn) => {
+  const cont = (...args: [...Parameters<TrlFn>]): ReturnType<TrlFn> => toThunk(() => fn(...args));
+
+  return Object.assign(
+    (...args: [...Parameters<TrlFn>]) => {
+      let result = fn(...args);
+
+      while (isThunk(result) && typeof result === 'function') {
+        result = result();
+      }
+
+      return result;
+    },
+    { cont }
+  );
+};
+
+/**
+ * The `trampolineAsync` function in TypeScript allows for asynchronous trampolining of a given
+ * function.
+ * @param {TrlAsyncFn} fn - The `fn` parameter in the `trampolineAsync` function is expected to be a
+ * function that returns a Promise. This function will be called recursively until a non-thunk value is
+ * returned.
+ * @returns The `trampolineAsync` function returns an object with two properties:
+ * 1. An async function that executes the provided `TrlAsyncFn` function and continues to execute any
+ * thunks returned by the function until a non-thunk value is returned.
+ * 2. A `cont` property that is a function which wraps the provided `TrlAsyncFn` function in a thunk
+ * and returns it.
+ */
+export const trampolineAsync = (fn: TrlAsyncFn) => {
+  const cont = (...args: [...Parameters<TrlAsyncFn>]): ReturnType<TrlAsyncFn> => toThunk(() => fn(...args));
+
+  return Object.assign(
+    async (...args: [...Parameters<TrlAsyncFn>]) => {
+      let result = await fn(...args);
+
+      while (isThunk(result) && typeof result === 'function') {
+        result = await result();
+      }
+
+      return result;
+    },
+    { cont }
+  );
+};
 
 /**
  * The function `getMSB` returns the most significant bit of a given number.
