@@ -1,12 +1,19 @@
 {
   "name": "data-structure-typed",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Standard data structure",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "browser": "dist/umd/data-structure-typed.min.js",
   "types": "dist/esm/index.d.ts",
   "umd:main": "dist/umd/data-structure-typed.min.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/esm/index.d.ts"
+    }
+  },
   "scripts": {
     "build": "npm run build:ecu && npm run build:docs-class",
     "build:esm": "rm -rf dist/esm && tsc -p tsconfig-esm.json",
