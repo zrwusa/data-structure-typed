@@ -21,10 +21,11 @@ import type {
   NodePredicate,
   OptNodeOrNull,
   RBTNColor,
-  ToEntryFn
+  ToEntryFn,
+  Trampoline
 } from '../../types';
 import { IBinaryTree } from '../../interfaces';
-import { isComparable, trampoline } from '../../utils';
+import { isComparable, makeTrampoline, makeTrampolineThunk } from '../../utils';
 import { Queue } from '../queue';
 import { IterableEntryBase } from '../base';
 import { DFSOperation, Range } from '../../common';
@@ -1294,19 +1295,20 @@ export class BinaryTree<K = any, V = any, R = object, MK = any, MV = any, MR = o
     startNode = this.ensureNode(startNode);
 
     if (!this.isRealNode(startNode)) return callback(startNode);
-
     if (iterationType === 'RECURSIVE') {
       const dfs = (cur: BinaryTreeNode<K, V>): BinaryTreeNode<K, V> => {
-        if (!this.isRealNode(cur.left)) return cur;
-        return dfs(cur.left);
+        const { left } = cur;
+        if (!this.isRealNode(left)) return cur;
+        return dfs(left);
       };
 
       return callback(dfs(startNode));
     } else {
       // Indirect implementation of iteration using tail recursion optimization
-      const dfs = trampoline((cur: BinaryTreeNode<K, V>): BinaryTreeNode<K, V> => {
-        if (!this.isRealNode(cur.left)) return cur;
-        return dfs.cont(cur.left);
+      const dfs = makeTrampoline((cur: BinaryTreeNode<K, V>): Trampoline<BinaryTreeNode<K, V>> => {
+        const { left } = cur;
+        if (!this.isRealNode(left)) return cur;
+        return makeTrampolineThunk(() => dfs(left));
       });
 
       return callback(dfs(startNode));
@@ -1346,16 +1348,19 @@ export class BinaryTree<K = any, V = any, R = object, MK = any, MV = any, MR = o
 
     if (iterationType === 'RECURSIVE') {
       const dfs = (cur: BinaryTreeNode<K, V>): BinaryTreeNode<K, V> => {
-        if (!this.isRealNode(cur.right)) return cur;
-        return dfs(cur.right);
+        const { right } = cur;
+        if (!this.isRealNode(right)) return cur;
+        return dfs(right);
       };
 
       return callback(dfs(startNode));
     } else {
       // Indirect implementation of iteration using tail recursion optimization
-      const dfs = trampoline((cur: BinaryTreeNode<K, V>) => {
-        if (!this.isRealNode(cur.right)) return cur;
-        return dfs.cont(cur.right);
+
+      const dfs = makeTrampoline((cur: BinaryTreeNode<K, V>): Trampoline<BinaryTreeNode<K, V>> => {
+        const { right } = cur;
+        if (!this.isRealNode(right)) return cur;
+        return makeTrampolineThunk(() => dfs(right));
       });
 
       return callback(dfs(startNode));

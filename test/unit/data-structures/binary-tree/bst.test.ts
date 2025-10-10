@@ -1537,6 +1537,82 @@ describe('BST iterative methods not map mode test', () => {
   });
 });
 
+describe('BST constructor and comparator edge cases', () => {
+  it('should support specifyComparable and isReverse', () => {
+    const bst = new BST<number>([], {
+      specifyComparable: (k) => -k,
+      isReverse: true
+    });
+    bst.add(1);
+    bst.add(2);
+    expect(bst.isReverse).toBe(true);
+    expect(bst["_specifyComparable"]).toBeDefined();
+    expect([...bst.keys()]).toEqual([2, 1]);
+  });
+
+  it('should throw if compare object key without specifyComparable', () => {
+    const bst = new BST<any>();
+    expect(() => bst.comparator({ a: 1 }, { a: 2 })).toThrow();
+  });
+});
+
+describe('BST addMany edge cases', () => {
+  it('should addMany with values iterable', () => {
+    const bst = new BST<number, string>();
+    const keys = [1, 2, 3];
+    const values = ['a', 'b', 'c'];
+    const result = bst.addMany(keys, values);
+    expect(result).toEqual([true, true, true]);
+    expect([...bst]).toEqual([[1, 'a'], [2, 'b'], [3, 'c']]);
+  });
+
+  it('should addMany with isBalanceAdd=false', () => {
+    const bst = new BST<number>();
+    const result = bst.addMany([3, 1, 2], undefined, false);
+    expect(result).toEqual([true, true, true]);
+    expect([...bst.keys()]).toEqual([1, 2, 3]);
+  });
+
+  it('should addMany with raw/entry/node', () => {
+    const bst = new BST<number, string>([], { isMapMode: false });
+    const node = new BSTNode(5, 'x');
+    const result = bst.addMany([1, [2, 'b'], node]);
+    expect(result).toEqual([true, true, true]);
+    expect(bst.get(5)).toBe('x');
+  });
+});
+
+describe('BST perfectlyBalance and isAVLBalanced edge cases', () => {
+  it('should perfectlyBalance with <1 node and both iterationType', () => {
+    const bst = new BST<number>();
+    expect(bst.perfectlyBalance('RECURSIVE')).toBe(false);
+    expect(bst.perfectlyBalance('ITERATIVE')).toBe(false);
+    bst.addMany([1, 2, 3]);
+    expect(bst.perfectlyBalance('RECURSIVE')).toBe(true);
+    bst.clear();
+    bst.addMany([1, 2, 3]);
+    expect(bst.perfectlyBalance('ITERATIVE')).toBe(true);
+  });
+
+  it('should isAVLBalanced with both iterationType', () => {
+    const bst = new BST<number>();
+    expect(bst.isAVLBalanced('RECURSIVE')).toBe(true);
+    expect(bst.isAVLBalanced('ITERATIVE')).toBe(true);
+    bst.addMany([1, 2, 3, 4, 5]);
+    expect(typeof bst.isAVLBalanced('RECURSIVE')).toBe('boolean');
+    expect(typeof bst.isAVLBalanced('ITERATIVE')).toBe('boolean');
+  });
+});
+
+describe('BST _keyValueNodeOrEntryToNodeAndValue edge', () => {
+  it('should return [undefined, undefined] for null', () => {
+    const bst = new BST<number>();
+    // @ts-ignore
+    const result = bst["_keyValueNodeOrEntryToNodeAndValue"](null);
+    expect(result).toEqual([undefined, undefined]);
+  });
+});
+
 describe('classic use', () => {
   it('@example Merge 3 sorted datasets', () => {
     const dataset1 = new BST<number, string>([

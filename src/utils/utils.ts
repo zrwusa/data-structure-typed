@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { Comparable, ComparablePrimitive, Thunk, ToThunkFn, TrlAsyncFn, TrlFn } from '../types';
+import type { Comparable, ComparablePrimitive, TrampolineThunk, Trampoline } from '../types';
 
 /**
  * The function generates a random UUID (Universally Unique Identifier) in TypeScript.
@@ -45,91 +45,6 @@ export const arrayRemove = function <T>(array: T[], predicate: (item: T, index: 
   }
 
   return result;
-};
-
-export const THUNK_SYMBOL = Symbol('thunk');
-
-/**
- * The function `isThunk` checks if a given value is a function with a specific symbol property.
- * @param {any} fnOrValue - The `fnOrValue` parameter in the `isThunk` function can be either a
- * function or a value that you want to check if it is a thunk. Thunks are functions that are wrapped
- * around a value or computation for lazy evaluation. The function checks if the `fnOrValue` is
- * @returns The function `isThunk` is checking if the input `fnOrValue` is a function and if it has a
- * property `__THUNK__` equal to `THUNK_SYMBOL`. The return value will be `true` if both conditions are
- * met, otherwise it will be `false`.
- */
-export const isThunk = (fnOrValue: any) => {
-  return typeof fnOrValue === 'function' && fnOrValue.__THUNK__ === THUNK_SYMBOL;
-};
-
-/**
- * The `toThunk` function in TypeScript converts a function into a thunk by wrapping it in a closure.
- * @param {ToThunkFn} fn - `fn` is a function that will be converted into a thunk.
- * @returns A thunk function is being returned. Thunk functions are functions that delay the evaluation
- * of an expression or operation until it is explicitly called or invoked. In this case, the `toThunk`
- * function takes a function `fn` as an argument and returns a thunk function that, when called, will
- * execute the `fn` function provided as an argument.
- */
-export const toThunk = (fn: ToThunkFn): Thunk => {
-  const thunk = () => fn();
-  thunk.__THUNK__ = THUNK_SYMBOL;
-  return thunk;
-};
-
-/**
- * The `trampoline` function in TypeScript enables tail call optimization by using thunks to avoid
- * stack overflow.
- * @param {TrlFn} fn - The `fn` parameter in the `trampoline` function is a function that takes any
- * number of arguments and returns a value.
- * @returns The `trampoline` function returns an object with two properties:
- * 1. A function that executes the provided function `fn` and continues to execute any thunks returned
- * by `fn` until a non-thunk value is returned.
- * 2. A `cont` property that is a function which creates a thunk for the provided function `fn`.
- */
-export const trampoline = (fn: TrlFn) => {
-  const cont = (...args: [...Parameters<TrlFn>]): ReturnType<TrlFn> => toThunk(() => fn(...args));
-
-  return Object.assign(
-    (...args: [...Parameters<TrlFn>]) => {
-      let result = fn(...args);
-
-      while (isThunk(result) && typeof result === 'function') {
-        result = result();
-      }
-
-      return result;
-    },
-    { cont }
-  );
-};
-
-/**
- * The `trampolineAsync` function in TypeScript allows for asynchronous trampolining of a given
- * function.
- * @param {TrlAsyncFn} fn - The `fn` parameter in the `trampolineAsync` function is expected to be a
- * function that returns a Promise. This function will be called recursively until a non-thunk value is
- * returned.
- * @returns The `trampolineAsync` function returns an object with two properties:
- * 1. An async function that executes the provided `TrlAsyncFn` function and continues to execute any
- * thunks returned by the function until a non-thunk value is returned.
- * 2. A `cont` property that is a function which wraps the provided `TrlAsyncFn` function in a thunk
- * and returns it.
- */
-export const trampolineAsync = (fn: TrlAsyncFn) => {
-  const cont = (...args: [...Parameters<TrlAsyncFn>]): ReturnType<TrlAsyncFn> => toThunk(() => fn(...args));
-
-  return Object.assign(
-    async (...args: [...Parameters<TrlAsyncFn>]) => {
-      let result = await fn(...args);
-
-      while (isThunk(result) && typeof result === 'function') {
-        result = await result();
-      }
-
-      return result;
-    },
-    { cont }
-  );
 };
 
 /**
@@ -281,4 +196,160 @@ export function isComparable(value: unknown, isForceObjectComparable = false): v
   const comparableValue = tryObjectToPrimitive(value);
   if (comparableValue === null || comparableValue === undefined) return false;
   return isPrimitiveComparable(comparableValue);
+}
+
+/**
+ * Creates a trampoline thunk object.
+ *
+ * A "thunk" is a deferred computation — instead of performing a recursive call immediately,
+ * it wraps the next step of the computation in a function. This allows recursive processes
+ * to be executed iteratively, preventing stack overflows.
+ *
+ * @template T - The type of the final computation result.
+ * @param computation - A function that, when executed, returns the next trampoline step.
+ * @returns A TrampolineThunk object containing the deferred computation.
+ */
+export const makeTrampolineThunk = <T>(
+  computation: () => Trampoline<T>
+): TrampolineThunk<T> => ({
+  isThunk: true, // Marker indicating this is a thunk
+  fn: computation // The deferred computation function
+});
+
+/**
+ * Type guard to check whether a given value is a TrampolineThunk.
+ *
+ * This function is used to distinguish between a final computation result (value)
+ * and a deferred computation (thunk).
+ *
+ * @template T - The type of the value being checked.
+ * @param value - The value to test.
+ * @returns True if the value is a valid TrampolineThunk, false otherwise.
+ */
+export const isTrampolineThunk = <T>(
+  value: Trampoline<T>
+): value is TrampolineThunk<T> =>
+  typeof value === 'object' && // Must be an object
+  value !== null &&            // Must not be null
+  'isThunk' in value &&        // Must have the 'isThunk' property
+  value.isThunk;               // The flag must be true
+
+/**
+ * Executes a trampoline computation until a final (non-thunk) result is obtained.
+ *
+ * The trampoline function repeatedly invokes the deferred computations (thunks)
+ * in an iterative loop. This avoids deep recursive calls and prevents stack overflow,
+ * which is particularly useful for implementing recursion in a stack-safe manner.
+ *
+ * @template T - The type of the final result.
+ * @param initial - The initial Trampoline value or thunk to start execution from.
+ * @returns The final result of the computation (a non-thunk value).
+ */
+export function trampoline<T>(initial: Trampoline<T>): T {
+  let current = initial; // Start with the initial trampoline value
+  while (isTrampolineThunk(current)) { // Keep unwrapping while we have thunks
+    current = current.fn(); // Execute the deferred function to get the next step
+  }
+  return current; // Once no thunks remain, return the final result
+}
+
+/**
+ * Wraps a recursive function inside a trampoline executor.
+ *
+ * This function transforms a potentially recursive function (that returns a Trampoline<Result>)
+ * into a *stack-safe* function that executes iteratively using the `trampoline` runner.
+ *
+ * In other words, it allows you to write functions that look recursive,
+ * but actually run in constant stack space.
+ *
+ * @template Args - The tuple type representing the argument list of the original function.
+ * @template Result - The final return type after all trampoline steps are resolved.
+ *
+ * @param fn - A function that performs a single step of computation
+ *             and returns a Trampoline (either a final value or a deferred thunk).
+ *
+ * @returns A new function with the same arguments, but which automatically
+ *          runs the trampoline process and returns the *final result* instead
+ *          of a Trampoline.
+ *
+ * @example
+ * // Example: Computing factorial in a stack-safe way
+ * const factorial = makeTrampoline(function fact(n: number, acc: number = 1): Trampoline<number> {
+ *   return n === 0
+ *     ? acc
+ *     : makeTrampolineThunk(() => fact(n - 1, acc * n));
+ * });
+ *
+ * console.log(factorial(100000)); // Works without stack overflow
+ */
+export function makeTrampoline<Args extends any[], Result>(
+  fn: (...args: Args) => Trampoline<Result> // A function that returns a trampoline step
+): (...args: Args) => Result {
+  // Return a wrapped function that automatically runs the trampoline execution loop
+  return (...args: Args) => trampoline(fn(...args));
+}
+
+/**
+ * Executes an asynchronous trampoline computation until a final (non-thunk) result is obtained.
+ *
+ * This function repeatedly invokes asynchronous deferred computations (thunks)
+ * in an iterative loop. Each thunk may return either a Trampoline<T> or a Promise<Trampoline<T>>.
+ *
+ * It ensures that asynchronous recursive functions can run without growing the call stack,
+ * making it suitable for stack-safe async recursion.
+ *
+ * @template T - The type of the final result.
+ * @param initial - The initial Trampoline or Promise of Trampoline to start execution from.
+ * @returns A Promise that resolves to the final result (a non-thunk value).
+ */
+export async function asyncTrampoline<T>(
+  initial: Trampoline<T> | Promise<Trampoline<T>>
+): Promise<T> {
+  let current = await initial; // Wait for the initial step to resolve if it's a Promise
+
+  // Keep executing thunks until we reach a non-thunk (final) value
+  while (isTrampolineThunk(current)) {
+    current = await current.fn(); // Execute the thunk function (may be async)
+  }
+
+  // Once the final value is reached, return it
+  return current;
+}
+
+/**
+ * Wraps an asynchronous recursive function inside an async trampoline executor.
+ *
+ * This helper transforms a recursive async function that returns a Trampoline<Result>
+ * (or Promise<Trampoline<Result>>) into a *stack-safe* async function that executes
+ * iteratively via the `asyncTrampoline` runner.
+ *
+ * @template Args - The tuple type representing the argument list of the original function.
+ * @template Result - The final return type after all async trampoline steps are resolved.
+ *
+ * @param fn - An async or sync function that performs a single step of computation
+ *             and returns a Trampoline (either a final value or a deferred thunk).
+ *
+ * @returns An async function with the same arguments, but which automatically
+ *          runs the trampoline process and resolves to the *final result*.
+ *
+ * @example
+ * // Example: Async factorial using trampoline
+ * const asyncFactorial = makeAsyncTrampoline(async function fact(
+ *   n: number,
+ *   acc: number = 1
+ * ): Promise<Trampoline<number>> {
+ *   return n === 0
+ *     ? acc
+ *     : makeTrampolineThunk(() => fact(n - 1, acc * n));
+ * });
+ *
+ * asyncFactorial(100000).then(console.log); // Works without stack overflow
+ */
+export function makeAsyncTrampoline<Args extends any[], Result>(
+  fn: (...args: Args) => Trampoline<Result> | Promise<Trampoline<Result>>
+): (...args: Args) => Promise<Result> {
+  // Return a wrapped async function that runs through the async trampoline loop
+  return async (...args: Args): Promise<Result> => {
+    return asyncTrampoline(fn(...args));
+  };
 }
