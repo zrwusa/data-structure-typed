@@ -1,0 +1,39 @@
+{
+  "label": "default-plan",
+  "include": [
+    "binary-tree/avl-tree.test.ts",
+    "binary-tree/binary-tree.test.ts",
+    "binary-tree/bst.test.ts",
+    "binary-tree/red-black-tree.test.ts",
+    "graph/directed-graph.test.ts",
+    "hash/hash-map.test.ts",
+    "heap/heap.test.ts",
+    "queue/queue.test.ts",
+    "queue/deque.test.ts",
+    "stack/**",
+    "trie/**"
+  ],
+  "exclude": [
+    "**/experimental/**"
+  ],
+  "order": [
+    "heap",
+    "avl-tree",
+    "red-black-tree",
+    "doubly-linked-list",
+    "linked-hash-map",
+    "hash-map",
+    "map-graph",
+    "graph",
+    "directed-graph",
+    "undirected-graph",
+    "queue",
+    "deque",
+    "priority-queue",
+    "singly-linked-list",
+    "binary-tree-overall",
+    "bst",
+    "trie",
+    "stack"
+  ]
+}

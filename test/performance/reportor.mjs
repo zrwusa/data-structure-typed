@@ -3,31 +3,31 @@ import * as fs from 'fs';
 import fastGlob from 'fast-glob';
 import { fileURLToPath } from 'url';
 
-const isNumber = (value) => {
+const isNumber = value => {
   return typeof value === 'number';
 };
-const isString = (value) => {
+const isString = value => {
   return typeof value === 'string';
 };
-const isBoolean = (value) => {
+const isBoolean = value => {
   return typeof value === 'boolean';
 };
-const isDate = (value) => {
+const isDate = value => {
   return value instanceof Date;
 };
-const isNull = (value) => {
+const isNull = value => {
   return value === null;
 };
-const isUndefined = (value) => {
+const isUndefined = value => {
   return typeof value === 'undefined';
 };
-const isFunction = (value) => {
+const isFunction = value => {
   return typeof value === 'function';
 };
-const isObject = (value) => {
+const isObject = value => {
   return typeof value === 'object';
 };
-const isArray = (value) => {
+const isArray = value => {
   return Array.isArray(value);
 };
 const isEqual = (objA, objB) => {
@@ -56,38 +56,35 @@ const isEqual = (objA, objB) => {
 function toggleJS(options) {
   if (options === null || options === void 0 ? void 0 : options.plainHtml) {
     return '';
-  }
-  else {
+  } else {
     return 'onclick="json-to-html.toggleVisibility(this);return false"';
   }
 }
+
 function makeLabelDiv(options, level, keyName, datatype) {
   if (typeof keyName === 'number') {
     return `<div class='index'><span class='json-to-html-label'>${keyName}&nbsp;</span></div>`;
-  }
-  else if (typeof keyName === 'string') {
+  } else if (typeof keyName === 'string') {
     if (datatype === 'array') {
       return `<div class='collapsible level${level}' ${toggleJS(options)}><span class='json-to-html-label'>${keyName}</span></div>`;
-    }
-    else if (datatype === 'object') {
+    } else if (datatype === 'object') {
       return `<div class='attribute collapsible level${level}' ${toggleJS(options)}><span class='json-to-html-label'>${keyName}:</span></div>`;
-    }
-    else {
+    } else {
       return `<div class='leaf level${level}'><span class='json-to-html-label'>${keyName}:</span></div>`;
     }
-  }
-  else {
+  } else {
     return '';
   }
 }
+
 function getContentClass(keyName) {
   if (typeof keyName === 'string') {
     return 'content';
-  }
-  else {
+  } else {
     return '';
   }
 }
+
 function isPlainObject(val) {
   let lastKey;
   let lastOwnKey;
@@ -101,8 +98,10 @@ function isPlainObject(val) {
   }
   return lastOwnKey === lastKey;
 }
+
 function isLeafValue(val) {
-  return (isNumber(val) ||
+  return (
+    isNumber(val) ||
     isString(val) ||
     isBoolean(val) ||
     isDate(val) ||
@@ -110,8 +109,10 @@ function isLeafValue(val) {
     isUndefined(val) ||
     isNaN(val) ||
     isFunction(val) ||
-    !isPlainObject(val));
+    !isPlainObject(val)
+  );
 }
+
 function isLeafObject(obj) {
   if (!isObject(obj)) {
     return false;
@@ -124,35 +125,37 @@ function isLeafObject(obj) {
   }
   return true;
 }
+
 function isTable(arr) {
   if (!isArray(arr)) {
     return false;
   }
   if (arr.length === 0 || !isObject(arr[0])) {
     return false;
-  }
-  else {
+  } else {
     let nonCompliant = arr.find(row => !isLeafObject(row));
     if (nonCompliant) {
       return false;
-    }
-    else {
+    } else {
       const cols = Object.keys(arr[0]);
-      nonCompliant = arr.find((row) => !isEqual(cols, Object.keys(row)));
+      nonCompliant = arr.find(row => !isEqual(cols, Object.keys(row)));
       return !nonCompliant;
     }
   }
 }
+
 function drawTable(arr) {
   function drawRow(headers, rowObj) {
     return '<td>' + headers.map(header => rowObj[header]).join('</td><td>') + '</td>';
   }
+
   const cols = Object.keys(arr[0]);
   const content = arr.map(rowObj => drawRow(cols, rowObj));
   const headingHtml = '<tr><th>' + cols.join('</th><th>') + '</th></tr>';
   const contentHtml = '<tr>' + content.join('</tr><tr>') + '</tr>';
   return '<table style="display: table; width:100%; table-layout: fixed;">' + headingHtml + contentHtml + '</table>';
 }
+
 function _render(name, data, options, level, altRow) {
   const contentClass = getContentClass(name);
   if (isArray(data)) {
@@ -160,8 +163,7 @@ function _render(name, data, options, level, altRow) {
     let subs;
     if (isTable(data)) {
       subs = drawTable(data);
-    }
-    else {
+    } else {
       subs =
         "<div class='altRows'>" +
         data
@@ -173,28 +175,24 @@ function _render(name, data, options, level, altRow) {
       ${title}
       <div class="${contentClass}">${subs}</div>
     </div>`;
-  }
-  else if (isLeafValue(data)) {
+  } else if (isLeafValue(data)) {
     const title = makeLabelDiv(options, level, name);
     if (isFunction(data)) {
       return `${title}<span class='json-to-html-value'>&nbsp;&nbsp;-function() can't _render-</span>`;
-    }
-    else if (!isPlainObject(data)) {
+    } else if (!isPlainObject(data)) {
       if (isFunction(data.toString)) {
         return `${title}<span class='json-to-html-value'>&nbsp;&nbsp;${data.toString()}</span>`;
-      }
-      else {
+      } else {
         return `${title}<span class='json-to-html-value'>&nbsp;&nbsp;-instance object, can't render-</span>`;
       }
-    }
-    else {
+    } else {
       return `${title}<span class='json-to-html-value'>&nbsp;&nbsp;${data}</span>`;
     }
-  }
-  else {
+  } else {
     const title = makeLabelDiv(options, level, name, 'object');
     let count = 0;
-    const subs = '<div>' +
+    const subs =
+      '<div>' +
       Object.entries(data)
         .map(([key, val]) => _render(key, val, options, level + 1, count++ % 2))
         .join('</div><div>') +
@@ -208,10 +206,10 @@ function _render(name, data, options, level, altRow) {
       ${level === 0 ? '</div>' : ''}`;
   }
 }
+
 export function render(name, json, options) {
   return `${_render(name, json, options, 0, 0)}`;
 }
-
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -225,6 +223,7 @@ function numberFix(num, decimalPlaces) {
     return num.toFixed(decimalPlaces);
   }
 }
+
 const ConsoleColor = {
   END: '\x1b[0m',
   BOLD: '\x1b[1m',
@@ -278,7 +277,6 @@ const getRelativePath = file => {
   return path.relative(__dirname, file);
 };
 const coloredLabeled = (label, file) => {
-
   const relativeFilePath = getRelativePath(file);
   const directory = path.dirname(relativeFilePath);
   const fileName = path.basename(relativeFilePath);
@@ -414,6 +412,7 @@ const composeReport = () => {
   fs.writeFileSync(htmlFilePath, html);
   console.log(`Performance ${BOLD}${GREEN}report${END} file generated in file://${BOLD}${GREEN}${htmlFilePath}${END}`);
 };
+
 function replaceMarkdownContent(startMarker, endMarker, newText) {
   const filePath = path.join(parentDirectory, 'README.md'); // Path to README.md file
   fs.readFile(filePath, 'utf8', (err, data) => {
@@ -440,6 +439,7 @@ function replaceMarkdownContent(startMarker, endMarker, newText) {
     });
   });
 }
+
 const sortedPerformanceTests = (
   isOnlyOrdered ? [...performanceTests].filter(test => runOrder.includes(test.testName)) : [...performanceTests]
 ).sort((a, b) => {
