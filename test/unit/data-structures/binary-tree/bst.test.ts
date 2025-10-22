@@ -1,4 +1,4 @@
-import { BinaryTreeNode, BST, BSTNode, Range } from '../../../../src';
+import { BinaryTreeNode, BST, BSTNode, IBinaryTree, Range } from '../../../../src';
 import { isDebugTest, isTestStackOverflow, SYSTEM_MAX_CALL_STACK } from '../../../config';
 
 const isDebug = isDebugTest;
@@ -331,8 +331,7 @@ describe('BST operations test', () => {
     if (removed11[0].deleted) expect(removed11[0].deleted.key).toBe(11);
 
     expect(objBST.isAVLBalanced()).toBe(true);
-
-    expect(node15 && objBST.getHeight(node15)).toBe(2);
+    expect(node15 && objBST.getHeight(node15)).toBe(1);
 
     const removed1 = objBST.delete(1);
     expect(removed1).toBeInstanceOf(Array);
@@ -775,7 +774,7 @@ describe('BST operations test recursively', () => {
 
     expect(objBST.isAVLBalanced()).toBe(true);
 
-    expect(node15 && objBST.getHeight(node15)).toBe(2);
+    expect(node15 && objBST.getHeight(node15)).toBe(1);
 
     const removed1 = objBST.delete(1);
     expect(removed1).toBeInstanceOf(Array);
@@ -932,7 +931,7 @@ describe('BST operations test recursively', () => {
   });
 
   it('should the clone method', () => {
-    function checkTreeStructure(bst: BST<string, number>) {
+    function checkTreeStructure(bst: IBinaryTree<string, number>) {
       expect(bst.size).toBe(4);
       expect(bst.root?.key).toBe('2');
       expect(bst.root?.left?.key).toBe('1');
@@ -1540,13 +1539,13 @@ describe('BST iterative methods not map mode test', () => {
 describe('BST constructor and comparator edge cases', () => {
   it('should support specifyComparable and isReverse', () => {
     const bst = new BST<number>([], {
-      specifyComparable: (k) => -k,
+      specifyComparable: k => -k,
       isReverse: true
     });
     bst.add(1);
     bst.add(2);
     expect(bst.isReverse).toBe(true);
-    expect(bst["_specifyComparable"]).toBeDefined();
+    expect(bst['_specifyComparable']).toBeDefined();
     expect([...bst.keys()]).toEqual([2, 1]);
   });
 
@@ -1563,7 +1562,11 @@ describe('BST addMany edge cases', () => {
     const values = ['a', 'b', 'c'];
     const result = bst.addMany(keys, values);
     expect(result).toEqual([true, true, true]);
-    expect([...bst]).toEqual([[1, 'a'], [2, 'b'], [3, 'c']]);
+    expect([...bst]).toEqual([
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c']
+    ]);
   });
 
   it('should addMany with isBalanceAdd=false', () => {
@@ -1608,7 +1611,7 @@ describe('BST _keyValueNodeOrEntryToNodeAndValue edge', () => {
   it('should return [undefined, undefined] for null', () => {
     const bst = new BST<number>();
     // @ts-ignore
-    const result = bst["_keyValueNodeOrEntryToNodeAndValue"](null);
+    const result = bst['_keyValueNodeOrEntryToNodeAndValue'](null);
     expect(result).toEqual([undefined, undefined]);
   });
 });

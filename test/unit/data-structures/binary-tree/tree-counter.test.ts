@@ -1,4 +1,4 @@
-import { BinaryTreeNode, BSTNode, RedBlackTreeNode, TreeCounter, TreeCounterNode } from '../../../../src';
+import { BinaryTreeNode, BSTNode, IBinaryTree, RedBlackTreeNode, TreeCounter, TreeCounterNode } from '../../../../src';
 import { isDebugTest } from '../../../config';
 import { getRandomInt } from '../../../utils';
 
@@ -172,12 +172,12 @@ describe('TreeCounter operations test1', () => {
     expect(dfsInorderNodes[dfsInorderNodes.length - 1].key).toBe(16);
     expect(treeCounter.isPerfectlyBalanced()).toBe(false);
     treeCounter.perfectlyBalance();
-    expect(treeCounter.isPerfectlyBalanced()).toBe(false);
+    expect(treeCounter.isPerfectlyBalanced()).toBe(true);
 
-    expect(treeCounter.isAVLBalanced()).toBe(false);
+    expect(treeCounter.isAVLBalanced()).toBe(true);
 
     const bfsNodesAfterBalanced = treeCounter.bfs(node => node);
-    expect(bfsNodesAfterBalanced[0].key).toBe(6);
+    expect(bfsNodesAfterBalanced[0].key).toBe(8);
     expect(bfsNodesAfterBalanced[bfsNodesAfterBalanced.length - 1].key).toBe(16);
 
     const removed11 = treeCounter.delete(11, true);
@@ -187,7 +187,7 @@ describe('TreeCounter operations test1', () => {
 
     if (removed11[0].deleted) expect(removed11[0].deleted.key).toBe(11);
 
-    expect(treeCounter.isAVLBalanced()).toBe(false);
+    expect(treeCounter.isAVLBalanced()).toBe(true);
 
     expect(treeCounter.getHeight(15)).toBe(1);
 
@@ -197,9 +197,9 @@ describe('TreeCounter operations test1', () => {
     expect(removed1[0].deleted);
     if (removed1[0].deleted) expect(removed1[0].deleted.key).toBe(1);
 
-    expect(treeCounter.isAVLBalanced()).toBe(false);
+    expect(treeCounter.isAVLBalanced()).toBe(true);
 
-    expect(treeCounter.getHeight()).toBe(5);
+    expect(treeCounter.getHeight()).toBe(4);
 
     const removed4 = treeCounter.delete(4, true);
     expect(removed4 instanceof Array);
@@ -207,8 +207,8 @@ describe('TreeCounter operations test1', () => {
     expect(removed4[0].deleted);
     if (removed4[0].deleted) expect(removed4[0].deleted.key).toBe(4);
 
-    expect(treeCounter.isAVLBalanced()).toBe(false);
-    expect(treeCounter.getHeight()).toBe(5);
+    expect(treeCounter.isAVLBalanced()).toBe(true);
+    expect(treeCounter.getHeight()).toBe(4);
 
     const removed10 = treeCounter.delete(10, true);
     expect(removed10 instanceof Array);
@@ -225,7 +225,7 @@ describe('TreeCounter operations test1', () => {
     expect(removed15[0].deleted);
     if (removed15[0].deleted) expect(removed15[0].deleted.key).toBe(15);
 
-    expect(treeCounter.isAVLBalanced()).toBe(false);
+    expect(treeCounter.isAVLBalanced()).toBe(true);
     expect(treeCounter.getHeight()).toBe(3);
 
     const removed5 = treeCounter.delete(5, true);
@@ -250,7 +250,7 @@ describe('TreeCounter operations test1', () => {
     expect(removed3[0]);
     expect(removed3[0].deleted);
     if (removed3[0].deleted) expect(removed3[0].deleted.key).toBe(3);
-    expect(treeCounter.isAVLBalanced()).toBe(false);
+    expect(treeCounter.isAVLBalanced()).toBe(true);
     expect(treeCounter.getHeight()).toBe(3);
 
     const removed8 = treeCounter.delete(8, true);
@@ -440,11 +440,11 @@ describe('TreeCounter operations test recursively1', () => {
 
     treeCounter.perfectlyBalance();
 
-    expect(treeCounter.isPerfectlyBalanced()).toBe(false);
-    expect(treeCounter.isAVLBalanced()).toBe(false);
+    expect(treeCounter.isPerfectlyBalanced()).toBe(true);
+    expect(treeCounter.isAVLBalanced()).toBe(true);
 
     const bfsNodesAfterBalanced = treeCounter.bfs(node => node);
-    expect(bfsNodesAfterBalanced[0].key).toBe(6);
+    expect(bfsNodesAfterBalanced[0].key).toBe(8);
     expect(bfsNodesAfterBalanced[bfsNodesAfterBalanced.length - 1].key).toBe(16);
 
     const removed11 = treeCounter.delete(11, true);
@@ -454,7 +454,7 @@ describe('TreeCounter operations test recursively1', () => {
 
     if (removed11[0].deleted) expect(removed11[0].deleted.key).toBe(11);
 
-    expect(treeCounter.isAVLBalanced()).toBe(false);
+    expect(treeCounter.isAVLBalanced()).toBe(true);
 
     expect(treeCounter.getHeight(15)).toBe(1);
 
@@ -463,10 +463,9 @@ describe('TreeCounter operations test recursively1', () => {
     expect(removed1[0]);
     expect(removed1[0].deleted);
     if (removed1[0].deleted) expect(removed1[0].deleted.key).toBe(1);
+    expect(treeCounter.isAVLBalanced()).toBe(true);
 
-    expect(treeCounter.isAVLBalanced()).toBe(false);
-
-    expect(treeCounter.getHeight()).toBe(5);
+    expect(treeCounter.getHeight()).toBe(4);
 
     const removed4 = treeCounter.delete(4, true);
     expect(removed4 instanceof Array);
@@ -474,8 +473,8 @@ describe('TreeCounter operations test recursively1', () => {
     expect(removed4[0].deleted);
     if (removed4[0].deleted) expect(removed4[0].deleted.key).toBe(4);
 
-    expect(treeCounter.isAVLBalanced()).toBe(false);
-    expect(treeCounter.getHeight()).toBe(5);
+    expect(treeCounter.isAVLBalanced()).toBe(true);
+    expect(treeCounter.getHeight()).toBe(4);
 
     const removed10 = treeCounter.delete(10, true);
     expect(removed10 instanceof Array);
@@ -492,7 +491,7 @@ describe('TreeCounter operations test recursively1', () => {
     expect(removed15[0].deleted);
     if (removed15[0].deleted) expect(removed15[0].deleted.key).toBe(15);
 
-    expect(treeCounter.isAVLBalanced()).toBe(false);
+    expect(treeCounter.isAVLBalanced()).toBe(true);
     expect(treeCounter.getHeight()).toBe(3);
 
     const removed5 = treeCounter.delete(5, true);
@@ -517,7 +516,8 @@ describe('TreeCounter operations test recursively1', () => {
     expect(removed3[0]);
     expect(removed3[0].deleted);
     if (removed3[0].deleted) expect(removed3[0].deleted.key).toBe(3);
-    expect(treeCounter.isAVLBalanced()).toBe(false);
+
+    expect(treeCounter.isAVLBalanced()).toBe(true);
     expect(treeCounter.getHeight()).toBe(3);
 
     const removed8 = treeCounter.delete(8, true);
@@ -709,7 +709,7 @@ describe('TreeCounter delete test', function () {
   });
 
   it('should the clone method', () => {
-    function checkTreeStructure(treeCounter: TreeCounter<string, number>) {
+    function checkTreeStructure(treeCounter: IBinaryTree<string, number>) {
       expect(treeCounter.size).toBe(4);
       expect(treeCounter.root?.key).toBe('2');
       expect(treeCounter.root?.left?.key).toBe('1');
@@ -969,7 +969,8 @@ describe('TreeCounter iterative methods test not map mode', () => {
     expect(treeCounter.count).toBe(21);
     expect(treeCounter.getComputedCount()).toBe(21);
     const cloned = treeCounter.clone();
+    expect(cloned instanceof TreeCounter).toBe(true);
     expect(cloned.root?.left?.key).toBe(1);
-    expect(cloned.get(cloned.root?.right)).toBe(undefined);
+    expect(cloned.get(cloned.root?.right)).toBe('c');
   });
 });

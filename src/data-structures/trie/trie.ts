@@ -5,10 +5,21 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
+
 import type { ElementCallback, TrieOptions } from '../../types';
 import { IterableElementBase } from '../base';
 
+/**
+ * Node used by Trie to store one character and its children.
+ * @remarks Time O(1), Space O(1)
+ */
 export class TrieNode {
+  /**
+   * Create a Trie node with a character key.
+   * @remarks Time O(1), Space O(1)
+   * @returns New TrieNode instance.
+   */
+
   constructor(key: string) {
     this._key = key;
     this._isEnd = false;
@@ -18,18 +29,22 @@ export class TrieNode {
   protected _key: string;
 
   /**
-   * The function returns the value of the protected variable _key.
-   * @returns The value of the `_key` property, which is a string.
+   * Get the character key of this node.
+   * @remarks Time O(1), Space O(1)
+   * @returns Character key string.
    */
+
   get key(): string {
     return this._key;
   }
 
   /**
-   * The above function sets the value of a protected variable called "key".
-   * @param {string} value - The value parameter is a string that represents the value to be assigned
-   * to the key.
+   * Set the character key of this node.
+   * @remarks Time O(1), Space O(1)
+   * @param value - New character key.
+   * @returns void
    */
+
   set key(value: string) {
     this._key = value;
   }
@@ -37,21 +52,22 @@ export class TrieNode {
   protected _children: Map<string, TrieNode>;
 
   /**
-   * The function returns the children of a TrieNode as a Map.
-   * @returns The `children` property of the TrieNode object, which is a Map containing string keys and
-   * TrieNode values.
+   * Get the child map of this node.
+   * @remarks Time O(1), Space O(1)
+   * @returns Map from character to child node.
    */
+
   get children(): Map<string, TrieNode> {
     return this._children;
   }
 
   /**
-   * The function sets the value of the `_children` property of a TrieNode object.
-   * @param value - The value parameter is a Map object that represents the children of a TrieNode. The
-   * keys of the map are strings, which represent the characters that are associated with each child
-   * TrieNode. The values of the map are TrieNode objects, which represent the child nodes of the
-   * current TrieNode.
+   * Replace the child map of this node.
+   * @remarks Time O(1), Space O(1)
+   * @param value - New map of character → node.
+   * @returns void
    */
+
   set children(value: Map<string, TrieNode>) {
     this._children = value;
   }
@@ -59,24 +75,31 @@ export class TrieNode {
   protected _isEnd: boolean;
 
   /**
-   * The function returns a boolean value indicating whether a certain condition is met.
-   * @returns The method is returning a boolean value, specifically the value of the variable `_isEnd`.
+   * Check whether this node marks the end of a word.
+   * @remarks Time O(1), Space O(1)
+   * @returns True if this node ends a word.
    */
+
   get isEnd(): boolean {
     return this._isEnd;
   }
 
   /**
-   * The function sets the value of the "_isEnd" property.
-   * @param {boolean} value - The value parameter is a boolean value that indicates whether the current
-   * state is the end state or not.
+   * Mark this node as the end of a word or not.
+   * @remarks Time O(1), Space O(1)
+   * @param value - Whether this node ends a word.
+   * @returns void
    */
+
   set isEnd(value: boolean) {
     this._isEnd = value;
   }
 }
 
 /**
+ * Prefix tree (Trie) for fast prefix queries and word storage.
+ * @remarks Time O(1), Space O(1)
+ * @template R
  * 1. Node Structure: Each node in a Trie represents a string (or a part of a string). The root node typically represents an empty string.
  * 2. Child Node Relationship: Each node's children represent the strings that can be formed by adding one character to the string at the current node. For example, if a node represents the string 'ca', one of its children might represent 'cat'.
  * 3. Fast Retrieval: Trie allows retrieval in O(m) time complexity, where m is the length of the string to be searched.
@@ -172,17 +195,13 @@ export class TrieNode {
  */
 export class Trie<R = any> extends IterableElementBase<string, R> {
   /**
-   * The constructor initializes a Trie data structure with optional options and words provided as
-   * input.
-   * @param {Iterable<string> | Iterable<R>} words - The `words` parameter in the constructor is an
-   * iterable containing either strings or elements of type `R`. It is used to initialize the Trie with
-   * a list of words or elements. If no `words` are provided, an empty iterable is used as the default
-   * value.
-   * @param [options] - The `options` parameter in the constructor is an optional object that can
-   * contain configuration options for the Trie data structure. One of the options it can have is
-   * `caseSensitive`, which is a boolean value indicating whether the Trie should be case-sensitive or
-   * not. If `caseSensitive` is set to `
+   * Create a Trie and optionally bulk-insert words.
+   * @remarks Time O(totalChars), Space O(totalChars)
+   * @param [words] - Iterable of strings (or raw records if toElementFn is provided).
+   * @param [options] - Options such as toElementFn and caseSensitive.
+   * @returns New Trie instance.
    */
+
   constructor(words: Iterable<string> | Iterable<R> = [], options?: TrieOptions<R>) {
     super(options);
     if (options) {
@@ -197,9 +216,11 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
   protected _size: number = 0;
 
   /**
-   * The size function returns the size of the stack.
-   * @return The number of elements in the list
+   * Get the number of stored words.
+   * @remarks Time O(1), Space O(1)
+   * @returns Word count.
    */
+
   get size(): number {
     return this._size;
   }
@@ -207,9 +228,11 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
   protected _caseSensitive: boolean = true;
 
   /**
-   * The caseSensitive function is a getter that returns the value of the protected _caseSensitive property.
-   * @return The value of the _caseSensitive protected variable
+   * Get whether comparisons are case-sensitive.
+   * @remarks Time O(1), Space O(1)
+   * @returns True if case-sensitive.
    */
+
   get caseSensitive(): boolean {
     return this._caseSensitive;
   }
@@ -217,21 +240,32 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
   protected _root: TrieNode = new TrieNode('');
 
   /**
-   * The root function returns the root node of the tree.
-   * @return The root node
+   * Get the root node.
+   * @remarks Time O(1), Space O(1)
+   * @returns Root TrieNode.
    */
+
   get root() {
     return this._root;
   }
 
   /**
-   * Time Complexity: O(l), where l is the length of the word being added.
-   * Space Complexity: O(l) - Each character in the word adds a TrieNode.
-   *
-   * Add a word to the Trie structure.
-   * @param {string} word - The word to add.
-   * @returns {boolean} True if the word was successfully added.
+   * (Protected) Get total count for base class iteration.
+   * @remarks Time O(1), Space O(1)
+   * @returns Total number of elements.
    */
+
+  protected get _total() {
+    return this._size;
+  }
+
+  /**
+   * Insert one word into the trie.
+   * @remarks Time O(L), Space O(L)
+   * @param word - Word to insert.
+   * @returns True if the word was newly added.
+   */
+
   add(word: string): boolean {
     word = this._caseProcess(word);
     let cur = this.root;
@@ -253,17 +287,12 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
   }
 
   /**
-   * Time Complexity: O(n * l)
-   * Space Complexity: O(1)
-   *
-   * The `addMany` function in TypeScript takes an iterable of strings or elements of type R, converts
-   * them using a provided function if available, and adds them to a data structure while returning an
-   * array of boolean values indicating success.
-   * @param {Iterable<string> | Iterable<R>} words - The `words` parameter in the `addMany` function is
-   * an iterable that contains either strings or elements of type `R`.
-   * @returns The `addMany` method returns an array of boolean values indicating whether each word in
-   * the input iterable was successfully added to the data structure.
+   * Insert many words from an iterable.
+   * @remarks Time O(ΣL), Space O(ΣL)
+   * @param words - Iterable of strings (or raw records if toElementFn is provided).
+   * @returns Array of per-word 'added' flags.
    */
+
   addMany(words: Iterable<string> | Iterable<R>): boolean[] {
     const ans: boolean[] = [];
     for (const word of words) {
@@ -277,13 +306,12 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
   }
 
   /**
-   * Time Complexity: O(l), where l is the length of the input word.
-   * Space Complexity: O(1) - Constant space.
-   *
-   * Check if the Trie contains a given word.
-   * @param {string} word - The word to check for.
-   * @returns {boolean} True if the word is present in the Trie.
+   * Check whether a word exists.
+   * @remarks Time O(L), Space O(1)
+   * @param word - Word to search for.
+   * @returns True if present.
    */
+
   override has(word: string): boolean {
     word = this._caseProcess(word);
     let cur = this.root;
@@ -296,35 +324,33 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The isEmpty function checks if the size of the queue is 0.
-   * @return True if the size of the queue is 0
+   * Check whether the trie is empty.
+   * @remarks Time O(1), Space O(1)
+   * @returns True if size is 0.
    */
+
   isEmpty(): boolean {
     return this._size === 0;
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The clear function resets the size of the Trie to 0 and creates a new root TrieNode.
+   * Remove all words and reset to a fresh root.
+   * @remarks Time O(1), Space O(1)
+   * @returns void
    */
+
   clear(): void {
     this._size = 0;
     this._root = new TrieNode('');
   }
 
   /**
-   * Time Complexity: O(l), where l is the length of the word being deleted.
-   * Space Complexity: O(n) - Due to the recursive DFS approach.
-   *
-   * Remove a word from the Trie structure.
-   * @param{string} word - The word to delete.
-   * @returns {boolean} True if the word was successfully removed.
+   * Delete one word if present.
+   * @remarks Time O(L), Space O(1)
+   * @param word - Word to delete.
+   * @returns True if a word was removed.
    */
+
   delete(word: string): boolean {
     word = this._caseProcess(word);
     let isDeleted = false;
@@ -362,15 +388,11 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The function `getHeight` calculates the height of a trie data structure starting from the root
-   * node.
-   * @returns The `getHeight` method returns the maximum depth or height of the trie tree starting from
-   * the root node. It calculates the depth using a breadth-first search (BFS) traversal of the trie
-   * tree and returns the maximum depth found.
+   * Compute the height (max depth) of the trie.
+   * @remarks Time O(N), Space O(H)
+   * @returns Maximum depth from root to a leaf.
    */
+
   getHeight(): number {
     const startNode = this.root;
     let maxDepth = 0;
@@ -392,13 +414,12 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
   }
 
   /**
-   * Time Complexity: O(l), where l is the length of the input prefix.
-   * Space Complexity: O(1) - Constant space.
-   *
-   * Check if a given input string has an absolute prefix in the Trie, meaning it's not a complete word.
-   * @param {string} input - The input string to check.
-   * @returns {boolean} True if it's an absolute prefix in the Trie.
+   * Check whether input is a proper prefix of at least one word.
+   * @remarks Time O(L), Space O(1)
+   * @param input - String to test as prefix.
+   * @returns True if input is a prefix but not a full word.
    */
+
   hasPurePrefix(input: string): boolean {
     input = this._caseProcess(input);
     let cur = this.root;
@@ -411,13 +432,12 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
   }
 
   /**
-   * Time Complexity: O(l), where l is the length of the input prefix.
-   * Space Complexity: O(1) - Constant space.
-   *
-   * Check if a given input string is a prefix of any existing word in the Trie, whether as an absolute prefix or a complete word.
-   * @param {string} input - The input string representing the prefix to check.
-   * @returns {boolean} True if it's a prefix in the Trie.
+   * Check whether any word starts with input.
+   * @remarks Time O(L), Space O(1)
+   * @param input - String to test as prefix.
+   * @returns True if input matches a path from root.
    */
+
   hasPrefix(input: string): boolean {
     input = this._caseProcess(input);
     let cur = this.root;
@@ -430,13 +450,12 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the total number of nodes in the trie.
-   * Space Complexity: O(l), where l is the length of the input prefix.
-   *
-   * Check if the input string is a common prefix in the Trie, meaning it's a prefix shared by all words in the Trie.
-   * @param {string} input - The input string representing the common prefix to check for.
-   * @returns {boolean} True if it's a common prefix in the Trie.
+   * Check whether the trie’s longest common prefix equals input.
+   * @remarks Time O(min(H,L)), Space O(1)
+   * @param input - Candidate longest common prefix.
+   * @returns True if input equals the common prefix.
    */
+
   hasCommonPrefix(input: string): boolean {
     input = this._caseProcess(input);
     let commonPre = '';
@@ -452,12 +471,11 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
   }
 
   /**
-   * Time Complexity: O(n), where n is the total number of nodes in the trie.
-   * Space Complexity: O(l), where l is the length of the longest common prefix.
-   *
-   * Get the longest common prefix among all the words stored in the Trie.
-   * @returns {string} The longest common prefix found in the Trie.
+   * Return the longest common prefix among all words.
+   * @remarks Time O(H), Space O(1)
+   * @returns The longest common prefix string.
    */
+
   getLongestCommonPrefix(): string {
     let commonPre = '';
     const dfs = (cur: TrieNode) => {
@@ -471,16 +489,14 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
   }
 
   /**
-   * Time Complexity: O(w * l), where w is the number of words retrieved, and l is the average length of the words.
-   * Space Complexity: O(w * l) - The space required for the output array.
-   *
-   * The `getAll` function returns an array of all words in a Trie data structure that start with a given prefix.
-   * @param {string} prefix - The `prefix` parameter is a string that represents the prefix that we want to search for in the
-   * trie. It is an optional parameter, so if no prefix is provided, it will default to an empty string.
-   * @param {number} max - The max count of words will be found
-   * @param isAllWhenEmptyPrefix - If true, when the prefix provided as '', returns all the words in the trie.
-   * @returns {string[]} an array of strings.
+   * Collect words under a prefix up to a maximum count.
+   * @remarks Time O(K·L), Space O(K·L)
+   * @param [prefix] - Prefix to match; default empty string for root.
+   * @param [max] - Maximum number of words to return; default is Number.MAX_SAFE_INTEGER.
+   * @param [isAllWhenEmptyPrefix] - When true, collect from root even if prefix is empty.
+   * @returns Array of collected words (at most max).
    */
+
   getWords(prefix = '', max = Number.MAX_SAFE_INTEGER, isAllWhenEmptyPrefix = false): string[] {
     prefix = this._caseProcess(prefix);
     const words: string[] = [];
@@ -508,7 +524,6 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
         if (nodeC) {
           startNode = nodeC;
         } else {
-          // Early return if the whole prefix is not found
           return [];
         }
       }
@@ -520,33 +535,27 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `clone` function returns a new instance of the Trie class with the same values and case
-   * sensitivity as the original Trie.
-   * @returns A new instance of the Trie class is being returned.
+   * Deep clone this trie by iterating and inserting all words.
+   * @remarks Time O(ΣL), Space O(ΣL)
+   * @returns A new trie with the same words and options.
    */
-  clone(): Trie<R> {
-    return new Trie<R>(this, { caseSensitive: this.caseSensitive, toElementFn: this.toElementFn });
+
+  clone(): this {
+    const next = this._createInstance();
+    for (const x of this) next.add(x);
+    return next;
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `filter` function takes a predicate function and returns a new array containing all the
-   * elements for which the predicate function returns true.
-   * @param predicate - The `predicate` parameter is a callback function that takes three arguments:
-   * `word`, `index`, and `this`. It should return a boolean value indicating whether the current
-   * element should be included in the filtered results or not.
-   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that allows you to
-   * specify the value of `this` within the `predicate` function. It is used when you want to bind a
-   * specific object as the context for the `predicate` function. If `thisArg` is provided, it will be
-   * @returns The `filter` method is returning an array of strings (`string[]`).
+   * Filter words into a new trie of the same class.
+   * @remarks Time O(ΣL), Space O(ΣL)
+   * @param predicate - Predicate (word, index, trie) → boolean to keep word.
+   * @param [thisArg] - Value for `this` inside the predicate.
+   * @returns A new trie containing words that satisfy the predicate.
    */
-  filter(predicate: ElementCallback<string, R, boolean>, thisArg?: any): Trie<R> {
-    const results = new Trie<R>([], { toElementFn: this.toElementFn, caseSensitive: this.caseSensitive });
+
+  filter(predicate: ElementCallback<string, R, boolean>, thisArg?: any): this {
+    const results = this._createInstance();
     let index = 0;
     for (const word of this) {
       if (predicate.call(thisArg, word, index, this)) {
@@ -557,45 +566,105 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
     return results;
   }
 
+  map<RM>(callback: ElementCallback<string, R, string>, options?: TrieOptions<RM>, thisArg?: any): Trie<RM>;
+
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `map` function creates a new Trie by applying a callback function to each element in the
-   * current Trie.
-   * @param callback - The callback parameter is a function that will be called for each element in the
-   * Trie. It takes four arguments:
-   * @param [toElementFn] - The `toElementFn` parameter is an optional function that can be used to
-   * convert the raw element (`RM`) into a string representation. This can be useful if the raw element
-   * is not already a string or if you want to customize how the element is converted into a string. If
-   * this parameter is
-   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that allows you to
-   * specify the value of `this` within the callback function. It is used to set the context or scope
-   * in which the callback function will be executed. If `thisArg` is provided, it will be used as the
-   * value of
-   * @returns a new Trie object.
+   * Map words into a new trie (possibly different record type).
+   * @remarks Time O(ΣL), Space O(ΣL)
+   * @template EM
+   * @template RM
+   * @param callback - Mapping function (word, index, trie) → newWord (string).
+   * @param [options] - Options for the output trie (e.g., toElementFn, caseSensitive).
+   * @param [thisArg] - Value for `this` inside the callback.
+   * @returns A new Trie constructed from mapped words.
    */
-  map<RM>(
-    callback: ElementCallback<string, R, string>,
-    toElementFn?: (rawElement: RM) => string,
+
+  map<EM, RM>(
+    callback: ElementCallback<string, R, EM>,
+    options?: TrieOptions<RM>,
     thisArg?: any
-  ): Trie<RM> {
-    const newTrie = new Trie<RM>([], { toElementFn, caseSensitive: this.caseSensitive });
-    let index = 0;
-    for (const word of this) {
-      newTrie.add(callback.call(thisArg, word, index, this));
-      index++;
+  ): IterableElementBase<EM, RM>;
+
+  map<EM, RM>(callback: ElementCallback<string, R, EM>, options?: TrieOptions<RM>, thisArg?: any): any {
+    const newTrie = this._createLike<RM>([], options);
+    let i = 0;
+    for (const x of this) {
+      const v = thisArg === undefined ? callback(x, i++, this) : callback.call(thisArg, x, i++, this);
+      if (typeof v !== 'string') {
+        throw new TypeError(`Trie.map callback must return string; got ${typeof v}`);
+      }
+      newTrie.add(v);
     }
     return newTrie;
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The function `_getIterator` returns an iterable iterator that performs a depth-first search on a
-   * trie data structure and yields all the paths to the end nodes.
+   * Map words into a new trie of the same element type.
+   * @remarks Time O(ΣL), Space O(ΣL)
+   * @param callback - Mapping function (word, index, trie) → string.
+   * @param [thisArg] - Value for `this` inside the callback.
+   * @returns A new trie with mapped words.
    */
+
+  mapSame(callback: ElementCallback<string, R, string>, thisArg?: any): this {
+    const next = this._createInstance();
+    let i = 0;
+    for (const key of this) {
+      const mapped = thisArg === undefined ? callback(key, i++, this) : callback.call(thisArg, key, i++, this);
+      next.add(mapped);
+    }
+    return next;
+  }
+
+  /**
+   * (Protected) Create an empty instance of the same concrete class.
+   * @remarks Time O(1), Space O(1)
+   * @param [options] - Options forwarded to the constructor.
+   * @returns An empty like-kind trie instance.
+   */
+
+  protected _createInstance(options?: TrieOptions<R>): this {
+    const Ctor: any = this.constructor;
+    const next: any = new Ctor([], {
+      toElementFn: this.toElementFn,
+      caseSensitive: this.caseSensitive,
+      ...(options ?? {})
+    });
+    return next as this;
+  }
+
+  /**
+   * (Protected) Create a like-kind trie and seed it from an iterable.
+   * @remarks Time O(ΣL), Space O(ΣL)
+   * @template RM
+   * @param [elements] - Iterable used to seed the new trie.
+   * @param [options] - Options forwarded to the constructor.
+   * @returns A like-kind Trie instance.
+   */
+
+  protected _createLike<RM>(elements: Iterable<string> | Iterable<RM> = [], options?: TrieOptions<RM>): Trie<RM> {
+    const Ctor: any = this.constructor;
+    return new Ctor(elements, options) as Trie<RM>;
+  }
+
+  /**
+   * (Protected) Spawn an empty like-kind trie instance.
+   * @remarks Time O(1), Space O(1)
+   * @template RM
+   * @param [options] - Options forwarded to the constructor.
+   * @returns An empty like-kind Trie instance.
+   */
+
+  protected _spawnLike<RM>(options?: TrieOptions<RM>): Trie<RM> {
+    return this._createLike<RM>([], options);
+  }
+
+  /**
+   * (Protected) Iterate all words in lexicographic order of edges.
+   * @remarks Time O(ΣL), Space O(H)
+   * @returns Iterator of words.
+   */
+
   protected *_getIterator(): IterableIterator<string> {
     function* _dfs(node: TrieNode, path: string): IterableIterator<string> {
       if (node.isEnd) {
@@ -609,20 +678,16 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
     yield* _dfs(this.root, '');
   }
 
-  protected get _total() {
-    return this._size;
-  }
-
   /**
-   * Time Complexity: O(l), where l is the length of the input string.
-   * Space Complexity: O(1) - Constant space.
-   *
-   * @param str
-   * @protected
+   * (Protected) Normalize a string according to case sensitivity.
+   * @remarks Time O(L), Space O(L)
+   * @param str - Input string to normalize.
+   * @returns Normalized string based on caseSensitive.
    */
+
   protected _caseProcess(str: string) {
     if (!this._caseSensitive) {
-      str = str.toLowerCase(); // Convert str to lowercase if case-insensitive
+      str = str.toLowerCase();
     }
     return str;
   }

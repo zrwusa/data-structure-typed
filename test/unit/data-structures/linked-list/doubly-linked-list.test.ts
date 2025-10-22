@@ -783,6 +783,16 @@ describe('classic use', () => {
         this.map = new Map<K, DoublyLinkedListNode<CacheEntry<K, V>>>();
       }
 
+      // Get the current cache length
+      get length(): number {
+        return this.list.length;
+      }
+
+      // Check if it is empty
+      get isEmpty(): boolean {
+        return this.list.isEmpty();
+      }
+
       // Get cached value
       get(key: K): V | undefined {
         const node = this.map.get(key);
@@ -828,12 +838,6 @@ describe('classic use', () => {
         }
       }
 
-      // Move the node to the head of the linked list
-      private moveToFront(node: DoublyLinkedListNode<CacheEntry<K, V>>): void {
-        this.list.delete(node);
-        this.list.unshift(node.value);
-      }
-
       // Delete specific key
       delete(key: K): boolean {
         const node = this.map.get(key);
@@ -853,14 +857,10 @@ describe('classic use', () => {
         this.map.clear();
       }
 
-      // Get the current cache length
-      get length(): number {
-        return this.list.length;
-      }
-
-      // Check if it is empty
-      get isEmpty(): boolean {
-        return this.list.isEmpty();
+      // Move the node to the head of the linked list
+      private moveToFront(node: DoublyLinkedListNode<CacheEntry<K, V>>): void {
+        this.list.delete(node);
+        this.list.unshift(node.value);
       }
     }
 

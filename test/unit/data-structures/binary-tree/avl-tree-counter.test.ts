@@ -1,4 +1,4 @@
-import { AVLTreeCounter, AVLTreeCounterNode, AVLTreeNode, BinaryTreeNode, BSTNode } from '../../../../src';
+import { AVLTreeCounter, AVLTreeCounterNode, AVLTreeNode, BinaryTreeNode, BSTNode, IBinaryTree } from '../../../../src';
 import { isDebugTest } from '../../../config';
 
 const isDebug = isDebugTest;
@@ -571,7 +571,7 @@ describe('AVLTreeCounter Performance test', function () {
   });
 
   it('should the clone method', () => {
-    function checkTreeStructure(avlCounter: AVLTreeCounter<string, number>) {
+    function checkTreeStructure(avlCounter: IBinaryTree<string, number>) {
       expect(avlCounter.size).toBe(4);
       expect(avlCounter.root?.key).toBe('2');
       expect(avlCounter.root?.left?.key).toBe('1');
@@ -738,7 +738,7 @@ describe('AVLTreeCounter toEntryFn', () => {
           { obj: { id: 5 } }
         ])
     ).toThrowError(
-      `When comparing object types, a custom specifyComparable must be defined in the constructor's options parameter.`
+      `When comparing object types, a custom specifyComparable must be defined in the constructor's options.`
     );
   });
 

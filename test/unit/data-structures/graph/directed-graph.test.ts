@@ -685,7 +685,7 @@ describe('DirectedGraph iterative Methods', () => {
   });
 
   it('filter should return vertexMap that satisfy the condition', () => {
-    const filtered = graph.filter(vertex => vertex === 'A' || vertex === 'B');
+    const filtered = graph.filterEntries(key => key === 'A' || key === 'B');
     expect(filtered).toEqual([
       ['A', undefined],
       ['B', undefined]

@@ -1,4 +1,4 @@
-import { AVLTree, AVLTreeNode, BinaryTreeNode, BSTNode } from '../../../../src';
+import { AVLTree, AVLTreeNode, BinaryTreeNode, BSTNode, IBinaryTree } from '../../../../src';
 
 describe('AVL Tree Test', () => {
   it('should perform various operations on a AVL Tree', () => {
@@ -44,7 +44,7 @@ describe('AVL Tree Test', () => {
 
     expect(avlTree.delete(avlTree.getNode(11))[0].deleted?.key).toBe(11);
     expect(avlTree.isAVLBalanced()).toBe(true);
-    expect(node15 && avlTree.getHeight(node15)).toBe(2);
+    expect(node15 && avlTree.getHeight(node15)).toBe(1);
 
     expect(avlTree.delete(1)[0].deleted?.key).toBe(1);
     expect(avlTree.isAVLBalanced()).toBe(true);
@@ -172,7 +172,7 @@ describe('AVL Tree Test recursively', () => {
 
     expect(avlTree.delete(11)[0].deleted?.key).toBe(11);
     expect(avlTree.isAVLBalanced()).toBe(true);
-    expect(node15 && avlTree.getHeight(node15)).toBe(2);
+    expect(node15 && avlTree.getHeight(node15)).toBe(1);
 
     expect(avlTree.delete(1)[0].deleted?.key).toBe(1);
     expect(avlTree.isAVLBalanced()).toBe(true);
@@ -258,7 +258,7 @@ describe('AVLTree APIs test', () => {
   });
 
   it('should the clone method', () => {
-    function checkTreeStructure(avlTree: AVLTree<string, number>) {
+    function checkTreeStructure(avlTree: IBinaryTree<string, number>) {
       expect(avlTree.size).toBe(4);
       expect(avlTree.root?.key).toBe('2');
       expect(avlTree.root?.left?.key).toBe('1');

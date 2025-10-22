@@ -11,3 +11,8 @@ export type DijkstraResult<V> =
       minPath: V[];
     }
   | undefined;
+
+export type GraphOptions<V = any> = {
+  vertexValueInitializer?: (key: VertexKey) => V;
+  defaultEdgeWeight?: number;
+};

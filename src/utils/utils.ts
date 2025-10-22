@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { Comparable, ComparablePrimitive, TrampolineThunk, Trampoline } from '../types';
+import type { Comparable, ComparablePrimitive, Trampoline, TrampolineThunk } from '../types';
 
 /**
  * The function generates a random UUID (Universally Unique Identifier) in TypeScript.
@@ -209,9 +209,7 @@ export function isComparable(value: unknown, isForceObjectComparable = false): v
  * @param computation - A function that, when executed, returns the next trampoline step.
  * @returns A TrampolineThunk object containing the deferred computation.
  */
-export const makeTrampolineThunk = <T>(
-  computation: () => Trampoline<T>
-): TrampolineThunk<T> => ({
+export const makeTrampolineThunk = <T>(computation: () => Trampoline<T>): TrampolineThunk<T> => ({
   isThunk: true, // Marker indicating this is a thunk
   fn: computation // The deferred computation function
 });
@@ -226,13 +224,11 @@ export const makeTrampolineThunk = <T>(
  * @param value - The value to test.
  * @returns True if the value is a valid TrampolineThunk, false otherwise.
  */
-export const isTrampolineThunk = <T>(
-  value: Trampoline<T>
-): value is TrampolineThunk<T> =>
+export const isTrampolineThunk = <T>(value: Trampoline<T>): value is TrampolineThunk<T> =>
   typeof value === 'object' && // Must be an object
-  value !== null &&            // Must not be null
-  'isThunk' in value &&        // Must have the 'isThunk' property
-  value.isThunk;               // The flag must be true
+  value !== null && // Must not be null
+  'isThunk' in value && // Must have the 'isThunk' property
+  value.isThunk; // The flag must be true
 
 /**
  * Executes a trampoline computation until a final (non-thunk) result is obtained.
@@ -247,7 +243,8 @@ export const isTrampolineThunk = <T>(
  */
 export function trampoline<T>(initial: Trampoline<T>): T {
   let current = initial; // Start with the initial trampoline value
-  while (isTrampolineThunk(current)) { // Keep unwrapping while we have thunks
+  while (isTrampolineThunk(current)) {
+    // Keep unwrapping while we have thunks
     current = current.fn(); // Execute the deferred function to get the next step
   }
   return current; // Once no thunks remain, return the final result
@@ -302,9 +299,7 @@ export function makeTrampoline<Args extends any[], Result>(
  * @param initial - The initial Trampoline or Promise of Trampoline to start execution from.
  * @returns A Promise that resolves to the final result (a non-thunk value).
  */
-export async function asyncTrampoline<T>(
-  initial: Trampoline<T> | Promise<Trampoline<T>>
-): Promise<T> {
+export async function asyncTrampoline<T>(initial: Trampoline<T> | Promise<Trampoline<T>>): Promise<T> {
   let current = await initial; // Wait for the initial step to resolve if it's a Promise
 
   // Keep executing thunks until we reach a non-thunk (final) value

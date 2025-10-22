@@ -106,10 +106,7 @@ describe('Heap iterative methods', () => {
   });
 
   it('map method correctly maps elements', () => {
-    const result = heap.map(
-      x => x / 10,
-      (a: number, b: number) => a - b
-    );
+    const result = heap.map(x => x / 10, { comparator: (a: number, b: number) => a - b });
     expect([...result]).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
   });
 

@@ -33,3 +33,20 @@ Overview of the commands to test, run and build this project as well as those th
 ## References
 
 - [ESLint - Getting Started](https://eslint.org/docs/user-guide/getting-started)
+
+### Optimized performance runner（隔离 & 可配置）
+
+#### Use run-order.json (same directory) to define "to run/not to run + order" and execute in isolation
+```bash
+ts-node test/performance/benchmark-runner.optimized.ts --isolate --gc --cooldown-ms=80
+```
+
+#### Specify external configuration file + label this time
+```bash
+ts-node test/performance/benchmark-runner.optimized.ts --isolate --order-file=test/performance/run-order.json --label=ci-fast
+```
+
+#### Add one-time include/exclude
+```bash
+ts-node test/performance/benchmark-runner.optimized.ts --isolate --include=heap,hash-map --exclude=**/graph/**
+```

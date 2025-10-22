@@ -1,6 +1,6 @@
 {
   "name": "data-structure-typed",
-  "version": "2.0.5",
+  "version": "2.1.0",
   "description": "Standard data structure",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -10,8 +10,7 @@
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js",
-      "types": "./dist/esm/index.d.ts"
+      "require": "./dist/cjs/index.js"
     }
   },
   "scripts": {
@@ -26,7 +25,7 @@
     "test:in-band": "jest --runInBand",
     "test": "npm run test:in-band",
     "test:integration": "npm run update:subs && jest --config jest.integration.config.js && tsc test/integration/compile.ts && node test/integration/compile.mjs",
-    "test:perf": "npm run build:cjs && npm run build:esm && ts-node test/performance/reportor.ts",
+    "test:perf": "npm run build:cjs && npm run build:esm && ts-node test/performance/benchmark-runner.ts --isolate --gc --cooldown-ms=80",
     "check": "tsc --noEmit",
     "check:circular-refs": "dependency-cruiser src",
     "lint:src": "eslint --fix 'src/**/*.{js,ts}'",

@@ -5,11 +5,22 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { DequeOptions, ElementCallback, IterableWithSizeOrLength } from '../../types';
+
+import type {
+  DequeOptions,
+  ElementCallback,
+  IterableElementBaseOptions,
+  IterableWithSizeOrLength,
+  LinearBaseOptions
+} from '../../types';
 import { calcMinUnitsRequired, rangeCheck } from '../../utils';
 import { LinearBase } from '../base/linear-base';
 
 /**
+ * Deque implemented with circular buckets allowing O(1) amortized push/pop at both ends.
+ * @remarks Time O(1), Space O(1)
+ * @template E
+ * @template R
  * 1. Operations at Both Ends: Supports adding and removing elements at both the front and back of the queue. This allows it to be used as a stack (last in, first out) and a queue (first in, first out).
  * 2. Efficient Random Access: Being based on an array, it offers fast random access capability, allowing constant time access to any element.
  * 3. Continuous Memory Allocation: Since it is based on an array, all elements are stored contiguously in memory, which can bring cache friendliness and efficient memory access.
@@ -105,17 +116,16 @@ import { LinearBase } from '../base/linear-base';
  *     console.log(maxSlidingWindow(nums, k)); // [3, 3, 5, 5, 6, 7]
  */
 export class Deque<E = any, R = any> extends LinearBase<E, R> {
+  protected _equals: (a: E, b: E) => boolean = Object.is as unknown as (a: E, b: E) => boolean;
+
   /**
-   * The constructor initializes a Deque object with optional iterable of elements and options.
-   * @param elements - An iterable object (such as an array or a Set) that contains the initial
-   * elements to be added to the deque. It can also be an object with a `length` or `size` property
-   * that represents the number of elements in the iterable object. If no elements are provided, an
-   * empty deque
-   * @param {DequeOptions} [options] - The `options` parameter is an optional object that can contain
-   * configuration options for the deque. In this code, it is used to set the `bucketSize` option,
-   * which determines the size of each bucket in the deque. If the `bucketSize` option is not provided
-   * or is not a number
+   * Create a Deque and optionally bulk-insert elements.
+   * @remarks Time O(N), Space O(N)
+   * @param [elements] - Iterable (or iterable-like) of elements/records to insert.
+   * @param [options] - Options such as bucketSize, toElementFn, and maxLen.
+   * @returns New Deque instance.
    */
+
   constructor(elements: IterableWithSizeOrLength<E> | IterableWithSizeOrLength<R> = [], options?: DequeOptions<E, R>) {
     super(options);
 
@@ -126,11 +136,9 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
 
     let _size: number;
     if ('length' in elements) {
-      if (elements.length instanceof Function) _size = elements.length();
-      else _size = elements.length;
+      _size = typeof elements.length === 'function' ? elements.length() : elements.length;
     } else {
-      if (elements.size instanceof Function) _size = elements.size();
-      else _size = elements.size;
+      _size = typeof elements.size === 'function' ? elements.size() : elements.size;
     }
 
     this._bucketCount = calcMinUnitsRequired(_size, this._bucketSize) || 1;
@@ -145,11 +153,23 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
 
   protected _bucketSize: number = 1 << 12;
 
+  /**
+   * Get the current bucket size.
+   * @remarks Time O(1), Space O(1)
+   * @returns Bucket capacity per bucket.
+   */
+
   get bucketSize() {
     return this._bucketSize;
   }
 
   protected _bucketFirst = 0;
+
+  /**
+   * Get the index of the first bucket in use.
+   * @remarks Time O(1), Space O(1)
+   * @returns Zero-based bucket index.
+   */
 
   get bucketFirst(): number {
     return this._bucketFirst;
@@ -157,11 +177,23 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
 
   protected _firstInBucket = 0;
 
+  /**
+   * Get the index inside the first bucket.
+   * @remarks Time O(1), Space O(1)
+   * @returns Zero-based index within the first bucket.
+   */
+
   get firstInBucket(): number {
     return this._firstInBucket;
   }
 
   protected _bucketLast = 0;
+
+  /**
+   * Get the index of the last bucket in use.
+   * @remarks Time O(1), Space O(1)
+   * @returns Zero-based bucket index.
+   */
 
   get bucketLast(): number {
     return this._bucketLast;
@@ -169,11 +201,23 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
 
   protected _lastInBucket = 0;
 
+  /**
+   * Get the index inside the last bucket.
+   * @remarks Time O(1), Space O(1)
+   * @returns Zero-based index within the last bucket.
+   */
+
   get lastInBucket(): number {
     return this._lastInBucket;
   }
 
   protected _bucketCount = 0;
+
+  /**
+   * Get the number of buckets allocated.
+   * @remarks Time O(1), Space O(1)
+   * @returns Bucket count.
+   */
 
   get bucketCount(): number {
     return this._bucketCount;
@@ -181,44 +225,79 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
 
   protected _buckets: E[][] = [];
 
+  /**
+   * Get the internal buckets array.
+   * @remarks Time O(1), Space O(1)
+   * @returns Array of buckets storing values.
+   */
+
   get buckets() {
     return this._buckets;
   }
 
   protected _length = 0;
 
+  /**
+   * Get the number of elements in the deque.
+   * @remarks Time O(1), Space O(1)
+   * @returns Current length.
+   */
+
   get length() {
     return this._length;
   }
 
   /**
-   * The function returns the first element in a collection if it exists, otherwise it returns
-   * undefined.
-   * @returns The first element of the collection, of type E, is being returned.
+   * Get the first element without removing it.
+   * @remarks Time O(1), Space O(1)
+   * @returns First element or undefined.
    */
+
   get first(): E | undefined {
     if (this._length === 0) return;
     return this._buckets[this._bucketFirst][this._firstInBucket];
   }
 
   /**
-   * The last function returns the last element in the queue.
-   * @return The last element in the array
+   * Get the last element without removing it.
+   * @remarks Time O(1), Space O(1)
+   * @returns Last element or undefined.
    */
+
   get last(): E | undefined {
     if (this._length === 0) return;
     return this._buckets[this._bucketLast][this._lastInBucket];
   }
 
   /**
-   * Time Complexity - Amortized O(1) (possible reallocation),
-   * Space Complexity - O(n) (due to potential resizing).
-   *
-   * The push function adds an element to a data structure and reallocates memory if necessary.
-   * @param {E} element - The `element` parameter represents the value that you want to add to the data
-   * structure.
-   * @returns The size of the data structure after the element has been pushed.
+   * Create a Deque from an array of elements.
+   * @remarks Time O(N), Space O(N)
+   * @template E
+   * @template R
+   * @param this - Constructor (subclass) to instantiate.
+   * @param data - Array of elements to insert in order.
+   * @param [options] - Options forwarded to the constructor.
+   * @returns A new Deque populated from the array.
    */
+
+  static fromArray<E, R = any>(
+    this: new (
+      elements?: IterableWithSizeOrLength<E> | IterableWithSizeOrLength<R>,
+      options?: DequeOptions<E, R>
+    ) => any,
+    data: E[],
+    options?: DequeOptions<E, R>
+  ) {
+    return new this(data, options);
+  }
+
+  /**
+   * Append one element at the back.
+   * @remarks Time O(1) amortized, Space O(1)
+   * @param element - Element to append.
+   * @returns True when appended.
+   */
+
   push(element: E): boolean {
     if (this._length) {
       if (this._lastInBucket < this._bucketSize - 1) {
@@ -239,13 +318,11 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `pop()` function removes and returns the last element from a data structure, updating the
-   * internal state variables accordingly.
-   * @returns The element that was removed from the data structure is being returned.
+   * Remove and return the last element.
+   * @remarks Time O(1), Space O(1)
+   * @returns Removed element or undefined.
    */
+
   pop(): E | undefined {
     if (this._length === 0) return;
     const element = this._buckets[this._bucketLast][this._lastInBucket];
@@ -265,14 +342,11 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `shift()` function removes and returns the first element from a data structure, updating the
-   * internal state variables accordingly.
-   * @returns The element that is being removed from the beginning of the data structure is being
-   * returned.
+   * Remove and return the first element.
+   * @remarks Time O(1) amortized, Space O(1)
+   * @returns Removed element or undefined.
    */
+
   shift(): E | undefined {
     if (this._length === 0) return;
     const element = this._buckets[this._bucketFirst][this._firstInBucket];
@@ -292,15 +366,12 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
   }
 
   /**
-   * Time Complexity: Amortized O(1)
-   * Space Complexity: O(n)
-   *
-   * The `unshift` function adds an element to the beginning of an array-like data structure and
-   * returns the new size of the structure.
-   * @param {E} element - The `element` parameter represents the element that you want to add to the
-   * beginning of the data structure.
-   * @returns The size of the data structure after the element has been added.
+   * Prepend one element at the front.
+   * @remarks Time O(1) amortized, Space O(1)
+   * @param element - Element to prepend.
+   * @returns True when prepended.
    */
+
   unshift(element: E): boolean {
     if (this._length) {
       if (this._firstInBucket > 0) {
@@ -321,19 +392,12 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
   }
 
   /**
-   * Time Complexity: O(k)
-   * Space Complexity: O(k)
-   *
-   * The function `pushMany` iterates over elements and pushes them into an array after applying a
-   * transformation function if provided.
-   * @param {IterableWithSizeOrLength<E> | IterableWithSizeOrLength<R>} elements - The `elements`
-   * parameter in the `pushMany` function is expected to be an iterable containing elements of type `E`
-   * or `R`. It can be either an `IterableWithSizeOrLength<E>` or an `IterableWithSizeOrLength<R>`. The
-   * function iterates over each element
-   * @returns The `pushMany` function is returning an array of boolean values, where each value
-   * represents the result of calling the `push` method on the current object instance with the
-   * corresponding element from the input `elements` iterable.
+   * Append a sequence of elements.
+   * @remarks Time O(N), Space O(1)
+   * @param elements - Iterable (or iterable-like) of elements/records.
+   * @returns Array of per-element success flags.
    */
+
   pushMany(elements: IterableWithSizeOrLength<E> | IterableWithSizeOrLength<R>) {
     const ans: boolean[] = [];
     for (const el of elements) {
@@ -347,18 +411,12 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
   }
 
   /**
-   * Time Complexity: O(k)
-   * Space Complexity: O(k)
-   *
-   * The `unshiftMany` function in TypeScript iterates over elements and adds them to the beginning of
-   * an array, optionally converting them using a provided function.
-   * @param {IterableWithSizeOrLength<E> | IterableWithSizeOrLength<R>} elements - The `elements`
-   * parameter in the `unshiftMany` function is an iterable containing elements of type `E` or `R`. It
-   * can be an array or any other iterable data structure that has a known size or length. The function
-   * iterates over each element in the `elements` iterable and
-   * @returns The `unshiftMany` function returns an array of boolean values indicating whether each
-   * element was successfully added to the beginning of the array.
+   * Prepend a sequence of elements.
+   * @remarks Time O(N), Space O(1)
+   * @param [elements] - Iterable (or iterable-like) of elements/records.
+   * @returns Array of per-element success flags.
    */
+
   unshiftMany(elements: IterableWithSizeOrLength<E> | IterableWithSizeOrLength<R> = []) {
     const ans: boolean[] = [];
     for (const el of elements) {
@@ -372,23 +430,21 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The function checks if the size of an object is equal to zero and returns a boolean value.
-   * @returns A boolean value indicating whether the size of the object is 0 or not.
+   * Check whether the deque is empty.
+   * @remarks Time O(1), Space O(1)
+   * @returns True if length is 0.
    */
+
   isEmpty(): boolean {
     return this._length === 0;
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The clear() function resets the state of the object by initializing all variables to their default
-   * values.
+   * Remove all elements and reset structure.
+   * @remarks Time O(1), Space O(1)
+   * @returns void
    */
+
   clear(): void {
     this._buckets = [new Array(this._bucketSize)];
     this._bucketCount = 1;
@@ -397,31 +453,26 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `at` function retrieves an element at a specified position in an array-like data structure.
-   * @param {number} pos - The `pos` parameter represents the position of the element that you want to
-   * retrieve from the data structure. It is of type `number` and should be a valid index within the
-   * range of the data structure.
-   * @returns The element at the specified position in the data structure is being returned.
+   * Get the element at a given position.
+   * @remarks Time O(1), Space O(1)
+   * @param pos - Zero-based position from the front.
+   * @returns Element or undefined.
    */
-  at(pos: number): E {
-    rangeCheck(pos, 0, this._length - 1);
+
+  at(pos: number): E | undefined {
+    if (pos < 0 || pos >= this._length) return undefined;
     const { bucketIndex, indexInBucket } = this._getBucketAndPosition(pos);
-    return this._buckets[bucketIndex][indexInBucket]!;
+    return this._buckets[bucketIndex][indexInBucket];
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `setAt` function sets an element at a specific position in an array-like data structure.
-   * @param {number} pos - The `pos` parameter represents the position at which the element needs to be
-   * set. It is of type `number`.
-   * @param {E} element - The `element` parameter is the value that you want to set at the specified
-   * position in the data structure.
+   * Replace the element at a given position.
+   * @remarks Time O(1), Space O(1)
+   * @param pos - Zero-based position from the front.
+   * @param element - New element value.
+   * @returns True if updated.
    */
+
   setAt(pos: number, element: E): boolean {
     rangeCheck(pos, 0, this._length - 1);
     const { bucketIndex, indexInBucket } = this._getBucketAndPosition(pos);
@@ -430,20 +481,14 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `addAt` function inserts one or more elements at a specified position in an array-like data
-   * structure.
-   * @param {number} pos - The `pos` parameter represents the position at which the element(s) should
-   * be inserted. It is of type `number`.
-   * @param {E} element - The `element` parameter represents the element that you want to insert into
-   * the array at the specified position.
-   * @param [num=1] - The `num` parameter represents the number of times the `element` should be
-   * inserted at the specified position (`pos`). By default, it is set to 1, meaning that the `element`
-   * will be inserted once. However, you can provide a different value for `num` if you want
-   * @returns The size of the array after the insertion is being returned.
+   * Insert repeated copies of an element at a position.
+   * @remarks Time O(N), Space O(1)
+   * @param pos - Zero-based position from the front.
+   * @param element - Element to insert.
+   * @param [num] - Number of times to insert (default 1).
+   * @returns True if inserted.
    */
+
   addAt(pos: number, element: E, num = 1): boolean {
     const length = this._length;
     rangeCheck(pos, 0, length);
@@ -454,7 +499,8 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
     } else {
       const arr: E[] = [];
       for (let i = pos; i < this._length; ++i) {
-        arr.push(this.at(i));
+        const v = this.at(i);
+        if (v !== undefined) arr.push(v);
       }
       this.cut(pos - 1, true);
       for (let i = 0; i < num; ++i) this.push(element);
@@ -464,16 +510,13 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `cut` function updates the state of the object based on the given position and returns the
-   * updated size.
-   * @param {number} pos - The `pos` parameter represents the position at which the string should be
-   * cut. It is a number that indicates the index of the character where the cut should be made.
-   * @param {boolean} isCutSelf - If true, the original deque will not be cut, and return a new deque
-   * @returns The method is returning the updated size of the data structure.
+   * Cut the deque to keep items up to index; optionally mutate in-place.
+   * @remarks Time O(N), Space O(1)
+   * @param pos - Last index to keep.
+   * @param [isCutSelf] - When true, mutate this deque; otherwise return a new deque.
+   * @returns This deque if in-place; otherwise a new deque of the prefix.
    */
+
   cut(pos: number, isCutSelf = false): Deque<E> {
     if (isCutSelf) {
       if (pos < 0) {
@@ -486,14 +529,11 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
       this._length = pos + 1;
       return this;
     } else {
-      const newDeque = this._createInstance({
-        bucketSize: this._bucketSize,
-        toElementFn: this._toElementFn,
-        maxLen: this._maxLen
-      });
-
+      const newDeque = this._createInstance({ toElementFn: this._toElementFn, maxLen: this._maxLen });
+      newDeque._setBucketSize(this._bucketSize);
       for (let i = 0; i <= pos; i++) {
-        newDeque.push(this.at(i));
+        const v = this.at(i);
+        if (v !== undefined) newDeque.push(v);
       }
 
       return newDeque;
@@ -501,75 +541,49 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The `splice` function in TypeScript overrides the default behavior to remove and insert elements
-   * in a Deque data structure while ensuring the starting position and delete count are within bounds.
-   * @param {number} start - The `start` parameter in the `splice` method represents the index at which
-   * to start changing the array. Items will be removed or added starting from this index.
-   * @param {number} deleteCount - The `deleteCount` parameter in the `splice` method represents the
-   * number of elements to remove from the array starting at the specified `start` index. If
-   * `deleteCount` is not provided, it defaults to the number of elements from the `start` index to the
-   * end of the array (`
-   * @param {E[]} items - The `items` parameter in the `splice` method represents the elements that
-   * will be inserted into the deque at the specified `start` index. These elements will be inserted in
-   * place of the elements that are removed based on the `start` and `deleteCount` parameters.
-   * @returns The `splice` method is returning the array `deletedElements` which contains the elements
-   * that were removed from the Deque during the splice operation.
+   * Remove and/or insert elements at a position (array-like behavior).
+   * @remarks Time O(N + M), Space O(M)
+   * @param start - Start index (clamped to [0, length]).
+   * @param [deleteCount] - Number of elements to remove (default: length - start).
+   * @param [items] - Elements to insert after `start`.
+   * @returns A new deque containing the removed elements (typed as `this`).
    */
-  override splice(start: number, deleteCount: number = this._length - start, ...items: E[]): this {
-    // Check whether the starting position is legal
-    rangeCheck(start, 0, this._length);
 
-    // Adjust the value of deleteCount
+  override splice(start: number, deleteCount: number = this._length - start, ...items: E[]): this {
+    rangeCheck(start, 0, this._length);
     if (deleteCount < 0) deleteCount = 0;
     if (start + deleteCount > this._length) deleteCount = this._length - start;
 
-    // Save deleted elements
-    const deletedElements = this._createInstance();
-
-    // Add removed elements to the result
+    const removed = this._createInstance({ toElementFn: this._toElementFn, maxLen: this._maxLen });
+    removed._setBucketSize(this._bucketSize);
     for (let i = 0; i < deleteCount; i++) {
-      deletedElements.push(this.at(start + i));
+      const v = this.at(start + i);
+      if (v !== undefined) removed.push(v);
     }
 
-    // Calculate the range that needs to be deleted
-    const elementsAfter = [];
+    const tail: E[] = [];
     for (let i = start + deleteCount; i < this._length; i++) {
-      elementsAfter.push(this.at(i));
+      const v = this.at(i);
+      if (v !== undefined) tail.push(v);
     }
 
-    // Adjust the length of the current Deque
     this.cut(start - 1, true);
 
-    for (const item of items) {
-      this.push(item);
-    }
+    for (const it of items) this.push(it);
 
-    // Insert subsequent elements back
-    for (const element of elementsAfter) {
-      this.push(element);
-    }
+    for (const v of tail) this.push(v);
 
-    return deletedElements;
+    return removed as unknown as this;
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1) or O(n)
-   *
-   * The `cutRest` function cuts the elements from a specified position in a deque and returns a new
-   * deque with the cut elements.
-   * @param {number} pos - The `pos` parameter represents the position from which to cut the Deque. It
-   * is a number that indicates the index of the element in the Deque where the cut should start.
-   * @param [isCutSelf=false] - isCutSelf is a boolean parameter that determines whether the original
-   * Deque should be modified or a new Deque should be created. If isCutSelf is true, the original
-   * Deque will be modified by cutting off elements starting from the specified position. If isCutSelf
-   * is false, a new De
-   * @returns The function `cutRest` returns either the modified original deque (`this`) or a new deque
-   * (`newDeque`) depending on the value of the `isCutSelf` parameter.
+   * Cut the deque to keep items from index onward; optionally mutate in-place.
+   * @remarks Time O(N), Space O(1)
+   * @param pos - First index to keep.
+   * @param [isCutSelf] - When true, mutate this deque; otherwise return a new deque.
+   * @returns This deque if in-place; otherwise a new deque of the suffix.
    */
+
   cutRest(pos: number, isCutSelf = false): Deque<E> {
     if (isCutSelf) {
       if (pos < 0) {
@@ -581,45 +595,35 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
       this._length = this._length - pos;
       return this;
     } else {
-      const newDeque = this._createInstance({
-        bucketSize: this._bucketSize,
-        toElementFn: this._toElementFn,
-        maxLen: this._maxLen
-      });
+      const newDeque = this._createInstance({ toElementFn: this._toElementFn, maxLen: this._maxLen });
+      newDeque._setBucketSize(this._bucketSize);
       if (pos < 0) pos = 0;
       for (let i = pos; i < this._length; i++) {
-        newDeque.push(this.at(i));
+        const v = this.at(i);
+        if (v !== undefined) newDeque.push(v);
       }
-
       return newDeque;
     }
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1) or O(n)
-   *
-   * The `deleteAt` function removes an element at a specified position in an array-like data
-   * structure.
-   * @param {number} pos - The `pos` parameter in the `deleteAt` function represents the position at
-   * which an element needs to be deleted from the data structure. It is of type `number` and indicates
-   * the index of the element to be deleted.
-   * @returns The size of the data structure after the deletion operation is performed.
+   * Delete the element at a given position.
+   * @remarks Time O(N), Space O(1)
+   * @param pos - Zero-based position from the front.
+   * @returns Removed element or undefined.
    */
+
   deleteAt(pos: number): E | undefined {
     rangeCheck(pos, 0, this._length - 1);
 
     let deleted: E | undefined;
     if (pos === 0) {
-      //If it is the first element, use shift() directly
       return this.shift();
     } else if (pos === this._length - 1) {
-      // If it is the last element, just use pop()
       deleted = this.last;
       this.pop();
       return deleted;
     } else {
-      // Delete the middle element
       const length = this._length - 1;
       const { bucketIndex: targetBucket, indexInBucket: targetPointer } = this._getBucketAndPosition(pos);
       deleted = this._buckets[targetBucket][targetPointer];
@@ -630,22 +634,18 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
         this._buckets[curBucket][curPointer] = this._buckets[nextBucket][nextPointer];
       }
 
-      // Remove last duplicate element
       this.pop();
       return deleted;
     }
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The `delete` function removes all occurrences of a specified element from an array-like data
-   * structure.
-   * @param {E} element - The `element` parameter represents the element that you want to delete from
-   * the data structure.
-   * @returns The size of the data structure after the element has been deleted.
+   * Delete the first occurrence of a value.
+   * @remarks Time O(N), Space O(1)
+   * @param element - Element to remove (using the configured equality).
+   * @returns True if an element was removed.
    */
+
   delete(element: E): boolean {
     const size = this._length;
     if (size === 0) return false;
@@ -653,7 +653,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
     let index = 0;
     while (i < size) {
       const oldElement = this.at(i);
-      if (oldElement !== element) {
+      if (!this._equals(oldElement as E, element)) {
         this.setAt(index, oldElement!);
         index += 1;
       }
@@ -663,52 +663,42 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
     return true;
   }
 
-  // /**
-  //  * Time Complexity: O(n)
-  //  * Space Complexity: O(1)
-  //  *
-  //  * This function overrides the indexOf method to search for an element within a custom data
-  //  * structure.
-  //  * @param {E} searchElement - The `searchElement` parameter is the element that you are searching for
-  //  * within the data structure. The `indexOf` method will return the index of the first occurrence of
-  //  * this element within the data structure.
-  //  * @param {number} [fromIndex=0] - The `fromIndex` parameter in the `indexOf` method specifies the
-  //  * index at which to start searching for the `searchElement` within the data structure. If provided,
-  //  * the search will begin at this index instead of the beginning of the data structure.
-  //  * @returns The indexOf method is returning the index of the searchElement if it is found in the data
-  //  * structure, or -1 if the searchElement is not found.
-  //  */
-  // override indexOf(searchElement: E, fromIndex: number = 0): number {
-  //   let index = fromIndex;
-  //   let bucketIndex = this._bucketFirst;
-  //   let indexInBucket = this._firstInBucket + fromIndex;
-  //
-  //   for (let i = 0; i < this._length; i++) {
-  //     if (this._buckets[bucketIndex][indexInBucket] === searchElement) {
-  //       return index;
-  //     }
-  //     index++;
-  //     indexInBucket++;
-  //     if (indexInBucket >= this._bucketSize) {
-  //       bucketIndex++;
-  //       indexInBucket = 0;
-  //     }
-  //     if (bucketIndex >= this._bucketCount) {
-  //       bucketIndex = 0;
-  //     }
-  //   }
-  //   return -1;
-  // }
+  /**
+   * Delete the first element matching a predicate.
+   * @remarks Time O(N), Space O(1)
+   * @param predicate - Function (value, index, deque) → boolean.
+   * @returns True if a match was removed.
+   */
+
+  deleteWhere(predicate: (value: E, index: number, deque: this) => boolean): boolean {
+    for (let i = 0; i < this._length; i++) {
+      const v = this.at(i);
+      if (predicate(v as E, i, this)) {
+        this.deleteAt(i);
+        return true;
+      }
+    }
+    return false;
+  }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The reverse() function reverses the order of the buckets and the elements within each bucket in a
-   * data structure.
-   * @returns The reverse() method is returning the object itself (this) after performing the reverse
-   * operation on the buckets and updating the relevant properties.
+   * Set the equality comparator used by delete operations.
+   * @remarks Time O(1), Space O(1)
+   * @param equals - Equality predicate (a, b) → boolean.
+   * @returns This deque.
    */
+
+  setEquality(equals: (a: E, b: E) => boolean): this {
+    this._equals = equals;
+    return this;
+  }
+
+  /**
+   * Reverse the deque by reversing buckets and pointers.
+   * @remarks Time O(N), Space O(N)
+   * @returns This deque.
+   */
+
   reverse(): this {
     this._buckets.reverse().forEach(function (bucket) {
       bucket.reverse();
@@ -722,13 +712,11 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The `unique()` function removes duplicate elements from an array-like data structure and returns
-   * the number of unique elements.
-   * @returns The size of the modified array is being returned.
+   * Deduplicate consecutive equal elements in-place.
+   * @remarks Time O(N), Space O(1)
+   * @returns This deque.
    */
+
   unique(): this {
     if (this._length <= 1) {
       return this;
@@ -737,9 +725,9 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
     let prev = this.at(0);
     for (let i = 1; i < this._length; ++i) {
       const cur = this.at(i);
-      if (cur !== prev) {
+      if (!this._equals(cur as E, prev as E)) {
         prev = cur;
-        this.setAt(index++, cur);
+        this.setAt(index++, cur as E);
       }
     }
     this.cut(index - 1, true);
@@ -747,17 +735,14 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `shrinkToFit` function reorganizes the elements in an array-like data structure to minimize
-   * memory usage.
-   * @returns Nothing is being returned. The function is using the `return` statement to exit early if
-   * `this._length` is 0, but it does not return any value.
+   * Trim unused buckets to fit exactly the active range.
+   * @remarks Time O(N), Space O(1)
+   * @returns void
    */
+
   shrinkToFit(): void {
     if (this._length === 0) return;
-    const newBuckets = [];
+    const newBuckets = [] as E[][];
     if (this._bucketFirst === this._bucketLast) return;
     else if (this._bucketFirst < this._bucketLast) {
       for (let i = this._bucketFirst; i <= this._bucketLast; ++i) {
@@ -777,16 +762,13 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `clone()` function returns a new instance of the `Deque` class with the same elements and
-   * bucket size as the original instance.
-   * @returns The `clone()` method is returning a new instance of the `Deque` class with the same
-   * elements as the original deque (`this`) and the same bucket size.
+   * Deep clone this deque, preserving options.
+   * @remarks Time O(N), Space O(N)
+   * @returns A new deque with the same content and options.
    */
+
   clone(): this {
-    return new Deque<E, R>(this, {
+    return this._createLike<E, R>(this, {
       bucketSize: this.bucketSize,
       toElementFn: this.toElementFn,
       maxLen: this._maxLen
@@ -794,89 +776,106 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `filter` function creates a new deque containing elements from the original deque that satisfy
-   * a given predicate function.
-   * @param predicate - The `predicate` parameter is a callback function that takes three arguments:
-   * the current element being iterated over, the index of the current element, and the deque itself.
-   * It should return a boolean value indicating whether the element should be included in the filtered
-   * deque or not.
-   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that specifies the value
-   * to be used as `this` when executing the `predicate` function. If `thisArg` is provided, it will be
-   * passed as the `this` value to the `predicate` function. If `thisArg` is
-   * @returns The `filter` method is returning a new `Deque` object that contains the elements that
-   * satisfy the given predicate function.
+   * Filter elements into a new deque of the same class.
+   * @remarks Time O(N), Space O(N)
+   * @param predicate - Predicate (value, index, deque) → boolean to keep element.
+   * @param [thisArg] - Value for `this` inside the predicate.
+   * @returns A new deque with kept elements.
    */
-  filter(predicate: ElementCallback<E, R, boolean>, thisArg?: any): Deque<E, R> {
-    const newDeque = this._createInstance({
+
+  filter(predicate: ElementCallback<E, R, boolean>, thisArg?: any): this {
+    const out = this._createInstance({ toElementFn: this.toElementFn, maxLen: this._maxLen });
+    out._setBucketSize(this._bucketSize);
+    let index = 0;
+    for (const el of this) {
+      if (predicate.call(thisArg, el, index, this)) out.push(el);
+      index++;
+    }
+    return out;
+  }
+
+  /**
+   * Map elements into a new deque of the same element type.
+   * @remarks Time O(N), Space O(N)
+   * @param callback - Mapping function (value, index, deque) → newValue.
+   * @param [thisArg] - Value for `this` inside the callback.
+   * @returns A new deque with mapped values.
+   */
+
+  mapSame(callback: ElementCallback<E, R, E>, thisArg?: any): this {
+    const out = this._createInstance({ toElementFn: this._toElementFn, maxLen: this._maxLen });
+    out._setBucketSize(this._bucketSize);
+    let index = 0;
+    for (const v of this) {
+      const mv = thisArg === undefined ? callback(v, index++, this) : callback.call(thisArg, v, index++, this);
+      out.push(mv);
+    }
+    return out;
+  }
+
+  /**
+   * Map elements into a new deque (possibly different element type).
+   * @remarks Time O(N), Space O(N)
+   * @template EM
+   * @template RM
+   * @param callback - Mapping function (value, index, deque) → newElement.
+   * @param [options] - Options for the output deque (e.g., bucketSize, toElementFn, maxLen).
+   * @param [thisArg] - Value for `this` inside the callback.
+   * @returns A new Deque with mapped elements.
+   */
+
+  map<EM, RM>(
+    callback: ElementCallback<E, R, EM>,
+    options?: IterableElementBaseOptions<EM, RM>,
+    thisArg?: any
+  ): Deque<EM, RM> {
+    const out = this._createLike<EM, RM>([], {
+      ...(options ?? {}),
       bucketSize: this._bucketSize,
-      toElementFn: this.toElementFn,
       maxLen: this._maxLen
-    });
+    }) as Deque<EM, RM>;
     let index = 0;
     for (const el of this) {
-      if (predicate.call(thisArg, el, index, this)) {
-        newDeque.push(el);
-      }
+      const mv = thisArg === undefined ? callback(el, index, this) : callback.call(thisArg, el, index, this);
+      out.push(mv);
       index++;
     }
-    return newDeque;
+    return out;
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `map` function takes a callback function and applies it to each element in the deque,
-   * returning a new deque with the results.
-   * @param callback - The callback parameter is a function that will be called for each element in the
-   * deque. It takes three arguments: the current element, the index of the element, and the deque
-   * itself. It should return a value of type EM.
-   * @param [toElementFn] - The `toElementFn` parameter is an optional function that can be used to
-   * transform the raw element (`RM`) into a new element (`EM`) before adding it to the new deque. If
-   * provided, this function will be called for each raw element in the original deque.
-   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that allows you to
-   * specify the value of `this` within the callback function. It is used to set the context or scope
-   * in which the callback function will be executed. If `thisArg` is provided, it will be used as the
-   * value of
-   * @returns a new Deque object with elements of type EM and raw elements of type RM.
+   * (Protected) Set the internal bucket size.
+   * @remarks Time O(1), Space O(1)
+   * @param size - Bucket capacity to assign.
+   * @returns void
    */
-  map<EM, RM>(callback: ElementCallback<E, R, EM>, toElementFn?: (rawElement: RM) => EM, thisArg?: any): Deque<EM, RM> {
-    const newDeque = new Deque<EM, RM>([], { bucketSize: this._bucketSize, toElementFn, maxLen: this._maxLen });
-    let index = 0;
-    for (const el of this) {
-      newDeque.push(callback.call(thisArg, el, index, this));
-      index++;
-    }
-    return newDeque;
+
+  protected _setBucketSize(size: number): void {
+    this._bucketSize = size;
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The above function is an implementation of the iterator protocol in TypeScript, allowing the
-   * object to be iterated over using a for...of loop.
+   * (Protected) Iterate elements from front to back.
+   * @remarks Time O(N), Space O(1)
+   * @returns Iterator of elements.
    */
+
   protected *_getIterator(): IterableIterator<E> {
     for (let i = 0; i < this._length; ++i) {
-      yield this.at(i);
+      const v = this.at(i);
+      if (v !== undefined) yield v;
     }
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `_reallocate` function reallocates the buckets in an array, adding new buckets if needed.
-   * @param {number} [needBucketNum] - The `needBucketNum` parameter is an optional number that
-   * specifies the number of new buckets needed. If not provided, it will default to half of the
-   * current bucket count (`this._bucketCount >> 1`) or 1 if the current bucket count is less than 2.
+   * (Protected) Reallocate buckets to make room near the ends.
+   * @remarks Time O(N), Space O(N)
+   * @param [needBucketNum] - How many extra buckets to add; defaults to half of current.
+   * @returns void
    */
+
   protected _reallocate(needBucketNum?: number) {
-    const newBuckets = [];
+    const newBuckets = [] as E[][];
     const addBucketNum = needBucketNum || this._bucketCount >> 1 || 1;
     for (let i = 0; i < addBucketNum; ++i) {
       newBuckets[i] = new Array(this._bucketSize);
@@ -898,14 +897,12 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The function calculates the bucket index and index within the bucket based on the given position.
-   * @param {number} pos - The `pos` parameter represents the position within the data structure. It is
-   * a number that indicates the index or position of an element within the structure.
-   * @returns an object with two properties: "bucketIndex" and "indexInBucket".
+   * (Protected) Translate a logical position to bucket/offset.
+   * @remarks Time O(1), Space O(1)
+   * @param pos - Zero-based position.
+   * @returns An object containing bucketIndex and indexInBucket.
    */
+
   protected _getBucketAndPosition(pos: number) {
     let bucketIndex: number;
     let indexInBucket: number;
@@ -926,24 +923,51 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
   }
 
   /**
-   * The function `_createInstance` returns a new instance of the `Deque` class with the specified
-   * options.
-   * @param [options] - The `options` parameter in the `_createInstance` method is of type
-   * `DequeOptions<E, R>`, which is an optional parameter that allows you to pass additional
-   * configuration options when creating a new instance of the `Deque` class.
-   * @returns An instance of the `Deque` class with an empty array and the provided options, casted as
-   * `this`.
+   * (Protected) Create an empty instance of the same concrete class.
+   * @remarks Time O(1), Space O(1)
+   * @param [options] - Options forwarded to the constructor.
+   * @returns An empty like-kind deque instance.
    */
-  protected override _createInstance(options?: DequeOptions<E, R>): this {
-    return new Deque<E, R>([], options) as this;
+
+  protected override _createInstance(options?: LinearBaseOptions<E, R>): this {
+    const Ctor = this.constructor as new (
+      elements?: IterableWithSizeOrLength<E> | IterableWithSizeOrLength<R>,
+      options?: DequeOptions<E, R>
+    ) => this;
+    return new Ctor([], options as DequeOptions<E, R> | undefined);
   }
 
   /**
-   * This function returns an iterator that iterates over elements in reverse order.
+   * (Protected) Create a like-kind deque seeded by elements.
+   * @remarks Time O(N), Space O(N)
+   * @template T
+   * @template RR
+   * @param [elements] - Iterable used to seed the new deque.
+   * @param [options] - Options forwarded to the constructor.
+   * @returns A like-kind Deque instance.
    */
+
+  protected _createLike<T = E, RR = R>(
+    elements: IterableWithSizeOrLength<T> | IterableWithSizeOrLength<RR> = [],
+    options?: DequeOptions<T, RR>
+  ): any {
+    const Ctor = this.constructor as new (
+      elements?: IterableWithSizeOrLength<T> | IterableWithSizeOrLength<RR>,
+      options?: DequeOptions<T, RR>
+    ) => any;
+    return new Ctor(elements, options);
+  }
+
+  /**
+   * (Protected) Iterate elements from back to front.
+   * @remarks Time O(N), Space O(1)
+   * @returns Iterator of elements.
+   */
+
   protected *_getReverseIterator(): IterableIterator<E> {
     for (let i = this._length - 1; i > -1; i--) {
-      yield this.at(i);
+      const v = this.at(i);
+      if (v !== undefined) yield v;
     }
   }
 }

@@ -9,5 +9,12 @@ module.exports = {
     'src/data-structures/**/*.{ts,js}',
     'src/types/**/*.{ts,js}',
     'src/interfaces/**/*.{ts,js}',
+    '!src/**/index.ts',
+    '!src/**/*.d.ts',
+    '!src/**/__tests__/**',
+    '!src/**/fixtures/**',
+    '!src/**/examples/**',
+    '!src/**/bench/**',
+    '!src/**/cli/**'
   ],
 };

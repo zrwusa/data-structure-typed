@@ -5,21 +5,35 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
+
 import { BST, BSTNode } from './bst';
-import type { AVLTreeOptions, BinaryTreeDeleteResult, BSTNOptKeyOrNode, EntryCallback } from '../../types';
+import type {
+  AVLTreeOptions,
+  BinaryTreeDeleteResult,
+  BinaryTreeOptions,
+  BSTNOptKeyOrNode,
+  EntryCallback,
+  IterationType
+} from '../../types';
+import { BSTOptions } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 
+/**
+ * Represents a Node in an AVL (Adelson-Velsky and Landis) Tree.
+ * It extends a BSTNode and ensures the 'height' property is maintained.
+ *
+ * @template K - The type of the key.
+ * @template V - The type of the value.
+ */
 export class AVLTreeNode<K = any, V = any> extends BSTNode<K, V> {
   override parent?: AVLTreeNode<K, V> = undefined;
 
   /**
-   * This TypeScript constructor function initializes an instance with a key and an optional value.
-   * @param {K} key - The `key` parameter is typically used to uniquely identify an object or element
-   * within a data structure. It serves as a reference or identifier for accessing or manipulating the
-   * associated value or data.
-   * @param {V} [value] - The `value` parameter in the constructor is optional, meaning it does not
-   * have to be provided when creating an instance of the class. If a value is not provided, it will
-   * default to `undefined`.
+   * Creates an instance of AVLTreeNode.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @param key - The key of the node.
+   * @param [value] - The value associated with the key.
    */
   constructor(key: K, value?: V) {
     super(key, value);
@@ -27,10 +41,22 @@ export class AVLTreeNode<K = any, V = any> extends BSTNode<K, V> {
 
   override _left?: AVLTreeNode<K, V> | null | undefined = undefined;
 
+  /**
+   * Gets the left child of the node.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @returns The left child.
+   */
   override get left(): AVLTreeNode<K, V> | null | undefined {
     return this._left;
   }
 
+  /**
+   * Sets the left child of the node and updates its parent reference.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @param v - The node to set as the left child.
+   */
   override set left(v: AVLTreeNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
@@ -40,10 +66,22 @@ export class AVLTreeNode<K = any, V = any> extends BSTNode<K, V> {
 
   override _right?: AVLTreeNode<K, V> | null | undefined = undefined;
 
+  /**
+   * Gets the right child of the node.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @returns The right child.
+   */
   override get right(): AVLTreeNode<K, V> | null | undefined {
     return this._right;
   }
 
+  /**
+   * Sets the right child of the node and updates its parent reference.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @param v - The node to set as the right child.
+   */
   override set right(v: AVLTreeNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
@@ -53,14 +91,20 @@ export class AVLTreeNode<K = any, V = any> extends BSTNode<K, V> {
 }
 
 /**
+ * Represents a self-balancing AVL (Adelson-Velsky and Landis) Tree.
+ * This tree extends BST and performs rotations on add/delete to maintain balance.
+ *
+ * @template K - The type of the key.
+ * @template V - The type of the value.
+ * @template R - The type of the raw data object (if using `toEntryFn`).
+ *
  * 1. Height-Balanced: Each node's left and right subtrees differ in height by no more than one.
  * 2. Automatic Rebalancing: AVL trees rebalance themselves automatically during insertions and deletions.
  * 3. Rotations for Balancing: Utilizes rotations (single or double) to maintain balance after updates.
  * 4. Order Preservation: Maintains the binary search tree property where left child values are less than the parent, and right child values are greater.
  * 5. Efficient Lookups: Offers O(log n) search time, where 'n' is the number of nodes, due to its balanced nature.
  * 6. Complex Insertions and Deletions: Due to rebalancing, these operations are more complex than in a regular BST.
- * 7. Path Length: The path length from the root to any leaf is longer compared to an unbalanced BST, but shorter than a linear chain of nodes.
- * @example
+ * 7. Path Length: The path length from the root to any leaf is longer compared to an unbalanced BST, but shorter than a linear chain of nodes.@example
  * // Find elements in a range
  *     // In interval queries, AVL trees, with their strictly balanced structure and lower height, offer better query efficiency, making them ideal for frequent and high-performance interval queries. In contrast, Red-Black trees, with lower update costs, are more suitable for scenarios involving frequent insertions and deletions where the requirements for interval queries are less demanding.
  *     type Datum = { timestamp: Date; temperature: number };
@@ -125,21 +169,13 @@ export class AVLTreeNode<K = any, V = any> extends BSTNode<K, V> {
  *  //      { minute: 15, temperature: 58.6 }
  *  //    ]
  */
-export class AVLTree<K = any, V = any, R = object, MK = any, MV = any, MR = object>
-  extends BST<K, V, R, MK, MV, MR>
-  implements IBinaryTree<K, V, R, MK, MV, MR>
-{
+export class AVLTree<K = any, V = any, R extends object = object> extends BST<K, V, R> implements IBinaryTree<K, V, R> {
   /**
-   * This TypeScript constructor initializes an AVLTree with keys, nodes, entries, or raw data provided
-   * in an iterable format.
-   * @param keysNodesEntriesOrRaws - The `keysNodesEntriesOrRaws` parameter in the constructor is an
-   * iterable that can contain either `
-   K | AVLTreeNode<K, V> | [K | null | undefined, V | undefined]  | null | undefined ` objects or `R` objects. It is
-   * used to initialize the AVLTree with key-value pairs or raw data entries. If provided
-   * @param [options] - The `options` parameter in the constructor is of type `AVLTreeOptions<K, V,
-   * R>`. It is an optional parameter that allows you to specify additional options for configuring the
-   * AVL tree. These options could include things like custom comparators, initial capacity, or any
-   * other configuration settings specific
+   * Creates an instance of AVLTree.
+   * @remarks Time O(N log N) (from `addMany` with balanced add). Space O(N).
+   *
+   * @param [keysNodesEntriesOrRaws=[]] - An iterable of items to add.
+   * @param [options] - Configuration options for the AVL tree.
    */
   constructor(
     keysNodesEntriesOrRaws: Iterable<
@@ -148,56 +184,28 @@ export class AVLTree<K = any, V = any, R = object, MK = any, MV = any, MR = obje
     options?: AVLTreeOptions<K, V, R>
   ) {
     super([], options);
+    // Note: super.addMany is called, which in BST defaults to balanced add.
     if (keysNodesEntriesOrRaws) super.addMany(keysNodesEntriesOrRaws);
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
+   * (Protected) Creates a new AVL tree node.
+   * @remarks Time O(1), Space O(1)
    *
-   * The function creates a new AVL tree node with the given key and value.
-   * @param {K} key - The key parameter is of type K, which represents the key of the node being
-   * created.
-   * @param {V} [value] - The "value" parameter is an optional parameter of type V. It represents the
-   * value associated with the key in the node being created.
-   * @returns The method is returning a new instance of the AVLTreeNode class, casted as the generic
-   * type AVLTreeNode<K, V>.
+   * @param key - The key for the new node.
+   * @param [value] - The value for the new node.
+   * @returns The newly created AVLTreeNode.
    */
-  override createNode(key: K, value?: V): AVLTreeNode<K, V> {
+  override _createNode(key: K, value?: V): AVLTreeNode<K, V> {
     return new AVLTreeNode<K, V>(key, this._isMapMode ? undefined : value) as AVLTreeNode<K, V>;
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
+   * Checks if the given item is an `AVLTreeNode` instance.
+   * @remarks Time O(1), Space O(1)
    *
-   * The function creates a new AVL tree with the specified options and returns it.
-   * @param {AVLTreeOptions} [options] - The `options` parameter is an optional object that can be
-   * passed to the `createTree` function. It is used to customize the behavior of the AVL tree that is
-   * being created.
-   * @returns a new AVLTree object.
-   */
-  override createTree(options?: AVLTreeOptions<K, V, R>) {
-    return new AVLTree<K, V, R, MK, MV, MR>([], {
-      iterationType: this.iterationType,
-      isMapMode: this._isMapMode,
-      specifyComparable: this._specifyComparable,
-      toEntryFn: this._toEntryFn,
-      isReverse: this._isReverse,
-      ...options
-    });
-  }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The function checks if the input is an instance of AVLTreeNode.
-   * @param {K | AVLTreeNode<K, V> | [K | null | undefined, V | undefined]  | null | undefined } keyNodeOrEntry - The parameter
-   * `keyNodeOrEntry` can be of type `R` or `
-   K | AVLTreeNode<K, V> | [K | null | undefined, V | undefined]  | null | undefined `.
-   * @returns a boolean value indicating whether the input parameter `keyNodeOrEntry` is
-   * an instance of the `AVLTreeNode` class.
+   * @param keyNodeOrEntry - The item to check.
+   * @returns True if it's an AVLTreeNode, false otherwise.
    */
   override isNode(
     keyNodeOrEntry: K | AVLTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined
@@ -206,17 +214,12 @@ export class AVLTree<K = any, V = any, R = object, MK = any, MV = any, MR = obje
   }
 
   /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(log n)
+   * Adds a new node to the AVL tree and balances the tree path.
+   * @remarks Time O(log N) (O(H) for BST add + O(H) for `_balancePath`). Space O(H) for path/recursion.
    *
-   * The function overrides the add method of a class and inserts a key-value pair into a data
-   * structure, then balances the path.
-   * @param { K | AVLTreeNode<K, V> | [K | null | undefined, V | undefined]  | null | undefined } keyNodeOrEntry - The parameter
-   * `keyNodeOrEntry` can accept values of type `R`, `
-   K | AVLTreeNode<K, V> | [K | null | undefined, V | undefined]  | null | undefined `
-   * @param {V} [value] - The `value` parameter is an optional value that you want to associate with
-   * the key or node being added to the data structure.
-   * @returns The method is returning a boolean value.
+   * @param keyNodeOrEntry - The key, node, or entry to add.
+   * @param [value] - The value, if providing just a key.
+   * @returns True if the addition was successful, false otherwise.
    */
   override add(
     keyNodeOrEntry: K | AVLTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
@@ -224,27 +227,23 @@ export class AVLTree<K = any, V = any, R = object, MK = any, MV = any, MR = obje
   ): boolean {
     if (keyNodeOrEntry === null) return false;
     const inserted = super.add(keyNodeOrEntry, value);
+    // If insertion was successful, balance the path from the new node up to the root.
     if (inserted) this._balancePath(keyNodeOrEntry);
     return inserted;
   }
 
   /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(log n)
+   * Deletes a node from the AVL tree and re-balances the tree.
+   * @remarks Time O(log N) (O(H) for BST delete + O(H) for `_balancePath`). Space O(H) for path/recursion.
    *
-   * The function overrides the delete method in a TypeScript class, performs deletion, and then
-   * balances the tree if necessary.
-   * @param { K | AVLTreeNode<K, V> | [K | null | undefined, V | undefined]  | null | undefined } keyNodeOrEntry - The `keyNodeOrEntry`
-   * parameter in the `override delete` method can be one of the following types:
-   * @returns The `delete` method is being overridden in this code snippet. It first calls the `delete`
-   * method from the superclass (presumably a parent class) with the provided `predicate`, which could
-   * be a key, node, entry, or a custom predicate. The result of this deletion operation is stored in
-   * `deletedResults`, which is an array of `BinaryTreeDeleteResult` objects.
+   * @param keyNodeOrEntry - The node to delete.
+   * @returns An array containing deletion results.
    */
   override delete(
     keyNodeOrEntry: K | AVLTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined
   ): BinaryTreeDeleteResult<AVLTreeNode<K, V>>[] {
     const deletedResults = super.delete(keyNodeOrEntry);
+    // After deletion, balance the path from the parent of the *physically deleted* node.
     for (const { needBalanced } of deletedResults) {
       if (needBalanced) {
         this._balancePath(needBalanced);
@@ -254,64 +253,115 @@ export class AVLTree<K = any, V = any, R = object, MK = any, MV = any, MR = obje
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
+   * Rebuilds the tree to be perfectly balanced.
+   * @remarks AVL trees are already height-balanced, but this makes them *perfectly* balanced (minimal height and all leaves at N or N-1).
+   * Time O(N) (O(N) for DFS, O(N) for sorted build). Space O(N) for node array and recursion stack.
    *
-   * The `map` function in TypeScript overrides the default map behavior of an AVLTree data structure
-   * by applying a callback function to each entry and creating a new AVLTree with the results.
-   * @param callback - A function that will be called for each entry in the AVLTree. It takes four
-   * arguments: the key, the value (which can be undefined), the index of the entry, and a reference to
-   * the AVLTree itself.
-   * @param [options] - The `options` parameter in the `override map` function is of type
-   * `AVLTreeOptions<MK, MV, MR>`. It is an optional parameter that allows you to specify additional
-   * options for the AVL tree being created during the mapping process. These options could include
-   * custom comparators, initial
-   * @param {any} [thisArg] - The `thisArg` parameter in the `override map` function is used to specify
-   * the value of `this` when executing the `callback` function. It allows you to set the context
-   * (value of `this`) within the callback function. This can be useful when you want to access
-   * properties or
-   * @returns The `map` method is returning a new AVLTree instance (`newTree`) with the entries
-   * modified by the provided callback function.
+   * @param [iterationType=this.iterationType] - The traversal method for the initial node export.
+   * @returns True if successful, false if the tree was empty.
    */
-  override map(
+  override perfectlyBalance(iterationType: IterationType = this.iterationType): boolean {
+    const nodes = this.dfs(node => node, 'IN', false, this._root, iterationType);
+    const n = nodes.length;
+    if (n === 0) return false;
+
+    this._clearNodes();
+
+    // Build balanced tree from sorted array
+    const build = (l: number, r: number, parent?: AVLTreeNode<K, V>): AVLTreeNode<K, V> | undefined => {
+      if (l > r) return undefined;
+      const m = l + ((r - l) >> 1);
+      const root = nodes[m]!;
+      root.left = build(l, m - 1, root);
+      root.right = build(m + 1, r, root);
+      root.parent = parent;
+
+      // Update height during the build
+      const lh = root.left ? (root.left as AVLTreeNode<K, V>).height : -1;
+      const rh = root.right ? (root.right as AVLTreeNode<K, V>).height : -1;
+      root.height = Math.max(lh, rh) + 1;
+      return root;
+    };
+
+    const newRoot = build(0, n - 1, undefined);
+    this._setRoot(newRoot);
+    this._size = n;
+    return true;
+  }
+
+  /**
+   * Creates a new AVLTree by mapping each [key, value] pair.
+   * @remarks Time O(N log N) (O(N) iteration + O(log M) `add` for each item into the new tree). Space O(N) for the new tree.
+   *
+   * @template MK - New key type.
+   * @template MV - New value type.
+   * @template MR - New raw type.
+   * @param callback - A function to map each [key, value] pair.
+   * @param [options] - Options for the new AVLTree.
+   * @param [thisArg] - `this` context for the callback.
+   * @returns A new, mapped AVLTree.
+   */
+  override map<MK = K, MV = V, MR extends object = object>(
     callback: EntryCallback<K, V | undefined, [MK, MV]>,
-    options?: AVLTreeOptions<MK, MV, MR>,
-    thisArg?: any
+    options?: Partial<BinaryTreeOptions<MK, MV, MR>>,
+    thisArg?: unknown
   ): AVLTree<MK, MV, MR> {
-    const newTree = new AVLTree<MK, MV, MR>([], options);
+    const out = this._createLike<MK, MV, MR>([], options);
+
     let index = 0;
+    // Iterates in-order
     for (const [key, value] of this) {
-      newTree.add(callback.call(thisArg, key, value, index++, this));
+      // `add` on the new tree will be O(log N) and will self-balance.
+      out.add(callback.call(thisArg, key, value, index++, this));
     }
-    return newTree;
+    return out;
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
+   * (Protected) Creates a new, empty instance of the same AVLTree constructor.
+   * @remarks Time O(1)
    *
-   * The function `clone` overrides the default cloning behavior to create a deep copy of a tree
-   * structure.
-   * @returns A cloned tree object is being returned.
+   * @template TK, TV, TR - Generic types for the new instance.
+   * @param [options] - Options for the new tree.
+   * @returns A new, empty tree.
    */
-  override clone() {
-    const cloned = this.createTree();
-    this._clone(cloned);
-    return cloned;
+  protected override _createInstance<TK = K, TV = V, TR extends object = R>(
+    options?: Partial<BSTOptions<TK, TV, TR>>
+  ): this {
+    const Ctor = this.constructor as unknown as new (
+      iter?: Iterable<TK | BSTNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
+      opts?: BSTOptions<TK, TV, TR>
+    ) => this;
+    return new Ctor([], { ...this._snapshotOptions<TK, TV, TR>(), ...(options ?? {}) }) as unknown as this;
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
+   * (Protected) Creates a new instance of the same AVLTree constructor, potentially with different generic types.
+   * @remarks Time O(N log N) (from constructor) due to processing the iterable.
    *
-   * The `_swapProperties` function swaps the key, value, and height properties between two nodes in a
-   * binary search tree.
-   * @param {BSTNOptKeyOrNode<K, AVLTreeNode<K, V>>} srcNode - The `srcNode` parameter represents either a node
-   * object (`AVLTreeNode<K, V>`) or a key-value pair (`R`) that is being swapped with another node.
-   * @param {BSTNOptKeyOrNode<K, AVLTreeNode<K, V>>} destNode - The `destNode` parameter is either an instance of
-   * `R` or an instance of `BSTNOptKeyOrNode<K, AVLTreeNode<K, V>>`.
-   * @returns The method is returning the `destNodeEnsured` object if both `srcNodeEnsured` and
-   * `destNodeEnsured` are truthy. Otherwise, it returns `undefined`.
+   * @template TK, TV, TR - Generic types for the new instance.
+   * @param [iter=[]] - An iterable to populate the new tree.
+   * @param [options] - Options for the new tree.
+   * @returns A new AVLTree.
+   */
+  protected override _createLike<TK = K, TV = V, TR extends object = R>(
+    iter: Iterable<TK | BSTNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR> = [],
+    options?: Partial<BSTOptions<TK, TV, TR>>
+  ): AVLTree<TK, TV, TR> {
+    const Ctor = this.constructor as unknown as new (
+      iter?: Iterable<TK | BSTNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
+      opts?: BSTOptions<TK, TV, TR>
+    ) => AVLTree<TK, TV, TR>;
+    return new Ctor(iter, { ...this._snapshotOptions<TK, TV, TR>(), ...(options ?? {}) });
+  }
+
+  /**
+   * (Protected) Swaps properties of two nodes, including height.
+   * @remarks Time O(H) (due to `ensureNode`), but O(1) if nodes are passed directly.
+   *
+   * @param srcNode - The source node.
+   * @param destNode - The destination node.
+   * @returns The `destNode` (now holding `srcNode`'s properties).
    */
   protected override _swapProperties(
     srcNode: BSTNOptKeyOrNode<K, AVLTreeNode<K, V>>,
@@ -322,15 +372,17 @@ export class AVLTree<K = any, V = any, R = object, MK = any, MV = any, MR = obje
 
     if (srcNodeEnsured && destNodeEnsured) {
       const { key, value, height } = destNodeEnsured;
-      const tempNode = this.createNode(key, value);
+      const tempNode = this._createNode(key, value);
 
       if (tempNode) {
         tempNode.height = height;
 
+        // Copy src to dest
         destNodeEnsured.key = srcNodeEnsured.key;
         if (!this._isMapMode) destNodeEnsured.value = srcNodeEnsured.value;
         destNodeEnsured.height = srcNodeEnsured.height;
 
+        // Copy temp (original dest) to src
         srcNodeEnsured.key = tempNode.key;
         if (!this._isMapMode) srcNodeEnsured.value = tempNode.value;
         srcNodeEnsured.height = tempNode.height;
@@ -342,57 +394,46 @@ export class AVLTree<K = any, V = any, R = object, MK = any, MV = any, MR = obje
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
+   * (Protected) Calculates the balance factor (height(right) - height(left)).
+   * @remarks Time O(1) (assumes heights are stored).
    *
-   * The function calculates the balance factor of a node in a binary tree.
-   * @param {AVLTreeNode<K, V>} node - The parameter "node" is of type "AVLTreeNode<K, V>", which likely represents a node in a
-   * binary tree data structure.
-   * @returns the balance factor of a given node. The balance factor is calculated by subtracting the
-   * height of the left subtree from the height of the right subtree.
+   * @param node - The node to check.
+   * @returns The balance factor (positive if right-heavy, negative if left-heavy).
    */
   protected _balanceFactor(node: AVLTreeNode<K, V>): number {
-    if (!node.right)
-      // node has no right subtree
-      return -node.height;
-    else if (!node.left)
-      // node has no left subtree
-      return +node.height;
-    else return node.right.height - node.left.height;
+    const left = node.left ? (node.left as AVLTreeNode<K, V>).height : -1;
+    const right = node.right ? (node.right as AVLTreeNode<K, V>).height : -1;
+    return right - left;
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
+   * (Protected) Recalculates and updates the height of a node based on its children's heights.
+   * @remarks Time O(1) (assumes children's heights are correct).
    *
-   * The function updates the height of a node in a binary tree based on the heights of its left and
-   * right children.
-   * @param {AVLTreeNode<K, V>} node - The parameter "node" represents a node in a binary tree data structure.
+   * @param node - The node to update.
    */
   protected _updateHeight(node: AVLTreeNode<K, V>): void {
-    if (!node.left && !node.right) node.height = 0;
-    else if (!node.left) {
-      const rightHeight = node.right ? node.right.height : 0;
-      node.height = 1 + rightHeight;
-    } else if (!node.right) node.height = 1 + node.left.height;
-    else node.height = 1 + Math.max(node.right.height, node.left.height);
+    const leftHeight = node.left ? (node.left as AVLTreeNode<K, V>).height : -1;
+    const rightHeight = node.right ? (node.right as AVLTreeNode<K, V>).height : -1;
+    node.height = 1 + Math.max(leftHeight, rightHeight);
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
+   * (Protected) Performs a Left-Left (LL) rotation (a single right rotation).
+   * @remarks Time O(1), Space O(1)
    *
-   * The `_balanceLL` function performs a left-left rotation to balance a binary search tree.
-   * @param {AVLTreeNode<K, V>} A - A is a node in a binary tree.
+   * @param A - The unbalanced node (root of the unbalanced subtree).
    */
   protected _balanceLL(A: AVLTreeNode<K, V>): void {
     const parentOfA = A.parent;
-    const B = A.left;
+    const B = A.left; // The left child
     if (B !== null) A.parent = B;
     if (B && B.right) {
       B.right.parent = A;
     }
     if (B) B.parent = parentOfA;
+
+    // Update parent's child pointer
     if (A === this.root) {
       if (B) this._setRoot(B);
     } else {
@@ -403,6 +444,7 @@ export class AVLTree<K = any, V = any, R = object, MK = any, MV = any, MR = obje
       }
     }
 
+    // Perform rotation
     if (B) {
       A.left = B.right;
       B.right = A;
@@ -412,18 +454,17 @@ export class AVLTree<K = any, V = any, R = object, MK = any, MV = any, MR = obje
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
+   * (Protected) Performs a Left-Right (LR) double rotation.
+   * @remarks Time O(1), Space O(1)
    *
-   * The `_balanceLR` function performs a left-right rotation to balance a binary tree.
-   * @param {AVLTreeNode<K, V>} A - A is a node in a binary tree.
+   * @param A - The unbalanced node (root of the unbalanced subtree).
    */
   protected _balanceLR(A: AVLTreeNode<K, V>): void {
     const parentOfA = A.parent;
     const B = A.left;
     let C = undefined;
     if (B) {
-      C = B.right;
+      C = B.right; // The "middle" node
     }
     if (A && C !== null) A.parent = C;
     if (B && C !== null) B.parent = C;
@@ -438,6 +479,7 @@ export class AVLTree<K = any, V = any, R = object, MK = any, MV = any, MR = obje
       C.parent = parentOfA;
     }
 
+    // Update parent's child pointer
     if (A === this.root) {
       if (C) this._setRoot(C);
     } else {
@@ -450,6 +492,7 @@ export class AVLTree<K = any, V = any, R = object, MK = any, MV = any, MR = obje
       }
     }
 
+    // Perform rotation
     if (C) {
       A.left = C.right;
       if (B) B.right = C.left;
@@ -463,15 +506,14 @@ export class AVLTree<K = any, V = any, R = object, MK = any, MV = any, MR = obje
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
+   * (Protected) Performs a Right-Right (RR) rotation (a single left rotation).
+   * @remarks Time O(1), Space O(1)
    *
-   * The function `_balanceRR` performs a right-right rotation to balance a binary tree.
-   * @param {AVLTreeNode<K, V>} A - A is a node in a binary tree.
+   * @param A - The unbalanced node (root of the unbalanced subtree).
    */
   protected _balanceRR(A: AVLTreeNode<K, V>): void {
     const parentOfA = A.parent;
-    const B = A.right;
+    const B = A.right; // The right child
     if (B !== null) A.parent = B;
     if (B) {
       if (B.left) {
@@ -480,6 +522,7 @@ export class AVLTree<K = any, V = any, R = object, MK = any, MV = any, MR = obje
       B.parent = parentOfA;
     }
 
+    // Update parent's child pointer
     if (A === this.root) {
       if (B) this._setRoot(B);
     } else {
@@ -492,6 +535,7 @@ export class AVLTree<K = any, V = any, R = object, MK = any, MV = any, MR = obje
       }
     }
 
+    // Perform rotation
     if (B) {
       A.right = B.left;
       B.left = A;
@@ -501,18 +545,17 @@ export class AVLTree<K = any, V = any, R = object, MK = any, MV = any, MR = obje
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
+   * (Protected) Performs a Right-Left (RL) double rotation.
+   * @remarks Time O(1), Space O(1)
    *
-   * The function `_balanceRL` performs a right-left rotation to balance a binary tree.
-   * @param {AVLTreeNode<K, V>} A - A is a node in a binary tree.
+   * @param A - The unbalanced node (root of the unbalanced subtree).
    */
   protected _balanceRL(A: AVLTreeNode<K, V>): void {
     const parentOfA = A.parent;
     const B = A.right;
     let C = undefined;
     if (B) {
-      C = B.left;
+      C = B.left; // The "middle" node
     }
 
     if (C !== null) A.parent = C;
@@ -528,6 +571,7 @@ export class AVLTree<K = any, V = any, R = object, MK = any, MV = any, MR = obje
       C.parent = parentOfA;
     }
 
+    // Update parent's child pointer
     if (A === this.root) {
       if (C) this._setRoot(C);
     } else {
@@ -540,6 +584,7 @@ export class AVLTree<K = any, V = any, R = object, MK = any, MV = any, MR = obje
       }
     }
 
+    // Perform rotation
     if (C) A.right = C.left;
     if (B && C) B.left = C.right;
     if (C) C.left = A;
@@ -551,73 +596,61 @@ export class AVLTree<K = any, V = any, R = object, MK = any, MV = any, MR = obje
   }
 
   /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
+   * (Protected) Traverses up the tree from the specified node, updating heights and performing rotations as needed.
+   * @remarks Time O(log N) (O(H)), as it traverses the path to root. Space O(H) for the path array.
    *
-   * The `_balancePath` function is used to update the heights of nodes and perform rotation operations
-   * to restore balance in an AVL tree after inserting a node.
-   * @param { K | AVLTreeNode<K, V> | [K | null | undefined, V | undefined]  | null | undefined } node - The `node` parameter can be of type `R` or
-   * `
-   K | AVLTreeNode<K, V> | [K | null | undefined, V | undefined]  | null | undefined `.
+   * @param node - The node to start balancing from (e.g., the newly inserted node or parent of the deleted node).
    */
   protected _balancePath(node: K | AVLTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined): void {
+    // Get the path from the node to the root.
     node = this.ensureNode(node);
-    const path = this.getPathToRoot(node, node => node, false); // first O(log n) + O(log n)
+    const path = this.getPathToRoot(node, node => node, false);
+
+    // Iterate up the path (from node to root)
     for (let i = 0; i < path.length; i++) {
-      // second O(log n)
       const A = path[i];
       if (A) {
-        // Update Heights: After inserting a node, backtrack from the insertion point to the root node, updating the height of each node along the way.
-        this._updateHeight(A); // first O(1)
-        // Check Balance: Simultaneously with height updates, check if each node violates the balance property of an AVL tree.
-        // Balance Restoration: If a balance issue is discovered after inserting a node, it requires balance restoration operations. Balance restoration includes four basic cases where rotation operations need to be performed to fix the balance:
-        switch (
-          this._balanceFactor(A) // second O(1)
-        ) {
-          case -2:
+        this._updateHeight(A);
+
+        // Check the balance factor
+        switch (this._balanceFactor(A)) {
+          case -2: // Left-heavy
             if (A && A.left) {
               if (this._balanceFactor(A.left) <= 0) {
-                // second O(1)
-                // Left Rotation (LL Rotation): When the inserted node is in the left subtree of the left subtree, causing an imbalance.
+                // Left-Left case
                 this._balanceLL(A);
               } else {
-                // Left-Right Rotation (LR Rotation): When the inserted node is in the right subtree of the left subtree, causing an imbalance.
+                // Left-Right case
                 this._balanceLR(A);
               }
             }
             break;
-          case +2:
+          case +2: // Right-heavy
             if (A && A.right) {
               if (this._balanceFactor(A.right) >= 0) {
-                // Right Rotation (RR Rotation): When the inserted node is in the right subtree of the right subtree, causing an imbalance.
+                // Right-Right case
                 this._balanceRR(A);
               } else {
-                // Right-Left Rotation (RL Rotation): When the inserted node is in the left subtree of the right subtree, causing an imbalance.
+                // Right-Left case
                 this._balanceRL(A);
               }
             }
         }
-        // TODO So far, no sure if this is necessary that Recursive Repair: Once rotation operations are executed, it may cause imbalance issues at higher levels of the tree. Therefore, you need to recursively check and repair imbalance problems upwards until you reach the root node.
       }
     }
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
+   * (Protected) Replaces a node, ensuring height is copied.
+   * @remarks Time O(1)
    *
-   * The function replaces an old node with a new node and sets the height of the new node to be the
-   * same as the old node.
-   * @param {AVLTreeNode<K, V>} oldNode - The `oldNode` parameter represents the node that needs to be replaced in
-   * the data structure.
-   * @param {AVLTreeNode<K, V>} newNode - The `newNode` parameter is the new node that will replace the `oldNode` in
-   * the data structure.
-   * @returns The method is returning the result of calling the `_replaceNode` method from the
-   * superclass, with the `oldNode` and `newNode` as arguments.
+   * @param oldNode - The node to be replaced.
+   * @param newNode - The node to insert.
+   * @returns The `newNode`.
    */
   protected override _replaceNode(oldNode: AVLTreeNode<K, V>, newNode: AVLTreeNode<K, V>): AVLTreeNode<K, V> {
+    // When replacing a node (e.g., on duplicate key), preserve the height.
     newNode.height = oldNode.height;
-
     return super._replaceNode(oldNode, newNode);
   }
 }

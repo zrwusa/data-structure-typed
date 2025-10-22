@@ -5,9 +5,11 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
+
 import type {
   AVLTreeCounterOptions,
   BinaryTreeDeleteResult,
+  BinaryTreeOptions,
   BSTNOptKeyOrNode,
   EntryCallback,
   IterationType
@@ -15,18 +17,22 @@ import type {
 import { IBinaryTree } from '../../interfaces';
 import { AVLTree, AVLTreeNode } from './avl-tree';
 
+/**
+ * AVL node with an extra 'count' field; keeps parent/child links.
+ * @remarks Time O(1), Space O(1)
+ * @template K
+ * @template V
+ */
 export class AVLTreeCounterNode<K = any, V = any> extends AVLTreeNode<K, V> {
   override parent?: AVLTreeCounterNode<K, V> = undefined;
 
   /**
-   * The constructor function initializes a BinaryTreeNode object with a key, value, and count.
-   * @param {K} key - The `key` parameter is of type `K` and represents the unique identifier
-   * of the binary tree node.
-   * @param {V} [value] - The `value` parameter is an optional parameter of type `V`. It represents the value of the binary
-   * tree node. If no value is provided, it will be `undefined`.
-   * @param {number} [count=1] - The `count` parameter is a number that represents the number of times a particular value
-   * occurs in a binary tree node. It has a default value of 1, which means that if no value is provided for the `count`
-   * parameter when creating a new instance of the `BinaryTreeNode` class.
+   * Create an AVL counter node.
+   * @remarks Time O(1), Space O(1)
+   * @param key - Key of the node.
+   * @param [value] - Associated value (ignored in map mode).
+   * @param [count] - Initial count for this node (default 1).
+   * @returns New AVLTreeCounterNode instance.
    */
   constructor(key: K, value?: V, count = 1) {
     super(key, value);
@@ -35,10 +41,21 @@ export class AVLTreeCounterNode<K = any, V = any> extends AVLTreeNode<K, V> {
 
   override _left?: AVLTreeCounterNode<K, V> | null | undefined = undefined;
 
+  /**
+   * Get the left child pointer.
+   * @remarks Time O(1), Space O(1)
+   * @returns Left child node, or null/undefined.
+   */
   override get left(): AVLTreeCounterNode<K, V> | null | undefined {
     return this._left;
   }
 
+  /**
+   * Set the left child and update its parent pointer.
+   * @remarks Time O(1), Space O(1)
+   * @param v - New left child node, or null/undefined.
+   * @returns void
+   */
   override set left(v: AVLTreeCounterNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
@@ -48,10 +65,21 @@ export class AVLTreeCounterNode<K = any, V = any> extends AVLTreeNode<K, V> {
 
   override _right?: AVLTreeCounterNode<K, V> | null | undefined = undefined;
 
+  /**
+   * Get the right child pointer.
+   * @remarks Time O(1), Space O(1)
+   * @returns Right child node, or null/undefined.
+   */
   override get right(): AVLTreeCounterNode<K, V> | null | undefined {
     return this._right;
   }
 
+  /**
+   * Set the right child and update its parent pointer.
+   * @remarks Time O(1), Space O(1)
+   * @param v - New right child node, or null/undefined.
+   * @returns void
+   */
   override set right(v: AVLTreeCounterNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
@@ -61,19 +89,22 @@ export class AVLTreeCounterNode<K = any, V = any> extends AVLTreeNode<K, V> {
 }
 
 /**
- * The only distinction between a AVLTreeCounter and a AVLTree lies in the ability of the former to store duplicate nodes through the utilization of counters.
+ * AVL tree that tracks an aggregate 'count' across nodes; supports balanced insert/delete and map-like mode.
+ * @remarks Time O(1), Space O(1)
+ * @template K
+ * @template V
+ * @template R
  */
-export class AVLTreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR = object>
-  extends AVLTree<K, V, R, MK, MV, MR>
-  implements IBinaryTree<K, V, R, MK, MV, MR>
+export class AVLTreeCounter<K = any, V = any, R extends object = object>
+  extends AVLTree<K, V, R>
+  implements IBinaryTree<K, V, R>
 {
   /**
-   * The constructor initializes a new AVLTreeCounter object with optional initial elements.
-   * @param keysNodesEntriesOrRaws - The `keysNodesEntriesOrRaws` parameter is an
-   * iterable object that can contain either keys, nodes, entries, or raw elements.
-   * @param [options] - The `options` parameter is an optional object that can be used to customize the
-   * behavior of the AVLTreeCounter. It can include properties such as `compareKeys` and
-   * `compareValues` functions to define custom comparison logic for keys and values, respectively.
+   * Create a AVLTreeCounter instance
+   * @remarks Time O(n), Space O(n)
+   * @param keysNodesEntriesOrRaws
+   * @param options
+   * @returns New AVLTreeCounterNode instance.
    */
   constructor(
     keysNodesEntriesOrRaws: Iterable<
@@ -87,22 +118,14 @@ export class AVLTreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR
 
   protected _count = 0;
 
-  /**
-   * The function calculates the sum of the count property of all nodes in a tree using depth-first
-   * search.
-   * @returns the sum of the count property of all nodes in the tree.
-   */
   get count(): number {
     return this._count;
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The function calculates the sum of the count property of all nodes in a tree using depth-first
-   * search.
-   * @returns the sum of the count property of all nodes in the tree.
+   * Compute the total count by traversing the tree (sums node.count).
+   * @remarks Time O(N), Space O(H)
+   * @returns Total count recomputed from nodes.
    */
   getComputedCount(): number {
     let sum = 0;
@@ -110,45 +133,14 @@ export class AVLTreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR
     return sum;
   }
 
-  /**
-   * The function creates a new AVLTreeCounterNode with the specified key, value, and count.
-   * @param {K} key - The key parameter represents the key of the node being created. It is of type K,
-   * which is a generic type that can be replaced with any specific type when using the function.
-   * @param {V} [value] - The `value` parameter is an optional parameter that represents the value
-   * associated with the key in the node. It is of type `V`, which can be any data type.
-   * @param {number} [count] - The `count` parameter represents the number of occurrences of a
-   * key-value pair in the AVLTreeCounterNode. It is an optional parameter, so it can be omitted when
-   * calling the `createNode` method. If provided, it specifies the initial count for the node.
-   * @returns a new instance of the AVLTreeCounterNode class, casted as AVLTreeCounterNode<K, V>.
-   */
-  override createNode(key: K, value?: V, count?: number): AVLTreeCounterNode<K, V> {
+  override _createNode(key: K, value?: V, count?: number): AVLTreeCounterNode<K, V> {
     return new AVLTreeCounterNode(key, this._isMapMode ? undefined : value, count) as AVLTreeCounterNode<K, V>;
   }
 
   /**
-   * The function creates a new AVLTreeCounter object with the specified options and returns it.
-   * @param [options] - The `options` parameter is an optional object that contains additional
-   * configuration options for creating the AVLTreeCounter. It can have the following properties:
-   * @returns a new instance of the AVLTreeCounter class, with the specified options, as a TREE
-   * object.
-   */
-  override createTree(options?: AVLTreeCounterOptions<K, V, R>) {
-    return new AVLTreeCounter<K, V, R, MK, MV, MR>([], {
-      iterationType: this.iterationType,
-      isMapMode: this._isMapMode,
-      specifyComparable: this._specifyComparable,
-      toEntryFn: this._toEntryFn,
-      isReverse: this._isReverse,
-      ...options
-    });
-  }
-
-  /**
-   * The function checks if the input is an instance of AVLTreeCounterNode.
-   * @param {K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined} keyNodeOrEntry - The parameter
-   * `keyNodeOrEntry` can be of type `R` or `K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined`.
-   * @returns a boolean value indicating whether the input parameter `keyNodeOrEntry` is
-   * an instance of the `AVLTreeCounterNode` class.
+   * Type guard: check whether the input is an AVLTreeCounterNode.
+   * @remarks Time O(1), Space O(1)
+   * @returns True if the value is an AVLTreeCounterNode.
    */
   override isNode(
     keyNodeOrEntry: K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined
@@ -157,21 +149,12 @@ export class AVLTreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR
   }
 
   /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   *
-   * The function overrides the add method of a TypeScript class to add a new node to a data structure
-   * and update the count.
-   * @param {K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined} keyNodeOrEntry - The
-   * `keyNodeOrEntry` parameter can accept a value of type `R`, which can be any type. It
-   * can also accept a value of type `K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined`, which represents a key, node,
-   * entry, or raw element
-   * @param {V} [value] - The `value` parameter represents the value associated with the key in the
-   * data structure. It is an optional parameter, so it can be omitted if not needed.
-   * @param [count=1] - The `count` parameter represents the number of times the key-value pair should
-   * be added to the data structure. By default, it is set to 1, meaning that the key-value pair will
-   * be added once. However, you can specify a different value for `count` if you want to add
-   * @returns a boolean value.
+   * Insert or increment a node and update aggregate count.
+   * @remarks Time O(log N), Space O(1)
+   * @param keyNodeOrEntry - Key, node, or [key, value] entry to insert.
+   * @param [value] - Value when a bare key is provided (ignored in map mode).
+   * @param [count] - How much to increase the node's count (default 1).
+   * @returns True if inserted/updated; false if ignored.
    */
   override add(
     keyNodeOrEntry: K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
@@ -190,23 +173,11 @@ export class AVLTreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR
   }
 
   /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(1)
-   *
-   * The function overrides the delete method in a binary tree data structure, handling deletion of
-   * nodes and maintaining balance in the tree.
-   * @param {K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined} keyNodeOrEntry - The `predicate`
-   * parameter in the `delete` method is used to specify the condition for deleting a node from the
-   * binary tree. It can be a key, node, or entry that determines which
-   * node(s) should be deleted.
-   * @param [ignoreCount=false] - The `ignoreCount` parameter in the `override delete` method is a
-   * boolean flag that determines whether to ignore the count of the node being deleted. If
-   * `ignoreCount` is set to `true`, the method will delete the node regardless of its count. If
-   * `ignoreCount` is set to
-   * @returns The `delete` method overrides the default delete behavior in a binary tree data
-   * structure. It takes a predicate or node to be deleted and an optional flag to ignore count. The
-   * method returns an array of `BinaryTreeDeleteResult` objects, each containing information about the
-   * deleted node and whether balancing is needed in the tree.
+   * Delete a node (or decrement its count) and rebalance if needed.
+   * @remarks Time O(log N), Space O(1)
+   * @param keyNodeOrEntry - Key, node, or [key, value] entry identifying the node.
+   * @param [ignoreCount] - If true, remove the node regardless of its count.
+   * @returns Array of deletion results including deleted node and a rebalance hint when present.
    */
   override delete(
     keyNodeOrEntry: K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
@@ -254,7 +225,7 @@ export class AVLTreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR
         }
       }
       this._size = this._size - 1;
-      // TODO How to handle when the count of target node is lesser than current node's count
+
       if (orgCurrent) this._count -= orgCurrent.count;
     }
 
@@ -268,11 +239,9 @@ export class AVLTreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The "clear" function overrides the parent class's "clear" function and also resets the count to
-   * zero.
+   * Remove all nodes and reset aggregate counters.
+   * @remarks Time O(N), Space O(1)
+   * @returns void
    */
   override clear() {
     super.clear();
@@ -280,115 +249,138 @@ export class AVLTreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR
   }
 
   /**
-   * Time Complexity: O(n log n)
-   * Space Complexity: O(log n)
-   *
-   * The `perfectlyBalance` function takes a sorted array of nodes and builds a balanced binary search
-   * tree using either a recursive or iterative approach.
-   * @param {IterationType} iterationType - The `iterationType` parameter is an optional parameter that
-   * specifies the type of iteration to use when building the balanced binary search tree. It has a
-   * default value of `this.iterationType`, which means it will use the iteration type currently set in
-   * the object.
-   * @returns The function `perfectlyBalance` returns a boolean value. It returns `true` if the
-   * balancing operation is successful, and `false` if there are no nodes to balance.
+   * Rebuild the tree into a perfectly balanced form using in-order nodes.
+   * @remarks Time O(N), Space O(N)
+   * @param [iterationType] - Traversal style to use when constructing the balanced tree.
+   * @returns True if rebalancing succeeded (tree not empty).
    */
   override perfectlyBalance(iterationType: IterationType = this.iterationType): boolean {
-    const sorted = this.dfs(node => node, 'IN'),
-      n = sorted.length;
-    if (sorted.length < 1) return false;
+    const nodes = this.dfs(node => node, 'IN', false, this._root, iterationType);
+    const n = nodes.length;
+    if (n === 0) return false;
 
-    this.clear();
+    let total = 0;
+    for (const nd of nodes) total += nd ? nd.count : 0;
 
-    if (iterationType === 'RECURSIVE') {
-      const buildBalanceBST = (l: number, r: number) => {
-        if (l > r) return;
-        const m = l + Math.floor((r - l) / 2);
-        const midNode = sorted[m];
-        if (this._isMapMode) this.add(midNode.key, undefined, midNode.count);
-        else this.add(midNode.key, midNode.value, midNode.count);
-        buildBalanceBST(l, m - 1);
-        buildBalanceBST(m + 1, r);
-      };
+    this._clearNodes();
 
-      buildBalanceBST(0, n - 1);
-      return true;
+    const build = (l: number, r: number, parent?: any): any => {
+      if (l > r) return undefined;
+      const m = l + ((r - l) >> 1);
+      const root = nodes[m];
+      root.left = build(l, m - 1, root);
+      root.right = build(m + 1, r, root);
+      root.parent = parent;
+      const lh = root.left ? root.left.height : -1;
+      const rh = root.right ? root.right.height : -1;
+      root.height = Math.max(lh, rh) + 1;
+      return root;
+    };
+
+    const newRoot = build(0, n - 1, undefined);
+    this._setRoot(newRoot);
+    this._size = n;
+    this._count = total;
+    return true;
+  }
+
+  /**
+   * Deep copy this tree, preserving map mode and aggregate counts.
+   * @remarks Time O(N), Space O(N)
+   * @returns A deep copy of this tree.
+   */
+  override clone(): this {
+    const out = this._createInstance();
+
+    if (this._isMapMode) {
+      this.bfs(node => out.add(node.key, undefined, node.count));
     } else {
-      const stack: [[number, number]] = [[0, n - 1]];
-      while (stack.length > 0) {
-        const popped = stack.pop();
-        if (popped) {
-          const [l, r] = popped;
-          if (l <= r) {
-            const m = l + Math.floor((r - l) / 2);
-            const midNode = sorted[m];
-            if (this._isMapMode) this.add(midNode.key, undefined, midNode.count);
-            else this.add(midNode.key, midNode.value, midNode.count);
-            stack.push([m + 1, r]);
-            stack.push([l, m - 1]);
-          }
-        }
-      }
-      return true;
+      this.bfs(node => out.add(node.key, node.value, node.count));
     }
+
+    if (this._isMapMode) out._store = this._store;
+
+    return out as this;
   }
 
   /**
-   * Time complexity: O(n)
-   * Space complexity: O(n)
-   *
-   * The function overrides the clone method to create a deep copy of a tree object.
-   * @returns The `clone()` method is returning a cloned instance of the `TREE` object.
+   * Create a new AVLTreeCounter by mapping each [key, value] entry.
+   * @remarks Time O(N log N), Space O(N)
+   * @template MK
+   * @template MV
+   * @template MR
+   * @param callback - Function mapping (key, value, index, tree) → [newKey, newValue].
+   * @param [options] - Options for the output tree.
+   * @param [thisArg] - Value for `this` inside the callback.
+   * @returns A new AVLTreeCounter with mapped entries.
    */
-  override clone() {
-    const cloned = this.createTree();
-    if (this._isMapMode) this.bfs(node => cloned.add(node.key, undefined, node.count));
-    else this.bfs(node => cloned.add(node.key, node.value, node.count));
-    if (this._isMapMode) cloned._store = this._store;
-    return cloned;
-  }
-
-  /**
-   * The `map` function in TypeScript overrides the default behavior to create a new AVLTreeCounter
-   * with modified entries based on a provided callback.
-   * @param callback - The `callback` parameter is a function that will be called for each entry in the
-   * AVLTreeCounter. It takes four arguments:
-   * @param [options] - The `options` parameter in the `override map` function is of type
-   * `AVLTreeCounterOptions<MK, MV, MR>`. This parameter allows you to provide additional
-   * configuration options when creating a new `AVLTreeCounter` instance within the `map` function.
-   * These options
-   * @param {any} [thisArg] - The `thisArg` parameter in the `override map` function is used to specify
-   * the value of `this` when executing the `callback` function. It allows you to set the context
-   * (value of `this`) for the callback function. This can be useful when you want to access properties
-   * or
-   * @returns The `map` method is returning a new `AVLTreeCounter` instance with the entries
-   * transformed by the provided `callback` function. Each entry in the original tree is passed to the
-   * `callback` function along with the index and the original tree itself. The transformed entries are
-   * then added to the new `AVLTreeCounter` instance, which is returned at the end.
-   */
-  override map<MK, MV, MR>(
+  override map<MK = K, MV = V, MR extends object = object>(
     callback: EntryCallback<K, V | undefined, [MK, MV]>,
-    options?: AVLTreeCounterOptions<MK, MV, MR>,
-    thisArg?: any
+    options?: Partial<BinaryTreeOptions<MK, MV, MR>>,
+    thisArg?: unknown
   ): AVLTreeCounter<MK, MV, MR> {
-    const newTree = new AVLTreeCounter<MK, MV, MR>([], options);
+    const out = this._createLike<MK, MV, MR>([], options);
+
     let index = 0;
     for (const [key, value] of this) {
-      newTree.add(callback.call(thisArg, key, value, index++, this));
+      out.add(callback.call(thisArg, key, value, index++, this));
     }
-    return newTree;
+    return out;
   }
 
   /**
-   * The function `keyValueNodeEntryRawToNodeAndValue` converts a key, value, entry, or raw element into
-   * a node object.
-   * @param {K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined} keyNodeOrEntry - The
-   * `keyNodeOrEntry` parameter can be of type `R` or `K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined`.
-   * @param {V} [value] - The `value` parameter is an optional value that can be passed to the
-   * `override` function. It represents the value associated with the key in the data structure. If no
-   * value is provided, it will default to `undefined`.
-   * @param [count=1] - The `count` parameter is an optional parameter that specifies the number of
-   * times the key-value pair should be added to the data structure. If not provided, it defaults to 1.
-   * @returns either a AVLTreeCounterNode<K, V> object or undefined.
+   * (Protected) Create an empty instance of the same concrete class.
+   * @remarks Time O(1), Space O(1)
+   * @template TK
+   * @template TV
+   * @template TR
+   * @param [options] - Optional constructor options for the like-kind instance.
+   * @returns An empty like-kind instance.
+   */
+  protected override _createInstance<TK = K, TV = V, TR extends object = R>(
+    options?: Partial<AVLTreeCounterOptions<TK, TV, TR>>
+  ): this {
+    const Ctor = this.constructor as unknown as new (
+      iter?: Iterable<
+        TK | AVLTreeCounterNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR
+      >,
+      opts?: AVLTreeCounterOptions<TK, TV, TR>
+    ) => AVLTreeCounter<TK, TV, TR>;
+    return new Ctor([], { ...this._snapshotOptions<TK, TV, TR>(), ...(options ?? {}) }) as unknown as this;
+  }
+
+  /**
+   * (Protected) Create a like-kind instance and seed it from an iterable.
+   * @remarks Time O(N log N), Space O(N)
+   * @template TK
+   * @template TV
+   * @template TR
+   * @param iter - Iterable used to seed the new tree.
+   * @param [options] - Options merged with the current snapshot.
+   * @returns A like-kind AVLTreeCounter built from the iterable.
+   */
+  protected override _createLike<TK = K, TV = V, TR extends object = R>(
+    iter: Iterable<
+      TK | AVLTreeCounterNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR
+    > = [],
+    options?: Partial<AVLTreeCounterOptions<TK, TV, TR>>
+  ): AVLTreeCounter<TK, TV, TR> {
+    const Ctor = this.constructor as unknown as new (
+      iter?: Iterable<
+        TK | AVLTreeCounterNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR
+      >,
+      opts?: AVLTreeCounterOptions<TK, TV, TR>
+    ) => AVLTreeCounter<TK, TV, TR>;
+    return new Ctor(iter, { ...this._snapshotOptions<TK, TV, TR>(), ...(options ?? {}) });
+  }
+
+  /**
+   * (Protected) Normalize input into a node plus its effective value and count.
+   * @remarks Time O(1), Space O(1)
+   * @param keyNodeOrEntry - Key, node, or [key, value] entry.
+   * @param [value] - Value used when a bare key is provided.
+   * @param [count] - Count increment to apply (default 1).
+   * @returns Tuple [node, value] where node may be undefined.
    */
   protected override _keyValueNodeOrEntryToNodeAndValue(
     keyNodeOrEntry: K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
@@ -402,24 +394,18 @@ export class AVLTreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR
       const [key, entryValue] = keyNodeOrEntry;
       if (key === undefined || key === null) return [undefined, undefined];
       const finalValue = value ?? entryValue;
-      return [this.createNode(key, finalValue, count), finalValue];
+      return [this._createNode(key, finalValue, count), finalValue];
     }
 
-    return [this.createNode(keyNodeOrEntry, value, count), value];
+    return [this._createNode(keyNodeOrEntry, value, count), value];
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `_swapProperties` function swaps the properties (key, value, count, height) between two nodes
-   * in a binary search tree.
-   * @param {BSTNOptKeyOrNode<K, AVLTreeCounterNode<K, V>>} srcNode - The `srcNode` parameter represents the source node
-   * that will be swapped with the `destNode`.
-   * @param {BSTNOptKeyOrNode<K, AVLTreeCounterNode<K, V>>} destNode - The `destNode` parameter represents the destination
-   * node where the properties will be swapped with the source node.
-   * @returns The method is returning the `destNode` after swapping its properties with the `srcNode`.
-   * If either `srcNode` or `destNode` is undefined, it returns `undefined`.
+   * (Protected) Swap keys/values/counters between the source and destination nodes.
+   * @remarks Time O(1), Space O(1)
+   * @param srcNode - Source node (or key) whose properties will be moved.
+   * @param destNode - Destination node (or key) to receive properties.
+   * @returns Destination node after swap, or undefined.
    */
   protected override _swapProperties(
     srcNode: BSTNOptKeyOrNode<K, AVLTreeCounterNode<K, V>>,
@@ -429,7 +415,7 @@ export class AVLTreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR
     destNode = this.ensureNode(destNode);
     if (srcNode && destNode) {
       const { key, value, count, height } = destNode;
-      const tempNode = this.createNode(key, value, count);
+      const tempNode = this._createNode(key, value, count);
       if (tempNode) {
         tempNode.height = height;
 
@@ -450,15 +436,11 @@ export class AVLTreeCounter<K = any, V = any, R = object, MK = any, MV = any, MR
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The function replaces an old node with a new node and updates the count property of the new node.
-   * @param {AVLTreeCounterNode<K, V>} oldNode - The oldNode parameter represents the node that needs to be replaced in the
-   * data structure. It is of type AVLTreeCounterNode<K, V>.
-   * @param {AVLTreeCounterNode<K, V>} newNode - The `newNode` parameter is an instance of the `AVLTreeCounterNode<K, V>` class.
-   * @returns The method is returning the result of calling the `_replaceNode` method from the
-   * superclass, which is of type `AVLTreeCounterNode<K, V>`.
+   * (Protected) Replace one node by another and adjust counters accordingly.
+   * @remarks Time O(1), Space O(1)
+   * @param oldNode - Node being replaced.
+   * @param newNode - Replacement node.
+   * @returns The new node after replacement.
    */
   protected override _replaceNode(
     oldNode: AVLTreeCounterNode<K, V>,

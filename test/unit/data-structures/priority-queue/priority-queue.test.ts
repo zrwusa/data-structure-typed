@@ -62,10 +62,7 @@ describe('PriorityQueue Operation Test', () => {
     expect(filtered instanceof PriorityQueue).toBe(true);
     expect([...filtered]).toEqual([1, 3, 5, 7]);
 
-    const mapped = filtered.map(
-      item => ({ key: item }),
-      (a, b) => a.key - b.key
-    );
+    const mapped = filtered.map(item => ({ key: item }), { comparator: (a, b) => a.key - b.key });
     expect(mapped instanceof PriorityQueue).toBe(true);
     expect([...mapped]).toEqual([{ key: 1 }, { key: 3 }, { key: 5 }, { key: 7 }]);
   });

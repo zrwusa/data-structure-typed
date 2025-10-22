@@ -153,10 +153,9 @@ describe('Queue', () => {
     expect(mappedQueue.at(0)).toBe(1);
     expect([...mappedQueue]).toEqual([1, 6, 5, 3, 2, 4, 0]);
 
-    const mappedToElementFnQueue = queue.map<string, { id: string }>(
-      item => item.key.toString(),
-      rawElement => rawElement.id
-    );
+    const mappedToElementFnQueue = queue.map<string, { id: string }>(item => item.key.toString(), {
+      toElementFn: rawElement => rawElement.id
+    });
     expect(mappedToElementFnQueue.at(0)).toBe('1');
     expect([...mappedToElementFnQueue]).toEqual(['1', '6', '5', '3', '2', '4', '0']);
 
@@ -603,7 +602,7 @@ describe('classic uses', () => {
     let maxSum = 0;
     let currentSum = 0;
 
-    nums.forEach((num) => {
+    nums.forEach(num => {
       queue.push(num);
       currentSum += num;
 

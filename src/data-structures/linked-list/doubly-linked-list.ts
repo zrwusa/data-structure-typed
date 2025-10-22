@@ -5,15 +5,23 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { DoublyLinkedListOptions, ElementCallback } from '../../types';
+
+import type { DoublyLinkedListOptions, ElementCallback, LinearBaseOptions } from '../../types';
 import { LinearLinkedBase, LinkedListNode } from '../base/linear-base';
 
+/**
+ * Node of a doubly linked list; stores value and prev/next links.
+ * @remarks Time O(1), Space O(1)
+ * @template E
+ */
 export class DoublyLinkedListNode<E = any> extends LinkedListNode<E> {
   /**
-   * The constructor function initializes the value, next, and previous properties of an object.
-   * @param {E} value - The "value" parameter is the value that will be stored in the node. It can be of any data type, as it
-   * is defined as a generic type "E".
+   * Create a node.
+   * @remarks Time O(1), Space O(1)
+   * @param value - Element value to store.
+   * @returns New node instance.
    */
+
   constructor(value: E) {
     super(value);
     this._value = value;
@@ -23,9 +31,22 @@ export class DoublyLinkedListNode<E = any> extends LinkedListNode<E> {
 
   protected override _next: DoublyLinkedListNode<E> | undefined;
 
+  /**
+   * Get the next node link.
+   * @remarks Time O(1), Space O(1)
+   * @returns Next node or undefined.
+   */
+
   override get next(): DoublyLinkedListNode<E> | undefined {
     return this._next;
   }
+
+  /**
+   * Set the next node link.
+   * @remarks Time O(1), Space O(1)
+   * @param value - Next node or undefined.
+   * @returns void
+   */
 
   override set next(value: DoublyLinkedListNode<E> | undefined) {
     this._next = value;
@@ -33,9 +54,22 @@ export class DoublyLinkedListNode<E = any> extends LinkedListNode<E> {
 
   protected _prev: DoublyLinkedListNode<E> | undefined;
 
+  /**
+   * Get the previous node link.
+   * @remarks Time O(1), Space O(1)
+   * @returns Previous node or undefined.
+   */
+
   get prev(): DoublyLinkedListNode<E> | undefined {
     return this._prev;
   }
+
+  /**
+   * Set the previous node link.
+   * @remarks Time O(1), Space O(1)
+   * @param value - Previous node or undefined.
+   * @returns void
+   */
 
   set prev(value: DoublyLinkedListNode<E> | undefined) {
     this._prev = value;
@@ -43,6 +77,10 @@ export class DoublyLinkedListNode<E = any> extends LinkedListNode<E> {
 }
 
 /**
+ * Doubly linked list with O(1) push/pop/unshift/shift and linear scans.
+ * @remarks Time O(1), Space O(1)
+ * @template E
+ * @template R
  * 1. Node Structure: Each node contains three parts: a data field, a pointer (or reference) to the previous node, and a pointer to the next node. This structure allows traversal of the linked list in both directions.
  * 2. Bidirectional Traversal: Unlike singly linked lists, doubly linked lists can be easily traversed forwards or backwards. This makes insertions and deletions in the list more flexible and efficient.
  * 3. No Centralized Index: Unlike arrays, elements in a linked list are not stored contiguously, so there is no centralized index. Accessing elements in a linked list typically requires traversing from the head or tail node.
@@ -217,6 +255,16 @@ export class DoublyLinkedListNode<E = any> extends LinkedListNode<E> {
  *         this.map = new Map<K, DoublyLinkedListNode<CacheEntry<K, V>>>();
  *       }
  *
+ *       // Get the current cache length
+ *       get length(): number {
+ *         return this.list.length;
+ *       }
+ *
+ *       // Check if it is empty
+ *       get isEmpty(): boolean {
+ *         return this.list.isEmpty();
+ *       }
+ *
  *       // Get cached value
  *       get(key: K): V | undefined {
  *         const node = this.map.get(key);
@@ -262,12 +310,6 @@ export class DoublyLinkedListNode<E = any> extends LinkedListNode<E> {
  *         }
  *       }
  *
- *       // Move the node to the head of the linked list
- *       private moveToFront(node: DoublyLinkedListNode<CacheEntry<K, V>>): void {
- *         this.list.delete(node);
- *         this.list.unshift(node.value);
- *       }
- *
  *       // Delete specific key
  *       delete(key: K): boolean {
  *         const node = this.map.get(key);
@@ -287,14 +329,10 @@ export class DoublyLinkedListNode<E = any> extends LinkedListNode<E> {
  *         this.map.clear();
  *       }
  *
- *       // Get the current cache length
- *       get length(): number {
- *         return this.list.length;
- *       }
- *
- *       // Check if it is empty
- *       get isEmpty(): boolean {
- *         return this.list.isEmpty();
+ *       // Move the node to the head of the linked list
+ *       private moveToFront(node: DoublyLinkedListNode<CacheEntry<K, V>>): void {
+ *         this.list.delete(node);
+ *         this.list.unshift(node.value);
  *       }
  *     }
  *
@@ -476,16 +514,16 @@ export class DoublyLinkedListNode<E = any> extends LinkedListNode<E> {
  *     console.log(scheduler.listProcesses()); // []
  */
 export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, DoublyLinkedListNode<E>> {
+  protected _equals: (a: E, b: E) => boolean = Object.is as unknown as (a: E, b: E) => boolean;
+
   /**
-   * This TypeScript constructor initializes a DoublyLinkedList with optional elements and options.
-   * @param {Iterable<E> | Iterable<R>} elements - The `elements` parameter in the constructor is an
-   * iterable collection of elements of type `E` or `R`. It is used to initialize the DoublyLinkedList
-   * with the elements provided in the iterable. If no elements are provided, the default value is an
-   * empty iterable.
-   * @param [options] - The `options` parameter in the constructor is of type
-   * `DoublyLinkedListOptions<E, R>`. It is an optional parameter that allows you to pass additional
-   * configuration options to customize the behavior of the DoublyLinkedList.
+   * Create a DoublyLinkedList and optionally bulk-insert elements.
+   * @remarks Time O(N), Space O(N)
+   * @param [elements] - Iterable of elements or nodes (or raw records if toElementFn is provided).
+   * @param [options] - Options such as maxLen and toElementFn.
+   * @returns New DoublyLinkedList instance.
    */
+
   constructor(
     elements: Iterable<E> | Iterable<R> | Iterable<DoublyLinkedListNode<E>> = [],
     options?: DoublyLinkedListOptions<E, R>
@@ -495,9 +533,8 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
     this._tail = undefined;
     this._length = 0;
 
-    if (options) {
-      const { maxLen } = options;
-      if (typeof maxLen === 'number' && maxLen > 0 && maxLen % 1 === 0) this._maxLen = maxLen;
+    if (options?.maxLen && Number.isInteger(options.maxLen) && options.maxLen > 0) {
+      this._maxLen = options.maxLen;
     }
 
     this.pushMany(elements);
@@ -505,71 +542,87 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
 
   protected _head: DoublyLinkedListNode<E> | undefined;
 
+  /**
+   * Get the head node.
+   * @remarks Time O(1), Space O(1)
+   * @returns Head node or undefined.
+   */
+
   get head(): DoublyLinkedListNode<E> | undefined {
     return this._head;
   }
 
   protected _tail: DoublyLinkedListNode<E> | undefined;
 
+  /**
+   * Get the tail node.
+   * @remarks Time O(1), Space O(1)
+   * @returns Tail node or undefined.
+   */
+
   get tail(): DoublyLinkedListNode<E> | undefined {
     return this._tail;
   }
 
-  protected _length: number;
+  protected _length = 0;
+
+  /**
+   * Get the number of elements.
+   * @remarks Time O(1), Space O(1)
+   * @returns Current length.
+   */
 
   get length(): number {
     return this._length;
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `get first` function returns the first node in a doubly linked list, or undefined if the list is empty.
-   * @returns The method `get first()` returns the first node of the doubly linked list, or `undefined` if the list is empty.
+   * Get the first element value.
+   * @remarks Time O(1), Space O(1)
+   * @returns First element or undefined.
    */
+
   get first(): E | undefined {
     return this.head?.value;
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `get last` function returns the last node in a doubly linked list, or undefined if the list is empty.
-   * @returns The method `get last()` returns the last node of the doubly linked list, or `undefined` if the list is empty.
+   * Get the last element value.
+   * @remarks Time O(1), Space O(1)
+   * @returns Last element or undefined.
    */
+
   get last(): E | undefined {
     return this.tail?.value;
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `fromArray` function creates a new instance of a DoublyLinkedList and populates it with the elements from the
-   * given array.
-   * @param {E[]} data - The `data` parameter is an array of elements of type `E`.
-   * @returns The `fromArray` function returns a DoublyLinkedList object.
+   * Create a new list from an array of elements.
+   * @remarks Time O(N), Space O(N)
+   * @template E
+   * @template R
+   * @param this - The constructor (subclass) to instantiate.
+   * @param data - Array of elements to insert.
+   * @returns A new list populated with the array's elements.
    */
-  static fromArray<E>(data: E[]) {
-    return new DoublyLinkedList<E>(data);
+
+  static fromArray<E, R = any>(
+    this: new (
+      elements?: Iterable<E> | Iterable<R> | Iterable<DoublyLinkedListNode<E>>,
+      options?: DoublyLinkedListOptions<E, R>
+    ) => any,
+    data: E[]
+  ) {
+    return new this(data);
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The function `isNode` in TypeScript checks if a given input is an instance of
-   * `DoublyLinkedListNode`.
-   * @param {E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)} elementNodeOrPredicate
-   * elementNodeOrPredicate - The `elementNodeOrPredicate` parameter in the `isNode` function can
-   * be one of the following types:
-   * @returns The `isNode` function is checking if the `elementNodeOrPredicate` parameter is an
-   * instance of `DoublyLinkedListNode<E>`. If it is, the function returns `true`, indicating that the
-   * parameter is a `DoublyLinkedListNode<E>`. If it is not an instance of `DoublyLinkedListNode<E>`,
-   * the function returns `false`.
+   * Type guard: check whether the input is a DoublyLinkedListNode.
+   * @remarks Time O(1), Space O(1)
+   * @param elementNodeOrPredicate - Element, node, or predicate.
+   * @returns True if the value is a DoublyLinkedListNode.
    */
+
   isNode(
     elementNodeOrPredicate: E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)
   ): elementNodeOrPredicate is DoublyLinkedListNode<E> {
@@ -577,14 +630,12 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `push` function adds a new element or node to the end of a doubly linked list.
-   * @param {E | DoublyLinkedListNode<E>} elementOrNode - The `elementOrNode` parameter in the `push`
-   * method can accept either an element of type `E` or a `DoublyLinkedListNode<E>` object.
-   * @returns The `push` method is returning a boolean value, specifically `true`.
+   * Append an element/node to the tail.
+   * @remarks Time O(1), Space O(1)
+   * @param elementOrNode - Element or node to append.
+   * @returns True when appended.
    */
+
   push(elementOrNode: E | DoublyLinkedListNode<E>): boolean {
     const newNode = this._ensureNode(elementOrNode);
     if (!this.head) {
@@ -601,57 +652,52 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `pop()` function removes and returns the value of the last element in a linked list.
-   * @returns The method is returning the value of the removed node.
+   * Remove and return the tail element.
+   * @remarks Time O(1), Space O(1)
+   * @returns Removed element or undefined.
    */
+
   pop(): E | undefined {
     if (!this.tail) return undefined;
-    const removedNode = this.tail;
+    const removed = this.tail;
     if (this.head === this.tail) {
       this._head = undefined;
       this._tail = undefined;
     } else {
-      this._tail = removedNode.prev;
+      this._tail = removed.prev;
       this.tail!.next = undefined;
     }
     this._length--;
-    return removedNode.value;
+    return removed.value;
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `shift()` function removes and returns the value of the first element in a doubly linked list.
-   * @returns The value of the removed node.
+   * Remove and return the head element.
+   * @remarks Time O(1), Space O(1)
+   * @returns Removed element or undefined.
    */
+
   shift(): E | undefined {
     if (!this.head) return undefined;
-    const removedNode = this.head;
+    const removed = this.head;
     if (this.head === this.tail) {
       this._head = undefined;
       this._tail = undefined;
     } else {
-      this._head = removedNode.next;
+      this._head = removed.next;
       this.head!.prev = undefined;
     }
     this._length--;
-    return removedNode.value;
+    return removed.value;
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The unshift function adds a new element or node to the beginning of a doubly linked list.
-   * @param {E | DoublyLinkedListNode<E>} elementOrNode - The `elementOrNode` parameter in the
-   * `unshift` method can be either an element of type `E` or a `DoublyLinkedListNode` containing an
-   * element of type `E`.
-   * @returns The `unshift` method is returning a boolean value, specifically `true`.
+   * Prepend an element/node to the head.
+   * @remarks Time O(1), Space O(1)
+   * @param elementOrNode - Element or node to prepend.
+   * @returns True when prepended.
    */
+
   unshift(elementOrNode: E | DoublyLinkedListNode<E>): boolean {
     const newNode = this._ensureNode(elementOrNode);
     if (!this.head) {
@@ -668,352 +714,254 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
   }
 
   /**
-   * Time Complexity: O(k)
-   * Space Complexity: O(k)
-   *
-   * The function `pushMany` iterates over elements and pushes them into a data structure, applying a
-   * transformation function if provided.
-   * @param {Iterable<E> | Iterable<R> | Iterable<DoublyLinkedListNode<E>>} elements - The `elements`
-   * parameter in the `pushMany` function can accept an iterable containing elements of type `E`, `R`,
-   * or `DoublyLinkedListNode<E>`. The function iterates over each element in the iterable and pushes
-   * it onto the linked list. If a transformation function `to
-   * @returns The `pushMany` function is returning an array of boolean values (`ans`) which indicate
-   * the success or failure of pushing each element into the data structure.
+   * Append a sequence of elements/nodes.
+   * @remarks Time O(N), Space O(1)
+   * @param elements - Iterable of elements or nodes (or raw records if toElementFn is provided).
+   * @returns Array of per-element success flags.
    */
-  pushMany(elements: Iterable<E> | Iterable<R> | Iterable<DoublyLinkedListNode<E>>) {
+
+  pushMany(elements: Iterable<E> | Iterable<R> | Iterable<DoublyLinkedListNode<E>>): boolean[] {
     const ans: boolean[] = [];
     for (const el of elements) {
-      if (this.toElementFn) {
-        ans.push(this.push(this.toElementFn(el as R)));
-        continue;
-      }
-      ans.push(this.push(el as E | DoublyLinkedListNode<E>));
+      if (this.toElementFn) ans.push(this.push(this.toElementFn(el as R)));
+      else ans.push(this.push(el as E | DoublyLinkedListNode<E>));
     }
     return ans;
   }
 
   /**
-   * Time Complexity: O(k)
-   * Space Complexity: O(k)
-   *
-   * The function `unshiftMany` iterates through a collection of elements and adds them to the
-   * beginning of a Doubly Linked List, returning an array of boolean values indicating the success of
-   * each insertion.
-   * @param {Iterable<E> | Iterable<R> | Iterable<DoublyLinkedListNode<E>>} elements - The `elements`
-   * parameter in the `unshiftMany` function can accept an iterable containing elements of type `E`,
-   * `R`, or `DoublyLinkedListNode<E>`. The function iterates over each element in the iterable and
-   * performs an `unshift` operation on the doubly linked list
-   * @returns The `unshiftMany` function returns an array of boolean values indicating the success of
-   * each unshift operation performed on the elements passed as input.
+   * Prepend a sequence of elements/nodes.
+   * @remarks Time O(N), Space O(1)
+   * @param elements - Iterable of elements or nodes (or raw records if toElementFn is provided).
+   * @returns Array of per-element success flags.
    */
-  unshiftMany(elements: Iterable<E> | Iterable<R> | Iterable<DoublyLinkedListNode<E>>) {
+
+  unshiftMany(elements: Iterable<E> | Iterable<R> | Iterable<DoublyLinkedListNode<E>>): boolean[] {
     const ans: boolean[] = [];
     for (const el of elements) {
-      if (this.toElementFn) {
-        ans.push(this.unshift(this.toElementFn(el as R)));
-        continue;
-      }
-      ans.push(this.unshift(el as E | DoublyLinkedListNode<E>));
+      if (this.toElementFn) ans.push(this.unshift(this.toElementFn(el as R)));
+      else ans.push(this.unshift(el as E | DoublyLinkedListNode<E>));
     }
     return ans;
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The `at` function returns the value at a specified index in a linked list, or undefined if the index is out of bounds.
-   * @param {number} index - The index parameter is a number that represents the position of the element we want to
-   * retrieve from the list.
-   * @returns The method is returning the value at the specified index in the linked list. If the index is out of bounds
-   * or the linked list is empty, it will return undefined.
+   * Get the element at a given index.
+   * @remarks Time O(N), Space O(1)
+   * @param index - Zero-based index.
+   * @returns Element or undefined.
    */
+
   at(index: number): E | undefined {
     if (index < 0 || index >= this._length) return undefined;
     let current = this.head;
-    for (let i = 0; i < index; i++) {
-      current = current!.next;
-    }
+    for (let i = 0; i < index; i++) current = current!.next;
     return current!.value;
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The function `getNodeAt` returns the node at a given index in a doubly linked list, or undefined if the index is out of
-   * range.
-   * @param {number} index - The `index` parameter is a number that represents the position of the node we want to
-   * retrieve from the doubly linked list. It indicates the zero-based index of the node we want to access.
-   * @returns The method `getNodeAt(index: number)` returns a `DoublyLinkedListNode<E>` object if the index is within the
-   * valid range of the linked list, otherwise it returns `undefined`.
+   * Get the node reference at a given index.
+   * @remarks Time O(N), Space O(1)
+   * @param index - Zero-based index.
+   * @returns Node or undefined.
    */
+
   getNodeAt(index: number): DoublyLinkedListNode<E> | undefined {
     if (index < 0 || index >= this._length) return undefined;
     let current = this.head;
-    for (let i = 0; i < index; i++) {
-      current = current!.next;
-    }
+    for (let i = 0; i < index; i++) current = current!.next;
     return current;
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * This TypeScript function searches for a node in a doubly linked list based on a given element node
-   * or predicate.
-   * @param {| E
-   *       | DoublyLinkedListNode<E>
-   *       | ((node: DoublyLinkedListNode<E>) => boolean)
-   *       | undefined} elementNodeOrPredicate - The `getNode` method you provided is used to find a
-   * node in a doubly linked list based on a given element, node, or predicate function. The
-   * `elementNodeOrPredicate` parameter can be one of the following:
-   * @returns The `getNode` method returns a `DoublyLinkedListNode<E>` or `undefined` based on the
-   * input `elementNodeOrPredicate`. If the input is `undefined`, the method returns `undefined`.
-   * Otherwise, it iterates through the linked list starting from the head node and applies the
-   * provided predicate function to each node. If a node satisfies the predicate, that node is
-   * returned. If
+   * Find a node by value, reference, or predicate.
+   * @remarks Time O(N), Space O(1)
+   * @param [elementNodeOrPredicate] - Element, node, or predicate to match.
+   * @returns Matching node or undefined.
    */
+
   getNode(
     elementNodeOrPredicate: E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean) | undefined
   ): DoublyLinkedListNode<E> | undefined {
     if (elementNodeOrPredicate === undefined) return;
-    if (this.isNode(elementNodeOrPredicate)) return elementNodeOrPredicate;
-    const predicate = this._ensurePredicate(elementNodeOrPredicate);
-    let current = this.head;
 
-    while (current) {
-      if (predicate(current)) {
-        return current;
+    if (this.isNode(elementNodeOrPredicate)) {
+      const target = elementNodeOrPredicate;
+
+      let cur = this.head;
+      while (cur) {
+        if (cur === target) return target;
+        cur = cur.next;
       }
-      current = current.next;
+
+      const isMatch = (node: DoublyLinkedListNode<E>) => this._equals(node.value, target.value);
+      cur = this.head;
+      while (cur) {
+        if (isMatch(cur)) return cur;
+        cur = cur.next;
+      }
+      return undefined;
     }
 
+    const predicate = this._ensurePredicate(elementNodeOrPredicate);
+    let current = this.head;
+    while (current) {
+      if (predicate(current)) return current;
+      current = current.next;
+    }
     return undefined;
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The `addAt` function inserts a new element or node at a specified index in a doubly linked list.
-   * @param {number} index - The `index` parameter in the `addAt` method represents the position at
-   * which you want to add a new element or node in the doubly linked list. It indicates the location
-   * where the new element or node should be inserted.
-   * @param {E | DoublyLinkedListNode<E>} newElementOrNode - The `newElementOrNode` parameter in the
-   * `addAt` method can be either a value of type `E` or a `DoublyLinkedListNode<E>` object.
-   * @returns The `addAt` method returns a boolean value. It returns `true` if the element or node was
-   * successfully added at the specified index, and `false` if the index is out of bounds (less than 0
-   * or greater than the length of the list).
+   * Insert a new element/node at an index, shifting following nodes.
+   * @remarks Time O(N), Space O(1)
+   * @param index - Zero-based index.
+   * @param newElementOrNode - Element or node to insert.
+   * @returns True if inserted.
    */
+
   addAt(index: number, newElementOrNode: E | DoublyLinkedListNode<E>): boolean {
     if (index < 0 || index > this._length) return false;
-    if (index === 0) {
-      this.unshift(newElementOrNode);
-      return true;
-    }
-    if (index === this._length) {
-      this.push(newElementOrNode);
-      return true;
-    }
+    if (index === 0) return this.unshift(newElementOrNode);
+    if (index === this._length) return this.push(newElementOrNode);
 
     const newNode = this._ensureNode(newElementOrNode);
-    const prevNode = this.getNodeAt(index - 1);
-    const nextNode = prevNode!.next;
+    const prevNode = this.getNodeAt(index - 1)!;
+    const nextNode = prevNode.next!;
     newNode.prev = prevNode;
     newNode.next = nextNode;
-    prevNode!.next = newNode;
-    nextNode!.prev = newNode;
+    prevNode.next = newNode;
+    nextNode.prev = newNode;
     this._length++;
     return true;
   }
 
   /**
-   * Time Complexity: O(1) or O(n)
-   * Space Complexity: O(1)
-   *
-   * The `addBefore` function in TypeScript adds a new element or node before an existing element or
-   * node in a doubly linked list.
-   * @param {E | DoublyLinkedListNode<E>} existingElementOrNode - The `existingElementOrNode` parameter
-   * in the `addBefore` method can be either an element of type `E` or a `DoublyLinkedListNode<E>`.
-   * @param {E | DoublyLinkedListNode<E>} newElementOrNode - The `newElementOrNode` parameter
-   * represents the element or node that you want to add before the `existingElementOrNode` in a doubly
-   * linked list.
-   * @returns The `addBefore` method returns a boolean value - `true` if the new element or node was
-   * successfully added before the existing element or node, and `false` if the existing element or
-   * node was not found.
+   * Insert a new element/node before an existing one.
+   * @remarks Time O(N), Space O(1)
+   * @param existingElementOrNode - Existing element or node.
+   * @param newElementOrNode - Element or node to insert.
+   * @returns True if inserted.
    */
+
   addBefore(
     existingElementOrNode: E | DoublyLinkedListNode<E>,
     newElementOrNode: E | DoublyLinkedListNode<E>
   ): boolean {
-    const existingNode: DoublyLinkedListNode<E> | undefined = this.isNode(existingElementOrNode)
+    const existingNode = this.isNode(existingElementOrNode)
       ? existingElementOrNode
       : this.getNode(existingElementOrNode);
+    if (!existingNode) return false;
 
-    if (existingNode) {
-      const newNode = this._ensureNode(newElementOrNode);
-      newNode.prev = existingNode.prev;
-      if (existingNode.prev) {
-        existingNode.prev.next = newNode;
-      }
-      newNode.next = existingNode;
-      existingNode.prev = newNode;
-      if (existingNode === this.head) {
-        this._head = newNode;
-      }
-      this._length++;
-      return true;
-    }
-
-    return false;
+    const newNode = this._ensureNode(newElementOrNode);
+    newNode.prev = existingNode.prev;
+    if (existingNode.prev) existingNode.prev.next = newNode;
+    newNode.next = existingNode;
+    existingNode.prev = newNode;
+    if (existingNode === this.head) this._head = newNode;
+    this._length++;
+    return true;
   }
 
   /**
-   * Time Complexity: O(1) or O(n)
-   * Space Complexity: O(1)
-   *
-   * The `addAfter` function in TypeScript adds a new element or node after an existing element or node
-   * in a doubly linked list.
-   * @param {E | DoublyLinkedListNode<E>} existingElementOrNode - existingElementOrNode represents the
-   * element or node in the doubly linked list after which you want to add a new element or node.
-   * @param {E | DoublyLinkedListNode<E>} newElementOrNode - The `newElementOrNode` parameter in the
-   * `addAfter` method represents the element or node that you want to add after the existing element
-   * or node in a doubly linked list. This parameter can be either an element value or a
-   * `DoublyLinkedListNode` object that you want to insert
-   * @returns The `addAfter` method returns a boolean value - `true` if the new element or node was
-   * successfully added after the existing element or node, and `false` if the existing element or node
-   * was not found in the linked list.
+   * Insert a new element/node after an existing one.
+   * @remarks Time O(N), Space O(1)
+   * @param existingElementOrNode - Existing element or node.
+   * @param newElementOrNode - Element or node to insert.
+   * @returns True if inserted.
    */
+
   addAfter(existingElementOrNode: E | DoublyLinkedListNode<E>, newElementOrNode: E | DoublyLinkedListNode<E>): boolean {
-    const existingNode: DoublyLinkedListNode<E> | undefined = this.isNode(existingElementOrNode)
+    const existingNode = this.isNode(existingElementOrNode)
       ? existingElementOrNode
       : this.getNode(existingElementOrNode);
+    if (!existingNode) return false;
 
-    if (existingNode) {
-      const newNode = this._ensureNode(newElementOrNode);
-      newNode.next = existingNode.next;
-      if (existingNode.next) {
-        existingNode.next.prev = newNode;
-      }
-      newNode.prev = existingNode;
-      existingNode.next = newNode;
-      if (existingNode === this.tail) {
-        this._tail = newNode;
-      }
-      this._length++;
-      return true;
-    }
-
-    return false;
+    const newNode = this._ensureNode(newElementOrNode);
+    newNode.next = existingNode.next;
+    if (existingNode.next) existingNode.next.prev = newNode;
+    newNode.prev = existingNode;
+    existingNode.next = newNode;
+    if (existingNode === this.tail) this._tail = newNode;
+    this._length++;
+    return true;
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The function `setAt` updates the value at a specified index in a data structure if the index
-   * exists.
-   * @param {number} index - The `index` parameter in the `setAt` method refers to the position in the
-   * data structure where you want to set a new value.
-   * @param {E} value - The `value` parameter in the `setAt` method represents the new value that you
-   * want to set at the specified index in the data structure.
-   * @returns The `setAt` method returns a boolean value - `true` if the value at the specified index
-   * is successfully updated, and `false` if the index is out of bounds.
+   * Set the element value at an index.
+   * @remarks Time O(N), Space O(1)
+   * @param index - Zero-based index.
+   * @param value - New value.
+   * @returns True if updated.
    */
+
   setAt(index: number, value: E): boolean {
     const node = this.getNodeAt(index);
-    if (node) {
-      node.value = value;
-      return true;
-    }
-    return false;
+    if (!node) return false;
+    node.value = value;
+    return true;
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The `deleteAt` function removes an element at a specified index from a linked list and returns the removed element.
-   * @param {number} index - The index parameter represents the position of the element that needs to be deleted in the
-   * data structure. It is of type number.
-   * @returns The method `deleteAt` returns the value of the node that was deleted, or `undefined` if the index is out of
-   * bounds.
+   * Delete the element at an index.
+   * @remarks Time O(N), Space O(1)
+   * @param index - Zero-based index.
+   * @returns Removed element or undefined.
    */
+
   deleteAt(index: number): E | undefined {
     if (index < 0 || index >= this._length) return;
-    let deleted: E | undefined;
-    if (index === 0) {
-      deleted = this.first;
-      this.shift();
-      return deleted;
-    }
-    if (index === this._length - 1) {
-      deleted = this.last;
-      this.pop();
-      return deleted;
-    }
+    if (index === 0) return this.shift();
+    if (index === this._length - 1) return this.pop();
 
-    const removedNode = this.getNodeAt(index);
-    const prevNode = removedNode!.prev;
-    const nextNode = removedNode!.next;
-    prevNode!.next = nextNode;
-    nextNode!.prev = prevNode;
+    const removedNode = this.getNodeAt(index)!;
+    const prevNode = removedNode.prev!;
+    const nextNode = removedNode.next!;
+    prevNode.next = nextNode;
+    nextNode.prev = prevNode;
     this._length--;
-    return removedNode?.value;
+    return removedNode.value;
   }
 
   /**
-   * Time Complexity: O(1) or O(n)
-   * Space Complexity: O(1)
-   *
-   * The `delete` function removes a specified element or node from a doubly linked list if it exists.
-   * @param {E | DoublyLinkedListNode<E> | undefined} elementOrNode - The `elementOrNode` parameter in
-   * the `delete` method can accept an element of type `E`, a `DoublyLinkedListNode` of type `E`, or it
-   * can be `undefined`. This parameter is used to identify the node that needs to be deleted from the
-   * doubly linked list
-   * @returns The `delete` method returns a boolean value - `true` if the element or node was
-   * successfully deleted from the doubly linked list, and `false` if the element or node was not found
-   * in the list.
+   * Delete the first match by value/node.
+   * @remarks Time O(N), Space O(1)
+   * @param [elementOrNode] - Element or node to remove.
+   * @returns True if removed.
    */
+
   delete(elementOrNode: E | DoublyLinkedListNode<E> | undefined): boolean {
-    const node: DoublyLinkedListNode<E> | undefined = this.getNode(elementOrNode);
+    const node = this.getNode(elementOrNode);
+    if (!node) return false;
 
-    if (node) {
-      if (node === this.head) {
-        this.shift();
-      } else if (node === this.tail) {
-        this.pop();
-      } else {
-        const prevNode = node.prev;
-        const nextNode = node.next;
-        if (prevNode) prevNode.next = nextNode;
-        if (nextNode) nextNode.prev = prevNode;
-        this._length--;
-      }
-      return true;
+    if (node === this.head) this.shift();
+    else if (node === this.tail) this.pop();
+    else {
+      const prevNode = node.prev!;
+      const nextNode = node.next!;
+      prevNode.next = nextNode;
+      nextNode.prev = prevNode;
+      this._length--;
     }
-    return false;
+    return true;
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The function checks if a variable has a length greater than zero and returns a boolean value.
-   * @returns A boolean value is being returned.
+   * Check whether the list is empty.
+   * @remarks Time O(1), Space O(1)
+   * @returns True if length is 0.
    */
+
   isEmpty(): boolean {
     return this._length === 0;
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `clear` function resets the linked list by setting the head, tail, and length to undefined and 0 respectively.
+   * Remove all nodes and reset length.
+   * @remarks Time O(N), Space O(1)
+   * @returns void
    */
+
   clear(): void {
     this._head = undefined;
     this._tail = undefined;
@@ -1021,17 +969,12 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * This function retrieves an element from a doubly linked list based on a given element
-   * node or predicate.
-   * @param {E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)} elementNodeOrPredicate
-   * elementNodeOrPredicate - The `get` method takes in a parameter called `elementNodeOrPredicate`,
-   * which can be one of the following types:
-   * @returns The `get` method returns the value of the first node in the doubly linked list that
-   * satisfies the provided predicate function. If no such node is found, it returns `undefined`.
+   * Find the first value matching a predicate scanning forward.
+   * @remarks Time O(N), Space O(1)
+   * @param elementNodeOrPredicate - Element, node, or predicate to match.
+   * @returns Matched value or undefined.
    */
+
   search(
     elementNodeOrPredicate: E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)
   ): E | undefined {
@@ -1045,18 +988,12 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The `getBackward` function searches for a specific element in a doubly linked list starting from
-   * the tail and moving backwards.
-   * @param {E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)} elementNodeOrPredicate
-   * elementNodeOrPredicate - The `elementNodeOrPredicate` parameter in the `getBackward`
-   * function can be one of the following types:
-   * @returns The `getBackward` method returns the value of the element node that matches the provided
-   * predicate when traversing the doubly linked list backwards. If no matching element is found, it
-   * returns `undefined`.
+   * Find the first value matching a predicate scanning backward.
+   * @remarks Time O(N), Space O(1)
+   * @param elementNodeOrPredicate - Element, node, or predicate to match.
+   * @returns Matched value or undefined.
    */
+
   getBackward(
     elementNodeOrPredicate: E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)
   ): E | undefined {
@@ -1070,11 +1007,11 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The `reverse` function reverses the order of the elements in a doubly linked list.
+   * Reverse the list in place.
+   * @remarks Time O(N), Space O(1)
+   * @returns This list.
    */
+
   reverse(): this {
     let current = this.head;
     [this._head, this._tail] = [this.tail, this.head];
@@ -1087,226 +1024,185 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `clone` function creates a new instance of the `DoublyLinkedList` class with the same values
-   * as the original list.
-   * @returns The `clone()` method is returning a new instance of the `DoublyLinkedList` class, which
-   * is a copy of the original list.
+   * Set the equality comparator used to compare values.
+   * @remarks Time O(1), Space O(1)
+   * @param equals - Equality predicate (a, b) → boolean.
+   * @returns This list.
    */
+
+  setEquality(equals: (a: E, b: E) => boolean): this {
+    this._equals = equals;
+    return this;
+  }
+
+  /**
+   * Deep clone this list (values are copied by reference).
+   * @remarks Time O(N), Space O(N)
+   * @returns A new list with the same element sequence.
+   */
+
   clone(): this {
-    return new DoublyLinkedList<E, R>(this, { toElementFn: this._toElementFn, maxLen: this._maxLen }) as this;
+    const out = this._createInstance({ toElementFn: this._toElementFn, maxLen: this._maxLen });
+    for (const v of this) out.push(v);
+    return out;
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `filter` function creates a new DoublyLinkedList by iterating over the elements of the current
-   * list and applying a callback function to each element, returning only the elements for which the
-   * callback function returns true.
-   * @param callback - The `callback` parameter is a function that will be called for each element in
-   * the DoublyLinkedList. It takes three arguments: the current element, the index of the current
-   * element, and the DoublyLinkedList itself. The callback function should return a boolean value
-   * indicating whether the current element should be included
-   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that specifies the value
-   * to be used as `this` when executing the `callback` function. If `thisArg` is provided, it will be
-   * passed as the `this` value to the `callback` function. If `thisArg` is
-   * @returns The `filter` method is returning a new `DoublyLinkedList` object that contains the
-   * elements that pass the filter condition specified by the `callback` function.
+   * Filter values into a new list of the same class.
+   * @remarks Time O(N), Space O(N)
+   * @param callback - Predicate (value, index, list) → boolean to keep value.
+   * @param [thisArg] - Value for `this` inside the callback.
+   * @returns A new list with kept values.
    */
-  filter(callback: ElementCallback<E, R, boolean>, thisArg?: any): DoublyLinkedList<E, R> {
-    const filteredList = this._createInstance({ toElementFn: this.toElementFn, maxLen: this._maxLen });
+
+  filter(callback: ElementCallback<E, R, boolean>, thisArg?: any): this {
+    const out = this._createInstance({ toElementFn: this._toElementFn, maxLen: this._maxLen });
     let index = 0;
-    for (const current of this) {
-      if (callback.call(thisArg, current, index, this)) {
-        filteredList.push(current);
-      }
-      index++;
-    }
-    return filteredList;
+    for (const v of this) if (callback.call(thisArg, v, index++, this)) out.push(v);
+    return out;
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `map` function takes a callback function and returns a new DoublyLinkedList with the results
-   * of applying the callback to each element in the original list.
-   * @param callback - The callback parameter is a function that will be called for each element in the
-   * original DoublyLinkedList. It takes three arguments: current (the current element being
-   * processed), index (the index of the current element), and this (the original DoublyLinkedList).
-   * The callback function should return a value of type
-   * @param [toElementFn] - The `toElementFn` parameter is an optional function that can be used to
-   * convert the raw element (`RR`) to the desired element type (`T`). It takes the raw element as
-   * input and returns the converted element. If this parameter is not provided, the raw element will
-   * be used as is.
-   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that allows you to
-   * specify the value of `this` within the callback function. It is used to set the context or scope
-   * in which the callback function will be executed. If `thisArg` is provided, it will be used as the
-   * value of
-   * @returns a new instance of the `DoublyLinkedList` class with elements of type `T` and `RR`.
+   * Map values into a new list of the same class.
+   * @remarks Time O(N), Space O(N)
+   * @param callback - Mapping function (value, index, list) → newValue.
+   * @param [thisArg] - Value for `this` inside the callback.
+   * @returns A new list with mapped values.
    */
+
+  mapSame(callback: ElementCallback<E, R, E>, thisArg?: any): this {
+    const out = this._createInstance({ toElementFn: this._toElementFn, maxLen: this._maxLen });
+    let index = 0;
+    for (const v of this) {
+      const mv = thisArg === undefined ? callback(v, index++, this) : callback.call(thisArg, v, index++, this);
+      out.push(mv);
+    }
+    return out;
+  }
+
+  /**
+   * Map values into a new list (possibly different element type).
+   * @remarks Time O(N), Space O(N)
+   * @template EM
+   * @template RM
+   * @param callback - Mapping function (value, index, list) → newElement.
+   * @param [options] - Options for the output list (e.g., maxLen, toElementFn).
+   * @param [thisArg] - Value for `this` inside the callback.
+   * @returns A new DoublyLinkedList with mapped values.
+   */
+
   map<EM, RM>(
     callback: ElementCallback<E, R, EM>,
-    toElementFn?: (rawElement: RM) => EM,
+    options?: DoublyLinkedListOptions<EM, RM>,
     thisArg?: any
   ): DoublyLinkedList<EM, RM> {
-    const mappedList = new DoublyLinkedList<EM, RM>([], { toElementFn, maxLen: this._maxLen });
+    const out = this._createLike<EM, RM>([], { ...(options ?? {}), maxLen: this._maxLen });
     let index = 0;
-    for (const current of this) {
-      mappedList.push(callback.call(thisArg, current, index, this));
-      index++;
-    }
-
-    return mappedList;
+    for (const v of this) out.push(callback.call(thisArg, v, index++, this));
+    return out;
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The function `countOccurrences` iterates through a doubly linked list and counts the occurrences
-   * of a specified element or nodes that satisfy a given predicate.
-   * @param {E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)} elementOrNode
-   * - The `elementOrNode` parameter in the `countOccurrences` method can accept three types of values:
-   * @returns The `countOccurrences` method returns the number of occurrences of the specified element,
-   * node, or predicate function in the doubly linked list.
+   * (Protected) Create or return a node for the given input (node or raw element).
+   * @remarks Time O(1), Space O(1)
+   * @param elementOrNode - Element value or node to normalize.
+   * @returns A DoublyLinkedListNode for the provided input.
    */
-  countOccurrences(elementOrNode: E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)): number {
-    const predicate = this._ensurePredicate(elementOrNode);
-    let count = 0;
-    let current = this.head;
 
-    while (current) {
-      if (predicate(current)) {
-        count++;
-      }
-      current = current.next;
-    }
-
-    return count;
+  protected _ensureNode(elementOrNode: E | DoublyLinkedListNode<E>) {
+    if (this.isNode(elementOrNode)) return elementOrNode;
+    return new DoublyLinkedListNode<E>(elementOrNode);
   }
 
   /**
-   * The function returns an iterator that iterates over the values of a linked list.
+   * (Protected) Normalize input into a predicate over nodes.
+   * @remarks Time O(1), Space O(1)
+   * @param elementNodeOrPredicate - Element, node, or node predicate.
+   * @returns A predicate function taking a node and returning true/false.
    */
+
+  protected _ensurePredicate(
+    elementNodeOrPredicate: E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)
+  ): (node: DoublyLinkedListNode<E>) => boolean {
+    if (this.isNode(elementNodeOrPredicate)) {
+      const target = elementNodeOrPredicate;
+      return (node: DoublyLinkedListNode<E>) => node === target;
+    }
+    if (typeof elementNodeOrPredicate === 'function') {
+      return elementNodeOrPredicate as (node: DoublyLinkedListNode<E>) => boolean;
+    }
+    const value = elementNodeOrPredicate as E;
+    return (node: DoublyLinkedListNode<E>) => this._equals(node.value, value);
+  }
+
+  /**
+   * (Protected) Get the previous node of a given node.
+   * @remarks Time O(1), Space O(1)
+   * @param node - A node in the list.
+   * @returns Previous node or undefined.
+   */
+
+  protected _getPrevNode(node: DoublyLinkedListNode<E>): DoublyLinkedListNode<E> | undefined {
+    return node.prev;
+  }
+
+  /**
+   * (Protected) Create an empty instance of the same concrete class.
+   * @remarks Time O(1), Space O(1)
+   * @param [options] - Options forwarded to the constructor.
+   * @returns An empty like-kind list instance.
+   */
+
+  protected override _createInstance(options?: LinearBaseOptions<E, R>): this {
+    const Ctor = this.constructor as new (
+      elements?: Iterable<E> | Iterable<R> | Iterable<DoublyLinkedListNode<E>>,
+      options?: DoublyLinkedListOptions<E, R>
+    ) => this;
+    return new Ctor([], options as DoublyLinkedListOptions<E, R> | undefined);
+  }
+
+  /**
+   * (Protected) Create a like-kind instance and seed it from an iterable.
+   * @remarks Time O(N), Space O(N)
+   * @template EM
+   * @template RM
+   * @param [elements] - Iterable used to seed the new list.
+   * @param [options] - Options forwarded to the constructor.
+   * @returns A like-kind DoublyLinkedList instance.
+   */
+
+  protected _createLike<EM = E, RM = R>(
+    elements: Iterable<EM> | Iterable<RM> | Iterable<DoublyLinkedListNode<EM>> = [],
+    options?: DoublyLinkedListOptions<EM, RM>
+  ): DoublyLinkedList<EM, RM> {
+    const Ctor = this.constructor as new (
+      elements?: Iterable<EM> | Iterable<RM> | Iterable<DoublyLinkedListNode<EM>>,
+      options?: DoublyLinkedListOptions<EM, RM>
+    ) => DoublyLinkedList<EM, RM>;
+    return new Ctor(elements, options);
+  }
+
   protected *_getIterator(): IterableIterator<E> {
     let current = this.head;
-
     while (current) {
       yield current.value;
       current = current.next;
     }
   }
 
-  /**
-   * The function returns an iterator that iterates over the elements of a data structure in reverse
-   * order.
-   */
   protected *_getReverseIterator(): IterableIterator<E> {
     let current = this.tail;
-
     while (current) {
       yield current.value;
       current = current.prev;
     }
   }
 
-  /**
-   * The function returns an iterator that iterates over the nodes of a doubly linked list starting
-   * from the head.
-   */
   protected *_getNodeIterator(): IterableIterator<DoublyLinkedListNode<E>> {
     let current = this.head;
-
     while (current) {
       yield current;
       current = current.next;
     }
-  }
-
-  // protected *_getReverseNodeIterator(): IterableIterator<DoublyLinkedListNode<E>> {
-  //   const reversedArr = [...this._getNodeIterator()].reverse();
-  //
-  //   for (const item of reversedArr) {
-  //     yield item;
-  //   }
-  // }
-
-  /**
-   * The function `_isPredicate` checks if the input is a function that takes a `DoublyLinkedListNode`
-   * as an argument and returns a boolean.
-   * @param {E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)} elementNodeOrPredicate
-   * elementNodeOrPredicate - The `elementNodeOrPredicate` parameter can be one of the following
-   * types:
-   * @returns The _isPredicate method is returning a boolean value indicating whether the
-   * elementNodeOrPredicate parameter is a function or not. If the elementNodeOrPredicate is a
-   * function, the method will return true, indicating that it is a predicate function.
-   */
-  protected _isPredicate(
-    elementNodeOrPredicate: E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)
-  ): elementNodeOrPredicate is (node: DoublyLinkedListNode<E>) => boolean {
-    return typeof elementNodeOrPredicate === 'function';
-  }
-
-  /**
-   * The function `_ensureNode` ensures that the input is a valid node in a doubly linked list.
-   * @param {E | DoublyLinkedListNode<E>} elementOrNode - The `elementOrNode` parameter can be either
-   * an element of type `E` or a `DoublyLinkedListNode` containing an element of type `E`.
-   * @returns If the `elementOrNode` parameter is already a `DoublyLinkedListNode`, it will be returned
-   * as is. Otherwise, a new `DoublyLinkedListNode` instance will be created with the `elementOrNode`
-   * value and returned.
-   */
-  protected _ensureNode(elementOrNode: E | DoublyLinkedListNode<E>) {
-    if (this.isNode(elementOrNode)) return elementOrNode;
-
-    return new DoublyLinkedListNode<E>(elementOrNode);
-  }
-
-  /**
-   * The function `_ensurePredicate` in TypeScript ensures that the input is either a node, a predicate
-   * function, or a value to compare with the node's value.
-   * @param {E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)} elementNodeOrPredicate
-   * elementNodeOrPredicate - The `elementNodeOrPredicate` parameter can be one of the following
-   * types:
-   * @returns A function is being returned that takes a `DoublyLinkedListNode` as a parameter and
-   * returns a boolean value based on the conditions specified in the code.
-   */
-  protected _ensurePredicate(
-    elementNodeOrPredicate: E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)
-  ) {
-    if (this.isNode(elementNodeOrPredicate)) return (node: DoublyLinkedListNode<E>) => node === elementNodeOrPredicate;
-
-    if (this._isPredicate(elementNodeOrPredicate)) return elementNodeOrPredicate;
-
-    return (node: DoublyLinkedListNode<E>) => node.value === elementNodeOrPredicate;
-  }
-
-  /**
-   * The function `_createInstance` returns a new instance of `DoublyLinkedList` with the specified
-   * options.
-   * @param [options] - The `options` parameter in the `_createInstance` method is of type
-   * `DoublyLinkedListOptions<E, R>`. It is an optional parameter that allows you to pass additional
-   * configuration options when creating a new instance of the `DoublyLinkedList` class.
-   * @returns An instance of the `DoublyLinkedList` class with an empty array and the provided options
-   * is being returned, cast as the current class type.
-   */
-  protected override _createInstance(options?: DoublyLinkedListOptions<E, R>): this {
-    return new DoublyLinkedList<E, R>([], options) as this;
-  }
-
-  /**
-   * The function `_getPrevNode` returns the previous node of a given node in a doubly linked list.
-   * @param node - The parameter `node` in the `_getPrevNode` method is of type
-   * `DoublyLinkedListNode<E>`, which represents a node in a doubly linked list containing an element
-   * of type `E`.
-   * @returns The `_getPrevNode` method is returning the previous node of the input `node` in a doubly
-   * linked list. If the input node has a previous node, it will return that node. Otherwise, it will
-   * return `undefined`.
-   */
-  protected _getPrevNode(node: DoublyLinkedListNode<E>): DoublyLinkedListNode<E> | undefined {
-    return node.prev;
   }
 }

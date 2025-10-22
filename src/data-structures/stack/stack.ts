@@ -5,10 +5,15 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { ElementCallback, StackOptions } from '../../types';
+
+import type { ElementCallback, IterableElementBaseOptions, StackOptions } from '../../types';
 import { IterableElementBase } from '../base';
 
 /**
+ * LIFO stack with array storage and optional record→element conversion.
+ * @remarks Time O(1), Space O(1)
+ * @template E
+ * @template R
  * 1. Last In, First Out (LIFO): The core characteristic of a stack is its last in, first out nature, meaning the last element added to the stack will be the first to be removed.
  * 2. Uses: Stacks are commonly used for managing a series of tasks or elements that need to be processed in a last in, first out manner. They are widely used in various scenarios, such as in function calls in programming languages, evaluation of arithmetic expressions, and backtracking algorithms.
  * 3. Performance: Stack operations are typically O(1) in time complexity, meaning that regardless of the stack's size, adding, removing, and viewing the top element are very fast operations.
@@ -138,6 +143,16 @@ import { IterableElementBase } from '../base';
  *     console.log(spans); // [1, 1, 1, 2, 1, 4, 6]
  */
 export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
+  protected _equals: (a: E, b: E) => boolean = Object.is as unknown as (a: E, b: E) => boolean;
+
+  /**
+   * Create a Stack and optionally bulk-push elements.
+   * @remarks Time O(N), Space O(N)
+   * @param [elements] - Iterable of elements (or raw records if toElementFn is set).
+   * @param [options] - Options such as toElementFn and equality function.
+   * @returns New Stack instance.
+   */
+
   constructor(elements: Iterable<E> | Iterable<R> = [], options?: StackOptions<E, R>) {
     super(options);
     this.pushMany(elements);
@@ -146,220 +161,291 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
   protected _elements: E[] = [];
 
   /**
-   * The elements function returns the elements of this set.
-   * @return An array of elements
+   * Get the backing array of elements.
+   * @remarks Time O(1), Space O(1)
+   * @returns Internal elements array.
    */
+
   get elements(): E[] {
     return this._elements;
   }
 
   /**
-   * The size() function returns the number of elements in an array.
-   * @returns The size of the elements array.
+   * Get the number of stored elements.
+   * @remarks Time O(1), Space O(1)
+   * @returns Current size.
    */
+
   get size(): number {
     return this.elements.length;
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The function "fromArray" creates a new Stack object from an array of elements.
-   * @param {E[]} elements - The `elements` parameter is an array of elements of type `E`.
-   * @returns {Stack} The method is returning a new instance of the Stack class, initialized with the elements from the input
-   * array.
+   * Create a stack from an array of elements.
+   * @remarks Time O(N), Space O(N)
+   * @template E
+   * @template R
+   * @param this - The constructor (subclass) to instantiate.
+   * @param elements - Array of elements to push in order.
+   * @param [options] - Options forwarded to the constructor.
+   * @returns A new Stack populated from the array.
    */
-  static fromArray<E>(elements: E[]): Stack<E> {
-    return new Stack(elements);
+
+  static fromArray<E, R = any>(
+    this: new (elements?: Iterable<E> | Iterable<R>, options?: StackOptions<E, R>) => any,
+    elements: E[],
+    options?: StackOptions<E, R>
+  ) {
+    return new this(elements, options);
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The function checks if an array is empty and returns a boolean value.
-   * @returns A boolean value indicating whether the `_elements` array is empty or not.
+   * Check whether the stack is empty.
+   * @remarks Time O(1), Space O(1)
+   * @returns True if size is 0.
    */
+
   isEmpty(): boolean {
     return this.elements.length === 0;
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `peek` function returns the last element of an array, or undefined if the array is empty.
-   * @returns The `peek()` function returns the last element of the `_elements` array, or `undefined` if the array is empty.
+   * Get the top element without removing it.
+   * @remarks Time O(1), Space O(1)
+   * @returns Top element or undefined.
    */
-  peek(): E | undefined {
-    if (this.isEmpty()) return undefined;
 
-    return this.elements[this.elements.length - 1];
+  peek(): E | undefined {
+    return this.isEmpty() ? undefined : this.elements[this.elements.length - 1];
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The push function adds an element to the stack and returns the updated stack.
-   * @param {E} element - The parameter "element" is of type E, which means it can be any data type.
-   * @returns The `push` method is returning the updated `Stack<E>` object.
+   * Push one element onto the top.
+   * @remarks Time O(1), Space O(1)
+   * @param element - Element to push.
+   * @returns True when pushed.
    */
+
   push(element: E): boolean {
     this.elements.push(element);
     return true;
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `pop` function removes and returns the last element from an array, or returns undefined if the array is empty.
-   * @returns The `pop()` method is returning the last element of the array `_elements` if the array is not empty. If the
-   * array is empty, it returns `undefined`.
+   * Pop and return the top element.
+   * @remarks Time O(1), Space O(1)
+   * @returns Removed element or undefined.
    */
-  pop(): E | undefined {
-    if (this.isEmpty()) return;
 
-    return this.elements.pop();
+  pop(): E | undefined {
+    return this.isEmpty() ? undefined : this.elements.pop();
   }
 
   /**
-   * Time Complexity: O(k)
-   * Space Complexity: O(1)
-   *
-   * The function `pushMany` iterates over elements and pushes them into an array after applying a
-   * transformation function if provided.
-   * @param {Iterable<E> | Iterable<R>} elements - The `elements` parameter in the `pushMany` function
-   * is an iterable containing elements of type `E` or `R`. The function iterates over each element in
-   * the iterable and pushes it into the data structure. If a transformation function `toElementFn` is
-   * provided, it is used to
-   * @returns The `pushMany` function is returning an array of boolean values indicating whether each
-   * element was successfully pushed into the data structure.
+   * Push many elements from an iterable.
+   * @remarks Time O(N), Space O(1)
+   * @param elements - Iterable of elements (or raw records if toElementFn is set).
+   * @returns Array of per-element success flags.
    */
-  pushMany(elements: Iterable<E> | Iterable<R>) {
+
+  pushMany(elements: Iterable<E> | Iterable<R>): boolean[] {
     const ans: boolean[] = [];
     for (const el of elements) {
-      if (this.toElementFn) {
-        ans.push(this.push(this.toElementFn(el as R)));
-      } else {
-        ans.push(this.push(el as E));
-      }
+      if (this.toElementFn) ans.push(this.push(this.toElementFn(el as R)));
+      else ans.push(this.push(el as E));
     }
     return ans;
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The toArray function returns a copy of the elements in an array.
-   * @returns An array of type E.
+   * Delete the first occurrence of a specific element.
+   * @remarks Time O(N), Space O(1)
+   * @param element - Element to remove (using the configured equality).
+   * @returns True if an element was removed.
    */
+
   delete(element: E): boolean {
-    const index = this.elements.indexOf(element);
-    return this.deleteAt(index);
+    const idx = this._indexOfByEquals(element);
+    return this.deleteAt(idx);
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(1)
-   *
-   * The toArray function returns a copy of the elements in an array.
-   * @returns An array of type E.
+   * Delete the element at an index.
+   * @remarks Time O(N), Space O(1)
+   * @param index - Zero-based index from the bottom.
+   * @returns True if removed.
    */
+
   deleteAt(index: number): boolean {
+    if (index < 0 || index >= this.elements.length) return false;
     const spliced = this.elements.splice(index, 1);
     return spliced.length === 1;
   }
 
   /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The clear function clears the elements array.
+   * Delete the first element that satisfies a predicate.
+   * @remarks Time O(N), Space O(1)
+   * @param predicate - Function (value, index, stack) → boolean to decide deletion.
+   * @returns True if a match was removed.
    */
+
+  deleteWhere(predicate: (value: E, index: number, stack: this) => boolean): boolean {
+    for (let i = 0; i < this.elements.length; i++) {
+      if (predicate(this.elements[i], i, this)) {
+        this.elements.splice(i, 1);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Remove all elements and reset storage.
+   * @remarks Time O(1), Space O(1)
+   * @returns void
+   */
+
   clear(): void {
     this._elements = [];
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `clone()` function returns a new `Stack` object with the same elements as the original stack.
-   * @returns The `clone()` method is returning a new `Stack` object with a copy of the `_elements` array.
+   * Deep clone this stack.
+   * @remarks Time O(N), Space O(N)
+   * @returns A new stack with the same content.
    */
-  clone(): Stack<E, R> {
-    return new Stack<E, R>(this, { toElementFn: this.toElementFn });
+
+  clone(): this {
+    const out = this._createInstance({ toElementFn: this.toElementFn });
+    for (const v of this) out.push(v);
+    return out;
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `filter` function creates a new stack containing elements from the original stack that satisfy
-   * a given predicate function.
-   * @param predicate - The `predicate` parameter is a callback function that takes three arguments:
-   * the current element being iterated over, the index of the current element, and the stack itself.
-   * It should return a boolean value indicating whether the element should be included in the filtered
-   * stack or not.
-   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that specifies the value
-   * to be used as `this` when executing the `predicate` function. If `thisArg` is provided, it will be
-   * passed as the `this` value to the `predicate` function. If `thisArg` is
-   * @returns The `filter` method is returning a new `Stack` object that contains the elements that
-   * satisfy the given predicate function.
+   * Filter elements into a new stack of the same class.
+   * @remarks Time O(N), Space O(N)
+   * @param predicate - Predicate (value, index, stack) → boolean to keep value.
+   * @param [thisArg] - Value for `this` inside the predicate.
+   * @returns A new stack with kept values.
    */
-  filter(predicate: ElementCallback<E, R, boolean>, thisArg?: any): Stack<E, R> {
-    const newStack = new Stack<E, R>([], { toElementFn: this.toElementFn });
+
+  filter(predicate: ElementCallback<E, R, boolean>, thisArg?: unknown): this {
+    const out = this._createInstance({ toElementFn: this.toElementFn });
     let index = 0;
-    for (const el of this) {
-      if (predicate.call(thisArg, el, index, this)) {
-        newStack.push(el);
-      }
+    for (const v of this) {
+      if (predicate.call(thisArg, v, index, this)) out.push(v);
       index++;
     }
-    return newStack;
+    return out;
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The `map` function takes a callback function and applies it to each element in the stack,
-   * returning a new stack with the results.
-   * @param callback - The callback parameter is a function that will be called for each element in the
-   * stack. It takes three arguments: the current element, the index of the element, and the stack
-   * itself. It should return a new value that will be added to the new stack.
-   * @param [toElementFn] - The `toElementFn` parameter is an optional function that can be used to
-   * transform the raw element (`RM`) into a new element (`EM`) before pushing it into the new stack.
-   * @param {any} [thisArg] - The `thisArg` parameter is an optional argument that allows you to
-   * specify the value of `this` within the callback function. It is used to set the context or scope
-   * in which the callback function will be executed. If `thisArg` is provided, it will be used as the
-   * value of
-   * @returns a new Stack object with elements of type EM and raw elements of type RM.
+   * Map values into a new stack of the same element type.
+   * @remarks Time O(N), Space O(N)
+   * @param callback - Mapping function (value, index, stack) → newValue.
+   * @param [thisArg] - Value for `this` inside the callback.
+   * @returns A new stack with mapped values.
    */
-  map<EM, RM>(callback: ElementCallback<E, R, EM>, toElementFn?: (rawElement: RM) => EM, thisArg?: any): Stack<EM, RM> {
-    const newStack = new Stack<EM, RM>([], { toElementFn });
+
+  mapSame(callback: ElementCallback<E, R, E>, thisArg?: unknown): this {
+    const out = this._createInstance({ toElementFn: this.toElementFn });
     let index = 0;
-    for (const el of this) {
-      newStack.push(callback.call(thisArg, el, index, this));
+    for (const v of this) {
+      const mv = thisArg === undefined ? callback(v, index++, this) : callback.call(thisArg, v, index++, this);
+      out.push(mv);
+    }
+    return out;
+  }
+
+  /**
+   * Map values into a new stack (possibly different element type).
+   * @remarks Time O(N), Space O(N)
+   * @template EM
+   * @template RM
+   * @param callback - Mapping function (value, index, stack) → newElement.
+   * @param [options] - Options for the output stack (e.g., toElementFn).
+   * @param [thisArg] - Value for `this` inside the callback.
+   * @returns A new Stack with mapped elements.
+   */
+
+  map<EM, RM>(
+    callback: ElementCallback<E, R, EM>,
+    options?: IterableElementBaseOptions<EM, RM>,
+    thisArg?: unknown
+  ): Stack<EM, RM> {
+    const out = this._createLike<EM, RM>([], { ...(options ?? {}) });
+    let index = 0;
+    for (const v of this) {
+      out.push(thisArg === undefined ? callback(v, index, this) : callback.call(thisArg, v, index, this));
       index++;
     }
-    return newStack;
+    return out;
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * Custom iterator for the Stack class.
-   * @returns An iterator object.
+   * Set the equality comparator used by delete/search operations.
+   * @remarks Time O(1), Space O(1)
+   * @param equals - Equality predicate (a, b) → boolean.
+   * @returns This stack.
    */
+
+  setEquality(equals: (a: E, b: E) => boolean): this {
+    this._equals = equals;
+    return this;
+  }
+
+  /**
+   * (Protected) Find the index of a target element using the equality function.
+   * @remarks Time O(N), Space O(1)
+   * @param target - Element to search for.
+   * @returns Index or -1 if not found.
+   */
+
+  protected _indexOfByEquals(target: E): number {
+    for (let i = 0; i < this.elements.length; i++) if (this._equals(this.elements[i], target)) return i;
+    return -1;
+  }
+
+  /**
+   * (Protected) Create an empty instance of the same concrete class.
+   * @remarks Time O(1), Space O(1)
+   * @param [options] - Options forwarded to the constructor.
+   * @returns An empty like-kind stack instance.
+   */
+
+  protected _createInstance(options?: StackOptions<E, R>): this {
+    const Ctor = this.constructor as new (elements?: Iterable<E> | Iterable<R>, options?: StackOptions<E, R>) => this;
+    return new Ctor([], options);
+  }
+
+  /**
+   * (Protected) Create a like-kind stack and seed it from an iterable.
+   * @remarks Time O(N), Space O(N)
+   * @template T
+   * @template RR
+   * @param [elements] - Iterable used to seed the new stack.
+   * @param [options] - Options forwarded to the constructor.
+   * @returns A like-kind Stack instance.
+   */
+
+  protected _createLike<T = E, RR = R>(
+    elements: Iterable<T> | Iterable<RR> = [],
+    options?: StackOptions<T, RR>
+  ): Stack<T, RR> {
+    const Ctor = this.constructor as new (
+      elements?: Iterable<T> | Iterable<RR>,
+      options?: StackOptions<T, RR>
+    ) => Stack<T, RR>;
+    return new Ctor(elements, options);
+  }
+
+  /**
+   * (Protected) Iterate elements from bottom to top.
+   * @remarks Time O(N), Space O(1)
+   * @returns Iterator of elements.
+   */
+
   protected *_getIterator(): IterableIterator<E> {
-    for (let i = 0; i < this.elements.length; i++) {
-      yield this.elements[i];
-    }
+    for (let i = 0; i < this.elements.length; i++) yield this.elements[i];
   }
 }

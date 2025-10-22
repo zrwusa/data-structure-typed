@@ -83,10 +83,6 @@ class MyGraph<
 
   clear(): void {}
 
-  clone(): any {
-    return {};
-  }
-
   protected _addEdge(edge: EO): boolean {
     return edge ? true : true;
   }

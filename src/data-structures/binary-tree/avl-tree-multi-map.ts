@@ -5,21 +5,33 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import { AVLTreeMultiMapOptions, BTNOptKeyOrNull } from '../../types';
+
+import type {
+  AVLTreeMultiMapOptions,
+  AVLTreeOptions,
+  BTNOptKeyOrNull,
+  ElemOf,
+  EntryCallback,
+  IterationType
+} from '../../types';
 import { AVLTree, AVLTreeNode } from './avl-tree';
 import { IBinaryTree } from '../../interfaces';
 
+/**
+ * Node used by AVLTreeMultiMap; stores the key with a bucket of values (array).
+ * @remarks Time O(1), Space O(1)
+ * @template K
+ * @template V
+ */
 export class AVLTreeMultiMapNode<K = any, V = any> extends AVLTreeNode<K, V[]> {
   override parent?: AVLTreeMultiMapNode<K, V> = undefined;
 
   /**
-   * This TypeScript constructor initializes an object with a key of type K and an array of values of
-   * type V.
-   * @param {K} key - The `key` parameter is typically used to store a unique identifier or key for the
-   * data being stored in the data structure. It helps in quickly accessing or retrieving the
-   * associated value in the data structure.
-   * @param {V[]} value - The `value` parameter in the constructor represents an array of values of
-   * type `V`.
+   * Create an AVLTreeMultiMap node with a value bucket.
+   * @remarks Time O(1), Space O(1)
+   * @param key - Key of the node.
+   * @param value - Initial array of values.
+   * @returns New AVLTreeMultiMapNode instance.
    */
   constructor(key: K, value: V[]) {
     super(key, value);
@@ -27,10 +39,21 @@ export class AVLTreeMultiMapNode<K = any, V = any> extends AVLTreeNode<K, V[]> {
 
   override _left?: AVLTreeMultiMapNode<K, V> | null | undefined = undefined;
 
+  /**
+   * Get the left child pointer.
+   * @remarks Time O(1), Space O(1)
+   * @returns Left child node, or null/undefined.
+   */
   override get left(): AVLTreeMultiMapNode<K, V> | null | undefined {
     return this._left;
   }
 
+  /**
+   * Set the left child and update its parent pointer.
+   * @remarks Time O(1), Space O(1)
+   * @param v - New left child node, or null/undefined.
+   * @returns void
+   */
   override set left(v: AVLTreeMultiMapNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
@@ -40,10 +63,21 @@ export class AVLTreeMultiMapNode<K = any, V = any> extends AVLTreeNode<K, V[]> {
 
   override _right?: AVLTreeMultiMapNode<K, V> | null | undefined = undefined;
 
+  /**
+   * Get the right child pointer.
+   * @remarks Time O(1), Space O(1)
+   * @returns Right child node, or null/undefined.
+   */
   override get right(): AVLTreeMultiMapNode<K, V> | null | undefined {
     return this._right;
   }
 
+  /**
+   * Set the right child and update its parent pointer.
+   * @remarks Time O(1), Space O(1)
+   * @param v - New right child node, or null/undefined.
+   * @returns void
+   */
   override set right(v: AVLTreeMultiMapNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
@@ -53,22 +87,22 @@ export class AVLTreeMultiMapNode<K = any, V = any> extends AVLTreeNode<K, V[]> {
 }
 
 /**
- *
+ * AVL-tree–based multimap (key → array of values). Preserves O(log N) updates and supports map-like mode.
+ * @remarks Time O(1), Space O(1)
+ * @template K
+ * @template V
+ * @template R
  */
-export class AVLTreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR = object>
-  extends AVLTree<K, V[], R, MK, MV[], MR>
-  implements IBinaryTree<K, V[], R, MK, MV, MR>
+export class AVLTreeMultiMap<K = any, V = any, R extends object = object>
+  extends AVLTree<K, V[], R>
+  implements IBinaryTree<K, V[], R>
 {
   /**
-   * The constructor initializes an AVLTreeMultiMap with the provided keys, nodes, entries, or raw data
-   * and options.
-   * @param keysNodesEntriesOrRaws - The `keysNodesEntriesOrRaws` parameter in the constructor is an
-   * iterable that can contain either key-value pairs represented as `BTNRep<K, V[],
-   * AVLTreeMultiMapNode<K, V>>` or raw data represented as `R`. This parameter is used to initialize
-   * the AVLTreeMulti
-   * @param [options] - The `options` parameter in the constructor is of type
-   * `AVLTreeMultiMapOptions<K, V[], R>`. It is an optional parameter that allows you to specify
-   * additional options for configuring the AVLTreeMultiMap instance.
+   * Create an AVLTreeMultiMap and optionally bulk-insert items.
+   * @remarks Time O(N log N), Space O(N)
+   * @param [keysNodesEntriesOrRaws] - Iterable of keys/nodes/entries/raw items to insert.
+   * @param [options] - Options for AVLTreeMultiMap (comparator, reverse, map mode).
+   * @returns New AVLTreeMultiMap instance.
    */
   constructor(
     keysNodesEntriesOrRaws: Iterable<
@@ -82,45 +116,7 @@ export class AVLTreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, M
     }
   }
 
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The function `createTree` in TypeScript overrides the creation of an AVLTreeMultiMap with
-   * specified options.
-   * @param [options] - The `options` parameter in the `createTree` function is of type
-   * `AVLTreeMultiMapOptions<K, V[], R>`. This means it is an object that can have properties of type
-   * `K`, `V[]`, and `R`. The function creates a new `AVL
-   * @returns The `createTree` method is returning a new instance of `AVLTreeMultiMap` with the
-   * provided options.
-   */
-  override createTree(options?: AVLTreeMultiMapOptions<K, V[], R>) {
-    return new AVLTreeMultiMap<K, V, R, MK, MV, MR>([], {
-      iterationType: this.iterationType,
-      specifyComparable: this._specifyComparable,
-      toEntryFn: this._toEntryFn,
-      isReverse: this._isReverse,
-      isMapMode: this._isMapMode,
-      ...options
-    });
-  }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `createNode` function in TypeScript overrides the default implementation to create a new
-   * AVLTreeMultiMapNode with a specified key and value array.
-   * @param {K} key - The `key` parameter represents the key of the node being created in the
-   * AVLTreeMultiMap.
-   * @param {V[]} value - The `value` parameter in the `createNode` method represents an array of
-   * values associated with a specific key in the AVLTreeMultiMapNode. If no value is provided when
-   * calling the method, an empty array `[]` is used as the default value.
-   * @returns An AVLTreeMultiMapNode object is being returned, with the specified key and value. If the
-   * AVLTreeMultiMap is in map mode, an empty array is used as the value, otherwise the provided value
-   * array is used.
-   */
-  override createNode(key: K, value: V[] = []): AVLTreeMultiMapNode<K, V> {
+  override _createNode(key: K, value: V[] = []): AVLTreeMultiMapNode<K, V> {
     return new AVLTreeMultiMapNode<K, V>(key, this._isMapMode ? [] : value);
   }
 
@@ -131,22 +127,14 @@ export class AVLTreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, M
   override add(key: K, value: V): boolean;
 
   /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(log n)
-   *
-   * The function `add` in this TypeScript code overrides the superclass method to add key-value pairs
-   * to an AVLTreeMultiMap, handling different input types and scenarios.
-   * @param [key] - The `key` parameter in the `override add` method represents the key of the entry to
-   * be added to the AVLTreeMultiMap. It can be of type `K`, which is the key type of the map. The key
-   * can be a single key value, a node of the AVLTree
-   * @param {V[]} [values] - The `values` parameter in the `add` method represents an array of values
-   * that you want to add to the AVLTreeMultiMap. It can contain one or more values associated with a
-   * specific key.
-   * @returns The `add` method is returning a boolean value, which indicates whether the operation was
-   * successful or not.
+   * Insert a value or a list of values into the multimap. If the key exists, values are appended.
+   * @remarks Time O(log N + M), Space O(1)
+   * @param keyNodeOrEntry - Key, node, or [key, values] entry.
+   * @param [value] - Single value to add when a bare key is provided.
+   * @returns True if inserted or appended; false if ignored.
    */
   override add(
-    keyNodeOrEntry: K | AVLTreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined | K,
+    keyNodeOrEntry: K | AVLTreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined,
     value?: V
   ): boolean {
     if (this.isRealNode(keyNodeOrEntry)) return super.add(keyNodeOrEntry);
@@ -197,24 +185,14 @@ export class AVLTreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, M
   }
 
   /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(log n)
-   *
-   * The function `deleteValue` removes a specific value from a key in an AVLTreeMultiMap data
-   * structure and deletes the entire node if no values are left for that key.
-   * @param {K | AVLTreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined | K} keyNodeOrEntry - The `keyNodeOrEntry`
-   * parameter in the `deleteValue` function can be either a `BTNRep` object representing a key-value
-   * pair in the AVLTreeMultiMapNode, or just the key itself.
-   * @param {V} value - The `value` parameter in the `deleteValue` function represents the specific
-   * value that you want to delete from the multi-map data structure associated with a particular key.
-   * The function checks if the value exists in the array of values associated with the key, and if
-   * found, removes it from the array.
-   * @returns The `deleteValue` function returns a boolean value. It returns `true` if the specified
-   * `value` was successfully deleted from the array of values associated with the `keyNodeOrEntry`. If
-   * the value was not found in the array, it returns `false`.
+   * Delete a single value from the bucket at a given key. Removes the key if the bucket becomes empty.
+   * @remarks Time O(log N), Space O(1)
+   * @param keyNodeOrEntry - Key, node, or [key, values] entry to locate the bucket.
+   * @param value - Value to remove from the bucket.
+   * @returns True if the value was removed; false if not found.
    */
   deleteValue(
-    keyNodeOrEntry: K | AVLTreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined | K,
+    keyNodeOrEntry: K | AVLTreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined,
     value: V
   ): boolean {
     const values = this.get(keyNodeOrEntry);
@@ -223,7 +201,6 @@ export class AVLTreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, M
       if (index === -1) return false;
       values.splice(index, 1);
 
-      // If no values left, remove the entire node
       if (values.length === 0) this.delete(keyNodeOrEntry);
 
       return true;
@@ -232,16 +209,130 @@ export class AVLTreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, M
   }
 
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The function `clone` overrides the default cloning behavior to create a deep copy of a tree
-   * structure.
-   * @returns A cloned tree object is being returned.
+   * Rebuild the tree into a perfectly balanced form using in-order nodes.
+   * @remarks Time O(N), Space O(N)
+   * @param [iterationType] - Traversal style to use when constructing the balanced tree.
+   * @returns True if rebalancing succeeded (tree not empty).
    */
-  override clone() {
-    const cloned = this.createTree();
-    this._clone(cloned);
-    return cloned;
+  override perfectlyBalance(iterationType: IterationType = this.iterationType): boolean {
+    const nodes = this.dfs(node => node, 'IN', false, this._root, iterationType);
+    const n = nodes.length;
+    if (n === 0) return false;
+
+    this._clearNodes();
+
+    const build = (l: number, r: number, parent?: any): any | undefined => {
+      if (l > r) return undefined;
+      const m = l + ((r - l) >> 1);
+      const root = nodes[m];
+      root.left = build(l, m - 1, root);
+      root.right = build(m + 1, r, root);
+      root.parent = parent;
+      const lh = root.left ? root.left.height : -1;
+      const rh = root.right ? root.right.height : -1;
+      root.height = Math.max(lh, rh) + 1;
+      return root;
+    };
+
+    const newRoot = build(0, n - 1, undefined);
+    this._setRoot(newRoot);
+    this._size = n;
+    return true;
+  }
+
+  /**
+   * Create a new tree by mapping each [key, values] bucket.
+   * @remarks Time O(N log N), Space O(N)
+   * @template MK
+   * @template MVArr
+   * @template MR
+   * @param callback - Function mapping (key, values, index, tree) → [newKey, newValue].
+   * @param [options] - Options for the output tree.
+   * @param [thisArg] - Value for `this` inside the callback.
+   * @returns A new AVLTreeMultiMap when mapping to array values; see overloads.
+   */
+  override map<MK = K, MVArr extends unknown[] = V[], MR extends object = object>(
+    callback: EntryCallback<K, V[] | undefined, [MK, MVArr]>,
+    options?: Partial<AVLTreeOptions<MK, MVArr, MR>>,
+    thisArg?: unknown
+  ): AVLTreeMultiMap<MK, ElemOf<MVArr>, MR>;
+
+  /**
+   * Create a new tree by mapping each [key, values] bucket.
+   * @remarks Time O(N log N), Space O(N)
+   * @template MK
+   * @template MV
+   * @template MR
+   * @param callback - Function mapping (key, values, index, tree) → [newKey, newValue].
+   * @param [options] - Options for the output tree.
+   * @param [thisArg] - Value for `this` inside the callback.
+   * @returns A new AVLTree when mapping to non-array values; see overloads.
+   */
+  override map<MK = K, MV = V[], MR extends object = object>(
+    callback: EntryCallback<K, V[] | undefined, [MK, MV]>,
+    options?: Partial<AVLTreeOptions<MK, MV, MR>>,
+    thisArg?: unknown
+  ): AVLTree<MK, MV, MR>;
+
+  /**
+   * Create a new tree by mapping each [key, values] bucket.
+   * @remarks Time O(N log N), Space O(N)
+   * @template MK
+   * @template MV
+   * @template MR
+   * @param callback - Function mapping (key, values, index, tree) → [newKey, newValue].
+   * @param [options] - Options for the output tree.
+   * @param [thisArg] - Value for `this` inside the callback.
+   * @returns The mapped AVLTree or AVLTreeMultiMap depending on MV; see overloads.
+   */
+  override map<MK, MV, MR extends object>(
+    callback: EntryCallback<K, V[] | undefined, [MK, MV]>,
+    options?: Partial<AVLTreeOptions<MK, MV, MR>>,
+    thisArg?: unknown
+  ): AVLTree<MK, MV, MR> {
+    const out = this._createLike<MK, MV, MR>([], options);
+    let i = 0;
+    for (const [k, v] of this) out.add(callback.call(thisArg, k, v, i++, this));
+    return out;
+  }
+
+  /**
+   * (Protected) Create an empty instance of the same concrete class.
+   * @remarks Time O(1), Space O(1)
+   * @template TK
+   * @template TV
+   * @template TR
+   * @param [options] - Optional constructor options for the like-kind instance.
+   * @returns An empty like-kind instance.
+   */
+  protected override _createInstance<TK = K, TV = V, TR extends object = R>(
+    options?: Partial<AVLTreeOptions<TK, TV, TR>>
+  ): this {
+    const Ctor = this.constructor as unknown as new (
+      iter?: Iterable<TK | AVLTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
+      opts?: AVLTreeOptions<TK, TV, TR>
+    ) => AVLTree<TK, TV, TR>;
+    return new Ctor([], { ...(this._snapshotOptions?.<TK, TV, TR>() ?? {}), ...(options ?? {}) }) as unknown as this;
+  }
+
+  /**
+   * (Protected) Create a like-kind instance and seed it from an iterable.
+   * @remarks Time O(N log N), Space O(N)
+   * @template TK
+   * @template TV
+   * @template TR
+   * @param iter - Iterable used to seed the new tree.
+   * @param [options] - Options merged with the current snapshot.
+   * @returns A like-kind AVLTree built from the iterable.
+   */
+  protected override _createLike<TK = K, TV = V, TR extends object = R>(
+    iter: Iterable<TK | AVLTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR> = [],
+    options?: Partial<AVLTreeOptions<TK, TV, TR>>
+  ): AVLTree<TK, TV, TR> {
+    const Ctor = this.constructor as unknown as new (
+      iter?: Iterable<TK | AVLTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
+      opts?: AVLTreeOptions<TK, TV, TR>
+    ) => AVLTree<TK, TV, TR>;
+    return new Ctor(iter, { ...(this._snapshotOptions?.<TK, TV, TR>() ?? {}), ...(options ?? {}) });
   }
 }

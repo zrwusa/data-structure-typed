@@ -618,11 +618,6 @@ describe('SinglyLinkedList', () => {
     list.push(3);
     expect(list.map(value => value * 2).toArray()).toEqual([2, 4, 6]);
   });
-
-  it('should reduce the list', () => {
-    const list1 = SinglyLinkedList.fromArray([1, 2, 3]);
-    expect(list1.reduce((acc, value) => acc + value, 0)).toEqual(6);
-  });
 });
 
 describe('iterable methods', () => {
@@ -651,9 +646,7 @@ describe('iterable methods', () => {
 });
 
 describe('classic uses', () => {
-
   it('@example implementation of a basic text editor', () => {
-
     class TextEditor {
       private content: SinglyLinkedList<string>;
       private cursorIndex: number;

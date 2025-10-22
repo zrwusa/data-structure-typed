@@ -1,4 +1,4 @@
-import { AVLTreeMultiMap, AVLTreeMultiMapNode } from '../../../../src';
+import { AVLTreeMultiMap, AVLTreeMultiMapNode, IBinaryTree } from '../../../../src';
 // import { isDebugTest } from '../../../config';
 
 // const isDebug = isDebugTest;
@@ -70,7 +70,7 @@ describe('AVLTreeMultiMap Test', () => {
 
     expect(avlTmm.delete(avlTmm.getNode(11))[0].deleted?.key).toBe(11);
     expect(avlTmm.isAVLBalanced()).toBe(true);
-    expect(node15 && avlTmm.getHeight(node15)).toBe(2);
+    expect(node15 && avlTmm.getHeight(node15)).toBe(1);
 
     expect(avlTmm.delete(1)[0].deleted?.key).toBe(1);
     expect(avlTmm.isAVLBalanced()).toBe(true);
@@ -198,7 +198,7 @@ describe('AVLTreeMultiMap Test recursively', () => {
 
     expect(avlTmm.delete(11)[0].deleted?.key).toBe(11);
     expect(avlTmm.isAVLBalanced()).toBe(true);
-    expect(node15 && avlTmm.getHeight(node15)).toBe(2);
+    expect(node15 && avlTmm.getHeight(node15)).toBe(1);
 
     expect(avlTmm.delete(1)[0].deleted?.key).toBe(1);
     expect(avlTmm.isAVLBalanced()).toBe(true);
@@ -286,7 +286,7 @@ describe('AVLTreeMultiMap APIs test', () => {
   });
 
   it('should the clone method', () => {
-    function checkTreeStructure(avlTmm: AVLTreeMultiMap<string, number>) {
+    function checkTreeStructure(avlTmm: IBinaryTree<string, number[]>) {
       expect(avlTmm.size).toBe(4);
       expect(avlTmm.root?.key).toBe('2');
       expect(avlTmm.root?.left?.key).toBe('1');
@@ -399,7 +399,7 @@ describe('AVLTreeMultiMap', () => {
 });
 
 describe('AVLTreeMultiMap iterative methods test', () => {
-  let avlTmm: AVLTreeMultiMap<number, string, object, string, string, object>;
+  let avlTmm: AVLTreeMultiMap<number, string, object>;
   beforeEach(() => {
     avlTmm = new AVLTreeMultiMap();
     avlTmm.add([1, ['a']]);

@@ -1,4 +1,4 @@
-import { BinaryTreeNode, BSTNode, RedBlackTree, RedBlackTreeNode } from '../../../../src';
+import { BinaryTreeNode, BSTNode, IBinaryTree, RedBlackTree, RedBlackTreeNode } from '../../../../src';
 import { getRandomInt, getRandomIntArray, magnitude } from '../../../utils';
 import { OrderedMap } from 'js-sdsl';
 
@@ -148,7 +148,7 @@ describe('RedBlackTree 1', () => {
   });
 
   it('should the clone method', () => {
-    function checkTreeStructure(rbTree: RedBlackTree<string, number>) {
+    function checkTreeStructure(rbTree: IBinaryTree<string, number>) {
       expect(rbTree.size).toBe(4);
       expect(rbTree.root?.key).toBe('2');
       expect(rbTree.root?.left?.key).toBe('1');

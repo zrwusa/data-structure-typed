@@ -4,6 +4,8 @@ export type Any = string | number | bigint | boolean | symbol | undefined | obje
 
 export type Arithmetic = number | bigint;
 
+export type ElemOf<T> = T extends (infer U)[] ? U : never;
+
 export type ComparablePrimitive = number | bigint | string | boolean;
 
 export interface BaseComparableObject {

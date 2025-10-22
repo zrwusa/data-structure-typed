@@ -1,4 +1,4 @@
-import { BinaryTreeNode, BSTNode, TreeMultiMap, TreeMultiMapNode } from '../../../../src';
+import { BinaryTreeNode, BSTNode, IBinaryTree, TreeMultiMap, TreeMultiMapNode } from '../../../../src';
 import { getRandomInt } from '../../../utils';
 
 import { isDebugTest } from '../../../config';
@@ -163,7 +163,7 @@ describe('TreeMultiMap 1', () => {
   });
 
   it('should the clone method', () => {
-    function checkTreeStructure(tmm: TreeMultiMap<string, number>) {
+    function checkTreeStructure(tmm: IBinaryTree<string, number[]>) {
       expect(tmm.size).toBe(4);
       expect(tmm.root?.key).toBe('2');
       expect(tmm.root?.left?.key).toBe('1');
@@ -627,7 +627,7 @@ describe('TreeMultiMap 2', () => {
   });
 
   describe('TreeMultiMap iterative methods test', () => {
-    let tmm: TreeMultiMap<number, string, object, string, string, object>;
+    let tmm: TreeMultiMap<number, string, object>;
     beforeEach(() => {
       tmm = new TreeMultiMap();
       tmm.add([1, ['a']]);

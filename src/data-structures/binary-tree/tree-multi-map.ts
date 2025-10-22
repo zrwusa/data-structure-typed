@@ -5,21 +5,26 @@
  * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
  * @license MIT License
  */
-import type { BTNOptKeyOrNull, TreeMultiMapOptions } from '../../types';
+
+import type { BTNOptKeyOrNull, ElemOf, EntryCallback, RedBlackTreeOptions, TreeMultiMapOptions } from '../../types';
 import { RedBlackTree, RedBlackTreeNode } from './red-black-tree';
 import { IBinaryTree } from '../../interfaces';
 
+/**
+ * Node used by TreeMultiMap; stores the key with a bucket of values (array).
+ * @remarks Time O(1), Space O(1)
+ * @template K
+ * @template V
+ */
 export class TreeMultiMapNode<K = any, V = any> extends RedBlackTreeNode<K, V[]> {
   override parent?: TreeMultiMapNode<K, V> = undefined;
 
   /**
-   * This TypeScript constructor initializes an object with a key of type K and an array of values of
-   * type V.
-   * @param {K} key - The `key` parameter is typically used to store a unique identifier or key for the
-   * data being stored in the data structure. It helps in quickly accessing or retrieving the
-   * associated value in the data structure.
-   * @param {V[]} value - The `value` parameter in the constructor represents an array of values of
-   * type `V`.
+   * Create a TreeMultiMap node with an optional value bucket.
+   * @remarks Time O(1), Space O(1)
+   * @param key - Key of the node.
+   * @param [value] - Initial array of values.
+   * @returns New TreeMultiMapNode instance.
    */
   constructor(key: K, value?: V[]) {
     super(key, value);
@@ -27,10 +32,21 @@ export class TreeMultiMapNode<K = any, V = any> extends RedBlackTreeNode<K, V[]>
 
   override _left?: TreeMultiMapNode<K, V> | null | undefined = undefined;
 
+  /**
+   * Get the left child pointer.
+   * @remarks Time O(1), Space O(1)
+   * @returns Left child node, or null/undefined.
+   */
   override get left(): TreeMultiMapNode<K, V> | null | undefined {
     return this._left;
   }
 
+  /**
+   * Set the left child and update its parent pointer.
+   * @remarks Time O(1), Space O(1)
+   * @param v - New left child node, or null/undefined.
+   * @returns void
+   */
   override set left(v: TreeMultiMapNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
@@ -40,10 +56,21 @@ export class TreeMultiMapNode<K = any, V = any> extends RedBlackTreeNode<K, V[]>
 
   override _right?: TreeMultiMapNode<K, V> | null | undefined = undefined;
 
+  /**
+   * Get the right child pointer.
+   * @remarks Time O(1), Space O(1)
+   * @returns Right child node, or null/undefined.
+   */
   override get right(): TreeMultiMapNode<K, V> | null | undefined {
     return this._right;
   }
 
+  /**
+   * Set the right child and update its parent pointer.
+   * @remarks Time O(1), Space O(1)
+   * @param v - New right child node, or null/undefined.
+   * @returns void
+   */
   override set right(v: TreeMultiMapNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
@@ -53,7 +80,11 @@ export class TreeMultiMapNode<K = any, V = any> extends RedBlackTreeNode<K, V[]>
 }
 
 /**
- *
+ * Red-Black Tree–based multimap (key → array of values). Preserves O(log N) updates and supports map-like mode.
+ * @remarks Time O(1), Space O(1)
+ * @template K
+ * @template V
+ * @template R
  * @example
  * // players ranked by score with their equipment
  *     type Equipment = {
@@ -219,20 +250,16 @@ export class TreeMultiMapNode<K = any, V = any> extends RedBlackTreeNode<K, V[]>
  *  //      ]
  *  //    ]
  */
-export class TreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR = object>
-  extends RedBlackTree<K, V[], R, MK, MV[], MR>
-  implements IBinaryTree<K, V[], R, MK, MV, MR>
+export class TreeMultiMap<K = any, V = any, R extends object = object>
+  extends RedBlackTree<K, V[], R>
+  implements IBinaryTree<K, V[], R>
 {
   /**
-   * The constructor initializes an TreeMultiMap with the provided keys, nodes, entries, or raw data
-   * and options.
-   * @param keysNodesEntriesOrRaws - The `keysNodesEntriesOrRaws` parameter in the constructor is an
-   * iterable that can contain either key-value pairs represented as `BTNRep<K, V[],
-   * TreeMultiMapNode<K, V>>` or raw data represented as `R`. This parameter is used to initialize
-   * the RedBlackTreeMulti
-   * @param [options] - The `options` parameter in the constructor is of type
-   * `TreeMultiMapOptions<K, V[], R>`. It is an optional parameter that allows you to specify
-   * additional options for configuring the TreeMultiMap instance.
+   * Create a TreeMultiMap and optionally bulk-insert items.
+   * @remarks Time O(N log N), Space O(N)
+   * @param [keysNodesEntriesOrRaws] - Iterable of keys/nodes/entries/raw items to insert.
+   * @param [options] - Options for TreeMultiMap (comparator, reverse, map mode).
+   * @returns New TreeMultiMap instance.
    */
   constructor(
     keysNodesEntriesOrRaws: Iterable<
@@ -246,45 +273,7 @@ export class TreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR =
     }
   }
 
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The `createTree` function in TypeScript overrides the default implementation to create a new
-   * TreeMultiMap with specified options.
-   * @param [options] - The `options` parameter in the `createTree` method is of type
-   * `TreeMultiMapOptions<K, V[], R>`. This parameter allows you to pass additional configuration
-   * options when creating a new `TreeMultiMap` instance. It includes properties such as
-   * `iterationType`, `specifyComparable
-   * @returns A new instance of `TreeMultiMap` is being returned, with an empty array as the initial
-   * data and the provided options merged with the existing properties of the current object.
-   */
-  override createTree(options?: TreeMultiMapOptions<K, V[], R>) {
-    return new TreeMultiMap<K, V, R, MK, MV, MR>([], {
-      iterationType: this.iterationType,
-      specifyComparable: this._specifyComparable,
-      toEntryFn: this._toEntryFn,
-      isReverse: this._isReverse,
-      isMapMode: this._isMapMode,
-      ...options
-    });
-  }
-
-  /**
-   * Time Complexity: O(1)
-   * Space Complexity: O(1)
-   *
-   * The function `createNode` overrides the creation of a new TreeMultiMapNode with a specified key
-   * and value array.
-   * @param {K} key - The `key` parameter represents the key of the node being created in the
-   * `TreeMultiMap`.
-   * @param {V[]} value - The `value` parameter in the `createNode` method represents an array of
-   * values associated with a specific key in the TreeMultiMap data structure.
-   * @returns A new instance of `TreeMultiMapNode<K, V>` is being returned with the specified key and
-   * value. If `_isMapMode` is true, an empty array is passed as the value, otherwise the provided
-   * value is used.
-   */
-  override createNode(key: K, value: V[] = []): TreeMultiMapNode<K, V> {
+  override _createNode(key: K, value: V[] = []): TreeMultiMapNode<K, V> {
     return new TreeMultiMapNode<K, V>(key, this._isMapMode ? [] : value);
   }
 
@@ -295,18 +284,11 @@ export class TreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR =
   override add(key: K, value: V): boolean;
 
   /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(log n)
-   *
-   * The function overrides the add method to handle different types of input for a TreeMultiMap data
-   * structure.
-   * @param [key] - The `key` parameter in the `override add` method represents the key of the entry to
-   * be added to the TreeMultiMap. It can be of type `K`, which is the key type of the TreeMultiMap, or
-   * it can be a TreeMultiMapNode containing the key and its
-   * @param {V[]} [values] - The `values` parameter in the `add` method represents an array of values
-   * that you want to add to the TreeMultiMap. It can contain one or more values of type `V`.
-   * @returns The `add` method is returning a boolean value, which indicates whether the operation was
-   * successful or not.
+   * Insert a value or a list of values into the multimap. If the key exists, values are appended.
+   * @remarks Time O(log N + M), Space O(1)
+   * @param keyNodeOrEntry - Key, node, or [key, values] entry.
+   * @param [value] - Single value to add when a bare key is provided.
+   * @returns True if inserted or appended; false if ignored.
    */
   override add(
     keyNodeOrEntry: K | TreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined,
@@ -360,20 +342,11 @@ export class TreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR =
   }
 
   /**
-   * Time Complexity: O(log n)
-   * Space Complexity: O(log n)
-   *
-   * The function `deleteValue` removes a specific value from a key in a TreeMultiMap data structure
-   * and deletes the entire node if no values are left for that key.
-   * @param {K | TreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined} keyNodeOrEntry - The `keyNodeOrEntry`
-   * parameter in the `deleteValue` function can be either a `BTNRep` object containing a key and an
-   * array of values, or just a key itself.
-   * @param {V} value - The `value` parameter in the `deleteValue` function represents the specific
-   * value that you want to remove from the multi-map data structure associated with a particular key.
-   * The function checks if the value exists in the array of values associated with the key, and if
-   * found, removes it from the array.
-   * @returns The `deleteValue` function returns a boolean value - `true` if the specified `value` was
-   * successfully deleted from the values associated with the `keyNodeOrEntry`, and `false` otherwise.
+   * Delete a single value from the bucket at a given key. Removes the key if the bucket becomes empty.
+   * @remarks Time O(log N), Space O(1)
+   * @param keyNodeOrEntry - Key, node, or [key, values] entry to locate the bucket.
+   * @param value - Value to remove from the bucket.
+   * @returns True if the value was removed; false if not found.
    */
   deleteValue(
     keyNodeOrEntry: K | TreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined,
@@ -385,7 +358,6 @@ export class TreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR =
       if (index === -1) return false;
       values.splice(index, 1);
 
-      // If no values left, remove the entire node
       if (values.length === 0) this.delete(keyNodeOrEntry);
 
       return true;
@@ -393,17 +365,79 @@ export class TreeMultiMap<K = any, V = any, R = object, MK = any, MV = any, MR =
     return false;
   }
 
+  override map<MK = K, MVArr extends unknown[] = V[], MR extends object = object>(
+    callback: EntryCallback<K, V[] | undefined, [MK, MVArr]>,
+    options?: Partial<RedBlackTreeOptions<MK, MVArr, MR>>,
+    thisArg?: unknown
+  ): TreeMultiMap<MK, ElemOf<MVArr>, MR>;
+
+  override map<MK = K, MV = V[], MR extends object = object>(
+    callback: EntryCallback<K, V[] | undefined, [MK, MV]>,
+    options?: Partial<RedBlackTreeOptions<MK, MV, MR>>,
+    thisArg?: unknown
+  ): RedBlackTree<MK, MV, MR>;
+
   /**
-   * Time Complexity: O(n)
-   * Space Complexity: O(n)
-   *
-   * The function `clone` overrides the default cloning behavior to create a deep copy of a tree
-   * structure.
-   * @returns The `cloned` object is being returned.
+   * Create a new tree by mapping each [key, values] bucket.
+   * @remarks Time O(N log N), Space O(N)
+   * @template MK
+   * @template MV
+   * @template MR
+   * @param callback - Function mapping (key, values, index, tree) → [newKey, newValue].
+   * @param [options] - Options for the output tree.
+   * @param [thisArg] - Value for `this` inside the callback.
+   * @returns A new RedBlackTree (or TreeMultiMap when mapping to array values; see overloads).
    */
-  override clone() {
-    const cloned = this.createTree();
-    this._clone(cloned);
-    return cloned;
+  override map<MK, MV, MR extends object>(
+    callback: EntryCallback<K, V[] | undefined, [MK, MV]>,
+    options?: Partial<RedBlackTreeOptions<MK, MV, MR>>,
+    thisArg?: unknown
+  ): RedBlackTree<MK, MV, MR> {
+    const out = this._createLike<MK, MV, MR>([], options);
+    let i = 0;
+    for (const [k, v] of this) out.add(callback.call(thisArg, k, v, i++, this));
+    return out;
+  }
+
+  /**
+   * (Protected) Create an empty instance of the same concrete class.
+   * @remarks Time O(1), Space O(1)
+   * @template TK
+   * @template TV
+   * @template TR
+   * @param [options] - Optional constructor options for the like-kind instance.
+   * @returns An empty like-kind instance.
+   */
+  protected override _createInstance<TK = K, TV = V, TR extends object = R>(
+    options?: Partial<RedBlackTreeOptions<TK, TV, TR>>
+  ): this {
+    const Ctor = this.constructor as unknown as new (
+      iter?: Iterable<TK | RedBlackTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
+      opts?: RedBlackTreeOptions<TK, TV, TR>
+    ) => RedBlackTree<TK, TV, TR>;
+    return new Ctor([], { ...(this._snapshotOptions?.<TK, TV, TR>() ?? {}), ...(options ?? {}) }) as unknown as this;
+  }
+
+  /**
+   * (Protected) Create a like-kind instance and seed it from an iterable.
+   * @remarks Time O(N log N), Space O(N)
+   * @template TK
+   * @template TV
+   * @template TR
+   * @param iter - Iterable used to seed the new tree.
+   * @param [options] - Options merged with the current snapshot.
+   * @returns A like-kind RedBlackTree built from the iterable.
+   */
+  protected override _createLike<TK = K, TV = V, TR extends object = R>(
+    iter: Iterable<
+      TK | RedBlackTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR
+    > = [],
+    options?: Partial<RedBlackTreeOptions<TK, TV, TR>>
+  ): RedBlackTree<TK, TV, TR> {
+    const Ctor = this.constructor as unknown as new (
+      iter?: Iterable<TK | RedBlackTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
+      opts?: RedBlackTreeOptions<TK, TV, TR>
+    ) => RedBlackTree<TK, TV, TR>;
+    return new Ctor(iter, { ...(this._snapshotOptions?.<TK, TV, TR>() ?? {}), ...(options ?? {}) });
   }
 }

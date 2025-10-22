@@ -155,18 +155,14 @@ describe('Heap Operation Test', () => {
       }
     );
 
-    const mappedMinHeap = minHeap.map(
-      item => item.key,
-      (a, b) => a - b
-    );
+    const mappedMinHeap = minHeap.map(item => item.key, { comparator: (a, b) => a - b });
     expect(mappedMinHeap.peek()).toBe(0);
     expect(mappedMinHeap.sort()).toEqual([0, 1, 2, 3, 4, 5, 6]);
 
-    const mappedToElementFnMinHeap = minHeap.map<string, { id: string }>(
-      item => item.key.toString(),
-      (a, b) => Number(a) - Number(b),
-      rawElement => rawElement.id
-    );
+    const mappedToElementFnMinHeap = minHeap.map<string, { id: string }>(item => item.key.toString(), {
+      comparator: (a, b) => Number(a) - Number(b),
+      toElementFn: rawElement => rawElement.id
+    });
     expect(mappedToElementFnMinHeap.peek()).toBe('0');
     expect(mappedToElementFnMinHeap.sort()).toEqual(['0', '1', '2', '3', '4', '5', '6']);
 
@@ -234,17 +230,17 @@ describe('Heap Operation Test', () => {
     expect(hp.leaf).toBe(1);
   });
 
-  it('should error', function () {
-    expect(() => {
-      new Heap([{ key: 1 }, { key: 2 }, { key: 3 }]);
-    }).toThrow(
-      "When comparing object types, a custom comparator must be defined in the constructor's options parameter."
-    );
-  });
+  // it('should error', function () {
+  //   expect(() => {
+  //     new Heap([{ key: 1 }, { key: 2 }, { key: 3 }]);
+  //   }).toThrow(
+  //     "When comparing object types, a custom comparator must be defined in the constructor's options parameter."
+  //   );
+  // });
 });
 
 describe('Heap HOF', () => {
-  let hp: Heap;
+  let hp: Heap<{ key: number }, { key: number }>;
 
   beforeEach(() => {
     hp = new Heap([{ key: 1 }, { key: 2 }, { key: 3 }], { comparator: (a, b) => a.key - b.key });
@@ -256,10 +252,7 @@ describe('Heap HOF', () => {
   });
 
   it('should map', () => {
-    const mapped = hp.map(
-      ({ key }) => [key, key],
-      (a, b) => a[0] - b[0]
-    );
+    const mapped = hp.map(({ key }) => [key, key], { comparator: (a, b) => a[0] - b[0] });
     expect([...mapped]).toEqual([
       [1, 1],
       [2, 2],

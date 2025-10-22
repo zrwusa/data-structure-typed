@@ -11,12 +11,12 @@ export type ReduceEntryCallback<K, V, R> = (
   original: IterableEntryBase<K, V>
 ) => R;
 
-export type ReduceElementCallback<E, R, RT = E> = (
-  accumulator: RT,
-  element: E,
+export type ReduceElementCallback<E, R, U = E> = (
+  accumulator: U,
+  value: E,
   index: number,
-  original: IterableElementBase<E, R>
-) => RT;
+  self: IterableElementBase<E, R>
+) => U;
 
 export type ReduceLinearCallback<E, RT = E> = (
   accumulator: RT,

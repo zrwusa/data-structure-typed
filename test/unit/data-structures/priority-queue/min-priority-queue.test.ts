@@ -70,10 +70,7 @@ describe('MinPriorityQueue Operation Test', () => {
     expect(filtered instanceof MinPriorityQueue).toBe(true);
     expect([...filtered]).toEqual([1, 5, 7]);
 
-    const mapped = filtered.map(
-      item => ({ key: item }),
-      (a, b) => a.key - b.key
-    );
+    const mapped = filtered.map(item => ({ key: item }), { comparator: (a, b) => a.key - b.key });
     expect(mapped instanceof MinPriorityQueue).toBe(true);
     expect([...mapped]).toEqual([{ key: 1 }, { key: 5 }, { key: 7 }]);
     expect(mapped.toVisual()).toEqual([{ key: 1 }, { key: 5 }, { key: 7 }]);

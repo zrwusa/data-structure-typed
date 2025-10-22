@@ -71,10 +71,7 @@ describe('MaxHeap', () => {
       }
     );
 
-    const mappedMaxHeap = maxHeap.map(
-      item => item.key,
-      (a, b) => b - a
-    );
+    const mappedMaxHeap = maxHeap.map(item => item.key, { comparator: (a, b) => b - a });
     expect(mappedMaxHeap.peek()).toBe(6);
     expect(mappedMaxHeap.sort()).toEqual([6, 5, 4, 3, 2, 1, 0]);
 
@@ -83,11 +80,10 @@ describe('MaxHeap', () => {
       {
         id: string;
       }
-    >(
-      item => item.key.toString(),
-      (a, b) => Number(b) - Number(a),
-      rawElement => rawElement.id
-    );
+    >(item => item.key.toString(), {
+      comparator: (a, b) => Number(b) - Number(a),
+      toElementFn: rawElement => rawElement.id
+    });
     expect(mappedToElementFnMaxHeap.peek()).toBe('6');
     expect(mappedToElementFnMaxHeap.sort()).toEqual(['6', '5', '4', '3', '2', '1', '0']);
 
