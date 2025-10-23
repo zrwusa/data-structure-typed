@@ -89,7 +89,7 @@ export class RedBlackTreeNode<K = any, V = any> extends BSTNode<K, V> {
 }
 
 /**
- * RRed-Black Tree (self-balancing BST) supporting map-like mode and stable O(log n) updates.
+ * RRRRed-Black Tree (self-balancing BST) supporting map-like mode and stable O(log n) updates.
  * @remarks Time O(1), Space O(1)
  * @template K
  * @template V
@@ -141,7 +141,7 @@ export class RedBlackTreeNode<K = any, V = any> extends BSTNode<K, V> {
  *     console.log(stocksInRange); // ['GOOGL', 'META', 'MSFT']
  */
 
-export class RedBlackTree<K = any, V = any, R extends object = object>
+export class RedBlackTree<K = any, V = any, R = any>
   extends BST<K, V, R>
   implements IBinaryTree<K, V, R>
 {
@@ -324,7 +324,7 @@ export class RedBlackTree<K = any, V = any, R extends object = object>
    * @returns A new RedBlackTree with mapped entries.
    */
 
-  override map<MK = K, MV = V, MR extends object = object>(
+  override map<MK = K, MV = V, MR = any>(
     callback: EntryCallback<K, V | undefined, [MK, MV]>,
     options?: Partial<BinaryTreeOptions<MK, MV, MR>>,
     thisArg?: unknown
@@ -338,7 +338,7 @@ export class RedBlackTree<K = any, V = any, R extends object = object>
     return out;
   }
 
-  protected override _createInstance<TK = K, TV = V, TR extends object = R>(
+  protected override _createInstance<TK = K, TV = V, TR = R>(
     options?: Partial<RedBlackTreeOptions<TK, TV, TR>>
   ): this {
     const Ctor = this.constructor as unknown as new (
@@ -348,7 +348,7 @@ export class RedBlackTree<K = any, V = any, R extends object = object>
     return new Ctor([], { ...this._snapshotOptions<TK, TV, TR>(), ...(options ?? {}) }) as unknown as this;
   }
 
-  protected override _createLike<TK = K, TV = V, TR extends object = R>(
+  protected override _createLike<TK = K, TV = V, TR = R>(
     iter: Iterable<
       TK | RedBlackTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR
     > = [],

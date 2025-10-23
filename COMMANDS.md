@@ -38,15 +38,25 @@ Overview of the commands to test, run and build this project as well as those th
 
 #### Use run-order.json (same directory) to define "to run/not to run + order" and execute in isolation
 ```bash
-ts-node test/performance/benchmark-runner.optimized.ts --isolate --gc --cooldown-ms=80
+ts-node test/performance/benchmark-runner.ts --isolate --gc --cooldown-ms=80
 ```
 
 #### Specify external configuration file + label this time
 ```bash
-ts-node test/performance/benchmark-runner.optimized.ts --isolate --order-file=test/performance/run-order.json --label=ci-fast
+ts-node test/performance/benchmark-runner.ts --isolate --order-file=test/performance/run-order.json --label=ci-fast
 ```
 
 #### Add one-time include/exclude
 ```bash
-ts-node test/performance/benchmark-runner.optimized.ts --isolate --include=heap,hash-map --exclude=**/graph/**
+ts-node test/performance/benchmark-runner.ts --isolate --include=heap,hash-map --exclude=**/graph/**
+```
+
+
+## Update dependencies
+```bash
+npm outdated
+npx npm-check-updates -u
+rm -rf node_modules package-lock.json
+npm cache clean --force
+npm install
 ```

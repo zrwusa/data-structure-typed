@@ -165,7 +165,7 @@ export class BSTNode<K = any, V = any> extends BinaryTreeNode<K, V> {
  *     console.log(findLCA(5, 35)); // 15
  *     console.log(findLCA(20, 30)); // 25
  */
-export class BST<K = any, V = any, R extends object = object>
+export class BST<K = any, V = any, R = any>
   extends BinaryTree<K, V, R>
   implements IBinaryTree<K, V, R>
 {
@@ -811,7 +811,7 @@ export class BST<K = any, V = any, R extends object = object>
    * @param [thisArg] - `this` context for the callback.
    * @returns A new, mapped BST.
    */
-  override map<MK = K, MV = V, MR extends object = object>(
+  override map<MK = K, MV = V, MR = any>(
     callback: EntryCallback<K, V | undefined, [MK, MV]>,
     options?: Partial<BinaryTreeOptions<MK, MV, MR>>,
     thisArg?: unknown
@@ -864,7 +864,7 @@ export class BST<K = any, V = any, R extends object = object>
    * @param [options] - Options for the new BST.
    * @returns A new, empty BST.
    */
-  protected override _createInstance<TK = K, TV = V, TR extends object = R>(
+  protected override _createInstance<TK = K, TV = V, TR = R>(
     options?: Partial<BSTOptions<TK, TV, TR>>
   ): this {
     const Ctor = this.constructor as unknown as new (
@@ -883,7 +883,7 @@ export class BST<K = any, V = any, R extends object = object>
    * @param [options] - Options for the new BST.
    * @returns A new BST.
    */
-  protected override _createLike<TK = K, TV = V, TR extends object = R>(
+  protected override _createLike<TK = K, TV = V, TR = R>(
     iter: Iterable<TK | BSTNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR> = [],
     options?: Partial<BSTOptions<TK, TV, TR>>
   ): BST<TK, TV, TR> {
@@ -901,7 +901,7 @@ export class BST<K = any, V = any, R extends object = object>
    * @template TK, TV, TR - Generic types for the options.
    * @returns The options object.
    */
-  protected override _snapshotOptions<TK = K, TV = V, TR extends object = R>(): BSTOptions<TK, TV, TR> {
+  protected override _snapshotOptions<TK = K, TV = V, TR = R>(): BSTOptions<TK, TV, TR> {
     return {
       ...super._snapshotOptions<TK, TV, TR>(),
       specifyComparable: this.specifyComparable as BSTOptions<TK, TV, TR>['specifyComparable'],

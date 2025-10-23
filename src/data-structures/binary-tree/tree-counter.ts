@@ -100,7 +100,7 @@ export class TreeCounterNode<K = any, V = any> extends RedBlackTreeNode<K, V> {
  * @template V
  * @template R
  */
-export class TreeCounter<K = any, V = any, R extends object = object>
+export class TreeCounter<K = any, V = any, R = any>
   extends RedBlackTree<K, V, R>
   implements IBinaryTree<K, V, R>
 {
@@ -342,7 +342,7 @@ export class TreeCounter<K = any, V = any, R extends object = object>
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new TreeCounter with mapped entries.
    */
-  override map<MK = K, MV = V, MR extends object = object>(
+  override map<MK = K, MV = V, MR = any>(
     callback: EntryCallback<K, V | undefined, [MK, MV]>,
     options?: Partial<BinaryTreeOptions<MK, MV, MR>>,
     thisArg?: unknown
@@ -377,7 +377,7 @@ export class TreeCounter<K = any, V = any, R extends object = object>
    * @param [options] - Optional constructor options for the like-kind instance.
    * @returns An empty like-kind instance.
    */
-  protected override _createInstance<TK = K, TV = V, TR extends object = R>(
+  protected override _createInstance<TK = K, TV = V, TR = R>(
     options?: Partial<BSTOptions<TK, TV, TR>>
   ): this {
     const Ctor = this.constructor as unknown as new (
@@ -397,7 +397,7 @@ export class TreeCounter<K = any, V = any, R extends object = object>
    * @param [options] - Options merged with the current snapshot.
    * @returns A like-kind TreeCounter built from the iterable.
    */
-  protected override _createLike<TK = K, TV = V, TR extends object = R>(
+  protected override _createLike<TK = K, TV = V, TR = R>(
     iter: Iterable<TK | BSTNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR> = [],
     options?: Partial<BSTOptions<TK, TV, TR>>
   ): TreeCounter<TK, TV, TR> {

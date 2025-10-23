@@ -93,7 +93,7 @@ export class AVLTreeMultiMapNode<K = any, V = any> extends AVLTreeNode<K, V[]> {
  * @template V
  * @template R
  */
-export class AVLTreeMultiMap<K = any, V = any, R extends object = object>
+export class AVLTreeMultiMap<K = any, V = any, R = any>
   extends AVLTree<K, V[], R>
   implements IBinaryTree<K, V[], R>
 {
@@ -251,7 +251,7 @@ export class AVLTreeMultiMap<K = any, V = any, R extends object = object>
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new AVLTreeMultiMap when mapping to array values; see overloads.
    */
-  override map<MK = K, MVArr extends unknown[] = V[], MR extends object = object>(
+  override map<MK = K, MVArr extends unknown[] = V[], MR = any>(
     callback: EntryCallback<K, V[] | undefined, [MK, MVArr]>,
     options?: Partial<AVLTreeOptions<MK, MVArr, MR>>,
     thisArg?: unknown
@@ -268,7 +268,7 @@ export class AVLTreeMultiMap<K = any, V = any, R extends object = object>
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new AVLTree when mapping to non-array values; see overloads.
    */
-  override map<MK = K, MV = V[], MR extends object = object>(
+  override map<MK = K, MV = V[], MR = any>(
     callback: EntryCallback<K, V[] | undefined, [MK, MV]>,
     options?: Partial<AVLTreeOptions<MK, MV, MR>>,
     thisArg?: unknown
@@ -305,7 +305,7 @@ export class AVLTreeMultiMap<K = any, V = any, R extends object = object>
    * @param [options] - Optional constructor options for the like-kind instance.
    * @returns An empty like-kind instance.
    */
-  protected override _createInstance<TK = K, TV = V, TR extends object = R>(
+  protected override _createInstance<TK = K, TV = V, TR = R>(
     options?: Partial<AVLTreeOptions<TK, TV, TR>>
   ): this {
     const Ctor = this.constructor as unknown as new (
@@ -325,7 +325,7 @@ export class AVLTreeMultiMap<K = any, V = any, R extends object = object>
    * @param [options] - Options merged with the current snapshot.
    * @returns A like-kind AVLTree built from the iterable.
    */
-  protected override _createLike<TK = K, TV = V, TR extends object = R>(
+  protected override _createLike<TK = K, TV = V, TR = R>(
     iter: Iterable<TK | AVLTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR> = [],
     options?: Partial<AVLTreeOptions<TK, TV, TR>>
   ): AVLTree<TK, TV, TR> {

@@ -18,7 +18,7 @@ import type {
  * K = key, V = value, R = raw/record used with toEntryFn (optional).
  * Transforming methods like `map` use method-level generics MK/MV/MR.
  */
-export interface IBinaryTree<K = any, V = any, R extends object = object> {
+export interface IBinaryTree<K = any, V = any, R = any> {
   // ---- state ----
   readonly size: number;
   readonly root: BinaryTreeNode<K, V> | null | undefined;
@@ -232,7 +232,7 @@ export interface IBinaryTree<K = any, V = any, R extends object = object> {
 
   filter(predicate: EntryCallback<K, V | undefined, boolean>, thisArg?: unknown): this;
 
-  map<MK = K, MV = V, MR extends object = object>(
+  map<MK = K, MV = V, MR = any>(
     callback: EntryCallback<K, V | undefined, [MK, MV]>,
     options?: Partial<BinaryTreeOptions<MK, MV, MR>>,
     thisArg?: unknown

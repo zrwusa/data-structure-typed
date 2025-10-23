@@ -1,6 +1,6 @@
-import { PriorityQueue as MJSPriorityQueue } from '../../../../dist/esm';
-import { PriorityQueue as SRCPriorityQueue } from '../../../../src';
-import { PriorityQueue as CJSPriorityQueue } from '../../../../dist/cjs';
+import { Heap as MJSPriorityQueue } from '../../../../dist/esm';
+import { Heap as SRCPriorityQueue } from '../../../../src';
+import { Heap as CJSPriorityQueue } from '../../../../dist/cjs';
 import {
   Deque as CDeque,
   HashMap as CHashMap,
@@ -16,93 +16,93 @@ import { getRandomIntArray, magnitude } from '../../../utils';
 import { isCompetitor } from '../../../config';
 
 const suite = new Benchmark.Suite();
-const { TEN_THOUSAND, HUNDRED_THOUSAND, MILLION } = magnitude;
+const { HUNDRED_THOUSAND, MILLION } = magnitude;
 const cOrderedMap = new OrderedMap<number, number>();
 const arrHundredThousand = getRandomIntArray(HUNDRED_THOUSAND, 0, HUNDRED_THOUSAND, true);
 
 suite
-  .add(`SRC PQ ${TEN_THOUSAND.toLocaleString()} add`, () => {
+  .add(`SRC PQ ${MILLION.toLocaleString()} add`, () => {
     const pq = new SRCPriorityQueue<number>();
-    for (let i = 0; i < TEN_THOUSAND; i++) pq.add(i);
+    for (let i = 0; i < MILLION; i++) pq.add(i);
   })
-  .add(`CJS PQ ${TEN_THOUSAND.toLocaleString()} add`, () => {
+  .add(`CJS PQ ${HUNDRED_THOUSAND.toLocaleString()} add`, () => {
     const pq = new CJSPriorityQueue<number>();
-    for (let i = 0; i < TEN_THOUSAND; i++) pq.add(i);
+    for (let i = 0; i < HUNDRED_THOUSAND; i++) pq.add(i);
   })
-  .add(`MJS PQ ${TEN_THOUSAND.toLocaleString()} add`, () => {
+  .add(`MJS PQ ${HUNDRED_THOUSAND.toLocaleString()} add`, () => {
     const pq = new MJSPriorityQueue<number>([], {
       comparator: (a, b) => b - a
     });
-    for (let i = 0; i < TEN_THOUSAND; i++) pq.add(i);
+    for (let i = 0; i < HUNDRED_THOUSAND; i++) pq.add(i);
   });
 
 if (isCompetitor) {
-  suite.add(`CPT PQ ${TEN_THOUSAND.toLocaleString()} add`, () => {
+  suite.add(`CPT PQ ${HUNDRED_THOUSAND.toLocaleString()} add`, () => {
     const pq = new CPriorityQueue<number>();
-    for (let i = 0; i < TEN_THOUSAND; i++) pq.push(i);
+    for (let i = 0; i < HUNDRED_THOUSAND; i++) pq.push(i);
   });
 }
 
 suite
-  .add(`SRC PQ ${TEN_THOUSAND.toLocaleString()} add & poll`, () => {
+  .add(`SRC PQ ${HUNDRED_THOUSAND.toLocaleString()} add & poll`, () => {
     const pq = new SRCPriorityQueue<number>([], {
       comparator: (a, b) => b - a
     });
 
-    for (let i = 0; i < TEN_THOUSAND; i++) pq.add(i);
-    for (let i = 0; i < TEN_THOUSAND; i++) pq.poll();
+    for (let i = 0; i < HUNDRED_THOUSAND; i++) pq.add(i);
+    for (let i = 0; i < HUNDRED_THOUSAND; i++) pq.poll();
   })
-  .add(`CJS PQ ${TEN_THOUSAND.toLocaleString()} add & poll`, () => {
+  .add(`CJS PQ ${HUNDRED_THOUSAND.toLocaleString()} add & poll`, () => {
     const pq = new CJSPriorityQueue<number>([], {
       comparator: (a, b) => b - a
     });
 
-    for (let i = 0; i < TEN_THOUSAND; i++) pq.add(i);
-    for (let i = 0; i < TEN_THOUSAND; i++) pq.poll();
+    for (let i = 0; i < HUNDRED_THOUSAND; i++) pq.add(i);
+    for (let i = 0; i < HUNDRED_THOUSAND; i++) pq.poll();
   })
-  .add(`MJS PQ ${TEN_THOUSAND.toLocaleString()} add & poll`, () => {
+  .add(`MJS PQ ${HUNDRED_THOUSAND.toLocaleString()} add & poll`, () => {
     const pq = new MJSPriorityQueue<number>([], {
       comparator: (a, b) => b - a
     });
 
-    for (let i = 0; i < TEN_THOUSAND; i++) pq.add(i);
-    for (let i = 0; i < TEN_THOUSAND; i++) pq.poll();
+    for (let i = 0; i < HUNDRED_THOUSAND; i++) pq.add(i);
+    for (let i = 0; i < HUNDRED_THOUSAND; i++) pq.poll();
   });
 
 if (isCompetitor) {
   suite
-    .add(`CPT PQ ${TEN_THOUSAND.toLocaleString()} add & pop`, () => {
+    .add(`CPT PQ ${MILLION.toLocaleString()} add & pop`, () => {
       const pq = new CPriorityQueue<number>();
 
-      for (let i = 0; i < TEN_THOUSAND; i++) pq.push(i);
-      for (let i = 0; i < TEN_THOUSAND; i++) pq.pop();
+      for (let i = 0; i < MILLION; i++) pq.push(i);
+      for (let i = 0; i < MILLION; i++) pq.pop();
     })
     .add(`CPT OM ${HUNDRED_THOUSAND.toLocaleString()} add`, () => {
       for (let i = 0; i < arrHundredThousand.length; i++)
         cOrderedMap.setElement(arrHundredThousand[i], arrHundredThousand[i]);
     })
-    .add(`CPT HM ${TEN_THOUSAND.toLocaleString()} set`, () => {
+    .add(`CPT HM ${HUNDRED_THOUSAND.toLocaleString()} set`, () => {
       const hm = new CHashMap<number, number>();
 
-      for (let i = 0; i < TEN_THOUSAND; i++) hm.setElement(i, i);
+      for (let i = 0; i < HUNDRED_THOUSAND; i++) hm.setElement(i, i);
     })
-    .add(`CPT HM ${TEN_THOUSAND.toLocaleString()} set & get`, () => {
+    .add(`CPT HM ${HUNDRED_THOUSAND.toLocaleString()} set & get`, () => {
       const hm = new CHashMap<number, number>();
 
-      for (let i = 0; i < TEN_THOUSAND; i++) hm.setElement(i, i);
-      for (let i = 0; i < TEN_THOUSAND; i++) hm.getElementByKey(i);
+      for (let i = 0; i < HUNDRED_THOUSAND; i++) hm.setElement(i, i);
+      for (let i = 0; i < HUNDRED_THOUSAND; i++) hm.getElementByKey(i);
     })
     .add(`CPT LL ${MILLION.toLocaleString()} unshift`, () => {
       const list = new CLinkedList<number>();
 
       for (let i = 0; i < MILLION; i++) list.pushFront(i);
     })
-    .add(`CPT PQ ${TEN_THOUSAND.toLocaleString()} add & pop`, () => {
+    .add(`CPT PQ ${HUNDRED_THOUSAND.toLocaleString()} add & pop`, () => {
       const pq = new CPriorityQueue<number>();
 
-      for (let i = 0; i < TEN_THOUSAND; i++) pq.push(i);
+      for (let i = 0; i < HUNDRED_THOUSAND; i++) pq.push(i);
 
-      for (let i = 0; i < TEN_THOUSAND; i++) pq.pop();
+      for (let i = 0; i < HUNDRED_THOUSAND; i++) pq.pop();
     })
     .add(`CPT DQ ${MILLION.toLocaleString()} push`, () => {
       const deque = new CDeque<number>();
@@ -126,4 +126,4 @@ if (isCompetitor) {
     });
 }
 
-// export { suite };
+export { suite };

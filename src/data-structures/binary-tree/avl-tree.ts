@@ -169,7 +169,7 @@ export class AVLTreeNode<K = any, V = any> extends BSTNode<K, V> {
  *  //      { minute: 15, temperature: 58.6 }
  *  //    ]
  */
-export class AVLTree<K = any, V = any, R extends object = object> extends BST<K, V, R> implements IBinaryTree<K, V, R> {
+export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements IBinaryTree<K, V, R> {
   /**
    * Creates an instance of AVLTree.
    * @remarks Time O(N log N) (from `addMany` with balanced add). Space O(N).
@@ -301,7 +301,7 @@ export class AVLTree<K = any, V = any, R extends object = object> extends BST<K,
    * @param [thisArg] - `this` context for the callback.
    * @returns A new, mapped AVLTree.
    */
-  override map<MK = K, MV = V, MR extends object = object>(
+  override map<MK = K, MV = V, MR = any>(
     callback: EntryCallback<K, V | undefined, [MK, MV]>,
     options?: Partial<BinaryTreeOptions<MK, MV, MR>>,
     thisArg?: unknown
@@ -325,7 +325,7 @@ export class AVLTree<K = any, V = any, R extends object = object> extends BST<K,
    * @param [options] - Options for the new tree.
    * @returns A new, empty tree.
    */
-  protected override _createInstance<TK = K, TV = V, TR extends object = R>(
+  protected override _createInstance<TK = K, TV = V, TR = R>(
     options?: Partial<BSTOptions<TK, TV, TR>>
   ): this {
     const Ctor = this.constructor as unknown as new (
@@ -344,7 +344,7 @@ export class AVLTree<K = any, V = any, R extends object = object> extends BST<K,
    * @param [options] - Options for the new tree.
    * @returns A new AVLTree.
    */
-  protected override _createLike<TK = K, TV = V, TR extends object = R>(
+  protected override _createLike<TK = K, TV = V, TR = R>(
     iter: Iterable<TK | BSTNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR> = [],
     options?: Partial<BSTOptions<TK, TV, TR>>
   ): AVLTree<TK, TV, TR> {

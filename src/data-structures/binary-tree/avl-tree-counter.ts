@@ -95,7 +95,7 @@ export class AVLTreeCounterNode<K = any, V = any> extends AVLTreeNode<K, V> {
  * @template V
  * @template R
  */
-export class AVLTreeCounter<K = any, V = any, R extends object = object>
+export class AVLTreeCounter<K = any, V = any, R = any>
   extends AVLTree<K, V, R>
   implements IBinaryTree<K, V, R>
 {
@@ -314,7 +314,7 @@ export class AVLTreeCounter<K = any, V = any, R extends object = object>
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new AVLTreeCounter with mapped entries.
    */
-  override map<MK = K, MV = V, MR extends object = object>(
+  override map<MK = K, MV = V, MR = any>(
     callback: EntryCallback<K, V | undefined, [MK, MV]>,
     options?: Partial<BinaryTreeOptions<MK, MV, MR>>,
     thisArg?: unknown
@@ -337,7 +337,7 @@ export class AVLTreeCounter<K = any, V = any, R extends object = object>
    * @param [options] - Optional constructor options for the like-kind instance.
    * @returns An empty like-kind instance.
    */
-  protected override _createInstance<TK = K, TV = V, TR extends object = R>(
+  protected override _createInstance<TK = K, TV = V, TR = R>(
     options?: Partial<AVLTreeCounterOptions<TK, TV, TR>>
   ): this {
     const Ctor = this.constructor as unknown as new (
@@ -359,7 +359,7 @@ export class AVLTreeCounter<K = any, V = any, R extends object = object>
    * @param [options] - Options merged with the current snapshot.
    * @returns A like-kind AVLTreeCounter built from the iterable.
    */
-  protected override _createLike<TK = K, TV = V, TR extends object = R>(
+  protected override _createLike<TK = K, TV = V, TR = R>(
     iter: Iterable<
       TK | AVLTreeCounterNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR
     > = [],

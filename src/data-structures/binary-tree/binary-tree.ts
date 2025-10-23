@@ -266,7 +266,7 @@ export class BinaryTreeNode<K = any, V = any> {
  *
  *     console.log(evaluate(expressionTree.root)); // -27
  */
-export class BinaryTree<K = any, V = any, R extends object = object>
+export class BinaryTree<K = any, V = any, R = any>
   extends IterableEntryBase<K, V | undefined>
   implements IBinaryTree<K, V, R>
 {
@@ -973,8 +973,8 @@ export class BinaryTree<K = any, V = any, R extends object = object>
     startNode: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined = this._root,
     iterationType: IterationType = this.iterationType
   ): boolean {
-    startNode = this.ensureNode(startNode);
-    if (!startNode) return true;
+    const startNodeSired = this.ensureNode(startNode);
+    if (!startNodeSired) return true;
 
     if (iterationType === 'RECURSIVE') {
       const dfs = (cur: BinaryTreeNode<K, V> | null | undefined, min: number, max: number): boolean => {
@@ -984,15 +984,15 @@ export class BinaryTree<K = any, V = any, R extends object = object>
         return dfs(cur.left, min, numKey) && dfs(cur.right, numKey, max);
       };
 
-      const isStandardBST = dfs(startNode, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
-      const isInverseBST = dfs(startNode, Number.MAX_SAFE_INTEGER, Number.MIN_SAFE_INTEGER); // Check for reverse BST
+      const isStandardBST = dfs(startNodeSired, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
+      const isInverseBST = dfs(startNodeSired, Number.MAX_SAFE_INTEGER, Number.MIN_SAFE_INTEGER); // Check for reverse BST
       return isStandardBST || isInverseBST;
     } else {
       // Iterative in-order traversal check
       const checkBST = (checkMax = false) => {
         const stack: BinaryTreeNode<K, V>[] = [];
         let prev = checkMax ? Number.MAX_SAFE_INTEGER : Number.MIN_SAFE_INTEGER;
-        let curr: BinaryTreeNode<K, V> | null | undefined = startNode;
+        let curr: BinaryTreeNode<K, V> | null | undefined = startNodeSired;
         while (this.isRealNode(curr) || stack.length > 0) {
           while (this.isRealNode(curr)) {
             stack.push(curr);
@@ -1178,9 +1178,9 @@ export class BinaryTree<K = any, V = any, R extends object = object>
     iterationType: IterationType = this.iterationType
   ): ReturnType<C> {
     if (this.isNIL(startNode)) return callback(undefined);
-    startNode = this.ensureNode(startNode);
+    const ensuredStartNode = this.ensureNode(startNode);
 
-    if (!this.isRealNode(startNode)) return callback(undefined);
+    if (!this.isRealNode(ensuredStartNode)) return callback(undefined);
     if (iterationType === 'RECURSIVE') {
       const dfs = (cur: BinaryTreeNode<K, V>): BinaryTreeNode<K, V> => {
         const { left } = cur;
@@ -1188,7 +1188,7 @@ export class BinaryTree<K = any, V = any, R extends object = object>
         return dfs(left);
       };
 
-      return callback(dfs(startNode));
+      return callback(dfs(ensuredStartNode));
     } else {
       // Iterative (trampolined to prevent stack overflow, though 'ITERATIVE' usually means a loop)
       const dfs = makeTrampoline((cur: BinaryTreeNode<K, V>): Trampoline<BinaryTreeNode<K, V>> => {
@@ -1197,7 +1197,7 @@ export class BinaryTree<K = any, V = any, R extends object = object>
         return makeTrampolineThunk(() => dfs(left));
       });
 
-      return callback(dfs(startNode));
+      return callback(dfs(ensuredStartNode));
     }
   }
 
@@ -1689,7 +1689,7 @@ export class BinaryTree<K = any, V = any, R extends object = object>
    * @param [thisArg] - `this` context for the callback.
    * @returns A new, mapped tree.
    */
-  map<MK = K, MV = V, MR extends object = object>(
+  map<MK = K, MV = V, MR = any>(
     cb: EntryCallback<K, V | undefined, [MK, MV]>,
     options?: Partial<BinaryTreeOptions<MK, MV, MR>>,
     thisArg?: unknown
@@ -1948,7 +1948,7 @@ export class BinaryTree<K = any, V = any, R extends object = object>
    * @template TK, TV, TR - Generic types for the options.
    * @returns The options object.
    */
-  protected _snapshotOptions<TK = K, TV = V, TR extends object = R>(): BinaryTreeOptions<TK, TV, TR> {
+  protected _snapshotOptions<TK = K, TV = V, TR = R>(): BinaryTreeOptions<TK, TV, TR> {
     return {
       iterationType: this.iterationType,
       toEntryFn: this.toEntryFn as unknown as BinaryTreeOptions<TK, TV, TR>['toEntryFn'],
@@ -1965,7 +1965,7 @@ export class BinaryTree<K = any, V = any, R extends object = object>
    * @param [options] - Options for the new tree.
    * @returns A new, empty tree.
    */
-  protected _createInstance<TK = K, TV = V, TR extends object = R>(
+  protected _createInstance<TK = K, TV = V, TR = R>(
     options?: Partial<BinaryTreeOptions<TK, TV, TR>>
   ): this {
     const Ctor = this.constructor as unknown as new (
@@ -1984,7 +1984,7 @@ export class BinaryTree<K = any, V = any, R extends object = object>
    * @param [options] - Options for the new tree.
    * @returns A new tree.
    */
-  protected _createLike<TK = K, TV = V, TR extends object = R>(
+  protected _createLike<TK = K, TV = V, TR = R>(
     iter: Iterable<TK | BinaryTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR> = [],
     options?: Partial<BinaryTreeOptions<TK, TV, TR>>
   ): BinaryTree<TK, TV, TR> {

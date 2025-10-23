@@ -250,7 +250,7 @@ export class TreeMultiMapNode<K = any, V = any> extends RedBlackTreeNode<K, V[]>
  *  //      ]
  *  //    ]
  */
-export class TreeMultiMap<K = any, V = any, R extends object = object>
+export class TreeMultiMap<K = any, V = any, R = any>
   extends RedBlackTree<K, V[], R>
   implements IBinaryTree<K, V[], R>
 {
@@ -365,13 +365,13 @@ export class TreeMultiMap<K = any, V = any, R extends object = object>
     return false;
   }
 
-  override map<MK = K, MVArr extends unknown[] = V[], MR extends object = object>(
+  override map<MK = K, MVArr extends unknown[] = V[], MR = any>(
     callback: EntryCallback<K, V[] | undefined, [MK, MVArr]>,
     options?: Partial<RedBlackTreeOptions<MK, MVArr, MR>>,
     thisArg?: unknown
   ): TreeMultiMap<MK, ElemOf<MVArr>, MR>;
 
-  override map<MK = K, MV = V[], MR extends object = object>(
+  override map<MK = K, MV = V[], MR = any>(
     callback: EntryCallback<K, V[] | undefined, [MK, MV]>,
     options?: Partial<RedBlackTreeOptions<MK, MV, MR>>,
     thisArg?: unknown
@@ -408,7 +408,7 @@ export class TreeMultiMap<K = any, V = any, R extends object = object>
    * @param [options] - Optional constructor options for the like-kind instance.
    * @returns An empty like-kind instance.
    */
-  protected override _createInstance<TK = K, TV = V, TR extends object = R>(
+  protected override _createInstance<TK = K, TV = V, TR = R>(
     options?: Partial<RedBlackTreeOptions<TK, TV, TR>>
   ): this {
     const Ctor = this.constructor as unknown as new (
@@ -428,7 +428,7 @@ export class TreeMultiMap<K = any, V = any, R extends object = object>
    * @param [options] - Options merged with the current snapshot.
    * @returns A like-kind RedBlackTree built from the iterable.
    */
-  protected override _createLike<TK = K, TV = V, TR extends object = R>(
+  protected override _createLike<TK = K, TV = V, TR = R>(
     iter: Iterable<
       TK | RedBlackTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR
     > = [],
