@@ -1,19 +1,18 @@
-'use strict';
-Object.defineProperty(exports, '__esModule', { value: true });
-var data_structure_typed_1 = require('data-structure-typed');
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var data_structure_typed_1 = require("data-structure-typed");
 var orgArr = [6, 1, 2, 7, 5, 3, 4, 9, 8];
 var orgStrArr = ['trie', 'trial', 'trick', 'trip', 'tree', 'trend', 'triangle', 'track', 'trace', 'transmit'];
 var entries = [
-  [6, '6'],
-  [1, '1'],
-  [2, '2'],
-  [7, '7'],
-  [5, '5'],
-  [3, '3'],
-  [4, '4'],
-  [9, '9'],
-  [8, '8']
+    [6, '6'],
+    [1, '1'],
+    [2, '2'],
+    [7, '7'],
+    [5, '5'],
+    [3, '3'],
+    [4, '4'],
+    [9, '9'],
+    [8, '8']
 ];
 var queue = new data_structure_typed_1.Queue(orgArr);
 queue.print();
@@ -120,19 +119,13 @@ rbTree1.print();
 var trie2 = new data_structure_typed_1.Trie(orgStrArr);
 trie2.print();
 // ['trie', 'trial', 'triangle', 'trick', 'trip', 'tree', 'trend', 'track', 'trace', 'transmit']
-var heap2 = new data_structure_typed_1.Heap(trie2, {
-  comparator: function (a, b) {
-    return Number(a) - Number(b);
-  }
-});
+var heap2 = new data_structure_typed_1.Heap(trie2, { comparator: function (a, b) { return Number(a) - Number(b); } });
 heap2.print();
 // ['transmit', 'trace', 'tree', 'trend', 'track', 'trial', 'trip', 'trie', 'trick', 'triangle']
 var dq2 = new data_structure_typed_1.Deque(heap2);
 dq2.print();
 // ['transmit', 'trace', 'tree', 'trend', 'track', 'trial', 'trip', 'trie', 'trick', 'triangle']
-var entries2 = dq2.map(function (el, i) {
-  return [i, el];
-});
+var entries2 = dq2.map(function (el, i) { return [i, el]; });
 var avl2 = new data_structure_typed_1.AVLTree(entries2);
 avl2.print();
 //     ___3_______

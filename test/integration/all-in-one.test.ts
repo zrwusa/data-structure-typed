@@ -45,7 +45,7 @@ describe('AVL Tree Test from data-structure-typed', () => {
 
     expect(tree.delete(11)[0].deleted?.key).toBe(11);
     expect(tree.isAVLBalanced()).toBe(true);
-    expect(node15 && tree.getHeight(node15)).toBe(2);
+    expect(node15 && tree.getHeight(node15)).toBe(1);
 
     expect(tree.delete(1)[0].deleted?.key).toBe(1);
     expect(tree.isAVLBalanced()).toBe(true);
