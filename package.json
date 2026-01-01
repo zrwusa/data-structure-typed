@@ -15,7 +15,7 @@
   },
   "scripts": {
     "build": "npm run build:ecu && npm run build:docs-class",
-    "build:esm": "rm -rf dist/esm && tsc -p tsconfig-esm.json",
+    "build:esm": "rm -rf dist/esm && tsc -p tsconfig-esm.json && node scripts/fix-esm-imports.cjs",
     "build:cjs": "rm -rf dist/cjs && tsc -p tsconfig-cjs.json",
     "build:umd": "tsup",
     "build:ecu": "npm run build:esm && npm run build:cjs && npm run build:umd",
