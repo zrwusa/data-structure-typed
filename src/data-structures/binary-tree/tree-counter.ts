@@ -142,7 +142,7 @@ export class TreeCounter<K = any, V = any, R = any> extends RedBlackTree<K, V, R
     return sum;
   }
 
-  override _createNode(key: K, value?: V, color: RBTNColor = 'BLACK', count?: number): TreeCounterNode<K, V> {
+  override createNode(key: K, value?: V, color: RBTNColor = 'BLACK', count?: number): TreeCounterNode<K, V> {
     return new TreeCounterNode(key, this._isMapMode ? undefined : value, count, color) as TreeCounterNode<K, V>;
   }
 
@@ -427,10 +427,10 @@ export class TreeCounter<K = any, V = any, R = any> extends RedBlackTree<K, V, R
       const [key, entryValue] = keyNodeOrEntry;
       if (key === undefined || key === null) return [undefined, undefined];
       const finalValue = value ?? entryValue;
-      return [this._createNode(key, finalValue, 'BLACK', count), finalValue];
+      return [this.createNode(key, finalValue, 'BLACK', count), finalValue];
     }
 
-    return [this._createNode(keyNodeOrEntry, value, 'BLACK', count), value];
+    return [this.createNode(keyNodeOrEntry, value, 'BLACK', count), value];
   }
 
   /**
@@ -448,7 +448,7 @@ export class TreeCounter<K = any, V = any, R = any> extends RedBlackTree<K, V, R
     destNode = this.ensureNode(destNode);
     if (srcNode && destNode) {
       const { key, value, count, color } = destNode;
-      const tempNode = this._createNode(key, value, color, count);
+      const tempNode = this.createNode(key, value, color, count);
       if (tempNode) {
         tempNode.color = color;
 

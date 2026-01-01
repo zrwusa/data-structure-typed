@@ -390,7 +390,7 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [value] - The value for the new node (used if not in Map mode).
    * @returns The newly created node.
    */
-  _createNode(key: K, value?: V): BinaryTreeNode<K, V> {
+  createNode(key: K, value?: V): BinaryTreeNode<K, V> {
     return new BinaryTreeNode<K, V>(key, this._isMapMode ? undefined : value);
   }
 
@@ -2019,10 +2019,10 @@ export class BinaryTree<K = any, V = any, R = any>
       if (key === undefined) return [undefined, undefined];
       else if (key === null) return [null, undefined];
       const finalValue = value ?? entryValue;
-      return [this._createNode(key, finalValue), finalValue];
+      return [this.createNode(key, finalValue), finalValue];
     }
 
-    return [this._createNode(keyNodeOrEntry, value), value];
+    return [this.createNode(keyNodeOrEntry, value), value];
   }
 
   /**
@@ -2147,7 +2147,7 @@ export class BinaryTree<K = any, V = any, R = any>
 
     if (srcNode && destNode) {
       const { key, value } = destNode;
-      const tempNode = this._createNode(key, value); // Use a temp node to hold dest properties
+      const tempNode = this.createNode(key, value); // Use a temp node to hold dest properties
 
       if (tempNode) {
         // Copy src to dest

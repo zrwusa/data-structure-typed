@@ -8,7 +8,11 @@ All notable changes to this project will be documented in this file.
 - [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - [`auto-changelog`](https://github.com/CookPete/auto-changelog)
 
-## [v2.1.0](https://github.com/zrwusa/data-structure-typed/compare/v2.0.4...main) (upcoming)
+## [v2.1.1](https://github.com/zrwusa/data-structure-typed/compare/v2.0.4...main) (upcoming)
+
+### Changes
+
+- Fix ESM build [`#125`](https://github.com/zrwusa/data-structure-typed/pull/125)
 
 ## [v2.0.4](https://github.com/zrwusa/data-structure-typed/compare/v1.51.5...v2.0.4) (7 May 2025)
 

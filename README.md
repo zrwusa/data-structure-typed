@@ -32,7 +32,6 @@ yarn add data-structure-typed
 
 [Playground](https://stackblitz.com/edit/data-structure-typed-playground?file=src%2Fmain.ts)
 
-
 ```js
 import {
   Heap, Graph, Queue, Deque, PriorityQueue, BST, Trie, DoublyLinkedList,
@@ -50,7 +49,7 @@ npm i heap-typed --save
 ## Why
 
 Do you envy C++ with [STL]() (std::), Python with [collections](), and Java with [java.util]() ? Well, no need to envy
-anymore! JavaScript and TypeScript now have [data-structure-typed]().**`Benchmark`** compared with C++ STL. 
+anymore! JavaScript and TypeScript now have [data-structure-typed]().**`Benchmark`** compared with C++ STL.
 **`API standards`** aligned with ES6 and Java. **`Usability`** is comparable to Python
 
 
@@ -213,8 +212,6 @@ Performance surpasses that of native JS/TS
     <td><img alt="undirected graph" src="https://raw.githubusercontent.com/zrwusa/assets/master/images/data-structure-typed/assets/undirected-graph.png"></td>  
   </tr>
 </table>
-
-
 
 ### Conciseness and uniformity
 
@@ -801,7 +798,6 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', '
 
 ```
 
-
 [//]: # (No deletion!!! Start of Example Replace Section)
 
 
@@ -832,9 +828,10 @@ macOS Big Sur
 Version 11.7.9
 
 ***Our performance testing is conducted directly on the TypeScript source code. The actual performance of the compiled JavaScript code is generally 3 times higher. We have compared it with C++, and it is only 30% slower than C++.***
-Try it 
+Try it
 
 Just run
+
 ```shell
 pnpm perf:rbtree
 ```
@@ -847,7 +844,8 @@ pnpm perf:rbtree
 ```
 
 [//]: # (No deletion!!! Start of Replace Section)
-<h2>comparison</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>SRC PQ 1,000,000 add</td><td>36.30</td><td>0.04</td><td>0.01</td></tr><tr><td>CJS PQ 100,000 add</td><td>2.76</td><td>0.00</td><td>1.11e-4</td></tr><tr><td>MJS PQ 100,000 add</td><td>14.33</td><td>0.01</td><td>2.60e-4</td></tr><tr><td>CPT PQ 100,000 add</td><td>4.81</td><td>0.00</td><td>1.36e-4</td></tr><tr><td>SRC PQ 100,000 add & poll</td><td>22.57</td><td>0.02</td><td>4.66e-4</td></tr><tr><td>CJS PQ 100,000 add & poll</td><td>22.84</td><td>0.02</td><td>6.65e-4</td></tr><tr><td>MJS PQ 100,000 add & poll</td><td>23.43</td><td>0.02</td><td>0.00</td></tr><tr><td>CPT PQ 1,000,000 add & pop</td><td>181.14</td><td>0.18</td><td>0.03</td></tr><tr><td>CPT OM 100,000 add</td><td>26.64</td><td>0.03</td><td>0.00</td></tr><tr><td>CPT HM 100,000 set</td><td>5.90</td><td>0.01</td><td>8.46e-4</td></tr><tr><td>CPT HM 100,000 set & get</td><td>6.69</td><td>0.01</td><td>7.52e-4</td></tr><tr><td>CPT LL 1,000,000 unshift</td><td>19.78</td><td>0.02</td><td>0.01</td></tr><tr><td>CPT PQ 100,000 add & pop</td><td>14.36</td><td>0.01</td><td>0.00</td></tr><tr><td>CPT DQ 1,000,000 push</td><td>8.11</td><td>0.01</td><td>5.23e-4</td></tr><tr><td>CPT Q 1,000,000 push</td><td>30.25</td><td>0.03</td><td>0.01</td></tr><tr><td>CPT ST 1,000,000 push</td><td>27.10</td><td>0.03</td><td>0.00</td></tr><tr><td>CPT ST 1,000,000 push & pop</td><td>30.19</td><td>0.03</td><td>0.00</td></tr></tbody></table>[//]: # (No deletion!!! End of Replace Section)
+<h2>comparison</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>SRC PQ 1,000,000 add</td><td>36.30</td><td>0.04</td><td>0.01</td></tr><tr><td>CJS PQ 100,000 add</td><td>2.76</td><td>0.00</td><td>1.11e-4</td></tr><tr><td>MJS PQ 100,000 add</td><td>14.33</td><td>0.01</td><td>2.60e-4</td></tr><tr><td>CPT PQ 100,000 add</td><td>4.81</td><td>0.00</td><td>1.36e-4</td></tr><tr><td>SRC PQ 100,000 add & poll</td><td>22.57</td><td>0.02</td><td>4.66e-4</td></tr><tr><td>CJS PQ 100,000 add & poll</td><td>22.84</td><td>0.02</td><td>6.65e-4</td></tr><tr><td>MJS PQ 100,000 add & poll</td><td>23.43</td><td>0.02</td><td>0.00</td></tr><tr><td>CPT PQ 1,000,000 add & pop</td><td>181.14</td><td>0.18</td><td>0.03</td></tr><tr><td>CPT OM 100,000 add</td><td>26.64</td><td>0.03</td><td>0.00</td></tr><tr><td>CPT HM 100,000 set</td><td>5.90</td><td>0.01</td><td>8.46e-4</td></tr><tr><td>CPT HM 100,000 set & get</td><td>
+6.69</td><td>0.01</td><td>7.52e-4</td></tr><tr><td>CPT LL 1,000,000 unshift</td><td>19.78</td><td>0.02</td><td>0.01</td></tr><tr><td>CPT PQ 100,000 add & pop</td><td>14.36</td><td>0.01</td><td>0.00</td></tr><tr><td>CPT DQ 1,000,000 push</td><td>8.11</td><td>0.01</td><td>5.23e-4</td></tr><tr><td>CPT Q 1,000,000 push</td><td>30.25</td><td>0.03</td><td>0.01</td></tr><tr><td>CPT ST 1,000,000 push</td><td>27.10</td><td>0.03</td><td>0.00</td></tr><tr><td>CPT ST 1,000,000 push & pop</td><td>30.19</td><td>0.03</td><td>0.00</td></tr></tbody></table>[//]: # (No deletion!!! End of Replace Section)
 
 ## The corresponding relationships between data structures in different language standard libraries.
 
@@ -1181,6 +1179,20 @@ UMD:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**`var Deq
 Copy the line below into the head tag in an HTML document.
 
 #### development
+
+##### ES Module
+
+```html
+
+<script type="module">
+  import { BST } from "https://cdn.jsdelivr.net/npm/data-structure-typed/dist/esm/index.mjs";
+
+  const bst = new BST([2, 1, 6, 7, 5, 3, 4, 8, 9]);
+  bst.print();
+</script>
+```
+
+##### UMD
 
 ```html
 

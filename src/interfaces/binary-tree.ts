@@ -32,7 +32,7 @@ export interface IBinaryTree<K = any, V = any, R = any> {
   readonly isDuplicate: boolean;
 
   // ---- construction / mutation ----
-  _createNode(key: K, value?: BinaryTreeNode<K, V>['value']): BinaryTreeNode<K, V>;
+  createNode(key: K, value?: BinaryTreeNode<K, V>['value']): BinaryTreeNode<K, V>;
 
   createTree(options?: Partial<BinaryTreeOptions<K, V, R>>): IBinaryTree<K, V, R>;
 

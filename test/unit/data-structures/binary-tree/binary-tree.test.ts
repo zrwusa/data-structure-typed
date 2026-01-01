@@ -152,7 +152,7 @@ describe('BinaryTree', () => {
   it('delete(): leaf/one-child/two-children/missing; updates size and minHeight', () => {
     expect(binTree.getHeight(binTree.root, 'ITERATIVE')).toBe(-1);
     expect(binTree.getMinHeight()).toBe(-1);
-    const node1 = binTree._createNode(1);
+    const node1 = binTree.createNode(1);
     binTree.add(node1);
     expect(binTree.size).toBe(1);
 
@@ -261,7 +261,7 @@ describe('BinaryTree', () => {
     expect(binTree.isPerfectlyBalanced()).toBe(true);
     const node3 = binTree.getNode(3);
 
-    if (node3) node3.right = binTree._createNode(1);
+    if (node3) node3.right = binTree.createNode(1);
     expect(binTree.isPerfectlyBalanced()).toBe(false);
 
     binTree.clear();
@@ -1587,7 +1587,7 @@ describe('Coverage boosters - close remaining uncovered branches', () => {
 
   it('add(): build tree with no undefined child slot -> return false path', () => {
     const t = new BinaryTree<number>();
-    const r = t._createNode(1)!;
+    const r = t.createNode(1)!;
     // explicitly set left/right child pointers to null (not undefined) so BFS finds no insertion slot
     (r as any).left = null;
     (r as any).right = null;

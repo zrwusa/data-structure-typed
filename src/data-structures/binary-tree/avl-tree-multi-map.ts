@@ -113,7 +113,7 @@ export class AVLTreeMultiMap<K = any, V = any, R = any> extends AVLTree<K, V[], 
     }
   }
 
-  override _createNode(key: K, value: V[] = []): AVLTreeMultiMapNode<K, V> {
+  override createNode(key: K, value: V[] = []): AVLTreeMultiMapNode<K, V> {
     return new AVLTreeMultiMapNode<K, V>(key, this._isMapMode ? [] : value);
   }
 

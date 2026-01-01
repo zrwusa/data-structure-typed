@@ -89,7 +89,7 @@ export class RedBlackTreeNode<K = any, V = any> extends BSTNode<K, V> {
 }
 
 /**
- * RRRRRRRRRRRRRRRed-Black Tree (self-balancing BST) supporting map-like mode and stable O(log n) updates.
+ * RRRepresents a Red-Black Tree (self-balancing BST) supporting map-like mode and stable O(log n) updates.
  * @remarks Time O(1), Space O(1)
  * @template K
  * @template V
@@ -176,7 +176,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * @param color - See parameter type for details.
    * @returns A new RedBlackTreeNode instance.
    */
-  override _createNode(key: K, value?: V, color: RBTNColor = 'BLACK'): RedBlackTreeNode<K, V> {
+  override createNode(key: K, value?: V, color: RBTNColor = 'BLACK'): RedBlackTreeNode<K, V> {
     return new RedBlackTreeNode<K, V>(key, this._isMapMode ? undefined : value, color);
   }
 

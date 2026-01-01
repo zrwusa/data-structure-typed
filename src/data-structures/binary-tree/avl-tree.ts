@@ -196,7 +196,7 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    * @param [value] - The value for the new node.
    * @returns The newly created AVLTreeNode.
    */
-  override _createNode(key: K, value?: V): AVLTreeNode<K, V> {
+  override createNode(key: K, value?: V): AVLTreeNode<K, V> {
     return new AVLTreeNode<K, V>(key, this._isMapMode ? undefined : value) as AVLTreeNode<K, V>;
   }
 
@@ -370,7 +370,7 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
 
     if (srcNodeEnsured && destNodeEnsured) {
       const { key, value, height } = destNodeEnsured;
-      const tempNode = this._createNode(key, value);
+      const tempNode = this.createNode(key, value);
 
       if (tempNode) {
         tempNode.height = height;

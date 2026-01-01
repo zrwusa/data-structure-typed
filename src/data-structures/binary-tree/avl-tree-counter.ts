@@ -130,7 +130,7 @@ export class AVLTreeCounter<K = any, V = any, R = any> extends AVLTree<K, V, R> 
     return sum;
   }
 
-  override _createNode(key: K, value?: V, count?: number): AVLTreeCounterNode<K, V> {
+  override createNode(key: K, value?: V, count?: number): AVLTreeCounterNode<K, V> {
     return new AVLTreeCounterNode(key, this._isMapMode ? undefined : value, count) as AVLTreeCounterNode<K, V>;
   }
 
@@ -391,10 +391,10 @@ export class AVLTreeCounter<K = any, V = any, R = any> extends AVLTree<K, V, R> 
       const [key, entryValue] = keyNodeOrEntry;
       if (key === undefined || key === null) return [undefined, undefined];
       const finalValue = value ?? entryValue;
-      return [this._createNode(key, finalValue, count), finalValue];
+      return [this.createNode(key, finalValue, count), finalValue];
     }
 
-    return [this._createNode(keyNodeOrEntry, value, count), value];
+    return [this.createNode(keyNodeOrEntry, value, count), value];
   }
 
   /**
@@ -412,7 +412,7 @@ export class AVLTreeCounter<K = any, V = any, R = any> extends AVLTree<K, V, R> 
     destNode = this.ensureNode(destNode);
     if (srcNode && destNode) {
       const { key, value, count, height } = destNode;
-      const tempNode = this._createNode(key, value, count);
+      const tempNode = this.createNode(key, value, count);
       if (tempNode) {
         tempNode.height = height;
 

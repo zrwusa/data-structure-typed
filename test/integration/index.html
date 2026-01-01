@@ -86,7 +86,7 @@
     tree.print(undefined, { isShowUndefined: true });
 
     const node3 = tree.getNode(3);
-    if (node3) node3.right = tree._createNode(1);
+    if (node3) node3.right = tree.createNode(1);
     console.log(tree.isPerfectlyBalanced(), `tree.isPerfectlyBalanced()`);
     tree.print();
 

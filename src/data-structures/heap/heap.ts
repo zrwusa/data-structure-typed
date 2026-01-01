@@ -788,7 +788,7 @@ export class FibonacciHeap<E> {
    */
 
   push(element: E): this {
-    const node = this._createNode(element);
+    const node = this.createNode(element);
     node.left = node;
     node.right = node;
     this.mergeWithRoot(node);
@@ -900,7 +900,7 @@ export class FibonacciHeap<E> {
     heapToMerge.clear();
   }
 
-  _createNode(element: E): FibonacciHeapNode<E> {
+  createNode(element: E): FibonacciHeapNode<E> {
     return new FibonacciHeapNode<E>(element);
   }
 

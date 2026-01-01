@@ -270,7 +270,7 @@ export class TreeMultiMap<K = any, V = any, R = any> extends RedBlackTree<K, V[]
     }
   }
 
-  override _createNode(key: K, value: V[] = []): TreeMultiMapNode<K, V> {
+  override createNode(key: K, value: V[] = []): TreeMultiMapNode<K, V> {
     return new TreeMultiMapNode<K, V>(key, this._isMapMode ? [] : value);
   }
 

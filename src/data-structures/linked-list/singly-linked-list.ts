@@ -781,7 +781,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @returns A new SinglyLinkedListNode instance.
    */
 
-  protected _createNode(value: E): SinglyLinkedListNode<E> {
+  protected createNode(value: E): SinglyLinkedListNode<E> {
     return new SinglyLinkedListNode<E>(value);
   }
 
@@ -807,7 +807,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
 
   protected _ensureNode(elementOrNode: E | SinglyLinkedListNode<E>) {
     if (this.isNode(elementOrNode)) return elementOrNode;
-    return this._createNode(elementOrNode);
+    return this.createNode(elementOrNode);
   }
 
   /**

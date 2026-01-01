@@ -268,7 +268,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * @param [value] - The value for the new node (used if not in Map mode).
    * @returns The newly created BSTNode.
    */
-  override _createNode(key: K, value?: V): BSTNode<K, V> {
+  override createNode(key: K, value?: V): BSTNode<K, V> {
     return new BSTNode<K, V>(key, this._isMapMode ? undefined : value);
   }
 
