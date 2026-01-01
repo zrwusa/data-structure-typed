@@ -93,10 +93,7 @@ export class AVLTreeMultiMapNode<K = any, V = any> extends AVLTreeNode<K, V[]> {
  * @template V
  * @template R
  */
-export class AVLTreeMultiMap<K = any, V = any, R = any>
-  extends AVLTree<K, V[], R>
-  implements IBinaryTree<K, V[], R>
-{
+export class AVLTreeMultiMap<K = any, V = any, R = any> extends AVLTree<K, V[], R> implements IBinaryTree<K, V[], R> {
   /**
    * Create an AVLTreeMultiMap and optionally bulk-insert items.
    * @remarks Time O(N log N), Space O(N)
@@ -305,9 +302,7 @@ export class AVLTreeMultiMap<K = any, V = any, R = any>
    * @param [options] - Optional constructor options for the like-kind instance.
    * @returns An empty like-kind instance.
    */
-  protected override _createInstance<TK = K, TV = V, TR = R>(
-    options?: Partial<AVLTreeOptions<TK, TV, TR>>
-  ): this {
+  protected override _createInstance<TK = K, TV = V, TR = R>(options?: Partial<AVLTreeOptions<TK, TV, TR>>): this {
     const Ctor = this.constructor as unknown as new (
       iter?: Iterable<TK | AVLTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
       opts?: AVLTreeOptions<TK, TV, TR>

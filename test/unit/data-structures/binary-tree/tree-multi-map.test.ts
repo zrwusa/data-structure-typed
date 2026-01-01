@@ -1011,114 +1011,101 @@ interface Product {
 }
 
 // Build a TreeMultiMap in "multi" mode: price -> Product[]
-function buildIndex(sample: Product[]):TreeMultiMap<number, Product, Product> {
+function buildIndex(sample: Product[]): TreeMultiMap<number, Product, Product> {
   return new TreeMultiMap<number, Product, Product>(sample, {
-    toEntryFn: (raw) => [raw.price, [raw]],
-    isMapMode: false, // ensure multi-value per key
+    toEntryFn: raw => [raw.price, [raw]],
+    isMapMode: false // ensure multi-value per key
   });
 }
 
 // Helper: normalize getLeftMost/getRightMost return (key or node.key)
 function leftKey(tmm: TreeMultiMap<number, Product, Product>): number | undefined {
   const v = tmm.getLeftMost();
-  return v == null ? undefined : (typeof v === "object" ? v.key : v);
+  return v == null ? undefined : typeof v === 'object' ? v.key : v;
 }
 function rightKey(tmm: TreeMultiMap<number, Product, Product>): number | undefined {
   const v = tmm.getRightMost();
-  return v == null ? undefined : (typeof v === "object" ? v.key : v);
+  return v == null ? undefined : typeof v === 'object' ? v.key : v;
 }
 
-describe("TreeMultiMap — rangeSearch-driven semantics", () => {
+describe('TreeMultiMap — rangeSearch-driven semantics', () => {
   const sample: Product[] = [
-    { id: "p1", name: "Basic Tee",   price: 35.5 },
-    { id: "p2", name: "Sport Socks", price: 12.9 },
-    { id: "p3", name: "Denim Jeans", price: 79.9 },
-    { id: "p4", name: "Hoodie",      price: 79.9 },
-    { id: "p5", name: "Sneakers",    price: 99.0 },
-    { id: "p6", name: "Backpack",    price: 120.0 },
-    { id: "p7", name: "Watch",       price: 199.0 },
-    { id: "p8", name: "Hat",         price: 35.5 },
+    { id: 'p1', name: 'Basic Tee', price: 35.5 },
+    { id: 'p2', name: 'Sport Socks', price: 12.9 },
+    { id: 'p3', name: 'Denim Jeans', price: 79.9 },
+    { id: 'p4', name: 'Hoodie', price: 79.9 },
+    { id: 'p5', name: 'Sneakers', price: 99.0 },
+    { id: 'p6', name: 'Backpack', price: 120.0 },
+    { id: 'p7', name: 'Watch', price: 199.0 },
+    { id: 'p8', name: 'Hat', price: 35.5 }
   ];
 
-  it("stores multiple values under the same key and preserves insertion order in the bucket", () => {
+  it('stores multiple values under the same key and preserves insertion order in the bucket', () => {
     const tmm = buildIndex(sample);
     // Use rangeSearch on the single key [35.5, 35.5]
-    const groups = tmm
-      .rangeSearch(new Range(35.5, 35.5, true, true), (node) => node.value)
-      .flat();
-    expect(groups.map((p) => p!.id)).toEqual(["p1", "p8"]); // insertion order kept
+    const groups = tmm.rangeSearch(new Range(35.5, 35.5, true, true), node => node.value).flat();
+    expect(groups.map(p => p!.id)).toEqual(['p1', 'p8']); // insertion order kept
   });
 
-  it("iterates keys in ascending order (via keys())", () => {
+  it('iterates keys in ascending order (via keys())', () => {
     const tmm = buildIndex(sample);
     expect([...tmm.keys()]).toEqual([12.9, 35.5, 79.9, 99, 120, 199]);
   });
 
-  it("rangeSearch respects inclusive/exclusive bounds — flat result", () => {
+  it('rangeSearch respects inclusive/exclusive bounds — flat result', () => {
     const tmm = buildIndex(sample);
 
     // [35.5, 100): include 35.5, exclude 100
-    const res = tmm
-      .rangeSearch(new Range(35.5, 100, true, false), (node) => node.value)
-      .flat();
+    const res = tmm.rangeSearch(new Range(35.5, 100, true, false), node => node.value).flat();
 
-    expect(res.map((p) => `${p!.name}($${p!.price})`)).toEqual([
-      "Basic Tee($35.5)",
-      "Hat($35.5)",
-      "Denim Jeans($79.9)",
-      "Hoodie($79.9)",
-      "Sneakers($99)",
+    expect(res.map(p => `${p!.name}($${p!.price})`)).toEqual([
+      'Basic Tee($35.5)',
+      'Hat($35.5)',
+      'Denim Jeans($79.9)',
+      'Hoodie($79.9)',
+      'Sneakers($99)'
     ]);
-    expect(res.map((p) => p!.id)).toEqual(["p1", "p8", "p3", "p4", "p5"]);
+    expect(res.map(p => p!.id)).toEqual(['p1', 'p8', 'p3', 'p4', 'p5']);
   });
 
-  it("rangeSearch returns grouped buckets — both ends exclusive", () => {
+  it('rangeSearch returns grouped buckets — both ends exclusive', () => {
     const tmm = buildIndex(sample);
 
     // (80, 200) → keys 99, 120, 199
-    const groups = tmm.rangeSearch(
-      new Range(80, 200, false, false),
-      (node) => ({ key: node.key, bucket: node.value })
-    );
+    const groups = tmm.rangeSearch(new Range(80, 200, false, false), node => ({ key: node.key, bucket: node.value }));
 
-    expect(groups.map((g) => g.key)).toEqual([99, 120, 199]);
-    expect(groups.map((g) => g.bucket!.map((i) => i.id))).toEqual([
-      ["p5"],
-      ["p6"],
-      ["p7"],
-    ]);
+    expect(groups.map(g => g.key)).toEqual([99, 120, 199]);
+    expect(groups.map(g => g.bucket!.map(i => i.id))).toEqual([['p5'], ['p6'], ['p7']]);
   });
 
-  it("rangeSearch across full domain by using current min/max keys (no Infinity)", () => {
+  it('rangeSearch across full domain by using current min/max keys (no Infinity)', () => {
     const tmm = buildIndex(sample);
-    const lo = tmm.getLeftMost();   // expected 12.9
-    const hi = tmm.getRightMost();  // expected 199
+    const lo = tmm.getLeftMost(); // expected 12.9
+    const hi = tmm.getRightMost(); // expected 199
 
-    const groups = tmm.rangeSearch(
-      new Range(lo, hi, true, true),
-      (node) => ({ key: node.key, count: (node.value!).length })
-    );
+    const groups = tmm.rangeSearch(new Range(lo, hi, true, true), node => ({
+      key: node.key,
+      count: node.value!.length
+    }));
 
     // 12.9:1 | 35.5:2 | 79.9:2 | 99:1 | 120:1 | 199:1
-    expect(groups.map((g) => `${g.key}:${g.count}`).join(" | ")).toBe(
-      "12.9:1 | 35.5:2 | 79.9:2 | 99:1 | 120:1 | 199:1"
-    );
+    expect(groups.map(g => `${g.key}:${g.count}`).join(' | ')).toBe('12.9:1 | 35.5:2 | 79.9:2 | 99:1 | 120:1 | 199:1');
   });
 
-  it("empty TreeMultiMap → rangeSearch returns empty results", () => {
+  it('empty TreeMultiMap → rangeSearch returns empty results', () => {
     const tmm = buildIndex([]);
     // Any finite range should yield empty
-    const flat = tmm.rangeSearch(new Range(0, 100, true, true), (n) => n.value).flat();
+    const flat = tmm.rangeSearch(new Range(0, 100, true, true), n => n.value).flat();
     expect(flat).toEqual([]);
 
-    const groups = tmm.rangeSearch(
-      new Range(0, 100, true, true),
-      (node: any) => ({ key: node.key, bucket: node.value as Product[] })
-    );
+    const groups = tmm.rangeSearch(new Range(0, 100, true, true), (node: any) => ({
+      key: node.key,
+      bucket: node.value as Product[]
+    }));
     expect(groups).toEqual([]);
   });
 
-  it("left-most/right-most key helpers (if API returns node, unwrap .key)", () => {
+  it('left-most/right-most key helpers (if API returns node, unwrap .key)', () => {
     const tmm = buildIndex(sample);
     expect(leftKey(tmm)).toBe(12.9);
     expect(rightKey(tmm)).toBe(199);

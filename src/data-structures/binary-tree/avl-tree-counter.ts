@@ -95,10 +95,7 @@ export class AVLTreeCounterNode<K = any, V = any> extends AVLTreeNode<K, V> {
  * @template V
  * @template R
  */
-export class AVLTreeCounter<K = any, V = any, R = any>
-  extends AVLTree<K, V, R>
-  implements IBinaryTree<K, V, R>
-{
+export class AVLTreeCounter<K = any, V = any, R = any> extends AVLTree<K, V, R> implements IBinaryTree<K, V, R> {
   /**
    * Create a AVLTreeCounter instance
    * @remarks Time O(n), Space O(n)

@@ -1,15 +1,13 @@
+// tsconfig.json
 {
   "extends": "./tsconfig-base.json",
   "compilerOptions": {
-    "rootDir": "./",                      // Specify the root directory of the source files in the project.
+    "rootDir": "./",
     "outDir": "dist/dev",
     "module": "NodeNext",
     "target": "ESNext",
     "moduleResolution": "NodeNext",
-    "sourceMap": true                     // It actually affects the error line number positioning in IDE test cases running.
+    "sourceMap": true
   },
-  "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts"
-  ]
+  "include": ["./src/**/*.ts"]
 }

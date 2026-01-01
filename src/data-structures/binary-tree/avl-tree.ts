@@ -325,9 +325,7 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    * @param [options] - Options for the new tree.
    * @returns A new, empty tree.
    */
-  protected override _createInstance<TK = K, TV = V, TR = R>(
-    options?: Partial<BSTOptions<TK, TV, TR>>
-  ): this {
+  protected override _createInstance<TK = K, TV = V, TR = R>(options?: Partial<BSTOptions<TK, TV, TR>>): this {
     const Ctor = this.constructor as unknown as new (
       iter?: Iterable<TK | BSTNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
       opts?: BSTOptions<TK, TV, TR>

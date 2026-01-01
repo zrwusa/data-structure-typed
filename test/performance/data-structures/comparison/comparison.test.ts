@@ -1,6 +1,4 @@
-import { Heap as MJSPriorityQueue } from '../../../../dist/esm';
 import { Heap as SRCPriorityQueue } from '../../../../src';
-import { Heap as CJSPriorityQueue } from '../../../../dist/cjs';
 import {
   Deque as CDeque,
   HashMap as CHashMap,
@@ -20,21 +18,10 @@ const { HUNDRED_THOUSAND, MILLION } = magnitude;
 const cOrderedMap = new OrderedMap<number, number>();
 const arrHundredThousand = getRandomIntArray(HUNDRED_THOUSAND, 0, HUNDRED_THOUSAND, true);
 
-suite
-  .add(`SRC PQ ${MILLION.toLocaleString()} add`, () => {
-    const pq = new SRCPriorityQueue<number>();
-    for (let i = 0; i < MILLION; i++) pq.add(i);
-  })
-  .add(`CJS PQ ${HUNDRED_THOUSAND.toLocaleString()} add`, () => {
-    const pq = new CJSPriorityQueue<number>();
-    for (let i = 0; i < HUNDRED_THOUSAND; i++) pq.add(i);
-  })
-  .add(`MJS PQ ${HUNDRED_THOUSAND.toLocaleString()} add`, () => {
-    const pq = new MJSPriorityQueue<number>([], {
-      comparator: (a, b) => b - a
-    });
-    for (let i = 0; i < HUNDRED_THOUSAND; i++) pq.add(i);
-  });
+suite.add(`SRC PQ ${MILLION.toLocaleString()} add`, () => {
+  const pq = new SRCPriorityQueue<number>();
+  for (let i = 0; i < MILLION; i++) pq.add(i);
+});
 
 if (isCompetitor) {
   suite.add(`CPT PQ ${HUNDRED_THOUSAND.toLocaleString()} add`, () => {
@@ -43,31 +30,14 @@ if (isCompetitor) {
   });
 }
 
-suite
-  .add(`SRC PQ ${HUNDRED_THOUSAND.toLocaleString()} add & poll`, () => {
-    const pq = new SRCPriorityQueue<number>([], {
-      comparator: (a, b) => b - a
-    });
-
-    for (let i = 0; i < HUNDRED_THOUSAND; i++) pq.add(i);
-    for (let i = 0; i < HUNDRED_THOUSAND; i++) pq.poll();
-  })
-  .add(`CJS PQ ${HUNDRED_THOUSAND.toLocaleString()} add & poll`, () => {
-    const pq = new CJSPriorityQueue<number>([], {
-      comparator: (a, b) => b - a
-    });
-
-    for (let i = 0; i < HUNDRED_THOUSAND; i++) pq.add(i);
-    for (let i = 0; i < HUNDRED_THOUSAND; i++) pq.poll();
-  })
-  .add(`MJS PQ ${HUNDRED_THOUSAND.toLocaleString()} add & poll`, () => {
-    const pq = new MJSPriorityQueue<number>([], {
-      comparator: (a, b) => b - a
-    });
-
-    for (let i = 0; i < HUNDRED_THOUSAND; i++) pq.add(i);
-    for (let i = 0; i < HUNDRED_THOUSAND; i++) pq.poll();
+suite.add(`SRC PQ ${HUNDRED_THOUSAND.toLocaleString()} add & poll`, () => {
+  const pq = new SRCPriorityQueue<number>([], {
+    comparator: (a, b) => b - a
   });
+
+  for (let i = 0; i < HUNDRED_THOUSAND; i++) pq.add(i);
+  for (let i = 0; i < HUNDRED_THOUSAND; i++) pq.poll();
+});
 
 if (isCompetitor) {
   suite

@@ -1965,9 +1965,7 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [options] - Options for the new tree.
    * @returns A new, empty tree.
    */
-  protected _createInstance<TK = K, TV = V, TR = R>(
-    options?: Partial<BinaryTreeOptions<TK, TV, TR>>
-  ): this {
+  protected _createInstance<TK = K, TV = V, TR = R>(options?: Partial<BinaryTreeOptions<TK, TV, TR>>): this {
     const Ctor = this.constructor as unknown as new (
       iter?: Iterable<TK | BinaryTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
       opts?: BinaryTreeOptions<TK, TV, TR>

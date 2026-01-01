@@ -100,10 +100,7 @@ export class TreeCounterNode<K = any, V = any> extends RedBlackTreeNode<K, V> {
  * @template V
  * @template R
  */
-export class TreeCounter<K = any, V = any, R = any>
-  extends RedBlackTree<K, V, R>
-  implements IBinaryTree<K, V, R>
-{
+export class TreeCounter<K = any, V = any, R = any> extends RedBlackTree<K, V, R> implements IBinaryTree<K, V, R> {
   /**
    * Create a TreeCounter and optionally bulk-insert items.
    * @remarks Time O(N log N), Space O(N)
@@ -377,9 +374,7 @@ export class TreeCounter<K = any, V = any, R = any>
    * @param [options] - Optional constructor options for the like-kind instance.
    * @returns An empty like-kind instance.
    */
-  protected override _createInstance<TK = K, TV = V, TR = R>(
-    options?: Partial<BSTOptions<TK, TV, TR>>
-  ): this {
+  protected override _createInstance<TK = K, TV = V, TR = R>(options?: Partial<BSTOptions<TK, TV, TR>>): this {
     const Ctor = this.constructor as unknown as new (
       iter?: Iterable<TK | BSTNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
       opts?: BSTOptions<TK, TV, TR>

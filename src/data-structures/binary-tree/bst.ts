@@ -165,10 +165,7 @@ export class BSTNode<K = any, V = any> extends BinaryTreeNode<K, V> {
  *     console.log(findLCA(5, 35)); // 15
  *     console.log(findLCA(20, 30)); // 25
  */
-export class BST<K = any, V = any, R = any>
-  extends BinaryTree<K, V, R>
-  implements IBinaryTree<K, V, R>
-{
+export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implements IBinaryTree<K, V, R> {
   /**
    * Creates an instance of BST.
    * @remarks Time O(N log N) or O(N^2) depending on `isBalanceAdd` in `addMany` and input order. Space O(N).
@@ -864,9 +861,7 @@ export class BST<K = any, V = any, R = any>
    * @param [options] - Options for the new BST.
    * @returns A new, empty BST.
    */
-  protected override _createInstance<TK = K, TV = V, TR = R>(
-    options?: Partial<BSTOptions<TK, TV, TR>>
-  ): this {
+  protected override _createInstance<TK = K, TV = V, TR = R>(options?: Partial<BSTOptions<TK, TV, TR>>): this {
     const Ctor = this.constructor as unknown as new (
       iter?: Iterable<TK | BSTNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
       opts?: BSTOptions<TK, TV, TR>

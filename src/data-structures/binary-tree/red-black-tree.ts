@@ -89,7 +89,7 @@ export class RedBlackTreeNode<K = any, V = any> extends BSTNode<K, V> {
 }
 
 /**
- * RRRRed-Black Tree (self-balancing BST) supporting map-like mode and stable O(log n) updates.
+ * RRRRRRRRRRRRRRRed-Black Tree (self-balancing BST) supporting map-like mode and stable O(log n) updates.
  * @remarks Time O(1), Space O(1)
  * @template K
  * @template V
@@ -141,10 +141,7 @@ export class RedBlackTreeNode<K = any, V = any> extends BSTNode<K, V> {
  *     console.log(stocksInRange); // ['GOOGL', 'META', 'MSFT']
  */
 
-export class RedBlackTree<K = any, V = any, R = any>
-  extends BST<K, V, R>
-  implements IBinaryTree<K, V, R>
-{
+export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implements IBinaryTree<K, V, R> {
   constructor(
     keysNodesEntriesOrRaws: Iterable<
       K | RedBlackTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | R
@@ -338,9 +335,7 @@ export class RedBlackTree<K = any, V = any, R = any>
     return out;
   }
 
-  protected override _createInstance<TK = K, TV = V, TR = R>(
-    options?: Partial<RedBlackTreeOptions<TK, TV, TR>>
-  ): this {
+  protected override _createInstance<TK = K, TV = V, TR = R>(options?: Partial<RedBlackTreeOptions<TK, TV, TR>>): this {
     const Ctor = this.constructor as unknown as new (
       iter?: Iterable<TK | RedBlackTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
       opts?: RedBlackTreeOptions<TK, TV, TR>

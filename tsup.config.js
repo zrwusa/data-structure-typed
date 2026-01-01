@@ -1,8 +1,8 @@
-export default [
+import { defineConfig } from 'tsup';
+
+export default defineConfig([
   {
-    entryPoints: {
-      "data-structure-typed": "src/index.ts"
-    },
+    entry: { "data-structure-typed": "src/index.ts" },
     target: 'es6',
     format: ["iife"],
     clean: true,
@@ -11,30 +11,19 @@ export default [
     outDir: "dist/umd",
     globalName: "dataStructureTyped",
     platform: "browser",
-    bundle: true,
-    outExtension() {
-      return {
-        js: `.min.js`,
-      }
-    },
+    outExtension: () => ({ js: '.min.js' }),
   },
+  // 配置 2: Unminified (开发调试用)
   {
-    entryPoints: {
-      "data-structure-typed": "src/index.ts"
-    },
+    entry: { "data-structure-typed": "src/index.ts" },
     target: 'es6',
     format: ["iife"],
-    clean: true,
-    sourcemap: false,
+    clean: false,
+    sourcemap: true,
     minify: false,
     outDir: "dist/umd",
     globalName: "dataStructureTyped",
     platform: "browser",
-    bundle: true,
-    outExtension() {
-      return {
-        js: `.js`,
-      }
-    },
+    outExtension: () => ({ js: '.js' }),
   }
-];
+]);

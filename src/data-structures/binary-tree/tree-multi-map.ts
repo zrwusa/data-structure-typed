@@ -250,10 +250,7 @@ export class TreeMultiMapNode<K = any, V = any> extends RedBlackTreeNode<K, V[]>
  *  //      ]
  *  //    ]
  */
-export class TreeMultiMap<K = any, V = any, R = any>
-  extends RedBlackTree<K, V[], R>
-  implements IBinaryTree<K, V[], R>
-{
+export class TreeMultiMap<K = any, V = any, R = any> extends RedBlackTree<K, V[], R> implements IBinaryTree<K, V[], R> {
   /**
    * Create a TreeMultiMap and optionally bulk-insert items.
    * @remarks Time O(N log N), Space O(N)
@@ -408,9 +405,7 @@ export class TreeMultiMap<K = any, V = any, R = any>
    * @param [options] - Optional constructor options for the like-kind instance.
    * @returns An empty like-kind instance.
    */
-  protected override _createInstance<TK = K, TV = V, TR = R>(
-    options?: Partial<RedBlackTreeOptions<TK, TV, TR>>
-  ): this {
+  protected override _createInstance<TK = K, TV = V, TR = R>(options?: Partial<RedBlackTreeOptions<TK, TV, TR>>): this {
     const Ctor = this.constructor as unknown as new (
       iter?: Iterable<TK | RedBlackTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
       opts?: RedBlackTreeOptions<TK, TV, TR>
