@@ -151,60 +151,75 @@ function addExamplesToSourceFile(
   const sourceContent = fs.readFileSync(sourceFilePath, 'utf-8');
   const sourceFile = ts.createSourceFile(sourceFilePath, sourceContent, ts.ScriptTarget.Latest, true);
 
-  let updatedContent = sourceContent;
-
   const classNode = sourceFile.statements.find(
     stmt => ts.isClassDeclaration(stmt) && stmt.name?.text === className
   ) as ts.ClassDeclaration | undefined;
 
-  if (classNode) {
-    const classStart = classNode.getStart(sourceFile);
-    const classEnd = classNode.getEnd();
-    const classText = classNode.getFullText(sourceFile);
+  if (!classNode) return;
 
-    // Extract annotation content
-    const existingCommentMatch = classText.match(/\/\*\*([\s\S]*?)\*\//);
-    if (!existingCommentMatch) {
-      console.warn(`No existing comment found for class: ${className}`);
-      return;
-    }
+  // getFullStart() includes leading comments/trivia
+  const fullStart = classNode.getFullStart();
+  const classStart = classNode.getStart(sourceFile); // usually points at `export class ...`
 
-    const existingCommentInner = existingCommentMatch[1].replace(/^\n \* /, ''); // Extract comment content (excluding `/**` and `*/`)
-
-    // Replace @example part
-    const exampleSection = examples
-      .map(
-        example => {
-          const indentedBody = '    ' + example.body;
-          return ` * @example\n * \/\/ ${example.name}\n${indentedBody
-            .split('\n')
-            .map(line => {
-              if (line.trim() === '') return ` *`
-              return ` * ${line}`})
-            .join('\n')}`
-        }
-      )
-      .join('\n') + '\n ';
-
-    let newComment = '';
-    if (existingCommentInner.includes('@example')) {
-      newComment = existingCommentInner.replace(/ \* @example[\s\S]*?(?=\*\/|$)/g, exampleSection);
-    } else {
-      newComment = existingCommentInner + `${exampleSection.trimStart()}`;
-    }
-
-
-    // Replace original content
-    updatedContent =
-      sourceContent.slice(0, classStart - existingCommentInner.length - 3) +
-      newComment +
-      classText.slice(existingCommentMatch[0].length).trim() +
-      sourceContent.slice(classEnd);
+  // Search only in the leading trivia region for the nearest JSDoc block
+  const leadingRegion = sourceContent.slice(fullStart, classStart);
+  const commentStartInLeading = leadingRegion.lastIndexOf('/**');
+  if (commentStartInLeading === -1) {
+    console.warn(`No existing comment found for class: ${className}`);
+    return;
   }
+  const commentStart = fullStart + commentStartInLeading;
+
+  const commentEnd = sourceContent.indexOf('*/', commentStart);
+  if (commentEnd === -1 || commentEnd > classStart) {
+    console.warn(`Malformed comment for class: ${className}`);
+    return;
+  }
+  const commentEndInclusive = commentEnd + 2;
+
+  const existingCommentBlock = sourceContent.slice(commentStart, commentEndInclusive);
+  const existingCommentMatch = existingCommentBlock.match(/\/\*\*([\s\S]*?)\*\//);
+  if (!existingCommentMatch) {
+    console.warn(`No existing comment found for class: ${className}`);
+    return;
+  }
+
+  const existingCommentInner = existingCommentMatch[1]; // keep inner as-is, including leading newline
+
+  const exampleSection =
+    examples
+      .map(example => {
+        const indentedBody = '    ' + example.body;
+        return ` * @example\n * \/\/ ${example.name}\n${indentedBody
+          .split('\n')
+          .map(line => (line.trim() === '' ? ` *` : ` * ${line}`))
+          .join('\n')}`;
+      })
+      .join('\n') + '\n';
+
+  let newInner: string;
+  if (existingCommentInner.includes('@example')) {
+    // Replace from the first " * @example" to the end of the block (before */)
+    newInner = existingCommentInner.replace(/^\s*\*\s@example[\s\S]*$/m, exampleSection.trimEnd());
+    // Important: the regex above may not catch if @example is not at line start exactly with spaces.
+    // A safer approach:
+    newInner = existingCommentInner.replace(/ \* @example[\s\S]*?(?=\*\/|$)/g, exampleSection);
+  } else {
+    newInner = existingCommentInner.replace(/\s*$/, '\n') + exampleSection;
+  }
+
+  // Rebuild full comment block
+  const newCommentBlock = `/**${newInner.replace(/^\n?/, '\n').replace(/\s*$/, '\n')} */`;
+
+  const updatedContent =
+    sourceContent.slice(0, commentStart) +
+    newCommentBlock +
+    sourceContent.slice(commentEndInclusive);
 
   fs.writeFileSync(sourceFilePath, updatedContent, 'utf-8');
   console.log(`Updated examples in ${sourceFilePath}`);
 }
+
 
 
 /**
