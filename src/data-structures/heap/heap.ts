@@ -190,7 +190,7 @@ import { IterableElementBase } from '../base';
  *     ]);
  *     console.log(scheduleTasks(tasks, 2)); // expectedMap
  */
-export class Heap<E = unknown, R = never> extends IterableElementBase<E, R> {
+export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
   protected _equals: (a: E, b: E) => boolean = Object.is;
 
   /**
@@ -255,7 +255,7 @@ export class Heap<E = unknown, R = never> extends IterableElementBase<E, R> {
    * @returns A new heap instance of this class.
    */
 
-  static from<T, R = never, S extends Heap<T, R> = Heap<T, R>>(
+  static from<T, R = any, S extends Heap<T, R> = Heap<T, R>>(
     this: new (elements?: Iterable<T | R>, options?: HeapOptions<T, R>) => S,
     elements?: Iterable<T | R>,
     options?: HeapOptions<T, R>
@@ -273,7 +273,7 @@ export class Heap<E = unknown, R = never> extends IterableElementBase<E, R> {
    * @returns A new Heap built from elements.
    */
 
-  static heapify<EE = unknown, RR = never>(elements: Iterable<EE>, options: HeapOptions<EE, RR>): Heap<EE, RR> {
+  static heapify<EE = any, RR = any>(elements: Iterable<EE>, options: HeapOptions<EE, RR>): Heap<EE, RR> {
     return new Heap<EE, RR>(elements, options);
   }
 
