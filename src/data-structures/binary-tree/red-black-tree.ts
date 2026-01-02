@@ -89,7 +89,7 @@ export class RedBlackTreeNode<K = any, V = any> extends BSTNode<K, V> {
 }
 
 /**
- * RRRepresents a Red-Black Tree (self-balancing BST) supporting map-like mode and stable O(log n) updates.
+ * RRRRRRRRRRRepresents a Red-Black Tree (self-balancing BST) supporting map-like mode and stable O(log n) updates.
  * @remarks Time O(1), Space O(1)
  * @template K
  * @template V

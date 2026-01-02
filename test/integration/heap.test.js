@@ -1,4 +1,4 @@
-const { MinHeap } = require('heap-typed');
+const { MinHeap } = require('data-structure-typed');
 
 describe('JS Heap Operation Test', () => {
   it('should numeric heap work well', function () {

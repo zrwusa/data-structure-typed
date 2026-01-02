@@ -16,7 +16,6 @@
     "strict": true,
     "traceResolution": false,
     "noImplicitOverride": true,
-
     "types": ["node"]
   },
   "compileOnSave": false,

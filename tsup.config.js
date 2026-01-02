@@ -3,7 +3,7 @@ import { defineConfig } from 'tsup';
 export default defineConfig([
   {
     entry: { "data-structure-typed": "src/index.ts" },
-    target: 'es6',
+    target: 'es2018',
     format: ["iife"],
     clean: true,
     sourcemap: true,
@@ -13,10 +13,9 @@ export default defineConfig([
     platform: "browser",
     outExtension: () => ({ js: '.min.js' }),
   },
-  // 配置 2: Unminified (开发调试用)
   {
     entry: { "data-structure-typed": "src/index.ts" },
-    target: 'es6',
+    target: 'es2018',
     format: ["iife"],
     clean: false,
     sourcemap: true,

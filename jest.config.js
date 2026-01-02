@@ -3,7 +3,7 @@ module.exports = {
   testEnvironment: 'node',
   testMatch: ['<rootDir>/test/unit/**/*.test.ts', '<rootDir>/test/unit/**/*.test.js'],
   transform: {
-    '^.+\\.(ts|tsx)$': ['ts-jest', { tsconfig: 'tsconfig.test.json' }],
+    '^.+\\.(ts|tsx)$': ['ts-jest', { tsconfig: 'tsconfig.test.json' }]
   },
   collectCoverage: true,
   coverageReporters: ['clover', 'json', 'lcov', ['text', { skipFull: true }], 'json-summary'],
@@ -18,6 +18,6 @@ module.exports = {
     '!src/**/fixtures/**',
     '!src/**/examples/**',
     '!src/**/bench/**',
-    '!src/**/cli/**',
-  ],
+    '!src/**/cli/**'
+  ]
 };

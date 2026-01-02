@@ -1,12 +1,10 @@
 {
-  "extends": "./tsconfig-base.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "target": "ES2018",
     "lib": ["ES2018", "DOM"],
-
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-
     "declaration": true,
     "emitDeclarationOnly": true,
     "declarationMap": false,
