@@ -10,16 +10,18 @@ import type {
   BinaryTreeDeleteResult,
   BinaryTreeOptions,
   CRUD,
-  EntryCallback,
+  EntryCallback, FamilyPosition,
   OptNode,
   RBTNColor,
   RedBlackTreeOptions
 } from '../../types';
-import { BST, BSTNode } from './bst';
+import { BST } from './bst';
 import { IBinaryTree } from '../../interfaces';
 
-export class RedBlackTreeNode<K = any, V = any> extends BSTNode<K, V> {
-  override parent?: RedBlackTreeNode<K, V> = undefined;
+export class RedBlackTreeNode<K = any, V = any> {
+  key: K;
+  value?: V;
+  parent?: RedBlackTreeNode<K, V> = undefined;
 
   /**
    * Create a Red-Black Tree and optionally bulk-insert items.
@@ -31,11 +33,12 @@ export class RedBlackTreeNode<K = any, V = any> extends BSTNode<K, V> {
    */
 
   constructor(key: K, value?: V, color: RBTNColor = 'BLACK') {
-    super(key, value);
-    this._color = color;
+      this.key = key;
+      this.value = value;
+      this.color = color;
   }
 
-  override _left?: RedBlackTreeNode<K, V> | null | undefined = undefined;
+  _left?: RedBlackTreeNode<K, V> | null | undefined = undefined;
 
   /**
    * Get the left child pointer.
@@ -43,7 +46,7 @@ export class RedBlackTreeNode<K = any, V = any> extends BSTNode<K, V> {
    * @returns Left child node, or null/undefined.
    */
 
-  override get left(): RedBlackTreeNode<K, V> | null | undefined {
+  get left(): RedBlackTreeNode<K, V> | null | undefined {
     return this._left;
   }
 
@@ -54,14 +57,14 @@ export class RedBlackTreeNode<K = any, V = any> extends BSTNode<K, V> {
    * @returns void
    */
 
-  override set left(v: RedBlackTreeNode<K, V> | null | undefined) {
+  set left(v: RedBlackTreeNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
     }
     this._left = v;
   }
 
-  override _right?: RedBlackTreeNode<K, V> | null | undefined = undefined;
+  _right?: RedBlackTreeNode<K, V> | null | undefined = undefined;
 
   /**
    * Get the right child pointer.
@@ -69,7 +72,7 @@ export class RedBlackTreeNode<K = any, V = any> extends BSTNode<K, V> {
    * @returns Right child node, or null/undefined.
    */
 
-  override get right(): RedBlackTreeNode<K, V> | null | undefined {
+  get right(): RedBlackTreeNode<K, V> | null | undefined {
     return this._right;
   }
 
@@ -80,11 +83,97 @@ export class RedBlackTreeNode<K = any, V = any> extends BSTNode<K, V> {
    * @returns void
    */
 
-  override set right(v: RedBlackTreeNode<K, V> | null | undefined) {
+  set right(v: RedBlackTreeNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
     }
     this._right = v;
+  }
+
+  _height: number = 0;
+
+  /**
+   * Gets the height of the node (used in self-balancing trees).
+   * @remarks Time O(1), Space O(1)
+   *
+   * @returns The height.
+   */
+  get height(): number {
+    return this._height;
+  }
+
+  /**
+   * Sets the height of the node.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @param value - The new height.
+   */
+  set height(value: number) {
+    this._height = value;
+  }
+
+  _color: RBTNColor = 'BLACK';
+
+  /**
+   * Gets the color of the node (used in Red-Black trees).
+   * @remarks Time O(1), Space O(1)
+   *
+   * @returns The node's color.
+   */
+  get color(): RBTNColor {
+    return this._color;
+  }
+
+  /**
+   * Sets the color of the node.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @param value - The new color.
+   */
+  set color(value: RBTNColor) {
+    this._color = value;
+  }
+
+  _count: number = 1;
+
+  /**
+   * Gets the count of nodes in the subtree rooted at this node (used in order-statistic trees).
+   * @remarks Time O(1), Space O(1)
+   *
+   * @returns The subtree node count.
+   */
+  get count(): number {
+    return this._count;
+  }
+
+  /**
+   * Sets the count of nodes in the subtree.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @param value - The new count.
+   */
+  set count(value: number) {
+    this._count = value;
+  }
+
+  /**
+   * Gets the position of the node relative to its parent.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @returns The family position (e.g., 'ROOT', 'LEFT', 'RIGHT').
+   */
+  get familyPosition(): FamilyPosition {
+    if (!this.parent) {
+      return this.left || this.right ? 'ROOT' : 'ISOLATED';
+    }
+
+    if (this.parent.left === this) {
+      return this.left || this.right ? 'ROOT_LEFT' : 'LEFT';
+    } else if (this.parent.right === this) {
+      return this.left || this.right ? 'ROOT_RIGHT' : 'RIGHT';
+    }
+
+    return 'MAL_NODE';
   }
 }
 
@@ -94,7 +183,7 @@ export class RedBlackTreeNode<K = any, V = any> extends BSTNode<K, V> {
  * @template K
  * @template V
  * @template R
- * 1. Efficient self-balancing, but not completely balanced. Compared with AVLTree, the addition and deletion efficiency is high but the query efficiency is slightly lower.
+ * 1. Efficient self-balancing, but not completely balanced. Compared with AVLTree, the addition and deletion efficiency is high, but the query efficiency is slightly lower.
  * 2. It is BST itself. Compared with Heap which is not completely ordered, RedBlackTree is completely ordered.
  * @example
  * // using Red-Black Tree as a price-based index for stock data
@@ -380,10 +469,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    */
 
   protected _insert(node: RedBlackTreeNode<K, V>): CRUD {
-    let current = this.root;
+    let current = this.root ?? this.NIL;
     let parent: RedBlackTreeNode<K, V> | undefined = undefined;
 
-    while (this.isRealNode(current)) {
+    while (current !== this.NIL) {
       parent = current;
       const compared = this._compare(node.key, current.key);
       if (compared < 0) {
@@ -459,7 +548,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
             this._leftRotate(z);
           }
 
-          if (z && this.isRealNode(z.parent) && this.isRealNode(z.parent.parent)) {
+          if (z && z.parent && z.parent.parent) {
             z.parent.color = 'BLACK';
             z.parent.parent.color = 'RED';
             this._rightRotate(z.parent.parent);
@@ -478,7 +567,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
             this._rightRotate(z);
           }
 
-          if (z && this.isRealNode(z.parent) && this.isRealNode(z.parent.parent)) {
+          if (z && z.parent && z.parent.parent) {
             z.parent.color = 'BLACK';
             z.parent.parent.color = 'RED';
             this._leftRotate(z.parent.parent);
@@ -575,7 +664,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     const y = x.right;
     x.right = y.left;
 
-    if (this.isRealNode(y.left)) {
+    if (y.left && y.left !== this.NIL) {
       y.left.parent = x;
     }
 
@@ -608,7 +697,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     const x = y.left;
     y.left = x.right;
 
-    if (this.isRealNode(x.right)) {
+    if (x.right && x.right !== this.NIL) {
       x.right.parent = y;
     }
 

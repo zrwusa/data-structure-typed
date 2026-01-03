@@ -6,14 +6,14 @@
  * @license MIT License
  */
 
-import { BST, BSTNode } from './bst';
+import { BST } from './bst';
 import type {
   AVLTreeOptions,
   BinaryTreeDeleteResult,
   BinaryTreeOptions,
   BSTNOptKeyOrNode,
-  EntryCallback,
-  IterationType
+  EntryCallback, FamilyPosition,
+  IterationType, RBTNColor
 } from '../../types';
 import { BSTOptions } from '../../types';
 import { IBinaryTree } from '../../interfaces';
@@ -25,8 +25,10 @@ import { IBinaryTree } from '../../interfaces';
  * @template K - The type of the key.
  * @template V - The type of the value.
  */
-export class AVLTreeNode<K = any, V = any> extends BSTNode<K, V> {
-  override parent?: AVLTreeNode<K, V> = undefined;
+export class AVLTreeNode<K = any, V = any> {
+  key: K;
+  value?: V;
+  parent?: AVLTreeNode<K, V> = undefined;
 
   /**
    * Creates an instance of AVLTreeNode.
@@ -36,10 +38,11 @@ export class AVLTreeNode<K = any, V = any> extends BSTNode<K, V> {
    * @param [value] - The value associated with the key.
    */
   constructor(key: K, value?: V) {
-    super(key, value);
+    this.key = key;
+    this.value = value;
   }
 
-  override _left?: AVLTreeNode<K, V> | null | undefined = undefined;
+  _left?: AVLTreeNode<K, V> | null | undefined = undefined;
 
   /**
    * Gets the left child of the node.
@@ -47,7 +50,7 @@ export class AVLTreeNode<K = any, V = any> extends BSTNode<K, V> {
    *
    * @returns The left child.
    */
-  override get left(): AVLTreeNode<K, V> | null | undefined {
+  get left(): AVLTreeNode<K, V> | null | undefined {
     return this._left;
   }
 
@@ -57,14 +60,14 @@ export class AVLTreeNode<K = any, V = any> extends BSTNode<K, V> {
    *
    * @param v - The node to set as the left child.
    */
-  override set left(v: AVLTreeNode<K, V> | null | undefined) {
+  set left(v: AVLTreeNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
     }
     this._left = v;
   }
 
-  override _right?: AVLTreeNode<K, V> | null | undefined = undefined;
+  _right?: AVLTreeNode<K, V> | null | undefined = undefined;
 
   /**
    * Gets the right child of the node.
@@ -72,7 +75,7 @@ export class AVLTreeNode<K = any, V = any> extends BSTNode<K, V> {
    *
    * @returns The right child.
    */
-  override get right(): AVLTreeNode<K, V> | null | undefined {
+  get right(): AVLTreeNode<K, V> | null | undefined {
     return this._right;
   }
 
@@ -82,11 +85,96 @@ export class AVLTreeNode<K = any, V = any> extends BSTNode<K, V> {
    *
    * @param v - The node to set as the right child.
    */
-  override set right(v: AVLTreeNode<K, V> | null | undefined) {
+  set right(v: AVLTreeNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
     }
     this._right = v;
+  }
+  _height: number = 0;
+
+  /**
+   * Gets the height of the node (used in self-balancing trees).
+   * @remarks Time O(1), Space O(1)
+   *
+   * @returns The height.
+   */
+  get height(): number {
+    return this._height;
+  }
+
+  /**
+   * Sets the height of the node.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @param value - The new height.
+   */
+  set height(value: number) {
+    this._height = value;
+  }
+
+  _color: RBTNColor = 'BLACK';
+
+  /**
+   * Gets the color of the node (used in Red-Black trees).
+   * @remarks Time O(1), Space O(1)
+   *
+   * @returns The node's color.
+   */
+  get color(): RBTNColor {
+    return this._color;
+  }
+
+  /**
+   * Sets the color of the node.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @param value - The new color.
+   */
+  set color(value: RBTNColor) {
+    this._color = value;
+  }
+
+  _count: number = 1;
+
+  /**
+   * Gets the count of nodes in the subtree rooted at this node (used in order-statistic trees).
+   * @remarks Time O(1), Space O(1)
+   *
+   * @returns The subtree node count.
+   */
+  get count(): number {
+    return this._count;
+  }
+
+  /**
+   * Sets the count of nodes in the subtree.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @param value - The new count.
+   */
+  set count(value: number) {
+    this._count = value;
+  }
+
+  /**
+   * Gets the position of the node relative to its parent.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @returns The family position (e.g., 'ROOT', 'LEFT', 'RIGHT').
+   */
+  get familyPosition(): FamilyPosition {
+    if (!this.parent) {
+      return this.left || this.right ? 'ROOT' : 'ISOLATED';
+    }
+
+    if (this.parent.left === this) {
+      return this.left || this.right ? 'ROOT_LEFT' : 'LEFT';
+    } else if (this.parent.right === this) {
+      return this.left || this.right ? 'ROOT_RIGHT' : 'RIGHT';
+    }
+
+    return 'MAL_NODE';
   }
 }
 
@@ -327,7 +415,7 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    */
   protected override _createInstance<TK = K, TV = V, TR = R>(options?: Partial<BSTOptions<TK, TV, TR>>): this {
     const Ctor = this.constructor as unknown as new (
-      iter?: Iterable<TK | BSTNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
+      iter?: Iterable<TK | AVLTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
       opts?: BSTOptions<TK, TV, TR>
     ) => this;
     return new Ctor([], { ...this._snapshotOptions<TK, TV, TR>(), ...(options ?? {}) }) as unknown as this;
@@ -343,11 +431,11 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    * @returns A new AVLTree.
    */
   protected override _createLike<TK = K, TV = V, TR = R>(
-    iter: Iterable<TK | BSTNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR> = [],
+    iter: Iterable<TK | AVLTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR> = [],
     options?: Partial<BSTOptions<TK, TV, TR>>
   ): AVLTree<TK, TV, TR> {
     const Ctor = this.constructor as unknown as new (
-      iter?: Iterable<TK | BSTNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
+      iter?: Iterable<TK | AVLTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
       opts?: BSTOptions<TK, TV, TR>
     ) => AVLTree<TK, TV, TR>;
     return new Ctor(iter, { ...this._snapshotOptions<TK, TV, TR>(), ...(options ?? {}) });

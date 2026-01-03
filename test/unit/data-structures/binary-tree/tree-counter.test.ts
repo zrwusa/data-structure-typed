@@ -757,9 +757,10 @@ describe('TreeCounter iterative methods test', () => {
 
   it('The node obtained by get Node should match the node type', () => {
     const node3 = treeCounter.getNode(3);
-    expect(node3).toBeInstanceOf(BinaryTreeNode);
-    expect(node3).toBeInstanceOf(BSTNode);
-    expect(node3).toBeInstanceOf(RedBlackTreeNode);
+    // expect(node3).toBeInstanceOf(BinaryTreeNode);
+    // expect(node3).toBeInstanceOf(BSTNode);
+    // expect(node3).toBeInstanceOf(RedBlackTreeNode);
+    expect(node3).toBeInstanceOf(TreeCounterNode);
   });
 
   it('forEach should iterate over all elements', () => {

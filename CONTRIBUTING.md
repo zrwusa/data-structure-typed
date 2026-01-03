@@ -82,6 +82,10 @@
 - `git push`
 - click the `New pull request` on Github https://github.com/zrwusa/data-structure-typed/branches
 
+**performance inspection**
+- `node --inspect-brk benchmark/all.js`  
+- chrome://inspect/#devices -> Open dedicated DevTools for Node
+
 **Contributing New Data Structures**
 
 - Make your pull requests to be **specific** and **focused**. Instead of

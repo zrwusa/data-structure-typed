@@ -1,6 +1,6 @@
 {
   "name": "data-structure-typed",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "Standard data structure",
   "browser": "dist/umd/data-structure-typed.min.js",
   "umd:main": "dist/umd/data-structure-typed.min.js",
@@ -10,8 +10,26 @@
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
+      "node": {
+        "import": "./dist/esm/index.mjs",
+        "require": "./dist/cjs/index.cjs"
+      },
+      "browser": {
+        "import": "./dist/esm-legacy/index.mjs",
+        "require": "./dist/cjs-legacy/index.cjs"
+      },
+      "import": "./dist/esm-legacy/index.mjs",
+      "require": "./dist/cjs-legacy/index.cjs"
+    },
+    "./modern": {
+      "types": "./dist/types/index.d.ts",
       "import": "./dist/esm/index.mjs",
       "require": "./dist/cjs/index.cjs"
+    },
+    "./legacy": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm-legacy/index.mjs",
+      "require": "./dist/cjs-legacy/index.cjs"
     }
   },
   "sideEffects": false,

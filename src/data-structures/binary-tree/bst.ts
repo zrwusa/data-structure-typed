@@ -15,11 +15,11 @@ import type {
   Comparator,
   CP,
   DFSOrderPattern,
-  EntryCallback,
+  EntryCallback, FamilyPosition,
   IterationType,
   NodeCallback,
   NodePredicate,
-  OptNode
+  OptNode, RBTNColor
 } from '../../types';
 import { BinaryTree, BinaryTreeNode } from './binary-tree';
 import { IBinaryTree } from '../../interfaces';
@@ -33,8 +33,10 @@ import { Range } from '../../common';
  * @template K - The type of the key.
  * @template V - The type of the value.
  */
-export class BSTNode<K = any, V = any> extends BinaryTreeNode<K, V> {
-  override parent?: BSTNode<K, V> = undefined;
+export class BSTNode<K = any, V = any> {
+  key: K;
+  value?: V;
+  parent?: BSTNode<K, V> = undefined;
 
   /**
    * Creates an instance of BSTNode.
@@ -44,10 +46,11 @@ export class BSTNode<K = any, V = any> extends BinaryTreeNode<K, V> {
    * @param [value] - The value associated with the key.
    */
   constructor(key: K, value?: V) {
-    super(key, value);
+    this.key = key;
+    this.value = value;
   }
 
-  override _left?: BSTNode<K, V> | null | undefined = undefined;
+  _left?: BSTNode<K, V> | null | undefined = undefined;
 
   /**
    * Gets the left child of the node.
@@ -55,7 +58,7 @@ export class BSTNode<K = any, V = any> extends BinaryTreeNode<K, V> {
    *
    * @returns The left child.
    */
-  override get left(): BSTNode<K, V> | null | undefined {
+  get left(): BSTNode<K, V> | null | undefined {
     return this._left;
   }
 
@@ -65,12 +68,12 @@ export class BSTNode<K = any, V = any> extends BinaryTreeNode<K, V> {
    *
    * @param v - The node to set as the left child.
    */
-  override set left(v: BSTNode<K, V> | null | undefined) {
+  set left(v: BSTNode<K, V> | null | undefined) {
     if (v) v.parent = this;
     this._left = v;
   }
 
-  override _right?: BSTNode<K, V> | null | undefined = undefined;
+  _right?: BSTNode<K, V> | null | undefined = undefined;
 
   /**
    * Gets the right child of the node.
@@ -78,7 +81,7 @@ export class BSTNode<K = any, V = any> extends BinaryTreeNode<K, V> {
    *
    * @returns The right child.
    */
-  override get right(): BSTNode<K, V> | null | undefined {
+  get right(): BSTNode<K, V> | null | undefined {
     return this._right;
   }
 
@@ -88,9 +91,95 @@ export class BSTNode<K = any, V = any> extends BinaryTreeNode<K, V> {
    *
    * @param v - The node to set as the right child.
    */
-  override set right(v: BSTNode<K, V> | null | undefined) {
+  set right(v: BSTNode<K, V> | null | undefined) {
     if (v) v.parent = this;
     this._right = v;
+  }
+
+  _height: number = 0;
+
+  /**
+   * Gets the height of the node (used in self-balancing trees).
+   * @remarks Time O(1), Space O(1)
+   *
+   * @returns The height.
+   */
+  get height(): number {
+    return this._height;
+  }
+
+  /**
+   * Sets the height of the node.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @param value - The new height.
+   */
+  set height(value: number) {
+    this._height = value;
+  }
+
+  _color: RBTNColor = 'BLACK';
+
+  /**
+   * Gets the color of the node (used in Red-Black trees).
+   * @remarks Time O(1), Space O(1)
+   *
+   * @returns The node's color.
+   */
+  get color(): RBTNColor {
+    return this._color;
+  }
+
+  /**
+   * Sets the color of the node.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @param value - The new color.
+   */
+  set color(value: RBTNColor) {
+    this._color = value;
+  }
+
+  _count: number = 1;
+
+  /**
+   * Gets the count of nodes in the subtree rooted at this node (used in order-statistic trees).
+   * @remarks Time O(1), Space O(1)
+   *
+   * @returns The subtree node count.
+   */
+  get count(): number {
+    return this._count;
+  }
+
+  /**
+   * Sets the count of nodes in the subtree.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @param value - The new count.
+   */
+  set count(value: number) {
+    this._count = value;
+  }
+
+  /**
+   * Gets the position of the node relative to its parent.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @returns The family position (e.g., 'ROOT', 'LEFT', 'RIGHT').
+   */
+  get familyPosition(): FamilyPosition {
+    if (!this.parent) {
+      return this.left || this.right ? 'ROOT' : 'ISOLATED';
+    }
+
+    if (this.parent.left === this) {
+      return this.left || this.right ? 'ROOT_LEFT' : 'LEFT';
+    } else if (this.parent.right === this) {
+      return this.left || this.right ? 'ROOT_RIGHT' : 'RIGHT';
+    }
+
+    return 'MAL_NODE';
   }
 }
 

@@ -6,9 +6,17 @@
  * @license MIT License
  */
 
-import type { BTNOptKeyOrNull, ElemOf, EntryCallback, RedBlackTreeOptions, TreeMultiMapOptions } from '../../types';
+import type {
+  BTNOptKeyOrNull,
+  ElemOf,
+  EntryCallback, FamilyPosition,
+  RBTNColor,
+  RedBlackTreeOptions,
+  TreeMultiMapOptions
+} from '../../types';
 import { RedBlackTree, RedBlackTreeNode } from './red-black-tree';
 import { IBinaryTree } from '../../interfaces';
+import { BSTNode } from './bst';
 
 /**
  * Node used by TreeMultiMap; stores the key with a bucket of values (array).
@@ -16,8 +24,10 @@ import { IBinaryTree } from '../../interfaces';
  * @template K
  * @template V
  */
-export class TreeMultiMapNode<K = any, V = any> extends RedBlackTreeNode<K, V[]> {
-  override parent?: TreeMultiMapNode<K, V> = undefined;
+export class TreeMultiMapNode<K = any, V = any> {
+  key: K;
+  value?: V[];
+  parent?: TreeMultiMapNode<K, V> = undefined;
 
   /**
    * Create a TreeMultiMap node with an optional value bucket.
@@ -26,18 +36,20 @@ export class TreeMultiMapNode<K = any, V = any> extends RedBlackTreeNode<K, V[]>
    * @param [value] - Initial array of values.
    * @returns New TreeMultiMapNode instance.
    */
-  constructor(key: K, value?: V[]) {
-    super(key, value);
+  constructor(key: K,  value: V[] = [], color: RBTNColor = 'BLACK') {
+    this.key = key;
+    this.value = value;
+    this.color = color;
   }
 
-  override _left?: TreeMultiMapNode<K, V> | null | undefined = undefined;
+  _left?: TreeMultiMapNode<K, V> | null | undefined = undefined;
 
   /**
    * Get the left child pointer.
    * @remarks Time O(1), Space O(1)
    * @returns Left child node, or null/undefined.
    */
-  override get left(): TreeMultiMapNode<K, V> | null | undefined {
+  get left(): TreeMultiMapNode<K, V> | null | undefined {
     return this._left;
   }
 
@@ -47,21 +59,21 @@ export class TreeMultiMapNode<K = any, V = any> extends RedBlackTreeNode<K, V[]>
    * @param v - New left child node, or null/undefined.
    * @returns void
    */
-  override set left(v: TreeMultiMapNode<K, V> | null | undefined) {
+  set left(v: TreeMultiMapNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
     }
     this._left = v;
   }
 
-  override _right?: TreeMultiMapNode<K, V> | null | undefined = undefined;
+  _right?: TreeMultiMapNode<K, V> | null | undefined = undefined;
 
   /**
    * Get the right child pointer.
    * @remarks Time O(1), Space O(1)
    * @returns Right child node, or null/undefined.
    */
-  override get right(): TreeMultiMapNode<K, V> | null | undefined {
+  get right(): TreeMultiMapNode<K, V> | null | undefined {
     return this._right;
   }
 
@@ -71,11 +83,97 @@ export class TreeMultiMapNode<K = any, V = any> extends RedBlackTreeNode<K, V[]>
    * @param v - New right child node, or null/undefined.
    * @returns void
    */
-  override set right(v: TreeMultiMapNode<K, V> | null | undefined) {
+  set right(v: TreeMultiMapNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
     }
     this._right = v;
+  }
+
+  _height: number = 0;
+
+  /**
+   * Gets the height of the node (used in self-balancing trees).
+   * @remarks Time O(1), Space O(1)
+   *
+   * @returns The height.
+   */
+  get height(): number {
+    return this._height;
+  }
+
+  /**
+   * Sets the height of the node.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @param value - The new height.
+   */
+  set height(value: number) {
+    this._height = value;
+  }
+
+  _color: RBTNColor = 'BLACK';
+
+  /**
+   * Gets the color of the node (used in Red-Black trees).
+   * @remarks Time O(1), Space O(1)
+   *
+   * @returns The node's color.
+   */
+  get color(): RBTNColor {
+    return this._color;
+  }
+
+  /**
+   * Sets the color of the node.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @param value - The new color.
+   */
+  set color(value: RBTNColor) {
+    this._color = value;
+  }
+
+  _count: number = 1;
+
+  /**
+   * Gets the count of nodes in the subtree rooted at this node (used in order-statistic trees).
+   * @remarks Time O(1), Space O(1)
+   *
+   * @returns The subtree node count.
+   */
+  get count(): number {
+    return this._count;
+  }
+
+  /**
+   * Sets the count of nodes in the subtree.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @param value - The new count.
+   */
+  set count(value: number) {
+    this._count = value;
+  }
+
+  /**
+   * Gets the position of the node relative to its parent.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @returns The family position (e.g., 'ROOT', 'LEFT', 'RIGHT').
+   */
+  get familyPosition(): FamilyPosition {
+    if (!this.parent) {
+      return this.left || this.right ? 'ROOT' : 'ISOLATED';
+    }
+
+    if (this.parent.left === this) {
+      return this.left || this.right ? 'ROOT_LEFT' : 'LEFT';
+    } else if (this.parent.right === this) {
+      return this.left || this.right ? 'ROOT_RIGHT' : 'RIGHT';
+    }
+
+    return 'MAL_NODE';
   }
 }
 
@@ -272,6 +370,21 @@ export class TreeMultiMap<K = any, V = any, R = any> extends RedBlackTree<K, V[]
 
   override createNode(key: K, value: V[] = []): TreeMultiMapNode<K, V> {
     return new TreeMultiMapNode<K, V>(key, this._isMapMode ? [] : value);
+  }
+
+
+
+  /**
+   * Checks if the given item is a `TreeMultiMapNode` instance.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @param keyNodeOrEntry - The item to check.
+   * @returns True if it's a TreeMultiMapNode, false otherwise.
+   */
+  override isNode(
+    keyNodeOrEntry: K | TreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined
+  ): keyNodeOrEntry is TreeMultiMapNode<K, V> {
+    return keyNodeOrEntry instanceof TreeMultiMapNode;
   }
 
   override add(

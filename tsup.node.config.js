@@ -1,7 +1,7 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig([
-  // ESM
+  // ESM (modern) - ES2022
   {
     entry: { index: "src/index.ts" },
     format: ["esm"],
@@ -12,13 +12,30 @@ export default defineConfig([
     keepNames: true,
     treeshake: true,
     clean: true,
-    target: "es2018",
+    target: "es2022",
     outExtension() {
-      return { js: ".mjs" }
-    },
+      return { js: ".mjs" };
+    }
   },
 
-  // CJS
+  // ESM (legacy) - ES2018
+  {
+    entry: { index: "src/index.ts" },
+    format: ["esm"],
+    outDir: "dist/esm-legacy",
+    splitting: false,
+    sourcemap: true,
+    minify: false,
+    keepNames: true,
+    treeshake: true,
+    clean: false,
+    target: "es2018",
+    outExtension() {
+      return { js: ".mjs" };
+    }
+  },
+
+  // CJS (modern) - ES2022
   {
     entry: { index: "src/index.ts" },
     format: ["cjs"],
@@ -29,9 +46,26 @@ export default defineConfig([
     keepNames: true,
     treeshake: true,
     clean: false,
+    target: "es2022",
+    outExtension() {
+      return { js: ".cjs" };
+    }
+  },
+
+  // CJS (legacy) - ES2018
+  {
+    entry: { index: "src/index.ts" },
+    format: ["cjs"],
+    outDir: "dist/cjs-legacy",
+    splitting: false,
+    sourcemap: true,
+    minify: false,
+    keepNames: true,
+    treeshake: true,
+    clean: false,
     target: "es2018",
     outExtension() {
       return { js: ".cjs" };
-    },
-  },
+    }
+  }
 ]);

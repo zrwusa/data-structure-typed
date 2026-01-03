@@ -11,8 +11,8 @@ import type {
   AVLTreeOptions,
   BTNOptKeyOrNull,
   ElemOf,
-  EntryCallback,
-  IterationType
+  EntryCallback, FamilyPosition,
+  IterationType, RBTNColor
 } from '../../types';
 import { AVLTree, AVLTreeNode } from './avl-tree';
 import { IBinaryTree } from '../../interfaces';
@@ -23,8 +23,10 @@ import { IBinaryTree } from '../../interfaces';
  * @template K
  * @template V
  */
-export class AVLTreeMultiMapNode<K = any, V = any> extends AVLTreeNode<K, V[]> {
-  override parent?: AVLTreeMultiMapNode<K, V> = undefined;
+export class AVLTreeMultiMapNode<K = any, V = any> {
+  key: K;
+  value?: V[];
+  parent?: AVLTreeMultiMapNode<K, V> = undefined;
 
   /**
    * Create an AVLTreeMultiMap node with a value bucket.
@@ -33,18 +35,19 @@ export class AVLTreeMultiMapNode<K = any, V = any> extends AVLTreeNode<K, V[]> {
    * @param value - Initial array of values.
    * @returns New AVLTreeMultiMapNode instance.
    */
-  constructor(key: K, value: V[]) {
-    super(key, value);
+  constructor(key: K, value: V[] = []) {
+    this.key = key;
+    this.value = value;
   }
 
-  override _left?: AVLTreeMultiMapNode<K, V> | null | undefined = undefined;
+  _left?: AVLTreeMultiMapNode<K, V> | null | undefined = undefined;
 
   /**
    * Get the left child pointer.
    * @remarks Time O(1), Space O(1)
    * @returns Left child node, or null/undefined.
    */
-  override get left(): AVLTreeMultiMapNode<K, V> | null | undefined {
+  get left(): AVLTreeMultiMapNode<K, V> | null | undefined {
     return this._left;
   }
 
@@ -54,21 +57,21 @@ export class AVLTreeMultiMapNode<K = any, V = any> extends AVLTreeNode<K, V[]> {
    * @param v - New left child node, or null/undefined.
    * @returns void
    */
-  override set left(v: AVLTreeMultiMapNode<K, V> | null | undefined) {
+  set left(v: AVLTreeMultiMapNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
     }
     this._left = v;
   }
 
-  override _right?: AVLTreeMultiMapNode<K, V> | null | undefined = undefined;
+  _right?: AVLTreeMultiMapNode<K, V> | null | undefined = undefined;
 
   /**
    * Get the right child pointer.
    * @remarks Time O(1), Space O(1)
    * @returns Right child node, or null/undefined.
    */
-  override get right(): AVLTreeMultiMapNode<K, V> | null | undefined {
+  get right(): AVLTreeMultiMapNode<K, V> | null | undefined {
     return this._right;
   }
 
@@ -78,11 +81,97 @@ export class AVLTreeMultiMapNode<K = any, V = any> extends AVLTreeNode<K, V[]> {
    * @param v - New right child node, or null/undefined.
    * @returns void
    */
-  override set right(v: AVLTreeMultiMapNode<K, V> | null | undefined) {
+  set right(v: AVLTreeMultiMapNode<K, V> | null | undefined) {
     if (v) {
       v.parent = this;
     }
     this._right = v;
+  }
+
+  _height: number = 0;
+
+  /**
+   * Gets the height of the node (used in self-balancing trees).
+   * @remarks Time O(1), Space O(1)
+   *
+   * @returns The height.
+   */
+  get height(): number {
+    return this._height;
+  }
+
+  /**
+   * Sets the height of the node.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @param value - The new height.
+   */
+  set height(value: number) {
+    this._height = value;
+  }
+
+  _color: RBTNColor = 'BLACK';
+
+  /**
+   * Gets the color of the node (used in Red-Black trees).
+   * @remarks Time O(1), Space O(1)
+   *
+   * @returns The node's color.
+   */
+  get color(): RBTNColor {
+    return this._color;
+  }
+
+  /**
+   * Sets the color of the node.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @param value - The new color.
+   */
+  set color(value: RBTNColor) {
+    this._color = value;
+  }
+
+  _count: number = 1;
+
+  /**
+   * Gets the count of nodes in the subtree rooted at this node (used in order-statistic trees).
+   * @remarks Time O(1), Space O(1)
+   *
+   * @returns The subtree node count.
+   */
+  get count(): number {
+    return this._count;
+  }
+
+  /**
+   * Sets the count of nodes in the subtree.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @param value - The new count.
+   */
+  set count(value: number) {
+    this._count = value;
+  }
+
+  /**
+   * Gets the position of the node relative to its parent.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @returns The family position (e.g., 'ROOT', 'LEFT', 'RIGHT').
+   */
+  get familyPosition(): FamilyPosition {
+    if (!this.parent) {
+      return this.left || this.right ? 'ROOT' : 'ISOLATED';
+    }
+
+    if (this.parent.left === this) {
+      return this.left || this.right ? 'ROOT_LEFT' : 'LEFT';
+    } else if (this.parent.right === this) {
+      return this.left || this.right ? 'ROOT_RIGHT' : 'RIGHT';
+    }
+
+    return 'MAL_NODE';
   }
 }
 
@@ -115,6 +204,19 @@ export class AVLTreeMultiMap<K = any, V = any, R = any> extends AVLTree<K, V[], 
 
   override createNode(key: K, value: V[] = []): AVLTreeMultiMapNode<K, V> {
     return new AVLTreeMultiMapNode<K, V>(key, this._isMapMode ? [] : value);
+  }
+
+  /**
+   * Checks if the given item is a `AVLTreeMultiMapNode` instance.
+   * @remarks Time O(1), Space O(1)
+   *
+   * @param keyNodeOrEntry - The item to check.
+   * @returns True if it's a AVLTreeMultiMapNode, false otherwise.
+   */
+  override isNode(
+    keyNodeOrEntry: K | AVLTreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined
+  ): keyNodeOrEntry is AVLTreeMultiMapNode<K, V> {
+    return keyNodeOrEntry instanceof AVLTreeMultiMapNode;
   }
 
   override add(
