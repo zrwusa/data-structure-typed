@@ -12,8 +12,10 @@ import type {
   BinaryTreeDeleteResult,
   BinaryTreeOptions,
   BSTNOptKeyOrNode,
-  EntryCallback, FamilyPosition,
-  IterationType, RBTNColor
+  EntryCallback,
+  FamilyPosition,
+  IterationType,
+  RBTNColor
 } from '../../types';
 import { BSTOptions } from '../../types';
 import { IBinaryTree } from '../../interfaces';
@@ -91,6 +93,7 @@ export class AVLTreeNode<K = any, V = any> {
     }
     this._right = v;
   }
+
   _height: number = 0;
 
   /**

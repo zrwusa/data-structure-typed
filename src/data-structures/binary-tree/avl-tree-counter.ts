@@ -11,11 +11,13 @@ import type {
   BinaryTreeDeleteResult,
   BinaryTreeOptions,
   BSTNOptKeyOrNode,
-  EntryCallback, FamilyPosition,
-  IterationType, RBTNColor
+  EntryCallback,
+  FamilyPosition,
+  IterationType,
+  RBTNColor
 } from '../../types';
 import { IBinaryTree } from '../../interfaces';
-import { AVLTree, AVLTreeNode } from './avl-tree';
+import { AVLTree } from './avl-tree';
 
 /**
  * AVL node with an extra 'count' field; keeps parent/child links.

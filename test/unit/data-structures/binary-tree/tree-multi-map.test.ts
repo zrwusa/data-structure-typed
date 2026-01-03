@@ -1,6 +1,5 @@
-import { BinaryTreeNode, BSTNode, IBinaryTree, TreeMultiMap, TreeMultiMapNode } from '../../../../src';
+import { IBinaryTree, Range, TreeMultiMap, TreeMultiMapNode } from '../../../../src';
 import { getRandomInt } from '../../../utils';
-import { Range } from '../../../../src';
 import { isDebugTest } from '../../../config';
 import { costOfLiving } from './data/cost-of-living-by-country';
 
@@ -1023,6 +1022,7 @@ function leftKey(tmm: TreeMultiMap<number, Product, Product>): number | undefine
   const v = tmm.getLeftMost();
   return v == null ? undefined : typeof v === 'object' ? v.key : v;
 }
+
 function rightKey(tmm: TreeMultiMap<number, Product, Product>): number | undefined {
   const v = tmm.getRightMost();
   return v == null ? undefined : typeof v === 'object' ? v.key : v;

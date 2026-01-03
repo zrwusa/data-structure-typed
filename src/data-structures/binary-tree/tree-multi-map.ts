@@ -9,14 +9,14 @@
 import type {
   BTNOptKeyOrNull,
   ElemOf,
-  EntryCallback, FamilyPosition,
+  EntryCallback,
+  FamilyPosition,
   RBTNColor,
   RedBlackTreeOptions,
   TreeMultiMapOptions
 } from '../../types';
 import { RedBlackTree, RedBlackTreeNode } from './red-black-tree';
 import { IBinaryTree } from '../../interfaces';
-import { BSTNode } from './bst';
 
 /**
  * Node used by TreeMultiMap; stores the key with a bucket of values (array).
@@ -36,7 +36,7 @@ export class TreeMultiMapNode<K = any, V = any> {
    * @param [value] - Initial array of values.
    * @returns New TreeMultiMapNode instance.
    */
-  constructor(key: K,  value: V[] = [], color: RBTNColor = 'BLACK') {
+  constructor(key: K, value: V[] = [], color: RBTNColor = 'BLACK') {
     this.key = key;
     this.value = value;
     this.color = color;
@@ -371,8 +371,6 @@ export class TreeMultiMap<K = any, V = any, R = any> extends RedBlackTree<K, V[]
   override createNode(key: K, value: V[] = []): TreeMultiMapNode<K, V> {
     return new TreeMultiMapNode<K, V>(key, this._isMapMode ? [] : value);
   }
-
-
 
   /**
    * Checks if the given item is a `TreeMultiMapNode` instance.

@@ -10,7 +10,8 @@ import type {
   BinaryTreeDeleteResult,
   BinaryTreeOptions,
   BSTNOptKeyOrNode,
-  EntryCallback, FamilyPosition,
+  EntryCallback,
+  FamilyPosition,
   IterationType,
   OptNode,
   RBTNColor,
@@ -19,7 +20,7 @@ import type {
 import { BSTOptions } from '../../types';
 import { BSTNode } from './bst';
 import { IBinaryTree } from '../../interfaces';
-import { RedBlackTree, RedBlackTreeNode } from './red-black-tree';
+import { RedBlackTree } from './red-black-tree';
 
 /**
  * RB-tree node with an extra 'count' field; keeps parent/child links.
@@ -94,7 +95,9 @@ export class TreeCounterNode<K = any, V = any> {
       v.parent = this;
     }
     this._right = v;
-  }_height: number = 0;
+  }
+
+  _height: number = 0;
 
   /**
    * Gets the height of the node (used in self-balancing trees).

@@ -10,7 +10,8 @@ import type {
   BinaryTreeDeleteResult,
   BinaryTreeOptions,
   CRUD,
-  EntryCallback, FamilyPosition,
+  EntryCallback,
+  FamilyPosition,
   OptNode,
   RBTNColor,
   RedBlackTreeOptions
@@ -33,9 +34,9 @@ export class RedBlackTreeNode<K = any, V = any> {
    */
 
   constructor(key: K, value?: V, color: RBTNColor = 'BLACK') {
-      this.key = key;
-      this.value = value;
-      this.color = color;
+    this.key = key;
+    this.value = value;
+    this.color = color;
   }
 
   _left?: RedBlackTreeNode<K, V> | null | undefined = undefined;

@@ -11,8 +11,10 @@ import type {
   AVLTreeOptions,
   BTNOptKeyOrNull,
   ElemOf,
-  EntryCallback, FamilyPosition,
-  IterationType, RBTNColor
+  EntryCallback,
+  FamilyPosition,
+  IterationType,
+  RBTNColor
 } from '../../types';
 import { AVLTree, AVLTreeNode } from './avl-tree';
 import { IBinaryTree } from '../../interfaces';

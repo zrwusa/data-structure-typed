@@ -1,4 +1,4 @@
-import { BinaryTreeNode, BST, BSTNode, IBinaryTree, Range } from '../../../../src';
+import { BST, BSTNode, IBinaryTree, Range } from '../../../../src';
 import { isDebugTest, isTestStackOverflow, SYSTEM_MAX_CALL_STACK } from '../../../config';
 
 const isDebug = isDebugTest;

@@ -15,13 +15,15 @@ import type {
   Comparator,
   CP,
   DFSOrderPattern,
-  EntryCallback, FamilyPosition,
+  EntryCallback,
+  FamilyPosition,
   IterationType,
   NodeCallback,
   NodePredicate,
-  OptNode, RBTNColor
+  OptNode,
+  RBTNColor
 } from '../../types';
-import { BinaryTree, BinaryTreeNode } from './binary-tree';
+import { BinaryTree } from './binary-tree';
 import { IBinaryTree } from '../../interfaces';
 import { Queue } from '../queue';
 import { isComparable } from '../../utils';
