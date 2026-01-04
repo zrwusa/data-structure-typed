@@ -393,7 +393,7 @@ export class AVLTreeMultiMap<K = any, V = any, R = any> extends AVLTree<K, V[], 
   ): AVLTree<MK, MV, MR> {
     const out = this._createLike<MK, MV, MR>([], options);
     let i = 0;
-    for (const [k, v] of this) out.add(callback.call(thisArg, k, v, i++, this));
+    for (const [k, v] of this) out.add(callback.call(thisArg, v, k, i++, this));
     return out;
   }
 

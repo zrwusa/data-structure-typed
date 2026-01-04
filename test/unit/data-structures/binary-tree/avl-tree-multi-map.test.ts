@@ -415,7 +415,7 @@ describe('AVLTreeMultiMap iterative methods test', () => {
 
   it('forEach should iterate over all elements', () => {
     const mockCallback = jest.fn();
-    avlTmm.forEach((key, value) => {
+    avlTmm.forEach((value, key) => {
       mockCallback(key, value);
     });
 
@@ -426,7 +426,7 @@ describe('AVLTreeMultiMap iterative methods test', () => {
   });
 
   it('filter should return a new avlTmm with filtered elements', () => {
-    const filteredTree = avlTmm.filter(key => key > 1);
+    const filteredTree = avlTmm.filter((_value, key) => key > 1);
     expect(filteredTree.size).toBe(2);
     expect([...filteredTree]).toEqual([
       [2, ['b']],
@@ -435,7 +435,7 @@ describe('AVLTreeMultiMap iterative methods test', () => {
   });
 
   it('map should return a new avlTmm with modified elements', () => {
-    const avlTmmMapped = avlTmm.map((key, value) => [(key * 2).toString(), value ? value : []]);
+    const avlTmmMapped = avlTmm.map((value, key) => [(key * 2).toString(), value ? value : []]);
     expect(avlTmmMapped.size).toBe(3);
     expect([...avlTmmMapped]).toEqual([
       ['2', ['a']],

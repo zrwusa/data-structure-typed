@@ -897,7 +897,7 @@ export abstract class AbstractGraph<
     const filtered: [VertexKey, V | undefined][] = [];
     let index = 0;
     for (const [key, value] of this) {
-      if (predicate.call(thisArg, key, value, index, this)) {
+      if (predicate.call(thisArg, value, key, index, this)) {
         filtered.push([key, value]);
       }
       index++;
@@ -916,7 +916,7 @@ export abstract class AbstractGraph<
     const filtered: [VertexKey, V | undefined][] = [];
     let index = 0;
     for (const [key, value] of this) {
-      if (predicate.call(thisArg, key, value, index, this)) {
+      if (predicate.call(thisArg, value, key, index, this)) {
         filtered.push([key, value]);
       }
       index++;
@@ -928,7 +928,7 @@ export abstract class AbstractGraph<
     const mapped: T[] = [];
     let index = 0;
     for (const [key, value] of this) {
-      mapped.push(callback.call(thisArg, key, value, index, this));
+      mapped.push(callback.call(thisArg, value, key, index, this));
       index++;
     }
     return mapped;

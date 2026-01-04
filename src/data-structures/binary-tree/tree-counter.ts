@@ -439,7 +439,7 @@ export class TreeCounter<K = any, V = any, R = any> extends RedBlackTree<K, V, R
 
     let index = 0;
     for (const [key, value] of this) {
-      out.add(callback.call(thisArg, key, value, index++, this));
+      out.add(callback.call(thisArg, value, key, index++, this));
     }
     return out;
   }

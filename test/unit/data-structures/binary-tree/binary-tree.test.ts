@@ -1308,7 +1308,7 @@ describe('BinaryTree (map mode) - higher-order & iteration', () => {
 
   it('forEach(): iterates all entries', () => {
     const mockCallback = jest.fn();
-    binaryTree.forEach((key, value) => {
+    binaryTree.forEach((value, key) => {
       mockCallback(key, value);
     });
 
@@ -1319,7 +1319,7 @@ describe('BinaryTree (map mode) - higher-order & iteration', () => {
   });
 
   it('filter(): returns new tree with filtered entries', () => {
-    const filteredTree = binaryTree.filter(key => key > 1);
+    const filteredTree = binaryTree.filter((_value, key) => key > 1);
     expect(filteredTree.size).toBe(2);
     expect([...filteredTree]).toEqual([
       [3, 'c'],
@@ -1328,7 +1328,7 @@ describe('BinaryTree (map mode) - higher-order & iteration', () => {
   });
 
   it('map(): returns new tree with transformed keys/values', () => {
-    const mappedTree = binaryTree.map((key, value) => [(key * 2).toString(), value]);
+    const mappedTree = binaryTree.map((value, key) => [(key * 2).toString(), value]);
     expect(mappedTree.size).toBe(3);
     expect([...mappedTree]).toEqual([
       ['2', 'a'],
@@ -1578,7 +1578,7 @@ describe('Coverage boosters - close remaining uncovered branches', () => {
       [1, 'a'],
       [2, 'b']
     ]);
-    const mapped = t.map((k, v) => [String(k), (v ?? '').toUpperCase()], { iterationType: 'RECURSIVE' } as any);
+    const mapped = t.map((v, k) => [String(k), (v ?? '').toUpperCase()], { iterationType: 'RECURSIVE' } as any);
     expect(Array.from(mapped)).toEqual([
       ['1', 'A'],
       ['2', 'B']

@@ -643,7 +643,7 @@ describe('TreeMultiMap 2', () => {
 
     it('forEach should iterate over all elements', () => {
       const mockCallback = jest.fn();
-      tmm.forEach((key, value) => {
+      tmm.forEach((value, key) => {
         mockCallback(key, value);
       });
 
@@ -654,7 +654,7 @@ describe('TreeMultiMap 2', () => {
     });
 
     it('filter should return a new tmm with filtered elements', () => {
-      const filteredTree = tmm.filter(key => key > 1);
+      const filteredTree = tmm.filter((_value, key) => key > 1);
       expect(filteredTree.size).toBe(2);
       expect([...filteredTree]).toEqual([
         [2, ['b']],
@@ -663,7 +663,7 @@ describe('TreeMultiMap 2', () => {
     });
 
     it('map should return a new tmm with modified elements', () => {
-      const tmmMapped = tmm.map((key, value) => [(key * 2).toString(), value ? value : []]);
+      const tmmMapped = tmm.map((value, key) => [(key * 2).toString(), value ? value : []]);
       expect(tmmMapped.size).toBe(3);
       expect([...tmmMapped]).toEqual([
         ['2', ['a']],

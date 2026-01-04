@@ -627,7 +627,7 @@ describe('AVLTreeCounter iterative methods test', () => {
 
   it('forEach should iterate over all elements', () => {
     const mockCallback = jest.fn();
-    avlCounter.forEach((key, value) => {
+    avlCounter.forEach((value, key) => {
       mockCallback(key, value);
     });
 
@@ -638,7 +638,7 @@ describe('AVLTreeCounter iterative methods test', () => {
   });
 
   it('filter should return a new avlCounter with filtered elements', () => {
-    const filteredTree = avlCounter.filter(key => key > 1);
+    const filteredTree = avlCounter.filter((_value, key) => key > 1);
     expect(filteredTree.size).toBe(2);
     expect([...filteredTree]).toEqual([
       [2, 'b'],
@@ -647,7 +647,7 @@ describe('AVLTreeCounter iterative methods test', () => {
   });
 
   it('map should return a new avlCounter with modified elements', () => {
-    const avlCounterMapped = avlCounter.map((key, value) => [(key * 2).toString(), value]);
+    const avlCounterMapped = avlCounter.map((value, key) => [(key * 2).toString(), value]);
     expect(avlCounterMapped.size).toBe(3);
     expect([...avlCounterMapped]).toEqual([
       ['2', 'a'],

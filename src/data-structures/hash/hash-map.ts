@@ -290,7 +290,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
   map<VM>(callbackfn: EntryCallback<K, V, VM>, thisArg?: any): any {
     const out = this._createLike<K, VM, [K, VM]>();
     let index = 0;
-    for (const [key, value] of this) out.set(key, callbackfn.call(thisArg, key, value, index++, this));
+    for (const [key, value] of this) out.set(key, callbackfn.call(thisArg, value, key, index++, this));
     return out;
   }
 
@@ -305,7 +305,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
   filter(predicate: EntryCallback<K, V, boolean>, thisArg?: any): any {
     const out = this._createLike<K, V, [K, V]>();
     let index = 0;
-    for (const [key, value] of this) if (predicate.call(thisArg, key, value, index++, this)) out.set(key, value);
+    for (const [key, value] of this) if (predicate.call(thisArg, value, key, index++, this)) out.set(key, value);
     return out;
   }
 
@@ -677,7 +677,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     const out = this._createLike<K, V, [K, V]>();
     let index = 0;
     for (const [key, value] of this) {
-      if (predicate.call(thisArg, key, value, index, this)) out.set(key, value);
+      if (predicate.call(thisArg, value, key, index, this)) out.set(key, value);
       index++;
     }
     return out;
@@ -696,7 +696,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     const out = this._createLike<MK, MV, [MK, MV]>();
     let index = 0;
     for (const [key, value] of this) {
-      const [newKey, newValue] = callback.call(thisArg, key, value, index, this);
+      const [newKey, newValue] = callback.call(thisArg, value, key, index, this);
       out.set(newKey, newValue);
       index++;
     }

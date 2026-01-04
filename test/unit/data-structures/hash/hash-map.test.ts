@@ -328,7 +328,7 @@ describe('HashMap', () => {
     });
 
     it('some() returns true if any element matches the condition', () => {
-      expect(hashMap.some(key => key === 'key1')).toBe(true);
+      expect(hashMap.some((_value, key) => key === 'key1')).toBe(true);
     });
 
     it('forEach() should execute a function for each element', () => {
@@ -338,12 +338,12 @@ describe('HashMap', () => {
     });
 
     it('map() should transform each element', () => {
-      const newHashMap = hashMap.map((key, value) => value.toUpperCase());
+      const newHashMap = hashMap.map(value => value.toUpperCase());
       expect(newHashMap.get('key1')).toBe('VALUE1');
     });
 
     it('filter() should remove elements that do not match the condition', () => {
-      const filteredHashMap = hashMap.filter(key => key !== 'key1');
+      const filteredHashMap = hashMap.filter((_, key) => key !== 'key1');
       expect(filteredHashMap.has('key1')).toBe(false);
     });
 
@@ -361,28 +361,28 @@ describe('HashMap', () => {
     });
 
     it('should find', () => {
-      const found = hashMap.find((key, value) => value === 'value1');
+      const found = hashMap.find(value => value === 'value1');
       expect(found).toEqual(['key1', 'value1']);
       const notFound = hashMap.find(value => value === 'value6');
       expect(notFound).toEqual(undefined);
     });
 
     it('should every', () => {
-      const isEvery = hashMap.every((key, value) => value.substring(0, 5) === 'value');
+      const isEvery = hashMap.every(value => value.substring(0, 5) === 'value');
       expect(isEvery).toEqual(true);
-      const isEvery4 = hashMap.every((key, value) => value.substring(0, 4) === 'value');
+      const isEvery4 = hashMap.every(value => value.substring(0, 4) === 'value');
       expect(isEvery4).toEqual(false);
     });
 
     it('should some', () => {
-      const isSome = hashMap.some((key, value) => value.substring(5, 6) === '2');
+      const isSome = hashMap.some(value => value.substring(5, 6) === '2');
       expect(isSome).toEqual(true);
-      const isSome4 = hashMap.some((key, value) => value.substring(0, 5) === 'value');
+      const isSome4 = hashMap.some(value => value.substring(0, 5) === 'value');
       expect(isSome4).toEqual(true);
     });
 
     it('should forEach', () => {
-      hashMap.forEach((key, value, index) => expect(value.substring(5, 6)).toBe(String(index + 1)));
+      hashMap.forEach((value, key, index) => expect(value.substring(5, 6)).toBe(String(index + 1)));
     });
 
     it('should entries', () => {
@@ -817,7 +817,7 @@ describe('LinkedHashMap', () => {
     });
 
     it('some() returns true if any element matches the condition', () => {
-      expect(hashMap.some(key => key === 'key1')).toBe(true);
+      expect(hashMap.some((_value, key) => key === 'key1')).toBe(true);
     });
 
     it('forEach() should execute a function for each element', () => {
@@ -827,12 +827,12 @@ describe('LinkedHashMap', () => {
     });
 
     it('map() should transform each element', () => {
-      const newHashMap = hashMap.map((key, value) => [key, value.toUpperCase()]);
+      const newHashMap = hashMap.map((value, key) => [key, value.toUpperCase()]);
       expect(newHashMap.get('key1')).toBe('VALUE1');
     });
 
     it('filter() should remove elements that do not match the condition', () => {
-      const filteredHashMap = hashMap.filter(key => key !== 'key1');
+      const filteredHashMap = hashMap.filter((_v, key) => key !== 'key1');
       expect(filteredHashMap.has('key1')).toBe(false);
     });
 
@@ -893,7 +893,7 @@ describe('classic uses', () => {
     linkedHashMap.set(2, 'B');
     linkedHashMap.set(3, 'C');
 
-    const filteredMap = linkedHashMap.filter((key, value) => value !== 'B');
+    const filteredMap = linkedHashMap.filter(value => value !== 'B');
 
     const result = Array.from(filteredMap);
     expect(result).toEqual([
@@ -907,7 +907,7 @@ describe('classic uses', () => {
     linkedHashMap.set(1, 'A');
     linkedHashMap.set(2, 'B');
 
-    const mappedMap = linkedHashMap.map((key, value) => [value, key]);
+    const mappedMap = linkedHashMap.map((value, key) => [value, key]);
 
     const result = Array.from(mappedMap);
     expect(result).toEqual([

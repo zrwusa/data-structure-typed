@@ -648,7 +648,7 @@ describe('RedBlackTree 2', () => {
 
     it('forEach should iterate over all elements', () => {
       const mockCallback = jest.fn();
-      rbTree.forEach((key, value) => {
+      rbTree.forEach((value, key) => {
         mockCallback(key, value);
       });
 
@@ -659,7 +659,7 @@ describe('RedBlackTree 2', () => {
     });
 
     it('filter should return a new rbTree with filtered elements', () => {
-      const filteredTree = rbTree.filter(key => key > 1);
+      const filteredTree = rbTree.filter((_value, key) => key > 1);
       expect(filteredTree.size).toBe(2);
       expect([...filteredTree]).toEqual([
         [2, 'b'],
@@ -668,7 +668,7 @@ describe('RedBlackTree 2', () => {
     });
 
     it('map should return a new rbTree with modified elements', () => {
-      const rbTreeMapped = rbTree.map((key, value) => [(key * 2).toString(), value]);
+      const rbTreeMapped = rbTree.map((value, key) => [(key * 2).toString(), value]);
       expect(rbTreeMapped.size).toBe(3);
       expect([...rbTreeMapped]).toEqual([
         ['2', 'a'],

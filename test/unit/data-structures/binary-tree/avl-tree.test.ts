@@ -386,7 +386,7 @@ describe('AVLTree iterative methods test', () => {
 
   it('forEach should iterate over all elements', () => {
     const mockCallback = jest.fn();
-    avlTree.forEach((key, value) => {
+    avlTree.forEach((value, key) => {
       mockCallback(key, value);
     });
 
@@ -397,7 +397,7 @@ describe('AVLTree iterative methods test', () => {
   });
 
   it('filter should return a new avlTree with filtered elements', () => {
-    const filteredTree = avlTree.filter(key => key > 1);
+    const filteredTree = avlTree.filter((_value, key) => key > 1);
     expect(filteredTree.size).toBe(2);
     expect([...filteredTree]).toEqual([
       [2, 'b'],
@@ -406,7 +406,7 @@ describe('AVLTree iterative methods test', () => {
   });
 
   it('map should return a new avlTree with modified elements', () => {
-    const mappedTree = avlTree.map((key, value) => [(key * 2).toString(), value]);
+    const mappedTree = avlTree.map((value, key) => [(key * 2).toString(), value]);
     expect(mappedTree.size).toBe(3);
     expect([...mappedTree]).toEqual([
       ['2', 'a'],

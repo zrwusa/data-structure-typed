@@ -195,7 +195,9 @@ export class AVLTreeNode<K = any, V = any> {
  * 4. Order Preservation: Maintains the binary search tree property where left child values are less than the parent, and right child values are greater.
  * 5. Efficient Lookups: Offers O(log n) search time, where 'n' is the number of nodes, due to its balanced nature.
  * 6. Complex Insertions and Deletions: Due to rebalancing, these operations are more complex than in a regular BST.
- * 7. Path Length: The path length from the root to any leaf is longer compared to an unbalanced BST, but shorter than a linear chain of nodes.@example
+ * 7. Path Length: The path length from the root to any leaf is longer compared to an unbalanced BST, but shorter than a linear chain of nodes.
+ *
+ * @example
  * // Find elements in a range
  *     // In interval queries, AVL trees, with their strictly balanced structure and lower height, offer better query efficiency, making them ideal for frequent and high-performance interval queries. In contrast, Red-Black trees, with lower update costs, are more suitable for scenarios involving frequent insertions and deletions where the requirements for interval queries are less demanding.
  *     type Datum = { timestamp: Date; temperature: number };
@@ -403,7 +405,7 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
     // Iterates in-order
     for (const [key, value] of this) {
       // `add` on the new tree will be O(log N) and will self-balance.
-      out.add(callback.call(thisArg, key, value, index++, this));
+      out.add(callback.call(thisArg, value, key, index++, this));
     }
     return out;
   }

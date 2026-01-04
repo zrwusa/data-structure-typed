@@ -1,7 +1,7 @@
 import { IterableElementBase, IterableEntryBase } from '../../../data-structures';
 import { LinearBase } from '../../../data-structures/base/linear-base';
 
-export type EntryCallback<K, V, R> = (key: K, value: V, index: number, original: IterableEntryBase<K, V>) => R;
+export type EntryCallback<K, V, R> = (value: V, key: K, index: number, original: IterableEntryBase<K, V>) => R;
 export type ElementCallback<E, R, RT> = (element: E, index: number, original: IterableElementBase<E, R>) => RT;
 export type ReduceEntryCallback<K, V, R> = (
   accumulator: R,

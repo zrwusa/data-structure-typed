@@ -183,6 +183,7 @@ export class TreeMultiMapNode<K = any, V = any> {
  * @template K
  * @template V
  * @template R
+ *
  * @example
  * // players ranked by score with their equipment
  *     type Equipment = {
@@ -503,7 +504,7 @@ export class TreeMultiMap<K = any, V = any, R = any> extends RedBlackTree<K, V[]
   ): RedBlackTree<MK, MV, MR> {
     const out = this._createLike<MK, MV, MR>([], options);
     let i = 0;
-    for (const [k, v] of this) out.add(callback.call(thisArg, k, v, i++, this));
+    for (const [k, v] of this) out.add(callback.call(thisArg, v, k, i++, this));
     return out;
   }
 

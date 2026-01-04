@@ -680,12 +680,12 @@ describe('DirectedGraph iterative Methods', () => {
 
   it('forEach should apply a function to each vertex', () => {
     const result: VertexKey[] = [];
-    graph.forEach(key => key && result.push(key));
+    graph.forEach((_value, key) => key && result.push(key));
     expect(result).toEqual(vertexMap);
   });
 
   it('filter should return vertexMap that satisfy the condition', () => {
-    const filtered = graph.filterEntries(key => key === 'A' || key === 'B');
+    const filtered = graph.filterEntries((_value, key) => key === 'A' || key === 'B');
     expect(filtered).toEqual([
       ['A', undefined],
       ['B', undefined]
@@ -693,7 +693,7 @@ describe('DirectedGraph iterative Methods', () => {
   });
 
   it('map should apply a function to each vertex and return a new array', () => {
-    const mapped = graph.map(vertex => vertex + '_mapped');
+    const mapped = graph.map((_value, vertex) => vertex + '_mapped');
     expect(mapped).toEqual(vertexMap.map(key => key + '_mapped'));
   });
 

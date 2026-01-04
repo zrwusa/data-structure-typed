@@ -798,10 +798,7 @@ Array.from(dijkstraResult?.seen ?? []).map(vertex => vertex.key) // ['A', 'B', '
 
 ```
 
-[//]: # (No deletion!!! Start of Example Replace Section)
 
-
-[//]: # (No deletion!!! End of Example Replace Section)
 
 ## API docs & Examples
 
@@ -823,29 +820,16 @@ Graphics Radeon Pro 555X 4 GB
 
 Intel UHD Graphics 630 1536 MB
 
-macOS Big Sur
+macOS Sequoia 15.7.2
 
-Version 11.7.9
-
-***Our performance testing is conducted directly on the TypeScript source code. The actual performance of the compiled JavaScript code is generally 3 times higher. We have compared it with C++, and it is only 30% slower than C++.***
-Try it
-
-Just run
-
-```shell
-pnpm perf:rbtree
-```
-
-```html
-1,000,000 add randomly: 1.367s
-1,000,000 add: 374.859ms
-1,000,000 get: 8.025ms
-1,000,000 getNode: 1.293s
-```
+## Performance & Runtime Compatibility
 
 [//]: # (No deletion!!! Start of Replace Section)
-<h2>comparison</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>SRC PQ 1,000,000 add</td><td>36.30</td><td>0.04</td><td>0.01</td></tr><tr><td>CJS PQ 100,000 add</td><td>2.76</td><td>0.00</td><td>1.11e-4</td></tr><tr><td>MJS PQ 100,000 add</td><td>14.33</td><td>0.01</td><td>2.60e-4</td></tr><tr><td>CPT PQ 100,000 add</td><td>4.81</td><td>0.00</td><td>1.36e-4</td></tr><tr><td>SRC PQ 100,000 add & poll</td><td>22.57</td><td>0.02</td><td>4.66e-4</td></tr><tr><td>CJS PQ 100,000 add & poll</td><td>22.84</td><td>0.02</td><td>6.65e-4</td></tr><tr><td>MJS PQ 100,000 add & poll</td><td>23.43</td><td>0.02</td><td>0.00</td></tr><tr><td>CPT PQ 1,000,000 add & pop</td><td>181.14</td><td>0.18</td><td>0.03</td></tr><tr><td>CPT OM 100,000 add</td><td>26.64</td><td>0.03</td><td>0.00</td></tr><tr><td>CPT HM 100,000 set</td><td>5.90</td><td>0.01</td><td>8.46e-4</td></tr><tr><td>CPT HM 100,000 set & get</td><td>
-6.69</td><td>0.01</td><td>7.52e-4</td></tr><tr><td>CPT LL 1,000,000 unshift</td><td>19.78</td><td>0.02</td><td>0.01</td></tr><tr><td>CPT PQ 100,000 add & pop</td><td>14.36</td><td>0.01</td><td>0.00</td></tr><tr><td>CPT DQ 1,000,000 push</td><td>8.11</td><td>0.01</td><td>5.23e-4</td></tr><tr><td>CPT Q 1,000,000 push</td><td>30.25</td><td>0.03</td><td>0.01</td></tr><tr><td>CPT ST 1,000,000 push</td><td>27.10</td><td>0.03</td><td>0.00</td></tr><tr><td>CPT ST 1,000,000 push & pop</td><td>30.19</td><td>0.03</td><td>0.00</td></tr></tbody></table>[//]: # (No deletion!!! End of Replace Section)
+
+<h2>red-black-tree</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>1,000,000 add</td><td>410.34</td><td>0.41</td><td>0.01</td></tr><tr><td>1,000,000 get</td><td>5.20</td><td>0.01</td><td>8.16e-5</td></tr><tr><td>1,000,000 iterator</td><td>154.25</td><td>0.15</td><td>0.02</td></tr><tr><td>CPT 1,000,000 add</td><td>656.43</td><td>0.66</td><td>0.00</td></tr><tr><td>CPT 1,000,000 add</td><td>684.17</td><td>0.68</td><td>0.01</td></tr></tbody></table><h2>queue</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>1,000,000 push</td><td>26.97</td><td>0.03</td><td>0.00</td></tr><tr><td>100,000 push & shift</td><td>2.87</td><td>0.00</td><td>2.71e-4</td></tr><tr><td>Native JS Array 100,000 push & shift</td><td>1120.94</td><td>1.12</td><td>0.20</td></tr></tbody></table><h2>deque</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>1,000,000 push</td><td>8.75</td><td>0.01</td><td>6.99e-4</td></tr><tr><td>1,000,000 push & pop</td><td>12.95</td><td>0.01</td><td>4.21e-4</td></tr><tr><td>1,000,000 push & shift</td><td>13.73</td><td>0.01</td><td>4.53e-4</td></tr><tr><td>100,000 push & shift</td><td>1.36</td><td>0.00</td><td>5.42e-5</td></tr><tr><td>Native JS Array 100,000 push & shift</td><td>1167.06</td><td>1.17</td><td>0.26</td></tr><tr><td>100,000 unshift & shift</td><td>1.31</td><td>0.00</td><td>4.73e-5</td></tr><tr><td>Native JS Array 100,000 unshift & shift</td><td>1911.47</td><td>1.91</td><td>0.02</td></tr></tbody></table><h2>heap</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>100,000 add</td><td>4.60</td><td>0.00</td><td>1.07e-4</td></tr><tr><td>100,000 add & poll</td><td>16.96</td><td>0.02</td><td>3.45e-4</td></tr></tbody></table><h2>avl-tree</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>100,000 add randomly</td><td>324.51</td><td>0.32</td><td>0.01</td></tr><tr><td>100,000 add</td><td>299.76</td><td>0.30</td><td>0.02</td></tr><tr><td>100,000 get</td><td>0.26</td><td>2.58e-4</td><td>3.65e-6</td></tr><tr><td>100,000 getNode</td><td>169.33</td><td>0.17</td><td>0.00</td></tr><tr><td>100,000 iterator</td><td>14.43</td><td>0.01</td><td>0.00</td></tr><tr><td>100,000 add & delete orderly</td><td>434.44</td><td>0.43</td><td>0.01</td></tr><tr><td>100,000 add & delete randomly</td><td>541.78</td><td>0.54</td><td>0.01</td></tr></tbody></table><h2>hash-map</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>1,000,000 set</td><td>43.23</td><td>0.04</td><td>0.01</td></tr><tr><td>Native JS Map 1,000,000 set</td><td>147.12</td><td>0.15</td><td>0.01</td></tr><tr><td>Native JS Set 1,000,000 add</td><td>116.18</td><td>0.12</td><td>0.01</td></tr><tr><td>1,000,000 set & get</td><td>46.39</td><td>0.05</td><td>0.01</td></tr><tr><td>Native JS Map 1,000,000 set & get</td><td>196.92</td><td>0.20</td><td>0.01</td></tr><tr><td>Native JS Set 1,000,000 add & has</td><td>163.92</td><td>0.16</td><td>0.01</td></tr><tr><td>1,000,000 ObjKey set & get</td><td>243.36</td><td>0.24</td><td>0.03</td></tr><tr><td>Native JS Map 1,000,000 ObjKey set & get</td><td>211.66</td><td>0.21</td><td>0.02</td></tr><tr><td>Native JS Set 1,000,000 ObjKey add & has</td><td>196.57</td><td>0.20</td><td>0.01</td></tr></tbody></table><h2>directed-graph</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>1,000 addVertex</td><td>0.05</td><td>4.60e-5</td><td>6.59e-7</td></tr><tr><td>1,000 addEdge</td><td>3.02</td><td>0.00</td><td>2.85e-4</td></tr><tr><td>1,000 getVertex</td><td>0.04</td><td>3.77e-5</td><td>4.66e-7</td></tr><tr><td>1,000 getEdge</td><td>41.48</td><td>0.04</td><td>0.01</td></tr><tr><td>tarjan</td><td>240.33</td><td>0.24</td><td>0.01</td></tr><tr><td>topologicalSort</td><td>195.62</td><td>0.20</td><td>0.01</td></tr></tbody></table><h2>trie</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>100,000 push</td><td>27.15</td><td>0.03</td><td>6.61e-4</td></tr><tr><td>100,000 getWords</td><td>41.18</td><td>0.04</td><td>0.00</td></tr></tbody></table><h2>stack</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>1,000,000 push</td><td>25.21</td><td>0.03</td><td>0.00</td></tr><tr><td>1,000,000 push & pop</td><td>29.12</td><td>0.03</td><td>0.00</td></tr></tbody></table>
+
+[//]: # (No deletion!!! End of Replace Section)
+
 
 ## The corresponding relationships between data structures in different language standard libraries.
 
@@ -1106,6 +1090,67 @@ pnpm perf:rbtree
   </tr>
   </tbody>
 </table>
+
+Starting from v2.2.0, `data-structure-typed` ships **two runtime targets** to balance
+maximum performance on modern engines with broad compatibility for older Node.js
+and browsers.
+
+### Build Targets
+
+| Target | Output | Recommended runtime | Minimum runtime | Notes |
+|---|---|---:|---:|---|
+| **Modern (ES2022)** | `dist/esm` / `dist/cjs` | **Node.js 18+** | Node.js 16+ | Best performance. Enables V8 to fully optimize hot paths (JIT-friendly class semantics). |
+| **Legacy (ES2018)** | `dist/esm-legacy` / `dist/cjs-legacy` | Node.js 16+ | **Node.js 12+** | Maximum compatibility. Slightly slower due to older compilation target and reduced JIT opportunities. |
+
+### Benchmarks (Insertion-heavy workloads)
+
+The modern build (ES2022) is significantly faster for insertion-heavy operations
+(e.g. Red-Black Tree `add/insert`) because it avoids performance overhead from
+transpiled class field initialization and improves JIT optimization.
+
+| Benchmark | Legacy (ES2018) | Modern (ES2022) | Speedup |
+|---|---:|---:|---:|
+| Red-Black Tree `add` (1,000,000 inserts) | **~1100 ms** *(example)* | **473.12 ms** | **~2.3×** |
+
+> Notes:
+> - Results vary by hardware and Node version.
+> - We recommend running benchmarks on **Node.js 18+** for stable, modern V8 behavior.
+
+### Node.js Support Policy
+
+- **Supported:** Node.js **12+** (via the legacy build)
+- **Recommended:** Node.js **18+** (modern build, best performance and stability)
+- **Best experience:** Node.js **20+** (latest V8 improvements)
+
+If you target Node.js 18+ only, you will get the best performance out of the box.
+
+### Browser Support
+
+- **Modern browsers (Evergreen):** use the **Modern (ES2022)** ESM build.
+- **Older browsers / conservative bundlers:** use the **Legacy (ES2018)** ESM build.
+
+In most bundler setups, the correct build is resolved automatically via `exports`.
+If you need to force a specific target, use the explicit entry points:
+
+```js
+// Force modern build (ES2022)
+import { RedBlackTree } from "data-structure-typed/modern";
+
+// Force legacy build (ES2018)
+import { RedBlackTree } from "data-structure-typed/legacy";
+```
+
+Just run
+
+```shell
+pnpm test:perf red-black-tree.test.ts
+```
+
+```html
+1,000,000 add randomly: 1.141s
+1,000,000 add: 374.859ms
+1,000,000 get: 5.99ms
+```
 
 ## Software Engineering Design Standards
 

@@ -203,6 +203,7 @@ export class BinaryTreeNode<K = any, V = any> {
  * 3. Depth and Height: Depth is the number of edges from the root to a node; height is the maximum depth in the tree.
  * 4. Subtrees: Each child of a node forms the root of a subtree.
  * 5. Leaf Nodes: Nodes without children are leaves.
+ *
  * @example
  * // determine loan approval using a decision tree
  *     // Decision tree structure
@@ -1673,7 +1674,7 @@ export class BinaryTree<K = any, V = any, R = any>
   filter(predicate: EntryCallback<K, V | undefined, boolean>, thisArg?: unknown): this {
     const out = this._createInstance<K, V, R>();
     let i = 0;
-    for (const [k, v] of this) if (predicate.call(thisArg, k, v, i++, this)) out.add([k, v]);
+    for (const [k, v] of this) if (predicate.call(thisArg, v, k, i++, this)) out.add([k, v]);
     return out;
   }
 
@@ -1696,7 +1697,7 @@ export class BinaryTree<K = any, V = any, R = any>
   ): BinaryTree<MK, MV, MR> {
     const out = this._createLike<MK, MV, MR>([], options);
     let i = 0;
-    for (const [k, v] of this) out.add(cb.call(thisArg, k, v, i++, this));
+    for (const [k, v] of this) out.add(cb.call(thisArg, v, k, i++, this));
     return out;
   }
 

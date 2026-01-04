@@ -1109,7 +1109,7 @@ describe('BST iterative methods test', () => {
 
   it('forEach should iterate over all elements', () => {
     const mockCallback = jest.fn();
-    bst.forEach((key, value) => {
+    bst.forEach((value, key) => {
       mockCallback(key, value);
     });
 
@@ -1120,7 +1120,7 @@ describe('BST iterative methods test', () => {
   });
 
   it('filter should return a new tree with filtered elements', () => {
-    const filteredTree = bst.filter(key => key > 1);
+    const filteredTree = bst.filter((_value, key) => key > 1);
     expect(filteredTree.size).toBe(2);
     expect([...filteredTree]).toEqual([
       [2, 'b'],
@@ -1129,7 +1129,7 @@ describe('BST iterative methods test', () => {
   });
 
   it('map should return a new tree with modified elements', () => {
-    const mappedTree = bst.map((key, value) => [(key * 2).toString(), value]);
+    const mappedTree = bst.map((value, key) => [(key * 2).toString(), value]);
     expect(mappedTree.size).toBe(3);
     expect([...mappedTree]).toEqual([
       ['2', 'a'],

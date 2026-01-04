@@ -186,6 +186,7 @@ export class RedBlackTreeNode<K = any, V = any> {
  * @template R
  * 1. Efficient self-balancing, but not completely balanced. Compared with AVLTree, the addition and deletion efficiency is high, but the query efficiency is slightly lower.
  * 2. It is BST itself. Compared with Heap which is not completely ordered, RedBlackTree is completely ordered.
+ *
  * @example
  * // using Red-Black Tree as a price-based index for stock data
  *     // Define the structure of individual stock records
@@ -420,7 +421,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
     let index = 0;
     for (const [key, value] of this) {
-      out.add(callback.call(thisArg, key, value, index++, this));
+      out.add(callback.call(thisArg, value, key, index++, this));
     }
     return out;
   }

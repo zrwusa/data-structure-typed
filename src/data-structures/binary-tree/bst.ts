@@ -199,6 +199,7 @@ export class BSTNode<K = any, V = any> {
  * 5. Logarithmic Operations: Ideal operations like insertion, deletion, and searching are O(log n) time-efficient.
  * 6. Balance Variability: Can become unbalanced; special types maintain balance.
  * 7. No Auto-Balancing: Standard BSTs don't automatically balance themselves.
+ *
  * @example
  * // Merge 3 sorted datasets
  *     const dataset1 = new BST<number, string>([
@@ -908,7 +909,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     let index = 0;
     // Iterates in-order
     for (const [key, value] of this) {
-      out.add(callback.call(thisArg, key, value, index++, this));
+      out.add(callback.call(thisArg, value, key, index++, this));
     }
     return out;
   }

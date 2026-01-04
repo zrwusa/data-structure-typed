@@ -66,7 +66,7 @@ export abstract class IterableEntryBase<K = any, V = any> {
   every(predicate: EntryCallback<K, V, boolean>, thisArg?: any): boolean {
     let index = 0;
     for (const item of this) {
-      if (!predicate.call(thisArg, item[0], item[1], index++, this)) {
+      if (!predicate.call(thisArg, item[1], item[0], index++, this)) {
         return false;
       }
     }
@@ -83,7 +83,7 @@ export abstract class IterableEntryBase<K = any, V = any> {
   some(predicate: EntryCallback<K, V, boolean>, thisArg?: any): boolean {
     let index = 0;
     for (const item of this) {
-      if (predicate.call(thisArg, item[0], item[1], index++, this)) {
+      if (predicate.call(thisArg, item[1], item[0], index++, this)) {
         return true;
       }
     }
@@ -100,7 +100,7 @@ export abstract class IterableEntryBase<K = any, V = any> {
     let index = 0;
     for (const item of this) {
       const [key, value] = item;
-      callbackfn.call(thisArg, key, value, index++, this);
+      callbackfn.call(thisArg, value, key, index++, this);
     }
   }
 
@@ -115,7 +115,7 @@ export abstract class IterableEntryBase<K = any, V = any> {
     let index = 0;
     for (const item of this) {
       const [key, value] = item;
-      if (callbackfn.call(thisArg, key, value, index++, this)) return item;
+      if (callbackfn.call(thisArg, value, key, index++, this)) return item;
     }
     return;
   }
