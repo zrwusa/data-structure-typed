@@ -43,14 +43,14 @@ const dirMap: Record<string, string | string[]> = {
   Stack: 'stack-typed',
   TreeMultimap: 'tree-multimap-typed',
   Trie: 'trie-typed',
-  UndirectedGraph: 'undirected-graph-typed',
+  UndirectedGraph: 'undirected-graph-typed'
 };
 
 const classMap: Record<string, string> = {
   Bst: 'BST',
   AvlTree: 'AVLTree',
   AvlTreeMultiMap: 'AVLTreeMultiMap',
-  AvlTreeCounter: 'AVLTreeCounter',
+  AvlTreeCounter: 'AVLTreeCounter'
 };
 
 const fileName = 'README.md';
@@ -71,8 +71,8 @@ function getAllTestFiles(dir: string): string[] {
 }
 
 /**
- * 计算括号平衡的结束位置
- * 用于精确提取 expect() 中的 actual 参数
+ *Calculate the end position of the parenthesis balance
+ * Used to extract the actual parameter in expect() precisely
  */
 function findBalancedParenClose(str: string, startIdx: number): number {
   let depth = 0;
@@ -83,11 +83,11 @@ function findBalancedParenClose(str: string, startIdx: number): number {
       depth--;
       if (depth === 0) return i;
     } else if (char === '"' || char === "'" || char === '`') {
-      // 跳过字符串
+      // Skip strings
       const quote = char;
       i++;
       while (i < str.length && str[i] !== quote) {
-        if (str[i] === '\\') i++; // 跳过转义字符
+        if (str[i] === '\\') i++; // Skip escape characters
         i++;
       }
     }
@@ -96,26 +96,21 @@ function findBalancedParenClose(str: string, startIdx: number): number {
 }
 
 /**
- * 从 AST 角度精确转换 expect 语句
- * 避免正则表达式的括号嵌套问题
+ * Accurately convert expect statements from the AST perspective
+ * Avoid parentheses nesting issues for regular expressions
  */
 function transformExpectStatementsWithAST(codeBlock: string): string {
-  const sourceFile = ts.createSourceFile(
-    'temp.ts',
-    codeBlock,
-    ts.ScriptTarget.Latest,
-    true
-  );
+  const sourceFile = ts.createSourceFile('temp.ts', codeBlock, ts.ScriptTarget.Latest, true);
 
   const replacements: Array<{ start: number; end: number; replacement: string }> = [];
 
   function visit(node: ts.Node) {
-    // 寻找 expect(...).method(...) 的模式
+    // Look for expect(...). method(...).
     if (ts.isCallExpression(node) && node.expression && ts.isPropertyAccessExpression(node.expression)) {
       const propAccess = node.expression;
       const methodName = propAccess.name.text;
 
-      // 检查是否是 expect() 调用
+      // Check if it's an expect() call
       if (propAccess.expression && ts.isCallExpression(propAccess.expression)) {
         const expectCall = propAccess.expression;
 
@@ -128,8 +123,9 @@ function transformExpectStatementsWithAST(codeBlock: string): string {
           const expected = node.arguments[0]?.getFullText(sourceFile)?.trim() || '';
           const notModifier = propAccess.name.parent ? '' : '';
 
-          // 检查是否有 .not 修饰符
-          const hasNot = propAccess.expression.parent &&
+          // Check for .not modifiers
+          const hasNot =
+            propAccess.expression.parent &&
             ts.isPropertyAccessExpression(propAccess.expression.parent) &&
             propAccess.expression.parent.name.text === 'not';
 
@@ -141,7 +137,7 @@ function transformExpectStatementsWithAST(codeBlock: string): string {
           replacements.push({
             start: expectCall.getStart(sourceFile),
             end: node.getEnd(),
-            replacement,
+            replacement
           });
         }
       }
@@ -152,7 +148,7 @@ function transformExpectStatementsWithAST(codeBlock: string): string {
 
   visit(sourceFile);
 
-  // 从后往前替换，避免 offset 变化
+  // Replace from back to front to avoid offset changes
   replacements.sort((a, b) => b.start - a.start);
   let result = codeBlock;
   for (const replacement of replacements) {
@@ -163,50 +159,50 @@ function transformExpectStatementsWithAST(codeBlock: string): string {
 }
 
 /**
- * 将 Jest matcher 转换为注释
+ * Convert Jest matcher to annotation
  */
 function convertMatcherToComment(method: string, expected: string): string {
   const matchers: Record<string, (exp: string) => string> = {
-    // 布尔/类型检查
+    // Boolean/type check
     toBeUndefined: () => 'undefined',
     toBeNull: () => 'null',
     toBeTruthy: () => 'truthy',
     toBeFalsy: () => 'falsy',
     toBeDefined: () => 'defined',
 
-    // 数值比较
+    // Numerical comparison
     toBeGreaterThan: (exp: string) => `> ${exp}`,
     toBeGreaterThanOrEqual: (exp: string) => `>= ${exp}`,
     toBeLessThan: (exp: string) => `< ${exp}`,
     toBeLessThanOrEqual: (exp: string) => `<= ${exp}`,
 
-    // 等值检查
+    // Equivalent check
     toBe: (exp: string) => exp,
     toEqual: (exp: string) => exp,
     toStrictEqual: (exp: string) => exp,
 
-    // 容器检查
+    // Container inspection
     toContain: (exp: string) => `contains ${exp}`,
     toContainEqual: (exp: string) => `contains ${exp}`,
     toHaveLength: (exp: string) => `length: ${exp}`,
     toHaveProperty: (exp: string) => `has property ${exp}`,
 
-    // 字符串/正则
+    // string/regular
     toMatch: (exp: string) => `matches ${exp}`,
 
-    // 异常检查
-    toThrow: (exp: string) => (exp ? `throws ${exp}` : 'throws'),
+    // Anomaly check
+    toThrow: (exp: string) => (exp ? `throws ${exp}` : 'throws')
   };
 
   const matcherFn = matchers[method];
-  if (!matcherFn) return method; // 未知的 matcher
+  if (!matcherFn) return method; // Unknown matcher
 
-  // 对于不需要参数的 matcher
+  // For matchers that don't require parameters
   if (['toBeUndefined', 'toBeNull', 'toBeTruthy', 'toBeFalsy', 'toBeDefined'].includes(method)) {
     return matcherFn('');
   }
 
-  // 清理多行的 expected 参数
+  // Cleanup of expected parameters for multiple rows
   const cleanExpected = expected.replace(/\n/g, '\n //');
   return matcherFn(cleanExpected);
 }
@@ -242,7 +238,7 @@ function extractExamplesFromFile(filePath: string): { name: string; body: string
         exampleBody = bodyNode.getFullText(sourceFile).trim();
       }
 
-      // 使用 AST 方式转换 expect 语句
+      // Use AST to convert expect statements
       const transformedBody = transformExpectStatementsWithAST(exampleBody).trim();
       examples.push({ name: exampleName, body: transformedBody });
     }
@@ -269,9 +265,9 @@ function addExamplesToSourceFile(
 
   const sourceContent = fs.readFileSync(sourceFilePath, 'utf-8');
   const sourceFile = ts.createSourceFile(sourceFilePath, sourceContent, ts.ScriptTarget.Latest, true);
-  const classNode = sourceFile.statements.find(
-    stmt => ts.isClassDeclaration(stmt) && stmt.name?.text === className
-  ) as ts.ClassDeclaration | undefined;
+  const classNode = sourceFile.statements.find(stmt => ts.isClassDeclaration(stmt) && stmt.name?.text === className) as
+    | ts.ClassDeclaration
+    | undefined;
 
   if (!classNode) return;
 
@@ -307,15 +303,16 @@ function addExamplesToSourceFile(
 
   const existingCommentInner = existingCommentMatch[1]; // keep inner as-is, including leading newline
 
-  const exampleSection = examples
-    .map(example => {
-      const indentedBody = ' ' + example.body;
-      return ` * @example\n * // ${example.name}\n${indentedBody
-        .split('\n')
-        .map(line => (line.trim() === '' ? ` *` : ` * ${line}`))
-        .join('\n')}`;
-    })
-    .join('\n') + '\n';
+  const exampleSection =
+    examples
+      .map(example => {
+        const indentedBody = ' ' + example.body;
+        return ` * @example\n * // ${example.name}\n${indentedBody
+          .split('\n')
+          .map(line => (line.trim() === '' ? ` *` : ` * ${line}`))
+          .join('\n')}`;
+      })
+      .join('\n') + '\n';
 
   let newInner: string;
 

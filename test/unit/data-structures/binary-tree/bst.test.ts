@@ -1616,6 +1616,625 @@ describe('BST _keyValueNodeOrEntryToNodeAndValue edge', () => {
   });
 });
 
+describe('BST lowerBound and upperBound', () => {
+  let bst: BST<number, string>;
+
+  beforeEach(() => {
+    // Create a BST with keys: [10, 5, 15, 3, 7, 12, 20, 1, 4, 6, 8, 11, 13, 18, 25]
+    bst = new BST<number, string>([10, 5, 15, 3, 7, 12, 20, 1, 4, 6, 8, 11, 13, 18, 25]);
+  });
+
+  describe('lowerBound', () => {
+    it('should return the node with exact key match', () => {
+      // Test for key that exists in tree
+      const node = bst.lowerBound(10);
+      expect(node).toBeDefined();
+      expect(node?.key).toBe(10);
+    });
+
+    it('should return the smallest node >= key when exact match not found', () => {
+      // Test for key 9 (doesn't exist, should return 10)
+      const node = bst.lowerBound(9);
+      expect(node).toBeDefined();
+      expect(node?.key).toBe(10);
+    });
+
+    it('should return node with key >= search key from multiple candidates', () => {
+      // Test for key 6 (exists, should return 6)
+      const node = bst.lowerBound(6);
+      expect(node).toBeDefined();
+      expect(node?.key).toBe(6);
+
+      // Test for key 7 (exists, should return 7)
+      const node2 = bst.lowerBound(7);
+      expect(node2).toBeDefined();
+      expect(node2?.key).toBe(7);
+    });
+
+    it('should return smallest key >= search key for non-existent key in middle range', () => {
+      // Test for key 14 (doesn't exist, should return 15)
+      const node = bst.lowerBound(14);
+      expect(node).toBeDefined();
+      expect(node?.key).toBe(15);
+
+      // Test for key 11.5 (doesn't exist, should return 12)
+      const node2 = bst.lowerBound(11.5);
+      expect(node2).toBeDefined();
+      expect(node2?.key).toBe(12);
+    });
+
+    it('should return smallest key when search key is less than minimum', () => {
+      // Test for key 0 (should return 1, the minimum)
+      const node = bst.lowerBound(0);
+      expect(node).toBeDefined();
+      expect(node?.key).toBe(1);
+
+      // Test for key -100 (should return 1, the minimum)
+      const node2 = bst.lowerBound(-100);
+      expect(node2).toBeDefined();
+      expect(node2?.key).toBe(1);
+    });
+
+    it('should return undefined when search key is greater than maximum', () => {
+      // Test for key 100 (no key >= 100, should return undefined)
+      const node = bst.lowerBound(100);
+      expect(node).toBeUndefined();
+
+      // Test for key 26 (no key >= 26, should return undefined)
+      const node2 = bst.lowerBound(26);
+      expect(node2).toBeUndefined();
+    });
+
+    it('should return correct node for edge cases', () => {
+      // Test for key 25 (maximum, should return 25)
+      const node = bst.lowerBound(25);
+      expect(node).toBeDefined();
+      expect(node?.key).toBe(25);
+
+      // Test for key 1 (minimum, should return 1)
+      const node2 = bst.lowerBound(1);
+      expect(node2).toBeDefined();
+      expect(node2?.key).toBe(1);
+    });
+  });
+
+  describe('upperBound', () => {
+    it('should return the smallest key > search key', () => {
+      // Test for key 10 (exists, should return next key > 10, which is 11)
+      const node = bst.upperBound(10);
+      expect(node).toBeDefined();
+      expect(node?.key).toBe(11);
+    });
+
+    it('should return the smallest key > search key for non-existent key', () => {
+      // Test for key 9 (doesn't exist, should return 10, the smallest key > 9)
+      const node = bst.upperBound(9);
+      expect(node).toBeDefined();
+      expect(node?.key).toBe(10);
+
+      // Test for key 14 (doesn't exist, should return 15)
+      const node2 = bst.upperBound(14);
+      expect(node2).toBeDefined();
+      expect(node2?.key).toBe(15);
+    });
+
+    it('should skip equal keys and return the next larger key', () => {
+      // Test for key 5 (exists, should return 6, the smallest key > 5)
+      const node = bst.upperBound(5);
+      expect(node).toBeDefined();
+      expect(node?.key).toBe(6);
+
+      // Test for key 20 (exists, should return 25)
+      const node2 = bst.upperBound(20);
+      expect(node2).toBeDefined();
+      expect(node2?.key).toBe(25);
+    });
+
+    it('should return smallest key > search key for non-existent key in middle range', () => {
+      // Test for key 11.5 (doesn't exist, should return 12)
+      const node = bst.upperBound(11.5);
+      expect(node).toBeDefined();
+      expect(node?.key).toBe(12);
+
+      // Test for key 19 (doesn't exist, should return 20)
+      const node2 = bst.upperBound(19);
+      expect(node2).toBeDefined();
+      expect(node2?.key).toBe(20);
+    });
+
+    it('should return smallest key when search key is less than minimum', () => {
+      // Test for key 0 (should return 1, the minimum)
+      const node = bst.upperBound(0);
+      expect(node).toBeDefined();
+      expect(node?.key).toBe(1);
+
+      // Test for key -100 (should return 1, the minimum)
+      const node2 = bst.upperBound(-100);
+      expect(node2).toBeDefined();
+      expect(node2?.key).toBe(1);
+    });
+
+    it('should return undefined when search key is >= maximum', () => {
+      // Test for key 100 (no key > 100, should return undefined)
+      const node = bst.upperBound(100);
+      expect(node).toBeUndefined();
+
+      // Test for key 25 (maximum, no key > 25, should return undefined)
+      const node2 = bst.upperBound(25);
+      expect(node2).toBeUndefined();
+
+      // Test for key 26 (no key > 26, should return undefined)
+      const node3 = bst.upperBound(26);
+      expect(node3).toBeUndefined();
+    });
+
+    it('should return correct node for edge cases', () => {
+      // Test for key 1 (minimum, should return next key 3)
+      const node = bst.upperBound(1);
+      expect(node).toBeDefined();
+      expect(node?.key).toBe(3);
+
+      // Test for key 24 (doesn't exist, should return 25)
+      const node2 = bst.upperBound(24);
+      expect(node2).toBeDefined();
+      expect(node2?.key).toBe(25);
+    });
+  });
+
+  describe('lowerBound vs upperBound comparison', () => {
+    it('should demonstrate difference between lowerBound and upperBound', () => {
+      const searchKey = 12;
+
+      // lowerBound(12) should return 12 (key >= 12)
+      const lower = bst.lowerBound(searchKey);
+      expect(lower?.key).toBe(12);
+
+      // upperBound(12) should return 13 (key > 12)
+      const upper = bst.upperBound(searchKey);
+      expect(upper?.key).toBe(13);
+    });
+
+    it('should return same result for non-existent key in both methods', () => {
+      const searchKey = 11.5;
+
+      // Both should return 12 (smallest key >= 11.5 for lowerBound, smallest key > 11.5 for upperBound)
+      const lower = bst.lowerBound(searchKey);
+      const upper = bst.upperBound(searchKey);
+      expect(lower?.key).toBe(12);
+      expect(upper?.key).toBe(12);
+    });
+  });
+
+  describe('BST Bound Methods Comprehensive Tests', () => {
+    let bst: BST<number, string>;
+
+    // Helper: Generate random number array
+    const generateRandomArray = (size: number, min: number, max: number) => {
+      return Array.from({ length: size }, () => Math.floor(Math.random() * (max - min + 1)) + min);
+    };
+
+    beforeEach(() => {
+      // Construct a standard test tree
+      // Structure:
+      //          10
+      //        /    \
+      //       5      15
+      //      / \    /  \
+      //     2   8  12   20
+      //        / \
+      //       6   9
+      bst = new BST<number, string>();
+      const keys = [10, 5, 15, 2, 8, 12, 20, 6, 9];
+      keys.forEach(k => bst.add(k, `val-${k}`));
+    });
+
+    describe('lowerBound (First node >= key)', () => {
+      test('should return strict match if key exists', () => {
+        // Case: Key exists
+        expect(bst.lowerBound(10)?.key).toBe(10);
+        expect(bst.lowerBound(6)?.key).toBe(6);
+        expect(bst.lowerBound(20)?.key).toBe(20);
+      });
+
+      test('should return next larger node if key does not exist', () => {
+        // Case: Key doesn't exist, but falls within range
+        expect(bst.lowerBound(7)?.key).toBe(8); // 7 -> 8
+        expect(bst.lowerBound(11)?.key).toBe(12); // 11 -> 12
+        expect(bst.lowerBound(3)?.key).toBe(5); // 3 -> 5
+      });
+
+      test('should return smallest node if key is smaller than min', () => {
+        // Case: Key is smaller than the minimum value in the tree
+        expect(bst.lowerBound(0)?.key).toBe(2);
+        expect(bst.lowerBound(-100)?.key).toBe(2);
+      });
+
+      test('should return undefined if key is larger than max', () => {
+        // Case: Key is larger than the maximum value in the tree
+        expect(bst.lowerBound(21)).toBeUndefined();
+        expect(bst.lowerBound(100)).toBeUndefined();
+      });
+
+      test('should work with IterationType.RECURSIVE explicitly', () => {
+        expect(bst.lowerBound(7, 'RECURSIVE')?.key).toBe(8);
+        expect(bst.lowerBound(10, 'RECURSIVE')?.key).toBe(10);
+        expect(bst.lowerBound(21, 'RECURSIVE')).toBeUndefined();
+      });
+
+      test('should work with IterationType.ITERATIVE explicitly', () => {
+        expect(bst.lowerBound(7, 'ITERATIVE')?.key).toBe(8);
+        expect(bst.lowerBound(10, 'ITERATIVE')?.key).toBe(10);
+        expect(bst.lowerBound(21, 'ITERATIVE')).toBeUndefined();
+      });
+    });
+
+    describe('upperBound (First node > key)', () => {
+      test('should return next larger node even if key exists', () => {
+        // Case: Key exists, but we want strictly greater
+        expect(bst.upperBound(10)?.key).toBe(12); // > 10 is 12
+        expect(bst.upperBound(6)?.key).toBe(8); // > 6 is 8
+        expect(bst.upperBound(20)).toBeUndefined(); // > 20 is undefined
+      });
+
+      test('should return next larger node if key does not exist', () => {
+        // Case: Key doesn't exist
+        expect(bst.upperBound(7)?.key).toBe(8);
+        expect(bst.upperBound(11)?.key).toBe(12);
+      });
+
+      test('should return undefined if key is larger than or equal to max', () => {
+        expect(bst.upperBound(20)).toBeUndefined();
+        expect(bst.upperBound(21)).toBeUndefined();
+      });
+
+      test('should work with IterationType.RECURSIVE explicitly', () => {
+        expect(bst.upperBound(10, 'RECURSIVE')?.key).toBe(12);
+        expect(bst.upperBound(20, 'RECURSIVE')).toBeUndefined();
+      });
+    });
+
+    describe('Edge Cases', () => {
+      test('should handle empty tree', () => {
+        const emptyTree = new BST<number, string>();
+        expect(emptyTree.lowerBound(10)).toBeUndefined();
+        expect(emptyTree.upperBound(10)).toBeUndefined();
+      });
+
+      test('should handle single node tree', () => {
+        const singleNodeTree = new BST<number, string>();
+        singleNodeTree.add(10);
+
+        // lowerBound
+        expect(singleNodeTree.lowerBound(5)?.key).toBe(10);
+        expect(singleNodeTree.lowerBound(10)?.key).toBe(10);
+        expect(singleNodeTree.lowerBound(15)).toBeUndefined();
+
+        // upperBound
+        expect(singleNodeTree.upperBound(5)?.key).toBe(10);
+        expect(singleNodeTree.upperBound(10)).toBeUndefined();
+      });
+    });
+
+    describe('Consistency & Fuzz Testing', () => {
+      test('Recursive and Iterative implementations should match on random data', () => {
+        const fuzzTree = new BST<number, number>();
+        // Generate 500 random numbers between 0-1000
+        const randomKeys = generateRandomArray(500, 0, 1000);
+
+        // Insert unique keys
+        [...new Set(randomKeys)].forEach(k => fuzzTree.add(k));
+
+        // Sort for verification (Ground Truth)
+        const sortedKeys = Array.from(fuzzTree.keys()).sort((a, b) => a - b);
+
+        // Test with 200 random queries (including existing and non-existing keys)
+        const testQueries = generateRandomArray(200, 0, 1000);
+
+        testQueries.forEach(queryKey => {
+          // 1. Verify lowerBound
+          const recLower = fuzzTree.lowerBound(queryKey, 'RECURSIVE')?.key;
+          const iterLower = fuzzTree.lowerBound(queryKey, 'ITERATIVE')?.key;
+
+          // Verify consistency between recursive and iterative
+          expect(recLower).toBe(iterLower);
+
+          // Verify logic correctness (compare with Array.find)
+          const expectedLower = sortedKeys.find(k => k >= queryKey);
+          expect(recLower).toBe(expectedLower);
+
+          // 2. Verify upperBound
+          const recUpper = fuzzTree.upperBound(queryKey, 'RECURSIVE')?.key;
+          const iterUpper = fuzzTree.upperBound(queryKey, 'ITERATIVE')?.key;
+
+          // Verify consistency
+          expect(recUpper).toBe(iterUpper);
+
+          // Verify logic correctness
+          const expectedUpper = sortedKeys.find(k => k > queryKey);
+          expect(recUpper).toBe(expectedUpper);
+        });
+      });
+    });
+  });
+
+  describe('empty tree', () => {
+    beforeEach(() => {
+      bst = new BST<number, string>();
+    });
+
+    it('lowerBound should return undefined on empty tree', () => {
+      const node = bst.lowerBound(10);
+      expect(node).toBeUndefined();
+    });
+
+    it('upperBound should return undefined on empty tree', () => {
+      const node = bst.upperBound(10);
+      expect(node).toBeUndefined();
+    });
+  });
+
+  describe('single node tree', () => {
+    beforeEach(() => {
+      bst = new BST<number, string>();
+      bst.add(10, 'ten');
+    });
+
+    it('lowerBound should return the node if key matches', () => {
+      const node = bst.lowerBound(10);
+      expect(node).toBeDefined();
+      expect(node?.key).toBe(10);
+    });
+
+    it('lowerBound should return the node if search key is less', () => {
+      const node = bst.lowerBound(5);
+      expect(node).toBeDefined();
+      expect(node?.key).toBe(10);
+    });
+
+    it('lowerBound should return undefined if search key is greater', () => {
+      const node = bst.lowerBound(15);
+      expect(node).toBeUndefined();
+    });
+
+    it('upperBound should return undefined if key matches', () => {
+      const node = bst.upperBound(10);
+      expect(node).toBeUndefined();
+    });
+
+    it('upperBound should return the node if search key is less', () => {
+      const node = bst.upperBound(5);
+      expect(node).toBeDefined();
+      expect(node?.key).toBe(10);
+    });
+
+    it('upperBound should return undefined if search key is greater', () => {
+      const node = bst.upperBound(15);
+      expect(node).toBeUndefined();
+    });
+  });
+
+  describe('practical LeetCode use case: Range search', () => {
+    it('should find all keys in range [12, 20]', () => {
+      // Use lowerBound to find start of range and upperBound to find end
+      const start = bst.lowerBound(12);
+
+      // Simple traversal simulation (for test only, real iteration is more complex)
+      // We manually add keys we know are in range to verify logic works
+      // The lowerBound(12) returns 12. upperBound(20) returns 25 (or null if max).
+      // Logic: we want >= 12 and <= 20.
+
+      expect(start?.key).toBe(12);
+
+      // Let's verify we found the correct bounds
+      expect(start?.key).toBeGreaterThanOrEqual(12);
+
+      // Check overlap
+      const rangeStart = bst.lowerBound(12);
+      const rangeEndInclusive = bst.lowerBound(20); // Should be 20
+
+      expect(rangeStart?.key).toBe(12);
+      expect(rangeEndInclusive?.key).toBe(20);
+    });
+
+    it('should help identify interval overlaps', () => {
+      // Check if interval [14, 19] overlaps with any existing interval
+      // Use upperBound to find the first key > 19
+      const nextKey = bst.upperBound(19);
+      // Use lowerBound to find the first key >= 14
+      const firstInRange = bst.lowerBound(14);
+
+      expect(firstInRange?.key).toBe(15);
+      expect(nextKey?.key).toBe(20);
+    });
+  });
+});
+
+describe('BST Advanced Bound Methods Tests', () => {
+  let bst: BST<number, string>;
+
+  // Helper: Generate random number array
+  const generateRandomArray = (size: number, min: number, max: number) => {
+    return Array.from({ length: size }, () => Math.floor(Math.random() * (max - min + 1)) + min);
+  };
+
+  beforeEach(() => {
+    // Construct a standard test tree
+    // Structure:
+    //          10
+    //        /    \
+    //       5      15
+    //      / \    /  \
+    //     2   8  12   20
+    //        / \
+    //       6   9
+    bst = new BST<number, string>();
+    const keys = [10, 5, 15, 2, 8, 12, 20, 6, 9];
+    keys.forEach(k => bst.add(k, `val-${k}`));
+  });
+
+  describe('Polymorphic Input Support', () => {
+    test('should accept raw Key', () => {
+      expect(bst.lowerBound(7)?.key).toBe(8);
+      expect(bst.upperBound(7)?.key).toBe(8);
+    });
+
+    test('should accept BSTNode object', () => {
+      // Find a node first
+      const node5 = bst.getNode(5);
+      expect(node5).toBeDefined();
+
+      // Use the node as input for lowerBound (should return itself)
+      expect(bst.lowerBound(node5)?.key).toBe(5);
+
+      // Use the node as input for upperBound (should return next larger)
+      expect(bst.upperBound(node5)?.key).toBe(6);
+    });
+
+    test('should accept Entry tuple [key, value]', () => {
+      // Input as [key, value] tuple
+      const entry: [number, string] = [7, 'val-7'];
+
+      expect(bst.lowerBound(entry)?.key).toBe(8);
+      expect(bst.upperBound(entry)?.key).toBe(8);
+
+      const existingEntry: [number, string] = [10, 'val-10'];
+      expect(bst.lowerBound(existingEntry)?.key).toBe(10);
+      expect(bst.upperBound(existingEntry)?.key).toBe(12);
+    });
+
+    test('should accept Predicate function (Linear Search Fallback)', () => {
+      // Predicate: Find first node with key > 11 (Expect 12)
+      // Note: Predicate search uses in-order traversal
+      const predicate = (node: any) => node.key > 11;
+
+      // For predicate, lowerBound and upperBound behave identically
+      // (they just return the first match of the predicate)
+      expect(bst.lowerBound(predicate)?.key).toBe(12);
+      expect(bst.upperBound(predicate)?.key).toBe(12);
+
+      // Predicate: Find specific value
+      expect(bst.lowerBound(n => n.key === 6)?.key).toBe(6);
+    });
+  });
+
+  describe('Iteration Types with Polymorphic Inputs', () => {
+    test('should work recursively with all types', () => {
+      const type = 'RECURSIVE';
+
+      expect(bst.lowerBound(7, type)?.key).toBe(8);
+      expect(bst.lowerBound(bst.getNode(5), type)?.key).toBe(5);
+      expect(bst.lowerBound([7, 'val'], type)?.key).toBe(8);
+      expect(bst.lowerBound(n => n.key > 11, type)?.key).toBe(12);
+    });
+
+    test('should work iteratively with all types', () => {
+      const type = 'ITERATIVE';
+
+      expect(bst.lowerBound(7, type)?.key).toBe(8);
+      expect(bst.lowerBound(bst.getNode(5), type)?.key).toBe(5);
+      expect(bst.lowerBound([7, 'val'], type)?.key).toBe(8);
+      expect(bst.lowerBound(n => n.key > 11, type)?.key).toBe(12);
+    });
+  });
+
+  describe('Complex Edge Cases', () => {
+    test('should return undefined for null/undefined input', () => {
+      expect(bst.lowerBound(null)).toBeUndefined();
+      expect(bst.lowerBound(undefined)).toBeUndefined();
+    });
+
+    test('should handle predicate returning false for all nodes', () => {
+      expect(bst.lowerBound(n => n.key > 100)).toBeUndefined();
+    });
+  });
+
+  describe('Consistency Check (Fuzz Testing)', () => {
+    test('All input methods should yield consistent results for Raw Key and Entry', () => {
+      const fuzzTree = new BST<number, number>();
+      const randomKeys = generateRandomArray(100, 0, 200);
+      [...new Set(randomKeys)].forEach(k => fuzzTree.add(k));
+
+      const queries = generateRandomArray(50, 0, 200);
+
+      queries.forEach(q => {
+        // 1. Raw Key
+        const resKey = fuzzTree.lowerBound(q);
+
+        // 2. Entry
+        const resEntry = fuzzTree.lowerBound([q, undefined]);
+
+        // Verify consistency between Key and Entry
+        expect(resKey?.key).toBe(resEntry?.key);
+      });
+    });
+
+    test('BSTNode input should work correctly', () => {
+      const fuzzTree = new BST<number, number>();
+      const randomKeys = generateRandomArray(50, 0, 100);
+      const uniqueKeys = [...new Set(randomKeys)];
+      uniqueKeys.forEach(k => fuzzTree.add(k));
+
+      // Test with actual nodes from the tree
+      for (const key of uniqueKeys) {
+        const node = fuzzTree.getNode(key);
+        if (node) {
+          // lowerBound with node should return itself (since node.key >= key)
+          expect(fuzzTree.lowerBound(node)?.key).toBe(key);
+
+          // upperBound with node should return next larger
+          const upperRes = fuzzTree.upperBound(node);
+          if (upperRes) {
+            expect(upperRes.key).toBeGreaterThan(key);
+          }
+        }
+      }
+    });
+
+    test('Predicate input should find matching nodes', () => {
+      const fuzzTree = new BST<number, number>();
+      const randomKeys = generateRandomArray(50, 0, 100);
+      const uniqueKeys = [...new Set(randomKeys)];
+      uniqueKeys.forEach(k => fuzzTree.add(k));
+
+      // Test various predicates
+      const predicates = [(n: any) => n.key > 50, (n: any) => n.key < 30, (n: any) => n.key >= 25 && n.key <= 75];
+
+      predicates.forEach(predicate => {
+        const result = fuzzTree.lowerBound(predicate);
+        if (result) {
+          // Verify the result actually satisfies the predicate
+          expect(predicate(result)).toBe(true);
+        }
+      });
+    });
+
+    test('Consistency between RECURSIVE and ITERATIVE modes', () => {
+      const fuzzTree = new BST<number, number>();
+      const randomKeys = generateRandomArray(50, 0, 100);
+      [...new Set(randomKeys)].forEach(k => fuzzTree.add(k));
+
+      const queries = generateRandomArray(30, 0, 100);
+
+      queries.forEach(q => {
+        // Test with Key
+        const recKey = fuzzTree.lowerBound(q, 'RECURSIVE');
+        const iterKey = fuzzTree.lowerBound(q, 'ITERATIVE');
+        expect(recKey?.key).toBe(iterKey?.key);
+
+        // Test with Entry
+        const recEntry = fuzzTree.lowerBound([q, undefined], 'RECURSIVE');
+        const iterEntry = fuzzTree.lowerBound([q, undefined], 'ITERATIVE');
+        expect(recEntry?.key).toBe(iterEntry?.key);
+
+        // Test upperBound too
+        const recUpper = fuzzTree.upperBound(q, 'RECURSIVE');
+        const iterUpper = fuzzTree.upperBound(q, 'ITERATIVE');
+        expect(recUpper?.key).toBe(iterUpper?.key);
+      });
+    });
+  });
+});
+
 describe('classic use', () => {
   it('@example basic BST creation and add operation', () => {
     // Create a simple BST with numeric keys

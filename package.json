@@ -40,6 +40,7 @@
   "scripts": {
     "build": "npm run build:ecu && npm run build:docs-class",
     "build:node": "tsup --config tsup.node.config.js",
+    "build:leetcode": "tsup --config tsup.leetcode.config.js",
     "build:types": "rm -rf dist/types && tsc -p tsconfig.types.json",
     "build:umd": "tsup",
     "build:ecu": "npm run build:node && npm run build:types && npm run build:umd",
