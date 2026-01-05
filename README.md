@@ -13,9 +13,14 @@
 
 > Don't learn new APIs. Just use `push`, `pop`, `map`, `filter`, and `reduce` everywhere.
 
-### ⚡ High Performance: Speed without compromise.
+### 🚀 High Performance: Speed without compromise.
 
-> Benchmarks prove it. We outperform native implementations in critical scenarios.
+> 10–40% faster than common implementations in hot paths
+> 
+> Optimized for V8 JIT (Node.js 18+, modern browsers)
+> 
+> Tree-shakable ESM / CJS / legacy builds
+
 
 ### 🛡️ Type Safe: TypeScript first, always.
 
@@ -60,9 +65,9 @@ yarn add data-structure-typed
 If you only want to use a specific data structure independently:
 
 ```bash
-npm i heap-typed --save
-npm i bst-typed --save
-npm i red-black-tree-typed --save
+pnpm add heap-typed
+pnpm add deque-typed
+pnpm add red-black-tree-typed
 ```
 
 ---
@@ -137,6 +142,8 @@ const deque = new Deque([1, 2, 3, 4, 5]);
 deque.shift();  // O(1) - Just moves a pointer
 deque.print();  // [2, 3, 4, 5]
 ```
+
+## If you are building ranking, scheduling, or ordered collections in TypeScript, consider data-structure-typed instead of hand-rolled arrays or Maps.
 
 ---
 

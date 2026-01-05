@@ -1621,6 +1621,17 @@ describe('classic use', () => {
     // Create a simple BST with numeric keys
     const bst = new BST<number>([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
 
+    bst.print();
+    //         _______8__________
+    //        /                  \
+    //     ___4___          ____12_____
+    //    /       \        /           \
+    //   _2_     _6_     _10__       _14__
+    //  /   \   /   \   /     \     /     \
+    //  1   3   5   7   9    11    13    15__
+    //                                       \
+    //                                      16
+
     // Verify size
     expect(bst.size).toBe(16);
 

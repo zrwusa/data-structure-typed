@@ -202,6 +202,13 @@ export class AVLTreeNode<K = any, V = any> {
  *  // Create a simple AVLTree with initial values
  *     const tree = new AVLTree([5, 2, 8, 1, 9]);
  *
+ *     tree.print();
+ *     //   _2___
+ *     //  /     \
+ *     //  1    _8_
+ *     //      /   \
+ *     //      5   9
+ *
  *     // Verify the tree maintains sorted order
  *     console.log([...tree.keys()]); // [1, 2, 5, 8, 9];
  *
