@@ -21,8 +21,49 @@ import { IterableElementBase } from '../base';
  * 5. Expression Evaluation: Used for the evaluation of arithmetic or logical expressions, especially when dealing with parenthesis matching and operator precedence.
  * 6. Backtracking Algorithms: In problems where multiple branches need to be explored but only one branch can be explored at a time, stacks can be used to save the state at each branching point.
  * @example
+ * // basic Stack creation and push operation
+ *  // Create a simple Stack with initial values
+ *     const stack = new Stack([1, 2, 3, 4, 5]);
+ *
+ *     // Verify the stack maintains insertion order (LIFO will be shown in pop)
+ *     console.log([...stack]); // [1, 2, 3, 4, 5];
+ *
+ *     // Check length
+ *     console.log(stack.size); // 5;
+ *
+ *     // Push a new element to the top
+ *     stack.push(6);
+ *     console.log(stack.size); // 6;
+ * @example
+ * // Stack pop operation (LIFO - Last In First Out)
+ *  const stack = new Stack<number>([10, 20, 30, 40, 50]);
+ *
+ *     // Peek at the top element without removing
+ *     const top = stack.peek();
+ *     console.log(top); // 50;
+ *
+ *     // Pop removes from the top (LIFO order)
+ *     const popped = stack.pop();
+ *     console.log(popped); // 50;
+ *
+ *     // Next pop gets the previous element
+ *     const next = stack.pop();
+ *     console.log(next); // 40;
+ *
+ *     // Verify length decreased
+ *     console.log(stack.size); // 3;
+ * @example
+ * // Function Call Stack
+ *  const functionStack = new Stack<string>();
+ *     functionStack.push('main');
+ *     functionStack.push('foo');
+ *     functionStack.push('bar');
+ *     console.log(functionStack.pop()); // 'bar';
+ *     console.log(functionStack.pop()); // 'foo';
+ *     console.log(functionStack.pop()); // 'main';
+ * @example
  * // Balanced Parentheses or Brackets
- *     type ValidCharacters = ')' | '(' | ']' | '[' | '}' | '{';
+ *  type ValidCharacters = ')' | '(' | ']' | '[' | '}' | '{';
  *
  *     const stack = new Stack<string>();
  *     const input: ValidCharacters[] = '[({})]'.split('') as ValidCharacters[];
@@ -36,10 +77,10 @@ import { IterableElementBase } from '../base';
  *         }
  *       }
  *     }
- *     console.log(stack.isEmpty()); // true
+ *     console.log(stack.isEmpty()); // true;
  * @example
  * // Expression Evaluation and Conversion
- *     const stack = new Stack<number>();
+ *  const stack = new Stack<number>();
  *     const expression = [5, 3, '+']; // Equivalent to 5 + 3
  *     expression.forEach(token => {
  *       if (typeof token === 'number') {
@@ -50,24 +91,10 @@ import { IterableElementBase } from '../base';
  *         stack.push(token === '+' ? a + b : 0); // Only handling '+' here
  *       }
  *     });
- *     console.log(stack.pop()); // 8
- * @example
- * // Depth-First Search (DFS)
- *     const stack = new Stack<number>();
- *     const graph: { [key in number]: number[] } = { 1: [2, 3], 2: [4], 3: [5], 4: [], 5: [] };
- *     const visited: number[] = [];
- *     stack.push(1);
- *     while (!stack.isEmpty()) {
- *       const node = stack.pop()!;
- *       if (!visited.includes(node)) {
- *         visited.push(node);
- *         graph[node].forEach(neighbor => stack.push(neighbor));
- *       }
- *     }
- *     console.log(visited); // [1, 3, 5, 2, 4]
+ *     console.log(stack.pop()); // 8;
  * @example
  * // Backtracking Algorithms
- *     const stack = new Stack<[number, number]>();
+ *  const stack = new Stack<[number, number]>();
  *     const maze = [
  *       ['S', ' ', 'X'],
  *       ['X', ' ', 'X'],
@@ -109,28 +136,10 @@ import { IterableElementBase } from '../base';
  *       }
  *     }
  *
- *     expect(path).toContainEqual(end);
- * @example
- * // Function Call Stack
- *     const functionStack = new Stack<string>();
- *     functionStack.push('main');
- *     functionStack.push('foo');
- *     functionStack.push('bar');
- *     console.log(functionStack.pop()); // 'bar'
- *     console.log(functionStack.pop()); // 'foo'
- *     console.log(functionStack.pop()); // 'main'
- * @example
- * // Simplify File Paths
- *     const stack = new Stack<string>();
- *     const path = '/a/./b/../../c';
- *     path.split('/').forEach(segment => {
- *       if (segment === '..') stack.pop();
- *       else if (segment && segment !== '.') stack.push(segment);
- *     });
- *     console.log(stack.elements.join('/')); // 'c'
+ *     console.log(path); // contains end;
  * @example
  * // Stock Span Problem
- *     const stack = new Stack<number>();
+ *  const stack = new Stack<number>();
  *     const prices = [100, 80, 60, 70, 60, 75, 85];
  *     const spans: number[] = [];
  *     prices.forEach((price, i) => {
@@ -140,7 +149,16 @@ import { IterableElementBase } from '../base';
  *       spans.push(stack.isEmpty() ? i + 1 : i - stack.peek()!);
  *       stack.push(i);
  *     });
- *     console.log(spans); // [1, 1, 1, 2, 1, 4, 6]
+ *     console.log(spans); // [1, 1, 1, 2, 1, 4, 6];
+ * @example
+ * // Simplify File Paths
+ *  const stack = new Stack<string>();
+ *     const path = '/a/./b/../../c';
+ *     path.split('/').forEach(segment => {
+ *       if (segment === '..') stack.pop();
+ *       else if (segment && segment !== '.') stack.push(segment);
+ *     });
+ *     console.log(stack.elements.join('/')); // 'c';
  */
 export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
   protected _equals: (a: E, b: E) => boolean = Object.is as unknown as (a: E, b: E) => boolean;

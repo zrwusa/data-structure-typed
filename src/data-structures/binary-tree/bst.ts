@@ -201,8 +201,46 @@ export class BSTNode<K = any, V = any> {
  * 7. No Auto-Balancing: Standard BSTs don't automatically balance themselves.
  *
  * @example
+ * // basic BST creation and add operation
+ *  // Create a simple BST with numeric keys
+ *     const bst = new BST<number>([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
+ *
+ *     // Verify size
+ *     console.log(bst.size); // 16;
+ *
+ *     // Add new elements
+ *     bst.add(17);
+ *     bst.add(0);
+ *     console.log(bst.size); // 18;
+ *
+ *     // Verify keys are searchable
+ *     console.log(bst.has(11)); // true;
+ *     console.log(bst.has(100)); // false;
+ * @example
+ * // BST delete and search after deletion
+ *  const bst = new BST<number>([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
+ *
+ *     // Delete a leaf node
+ *     bst.delete(1);
+ *     console.log(bst.has(1)); // false;
+ *
+ *     // Delete a node with one child
+ *     bst.delete(2);
+ *     console.log(bst.has(2)); // false;
+ *
+ *     // Delete a node with two children
+ *     bst.delete(3);
+ *     console.log(bst.has(3)); // false;
+ *
+ *     // Size decreases with each deletion
+ *     console.log(bst.size); // 13;
+ *
+ *     // Other nodes remain searchable
+ *     console.log(bst.has(11)); // true;
+ *     console.log(bst.has(15)); // true;
+ * @example
  * // Merge 3 sorted datasets
- *     const dataset1 = new BST<number, string>([
+ *  const dataset1 = new BST<number, string>([
  *       [1, 'A'],
  *       [7, 'G']
  *     ]);
@@ -222,18 +260,58 @@ export class BSTNode<K = any, V = any> {
  *     merged.merge(dataset3);
  *
  *     // Verify merged dataset is in sorted order
- *     console.log([...merged.values()]); // ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+ *     console.log([...merged.values()]); // ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
  * @example
- * // Find elements in a range
- *     const bst = new BST<number>([10, 5, 15, 3, 7, 12, 18]);
- *     console.log(bst.search(new Range(5, 10))); // [5, 7, 10]
- *     console.log(bst.rangeSearch([4, 12], node => node.key.toString())); // ['5', '7', '10', '12']
- *     console.log(bst.search(new Range(4, 12, true, false))); // [5, 7, 10]
- *     console.log(bst.rangeSearch([15, 20])); // [15, 18]
- *     console.log(bst.search(new Range(15, 20, false))); // [18]
+ * // BST with custom objects for expression evaluation
+ *  interface Expression {
+ *       id: number;
+ *       operator: string;
+ *       precedence: number;
+ *     }
+ *
+ *     // BST efficiently stores and retrieves operators by precedence
+ *     const operatorTree = new BST<number, Expression>(
+ *       [
+ *         [1, { id: 1, operator: '+', precedence: 1 }],
+ *         [2, { id: 2, operator: '*', precedence: 2 }],
+ *         [3, { id: 3, operator: '/', precedence: 2 }],
+ *         [4, { id: 4, operator: '-', precedence: 1 }],
+ *         [5, { id: 5, operator: '^', precedence: 3 }]
+ *       ],
+ *       { isMapMode: false }
+ *     );
+ *
+ *     console.log(operatorTree.size); // 5;
+ *
+ *     // Quick lookup of operators
+ *     const mult = operatorTree.get(2);
+ *     console.log(mult?.operator); // '*';
+ *     console.log(mult?.precedence); // 2;
+ *
+ *     // Check if operator exists
+ *     console.log(operatorTree.has(5)); // true;
+ *     console.log(operatorTree.has(99)); // false;
+ *
+ *     // Retrieve operator by precedence level
+ *     const expNode = operatorTree.getNode(3);
+ *     console.log(expNode?.key); // 3;
+ *     console.log(expNode?.value?.precedence); // 2;
+ *
+ *     // Delete operator and verify
+ *     operatorTree.delete(1);
+ *     console.log(operatorTree.has(1)); // false;
+ *     console.log(operatorTree.size); // 4;
+ *
+ *     // Get tree height for optimization analysis
+ *     const treeHeight = operatorTree.getHeight();
+ *     console.log(treeHeight); // > 0;
+ *
+ *     // Remaining operators are still accessible
+ *     const remaining = operatorTree.get(2);
+ *     console.log(remaining); // defined;
  * @example
  * // Find lowest common ancestor
- *     const bst = new BST<number>([20, 10, 30, 5, 15, 25, 35, 3, 7, 12, 18]);
+ *  const bst = new BST<number>([20, 10, 30, 5, 15, 25, 35, 3, 7, 12, 18]);
  *
  *     // LCA helper function
  *     const findLCA = (num1: number, num2: number): number | undefined => {
@@ -253,9 +331,9 @@ export class BSTNode<K = any, V = any> {
  *     }
  *
  *     // Assertions
- *     console.log(findLCA(3, 10)); // 7
- *     console.log(findLCA(5, 35)); // 15
- *     console.log(findLCA(20, 30)); // 25
+ *     console.log(findLCA(3, 10)); // 7;
+ *     console.log(findLCA(5, 35)); // 15;
+ *     console.log(findLCA(20, 30)); // 25;
  */
 export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implements IBinaryTree<K, V, R> {
   /**

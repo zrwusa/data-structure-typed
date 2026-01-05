@@ -997,15 +997,120 @@ describe('Trie basic', () => {
 });
 
 describe('classic use', () => {
-  test('@example Autocomplete: Prefix validation and checking', () => {
-    const autocomplete = new Trie<string>(['gmail.com', 'gmail.co.nz', 'gmail.co.jp', 'yahoo.com', 'outlook.com']);
+  it('@example basic Trie creation and add words', () => {
+    // Create a simple Trie with initial words
+    const trie = new Trie(['apple', 'app', 'apply']);
 
-    // Get all completions for a prefix
-    const gmailCompletions = autocomplete.getWords('gmail');
-    expect(gmailCompletions).toEqual(['gmail.com', 'gmail.co.nz', 'gmail.co.jp']);
+    // Verify size
+    expect(trie.size).toBe(3);
+
+    // Check if words exist
+    expect(trie.has('apple')).toBe(true);
+    expect(trie.has('app')).toBe(true);
+
+    // Add a new word
+    trie.add('application');
+    expect(trie.size).toBe(4);
   });
 
-  test('@example File System Path Operations', () => {
+  it('@example Trie getWords and prefix search', () => {
+    const trie = new Trie(['apple', 'app', 'apply', 'application', 'apricot']);
+
+    // Get all words with prefix 'app'
+    const appWords = trie.getWords('app');
+    expect(appWords).toContain('app');
+    expect(appWords).toContain('apple');
+    expect(appWords).toContain('apply');
+    expect(appWords).toContain('application');
+    expect(appWords).not.toContain('apricot');
+  });
+
+  it('@example Trie isPrefix and isAbsolutePrefix checks', () => {
+    const trie = new Trie(['tree', 'trial', 'trick', 'trip', 'trie']);
+
+    // Check if string is a prefix of any word
+    expect(trie.hasPrefix('tri')).toBe(true);
+    expect(trie.hasPrefix('tr')).toBe(true);
+    expect(trie.hasPrefix('xyz')).toBe(false);
+
+    // Check if string is an absolute prefix (not a complete word)
+    expect(trie.hasPurePrefix('tri')).toBe(true);
+    expect(trie.hasPurePrefix('tree')).toBe(false); // 'tree' is a complete word
+
+    // Verify size
+    expect(trie.size).toBe(5);
+  });
+
+  it('@example Trie delete and iteration', () => {
+    const trie = new Trie(['car', 'card', 'care', 'careful', 'can', 'cat']);
+
+    // Delete a word
+    trie.delete('card');
+    expect(trie.has('card')).toBe(false);
+
+    // Word with same prefix still exists
+    expect(trie.has('care')).toBe(true);
+
+    // Size decreased
+    expect(trie.size).toBe(5);
+
+    // Iterate through all words
+    const allWords = [...trie];
+    expect(allWords.length).toBe(5);
+  });
+
+  it('@example Trie for autocomplete search index', () => {
+    // Trie is perfect for autocomplete: O(m + k) where m is prefix length, k is results
+    const searchIndex = new Trie(['typescript', 'javascript', 'python', 'java', 'rust', 'ruby', 'golang', 'kotlin']);
+
+    // User types 'j' - get all suggestions
+    const jResults = searchIndex.getWords('j');
+    expect(jResults).toContain('javascript');
+    expect(jResults).toContain('java');
+    expect(jResults.length).toBe(2);
+
+    // User types 'ja' - get more specific suggestions
+    const jaResults = searchIndex.getWords('ja');
+    expect(jaResults).toContain('javascript');
+    expect(jaResults).toContain('java');
+    expect(jaResults.length).toBe(2);
+
+    // User types 'jav' - even more specific
+    const javResults = searchIndex.getWords('jav');
+    expect(javResults).toContain('javascript');
+    expect(javResults).toContain('java');
+    expect(javResults.length).toBe(2);
+
+    // Check for common prefix
+
+    expect(searchIndex.hasCommonPrefix('ja')).toBe(false); // Not all words start with 'ja'
+
+    // Total words in index
+    expect(searchIndex.size).toBe(8);
+
+    // Get height (depth of tree)
+    const height = searchIndex.getHeight();
+    expect(typeof height).toBe('number');
+  });
+
+  it('@example Dictionary: Case-insensitive word lookup', () => {
+    // Create a case-insensitive dictionary
+    const dictionary = new Trie<string>([], { caseSensitive: false });
+
+    // Add words with mixed casing
+    dictionary.add('Hello');
+    dictionary.add('WORLD');
+    dictionary.add('JavaScript');
+
+    // Test lookups with different casings
+    expect(dictionary.has('hello')).toBe(true);
+    expect(dictionary.has('HELLO')).toBe(true);
+    expect(dictionary.has('Hello')).toBe(true);
+    expect(dictionary.has('javascript')).toBe(true);
+    expect(dictionary.has('JAVASCRIPT')).toBe(true);
+  });
+
+  it('@example File System Path Operations', () => {
     const fileSystem = new Trie<string>([
       '/home/user/documents/file1.txt',
       '/home/user/documents/file2.txt',
@@ -1022,7 +1127,36 @@ describe('classic use', () => {
     expect(documentsFiles).toEqual(['/home/user/documents/file1.txt', '/home/user/documents/file2.txt']);
   });
 
-  test('@example Autocomplete: Basic word suggestions', () => {
+  it('@example IP Address Routing Table', () => {
+    // Add IP address prefixes and their corresponding routes
+    const routes = {
+      '192.168.1': 'LAN_SUBNET_1',
+      '192.168.2': 'LAN_SUBNET_2',
+      '10.0.0': 'PRIVATE_NETWORK_1',
+      '10.0.1': 'PRIVATE_NETWORK_2'
+    };
+
+    const ipRoutingTable = new Trie<string>(Object.keys(routes));
+
+    // Check IP address prefix matching
+    expect(ipRoutingTable.hasPrefix('192.168.1')).toBe(true);
+    expect(ipRoutingTable.hasPrefix('192.168.2')).toBe(true);
+
+    // Validate IP address belongs to subnet
+    const ip = '192.168.1.100';
+    const subnet = ip.split('.').slice(0, 3).join('.');
+    expect(ipRoutingTable.hasPrefix(subnet)).toBe(true);
+  });
+
+  it('Autocomplete: Prefix validation and checking', () => {
+    const autocomplete = new Trie<string>(['gmail.com', 'gmail.co.nz', 'gmail.co.jp', 'yahoo.com', 'outlook.com']);
+
+    // Get all completions for a prefix
+    const gmailCompletions = autocomplete.getWords('gmail');
+    expect(gmailCompletions).toEqual(['gmail.com', 'gmail.co.nz', 'gmail.co.jp']);
+  });
+
+  it('Autocomplete: Basic word suggestions', () => {
     // Create a trie for autocomplete
     const autocomplete = new Trie<string>([
       'function',
@@ -1043,43 +1177,5 @@ describe('classic use', () => {
 
     // Test with non-matching prefix
     expect(autocomplete.getWords('xyz')).toEqual([]);
-  });
-
-  test('@example Dictionary: Case-insensitive word lookup', () => {
-    // Create a case-insensitive dictionary
-    const dictionary = new Trie<string>([], { caseSensitive: false });
-
-    // Add words with mixed casing
-    dictionary.add('Hello');
-    dictionary.add('WORLD');
-    dictionary.add('JavaScript');
-
-    // Test lookups with different casings
-    expect(dictionary.has('hello')).toBe(true);
-    expect(dictionary.has('HELLO')).toBe(true);
-    expect(dictionary.has('Hello')).toBe(true);
-    expect(dictionary.has('javascript')).toBe(true);
-    expect(dictionary.has('JAVASCRIPT')).toBe(true);
-  });
-
-  test('@example IP Address Routing Table', () => {
-    // Add IP address prefixes and their corresponding routes
-    const routes = {
-      '192.168.1': 'LAN_SUBNET_1',
-      '192.168.2': 'LAN_SUBNET_2',
-      '10.0.0': 'PRIVATE_NETWORK_1',
-      '10.0.1': 'PRIVATE_NETWORK_2'
-    };
-
-    const ipRoutingTable = new Trie<string>(Object.keys(routes));
-
-    // Check IP address prefix matching
-    expect(ipRoutingTable.hasPrefix('192.168.1')).toBe(true);
-    expect(ipRoutingTable.hasPrefix('192.168.2')).toBe(true);
-
-    // Validate IP address belongs to subnet
-    const ip = '192.168.1.100';
-    const subnet = ip.split('.').slice(0, 3).join('.');
-    expect(ipRoutingTable.hasPrefix(subnet)).toBe(true);
   });
 });

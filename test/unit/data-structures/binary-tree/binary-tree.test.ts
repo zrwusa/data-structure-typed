@@ -1680,6 +1680,87 @@ describe('Coverage boosters v2 - hit remaining statements', () => {
 });
 
 describe('Classic usage examples', () => {
+  it('@example basic BinaryTree creation and insertion', () => {
+    // Create a BinaryTree with entries
+    const entries: [number, string][] = [
+      [6, 'six'],
+      [1, 'one'],
+      [2, 'two'],
+      [7, 'seven'],
+      [5, 'five'],
+      [3, 'three'],
+      [4, 'four'],
+      [9, 'nine'],
+      [8, 'eight']
+    ];
+
+    const tree = new BinaryTree(entries);
+
+    // Verify size
+    expect(tree.size).toBe(9);
+
+    // Add new element
+    tree.add(10, 'ten');
+    expect(tree.size).toBe(10);
+  });
+
+  it('@example BinaryTree get and has operations', () => {
+    const tree = new BinaryTree(
+      [
+        [5, 'five'],
+        [3, 'three'],
+        [7, 'seven'],
+        [1, 'one'],
+        [4, 'four'],
+        [6, 'six'],
+        [8, 'eight']
+      ],
+      { isMapMode: false }
+    );
+
+    // Check if key exists
+    expect(tree.has(5)).toBe(true);
+    expect(tree.has(10)).toBe(false);
+
+    // Get value by key
+    expect(tree.get(3)).toBe('three');
+    expect(tree.get(7)).toBe('seven');
+    expect(tree.get(100)).toBeUndefined();
+
+    // Get node structure
+    const node = tree.getNode(5);
+    expect(node?.key).toBe(5);
+    expect(node?.value).toBe('five');
+  });
+
+  it('@example BinaryTree level-order traversal', () => {
+    const tree = new BinaryTree([
+      [1, 'one'],
+      [2, 'two'],
+      [3, 'three'],
+      [4, 'four'],
+      [5, 'five'],
+      [6, 'six'],
+      [7, 'seven']
+    ]);
+
+    // Binary tree maintains level-order insertion
+    // Complete binary tree structure
+    expect(tree.size).toBe(7);
+
+    // Verify all keys are present
+    expect(tree.has(1)).toBe(true);
+    expect(tree.has(4)).toBe(true);
+    expect(tree.has(7)).toBe(true);
+
+    // Iterate through tree
+    const keys: number[] = [];
+    for (const [key] of tree) {
+      keys.push(key);
+    }
+    expect(keys.length).toBe(7);
+  });
+
   it('@example determine loan approval using a decision tree', () => {
     // Decision tree structure
     const loanDecisionTree = new BinaryTree<string>(
@@ -1742,5 +1823,90 @@ describe('Classic usage examples', () => {
     }
 
     expect(evaluate(expressionTree.root)).toBe(-27);
+  });
+
+  it('BinaryTree getHeight and structure queries', () => {
+    const tree = new BinaryTree([
+      [1, 'one'],
+      [2, 'two'],
+      [3, 'three'],
+      [4, 'four'],
+      [5, 'five'],
+      [6, 'six'],
+      [7, 'seven'],
+      [8, 'eight'],
+      [9, 'nine'],
+      [10, 'ten'],
+      [11, 'eleven'],
+      [12, 'twelve'],
+      [13, 'thirteen'],
+      [14, 'fourteen'],
+      [15, 'fifteen']
+    ]);
+
+    // Get overall tree height
+    const height = tree.getHeight();
+    expect(typeof height).toBe('number');
+    expect(height).toBeGreaterThan(0);
+
+    // Complete binary tree with 15 nodes has height 3 (0-indexed from leaves)
+    expect(height).toBe(3);
+
+    // Get height of specific node
+    const heightOf2 = tree.getHeight(2);
+    expect(typeof heightOf2).toBe('number');
+
+    // Root should have maximum height
+    const heightOf1 = tree.getHeight(1);
+    expect(heightOf1).toBe(height);
+  });
+
+  it('BinaryTree for hierarchical data representation', () => {
+    interface FileSystem {
+      id: number;
+      name: string;
+      type: 'file' | 'folder';
+      size: number;
+    }
+
+    // Binary trees are ideal for complete binary trees and heap-like structures
+    // Here we use it for representing a file system hierarchy
+    const fileSystem = new BinaryTree<number, FileSystem>([
+      [1, { id: 1, name: 'root', type: 'folder', size: 1000 }],
+      [2, { id: 2, name: 'documents', type: 'folder', size: 500 }],
+      [3, { id: 3, name: 'images', type: 'folder', size: 400 }],
+      [4, { id: 4, name: 'file1.txt', type: 'file', size: 10 }],
+      [5, { id: 5, name: 'file2.txt', type: 'file', size: 20 }],
+      [6, { id: 6, name: 'photo.jpg', type: 'file', size: 150 }],
+      [7, { id: 7, name: 'video.mp4', type: 'file', size: 250 }]
+    ]);
+
+    expect(fileSystem.size).toBe(7);
+
+    // Quick lookup by ID
+    const rootFolder = fileSystem.get(1);
+    expect(rootFolder?.name).toBe('root');
+    expect(rootFolder?.type).toBe('folder');
+
+    // Check existence
+    expect(fileSystem.has(4)).toBe(true);
+    expect(fileSystem.has(99)).toBe(false);
+
+    // Get node with children info
+    const node = fileSystem.getNode(1);
+    expect(node?.key).toBe(1);
+    expect(node?.left).toBeDefined();
+    expect(node?.right).toBeDefined();
+
+    // Calculate tree height
+    const treeHeight = fileSystem.getHeight();
+    expect(treeHeight).toBeGreaterThan(0);
+
+    // Add new file
+    fileSystem.add(8, { id: 8, name: 'archive.zip', type: 'file', size: 300 });
+    expect(fileSystem.size).toBe(8);
+
+    // Verify complete binary tree structure
+    expect(fileSystem.has(8)).toBe(true);
   });
 });

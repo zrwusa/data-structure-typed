@@ -452,18 +452,106 @@ describe('FibonacciHeap Stress Test', () => {
 });
 
 describe('classic use', () => {
-  it('@example Use Heap to sort an array', () => {
-    function heapSort(arr: number[]): number[] {
-      const heap = new Heap<number>(arr, { comparator: (a, b) => a - b });
-      const sorted: number[] = [];
-      while (!heap.isEmpty()) {
-        sorted.push(heap.poll()!); // Poll minimum element
-      }
-      return sorted;
+  it('@example basic Heap creation and add operation', () => {
+    // Create a min heap (default)
+    const minHeap = new Heap([5, 3, 7, 1, 9, 2]);
+
+    // Verify size
+    expect(minHeap.size).toBe(6);
+
+    // Add new element
+    minHeap.add(4);
+    expect(minHeap.size).toBe(7);
+
+    // Min heap property: smallest element at root
+    const min = minHeap.peek();
+    expect(min).toBe(1);
+  });
+
+  it('@example Heap with custom comparator (MaxHeap behavior)', () => {
+    interface Task {
+      id: number;
+      priority: number;
+      name: string;
     }
 
-    const array = [5, 3, 8, 4, 1, 2];
-    expect(heapSort(array)).toEqual([1, 2, 3, 4, 5, 8]);
+    // Custom comparator for max heap behavior (higher priority first)
+    const tasks: Task[] = [
+      { id: 1, priority: 5, name: 'Email' },
+      { id: 2, priority: 3, name: 'Chat' },
+      { id: 3, priority: 8, name: 'Alert' }
+    ];
+
+    const maxHeap = new Heap(tasks, {
+      comparator: (a: Task, b: Task) => b.priority - a.priority
+    });
+
+    expect(maxHeap.size).toBe(3);
+
+    // Peek returns highest priority task
+    const topTask = maxHeap.peek();
+    expect(topTask?.priority).toBe(8);
+    expect(topTask?.name).toBe('Alert');
+  });
+
+  it('@example Heap for event processing with priority', () => {
+    interface Event {
+      id: number;
+      type: 'critical' | 'warning' | 'info';
+      timestamp: number;
+      message: string;
+    }
+
+    // Custom priority: critical > warning > info
+    const priorityMap = { critical: 3, warning: 2, info: 1 };
+
+    const eventHeap = new Heap<Event>([], {
+      comparator: (a: Event, b: Event) => {
+        const priorityA = priorityMap[a.type];
+        const priorityB = priorityMap[b.type];
+        return priorityB - priorityA; // Higher priority first
+      }
+    });
+
+    // Add events in random order
+    eventHeap.add({ id: 1, type: 'info', timestamp: 100, message: 'User logged in' });
+    eventHeap.add({ id: 2, type: 'critical', timestamp: 101, message: 'Server down' });
+    eventHeap.add({ id: 3, type: 'warning', timestamp: 102, message: 'High memory' });
+    eventHeap.add({ id: 4, type: 'info', timestamp: 103, message: 'Cache cleared' });
+    eventHeap.add({ id: 5, type: 'critical', timestamp: 104, message: 'Database error' });
+
+    expect(eventHeap.size).toBe(5);
+
+    // Process events by priority (critical first)
+    const processedOrder: Event[] = [];
+    while (eventHeap.size > 0) {
+      const event = eventHeap.poll();
+      if (event) {
+        processedOrder.push(event);
+      }
+    }
+
+    // Verify critical events came first
+    expect(processedOrder[0].type).toBe('critical');
+    expect(processedOrder[1].type).toBe('critical');
+    expect(processedOrder[2].type).toBe('warning');
+    expect(processedOrder[3].type).toBe('info');
+    expect(processedOrder[4].type).toBe('info');
+
+    // Verify O(log n) operations
+    const newHeap = new Heap<number>([5, 3, 7, 1]);
+
+    // Add - O(log n)
+    newHeap.add(2);
+    expect(newHeap.size).toBe(5);
+
+    // Poll - O(log n)
+    const removed = newHeap.poll();
+    expect(removed).toBe(1);
+
+    // Peek - O(1)
+    const top = newHeap.peek();
+    expect(top).toBe(2);
   });
 
   it('@example Use Heap to solve top k problems', () => {
@@ -478,44 +566,6 @@ describe('classic use', () => {
 
     const numbers = [10, 30, 20, 5, 15, 25];
     expect(topKElements(numbers, 3)).toEqual([15, 10, 5]);
-  });
-
-  it('@example Use Heap to merge sorted sequences', () => {
-    function mergeSortedSequences(sequences: number[][]): number[] {
-      const heap = new Heap<{ value: number; seqIndex: number; itemIndex: number }>([], {
-        comparator: (a, b) => a.value - b.value // Min heap
-      });
-
-      // Initialize heap
-      sequences.forEach((seq, seqIndex) => {
-        if (seq.length) {
-          heap.add({ value: seq[0], seqIndex, itemIndex: 0 });
-        }
-      });
-
-      const merged: number[] = [];
-      while (!heap.isEmpty()) {
-        const { value, seqIndex, itemIndex } = heap.poll()!;
-        merged.push(value);
-
-        if (itemIndex + 1 < sequences[seqIndex].length) {
-          heap.add({
-            value: sequences[seqIndex][itemIndex + 1],
-            seqIndex,
-            itemIndex: itemIndex + 1
-          });
-        }
-      }
-
-      return merged;
-    }
-
-    const sequences = [
-      [1, 4, 7],
-      [2, 5, 8],
-      [3, 6, 9]
-    ];
-    expect(mergeSortedSequences(sequences)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
   });
 
   it('@example Use Heap to dynamically maintain the median', () => {
@@ -621,5 +671,90 @@ describe('classic use', () => {
       ['Task5', 4]
     ]);
     expect(scheduleTasks(tasks, 2)).toEqual(expectedMap);
+  });
+
+  it('Use Heap to sort an array', () => {
+    function heapSort(arr: number[]): number[] {
+      const heap = new Heap<number>(arr, { comparator: (a, b) => a - b });
+      const sorted: number[] = [];
+      while (!heap.isEmpty()) {
+        sorted.push(heap.poll()!); // Poll minimum element
+      }
+      return sorted;
+    }
+
+    const array = [5, 3, 8, 4, 1, 2];
+    expect(heapSort(array)).toEqual([1, 2, 3, 4, 5, 8]);
+  });
+
+  it('Heap getHeight and structure', () => {
+    const heap = new Heap<number>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+
+    // Complete binary tree (heap property)
+    expect(heap.size).toBe(15);
+
+    // Verify min heap property (parent <= children)
+    const min = heap.peek();
+    expect(min).toBe(1);
+  });
+
+  it('Heap poll and priority extraction', () => {
+    // Create max heap (higher numbers first)
+    const heap = new Heap([3, 7, 1, 9, 5], {
+      comparator: (a: number, b: number) => b - a
+    });
+
+    expect(heap.size).toBe(5);
+
+    // Poll removes and returns the highest priority element
+    const first = heap.poll();
+    expect(first).toBe(9);
+    expect(heap.size).toBe(4);
+
+    const second = heap.poll();
+    expect(second).toBe(7);
+    expect(heap.size).toBe(3);
+
+    // Remaining elements are still in heap order
+    const third = heap.peek();
+    expect(third).toBe(5);
+  });
+
+  it('Use Heap to merge sorted sequences', () => {
+    function mergeSortedSequences(sequences: number[][]): number[] {
+      const heap = new Heap<{ value: number; seqIndex: number; itemIndex: number }>([], {
+        comparator: (a, b) => a.value - b.value // Min heap
+      });
+
+      // Initialize heap
+      sequences.forEach((seq, seqIndex) => {
+        if (seq.length) {
+          heap.add({ value: seq[0], seqIndex, itemIndex: 0 });
+        }
+      });
+
+      const merged: number[] = [];
+      while (!heap.isEmpty()) {
+        const { value, seqIndex, itemIndex } = heap.poll()!;
+        merged.push(value);
+
+        if (itemIndex + 1 < sequences[seqIndex].length) {
+          heap.add({
+            value: sequences[seqIndex][itemIndex + 1],
+            seqIndex,
+            itemIndex: itemIndex + 1
+          });
+        }
+      }
+
+      return merged;
+    }
+
+    const sequences = [
+      [1, 4, 7],
+      [2, 5, 8],
+      [3, 6, 9]
+    ];
+    expect(mergeSortedSequences(sequences)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
   });
 });

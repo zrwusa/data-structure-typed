@@ -186,7 +186,7 @@ export class TreeMultiMapNode<K = any, V = any> {
  *
  * @example
  * // players ranked by score with their equipment
- *     type Equipment = {
+ *  type Equipment = {
  *       name: string; // Equipment name
  *       quality: 'legendary' | 'epic' | 'rare' | 'common';
  *       level: number;
@@ -347,7 +347,7 @@ export class TreeMultiMapNode<K = any, V = any> {
  *  //        },
  *  //        { name: 'Level 3 Backpack', quality: 'epic', level: 80 }
  *  //      ]
- *  //    ]
+ *  //    ];
  */
 export class TreeMultiMap<K = any, V = any, R = any> extends RedBlackTree<K, V[], R> implements IBinaryTree<K, V[], R> {
   /**

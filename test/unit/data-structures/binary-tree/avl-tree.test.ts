@@ -544,6 +544,97 @@ describe('AVLTree iterative methods not map mode', () => {
 });
 
 describe('classic use', () => {
+  it('@example basic AVLTree creation and add operation', () => {
+    // Create a simple AVLTree with initial values
+    const tree = new AVLTree([5, 2, 8, 1, 9]);
+
+    // Verify the tree maintains sorted order
+    expect([...tree.keys()]).toEqual([1, 2, 5, 8, 9]);
+
+    // Check size
+    expect(tree.size).toBe(5);
+
+    // Add a new element
+    tree.add(3);
+    expect(tree.size).toBe(6);
+    expect([...tree.keys()]).toEqual([1, 2, 3, 5, 8, 9]);
+  });
+
+  it('@example AVLTree has and get operations', () => {
+    const tree = new AVLTree<number>([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
+
+    // Check if element exists
+    expect(tree.has(6)).toBe(true);
+    expect(tree.has(99)).toBe(false);
+
+    // Get node by key
+    const node = tree.getNode(6);
+    expect(node?.key).toBe(6);
+
+    // Verify tree is balanced
+    expect(tree.isAVLBalanced()).toBe(true);
+  });
+
+  it('@example AVLTree delete and balance verification', () => {
+    const tree = new AVLTree([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
+
+    // Delete an element
+    tree.delete(10);
+    expect(tree.has(10)).toBe(false);
+
+    // Tree should remain balanced after deletion
+    expect(tree.isAVLBalanced()).toBe(true);
+
+    // Size decreased
+    expect(tree.size).toBe(15);
+
+    // Remaining elements are still sorted
+    const keys = [...tree.keys()];
+    expect(keys).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16]);
+  });
+
+  it('@example AVLTree for university ranking system with strict balance', () => {
+    interface University {
+      name: string;
+      rank: number;
+      students: number;
+    }
+
+    // AVLTree provides highest search efficiency with strict balance
+    // (every node's left/right subtrees differ by at most 1 in height)
+    const universityTree = new AVLTree<number, University>([
+      [1, { name: 'MIT', rank: 1, students: 1200 }],
+      [5, { name: 'Stanford', rank: 5, students: 1800 }],
+      [3, { name: 'Harvard', rank: 3, students: 2300 }],
+      [2, { name: 'Caltech', rank: 2, students: 400 }],
+      [4, { name: 'CMU', rank: 4, students: 1500 }]
+    ]);
+
+    // Quick lookup by rank
+    const mit = universityTree.get(1);
+    expect(mit?.name).toBe('MIT');
+
+    const cmulevel = universityTree.getHeight(4);
+    expect(typeof cmulevel).toBe('number');
+
+    // Tree maintains strict balance during insertions and deletions
+    expect(universityTree.isAVLBalanced()).toBe(true);
+
+    // Add more universities
+    universityTree.add(6, { name: 'Oxford', rank: 6, students: 2000 });
+    expect(universityTree.isAVLBalanced()).toBe(true);
+
+    // Delete and verify balance is maintained
+    universityTree.delete(2);
+    expect(universityTree.has(2)).toBe(false);
+    expect(universityTree.isAVLBalanced()).toBe(true);
+
+    // Get all remaining universities in rank order
+    const remainingRanks = [...universityTree.keys()];
+    expect(remainingRanks).toEqual([1, 3, 4, 5, 6]);
+    expect(universityTree.size).toBe(5);
+  });
+
   // Test case for finding elements in a given range
   it('@example Find elements in a range', () => {
     // In interval queries, AVL trees, with their strictly balanced structure and lower height, offer better query efficiency, making them ideal for frequent and high-performance interval queries. In contrast, Red-Black trees, with lower update costs, are more suitable for scenarios involving frequent insertions and deletions where the requirements for interval queries are less demanding.
@@ -608,5 +699,24 @@ describe('classic use', () => {
       { minute: 14, temperature: 59.8 },
       { minute: 15, temperature: 58.6 }
     ]);
+  });
+
+  it('AVLTree tree height and getLeftMost', () => {
+    const tree = new AVLTree([5, 2, 8, 1, 9, 3, 7]);
+
+    // Get tree height
+    const height = tree.getHeight();
+    expect(typeof height).toBe('number');
+
+    // Get height of specific node
+    const heightOf5 = tree.getHeight(5);
+    expect(typeof heightOf5).toBe('number');
+
+    // Find leftmost (smallest) element
+    const min = tree.getLeftMost();
+    expect(min).toBe(1);
+
+    // Verify tree is balanced
+    expect(tree.isAVLBalanced()).toBe(true);
   });
 });

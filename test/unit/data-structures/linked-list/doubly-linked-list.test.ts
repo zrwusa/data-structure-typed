@@ -612,17 +612,51 @@ describe('iterable methods', () => {
 });
 
 describe('classic use', () => {
-  it('@example text editor operation history', () => {
-    const actions = [
-      { type: 'insert', content: 'first line of text' },
-      { type: 'insert', content: 'second line of text' },
-      { type: 'delete', content: 'delete the first line' }
-    ];
-    const editorHistory = new DoublyLinkedList<{ type: string; content: string }>(actions);
+  it('@example basic DoublyLinkedList creation and push operation', () => {
+    // Create a simple DoublyLinkedList with initial values
+    const list = new DoublyLinkedList([1, 2, 3, 4, 5]);
 
-    expect(editorHistory.last?.type).toBe('delete');
-    expect(editorHistory.pop()?.content).toBe('delete the first line');
-    expect(editorHistory.last?.type).toBe('insert');
+    // Verify the list maintains insertion order
+    expect([...list]).toEqual([1, 2, 3, 4, 5]);
+
+    // Check length
+    expect(list.length).toBe(5);
+
+    // Push a new element to the end
+    list.push(6);
+    expect(list.length).toBe(6);
+    expect([...list]).toEqual([1, 2, 3, 4, 5, 6]);
+  });
+
+  it('@example DoublyLinkedList pop and shift operations', () => {
+    const list = new DoublyLinkedList<number>([10, 20, 30, 40, 50]);
+
+    // Pop removes from the end
+    const last = list.pop();
+    expect(last).toBe(50);
+
+    // Shift removes from the beginning
+    const first = list.shift();
+    expect(first).toBe(10);
+
+    // Verify remaining elements
+    expect([...list]).toEqual([20, 30, 40]);
+    expect(list.length).toBe(3);
+  });
+
+  it('@example DoublyLinkedList for...of iteration and map operation', () => {
+    const list = new DoublyLinkedList<number>([1, 2, 3, 4, 5]);
+
+    // Iterate through list
+    const doubled = list.map(value => value * 2);
+    expect(doubled.length).toBe(5);
+
+    // Use for...of loop
+    const result: number[] = [];
+    for (const item of list) {
+      result.push(item);
+    }
+    expect(result).toEqual([1, 2, 3, 4, 5]);
   });
 
   it('@example Browser history', () => {
@@ -637,7 +671,77 @@ describe('classic use', () => {
     expect(browserHistory.last).toBe('search page');
   });
 
-  it('@example Use DoublyLinkedList to implement music player', () => {
+  it('@example DoublyLinkedList for LRU cache implementation', () => {
+    interface CacheEntry {
+      key: string;
+      value: string;
+    }
+
+    // Simulate LRU cache using DoublyLinkedList
+    // DoublyLinkedList is perfect because:
+    // - O(1) delete from any position
+    // - O(1) push to end
+    // - Bidirectional traversal for LRU policy
+
+    const cacheList = new DoublyLinkedList<CacheEntry>();
+    const maxSize = 3;
+
+    // Add cache entries
+    cacheList.push({ key: 'user:1', value: 'Alice' });
+    cacheList.push({ key: 'user:2', value: 'Bob' });
+    cacheList.push({ key: 'user:3', value: 'Charlie' });
+
+    // Try to add a new entry when cache is full
+    if (cacheList.length >= maxSize) {
+      // Remove the oldest (first) entry
+      const evicted = cacheList.shift();
+      expect(evicted?.key).toBe('user:1');
+    }
+
+    // Add new entry
+    cacheList.push({ key: 'user:4', value: 'Diana' });
+
+    // Verify current cache state
+    expect(cacheList.length).toBe(3);
+    const cachedKeys = [...cacheList].map(entry => entry.key);
+    expect(cachedKeys).toEqual(['user:2', 'user:3', 'user:4']);
+
+    // Access entry (in real LRU, this would move it to end)
+    const foundEntry = [...cacheList].find(entry => entry.key === 'user:2');
+    expect(foundEntry?.value).toBe('Bob');
+  });
+
+  it('DoublyLinkedList unshift and bidirectional traversal', () => {
+    const list = new DoublyLinkedList<number>([20, 30, 40]);
+
+    // Unshift adds to the beginning
+    list.unshift(10);
+    expect([...list]).toEqual([10, 20, 30, 40]);
+
+    // Access elements by index (bidirectional advantage)
+    const second = list.at(1);
+    expect(second).toBe(20);
+
+    const last = list.at(list.length - 1);
+    expect(last).toBe(40);
+
+    expect(list.length).toBe(4);
+  });
+
+  it('text editor operation history', () => {
+    const actions = [
+      { type: 'insert', content: 'first line of text' },
+      { type: 'insert', content: 'second line of text' },
+      { type: 'delete', content: 'delete the first line' }
+    ];
+    const editorHistory = new DoublyLinkedList<{ type: string; content: string }>(actions);
+
+    expect(editorHistory.last?.type).toBe('delete');
+    expect(editorHistory.pop()?.content).toBe('delete the first line');
+    expect(editorHistory.last?.type).toBe('insert');
+  });
+
+  it('Use DoublyLinkedList to implement music player', () => {
     // Define the Song interface
     interface Song {
       title: string;
@@ -763,7 +867,7 @@ describe('classic use', () => {
     ]);
   });
 
-  it('@example Use DoublyLinkedList to implement LRU cache', () => {
+  it('Use DoublyLinkedList to implement LRU cache', () => {
     interface CacheEntry<K, V> {
       key: K;
       value: V;
@@ -926,7 +1030,7 @@ describe('classic use', () => {
     expect(cache.isEmpty).toBe(true);
   });
 
-  it('@example finding lyrics by timestamp in Coldplay\'s "Fix You"', () => {
+  it('Finding lyrics by timestamp in Coldplay\'s "Fix You"', () => {
     // Create a DoublyLinkedList to store song lyrics with timestamps
     const lyricsList = new DoublyLinkedList<{ time: number; text: string }>();
 
@@ -967,7 +1071,7 @@ describe('classic use', () => {
     expect(lateTimeLyric?.text).toBe('And I will try to fix you');
   });
 
-  it('@example cpu process schedules', () => {
+  it('Cpu process schedules', () => {
     class Process {
       constructor(
         public id: number,

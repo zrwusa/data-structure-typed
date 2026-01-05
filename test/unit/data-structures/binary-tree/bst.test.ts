@@ -1617,6 +1617,46 @@ describe('BST _keyValueNodeOrEntryToNodeAndValue edge', () => {
 });
 
 describe('classic use', () => {
+  it('@example basic BST creation and add operation', () => {
+    // Create a simple BST with numeric keys
+    const bst = new BST<number>([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
+
+    // Verify size
+    expect(bst.size).toBe(16);
+
+    // Add new elements
+    bst.add(17);
+    bst.add(0);
+    expect(bst.size).toBe(18);
+
+    // Verify keys are searchable
+    expect(bst.has(11)).toBe(true);
+    expect(bst.has(100)).toBe(false);
+  });
+
+  it('@example BST delete and search after deletion', () => {
+    const bst = new BST<number>([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
+
+    // Delete a leaf node
+    bst.delete(1);
+    expect(bst.has(1)).toBe(false);
+
+    // Delete a node with one child
+    bst.delete(2);
+    expect(bst.has(2)).toBe(false);
+
+    // Delete a node with two children
+    bst.delete(3);
+    expect(bst.has(3)).toBe(false);
+
+    // Size decreases with each deletion
+    expect(bst.size).toBe(13);
+
+    // Other nodes remain searchable
+    expect(bst.has(11)).toBe(true);
+    expect(bst.has(15)).toBe(true);
+  });
+
   it('@example Merge 3 sorted datasets', () => {
     const dataset1 = new BST<number, string>([
       [1, 'A'],
@@ -1641,14 +1681,53 @@ describe('classic use', () => {
     expect([...merged.values()]).toEqual(['A', 'B', 'C', 'D', 'E', 'F', 'G']);
   });
 
-  // Test case for finding elements in a given range
-  it('@example Find elements in a range', () => {
-    const bst = new BST<number>([10, 5, 15, 3, 7, 12, 18]);
-    expect(bst.search(new Range(5, 10))).toEqual([5, 7, 10]);
-    expect(bst.rangeSearch([4, 12], node => node.key.toString())).toEqual(['5', '7', '10', '12']);
-    expect(bst.search(new Range(4, 12, true, false))).toEqual([5, 7, 10]);
-    expect(bst.rangeSearch([15, 20])).toEqual([15, 18]);
-    expect(bst.search(new Range(15, 20, false))).toEqual([18]);
+  it('@example BST with custom objects for expression evaluation', () => {
+    interface Expression {
+      id: number;
+      operator: string;
+      precedence: number;
+    }
+
+    // BST efficiently stores and retrieves operators by precedence
+    const operatorTree = new BST<number, Expression>(
+      [
+        [1, { id: 1, operator: '+', precedence: 1 }],
+        [2, { id: 2, operator: '*', precedence: 2 }],
+        [3, { id: 3, operator: '/', precedence: 2 }],
+        [4, { id: 4, operator: '-', precedence: 1 }],
+        [5, { id: 5, operator: '^', precedence: 3 }]
+      ],
+      { isMapMode: false }
+    );
+
+    expect(operatorTree.size).toBe(5);
+
+    // Quick lookup of operators
+    const mult = operatorTree.get(2);
+    expect(mult?.operator).toBe('*');
+    expect(mult?.precedence).toBe(2);
+
+    // Check if operator exists
+    expect(operatorTree.has(5)).toBe(true);
+    expect(operatorTree.has(99)).toBe(false);
+
+    // Retrieve operator by precedence level
+    const expNode = operatorTree.getNode(3);
+    expect(expNode?.key).toBe(3);
+    expect(expNode?.value?.precedence).toBe(2);
+
+    // Delete operator and verify
+    operatorTree.delete(1);
+    expect(operatorTree.has(1)).toBe(false);
+    expect(operatorTree.size).toBe(4);
+
+    // Get tree height for optimization analysis
+    const treeHeight = operatorTree.getHeight();
+    expect(treeHeight).toBeGreaterThan(0);
+
+    // Remaining operators are still accessible
+    const remaining = operatorTree.get(2);
+    expect(remaining).toBeDefined();
   });
 
   // Test case for Lowest Common Ancestor (LCA)
@@ -1676,5 +1755,54 @@ describe('classic use', () => {
     expect(findLCA(3, 10)).toBe(7);
     expect(findLCA(5, 35)).toBe(15);
     expect(findLCA(20, 30)).toBe(25);
+  });
+
+  // Test case for finding elements in a given range
+  it('Find elements in a range', () => {
+    const bst = new BST<number>([10, 5, 15, 3, 7, 12, 18]);
+    expect(bst.search(new Range(5, 10))).toEqual([5, 7, 10]);
+    expect(bst.rangeSearch([4, 12], node => node.key.toString())).toEqual(['5', '7', '10', '12']);
+    expect(bst.search(new Range(4, 12, true, false))).toEqual([5, 7, 10]);
+    expect(bst.rangeSearch([15, 20])).toEqual([15, 18]);
+    expect(bst.search(new Range(15, 20, false))).toEqual([18]);
+  });
+
+  it('BST get and getNode operations', () => {
+    const bst = new BST<number>([5, 3, 7, 1, 4, 6, 8]);
+
+    // Get value by key
+    const value = bst.get(5);
+    expect(value).toBe(undefined);
+
+    // Get node returns the actual node object
+    const node = bst.getNode(3);
+    expect(node?.key).toBe(3);
+    expect(node?.left).toBeDefined();
+    expect(node?.right).toBeDefined();
+
+    // Get from non-existent key returns undefined
+    expect(bst.get(100)).toBeUndefined();
+    expect(bst.getNode(100)).toBeUndefined();
+  });
+
+  it('BST getHeight and tree structure queries', () => {
+    const bst = new BST<number>([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
+
+    // Get overall tree height
+    const treeHeight = bst.getHeight();
+    expect(typeof treeHeight).toBe('number');
+    expect(treeHeight).toBeGreaterThan(0);
+
+    // Get height of specific node
+    const heightOf3 = bst.getHeight(3);
+    expect(typeof heightOf3).toBe('number');
+
+    // Root node should have the maximum height
+    const heightOf11 = bst.getHeight(11);
+    expect(heightOf11).toBe(0);
+
+    // Leaf nodes have height 0
+    const heightOf2 = bst.getHeight(2);
+    expect(heightOf2).toBe(1);
   });
 });

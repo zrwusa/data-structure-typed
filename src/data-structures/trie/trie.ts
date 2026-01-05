@@ -112,53 +112,99 @@ export class TrieNode {
  * 10. IP Routing: Used in certain types of IP routing algorithms.
  * 11. Text Word Frequency Count: Counting and storing the frequency of words in a large amount of text data.
  * @example
- * // Autocomplete: Prefix validation and checking
- *     const autocomplete = new Trie<string>(['gmail.com', 'gmail.co.nz', 'gmail.co.jp', 'yahoo.com', 'outlook.com']);
+ * // basic Trie creation and add words
+ *  // Create a simple Trie with initial words
+ *     const trie = new Trie(['apple', 'app', 'apply']);
  *
- *     // Get all completions for a prefix
- *     const gmailCompletions = autocomplete.getWords('gmail');
- *     console.log(gmailCompletions); // ['gmail.com', 'gmail.co.nz', 'gmail.co.jp']
+ *     // Verify size
+ *     console.log(trie.size); // 3;
+ *
+ *     // Check if words exist
+ *     console.log(trie.has('apple')); // true;
+ *     console.log(trie.has('app')); // true;
+ *
+ *     // Add a new word
+ *     trie.add('application');
+ *     console.log(trie.size); // 4;
  * @example
- * // File System Path Operations
- *     const fileSystem = new Trie<string>([
- *       '/home/user/documents/file1.txt',
- *       '/home/user/documents/file2.txt',
- *       '/home/user/pictures/photo.jpg',
- *       '/home/user/pictures/vacation/',
- *       '/home/user/downloads'
- *     ]);
+ * // Trie getWords and prefix search
+ *  const trie = new Trie(['apple', 'app', 'apply', 'application', 'apricot']);
  *
- *     // Find common directory prefix
- *     console.log(fileSystem.getLongestCommonPrefix()); // '/home/user/'
- *
- *     // List all files in a directory
- *     const documentsFiles = fileSystem.getWords('/home/user/documents/');
- *     console.log(documentsFiles); // ['/home/user/documents/file1.txt', '/home/user/documents/file2.txt']
+ *     // Get all words with prefix 'app'
+ *     const appWords = trie.getWords('app');
+ *     console.log(appWords); // contains 'app';
+ *     console.log(appWords); // contains 'apple';
+ *     console.log(appWords); // contains 'apply';
+ *     console.log(appWords); // contains 'application';
+ *     expect(appWords).not.toContain('apricot');
  * @example
- * // Autocomplete: Basic word suggestions
- *     // Create a trie for autocomplete
- *     const autocomplete = new Trie<string>([
- *       'function',
- *       'functional',
- *       'functions',
- *       'class',
- *       'classes',
- *       'classical',
- *       'closure',
- *       'const',
- *       'constructor'
- *     ]);
+ * // Trie isPrefix and isAbsolutePrefix checks
+ *  const trie = new Trie(['tree', 'trial', 'trick', 'trip', 'trie']);
  *
- *     // Test autocomplete with different prefixes
- *     console.log(autocomplete.getWords('fun')); // ['functional', 'functions', 'function']
- *     console.log(autocomplete.getWords('cla')); // ['classes', 'classical', 'class']
- *     console.log(autocomplete.getWords('con')); // ['constructor', 'const']
+ *     // Check if string is a prefix of any word
+ *     console.log(trie.hasPrefix('tri')); // true;
+ *     console.log(trie.hasPrefix('tr')); // true;
+ *     console.log(trie.hasPrefix('xyz')); // false;
  *
- *     // Test with non-matching prefix
- *     console.log(autocomplete.getWords('xyz')); // []
+ *     // Check if string is an absolute prefix (not a complete word)
+ *     console.log(trie.hasPurePrefix('tri')); // true;
+ *     console.log(trie.hasPurePrefix('tree')); // false; // 'tree' is a complete word
+ *
+ *     // Verify size
+ *     console.log(trie.size); // 5;
+ * @example
+ * // Trie delete and iteration
+ *  const trie = new Trie(['car', 'card', 'care', 'careful', 'can', 'cat']);
+ *
+ *     // Delete a word
+ *     trie.delete('card');
+ *     console.log(trie.has('card')); // false;
+ *
+ *     // Word with same prefix still exists
+ *     console.log(trie.has('care')); // true;
+ *
+ *     // Size decreased
+ *     console.log(trie.size); // 5;
+ *
+ *     // Iterate through all words
+ *     const allWords = [...trie];
+ *     console.log(allWords.length); // 5;
+ * @example
+ * // Trie for autocomplete search index
+ *  // Trie is perfect for autocomplete: O(m + k) where m is prefix length, k is results
+ *     const searchIndex = new Trie(['typescript', 'javascript', 'python', 'java', 'rust', 'ruby', 'golang', 'kotlin']);
+ *
+ *     // User types 'j' - get all suggestions
+ *     const jResults = searchIndex.getWords('j');
+ *     console.log(jResults); // contains 'javascript';
+ *     console.log(jResults); // contains 'java';
+ *     console.log(jResults.length); // 2;
+ *
+ *     // User types 'ja' - get more specific suggestions
+ *     const jaResults = searchIndex.getWords('ja');
+ *     console.log(jaResults); // contains 'javascript';
+ *     console.log(jaResults); // contains 'java';
+ *     console.log(jaResults.length); // 2;
+ *
+ *     // User types 'jav' - even more specific
+ *     const javResults = searchIndex.getWords('jav');
+ *     console.log(javResults); // contains 'javascript';
+ *     console.log(javResults); // contains 'java';
+ *     console.log(javResults.length); // 2;
+ *
+ *     // Check for common prefix
+ *
+ *     console.log(searchIndex.hasCommonPrefix('ja')); // false; // Not all words start with 'ja'
+ *
+ *     // Total words in index
+ *     console.log(searchIndex.size); // 8;
+ *
+ *     // Get height (depth of tree)
+ *     const height = searchIndex.getHeight();
+ *     console.log(typeof height); // 'number';
  * @example
  * // Dictionary: Case-insensitive word lookup
- *     // Create a case-insensitive dictionary
+ *  // Create a case-insensitive dictionary
  *     const dictionary = new Trie<string>([], { caseSensitive: false });
  *
  *     // Add words with mixed casing
@@ -167,14 +213,30 @@ export class TrieNode {
  *     dictionary.add('JavaScript');
  *
  *     // Test lookups with different casings
- *     console.log(dictionary.has('hello')); // true
- *     console.log(dictionary.has('HELLO')); // true
- *     console.log(dictionary.has('Hello')); // true
- *     console.log(dictionary.has('javascript')); // true
- *     console.log(dictionary.has('JAVASCRIPT')); // true
+ *     console.log(dictionary.has('hello')); // true;
+ *     console.log(dictionary.has('HELLO')); // true;
+ *     console.log(dictionary.has('Hello')); // true;
+ *     console.log(dictionary.has('javascript')); // true;
+ *     console.log(dictionary.has('JAVASCRIPT')); // true;
+ * @example
+ * // File System Path Operations
+ *  const fileSystem = new Trie<string>([
+ *       '/home/user/documents/file1.txt',
+ *       '/home/user/documents/file2.txt',
+ *       '/home/user/pictures/photo.jpg',
+ *       '/home/user/pictures/vacation/',
+ *       '/home/user/downloads'
+ *     ]);
+ *
+ *     // Find common directory prefix
+ *     console.log(fileSystem.getLongestCommonPrefix()); // '/home/user/';
+ *
+ *     // List all files in a directory
+ *     const documentsFiles = fileSystem.getWords('/home/user/documents/');
+ *     console.log(documentsFiles); // ['/home/user/documents/file1.txt', '/home/user/documents/file2.txt'];
  * @example
  * // IP Address Routing Table
- *     // Add IP address prefixes and their corresponding routes
+ *  // Add IP address prefixes and their corresponding routes
  *     const routes = {
  *       '192.168.1': 'LAN_SUBNET_1',
  *       '192.168.2': 'LAN_SUBNET_2',
@@ -185,13 +247,13 @@ export class TrieNode {
  *     const ipRoutingTable = new Trie<string>(Object.keys(routes));
  *
  *     // Check IP address prefix matching
- *     console.log(ipRoutingTable.hasPrefix('192.168.1')); // true
- *     console.log(ipRoutingTable.hasPrefix('192.168.2')); // true
+ *     console.log(ipRoutingTable.hasPrefix('192.168.1')); // true;
+ *     console.log(ipRoutingTable.hasPrefix('192.168.2')); // true;
  *
  *     // Validate IP address belongs to subnet
  *     const ip = '192.168.1.100';
  *     const subnet = ip.split('.').slice(0, 3).join('.');
- *     console.log(ipRoutingTable.hasPrefix(subnet)); // true
+ *     console.log(ipRoutingTable.hasPrefix(subnet)); // true;
  */
 export class Trie<R = any> extends IterableElementBase<string, R> {
   /**

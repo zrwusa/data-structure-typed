@@ -918,7 +918,127 @@ describe('classic uses', () => {
 });
 
 describe('classic uses', () => {
-  it('@example fast lookup of values by key', () => {
+  it('@example basic HashMap creation and set operation', () => {
+    // Create a simple HashMap with key-value pairs
+    const map = new HashMap<number, string>([
+      [1, 'one'],
+      [2, 'two'],
+      [3, 'three']
+    ]);
+
+    // Verify size
+    expect(map.size).toBe(3);
+
+    // Set a new key-value pair
+    map.set(4, 'four');
+    expect(map.size).toBe(4);
+
+    // Verify entries
+    expect([...map.entries()]).toHaveLength(4);
+  });
+
+  it('@example HashMap get and has operations', () => {
+    const map = new HashMap<string, number>([
+      ['apple', 1],
+      ['banana', 2],
+      ['cherry', 3]
+    ]);
+
+    // Check if key exists
+    expect(map.has('apple')).toBe(true);
+    expect(map.has('date')).toBe(false);
+
+    // Get value by key
+    expect(map.get('banana')).toBe(2);
+    expect(map.get('grape')).toBeUndefined();
+
+    // Get all keys and values
+    const keys = [...map.keys()];
+    const values = [...map.values()];
+    expect(keys).toContain('apple');
+    expect(values).toContain(3);
+  });
+
+  it('@example HashMap iteration and filter operations', () => {
+    const map = new HashMap<number, string>([
+      [1, 'Alice'],
+      [2, 'Bob'],
+      [3, 'Charlie'],
+      [4, 'Diana'],
+      [5, 'Eve']
+    ]);
+
+    // Iterate through entries
+    const entries: [number, string][] = [];
+    for (const [key, value] of map) {
+      entries.push([key, value]);
+    }
+    expect(entries).toHaveLength(5);
+
+    // Filter operation (for iteration with collection methods)
+    const filtered = [...map].filter(([key]) => key > 2);
+    expect(filtered.length).toBe(3);
+
+    // Map operation
+    const values = [...map.values()].map(v => v.length);
+    expect(values).toContain(3); // 'Bob', 'Eve'
+    expect(values).toContain(7); // 'Charlie'
+  });
+
+  it('@example HashMap for user session caching O(1) performance', () => {
+    interface UserSession {
+      userId: number;
+      username: string;
+      loginTime: number;
+      lastActivity: number;
+    }
+
+    // HashMap provides O(1) average-case performance for set/get/delete
+    // Perfect for session management with fast lookups
+    const sessionCache = new HashMap<string, UserSession>();
+
+    // Simulate user sessions
+    const sessions: [string, UserSession][] = [
+      ['session_001', { userId: 1, username: 'alice', loginTime: 1000, lastActivity: 1050 }],
+      ['session_002', { userId: 2, username: 'bob', loginTime: 1100, lastActivity: 1150 }],
+      ['session_003', { userId: 3, username: 'charlie', loginTime: 1200, lastActivity: 1250 }]
+    ];
+
+    // Store sessions with O(1) insertion
+    for (const [token, session] of sessions) {
+      sessionCache.set(token, session);
+    }
+
+    expect(sessionCache.size).toBe(3);
+
+    // Retrieve session with O(1) lookup
+    const userSession = sessionCache.get('session_001');
+    expect(userSession?.username).toBe('alice');
+    expect(userSession?.userId).toBe(1);
+
+    // Update session with O(1) operation
+    if (userSession) {
+      userSession.lastActivity = 2000;
+      sessionCache.set('session_001', userSession);
+    }
+
+    // Check updated value
+    const updated = sessionCache.get('session_001');
+    expect(updated?.lastActivity).toBe(2000);
+
+    // Cleanup: delete expired sessions
+    sessionCache.delete('session_002');
+    expect(sessionCache.has('session_002')).toBe(false);
+
+    // Verify remaining sessions
+    expect(sessionCache.size).toBe(2);
+
+    // Get all active sessions
+    const activeCount = [...sessionCache.values()].length;
+    expect(activeCount).toBe(2);
+  });
+
+  it('Fast lookup of values by key', () => {
     const hashMap = new HashMap<number, string>();
     hashMap.set(1, 'A');
     hashMap.set(2, 'B');
@@ -930,7 +1050,7 @@ describe('classic uses', () => {
     expect(hashMap.get(99)).toBeUndefined(); // Key not present
   });
 
-  it('@example remove duplicates when adding multiple entries', () => {
+  it('Remove duplicates when adding multiple entries', () => {
     const hashMap = new HashMap<number, string>();
     hashMap.set(1, 'A');
     hashMap.set(2, 'B');
@@ -941,7 +1061,7 @@ describe('classic uses', () => {
     expect(hashMap.get(2)).toBe('B');
   });
 
-  it('@example count occurrences of keys', () => {
+  it('Count occurrences of keys', () => {
     const data = [1, 2, 1, 3, 2, 1];
 
     const countMap = new HashMap<number, number>();
@@ -975,5 +1095,31 @@ describe('classic uses', () => {
 
     expect(groupedMap.get('A')).toEqual([1, 3]);
     expect(groupedMap.get('B')).toEqual([2, 4]);
+  });
+
+  it('HashMap delete and clear operations', () => {
+    const map = new HashMap<string, number>([
+      ['a', 10],
+      ['b', 20],
+      ['c', 30],
+      ['d', 40]
+    ]);
+
+    // Delete a key
+    map.delete('b');
+    expect(map.has('b')).toBe(false);
+    expect(map.size).toBe(3);
+
+    // Value for deleted key is undefined
+    expect(map.get('b')).toBeUndefined();
+
+    // Other entries remain
+    expect(map.get('a')).toBe(10);
+    expect(map.get('c')).toBe(30);
+
+    // Clear all entries
+    map.clear();
+    expect(map.size).toBe(0);
+    expect(map.has('a')).toBe(false);
   });
 });

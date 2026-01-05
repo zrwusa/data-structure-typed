@@ -205,8 +205,86 @@ export class BinaryTreeNode<K = any, V = any> {
  * 5. Leaf Nodes: Nodes without children are leaves.
  *
  * @example
+ * // basic BinaryTree creation and insertion
+ *  // Create a BinaryTree with entries
+ *     const entries: [number, string][] = [
+ *       [6, 'six'],
+ *       [1, 'one'],
+ *       [2, 'two'],
+ *       [7, 'seven'],
+ *       [5, 'five'],
+ *       [3, 'three'],
+ *       [4, 'four'],
+ *       [9, 'nine'],
+ *       [8, 'eight']
+ *     ];
+ *
+ *     const tree = new BinaryTree(entries);
+ *
+ *     // Verify size
+ *     console.log(tree.size); // 9;
+ *
+ *     // Add new element
+ *     tree.add(10, 'ten');
+ *     console.log(tree.size); // 10;
+ * @example
+ * // BinaryTree get and has operations
+ *  const tree = new BinaryTree(
+ *       [
+ *         [5, 'five'],
+ *         [3, 'three'],
+ *         [7, 'seven'],
+ *         [1, 'one'],
+ *         [4, 'four'],
+ *         [6, 'six'],
+ *         [8, 'eight']
+ *       ],
+ *       { isMapMode: false }
+ *     );
+ *
+ *     // Check if key exists
+ *     console.log(tree.has(5)); // true;
+ *     console.log(tree.has(10)); // false;
+ *
+ *     // Get value by key
+ *     console.log(tree.get(3)); // 'three';
+ *     console.log(tree.get(7)); // 'seven';
+ *     console.log(tree.get(100)); // undefined;
+ *
+ *     // Get node structure
+ *     const node = tree.getNode(5);
+ *     console.log(node?.key); // 5;
+ *     console.log(node?.value); // 'five';
+ * @example
+ * // BinaryTree level-order traversal
+ *  const tree = new BinaryTree([
+ *       [1, 'one'],
+ *       [2, 'two'],
+ *       [3, 'three'],
+ *       [4, 'four'],
+ *       [5, 'five'],
+ *       [6, 'six'],
+ *       [7, 'seven']
+ *     ]);
+ *
+ *     // Binary tree maintains level-order insertion
+ *     // Complete binary tree structure
+ *     console.log(tree.size); // 7;
+ *
+ *     // Verify all keys are present
+ *     console.log(tree.has(1)); // true;
+ *     console.log(tree.has(4)); // true;
+ *     console.log(tree.has(7)); // true;
+ *
+ *     // Iterate through tree
+ *     const keys: number[] = [];
+ *     for (const [key] of tree) {
+ *       keys.push(key);
+ *     }
+ *     console.log(keys.length); // 7;
+ * @example
  * // determine loan approval using a decision tree
- *     // Decision tree structure
+ *  // Decision tree structure
  *     const loanDecisionTree = new BinaryTree<string>(
  *       ['stableIncome', 'goodCredit', 'Rejected', 'Approved', 'Rejected'],
  *       { isDuplicate: true }
@@ -228,19 +306,19 @@ export class BinaryTreeNode<K = any, V = any> {
  *     }
  *
  *     // Test case 1: Stable income and good credit score
- *     console.log(determineLoanApproval(loanDecisionTree.root, { stableIncome: true, goodCredit: true })); // 'Approved'
+ *     console.log(determineLoanApproval(loanDecisionTree.root, { stableIncome: true, goodCredit: true })); // 'Approved';
  *
  *     // Test case 2: Stable income but poor credit score
- *     console.log(determineLoanApproval(loanDecisionTree.root, { stableIncome: true, goodCredit: false })); // 'Rejected'
+ *     console.log(determineLoanApproval(loanDecisionTree.root, { stableIncome: true, goodCredit: false })); // 'Rejected';
  *
  *     // Test case 3: No stable income
- *     console.log(determineLoanApproval(loanDecisionTree.root, { stableIncome: false, goodCredit: true })); // 'Rejected'
+ *     console.log(determineLoanApproval(loanDecisionTree.root, { stableIncome: false, goodCredit: true })); // 'Rejected';
  *
  *     // Test case 4: No stable income and poor credit score
- *     console.log(determineLoanApproval(loanDecisionTree.root, { stableIncome: false, goodCredit: false })); // 'Rejected'
+ *     console.log(determineLoanApproval(loanDecisionTree.root, { stableIncome: false, goodCredit: false })); // 'Rejected';
  * @example
  * // evaluate the arithmetic expression represented by the binary tree
- *     const expressionTree = new BinaryTree<number | string>(['+', 3, '*', null, null, 5, '-', null, null, 2, 8]);
+ *  const expressionTree = new BinaryTree<number | string>(['+', 3, '*', null, null, 5, '-', null, null, 2, 8]);
  *
  *     function evaluate(node?: BinaryTreeNode<number | string> | null): number {
  *       if (!node) return 0;
@@ -265,7 +343,7 @@ export class BinaryTreeNode<K = any, V = any> {
  *       }
  *     }
  *
- *     console.log(evaluate(expressionTree.root)); // -27
+ *     console.log(evaluate(expressionTree.root)); // -27;
  */
 export class BinaryTree<K = any, V = any, R = any>
   extends IterableEntryBase<K, V | undefined>

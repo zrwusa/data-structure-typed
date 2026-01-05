@@ -27,93 +27,121 @@ import { LinearBase } from '../base/linear-base';
  * 4. Efficiency: Adding and removing elements at both ends of a deque is usually very fast. However, when the dynamic array needs to expand, it may involve copying the entire array to a larger one, and this operation has a time complexity of O(n).
  * 5. Performance jitter: Deque may experience performance jitter, but DoublyLinkedList will not
  * @example
- * // prize roulette
- *     class PrizeRoulette {
- *       private deque: Deque<string>;
+ * // basic Deque creation and push/pop operations
+ *  // Create a simple Deque with initial values
+ *     const deque = new Deque([1, 2, 3, 4, 5]);
  *
- *       constructor(prizes: string[]) {
- *         // Initialize the deque with prizes
- *         this.deque = new Deque<string>(prizes);
- *       }
+ *     // Verify the deque maintains insertion order
+ *     console.log([...deque]); // [1, 2, 3, 4, 5];
  *
- *       // Rotate clockwise to the right (forward)
- *       rotateClockwise(steps: number): void {
- *         const n = this.deque.length;
- *         if (n === 0) return;
+ *     // Check length
+ *     console.log(deque.length); // 5;
  *
- *         for (let i = 0; i < steps; i++) {
- *           const last = this.deque.pop(); // Remove the last element
- *           this.deque.unshift(last!); // Add it to the front
- *         }
- *       }
+ *     // Push to the end
+ *     deque.push(6);
+ *     console.log(deque.length); // 6;
  *
- *       // Rotate counterclockwise to the left (backward)
- *       rotateCounterClockwise(steps: number): void {
- *         const n = this.deque.length;
- *         if (n === 0) return;
- *
- *         for (let i = 0; i < steps; i++) {
- *           const first = this.deque.shift(); // Remove the first element
- *           this.deque.push(first!); // Add it to the back
- *         }
- *       }
- *
- *       // Display the current prize at the head
- *       display() {
- *         return this.deque.first;
- *       }
- *     }
- *
- *     // Example usage
- *     const prizes = ['Car', 'Bike', 'Laptop', 'Phone', 'Watch', 'Headphones']; // Initialize the prize list
- *     const roulette = new PrizeRoulette(prizes);
- *
- *     // Display the initial state
- *     console.log(roulette.display()); // 'Car' // Car
- *
- *     // Rotate clockwise by 3 steps
- *     roulette.rotateClockwise(3);
- *     console.log(roulette.display()); // 'Phone' // Phone
- *
- *     // Rotate counterclockwise by 2 steps
- *     roulette.rotateCounterClockwise(2);
- *     console.log(roulette.display()); // 'Headphones'
+ *     // Pop from the end
+ *     const last = deque.pop();
+ *     console.log(last); // 6;
  * @example
- * // sliding window
- *     // Maximum function of sliding window
- *     function maxSlidingWindow(nums: number[], k: number): number[] {
- *       const n = nums.length;
- *       if (n * k === 0) return [];
+ * // Deque shift and unshift operations
+ *  const deque = new Deque<number>([20, 30, 40]);
  *
- *       const deq = new Deque<number>();
- *       const result: number[] = [];
+ *     // Unshift adds to the front
+ *     deque.unshift(10);
+ *     console.log([...deque]); // [10, 20, 30, 40];
  *
- *       for (let i = 0; i < n; i++) {
- *         // Delete indexes in the queue that are not within the window range
- *         if (deq.length > 0 && deq.first! === i - k) {
- *           deq.shift();
- *         }
+ *     // Shift removes from the front (O(1) complexity!)
+ *     const first = deque.shift();
+ *     console.log(first); // 10;
  *
- *         // Remove all indices less than the current value from the tail of the queue
- *         while (deq.length > 0 && nums[deq.last!] < nums[i]) {
- *           deq.pop();
- *         }
+ *     // Verify remaining elements
+ *     console.log([...deque]); // [20, 30, 40];
+ *     console.log(deque.length); // 3;
+ * @example
+ * // Deque peek at both ends
+ *  const deque = new Deque<number>([10, 20, 30, 40, 50]);
  *
- *         // Add the current index to the end of the queue
- *         deq.push(i);
+ *     // Get first element without removing
+ *     const first = deque.at(0);
+ *     console.log(first); // 10;
  *
- *         // Add the maximum value of the window to the results
- *         if (i >= k - 1) {
- *           result.push(nums[deq.first!]);
- *         }
- *       }
+ *     // Get last element without removing
+ *     const last = deque.at(deque.length - 1);
+ *     console.log(last); // 50;
  *
- *       return result;
+ *     // Length unchanged
+ *     console.log(deque.length); // 5;
+ * @example
+ * // Deque for...of iteration and reverse
+ *  const deque = new Deque<string>(['A', 'B', 'C', 'D']);
+ *
+ *     // Iterate forward
+ *     const forward: string[] = [];
+ *     for (const item of deque) {
+ *       forward.push(item);
+ *     }
+ *     console.log(forward); // ['A', 'B', 'C', 'D'];
+ *
+ *     // Reverse the deque
+ *     deque.reverse();
+ *     const backward: string[] = [];
+ *     for (const item of deque) {
+ *       backward.push(item);
+ *     }
+ *     console.log(backward); // ['D', 'C', 'B', 'A'];
+ * @example
+ * // Deque as sliding window for stream processing
+ *  interface DataPoint {
+ *       timestamp: number;
+ *       value: number;
+ *       sensor: string;
  *     }
  *
- *     const nums = [1, 3, -1, -3, 5, 3, 6, 7];
- *     const k = 3;
- *     console.log(maxSlidingWindow(nums, k)); // [3, 3, 5, 5, 6, 7]
+ *     // Create a deque-based sliding window for real-time data aggregation
+ *     const windowSize = 3;
+ *     const dataWindow = new Deque<DataPoint>();
+ *
+ *     // Simulate incoming sensor data stream
+ *     const incomingData: DataPoint[] = [
+ *       { timestamp: 1000, value: 25.5, sensor: 'temp-01' },
+ *       { timestamp: 1100, value: 26.2, sensor: 'temp-01' },
+ *       { timestamp: 1200, value: 25.8, sensor: 'temp-01' },
+ *       { timestamp: 1300, value: 27.1, sensor: 'temp-01' },
+ *       { timestamp: 1400, value: 26.9, sensor: 'temp-01' }
+ *     ];
+ *
+ *     const windowResults: Array<{ avgValue: number; windowSize: number }> = [];
+ *
+ *     for (const dataPoint of incomingData) {
+ *       // Add new data to the end
+ *       dataWindow.push(dataPoint);
+ *
+ *       // Remove oldest data when window exceeds size (O(1) from front)
+ *       if (dataWindow.length > windowSize) {
+ *         dataWindow.shift();
+ *       }
+ *
+ *       // Calculate average of current window
+ *       let sum = 0;
+ *       for (const point of dataWindow) {
+ *         sum += point.value;
+ *       }
+ *       const avg = sum / dataWindow.length;
+ *
+ *       windowResults.push({
+ *         avgValue: Math.round(avg * 10) / 10,
+ *         windowSize: dataWindow.length
+ *       });
+ *     }
+ *
+ *     // Verify sliding window behavior
+ *     console.log(windowResults.length); // 5;
+ *     console.log(windowResults[0].windowSize); // 1; // First window has 1 element
+ *     console.log(windowResults[2].windowSize); // 3; // Windows are at max size from 3rd onwards
+ *     console.log(windowResults[4].windowSize); // 3; // Last window still has 3 elements
+ *     console.log(dataWindow.length); // 3;
  */
 export class Deque<E = any, R = any> extends LinearBase<E, R> {
   protected _equals: (a: E, b: E) => boolean = Object.is as unknown as (a: E, b: E) => boolean;

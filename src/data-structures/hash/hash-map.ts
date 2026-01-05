@@ -29,7 +29,7 @@ import { isWeakKey, rangeCheck } from '../../utils';
  * 4. Unordered Collection: HashMap does not guarantee the order of entries, and the order may change over time.
  * @example
  * // should maintain insertion order
- *     const linkedHashMap = new LinkedHashMap<number, string>();
+ *  const linkedHashMap = new LinkedHashMap<number, string>();
  *     linkedHashMap.set(1, 'A');
  *     linkedHashMap.set(2, 'B');
  *     linkedHashMap.set(3, 'C');
@@ -39,40 +39,123 @@ import { isWeakKey, rangeCheck } from '../../utils';
  *  //      [1, 'A'],
  *  //      [2, 'B'],
  *  //      [3, 'C']
- *  //    ]
+ *  //    ];
  * @example
- * // fast lookup of values by key
- *     const hashMap = new HashMap<number, string>();
- *     hashMap.set(1, 'A');
- *     hashMap.set(2, 'B');
- *     hashMap.set(3, 'C');
+ * // basic HashMap creation and set operation
+ *  // Create a simple HashMap with key-value pairs
+ *     const map = new HashMap<number, string>([
+ *       [1, 'one'],
+ *       [2, 'two'],
+ *       [3, 'three']
+ *     ]);
  *
- *     console.log(hashMap.get(1)); // 'A'
- *     console.log(hashMap.get(2)); // 'B'
- *     console.log(hashMap.get(3)); // 'C'
- *     console.log(hashMap.get(99)); // undefined
+ *     // Verify size
+ *     console.log(map.size); // 3;
+ *
+ *     // Set a new key-value pair
+ *     map.set(4, 'four');
+ *     console.log(map.size); // 4;
+ *
+ *     // Verify entries
+ *     console.log([...map.entries()]); // length: 4;
  * @example
- * // remove duplicates when adding multiple entries
- *     const hashMap = new HashMap<number, string>();
- *     hashMap.set(1, 'A');
- *     hashMap.set(2, 'B');
- *     hashMap.set(1, 'C'); // Update value for key 1
+ * // HashMap get and has operations
+ *  const map = new HashMap<string, number>([
+ *       ['apple', 1],
+ *       ['banana', 2],
+ *       ['cherry', 3]
+ *     ]);
  *
- *     console.log(hashMap.size); // 2
- *     console.log(hashMap.get(1)); // 'C'
- *     console.log(hashMap.get(2)); // 'B'
+ *     // Check if key exists
+ *     console.log(map.has('apple')); // true;
+ *     console.log(map.has('date')); // false;
+ *
+ *     // Get value by key
+ *     console.log(map.get('banana')); // 2;
+ *     console.log(map.get('grape')); // undefined;
+ *
+ *     // Get all keys and values
+ *     const keys = [...map.keys()];
+ *     const values = [...map.values()];
+ *     console.log(keys); // contains 'apple';
+ *     console.log(values); // contains 3;
  * @example
- * // count occurrences of keys
- *     const data = [1, 2, 1, 3, 2, 1];
+ * // HashMap iteration and filter operations
+ *  const map = new HashMap<number, string>([
+ *       [1, 'Alice'],
+ *       [2, 'Bob'],
+ *       [3, 'Charlie'],
+ *       [4, 'Diana'],
+ *       [5, 'Eve']
+ *     ]);
  *
- *     const countMap = new HashMap<number, number>();
- *     for (const key of data) {
- *       countMap.set(key, (countMap.get(key) || 0) + 1);
+ *     // Iterate through entries
+ *     const entries: [number, string][] = [];
+ *     for (const [key, value] of map) {
+ *       entries.push([key, value]);
+ *     }
+ *     console.log(entries); // length: 5;
+ *
+ *     // Filter operation (for iteration with collection methods)
+ *     const filtered = [...map].filter(([key]) => key > 2);
+ *     console.log(filtered.length); // 3;
+ *
+ *     // Map operation
+ *     const values = [...map.values()].map(v => v.length);
+ *     console.log(values); // contains 3; // 'Bob', 'Eve'
+ *     console.log(values); // contains 7;
+ * @example
+ * // HashMap for user session caching O(1) performance
+ *  interface UserSession {
+ *       userId: number;
+ *       username: string;
+ *       loginTime: number;
+ *       lastActivity: number;
  *     }
  *
- *     console.log(countMap.get(1)); // 3
- *     console.log(countMap.get(2)); // 2
- *     console.log(countMap.get(3)); // 1
+ *     // HashMap provides O(1) average-case performance for set/get/delete
+ *     // Perfect for session management with fast lookups
+ *     const sessionCache = new HashMap<string, UserSession>();
+ *
+ *     // Simulate user sessions
+ *     const sessions: [string, UserSession][] = [
+ *       ['session_001', { userId: 1, username: 'alice', loginTime: 1000, lastActivity: 1050 }],
+ *       ['session_002', { userId: 2, username: 'bob', loginTime: 1100, lastActivity: 1150 }],
+ *       ['session_003', { userId: 3, username: 'charlie', loginTime: 1200, lastActivity: 1250 }]
+ *     ];
+ *
+ *     // Store sessions with O(1) insertion
+ *     for (const [token, session] of sessions) {
+ *       sessionCache.set(token, session);
+ *     }
+ *
+ *     console.log(sessionCache.size); // 3;
+ *
+ *     // Retrieve session with O(1) lookup
+ *     const userSession = sessionCache.get('session_001');
+ *     console.log(userSession?.username); // 'alice';
+ *     console.log(userSession?.userId); // 1;
+ *
+ *     // Update session with O(1) operation
+ *     if (userSession) {
+ *       userSession.lastActivity = 2000;
+ *       sessionCache.set('session_001', userSession);
+ *     }
+ *
+ *     // Check updated value
+ *     const updated = sessionCache.get('session_001');
+ *     console.log(updated?.lastActivity); // 2000;
+ *
+ *     // Cleanup: delete expired sessions
+ *     sessionCache.delete('session_002');
+ *     console.log(sessionCache.has('session_002')); // false;
+ *
+ *     // Verify remaining sessions
+ *     console.log(sessionCache.size); // 2;
+ *
+ *     // Get all active sessions
+ *     const activeCount = [...sessionCache.values()].length;
+ *     console.log(activeCount); // 2;
  */
 export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, V> {
   /**

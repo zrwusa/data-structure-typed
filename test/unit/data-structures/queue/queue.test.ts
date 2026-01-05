@@ -594,76 +594,110 @@ describe('Queue', () => {
 });
 
 describe('classic uses', () => {
-  it('@example Sliding Window using Queue', () => {
-    const nums = [2, 3, 4, 1, 5];
-    const k = 2;
-    const queue = new Queue<number>();
+  it('@example basic Queue creation and push operation', () => {
+    // Create a simple Queue with initial values
+    const queue = new Queue([1, 2, 3, 4, 5]);
 
-    let maxSum = 0;
-    let currentSum = 0;
+    // Verify the queue maintains insertion order
+    expect([...queue]).toEqual([1, 2, 3, 4, 5]);
 
-    nums.forEach(num => {
-      queue.push(num);
-      currentSum += num;
-
-      if (queue.length > k) {
-        currentSum -= queue.shift()!;
-      }
-
-      if (queue.length === k) {
-        maxSum = Math.max(maxSum, currentSum);
-      }
-    });
-
-    expect(maxSum).toBe(7); // Maximum sum is from subarray [3, 4].
+    // Check length
+    expect(queue.length).toBe(5);
   });
 
-  it('@example Breadth-First Search (BFS) using Queue', () => {
-    const graph: { [key in number]: number[] } = {
-      1: [2, 3],
-      2: [4, 5],
-      3: [],
-      4: [],
-      5: []
-    };
+  it('@example Queue shift and peek operations', () => {
+    const queue = new Queue<number>([10, 20, 30, 40]);
 
-    const queue = new Queue<number>();
-    const visited: number[] = [];
+    // Peek at the front element without removing it
+    expect(queue.first).toBe(10);
 
-    queue.push(1);
+    // Remove and get the first element (FIFO)
+    const first = queue.shift();
+    expect(first).toBe(10);
 
-    while (!queue.isEmpty()) {
-      const node = queue.shift()!;
-      if (!visited.includes(node)) {
-        visited.push(node);
-        graph[node].forEach(neighbor => queue.push(neighbor));
+    // Verify remaining elements and length decreased
+    expect([...queue]).toEqual([20, 30, 40]);
+    expect(queue.length).toBe(3);
+  });
+
+  it('@example Queue for...of iteration and isEmpty check', () => {
+    const queue = new Queue<string>(['A', 'B', 'C', 'D']);
+
+    const elements: string[] = [];
+    for (const item of queue) {
+      elements.push(item);
+    }
+
+    // Verify all elements are iterated in order
+    expect(elements).toEqual(['A', 'B', 'C', 'D']);
+
+    // Process all elements
+    while (queue.length > 0) {
+      queue.shift();
+    }
+
+    expect(queue.length).toBe(0);
+  });
+
+  it('@example Queue as message broker for event processing', () => {
+    interface Message {
+      id: string;
+      type: 'email' | 'sms' | 'push';
+      recipient: string;
+      content: string;
+      timestamp: Date;
+    }
+
+    // Create a message queue for real-time event processing
+    const messageQueue = new Queue<Message>([
+      {
+        id: 'msg-001',
+        type: 'email',
+        recipient: 'user@example.com',
+        content: 'Welcome!',
+        timestamp: new Date()
+      },
+      {
+        id: 'msg-002',
+        type: 'sms',
+        recipient: '+1234567890',
+        content: 'OTP: 123456',
+        timestamp: new Date()
+      },
+      {
+        id: 'msg-003',
+        type: 'push',
+        recipient: 'device-token-xyz',
+        content: 'New notification',
+        timestamp: new Date()
+      },
+      {
+        id: 'msg-004',
+        type: 'email',
+        recipient: 'admin@example.com',
+        content: 'Daily report',
+        timestamp: new Date()
+      }
+    ]);
+
+    // Process messages in FIFO order (first message first)
+    const processedMessages: string[] = [];
+    while (messageQueue.length > 0) {
+      const message = messageQueue.shift();
+      if (message) {
+        processedMessages.push(`${message.type}:${message.recipient}`);
       }
     }
 
-    expect(visited).toEqual([1, 2, 3, 4, 5]); // Expected BFS traversal order.
-  });
+    // Verify messages were processed in order
+    expect(processedMessages).toEqual([
+      'email:user@example.com',
+      'sms:+1234567890',
+      'push:device-token-xyz',
+      'email:admin@example.com'
+    ]);
 
-  it('Task Scheduling using Queue', () => {
-    const tasks = ['A', 'A', 'A', 'B', 'B', 'B'];
-    const cooldown = 2;
-
-    const taskQueue = new Queue<string>();
-    const cooldownQueue = new Queue<string>();
-
-    for (const task of tasks) {
-      while (!cooldownQueue.isEmpty() && cooldownQueue.first === task) {
-        cooldownQueue.shift();
-        taskQueue.push('idle');
-      }
-
-      taskQueue.push(task);
-      cooldownQueue.push(task);
-      if (cooldownQueue.length > cooldown) {
-        cooldownQueue.shift();
-      }
-    }
-
-    const scheduled = taskQueue.elements;
-    expect(scheduled).toEqual(['A', 'idle', 'A', 'idle', 'A', 'B', 'B', 'idle', 'idle', 'B']);
+    // Queue should be empty after processing all messages
+    expect(messageQueue.length).toBe(0);
   });
 });

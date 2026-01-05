@@ -23,52 +23,108 @@ import { LinearBase } from '../base/linear-base';
  * 6. Breadth-First Search (BFS): In traversal algorithms for graphs and trees, queues store elements that are to be visited.
  * 7. Real-time Queuing: Like queuing systems in banks or supermarkets.
  * @example
- * // Sliding Window using Queue
- *     const nums = [2, 3, 4, 1, 5];
- *     const k = 2;
- *     const queue = new Queue<number>();
+ * // basic Queue creation and push operation
+ *  // Create a simple Queue with initial values
+ *     const queue = new Queue([1, 2, 3, 4, 5]);
  *
- *     let maxSum = 0;
- *     let currentSum = 0;
+ *     // Verify the queue maintains insertion order
+ *     console.log([...queue]); // [1, 2, 3, 4, 5];
  *
- *     nums.forEach(num => {
- *       queue.push(num);
- *       currentSum += num;
- *
- *       if (queue.length > k) {
- *         currentSum -= queue.shift()!;
- *       }
- *
- *       if (queue.length === k) {
- *         maxSum = Math.max(maxSum, currentSum);
- *       }
- *     });
- *
- *     console.log(maxSum); // 7
+ *     // Check length
+ *     console.log(queue.length); // 5;
  * @example
- * // Breadth-First Search (BFS) using Queue
- *     const graph: { [key in number]: number[] } = {
- *       1: [2, 3],
- *       2: [4, 5],
- *       3: [],
- *       4: [],
- *       5: []
- *     };
+ * // Queue shift and peek operations
+ *  const queue = new Queue<number>([10, 20, 30, 40]);
  *
- *     const queue = new Queue<number>();
- *     const visited: number[] = [];
+ *     // Peek at the front element without removing it
+ *     console.log(queue.first); // 10;
  *
- *     queue.push(1);
+ *     // Remove and get the first element (FIFO)
+ *     const first = queue.shift();
+ *     console.log(first); // 10;
  *
- *     while (!queue.isEmpty()) {
- *       const node = queue.shift()!;
- *       if (!visited.includes(node)) {
- *         visited.push(node);
- *         graph[node].forEach(neighbor => queue.push(neighbor));
+ *     // Verify remaining elements and length decreased
+ *     console.log([...queue]); // [20, 30, 40];
+ *     console.log(queue.length); // 3;
+ * @example
+ * // Queue for...of iteration and isEmpty check
+ *  const queue = new Queue<string>(['A', 'B', 'C', 'D']);
+ *
+ *     const elements: string[] = [];
+ *     for (const item of queue) {
+ *       elements.push(item);
+ *     }
+ *
+ *     // Verify all elements are iterated in order
+ *     console.log(elements); // ['A', 'B', 'C', 'D'];
+ *
+ *     // Process all elements
+ *     while (queue.length > 0) {
+ *       queue.shift();
+ *     }
+ *
+ *     console.log(queue.length); // 0;
+ * @example
+ * // Queue as message broker for event processing
+ *  interface Message {
+ *       id: string;
+ *       type: 'email' | 'sms' | 'push';
+ *       recipient: string;
+ *       content: string;
+ *       timestamp: Date;
+ *     }
+ *
+ *     // Create a message queue for real-time event processing
+ *     const messageQueue = new Queue<Message>([
+ *       {
+ *         id: 'msg-001',
+ *         type: 'email',
+ *         recipient: 'user@example.com',
+ *         content: 'Welcome!',
+ *         timestamp: new Date()
+ *       },
+ *       {
+ *         id: 'msg-002',
+ *         type: 'sms',
+ *         recipient: '+1234567890',
+ *         content: 'OTP: 123456',
+ *         timestamp: new Date()
+ *       },
+ *       {
+ *         id: 'msg-003',
+ *         type: 'push',
+ *         recipient: 'device-token-xyz',
+ *         content: 'New notification',
+ *         timestamp: new Date()
+ *       },
+ *       {
+ *         id: 'msg-004',
+ *         type: 'email',
+ *         recipient: 'admin@example.com',
+ *         content: 'Daily report',
+ *         timestamp: new Date()
+ *       }
+ *     ]);
+ *
+ *     // Process messages in FIFO order (first message first)
+ *     const processedMessages: string[] = [];
+ *     while (messageQueue.length > 0) {
+ *       const message = messageQueue.shift();
+ *       if (message) {
+ *         processedMessages.push(`${message.type}:${message.recipient}`);
  *       }
  *     }
  *
- *     console.log(visited); // [1, 2, 3, 4, 5]
+ *     // Verify messages were processed in order
+ *     console.log(processedMessages); // [
+ *  //      'email:user@example.com',
+ *  //      'sms:+1234567890',
+ *  //      'push:device-token-xyz',
+ *  //      'email:admin@example.com'
+ *  //    ];
+ *
+ *     // Queue should be empty after processing all messages
+ *     console.log(messageQueue.length); // 0;
  */
 export class Queue<E = any, R = any> extends LinearBase<E, R> {
   /**

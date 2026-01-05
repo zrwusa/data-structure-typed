@@ -20,38 +20,38 @@ function toPascalCase(str: string): string {
 const isReplaceMD = true;
 const START_MARKER = '[//]: # (No deletion!!! Start of Example Replace Section)';
 const END_MARKER = '[//]: # (No deletion!!! End of Example Replace Section)';
-
 const pkgRootDir = config.individualsDir;
+
 const dirMap: Record<string, string | string[]> = {
-  Heap: "heap-typed",
-  AvlTree: "avl-tree-typed",
-  BinaryTree: "binary-tree-typed",
-  BST: "bst-typed",
-  Deque: "deque-typed",
-  DirectedGraph: "directed-graph-typed",
-  DoublyLinkedList: ["doubly-linked-list-typed", "linked-list-typed"],
-  Graph: "graph-typed",
-  LinkedList: "linked-list-typed",
-  MaxHeap: "max-heap-typed",
-  MaxPriorityQueue: "max-priority-queue-typed",
-  MinHeap: "min-heap-typed",
-  MinPriorityQueue: "min-priority-queue-typed",
-  PriorityQueue: "priority-queue-typed",
-  SinglyLinkedList: "singly-linked-list-typed",
-  Queue: "queue-typed",
-  RedBlackTree: "red-black-tree-typed",
-  Stack: "stack-typed",
-  TreeMultimap: "tree-multimap-typed",
-  Trie: "trie-typed",
-  UndirectedGraph: "undirected-graph-typed",
+  Heap: 'heap-typed',
+  AvlTree: 'avl-tree-typed',
+  BinaryTree: 'binary-tree-typed',
+  BST: 'bst-typed',
+  Deque: 'deque-typed',
+  DirectedGraph: 'directed-graph-typed',
+  DoublyLinkedList: ['doubly-linked-list-typed', 'linked-list-typed'],
+  Graph: 'graph-typed',
+  LinkedList: 'linked-list-typed',
+  MaxHeap: 'max-heap-typed',
+  MaxPriorityQueue: 'max-priority-queue-typed',
+  MinHeap: 'min-heap-typed',
+  MinPriorityQueue: 'min-priority-queue-typed',
+  PriorityQueue: 'priority-queue-typed',
+  SinglyLinkedList: 'singly-linked-list-typed',
+  Queue: 'queue-typed',
+  RedBlackTree: 'red-black-tree-typed',
+  Stack: 'stack-typed',
+  TreeMultimap: 'tree-multimap-typed',
+  Trie: 'trie-typed',
+  UndirectedGraph: 'undirected-graph-typed',
 };
 
 const classMap: Record<string, string> = {
-  Bst: "BST",
-  AvlTree: "AVLTree",
-  AvlTreeMultiMap: "AVLTreeMultiMap",
-  AvlTreeCounter: "AVLTreeCounter"
-}
+  Bst: 'BST',
+  AvlTree: 'AVLTree',
+  AvlTreeMultiMap: 'AVLTreeMultiMap',
+  AvlTreeCounter: 'AVLTreeCounter',
+};
 
 const fileName = 'README.md';
 
@@ -60,18 +60,155 @@ const fileName = 'README.md';
  */
 function getAllTestFiles(dir: string): string[] {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
-
   const files = entries
     .filter(file => !file.isDirectory() && file.name.endsWith('.ts'))
     .map(file => path.join(dir, file.name));
-
   const directories = entries.filter(entry => entry.isDirectory());
-
   for (const directory of directories) {
     files.push(...getAllTestFiles(path.join(dir, directory.name)));
   }
-
   return files;
+}
+
+/**
+ * 计算括号平衡的结束位置
+ * 用于精确提取 expect() 中的 actual 参数
+ */
+function findBalancedParenClose(str: string, startIdx: number): number {
+  let depth = 0;
+  for (let i = startIdx; i < str.length; i++) {
+    const char = str[i];
+    if (char === '(') depth++;
+    else if (char === ')') {
+      depth--;
+      if (depth === 0) return i;
+    } else if (char === '"' || char === "'" || char === '`') {
+      // 跳过字符串
+      const quote = char;
+      i++;
+      while (i < str.length && str[i] !== quote) {
+        if (str[i] === '\\') i++; // 跳过转义字符
+        i++;
+      }
+    }
+  }
+  return -1;
+}
+
+/**
+ * 从 AST 角度精确转换 expect 语句
+ * 避免正则表达式的括号嵌套问题
+ */
+function transformExpectStatementsWithAST(codeBlock: string): string {
+  const sourceFile = ts.createSourceFile(
+    'temp.ts',
+    codeBlock,
+    ts.ScriptTarget.Latest,
+    true
+  );
+
+  const replacements: Array<{ start: number; end: number; replacement: string }> = [];
+
+  function visit(node: ts.Node) {
+    // 寻找 expect(...).method(...) 的模式
+    if (ts.isCallExpression(node) && node.expression && ts.isPropertyAccessExpression(node.expression)) {
+      const propAccess = node.expression;
+      const methodName = propAccess.name.text;
+
+      // 检查是否是 expect() 调用
+      if (propAccess.expression && ts.isCallExpression(propAccess.expression)) {
+        const expectCall = propAccess.expression;
+
+        if (
+          expectCall.expression &&
+          ts.isIdentifier(expectCall.expression) &&
+          expectCall.expression.text === 'expect'
+        ) {
+          const actual = expectCall.arguments[0]?.getFullText(sourceFile)?.trim() || '';
+          const expected = node.arguments[0]?.getFullText(sourceFile)?.trim() || '';
+          const notModifier = propAccess.name.parent ? '' : '';
+
+          // 检查是否有 .not 修饰符
+          const hasNot = propAccess.expression.parent &&
+            ts.isPropertyAccessExpression(propAccess.expression.parent) &&
+            propAccess.expression.parent.name.text === 'not';
+
+          const notStr = hasNot ? 'not ' : '';
+          const comment = convertMatcherToComment(methodName, expected);
+
+          const replacement = `console.log(${actual}); // ${notStr}${comment}`;
+
+          replacements.push({
+            start: expectCall.getStart(sourceFile),
+            end: node.getEnd(),
+            replacement,
+          });
+        }
+      }
+    }
+
+    ts.forEachChild(node, visit);
+  }
+
+  visit(sourceFile);
+
+  // 从后往前替换，避免 offset 变化
+  replacements.sort((a, b) => b.start - a.start);
+  let result = codeBlock;
+  for (const replacement of replacements) {
+    result = result.slice(0, replacement.start) + replacement.replacement + result.slice(replacement.end);
+  }
+
+  return result;
+}
+
+/**
+ * 将 Jest matcher 转换为注释
+ */
+function convertMatcherToComment(method: string, expected: string): string {
+  const matchers: Record<string, (exp: string) => string> = {
+    // 布尔/类型检查
+    toBeUndefined: () => 'undefined',
+    toBeNull: () => 'null',
+    toBeTruthy: () => 'truthy',
+    toBeFalsy: () => 'falsy',
+    toBeDefined: () => 'defined',
+
+    // 数值比较
+    toBeGreaterThan: (exp: string) => `> ${exp}`,
+    toBeGreaterThanOrEqual: (exp: string) => `>= ${exp}`,
+    toBeLessThan: (exp: string) => `< ${exp}`,
+    toBeLessThanOrEqual: (exp: string) => `<= ${exp}`,
+
+    // 等值检查
+    toBe: (exp: string) => exp,
+    toEqual: (exp: string) => exp,
+    toStrictEqual: (exp: string) => exp,
+
+    // 容器检查
+    toContain: (exp: string) => `contains ${exp}`,
+    toContainEqual: (exp: string) => `contains ${exp}`,
+    toHaveLength: (exp: string) => `length: ${exp}`,
+    toHaveProperty: (exp: string) => `has property ${exp}`,
+
+    // 字符串/正则
+    toMatch: (exp: string) => `matches ${exp}`,
+
+    // 异常检查
+    toThrow: (exp: string) => (exp ? `throws ${exp}` : 'throws'),
+  };
+
+  const matcherFn = matchers[method];
+  if (!matcherFn) return method; // 未知的 matcher
+
+  // 对于不需要参数的 matcher
+  if (['toBeUndefined', 'toBeNull', 'toBeTruthy', 'toBeFalsy', 'toBeDefined'].includes(method)) {
+    return matcherFn('');
+  }
+
+  // 清理多行的 expected 参数
+  const cleanExpected = expected.replace(/\n/g, '\n //');
+  return matcherFn(cleanExpected);
 }
 
 /**
@@ -80,7 +217,6 @@ function getAllTestFiles(dir: string): string[] {
 function extractExamplesFromFile(filePath: string): { name: string; body: string }[] {
   const fileContent = fs.readFileSync(filePath, 'utf-8');
   const sourceFile = ts.createSourceFile(filePath, fileContent, ts.ScriptTarget.Latest, true);
-
   const examples: { name: string; body: string }[] = [];
 
   function visit(node: ts.Node) {
@@ -93,8 +229,8 @@ function extractExamplesFromFile(filePath: string): { name: string; body: string
     ) {
       const exampleName = node.arguments[0].text.replace('@example ', '').trim();
       const bodyNode = node.arguments[1].body;
-
       let exampleBody: string;
+
       if (ts.isBlock(bodyNode)) {
         // If it's a block, remove outer {}
         exampleBody = bodyNode.statements
@@ -106,24 +242,8 @@ function extractExamplesFromFile(filePath: string): { name: string; body: string
         exampleBody = bodyNode.getFullText(sourceFile).trim();
       }
 
-      const transformedBody = exampleBody
-        .replace(
-          /expect\((.*?)\)\.(toBeUndefined|toBeNull)\(\);/g,
-          (match, actual, method) => {
-            const expectedValue = method === 'toBeUndefined' ? 'undefined' : 'null';
-            return `console.log(${actual}); // ${expectedValue}`;
-          }
-        )
-        .replace(
-          // @ts-ignore
-          /expect\((.*?)\)\.(toEqual|toBe|toStrictEqual|toHaveLength|toMatchObject)\((.*?)\);/gs, // Use `s` flag for multiline
-          (match, actual, method, expected) => {
-              expected = expected.replace(/\n/g, '\n //')
-            return `console.log(${actual}); // ${expected}`;
-          }
-        )
-        .trim();
-
+      // 使用 AST 方式转换 expect 语句
+      const transformedBody = transformExpectStatementsWithAST(exampleBody).trim();
       examples.push({ name: exampleName, body: transformedBody });
     }
 
@@ -131,7 +251,6 @@ function extractExamplesFromFile(filePath: string): { name: string; body: string
   }
 
   visit(sourceFile);
-
   return examples;
 }
 
@@ -150,7 +269,6 @@ function addExamplesToSourceFile(
 
   const sourceContent = fs.readFileSync(sourceFilePath, 'utf-8');
   const sourceFile = ts.createSourceFile(sourceFilePath, sourceContent, ts.ScriptTarget.Latest, true);
-
   const classNode = sourceFile.statements.find(
     stmt => ts.isClassDeclaration(stmt) && stmt.name?.text === className
   ) as ts.ClassDeclaration | undefined;
@@ -164,21 +282,24 @@ function addExamplesToSourceFile(
   // Search only in the leading trivia region for the nearest JSDoc block
   const leadingRegion = sourceContent.slice(fullStart, classStart);
   const commentStartInLeading = leadingRegion.lastIndexOf('/**');
+
   if (commentStartInLeading === -1) {
     console.warn(`No existing comment found for class: ${className}`);
     return;
   }
-  const commentStart = fullStart + commentStartInLeading;
 
+  const commentStart = fullStart + commentStartInLeading;
   const commentEnd = sourceContent.indexOf('*/', commentStart);
+
   if (commentEnd === -1 || commentEnd > classStart) {
     console.warn(`Malformed comment for class: ${className}`);
     return;
   }
-  const commentEndInclusive = commentEnd + 2;
 
+  const commentEndInclusive = commentEnd + 2;
   const existingCommentBlock = sourceContent.slice(commentStart, commentEndInclusive);
   const existingCommentMatch = existingCommentBlock.match(/\/\*\*([\s\S]*?)\*\//);
+
   if (!existingCommentMatch) {
     console.warn(`No existing comment found for class: ${className}`);
     return;
@@ -186,23 +307,20 @@ function addExamplesToSourceFile(
 
   const existingCommentInner = existingCommentMatch[1]; // keep inner as-is, including leading newline
 
-  const exampleSection =
-    examples
-      .map(example => {
-        const indentedBody = '    ' + example.body;
-        return ` * @example\n * \/\/ ${example.name}\n${indentedBody
-          .split('\n')
-          .map(line => (line.trim() === '' ? ` *` : ` * ${line}`))
-          .join('\n')}`;
-      })
-      .join('\n') + '\n';
+  const exampleSection = examples
+    .map(example => {
+      const indentedBody = ' ' + example.body;
+      return ` * @example\n * // ${example.name}\n${indentedBody
+        .split('\n')
+        .map(line => (line.trim() === '' ? ` *` : ` * ${line}`))
+        .join('\n')}`;
+    })
+    .join('\n') + '\n';
 
   let newInner: string;
+
   if (existingCommentInner.includes('@example')) {
     // Replace from the first " * @example" to the end of the block (before */)
-    newInner = existingCommentInner.replace(/^\s*\*\s@example[\s\S]*$/m, exampleSection.trimEnd());
-    // Important: the regex above may not catch if @example is not at line start exactly with spaces.
-    // A safer approach:
     newInner = existingCommentInner.replace(/ \* @example[\s\S]*?(?=\*\/|$)/g, exampleSection);
   } else {
     newInner = existingCommentInner.replace(/\s*$/, '\n') + exampleSection;
@@ -210,28 +328,20 @@ function addExamplesToSourceFile(
 
   // Rebuild full comment block
   const newCommentBlock = `/**${newInner.replace(/^\n?/, '\n').replace(/\s*$/, '\n')} */`;
-
   const updatedContent =
-    sourceContent.slice(0, commentStart) +
-    newCommentBlock +
-    sourceContent.slice(commentEndInclusive);
+    sourceContent.slice(0, commentStart) + newCommentBlock + sourceContent.slice(commentEndInclusive);
 
   fs.writeFileSync(sourceFilePath, updatedContent, 'utf-8');
   console.log(`Updated examples in ${sourceFilePath}`);
 }
 
-
-
 /**
  * Process all test files and update README.md and source files.
  */
 function updateExamples(testDir: string, sourceBaseDir: string): void {
-
   const testFiles = getAllTestFiles(testDir);
-
   for (const file of testFiles) {
     const examples = extractExamplesFromFile(file);
-
     if (examples.length === 0) {
       console.log(`No @example found in test file: ${file}`);
       continue;
@@ -239,11 +349,14 @@ function updateExamples(testDir: string, sourceBaseDir: string): void {
 
     const relativePath = path.relative(testDir, file);
     const sourceFilePath = path.resolve(sourceBaseDir, relativePath.replace('.test.ts', '.ts'));
+
     let className = toPascalCase(path.basename(sourceFilePath, '.ts'));
     if (className === 'Bst') className = 'BST';
     if (className === 'AvlTree') className = 'AVLTree';
     className = classMap[className] || className;
+
     addExamplesToSourceFile(sourceFilePath, className, examples);
+
     const dirKey = dirMap[className];
 
     if (!dirKey) {
@@ -251,13 +364,10 @@ function updateExamples(testDir: string, sourceBaseDir: string): void {
       continue;
     }
 
-
-
-    const newExamples = examples.map(
-      example => {
-        const indentedBody = '    ' + example.body;
-        return `### ${example.name}\n\`\`\`typescript\n${indentedBody}\n\`\`\``}
-    );
+    const newExamples = examples.map(example => {
+      const indentedBody = ' ' + example.body;
+      return `### ${example.name}\n\`\`\`typescript\n${indentedBody}\n\`\`\``;
+    });
 
     if (isReplaceMD && newExamples.length > 0) {
       if (dirKey instanceof Array && dirKey.length > 0) {
@@ -265,12 +375,10 @@ function updateExamples(testDir: string, sourceBaseDir: string): void {
           const readmePath = path.resolve(pkgRootDir, readmeRoot, fileName);
           replaceExamplesInReadme(readmePath, newExamples);
         }
-      }
-      if (typeof dirKey === 'string') {
+      } else if (typeof dirKey === 'string') {
         const readmePath = path.resolve(pkgRootDir, dirKey, fileName);
         replaceExamplesInReadme(readmePath, newExamples);
       }
-
     }
   }
 }
@@ -280,7 +388,6 @@ function updateExamples(testDir: string, sourceBaseDir: string): void {
  */
 function replaceExamplesInReadme(readmePath: string, newExamples: string[]): void {
   let readmeContent: string;
-
   try {
     readmeContent = fs.readFileSync(readmePath, 'utf-8');
   } catch (error) {
@@ -297,15 +404,13 @@ function replaceExamplesInReadme(readmePath: string, newExamples: string[]): voi
 
   const before = readmeContent.slice(0, startIdx + START_MARKER.length);
   const after = readmeContent.slice(endIdx);
-
   const updatedContent = `${before}\n\n${newExamples.join('\n\n')}\n\n${after}`;
-  fs.writeFileSync(readmePath, updatedContent, 'utf-8');
 
+  fs.writeFileSync(readmePath, updatedContent, 'utf-8');
   console.log(`${fileName} updated with new examples.`);
 }
 
 // Run the script
 const testDir = path.resolve(__dirname, '../test/unit');
 const sourceBaseDir = path.resolve(__dirname, '../src');
-
 updateExamples(testDir, sourceBaseDir);

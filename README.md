@@ -10,15 +10,19 @@
 ![npm](https://img.shields.io/npm/v/data-structure-typed)
 
 ### 🏠 Uniform API: Coding feels like home.
+
 > Don't learn new APIs. Just use `push`, `pop`, `map`, `filter`, and `reduce` everywhere.
 
 ### ⚡ High Performance: Speed without compromise.
+
 > Benchmarks prove it. We outperform native implementations in critical scenarios.
 
 ### 🛡️ Type Safe: TypeScript first, always.
+
 > No more `any`. Enjoy full generics and strict type checking out of the box.
 
 ### ✨ Zero Friction: It just plays nice.
+
 > Works with everything. Spread it `[...]`, loop it `for..of`, or convert it instantly.
 
 ## Installation and Usage
@@ -28,6 +32,7 @@
 ```bash
 pnpm add data-structure-typed
 ```
+
 ### Playground
 
 [Node.js TypeScript](https://stackblitz.com/edit/stackblitz-starters-e1vdy3zw?file=src%2Findex.ts)
@@ -37,7 +42,6 @@ pnpm add data-structure-typed
 [React TypeScript](https://stackblitz.com/edit/vitejs-vite-6xvhtdua?file=src%2FApp.tsx)
 
 [NestJS TypeScript](https://stackblitz.com/edit/nestjs-typescript-starter-3cyp7pel?file=src%2Franking%2Franking.service.ts&terminal=start:dev)
-
 
 ### npm
 
@@ -60,7 +64,6 @@ npm i heap-typed --save
 npm i bst-typed --save
 npm i red-black-tree-typed --save
 ```
-
 
 ---
 
@@ -95,7 +98,6 @@ Choose your learning path based on your needs:
 - 🛠️ **Multi-Environment**: [CDN/CommonJS/ESModule/TypeScript](#supported-module-system)
 
 ---
-
 
 ### Quick Verification
 
@@ -186,11 +188,11 @@ function addTask(task) {
 import { MaxPriorityQueue } from 'data-structure-typed';
 
 const pq = new MaxPriorityQueue([], {
-    comparator: (a, b) => b.priority - a.priority,
+  comparator: (a, b) => b.priority - a.priority,
 });
 
 function addTask(task) {
-    pq.add(task);  // O(log n)
+  pq.add(task);  // O(log n)
 }
 
 const nextTask = pq.poll(); // Always get highest priority
@@ -243,7 +245,9 @@ const { minDist, minPath } = graph.dijkstra('A', 'B', true, true);
 ❌ The Problem: Array.shift() is O(n):
 
 ```javascript
-const queue = [1, 2, 3, ..., 100000];
+const queue = [1, 2, 3, ..., 100000
+]
+;
 for (let i = 0; i < 100000; i++) {
   queue.shift();  // Reindexes all remaining elements!
 }
@@ -256,7 +260,9 @@ for (let i = 0; i < 100000; i++) {
 ```javascript
 import { Deque } from 'data-structure-typed';
 
-const deque = new Deque([1, 2, 3, ..., 100000]);
+const deque = new Deque([1, 2, 3, ..., 100000
+])
+;
 for (let i = 0; i < 100000; i++) {
   deque.shift();  // O(1) - Just moves a pointer
 }
@@ -292,12 +298,12 @@ queue.dequeue();
 
 In [java.utils](), you need to memorize different methods for Queue, Deque, LinkedList:
 
-| Java ArrayList | Java Queue | Java ArrayDeque | Java LinkedList |
-|---|---|---|---|
-| add | offer | push | push |
-| remove | poll | removeLast | removeLast |
-| remove | poll | removeFirst | removeFirst |
-| add(0, element) | offerFirst | unshift | unshift |
+| Java ArrayList  | Java Queue | Java ArrayDeque | Java LinkedList |
+|-----------------|------------|-----------------|-----------------|
+| add             | offer      | push            | push            |
+| remove          | poll       | removeLast      | removeLast      |
+| remove          | poll       | removeFirst     | removeFirst     |
+| add(0, element) | offerFirst | unshift         | unshift         |
 
 **In data-structure-typed, you only need to remember four methods**: `push`, `pop`, `shift`, and `unshift` for all linear structures (Queue, Deque, DoublyLinkedList, SinglyLinkedList, Stack).
 
@@ -363,14 +369,14 @@ Every single data structure implements the **Iterator protocol**:
 
 ### Iterator Support Comparison
 
-| Feature | Array | Map | Set | Other Lib | data-structure-typed |
-|---------|-------|-----|-----|-----------|----------------------|
-| Spread operator | ✅ | ❌/⚠️ | ✅ | ❌/⚠️ | ✅ |
-| for...of loop | ✅ | ✅ | ✅ | ❌/⚠️ | ✅ |
-| Destructuring | ✅ | ❌ | ❌ | ❌ | ✅ |
-| Array.from() | ✅ | ❌/⚠️ | ❌ | ❌/⚠️ | ✅ |
-| Set constructor | ✅ | ❌ | ✅ | ❌ | ✅ |
-| **Full Integration** | ✅ | ⚠️ | ⚠️ | ⚠️ | **✅** |
+| Feature              | Array | Map  | Set | Other Lib | data-structure-typed |
+|----------------------|-------|------|-----|-----------|----------------------|
+| Spread operator      | ✅     | ❌/⚠️ | ✅   | ❌/⚠️      | ✅                    |
+| for...of loop        | ✅     | ✅    | ✅   | ❌/⚠️      | ✅                    |
+| Destructuring        | ✅     | ❌    | ❌   | ❌         | ✅                    |
+| Array.from()         | ✅     | ❌/⚠️ | ❌   | ❌/⚠️      | ✅                    |
+| Set constructor      | ✅     | ❌    | ✅   | ❌         | ✅                    |
+| **Full Integration** | ✅     | ⚠️   | ⚠️  | ⚠️        | **✅**                |
 
 ### Live Examples: Zero Friction Conversions
 
@@ -464,15 +470,15 @@ const stats = {
 
 ### Supported Methods Across All Structures
 
-| Method | Tree | Heap | Deque | Graph | LinkedList |
-|--------|------|------|-------|-------|------------|
-| map | ✅ | ✅ | ✅ | ✅ | ✅ |
-| filter | ✅ | ✅ | ✅ | ✅ | ✅ |
-| reduce | ✅ | ✅ | ✅ | ✅ | ✅ |
-| find | ✅ | ✅ | ✅ | ✅ | ✅ |
-| some/every | ✅ | ✅ | ✅ | ✅ | ✅ |
-| keys/values | ✅ | ✅ | ✅ | ✅ | ✅ |
-| forEach | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Method      | BinaryTrees | Heap | Deque | Graph | LinkedList |
+|-------------|-------------|------|-------|-------|------------|
+| map         | ✅           | ✅    | ✅     | ✅     | ✅          |
+| filter      | ✅           | ✅    | ✅     | ✅     | ✅          |
+| reduce      | ✅           | ✅    | ✅     | ✅     | ✅          |
+| find        | ✅           | ✅    | ✅     | ✅     | ✅          |
+| some/every  | ✅           | ✅    | ✅     | ✅     | ✅          |
+| keys/values | ✅           | ✅    | ✅     | ✅     | ✅          |
+| forEach     | ✅           | ✅    | ✅     | ✅     | ✅          |
 
 ---
 
@@ -524,6 +530,7 @@ for (let i = 0; i < 100000; i++) deque.shift();
 
 ```javascript
 const tasks = [];
+
 function addTask(task) {
   tasks.push(task);
   tasks.sort((a, b) => b.priority - a.priority);
@@ -534,6 +541,7 @@ function addTask(task) {
 
 ```javascript
 const pq = new MaxPriorityQueue();
+
 function addTask(task) {
   pq.add(task);  // O(log n)
 }
@@ -579,15 +587,15 @@ const matches = trie.getWords('appl');
 
 Performance surpasses that of native JS/TS
 
-| Method | Time Taken | Data Scale | Belongs To | Big O |
-|--------|-----------|-----------|-----------|-------|
-| Queue.push & shift | 5.83 ms | 100K | Ours | O(1) |
-| Array.push & shift | 2829.59 ms | 100K | Native JS | O(n) |
-| Deque.unshift & shift | 2.44 ms | 100K | Ours | O(1) |
-| Array.unshift & shift | 4750.37 ms | 100K | Native JS | O(n) |
-| HashMap.set | 122.51 ms | 1M | Ours | O(1) |
-| Map.set | 223.80 ms | 1M | Native JS | O(1) |
-| Set.add | 185.06 ms | 1M | Native JS | O(1) |
+| Method                | Time Taken | Data Scale | Belongs To | Big O |
+|-----------------------|------------|------------|------------|-------|
+| Queue.push & shift    | 5.83 ms    | 100K       | Ours       | O(1)  |
+| Array.push & shift    | 2829.59 ms | 100K       | Native JS  | O(n)  |
+| Deque.unshift & shift | 2.44 ms    | 100K       | Ours       | O(1)  |
+| Array.unshift & shift | 4750.37 ms | 100K       | Native JS  | O(n)  |
+| HashMap.set           | 122.51 ms  | 1M         | Ours       | O(1)  |
+| Map.set               | 223.80 ms  | 1M         | Native JS  | O(1)  |
+| Set.add               | 185.06 ms  | 1M         | Native JS  | O(1)  |
 
 ### Benchmark
 
@@ -607,7 +615,11 @@ macOS Sequoia 15.7.2
 
 [//]: # (No deletion!!! Start of Replace Section)
 
-<h2>red-black-tree</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>1,000,000 add</td><td>410.34</td><td>0.41</td><td>0.01</td></tr><tr><td>1,000,000 get</td><td>5.20</td><td>0.01</td><td>8.16e-5</td></tr><tr><td>1,000,000 iterator</td><td>154.25</td><td>0.15</td><td>0.02</td></tr><tr><td>CPT 1,000,000 add</td><td>656.43</td><td>0.66</td><td>0.00</td></tr><tr><td>CPT 1,000,000 add</td><td>684.17</td><td>0.68</td><td>0.01</td></tr></tbody></table><h2>queue</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>1,000,000 push</td><td>26.97</td><td>0.03</td><td>0.00</td></tr><tr><td>100,000 push & shift</td><td>2.87</td><td>0.00</td><td>2.71e-4</td></tr><tr><td>Native JS Array 100,000 push & shift</td><td>1120.94</td><td>1.12</td><td>0.20</td></tr></tbody></table><h2>deque</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>1,000,000 push</td><td>8.75</td><td>0.01</td><td>6.99e-4</td></tr><tr><td>1,000,000 push & pop</td><td>12.95</td><td>0.01</td><td>4.21e-4</td></tr><tr><td>1,000,000 push & shift</td><td>13.73</td><td>0.01</td><td>4.53e-4</td></tr><tr><td>100,000 push & shift</td><td>1.36</td><td>0.00</td><td>5.42e-5</td></tr><tr><td>Native JS Array 100,000 push & shift</td><td>1167.06</td><td>1.17</td><td>0.26</td></tr><tr><td>100,000 unshift & shift</td><td>1.31</td><td>0.00</td><td>4.73e-5</td></tr><tr><td>Native JS Array 100,000 unshift & shift</td><td>1911.47</td><td>1.91</td><td>0.02</td></tr></tbody></table><h2>heap</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>100,000 add</td><td>4.60</td><td>0.00</td><td>1.07e-4</td></tr><tr><td>100,000 add & poll</td><td>16.96</td><td>0.02</td><td>3.45e-4</td></tr></tbody></table><h2>avl-tree</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>100,000 add randomly</td><td>324.51</td><td>0.32</td><td>0.01</td></tr><tr><td>100,000 add</td><td>299.76</td><td>0.30</td><td>0.02</td></tr><tr><td>100,000 get</td><td>0.26</td><td>2.58e-4</td><td>3.65e-6</td></tr><tr><td>100,000 getNode</td><td>169.33</td><td>0.17</td><td>0.00</td></tr><tr><td>100,000 iterator</td><td>14.43</td><td>0.01</td><td>0.00</td></tr><tr><td>100,000 add & delete orderly</td><td>434.44</td><td>0.43</td><td>0.01</td></tr><tr><td>100,000 add & delete randomly</td><td>541.78</td><td>0.54</td><td>0.01</td></tr></tbody></table><h2>hash-map</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>1,000,000 set</td><td>43.23</td><td>0.04</td><td>0.01</td></tr><tr><td>Native JS Map 1,000,000 set</td><td>147.12</td><td>0.15</td><td>0.01</td></tr><tr><td>Native JS Set 1,000,000 add</td><td>116.18</td><td>0.12</td><td>0.01</td></tr><tr><td>1,000,000 set & get</td><td>46.39</td><td>0.05</td><td>0.01</td></tr><tr><td>Native JS Map 1,000,000 set & get</td><td>196.92</td><td>0.20</td><td>0.01</td></tr><tr><td>Native JS Set 1,000,000 add & has</td><td>163.92</td><td>0.16</td><td>0.01</td></tr><tr><td>1,000,000 ObjKey set & get</td><td>243.36</td><td>0.24</td><td>0.03</td></tr><tr><td>Native JS Map 1,000,000 ObjKey set & get</td><td>211.66</td><td>0.21</td><td>0.02</td></tr><tr><td>Native JS Set 1,000,000 ObjKey add & has</td><td>196.57</td><td>0.20</td><td>0.01</td></tr></tbody></table><h2>directed-graph</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>1,000 addVertex</td><td>0.05</td><td>4.60e-5</td><td>6.59e-7</td></tr><tr><td>1,000 addEdge</td><td>3.02</td><td>0.00</td><td>2.85e-4</td></tr><tr><td>1,000 getVertex</td><td>0.04</td><td>3.77e-5</td><td>4.66e-7</td></tr><tr><td>1,000 getEdge</td><td>41.48</td><td>0.04</td><td>0.01</td></tr><tr><td>tarjan</td><td>240.33</td><td>0.24</td><td>0.01</td></tr><tr><td>topologicalSort</td><td>195.62</td><td>0.20</td><td>0.01</td></tr></tbody></table><h2>trie</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>100,000 push</td><td>27.15</td><td>0.03</td><td>6.61e-4</td></tr><tr><td>100,000 getWords</td><td>41.18</td><td>0.04</td><td>0.00</td></tr></tbody></table><h2>stack</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>1,000,000 push</td><td>25.21</td><td>0.03</td><td>0.00</td></tr><tr><td>1,000,000 push & pop</td><td>29.12</td><td>0.03</td><td>0.00</td></tr></tbody></table>
+<h2>red-black-tree</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>1,000,000 add</td><td>410.34</td><td>0.41</td><td>0.01</td></tr><tr><td>1,000,000 get</td><td>5.20</td><td>0.01</td><td>8.16e-5</td></tr><tr><td>1,000,000 iterator</td><td>154.25</td><td>0.15</td><td>0.02</td></tr><tr><td>CPT 1,000,000 add</td><td>656.43</td><td>0.66</td><td>0.00</td></tr><tr><td>CPT 1,000,000 add</td><td>684.17</td><td>0.68</td><td>0.01</td></tr></tbody></table><h2>queue</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>1,000,000 push</td><td>26.97</td><td>0.03</td><td>0.00</td></tr><tr><td>100,000 push & shift</td><td>2.87</td><td>0.00</td><td>2.71e-4</td></tr><tr><td>Native JS Array 100,000 push & shift</td><td>1120.94</td><td>1.12</td><td>0.20</td></tr></tbody></table><h2>deque</h2><table><thead><tr><th>test
+name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>1,000,000 push</td><td>8.75</td><td>0.01</td><td>6.99e-4</td></tr><tr><td>1,000,000 push & pop</td><td>12.95</td><td>0.01</td><td>4.21e-4</td></tr><tr><td>1,000,000 push & shift</td><td>13.73</td><td>0.01</td><td>4.53e-4</td></tr><tr><td>100,000 push & shift</td><td>1.36</td><td>0.00</td><td>5.42e-5</td></tr><tr><td>Native JS Array 100,000 push & shift</td><td>1167.06</td><td>1.17</td><td>0.26</td></tr><tr><td>100,000 unshift & shift</td><td>1.31</td><td>0.00</td><td>4.73e-5</td></tr><tr><td>Native JS Array 100,000 unshift & shift</td><td>1911.47</td><td>1.91</td><td>0.02</td></tr></tbody></table><h2>heap</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>100,000 add</td><td>4.60</td><td>0.00</td><td>1.07e-4</td></tr><tr><td>100,000 add & poll</td><td>16.96</td><td>0.02</td><td>
+3.45e-4</td></tr></tbody></table><h2>avl-tree</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>100,000 add randomly</td><td>324.51</td><td>0.32</td><td>0.01</td></tr><tr><td>100,000 add</td><td>299.76</td><td>0.30</td><td>0.02</td></tr><tr><td>100,000 get</td><td>0.26</td><td>2.58e-4</td><td>3.65e-6</td></tr><tr><td>100,000 getNode</td><td>169.33</td><td>0.17</td><td>0.00</td></tr><tr><td>100,000 iterator</td><td>14.43</td><td>0.01</td><td>0.00</td></tr><tr><td>100,000 add & delete orderly</td><td>434.44</td><td>0.43</td><td>0.01</td></tr><tr><td>100,000 add & delete randomly</td><td>541.78</td><td>0.54</td><td>0.01</td></tr></tbody></table><h2>hash-map</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>1,000,000 set</td><td>43.23</td><td>0.04</td><td>0.01</td></tr><tr><td>Native JS Map 1,000,000
+set</td><td>147.12</td><td>0.15</td><td>0.01</td></tr><tr><td>Native JS Set 1,000,000 add</td><td>116.18</td><td>0.12</td><td>0.01</td></tr><tr><td>1,000,000 set & get</td><td>46.39</td><td>0.05</td><td>0.01</td></tr><tr><td>Native JS Map 1,000,000 set & get</td><td>196.92</td><td>0.20</td><td>0.01</td></tr><tr><td>Native JS Set 1,000,000 add & has</td><td>163.92</td><td>0.16</td><td>0.01</td></tr><tr><td>1,000,000 ObjKey set & get</td><td>243.36</td><td>0.24</td><td>0.03</td></tr><tr><td>Native JS Map 1,000,000 ObjKey set & get</td><td>211.66</td><td>0.21</td><td>0.02</td></tr><tr><td>Native JS Set 1,000,000 ObjKey add & has</td><td>196.57</td><td>0.20</td><td>0.01</td></tr></tbody></table><h2>directed-graph</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>1,000 addVertex</td><td>0.05</td><td>4.60e-5</td><td>6.59e-7</td></tr><tr><td>1,000 addEdge</td><td>3.02</td><td>0.00</td><td>
+2.85e-4</td></tr><tr><td>1,000 getVertex</td><td>0.04</td><td>3.77e-5</td><td>4.66e-7</td></tr><tr><td>1,000 getEdge</td><td>41.48</td><td>0.04</td><td>0.01</td></tr><tr><td>tarjan</td><td>240.33</td><td>0.24</td><td>0.01</td></tr><tr><td>topologicalSort</td><td>195.62</td><td>0.20</td><td>0.01</td></tr></tbody></table><h2>trie</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>100,000 push</td><td>27.15</td><td>0.03</td><td>6.61e-4</td></tr><tr><td>100,000 getWords</td><td>41.18</td><td>0.04</td><td>0.00</td></tr></tbody></table><h2>stack</h2><table><thead><tr><th>test name</th><th>time taken (ms)</th><th>sample mean (secs)</th><th>sample deviation</th></tr></thead><tbody><tr><td>1,000,000 push</td><td>25.21</td><td>0.03</td><td>0.00</td></tr><tr><td>1,000,000 push & pop</td><td>29.12</td><td>0.03</td><td>0.00</td></tr></tbody></table>
 
 [//]: # (No deletion!!! End of Replace Section)
 
@@ -617,21 +629,23 @@ macOS Sequoia 15.7.2
 
 For those who love understanding concepts through metaphors:
 
-| Data Structure | Plain Language Definition | Example |
-|---|---|---|
-| **Linked List** | A line of bunnies, where each bunny holds the tail of the bunny in front (each bunny only knows the bunny behind). Search takes O(n) time but insertion is O(1). | To find bunny "Pablo", start from the first bunny and follow tails until found |
-| **Array** | A line of numbered bunnies. You can find bunny #680 directly (O(1)), but inserting a bunny requires renumbering all bunnies behind it (O(n)). | Finding element by index is instant, but inserting in the middle is slow |
-| **Queue** | A line of numbered bunnies with a sticky note on the first bunny. Removing from front only moves the sticky note (O(1)), without renumbering. Adding to the tail gives new numbers (O(1)). | Process items in FIFO order, efficiently from both ends |
-| **Deque** | A line of grouped, numbered bunnies with a sticky note. Remove from front by moving sticky note (O(1)). When a group is exhausted, renumber only that group. Tail handled similarly. | Efficient removal/insertion from both ends with batching optimization |
-| **Stack** | A line of bunnies in a dead-end tunnel. Add/remove only at the entrance/end. | Process items in LIFO order |
-| **Binary Tree** | A tree where each node (bunny) has at most two children. When you add sorted data like [4,2,6,1,3,5,7], it forms a complete binary tree. | Hierarchical organization of data |
-| **Binary Search Tree** | Disciplined bunnies arranged by order: all left subtree values < node < all right subtree values. This maintains O(log n) for search/insert/delete. | Find items exponentially faster than linear search |
-| **Red-Black Tree** | A self-balancing binary search tree where nodes are marked red/black to ensure no path is twice as long as another. | Maintains O(log n) guarantees automatically |
-| **AVL Tree** | A strictly balanced binary search tree where every node's left/right subtrees differ by at most 1 in height. Provides highest search efficiency but slower insertions/deletions. | Maximum search speed with strict balance |
-| **Heap** | A special complete binary tree stored in an array. Parent at index i has children at 2i+1 and 2i+2. | Efficient priority queue implementation |
-| **Trie** | A tree where each node represents a character. Path from root to node spells a word. | Prefix search in O(m + k) time instead of O(n*m) |
-| **Graph** | A network of connected bunnies. Directed: each bunny points to specific other bunnies. Undirected: mutual connections. | Model relationships, networks, dependencies |
-
+| Data Structure                       | Plain Language Definition                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Example                                                                                         |
+|--------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
+| **Linked List (Singly Linked List)** | A line of bunnies, where each bunny holds the tail of the bunny in front of it (each bunny only knows the name of the bunny behind it). You want to find a bunny named Pablo, and you have to start searching from the first bunny. If it's not Pablo, you continue following that bunny's tail to the next one. So, you might need to search n times to find Pablo (O(n) time complexity). If you want to insert a bunny named Remi between Pablo and Vicky, it's very simple. You just need to let Vicky release Pablo's tail, let Remi hold Pablo's tail, and then let Vicky hold Remi's tail (O(1) time complexity).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | To find bunny "Pablo", start from the first bunny and follow tails until found                  |
+| **Array**                            | A line of numbered bunnies. If you want to find the bunny named Pablo, you can directly shout out Pablo's number 0680 (finding the element directly through array indexing, O(1) time complexity). However, if you don't know Pablo's number, you still need to search one by one (O(n) time complexity). Moreover, if you want to add a bunny named Vicky behind Pablo, you will need to renumber all the bunnies after Vicky (O(n) time complexity).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Finding element by index is instant, but inserting in the middle is slow                        |
+| **Queue**                            | A line of numbered bunnies with a sticky note on the first bunny. For this line with a sticky note on the first bunny, whenever we want to remove a bunny from the front of the line, we only need to move the sticky note to the face of the next bunny without actually removing the bunny to avoid renumbering all the bunnies behind (removing from the front is also O(1) time complexity). For the tail of the line, we don't need to worry because each new bunny added to the tail is directly given a new number (O(1) time complexity) without needing to renumber all the previous bunnies.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Process items in FIFO order, efficiently from both ends                                         |
+| **Deque**                            | A line of grouped, numbered bunnies with a sticky note on the first bunny. For this line, we manage it by groups. Each time we remove a bunny from the front of the line, we only move the sticky note to the next bunny. This way, we don't need to renumber all the bunnies behind the first bunny each time a bunny is removed. Only when all members of a group are removed do we reassign numbers and regroup. The tail is handled similarly. This is a strategy of delaying and batching operations to offset the drawbacks of the Array data structure that requires moving all elements behind when inserting or deleting elements in the middle.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Efficient removal/insertion from both ends with batching optimization                           |
+| **Doubly Linked List**               | A line of bunnies where each bunny holds the tail of the bunny in front (each bunny knows the names of the two adjacent bunnies). This provides the Singly Linked List the ability to search forward, and that's all. For example, if you directly come to the bunny Remi in the line and ask her where Vicky is, she will say the one holding my tail behind me, and if you ask her where Pablo is, she will say right in front.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Bidirectional traversal; efficient insertion/deletion from both ends                            |
+| **Stack**                            | A line of bunnies in a dead-end tunnel, where bunnies can only be removed from the tunnel entrance (end), and new bunnies can only be added at the entrance (end) as well.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Process items in LIFO order; undo/redo functionality                                            |
+| **Binary Tree**                      | As the name suggests, it's a tree where each node has at most two children. When you add consecutive data such as [4, 2, 6, 1, 3, 5, 7], it will be a complete binary tree. When you add data like [4, 2, 6, null, 1, 3, null, 5, null, 7], you can specify whether any left or right child node is null, and the shape of the tree is fully controllable.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Hierarchical organization of data; expression parsing                                           |
+| **Binary Search Tree (BST)**         | A tree-like rabbit colony composed of doubly linked lists where each rabbit has at most two tails. These rabbits are disciplined and obedient, arranged in their positions according to a certain order. The most important data structure in a binary tree (the core is that the time complexity for insertion, deletion, modification, and search is O(log n)). The data stored in a BST is structured and ordered, not in strict order like 1, 2, 3, 4, 5, but maintaining that all nodes in the left subtree are less than the node, and all nodes in the right subtree are greater than the node. This order provides O(log n) time complexity for insertion, deletion, modification, and search. Reducing O(n) to O(log n) is the most common algorithm complexity optimization in the computer field, an exponential improvement in efficiency. It's also the most efficient way to organize unordered data into ordered data (most sorting algorithms only maintain O(n log n)). Of course, the binary search trees we provide support organizing data in both ascending and descending order. Remember that basic BSTs do not have self-balancing capabilities, and if you sequentially add sorted data to this data structure, it will degrade into a list, thus losing the O(log n) capability. Of course, our addMany method is specially handled to prevent degradation. However, for practical applications, please use Red-black Tree or AVL Tree as much as possible, as they inherently have self-balancing functions. | Find items exponentially faster than linear search; maintains O(log n) for search/insert/delete |
+| **Red-Black Tree**                   | A tree-like rabbit colony composed of doubly linked lists, where each rabbit has at most two tails. These rabbits are not only obedient but also intelligent, automatically arranging their positions in a certain order. A self-balancing binary search tree. Each node is marked with a red-black label. Ensuring that no path is more than twice as long as any other (maintaining a certain balance to improve the speed of search, addition, and deletion).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Maintains O(log n) guarantees automatically; used in Java TreeMap/TreeSet                       |
+| **AVL Tree**                         | A tree-like rabbit colony composed of doubly linked lists, where each rabbit has at most two tails. These rabbits are not only obedient but also intelligent, automatically arranging their positions in a certain order, and they follow very strict rules. A self-balancing binary search tree. Each node is marked with a balance factor, representing the height difference between its left and right subtrees. The absolute value of the balance factor does not exceed 1 (maintaining stricter balance, which makes search efficiency higher than Red-black Tree, but insertion and deletion operations will be more complex and relatively less efficient).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | Maximum search speed with strict balance; slower insertions/deletions                           |
+| **Heap**                             | A special type of complete binary tree, often stored in an array, where the children nodes of the node at index i are at indices 2i+1 and 2i+2. Naturally, the parent node of any node is at ⌊(i−1)/2⌋.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Efficient priority queue implementation; heap sort algorithm                                    |
+| **Priority Queue**                   | It's actually a Heap.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Task scheduling with priorities; Dijkstra's algorithm                                           |
+| **Graph**                            | The base class for Directed Graph and Undirected Graph, providing some common methods.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Model relationships, networks, dependencies                                                     |
+| **Directed Graph**                   | A network-like bunny group where each bunny can have up to n tails (Singly Linked List).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Social networks with followers; web page links                                                  |
+| **Undirected Graph**                 | A network-like bunny group where each bunny can have up to n tails (Doubly Linked List).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Facebook friendships; road networks                                                             |
 
 ---
 
@@ -940,8 +954,9 @@ class OrderProcessor {
   private normalQueue = new Deque<Order>();
   private urgentQueue = new Deque<Order>();
   private running = false;
-  
-  constructor(private readonly urgentBurst: number = 5) {}
+
+  constructor(private readonly urgentBurst: number = 5) {
+  }
 
   addOrder(order: Order): void {
     if (order.priority === 'urgent') {
@@ -960,7 +975,7 @@ class OrderProcessor {
       let urgentStreak = 0;
 
       while (!this.urgentQueue.isEmpty() || !this.normalQueue.isEmpty()) {
-        const shouldTakeUrgent = 
+        const shouldTakeUrgent =
           !this.urgentQueue.isEmpty() &&
           (urgentStreak < this.urgentBurst || this.normalQueue.isEmpty());
 
@@ -1765,6 +1780,7 @@ Now you can use it in Node.js and browser environments
 ##### ES Module
 
 ```html
+
 <script type="module">
   import { BST } from "https://cdn.jsdelivr.net/npm/data-structure-typed/dist/esm/index.mjs";
 
@@ -1776,18 +1792,20 @@ Now you can use it in Node.js and browser environments
 ##### UMD
 
 ```html
+
 <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.js'></script>
 ```
 
 #### Production
 
 ```html
+
 <script src='https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js'></script>
 
 <script>
   const { Heap } = dataStructureTyped;
   const { BinaryTree, Graph, Queue, Stack } = dataStructureTyped;
-  
+
   const heap = new Heap([1, 2, 3]);
   heap.print();
 </script>

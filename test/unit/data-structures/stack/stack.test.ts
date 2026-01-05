@@ -164,6 +164,50 @@ describe('Stack iterative methods', () => {
 });
 
 describe('classic uses', () => {
+  it('@example basic Stack creation and push operation', () => {
+    // Create a simple Stack with initial values
+    const stack = new Stack([1, 2, 3, 4, 5]);
+
+    // Verify the stack maintains insertion order (LIFO will be shown in pop)
+    expect([...stack]).toEqual([1, 2, 3, 4, 5]);
+
+    // Check length
+    expect(stack.size).toBe(5);
+
+    // Push a new element to the top
+    stack.push(6);
+    expect(stack.size).toBe(6);
+  });
+
+  it('@example Stack pop operation (LIFO - Last In First Out)', () => {
+    const stack = new Stack<number>([10, 20, 30, 40, 50]);
+
+    // Peek at the top element without removing
+    const top = stack.peek();
+    expect(top).toBe(50);
+
+    // Pop removes from the top (LIFO order)
+    const popped = stack.pop();
+    expect(popped).toBe(50);
+
+    // Next pop gets the previous element
+    const next = stack.pop();
+    expect(next).toBe(40);
+
+    // Verify length decreased
+    expect(stack.size).toBe(3);
+  });
+
+  it('@example Function Call Stack', () => {
+    const functionStack = new Stack<string>();
+    functionStack.push('main');
+    functionStack.push('foo');
+    functionStack.push('bar');
+    expect(functionStack.pop()).toBe('bar');
+    expect(functionStack.pop()).toBe('foo');
+    expect(functionStack.pop()).toBe('main');
+  });
+
   it('@example Balanced Parentheses or Brackets', () => {
     type ValidCharacters = ')' | '(' | ']' | '[' | '}' | '{';
 
@@ -195,21 +239,6 @@ describe('classic uses', () => {
       }
     });
     expect(stack.pop()).toBe(8);
-  });
-
-  it('@example Depth-First Search (DFS)', () => {
-    const stack = new Stack<number>();
-    const graph: { [key in number]: number[] } = { 1: [2, 3], 2: [4], 3: [5], 4: [], 5: [] };
-    const visited: number[] = [];
-    stack.push(1);
-    while (!stack.isEmpty()) {
-      const node = stack.pop()!;
-      if (!visited.includes(node)) {
-        visited.push(node);
-        graph[node].forEach(neighbor => stack.push(neighbor));
-      }
-    }
-    expect(visited).toEqual([1, 3, 5, 2, 4]); // Example DFS order
   });
 
   it('@example Backtracking Algorithms', () => {
@@ -258,26 +287,6 @@ describe('classic uses', () => {
     expect(path).toContainEqual(end);
   });
 
-  it('@example Function Call Stack', () => {
-    const functionStack = new Stack<string>();
-    functionStack.push('main');
-    functionStack.push('foo');
-    functionStack.push('bar');
-    expect(functionStack.pop()).toBe('bar');
-    expect(functionStack.pop()).toBe('foo');
-    expect(functionStack.pop()).toBe('main');
-  });
-
-  it('@example Simplify File Paths', () => {
-    const stack = new Stack<string>();
-    const path = '/a/./b/../../c';
-    path.split('/').forEach(segment => {
-      if (segment === '..') stack.pop();
-      else if (segment && segment !== '.') stack.push(segment);
-    });
-    expect(stack.elements.join('/')).toBe('c');
-  });
-
   it('@example Stock Span Problem', () => {
     const stack = new Stack<number>();
     const prices = [100, 80, 60, 70, 60, 75, 85];
@@ -290,6 +299,106 @@ describe('classic uses', () => {
       stack.push(i);
     });
     expect(spans).toEqual([1, 1, 1, 2, 1, 4, 6]);
+  });
+
+  it('@example Simplify File Paths', () => {
+    const stack = new Stack<string>();
+    const path = '/a/./b/../../c';
+    path.split('/').forEach(segment => {
+      if (segment === '..') stack.pop();
+      else if (segment && segment !== '.') stack.push(segment);
+    });
+    expect(stack.elements.join('/')).toBe('c');
+  });
+
+  it('Stack for function call stack simulation', () => {
+    interface CallFrame {
+      functionName: string;
+      lineNumber: number;
+      variables: Record<string, unknown>;
+      timestamp: number;
+    }
+
+    // Simulate a call stack for debugging/tracing
+    const callStack = new Stack<CallFrame>();
+
+    // Simulate function calls pushing frames onto stack
+    callStack.push({
+      functionName: 'main',
+      lineNumber: 1,
+      variables: { x: 10, y: 20 },
+      timestamp: 1000
+    });
+
+    callStack.push({
+      functionName: 'calculateSum',
+      lineNumber: 5,
+      variables: { a: 10, b: 20 },
+      timestamp: 1100
+    });
+
+    callStack.push({
+      functionName: 'helper',
+      lineNumber: 12,
+      variables: { result: 30 },
+      timestamp: 1200
+    });
+
+    // Verify current call frame
+    expect(callStack.size).toBe(3);
+    const currentFrame = callStack.peek();
+    expect(currentFrame?.functionName).toBe('helper');
+    expect(currentFrame?.lineNumber).toBe(12);
+
+    // Simulate function returns popping from stack (LIFO)
+    const returnedFrame = callStack.pop();
+    expect(returnedFrame?.functionName).toBe('helper');
+    expect(callStack.size).toBe(2);
+
+    // Next return
+    const nextReturn = callStack.pop();
+    expect(nextReturn?.functionName).toBe('calculateSum');
+
+    // Back to main
+    const mainFrame = callStack.pop();
+    expect(mainFrame?.functionName).toBe('main');
+
+    // Stack empty after all returns
+    expect(callStack.size).toBe(0);
+  });
+
+  it('Stack for...of iteration and isEmpty', () => {
+    const stack = new Stack<string>(['A', 'B', 'C', 'D']);
+
+    // Iterate through stack
+    const elements: string[] = [];
+    for (const item of stack) {
+      elements.push(item);
+    }
+    expect(elements).toEqual(['A', 'B', 'C', 'D']);
+
+    // Clear the stack
+    while (stack.size > 0) {
+      stack.pop();
+    }
+
+    // Stack is now empty
+    expect(stack.size).toBe(0);
+  });
+
+  it('Depth-First Search (DFS)', () => {
+    const stack = new Stack<number>();
+    const graph: { [key in number]: number[] } = { 1: [2, 3], 2: [4], 3: [5], 4: [], 5: [] };
+    const visited: number[] = [];
+    stack.push(1);
+    while (!stack.isEmpty()) {
+      const node = stack.pop()!;
+      if (!visited.includes(node)) {
+        visited.push(node);
+        graph[node].forEach(neighbor => stack.push(neighbor));
+      }
+    }
+    expect(visited).toEqual([1, 3, 5, 2, 4]); // Example DFS order
   });
 
   it('Browser Navigation', () => {

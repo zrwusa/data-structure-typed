@@ -646,6 +646,127 @@ describe('iterable methods', () => {
 });
 
 describe('classic uses', () => {
+  it('@example basic SinglyLinkedList creation and push operation', () => {
+    // Create a simple SinglyLinkedList with initial values
+    const list = new SinglyLinkedList([1, 2, 3, 4, 5]);
+
+    // Verify the list maintains insertion order
+    expect([...list]).toEqual([1, 2, 3, 4, 5]);
+
+    // Check length
+    expect(list.length).toBe(5);
+
+    // Push a new element to the end
+    list.push(6);
+    expect(list.length).toBe(6);
+    expect([...list]).toEqual([1, 2, 3, 4, 5, 6]);
+  });
+
+  it('@example SinglyLinkedList pop and shift operations', () => {
+    const list = new SinglyLinkedList<number>([10, 20, 30, 40, 50]);
+
+    // Pop removes from the end
+    const last = list.pop();
+    expect(last).toBe(50);
+
+    // Shift removes from the beginning
+    const first = list.shift();
+    expect(first).toBe(10);
+
+    // Verify remaining elements
+    expect([...list]).toEqual([20, 30, 40]);
+    expect(list.length).toBe(3);
+  });
+
+  it('@example SinglyLinkedList unshift and forward traversal', () => {
+    const list = new SinglyLinkedList<number>([20, 30, 40]);
+
+    // Unshift adds to the beginning
+    list.unshift(10);
+    expect([...list]).toEqual([10, 20, 30, 40]);
+
+    // Access elements (forward traversal only for singly linked)
+    const second = list.at(1);
+    expect(second).toBe(20);
+
+    // SinglyLinkedList allows forward iteration only
+    const elements: number[] = [];
+    for (const item of list) {
+      elements.push(item);
+    }
+    expect(elements).toEqual([10, 20, 30, 40]);
+
+    expect(list.length).toBe(4);
+  });
+
+  it('@example SinglyLinkedList filter and map operations', () => {
+    const list = new SinglyLinkedList<number>([1, 2, 3, 4, 5]);
+
+    // Filter even numbers
+    const filtered = list.filter(value => value % 2 === 0);
+    expect(filtered.length).toBe(2);
+
+    // Map to double values
+    const doubled = list.map(value => value * 2);
+    expect(doubled.length).toBe(5);
+
+    // Use reduce to sum
+    const sum = list.reduce((acc, value) => acc + value, 0);
+    expect(sum).toBe(15);
+  });
+
+  it('@example SinglyLinkedList for sequentially processed data stream', () => {
+    interface LogEntry {
+      timestamp: number;
+      level: 'INFO' | 'WARN' | 'ERROR';
+      message: string;
+    }
+
+    // SinglyLinkedList is ideal for sequential processing where you only need forward iteration
+    // O(1) insertion/deletion at head, O(n) for tail operations
+    const logStream = new SinglyLinkedList<LogEntry>();
+
+    // Simulate incoming log entries
+    const entries: LogEntry[] = [
+      { timestamp: 1000, level: 'INFO', message: 'Server started' },
+      { timestamp: 1100, level: 'WARN', message: 'Memory usage high' },
+      { timestamp: 1200, level: 'ERROR', message: 'Connection failed' },
+      { timestamp: 1300, level: 'INFO', message: 'Connection restored' }
+    ];
+
+    // Add entries to the stream
+    for (const entry of entries) {
+      logStream.push(entry);
+    }
+
+    expect(logStream.length).toBe(4);
+
+    // Process logs sequentially (only forward iteration needed)
+    const processedLogs: string[] = [];
+    for (const log of logStream) {
+      processedLogs.push(`[${log.level}] ${log.message}`);
+    }
+
+    expect(processedLogs).toEqual([
+      '[INFO] Server started',
+      '[WARN] Memory usage high',
+      '[ERROR] Connection failed',
+      '[INFO] Connection restored'
+    ]);
+
+    // Get first log (O(1) - direct head access)
+    const firstLog = logStream.at(0);
+    expect(firstLog?.message).toBe('Server started');
+
+    // Remove oldest log (O(1) operation at head)
+    const removed = logStream.shift();
+    expect(removed?.message).toBe('Server started');
+    expect(logStream.length).toBe(3);
+
+    // Remaining logs still maintain order for sequential processing
+    expect(logStream.length).toBe(3);
+  });
+
   it('@example implementation of a basic text editor', () => {
     class TextEditor {
       private content: SinglyLinkedList<string>;

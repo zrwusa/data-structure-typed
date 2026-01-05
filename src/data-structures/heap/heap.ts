@@ -25,21 +25,107 @@ import { IterableElementBase } from '../base';
  * 7. Efficient Sorting Algorithms: For example, heap sort. Heap sort uses the properties of a heap to sort elements.
  * 8. Graph Algorithms: Such as Dijkstra's shortest path algorithm and Prime's minimum-spanning tree algorithm, which use heaps to improve performance.
  * @example
- * // Use Heap to sort an array
- *     function heapSort(arr: number[]): number[] {
- *       const heap = new Heap<number>(arr, { comparator: (a, b) => a - b });
- *       const sorted: number[] = [];
- *       while (!heap.isEmpty()) {
- *         sorted.push(heap.poll()!); // Poll minimum element
- *       }
- *       return sorted;
+ * // basic Heap creation and add operation
+ *  // Create a min heap (default)
+ *     const minHeap = new Heap([5, 3, 7, 1, 9, 2]);
+ *
+ *     // Verify size
+ *     console.log(minHeap.size); // 6;
+ *
+ *     // Add new element
+ *     minHeap.add(4);
+ *     console.log(minHeap.size); // 7;
+ *
+ *     // Min heap property: smallest element at root
+ *     const min = minHeap.peek();
+ *     console.log(min); // 1;
+ * @example
+ * // Heap with custom comparator (MaxHeap behavior)
+ *  interface Task {
+ *       id: number;
+ *       priority: number;
+ *       name: string;
  *     }
  *
- *     const array = [5, 3, 8, 4, 1, 2];
- *     console.log(heapSort(array)); // [1, 2, 3, 4, 5, 8]
+ *     // Custom comparator for max heap behavior (higher priority first)
+ *     const tasks: Task[] = [
+ *       { id: 1, priority: 5, name: 'Email' },
+ *       { id: 2, priority: 3, name: 'Chat' },
+ *       { id: 3, priority: 8, name: 'Alert' }
+ *     ];
+ *
+ *     const maxHeap = new Heap(tasks, {
+ *       comparator: (a: Task, b: Task) => b.priority - a.priority
+ *     });
+ *
+ *     console.log(maxHeap.size); // 3;
+ *
+ *     // Peek returns highest priority task
+ *     const topTask = maxHeap.peek();
+ *     console.log(topTask?.priority); // 8;
+ *     console.log(topTask?.name); // 'Alert';
+ * @example
+ * // Heap for event processing with priority
+ *  interface Event {
+ *       id: number;
+ *       type: 'critical' | 'warning' | 'info';
+ *       timestamp: number;
+ *       message: string;
+ *     }
+ *
+ *     // Custom priority: critical > warning > info
+ *     const priorityMap = { critical: 3, warning: 2, info: 1 };
+ *
+ *     const eventHeap = new Heap<Event>([], {
+ *       comparator: (a: Event, b: Event) => {
+ *         const priorityA = priorityMap[a.type];
+ *         const priorityB = priorityMap[b.type];
+ *         return priorityB - priorityA; // Higher priority first
+ *       }
+ *     });
+ *
+ *     // Add events in random order
+ *     eventHeap.add({ id: 1, type: 'info', timestamp: 100, message: 'User logged in' });
+ *     eventHeap.add({ id: 2, type: 'critical', timestamp: 101, message: 'Server down' });
+ *     eventHeap.add({ id: 3, type: 'warning', timestamp: 102, message: 'High memory' });
+ *     eventHeap.add({ id: 4, type: 'info', timestamp: 103, message: 'Cache cleared' });
+ *     eventHeap.add({ id: 5, type: 'critical', timestamp: 104, message: 'Database error' });
+ *
+ *     console.log(eventHeap.size); // 5;
+ *
+ *     // Process events by priority (critical first)
+ *     const processedOrder: Event[] = [];
+ *     while (eventHeap.size > 0) {
+ *       const event = eventHeap.poll();
+ *       if (event) {
+ *         processedOrder.push(event);
+ *       }
+ *     }
+ *
+ *     // Verify critical events came first
+ *     console.log(processedOrder[0].type); // 'critical';
+ *     console.log(processedOrder[1].type); // 'critical';
+ *     console.log(processedOrder[2].type); // 'warning';
+ *     console.log(processedOrder[3].type); // 'info';
+ *     console.log(processedOrder[4].type); // 'info';
+ *
+ *     // Verify O(log n) operations
+ *     const newHeap = new Heap<number>([5, 3, 7, 1]);
+ *
+ *     // Add - O(log n)
+ *     newHeap.add(2);
+ *     console.log(newHeap.size); // 5;
+ *
+ *     // Poll - O(log n)
+ *     const removed = newHeap.poll();
+ *     console.log(removed); // 1;
+ *
+ *     // Peek - O(1)
+ *     const top = newHeap.peek();
+ *     console.log(top); // 2;
  * @example
  * // Use Heap to solve top k problems
- *     function topKElements(arr: number[], k: number): number[] {
+ *  function topKElements(arr: number[], k: number): number[] {
  *       const heap = new Heap<number>([], { comparator: (a, b) => b - a }); // Max heap
  *       arr.forEach(num => {
  *         heap.add(num);
@@ -49,47 +135,10 @@ import { IterableElementBase } from '../base';
  *     }
  *
  *     const numbers = [10, 30, 20, 5, 15, 25];
- *     console.log(topKElements(numbers, 3)); // [15, 10, 5]
- * @example
- * // Use Heap to merge sorted sequences
- *     function mergeSortedSequences(sequences: number[][]): number[] {
- *       const heap = new Heap<{ value: number; seqIndex: number; itemIndex: number }>([], {
- *         comparator: (a, b) => a.value - b.value // Min heap
- *       });
- *
- *       // Initialize heap
- *       sequences.forEach((seq, seqIndex) => {
- *         if (seq.length) {
- *           heap.add({ value: seq[0], seqIndex, itemIndex: 0 });
- *         }
- *       });
- *
- *       const merged: number[] = [];
- *       while (!heap.isEmpty()) {
- *         const { value, seqIndex, itemIndex } = heap.poll()!;
- *         merged.push(value);
- *
- *         if (itemIndex + 1 < sequences[seqIndex].length) {
- *           heap.add({
- *             value: sequences[seqIndex][itemIndex + 1],
- *             seqIndex,
- *             itemIndex: itemIndex + 1
- *           });
- *         }
- *       }
- *
- *       return merged;
- *     }
- *
- *     const sequences = [
- *       [1, 4, 7],
- *       [2, 5, 8],
- *       [3, 6, 9]
- *     ];
- *     console.log(mergeSortedSequences(sequences)); // [1, 2, 3, 4, 5, 6, 7, 8, 9]
+ *     console.log(topKElements(numbers, 3)); // [15, 10, 5];
  * @example
  * // Use Heap to dynamically maintain the median
- *     class MedianFinder {
+ *  class MedianFinder {
  *       private low: MaxHeap<number>; // Max heap, stores the smaller half
  *       private high: MinHeap<number>; // Min heap, stores the larger half
  *
@@ -115,18 +164,18 @@ import { IterableElementBase } from '../base';
  *
  *     const medianFinder = new MedianFinder();
  *     medianFinder.addNum(10);
- *     console.log(medianFinder.findMedian()); // 10
+ *     console.log(medianFinder.findMedian()); // 10;
  *     medianFinder.addNum(20);
- *     console.log(medianFinder.findMedian()); // 15
+ *     console.log(medianFinder.findMedian()); // 15;
  *     medianFinder.addNum(30);
- *     console.log(medianFinder.findMedian()); // 20
+ *     console.log(medianFinder.findMedian()); // 20;
  *     medianFinder.addNum(40);
- *     console.log(medianFinder.findMedian()); // 25
+ *     console.log(medianFinder.findMedian()); // 25;
  *     medianFinder.addNum(50);
- *     console.log(medianFinder.findMedian()); // 30
+ *     console.log(medianFinder.findMedian()); // 30;
  * @example
  * // Use Heap for load balancing
- *     function loadBalance(requests: number[], servers: number): number[] {
+ *  function loadBalance(requests: number[], servers: number): number[] {
  *       const serverHeap = new Heap<{ id: number; load: number }>([], { comparator: (a, b) => a.load - b.load }); // min heap
  *       const serverLoads = new Array(servers).fill(0);
  *
@@ -145,10 +194,10 @@ import { IterableElementBase } from '../base';
  *     }
  *
  *     const requests = [5, 2, 8, 3, 7];
- *     console.log(loadBalance(requests, 3)); // [12, 8, 5]
+ *     console.log(loadBalance(requests, 3)); // [12, 8, 5];
  * @example
  * // Use Heap to schedule tasks
- *     type Task = [string, number];
+ *  type Task = [string, number];
  *
  *     function scheduleTasks(tasks: Task[], machines: number): Map<number, Task[]> {
  *       const machineHeap = new Heap<{ id: number; load: number }>([], { comparator: (a, b) => a.load - b.load }); // Min heap
@@ -188,7 +237,7 @@ import { IterableElementBase } from '../base';
  *       ['Task3', 2],
  *       ['Task5', 4]
  *     ]);
- *     console.log(scheduleTasks(tasks, 2)); // expectedMap
+ *     console.log(scheduleTasks(tasks, 2)); // expectedMap;
  */
 export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
   protected _equals: (a: E, b: E) => boolean = Object.is;

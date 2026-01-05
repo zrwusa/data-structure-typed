@@ -613,3 +613,170 @@ describe('UndirectedGraph tarjan', () => {
   //   expect(getAsVerticesArrays(ccs)).toEqual([["K", "J", "I", "H", "D", "C", "B"], ["G", "F", "E"], ["A"]]);
   // });
 });
+
+describe('classic use', () => {
+  it('@example basic UndirectedGraph vertex and edge creation', () => {
+    // Create a simple undirected graph
+    const graph = new UndirectedGraph<string>();
+
+    // Add vertices
+    graph.addVertex('A');
+    graph.addVertex('B');
+    graph.addVertex('C');
+    graph.addVertex('D');
+
+    // Verify vertices exist
+    expect(graph.hasVertex('A')).toBe(true);
+    expect(graph.hasVertex('B')).toBe(true);
+    expect(graph.hasVertex('E')).toBe(false);
+
+    // Check vertex count
+    expect(graph.size).toBe(4);
+  });
+
+  it('@example UndirectedGraph edge operations (bidirectional)', () => {
+    const graph = new UndirectedGraph<string>();
+
+    // Add vertices
+    graph.addVertex('A');
+    graph.addVertex('B');
+    graph.addVertex('C');
+
+    // Add undirected edges (both directions automatically)
+    graph.addEdge('A', 'B', 1);
+    graph.addEdge('B', 'C', 2);
+    graph.addEdge('A', 'C', 3);
+
+    // Verify edges exist in both directions
+    expect(graph.hasEdge('A', 'B')).toBe(true);
+    expect(graph.hasEdge('B', 'A')).toBe(true); // Bidirectional!
+
+    expect(graph.hasEdge('C', 'B')).toBe(true);
+    expect(graph.hasEdge('B', 'C')).toBe(true); // Bidirectional!
+
+    // Get neighbors of A
+    const neighborsA = graph.getNeighbors('A');
+    expect(neighborsA[0].key).toBe('B');
+    expect(neighborsA[1].key).toBe('C');
+  });
+
+  it('@example UndirectedGraph deleteEdge and vertex operations', () => {
+    const graph = new UndirectedGraph<string>();
+
+    // Build a simple undirected graph
+    graph.addVertex('X');
+    graph.addVertex('Y');
+    graph.addVertex('Z');
+    graph.addEdge('X', 'Y', 1);
+    graph.addEdge('Y', 'Z', 2);
+    graph.addEdge('X', 'Z', 3);
+
+    // Delete an edge
+    graph.deleteEdge('X', 'Y');
+    expect(graph.hasEdge('X', 'Y')).toBe(false);
+
+    // Bidirectional deletion confirmed
+    expect(graph.hasEdge('Y', 'X')).toBe(false);
+
+    // Other edges should remain
+    expect(graph.hasEdge('Y', 'Z')).toBe(true);
+    expect(graph.hasEdge('Z', 'Y')).toBe(true);
+
+    // Delete a vertex
+    graph.deleteVertex('Y');
+    expect(graph.hasVertex('Y')).toBe(false);
+    expect(graph.size).toBe(2);
+  });
+
+  it('@example UndirectedGraph connectivity and neighbors', () => {
+    const graph = new UndirectedGraph<string>();
+
+    // Build a friendship network
+    const people = ['Alice', 'Bob', 'Charlie', 'Diana', 'Eve'];
+    for (const person of people) {
+      graph.addVertex(person);
+    }
+
+    // Add friendships (undirected edges)
+    graph.addEdge('Alice', 'Bob', 1);
+    graph.addEdge('Alice', 'Charlie', 1);
+    graph.addEdge('Bob', 'Diana', 1);
+    graph.addEdge('Charlie', 'Eve', 1);
+    graph.addEdge('Diana', 'Eve', 1);
+
+    // Get friends of each person
+    const aliceFriends = graph.getNeighbors('Alice');
+    expect(aliceFriends[0].key).toBe('Bob');
+    expect(aliceFriends[1].key).toBe('Charlie');
+    expect(aliceFriends.length).toBe(2);
+
+    const dianaFriends = graph.getNeighbors('Diana');
+    expect(dianaFriends[0].key).toBe('Bob');
+    expect(dianaFriends[1].key).toBe('Eve');
+    expect(dianaFriends.length).toBe(2);
+
+    // Verify bidirectional friendship
+    const bobFriends = graph.getNeighbors('Bob');
+    expect(bobFriends[0].key).toBe('Alice'); // Alice -> Bob -> Alice ✓
+    expect(bobFriends[1].key).toBe('Diana');
+  });
+
+  it('@example UndirectedGraph for social network connectivity analysis', () => {
+    interface Person {
+      id: number;
+      name: string;
+      location: string;
+    }
+
+    // UndirectedGraph is perfect for modeling symmetric relationships
+    // (friendships, collaborations, partnerships)
+    const socialNetwork = new UndirectedGraph<number, Person>();
+
+    // Add people as vertices
+    const people: [number, Person][] = [
+      [1, { id: 1, name: 'Alice', location: 'New York' }],
+      [2, { id: 2, name: 'Bob', location: 'San Francisco' }],
+      [3, { id: 3, name: 'Charlie', location: 'Boston' }],
+      [4, { id: 4, name: 'Diana', location: 'New York' }],
+      [5, { id: 5, name: 'Eve', location: 'Seattle' }]
+    ];
+
+    for (const [id] of people) {
+      socialNetwork.addVertex(id);
+    }
+
+    // Add friendships (automatically bidirectional)
+    socialNetwork.addEdge(1, 2, 1); // Alice <-> Bob
+    socialNetwork.addEdge(1, 3, 1); // Alice <-> Charlie
+    socialNetwork.addEdge(2, 4, 1); // Bob <-> Diana
+    socialNetwork.addEdge(3, 5, 1); // Charlie <-> Eve
+    socialNetwork.addEdge(4, 5, 1); // Diana <-> Eve
+
+    expect(socialNetwork.size).toBe(5);
+
+    // Find direct connections for Alice
+    const aliceConnections = socialNetwork.getNeighbors(1);
+    expect(aliceConnections[0].key).toBe(2);
+    expect(aliceConnections[1].key).toBe(3);
+    expect(aliceConnections.length).toBe(2);
+
+    // Verify bidirectional connections
+    expect(socialNetwork.hasEdge(1, 2)).toBe(true);
+    expect(socialNetwork.hasEdge(2, 1)).toBe(true); // Friendship works both ways!
+
+    // Remove a person from network
+    socialNetwork.deleteVertex(2); // Bob leaves
+    expect(socialNetwork.hasVertex(2)).toBe(false);
+    expect(socialNetwork.size).toBe(4);
+
+    // Alice loses Bob as a friend
+    const updatedAliceConnections = socialNetwork.getNeighbors(1);
+    expect(updatedAliceConnections[0].key).toBe(3);
+    expect(updatedAliceConnections[1]).toBe(undefined);
+
+    // Diana loses Bob as a friend
+    const dianaConnections = socialNetwork.getNeighbors(4);
+    expect(dianaConnections[0].key).toBe(5);
+    expect(dianaConnections[1]).toBe(undefined);
+  });
+});

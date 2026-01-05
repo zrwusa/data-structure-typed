@@ -198,8 +198,95 @@ export class AVLTreeNode<K = any, V = any> {
  * 7. Path Length: The path length from the root to any leaf is longer compared to an unbalanced BST, but shorter than a linear chain of nodes.
  *
  * @example
+ * // basic AVLTree creation and add operation
+ *  // Create a simple AVLTree with initial values
+ *     const tree = new AVLTree([5, 2, 8, 1, 9]);
+ *
+ *     // Verify the tree maintains sorted order
+ *     console.log([...tree.keys()]); // [1, 2, 5, 8, 9];
+ *
+ *     // Check size
+ *     console.log(tree.size); // 5;
+ *
+ *     // Add a new element
+ *     tree.add(3);
+ *     console.log(tree.size); // 6;
+ *     console.log([...tree.keys()]); // [1, 2, 3, 5, 8, 9];
+ * @example
+ * // AVLTree has and get operations
+ *  const tree = new AVLTree<number>([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
+ *
+ *     // Check if element exists
+ *     console.log(tree.has(6)); // true;
+ *     console.log(tree.has(99)); // false;
+ *
+ *     // Get node by key
+ *     const node = tree.getNode(6);
+ *     console.log(node?.key); // 6;
+ *
+ *     // Verify tree is balanced
+ *     console.log(tree.isAVLBalanced()); // true;
+ * @example
+ * // AVLTree delete and balance verification
+ *  const tree = new AVLTree([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
+ *
+ *     // Delete an element
+ *     tree.delete(10);
+ *     console.log(tree.has(10)); // false;
+ *
+ *     // Tree should remain balanced after deletion
+ *     console.log(tree.isAVLBalanced()); // true;
+ *
+ *     // Size decreased
+ *     console.log(tree.size); // 15;
+ *
+ *     // Remaining elements are still sorted
+ *     const keys = [...tree.keys()];
+ *     console.log(keys); // [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16];
+ * @example
+ * // AVLTree for university ranking system with strict balance
+ *  interface University {
+ *       name: string;
+ *       rank: number;
+ *       students: number;
+ *     }
+ *
+ *     // AVLTree provides highest search efficiency with strict balance
+ *     // (every node's left/right subtrees differ by at most 1 in height)
+ *     const universityTree = new AVLTree<number, University>([
+ *       [1, { name: 'MIT', rank: 1, students: 1200 }],
+ *       [5, { name: 'Stanford', rank: 5, students: 1800 }],
+ *       [3, { name: 'Harvard', rank: 3, students: 2300 }],
+ *       [2, { name: 'Caltech', rank: 2, students: 400 }],
+ *       [4, { name: 'CMU', rank: 4, students: 1500 }]
+ *     ]);
+ *
+ *     // Quick lookup by rank
+ *     const mit = universityTree.get(1);
+ *     console.log(mit?.name); // 'MIT';
+ *
+ *     const cmulevel = universityTree.getHeight(4);
+ *     console.log(typeof cmulevel); // 'number';
+ *
+ *     // Tree maintains strict balance during insertions and deletions
+ *     console.log(universityTree.isAVLBalanced()); // true;
+ *
+ *     // Add more universities
+ *     universityTree.add(6, { name: 'Oxford', rank: 6, students: 2000 });
+ *     console.log(universityTree.isAVLBalanced()); // true;
+ *
+ *     // Delete and verify balance is maintained
+ *     universityTree.delete(2);
+ *     console.log(universityTree.has(2)); // false;
+ *     console.log(universityTree.isAVLBalanced()); // true;
+ *
+ *     // Get all remaining universities in rank order
+ *     const remainingRanks = [...universityTree.keys()];
+ *     console.log(remainingRanks); // [1, 3, 4, 5, 6];
+ *     console.log(universityTree.size); // 5;
+ * @example
  * // Find elements in a range
- *     // In interval queries, AVL trees, with their strictly balanced structure and lower height, offer better query efficiency, making them ideal for frequent and high-performance interval queries. In contrast, Red-Black trees, with lower update costs, are more suitable for scenarios involving frequent insertions and deletions where the requirements for interval queries are less demanding.
+ *  // In interval queries, AVL trees, with their strictly balanced structure and lower height, offer better query efficiency, making them ideal for frequent and high-performance interval queries. In contrast, Red-Black trees, with lower update costs, are more suitable for scenarios involving frequent insertions and deletions where the requirements for interval queries are less demanding.
  *     type Datum = { timestamp: Date; temperature: number };
  *     // Fixed dataset of CPU temperature readings
  *     const cpuData: Datum[] = [
@@ -260,7 +347,7 @@ export class AVLTreeNode<K = any, V = any> {
  *  //      { minute: 13, temperature: 60.2 },
  *  //      { minute: 14, temperature: 59.8 },
  *  //      { minute: 15, temperature: 58.6 }
- *  //    ]
+ *  //    ];
  */
 export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements IBinaryTree<K, V, R> {
   /**

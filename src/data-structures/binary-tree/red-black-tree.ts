@@ -188,48 +188,90 @@ export class RedBlackTreeNode<K = any, V = any> {
  * 2. It is BST itself. Compared with Heap which is not completely ordered, RedBlackTree is completely ordered.
  *
  * @example
- * // using Red-Black Tree as a price-based index for stock data
- *     // Define the structure of individual stock records
- *     interface StockRecord {
- *       price: number; // Stock price (key for indexing)
- *       symbol: string; // Stock ticker symbol
- *       volume: number; // Trade volume
+ * // basic Red-Black Tree with simple number keys
+ *  // Create a simple Red-Black Tree with numeric keys
+ *     const tree = new RedBlackTree([5, 2, 8, 1, 9]);
+ *
+ *     // Verify the tree maintains sorted order
+ *     console.log([...tree.keys()]); // [1, 2, 5, 8, 9];
+ *
+ *     // Check size
+ *     console.log(tree.size); // 5;
+ * @example
+ * // Red-Black Tree with key-value pairs for lookups
+ *  interface Employee {
+ *       id: number;
+ *       name: string;
  *     }
  *
- *     // Simulate stock market data as it might come from an external feed
- *     const marketStockData: StockRecord[] = [
- *       { price: 142.5, symbol: 'AAPL', volume: 1000000 },
- *       { price: 335.2, symbol: 'MSFT', volume: 800000 },
- *       { price: 3285.04, symbol: 'AMZN', volume: 500000 },
- *       { price: 267.98, symbol: 'META', volume: 750000 },
- *       { price: 234.57, symbol: 'GOOGL', volume: 900000 }
- *     ];
+ *     // Create tree with employee data
+ *     const employees = new RedBlackTree<number, Employee>([
+ *       [1, { id: 1, name: 'Alice' }],
+ *       [3, { id: 3, name: 'Charlie' }],
+ *       [2, { id: 2, name: 'Bob' }]
+ *     ]);
  *
- *     // Extend the stock record type to include metadata for database usage
- *     type StockTableRecord = StockRecord & { lastUpdated: Date };
+ *     // Retrieve employee by ID
+ *     const alice = employees.get(1);
+ *     console.log(alice?.name); // 'Alice';
  *
- *     // Create a Red-Black Tree to index stock records by price
- *     // Simulates a database index with stock price as the key for quick lookups
- *     const priceIndex = new RedBlackTree<number, StockTableRecord, StockRecord>(marketStockData, {
- *       toEntryFn: stockRecord => [
- *         stockRecord.price, // Use stock price as the key
- *         {
- *           ...stockRecord,
- *           lastUpdated: new Date() // Add a timestamp for when the record was indexed
- *         }
- *       ]
+ *     // Verify sorted order by ID
+ *     console.log([...employees.keys()]); // [1, 2, 3];
+ * @example
+ * // Red-Black Tree range search for filtering
+ *  interface Product {
+ *       name: string;
+ *       price: number;
+ *     }
+ *
+ *     const products = new RedBlackTree<number, Product>([
+ *       [10, { name: 'Item A', price: 10 }],
+ *       [25, { name: 'Item B', price: 25 }],
+ *       [40, { name: 'Item C', price: 40 }],
+ *       [50, { name: 'Item D', price: 50 }]
+ *     ]);
+ *
+ *     // Find products in price range [20, 45]
+ *     const pricesInRange = products.rangeSearch([20, 45], node => {
+ *       return products.get(node)?.name;
  *     });
  *
- *     // Query the stock with the highest price
- *     const highestPricedStock = priceIndex.getRightMost();
- *     console.log(priceIndex.get(highestPricedStock)?.symbol); // 'AMZN' // Amazon has the highest price
+ *     console.log(pricesInRange); // ['Item B', 'Item C'];
+ * @example
+ * // Red-Black Tree as database index for stock market data
+ *  interface StockPrice {
+ *       symbol: string;
+ *       volume: number;
+ *       timestamp: Date;
+ *     }
  *
- *     // Query stocks within a specific price range (200 to 400)
- *     const stocksInRange = priceIndex.rangeSearch(
- *       [200, 400], // Price range
- *       node => priceIndex.get(node)?.symbol // Extract stock symbols for the result
- *     );
- *     console.log(stocksInRange); // ['GOOGL', 'META', 'MSFT']
+ *     // Simulate real-time stock price index
+ *     const priceIndex = new RedBlackTree<number, StockPrice>([
+ *       [142.5, { symbol: 'AAPL', volume: 1000000, timestamp: new Date() }],
+ *       [335.2, { symbol: 'MSFT', volume: 800000, timestamp: new Date() }],
+ *       [3285.04, { symbol: 'AMZN', volume: 500000, timestamp: new Date() }],
+ *       [267.98, { symbol: 'META', volume: 750000, timestamp: new Date() }],
+ *       [234.57, { symbol: 'GOOGL', volume: 900000, timestamp: new Date() }]
+ *     ]);
+ *
+ *     // Find highest-priced stock
+ *     const maxPrice = priceIndex.getRightMost();
+ *     console.log(priceIndex.get(maxPrice)?.symbol); // 'AMZN';
+ *
+ *     // Find stocks in price range [200, 400] for portfolio balancing
+ *     const stocksInRange = priceIndex.rangeSearch([200, 400], node => {
+ *       const stock = priceIndex.get(node);
+ *       return {
+ *         symbol: stock?.symbol,
+ *         price: node,
+ *         volume: stock?.volume
+ *       };
+ *     });
+ *
+ *     console.log(stocksInRange.length); // 3;
+ *     console.log(stocksInRange.some((s: any) => s.symbol === 'GOOGL')); // true;
+ *     console.log(stocksInRange.some((s: any) => s.symbol === 'META')); // true;
+ *     console.log(stocksInRange.some((s: any) => s.symbol === 'MSFT')); // true;
  */
 
 export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implements IBinaryTree<K, V, R> {

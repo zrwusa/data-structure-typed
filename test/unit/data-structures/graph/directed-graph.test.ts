@@ -1050,3 +1050,136 @@ describe('delete', () => {
   //
   // })
 });
+
+describe('classic use', () => {
+  it('@example basic DirectedGraph vertex and edge creation', () => {
+    // Create a simple directed graph
+    const graph = new DirectedGraph<string>();
+
+    // Add vertices
+    graph.addVertex('A');
+    graph.addVertex('B');
+    graph.addVertex('C');
+
+    // Verify vertices exist
+    expect(graph.hasVertex('A')).toBe(true);
+    expect(graph.hasVertex('B')).toBe(true);
+    expect(graph.hasVertex('C')).toBe(true);
+    expect(graph.hasVertex('D')).toBe(false);
+
+    // Check vertex count
+    expect(graph.size).toBe(3);
+  });
+
+  it('@example DirectedGraph edge operations', () => {
+    const graph = new DirectedGraph<string>();
+
+    // Add vertices
+    graph.addVertex('A');
+    graph.addVertex('B');
+    graph.addVertex('C');
+
+    // Add directed edges
+    graph.addEdge('A', 'B', 1);
+    graph.addEdge('B', 'C', 2);
+    graph.addEdge('A', 'C', 3);
+
+    // Verify edges exist
+    expect(graph.hasEdge('A', 'B')).toBe(true);
+    expect(graph.hasEdge('B', 'C')).toBe(true);
+    expect(graph.hasEdge('C', 'B')).toBe(false); // Graph is directed
+
+    // Get neighbors of A
+    const neighborsA = graph.getNeighbors('A');
+    expect(neighborsA[0].key).toBe('B');
+    expect(neighborsA[1].key).toBe('C');
+  });
+
+  it('@example DirectedGraph deleteEdge and vertex operations', () => {
+    const graph = new DirectedGraph<string>();
+
+    // Build a small graph
+    graph.addVertex('X');
+    graph.addVertex('Y');
+    graph.addVertex('Z');
+    graph.addEdge('X', 'Y', 1);
+    graph.addEdge('Y', 'Z', 2);
+
+    // Delete an edge
+    graph.deleteEdgeSrcToDest('X', 'Y');
+    expect(graph.hasEdge('X', 'Y')).toBe(false);
+
+    // Edge in other direction should not exist
+    expect(graph.hasEdge('Y', 'X')).toBe(false);
+
+    // Other edges should remain
+    expect(graph.hasEdge('Y', 'Z')).toBe(true);
+
+    // Delete a vertex
+    graph.deleteVertex('Y');
+    expect(graph.hasVertex('Y')).toBe(false);
+    expect(graph.size).toBe(2);
+  });
+
+  it('@example DirectedGraph topologicalSort for task scheduling', () => {
+    const graph = new DirectedGraph<string>();
+
+    // Build a DAG (Directed Acyclic Graph) for task dependencies
+    graph.addVertex('Design');
+    graph.addVertex('Implement');
+    graph.addVertex('Test');
+    graph.addVertex('Deploy');
+
+    // Add dependency edges
+    graph.addEdge('Design', 'Implement', 1); // Design must come before Implement
+    graph.addEdge('Implement', 'Test', 1); // Implement must come before Test
+    graph.addEdge('Test', 'Deploy', 1); // Test must come before Deploy
+
+    // Topological sort gives valid execution order
+    const executionOrder = graph.topologicalSort();
+    expect(executionOrder).toBeDefined();
+    expect(executionOrder).toEqual(['Design', 'Implement', 'Test', 'Deploy']);
+
+    // All vertices should be included
+    expect(executionOrder?.length).toBe(4);
+  });
+
+  it('@example DirectedGraph dijkstra shortest path for network routing', () => {
+    // Build a weighted directed graph representing network nodes and costs
+    const network = new DirectedGraph<string>();
+
+    // Add network nodes
+    network.addVertex('Router-A');
+    network.addVertex('Router-B');
+    network.addVertex('Router-C');
+    network.addVertex('Router-D');
+    network.addVertex('Router-E');
+
+    // Add weighted edges (network latency costs)
+    network.addEdge('Router-A', 'Router-B', 5);
+    network.addEdge('Router-A', 'Router-C', 10);
+    network.addEdge('Router-B', 'Router-D', 3);
+    network.addEdge('Router-C', 'Router-D', 2);
+    network.addEdge('Router-D', 'Router-E', 4);
+    network.addEdge('Router-B', 'Router-E', 12);
+
+    // Find shortest path from Router-A to Router-E
+    const { minDist, minPath } = network.dijkstra('Router-A', 'Router-E', true, true) || {
+      minDist: undefined,
+      minPath: undefined
+    };
+
+    // Verify shortest path is found
+    expect(minDist).toBeDefined();
+    expect(minPath).toBeDefined();
+
+    // Shortest path should be A -> B -> D -> E with cost 5+3+4=12
+    // Or A -> C -> D -> E with cost 10+2+4=16
+    // So the minimum is 12
+    expect(minDist).toBeLessThanOrEqual(16);
+
+    // Verify path is valid (includes start and end)
+    expect(minPath?.[0].key).toBe('Router-A');
+    expect(minPath?.[minPath.length - 1].key).toBe('Router-E');
+  });
+});
