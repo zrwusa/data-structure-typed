@@ -56,7 +56,7 @@ if (!file) {
           'Latency Avg (ms)': numberFix(benchmark.stats.mean * 1000, 2), // Average time
           'Min (ms)': numberFix(Math.min(...benchmark.stats.sample) * 1000, 2),
           'Max (ms)': numberFix(Math.max(...benchmark.stats.sample) * 1000, 2),
-          'Stability': `±${numberFix(benchmark.stats.rme, 2)}%`,              // Relative error (better to understand than deviation)
+          Stability: `±${numberFix(benchmark.stats.rme, 2)}%` // Relative error (better to understand than deviation)
           // 'Samples': benchmark.stats.sample.length,                           // Number of samples
           // 'Ops/Sec': Math.round(benchmark.hz).toLocaleString(),               // Operations per second
         };

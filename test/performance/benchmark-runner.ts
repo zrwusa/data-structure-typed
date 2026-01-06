@@ -280,7 +280,7 @@ testFiles = sortByOrder(testFiles);
 if (flags.shuffle) shuffle(testFiles);
 
 const plannedCount = testFiles.length;
-const isIndividual = filters.length > 0;
+// const isIndividual = filters.length > 0;
 
 // ---------------- report utils (kept from original) ----------------
 const report: { [key: string]: any } = {};
@@ -311,11 +311,11 @@ function writeReportHTMLAndJSON(htmlTables: string) {
   </div></body></html>`;
 
   // if (!isIndividual) {
-    replaceMarkdownContent(
-      '[//]: # (No deletion!!! Start of Replace Section)',
-      '[//]: # (No deletion!!! End of Replace Section)',
-      htmlTables
-    );
+  replaceMarkdownContent(
+    '[//]: # (No deletion!!! Start of Replace Section)',
+    '[//]: # (No deletion!!! End of Replace Section)',
+    htmlTables
+  );
   // }
   fs.writeFileSync(htmlFilePath, html);
   console.log(`Performance ${BOLD}${GREEN}report${END} file generated in file://${BOLD}${GREEN}${htmlFilePath}${END}`);
@@ -335,7 +335,8 @@ function replaceMarkdownContent(startMarker: string, endMarker: string, newText:
       console.warn('Markers not found or invalid range; skip PERFORMANCE injection.');
       return;
     }
-    const updatedMarkdown = data.slice(0, startIndex + startMarker.length) + '\n\n' + newText  + '\n\n' + data.slice(endIndex);
+    const updatedMarkdown =
+      data.slice(0, startIndex + startMarker.length) + '\n\n' + newText + '\n\n' + data.slice(endIndex);
     fs.writeFile(filePath, updatedMarkdown, 'utf8', err2 => {
       if (err2) console.error(`Unable to write to ${filePath}:`, err2);
       else console.log(`The content has been successfully replaced in file://${BOLD}${GREEN}${filePath}${END}`);

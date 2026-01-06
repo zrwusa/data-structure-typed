@@ -892,180 +892,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
   }
 
   /**
-   * (Protected) Core bound search implementation supporting all parameter types.
-   * Unified logic for both lowerBound and upperBound.
-   * Resolves various input types (Key, Node, Entry, Predicate) using parent class utilities.
-   * @param keyNodeEntryOrPredicate - The key, node, entry, or predicate function to search for.
-   * @param isLower - True for lowerBound (>=), false for upperBound (>).
-   * @param iterationType - The iteration type (RECURSIVE or ITERATIVE).
-   * @returns The first matching node, or undefined if no such node exists.
-   */
-  protected _bound(
-    keyNodeEntryOrPredicate:
-      | K
-      | BSTNode<K, V>
-      | [K | null | undefined, V | undefined]
-      | null
-      | undefined
-      | NodePredicate<BSTNode<K, V>>,
-    isLower: boolean,
-    iterationType: IterationType
-  ): BSTNode<K, V> | undefined {
-    if (keyNodeEntryOrPredicate === null || keyNodeEntryOrPredicate === undefined) {
-      return undefined;
-    }
-
-    // Check if input is a predicate function first
-    if (this._isPredicate(keyNodeEntryOrPredicate)) {
-      return this._boundByPredicate(keyNodeEntryOrPredicate, iterationType);
-    }
-
-    // Resolve input to a comparable key
-    let targetKey: K | undefined;
-
-    if (this.isNode(keyNodeEntryOrPredicate)) {
-      // Input is a BSTNode - extract its key
-      targetKey = keyNodeEntryOrPredicate.key;
-    } else if (this.isEntry(keyNodeEntryOrPredicate)) {
-      // Input is a [key, value] entry - extract the key
-      const key = keyNodeEntryOrPredicate[0];
-      if (key === null || key === undefined) {
-        return undefined;
-      }
-      targetKey = key;
-    } else {
-      // Input is a raw key
-      targetKey = keyNodeEntryOrPredicate;
-    }
-
-    // Execute key-based search with binary search optimization
-    if (targetKey !== undefined) {
-      return this._boundByKey(targetKey, isLower, iterationType);
-    }
-
-    return undefined;
-  }
-
-  /**
-   * (Protected) Binary search for bound by key with pruning optimization.
-   * Performs standard BST binary search, choosing left or right subtree based on comparator result.
-   * For lowerBound: finds first node where key >= target.
-   * For upperBound: finds first node where key > target.
-   * @param key - The target key to search for.
-   * @param isLower - True for lowerBound (>=), false for upperBound (>).
-   * @param iterationType - The iteration type (RECURSIVE or ITERATIVE).
-   * @returns The first node matching the bound condition, or undefined if none exists.
-   */
-  protected _boundByKey(key: K, isLower: boolean, iterationType: IterationType): BSTNode<K, V> | undefined {
-    if (iterationType === 'RECURSIVE') {
-      // Recursive binary search implementation
-      const dfs = (cur: BSTNode<K, V> | null | undefined): BSTNode<K, V> | undefined => {
-        if (!this.isRealNode(cur)) return undefined;
-
-        const cmp = this.comparator(cur.key!, key);
-        const condition = isLower ? cmp >= 0 : cmp > 0;
-
-        if (condition) {
-          // Current node satisfies the bound condition.
-          // Try to find a closer (smaller key) candidate in the left subtree.
-          const leftResult = dfs(cur.left);
-          return leftResult ?? cur;
-        } else {
-          // Current node does not satisfy the condition.
-          // Move right to find larger keys.
-          return dfs(cur.right);
-        }
-      };
-
-      return dfs(this.root);
-    } else {
-      // Iterative binary search implementation
-      let current: BSTNode<K, V> | undefined = this.root;
-      let result: BSTNode<K, V> | undefined = undefined;
-
-      while (this.isRealNode(current)) {
-        const cmp = this.comparator(current.key!, key);
-        const condition = isLower ? cmp >= 0 : cmp > 0;
-
-        if (condition) {
-          // Current node is a candidate. Save it and try left subtree for a closer match.
-          result = current;
-          current = current.left ?? undefined;
-        } else {
-          // Move right to find larger keys.
-          current = current.right ?? undefined;
-        }
-      }
-
-      return result;
-    }
-  }
-
-  /**
-   * (Protected) In-order traversal search by predicate.
-   * Falls back to linear in-order traversal when predicate-based search is required.
-   * Returns the first node that satisfies the predicate function.
-   * Note: Predicate-based search cannot leverage BST's binary search optimization.
-   * Time Complexity: O(n) since it may visit every node.
-   * @param predicate - The predicate function to test nodes.
-   * @param iterationType - The iteration type (RECURSIVE or ITERATIVE).
-   * @returns The first node satisfying predicate, or undefined if none found.
-   */
-  protected _boundByPredicate(
-    predicate: NodePredicate<BSTNode<K, V>>,
-    iterationType: IterationType
-  ): BSTNode<K, V> | undefined {
-    if (iterationType === 'RECURSIVE') {
-      // Recursive in-order traversal
-      let result: BSTNode<K, V> | undefined = undefined;
-
-      const dfs = (cur: BSTNode<K, V> | null | undefined): void => {
-        if (result || !this.isRealNode(cur)) return;
-
-        // In-order: process left subtree first
-        if (this.isRealNode(cur.left)) dfs(cur.left);
-
-        // Check current node
-        if (!result && predicate(cur)) {
-          result = cur;
-        }
-
-        // Process right subtree
-        if (!result && this.isRealNode(cur.right)) dfs(cur.right);
-      };
-
-      dfs(this.root);
-      return result;
-    } else {
-      // Iterative in-order traversal using explicit stack
-      const stack: (BSTNode<K, V> | null | undefined)[] = [];
-      let current: BSTNode<K, V> | null | undefined = this.root;
-
-      while (stack.length > 0 || this.isRealNode(current)) {
-        if (this.isRealNode(current)) {
-          // Go to the leftmost node
-          stack.push(current);
-          current = current.left;
-        } else {
-          // Pop from stack and process
-          const node = stack.pop();
-          if (!this.isRealNode(node)) break;
-
-          // Check if current node satisfies predicate
-          if (predicate(node)) {
-            return node;
-          }
-
-          // Visit right subtree
-          current = node.right;
-        }
-      }
-
-      return undefined;
-    }
-  }
-
-  /**
    * Traverses the tree and returns nodes that are lesser or greater than a target node.
    * @remarks Time O(N), as it performs a full traversal. Space O(log N) or O(N).
    *
@@ -1252,6 +1078,180 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       cur = node.right as BSTNode<K, V> | null | undefined;
     }
     return false;
+  }
+
+  /**
+   * (Protected) Core bound search implementation supporting all parameter types.
+   * Unified logic for both lowerBound and upperBound.
+   * Resolves various input types (Key, Node, Entry, Predicate) using parent class utilities.
+   * @param keyNodeEntryOrPredicate - The key, node, entry, or predicate function to search for.
+   * @param isLower - True for lowerBound (>=), false for upperBound (>).
+   * @param iterationType - The iteration type (RECURSIVE or ITERATIVE).
+   * @returns The first matching node, or undefined if no such node exists.
+   */
+  protected _bound(
+    keyNodeEntryOrPredicate:
+      | K
+      | BSTNode<K, V>
+      | [K | null | undefined, V | undefined]
+      | null
+      | undefined
+      | NodePredicate<BSTNode<K, V>>,
+    isLower: boolean,
+    iterationType: IterationType
+  ): BSTNode<K, V> | undefined {
+    if (keyNodeEntryOrPredicate === null || keyNodeEntryOrPredicate === undefined) {
+      return undefined;
+    }
+
+    // Check if input is a predicate function first
+    if (this._isPredicate(keyNodeEntryOrPredicate)) {
+      return this._boundByPredicate(keyNodeEntryOrPredicate, iterationType);
+    }
+
+    // Resolve input to a comparable key
+    let targetKey: K | undefined;
+
+    if (this.isNode(keyNodeEntryOrPredicate)) {
+      // Input is a BSTNode - extract its key
+      targetKey = keyNodeEntryOrPredicate.key;
+    } else if (this.isEntry(keyNodeEntryOrPredicate)) {
+      // Input is a [key, value] entry - extract the key
+      const key = keyNodeEntryOrPredicate[0];
+      if (key === null || key === undefined) {
+        return undefined;
+      }
+      targetKey = key;
+    } else {
+      // Input is a raw key
+      targetKey = keyNodeEntryOrPredicate;
+    }
+
+    // Execute key-based search with binary search optimization
+    if (targetKey !== undefined) {
+      return this._boundByKey(targetKey, isLower, iterationType);
+    }
+
+    return undefined;
+  }
+
+  /**
+   * (Protected) Binary search for bound by key with pruning optimization.
+   * Performs standard BST binary search, choosing left or right subtree based on comparator result.
+   * For lowerBound: finds first node where key >= target.
+   * For upperBound: finds first node where key > target.
+   * @param key - The target key to search for.
+   * @param isLower - True for lowerBound (>=), false for upperBound (>).
+   * @param iterationType - The iteration type (RECURSIVE or ITERATIVE).
+   * @returns The first node matching the bound condition, or undefined if none exists.
+   */
+  protected _boundByKey(key: K, isLower: boolean, iterationType: IterationType): BSTNode<K, V> | undefined {
+    if (iterationType === 'RECURSIVE') {
+      // Recursive binary search implementation
+      const dfs = (cur: BSTNode<K, V> | null | undefined): BSTNode<K, V> | undefined => {
+        if (!this.isRealNode(cur)) return undefined;
+
+        const cmp = this.comparator(cur.key!, key);
+        const condition = isLower ? cmp >= 0 : cmp > 0;
+
+        if (condition) {
+          // Current node satisfies the bound condition.
+          // Try to find a closer (smaller key) candidate in the left subtree.
+          const leftResult = dfs(cur.left);
+          return leftResult ?? cur;
+        } else {
+          // Current node does not satisfy the condition.
+          // Move right to find larger keys.
+          return dfs(cur.right);
+        }
+      };
+
+      return dfs(this.root);
+    } else {
+      // Iterative binary search implementation
+      let current: BSTNode<K, V> | undefined = this.root;
+      let result: BSTNode<K, V> | undefined = undefined;
+
+      while (this.isRealNode(current)) {
+        const cmp = this.comparator(current.key!, key);
+        const condition = isLower ? cmp >= 0 : cmp > 0;
+
+        if (condition) {
+          // Current node is a candidate. Save it and try left subtree for a closer match.
+          result = current;
+          current = current.left ?? undefined;
+        } else {
+          // Move right to find larger keys.
+          current = current.right ?? undefined;
+        }
+      }
+
+      return result;
+    }
+  }
+
+  /**
+   * (Protected) In-order traversal search by predicate.
+   * Falls back to linear in-order traversal when predicate-based search is required.
+   * Returns the first node that satisfies the predicate function.
+   * Note: Predicate-based search cannot leverage BST's binary search optimization.
+   * Time Complexity: O(n) since it may visit every node.
+   * @param predicate - The predicate function to test nodes.
+   * @param iterationType - The iteration type (RECURSIVE or ITERATIVE).
+   * @returns The first node satisfying predicate, or undefined if none found.
+   */
+  protected _boundByPredicate(
+    predicate: NodePredicate<BSTNode<K, V>>,
+    iterationType: IterationType
+  ): BSTNode<K, V> | undefined {
+    if (iterationType === 'RECURSIVE') {
+      // Recursive in-order traversal
+      let result: BSTNode<K, V> | undefined = undefined;
+
+      const dfs = (cur: BSTNode<K, V> | null | undefined): void => {
+        if (result || !this.isRealNode(cur)) return;
+
+        // In-order: process left subtree first
+        if (this.isRealNode(cur.left)) dfs(cur.left);
+
+        // Check current node
+        if (!result && predicate(cur)) {
+          result = cur;
+        }
+
+        // Process right subtree
+        if (!result && this.isRealNode(cur.right)) dfs(cur.right);
+      };
+
+      dfs(this.root);
+      return result;
+    } else {
+      // Iterative in-order traversal using explicit stack
+      const stack: (BSTNode<K, V> | null | undefined)[] = [];
+      let current: BSTNode<K, V> | null | undefined = this.root;
+
+      while (stack.length > 0 || this.isRealNode(current)) {
+        if (this.isRealNode(current)) {
+          // Go to the leftmost node
+          stack.push(current);
+          current = current.left;
+        } else {
+          // Pop from stack and process
+          const node = stack.pop();
+          if (!this.isRealNode(node)) break;
+
+          // Check if current node satisfies predicate
+          if (predicate(node)) {
+            return node;
+          }
+
+          // Visit right subtree
+          current = node.right;
+        }
+      }
+
+      return undefined;
+    }
   }
 
   /**

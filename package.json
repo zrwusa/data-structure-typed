@@ -100,7 +100,7 @@
     "benchmark": "^2.1.4",
     "binary-tree-typed": "^1.54.3",
     "bst-typed": "^1.54.3",
-    "data-structure-typed": "^2.2.1",
+    "data-structure-typed": "^2.2.2",
     "dependency-cruiser": "^16.5.0",
     "doctoc": "^2.2.1",
     "eslint": "^9.13.0",

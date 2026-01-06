@@ -405,12 +405,12 @@ class MessageQueue {
 
 ## 📦 What You Get
 
-✅ **6 core documentation files** (2500+ lines)  
 ✅ **20+ data structures** (production-ready)  
 ✅ **50+ code examples** (real-world patterns)  
 ✅ **Full TypeScript support** (strict typing)  
 ✅ **Performance benchmarks** (484x speedups)  
 ✅ **Framework integrations** (React, Express, Nest.js)
+✅ **6 core documentation files** (2500+ lines)
 
 ---
 
