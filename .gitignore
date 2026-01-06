@@ -24,5 +24,4 @@ docs/.nojekyll
 docs/hierarchy.html
 docs/index.html
 docs/modules.html
-
-
+/coverage
