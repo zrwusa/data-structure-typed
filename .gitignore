@@ -15,4 +15,14 @@ npm-debug.*
 /lib
 /dist
 /umd
+docs/assets
+docs/classes
+docs/functions
+docs/interfaces
+docs/media
+docs/.nojekyll
+docs/hierarchy.html
+docs/index.html
+docs/modules.html
+
 
