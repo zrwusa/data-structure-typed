@@ -52,10 +52,13 @@ if (!file) {
       const benchmarks = this.map((benchmark: any) => {
         runTime += benchmark.times.elapsed;
         return {
-          'test name': benchmark.name,
-          'time taken (ms)': numberFix(benchmark.times.period * 1000, 2),
-          'sample mean (secs)': numberFix(benchmark.stats.mean, 2),
-          'sample deviation': numberFix(benchmark.stats.deviation, 2)
+          'Test Case': benchmark.name,
+          'Latency Avg (ms)': numberFix(benchmark.stats.mean * 1000, 2), // Average time
+          'Min (ms)': numberFix(Math.min(...benchmark.stats.sample) * 1000, 2),
+          'Max (ms)': numberFix(Math.max(...benchmark.stats.sample) * 1000, 2),
+          'Stability': `±${numberFix(benchmark.stats.rme, 2)}%`,              // Relative error (better to understand than deviation)
+          // 'Samples': benchmark.stats.sample.length,                           // Number of samples
+          // 'Ops/Sec': Math.round(benchmark.hz).toLocaleString(),               // Operations per second
         };
       });
       runTime = Number(runTime.toFixed(2));

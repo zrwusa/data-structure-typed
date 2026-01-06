@@ -50,10 +50,10 @@ suite
 
 if (true) {
   suite
-    .add(`CPT ${MILLION.toLocaleString()} add`, () => {
+    .add(`Competitor ${MILLION.toLocaleString()} set`, () => {
       for (let i = 0; i < randomArray.length; i++) cOrderedMap.setElement(randomArray[i], randomArray[i]);
     })
-    .add(`CPT ${MILLION.toLocaleString()} add`, () => {
+    .add(`Competitor ${MILLION.toLocaleString()} get`, () => {
       for (let i = 0; i < randomArray.length; i++) cOrderedMap.getElementByKey(randomArray[i]);
     });
 }

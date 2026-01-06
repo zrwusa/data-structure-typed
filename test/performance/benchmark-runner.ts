@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import * as fastGlob from 'fast-glob';
 import { fork } from 'child_process';
 import { ConsoleColor, numberFix } from '../utils';
+import * as console from 'node:console';
 
 /**
  * Optimized benchmark runner
@@ -309,19 +310,20 @@ function writeReportHTMLAndJSON(htmlTables: string) {
   ${htmlTables}
   </div></body></html>`;
 
-  if (!isIndividual) {
+  // if (!isIndividual) {
     replaceMarkdownContent(
       '[//]: # (No deletion!!! Start of Replace Section)',
       '[//]: # (No deletion!!! End of Replace Section)',
       htmlTables
     );
-  }
+  // }
   fs.writeFileSync(htmlFilePath, html);
   console.log(`Performance ${BOLD}${GREEN}report${END} file generated in file://${BOLD}${GREEN}${htmlFilePath}${END}`);
 }
 
 function replaceMarkdownContent(startMarker: string, endMarker: string, newText: string) {
   const filePath = path.join(parentDirectory, '/docs/PERFORMANCE.md');
+
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {
       console.error(`Unable to read ${filePath}:`, err);
@@ -330,10 +332,10 @@ function replaceMarkdownContent(startMarker: string, endMarker: string, newText:
     const startIndex = data.indexOf(startMarker);
     const endIndex = data.indexOf(endMarker);
     if (startIndex === -1 || endIndex === -1 || startIndex >= endIndex) {
-      console.warn('Markers not found or invalid range; skip README injection.');
+      console.warn('Markers not found or invalid range; skip PERFORMANCE injection.');
       return;
     }
-    const updatedMarkdown = data.slice(0, startIndex + startMarker.length) + '\n' + newText + data.slice(endIndex);
+    const updatedMarkdown = data.slice(0, startIndex + startMarker.length) + '\n\n' + newText  + '\n\n' + data.slice(endIndex);
     fs.writeFile(filePath, updatedMarkdown, 'utf8', err2 => {
       if (err2) console.error(`Unable to write to ${filePath}:`, err2);
       else console.log(`The content has been successfully replaced in file://${BOLD}${GREEN}${filePath}${END}`);

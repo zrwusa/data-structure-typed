@@ -2,262 +2,301 @@
   "red-black-tree": {
     "benchmarks": [
       {
-        "test name": "1,000,000 set",
-        "time taken (ms)": "422.36",
-        "sample mean (secs)": "0.42",
-        "sample deviation": "0.01"
+        "Test Case": "1,000,000 set",
+        "Latency Avg (ms)": "508.80",
+        "Min (ms)": "407.39",
+        "Max (ms)": "735.02",
+        "Stability": "±16.47%"
       },
       {
-        "test name": "1,000,000 get",
-        "time taken (ms)": "2.63",
-        "sample mean (secs)": "0.00",
-        "sample deviation": "5.78e-5"
+        "Test Case": "1,000,000 get",
+        "Latency Avg (ms)": "3.60",
+        "Min (ms)": "2.59",
+        "Max (ms)": "10.73",
+        "Stability": "±12.76%"
       },
       {
-        "test name": "1,000,000 iterator",
-        "time taken (ms)": "146.91",
-        "sample mean (secs)": "0.15",
-        "sample deviation": "0.02"
+        "Test Case": "1,000,000 iterator",
+        "Latency Avg (ms)": "181.28",
+        "Min (ms)": "131.67",
+        "Max (ms)": "399.35",
+        "Stability": "±21.13%"
       },
       {
-        "test name": "CPT 1,000,000 add",
-        "time taken (ms)": "643.87",
-        "sample mean (secs)": "0.64",
-        "sample deviation": "0.01"
+        "Test Case": "Competitor 1,000,000 set",
+        "Latency Avg (ms)": "657.36",
+        "Min (ms)": "646.08",
+        "Max (ms)": "668.05",
+        "Stability": "±0.94%"
       },
       {
-        "test name": "CPT 1,000,000 add",
-        "time taken (ms)": "667.21",
-        "sample mean (secs)": "0.67",
-        "sample deviation": "0.01"
+        "Test Case": "Competitor 1,000,000 get",
+        "Latency Avg (ms)": "707.92",
+        "Min (ms)": "661.39",
+        "Max (ms)": "774.77",
+        "Stability": "±4.43%"
       }
     ]
   },
   "queue": {
     "benchmarks": [
       {
-        "test name": "1,000,000 push",
-        "time taken (ms)": "25.84",
-        "sample mean (secs)": "0.03",
-        "sample deviation": "0.00"
+        "Test Case": "1,000,000 push",
+        "Latency Avg (ms)": "26.83",
+        "Min (ms)": "21.26",
+        "Max (ms)": "67.52",
+        "Stability": "±7.94%"
       },
       {
-        "test name": "100,000 push & shift",
-        "time taken (ms)": "2.87",
-        "sample mean (secs)": "0.00",
-        "sample deviation": "2.56e-4"
+        "Test Case": "100,000 push & shift",
+        "Latency Avg (ms)": "2.71",
+        "Min (ms)": "2.40",
+        "Max (ms)": "3.56",
+        "Stability": "±1.99%"
       },
       {
-        "test name": "Native JS Array 100,000 push & shift",
-        "time taken (ms)": "1142.51",
-        "sample mean (secs)": "1.14",
-        "sample deviation": "0.17"
+        "Test Case": "Native JS Array 100,000 push & shift",
+        "Latency Avg (ms)": "1214.60",
+        "Min (ms)": "1060.42",
+        "Max (ms)": "1423.06",
+        "Stability": "±10.02%"
       }
     ]
   },
   "deque": {
     "benchmarks": [
       {
-        "test name": "1,000,000 push",
-        "time taken (ms)": "10.71",
-        "sample mean (secs)": "0.01",
-        "sample deviation": "0.00"
+        "Test Case": "1,000,000 push",
+        "Latency Avg (ms)": "8.85",
+        "Min (ms)": "8.48",
+        "Max (ms)": "9.64",
+        "Stability": "±0.50%"
       },
       {
-        "test name": "1,000,000 push & pop",
-        "time taken (ms)": "14.13",
-        "sample mean (secs)": "0.01",
-        "sample deviation": "0.00"
+        "Test Case": "1,000,000 push & pop",
+        "Latency Avg (ms)": "13.52",
+        "Min (ms)": "13.02",
+        "Max (ms)": "14.76",
+        "Stability": "±0.54%"
       },
       {
-        "test name": "1,000,000 push & shift",
-        "time taken (ms)": "14.87",
-        "sample mean (secs)": "0.01",
-        "sample deviation": "0.00"
+        "Test Case": "1,000,000 push & shift",
+        "Latency Avg (ms)": "14.08",
+        "Min (ms)": "13.62",
+        "Max (ms)": "15.34",
+        "Stability": "±0.51%"
       },
       {
-        "test name": "100,000 push & shift",
-        "time taken (ms)": "1.36",
-        "sample mean (secs)": "0.00",
-        "sample deviation": "2.83e-5"
+        "Test Case": "100,000 push & shift",
+        "Latency Avg (ms)": "1.35",
+        "Min (ms)": "1.31",
+        "Max (ms)": "1.44",
+        "Stability": "±0.33%"
       },
       {
-        "test name": "Native JS Array 100,000 push & shift",
-        "time taken (ms)": "1124.21",
-        "sample mean (secs)": "1.12",
-        "sample deviation": "0.16"
+        "Test Case": "Native JS Array 100,000 push & shift",
+        "Latency Avg (ms)": "1429.15",
+        "Min (ms)": "944.17",
+        "Max (ms)": "1975.05",
+        "Stability": "±26.96%"
       },
       {
-        "test name": "100,000 unshift & shift",
-        "time taken (ms)": "1.45",
-        "sample mean (secs)": "0.00",
-        "sample deviation": "2.37e-4"
+        "Test Case": "100,000 unshift & shift",
+        "Latency Avg (ms)": "1.29",
+        "Min (ms)": "1.25",
+        "Max (ms)": "1.54",
+        "Stability": "±0.68%"
       },
       {
-        "test name": "Native JS Array 100,000 unshift & shift",
-        "time taken (ms)": "2054.92",
-        "sample mean (secs)": "2.05",
-        "sample deviation": "0.19"
+        "Test Case": "Native JS Array 100,000 unshift & shift",
+        "Latency Avg (ms)": "2200.25",
+        "Min (ms)": "1844.73",
+        "Max (ms)": "2839.30",
+        "Stability": "±17.78%"
       }
     ]
   },
   "heap": {
     "benchmarks": [
       {
-        "test name": "100,000 add",
-        "time taken (ms)": "5.34",
-        "sample mean (secs)": "0.01",
-        "sample deviation": "2.94e-4"
+        "Test Case": "100,000 add",
+        "Latency Avg (ms)": "4.70",
+        "Min (ms)": "4.36",
+        "Max (ms)": "5.15",
+        "Stability": "±0.81%"
       },
       {
-        "test name": "100,000 add & poll",
-        "time taken (ms)": "19.75",
-        "sample mean (secs)": "0.02",
-        "sample deviation": "0.00"
+        "Test Case": "100,000 add & poll",
+        "Latency Avg (ms)": "17.31",
+        "Min (ms)": "16.65",
+        "Max (ms)": "18.67",
+        "Stability": "±0.57%"
       }
     ]
   },
   "avl-tree": {
     "benchmarks": [
       {
-        "test name": "100,000 set randomly",
-        "time taken (ms)": "378.35",
-        "sample mean (secs)": "0.38",
-        "sample deviation": "0.02"
+        "Test Case": "100,000 set randomly",
+        "Latency Avg (ms)": "354.58",
+        "Min (ms)": "320.37",
+        "Max (ms)": "396.77",
+        "Stability": "±5.90%"
       },
       {
-        "test name": "100,000 set",
-        "time taken (ms)": "308.63",
-        "sample mean (secs)": "0.31",
-        "sample deviation": "0.02"
+        "Test Case": "100,000 set",
+        "Latency Avg (ms)": "310.29",
+        "Min (ms)": "294.79",
+        "Max (ms)": "362.25",
+        "Stability": "±4.57%"
       },
       {
-        "test name": "100,000 get",
-        "time taken (ms)": "0.26",
-        "sample mean (secs)": "2.60e-4",
-        "sample deviation": "6.35e-6"
+        "Test Case": "100,000 get",
+        "Latency Avg (ms)": "0.26",
+        "Min (ms)": "0.25",
+        "Max (ms)": "0.29",
+        "Stability": "±0.44%"
       },
       {
-        "test name": "100,000 getNode",
-        "time taken (ms)": "163.24",
-        "sample mean (secs)": "0.16",
-        "sample deviation": "0.01"
+        "Test Case": "100,000 getNode",
+        "Latency Avg (ms)": "199.21",
+        "Min (ms)": "170.37",
+        "Max (ms)": "228.69",
+        "Stability": "±4.40%"
       },
       {
-        "test name": "100,000 iterator",
-        "time taken (ms)": "13.73",
-        "sample mean (secs)": "0.01",
-        "sample deviation": "0.00"
+        "Test Case": "100,000 iterator",
+        "Latency Avg (ms)": "15.41",
+        "Min (ms)": "13.39",
+        "Max (ms)": "29.67",
+        "Stability": "±4.05%"
       },
       {
-        "test name": "100,000 set & delete orderly",
-        "time taken (ms)": "446.39",
-        "sample mean (secs)": "0.45",
-        "sample deviation": "0.03"
+        "Test Case": "100,000 set & delete orderly",
+        "Latency Avg (ms)": "436.63",
+        "Min (ms)": "426.38",
+        "Max (ms)": "457.78",
+        "Stability": "±1.52%"
       },
       {
-        "test name": "100,000 set & delete randomly",
-        "time taken (ms)": "592.65",
-        "sample mean (secs)": "0.59",
-        "sample deviation": "0.06"
+        "Test Case": "100,000 set & delete randomly",
+        "Latency Avg (ms)": "526.98",
+        "Min (ms)": "512.67",
+        "Max (ms)": "544.63",
+        "Stability": "±1.87%"
       }
     ]
   },
   "hash-map": {
     "benchmarks": [
       {
-        "test name": "1,000,000 set",
-        "time taken (ms)": "44.12",
-        "sample mean (secs)": "0.04",
-        "sample deviation": "0.01"
+        "Test Case": "1,000,000 set",
+        "Latency Avg (ms)": "40.68",
+        "Min (ms)": "33.35",
+        "Max (ms)": "59.21",
+        "Stability": "±4.69%"
       },
       {
-        "test name": "Native JS Map 1,000,000 set",
-        "time taken (ms)": "156.78",
-        "sample mean (secs)": "0.16",
-        "sample deviation": "0.02"
+        "Test Case": "Native JS Map 1,000,000 set",
+        "Latency Avg (ms)": "144.13",
+        "Min (ms)": "131.77",
+        "Max (ms)": "167.71",
+        "Stability": "±3.43%"
       },
       {
-        "test name": "Native JS Set 1,000,000 add",
-        "time taken (ms)": "123.54",
-        "sample mean (secs)": "0.12",
-        "sample deviation": "0.02"
+        "Test Case": "Native JS Set 1,000,000 add",
+        "Latency Avg (ms)": "112.65",
+        "Min (ms)": "104.13",
+        "Max (ms)": "148.36",
+        "Stability": "±4.84%"
       },
       {
-        "test name": "1,000,000 set & get",
-        "time taken (ms)": "44.26",
-        "sample mean (secs)": "0.04",
-        "sample deviation": "0.01"
+        "Test Case": "1,000,000 set & get",
+        "Latency Avg (ms)": "45.40",
+        "Min (ms)": "36.83",
+        "Max (ms)": "57.24",
+        "Stability": "±4.56%"
       },
       {
-        "test name": "Native JS Map 1,000,000 set & get",
-        "time taken (ms)": "207.35",
-        "sample mean (secs)": "0.21",
-        "sample deviation": "0.05"
+        "Test Case": "Native JS Map 1,000,000 set & get",
+        "Latency Avg (ms)": "195.80",
+        "Min (ms)": "184.61",
+        "Max (ms)": "220.64",
+        "Stability": "±3.12%"
       },
       {
-        "test name": "Native JS Set 1,000,000 add & has",
-        "time taken (ms)": "185.57",
-        "sample mean (secs)": "0.19",
-        "sample deviation": "0.02"
+        "Test Case": "Native JS Set 1,000,000 add & has",
+        "Latency Avg (ms)": "159.47",
+        "Min (ms)": "148.45",
+        "Max (ms)": "196.09",
+        "Stability": "±4.13%"
       },
       {
-        "test name": "1,000,000 ObjKey set & get",
-        "time taken (ms)": "314.75",
-        "sample mean (secs)": "0.31",
-        "sample deviation": "0.09"
+        "Test Case": "1,000,000 ObjKey set & get",
+        "Latency Avg (ms)": "239.09",
+        "Min (ms)": "210.63",
+        "Max (ms)": "272.97",
+        "Stability": "±5.14%"
       },
       {
-        "test name": "Native JS Map 1,000,000 ObjKey set & get",
-        "time taken (ms)": "360.87",
-        "sample mean (secs)": "0.36",
-        "sample deviation": "0.12"
+        "Test Case": "Native JS Map 1,000,000 ObjKey set & get",
+        "Latency Avg (ms)": "207.48",
+        "Min (ms)": "181.81",
+        "Max (ms)": "240.56",
+        "Stability": "±5.90%"
       },
       {
-        "test name": "Native JS Set 1,000,000 ObjKey add & has",
-        "time taken (ms)": "270.35",
-        "sample mean (secs)": "0.27",
-        "sample deviation": "0.07"
+        "Test Case": "Native JS Set 1,000,000 ObjKey add & has",
+        "Latency Avg (ms)": "188.86",
+        "Min (ms)": "162.40",
+        "Max (ms)": "246.83",
+        "Stability": "±8.41%"
       }
     ]
   },
   "directed-graph": {
     "benchmarks": [
       {
-        "test name": "1,000 addVertex",
-        "time taken (ms)": "0.06",
-        "sample mean (secs)": "5.93e-5",
-        "sample deviation": "2.34e-5"
+        "Test Case": "1,000 addVertex",
+        "Latency Avg (ms)": "0.05",
+        "Min (ms)": "0.04",
+        "Max (ms)": "0.05",
+        "Stability": "±0.37%"
       },
       {
-        "test name": "1,000 addEdge",
-        "time taken (ms)": "3.50",
-        "sample mean (secs)": "0.00",
-        "sample deviation": "5.74e-4"
+        "Test Case": "1,000 addEdge",
+        "Latency Avg (ms)": "3.00",
+        "Min (ms)": "2.78",
+        "Max (ms)": "5.35",
+        "Stability": "±2.48%"
       },
       {
-        "test name": "1,000 getVertex",
-        "time taken (ms)": "0.04",
-        "sample mean (secs)": "3.99e-5",
-        "sample deviation": "2.29e-6"
+        "Test Case": "1,000 getVertex",
+        "Latency Avg (ms)": "0.04",
+        "Min (ms)": "0.04",
+        "Max (ms)": "0.04",
+        "Stability": "±0.52%"
       },
       {
-        "test name": "1,000 getEdge",
-        "time taken (ms)": "40.45",
-        "sample mean (secs)": "0.04",
-        "sample deviation": "0.01"
+        "Test Case": "1,000 getEdge",
+        "Latency Avg (ms)": "44.78",
+        "Min (ms)": "40.89",
+        "Max (ms)": "97.02",
+        "Stability": "±5.62%"
       },
       {
-        "test name": "tarjan",
-        "time taken (ms)": "232.40",
-        "sample mean (secs)": "0.23",
-        "sample deviation": "0.02"
+        "Test Case": "tarjan",
+        "Latency Avg (ms)": "241.55",
+        "Min (ms)": "235.87",
+        "Max (ms)": "269.07",
+        "Stability": "±1.82%"
       },
       {
-        "test name": "topologicalSort",
-        "time taken (ms)": "193.01",
-        "sample mean (secs)": "0.19",
-        "sample deviation": "0.02"
+        "Test Case": "topologicalSort",
+        "Latency Avg (ms)": "200.74",
+        "Min (ms)": "197.47",
+        "Max (ms)": "219.65",
+        "Stability": "±1.30%"
       }
     ]
   },
@@ -267,32 +306,36 @@
   "trie": {
     "benchmarks": [
       {
-        "test name": "100,000 push",
-        "time taken (ms)": "31.77",
-        "sample mean (secs)": "0.03",
-        "sample deviation": "0.01"
+        "Test Case": "100,000 push",
+        "Latency Avg (ms)": "27.66",
+        "Min (ms)": "25.13",
+        "Max (ms)": "37.31",
+        "Stability": "±1.98%"
       },
       {
-        "test name": "100,000 getWords",
-        "time taken (ms)": "41.22",
-        "sample mean (secs)": "0.04",
-        "sample deviation": "0.01"
+        "Test Case": "100,000 getWords",
+        "Latency Avg (ms)": "64.62",
+        "Min (ms)": "37.66",
+        "Max (ms)": "288.42",
+        "Stability": "±29.56%"
       }
     ]
   },
   "stack": {
     "benchmarks": [
       {
-        "test name": "1,000,000 push",
-        "time taken (ms)": "30.50",
-        "sample mean (secs)": "0.03",
-        "sample deviation": "0.00"
+        "Test Case": "1,000,000 push",
+        "Latency Avg (ms)": "26.57",
+        "Min (ms)": "22.36",
+        "Max (ms)": "33.50",
+        "Stability": "±3.44%"
       },
       {
-        "test name": "1,000,000 push & pop",
-        "time taken (ms)": "30.48",
-        "sample mean (secs)": "0.03",
-        "sample deviation": "0.01"
+        "Test Case": "1,000,000 push & pop",
+        "Latency Avg (ms)": "30.30",
+        "Min (ms)": "25.14",
+        "Max (ms)": "55.18",
+        "Stability": "±4.78%"
       }
     ]
   },
