@@ -9,28 +9,28 @@ const { TEN_THOUSAND } = magnitude;
 const arr = getRandomIntArray(TEN_THOUSAND, 0, TEN_THOUSAND - 1, true);
 
 suite
-  .add(`${TEN_THOUSAND.toLocaleString()} RedBlackTree add randomly`, () => {
+  .add(`${TEN_THOUSAND.toLocaleString()} RedBlackTree set randomly`, () => {
     rbTree.clear();
-    for (let i = 0; i < arr.length; i++) rbTree.add(arr[i]);
+    for (let i = 0; i < arr.length; i++) rbTree.set(arr[i]);
   })
   .add(`${TEN_THOUSAND.toLocaleString()} RedBlackTree get randomly`, () => {
     for (let i = 0; i < arr.length; i++) rbTree.get(arr[i]);
   })
-  .add(`${TEN_THOUSAND.toLocaleString()} RedBlackTree add & delete randomly`, () => {
+  .add(`${TEN_THOUSAND.toLocaleString()} RedBlackTree set & delete randomly`, () => {
     rbTree.clear();
-    for (let i = 0; i < arr.length; i++) rbTree.add(arr[i]);
+    for (let i = 0; i < arr.length; i++) rbTree.set(arr[i]);
     for (let i = 0; i < arr.length; i++) rbTree.delete(arr[i]);
   })
-  .add(`${TEN_THOUSAND.toLocaleString()} AVLTree add randomly`, () => {
+  .add(`${TEN_THOUSAND.toLocaleString()} AVLTree set randomly`, () => {
     avlTree.clear();
-    for (let i = 0; i < arr.length; i++) avlTree.add(arr[i]);
+    for (let i = 0; i < arr.length; i++) avlTree.set(arr[i]);
   })
   .add(`${TEN_THOUSAND.toLocaleString()} AVLTree get randomly`, () => {
     for (let i = 0; i < arr.length; i++) avlTree.get(arr[i]);
   })
-  .add(`${TEN_THOUSAND.toLocaleString()} AVLTree add & delete randomly`, () => {
+  .add(`${TEN_THOUSAND.toLocaleString()} AVLTree set & delete randomly`, () => {
     avlTree.clear();
-    for (let i = 0; i < arr.length; i++) avlTree.add(arr[i]);
+    for (let i = 0; i < arr.length; i++) avlTree.set(arr[i]);
     for (let i = 0; i < arr.length; i++) avlTree.delete(arr[i]);
   });
 

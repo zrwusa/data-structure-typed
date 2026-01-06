@@ -174,7 +174,8 @@ const composeReport = () => {
 };
 
 function replaceMarkdownContent(startMarker: string, endMarker: string, newText: string) {
-  const filePath = path.join(parentDirectory, 'README.md'); // Path to README.md file
+  const filePath = path.join(parentDirectory, '/docs/PERFORMANCE.md'); // Path to PERFORMANCE.md file
+  console.log(`Replacing ${filePath}`);
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {
       console.error(`Unable to read ${filePath}:`, err);

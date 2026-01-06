@@ -38,6 +38,8 @@ export interface IBinaryTree<K = any, V = any, R = any> {
 
   add(keyOrNodeOrEntryOrRawElement: BTNRep<K, V, BinaryTreeNode<K, V>>, value?: V, count?: number): boolean;
 
+  set(keyOrNodeOrEntryOrRawElement: BTNRep<K, V, BinaryTreeNode<K, V>>, value?: V, count?: number): boolean;
+
   // Accept raw R as well (when toEntryFn is configured)
   addMany(
     keysNodesEntriesOrRaws: Iterable<

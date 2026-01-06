@@ -321,7 +321,7 @@ function writeReportHTMLAndJSON(htmlTables: string) {
 }
 
 function replaceMarkdownContent(startMarker: string, endMarker: string, newText: string) {
-  const filePath = path.join(parentDirectory, 'README.md');
+  const filePath = path.join(parentDirectory, '/docs/PERFORMANCE.md');
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {
       console.error(`Unable to read ${filePath}:`, err);

@@ -12,13 +12,13 @@ const randomArray = getRandomIntArray(MILLION, 0, MILLION - 1, true);
 const cOrderedMap = new OrderedMap<number, number>();
 
 suite
-  // .add(`${MILLION.toLocaleString()} add randomly`, () => {
+  // .add(`${MILLION.toLocaleString()} set randomly`, () => {
   //   rbTree.clear();
-  //   for (let i = 0; i < randomArray.length; i++) rbTree.add(randomArray[i]);
+  //   for (let i = 0; i < randomArray.length; i++) rbTree.set(randomArray[i]);
   // })
-  .add(`${MILLION.toLocaleString()} add`, () => {
+  .add(`${MILLION.toLocaleString()} set`, () => {
     rbTree.clear();
-    for (let i = 0; i < randomArray.length; i++) rbTree.add(i);
+    for (let i = 0; i < randomArray.length; i++) rbTree.set(i);
   })
   .add(`${MILLION.toLocaleString()} get`, () => {
     for (let i = 0; i < randomArray.length; i++) rbTree.get(randomArray[i]);
@@ -37,14 +37,14 @@ suite
     const entries = [...rbTree];
     return entries.length === MILLION;
   });
-// .add(`${MILLION.toLocaleString()} add & delete orderly`, () => {
+// .add(`${MILLION.toLocaleString()} set & delete orderly`, () => {
 //   rbTree.clear();
-//   for (let i = 0; i < randomArray.length; i++) rbTree.add(i);
+//   for (let i = 0; i < randomArray.length; i++) rbTree.set(i);
 //   for (let i = 0; i < randomArray.length; i++) rbTree.delete(i);
 // })
-// .add(`${MILLION.toLocaleString()} add & delete randomly`, () => {
+// .add(`${MILLION.toLocaleString()} set & delete randomly`, () => {
 //   rbTree.clear();
-//   for (let i = 0; i < randomArray.length; i++) rbTree.add(randomArray[i]);
+//   for (let i = 0; i < randomArray.length; i++) rbTree.set(randomArray[i]);
 //   for (let i = 0; i < randomArray.length; i++) rbTree.delete(randomArray[i]);
 // });
 

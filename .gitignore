@@ -15,6 +15,3 @@ npm-debug.*
 /lib
 /dist
 /umd
-/docs
-/coverage
-/benchmark

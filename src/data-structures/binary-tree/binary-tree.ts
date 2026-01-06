@@ -699,6 +699,21 @@ export class BinaryTree<K = any, V = any, R = any>
   }
 
   /**
+   * Adds or updates a new node to the tree.
+   * @remarks Time O(log N), For BST, Red-Black Tree, and AVL Tree subclasses, the worst-case time is O(log N). This implementation adds the node at the first available position in a level-order (BFS) traversal. This is NOT a Binary Search Tree insertion. Time O(N), where N is the number of nodes. It must traverse level-by-level to find an empty slot. Space O(N) in the worst case for the BFS queue (e.g., a full last level).
+   *
+   * @param keyNodeOrEntry - The key, node, or entry to add or update.
+   * @param [value] - The value, if providing just a key.
+   * @returns True if the addition was successful, false otherwise.
+   */
+  set(
+    keyNodeOrEntry: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
+    value?: V
+  ): boolean {
+    return this.add(keyNodeOrEntry, value);
+  }
+
+  /**
    * Adds multiple items to the tree.
    * @remarks Time O(N * M), where N is the number of items to add and M is the size of the tree at insertion (due to O(M) `add` operation). Space O(M) (from `add`) + O(N) (for the `inserted` array).
    *
@@ -733,6 +748,23 @@ export class BinaryTree<K = any, V = any, R = any>
     }
 
     return inserted;
+  }
+
+  /**
+   * Adds or updates multiple items to the tree.
+   * @remarks Time O(N * M), where N is the number of items to add and M is the size of the tree at insertion (due to O(M) `add` operation). Space O(M) (from `add`) + O(N) (for the `inserted` array).
+   *
+   * @param keysNodesEntriesOrRaws - An iterable of items to add or update.
+   * @param [values] - An optional parallel iterable of values.
+   * @returns An array of booleans indicating the success of each individual `add` operation.
+   */
+  setMany(
+    keysNodesEntriesOrRaws: Iterable<
+      K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | R
+    >,
+    values?: Iterable<V | undefined>
+  ): boolean[] {
+    return this.addMany(keysNodesEntriesOrRaws, values);
   }
 
   /**

@@ -1,4 +1,5 @@
 {
+  "cleanOutputDir": false,
   "visibilityFilters": {
     "protected": false,
     "private": false,
