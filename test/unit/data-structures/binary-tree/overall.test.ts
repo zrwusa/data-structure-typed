@@ -58,7 +58,7 @@ describe('Overall BinaryTree Test', () => {
   it('Should clone a BST works fine', () => {
     const bst = new BST<number>([3, 6, 7, 1, 9], {
       iterationType: 'RECURSIVE',
-      comparator: (a, b) => b - a,
+      comparator: (a, b) => b - a
     });
     expect(bst.size).toBe(5);
     expect(bst.root?.key).toBe(6);
@@ -100,7 +100,7 @@ describe('Overall BinaryTree Test', () => {
   it('Should clone a AVLTree works fine', () => {
     const avl = new AVLTree<number>([3, 6, 7, 1, 9], {
       iterationType: 'RECURSIVE',
-      comparator: (a, b) => b - a,
+      comparator: (a, b) => b - a
     });
     expect(avl.size).toBe(5);
     avl.add(2);

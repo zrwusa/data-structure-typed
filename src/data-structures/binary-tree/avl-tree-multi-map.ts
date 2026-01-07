@@ -405,7 +405,9 @@ export class AVLTreeMultiMap<K = any, V = any, R = any> extends AVLTree<K, V[], 
    * @param [options] - Optional constructor options for the like-kind instance.
    * @returns An empty like-kind instance.
    */
-  protected override _createInstance<TK = K, TV = V, TR = R>(options?: Partial<AVLTreeMultiMapOptions<TK, TV, TR>>): this {
+  protected override _createInstance<TK = K, TV = V, TR = R>(
+    options?: Partial<AVLTreeMultiMapOptions<TK, TV, TR>>
+  ): this {
     const Ctor = this.constructor as unknown as new (
       iter?: Iterable<TK | AVLTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
       opts?: AVLTreeMultiMapOptions<TK, TV, TR>

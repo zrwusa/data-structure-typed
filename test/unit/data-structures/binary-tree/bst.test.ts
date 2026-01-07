@@ -1015,7 +1015,7 @@ describe('BST isBST', function () {
 
   it('isBST when variant is Max', () => {
     const bst = new BST<number, number>([1, 2, 3, 9, 8, 5, 6, 7, 4], {
-      comparator: (a, b) => b - a,
+      comparator: (a, b) => b - a
     });
     bst.addMany([1, 2, 3, 9, 8, 5, 6, 7, 4]);
     expect(bst.isBST()).toBe(true);
@@ -1539,7 +1539,7 @@ describe('BST iterative methods not map mode test', () => {
 describe('BST constructor and comparator edge cases', () => {
   it('should support comparator', () => {
     const bst = new BST<number>([], {
-      comparator: (a, b) => b - a,
+      comparator: (a, b) => b - a
     });
     bst.add(1);
     bst.add(2);
@@ -2228,6 +2228,459 @@ describe('BST Advanced Bound Methods Tests', () => {
         const iterUpper = fuzzTree.upperBound(q, 'ITERATIVE');
         expect(recUpper?.key).toBe(iterUpper?.key);
       });
+    });
+  });
+});
+
+describe('BST Range Query Methods', () => {
+  let bst: BST<number, string>;
+
+  beforeEach(() => {
+    // Create a balanced BST: [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 20]
+    bst = new BST([10, 5, 15, 3, 7, 13, 17, 1, 4, 6, 9, 11, 14, 16, 19, 20]);
+  });
+
+  describe('ceilingEntry - finds >= key (minimum value >= target)', () => {
+    test('should find ceiling when key exists', () => {
+      const result = bst.ceilingEntry(10);
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(10);
+    });
+
+    test('should find ceiling when key does not exist but higher value exists', () => {
+      const result = bst.ceilingEntry(8);
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(9);
+    });
+
+    test('should return undefined when no ceiling exists (key greater than all)', () => {
+      const result = bst.ceilingEntry(100);
+      expect(result).toBeUndefined();
+    });
+
+    test('should find minimum element as ceiling for key smaller than all', () => {
+      const result = bst.ceilingEntry(-10);
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(1);
+    });
+
+    test('should handle ceiling with node input', () => {
+      const targetNode = bst.getNode(7);
+      expect(targetNode).toBeDefined();
+      const result = bst.ceilingEntry(targetNode!);
+      expect(result?.key).toBe(7);
+    });
+
+    test('should handle ceiling with entry input', () => {
+      const result = bst.ceilingEntry([11, 'test']);
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(11);
+    });
+
+    test('should handle null/undefined inputs', () => {
+      expect(bst.ceilingEntry(null)).toBeUndefined();
+      expect(bst.ceilingEntry(undefined)).toBeUndefined();
+    });
+
+    test('should work with ITERATIVE mode', () => {
+      const result = bst.ceilingEntry(12, 'ITERATIVE');
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(13);
+    });
+
+    test('should work with RECURSIVE mode', () => {
+      const result = bst.ceilingEntry(12, 'RECURSIVE');
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(13);
+    });
+
+    test('should find exact match as ceiling', () => {
+      const result = bst.ceilingEntry(15);
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(15);
+    });
+  });
+
+  describe('higherEntry - finds > key (minimum value > target)', () => {
+    test('should find higher when key exists (exclude exact match)', () => {
+      const result = bst.higherEntry(10);
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(11);
+      expect(result?.key).not.toBe(10);
+    });
+
+    test('should find higher when key does not exist', () => {
+      const result = bst.higherEntry(8);
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(9);
+    });
+
+    test('should return undefined when no higher exists (key >= all)', () => {
+      const result = bst.higherEntry(20);
+      expect(result).toBeUndefined();
+    });
+
+    test('should find minimum element as higher for key < all', () => {
+      const result = bst.higherEntry(-10);
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(1);
+    });
+
+    test('should not return the key itself', () => {
+      const result = bst.higherEntry(7);
+      expect(result?.key).not.toBe(7);
+      expect(result?.key).toBe(9);
+    });
+
+    test('should handle higher with node input', () => {
+      const targetNode = bst.getNode(5);
+      expect(targetNode).toBeDefined();
+      const result = bst.higherEntry(targetNode!);
+      expect(result?.key).toBeGreaterThan(5);
+      expect(result?.key).toBe(6);
+    });
+
+    test('should work with ITERATIVE mode', () => {
+      const result = bst.higherEntry(13, 'ITERATIVE');
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(14);
+    });
+
+    test('should work with RECURSIVE mode', () => {
+      const result = bst.higherEntry(13, 'RECURSIVE');
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(14);
+    });
+  });
+
+  describe('floorEntry - finds <= key (maximum value <= target)', () => {
+    test('should find floor when key exists', () => {
+      const result = bst.floorEntry(10);
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(10);
+    });
+
+    test('should find floor when key does not exist but lower value exists', () => {
+      const result = bst.floorEntry(12);
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(11);
+    });
+
+    test('should return undefined when no floor exists (key less than all)', () => {
+      const result = bst.floorEntry(-10);
+      expect(result).toBeUndefined();
+    });
+
+    test('should find maximum element as floor for key greater than all', () => {
+      const result = bst.floorEntry(100);
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(20);
+    });
+
+    test('should handle floor with node input', () => {
+      const targetNode = bst.getNode(13);
+      expect(targetNode).toBeDefined();
+      const result = bst.floorEntry(targetNode!);
+      expect(result?.key).toBe(13);
+    });
+
+    test('should handle floor with entry input', () => {
+      const result = bst.floorEntry([16, 'test']);
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(16);
+    });
+
+    test('should handle null/undefined inputs', () => {
+      expect(bst.floorEntry(null)).toBeUndefined();
+      expect(bst.floorEntry(undefined)).toBeUndefined();
+    });
+
+    test('should work with ITERATIVE mode', () => {
+      const result = bst.floorEntry(12, 'ITERATIVE');
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(11);
+    });
+
+    test('should work with RECURSIVE mode', () => {
+      const result = bst.floorEntry(12, 'RECURSIVE');
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(11);
+    });
+
+    test('should find exact match as floor', () => {
+      const result = bst.floorEntry(15);
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(15);
+    });
+
+    test('should correctly find floor between two keys', () => {
+      const result = bst.floorEntry(8);
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(7);
+      expect(result?.key).toBeLessThan(8);
+    });
+  });
+
+  describe('lowerEntry - finds < key (maximum value < target)', () => {
+    test('should find lower when key exists (exclude exact match)', () => {
+      const result = bst.lowerEntry(10);
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(9);
+      expect(result?.key).not.toBe(10);
+    });
+
+    test('should find lower when key does not exist', () => {
+      const result = bst.lowerEntry(12);
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(11);
+    });
+
+    test('should return undefined when no lower exists (key <= all)', () => {
+      const result = bst.lowerEntry(1);
+      expect(result).toBeUndefined();
+    });
+
+    test('should find maximum element as lower for key > all', () => {
+      const result = bst.lowerEntry(100);
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(20);
+    });
+
+    test('should not return the key itself', () => {
+      const result = bst.lowerEntry(15);
+      expect(result?.key).not.toBe(15);
+      expect(result?.key).toBe(14);
+    });
+
+    test('should handle lower with node input', () => {
+      const targetNode = bst.getNode(13);
+      expect(targetNode).toBeDefined();
+      const result = bst.lowerEntry(targetNode!);
+      expect(result?.key).toBeLessThan(13);
+      expect(result?.key).toBe(11);
+    });
+
+    test('should handle lower with entry input', () => {
+      const result = bst.lowerEntry([17, 'test']);
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(16);
+    });
+
+    test('should work with ITERATIVE mode', () => {
+      const result = bst.lowerEntry(14, 'ITERATIVE');
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(13);
+    });
+
+    test('should work with RECURSIVE mode', () => {
+      const result = bst.lowerEntry(14, 'RECURSIVE');
+      expect(result).toBeDefined();
+      expect(result?.key).toBe(13);
+    });
+  });
+
+  describe('Edge cases and special scenarios', () => {
+    test('single element tree - ceiling', () => {
+      const singleBst = new BST([5]);
+      expect(singleBst.ceilingEntry(5)?.key).toBe(5);
+      expect(singleBst.ceilingEntry(3)?.key).toBe(5);
+      expect(singleBst.ceilingEntry(7)).toBeUndefined();
+    });
+
+    test('single element tree - higher', () => {
+      const singleBst = new BST([5]);
+      expect(singleBst.higherEntry(5)).toBeUndefined();
+      expect(singleBst.higherEntry(3)?.key).toBe(5);
+    });
+
+    test('single element tree - floor', () => {
+      const singleBst = new BST([5]);
+      expect(singleBst.floorEntry(5)?.key).toBe(5);
+      expect(singleBst.floorEntry(7)?.key).toBe(5);
+      expect(singleBst.floorEntry(3)).toBeUndefined();
+    });
+
+    test('single element tree - lower', () => {
+      const singleBst = new BST([5]);
+      expect(singleBst.lowerEntry(5)).toBeUndefined();
+      expect(singleBst.lowerEntry(7)?.key).toBe(5);
+    });
+
+    test('empty tree handling', () => {
+      const emptyBst = new BST<number, string>();
+      expect(emptyBst.ceilingEntry(5)).toBeUndefined();
+      expect(emptyBst.higherEntry(5)).toBeUndefined();
+      expect(emptyBst.floorEntry(5)).toBeUndefined();
+      expect(emptyBst.lowerEntry(5)).toBeUndefined();
+    });
+
+    test('ceiling and floor of adjacent keys', () => {
+      const ceiling = bst.ceilingEntry(5);
+      const floor = bst.floorEntry(6);
+      expect(ceiling?.key).toBe(5);
+      expect(floor?.key).toBe(5);
+    });
+
+    test('higher and lower of adjacent keys', () => {
+      const higher = bst.higherEntry(5);
+      const lower = bst.lowerEntry(6);
+      expect(higher?.key).toBe(6);
+      expect(lower?.key).toBe(5);
+    });
+  });
+
+  describe('Predicate-based search', () => {
+    test('ceiling with predicate function', () => {
+      const result = bst.ceilingEntry((node: BSTNode<number, string>) => node.key >= 10);
+      expect(result).toBeDefined();
+      expect(result?.key).toBeGreaterThanOrEqual(10);
+    });
+
+    test('floor with predicate function', () => {
+      const result = bst.floorEntry((node: BSTNode<number, string>) => node.key <= 15);
+      expect(result).toBeDefined();
+      expect(result?.key).toBeLessThanOrEqual(15);
+    });
+
+    test('higher with predicate function', () => {
+      const result = bst.higherEntry((node: BSTNode<number, string>) => node.key > 10);
+      expect(result).toBeDefined();
+      expect(result?.key).toBeGreaterThan(10);
+    });
+
+    test('lower with predicate function', () => {
+      const result = bst.lowerEntry((node: BSTNode<number, string>) => node.key < 15);
+      expect(result).toBeDefined();
+      expect(result?.key).toBeLessThan(15);
+    });
+  });
+
+  describe('Custom comparator', () => {
+    test('should work with reverse order comparator', () => {
+      const reverseBst = new BST([1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 20], {
+        comparator: (a: number, b: number) => b - a // reverse order
+      });
+
+      // In reverse order tree: keys are stored in descending order
+      // ceiling (>=) should still work correctly
+      const ceiling = reverseBst.ceilingEntry(10);
+      expect(ceiling).toBeDefined();
+      expect(ceiling?.key).toBeLessThanOrEqual(10);
+    });
+
+    test('should work with string comparator', () => {
+      const stringBst = new BST(
+        [
+          { name: 'Alice', id: 1 },
+          { name: 'Bob', id: 2 },
+          { name: 'Charlie', id: 3 },
+          { name: 'David', id: 4 },
+          { name: 'Eve', id: 5 }
+        ],
+        {
+          comparator: (a, b) => a.name.localeCompare(b.name)
+        }
+      );
+
+      const ceiling = stringBst.ceilingEntry({ name: 'Bob', id: 0 });
+      expect(ceiling).toBeDefined();
+      expect(ceiling?.key.name).toBe('Bob');
+    });
+  });
+
+  describe('Performance and correctness validation', () => {
+    test('all range methods return nodes in order', () => {
+      const ceiling = bst.ceilingEntry(10);
+      const higher = bst.higherEntry(10);
+      const floor = bst.floorEntry(10);
+      const lower = bst.lowerEntry(10);
+
+      expect(floor?.key).toBeLessThanOrEqual(10);
+      expect(ceiling?.key).toBeGreaterThanOrEqual(10);
+      expect(higher?.key).toBeGreaterThan(10);
+      expect(lower?.key).toBeLessThan(10);
+    });
+
+    test('range query iteration with ceiling/higher', () => {
+      const results: number[] = [];
+      let node = bst.ceilingEntry(5);
+      let count = 0;
+      while (node && node.key <= 15 && count < 20) {
+        results.push(node.key);
+        node = bst.higherEntry(node.key);
+        count++;
+      }
+
+      // Should iterate through nodes 5, 6, 7, ..., 15
+      expect(results.length).toBeGreaterThan(0);
+      expect(results[0]).toBeGreaterThanOrEqual(5);
+      expect(results[results.length - 1]).toBeLessThanOrEqual(15);
+      // Verify ascending order
+      for (let i = 1; i < results.length; i++) {
+        expect(results[i]).toBeGreaterThan(results[i - 1]);
+      }
+    });
+
+    test('range query iteration with floor/lower', () => {
+      const results: number[] = [];
+      let node = bst.floorEntry(15);
+      let count = 0;
+      while (node && node.key >= 5 && count < 20) {
+        results.push(node.key);
+        node = bst.lowerEntry(node.key);
+        count++;
+      }
+
+      // Should iterate through nodes 15, 14, 13, ..., 5
+      expect(results.length).toBeGreaterThan(0);
+      expect(results[0]).toBeLessThanOrEqual(15);
+      expect(results[results.length - 1]).toBeGreaterThanOrEqual(5);
+      // Verify descending order
+      for (let i = 1; i < results.length; i++) {
+        expect(results[i]).toBeLessThan(results[i - 1]);
+      }
+    });
+  });
+
+  describe('Boundary value testing', () => {
+    test('boundary: ceiling at min value', () => {
+      const result = bst.ceilingEntry(1);
+      expect(result?.key).toBe(1);
+    });
+
+    test('boundary: floor at max value', () => {
+      const result = bst.floorEntry(20);
+      expect(result?.key).toBe(20);
+    });
+
+    test('boundary: higher at second-last value', () => {
+      const result = bst.higherEntry(19);
+      expect(result?.key).toBe(20);
+    });
+
+    test('boundary: lower at second value', () => {
+      const result = bst.lowerEntry(3);
+      expect(result?.key).toBe(1);
+    });
+
+    test('boundary: ceiling slightly below min', () => {
+      const result = bst.ceilingEntry(0);
+      expect(result?.key).toBe(1);
+    });
+
+    test('boundary: floor slightly above max', () => {
+      const result = bst.floorEntry(21);
+      expect(result?.key).toBe(20);
+    });
+
+    test('boundary: higher at max (should be undefined)', () => {
+      const result = bst.higherEntry(20);
+      expect(result).toBeUndefined();
+    });
+
+    test('boundary: lower at min (should be undefined)', () => {
+      const result = bst.lowerEntry(1);
+      expect(result).toBeUndefined();
     });
   });
 });

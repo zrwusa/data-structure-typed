@@ -1,5 +1,4 @@
 import type { BinaryTreeOptions } from './binary-tree';
-import type { Comparable } from '../../utils';
 import type { Comparator, OptValue } from '../../common';
 
 type BSTBaseOptions<K, V, R> = Omit<BinaryTreeOptions<K, V, R>, 'isDuplicate'>;

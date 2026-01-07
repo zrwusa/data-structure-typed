@@ -354,15 +354,12 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * @param [options] - Configuration options for the BST, including comparator.
    */
   constructor(
-    keysNodesEntriesOrRaws: Iterable<
-      K | BSTNode | [K | null | undefined, V | undefined] | null | undefined | R
-    > = [],
+    keysNodesEntriesOrRaws: Iterable<K | BSTNode | [K | null | undefined, V | undefined] | null | undefined | R> = [],
     options?: BSTOptions<K, V, R>
   ) {
     super([], options);
 
     if (options) {
-
       // Use the 'in' operator to check if the field is present
       if ('comparator' in options && options.comparator !== undefined) {
         this._comparator = options.comparator;
@@ -375,7 +372,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
 
     if (keysNodesEntriesOrRaws) this.addMany(keysNodesEntriesOrRaws);
   }
-
 
   protected override _root?: BSTNode<K, V> = undefined;
 
@@ -390,39 +386,11 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
   }
 
   /**
-   * (Protected) Creates the default comparator function for keys that don't have a custom comparator.
-   * @remarks Time O(1) Space O(1)
-   * @returns The default comparator function.
-   */
-  protected _createDefaultComparator(): Comparator<K> {
-    return (a: K, b: K): number => {
-      debugger
-      // If both keys are comparable (primitive types), use direct comparison
-      if (isComparable(a) && isComparable(b)) {
-        if (a > b) return 1;
-        if (a < b) return -1;
-        return 0;
-      }
-
-      // If keys are objects and no comparator is provided, throw an error
-      if (typeof a === 'object' || typeof b === 'object') {
-        throw TypeError(
-          `When comparing object type keys, a custom comparator must be provided in the constructor's options!`
-        );
-      }
-
-      // Default: keys are equal (fallback case)
-      return 0;
-    };
-  }
-
-  /**
    * The comparator function used to determine the order of keys in the tree.
 
    * @remarks Time O(1) Space O(1)
    */
   protected _comparator: Comparator<K>;
-
 
   /**
    * Gets the comparator function used by the tree.
@@ -618,8 +586,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       if (isRange) {
         // Range search: Only go left if the current key is >= the lower bound
         const range = keyNodeEntryOrPredicate as Range<K>;
-        const leftS =  range.low;
-        const leftI =  range.includeLow;
+        const leftS = range.low;
+        const leftI = range.includeLow;
         return (leftI && this._compare(cur.key, leftS) >= 0) || (!leftI && this._compare(cur.key, leftS) > 0);
       }
       if (!isRange && !this._isPredicate(keyNodeEntryOrPredicate)) {
@@ -636,8 +604,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       if (isRange) {
         // Range search: Only go right if current key <= upper bound
         const range = keyNodeEntryOrPredicate as Range<K>;
-        const rightS =  range.high;
-        const rightI =  range.includeHigh;
+        const rightS = range.high;
+        const rightI = range.includeHigh;
         return (rightI && this._compare(cur.key, rightS) <= 0) || (!rightI && this._compare(cur.key, rightS) < 0);
       }
       if (!isRange && !this._isPredicate(keyNodeEntryOrPredicate)) {
@@ -885,6 +853,164 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
   }
 
   /**
+   * Returns the first node with a key greater than or equal to the given key.
+   * This is equivalent to Java TreeMap.ceilingEntry().
+   * Supports RECURSIVE and ITERATIVE implementations.
+   * @remarks Time Complexity: O(log n) on average, O(h) where h is tree height.
+   * Space Complexity: O(h) for recursion, O(1) for iteration.
+   *
+   * @param keyNodeEntryOrPredicate - The key, node, entry, or predicate function to search for.
+   * @param [iterationType=this.iterationType] - The iteration type (RECURSIVE or ITERATIVE).
+   * @returns The first node with key >= given key, or undefined if no such node exists.
+   */
+  ceilingEntry(
+    keyNodeEntryOrPredicate:
+      | K
+      | BSTNode<K, V>
+      | [K | null | undefined, V | undefined]
+      | null
+      | undefined
+      | NodePredicate<BSTNode<K, V>>,
+    iterationType: IterationType = this.iterationType
+  ): BSTNode<K, V> | undefined {
+    return this.lowerBound(keyNodeEntryOrPredicate, iterationType);
+  }
+
+  /**
+   * Returns the first node with a key strictly greater than the given key.
+   * This is equivalent to Java TreeMap.higherEntry().
+   * Supports RECURSIVE and ITERATIVE implementations.
+   * @remarks Time Complexity: O(log n) on average, O(h) where h is tree height.
+   * Space Complexity: O(h) for recursion, O(1) for iteration.
+   *
+   * @param keyNodeEntryOrPredicate - The key, node, entry, or predicate function to search for.
+   * @param [iterationType=this.iterationType] - The iteration type (RECURSIVE or ITERATIVE).
+   * @returns The first node with key > given key, or undefined if no such node exists.
+   */
+  higherEntry(
+    keyNodeEntryOrPredicate:
+      | K
+      | BSTNode<K, V>
+      | [K | null | undefined, V | undefined]
+      | null
+      | undefined
+      | NodePredicate<BSTNode<K, V>>,
+    iterationType: IterationType = this.iterationType
+  ): BSTNode<K, V> | undefined {
+    return this.upperBound(keyNodeEntryOrPredicate, iterationType);
+  }
+
+  /**
+   * Returns the first node with a key less than or equal to the given key.
+   * This is equivalent to Java TreeMap.floorEntry().
+   * Supports RECURSIVE and ITERATIVE implementations.
+   * @remarks Time Complexity: O(log n) on average, O(h) where h is tree height.
+   * Space Complexity: O(h) for recursion, O(1) for iteration.
+   *
+   * @param keyNodeEntryOrPredicate - The key, node, entry, or predicate function to search for.
+   * @param [iterationType=this.iterationType] - The iteration type (RECURSIVE or ITERATIVE).
+   * @returns The first node with key <= given key, or undefined if no such node exists.
+   */
+  floorEntry(
+    keyNodeEntryOrPredicate:
+      | K
+      | BSTNode<K, V>
+      | [K | null | undefined, V | undefined]
+      | null
+      | undefined
+      | NodePredicate<BSTNode<K, V>>,
+    iterationType: IterationType = this.iterationType
+  ): BSTNode<K, V> | undefined {
+    if (keyNodeEntryOrPredicate === null || keyNodeEntryOrPredicate === undefined) {
+      return undefined;
+    }
+
+    // Check if input is a predicate function first
+    if (this._isPredicate(keyNodeEntryOrPredicate)) {
+      return this._floorByPredicate(keyNodeEntryOrPredicate, iterationType);
+    }
+
+    // Resolve input to a comparable key
+    let targetKey: K | undefined;
+    if (this.isNode(keyNodeEntryOrPredicate)) {
+      // Input is a BSTNode - extract its key
+      targetKey = keyNodeEntryOrPredicate.key;
+    } else if (this.isEntry(keyNodeEntryOrPredicate)) {
+      // Input is a [key, value] entry - extract the key
+      const key = keyNodeEntryOrPredicate[0];
+      if (key === null || key === undefined) {
+        return undefined;
+      }
+      targetKey = key;
+    } else {
+      // Input is a raw key
+      targetKey = keyNodeEntryOrPredicate;
+    }
+
+    // Execute key-based search with binary search optimization
+    if (targetKey !== undefined) {
+      return this._floorByKey(targetKey, iterationType);
+    }
+
+    return undefined;
+  }
+
+  /**
+   * Returns the first node with a key strictly less than the given key.
+   * This is equivalent to Java TreeMap.lowerEntry().
+   * Supports RECURSIVE and ITERATIVE implementations.
+   * @remarks Time Complexity: O(log n) on average, O(h) where h is tree height.
+   * Space Complexity: O(h) for recursion, O(1) for iteration.
+   *
+   * @param keyNodeEntryOrPredicate - The key, node, entry, or predicate function to search for.
+   * @param [iterationType=this.iterationType] - The iteration type (RECURSIVE or ITERATIVE).
+   * @returns The first node with key < given key, or undefined if no such node exists.
+   */
+  lowerEntry(
+    keyNodeEntryOrPredicate:
+      | K
+      | BSTNode<K, V>
+      | [K | null | undefined, V | undefined]
+      | null
+      | undefined
+      | NodePredicate<BSTNode<K, V>>,
+    iterationType: IterationType = this.iterationType
+  ): BSTNode<K, V> | undefined {
+    if (keyNodeEntryOrPredicate === null || keyNodeEntryOrPredicate === undefined) {
+      return undefined;
+    }
+
+    // Check if input is a predicate function first
+    if (this._isPredicate(keyNodeEntryOrPredicate)) {
+      return this._lowerByPredicate(keyNodeEntryOrPredicate, iterationType);
+    }
+
+    // Resolve input to a comparable key
+    let targetKey: K | undefined;
+    if (this.isNode(keyNodeEntryOrPredicate)) {
+      // Input is a BSTNode - extract its key
+      targetKey = keyNodeEntryOrPredicate.key;
+    } else if (this.isEntry(keyNodeEntryOrPredicate)) {
+      // Input is a [key, value] entry - extract the key
+      const key = keyNodeEntryOrPredicate[0];
+      if (key === null || key === undefined) {
+        return undefined;
+      }
+      targetKey = key;
+    } else {
+      // Input is a raw key
+      targetKey = keyNodeEntryOrPredicate;
+    }
+
+    // Execute key-based search with binary search optimization
+    if (targetKey !== undefined) {
+      return this._lowerByKey(targetKey, iterationType);
+    }
+
+    return undefined;
+  }
+
+  /**
    * Traverses the tree and returns nodes that are lesser or greater than a target node.
    * @remarks Time O(N), as it performs a full traversal. Space O(log N) or O(N).
    *
@@ -1090,17 +1216,10 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     onlyOne = false,
     startNode: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined = this._root,
     iterationType: IterationType = this.iterationType
-  ):  BinaryTreeDeleteResult<BSTNode<K, V>>[] {
+  ): BinaryTreeDeleteResult<BSTNode<K, V>>[] {
+    const toDelete = this.search(keyNodeEntryOrPredicate, onlyOne, node => node, startNode, iterationType);
 
-    const toDelete = this.search (
-      keyNodeEntryOrPredicate,
-      onlyOne,
-      (node) => node,
-      startNode,
-      iterationType
-    );
-
-    let results : BinaryTreeDeleteResult<BSTNode<K, V>>[] = [];
+    let results: BinaryTreeDeleteResult<BSTNode<K, V>>[] = [];
     for (const node of toDelete) {
       const deleteInfo = this.delete(node);
       results = results.concat(deleteInfo);
@@ -1109,6 +1228,268 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     return results;
   }
 
+  /**
+   * (Protected) Creates the default comparator function for keys that don't have a custom comparator.
+   * @remarks Time O(1) Space O(1)
+   * @returns The default comparator function.
+   */
+  protected _createDefaultComparator(): Comparator<K> {
+    return (a: K, b: K): number => {
+      debugger;
+      // If both keys are comparable (primitive types), use direct comparison
+      if (isComparable(a) && isComparable(b)) {
+        if (a > b) return 1;
+        if (a < b) return -1;
+        return 0;
+      }
+
+      // If keys are objects and no comparator is provided, throw an error
+      if (typeof a === 'object' || typeof b === 'object') {
+        throw TypeError(
+          `When comparing object type keys, a custom comparator must be provided in the constructor's options!`
+        );
+      }
+
+      // Default: keys are equal (fallback case)
+      return 0;
+    };
+  }
+
+  /**
+   * (Protected) Binary search for floor by key with pruning optimization.
+   * Performs standard BST binary search, choosing left or right subtree based on comparator result.
+   * Finds first node where key <= target.
+   * @remarks Time O(h) where h is tree height.
+   *
+   * @param key - The target key to search for.
+   * @param iterationType - The iteration type (RECURSIVE or ITERATIVE).
+   * @returns The first node with key <= target, or undefined if none exists.
+   */
+  protected _floorByKey(key: K, iterationType: IterationType): BSTNode<K, V> | undefined {
+    if (iterationType === 'RECURSIVE') {
+      // Recursive binary search implementation
+      const dfs = (cur: BSTNode<K, V> | null | undefined): BSTNode<K, V> | undefined => {
+        if (!this.isRealNode(cur)) return undefined;
+
+        const cmp = this.comparator(cur.key!, key);
+
+        if (cmp <= 0) {
+          // Current node satisfies the floor condition (cur.key <= target).
+          // Try to find a larger candidate in the right subtree.
+          const rightResult = dfs(cur.right);
+          return rightResult ?? cur;
+        } else {
+          // Current node is too large, move left to find smaller keys.
+          return dfs(cur.left);
+        }
+      };
+
+      return dfs(this.root);
+    } else {
+      // Iterative binary search implementation
+      let current: BSTNode<K, V> | undefined = this.root;
+      let result: BSTNode<K, V> | undefined = undefined;
+
+      while (this.isRealNode(current)) {
+        const cmp = this.comparator(current.key!, key);
+
+        if (cmp <= 0) {
+          // Current node is a candidate. Save it and try right subtree for a larger key.
+          result = current;
+          current = current.right ?? undefined;
+        } else {
+          // Current node is too large, move left.
+          current = current.left ?? undefined;
+        }
+      }
+
+      return result;
+    }
+  }
+
+  /**
+   * (Protected) In-order traversal search for floor by predicate.
+   * Falls back to linear in-order traversal when predicate-based search is required.
+   * Returns the last node that satisfies the predicate function.
+   * @remarks Time Complexity: O(n) since it may visit every node.
+   * Space Complexity: O(h) for recursion, O(h) for iterative stack.
+   *
+   * @param predicate - The predicate function to test nodes.
+   * @param iterationType - The iteration type (RECURSIVE or ITERATIVE).
+   * @returns The last node satisfying predicate (highest key), or undefined if none found.
+   */
+  protected _floorByPredicate(
+    predicate: NodePredicate<BSTNode<K, V>>,
+    iterationType: IterationType
+  ): BSTNode<K, V> | undefined {
+    if (iterationType === 'RECURSIVE') {
+      // Recursive in-order traversal
+      let result: BSTNode<K, V> | undefined = undefined;
+
+      const dfs = (cur: BSTNode<K, V> | null | undefined): void => {
+        if (!this.isRealNode(cur)) return;
+
+        // In-order: process left subtree first
+        if (this.isRealNode(cur.left)) dfs(cur.left);
+
+        // Check current node
+        if (predicate(cur)) {
+          result = cur;
+        }
+
+        // Process right subtree
+        if (this.isRealNode(cur.right)) dfs(cur.right);
+      };
+
+      dfs(this.root);
+      return result;
+    } else {
+      // Iterative in-order traversal using explicit stack
+      const stack: (BSTNode<K, V> | null | undefined)[] = [];
+      let current: BSTNode<K, V> | null | undefined = this.root;
+      let result: BSTNode<K, V> | undefined = undefined;
+
+      while (stack.length > 0 || this.isRealNode(current)) {
+        if (this.isRealNode(current)) {
+          // Go to the leftmost node
+          stack.push(current);
+          current = current.left;
+        } else {
+          // Pop from stack and process
+          const node = stack.pop();
+          if (!this.isRealNode(node)) break;
+
+          // Check if current node satisfies predicate
+          if (predicate(node)) {
+            result = node;
+          }
+
+          // Visit right subtree
+          current = node.right;
+        }
+      }
+
+      return result;
+    }
+  }
+
+  /**
+   * (Protected) Binary search for lower by key with pruning optimization.
+   * Performs standard BST binary search, choosing left or right subtree based on comparator result.
+   * Finds first node where key < target.
+   * @remarks Time O(h) where h is tree height.
+   *
+   * @param key - The target key to search for.
+   * @param iterationType - The iteration type (RECURSIVE or ITERATIVE).
+   * @returns The first node with key < target, or undefined if none exists.
+   */
+  protected _lowerByKey(key: K, iterationType: IterationType): BSTNode<K, V> | undefined {
+    if (iterationType === 'RECURSIVE') {
+      // Recursive binary search implementation
+      const dfs = (cur: BSTNode<K, V> | null | undefined): BSTNode<K, V> | undefined => {
+        if (!this.isRealNode(cur)) return undefined;
+
+        const cmp = this.comparator(cur.key!, key);
+
+        if (cmp < 0) {
+          // Current node satisfies the lower condition (cur.key < target).
+          // Try to find a larger candidate in the right subtree.
+          const rightResult = dfs(cur.right);
+          return rightResult ?? cur;
+        } else {
+          // Current node is too large or equal, move left to find smaller keys.
+          return dfs(cur.left);
+        }
+      };
+
+      return dfs(this.root);
+    } else {
+      // Iterative binary search implementation
+      let current: BSTNode<K, V> | undefined = this.root;
+      let result: BSTNode<K, V> | undefined = undefined;
+
+      while (this.isRealNode(current)) {
+        const cmp = this.comparator(current.key!, key);
+
+        if (cmp < 0) {
+          // Current node is a candidate. Save it and try right subtree for a larger key.
+          result = current;
+          current = current.right ?? undefined;
+        } else {
+          // Current node is too large or equal, move left.
+          current = current.left ?? undefined;
+        }
+      }
+
+      return result;
+    }
+  }
+
+  /**
+   * (Protected) In-order traversal search for lower by predicate.
+   * Falls back to linear in-order traversal when predicate-based search is required.
+   * Returns the node that satisfies the predicate and appears last in in-order traversal.
+   * @remarks Time Complexity: O(n) since it may visit every node.
+   * Space Complexity: O(h) for recursion, O(h) for iterative stack.
+   *
+   * @param predicate - The predicate function to test nodes.
+   * @param iterationType - The iteration type (RECURSIVE or ITERATIVE).
+   * @returns The last node satisfying predicate (highest key < target), or undefined if none found.
+   */
+  protected _lowerByPredicate(
+    predicate: NodePredicate<BSTNode<K, V>>,
+    iterationType: IterationType
+  ): BSTNode<K, V> | undefined {
+    if (iterationType === 'RECURSIVE') {
+      // Recursive in-order traversal
+      let result: BSTNode<K, V> | undefined = undefined;
+
+      const dfs = (cur: BSTNode<K, V> | null | undefined): void => {
+        if (!this.isRealNode(cur)) return;
+
+        // In-order: process left subtree first
+        if (this.isRealNode(cur.left)) dfs(cur.left);
+
+        // Check current node
+        if (predicate(cur)) {
+          result = cur;
+        }
+
+        // Process right subtree
+        if (this.isRealNode(cur.right)) dfs(cur.right);
+      };
+
+      dfs(this.root);
+      return result;
+    } else {
+      // Iterative in-order traversal using explicit stack
+      const stack: (BSTNode<K, V> | null | undefined)[] = [];
+      let current: BSTNode<K, V> | null | undefined = this.root;
+      let result: BSTNode<K, V> | undefined = undefined;
+
+      while (stack.length > 0 || this.isRealNode(current)) {
+        if (this.isRealNode(current)) {
+          // Go to the leftmost node
+          stack.push(current);
+          current = current.left;
+        } else {
+          // Pop from stack and process
+          const node = stack.pop();
+          if (!this.isRealNode(node)) break;
+
+          // Check if current node satisfies predicate
+          if (predicate(node)) {
+            result = node;
+          }
+
+          // Visit right subtree
+          current = node.right;
+        }
+      }
+
+      return result;
+    }
+  }
 
   /**
    * (Protected) Core bound search implementation supporting all parameter types.
@@ -1330,7 +1711,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
   protected override _snapshotOptions<TK = K, TV = V, TR = R>(): BSTOptions<TK, TV, TR> {
     return {
       ...super._snapshotOptions<TK, TV, TR>(),
-      comparator: this._comparator as unknown as BSTOptions<TK, TV, TR>['comparator'],
+      comparator: this._comparator as unknown as BSTOptions<TK, TV, TR>['comparator']
     };
   }
 

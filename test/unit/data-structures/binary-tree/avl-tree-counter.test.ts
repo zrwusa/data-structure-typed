@@ -747,7 +747,7 @@ describe('AVLTreeCounter toEntryFn', () => {
     const avlCounter = new AVLTreeCounter<{ obj: { id: number } }, number>(
       [{ obj: { id: 1 } }, { obj: { id: 2 } }, { obj: { id: 3 } }, { obj: { id: 4 } }, { obj: { id: 5 } }],
       {
-        comparator: (a, b) => a.obj.id - b.obj.id,
+        comparator: (a, b) => a.obj.id - b.obj.id
       }
     );
 
