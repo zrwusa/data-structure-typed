@@ -78,20 +78,20 @@ A complete binary tree where parent always has priority over children.
 
 For those who love understanding concepts through metaphors:
 
-| Data Structure | Plain Language Definition | Example |
-|---|---|---|
-| **Linked List** | A line of bunnies, where each bunny holds the tail of the bunny in front of it. You want to find a bunny named Pablo, and you have to start searching from the first bunny. If it's not Pablo, you continue following that bunny's tail to the next one. So, you might need to search n times to find Pablo (O(n) time complexity). If you want to insert a bunny named Remi between Pablo and Vicky, it's very simple. You just need to let Vicky release Pablo's tail, let Remi hold Pablo's tail, and then let Vicky hold Remi's tail (O(1) time complexity). | To find bunny "Pablo", start from the first bunny and follow tails until found |
-| **Array** | A line of numbered bunnies. If you want to find the bunny named Pablo, you can directly shout out Pablo's number 0680 (finding the element directly through array indexing, O(1) time complexity). However, if you don't know Pablo's number, you still need to search one by one (O(n) time complexity). Moreover, if you want to add a bunny named Vicky behind Pablo, you will need to renumber all the bunnies after Vicky (O(n) time complexity). | Finding element by index is instant, but inserting in the middle is slow |
-| **Queue** | A line of numbered bunnies with a sticky note on the first bunny. For this line with a sticky note on the first bunny, whenever we want to remove a bunny from the front of the line, we only need to move the sticky note to the face of the next bunny without actually removing the bunny to avoid renumbering all the bunnies behind (removing from the front is also O(1) time complexity). For the tail of the line, we don't need to worry because each new bunny added to the tail is directly given a new number (O(1) time complexity) without needing to renumber all the previous bunnies. | Process items in FIFO order, efficiently from both ends |
-| **Deque** | A line of grouped, numbered bunnies with a sticky note on the first bunny. For this line, we manage it by groups. Each time we remove a bunny from the front of the line, we only move the sticky note to the next bunny. This way, we don't need to renumber all the bunnies behind the first bunny each time a bunny is removed. Only when all members of a group are removed do we reassign numbers and regroup. The tail is handled similarly. This is a strategy of delaying and batching operations to offset the drawbacks of the Array data structure that requires moving all elements behind when inserting or deleting elements in the middle. | Efficient removal/insertion from both ends with batching optimization |
-| **Stack** | A line of bunnies in a dead-end tunnel, where bunnies can only be removed from the tunnel entrance (end), and new bunnies can only be added at the entrance (end) as well. | Process items in LIFO order; undo/redo functionality |
-| **Binary Tree** | A tree where each node has at most two children. | Hierarchical data organization |
-| **Binary Search Tree** | A tree where all nodes in the left subtree are less than the node, and all nodes in the right subtree are greater than the node. Maintaining O(log n) for all operations. | Efficient search/insert/delete without re-sorting |
-| **Red-Black Tree** | A self-balancing BST that automatically maintains balance through color-coding rules. | Used in Java TreeMap and maintains O(log n) guarantees |
-| **AVL Tree** | A stricter self-balancing BST with stricter balance requirements than Red-Black trees. | Maximum search speed with slower insertions/deletions |
-| **Heap** | A special binary tree stored in an array where parent always maintains priority relationship to children. | Efficient priority queue; heap sort |
-| **Trie** | A tree of characters used for prefix-based searching. | Autocomplete, spell checking |
-| **Graph** | A network of vertices (nodes) connected by edges. | Model relationships, networks |
+| Data Structure         | Plain Language Definition                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Example                                                                        |
+|------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------|
+| **Linked List**        | A line of bunnies, where each bunny holds the tail of the bunny in front of it. You want to find a bunny named Pablo, and you have to start searching from the first bunny. If it's not Pablo, you continue following that bunny's tail to the next one. So, you might need to search n times to find Pablo (O(n) time complexity). If you want to insert a bunny named Remi between Pablo and Vicky, it's very simple. You just need to let Vicky release Pablo's tail, let Remi hold Pablo's tail, and then let Vicky hold Remi's tail (O(1) time complexity).                                                                                          | To find bunny "Pablo", start from the first bunny and follow tails until found |
+| **Array**              | A line of numbered bunnies. If you want to find the bunny named Pablo, you can directly shout out Pablo's number 0680 (finding the element directly through array indexing, O(1) time complexity). However, if you don't know Pablo's number, you still need to search one by one (O(n) time complexity). Moreover, if you want to add a bunny named Vicky behind Pablo, you will need to renumber all the bunnies after Vicky (O(n) time complexity).                                                                                                                                                                                                    | Finding element by index is instant, but inserting in the middle is slow       |
+| **Queue**              | A line of numbered bunnies with a sticky note on the first bunny. For this line with a sticky note on the first bunny, whenever we want to remove a bunny from the front of the line, we only need to move the sticky note to the face of the next bunny without actually removing the bunny to avoid renumbering all the bunnies behind (removing from the front is also O(1) time complexity). For the tail of the line, we don't need to worry because each new bunny added to the tail is directly given a new number (O(1) time complexity) without needing to renumber all the previous bunnies.                                                    | Process items in FIFO order, efficiently from both ends                        |
+| **Deque**              | A line of grouped, numbered bunnies with a sticky note on the first bunny. For this line, we manage it by groups. Each time we remove a bunny from the front of the line, we only move the sticky note to the next bunny. This way, we don't need to renumber all the bunnies behind the first bunny each time a bunny is removed. Only when all members of a group are removed do we reassign numbers and regroup. The tail is handled similarly. This is a strategy of delaying and batching operations to offset the drawbacks of the Array data structure that requires moving all elements behind when inserting or deleting elements in the middle. | Efficient removal/insertion from both ends with batching optimization          |
+| **Stack**              | A line of bunnies in a dead-end tunnel, where bunnies can only be removed from the tunnel entrance (end), and new bunnies can only be added at the entrance (end) as well.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Process items in LIFO order; undo/redo functionality                           |
+| **Binary Tree**        | A tree where each node has at most two children.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Hierarchical data organization                                                 |
+| **Binary Search Tree** | A tree where all nodes in the left subtree are less than the node, and all nodes in the right subtree are greater than the node. Maintaining O(log n) for all operations.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Efficient search/insert/delete without re-sorting                              |
+| **Red-Black Tree**     | A self-balancing BST that automatically maintains balance through color-coding rules.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | Used in Java TreeMap and maintains O(log n) guarantees                         |
+| **AVL Tree**           | A stricter self-balancing BST with stricter balance requirements than Red-Black trees.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | Maximum search speed with slower insertions/deletions                          |
+| **Heap**               | A special binary tree stored in an array where parent always maintains priority relationship to children.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Efficient priority queue; heap sort                                            |
+| **Trie**               | A tree of characters used for prefix-based searching.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | Autocomplete, spell checking                                                   |
+| **Graph**              | A network of vertices (nodes) connected by edges.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Model relationships, networks                                                  |
 
 ---
 
@@ -197,15 +197,20 @@ console.log(result); // 58 ✅
 #### Chain on Heap
 
 ```typescript
-const minHeap = new Heap([
-  { priority: 5, task: 'Email' },
-  { priority: 3, task: 'Chat' },
-  { priority: 8, task: 'Alert' },
-], { comparator: (a, b) => a.priority - b.priority });
+const minHeap = new Heap(
+  [
+    { priority: 5, task: 'Email' },
+    { priority: 3, task: 'Chat' },
+    { priority: 8, task: 'Alert' },
+  ],
+  { comparator: (a, b) => a.priority - b.priority }
+);
 
 const urgent = minHeap
   .filter((value, _key) => value.priority > 4)
-  .map((value, _key) => value.task);
+  .map((value, _key) => value.task, {
+    comparator: (a, b) => a.localeCompare(b),
+  });
 
 urgent.print(); // ['Alert', 'Email'] ✅
 ```
@@ -216,24 +221,24 @@ urgent.print(); // ['Alert', 'Email'] ✅
 const deque = new Deque([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
 const stats = {
-  even: deque.filter((value, _key) => value % 2 === 0).toArray(),
-  squared: deque.map((value, _key) => value * value).toArray(),
-  hasLarge: deque.some((value, _key) => value > 8),
-  sum: deque.reduce((acc, value, _key) => acc + value, 0),
+  even: deque.filter((item) => item % 2 === 0).toArray(),
+  squared: deque.map((item) => item * item).toArray(),
+  hasLarge: deque.some((item) => item > 8),
+  sum: deque.reduce((acc, item) => acc + item, 0),
 };
 ```
 
 ### Supported Methods Across All Structures
 
 | Method      | BinaryTrees | Heap | Deque | Graph | LinkedList |
-|-------------|-------------|------|-------|-------|---------------|
-| map         | ✅           | ✅    | ✅     | ✅     | ✅             |
-| filter      | ✅           | ✅    | ✅     | ✅     | ✅             |
-| reduce      | ✅           | ✅    | ✅     | ✅     | ✅             |
-| find        | ✅           | ✅    | ✅     | ✅     | ✅             |
-| some/every  | ✅           | ✅    | ✅     | ✅     | ✅             |
-| keys/values | ✅           | ✅    | ✅     | ✅     | ✅             |
-| forEach     | ✅           | ✅    | ✅     | ✅     | ✅             |
+|-------------|-------------|------|-------|-------|------------|
+| map         | ✅           | ✅    | ✅     | ✅     | ✅          |
+| filter      | ✅           | ✅    | ✅     | ✅     | ✅          |
+| reduce      | ✅           | ✅    | ✅     | ✅     | ✅          |
+| find        | ✅           | ✅    | ✅     | ✅     | ✅          |
+| some/every  | ✅           | ✅    | ✅     | ✅     | ✅          |
+| keys/values | ✅           | ✅    | ✅     | ✅     | ✅          |
+| forEach     | ✅           | ✅    | ✅     | ✅     | ✅          |
 
 ---
 
@@ -289,7 +294,7 @@ const tasks = [];
 function addTask(task) {
   tasks.push(task);
   tasks.sort((a, b) => b.priority - a.priority);
-}
+} // O(n² log n)
 ```
 
 ✅ PriorityQueue maintains priority O(log n):
@@ -299,7 +304,7 @@ const pq = new MaxPriorityQueue();
 
 function addTask(task) {
   pq.add(task);  // O(log n)
-}
+} // O(n log n)
 ```
 
 ### Case 4: Range Queries are Tedious
@@ -314,8 +319,8 @@ const inRange = prices.filter(p => p >= 30 && p <= 70);
 ✅ RedBlackTree range queries are O(log n + k):
 
 ```javascript
-const tree = new RedBlackTree(prices.map((p, i) => [p, i]));
-const inRange = tree.filter((_value, p) => p >= 30 && p <= 70);
+const tree = new RedBlackTree(prices);
+const inRange = tree.rangeSearch([30, 70]);
 ```
 
 ### Case 5: Prefix Matching is Tedious
@@ -371,7 +376,7 @@ Need graph algorithms?
 
 ## Next Steps
 
-**Understand the basics?** 
+**Understand the basics?**
 → [See real-world examples](./GUIDES.md)
 
 **Want to use immediately?**
@@ -386,6 +391,7 @@ Need graph algorithms?
 ---
 
 **Related:**
+
 - [REFERENCE.md](./REFERENCE.md) - API / structures / methods
 - [GUIDES.md](./GUIDES.md) - Leaderboard / LRU / Queue / real-world examples
 - [ARCHITECTURE.md](./ARCHITECTURE.md) - Design / JIT / internal abstractions

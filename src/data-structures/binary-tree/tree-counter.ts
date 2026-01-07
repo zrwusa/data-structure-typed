@@ -8,7 +8,6 @@
 
 import type {
   BinaryTreeDeleteResult,
-  BinaryTreeOptions,
   BSTNOptKeyOrNode,
   EntryCallback,
   FamilyPosition,
@@ -17,7 +16,6 @@ import type {
   RBTNColor,
   TreeCounterOptions
 } from '../../types';
-import { BSTOptions } from '../../types';
 import { BSTNode } from './bst';
 import { IBinaryTree } from '../../interfaces';
 import { RedBlackTree } from './red-black-tree';
@@ -432,7 +430,7 @@ export class TreeCounter<K = any, V = any, R = any> extends RedBlackTree<K, V, R
    */
   override map<MK = K, MV = V, MR = any>(
     callback: EntryCallback<K, V | undefined, [MK, MV]>,
-    options?: Partial<BinaryTreeOptions<MK, MV, MR>>,
+    options?: Partial<TreeCounterOptions<MK, MV, MR>>,
     thisArg?: unknown
   ): TreeCounter<MK, MV, MR> {
     const out = this._createLike<MK, MV, MR>([], options);
@@ -465,10 +463,10 @@ export class TreeCounter<K = any, V = any, R = any> extends RedBlackTree<K, V, R
    * @param [options] - Optional constructor options for the like-kind instance.
    * @returns An empty like-kind instance.
    */
-  protected override _createInstance<TK = K, TV = V, TR = R>(options?: Partial<BSTOptions<TK, TV, TR>>): this {
+  protected override _createInstance<TK = K, TV = V, TR = R>(options?: Partial<TreeCounterOptions<TK, TV, TR>>): this {
     const Ctor = this.constructor as unknown as new (
       iter?: Iterable<TK | BSTNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
-      opts?: BSTOptions<TK, TV, TR>
+      opts?: TreeCounterOptions<TK, TV, TR>
     ) => this;
     return new Ctor([], { ...this._snapshotOptions<TK, TV, TR>(), ...(options ?? {}) }) as unknown as this;
   }
@@ -485,11 +483,11 @@ export class TreeCounter<K = any, V = any, R = any> extends RedBlackTree<K, V, R
    */
   protected override _createLike<TK = K, TV = V, TR = R>(
     iter: Iterable<TK | BSTNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR> = [],
-    options?: Partial<BSTOptions<TK, TV, TR>>
+    options?: Partial<TreeCounterOptions<TK, TV, TR>>
   ): TreeCounter<TK, TV, TR> {
     const Ctor = this.constructor as unknown as new (
       iter?: Iterable<TK | BSTNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
-      opts?: BSTOptions<TK, TV, TR>
+      opts?: TreeCounterOptions<TK, TV, TR>
     ) => TreeCounter<TK, TV, TR>;
     return new Ctor(iter as unknown as Iterable<TK | any>, {
       ...this._snapshotOptions<TK, TV, TR>(),

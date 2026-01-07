@@ -819,8 +819,8 @@ describe('TreeMultiMap - _deleteFixup', () => {
 describe('real world data', () => {
   it('cost of living', () => {
     const indexedByRank = new TreeMultiMap(costOfLiving, {
-      specifyComparable: node => node.rank,
-      toEntryFn: raw => [raw, undefined]
+      toEntryFn: raw => [raw, undefined],
+      comparator: (a, b) => a.rank - b.rank,
     });
     expect(indexedByRank.size).toBe(7);
     expect(indexedByRank.dfs(node => node?.key?.country)).toEqual([

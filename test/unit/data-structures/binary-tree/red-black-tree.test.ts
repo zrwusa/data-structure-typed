@@ -821,7 +821,7 @@ describe('RedBlackTree - _deleteFixup', () => {
 describe('real world data', () => {
   it('cost of living', () => {
     const indexedByRank = new RedBlackTree(costOfLiving, {
-      specifyComparable: node => node.rank,
+     comparator: (a, b) => a.rank - b.rank,
       toEntryFn: raw => [raw, undefined]
     });
     expect(indexedByRank.size).toBe(7);

@@ -2,7 +2,7 @@
 
 A comprehensive TypeScript data structures library with production-ready implementations.
 
-**📚 [Quick Start](#-quick-start-30-seconds) • [Full Docs](./docs/CONCEPTS.md) • [API Reference](./docs/REFERENCE.md) • [Examples](./docs/GUIDES.md)**
+**📚 [Quick Start](#-quick-start-30-seconds) • [Installation](#-installation) • [Full Docs](./docs/CONCEPTS.md) • [API Reference](./docs/REFERENCE.md) • [Playground](#-playground) • [Installation](#-installation) • [Examples](./docs/GUIDES.md)**
 
 ---
 
@@ -56,10 +56,11 @@ for (let i = 0; i < 100000; i++) {
   queue.shift();  // O(n) - Reindexes EVERY element!
 }
 // Time: 2829ms ❌
+```
 
+```javascript
 // ✅ WITH data-structure-typed (Deque)
-const deque = new Deque([1, 2, 3, ..., 100000
-])
+const deque = new Deque([1, 2, 3, ..., 100000])
 ;
 for (let i = 0; i < 100000; i++) {
   deque.shift();  // O(1) - Just moves a pointer
@@ -95,7 +96,8 @@ Don't learn new APIs. Just use `push`, `pop`, `map`, `filter`, and `reduce` ever
 // All linear structures use THE SAME 4 methods
 const deque = new Deque([1, 2, 3]);
 const queue = new Queue([1, 2, 3]);
-const stack = new Stack([1, 2, 3]);
+const doublyLinkeList = new DoublyLinkedList([1, 2, 3]);
+const singlyLinkedList = new SinglyLinkedList([1, 2, 3]);
 
 // They ALL support:
 structure.push(item);          // Add to end
@@ -211,7 +213,7 @@ const topPlayers = [...leaderboard.values()].reverse().slice(0, 3);
 ```typescript
 import { MaxPriorityQueue } from 'data-structure-typed';
 
-const taskQueue = new MaxPriorityQueue([], {
+const taskQueue = new MaxPriorityQueue<{priority: number; task: string}>([], {
   comparator: (a, b) => b.priority - a.priority
 });
 
@@ -329,20 +331,67 @@ class LRUCache<K, V> {
 ### Leaderboard
 
 ```typescript
-class Leaderboard {
-  private scores = new RedBlackTree<number, Player>(
-    (a, b) => b - a  // Descending
-  );
 
-  getTopN(n: number): Player[] {
-    return [...this.scores.values()].slice(0, n);
+type Player = {
+  id: string;
+  name: string;
+  score: number;
+};
+
+const seedPlayers: Player[] = [
+  { id: 'player_01HZX4E8Q2K8Y3J9M7T1A6B3C4', name: 'Pablo', score: 65 },
+  { id: 'player_01HZX4E9R6V2D8K1P0N5S4T7U8', name: 'Bunny', score: 10 },
+  { id: 'player_01HZX4EA3M9Q7W1E2R8T6Y5U0I', name: 'Jeff', score: 99 },
+];
+
+class ScoreLeaderboard {
+  private readonly byScore: RedBlackTree<number, Player, Player>;
+
+  constructor(initialPlayers: Player[]) {
+    this.byScore = new RedBlackTree<number, Player, Player>(initialPlayers, {
+      isMapMode: false,// Use "node value" storage rather than Map-style.
+      toEntryFn: (player) => [player.score, player], // Convert a player object into the tree entry: key = score, value = player.
+    });
+  }
+
+  /**
+   * Returns players whose scores fall within the given range.
+   * Supports either a tuple [min, max] or a Range object for inclusive/exclusive bounds.
+   */
+  public findPlayersByScoreRange(range: [number, number] | Range<number>): (Player | undefined)[] {
+    return this.byScore.rangeSearch(range, (node) => node.value);
+  }
+  
+  public upsertPlayer(player: Player) {
+    return this.byScore.set(player.score, player);
   }
 }
+
+const leaderboard = new ScoreLeaderboard(seedPlayers);
+
+console.log(leaderboard.findPlayersByScoreRange([65, 100]));
+
+leaderboard.upsertPlayer({
+  id: 'player_01HZX4EB7C4N2M9Q8R1T3Y6U5I',
+  name: 'Alex',
+  score: 80,
+});
+
+console.log(leaderboard.findPlayersByScoreRange(new Range(65, 100, true, true)));
 ```
 
 ### Message Queue
 
 ```typescript
+type Message = {
+  id: string;
+  type: string;
+  payload: unknown;
+  priority: 'urgent' | 'normal';
+  createdAt: number;
+  retryCount?: number;
+};
+
 class MessageQueue {
   private urgent = new Deque<Message>();
   private normal = new Deque<Message>();
@@ -434,6 +483,16 @@ import { RedBlackTree, Deque, MaxPriorityQueue } from 'data-structure-typed';
 const tree = new RedBlackTree([5, 2, 8]);
 console.log([...tree]);  // [2, 5, 8] - Automatically sorted!
 ```
+
+## 🏃🏻‍♀️ Playground
+
+Try it instantly:
+
+- [Node.js TypeScript](https://stackblitz.com/edit/stackblitz-starters-e1vdy3zw?file=src%2Findex.ts)
+- [Node.js JavaScript](https://stackblitz.com/edit/stackblitz-starters-dgvchziu?file=src%2Findex.js)
+- [React TypeScript](https://stackblitz.com/edit/vitejs-vite-6xvhtdua?file=src%2FApp.tsx)
+- [NestJS](https://stackblitz.com/edit/nestjs-typescript-starter-3cyp7pel?file=src%2Franking%2Franking.service.ts)
+
 
 ### Step 4: Learn More
 

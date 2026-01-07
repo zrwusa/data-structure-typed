@@ -8,7 +8,6 @@
 
 import type {
   AVLTreeMultiMapOptions,
-  AVLTreeOptions,
   BTNOptKeyOrNull,
   ElemOf,
   EntryCallback,
@@ -354,7 +353,7 @@ export class AVLTreeMultiMap<K = any, V = any, R = any> extends AVLTree<K, V[], 
    */
   override map<MK = K, MVArr extends unknown[] = V[], MR = any>(
     callback: EntryCallback<K, V[] | undefined, [MK, MVArr]>,
-    options?: Partial<AVLTreeOptions<MK, MVArr, MR>>,
+    options?: Partial<AVLTreeMultiMapOptions<MK, MVArr, MR>>,
     thisArg?: unknown
   ): AVLTreeMultiMap<MK, ElemOf<MVArr>, MR>;
 
@@ -371,7 +370,7 @@ export class AVLTreeMultiMap<K = any, V = any, R = any> extends AVLTree<K, V[], 
    */
   override map<MK = K, MV = V[], MR = any>(
     callback: EntryCallback<K, V[] | undefined, [MK, MV]>,
-    options?: Partial<AVLTreeOptions<MK, MV, MR>>,
+    options?: Partial<AVLTreeMultiMapOptions<MK, MV, MR>>,
     thisArg?: unknown
   ): AVLTree<MK, MV, MR>;
 
@@ -388,7 +387,7 @@ export class AVLTreeMultiMap<K = any, V = any, R = any> extends AVLTree<K, V[], 
    */
   override map<MK, MV, MR extends object>(
     callback: EntryCallback<K, V[] | undefined, [MK, MV]>,
-    options?: Partial<AVLTreeOptions<MK, MV, MR>>,
+    options?: Partial<AVLTreeMultiMapOptions<MK, MV, MR>>,
     thisArg?: unknown
   ): AVLTree<MK, MV, MR> {
     const out = this._createLike<MK, MV, MR>([], options);
@@ -406,10 +405,10 @@ export class AVLTreeMultiMap<K = any, V = any, R = any> extends AVLTree<K, V[], 
    * @param [options] - Optional constructor options for the like-kind instance.
    * @returns An empty like-kind instance.
    */
-  protected override _createInstance<TK = K, TV = V, TR = R>(options?: Partial<AVLTreeOptions<TK, TV, TR>>): this {
+  protected override _createInstance<TK = K, TV = V, TR = R>(options?: Partial<AVLTreeMultiMapOptions<TK, TV, TR>>): this {
     const Ctor = this.constructor as unknown as new (
       iter?: Iterable<TK | AVLTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
-      opts?: AVLTreeOptions<TK, TV, TR>
+      opts?: AVLTreeMultiMapOptions<TK, TV, TR>
     ) => AVLTree<TK, TV, TR>;
     return new Ctor([], { ...(this._snapshotOptions?.<TK, TV, TR>() ?? {}), ...(options ?? {}) }) as unknown as this;
   }
@@ -426,11 +425,11 @@ export class AVLTreeMultiMap<K = any, V = any, R = any> extends AVLTree<K, V[], 
    */
   protected override _createLike<TK = K, TV = V, TR = R>(
     iter: Iterable<TK | AVLTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR> = [],
-    options?: Partial<AVLTreeOptions<TK, TV, TR>>
+    options?: Partial<AVLTreeMultiMapOptions<TK, TV, TR>>
   ): AVLTree<TK, TV, TR> {
     const Ctor = this.constructor as unknown as new (
       iter?: Iterable<TK | AVLTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
-      opts?: AVLTreeOptions<TK, TV, TR>
+      opts?: AVLTreeMultiMapOptions<TK, TV, TR>
     ) => AVLTree<TK, TV, TR>;
     return new Ctor(iter, { ...(this._snapshotOptions?.<TK, TV, TR>() ?? {}), ...(options ?? {}) });
   }

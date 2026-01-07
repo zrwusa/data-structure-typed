@@ -980,7 +980,7 @@ describe('BST operations test recursively', () => {
 
   if (isTestStackOverflow) {
     it('should getLeftMost', () => {
-      const bst = new BST<number>([], { specifyComparable: key => key });
+      const bst = new BST<number>([]);
       for (let i = 1; i <= SYSTEM_MAX_CALL_STACK; i++) bst.add(i);
 
       expect(() => {
@@ -1015,7 +1015,7 @@ describe('BST isBST', function () {
 
   it('isBST when variant is Max', () => {
     const bst = new BST<number, number>([1, 2, 3, 9, 8, 5, 6, 7, 4], {
-      isReverse: true
+      comparator: (a, b) => b - a,
     });
     bst.addMany([1, 2, 3, 9, 8, 5, 6, 7, 4]);
     expect(bst.isBST()).toBe(true);
@@ -1537,19 +1537,16 @@ describe('BST iterative methods not map mode test', () => {
 });
 
 describe('BST constructor and comparator edge cases', () => {
-  it('should support specifyComparable and isReverse', () => {
+  it('should support comparator', () => {
     const bst = new BST<number>([], {
-      specifyComparable: k => -k,
-      isReverse: true
+      comparator: (a, b) => b - a,
     });
     bst.add(1);
     bst.add(2);
-    expect(bst.isReverse).toBe(true);
-    expect(bst['_specifyComparable']).toBeDefined();
     expect([...bst.keys()]).toEqual([2, 1]);
   });
 
-  it('should throw if compare object key without specifyComparable', () => {
+  it('should throw if compare object key without comparator', () => {
     const bst = new BST<any>();
     expect(() => bst.comparator({ a: 1 }, { a: 2 })).toThrow();
   });

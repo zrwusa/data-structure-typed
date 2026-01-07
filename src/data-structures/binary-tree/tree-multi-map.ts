@@ -12,7 +12,6 @@ import type {
   EntryCallback,
   FamilyPosition,
   RBTNColor,
-  RedBlackTreeOptions,
   TreeMultiMapOptions
 } from '../../types';
 import { RedBlackTree, RedBlackTreeNode } from './red-black-tree';
@@ -476,13 +475,13 @@ export class TreeMultiMap<K = any, V = any, R = any> extends RedBlackTree<K, V[]
 
   override map<MK = K, MVArr extends unknown[] = V[], MR = any>(
     callback: EntryCallback<K, V[] | undefined, [MK, MVArr]>,
-    options?: Partial<RedBlackTreeOptions<MK, MVArr, MR>>,
+    options?: Partial<TreeMultiMapOptions<MK, MVArr, MR>>,
     thisArg?: unknown
   ): TreeMultiMap<MK, ElemOf<MVArr>, MR>;
 
   override map<MK = K, MV = V[], MR = any>(
     callback: EntryCallback<K, V[] | undefined, [MK, MV]>,
-    options?: Partial<RedBlackTreeOptions<MK, MV, MR>>,
+    options?: Partial<TreeMultiMapOptions<MK, MV, MR>>,
     thisArg?: unknown
   ): RedBlackTree<MK, MV, MR>;
 
@@ -499,7 +498,7 @@ export class TreeMultiMap<K = any, V = any, R = any> extends RedBlackTree<K, V[]
    */
   override map<MK, MV, MR extends object>(
     callback: EntryCallback<K, V[] | undefined, [MK, MV]>,
-    options?: Partial<RedBlackTreeOptions<MK, MV, MR>>,
+    options?: Partial<TreeMultiMapOptions<MK, MV, MR>>,
     thisArg?: unknown
   ): RedBlackTree<MK, MV, MR> {
     const out = this._createLike<MK, MV, MR>([], options);
@@ -517,10 +516,10 @@ export class TreeMultiMap<K = any, V = any, R = any> extends RedBlackTree<K, V[]
    * @param [options] - Optional constructor options for the like-kind instance.
    * @returns An empty like-kind instance.
    */
-  protected override _createInstance<TK = K, TV = V, TR = R>(options?: Partial<RedBlackTreeOptions<TK, TV, TR>>): this {
+  protected override _createInstance<TK = K, TV = V, TR = R>(options?: Partial<TreeMultiMapOptions<TK, TV, TR>>): this {
     const Ctor = this.constructor as unknown as new (
       iter?: Iterable<TK | RedBlackTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
-      opts?: RedBlackTreeOptions<TK, TV, TR>
+      opts?: TreeMultiMapOptions<TK, TV, TR>
     ) => RedBlackTree<TK, TV, TR>;
     return new Ctor([], { ...(this._snapshotOptions?.<TK, TV, TR>() ?? {}), ...(options ?? {}) }) as unknown as this;
   }
@@ -539,11 +538,11 @@ export class TreeMultiMap<K = any, V = any, R = any> extends RedBlackTree<K, V[]
     iter: Iterable<
       TK | RedBlackTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR
     > = [],
-    options?: Partial<RedBlackTreeOptions<TK, TV, TR>>
+    options?: Partial<TreeMultiMapOptions<TK, TV, TR>>
   ): RedBlackTree<TK, TV, TR> {
     const Ctor = this.constructor as unknown as new (
       iter?: Iterable<TK | RedBlackTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
-      opts?: RedBlackTreeOptions<TK, TV, TR>
+      opts?: TreeMultiMapOptions<TK, TV, TR>
     ) => RedBlackTree<TK, TV, TR>;
     return new Ctor(iter, { ...(this._snapshotOptions?.<TK, TV, TR>() ?? {}), ...(options ?? {}) });
   }

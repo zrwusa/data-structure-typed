@@ -7,11 +7,10 @@
  */
 
 import type {
-  BinaryTreeOptions,
+  BinaryTreeDeleteResult,
   BSTNOptKeyOrNode,
   BSTOptions,
   BTNRep,
-  Comparable,
   Comparator,
   CP,
   DFSOrderPattern,
@@ -356,19 +355,27 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    */
   constructor(
     keysNodesEntriesOrRaws: Iterable<
-      K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | R
+      K | BSTNode | [K | null | undefined, V | undefined] | null | undefined | R
     > = [],
     options?: BSTOptions<K, V, R>
   ) {
     super([], options);
 
     if (options) {
-      const { specifyComparable, isReverse } = options;
-      if (typeof specifyComparable === 'function') this._specifyComparable = specifyComparable;
-      if (isReverse !== undefined) this._isReverse = isReverse;
+
+      // Use the 'in' operator to check if the field is present
+      if ('comparator' in options && options.comparator !== undefined) {
+        this._comparator = options.comparator;
+      } else {
+        this._comparator = this._createDefaultComparator();
+      }
+    } else {
+      this._comparator = this._createDefaultComparator();
     }
+
     if (keysNodesEntriesOrRaws) this.addMany(keysNodesEntriesOrRaws);
   }
+
 
   protected override _root?: BSTNode<K, V> = undefined;
 
@@ -382,42 +389,40 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     return this._root;
   }
 
-  protected _isReverse: boolean = false;
-
   /**
-   * Gets whether the tree's comparison logic is reversed.
-   * @remarks Time O(1)
-   *
-   * @returns True if the tree is reversed (e.g., a max-heap logic).
+   * (Protected) Creates the default comparator function for keys that don't have a custom comparator.
+   * @remarks Time O(1) Space O(1)
+   * @returns The default comparator function.
    */
-  get isReverse(): boolean {
-    return this._isReverse;
+  protected _createDefaultComparator(): Comparator<K> {
+    return (a: K, b: K): number => {
+      debugger
+      // If both keys are comparable (primitive types), use direct comparison
+      if (isComparable(a) && isComparable(b)) {
+        if (a > b) return 1;
+        if (a < b) return -1;
+        return 0;
+      }
+
+      // If keys are objects and no comparator is provided, throw an error
+      if (typeof a === 'object' || typeof b === 'object') {
+        throw TypeError(
+          `When comparing object type keys, a custom comparator must be provided in the constructor's options!`
+        );
+      }
+
+      // Default: keys are equal (fallback case)
+      return 0;
+    };
   }
 
   /**
-   * The default comparator function.
-   * @remarks Time O(1) (or O(C) if `specifyComparable` is used, C is complexity of that function).
+   * The comparator function used to determine the order of keys in the tree.
+
+   * @remarks Time O(1) Space O(1)
    */
-  protected _comparator: Comparator<K> = (a: K, b: K): number => {
-    if (isComparable(a) && isComparable(b)) {
-      if (a > b) return 1;
-      if (a < b) return -1;
-      return 0;
-    }
-    if (this._specifyComparable) {
-      const va = this._specifyComparable(a);
-      const vb = this._specifyComparable(b);
-      if (va > vb) return 1;
-      if (va < vb) return -1;
-      return 0;
-    }
-    if (typeof a === 'object' || typeof b === 'object') {
-      throw TypeError(
-        `When comparing object types, a custom specifyComparable must be defined in the constructor's options.`
-      );
-    }
-    return 0;
-  };
+  protected _comparator: Comparator<K>;
+
 
   /**
    * Gets the comparator function used by the tree.
@@ -427,18 +432,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    */
   get comparator(): Comparator<K> {
     return this._comparator;
-  }
-
-  protected _specifyComparable?: (key: K) => Comparable;
-
-  /**
-   * Gets the function used to extract a comparable value from a complex key.
-   * @remarks Time O(1)
-   *
-   * @returns The key-to-comparable conversion function.
-   */
-  get specifyComparable(): ((key: K) => Comparable) | undefined {
-    return this._specifyComparable;
   }
 
   /**
@@ -489,7 +482,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * @returns True if the key is valid, false otherwise.
    */
   override isValidKey(key: any): key is K {
-    return isComparable(key, this._specifyComparable !== undefined);
+    return isComparable(key);
   }
 
   /**
@@ -625,8 +618,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       if (isRange) {
         // Range search: Only go left if the current key is >= the lower bound
         const range = keyNodeEntryOrPredicate as Range<K>;
-        const leftS = this.isReverse ? range.high : range.low;
-        const leftI = this.isReverse ? range.includeHigh : range.includeLow;
+        const leftS =  range.low;
+        const leftI =  range.includeLow;
         return (leftI && this._compare(cur.key, leftS) >= 0) || (!leftI && this._compare(cur.key, leftS) > 0);
       }
       if (!isRange && !this._isPredicate(keyNodeEntryOrPredicate)) {
@@ -643,8 +636,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       if (isRange) {
         // Range search: Only go right if current key <= upper bound
         const range = keyNodeEntryOrPredicate as Range<K>;
-        const rightS = this.isReverse ? range.low : range.high;
-        const rightI = this.isReverse ? range.includeLow : range.includeHigh;
+        const rightS =  range.high;
+        const rightI =  range.includeHigh;
         return (rightI && this._compare(cur.key, rightS) <= 0) || (!rightI && this._compare(cur.key, rightS) < 0);
       }
       if (!isRange && !this._isPredicate(keyNodeEntryOrPredicate)) {
@@ -1037,7 +1030,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    */
   override map<MK = K, MV = V, MR = any>(
     callback: EntryCallback<K, V | undefined, [MK, MV]>,
-    options?: Partial<BinaryTreeOptions<MK, MV, MR>>,
+    options?: Partial<BSTOptions<MK, MV, MR>>,
     thisArg?: unknown
   ): BST<MK, MV, MR> {
     const out = this._createLike<MK, MV, MR>([], options);
@@ -1050,35 +1043,72 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
   }
 
   /**
-   * Deletes the first node found that satisfies the predicate.
-   * @remarks Performs an in-order traversal. Time O(N) worst-case (O(log N) to find + O(log N) to delete). Space O(log N) for stack.
+   * Deletes nodes that match a key, node, entry, predicate, or range.
    *
-   * @param predicate - A function to test each [key, value] pair.
-   * @returns True if a node was deleted, false otherwise.
+   * @remarks
+   * Time Complexity: O(N) for search + O(M log N) for M deletions, where N is tree size.
+   * Space Complexity: O(M) for storing matched nodes and result map.
+   *
+   * @template K - The key type.
+   * @template V - The value type.
+   *
+   * @param keyNodeEntryOrPredicate - The search criteria. Can be one of:
+   *   - A key (type K): searches for exact key match using the comparator.
+   *   - A BSTNode: searches for the matching node in the tree.
+   *   - An entry tuple: searches for the key-value pair.
+   *   - A NodePredicate function: tests each node and returns true for matches.
+   *   - A Range object: searches for nodes whose keys fall within the specified range (inclusive/exclusive based on range settings).
+   *   - null or undefined: treated as no match, returns empty results.
+   *
+   * @param onlyOne - If true, stops the search after finding the first match and only deletes that one node.
+   *   If false (default), searches for and deletes all matching nodes.
+   *
+   * @param startNode - The node to start the search from. Can be:
+   *   - A key, node, or entry: the method resolves it to a node and searches from that subtree.
+   *   - null or undefined: defaults to the root, searching the entire tree.
+   *   - Default value: this._root (the tree's root).
+   *
+   * @param iterationType - Controls the internal traversal implementation:
+   *   - 'RECURSIVE': uses recursive function calls for traversal.
+   *   - 'ITERATIVE': uses explicit stack-based iteration.
+   *   - Default: this.iterationType (the tree's default iteration mode).
+   *
+   * @returns A Map<K, boolean> containing the deletion results:
+   *   - Key: the matched node's key.
+   *   - Value: true if the deletion succeeded, false if it failed (e.g., key not found during deletion phase).
+   *   - If no nodes match the search criteria, the returned map is empty.
    */
-  deleteWhere(predicate: (key: K, value: V | undefined, index: number, tree: this) => boolean): boolean {
-    const stack: Array<BSTNode<K, V> | null | undefined> = [];
-    let cur = this._root as BSTNode<K, V> | null | undefined;
-    let index = 0;
+  deleteWhere(
+    keyNodeEntryOrPredicate:
+      | K
+      | BSTNode<K, V>
+      | [K | null | undefined, V | undefined]
+      | null
+      | undefined
+      | NodePredicate<BSTNode<K, V>>
+      | Range<K>,
+    onlyOne = false,
+    startNode: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined = this._root,
+    iterationType: IterationType = this.iterationType
+  ):  BinaryTreeDeleteResult<BSTNode<K, V>>[] {
 
-    // In-order traversal to find the node
-    while (stack.length > 0 || cur !== undefined) {
-      while (cur !== undefined && cur !== null) {
-        stack.push(cur);
-        cur = cur.left as BSTNode<K, V> | null | undefined;
-      }
-      const node = stack.pop() as BSTNode<K, V> | undefined;
-      if (!node) break;
+    const toDelete = this.search (
+      keyNodeEntryOrPredicate,
+      onlyOne,
+      (node) => node,
+      startNode,
+      iterationType
+    );
 
-      const key = node.key as K;
-      const val = node.value as V | undefined;
-      if (predicate(key, val, index++, this)) {
-        return this._deleteByKey(key); // Found, now delete
-      }
-      cur = node.right as BSTNode<K, V> | null | undefined;
+    let results : BinaryTreeDeleteResult<BSTNode<K, V>>[] = [];
+    for (const node of toDelete) {
+      const deleteInfo = this.delete(node);
+      results = results.concat(deleteInfo);
     }
-    return false;
+
+    return results;
   }
+
 
   /**
    * (Protected) Core bound search implementation supporting all parameter types.
@@ -1300,8 +1330,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
   protected override _snapshotOptions<TK = K, TV = V, TR = R>(): BSTOptions<TK, TV, TR> {
     return {
       ...super._snapshotOptions<TK, TV, TR>(),
-      specifyComparable: this.specifyComparable as BSTOptions<TK, TV, TR>['specifyComparable'],
-      isReverse: this.isReverse as BSTOptions<TK, TV, TR>['isReverse']
+      comparator: this._comparator as unknown as BSTOptions<TK, TV, TR>['comparator'],
     };
   }
 
@@ -1335,14 +1364,14 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
 
   /**
    * (Protected) Compares two keys using the tree's comparator and reverse setting.
-   * @remarks Time O(1) (or O(C) if `specifyComparable` is used).
+   * @remarks Time O(1) Space O(1)
    *
    * @param a - The first key.
    * @param b - The second key.
    * @returns A number (1, -1, or 0) representing the comparison.
    */
   protected _compare(a: K, b: K) {
-    return this._isReverse ? -this._comparator(a, b) : this._comparator(a, b);
+    return this._comparator(a, b);
   }
 
   /**
@@ -1352,7 +1381,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * @param key - The key of the node to delete.
    * @returns True if the node was found and deleted, false otherwise.
    */
-  private _deleteByKey(key: K): boolean {
+  protected _deleteByKey(key: K): boolean {
     let node = this._root as BSTNode<K, V> | undefined;
 
     // 1. Find the node

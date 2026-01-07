@@ -8,7 +8,6 @@
 
 import type {
   BinaryTreeDeleteResult,
-  BinaryTreeOptions,
   CRUD,
   EntryCallback,
   FamilyPosition,
@@ -463,7 +462,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
   override map<MK = K, MV = V, MR = any>(
     callback: EntryCallback<K, V | undefined, [MK, MV]>,
-    options?: Partial<BinaryTreeOptions<MK, MV, MR>>,
+    options?: Partial<RedBlackTreeOptions<MK, MV, MR>>,
     thisArg?: unknown
   ): RedBlackTree<MK, MV, MR> {
     const out = this._createLike<MK, MV, MR>([], options);

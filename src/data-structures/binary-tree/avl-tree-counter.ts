@@ -9,7 +9,6 @@
 import type {
   AVLTreeCounterOptions,
   BinaryTreeDeleteResult,
-  BinaryTreeOptions,
   BSTNOptKeyOrNode,
   EntryCallback,
   FamilyPosition,
@@ -404,7 +403,7 @@ export class AVLTreeCounter<K = any, V = any, R = any> extends AVLTree<K, V, R> 
    */
   override map<MK = K, MV = V, MR = any>(
     callback: EntryCallback<K, V | undefined, [MK, MV]>,
-    options?: Partial<BinaryTreeOptions<MK, MV, MR>>,
+    options?: Partial<AVLTreeCounterOptions<MK, MV, MR>>,
     thisArg?: unknown
   ): AVLTreeCounter<MK, MV, MR> {
     const out = this._createLike<MK, MV, MR>([], options);

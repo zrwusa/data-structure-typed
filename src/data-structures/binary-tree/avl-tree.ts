@@ -17,7 +17,6 @@ import type {
   IterationType,
   RBTNColor
 } from '../../types';
-import { BSTOptions } from '../../types';
 import { IBinaryTree } from '../../interfaces';
 
 /**
@@ -512,10 +511,10 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    * @param [options] - Options for the new tree.
    * @returns A new, empty tree.
    */
-  protected override _createInstance<TK = K, TV = V, TR = R>(options?: Partial<BSTOptions<TK, TV, TR>>): this {
+  protected override _createInstance<TK = K, TV = V, TR = R>(options?: Partial<AVLTreeOptions<TK, TV, TR>>): this {
     const Ctor = this.constructor as unknown as new (
       iter?: Iterable<TK | AVLTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
-      opts?: BSTOptions<TK, TV, TR>
+      opts?: AVLTreeOptions<TK, TV, TR>
     ) => this;
     return new Ctor([], { ...this._snapshotOptions<TK, TV, TR>(), ...(options ?? {}) }) as unknown as this;
   }
@@ -531,11 +530,11 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    */
   protected override _createLike<TK = K, TV = V, TR = R>(
     iter: Iterable<TK | AVLTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR> = [],
-    options?: Partial<BSTOptions<TK, TV, TR>>
+    options?: Partial<AVLTreeOptions<TK, TV, TR>>
   ): AVLTree<TK, TV, TR> {
     const Ctor = this.constructor as unknown as new (
       iter?: Iterable<TK | AVLTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
-      opts?: BSTOptions<TK, TV, TR>
+      opts?: AVLTreeOptions<TK, TV, TR>
     ) => AVLTree<TK, TV, TR>;
     return new Ctor(iter, { ...this._snapshotOptions<TK, TV, TR>(), ...(options ?? {}) });
   }

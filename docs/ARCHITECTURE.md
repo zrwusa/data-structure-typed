@@ -64,22 +64,37 @@ queue.shift();              // Remove from front
 When operations become bottlenecks:
 
 ```javascript
+const games = [
+  { id: 'game_001', name: 'Tetris', score: 9850 },
+  { id: 'game_002', name: 'Minecraft', score: 9750 },
+  { id: 'game_003', name: 'Grand Theft Auto V', score: 9600 },
+  { id: 'game_004', name: 'Wii Sports', score: 9500 },
+  { id: 'game_005', name: 'PlayerUnknown\'s Battlegrounds', score: 9200 },
+  { id: 'game_006', name: 'Fortnite', score: 9100 },
+  { id: 'game_007', name: 'League of Legends', score: 8950 },
+  { id: 'game_008', name: 'The Legend of Zelda: Breath of the Wild', score: 8850 },
+  { id: 'game_009', name: 'Elden Ring', score: 8700 },
+  { id: 'game_010', name: 'Super Mario Bros', score: 8600 },
+];
 // ❌ Repeated sorting slows everything
 const scores = [];
 for (const game of games) {
   scores.push(game.score);
   scores.sort((a, b) => b - a);  // O(n log n) every time!
 }
+```
 
+```javascript
 // ✅ Auto-maintained sorted order
-const rankings = new RedBlackTree();
-for (const game of games) {
-  rankings.set(game.id, game.score);  // O(log n)
-}
+const rankings = new RedBlackTree(games, {
+  toEntryFn: (game) => [game.id, game.score],
+  comparator: (a, b) => b - a,
+});                              // O(n log n) in total!
 // Iteration is always sorted!
 ```
 
 **Real Impact:**
+
 - Competitive programming: TLE → AC (Time Exceeded to Accepted)
 - Real-time systems: P99 latency 500ms → 5ms
 - Message queues: 100 msg/sec → 10,000 msg/sec
@@ -88,12 +103,12 @@ for (const game of games) {
 
 Different libraries use completely different method names:
 
-| Operation | ArrayList | Queue | ArrayDeque | LinkedList |
-|---|---|---|---|---|
-| Add end | add() | offer() | push() | add() |
-| Remove end | remove() | - | pop() | removeLast() |
-| Remove start | remove(0) | poll() | removeFirst() | removeFirst() |
-| Add start | add(0, e) | offerFirst() | unshift() | addFirst() |
+| Operation    | ArrayList | Queue        | ArrayDeque    | LinkedList    |
+|--------------|-----------|--------------|---------------|---------------|
+| Add end      | add()     | offer()      | push()        | add()         |
+| Remove end   | remove()  | -            | pop()         | removeLast()  |
+| Remove start | remove(0) | poll()       | removeFirst() | removeFirst() |
+| Add start    | add(0, e) | offerFirst() | unshift()     | addFirst()    |
 
 **Result**: Developers must memorize N different APIs.
 
@@ -103,7 +118,6 @@ Different libraries use completely different method names:
 // Every linear structure uses same API
 const deque = new Deque();
 const queue = new Queue();
-const stack = new Stack();
 const list = new DoublyLinkedList();
 
 // All support these 4 methods:
@@ -117,7 +131,7 @@ structure.unshift(item);       // Add to start
 
 Bouncing data between structures wastes cycles:
 
-```javascript
+```typescript
 // ❌ Painful way: conversions everywhere
 const tree = new TreeLibrary(data);
 const filtered = tree.toArray()
@@ -126,13 +140,15 @@ const filtered = tree.toArray()
   .sort((a, b) => b - a);       // Array sort is O(n log n)
 
 // Lost the tree's sorted benefits!
+```
 
+```typescript
 // ✅ Clean way: operations work directly
-const tree = new RedBlackTree(data);
+const tree = new RedBlackTree<number, number>();
 const result = tree
-  .filter(x => x > 5)           // Direct on tree
-  .map(x => x * 2)              // Still on tree
-  .reduce((sum, v) => sum + v); // Still on tree
+  .filter(v => (v ?? 0) > 5)              // Direct on tree
+  .map((v, k) => [k, (v ?? 0) * 2])       // Still on tree
+  .reduce((sum, v) => sum + (v ?? 0), 0); // Still on tree
 
 // Zero conversions, tree structure maintained!
 ```
@@ -218,7 +234,8 @@ const tree = new RedBlackTree([5, 2, 8]);
 
 // All of these work automatically:
 [...tree]                      // Spread operator
-for (const x of tree) { }      // for...of loop
+for (const x of tree) {
+}      // for...of loop
 const [a, b, c] = tree         // Destructuring
 new Set(tree)                  // Set constructor
 Array.from(tree)               // Array.from
@@ -234,10 +251,14 @@ class CustomStructure<T> {
   private items: T[] = [];
 
   // One method makes everything work
-  *[Symbol.iterator]() {
+  * [Symbol.iterator]() {
     for (const item of this.items) {
       yield item;
     }
+  }
+
+  push(...item: T[]) {
+    this.items.concat(item);
   }
 }
 
@@ -247,7 +268,8 @@ struct.push(1, 2, 3);
 
 // All of these work automatically:
 [...struct];                   // [1, 2, 3]
-for (const x of struct) { }    // Loops 1, 2, 3
+for (const x of struct) {
+}    // Loops 1, 2, 3
 ```
 
 ### Why Iterator Protocol?
@@ -284,6 +306,7 @@ const bst = new BST();
 ### Red-Black Tree Solution
 
 **Rules:**
+
 1. Every node is either Red or Black
 2. Root is always Black
 3. Red nodes have Black children (no consecutive Reds)
@@ -338,7 +361,9 @@ class Node {
     this.right = null;     // Always null or Node
   }
 }
+```
 
+```javascript
 // ❌ Bad for V8 JIT:
 class BadNode {
   constructor(value) {
@@ -409,7 +434,9 @@ const result = tree.toArray()  // Now it's Array[]
   .filter(x => x > 5)           // Still Array
   .map(x => x * 2);             // Still Array
 // Lost O(log n) properties!
+```
 
+```javascript
 // ✅ Preserves structure
 const result = tree
   .filter(x => x > 5)           // Still RedBlackTree
@@ -424,13 +451,13 @@ const result = tree
 
 ### Comparison
 
-| Structure | Overhead | Notes |
-|---|---|---|
-| Array | Low | Fixed size |
-| LinkedList | High | Pointer per node |
-| BST | Medium | 2 pointers per node |
-| Deque | Very Low | Chunked, batched |
-| Heap | Very Low | Array-based |
+| Structure  | Overhead | Notes               |
+|------------|----------|---------------------|
+| Array      | Low      | Fixed size          |
+| LinkedList | High     | Pointer per node    |
+| BST        | Medium   | 2 pointers per node |
+| Deque      | Very Low | Chunked, batched    |
+| Heap       | Very Low | Array-based         |
 
 ### Deque Memory Strategy
 
@@ -467,25 +494,31 @@ const userTree = new RedBlackTree<number, User>();
 userTree.set(1, { id: 1, name: 'Alice', age: 30 });
 
 // Type inference works:
-const user = userTree.get(1);  // Type: User | undefined
+const user = userTree.get(1);   // Type: User | undefined
 user?.name;                     // Type-safe access
 ```
 
 ### Comparator Custom Logic
 
 ```typescript
+type CustomObject = {
+  name: string;
+  priority: number;
+};
+
 // Default comparator (ascending)
 const ascTree = new RedBlackTree<number>();
 
-// Custom comparator (descending)
-const descTree = new RedBlackTree<number>(
-  (a, b) => b - a  // Reverse comparison
-);
+// Reversed comparator (descending)
+const descTree = new RedBlackTree<number>([], {
+  comparator: (a, b) => b - a        // Reverse comparison
+});
 
 // Works with any type
-const objectTree = new RedBlackTree<CustomObject>(
-  (a, b) => a.priority - b.priority
-);
+const objectTree = new RedBlackTree<CustomObject>([], {
+  comparator: (a, b) => a.priority - b.priority,
+});
+
 ```
 
 ---

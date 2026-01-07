@@ -29,22 +29,22 @@ const scores = [95, 23, 67, 89, 12, 45];
 const tree = new RedBlackTree(scores);
 
 // Method 1: Spread operator
-const sorted = [...tree];
+const sorted = [...tree.keys()];
 console.log(sorted); // [12, 23, 45, 67, 89, 95]
 
 // Method 2: for...of loop
-for (const score of tree) {
+for (const [score] of tree) {
   console.log(score);
 }
 
 // Method 3: Destructuring
-const [min, ...rest] = tree;
+const [min, ...rest] = tree.keys();
 
 // Method 4: Set constructor
-const unique = new Set(tree);
+const unique = new Set(tree.keys());
 
 // Method 5: Array.from()
-const array = Array.from(tree);
+const array = Array.from(tree.keys());
 
 // All work automatically - zero conversions!
 ```
@@ -54,27 +54,25 @@ const array = Array.from(tree);
 ```typescript
 import { RedBlackTree } from 'data-structure-typed';
 
-const data = [
+const tree = new RedBlackTree([
   [1, { name: 'Alice', score: 95 }],
   [2, { name: 'Bob', score: 45 }],
   [3, { name: 'Charlie', score: 87 }],
-];
-
-const tree = new RedBlackTree(data);
+]);
 
 // Chain operations - structure maintained throughout
 const result = tree
-  .filter((student, id) => student.score >= 50)
-  .map((student, id) => ({
+  .filter((student, id) => (student?.score ?? 0) >= 50)
+  .map((student, id) => ([id, {
     id,
-    name: student.name,
-    passed: student.score >= 50
-  }))
+    name: student?.name,
+    passed: (student?.score ?? 0) >= 50
+  }]))
   .reduce((summary, student) => {
     summary.count++;
-    summary.names.push(student.name);
+    summary.names.push(student?.name ?? '');
     return summary;
-  }, { count: 0, names: [] });
+  }, { count: 0, names: [] as string[] });
 
 console.log(result);
 // { count: 2, names: ['Alice', 'Charlie'] }
@@ -112,30 +110,24 @@ interface Product {
 }
 
 class PriceIndex {
-  private index: RedBlackTree<number, Product> = new RedBlackTree();
+  private index = new RedBlackTree<number, Product>([], {isMapMode: false});
 
   addProduct(product: Product) {
     this.index.set(product.price, product);
   }
 
-  getByPriceRange(min: number, max: number): Product[] {
-    return this.index
-      .filter((product, price) => price >= min && price <= max)
-      .map((product) => product)
-      .toArray();
+  getByPriceRange(min: number, max: number) {
+    return this.index.rangeSearch([min, max], node => node.value)
   }
 
-  getAffordable(budget: number): Product[] {
-    return this.index
-      .filter((product, price) => price <= budget)
-      .map((product) => ({ ...product, discount: 0.1 }))
-      .toArray();
+  getAffordable(budget: number) {
+    return this.index.rangeSearch([0, budget], node => node.value)
   }
 }
 
 const index = new PriceIndex();
-index.addProduct({ id: '1', name: 'Laptop', price: 999 });
-index.addProduct({ id: '2', name: 'Mouse', price: 25 });
+index.addProduct({id: '1', name: 'Laptop', price: 999});
+index.addProduct({id: '2', name: 'Mouse', price: 25});
 
 const affordable = index.getAffordable(100);
 ```
@@ -152,7 +144,7 @@ import { DoublyLinkedList } from 'data-structure-typed';
 class LRUCache<K, V> {
   private cache = new Map<K, { value: V; node: any }>();
   private order = new DoublyLinkedList<K>();
-  private capacity: number;
+  private readonly capacity: number;
 
   constructor(capacity: number) {
     this.capacity = capacity;
@@ -161,12 +153,12 @@ class LRUCache<K, V> {
   get(key: K): V | null {
     if (!this.cache.has(key)) return null;
 
-    const { value, node } = this.cache.get(key)!;
+    const {value, node} = this.cache.get(key)!;
 
     // Move to end (most recently used)
     this.order.delete(node);
     const newNode = this.order.push(key);
-    this.cache.set(key, { value, node: newNode });
+    this.cache.set(key, {value, node: newNode});
 
     return value;
   }
@@ -174,18 +166,18 @@ class LRUCache<K, V> {
   set(key: K, value: V): void {
     if (this.cache.has(key)) {
       this.get(key); // Mark as recently used
-      this.cache.set(key, { value, node: this.cache.get(key)!.node });
+      this.cache.set(key, {value, node: this.cache.get(key)!.node});
       return;
     }
 
     if (this.cache.size >= this.capacity) {
       // Evict least recently used
       const lru = this.order.shift();
-      this.cache.delete(lru);
+      if (lru) this.cache.delete(lru);
     }
 
     const node = this.order.push(key);
-    this.cache.set(key, { value, node });
+    this.cache.set(key, {value, node});
   }
 }
 
@@ -202,7 +194,7 @@ cache.set('d', 'value4');    // Evicts 'b' (least recent)
 
 ```typescript
 import { RedBlackTree } from 'data-structure-typed';
-
+// TODO
 interface Player {
   id: string;
   name: string;
@@ -304,8 +296,8 @@ class PriorityMessageQueue {
     );
   }
 
-  size(): number {
-    return this.urgent.size + this.normal.size + this.low.size;
+  length(): number {
+    return this.urgent.length + this.normal.length + this.low.length;
   }
 }
 
@@ -315,7 +307,7 @@ queue.enqueue({ id: '1', content: 'Normal task', priority: 5, timestamp: Date.no
 queue.enqueue({ id: '2', content: 'Urgent task', priority: 9, timestamp: Date.now() });
 queue.enqueue({ id: '3', content: 'Low task', priority: 1, timestamp: Date.now() });
 
-while (queue.size() > 0) {
+while (queue.length() > 0) {
   const msg = queue.dequeue();
   console.log(msg?.id); // 2, 1, 3 (urgent first)
 }
@@ -324,8 +316,6 @@ while (queue.size() > 0) {
 ### Example 4: Task Scheduler
 
 ```typescript
-import { MaxPriorityQueue } from 'data-structure-typed';
-
 interface Task {
   id: string;
   action: () => Promise<void>;
@@ -334,20 +324,20 @@ interface Task {
 }
 
 class TaskScheduler {
-  private queue = new MaxPriorityQueue<Task>({
+  private queue = new MaxPriorityQueue<Task>([], {
     comparator: (a, b) => a.priority - b.priority
   });
   private running = false;
 
   scheduleTask(task: Task): void {
     this.queue.add(task);
-    if (!this.running) this.start();
+    if (!this.running) void this.start();
   }
 
   private async start(): Promise<void> {
     this.running = true;
 
-    while (!this.queue.isEmpty) {
+    while (!this.queue.isEmpty()) {
       const task = this.queue.poll();
       if (!task) break;
 
@@ -382,7 +372,7 @@ scheduler.scheduleTask({
 ### Example 5: Search Index with Autocomplete
 
 ```typescript
-import { Trie } from 'data-structure-typed';
+import {Trie} from 'data-structure-typed';
 
 class SearchIndex {
   private trie = new Trie();
@@ -393,8 +383,8 @@ class SearchIndex {
 
     for (const word of words) {
       // Insert word into trie
-      if (!this.trie.search(word)) {
-        this.trie.insert(word);
+      if (!this.trie.has(word)) {
+        this.trie.add(word);
       }
 
       // Track which documents contain this word
@@ -406,8 +396,8 @@ class SearchIndex {
   }
 
   autocomplete(prefix: string): string[] {
-    const words = this.trie.getWordsWithPrefix(prefix);
-    return words.filter((word, index) => index < 10); // Top 10
+    const words = this.trie.getWords(prefix);
+    return words.filter((_word, index) => index < 10); // Top 10
   }
 
   search(query: string): string[] {
@@ -429,49 +419,61 @@ console.log(index.search('apple'));      // ['doc1']
 
 ## Common Mistakes
 
-### ❌ Mistake 1: Forgetting to Convert Back
+### Mistake 1: Forgetting to Convert Back
 
 ```typescript
-// Wrong
+// ❌ Wrong
 const tree = new RedBlackTree([5, 2, 8]);
-const doubled = tree.map(x => x * 2);  // Still a tree!
-JSON.stringify(doubled);                // Error or wrong output
-
-// Right
-const tree = new RedBlackTree([5, 2, 8]);
-const doubled = tree.map(x => x * 2).toArray();
-JSON.stringify(doubled); // [4, 10, 16]
+const doubled = tree.map((_v, k) => [k * 2, undefined]);   // Still a tree!
+JSON.stringify(doubled);                                   // Error or wrong output
 ```
 
-### ❌ Mistake 2: Mutating During Iteration
+```typescript
+// ✅ Right
+const tree = new RedBlackTree([5, 2, 8]);
+const doubled = tree.map((_v, k) => [k * 2, undefined]);
+JSON.stringify([...doubled.keys()]); // [4, 10, 16]
+```
+
+### Mistake 2: Mutating During Iteration
 
 ```typescript
-// Wrong
-const tree = new RedBlackTree([1, 2, 3]);
-for (const val of tree) {
-  if (val === 2) tree.delete(2);  // Avoid this!
+// ❌ Wrong
+const tree = new RedBlackTree([1, 2, 3, 4, 5, 6]);
+for (const [key, _value] of tree) {
+  if (key % 2 === 0) tree.delete(key);  // Avoid this!
 }
+```
 
-// Right
-const tree = new RedBlackTree([1, 2, 3]);
+```typescript
+// ✅ Right
+const tree = new RedBlackTree([1, 2, 3, 4, 5, 6]);
 const toDelete = [];
-for (const val of tree) {
-  if (val === 2) toDelete.push(2);
+for (const [key, _value] of tree) {
+  if (key % 2 === 0) toDelete.push(key);
 }
 toDelete.forEach(v => tree.delete(v));
 ```
 
-### ❌ Mistake 3: Wrong Data Structure Choice
+```typescript
+// ✅ Perfect
+const tree = new RedBlackTree([1, 2, 3, 4, 5, 6]);
+tree.deleteWhere((node) => node.key % 2 === 0);
+```
+
+### Mistake 3: Wrong Data Structure Choice
 
 ```typescript
-// Wrong - using Array for sorted data with updates
+// ❌ Wrong - using Array for sorted data with updates
 const scores = [];
 function addScore(score) {
   scores.push(score);
   scores.sort((a, b) => b - a);  // O(n log n) every time!
 }
+```
 
-// Right - using RedBlackTree
+```typescript
+// ✅ Right - using RedBlackTree
 const scores = new RedBlackTree();
 function addScore(score) {
   scores.set(score, true);  // O(log n), auto-sorted
@@ -485,58 +487,66 @@ function addScore(score) {
 ### 1. Choose Structure Early
 
 ```typescript
-// Good: Decide upfront
-function processScores(scores: number[]) {
-  const tree = new RedBlackTree(scores);  // Already sorted
-  return tree.filter(x => x > 50).map(x => x * 1.1);
-}
-
-// Bad: Convert later
+// ❌ Bad: Convert later
 function processScores(scores: number[]) {
   const sorted = [...scores].sort((a, b) => b - a);
   return new RedBlackTree(sorted).filter(x => x > 50);  // Redundant
 }
 ```
 
+```typescript
+// ✅ Good: Decide upfront
+function processScores(scores: number[]) {
+  const tree = new RedBlackTree(scores);  // Already sorted
+  return tree.filter(x => x > 50).map((_v,k) => [k * 1.1, undefined]);
+}
+```
+
 ### 2. Batch Operations When Possible
 
 ```typescript
-// Good: Bulk insert
-const tree = new RedBlackTree(largeDataset);
-
-// Bad: Individual inserts
+// ❌ Bad: Individual inserts
 const tree = new RedBlackTree();
 for (const item of largeDataset) {
   tree.set(item.id, item);  // Rebalances each time
 }
 ```
 
+```typescript
+// ✅ Good: Bulk insert
+const tree = new RedBlackTree(largeDataset);
+```
+
 ### 3. Use Type Safety
 
 ```typescript
-// Good: Full type inference
-const tree = new RedBlackTree<number, User>();
-tree.set(1, { id: 1, name: 'Alice' });
-
-// Bad: No type checking
+// ❌ Bad: No type checking
 const tree = new RedBlackTree();
+tree.set(1, { id: 1, name: 'Alice' });
+```
+
+```typescript
+// ✅ Good: Full type inference
+const tree = new RedBlackTree<number, User>();
 tree.set(1, { id: 1, name: 'Alice' });
 ```
 
 ### 4. Chain When Possible
 
 ```typescript
-// Good: Stay on structure
-const result = tree
-  .filter(x => x > 10)
-  .map(x => x * 2)
-  .reduce((sum, x) => sum + x, 0);
-
-// Bad: Convert unnecessarily
+// ❌ Bad: Convert unnecessarily
 const result = [...tree]
   .filter(x => x > 10)
   .map(x => x * 2)
   .reduce((sum, x) => sum + x, 0);
+```
+
+```typescript
+// ✅ Good: Stay on structure
+const result = tree
+  .filter(v => v > 10)
+  .map(v => [(v ?? 0) * 2, undefined])
+  .reduce((sum, v) => sum + (v ?? 0), 0);
 ```
 
 ---
