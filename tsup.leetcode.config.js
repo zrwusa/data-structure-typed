@@ -18,7 +18,7 @@ const commonConfig = {
     return { js: '.mjs' };
   },
   esbuildOptions(options) {
-    options.drop = ['debugger', 'console']
+    options.drop = ['debugger']
   },
 
   // The true ultimate solution: automatic cleaning up of comments after the build is complete

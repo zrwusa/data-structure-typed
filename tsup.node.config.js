@@ -17,7 +17,7 @@ export default defineConfig([
       return { js: ".mjs" };
     },
     esbuildOptions(options) {
-      options.drop = ['debugger', 'console']
+      options.drop = ['debugger']
     }
   },
 
@@ -37,7 +37,7 @@ export default defineConfig([
       return { js: ".mjs" };
     },
     esbuildOptions(options) {
-      options.drop = ['debugger', 'console']
+      options.drop = ['debugger']
     }
   },
 
@@ -57,7 +57,7 @@ export default defineConfig([
       return { js: ".cjs" };
     },
     esbuildOptions(options) {
-      options.drop = ['debugger', 'console']
+      options.drop = ['debugger']
     }
   },
 
@@ -77,7 +77,7 @@ export default defineConfig([
       return { js: ".cjs" };
     },
     esbuildOptions(options) {
-      options.drop = ['debugger', 'console']
+      options.drop = ['debugger']
     }
   }
 ]);

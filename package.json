@@ -1,6 +1,6 @@
 {
   "name": "data-structure-typed",
-  "version": "2.2.6",
+  "version": "2.2.7",
   "description": "Standard data structure",
   "browser": "dist/umd/data-structure-typed.min.js",
   "umd:main": "dist/umd/data-structure-typed.min.js",

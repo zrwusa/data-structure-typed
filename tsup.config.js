@@ -13,7 +13,7 @@ export default defineConfig([
     platform: "browser",
     outExtension: () => ({ js: '.min.js' }),
     esbuildOptions(options) {
-      options.drop = ['debugger', 'console']
+      options.drop = ['debugger']
     }
   },
   {
@@ -28,7 +28,7 @@ export default defineConfig([
     platform: "browser",
     outExtension: () => ({ js: '.js' }),
     esbuildOptions(options) {
-      options.drop = ['debugger', 'console']
+      options.drop = ['debugger']
     }
   }
 ]);
