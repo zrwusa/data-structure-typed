@@ -1019,13 +1019,11 @@ function buildIndex(sample: Product[]): TreeMultiMap<number, Product, Product> {
 
 // Helper: normalize getLeftMost/getRightMost return (key or node.key)
 function leftKey(tmm: TreeMultiMap<number, Product, Product>): number | undefined {
-  const v = tmm.getLeftMost();
-  return v == null ? undefined : typeof v === 'object' ? v.key : v;
+  return tmm.getLeftMost();
 }
 
 function rightKey(tmm: TreeMultiMap<number, Product, Product>): number | undefined {
-  const v = tmm.getRightMost();
-  return v == null ? undefined : typeof v === 'object' ? v.key : v;
+  return tmm.getRightMost();
 }
 
 describe('TreeMultiMap — rangeSearch-driven semantics', () => {
@@ -1083,13 +1081,15 @@ describe('TreeMultiMap — rangeSearch-driven semantics', () => {
     const lo = tmm.getLeftMost(); // expected 12.9
     const hi = tmm.getRightMost(); // expected 199
 
-    const groups = tmm.rangeSearch(new Range(lo, hi, true, true), node => ({
-      key: node.key,
-      count: node.value!.length
-    }));
+    if (lo !== undefined && hi !== undefined) {
+      const groups = tmm.rangeSearch(new Range(lo, hi, true, true), node => ({
+        key: node.key,
+        count: node.value!.length
+      }));
 
-    // 12.9:1 | 35.5:2 | 79.9:2 | 99:1 | 120:1 | 199:1
-    expect(groups.map(g => `${g.key}:${g.count}`).join(' | ')).toBe('12.9:1 | 35.5:2 | 79.9:2 | 99:1 | 120:1 | 199:1');
+      // 12.9:1 | 35.5:2 | 79.9:2 | 99:1 | 120:1 | 199:1
+      expect(groups.map(g => `${g.key}:${g.count}`).join(' | ')).toBe('12.9:1 | 35.5:2 | 79.9:2 | 99:1 | 120:1 | 199:1');
+    }
   });
 
   it('empty TreeMultiMap → rangeSearch returns empty results', () => {

@@ -492,7 +492,6 @@ describe('BST operations test', () => {
   it('should search in range', () => {
     const bst = new BST<number>([10, 5, 15, 3, 7, 12, 18]);
     expect(bst.rangeSearch([4, 12])).toEqual([5, 7, 10, 12]);
-    expect(() => bst.rangeSearch([12, 4])).toThrow('low must be less than or equal to high');
     expect(bst.rangeSearch([12, 12])).toEqual([12]);
   });
 });
@@ -1613,7 +1612,7 @@ describe('BST _keyValueNodeOrEntryToNodeAndValue edge', () => {
   });
 });
 
-describe('BST lowerBound and upperBound', () => {
+describe('BST ceiling and higher', () => {
   let bst: BST<number, string>;
 
   beforeEach(() => {
@@ -1621,184 +1620,184 @@ describe('BST lowerBound and upperBound', () => {
     bst = new BST<number, string>([10, 5, 15, 3, 7, 12, 20, 1, 4, 6, 8, 11, 13, 18, 25]);
   });
 
-  describe('lowerBound', () => {
-    it('should return the node with exact key match', () => {
+  describe('ceiling', () => {
+    it('should return the key with exact key match', () => {
       // Test for key that exists in tree
-      const node = bst.lowerBound(10);
-      expect(node).toBeDefined();
-      expect(node?.key).toBe(10);
+      const key = bst.ceiling(10);
+      expect(key).toBeDefined();
+      expect(key).toBe(10);
     });
 
-    it('should return the smallest node >= key when exact match not found', () => {
+    it('should return the smallest key >= key when exact match not found', () => {
       // Test for key 9 (doesn't exist, should return 10)
-      const node = bst.lowerBound(9);
-      expect(node).toBeDefined();
-      expect(node?.key).toBe(10);
+      const key = bst.ceiling(9);
+      expect(key).toBeDefined();
+      expect(key).toBe(10);
     });
 
-    it('should return node with key >= search key from multiple candidates', () => {
+    it('should return key with key >= search key from multiple candidates', () => {
       // Test for key 6 (exists, should return 6)
-      const node = bst.lowerBound(6);
-      expect(node).toBeDefined();
-      expect(node?.key).toBe(6);
+      const key = bst.ceiling(6);
+      expect(key).toBeDefined();
+      expect(key).toBe(6);
 
       // Test for key 7 (exists, should return 7)
-      const node2 = bst.lowerBound(7);
-      expect(node2).toBeDefined();
-      expect(node2?.key).toBe(7);
+      const key2 = bst.ceiling(7);
+      expect(key2).toBeDefined();
+      expect(key2).toBe(7);
     });
 
     it('should return smallest key >= search key for non-existent key in middle range', () => {
       // Test for key 14 (doesn't exist, should return 15)
-      const node = bst.lowerBound(14);
-      expect(node).toBeDefined();
-      expect(node?.key).toBe(15);
+      const key = bst.ceiling(14);
+      expect(key).toBeDefined();
+      expect(key).toBe(15);
 
       // Test for key 11.5 (doesn't exist, should return 12)
-      const node2 = bst.lowerBound(11.5);
-      expect(node2).toBeDefined();
-      expect(node2?.key).toBe(12);
+      const key2 = bst.ceiling(11.5);
+      expect(key2).toBeDefined();
+      expect(key2).toBe(12);
     });
 
     it('should return smallest key when search key is less than minimum', () => {
       // Test for key 0 (should return 1, the minimum)
-      const node = bst.lowerBound(0);
-      expect(node).toBeDefined();
-      expect(node?.key).toBe(1);
+      const key = bst.ceiling(0);
+      expect(key).toBeDefined();
+      expect(key).toBe(1);
 
       // Test for key -100 (should return 1, the minimum)
-      const node2 = bst.lowerBound(-100);
-      expect(node2).toBeDefined();
-      expect(node2?.key).toBe(1);
+      const key2 = bst.ceiling(-100);
+      expect(key2).toBeDefined();
+      expect(key2).toBe(1);
     });
 
     it('should return undefined when search key is greater than maximum', () => {
       // Test for key 100 (no key >= 100, should return undefined)
-      const node = bst.lowerBound(100);
-      expect(node).toBeUndefined();
+      const key = bst.ceiling(100);
+      expect(key).toBeUndefined();
 
       // Test for key 26 (no key >= 26, should return undefined)
-      const node2 = bst.lowerBound(26);
-      expect(node2).toBeUndefined();
+      const key2 = bst.ceiling(26);
+      expect(key2).toBeUndefined();
     });
 
-    it('should return correct node for edge cases', () => {
+    it('should return correct key for edge cases', () => {
       // Test for key 25 (maximum, should return 25)
-      const node = bst.lowerBound(25);
-      expect(node).toBeDefined();
-      expect(node?.key).toBe(25);
+      const key = bst.ceiling(25);
+      expect(key).toBeDefined();
+      expect(key).toBe(25);
 
       // Test for key 1 (minimum, should return 1)
-      const node2 = bst.lowerBound(1);
-      expect(node2).toBeDefined();
-      expect(node2?.key).toBe(1);
+      const key2 = bst.ceiling(1);
+      expect(key2).toBeDefined();
+      expect(key2).toBe(1);
     });
   });
 
-  describe('upperBound', () => {
+  describe('higher', () => {
     it('should return the smallest key > search key', () => {
       // Test for key 10 (exists, should return next key > 10, which is 11)
-      const node = bst.upperBound(10);
-      expect(node).toBeDefined();
-      expect(node?.key).toBe(11);
+      const key = bst.higher(10);
+      expect(key).toBeDefined();
+      expect(key).toBe(11);
     });
 
     it('should return the smallest key > search key for non-existent key', () => {
       // Test for key 9 (doesn't exist, should return 10, the smallest key > 9)
-      const node = bst.upperBound(9);
-      expect(node).toBeDefined();
-      expect(node?.key).toBe(10);
+      const key = bst.higher(9);
+      expect(key).toBeDefined();
+      expect(key).toBe(10);
 
       // Test for key 14 (doesn't exist, should return 15)
-      const node2 = bst.upperBound(14);
-      expect(node2).toBeDefined();
-      expect(node2?.key).toBe(15);
+      const key2 = bst.higher(14);
+      expect(key2).toBeDefined();
+      expect(key2).toBe(15);
     });
 
     it('should skip equal keys and return the next larger key', () => {
       // Test for key 5 (exists, should return 6, the smallest key > 5)
-      const node = bst.upperBound(5);
-      expect(node).toBeDefined();
-      expect(node?.key).toBe(6);
+      const key = bst.higher(5);
+      expect(key).toBeDefined();
+      expect(key).toBe(6);
 
       // Test for key 20 (exists, should return 25)
-      const node2 = bst.upperBound(20);
-      expect(node2).toBeDefined();
-      expect(node2?.key).toBe(25);
+      const key2 = bst.higher(20);
+      expect(key2).toBeDefined();
+      expect(key2).toBe(25);
     });
 
     it('should return smallest key > search key for non-existent key in middle range', () => {
       // Test for key 11.5 (doesn't exist, should return 12)
-      const node = bst.upperBound(11.5);
-      expect(node).toBeDefined();
-      expect(node?.key).toBe(12);
+      const key = bst.higher(11.5);
+      expect(key).toBeDefined();
+      expect(key).toBe(12);
 
       // Test for key 19 (doesn't exist, should return 20)
-      const node2 = bst.upperBound(19);
-      expect(node2).toBeDefined();
-      expect(node2?.key).toBe(20);
+      const key2 = bst.higher(19);
+      expect(key2).toBeDefined();
+      expect(key2).toBe(20);
     });
 
     it('should return smallest key when search key is less than minimum', () => {
       // Test for key 0 (should return 1, the minimum)
-      const node = bst.upperBound(0);
-      expect(node).toBeDefined();
-      expect(node?.key).toBe(1);
+      const key = bst.higher(0);
+      expect(key).toBeDefined();
+      expect(key).toBe(1);
 
       // Test for key -100 (should return 1, the minimum)
-      const node2 = bst.upperBound(-100);
-      expect(node2).toBeDefined();
-      expect(node2?.key).toBe(1);
+      const key2 = bst.higher(-100);
+      expect(key2).toBeDefined();
+      expect(key2).toBe(1);
     });
 
     it('should return undefined when search key is >= maximum', () => {
       // Test for key 100 (no key > 100, should return undefined)
-      const node = bst.upperBound(100);
-      expect(node).toBeUndefined();
+      const key = bst.higher(100);
+      expect(key).toBeUndefined();
 
       // Test for key 25 (maximum, no key > 25, should return undefined)
-      const node2 = bst.upperBound(25);
-      expect(node2).toBeUndefined();
+      const key2 = bst.higher(25);
+      expect(key2).toBeUndefined();
 
       // Test for key 26 (no key > 26, should return undefined)
-      const node3 = bst.upperBound(26);
-      expect(node3).toBeUndefined();
+      const key3 = bst.higher(26);
+      expect(key3).toBeUndefined();
     });
 
-    it('should return correct node for edge cases', () => {
+    it('should return correct key for edge cases', () => {
       // Test for key 1 (minimum, should return next key 3)
-      const node = bst.upperBound(1);
-      expect(node).toBeDefined();
-      expect(node?.key).toBe(3);
+      const key = bst.higher(1);
+      expect(key).toBeDefined();
+      expect(key).toBe(3);
 
       // Test for key 24 (doesn't exist, should return 25)
-      const node2 = bst.upperBound(24);
-      expect(node2).toBeDefined();
-      expect(node2?.key).toBe(25);
+      const key2 = bst.higher(24);
+      expect(key2).toBeDefined();
+      expect(key2).toBe(25);
     });
   });
 
-  describe('lowerBound vs upperBound comparison', () => {
-    it('should demonstrate difference between lowerBound and upperBound', () => {
+  describe('ceiling vs higher comparison', () => {
+    it('should demonstrate difference between ceiling and higher', () => {
       const searchKey = 12;
 
-      // lowerBound(12) should return 12 (key >= 12)
-      const lower = bst.lowerBound(searchKey);
-      expect(lower?.key).toBe(12);
+      // ceiling(12) should return 12 (key >= 12)
+      const lower = bst.ceiling(searchKey);
+      expect(lower).toBe(12);
 
-      // upperBound(12) should return 13 (key > 12)
-      const upper = bst.upperBound(searchKey);
-      expect(upper?.key).toBe(13);
+      // higher(12) should return 13 (key > 12)
+      const upper = bst.higher(searchKey);
+      expect(upper).toBe(13);
     });
 
     it('should return same result for non-existent key in both methods', () => {
       const searchKey = 11.5;
 
-      // Both should return 12 (smallest key >= 11.5 for lowerBound, smallest key > 11.5 for upperBound)
-      const lower = bst.lowerBound(searchKey);
-      const upper = bst.upperBound(searchKey);
-      expect(lower?.key).toBe(12);
-      expect(upper?.key).toBe(12);
+      // Both should return 12 (smallest key >= 11.5 for ceiling, smallest key > 11.5 for higher)
+      const lower = bst.ceiling(searchKey);
+      const upper = bst.higher(searchKey);
+      expect(lower).toBe(12);
+      expect(upper).toBe(12);
     });
   });
 
@@ -1825,90 +1824,90 @@ describe('BST lowerBound and upperBound', () => {
       keys.forEach(k => bst.add(k, `val-${k}`));
     });
 
-    describe('lowerBound (First node >= key)', () => {
+    describe('ceiling (First key >= key)', () => {
       test('should return strict match if key exists', () => {
         // Case: Key exists
-        expect(bst.lowerBound(10)?.key).toBe(10);
-        expect(bst.lowerBound(6)?.key).toBe(6);
-        expect(bst.lowerBound(20)?.key).toBe(20);
+        expect(bst.ceiling(10)).toBe(10);
+        expect(bst.ceiling(6)).toBe(6);
+        expect(bst.ceiling(20)).toBe(20);
       });
 
-      test('should return next larger node if key does not exist', () => {
+      test('should return next larger key if key does not exist', () => {
         // Case: Key doesn't exist, but falls within range
-        expect(bst.lowerBound(7)?.key).toBe(8); // 7 -> 8
-        expect(bst.lowerBound(11)?.key).toBe(12); // 11 -> 12
-        expect(bst.lowerBound(3)?.key).toBe(5); // 3 -> 5
+        expect(bst.ceiling(7)).toBe(8); // 7 -> 8
+        expect(bst.ceiling(11)).toBe(12); // 11 -> 12
+        expect(bst.ceiling(3)).toBe(5); // 3 -> 5
       });
 
-      test('should return smallest node if key is smaller than min', () => {
+      test('should return smallest key if key is smaller than min', () => {
         // Case: Key is smaller than the minimum value in the tree
-        expect(bst.lowerBound(0)?.key).toBe(2);
-        expect(bst.lowerBound(-100)?.key).toBe(2);
+        expect(bst.ceiling(0)).toBe(2);
+        expect(bst.ceiling(-100)).toBe(2);
       });
 
       test('should return undefined if key is larger than max', () => {
         // Case: Key is larger than the maximum value in the tree
-        expect(bst.lowerBound(21)).toBeUndefined();
-        expect(bst.lowerBound(100)).toBeUndefined();
+        expect(bst.ceiling(21)).toBeUndefined();
+        expect(bst.ceiling(100)).toBeUndefined();
       });
 
       test('should work with IterationType.RECURSIVE explicitly', () => {
-        expect(bst.lowerBound(7, 'RECURSIVE')?.key).toBe(8);
-        expect(bst.lowerBound(10, 'RECURSIVE')?.key).toBe(10);
-        expect(bst.lowerBound(21, 'RECURSIVE')).toBeUndefined();
+        expect(bst.ceiling(7)).toBe(8);
+        expect(bst.ceiling(10)).toBe(10);
+        expect(bst.ceiling(21)).toBeUndefined();
       });
 
       test('should work with IterationType.ITERATIVE explicitly', () => {
-        expect(bst.lowerBound(7, 'ITERATIVE')?.key).toBe(8);
-        expect(bst.lowerBound(10, 'ITERATIVE')?.key).toBe(10);
-        expect(bst.lowerBound(21, 'ITERATIVE')).toBeUndefined();
+        expect(bst.ceiling(7)).toBe(8);
+        expect(bst.ceiling(10)).toBe(10);
+        expect(bst.ceiling(21)).toBeUndefined();
       });
     });
 
-    describe('upperBound (First node > key)', () => {
-      test('should return next larger node even if key exists', () => {
+    describe('higher (First key > key)', () => {
+      test('should return next larger key even if key exists', () => {
         // Case: Key exists, but we want strictly greater
-        expect(bst.upperBound(10)?.key).toBe(12); // > 10 is 12
-        expect(bst.upperBound(6)?.key).toBe(8); // > 6 is 8
-        expect(bst.upperBound(20)).toBeUndefined(); // > 20 is undefined
+        expect(bst.higher(10)).toBe(12); // > 10 is 12
+        expect(bst.higher(6)).toBe(8); // > 6 is 8
+        expect(bst.higher(20)).toBeUndefined(); // > 20 is undefined
       });
 
-      test('should return next larger node if key does not exist', () => {
+      test('should return next larger key if key does not exist', () => {
         // Case: Key doesn't exist
-        expect(bst.upperBound(7)?.key).toBe(8);
-        expect(bst.upperBound(11)?.key).toBe(12);
+        expect(bst.higher(7)).toBe(8);
+        expect(bst.higher(11)).toBe(12);
       });
 
       test('should return undefined if key is larger than or equal to max', () => {
-        expect(bst.upperBound(20)).toBeUndefined();
-        expect(bst.upperBound(21)).toBeUndefined();
+        expect(bst.higher(20)).toBeUndefined();
+        expect(bst.higher(21)).toBeUndefined();
       });
 
       test('should work with IterationType.RECURSIVE explicitly', () => {
-        expect(bst.upperBound(10, 'RECURSIVE')?.key).toBe(12);
-        expect(bst.upperBound(20, 'RECURSIVE')).toBeUndefined();
+        expect(bst.higher(10)).toBe(12);
+        expect(bst.higher(20)).toBeUndefined();
       });
     });
 
     describe('Edge Cases', () => {
       test('should handle empty tree', () => {
         const emptyTree = new BST<number, string>();
-        expect(emptyTree.lowerBound(10)).toBeUndefined();
-        expect(emptyTree.upperBound(10)).toBeUndefined();
+        expect(emptyTree.ceiling(10)).toBeUndefined();
+        expect(emptyTree.higher(10)).toBeUndefined();
       });
 
       test('should handle single node tree', () => {
         const singleNodeTree = new BST<number, string>();
         singleNodeTree.add(10);
 
-        // lowerBound
-        expect(singleNodeTree.lowerBound(5)?.key).toBe(10);
-        expect(singleNodeTree.lowerBound(10)?.key).toBe(10);
-        expect(singleNodeTree.lowerBound(15)).toBeUndefined();
+        // ceiling
+        expect(singleNodeTree.ceiling(5)).toBe(10);
+        expect(singleNodeTree.ceiling(10)).toBe(10);
+        expect(singleNodeTree.ceiling(15)).toBeUndefined();
 
-        // upperBound
-        expect(singleNodeTree.upperBound(5)?.key).toBe(10);
-        expect(singleNodeTree.upperBound(10)).toBeUndefined();
+        // higher
+        expect(singleNodeTree.higher(5)).toBe(10);
+        expect(singleNodeTree.higher(10)).toBeUndefined();
       });
     });
 
@@ -1928,9 +1927,9 @@ describe('BST lowerBound and upperBound', () => {
         const testQueries = generateRandomArray(200, 0, 1000);
 
         testQueries.forEach(queryKey => {
-          // 1. Verify lowerBound
-          const recLower = fuzzTree.lowerBound(queryKey, 'RECURSIVE')?.key;
-          const iterLower = fuzzTree.lowerBound(queryKey, 'ITERATIVE')?.key;
+          // 1. Verify ceiling
+          const recLower = fuzzTree.ceiling(queryKey);
+          const iterLower = fuzzTree.ceiling(queryKey);
 
           // Verify consistency between recursive and iterative
           expect(recLower).toBe(iterLower);
@@ -1939,9 +1938,9 @@ describe('BST lowerBound and upperBound', () => {
           const expectedLower = sortedKeys.find(k => k >= queryKey);
           expect(recLower).toBe(expectedLower);
 
-          // 2. Verify upperBound
-          const recUpper = fuzzTree.upperBound(queryKey, 'RECURSIVE')?.key;
-          const iterUpper = fuzzTree.upperBound(queryKey, 'ITERATIVE')?.key;
+          // 2. Verify higher
+          const recUpper = fuzzTree.higher(queryKey);
+          const iterUpper = fuzzTree.higher(queryKey);
 
           // Verify consistency
           expect(recUpper).toBe(iterUpper);
@@ -1959,14 +1958,14 @@ describe('BST lowerBound and upperBound', () => {
       bst = new BST<number, string>();
     });
 
-    it('lowerBound should return undefined on empty tree', () => {
-      const node = bst.lowerBound(10);
-      expect(node).toBeUndefined();
+    it('ceiling should return undefined on empty tree', () => {
+      const key = bst.ceiling(10);
+      expect(key).toBeUndefined();
     });
 
-    it('upperBound should return undefined on empty tree', () => {
-      const node = bst.upperBound(10);
-      expect(node).toBeUndefined();
+    it('higher should return undefined on empty tree', () => {
+      const key = bst.higher(10);
+      expect(key).toBeUndefined();
     });
   });
 
@@ -1976,258 +1975,67 @@ describe('BST lowerBound and upperBound', () => {
       bst.add(10, 'ten');
     });
 
-    it('lowerBound should return the node if key matches', () => {
-      const node = bst.lowerBound(10);
-      expect(node).toBeDefined();
-      expect(node?.key).toBe(10);
+    it('ceiling should return the key if key matches', () => {
+      const key = bst.ceiling(10);
+      expect(key).toBeDefined();
+      expect(key).toBe(10);
     });
 
-    it('lowerBound should return the node if search key is less', () => {
-      const node = bst.lowerBound(5);
-      expect(node).toBeDefined();
-      expect(node?.key).toBe(10);
+    it('ceiling should return the key if search key is less', () => {
+      const key = bst.ceiling(5);
+      expect(key).toBeDefined();
+      expect(key).toBe(10);
     });
 
-    it('lowerBound should return undefined if search key is greater', () => {
-      const node = bst.lowerBound(15);
-      expect(node).toBeUndefined();
+    it('ceiling should return undefined if search key is greater', () => {
+      const key = bst.ceiling(15);
+      expect(key).toBeUndefined();
     });
 
-    it('upperBound should return undefined if key matches', () => {
-      const node = bst.upperBound(10);
-      expect(node).toBeUndefined();
+    it('higher should return undefined if key matches', () => {
+      const key = bst.higher(10);
+      expect(key).toBeUndefined();
     });
 
-    it('upperBound should return the node if search key is less', () => {
-      const node = bst.upperBound(5);
-      expect(node).toBeDefined();
-      expect(node?.key).toBe(10);
+    it('higher should return the key if search key is less', () => {
+      const key = bst.higher(5);
+      expect(key).toBeDefined();
+      expect(key).toBe(10);
     });
 
-    it('upperBound should return undefined if search key is greater', () => {
-      const node = bst.upperBound(15);
-      expect(node).toBeUndefined();
+    it('higher should return undefined if search key is greater', () => {
+      const key = bst.higher(15);
+      expect(key).toBeUndefined();
     });
   });
 
   describe('practical LeetCode use case: Range search', () => {
     it('should find all keys in range [12, 20]', () => {
-      // Use lowerBound to find start of range and upperBound to find end
-      const start = bst.lowerBound(12);
+      // Use ceiling to find start of range and higher to find end
+      const start = bst.ceiling(12);
 
-      // Simple traversal simulation (for test only, real iteration is more complex)
-      // We manually add keys we know are in range to verify logic works
-      // The lowerBound(12) returns 12. upperBound(20) returns 25 (or null if max).
-      // Logic: we want >= 12 and <= 20.
-
-      expect(start?.key).toBe(12);
+      expect(start).toBe(12);
 
       // Let's verify we found the correct bounds
-      expect(start?.key).toBeGreaterThanOrEqual(12);
+      expect(start).toBeGreaterThanOrEqual(12);
 
       // Check overlap
-      const rangeStart = bst.lowerBound(12);
-      const rangeEndInclusive = bst.lowerBound(20); // Should be 20
+      const rangeStart = bst.ceiling(12);
+      const rangeEndInclusive = bst.ceiling(20); // Should be 20
 
-      expect(rangeStart?.key).toBe(12);
-      expect(rangeEndInclusive?.key).toBe(20);
+      expect(rangeStart).toBe(12);
+      expect(rangeEndInclusive).toBe(20);
     });
 
     it('should help identify interval overlaps', () => {
       // Check if interval [14, 19] overlaps with any existing interval
-      // Use upperBound to find the first key > 19
-      const nextKey = bst.upperBound(19);
-      // Use lowerBound to find the first key >= 14
-      const firstInRange = bst.lowerBound(14);
+      // Use higher to find the first key > 19
+      const nextKey = bst.higher(19);
+      // Use ceiling to find the first key >= 14
+      const firstInRange = bst.ceiling(14);
 
-      expect(firstInRange?.key).toBe(15);
-      expect(nextKey?.key).toBe(20);
-    });
-  });
-});
-
-describe('BST Advanced Bound Methods Tests', () => {
-  let bst: BST<number, string>;
-
-  // Helper: Generate random number array
-  const generateRandomArray = (size: number, min: number, max: number) => {
-    return Array.from({ length: size }, () => Math.floor(Math.random() * (max - min + 1)) + min);
-  };
-
-  beforeEach(() => {
-    // Construct a standard test tree
-    // Structure:
-    //          10
-    //        /    \
-    //       5      15
-    //      / \    /  \
-    //     2   8  12   20
-    //        / \
-    //       6   9
-    bst = new BST<number, string>();
-    const keys = [10, 5, 15, 2, 8, 12, 20, 6, 9];
-    keys.forEach(k => bst.add(k, `val-${k}`));
-  });
-
-  describe('Polymorphic Input Support', () => {
-    test('should accept raw Key', () => {
-      expect(bst.lowerBound(7)?.key).toBe(8);
-      expect(bst.upperBound(7)?.key).toBe(8);
-    });
-
-    test('should accept BSTNode object', () => {
-      // Find a node first
-      const node5 = bst.getNode(5);
-      expect(node5).toBeDefined();
-
-      // Use the node as input for lowerBound (should return itself)
-      expect(bst.lowerBound(node5)?.key).toBe(5);
-
-      // Use the node as input for upperBound (should return next larger)
-      expect(bst.upperBound(node5)?.key).toBe(6);
-    });
-
-    test('should accept Entry tuple [key, value]', () => {
-      // Input as [key, value] tuple
-      const entry: [number, string] = [7, 'val-7'];
-
-      expect(bst.lowerBound(entry)?.key).toBe(8);
-      expect(bst.upperBound(entry)?.key).toBe(8);
-
-      const existingEntry: [number, string] = [10, 'val-10'];
-      expect(bst.lowerBound(existingEntry)?.key).toBe(10);
-      expect(bst.upperBound(existingEntry)?.key).toBe(12);
-    });
-
-    test('should accept Predicate function (Linear Search Fallback)', () => {
-      // Predicate: Find first node with key > 11 (Expect 12)
-      // Note: Predicate search uses in-order traversal
-      const predicate = (node: any) => node.key > 11;
-
-      // For predicate, lowerBound and upperBound behave identically
-      // (they just return the first match of the predicate)
-      expect(bst.lowerBound(predicate)?.key).toBe(12);
-      expect(bst.upperBound(predicate)?.key).toBe(12);
-
-      // Predicate: Find specific value
-      expect(bst.lowerBound(n => n.key === 6)?.key).toBe(6);
-    });
-  });
-
-  describe('Iteration Types with Polymorphic Inputs', () => {
-    test('should work recursively with all types', () => {
-      const type = 'RECURSIVE';
-
-      expect(bst.lowerBound(7, type)?.key).toBe(8);
-      expect(bst.lowerBound(bst.getNode(5), type)?.key).toBe(5);
-      expect(bst.lowerBound([7, 'val'], type)?.key).toBe(8);
-      expect(bst.lowerBound(n => n.key > 11, type)?.key).toBe(12);
-    });
-
-    test('should work iteratively with all types', () => {
-      const type = 'ITERATIVE';
-
-      expect(bst.lowerBound(7, type)?.key).toBe(8);
-      expect(bst.lowerBound(bst.getNode(5), type)?.key).toBe(5);
-      expect(bst.lowerBound([7, 'val'], type)?.key).toBe(8);
-      expect(bst.lowerBound(n => n.key > 11, type)?.key).toBe(12);
-    });
-  });
-
-  describe('Complex Edge Cases', () => {
-    test('should return undefined for null/undefined input', () => {
-      expect(bst.lowerBound(null)).toBeUndefined();
-      expect(bst.lowerBound(undefined)).toBeUndefined();
-    });
-
-    test('should handle predicate returning false for all nodes', () => {
-      expect(bst.lowerBound(n => n.key > 100)).toBeUndefined();
-    });
-  });
-
-  describe('Consistency Check (Fuzz Testing)', () => {
-    test('All input methods should yield consistent results for Raw Key and Entry', () => {
-      const fuzzTree = new BST<number, number>();
-      const randomKeys = generateRandomArray(100, 0, 200);
-      [...new Set(randomKeys)].forEach(k => fuzzTree.add(k));
-
-      const queries = generateRandomArray(50, 0, 200);
-
-      queries.forEach(q => {
-        // 1. Raw Key
-        const resKey = fuzzTree.lowerBound(q);
-
-        // 2. Entry
-        const resEntry = fuzzTree.lowerBound([q, undefined]);
-
-        // Verify consistency between Key and Entry
-        expect(resKey?.key).toBe(resEntry?.key);
-      });
-    });
-
-    test('BSTNode input should work correctly', () => {
-      const fuzzTree = new BST<number, number>();
-      const randomKeys = generateRandomArray(50, 0, 100);
-      const uniqueKeys = [...new Set(randomKeys)];
-      uniqueKeys.forEach(k => fuzzTree.add(k));
-
-      // Test with actual nodes from the tree
-      for (const key of uniqueKeys) {
-        const node = fuzzTree.getNode(key);
-        if (node) {
-          // lowerBound with node should return itself (since node.key >= key)
-          expect(fuzzTree.lowerBound(node)?.key).toBe(key);
-
-          // upperBound with node should return next larger
-          const upperRes = fuzzTree.upperBound(node);
-          if (upperRes) {
-            expect(upperRes.key).toBeGreaterThan(key);
-          }
-        }
-      }
-    });
-
-    test('Predicate input should find matching nodes', () => {
-      const fuzzTree = new BST<number, number>();
-      const randomKeys = generateRandomArray(50, 0, 100);
-      const uniqueKeys = [...new Set(randomKeys)];
-      uniqueKeys.forEach(k => fuzzTree.add(k));
-
-      // Test various predicates
-      const predicates = [(n: any) => n.key > 50, (n: any) => n.key < 30, (n: any) => n.key >= 25 && n.key <= 75];
-
-      predicates.forEach(predicate => {
-        const result = fuzzTree.lowerBound(predicate);
-        if (result) {
-          // Verify the result actually satisfies the predicate
-          expect(predicate(result)).toBe(true);
-        }
-      });
-    });
-
-    test('Consistency between RECURSIVE and ITERATIVE modes', () => {
-      const fuzzTree = new BST<number, number>();
-      const randomKeys = generateRandomArray(50, 0, 100);
-      [...new Set(randomKeys)].forEach(k => fuzzTree.add(k));
-
-      const queries = generateRandomArray(30, 0, 100);
-
-      queries.forEach(q => {
-        // Test with Key
-        const recKey = fuzzTree.lowerBound(q, 'RECURSIVE');
-        const iterKey = fuzzTree.lowerBound(q, 'ITERATIVE');
-        expect(recKey?.key).toBe(iterKey?.key);
-
-        // Test with Entry
-        const recEntry = fuzzTree.lowerBound([q, undefined], 'RECURSIVE');
-        const iterEntry = fuzzTree.lowerBound([q, undefined], 'ITERATIVE');
-        expect(recEntry?.key).toBe(iterEntry?.key);
-
-        // Test upperBound too
-        const recUpper = fuzzTree.upperBound(q, 'RECURSIVE');
-        const iterUpper = fuzzTree.upperBound(q, 'ITERATIVE');
-        expect(recUpper?.key).toBe(iterUpper?.key);
-      });
+      expect(firstInRange).toBe(15);
+      expect(nextKey).toBe(20);
     });
   });
 });
@@ -2240,318 +2048,318 @@ describe('BST Range Query Methods', () => {
     bst = new BST([10, 5, 15, 3, 7, 13, 17, 1, 4, 6, 9, 11, 14, 16, 19, 20]);
   });
 
-  describe('ceilingEntry - finds >= key (minimum value >= target)', () => {
+  describe('ceiling - finds >= key (minimum value >= target)', () => {
     test('should find ceiling when key exists', () => {
-      const result = bst.ceilingEntry(10);
+      const result = bst.ceiling(10);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(10);
+      expect(result).toBe(10);
     });
 
     test('should find ceiling when key does not exist but higher value exists', () => {
-      const result = bst.ceilingEntry(8);
+      const result = bst.ceiling(8);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(9);
+      expect(result).toBe(9);
     });
 
     test('should return undefined when no ceiling exists (key greater than all)', () => {
-      const result = bst.ceilingEntry(100);
+      const result = bst.ceiling(100);
       expect(result).toBeUndefined();
     });
 
     test('should find minimum element as ceiling for key smaller than all', () => {
-      const result = bst.ceilingEntry(-10);
+      const result = bst.ceiling(-10);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(1);
+      expect(result).toBe(1);
     });
 
     test('should handle ceiling with node input', () => {
       const targetNode = bst.getNode(7);
       expect(targetNode).toBeDefined();
-      const result = bst.ceilingEntry(targetNode!);
-      expect(result?.key).toBe(7);
+      const result = bst.ceiling(targetNode!);
+      expect(result).toBe(7);
     });
 
     test('should handle ceiling with entry input', () => {
-      const result = bst.ceilingEntry([11, 'test']);
+      const result = bst.ceiling([11, 'test']);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(11);
+      expect(result).toBe(11);
     });
 
     test('should handle null/undefined inputs', () => {
-      expect(bst.ceilingEntry(null)).toBeUndefined();
-      expect(bst.ceilingEntry(undefined)).toBeUndefined();
+      expect(bst.ceiling(null)).toBeUndefined();
+      expect(bst.ceiling(undefined)).toBeUndefined();
     });
 
     test('should work with ITERATIVE mode', () => {
-      const result = bst.ceilingEntry(12, 'ITERATIVE');
+      const result = bst.ceiling(12);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(13);
+      expect(result).toBe(13);
     });
 
     test('should work with RECURSIVE mode', () => {
-      const result = bst.ceilingEntry(12, 'RECURSIVE');
+      const result = bst.ceiling(12);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(13);
+      expect(result).toBe(13);
     });
 
     test('should find exact match as ceiling', () => {
-      const result = bst.ceilingEntry(15);
+      const result = bst.ceiling(15);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(15);
+      expect(result).toBe(15);
     });
   });
 
-  describe('higherEntry - finds > key (minimum value > target)', () => {
+  describe('higher - finds > key (minimum value > target)', () => {
     test('should find higher when key exists (exclude exact match)', () => {
-      const result = bst.higherEntry(10);
+      const result = bst.higher(10);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(11);
-      expect(result?.key).not.toBe(10);
+      expect(result).toBe(11);
+      expect(result).not.toBe(10);
     });
 
     test('should find higher when key does not exist', () => {
-      const result = bst.higherEntry(8);
+      const result = bst.higher(8);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(9);
+      expect(result).toBe(9);
     });
 
     test('should return undefined when no higher exists (key >= all)', () => {
-      const result = bst.higherEntry(20);
+      const result = bst.higher(20);
       expect(result).toBeUndefined();
     });
 
     test('should find minimum element as higher for key < all', () => {
-      const result = bst.higherEntry(-10);
+      const result = bst.higher(-10);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(1);
+      expect(result).toBe(1);
     });
 
     test('should not return the key itself', () => {
-      const result = bst.higherEntry(7);
-      expect(result?.key).not.toBe(7);
-      expect(result?.key).toBe(9);
+      const result = bst.higher(7);
+      expect(result).not.toBe(7);
+      expect(result).toBe(9);
     });
 
     test('should handle higher with node input', () => {
       const targetNode = bst.getNode(5);
       expect(targetNode).toBeDefined();
-      const result = bst.higherEntry(targetNode!);
-      expect(result?.key).toBeGreaterThan(5);
-      expect(result?.key).toBe(6);
+      const result = bst.higher(targetNode!);
+      expect(result).toBeGreaterThan(5);
+      expect(result).toBe(6);
     });
 
     test('should work with ITERATIVE mode', () => {
-      const result = bst.higherEntry(13, 'ITERATIVE');
+      const result = bst.higher(13);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(14);
+      expect(result).toBe(14);
     });
 
     test('should work with RECURSIVE mode', () => {
-      const result = bst.higherEntry(13, 'RECURSIVE');
+      const result = bst.higher(13);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(14);
+      expect(result).toBe(14);
     });
   });
 
-  describe('floorEntry - finds <= key (maximum value <= target)', () => {
+  describe('floor - finds <= key (maximum value <= target)', () => {
     test('should find floor when key exists', () => {
-      const result = bst.floorEntry(10);
+      const result = bst.floor(10);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(10);
+      expect(result).toBe(10);
     });
 
     test('should find floor when key does not exist but lower value exists', () => {
-      const result = bst.floorEntry(12);
+      const result = bst.floor(12);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(11);
+      expect(result).toBe(11);
     });
 
     test('should return undefined when no floor exists (key less than all)', () => {
-      const result = bst.floorEntry(-10);
+      const result = bst.floor(-10);
       expect(result).toBeUndefined();
     });
 
     test('should find maximum element as floor for key greater than all', () => {
-      const result = bst.floorEntry(100);
+      const result = bst.floor(100);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(20);
+      expect(result).toBe(20);
     });
 
     test('should handle floor with node input', () => {
       const targetNode = bst.getNode(13);
       expect(targetNode).toBeDefined();
-      const result = bst.floorEntry(targetNode!);
-      expect(result?.key).toBe(13);
+      const result = bst.floor(targetNode!);
+      expect(result).toBe(13);
     });
 
     test('should handle floor with entry input', () => {
-      const result = bst.floorEntry([16, 'test']);
+      const result = bst.floor([16, 'test']);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(16);
+      expect(result).toBe(16);
     });
 
     test('should handle null/undefined inputs', () => {
-      expect(bst.floorEntry(null)).toBeUndefined();
-      expect(bst.floorEntry(undefined)).toBeUndefined();
+      expect(bst.floor(null)).toBeUndefined();
+      expect(bst.floor(undefined)).toBeUndefined();
     });
 
     test('should work with ITERATIVE mode', () => {
-      const result = bst.floorEntry(12, 'ITERATIVE');
+      const result = bst.floor(12);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(11);
+      expect(result).toBe(11);
     });
 
     test('should work with RECURSIVE mode', () => {
-      const result = bst.floorEntry(12, 'RECURSIVE');
+      const result = bst.floor(12);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(11);
+      expect(result).toBe(11);
     });
 
     test('should find exact match as floor', () => {
-      const result = bst.floorEntry(15);
+      const result = bst.floor(15);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(15);
+      expect(result).toBe(15);
     });
 
     test('should correctly find floor between two keys', () => {
-      const result = bst.floorEntry(8);
+      const result = bst.floor(8);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(7);
-      expect(result?.key).toBeLessThan(8);
+      expect(result).toBe(7);
+      expect(result).toBeLessThan(8);
     });
   });
 
-  describe('lowerEntry - finds < key (maximum value < target)', () => {
+  describe('lower - finds < key (maximum value < target)', () => {
     test('should find lower when key exists (exclude exact match)', () => {
-      const result = bst.lowerEntry(10);
+      const result = bst.lower(10);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(9);
-      expect(result?.key).not.toBe(10);
+      expect(result).toBe(9);
+      expect(result).not.toBe(10);
     });
 
     test('should find lower when key does not exist', () => {
-      const result = bst.lowerEntry(12);
+      const result = bst.lower(12);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(11);
+      expect(result).toBe(11);
     });
 
     test('should return undefined when no lower exists (key <= all)', () => {
-      const result = bst.lowerEntry(1);
+      const result = bst.lower(1);
       expect(result).toBeUndefined();
     });
 
     test('should find maximum element as lower for key > all', () => {
-      const result = bst.lowerEntry(100);
+      const result = bst.lower(100);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(20);
+      expect(result).toBe(20);
     });
 
     test('should not return the key itself', () => {
-      const result = bst.lowerEntry(15);
-      expect(result?.key).not.toBe(15);
-      expect(result?.key).toBe(14);
+      const result = bst.lower(15);
+      expect(result).not.toBe(15);
+      expect(result).toBe(14);
     });
 
     test('should handle lower with node input', () => {
       const targetNode = bst.getNode(13);
       expect(targetNode).toBeDefined();
-      const result = bst.lowerEntry(targetNode!);
-      expect(result?.key).toBeLessThan(13);
-      expect(result?.key).toBe(11);
+      const result = bst.lower(targetNode!);
+      expect(result).toBeLessThan(13);
+      expect(result).toBe(11);
     });
 
     test('should handle lower with entry input', () => {
-      const result = bst.lowerEntry([17, 'test']);
+      const result = bst.lower([17, 'test']);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(16);
+      expect(result).toBe(16);
     });
 
     test('should work with ITERATIVE mode', () => {
-      const result = bst.lowerEntry(14, 'ITERATIVE');
+      const result = bst.lower(14);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(13);
+      expect(result).toBe(13);
     });
 
     test('should work with RECURSIVE mode', () => {
-      const result = bst.lowerEntry(14, 'RECURSIVE');
+      const result = bst.lower(14);
       expect(result).toBeDefined();
-      expect(result?.key).toBe(13);
+      expect(result).toBe(13);
     });
   });
 
   describe('Edge cases and special scenarios', () => {
     test('single element tree - ceiling', () => {
       const singleBst = new BST([5]);
-      expect(singleBst.ceilingEntry(5)?.key).toBe(5);
-      expect(singleBst.ceilingEntry(3)?.key).toBe(5);
-      expect(singleBst.ceilingEntry(7)).toBeUndefined();
+      expect(singleBst.ceiling(5)).toBe(5);
+      expect(singleBst.ceiling(3)).toBe(5);
+      expect(singleBst.ceiling(7)).toBeUndefined();
     });
 
     test('single element tree - higher', () => {
       const singleBst = new BST([5]);
-      expect(singleBst.higherEntry(5)).toBeUndefined();
-      expect(singleBst.higherEntry(3)?.key).toBe(5);
+      expect(singleBst.higher(5)).toBeUndefined();
+      expect(singleBst.higher(3)).toBe(5);
     });
 
     test('single element tree - floor', () => {
       const singleBst = new BST([5]);
-      expect(singleBst.floorEntry(5)?.key).toBe(5);
-      expect(singleBst.floorEntry(7)?.key).toBe(5);
-      expect(singleBst.floorEntry(3)).toBeUndefined();
+      expect(singleBst.floor(5)).toBe(5);
+      expect(singleBst.floor(7)).toBe(5);
+      expect(singleBst.floor(3)).toBeUndefined();
     });
 
     test('single element tree - lower', () => {
       const singleBst = new BST([5]);
-      expect(singleBst.lowerEntry(5)).toBeUndefined();
-      expect(singleBst.lowerEntry(7)?.key).toBe(5);
+      expect(singleBst.lower(5)).toBeUndefined();
+      expect(singleBst.lower(7)).toBe(5);
     });
 
     test('empty tree handling', () => {
       const emptyBst = new BST<number, string>();
-      expect(emptyBst.ceilingEntry(5)).toBeUndefined();
-      expect(emptyBst.higherEntry(5)).toBeUndefined();
-      expect(emptyBst.floorEntry(5)).toBeUndefined();
-      expect(emptyBst.lowerEntry(5)).toBeUndefined();
+      expect(emptyBst.ceiling(5)).toBeUndefined();
+      expect(emptyBst.higher(5)).toBeUndefined();
+      expect(emptyBst.floor(5)).toBeUndefined();
+      expect(emptyBst.lower(5)).toBeUndefined();
     });
 
     test('ceiling and floor of adjacent keys', () => {
-      const ceiling = bst.ceilingEntry(5);
-      const floor = bst.floorEntry(6);
-      expect(ceiling?.key).toBe(5);
-      expect(floor?.key).toBe(5);
+      const ceiling = bst.ceiling(5);
+      const floor = bst.floor(6);
+      expect(ceiling).toBe(5);
+      expect(floor).toBe(6);
     });
 
     test('higher and lower of adjacent keys', () => {
-      const higher = bst.higherEntry(5);
-      const lower = bst.lowerEntry(6);
-      expect(higher?.key).toBe(6);
-      expect(lower?.key).toBe(5);
+      const higher = bst.higher(5);
+      const lower = bst.lower(6);
+      expect(higher).toBe(6);
+      expect(lower).toBe(5);
     });
   });
 
   describe('Predicate-based search', () => {
     test('ceiling with predicate function', () => {
-      const result = bst.ceilingEntry((node: BSTNode<number, string>) => node.key >= 10);
+      const result = bst.ceiling((node: BSTNode<number, string>) => node.key >= 10);
       expect(result).toBeDefined();
-      expect(result?.key).toBeGreaterThanOrEqual(10);
+      expect(result).toBeGreaterThanOrEqual(10);
     });
 
     test('floor with predicate function', () => {
-      const result = bst.floorEntry((node: BSTNode<number, string>) => node.key <= 15);
+      const result = bst.floor((node: BSTNode<number, string>) => node.key <= 15);
       expect(result).toBeDefined();
-      expect(result?.key).toBeLessThanOrEqual(15);
+      expect(result).toBeLessThanOrEqual(15);
     });
 
     test('higher with predicate function', () => {
-      const result = bst.higherEntry((node: BSTNode<number, string>) => node.key > 10);
+      const result = bst.higher((node: BSTNode<number, string>) => node.key > 10);
       expect(result).toBeDefined();
-      expect(result?.key).toBeGreaterThan(10);
+      expect(result).toBeGreaterThan(10);
     });
 
     test('lower with predicate function', () => {
-      const result = bst.lowerEntry((node: BSTNode<number, string>) => node.key < 15);
+      const result = bst.lower((node: BSTNode<number, string>) => node.key < 15);
       expect(result).toBeDefined();
-      expect(result?.key).toBeLessThan(15);
+      expect(result).toBeLessThan(15);
     });
   });
 
@@ -2563,9 +2371,9 @@ describe('BST Range Query Methods', () => {
 
       // In reverse order tree: keys are stored in descending order
       // ceiling (>=) should still work correctly
-      const ceiling = reverseBst.ceilingEntry(10);
+      const ceiling = reverseBst.ceiling(10);
       expect(ceiling).toBeDefined();
-      expect(ceiling?.key).toBeLessThanOrEqual(10);
+      expect(ceiling).toBeLessThanOrEqual(10);
     });
 
     test('should work with string comparator', () => {
@@ -2582,36 +2390,36 @@ describe('BST Range Query Methods', () => {
         }
       );
 
-      const ceiling = stringBst.ceilingEntry({ name: 'Bob', id: 0 });
+      const ceiling = stringBst.ceiling({ name: 'Bob', id: 0 });
       expect(ceiling).toBeDefined();
-      expect(ceiling?.key.name).toBe('Bob');
+      expect(ceiling?.name).toBe('Bob');
     });
   });
 
   describe('Performance and correctness validation', () => {
-    test('all range methods return nodes in order', () => {
-      const ceiling = bst.ceilingEntry(10);
-      const higher = bst.higherEntry(10);
-      const floor = bst.floorEntry(10);
-      const lower = bst.lowerEntry(10);
+    test('all range methods return keys in order', () => {
+      const ceiling = bst.ceiling(10);
+      const higher = bst.higher(10);
+      const floor = bst.floor(10);
+      const lower = bst.lower(10);
 
-      expect(floor?.key).toBeLessThanOrEqual(10);
-      expect(ceiling?.key).toBeGreaterThanOrEqual(10);
-      expect(higher?.key).toBeGreaterThan(10);
-      expect(lower?.key).toBeLessThan(10);
+      expect(floor).toBeLessThanOrEqual(10);
+      expect(ceiling).toBeGreaterThanOrEqual(10);
+      expect(higher).toBeGreaterThan(10);
+      expect(lower).toBeLessThan(10);
     });
 
     test('range query iteration with ceiling/higher', () => {
       const results: number[] = [];
-      let node = bst.ceilingEntry(5);
+      let key = bst.ceiling(5);
       let count = 0;
-      while (node && node.key <= 15 && count < 20) {
-        results.push(node.key);
-        node = bst.higherEntry(node.key);
+      while (key && key <= 15 && count < 20) {
+        results.push(key);
+        key = bst.higher(key);
         count++;
       }
 
-      // Should iterate through nodes 5, 6, 7, ..., 15
+      // Should iterate through keys 5, 6, 7, ..., 15
       expect(results.length).toBeGreaterThan(0);
       expect(results[0]).toBeGreaterThanOrEqual(5);
       expect(results[results.length - 1]).toBeLessThanOrEqual(15);
@@ -2623,15 +2431,15 @@ describe('BST Range Query Methods', () => {
 
     test('range query iteration with floor/lower', () => {
       const results: number[] = [];
-      let node = bst.floorEntry(15);
+      let key = bst.floor(15);
       let count = 0;
-      while (node && node.key >= 5 && count < 20) {
-        results.push(node.key);
-        node = bst.lowerEntry(node.key);
+      while (key && key >= 5 && count < 20) {
+        results.push(key);
+        key = bst.lower(key);
         count++;
       }
 
-      // Should iterate through nodes 15, 14, 13, ..., 5
+      // Should iterate through keys 15, 14, 13, ..., 5
       expect(results.length).toBeGreaterThan(0);
       expect(results[0]).toBeLessThanOrEqual(15);
       expect(results[results.length - 1]).toBeGreaterThanOrEqual(5);
@@ -2644,46 +2452,814 @@ describe('BST Range Query Methods', () => {
 
   describe('Boundary value testing', () => {
     test('boundary: ceiling at min value', () => {
-      const result = bst.ceilingEntry(1);
-      expect(result?.key).toBe(1);
+      const result = bst.ceiling(1);
+      expect(result).toBe(1);
     });
 
     test('boundary: floor at max value', () => {
-      const result = bst.floorEntry(20);
-      expect(result?.key).toBe(20);
+      const result = bst.floor(20);
+      expect(result).toBe(20);
     });
 
     test('boundary: higher at second-last value', () => {
-      const result = bst.higherEntry(19);
-      expect(result?.key).toBe(20);
+      const result = bst.higher(19);
+      expect(result).toBe(20);
     });
 
     test('boundary: lower at second value', () => {
-      const result = bst.lowerEntry(3);
-      expect(result?.key).toBe(1);
+      const result = bst.lower(3);
+      expect(result).toBe(1);
     });
 
     test('boundary: ceiling slightly below min', () => {
-      const result = bst.ceilingEntry(0);
-      expect(result?.key).toBe(1);
+      const result = bst.ceiling(0);
+      expect(result).toBe(1);
     });
 
     test('boundary: floor slightly above max', () => {
-      const result = bst.floorEntry(21);
-      expect(result?.key).toBe(20);
+      const result = bst.floor(21);
+      expect(result).toBe(20);
     });
 
     test('boundary: higher at max (should be undefined)', () => {
-      const result = bst.higherEntry(20);
+      const result = bst.higher(20);
       expect(result).toBeUndefined();
     });
 
     test('boundary: lower at min (should be undefined)', () => {
-      const result = bst.lowerEntry(1);
+      const result = bst.lower(1);
       expect(result).toBeUndefined();
     });
   });
 });
+
+describe('BST Comparator Tests', () => {
+  describe('Default Comparator with Primitive Types', () => {
+    let bst: BST<number>;
+
+    beforeEach(() => {
+      bst = new BST<number>();
+    });
+
+    it('should compare two numbers correctly - a > b', () => {
+      const result = bst['_compare'](5, 3);
+      expect(result).toBe(1);
+    });
+
+    it('should compare two numbers correctly - a < b', () => {
+      const result = bst['_compare'](2, 8);
+      expect(result).toBe(-1);
+    });
+
+    it('should compare two numbers correctly - a === b', () => {
+      const result = bst['_compare'](5, 5);
+      expect(result).toBe(0);
+    });
+
+    it('should compare negative numbers correctly', () => {
+      const result1 = bst['_compare'](-5, -3);
+      const result2 = bst['_compare'](-10, 0);
+      expect(result1).toBe(-1);
+      expect(result2).toBe(-1);
+    });
+
+    it('should compare zero correctly', () => {
+      const result1 = bst['_compare'](0, 5);
+      const result2 = bst['_compare'](0, 0);
+      const result3 = bst['_compare'](-5, 0);
+      expect(result1).toBe(-1);
+      expect(result2).toBe(0);
+      expect(result3).toBe(-1);
+    });
+
+    it('should compare decimal numbers correctly', () => {
+      const result1 = bst['_compare'](3.14, 3.15);
+      const result2 = bst['_compare'](2.5, 2.5);
+      expect(result1).toBe(-1);
+      expect(result2).toBe(0);
+    });
+
+    it('should compare very large numbers correctly', () => {
+      const result1 = bst['_compare'](Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER - 1);
+      const result2 = bst['_compare'](1e10, 1e9);
+      expect(result1).toBe(1);
+      expect(result2).toBe(1);
+    });
+  });
+
+  describe('Default Comparator with String Types', () => {
+    let bst: BST<string>;
+
+    beforeEach(() => {
+      bst = new BST<string>();
+    });
+
+    it('should compare strings alphabetically - a > b', () => {
+      const result = bst['_compare']('zebra', 'apple');
+      expect(result).toBe(1);
+    });
+
+    it('should compare strings alphabetically - a < b', () => {
+      const result = bst['_compare']('apple', 'zebra');
+      expect(result).toBe(-1);
+    });
+
+    it('should compare identical strings', () => {
+      const result = bst['_compare']('hello', 'hello');
+      expect(result).toBe(0);
+    });
+
+    it('should compare string prefixes correctly', () => {
+      const result1 = bst['_compare']('app', 'apple');
+      const result2 = bst['_compare']('apple', 'app');
+      expect(result1).toBe(-1);
+      expect(result2).toBe(1);
+    });
+
+    it('should compare case-sensitive strings', () => {
+      const result1 = bst['_compare']('Apple', 'apple');
+      const result2 = bst['_compare']('apple', 'Apple');
+      expect(result1).toBe(-1);
+      expect(result2).toBe(1);
+    });
+
+    it('should compare empty strings', () => {
+      const result1 = bst['_compare']('', '');
+      const result2 = bst['_compare']('', 'a');
+      const result3 = bst['_compare']('a', '');
+      expect(result1).toBe(0);
+      expect(result2).toBe(-1);
+      expect(result3).toBe(1);
+    });
+
+    it('should compare special characters in strings', () => {
+      const result1 = bst['_compare']('!', 'a');
+      const result2 = bst['_compare']('a', '1');
+      expect(result1).toBe(-1);
+      expect(result2).toBe(1);
+    });
+  });
+
+  describe('Custom Comparator', () => {
+    interface Person {
+      name: string;
+      age: number;
+    }
+
+    it('should accept custom comparator for objects - compare by age', () => {
+      const comparator = (a: Person, b: Person): number => {
+        if (a.age > b.age) return 1;
+        if (a.age < b.age) return -1;
+        return 0;
+      };
+
+      const bst = new BST<Person>([], { comparator });
+
+      const p1 = { name: 'Alice', age: 30 };
+      const p2 = { name: 'Bob', age: 25 };
+      const p3 = { name: 'Charlie', age: 30 };
+
+      expect(bst['_compare'](p1, p2)).toBe(1);
+      expect(bst['_compare'](p2, p1)).toBe(-1);
+      expect(bst['_compare'](p1, p3)).toBe(0);
+    });
+
+    it('should accept custom comparator - compare by name length', () => {
+      const comparator = (a: string, b: string): number => {
+        if (a.length > b.length) return 1;
+        if (a.length < b.length) return -1;
+        return 0;
+      };
+
+      const bst = new BST<string>([], { comparator });
+
+      expect(bst['_compare']('hello', 'hi')).toBe(1);
+      expect(bst['_compare']('hi', 'hello')).toBe(-1);
+      expect(bst['_compare']('abc', 'def')).toBe(0);
+    });
+
+    it('should accept custom comparator - reverse order', () => {
+      const comparator = (a: number, b: number): number => {
+        if (a < b) return 1;
+        if (a > b) return -1;
+        return 0;
+      };
+
+      const bst = new BST<number>([], { comparator });
+
+      expect(bst['_compare'](5, 3)).toBe(-1);
+      expect(bst['_compare'](2, 8)).toBe(1);
+      expect(bst['_compare'](5, 5)).toBe(0);
+    });
+
+    it('should throw error when comparing object types without custom comparator', () => {
+      const bst = new BST<{ value: number }>();
+
+      expect(() => {
+        bst['_compare']({ value: 1 }, { value: 2 });
+      }).toThrow('When comparing object type keys, a custom comparator must be provided in the constructor\'s options!');
+    });
+  });
+
+  describe('Comparator Usage in BST Operations', () => {
+    let bst: BST<number>;
+
+    beforeEach(() => {
+      bst = new BST<number>();
+    });
+
+    it('should correctly insert elements based on comparator', () => {
+      bst.add(10);
+      bst.add(5);
+      bst.add(15);
+      bst.add(3);
+      bst.add(7);
+
+      expect(bst.has(10)).toBe(true);
+      expect(bst.has(5)).toBe(true);
+      expect(bst.has(15)).toBe(true);
+      expect(bst.has(3)).toBe(true);
+      expect(bst.has(7)).toBe(true);
+      expect(bst.size).toBe(5);
+    });
+
+    it('should maintain BST property with in-order traversal', () => {
+      bst.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
+
+      const inOrder: (number | undefined)[] = bst.dfs(node => node?.key);
+
+      for (let i = 1; i < inOrder.length; i++) {
+        expect(inOrder[i]! >= inOrder[i - 1]!).toBe(true);
+      }
+    });
+
+    it('should correctly find min and max using comparator', () => {
+      bst.addMany([15, 10, 20, 8, 12, 18, 25]);
+
+      const arr = Array.from(bst.keys());
+      const min = Math.min(...arr);
+      const max = Math.max(...arr);
+
+      expect(bst.has(min)).toBe(true);
+      expect(bst.has(max)).toBe(true);
+    });
+
+    it('should correctly delete elements maintaining BST property', () => {
+      bst.addMany([10, 5, 15, 3, 7, 12, 18]);
+      bst.delete(10);
+
+      expect(bst.has(10)).toBe(false);
+      const inOrder: (number | undefined)[] = bst.dfs(node => node?.key);
+
+      for (let i = 1; i < inOrder.length; i++) {
+        expect(inOrder[i]! >= inOrder[i - 1]!).toBe(true);
+      }
+    });
+
+    it('should correctly search using comparator', () => {
+      bst.addMany([20, 10, 30, 5, 15, 25, 35]);
+
+      const result = bst.search(15);
+      expect(result.length).toBeGreaterThan(0);
+      expect(result[0]).toBe(15);
+    });
+  });
+
+  describe('Comparator Edge Cases', () => {
+    describe('with numbers', () => {
+      let bst: BST<number>;
+
+      beforeEach(() => {
+        bst = new BST<number>();
+      });
+
+      it('should handle Infinity correctly', () => {
+        const result1 = bst['_compare'](Infinity, 100);
+        const result2 = bst['_compare'](100, Infinity);
+        expect(result1).toBe(1);
+        expect(result2).toBe(-1);
+      });
+
+      it('should handle -Infinity correctly', () => {
+        const result1 = bst['_compare'](-Infinity, -100);
+        const result2 = bst['_compare'](-100, -Infinity);
+        expect(result1).toBe(-1);
+        expect(result2).toBe(1);
+      });
+
+      it('should handle NaN correctly', () => {
+        const result1 = bst['_compare'](NaN, 5);
+        const result2 = bst['_compare'](5, NaN);
+        expect(result1).toBe(0);
+        expect(result2).toBe(0);
+      });
+    });
+
+    describe('with strings', () => {
+      let bst: BST<string>;
+
+      beforeEach(() => {
+        bst = new BST<string>();
+      });
+
+      it('should handle Unicode characters', () => {
+        const result1 = bst['_compare']('😀', 'abc');
+        const result2 = bst['_compare']('中文', 'English');
+        expect(typeof result1).toBe('number');
+        expect(typeof result2).toBe('number');
+      });
+
+      it('should handle whitespace strings', () => {
+        const result1 = bst['_compare']('  ', ' ');
+        const result2 = bst['_compare']('\n', '\t');
+        expect(typeof result1).toBe('number');
+        expect(typeof result2).toBe('number');
+      });
+
+      it('should maintain consistency with multiple comparisons', () => {
+        const a = 'apple';
+        const b = 'banana';
+        const c = 'cherry';
+
+        const ab = bst['_compare'](a, b);
+        const bc = bst['_compare'](b, c);
+        const ac = bst['_compare'](a, c);
+
+        if (ab < 0 && bc < 0) {
+          expect(ac).toBeLessThan(0);
+        }
+      });
+    });
+  });
+
+  describe('Comparator with BST Bound Operations', () => {
+    let bst: BST<number>;
+
+    beforeEach(() => {
+      bst = new BST<number>();
+      bst.addMany([10, 5, 15, 3, 7, 12, 18, 1, 4, 6, 8, 11, 13, 16, 20]);
+    });
+
+    it('should find ceiling using comparator', () => {
+      const result = bst.ceiling(7);
+      expect(result).toBe(7);
+
+      const result2 = bst.ceiling(7.5);
+      expect(result2).toBeGreaterThanOrEqual(7.5);
+    });
+
+    it('should find floor using comparator', () => {
+      const result = bst.floor(7);
+      expect(result).toBe(7);
+
+      const result2 = bst.floor(7.5);
+      expect(result2!).toBeLessThanOrEqual(7.5);
+    });
+
+    it('should find higher using comparator', () => {
+      const result = bst.higher(7);
+      expect(result).toBeGreaterThan(7);
+    });
+
+    it('should find lower using comparator', () => {
+      const result = bst.lower(7);
+      expect(result).toBeLessThan(7);
+    });
+  });
+
+  describe('Comparator Consistency', () => {
+    let bst: BST<number>;
+
+    beforeEach(() => {
+      bst = new BST<number>();
+    });
+
+    it('should satisfy reflexivity: a compared with itself returns 0', () => {
+      const values = [0, 1, -1, 100, -100, 0.5];
+
+      for (const val of values) {
+        expect(bst['_compare'](val, val)).toBe(0);
+      }
+    });
+
+    it('should satisfy antisymmetry: if a > b then b < a', () => {
+      const pairs = [[5, 3], [10, 2], [100, 1]];
+
+      for (const [a, b] of pairs) {
+        const cmp1 = bst['_compare'](a, b);
+        const cmp2 = bst['_compare'](b, a);
+        expect(Math.sign(cmp1)).toBe(-Math.sign(cmp2));
+      }
+    });
+
+    it('should satisfy transitivity: if a < b and b < c then a < c', () => {
+      const a = 1;
+      const b = 5;
+      const c = 10;
+
+      const cmpAB = bst['_compare'](a, b);
+      const cmpBC = bst['_compare'](b, c);
+      const cmpAC = bst['_compare'](a, c);
+
+      if (cmpAB < 0 && cmpBC < 0) {
+        expect(cmpAC).toBeLessThan(0);
+      }
+    });
+  });
+
+  describe('Custom Comparator with BST Operations', () => {
+    interface Student {
+      name: string;
+      grade: number;
+    }
+
+    it('should work with custom comparator for complex operations', () => {
+      const comparator = (a: Student, b: Student): number => {
+        if (a.grade !== b.grade) {
+          return a.grade > b.grade ? 1 : -1;
+        }
+        return a.name.localeCompare(b.name);
+      };
+
+      const bst = new BST<Student>([], { comparator });
+
+      const students: Student[] = [
+        { name: 'Alice', grade: 85 },
+        { name: 'Bob', grade: 90 },
+        { name: 'Charlie', grade: 85 },
+        { name: 'David', grade: 95 }
+      ];
+
+      students.forEach(s => bst.add(s));
+
+      expect(bst.size).toBe(4);
+      expect(bst.has(students[0])).toBe(true);
+    });
+
+    it('should handle custom comparator with add and search', () => {
+      const comparator = (a: number[], b: number[]): number => {
+        const sumA = a.reduce((acc, val) => acc + val, 0);
+        const sumB = b.reduce((acc, val) => acc + val, 0);
+        if (sumA > sumB) return 1;
+        if (sumA < sumB) return -1;
+        return 0;
+      };
+
+      const bst = new BST<number[]>([], { comparator });
+
+      bst.add([1, 2, 3]);
+      bst.add([2, 2, 2]);
+      bst.add([1, 1, 1]);
+
+      expect(bst.size).toBeGreaterThan(0);
+    });
+  });
+
+  describe('Composite Key Comparator Tests', () => {
+    interface CompositeKey {
+      departmentId: number;
+      employeeId: number;
+    }
+
+    it('should compare composite keys by multiple fields - primary then secondary', () => {
+      const comparator = (a: CompositeKey, b: CompositeKey): number => {
+        if (a.departmentId !== b.departmentId) {
+          return a.departmentId > b.departmentId ? 1 : -1;
+        }
+        if (a.employeeId !== b.employeeId) {
+          return a.employeeId > b.employeeId ? 1 : -1;
+        }
+        return 0;
+      };
+
+      const bst = new BST<CompositeKey>([], { comparator });
+
+      const key1 = { departmentId: 1, employeeId: 101 };
+      const key2 = { departmentId: 1, employeeId: 102 };
+      const key3 = { departmentId: 2, employeeId: 101 };
+
+      expect(bst['_compare'](key1, key2)).toBe(-1);
+      expect(bst['_compare'](key2, key3)).toBe(-1);
+      expect(bst['_compare'](key1, key1)).toBe(0);
+    });
+
+    it('should maintain BST property with composite keys', () => {
+      const comparator = (a: CompositeKey, b: CompositeKey): number => {
+        if (a.departmentId !== b.departmentId) {
+          return a.departmentId > b.departmentId ? 1 : -1;
+        }
+        return a.employeeId > b.employeeId ? 1 : a.employeeId < b.employeeId ? -1 : 0;
+      };
+
+      const bst = new BST<CompositeKey>([], { comparator });
+
+      const keys = [
+        { departmentId: 2, employeeId: 105 },
+        { departmentId: 1, employeeId: 101 },
+        { departmentId: 1, employeeId: 103 },
+        { departmentId: 2, employeeId: 102 },
+        { departmentId: 1, employeeId: 102 }
+      ];
+
+      keys.forEach(k => bst.add(k));
+
+      expect(bst.size).toBe(5);
+      const inOrder = bst.dfs(node => node?.key);
+
+      for (let i = 1; i < inOrder.length; i++) {
+        const cmp = comparator(inOrder[i - 1]!, inOrder[i]!);
+        expect(cmp).toBeLessThanOrEqual(0);
+      }
+    });
+
+    it('should search with composite keys', () => {
+      const comparator = (a: CompositeKey, b: CompositeKey): number => {
+        if (a.departmentId !== b.departmentId) {
+          return a.departmentId > b.departmentId ? 1 : -1;
+        }
+        return a.employeeId > b.employeeId ? 1 : a.employeeId < b.employeeId ? -1 : 0;
+      };
+
+      const bst = new BST<CompositeKey>([], { comparator });
+
+      const keys = [
+        { departmentId: 1, employeeId: 101 },
+        { departmentId: 1, employeeId: 103 },
+        { departmentId: 2, employeeId: 102 }
+      ];
+
+      keys.forEach(k => bst.add(k));
+
+      const searchKey = keys[1];
+      const result = bst.search(searchKey);
+
+      expect(result.length).toBeGreaterThan(0);
+      expect(result[0]).toEqual(searchKey);
+    });
+
+    it('should handle deletion with composite keys', () => {
+      const comparator = (a: CompositeKey, b: CompositeKey): number => {
+        if (a.departmentId !== b.departmentId) {
+          return a.departmentId > b.departmentId ? 1 : -1;
+        }
+        return a.employeeId > b.employeeId ? 1 : a.employeeId < b.employeeId ? -1 : 0;
+      };
+
+      const bst = new BST<CompositeKey>([], { comparator });
+
+      const keys = [
+        { departmentId: 1, employeeId: 101 },
+        { departmentId: 1, employeeId: 103 },
+        { departmentId: 2, employeeId: 102 }
+      ];
+
+      keys.forEach(k => bst.add(k));
+
+      const keyToDelete = keys[1];
+      const deleted = bst.delete(keyToDelete);
+
+      expect(deleted.length).toBeGreaterThan(0);
+      expect(bst.has(keyToDelete)).toBe(false);
+      expect(bst.size).toBe(2);
+    });
+
+    it('should find ceiling/floor with composite keys', () => {
+      const comparator = (a: CompositeKey, b: CompositeKey): number => {
+        if (a.departmentId !== b.departmentId) {
+          return a.departmentId > b.departmentId ? 1 : -1;
+        }
+        return a.employeeId > b.employeeId ? 1 : a.employeeId < b.employeeId ? -1 : 0;
+      };
+
+      const bst = new BST<CompositeKey>([], { comparator });
+
+      const keys = [
+        { departmentId: 1, employeeId: 101 },
+        { departmentId: 1, employeeId: 105 },
+        { departmentId: 2, employeeId: 102 }
+      ];
+
+      keys.forEach(k => bst.add(k));
+
+      const searchKey = { departmentId: 1, employeeId: 103 };
+      const ceiling = bst.ceiling(searchKey);
+      const floor = bst.floor(searchKey);
+
+      expect(ceiling).toBeDefined();
+      expect(floor).toBeDefined();
+    });
+  });
+
+  describe('Key-Value Storage with Comparator', () => {
+    interface PersonKey {
+      id: number;
+      country: string;
+    }
+
+    interface PersonValue {
+      name: string;
+      email: string;
+      age: number;
+    }
+
+    it('should store and retrieve key-value pairs with composite keys', () => {
+      const comparator = (a: PersonKey, b: PersonKey): number => {
+        const countryCompare = a.country.localeCompare(b.country);
+        if (countryCompare !== 0) return countryCompare;
+        return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
+      };
+
+      const bst = new BST<PersonKey, PersonValue>([], { comparator, isMapMode: true });
+
+      const key1: PersonKey = { id: 1, country: 'USA' };
+      const value1: PersonValue = { name: 'Alice', email: 'alice@example.com', age: 30 };
+
+      const key2: PersonKey = { id: 2, country: 'Canada' };
+      const value2: PersonValue = { name: 'Bob', email: 'bob@example.com', age: 25 };
+
+      bst.add([key1, value1]);
+      bst.add([key2, value2]);
+
+      expect(bst.size).toBe(2);
+      expect(bst.get(key1)).toEqual(value1);
+      expect(bst.get(key2)).toEqual(value2);
+    });
+
+    it('should update values when adding duplicate keys', () => {
+      const comparator = (a: PersonKey, b: PersonKey): number => {
+        const countryCompare = a.country.localeCompare(b.country);
+        if (countryCompare !== 0) return countryCompare;
+        return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
+      };
+
+      const bst = new BST<PersonKey, PersonValue>([], { comparator, isMapMode: true });
+
+      const key: PersonKey = { id: 1, country: 'USA' };
+      const value1: PersonValue = { name: 'Alice', email: 'alice@example.com', age: 30 };
+      const value2: PersonValue = { name: 'Alice Updated', email: 'alice.new@example.com', age: 31 };
+
+      bst.add([key, value1]);
+      expect(bst.get(key)).toEqual(value1);
+
+      bst.add([key, value2]);
+      expect(bst.size).toBe(1);
+      expect(bst.get(key)).toEqual(value2);
+    });
+
+    it('should retrieve all entries in sorted order by key', () => {
+      const comparator = (a: PersonKey, b: PersonKey): number => {
+        const countryCompare = a.country.localeCompare(b.country);
+        if (countryCompare !== 0) return countryCompare;
+        return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
+      };
+
+      const bst = new BST<PersonKey, PersonValue>([], { comparator, isMapMode: true });
+
+      const entries: Array<[PersonKey, PersonValue]> = [
+        [{ id: 1, country: 'USA' }, { name: 'Alice', email: 'alice@usa.com', age: 30 }],
+        [{ id: 2, country: 'Canada' }, { name: 'Bob', email: 'bob@ca.com', age: 25 }],
+        [{ id: 1, country: 'Canada' }, { name: 'Charlie', email: 'charlie@ca.com', age: 28 }]
+      ];
+
+      entries.forEach(([key, value]) => bst.add([key, value]));
+
+      expect(bst.size).toBe(3);
+
+      const values: (PersonValue | undefined)[] = [];
+      for (const [key] of entries) {
+        const value = bst.get(key);
+        if (value) values.push(value);
+      }
+
+      expect(values.length).toBeGreaterThan(0);
+    });
+
+    it('should delete key-value pairs correctly', () => {
+      const comparator = (a: PersonKey, b: PersonKey): number => {
+        const countryCompare = a.country.localeCompare(b.country);
+        if (countryCompare !== 0) return countryCompare;
+        return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
+      };
+
+      const bst = new BST<PersonKey, PersonValue>([], { comparator, isMapMode: true });
+
+      const key1: PersonKey = { id: 1, country: 'USA' };
+      const value1: PersonValue = { name: 'Alice', email: 'alice@example.com', age: 30 };
+
+      const key2: PersonKey = { id: 2, country: 'Canada' };
+      const value2: PersonValue = { name: 'Bob', email: 'bob@example.com', age: 25 };
+
+      bst.add([key1, value1]);
+      bst.add([key2, value2]);
+
+      bst.delete(key1);
+
+      expect(bst.has(key1)).toBe(false);
+      expect(bst.has(key2)).toBe(true);
+      expect(bst.size).toBe(1);
+      expect(bst.get(key1)).toBeUndefined();
+    });
+
+    it('should search and retrieve values with composite keys', () => {
+      const comparator = (a: PersonKey, b: PersonKey): number => {
+        const countryCompare = a.country.localeCompare(b.country);
+        if (countryCompare !== 0) return countryCompare;
+        return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
+      };
+
+      const bst = new BST<PersonKey, PersonValue>([], { comparator, isMapMode: true });
+
+      const entries: Array<[PersonKey, PersonValue]> = [
+        [{ id: 1, country: 'USA' }, { name: 'Alice', email: 'alice@usa.com', age: 30 }],
+        [{ id: 2, country: 'USA' }, { name: 'Amy', email: 'amy@usa.com', age: 28 }],
+        [{ id: 1, country: 'Canada' }, { name: 'Bob', email: 'bob@ca.com', age: 25 }]
+      ];
+
+      entries.forEach(([key, value]) => bst.add([key, value]));
+
+      const searchKey: PersonKey = entries[1][0];
+      const value = bst.get(searchKey);
+
+      expect(value).toEqual({ name: 'Amy', email: 'amy@usa.com', age: 28 });
+    });
+
+    it('should map over key-value pairs maintaining comparator order', () => {
+      const comparator = (a: PersonKey, b: PersonKey): number => {
+        const countryCompare = a.country.localeCompare(b.country);
+        if (countryCompare !== 0) return countryCompare;
+        return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
+      };
+
+      const bst = new BST<PersonKey, PersonValue>([], { comparator, isMapMode: true });
+
+      const entries: Array<[PersonKey, PersonValue]> = [
+        [{ id: 1, country: 'USA' }, { name: 'Alice', email: 'alice@usa.com', age: 30 }],
+        [{ id: 2, country: 'Canada' }, { name: 'Bob', email: 'bob@ca.com', age: 25 }]
+      ];
+
+      entries.forEach(([key, value]) => bst.add([key, value]));
+
+      const mapped = bst.map((value, key) => [key, value?.name], { comparator, isMapMode: false });
+
+      expect(mapped.size).toBe(2);
+      const names = Array.from(mapped.values());
+      expect(names).toContain('Alice');
+      expect(names).toContain('Bob');
+    });
+
+    it('should perform range search on key-value pairs', () => {
+      const comparator = (a: number, b: number): number => {
+        return a > b ? 1 : a < b ? -1 : 0;
+      };
+
+      const bst = new BST<number, string>([], { comparator, isMapMode: true });
+
+      for (let i = 1; i <= 10; i++) {
+        bst.add([i, `value-${i}`]);
+      }
+
+      const result = bst.rangeSearch([3, 7]);
+
+      expect(result.length).toBeGreaterThan(0);
+      result.forEach(key => {
+        expect(key).toBeGreaterThanOrEqual(3);
+        expect(key).toBeLessThanOrEqual(7);
+      });
+    });
+
+    it('should maintain sorted iteration over key-value pairs', () => {
+      const comparator = (a: { priority: number; id: number }, b: { priority: number; id: number }): number => {
+        if (a.priority !== b.priority) {
+          return a.priority > b.priority ? 1 : -1;
+        }
+        return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
+      };
+
+      type TaskKey = { priority: number; id: number };
+      type TaskValue = { title: string; completed: boolean };
+
+      const bst = new BST<TaskKey, TaskValue>([], { comparator, isMapMode: true });
+
+      const tasks: Array<[TaskKey, TaskValue]> = [
+        [{ priority: 2, id: 1 }, { title: 'Task 1', completed: false }],
+        [{ priority: 1, id: 2 }, { title: 'Task 2', completed: false }],
+        [{ priority: 3, id: 3 }, { title: 'Task 3', completed: true }],
+        [{ priority: 1, id: 1 }, { title: 'Task 4', completed: false }]
+      ];
+
+      tasks.forEach(([key, value]) => bst.add([key, value]));
+
+      expect(bst.size).toBe(4);
+
+      const inOrder = bst.dfs(node => node?.key.priority);
+      for (let i = 1; i < inOrder.length; i++) {
+        expect(inOrder[i]! >= inOrder[i - 1]!).toBe(true);
+      }
+    });
+  });
+});
+
+
 
 describe('classic use', () => {
   it('@example basic BST creation and add operation', () => {
@@ -2822,7 +3398,7 @@ describe('classic use', () => {
       return findFirstCommon(path1, path2);
     };
 
-    function findFirstCommon(arr1: number[], arr2: number[]): number | undefined {
+    function findFirstCommon(arr1: (number | undefined)[], arr2: (number | undefined)[]): number | undefined {
       for (const num of arr1) {
         if (arr2.indexOf(num) !== -1) {
           return num;

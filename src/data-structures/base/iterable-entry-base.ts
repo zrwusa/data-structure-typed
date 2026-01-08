@@ -179,6 +179,15 @@ export abstract class IterableEntryBase<K = any, V = any> {
   }
 
   /**
+   * Converts data structure to `[key, value]` pairs.
+   * @returns Array of entries.
+   * @remarks Time O(n), Space O(n)
+   */
+  toArray() {
+    return [...this];
+  }
+
+  /**
    * Visualize the iterable as an array of `[key, value]` pairs (or a custom string).
    * @returns Array of entries (default) or a string.
    * @remarks Time O(n), Space O(n)

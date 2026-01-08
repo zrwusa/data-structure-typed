@@ -453,6 +453,16 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     return isComparable(key);
   }
 
+  override dfs(): (K | undefined)[];
+
+  override dfs<C extends NodeCallback<BSTNode<K, V>>>(
+    callback: C,
+    pattern?: DFSOrderPattern,
+    onlyOne?: boolean,
+    startNode?: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
+    iterationType?: IterationType
+  ): ReturnType<C>[]
+
   /**
    * Performs a Depth-First Search (DFS) traversal.
    * @remarks Time O(N), visits every node. Space O(log N) for the call/explicit stack. O(N) worst-case.
@@ -475,6 +485,13 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     return super.dfs(callback, pattern, onlyOne, startNode, iterationType);
   }
 
+  override bfs(): (K | undefined)[]
+  override bfs<C extends NodeCallback<BSTNode<K, V>>>(
+    callback: C,
+    startNode?: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
+    iterationType?: IterationType
+  ): ReturnType<C>[]
+
   /**
    * Performs a Breadth-First Search (BFS) or Level-Order traversal.
    * @remarks Time O(N), visits every node. Space O(N) in the worst case for the queue.
@@ -492,6 +509,14 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
   ): ReturnType<C>[] {
     return super.bfs(callback, startNode, iterationType, false);
   }
+
+  override listLevels(): (K | undefined)[][]
+
+  override listLevels<C extends NodeCallback<BSTNode<K, V>>>(
+    callback: C,
+    startNode?: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
+    iterationType?: IterationType
+  ): ReturnType<C>[][]
 
   /**
    * Returns a 2D array of nodes, grouped by level.
@@ -533,6 +558,33 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
   ): OptNode<BSTNode<K, V>> {
     return this.getNodes(keyNodeEntryOrPredicate, true, startNode, iterationType)[0] ?? undefined;
   }
+
+  override search(
+    keyNodeEntryOrPredicate:
+      | K
+      | BSTNode<K, V>
+      | [K | null | undefined, V | undefined]
+      | null
+      | undefined
+      | NodePredicate<BSTNode<K, V>>
+      | Range<K>,
+    onlyOne?: boolean
+  ): (K | undefined)[]
+
+  override search<C extends NodeCallback<BSTNode<K, V>>>(
+    keyNodeEntryOrPredicate:
+      | K
+      | BSTNode<K, V>
+      | [K | null | undefined, V | undefined]
+      | null
+      | undefined
+      | NodePredicate<BSTNode<K, V>>
+      | Range<K>,
+    onlyOne: boolean,
+    callback: C,
+    startNode?: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
+    iterationType?: IterationType
+  ): ReturnType<C>[]
 
   /**
    * Searches the tree for nodes matching a predicate, key, or range.
@@ -629,6 +681,17 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       cur => !!cur && predicate(cur) // shouldProcessRoot (only process if predicate matches)
     );
   }
+
+  rangeSearch(
+    range: Range<K> | [K, K],
+  ) : (K | undefined)[]
+
+  rangeSearch<C extends NodeCallback<BSTNode<K, V>>>(
+    range: Range<K> | [K, K],
+    callback: C,
+    startNode?: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
+    iterationType?: IterationType
+  ) : ReturnType<C>[]
 
   /**
    * Performs an optimized search for nodes within a given key range.
@@ -807,208 +870,282 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
   }
 
   /**
-   * Returns the first node with a key greater than or equal to the given key.
-   * This is equivalent to C++ std::lower_bound on a BST.
-   * Supports RECURSIVE and ITERATIVE implementations.
-   * Time Complexity: O(log n) on average, O(h) where h is tree height.
+   * Returns the first key with a value >= target.
+   * Equivalent to Java TreeMap.ceiling.
+   * Time Complexity: O(log n) average, O(h) worst case.
    * Space Complexity: O(h) for recursion, O(1) for iteration.
-   * @param keyNodeEntryOrPredicate - The key, node, entry, or predicate function to search for.
-   * @param iterationType The iteration type (RECURSIVE or ITERATIVE). Defaults to this.iterationType.
-   * @returns The first node with key >= given key, or undefined if no such node exists.
    */
-  lowerBound(
-    keyNodeEntryOrPredicate:
-      | K
-      | BSTNode<K, V>
-      | [K | null | undefined, V | undefined]
-      | null
-      | undefined
-      | NodePredicate<BSTNode<K, V>>,
-    iterationType: IterationType = this.iterationType
-  ): BSTNode<K, V> | undefined {
-    return this._bound(keyNodeEntryOrPredicate, true, iterationType);
+  ceiling(
+    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+  ): K | undefined;
+
+  /**
+   * Returns the first node with a key >= target and applies callback.
+   * Time Complexity: O(log n) average, O(h) worst case.
+   * Space Complexity: O(h) for recursion, O(1) for iteration.
+   */
+  ceiling<C extends NodeCallback<BSTNode<K, V>>>(
+    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+    callback: C,
+    iterationType?: IterationType
+  ): ReturnType<C>;
+
+  ceiling<C extends NodeCallback<BSTNode<K, V>>>(
+    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+    callback: C = this._DEFAULT_NODE_CALLBACK as C,
+    iterationType?: IterationType
+  ): K | undefined | ReturnType<C> {
+    let actualCallback: C | undefined = undefined;
+    let actualIterationType: IterationType = this.iterationType;
+
+    if (typeof callback === 'string') {
+      actualIterationType = callback;
+    } else if (callback) {
+      actualCallback = callback;
+      if (iterationType) {
+        actualIterationType = iterationType;
+      }
+    }
+
+    const node = this._bound(keyNodeEntryOrPredicate, true, actualIterationType);
+
+    if (!actualCallback) {
+      return node?.key;
+    }
+
+    return node ? actualCallback(node) : undefined;
   }
 
   /**
-   * Returns the first node with a key strictly greater than the given key.
-   * This is equivalent to C++ std::upper_bound on a BST.
-   * Supports RECURSIVE and ITERATIVE implementations.
-   * Time Complexity: O(log n) on average, O(h) where h is tree height.
+   * Returns the first key with a value > target.
+   * Equivalent to Java TreeMap.higher.
+   * Time Complexity: O(log n) average, O(h) worst case.
    * Space Complexity: O(h) for recursion, O(1) for iteration.
-   * @param keyNodeEntryOrPredicate - The key, node, entry, or predicate function to search for.
-   * @param iterationType The iteration type (RECURSIVE or ITERATIVE). Defaults to this.iterationType.
-   * @returns The first node with key > given key, or undefined if no such node exists.
    */
-  upperBound(
-    keyNodeEntryOrPredicate:
-      | K
-      | BSTNode<K, V>
-      | [K | null | undefined, V | undefined]
-      | null
-      | undefined
-      | NodePredicate<BSTNode<K, V>>,
-    iterationType: IterationType = this.iterationType
-  ): BSTNode<K, V> | undefined {
-    return this._bound(keyNodeEntryOrPredicate, false, iterationType);
+  higher(
+    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+  ): K | undefined;
+
+  /**
+   * Returns the first node with a key > target and applies callback.
+   * Time Complexity: O(log n) average, O(h) worst case.
+   * Space Complexity: O(h) for recursion, O(1) for iteration.
+   */
+  higher<C extends NodeCallback<BSTNode<K, V>>>(
+    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+    callback: C,
+    iterationType?: IterationType
+  ): ReturnType<C>;
+
+  higher<C extends NodeCallback<BSTNode<K, V>>>(
+    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+    callback: C = this._DEFAULT_NODE_CALLBACK as C,
+    iterationType?: IterationType
+  ): K | undefined | ReturnType<C> {
+    let actualCallback: C | undefined = undefined;
+    let actualIterationType: IterationType = this.iterationType;
+
+    if (typeof callback === 'string') {
+      actualIterationType = callback;
+    } else if (callback) {
+      actualCallback = callback;
+      if (iterationType) {
+        actualIterationType = iterationType;
+      }
+    }
+
+    const node = this._bound(keyNodeEntryOrPredicate, false, actualIterationType);
+
+    if (!actualCallback) {
+      return node?.key;
+    }
+
+    return node ? actualCallback(node) : undefined;
   }
 
   /**
-   * Returns the first node with a key greater than or equal to the given key.
-   * This is equivalent to Java TreeMap.ceilingEntry().
-   * Supports RECURSIVE and ITERATIVE implementations.
-   * @remarks Time Complexity: O(log n) on average, O(h) where h is tree height.
+   * Returns the first key with a value <= target.
+   * Equivalent to Java TreeMap.floor.
+   * Time Complexity: O(log n) average, O(h) worst case.
    * Space Complexity: O(h) for recursion, O(1) for iteration.
-   *
-   * @param keyNodeEntryOrPredicate - The key, node, entry, or predicate function to search for.
-   * @param [iterationType=this.iterationType] - The iteration type (RECURSIVE or ITERATIVE).
-   * @returns The first node with key >= given key, or undefined if no such node exists.
    */
-  ceilingEntry(
-    keyNodeEntryOrPredicate:
-      | K
-      | BSTNode<K, V>
-      | [K | null | undefined, V | undefined]
-      | null
-      | undefined
-      | NodePredicate<BSTNode<K, V>>,
-    iterationType: IterationType = this.iterationType
-  ): BSTNode<K, V> | undefined {
-    return this.lowerBound(keyNodeEntryOrPredicate, iterationType);
-  }
+  floor(
+    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+  ): K | undefined;
 
   /**
-   * Returns the first node with a key strictly greater than the given key.
-   * This is equivalent to Java TreeMap.higherEntry().
-   * Supports RECURSIVE and ITERATIVE implementations.
-   * @remarks Time Complexity: O(log n) on average, O(h) where h is tree height.
+   * Returns the first node with a key <= target and applies callback.
+   * Time Complexity: O(log n) average, O(h) worst case.
    * Space Complexity: O(h) for recursion, O(1) for iteration.
-   *
-   * @param keyNodeEntryOrPredicate - The key, node, entry, or predicate function to search for.
-   * @param [iterationType=this.iterationType] - The iteration type (RECURSIVE or ITERATIVE).
-   * @returns The first node with key > given key, or undefined if no such node exists.
    */
-  higherEntry(
-    keyNodeEntryOrPredicate:
-      | K
-      | BSTNode<K, V>
-      | [K | null | undefined, V | undefined]
-      | null
-      | undefined
-      | NodePredicate<BSTNode<K, V>>,
-    iterationType: IterationType = this.iterationType
-  ): BSTNode<K, V> | undefined {
-    return this.upperBound(keyNodeEntryOrPredicate, iterationType);
-  }
+  floor<C extends NodeCallback<BSTNode<K, V>>>(
+    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+    callback: C,
+    iterationType?: IterationType
+  ): ReturnType<C>;
 
-  /**
-   * Returns the first node with a key less than or equal to the given key.
-   * This is equivalent to Java TreeMap.floorEntry().
-   * Supports RECURSIVE and ITERATIVE implementations.
-   * @remarks Time Complexity: O(log n) on average, O(h) where h is tree height.
-   * Space Complexity: O(h) for recursion, O(1) for iteration.
-   *
-   * @param keyNodeEntryOrPredicate - The key, node, entry, or predicate function to search for.
-   * @param [iterationType=this.iterationType] - The iteration type (RECURSIVE or ITERATIVE).
-   * @returns The first node with key <= given key, or undefined if no such node exists.
-   */
-  floorEntry(
-    keyNodeEntryOrPredicate:
-      | K
-      | BSTNode<K, V>
-      | [K | null | undefined, V | undefined]
-      | null
-      | undefined
-      | NodePredicate<BSTNode<K, V>>,
-    iterationType: IterationType = this.iterationType
-  ): BSTNode<K, V> | undefined {
+  floor<C extends NodeCallback<BSTNode<K, V>>>(
+    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+    callback: C = this._DEFAULT_NODE_CALLBACK as C,
+    iterationType?: IterationType
+  ): K | undefined | ReturnType<C> {
     if (keyNodeEntryOrPredicate === null || keyNodeEntryOrPredicate === undefined) {
+      if (typeof callback === 'string' || !callback) {
+        return undefined;
+      }
       return undefined;
     }
 
-    // Check if input is a predicate function first
-    if (this._isPredicate(keyNodeEntryOrPredicate)) {
-      return this._floorByPredicate(keyNodeEntryOrPredicate, iterationType);
+    let actualCallback: C | undefined = undefined;
+    let actualIterationType: IterationType = this.iterationType;
+
+    if (typeof callback === 'string') {
+      actualIterationType = callback;
+    } else if (callback) {
+      actualCallback = callback;
+      if (iterationType) {
+        actualIterationType = iterationType;
+      }
     }
 
-    // Resolve input to a comparable key
+    if (this._isPredicate(keyNodeEntryOrPredicate)) {
+      const node = this._floorByPredicate(keyNodeEntryOrPredicate, actualIterationType);
+
+      if (!actualCallback) {
+        return node?.key;
+      }
+
+      return node ? actualCallback(node) : undefined;
+    }
+
     let targetKey: K | undefined;
     if (this.isNode(keyNodeEntryOrPredicate)) {
-      // Input is a BSTNode - extract its key
       targetKey = keyNodeEntryOrPredicate.key;
     } else if (this.isEntry(keyNodeEntryOrPredicate)) {
-      // Input is a [key, value] entry - extract the key
       const key = keyNodeEntryOrPredicate[0];
       if (key === null || key === undefined) {
+        if (typeof callback === 'string' || !callback) {
+          return undefined;
+        }
         return undefined;
       }
       targetKey = key;
     } else {
-      // Input is a raw key
       targetKey = keyNodeEntryOrPredicate;
     }
 
-    // Execute key-based search with binary search optimization
     if (targetKey !== undefined) {
-      return this._floorByKey(targetKey, iterationType);
+      const node = this._floorByKey(targetKey, actualIterationType);
+
+      if (!actualCallback) {
+        return node?.key;
+      }
+
+      return node ? actualCallback(node) : undefined;
     }
 
+    if (typeof callback === 'string' || !callback) {
+      return undefined;
+    }
     return undefined;
   }
 
   /**
-   * Returns the first node with a key strictly less than the given key.
-   * This is equivalent to Java TreeMap.lowerEntry().
-   * Supports RECURSIVE and ITERATIVE implementations.
-   * @remarks Time Complexity: O(log n) on average, O(h) where h is tree height.
+   * Returns the first key with a value < target.
+   * Equivalent to Java TreeMap.lower.
+   * Time Complexity: O(log n) average, O(h) worst case.
    * Space Complexity: O(h) for recursion, O(1) for iteration.
-   *
-   * @param keyNodeEntryOrPredicate - The key, node, entry, or predicate function to search for.
-   * @param [iterationType=this.iterationType] - The iteration type (RECURSIVE or ITERATIVE).
-   * @returns The first node with key < given key, or undefined if no such node exists.
    */
-  lowerEntry(
-    keyNodeEntryOrPredicate:
-      | K
-      | BSTNode<K, V>
-      | [K | null | undefined, V | undefined]
-      | null
-      | undefined
-      | NodePredicate<BSTNode<K, V>>,
-    iterationType: IterationType = this.iterationType
-  ): BSTNode<K, V> | undefined {
+  lower(
+    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+  ): K | undefined;
+
+  /**
+   * Returns the first node with a key < target and applies callback.
+   * Time Complexity: O(log n) average, O(h) worst case.
+   * Space Complexity: O(h) for recursion, O(1) for iteration.
+   */
+  lower<C extends NodeCallback<BSTNode<K, V>>>(
+    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+    callback: C,
+    iterationType?: IterationType
+  ): ReturnType<C>;
+
+  lower<C extends NodeCallback<BSTNode<K, V>>>(
+    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+    callback?: C | IterationType,
+    iterationType?: IterationType
+  ): K | undefined | ReturnType<C> {
     if (keyNodeEntryOrPredicate === null || keyNodeEntryOrPredicate === undefined) {
+      if (typeof callback === 'string' || !callback) {
+        return undefined;
+      }
       return undefined;
     }
 
-    // Check if input is a predicate function first
-    if (this._isPredicate(keyNodeEntryOrPredicate)) {
-      return this._lowerByPredicate(keyNodeEntryOrPredicate, iterationType);
+    let actualCallback: C | undefined = undefined;
+    let actualIterationType: IterationType = this.iterationType;
+
+    if (typeof callback === 'string') {
+      actualIterationType = callback;
+    } else if (callback) {
+      actualCallback = callback;
+      if (iterationType) {
+        actualIterationType = iterationType;
+      }
     }
 
-    // Resolve input to a comparable key
+    if (this._isPredicate(keyNodeEntryOrPredicate)) {
+      const node = this._lowerByPredicate(keyNodeEntryOrPredicate, actualIterationType);
+
+      if (!actualCallback) {
+        return node?.key;
+      }
+
+      return node ? actualCallback(node) : undefined;
+    }
+
     let targetKey: K | undefined;
     if (this.isNode(keyNodeEntryOrPredicate)) {
-      // Input is a BSTNode - extract its key
       targetKey = keyNodeEntryOrPredicate.key;
     } else if (this.isEntry(keyNodeEntryOrPredicate)) {
-      // Input is a [key, value] entry - extract the key
       const key = keyNodeEntryOrPredicate[0];
       if (key === null || key === undefined) {
+        if (typeof callback === 'string' || !callback) {
+          return undefined;
+        }
         return undefined;
       }
       targetKey = key;
     } else {
-      // Input is a raw key
       targetKey = keyNodeEntryOrPredicate;
     }
 
-    // Execute key-based search with binary search optimization
     if (targetKey !== undefined) {
-      return this._lowerByKey(targetKey, iterationType);
+      const node = this._lowerByKey(targetKey, actualIterationType);
+
+      if (!actualCallback) {
+        return node?.key;
+      }
+
+      return node ? actualCallback(node) : undefined;
     }
 
+    if (typeof callback === 'string' || !callback) {
+      return undefined;
+    }
     return undefined;
   }
+
+
+  lesserOrGreaterTraverse(): (K | undefined)[]
+
+  lesserOrGreaterTraverse<C extends NodeCallback<BSTNode<K, V>>>(
+    callback: C,
+    lesserOrGreater?: number,
+    targetNode?: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
+    iterationType?: IterationType
+  ): ReturnType<C>[]
 
   /**
    * Traverses the tree and returns nodes that are lesser or greater than a target node.

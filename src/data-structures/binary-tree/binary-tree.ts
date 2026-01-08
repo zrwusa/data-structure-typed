@@ -858,6 +858,31 @@ export class BinaryTree<K = any, V = any, R = any>
     return deletedResult;
   }
 
+  search(
+    keyNodeEntryOrPredicate:
+      | K
+      | BinaryTreeNode<K, V>
+      | [K | null | undefined, V | undefined]
+      | null
+      | undefined
+      | NodePredicate<BinaryTreeNode<K, V> | null>,
+    onlyOne?: boolean,
+  ): (K | undefined)[]
+
+  search<C extends NodeCallback<BinaryTreeNode<K, V> | null>>(
+    keyNodeEntryOrPredicate:
+      | K
+      | BinaryTreeNode<K, V>
+      | [K | null | undefined, V | undefined]
+      | null
+      | undefined
+      | NodePredicate<BinaryTreeNode<K, V> | null>,
+    onlyOne: boolean,
+    callback: C,
+    startNode?: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
+    iterationType?: IterationType
+  ): ReturnType<C>[]
+
   /**
    * Searches the tree for nodes matching a predicate.
    * @remarks Time O(log N), For BST, Red-Black Tree, and AVL Tree subclasses, the worst-case time is O(log N). Performs a full DFS (pre-order) scan of the tree. Time O(N), as it may visit every node. Space O(H) for the call stack (recursive) or explicit stack (iterative), where H is the tree height (O(N) worst-case).
@@ -1245,6 +1270,16 @@ export class BinaryTree<K = any, V = any, R = any>
     }
   }
 
+  getPathToRoot(
+    beginNode: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined
+  ): (K | undefined)[];
+
+  getPathToRoot<C extends NodeCallback<BinaryTreeNode<K, V> | undefined>>(
+    beginNode: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
+    callback: C,
+    isReverse?: boolean
+  ): ReturnType<C>[];
+
   /**
    * Gets the path from a given node up to the root.
    * @remarks Time O(H), where H is the depth of the `beginNode`. O(N) worst-case. Space O(H) for the result array.
@@ -1272,6 +1307,14 @@ export class BinaryTree<K = any, V = any, R = any>
     result.push(callback(beginNodeEnsured)); // Add the root
     return isReverse ? result.reverse() : result;
   }
+
+  getLeftMost(): K | undefined;
+
+  getLeftMost<C extends NodeCallback<BinaryTreeNode<K, V> | undefined>>(
+    callback: C,
+    startNode?: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
+    iterationType?: IterationType
+  ): ReturnType<C>;
 
   /**
    * Finds the leftmost node in a subtree (the node with the smallest key in a BST).
@@ -1312,6 +1355,14 @@ export class BinaryTree<K = any, V = any, R = any>
     }
   }
 
+
+  getRightMost(): K | undefined;
+
+  getRightMost<C extends NodeCallback<BinaryTreeNode<K, V> | undefined>>(
+    callback: C,
+    startNode?: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
+    iterationType?: IterationType
+  ): ReturnType<C>;
   /**
    * Finds the rightmost node in a subtree (the node with the largest key in a BST).
    * @remarks Time O(H), where H is the height of the right spine. O(N) worst-case. Space O(H) for recursive/trampoline stack.
@@ -1394,6 +1445,8 @@ export class BinaryTree<K = any, V = any, R = any>
     return y;
   }
 
+  dfs(): (K | undefined)[];
+
   dfs<C extends NodeCallback<BinaryTreeNode<K, V>>>(
     callback?: C,
     pattern?: DFSOrderPattern,
@@ -1436,6 +1489,8 @@ export class BinaryTree<K = any, V = any, R = any>
     if (!startNode) return [];
     return this._dfs(callback, pattern, onlyOne, startNode, iterationType, includeNull);
   }
+
+  bfs(): (K | undefined)[];
 
   bfs<C extends NodeCallback<BinaryTreeNode<K, V>>>(
     callback?: C,
@@ -1519,6 +1574,14 @@ export class BinaryTree<K = any, V = any, R = any>
     return ans;
   }
 
+  leaves(): (K | undefined)[];
+
+  leaves<C extends NodeCallback<BinaryTreeNode<K, V>>>(
+    callback: C,
+    startNode?: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
+    iterationType?: IterationType
+  ): ReturnType<C>[];
+
   /**
    * Finds all leaf nodes in the tree.
    * @remarks Time O(N), visits every node. Space O(H) for recursive stack or O(N) for iterative queue.
@@ -1569,6 +1632,8 @@ export class BinaryTree<K = any, V = any, R = any>
 
     return leaves;
   }
+
+  listLevels(): (K | undefined)[][];
 
   listLevels<C extends NodeCallback<BinaryTreeNode<K, V>>>(
     callback?: C,
@@ -1644,6 +1709,8 @@ export class BinaryTree<K = any, V = any, R = any>
 
     return levelsNodes;
   }
+
+  morris(): (K | undefined)[];
 
   morris<C extends NodeCallback<BinaryTreeNode<K, V>>>(
     callback?: C,

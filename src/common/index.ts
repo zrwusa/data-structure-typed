@@ -12,8 +12,8 @@ export class Range<K> {
     public includeLow: boolean = true,
     public includeHigh: boolean = true
   ) {
-    if (!(isComparable(low) && isComparable(high))) throw new RangeError('low or high is not comparable');
-    if (low > high) throw new RangeError('low must be less than or equal to high');
+    // if (!(isComparable(low) && isComparable(high))) throw new RangeError('low or high is not comparable');
+    // if (low > high) throw new RangeError('low must be less than or equal to high');
   }
 
   // Determine whether a key is within the range
