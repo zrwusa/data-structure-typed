@@ -83,8 +83,54 @@
 - click the `New pull request` on Github https://github.com/zrwusa/data-structure-typed/branches
 
 **performance inspection**
-- `node --inspect-brk benchmark/all.js`  
+- `node --inspect-brk perf/hello-world.js`  
 - chrome://inspect/#devices -> Open dedicated DevTools for Node
+
+
+**node:perf_hooks**
+```javascript
+const { performance } = require('node:perf_hooks');
+
+// Force garbage collection (run with --expose-gc flag)
+const forceGC = () => {
+  if (global.gc) {
+    global.gc();
+  }
+};
+
+// Test Queue
+function testQueue(QUANTITY) {
+  forceGC();
+  const initialMemory = process.memoryUsage().heapUsed;
+
+  const queue = new Queue();
+  const start = performance.now();
+
+  for (let i = 0; i < QUANTITY; i++) {
+    queue.push(i);
+  }
+
+  const end = performance.now();
+  const finalMemory = process.memoryUsage().heapUsed;
+  const memoryDelta = formatMemory(finalMemory - initialMemory);
+
+  console.log(`Queue push ${QUANTITY} elements: ${(end - start).toFixed(2)}ms`);
+  console.log(`Memory usage: ${memoryDelta}${CURRENT_UNIT} (growth)`);
+
+  return queue;
+}
+
+testDeque(1000000);
+
+```
+
+```shell
+ node --expose-gc benchmark/deque.js
+```
+
+**performance info output**
+-`node --prof perf/hello-world.js`
+-`node --prof-process isolate-*.log > prof.txt`
 
 **Contributing New Data Structures**
 
