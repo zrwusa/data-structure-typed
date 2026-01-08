@@ -331,7 +331,7 @@ export class BSTNode<K = any, V = any> {
  *       return findFirstCommon(path1, path2);
  *     };
  *
- *     function findFirstCommon(arr1: number[], arr2: number[]): number | undefined {
+ *     function findFirstCommon(arr1: (number | undefined)[], arr2: (number | undefined)[]): number | undefined {
  *       for (const num of arr1) {
  *         if (arr2.indexOf(num) !== -1) {
  *           return num;
@@ -1372,7 +1372,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    */
   protected _createDefaultComparator(): Comparator<K> {
     return (a: K, b: K): number => {
-      debugger;
+      debugger
       // If both keys are comparable (primitive types), use direct comparison
       if (isComparable(a) && isComparable(b)) {
         if (a > b) return 1;

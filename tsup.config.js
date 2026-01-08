@@ -12,6 +12,9 @@ export default defineConfig([
     globalName: "dataStructureTyped",
     platform: "browser",
     outExtension: () => ({ js: '.min.js' }),
+    esbuildOptions(options) {
+      options.drop = ['debugger', 'console']
+    }
   },
   {
     entry: { "data-structure-typed": "src/index.ts" },
@@ -24,5 +27,8 @@ export default defineConfig([
     globalName: "dataStructureTyped",
     platform: "browser",
     outExtension: () => ({ js: '.js' }),
+    esbuildOptions(options) {
+      options.drop = ['debugger', 'console']
+    }
   }
 ]);

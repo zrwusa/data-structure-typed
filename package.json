@@ -1,6 +1,6 @@
 {
   "name": "data-structure-typed",
-  "version": "2.2.5",
+  "version": "2.2.6",
   "description": "Standard data structure",
   "browser": "dist/umd/data-structure-typed.min.js",
   "umd:main": "dist/umd/data-structure-typed.min.js",
@@ -51,7 +51,8 @@
     "test": "npm run test:in-band",
     "test:integration": "npm run update:subs && jest --config jest.integration.config.js && tsc test/integration/compile.test.ts && node test/integration/compile.mjs",
     "test:perf": "npm run build:ecu && ts-node test/performance/benchmark-runner.ts --isolate --gc --cooldown-ms=80",
-    "check": "tsc --noEmit",
+    "check": "npm run check:src && npm run check:test",
+    "check:src": "tsc -p tsconfig.test.json --noEmit",
     "check:test": "tsc -p tsconfig.test.json --noEmit",
     "check:circular-refs": "dependency-cruiser src",
     "lint:src": "eslint --fix 'src/**/*.{js,ts}'",

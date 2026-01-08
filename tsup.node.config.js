@@ -15,6 +15,9 @@ export default defineConfig([
     target: "es2022",
     outExtension() {
       return { js: ".mjs" };
+    },
+    esbuildOptions(options) {
+      options.drop = ['debugger', 'console']
     }
   },
 
@@ -32,6 +35,9 @@ export default defineConfig([
     target: "es2018",
     outExtension() {
       return { js: ".mjs" };
+    },
+    esbuildOptions(options) {
+      options.drop = ['debugger', 'console']
     }
   },
 
@@ -49,6 +55,9 @@ export default defineConfig([
     target: "es2022",
     outExtension() {
       return { js: ".cjs" };
+    },
+    esbuildOptions(options) {
+      options.drop = ['debugger', 'console']
     }
   },
 
@@ -66,6 +75,9 @@ export default defineConfig([
     target: "es2018",
     outExtension() {
       return { js: ".cjs" };
+    },
+    esbuildOptions(options) {
+      options.drop = ['debugger', 'console']
     }
   }
 ]);

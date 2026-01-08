@@ -67,7 +67,9 @@ for (let i = 0; i < 100000; i++) {
 }
 // Total: 100,000 * O(n) = O(n²)
 // Time: ~2829ms for 100K items
+```
 
+```javascript
 // ✅ Deque approach
 import { Deque } from 'data-structure-typed';
 
@@ -101,7 +103,9 @@ function updateScore(playerId, newScore) {
 
 // After 1000 updates: 1000 * O(n log n) = O(n² log n)
 // Time: ~2500ms for maintaining ranking of 100 players
+```
 
+```javascript
 // ✅ RedBlackTree approach
 import { RedBlackTree } from 'data-structure-typed';
 
@@ -111,7 +115,7 @@ function updateScore(playerId, newScore) {
   if (leaderboard.has(playerId)) {
     leaderboard.delete(leaderboard.get(playerId));
   }
-  leaderboard.set(newScore, playerId);  // O(log n)
+  leaderboard.set(playerId, newScore);  // O(log n)
 }
 
 // After 1000 updates: 1000 * O(log n) = O(n log n)
@@ -141,7 +145,9 @@ function nextTask() {
 
 // Adding 10K tasks: 10K * O(n log n) = O(n² log n)
 // Time: ~3200ms
+```
 
+```javascript
 // ✅ PriorityQueue approach
 import { MaxPriorityQueue } from 'data-structure-typed';
 
@@ -265,7 +271,9 @@ const tree = new RedBlackTree();
 for (const item of items) {
   tree.set(item.id, item);  // Tree rebalances each time
 }
+```
 
+```javascript
 // ✅ Fast: Build in bulk
 const tree = new RedBlackTree(items);
 // Single rebalancing pass
@@ -280,7 +288,9 @@ const tree = new RedBlackTree(items);
 const data = [];
 for (const item of input) data.push(item);
 const sorted = [...new RedBlackTree(data).keys()];
+```
 
+```javascript
 // ✅ Right: Use correct structure immediately
 const tree = new RedBlackTree(input);
 const sorted = [...tree.keys()];
@@ -296,11 +306,13 @@ const tree = new RedBlackTree(data);
 const result = tree.toArray()
   .filter(x => x > 5)
   .map(x => x * 2);
+```
 
+```javascript
 // ✅ Fast: Stay on tree
 const result = tree
-  .filter(x => x > 5)
-  .map(x => x * 2);
+  .filter((v => (v ?? 0) > 5)
+  .map(((v, k) => [k, (x ?? 0) * 2]);
 
 // Benefit: Maintains structure type throughout
 ```
@@ -331,9 +343,11 @@ const tree = new RedBlackTree((a, b) => {
   }
   return a.priority - b.priority;
 });
+```
 
+```javascript
 // ✅ Fast: Simple comparator
-const tree = new RedBlackTree((a, b) => a - b);
+const tree = new RedBlackTree([], {comparator: (a, b) => a - b)};
 
 // Why: V8 can inline simple comparators
 ```

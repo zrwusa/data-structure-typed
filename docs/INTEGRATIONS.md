@@ -163,74 +163,63 @@ export default function TodoApp() {
 
 ### Use Case: LRU Cache Middleware
 
-```typescript
-import express, { Request, Response } from 'express';
-import { DoublyLinkedList } from 'data-structure-typed';
+```javascript
+const  {DoublyLinkedList} = require('data-structure-typed');
 
-class LRUCache<T> {
-  private cache = new Map<string, { value: T; node: any }>();
-  private order = new DoublyLinkedList<string>();
-  private capacity: number;
-
-  constructor(capacity: number = 100) {
+class LRUCache {
+  constructor(capacity = 100) {
+    this.cache = new Map();
+    this.order = new DoublyLinkedList();
     this.capacity = capacity;
   }
-
-  get(key: string): T | null {
-    if (!this.cache.has(key)) return null;
-
-    const { value, node } = this.cache.get(key)!;
-    
+  get(key) {
+    if (!this.cache.has(key))
+      return null;
+    const { value, node } = this.cache.get(key);
     // Move to end (most recently used)
-    this.order.deleteNode(node);
-    const newNode = this.order.pushBack(key);
+    this.order.delete(node);
+    const newNode = this.order.push(key);
     this.cache.set(key, { value, node: newNode });
-
     return value;
   }
-
-  set(key: string, value: T): void {
+  set(key, value) {
     if (this.cache.has(key)) {
-      this.get(key);  // Mark as recently used
-      this.cache.get(key)!.value = value;
+      this.get(key); // Mark as recently used
+      this.cache.get(key).value = value;
       return;
     }
-
     if (this.cache.size >= this.capacity) {
       const lru = this.order.shift();
       this.cache.delete(lru);
     }
-
-    const node = this.order.pushBack(key);
+    const node = this.order.push(key);
     this.cache.set(key, { value, node });
   }
 }
 
+module.exports = LRUCache;
+```
+
+```javascript
 // Usage in Express
 const app = express();
-const responseCache = new LRUCache<{ status: number; data: any }>(50);
-
-app.use((req: Request, res: Response, next: Function) => {
+const responseCache = new LRUCache(50);
+app.use((req, res, next) => {
   const cachedResponse = responseCache.get(req.url);
-  
   if (cachedResponse) {
     return res.status(cachedResponse.status).json(cachedResponse.data);
   }
-
   // Wrap original send to cache response
   const originalSend = res.send;
-  res.send = function(data: any) {
+  res.send = function (data) {
     responseCache.set(req.url, { status: res.statusCode, data });
     return originalSend.call(this, data);
   };
-
   next();
 });
-
 app.get('/api/data', (req, res) => {
   res.json({ message: 'Cached response' });
 });
-
 app.listen(3000);
 ```
 
@@ -297,73 +286,287 @@ app.get('/api/data', (req, res) => {
 
 ## Nest.js Integration
 
-### Use Case: Ranking Service
+### Use Case: Product Inventory Service
 
 ```typescript
-import { Injectable } from '@nestjs/common';
-import { RedBlackTree } from 'data-structure-typed';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 
-export interface RankingEntry {
-  userId: string;
-  userName: string;
-  score: number;
-  lastUpdated: Date;
+import { Range, RedBlackTree } from 'data-structure-typed';
+
+export interface Product {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  category: string;
+  lastUpdated?: Date;
 }
 
+/** KEY INSIGHT: Use compound keys to solve the problem of "multiple products at the same price" */
+interface CompositeKey {
+  price: number;
+  productId: string;
+}
+
+export type TierName = 'budget' | 'mid-range' | 'premium';
+
+/**
+ * Product Inventory Service using Red-Black Tree with Composite Keys
+ *
+ * ⭐ Performance vs Alternatives:
+ *
+ * Operation          | RBTree(this approach) | Array     | HashMap + Sort
+ * -------------------|-----------------------|-----------|---------------
+ * Range Query        | O(log n + k)          | O(n)      | O(k log k)
+ * Point Lookup       | O(1)                  | O(1)      | O(1)
+ * Insert/Update      | O(log n)              | O(n)      | O(log n)
+ * Sort by Price      | O(n)                  | O(n log n)| O(n log n)
+ * Multiple at Price  | ✓ Supported           | ✓         | Complex
+ *
+ * Advantages:
+ * - O(1) idToKeyMap lookup + O(log n) tree operations
+ * - Automatic ordering without post-sort
+ * - Efficient range queries for pricing tiers
+ * - Low memory footprint vs duplicate maps
+ */
 @Injectable()
-export class RankingService {
-  private rankings = new RedBlackTree<number, RankingEntry>(
-    (a, b) => b - a  // Descending order
-  );
-  private userMap = new Map<string, number>();  // userId → score
+export class ProductInventoryService {
+  private priceIndex: RedBlackTree<CompositeKey, Product>;
+  private idToKeyMap: Map<string, CompositeKey>;
 
-  addOrUpdateScore(userId: string, userName: string, score: number): void {
-    // Remove old score if exists
-    if (this.userMap.has(userId)) {
-      const oldScore = this.userMap.get(userId)!;
-      this.rankings.delete(oldScore);
-    }
+  constructor() {
+    this.priceIndex = new RedBlackTree([], {
+      comparator: (a: CompositeKey, b: CompositeKey) => {
+        const priceCmp = a.price - b.price;
+        if (priceCmp !== 0) return priceCmp;
+        return a.productId.localeCompare(b.productId);
+      },
+    });
+    this.idToKeyMap = new Map();
+  }
 
-    // Add new score
-    const entry: RankingEntry = {
-      userId,
-      userName,
-      score,
-      lastUpdated: new Date()
+  /** Time Complexity: O(log n) */
+  addProduct(product: Product): Product {
+    if (this.idToKeyMap.has(product.id))
+      throw new BadRequestException(`Product ${product.id} already exists`);
+
+    product.lastUpdated = new Date();
+
+    const key: CompositeKey = {
+      price: product.price,
+      productId: product.id,
     };
 
-    this.rankings.set(score, entry);
-    this.userMap.set(userId, score);
+    this.priceIndex.add(key, product);
+    this.idToKeyMap.set(product.id, key);
+
+    return product;
   }
 
-  getTopN(n: number): RankingEntry[] {
-    return [...this.rankings.values()].slice(0, n);
+  /** Time Complexity: O(log n) */
+  updateProduct(productId: string, updates: Partial<Product>): Product {
+    const oldKey = this.idToKeyMap.get(productId);
+    if (oldKey === undefined)
+      throw new NotFoundException(`Product ${productId} not found`);
+
+    const existing = this.priceIndex.get(oldKey);
+    if (!existing)
+      throw new NotFoundException(`Product ${productId} not found`);
+
+    const updated: Product = {
+      ...existing,
+      ...updates,
+      id: existing.id,
+      lastUpdated: new Date(),
+    };
+
+    const newPrice = updates.price ?? existing.price;
+
+    this.priceIndex.delete(oldKey);
+    const currentKey: CompositeKey = {
+      price: newPrice,
+      productId,
+    };
+    this.priceIndex.set(currentKey, updated);
+    this.idToKeyMap.set(productId, currentKey);
+
+    return updated;
   }
 
-  getUserRank(userId: string): number | null {
-    if (!this.userMap.has(userId)) return null;
+  /** Time Complexity: O(1) */
+  getProductById(productId: string): Product {
+    const key = this.idToKeyMap.get(productId);
 
-    const score = this.userMap.get(userId)!;
-    let rank = 1;
+    if (key === undefined)
+      throw new NotFoundException(`Product ${productId} not found`);
 
-    for (const [s] of this.rankings) {
-      if (s > score) rank++;
-      else break;
+    return this.priceIndex.get(key)!;
+  }
+
+  /** Time Complexity: O(log n + k) */
+  getProductsByPriceRange(minPrice: number, maxPrice: number): Product[] {
+    const range = new Range(
+      { price: minPrice, productId: '' },
+      { price: maxPrice, productId: '\uffff' },
+      true, // includeLow
+      true, // includeHigh
+    );
+
+    const keys = this.priceIndex.rangeSearch(range, (n) => n.key);
+    return keys.map((key) => this.priceIndex.get(key)!);
+  }
+
+  /** Time Complexity: O(log n) */
+  getHighestPricedProductWithinBudget(maxBudget: number): Product | null {
+    const key: CompositeKey = {
+      price: maxBudget,
+      productId: '\uffff',
+    };
+    const floorKey = this.priceIndex.floor(key);
+    return floorKey ? this.priceIndex.get(floorKey)! : null;
+  }
+
+  /** Time O(log n) */
+  getCheapestProductAbovePrice(minPrice: number): Product | null {
+    const key: CompositeKey = {
+      price: minPrice,
+      productId: '\uffff',
+    };
+    const higherKey = this.priceIndex.higher(key);
+    return higherKey ? this.priceIndex.get(higherKey)! : null;
+  }
+
+  /** Time Complexity: O(log n + k) */
+  getProductsByTier(tierName: TierName): Product[] {
+    const tiers = {
+      budget: [0, 50],
+      'mid-range': [50, 200],
+      premium: [200, Infinity],
+    };
+
+    const [min, max] = tiers[tierName];
+    return this.getProductsByPriceRange(min, max);
+  }
+
+  /** Time Complexity: O(log n + k + m) */
+  getProductsByPriceAndCategory(
+    minPrice: number,
+    maxPrice: number,
+    category: string,
+  ): Product[] {
+    const priceRangeProducts = this.getProductsByPriceRange(minPrice, maxPrice);
+    return priceRangeProducts.filter(
+      (p) => p.category.toLowerCase() === category.toLowerCase(),
+    );
+  }
+
+  /** Time Complexity: O((log n + k) * log n) */
+  applyDiscountToRange(
+    minPrice: number,
+    maxPrice: number,
+    discountPercent: number,
+  ): Product[] {
+    const products = this.getProductsByPriceRange(minPrice, maxPrice);
+    const updated: Product[] = [];
+
+    for (const product of products) {
+      const newPrice = product.price * (1 - discountPercent / 100);
+      const updatedProduct = this.updateProduct(product.id, {
+        price: newPrice,
+      });
+      updated.push(updatedProduct);
     }
 
-    return rank;
+    return updated;
   }
 
-  getAroundUser(userId: string, range: number = 5): RankingEntry[] {
-    const rank = this.getUserRank(userId);
-    if (!rank) return [];
+  /** Time Complexity: O(log n) */
+  deleteProduct(productId: string): void {
+    const key = this.idToKeyMap.get(productId);
 
-    const start = Math.max(1, rank - range);
-    const end = Math.min(this.rankings.size, rank + range);
+    if (key === undefined)
+      throw new NotFoundException(`Product ${productId} not found`);
 
-    return [...this.rankings.values()].slice(start - 1, end);
+    this.priceIndex.delete(key);
+    this.idToKeyMap.delete(productId);
+  }
+
+  /** Time Complexity: O(n) */
+  getStatistics(): {
+    totalProducts: number;
+    priceRange: { min: number; max: number };
+    averagePrice: number;
+    totalValue: number;
+  } {
+    if (this.idToKeyMap.size === 0) {
+      return {
+        totalProducts: 0,
+        priceRange: { min: 0, max: 0 },
+        averagePrice: 0,
+        totalValue: 0,
+      };
+    }
+
+    let minPrice = Infinity;
+    let maxPrice = -Infinity;
+    let totalValue = 0;
+    let totalProducts = 0;
+
+    let entry = this.priceIndex.getLeftMost((node) => node);
+
+    while (entry) {
+      const product = this.priceIndex.get(entry.key);
+      if (product) {
+        minPrice = Math.min(minPrice, product.price);
+        maxPrice = Math.max(maxPrice, product.price);
+        totalValue += product.price * product.quantity;
+        totalProducts += product.quantity;
+      }
+
+      entry = this.priceIndex.higher(entry.key, (node) => node);
+    }
+
+    return {
+      totalProducts: totalProducts,
+      priceRange: { min: minPrice, max: maxPrice },
+      averagePrice: totalValue / totalProducts,
+      totalValue,
+    };
+  }
+
+  /** Time Complexity: O(n) */
+  getAllProductsSortedByPrice(): Product[] {
+    const products: Product[] = [];
+    let curNode = this.priceIndex.getLeftMost((node) => node);
+
+    while (curNode) {
+      if (curNode.key) products.push(this.priceIndex.get(curNode.key)!);
+      curNode = this.priceIndex.higher(curNode.key, (node) => node);
+    }
+
+    return products;
+  }
+
+  /** O(1) */
+  getProductCount(): number {
+    return this.idToKeyMap.size;
+  }
+
+  /** O(1) */
+  hasProduct(productId: string): boolean {
+    return this.idToKeyMap.has(productId);
+  }
+
+  /** O(n) */
+  getAllProductIds(): string[] {
+    return [...this.idToKeyMap.keys()];
   }
 }
+
 ```
 
 ### Use Case: Task Queue Controller
@@ -381,8 +584,8 @@ export interface QueuedTask {
 
 @Controller('tasks')
 export class TaskController {
-  private taskQueue = new MaxPriorityQueue<QueuedTask>({
-    comparator: (a, b) => a.priority - b.priority
+  private taskQueue = new MaxPriorityQueue<QueuedTask>([], {
+    comparator: (a, b) => a.priority - b.priority,
   });
 
   @Post('add')
@@ -390,7 +593,7 @@ export class TaskController {
     this.taskQueue.add(task);
     return {
       success: true,
-      queueSize: this.taskQueue.size
+      queueSize: this.taskQueue.size,
     };
   }
 
@@ -399,7 +602,7 @@ export class TaskController {
     const task = this.taskQueue.poll();
     return {
       success: !!task,
-      task: task || null
+      task: task || null,
     };
   }
 
@@ -491,7 +694,7 @@ import {
 
 ### Module Systems
 
-```typescript
+```js
 // ES Module (ESM)
 import { RedBlackTree } from 'data-structure-typed';
 
@@ -516,33 +719,33 @@ import { RedBlackTree } from 'data-structure-typed/dist/esm/red-black-tree';
 
 ```typescript
 import { Module } from '@nestjs/common';
-import { RankingService } from './ranking.service';
+import { ProductInventoryService } from './product-inventory.service';
 
 @Module({
-  providers: [RankingService],
-  exports: [RankingService]
+  providers: [ProductInventoryService],
+  exports: [ProductInventoryService]
 })
-export class RankingModule {}
+export class ProductInventoryModule {}
 
 // Use in other services
 @Injectable()
-export class GameService {
-  constructor(private rankingService: RankingService) {}
+export class OutherService {
+  constructor(private inventoryService: ProductInventoryService) {}
 
-  async updatePlayerScore(userId: string, score: number): Promise<void> {
-    this.rankingService.addOrUpdateScore(userId, '', score);
+  async addProduct(product: Product): Promise<void> {
+    this.inventoryService.addProduct(product);
   }
 }
 ```
 
 ### Pattern 2: React Hooks
 
-```typescript
-import { useState, useCallback, useRef } from 'react';
-import { RedBlackTree } from 'data-structure-typed';
+```tsx
+import {useCallback, useRef, useState} from 'react';
+import {RedBlackTree} from 'data-structure-typed';
 
-export function useSortedList<T>(initialData: T[] = []) {
-  const treeRef = useRef(new RedBlackTree<number, T>());
+function useSortedList<T>(initialData: T[] = []) {
+  const treeRef = useRef(new RedBlackTree<number, T>(initialData));
   const [, setUpdateTrigger] = useState({});
 
   const add = useCallback((index: number, item: T) => {
@@ -559,24 +762,26 @@ export function useSortedList<T>(initialData: T[] = []) {
     return [...treeRef.current.values()];
   }, []);
 
-  return { add, remove, getAll };
+  return {add, remove, getAll};
 }
 
 // Usage
 function MyComponent() {
-  const { add, remove, getAll } = useSortedList();
+  const {add, remove, getAll} = useSortedList<string>([]);
 
   return (
     <div>
       <button onClick={() => add(1, 'Item 1')}>Add Item</button>
       <ul>
         {getAll().map((item, i) => (
-          <li key={i}>{item}</li>
+          <li key={i} onClick={() => remove(i)}>{item}</li>
         ))}
       </ul>
     </div>
   );
 }
+
+export default MyComponent;
 ```
 
 ---
@@ -595,7 +800,7 @@ import { RedBlackTree } from 'data-structure-typed';
 
 ### Issue: Type Not Found
 
-```typescript
+```shell
 // Make sure TypeScript configuration is correct
 // and you have the latest type definitions
 npm update data-structure-typed
@@ -603,7 +808,7 @@ npm update data-structure-typed
 
 ### Issue: Performance in Development
 
-```typescript
+```shell
 // Development mode is slower due to hot reload
 // Use production build for benchmarking:
 npm run build
