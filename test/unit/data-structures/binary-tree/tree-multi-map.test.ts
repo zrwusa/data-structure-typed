@@ -1088,7 +1088,9 @@ describe('TreeMultiMap — rangeSearch-driven semantics', () => {
       }));
 
       // 12.9:1 | 35.5:2 | 79.9:2 | 99:1 | 120:1 | 199:1
-      expect(groups.map(g => `${g.key}:${g.count}`).join(' | ')).toBe('12.9:1 | 35.5:2 | 79.9:2 | 99:1 | 120:1 | 199:1');
+      expect(groups.map(g => `${g.key}:${g.count}`).join(' | ')).toBe(
+        '12.9:1 | 35.5:2 | 79.9:2 | 99:1 | 120:1 | 199:1'
+      );
     }
   });
 

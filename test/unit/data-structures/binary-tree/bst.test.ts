@@ -2657,7 +2657,7 @@ describe('BST Comparator Tests', () => {
 
       expect(() => {
         bst['_compare']({ value: 1 }, { value: 2 });
-      }).toThrow('When comparing object type keys, a custom comparator must be provided in the constructor\'s options!');
+      }).toThrow("When comparing object type keys, a custom comparator must be provided in the constructor's options!");
     });
   });
 
@@ -2843,7 +2843,11 @@ describe('BST Comparator Tests', () => {
     });
 
     it('should satisfy antisymmetry: if a > b then b < a', () => {
-      const pairs = [[5, 3], [10, 2], [100, 1]];
+      const pairs = [
+        [5, 3],
+        [10, 2],
+        [100, 1]
+      ];
 
       for (const [a, b] of pairs) {
         const cmp1 = bst['_compare'](a, b);
@@ -3116,9 +3120,18 @@ describe('BST Comparator Tests', () => {
       const bst = new BST<PersonKey, PersonValue>([], { comparator, isMapMode: true });
 
       const entries: Array<[PersonKey, PersonValue]> = [
-        [{ id: 1, country: 'USA' }, { name: 'Alice', email: 'alice@usa.com', age: 30 }],
-        [{ id: 2, country: 'Canada' }, { name: 'Bob', email: 'bob@ca.com', age: 25 }],
-        [{ id: 1, country: 'Canada' }, { name: 'Charlie', email: 'charlie@ca.com', age: 28 }]
+        [
+          { id: 1, country: 'USA' },
+          { name: 'Alice', email: 'alice@usa.com', age: 30 }
+        ],
+        [
+          { id: 2, country: 'Canada' },
+          { name: 'Bob', email: 'bob@ca.com', age: 25 }
+        ],
+        [
+          { id: 1, country: 'Canada' },
+          { name: 'Charlie', email: 'charlie@ca.com', age: 28 }
+        ]
       ];
 
       entries.forEach(([key, value]) => bst.add([key, value]));
@@ -3170,9 +3183,18 @@ describe('BST Comparator Tests', () => {
       const bst = new BST<PersonKey, PersonValue>([], { comparator, isMapMode: true });
 
       const entries: Array<[PersonKey, PersonValue]> = [
-        [{ id: 1, country: 'USA' }, { name: 'Alice', email: 'alice@usa.com', age: 30 }],
-        [{ id: 2, country: 'USA' }, { name: 'Amy', email: 'amy@usa.com', age: 28 }],
-        [{ id: 1, country: 'Canada' }, { name: 'Bob', email: 'bob@ca.com', age: 25 }]
+        [
+          { id: 1, country: 'USA' },
+          { name: 'Alice', email: 'alice@usa.com', age: 30 }
+        ],
+        [
+          { id: 2, country: 'USA' },
+          { name: 'Amy', email: 'amy@usa.com', age: 28 }
+        ],
+        [
+          { id: 1, country: 'Canada' },
+          { name: 'Bob', email: 'bob@ca.com', age: 25 }
+        ]
       ];
 
       entries.forEach(([key, value]) => bst.add([key, value]));
@@ -3193,8 +3215,14 @@ describe('BST Comparator Tests', () => {
       const bst = new BST<PersonKey, PersonValue>([], { comparator, isMapMode: true });
 
       const entries: Array<[PersonKey, PersonValue]> = [
-        [{ id: 1, country: 'USA' }, { name: 'Alice', email: 'alice@usa.com', age: 30 }],
-        [{ id: 2, country: 'Canada' }, { name: 'Bob', email: 'bob@ca.com', age: 25 }]
+        [
+          { id: 1, country: 'USA' },
+          { name: 'Alice', email: 'alice@usa.com', age: 30 }
+        ],
+        [
+          { id: 2, country: 'Canada' },
+          { name: 'Bob', email: 'bob@ca.com', age: 25 }
+        ]
       ];
 
       entries.forEach(([key, value]) => bst.add([key, value]));
@@ -3241,10 +3269,22 @@ describe('BST Comparator Tests', () => {
       const bst = new BST<TaskKey, TaskValue>([], { comparator, isMapMode: true });
 
       const tasks: Array<[TaskKey, TaskValue]> = [
-        [{ priority: 2, id: 1 }, { title: 'Task 1', completed: false }],
-        [{ priority: 1, id: 2 }, { title: 'Task 2', completed: false }],
-        [{ priority: 3, id: 3 }, { title: 'Task 3', completed: true }],
-        [{ priority: 1, id: 1 }, { title: 'Task 4', completed: false }]
+        [
+          { priority: 2, id: 1 },
+          { title: 'Task 1', completed: false }
+        ],
+        [
+          { priority: 1, id: 2 },
+          { title: 'Task 2', completed: false }
+        ],
+        [
+          { priority: 3, id: 3 },
+          { title: 'Task 3', completed: true }
+        ],
+        [
+          { priority: 1, id: 1 },
+          { title: 'Task 4', completed: false }
+        ]
       ];
 
       tasks.forEach(([key, value]) => bst.add([key, value]));
@@ -3258,8 +3298,6 @@ describe('BST Comparator Tests', () => {
     });
   });
 });
-
-
 
 describe('classic use', () => {
   it('@example basic BST creation and add operation', () => {

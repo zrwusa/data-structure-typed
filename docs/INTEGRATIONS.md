@@ -286,7 +286,7 @@ app.get('/api/data', (req, res) => {
 
 ## Nest.js Integration
 
-### Use Case: Product Inventory Service
+### Use Case: Product Price Index Service
 
 ```typescript
 import {
@@ -315,7 +315,7 @@ interface CompositeKey {
 export type TierName = 'budget' | 'mid-range' | 'premium';
 
 /**
- * Product Inventory Service using Red-Black Tree with Composite Keys
+ * Product Price Index Service using Red-Black Tree with Composite Keys
  *
  * ⭐ Performance vs Alternatives:
  *
@@ -334,7 +334,7 @@ export type TierName = 'budget' | 'mid-range' | 'premium';
  * - Low memory footprint vs duplicate maps
  */
 @Injectable()
-export class ProductInventoryService {
+export class ProductPriceIndexService {
   private priceIndex: RedBlackTree<CompositeKey, Product>;
   private idToKeyMap: Map<string, CompositeKey>;
 

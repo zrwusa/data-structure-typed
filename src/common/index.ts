@@ -1,5 +1,3 @@
-import { isComparable } from '../utils';
-
 export enum DFSOperation {
   VISIT = 0,
   PROCESS = 1

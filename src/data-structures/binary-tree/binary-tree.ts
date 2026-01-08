@@ -866,8 +866,8 @@ export class BinaryTree<K = any, V = any, R = any>
       | null
       | undefined
       | NodePredicate<BinaryTreeNode<K, V> | null>,
-    onlyOne?: boolean,
-  ): (K | undefined)[]
+    onlyOne?: boolean
+  ): (K | undefined)[];
 
   search<C extends NodeCallback<BinaryTreeNode<K, V> | null>>(
     keyNodeEntryOrPredicate:
@@ -881,7 +881,7 @@ export class BinaryTree<K = any, V = any, R = any>
     callback: C,
     startNode?: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     iterationType?: IterationType
-  ): ReturnType<C>[]
+  ): ReturnType<C>[];
 
   /**
    * Searches the tree for nodes matching a predicate.
@@ -1355,7 +1355,6 @@ export class BinaryTree<K = any, V = any, R = any>
     }
   }
 
-
   getRightMost(): K | undefined;
 
   getRightMost<C extends NodeCallback<BinaryTreeNode<K, V> | undefined>>(
@@ -1363,6 +1362,7 @@ export class BinaryTree<K = any, V = any, R = any>
     startNode?: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     iterationType?: IterationType
   ): ReturnType<C>;
+
   /**
    * Finds the rightmost node in a subtree (the node with the largest key in a BST).
    * @remarks Time O(H), where H is the height of the right spine. O(N) worst-case. Space O(H) for recursive/trampoline stack.

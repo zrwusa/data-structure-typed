@@ -2,7 +2,7 @@
 
 A comprehensive TypeScript data structures library with production-ready implementations.
 
-**📚 [Quick Start](#-quick-start-30-seconds) • [Installation](#-installation) • [Full Docs](./docs/CONCEPTS.md) • [API Reference](./docs/REFERENCE.md) • [Playground](#-playground) • [Installation](#-installation) • [Examples](./docs/GUIDES.md)**
+**📚 [Installation](#-installation) • [Quick Start](#-quick-start-30-seconds) • [Full Docs](./docs/CONCEPTS.md) • [API Reference](./docs/REFERENCE.md) • [Playground](#playground) • [Examples](./docs/GUIDES.md)**
 
 ---
 
@@ -484,14 +484,14 @@ const tree = new RedBlackTree([5, 2, 8]);
 console.log([...tree]);  // [2, 5, 8] - Automatically sorted!
 ```
 
-## 🏃🏻‍♀️ Playground
+## Playground
 
-Try it instantly:
+🏃🏻‍♀️ Try it instantly:
 
 - [Node.js TypeScript](https://stackblitz.com/edit/stackblitz-starters-e1vdy3zw?file=src%2Findex.ts)
-- [Node.js JavaScript](https://stackblitz.com/edit/stackblitz-starters-dgvchziu?file=src%2Findex.js)
-- [React TypeScript](https://stackblitz.com/edit/vitejs-vite-6xvhtdua?file=src%2FApp.tsx)
-- [NestJS](https://stackblitz.com/edit/nestjs-typescript-starter-3cyp7pel?file=src%2Franking%2Franking.service.ts)
+- [Node.js JavaScript](https://stackblitz.com/edit/stackblitz-starters-oczhrfzn?file=src%2Findex.js)
+- [React TypeScript](https://stackblitz.com/edit/vitejs-vite-7bva1zhd?file=src%2FApp.tsx)
+- [NestJS](https://stackblitz.com/edit/nestjs-typescript-starter-q9n7okgc?file=src%2Fproduct%2Fservices%2Fproduct-price-index.service.ts)
 
 
 ### Step 4: Learn More

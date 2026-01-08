@@ -461,7 +461,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     onlyOne?: boolean,
     startNode?: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     iterationType?: IterationType
-  ): ReturnType<C>[]
+  ): ReturnType<C>[];
 
   /**
    * Performs a Depth-First Search (DFS) traversal.
@@ -485,12 +485,12 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     return super.dfs(callback, pattern, onlyOne, startNode, iterationType);
   }
 
-  override bfs(): (K | undefined)[]
+  override bfs(): (K | undefined)[];
   override bfs<C extends NodeCallback<BSTNode<K, V>>>(
     callback: C,
     startNode?: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     iterationType?: IterationType
-  ): ReturnType<C>[]
+  ): ReturnType<C>[];
 
   /**
    * Performs a Breadth-First Search (BFS) or Level-Order traversal.
@@ -510,13 +510,13 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     return super.bfs(callback, startNode, iterationType, false);
   }
 
-  override listLevels(): (K | undefined)[][]
+  override listLevels(): (K | undefined)[][];
 
   override listLevels<C extends NodeCallback<BSTNode<K, V>>>(
     callback: C,
     startNode?: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     iterationType?: IterationType
-  ): ReturnType<C>[][]
+  ): ReturnType<C>[][];
 
   /**
    * Returns a 2D array of nodes, grouped by level.
@@ -569,7 +569,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       | NodePredicate<BSTNode<K, V>>
       | Range<K>,
     onlyOne?: boolean
-  ): (K | undefined)[]
+  ): (K | undefined)[];
 
   override search<C extends NodeCallback<BSTNode<K, V>>>(
     keyNodeEntryOrPredicate:
@@ -584,7 +584,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     callback: C,
     startNode?: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     iterationType?: IterationType
-  ): ReturnType<C>[]
+  ): ReturnType<C>[];
 
   /**
    * Searches the tree for nodes matching a predicate, key, or range.
@@ -682,16 +682,14 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     );
   }
 
-  rangeSearch(
-    range: Range<K> | [K, K],
-  ) : (K | undefined)[]
+  rangeSearch(range: Range<K> | [K, K]): (K | undefined)[];
 
   rangeSearch<C extends NodeCallback<BSTNode<K, V>>>(
     range: Range<K> | [K, K],
     callback: C,
     startNode?: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     iterationType?: IterationType
-  ) : ReturnType<C>[]
+  ): ReturnType<C>[];
 
   /**
    * Performs an optimized search for nodes within a given key range.
@@ -876,7 +874,13 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Space Complexity: O(h) for recursion, O(1) for iteration.
    */
   ceiling(
-    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+    keyNodeEntryOrPredicate:
+      | K
+      | BSTNode<K, V>
+      | [K | null | undefined, V | undefined]
+      | null
+      | undefined
+      | NodePredicate<BSTNode<K, V>>
   ): K | undefined;
 
   /**
@@ -885,13 +889,25 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Space Complexity: O(h) for recursion, O(1) for iteration.
    */
   ceiling<C extends NodeCallback<BSTNode<K, V>>>(
-    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+    keyNodeEntryOrPredicate:
+      | K
+      | BSTNode<K, V>
+      | [K | null | undefined, V | undefined]
+      | null
+      | undefined
+      | NodePredicate<BSTNode<K, V>>,
     callback: C,
     iterationType?: IterationType
   ): ReturnType<C>;
 
   ceiling<C extends NodeCallback<BSTNode<K, V>>>(
-    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+    keyNodeEntryOrPredicate:
+      | K
+      | BSTNode<K, V>
+      | [K | null | undefined, V | undefined]
+      | null
+      | undefined
+      | NodePredicate<BSTNode<K, V>>,
     callback: C = this._DEFAULT_NODE_CALLBACK as C,
     iterationType?: IterationType
   ): K | undefined | ReturnType<C> {
@@ -923,7 +939,13 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Space Complexity: O(h) for recursion, O(1) for iteration.
    */
   higher(
-    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+    keyNodeEntryOrPredicate:
+      | K
+      | BSTNode<K, V>
+      | [K | null | undefined, V | undefined]
+      | null
+      | undefined
+      | NodePredicate<BSTNode<K, V>>
   ): K | undefined;
 
   /**
@@ -932,13 +954,25 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Space Complexity: O(h) for recursion, O(1) for iteration.
    */
   higher<C extends NodeCallback<BSTNode<K, V>>>(
-    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+    keyNodeEntryOrPredicate:
+      | K
+      | BSTNode<K, V>
+      | [K | null | undefined, V | undefined]
+      | null
+      | undefined
+      | NodePredicate<BSTNode<K, V>>,
     callback: C,
     iterationType?: IterationType
   ): ReturnType<C>;
 
   higher<C extends NodeCallback<BSTNode<K, V>>>(
-    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+    keyNodeEntryOrPredicate:
+      | K
+      | BSTNode<K, V>
+      | [K | null | undefined, V | undefined]
+      | null
+      | undefined
+      | NodePredicate<BSTNode<K, V>>,
     callback: C = this._DEFAULT_NODE_CALLBACK as C,
     iterationType?: IterationType
   ): K | undefined | ReturnType<C> {
@@ -970,7 +1004,13 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Space Complexity: O(h) for recursion, O(1) for iteration.
    */
   floor(
-    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+    keyNodeEntryOrPredicate:
+      | K
+      | BSTNode<K, V>
+      | [K | null | undefined, V | undefined]
+      | null
+      | undefined
+      | NodePredicate<BSTNode<K, V>>
   ): K | undefined;
 
   /**
@@ -979,13 +1019,25 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Space Complexity: O(h) for recursion, O(1) for iteration.
    */
   floor<C extends NodeCallback<BSTNode<K, V>>>(
-    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+    keyNodeEntryOrPredicate:
+      | K
+      | BSTNode<K, V>
+      | [K | null | undefined, V | undefined]
+      | null
+      | undefined
+      | NodePredicate<BSTNode<K, V>>,
     callback: C,
     iterationType?: IterationType
   ): ReturnType<C>;
 
   floor<C extends NodeCallback<BSTNode<K, V>>>(
-    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+    keyNodeEntryOrPredicate:
+      | K
+      | BSTNode<K, V>
+      | [K | null | undefined, V | undefined]
+      | null
+      | undefined
+      | NodePredicate<BSTNode<K, V>>,
     callback: C = this._DEFAULT_NODE_CALLBACK as C,
     iterationType?: IterationType
   ): K | undefined | ReturnType<C> {
@@ -1057,7 +1109,13 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Space Complexity: O(h) for recursion, O(1) for iteration.
    */
   lower(
-    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+    keyNodeEntryOrPredicate:
+      | K
+      | BSTNode<K, V>
+      | [K | null | undefined, V | undefined]
+      | null
+      | undefined
+      | NodePredicate<BSTNode<K, V>>
   ): K | undefined;
 
   /**
@@ -1066,13 +1124,25 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Space Complexity: O(h) for recursion, O(1) for iteration.
    */
   lower<C extends NodeCallback<BSTNode<K, V>>>(
-    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+    keyNodeEntryOrPredicate:
+      | K
+      | BSTNode<K, V>
+      | [K | null | undefined, V | undefined]
+      | null
+      | undefined
+      | NodePredicate<BSTNode<K, V>>,
     callback: C,
     iterationType?: IterationType
   ): ReturnType<C>;
 
   lower<C extends NodeCallback<BSTNode<K, V>>>(
-    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | NodePredicate<BSTNode<K, V>>,
+    keyNodeEntryOrPredicate:
+      | K
+      | BSTNode<K, V>
+      | [K | null | undefined, V | undefined]
+      | null
+      | undefined
+      | NodePredicate<BSTNode<K, V>>,
     callback?: C | IterationType,
     iterationType?: IterationType
   ): K | undefined | ReturnType<C> {
@@ -1137,15 +1207,14 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     return undefined;
   }
 
-
-  lesserOrGreaterTraverse(): (K | undefined)[]
+  lesserOrGreaterTraverse(): (K | undefined)[];
 
   lesserOrGreaterTraverse<C extends NodeCallback<BSTNode<K, V>>>(
     callback: C,
     lesserOrGreater?: number,
     targetNode?: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     iterationType?: IterationType
-  ): ReturnType<C>[]
+  ): ReturnType<C>[];
 
   /**
    * Traverses the tree and returns nodes that are lesser or greater than a target node.
@@ -1372,7 +1441,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    */
   protected _createDefaultComparator(): Comparator<K> {
     return (a: K, b: K): number => {
-      debugger
+      debugger;
       // If both keys are comparable (primitive types), use direct comparison
       if (isComparable(a) && isComparable(b)) {
         if (a > b) return 1;
