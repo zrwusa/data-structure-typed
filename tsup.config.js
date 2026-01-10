@@ -1,34 +1,63 @@
 import { defineConfig } from 'tsup';
 
+const baseConfig = {
+  entry: { index: 'src/index.ts' },
+  splitting: false,
+  sourcemap: true,
+  minify: false,
+  keepNames: true,
+  treeshake: true,
+  esbuildOptions(options) {
+    options.drop = ['debugger'];
+  }
+};
+
 export default defineConfig([
+  // ESM (modern) - ES2022
   {
-    entry: { "data-structure-typed": "src/index.ts" },
-    target: 'es2018',
-    format: ["iife"],
+    ...baseConfig,
+    format: ['esm'],
+    outDir: 'dist/esm',
     clean: true,
-    sourcemap: true,
-    minify: true,
-    outDir: "dist/umd",
-    globalName: "dataStructureTyped",
-    platform: "browser",
-    outExtension: () => ({ js: '.min.js' }),
-    esbuildOptions(options) {
-      options.drop = ['debugger']
+    target: 'es2022',
+    outExtension() {
+      return { js: '.mjs' };
     }
   },
+
+  // ESM (legacy) - ES2018
   {
-    entry: { "data-structure-typed": "src/index.ts" },
-    target: 'es2018',
-    format: ["iife"],
+    ...baseConfig,
+    format: ['esm'],
+    outDir: 'dist/esm-legacy',
     clean: false,
-    sourcemap: true,
-    minify: false,
-    outDir: "dist/umd",
-    globalName: "dataStructureTyped",
-    platform: "browser",
-    outExtension: () => ({ js: '.js' }),
-    esbuildOptions(options) {
-      options.drop = ['debugger']
+    target: 'es2018',
+    outExtension() {
+      return { js: '.mjs' };
+    }
+  },
+
+  // CJS (modern) - ES2022
+  {
+    ...baseConfig,
+    format: ['cjs'],
+    outDir: 'dist/cjs',
+    clean: false,
+    target: 'es2022',
+    outExtension() {
+      return { js: '.cjs' };
+    }
+  },
+
+  // CJS (legacy) - ES2018
+  {
+    ...baseConfig,
+    format: ['cjs'],
+    outDir: 'dist/cjs-legacy',
+    clean: false,
+    target: 'es2018',
+    outExtension() {
+      return { js: '.cjs' };
     }
   }
 ]);
