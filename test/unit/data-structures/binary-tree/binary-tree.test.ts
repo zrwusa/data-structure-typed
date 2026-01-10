@@ -89,11 +89,11 @@ describe('BinaryTreeNode', () => {
 });
 
 describe('BinaryTree.addMany', () => {
-  it('addMany(): adds entries via toEntryFn and values override', () => {
+  it('setMany(): adds entries via toEntryFn and values override', () => {
     const binTree = new BinaryTree<number, number, { id: number; name: number }>([], {
       toEntryFn: ({ id, name }) => [id, name]
     });
-    binTree.addMany(
+    binTree.setMany(
       [
         { id: 1, name: 1 },
         { id: 2, name: 2 },
@@ -108,14 +108,14 @@ describe('BinaryTree.addMany', () => {
     expect(binTree.get(binTree.getNode(1))).toBe(1);
   });
 
-  it('addMany(): handles undefined and null keys', () => {
+  it('setMany(): handles undefined and null keys', () => {
     const binaryTree = new BinaryTree<number, string>();
-    const addManyWithUndefined = binaryTree.addMany([1, undefined, 3]);
+    const addManyWithUndefined = binaryTree.setMany([1, undefined, 3]);
     expect(addManyWithUndefined).toEqual([true, false, true]);
     expect(binaryTree.get(undefined)).toBe(undefined);
-    const addManyWithNull = binaryTree.addMany([1, null, 3, 4]);
+    const addManyWithNull = binaryTree.setMany([1, null, 3, 4]);
     expect(addManyWithNull).toEqual([true, true, true, true]);
-    const addManyEntriesWithNull = binaryTree.addMany([
+    const addManyEntriesWithNull = binaryTree.setMany([
       [1, '1'],
       [null, 'null'],
       [3, '3'],
@@ -126,7 +126,7 @@ describe('BinaryTree.addMany', () => {
     expect(binaryTree.getNode(null)).toBe(undefined);
     // // TODO should be null instead of undefined
     // expect(binaryTree.getNode(null)).toBe(null);
-    const node0 = binaryTree.add(0, '0');
+    const node0 = binaryTree.set(0, '0');
     expect(node0).toBe(true);
     expect(binaryTree.get(0)).toBe('0');
   });
@@ -143,8 +143,8 @@ describe('BinaryTree', () => {
     binTree.clear();
   });
 
-  it('add(): inserts a node and updates size', () => {
-    const node = binTree.add(1);
+  it('set(): inserts a node and updates size', () => {
+    const node = binTree.set(1);
     expect(node).not.toBeNull();
     expect(binTree.size).toBe(1);
   });
@@ -153,22 +153,22 @@ describe('BinaryTree', () => {
     expect(binTree.getHeight(binTree.root, 'ITERATIVE')).toBe(-1);
     expect(binTree.getMinHeight()).toBe(-1);
     const node1 = binTree.createNode(1);
-    binTree.add(node1);
+    binTree.set(node1);
     expect(binTree.size).toBe(1);
 
     const leftChild = new BinaryTreeNode<number>(2);
     const rightChild = new BinaryTreeNode<number>(3);
-    binTree.add(leftChild);
-    binTree.add(rightChild);
+    binTree.set(leftChild);
+    binTree.set(rightChild);
     const root = binTree.root;
 
     expect(leftChild.familyPosition).toBe('LEFT');
-    binTree.add(null);
-    binTree.add(new BinaryTreeNode<number>(4));
+    binTree.set(null);
+    binTree.set(new BinaryTreeNode<number>(4));
     expect(rightChild.familyPosition).toBe('RIGHT');
     expect(root?.familyPosition).toBe('ROOT');
     expect(leftChild.familyPosition).toBe('ROOT_LEFT');
-    binTree.add(new BinaryTreeNode<number>(5));
+    binTree.set(new BinaryTreeNode<number>(5));
     expect(rightChild.familyPosition).toBe('ROOT_RIGHT');
 
     binTree.delete(new BinaryTreeNode<number>(200));
@@ -182,11 +182,11 @@ describe('BinaryTree', () => {
     }
   });
 
-  it('add()/has()/getNode(): find nodes by key and predicate', () => {
-    binTree.add([1, 1]);
-    binTree.add(undefined);
-    binTree.add([2, 2]);
-    binTree.add([3, 3]);
+  it('set()/has()/getNode(): find nodes by key and predicate', () => {
+    binTree.set([1, 1]);
+    binTree.set(undefined);
+    binTree.set([2, 2]);
+    binTree.set([3, 3]);
 
     expect(binTree.has(1)).toBe(true);
     expect(binTree.has(2)).toBe(true);
@@ -200,7 +200,7 @@ describe('BinaryTree', () => {
 
   it('clone(): structural copy; subtree dfs with includeNull permutations', () => {
     expect(binTree.isEmpty()).toBe(true);
-    binTree.addMany([4, 2, 6, null, 1, 3, null, 5, null, 7]);
+    binTree.setMany([4, 2, 6, null, 1, 3, null, 5, null, 7]);
     expect(binTree.root?.key).toBe(4);
     expect(binTree.root?.left?.key).toBe(2);
     expect(binTree.root?.left?.left).toBe(null);
@@ -253,10 +253,10 @@ describe('BinaryTree', () => {
   });
 
   it('isPerfectlyBalanced(): toggles with pointer tampering and skewed levels', () => {
-    binTree.add(3);
-    binTree.add(12);
-    binTree.addMany(getRandomIntArray(100, 1, 100));
-    binTree.add(10);
+    binTree.set(3);
+    binTree.set(12);
+    binTree.setMany(getRandomIntArray(100, 1, 100));
+    binTree.set(10);
 
     expect(binTree.isPerfectlyBalanced()).toBe(true);
     const node3 = binTree.getNode(3);
@@ -265,39 +265,39 @@ describe('BinaryTree', () => {
     expect(binTree.isPerfectlyBalanced()).toBe(false);
 
     binTree.clear();
-    binTree.addMany([1, null, 2, null, 3, null, 4, null, 5, null, 6, null]);
+    binTree.setMany([1, null, 2, null, 3, null, 4, null, 5, null, 6, null]);
     expect(binTree.isPerfectlyBalanced()).toBe(false);
   });
 
   it('getDepth(): returns correct depth with/without root parameter', () => {
-    binTree.add(1);
+    binTree.set(1);
     expect(binTree.getDepth(1)).toBe(0);
-    binTree.add(2);
+    binTree.set(2);
     expect(binTree.getDepth(2)).toBe(1);
-    binTree.add(3);
+    binTree.set(3);
     expect(binTree.getDepth(3, 1)).toBe(1);
-    binTree.add(4);
+    binTree.set(4);
     expect(binTree.getDepth(4, 1)).toBe(2);
     expect(binTree.getDepth(4)).toBe(2);
     expect(binTree.getDepth(4, 2)).toBe(1);
   });
 
   it('dfs(IN): returns in-order; height respects iterationType', () => {
-    binTree.add(null);
+    binTree.set(null);
     binTree.delete(1);
     expect(binTree.getHeight()).toBe(-1);
-    binTree.add(4);
-    binTree.add(2);
+    binTree.set(4);
+    binTree.set(2);
     expect(binTree.getHeight()).toBe(1);
     binTree.iterationType = 'RECURSIVE';
     expect(binTree.getHeight()).toBe(1);
     binTree.iterationType = 'ITERATIVE';
 
-    binTree.add(6);
-    binTree.add(1);
-    binTree.add(new BinaryTreeNode(3));
-    binTree.add(5);
-    binTree.add(7);
+    binTree.set(6);
+    binTree.set(1);
+    binTree.set(new BinaryTreeNode(3));
+    binTree.set(5);
+    binTree.set(7);
 
     const inOrder = binTree.dfs(node => node.key);
 
@@ -305,7 +305,7 @@ describe('BinaryTree', () => {
   });
 
   it('isBST(): returns true for subtree (iterative & recursive)', () => {
-    binTree.addMany([
+    binTree.setMany([
       new BinaryTreeNode(4, 4),
       new BinaryTreeNode(2, 2),
       new BinaryTreeNode(6, 6),
@@ -322,7 +322,7 @@ describe('BinaryTree', () => {
 
   it('isBST(): returns true for subtree (iterative & recursive)', () => {
     expect(binTree.toVisual()).toBe('');
-    binTree.addMany([4, 2, 6, 1, 3, 5, 7, 4]);
+    binTree.setMany([4, 2, 6, 1, 3, 5, 7, 4]);
     expect(binTree.toVisual()).toBe(
       'N for null\n' +
         '    ___4___    \n' +
@@ -519,7 +519,7 @@ describe('BinaryTree', () => {
   it('isLeaf(): detects leaves; null is treated as leaf', () => {
     expect(binTree.getLeftMost()).toBe(undefined);
     expect(binTree.getRightMost()).toBe(undefined);
-    binTree.addMany([4, 2, 6, 1, 3, 5, 7, 4]);
+    binTree.setMany([4, 2, 6, 1, 3, 5, 7, 4]);
     const leftMost = binTree.getLeftMost();
     expect(binTree.isLeaf(leftMost)).toBe(true);
     expect(binTree.isLeaf(null)).toBe(true);
@@ -531,7 +531,7 @@ describe('BinaryTree', () => {
   it('dfs/bfs on mixed-null level-order tree: expected orders (includeNull on/off)', () => {
     expect(binTree.dfs()).toEqual([]);
     expect([...binTree.values()]).toEqual([]);
-    binTree.addMany([4, 2, 6, null, 1, 3, null, 5, null, 7]);
+    binTree.setMany([4, 2, 6, null, 1, 3, null, 5, null, 7]);
     expect(binTree.dfs(node => node.key, 'PRE', false, undefined, 'ITERATIVE')).toEqual([4, 2, 1, 5, 6, 3, 7]);
     expect(binTree.dfs(node => (node !== null ? node.key : null), 'PRE', false, undefined, 'ITERATIVE', false)).toEqual(
       [4, 2, 1, 5, 6, 3, 7]
@@ -618,7 +618,7 @@ describe('BinaryTree', () => {
   });
 
   it('dfs on subtree (startNode): expected orders (includeNull on/off)', () => {
-    binTree.addMany([4, 2, 6, null, 1, 3, null, 5, null, 7]);
+    binTree.setMany([4, 2, 6, null, 1, 3, null, 5, null, 7]);
     expect(binTree.dfs(node => node.key, 'PRE', false, binTree.getNode(6), 'ITERATIVE')).toEqual([6, 3, 7]);
     expect(
       binTree.dfs(node => (node !== null ? node.key : null), 'PRE', false, binTree.getNode(6), 'ITERATIVE', false)
@@ -669,8 +669,8 @@ describe('BinaryTree', () => {
   });
 
   it('clear(): empties tree and resets root', () => {
-    binTree.add(1);
-    binTree.add(2);
+    binTree.set(1);
+    binTree.set(2);
 
     expect(binTree.size).toBe(2);
 
@@ -683,7 +683,7 @@ describe('BinaryTree', () => {
   it('duplicate keys: replace existing value; bfs includeNull snapshot', function () {
     binTree.clear();
     expect(binTree.bfs()).toEqual([]);
-    binTree.addMany([-10, -10, -10, 9, 9, 20, null, null, 15, 7, 8, null, 2, null, 6, null, null, 8, 8, 8]);
+    binTree.setMany([-10, -10, -10, 9, 9, 20, null, null, 15, 7, 8, null, 2, null, 6, null, null, 8, 8, 8]);
 
     expect(binTree.bfs(node => (node ? node.key : null), undefined, undefined, true)).toEqual([
       -10,
@@ -739,21 +739,21 @@ describe('BinaryTree', () => {
   //   expect(bTree.keyValueNodeEntryRawToNodeAndValue({ obj: { id: 1 } })).toEqual([undefined, undefined]);
   // });
 
-  it('add(): duplicate key updates value (Map vs non-Map behavior)', () => {
+  it('set(): duplicate key updates value (Map vs non-Map behavior)', () => {
     const binTree = new BinaryTree<number, string>([4, 5, [1, '1'], 2, 3], { isMapMode: false });
     expect(binTree.get(1)).toBe('1');
     expect(binTree.getNode(1)?.value).toBe('1');
-    binTree.add(1, 'a');
+    binTree.set(1, 'a');
     expect(binTree.get(1)).toBe('a');
-    binTree.add([1, 'b']);
+    binTree.set([1, 'b']);
     expect(binTree.getNode(1)?.value).toBe('b');
     expect(binTree.get(1)).toBe('b');
     const treeMap = new BinaryTree<number>([4, 5, [1, '1'], 2, 3]);
     expect(treeMap.get(1)).toBe('1');
     expect(treeMap.getNode(1)?.value).toBe(undefined);
-    treeMap.add(1, 'a');
+    treeMap.set(1, 'a');
     expect(treeMap.get(1)).toBe('a');
-    treeMap.add([1, 'b']);
+    treeMap.set([1, 'b']);
     expect(treeMap.getNode(1)?.value).toBe(undefined);
     expect(treeMap.get(1)).toBe('b');
   });
@@ -769,7 +769,7 @@ describe('BinaryTree.ensureNode', () => {
         name: string;
       }
     >([], { toEntryFn: rawElement => [rawElement.id, rawElement.name] });
-    binTree.add([1, 'Pablo']);
+    binTree.set([1, 'Pablo']);
     const node = binTree.getNode(1);
     // expect(binTree.ensureNode({ id: 1, name: 'Pablo' })).toBe(node);
     expect(binTree.ensureNode([1, 'Pablo'])).toBe(node);
@@ -782,11 +782,11 @@ describe('BinaryTree.ensureNode', () => {
 describe('BinaryTree - Morris traversal', () => {
   // Create a binary binTree
   const binTree = new BinaryTree<number>();
-  binTree.add(1);
-  binTree.add(2);
-  binTree.add(3);
-  binTree.add(4);
-  binTree.add(5);
+  binTree.set(1);
+  binTree.set(2);
+  binTree.set(3);
+  binTree.set(4);
+  binTree.set(5);
   it('morris(IN): equals dfs(IN) (iterative/recursive)', () => {
     // Perform in-order Morris traversal
     const result = binTree.morris(node => node.key, 'IN');
@@ -841,11 +841,11 @@ describe('BinaryTree.toEntryFn', () => {
     }).toThrow('toEntryFn must be a function type');
   });
 
-  it('toEntryFn + addMany(): IN order equals dfs/Morris', () => {
+  it('toEntryFn + setMany(): IN order equals dfs/Morris', () => {
     const binTree = new BinaryTree<number, number, { obj: { id: number } }>([], {
       toEntryFn: ele => [ele.obj.id, ele.obj.id]
     });
-    binTree.addMany([
+    binTree.setMany([
       { obj: { id: 1 } },
       { obj: { id: 2 } },
       { obj: { id: 3 } },
@@ -1003,10 +1003,10 @@ describe('BinaryTree', () => {
     expect(binTree.root).toBe(undefined);
   });
 
-  it('add(): inserts nodes and sets root', () => {
-    binTree.add([5, 'A']);
-    binTree.add([3, 'B']);
-    binTree.add([7, 'C']);
+  it('set(): inserts nodes and sets root', () => {
+    binTree.set([5, 'A']);
+    binTree.set([3, 'B']);
+    binTree.set([7, 'C']);
 
     expect(binTree.size).toBe(3);
     expect(binTree.isEmpty()).toBe(false);
@@ -1014,9 +1014,9 @@ describe('BinaryTree', () => {
   });
 
   it('should clear the BinaryTree', () => {
-    binTree.add([5, 'A']);
-    binTree.add([3, 'B']);
-    binTree.add([7, 'C']);
+    binTree.set([5, 'A']);
+    binTree.set([3, 'B']);
+    binTree.set([7, 'C']);
 
     binTree.clear();
 
@@ -1026,9 +1026,9 @@ describe('BinaryTree', () => {
   });
 
   it('getNode()/get(): resolve nodes and values by key', () => {
-    binTree.add([5, 'A']);
-    binTree.add([3, 'B']);
-    binTree.add([7, 'C']);
+    binTree.set([5, 'A']);
+    binTree.set([3, 'B']);
+    binTree.set([7, 'C']);
 
     const nodeA = binTree.getNode(5);
     const nodeB = binTree.getNode(3);
@@ -1040,7 +1040,7 @@ describe('BinaryTree', () => {
   });
 
   it('getNode(): returns undefined for missing key', () => {
-    binTree.add([5, 'A']);
+    binTree.set([5, 'A']);
 
     const node = binTree.getNode(3);
 
@@ -1048,9 +1048,9 @@ describe('BinaryTree', () => {
   });
 
   it('should get the depth of a node', () => {
-    binTree.add([5, 'A']);
-    binTree.add([3, 'B']);
-    binTree.add([7, 'C']);
+    binTree.set([5, 'A']);
+    binTree.set([3, 'B']);
+    binTree.set([7, 'C']);
 
     expect(binTree.getDepth(7)).toBe(1);
     expect(binTree.getDepth(3)).toBe(1);
@@ -1058,9 +1058,9 @@ describe('BinaryTree', () => {
 
   it('getHeight()/getMinHeight(): expected heights', () => {
     expect(binTree.getMinHeight()).toBe(-1);
-    binTree.add([5, 'A']);
-    binTree.add(3, 'B');
-    binTree.add([7, 'C']);
+    binTree.set([5, 'A']);
+    binTree.set(3, 'B');
+    binTree.set([7, 'C']);
 
     expect(binTree.getHeight()).toBe(1);
     expect(binTree.getHeight(undefined, 'RECURSIVE')).toBe(1);
@@ -1068,17 +1068,17 @@ describe('BinaryTree', () => {
   });
 
   it('isBST(): returns true for valid tree', () => {
-    binTree.add([5, 'A']);
-    binTree.add([3, 'B']);
-    binTree.add([7, 'C']);
+    binTree.set([5, 'A']);
+    binTree.set([3, 'B']);
+    binTree.set([7, 'C']);
 
     expect(binTree.isBST()).toBe(true);
   });
 
   it('dfs(default IN): returns expected order', () => {
-    binTree.add([5, 'A']);
-    binTree.add([3, 'B']);
-    binTree.add([7, 'C']);
+    binTree.set([5, 'A']);
+    binTree.set([3, 'B']);
+    binTree.set([7, 'C']);
 
     const result = binTree.dfs();
     expect(result).toEqual([3, 5, 7]);
@@ -1086,9 +1086,9 @@ describe('BinaryTree', () => {
   });
 
   it('bfs(): returns expected level-order', () => {
-    binTree.add([5, 'A']);
-    binTree.add([3, 'B']);
-    binTree.add([7, 'C']);
+    binTree.set([5, 'A']);
+    binTree.set([3, 'B']);
+    binTree.set([7, 'C']);
 
     const result = binTree.bfs(node => node.key);
     expect(result).toEqual([5, 3, 7]);
@@ -1096,9 +1096,9 @@ describe('BinaryTree', () => {
   });
 
   it('listLevels(): returns keys by level', () => {
-    binTree.add([5, 'A']);
-    binTree.add([3, 'B']);
-    binTree.add([7, 'C']);
+    binTree.set([5, 'A']);
+    binTree.set([3, 'B']);
+    binTree.set([7, 'C']);
 
     const levels = binTree.listLevels();
     expect(levels).toEqual([[5], [3, 7]]);
@@ -1106,9 +1106,9 @@ describe('BinaryTree', () => {
   });
 
   it('delete(): removes nodes and updates size', () => {
-    binTree.add([5, 'A']);
-    binTree.add([3, 'B']);
-    binTree.add([7, 'C']);
+    binTree.set([5, 'A']);
+    binTree.set([3, 'B']);
+    binTree.set([7, 'C']);
 
     binTree.delete(3);
 
@@ -1117,33 +1117,33 @@ describe('BinaryTree', () => {
   });
 
   it('getPathToRoot(): path from key to root; [] for missing', () => {
-    binTree.add([5, 'A']);
-    binTree.add([3, 'B']);
-    binTree.add([7, 'C']);
+    binTree.set([5, 'A']);
+    binTree.set([3, 'B']);
+    binTree.set([7, 'C']);
 
     expect(binTree.getPathToRoot(7)).toEqual([7, 5]);
     expect(binTree.getPathToRoot(1)).toEqual([]);
   });
 
   it('isPerfectlyBalanced(): true for balanced tree', () => {
-    binTree.add([5, 'A']);
-    binTree.add([3, 'B']);
-    binTree.add([7, 'C']);
+    binTree.set([5, 'A']);
+    binTree.set([3, 'B']);
+    binTree.set([7, 'C']);
 
     expect(binTree.isPerfectlyBalanced()).toBe(true);
   });
 
   it('getNodes(predicate): returns matches (iterative & recursive)', () => {
-    binTree.add([5, 'E']);
-    binTree.add([4, 'D']);
-    binTree.add([3, 'C']);
-    binTree.add([7, 'G']);
-    binTree.add([null, 'null']);
-    binTree.add([1, 'A']);
-    binTree.add([6, 'F']);
-    binTree.add([null, 'null']);
-    binTree.add([2, 'B']);
-    binTree.add([null, 'null']);
+    binTree.set([5, 'E']);
+    binTree.set([4, 'D']);
+    binTree.set([3, 'C']);
+    binTree.set([7, 'G']);
+    binTree.set([null, 'null']);
+    binTree.set([1, 'A']);
+    binTree.set([6, 'F']);
+    binTree.set([null, 'null']);
+    binTree.set([2, 'B']);
+    binTree.set([null, 'null']);
 
     const nodes = binTree.getNodes(node => node.key === 2);
 
@@ -1164,9 +1164,9 @@ describe('BinaryTree', () => {
   });
 
   it('morris(IN): equals dfs(IN); clear() => []', () => {
-    binTree.add([5, 'A']);
-    binTree.add([3, 'B']);
-    binTree.add([7, 'C']);
+    binTree.set([5, 'A']);
+    binTree.set([3, 'B']);
+    binTree.set([7, 'C']);
 
     binTree.iterationType = 'ITERATIVE';
     expect([...binTree]).toEqual([
@@ -1189,9 +1189,9 @@ describe('BinaryTree', () => {
   });
 
   it('delete(): removes all nodes; height == -1', () => {
-    binTree.add([5, 'A']);
-    binTree.add([3, 'B']);
-    binTree.add([7, 'C']);
+    binTree.set([5, 'A']);
+    binTree.set([3, 'B']);
+    binTree.set([7, 'C']);
 
     binTree.delete(5);
     binTree.delete(7);
@@ -1215,11 +1215,11 @@ describe('BinaryTree (non-Map mode)', () => {
     binTree.clear();
   });
 
-  it('add()/has()/getNode(): find nodes by key and predicate', () => {
-    binTree.add([1, '1']);
-    binTree.add(undefined);
-    binTree.add([2, '2']);
-    binTree.add([3, '3']);
+  it('set()/has()/getNode(): find nodes by key and predicate', () => {
+    binTree.set([1, '1']);
+    binTree.set(undefined);
+    binTree.set([2, '2']);
+    binTree.set([3, '3']);
 
     expect(binTree.has(1)).toBe(true);
     expect(binTree.has(2)).toBe(true);
@@ -1232,7 +1232,7 @@ describe('BinaryTree (non-Map mode)', () => {
   });
 
   it('isBST(): returns true for subtree (iterative & recursive)', () => {
-    binTree.addMany([
+    binTree.setMany([
       new BinaryTreeNode(4),
       new BinaryTreeNode(2),
       new BinaryTreeNode(6),
@@ -1248,9 +1248,9 @@ describe('BinaryTree (non-Map mode)', () => {
   });
 
   it('getNode()/get(): resolve nodes and values by key', () => {
-    binTree.add([5, 'A']);
-    binTree.add([3, 'B']);
-    binTree.add([7, 'C']);
+    binTree.set([5, 'A']);
+    binTree.set([3, 'B']);
+    binTree.set([7, 'C']);
 
     const nodeA = binTree.getNode(5);
     const nodeB = binTree.getNode(3);
@@ -1262,16 +1262,16 @@ describe('BinaryTree (non-Map mode)', () => {
   });
 
   it('getNodes(predicate): returns matches (iterative & recursive)', () => {
-    binTree.add([5, 'E']);
-    binTree.add([4, 'D']);
-    binTree.add([3, 'C']);
-    binTree.add([7, 'G']);
-    binTree.add([null, 'null']);
-    binTree.add([1, 'A']);
-    binTree.add([6, 'F']);
-    binTree.add([null, 'null']);
-    binTree.add([2, 'B']);
-    binTree.add([null, 'null']);
+    binTree.set([5, 'E']);
+    binTree.set([4, 'D']);
+    binTree.set([3, 'C']);
+    binTree.set([7, 'G']);
+    binTree.set([null, 'null']);
+    binTree.set([1, 'A']);
+    binTree.set([6, 'F']);
+    binTree.set([null, 'null']);
+    binTree.set([2, 'B']);
+    binTree.set([null, 'null']);
 
     const nodes = binTree.getNodes(node => node.key === 2);
 
@@ -1296,9 +1296,9 @@ describe('BinaryTree (map mode) - higher-order & iteration', () => {
   let binaryTree: BinaryTree<number, string>;
   beforeEach(() => {
     binaryTree = new BinaryTree();
-    binaryTree.add([1, 'a']);
-    binaryTree.add(2, 'b');
-    binaryTree.add([3, 'c']);
+    binaryTree.set([1, 'a']);
+    binaryTree.set(2, 'b');
+    binaryTree.set([3, 'c']);
   });
 
   it('getNode(): returns BinaryTreeNode instance', () => {
@@ -1382,7 +1382,7 @@ describe('BinaryTree (map mode) - higher-order & iteration', () => {
 
   it('bfs(includeNull=true, no callback): yields undefined placeholders', () => {
     const binTree = new BinaryTree();
-    binTree.addMany([-10, -10, -10, 9, 9, 20, null, null, 15, 7, 8, null, 2, null, 6, null, null, 8, 8, 8]);
+    binTree.setMany([-10, -10, -10, 9, 9, 20, null, null, 15, 7, 8, null, 2, null, 6, null, null, 8, 8, 8]);
     const bfsResult = binTree.bfs(undefined, undefined, undefined, true);
     expect(bfsResult).toEqual([
       -10,
@@ -1407,9 +1407,9 @@ describe('BinaryTree (non-Map mode) - higher-order & iteration', () => {
   let binaryTree: BinaryTree<number, string>;
   beforeEach(() => {
     binaryTree = new BinaryTree<number, string>([], { isMapMode: false });
-    binaryTree.add([1, 'a']);
-    binaryTree.add(2, 'b');
-    binaryTree.add([3, 'c']);
+    binaryTree.set([1, 'a']);
+    binaryTree.set(2, 'b');
+    binaryTree.set([3, 'c']);
   });
 
   it('clone(): preserves structure and allows get() by node', () => {
@@ -1485,14 +1485,14 @@ describe('Coverage boosters - merge/print/iterator/startNode/addMany-mismatch/de
   it('addMany: edge cases when values iterator shorter/longer than keys', () => {
     const t = new BinaryTree<number, number>([], { isMapMode: true } as any);
     // values has only 1 item, keys has 3
-    t.addMany([1, 2, 3], [10]);
+    t.setMany([1, 2, 3], [10]);
     expect(t.get(1)).toBe(10);
     expect(t.get(2)).toBeUndefined(); // subsequent value not provided
     expect(t.get(3)).toBeUndefined();
 
     // reverse test: values longer (extra values should be ignored)
     const t2 = new BinaryTree<number, number>([], { isMapMode: true } as any);
-    t2.addMany([7, 8], [70, 80, 90, 100]);
+    t2.setMany([7, 8], [70, 80, 90, 100]);
     expect(t2.get(7)).toBe(70);
     expect(t2.get(8)).toBe(80);
   });
@@ -1524,7 +1524,7 @@ describe('Coverage boosters - merge/print/iterator/startNode/addMany-mismatch/de
     );
     const c = t.clone() as BinaryTree<number, string>;
     // In the original tree, "replace" the value for the same key (Map mode triggers _store.set)
-    t.add([2, 'B']);
+    t.set([2, 'B']);
     // Because clone shares Map storage, the clone can also read the new value
     expect(c.get(2)).toBe('B');
   });
@@ -1585,7 +1585,7 @@ describe('Coverage boosters - close remaining uncovered branches', () => {
     ]);
   });
 
-  it('add(): build tree with no undefined child slot -> return false path', () => {
+  it('set(): build tree with no undefined child slot -> return false path', () => {
     const t = new BinaryTree<number>();
     const r = t.createNode(1)!;
     // explicitly set left/right child pointers to null (not undefined) so BFS finds no insertion slot
@@ -1594,7 +1594,7 @@ describe('Coverage boosters - close remaining uncovered branches', () => {
     (t as any)._root = r;
     (t as any)._size = 1;
 
-    expect(t.add(2)).toBe(false); // no insertion position -> return false
+    expect(t.set(2)).toBe(false); // no insertion position -> return false
   });
 });
 
@@ -1607,14 +1607,14 @@ describe('Coverage boosters v2 - hit remaining statements', () => {
     expect(child.familyPosition).toBe('MAL_NODE');
   });
 
-  it('add(): returns false when tree has no undefined slots (all defined as null)', () => {
+  it('set(): returns false when tree has no undefined slots (all defined as null)', () => {
     const t = new BinaryTree<number>();
     const root = new BinaryTreeNode<number>(1);
     (root as any).left = null;
     (root as any).right = null;
     (t as any)._root = root;
     (t as any)._size = 1;
-    expect(t.add(2)).toBe(false); // no slot with left/right undefined after queue traversal
+    expect(t.set(2)).toBe(false); // no slot with left/right undefined after queue traversal
   });
 
   it('getSuccessor(): climb ancestors while x is a right child', () => {
@@ -1645,8 +1645,8 @@ describe('Coverage boosters v2 - hit remaining statements', () => {
 
   it('_extractKey via Map mode: get/has on entry tuple + null/undefined keys', () => {
     const t = new BinaryTree<number, string>([], { isMapMode: true } as any);
-    t.add([1, 'a']);
-    t.add([2, 'b']);
+    t.set([1, 'a']);
+    t.set([2, 'b']);
     expect(t.get([2, 'anything'] as any)).toBe('b'); // entry tuple path
     expect(t.has([1, 'x'] as any)).toBe(true);
     expect(t.get([null as any, 'x'] as any)).toBeUndefined(); // null key
@@ -1655,7 +1655,7 @@ describe('Coverage boosters v2 - hit remaining statements', () => {
 
   it('_setValue: value is undefined branch executes (Map mode)', () => {
     const t = new BinaryTree<number, string>([], { isMapMode: true } as any);
-    expect(t.add([10, undefined] as any)).toBe(true); // trigger _setValue branch where value is undefined
+    expect(t.set([10, undefined] as any)).toBe(true); // trigger _setValue branch where value is undefined
     expect(t.get(10)).toBeUndefined();
   });
 
@@ -1700,7 +1700,7 @@ describe('Classic usage examples', () => {
     expect(tree.size).toBe(9);
 
     // Add new element
-    tree.add(10, 'ten');
+    tree.set(10, 'ten');
     expect(tree.size).toBe(10);
   });
 
@@ -1903,7 +1903,7 @@ describe('Classic usage examples', () => {
     expect(treeHeight).toBeGreaterThan(0);
 
     // Add new file
-    fileSystem.add(8, { id: 8, name: 'archive.zip', type: 'file', size: 300 });
+    fileSystem.set(8, { id: 8, name: 'archive.zip', type: 'file', size: 300 });
     expect(fileSystem.size).toBe(8);
 
     // Verify complete binary tree structure

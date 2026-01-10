@@ -3,9 +3,9 @@ import { AVLTree, BST, RedBlackTree, TreeMultiMap } from '../../../../src';
 describe('Overall BinaryTree Test', () => {
   it('should perform various operations on BinaryTree', () => {
     const bst = new BST<number>();
-    bst.add(11);
-    bst.add(3);
-    bst.addMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5], undefined, false);
+    bst.set(11);
+    bst.set(3);
+    bst.setMany([15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5], undefined, false);
     expect(bst.size).toBe(16); // true
     bst.has(6); // true
     expect(bst.has(6)).toBe(true); // true
@@ -24,10 +24,10 @@ describe('Overall BinaryTree Test', () => {
     expect(bfsIDs[0]).toBe(11);
 
     const objBST = new BST<number, { key: number; keyA: number }>();
-    objBST.add([11, { key: 11, keyA: 11 }]);
-    objBST.add([3, { key: 3, keyA: 3 }]);
+    objBST.set([11, { key: 11, keyA: 11 }]);
+    objBST.set([3, { key: 3, keyA: 3 }]);
 
-    objBST.addMany([
+    objBST.setMany([
       [15, { key: 15, keyA: 15 }],
       [1, { key: 1, keyA: 1 }],
       [8, { key: 8, keyA: 8 }],
@@ -47,7 +47,7 @@ describe('Overall BinaryTree Test', () => {
     objBST.delete(11);
 
     const avlTree = new AVLTree();
-    avlTree.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
+    avlTree.setMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
     avlTree.isAVLBalanced(); // true
     expect(avlTree.isAVLBalanced()).toBe(true); // true
     avlTree.delete(10);
@@ -103,9 +103,9 @@ describe('Overall BinaryTree Test', () => {
       comparator: (a, b) => b - a
     });
     expect(avl.size).toBe(5);
-    avl.add(2);
-    avl.add(5);
-    avl.add(4);
+    avl.set(2);
+    avl.set(5);
+    avl.set(4);
     expect(avl.root?.key).toBe(3);
     expect(avl.root?.left?.key).toBe(7);
     expect(avl.root?.left?.left?.key).toBe(9);
@@ -145,11 +145,11 @@ describe('Overall BinaryTree Test', () => {
       iterationType: 'RECURSIVE'
     });
     expect(tmm.size).toBe(5);
-    tmm.add(2);
-    tmm.add(2);
-    tmm.add(2);
-    tmm.add(5);
-    tmm.add(4);
+    tmm.set(2);
+    tmm.set(2);
+    tmm.set(2);
+    tmm.set(5);
+    tmm.set(4);
     expect(tmm.root?.key).toBe(3);
     expect(tmm.root?.left?.key).toBe(1);
     expect(tmm.root?.left?.left?.key).toBe(NaN);
@@ -190,11 +190,11 @@ describe('Overall BinaryTree Test', () => {
       iterationType: 'RECURSIVE'
     });
     expect(rbTree.size).toBe(5);
-    rbTree.add(2);
-    rbTree.add(2);
-    rbTree.add(2);
-    rbTree.add(5);
-    rbTree.add(4);
+    rbTree.set(2);
+    rbTree.set(2);
+    rbTree.set(2);
+    rbTree.set(5);
+    rbTree.set(4);
     expect(rbTree.root?.key).toBe(3);
     expect(rbTree.root?.left?.key).toBe(1);
     expect(rbTree.root?.left?.left?.key).toBe(NaN);

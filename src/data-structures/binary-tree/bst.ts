@@ -350,7 +350,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Creates an instance of BST.
    * @remarks Time O(N log N) or O(N^2) depending on `isBalanceAdd` in `addMany` and input order. Space O(N).
    *
-   * @param [keysNodesEntriesOrRaws=[]] - An iterable of items to add.
+   * @param [keysNodesEntriesOrRaws=[]] - An iterable of items to set.
    * @param [options] - Configuration options for the BST, including comparator.
    */
   constructor(
@@ -370,7 +370,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       this._comparator = this._createDefaultComparator();
     }
 
-    if (keysNodesEntriesOrRaws) this.addMany(keysNodesEntriesOrRaws);
+    if (keysNodesEntriesOrRaws) this.setMany(keysNodesEntriesOrRaws);
   }
 
   protected override _root?: BSTNode<K, V> = undefined;
@@ -716,11 +716,11 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Adds a new node to the BST based on key comparison.
    * @remarks Time O(log N), where H is tree height. O(N) worst-case (unbalanced tree), O(log N) average. Space O(1).
    *
-   * @param keyNodeOrEntry - The key, node, or entry to add.
+   * @param keyNodeOrEntry - The key, node, or entry to set.
    * @param [value] - The value, if providing just a key.
    * @returns True if the addition was successful, false otherwise.
    */
-  override add(
+  override set(
     keyNodeOrEntry: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     value?: V
   ): boolean {
@@ -766,17 +766,17 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
 
   /**
    * Adds multiple items to the tree.
-   * @remarks If `isBalanceAdd` is true, sorts the input and builds a balanced tree. Time O(N log N) (due to sort and balanced add).
+   * @remarks If `isBalanceAdd` is true, sorts the input and builds a balanced tree. Time O(N log N) (due to sort and balanced set).
    * If false, adds items one by one. Time O(N * H), which is O(N^2) worst-case.
    * Space O(N) for sorting and recursion/iteration stack.
    *
-   * @param keysNodesEntriesOrRaws - An iterable of items to add.
+   * @param keysNodesEntriesOrRaws - An iterable of items to set.
    * @param [values] - An optional parallel iterable of values.
    * @param [isBalanceAdd=true] - If true, builds a balanced tree from the items.
-   * @param [iterationType=this.iterationType] - The traversal method for balanced add (recursive or iterative).
-   * @returns An array of booleans indicating the success of each individual `add` operation.
+   * @param [iterationType=this.iterationType] - The traversal method for balanced set (recursive or iterative).
+   * @returns An array of booleans indicating the success of each individual `set` operation.
    */
-  override addMany(
+  override setMany(
     keysNodesEntriesOrRaws: Iterable<R | BTNRep<K, V, BSTNode<K, V>>>,
     values?: Iterable<V | undefined>,
     isBalanceAdd = true,
@@ -790,7 +790,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       for (let kve of keysNodesEntriesOrRaws) {
         const val = valuesIterator?.next().value;
         if (this.isRaw(kve)) kve = this._toEntryFn!(kve);
-        inserted.push(this.add(kve, val));
+        inserted.push(this.set(kve, val));
       }
       return inserted;
     }
@@ -831,9 +831,9 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       const { key, value, orgIndex } = arr[mid];
       if (this.isRaw(key)) {
         const entry = this._toEntryFn!(key);
-        inserted[orgIndex] = this.add(entry);
+        inserted[orgIndex] = this.set(entry);
       } else {
-        inserted[orgIndex] = this.add(key, value);
+        inserted[orgIndex] = this.set(key, value);
       }
       _dfs(arr.slice(0, mid));
       _dfs(arr.slice(mid + 1));
@@ -852,9 +852,9 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
         const { key, value, orgIndex } = sorted[m];
         if (this.isRaw(key)) {
           const entry = this._toEntryFn!(key);
-          inserted[orgIndex] = this.add(entry);
+          inserted[orgIndex] = this.set(entry);
         } else {
-          inserted[orgIndex] = this.add(key, value);
+          inserted[orgIndex] = this.set(key, value);
         }
         stack.push([m + 1, r]);
         stack.push([l, m - 1]);
@@ -1369,7 +1369,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     let index = 0;
     // Iterates in-order
     for (const [key, value] of this) {
-      out.add(callback.call(thisArg, value, key, index++, this));
+      out.set(callback.call(thisArg, value, key, index++, this));
     }
     return out;
   }
@@ -1441,7 +1441,6 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    */
   protected _createDefaultComparator(): Comparator<K> {
     return (a: K, b: K): number => {
-      debugger;
       // If both keys are comparable (primitive types), use direct comparison
       if (isComparable(a) && isComparable(b)) {
         if (a > b) return 1;

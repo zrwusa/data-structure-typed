@@ -204,7 +204,7 @@ export class TreeCounter<K = any, V = any, R = any> extends RedBlackTree<K, V, R
     options?: TreeCounterOptions<K, V, R>
   ) {
     super([], options);
-    if (keysNodesEntriesOrRaws) this.addMany(keysNodesEntriesOrRaws);
+    if (keysNodesEntriesOrRaws) this.setMany(keysNodesEntriesOrRaws);
   }
 
   protected _count = 0;
@@ -255,14 +255,14 @@ export class TreeCounter<K = any, V = any, R = any> extends RedBlackTree<K, V, R
    * @param [count] - How much to increase the node's count (default 1).
    * @returns True if inserted/updated; false if ignored.
    */
-  override add(
+  override set(
     keyNodeOrEntry: K | TreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     value?: V,
     count = 1
   ): boolean {
     const [newNode, newValue] = this._keyValueNodeOrEntryToNodeAndValue(keyNodeOrEntry, value, count);
     const orgCount = newNode?.count || 0;
-    const isSuccessAdded = super.add(newNode, newValue);
+    const isSuccessAdded = super.set(newNode, newValue);
     if (isSuccessAdded) {
       this._count += orgCount;
       return true;
@@ -437,7 +437,7 @@ export class TreeCounter<K = any, V = any, R = any> extends RedBlackTree<K, V, R
 
     let index = 0;
     for (const [key, value] of this) {
-      out.add(callback.call(thisArg, value, key, index++, this));
+      out.set(callback.call(thisArg, value, key, index++, this));
     }
     return out;
   }

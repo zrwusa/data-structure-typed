@@ -182,7 +182,7 @@ export class AVLTreeNode<K = any, V = any> {
 
 /**
  * Represents a self-balancing AVL (Adelson-Velsky and Landis) Tree.
- * This tree extends BST and performs rotations on add/delete to maintain balance.
+ * This tree extends BST and performs rotations on set/delete to maintain balance.
  *
  * @template K - The type of the key.
  * @template V - The type of the value.
@@ -278,7 +278,7 @@ export class AVLTreeNode<K = any, V = any> {
  *     console.log(universityTree.isAVLBalanced()); // true;
  *
  *     // Add more universities
- *     universityTree.add(6, { name: 'Oxford', rank: 6, students: 2000 });
+ *     universityTree.set(6, { name: 'Oxford', rank: 6, students: 2000 });
  *     console.log(universityTree.isAVLBalanced()); // true;
  *
  *     // Delete and verify balance is maintained
@@ -358,9 +358,9 @@ export class AVLTreeNode<K = any, V = any> {
 export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements IBinaryTree<K, V, R> {
   /**
    * Creates an instance of AVLTree.
-   * @remarks Time O(N log N) (from `addMany` with balanced add). Space O(N).
+   * @remarks Time O(N log N) (from `setMany` with balanced set). Space O(N).
    *
-   * @param [keysNodesEntriesOrRaws=[]] - An iterable of items to add.
+   * @param [keysNodesEntriesOrRaws=[]] - An iterable of items to set.
    * @param [options] - Configuration options for the AVL tree.
    */
   constructor(
@@ -370,8 +370,8 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
     options?: AVLTreeOptions<K, V, R>
   ) {
     super([], options);
-    // Note: super.addMany is called, which in BST defaults to balanced add.
-    if (keysNodesEntriesOrRaws) super.addMany(keysNodesEntriesOrRaws);
+    // Note: super.setMany is called, which in BST defaults to balanced set.
+    if (keysNodesEntriesOrRaws) super.setMany(keysNodesEntriesOrRaws);
   }
 
   /**
@@ -400,19 +400,19 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
   }
 
   /**
-   * Adds a new node to the AVL tree and balances the tree path.
-   * @remarks Time O(log N) (O(H) for BST add + O(H) for `_balancePath`). Space O(H) for path/recursion.
+   * Sets a new node to the AVL tree and balances the tree path.
+   * @remarks Time O(log N) (O(H) for BST set + O(H) for `_balancePath`). Space O(H) for path/recursion.
    *
-   * @param keyNodeOrEntry - The key, node, or entry to add.
+   * @param keyNodeOrEntry - The key, node, or entry to set.
    * @param [value] - The value, if providing just a key.
    * @returns True if the addition was successful, false otherwise.
    */
-  override add(
+  override set(
     keyNodeOrEntry: K | AVLTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     value?: V
   ): boolean {
     if (keyNodeOrEntry === null) return false;
-    const inserted = super.add(keyNodeOrEntry, value);
+    const inserted = super.set(keyNodeOrEntry, value);
     // If insertion was successful, balance the path from the new node up to the root.
     if (inserted) this._balancePath(keyNodeOrEntry);
     return inserted;
@@ -477,7 +477,7 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
 
   /**
    * Creates a new AVLTree by mapping each [key, value] pair.
-   * @remarks Time O(N log N) (O(N) iteration + O(log M) `add` for each item into the new tree). Space O(N) for the new tree.
+   * @remarks Time O(N log N) (O(N) iteration + O(log M) `set` for each item into the new tree). Space O(N) for the new tree.
    *
    * @template MK - New key type.
    * @template MV - New value type.
@@ -497,8 +497,8 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
     let index = 0;
     // Iterates in-order
     for (const [key, value] of this) {
-      // `add` on the new tree will be O(log N) and will self-balance.
-      out.add(callback.call(thisArg, value, key, index++, this));
+      // `set` on the new tree will be O(log N) and will self-balance.
+      out.set(callback.call(thisArg, value, key, index++, this));
     }
     return out;
   }

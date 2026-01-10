@@ -6,25 +6,25 @@ const isDebug = isDebugTest;
 describe('BST operations test', () => {
   it('should add undefined and null', () => {
     const bst = new BST<number, string>();
-    const isAddUndefined = bst.add(undefined);
+    const isAddUndefined = bst.set(undefined);
     expect(isAddUndefined).toBe(false);
     expect(bst.get(undefined)).toBe(undefined);
-    const isAddNull = bst.add(null);
+    const isAddNull = bst.set(null);
     expect(isAddNull).toBe(false);
     expect(bst.get(null)).toBe(undefined);
-    const isAdd0 = bst.add(0, '0');
+    const isAdd0 = bst.set(0, '0');
     expect(isAdd0).toBe(true);
     expect(bst.get(0)).toBe('0');
   });
 
   it('should addMany undefined and null', () => {
     const bst = new BST<number, string>();
-    const addManyWithUndefined = bst.addMany([1, undefined, 3]);
+    const addManyWithUndefined = bst.setMany([1, undefined, 3]);
     expect(addManyWithUndefined).toEqual([true, false, true]);
     expect(bst.get(undefined)).toBe(undefined);
-    const addManyWithNull = bst.addMany([1, null, 3, 4]);
+    const addManyWithNull = bst.setMany([1, null, 3, 4]);
     expect(addManyWithNull).toEqual([true, false, true, true]);
-    const addManyEntriesWithNull = bst.addMany([
+    const addManyEntriesWithNull = bst.setMany([
       [1, '1'],
       [null, 'null'],
       [3, '3'],
@@ -32,7 +32,7 @@ describe('BST operations test', () => {
     ]);
     expect(addManyEntriesWithNull).toEqual([true, false, true, true]);
     expect(bst.get(null)).toBe(undefined);
-    const node0 = bst.add(0, '0');
+    const node0 = bst.set(0, '0');
     expect(node0).toBe(true);
     expect(bst.get(0)).toBe('0');
   });
@@ -40,8 +40,8 @@ describe('BST operations test', () => {
   it('should perform various operations on a Binary Search Tree with numeric values', () => {
     const bst = new BST<number, number>();
     expect(bst).toBeInstanceOf(BST);
-    bst.add([11, 11]);
-    bst.add([3, 3]);
+    bst.set([11, 11]);
+    bst.set([3, 3]);
     const idsAndValues: [number, number][] = [
       [15, 15],
       [1, 1],
@@ -58,7 +58,7 @@ describe('BST operations test', () => {
       [10, 10],
       [5, 5]
     ];
-    bst.addMany(idsAndValues, [], false);
+    bst.setMany(idsAndValues, [], false);
     expect(bst.root).toBeInstanceOf(BSTNode);
 
     if (bst.root) expect(bst.root.key).toBe(11);
@@ -247,10 +247,10 @@ describe('BST operations test', () => {
   it('should perform various operations on a Binary Search Tree with object values', () => {
     const objBST = new BST<number, { name: string; age: number }>();
     expect(objBST).toBeInstanceOf(BST);
-    objBST.add([11, { name: '11', age: 11 }]);
-    objBST.add([3, { name: '3', age: 3 }]);
+    objBST.set([11, { name: '11', age: 11 }]);
+    objBST.set([3, { name: '3', age: 3 }]);
 
-    objBST.addMany(
+    objBST.setMany(
       [15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5],
       [
         { name: 'Alice', age: 15 },
@@ -474,17 +474,17 @@ describe('BST operations test', () => {
     const tree = new BST<number, string>([4, 5, [1, '1'], 2, 3], { isMapMode: false });
     expect(tree.get(1)).toBe('1');
     expect(tree.getNode(1)?.value).toBe('1');
-    tree.add(1, 'a');
+    tree.set(1, 'a');
     expect(tree.get(1)).toBe('a');
-    tree.add([1, 'b']);
+    tree.set([1, 'b']);
     expect(tree.getNode(1)?.value).toBe('b');
     expect(tree.get(1)).toBe('b');
     const treeMap = new BST<number>([4, 5, [1, '1'], 2, 3]);
     expect(treeMap.get(1)).toBe('1');
     expect(treeMap.getNode(1)?.value).toBe(undefined);
-    treeMap.add(1, 'a');
+    treeMap.set(1, 'a');
     expect(treeMap.get(1)).toBe('a');
-    treeMap.add([1, 'b']);
+    treeMap.set([1, 'b']);
     expect(treeMap.getNode(1)?.value).toBe(undefined);
     expect(treeMap.get(1)).toBe('b');
   });
@@ -502,10 +502,10 @@ describe('BST operations test recursively', () => {
       iterationType: 'RECURSIVE'
     });
     expect(bst).toBeInstanceOf(BST);
-    bst.add([11, 11]);
-    bst.add([3, 3]);
+    bst.set([11, 11]);
+    bst.set([3, 3]);
     const idsAndValues = [15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
-    bst.addMany(idsAndValues, undefined, false);
+    bst.setMany(idsAndValues, undefined, false);
     expect(bst.root).toBeInstanceOf(BSTNode);
 
     if (bst.root) expect(bst.root.key).toBe(11);
@@ -687,8 +687,8 @@ describe('BST operations test recursively', () => {
   it('should perform various operations on a Binary Search Tree with object values', () => {
     const objBST = new BST<number, { key: number; keyA: number }>();
     expect(objBST).toBeInstanceOf(BST);
-    objBST.add([11, { key: 11, keyA: 11 }]);
-    objBST.add([3, { key: 3, keyA: 3 }]);
+    objBST.set([11, { key: 11, keyA: 11 }]);
+    objBST.set([3, { key: 3, keyA: 3 }]);
     const entries: [number, { key: number; keyA: number }][] = [
       [15, { key: 15, keyA: 15 }],
       [1, { key: 1, keyA: 1 }],
@@ -706,7 +706,7 @@ describe('BST operations test recursively', () => {
       [5, { key: 5, keyA: 5 }]
     ];
 
-    objBST.addMany(entries, undefined, false);
+    objBST.setMany(entries, undefined, false);
 
     expect(objBST.root).toBeInstanceOf(BSTNode);
 
@@ -893,7 +893,7 @@ describe('BST operations test recursively', () => {
 
   it('should delete', () => {
     const numBST = new BST<number>();
-    numBST.addMany([2, 4, 5, 3, 1]);
+    numBST.setMany([2, 4, 5, 3, 1]);
     expect(numBST.size).toBe(5);
     numBST.delete(1);
     expect(numBST.size).toBe(4);
@@ -909,7 +909,7 @@ describe('BST operations test recursively', () => {
 
   it('should listLevels', () => {
     const bst = new BST<number>();
-    bst.addMany([2, 4, 5, 3, 1]);
+    bst.setMany([2, 4, 5, 3, 1]);
     expect(bst.size).toBe(5);
     bst.delete(1);
     bst.delete(5);
@@ -921,7 +921,7 @@ describe('BST operations test recursively', () => {
     const bst = new BST<number>();
     const levelKeys = bst.lesserOrGreaterTraverse();
     expect(levelKeys).toEqual([]);
-    bst.addMany([2, 4, 5, 3, 1]);
+    bst.setMany([2, 4, 5, 3, 1]);
     expect(bst.size).toBe(5);
     bst.delete(1);
     bst.delete(5);
@@ -942,7 +942,7 @@ describe('BST operations test recursively', () => {
     }
 
     const bst = new BST<string, number>();
-    bst.addMany([
+    bst.setMany([
       ['2', 2],
       ['4', 4],
       ['5', 5],
@@ -980,7 +980,7 @@ describe('BST operations test recursively', () => {
   if (isTestStackOverflow) {
     it('should getLeftMost', () => {
       const bst = new BST<number>([]);
-      for (let i = 1; i <= SYSTEM_MAX_CALL_STACK; i++) bst.add(i);
+      for (let i = 1; i <= SYSTEM_MAX_CALL_STACK; i++) bst.set(i);
 
       expect(() => {
         const leftMost = bst.getLeftMost(node => node, bst.root, 'RECURSIVE');
@@ -993,7 +993,7 @@ describe('BST operations test recursively', () => {
 
     it('should getRightMost', () => {
       const bst = new BST<number>();
-      for (let i = 1; i <= SYSTEM_MAX_CALL_STACK; i++) bst.add(i);
+      for (let i = 1; i <= SYSTEM_MAX_CALL_STACK; i++) bst.set(i);
 
       expect(() => {
         const rightMost = bst.getRightMost(node => node, bst.root, 'RECURSIVE');
@@ -1008,7 +1008,7 @@ describe('BST operations test recursively', () => {
 describe('BST isBST', function () {
   it('isBST', () => {
     const bst = new BST<number, number>();
-    bst.addMany([1, 2, 3, 9, 8, 5, 6, 7, 4]);
+    bst.setMany([1, 2, 3, 9, 8, 5, 6, 7, 4]);
     expect(bst.isBST()).toBe(true);
   });
 
@@ -1016,7 +1016,7 @@ describe('BST isBST', function () {
     const bst = new BST<number, number>([1, 2, 3, 9, 8, 5, 6, 7, 4], {
       comparator: (a, b) => b - a
     });
-    bst.addMany([1, 2, 3, 9, 8, 5, 6, 7, 4]);
+    bst.setMany([1, 2, 3, 9, 8, 5, 6, 7, 4]);
     expect(bst.isBST()).toBe(true);
   });
 });
@@ -1041,7 +1041,7 @@ describe('BST Performance test', function () {
       nodes.push(i);
     }
     const start = performance.now();
-    bst.addMany(nodes);
+    bst.setMany(nodes);
     if (isDebug) console.log('---add', performance.now() - start);
     const startL = performance.now();
     bst.lesserOrGreaterTraverse(
@@ -1060,7 +1060,7 @@ describe('BST Performance test', function () {
       nodes.push(i);
     }
     const start = performance.now();
-    bst.addMany(nodes);
+    bst.setMany(nodes);
     if (isDebug) console.log('---add', performance.now() - start);
     const startL = performance.now();
     const arr: number[][] = bst.listLevels(node => node.key);
@@ -1070,14 +1070,14 @@ describe('BST Performance test', function () {
 
   it('should the lastKey of a BST to be the largest key', function () {
     const bst = new BST();
-    bst.addMany([9, 8, 7, 3, 1, 2, 5, 4, 6], undefined, false);
+    bst.setMany([9, 8, 7, 3, 1, 2, 5, 4, 6], undefined, false);
     // TODO
     // expect(bst.lastKey()).toBe(9);
   });
 
   it('should dfs as sub tree traversal, null should be ignored', () => {
     const bst = new BST();
-    bst.addMany([4, 2, 6, 1, 3, 5, 7]);
+    bst.setMany([4, 2, 6, 1, 3, 5, 7]);
     expect(bst.dfs(node => node.key, 'PRE', false, bst.getNode(6), 'ITERATIVE')).toEqual([6, 5, 7]);
     expect(bst.dfs(node => node.key, 'PRE', false, bst.getNode(6), 'RECURSIVE')).toEqual([6, 5, 7]);
     expect(bst.dfs(node => node?.key ?? undefined, 'PRE', false, bst.getNode(6), 'ITERATIVE')).toEqual([6, 5, 7]);
@@ -1089,7 +1089,7 @@ describe('BST iterative methods test', () => {
   let bst: BST<number, string>;
   beforeEach(() => {
     bst = new BST();
-    bst.addMany(
+    bst.setMany(
       [
         [1, 'a'],
         [2, 'b'],
@@ -1179,7 +1179,7 @@ describe('BST iterative methods test', () => {
 
   it('should collapsed, unbalanced, balanced bst leaves', () => {
     const collapsedToLinkedList = new BST();
-    collapsedToLinkedList.addMany(
+    collapsedToLinkedList.setMany(
       [
         [1, 'a'],
         [2, 'b'],
@@ -1198,7 +1198,7 @@ describe('BST iterative methods test', () => {
     expect(collapsedToLinkedList.leaves()).toEqual([9]);
 
     const unbalanced = new BST();
-    unbalanced.addMany(
+    unbalanced.setMany(
       [
         [2, 'b'],
         [1, 'a'],
@@ -1217,7 +1217,7 @@ describe('BST iterative methods test', () => {
     expect(unbalanced.leaves()).toEqual([1, 9]);
 
     const balanced = new BST();
-    balanced.addMany(
+    balanced.setMany(
       [
         [2, 'b'],
         [1, 'a'],
@@ -1242,8 +1242,8 @@ describe('BST operations not map mode test', () => {
   it('should perform various operations on a Binary Search Tree with numeric values', () => {
     const bst = new BST<number, number>([], { isMapMode: false });
     expect(bst).toBeInstanceOf(BST);
-    bst.add([11, 11]);
-    bst.add([3, 3]);
+    bst.set([11, 11]);
+    bst.set([3, 3]);
     const idsAndValues: [number, number][] = [
       [15, 15],
       [1, 1],
@@ -1260,7 +1260,7 @@ describe('BST operations not map mode test', () => {
       [10, 10],
       [5, 5]
     ];
-    bst.addMany(idsAndValues, undefined, false);
+    bst.setMany(idsAndValues, undefined, false);
     expect(bst.root).toBeInstanceOf(BSTNode);
 
     if (bst.root) expect(bst.root.key).toBe(11);
@@ -1295,10 +1295,10 @@ describe('BST operations not map mode test', () => {
   it('should perform various operations on a Binary Search Tree with object values', () => {
     const objBST = new BST<number, { name: string; age: number }>([], { isMapMode: false });
     expect(objBST).toBeInstanceOf(BST);
-    objBST.add([11, { name: '11', age: 11 }]);
-    objBST.add([3, { name: '3', age: 3 }]);
+    objBST.set([11, { name: '11', age: 11 }]);
+    objBST.set([3, { name: '3', age: 3 }]);
 
-    objBST.addMany(
+    objBST.setMany(
       [15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5],
       [
         { name: 'Alice', age: 15 },
@@ -1374,10 +1374,10 @@ describe('BST operations not map mode test recursively', () => {
       isMapMode: false
     });
     expect(bst).toBeInstanceOf(BST);
-    bst.add([11, 11]);
-    bst.add([3, 3]);
+    bst.set([11, 11]);
+    bst.set([3, 3]);
     const idsAndValues = [15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
-    bst.addMany(idsAndValues, undefined, false);
+    bst.setMany(idsAndValues, undefined, false);
     expect(bst.root).toBeInstanceOf(BSTNode);
 
     if (bst.root) expect(bst.root.key).toBe(11);
@@ -1401,8 +1401,8 @@ describe('BST operations not map mode test recursively', () => {
   it('should perform various operations on a Binary Search Tree with object values', () => {
     const objBST = new BST<number, { key: number; keyA: number }>([], { isMapMode: false });
     expect(objBST).toBeInstanceOf(BST);
-    objBST.add([11, { key: 11, keyA: 11 }]);
-    objBST.add([3, { key: 3, keyA: 3 }]);
+    objBST.set([11, { key: 11, keyA: 11 }]);
+    objBST.set([3, { key: 3, keyA: 3 }]);
     const entries: [number, { key: number; keyA: number }][] = [
       [15, { key: 15, keyA: 15 }],
       [1, { key: 1, keyA: 1 }],
@@ -1420,7 +1420,7 @@ describe('BST operations not map mode test recursively', () => {
       [5, { key: 5, keyA: 5 }]
     ];
 
-    objBST.addMany(entries, undefined, false);
+    objBST.setMany(entries, undefined, false);
 
     expect(objBST.root).toBeInstanceOf(BSTNode);
 
@@ -1457,7 +1457,7 @@ describe('BST iterative methods not map mode test', () => {
   let bst: BST<number, string>;
   beforeEach(() => {
     bst = new BST();
-    bst.addMany(
+    bst.setMany(
       [
         [1, 'a'],
         [2, 'b'],
@@ -1476,7 +1476,7 @@ describe('BST iterative methods not map mode test', () => {
 
   it('should collapsed, unbalanced, balanced bst leaves', () => {
     const collapsedToLinkedList = new BST();
-    collapsedToLinkedList.addMany(
+    collapsedToLinkedList.setMany(
       [
         [1, 'a'],
         [2, 'b'],
@@ -1495,7 +1495,7 @@ describe('BST iterative methods not map mode test', () => {
     expect(collapsedToLinkedList.leaves()).toEqual([9]);
 
     const unbalanced = new BST();
-    unbalanced.addMany(
+    unbalanced.setMany(
       [
         [2, 'b'],
         [1, 'a'],
@@ -1514,7 +1514,7 @@ describe('BST iterative methods not map mode test', () => {
     expect(unbalanced.leaves()).toEqual([1, 9]);
 
     const balanced = new BST();
-    balanced.addMany(
+    balanced.setMany(
       [
         [2, 'b'],
         [1, 'a'],
@@ -1540,8 +1540,8 @@ describe('BST constructor and comparator edge cases', () => {
     const bst = new BST<number>([], {
       comparator: (a, b) => b - a
     });
-    bst.add(1);
-    bst.add(2);
+    bst.set(1);
+    bst.set(2);
     expect([...bst.keys()]).toEqual([2, 1]);
   });
 
@@ -1556,7 +1556,7 @@ describe('BST addMany edge cases', () => {
     const bst = new BST<number, string>();
     const keys = [1, 2, 3];
     const values = ['a', 'b', 'c'];
-    const result = bst.addMany(keys, values);
+    const result = bst.setMany(keys, values);
     expect(result).toEqual([true, true, true]);
     expect([...bst]).toEqual([
       [1, 'a'],
@@ -1567,7 +1567,7 @@ describe('BST addMany edge cases', () => {
 
   it('should addMany with isBalanceAdd=false', () => {
     const bst = new BST<number>();
-    const result = bst.addMany([3, 1, 2], undefined, false);
+    const result = bst.setMany([3, 1, 2], undefined, false);
     expect(result).toEqual([true, true, true]);
     expect([...bst.keys()]).toEqual([1, 2, 3]);
   });
@@ -1575,7 +1575,7 @@ describe('BST addMany edge cases', () => {
   it('should addMany with raw/entry/node', () => {
     const bst = new BST<number, string>([], { isMapMode: false });
     const node = new BSTNode(5, 'x');
-    const result = bst.addMany([1, [2, 'b'], node]);
+    const result = bst.setMany([1, [2, 'b'], node]);
     expect(result).toEqual([true, true, true]);
     expect(bst.get(5)).toBe('x');
   });
@@ -1586,10 +1586,10 @@ describe('BST perfectlyBalance and isAVLBalanced edge cases', () => {
     const bst = new BST<number>();
     expect(bst.perfectlyBalance('RECURSIVE')).toBe(false);
     expect(bst.perfectlyBalance('ITERATIVE')).toBe(false);
-    bst.addMany([1, 2, 3]);
+    bst.setMany([1, 2, 3]);
     expect(bst.perfectlyBalance('RECURSIVE')).toBe(true);
     bst.clear();
-    bst.addMany([1, 2, 3]);
+    bst.setMany([1, 2, 3]);
     expect(bst.perfectlyBalance('ITERATIVE')).toBe(true);
   });
 
@@ -1597,7 +1597,7 @@ describe('BST perfectlyBalance and isAVLBalanced edge cases', () => {
     const bst = new BST<number>();
     expect(bst.isAVLBalanced('RECURSIVE')).toBe(true);
     expect(bst.isAVLBalanced('ITERATIVE')).toBe(true);
-    bst.addMany([1, 2, 3, 4, 5]);
+    bst.setMany([1, 2, 3, 4, 5]);
     expect(typeof bst.isAVLBalanced('RECURSIVE')).toBe('boolean');
     expect(typeof bst.isAVLBalanced('ITERATIVE')).toBe('boolean');
   });
@@ -1821,7 +1821,7 @@ describe('BST ceiling and higher', () => {
       //       6   9
       bst = new BST<number, string>();
       const keys = [10, 5, 15, 2, 8, 12, 20, 6, 9];
-      keys.forEach(k => bst.add(k, `val-${k}`));
+      keys.forEach(k => bst.set(k, `val-${k}`));
     });
 
     describe('ceiling (First key >= key)', () => {
@@ -1898,7 +1898,7 @@ describe('BST ceiling and higher', () => {
 
       test('should handle single node tree', () => {
         const singleNodeTree = new BST<number, string>();
-        singleNodeTree.add(10);
+        singleNodeTree.set(10);
 
         // ceiling
         expect(singleNodeTree.ceiling(5)).toBe(10);
@@ -1918,7 +1918,7 @@ describe('BST ceiling and higher', () => {
         const randomKeys = generateRandomArray(500, 0, 1000);
 
         // Insert unique keys
-        [...new Set(randomKeys)].forEach(k => fuzzTree.add(k));
+        [...new Set(randomKeys)].forEach(k => fuzzTree.set(k));
 
         // Sort for verification (Ground Truth)
         const sortedKeys = Array.from(fuzzTree.keys()).sort((a, b) => a - b);
@@ -1972,7 +1972,7 @@ describe('BST ceiling and higher', () => {
   describe('single node tree', () => {
     beforeEach(() => {
       bst = new BST<number, string>();
-      bst.add(10, 'ten');
+      bst.set(10, 'ten');
     });
 
     it('ceiling should return the key if key matches', () => {
@@ -2669,11 +2669,11 @@ describe('BST Comparator Tests', () => {
     });
 
     it('should correctly insert elements based on comparator', () => {
-      bst.add(10);
-      bst.add(5);
-      bst.add(15);
-      bst.add(3);
-      bst.add(7);
+      bst.set(10);
+      bst.set(5);
+      bst.set(15);
+      bst.set(3);
+      bst.set(7);
 
       expect(bst.has(10)).toBe(true);
       expect(bst.has(5)).toBe(true);
@@ -2684,7 +2684,7 @@ describe('BST Comparator Tests', () => {
     });
 
     it('should maintain BST property with in-order traversal', () => {
-      bst.addMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
+      bst.setMany([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
 
       const inOrder: (number | undefined)[] = bst.dfs(node => node?.key);
 
@@ -2694,7 +2694,7 @@ describe('BST Comparator Tests', () => {
     });
 
     it('should correctly find min and max using comparator', () => {
-      bst.addMany([15, 10, 20, 8, 12, 18, 25]);
+      bst.setMany([15, 10, 20, 8, 12, 18, 25]);
 
       const arr = Array.from(bst.keys());
       const min = Math.min(...arr);
@@ -2705,7 +2705,7 @@ describe('BST Comparator Tests', () => {
     });
 
     it('should correctly delete elements maintaining BST property', () => {
-      bst.addMany([10, 5, 15, 3, 7, 12, 18]);
+      bst.setMany([10, 5, 15, 3, 7, 12, 18]);
       bst.delete(10);
 
       expect(bst.has(10)).toBe(false);
@@ -2717,7 +2717,7 @@ describe('BST Comparator Tests', () => {
     });
 
     it('should correctly search using comparator', () => {
-      bst.addMany([20, 10, 30, 5, 15, 25, 35]);
+      bst.setMany([20, 10, 30, 5, 15, 25, 35]);
 
       const result = bst.search(15);
       expect(result.length).toBeGreaterThan(0);
@@ -2797,7 +2797,7 @@ describe('BST Comparator Tests', () => {
 
     beforeEach(() => {
       bst = new BST<number>();
-      bst.addMany([10, 5, 15, 3, 7, 12, 18, 1, 4, 6, 8, 11, 13, 16, 20]);
+      bst.setMany([10, 5, 15, 3, 7, 12, 18, 1, 4, 6, 8, 11, 13, 16, 20]);
     });
 
     it('should find ceiling using comparator', () => {
@@ -2894,7 +2894,7 @@ describe('BST Comparator Tests', () => {
         { name: 'David', grade: 95 }
       ];
 
-      students.forEach(s => bst.add(s));
+      students.forEach(s => bst.set(s));
 
       expect(bst.size).toBe(4);
       expect(bst.has(students[0])).toBe(true);
@@ -2911,9 +2911,9 @@ describe('BST Comparator Tests', () => {
 
       const bst = new BST<number[]>([], { comparator });
 
-      bst.add([1, 2, 3]);
-      bst.add([2, 2, 2]);
-      bst.add([1, 1, 1]);
+      bst.set([1, 2, 3]);
+      bst.set([2, 2, 2]);
+      bst.set([1, 1, 1]);
 
       expect(bst.size).toBeGreaterThan(0);
     });
@@ -2965,7 +2965,7 @@ describe('BST Comparator Tests', () => {
         { departmentId: 1, employeeId: 102 }
       ];
 
-      keys.forEach(k => bst.add(k));
+      keys.forEach(k => bst.set(k));
 
       expect(bst.size).toBe(5);
       const inOrder = bst.dfs(node => node?.key);
@@ -2992,7 +2992,7 @@ describe('BST Comparator Tests', () => {
         { departmentId: 2, employeeId: 102 }
       ];
 
-      keys.forEach(k => bst.add(k));
+      keys.forEach(k => bst.set(k));
 
       const searchKey = keys[1];
       const result = bst.search(searchKey);
@@ -3017,7 +3017,7 @@ describe('BST Comparator Tests', () => {
         { departmentId: 2, employeeId: 102 }
       ];
 
-      keys.forEach(k => bst.add(k));
+      keys.forEach(k => bst.set(k));
 
       const keyToDelete = keys[1];
       const deleted = bst.delete(keyToDelete);
@@ -3043,7 +3043,7 @@ describe('BST Comparator Tests', () => {
         { departmentId: 2, employeeId: 102 }
       ];
 
-      keys.forEach(k => bst.add(k));
+      keys.forEach(k => bst.set(k));
 
       const searchKey = { departmentId: 1, employeeId: 103 };
       const ceiling = bst.ceiling(searchKey);
@@ -3081,8 +3081,8 @@ describe('BST Comparator Tests', () => {
       const key2: PersonKey = { id: 2, country: 'Canada' };
       const value2: PersonValue = { name: 'Bob', email: 'bob@example.com', age: 25 };
 
-      bst.add([key1, value1]);
-      bst.add([key2, value2]);
+      bst.set([key1, value1]);
+      bst.set([key2, value2]);
 
       expect(bst.size).toBe(2);
       expect(bst.get(key1)).toEqual(value1);
@@ -3102,10 +3102,10 @@ describe('BST Comparator Tests', () => {
       const value1: PersonValue = { name: 'Alice', email: 'alice@example.com', age: 30 };
       const value2: PersonValue = { name: 'Alice Updated', email: 'alice.new@example.com', age: 31 };
 
-      bst.add([key, value1]);
+      bst.set([key, value1]);
       expect(bst.get(key)).toEqual(value1);
 
-      bst.add([key, value2]);
+      bst.set([key, value2]);
       expect(bst.size).toBe(1);
       expect(bst.get(key)).toEqual(value2);
     });
@@ -3134,7 +3134,7 @@ describe('BST Comparator Tests', () => {
         ]
       ];
 
-      entries.forEach(([key, value]) => bst.add([key, value]));
+      entries.forEach(([key, value]) => bst.set([key, value]));
 
       expect(bst.size).toBe(3);
 
@@ -3162,8 +3162,8 @@ describe('BST Comparator Tests', () => {
       const key2: PersonKey = { id: 2, country: 'Canada' };
       const value2: PersonValue = { name: 'Bob', email: 'bob@example.com', age: 25 };
 
-      bst.add([key1, value1]);
-      bst.add([key2, value2]);
+      bst.set([key1, value1]);
+      bst.set([key2, value2]);
 
       bst.delete(key1);
 
@@ -3197,7 +3197,7 @@ describe('BST Comparator Tests', () => {
         ]
       ];
 
-      entries.forEach(([key, value]) => bst.add([key, value]));
+      entries.forEach(([key, value]) => bst.set([key, value]));
 
       const searchKey: PersonKey = entries[1][0];
       const value = bst.get(searchKey);
@@ -3225,7 +3225,7 @@ describe('BST Comparator Tests', () => {
         ]
       ];
 
-      entries.forEach(([key, value]) => bst.add([key, value]));
+      entries.forEach(([key, value]) => bst.set([key, value]));
 
       const mapped = bst.map((value, key) => [key, value?.name], { comparator, isMapMode: false });
 
@@ -3243,7 +3243,7 @@ describe('BST Comparator Tests', () => {
       const bst = new BST<number, string>([], { comparator, isMapMode: true });
 
       for (let i = 1; i <= 10; i++) {
-        bst.add([i, `value-${i}`]);
+        bst.set([i, `value-${i}`]);
       }
 
       const result = bst.rangeSearch([3, 7]);
@@ -3287,7 +3287,7 @@ describe('BST Comparator Tests', () => {
         ]
       ];
 
-      tasks.forEach(([key, value]) => bst.add([key, value]));
+      tasks.forEach(([key, value]) => bst.set([key, value]));
 
       expect(bst.size).toBe(4);
 
@@ -3319,8 +3319,8 @@ describe('classic use', () => {
     expect(bst.size).toBe(16);
 
     // Add new elements
-    bst.add(17);
-    bst.add(0);
+    bst.set(17);
+    bst.set(0);
     expect(bst.size).toBe(18);
 
     // Verify keys are searchable
@@ -3368,7 +3368,7 @@ describe('classic use', () => {
 
     // Merge datasets into a single BinarySearchTree
     const merged = new BST<number, string>(dataset1);
-    merged.addMany(dataset2);
+    merged.setMany(dataset2);
     merged.merge(dataset3);
 
     // Verify merged dataset is in sorted order

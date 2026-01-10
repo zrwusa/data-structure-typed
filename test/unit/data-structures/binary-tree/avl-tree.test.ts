@@ -5,9 +5,9 @@ describe('AVL Tree Test', () => {
     const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
     const avlTree = new AVLTree<number>();
 
-    for (const i of arr) avlTree.add([i, i]);
+    for (const i of arr) avlTree.set([i, i]);
 
-    avlTree.add(null);
+    avlTree.set(null);
     const node6 = avlTree.getNode(6);
 
     expect(node6 && avlTree.getHeight(node6)).toBe(3);
@@ -111,17 +111,17 @@ describe('AVL Tree Test', () => {
     const avlTree = new AVLTree<number, string>([4, 5, [1, '1'], 2, 3], { isMapMode: false });
     expect(avlTree.get(1)).toBe('1');
     expect(avlTree.getNode(1)?.value).toBe('1');
-    avlTree.add(1, 'a');
+    avlTree.set(1, 'a');
     expect(avlTree.get(1)).toBe('a');
-    avlTree.add([1, 'b']);
+    avlTree.set([1, 'b']);
     expect(avlTree.getNode(1)?.value).toBe('b');
     expect(avlTree.get(1)).toBe('b');
     const treeMap = new AVLTree<number>([4, 5, [1, '1'], 2, 3]);
     expect(treeMap.get(1)).toBe('1');
     expect(treeMap.getNode(1)?.value).toBe(undefined);
-    treeMap.add(1, 'a');
+    treeMap.set(1, 'a');
     expect(treeMap.get(1)).toBe('a');
-    treeMap.add([1, 'b']);
+    treeMap.set([1, 'b']);
     expect(treeMap.getNode(1)?.value).toBe(undefined);
     expect(treeMap.get(1)).toBe('b');
   });
@@ -132,7 +132,7 @@ describe('AVL Tree Test recursively', () => {
     const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
     const avlTree = new AVLTree<number>([], { iterationType: 'RECURSIVE' });
 
-    for (const i of arr) avlTree.add([i, i]);
+    for (const i of arr) avlTree.set([i, i]);
 
     const node6 = avlTree.getNode(6);
 
@@ -243,15 +243,15 @@ describe('AVLTree APIs test', () => {
   });
 
   it('add', () => {
-    avlTree.add(1);
+    avlTree.set(1);
     const node2 = new AVLTreeNode(2);
-    avlTree.add(node2);
+    avlTree.set(node2);
     const node3 = new AVLTreeNode(3, {
       id: 3,
       text: 'text3'
     });
-    avlTree.add(node3);
-    avlTree.add([3, { id: 3, text: 'text33' }]);
+    avlTree.set(node3);
+    avlTree.set([3, { id: 3, text: 'text33' }]);
 
     const bfsRes = avlTree.bfs(node => node.key);
     expect(bfsRes[0]).toBe(2);
@@ -270,7 +270,7 @@ describe('AVLTree APIs test', () => {
     }
 
     const avlTree = new AVLTree<string, number>();
-    avlTree.addMany([
+    avlTree.setMany([
       ['2', 2],
       ['4', 4],
       ['5', 5],
@@ -298,26 +298,26 @@ describe('AVLTree APIs test', () => {
 describe('AVLTree', () => {
   it('should balance the avlTree using _balanceLR when nodes are added', () => {
     const avlTree = new AVLTree();
-    avlTree.add([10, 'A']);
-    avlTree.add([5, 'B']);
-    avlTree.add([15, 'C']);
-    avlTree.add([3, 'D']);
-    avlTree.add([7, 'E']);
+    avlTree.set([10, 'A']);
+    avlTree.set([5, 'B']);
+    avlTree.set([15, 'C']);
+    avlTree.set([3, 'D']);
+    avlTree.set([7, 'E']);
 
     // Adding nodes to trigger _balanceLR
-    avlTree.add([12, 'F']);
+    avlTree.set([12, 'F']);
 
     // You can add more specific assertions to check the avlTree's balance and structure.
   });
 
   it('should addMany undefined and null', () => {
     const avlTree = new AVLTree<number, string>();
-    const addManyWithUndefined = avlTree.addMany([1, undefined, 3]);
+    const addManyWithUndefined = avlTree.setMany([1, undefined, 3]);
     expect(addManyWithUndefined).toEqual([true, false, true]);
     expect(avlTree.get(undefined)).toBe(undefined);
-    const addManyWithNull = avlTree.addMany([1, null, 3, 4]);
+    const addManyWithNull = avlTree.setMany([1, null, 3, 4]);
     expect(addManyWithNull).toEqual([true, false, true, true]);
-    const addManyEntriesWithNull = avlTree.addMany([
+    const addManyEntriesWithNull = avlTree.setMany([
       [1, '1'],
       [null, 'null'],
       [3, '3'],
@@ -325,19 +325,19 @@ describe('AVLTree', () => {
     ]);
     expect(addManyEntriesWithNull).toEqual([true, false, true, true]);
     expect(avlTree.get(null)).toBe(undefined);
-    const node0 = avlTree.add(0, '0');
+    const node0 = avlTree.set(0, '0');
     expect(node0).toBe(true);
     expect(avlTree.get(0)).toBe('0');
   });
 
   it('should balance the avlTree using _balanceLR when nodes are deleted', () => {
     const avlTree = new AVLTree();
-    avlTree.add([10, 'A']);
-    avlTree.add([5, 'B']);
-    avlTree.add([15, 'C']);
-    avlTree.add([3, 'D']);
-    avlTree.add([7, 'E']);
-    avlTree.add([12, 'F']);
+    avlTree.set([10, 'A']);
+    avlTree.set([5, 'B']);
+    avlTree.set([15, 'C']);
+    avlTree.set([3, 'D']);
+    avlTree.set([7, 'E']);
+    avlTree.set([12, 'F']);
 
     // Deleting nodes to trigger _balanceLR
     avlTree.delete(3);
@@ -352,15 +352,15 @@ describe('AVLTree', () => {
     });
 
     it('add', () => {
-      avlTree.add(1);
+      avlTree.set(1);
       const node2 = new AVLTreeNode(2);
-      avlTree.add(node2);
+      avlTree.set(node2);
       const node3 = new AVLTreeNode(3, {
         id: 3,
         text: 'text3'
       });
-      avlTree.add(node3);
-      avlTree.add([3, { id: 3, text: 'text33' }]);
+      avlTree.set(node3);
+      avlTree.set([3, { id: 3, text: 'text33' }]);
 
       const bfsRes = avlTree.bfs(node => node);
       expect(bfsRes[0]?.key).toBe(2);
@@ -372,9 +372,9 @@ describe('AVLTree iterative methods test', () => {
   let avlTree: AVLTree<number, string>;
   beforeEach(() => {
     avlTree = new AVLTree();
-    avlTree.add([1, 'a']);
-    avlTree.add([2, 'b']);
-    avlTree.add([3, 'c']);
+    avlTree.set([1, 'a']);
+    avlTree.set([2, 'b']);
+    avlTree.set([3, 'c']);
   });
 
   it('The node obtained by get Node should match the node type', () => {
@@ -461,9 +461,9 @@ describe('AVL Tree not map mode', () => {
     const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
     const avlTree = new AVLTree<number>([], { isMapMode: false });
 
-    for (const i of arr) avlTree.add([i, i]);
+    for (const i of arr) avlTree.set([i, i]);
 
-    avlTree.add(null);
+    avlTree.set(null);
     const node6 = avlTree.getNode(6);
 
     expect(node6 && avlTree.getHeight(node6)).toBe(3);
@@ -497,7 +497,7 @@ describe('AVL Tree not map mode test recursively', () => {
     const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
     const avlTree = new AVLTree<number>([], { iterationType: 'RECURSIVE', isMapMode: false });
 
-    for (const i of arr) avlTree.add([i, i]);
+    for (const i of arr) avlTree.set([i, i]);
 
     const node6 = avlTree.getNode(6);
 
@@ -531,9 +531,9 @@ describe('AVLTree iterative methods not map mode', () => {
   let avlTree: AVLTree<number, string>;
   beforeEach(() => {
     avlTree = new AVLTree<number, string>([], { isMapMode: false });
-    avlTree.add([1, 'a']);
-    avlTree.add([2, 'b']);
-    avlTree.add([3, 'c']);
+    avlTree.set([1, 'a']);
+    avlTree.set([2, 'b']);
+    avlTree.set([3, 'c']);
   });
 
   it('should clone work well', () => {
@@ -562,7 +562,7 @@ describe('classic use', () => {
     expect(tree.size).toBe(5);
 
     // Add a new element
-    tree.add(3);
+    tree.set(3);
     expect(tree.size).toBe(6);
     expect([...tree.keys()]).toEqual([1, 2, 3, 5, 8, 9]);
   });
@@ -628,7 +628,7 @@ describe('classic use', () => {
     expect(universityTree.isAVLBalanced()).toBe(true);
 
     // Add more universities
-    universityTree.add(6, { name: 'Oxford', rank: 6, students: 2000 });
+    universityTree.set(6, { name: 'Oxford', rank: 6, students: 2000 });
     expect(universityTree.isAVLBalanced()).toBe(true);
 
     // Delete and verify balance is maintained

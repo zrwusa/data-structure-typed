@@ -199,7 +199,7 @@ export class AVLTreeMultiMap<K = any, V = any, R = any> extends AVLTree<K, V[], 
   ) {
     super([], { ...options, isMapMode: true });
     if (keysNodesEntriesOrRaws) {
-      this.addMany(keysNodesEntriesOrRaws);
+      this.setMany(keysNodesEntriesOrRaws);
     }
   }
 
@@ -220,29 +220,29 @@ export class AVLTreeMultiMap<K = any, V = any, R = any> extends AVLTree<K, V[], 
     return keyNodeOrEntry instanceof AVLTreeMultiMapNode;
   }
 
-  override add(
+  override set(
     keyNodeOrEntry: K | AVLTreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined
   ): boolean;
 
-  override add(key: K, value: V): boolean;
+  override set(key: K, value: V): boolean;
 
   /**
    * Insert a value or a list of values into the multimap. If the key exists, values are appended.
    * @remarks Time O(log N + M), Space O(1)
    * @param keyNodeOrEntry - Key, node, or [key, values] entry.
-   * @param [value] - Single value to add when a bare key is provided.
+   * @param [value] - Single value to set when a bare key is provided.
    * @returns True if inserted or appended; false if ignored.
    */
-  override add(
+  override set(
     keyNodeOrEntry: K | AVLTreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined,
     value?: V
   ): boolean {
-    if (this.isRealNode(keyNodeOrEntry)) return super.add(keyNodeOrEntry);
+    if (this.isRealNode(keyNodeOrEntry)) return super.set(keyNodeOrEntry);
 
     const _commonAdd = (key?: BTNOptKeyOrNull<K>, values?: V[]) => {
       if (key === undefined || key === null) return false;
 
-      const _addToValues = () => {
+      const _setToValues = () => {
         const existingValues = this.get(key);
         if (existingValues !== undefined && values !== undefined) {
           for (const value of values) existingValues.push(value);
@@ -251,12 +251,12 @@ export class AVLTreeMultiMap<K = any, V = any, R = any> extends AVLTree<K, V[], 
         return false;
       };
 
-      const _addByNode = () => {
+      const _setByNode = () => {
         const existingNode = this.getNode(key);
         if (this.isRealNode(existingNode)) {
           const existingValues = this.get(existingNode);
           if (existingValues === undefined) {
-            super.add(key, values);
+            super.set(key, values);
             return true;
           }
           if (values !== undefined) {
@@ -266,14 +266,14 @@ export class AVLTreeMultiMap<K = any, V = any, R = any> extends AVLTree<K, V[], 
             return false;
           }
         } else {
-          return super.add(key, values);
+          return super.set(key, values);
         }
       };
 
       if (this._isMapMode) {
-        return _addByNode() || _addToValues();
+        return _setByNode() || _setToValues();
       }
-      return _addToValues() || _addByNode();
+      return _setToValues() || _setByNode();
     };
 
     if (this.isEntry(keyNodeOrEntry)) {
@@ -392,7 +392,7 @@ export class AVLTreeMultiMap<K = any, V = any, R = any> extends AVLTree<K, V[], 
   ): AVLTree<MK, MV, MR> {
     const out = this._createLike<MK, MV, MR>([], options);
     let i = 0;
-    for (const [k, v] of this) out.add(callback.call(thisArg, v, k, i++, this));
+    for (const [k, v] of this) out.set(callback.call(thisArg, v, k, i++, this));
     return out;
   }
 

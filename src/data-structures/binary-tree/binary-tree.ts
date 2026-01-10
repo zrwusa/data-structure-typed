@@ -193,7 +193,7 @@ export class BinaryTreeNode<K = any, V = any> {
  *
  * @remarks
  * This class implements a basic Binary Tree, not a Binary Search Tree.
- * The `add` operation inserts nodes level-by-level (BFS) into the first available slot.
+ * The `set` operation inserts nodes level-by-level (BFS) into the first available slot.
  *
  * @template K - The type of the key.
  * @template V - The type of the value.
@@ -225,7 +225,7 @@ export class BinaryTreeNode<K = any, V = any> {
  *     console.log(tree.size); // 9;
  *
  *     // Add new element
- *     tree.add(10, 'ten');
+ *     tree.set(10, 'ten');
  *     console.log(tree.size); // 10;
  * @example
  * // BinaryTree get and has operations
@@ -353,9 +353,9 @@ export class BinaryTree<K = any, V = any, R = any>
 
   /**
    * Creates an instance of BinaryTree.
-   * @remarks Time O(N * M), where N is the number of items in `keysNodesEntriesOrRaws` and M is the tree size at insertion time (due to O(M) `add` operation). Space O(N) for storing the nodes.
+   * @remarks Time O(N * M), where N is the number of items in `keysNodesEntriesOrRaws` and M is the tree size at insertion time (due to O(M) `set` operation). Space O(N) for storing the nodes.
    *
-   * @param [keysNodesEntriesOrRaws=[]] - An iterable of items to add.
+   * @param [keysNodesEntriesOrRaws=[]] - An iterable of items to set.
    * @param [options] - Configuration options for the tree.
    */
   constructor(
@@ -374,7 +374,7 @@ export class BinaryTree<K = any, V = any, R = any>
       else if (toEntryFn) throw TypeError('toEntryFn must be a function type');
     }
 
-    if (keysNodesEntriesOrRaws) this.addMany(keysNodesEntriesOrRaws);
+    if (keysNodesEntriesOrRaws) this.setMany(keysNodesEntriesOrRaws);
   }
 
   protected _isMapMode = true;
@@ -640,13 +640,27 @@ export class BinaryTree<K = any, V = any, R = any>
    * @remarks Time O(log N), For BST, Red-Black Tree, and AVL Tree subclasses, the worst-case time is O(log N). This implementation adds the node at the first available position in a level-order (BFS) traversal. This is NOT a Binary Search Tree insertion. Time O(N), where N is the number of nodes. It must traverse level-by-level to find an empty slot. Space O(N) in the worst case for the BFS queue (e.g., a full last level).
    *
    * @param keyNodeOrEntry - The key, node, or entry to add.
-   * @param [value] - The value, if providing just a key.
    * @returns True if the addition was successful, false otherwise.
    */
   add(
+    keyNodeOrEntry: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined
+  ): boolean {
+    return this.set(keyNodeOrEntry);
+  }
+
+  /**
+   * Adds or updates a new node to the tree.
+   * @remarks Time O(log N), For BST, Red-Black Tree, and AVL Tree subclasses, the worst-case time is O(log N). This implementation sets the node at the first available position in a level-order (BFS) traversal. This is NOT a Binary Search Tree insertion. Time O(N), where N is the number of nodes. It must traverse level-by-level to find an empty slot. Space O(N) in the worst case for the BFS queue (e.g., a full last level).
+   *
+   * @param keyNodeOrEntry - The key, node, or entry to set or update.
+   * @param [value] - The value, if providing just a key.
+   * @returns True if the addition was successful, false otherwise.
+   */
+  set(
     keyNodeOrEntry: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     value?: V
   ): boolean {
+
     const [newNode, newValue] = this._keyValueNodeOrEntryToNodeAndValue(keyNodeOrEntry, value);
     if (newNode === undefined) return false;
 
@@ -699,29 +713,30 @@ export class BinaryTree<K = any, V = any, R = any>
   }
 
   /**
-   * Adds or updates a new node to the tree.
-   * @remarks Time O(log N), For BST, Red-Black Tree, and AVL Tree subclasses, the worst-case time is O(log N). This implementation adds the node at the first available position in a level-order (BFS) traversal. This is NOT a Binary Search Tree insertion. Time O(N), where N is the number of nodes. It must traverse level-by-level to find an empty slot. Space O(N) in the worst case for the BFS queue (e.g., a full last level).
+   * Adds multiple items to the tree.
+   * @remarks Time O(N * M), where N is the number of items to set and M is the size of the tree at insertion (due to O(M) `set` operation). Space O(M) (from `set`) + O(N) (for the `inserted` array).
    *
-   * @param keyNodeOrEntry - The key, node, or entry to add or update.
-   * @param [value] - The value, if providing just a key.
-   * @returns True if the addition was successful, false otherwise.
+   * @param keysNodesEntriesOrRaws - An iterable of items to set.
+   * @param [values] - An optional parallel iterable of values.
+   * @returns An array of booleans indicating the success of each individual `set` operation.
    */
-  set(
-    keyNodeOrEntry: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
-    value?: V
-  ): boolean {
-    return this.add(keyNodeOrEntry, value);
+  addMany(
+    keysNodesEntriesOrRaws: Iterable<
+      K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | R
+    >
+  ): boolean[] {
+    return this.setMany(keysNodesEntriesOrRaws);
   }
 
   /**
-   * Adds multiple items to the tree.
-   * @remarks Time O(N * M), where N is the number of items to add and M is the size of the tree at insertion (due to O(M) `add` operation). Space O(M) (from `add`) + O(N) (for the `inserted` array).
+   * Adds or updates multiple items to the tree.
+   * @remarks Time O(N * M), where N is the number of items to set and M is the size of the tree at insertion (due to O(M) `set` operation). Space O(M) (from `set`) + O(N) (for the `inserted` array).
    *
-   * @param keysNodesEntriesOrRaws - An iterable of items to add.
+   * @param keysNodesEntriesOrRaws - An iterable of items to set or update.
    * @param [values] - An optional parallel iterable of values.
-   * @returns An array of booleans indicating the success of each individual `add` operation.
+   * @returns An array of booleans indicating the success of each individual `set` operation.
    */
-  addMany(
+  setMany(
     keysNodesEntriesOrRaws: Iterable<
       K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | R
     >,
@@ -744,44 +759,27 @@ export class BinaryTree<K = any, V = any, R = any>
         }
       }
       if (this.isRaw(keyNodeEntryOrRaw)) keyNodeEntryOrRaw = this._toEntryFn!(keyNodeEntryOrRaw);
-      inserted.push(this.add(keyNodeEntryOrRaw, value));
+      inserted.push(this.set(keyNodeEntryOrRaw, value));
     }
 
     return inserted;
   }
 
   /**
-   * Adds or updates multiple items to the tree.
-   * @remarks Time O(N * M), where N is the number of items to add and M is the size of the tree at insertion (due to O(M) `add` operation). Space O(M) (from `add`) + O(N) (for the `inserted` array).
-   *
-   * @param keysNodesEntriesOrRaws - An iterable of items to add or update.
-   * @param [values] - An optional parallel iterable of values.
-   * @returns An array of booleans indicating the success of each individual `add` operation.
-   */
-  setMany(
-    keysNodesEntriesOrRaws: Iterable<
-      K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined | R
-    >,
-    values?: Iterable<V | undefined>
-  ): boolean[] {
-    return this.addMany(keysNodesEntriesOrRaws, values);
-  }
-
-  /**
-   * Merges another tree into this one by adding all its nodes.
-   * @remarks Time O(N * M), same as `addMany`, where N is the size of `anotherTree` and M is the size of this tree. Space O(M) (from `add`).
+   * Merges another tree into this one by seting all its nodes.
+   * @remarks Time O(N * M), same as `setMany`, where N is the size of `anotherTree` and M is the size of this tree. Space O(M) (from `set`).
    *
    * @param anotherTree - The tree to merge.
    */
   merge(anotherTree: BinaryTree<K, V, R>) {
-    this.addMany(anotherTree, []);
+    this.setMany(anotherTree, []);
   }
 
   /**
    * Clears the tree and refills it with new items.
-   * @remarks Time O(N) (for `clear`) + O(N * M) (for `addMany`) = O(N * M). Space O(M) (from `addMany`).
+   * @remarks Time O(N) (for `clear`) + O(N * M) (for `setMany`) = O(N * M). Space O(M) (from `setMany`).
    *
-   * @param keysNodesEntriesOrRaws - An iterable of items to add.
+   * @param keysNodesEntriesOrRaws - An iterable of items to set.
    * @param [values] - An optional parallel iterable of values.
    */
   refill(
@@ -791,7 +789,7 @@ export class BinaryTree<K = any, V = any, R = any>
     values?: Iterable<V | undefined>
   ): void {
     this.clear();
-    this.addMany(keysNodesEntriesOrRaws, values);
+    this.setMany(keysNodesEntriesOrRaws, values);
   }
 
   /**
@@ -1830,7 +1828,7 @@ export class BinaryTree<K = any, V = any, R = any>
 
   /**
    * Clones the tree.
-   * @remarks Time O(N * M), where N is the number of nodes and M is the tree size during insertion (due to `bfs` + `add`, and `add` is O(M)). Space O(N) for the new tree and the BFS queue.
+   * @remarks Time O(N * M), where N is the number of nodes and M is the tree size during insertion (due to `bfs` + `set`, and `set` is O(M)). Space O(N) for the new tree and the BFS queue.
    *
    * @returns A new, cloned instance of the tree.
    */
@@ -1842,7 +1840,7 @@ export class BinaryTree<K = any, V = any, R = any>
 
   /**
    * Creates a new tree containing only the entries that satisfy the predicate.
-   * @remarks Time O(N * M), where N is nodes in this tree, and M is size of the new tree during insertion (O(N) iteration + O(M) `add` for each item). Space O(N) for the new tree.
+   * @remarks Time O(N * M), where N is nodes in this tree, and M is size of the new tree during insertion (O(N) iteration + O(M) `set` for each item). Space O(N) for the new tree.
    *
    * @param predicate - A function to test each [key, value] pair.
    * @param [thisArg] - `this` context for the predicate.
@@ -1851,7 +1849,7 @@ export class BinaryTree<K = any, V = any, R = any>
   filter(predicate: EntryCallback<K, V | undefined, boolean>, thisArg?: unknown): this {
     const out = this._createInstance<K, V, R>();
     let i = 0;
-    for (const [k, v] of this) if (predicate.call(thisArg, v, k, i++, this)) out.add([k, v]);
+    for (const [k, v] of this) if (predicate.call(thisArg, v, k, i++, this)) out.set([k, v]);
     return out;
   }
 
@@ -1874,7 +1872,7 @@ export class BinaryTree<K = any, V = any, R = any>
   ): BinaryTree<MK, MV, MR> {
     const out = this._createLike<MK, MV, MR>([], options);
     let i = 0;
-    for (const [k, v] of this) out.add(cb.call(thisArg, v, k, i++, this));
+    for (const [k, v] of this) out.set(cb.call(thisArg, v, k, i++, this));
     return out;
   }
 
@@ -2204,8 +2202,8 @@ export class BinaryTree<K = any, V = any, R = any>
   }
 
   /**
-   * (Protected) Helper for cloning. Performs a BFS and adds all nodes to the new tree.
-   * @remarks Time O(N * M) (O(N) BFS + O(M) `add` for each node).
+   * (Protected) Helper for cloning. Performs a BFS and sets all nodes to the new tree.
+   * @remarks Time O(N * M) (O(N) BFS + O(M) `set` for each node).
    *
    * @param cloned - The new, empty tree instance to populate.
    */
@@ -2213,10 +2211,10 @@ export class BinaryTree<K = any, V = any, R = any>
     // Use BFS with nulls to preserve the tree structure
     this.bfs(
       node => {
-        if (node === null) cloned.add(null);
+        if (node === null) cloned.set(null);
         else {
-          if (this._isMapMode) cloned.add([node.key, this._store.get(node.key)]);
-          else cloned.add([node.key, node.value]);
+          if (this._isMapMode) cloned.set([node.key, this._store.get(node.key)]);
+          else cloned.set([node.key, node.value]);
         }
       },
       this._root,

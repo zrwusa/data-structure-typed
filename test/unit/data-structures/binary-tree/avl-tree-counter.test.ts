@@ -9,7 +9,7 @@ describe('AVLTreeCounter count', () => {
     avlCounter = new AVLTreeCounter<number>();
   });
   it('Should added isolated node count ', () => {
-    avlCounter.addMany([
+    avlCounter.setMany([
       [1, 1],
       [2, 2],
       [3, 3],
@@ -17,17 +17,17 @@ describe('AVLTreeCounter count', () => {
       [5, 5]
     ]);
     const newNode = new AVLTreeCounterNode(3, 33, 10);
-    avlCounter.add(newNode);
+    avlCounter.set(newNode);
     expect(avlCounter.count).toBe(15);
   });
 
   it('Should count', () => {
-    avlCounter.addMany([
+    avlCounter.setMany([
       [1, 1],
       [2, 2],
       [3, 3]
     ]);
-    avlCounter.add([2, 2], undefined, 10);
+    avlCounter.set([2, 2], undefined, 10);
     avlCounter.lesserOrGreaterTraverse(node => (node.count += 2), 1, 1);
     avlCounter.delete(2);
     expect(avlCounter.count).toBe(12);
@@ -40,8 +40,8 @@ describe('AVLTreeCounter operations test1', () => {
     const avlCounter = new AVLTreeCounter<number>();
 
     expect(avlCounter instanceof AVLTreeCounter);
-    avlCounter.add([11, 11]);
-    avlCounter.add([3, 3]);
+    avlCounter.set([11, 11]);
+    avlCounter.set([3, 3]);
     const idAndValues: [number, number][] = [
       [11, 11],
       [3, 3],
@@ -60,7 +60,7 @@ describe('AVLTreeCounter operations test1', () => {
       [10, 10],
       [5, 5]
     ];
-    avlCounter.addMany(idAndValues);
+    avlCounter.setMany(idAndValues);
     expect(avlCounter.root instanceof AVLTreeCounterNode);
 
     if (avlCounter.root) expect(avlCounter.root.key == 11);
@@ -258,8 +258,8 @@ describe('AVLTreeCounter operations test1', () => {
   it('should perform various operations on a AVLTreeCounter with object values', () => {
     const objAvlCounter = new AVLTreeCounter<number, { key: number; keyA: number }>();
     expect(objAvlCounter).toBeInstanceOf(AVLTreeCounter);
-    objAvlCounter.add([11, { key: 11, keyA: 11 }]);
-    objAvlCounter.add([3, { key: 3, keyA: 3 }]);
+    objAvlCounter.set([11, { key: 11, keyA: 11 }]);
+    objAvlCounter.set([3, { key: 3, keyA: 3 }]);
     const values: [number, { key: number; keyA: number }][] = [
       [15, { key: 15, keyA: 15 }],
       [1, { key: 1, keyA: 1 }],
@@ -277,7 +277,7 @@ describe('AVLTreeCounter operations test1', () => {
       [5, { key: 5, keyA: 5 }]
     ];
 
-    objAvlCounter.addMany(values);
+    objAvlCounter.setMany(values);
 
     expect(objAvlCounter.root).toBeInstanceOf(AVLTreeCounterNode);
 
@@ -296,8 +296,8 @@ describe('AVLTreeCounter operations test recursively1', () => {
     });
 
     expect(avlCounter instanceof AVLTreeCounter);
-    avlCounter.add([11, 11]);
-    avlCounter.add([3, 3]);
+    avlCounter.set([11, 11]);
+    avlCounter.set([3, 3]);
     const idAndValues: [number, number][] = [
       [11, 11],
       [3, 3],
@@ -316,7 +316,7 @@ describe('AVLTreeCounter operations test recursively1', () => {
       [10, 10],
       [5, 5]
     ];
-    avlCounter.addMany(idAndValues);
+    avlCounter.setMany(idAndValues);
     expect(avlCounter.root).toBeInstanceOf(AVLTreeCounterNode);
 
     if (avlCounter.root) expect(avlCounter.root.key).toBe(6);
@@ -514,8 +514,8 @@ describe('AVLTreeCounter operations test recursively1', () => {
   it('should perform various operations on a AVLTreeCounter with object values', () => {
     const objAvlCounter = new AVLTreeCounter<number, { key: number; keyA: number }>();
     expect(objAvlCounter).toBeInstanceOf(AVLTreeCounter);
-    objAvlCounter.add([11, { key: 11, keyA: 11 }]);
-    objAvlCounter.add([3, { key: 3, keyA: 3 }]);
+    objAvlCounter.set([11, { key: 11, keyA: 11 }]);
+    objAvlCounter.set([3, { key: 3, keyA: 3 }]);
     const values: [number, { key: number; keyA: number }][] = [
       [15, { key: 15, keyA: 15 }],
       [1, { key: 1, keyA: 1 }],
@@ -533,7 +533,7 @@ describe('AVLTreeCounter operations test recursively1', () => {
       [5, { key: 5, keyA: 5 }]
     ];
 
-    objAvlCounter.addMany(values);
+    objAvlCounter.setMany(values);
 
     expect(objAvlCounter.root).toBeInstanceOf(AVLTreeCounterNode);
 
@@ -562,7 +562,7 @@ describe('AVLTreeCounter Performance test', function () {
   it('Should the time consumption of lesserOrGreaterTraverse fitting O(n log n)', function () {
     const start = performance.now();
     for (let i = 0; i < inputSize; i++) {
-      avlCounter.add(i);
+      avlCounter.set(i);
     }
     if (isDebug) console.log('---add', performance.now() - start);
     const startL = performance.now();
@@ -583,7 +583,7 @@ describe('AVLTreeCounter Performance test', function () {
     }
 
     const avlCounter = new AVLTreeCounter<string, number>();
-    avlCounter.addMany([
+    avlCounter.setMany([
       ['2', 2],
       ['4', 4],
       ['5', 5],
@@ -612,9 +612,9 @@ describe('AVLTreeCounter iterative methods test', () => {
   let avlCounter: AVLTreeCounter<number, string>;
   beforeEach(() => {
     avlCounter = new AVLTreeCounter<number, string>();
-    avlCounter.add(1, 'a', 10);
-    avlCounter.add([2, 'b'], undefined, 10);
-    avlCounter.add([3, 'c'], undefined, 1);
+    avlCounter.set(1, 'a', 10);
+    avlCounter.set([2, 'b'], undefined, 10);
+    avlCounter.set([3, 'c'], undefined, 1);
   });
 
   it('The node obtained by get Node should match the node type', () => {
@@ -698,7 +698,7 @@ describe('AVLTreeCounter toEntryFn', () => {
     const avlCounter = new AVLTreeCounter<number, number, { obj: { id: number } }>([], {
       toEntryFn: ele => [ele.obj.id, ele.obj.id]
     });
-    avlCounter.addMany([
+    avlCounter.setMany([
       { obj: { id: 1 } },
       { obj: { id: 2 } },
       { obj: { id: 3 } },
@@ -771,7 +771,7 @@ describe('AVLTreeCounter not map mode count', () => {
     avlCounter = new AVLTreeCounter<number>([], { isMapMode: false });
   });
   it('Should added isolated node count ', () => {
-    avlCounter.addMany([
+    avlCounter.setMany([
       [1, 1],
       [2, 2],
       [3, 3],
@@ -779,7 +779,7 @@ describe('AVLTreeCounter not map mode count', () => {
       [5, 5]
     ]);
     const newNode = new AVLTreeCounterNode(3, undefined, 10);
-    avlCounter.add(newNode, 33);
+    avlCounter.set(newNode, 33);
     expect(avlCounter.count).toBe(15);
   });
 });
@@ -789,8 +789,8 @@ describe('AVLTreeCounter not map mode operations test1', () => {
     const avlCounter = new AVLTreeCounter<number>([], { isMapMode: false });
 
     expect(avlCounter instanceof AVLTreeCounter);
-    avlCounter.add([11, 11]);
-    avlCounter.add([3, 3]);
+    avlCounter.set([11, 11]);
+    avlCounter.set([3, 3]);
     const idAndValues: [number, number][] = [
       [11, 11],
       [3, 3],
@@ -809,7 +809,7 @@ describe('AVLTreeCounter not map mode operations test1', () => {
       [10, 10],
       [5, 5]
     ];
-    avlCounter.addMany(idAndValues);
+    avlCounter.setMany(idAndValues);
     expect(avlCounter.root instanceof AVLTreeCounterNode);
 
     if (avlCounter.root) expect(avlCounter.root.key == 11);
@@ -837,8 +837,8 @@ describe('AVLTreeCounter not map mode operations test recursively1', () => {
     });
 
     expect(avlCounter instanceof AVLTreeCounter);
-    avlCounter.add([11, 11]);
-    avlCounter.add([3, 3]);
+    avlCounter.set([11, 11]);
+    avlCounter.set([3, 3]);
     const idAndValues: [number, number][] = [
       [11, 11],
       [3, 3],
@@ -857,7 +857,7 @@ describe('AVLTreeCounter not map mode operations test recursively1', () => {
       [10, 10],
       [5, 5]
     ];
-    avlCounter.addMany(idAndValues);
+    avlCounter.setMany(idAndValues);
     expect(avlCounter.root).toBeInstanceOf(AVLTreeCounterNode);
 
     if (avlCounter.root) expect(avlCounter.root.key).toBe(6);

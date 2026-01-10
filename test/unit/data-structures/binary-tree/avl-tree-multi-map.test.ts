@@ -10,9 +10,9 @@ describe('AVLTreeMultiMap', () => {
   });
 
   it('Should add and delete values', () => {
-    avlTmm.add(3, 3);
-    avlTmm.add(3, 33);
-    avlTmm.add(3, 333);
+    avlTmm.set(3, 3);
+    avlTmm.set(3, 33);
+    avlTmm.set(3, 333);
     expect(avlTmm.get(3)).toEqual([3, 33, 333]);
     avlTmm.deleteValue(3, 33);
     expect(avlTmm.get(3)).toEqual([3, 333]);
@@ -20,8 +20,8 @@ describe('AVLTreeMultiMap', () => {
     expect(avlTmm.get(3)).toEqual([333]);
     avlTmm.deleteValue(3, 333);
     expect(avlTmm.get(3)).toBe(undefined);
-    avlTmm.add(3, 3);
-    avlTmm.add([3, [3333, 33333]]);
+    avlTmm.set(3, 3);
+    avlTmm.set([3, [3333, 33333]]);
     expect(avlTmm.get(3)).toEqual([3, 3333, 33333]);
   });
 });
@@ -31,9 +31,9 @@ describe('AVLTreeMultiMap Test', () => {
     const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
     const avlTmm = new AVLTreeMultiMap<number>();
 
-    for (const i of arr) avlTmm.add([i, [i]]);
+    for (const i of arr) avlTmm.set([i, [i]]);
 
-    avlTmm.add(null);
+    avlTmm.set(null);
     const node6 = avlTmm.getNode(6);
 
     expect(node6 && avlTmm.getHeight(node6)).toBe(3);
@@ -137,17 +137,17 @@ describe('AVLTreeMultiMap Test', () => {
     const avlTmm = new AVLTreeMultiMap<number, string>([4, 5, [1, ['1']], 2, 3]);
     expect(avlTmm.get(1)).toEqual(['1']);
     expect(avlTmm.getNode(1)?.value).toEqual([]);
-    avlTmm.add(1, 'a');
+    avlTmm.set(1, 'a');
     expect(avlTmm.get(1)).toEqual(['1', 'a']);
-    avlTmm.add([1, ['b']]);
+    avlTmm.set([1, ['b']]);
     expect(avlTmm.getNode(1)?.value).toEqual([]);
     expect(avlTmm.get(1)).toEqual(['1', 'a', 'b']);
     const treeMap = new AVLTreeMultiMap<number>([4, 5, [1, ['1']], 2, 3]);
     expect(treeMap.get(1)).toEqual(['1']);
     expect(treeMap.getNode(1)?.value).toEqual([]);
-    treeMap.add(1, 'a');
+    treeMap.set(1, 'a');
     expect(treeMap.get(1)).toEqual(['1', 'a']);
-    treeMap.add([1, ['b']]);
+    treeMap.set([1, ['b']]);
     expect(treeMap.getNode(1)?.value).toEqual([]);
     expect(treeMap.get(1)).toEqual(['1', 'a', 'b']);
   });
@@ -158,7 +158,7 @@ describe('AVLTreeMultiMap Test recursively', () => {
     const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
     const avlTmm = new AVLTreeMultiMap<number>([], { iterationType: 'RECURSIVE' });
 
-    for (const i of arr) avlTmm.add([i, [i]]);
+    for (const i of arr) avlTmm.set([i, [i]]);
 
     const node6 = avlTmm.getNode(6);
 
@@ -269,17 +269,17 @@ describe('AVLTreeMultiMap APIs test', () => {
   });
 
   it('add', () => {
-    avlTmm.add(1);
+    avlTmm.set(1);
     const node2 = new AVLTreeMultiMapNode(2, []);
-    avlTmm.add(node2);
+    avlTmm.set(node2);
     const node3 = new AVLTreeMultiMapNode(3, [
       {
         id: 3,
         text: 'text3'
       }
     ]);
-    avlTmm.add(node3);
-    avlTmm.add([3, [{ id: 3, text: 'text33' }]]);
+    avlTmm.set(node3);
+    avlTmm.set([3, [{ id: 3, text: 'text33' }]]);
 
     const bfsRes = avlTmm.bfs(node => node.key);
     expect(bfsRes[0]).toBe(2);
@@ -298,7 +298,7 @@ describe('AVLTreeMultiMap APIs test', () => {
     }
 
     const avlTmm = new AVLTreeMultiMap<string, number>();
-    avlTmm.addMany([
+    avlTmm.setMany([
       ['2', 2],
       ['4', 4],
       ['5', 5],
@@ -326,26 +326,26 @@ describe('AVLTreeMultiMap APIs test', () => {
 describe('AVLTreeMultiMap', () => {
   it('should balance the avlTmm using _balanceLR when nodes are added', () => {
     const avlTmm = new AVLTreeMultiMap();
-    avlTmm.add([10, 'A']);
-    avlTmm.add([5, 'B']);
-    avlTmm.add([15, 'C']);
-    avlTmm.add([3, 'D']);
-    avlTmm.add([7, 'E']);
+    avlTmm.set([10, 'A']);
+    avlTmm.set([5, 'B']);
+    avlTmm.set([15, 'C']);
+    avlTmm.set([3, 'D']);
+    avlTmm.set([7, 'E']);
 
     // Adding nodes to trigger _balanceLR
-    avlTmm.add([12, 'F']);
+    avlTmm.set([12, 'F']);
 
     // You can add more specific assertions to check the avlTmm's balance and structure.
   });
 
   it('should addMany undefined and null', () => {
     const avlTmm = new AVLTreeMultiMap<number, string>();
-    const addManyWithUndefined = avlTmm.addMany([1, undefined, 3]);
+    const addManyWithUndefined = avlTmm.setMany([1, undefined, 3]);
     expect(addManyWithUndefined).toEqual([true, false, true]);
     expect(avlTmm.get(undefined)).toBe(undefined);
-    const addManyWithNull = avlTmm.addMany([1, null, 3, 4]);
+    const addManyWithNull = avlTmm.setMany([1, null, 3, 4]);
     expect(addManyWithNull).toEqual([true, false, true, true]);
-    const addManyEntriesWithNull = avlTmm.addMany([
+    const addManyEntriesWithNull = avlTmm.setMany([
       [1, '1'],
       [null, 'null'],
       [3, '3'],
@@ -353,19 +353,19 @@ describe('AVLTreeMultiMap', () => {
     ]);
     expect(addManyEntriesWithNull).toEqual([true, false, true, true]);
     expect(avlTmm.get(null)).toBe(undefined);
-    const node0 = avlTmm.add(0, '0');
+    const node0 = avlTmm.set(0, '0');
     expect(node0).toBe(true);
     expect(avlTmm.get(0)).toEqual(['0']);
   });
 
   it('should balance the avlTmm using _balanceLR when nodes are deleted', () => {
     const avlTmm = new AVLTreeMultiMap();
-    avlTmm.add([10, 'A']);
-    avlTmm.add([5, 'B']);
-    avlTmm.add([15, 'C']);
-    avlTmm.add([3, 'D']);
-    avlTmm.add([7, 'E']);
-    avlTmm.add([12, 'F']);
+    avlTmm.set([10, 'A']);
+    avlTmm.set([5, 'B']);
+    avlTmm.set([15, 'C']);
+    avlTmm.set([3, 'D']);
+    avlTmm.set([7, 'E']);
+    avlTmm.set([12, 'F']);
 
     // Deleting nodes to trigger _balanceLR
     avlTmm.delete(3);
@@ -380,17 +380,17 @@ describe('AVLTreeMultiMap', () => {
     });
 
     it('add', () => {
-      avlTmm.add(1);
+      avlTmm.set(1);
       const node2 = new AVLTreeMultiMapNode(2, []);
-      avlTmm.add(node2);
+      avlTmm.set(node2);
       const node3 = new AVLTreeMultiMapNode(3, [
         {
           id: 3,
           text: 'text3'
         }
       ]);
-      avlTmm.add(node3);
-      avlTmm.add([3, [{ id: 3, text: 'text33' }]]);
+      avlTmm.set(node3);
+      avlTmm.set([3, [{ id: 3, text: 'text33' }]]);
 
       const bfsRes = avlTmm.bfs(node => node);
       expect(bfsRes[0]?.key).toBe(2);
@@ -402,9 +402,9 @@ describe('AVLTreeMultiMap iterative methods test', () => {
   let avlTmm: AVLTreeMultiMap<number, string, object>;
   beforeEach(() => {
     avlTmm = new AVLTreeMultiMap();
-    avlTmm.add([1, ['a']]);
-    avlTmm.add([2, ['b']]);
-    avlTmm.add([3, ['c']]);
+    avlTmm.set([1, ['a']]);
+    avlTmm.set([2, ['b']]);
+    avlTmm.set([3, ['c']]);
   });
 
   it('The node obtained by get Node should match the node type', () => {
@@ -490,9 +490,9 @@ describe('AVLTreeMultiMap not map mode', () => {
     const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
     const avlTmm = new AVLTreeMultiMap<number>([]);
 
-    for (const i of arr) avlTmm.add([i, [i]]);
+    for (const i of arr) avlTmm.set([i, [i]]);
 
-    avlTmm.add(null);
+    avlTmm.set(null);
     const node6 = avlTmm.getNode(6);
 
     expect(node6 && avlTmm.getHeight(node6)).toBe(3);
@@ -526,7 +526,7 @@ describe('AVLTreeMultiMap not map mode test recursively', () => {
     const arr = [11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5];
     const avlTmm = new AVLTreeMultiMap<number>([], { iterationType: 'RECURSIVE' });
 
-    for (const i of arr) avlTmm.add([i, [i]]);
+    for (const i of arr) avlTmm.set([i, [i]]);
     const node6 = avlTmm.getNode(6);
 
     expect(node6 && avlTmm.getHeight(node6)).toBe(3);
@@ -559,9 +559,9 @@ describe('AVLTreeMultiMap iterative methods not map mode', () => {
   let avlTmm: AVLTreeMultiMap<number, string>;
   beforeEach(() => {
     avlTmm = new AVLTreeMultiMap<number, string>([]);
-    avlTmm.add([1, ['a']]);
-    avlTmm.add([2, ['b']]);
-    avlTmm.add([3, ['c']]);
+    avlTmm.set([1, ['a']]);
+    avlTmm.set([2, ['b']]);
+    avlTmm.set([3, ['c']]);
   });
 
   it('should clone work well', () => {

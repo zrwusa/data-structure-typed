@@ -292,7 +292,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     this._root = this.NIL;
 
     if (keysNodesEntriesOrRaws) {
-      this.addMany(keysNodesEntriesOrRaws);
+      this.setMany(keysNodesEntriesOrRaws);
     }
   }
 
@@ -350,7 +350,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * @param [value]- See parameter type for details.
    * @returns True if inserted or updated; false if ignored.
    */
-  override add(
+  override set(
     keyNodeOrEntry: K | RedBlackTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     value?: V
   ): boolean {
@@ -469,7 +469,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
     let index = 0;
     for (const [key, value] of this) {
-      out.add(callback.call(thisArg, value, key, index++, this));
+      out.set(callback.call(thisArg, value, key, index++, this));
     }
     return out;
   }

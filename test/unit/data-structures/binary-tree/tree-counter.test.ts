@@ -12,7 +12,7 @@ describe('TreeCounter count', () => {
   });
 
   it('Should added node count ', () => {
-    treeCounter.addMany([
+    treeCounter.setMany([
       [1, 1],
       [2, 2],
       [3, 3],
@@ -20,14 +20,14 @@ describe('TreeCounter count', () => {
       [5, 5]
     ]);
     const newNode = new TreeCounterNode(3, 33, 10);
-    treeCounter.add(newNode);
+    treeCounter.set(newNode);
     expect(treeCounter.count).toBe(15);
     expect(treeCounter.getComputedCount()).toBe(15);
     expect(treeCounter.getNode(3)?.count).toBe(11);
   });
 
   it('Should count', () => {
-    treeCounter.addMany([
+    treeCounter.setMany([
       [1, 1],
       [2, 2],
       [3, 3]
@@ -44,7 +44,7 @@ describe('TreeCounter operations test1', () => {
     expect(treeCounter.getHeight()).toBe(-1);
     expect(treeCounter.getMinHeight()).toBe(-1);
 
-    treeCounter.addMany([1, 6, 7, 2, 3, 4, 9, 11, 8, 5, 10, 12, 16, 14, 13, 15]);
+    treeCounter.setMany([1, 6, 7, 2, 3, 4, 9, 11, 8, 5, 10, 12, 16, 14, 13, 15]);
     // treeCounter.print()
     expect(treeCounter.getHeight()).toBe(5);
     expect(treeCounter.getMinHeight()).toBe(2);
@@ -55,8 +55,8 @@ describe('TreeCounter operations test1', () => {
 
     expect(treeCounter instanceof TreeCounter);
 
-    treeCounter.add([11, 11]);
-    treeCounter.add([3, 3]);
+    treeCounter.set([11, 11]);
+    treeCounter.set([3, 3]);
     expect(treeCounter.count).toBe(2);
     expect(treeCounter.getComputedCount()).toBe(2);
     expect(treeCounter.size).toBe(2);
@@ -80,7 +80,7 @@ describe('TreeCounter operations test1', () => {
       [5, 5]
     ];
 
-    treeCounter.addMany(keyValuePairs);
+    treeCounter.setMany(keyValuePairs);
     expect(treeCounter.size).toBe(16);
     expect(treeCounter.count).toBe(18);
     expect(treeCounter.getComputedCount()).toBe(18);
@@ -97,8 +97,8 @@ describe('TreeCounter operations test1', () => {
 
     expect(treeCounter instanceof TreeCounter);
 
-    treeCounter.add([11, 11]);
-    treeCounter.add([3, 3]);
+    treeCounter.set([11, 11]);
+    treeCounter.set([3, 3]);
     const idAndValues: [number, number][] = [
       [11, 11],
       [3, 3],
@@ -117,7 +117,7 @@ describe('TreeCounter operations test1', () => {
       [10, 10],
       [5, 5]
     ];
-    treeCounter.addMany(idAndValues);
+    treeCounter.setMany(idAndValues);
     expect(treeCounter.root instanceof TreeCounterNode);
 
     if (treeCounter.root) expect(treeCounter.root.key == 11);
@@ -316,8 +316,8 @@ describe('TreeCounter operations test1', () => {
   it('should perform various operations on a TreeCounter with object values', () => {
     const objTreeCounter = new TreeCounter<number, { key: number; keyA: number }>();
     expect(objTreeCounter).toBeInstanceOf(TreeCounter);
-    objTreeCounter.add([11, { key: 11, keyA: 11 }]);
-    objTreeCounter.add([3, { key: 3, keyA: 3 }]);
+    objTreeCounter.set([11, { key: 11, keyA: 11 }]);
+    objTreeCounter.set([3, { key: 3, keyA: 3 }]);
     const values: [number, { key: number; keyA: number }][] = [
       [15, { key: 15, keyA: 15 }],
       [1, { key: 1, keyA: 1 }],
@@ -335,7 +335,7 @@ describe('TreeCounter operations test1', () => {
       [5, { key: 5, keyA: 5 }]
     ];
 
-    objTreeCounter.addMany(values);
+    objTreeCounter.setMany(values);
 
     expect(objTreeCounter.root).toBeInstanceOf(TreeCounterNode);
 
@@ -355,8 +355,8 @@ describe('TreeCounter operations test recursively1', () => {
     });
 
     expect(treeCounter instanceof TreeCounter);
-    treeCounter.add([11, 11]);
-    treeCounter.add([3, 3]);
+    treeCounter.set([11, 11]);
+    treeCounter.set([3, 3]);
     const idAndValues: [number, number][] = [
       [11, 11],
       [3, 3],
@@ -375,7 +375,7 @@ describe('TreeCounter operations test recursively1', () => {
       [10, 10],
       [5, 5]
     ];
-    treeCounter.addMany(idAndValues);
+    treeCounter.setMany(idAndValues);
     expect(treeCounter.root).toBeInstanceOf(TreeCounterNode);
 
     if (treeCounter.root) expect(treeCounter.root.key).toBe(5);
@@ -583,8 +583,8 @@ describe('TreeCounter operations test recursively1', () => {
   it('should perform various operations on a TreeCounter with object values', () => {
     const objTreeCounter = new TreeCounter<number, { key: number; keyA: number }>();
     expect(objTreeCounter).toBeInstanceOf(TreeCounter);
-    objTreeCounter.add([11, { key: 11, keyA: 11 }]);
-    objTreeCounter.add([3, { key: 3, keyA: 3 }]);
+    objTreeCounter.set([11, { key: 11, keyA: 11 }]);
+    objTreeCounter.set([3, { key: 3, keyA: 3 }]);
     const values: [number, { key: number; keyA: number }][] = [
       [15, { key: 15, keyA: 15 }],
       [1, { key: 1, keyA: 1 }],
@@ -602,7 +602,7 @@ describe('TreeCounter operations test recursively1', () => {
       [5, { key: 5, keyA: 5 }]
     ];
 
-    objTreeCounter.addMany(values);
+    objTreeCounter.setMany(values);
 
     expect(objTreeCounter.root).toBeInstanceOf(TreeCounterNode);
 
@@ -631,7 +631,7 @@ describe('TreeCounter delete test', function () {
 
   it('The structure remains normal after random deletion', function () {
     for (let i = 0; i < inputSize; i++) {
-      treeCounter.add(i);
+      treeCounter.set(i);
     }
 
     expect(treeCounter.size).toBe(inputSize);
@@ -660,7 +660,7 @@ describe('TreeCounter delete test', function () {
     for (let i = 0; i < inputSize; i++) {
       const num = getRandomInt(0, inputSize - 1);
       if (i === 0 && isDebug) console.log(`first:`, num);
-      treeCounter.add(num);
+      treeCounter.set(num);
     }
 
     for (let i = 0; i < inputSize; i++) {
@@ -686,7 +686,7 @@ describe('TreeCounter delete test', function () {
     for (let i = 0; i < inputSize; i++) {
       const num = getRandomInt(0, inputSize - 1);
       if (i === 0 && isDebug) console.log(`first:`, num);
-      treeCounter.add(num);
+      treeCounter.set(num);
     }
 
     for (let i = 0; i < inputSize; i++) {
@@ -721,7 +721,7 @@ describe('TreeCounter delete test', function () {
     }
 
     const treeCounter = new TreeCounter<string, number>();
-    treeCounter.addMany([
+    treeCounter.setMany([
       ['2', 2],
       ['4', 4],
       ['5', 5],
@@ -750,9 +750,9 @@ describe('TreeCounter iterative methods test', () => {
   let treeCounter: TreeCounter<number, string>;
   beforeEach(() => {
     treeCounter = new TreeCounter<number, string>();
-    treeCounter.add(1, 'a', 10);
-    treeCounter.add([2, 'b'], undefined, 10);
-    treeCounter.add([3, 'c'], undefined, 1);
+    treeCounter.set(1, 'a', 10);
+    treeCounter.set([2, 'b'], undefined, 10);
+    treeCounter.set([3, 'c'], undefined, 1);
   });
 
   it('The node obtained by get Node should match the node type', () => {
@@ -845,7 +845,7 @@ describe('TreeCounter count not map mode', () => {
   });
 
   it('Should added node count ', () => {
-    treeCounter.addMany([
+    treeCounter.setMany([
       [1, 1],
       [2, 2],
       [3, 3],
@@ -853,7 +853,7 @@ describe('TreeCounter count not map mode', () => {
       [5, 5]
     ]);
     const newNode = new TreeCounterNode(3, undefined, 10);
-    treeCounter.add(newNode, 33, 20);
+    treeCounter.set(newNode, 33, 20);
     // TODO expect(treeCounter.count).toBe(25);
     expect(treeCounter.count).toBe(15);
     expect(treeCounter.getComputedCount()).toBe(15);
@@ -867,8 +867,8 @@ describe('TreeCounter operations test1 not map mode', () => {
 
     expect(treeCounter instanceof TreeCounter);
 
-    treeCounter.add([11, 11]);
-    treeCounter.add([3, 3]);
+    treeCounter.set([11, 11]);
+    treeCounter.set([3, 3]);
     const idAndValues: [number, number][] = [
       [11, 11],
       [3, 3],
@@ -887,7 +887,7 @@ describe('TreeCounter operations test1 not map mode', () => {
       [10, 10],
       [5, 5]
     ];
-    treeCounter.addMany(idAndValues);
+    treeCounter.setMany(idAndValues);
     expect(treeCounter.root instanceof TreeCounterNode);
 
     if (treeCounter.root) expect(treeCounter.root.key == 11);
@@ -916,8 +916,8 @@ describe('TreeCounter operations test recursively1 not map mode', () => {
     });
 
     expect(treeCounter instanceof TreeCounter);
-    treeCounter.add([11, 11]);
-    treeCounter.add([3, 3]);
+    treeCounter.set([11, 11]);
+    treeCounter.set([3, 3]);
     const idAndValues: [number, number][] = [
       [11, 11],
       [3, 3],
@@ -936,7 +936,7 @@ describe('TreeCounter operations test recursively1 not map mode', () => {
       [10, 10],
       [5, 5]
     ];
-    treeCounter.addMany(idAndValues);
+    treeCounter.setMany(idAndValues);
     expect(treeCounter.root).toBeInstanceOf(TreeCounterNode);
 
     if (treeCounter.root) expect(treeCounter.root.key).toBe(5);
@@ -961,9 +961,9 @@ describe('TreeCounter iterative methods test not map mode', () => {
   let treeCounter: TreeCounter<number, string>;
   beforeEach(() => {
     treeCounter = new TreeCounter<number, string>([], { isMapMode: false });
-    treeCounter.add(1, 'a', 10);
-    treeCounter.add([2, 'b'], undefined, 10);
-    treeCounter.add([3, 'c'], undefined, 1);
+    treeCounter.set(1, 'a', 10);
+    treeCounter.set([2, 'b'], undefined, 10);
+    treeCounter.set([3, 'c'], undefined, 1);
   });
 
   it('should clone work well', () => {

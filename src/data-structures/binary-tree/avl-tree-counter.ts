@@ -200,7 +200,7 @@ export class AVLTreeCounter<K = any, V = any, R = any> extends AVLTree<K, V, R> 
     options?: AVLTreeCounterOptions<K, V, R>
   ) {
     super([], options);
-    if (keysNodesEntriesOrRaws) this.addMany(keysNodesEntriesOrRaws);
+    if (keysNodesEntriesOrRaws) this.setMany(keysNodesEntriesOrRaws);
   }
 
   protected _count = 0;
@@ -243,7 +243,7 @@ export class AVLTreeCounter<K = any, V = any, R = any> extends AVLTree<K, V, R> 
    * @param [count] - How much to increase the node's count (default 1).
    * @returns True if inserted/updated; false if ignored.
    */
-  override add(
+  override set(
     keyNodeOrEntry: K | AVLTreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     value?: V,
     count = 1
@@ -252,7 +252,7 @@ export class AVLTreeCounter<K = any, V = any, R = any> extends AVLTree<K, V, R> 
     if (newNode === undefined) return false;
 
     const orgNodeCount = newNode?.count || 0;
-    const inserted = super.add(newNode, newValue);
+    const inserted = super.set(newNode, newValue);
     if (inserted) {
       this._count += orgNodeCount;
     }
@@ -380,9 +380,9 @@ export class AVLTreeCounter<K = any, V = any, R = any> extends AVLTree<K, V, R> 
     const out = this._createInstance();
 
     if (this._isMapMode) {
-      this.bfs(node => out.add(node.key, undefined, node.count));
+      this.bfs(node => out.set(node.key, undefined, node.count));
     } else {
-      this.bfs(node => out.add(node.key, node.value, node.count));
+      this.bfs(node => out.set(node.key, node.value, node.count));
     }
 
     if (this._isMapMode) out._store = this._store;
@@ -410,7 +410,7 @@ export class AVLTreeCounter<K = any, V = any, R = any> extends AVLTree<K, V, R> 
 
     let index = 0;
     for (const [key, value] of this) {
-      out.add(callback.call(thisArg, value, key, index++, this));
+      out.set(callback.call(thisArg, value, key, index++, this));
     }
     return out;
   }

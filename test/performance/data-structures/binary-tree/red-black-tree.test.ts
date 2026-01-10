@@ -17,8 +17,7 @@ suite
   //   for (let i = 0; i < randomArray.length; i++) rbTree.set(randomArray[i]);
   // })
   .add(`${MILLION.toLocaleString()} set`, () => {
-    rbTree.clear();
-    for (let i = 0; i < randomArray.length; i++) rbTree.set(i);
+    for (let i = 0; i < randomArray.length; i++) rbTree.set(randomArray[i], randomArray[i]);
   })
   .add(`${MILLION.toLocaleString()} get`, () => {
     for (let i = 0; i < randomArray.length; i++) rbTree.get(randomArray[i]);
