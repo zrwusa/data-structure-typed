@@ -2,7 +2,7 @@
 
 A comprehensive TypeScript data structures library with production-ready implementations.
 
-**📚 [Installation](#-installation) • [Quick Start](#-quick-start-30-seconds) • [Full Docs](./docs/CONCEPTS.md) • [API Reference](./docs/REFERENCE.md) • [Playground](#playground) • [Examples](./docs/GUIDES.md)**
+**📚 [Installation](#-installation) • [Quick Start](#-quick-start-30-seconds) • [Full Docs](#-documentation) • [API Reference](./docs/REFERENCE.md) • [Playground](#playground) • [Examples](./docs/GUIDES.md)**
 
 ---
 
