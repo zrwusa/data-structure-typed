@@ -71,7 +71,7 @@ export class BinaryTreeNode<K = any, V = any> {
    */
   set left(v: BinaryTreeNode<K, V> | null | undefined) {
     if (v) {
-      v.parent = this as unknown as BinaryTreeNode<K, V>;
+      v.parent = this;
     }
     this._left = v;
   }
