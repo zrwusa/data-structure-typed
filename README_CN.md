@@ -322,12 +322,12 @@ docs/
 ├── CONCEPTS_CN.md (理论与基础)
 ├── REFERENCE_CN.md (API 文档)
 ├── ARCHITECTURE_CN.md (设计原则)
-├── ARCHITECTURE_FULL_CN.md (设计细节)
+├── ARCHITECTURE_CN.md (设计细节)
 ├── PERFORMANCE_CN.md (基准测试)
-├── PERFORMANCE_FULL_CN.md (详细基准)
+├── PERFORMANCE_CN.md (详细基准)
 ├── GUIDES_CN.md (实战示例)
 ├── INTEGRATIONS_CN.md (框架指南)
-└── INTEGRATIONS_FULL_CN.md (完整集成)
+└── INTEGRATIONS_CN.md (完整集成)
 ```
 
 ---
@@ -342,11 +342,11 @@ docs/
 
 **需要 API？** → [REFERENCE_CN.md](./docs/REFERENCE_CN.md)
 
-**好奇性能？** → [PERFORMANCE_CN.md](./docs/PERFORMANCE_CN.md) 或 [PERFORMANCE_FULL_CN.md](./docs/PERFORMANCE_FULL_CN.md)
+**好奇性能？** → [PERFORMANCE_CN.md](./docs/PERFORMANCE_CN.md)
 
-**框架问题？** → [INTEGRATIONS_CN.md](./docs/INTEGRATIONS_CN.md) 或 [INTEGRATIONS_FULL_CN.md](./docs/INTEGRATIONS_FULL_CN.md)
+**框架问题？** → [INTEGRATIONS_CN.md](./docs/INTEGRATIONS_CN.md)
 
-**深入设计？** → [ARCHITECTURE_CN.md](./docs/ARCHITECTURE_CN.md) 或 [ARCHITECTURE_FULL_CN.md](./docs/ARCHITECTURE_FULL_CN.md)
+**深入设计？** → [ARCHITECTURE_CN.md](./docs/ARCHITECTURE_CN.md)
 
 ---
 
