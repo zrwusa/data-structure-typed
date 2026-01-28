@@ -1,8 +1,8 @@
-# 集成：框架集成指南
+# INTEGRATIONS_FULL: 框架集成指南完整版
 
 如何在 React、Express、Nest.js 和其他框架中使用 data-structure-typed。
 
-**[回到 README](../README_CN.md) • [代码示例](./GUIDES_CN.md) • [性能](./PERFORMANCE_CN.md)**
+**[返回 README](../README_CN.md) • [代码示例](./GUIDES_CN.md) • [性能](./PERFORMANCE_CN.md)**
 
 ---
 
@@ -12,358 +12,265 @@
 2. [Express 集成](#express-集成)
 3. [Nest.js 集成](#nestjs-集成)
 4. [TypeScript 配置](#typescript-配置)
-
----
-
-## React 集成
-
-### 用例：排序状态管理
-
-```typescript
-import React, { useState, useMemo } from 'react';
-import { RedBlackTree } from 'data-structure-typed';
-
-interface TodoItem {
-  id: number;
-  text: string;
-  completed: boolean;
-  priority: number;
-}
-
-export default function TodoApp() {
-  const [todos, setTodos] = useState<RedBlackTree<number, TodoItem>>(
-    new RedBlackTree<number, TodoItem>(
-      (a, b) => b - a  // 按优先级降序排序
-    )
-  );
-
-  // 记忆化排序值
-  const sortedTodos = useMemo(() => [...todos.values()], [todos]);
-
-  const addTodo = (text: string, priority: number) => {
-    setTodos(prev => {
-      const next = prev.clone();
-      next.set(priority, {
-        id: Math.random(),
-        text,
-        completed: false,
-        priority
-      });
-      return next;
-    });
-  };
-
-  return (
-    <div className="todo-app">
-      <h1>优先级 Todos（自动排序）</h1>
-      <ul className="todo-list">
-        {sortedTodos.map(todo => (
-          <li key={todo.id}>
-            <span>{todo.text}</span>
-            <span className="priority">P{todo.priority}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-```
-
-### 用例：排行榜组件
-
-```typescript
-import React, { useState, useCallback } from 'react';
-import { RedBlackTree } from 'data-structure-typed';
-
-interface Player {
-  id: string;
-  name: string;
-  score: number;
-}
-
-export function LeaderboardComponent() {
-  const [leaderboard, setLeaderboard] = useState<RedBlackTree<number, Player>>(
-    new RedBlackTree((a, b) => b - a)  // 按分数降序
-  );
-
-  const updateScore = useCallback((player: Player) => {
-    setLeaderboard(prev => {
-      const next = prev.clone();
-      
-      // 如果存在，移除旧分数
-      const existing = [...prev.values()].find(p => p.id === player.id);
-      if (existing) {
-        next.delete(existing.score);
-      }
-      
-      // 添加新分数
-      next.set(player.score, player);
-      return next;
-    });
-  }, []);
-
-  const topPlayers = [...leaderboard.values()].slice(0, 10);
-
-  return (
-    <div className="leaderboard">
-      <h2>前 10 名玩家</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>排名</th>
-            <th>名字</th>
-            <th>分数</th>
-          </tr>
-        </thead>
-        <tbody>
-          {topPlayers.map((player, index) => (
-            <tr key={player.id}>
-              <td>#{index + 1}</td>
-              <td>{player.name}</td>
-              <td>{player.score}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-```
-
----
-
-## Express 集成
-
-### 用例：LRU 缓存中间件
-
-```typescript
-import express, { Request, Response } from 'express';
-import { DoublyLinkedList } from 'data-structure-typed';
-
-class LRUCache<T> {
-  private cache = new Map<string, { value: T; node: any }>();
-  private order = new DoublyLinkedList<string>();
-  private capacity: number;
-
-  constructor(capacity: number = 100) {
-    this.capacity = capacity;
-  }
-
-  get(key: string): T | null {
-    if (!this.cache.has(key)) return null;
-
-    const { value, node } = this.cache.get(key)!;
-    
-    // 移到末尾（最近使用）
-    this.order.deleteNode(node);
-    const newNode = this.order.pushBack(key);
-    this.cache.set(key, { value, node: newNode });
-
-    return value;
-  }
-
-  set(key: string, value: T): void {
-    if (this.cache.has(key)) {
-      this.get(key);  // 标记为最近使用
-      this.cache.get(key)!.value = value;
-      return;
-    }
-
-    if (this.cache.size >= this.capacity) {
-      const lru = this.order.shift();
-      this.cache.delete(lru);
-    }
-
-    const node = this.order.pushBack(key);
-    this.cache.set(key, { value, node });
-  }
-}
-
-// Express 中使用
-const app = express();
-const responseCache = new LRUCache<{ status: number; data: any }>(50);
-
-app.use((req: Request, res: Response, next: Function) => {
-  const cachedResponse = responseCache.get(req.url);
-  
-  if (cachedResponse) {
-    return res.status(cachedResponse.status).json(cachedResponse.data);
-  }
-
-  // 包装原始 send 缓存响应
-  const originalSend = res.send;
-  res.send = function(data: any) {
-    responseCache.set(req.url, { status: res.statusCode, data });
-    return originalSend.call(this, data);
-  };
-
-  next();
-});
-
-app.get('/api/data', (req, res) => {
-  res.json({ message: '缓存响应' });
-});
-
-app.listen(3000);
-```
-
-### 用例：使用 Deque 的速率限制
-
-```typescript
-import { Deque } from 'data-structure-typed';
-
-class RateLimiter {
-  private requests = new Map<string, Deque<number>>();
-  private limit: number;
-  private windowMs: number;
-
-  constructor(limit: number = 100, windowMs: number = 60000) {
-    this.limit = limit;
-    this.windowMs = windowMs;
-  }
-
-  isAllowed(clientId: string): boolean {
-    const now = Date.now();
-    
-    if (!this.requests.has(clientId)) {
-      this.requests.set(clientId, new Deque());
-    }
-
-    const deque = this.requests.get(clientId)!;
-
-    // 移除窗口外的旧请求
-    while (!deque.isEmpty && deque.peekFirst()! < now - this.windowMs) {
-      deque.shift();
-    }
-
-    // 检查限制
-    if (deque.size >= this.limit) {
-      return false;
-    }
-
-    // 添加新请求
-    deque.push(now);
-    return true;
-  }
-}
-
-// Express 中使用
-const app = express();
-const limiter = new RateLimiter(10, 60000); // 每分钟 10 个请求
-
-app.use((req: Request, res: Response, next: Function) => {
-  const clientId = req.ip;
-
-  if (!limiter.isAllowed(clientId)) {
-    return res.status(429).json({ error: '请求过于频繁' });
-  }
-
-  next();
-});
-
-app.get('/api/data', (req, res) => {
-  res.json({ data: '您的数据' });
-});
-```
+5. [导入模式](#导入模式)
+6. [常见集成模式](#常见集成模式)
 
 ---
 
 ## Nest.js 集成
 
-### 用例：排名服务
+### 使用场景：优先级任务队列
 
 ```typescript
-import { Injectable } from '@nestjs/common';
-import { RedBlackTree } from 'data-structure-typed';
+import { Module, Controller, Post, Get, Body } from '@nestjs/common';
+import { MaxPriorityQueue } from 'data-structure-typed';
 
-export interface RankingEntry {
-  userId: string;
-  userName: string;
-  score: number;
-  lastUpdated: Date;
+interface QueuedTask {
+  id: string;
+  priority: number;
+  action: () => Promise<void>;
 }
 
-@Injectable()
-export class RankingService {
-  private rankings = new RedBlackTree<number, RankingEntry>(
-    (a, b) => b - a  // 降序排列
-  );
-  private userScores = new Map<string, number>();
+@Controller('tasks')
+export class TaskController {
+  private taskQueue = new MaxPriorityQueue<QueuedTask>([], {
+    comparator: (a, b) => a.priority - b.priority,
+  });
 
-  updateScore(userId: string, userName: string, score: number): void {
-    // 移除旧分数
-    if (this.userScores.has(userId)) {
-      const oldScore = this.userScores.get(userId)!;
-      this.rankings.delete(oldScore);
-    }
-
-    // 添加新分数
-    const entry: RankingEntry = {
-      userId,
-      userName,
-      score,
-      lastUpdated: new Date()
+  @Post('add')
+  addTask(@Body() task: QueuedTask): { success: boolean; queueSize: number } {
+    this.taskQueue.add(task);
+    return {
+      success: true,
+      queueSize: this.taskQueue.size,
     };
-    
-    this.rankings.set(score, entry);
-    this.userScores.set(userId, score);
   }
 
-  getTopN(n: number): RankingEntry[] {
-    return [...this.rankings.values()].slice(0, n);
+  @Post('process')
+  processNext(): { success: boolean; task: QueuedTask | null } {
+    const task = this.taskQueue.poll();
+    return {
+      success: !!task,
+      task: task || null,
+    };
   }
 
-  getUserRank(userId: string): number | null {
-    if (!this.userScores.has(userId)) return null;
-
-    const score = this.userScores.get(userId)!;
-    let rank = 1;
-
-    for (const [s] of this.rankings) {
-      if (s > score) rank++;
-      else break;
-    }
-
-    return rank;
-  }
-
-  getAroundUser(userId: string, range: number): RankingEntry[] {
-    const rank = this.getUserRank(userId);
-    if (rank === null) return [];
-
-    const start = Math.max(1, rank - range);
-    const end = Math.min(this.rankings.size, rank + range);
-
-    return [...this.rankings.values()].slice(start - 1, end);
+  @Get('queue-size')
+  getQueueSize(): { size: number } {
+    return { size: this.taskQueue.size };
   }
 }
+
+@Module({
+  controllers: [TaskController],
+})
+export class TaskModule {}
 ```
 
 ---
 
 ## TypeScript 配置
 
-推荐的 TypeScript 设置：
+### 针对 data-structure-typed 的 tsconfig.json
 
 ```json
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "commonjs",
-    "lib": ["ES2020"],
-    "declaration": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "module": "ES2020",
+    "lib": ["ES2020", "DOM"],
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "moduleResolution": "node"
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true
+  }
+}
+```
+
+### Package.json 设置
+
+```json
+{
+  "dependencies": {
+    "data-structure-typed": "^latest"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^latest"
   }
 }
 ```
 
 ---
 
-更多示例见 [GUIDES_CN.md](./GUIDES_CN.md)。
+## 导入模式
+
+### 所有结构
+
+```typescript
+import {
+  // 树结构
+  BST,
+  AVLTree,
+  RedBlackTree,
+  BSTNode,
+  TreeMultiMap,
+  
+  // 线性结构
+  Stack,
+  Queue,
+  Deque,
+  LinkedList,
+  SinglyLinkedList,
+  DoublyLinkedList,
+  
+  // 堆结构
+  Heap,
+  MinHeap,
+  MaxHeap,
+  MinPriorityQueue,
+  MaxPriorityQueue,
+  
+  // 特殊结构
+  Trie,
+  DirectedGraph,
+  UndirectedGraph,
+  
+  // 工具
+  SegmentTree,
+  FenwickTree
+} from 'data-structure-typed';
+```
+
+### 模块系统
+
+```js
+// ES Module (ESM)
+import { RedBlackTree } from 'data-structure-typed';
+
+// CommonJS
+const { RedBlackTree } = require('data-structure-typed');
+
+// TypeScript 完整类型
+import { RedBlackTree } from 'data-structure-typed/dist/esm/red-black-tree';
+
+// CDN（浏览器）
+<script src="https://cdn.jsdelivr.net/npm/data-structure-typed/dist/umd/data-structure-typed.min.js"></script>
+<script>
+  const tree = new DataStructureTyped.RedBlackTree();
+</script>
+```
+
+---
+
+## 常见集成模式
+
+### 模式 1: 依赖注入（Nest.js）
+
+```typescript
+import { Module } from '@nestjs/common';
+import { ProductInventoryService } from './product-inventory.service';
+
+@Module({
+  providers: [ProductInventoryService],
+  exports: [ProductInventoryService]
+})
+export class ProductInventoryModule {}
+
+// 在其他服务中使用
+@Injectable()
+export class OutherService {
+  constructor(private inventoryService: ProductInventoryService) {}
+
+  async addProduct(product: Product): Promise<void> {
+    this.inventoryService.addProduct(product);
+  }
+}
+```
+
+### 模式 2: React Hooks
+
+```tsx
+import {useCallback, useRef, useState} from 'react';
+import {RedBlackTree} from 'data-structure-typed';
+
+function useSortedList<T>(initialData: T[] = []) {
+  const treeRef = useRef(new RedBlackTree<number, T>(initialData));
+  const [, setUpdateTrigger] = useState({});
+
+  const add = useCallback((index: number, item: T) => {
+    treeRef.current.set(index, item);
+    setUpdateTrigger({});
+  }, []);
+
+  const remove = useCallback((index: number) => {
+    treeRef.current.delete(index);
+    setUpdateTrigger({});
+  }, []);
+
+  const getAll = useCallback(() => {
+    return [...treeRef.current.values()];
+  }, []);
+
+  return {add, remove, getAll};
+}
+
+// 使用
+function MyComponent() {
+  const {add, remove, getAll} = useSortedList<string>([]);
+
+  return (
+    <div>
+      <button onClick={() => add(1, 'Item 1')}>添加项目</button>
+      <ul>
+        {getAll().map((item, i) => (
+          <li key={i} onClick={() => remove(i)}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default MyComponent;
+```
+
+---
+
+## 故障排除
+
+### 问题：导入错误
+
+```typescript
+// ❌ 错误
+import RedBlackTree from 'data-structure-typed';
+
+// ✅ 正确
+import { RedBlackTree } from 'data-structure-typed';
+```
+
+### 问题：找不到类型
+
+```shell
+// 确保 TypeScript 配置正确
+// 并且你有最新的类型定义
+npm update data-structure-typed
+```
+
+### 问题：开发中性能低
+
+```shell
+# 开发模式因为热重载而较慢
+# 使用生产构建进行基准测试：
+npm run build
+NODE_ENV=production node your-app.js
+```
+
+---
+
+**需要更多例子？** 查看 [GUIDES_CN.md](./GUIDES_CN.md) 了解更多模式。
+
+**性能问题？** 查看 [PERFORMANCE_CN.md](./PERFORMANCE_CN.md)。

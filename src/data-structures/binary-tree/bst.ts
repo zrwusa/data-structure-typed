@@ -625,7 +625,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     if (isRange) {
       predicate = node => {
         if (!node) return false;
-        return (keyNodeEntryOrPredicate as Range<K>).isInRange(node.key, this._comparator);
+        return (keyNodeEntryOrPredicate).isInRange(node.key, this._comparator);
       };
     } else {
       predicate = this._ensurePredicate(keyNodeEntryOrPredicate);
@@ -637,7 +637,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       if (!this.isRealNode(cur.left)) return false;
       if (isRange) {
         // Range search: Only go left if the current key is >= the lower bound
-        const range = keyNodeEntryOrPredicate as Range<K>;
+        const range = keyNodeEntryOrPredicate;
         const leftS = range.low;
         const leftI = range.includeLow;
         return (leftI && this._compare(cur.key, leftS) >= 0) || (!leftI && this._compare(cur.key, leftS) > 0);
@@ -655,7 +655,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       if (!this.isRealNode(cur.right)) return false;
       if (isRange) {
         // Range search: Only go right if current key <= upper bound
-        const range = keyNodeEntryOrPredicate as Range<K>;
+        const range = keyNodeEntryOrPredicate;
         const rightS = range.high;
         const rightI = range.includeHigh;
         return (rightI && this._compare(cur.key, rightS) <= 0) || (!rightI && this._compare(cur.key, rightS) < 0);

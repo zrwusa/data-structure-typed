@@ -1,6 +1,17 @@
-# README: data-structure-typed Library
+# data-structure-typed
+
+English | [简体中文](./README_CN.md)
 
 A comprehensive TypeScript data structures library with production-ready implementations.
+
+![npm](https://img.shields.io/npm/dm/data-structure-typed)
+![GitHub contributors](https://img.shields.io/github/contributors/zrwusa/data-structure-typed)
+![npm package minimized gzipped size (select exports)](https://img.shields.io/bundlejs/size/data-structure-typed)
+![GitHub top language](https://img.shields.io/github/languages/top/zrwusa/data-structure-typed)
+![GITHUB Star](https://img.shields.io/github/stars/zrwusa/data-structure-typed)
+![eslint](https://aleen42.github.io/badges/src/eslint.svg)
+![NPM](https://img.shields.io/npm/l/data-structure-typed)
+![npm](https://img.shields.io/npm/v/data-structure-typed)
 
 **📚 [Installation](#-installation) • [Quick Start](#-quick-start-30-seconds) • [Full Docs](#-documentation) • [API Reference](./docs/REFERENCE.md) • [Playground](#playground) • [Examples](./docs/GUIDES.md)**
 
@@ -541,8 +552,8 @@ MIT
 ## 📚 Full Documentation Structure
 
 ```
+README.md (this file)
 docs/
-├── README.md (this file)
 ├── CONCEPTS.md (theory & fundamentals)
 ├── REFERENCE.md (API documentation)
 ├── ARCHITECTURE.md (design principles)
