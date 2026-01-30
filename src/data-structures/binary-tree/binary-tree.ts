@@ -717,7 +717,6 @@ export class BinaryTree<K = any, V = any, R = any>
    * @remarks Time O(N * M), where N is the number of items to set and M is the size of the tree at insertion (due to O(M) `set` operation). Space O(M) (from `set`) + O(N) (for the `inserted` array).
    *
    * @param keysNodesEntriesOrRaws - An iterable of items to set.
-   * @param [values] - An optional parallel iterable of values.
    * @returns An array of booleans indicating the success of each individual `set` operation.
    */
   addMany(

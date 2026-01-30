@@ -6,7 +6,6 @@ A comprehensive TypeScript data structures library with production-ready impleme
 
 ![npm](https://img.shields.io/npm/dm/data-structure-typed)
 ![GitHub contributors](https://img.shields.io/github/contributors/zrwusa/data-structure-typed)
-![npm package minimized gzipped size (select exports)](https://img.shields.io/bundlejs/size/data-structure-typed)
 ![GitHub top language](https://img.shields.io/github/languages/top/zrwusa/data-structure-typed)
 ![GITHUB Star](https://img.shields.io/github/stars/zrwusa/data-structure-typed)
 ![eslint](https://aleen42.github.io/badges/src/eslint.svg)

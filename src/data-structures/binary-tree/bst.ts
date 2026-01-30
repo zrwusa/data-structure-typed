@@ -219,8 +219,8 @@ export class BSTNode<K = any, V = any> {
  *     console.log(bst.size); // 16;
  *
  *     // Add new elements
- *     bst.add(17);
- *     bst.add(0);
+ *     bst.set(17);
+ *     bst.set(0);
  *     console.log(bst.size); // 18;
  *
  *     // Verify keys are searchable
@@ -266,7 +266,7 @@ export class BSTNode<K = any, V = any> {
  *
  *     // Merge datasets into a single BinarySearchTree
  *     const merged = new BST<number, string>(dataset1);
- *     merged.addMany(dataset2);
+ *     merged.setMany(dataset2);
  *     merged.merge(dataset3);
  *
  *     // Verify merged dataset is in sorted order

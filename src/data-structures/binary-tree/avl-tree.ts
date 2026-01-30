@@ -215,7 +215,7 @@ export class AVLTreeNode<K = any, V = any> {
  *     console.log(tree.size); // 5;
  *
  *     // Add a new element
- *     tree.add(3);
+ *     tree.set(3);
  *     console.log(tree.size); // 6;
  *     console.log([...tree.keys()]); // [1, 2, 3, 5, 8, 9];
  * @example
