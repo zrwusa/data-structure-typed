@@ -354,6 +354,50 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     keyNodeOrEntry: K | RedBlackTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     value?: V
   ): boolean {
+    // Fast-path for common usage: tree.set(key, value) or tree.set([key, value]).
+    // Avoids allocating a new node on updates (which is costly for large workloads).
+    if (!this.isRealNode(keyNodeOrEntry)) {
+      if (keyNodeOrEntry === null || keyNodeOrEntry === undefined) return false;
+
+      let key: K | null | undefined;
+      let nextValue: V | undefined;
+
+      if (this.isEntry(keyNodeOrEntry)) {
+        key = keyNodeOrEntry[0];
+        nextValue = value ?? keyNodeOrEntry[1];
+      } else {
+        key = keyNodeOrEntry;
+        nextValue = value;
+      }
+
+      if (key === null || key === undefined) return false;
+
+      const existing = this.getNode(key);
+      if (this.isRealNode(existing)) {
+        if (this._isMapMode) this._setValue(key, nextValue);
+        else existing.value = nextValue as V;
+        return true;
+      }
+
+      const newNode = this.createNode(key, nextValue);
+      if (!this.isRealNode(newNode)) return false;
+
+      const insertStatus = this._insert(newNode);
+      if (insertStatus === 'CREATED') {
+        if (this.isRealNode(this._root)) this._root.color = 'BLACK';
+        else return false;
+        if (this._isMapMode) this._setValue(newNode.key, nextValue);
+        this._size++;
+        return true;
+      }
+      if (insertStatus === 'UPDATED') {
+        if (this._isMapMode) this._setValue(newNode.key, nextValue);
+        return true;
+      }
+      return false;
+    }
+
+    // Node insertion path (advanced usage)
     const [newNode, newValue] = this._keyValueNodeOrEntryToNodeAndValue(keyNodeOrEntry, value);
     if (!this.isRealNode(newNode)) return false;
 
