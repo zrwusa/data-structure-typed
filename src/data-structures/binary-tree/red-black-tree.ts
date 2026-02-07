@@ -354,9 +354,28 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * (Internal) Fast key/value set path.
    * @remarks Time O(log n), Space O(1)
    */
+  /**
+   * (Internal) Find a node by key using a tight BST walk (no allocations).
+   * @remarks Time O(log n), Space O(1)
+   */
+  protected _findNodeByKey(key: K): RedBlackTreeNode<K, V> | undefined {
+    const NIL = this.NIL;
+    const cmp = this._compare.bind(this);
+
+    let cur = this.root ?? NIL;
+    while (cur !== NIL) {
+      const c = cmp(key, cur.key);
+      if (c < 0) cur = cur.left ?? NIL;
+      else if (c > 0) cur = cur.right ?? NIL;
+      else return cur;
+    }
+    return undefined;
+  }
+
   protected _setKV(key: K, nextValue?: V): boolean {
-    const existing = this.getNode(key);
-    if (this.isRealNode(existing)) {
+    const existing = this._findNodeByKey(key);
+    if (existing) {
+      // Fast hit path: update value/store and return.
       if (this._isMapMode) this._setValue(key, nextValue);
       else existing.value = nextValue as V;
       return true;
@@ -374,7 +393,9 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       return true;
     }
     if (insertStatus === 'UPDATED') {
+      // Should be rare since we already searched, but keep correctness.
       if (this._isMapMode) this._setValue(newNode.key, nextValue);
+      else newNode.value = nextValue as V;
       return true;
     }
     return false;
