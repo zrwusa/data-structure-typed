@@ -372,6 +372,61 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     return undefined;
   }
 
+  /**
+   * (Internal) In-order predecessor of a node in a BST.
+   * @remarks Time O(H)
+   */
+  protected _predecessorOf(node: RedBlackTreeNode<K, V>): RedBlackTreeNode<K, V> | undefined {
+    const NIL = this.NIL;
+    if (node.left && node.left !== NIL) {
+      let cur = node.left;
+      while (cur.right && cur.right !== NIL) cur = cur.right;
+      return cur;
+    }
+    let cur: RedBlackTreeNode<K, V> | undefined = node;
+    let p = node.parent;
+    while (p && cur === p.left) {
+      cur = p;
+      p = p.parent;
+    }
+    return p;
+  }
+
+  /**
+   * (Internal) In-order successor of a node in a BST.
+   * @remarks Time O(H)
+   */
+  protected _successorOf(node: RedBlackTreeNode<K, V>): RedBlackTreeNode<K, V> | undefined {
+    const NIL = this.NIL;
+    if (node.right && node.right !== NIL) {
+      let cur = node.right;
+      while (cur.left && cur.left !== NIL) cur = cur.left;
+      return cur;
+    }
+    let cur: RedBlackTreeNode<K, V> | undefined = node;
+    let p = node.parent;
+    while (p && cur === p.right) {
+      cur = p;
+      p = p.parent;
+    }
+    return p;
+  }
+
+  /**
+   * (Internal) Attach a new node directly under a known parent/side (no search).
+   */
+  protected _attachNewNode(parent: RedBlackTreeNode<K, V>, side: 'left' | 'right', node: RedBlackTreeNode<K, V>): void {
+    const NIL = this.NIL;
+    node.parent = parent;
+    if (side === 'left') parent.left = node;
+    else parent.right = node;
+    node.left = NIL;
+    node.right = NIL;
+    node.color = 'RED';
+    this._insertFixup(node);
+    if (this.isRealNode(this._root)) this._root.color = 'BLACK';
+  }
+
   protected _setKV(key: K, nextValue?: V): boolean {
     const existing = this._findNodeByKey(key);
     if (existing) {
@@ -399,6 +454,93 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       return true;
     }
     return false;
+  }
+
+  /**
+   * Insert/update using a hint node to speed up near-by insertions.
+   * Falls back to normal set on mismatch.
+   * @returns The affected node (inserted or updated), or undefined on failure.
+   */
+  setWithHintNode(key: K, value: V, hint?: RedBlackTreeNode<K, V> | null): RedBlackTreeNode<K, V> | undefined {
+    if (!hint || !this.isRealNode(hint)) {
+      const ok = this._setKV(key, value);
+      return ok ? this._findNodeByKey(key) : undefined;
+    }
+
+    const cmp = this._compare.bind(this);
+    const c0 = cmp(key, hint.key);
+    if (c0 === 0) {
+      if (this._isMapMode) this._setValue(key, value);
+      else hint.value = value;
+      return hint;
+    }
+
+    if (c0 < 0) {
+      const pred = this._predecessorOf(hint);
+      if (pred && cmp(pred.key, key) >= 0) {
+        const ok = this._setKV(key, value);
+        return ok ? this._findNodeByKey(key) : undefined;
+      }
+
+      // Try attach as left of hint, else as right of pred.
+      if (!this.isRealNode(hint.left)) {
+        const newNode = this.createNode(key, value);
+        if (!this.isRealNode(newNode)) return undefined;
+        this._attachNewNode(hint, 'left', newNode);
+        if (this._isMapMode) this._setValue(key, value);
+        this._size++;
+        return newNode;
+      }
+      if (pred && !this.isRealNode(pred.right)) {
+        const newNode = this.createNode(key, value);
+        if (!this.isRealNode(newNode)) return undefined;
+        this._attachNewNode(pred, 'right', newNode);
+        if (this._isMapMode) this._setValue(key, value);
+        this._size++;
+        return newNode;
+      }
+
+      {
+        const ok = this._setKV(key, value);
+        return ok ? this._findNodeByKey(key) : undefined;
+      }
+    }
+
+    // c0 > 0
+    const succ = this._successorOf(hint);
+    if (succ && cmp(succ.key, key) <= 0) {
+      const ok = this._setKV(key, value);
+      return ok ? this._findNodeByKey(key) : undefined;
+    }
+
+    if (!this.isRealNode(hint.right)) {
+      const newNode = this.createNode(key, value);
+      if (!this.isRealNode(newNode)) return undefined;
+      this._attachNewNode(hint, 'right', newNode);
+      if (this._isMapMode) this._setValue(key, value);
+      this._size++;
+      return newNode;
+    }
+    if (succ && !this.isRealNode(succ.left)) {
+      const newNode = this.createNode(key, value);
+      if (!this.isRealNode(newNode)) return undefined;
+      this._attachNewNode(succ, 'left', newNode);
+      if (this._isMapMode) this._setValue(key, value);
+      this._size++;
+      return newNode;
+    }
+
+    {
+      const ok = this._setKV(key, value);
+      return ok ? this._findNodeByKey(key) : undefined;
+    }
+  }
+
+  /**
+   * Boolean wrapper for setWithHintNode.
+   */
+  setWithHint(key: K, value: V, hint?: RedBlackTreeNode<K, V> | null): boolean {
+    return this.setWithHintNode(key, value, hint) !== undefined;
   }
 
   override set(
