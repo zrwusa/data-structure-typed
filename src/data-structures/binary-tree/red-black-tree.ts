@@ -427,33 +427,36 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     if (this.isRealNode(this._root)) this._root.color = 'BLACK';
   }
 
-  protected _setKV(key: K, nextValue?: V): boolean {
+  protected _setKVNode(key: K, nextValue?: V): { node: RedBlackTreeNode<K, V>; created: boolean } | undefined {
     const existing = this._findNodeByKey(key);
     if (existing) {
-      // Fast hit path: update value/store and return.
       if (this._isMapMode) this._setValue(key, nextValue);
       else existing.value = nextValue as V;
-      return true;
+      return { node: existing, created: false };
     }
 
     const newNode = this.createNode(key, nextValue);
-    if (!this.isRealNode(newNode)) return false;
+    if (!this.isRealNode(newNode)) return undefined;
 
     const insertStatus = this._insert(newNode);
     if (insertStatus === 'CREATED') {
       if (this.isRealNode(this._root)) this._root.color = 'BLACK';
-      else return false;
+      else return undefined;
       if (this._isMapMode) this._setValue(newNode.key, nextValue);
       this._size++;
-      return true;
+      return { node: newNode, created: true };
     }
     if (insertStatus === 'UPDATED') {
       // Should be rare since we already searched, but keep correctness.
       if (this._isMapMode) this._setValue(newNode.key, nextValue);
       else newNode.value = nextValue as V;
-      return true;
+      return { node: newNode, created: false };
     }
-    return false;
+    return undefined;
+  }
+
+  protected _setKV(key: K, nextValue?: V): boolean {
+    return this._setKVNode(key, nextValue) !== undefined;
   }
 
   /**
@@ -463,8 +466,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    */
   setWithHintNode(key: K, value: V, hint?: RedBlackTreeNode<K, V> | null): RedBlackTreeNode<K, V> | undefined {
     if (!hint || !this.isRealNode(hint)) {
-      const ok = this._setKV(key, value);
-      return ok ? this._findNodeByKey(key) : undefined;
+      return this._setKVNode(key, value)?.node;
     }
 
     const cmp = this._compare.bind(this);
@@ -476,13 +478,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     }
 
     if (c0 < 0) {
-      const pred = this._predecessorOf(hint);
-      if (pred && cmp(pred.key, key) >= 0) {
-        const ok = this._setKV(key, value);
-        return ok ? this._findNodeByKey(key) : undefined;
-      }
-
-      // Try attach as left of hint, else as right of pred.
+      // Ultra-fast path: direct attach if the target slot is empty.
       if (!this.isRealNode(hint.left)) {
         const newNode = this.createNode(key, value);
         if (!this.isRealNode(newNode)) return undefined;
@@ -491,6 +487,13 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         this._size++;
         return newNode;
       }
+
+      const pred = this._predecessorOf(hint);
+      if (pred && cmp(pred.key, key) >= 0) {
+        return this._setKVNode(key, value)?.node;
+      }
+
+      // Try attach as right of pred.
       if (pred && !this.isRealNode(pred.right)) {
         const newNode = this.createNode(key, value);
         if (!this.isRealNode(newNode)) return undefined;
@@ -500,19 +503,11 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         return newNode;
       }
 
-      {
-        const ok = this._setKV(key, value);
-        return ok ? this._findNodeByKey(key) : undefined;
-      }
+      return this._setKVNode(key, value)?.node;
     }
 
     // c0 > 0
-    const succ = this._successorOf(hint);
-    if (succ && cmp(succ.key, key) <= 0) {
-      const ok = this._setKV(key, value);
-      return ok ? this._findNodeByKey(key) : undefined;
-    }
-
+    // Ultra-fast path: direct attach if the target slot is empty.
     if (!this.isRealNode(hint.right)) {
       const newNode = this.createNode(key, value);
       if (!this.isRealNode(newNode)) return undefined;
@@ -521,6 +516,12 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       this._size++;
       return newNode;
     }
+
+    const succ = this._successorOf(hint);
+    if (succ && cmp(succ.key, key) <= 0) {
+      return this._setKVNode(key, value)?.node;
+    }
+
     if (succ && !this.isRealNode(succ.left)) {
       const newNode = this.createNode(key, value);
       if (!this.isRealNode(newNode)) return undefined;
@@ -530,10 +531,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       return newNode;
     }
 
-    {
-      const ok = this._setKV(key, value);
-      return ok ? this._findNodeByKey(key) : undefined;
-    }
+    return this._setKVNode(key, value)?.node;
   }
 
   /**
