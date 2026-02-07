@@ -565,16 +565,20 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    */
 
   protected _insert(node: RedBlackTreeNode<K, V>): CRUD {
-    let current = this.root ?? this.NIL;
-    let parent: RedBlackTreeNode<K, V> | undefined = undefined;
+    const NIL = this.NIL;
+    const cmp = this._compare.bind(this);
 
-    while (current !== this.NIL) {
+    let current = this.root ?? NIL;
+    let parent: RedBlackTreeNode<K, V> | undefined;
+    let lastCompared = 0;
+
+    while (current !== NIL) {
       parent = current;
-      const compared = this._compare(node.key, current.key);
-      if (compared < 0) {
-        current = current.left ?? this.NIL;
-      } else if (compared > 0) {
-        current = current.right ?? this.NIL;
+      lastCompared = cmp(node.key, current.key);
+      if (lastCompared < 0) {
+        current = current.left ?? NIL;
+      } else if (lastCompared > 0) {
+        current = current.right ?? NIL;
       } else {
         this._replaceNode(current, node);
         return 'UPDATED';
@@ -585,14 +589,14 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
     if (!parent) {
       this._setRoot(node);
-    } else if (this._compare(node.key, parent.key) < 0) {
+    } else if (lastCompared < 0) {
       parent.left = node;
     } else {
       parent.right = node;
     }
 
-    node.left = this.NIL;
-    node.right = this.NIL;
+    node.left = NIL;
+    node.right = NIL;
     node.color = 'RED';
 
     this._insertFixup(node);
@@ -629,47 +633,63 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    */
 
   protected _insertFixup(z: RedBlackTreeNode<K, V> | undefined): void {
-    while (z?.parent?.color === 'RED') {
-      if (z.parent === z.parent.parent?.left) {
-        const y = z.parent.parent.right;
+    const leftRotate = this._leftRotate.bind(this);
+    const rightRotate = this._rightRotate.bind(this);
+
+    while (z) {
+      const p = z.parent;
+      if (!p || p.color !== 'RED') break;
+
+      const gp = p.parent;
+      if (!gp) break;
+
+      if (p === gp.left) {
+        const y = gp.right;
         if (y?.color === 'RED') {
-          z.parent.color = 'BLACK';
+          p.color = 'BLACK';
           y.color = 'BLACK';
-          z.parent.parent.color = 'RED';
+          gp.color = 'RED';
+          z = gp;
+          continue;
+        }
 
-          z = z.parent.parent;
-        } else {
-          if (z === z.parent.right) {
-            z = z.parent;
-            this._leftRotate(z);
-          }
+        if (z === p.right) {
+          z = p;
+          leftRotate(z);
+        }
 
-          if (z && z.parent && z.parent.parent) {
-            z.parent.color = 'BLACK';
-            z.parent.parent.color = 'RED';
-            this._rightRotate(z.parent.parent);
-          }
+        const p2 = z?.parent;
+        const gp2 = p2?.parent;
+        if (p2 && gp2) {
+          p2.color = 'BLACK';
+          gp2.color = 'RED';
+          rightRotate(gp2);
         }
       } else {
-        const y: RedBlackTreeNode<K, V> | undefined = z?.parent?.parent?.left ?? undefined;
+        const y = gp.left;
         if (y?.color === 'RED') {
-          z.parent.color = 'BLACK';
+          p.color = 'BLACK';
           y.color = 'BLACK';
-          z.parent.parent!.color = 'RED';
-          z = z.parent.parent;
-        } else {
-          if (z === z.parent.left) {
-            z = z.parent;
-            this._rightRotate(z);
-          }
+          gp.color = 'RED';
+          z = gp;
+          continue;
+        }
 
-          if (z && z.parent && z.parent.parent) {
-            z.parent.color = 'BLACK';
-            z.parent.parent.color = 'RED';
-            this._leftRotate(z.parent.parent);
-          }
+        if (z === p.left) {
+          z = p;
+          rightRotate(z);
+        }
+
+        const p2 = z?.parent;
+        const gp2 = p2?.parent;
+        if (p2 && gp2) {
+          p2.color = 'BLACK';
+          gp2.color = 'RED';
+          leftRotate(gp2);
         }
       }
+
+      break;
     }
 
     if (this.isRealNode(this._root)) this._root.color = 'BLACK';
