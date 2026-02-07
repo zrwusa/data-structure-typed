@@ -350,51 +350,53 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * @param [value]- See parameter type for details.
    * @returns True if inserted or updated; false if ignored.
    */
+  /**
+   * (Internal) Fast key/value set path.
+   * @remarks Time O(log n), Space O(1)
+   */
+  protected _setKV(key: K, nextValue?: V): boolean {
+    const existing = this.getNode(key);
+    if (this.isRealNode(existing)) {
+      if (this._isMapMode) this._setValue(key, nextValue);
+      else existing.value = nextValue as V;
+      return true;
+    }
+
+    const newNode = this.createNode(key, nextValue);
+    if (!this.isRealNode(newNode)) return false;
+
+    const insertStatus = this._insert(newNode);
+    if (insertStatus === 'CREATED') {
+      if (this.isRealNode(this._root)) this._root.color = 'BLACK';
+      else return false;
+      if (this._isMapMode) this._setValue(newNode.key, nextValue);
+      this._size++;
+      return true;
+    }
+    if (insertStatus === 'UPDATED') {
+      if (this._isMapMode) this._setValue(newNode.key, nextValue);
+      return true;
+    }
+    return false;
+  }
+
   override set(
     keyNodeOrEntry: K | RedBlackTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     value?: V
   ): boolean {
-    // Fast-path for common usage: tree.set(key, value) or tree.set([key, value]).
-    // Avoids allocating a new node on updates (which is costly for large workloads).
-    if (!this.isRealNode(keyNodeOrEntry)) {
+    // Common path: tree.set(key, value) or tree.set([key, value]).
+    if (!this.isNode(keyNodeOrEntry)) {
       if (keyNodeOrEntry === null || keyNodeOrEntry === undefined) return false;
 
-      let key: K | null | undefined;
-      let nextValue: V | undefined;
-
       if (this.isEntry(keyNodeOrEntry)) {
-        key = keyNodeOrEntry[0];
-        nextValue = value ?? keyNodeOrEntry[1];
-      } else {
-        key = keyNodeOrEntry;
-        nextValue = value;
+        const key = keyNodeOrEntry[0];
+        if (key === null || key === undefined) return false;
+        const nextValue = value ?? keyNodeOrEntry[1];
+        return this._setKV(key, nextValue);
       }
 
-      if (key === null || key === undefined) return false;
-
-      const existing = this.getNode(key);
-      if (this.isRealNode(existing)) {
-        if (this._isMapMode) this._setValue(key, nextValue);
-        else existing.value = nextValue as V;
-        return true;
-      }
-
-      const newNode = this.createNode(key, nextValue);
-      if (!this.isRealNode(newNode)) return false;
-
-      const insertStatus = this._insert(newNode);
-      if (insertStatus === 'CREATED') {
-        if (this.isRealNode(this._root)) this._root.color = 'BLACK';
-        else return false;
-        if (this._isMapMode) this._setValue(newNode.key, nextValue);
-        this._size++;
-        return true;
-      }
-      if (insertStatus === 'UPDATED') {
-        if (this._isMapMode) this._setValue(newNode.key, nextValue);
-        return true;
-      }
-      return false;
+      // key-only
+      return this._setKV(keyNodeOrEntry, value);
     }
 
     // Node insertion path (advanced usage)
