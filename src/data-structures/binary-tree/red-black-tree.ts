@@ -493,9 +493,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         return { node: minN, created: false };
       }
       // Boundary attach: if key is smaller than current min and min has no left child.
-      if (cMin < 0 && !this.isRealNode(minN.left)) {
+      // Inline NIL/null/undefined check to avoid isRealNode overhead on hot path.
+      const minL = minN.left;
+      if (cMin < 0 && (minL === NIL || minL === null || minL === undefined)) {
         const newNode = this.createNode(key, nextValue);
-        if (!this.isRealNode(newNode)) return undefined;
         this._attachNewNode(minN, 'left', newNode);
         if (this._isMapMode) this._setValue(newNode.key, nextValue);
         this._size++;
@@ -515,9 +516,9 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
           else maxN.value = nextValue as V;
           return { node: maxN, created: false };
         }
-        if (cMax > 0 && !this.isRealNode(maxN.right)) {
+        const maxR = maxN.right;
+        if (cMax > 0 && (maxR === NIL || maxR === null || maxR === undefined)) {
           const newNode = this.createNode(key, nextValue);
-          if (!this.isRealNode(newNode)) return undefined;
           this._attachNewNode(maxN, 'right', newNode);
           if (this._isMapMode) this._setValue(newNode.key, nextValue);
           this._size++;
@@ -528,39 +529,56 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       }
     }
 
-    // Normal path
-    const existing = this._findNodeByKey(key);
-    if (existing) {
-      if (this._isMapMode) this._setValue(key, nextValue);
-      else existing.value = nextValue as V;
-      return { node: existing, created: false };
+    // Normal path: single-pass search + insert/update (avoid double-walking the tree).
+    const cmp = this._compare.bind(this);
+    let current = (this._header.parent as RedBlackTreeNode<K, V>) ?? NIL;
+    let parent: RedBlackTreeNode<K, V> | undefined;
+    let lastCompared = 0;
+
+    while (current !== NIL) {
+      parent = current;
+      lastCompared = cmp(key, current.key);
+      if (lastCompared < 0) current = current.left ?? NIL;
+      else if (lastCompared > 0) current = current.right ?? NIL;
+      else {
+        // Update existing.
+        if (this._isMapMode) this._setValue(key, nextValue);
+        else current.value = nextValue as V;
+        return { node: current, created: false };
+      }
     }
 
+    // Insert new.
     const newNode = this.createNode(key, nextValue);
-    if (!this.isRealNode(newNode)) return undefined;
+    // createNode always returns a real node in RedBlackTree.
+    newNode.parent = parent;
 
-    const insertStatus = this._insert(newNode);
-    if (insertStatus === 'CREATED') {
-      if (this.isRealNode(this._root)) this._root.color = 'BLACK';
-      else return undefined;
-      if (this._isMapMode) this._setValue(newNode.key, nextValue);
-      this._size++;
-
-      // Maintain min/max caches on insertion (header.left/right are canonical).
-      const hMin = (this._header as any)._left as RedBlackTreeNode<K, V>;
-      if (hMin === NIL || this._compare(newNode.key, hMin.key) < 0) this._setMinCache(newNode);
-      const hMax = (this._header as any)._right as RedBlackTreeNode<K, V>;
-      if (hMax === NIL || this._compare(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
-
-      return { node: newNode, created: true };
+    if (!parent) {
+      this._setRoot(newNode);
+    } else if (lastCompared < 0) {
+      parent.left = newNode;
+    } else {
+      parent.right = newNode;
     }
-    if (insertStatus === 'UPDATED') {
-      // Should be rare since we already searched, but keep correctness.
-      if (this._isMapMode) this._setValue(newNode.key, nextValue);
-      else newNode.value = nextValue as V;
-      return { node: newNode, created: false };
-    }
-    return undefined;
+
+    newNode.left = NIL;
+    newNode.right = NIL;
+    newNode.color = 'RED';
+
+    this._insertFixup(newNode);
+    if (this.isRealNode(this._root)) this._root.color = 'BLACK';
+    else return undefined;
+
+    if (this._isMapMode) this._setValue(newNode.key, nextValue);
+    this._size++;
+
+    // Maintain min/max caches on insertion (header.left/right are canonical).
+    const hMin = (this._header as any)._left as RedBlackTreeNode<K, V>;
+    if (hMin === NIL || cmp(newNode.key, hMin.key) < 0) this._setMinCache(newNode);
+    const hMax = (this._header as any)._right as RedBlackTreeNode<K, V>;
+    if (hMax === NIL || cmp(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
+
+    return { node: newNode, created: true };
   }
 
   protected _setKV(key: K, nextValue?: V): boolean {
