@@ -470,8 +470,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     const NIL = this.NIL;
 
     // Min/max fast paths (inspired by js-sdsl):
-    const minN = this._minNode;
-    if (minN) {
+    // Read via header to avoid undefined checks (header uses NIL when empty).
+    const header = this._header;
+    const minN = (header as any)._left as RedBlackTreeNode<K, V>;
+    if (minN && minN !== NIL) {
       const cMin = this._compare(key, minN.key);
       if (cMin === 0) {
         if (this._isMapMode) this._setValue(key, nextValue);
@@ -490,8 +492,8 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         return { node: newNode, created: true };
       }
 
-      const maxN = this._maxNode;
-      if (maxN) {
+      const maxN = (header as any)._right as RedBlackTreeNode<K, V>;
+      if (maxN && maxN !== NIL) {
         const cMax = this._compare(key, maxN.key);
         if (cMax === 0) {
           if (this._isMapMode) this._setValue(key, nextValue);
