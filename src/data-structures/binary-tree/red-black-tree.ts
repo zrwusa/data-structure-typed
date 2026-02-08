@@ -291,12 +291,31 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
     this._root = this.NIL;
 
+    // Header sentinel (js-sdsl style):
+    // - header.parent -> root
+    // - header.left   -> min
+    // - header.right  -> max
+    // Not part of the actual tree; used only as an internal cache hub.
+    this._header = new RedBlackTreeNode<K, V>(undefined as any, undefined, 'BLACK');
+    this._header.parent = this.NIL;
+    // Avoid using accessors here: they would set NIL.parent and can corrupt sentinel invariants.
+    (this._header as any)._left = this.NIL;
+    (this._header as any)._right = this.NIL;
+
     if (keysNodesEntriesOrRaws) {
       this.setMany(keysNodesEntriesOrRaws);
     }
   }
 
   protected override _root: RedBlackTreeNode<K, V> | undefined;
+
+  /**
+   * (Internal) Header sentinel (js-sdsl style):
+   * - header.parent -> root
+   * - header.left   -> min
+   * - header.right  -> max
+   */
+  protected _header: RedBlackTreeNode<K, V>;
 
   /**
    * (Internal) Cache of the current minimum and maximum nodes.
@@ -350,6 +369,9 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     this._root = this.NIL;
     this._minNode = undefined;
     this._maxNode = undefined;
+    this._header.parent = this.NIL;
+    (this._header as any)._left = this.NIL;
+    (this._header as any)._right = this.NIL;
   }
 
   /**
@@ -436,6 +458,14 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     if (this.isRealNode(this._root)) this._root.color = 'BLACK';
   }
 
+  protected _syncHeader(): void {
+    const NIL = this.NIL;
+    this._header.parent = this._root ?? NIL;
+    // Avoid accessors: they would mutate NIL.parent.
+    (this._header as any)._left = this._minNode ?? NIL;
+    (this._header as any)._right = this._maxNode ?? NIL;
+  }
+
   protected _setKVNode(key: K, nextValue?: V): { node: RedBlackTreeNode<K, V>; created: boolean } | undefined {
     const NIL = this.NIL;
 
@@ -456,6 +486,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         this._size++;
         this._minNode = newNode;
         if (!this._maxNode) this._maxNode = newNode;
+        this._syncHeader();
         return { node: newNode, created: true };
       }
 
@@ -475,6 +506,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
           this._size++;
           this._maxNode = newNode;
           if (!this._minNode) this._minNode = newNode;
+          this._syncHeader();
           return { node: newNode, created: true };
         }
       }
@@ -504,6 +536,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       const max2 = this._maxNode;
       if (!max2 || this._compare(newNode.key, max2.key) > 0) this._maxNode = newNode;
 
+      this._syncHeader();
       return { node: newNode, created: true };
     }
     if (insertStatus === 'UPDATED') {
@@ -747,6 +780,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         this._maxNode = this.isRealNode(this._root) ? this.getRightMost(n => n, this._root) : undefined;
       }
     }
+    this._syncHeader();
 
     if (originalColor === 'BLACK') {
       this._deleteFixup(replacementNode);
