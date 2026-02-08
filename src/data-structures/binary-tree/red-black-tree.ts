@@ -492,6 +492,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         else minN.value = nextValue as V;
         return { node: minN, created: false };
       }
+      // Boundary attach: if key is smaller than current min and min has no left child.
       if (cMin < 0 && !this.isRealNode(minN.left)) {
         const newNode = this.createNode(key, nextValue);
         if (!this.isRealNode(newNode)) return undefined;
@@ -499,29 +500,28 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         if (this._isMapMode) this._setValue(newNode.key, nextValue);
         this._size++;
         this._setMinCache(newNode);
-        // if tree was previously size 0, mirror max too
-        if (this._header.right === NIL) this._setMaxCache(newNode);
+        // If max is not initialized yet (tree had 0/1 nodes), mirror max too.
+        if (((header as any)._right as RedBlackTreeNode<K, V>) === NIL) this._setMaxCache(newNode);
         return { node: newNode, created: true };
       }
 
       const maxN = (header as any)._right as RedBlackTreeNode<K, V>;
-      if (maxN && maxN !== NIL) {
-        const cMax = this._compare(key, maxN.key);
-        if (cMax === 0) {
-          if (this._isMapMode) this._setValue(key, nextValue);
-          else maxN.value = nextValue as V;
-          return { node: maxN, created: false };
-        }
-        if (cMax > 0 && !this.isRealNode(maxN.right)) {
-          const newNode = this.createNode(key, nextValue);
-          if (!this.isRealNode(newNode)) return undefined;
-          this._attachNewNode(maxN, 'right', newNode);
-          if (this._isMapMode) this._setValue(newNode.key, nextValue);
-          this._size++;
-          this._setMaxCache(newNode);
-          if (this._header.left === NIL) this._setMinCache(newNode);
-          return { node: newNode, created: true };
-        }
+      // Boundary attach: if key is greater than current max and max has no right child.
+      const cMax = this._compare(key, maxN.key);
+      if (cMax === 0) {
+        if (this._isMapMode) this._setValue(key, nextValue);
+        else maxN.value = nextValue as V;
+        return { node: maxN, created: false };
+      }
+      if (cMax > 0 && !this.isRealNode(maxN.right)) {
+        const newNode = this.createNode(key, nextValue);
+        if (!this.isRealNode(newNode)) return undefined;
+        this._attachNewNode(maxN, 'right', newNode);
+        if (this._isMapMode) this._setValue(newNode.key, nextValue);
+        this._size++;
+        this._setMaxCache(newNode);
+        if (((header as any)._left as RedBlackTreeNode<K, V>) === NIL) this._setMinCache(newNode);
+        return { node: newNode, created: true };
       }
     }
 
