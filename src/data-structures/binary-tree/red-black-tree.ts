@@ -593,9 +593,20 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
     // Maintain min/max caches on insertion (header.left/right are canonical).
     const hMin = (this._header as any)._left as RedBlackTreeNode<K, V>;
-    if (hMin === NIL || cmp(newNode.key, hMin.key) < 0) this._setMinCache(newNode);
     const hMax = (this._header as any)._right as RedBlackTreeNode<K, V>;
-    if (hMax === NIL || cmp(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
+
+    // Fast-path: empty tree or attaching directly to an extreme.
+    if (hMin === NIL || hMax === NIL) {
+      this._setMinCache(newNode);
+      this._setMaxCache(newNode);
+    } else if (parent === hMax && lastCompared > 0) {
+      this._setMaxCache(newNode);
+    } else if (parent === hMin && lastCompared < 0) {
+      this._setMinCache(newNode);
+    } else {
+      if (cmp(newNode.key, hMin.key) < 0) this._setMinCache(newNode);
+      if (cmp(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
+    }
 
     return { node: newNode, created: true };
   }
