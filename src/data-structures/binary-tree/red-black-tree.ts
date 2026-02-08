@@ -382,7 +382,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     const NIL = this.NIL;
     const cmp = this._compare.bind(this);
 
-    let cur = (this._header.parent as RedBlackTreeNode<K, V>) ?? NIL;
+    let cur = (this._header.parent) ?? NIL;
     while (cur !== NIL) {
       const c = cmp(key, cur.key);
       if (c < 0) cur = cur.left ?? NIL;
@@ -468,8 +468,8 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     // Min/max fast paths (inspired by js-sdsl):
     // Read via header to avoid undefined checks (header uses NIL when empty).
     const header = this._header;
-    const minN = header._left;
-    if (minN && minN !== NIL) {
+    const minN = header._left ?? NIL;
+    if (minN !== NIL) {
       const cMin = comparator(key, minN.key);
       if (cMin === 0) {
         if (this._isMapMode) {
@@ -497,7 +497,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
       // Only touch max when key is not less than min.
       if (cMin > 0) {
-        const maxN = header._right as RedBlackTreeNode<K, V>;
+        const maxN = header._right ?? NIL;
         // Boundary attach: if key is greater than current max and max has no right child.
         const cMax = comparator(key, maxN.key);
         if (cMax === 0) {
@@ -517,7 +517,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
           }
           this._size++;
           this._setMaxCache(newNode);
-          if ((header._left as RedBlackTreeNode<K, V>) === NIL) this._setMinCache(newNode);
+          if (header._left === NIL) this._setMinCache(newNode);
           return { node: newNode, created: true };
         }
       }
@@ -576,8 +576,8 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     this._size++;
 
     // Maintain min/max caches on insertion (header.left/right are canonical).
-    const hMin = this._header._left as RedBlackTreeNode<K, V>;
-    const hMax = this._header._right as RedBlackTreeNode<K, V>;
+    const hMin = this._header._left ?? NIL;
+    const hMax = this._header._right ?? NIL;
 
     // Fast-path: empty tree or attaching directly to an extreme.
     if (hMin === NIL || hMax === NIL) {
@@ -615,7 +615,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * Falls back to normal set on mismatch.
    * @returns The affected node (inserted or updated), or undefined on failure.
    */
-  setWithHintNode(key: K, value: V, hint?: RedBlackTreeNode<K, V> | null): RedBlackTreeNode<K, V> | undefined {
+  setWithHintNode(key: K, value: V, hint?: RedBlackTreeNode<K, V>): RedBlackTreeNode<K, V> | undefined {
     if (!hint || !this.isRealNode(hint)) {
       return this._setKVNode(key, value)?.node;
     }
@@ -643,9 +643,9 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         this._size++;
         // Maintain header/min/max caches.
         const NIL = this.NIL;
-        const hMin = this._header._left as RedBlackTreeNode<K, V>;
+        const hMin = this._header._left ?? NIL;
         if (hMin === NIL || this._compare(newNode.key, hMin.key) < 0) this._setMinCache(newNode);
-        const hMax = this._header._right as RedBlackTreeNode<K, V>;
+        const hMax = this._header._right ?? NIL;
         if (hMax === NIL || this._compare(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
         return newNode;
       }
@@ -667,9 +667,9 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         this._size++;
         // Maintain header/min/max caches.
         const NIL = this.NIL;
-        const hMin = this._header._left as RedBlackTreeNode<K, V>;
+        const hMin = this._header._left ?? NIL;
         if (hMin === NIL || this._compare(newNode.key, hMin.key) < 0) this._setMinCache(newNode);
-        const hMax = this._header._right as RedBlackTreeNode<K, V>;
+        const hMax = this._header._right ?? NIL;
         if (hMax === NIL || this._compare(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
         return newNode;
       }
@@ -690,9 +690,9 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       this._size++;
       // Maintain header/min/max caches.
       const NIL = this.NIL;
-      const hMin = this._header._left as RedBlackTreeNode<K, V>;
+      const hMin = this._header._left ?? NIL;
       if (hMin === NIL || this._compare(newNode.key, hMin.key) < 0) this._setMinCache(newNode);
-      const hMax = this._header._right as RedBlackTreeNode<K, V>;
+      const hMax = this._header._right ?? NIL;
       if (hMax === NIL || this._compare(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
       return newNode;
     }
@@ -713,9 +713,9 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       this._size++;
       // Maintain header/min/max caches.
       const NIL = this.NIL;
-      const hMin = this._header._left as RedBlackTreeNode<K, V>;
+      const hMin = this._header._left ?? NIL;
       if (hMin === NIL || this._compare(newNode.key, hMin.key) < 0) this._setMinCache(newNode);
-      const hMax = this._header._right as RedBlackTreeNode<K, V>;
+      const hMax = this._header._right ?? NIL;
       if (hMax === NIL || this._compare(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
       return newNode;
     }
@@ -726,7 +726,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
   /**
    * Boolean wrapper for setWithHintNode.
    */
-  setWithHint(key: K, value: V, hint?: RedBlackTreeNode<K, V> | null): boolean {
+  setWithHint(key: K, value: V, hint?: RedBlackTreeNode<K, V>): boolean {
     return this.setWithHintNode(key, value, hint) !== undefined;
   }
 
@@ -941,7 +941,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     const NIL = this.NIL;
     const cmp = this._compare.bind(this);
 
-    let current = (this._header.parent as RedBlackTreeNode<K, V>) ?? NIL;
+    let current = this._header.parent ?? NIL;
     let parent: RedBlackTreeNode<K, V> | undefined;
     let lastCompared = 0;
 
