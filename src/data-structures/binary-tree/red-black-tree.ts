@@ -393,7 +393,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     const NIL = this.NIL;
     const cmp = this._compare.bind(this);
 
-    let cur = this.root ?? NIL;
+    let cur = (this._header.parent as RedBlackTreeNode<K, V>) ?? NIL;
     while (cur !== NIL) {
       const c = cmp(key, cur.key);
       if (c < 0) cur = cur.left ?? NIL;
@@ -871,7 +871,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     const NIL = this.NIL;
     const cmp = this._compare.bind(this);
 
-    let current = this.root ?? NIL;
+    let current = (this._header.parent as RedBlackTreeNode<K, V>) ?? NIL;
     let parent: RedBlackTreeNode<K, V> | undefined;
     let lastCompared = 0;
 
