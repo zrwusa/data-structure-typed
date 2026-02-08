@@ -480,13 +480,14 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
   protected _setKVNode(key: K, nextValue?: V): { node: RedBlackTreeNode<K, V>; created: boolean } | undefined {
     const NIL = this.NIL;
+    const comparator = this._comparator;
 
     // Min/max fast paths (inspired by js-sdsl):
     // Read via header to avoid undefined checks (header uses NIL when empty).
     const header = this._header;
     const minN = (header as any)._left as RedBlackTreeNode<K, V>;
     if (minN && minN !== NIL) {
-      const cMin = this._compare(key, minN.key);
+      const cMin = comparator(key, minN.key);
       if (cMin === 0) {
         if (this._isMapMode) {
           if (nextValue !== undefined) this._store.set(key as any, nextValue as any);
@@ -515,7 +516,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       if (cMin > 0) {
         const maxN = (header as any)._right as RedBlackTreeNode<K, V>;
         // Boundary attach: if key is greater than current max and max has no right child.
-        const cMax = this._compare(key, maxN.key);
+        const cMax = comparator(key, maxN.key);
         if (cMax === 0) {
           if (this._isMapMode) {
             if (nextValue !== undefined) this._store.set(key as any, nextValue as any);
@@ -540,7 +541,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     }
 
     // Normal path: single-pass search + insert/update (avoid double-walking the tree).
-    const cmp = this._compare.bind(this);
+    const cmp = comparator;
     const isMapMode = this._isMapMode;
     const store = this._store;
     let current = (this._header.parent as RedBlackTreeNode<K, V>) ?? NIL;
