@@ -499,7 +499,8 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         if (this._isMapMode) this._setValue(newNode.key, nextValue);
         this._size++;
         this._setMinCache(newNode);
-        if (!this._maxNode) this._setMaxCache(newNode);
+        // if tree was previously size 0, mirror max too
+        if (this._header.right === NIL) this._setMaxCache(newNode);
         return { node: newNode, created: true };
       }
 
@@ -518,7 +519,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
           if (this._isMapMode) this._setValue(newNode.key, nextValue);
           this._size++;
           this._setMaxCache(newNode);
-          if (!this._minNode) this._setMinCache(newNode);
+          if (this._header.left === NIL) this._setMinCache(newNode);
           return { node: newNode, created: true };
         }
       }
@@ -542,11 +543,11 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       if (this._isMapMode) this._setValue(newNode.key, nextValue);
       this._size++;
 
-      // Maintain min/max caches on insertion.
-      const min2 = this._minNode;
-      if (!min2 || this._compare(newNode.key, min2.key) < 0) this._setMinCache(newNode);
-      const max2 = this._maxNode;
-      if (!max2 || this._compare(newNode.key, max2.key) > 0) this._setMaxCache(newNode);
+      // Maintain min/max caches on insertion (header.left/right are canonical).
+      const hMin = (this._header as any)._left as RedBlackTreeNode<K, V>;
+      if (hMin === NIL || this._compare(newNode.key, hMin.key) < 0) this._setMinCache(newNode);
+      const hMax = (this._header as any)._right as RedBlackTreeNode<K, V>;
+      if (hMax === NIL || this._compare(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
 
       return { node: newNode, created: true };
     }
