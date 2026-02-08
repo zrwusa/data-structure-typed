@@ -841,10 +841,14 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
   }
 
   protected override _setRoot(v: RedBlackTreeNode<K, V> | undefined) {
+    const NIL = this.NIL;
     if (v) {
       v.parent = undefined;
     }
     this._root = v;
+    // Keep header root pointer in sync even for internal operations (rotations/transplants)
+    // and for subclasses that may bypass _setKVNode.
+    this._header.parent = v ?? NIL;
   }
 
   protected override _replaceNode(
