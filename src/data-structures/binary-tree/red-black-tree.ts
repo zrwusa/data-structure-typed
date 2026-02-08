@@ -590,11 +590,12 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         this._attachNewNode(hint, 'left', newNode);
         if (this._isMapMode) this._setValue(key, value);
         this._size++;
-        // Maintain min/max caches.
-        const minN = this._minNode;
-        if (!minN || this._compare(newNode.key, minN.key) < 0) this._minNode = newNode;
-        const maxN = this._maxNode;
-        if (!maxN || this._compare(newNode.key, maxN.key) > 0) this._maxNode = newNode;
+        // Maintain header/min/max caches.
+        const NIL = this.NIL;
+        const hMin = (this._header as any)._left as RedBlackTreeNode<K, V>;
+        if (hMin === NIL || this._compare(newNode.key, hMin.key) < 0) this._setMinCache(newNode);
+        const hMax = (this._header as any)._right as RedBlackTreeNode<K, V>;
+        if (hMax === NIL || this._compare(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
         return newNode;
       }
 
@@ -610,11 +611,12 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         this._attachNewNode(pred, 'right', newNode);
         if (this._isMapMode) this._setValue(key, value);
         this._size++;
-        // Maintain min/max caches.
-        const minN = this._minNode;
-        if (!minN || this._compare(newNode.key, minN.key) < 0) this._minNode = newNode;
-        const maxN = this._maxNode;
-        if (!maxN || this._compare(newNode.key, maxN.key) > 0) this._maxNode = newNode;
+        // Maintain header/min/max caches.
+        const NIL = this.NIL;
+        const hMin = (this._header as any)._left as RedBlackTreeNode<K, V>;
+        if (hMin === NIL || this._compare(newNode.key, hMin.key) < 0) this._setMinCache(newNode);
+        const hMax = (this._header as any)._right as RedBlackTreeNode<K, V>;
+        if (hMax === NIL || this._compare(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
         return newNode;
       }
 
@@ -629,11 +631,12 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       this._attachNewNode(hint, 'right', newNode);
       if (this._isMapMode) this._setValue(key, value);
       this._size++;
-      // Maintain min/max caches.
-      const minN = this._minNode;
-      if (!minN || this._compare(newNode.key, minN.key) < 0) this._minNode = newNode;
-      const maxN = this._maxNode;
-      if (!maxN || this._compare(newNode.key, maxN.key) > 0) this._maxNode = newNode;
+      // Maintain header/min/max caches.
+      const NIL = this.NIL;
+      const hMin = (this._header as any)._left as RedBlackTreeNode<K, V>;
+      if (hMin === NIL || this._compare(newNode.key, hMin.key) < 0) this._setMinCache(newNode);
+      const hMax = (this._header as any)._right as RedBlackTreeNode<K, V>;
+      if (hMax === NIL || this._compare(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
       return newNode;
     }
 
@@ -648,11 +651,12 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       this._attachNewNode(succ, 'left', newNode);
       if (this._isMapMode) this._setValue(key, value);
       this._size++;
-      // Maintain min/max caches.
-      const minN = this._minNode;
-      if (!minN || this._compare(newNode.key, minN.key) < 0) this._minNode = newNode;
-      const maxN = this._maxNode;
-      if (!maxN || this._compare(newNode.key, maxN.key) > 0) this._maxNode = newNode;
+      // Maintain header/min/max caches.
+      const NIL = this.NIL;
+      const hMin = (this._header as any)._left as RedBlackTreeNode<K, V>;
+      if (hMin === NIL || this._compare(newNode.key, hMin.key) < 0) this._setMinCache(newNode);
+      const hMax = (this._header as any)._right as RedBlackTreeNode<K, V>;
+      if (hMax === NIL || this._compare(newNode.key, hMax.key) > 0) this._setMaxCache(newNode);
       return newNode;
     }
 
