@@ -132,6 +132,29 @@ index.addProduct({id: '2', name: 'Mouse', price: 25});
 const affordable = index.getAffordable(100);
 ```
 
+### Pattern 5: High-Throughput Insertions with Hints (RedBlackTree)
+
+If you insert keys in sorted or nearly-sorted order (timestamps, auto-increment IDs, etc.),
+`setWithHintNode()` can avoid repeated full root-to-leaf searches.
+
+```typescript
+import { RedBlackTree } from 'data-structure-typed';
+import type { RedBlackTreeNode } from 'data-structure-typed';
+
+const tree = new RedBlackTree<number, number>([], { isMapMode: true });
+
+let hint: RedBlackTreeNode<number, number> | undefined;
+for (let i = 0; i < 1_000_000; i++) {
+  hint = tree.setWithHintNode(i, i, hint);
+}
+
+// tree.size === 1_000_000
+```
+
+Notes:
+- Pass the **last returned node** as the hint.
+- If the hint is not valid for the key, the implementation safely falls back to normal `set()`.
+
 ---
 
 ## Real-World Examples

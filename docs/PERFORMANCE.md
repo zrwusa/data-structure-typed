@@ -62,6 +62,18 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 (Results depend on Node/V8 version, CPU, and insertion pattern; random insert benefits less than monotonic patterns.)
 
+**Hinted insertion (2026-02-09):** For sorted / nearly-sorted insertion, use the explicit hint API:
+
+```ts
+let hint;
+for (let i = 0; i < N; i++) {
+  hint = tree.setWithHintNode(key, value, hint);
+}
+```
+
+On this machine, `setWithHintNode(last)` improved nearly-sorted insertion by ~**28%** in the playground benchmark
+(`red-black-tree-hint.js`).
+
 ### Queue
 
 | Test Case                            | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
