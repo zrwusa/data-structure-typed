@@ -54,6 +54,14 @@ Understand how data-structure-typed performs, and when to use each structure.
 | 1,000,000 set | 867.55   | 790.66   | 1193.22  | ±15.37%   | 168.93       |
 | 1,000,000 get | 88.65    | 86.8     | 91.48    | ±0.44%    | 45.4         |
 
+**Recent note (2026-02-08):** With the **min/max cache + boundary fast-path** optimization (commit `62476a6`),
+`red-black-tree-set.js` improved substantially on this machine:
+
+- `set()` INSERT (1,000,000 increasing keys): ~**796ms → 432ms** (~**-46%**)
+- `set()` UPDATE (key pool 100,000): ~**492ms → 297ms** (~**-40%**)
+
+(Results depend on Node/V8 version, CPU, and insertion pattern; random insert benefits less than monotonic patterns.)
+
 ### Queue
 
 | Test Case                            | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
