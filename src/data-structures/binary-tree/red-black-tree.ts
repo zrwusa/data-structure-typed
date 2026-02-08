@@ -287,7 +287,12 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     > = [],
     options?: RedBlackTreeOptions<K, V, R>
   ) {
-    super([], options);
+    // Default to map mode unless explicitly disabled.
+    // This aligns with OrderedMap-like usage and improves update performance.
+    const normalizedOptions = (options ? { ...options } : ({} as RedBlackTreeOptions<K, V, R>)) as RedBlackTreeOptions<K, V, R>;
+    if ((normalizedOptions as any).isMapMode === undefined) (normalizedOptions as any).isMapMode = true;
+
+    super([], normalizedOptions);
 
     this._root = this.NIL;
 
