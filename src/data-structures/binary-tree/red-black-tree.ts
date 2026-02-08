@@ -488,8 +488,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     if (minN && minN !== NIL) {
       const cMin = this._compare(key, minN.key);
       if (cMin === 0) {
-        if (this._isMapMode) this._setValue(key, nextValue);
-        else minN.value = nextValue as V;
+        if (this._isMapMode) {
+          if (nextValue !== undefined) this._store.set(key as any, nextValue as any);
+          else this._setValue(key, nextValue);
+        } else minN.value = nextValue as V;
         return { node: minN, created: false };
       }
       // Boundary attach: if key is smaller than current min and min has no left child.
@@ -498,7 +500,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       if (cMin < 0 && (minL === NIL || minL === null || minL === undefined)) {
         const newNode = this.createNode(key, nextValue);
         this._attachNewNode(minN, 'left', newNode);
-        if (this._isMapMode) this._setValue(newNode.key, nextValue);
+        if (this._isMapMode) {
+          if (nextValue !== undefined) this._store.set(newNode.key as any, nextValue as any);
+          else this._setValue(newNode.key, nextValue);
+        }
         this._size++;
         this._setMinCache(newNode);
         // If max is not initialized yet (tree had 0/1 nodes), mirror max too.
@@ -512,15 +517,20 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         // Boundary attach: if key is greater than current max and max has no right child.
         const cMax = this._compare(key, maxN.key);
         if (cMax === 0) {
-          if (this._isMapMode) this._setValue(key, nextValue);
-          else maxN.value = nextValue as V;
+          if (this._isMapMode) {
+            if (nextValue !== undefined) this._store.set(key as any, nextValue as any);
+            else this._setValue(key, nextValue);
+          } else maxN.value = nextValue as V;
           return { node: maxN, created: false };
         }
         const maxR = maxN.right;
         if (cMax > 0 && (maxR === NIL || maxR === null || maxR === undefined)) {
           const newNode = this.createNode(key, nextValue);
           this._attachNewNode(maxN, 'right', newNode);
-          if (this._isMapMode) this._setValue(newNode.key, nextValue);
+          if (this._isMapMode) {
+            if (nextValue !== undefined) this._store.set(newNode.key as any, nextValue as any);
+            else this._setValue(newNode.key, nextValue);
+          }
           this._size++;
           this._setMaxCache(newNode);
           if (((header as any)._left as RedBlackTreeNode<K, V>) === NIL) this._setMinCache(newNode);
@@ -531,6 +541,8 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
     // Normal path: single-pass search + insert/update (avoid double-walking the tree).
     const cmp = this._compare.bind(this);
+    const isMapMode = this._isMapMode;
+    const store = this._store;
     let current = (this._header.parent as RedBlackTreeNode<K, V>) ?? NIL;
     let parent: RedBlackTreeNode<K, V> | undefined;
     let lastCompared = 0;
@@ -542,8 +554,12 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       else if (lastCompared > 0) current = current.right ?? NIL;
       else {
         // Update existing.
-        if (this._isMapMode) this._setValue(key, nextValue);
-        else current.value = nextValue as V;
+        if (isMapMode) {
+          if (nextValue !== undefined) store.set(key as any, nextValue as any);
+          else this._setValue(key, nextValue);
+        } else {
+          current.value = nextValue as V;
+        }
         return { node: current, created: false };
       }
     }
@@ -569,7 +585,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     if (this.isRealNode(this._root)) this._root.color = 'BLACK';
     else return undefined;
 
-    if (this._isMapMode) this._setValue(newNode.key, nextValue);
+    if (isMapMode) {
+      if (nextValue !== undefined) store.set(newNode.key as any, nextValue as any);
+      else this._setValue(newNode.key, nextValue);
+    }
     this._size++;
 
     // Maintain min/max caches on insertion (header.left/right are canonical).
