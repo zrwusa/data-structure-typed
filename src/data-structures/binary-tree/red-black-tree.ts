@@ -367,11 +367,9 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
   override clear() {
     super.clear();
     this._root = this.NIL;
-    this._minNode = undefined;
-    this._maxNode = undefined;
     this._header.parent = this.NIL;
-    (this._header as any)._left = this.NIL;
-    (this._header as any)._right = this.NIL;
+    this._setMinCache(undefined);
+    this._setMaxCache(undefined);
   }
 
   /**
@@ -458,6 +456,20 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     if (this.isRealNode(this._root)) this._root.color = 'BLACK';
   }
 
+  /**
+   * (Internal) Single source of truth for min/max is header.left/right.
+   * Keep legacy _minNode/_maxNode mirrored for compatibility.
+   */
+  protected _setMinCache(node: RedBlackTreeNode<K, V> | undefined): void {
+    this._minNode = node;
+    (this._header as any)._left = node ?? this.NIL;
+  }
+
+  protected _setMaxCache(node: RedBlackTreeNode<K, V> | undefined): void {
+    this._maxNode = node;
+    (this._header as any)._right = node ?? this.NIL;
+  }
+
   protected _syncHeader(): void {
     const NIL = this.NIL;
     this._header.parent = this._root ?? NIL;
@@ -486,9 +498,8 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         this._attachNewNode(minN, 'left', newNode);
         if (this._isMapMode) this._setValue(newNode.key, nextValue);
         this._size++;
-        this._minNode = newNode;
-        if (!this._maxNode) this._maxNode = newNode;
-        this._syncHeader();
+        this._setMinCache(newNode);
+        if (!this._maxNode) this._setMaxCache(newNode);
         return { node: newNode, created: true };
       }
 
@@ -506,9 +517,8 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
           this._attachNewNode(maxN, 'right', newNode);
           if (this._isMapMode) this._setValue(newNode.key, nextValue);
           this._size++;
-          this._maxNode = newNode;
-          if (!this._minNode) this._minNode = newNode;
-          this._syncHeader();
+          this._setMaxCache(newNode);
+          if (!this._minNode) this._setMinCache(newNode);
           return { node: newNode, created: true };
         }
       }
@@ -534,11 +544,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
       // Maintain min/max caches on insertion.
       const min2 = this._minNode;
-      if (!min2 || this._compare(newNode.key, min2.key) < 0) this._minNode = newNode;
+      if (!min2 || this._compare(newNode.key, min2.key) < 0) this._setMinCache(newNode);
       const max2 = this._maxNode;
-      if (!max2 || this._compare(newNode.key, max2.key) > 0) this._maxNode = newNode;
+      if (!max2 || this._compare(newNode.key, max2.key) > 0) this._setMaxCache(newNode);
 
-      this._syncHeader();
       return { node: newNode, created: true };
     }
     if (insertStatus === 'UPDATED') {
@@ -769,20 +778,19 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
     // Update min/max caches.
     if (this._size <= 0) {
-      this._minNode = undefined;
-      this._maxNode = undefined;
+      this._setMinCache(undefined);
+      this._setMaxCache(undefined);
     } else {
-      if (willDeleteMin) this._minNode = nextMin;
-      if (willDeleteMax) this._maxNode = nextMax;
+      if (willDeleteMin) this._setMinCache(nextMin);
+      if (willDeleteMax) this._setMaxCache(nextMax);
       // Fallback if successor/predecessor was unavailable.
       if (!this._minNode || !this.isRealNode(this._minNode)) {
-        this._minNode = this.isRealNode(this._root) ? this.getLeftMost(n => n, this._root) : undefined;
+        this._setMinCache(this.isRealNode(this._root) ? this.getLeftMost(n => n, this._root) : undefined);
       }
       if (!this._maxNode || !this.isRealNode(this._maxNode)) {
-        this._maxNode = this.isRealNode(this._root) ? this.getRightMost(n => n, this._root) : undefined;
+        this._setMaxCache(this.isRealNode(this._root) ? this.getRightMost(n => n, this._root) : undefined);
       }
     }
-    this._syncHeader();
 
     if (originalColor === 'BLACK') {
       this._deleteFixup(replacementNode);
