@@ -74,6 +74,23 @@ for (let i = 0; i < N; i++) {
 On this machine, `setWithHintNode(last)` improved nearly-sorted insertion by ~**28%** in the playground benchmark
 (`red-black-tree-hint.js`).
 
+#### Comparison note: `js-sdsl` vs `data-structure-typed` RedBlackTree (2026-02-09)
+
+`js-sdsl` is highly optimized for **monotonic / sequential insertions** (and other cache-friendly patterns).
+In those cases it can be *much* faster than a general-purpose, feature-rich tree implementation.
+
+In more mixed, real-world-ish workloads (random inserts, frequent updates, insert/delete mixes), the gap tends to **shrink**.
+In our local benchmarks we typically observe:
+
+- **Sequential insert**: `js-sdsl` can lead by several × (this is its strongest case).
+- **Random unique insert**: the gap is usually closer (often ~**1.7×–1.9×** on this machine).
+- **Update-heavy workloads (map mode)**: when the key already exists, updating the value can be made very fast.
+  With the map-mode update fast-path (commit `5ab830c`), repeated updates avoid tree re-search and become mostly `Map.set` cost.
+
+> Practical takeaway: if your workload is dominated by *building a tree from already-sorted keys*, `js-sdsl` may look
+> disproportionately good. If your workload includes lots of random inserts and/or updates, the difference may be
+> smaller than the sequential-insert benchmark suggests.
+
 ### Queue
 
 | Test Case                            | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
