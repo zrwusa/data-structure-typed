@@ -617,8 +617,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     const cmp = this._compare.bind(this);
     const c0 = cmp(key, hint.key);
     if (c0 === 0) {
-      if (this._isMapMode) this._setValue(key, value);
-      else hint.value = value;
+      if (this._isMapMode) {
+        if (value !== undefined) this._store.set(key as any, value as any);
+        else this._setValue(key, value);
+      } else hint.value = value;
       return hint;
     }
 
@@ -628,7 +630,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         const newNode = this.createNode(key, value);
         if (!this.isRealNode(newNode)) return undefined;
         this._attachNewNode(hint, 'left', newNode);
-        if (this._isMapMode) this._setValue(key, value);
+        if (this._isMapMode) {
+          if (value !== undefined) this._store.set(key as any, value as any);
+          else this._setValue(key, value);
+        }
         this._size++;
         // Maintain header/min/max caches.
         const NIL = this.NIL;
@@ -649,7 +654,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         const newNode = this.createNode(key, value);
         if (!this.isRealNode(newNode)) return undefined;
         this._attachNewNode(pred, 'right', newNode);
-        if (this._isMapMode) this._setValue(key, value);
+        if (this._isMapMode) {
+          if (value !== undefined) this._store.set(key as any, value as any);
+          else this._setValue(key, value);
+        }
         this._size++;
         // Maintain header/min/max caches.
         const NIL = this.NIL;
@@ -669,7 +677,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       const newNode = this.createNode(key, value);
       if (!this.isRealNode(newNode)) return undefined;
       this._attachNewNode(hint, 'right', newNode);
-      if (this._isMapMode) this._setValue(key, value);
+      if (this._isMapMode) {
+        if (value !== undefined) this._store.set(key as any, value as any);
+        else this._setValue(key, value);
+      }
       this._size++;
       // Maintain header/min/max caches.
       const NIL = this.NIL;
@@ -689,7 +700,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       const newNode = this.createNode(key, value);
       if (!this.isRealNode(newNode)) return undefined;
       this._attachNewNode(succ, 'left', newNode);
-      if (this._isMapMode) this._setValue(key, value);
+      if (this._isMapMode) {
+        if (value !== undefined) this._store.set(key as any, value as any);
+        else this._setValue(key, value);
+      }
       this._size++;
       // Maintain header/min/max caches.
       const NIL = this.NIL;
