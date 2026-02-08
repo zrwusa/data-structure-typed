@@ -613,6 +613,17 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
   }
 
   protected _setKV(key: K, nextValue?: V): boolean {
+    // mapMode update fast-path:
+    // If the key already exists, updating the value doesn't require any tree work.
+    // (Tree structure depends only on key.)
+    if (this._isMapMode && nextValue !== undefined) {
+      const store = this._store;
+      if (store.has(key as any)) {
+        store.set(key as any, nextValue as any);
+        return true;
+      }
+    }
+
     return this._setKVNode(key, nextValue) !== undefined;
   }
 
