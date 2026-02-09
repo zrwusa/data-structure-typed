@@ -477,11 +477,19 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * Keep legacy _minNode/_maxNode mirrored for compatibility.
    * @remarks Time O(1), Space O(1)
    */
+  /**
+   * (Internal) Update min cache pointers (header._left is the canonical min pointer).
+   * @remarks Time O(1), Space O(1)
+   */
   protected _setMinCache(node: RedBlackTreeNode<K, V> | undefined): void {
     this._minNode = node;
     this._header._left = node ?? this.NIL;
   }
 
+  /**
+   * (Internal) Update max cache pointers (header._right is the canonical max pointer).
+   * @remarks Time O(1), Space O(1)
+   */
   protected _setMaxCache(node: RedBlackTreeNode<K, V> | undefined): void {
     this._maxNode = node;
     this._header._right = node ?? this.NIL;
@@ -499,6 +507,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * - `{ node, created:false }` when an existing key is updated
    * - `{ node, created:true }` when a new node is inserted
    * - `undefined` only on unexpected internal failure.
+   * @remarks Time O(log n) average, Space O(1)
    */
   protected _setKVNode(key: K, nextValue?: V): { node: RedBlackTreeNode<K, V>; created: boolean } | undefined {
     const NIL = this.NIL;
@@ -642,6 +651,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    *   require any tree search/rotation (tree shape depends only on key).
    * - This path is intentionally limited to `nextValue !== undefined` to preserve existing
    *   semantics for `undefined` values.
+   * @remarks Time O(log n) average, Space O(1)
    */
   protected _setKV(key: K, nextValue?: V): boolean {
     if (this._isMapMode && nextValue !== undefined) {
@@ -656,12 +666,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
   }
 
   /**
-   * Insert/update using a hint node to speed up near-by insertions.
-   * Falls back to normal set on mismatch.
-   * @returns The affected node (inserted or updated), or undefined on failure.
-   * @remarks Time O(log n) average, Space O(1)
-   */
-  /**
    * Insert/update using a hint node to speed up nearby insertions.
    *
    * This is similar in spirit to `js-sdsl`'s iterator-hint insertion: the caller provides a node
@@ -671,6 +675,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * normal root-to-leaf search and reduce constant factors.
    *
    * When the hint does not match (random workloads), this will fall back to the normal set path.
+   * @remarks Time O(log n) average, Space O(1)
    */
   setWithHintNode(key: K, value: V, hint?: RedBlackTreeNode<K, V>): RedBlackTreeNode<K, V> | undefined {
     if (!hint || !this.isRealNode(hint)) {
@@ -788,6 +793,15 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     return this.setWithHintNode(key, value, hint) !== undefined;
   }
 
+  /**
+   * Insert or update a key/value (map mode) or key-only (set mode).
+   *
+   * This method is optimized for:
+   * - monotonic inserts via min/max boundary fast paths
+   * - updates via a single-pass search (no double walk)
+   *
+   * @remarks Time O(log n) average, Space O(1)
+   */
   override set(
     keyNodeOrEntry: K | RedBlackTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     value?: V
@@ -832,7 +846,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
   /**
    * Delete a node by key/node/entry and rebalance as needed.
-   * @remarks Time O(log n), Space O(1)
+   * @remarks Time O(log n) average, Space O(1)
    * @param keyNodeOrEntry - Key, node, or [key, value] entry identifying the node to delete.
    * @returns Array with deletion metadata (removed node, rebalancing hint if any).
    */
@@ -925,7 +939,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
   /**
    * Transform entries into a like-kind red-black tree with possibly different key/value types.
-   * @remarks Time O(n), Space O(n)
+   * @remarks Time O(n) average, Space O(n)
    * @template MK
    * @template MV
    * @template MR
@@ -948,6 +962,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     return out;
   }
 
+  /**
+   * (Internal) Create an empty instance of the same concrete tree type.
+   * @remarks Time O(1) average, Space O(1)
+   */
   protected override _createInstance<TK = K, TV = V, TR = R>(options?: Partial<RedBlackTreeOptions<TK, TV, TR>>): this {
     const Ctor = this.constructor as unknown as new (
       iter?: Iterable<TK | RedBlackTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
@@ -956,6 +974,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     return new Ctor([], { ...this._snapshotOptions<TK, TV, TR>(), ...(options ?? {}) }) as unknown as this;
   }
 
+  /**
+   * (Internal) Create a like-kind tree (same concrete class) populated from an iterable.
+   * @remarks Time O(m log m) average (m = iterable length), Space O(m)
+   */
   protected override _createLike<TK = K, TV = V, TR = R>(
     iter: Iterable<
       TK | RedBlackTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR
@@ -969,6 +991,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     return new Ctor(iter, { ...this._snapshotOptions<TK, TV, TR>(), ...(options ?? {}) });
   }
 
+  /**
+   * (Internal) Set the root pointer and keep header.parent in sync.
+   * @remarks Time O(1), Space O(1)
+   */
   protected override _setRoot(v: RedBlackTreeNode<K, V> | undefined) {
     const NIL = this.NIL;
     if (v) {
@@ -980,6 +1006,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     this._header.parent = v ?? NIL;
   }
 
+  /**
+   * (Internal) Replace a node in place while preserving its color.
+   * @remarks Time O(1) average, Space O(1)
+   */
   protected override _replaceNode(
     oldNode: RedBlackTreeNode<K, V>,
     newNode: RedBlackTreeNode<K, V>
@@ -991,7 +1021,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
   /**
    * (Protected) Standard BST insert followed by red-black fix-up.
-   * @remarks Time O(log n), Space O(1)
+   * @remarks Time O(log n) average, Space O(1)
    * @param node - Node to insert.
    * @returns Status string: 'CREATED' or 'UPDATED'.
    */
@@ -1057,7 +1087,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
   /**
    * (Protected) Restore red-black properties after insertion (recolor/rotate).
-   * @remarks Time O(log n), Space O(1)
+   * @remarks Time O(log n) average, Space O(1)
    * @param z - Recently inserted node.
    * @returns void
    */
@@ -1126,7 +1156,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
   /**
    * (Protected) Restore red-black properties after deletion (recolor/rotate).
-   * @remarks Time O(log n), Space O(1)
+   * @remarks Time O(log n) average, Space O(1)
    * @param node - Child that replaced the deleted node (may be undefined).
    * @returns void
    */
