@@ -24,12 +24,11 @@ export class RedBlackTreeNode<K = any, V = any> {
   parent?: RedBlackTreeNode<K, V> = undefined;
 
   /**
-   * Create a Red-Black Tree and optionally bulk-insert items.
-   * @remarks Time O(n log n), Space O(n)
-   * @param key - See parameter type for details.
-   * @param [value]- See parameter type for details.
-   * @param color - See parameter type for details.
-   * @returns New RedBlackTree instance.
+   * Create a Red-Black Tree node.
+   * @remarks Time O(1), Space O(1)
+   * @param key - Node key.
+   * @param [value] - Node value (unused in map mode trees).
+   * @param color - Node color.
    */
 
   constructor(key: K, value?: V, color: RBTNColor = 'BLACK') {
@@ -179,7 +178,7 @@ export class RedBlackTreeNode<K = any, V = any> {
 
 /**
  * Represents a Red-Black Tree (self-balancing BST) supporting map-like mode and stable O(log n) updates.
- * @remarks Time O(1), Space O(1)
+ * @remarks Operation complexity depends on the method; see each method's docs.
  * @template K
  * @template V
  * @template R
@@ -316,6 +315,17 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * - header.left   -> min
    * - header.right  -> max
    */
+  /**
+   * (Internal) Header sentinel (js-sdsl style):
+   * - header.parent -> root
+   * - header._left  -> min (or NIL)
+   * - header._right -> max (or NIL)
+   *
+   * IMPORTANT:
+   * - This header is NOT part of the actual tree.
+   * - Do NOT use `header.left` / `header.right` accessors for wiring: those setters update `NIL.parent`
+   *   and can corrupt sentinel invariants / cause hangs. Only touch `header._left/_right`.
+   */
   protected _header: RedBlackTreeNode<K, V>;
 
   /**
@@ -376,6 +386,8 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
   /**
    * (Internal) Find a node by key using a tight BST walk (no allocations).
+   *
+   * NOTE: This uses `header.parent` as the canonical root pointer.
    * @remarks Time O(log n), Space O(1)
    */
   protected _findNodeByKey(key: K): RedBlackTreeNode<K, V> | undefined {
@@ -434,6 +446,14 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
   /**
    * (Internal) Attach a new node directly under a known parent/side (no search).
+   *
+   * This is a performance-oriented helper used by boundary fast paths and hinted insertion.
+   * It will:
+   * - wire parent/child pointers (using accessors, so parent pointers are updated)
+   * - initialize children to NIL
+   * - mark the new node RED, then run insert fix-up
+   *
+   * Precondition: the chosen slot (parent.left/parent.right) is empty (NIL/null/undefined).
    */
   protected _attachNewNode(parent: RedBlackTreeNode<K, V>, side: 'left' | 'right', node: RedBlackTreeNode<K, V>): void {
     const NIL = this.NIL;
@@ -461,6 +481,19 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     this._header._right = node ?? this.NIL;
   }
 
+  /**
+   * (Internal) Core set implementation returning the affected node.
+   *
+   * Hot path goals:
+   * - Avoid double walks (search+insert): do a single traversal that either updates or inserts.
+   * - Use header min/max caches to fast-path boundary inserts.
+   * - Keep header._left/_right as canonical min/max pointers.
+   *
+   * Return value:
+   * - `{ node, created:false }` when an existing key is updated
+   * - `{ node, created:true }` when a new node is inserted
+   * - `undefined` only on unexpected internal failure.
+   */
   protected _setKVNode(key: K, nextValue?: V): { node: RedBlackTreeNode<K, V>; created: boolean } | undefined {
     const NIL = this.NIL;
     const comparator = this._comparator;
@@ -595,14 +628,20 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     return { node: newNode, created: true };
   }
 
+  /**
+   * (Internal) Boolean wrapper around `_setKVNode`.
+   *
+   * Includes a map-mode update fast-path:
+   * - If `isMapMode=true` and the key already exists in `_store`, then updating the value does not
+   *   require any tree search/rotation (tree shape depends only on key).
+   * - This path is intentionally limited to `nextValue !== undefined` to preserve existing
+   *   semantics for `undefined` values.
+   */
   protected _setKV(key: K, nextValue?: V): boolean {
-    // mapMode update fast-path:
-    // If the key already exists, updating the value doesn't require any tree work.
-    // (Tree structure depends only on key.)
     if (this._isMapMode && nextValue !== undefined) {
       const store = this._store;
-      if (store.has(key )) {
-        store.set(key , nextValue );
+      if (store.has(key)) {
+        store.set(key, nextValue);
         return true;
       }
     }
@@ -614,6 +653,17 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * Insert/update using a hint node to speed up near-by insertions.
    * Falls back to normal set on mismatch.
    * @returns The affected node (inserted or updated), or undefined on failure.
+   */
+  /**
+   * Insert/update using a hint node to speed up nearby insertions.
+   *
+   * This is similar in spirit to `js-sdsl`'s iterator-hint insertion: the caller provides a node
+   * close to the expected insertion position (often the previously returned node in a loop).
+   *
+   * When the hint is a good fit (sorted / nearly-sorted insertion), this can avoid most of the
+   * normal root-to-leaf search and reduce constant factors.
+   *
+   * When the hint does not match (random workloads), this will fall back to the normal set path.
    */
   setWithHintNode(key: K, value: V, hint?: RedBlackTreeNode<K, V>): RedBlackTreeNode<K, V> | undefined {
     if (!hint || !this.isRealNode(hint)) {
