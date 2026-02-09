@@ -375,6 +375,10 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * @returns void
    */
 
+  /**
+   * Remove all nodes and clear internal caches.
+   * @remarks Time O(n) average, Space O(1)
+   */
   override clear() {
     super.clear();
     this._root = this.NIL;
@@ -388,7 +392,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * (Internal) Find a node by key using a tight BST walk (no allocations).
    *
    * NOTE: This uses `header.parent` as the canonical root pointer.
-   * @remarks Time O(log n), Space O(1)
+   * @remarks Time O(log n) average, Space O(1)
    */
   protected _findNodeByKey(key: K): RedBlackTreeNode<K, V> | undefined {
     const NIL = this.NIL;
@@ -406,7 +410,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
   /**
    * (Internal) In-order predecessor of a node in a BST.
-   * @remarks Time O(H)
+   * @remarks Time O(log n) average, Space O(1)
    */
   protected _predecessorOf(node: RedBlackTreeNode<K, V>): RedBlackTreeNode<K, V> | undefined {
     const NIL = this.NIL;
@@ -426,7 +430,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
   /**
    * (Internal) In-order successor of a node in a BST.
-   * @remarks Time O(H)
+   * @remarks Time O(log n) average, Space O(1)
    */
   protected _successorOf(node: RedBlackTreeNode<K, V>): RedBlackTreeNode<K, V> | undefined {
     const NIL = this.NIL;
@@ -454,6 +458,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * - mark the new node RED, then run insert fix-up
    *
    * Precondition: the chosen slot (parent.left/parent.right) is empty (NIL/null/undefined).
+   * @remarks Time O(log n) average, Space O(1)
    */
   protected _attachNewNode(parent: RedBlackTreeNode<K, V>, side: 'left' | 'right', node: RedBlackTreeNode<K, V>): void {
     const NIL = this.NIL;
@@ -468,8 +473,9 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
   }
 
   /**
-   * (Internal) a single source of truth for min/max is header.left/right.
+   * (Internal) a single source of truth for min/max is header._left/_right.
    * Keep legacy _minNode/_maxNode mirrored for compatibility.
+   * @remarks Time O(1), Space O(1)
    */
   protected _setMinCache(node: RedBlackTreeNode<K, V> | undefined): void {
     this._minNode = node;
@@ -653,6 +659,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * Insert/update using a hint node to speed up near-by insertions.
    * Falls back to normal set on mismatch.
    * @returns The affected node (inserted or updated), or undefined on failure.
+   * @remarks Time O(log n) average, Space O(1)
    */
   /**
    * Insert/update using a hint node to speed up nearby insertions.
@@ -775,6 +782,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
   /**
    * Boolean wrapper for setWithHintNode.
+   * @remarks Time O(log n) average, Space O(1)
    */
   setWithHint(key: K, value: V, hint?: RedBlackTreeNode<K, V>): boolean {
     return this.setWithHintNode(key, value, hint) !== undefined;
