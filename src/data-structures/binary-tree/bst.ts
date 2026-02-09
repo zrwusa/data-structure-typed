@@ -556,7 +556,44 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     startNode: BSTNOptKeyOrNode<K, BSTNode<K, V>> = this._root,
     iterationType: IterationType = this.iterationType
   ): OptNode<BSTNode<K, V>> {
-    return this.getNodes(keyNodeEntryOrPredicate, true, startNode, iterationType)[0] ?? undefined;
+    // Fast-path: key lookup should not allocate arrays or build predicate closures.
+    // (This is a hot path for get/has in Node Mode.)
+    if (keyNodeEntryOrPredicate === null || keyNodeEntryOrPredicate === undefined) return undefined;
+
+    // If a predicate is provided, defer to the full search logic.
+    if (this._isPredicate(keyNodeEntryOrPredicate)) {
+      return this.getNodes(keyNodeEntryOrPredicate, true, startNode, iterationType)[0] ?? undefined;
+    }
+
+    // NOTE: Range<K> is not part of this overload, but callers may still pass it at runtime.
+    // Let search handle it.
+    if (this.isRange(keyNodeEntryOrPredicate as any)) {
+      return this.getNodes(keyNodeEntryOrPredicate as any, true, startNode as any, iterationType)[0] ?? undefined;
+    }
+
+    let targetKey: K | undefined;
+    if (this.isNode(keyNodeEntryOrPredicate)) {
+      targetKey = keyNodeEntryOrPredicate.key;
+    } else if (this.isEntry(keyNodeEntryOrPredicate)) {
+      const k = keyNodeEntryOrPredicate[0];
+      if (k === null || k === undefined) return undefined;
+      targetKey = k;
+    } else {
+      targetKey = keyNodeEntryOrPredicate;
+    }
+
+    const start = this.ensureNode(startNode);
+    if (!start) return undefined;
+
+    let cur: BSTNode<K, V> | null | undefined = start;
+    while (this.isRealNode(cur)) {
+      const cmp = this._comparator(targetKey, cur.key);
+      if (cmp === 0) return cur;
+      // Use internal pointers to avoid getter overhead in hot paths.
+      cur = cmp < 0 ? (cur._left as any) : (cur._right as any);
+    }
+
+    return undefined;
   }
 
   override search(
@@ -619,9 +656,37 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     startNode = this.ensureNode(startNode);
     if (!startNode) return [];
 
-    let predicate: NodePredicate<BSTNode<K, V>>;
+    // Fast-path: unique-key lookup by key/node/entry (O(log N) with minimal overhead).
+    // This avoids building predicate closures and allocating traversal stacks for the most common path
+    // (e.g. get/has by key in Node Mode).
     const isRange = this.isRange(keyNodeEntryOrPredicate);
+    if (!isRange && !this._isPredicate(keyNodeEntryOrPredicate)) {
+      let targetKey: K | undefined;
+      if (this.isNode(keyNodeEntryOrPredicate)) {
+        targetKey = keyNodeEntryOrPredicate.key;
+      } else if (this.isEntry(keyNodeEntryOrPredicate)) {
+        const k = keyNodeEntryOrPredicate[0];
+        if (k !== null && k !== undefined) targetKey = k;
+      } else {
+        targetKey = keyNodeEntryOrPredicate;
+      }
 
+      if (targetKey === undefined) return [];
+
+      let cur: BSTNode<K, V> | null | undefined = startNode;
+      while (this.isRealNode(cur)) {
+        const cmp = this._comparator(targetKey, cur.key);
+        if (cmp === 0) {
+          // Unique keys: at most one match.
+          return [callback(cur)];
+        }
+        // Use internal pointers to avoid getter overhead in hot paths.
+        cur = cmp < 0 ? (cur._left as any) : (cur._right as any);
+      }
+      return [];
+    }
+
+    let predicate: NodePredicate<BSTNode<K, V>>;
     if (isRange) {
       predicate = node => {
         if (!node) return false;
