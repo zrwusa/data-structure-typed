@@ -291,10 +291,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
 
     this._root = this.NIL;
 
-    // Header sentinel (js-sdsl style):
-    // - header.parent -> root
-    // - header.left   -> min
-    // - header.right  -> max
     // Not part of the actual tree; used only as an internal cache hub.
     this._header = new RedBlackTreeNode<K, V>(undefined as K, undefined, 'BLACK');
     this._header.parent = this.NIL;
@@ -310,13 +306,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
   protected override _root: RedBlackTreeNode<K, V> | undefined;
 
   /**
-   * (Internal) Header sentinel (js-sdsl style):
-   * - header.parent -> root
-   * - header.left   -> min
-   * - header.right  -> max
-   */
-  /**
-   * (Internal) Header sentinel (js-sdsl style):
+   * (Internal) Header sentinel:
    * - header.parent -> root
    * - header._left  -> min (or NIL)
    * - header._right -> max (or NIL)
@@ -513,7 +503,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     const NIL = this.NIL;
     const comparator = this._comparator;
 
-    // Min/max fast paths (inspired by js-sdsl):
     // Read via header to avoid undefined checks (header uses NIL when empty).
     const header = this._header;
     const minN = header._left ?? NIL;
@@ -668,7 +657,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
   /**
    * Insert/update using a hint node to speed up nearby insertions.
    *
-   * This is similar in spirit to `js-sdsl`'s iterator-hint insertion: the caller provides a node
    * close to the expected insertion position (often the previously returned node in a loop).
    *
    * When the hint is a good fit (sorted / nearly-sorted insertion), this can avoid most of the
