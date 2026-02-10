@@ -656,11 +656,12 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     startNode = this.ensureNode(startNode);
     if (!startNode) return [];
 
-    // Fast-path: unique-key lookup by key/node/entry (O(log N) with minimal overhead).
-    // This avoids building predicate closures and allocating traversal stacks for the most common path
-    // (e.g. get/has by key in Node Mode).
+    // Fast-path: key lookup (unique keys) using a tight BST walk (no allocations).
+    // This is the hot path for get/has/search by key.
     const isRange = this.isRange(keyNodeEntryOrPredicate);
-    if (!isRange && !this._isPredicate(keyNodeEntryOrPredicate)) {
+    const isPred = !isRange && this._isPredicate(keyNodeEntryOrPredicate);
+
+    if (!isRange && !isPred) {
       let targetKey: K | undefined;
       if (this.isNode(keyNodeEntryOrPredicate)) {
         targetKey = keyNodeEntryOrPredicate.key;
@@ -670,18 +671,16 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       } else {
         targetKey = keyNodeEntryOrPredicate;
       }
-
       if (targetKey === undefined) return [];
 
+      const cmpFn = this._comparator;
       let cur: BSTNode<K, V> | null | undefined = startNode;
-      while (this.isRealNode(cur)) {
-        const cmp = this._comparator(targetKey, cur.key);
-        if (cmp === 0) {
-          // Unique keys: at most one match.
-          return [callback(cur)];
-        }
-        // Use internal pointers to avoid getter overhead in hot paths.
-        cur = cmp < 0 ? (cur._left as any) : (cur._right as any);
+
+      // Loop intentionally avoids getters and extra type checks.
+      while (cur) {
+        const c = cmpFn(targetKey, cur.key);
+        if (c === 0) return [callback(cur)];
+        cur = (c < 0 ? cur._left : cur._right) as any;
       }
       return [];
     }
