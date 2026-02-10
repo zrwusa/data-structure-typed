@@ -409,16 +409,6 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
   }
 
   /**
-   * Find a node by key using a tight BST walk (no allocations).
-   * @remarks Time O(log n) average, Space O(1)
-   * @param key - Key to search for.
-   * @returns The matching node, or undefined.
-   */
-  getNodeByKey(key: K): RedBlackTreeNode<K, V> | undefined {
-    return this._findNodeByKey(key);
-  }
-
-  /**
    * (Internal) In-order predecessor of a node in a BST.
    * @remarks Time O(log n) average, Space O(1)
    */
