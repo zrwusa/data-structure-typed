@@ -567,8 +567,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
 
     // NOTE: Range<K> is not part of this overload, but callers may still pass it at runtime.
     // Let search handle it.
-    if (this.isRange(keyNodeEntryOrPredicate as any)) {
-      return this.getNodes(keyNodeEntryOrPredicate as any, true, startNode as any, iterationType)[0] ?? undefined;
+    if (keyNodeEntryOrPredicate instanceof Range) {
+      return this.getNodes(keyNodeEntryOrPredicate, true, startNode as any, iterationType)[0] ?? undefined;
     }
 
     let targetKey: K | undefined;
@@ -585,13 +585,13 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     const start = this.ensureNode(startNode);
     if (!start) return undefined;
 
-    const NIL = (this as any)._NIL as BSTNode<K, V> | null | undefined;
+    const NIL = this._NIL as unknown as BSTNode<K, V> | null | undefined;
     let cur: BSTNode<K, V> | null | undefined = start;
     const cmpFn = this._comparator;
     while (cur && cur !== NIL) {
       const c = cmpFn(targetKey, cur.key);
       if (c === 0) return cur;
-      cur = (c < 0 ? cur._left : cur._right) as any;
+      cur = c < 0 ? cur._left : cur._right;
     }
 
     return undefined;
@@ -675,7 +675,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       }
       if (targetKey === undefined) return [];
 
-      const NIL = (this as any)._NIL as BSTNode<K, V> | null | undefined;
+      const NIL = this._NIL as unknown as BSTNode<K, V> | null | undefined;
       const cmpFn = this._comparator;
       let cur: BSTNode<K, V> | null | undefined = startNode;
 
@@ -683,7 +683,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       while (cur && cur !== NIL) {
         const c = cmpFn(targetKey, cur.key);
         if (c === 0) return [callback(cur)];
-        cur = (c < 0 ? cur._left : cur._right) as any;
+        cur = c < 0 ? cur._left : cur._right;
       }
       return [];
     }
@@ -2085,7 +2085,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       if (succ.left) (succ.left as BSTNode<K, V>).parent = succ;
     }
 
-    this._size = Math.max(0, ((this as any)._size ?? 0) - 1);
+    this._size = Math.max(0, this._size - 1);
     return true;
   }
 }
