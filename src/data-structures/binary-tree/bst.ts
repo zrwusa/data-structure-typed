@@ -585,15 +585,36 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     const start = this.ensureNode(startNode);
     if (!start) return undefined;
 
+    const NIL = (this as any)._NIL as BSTNode<K, V> | null | undefined;
     let cur: BSTNode<K, V> | null | undefined = start;
-    while (this.isRealNode(cur)) {
-      const cmp = this._comparator(targetKey, cur.key);
-      if (cmp === 0) return cur;
-      // Use internal pointers to avoid getter overhead in hot paths.
-      cur = cmp < 0 ? (cur._left as any) : (cur._right as any);
+    const cmpFn = this._comparator;
+    while (cur && cur !== NIL) {
+      const c = cmpFn(targetKey, cur.key);
+      if (c === 0) return cur;
+      cur = (c < 0 ? cur._left : cur._right) as any;
     }
 
     return undefined;
+  }
+
+  /**
+   * Gets the value associated with a key.
+   * @remarks Time O(log N) average for BST lookup. Time O(1) if in Map mode.
+   */
+  override get(
+    keyNodeEntryOrPredicate: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
+    startNode: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined = this._root,
+    iterationType: IterationType = this.iterationType
+  ): V | undefined {
+    if (this._isMapMode) {
+      const key = this._extractKey(keyNodeEntryOrPredicate);
+      if (key === null || key === undefined) return;
+      return this._store.get(key);
+    }
+
+    // Key-only fast-path: avoid allocating arrays or running the generic search framework.
+    const node = this.getNode(keyNodeEntryOrPredicate as any, startNode as any, iterationType);
+    return node?.value;
   }
 
   override search(
@@ -673,11 +694,12 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       }
       if (targetKey === undefined) return [];
 
+      const NIL = (this as any)._NIL as BSTNode<K, V> | null | undefined;
       const cmpFn = this._comparator;
       let cur: BSTNode<K, V> | null | undefined = startNode;
 
       // Loop intentionally avoids getters and extra type checks.
-      while (cur) {
+      while (cur && cur !== NIL) {
         const c = cmpFn(targetKey, cur.key);
         if (c === 0) return [callback(cur)];
         cur = (c < 0 ? cur._left : cur._right) as any;
