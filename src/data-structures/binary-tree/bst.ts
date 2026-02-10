@@ -568,7 +568,14 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     // NOTE: Range<K> is not part of this overload, but callers may still pass it at runtime.
     // Let search handle it.
     if (keyNodeEntryOrPredicate instanceof Range) {
-      return this.getNodes(keyNodeEntryOrPredicate, true, startNode as any, iterationType)[0] ?? undefined;
+      return (
+        this.getNodes(
+          keyNodeEntryOrPredicate,
+          true,
+          startNode as K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
+          iterationType
+        )[0] ?? undefined
+      );
     }
 
     let targetKey: K | undefined;
