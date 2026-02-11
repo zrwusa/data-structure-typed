@@ -1,4 +1,4 @@
-import { BST } from '../../../../src';
+import { BST, Range } from '../../../../src';
 
 /**
  * Coverage-focused tests for overload dispatch + iterationType string handling.
@@ -66,5 +66,29 @@ describe('BST coverage: overloads & bound helpers', () => {
 
     const lower = bst.lower(pred, node => node.key);
     expect(lower === 11 || lower === 12).toBe(true);
+  });
+
+  it('getNode covers predicate branch + runtime Range branch + entry edge cases', () => {
+    // predicate branch (delegates to getNodes)
+    const pred = (node: any) => node.key === 12;
+    expect(bst.getNode(pred)?.key).toBe(12);
+
+    // runtime Range branch (Range is not in overload but allowed at runtime)
+    const range = new Range(6, 12);
+    const inRange = bst.getNode(range as any);
+    expect(inRange?.key).toBe(6);
+
+    // entry branch: null/undefined key should return undefined
+    expect(bst.getNode([null as any, 'x'] as any)).toBeUndefined();
+    expect(bst.getNode([undefined as any, 'x'] as any)).toBeUndefined();
+  });
+
+  it('search covers entry-with-null-key early return and Range search callback path', () => {
+    // entry with null key => should yield [] (targetKey stays undefined)
+    expect(bst.search([null as any, 'x'] as any)).toEqual([]);
+
+    // Range search should exercise isRange predicate path + callback
+    const out = bst.search(new Range(6, 12), false, node => node.key, undefined, 'ITERATIVE');
+    expect(out).toEqual([6, 7, 8, 10, 11, 12]);
   });
 });
