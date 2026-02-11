@@ -217,6 +217,21 @@ describe('TreeCounter additional branch coverage', () => {
     expect(out).toBeDefined();
   });
 
+  it('_swapProperties in mapMode=false executes value-copy branches (covers !this._isMapMode true arms)', () => {
+    const t = new TreeCounter<number, number>([], { isMapMode: false } as any);
+    const a: any = t.createNode(1, 10);
+    const b: any = t.createNode(2, 20);
+    (t as any)._setRoot(a);
+    a.right = b;
+    b.parent = a;
+
+    const out = (t as any)._swapProperties(a, b);
+    expect(out).toBeDefined();
+    // After swap, values should have been copied.
+    expect(a.value).toBe(20);
+    expect(b.value).toBe(10);
+  });
+
   it('_replaceNode increments newNode.count before delegating', () => {
     const t = new TreeCounter<number, number>([], { isMapMode: false });
     const oldN = new TreeCounterNode(1, 1, 2, 'BLACK');
