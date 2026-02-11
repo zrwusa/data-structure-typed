@@ -52,6 +52,12 @@ function validateRedBlackTree<K, V>(tree: RedBlackTree<K, V>) {
 }
 
 describe('RedBlackTree coverage push (keep @example tests intact)', () => {
+  const expectContentsMatch = (tree: RedBlackTree<number, number>, present: Set<number>) => {
+    for (let k = 0; k < 500; k++) {
+      expect(tree.has(k)).toBe(present.has(k));
+    }
+  };
+
   it('random mixed insert/delete sequences keep invariants (exercise fixups/rotations)', () => {
     // Deterministic pseudo-random generator (LCG) for reproducibility
     let seed = 123456789;
@@ -87,12 +93,42 @@ describe('RedBlackTree coverage push (keep @example tests intact)', () => {
       }
 
       // Spot-check final contents agree with Set
-      for (let k = 0; k < 500; k++) {
-        const has = tree.has(k);
-        expect(has).toBe(present.has(k));
-      }
+      expectContentsMatch(tree, present);
       validateRedBlackTree(tree);
     }
+  });
+
+  it('targeted delete sequences (both sides) keep invariants and contents', () => {
+    const run = (keys: number[], deletes: number[]) => {
+      const t = new RedBlackTree<number, number>();
+      const present = new Set<number>();
+      for (const k of keys) {
+        t.set(k, k);
+        present.add(k);
+      }
+      validateRedBlackTree(t);
+      expectContentsMatch(t, present);
+
+      for (const d of deletes) {
+        t.delete(d);
+        present.delete(d);
+        validateRedBlackTree(t);
+        expectContentsMatch(t, present);
+      }
+
+      // Iteration yields sorted keys
+      const remaining = [...t].map(([k]) => k);
+      const sorted = [...remaining].sort((a, b) => a - b);
+      expect(remaining).toEqual(sorted);
+    };
+
+    // A fairly dense keyset; deletes include leaves, internal nodes, and root-ish nodes.
+    const keysA = [20, 10, 30, 5, 15, 25, 40, 1, 7, 12, 17, 22, 27, 35, 50, 6, 8, 11, 13, 16, 18];
+    run(keysA, [1, 7, 8, 10, 12, 15, 16, 17, 20, 22, 25]);
+
+    // Mirror-ish construction (different insertion order), tends to hit opposite-side fixups.
+    const keysB = [30, 20, 40, 10, 25, 35, 50, 5, 15, 22, 27, 33, 37, 45, 55, 1, 7, 12, 17];
+    run(keysB, [55, 50, 45, 40, 37, 35, 33, 30, 27, 25, 22]);
   });
 
   it('deletes exercise mirror fixup sides (left/right) with deterministic shape', () => {
