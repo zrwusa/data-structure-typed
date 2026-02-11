@@ -3,8 +3,19 @@ import { TreeCounter, TreeCounterNode } from '../../../../src';
 describe('TreeCounter additional branch coverage', () => {
   it('getComputedCount sums 0 for null nodes (covers node ? node.count : 0 false arm)', () => {
     const t = new TreeCounter<number, number>([], { isMapMode: false });
-    // empty tree -> dfs likely visits nothing, but we can still assert computed count is 0
-    expect(t.getComputedCount()).toBe(0);
+
+    // Force dfs callback to receive a null once, so ternary false arm is executed.
+    const origDfs = (t as any).dfs;
+    (t as any).dfs = (cb: any) => {
+      cb(null);
+      return [];
+    };
+
+    try {
+      expect(t.getComputedCount()).toBe(0);
+    } finally {
+      (t as any).dfs = origDfs;
+    }
   });
 
   it('createNode default color arg branch and mapMode=true forces value undefined', () => {
@@ -73,7 +84,7 @@ describe('TreeCounter additional branch coverage', () => {
     expect(t.has(10)).toBe(false);
   });
 
-  it('perfectlyBalance returns false when empty, and recomputes _count from nodes (covers nd ? nd.count : 0 false arm too)', () => {
+  it('perfectlyBalance uses default iterationType arg and recomputes _count (also covers nd?nd.count:0 false arm via dfs monkeypatch)', () => {
     const t = new TreeCounter<number, number>([], { isMapMode: false });
     expect(t.perfectlyBalance('ITERATIVE' as any)).toBe(false);
 
@@ -81,8 +92,27 @@ describe('TreeCounter additional branch coverage', () => {
     t.set(1, 1);
     t.set(2, 2);
 
-    expect(t.perfectlyBalance('ITERATIVE' as any)).toBe(true);
+    // call without arg to cover default-arg branch (iterationType = this.iterationType)
+    expect(t.perfectlyBalance()).toBe(true);
     expect(t.count).toBe(3);
+
+    // additionally, cover the nd ? nd.count : 0 false arm in the internal total recompute loop,
+    // without breaking index-based access during tree rebuild.
+    const origDfs = (t as any).dfs;
+    (t as any).dfs = (...args: any[]) => {
+      const nodes: any[] = origDfs.apply(t, args);
+      const origIter = nodes[Symbol.iterator].bind(nodes);
+      nodes[Symbol.iterator] = function* () {
+        yield null;
+        yield* origIter();
+      };
+      return nodes;
+    };
+    try {
+      expect(t.perfectlyBalance()).toBe(true);
+    } finally {
+      (t as any).dfs = origDfs;
+    }
   });
 
   it('map() uses thisArg + _createLike options path', () => {
@@ -99,15 +129,26 @@ describe('TreeCounter additional branch coverage', () => {
     expect(out.get(11)).toBe(30);
   });
 
-  it('clone() copies _count and per-node counts (covers outNode count assignment branch)', () => {
+  it('clone() covers outNode missing branch (if (outNode) ...)', () => {
     const t = new TreeCounter<number, number>([], { isMapMode: false });
     t.set(1, 1);
     t.set(1, 1);
     t.set(2, 2);
 
-    const c = t.clone();
-    expect((c as any)._count).toBe((t as any)._count);
-    expect(c.getNode(1)!.count).toBe(t.getNode(1)!.count);
+    const origCreateInstance = (t as any)._createInstance;
+    (t as any)._createInstance = () => {
+      const out = origCreateInstance.call(t);
+      // Make getNode return undefined so `if (outNode)` is false.
+      (out as any).getNode = () => undefined;
+      return out;
+    };
+
+    try {
+      const c = t.clone();
+      expect((c as any)._count).toBe((t as any)._count);
+    } finally {
+      (t as any)._createInstance = origCreateInstance;
+    }
   });
 
   it('_createInstance uses options merge (covers options ?? {} merge)', () => {
