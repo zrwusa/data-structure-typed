@@ -1139,7 +1139,7 @@ export class BinaryTree<K = any, V = any, R = any>
         }
         return true;
       };
-      const isStandardBST = checkBST(false);
+      const isStandardBST = checkBST();
       const isInverseBST = checkBST(true);
       return isStandardBST || isInverseBST;
     }

@@ -1,16 +1,27 @@
 import { BinaryTree } from '../../../../src';
 
 describe('BinaryTree remaining branch coverage', () => {
-  it('set() BFS loop hits `if (!cur) continue` when queue contains undefined', () => {
+  it('set() BFS loop hits `if (!cur) continue` by monkeypatching Queue.shift to return undefined once', () => {
     const t = new BinaryTree<number, number>([], { isMapMode: false });
     t.set(1, 1);
 
-    // Corrupt root.left so the BFS loop enqueues an explicit undefined.
-    const root: any = (t as any)._root;
-    root.left = undefined;
+    // set() constructs a Queue internally; easiest deterministic way is to patch Queue.prototype.shift.
+    const { Queue } = require('../../../../src');
+    const orig = Queue.prototype.shift;
+    let once = true;
+    Queue.prototype.shift = function () {
+      if (once) {
+        once = false;
+        return undefined;
+      }
+      return orig.apply(this);
+    };
 
-    // Next insertion will push `cur.left` (undefined) into the queue, hitting the `if (!cur) continue` branch.
-    expect(t.set(2, 2)).toBe(true);
+    try {
+      expect(t.set(2, 2)).toBe(true);
+    } finally {
+      Queue.prototype.shift = orig;
+    }
   });
 
   it('isBST(ITERATIVE) executes checkBST() default-arg branch (checkMax default false)', () => {
@@ -40,6 +51,46 @@ describe('BinaryTree remaining branch coverage', () => {
     t.set(2, 2);
     const out = (t as any)._dfs((n: any) => n?.key, 'IN', true, t.root, 'ITERATIVE', false);
     expect(out.length).toBe(1);
+  });
+
+  it('_dfs(RECURSIVE) pattern PRE hits onlyOne return (covers line 1998)', () => {
+    const t = new BinaryTree<number, number>([], { isMapMode: false });
+    t.set(1, 1);
+    t.set(2, 2);
+    const out = (t as any)._dfs((n: any) => n?.key, 'PRE', true, t.root, 'RECURSIVE', false);
+    expect(out.length).toBe(1);
+  });
+
+  it('_dfs(RECURSIVE) pattern POST hits onlyOne return (covers line 2008)', () => {
+    const t = new BinaryTree<number, number>([], { isMapMode: false });
+    t.set(1, 1);
+    t.set(2, 2);
+    const out = (t as any)._dfs((n: any) => n?.key, 'POST', true, t.root, 'RECURSIVE', false);
+    // POST visits children before root, so we may already have processed some nodes before early return.
+    expect(out.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('_dfs(ITERATIVE) can hit `if (cur === undefined) continue` by patching Array.prototype.pop', () => {
+    const t = new BinaryTree<number, number>([], { isMapMode: false });
+    t.set(1, 1);
+
+    const origPop = Array.prototype.pop;
+    let once = true;
+    Array.prototype.pop = function () {
+      if (once) {
+        once = false;
+        return undefined;
+      }
+      // @ts-ignore
+      return origPop.apply(this);
+    };
+
+    try {
+      const out = (t as any)._dfs((n: any) => n?.key, 'IN', false, t.root, 'ITERATIVE', false);
+      expect(out.length).toBeGreaterThan(0);
+    } finally {
+      Array.prototype.pop = origPop;
+    }
   });
 
   it('_dfs startNode ensureNode fails returns []', () => {
@@ -86,6 +137,34 @@ describe('BinaryTree remaining branch coverage', () => {
     ]);
   });
 
+  it('_getIterator recursive branch yields node.value when mapMode=false (covers else yield)', () => {
+    const t = new BinaryTree<number, number>([], { isMapMode: false });
+    const root: any = t.createNode(2, 200);
+    const left: any = t.createNode(1, 100);
+    const right: any = t.createNode(3, 300);
+    root.left = left;
+    root.right = right;
+    left.parent = root;
+    right.parent = root;
+    (t as any)._setRoot(root);
+
+    (t as any).iterationType = 'RECURSIVE';
+
+    const got: any[] = [];
+    for (const kv of t) got.push(kv);
+    expect(got).toEqual([
+      [1, 100],
+      [2, 200],
+      [3, 300]
+    ]);
+  });
+
+  it('_createLike default-arg path can be called with no args', () => {
+    const t = new BinaryTree<number, number>([], { isMapMode: false });
+    const like = (t as any)._createLike();
+    expect(like.size).toBe(0);
+  });
+
   it('_displayAux: node is undefined and isShowUndefined=true uses "U" leaf rendering (covers U branch)', () => {
     const t = new BinaryTree<number, number>([], { isMapMode: false });
     const layout = (t as any)._displayAux(undefined, { isShowNull: true, isShowUndefined: true, isShowRedBlackNIL: true });
@@ -96,6 +175,12 @@ describe('BinaryTree remaining branch coverage', () => {
     const t = new BinaryTree<number, number>([], { isMapMode: false });
     const layout = (t as any)._displayAux(null, { isShowNull: true, isShowUndefined: true, isShowRedBlackNIL: true });
     expect(layout[0][0]).toContain('N');
+  });
+
+  it('_displayAux: node is null and isShowNull=false returns empty layout', () => {
+    const t = new BinaryTree<number, number>([], { isMapMode: false });
+    const layout = (t as any)._displayAux(null, { isShowNull: false, isShowUndefined: true, isShowRedBlackNIL: true });
+    expect(layout[0][0]).toBe('─');
   });
 
   it('_displayAux: isNIL(node) shows "S" when isShowRedBlackNIL=true', () => {
@@ -116,10 +201,12 @@ describe('BinaryTree remaining branch coverage', () => {
     expect(b.value).toBe(10);
   });
 
-  it('_ensurePredicate for nullish input returns a predicate (covers nullish early return)', () => {
+  it('_ensurePredicate for nullish input returns a predicate (covers nullish early return + ternary branch)', () => {
     const t = new BinaryTree<number, number>([], { isMapMode: false });
     const p = (t as any)._ensurePredicate(undefined);
     expect(p(null)).toBe(false);
+    // also call with a truthy node to cover the other arm of (node ? false : false)
+    expect(p(t.createNode(1, 1) as any)).toBe(false);
   });
 
   it('_ensurePredicate for entry and for key returns false on null node (covers `if (!node) return false`)', () => {
