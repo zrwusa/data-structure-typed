@@ -76,4 +76,71 @@ describe('AVLTreeCounter remaining reachable branch coverage (batch 3)', () => {
     expect(n1.value).toBe('d');
     expect(n1.count).toBe(2);
   });
+
+  it('delete() hits `curr.left ? getRightMost(...) : undefined` false-arm via left getter side-effect', () => {
+    const t = new AVLTreeCounter<number, number>();
+    t.setMany([
+      [2, 2],
+      [1, 1],
+      [3, 3]
+    ]);
+
+    const node2 = (t as any).getNode(2);
+    const realLeft = node2.left;
+
+    let reads = 0;
+    Object.defineProperty(node2, 'left', {
+      configurable: true,
+      get() {
+        reads++;
+        // First read (in `if (!curr.left)`) must be truthy to reach the else-branch.
+        if (reads === 1) return realLeft;
+        // Second read (in ternary) returns undefined to hit the false-arm.
+        return undefined;
+      }
+    });
+
+    try {
+      expect(() => t.delete(2)).not.toThrow();
+    } finally {
+      // Restore a normal data property to avoid polluting later tests.
+      Object.defineProperty(node2, 'left', {
+        configurable: true,
+        writable: true,
+        value: realLeft
+      });
+    }
+  });
+
+  it('perfectlyBalance hits `nd ? nd.count : 0` false-arm via proxy iterator yielding undefined', () => {
+    const t = new AVLTreeCounter<number, number>();
+    t.setMany([
+      [2, 2],
+      [1, 1],
+      [3, 3]
+    ]);
+
+    const origDfs = (t as any).dfs;
+    (t as any).dfs = (...args: any[]) => {
+      const nodes: any[] = origDfs.apply(t, args);
+      // Proxy: keep indexing intact, but iteration yields an initial undefined.
+      return new Proxy(nodes, {
+        get(target, prop, receiver) {
+          if (prop === Symbol.iterator) {
+            return function* () {
+              yield undefined;
+              yield* target;
+            };
+          }
+          return Reflect.get(target, prop, receiver);
+        }
+      });
+    };
+
+    try {
+      expect(t.perfectlyBalance()).toBe(true);
+    } finally {
+      (t as any).dfs = origDfs;
+    }
+  });
 });
