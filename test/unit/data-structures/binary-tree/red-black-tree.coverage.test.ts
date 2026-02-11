@@ -1,5 +1,6 @@
 import { RedBlackTree, RedBlackTreeNode } from '../../../../src';
 
+
 function validateRedBlackTree<K, V>(tree: RedBlackTree<K, V>) {
   const NIL = tree.NIL as unknown as RedBlackTreeNode<K, V>;
   const root = tree.root as unknown as RedBlackTreeNode<K, V> | undefined;
@@ -52,6 +53,58 @@ function validateRedBlackTree<K, V>(tree: RedBlackTree<K, V>) {
 }
 
 describe('RedBlackTree coverage push (keep @example tests intact)', () => {
+  it('RedBlackTreeNode.familyPosition covers ROOT/LEFT/RIGHT/ISOLATED cases', () => {
+    const isolated = new RedBlackTreeNode<number, number>(1);
+    expect(isolated.familyPosition).toBe('ISOLATED');
+
+    // Root without parent but with a child
+    const root = new RedBlackTreeNode<number, number>(10);
+    const left = new RedBlackTreeNode<number, number>(5);
+    root.left = left;
+    left.parent = root;
+    expect(root.familyPosition).toBe('ROOT');
+
+    // Left child leaf
+    expect(left.familyPosition).toBe('LEFT');
+
+    // Left child that itself has a child -> ROOT_LEFT
+    left.left = new RedBlackTreeNode<number, number>(2);
+    left.left.parent = left;
+    expect(left.familyPosition).toBe('ROOT_LEFT');
+
+    // Right child leaf
+    const right = new RedBlackTreeNode<number, number>(15);
+    root.right = right;
+    right.parent = root;
+    expect(right.familyPosition).toBe('RIGHT');
+
+    // Right child with its own child -> ROOT_RIGHT
+    right.right = new RedBlackTreeNode<number, number>(20);
+    right.right.parent = right;
+    expect(right.familyPosition).toBe('ROOT_RIGHT');
+  });
+
+  it('clear() resets root/header caches and keeps tree usable', () => {
+    const t = new RedBlackTree<number, number>();
+    t.set(2, 2);
+    t.set(1, 1);
+    t.set(3, 3);
+
+    expect(t.size).toBe(3);
+    expect(t.get(2)).toBe(2);
+
+    t.clear();
+
+    expect(t.size).toBe(0);
+    // Internal root is reset to NIL.
+    expect(t.root).toBe(t.NIL);
+    expect(t.get(2)).toBe(undefined);
+
+    // Can insert again after clear
+    t.set(4, 4);
+    expect(t.size).toBe(1);
+    expect(t.get(4)).toBe(4);
+  });
   const expectContentsMatch = (tree: RedBlackTree<number, number>, present: Set<number>) => {
     for (let k = 0; k < 500; k++) {
       expect(tree.has(k)).toBe(present.has(k));
