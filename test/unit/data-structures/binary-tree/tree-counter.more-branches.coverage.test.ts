@@ -41,6 +41,18 @@ describe('TreeCounter additional branch coverage', () => {
     expect(t.delete((n: any) => n.key === 999)).toEqual([]);
   });
 
+  it('delete(realNode) uses the isRealNode(keyNodeOrEntry) ? keyNodeOrEntry : getNode(...) true arm', () => {
+    const t = new TreeCounter<number, number>([], { isMapMode: false });
+    t.set(10, 10);
+    t.set(5, 5);
+    t.set(15, 15);
+
+    const n = t.getNode(5)!;
+    const res = t.delete(n as any, true);
+    expect(res.length).toBe(1);
+    expect(t.has(5)).toBe(false);
+  });
+
   it('delete(decrement count) path when node.count>1 and ignoreCount=false', () => {
     const t = new TreeCounter<number, number>([], { isMapMode: false });
     t.set(1, 1);
@@ -129,11 +141,23 @@ describe('TreeCounter additional branch coverage', () => {
     expect(out.get(11)).toBe(30);
   });
 
-  it('clone() covers outNode missing branch (if (outNode) ...)', () => {
+  it('clone() covers both `if (!node) continue` and outNode missing branch', () => {
     const t = new TreeCounter<number, number>([], { isMapMode: false });
     t.set(1, 1);
     t.set(1, 1);
     t.set(2, 2);
+
+    // Force dfs() used by clone() to yield a null once to hit `if (!node) continue`.
+    const origDfs = (t as any).dfs;
+    (t as any).dfs = (...args: any[]) => {
+      const nodes: any[] = origDfs.apply(t, args);
+      const origIter = nodes[Symbol.iterator].bind(nodes);
+      nodes[Symbol.iterator] = function* () {
+        yield null;
+        yield* origIter();
+      };
+      return nodes;
+    };
 
     const origCreateInstance = (t as any)._createInstance;
     (t as any)._createInstance = () => {
@@ -148,6 +172,7 @@ describe('TreeCounter additional branch coverage', () => {
       expect((c as any)._count).toBe((t as any)._count);
     } finally {
       (t as any)._createInstance = origCreateInstance;
+      (t as any).dfs = origDfs;
     }
   });
 
@@ -155,6 +180,12 @@ describe('TreeCounter additional branch coverage', () => {
     const t = new TreeCounter<number, number>([], { isMapMode: false } as any);
     const inst = (t as any)._createInstance({ iterationType: 'RECURSIVE' });
     expect(inst).toBeDefined();
+  });
+
+  it('_createLike default-arg path can be called with no args', () => {
+    const t = new TreeCounter<number, number>([], { isMapMode: false } as any);
+    const like = (t as any)._createLike();
+    expect(like).toBeDefined();
   });
 
   it('_keyValueNodeOrEntryToNodeAndValue entry null key returns [undefined, undefined]', () => {
@@ -166,6 +197,24 @@ describe('TreeCounter additional branch coverage', () => {
   it('_swapProperties returns undefined when ensureNode fails', () => {
     const t = new TreeCounter<number, number>([], { isMapMode: false });
     expect((t as any)._swapProperties(null, null)).toBeUndefined();
+
+    // src ok, dest missing
+    t.set(1, 1);
+    const src = t.getNode(1)!;
+    expect((t as any)._swapProperties(src, 9999)).toBeUndefined();
+  });
+
+  it('_swapProperties in mapMode=true skips value-copy branches (covers !this._isMapMode false arms)', () => {
+    const t = new TreeCounter<number, number>([], { isMapMode: true } as any);
+    const a: any = t.createNode(1, 10);
+    const b: any = t.createNode(2, 20);
+    // attach as a tiny tree so ensureNode works
+    (t as any)._setRoot(a);
+    a.right = b;
+    b.parent = a;
+
+    const out = (t as any)._swapProperties(a, b);
+    expect(out).toBeDefined();
   });
 
   it('_replaceNode increments newNode.count before delegating', () => {
