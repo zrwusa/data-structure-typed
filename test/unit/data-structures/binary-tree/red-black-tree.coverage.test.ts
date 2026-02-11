@@ -105,6 +105,34 @@ describe('RedBlackTree coverage push (keep @example tests intact)', () => {
     expect(t.size).toBe(1);
     expect(t.get(4)).toBe(4);
   });
+
+  it('internal helpers: _findNodeByKey/_predecessorOf/_successorOf', () => {
+    const t = new RedBlackTree<number, number>();
+
+    // Empty tree: find returns undefined
+    expect((t as any)._findNodeByKey(1)).toBe(undefined);
+
+    // Build small tree
+    for (const k of [10, 5, 15, 3, 7, 12, 18]) t.set(k, k);
+
+    const n10 = t.getNode(10)!;
+    const n3 = t.getNode(3)!;
+    const n18 = t.getNode(18)!;
+
+    // _findNodeByKey hits <, >, and === branches
+    expect((t as any)._findNodeByKey(7)?.key).toBe(7);
+    expect((t as any)._findNodeByKey(999)).toBe(undefined);
+
+    // predecessor: node with left subtree
+    expect((t as any)._predecessorOf(n10)?.key).toBe(7);
+    // predecessor: minimum has none
+    expect((t as any)._predecessorOf(n3)).toBe(undefined);
+
+    // successor: node with right subtree
+    expect((t as any)._successorOf(n10)?.key).toBe(12);
+    // successor: maximum has none
+    expect((t as any)._successorOf(n18)).toBe(undefined);
+  });
   const expectContentsMatch = (tree: RedBlackTree<number, number>, present: Set<number>) => {
     for (let k = 0; k < 500; k++) {
       expect(tree.has(k)).toBe(present.has(k));
