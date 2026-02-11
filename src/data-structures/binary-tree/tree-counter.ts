@@ -331,9 +331,10 @@ export class TreeCounter<K = any, V = any, R = any> extends RedBlackTree<K, V, R
           }
         } else {
           if (ignoreCount || nodeToDelete.count <= 1) {
+            // Removing the successor from its original position should NOT change total count;
+            // only removing the target node should affect the aggregate count.
             if (successor.right !== null) {
               this._transplant(successor, successor.right);
-              this._count -= nodeToDelete.count;
             }
           } else {
             nodeToDelete.count--;
@@ -450,7 +451,18 @@ export class TreeCounter<K = any, V = any, R = any> extends RedBlackTree<K, V, R
   override clone(): this {
     const out = this._createInstance<K, V, R>();
     this._clone(out as unknown as any);
+
+    // Preserve aggregate count and per-node counts.
     (out as any)._count = (this as any)._count;
+
+    // NOTE: RedBlackTree._clone copies structure/keys/values, but TreeCounter nodes also track `count`.
+    // Copy counts by key to keep getComputedCount() consistent.
+    for (const node of this.dfs(n => n, 'IN')) {
+      if (!node) continue;
+      const outNode = (out as unknown as TreeCounter<K, V, R>).getNode(node.key) as any;
+      if (outNode) outNode.count = node.count;
+    }
+
     return out as unknown as this;
   }
 
