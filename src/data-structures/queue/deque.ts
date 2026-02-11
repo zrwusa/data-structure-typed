@@ -880,6 +880,16 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
 
   protected _setBucketSize(size: number): void {
     this._bucketSize = size;
+
+    // When adjusting bucketSize on a freshly created empty deque (common in helpers like cut/splice/clone),
+    // we must also realign internal pointers/buckets to avoid `_getBucketAndPosition` producing out-of-range
+    // indices based on the previous bucketSize.
+    if (this._length === 0) {
+      this._buckets = [new Array(this._bucketSize)];
+      this._bucketCount = 1;
+      this._bucketFirst = this._bucketLast = 0;
+      this._firstInBucket = this._lastInBucket = this._bucketSize >> 1;
+    }
   }
 
   /**
