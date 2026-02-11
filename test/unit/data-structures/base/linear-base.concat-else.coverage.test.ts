@@ -36,7 +36,8 @@ class ArrayLinear extends LinearBase<number, R> {
 describe('LinearBase concat else-branch coverage', () => {
   it('concat(item) uses else-branch when item is not a LinearBase', () => {
     const l = new ArrayLinear([1, 2]);
-    const out = l.concat(3 as any);
+    // Use any-call to avoid TS overload narrowing affecting runtime call site.
+    const out = (l as any).concat(3);
     expect(out.toArray()).toEqual([1, 2, 3]);
   });
 });
