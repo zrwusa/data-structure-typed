@@ -1,11 +1,17 @@
 import { DirectedEdge, DirectedGraph } from '../../../../src';
 
 describe('DirectedGraph additional branch coverage', () => {
-  it('static fromKeys/fromEntries build graphs', () => {
+  it('static fromKeys/fromEntries build graphs (and exercises vertexValueInitializer body)', () => {
     const g1 = DirectedGraph.fromKeys(['a', 'b']);
     expect(g1.hasVertex('a')).toBe(true);
     // value initializer behavior may vary; key must exist.
     expect(g1.getVertex('b')?.key).toBe('b');
+
+    // Force execution of the initializer function body (coverage line ~212).
+    const init = (g1 as any).options?.vertexValueInitializer;
+    if (typeof init === 'function') {
+      expect(init('z')).toBe('z');
+    }
 
     const g2 = DirectedGraph.fromEntries([
       ['x', 1],
@@ -34,7 +40,7 @@ describe('DirectedGraph additional branch coverage', () => {
     expect(g.getDestinations(undefined)).toEqual([]);
   });
 
-  it('getEndsOfEdge returns undefined when edge missing, and when vertex lookup fails', () => {
+  it('getEndsOfEdge returns undefined when edge missing, and hits the else-branch when endpoint lookup fails', () => {
     const g = new DirectedGraph<string, number>();
     g.addVertex('a');
     g.addVertex('b');
@@ -42,17 +48,16 @@ describe('DirectedGraph additional branch coverage', () => {
     const eMissing = new DirectedEdge('a', 'b', 1);
     expect(g.getEndsOfEdge(eMissing as any)).toBeUndefined();
 
-    g.addEdge('a', 'b');
-    const e = g.getEdge('a', 'b')!;
-
-    // Corrupt internal vertex map so hasEdge stays true but _getVertex fails.
-    const vm = (g as any)._vertexMap as Map<any, any>;
-    const saved = vm.get('b');
-    vm.delete('b');
+    // Force hasEdge=true but _getVertex failure to hit the `else { return undefined; }` branch (coverage line ~568).
+    const origHasEdge = (g as any).hasEdge;
+    const origGetVertex = (g as any)._getVertex;
+    (g as any).hasEdge = () => true;
+    (g as any)._getVertex = () => undefined;
     try {
-      expect(g.getEndsOfEdge(e as any)).toBeUndefined();
+      expect(g.getEndsOfEdge(new DirectedEdge('a', 'b', 1) as any)).toBeUndefined();
     } finally {
-      vm.set('b', saved);
+      (g as any).hasEdge = origHasEdge;
+      (g as any)._getVertex = origGetVertex;
     }
   });
 
