@@ -309,7 +309,8 @@ describe('TreeCounter operations test1', () => {
     expect(bfsNodes[1].key).toBe(2);
     expect(bfsNodes[2].key).toBe(16);
 
-    expect(treeCounter.count).toBe(6);
+    // Aggregate count should match computed count.
+    expect(treeCounter.count).toBe(8);
     expect(treeCounter.getComputedCount()).toBe(8);
   });
 
@@ -576,7 +577,8 @@ describe('TreeCounter operations test recursively1', () => {
     expect(bfsNodes[1].key).toBe(2);
     expect(bfsNodes[2].key).toBe(16);
 
-    expect(treeCounter.count).toBe(6);
+    // Aggregate count should match computed count.
+    expect(treeCounter.count).toBe(8);
     expect(treeCounter.getComputedCount()).toBe(8);
   });
 
