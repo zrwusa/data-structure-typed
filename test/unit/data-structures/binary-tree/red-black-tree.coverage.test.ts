@@ -150,6 +150,61 @@ describe('RedBlackTree coverage push (keep @example tests intact)', () => {
     expect(t.has(99)).toBe(true);
   });
 
+  it('setWithHintNode covers hint invalid + pred/succ early-fallback branches + set-mode update', () => {
+    // hint invalid => fallback
+    const t = new RedBlackTree<number, string>();
+    t.set(10, 'a');
+    t.set(20, 'b');
+    t.set(5, 'c');
+
+    const other = new RedBlackTree<number, string>();
+    other.set(10, 'x');
+    const foreignHint = other.getNode(10)!;
+
+    // foreign hint should be treated as invalid for this tree; must still insert correctly.
+    const n1 = t.setWithHintNode(1, 'v1', foreignHint as any);
+    expect(n1?.key).toBe(1);
+    expect(t.get(1)).toBe('v1');
+
+    // pred early-fallback: choose hint=10, but key far left so predecessor key >= key
+    const hint10 = t.getNode(10)!;
+    const n0 = t.setWithHintNode(0, 'v0', hint10);
+    expect(n0?.key).toBe(0);
+    expect(t.get(0)).toBe('v0');
+
+    // succ early-fallback: choose hint=10, but key far right so successor key <= key
+    const n30 = t.setWithHintNode(30, 'v30', hint10);
+    expect(n30?.key).toBe(30);
+    expect(t.get(30)).toBe('v30');
+
+    // set-mode update branch (c0===0 but not map-mode)
+    const s = new RedBlackTree<number, string>([], { isMapMode: false });
+    s.set(10, 'a');
+    const h = s.getNode(10)!;
+    expect(h.value).toBe('a');
+    const same = s.setWithHintNode(10, 'b', h);
+    expect(same).toBe(h);
+    expect(s.getNode(10)?.value).toBe('b');
+  });
+
+  it('_setKV map-mode fast-path updates store without changing size', () => {
+    const t = new RedBlackTree<number, string>();
+    t.set(1, 'a');
+    const n1 = t.getNode(1);
+    expect(t.size).toBe(1);
+
+    // nextValue !== undefined and store.has(key) => fast-path
+    t.set(1, 'b');
+    expect(t.size).toBe(1);
+    expect(t.get(1)).toBe('b');
+    expect(t.getNode(1)).toBe(n1);
+
+    // undefined value should still be allowed, but will not take store fast-path
+    t.set(1, undefined as any);
+    expect(t.size).toBe(1);
+    expect(t.has(1)).toBe(true);
+  });
+
   it('internal helpers: _findNodeByKey/_predecessorOf/_successorOf', () => {
     const t = new RedBlackTree<number, number>();
 
