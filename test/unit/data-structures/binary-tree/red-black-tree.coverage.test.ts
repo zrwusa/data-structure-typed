@@ -106,6 +106,50 @@ describe('RedBlackTree coverage push (keep @example tests intact)', () => {
     expect(t.get(4)).toBe(4);
   });
 
+  it('setWithHintNode covers fast-attach + fallback branches (map mode)', () => {
+    // Default is map-mode.
+    const t = new RedBlackTree<number, string>();
+
+    // Seed tree
+    t.set(10, 'a');
+    t.set(20, 'b');
+    t.set(5, 'c');
+
+    const hint10 = t.getNode(10)!;
+
+    // c0 === 0 update branch
+    const same = t.setWithHintNode(10, 'a2', hint10);
+    expect(same).toBe(hint10);
+    expect(t.get(10)).toBe('a2');
+
+    // c0 < 0 and direct attach to hint.left (empty)
+    const n7 = t.setWithHintNode(7, 'v7', hint10);
+    expect(n7?.key).toBe(7);
+    expect(t.get(7)).toBe('v7');
+
+    // c0 > 0 direct attach to hint.right (empty)
+    const n15 = t.setWithHintNode(15, 'v15', hint10);
+    expect(n15?.key).toBe(15);
+    expect(t.get(15)).toBe('v15');
+
+    // Force predecessor/successor branches:
+    // Insert near left side using a "bad" hint so it needs pred logic.
+    const hint20 = t.getNode(20)!;
+    const n17 = t.setWithHintNode(17, 'v17', hint20);
+    expect(n17?.key).toBe(17);
+    expect(t.get(17)).toBe('v17');
+
+    // Insert near right side using a "bad" hint so it needs succ logic.
+    const hint5 = t.getNode(5)!;
+    const n6 = t.setWithHintNode(6, 'v6', hint5);
+    expect(n6?.key).toBe(6);
+    expect(t.get(6)).toBe('v6');
+
+    // value === undefined in map mode should take the _setValue path, not store.set fast path
+    t.setWithHintNode(99, undefined as any, hint20);
+    expect(t.has(99)).toBe(true);
+  });
+
   it('internal helpers: _findNodeByKey/_predecessorOf/_successorOf', () => {
     const t = new RedBlackTree<number, number>();
 
