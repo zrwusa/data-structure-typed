@@ -2,6 +2,10 @@ import { Stack } from '../../../../src';
 
 describe('Stack coverage', () => {
   it('fromArray + basic ops cover isEmpty/peek/pop on empty', () => {
+    // constructor default params branch
+    const empty = new Stack<number>();
+    expect(empty.size).toBe(0);
+
     const s = Stack.fromArray([1, 2, 3]);
     expect([...s]).toEqual([1, 2, 3]);
 
@@ -63,11 +67,27 @@ describe('Stack coverage', () => {
     const mappedSame = s.mapSame(v => v * 2);
     expect([...mappedSame]).toEqual([2, 4, 6]);
 
+    // mapSame with thisArg branch
+    const ctx2 = { mul: 3 };
+    const mappedSame2 = s.mapSame(function (v) {
+      return v * (this as any).mul;
+    }, ctx2);
+    expect([...mappedSame2]).toEqual([3, 6, 9]);
+
+    // map with thisArg branch
     const ctx = { inc: 10 };
     const mapped = s.map(function (v) {
       return v + (this as any).inc;
     }, undefined, ctx);
     expect([...mapped]).toEqual([11, 12, 13]);
+
+    // map with undefined thisArg branch
+    const mapped2 = s.map(v => v + 1);
+    expect([...mapped2]).toEqual([2, 3, 4]);
+
+    // _createLike default elements branch (protected)
+    const like = (s as any)._createLike();
+    expect(like.size).toBe(0);
 
     s.clear();
     expect(s.size).toBe(0);
