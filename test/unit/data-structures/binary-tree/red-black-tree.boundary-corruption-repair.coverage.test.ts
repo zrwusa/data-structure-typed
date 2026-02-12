@@ -2,7 +2,7 @@ import { RedBlackTree } from '../../../../src';
 
 describe('RedBlackTree boundary corruption repair coverage', () => {
   it('min-attach: when header._right is corrupted to NIL, branch mirrors max cache to new min', () => {
-    let tree: RedBlackTree<number, number>;
+    let tree: RedBlackTree<number, number> = new RedBlackTree<number>();
     let active = false;
     let flipped = false;
     const comparator = (a: number, b: number) => {
@@ -34,7 +34,7 @@ describe('RedBlackTree boundary corruption repair coverage', () => {
   });
 
   it('max-attach: when header._left is corrupted to NIL, branch initializes min cache during max attach', () => {
-    let tree: RedBlackTree<number, number>;
+    let tree: RedBlackTree<number, number> = new RedBlackTree<number>();;
     let active = false;
     let flipped = false;
     const comparator = (a: number, b: number) => {
