@@ -1,7 +1,46 @@
-import { LinearBase } from '../../../../src/data-structures/base/linear-base';
+import { ElementCallback, IterableElementBaseOptions, IterableElementBase } from 'src';
+import { LinearBase, LinkedListNode } from '../../../../src/data-structures/base/linear-base';
 
 type R = number;
+
 class ArrayLinear extends LinearBase<number, R> {
+  override setAt(index: number, value: number): boolean {
+    throw new Error('Method not implemented.');
+  }
+  override reverse(): this {
+    throw new Error('Method not implemented.');
+  }
+  override delete(elementOrNode: number | LinkedListNode<number> | undefined): boolean {
+    throw new Error('Method not implemented.');
+  }
+  override deleteAt(pos: number): number | undefined {
+    throw new Error('Method not implemented.');
+  }
+  override addAt(index: number, newElementOrNode: number | LinkedListNode<number>): boolean {
+    throw new Error('Method not implemented.');
+  }
+  protected override _getReverseIterator(...args: any[]): IterableIterator<number> {
+    throw new Error('Method not implemented.');
+  }
+  override isEmpty(): boolean {
+    throw new Error('Method not implemented.');
+  }
+  override clear(): void {
+    throw new Error('Method not implemented.');
+  }
+  override map<EM, RM>(
+    callback: ElementCallback<number, number, EM>,
+    options?: IterableElementBaseOptions<EM, RM> | undefined,
+    thisArg?: unknown
+  ): IterableElementBase<EM, RM> {
+    throw new Error('Method not implemented.');
+  }
+  override mapSame(callback: ElementCallback<number, number, number>, thisArg?: unknown): this {
+    throw new Error('Method not implemented.');
+  }
+  override filter(predicate: ElementCallback<number, number, boolean>, thisArg?: unknown): this {
+    throw new Error('Method not implemented.');
+  }
   protected _data: number[];
   constructor(iter: Iterable<number> = []) {
     super();

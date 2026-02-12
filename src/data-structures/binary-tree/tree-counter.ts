@@ -8,17 +8,17 @@
 
 import type {
   BinaryTreeDeleteResult,
-  BSTNOptKeyOrNode,
+  BSTNOptKeyOrNode, BTNRep,
   EntryCallback,
   FamilyPosition,
-  IterationType,
+  IterationType, NodePredicate,
   OptNode,
   RBTNColor,
   TreeCounterOptions
 } from '../../types';
 import { BSTNode } from './bst';
 import { IBinaryTree } from '../../interfaces';
-import { RedBlackTree } from './red-black-tree';
+import { RedBlackTree, RedBlackTreeNode } from './red-black-tree';
 
 /**
  * RB-tree node with an extra 'count' field; keeps parent/child links.
@@ -274,21 +274,21 @@ export class TreeCounter<K = any, V = any, R = any> extends RedBlackTree<K, V, R
   /**
    * Delete a node (or decrement its count) and rebalance if needed.
    * @remarks Time O(log N), Space O(1)
-   * @param keyNodeOrEntry - Key, node, or [key, value] entry identifying the node.
+   * @param keyNodeEntryRawOrPredicate - Key, node, or [key, value] entry identifying the node.
    * @param [ignoreCount] - If true, remove the node regardless of its count.
    * @returns Array of deletion results including deleted node and a rebalance hint when present.
    */
   override delete(
-    keyNodeOrEntry: K | TreeCounterNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
+    keyNodeEntryRawOrPredicate: BTNRep<K, V, TreeCounterNode<K, V>> | NodePredicate<TreeCounterNode<K, V> | null>,
     ignoreCount = false
   ): BinaryTreeDeleteResult<TreeCounterNode<K, V>>[] {
-    if (keyNodeOrEntry === null) return [];
+    if (keyNodeEntryRawOrPredicate === null) return [];
 
     const results: BinaryTreeDeleteResult<TreeCounterNode<K, V>>[] = [];
 
     let nodeToDelete: OptNode<TreeCounterNode<K, V>>;
-    if (this._isPredicate(keyNodeOrEntry)) nodeToDelete = this.getNode(keyNodeOrEntry);
-    else nodeToDelete = this.isRealNode(keyNodeOrEntry) ? keyNodeOrEntry : this.getNode(keyNodeOrEntry);
+    if (this._isPredicate(keyNodeEntryRawOrPredicate)) nodeToDelete = this.getNode(keyNodeEntryRawOrPredicate);
+    else nodeToDelete = this.isRealNode(keyNodeEntryRawOrPredicate) ? keyNodeEntryRawOrPredicate : this.getNode(keyNodeEntryRawOrPredicate);
     if (!nodeToDelete) {
       return results;
     }

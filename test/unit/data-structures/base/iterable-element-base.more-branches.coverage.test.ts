@@ -1,11 +1,37 @@
+import { ElementCallback, IterableElementBaseOptions } from 'src';
 import { IterableElementBase } from '../../../../src/data-structures/base/iterable-element-base';
 
 class NumIter extends IterableElementBase<number, number> {
+  override isEmpty(): boolean {
+    throw new Error('Method not implemented.');
+  }
+  override clear(): void {
+    throw new Error('Method not implemented.');
+  }
+  override clone(): this {
+    throw new Error('Method not implemented.');
+  }
+  override map<EM, RM>(
+    callback: ElementCallback<number, number, EM>,
+    options?: IterableElementBaseOptions<EM, RM> | undefined,
+    thisArg?: unknown
+  ): IterableElementBase<EM, RM> {
+    throw new Error('Method not implemented.');
+  }
+  override mapSame(callback: ElementCallback<number, number, number>, thisArg?: unknown): this {
+    throw new Error('Method not implemented.');
+  }
+  override filter(predicate: ElementCallback<number, number, boolean>, thisArg?: unknown): this {
+    throw new Error('Method not implemented.');
+  }
+  protected override _getIterator(...args: unknown[]): IterableIterator<number> {
+    throw new Error('Method not implemented.');
+  }
   constructor(private readonly data: number[]) {
     super();
   }
 
-  *[Symbol.iterator](): IterableIterator<number> {
+  override *[Symbol.iterator](): IterableIterator<number> {
     for (const n of this.data) yield n;
   }
 }

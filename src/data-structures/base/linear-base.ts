@@ -75,7 +75,7 @@ export abstract class LinearBase<
    * @param options - `{ maxLen?, ... }` bounds/behavior options.
    * @remarks Time O(1), Space O(1)
    */
-  protected constructor(options?: LinearBaseOptions<E, R>) {
+   constructor(options?: LinearBaseOptions<E, R>) {
     super(options);
     if (options) {
       const { maxLen } = options;
@@ -155,14 +155,6 @@ export abstract class LinearBase<
     }
     return -1;
   }
-
-  /**
-   * Concatenate multiple containers of the same species.
-   * @param items - Other lists to append.
-   * @returns New container with combined elements (`this` type).
-   * @remarks Time O(sum(length)), Space O(sum(length))
-   */
-  concat(...items: this[]): this;
 
   /**
    * Concatenate elements and/or containers.
@@ -412,7 +404,7 @@ export abstract class LinearLinkedBase<
   R = any,
   NODE extends LinkedListNode<E> = LinkedListNode<E>
 > extends LinearBase<E, R, NODE> {
-  protected constructor(options?: LinearBaseOptions<E, R>) {
+   constructor(options?: LinearBaseOptions<E, R>) {
     super(options);
     if (options) {
       const { maxLen } = options;
@@ -478,8 +470,6 @@ export abstract class LinearLinkedBase<
    * @returns New list with combined elements (`this` type).
    * @remarks Time O(sum(length)), Space O(sum(length))
    */
-  override concat(...items: LinearBase<E, R>[]): this;
-
   override concat(...items: (E | LinearBase<E, R>)[]): this {
     const newList = this.clone();
 

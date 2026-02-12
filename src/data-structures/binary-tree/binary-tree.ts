@@ -10,7 +10,7 @@ import type {
   BinaryTreeDeleteResult,
   BinaryTreeOptions,
   BinaryTreePrintOptions,
-  BTNEntry,
+  BTNEntry, BTNRep,
   DFSOrderPattern,
   DFSStackItem,
   EntryCallback,
@@ -795,16 +795,16 @@ export class BinaryTree<K = any, V = any, R = any>
    * Deletes a node from the tree.
    * @remarks Time O(log N), For BST, Red-Black Tree, and AVL Tree subclasses, the worst-case time is O(log N). This implementation finds the node, and if it has two children, swaps it with the rightmost node of its left subtree (in-order predecessor) before deleting. Time O(N) in the worst case. O(N) to find the node (`getNode`) and O(H) (which is O(N) worst-case) to find the rightmost node. Space O(1) (if `getNode` is iterative, which it is).
    *
-   * @param keyNodeOrEntry - The node to delete.
+   * @param keyNodeEntryRawOrPredicate - The node to delete.
    * @returns An array containing deletion results (for compatibility with self-balancing trees).
    */
   delete(
-    keyNodeOrEntry: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined
+    keyNodeEntryRawOrPredicate: BTNRep<K, V, BinaryTreeNode<K, V>> | NodePredicate<BinaryTreeNode<K, V> | null>
   ): BinaryTreeDeleteResult<BinaryTreeNode<K, V>>[] {
     const deletedResult: BinaryTreeDeleteResult<BinaryTreeNode<K, V>>[] = [];
     if (!this._root) return deletedResult;
 
-    const curr = this.getNode(keyNodeOrEntry);
+    const curr = this.getNode(keyNodeEntryRawOrPredicate);
     if (!curr) return deletedResult;
 
     const parent: BinaryTreeNode<K, V> | undefined = curr?.parent;

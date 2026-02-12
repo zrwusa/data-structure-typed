@@ -17,7 +17,7 @@ describe('BST additional coverage', () => {
     expect(bst.getNode(null as any)).toBeUndefined();
 
     const r = new Range<number>(2, 2, true, true);
-    expect(bst.getNode(r)?.key).toBe(2);
+    expect(bst.getNode(r as any)?.key).toBe(2);
   });
 
   it('getNodes returns [] for null/undefined and ignores entry with null key', () => {

@@ -162,7 +162,8 @@ describe('Deque coverage', () => {
 
     const ctx = { mul: 3 };
     const mappedSame = d.mapSame(function (v) {
-      return v * (this as any).mul;
+      // @ts-ignore
+      return v * this.mul;
     }, ctx);
     expect([...mappedSame]).toEqual([3, 6, 9]);
 

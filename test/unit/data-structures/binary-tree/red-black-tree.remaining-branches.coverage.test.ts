@@ -46,7 +46,7 @@ describe('RedBlackTree remaining-branch coverage', () => {
     const h60b = t3.getNode(60)!;
     const pred40 = t3.getNode(50)!; // reuse an existing real node as predecessor anchor
 
-    pred40._parent = h60b as any;
+    pred40.parent = h60b as any;
     pred40._right = t3.NIL as any;
     h60b._left = pred40 as any;
 
@@ -63,7 +63,7 @@ describe('RedBlackTree remaining-branch coverage', () => {
     const h40b = t4.getNode(40)!;
     const succ60 = t4.getNode(50)!; // reuse an existing real node as successor anchor
 
-    succ60._parent = h40b as any;
+    succ60.parent = h40b as any;
     succ60._left = t4.NIL as any;
     h40b._right = succ60 as any;
 
@@ -95,7 +95,7 @@ describe('RedBlackTree remaining-branch coverage', () => {
     for (const k of [10, 5, 15]) t.set(k, k);
 
     // delete(predicate)
-    const r1 = t.delete((node: any) => node.key === 5);
+    const r1 = t.delete((node) => node?.key === 5);
     expect(r1.length).toBe(1);
     expect(t.has(5)).toBe(false);
 

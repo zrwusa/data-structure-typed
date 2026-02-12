@@ -7,10 +7,10 @@
  */
 
 import type {
-  BinaryTreeDeleteResult,
+  BinaryTreeDeleteResult, BTNRep,
   CRUD,
   EntryCallback,
-  FamilyPosition,
+  FamilyPosition, NodePredicate,
   OptNode,
   RBTNColor,
   RedBlackTreeOptions
@@ -835,18 +835,18 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
   /**
    * Delete a node by key/node/entry and rebalance as needed.
    * @remarks Time O(log n) average, Space O(1)
-   * @param keyNodeOrEntry - Key, node, or [key, value] entry identifying the node to delete.
+   * @param keyNodeEntryRawOrPredicate - Key, node, or [key, value] entry identifying the node to delete.
    * @returns Array with deletion metadata (removed node, rebalancing hint if any).
    */
   override delete(
-    keyNodeOrEntry: K | RedBlackTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined
+    keyNodeEntryRawOrPredicate: BTNRep<K, V, RedBlackTreeNode<K, V>> | NodePredicate<RedBlackTreeNode<K, V> | null>
   ): BinaryTreeDeleteResult<RedBlackTreeNode<K, V>>[] {
-    if (keyNodeOrEntry === null) return [];
+    if (keyNodeEntryRawOrPredicate === null) return [];
 
     const results: BinaryTreeDeleteResult<RedBlackTreeNode<K, V>>[] = [];
     let nodeToDelete: OptNode<RedBlackTreeNode<K, V>>;
-    if (this._isPredicate(keyNodeOrEntry)) nodeToDelete = this.getNode(keyNodeOrEntry);
-    else nodeToDelete = this.isRealNode(keyNodeOrEntry) ? keyNodeOrEntry : this.getNode(keyNodeOrEntry);
+    if (this._isPredicate(keyNodeEntryRawOrPredicate)) nodeToDelete = this.getNode(keyNodeEntryRawOrPredicate);
+    else nodeToDelete = this.isRealNode(keyNodeEntryRawOrPredicate) ? keyNodeEntryRawOrPredicate : this.getNode(keyNodeEntryRawOrPredicate);
 
     if (!nodeToDelete) {
       return results;

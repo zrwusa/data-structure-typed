@@ -108,7 +108,8 @@ describe('Queue coverage', () => {
 
     const ctx = { mul: 2 };
     const mapped2 = q.map(function (v) {
-      return v * (this as any).mul;
+      // @ts-ignore
+      return v * this.mul;
     }, undefined, ctx);
     expect([...mapped2]).toEqual([2, 4, 6]);
 
@@ -116,7 +117,8 @@ describe('Queue coverage', () => {
     expect([...same1]).toEqual([10, 20, 30]);
 
     const same2 = q.mapSame(function (v) {
-      return v + (this as any).inc;
+      // @ts-ignore
+      return v + this.inc;
     }, { inc: 5 });
     expect([...same2]).toEqual([6, 7, 8]);
 

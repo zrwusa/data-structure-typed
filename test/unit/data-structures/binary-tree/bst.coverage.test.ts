@@ -13,8 +13,8 @@ describe('BST coverage: overloads & bound helpers', () => {
   });
 
   it('ceiling supports iterationType passed as 2nd arg string', () => {
-    expect(bst.ceiling(9, 'ITERATIVE')).toBe(10);
-    expect(bst.ceiling(10, 'RECURSIVE')).toBe(10);
+    expect(bst.ceiling(9, n => n.key, 'ITERATIVE')).toBe(10);
+    expect(bst.ceiling(10, n => n.key, 'RECURSIVE')).toBe(10);
   });
 
   it('ceiling supports callback + explicit iterationType', () => {
@@ -23,8 +23,8 @@ describe('BST coverage: overloads & bound helpers', () => {
   });
 
   it('higher supports iterationType passed as 2nd arg string', () => {
-    expect(bst.higher(10, 'ITERATIVE')).toBe(11);
-    expect(bst.higher(25, 'RECURSIVE')).toBeUndefined();
+    expect(bst.higher(10, n => n.key , 'ITERATIVE')).toBe(11);
+    expect(bst.higher(25, n => n.key, 'RECURSIVE')).toBeUndefined();
   });
 
   it('higher supports callback + explicit iterationType', () => {
@@ -33,8 +33,8 @@ describe('BST coverage: overloads & bound helpers', () => {
   });
 
   it('floor supports iterationType passed as 2nd arg string', () => {
-    expect(bst.floor(9, 'ITERATIVE')).toBe(8);
-    expect(bst.floor(1, 'RECURSIVE')).toBe(1);
+    expect(bst.floor(9, n => n.key, 'ITERATIVE')).toBe(8);
+    expect(bst.floor(1, n => n.key, 'RECURSIVE')).toBe(1);
   });
 
   it('floor supports callback + explicit iterationType', () => {
@@ -43,8 +43,8 @@ describe('BST coverage: overloads & bound helpers', () => {
   });
 
   it('lower supports iterationType passed as 2nd arg string', () => {
-    expect(bst.lower(10, 'ITERATIVE')).toBe(8);
-    expect(bst.lower(1, 'RECURSIVE')).toBeUndefined();
+    expect(bst.lower(10, n => n.key, 'ITERATIVE')).toBe(8);
+    expect(bst.lower(1, n => n.key, 'RECURSIVE')).toBeUndefined();
   });
 
   it('lower supports callback + explicit iterationType', () => {

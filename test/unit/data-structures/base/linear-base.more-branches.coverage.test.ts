@@ -1,4 +1,11 @@
-import { LinearBase, LinearLinkedBase, LinkedListNode } from '../../../../src/data-structures/base/linear-base';
+import { LinearBase, LinearLinkedBase, LinkedListNode,  } from '../../../../src/data-structures/base/linear-base';
+import {
+  DoublyLinkedListNode,
+  DoublyLinkedListOptions,
+  ElementCallback,
+  IterableElementBase,
+  IterableElementBaseOptions
+} from '../../../../src';
 
 class ArrayLinear extends LinearBase<number, any> {
   private _arr: number[] = [];
@@ -74,6 +81,39 @@ class ArrayLinear extends LinearBase<number, any> {
 
   protected *_getReverseIterator(): IterableIterator<number> {
     for (let i = this._arr.length - 1; i >= 0; i--) yield this._arr[i];
+  }
+
+  isEmpty(): boolean {
+    return false;
+  }
+
+  filter(predicate: ElementCallback<number, any, boolean>, thisArg?: any): this {
+    const out = this._createInstance();
+
+    return out;
+  }
+
+  // @ts-ignore
+  map(callback: ElementCallback<number, any, number>, options: IterableElementBaseOptions<number, any> | undefined, thisArg: unknown | undefined): ArrayLinear {
+    const out = this._createLike([], { ...(options ?? {}) });
+    return out;
+  }
+
+  mapSame(callback: ElementCallback<number, any, number>, thisArg: unknown | undefined): this {
+    const out = this._createInstance();
+
+    return out;
+  }
+
+  protected _createLike(
+    elements: Iterable<number> | Iterable<any>  = [],
+    options?: IterableElementBaseOptions<number, any>
+  ): ArrayLinear {
+    const Ctor = this.constructor as new (
+      elements?: Iterable<number> | Iterable<any> ,
+      options?: IterableElementBaseOptions<number, any>
+    ) => ArrayLinear;
+    return new Ctor(elements, options);
   }
 }
 
@@ -181,6 +221,51 @@ class NodeLinear extends LinearLinkedBase<number, any, LinkedListNode<number>> {
     n.value = value;
     return true;
   }
+  protected _ensurePredicate(
+    elementNodeOrPredicate: number | LinkedListNode<number> | ((node: LinkedListNode<number>) => boolean)
+  ): (node: LinkedListNode<number>) => boolean {
+    if (elementNodeOrPredicate instanceof LinkedListNode) {
+      const target = elementNodeOrPredicate;
+      return (node: LinkedListNode<number>) => node === target;
+    }
+    if (typeof elementNodeOrPredicate === 'function') {
+      return elementNodeOrPredicate as (node: LinkedListNode<number>) => boolean;
+    }
+    const value = elementNodeOrPredicate as number;
+    return (node: LinkedListNode<number>) => node.value === value;
+  }
+
+  getNode(
+    elementNodeOrPredicate: number | LinkedListNode<number> | ((node: LinkedListNode<number>) => boolean) | undefined
+  ): LinkedListNode<number> | undefined {
+    if (elementNodeOrPredicate === undefined) return;
+
+    if ( elementNodeOrPredicate instanceof LinkedListNode) {
+      const target = elementNodeOrPredicate;
+
+      let cur = this._head;
+      while (cur) {
+        if (cur === target) return target;
+        cur = cur.next;
+      }
+
+      const isMatch = (node: LinkedListNode<number>) => node.value === target.value;
+      cur = this._head;
+      while (cur) {
+        if (isMatch(cur)) return cur;
+        cur = cur.next;
+      }
+      return undefined;
+    }
+
+    const predicate = this._ensurePredicate(elementNodeOrPredicate);
+    let current = this._head;
+    while (current) {
+      if (predicate(current)) return current;
+      current = current.next;
+    }
+    return undefined;
+  }
 
   addBefore(existing: number | LinkedListNode<number>, neu: number | LinkedListNode<number>): boolean {
     const node = this.getNode(existing);
@@ -256,6 +341,41 @@ class NodeLinear extends LinearLinkedBase<number, any, LinkedListNode<number>> {
     let cur = this._head;
     while (cur.next && cur.next !== node) cur = cur.next;
     return cur.next === node ? cur : undefined;
+  }
+
+  isEmpty(): boolean {
+    return false;
+  }
+
+
+
+  filter(predicate: ElementCallback<number, any, boolean>, thisArg?: any): this {
+    const out = this._createInstance();
+
+    return out;
+  }
+
+  // @ts-ignore
+  map(callback: ElementCallback<number, any, number>, options: IterableElementBaseOptions<number, any> | undefined, thisArg: unknown | undefined): ArrayLinear {
+    const out = this._createLike([], { ...(options ?? {}) });
+    return out;
+  }
+
+  mapSame(callback: ElementCallback<number, any, number>, thisArg: unknown | undefined): this {
+    const out = this._createInstance();
+
+    return out;
+  }
+
+  protected _createLike(
+    elements: Iterable<number> | Iterable<any>  = [],
+    options?: IterableElementBaseOptions<number, any>
+  ): ArrayLinear {
+    const Ctor = this.constructor as new (
+      elements?: Iterable<number> | Iterable<any> ,
+      options?: IterableElementBaseOptions<number, any>
+    ) => ArrayLinear;
+    return new Ctor(elements, options);
   }
 }
 

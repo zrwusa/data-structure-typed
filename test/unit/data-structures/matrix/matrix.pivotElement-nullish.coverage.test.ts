@@ -19,8 +19,8 @@ describe('Matrix inverse pivotElement ?? 1 remaining branch coverage', () => {
       // Restore before asserting so inv.get is not affected.
       Matrix.prototype.get = origGet;
 
-      expect(inv.get(0, 0)).toBe(1);
-      expect(inv.get(1, 1)).toBe(1);
+      expect(inv?.get(0, 0)).toBe(1);
+      expect(inv?.get(1, 1)).toBe(1);
     } finally {
       Matrix.prototype.get = origGet;
     }

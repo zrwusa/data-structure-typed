@@ -7,19 +7,19 @@ describe('BST range/pruning coverage', () => {
 
     // includeLow/includeHigh true
     const r1 = new Range<number>(7, 12, true, true);
-    expect(bst.getNodes(r1).map(n => n.key)).toEqual([7, 10, 12]);
+    expect(bst.getNodes(r1 as any).map(n => n.key)).toEqual([7, 10, 12]);
 
     // includeLow false (exclude 7)
     const r2 = new Range<number>(7, 12, false, true);
-    expect(bst.getNodes(r2).map(n => n.key)).toEqual([10, 12]);
+    expect(bst.getNodes(r2 as any).map(n => n.key)).toEqual([10, 12]);
 
     // includeHigh false (exclude 12)
     const r3 = new Range<number>(7, 12, true, false);
-    expect(bst.getNodes(r3).map(n => n.key)).toEqual([7, 10]);
+    expect(bst.getNodes(r3 as any).map(n => n.key)).toEqual([7, 10]);
 
     // exclude both ends
     const r4 = new Range<number>(7, 12, false, false);
-    expect(bst.getNodes(r4).map(n => n.key)).toEqual([10]);
+    expect(bst.getNodes(r4 as any).map(n => n.key)).toEqual([10]);
   });
 
   it('getNodes(predicate) exercises predicate-search shouldVisitLeft/Right fallthrough', () => {

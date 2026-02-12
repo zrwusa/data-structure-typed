@@ -5,7 +5,7 @@ class RBTBadKeyValue extends RedBlackTree<number, number> {
   protected override _keyValueNodeOrEntryToNodeAndValue(
     _keyNodeOrEntry: any,
     _value?: any
-  ): [RedBlackTreeNode<number, number> | null | undefined, number | undefined] {
+  ): [RedBlackTreeNode<number, number> | undefined, number | undefined] {
     return [undefined, undefined];
   }
 }

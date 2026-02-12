@@ -48,8 +48,8 @@ describe('Matrix additional branch coverage', () => {
 
       // Should still return something (we only care about branch execution)
       const inv = m.inverse();
-      expect(inv.rows).toBe(2);
-      expect(inv.cols).toBe(2);
+      expect(inv?.rows).toBe(2);
+      expect(inv?.cols).toBe(2);
     } finally {
       (Matrix as any).prototype.get = origGet;
     }

@@ -50,7 +50,7 @@ export interface IBinaryTree<K = any, V = any, R = any> {
 
   // Accept BTNRep, predicate, or raw R for deletion
   delete(
-    keyNodeEntryRawOrPredicate: R | BTNRep<K, V, BinaryTreeNode<K, V>> | NodePredicate<BinaryTreeNode<K, V> | null>
+    keyNodeEntryRawOrPredicate: BTNRep<K, V, BinaryTreeNode<K, V>> | NodePredicate<BinaryTreeNode<K, V> | null>
   ): BinaryTreeDeleteResult<BinaryTreeNode<K, V>>[];
 
   clear(): void;

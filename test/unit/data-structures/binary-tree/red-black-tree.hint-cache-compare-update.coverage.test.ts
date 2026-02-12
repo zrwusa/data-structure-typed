@@ -38,7 +38,7 @@ describe('RedBlackTree hint cache maintenance compare-update branches', () => {
     const pred = t.getNode(50)!;
 
     // Force pred.right attach path.
-    pred._parent = hint as any;
+    pred.parent = hint as any;
     pred._right = t.NIL as any;
     hint._left = pred as any;
 
@@ -52,7 +52,7 @@ describe('RedBlackTree hint cache maintenance compare-update branches', () => {
     const hint = t.getNode(40)!;
     const succ = t.getNode(50)!;
 
-    succ._parent = hint as any;
+    succ.parent = hint as any;
     succ._left = t.NIL as any;
     hint._right = succ as any;
 

@@ -45,7 +45,7 @@ describe('BST additional branch coverage (batch 2)', () => {
     ];
 
     // Recursive path hits `if (this.isRaw(key)) ... this.set(entry)`.
-    const insertedR = t.setMany(raws as any, undefined as any, 'RECURSIVE');
+    const insertedR = t.setMany(raws as any, undefined as any, false, 'RECURSIVE');
     expect(insertedR.length).toBe(3);
     expect(t.get(1)).toBe('a');
 
@@ -63,7 +63,7 @@ describe('BST additional branch coverage (batch 2)', () => {
         return origPop.call(this);
       };
 
-      const insertedI = t.setMany(raws as any, undefined as any, 'ITERATIVE');
+      const insertedI = t.setMany(raws as any, undefined as any, false, 'ITERATIVE');
       expect(insertedI.length).toBe(3);
       expect(t.get(2)).toBe('b');
     } finally {

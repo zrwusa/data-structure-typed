@@ -38,7 +38,7 @@ describe('TreeCounter additional branch coverage', () => {
   it('delete(predicate) uses predicate branch and returns [] when predicate matches none', () => {
     const t = new TreeCounter<number, number>([], { isMapMode: false });
     t.set(1, 1);
-    expect(t.delete((n: any) => n.key === 999)).toEqual([]);
+    expect(t.delete((n) => n?.key === 999)).toEqual([]);
   });
 
   it('delete(realNode) uses the isRealNode(keyNodeOrEntry) ? keyNodeOrEntry : getNode(...) true arm', () => {
@@ -114,6 +114,7 @@ describe('TreeCounter additional branch coverage', () => {
     (t as any).dfs = (...args: any[]) => {
       const nodes: any[] = origDfs.apply(t, args);
       const origIter = nodes[Symbol.iterator].bind(nodes);
+      // @ts-ignore
       nodes[Symbol.iterator] = function* () {
         yield null;
         yield* origIter();
@@ -152,6 +153,7 @@ describe('TreeCounter additional branch coverage', () => {
     (t as any).dfs = (...args: any[]) => {
       const nodes: any[] = origDfs.apply(t, args);
       const origIter = nodes[Symbol.iterator].bind(nodes);
+      // @ts-ignore
       nodes[Symbol.iterator] = function* () {
         yield null;
         yield* origIter();

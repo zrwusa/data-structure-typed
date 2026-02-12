@@ -1,7 +1,24 @@
+import { IterableElementBase } from 'src';
 import { LinearBase } from '../../../../src/data-structures/base/linear-base';
-import type { LinearBaseOptions } from '../../../../src/types';
+import type { ElementCallback, IterableElementBaseOptions, LinearBaseOptions } from '../../../../src/types';
 
 class TestArrayLinear extends LinearBase<number, number> {
+  override isEmpty(): boolean {
+    throw new Error('Method not implemented.');
+  }
+  override map<EM, RM>(
+    callback: ElementCallback<number, number, EM>,
+    options?: IterableElementBaseOptions<EM, RM> | undefined,
+    thisArg?: unknown
+  ): IterableElementBase<EM, RM> {
+    throw new Error('Method not implemented.');
+  }
+  override mapSame(callback: ElementCallback<number, number, number>, thisArg?: unknown): this {
+    throw new Error('Method not implemented.');
+  }
+  override filter(predicate: ElementCallback<number, number, boolean>, thisArg?: unknown): this {
+    throw new Error('Method not implemented.');
+  }
   private _arr: number[];
 
   constructor(values: number[] = [], options?: LinearBaseOptions<number, number>) {
@@ -71,7 +88,7 @@ class TestArrayLinear extends LinearBase<number, number> {
     return true;
   }
 
-  toArray(): number[] {
+  override toArray(): number[] {
     return this._arr.slice();
   }
 

@@ -70,14 +70,17 @@ describe('Stack coverage', () => {
     // mapSame with thisArg branch
     const ctx2 = { mul: 3 };
     const mappedSame2 = s.mapSame(function (v) {
-      return v * (this as any).mul;
+      // @ts-ignore
+      return v * this.mul;
     }, ctx2);
     expect([...mappedSame2]).toEqual([3, 6, 9]);
+
 
     // map with thisArg branch
     const ctx = { inc: 10 };
     const mapped = s.map(function (v) {
-      return v + (this as any).inc;
+      // @ts-ignore
+      return v + this.inc;
     }, undefined, ctx);
     expect([...mapped]).toEqual([11, 12, 13]);
 

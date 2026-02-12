@@ -42,9 +42,7 @@ jobs:
       - name: Combined ci commands together
         run: npm run ci
 
-      - name: Upload coverage to Codecov
+      - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
         with:
-          use_oidc: true
-          files: ./coverage/lcov.info
-          fail_ci_if_error: true
+            token: ${{ secrets.CODECOV_TOKEN }}
