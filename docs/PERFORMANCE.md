@@ -47,174 +47,148 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 [//]: # (No deletion!!! Start of Replace Section)
 
-### RedBlackTree
-
-| Test Case     | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
-|---------------|----------|----------|----------|-----------|--------------|
-| 1,000,000 set | 867.55   | 790.66   | 1193.22  | ±15.37%   | 168.93       |
-| 1,000,000 get | 88.65    | 86.8     | 91.48    | ±0.44%    | 45.4         |
-
-**Recent note (2026-02-08):** With the **min/max cache + boundary fast-path** optimization (commit `62476a6`),
-`red-black-tree-set.js` improved substantially on this machine:
-
-- `set()` INSERT (1,000,000 increasing keys): ~**796ms → 432ms** (~**-46%**)
-- `set()` UPDATE (key pool 100,000): ~**492ms → 297ms** (~**-40%**)
-
-(Results depend on Node/V8 version, CPU, and insertion pattern; random insert benefits less than monotonic patterns.)
-
-**Hinted insertion (2026-02-09):** For sorted / nearly-sorted insertion, use the explicit hint API:
-
-```ts
-let hint;
-for (let i = 0; i < N; i++) {
-  hint = tree.setWithHintNode(key, value, hint);
-}
-```
-
-On this machine, `setWithHintNode(last)` improved nearly-sorted insertion by ~**28%** in the playground benchmark
-(`red-black-tree-hint.js`).
-
-#### Comparison note: `js-sdsl` vs `data-structure-typed` RedBlackTree (2026-02-09)
-
-`js-sdsl` is highly optimized for **monotonic / sequential insertions** (and other cache-friendly patterns).
-In those cases it can be *much* faster than a general-purpose, feature-rich tree implementation.
-
-In more mixed, real-world-ish workloads (random inserts, frequent updates, insert/delete mixes), the gap tends to **shrink**.
-In our local benchmarks we typically observe:
-
-- **Sequential insert**: `js-sdsl` can lead by several × (this is its strongest case).
-- **Random unique insert**: the gap is usually closer (often ~**1.7×–1.9×** on this machine).
-- **Update-heavy workloads (map mode)**: when the key already exists, updating the value can be made very fast.
-  With the map-mode update fast-path (commit `5ab830c`), repeated updates avoid tree re-search and become mostly `Map.set` cost.
-
-> Practical takeaway: if your workload is dominated by *building a tree from already-sorted keys*, `js-sdsl` may look
-> disproportionately good. If your workload includes lots of random inserts and/or updates, the difference may be
-> smaller than the sequential-insert benchmark suggests.
-
-### Queue
-
-| Test Case                            | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
-|--------------------------------------|----------|----------|----------|-----------|--------------|
-| 1,000,000 push                       | 33.4     | 26.33    | 145.41   | ±13.78%   | 1.69         |
-| 100,000 push & shift                 | 3.32     | 2.8      | 15.5     | ±8.8%     | 0.36         |
-| Native JS Array 100,000 push & shift | 1590.01  | 1447.58  | 1794.71  | ±7.89%    | 0.2          |
-
-### Deque
-
-| Test Case                            | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
-|--------------------------------------|----------|----------|----------|-----------|--------------|
-| 1M push                              | 13.29    | 6.8      | 37.04    | ±10.88%   | 1.68         |
-| 1M push & pop                        | 13.29    | 10.32    | 42.8     | ±8.41%    | 2.31         |
-| 1M push & shift                      | 13.1     | 10.59    | 35       | ±6.13%    | 2.01         |
-| 100K push & shift                    | 1.42     | 1.36     | 2.37     | ±2.04%    | 0.23         |
-| Native JS Array 100K push & shift    | 1569.8   | 1387.13  | 1780.44  | ±9.3%     | 344.14       |
-| 100K unshift & shift                 | 1.22     | 1.16     | 1.66     | ±1.6%     | 0.19         |
-| Native JS Array 100K unshift & shift | 2503.14  | 2456.1   | 2547.76  | ±2.15%    | 696.72       |
-
-### Heap
-
-| Test Case       | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
-|-----------------|----------|----------|----------|-----------|--------------|
-| 100K add        | 4.22     | 3.95     | 6.3      | ±1.44%    | -            |
-| 100K add & poll | 19.01    | 18.2     | 27.53    | ±1.54%    | -            |
-
-### AVLTree
-
-| Test Case                  | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
-|----------------------------|----------|----------|----------|-----------|--------------|
-| 100K add randomly          | 508.25   | 496.73   | 530      | ±1.8%     | 17.35        |
-| 100K add                   | 486.81   | 456.54   | 591.94   | ±7.95%    | 15.88        |
-| 100K get                   | 0.76     | 0.73     | 0.8      | ±0.32%    | 8.59         |
-| 100K getNode               | 393.83   | 386.54   | 396.46   | ±0.5%     | 8.45         |
-| 100K iterator              | 8.92     | 8.5      | 10.17    | ±0.62%    | 1.43         |
-| 100K add & delete orderly  | 800.09   | 788.46   | 829.76   | ±1.69%    | 20.95        |
-| 100K add & delete randomly | 890.77   | 885.4    | 896.23   | ±0.41%    | 39.22        |
-
 ### DoublyLinkedList
 
 | Test Case            | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
 |----------------------|----------|----------|----------|-----------|--------------|
-| 100k push            | 5.07     | 4.54     | 10.96    | ±4.36%    | 5.48         |
-| 100k unshift         | 5.35     | 4.63     | 6.95     | ±2.64%    | 5.79         |
-| 100k unshift & shift | 4.35     | 4.18     | 5.02     | ±0.5%     | 5.56         |
-| 100k addBefore       | 5199.92  | 4822.27  | 5823.22  | ±10.06%   | 0.51         |
+| 100k push            | 6.3575   | 4.7555   | 23.7759  | ±8.49%    | 5.46         |
+| 100k unshift         | 6.7701   | 4.6905   | 37.7197  | ±15.43%   | 5.56         |
+| 100k unshift & shift | 4.0098   | 3.8547   | 5.073    | ±0.77%    | 5.39         |
+| 100k addBefore       | 1877.45  | 1858.74  | 1897.04  | ±0.87%    | 0.47         |
 
 ### SinglyLinkedList
 
 | Test Case         | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
 |-------------------|----------|----------|----------|-----------|--------------|
-| 100k push & shift | 4.11     | 3.91     | 7.15     | ±1.94%    | 4.83         |
-| 10K push & pop    | 119.08   | 114.23   | 130.69   | ±1.7%     | 0.48         |
-| 10K addBefore     | 9.4      | 8.74     | 11.15    | ±1.37%    | 0.04         |
+| 100k push & shift | 3.6008   | 3.5134   | 3.8356   | ±0.32%    | 4.89         |
+| 10K push & pop    | 114.5    | 108.15   | 167.94   | ±4.64%    | 0.5          |
+| 10K addBefore     | 32.1     | 30.06    | 37.04    | ±1.06%    | 0.04         |
 
 ### HashMap
 
 | Test Case                         | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
 |-----------------------------------|----------|----------|----------|-----------|--------------|
-| 1M set                            | 64.33    | 48.57    | 239.35   | ±20.65%   | 71.98        |
-| Native JS Map 1M set              | 175.28   | 155.95   | 379.37   | ±13.86%   | 165.34       |
-| Native JS Set 1M add              | 136.08   | 119.23   | 162.36   | ±3.72%    | 70.68        |
-| 1M set & get                      | 54.51    | 41.9     | 92.59    | ±6.32%    | 80.43        |
-| Native JS Map 1M set & get        | 224.67   | 218.39   | 236.74   | ±1.23%    | 212.85       |
-| Native JS Set 1M add & has        | 192.1    | 171.8    | 355.48   | ±11.12%   | 75.83        |
-| 1M ObjKey set & get               | 290.88   | 258.37   | 459.73   | ±11.35%   | 78.62        |
-| Native JS Map 1M ObjKey set & get | 235.2    | 213.86   | 373.52   | ±9.39%    | 211.57       |
-| Native JS Set 1M ObjKey add & has | 207.8    | 189.68   | 333.77   | ±8.99%    | 77.24        |
+| 1M set                            | 82.56    | 43.94    | 321.05   | ±32.6%    | 73.76        |
+| Native JS Map 1M set              | 148.61   | 118.19   | 176.66   | ±5.18%    | 167.27       |
+| Native JS Set 1M add              | 123.94   | 98.55    | 311.75   | ±14.2%    | 71.49        |
+| 1M set & get                      | 50.78    | 38.72    | 139.27   | ±11.52%   | 75.86        |
+| Native JS Map 1M set & get        | 213.61   | 196.09   | 272.98   | ±5.83%    | 221.7        |
+| Native JS Set 1M add & has        | 172.29   | 157.86   | 226.92   | ±5.44%    | 75.11        |
+| 1M ObjKey set & get               | 242.67   | 221.18   | 307.08   | ±6.47%    | 77.94        |
+| Native JS Map 1M ObjKey set & get | 207.18   | 192.94   | 277.13   | ±5.11%    | 216.96       |
+| Native JS Set 1M ObjKey add & has | 191.08   | 173.17   | 261.54   | ±6.58%    | 77.81        |
 
-### DirectedGraph
+### priority-queue
 
 | Test Case       | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
 |-----------------|----------|----------|----------|-----------|--------------|
-| 1,000 addVertex | 0.05     | 0.05     | 0.05     | ±0.21%    | -            |
-| 1,000 addEdge   | 3.24     | 3.04     | 3.74     | ±0.89%    | -            |
-| 1,000 getVertex | 0.04     | 0.04     | 0.05     | ±1.26%    | -            |
-| 1,000 getEdge   | 40.79    | 36.83    | 86.7     | ±5.04%    | -            |
-| tarjan          | 242.7    | 236.18   | 268.13   | ±1.82%    | -            |
-| topologicalSort | 204.39   | 197.56   | 224.19   | ±2.3%     | -            |
+| 100K add        | 3.965    | 3.7785   | 4.3649   | ±0.7%     | 1.04         |
+| 100K add & poll | 22.08    | 21.65    | 23.06    | ±0.34%    | 4.48         |
 
-### BST
+### Queue
 
-| Test Case                    | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
-|------------------------------|----------|----------|----------|-----------|--------------|
-| 10,000 add randomly          | 4.62     | 4.34     | 6.05     | ±1.22%    | -            |
-| 10,000 add & delete randomly | 47.24    | 45.84    | 51.57    | ±0.74%    | -            |
-| 10,000 addMany               | 10.13    | 9.47     | 14.6     | ±1.71%    | -            |
-| 10,000 get                   | 9.9      | 9.57     | 10.74    | ±0.58%    | -            |
+| Test Case                         | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
+|-----------------------------------|----------|----------|----------|-----------|--------------|
+| 1M push                           | 27.79    | 25.13    | 70.99    | ±5.69%    | 1.66         |
+| 100K push & shift                 | 3.0897   | 2.6681   | 11.659   | ±6.96%    | 0.2          |
+| Native JS Array 100K push & shift | 1061.9   | 953.11   | 1137.26  | ±5.36%    | 0.2          |
 
-### Trie
+### Deque
 
-| Test Case        | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
-|------------------|----------|----------|----------|-----------|--------------|
-| 100,000 add      | 27.56    | 25.99    | 30.17    | ±1.02%    | -            |
-| 100,000 getWords | 127.19   | 114.45   | 142.51   | ±1.82%    | -            |
+| Test Case                            | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
+|--------------------------------------|----------|----------|----------|-----------|--------------|
+| 1M push                              | 10.33    | 6.4      | 31.12    | ±10.21%   | 1.79         |
+| 1M push & pop                        | 11.88    | 9.98     | 21.58    | ±4.97%    | 2.27         |
+| 1M push & shift                      | 19.09    | 14.3     | 31.06    | ±3.92%    | 1.98         |
+| 100K push & shift                    | 1.2163   | 1.1556   | 1.7065   | ±1.39%    | 0.2          |
+| Native JS Array 100K push & shift    | 1145.83  | 942.03   | 1584.6   | ±22.3%    | 358.86       |
+| 100K unshift & shift                 | 1.2694   | 1.1964   | 1.6306   | ±1.16%    | 0.2          |
+| Native JS Array 100K unshift & shift | 2113.11  | 1898.32  | 2338.87  | ±7.55%    | 714.56       |
 
 ### Stack
 
 | Test Case     | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
 |---------------|----------|----------|----------|-----------|--------------|
-| 1M push       | 29.34    | 25.63    | 86.31    | ±6.65%    | 1.66         |
-| 1M push & pop | 30.5     | 28.66    | 34.27    | ±0.99%    | 2.62         |
+| 1M push       | 27.54    | 24.58    | 52.09    | ±6.12%    | 1.67         |
+| 1M push & pop | 29.15    | 27.22    | 55.31    | ±4.33%    | 2.61         |
 
-### AVLRBRangeSearch
+### RedBlackTree
 
-| Test Case                            | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
-|--------------------------------------|----------|----------|----------|-----------|--------------|
-| AVL Tree 100,000 rangeSearch         | 0.01     | 0.01     | 0.01     | ±0.52%    | -            |
-| Red-Black Tree 1,000,000 rangeSearch | 0.01     | 0.01     | 0.01     | ±0.22%    | -            |
+| Test Case               | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
+|-------------------------|----------|----------|----------|-----------|--------------|
+| 1M get                  | 82.1     | 63.85    | 95.93    | ±22.42%   | 42.57        |
+| 1M get (Node Mode)      | 254.23   | 251.54   | 255.48   | ±0.78%    | 47.12        |
+| 1M get (js-sdsl)        | 139.5    | 134.26   | 142.65   | ±2.94%    | -            |
+| 200K rangeSearch SEQ    | 1253.09  | 1162.63  | 1312.24  | ±6.21%    | -            |
+| 200K rangeSearch RAND   | 1934.09  | 1905.23  | 1987.67  | ±2.03%    | -            |
+| 1M upd SEQ              | 79.47    | 73.18    | 92.62    | ±12.53%   | 69.08        |
+| 1M upd SEQ (Node Mode)  | 223.62   | 215.45   | 241.23   | ±5.64%    | 56.13        |
+| 1M upd SEQ (js-sdsl)    | 171.5    | 109.22   | 191.01   | ±25.26%   | -            |
+| 1M upd RAND             | 84.46    | 82.87    | 86.86    | ±2.20%    | 166.5        |
+| 1M upd RAND (Node Mode) | 389.86   | 380.9    | 395.4    | ±1.87%    | 165.69       |
+| 1M upd RAND (js-sdsl)   | 326.37   | 317.4    | 347.64   | ±4.61%    | -            |
+| 1M ins SEQ              | 531.29   | 438.83   | 886.69   | ±46.43%   | 165.06       |
+| 1M ins SEQ (Node Mode)  | 192.38   | 185.53   | 198.22   | ±3.07%    | 215.53       |
+| 1M ins SEQ (js-sdsl)    | 89.1     | 88.26    | 89.84    | ±0.86%    | -            |
+| 1M ins RAND             | 1495.64  | 1484.62  | 1513.47  | ±1.04%    | 515.97       |
+| 1M ins RAND (Node Mode) | 1157.01  | 1137     | 1204.25  | ±2.89%    | 428.99       |
+| 1M ins RAND (js-sdsl)   | 878.02   | 841.74   | 914.54   | ±4.21%    | -            |
+| 1M keys-only            | 3.6031   | 2.1752   | 4.7237   | ±38.73%   | 0.1          |
+
+### AVLTree
+
+| Test Case                         | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
+|-----------------------------------|----------|----------|----------|-----------|--------------|
+| 100K add randomly                 | 140.68   | 132.77   | 184.45   | ±3.33%    | 17.4         |
+| 100K add                          | 105.35   | 103.03   | 117.77   | ±1.05%    | 15.6         |
+| 100K get                          | 0.6009   | 0.5943   | 0.7578   | ±0.76%    | 7.55         |
+| 100K getNode                      | 36.75    | 35.6     | 41.27    | ±0.68%    | 8.92         |
+| 100K iterator                     | 7.7432   | 7.1503   | 9.5011   | ±1.41%    | 1.1          |
+| 100K add & delete orderly         | 156.94   | 155.04   | 169.74   | ±0.98%    | 21.21        |
+| 100K add & delete randomly        | 209.78   | 201.03   | 229.58   | ±1.99%    | 28.83        |
+| AVL Tree 100K rangeSearch queries | 1461.7   | 1435.32  | 1514.49  | ±1.95%    | 117.74       |
+
+### BST
+
+| Test Case                 | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
+|---------------------------|----------|----------|----------|-----------|--------------|
+| 10K add randomly          | 5.0373   | 4.5875   | 8.6004   | ±2.07%    | -            |
+| 10K add & delete randomly | 10.71    | 10.29    | 11.16    | ±0.35%    | -            |
+| 10K addMany               | 12.2     | 11.49    | 16.21    | ±1.41%    | -            |
+| 10K get                   | 12.67    | 11.87    | 16.81    | ±1.31%    | -            |
+
+### Trie
+
+| Test Case     | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
+|---------------|----------|----------|----------|-----------|--------------|
+| 100K add      | 32.36    | 29.9     | 51.61    | ±2.8%     | -            |
+| 100K getWords | 169.36   | 158.9    | 193.74   | ±2.35%    | -            |
+
+### DirectedGraph
+
+| Test Case       | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
+|-----------------|----------|----------|----------|-----------|--------------|
+| 1K addVertex    | 0.0693   | 0.0671   | 0.0718   | ±0.41%    | -            |
+| 1K addEdge      | 4.5665   | 4.313    | 6.2701   | ±1.42%    | -            |
+| 1K getVertex    | 0.0612   | 0.0601   | 0.0694   | ±0.41%    | -            |
+| 1K getEdge      | 27.74    | 26.13    | 66.12    | ±4.39%    | -            |
+| tarjan          | 191.69   | 180.88   | 208.02   | ±2.19%    | -            |
+| topologicalSort | 142.71   | 137.24   | 161.58   | ±2.24%    | -            |
 
 ### BinaryTree
 
-| Test Case                   | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
-|-----------------------------|----------|----------|----------|-----------|--------------|
-| 1,000 add randomly          | 16.4     | 15.96    | 17.14    | ±0.3%     | -            |
-| 1,000 add & delete randomly | 24.27    | 23.23    | 30.21    | ±1.56%    | -            |
-| 1,000 addMany               | 16.49    | 15.94    | 16.97    | ±0.36%    | -            |
-| 1,000 get                   | 18.15    | 16.14    | 31.26    | ±4.97%    | -            |
-| 1,000 has                   | 27.8     | 27       | 30.24    | ±0.55%    | -            |
-| 1,000 dfs                   | 154.85   | 148.78   | 211.52   | ±4.35%    | -            |
-| 1,000 bfs                   | 74.24    | 65.09    | 116.69   | ±6.38%    | -            |
-| 1,000 morris                | 65.19    | 61.73    | 89.57    | ±2.18%    | -            |
+| Test Case                | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
+|--------------------------|----------|----------|----------|-----------|--------------|
+| 1K add randomly          | 19.12    | 18.92    | 19.68    | ±0.19%    | -            |
+| 1K add & delete randomly | 27.74    | 27.46    | 28.39    | ±0.17%    | -            |
+| 1K addMany               | 19.13    | 18.92    | 19.44    | ±0.16%    | -            |
+| 1K get                   | 19.17    | 18.95    | 20.02    | ±0.24%    | -            |
+| 1K has                   | 33.25    | 32.65    | 48.51    | ±1.74%    | -            |
+| 1K dfs                   | 186.37   | 185.57   | 188.69   | ±0.18%    | -            |
+| 1K bfs                   | 76.5     | 75.36    | 84.24    | ±0.66%    | -            |
+| 1K morris                | 79.95    | 77.75    | 82.63    | ±0.6%     | -            |
 
+[//]: # (No deletion!!! End of Replace Section)
 
 ## Real-World Scenarios
 
