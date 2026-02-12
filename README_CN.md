@@ -8,6 +8,7 @@
 ![GitHub contributors](https://img.shields.io/github/contributors/zrwusa/data-structure-typed)
 ![GitHub top language](https://img.shields.io/github/languages/top/zrwusa/data-structure-typed)
 ![GITHUB Star](https://img.shields.io/github/stars/zrwusa/data-structure-typed)
+[![codecov](https://img.shields.io/codecov/c/github/zrwusa/data-structure-typed)](https://codecov.io/gh/zrwusa/data-structure-typed)
 ![eslint](https://aleen42.github.io/badges/src/eslint.svg)
 ![NPM](https://img.shields.io/npm/l/data-structure-typed)
 ![npm](https://img.shields.io/npm/v/data-structure-typed)
