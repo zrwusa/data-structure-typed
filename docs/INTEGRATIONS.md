@@ -36,16 +36,12 @@ interface TodoItem {
  * ╠═════════════════╦═══════════════════╦═════════════════╦═════════════════╣
  * ║ Operation       ║ RedBlackTree      ║ Array           ║ Speedup         ║
  * ╠═════════════════╬═══════════════════╬═════════════════╬═════════════════╣
- * ║ Add todo        ║ O(log n) ✨       ║ O(n log n) 🐢  ║ 1000x faster!     ║
- * ║ Delete todo     ║ O(log n) ✨       ║ O(n) 🐢        ║ 100x faster!      ║
- * ║ Keep sorted     ║ Automatic ✓       ║ Manual sort ✗   ║ No extra code!  ║
- * ║ Rebalancing     ║ Self-balancing ✓  ║ N/A             ║ Always optimal! ║
- * ╠═════════════════╩═══════════════════╩═════════════════╩═════════════════╣
- * ║ EXAMPLE: With 1000 todos                                                ║
- * ║ ─────────────────────────────                                           ║
- * ║ • RedBlackTree add: ~10 operations                                      ║
- * ║ • Array add + sort: ~10,000 operations                                  ║
- * ║ • RedBlackTree is 1000x FASTER! 🚀                                      ║
+ * ║ Add todo        ║ O(log n)          ║ O(n log n)      ║ Often much faster* ║
+ * ║ Delete todo     ║ O(log n)          ║ O(n)            ║ Often faster*      ║
+ * ║ Keep sorted     ║ Automatic ✓       ║ Manual sort ✗   ║ Less code          ║
+ * ║ Rebalancing     ║ Self-balancing ✓  ║ N/A             ║ N/A                ║
+ * ╠═════════════════╩═══════════════════╩═════════════════╩══════════════════╣
+ * ║ *See PERFORMANCE.md for measured benchmarks and how results scale.       ║
  * ╚═════════════════════════════════════════════════════════════════════════╝
  */
 export default function TodoApp() {
@@ -93,7 +89,7 @@ export default function TodoApp() {
    *    - Array.findIndex(): O(n) to find the item
    *    - Array.splice(): O(n) to remove and shift all elements
    *    - For 1000 items: ~500 operations per delete
-   *    - RESULT: 50x SLOWER! 🐢
+   *    - Note: Actual wall-clock impact depends on your workload (rendering, GC, object shapes, etc.).
    */
   const deleteTodo = useCallback((todo: TodoItem) => {
     setTodos((prev) => {
