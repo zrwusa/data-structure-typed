@@ -21,10 +21,10 @@
 ### 关键数据
 
 - **快 484 倍** 比 Array.shift()，100K 元素（Deque vs Array）
-- **快 1040 倍** 大规模排序繁重工作（RedBlackTree vs Array）
+- **快 40–308 倍** 在“频繁更新 + 每次都需要保持排序”的场景（RedBlackTree vs Array.sort 反复重排）
 - **O(log n) 保证** 所有平衡树操作
 - **O(1) 保证** Deque 头尾操作
-- **快 10-100 倍** V8 JIT 预热后
+- 基准测试包含预热（warm-up）以降低 V8 JIT 噪声
 
 ### 性能层级图表
 
