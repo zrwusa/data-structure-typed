@@ -541,7 +541,7 @@ const tree = new RedBlackTree([], { comparator: (a, b) => a - b)
 
 1. **Profile first**: Don't optimize without data
 2. **Hot paths only**: Focus on frequently-called code
-3. **Right structure matters**: 100x+ speedups possible
+3. **Right structure matters**: large speedups are possible (see the measured scenarios above)
 4. **Small datasets**: Array usually fine
 5. **Large datasets**: Structure choice critical
 
