@@ -18,6 +18,10 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 ## Performance Summary
 
+> **Note on JS vs C++ gaps:** Many “C++ faster” results are primarily explained by **runtime / memory-model differences**, not a flaw in `data-structure-typed`.
+> JavaScript runs on a GC’d VM with boxed numbers, dynamic dispatch, and different cache/memory behavior, while C++ can use tight value types and predictable memory layouts.
+> When the benchmark mixes in baseline containers (Native JS / js-sdsl / C++), treat cross-language comparisons as **directional** and rely most on **within-JS** comparisons for practical decisions.
+
 ### Key Numbers
 
 - **484x faster** than Array.shift() with 100K elements (Deque vs Array)
