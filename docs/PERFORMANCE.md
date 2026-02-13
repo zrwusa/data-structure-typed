@@ -21,10 +21,10 @@ Understand how data-structure-typed performs, and when to use each structure.
 ### Key Numbers
 
 - **484x faster** than Array.shift() with 100K elements (Deque vs Array)
-- **1040x faster** at scale in sorting-heavy workloads (RedBlackTree vs Array)
+- **40x–308x faster** in repeated “update + resort” workloads (RedBlackTree vs Array)
 - **O(log n) guaranteed** on all balanced tree operations
 - **O(1) guaranteed** on Deque head/tail operations
-- **10-100x speed boost** from V8 JIT warm-up
+- Benchmarks include warm-up runs to reduce V8 JIT noise
 
 ### Performance Tier Chart
 
@@ -248,19 +248,18 @@ function updateScore(playerId, newScore) {
 // ✅ RedBlackTree approach
 import { RedBlackTree } from 'data-structure-typed';
 
-const leaderboard = new RedBlackTree();
+const leaderboard = new RedBlackTree<number, number>();
 
 function updateScore(playerId, newScore) {
-  if (leaderboard.has(playerId)) {
-    leaderboard.delete(leaderboard.get(playerId));
-  }
-  leaderboard.set(playerId, newScore);  // O(log n)
+  // Keyed by playerId: updates are a single O(log n) set.
+  // (If you need to *rank by score*, use score as (part of) the key and maintain a playerId→score index.)
+  leaderboard.set(playerId, newScore);
 }
 
 // After 1000 updates: 1000 * O(log n) = O(n log n)
-// Time: ~8ms for 1000 updates on 100 players
+// Time: ~8ms for 1000 updates on 100 players (measured in PERFORMANCE.md)
 
-// 312x faster!
+// ~312x faster than sorting on every update
 ```
 
 **Real Impact**: Live leaderboards update instantly instead of lagging.
@@ -443,7 +442,7 @@ for (const item of items) {
 const tree = new RedBlackTree(items);
 // Single rebalancing pass
 
-// Speedup: 2-3x for large datasets
+// Often faster for large datasets (fewer per-insert balancing steps). Measure on your workload.
 ```
 
 ### Tip 2: Use Right Structure Early
@@ -491,7 +490,7 @@ const result = tree
 const tree = new RedBlackTree();
 
 // First 100 inserts: Interpreted, slower
-// Next 900 inserts: JIT-compiled, 10-100x faster
+// Next 900 inserts: JIT-compiled (typically faster)
 
 // Strategy: Do warm-up before timing
 for (let i = 0; i < 1000; i++) tree.set(i, i);

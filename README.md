@@ -84,10 +84,10 @@ for (let i = 0; i < 100000; i++) {
 
 ## 🚀 Performance (TL;DR)
 
-- **10–40% faster** than common JS implementations in hot paths
-  - Array.sort() O(n log n) → TreeSet O(log n) insertion
-  - Repeated Array.shift() O(n) → Queue O(1)
-  - Manual index tracking → RB-Tree auto-balance
+- **Optimized for V8 hot paths** (see [PERFORMANCE.md](./docs/PERFORMANCE.md) for measured benchmarks)
+  - Repeated Array.shift() O(n) → Deque O(1)
+  - Frequent update + keep-sorted workflows → RedBlackTree O(log n) operations
+  - Avoid repeated `Array.sort()` if you must maintain sorted order after each update
 
 - **Optimized for V8 JIT** (Node.js 18+, modern browsers)
 

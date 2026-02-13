@@ -383,7 +383,7 @@ class BadNode {
 // First call: Interpreted
 // Subsequent calls: JIT compiled to native code
 
-// Result: 10-100x faster after warm-up
+// Result: typically faster after warm-up (benchmarks should include warm-up runs)
 
 const tree = new RedBlackTree();
 for (let i = 0; i < 1000000; i++) {
