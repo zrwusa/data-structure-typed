@@ -135,6 +135,20 @@ Understand how data-structure-typed performs, and when to use each structure.
 | 1M ins RAND (js-sdsl)   | 878.02   | 841.74   | 914.54   | ±4.21%    | -            |
 | 1M keys-only            | 3.6031   | 2.1752   | 4.7237   | ±38.73%   | 0.1          |
 
+#### RedBlackTree (side-by-side, Avg ms)
+
+> Goal: make the common baselines (Native / js-sdsl / C++) easier to compare at a glance.
+> `Native` is left as `-` when there is no apples-to-apples equivalent in this benchmark.
+
+| Test Case     | DST Avg (ms) | Node Mode Avg (ms) | js-sdsl Avg (ms) | Native Avg (ms) | C++ Avg (ms) |
+|---------------|--------------|--------------------|------------------|-----------------|--------------|
+| 1M get        | 82.1         | 254.23             | 139.5            | -               | 42.57        |
+| 1M upd SEQ    | 79.47        | 223.62             | 171.5            | -               | 69.08        |
+| 1M upd RAND   | 84.46        | 389.86             | 326.37           | -               | 166.5        |
+| 1M ins SEQ    | 531.29       | 192.38             | 89.1             | -               | 165.06       |
+| 1M ins RAND   | 1495.64      | 1157.01            | 878.02           | -               | 515.97       |
+| 1M keys-only  | 3.6031       | -                  | -                | -               | 0.1          |
+
 ### AVLTree
 
 | Test Case                         | Avg (ms) | Min (ms) | Max (ms) | Stability | C++ Avg (ms) |
