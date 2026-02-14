@@ -204,7 +204,8 @@ export class BSTNode<K = any, V = any> {
  *  // Create a simple BST with numeric keys
  *     const bst = new BST<number>([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
  *
- *     bst.print();
+ *     // Keep the example output in source comments but avoid noisy test logs.
+ *     await withMutedConsole(() => bst.print());
  *     //         _______8__________
  *     //        /                  \
  *     //     ___4___          ____12_____
