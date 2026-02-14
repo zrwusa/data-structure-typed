@@ -29,7 +29,15 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V]> {
 
     this.#core = new RedBlackTree<K, V>([], { comparator });
 
-    for (const [k, v] of entries) this.set(k, v);
+    // Validate entries like native Map: each item must be a 2-tuple-like value.
+    for (const item of entries as unknown as Iterable<unknown>) {
+      if (!Array.isArray(item) || item.length < 2) {
+        throw new TypeError('TreeMap: each entry must be a [key, value] tuple');
+      }
+      const k = item[0] as K;
+      const v = item[1] as V;
+      this.set(k, v);
+    }
   }
 
   static createDefaultComparator<K>(): Comparator<K> {

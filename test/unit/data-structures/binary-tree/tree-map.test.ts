@@ -68,6 +68,11 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
     expect(m.has(2)).toBe(false);
   });
 
+  test('constructor throws TypeError for invalid entries (native Map behavior)', () => {
+    expect(() => new TreeMap([['a', 1], ['b'] as unknown as [string, number]])).toThrow(TypeError);
+    expect(() => new TreeMap([123 as unknown as [string, number]])).toThrow(TypeError);
+  });
+
   test('default comparator: NaN throws (even on empty tree)', () => {
     const m = new TreeMap<number, number>();
     expect(() => m.set(Number.NaN, 1)).toThrow(TypeError);
