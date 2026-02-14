@@ -73,7 +73,7 @@ Navigable operations (no node exposure):
 - `floor(key: K): K | undefined`
 - `higher(key: K): K | undefined`
 - `lower(key: K): K | undefined`
-- `rangeSearch(range: [K, K]): K[]`
+- `rangeSearch(range: [K, K], options?: { lowInclusive?: boolean; highInclusive?: boolean }): K[]`
 
 Construction & duplicates:
 
@@ -109,7 +109,7 @@ Navigable operations (no node exposure; return entry tuples):
 - `floor(key: K): [K, V] | undefined`
 - `higher(key: K): [K, V] | undefined`
 - `lower(key: K): [K, V] | undefined`
-- `rangeSearch(range: [K, K]): [K, V][]`
+- `rangeSearch(range: [K, K], options?: { lowInclusive?: boolean; highInclusive?: boolean }): [K, V][]`
 
 Construction & duplicates:
 
@@ -402,7 +402,9 @@ These are **behavioral requirements** intended to be covered by unit tests.
 - `first()` / `last()` return the minimum/maximum key (TreeSet) or entry tuple (TreeMap), or `undefined` if empty
 - `pollFirst()` / `pollLast()` remove and return the min/max item, or `undefined` if empty
 - `ceiling/floor/higher/lower` behave like Java `NavigableSet`/`NavigableMap` (but return `undefined` instead of throwing)
-- `rangeSearch([low, high])` returns all items in the inclusive range, ascending
+- `rangeSearch([low, high], { lowInclusive, highInclusive })` returns all items in the specified range, ascending
+  - defaults: `{ lowInclusive: true, highInclusive: true }`
+  - should support all four combinations: `[low,high]`, `[low,high)`, `(low,high]`, `(low,high)`
 
 Tree-specific operations (non-goal):
 
