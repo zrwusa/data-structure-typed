@@ -49,10 +49,10 @@ Key principles:
 
 ### 2.1 TreeSet<K>
 
-Minimal v1 surface (Set-like):
+Minimal surface (Set-like):
 
 - `constructor(elements?: Iterable<K>, options?: TreeSetOptions<K>)`
-- `add(key: K): boolean` (returns true if inserted, false if already present)
+- `add(key: K): this` (native Set semantics; inserting an existing key is a no-op)
 - `has(key: K): boolean`
 - `delete(key: K): boolean`
 - `clear(): void`
@@ -61,17 +61,21 @@ Minimal v1 surface (Set-like):
 - `values(): IterableIterator<K>` (same as keys)
 - `entries(): IterableIterator<[K, K]>` (Set convention)
 - `[Symbol.iterator](): IterableIterator<K>`
-- `forEach(cb: (value: K, value2: K, set: TreeSet<K>) => void, thisArg?: any): void` (optional)
+- `forEach(cb: (value: K, value2: K, set: TreeSet<K>) => void, thisArg?: any): void`
+
+Construction & duplicates:
+
+- `elements` is iterated in order; duplicates are ignored (native Set semantics).
 
 Notes:
 - Iteration behavior should match native `Set` as closely as practical.
 
 ### 2.2 TreeMap<K, V>
 
-Minimal v1 surface (Map-like):
+Minimal surface (Map-like):
 
 - `constructor(entries?: Iterable<[K, V]>, options?: TreeMapOptions<K>)`
-- `set(key: K, value: V): this`
+- `set(key: K, value: V): this` (native Map semantics)
 - `get(key: K): V | undefined`
 - `has(key: K): boolean`
 - `delete(key: K): boolean`
@@ -81,7 +85,16 @@ Minimal v1 surface (Map-like):
 - `values(): IterableIterator<V>`
 - `entries(): IterableIterator<[K, V]>`
 - `[Symbol.iterator](): IterableIterator<[K, V]>` (Map convention)
-- `forEach(cb: (value: V, key: K, map: TreeMap<K, V>) => void, thisArg?: any): void` (optional)
+- `forEach(cb: (value: V, key: K, map: TreeMap<K, V>) => void, thisArg?: any): void`
+
+Construction & duplicates:
+
+- `entries` is iterated in order; when the same key appears multiple times, the **last value wins** (native Map semantics).
+
+`get()` vs `has()`:
+
+- Because `undefined` values are allowed, `get(key) === undefined` does **not** imply the key is absent.
+- Use `has(key)` to distinguish “missing” vs “present with undefined value”.
 
 Notes:
 - Iteration behavior should match native `Map` as closely as practical.
@@ -266,6 +279,15 @@ Rationale:
 - `keys()/values()/entries()` return iterators.
 - `TreeSet.values()` is the same as `TreeSet.keys()`.
 - `TreeSet.entries()` yields `[key, key]`.
+
+### 10.8 forEach semantics
+
+Match native `Set` / `Map` callback conventions:
+
+- `TreeSet.forEach((value, value2, set) => { ... }, thisArg?)`
+- `TreeMap.forEach((value, key, map) => { ... }, thisArg?)`
+
+`thisArg` should behave like native implementations (bind `this` inside the callback).
 
 ### 10.8 Size semantics
 
