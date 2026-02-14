@@ -34,6 +34,14 @@ describe('TreeSet (RedBlackTree-backed, no node exposure)', () => {
       [2, 2],
       [3, 3]
     ]);
+
+    const seen: number[] = [];
+    const ctx = { ok: true };
+    s.forEach(function (this: typeof ctx, v) {
+      expect(this).toBe(ctx);
+      seen.push(v);
+    }, ctx);
+    expect(seen).toEqual([1, 2, 3]);
   });
 
   test('default comparator: NaN throws (even on empty tree)', () => {
@@ -66,6 +74,12 @@ describe('TreeSet (RedBlackTree-backed, no node exposure)', () => {
     expect(() => s2.add(bad)).toThrow(TypeError);
   });
 
+  test('default comparator: string key ordering is supported', () => {
+    const s = new TreeSet<string>(['b', 'a', 'c']);
+    expect([...s]).toEqual(['a', 'b', 'c']);
+    expect(s.higher('b')).toBe('c');
+  });
+
   test('default comparator: non-primitive/non-Date requires custom comparator', () => {
     type Obj = { n: number };
     const o1: Obj = { n: 1 };
@@ -75,6 +89,11 @@ describe('TreeSet (RedBlackTree-backed, no node exposure)', () => {
     const byN = (a: Obj, b: Obj) => a.n - b.n;
     const s = new TreeSet<Obj>([o1, { n: 2 }], { comparator: byN });
     expect(s.size).toBe(2);
+  });
+
+  test('createDefaultComparator throws for unsupported key types', () => {
+    const cmp = TreeSet.createDefaultComparator<object>();
+    expect(() => cmp({} as unknown as object, {} as unknown as object)).toThrow(TypeError);
   });
 
   test('navigable operations: first/last/pollFirst/pollLast', () => {

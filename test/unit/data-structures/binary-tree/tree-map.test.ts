@@ -45,6 +45,19 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
       [2, 'b'],
       [3, 'c']
     ]);
+
+    const seen: Array<[number, string]> = [];
+    const ctx = { tag: 'ctx' };
+    m.forEach(function (this: typeof ctx, v, k) {
+      // verify thisArg binding
+      expect(this).toBe(ctx);
+      seen.push([k, v]);
+    }, ctx);
+    expect(seen).toEqual([
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c']
+    ]);
   });
 
   test('allows undefined values; has() distinguishes missing vs present-undefined', () => {
@@ -93,6 +106,16 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
     expect(() => m2.set(bad, 1)).toThrow(TypeError);
   });
 
+  test('default comparator: string key ordering is supported', () => {
+    const m = new TreeMap<string, number>([
+      ['b', 2],
+      ['a', 1],
+      ['c', 3]
+    ]);
+    expect([...m.keys()]).toEqual(['a', 'b', 'c']);
+    expect(m.ceiling('bb')).toEqual(['c', 3]);
+  });
+
   test('default comparator: non-primitive/non-Date requires custom comparator', () => {
     type Obj = { n: number };
     const o1: Obj = { n: 1 };
@@ -102,6 +125,11 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
     const byN = (a: Obj, b: Obj) => a.n - b.n;
     const m = new TreeMap<Obj, number>([[o1, 1]], { comparator: byN });
     expect(m.size).toBe(1);
+  });
+
+  test('createDefaultComparator throws for unsupported key types', () => {
+    const cmp = TreeMap.createDefaultComparator<object>();
+    expect(() => cmp({} as unknown as object, {} as unknown as object)).toThrow(TypeError);
   });
 
   test('navigable operations: first/last/pollFirst/pollLast', () => {
