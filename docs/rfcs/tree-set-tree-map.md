@@ -396,6 +396,7 @@ These are **behavioral requirements** intended to be covered by unit tests.
 - `TreeMap.set` is chainable and returns `this`
 - `delete` returns `true` iff a key existed
 - `clear` results in `size === 0`
+- `isEmpty()` is equivalent to `size === 0`
 
 ### 11.4 Navigable operations
 
