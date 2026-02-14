@@ -120,15 +120,19 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V]> {
     return this.#core.keys();
   }
 
+  private _entryFromKey(k: K): [K, V] {
+    // Keys come from `keys()` which only yields existing keys.
+    // We still allow `undefined` as a stored value; we intentionally keep the public entry type as `[K, V]`
+    // (matching the generic parameter) and localize the required narrowing here.
+    return [k, this.#core.get(k) as V];
+  }
+
   *values(): IterableIterator<V> {
-    for (const k of this.keys()) yield this.get(k) as V;
+    for (const k of this.keys()) yield this._entryFromKey(k)[1];
   }
 
   *entries(): IterableIterator<[K, V]> {
-    for (const k of this.keys()) {
-      // If the key exists, get() may still return undefined (allowed). We still yield the entry.
-      yield [k, this.get(k) as V];
-    }
+    for (const k of this.keys()) yield this._entryFromKey(k);
   }
 
   [Symbol.iterator](): IterableIterator<[K, V]> {
@@ -143,12 +147,12 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V]> {
 
   first(): [K, V] | undefined {
     const k = this.#core.getLeftMost();
-    return k === undefined ? undefined : [k, this.get(k) as V];
+    return k === undefined ? undefined : this._entryFromKey(k);
   }
 
   last(): [K, V] | undefined {
     const k = this.#core.getRightMost();
-    return k === undefined ? undefined : [k, this.get(k) as V];
+    return k === undefined ? undefined : this._entryFromKey(k);
   }
 
   pollFirst(): [K, V] | undefined {
@@ -168,25 +172,25 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V]> {
   ceiling(key: K): [K, V] | undefined {
     this._validateKey(key);
     const k = this.#core.ceiling(key);
-    return k === undefined ? undefined : [k, this.get(k) as V];
+    return k === undefined ? undefined : this._entryFromKey(k);
   }
 
   floor(key: K): [K, V] | undefined {
     this._validateKey(key);
     const k = this.#core.floor(key);
-    return k === undefined ? undefined : [k, this.get(k) as V];
+    return k === undefined ? undefined : this._entryFromKey(k);
   }
 
   higher(key: K): [K, V] | undefined {
     this._validateKey(key);
     const k = this.#core.higher(key);
-    return k === undefined ? undefined : [k, this.get(k) as V];
+    return k === undefined ? undefined : this._entryFromKey(k);
   }
 
   lower(key: K): [K, V] | undefined {
     this._validateKey(key);
     const k = this.#core.lower(key);
-    return k === undefined ? undefined : [k, this.get(k) as V];
+    return k === undefined ? undefined : this._entryFromKey(k);
   }
 
   rangeSearch(range: [K, K], options: RangeOptions = {}): [K, V][] {
@@ -203,7 +207,7 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V]> {
       if (k === undefined) continue;
       if (!lowInclusive && cmp(k, low) === 0) continue;
       if (!highInclusive && cmp(k, high) === 0) continue;
-      out.push([k, this.get(k) as V]);
+      out.push(this._entryFromKey(k));
     }
 
     return out;
