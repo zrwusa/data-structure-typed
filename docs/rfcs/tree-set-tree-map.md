@@ -94,10 +94,10 @@ Minimal surface (Map-like), plus navigable operations (Java TreeMap / NavigableM
 - `clear(): void`
 - `get size(): number`
 - `keys(): IterableIterator<K>`
-- `values(): IterableIterator<V>`
-- `entries(): IterableIterator<[K, V]>`
-- `[Symbol.iterator](): IterableIterator<[K, V]>` (Map convention)
-- `forEach(cb: (value: V, key: K, map: TreeMap<K, V>) => void, thisArg?: any): void`
+- `values(): IterableIterator<V | undefined>`
+- `entries(): IterableIterator<[K, V | undefined]>`
+- `[Symbol.iterator](): IterableIterator<[K, V | undefined]>` (Map convention)
+- `forEach(cb: (value: V | undefined, key: K, map: TreeMap<K, V>) => void, thisArg?: any): void`
 
 Navigable operations (no node exposure; return entry tuples):
 
@@ -442,13 +442,13 @@ Navigable operations (goal):
 
 - iteration order is ascending by key (in-order traversal)
 - `TreeSet` iterator yields keys
-- `TreeMap` iterator yields `[key, value]`
+- `TreeMap` iterator yields `[key, value]` (value may be `undefined`)
 
 ### 11.5 Views
 
 - `TreeSet.values()` yields the same sequence as `TreeSet.keys()`
 - `TreeSet.entries()` yields `[key, key]`
-- `TreeMap.entries()` yields `[key, value]`
+- `TreeMap.entries()` yields `[key, value]` (value may be `undefined`)
 
 ### 11.6 `undefined` values
 

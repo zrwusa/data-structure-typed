@@ -124,7 +124,7 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
     // Keys come from `keys()` which only yields existing keys.
     // We still allow `undefined` as a stored value; we intentionally keep the public entry type as `[K, V]`
     // (matching the generic parameter) and localize the required narrowing here.
-    return [k, this.#core.get(k) as V | undefined];
+    return [k, this.#core.get(k)];
   }
 
   /**
