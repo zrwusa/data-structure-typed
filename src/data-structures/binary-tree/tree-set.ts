@@ -19,6 +19,9 @@ type RangeOptions = {
   highInclusive?: boolean;
 };
 
+type TreeSetElementCallback<K, R> = (value: K, index: number, set: TreeSet<K>) => R;
+type TreeSetReduceCallback<K, A> = (acc: A, value: K, index: number, set: TreeSet<K>) => A;
+
 /**
  * An ordered Set backed by a red-black tree.
  *
@@ -190,6 +193,64 @@ export class TreeSet<K = any> implements Iterable<K> {
    */
   forEach(cb: (value: K, value2: K, set: TreeSet<K>) => void, thisArg?: any): void {
     for (const k of this) cb.call(thisArg, k, k, this);
+  }
+
+  /**
+   * Map values to a new array.
+   * @remarks Time O(n), Space O(n)
+   */
+  map<U>(callbackfn: TreeSetElementCallback<K, U>, thisArg?: unknown): U[] {
+    const out: U[] = [];
+    let index = 0;
+    for (const v of this) {
+      if (thisArg === undefined) out.push(callbackfn(v, index++, this));
+      else out.push((callbackfn as (this: unknown, v: K, i: number, self: TreeSet<K>) => U).call(thisArg, v, index++, this));
+    }
+    return out;
+  }
+
+  /**
+   * Filter values into a new array.
+   * @remarks Time O(n), Space O(n)
+   */
+  filter(callbackfn: TreeSetElementCallback<K, boolean>, thisArg?: unknown): K[] {
+    const out: K[] = [];
+    let index = 0;
+    for (const v of this) {
+      const ok = thisArg === undefined
+        ? callbackfn(v, index++, this)
+        : (callbackfn as (this: unknown, v: K, i: number, self: TreeSet<K>) => boolean).call(thisArg, v, index++, this);
+      if (ok) out.push(v);
+    }
+    return out;
+  }
+
+  /**
+   * Reduce values into a single accumulator.
+   * @remarks Time O(n), Space O(1)
+   */
+  reduce<A>(callbackfn: TreeSetReduceCallback<K, A>, initialValue: A): A {
+    let acc = initialValue;
+    let index = 0;
+    for (const v of this) acc = callbackfn(acc, v, index++, this);
+    return acc;
+  }
+
+  /**
+   * Materialize the set into an array of keys.
+   * @remarks Time O(n), Space O(n)
+   */
+  toArray(): K[] {
+    return [...this];
+  }
+
+  /**
+   * Print a human-friendly representation.
+   * @remarks Time O(n), Space O(n)
+   */
+  print(): void {
+    // eslint-disable-next-line no-console
+    console.log(this.toArray());
   }
 
   // Navigable operations

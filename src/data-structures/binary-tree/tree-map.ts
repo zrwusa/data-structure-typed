@@ -19,6 +19,9 @@ type RangeOptions = {
   highInclusive?: boolean;
 };
 
+type TreeMapEntryCallback<K, V, R> = (value: V | undefined, key: K, index: number, map: TreeMap<K, V>) => R;
+type TreeMapReduceCallback<K, V, A> = (acc: A, value: V | undefined, key: K, index: number, map: TreeMap<K, V>) => A;
+
 /**
  * An ordered Map backed by a red-black tree.
  *
@@ -206,6 +209,64 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
    */
   forEach(cb: (value: V | undefined, key: K, map: TreeMap<K, V>) => void, thisArg?: any): void {
     for (const [k, v] of this) cb.call(thisArg, v, k, this);
+  }
+
+  /**
+   * Map entries to a new array.
+   * @remarks Time O(n), Space O(n)
+   */
+  map<U>(callbackfn: TreeMapEntryCallback<K, V, U>, thisArg?: unknown): U[] {
+    const out: U[] = [];
+    let index = 0;
+    for (const [k, v] of this) {
+      if (thisArg === undefined) out.push(callbackfn(v, k, index++, this));
+      else out.push((callbackfn as (this: unknown, v: V | undefined, k: K, i: number, self: TreeMap<K, V>) => U).call(thisArg, v, k, index++, this));
+    }
+    return out;
+  }
+
+  /**
+   * Filter entries into a new array of `[key, value]` tuples.
+   * @remarks Time O(n), Space O(n)
+   */
+  filter(callbackfn: TreeMapEntryCallback<K, V, boolean>, thisArg?: unknown): Array<[K, V | undefined]> {
+    const out: Array<[K, V | undefined]> = [];
+    let index = 0;
+    for (const [k, v] of this) {
+      const ok = thisArg === undefined
+        ? callbackfn(v, k, index++, this)
+        : (callbackfn as (this: unknown, v: V | undefined, k: K, i: number, self: TreeMap<K, V>) => boolean).call(thisArg, v, k, index++, this);
+      if (ok) out.push([k, v]);
+    }
+    return out;
+  }
+
+  /**
+   * Reduce entries into a single accumulator.
+   * @remarks Time O(n), Space O(1)
+   */
+  reduce<A>(callbackfn: TreeMapReduceCallback<K, V, A>, initialValue: A): A {
+    let acc = initialValue;
+    let index = 0;
+    for (const [k, v] of this) acc = callbackfn(acc, v, k, index++, this);
+    return acc;
+  }
+
+  /**
+   * Materialize the map into an array of `[key, value]` tuples.
+   * @remarks Time O(n), Space O(n)
+   */
+  toArray(): Array<[K, V | undefined]> {
+    return [...this];
+  }
+
+  /**
+   * Print a human-friendly representation.
+   * @remarks Time O(n), Space O(n)
+   */
+  print(): void {
+    // eslint-disable-next-line no-console
+    console.log(this.toArray());
   }
 
   // Navigable operations (return entry tuples)

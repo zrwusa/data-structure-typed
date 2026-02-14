@@ -214,4 +214,36 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
 
     expect(m.rangeSearch([2, 4], { lowInclusive: false, highInclusive: false })).toEqual([[3, 'c']]);
   });
+
+  test('map/filter/reduce/toArray/print', () => {
+    const m = new TreeMap<number, string>([
+      [3, 'c'],
+      [1, 'a'],
+      [2, 'b']
+    ]);
+
+    expect(m.map((v, k) => `${k}:${v ?? 'u'}`)).toEqual(['1:a', '2:b', '3:c']);
+
+    const ctx = { prefix: 'x' };
+    expect(
+      m.map(function (this: typeof ctx, v, k) {
+        return `${this.prefix}${k}:${v ?? 'u'}`;
+      }, ctx)
+    ).toEqual(['x1:a', 'x2:b', 'x3:c']);
+    expect(m.filter((v, k) => k >= 2)).toEqual<([number, string | undefined])[]>([
+      [2, 'b'],
+      [3, 'c']
+    ]);
+    expect(m.reduce((acc, v) => acc + (v ? v.length : 0), 0)).toBe(3);
+    expect(m.toArray()).toEqual<([number, string | undefined])[]>([
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c']
+    ]);
+
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => undefined);
+    m.print();
+    expect(spy).toHaveBeenCalled();
+    spy.mockRestore();
+  });
 });

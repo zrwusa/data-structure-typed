@@ -152,4 +152,23 @@ describe('TreeSet (RedBlackTree-backed, no node exposure)', () => {
     expect(s.rangeSearch([2, 4], { lowInclusive: false, highInclusive: true })).toEqual([3, 4]);
     expect(s.rangeSearch([2, 4], { lowInclusive: false, highInclusive: false })).toEqual([3]);
   });
+
+  test('map/filter/reduce/toArray/print', () => {
+    const s = new TreeSet<number>([3, 1, 2]);
+
+    expect(s.map(v => v * 2)).toEqual([2, 4, 6]);
+
+    const ctx = { mul: 3 };
+    expect(s.map(function (this: typeof ctx, v) {
+      return v * this.mul;
+    }, ctx)).toEqual([3, 6, 9]);
+    expect(s.filter(v => v % 2 === 1)).toEqual([1, 3]);
+    expect(s.reduce((acc, v) => acc + v, 0)).toBe(6);
+    expect(s.toArray()).toEqual([1, 2, 3]);
+
+    const spy = jest.spyOn(console, 'log').mockImplementation(() => undefined);
+    s.print();
+    expect(spy).toHaveBeenCalled();
+    spy.mockRestore();
+  });
 });
