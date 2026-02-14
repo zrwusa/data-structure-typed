@@ -1,0 +1,62 @@
+{
+  "tree-map": {
+    "benchmarks": [
+      {
+        "Test Case": "1,000,000 set (TreeMap)",
+        "Latency Avg (ms)": "117.45",
+        "Min (ms)": "112.83",
+        "Max (ms)": "128.83",
+        "Stability": "±1.33%"
+      },
+      {
+        "Test Case": "1,000,000 set (RedBlackTree)",
+        "Latency Avg (ms)": "115.08",
+        "Min (ms)": "109.82",
+        "Max (ms)": "119.57",
+        "Stability": "±0.85%"
+      },
+      {
+        "Test Case": "Native JS Map 1,000,000 set",
+        "Latency Avg (ms)": "101.48",
+        "Min (ms)": "97.14",
+        "Max (ms)": "105.40",
+        "Stability": "±0.83%"
+      },
+      {
+        "Test Case": "1,000,000 get (TreeMap)",
+        "Latency Avg (ms)": "77.37",
+        "Min (ms)": "68.81",
+        "Max (ms)": "87.21",
+        "Stability": "±2.65%"
+      },
+      {
+        "Test Case": "1,000,000 get (RedBlackTree)",
+        "Latency Avg (ms)": "66.11",
+        "Min (ms)": "56.89",
+        "Max (ms)": "91.27",
+        "Stability": "±2.94%"
+      },
+      {
+        "Test Case": "Native JS Map 1,000,000 get",
+        "Latency Avg (ms)": "64.03",
+        "Min (ms)": "56.61",
+        "Max (ms)": "83.90",
+        "Stability": "±4.26%"
+      },
+      {
+        "Test Case": "100,000 rangeSearch (TreeMap)",
+        "Latency Avg (ms)": "63.90",
+        "Min (ms)": "44.34",
+        "Max (ms)": "118.78",
+        "Stability": "±7.38%"
+      },
+      {
+        "Test Case": "100,000 ceiling/floor/higher/lower (TreeMap)",
+        "Latency Avg (ms)": "259.83",
+        "Min (ms)": "166.57",
+        "Max (ms)": "282.06",
+        "Stability": "±8.94%"
+      }
+    ]
+  }
+}
