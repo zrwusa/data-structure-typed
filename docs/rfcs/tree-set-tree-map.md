@@ -233,6 +233,13 @@ The following decisions were confirmed:
 
 This section captures **implementation-level details** to avoid ambiguity.
 
+### 10.0 Iteration + mutation semantics
+
+We will **match native `Map` / `Set` behavior** as closely as practical when the collection is mutated during iteration.
+
+- No fail-fast iterators.
+- Exact edge-case parity with the JS engine is not guaranteed, but we should not throw solely due to mutation during iteration.
+
 ### 10.1 Node / hint / predicate inputs
 
 `TreeSet` and `TreeMap` are intentionally **native-like**:
@@ -250,6 +257,11 @@ Rationale:
 - If no comparator is provided:
   - For `number` and `string`, use the default comparator.
   - For other types, **throw a descriptive error at construction time**.
+- No additional built-in comparators are provided (e.g. `bigint`, `Date`): users must provide a comparator for non-`number`/`string` keys.
+
+Error recommendation (informative):
+
+- Throw: `TypeError("TreeMap/TreeSet: comparator is required for non-number/non-string keys")`
 
 ### 10.3 Equality semantics
 
@@ -258,9 +270,7 @@ Rationale:
 
 ### 10.4 Duplicate keys
 
-- `TreeSet.add(k)`:
-  - returns `true` when a new key is inserted
-  - returns `false` when the key is already present
+- `TreeSet.add(k)` is a no-op if the key already exists (native Set semantics).
 - `TreeMap.set(k, v)` overwrites the old value.
 
 ### 10.5 Return types and chaining
