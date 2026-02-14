@@ -334,7 +334,68 @@ Match native `Set` / `Map` callback conventions:
 
 ---
 
+## 11. Conformance Tests (checklist)
+
+These are **behavioral requirements** intended to be covered by unit tests.
+
+### 11.1 Construction
+
+- **TreeSet**
+  - accepts any `Iterable<K>`
+  - ignores duplicate keys
+  - throws `TypeError` at construction time if key type is not `number`/`string` and `options.comparator` is missing
+- **TreeMap**
+  - accepts any `Iterable<[K, V]>`
+  - for duplicate keys, last value wins
+  - throws `TypeError` if any entry is not a valid 2-tuple-like item (`[K, V]`)
+  - throws `TypeError` at construction time if key type is not `number`/`string` and `options.comparator` is missing
+
+### 11.2 Default comparator edge cases (number)
+
+- inserting / searching with `NaN` throws `TypeError`
+- `-0` and `0` are treated as the same key (inserting one makes `has` true for the other)
+
+### 11.3 Core operations
+
+- `TreeSet.add` is chainable and returns `this`
+- `TreeMap.set` is chainable and returns `this`
+- `delete` returns `true` iff a key existed
+- `clear` results in `size === 0`
+
+### 11.4 Iteration order
+
+- iteration order is ascending by key (in-order traversal)
+- `TreeSet` iterator yields keys
+- `TreeMap` iterator yields `[key, value]`
+
+### 11.5 Views
+
+- `TreeSet.values()` yields the same sequence as `TreeSet.keys()`
+- `TreeSet.entries()` yields `[key, key]`
+- `TreeMap.entries()` yields `[key, value]`
+
+### 11.6 `undefined` values
+
+- TreeMap allows `undefined` values
+- `get(k) === undefined` does not imply absence; `has(k)` must distinguish
+
+### 11.7 Mutation during iteration / forEach
+
+Best-effort native-like behavior; requirements:
+
+- iterating and mutating must not throw solely due to mutation
+- when entries are added during iteration/forEach, they **may** be visited in the same traversal; inclusion is not guaranteed
+- deleting the current key during iteration/forEach must not cause duplicates or infinite loops
+
+### 11.8 forEach callback conventions
+
+- TreeSet: callback receives `(value, value2, set)`
+- TreeMap: callback receives `(value, key, map)`
+- `thisArg` binds `this` inside the callback
+
+---
+
 Next steps:
 
-1) Resolve remaining TBD items in §10 (notably: comparator default policy, and TreeSet.add return type).
-2) Implement with composition, add tests, and update documentation.
+1) Implement with composition, add tests to satisfy §11.
+2) Update documentation and exports.
