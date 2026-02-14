@@ -52,6 +52,16 @@ describe('TreeSet (RedBlackTree-backed, no node exposure)', () => {
     expect(() => s.ceiling(Number.NaN)).toThrow(TypeError);
   });
 
+  test('constructor throws when encountering invalid keys under default comparator', () => {
+    expect(() => new TreeSet<number>([1, Number.NaN, 2])).toThrow(TypeError);
+
+    const bad = new Date('not-a-date');
+    expect(() => new TreeSet<Date>([bad])).toThrow(TypeError);
+
+    type Obj = { n: number };
+    expect(() => new TreeSet<Obj>([{ n: 1 }])).toThrow(TypeError);
+  });
+
   test('default comparator: -0 and 0 are the same key', () => {
     const s = new TreeSet<number>();
     s.add(-0);
