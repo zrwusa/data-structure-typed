@@ -110,14 +110,27 @@ export class TreeSet<K = any> implements Iterable<K> {
     this.#core.clear();
   }
 
+  /**
+   * Iterate over keys in ascending order.
+   */
   keys(): IterableIterator<K> {
     return this.#core.keys();
   }
 
+  /**
+   * Iterate over values in ascending order.
+   *
+   * Note: for Set-like containers, `values()` is the same as `keys()`.
+   */
   values(): IterableIterator<K> {
     return this.keys();
   }
 
+  /**
+   * Iterate over `[value, value]` pairs (native Set convention).
+   *
+   * Note: TreeSet stores only keys internally; `[k, k]` is created on-the-fly during iteration.
+   */
   *entries(): IterableIterator<[K, K]> {
     for (const k of this.keys()) yield [k, k];
   }
@@ -126,6 +139,11 @@ export class TreeSet<K = any> implements Iterable<K> {
     return this.keys();
   }
 
+  /**
+   * Visit each value in ascending order.
+   *
+   * Callback follows native Set convention: `(value, value2, set)`.
+   */
   forEach(cb: (value: K, value2: K, set: TreeSet<K>) => void, thisArg?: any): void {
     for (const k of this) cb.call(thisArg, k, k, this);
   }
