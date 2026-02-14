@@ -149,7 +149,7 @@ Both structures need a comparator for `K`:
 - default comparator for numbers/strings
 - require user comparator for complex objects
 
-Options types (draft):
+Options types:
 
 ```ts
 type Comparator<K> = (a: K, b: K) => number;
@@ -162,6 +162,8 @@ interface TreeMapOptions<K> {
   comparator?: Comparator<K>;
 }
 ```
+
+Non-goal: do not expose `RedBlackTree`-specific knobs (e.g. MapMode/Node Mode, `toEntryFn`, internal caches) via `TreeSet/TreeMap` options.
 
 ### 4.2 Value semantics (TreeMap)
 
@@ -280,7 +282,8 @@ Error recommendation (informative):
 
 ### 10.6 Iteration order
 
-- Iteration is **in-order by key**.
+- Iteration is **in-order by key (ascending)**.
+- No descending/reverse iterators are exposed in `TreeSet/TreeMap` (to keep a strict native-like surface).
 - `TreeSet` iteration yields keys.
 - `TreeMap` iteration yields `[key, value]`.
 
