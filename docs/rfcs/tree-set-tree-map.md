@@ -245,12 +245,17 @@ We will **match native `Map` / `Set` behavior** as closely as practical when the
 - When entries are added during an active iteration/forEach, they **may** be visited in the same traversal; we do not guarantee inclusion in all cases.
 - Exact edge-case parity with the JS engine is not guaranteed, but we should not throw solely due to mutation during iteration.
 
-### 10.1 Node / hint / predicate inputs
+### 10.1 Node / hint / entry / predicate inputs
 
 `TreeSet` and `TreeMap` are intentionally **native-like**:
 
 - **No node parameters**: users can only pass `key` (and `value` for TreeMap).
-- **No predicate overloads**: methods do not accept `(node) => boolean` style predicates.
+- **No entry parameters**: methods do not accept `[key, value]` inputs (except the `TreeMap` constructor’s `entries` iterable).
+- **No predicate overloads**: methods do not accept predicate functions in place of keys.
+
+Consequence:
+
+- Tree-specific APIs like `ensureNode`, `getNode`, `search`, `rangeSearch`, `ceiling`, `floor`, etc. are intentionally not part of the `TreeSet/TreeMap` surface. Advanced queries remain available on `RedBlackTree`.
 
 Rationale:
 - Node/predicate overloads are tree-specific APIs and create confusing “hidden power” surfaces.
@@ -262,12 +267,15 @@ Rationale:
 - If no comparator is provided:
   - For `number` and `string`, use the default comparator.
   - For other types, **throw a descriptive error at construction time**.
-- No additional built-in comparators are provided (e.g. `bigint`, `Date`): users must provide a comparator for non-`number`/`string` keys.
+- No additional built-in comparators are provided (e.g. `bigint`), but **`Date` is supported by the default comparator**.
+- If keys are `Date`, they are ordered by `getTime()`. Invalid dates (`Number.isNaN(date.getTime())`) must throw `TypeError`.
+- For other non-`number`/`string`/`Date` keys, users must provide a comparator.
 
 Error recommendation (informative):
 
-- Throw: `TypeError("TreeMap/TreeSet: comparator is required for non-number/non-string keys")`
+- Throw: `TypeError("TreeMap/TreeSet: comparator is required for non-number/non-string/non-Date keys")`
 - Default number comparator rejects `NaN` (throw `TypeError`), and treats `-0` and `0` as equal keys.
+- Default `Date` comparator orders by `getTime()` and rejects invalid dates (throw `TypeError`).
 
 ### 10.3 Equality semantics
 
@@ -330,6 +338,7 @@ Match native `Set` / `Map` callback conventions:
 ### 10.12 Performance notes
 
 - `TreeSet/TreeMap` are wrappers; their overhead should be small but non-zero.
+- TreeSet/TreeMap intentionally expose only native-like operations; tree-specific operations should use `RedBlackTree`.
 - Most cross-language gaps (JS vs C++) are runtime/memory-model differences.
 
 ---
@@ -343,12 +352,12 @@ These are **behavioral requirements** intended to be covered by unit tests.
 - **TreeSet**
   - accepts any `Iterable<K>`
   - ignores duplicate keys
-  - throws `TypeError` at construction time if key type is not `number`/`string` and `options.comparator` is missing
+  - throws `TypeError` at construction time if key type is not `number`/`string`/`Date` and `options.comparator` is missing
 - **TreeMap**
   - accepts any `Iterable<[K, V]>`
   - for duplicate keys, last value wins
   - throws `TypeError` if any entry is not a valid 2-tuple-like item (`[K, V]`)
-  - throws `TypeError` at construction time if key type is not `number`/`string` and `options.comparator` is missing
+  - throws `TypeError` at construction time if key type is not `number`/`string`/`Date` and `options.comparator` is missing
 
 ### 11.2 Default comparator edge cases (number)
 
@@ -361,6 +370,11 @@ These are **behavioral requirements** intended to be covered by unit tests.
 - `TreeMap.set` is chainable and returns `this`
 - `delete` returns `true` iff a key existed
 - `clear` results in `size === 0`
+
+Tree-specific operations (non-goal):
+
+- TreeSet/TreeMap do not expose node-based or entry-based operations.
+- TreeSet/TreeMap do not expose advanced tree queries (`ensureNode`, `getNode`, `search`, `rangeSearch`, `ceiling`, `floor`, etc.).
 
 ### 11.4 Iteration order
 
