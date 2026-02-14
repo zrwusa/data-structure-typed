@@ -49,7 +49,7 @@ Key principles:
 
 ### 2.1 TreeSet<K>
 
-Minimal surface (Set-like):
+Minimal surface (Set-like), plus navigable operations (Java TreeSet / NavigableSet style):
 
 - `constructor(elements?: Iterable<K>, options?: TreeSetOptions<K>)`
 - `add(key: K): this` (native Set semantics; inserting an existing key is a no-op)
@@ -63,6 +63,18 @@ Minimal surface (Set-like):
 - `[Symbol.iterator](): IterableIterator<K>`
 - `forEach(cb: (value: K, value2: K, set: TreeSet<K>) => void, thisArg?: any): void`
 
+Navigable operations (no node exposure):
+
+- `first(): K | undefined`
+- `last(): K | undefined`
+- `pollFirst(): K | undefined` (remove + return)
+- `pollLast(): K | undefined` (remove + return)
+- `ceiling(key: K): K | undefined`
+- `floor(key: K): K | undefined`
+- `higher(key: K): K | undefined`
+- `lower(key: K): K | undefined`
+- `rangeSearch(range: [K, K]): K[]`
+
 Construction & duplicates:
 
 - `elements` is iterated in order; duplicates are ignored (native Set semantics).
@@ -72,7 +84,7 @@ Notes:
 
 ### 2.2 TreeMap<K, V>
 
-Minimal surface (Map-like):
+Minimal surface (Map-like), plus navigable operations (Java TreeMap / NavigableMap style):
 
 - `constructor(entries?: Iterable<[K, V]>, options?: TreeMapOptions<K>)`
 - `set(key: K, value: V): this` (native Map semantics)
@@ -86,6 +98,18 @@ Minimal surface (Map-like):
 - `entries(): IterableIterator<[K, V]>`
 - `[Symbol.iterator](): IterableIterator<[K, V]>` (Map convention)
 - `forEach(cb: (value: V, key: K, map: TreeMap<K, V>) => void, thisArg?: any): void`
+
+Navigable operations (no node exposure; return entry tuples):
+
+- `first(): [K, V] | undefined`
+- `last(): [K, V] | undefined`
+- `pollFirst(): [K, V] | undefined` (remove + return)
+- `pollLast(): [K, V] | undefined` (remove + return)
+- `ceiling(key: K): [K, V] | undefined`
+- `floor(key: K): [K, V] | undefined`
+- `higher(key: K): [K, V] | undefined`
+- `lower(key: K): [K, V] | undefined`
+- `rangeSearch(range: [K, K]): [K, V][]`
 
 Construction & duplicates:
 
@@ -255,7 +279,9 @@ We will **match native `Map` / `Set` behavior** as closely as practical when the
 
 Consequence:
 
-- Tree-specific APIs like `ensureNode`, `getNode`, `search`, `rangeSearch`, `ceiling`, `floor`, etc. are intentionally not part of the `TreeSet/TreeMap` surface. Advanced queries remain available on `RedBlackTree`.
+- Node- or entry-based APIs like `ensureNode` / `getNode` and predicate-overloaded tree traversal APIs are intentionally not part of the `TreeSet/TreeMap` surface.
+- However, `TreeSet/TreeMap` **do** expose a small set of navigable operations (e.g. `ceiling/floor/higher/lower`, `first/last`, `pollFirst/pollLast`, `rangeSearch`) inspired by Java’s `NavigableSet`/`NavigableMap`, without exposing nodes.
+- More advanced tree queries remain available on `RedBlackTree`.
 
 Rationale:
 - Node/predicate overloads are tree-specific APIs and create confusing “hidden power” surfaces.
@@ -371,10 +397,22 @@ These are **behavioral requirements** intended to be covered by unit tests.
 - `delete` returns `true` iff a key existed
 - `clear` results in `size === 0`
 
+### 11.4 Navigable operations
+
+- `first()` / `last()` return the minimum/maximum key (TreeSet) or entry tuple (TreeMap), or `undefined` if empty
+- `pollFirst()` / `pollLast()` remove and return the min/max item, or `undefined` if empty
+- `ceiling/floor/higher/lower` behave like Java `NavigableSet`/`NavigableMap` (but return `undefined` instead of throwing)
+- `rangeSearch([low, high])` returns all items in the inclusive range, ascending
+
 Tree-specific operations (non-goal):
 
-- TreeSet/TreeMap do not expose node-based or entry-based operations.
-- TreeSet/TreeMap do not expose advanced tree queries (`ensureNode`, `getNode`, `search`, `rangeSearch`, `ceiling`, `floor`, etc.).
+- TreeSet/TreeMap do not expose node-based operations.
+- TreeSet/TreeMap do not accept node or entry inputs.
+- TreeSet/TreeMap do not expose predicate-overloaded traversal/search APIs (these remain on `RedBlackTree`).
+
+Navigable operations (goal):
+
+- TreeSet/TreeMap do expose a small Java-inspired navigable subset without nodes: `first/last`, `pollFirst/pollLast`, `ceiling/floor/higher/lower`, and `rangeSearch`.
 
 ### 11.4 Iteration order
 
