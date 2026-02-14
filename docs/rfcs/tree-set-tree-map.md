@@ -208,14 +208,90 @@ Optional: add micro/macros to compare:
 
 ## 9. Decisions (confirmed)
 
-The following decisions were confirmed for v1:
+The following decisions were confirmed:
 
 1) **Naming:** use `TreeSet` / `TreeMap`.
 2) **TreeSet method names:** match native `Set` (`add/has/delete/size`).
 3) **Iteration & entries():** match native `Set` / `Map` conventions.
-4) **Tree-specific APIs:** **do not expose** tree-specific helpers in v1 (keep a strict Map/Set surface).
+4) **Tree-specific APIs:** do not expose tree-specific helpers as part of the `TreeSet/TreeMap` public surface.
 5) **`undefined` values (TreeMap):** allow `undefined` values (native Map behavior), and document that certain internal fast paths may not apply when `value === undefined`.
+
+## 10. Detailed Specification (full)
+
+This section captures **implementation-level details** to avoid ambiguity.
+
+### 10.1 Node / hint / predicate inputs
+
+`TreeSet` and `TreeMap` are intentionally **native-like**:
+
+- **No node parameters**: users can only pass `key` (and `value` for TreeMap).
+- **No predicate overloads**: methods do not accept `(node) => boolean` style predicates.
+
+Rationale:
+- Node/predicate overloads are tree-specific APIs and create confusing “hidden power” surfaces.
+- Advanced usage remains available via `RedBlackTree`.
+
+### 10.2 Ordering / comparator rules
+
+- The underlying order is defined by an explicit `comparator?: (a: K, b: K) => number`.
+- If no comparator is provided:
+  - For `number` and `string`, use the default comparator.
+  - For other types, behavior must be defined (choose one):
+    - (Recommended) throw a descriptive error at construction time.
+    - Allow but warn that ordering may be unstable.
+
+> TBD: confirm the default comparator policy for non-primitive keys.
+
+### 10.3 Equality semantics
+
+- Key equality is defined by `comparator(a, b) === 0`.
+- We should document that comparator must impose a strict weak ordering.
+
+### 10.4 Duplicate keys
+
+- `TreeSet.add(k)`:
+  - returns `true` when a new key is inserted
+  - returns `false` when the key is already present
+- `TreeMap.set(k, v)` overwrites the old value.
+
+### 10.5 Return types and chaining
+
+- `TreeSet.add(k)` returns `boolean` (native Set returns the set; we intentionally diverge for explicitness).
+  - Alternative: match native Set and return `this` (would align with JS Set semantics).
+  - **Decision required**: boolean vs fluent `this`.
+- `TreeMap.set(k, v)` returns `this` (native Map semantics).
+
+### 10.6 Iteration order
+
+- Iteration is **in-order by key**.
+- `TreeSet` iteration yields keys.
+- `TreeMap` iteration yields `[key, value]`.
+
+### 10.7 Views
+
+- `keys()/values()/entries()` return iterators.
+- `TreeSet.values()` is the same as `TreeSet.keys()`.
+- `TreeSet.entries()` yields `[key, key]`.
+
+### 10.8 Size semantics
+
+- `size` is the number of keys (TreeSet) / entries (TreeMap).
+
+### 10.9 `undefined` values (TreeMap)
+
+- `undefined` values are allowed.
+- Users must use `has(key)` to distinguish:
+  - key absent vs key present with value `undefined`.
+- Document that internal fast paths may depend on `value !== undefined`.
+
+### 10.10 Performance notes
+
+- `TreeSet/TreeMap` are wrappers; their overhead should be small but non-zero.
+- Most cross-language gaps (JS vs C++) are runtime/memory-model differences.
 
 ---
 
-If approved, the next step is to finalize decisions in §9, then implement with a minimal API, tests, and docs.
+Next steps:
+
+1) Resolve remaining TBD items in §10 (notably: comparator default policy, and TreeSet.add return type).
+2) Implement with composition, add tests, and update documentation.
