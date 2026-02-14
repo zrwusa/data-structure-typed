@@ -373,6 +373,27 @@ Match native `Set` / `Map` callback conventions:
 
 These are **behavioral requirements** intended to be covered by unit tests.
 
+### 11.0 Local coverage gate (TreeSet/TreeMap only)
+
+During development, we keep TreeSet/TreeMap coverage as close to 100% as practical.
+
+Recommended command (runs type-check + unit tests + coverage for just the two new files):
+
+```bash
+npm run check
+npx jest \
+  test/unit/data-structures/binary-tree/tree-set.test.ts \
+  test/unit/data-structures/binary-tree/tree-map.test.ts \
+  --coverage \
+  --collectCoverageFrom=src/data-structures/binary-tree/tree-set.ts \
+  --collectCoverageFrom=src/data-structures/binary-tree/tree-map.ts \
+  --runInBand
+```
+
+Notes:
+- We target 100% lines/functions for `tree-set.ts` and `tree-map.ts`.
+- Branch coverage may be slightly below 100% when some type-narrowed paths are not realistically reachable for a single instantiation of `K`.
+
 ### 11.1 Construction
 
 - **TreeSet**
