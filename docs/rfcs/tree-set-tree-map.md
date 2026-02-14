@@ -101,15 +101,15 @@ Minimal surface (Map-like), plus navigable operations (Java TreeMap / NavigableM
 
 Navigable operations (no node exposure; return entry tuples):
 
-- `first(): [K, V] | undefined`
-- `last(): [K, V] | undefined`
-- `pollFirst(): [K, V] | undefined` (remove + return)
-- `pollLast(): [K, V] | undefined` (remove + return)
-- `ceiling(key: K): [K, V] | undefined`
-- `floor(key: K): [K, V] | undefined`
-- `higher(key: K): [K, V] | undefined`
-- `lower(key: K): [K, V] | undefined`
-- `rangeSearch(range: [K, K], options?: { lowInclusive?: boolean; highInclusive?: boolean }): [K, V][]`
+- `first(): [K, V | undefined] | undefined`
+- `last(): [K, V | undefined] | undefined`
+- `pollFirst(): [K, V | undefined] | undefined` (remove + return)
+- `pollLast(): [K, V | undefined] | undefined` (remove + return)
+- `ceiling(key: K): [K, V | undefined] | undefined`
+- `floor(key: K): [K, V | undefined] | undefined`
+- `higher(key: K): [K, V | undefined] | undefined`
+- `lower(key: K): [K, V | undefined] | undefined`
+- `rangeSearch(range: [K, K], options?: { lowInclusive?: boolean; highInclusive?: boolean }): Array<[K, V | undefined]>`
 
 Construction & duplicates:
 
@@ -325,7 +325,7 @@ Error recommendation (informative):
 - Iteration is **in-order by key (ascending)**.
 - No descending/reverse iterators are exposed in `TreeSet/TreeMap` (to keep a strict native-like surface).
 - `TreeSet` iteration yields keys.
-- `TreeMap` iteration yields `[key, value]`.
+- `TreeMap` iteration yields `[key, value]`, where `value` may be `undefined`.
 
 ### 10.7 Views
 

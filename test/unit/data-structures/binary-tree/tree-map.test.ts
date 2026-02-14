@@ -35,18 +35,18 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
 
     expect([...m.keys()]).toEqual([1, 2, 3]);
     expect([...m.values()]).toEqual(['a', 'b', 'c']);
-    expect([...m.entries()]).toEqual([
+    expect([...m.entries()]).toEqual<([number, string | undefined])[]>([
       [1, 'a'],
       [2, 'b'],
       [3, 'c']
     ]);
-    expect([...m]).toEqual([
+    expect([...m]).toEqual<([number, string | undefined])[]>([
       [1, 'a'],
       [2, 'b'],
       [3, 'c']
     ]);
 
-    const seen: Array<[number, string]> = [];
+    const seen: Array<[number, string | undefined]> = [];
     const ctx = { tag: 'ctx' };
     m.forEach(function (this: typeof ctx, v, k) {
       // verify thisArg binding
@@ -114,7 +114,7 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
     ]);
 
     expect([...m.keys()]).toEqual([d1, d2]);
-    expect(m.first()).toEqual([d1, 1]);
+    expect(m.first()).toEqual<[Date, number | undefined]>([d1, 1]);
 
     const bad = new Date('not-a-date');
     const m2 = new TreeMap<Date, number>();

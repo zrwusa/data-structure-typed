@@ -19,7 +19,7 @@ type RangeOptions = {
   highInclusive?: boolean;
 };
 
-export class TreeMap<K = any, V = any> implements Iterable<[K, V]> {
+export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
   readonly #core: RedBlackTree<K, V>;
   readonly #isDefaultComparator: boolean;
 
@@ -120,87 +120,87 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V]> {
     return this.#core.keys();
   }
 
-  private _entryFromKey(k: K): [K, V] {
+  private _entryFromKey(k: K): [K, V | undefined] {
     // Keys come from `keys()` which only yields existing keys.
     // We still allow `undefined` as a stored value; we intentionally keep the public entry type as `[K, V]`
     // (matching the generic parameter) and localize the required narrowing here.
-    return [k, this.#core.get(k) as V];
+    return [k, this.#core.get(k) as V | undefined];
   }
 
-  *values(): IterableIterator<V> {
+  *values(): IterableIterator<V | undefined> {
     for (const k of this.keys()) yield this._entryFromKey(k)[1];
   }
 
-  *entries(): IterableIterator<[K, V]> {
+  *entries(): IterableIterator<[K, V | undefined]> {
     for (const k of this.keys()) yield this._entryFromKey(k);
   }
 
-  [Symbol.iterator](): IterableIterator<[K, V]> {
+  [Symbol.iterator](): IterableIterator<[K, V | undefined]> {
     return this.entries();
   }
 
-  forEach(cb: (value: V, key: K, map: TreeMap<K, V>) => void, thisArg?: any): void {
+  forEach(cb: (value: V | undefined, key: K, map: TreeMap<K, V>) => void, thisArg?: any): void {
     for (const [k, v] of this) cb.call(thisArg, v, k, this);
   }
 
   // Navigable operations (return entry tuples)
 
-  first(): [K, V] | undefined {
+  first(): [K, V | undefined] | undefined {
     const k = this.#core.getLeftMost();
     return k === undefined ? undefined : this._entryFromKey(k);
   }
 
-  last(): [K, V] | undefined {
+  last(): [K, V | undefined] | undefined {
     const k = this.#core.getRightMost();
     return k === undefined ? undefined : this._entryFromKey(k);
   }
 
-  pollFirst(): [K, V] | undefined {
+  pollFirst(): [K, V | undefined] | undefined {
     const entry = this.first();
     if (!entry) return undefined;
     this.delete(entry[0]);
     return entry;
   }
 
-  pollLast(): [K, V] | undefined {
+  pollLast(): [K, V | undefined] | undefined {
     const entry = this.last();
     if (!entry) return undefined;
     this.delete(entry[0]);
     return entry;
   }
 
-  ceiling(key: K): [K, V] | undefined {
+  ceiling(key: K): [K, V | undefined] | undefined {
     this._validateKey(key);
     const k = this.#core.ceiling(key);
     return k === undefined ? undefined : this._entryFromKey(k);
   }
 
-  floor(key: K): [K, V] | undefined {
+  floor(key: K): [K, V | undefined] | undefined {
     this._validateKey(key);
     const k = this.#core.floor(key);
     return k === undefined ? undefined : this._entryFromKey(k);
   }
 
-  higher(key: K): [K, V] | undefined {
+  higher(key: K): [K, V | undefined] | undefined {
     this._validateKey(key);
     const k = this.#core.higher(key);
     return k === undefined ? undefined : this._entryFromKey(k);
   }
 
-  lower(key: K): [K, V] | undefined {
+  lower(key: K): [K, V | undefined] | undefined {
     this._validateKey(key);
     const k = this.#core.lower(key);
     return k === undefined ? undefined : this._entryFromKey(k);
   }
 
-  rangeSearch(range: [K, K], options: RangeOptions = {}): [K, V][] {
+  rangeSearch(range: [K, K], options: RangeOptions = {}): Array<[K, V | undefined]> {
     const { lowInclusive = true, highInclusive = true } = options;
     const [low, high] = range;
     this._validateKey(low);
     this._validateKey(high);
 
     const keys = this.#core.rangeSearch([low, high]) as (K | undefined)[];
-    const out: [K, V][] = [];
+    const out: Array<[K, V | undefined]> = [];
     const cmp = this.#core.comparator;
 
     for (const k of keys) {
