@@ -236,11 +236,7 @@ Rationale:
 - The underlying order is defined by an explicit `comparator?: (a: K, b: K) => number`.
 - If no comparator is provided:
   - For `number` and `string`, use the default comparator.
-  - For other types, behavior must be defined (choose one):
-    - (Recommended) throw a descriptive error at construction time.
-    - Allow but warn that ordering may be unstable.
-
-> TBD: confirm the default comparator policy for non-primitive keys.
+  - For other types, **throw a descriptive error at construction time**.
 
 ### 10.3 Equality semantics
 
@@ -256,9 +252,7 @@ Rationale:
 
 ### 10.5 Return types and chaining
 
-- `TreeSet.add(k)` returns `boolean` (native Set returns the set; we intentionally diverge for explicitness).
-  - Alternative: match native Set and return `this` (would align with JS Set semantics).
-  - **Decision required**: boolean vs fluent `this`.
+- `TreeSet.add(k)` returns `this` (match native Set semantics).
 - `TreeMap.set(k, v)` returns `this` (native Map semantics).
 
 ### 10.6 Iteration order
