@@ -73,6 +73,16 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
     expect(() => new TreeMap([123 as unknown as [string, number]])).toThrow(TypeError);
   });
 
+  test('constructor throws when encountering invalid keys under default comparator', () => {
+    expect(() => new TreeMap<number, number>([[Number.NaN, 1]])).toThrow(TypeError);
+
+    const bad = new Date('not-a-date');
+    expect(() => new TreeMap<Date, number>([[bad, 1]])).toThrow(TypeError);
+
+    type Obj = { n: number };
+    expect(() => new TreeMap<Obj, number>([[{ n: 1 }, 1]])).toThrow(TypeError);
+  });
+
   test('default comparator: NaN throws (even on empty tree)', () => {
     const m = new TreeMap<number, number>();
     expect(() => m.set(Number.NaN, 1)).toThrow(TypeError);
