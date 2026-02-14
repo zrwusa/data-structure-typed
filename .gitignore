@@ -25,3 +25,8 @@ docs/hierarchy.html
 docs/index.html
 docs/modules.html
 /coverage
+
+# Benchmark artifacts (generated)
+/benchmark/report.json
+/benchmark/report.html
+/benchmark/report.*.json
