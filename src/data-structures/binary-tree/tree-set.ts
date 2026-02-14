@@ -19,10 +19,22 @@ type RangeOptions = {
   highInclusive?: boolean;
 };
 
+/**
+ * An ordered Set backed by a red-black tree.
+ *
+ * - Iteration order is ascending by key.
+ * - No node exposure: all APIs use keys only.
+ */
 export class TreeSet<K = any> implements Iterable<K> {
   readonly #core: RedBlackTree<K, undefined>;
   readonly #isDefaultComparator: boolean;
 
+  /**
+   * Create a TreeSet from an iterable of keys.
+   *
+   * @throws {TypeError} When using the default comparator and encountering unsupported key types,
+   * or invalid keys (e.g. `NaN`, invalid `Date`).
+   */
   constructor(elements: Iterable<K> = [], options: TreeSetOptions<K> = {}) {
     const comparator = options.comparator ?? TreeSet.createDefaultComparator<K>();
     this.#isDefaultComparator = options.comparator === undefined;
@@ -33,6 +45,16 @@ export class TreeSet<K = any> implements Iterable<K> {
     for (const k of elements) this.add(k);
   }
 
+  /**
+   * Create the strict default comparator.
+   *
+   * Supports:
+   * - `number` (rejects `NaN`; treats `-0` and `0` as equal)
+   * - `string`
+   * - `Date` (orders by `getTime()`, rejects invalid dates)
+   *
+   * For other key types, a custom comparator must be provided.
+   */
   static createDefaultComparator<K>(): Comparator<K> {
     return (a: K, b: K): number => {
       // numbers
@@ -61,10 +83,16 @@ export class TreeSet<K = any> implements Iterable<K> {
     };
   }
 
+  /**
+   * Number of elements in the set.
+   */
   get size(): number {
     return this.#core.size;
   }
 
+  /**
+   * Whether the set is empty.
+   */
   isEmpty(): boolean {
     return this.size === 0;
   }
@@ -88,6 +116,10 @@ export class TreeSet<K = any> implements Iterable<K> {
     throw new TypeError('TreeSet: comparator is required for non-number/non-string/non-Date keys');
   }
 
+  /**
+   * Add a key to the set (no-op if already present).
+   * @remarks Expected time O(log n)
+   */
   add(key: K): this {
     this._validateKey(key);
     // RBT.set returns boolean; Set.add returns this.
@@ -95,17 +127,29 @@ export class TreeSet<K = any> implements Iterable<K> {
     return this;
   }
 
+  /**
+   * Test whether a key exists.
+   * @remarks Expected time O(log n)
+   */
   has(key: K): boolean {
     this._validateKey(key);
     return this.#core.has(key);
   }
 
+  /**
+   * Delete a key.
+   * @returns `true` if the key existed; otherwise `false`.
+   * @remarks Expected time O(log n)
+   */
   delete(key: K): boolean {
     this._validateKey(key);
     const res = this.#core.delete(key);
     return Array.isArray(res) && res.length > 0 && !!res[0]?.deleted;
   }
 
+  /**
+   * Remove all keys.
+   */
   clear(): void {
     this.#core.clear();
   }
@@ -150,14 +194,23 @@ export class TreeSet<K = any> implements Iterable<K> {
 
   // Navigable operations
 
+  /**
+   * Smallest key in the set.
+   */
   first(): K | undefined {
     return this.#core.getLeftMost();
   }
 
+  /**
+   * Largest key in the set.
+   */
   last(): K | undefined {
     return this.#core.getRightMost();
   }
 
+  /**
+   * Remove and return the smallest key.
+   */
   pollFirst(): K | undefined {
     const k = this.first();
     if (k === undefined) return undefined;
@@ -165,6 +218,9 @@ export class TreeSet<K = any> implements Iterable<K> {
     return k;
   }
 
+  /**
+   * Remove and return the largest key.
+   */
   pollLast(): K | undefined {
     const k = this.last();
     if (k === undefined) return undefined;
@@ -172,26 +228,44 @@ export class TreeSet<K = any> implements Iterable<K> {
     return k;
   }
 
+  /**
+   * Smallest key that is >= the given key.
+   */
   ceiling(key: K): K | undefined {
     this._validateKey(key);
     return this.#core.ceiling(key);
   }
 
+  /**
+   * Largest key that is <= the given key.
+   */
   floor(key: K): K | undefined {
     this._validateKey(key);
     return this.#core.floor(key);
   }
 
+  /**
+   * Smallest key that is > the given key.
+   */
   higher(key: K): K | undefined {
     this._validateKey(key);
     return this.#core.higher(key);
   }
 
+  /**
+   * Largest key that is < the given key.
+   */
   lower(key: K): K | undefined {
     this._validateKey(key);
     return this.#core.lower(key);
   }
 
+  /**
+   * Return all keys in a given range.
+   *
+   * @param range `[low, high]`
+   * @param options Inclusive/exclusive bounds (defaults to inclusive).
+   */
   rangeSearch(range: [K, K], options: RangeOptions = {}): K[] {
     const { lowInclusive = true, highInclusive = true } = options;
 

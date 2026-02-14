@@ -19,10 +19,22 @@ type RangeOptions = {
   highInclusive?: boolean;
 };
 
+/**
+ * An ordered Map backed by a red-black tree.
+ *
+ * - Iteration order is ascending by key.
+ * - No node exposure: all APIs use keys/values only.
+ */
 export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
   readonly #core: RedBlackTree<K, V>;
   readonly #isDefaultComparator: boolean;
 
+  /**
+   * Create a TreeMap from an iterable of `[key, value]` entries.
+   *
+   * @throws {TypeError} If any entry is not a 2-tuple-like value, or when using the default comparator
+   * and encountering unsupported/invalid keys (e.g. `NaN`, invalid `Date`).
+   */
   constructor(entries: Iterable<[K, V]> = [], options: TreeMapOptions<K> = {}) {
     const comparator = options.comparator ?? TreeMap.createDefaultComparator<K>();
     this.#isDefaultComparator = options.comparator === undefined;
@@ -40,6 +52,16 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
     }
   }
 
+  /**
+   * Create the strict default comparator.
+   *
+   * Supports:
+   * - `number` (rejects `NaN`; treats `-0` and `0` as equal)
+   * - `string`
+   * - `Date` (orders by `getTime()`, rejects invalid dates)
+   *
+   * For other key types, a custom comparator must be provided.
+   */
   static createDefaultComparator<K>(): Comparator<K> {
     return (a: K, b: K): number => {
       if (typeof a === 'number' && typeof b === 'number') {
@@ -82,48 +104,76 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
     throw new TypeError('TreeMap: comparator is required for non-number/non-string/non-Date keys');
   }
 
+  /**
+   * Number of entries in the map.
+   */
   get size(): number {
     return this.#core.size;
   }
 
+  /**
+   * Whether the map is empty.
+   */
   isEmpty(): boolean {
     return this.size === 0;
   }
 
+  /**
+   * Set or overwrite a value for a key.
+   * @remarks Expected time O(log n)
+   */
   set(key: K, value: V): this {
     this._validateKey(key);
     this.#core.set(key, value);
     return this;
   }
 
+  /**
+   * Get the value under a key.
+   * @remarks Expected time O(log n)
+   */
   get(key: K): V | undefined {
     this._validateKey(key);
     return this.#core.get(key);
   }
 
+  /**
+   * Test whether a key exists.
+   * @remarks Expected time O(log n)
+   */
   has(key: K): boolean {
     this._validateKey(key);
     return this.#core.has(key);
   }
 
+  /**
+   * Delete a key.
+   * @returns `true` if the key existed; otherwise `false`.
+   * @remarks Expected time O(log n)
+   */
   delete(key: K): boolean {
     this._validateKey(key);
     const res = this.#core.delete(key);
     return Array.isArray(res) && res.length > 0 && !!res[0]?.deleted;
   }
 
+  /**
+   * Remove all entries.
+   */
   clear(): void {
     this.#core.clear();
   }
 
+  /**
+   * Iterate over keys in ascending order.
+   */
   keys(): IterableIterator<K> {
     return this.#core.keys();
   }
 
   private _entryFromKey(k: K): [K, V | undefined] {
     // Keys come from `keys()` which only yields existing keys.
-    // We still allow `undefined` as a stored value; we intentionally keep the public entry type as `[K, V]`
-    // (matching the generic parameter) and localize the required narrowing here.
+    // We allow `undefined` as a stored value (native Map behavior), so entries are typed as `[K, V | undefined]`.
     return [k, this.#core.get(k)];
   }
 
@@ -161,16 +211,25 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
   // Navigable operations (return entry tuples)
   // Note: returned tuple values may be `undefined`.
 
+  /**
+   * Smallest entry by key.
+   */
   first(): [K, V | undefined] | undefined {
     const k = this.#core.getLeftMost();
     return k === undefined ? undefined : this._entryFromKey(k);
   }
 
+  /**
+   * Largest entry by key.
+   */
   last(): [K, V | undefined] | undefined {
     const k = this.#core.getRightMost();
     return k === undefined ? undefined : this._entryFromKey(k);
   }
 
+  /**
+   * Remove and return the smallest entry.
+   */
   pollFirst(): [K, V | undefined] | undefined {
     const entry = this.first();
     if (!entry) return undefined;
@@ -178,6 +237,9 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
     return entry;
   }
 
+  /**
+   * Remove and return the largest entry.
+   */
   pollLast(): [K, V | undefined] | undefined {
     const entry = this.last();
     if (!entry) return undefined;
@@ -185,30 +247,48 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
     return entry;
   }
 
+  /**
+   * Smallest entry whose key is >= the given key.
+   */
   ceiling(key: K): [K, V | undefined] | undefined {
     this._validateKey(key);
     const k = this.#core.ceiling(key);
     return k === undefined ? undefined : this._entryFromKey(k);
   }
 
+  /**
+   * Largest entry whose key is <= the given key.
+   */
   floor(key: K): [K, V | undefined] | undefined {
     this._validateKey(key);
     const k = this.#core.floor(key);
     return k === undefined ? undefined : this._entryFromKey(k);
   }
 
+  /**
+   * Smallest entry whose key is > the given key.
+   */
   higher(key: K): [K, V | undefined] | undefined {
     this._validateKey(key);
     const k = this.#core.higher(key);
     return k === undefined ? undefined : this._entryFromKey(k);
   }
 
+  /**
+   * Largest entry whose key is < the given key.
+   */
   lower(key: K): [K, V | undefined] | undefined {
     this._validateKey(key);
     const k = this.#core.lower(key);
     return k === undefined ? undefined : this._entryFromKey(k);
   }
 
+  /**
+   * Return all entries in a given key range.
+   *
+   * @param range `[low, high]`
+   * @param options Inclusive/exclusive bounds (defaults to inclusive).
+   */
   rangeSearch(range: [K, K], options: RangeOptions = {}): Array<[K, V | undefined]> {
     const { lowInclusive = true, highInclusive = true } = options;
     const [low, high] = range;
