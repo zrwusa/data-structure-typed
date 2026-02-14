@@ -240,6 +240,7 @@ This section captures **implementation-level details** to avoid ambiguity.
 We will **match native `Map` / `Set` behavior** as closely as practical when the collection is mutated during iteration.
 
 - No fail-fast iterators.
+- Iterators are intended to behave like **live views** (not snapshots), best-effort aligned with native semantics.
 - Exact edge-case parity with the JS engine is not guaranteed, but we should not throw solely due to mutation during iteration.
 
 ### 10.1 Node / hint / predicate inputs
@@ -268,7 +269,9 @@ Error recommendation (informative):
 ### 10.3 Equality semantics
 
 - Key equality is defined by `comparator(a, b) === 0`.
-- We should document that comparator must impose a strict weak ordering.
+- The comparator therefore defines both **ordering** and **equality**.
+- No separate `equalsFn` is provided (options are intentionally minimal).
+- Document that comparator must impose a strict weak ordering.
 
 ### 10.4 Duplicate keys
 
@@ -313,7 +316,15 @@ Match native `Set` / `Map` callback conventions:
   - key absent vs key present with value `undefined`.
 - Document that internal fast paths may depend on `value !== undefined`.
 
-### 10.10 Performance notes
+### 10.10 Key mutability
+
+- Do **not** mutate object keys after insertion. If a key’s ordering-relevant fields change, ordering/equality behavior becomes undefined.
+
+### 10.11 Developer ergonomics (non-goals)
+
+- No `toJSON`, `[Symbol.toStringTag]`, or custom `inspect` behavior is provided in the initial design.
+
+### 10.12 Performance notes
 
 - `TreeSet/TreeMap` are wrappers; their overhead should be small but non-zero.
 - Most cross-language gaps (JS vs C++) are runtime/memory-model differences.
