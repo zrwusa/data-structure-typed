@@ -127,10 +127,20 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
     return [k, this.#core.get(k) as V | undefined];
   }
 
+  /**
+   * Iterate over values in ascending key order.
+   *
+   * Note: values may be `undefined` (TreeMap allows storing `undefined`, like native `Map`).
+   */
   *values(): IterableIterator<V | undefined> {
     for (const k of this.keys()) yield this._entryFromKey(k)[1];
   }
 
+  /**
+   * Iterate over `[key, value]` entries in ascending key order.
+   *
+   * Note: values may be `undefined`.
+   */
   *entries(): IterableIterator<[K, V | undefined]> {
     for (const k of this.keys()) yield this._entryFromKey(k);
   }
@@ -139,11 +149,17 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
     return this.entries();
   }
 
+  /**
+   * Visit each entry in ascending key order.
+   *
+   * Note: callback value may be `undefined`.
+   */
   forEach(cb: (value: V | undefined, key: K, map: TreeMap<K, V>) => void, thisArg?: any): void {
     for (const [k, v] of this) cb.call(thisArg, v, k, this);
   }
 
   // Navigable operations (return entry tuples)
+  // Note: returned tuple values may be `undefined`.
 
   first(): [K, V | undefined] | undefined {
     const k = this.#core.getLeftMost();
