@@ -206,13 +206,15 @@ Optional: add micro/macros to compare:
 - Update PERFORMANCE/CONCEPTS: clarify set vs map semantics.
 - Keep performance claims evidence-based.
 
-## 9. Open Questions (need decisions)
+## 9. Decisions (confirmed)
 
-1) **Naming:** `TreeSet/TreeMap` vs `OrderedSet/OrderedMap`?
-2) **Method names:** should `TreeSet` use `add/has/delete` (native Set) or reuse existing tree methods?
-3) **Iterator output:** confirm `entries()` shapes.
-4) **Exposure of tree-specific APIs:** allow `lowerBound/rangeSearch` on TreeMap/TreeSet? (recommend: no in v1)
-5) **Handling `undefined` values** in TreeMap: allow but warn? disallow? provide alternative sentinel?
+The following decisions were confirmed for v1:
+
+1) **Naming:** use `TreeSet` / `TreeMap`.
+2) **TreeSet method names:** match native `Set` (`add/has/delete/size`).
+3) **Iteration & entries():** match native `Set` / `Map` conventions.
+4) **Tree-specific APIs:** **do not expose** tree-specific helpers in v1 (keep a strict Map/Set surface).
+5) **`undefined` values (TreeMap):** allow `undefined` values (native Map behavior), and document that certain internal fast paths may not apply when `value === undefined`.
 
 ---
 
