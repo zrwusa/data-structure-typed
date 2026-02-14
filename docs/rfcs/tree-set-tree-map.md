@@ -90,6 +90,7 @@ Minimal surface (Map-like):
 Construction & duplicates:
 
 - `entries` is iterated in order; when the same key appears multiple times, the **last value wins** (native Map semantics).
+- If any entry in `entries` is not a valid 2-tuple-like item (`[K, V]`), the constructor throws `TypeError` (native Map behavior).
 
 `get()` vs `has()`:
 
@@ -240,7 +241,8 @@ This section captures **implementation-level details** to avoid ambiguity.
 We will **match native `Map` / `Set` behavior** as closely as practical when the collection is mutated during iteration.
 
 - No fail-fast iterators.
-- Iterators are intended to behave like **live views** (not snapshots), best-effort aligned with native semantics.
+- Iterators and `forEach` behave like **live views** (not snapshots), best-effort aligned with native semantics.
+- When entries are added during an active iteration/forEach, they **may** be visited in the same traversal; we do not guarantee inclusion in all cases.
 - Exact edge-case parity with the JS engine is not guaranteed, but we should not throw solely due to mutation during iteration.
 
 ### 10.1 Node / hint / predicate inputs
@@ -265,6 +267,7 @@ Rationale:
 Error recommendation (informative):
 
 - Throw: `TypeError("TreeMap/TreeSet: comparator is required for non-number/non-string keys")`
+- Default number comparator rejects `NaN` (throw `TypeError`), and treats `-0` and `0` as equal keys.
 
 ### 10.3 Equality semantics
 
