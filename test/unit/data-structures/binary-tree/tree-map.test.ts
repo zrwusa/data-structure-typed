@@ -215,7 +215,7 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
     expect(m.rangeSearch([2, 4], { lowInclusive: false, highInclusive: false })).toEqual([[3, 'c']]);
   });
 
-  test('map/filter/reduce/toArray/print', () => {
+  test('map/filter/reduce/every/some/find/toArray/print', () => {
     const m = new TreeMap<number, string>([
       [3, 'c'],
       [1, 'a'],
@@ -230,11 +230,22 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
         return `${this.prefix}${k}:${v ?? 'u'}`;
       }, ctx)
     ).toEqual(['x1:a', 'x2:b', 'x3:c']);
+
     expect(m.filter((v, k) => k >= 2)).toEqual<([number, string | undefined])[]>([
       [2, 'b'],
       [3, 'c']
     ]);
     expect(m.reduce((acc, v) => acc + (v ? v.length : 0), 0)).toBe(3);
+
+    expect(m.every((v, k) => k >= 1 && v !== undefined)).toBe(true);
+    expect(m.every((v, k) => k >= 2)).toBe(false);
+
+    expect(m.some((v, k) => k === 2)).toBe(true);
+    expect(m.some((v, k) => k === 999)).toBe(false);
+
+    expect(m.find((v, k) => k >= 2)).toEqual<[number, string | undefined]>([2, 'b']);
+    expect(m.find((v, k) => k >= 999)).toBe(undefined);
+
     expect(m.toArray()).toEqual<([number, string | undefined])[]>([
       [1, 'a'],
       [2, 'b'],

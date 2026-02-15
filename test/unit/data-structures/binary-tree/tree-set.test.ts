@@ -153,7 +153,7 @@ describe('TreeSet (RedBlackTree-backed, no node exposure)', () => {
     expect(s.rangeSearch([2, 4], { lowInclusive: false, highInclusive: false })).toEqual([3]);
   });
 
-  test('map/filter/reduce/toArray/print', () => {
+  test('map/filter/reduce/every/some/find/toArray/print', () => {
     const s = new TreeSet<number>([3, 1, 2]);
 
     expect(s.map(v => v * 2)).toEqual([2, 4, 6]);
@@ -162,8 +162,19 @@ describe('TreeSet (RedBlackTree-backed, no node exposure)', () => {
     expect(s.map(function (this: typeof ctx, v) {
       return v * this.mul;
     }, ctx)).toEqual([3, 6, 9]);
+
     expect(s.filter(v => v % 2 === 1)).toEqual([1, 3]);
     expect(s.reduce((acc, v) => acc + v, 0)).toBe(6);
+
+    expect(s.every(v => v > 0)).toBe(true);
+    expect(s.every(v => v > 2)).toBe(false);
+
+    expect(s.some(v => v === 2)).toBe(true);
+    expect(s.some(v => v === 999)).toBe(false);
+
+    expect(s.find(v => v >= 2)).toBe(2);
+    expect(s.find(v => v >= 999)).toBe(undefined);
+
     expect(s.toArray()).toEqual([1, 2, 3]);
 
     const spy = jest.spyOn(console, 'log').mockImplementation(() => undefined);

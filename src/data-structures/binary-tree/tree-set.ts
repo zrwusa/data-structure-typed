@@ -237,6 +237,51 @@ export class TreeSet<K = any> implements Iterable<K> {
   }
 
   /**
+   * Test whether all values satisfy a predicate.
+   * @remarks Time O(n), Space O(1)
+   */
+  every(callbackfn: TreeSetElementCallback<K, boolean>, thisArg?: unknown): boolean {
+    let index = 0;
+    for (const v of this) {
+      const ok = thisArg === undefined
+        ? callbackfn(v, index++, this)
+        : (callbackfn as (this: unknown, v: K, i: number, self: TreeSet<K>) => boolean).call(thisArg, v, index++, this);
+      if (!ok) return false;
+    }
+    return true;
+  }
+
+  /**
+   * Test whether any value satisfies a predicate.
+   * @remarks Time O(n), Space O(1)
+   */
+  some(callbackfn: TreeSetElementCallback<K, boolean>, thisArg?: unknown): boolean {
+    let index = 0;
+    for (const v of this) {
+      const ok = thisArg === undefined
+        ? callbackfn(v, index++, this)
+        : (callbackfn as (this: unknown, v: K, i: number, self: TreeSet<K>) => boolean).call(thisArg, v, index++, this);
+      if (ok) return true;
+    }
+    return false;
+  }
+
+  /**
+   * Find the first value that satisfies a predicate.
+   * @remarks Time O(n), Space O(1)
+   */
+  find(callbackfn: TreeSetElementCallback<K, boolean>, thisArg?: unknown): K | undefined {
+    let index = 0;
+    for (const v of this) {
+      const ok = thisArg === undefined
+        ? callbackfn(v, index++, this)
+        : (callbackfn as (this: unknown, v: K, i: number, self: TreeSet<K>) => boolean).call(thisArg, v, index++, this);
+      if (ok) return v;
+    }
+    return undefined;
+  }
+
+  /**
    * Materialize the set into an array of keys.
    * @remarks Time O(n), Space O(n)
    */

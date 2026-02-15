@@ -253,6 +253,52 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
   }
 
   /**
+   * Test whether all entries satisfy a predicate.
+   * @remarks Time O(n), Space O(1)
+   */
+  every(callbackfn: TreeMapEntryCallback<K, V, boolean>, thisArg?: unknown): boolean {
+    let index = 0;
+    for (const [k, v] of this) {
+      const ok = thisArg === undefined
+        ? callbackfn(v, k, index++, this)
+        : (callbackfn as (this: unknown, v: V | undefined, k: K, i: number, self: TreeMap<K, V>) => boolean).call(thisArg, v, k, index++, this);
+      if (!ok) return false;
+    }
+    return true;
+  }
+
+  /**
+   * Test whether any entry satisfies a predicate.
+   * @remarks Time O(n), Space O(1)
+   */
+  some(callbackfn: TreeMapEntryCallback<K, V, boolean>, thisArg?: unknown): boolean {
+    let index = 0;
+    for (const [k, v] of this) {
+      const ok = thisArg === undefined
+        ? callbackfn(v, k, index++, this)
+        : (callbackfn as (this: unknown, v: V | undefined, k: K, i: number, self: TreeMap<K, V>) => boolean).call(thisArg, v, k, index++, this);
+      if (ok) return true;
+    }
+    return false;
+  }
+
+  /**
+   * Find the first entry that satisfies a predicate.
+   * @returns The first matching `[key, value]` tuple, or `undefined`.
+   * @remarks Time O(n), Space O(1)
+   */
+  find(callbackfn: TreeMapEntryCallback<K, V, boolean>, thisArg?: unknown): [K, V | undefined] | undefined {
+    let index = 0;
+    for (const [k, v] of this) {
+      const ok = thisArg === undefined
+        ? callbackfn(v, k, index++, this)
+        : (callbackfn as (this: unknown, v: V | undefined, k: K, i: number, self: TreeMap<K, V>) => boolean).call(thisArg, v, k, index++, this);
+      if (ok) return [k, v];
+    }
+    return undefined;
+  }
+
+  /**
    * Materialize the map into an array of `[key, value]` tuples.
    * @remarks Time O(n), Space O(n)
    */
