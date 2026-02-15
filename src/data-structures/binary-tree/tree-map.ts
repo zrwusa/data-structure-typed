@@ -33,7 +33,7 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
     const comparator = options.comparator ?? TreeMap.createDefaultComparator<K>();
     this.#isDefaultComparator = options.comparator === undefined;
 
-    this.#core = new RedBlackTree<K, V>([], { comparator });
+    this.#core = new RedBlackTree<K, V>([], { comparator, isMapMode: options.isMapMode });
 
     // Validate entries like native Map: each item must be a 2-tuple-like value.
     for (const item of entries as unknown as Iterable<unknown>) {

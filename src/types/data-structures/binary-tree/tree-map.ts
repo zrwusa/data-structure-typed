@@ -2,6 +2,13 @@ import type { Comparator } from '../../common';
 
 export interface TreeMapOptions<K> {
   comparator?: Comparator<K>;
+  /**
+   * Pass-through to the underlying RedBlackTree/BST `isMapMode` option.
+   *
+   * - `true`  (default in core): store values in an internal key→value store.
+   * - `false`: store values on tree nodes (Node Mode).
+   */
+  isMapMode?: boolean;
 }
 
 export type TreeMapRangeOptions = {

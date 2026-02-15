@@ -34,7 +34,7 @@ export class TreeSet<K = any> implements Iterable<K> {
     this.#isDefaultComparator = options.comparator === undefined;
 
     // RedBlackTree expects an iterable of keys/entries/nodes/raws; for TreeSet we only accept keys.
-    this.#core = new RedBlackTree<K, undefined>([], { comparator });
+    this.#core = new RedBlackTree<K, undefined>([], { comparator, isMapMode: options.isMapMode });
 
     for (const k of elements) this.add(k);
   }
