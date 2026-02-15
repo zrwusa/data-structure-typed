@@ -50,6 +50,22 @@ This RFC specifies:
 
 ## 4. TreeMultiSet: semantics and API
 
+### 4.0 Comparator + typing policy
+
+TreeMultiSet follows the **same strict default comparator policy** as TreeSet/TreeMap:
+
+- Supported by default comparator: `number | string | Date`
+- Rejects `NaN` (`TypeError`)
+- Treats `-0` and `0` as equal
+- `Date` ordered by `getTime()` and rejects invalid dates (`TypeError`)
+
+Typing policy:
+
+- When **no custom comparator** is provided, TreeMultiSet should be typed as `T extends number | string | Date`.
+- When a **custom comparator** is provided, TreeMultiSet may be used with arbitrary `T`.
+
+Implementation should use **constructor overloads** (no factory function) to keep `new TreeMultiSet(...)` consistent with the rest of the library.
+
 ### 4.1 Semantic model
 
 TreeMultiSet is an **ordered multiset** over `T`:
