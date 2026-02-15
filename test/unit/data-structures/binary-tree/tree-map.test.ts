@@ -222,16 +222,26 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
       [2, 'b']
     ]);
 
-    expect(m.map((v, k) => `${k}:${v ?? 'u'}`)).toEqual(['1:a', '2:b', '3:c']);
+    expect(m.map((v, k) => [k, `${k}:${v ?? 'u'}`] as [number, string]).toArray()).toEqual<
+      ([number, string | undefined])[]
+    >([
+      [1, '1:a'],
+      [2, '2:b'],
+      [3, '3:c']
+    ]);
 
     const ctx = { prefix: 'x' };
     expect(
       m.map(function (this: typeof ctx, v, k) {
-        return `${this.prefix}${k}:${v ?? 'u'}`;
-      }, ctx)
-    ).toEqual(['x1:a', 'x2:b', 'x3:c']);
+        return [k, `${this.prefix}${k}:${v ?? 'u'}`] as [number, string];
+      }, {}, ctx).toArray()
+    ).toEqual<([number, string | undefined])[]>([
+      [1, 'x1:a'],
+      [2, 'x2:b'],
+      [3, 'x3:c']
+    ]);
 
-    expect(m.filter((v, k) => k >= 2)).toEqual<([number, string | undefined])[]>([
+    expect(m.filter((v, k) => k >= 2).toArray()).toEqual<([number, string | undefined])[]>([
       [2, 'b'],
       [3, 'c']
     ]);

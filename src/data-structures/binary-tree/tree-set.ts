@@ -31,6 +31,7 @@ type TreeSetReduceCallback<K, A> = (acc: A, value: K, index: number, set: TreeSe
 export class TreeSet<K = any> implements Iterable<K> {
   readonly #core: RedBlackTree<K, undefined>;
   readonly #isDefaultComparator: boolean;
+  readonly #userComparator?: Comparator<K>;
 
   /**
    * Create a TreeSet from an iterable of keys.
@@ -39,6 +40,7 @@ export class TreeSet<K = any> implements Iterable<K> {
    * or invalid keys (e.g. `NaN`, invalid `Date`).
    */
   constructor(elements: Iterable<K> = [], options: TreeSetOptions<K> = {}) {
+    this.#userComparator = options.comparator;
     const comparator = options.comparator ?? TreeSet.createDefaultComparator<K>();
     this.#isDefaultComparator = options.comparator === undefined;
 
@@ -196,31 +198,39 @@ export class TreeSet<K = any> implements Iterable<K> {
   }
 
   /**
-   * Map values to a new array.
-   * @remarks Time O(n), Space O(n)
+   * Create a new TreeSet by mapping each value to a new key.
+   *
+   * This mirrors `RedBlackTree.map`: mapping produces a new ordered container.
+   * @remarks Time O(n log n) expected, Space O(n)
    */
-  map<U>(callbackfn: TreeSetElementCallback<K, U>, thisArg?: unknown): U[] {
-    const out: U[] = [];
+  map<MK>(
+    callbackfn: TreeSetElementCallback<K, MK>,
+    options: TreeSetOptions<MK> = {},
+    thisArg?: unknown
+  ): TreeSet<MK> {
+    const out = new TreeSet<MK>([], options);
     let index = 0;
     for (const v of this) {
-      if (thisArg === undefined) out.push(callbackfn(v, index++, this));
-      else out.push((callbackfn as (this: unknown, v: K, i: number, self: TreeSet<K>) => U).call(thisArg, v, index++, this));
+      const mk = thisArg === undefined
+        ? callbackfn(v, index++, this)
+        : (callbackfn as (this: unknown, v: K, i: number, self: TreeSet<K>) => MK).call(thisArg, v, index++, this);
+      out.add(mk);
     }
     return out;
   }
 
   /**
-   * Filter values into a new array.
-   * @remarks Time O(n), Space O(n)
+   * Create a new TreeSet containing only values that satisfy the predicate.
+   * @remarks Time O(n log n) expected, Space O(n)
    */
-  filter(callbackfn: TreeSetElementCallback<K, boolean>, thisArg?: unknown): K[] {
-    const out: K[] = [];
+  filter(callbackfn: TreeSetElementCallback<K, boolean>, thisArg?: unknown): TreeSet<K> {
+    const out = new TreeSet<K>([], { comparator: this.#userComparator });
     let index = 0;
     for (const v of this) {
       const ok = thisArg === undefined
         ? callbackfn(v, index++, this)
         : (callbackfn as (this: unknown, v: K, i: number, self: TreeSet<K>) => boolean).call(thisArg, v, index++, this);
-      if (ok) out.push(v);
+      if (ok) out.add(v);
     }
     return out;
   }

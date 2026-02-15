@@ -156,14 +156,16 @@ describe('TreeSet (RedBlackTree-backed, no node exposure)', () => {
   test('map/filter/reduce/every/some/find/toArray/print', () => {
     const s = new TreeSet<number>([3, 1, 2]);
 
-    expect(s.map(v => v * 2)).toEqual([2, 4, 6]);
+    expect(s.map(v => v * 2).toArray()).toEqual([2, 4, 6]);
 
     const ctx = { mul: 3 };
-    expect(s.map(function (this: typeof ctx, v) {
-      return v * this.mul;
-    }, ctx)).toEqual([3, 6, 9]);
+    expect(
+      s.map(function (this: typeof ctx, v) {
+        return v * this.mul;
+      }, {}, ctx).toArray()
+    ).toEqual([3, 6, 9]);
 
-    expect(s.filter(v => v % 2 === 1)).toEqual([1, 3]);
+    expect(s.filter(v => v % 2 === 1).toArray()).toEqual([1, 3]);
     expect(s.reduce((acc, v) => acc + v, 0)).toBe(6);
 
     expect(s.every(v => v > 0)).toBe(true);

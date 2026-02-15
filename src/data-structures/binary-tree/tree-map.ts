@@ -31,6 +31,7 @@ type TreeMapReduceCallback<K, V, A> = (acc: A, value: V | undefined, key: K, ind
 export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
   readonly #core: RedBlackTree<K, V>;
   readonly #isDefaultComparator: boolean;
+  readonly #userComparator?: Comparator<K>;
 
   /**
    * Create a TreeMap from an iterable of `[key, value]` entries.
@@ -38,7 +39,8 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
    * @throws {TypeError} If any entry is not a 2-tuple-like value, or when using the default comparator
    * and encountering unsupported/invalid keys (e.g. `NaN`, invalid `Date`).
    */
-  constructor(entries: Iterable<[K, V]> = [], options: TreeMapOptions<K> = {}) {
+  constructor(entries: Iterable<[K, V | undefined]> = [], options: TreeMapOptions<K> = {}) {
+    this.#userComparator = options.comparator;
     const comparator = options.comparator ?? TreeMap.createDefaultComparator<K>();
     this.#isDefaultComparator = options.comparator === undefined;
 
@@ -50,7 +52,7 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
         throw new TypeError('TreeMap: each entry must be a [key, value] tuple');
       }
       const k = item[0] as K;
-      const v = item[1] as V;
+      const v = item[1] as V | undefined;
       this.set(k, v);
     }
   }
@@ -125,9 +127,9 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
    * Set or overwrite a value for a key.
    * @remarks Expected time O(log n)
    */
-  set(key: K, value: V): this {
+  set(key: K, value: V | undefined): this {
     this._validateKey(key);
-    this.#core.set(key, value);
+    this.#core.set(key, value as V);
     return this;
   }
 
@@ -212,31 +214,39 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
   }
 
   /**
-   * Map entries to a new array.
-   * @remarks Time O(n), Space O(n)
+   * Create a new TreeMap by mapping each entry to a new `[key, value]` entry.
+   *
+   * This mirrors `RedBlackTree.map`: mapping produces a new ordered container.
+   * @remarks Time O(n log n) expected, Space O(n)
    */
-  map<U>(callbackfn: TreeMapEntryCallback<K, V, U>, thisArg?: unknown): U[] {
-    const out: U[] = [];
+  map<MK, MV>(
+    callbackfn: TreeMapEntryCallback<K, V, [MK, MV]>,
+    options: TreeMapOptions<MK> = {},
+    thisArg?: unknown
+  ): TreeMap<MK, MV> {
+    const out = new TreeMap<MK, MV>([], options);
     let index = 0;
     for (const [k, v] of this) {
-      if (thisArg === undefined) out.push(callbackfn(v, k, index++, this));
-      else out.push((callbackfn as (this: unknown, v: V | undefined, k: K, i: number, self: TreeMap<K, V>) => U).call(thisArg, v, k, index++, this));
+      const [mk, mv] = thisArg === undefined
+        ? callbackfn(v, k, index++, this)
+        : (callbackfn as (this: unknown, v: V | undefined, k: K, i: number, self: TreeMap<K, V>) => [MK, MV]).call(thisArg, v, k, index++, this);
+      out.set(mk, mv);
     }
     return out;
   }
 
   /**
-   * Filter entries into a new array of `[key, value]` tuples.
-   * @remarks Time O(n), Space O(n)
+   * Create a new TreeMap containing only entries that satisfy the predicate.
+   * @remarks Time O(n log n) expected, Space O(n)
    */
-  filter(callbackfn: TreeMapEntryCallback<K, V, boolean>, thisArg?: unknown): Array<[K, V | undefined]> {
-    const out: Array<[K, V | undefined]> = [];
+  filter(callbackfn: TreeMapEntryCallback<K, V, boolean>, thisArg?: unknown): TreeMap<K, V> {
+    const out = new TreeMap<K, V>([], { comparator: this.#userComparator });
     let index = 0;
     for (const [k, v] of this) {
       const ok = thisArg === undefined
         ? callbackfn(v, k, index++, this)
         : (callbackfn as (this: unknown, v: V | undefined, k: K, i: number, self: TreeMap<K, V>) => boolean).call(thisArg, v, k, index++, this);
-      if (ok) out.push([k, v]);
+      if (ok) out.set(k, v);
     }
     return out;
   }
