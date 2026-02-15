@@ -62,6 +62,14 @@ Minimal surface (Set-like), plus navigable operations (Java TreeSet / NavigableS
 - `entries(): IterableIterator<[K, K]>` (Set convention)
 - `[Symbol.iterator](): IterableIterator<K>`
 - `forEach(cb: (value: K, value2: K, set: TreeSet<K>) => void, thisArg?: any): void`
+- `map(cb, options?, thisArg?) -> TreeSet<MK>`
+- `filter(predicate, thisArg?) -> TreeSet<K>`
+- `reduce(reducer, initialValue) -> A` (initial value required)
+- `every(predicate, thisArg?) -> boolean`
+- `some(predicate, thisArg?) -> boolean`
+- `find(predicate, thisArg?) -> K | undefined`
+- `toArray() -> K[]`
+- `print()` (delegates to the underlying RedBlackTree visualization)
 
 Navigable operations (no node exposure):
 
@@ -87,7 +95,7 @@ Notes:
 Minimal surface (Map-like), plus navigable operations (Java TreeMap / NavigableMap style):
 
 - `constructor(entries?: Iterable<[K, V]>, options?: TreeMapOptions<K>)`
-- `set(key: K, value: V): this` (native Map semantics)
+- `set(key: K, value: V | undefined): this` (native Map semantics; allows `undefined` values)
 - `get(key: K): V | undefined`
 - `has(key: K): boolean`
 - `delete(key: K): boolean`
@@ -98,6 +106,14 @@ Minimal surface (Map-like), plus navigable operations (Java TreeMap / NavigableM
 - `entries(): IterableIterator<[K, V | undefined]>`
 - `[Symbol.iterator](): IterableIterator<[K, V | undefined]>` (Map convention)
 - `forEach(cb: (value: V | undefined, key: K, map: TreeMap<K, V>) => void, thisArg?: any): void`
+- `map(cb, options?, thisArg?) -> TreeMap<MK, MV>` (cb returns `[MK, MV]`)
+- `filter(predicate, thisArg?) -> TreeMap<K, V>`
+- `reduce(reducer, initialValue) -> A` (initial value required)
+- `every(predicate, thisArg?) -> boolean`
+- `some(predicate, thisArg?) -> boolean`
+- `find(predicate, thisArg?) -> [K, V | undefined] | undefined`
+- `toArray() -> Array<[K, V | undefined]>`
+- `print()` (delegates to the underlying RedBlackTree visualization)
 
 Navigable operations (no node exposure; return entry tuples):
 
@@ -419,7 +435,14 @@ Notes:
 - `clear` results in `size === 0`
 - `isEmpty()` is equivalent to `size === 0`
 
-### 11.4 Navigable operations
+### 11.4 Utility operations (map/filter/reduce)
+
+- `map` / `filter` return a **new TreeSet/TreeMap instance** (like `RedBlackTree.map` / `RedBlackTree.filter`).
+- `reduce` requires an explicit `initialValue`.
+- `toArray` materializes the current iteration order.
+- `print` delegates to the underlying `RedBlackTree.print()`.
+
+### 11.5 Navigable operations
 
 - `first()` / `last()` return the minimum/maximum key (TreeSet) or entry tuple (TreeMap), or `undefined` if empty
 - `pollFirst()` / `pollLast()` remove and return the min/max item, or `undefined` if empty
@@ -438,24 +461,24 @@ Navigable operations (goal):
 
 - TreeSet/TreeMap do expose a small Java-inspired navigable subset without nodes: `first/last`, `pollFirst/pollLast`, `ceiling/floor/higher/lower`, and `rangeSearch`.
 
-### 11.4 Iteration order
+### 11.6 Iteration order
 
 - iteration order is ascending by key (in-order traversal)
 - `TreeSet` iterator yields keys
 - `TreeMap` iterator yields `[key, value]` (value may be `undefined`)
 
-### 11.5 Views
+### 11.7 Views
 
 - `TreeSet.values()` yields the same sequence as `TreeSet.keys()`
 - `TreeSet.entries()` yields `[key, key]`
 - `TreeMap.entries()` yields `[key, value]` (value may be `undefined`)
 
-### 11.6 `undefined` values
+### 11.8 `undefined` values
 
 - TreeMap allows `undefined` values
 - `get(k) === undefined` does not imply absence; `has(k)` must distinguish
 
-### 11.7 Mutation during iteration / forEach
+### 11.9 Mutation during iteration / forEach
 
 Best-effort native-like behavior; requirements:
 
@@ -463,7 +486,7 @@ Best-effort native-like behavior; requirements:
 - when entries are added during iteration/forEach, they **may** be visited in the same traversal; inclusion is not guaranteed
 - deleting the current key during iteration/forEach must not cause duplicates or infinite loops
 
-### 11.8 forEach callback conventions
+### 11.10 forEach callback conventions
 
 - TreeSet: callback receives `(value, value2, set)`
 - TreeMap: callback receives `(value, key, map)`
