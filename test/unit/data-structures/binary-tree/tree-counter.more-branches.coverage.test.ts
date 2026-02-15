@@ -18,10 +18,10 @@ describe('TreeCounter additional branch coverage', () => {
     }
   });
 
-  it('createNode default color arg branch and mapMode=true forces value undefined', () => {
+  it('createNode default color arg branch and mapMode=true preserves provided value', () => {
     const t = new TreeCounter<number, number>([], { isMapMode: true } as any);
     const n = t.createNode(1, 123); // default color arg
-    expect(n.value).toBeUndefined();
+    expect(n.value).toBe(123);
   });
 
   it('set() with null/undefined keyNodeOrEntry makes orgCount=0 and returns false (covers orgCount false arm)', () => {

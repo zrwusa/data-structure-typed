@@ -343,7 +343,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * @returns A new RedBlackTreeNode instance.
    */
   override createNode(key: K, value?: V, color: RBTNColor = 'BLACK'): RedBlackTreeNode<K, V> {
-    return new RedBlackTreeNode<K, V>(key, this._isMapMode ? undefined : value, color);
+    return new RedBlackTreeNode<K, V>(key, value, color);
   }
 
   /**
@@ -509,10 +509,8 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     if (minN !== NIL) {
       const cMin = comparator(key, minN.key);
       if (cMin === 0) {
-        if (this._isMapMode) {
-          if (nextValue !== undefined) this._store.set(key, nextValue);
-          else this._setValue(key, nextValue);
-        } else minN.value = nextValue as V;
+        minN.value = nextValue as V;
+        if (this._isMapMode) this._store.set(key, minN);
         return { node: minN, created: false };
       }
       // Boundary attach: if key is smaller than current min and min has no left child.
@@ -521,10 +519,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       if (cMin < 0 && (minL === NIL || minL === null || minL === undefined)) {
         const newNode = this.createNode(key, nextValue);
         this._attachNewNode(minN, 'left', newNode);
-        if (this._isMapMode) {
-          if (nextValue !== undefined) this._store.set(newNode.key, nextValue);
-          else this._setValue(newNode.key, nextValue);
-        }
+        if (this._isMapMode) this._store.set(newNode.key, newNode);
         this._size++;
         this._setMinCache(newNode);
         // If max is not initialized yet (tree had 0/1 nodes), mirror max too.
@@ -538,20 +533,15 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         // Boundary attach: if key is greater than current max and max has no right child.
         const cMax = comparator(key, maxN.key);
         if (cMax === 0) {
-          if (this._isMapMode) {
-            if (nextValue !== undefined) this._store.set(key, nextValue);
-            else this._setValue(key, nextValue);
-          } else maxN.value = nextValue as V;
+          maxN.value = nextValue as V;
+          if (this._isMapMode) this._store.set(key, maxN);
           return { node: maxN, created: false };
         }
         const maxR = maxN.right;
         if (cMax > 0 && (maxR === NIL || maxR === null || maxR === undefined)) {
           const newNode = this.createNode(key, nextValue);
           this._attachNewNode(maxN, 'right', newNode);
-          if (this._isMapMode) {
-            if (nextValue !== undefined) this._store.set(newNode.key, nextValue);
-            else this._setValue(newNode.key, nextValue);
-          }
+          if (this._isMapMode) this._store.set(newNode.key, newNode);
           this._size++;
           this._setMaxCache(newNode);
           if (header._left === NIL) this._setMinCache(newNode);
@@ -575,12 +565,8 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       else if (lastCompared > 0) current = current.right ?? NIL;
       else {
         // Update existing.
-        if (isMapMode) {
-          if (nextValue !== undefined) store.set(key, nextValue);
-          else this._setValue(key, nextValue);
-        } else {
-          current.value = nextValue as V;
-        }
+        current.value = nextValue as V;
+        if (isMapMode) store.set(key, current);
         return { node: current, created: false };
       }
     }
@@ -606,10 +592,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     if (this.isRealNode(this._root)) this._root.color = 'BLACK';
     else return undefined;
 
-    if (isMapMode) {
-      if (nextValue !== undefined) store.set(newNode.key, nextValue);
-      else this._setValue(newNode.key, nextValue);
-    }
+    if (isMapMode) store.set(newNode.key, newNode);
     this._size++;
 
     // Maintain min/max caches on insertion (header.left/right are canonical).
@@ -643,10 +626,11 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * @remarks Time O(log n) average, Space O(1)
    */
   protected _setKV(key: K, nextValue?: V): boolean {
-    if (this._isMapMode && nextValue !== undefined) {
+    if (this._isMapMode) {
       const store = this._store;
-      if (store.has(key)) {
-        store.set(key, nextValue);
+      const node = store.get(key);
+      if (node) {
+        node.value = nextValue as V;
         return true;
       }
     }
@@ -673,10 +657,8 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     const cmp = this._compare.bind(this);
     const c0 = cmp(key, hint.key);
     if (c0 === 0) {
-      if (this._isMapMode) {
-        if (value !== undefined) this._store.set(key , value );
-        else this._setValue(key, value);
-      } else hint.value = value;
+      hint.value = value;
+      if (this._isMapMode) this._store.set(key, hint);
       return hint;
     }
 
@@ -686,10 +668,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         const newNode = this.createNode(key, value);
         if (!this.isRealNode(newNode)) return undefined;
         this._attachNewNode(hint, 'left', newNode);
-        if (this._isMapMode) {
-          if (value !== undefined) this._store.set(key , value );
-          else this._setValue(key, value);
-        }
+        if (this._isMapMode) this._store.set(key, newNode);
         this._size++;
         // Maintain header/min/max caches.
         const NIL = this.NIL;
@@ -710,10 +689,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
         const newNode = this.createNode(key, value);
         if (!this.isRealNode(newNode)) return undefined;
         this._attachNewNode(pred, 'right', newNode);
-        if (this._isMapMode) {
-          if (value !== undefined) this._store.set(key , value );
-          else this._setValue(key, value);
-        }
+        if (this._isMapMode) this._store.set(key, newNode);
         this._size++;
         // Maintain header/min/max caches.
         const NIL = this.NIL;
@@ -733,10 +709,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       const newNode = this.createNode(key, value);
       if (!this.isRealNode(newNode)) return undefined;
       this._attachNewNode(hint, 'right', newNode);
-      if (this._isMapMode) {
-        if (value !== undefined) this._store.set(key , value );
-        else this._setValue(key, value);
-      }
+      if (this._isMapMode) this._store.set(key, newNode);
       this._size++;
       // Maintain header/min/max caches.
       const NIL = this.NIL;
@@ -756,10 +729,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       const newNode = this.createNode(key, value);
       if (!this.isRealNode(newNode)) return undefined;
       this._attachNewNode(succ, 'left', newNode);
-      if (this._isMapMode) {
-        if (value !== undefined) this._store.set(key , value );
-        else this._setValue(key, value);
-      }
+      if (this._isMapMode) this._store.set(key, newNode);
       this._size++;
       // Maintain header/min/max caches.
       const NIL = this.NIL;
@@ -821,12 +791,24 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       } else {
         return false;
       }
-      if (this._isMapMode) this._setValue(newNode.key, newValue);
+      if (this._isMapMode) {
+        const n = this.getNode(newNode.key);
+        if (this.isRealNode(n)) {
+          n.value = newValue as V;
+          this._store.set(n.key, n);
+        }
+      }
       this._size++;
       return true;
     }
     if (insertStatus === 'UPDATED') {
-      if (this._isMapMode) this._setValue(newNode.key, newValue);
+      if (this._isMapMode) {
+        const n = this.getNode(newNode.key);
+        if (this.isRealNode(n)) {
+          n.value = newValue as V;
+          this._store.set(n.key, n);
+        }
+      }
       return true;
     }
     return false;

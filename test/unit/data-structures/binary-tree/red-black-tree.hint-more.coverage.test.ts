@@ -25,9 +25,9 @@ describe('RedBlackTree setWithHintNode more branch coverage', () => {
     m.setWithHintNode(10, 3, mh10);
     expect(m.get(10)).toBe(3);
 
-    // undefined update should preserve existing value (existing semantics).
+    // undefined update overwrites value in node-index mapMode.
     m.setWithHintNode(10, undefined as any, mh10);
-    expect(m.get(10)).toBe(3);
+    expect(m.get(10)).toBe(undefined);
   });
 
   it('covers c0<0: direct attach to hint.left, pred fallback, and pred.right attach', () => {

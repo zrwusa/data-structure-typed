@@ -46,6 +46,17 @@ while the tree structure remains the source of ordering and range operations.
 
 ## 3. Background / Problem Statement
 
+### 3.0 Note on `undefined` updates (semantic change)
+
+With the node-index MapMode design, the *node* is the single source of truth for values.
+Therefore, calling `set(key, undefined)` will overwrite the existing value on that node
+(and `get(key)` will return `undefined`).
+
+This differs from older value-cache MapMode designs where `undefined` might have been treated
+as "do not update" (because the cache skipped writing `undefined`).
+
+In other words: MapMode no longer conflates "missing key" with "present key whose value is undefined".
+
 ### 3.1 Why `has()` doesn’t use `_store` today
 
 In current MapMode, `_store` behaves like a *value cache*, not a *presence index*. Implementations commonly skip writing `_store` when `value === undefined`.

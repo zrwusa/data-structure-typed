@@ -195,11 +195,11 @@ describe('RedBlackTree 1', () => {
     expect(rbTree.get(1)).toBe('b');
     const treeMap = new RedBlackTree<number>([4, 5, [1, '1'], 2, 3]);
     expect(treeMap.get(1)).toBe('1');
-    expect(treeMap.getNode(1)?.value).toBe(undefined);
+    expect(treeMap.getNode(1)?.value).toBe('1');
     treeMap.set(1, 'a');
     expect(treeMap.get(1)).toBe('a');
     treeMap.set([1, 'b']);
-    expect(treeMap.getNode(1)?.value).toBe(undefined);
+    expect(treeMap.getNode(1)?.value).toBe('b');
     expect(treeMap.get(1)).toBe('b');
   });
 });

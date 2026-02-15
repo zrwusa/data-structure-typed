@@ -26,9 +26,9 @@ describe('RedBlackTree _setKVNode remaining branch coverage', () => {
     (t as any)._header._left = undefined;
     (t as any)._header._right = undefined;
 
-    // Update an existing key with undefined => mapMode uses _setValue branch and preserves existing value.
+    // Update an existing key with undefined overwrites value in node-index mapMode.
     t.set(10, undefined as any);
-    expect(t.get(10)).toBe('a');
+    expect(t.get(10)).toBe(undefined);
   });
 
   it('boundary max-key update (mapMode) hits `_setValue` branch when nextValue is undefined', () => {
@@ -37,8 +37,8 @@ describe('RedBlackTree _setKVNode remaining branch coverage', () => {
     t.set(5, 'min');
     t.set(15, 'max');
 
-    // Update existing max key with undefined should take boundary cMax===0 fast-path and go through _setValue.
+    // Update existing max key with undefined overwrites value in node-index mapMode.
     t.set(15, undefined as any);
-    expect(t.get(15)).toBe('max');
+    expect(t.get(15)).toBe(undefined);
   });
 });

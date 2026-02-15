@@ -232,7 +232,7 @@ export class TreeCounter<K = any, V = any, R = any> extends RedBlackTree<K, V, R
   }
 
   override createNode(key: K, value?: V, color: RBTNColor = 'BLACK', count?: number): TreeCounterNode<K, V> {
-    return new TreeCounterNode(key, this._isMapMode ? undefined : value, count, color) as TreeCounterNode<K, V>;
+    return new TreeCounterNode(key, value, count, color) as TreeCounterNode<K, V>;
   }
 
   /**

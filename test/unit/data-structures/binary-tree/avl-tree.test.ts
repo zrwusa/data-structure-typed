@@ -32,7 +32,7 @@ describe('AVL Tree Test', () => {
     expect(lesserSum).toBe(45);
 
     // node15 has type problem. After the uniform design, the generics of containers (DirectedGraph, BST) are based on the type of value. However, this design has a drawback: when I attempt to inherit from the Vertex or BSTNode classes, the types of the results obtained by all methods are those of the parent class.
-    expect(node15?.value).toBe(undefined);
+    expect(node15?.value).toBe(15);
     const dfs = avlTree.dfs(node => node, 'IN');
     expect(dfs[0].key).toBe(1);
     expect(dfs[dfs.length - 1].key).toBe(16);
@@ -118,11 +118,11 @@ describe('AVL Tree Test', () => {
     expect(avlTree.get(1)).toBe('b');
     const treeMap = new AVLTree<number>([4, 5, [1, '1'], 2, 3]);
     expect(treeMap.get(1)).toBe('1');
-    expect(treeMap.getNode(1)?.value).toBe(undefined);
+    expect(treeMap.getNode(1)?.value).toBe('1');
     treeMap.set(1, 'a');
     expect(treeMap.get(1)).toBe('a');
     treeMap.set([1, 'b']);
-    expect(treeMap.getNode(1)?.value).toBe(undefined);
+    expect(treeMap.getNode(1)?.value).toBe('b');
     expect(treeMap.get(1)).toBe('b');
   });
 });
@@ -158,7 +158,7 @@ describe('AVL Tree Test recursively', () => {
     expect(lesserSum).toBe(45);
 
     // node15 has type problem. After the uniform design, the generics of containers (DirectedGraph, BST) are based on the type of value. However, this design has a drawback: when I attempt to inherit from the Vertex or BSTNode classes, the types of the results obtained by all methods are those of the parent class.
-    expect(node15?.value).toBe(undefined);
+    expect(node15?.value).toBe(15);
 
     const dfs = avlTree.dfs(node => node, 'IN');
     expect(dfs[0].key).toBe(1);
@@ -437,7 +437,7 @@ describe('AVLTree iterative methods test', () => {
   it('should clone work well', () => {
     const cloned = avlTree.clone();
     expect(cloned.root?.left?.key).toBe(1);
-    expect(cloned.root?.right?.value).toBe(undefined);
+    expect(cloned.root?.right?.value).toBe('c');
   });
 
   it('should keys', () => {

@@ -383,7 +383,7 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    * @returns The newly created AVLTreeNode.
    */
   override createNode(key: K, value?: V): AVLTreeNode<K, V> {
-    return new AVLTreeNode<K, V>(key, this._isMapMode ? undefined : value) as AVLTreeNode<K, V>;
+    return new AVLTreeNode<K, V>(key, value) as AVLTreeNode<K, V>;
   }
 
   /**

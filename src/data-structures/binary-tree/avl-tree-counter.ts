@@ -221,7 +221,7 @@ export class AVLTreeCounter<K = any, V = any, R = any> extends AVLTree<K, V, R> 
   }
 
   override createNode(key: K, value?: V, count?: number): AVLTreeCounterNode<K, V> {
-    return new AVLTreeCounterNode(key, this._isMapMode ? undefined : value, count) as AVLTreeCounterNode<K, V>;
+    return new AVLTreeCounterNode(key, value, count) as AVLTreeCounterNode<K, V>;
   }
 
   /**

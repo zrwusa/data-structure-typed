@@ -412,7 +412,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * @returns The newly created BSTNode.
    */
   override createNode(key: K, value?: V): BSTNode<K, V> {
-    return new BSTNode<K, V>(key, this._isMapMode ? undefined : value);
+    return new BSTNode<K, V>(key, value);
   }
 
   /**
@@ -804,7 +804,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
 
     if (this._root === undefined) {
       this._setRoot(newNode);
-      if (this._isMapMode) this._setValue(newNode?.key, newValue);
+      if (this._isMapMode && this.isRealNode(newNode)) this._store.set(newNode.key, newNode);
       this._size++;
       return true;
     }
@@ -814,13 +814,13 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
       if (this._compare(current.key, newNode.key) === 0) {
         // Key exists, replace node
         this._replaceNode(current, newNode);
-        if (this._isMapMode) this._setValue(current.key, newValue);
+        if (this._isMapMode && this.isRealNode(newNode)) this._store.set(current.key, newNode);
         return true;
       } else if (this._compare(current.key, newNode.key) > 0) {
         // Go left
         if (current.left === undefined) {
           current.left = newNode;
-          if (this._isMapMode) this._setValue(newNode?.key, newValue);
+          if (this._isMapMode && this.isRealNode(newNode)) this._store.set(newNode.key, newNode);
           this._size++;
           return true;
         }
@@ -829,7 +829,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
         // Go right
         if (current.right === undefined) {
           current.right = newNode;
-          if (this._isMapMode) this._setValue(newNode?.key, newValue);
+          if (this._isMapMode && this.isRealNode(newNode)) this._store.set(newNode.key, newNode);
           this._size++;
           return true;
         }

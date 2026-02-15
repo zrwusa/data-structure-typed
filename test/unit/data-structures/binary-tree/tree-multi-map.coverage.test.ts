@@ -29,11 +29,11 @@ describe('TreeMultiMap coverage', () => {
   it('set branches: mapMode true uses _setByNode before _setToValues', () => {
     const tmm = new TreeMultiMap<number, string>();
 
-    // Create key with undefined bucket via bare key insert
+    // Create key with empty bucket via bare key insert
     tmm.set(2 as any);
-    expect(tmm.get(2)).toBeUndefined();
+    expect(tmm.get(2)).toEqual([]);
 
-    // Now set a value: hits existingNode real + existingValues undefined => super.set(key, values)
+    // Now set a value: hits existingNode real + values append
     tmm.set(2, 'a');
     expect(tmm.get(2)).toEqual(['a']);
 

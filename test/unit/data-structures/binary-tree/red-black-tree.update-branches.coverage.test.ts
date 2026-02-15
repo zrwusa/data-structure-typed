@@ -1,7 +1,7 @@
 import { RedBlackTree } from '../../../../src';
 
 describe('RedBlackTree update-branch coverage', () => {
-  it('mapMode: updating existing min/max with undefined value hits _setValue branches (value unchanged)', () => {
+  it('mapMode: updating existing min/max with undefined value overwrites values (node-index store)', () => {
     const t = new RedBlackTree<number, string>(); // mapMode default
 
     t.set(10, 'mid');
@@ -12,9 +12,9 @@ describe('RedBlackTree update-branch coverage', () => {
     t.set(5, undefined as any);
     t.set(15, undefined as any);
 
-    // Existing semantics: undefined does not overwrite stored values.
-    expect(t.get(5)).toBe('min');
-    expect(t.get(15)).toBe('max');
+    // In node-index mapMode, node.value is the source of truth, so undefined overwrites.
+    expect(t.get(5)).toBe(undefined);
+    expect(t.get(15)).toBe(undefined);
   });
 
   it('set mode: updating an existing interior key uses current.value assignment branch', () => {

@@ -450,11 +450,11 @@ describe('BST operations test', () => {
     expect(tree.get(1)).toBe('b');
     const treeMap = new BST<number>([4, 5, [1, '1'], 2, 3]);
     expect(treeMap.get(1)).toBe('1');
-    expect(treeMap.getNode(1)?.value).toBe(undefined);
+    expect(treeMap.getNode(1)?.value).toBe('1');
     treeMap.set(1, 'a');
     expect(treeMap.get(1)).toBe('a');
     treeMap.set([1, 'b']);
-    expect(treeMap.getNode(1)?.value).toBe(undefined);
+    expect(treeMap.getNode(1)?.value).toBe('b');
     expect(treeMap.get(1)).toBe('b');
   });
 
@@ -1128,7 +1128,7 @@ describe('BST iterative methods test', () => {
   it('should clone work well', () => {
     const cloned = bst.clone();
     expect(cloned.root?.left).toBe(undefined);
-    expect(cloned.root?.right?.value).toBe(undefined);
+    expect(cloned.root?.right?.value).toBe('b');
   });
 
   it('should keys', () => {

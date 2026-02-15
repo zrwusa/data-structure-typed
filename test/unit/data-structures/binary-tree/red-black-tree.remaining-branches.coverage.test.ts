@@ -85,9 +85,9 @@ describe('RedBlackTree remaining-branch coverage', () => {
     t.set(15, 'max2');
     expect(t.get(15)).toBe('max2');
 
-    // undefined: should go through _setValue branch, preserving existing value
+    // undefined overwrites value in node-index mapMode
     t.set(15, undefined as any);
-    expect(t.get(15)).toBe('max2');
+    expect(t.get(15)).toBe(undefined);
   });
 
   it('covers delete(predicate) path and delete(node) ternary branch', () => {

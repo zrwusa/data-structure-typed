@@ -34,10 +34,10 @@ describe('TreeCounter coverage', () => {
     expect(tc.count).toBe(5);
     expect(tc.getComputedCount()).toBe(5);
 
-    // mapMode ignores node.value
+    // mapMode stores values on nodes in the new node-index design
     const tcMap = new TreeCounter<number, string>([], { isMapMode: true });
     tcMap.set(1, 'a', 2);
-    expect(tcMap.getNode(1)?.value).toBe(undefined);
+    expect(tcMap.getNode(1)?.value).toBe('a');
   });
 
   it('delete decrements count when node.count>1 unless ignoreCount=true', () => {

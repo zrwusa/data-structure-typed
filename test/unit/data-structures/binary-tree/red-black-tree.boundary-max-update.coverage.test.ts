@@ -13,6 +13,6 @@ describe('RedBlackTree boundary max update coverage', () => {
 
     expect(t.get(15)).toBe('max2');
     // Assert store updated (fast-path uses store.set).
-    expect((t as any)._store.get(15)).toBe('max2');
+    expect((t as any)._store.get(15)?.value).toBe('max2');
   });
 });

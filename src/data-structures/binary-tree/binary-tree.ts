@@ -401,7 +401,10 @@ export class BinaryTree<K = any, V = any, R = any>
     return this._isDuplicate;
   }
 
-  protected _store = new Map<K, V | undefined>();
+  // Map mode acceleration store:
+  // - isMapMode=false: unused
+  // - isMapMode=true: key -> node reference (O(1) has/getNode + fast get)
+  protected _store = new Map<K, BinaryTreeNode<K, V>>();
 
   /**
    * Gets the external value store (used in Map mode).
@@ -470,7 +473,7 @@ export class BinaryTree<K = any, V = any, R = any>
    * @returns The newly created node.
    */
   createNode(key: K, value?: V): BinaryTreeNode<K, V> {
-    return new BinaryTreeNode<K, V>(key, this._isMapMode ? undefined : value);
+    return new BinaryTreeNode<K, V>(key, value);
   }
 
   /**
@@ -666,7 +669,7 @@ export class BinaryTree<K = any, V = any, R = any>
 
     if (!this._root) {
       this._setRoot(newNode);
-      if (this._isMapMode) this._setValue(newNode?.key, newValue);
+      if (this._isMapMode && newNode !== null && newNode !== undefined) this._store.set(newNode.key, newNode);
       this._size = 1;
       return true;
     }
@@ -681,7 +684,7 @@ export class BinaryTree<K = any, V = any, R = any>
       if (!this._isDuplicate) {
         if (newNode !== null && cur.key === newNode.key) {
           this._replaceNode(cur, newNode);
-          if (this._isMapMode) this._setValue(cur.key, newValue);
+          if (this._isMapMode && newNode !== null) this._store.set(cur.key, newNode);
           return true; // Replaced existing node
         }
       }
@@ -704,7 +707,7 @@ export class BinaryTree<K = any, V = any, R = any>
       } else if (potentialParent.right === undefined) {
         potentialParent.right = newNode;
       }
-      if (this._isMapMode) this._setValue(newNode?.key, newValue);
+      if (this._isMapMode && newNode !== null && newNode !== undefined) this._store.set(newNode.key, newNode);
       this._size++;
       return true;
     }
@@ -822,6 +825,13 @@ export class BinaryTree<K = any, V = any, R = any>
         const parentOfLeftSubTreeMax = leftSubTreeRightMost.parent;
         // Swap properties
         orgCurrent = this._swapProperties(curr, leftSubTreeRightMost);
+
+        // Map mode store tracks key -> node reference; after swapping keys we must re-index both nodes.
+        if (this._isMapMode) {
+          this._store.set(curr.key, curr);
+          this._store.set(leftSubTreeRightMost.key, leftSubTreeRightMost);
+        }
+
         // `orgCurrent` is now the node to be physically deleted (which was the rightmost)
         if (parentOfLeftSubTreeMax) {
           // Unlink the rightmost node
@@ -1002,6 +1012,13 @@ export class BinaryTree<K = any, V = any, R = any>
     startNode: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined = this._root,
     iterationType: IterationType = this.iterationType
   ): BinaryTreeNode<K, V> | null | undefined {
+    if (this._isMapMode && keyNodeEntryOrPredicate !== null && keyNodeEntryOrPredicate !== undefined) {
+      if (!this._isPredicate(keyNodeEntryOrPredicate)) {
+        const key = this._extractKey(keyNodeEntryOrPredicate as any);
+        if (key === null || key === undefined) return;
+        return this._store.get(key);
+      }
+    }
     return this.search(keyNodeEntryOrPredicate, true, node => node, startNode, iterationType)[0];
   }
 
@@ -1022,7 +1039,7 @@ export class BinaryTree<K = any, V = any, R = any>
     if (this._isMapMode) {
       const key = this._extractKey(keyNodeEntryOrPredicate);
       if (key === null || key === undefined) return;
-      return this._store.get(key);
+      return this._store.get(key)?.value;
     }
     return this.getNode(keyNodeEntryOrPredicate, startNode, iterationType)?.value;
   }
@@ -1059,6 +1076,13 @@ export class BinaryTree<K = any, V = any, R = any>
     startNode: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined = this._root,
     iterationType: IterationType = this.iterationType
   ): boolean {
+    if (this._isMapMode && keyNodeEntryOrPredicate !== undefined && keyNodeEntryOrPredicate !== null) {
+      if (!this._isPredicate(keyNodeEntryOrPredicate)) {
+        const key = this._extractKey(keyNodeEntryOrPredicate as any);
+        if (key === null || key === undefined) return false;
+        return this._store.has(key);
+      }
+    }
     return this.search(keyNodeEntryOrPredicate, true, node => node, startNode, iterationType).length > 0;
   }
 
@@ -2086,8 +2110,7 @@ export class BinaryTree<K = any, V = any, R = any>
         current = stack.pop();
 
         if (this.isRealNode(current)) {
-          if (this._isMapMode) yield [current.key, this._store.get(current.key)];
-          else yield [current.key, current.value];
+          yield [current.key, current.value];
           // Move to the right subtree
           current = current.right;
         }
@@ -2098,8 +2121,7 @@ export class BinaryTree<K = any, V = any, R = any>
         yield* this[Symbol.iterator](node.left);
       }
 
-      if (this._isMapMode) yield [node.key, this._store.get(node.key)];
-      else yield [node.key, node.value];
+      yield [node.key, node.value];
 
       if (node.right && this.isRealNode(node)) {
         yield* this[Symbol.iterator](node.right);
@@ -2212,15 +2234,14 @@ export class BinaryTree<K = any, V = any, R = any>
       node => {
         if (node === null) cloned.set(null);
         else {
-          if (this._isMapMode) cloned.set([node.key, this._store.get(node.key)]);
-          else cloned.set([node.key, node.value]);
+          cloned.set([node.key, node.value]);
         }
       },
       this._root,
       this.iterationType,
       true // Include nulls
     );
-    if (this._isMapMode) cloned._store = this._store;
+    // Map mode: store is rebuilt via set() calls above.
   }
 
   /**
@@ -2468,8 +2489,11 @@ export class BinaryTree<K = any, V = any, R = any>
    */
   protected _setValue(key: K | null | undefined, value: V | undefined) {
     if (key === null || key === undefined) return false;
-    if (value === undefined) return false; // Or allow setting undefined?
-    return this._store.set(key, value);
+    // Map mode stores node references; update the node value in-place.
+    const node = this._store.get(key);
+    if (!node) return false;
+    node.value = value as V;
+    return true;
   }
 
   /**

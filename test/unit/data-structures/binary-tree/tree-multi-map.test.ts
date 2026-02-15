@@ -201,19 +201,19 @@ describe('TreeMultiMap 1', () => {
   it('should add value', () => {
     const tmm = new TreeMultiMap<number, string>([4, 5, [1, ['1']], 2, 3]);
     expect(tmm.get(1)).toEqual(['1']);
-    expect(tmm.getNode(1)?.value).toEqual([]);
+    expect(tmm.getNode(1)?.value).toEqual(['1']);
     tmm.set(1, 'a');
     expect(tmm.get(1)).toEqual(['1', 'a']);
     tmm.set([1, ['b']]);
-    expect(tmm.getNode(1)?.value).toEqual([]);
+    expect(tmm.getNode(1)?.value).toEqual(['1', 'a', 'b']);
     expect(tmm.get(1)).toEqual(['1', 'a', 'b']);
     const tmmMapped = new TreeMultiMap<number>([4, 5, [1, ['1']], 2, 3]);
     expect(tmmMapped.get(1)).toEqual(['1']);
-    expect(tmmMapped.getNode(1)?.value).toEqual([]);
+    expect(tmmMapped.getNode(1)?.value).toEqual(['1']);
     tmmMapped.set(1, 'a');
     expect(tmmMapped.get(1)).toEqual(['1', 'a']);
     tmmMapped.set([1, ['b']]);
-    expect(tmmMapped.getNode(1)?.value).toEqual([]);
+    expect(tmmMapped.getNode(1)?.value).toEqual(['1', 'a', 'b']);
     expect(tmmMapped.get(1)).toEqual(['1', 'a', 'b']);
   });
 });

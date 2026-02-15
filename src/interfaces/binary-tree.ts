@@ -27,7 +27,7 @@ export interface IBinaryTree<K = any, V = any, R = any> {
   iterationType: IterationType;
   // Extra public state/getters implemented by BinaryTree (useful to callers)
   readonly NIL: BinaryTreeNode<K, V>;
-  readonly store: Map<K, V | undefined>;
+  readonly store: Map<K, BinaryTreeNode<K, V>>;
   readonly toEntryFn?: ToEntryFn<K, V, R>;
   readonly isDuplicate: boolean;
 

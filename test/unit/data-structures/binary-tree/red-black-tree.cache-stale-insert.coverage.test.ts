@@ -33,7 +33,7 @@ describe('RedBlackTree stale cache insert coverage', () => {
     // nextValue is undefined => should bypass map-mode store.has fast-path
     // and go through normal set logic.
     t.set(1, undefined as any);
-    // Existing semantics: undefined does not overwrite stored value in mapMode.
-    expect(t.get(1)).toBe('a');
+    // node-index mapMode: undefined overwrites.
+    expect(t.get(1)).toBe(undefined);
   });
 });

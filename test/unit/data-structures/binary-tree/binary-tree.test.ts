@@ -750,11 +750,11 @@ describe('BinaryTree', () => {
     expect(binTree.get(1)).toBe('b');
     const treeMap = new BinaryTree<number>([4, 5, [1, '1'], 2, 3]);
     expect(treeMap.get(1)).toBe('1');
-    expect(treeMap.getNode(1)?.value).toBe(undefined);
+    expect(treeMap.getNode(1)?.value).toBe('1');
     treeMap.set(1, 'a');
     expect(treeMap.get(1)).toBe('a');
     treeMap.set([1, 'b']);
-    expect(treeMap.getNode(1)?.value).toBe(undefined);
+    expect(treeMap.getNode(1)?.value).toBe('b');
     expect(treeMap.get(1)).toBe('b');
   });
 });
@@ -1034,7 +1034,7 @@ describe('BinaryTree', () => {
     const nodeB = binTree.getNode(3);
 
     expect(nodeA?.key).toBe(5);
-    expect(nodeA?.value).toBe(undefined);
+    expect(nodeA?.value).toBe('A');
     expect(nodeB?.key).toBe(3);
     expect(binTree.get(nodeB)).toBe('B');
   });
@@ -1359,7 +1359,7 @@ describe('BinaryTree (map mode) - higher-order & iteration', () => {
   it('clone(): preserves structure and allows get() by node', () => {
     const cloned = binaryTree.clone();
     expect(cloned.root?.left?.key).toBe(2);
-    expect(cloned.root?.right?.value).toBe(undefined);
+    expect(cloned.root?.right?.value).toBe('c');
     expect(cloned.get(cloned.root?.right)).toBe('c');
   });
 
@@ -1514,7 +1514,7 @@ describe('Coverage boosters - merge/print/iterator/startNode/addMany-mismatch/de
     expect(uOnly.startsWith('U for undefined')).toBe(true);
   });
 
-  it('clone in Map mode shares storage: updates in original visible in clone', () => {
+  it('clone in Map mode does not share storage: updates in original not visible in clone', () => {
     const t = new BinaryTree<number, string>(
       [
         [1, 'a'],
@@ -1525,8 +1525,8 @@ describe('Coverage boosters - merge/print/iterator/startNode/addMany-mismatch/de
     const c = t.clone() as BinaryTree<number, string>;
     // In the original tree, "replace" the value for the same key (Map mode triggers _store.set)
     t.set([2, 'B']);
-    // Because clone shares Map storage, the clone can also read the new value
-    expect(c.get(2)).toBe('B');
+    // Clone is independent; it keeps its own values
+    expect(c.get(2)).toBe('b');
   });
 });
 

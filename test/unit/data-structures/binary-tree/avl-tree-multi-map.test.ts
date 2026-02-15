@@ -136,19 +136,19 @@ describe('AVLTreeMultiMap Test', () => {
   it('should add value', () => {
     const avlTmm = new AVLTreeMultiMap<number, string>([4, 5, [1, ['1']], 2, 3]);
     expect(avlTmm.get(1)).toEqual(['1']);
-    expect(avlTmm.getNode(1)?.value).toEqual([]);
+    expect(avlTmm.getNode(1)?.value).toEqual(['1']);
     avlTmm.set(1, 'a');
     expect(avlTmm.get(1)).toEqual(['1', 'a']);
     avlTmm.set([1, ['b']]);
-    expect(avlTmm.getNode(1)?.value).toEqual([]);
+    expect(avlTmm.getNode(1)?.value).toEqual(['1', 'a', 'b']);
     expect(avlTmm.get(1)).toEqual(['1', 'a', 'b']);
     const treeMap = new AVLTreeMultiMap<number>([4, 5, [1, ['1']], 2, 3]);
     expect(treeMap.get(1)).toEqual(['1']);
-    expect(treeMap.getNode(1)?.value).toEqual([]);
+    expect(treeMap.getNode(1)?.value).toEqual(['1']);
     treeMap.set(1, 'a');
     expect(treeMap.get(1)).toEqual(['1', 'a']);
     treeMap.set([1, ['b']]);
-    expect(treeMap.getNode(1)?.value).toEqual([]);
+    expect(treeMap.getNode(1)?.value).toEqual(['1', 'a', 'b']);
     expect(treeMap.get(1)).toEqual(['1', 'a', 'b']);
   });
 });
@@ -344,7 +344,8 @@ describe('AVLTreeMultiMap', () => {
     expect(addManyWithUndefined).toEqual([true, false, true]);
     expect(avlTmm.get(undefined)).toBe(undefined);
     const addManyWithNull = avlTmm.setMany([1, null, 3, 4]);
-    expect(addManyWithNull).toEqual([true, false, true, true]);
+    // Existing keys with no values are treated as no-ops in MultiMap.
+    expect(addManyWithNull).toEqual([false, false, false, true]);
     const addManyEntriesWithNull = avlTmm.setMany([
       [1, '1'],
       [null, 'null'],
@@ -466,7 +467,7 @@ describe('AVLTreeMultiMap iterative methods test', () => {
   it('should clone work well', () => {
     const cloned = avlTmm.clone();
     expect(cloned.root?.left?.key).toBe(1);
-    expect(cloned.root?.right?.value).toEqual([]);
+    expect(cloned.root?.right?.value).toEqual(['c']);
   });
 
   it('should keys', () => {

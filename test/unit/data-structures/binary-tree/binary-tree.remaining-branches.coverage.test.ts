@@ -120,10 +120,13 @@ describe('BinaryTree remaining branch coverage', () => {
     right.parent = root;
     (t as any)._setRoot(root);
 
-    // Ensure store has values.
-    (t as any)._store.set(1, 1000);
-    (t as any)._store.set(2, 2000);
-    (t as any)._store.set(3, 3000);
+    // Ensure store has node references (node-index store).
+    left.value = 1000;
+    root.value = 2000;
+    right.value = 3000;
+    (t as any)._store.set(1, left);
+    (t as any)._store.set(2, root);
+    (t as any)._store.set(3, right);
 
     // Force recursive iterator branch.
     (t as any).iterationType = 'RECURSIVE';
