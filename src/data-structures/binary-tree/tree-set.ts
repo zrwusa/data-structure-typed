@@ -304,8 +304,8 @@ export class TreeSet<K = any> implements Iterable<K> {
    * @remarks Time O(n), Space O(n)
    */
   print(): void {
-    // eslint-disable-next-line no-console
-    console.log(this.toArray());
+    // Delegate to the underlying tree's visualization.
+    this.#core.print();
   }
 
   // Navigable operations
