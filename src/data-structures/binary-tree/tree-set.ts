@@ -11,8 +11,6 @@ import type { Comparator } from '../../types';
 import type { TreeSetElementCallback, TreeSetOptions, TreeSetRangeOptions, TreeSetReduceCallback } from '../../types';
 import { RedBlackTree } from './red-black-tree';
 
-type RangeOptions = TreeSetRangeOptions;
-
 /**
  * An ordered Set backed by a red-black tree.
  *
@@ -195,7 +193,7 @@ export class TreeSet<K = any> implements Iterable<K> {
    * @remarks Time O(n log n) expected, Space O(n)
    */
   map<MK>(
-    callbackfn: TreeSetElementCallback<K, MK>,
+    callbackfn: TreeSetElementCallback<K, MK, TreeSet<K>>,
     options: TreeSetOptions<MK> = {},
     thisArg?: unknown
   ): TreeSet<MK> {
@@ -214,7 +212,7 @@ export class TreeSet<K = any> implements Iterable<K> {
    * Create a new TreeSet containing only values that satisfy the predicate.
    * @remarks Time O(n log n) expected, Space O(n)
    */
-  filter(callbackfn: TreeSetElementCallback<K, boolean>, thisArg?: unknown): TreeSet<K> {
+  filter(callbackfn: TreeSetElementCallback<K, boolean, TreeSet<K>>, thisArg?: unknown): TreeSet<K> {
     const out = new TreeSet<K>([], { comparator: this.#userComparator });
     let index = 0;
     for (const v of this) {
@@ -230,7 +228,7 @@ export class TreeSet<K = any> implements Iterable<K> {
    * Reduce values into a single accumulator.
    * @remarks Time O(n), Space O(1)
    */
-  reduce<A>(callbackfn: TreeSetReduceCallback<K, A>, initialValue: A): A {
+  reduce<A>(callbackfn: TreeSetReduceCallback<K, A, TreeSet<K>>, initialValue: A): A {
     let acc = initialValue;
     let index = 0;
     for (const v of this) acc = callbackfn(acc, v, index++, this);
@@ -241,7 +239,7 @@ export class TreeSet<K = any> implements Iterable<K> {
    * Test whether all values satisfy a predicate.
    * @remarks Time O(n), Space O(1)
    */
-  every(callbackfn: TreeSetElementCallback<K, boolean>, thisArg?: unknown): boolean {
+  every(callbackfn: TreeSetElementCallback<K, boolean, TreeSet<K>>, thisArg?: unknown): boolean {
     let index = 0;
     for (const v of this) {
       const ok = thisArg === undefined
@@ -256,7 +254,7 @@ export class TreeSet<K = any> implements Iterable<K> {
    * Test whether any value satisfies a predicate.
    * @remarks Time O(n), Space O(1)
    */
-  some(callbackfn: TreeSetElementCallback<K, boolean>, thisArg?: unknown): boolean {
+  some(callbackfn: TreeSetElementCallback<K, boolean, TreeSet<K>>, thisArg?: unknown): boolean {
     let index = 0;
     for (const v of this) {
       const ok = thisArg === undefined
@@ -271,7 +269,7 @@ export class TreeSet<K = any> implements Iterable<K> {
    * Find the first value that satisfies a predicate.
    * @remarks Time O(n), Space O(1)
    */
-  find(callbackfn: TreeSetElementCallback<K, boolean>, thisArg?: unknown): K | undefined {
+  find(callbackfn: TreeSetElementCallback<K, boolean, TreeSet<K>>, thisArg?: unknown): K | undefined {
     let index = 0;
     for (const v of this) {
       const ok = thisArg === undefined
@@ -373,7 +371,7 @@ export class TreeSet<K = any> implements Iterable<K> {
    * @param range `[low, high]`
    * @param options Inclusive/exclusive bounds (defaults to inclusive).
    */
-  rangeSearch(range: [K, K], options: RangeOptions = {}): K[] {
+  rangeSearch(range: [K, K], options: TreeSetRangeOptions = {}): K[] {
     const { lowInclusive = true, highInclusive = true } = options;
 
     const [low, high] = range;

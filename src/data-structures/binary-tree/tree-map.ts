@@ -11,8 +11,6 @@ import type { Comparator } from '../../types';
 import type { TreeMapEntryCallback, TreeMapOptions, TreeMapRangeOptions, TreeMapReduceCallback } from '../../types';
 import { RedBlackTree } from './red-black-tree';
 
-type RangeOptions = TreeMapRangeOptions;
-
 /**
  * An ordered Map backed by a red-black tree.
  *
@@ -211,7 +209,7 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
    * @remarks Time O(n log n) expected, Space O(n)
    */
   map<MK, MV>(
-    callbackfn: TreeMapEntryCallback<K, V, [MK, MV]>,
+    callbackfn: TreeMapEntryCallback<K, V, [MK, MV], TreeMap<K, V>>,
     options: TreeMapOptions<MK> = {},
     thisArg?: unknown
   ): TreeMap<MK, MV> {
@@ -230,7 +228,7 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
    * Create a new TreeMap containing only entries that satisfy the predicate.
    * @remarks Time O(n log n) expected, Space O(n)
    */
-  filter(callbackfn: TreeMapEntryCallback<K, V, boolean>, thisArg?: unknown): TreeMap<K, V> {
+  filter(callbackfn: TreeMapEntryCallback<K, V, boolean, TreeMap<K, V>>, thisArg?: unknown): TreeMap<K, V> {
     const out = new TreeMap<K, V>([], { comparator: this.#userComparator });
     let index = 0;
     for (const [k, v] of this) {
@@ -246,7 +244,7 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
    * Reduce entries into a single accumulator.
    * @remarks Time O(n), Space O(1)
    */
-  reduce<A>(callbackfn: TreeMapReduceCallback<K, V, A>, initialValue: A): A {
+  reduce<A>(callbackfn: TreeMapReduceCallback<K, V, A, TreeMap<K, V>>, initialValue: A): A {
     let acc = initialValue;
     let index = 0;
     for (const [k, v] of this) acc = callbackfn(acc, v, k, index++, this);
@@ -257,7 +255,7 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
    * Test whether all entries satisfy a predicate.
    * @remarks Time O(n), Space O(1)
    */
-  every(callbackfn: TreeMapEntryCallback<K, V, boolean>, thisArg?: unknown): boolean {
+  every(callbackfn: TreeMapEntryCallback<K, V, boolean, TreeMap<K, V>>, thisArg?: unknown): boolean {
     let index = 0;
     for (const [k, v] of this) {
       const ok = thisArg === undefined
@@ -272,7 +270,7 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
    * Test whether any entry satisfies a predicate.
    * @remarks Time O(n), Space O(1)
    */
-  some(callbackfn: TreeMapEntryCallback<K, V, boolean>, thisArg?: unknown): boolean {
+  some(callbackfn: TreeMapEntryCallback<K, V, boolean, TreeMap<K, V>>, thisArg?: unknown): boolean {
     let index = 0;
     for (const [k, v] of this) {
       const ok = thisArg === undefined
@@ -288,7 +286,7 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
    * @returns The first matching `[key, value]` tuple, or `undefined`.
    * @remarks Time O(n), Space O(1)
    */
-  find(callbackfn: TreeMapEntryCallback<K, V, boolean>, thisArg?: unknown): [K, V | undefined] | undefined {
+  find(callbackfn: TreeMapEntryCallback<K, V, boolean, TreeMap<K, V>>, thisArg?: unknown): [K, V | undefined] | undefined {
     let index = 0;
     for (const [k, v] of this) {
       const ok = thisArg === undefined
@@ -397,7 +395,7 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
    * @param range `[low, high]`
    * @param options Inclusive/exclusive bounds (defaults to inclusive).
    */
-  rangeSearch(range: [K, K], options: RangeOptions = {}): Array<[K, V | undefined]> {
+  rangeSearch(range: [K, K], options: TreeMapRangeOptions = {}): Array<[K, V | undefined]> {
     const { lowInclusive = true, highInclusive = true } = options;
     const [low, high] = range;
     this._validateKey(low);
