@@ -183,6 +183,8 @@ Future (optional):
 
 ## 4. Type Design
 
+Note: For project-wide rules on where types should live (and how we avoid type-layer circular dependencies), see: `docs/TYPE_ARCHITECTURE.md`.
+
 ### 4.1 Comparator / ordering
 
 Both structures need a comparator for `K`:
