@@ -8,19 +8,10 @@
  */
 
 import type { Comparator } from '../../types';
+import type { TreeMapEntryCallback, TreeMapOptions, TreeMapRangeOptions, TreeMapReduceCallback } from '../../types';
 import { RedBlackTree } from './red-black-tree';
 
-export interface TreeMapOptions<K> {
-  comparator?: Comparator<K>;
-}
-
-type RangeOptions = {
-  lowInclusive?: boolean;
-  highInclusive?: boolean;
-};
-
-type TreeMapEntryCallback<K, V, R> = (value: V | undefined, key: K, index: number, map: TreeMap<K, V>) => R;
-type TreeMapReduceCallback<K, V, A> = (acc: A, value: V | undefined, key: K, index: number, map: TreeMap<K, V>) => A;
+type RangeOptions = TreeMapRangeOptions;
 
 /**
  * An ordered Map backed by a red-black tree.

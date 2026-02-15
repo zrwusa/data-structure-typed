@@ -7,3 +7,5 @@ export * from './red-black-tree';
 export * from './tree-multi-map';
 export * from './tree-counter';
 export * from './avl-tree-counter';
+export * from './tree-set';
+export * from './tree-map';

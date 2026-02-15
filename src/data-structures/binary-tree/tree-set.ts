@@ -8,19 +8,10 @@
  */
 
 import type { Comparator } from '../../types';
+import type { TreeSetElementCallback, TreeSetOptions, TreeSetRangeOptions, TreeSetReduceCallback } from '../../types';
 import { RedBlackTree } from './red-black-tree';
 
-export interface TreeSetOptions<K> {
-  comparator?: Comparator<K>;
-}
-
-type RangeOptions = {
-  lowInclusive?: boolean;
-  highInclusive?: boolean;
-};
-
-type TreeSetElementCallback<K, R> = (value: K, index: number, set: TreeSet<K>) => R;
-type TreeSetReduceCallback<K, A> = (acc: A, value: K, index: number, set: TreeSet<K>) => A;
+type RangeOptions = TreeSetRangeOptions;
 
 /**
  * An ordered Set backed by a red-black tree.
