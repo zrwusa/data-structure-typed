@@ -167,6 +167,13 @@ In MapMode:
 ## 10. Open Questions
 
 1) Do we want MapMode to store `NODE` or store an internal lightweight record `{ node, value }`?
+   - **Recommendation**: store `NODE` (node reference index).
+
 2) Should MapMode be enabled by default for TreeMap/TreeSet wrappers?
+
 3) How should we document key immutability when using node-exposing APIs?
+   - **Decision**: document that `node.key` is logically immutable; mutating it is undefined behavior.
+
+4) Delete strategy (two-child delete)
+   - **Decision**: prefer a *transplant/move-node* delete strategy (do not copy successor key/value into the target node) to keep the MapMode index consistent and avoid store remapping bugs.
 
