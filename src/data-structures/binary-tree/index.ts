@@ -10,3 +10,4 @@ export * from './tree-counter';
 export * from './avl-tree-counter';
 export * from './tree-set';
 export * from './tree-map';
+export * from './tree-multi-set';
