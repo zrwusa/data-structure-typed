@@ -153,6 +153,10 @@ AVL-based MultiSet variants are not required. If present today, they may be depr
 3) Default iteration is **bucket entries** (`[K, V[]]`), not flat entries
    - A C++-like entry-flat view is provided via `flatEntries()` / `entriesOf(key)`.
 
+4) Navigable methods follow **TreeMap’s entry-return style**
+   - `first/last/ceiling/floor/higher/lower` should return `[K, V[]] | undefined` (entry tuples), not keys.
+   - `pollFirst/pollLast` remove the whole bucket for the returned key and return that entry.
+
 ### 5.1 Semantic model
 
 TreeMultiMap associates a key `k` with a **bucket** of values `V[]`.
