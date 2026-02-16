@@ -89,6 +89,12 @@ TreeMultiSet is an **ordered multiset** over `T`:
 
 ### 4.3 Suggested API surface (project style)
 
+Validation notes:
+
+- For `add/delete/setCount`, counts must be safe integers.
+  - Recommended: `n` must satisfy `Number.isSafeInteger(n)` and `n >= 0`.
+  - Invalid `n` should throw `RangeError`.
+
 ```ts
 class TreeMultiSet<T> implements Iterable<T> {
   // state
@@ -169,7 +175,16 @@ This is the “bucketed” model: the tree stores each key once, and duplicates 
    - Allows duplicate values and is cache-friendly.
    - (A `Set` bucket would become a different semantic container: SetMultimap.)
 
-2) Provide a **flat-entry view** for C++-like iteration
+2) **`get(key)` returns a live bucket reference**
+   - Mutating the returned array mutates the container.
+   - If a bucket becomes empty via mutation, the key is **not** automatically removed.
+     - Use `delete(key)` to remove the key.
+
+3) Value equality for `hasEntry/deleteValue/deleteValues`
+   - Default: `Object.is`
+   - Optional: accept a user-supplied equality function `eq(a,b)`.
+
+4) Provide a **flat-entry view** for C++-like iteration
    - C++ `std::multimap` is entry-flat (tree supports duplicate keys).
    - Bucketed TreeMultiMap can still provide equivalent capabilities for most use cases via:
      - `flatEntries()` → `(k,v)` entries expanded
@@ -181,12 +196,17 @@ This is the “bucketed” model: the tree stores each key once, and duplicates 
 class TreeMultiMap<K, V> {
   // core ops
   add(key: K, value: V): boolean;           // append to bucket
-  get(key: K): V[] | undefined;             // bucket (live view) OR copy (decision to document)
+  get(key: K): V[] | undefined;             // bucket (live view)
   has(key: K): boolean;
   count(key: K): number;                    // bucket length
+  totalSize: number;                        // Σ bucket.length across all keys
 
   delete(key: K): boolean;                  // remove whole bucket
-  deleteValue(key: K, value: V): boolean;   // remove one matching value
+
+  // value-level
+  hasEntry(key: K, value: V, eq?: (a: V, b: V) => boolean): boolean;
+  deleteValue(key: K, value: V, eq?: (a: V, b: V) => boolean): boolean;   // remove one matching value
+  deleteValues(key: K, value: V, eq?: (a: V, b: V) => boolean): number;   // remove all matching values
 
   // views
   entries(): Iterable<[K, V[]]>;            // bucket view
