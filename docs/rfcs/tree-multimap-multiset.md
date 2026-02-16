@@ -142,6 +142,17 @@ AVL-based MultiSet variants are not required. If present today, they may be depr
 
 ## 5. TreeMultiMap: semantics and API
 
+### 5.0 Key decisions (from discussion)
+
+1) **Bucket type is `Array` by default**
+   - Allows duplicate values.
+
+2) **`get(key)` returns a live bucket reference**
+   - Mutating the returned array mutates the container (documented behavior).
+
+3) Default iteration is **bucket entries** (`[K, V[]]`), not flat entries
+   - A C++-like entry-flat view is provided via `flatEntries()` / `entriesOf(key)`.
+
 ### 5.1 Semantic model
 
 TreeMultiMap associates a key `k` with a **bucket** of values `V[]`.
