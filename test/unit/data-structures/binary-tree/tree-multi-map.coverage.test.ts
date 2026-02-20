@@ -101,4 +101,145 @@ describe('TreeMultiMap coverage', () => {
     // map returns TreeMultiMap when mapping to array values
     expect((mapped as any).get(2)).toEqual([10, 11]);
   });
+
+  // ━━━ Additional branch coverage tests ━━━
+
+  it('set() with null/undefined entry returns false', () => {
+    const tmm = new TreeMultiMap<number, string>();
+    expect(tmm.set(null as any)).toBe(false);
+    expect(tmm.set(undefined as any)).toBe(false);
+    expect(tmm.size).toBe(0);
+  });
+
+  it('set([key, bucket], value) uses add() for the value parameter', () => {
+    const tmm = new TreeMultiMap<number, string>();
+    // Entry array + value param => should add value, ignoring bucket
+    tmm.set([1, ['ignored']], 'actual');
+    expect(tmm.get(1)).toEqual(['actual']);
+  });
+
+  it('set([key, undefined]) creates empty bucket', () => {
+    const tmm = new TreeMultiMap<number, string>();
+    tmm.set([1, undefined]);
+    expect(tmm.has(1)).toBe(true);
+    expect(tmm.get(1)).toEqual([]);
+  });
+
+  it('constructor with null/undefined entries skips them', () => {
+    const tmm = new TreeMultiMap<number, string>([
+      [1, ['a']],
+      null as any,
+      undefined as any,
+      [2, ['b']]
+    ]);
+    expect(tmm.size).toBe(2);
+    expect(tmm.get(1)).toEqual(['a']);
+    expect(tmm.get(2)).toEqual(['b']);
+  });
+
+  it('constructor with [null, bucket] entry skips it', () => {
+    const tmm = new TreeMultiMap<number, string>([
+      [null as any, ['x']],
+      [1, ['a']]
+    ]);
+    expect(tmm.size).toBe(1);
+  });
+
+  it('custom comparator skips _validateKey branches', () => {
+    const tmm = new TreeMultiMap<{ id: number }, string>([], {
+      comparator: (a, b) => a.id - b.id
+    });
+    // With custom comparator, any key type is allowed (no validation throws)
+    const key1 = { id: 1 };
+    const key2 = { id: 2 };
+    tmm.add(key1, 'a');
+    tmm.add(key2, 'b');
+    expect(tmm.size).toBe(2);
+    // Iteration shows both entries were added
+    expect([...tmm.keys()].map(k => k.id)).toEqual([1, 2]);
+  });
+
+  it('_validateKey throws for invalid types with default comparator', () => {
+    const tmm = new TreeMultiMap<any, string>();
+    // Object without comparator should throw
+    expect(() => tmm.add({ foo: 'bar' }, 'x')).toThrow(TypeError);
+    // NaN should throw
+    expect(() => tmm.add(NaN, 'x')).toThrow(TypeError);
+    // Invalid Date should throw
+    expect(() => tmm.add(new Date('invalid'), 'x')).toThrow(TypeError);
+  });
+
+  it('_validateKey accepts string keys', () => {
+    const tmm = new TreeMultiMap<string, number>();
+    tmm.add('hello', 1);
+    tmm.add('world', 2);
+    expect(tmm.has('hello')).toBe(true);
+  });
+
+  it('_validateKey accepts Date keys', () => {
+    const tmm = new TreeMultiMap<Date, string>();
+    const d1 = new Date('2025-01-01');
+    const d2 = new Date('2025-06-01');
+    tmm.add(d1, 'new year');
+    tmm.add(d2, 'mid year');
+    expect(tmm.has(d1)).toBe(true);
+  });
+
+  it('deleteValues returns 0 on non-existent bucket', () => {
+    const tmm = new TreeMultiMap<number, string>();
+    expect(tmm.deleteValues(999, 'x')).toBe(0);
+  });
+
+  it('deleteValues returns 0 on empty bucket', () => {
+    const tmm = new TreeMultiMap<number, string>();
+    tmm.set([1, []]);
+    expect(tmm.deleteValues(1, 'x')).toBe(0);
+  });
+
+  it('entriesOf/valuesOf on non-existent key yields nothing', () => {
+    const tmm = new TreeMultiMap<number, string>();
+    expect([...tmm.entriesOf(999)]).toEqual([]);
+    expect([...tmm.valuesOf(999)]).toEqual([]);
+  });
+
+  it('hasEntry returns false on non-existent bucket', () => {
+    const tmm = new TreeMultiMap<number, string>();
+    expect(tmm.hasEntry(999, 'x')).toBe(false);
+  });
+
+  it('navigable methods return undefined on empty map', () => {
+    const tmm = new TreeMultiMap<number, string>();
+    expect(tmm.first()).toBeUndefined();
+    expect(tmm.last()).toBeUndefined();
+    expect(tmm.pollFirst()).toBeUndefined();
+    expect(tmm.pollLast()).toBeUndefined();
+    expect(tmm.ceiling(5)).toBeUndefined();
+    expect(tmm.floor(5)).toBeUndefined();
+    expect(tmm.higher(5)).toBeUndefined();
+    expect(tmm.lower(5)).toBeUndefined();
+  });
+
+  it('navigable methods return undefined when key not found', () => {
+    const tmm = new TreeMultiMap<number, string>();
+    tmm.add(10, 'a');
+    tmm.add(20, 'b');
+    // ceiling/floor/higher/lower that miss should return undefined
+    expect(tmm.ceiling(100)).toBeUndefined();
+    expect(tmm.floor(5)).toBeUndefined();
+    expect(tmm.higher(20)).toBeUndefined();
+    expect(tmm.lower(10)).toBeUndefined();
+  });
+
+  it('setMany handles various entry types', () => {
+    const tmm = new TreeMultiMap<number, string>();
+    const results = tmm.setMany([
+      [1, ['a']],
+      [2, ['b', 'c']],
+      3 as any // key-only
+    ]);
+    expect(results).toEqual([true, true, true]);
+    expect(tmm.get(1)).toEqual(['a']);
+    expect(tmm.get(2)).toEqual(['b', 'c']);
+    expect(tmm.get(3)).toEqual([]);
+  });
 });
