@@ -1,4 +1,4 @@
-import { IBinaryTree, Range, TreeMultiMap, TreeMultiMapNode } from '../../../../src';
+import { IBinaryTree, Range, RedBlackTreeNode, TreeMultiMap, TreeMultiMapNode } from '../../../../src';
 import { getRandomInt } from '../../../utils';
 import { isDebugTest } from '../../../config';
 import { costOfLiving } from './data/cost-of-living-by-country';
@@ -35,9 +35,9 @@ describe('TreeMultiMap 1', () => {
       tmm.set(20);
       tmm.set(5);
 
-      expect(tmm.getNode(10)).toBeInstanceOf(TreeMultiMapNode);
-      expect(tmm.getNode(20)).toBeInstanceOf(TreeMultiMapNode);
-      expect(tmm.getNode(5)).toBeInstanceOf(TreeMultiMapNode);
+      expect(tmm.getNode(10)).toBeInstanceOf(RedBlackTreeNode);
+      expect(tmm.getNode(20)).toBeInstanceOf(RedBlackTreeNode);
+      expect(tmm.getNode(5)).toBeInstanceOf(RedBlackTreeNode);
       expect(tmm.getNode(15)).toBe(undefined);
     });
 
@@ -45,8 +45,8 @@ describe('TreeMultiMap 1', () => {
       tmm.set(-10);
       tmm.set(-20);
 
-      expect(tmm.getNode(-10)).toBeInstanceOf(TreeMultiMapNode);
-      expect(tmm.getNode(-20)).toBeInstanceOf(TreeMultiMapNode);
+      expect(tmm.getNode(-10)).toBeInstanceOf(RedBlackTreeNode);
+      expect(tmm.getNode(-20)).toBeInstanceOf(RedBlackTreeNode);
     });
   });
 
@@ -162,7 +162,7 @@ describe('TreeMultiMap 1', () => {
   });
 
   it('should the clone method', () => {
-    function checkTreeStructure(tmm: IBinaryTree<string, number[]>) {
+    function checkTreeStructure(tmm: TreeMultiMap<string, number>) {
       expect(tmm.size).toBe(4);
       expect(tmm.root?.key).toBe('2');
       expect(tmm.root?.left?.key).toBe('1');
@@ -585,7 +585,7 @@ describe('TreeMultiMap 2', () => {
       }
 
       let nanCount = 0;
-      const dfs = (cur: TreeMultiMapNode<number>) => {
+      const dfs = (cur: RedBlackTreeNode<number, number[]>) => {
         if (isNaN(cur.key)) nanCount++;
         if (cur.left) dfs(cur.left);
         if (cur.right) dfs(cur.right);
@@ -610,7 +610,7 @@ describe('TreeMultiMap 2', () => {
       }
 
       let nanCount = 0;
-      const dfs = (cur: TreeMultiMapNode<number>) => {
+      const dfs = (cur: RedBlackTreeNode<number, number[]>) => {
         if (isNaN(cur.key)) nanCount++;
         if (cur.left) dfs(cur.left);
         if (cur.right) dfs(cur.right);
@@ -638,7 +638,7 @@ describe('TreeMultiMap 2', () => {
       const node3 = tmm.getNode(3);
       // expect(node3).toBeInstanceOf(BinaryTreeNode);
       // expect(node3).toBeInstanceOf(BSTNode);
-      expect(node3).toBeInstanceOf(TreeMultiMapNode);
+      expect(node3).toBeInstanceOf(RedBlackTreeNode);
     });
 
     it('forEach should iterate over all elements', () => {
@@ -663,7 +663,7 @@ describe('TreeMultiMap 2', () => {
     });
 
     it('map should return a new tmm with modified elements', () => {
-      const tmmMapped = tmm.map((value, key) => [(key * 2).toString(), value ? value : []]);
+      const tmmMapped = tmm.map((value, key) => [(key * 2).toString(), value ? value : []] as any);
       expect(tmmMapped.size).toBe(3);
       expect([...tmmMapped]).toEqual([
         ['2', ['a']],
@@ -963,7 +963,7 @@ describe('classic use', () => {
       isMapMode: false
     });
 
-    const topPlayersEquipments = playerRankings.rangeSearch([8900, 10000], node => playerRankings.get(node));
+    const topPlayersEquipments = playerRankings.rangeSearch([8900, 10000], node => playerRankings.get(node.key));
     expect(topPlayersEquipments).toEqual([
       [
         {

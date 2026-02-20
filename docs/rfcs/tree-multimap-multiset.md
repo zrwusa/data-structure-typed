@@ -1,13 +1,8 @@
 # RFC: TreeMultiMap & TreeMultiSet (Ordered MultiMap / MultiSet)
 
-- Status: Draft
-- Target: `data-structure-typed`
-- Motivation: align the library’s higher-level “multi” containers with mainstream semantics (C++ STL + Java/Guava), while keeping the project’s API style and internal binary-tree performance characteristics.
-
-> Notes
->
-> - C++ provides these containers in the standard library (`std::multimap`, `std::multiset`).
-> - Java (JDK) does **not** provide them in the standard library; the de-facto standard is Guava (`Multimap`, `Multiset`).
+- **Status**: Implementing
+- **Target**: `data-structure-typed`
+- **Last Updated**: 2026-02-20
 
 ---
 
@@ -15,225 +10,358 @@
 
 This RFC specifies:
 
-1) **TreeMultiSet** (ordered multiset / bag)
-   - Semantic alignment: C++ `std::multiset<T>` and Guava `Multiset<E>`
-   - Recommended implementation: **composition** over an ordered map structure (TreeMap / RedBlackTree).
+1. **TreeMultiSet** — ordered multiset (bag), backed by RedBlackTree
+2. **TreeMultiMap** — ordered multimap (key → bucket), backed by RedBlackTree
 
-2) **TreeMultiMap** (ordered multimap)
-   - Semantic alignment: C++ `std::multimap<K,V>` (capabilities), and common Java practice `Map<K, List<V>>` / Guava `Multimap`.
-   - Recommended implementation: keep current **bucketed** design (tree key unique, bucket stores multiple values), but provide **flat-entry views** for a C++-like experience.
+Both use **composition** over RedBlackTree (not inheritance) and follow strict comparator policies.
 
 ---
 
 ## 1. Goals
 
-- Provide ordered MultiSet and MultiMap containers with clear, mainstream semantics.
-- Keep project API style (TypeScript-friendly, ergonomic methods, explicit options).
-- Ensure predictable complexity and avoid semantic footguns.
-- Allow internal tree optimizations (e.g. MapMode) to benefit these higher-level containers.
+- Provide ordered MultiSet and MultiMap with clear, mainstream semantics
+- Align with C++ STL (`std::multiset`, `std::multimap`) and Java Guava (`TreeMultiset`, `TreeMultimap`)
+- TypeScript-friendly API with strict typing
+- TDD development with comprehensive tests and `@example` documentation
 
-## 2. Non-goals
+## 2. Non-Goals
 
-- Recreating C++ iterator invalidation rules.
-- Forcing an “entry-flat” multimap/multiset internal model (C++-style duplicates as tree nodes).
-- Requiring AVL variants for these containers.
-
----
-
-## 3. Terminology
-
-- **occurrence**: one instance of an element in a multiset.
-- **distinct element**: a key with count > 0.
-- **bucket**: `V[]` list associated with a key in a bucketed multimap.
+- AVL variants (removed — no backward compatibility required)
+- Node exposure (composition model hides internal tree)
+- C++ iterator invalidation semantics
 
 ---
 
-## 4. TreeMultiSet: semantics and API
+## 3. Comparator Policy (Shared)
 
-### 4.0 Comparator + typing policy
+Both TreeMultiSet and TreeMultiMap use the **same strict default comparator** as TreeSet/TreeMap:
 
-TreeMultiSet follows the **same strict default comparator policy** as TreeSet/TreeMap:
-
-- Supported by default comparator: `number | string | Date`
-- Rejects `NaN` (`TypeError`)
-- Treats `-0` and `0` as equal
-- `Date` ordered by `getTime()` and rejects invalid dates (`TypeError`)
-
-Typing policy:
-
-- When **no custom comparator** is provided, TreeMultiSet should be typed as `T extends number | string | Date`.
-- When a **custom comparator** is provided, TreeMultiSet may be used with arbitrary `T`.
-
-Implementation should use **constructor overloads** (no factory function) to keep `new TreeMultiSet(...)` consistent with the rest of the library.
-
-### 4.1 Semantic model
-
-TreeMultiSet is an **ordered multiset** over `T`:
-
-- Each element `x` has a non-negative integer count `c(x)`.
-- The container’s ordering is by element comparator.
-
-### 4.2 Key decisions (from discussion)
-
-1) **Default iteration is expanded** (C++/Guava-aligned)
-   - Iterating the multiset yields each element `x` exactly `c(x)` times.
-
-2) **`delete(x)` removes one occurrence** by default
-   - Removing all occurrences uses a dedicated method (`deleteAll(x)` / `removeAll(x)`).
-
-3) **`size` counts total occurrences**
-   - `size === Σ c(x)` across all distinct elements.
-
-4) **Expose `distinctSize`**
-   - `distinctSize` counts distinct elements (keys with `c(x)>0`).
-
-### 4.3 Suggested API surface (project style)
-
-Validation notes:
-
-- For `add/delete/setCount`, counts must be safe integers.
-  - Recommended: `n` must satisfy `Number.isSafeInteger(n)` and `n >= 0`.
-  - Invalid `n` should throw `RangeError`.
-
-```ts
-class TreeMultiSet<T> implements Iterable<T> {
-  // state
-  readonly size: number;         // total occurrences (sumCounts)
-  readonly distinctSize: number; // number of distinct keys
-
-  // core ops
-  add(x: T, n = 1): boolean;
-  count(x: T): number;           // returns 0 when missing
-  has(x: T): boolean;
-
-  delete(x: T, n = 1): boolean;  // remove n occurrences
-  deleteAll(x: T): boolean;      // remove all occurrences
-  setCount(x: T, n: number): boolean; // Guava-style useful primitive
-
-  // views
-  entries(): Iterable<[T, number]>;    // distinct view (element,count)
-  keysDistinct(): Iterable<T>;         // distinct keys
-
-  // navigation (ordered)
-  first(): T | undefined;
-  last(): T | undefined;
-  ceiling(x: T): T | undefined;
-  floor(x: T): T | undefined;
-  higher(x: T): T | undefined;
-  lower(x: T): T | undefined;
-
-  // iteration
-  [Symbol.iterator](): Iterator<T>; // expanded by default
-}
-```
-
-### 4.4 Implementation recommendation
-
-Prefer **composition**:
-
-- Internal: `TreeMap<T, number>` (or a `RedBlackTree<T, number>` with map semantics)
-- Store the count as the map value.
-- Maintain `size` as a separate accumulator (sumCounts).
-
-Rationale:
-- Clean semantics: MultiSet is conceptually `OrderedMap<T, number>`.
-- Avoid exposing node APIs.
-- Enables MapMode fast paths for `has/count` when desired.
-
-### 4.5 AVL variants
-
-AVL-based MultiSet variants are not required. If present today, they may be deprecated/removed to reduce maintenance.
+| Type | Behavior |
+|------|----------|
+| `number` | Natural order; **rejects `NaN`** (`TypeError`) |
+| `string` | Lexicographic order |
+| `Date` | By `getTime()`; rejects invalid dates |
+| `-0` / `0` | Treated as equal |
+| Other | **Requires custom comparator** (`TypeError` if missing) |
 
 ---
 
-## 5. TreeMultiMap: semantics and API
+## 4. TreeMultiSet API
 
-### 5.0 Key decisions (from discussion)
+### 4.1 Semantic Model
 
-1) **Bucket type is `Array` by default**
-   - Allows duplicate values.
+- Each element `x` has a non-negative integer count `c(x)`
+- Ordered by comparator
+- Default iteration is **expanded** (yields each element `c(x)` times)
 
-2) **`get(key)` returns a live bucket reference**
-   - Mutating the returned array mutates the container (documented behavior).
+### 4.2 Final API
 
-3) Default iteration is **bucket entries** (`[K, V[]]`), not flat entries
-   - A C++-like entry-flat view is provided via `flatEntries()` / `entriesOf(key)`.
+```typescript
+class TreeMultiSet<K> implements Iterable<K> {
+  constructor(elements?: Iterable<K>, options?: TreeMultiSetOptions<K>);
 
-4) Navigable methods follow **TreeMap’s entry-return style**
-   - `first/last/ceiling/floor/higher/lower` should return `[K, V[]] | undefined` (entry tuples), not keys.
-   - `pollFirst/pollLast` remove the whole bucket for the returned key and return that entry.
+  // ━━━ Properties ━━━
+  readonly size: number;           // Total occurrences (Σ counts)
+  readonly distinctSize: number;   // Number of distinct keys
+  readonly comparator: Comparator<K>;
 
-### 5.1 Semantic model
-
-TreeMultiMap associates a key `k` with a **bucket** of values `V[]`.
-
-This is the “bucketed” model: the tree stores each key once, and duplicates live in the bucket.
-
-### 5.2 Key decisions
-
-1) **Bucket type is `Array` by default**
-   - Allows duplicate values and is cache-friendly.
-   - (A `Set` bucket would become a different semantic container: SetMultimap.)
-
-2) **`get(key)` returns a live bucket reference**
-   - Mutating the returned array mutates the container.
-   - If a bucket becomes empty via mutation, the key is **not** automatically removed.
-     - Use `delete(key)` to remove the key.
-
-3) Value equality for `hasEntry/deleteValue/deleteValues`
-   - Default: `Object.is`
-   - Optional: accept a user-supplied equality function `eq(a,b)`.
-
-4) Provide a **flat-entry view** for C++-like iteration
-   - C++ `std::multimap` is entry-flat (tree supports duplicate keys).
-   - Bucketed TreeMultiMap can still provide equivalent capabilities for most use cases via:
-     - `flatEntries()` → `(k,v)` entries expanded
-     - `entriesOf(key)` / `equalRange(key)` → entries for a single key
-
-### 5.3 Suggested API surface (project style)
-
-```ts
-class TreeMultiMap<K, V> {
-  // core ops
-  add(key: K, value: V): boolean;           // append to bucket
-  get(key: K): V[] | undefined;             // bucket (live view)
+  // ━━━ Query ━━━
+  isEmpty(): boolean;
   has(key: K): boolean;
-  count(key: K): number;                    // bucket length
-  totalSize: number;                        // Σ bucket.length across all keys
+  count(key: K): number;           // Returns 0 if missing
 
-  delete(key: K): boolean;                  // remove whole bucket
+  // ━━━ Mutation ━━━
+  add(key: K, n?: number): boolean;      // Add n occurrences (default 1)
+  delete(key: K, n?: number): boolean;   // Remove n occurrences (default 1)
+  deleteAll(key: K): boolean;            // Remove all occurrences
+  setCount(key: K, n: number): boolean;  // Set exact count
+  clear(): void;                         // Remove all elements
 
-  // value-level
-  hasEntry(key: K, value: V, eq?: (a: V, b: V) => boolean): boolean;
-  deleteValue(key: K, value: V, eq?: (a: V, b: V) => boolean): boolean;   // remove one matching value
-  deleteValues(key: K, value: V, eq?: (a: V, b: V) => boolean): number;   // remove all matching values
+  // ━━━ Iteration ━━━
+  [Symbol.iterator](): Iterator<K>;      // Expanded (each element × count)
+  keysDistinct(): IterableIterator<K>;   // Unique keys only
+  entries(): IterableIterator<[K, number]>;  // [key, count] pairs
 
-  // views
-  entries(): Iterable<[K, V[]]>;            // bucket view
-  flatEntries(): Iterable<[K, V]>;          // entry-flat view
-  entriesOf(key: K): Iterable<[K, V]>;      // equalRange-style view
+  // ━━━ Conversion ━━━
+  toArray(): K[];                        // Expanded array
+  toDistinctArray(): K[];                // Unique keys array
+  toEntries(): Array<[K, number]>;       // [key, count][]
+
+  // ━━━ Navigable (returns K | undefined) ━━━
+  first(): K | undefined;
+  last(): K | undefined;
+  pollFirst(): K | undefined;    // deleteAll + return
+  pollLast(): K | undefined;     // deleteAll + return
+  ceiling(key: K): K | undefined;  // >= key
+  floor(key: K): K | undefined;    // <= key
+  higher(key: K): K | undefined;   // > key
+  lower(key: K): K | undefined;    // < key
+
+  // ━━━ Functional ━━━
+  forEach(callback: (key: K, count: number) => void): void;
+  filter(predicate: (key: K, count: number) => boolean): TreeMultiSet<K>;
+  reduce<U>(callback: (acc: U, key: K, count: number) => U, initial: U): U;
+  map<K2>(mapper: (key: K, count: number) => [K2, number], options?: { comparator?: Comparator<K2> }): TreeMultiSet<K2>;
+  clone(): TreeMultiSet<K>;
+
+  // ━━━ Tree Utilities ━━━
+  rangeSearch(range: [K, K], callback?: (key: K) => any): any[];
+  print(): void;
 }
 ```
 
-### 5.4 Implementation recommendation
+### 4.3 Method Comparison
 
-Bucketed design is acceptable and idiomatic in JS/TS. Prefer composition over a TreeMap/RBT if it simplifies semantics; otherwise, ensure bucket behavior is well-documented.
+| Method | Ours | C++ multiset | Guava TreeMultiset |
+|--------|:----:|:------------:|:------------------:|
+| `size` | ✅ | ✅ | ✅ |
+| `distinctSize` | ✅ | ❌ | ✅ |
+| `comparator` | ✅ | ✅ | ✅ |
+| `isEmpty` | ✅ | ✅ | ✅ |
+| `has` | ✅ | ✅ | ✅ |
+| `count` | ✅ | ✅ | ✅ |
+| `add` | ✅ | ✅ | ✅ |
+| `delete` | ✅ | ✅ | ✅ |
+| `deleteAll` | ✅ | ✅ | ✅ |
+| `setCount` | ✅ | ❌ | ✅ |
+| `clear` | ✅ | ✅ | ✅ |
+| `first/last` | ✅ | ✅ | ✅ |
+| `pollFirst/pollLast` | ✅ | ❌ | ✅ |
+| `ceiling/floor` | ✅ | ✅ | ❌ |
+| `higher/lower` | ✅ | ✅ | ❌ |
+| `forEach` | ✅ | ❌ | ❌ |
+| `filter` | ✅ | ❌ | ❌ |
+| `reduce` | ✅ | ❌ | ❌ |
+| `map` | ✅ | ❌ | ❌ |
+| `clone` | ✅ | ✅ | ❌ |
+| `rangeSearch` | ✅ | ❌ | ❌ |
+| `print` | ✅ | ❌ | ❌ |
 
 ---
 
-## 6. Documentation requirements
+## 5. TreeMultiMap API
 
-- Clearly document:
-  - TreeMultiSet iteration is **expanded by default**.
-  - TreeMultiSet `delete(x)` removes **one occurrence**.
-  - TreeMultiSet `size` is **sumCounts** and `distinctSize` exists.
-  - TreeMultiMap bucket is an `Array` by default and supports duplicates.
-  - Whether `TreeMultiMap.get(k)` returns a live bucket reference or a copy.
+### 5.1 Semantic Model
+
+- Key `k` maps to a **bucket** `V[]` (array of values)
+- Ordered by key comparator
+- Bucket is a **live reference** (mutations affect container)
+- Default iteration yields `[K, V[]]` bucket entries
+
+### 5.2 Final API
+
+```typescript
+class TreeMultiMap<K, V, R = any> implements Iterable<[K, V[]]> {
+  constructor(entries?: Iterable<...>, options?: TreeMultiMapOptions<K, V, R>);
+
+  // ━━━ Properties ━━━
+  readonly size: number;           // Number of distinct keys
+  readonly totalSize: number;      // Total values (Σ bucket.length)
+  readonly comparator: Comparator<K>;
+
+  // ━━━ Query ━━━
+  isEmpty(): boolean;
+  has(key: K): boolean;
+  get(key: K): V[] | undefined;    // Live bucket reference
+  count(key: K): number;           // Bucket length (0 if missing)
+  hasEntry(key: K, value: V, eq?: (a: V, b: V) => boolean): boolean;
+
+  // ━━━ Mutation ━━━
+  add(key: K, value: V): boolean;           // Append to bucket
+  set(key: K, value: V): boolean;           // Alias for add
+  set(entry: [K, V[]]): boolean;            // Set/append bucket
+  setMany(entries: Iterable<...>): boolean[];
+  delete(key: K): boolean;                  // Remove key + bucket
+  deleteValue(key: K, value: V, eq?: ...): boolean;   // Remove first match
+  deleteValues(key: K, value: V, eq?: ...): number;   // Remove all matches
+  clear(): void;
+
+  // ━━━ Iteration ━━━
+  [Symbol.iterator](): Iterator<[K, V[]]>;  // Bucket entries
+  keys(): IterableIterator<K>;
+  values(): IterableIterator<V[]>;          // Buckets
+  entriesOf(key: K): IterableIterator<[K, V]>;   // Flat entries for one key
+  valuesOf(key: K): IterableIterator<V>;         // Values for one key
+  flatEntries(): IterableIterator<[K, V]>;       // All flat entries
+
+  // ━━━ Navigable (returns [K, V[]] | undefined) ━━━
+  first(): [K, V[]] | undefined;
+  last(): [K, V[]] | undefined;
+  pollFirst(): [K, V[]] | undefined;
+  pollLast(): [K, V[]] | undefined;
+  ceiling(key: K): [K, V[]] | undefined;
+  floor(key: K): [K, V[]] | undefined;
+  higher(key: K): [K, V[]] | undefined;
+  lower(key: K): [K, V[]] | undefined;
+
+  // ━━━ Functional ━━━
+  forEach(callback: (bucket: V[], key: K, map: this) => void): void;
+  filter(predicate: (bucket: V[], key: K, map: this) => boolean): TreeMultiMap<K, V, R>;
+  reduce<U>(callback: (acc: U, bucket: V[], key: K, map: this) => U, initial: U): U;
+  map<V2>(mapper: (bucket: V[], key: K, map: this) => [K, V2[]]): TreeMultiMap<K, V2, R>;
+  clone(): TreeMultiMap<K, V, R>;
+
+  // ━━━ Tree Utilities ━━━
+  rangeSearch(range: [K, K], callback?: (node: ...) => any): any[];
+  print(): void;
+}
+```
+
+### 5.3 Method Comparison
+
+| Method | Ours | C++ multimap | Guava TreeMultimap |
+|--------|:----:|:------------:|:------------------:|
+| `size` | ✅ | ✅ | ✅ |
+| `totalSize` | ✅ | ✅ | ✅ |
+| `comparator` | ✅ | ✅ | ✅ |
+| `isEmpty` | ✅ | ✅ | ✅ |
+| `has` | ✅ | ✅ | ✅ |
+| `get` | ✅ | ✅ | ✅ |
+| `count` | ✅ | ✅ | ✅ |
+| `hasEntry` | ✅ | ❌ | ✅ |
+| `add` | ✅ | ✅ | ✅ |
+| `set` | ✅ | ❌ | ✅ |
+| `setMany` | ✅ | ❌ | ✅ |
+| `delete` | ✅ | ✅ | ✅ |
+| `deleteValue` | ✅ | ❌ | ✅ |
+| `deleteValues` | ✅ | ❌ | ❌ |
+| `clear` | ✅ | ✅ | ✅ |
+| `flatEntries` | ✅ | ✅ | ✅ |
+| `first/last` | ✅ | ✅ | ❌ |
+| `pollFirst/pollLast` | ✅ | ❌ | ❌ |
+| `ceiling/floor` | ✅ | ✅ | ❌ |
+| `higher/lower` | ✅ | ✅ | ❌ |
+| `forEach` | ✅ | ❌ | ❌ |
+| `filter` | ✅ | ❌ | ❌ |
+| `reduce` | ✅ | ❌ | ❌ |
+| `map` | ✅ | ❌ | ❌ |
+| `clone` | ✅ | ✅ | ❌ |
+| `rangeSearch` | ✅ | ❌ | ❌ |
+| `print` | ✅ | ❌ | ❌ |
 
 ---
 
-## 7. Open questions
+## 6. Implementation Plan
 
-1) Should `TreeMultiMap.get(k)` return a live bucket reference, or a copy?
-2) Should MultiSet expose both expanded and distinct iteration as separate named methods (recommended), and which should be default?
-3) Naming: `deleteAll` vs `removeAll` consistency with existing containers.
+### 6.1 TDD Approach
+
+1. **Write tests first** for each method group
+2. **Implement** to pass tests
+3. **Add `@example`** JSDoc with runnable examples
+4. **Benchmark** after implementation complete
+
+### 6.2 Coverage Target
+
+| Module | Target |
+|--------|--------|
+| TreeMultiSet | **100%** |
+| TreeMultiMap | **100%** |
+
+All branches, statements, and edge cases must be covered.
+
+### 6.3 Phase 1: TreeMultiSet Updates
+
+| Task | Status |
+|------|--------|
+| Add `clear()` | 🔲 TODO |
+| Add `first()`, `last()` | 🔲 TODO |
+| Add `pollFirst()`, `pollLast()` | 🔲 TODO |
+| Add `ceiling()`, `floor()`, `higher()`, `lower()` | 🔲 TODO |
+| Add `forEach()` | 🔲 TODO |
+| Add `filter()` | 🔲 TODO |
+| Add `reduce()` | 🔲 TODO |
+| Add `map()` with count merge | 🔲 TODO |
+| Add `clone()` | 🔲 TODO |
+| Add `rangeSearch()` | 🔲 TODO |
+| Add `print()` | 🔲 TODO |
+| Add `@example` for all methods | 🔲 TODO |
+| Unit tests (TDD) | 🔲 TODO |
+
+### 6.4 Phase 2: TreeMultiMap Updates
+
+| Task | Status |
+|------|--------|
+| Simplify navigable methods (remove `*Entry` variants) | 🔲 TODO |
+| Update `first/last/ceiling/floor/higher/lower` to return `[K, V[]]` | 🔲 TODO |
+| Remove legacy tree API (keep only `rangeSearch`, `print`) | 🔲 TODO |
+| Add `@example` for all methods | 🔲 TODO |
+| Unit tests (TDD) | 🔲 TODO |
+
+### 6.5 Phase 3: Cleanup & Benchmarks
+
+| Task | Status |
+|------|--------|
+| Delete AVL/Counter variants | 🔲 TODO |
+| Update exports in `index.ts` | 🔲 TODO |
+| Run full test suite | 🔲 TODO |
+| Benchmark vs js-sdsl, native Map | 🔲 TODO |
+| Update documentation | 🔲 TODO |
+
+---
+
+## 7. Key Design Decisions
+
+| Decision | Choice | Rationale |
+|----------|--------|-----------|
+| TreeMultiSet navigable returns | `K` | Set semantics — user wants element, call `count()` if needed |
+| TreeMultiMap navigable returns | `[K, V[]]` | Map semantics — key alone not useful without bucket |
+| TreeMultiSet `pollFirst/pollLast` | `deleteAll` | Consistent with navigable — removes entire key |
+| TreeMultiSet `map()` collision | Merge counts (add) | MultiSet semantics — more mappings = more occurrences |
+| Bucket mutation | Live reference | Documented behavior, no auto-cleanup |
+| AVL variants | Removed | User decision: no backward compatibility needed |
+
+---
+
+## 8. Example Usage
+
+### TreeMultiSet
+
+```typescript
+const scores = new TreeMultiSet([100, 95, 100, 87, 95, 100]);
+// { 87: 1, 95: 2, 100: 3 }
+
+scores.size;          // 6 (total)
+scores.distinctSize;  // 3 (unique)
+scores.count(100);    // 3
+scores.first();       // 87
+scores.last();        // 100
+scores.ceiling(90);   // 95
+
+// Functional
+const highScores = scores.filter((k, c) => k >= 95);
+// { 95: 2, 100: 3 }
+
+const doubled = scores.map((k, c) => [k * 2, c]);
+// { 174: 1, 190: 2, 200: 3 }
+```
+
+### TreeMultiMap
+
+```typescript
+const inventory = new TreeMultiMap<string, string>();
+inventory.add('fruit', 'apple');
+inventory.add('fruit', 'banana');
+inventory.add('vegetable', 'carrot');
+
+inventory.size;       // 2 (keys)
+inventory.totalSize;  // 3 (values)
+inventory.get('fruit');  // ['apple', 'banana']
+
+inventory.first();    // ['fruit', ['apple', 'banana']]
+inventory.ceiling('meat');  // ['vegetable', ['carrot']]
+
+// Flat iteration
+for (const [k, v] of inventory.flatEntries()) {
+  console.log(k, v);  // 'fruit' 'apple', 'fruit' 'banana', ...
+}
+```
+
+---
+
+## 9. Open Questions (Resolved)
+
+| Question | Resolution |
+|----------|------------|
+| `get(k)` returns live or copy? | **Live** — documented |
+| Default iteration expanded? | **Yes** for TreeMultiSet |
+| Naming `deleteAll` vs `removeAll`? | **`deleteAll`** — consistent with existing API |

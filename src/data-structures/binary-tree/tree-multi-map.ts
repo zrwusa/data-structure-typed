@@ -2,187 +2,33 @@
  * data-structure-typed
  *
  * @author Pablo Zeng
- * @copyright Copyright (c) 2022 Pablo Zeng <zrwusa@gmail.com>
+ * @copyright Copyright (c) 2022 Pablo Zeng
  * @license MIT License
  */
 
-import type {
-  BTNOptKeyOrNull,
-  ElemOf,
-  EntryCallback,
-  FamilyPosition,
-  RBTNColor,
-  TreeMultiMapOptions
-} from '../../types';
+import type { Comparator, TreeMultiMapOptions } from '../../types';
 import { RedBlackTree, RedBlackTreeNode } from './red-black-tree';
-import { IBinaryTree } from '../../interfaces';
+import { TreeSet } from './tree-set';
 
 /**
- * Node used by TreeMultiMap; stores the key with a bucket of values (array).
- * @remarks Time O(1), Space O(1)
- * @template K
- * @template V
+ * Node type used by TreeMultiMap (alias to RedBlackTreeNode for backward compatibility).
+ *
+ * @deprecated Direct node manipulation is discouraged. Use TreeMultiMap methods instead.
  */
-export class TreeMultiMapNode<K = any, V = any> {
-  key: K;
-  value?: V[];
-  parent?: TreeMultiMapNode<K, V> = undefined;
-
-  /**
-   * Create a TreeMultiMap node with an optional value bucket.
-   * @remarks Time O(1), Space O(1)
-   * @param key - Key of the node.
-   * @param [value] - Initial array of values.
-   * @returns New TreeMultiMapNode instance.
-   */
-  constructor(key: K, value: V[] = [], color: RBTNColor = 'BLACK') {
-    this.key = key;
-    this.value = value;
-    this.color = color;
-  }
-
-  _left?: TreeMultiMapNode<K, V> | null | undefined = undefined;
-
-  /**
-   * Get the left child pointer.
-   * @remarks Time O(1), Space O(1)
-   * @returns Left child node, or null/undefined.
-   */
-  get left(): TreeMultiMapNode<K, V> | null | undefined {
-    return this._left;
-  }
-
-  /**
-   * Set the left child and update its parent pointer.
-   * @remarks Time O(1), Space O(1)
-   * @param v - New left child node, or null/undefined.
-   * @returns void
-   */
-  set left(v: TreeMultiMapNode<K, V> | null | undefined) {
-    if (v) {
-      v.parent = this;
-    }
-    this._left = v;
-  }
-
-  _right?: TreeMultiMapNode<K, V> | null | undefined = undefined;
-
-  /**
-   * Get the right child pointer.
-   * @remarks Time O(1), Space O(1)
-   * @returns Right child node, or null/undefined.
-   */
-  get right(): TreeMultiMapNode<K, V> | null | undefined {
-    return this._right;
-  }
-
-  /**
-   * Set the right child and update its parent pointer.
-   * @remarks Time O(1), Space O(1)
-   * @param v - New right child node, or null/undefined.
-   * @returns void
-   */
-  set right(v: TreeMultiMapNode<K, V> | null | undefined) {
-    if (v) {
-      v.parent = this;
-    }
-    this._right = v;
-  }
-
-  _height: number = 0;
-
-  /**
-   * Gets the height of the node (used in self-balancing trees).
-   * @remarks Time O(1), Space O(1)
-   *
-   * @returns The height.
-   */
-  get height(): number {
-    return this._height;
-  }
-
-  /**
-   * Sets the height of the node.
-   * @remarks Time O(1), Space O(1)
-   *
-   * @param value - The new height.
-   */
-  set height(value: number) {
-    this._height = value;
-  }
-
-  _color: RBTNColor = 'BLACK';
-
-  /**
-   * Gets the color of the node (used in Red-Black trees).
-   * @remarks Time O(1), Space O(1)
-   *
-   * @returns The node's color.
-   */
-  get color(): RBTNColor {
-    return this._color;
-  }
-
-  /**
-   * Sets the color of the node.
-   * @remarks Time O(1), Space O(1)
-   *
-   * @param value - The new color.
-   */
-  set color(value: RBTNColor) {
-    this._color = value;
-  }
-
-  _count: number = 1;
-
-  /**
-   * Gets the count of nodes in the subtree rooted at this node (used in order-statistic trees).
-   * @remarks Time O(1), Space O(1)
-   *
-   * @returns The subtree node count.
-   */
-  get count(): number {
-    return this._count;
-  }
-
-  /**
-   * Sets the count of nodes in the subtree.
-   * @remarks Time O(1), Space O(1)
-   *
-   * @param value - The new count.
-   */
-  set count(value: number) {
-    this._count = value;
-  }
-
-  /**
-   * Gets the position of the node relative to its parent.
-   * @remarks Time O(1), Space O(1)
-   *
-   * @returns The family position (e.g., 'ROOT', 'LEFT', 'RIGHT').
-   */
-  get familyPosition(): FamilyPosition {
-    if (!this.parent) {
-      return this.left || this.right ? 'ROOT' : 'ISOLATED';
-    }
-
-    if (this.parent.left === this) {
-      return this.left || this.right ? 'ROOT_LEFT' : 'LEFT';
-    } else if (this.parent.right === this) {
-      return this.left || this.right ? 'ROOT_RIGHT' : 'RIGHT';
-    }
-
-    return 'MAL_NODE';
+export class TreeMultiMapNode<K = any, V = any> extends RedBlackTreeNode<K, V[]> {
+  constructor(key: K, value: V[] = []) {
+    super(key, value);
   }
 }
 
 /**
- * Red-Black Tree–based multimap (key → array of values). Preserves O(log N) updates and supports map-like mode.
- * @remarks Time O(1), Space O(1)
- * @template K
- * @template V
- * @template R
+ * TreeMultiMap (ordered MultiMap) — key → bucket (Array of values).
  *
+ * Semantics (RFC):
+ * - Bucketed design: each key appears once; duplicates live in the bucket.
+ * - `get(key)` returns a **live** bucket reference.
+ * - Default iteration yields bucket entries: `[K, V[]]`.
+ * - Navigable operations (`first/last/ceiling/...`) return entry tuples like TreeMap.
  * @example
  * // players ranked by score with their equipment
  *  type Equipment = {
@@ -310,7 +156,7 @@ export class TreeMultiMapNode<K = any, V = any> {
  *       isMapMode: false
  *     });
  *
- *     const topPlayersEquipments = playerRankings.rangeSearch([8900, 10000], node => playerRankings.get(node));
+ *     const topPlayersEquipments = playerRankings.rangeSearch([8900, 10000], node => playerRankings.get(node.key));
  *     console.log(topPlayersEquipments); // [
  *  //      [
  *  //        {
@@ -348,202 +194,376 @@ export class TreeMultiMapNode<K = any, V = any> {
  *  //      ]
  *  //    ];
  */
-export class TreeMultiMap<K = any, V = any, R = any> extends RedBlackTree<K, V[], R> implements IBinaryTree<K, V[], R> {
-  /**
-   * Create a TreeMultiMap and optionally bulk-insert items.
-   * @remarks Time O(N log N), Space O(N)
-   * @param [keysNodesEntriesOrRaws] - Iterable of keys/nodes/entries/raw items to insert.
-   * @param [options] - Options for TreeMultiMap (comparator, reverse, map mode).
-   * @returns New TreeMultiMap instance.
-   */
+export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]]> {
+  readonly #core: RedBlackTree<K, V[], R>;
+  readonly #isDefaultComparator: boolean;
+
   constructor(
-    keysNodesEntriesOrRaws: Iterable<
-      K | TreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined | R
-    > = [],
-    options?: TreeMultiMapOptions<K, V[], R>
+    keysNodesEntriesOrRaws: Iterable<K | [K | null | undefined, V[] | undefined] | null | undefined | R> = [],
+    options: TreeMultiMapOptions<K, V[], R> = {} as any
   ) {
-    super([], { ...options });
-    if (keysNodesEntriesOrRaws) {
-      this.setMany(keysNodesEntriesOrRaws);
-    }
-  }
+    const comparator = (options as any).comparator ?? TreeSet.createDefaultComparator<K>();
+    this.#isDefaultComparator = (options as any).comparator === undefined;
+    this.#core = new RedBlackTree<K, V[], R>([], { ...(options as any), comparator, isMapMode: (options as any).isMapMode });
 
-  override createNode(key: K, value: V[] = []): TreeMultiMapNode<K, V> {
-    return new TreeMultiMapNode<K, V>(key, value);
-  }
-
-  /**
-   * Checks if the given item is a `TreeMultiMapNode` instance.
-   * @remarks Time O(1), Space O(1)
-   *
-   * @param keyNodeOrEntry - The item to check.
-   * @returns True if it's a TreeMultiMapNode, false otherwise.
-   */
-  override isNode(
-    keyNodeOrEntry: K | TreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined
-  ): keyNodeOrEntry is TreeMultiMapNode<K, V> {
-    return keyNodeOrEntry instanceof TreeMultiMapNode;
-  }
-
-  override set(
-    keyNodeOrEntry: K | TreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined
-  ): boolean;
-
-  override set(key: K, value: V): boolean;
-
-  /**
-   * Insert a value or a list of values into the multimap. If the key exists, values are appended.
-   * @remarks Time O(log N + M), Space O(1)
-   * @param keyNodeOrEntry - Key, node, or [key, values] entry.
-   * @param [value] - Single value to set when a bare key is provided.
-   * @returns True if inserted or appended; false if ignored.
-   */
-  override set(
-    keyNodeOrEntry: K | TreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined,
-    value?: V
-  ): boolean {
-    if (this.isRealNode(keyNodeOrEntry)) return super.set(keyNodeOrEntry);
-
-    const _commonAdd = (key?: BTNOptKeyOrNull<K>, values?: V[]) => {
-      if (key === undefined || key === null) return false;
-
-      const _setToValues = () => {
-        const existingValues = this.get(key);
-        if (existingValues !== undefined && values !== undefined) {
-          for (const value of values) existingValues.push(value);
-          return true;
-        }
-        return false;
-      };
-
-      const _setByNode = () => {
-        const existingNode = this.getNode(key);
-        if (this.isRealNode(existingNode)) {
-          const existingValues = this.get(existingNode);
-          if (existingValues === undefined) {
-            super.set(key, values);
-            return true;
-          }
-          if (values !== undefined) {
-            for (const value of values) existingValues.push(value);
-            return true;
-          } else {
-            return false;
-          }
+    for (const x of keysNodesEntriesOrRaws as any) {
+      if (x === null || x === undefined) continue;
+      if (Array.isArray(x)) {
+        const [k, bucket] = x;
+        if (k === null || k === undefined) continue;
+        if (bucket !== undefined) {
+          // seed bucket (copy)
+          this.#core.set(k as K, [...bucket] as V[]);
         } else {
-          return super.set(key, values);
+          this.#core.set(k as K, [] as V[]);
         }
-      };
-
-      if (this._isMapMode) {
-        return _setByNode() || _setToValues();
+        continue;
       }
-      return _setToValues() || _setByNode();
-    };
-
-    if (this.isEntry(keyNodeOrEntry)) {
-      const [key, values] = keyNodeOrEntry;
-      return _commonAdd(key, value !== undefined ? [value] : values);
+      // key-only
+      this.#core.set(x as K, [] as V[]);
     }
-
-    return _commonAdd(keyNodeOrEntry, value !== undefined ? [value] : undefined);
   }
 
-  /**
-   * Delete a single value from the bucket at a given key. Removes the key if the bucket becomes empty.
-   * @remarks Time O(log N), Space O(1)
-   * @param keyNodeOrEntry - Key, node, or [key, values] entry to locate the bucket.
-   * @param value - Value to remove from the bucket.
-   * @returns True if the value was removed; false if not found.
-   */
-  deleteValue(
-    keyNodeOrEntry: K | TreeMultiMapNode<K, V> | [K | null | undefined, V[] | undefined] | null | undefined,
-    value: V
-  ): boolean {
-    const values = this.get(keyNodeOrEntry);
-    if (Array.isArray(values)) {
-      const index = values.indexOf(value);
-      if (index === -1) return false;
-      values.splice(index, 1);
+  private _validateKey(key: K): void {
+    if (!this.#isDefaultComparator) return;
+    // reuse TreeSet strict validation (same policy)
+    // NOTE: TreeSet._validateKey is private, so we replicate the checks.
+    if (typeof key === 'number') {
+      if (Number.isNaN(key)) throw new TypeError('TreeMultiMap: NaN is not a valid key');
+      return;
+    }
+    if (typeof key === 'string') return;
+    if (key instanceof Date) {
+      if (Number.isNaN(key.getTime())) throw new TypeError('TreeMultiMap: invalid Date key');
+      return;
+    }
+    throw new TypeError('TreeMultiMap: comparator is required for non-number/non-string/non-Date keys');
+  }
 
-      if (values.length === 0) this.delete(keyNodeOrEntry);
+  get size(): number {
+    return this.#core.size;
+  }
 
+  isEmpty(): boolean {
+    return this.size === 0;
+  }
+
+  clear(): void {
+    this.#core.clear();
+  }
+
+  /** Bucket length for a key (missing => 0). */
+  count(key: K): number {
+    const b = this.get(key);
+    return Array.isArray(b) ? b.length : 0;
+  }
+
+  /** Total number of values across all buckets (Σ bucket.length). */
+  get totalSize(): number {
+    let sum = 0;
+    for (const [, bucket] of this) sum += bucket.length;
+    return sum;
+  }
+
+  has(key: K): boolean {
+    this._validateKey(key);
+    return this.#core.has(key);
+  }
+
+  /** Live bucket reference (do not auto-delete key if bucket becomes empty via mutation). */
+  get(key: K): V[] | undefined {
+    this._validateKey(key);
+    return this.#core.get(key);
+  }
+
+  /** Append a single value. */
+  add(key: K, value: V): boolean {
+    this._validateKey(key);
+    const bucket = this.#core.get(key);
+    if (bucket) {
+      bucket.push(value);
       return true;
     }
-    return false;
+    return this.#core.set(key, [value]);
   }
 
-  override map<MK = K, MVArr extends unknown[] = V[], MR = any>(
-    callback: EntryCallback<K, V[] | undefined, [MK, MVArr]>,
-    options?: Partial<TreeMultiMapOptions<MK, MVArr, MR>>,
-    thisArg?: unknown
-  ): TreeMultiMap<MK, ElemOf<MVArr>, MR>;
+  /** Alias for compatibility with existing TreeMultiMap semantics. */
+  set(entry: [K | null | undefined, V[] | undefined] | K | null | undefined, value?: V): boolean;
+  set(key: K, value: V): boolean;
+  set(entry: [K | null | undefined, V[] | undefined] | K | null | undefined, value?: V): boolean {
+    if (entry === null || entry === undefined) return false;
+    if (Array.isArray(entry)) {
+      const [k, bucket] = entry;
+      if (k === null || k === undefined) return false;
+      if (value !== undefined) return this.add(k as K, value);
+      if (bucket === undefined) {
+        // ensure key exists
+        return this.#core.set(k as K, [] as V[]);
+      }
+      // append bucket
+      const existing = this.#core.get(k as K);
+      if (existing) {
+        existing.push(...bucket);
+        return true;
+      }
+      return this.#core.set(k as K, [...bucket] as V[]);
+    }
+    // key-only or key+value
+    if (value !== undefined) return this.add(entry as K, value);
+    return this.#core.set(entry as K, [] as V[]);
+  }
 
-  override map<MK = K, MV = V[], MR = any>(
-    callback: EntryCallback<K, V[] | undefined, [MK, MV]>,
-    options?: Partial<TreeMultiMapOptions<MK, MV, MR>>,
-    thisArg?: unknown
-  ): RedBlackTree<MK, MV, MR>;
+  delete(key: K): boolean {
+    this._validateKey(key);
+    return this.#core.delete(key).length > 0;
+  }
+
+  /** Value equality helpers. */
+  hasEntry(key: K, value: V, eq: (a: V, b: V) => boolean = Object.is): boolean {
+    const bucket = this.get(key);
+    if (!Array.isArray(bucket)) return false;
+    return bucket.some(v => eq(v, value));
+  }
+
+  deleteValue(key: K, value: V, eq: (a: V, b: V) => boolean = Object.is): boolean {
+    const bucket = this.get(key);
+    if (!Array.isArray(bucket)) return false;
+    const idx = bucket.findIndex(v => eq(v, value));
+    if (idx === -1) return false;
+    bucket.splice(idx, 1);
+    if (bucket.length === 0) this.delete(key);
+    return true;
+  }
+
+  deleteValues(key: K, value: V, eq: (a: V, b: V) => boolean = Object.is): number {
+    const bucket = this.get(key);
+    if (!Array.isArray(bucket) || bucket.length === 0) return 0;
+    let removed = 0;
+    for (let i = bucket.length - 1; i >= 0; i--) {
+      if (eq(bucket[i] as V, value)) {
+        bucket.splice(i, 1);
+        removed++;
+      }
+    }
+    if (bucket.length === 0 && removed > 0) this.delete(key);
+    return removed;
+  }
+
+  // ---- iteration (bucket view) ----
+  *[Symbol.iterator](): Iterator<[K, V[]]> {
+    for (const [k, v] of this.#core) {
+      // core always stores buckets, but guard anyway
+      yield [k, v ?? ([] as V[])];
+    }
+  }
+
+  *keys(): IterableIterator<K> {
+    yield* this.#core.keys();
+  }
+
+  *values(): IterableIterator<V[]> {
+    for (const [, bucket] of this) yield bucket;
+  }
+
+  // ---- entry-flat views ----
+  *entriesOf(key: K): IterableIterator<[K, V]> {
+    const bucket = this.get(key);
+    if (!Array.isArray(bucket)) return;
+    for (const v of bucket) yield [key, v];
+  }
+
+  *valuesOf(key: K): IterableIterator<V> {
+    const bucket = this.get(key);
+    if (!Array.isArray(bucket)) return;
+    yield* bucket;
+  }
+
+  *flatEntries(): IterableIterator<[K, V]> {
+    for (const [k, bucket] of this) {
+      for (const v of bucket) yield [k, v];
+    }
+  }
+
+  // ━━━ Navigable methods (return [K, V[]] | undefined) ━━━
 
   /**
-   * Create a new tree by mapping each [key, values] bucket.
-   * @remarks Time O(N log N), Space O(N)
-   * @template MK
-   * @template MV
-   * @template MR
-   * @param callback - Function mapping (key, values, index, tree) → [newKey, newValue].
-   * @param [options] - Options for the output tree.
-   * @param [thisArg] - Value for `this` inside the callback.
-   * @returns A new RedBlackTree (or TreeMultiMap when mapping to array values; see overloads).
+   * Returns the entry with the smallest key.
+   * @example
+   * const map = new TreeMultiMap([[1, ['a']], [2, ['b']]]);
+   * map.first();  // [1, ['a']]
    */
-  override map<MK, MV, MR extends object>(
-    callback: EntryCallback<K, V[] | undefined, [MK, MV]>,
-    options?: Partial<TreeMultiMapOptions<MK, MV, MR>>,
-    thisArg?: unknown
-  ): RedBlackTree<MK, MV, MR> {
-    const out = this._createLike<MK, MV, MR>([], options);
-    let i = 0;
-    for (const [k, v] of this) out.set(callback.call(thisArg, v, k, i++, this));
-    return out;
+  first(): [K, V[]] | undefined {
+    const k = this.#core.getLeftMost();
+    if (k === undefined) return undefined;
+    const b = this.get(k);
+    return b === undefined ? undefined : [k, b];
   }
 
   /**
-   * (Protected) Create an empty instance of the same concrete class.
-   * @remarks Time O(1), Space O(1)
-   * @template TK
-   * @template TV
-   * @template TR
-   * @param [options] - Optional constructor options for the like-kind instance.
-   * @returns An empty like-kind instance.
+   * Returns the entry with the largest key.
+   * @example
+   * const map = new TreeMultiMap([[1, ['a']], [2, ['b']]]);
+   * map.last();  // [2, ['b']]
    */
-  protected override _createInstance<TK = K, TV = V, TR = R>(options?: Partial<TreeMultiMapOptions<TK, TV, TR>>): this {
-    const Ctor = this.constructor as unknown as new (
-      iter?: Iterable<TK | RedBlackTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
-      opts?: TreeMultiMapOptions<TK, TV, TR>
-    ) => RedBlackTree<TK, TV, TR>;
-    return new Ctor([], { ...(this._snapshotOptions?.<TK, TV, TR>() ?? {}), ...(options ?? {}) }) as unknown as this;
+  last(): [K, V[]] | undefined {
+    const k = this.#core.getRightMost();
+    if (k === undefined) return undefined;
+    const b = this.get(k);
+    return b === undefined ? undefined : [k, b];
   }
 
   /**
-   * (Protected) Create a like-kind instance and seed it from an iterable.
-   * @remarks Time O(N log N), Space O(N)
-   * @template TK
-   * @template TV
-   * @template TR
-   * @param iter - Iterable used to seed the new tree.
-   * @param [options] - Options merged with the current snapshot.
-   * @returns A like-kind RedBlackTree built from the iterable.
+   * Removes and returns the entry with the smallest key.
+   * @example
+   * const map = new TreeMultiMap([[1, ['a']], [2, ['b']]]);
+   * map.pollFirst();  // [1, ['a']]
+   * map.has(1);       // false
    */
-  protected override _createLike<TK = K, TV = V, TR = R>(
-    iter: Iterable<
-      TK | RedBlackTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR
-    > = [],
-    options?: Partial<TreeMultiMapOptions<TK, TV, TR>>
-  ): RedBlackTree<TK, TV, TR> {
-    const Ctor = this.constructor as unknown as new (
-      iter?: Iterable<TK | RedBlackTreeNode<TK, TV> | [TK | null | undefined, TV | undefined] | null | undefined | TR>,
-      opts?: TreeMultiMapOptions<TK, TV, TR>
-    ) => RedBlackTree<TK, TV, TR>;
-    return new Ctor(iter, { ...(this._snapshotOptions?.<TK, TV, TR>() ?? {}), ...(options ?? {}) });
+  pollFirst(): [K, V[]] | undefined {
+    const e = this.first();
+    if (!e) return undefined;
+    this.delete(e[0]);
+    return e;
+  }
+
+  /**
+   * Removes and returns the entry with the largest key.
+   * @example
+   * const map = new TreeMultiMap([[1, ['a']], [2, ['b']]]);
+   * map.pollLast();  // [2, ['b']]
+   * map.has(2);      // false
+   */
+  pollLast(): [K, V[]] | undefined {
+    const e = this.last();
+    if (!e) return undefined;
+    this.delete(e[0]);
+    return e;
+  }
+
+  /**
+   * Returns the entry with the smallest key >= given key.
+   * @example
+   * const map = new TreeMultiMap([[10, ['a']], [20, ['b']], [30, ['c']]]);
+   * map.ceiling(15);  // [20, ['b']]
+   * map.ceiling(20);  // [20, ['b']]
+   */
+  ceiling(key: K): [K, V[]] | undefined {
+    this._validateKey(key);
+    const k = this.#core.ceiling(key);
+    if (k === undefined) return undefined;
+    const b = this.get(k);
+    return b === undefined ? undefined : [k, b];
+  }
+
+  /**
+   * Returns the entry with the largest key <= given key.
+   * @example
+   * const map = new TreeMultiMap([[10, ['a']], [20, ['b']], [30, ['c']]]);
+   * map.floor(25);  // [20, ['b']]
+   * map.floor(20);  // [20, ['b']]
+   */
+  floor(key: K): [K, V[]] | undefined {
+    this._validateKey(key);
+    const k = this.#core.floor(key);
+    if (k === undefined) return undefined;
+    const b = this.get(k);
+    return b === undefined ? undefined : [k, b];
+  }
+
+  /**
+   * Returns the entry with the smallest key > given key.
+   * @example
+   * const map = new TreeMultiMap([[10, ['a']], [20, ['b']], [30, ['c']]]);
+   * map.higher(10);  // [20, ['b']]
+   * map.higher(15);  // [20, ['b']]
+   */
+  higher(key: K): [K, V[]] | undefined {
+    this._validateKey(key);
+    const k = this.#core.higher(key);
+    if (k === undefined) return undefined;
+    const b = this.get(k);
+    return b === undefined ? undefined : [k, b];
+  }
+
+  /**
+   * Returns the entry with the largest key < given key.
+   * @example
+   * const map = new TreeMultiMap([[10, ['a']], [20, ['b']], [30, ['c']]]);
+   * map.lower(20);  // [10, ['a']]
+   * map.lower(15);  // [10, ['a']]
+   */
+  lower(key: K): [K, V[]] | undefined {
+    this._validateKey(key);
+    const k = this.#core.lower(key);
+    if (k === undefined) return undefined;
+    const b = this.get(k);
+    return b === undefined ? undefined : [k, b];
+  }
+
+  // ━━━ Tree utilities ━━━
+
+  /**
+   * Prints the internal tree structure (for debugging).
+   */
+  print(...args: any[]): void {
+    return (this.#core as any).print(...args);
+  }
+
+  forEach(callback: (value: V[], key: K, map: this) => void): void {
+    for (const [k, v] of this) {
+      callback(v, k, this);
+    }
+  }
+
+  filter(predicate: (value: V[], key: K, map: this) => boolean): TreeMultiMap<K, V, R> {
+    const filtered: [K, V[]][] = [];
+    for (const [k, v] of this) {
+      if (predicate(v, k, this)) filtered.push([k, v]);
+    }
+    return new TreeMultiMap<K, V, R>(filtered, { comparator: this.comparator as any });
+  }
+
+  map<V2>(
+    mapper: (value: V[], key: K, map: this) => [K, V2[]]
+  ): TreeMultiMap<K, V2, R> {
+    const mapped: [K, V2[]][] = [];
+    for (const [k, v] of this) {
+      mapped.push(mapper(v, k, this));
+    }
+    return new TreeMultiMap<K, V2, R>(mapped, { comparator: this.comparator as any });
+  }
+
+  reduce<U>(callback: (accumulator: U, value: V[], key: K, map: this) => U, initialValue: U): U {
+    let acc = initialValue;
+    for (const [k, v] of this) {
+      acc = callback(acc, v, k, this);
+    }
+    return acc;
+  }
+
+  setMany(keysNodesEntriesOrRaws: Iterable<any>): boolean[] {
+    const results: boolean[] = [];
+    for (const x of keysNodesEntriesOrRaws) {
+      // Call implementation directly: entry can be K or [K, V[]] or [K, undefined]
+      results.push(this.set(x as any, undefined as any));
+    }
+    return results;
+  }
+
+  rangeSearch<C extends (node: RedBlackTreeNode<K, V[]>) => any>(
+    range: any,
+    callback?: C,
+    isBalanced?: any
+  ): ReturnType<C>[] {
+    return this.#core.rangeSearch(range, callback as any, isBalanced);
+  }
+
+  clone(): TreeMultiMap<K, V, R> {
+    return new TreeMultiMap<K, V, R>(this, { comparator: this.comparator as any, isMapMode: (this.#core as any)._isMapMode });
+  }
+
+  /** Expose comparator for advanced usage/testing (read-only). */
+  get comparator(): Comparator<K> {
+    return (this.#core as any)._comparator;
   }
 }

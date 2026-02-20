@@ -172,4 +172,238 @@ export class TreeMultiSet<K = any> implements Iterable<K> {
   get comparator(): Comparator<K> {
     return (this.#core as any)._comparator;
   }
+
+  // ━━━ clear ━━━
+
+  /**
+   * Remove all elements from the multiset.
+   * @example
+   * const ms = new TreeMultiSet([1, 2, 2, 3]);
+   * ms.clear();
+   * ms.size;  // 0
+   */
+  clear(): void {
+    this.#core.clear();
+    this._size = 0;
+  }
+
+  // ━━━ Navigable methods ━━━
+
+  /**
+   * Returns the smallest key, or undefined if empty.
+   * @example
+   * const ms = new TreeMultiSet([3, 1, 4]);
+   * ms.first();  // 1
+   */
+  first(): K | undefined {
+    return this.#core.getLeftMost();
+  }
+
+  /**
+   * Returns the largest key, or undefined if empty.
+   * @example
+   * const ms = new TreeMultiSet([3, 1, 4]);
+   * ms.last();  // 4
+   */
+  last(): K | undefined {
+    return this.#core.getRightMost();
+  }
+
+  /**
+   * Removes all occurrences of the smallest key and returns it.
+   * @example
+   * const ms = new TreeMultiSet([1, 1, 2, 3]);
+   * ms.pollFirst();  // 1
+   * ms.has(1);       // false
+   */
+  pollFirst(): K | undefined {
+    const key = this.first();
+    if (key === undefined) return undefined;
+    this.deleteAll(key);
+    return key;
+  }
+
+  /**
+   * Removes all occurrences of the largest key and returns it.
+   * @example
+   * const ms = new TreeMultiSet([1, 2, 3, 3]);
+   * ms.pollLast();  // 3
+   * ms.has(3);      // false
+   */
+  pollLast(): K | undefined {
+    const key = this.last();
+    if (key === undefined) return undefined;
+    this.deleteAll(key);
+    return key;
+  }
+
+  /**
+   * Returns the smallest key >= given key, or undefined.
+   * @example
+   * const ms = new TreeMultiSet([10, 20, 30]);
+   * ms.ceiling(15);  // 20
+   * ms.ceiling(20);  // 20
+   */
+  ceiling(key: K): K | undefined {
+    this._validateKey(key);
+    return this.#core.ceiling(key);
+  }
+
+  /**
+   * Returns the largest key <= given key, or undefined.
+   * @example
+   * const ms = new TreeMultiSet([10, 20, 30]);
+   * ms.floor(25);  // 20
+   * ms.floor(20);  // 20
+   */
+  floor(key: K): K | undefined {
+    this._validateKey(key);
+    return this.#core.floor(key);
+  }
+
+  /**
+   * Returns the smallest key > given key, or undefined.
+   * @example
+   * const ms = new TreeMultiSet([10, 20, 30]);
+   * ms.higher(10);  // 20
+   * ms.higher(15);  // 20
+   */
+  higher(key: K): K | undefined {
+    this._validateKey(key);
+    return this.#core.higher(key);
+  }
+
+  /**
+   * Returns the largest key < given key, or undefined.
+   * @example
+   * const ms = new TreeMultiSet([10, 20, 30]);
+   * ms.lower(20);  // 10
+   * ms.lower(15);  // 10
+   */
+  lower(key: K): K | undefined {
+    this._validateKey(key);
+    return this.#core.lower(key);
+  }
+
+  // ━━━ Functional methods ━━━
+
+  /**
+   * Iterates over distinct keys with their counts.
+   * @example
+   * const ms = new TreeMultiSet([1, 1, 2, 3, 3, 3]);
+   * ms.forEach((key, count) => console.log(`${key}: ${count}`));
+   * // 1: 2, 2: 1, 3: 3
+   */
+  forEach(callback: (key: K, count: number) => void): void {
+    for (const [k, c] of this.entries()) {
+      callback(k, c);
+    }
+  }
+
+  /**
+   * Creates a new TreeMultiSet with entries that match the predicate.
+   * @example
+   * const ms = new TreeMultiSet([1, 1, 2, 3, 3, 3]);
+   * const filtered = ms.filter((key, count) => count >= 2);
+   * // TreeMultiSet { 1: 2, 3: 3 }
+   */
+  filter(predicate: (key: K, count: number) => boolean): TreeMultiSet<K> {
+    const result = new TreeMultiSet<K>([], {
+      comparator: this.#isDefaultComparator ? undefined : this.comparator,
+      isMapMode: (this.#core as any)._isMapMode
+    });
+    for (const [k, c] of this.entries()) {
+      if (predicate(k, c)) {
+        result.add(k, c);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Reduces the multiset to a single value.
+   * @example
+   * const ms = new TreeMultiSet([1, 1, 2, 3, 3, 3]);
+   * const total = ms.reduce((acc, key, count) => acc + count, 0);  // 6
+   */
+  reduce<U>(callback: (accumulator: U, key: K, count: number) => U, initialValue: U): U {
+    let acc = initialValue;
+    for (const [k, c] of this.entries()) {
+      acc = callback(acc, k, c);
+    }
+    return acc;
+  }
+
+  /**
+   * Maps keys and counts to a new TreeMultiSet.
+   * When multiple keys map to the same new key, counts are merged (added).
+   * @example
+   * const ms = new TreeMultiSet([1, 1, 2, 3, 3, 3]);
+   * const mapped = ms.map((key, count) => [key * 10, count]);
+   * // TreeMultiSet { 10: 2, 20: 1, 30: 3 }
+   * @example
+   * // Collision: counts merge
+   * const ms = new TreeMultiSet([1, 2, 3]);
+   * const merged = ms.map((key, count) => [key % 2, count]);
+   * // { 0: 1, 1: 2 }  (1 and 3 both map to 1, counts add)
+   */
+  map<K2>(
+    mapper: (key: K, count: number) => [K2, number],
+    options?: { comparator?: Comparator<K2> }
+  ): TreeMultiSet<K2> {
+    const result = new TreeMultiSet<K2>([], {
+      comparator: options?.comparator,
+      isMapMode: (this.#core as any)._isMapMode
+    });
+    for (const [k, c] of this.entries()) {
+      const [newKey, newCount] = mapper(k, c);
+      result.add(newKey, newCount);
+    }
+    return result;
+  }
+
+  /**
+   * Creates an independent copy of this multiset.
+   * @example
+   * const ms = new TreeMultiSet([1, 1, 2]);
+   * const copy = ms.clone();
+   * copy.add(3);
+   * ms.has(3);  // false (original unchanged)
+   */
+  clone(): TreeMultiSet<K> {
+    const result = new TreeMultiSet<K>([], {
+      comparator: this.#isDefaultComparator ? undefined : this.comparator,
+      isMapMode: (this.#core as any)._isMapMode
+    });
+    for (const [k, c] of this.entries()) {
+      result.add(k, c);
+    }
+    return result;
+  }
+
+  // ━━━ Tree utilities ━━━
+
+  /**
+   * Returns keys within the given range.
+   * @example
+   * const ms = new TreeMultiSet([10, 20, 30, 40, 50]);
+   * ms.rangeSearch([15, 45]);  // [20, 30, 40]
+   */
+  rangeSearch<C extends (key: K) => any>(
+    range: [K, K],
+    callback?: C
+  ): (C extends undefined ? K : ReturnType<C>)[] {
+    const cb = callback ?? ((k: K) => k);
+    return this.#core.rangeSearch(range, node => cb(node.key)) as any;
+  }
+
+  /**
+   * Prints the internal tree structure (for debugging).
+   * @example
+   * const ms = new TreeMultiSet([1, 2, 3]);
+   * ms.print();
+   */
+  print(): void {
+    this.#core.print();
+  }
 }

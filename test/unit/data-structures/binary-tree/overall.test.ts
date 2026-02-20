@@ -159,7 +159,7 @@ describe('Overall BinaryTree Test', () => {
     expect(tmm.getHeight()).toBe(3);
     expect(tmm.has(9)).toBe(true);
     expect(tmm.has(7)).toBe(true);
-    expect(tmm.delete(7)[0].deleted?.key).toBe(7);
+    expect(tmm.delete(7)).toBe(true);
     expect(tmm.has(7)).toBe(false);
     expect(tmm.size).toBe(7);
     expect(tmm.root?.key).toBe(3);
