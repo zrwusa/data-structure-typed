@@ -168,19 +168,21 @@ describe('conversions', () => {
   });
 
   it('Entry Array to TreeMultiMap', () => {
-    const treeMulti = new TreeMultiMap<number>(entries);
+    // TreeMultiMap uses bucket semantics: [key, values[]]
+    const bucketEntries: [number, string[]][] = entries.map(([k, v]) => [k, [v]]);
+    const treeMulti = new TreeMultiMap<number, string>(bucketEntries);
     expect(treeMulti.size).toBe(9);
     if (isDebug) treeMulti.print();
     expect([...treeMulti]).toEqual([
-      [1, '1'],
-      [2, '2'],
-      [3, '3'],
-      [4, '4'],
-      [5, '5'],
-      [6, '6'],
-      [7, '7'],
-      [8, '8'],
-      [9, '9']
+      [1, ['1']],
+      [2, ['2']],
+      [3, ['3']],
+      [4, ['4']],
+      [5, ['5']],
+      [6, ['6']],
+      [7, ['7']],
+      [8, ['8']],
+      [9, ['9']]
     ]);
   });
 

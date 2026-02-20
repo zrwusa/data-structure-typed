@@ -198,6 +198,12 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   readonly #core: RedBlackTree<K, V[], R>;
   readonly #isDefaultComparator: boolean;
 
+  /**
+   * Creates a new TreeMultiMap.
+   * @param keysNodesEntriesOrRaws - Initial entries
+   * @param options - Configuration options
+   * @remarks Time O(m log m), Space O(m) where m is the number of initial entries
+   */
   constructor(
     keysNodesEntriesOrRaws: Iterable<K | [K | null | undefined, V[] | undefined] | null | undefined | R> = [],
     options: TreeMultiMapOptions<K, V[], R> = {} as any
@@ -224,6 +230,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
     }
   }
 
+  /**
+   * Validates the key against the default comparator rules.
+   * @remarks Time O(1), Space O(1)
+   */
   private _validateKey(key: K): void {
     if (!this.#isDefaultComparator) return;
     // reuse TreeSet strict validation (same policy)
@@ -240,43 +250,71 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
     throw new TypeError('TreeMultiMap: comparator is required for non-number/non-string/non-Date keys');
   }
 
+  /**
+   * Number of distinct keys.
+   * @remarks Time O(1), Space O(1)
+   */
   get size(): number {
     return this.#core.size;
   }
 
+  /**
+   * Whether the map is empty.
+   * @remarks Time O(1), Space O(1)
+   */
   isEmpty(): boolean {
     return this.size === 0;
   }
 
+  /**
+   * Removes all entries from the map.
+   * @remarks Time O(1), Space O(1)
+   */
   clear(): void {
     this.#core.clear();
   }
 
-  /** Bucket length for a key (missing => 0). */
+  /**
+   * Bucket length for a key (missing => 0).
+   * @remarks Time O(log n), Space O(1)
+   */
   count(key: K): number {
     const b = this.get(key);
     return Array.isArray(b) ? b.length : 0;
   }
 
-  /** Total number of values across all buckets (Σ bucket.length). */
+  /**
+   * Total number of values across all buckets (Σ bucket.length).
+   * @remarks Time O(n), Space O(1)
+   */
   get totalSize(): number {
     let sum = 0;
     for (const [, bucket] of this) sum += bucket.length;
     return sum;
   }
 
+  /**
+   * Whether the map contains the given key.
+   * @remarks Time O(log n), Space O(1)
+   */
   has(key: K): boolean {
     this._validateKey(key);
     return this.#core.has(key);
   }
 
-  /** Live bucket reference (do not auto-delete key if bucket becomes empty via mutation). */
+  /**
+   * Live bucket reference (do not auto-delete key if bucket becomes empty via mutation).
+   * @remarks Time O(log n), Space O(1)
+   */
   get(key: K): V[] | undefined {
     this._validateKey(key);
     return this.#core.get(key);
   }
 
-  /** Append a single value. */
+  /**
+   * Append a single value.
+   * @remarks Time O(log n), Space O(1)
+   */
   add(key: K, value: V): boolean {
     this._validateKey(key);
     const bucket = this.#core.get(key);
@@ -287,7 +325,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
     return this.#core.set(key, [value]);
   }
 
-  /** Alias for compatibility with existing TreeMultiMap semantics. */
+  /**
+   * Alias for compatibility with existing TreeMultiMap semantics.
+   * @remarks Time O(log n), Space O(1) for single value; O(log n + m) for bucket append
+   */
   set(entry: [K | null | undefined, V[] | undefined] | K | null | undefined, value?: V): boolean;
   set(key: K, value: V): boolean;
   set(entry: [K | null | undefined, V[] | undefined] | K | null | undefined, value?: V): boolean {
@@ -313,18 +354,29 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
     return this.#core.set(entry as K, [] as V[]);
   }
 
+  /**
+   * Deletes a key and its entire bucket.
+   * @remarks Time O(log n), Space O(1)
+   */
   delete(key: K): boolean {
     this._validateKey(key);
     return this.#core.delete(key).length > 0;
   }
 
-  /** Value equality helpers. */
+  /**
+   * Check if a specific value exists in a key's bucket.
+   * @remarks Time O(log n + m), Space O(1) where m is bucket size
+   */
   hasEntry(key: K, value: V, eq: (a: V, b: V) => boolean = Object.is): boolean {
     const bucket = this.get(key);
     if (!Array.isArray(bucket)) return false;
     return bucket.some(v => eq(v, value));
   }
 
+  /**
+   * Delete a single occurrence of a value from a key's bucket.
+   * @remarks Time O(log n + m), Space O(1) where m is bucket size
+   */
   deleteValue(key: K, value: V, eq: (a: V, b: V) => boolean = Object.is): boolean {
     const bucket = this.get(key);
     if (!Array.isArray(bucket)) return false;
@@ -335,6 +387,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
     return true;
   }
 
+  /**
+   * Delete all occurrences of a value from a key's bucket.
+   * @remarks Time O(log n + m), Space O(1) where m is bucket size
+   */
   deleteValues(key: K, value: V, eq: (a: V, b: V) => boolean = Object.is): number {
     const bucket = this.get(key);
     if (!Array.isArray(bucket) || bucket.length === 0) return 0;
@@ -350,6 +406,11 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   }
 
   // ---- iteration (bucket view) ----
+
+  /**
+   * Iterates over all entries as [key, bucket] pairs.
+   * @remarks Time O(n), Space O(1)
+   */
   *[Symbol.iterator](): Iterator<[K, V[]]> {
     for (const [k, v] of this.#core) {
       // core always stores buckets, but guard anyway
@@ -357,27 +418,48 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
     }
   }
 
+  /**
+   * Iterates over all keys.
+   * @remarks Time O(n), Space O(1)
+   */
   *keys(): IterableIterator<K> {
     yield* this.#core.keys();
   }
 
+  /**
+   * Iterates over all buckets.
+   * @remarks Time O(n), Space O(1)
+   */
   *values(): IterableIterator<V[]> {
     for (const [, bucket] of this) yield bucket;
   }
 
   // ---- entry-flat views ----
+
+  /**
+   * Iterates over all entries for a specific key.
+   * @remarks Time O(log n + m), Space O(1) where m is bucket size
+   */
   *entriesOf(key: K): IterableIterator<[K, V]> {
     const bucket = this.get(key);
     if (!Array.isArray(bucket)) return;
     for (const v of bucket) yield [key, v];
   }
 
+  /**
+   * Iterates over all values for a specific key.
+   * @remarks Time O(log n + m), Space O(1) where m is bucket size
+   */
   *valuesOf(key: K): IterableIterator<V> {
     const bucket = this.get(key);
     if (!Array.isArray(bucket)) return;
     yield* bucket;
   }
 
+  /**
+   * Iterates over all [key, value] pairs (flattened from buckets).
+   * @remarks Time O(T), Space O(1) where T is totalSize
+   */
   *flatEntries(): IterableIterator<[K, V]> {
     for (const [k, bucket] of this) {
       for (const v of bucket) yield [k, v];
@@ -388,6 +470,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
 
   /**
    * Returns the entry with the smallest key.
+   * @remarks Time O(log n), Space O(1)
    * @example
    * const map = new TreeMultiMap([[1, ['a']], [2, ['b']]]);
    * map.first();  // [1, ['a']]
@@ -401,6 +484,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
 
   /**
    * Returns the entry with the largest key.
+   * @remarks Time O(log n), Space O(1)
    * @example
    * const map = new TreeMultiMap([[1, ['a']], [2, ['b']]]);
    * map.last();  // [2, ['b']]
@@ -414,6 +498,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
 
   /**
    * Removes and returns the entry with the smallest key.
+   * @remarks Time O(log n), Space O(1)
    * @example
    * const map = new TreeMultiMap([[1, ['a']], [2, ['b']]]);
    * map.pollFirst();  // [1, ['a']]
@@ -428,6 +513,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
 
   /**
    * Removes and returns the entry with the largest key.
+   * @remarks Time O(log n), Space O(1)
    * @example
    * const map = new TreeMultiMap([[1, ['a']], [2, ['b']]]);
    * map.pollLast();  // [2, ['b']]
@@ -442,6 +528,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
 
   /**
    * Returns the entry with the smallest key >= given key.
+   * @remarks Time O(log n), Space O(1)
    * @example
    * const map = new TreeMultiMap([[10, ['a']], [20, ['b']], [30, ['c']]]);
    * map.ceiling(15);  // [20, ['b']]
@@ -457,6 +544,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
 
   /**
    * Returns the entry with the largest key <= given key.
+   * @remarks Time O(log n), Space O(1)
    * @example
    * const map = new TreeMultiMap([[10, ['a']], [20, ['b']], [30, ['c']]]);
    * map.floor(25);  // [20, ['b']]
@@ -472,6 +560,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
 
   /**
    * Returns the entry with the smallest key > given key.
+   * @remarks Time O(log n), Space O(1)
    * @example
    * const map = new TreeMultiMap([[10, ['a']], [20, ['b']], [30, ['c']]]);
    * map.higher(10);  // [20, ['b']]
@@ -487,6 +576,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
 
   /**
    * Returns the entry with the largest key < given key.
+   * @remarks Time O(log n), Space O(1)
    * @example
    * const map = new TreeMultiMap([[10, ['a']], [20, ['b']], [30, ['c']]]);
    * map.lower(20);  // [10, ['a']]
@@ -504,17 +594,26 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
 
   /**
    * Prints the internal tree structure (for debugging).
+   * @remarks Time O(n), Space O(n)
    */
   print(...args: any[]): void {
     return (this.#core as any).print(...args);
   }
 
+  /**
+   * Executes a callback for each entry.
+   * @remarks Time O(n), Space O(1)
+   */
   forEach(callback: (value: V[], key: K, map: this) => void): void {
     for (const [k, v] of this) {
       callback(v, k, this);
     }
   }
 
+  /**
+   * Creates a new map with entries that pass the predicate.
+   * @remarks Time O(n), Space O(n)
+   */
   filter(predicate: (value: V[], key: K, map: this) => boolean): TreeMultiMap<K, V, R> {
     const filtered: [K, V[]][] = [];
     for (const [k, v] of this) {
@@ -523,6 +622,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
     return new TreeMultiMap<K, V, R>(filtered, { comparator: this.comparator as any });
   }
 
+  /**
+   * Creates a new map by transforming each entry.
+   * @remarks Time O(n log n), Space O(n)
+   */
   map<V2>(
     mapper: (value: V[], key: K, map: this) => [K, V2[]]
   ): TreeMultiMap<K, V2, R> {
@@ -533,6 +636,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
     return new TreeMultiMap<K, V2, R>(mapped, { comparator: this.comparator as any });
   }
 
+  /**
+   * Reduces all entries to a single value.
+   * @remarks Time O(n), Space O(1)
+   */
   reduce<U>(callback: (accumulator: U, value: V[], key: K, map: this) => U, initialValue: U): U {
     let acc = initialValue;
     for (const [k, v] of this) {
@@ -541,6 +648,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
     return acc;
   }
 
+  /**
+   * Sets multiple entries at once.
+   * @remarks Time O(m log n), Space O(m) where m is input size
+   */
   setMany(keysNodesEntriesOrRaws: Iterable<any>): boolean[] {
     const results: boolean[] = [];
     for (const x of keysNodesEntriesOrRaws) {
@@ -550,6 +661,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
     return results;
   }
 
+  /**
+   * Searches for entries within a key range.
+   * @remarks Time O(log n + k), Space O(k) where k is result size
+   */
   rangeSearch<C extends (node: RedBlackTreeNode<K, V[]>) => any>(
     range: any,
     callback?: C,
@@ -558,11 +673,18 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
     return this.#core.rangeSearch(range, callback as any, isBalanced);
   }
 
+  /**
+   * Creates a shallow clone of this map.
+   * @remarks Time O(n log n), Space O(n)
+   */
   clone(): TreeMultiMap<K, V, R> {
     return new TreeMultiMap<K, V, R>(this, { comparator: this.comparator as any, isMapMode: (this.#core as any)._isMapMode });
   }
 
-  /** Expose comparator for advanced usage/testing (read-only). */
+  /**
+   * Expose comparator for advanced usage/testing (read-only).
+   * @remarks Time O(1), Space O(1)
+   */
   get comparator(): Comparator<K> {
     return (this.#core as any)._comparator;
   }
