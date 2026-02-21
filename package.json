@@ -50,7 +50,7 @@
     "test:in-band": "jest --runInBand",
     "test": "npm run test:in-band",
     "test:integration": "npm run update:subs && jest --config jest.integration.config.js && tsc test/integration/compile.test.ts && node test/integration/compile.mjs",
-    "test:perf": "npm run build:ecut && NODE_OPTIONS=--expose-gc node test/performance/benchmark-runner-enhanced.mjs",
+    "test:perf": "npm run build:ecut && NODE_OPTIONS='--expose-gc --max-old-space-size=8192' node test/performance/benchmark-runner-enhanced.mjs",
     "test:perf:report": "node test/performance/reportor-enhanced.mjs",
     "test:coverage": "jest --runInBand --coverage",
     "check": "npm run check:src && npm run check:test",
