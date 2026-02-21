@@ -27,6 +27,22 @@ const parentDirectory = path.resolve(__dirname, '../..');
 const reportDistPath = path.join(parentDirectory, 'benchmark');
 const docsPath = path.join(parentDirectory, 'docs');
 const reportJsonPath = path.join(reportDistPath, 'report.json');
+const runnerConfigPath = path.join(__dirname, 'runner-config.json');
+
+/**
+ * Load order configuration from runner-config.json
+ */
+function loadOrderConfig() {
+    try {
+        if (fs.existsSync(runnerConfigPath)) {
+            const config = JSON.parse(fs.readFileSync(runnerConfigPath, 'utf-8'));
+            return config.order || [];
+        }
+    } catch (e) {
+        console.warn(`${YELLOW}⚠ Could not load runner-config.json for ordering${END}`);
+    }
+    return [];
+}
 
 // Test name mapping to display names
 const testNameMap = {
@@ -35,6 +51,10 @@ const testNameMap = {
     'avl-rb-range-search': 'AVLRBRangeSearch',
     'binary-tree': 'BinaryTree',
     'bst': 'BST',
+    'tree-set': 'TreeSet',
+    'tree-map': 'TreeMap',
+    'tree-multi-set': 'TreeMultiSet',
+    'tree-multi-map': 'TreeMultiMap',
     'trie': 'Trie',
     'heap': 'Heap',
     'stack': 'Stack',
@@ -43,7 +63,8 @@ const testNameMap = {
     'hash-map': 'HashMap',
     'singly-linked-list': 'SinglyLinkedList',
     'doubly-linked-list': 'DoublyLinkedList',
-    'directed-graph': 'DirectedGraph'
+    'directed-graph': 'DirectedGraph',
+    'priority-queue': 'PriorityQueue'
 };
 
 function loadReport() {
@@ -355,9 +376,13 @@ function generateMarkdownComparison(report) {
     }
 
     const groups = new Map();
+    // Track testName -> displayName for sorting
+    const testNameToDisplay = new Map();
+    
     for (const jsResult of javascript) {
         const testName = jsResult.testName;
         const displayName = testNameMap[testName] || testName;
+        testNameToDisplay.set(testName, displayName);
 
         if (!groups.has(displayName)) {
             groups.set(displayName, []);
@@ -371,9 +396,37 @@ function generateMarkdownComparison(report) {
         }
     }
 
+    // Sort groups by runner-config.json order
+    const orderConfig = loadOrderConfig();
+    const sortedDisplayNames = Array.from(groups.keys()).sort((a, b) => {
+        // Find the testName for each displayName (reverse lookup)
+        const getTestName = (displayName) => {
+            for (const [testName, dn] of testNameToDisplay) {
+                if (dn === displayName) return testName;
+            }
+            return displayName.toLowerCase().replace(/\s+/g, '-');
+        };
+        
+        const testNameA = getTestName(a);
+        const testNameB = getTestName(b);
+        
+        const indexA = orderConfig.indexOf(testNameA);
+        const indexB = orderConfig.indexOf(testNameB);
+        
+        // If both are in order config, sort by config order
+        if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+        // If only A is in config, A comes first
+        if (indexA !== -1) return -1;
+        // If only B is in config, B comes first
+        if (indexB !== -1) return 1;
+        // Neither in config, sort alphabetically
+        return a.localeCompare(b);
+    });
+
     let markdown = '';
 
-    for (const [displayName, items] of groups) {
+    for (const displayName of sortedDisplayNames) {
+        const items = groups.get(displayName);
         markdown += `### ${displayName}\n`;
         // Main table: this data structure only (no js-sdsl / Native / Node Mode / C++ columns).
         markdown += `| Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |\n`;

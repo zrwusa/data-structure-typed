@@ -91,7 +91,8 @@ function parseArgs(argv) {
         cppOnly: false,
         jsOnly: false,
         resume: false,   // Resume from partial results
-        fresh: false     // Clear partial results and start fresh
+        fresh: false,    // Clear partial results and start fresh
+        fullFresh: false // Clear partial results AND existing report.json (no merge)
     };
 
     const filters = [];
@@ -124,6 +125,10 @@ function parseArgs(argv) {
                 break;
             case 'fresh':
                 flags.fresh = true;
+                break;
+            case 'full-fresh':
+                flags.fullFresh = true;
+                flags.fresh = true; // full-fresh implies fresh
                 break;
             case 'cooldown-ms':
                 flags.cooldownMs = v ? Number(v) : flags.cooldownMs;
@@ -480,9 +485,42 @@ function clearPartialResults() {
 
 // ============ End Incremental Support ============
 
+/**
+ * Merge new results into existing results by testName
+ * Updates existing entries, adds new ones, preserves others
+ */
+function mergeResults(existing, newResults) {
+    const merged = new Map();
+    
+    // Add all existing results first
+    for (const result of existing) {
+        merged.set(result.testName, result);
+    }
+    
+    // Update/add new results (overwrites existing with same testName)
+    for (const result of newResults) {
+        merged.set(result.testName, result);
+    }
+    
+    return Array.from(merged.values());
+}
+
 async function generateUnifiedReport(jsResults, cppResults) {
     if (!fs.existsSync(reportDistPath)) {
         fs.mkdirSync(reportDistPath, { recursive: true });
+    }
+
+    const filePath = path.join(reportDistPath, 'report.json');
+    
+    // Load existing report for incremental merge
+    let existingReport = { javascript: [], native: [] };
+    if (fs.existsSync(filePath) && !flags.fullFresh) {
+        try {
+            existingReport = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+            console.log(`${CYAN}ℹ Merging with existing report (${existingReport.javascript?.length || 0} JS, ${existingReport.native?.length || 0} C++ tests)${END}`);
+        } catch (e) {
+            console.warn(`${YELLOW}⚠ Could not parse existing report, starting fresh${END}`);
+        }
     }
 
     // Format test case names in results (convert 1000000 -> 1M)
@@ -502,20 +540,27 @@ async function generateUnifiedReport(jsResults, cppResults) {
         }))
     }));
 
+    // Merge with existing results (incremental update)
+    const mergedJsResults = mergeResults(existingReport.javascript || [], formattedJsResults);
+    const mergedCppResults = mergeResults(existingReport.native || [], formattedCppResults);
+
     const report = {
         timestamp: new Date().toISOString(),
-        javascript: formattedJsResults,
-        native: formattedCppResults,
+        javascript: mergedJsResults,
+        native: mergedCppResults,
         summary: {
-            jsTestCount: jsResults.length,
-            cppTestCount: cppResults.length,
-            totalTests: jsResults.length + cppResults.length
+            jsTestCount: mergedJsResults.length,
+            cppTestCount: mergedCppResults.length,
+            totalTests: mergedJsResults.length + mergedCppResults.length
         }
     };
 
-    const filePath = path.join(reportDistPath, 'report.json');
     fs.writeFileSync(filePath, JSON.stringify(report, null, 2));
     console.log(`\n${GREEN}✓ Report written to: ${filePath}${END}`);
+    
+    if (jsResults.length < mergedJsResults.length || cppResults.length < mergedCppResults.length) {
+        console.log(`${CYAN}ℹ Incremental merge: updated ${jsResults.length} JS + ${cppResults.length} C++ tests, total now ${mergedJsResults.length} JS + ${mergedCppResults.length} C++${END}`);
+    }
 
     return report;
 }
