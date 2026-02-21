@@ -2,6 +2,7 @@ import type { Comparator } from '../../common';
 
 export interface TreeMapOptions<K> {
   comparator?: Comparator<K>;
+
   /**
    * Pass-through to the underlying RedBlackTree/BST `isMapMode` option.
    *

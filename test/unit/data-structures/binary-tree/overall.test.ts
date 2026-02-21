@@ -140,50 +140,36 @@ describe('Overall BinaryTree Test', () => {
     expect(clonedAVL.bfs()).toEqual([3, 5, 1, 9, 4, 2, 6]);
   });
 
-  // Skipped: TreeMultiMap API simplified; no longer exposes internal tree methods (root, getNode, bfs, etc.)
-  it.skip('Should clone a TreeMultiMap works fine', () => {
-    const tmm = new TreeMultiMap<number>([3, 6, 7, 1, 9], {
-      iterationType: 'RECURSIVE'
-    });
+  // TreeMultiMap uses composition, not inheritance - tests use public API only
+  it('Should clone a TreeMultiMap works fine', () => {
+    const tmm = new TreeMultiMap<number, string>();
+    tmm.set(3, 'a');
+    tmm.set(6, 'b');
+    tmm.set(7, 'c');
+    tmm.set(1, 'd');
+    tmm.set(9, 'e');
     expect(tmm.size).toBe(5);
-    tmm.set(2);
-    tmm.set(2);
-    tmm.set(2);
-    tmm.set(5);
-    tmm.set(4);
-    expect(tmm.root?.key).toBe(3);
-    expect(tmm.root?.left?.key).toBe(1);
-    expect(tmm.root?.left?.left?.key).toBe(NaN);
-    expect(tmm.root?.right?.key).toBe(7);
-    expect(tmm.root?.right?.left?.key).toBe(5);
-    expect(tmm.getNode(7)?.left?.key).toBe(5);
-    expect(tmm.getHeight()).toBe(3);
+    tmm.set(2, 'f');
+    tmm.set(2, 'g'); // duplicate key, adds to bucket
+    tmm.set(2, 'h'); // duplicate key, adds to bucket
+    tmm.set(5, 'i');
+    tmm.set(4, 'j');
+    expect(tmm.size).toBe(8); // 8 unique keys
+    expect(tmm.count(2)).toBe(3); // 3 values for key 2
     expect(tmm.has(9)).toBe(true);
     expect(tmm.has(7)).toBe(true);
     expect(tmm.delete(7)).toBe(true);
     expect(tmm.has(7)).toBe(false);
     expect(tmm.size).toBe(7);
-    expect(tmm.root?.key).toBe(3);
-    expect(tmm.root?.left?.key).toBe(1);
-    expect(tmm.root?.right?.key).toBe(9);
-    expect(tmm.root?.right?.left?.key).toBe(5);
-    expect(tmm.getNode(6)?.left?.key).toBe(NaN);
-    expect(tmm.getHeight()).toBe(3);
     expect(tmm.has(9)).toBe(true);
     expect(tmm.has(7)).toBe(false);
-    expect(tmm.bfs()).toEqual([3, 1, 9, 2, 5, 4, 6]);
-    // expect(tmm.bfs()).toEqual([6, 1, 9, 3, 2, 5, 4]);
+    
     const clonedTMM = tmm.clone();
     expect(clonedTMM.size).toBe(7);
-    expect(clonedTMM.root?.key).toBe(3);
-    expect(clonedTMM.root?.left?.key).toBe(1);
-    expect(clonedTMM.root?.right?.key).toBe(5);
-    expect(clonedTMM.root?.right?.left?.key).toBe(4);
-    expect(clonedTMM.getNode(6)?.left?.key).toBe(NaN);
-    expect(clonedTMM.getHeight()).toBe(3);
     expect(clonedTMM.has(9)).toBe(true);
     expect(clonedTMM.has(7)).toBe(false);
-    expect(clonedTMM.bfs()).toEqual([3, 1, 5, 2, 4, 9, 6]);
+    expect(clonedTMM.count(2)).toBe(3);
+    expect(clonedTMM.get(2)).toEqual(['f', 'g', 'h']);
   });
 
   it('Should clone a RedBlackTree works fine', () => {
