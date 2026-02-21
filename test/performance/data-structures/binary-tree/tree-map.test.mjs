@@ -31,75 +31,75 @@ for (let i = 0; i < randomKeys.length; i++) {
 
 suite
   // Insert benchmarks.
-  .add(`${N_SET.toLocaleString()} set (TreeMap, MapMode ON)`, function () {
+  .add(`${N_SET.toLocaleString()} set TreeMap`, function () {
     const mp = new TreeMap();
     for (let i = 0; i < randomKeys.length; i++) mp.set(randomKeys[i], randomKeys[i]);
     this.val = mp;
   })
-  .add(`${N_SET.toLocaleString()} set (TreeMap, MapMode OFF)`, function () {
+  .add(`${N_SET.toLocaleString()} set TreeMap (Node)`, function () {
     const mp = new TreeMap([], { isMapMode: false });
     for (let i = 0; i < randomKeys.length; i++) mp.set(randomKeys[i], randomKeys[i]);
     this.val = mp;
   })
-  .add(`${N_SET.toLocaleString()} set (RedBlackTree, MapMode ON)`, function () {
+  .add(`${N_SET.toLocaleString()} set RBT`, function () {
     const mp = new RedBlackTree();
     for (let i = 0; i < randomKeys.length; i++) mp.set(randomKeys[i], randomKeys[i]);
     this.val = mp;
   })
-  .add(`${N_SET.toLocaleString()} set (RedBlackTree, MapMode OFF)`, function () {
+  .add(`${N_SET.toLocaleString()} set RBT (Node)`, function () {
     const mp = new RedBlackTree([], { isMapMode: false });
     for (let i = 0; i < randomKeys.length; i++) mp.set(randomKeys[i], randomKeys[i]);
     this.val = mp;
   })
-  .add(`${N_SET.toLocaleString()} set (js-sdsl OrderedMap)`, function () {
+  .add(`${N_SET.toLocaleString()} set js-sdsl`, function () {
     const mp = new OrderedMap();
     for (let i = 0; i < randomKeys.length; i++) mp.setElement(randomKeys[i], randomKeys[i]);
     this.val = mp;
   })
 
   // Lookup-only benchmarks (no rebuild).
-  .add(`${N_GET.toLocaleString()} get-only (TreeMap, MapMode ON)`, function () {
+  .add(`${N_GET.toLocaleString()} get TreeMap`, function () {
     for (let i = 0; i < randomKeys.length; i++) treeMapOn.get(randomKeys[i]);
   })
-  .add(`${N_GET.toLocaleString()} get-only (TreeMap, MapMode OFF)`, function () {
+  .add(`${N_GET.toLocaleString()} get TreeMap (Node)`, function () {
     for (let i = 0; i < randomKeys.length; i++) treeMapOff.get(randomKeys[i]);
   })
-  .add(`${N_GET.toLocaleString()} get-only (RedBlackTree, MapMode ON)`, function () {
+  .add(`${N_GET.toLocaleString()} get RBT`, function () {
     for (let i = 0; i < randomKeys.length; i++) rbtOn.get(randomKeys[i]);
   })
-  .add(`${N_GET.toLocaleString()} get-only (RedBlackTree, MapMode OFF)`, function () {
+  .add(`${N_GET.toLocaleString()} get RBT (Node)`, function () {
     for (let i = 0; i < randomKeys.length; i++) rbtOff.get(randomKeys[i]);
   })
-  .add(`${N_GET.toLocaleString()} get-only (js-sdsl OrderedMap)`, function () {
+  .add(`${N_GET.toLocaleString()} get js-sdsl`, function () {
     for (let i = 0; i < randomKeys.length; i++) sdsl.getElementByKey(randomKeys[i]);
   })
 
   // Lookup benchmarks: build + lookup.
-  .add(`${N_GET.toLocaleString()} build+get (TreeMap, MapMode ON)`, function () {
+  .add(`${N_GET.toLocaleString()} build+get TreeMap`, function () {
     const mp = new TreeMap();
     for (let i = 0; i < randomKeys.length; i++) mp.set(randomKeys[i], randomKeys[i]);
     for (let i = 0; i < randomKeys.length; i++) mp.get(randomKeys[i]);
     this.val = mp;
   })
-  .add(`${N_GET.toLocaleString()} build+get (TreeMap, MapMode OFF)`, function () {
+  .add(`${N_GET.toLocaleString()} build+get TreeMap (Node)`, function () {
     const mp = new TreeMap([], { isMapMode: false });
     for (let i = 0; i < randomKeys.length; i++) mp.set(randomKeys[i], randomKeys[i]);
     for (let i = 0; i < randomKeys.length; i++) mp.get(randomKeys[i]);
     this.val = mp;
   })
-  .add(`${N_GET.toLocaleString()} build+get (RedBlackTree, MapMode ON)`, function () {
+  .add(`${N_GET.toLocaleString()} build+get RBT`, function () {
     const mp = new RedBlackTree();
     for (let i = 0; i < randomKeys.length; i++) mp.set(randomKeys[i], randomKeys[i]);
     for (let i = 0; i < randomKeys.length; i++) mp.get(randomKeys[i]);
     this.val = mp;
   })
-  .add(`${N_GET.toLocaleString()} build+get (RedBlackTree, MapMode OFF)`, function () {
+  .add(`${N_GET.toLocaleString()} build+get RBT (Node)`, function () {
     const mp = new RedBlackTree([], { isMapMode: false });
     for (let i = 0; i < randomKeys.length; i++) mp.set(randomKeys[i], randomKeys[i]);
     for (let i = 0; i < randomKeys.length; i++) mp.get(randomKeys[i]);
     this.val = mp;
   })
-  .add(`${N_GET.toLocaleString()} build+get (js-sdsl OrderedMap)`, function () {
+  .add(`${N_GET.toLocaleString()} build+get js-sdsl`, function () {
     const mp = new OrderedMap();
     for (let i = 0; i < randomKeys.length; i++) mp.setElement(randomKeys[i], randomKeys[i]);
     for (let i = 0; i < randomKeys.length; i++) mp.getElementByKey(randomKeys[i]);
@@ -107,15 +107,15 @@ suite
   })
 
   // Range/Navigable (lookup-only, no rebuild).
-  .add(`${N_RANGE.toLocaleString()} rangeSearch-only (TreeMap, MapMode ON)`, function () {
+  .add(`${N_RANGE.toLocaleString()} rangeSearch TreeMap`, function () {
     const out = treeMapOn.rangeSearch([0, N_RANGE - 1]);
     this.val = out.length;
   })
-  .add(`${N_RANGE.toLocaleString()} rangeSearch-only (TreeMap, MapMode OFF)`, function () {
+  .add(`${N_RANGE.toLocaleString()} rangeSearch TreeMap (Node)`, function () {
     const out = treeMapOff.rangeSearch([0, N_RANGE - 1]);
     this.val = out.length;
   })
-  .add(`${N_RANGE.toLocaleString()} ceiling/floor/higher/lower-only (TreeMap, MapMode ON)`, function () {
+  .add(`${N_RANGE.toLocaleString()} navigable TreeMap`, function () {
     for (let i = 0; i < N_RANGE; i++) {
       treeMapOn.ceiling(i);
       treeMapOn.floor(i);
@@ -123,7 +123,7 @@ suite
       treeMapOn.lower(i);
     }
   })
-  .add(`${N_RANGE.toLocaleString()} ceiling/floor/higher/lower-only (TreeMap, MapMode OFF)`, function () {
+  .add(`${N_RANGE.toLocaleString()} navigable TreeMap (Node)`, function () {
     for (let i = 0; i < N_RANGE; i++) {
       treeMapOff.ceiling(i);
       treeMapOff.floor(i);
@@ -133,19 +133,19 @@ suite
   })
 
   // Range/Navigable (build inside run).
-  .add(`${N_RANGE.toLocaleString()} rangeSearch (TreeMap, MapMode ON)`, function () {
+  .add(`${N_RANGE.toLocaleString()} build+rangeSearch TreeMap`, function () {
     const mp = new TreeMap();
     for (let i = 0; i < randomKeys.length; i++) mp.set(randomKeys[i], randomKeys[i]);
     const out = mp.rangeSearch([0, N_RANGE - 1]);
     this.val = out.length;
   })
-  .add(`${N_RANGE.toLocaleString()} rangeSearch (TreeMap, MapMode OFF)`, function () {
+  .add(`${N_RANGE.toLocaleString()} build+rangeSearch TreeMap (Node)`, function () {
     const mp = new TreeMap([], { isMapMode: false });
     for (let i = 0; i < randomKeys.length; i++) mp.set(randomKeys[i], randomKeys[i]);
     const out = mp.rangeSearch([0, N_RANGE - 1]);
     this.val = out.length;
   })
-  .add(`${N_RANGE.toLocaleString()} ceiling/floor/higher/lower (TreeMap, MapMode ON)`, function () {
+  .add(`${N_RANGE.toLocaleString()} build+navigable TreeMap`, function () {
     const mp = new TreeMap();
     for (let i = 0; i < randomKeys.length; i++) mp.set(randomKeys[i], randomKeys[i]);
     for (let i = 0; i < N_RANGE; i++) {
@@ -156,7 +156,7 @@ suite
     }
     this.val = mp;
   })
-  .add(`${N_RANGE.toLocaleString()} ceiling/floor/higher/lower (TreeMap, MapMode OFF)`, function () {
+  .add(`${N_RANGE.toLocaleString()} build+navigable TreeMap (Node)`, function () {
     const mp = new TreeMap([], { isMapMode: false });
     for (let i = 0; i < randomKeys.length; i++) mp.set(randomKeys[i], randomKeys[i]);
     for (let i = 0; i < N_RANGE; i++) {
