@@ -202,7 +202,13 @@ function loadRunConfigFromFile(filePath) {
     return null;
 }
 
-const cfg = loadRunConfigFromFile(flags.orderFile);
+let cfg = loadRunConfigFromFile(flags.orderFile) || {};
+
+// Merge command-line flags into config (CLI takes precedence)
+if (flags.include) cfg.include = flags.include;
+if (flags.exclude) cfg.exclude = flags.exclude;
+if (flags.order) cfg.order = flags.order;
+if (flags.label) cfg.label = flags.label;
 
 const parentDirectory = path.resolve(__dirname, '../..');
 const reportDistPath = path.join(parentDirectory, 'benchmark');
@@ -235,10 +241,13 @@ function matchesGlobPattern(filePath, pattern) {
     };
 
     const fileName = path.basename(filePath);
+    const testName = fileName.replace(/\.test\.(mjs|ts|cpp)$/, '');
     const relPath = path.relative(testDir, filePath).replace(/\\/g, '/');
     const regex = globToRegex(pattern);
 
-    return regex.test(fileName) || regex.test(relPath);
+    // Match against: full regex OR simple substring of test name
+    return regex.test(fileName) || regex.test(relPath) || 
+           testName === pattern || testName.includes(pattern) || pattern.includes(testName);
 }
 
 // Helper function to match files against CLI filters
