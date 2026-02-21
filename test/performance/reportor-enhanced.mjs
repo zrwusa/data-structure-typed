@@ -180,6 +180,137 @@ function getNativeMappings(testCaseName, testName) {
         }
     }
 
+    // TreeMultiMap: JS variants ↔ C++ std::multimap
+    if (testName === 'tree-multi-map') {
+        // JS: "1M add (TreeMultiMap, bucketed)" -> C++: "1M add std::multimap"
+        const addMatch = testCaseName.match(/^(.+?)\s+add\s+\(TreeMultiMap.*\)$/);
+        if (addMatch) {
+            mappings.push(`${addMatch[1]} add std::multimap`);
+        }
+        // JS: "1M has-only (TreeMultiMap)" -> C++: "1M has std::multimap"
+        const hasMatch = testCaseName.match(/^(.+?)\s+has-only\s+\(TreeMultiMap\)$/);
+        if (hasMatch) {
+            mappings.push(`${hasMatch[1]} has std::multimap`);
+        }
+        // JS: "1M get-only (TreeMultiMap)" -> C++: "1M get std::multimap"
+        const getMatch = testCaseName.match(/^(.+?)\s+get-only\s+\(TreeMultiMap\)$/);
+        if (getMatch) {
+            mappings.push(`${getMatch[1]} get std::multimap`);
+        }
+        // JS: "1M count-only (TreeMultiMap)" -> C++: "1M count std::multimap"
+        const countMatch = testCaseName.match(/^(.+?)\s+count-only\s+\(TreeMultiMap\)$/);
+        if (countMatch) {
+            mappings.push(`${countMatch[1]} count std::multimap`);
+        }
+        // JS: "1M build+has (TreeMultiMap)" -> C++: "1M build+has std::multimap"
+        const buildHasMatch = testCaseName.match(/^(.+?)\s+build\+has\s+\(TreeMultiMap\)$/);
+        if (buildHasMatch) {
+            mappings.push(`${buildHasMatch[1]} build+has std::multimap`);
+        }
+        // JS: "1M build+get (TreeMultiMap)" -> C++: "1M build+get std::multimap"
+        const buildGetMatch = testCaseName.match(/^(.+?)\s+build\+get\s+\(TreeMultiMap\)$/);
+        if (buildGetMatch) {
+            mappings.push(`${buildGetMatch[1]} build+get std::multimap`);
+        }
+        // JS: "1M bucket iteration (TreeMultiMap)" or "1M flatEntries iteration (TreeMultiMap)" -> C++: "1M iterate std::multimap"
+        const iterMatch = testCaseName.match(/^(.+?)\s+(bucket|flatEntries)\s+iteration\s+\(TreeMultiMap\)$/);
+        if (iterMatch) {
+            mappings.push(`${iterMatch[1]} iterate std::multimap`);
+        }
+        // Reverse: C++ -> JS
+        const cppAddMatch = testCaseName.match(/^(.+?)\s+add\s+std::multimap$/);
+        if (cppAddMatch) {
+            mappings.push(`${cppAddMatch[1]} add (TreeMultiMap, bucketed)`);
+            mappings.push(`${cppAddMatch[1]} add (TreeMultiMap bucketed)`);
+        }
+        const cppHasMatch = testCaseName.match(/^(.+?)\s+has\s+std::multimap$/);
+        if (cppHasMatch) {
+            mappings.push(`${cppHasMatch[1]} has-only (TreeMultiMap)`);
+        }
+        const cppGetMatch = testCaseName.match(/^(.+?)\s+get\s+std::multimap$/);
+        if (cppGetMatch) {
+            mappings.push(`${cppGetMatch[1]} get-only (TreeMultiMap)`);
+        }
+        const cppCountMatch = testCaseName.match(/^(.+?)\s+count\s+std::multimap$/);
+        if (cppCountMatch) {
+            mappings.push(`${cppCountMatch[1]} count-only (TreeMultiMap)`);
+        }
+        const cppBuildHasMatch = testCaseName.match(/^(.+?)\s+build\+has\s+std::multimap$/);
+        if (cppBuildHasMatch) {
+            mappings.push(`${cppBuildHasMatch[1]} build+has (TreeMultiMap)`);
+        }
+        const cppBuildGetMatch = testCaseName.match(/^(.+?)\s+build\+get\s+std::multimap$/);
+        if (cppBuildGetMatch) {
+            mappings.push(`${cppBuildGetMatch[1]} build+get (TreeMultiMap)`);
+        }
+        const cppIterMatch = testCaseName.match(/^(.+?)\s+iterate\s+std::multimap$/);
+        if (cppIterMatch) {
+            mappings.push(`${cppIterMatch[1]} bucket iteration (TreeMultiMap)`);
+            mappings.push(`${cppIterMatch[1]} flatEntries iteration (TreeMultiMap)`);
+        }
+    }
+
+    // TreeMultiSet: JS variants ↔ C++ std::multiset
+    if (testName === 'tree-multi-set') {
+        // JS: "1M add (TreeMultiSet, expanded iteration)" -> C++: "1M add std::multiset"
+        const addMatch = testCaseName.match(/^(.+?)\s+add\s+\(TreeMultiSet.*\)$/);
+        if (addMatch) {
+            mappings.push(`${addMatch[1]} add std::multiset`);
+        }
+        // JS: "1M has-only (TreeMultiSet)" -> C++: "1M has std::multiset"
+        const hasMatch = testCaseName.match(/^(.+?)\s+has-only\s+\(TreeMultiSet\)$/);
+        if (hasMatch) {
+            mappings.push(`${hasMatch[1]} has std::multiset`);
+        }
+        // JS: "1M count-only (TreeMultiSet)" -> C++: "1M count std::multiset"
+        const countMatch = testCaseName.match(/^(.+?)\s+count-only\s+\(TreeMultiSet\)$/);
+        if (countMatch) {
+            mappings.push(`${countMatch[1]} count std::multiset`);
+        }
+        // JS: "1M build+has (TreeMultiSet)" -> C++: "1M build+has std::multiset"
+        const buildHasMatch = testCaseName.match(/^(.+?)\s+build\+has\s+\(TreeMultiSet\)$/);
+        if (buildHasMatch) {
+            mappings.push(`${buildHasMatch[1]} build+has std::multiset`);
+        }
+        // JS: "1M build+count (TreeMultiSet)" -> C++: "1M build+count std::multiset"
+        const buildCountMatch = testCaseName.match(/^(.+?)\s+build\+count\s+\(TreeMultiSet\)$/);
+        if (buildCountMatch) {
+            mappings.push(`${buildCountMatch[1]} build+count std::multiset`);
+        }
+        // JS: "1M expanded iteration (TreeMultiSet)" or "1M entries view (TreeMultiSet)" -> C++: "1M iterate std::multiset"
+        const iterMatch = testCaseName.match(/^(.+?)\s+(expanded iteration|entries view)\s+\(TreeMultiSet\)$/);
+        if (iterMatch) {
+            mappings.push(`${iterMatch[1]} iterate std::multiset`);
+        }
+        // Reverse: C++ -> JS
+        const cppAddMatch = testCaseName.match(/^(.+?)\s+add\s+std::multiset$/);
+        if (cppAddMatch) {
+            mappings.push(`${cppAddMatch[1]} add (TreeMultiSet, expanded iteration)`);
+            mappings.push(`${cppAddMatch[1]} add (TreeMultiSet expanded iteration)`);
+        }
+        const cppHasMatch = testCaseName.match(/^(.+?)\s+has\s+std::multiset$/);
+        if (cppHasMatch) {
+            mappings.push(`${cppHasMatch[1]} has-only (TreeMultiSet)`);
+        }
+        const cppCountMatch = testCaseName.match(/^(.+?)\s+count\s+std::multiset$/);
+        if (cppCountMatch) {
+            mappings.push(`${cppCountMatch[1]} count-only (TreeMultiSet)`);
+        }
+        const cppBuildHasMatch = testCaseName.match(/^(.+?)\s+build\+has\s+std::multiset$/);
+        if (cppBuildHasMatch) {
+            mappings.push(`${cppBuildHasMatch[1]} build+has (TreeMultiSet)`);
+        }
+        const cppBuildCountMatch = testCaseName.match(/^(.+?)\s+build\+count\s+std::multiset$/);
+        if (cppBuildCountMatch) {
+            mappings.push(`${cppBuildCountMatch[1]} build+count (TreeMultiSet)`);
+        }
+        const cppIterMatch = testCaseName.match(/^(.+?)\s+iterate\s+std::multiset$/);
+        if (cppIterMatch) {
+            mappings.push(`${cppIterMatch[1]} expanded iteration (TreeMultiSet)`);
+            mappings.push(`${cppIterMatch[1]} entries view (TreeMultiSet)`);
+        }
+    }
+
     return mappings;
 }
 

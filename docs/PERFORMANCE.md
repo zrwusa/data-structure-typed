@@ -51,122 +51,80 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 [//]: # (No deletion!!! Start of Replace Section)
 
-### tree-map
+### tree-multi-map
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1M set TreeMap | 1738.16 | 1526.69 | 2471.62 | ±21.87% |
-| 1M set TreeMap (Node) | 1177.92 | 1164.97 | 1196.45 | ±0.93% |
-| 1M set RBT | 1707.47 | 1621.95 | 1893.88 | ±6.54% |
-| 1M set RBT (Node) | 1217.04 | 1197.37 | 1237.54 | ±1.04% |
-| 1M set js-sdsl | 881.95 | 854.57 | 898.38 | ±1.56% |
-| 1M get TreeMap | 117.34 | 101.28 | 123.83 | ±2.37% |
-| 1M get TreeMap (Node) | 962.71 | 923.55 | 1043.25 | ±4.32% |
-| 1M get RBT | 148.53 | 137.18 | 156.26 | ±1.34% |
-| 1M get RBT (Node) | 1061.33 | 1032.26 | 1105.03 | ±2.5% |
-| 1M get js-sdsl | 884.94 | 820.16 | 1279.5 | ±15.08% |
-| 1M build+get TreeMap | 1742.48 | 1662.04 | 1875.96 | ±4.86% |
-| 1M build+get TreeMap (Node) | 2023.74 | 2011.54 | 2039.39 | ±0.54% |
-| 1M build+get RBT | 1796.07 | 1741.88 | 1895.51 | ±3.31% |
-| 1M build+get RBT (Node) | 2211.94 | 2140.97 | 2367.76 | ±4.24% |
-| 1M build+get js-sdsl | 1526.14 | 1480.19 | 1648.44 | ±4.5% |
-| 100K rangeSearch TreeMap | 73.79 | 67.06 | 78.34 | ±1.49% |
-| 100K rangeSearch TreeMap (Node) | 83.36 | 78.51 | 86 | ±0.82% |
-| 100K navigable TreeMap | 201.99 | 158.97 | 929.49 | ±39.68% |
-| 100K navigable TreeMap (Node) | 234.86 | 228.78 | 251.23 | ±1.3% |
-| 100K build+rangeSearch TreeMap | 1794.84 | 1613.17 | 2588.06 | ±22.75% |
-| 100K build+rangeSearch TreeMap (Node) | 1199.3 | 1164.79 | 1295.32 | ±3.39% |
-| 100K build+navigable TreeMap | 1722.65 | 1688.7 | 1755.57 | ±1.45% |
-| 100K build+navigable TreeMap (Node) | 1498.79 | 1332.62 | 2246.38 | ±25.68% |
+| 1M add (TreeMultiMap bucketed) | 465.52 | 351.57 | 863.64 | ±27.24% |
+| 1M has-only (TreeMultiMap) | 63.78 | 34.44 | 298.84 | ±25.56% |
+| 1M get-only (TreeMultiMap) | 107.31 | 61.76 | 298.16 | ±20.77% |
+| 1M count-only (TreeMultiMap) | 159.56 | 142.96 | 170.66 | ±1.55% |
+| 1M build+has (TreeMultiMap) | 541.8 | 409.22 | 581.71 | ±8.39% |
+| 1M build+get (TreeMultiMap) | 429.3 | 418.74 | 456.59 | ±1.85% |
+| 100K hasEntry (TreeMultiMap Object.is) | 383.46 | 351.66 | 404.69 | ±2.85% |
+| 100K deleteValue (TreeMultiMap Object.is) | 412.94 | 388.19 | 435.95 | ±3.34% |
+| 100K firstEntry/lastEntry (TreeMultiMap) | 0 | null | null | ±0% |
+| 100K ceilingEntry/floorEntry (TreeMultiMap) | 0 | null | null | ±0% |
+| 1M bucket iteration (TreeMultiMap) | 22.74 | 22.15 | 23.85 | ±0.37% |
+| 1M flatEntries iteration (TreeMultiMap) | 107.89 | 105.47 | 113.34 | ±0.74% |
+| 1M size property (TreeMultiMap) | 0 | 0 | 0.0001 | ±5.28% |
+| 1M totalSize property (TreeMultiMap) | 22 | 21.29 | 24.76 | ±0.66% |
 
-#### tree-map (side-by-side)
+#### tree-multi-map (side-by-side)
 
-> Comparison table. The main table above is tree-map only.
+> Comparison table. The main table above is tree-multi-map only.
 > Native is `-` when there is no apples-to-apples equivalent in this benchmark.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 1M set TreeMap | 1738.16 | - | - | 522 |
-| 1M set TreeMap (Node) | 1177.92 | - | - | 522 |
-| 1M set RBT | 1707.47 | - | - | 522 |
-| 1M set RBT (Node) | 1217.04 | - | - | 522 |
-| 1M set js-sdsl | 881.95 | - | - | - |
-| 1M get TreeMap | 117.34 | - | - | 333 |
-| 1M get TreeMap (Node) | 962.71 | - | - | 333 |
-| 1M get RBT | 148.53 | - | - | 333 |
-| 1M get RBT (Node) | 1061.33 | - | - | 333 |
-| 1M get js-sdsl | 884.94 | - | - | - |
-| 1M build+get TreeMap | 1742.48 | - | - | 832 |
-| 1M build+get TreeMap (Node) | 2023.74 | - | - | 832 |
-| 1M build+get RBT | 1796.07 | - | - | 832 |
-| 1M build+get RBT (Node) | 2211.94 | - | - | 832 |
-| 1M build+get js-sdsl | 1526.14 | - | - | - |
-| 100K rangeSearch TreeMap | 73.79 | - | - | - |
-| 100K rangeSearch TreeMap (Node) | 83.36 | - | - | - |
-| 100K navigable TreeMap | 201.99 | - | - | - |
-| 100K navigable TreeMap (Node) | 234.86 | - | - | - |
-| 100K build+rangeSearch TreeMap | 1794.84 | - | - | - |
-| 100K build+rangeSearch TreeMap (Node) | 1199.3 | - | - | - |
-| 100K build+navigable TreeMap | 1722.65 | - | - | - |
-| 100K build+navigable TreeMap (Node) | 1498.79 | - | - | - |
+| 1M add (TreeMultiMap bucketed) | 465.52 | - | - | 741 |
+| 1M has-only (TreeMultiMap) | 63.78 | - | - | 843 |
+| 1M get-only (TreeMultiMap) | 107.31 | - | - | 1555 |
+| 1M count-only (TreeMultiMap) | 159.56 | - | - | 1553 |
+| 1M build+has (TreeMultiMap) | 541.8 | - | - | 1575 |
+| 1M build+get (TreeMultiMap) | 429.3 | - | - | 2226 |
+| 100K hasEntry (TreeMultiMap Object.is) | 383.46 | - | - | - |
+| 100K deleteValue (TreeMultiMap Object.is) | 412.94 | - | - | - |
+| 100K firstEntry/lastEntry (TreeMultiMap) | 0 | - | - | - |
+| 100K ceilingEntry/floorEntry (TreeMultiMap) | 0 | - | - | - |
+| 1M bucket iteration (TreeMultiMap) | 22.74 | - | - | 105 |
+| 1M flatEntries iteration (TreeMultiMap) | 107.89 | - | - | 105 |
+| 1M size property (TreeMultiMap) | 0 | - | - | - |
+| 1M totalSize property (TreeMultiMap) | 22 | - | - | - |
 
 
-### tree-set
+### tree-multi-set
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1M add TreeSet | 1886.78 | 1556.97 | 3451.3 | ±42.65% |
-| 1M add TreeSet (Node) | 1130.52 | 1102.88 | 1148.59 | ±1.18% |
-| 1M add RBT | 1636.99 | 1601.25 | 1673.45 | ±1.57% |
-| 1M add RBT (Node) | 1192.47 | 1168.67 | 1218.23 | ±1.4% |
-| 1M add js-sdsl | 869.08 | 833.59 | 904.4 | ±2.91% |
-| 1M has TreeSet | 74.6 | 73.01 | 80.89 | ±0.59% |
-| 1M has TreeSet (Node) | 965.75 | 949.01 | 998.75 | ±1.7% |
-| 1M has RBT | 71.4 | 69.82 | 73.97 | ±0.55% |
-| 1M has RBT (Node) | 1086.64 | 1079.01 | 1092.71 | ±0.42% |
-| 1M has js-sdsl | 878.52 | 839.41 | 1061.46 | ±8.52% |
-| 1M build+has TreeSet | 1653.99 | 1603.69 | 1784.01 | ±4.15% |
-| 1M build+has TreeSet (Node) | 2094.67 | 2079.22 | 2116.66 | ±0.68% |
-| 1M build+has RBT | 2047.58 | 1671.6 | 3814.77 | ±44.39% |
-| 1M build+has RBT (Node) | 2443.58 | 2184.99 | 3593.53 | ±24.21% |
-| 1M build+has js-sdsl | 1685.98 | 1609.53 | 1789.71 | ±4.55% |
-| 100K rangeSearch TreeSet | 34 | 32.57 | 36.05 | ±0.63% |
-| 100K rangeSearch TreeSet (Node) | 33.4 | 27.1 | 38.77 | ±1.51% |
-| 100K navigable TreeSet | 154.02 | 148.96 | 165.55 | ±1.18% |
-| 100K navigable TreeSet (Node) | 153.58 | 148.54 | 163.87 | ±1.07% |
-| 100K build+rangeSearch TreeSet | 1599.53 | 1550.64 | 1688.47 | ±3.18% |
-| 100K build+rangeSearch TreeSet (Node) | 1363.62 | 1116.92 | 2722.44 | ±40.65% |
-| 100K build+navigable TreeSet | 1696.08 | 1673.55 | 1714.33 | ±0.88% |
-| 100K build+navigable TreeSet (Node) | 1249.7 | 1244.49 | 1253.36 | ±0.32% |
+| 1M add (TreeMultiSet expanded iteration) | 202.63 | 189.37 | 214.83 | ±1.76% |
+| 1M has-only (TreeMultiSet) | 67.87 | 66.38 | 70.39 | ±0.41% |
+| 1M count-only (TreeMultiSet) | 56.39 | 54.35 | 59.32 | ±0.59% |
+| 1M build+has (TreeMultiSet) | 271.76 | 250.73 | 301.35 | ±3.09% |
+| 1M build+count (TreeMultiSet) | 258.72 | 248.99 | 269.43 | ±1.58% |
+| 100K delete-one (TreeMultiSet) | 231.21 | 205.21 | 412.69 | ±12.39% |
+| 100K setCount (TreeMultiSet) | 210 | 201.45 | 228.24 | ±1.87% |
+| 1M expanded iteration (TreeMultiSet) | 55.6 | 50.57 | 60.41 | ±0.69% |
+| 1M entries view (TreeMultiSet) | 17.24 | 15.53 | 32.74 | ±3.54% |
+| 1M size property (TreeMultiSet) | 0 | 0 | 0 | ±2.92% |
+| 1M distinctSize property (TreeMultiSet) | 0 | 0 | 0 | ±3.06% |
 
-#### tree-set (side-by-side)
+#### tree-multi-set (side-by-side)
 
-> Comparison table. The main table above is tree-set only.
+> Comparison table. The main table above is tree-multi-set only.
 > Native is `-` when there is no apples-to-apples equivalent in this benchmark.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 1M add TreeSet | 1886.78 | - | - | 426 |
-| 1M add TreeSet (Node) | 1130.52 | - | - | 426 |
-| 1M add RBT | 1636.99 | - | - | 426 |
-| 1M add RBT (Node) | 1192.47 | - | - | 426 |
-| 1M add js-sdsl | 869.08 | - | - | - |
-| 1M has TreeSet | 74.6 | - | - | 234 |
-| 1M has TreeSet (Node) | 965.75 | - | - | 234 |
-| 1M has RBT | 71.4 | - | - | 234 |
-| 1M has RBT (Node) | 1086.64 | - | - | 234 |
-| 1M has js-sdsl | 878.52 | - | - | - |
-| 1M build+has TreeSet | 1653.99 | - | - | 688 |
-| 1M build+has TreeSet (Node) | 2094.67 | - | - | 688 |
-| 1M build+has RBT | 2047.58 | - | - | 688 |
-| 1M build+has RBT (Node) | 2443.58 | - | - | 688 |
-| 1M build+has js-sdsl | 1685.98 | - | - | - |
-| 100K rangeSearch TreeSet | 34 | - | - | - |
-| 100K rangeSearch TreeSet (Node) | 33.4 | - | - | - |
-| 100K navigable TreeSet | 154.02 | - | - | - |
-| 100K navigable TreeSet (Node) | 153.58 | - | - | - |
-| 100K build+rangeSearch TreeSet | 1599.53 | - | - | - |
-| 100K build+rangeSearch TreeSet (Node) | 1363.62 | - | - | - |
-| 100K build+navigable TreeSet | 1696.08 | - | - | - |
-| 100K build+navigable TreeSet (Node) | 1249.7 | - | - | - |
+| 1M add (TreeMultiSet expanded iteration) | 202.63 | - | - | 631 |
+| 1M has-only (TreeMultiSet) | 67.87 | - | - | 697 |
+| 1M count-only (TreeMultiSet) | 56.39 | - | - | 1301 |
+| 1M build+has (TreeMultiSet) | 271.76 | - | - | 1301 |
+| 1M build+count (TreeMultiSet) | 258.72 | - | - | 1869 |
+| 100K delete-one (TreeMultiSet) | 231.21 | - | - | - |
+| 100K setCount (TreeMultiSet) | 210 | - | - | - |
+| 1M expanded iteration (TreeMultiSet) | 55.6 | - | - | - |
+| 1M entries view (TreeMultiSet) | 17.24 | - | - | - |
+| 1M size property (TreeMultiSet) | 0 | - | - | - |
+| 1M distinctSize property (TreeMultiSet) | 0 | - | - | - |
 
 
 
