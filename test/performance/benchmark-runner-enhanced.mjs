@@ -33,6 +33,9 @@ const GRAY = '\x1b[90m';
 const BLUE = '\x1b[34m';
 const MAGENTA = '\x1b[35m';
 
+// Incremental results file path
+const PARTIAL_RESULTS_FILE = path.join(__dirname, '../../benchmark/partial-results.json');
+
 // Progress tracking
 let currentFile = '';
 let currentIndex = 0;
@@ -86,7 +89,9 @@ function parseArgs(argv) {
         exclude: undefined,
         label: undefined,
         cppOnly: false,
-        jsOnly: false
+        jsOnly: false,
+        resume: false,   // Resume from partial results
+        fresh: false     // Clear partial results and start fresh
     };
 
     const filters = [];
@@ -113,6 +118,12 @@ function parseArgs(argv) {
                 break;
             case 'js-only':
                 flags.jsOnly = true;
+                break;
+            case 'resume':
+                flags.resume = true;
+                break;
+            case 'fresh':
+                flags.fresh = true;
                 break;
             case 'cooldown-ms':
                 flags.cooldownMs = v ? Number(v) : flags.cooldownMs;
@@ -415,6 +426,51 @@ function numberFix(num, digits = 2) {
     return Number(num.toFixed(digits));
 }
 
+// ============ Incremental/Checkpoint Support ============
+
+function loadPartialResults() {
+    try {
+        if (fs.existsSync(PARTIAL_RESULTS_FILE)) {
+            const data = JSON.parse(fs.readFileSync(PARTIAL_RESULTS_FILE, 'utf8'));
+            console.log(`${CYAN}ℹ Loaded ${data.javascript?.length || 0} JS + ${data.cpp?.length || 0} C++ partial results${END}`);
+            return data;
+        }
+    } catch (e) {
+        console.log(`${YELLOW}⚠ Could not load partial results: ${e.message}${END}`);
+    }
+    return { javascript: [], cpp: [], completedTests: [] };
+}
+
+function savePartialResults(jsResults, cppResults, completedTests) {
+    const dir = path.dirname(PARTIAL_RESULTS_FILE);
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+    }
+    
+    const data = {
+        timestamp: new Date().toISOString(),
+        javascript: jsResults,
+        cpp: cppResults,
+        completedTests: completedTests
+    };
+    
+    fs.writeFileSync(PARTIAL_RESULTS_FILE, JSON.stringify(data, null, 2));
+    console.log(`${GRAY}  💾 Checkpoint saved (${completedTests.length} tests)${END}`);
+}
+
+function clearPartialResults() {
+    try {
+        if (fs.existsSync(PARTIAL_RESULTS_FILE)) {
+            fs.unlinkSync(PARTIAL_RESULTS_FILE);
+            console.log(`${YELLOW}ℹ Cleared previous partial results${END}`);
+        }
+    } catch (e) {
+        // ignore
+    }
+}
+
+// ============ End Incremental Support ============
+
 async function generateUnifiedReport(jsResults, cppResults) {
     if (!fs.existsSync(reportDistPath)) {
         fs.mkdirSync(reportDistPath, { recursive: true });
@@ -456,8 +512,24 @@ async function generateUnifiedReport(jsResults, cppResults) {
 }
 
 async function main() {
-    const jsResults = [];
-    const cppResults = [];
+    // Handle fresh/resume flags
+    if (flags.fresh) {
+        clearPartialResults();
+    }
+    
+    // Load partial results for resume
+    let partial = { javascript: [], cpp: [], completedTests: [] };
+    if (flags.resume || (!flags.fresh && fs.existsSync(PARTIAL_RESULTS_FILE))) {
+        partial = loadPartialResults();
+        if (partial.completedTests?.length > 0) {
+            console.log(`${CYAN}ℹ Will skip ${partial.completedTests.length} already-completed tests${END}`);
+        }
+    }
+    
+    const completedSet = new Set(partial.completedTests || []);
+    const jsResults = [...(partial.javascript || [])];
+    const cppResults = [...(partial.cpp || [])];
+    const completedTests = [...(partial.completedTests || [])];
 
     // Run JavaScript benchmarks
     if (!flags.cppOnly && jsTestFiles.length > 0) {
@@ -469,6 +541,12 @@ async function main() {
             const testName = path
                 .basename(file, path.extname(file))
                 .replace(/\.test$/, '');
+
+            // Skip if already completed
+            if (completedSet.has(`js:${testName}`)) {
+                console.log(`  ${GRAY}⏭ [${i + 1}/${jsTestFiles.length}] ${testName} (skipped - already done)${END}`);
+                continue;
+            }
 
             printFileLoading(testName, i + 1, jsTestFiles.length, 'Loading');
 
@@ -517,6 +595,11 @@ async function main() {
                         runTime,
                         file
                     });
+
+                    // Mark as completed and save checkpoint
+                    completedTests.push(`js:${testName}`);
+                    completedSet.add(`js:${testName}`);
+                    savePartialResults(jsResults, cppResults, completedTests);
 
                     printFileComplete(testName, i + 1, jsTestFiles.length, benchmarks.length, runTime);
                     continue;
@@ -596,6 +679,11 @@ async function main() {
                         file
                     });
 
+                    // Mark as completed and save checkpoint
+                    completedTests.push(`js:${suiteName}`);
+                    completedSet.add(`js:${suiteName}`);
+                    savePartialResults(jsResults, cppResults, completedTests);
+
                     printFileComplete(suiteName, i + 1, jsTestFiles.length, benchmarks.length, runTime);
                 }
             } catch (err) {
@@ -619,6 +707,13 @@ async function main() {
 
             for (let i = 0; i < executables.length; i++) {
                 const exe = executables[i];
+                
+                // Skip if already completed
+                if (completedSet.has(`cpp:${exe.name}`)) {
+                    console.log(`  ${GRAY}⏭ [${i + 1}/${executables.length}] ${exe.name} (skipped - already done)${END}`);
+                    continue;
+                }
+                
                 printFileLoading(exe.name, i + 1, executables.length, 'Running');
 
                 const result = runCppBenchmark(exe.path);
@@ -629,6 +724,11 @@ async function main() {
                         benchmarks: result.benchmarks,
                         isNative: true
                     });
+
+                    // Mark as completed and save checkpoint
+                    completedTests.push(`cpp:${exe.name}`);
+                    completedSet.add(`cpp:${exe.name}`);
+                    savePartialResults(jsResults, cppResults, completedTests);
 
                     printFileComplete(exe.name, i + 1, executables.length, result.benchmarks.length, 0);
                 } else {
@@ -642,6 +742,9 @@ async function main() {
 
     // Generate unified report (with formatted numbers)
     await generateUnifiedReport(jsResults, cppResults);
+    
+    // Clear partial results after successful completion
+    clearPartialResults();
 
     console.log(
         `\n${GREEN}${BOLD}✅ Benchmark run complete!${END}${END}`
