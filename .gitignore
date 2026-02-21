@@ -30,3 +30,4 @@ docs/modules.html
 /benchmark/report.json
 /benchmark/report.html
 /benchmark/report.*.json
+build/
