@@ -496,9 +496,17 @@ async function main() {
                 // (useful for macro-style hrtime benchmarks that should not be wrapped by Benchmark.js).
                 if (testModule.results || testModule.getResults) {
                     const t0 = Date.now();
+                    
+                    // Heartbeat to prevent timeout during long-running macro benchmarks
+                    const heartbeatInterval = setInterval(() => {
+                        process.stdout.write('.');
+                    }, 5000);
+                    
                     const raw = testModule.getResults
                         ? await testModule.getResults()
                         : await Promise.resolve(testModule.results);
+                    
+                    clearInterval(heartbeatInterval);
 
                     const benchmarks = Array.isArray(raw) ? raw : [];
                     const runTime = Number(((Date.now() - t0) / 1000).toFixed(2));
@@ -535,9 +543,16 @@ async function main() {
                         // ignore
                     }
 
+                    // Heartbeat to prevent timeout during long-running benchmarks
+                    const heartbeatInterval = setInterval(() => {
+                        process.stdout.write('.');
+                    }, 5000);
+
                     await new Promise((resolve) => {
                         suite
                             .on('complete', function () {
+                                clearInterval(heartbeatInterval);
+                                process.stdout.write('\n');
                                 benchmarks.push(
                                     ...this.map(benchmark => {
                                         runTime += benchmark.times.elapsed;
