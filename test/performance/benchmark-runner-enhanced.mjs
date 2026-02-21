@@ -497,10 +497,10 @@ async function main() {
                 if (testModule.results || testModule.getResults) {
                     const t0 = Date.now();
                     
-                    // Heartbeat to prevent timeout during long-running macro benchmarks
+                    // Heartbeat to prevent timeout during long-running macro benchmarks (2s interval)
                     const heartbeatInterval = setInterval(() => {
                         process.stdout.write('.');
-                    }, 5000);
+                    }, 2000);
                     
                     const raw = testModule.getResults
                         ? await testModule.getResults()
@@ -543,10 +543,11 @@ async function main() {
                         // ignore
                     }
 
-                    // Heartbeat to prevent timeout during long-running benchmarks
+                    // Heartbeat to prevent timeout during long-running benchmarks (2s interval with flush)
                     const heartbeatInterval = setInterval(() => {
                         process.stdout.write('.');
-                    }, 5000);
+                        if (process.stdout.isTTY) process.stdout.cursorTo?.(process.stdout.columns - 1);
+                    }, 2000);
 
                     await new Promise((resolve) => {
                         suite
