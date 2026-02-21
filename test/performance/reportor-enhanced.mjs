@@ -142,6 +142,44 @@ function getNativeMappings(testCaseName, testName) {
         }
     }
 
+    // TreeMap: JS variants ↔ C++ std::map
+    if (testName === 'tree-map') {
+        // Match "1M set TreeMap" -> "1M set std::map"
+        const treeMapMatch = testCaseName.match(/^(.+?)\s+(set|get|build\+get|rangeSearch|navigable|build\+rangeSearch|build\+navigable)\s+(TreeMap|RBT)(\s+\(Node\))?$/);
+        if (treeMapMatch) {
+            const [, size, op] = treeMapMatch;
+            mappings.push(`${size} ${op} std::map`);
+        }
+        // Reverse: "1M set std::map" -> match any TreeMap/RBT variant
+        const stdMapMatch = testCaseName.match(/^(.+?)\s+(set|get|build\+get|rangeSearch|navigable)\s+std::map$/);
+        if (stdMapMatch) {
+            const [, size, op] = stdMapMatch;
+            mappings.push(`${size} ${op} TreeMap`);
+            mappings.push(`${size} ${op} TreeMap (Node)`);
+            mappings.push(`${size} ${op} RBT`);
+            mappings.push(`${size} ${op} RBT (Node)`);
+        }
+    }
+
+    // TreeSet: JS variants ↔ C++ std::set
+    if (testName === 'tree-set') {
+        // Match "1M add TreeSet" -> "1M add std::set"
+        const treeSetMatch = testCaseName.match(/^(.+?)\s+(add|has|build\+has|rangeSearch|navigable|build\+rangeSearch|build\+navigable)\s+(TreeSet|RBT)(\s+\(Node\))?$/);
+        if (treeSetMatch) {
+            const [, size, op] = treeSetMatch;
+            mappings.push(`${size} ${op} std::set`);
+        }
+        // Reverse: "1M add std::set" -> match any TreeSet/RBT variant
+        const stdSetMatch = testCaseName.match(/^(.+?)\s+(add|has|build\+has|rangeSearch|navigable)\s+std::set$/);
+        if (stdSetMatch) {
+            const [, size, op] = stdSetMatch;
+            mappings.push(`${size} ${op} TreeSet`);
+            mappings.push(`${size} ${op} TreeSet (Node)`);
+            mappings.push(`${size} ${op} RBT`);
+            mappings.push(`${size} ${op} RBT (Node)`);
+        }
+    }
+
     return mappings;
 }
 
