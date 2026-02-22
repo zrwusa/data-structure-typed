@@ -77,10 +77,10 @@ Understand how data-structure-typed performs, and when to use each structure.
 ### SinglyLinkedList
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 100k push & shift | 3.7211 | 3.5731 | 4.1872 | ±0.54% |
-| 10K push & pop | 132.43 | 125.41 | 141.09 | ±1.36% |
-| 10K addAt(mid) | 11.28 | 9.78 | 18.43 | ±3.29% |
-| 10K addBefore (cursor) | 31.89 | 26 | 37.57 | ±2.94% |
+| 100K unshift & shift | 5.24 | 3.3731 | 6.9825 | ±6.31% |
+| 10K unshift & shift | 0.6349 | 0.4499 | 0.7052 | ±2.5% |
+| 10K addAt(mid) | 18.11 | 9.37 | 24.22 | ±4.8% |
+| 10K addBefore (cursor) | 30.11 | 17.53 | 44.66 | ±7.08% |
 
 #### SinglyLinkedList (side-by-side)
 
@@ -89,10 +89,10 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 100k push & shift | 3.7211 | - | 1195.49 | - |
-| 10K push & pop | 132.43 | - | 0.0658 | - |
-| 10K addAt(mid) | 11.28 | - | - | 13.1 |
-| 10K addBefore (cursor) | 31.89 | - | - | 0.85 |
+| 100K unshift & shift | 5.24 | - | 4029.88 | 10.1 |
+| 10K unshift & shift | 0.6349 | - | 13.23 | 1 |
+| 10K addAt(mid) | 18.11 | - | - | 12.7 |
+| 10K addBefore (cursor) | 30.11 | - | - | 1.13 |
 
 
 ### HashMap

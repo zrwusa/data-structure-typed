@@ -5,14 +5,12 @@ import { magnitude } from '../../../utils/index.mjs';
 const suite = new Benchmark.Suite();
 const { HUNDRED_THOUSAND, TEN_THOUSAND } = magnitude;
 
-// NOTE: Avoid mutating a global list in a benchmark case.
-// Benchmark.js will call the test function many times, so a global list would grow and
-// slow down over time, distorting results.
+// Head operations (unshift/shift) - O(1) for SinglyLinkedList, fair comparison with std::forward_list
 
-suite.add('100k push & shift', function() {
+suite.add('100K unshift & shift', function() {
   const list = new SinglyLinkedList();
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
-    list.push(i);
+    list.unshift(i);
   }
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     list.shift();
@@ -20,10 +18,10 @@ suite.add('100k push & shift', function() {
   this.val = list;
 });
 
-suite.add('Native JS Array 100k push & shift', function() {
+suite.add('Native JS Array 100K unshift & shift', function() {
   const arr = [];
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
-    arr.push(i);
+    arr.unshift(i);
   }
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     arr.shift();
@@ -31,28 +29,29 @@ suite.add('Native JS Array 100k push & shift', function() {
   this.val = arr;
 });
 
-suite.add('10K push & pop', function() {
+suite.add('10K unshift & shift', function() {
   const list = new SinglyLinkedList();
   for (let i = 0; i < TEN_THOUSAND; i++) {
-    list.push(i);
+    list.unshift(i);
   }
   for (let i = 0; i < TEN_THOUSAND; i++) {
-    list.pop();
+    list.shift();
   }
   this.val = list;
 });
 
-suite.add('Native JS Array 10K push & pop', function() {
+suite.add('Native JS Array 10K unshift & shift', function() {
   const arr = [];
   for (let i = 0; i < TEN_THOUSAND; i++) {
-    arr.push(i);
+    arr.unshift(i);
   }
   for (let i = 0; i < TEN_THOUSAND; i++) {
-    arr.pop();
+    arr.shift();
   }
   this.val = arr;
 });
 
+// Index-based insertion (O(n) operation)
 suite.add('10K addAt(mid)', function() {
   const list = new SinglyLinkedList();
   for (let i = 0; i < TEN_THOUSAND; i++) {
@@ -67,7 +66,7 @@ suite.add('10K addAt(mid)', function() {
   this.val = list;
 });
 
-// Cursor-based insertion (known position insertion)
+// Cursor-based insertion (O(1) with known position)
 suite.add('10K addBefore (cursor)', function() {
   const list = new SinglyLinkedList();
   for (let i = 0; i < TEN_THOUSAND; i++) {

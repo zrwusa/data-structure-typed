@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-22T00:30:50.338Z",
+  "timestamp": "2026-02-22T00:35:50.364Z",
   "javascript": [
     {
       "testName": "tree-map",
@@ -614,49 +614,49 @@
       "testName": "singly-linked-list",
       "benchmarks": [
         {
-          "Test Case": "100k push & shift",
-          "Latency Avg (ms)": 3.7211,
-          "Min (ms)": 3.5731,
-          "Max (ms)": 4.1872,
-          "Stability": "±0.54%"
+          "Test Case": "100K unshift & shift",
+          "Latency Avg (ms)": 5.24,
+          "Min (ms)": 3.3731,
+          "Max (ms)": 6.9825,
+          "Stability": "±6.31%"
         },
         {
-          "Test Case": "Native JS Array 100k push & shift",
-          "Latency Avg (ms)": 1195.49,
-          "Min (ms)": 1156.36,
-          "Max (ms)": 1244.84,
-          "Stability": "±2.38%"
+          "Test Case": "Native JS Array 100K unshift & shift",
+          "Latency Avg (ms)": 4029.88,
+          "Min (ms)": 3712.55,
+          "Max (ms)": 4655.34,
+          "Stability": "±11.17%"
         },
         {
-          "Test Case": "10K push & pop",
-          "Latency Avg (ms)": 132.43,
-          "Min (ms)": 125.41,
-          "Max (ms)": 141.09,
-          "Stability": "±1.36%"
+          "Test Case": "10K unshift & shift",
+          "Latency Avg (ms)": 0.6349,
+          "Min (ms)": 0.4499,
+          "Max (ms)": 0.7052,
+          "Stability": "±2.5%"
         },
         {
-          "Test Case": "Native JS Array 10K push & pop",
-          "Latency Avg (ms)": 0.0658,
-          "Min (ms)": 0.0549,
-          "Max (ms)": 0.0732,
-          "Stability": "±1.1%"
+          "Test Case": "Native JS Array 10K unshift & shift",
+          "Latency Avg (ms)": 13.23,
+          "Min (ms)": 9.53,
+          "Max (ms)": 26.5,
+          "Stability": "±4.1%"
         },
         {
           "Test Case": "10K addAt(mid)",
-          "Latency Avg (ms)": 11.28,
-          "Min (ms)": 9.78,
-          "Max (ms)": 18.43,
-          "Stability": "±3.29%"
+          "Latency Avg (ms)": 18.11,
+          "Min (ms)": 9.37,
+          "Max (ms)": 24.22,
+          "Stability": "±4.8%"
         },
         {
           "Test Case": "10K addBefore (cursor)",
-          "Latency Avg (ms)": 31.89,
-          "Min (ms)": 26,
-          "Max (ms)": 37.57,
-          "Stability": "±2.94%"
+          "Latency Avg (ms)": 30.11,
+          "Min (ms)": 17.53,
+          "Max (ms)": 44.66,
+          "Stability": "±7.08%"
         }
       ],
-      "runTime": 45.07,
+      "runTime": 66.24,
       "file": "/Users/revone/.openclaw/workspace/data-structure-typed/test/performance/data-structures/linked-list/singly-linked-list.test.mjs"
     },
     {
@@ -1556,31 +1556,31 @@
       "testName": "singly-linked-list",
       "benchmarks": [
         {
-          "Test Case": "100K push_front & pop_front (head ops)",
-          "Latency Avg (ms)": 8.88,
-          "Min (ms)": 8.44,
-          "Max (ms)": 9.32,
+          "Test Case": "100K unshift & shift",
+          "Latency Avg (ms)": 10.1,
+          "Min (ms)": 9.59,
+          "Max (ms)": 10.61,
           "Stability": "±2.50%"
         },
         {
-          "Test Case": "10K push & pop (std::list)",
-          "Latency Avg (ms)": 0.91,
-          "Min (ms)": 0.86,
-          "Max (ms)": 0.95,
+          "Test Case": "10K unshift & shift",
+          "Latency Avg (ms)": 1,
+          "Min (ms)": 0.95,
+          "Max (ms)": 1.05,
           "Stability": "±2.50%"
         },
         {
           "Test Case": "10K addAt(mid)/iterations:1",
-          "Latency Avg (ms)": 13.1,
-          "Min (ms)": 12.44,
-          "Max (ms)": 13.76,
+          "Latency Avg (ms)": 12.7,
+          "Min (ms)": 12.06,
+          "Max (ms)": 13.33,
           "Stability": "±2.50%"
         },
         {
           "Test Case": "10K addBefore (cursor)",
-          "Latency Avg (ms)": 0.85,
-          "Min (ms)": 0.81,
-          "Max (ms)": 0.89,
+          "Latency Avg (ms)": 1.13,
+          "Min (ms)": 1.07,
+          "Max (ms)": 1.19,
           "Stability": "±2.50%"
         }
       ],
