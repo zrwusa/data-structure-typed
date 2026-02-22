@@ -55,7 +55,7 @@
 |----------------------|--------------|----------------|
 | Array.shift() 100K 次 | **2829ms** ❌ | O(n²) - 每次重新索引 |
 | Deque.shift() 100K 次 | **5.83ms** ✅ | O(n) - 批处理操作   |
-| **加速**               | **约 485 倍**   | 关键差异           |
+| **加速**               | **约 485 倍**  | 关键差异           |
 
 ### 场景 2: 1000 次排行榜更新
 
@@ -63,7 +63,7 @@
 |-----------------|--------------|-------------------|
 | Array.sort() 每次 | **2500ms** ❌ | 1000 * O(n log n) |
 | RedBlackTree    | **8ms** ✅    | 1000 * O(log n)   |
-| **加速**          | **约 312 倍**   | 实时排行榜             |
+| **加速**          | **约 312 倍**  | 实时排行榜             |
 
 ### 场景 3: 10K 任务优先级处理
 
@@ -71,7 +71,7 @@
 |------------------|--------------|-------------|
 | 手动优先级            | **3200ms** ❌ | O(n² log n) |
 | MaxPriorityQueue | **45ms** ✅   | O(n log n)  |
-| **加速**           | **约 71 倍**    | 任务调度        |
+| **加速**           | **约 71 倍**   | 任务调度        |
 
 ---
 
@@ -83,11 +83,11 @@
 
 | Test Case               | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-------------------------|----------|----------|----------|-----------|
-| 100k push               | 7.369    | 5.4982   | 20.9662  | ±6.89%    |
-| 100k unshift            | 5.8415   | 5.1723   | 15.1315  | ±6.27%    |
-| 100k unshift & shift    | 4.6431   | 4.5501   | 5.1957   | ±0.3%     |
-| 100k addAt(mid)         | 1798.43  | 1436.92  | 2014.92  | ±16.39%   |
-| 100k addBefore (cursor) | 6.8262   | 5.8569   | 15.616   | ±6.05%    |
+| 100k push               | 8.0558   | 5.6144   | 54.1937  | ±17.51%   |
+| 100k unshift            | 6.7611   | 5.4572   | 7.4359   | ±1.44%    |
+| 100k unshift & shift    | 4.5245   | 4.129    | 4.8488   | ±0.47%    |
+| 100k addAt(mid)         | 1645.02  | 1331.61  | 2329.62  | ±26.54%   |
+| 100k addBefore (cursor) | 6.4823   | 5.7978   | 15.2295  | ±5.35%    |
 
 #### DoublyLinkedList (side-by-side)
 
@@ -96,20 +96,20 @@
 
 | Test Case               | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 |-------------------------|---------:|-------------:|------------:|---------:|
-| 100k push               |    7.369 |            - |      2.1403 |    11.72 |
-| 100k unshift            |   5.8415 |            - |     1049.35 |    11.89 |
-| 100k unshift & shift    |   4.6431 |            - |     2281.28 |     11.7 |
-| 100k addAt(mid)         |  1798.43 |            - |           - |  1572.27 |
-| 100k addBefore (cursor) |   6.8262 |            - |           - |    13.18 |
+| 100k push               |   8.0558 |       1.9328 |      2.0706 |     5.42 |
+| 100k unshift            |   6.7611 |       1.8299 |     1058.07 |     5.44 |
+| 100k unshift & shift    |   4.5245 |       2.2136 |     2296.49 |     5.43 |
+| 100k addAt(mid)         |  1645.02 |            - |           - |    705.4 |
+| 100k addBefore (cursor) |   6.4823 |            - |           - |     6.14 |
 
 ### SinglyLinkedList
 
 | Test Case              | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |------------------------|----------|----------|----------|-----------|
-| 100k push & shift      | 4.2467   | 4.1818   | 4.6569   | ±0.29%    |
-| 10K push & pop         | 194.2    | 126.46   | 266.67   | ±16.11%   |
-| 10K addAt(mid)         | 19.52    | 11.01    | 37.18    | ±5.99%    |
-| 10K addBefore (cursor) | 36.41    | 21.81    | 45.4     | ±4.04%    |
+| 100K unshift & shift   | 5.24     | 3.3731   | 6.9825   | ±6.31%    |
+| 10K unshift & shift    | 0.6349   | 0.4499   | 0.7052   | ±2.5%     |
+| 10K addAt(mid)         | 18.11    | 9.37     | 24.22    | ±4.8%     |
+| 10K addBefore (cursor) | 30.11    | 17.53    | 44.66    | ±7.08%    |
 
 #### SinglyLinkedList (side-by-side)
 
@@ -118,18 +118,18 @@
 
 | Test Case              | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 |------------------------|---------:|-------------:|------------:|---------:|
-| 100k push & shift      |   4.2467 |            - |     1256.33 |    10.38 |
-| 10K push & pop         |    194.2 |            - |      0.1183 |     1.04 |
-| 10K addAt(mid)         |    19.52 |            - |           - |    12.85 |
-| 10K addBefore (cursor) |    36.41 |            - |           - |     1.15 |
+| 100K unshift & shift   |     5.24 |            - |     4029.88 |     10.1 |
+| 10K unshift & shift    |   0.6349 |            - |       13.23 |        1 |
+| 10K addAt(mid)         |    18.11 |            - |           - |     12.7 |
+| 10K addBefore (cursor) |    30.11 |            - |           - |     1.13 |
 
 ### HashMap
 
 | Test Case           | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |---------------------|----------|----------|----------|-----------|
-| 1M set              | 96.18    | 44.88    | 399.84   | ±34.89%   |
-| 1M set & get        | 81.6     | 54.42    | 221.19   | ±12.06%   |
-| 1M ObjKey set & get | 361.41   | 316.96   | 473.75   | ±7.89%    |
+| 1M set              | 185.57   | 123.72   | 354.4    | ±14.94%   |
+| 1M set & get        | 247.06   | 195.24   | 280.69   | ±6.84%    |
+| 1M ObjKey set & get | 379.65   | 341.94   | 490.79   | ±8.68%    |
 
 #### HashMap (side-by-side)
 
@@ -138,33 +138,16 @@
 
 | Test Case           | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 |---------------------|---------:|-------------:|------------:|---------:|
-| 1M set              |    96.18 |       162.37 |       229.3 |   148.21 |
-| 1M set & get        |     81.6 |        81.71 |      267.89 |   138.74 |
-| 1M ObjKey set & get |   361.41 |       755.57 |      328.89 |   161.89 |
-
-### priority-queue
-
-| Test Case       | Avg (ms) | Min (ms) | Max (ms) | Stability |
-|-----------------|----------|----------|----------|-----------|
-| 100K add        | 8.347    | 7.644    | 9.0238   | ±1.11%    |
-| 100K add & poll | 48.62    | 46.44    | 51.95    | ±1.08%    |
-
-#### priority-queue (side-by-side)
-
-> Comparison table. The main table above is priority-queue only.
-> Native is `-` when there is no apples-to-apples equivalent in this benchmark.
-
-| Test Case       | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
-|-----------------|---------:|-------------:|------------:|---------:|
-| 100K add        |    8.347 |       8.2598 |           - |     2.22 |
-| 100K add & poll |    48.62 |        49.34 |           - |      9.3 |
+| 1M set              |   185.57 |       158.49 |      219.67 |    70.22 |
+| 1M set & get        |   247.06 |       112.79 |      287.39 |    73.04 |
+| 1M ObjKey set & get |   379.65 |       698.13 |      299.71 |    92.55 |
 
 ### Queue
 
 | Test Case         | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-------------------|----------|----------|----------|-----------|
-| 1M push           | 49.78    | 34.06    | 107.18   | ±6.82%    |
-| 100K push & shift | 5.4918   | 3.1594   | 6.5451   | ±4.89%    |
+| 1M push           | 28.91    | 24.9     | 73.74    | ±6.24%    |
+| 100K push & shift | 3.0798   | 2.6563   | 17.8644  | ±11.62%   |
 
 #### Queue (side-by-side)
 
@@ -173,18 +156,18 @@
 
 | Test Case         | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 |-------------------|---------:|-------------:|------------:|---------:|
-| 1M push           |    49.78 |            - |           - |     3.65 |
-| 100K push & shift |   5.4918 |            - |     2004.25 |     0.43 |
+| 1M push           |    28.91 |        54.13 |       26.31 |        - |
+| 100K push & shift |   3.0798 |       2.5642 |     1403.59 |        - |
 
 ### Deque
 
 | Test Case            | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |----------------------|----------|----------|----------|-----------|
-| 1M push              | 22.45    | 19.49    | 114.8    | ±14.25%   |
-| 1M push & pop        | 21.49    | 10.13    | 44.2     | ±11.5%    |
-| 1M push & shift      | 25.69    | 20.13    | 79.06    | ±9.92%    |
-| 100K push & shift    | 2.6632   | 2.1757   | 7.7072   | ±6.68%    |
-| 100K unshift & shift | 2.1253   | 1.1158   | 5.1542   | ±8.46%    |
+| 1M push              | 10.82    | 7.57     | 16.63    | ±5.46%    |
+| 1M push & pop        | 16.92    | 11.89    | 27.13    | ±7.55%    |
+| 1M push & shift      | 33.74    | 28.58    | 55.22    | ±3.46%    |
+| 100K push & shift    | 2.4481   | 1.6576   | 3.0384   | ±2.16%    |
+| 100K unshift & shift | 2.4391   | 1.6261   | 4.5413   | ±3.37%    |
 
 #### Deque (side-by-side)
 
@@ -193,18 +176,35 @@
 
 | Test Case            | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 |----------------------|---------:|-------------:|------------:|---------:|
-| 1M push              |    22.45 |            - |           - |     3.56 |
-| 1M push & pop        |    21.49 |            - |           - |     4.84 |
-| 1M push & shift      |    25.69 |            - |           - |     4.27 |
-| 100K push & shift    |   2.6632 |            - |     2329.68 |     0.43 |
-| 100K unshift & shift |   2.1253 |            - |     3306.43 |     0.42 |
+| 1M push              |    10.82 |        17.59 |        29.7 |     1.76 |
+| 1M push & pop        |    16.92 |        27.92 |       54.43 |      2.2 |
+| 1M push & shift      |    33.74 |            - |           - |     1.94 |
+| 100K push & shift    |   2.4481 |       2.5224 |     2007.91 |     0.19 |
+| 100K unshift & shift |   2.4391 |       2.5091 |     4067.39 |     0.19 |
+
+### PriorityQueue
+
+| Test Case       | Avg (ms) | Min (ms) | Max (ms) | Stability |
+|-----------------|----------|----------|----------|-----------|
+| 100K add        | 4.366    | 4.2775   | 5.0309   | ±0.55%    |
+| 100K add & poll | 26.13    | 25.54    | 26.9     | ±0.4%     |
+
+#### PriorityQueue (side-by-side)
+
+> Comparison table. The main table above is PriorityQueue only.
+> Native is `-` when there is no apples-to-apples equivalent in this benchmark.
+
+| Test Case       | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
+|-----------------|---------:|-------------:|------------:|---------:|
+| 100K add        |    4.366 |       5.6519 |           - |        - |
+| 100K add & poll |    26.13 |        26.89 |           - |        - |
 
 ### Stack
 
 | Test Case     | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |---------------|----------|----------|----------|-----------|
-| 1M push       | 43.11    | 25.98    | 153.59   | ±14.75%   |
-| 1M push & pop | 53.56    | 49.71    | 83.82    | ±2.73%    |
+| 1M push       | 26.35    | 24.73    | 33.75    | ±2.09%    |
+| 1M push & pop | 29.46    | 25.81    | 102.67   | ±8.59%    |
 
 #### Stack (side-by-side)
 
@@ -213,21 +213,21 @@
 
 | Test Case     | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 |---------------|---------:|-------------:|------------:|---------:|
-| 1M push       |    43.11 |        31.18 |        41.6 |     3.61 |
-| 1M push & pop |    53.56 |        60.78 |       45.78 |     4.89 |
+| 1M push       |    26.35 |        30.57 |       26.72 |     1.65 |
+| 1M push & pop |    29.46 |         30.9 |       30.61 |     2.62 |
 
 ### RedBlackTree
 
 | Test Case             | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------------------|----------|----------|----------|-----------|
-| 1M get                | 109.93   | 86.9     | 126.86   | ±23.23%   |
-| 200K rangeSearch SEQ  | 2358.36  | 1375.3   | 2711.02  | ±29.23%   |
-| 200K rangeSearch RAND | 3131.76  | 2962.49  | 3226.67  | ±3.96%    |
-| 1M upd SEQ            | 124.58   | 62.59    | 164.96   | ±42.77%   |
-| 1M upd RAND           | 154.21   | 150.09   | 162.35   | ±4.26%    |
-| 1M ins SEQ            | 733.23   | 520.12   | 1172.9   | ±43.00%   |
-| 1M ins RAND           | 2248.37  | 2224.28  | 2260.15  | ±0.79%    |
-| 1M keys-only          | 4.0599   | 1.9194   | 6.03     | ±52.37%   |
+| 1M get                | 100.68   | 85.62    | 112.14   | ±16.94%   |
+| 200K rangeSearch SEQ  | 1279.47  | 1235.27  | 1366.88  | ±5.59%    |
+| 200K rangeSearch RAND | 1969.15  | 1885.88  | 2168.54  | ±7.23%    |
+| 1M upd SEQ            | 79.06    | 71.1     | 95.84    | ±15.75%   |
+| 1M upd RAND           | 113.1    | 106.36   | 118.28   | ±5.08%    |
+| 1M ins SEQ            | 567.61   | 463.22   | 946.06   | ±46.30%   |
+| 1M ins RAND           | 1611.63  | 1585.89  | 1631.64  | ±1.37%    |
+| 1M keys-only          | 4.0047   | 2.711    | 5.4122   | ±37.29%   |
 
 #### RedBlackTree (side-by-side)
 
@@ -236,27 +236,27 @@
 
 | Test Case             | DST (ms) | Node Mode (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 |-----------------------|---------:|---------------:|-------------:|------------:|---------:|
-| 1M get                |   109.93 |         515.52 |       260.01 |           - |    81.95 |
-| 200K rangeSearch SEQ  |  2358.36 |              - |            - |           - |        - |
-| 200K rangeSearch RAND |  3131.76 |              - |            - |           - |        - |
-| 1M upd SEQ            |   124.58 |         402.68 |       336.11 |           - |   161.97 |
-| 1M upd RAND           |   154.21 |         720.27 |       633.42 |           - |   372.08 |
-| 1M ins SEQ            |   733.23 |         355.83 |        142.3 |           - |   252.95 |
-| 1M ins RAND           |  2248.37 |        1627.56 |      1225.17 |           - |      729 |
-| 1M keys-only          |   4.0599 |              - |            - |           - |     0.22 |
+| 1M get                |   100.68 |         254.42 |       138.51 |           - |    52.97 |
+| 200K rangeSearch SEQ  |  1279.47 |              - |            - |           - |        - |
+| 200K rangeSearch RAND |  1969.15 |              - |            - |           - |        - |
+| 1M upd SEQ            |    79.06 |         225.95 |       171.15 |           - |    68.43 |
+| 1M upd RAND           |    113.1 |         393.78 |       302.59 |           - |   158.14 |
+| 1M ins SEQ            |   567.61 |         196.91 |         89.1 |           - |   162.72 |
+| 1M ins RAND           |  1611.63 |        1169.56 |       825.66 |           - |   483.56 |
+| 1M keys-only          |   4.0047 |              - |            - |           - |     0.09 |
 
 ### AVLTree
 
 | Test Case                         | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------------------------------|----------|----------|----------|-----------|
-| 100K add randomly                 | 216.28   | 126.4    | 341.03   | ±14.11%   |
-| 100K add                          | 215.77   | 205.52   | 219.17   | ±0.76%    |
-| 100K get                          | 1.331    | 1.2568   | 1.6459   | ±1.88%    |
-| 100K getNode                      | 68.19    | 64.6     | 70.77    | ±0.4%     |
-| 100K iterator                     | 11.57    | 8.25     | 12.13    | ±1.1%     |
-| 100K add & delete orderly         | 279.1    | 154.37   | 331.92   | ±14.79%   |
-| 100K add & delete randomly        | 374.2    | 300.46   | 391.62   | ±4.46%    |
-| AVL Tree 100K rangeSearch queries | 2419.2   | 1672.99  | 2616.42  | ±21.42%   |
+| 100K add randomly                 | 147.71   | 139.72   | 165.99   | ±1.82%    |
+| 100K add                          | 120.95   | 116.96   | 137.67   | ±1.33%    |
+| 100K get                          | 4.6144   | 4.1946   | 5.3585   | ±1.46%    |
+| 100K getNode                      | 29.31    | 28.32    | 31.6     | ±0.64%    |
+| 100K iterator                     | 6.5625   | 5.9973   | 8.4057   | ±1.68%    |
+| 100K add & delete orderly         | 181.9    | 178.51   | 189.75   | ±0.85%    |
+| 100K add & delete randomly        | 224.47   | 215.79   | 246.42   | ±1.71%    |
+| AVL Tree 100K rangeSearch queries | 1388.54  | 1359.91  | 1417.61  | ±2.01%    |
 
 #### AVLTree (side-by-side)
 
@@ -265,23 +265,217 @@
 
 | Test Case                         | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 |-----------------------------------|---------:|-------------:|------------:|---------:|
-| 100K add randomly                 |   216.28 |            - |           - |     38.2 |
-| 100K add                          |   215.77 |            - |           - |    34.34 |
-| 100K get                          |    1.331 |            - |           - |    16.61 |
-| 100K getNode                      |    68.19 |            - |           - |    19.58 |
-| 100K iterator                     |    11.57 |            - |           - |     2.71 |
-| 100K add & delete orderly         |    279.1 |            - |           - |    46.19 |
-| 100K add & delete randomly        |    374.2 |            - |           - |    64.22 |
-| AVL Tree 100K rangeSearch queries |   2419.2 |            - |           - |   261.55 |
+| 100K add randomly                 |   147.71 |            - |           - |    16.62 |
+| 100K add                          |   120.95 |            - |           - |    15.48 |
+| 100K get                          |   4.6144 |            - |           - |     7.21 |
+| 100K getNode                      |    29.31 |            - |           - |     8.51 |
+| 100K iterator                     |   6.5625 |            - |           - |     1.06 |
+| 100K add & delete orderly         |    181.9 |            - |           - |    21.56 |
+| 100K add & delete randomly        |   224.47 |            - |           - |    27.96 |
+| AVL Tree 100K rangeSearch queries |  1388.54 |            - |           - |    111.9 |
+
+### TreeSet
+
+| Test Case                             | Avg (ms) | Min (ms) | Max (ms) | Stability |
+|---------------------------------------|----------|----------|----------|-----------|
+| 1M add TreeSet                        | 1817.81  | 1533.15  | 2706.38  | ±25.9%    |
+| 1M add TreeSet (Node)                 | 1476.13  | 1148.9   | 3279.63  | ±49.85%   |
+| 1M add RBT                            | 1956.77  | 1612.71  | 3418.44  | ±38.5%    |
+| 1M add RBT (Node)                     | 1454.84  | 1195.1   | 2613.68  | ±41.02%   |
+| 1M add js-sdsl                        | 1139.28  | 809.72   | 2722.45  | ±71.46%   |
+| 1M has TreeSet                        | 89.75    | 86.56    | 99.35    | ±0.95%    |
+| 1M has TreeSet (Node)                 | 929.28   | 927.12   | 933.02   | ±0.2%     |
+| 1M has RBT                            | 91.74    | 83.2     | 100.99   | ±2.08%    |
+| 1M has RBT (Node)                     | 1095.73  | 1051.17  | 1164.12  | ±3.93%    |
+| 1M has js-sdsl                        | 849.02   | 838.57   | 875.56   | ±1.42%    |
+| 1M build+has TreeSet                  | 2096.95  | 1624.92  | 3921.13  | ±60.38%   |
+| 1M build+has TreeSet (Node)           | 2072.15  | 2019.66  | 2115.15  | ±1.84%    |
+| 1M build+has RBT                      | 2172.55  | 1674.07  | 4259.19  | ±49.52%   |
+| 1M build+has RBT (Node)               | 2187.87  | 2163.01  | 2203.74  | ±0.79%    |
+| 1M build+has js-sdsl                  | 1610.39  | 1574.07  | 1647.04  | ±1.94%    |
+| 100K rangeSearch TreeSet              | 37.37    | 35.19    | 40.18    | ±0.86%    |
+| 100K rangeSearch TreeSet (Node)       | 36.88    | 35.59    | 42.99    | ±1.02%    |
+| 100K navigable TreeSet                | 153.24   | 150.21   | 158.68   | ±0.72%    |
+| 100K navigable TreeSet (Node)         | 151.69   | 149.84   | 154.73   | ±0.5%     |
+| 100K build+rangeSearch TreeSet        | 1921     | 1594.35  | 3251.16  | ±35.83%   |
+| 100K build+rangeSearch TreeSet (Node) | 1451.29  | 1157.2   | 3130.5   | ±47.2%    |
+| 100K build+navigable TreeSet          | 1717.88  | 1690.85  | 1738.33  | ±0.98%    |
+| 100K build+navigable TreeSet (Node)   | 1323.3   | 1278.1   | 1426.23  | ±4.21%    |
+
+#### TreeSet (side-by-side)
+
+> Comparison table. The main table above is TreeSet only.
+> Native is `-` when there is no apples-to-apples equivalent in this benchmark.
+
+| Test Case                             | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
+|---------------------------------------|---------:|-------------:|------------:|---------:|
+| 1M add TreeSet                        |  1817.81 |            - |           - |      462 |
+| 1M add TreeSet (Node)                 |  1476.13 |            - |           - |      462 |
+| 1M add RBT                            |  1956.77 |            - |           - |      462 |
+| 1M add RBT (Node)                     |  1454.84 |            - |           - |      462 |
+| 1M add js-sdsl                        |  1139.28 |            - |           - |        - |
+| 1M has TreeSet                        |    89.75 |            - |           - |      444 |
+| 1M has TreeSet (Node)                 |   929.28 |            - |           - |      444 |
+| 1M has RBT                            |    91.74 |            - |           - |      444 |
+| 1M has RBT (Node)                     |  1095.73 |            - |           - |      444 |
+| 1M has js-sdsl                        |   849.02 |            - |           - |        - |
+| 1M build+has TreeSet                  |  2096.95 |            - |           - |      837 |
+| 1M build+has TreeSet (Node)           |  2072.15 |            - |           - |      837 |
+| 1M build+has RBT                      |  2172.55 |            - |           - |      837 |
+| 1M build+has RBT (Node)               |  2187.87 |            - |           - |      837 |
+| 1M build+has js-sdsl                  |  1610.39 |            - |           - |        - |
+| 100K rangeSearch TreeSet              |    37.37 |            - |           - |        - |
+| 100K rangeSearch TreeSet (Node)       |    36.88 |            - |           - |        - |
+| 100K navigable TreeSet                |   153.24 |            - |           - |        - |
+| 100K navigable TreeSet (Node)         |   151.69 |            - |           - |        - |
+| 100K build+rangeSearch TreeSet        |     1921 |            - |           - |        - |
+| 100K build+rangeSearch TreeSet (Node) |  1451.29 |            - |           - |        - |
+| 100K build+navigable TreeSet          |  1717.88 |            - |           - |        - |
+| 100K build+navigable TreeSet (Node)   |   1323.3 |            - |           - |        - |
+
+### TreeMap
+
+| Test Case                             | Avg (ms) | Min (ms) | Max (ms) | Stability |
+|---------------------------------------|----------|----------|----------|-----------|
+| 1M set TreeMap                        | 1584.24  | 1544.63  | 1740.12  | ±5.08%    |
+| 1M set TreeMap (Node)                 | 1163.47  | 1140.21  | 1187.8   | ±1.2%     |
+| 1M set RBT                            | 1876.1   | 1638.01  | 2894.16  | ±27.93%   |
+| 1M set RBT (Node)                     | 1341.04  | 1212.84  | 2075.29  | ±22.33%   |
+| 1M set js-sdsl                        | 955.32   | 812.96   | 1656.95  | ±30.06%   |
+| 1M get TreeMap                        | 162.76   | 159.63   | 169.33   | ±0.76%    |
+| 1M get TreeMap (Node)                 | 1007.27  | 1004.6   | 1009.58  | ±0.17%    |
+| 1M get RBT                            | 159.61   | 139.31   | 169.48   | ±2.2%     |
+| 1M get RBT (Node)                     | 1059.56  | 1054.12  | 1067.31  | ±0.41%    |
+| 1M get js-sdsl                        | 814.55   | 807.37   | 832.64   | ±0.81%    |
+| 1M build+get TreeMap                  | 1936.03  | 1792.06  | 2519.08  | ±15.73%   |
+| 1M build+get TreeMap (Node)           | 2351.42  | 2042.67  | 3044.57  | ±20.62%   |
+| 1M build+get RBT                      | 2009.46  | 1781.2   | 3079.96  | ±27.4%    |
+| 1M build+get RBT (Node)               | 2191.41  | 2154.05  | 2228.17  | ±1.37%    |
+| 1M build+get js-sdsl                  | 1767.13  | 1506.48  | 2657.98  | ±26.33%   |
+| 100K rangeSearch TreeMap              | 114.35   | 72.07    | 917.58   | ±50.59%   |
+| 100K rangeSearch TreeMap (Node)       | 82.85    | 80.41    | 102.84   | ±1.59%    |
+| 100K navigable TreeMap                | 168.61   | 164.97   | 175.78   | ±0.75%    |
+| 100K navigable TreeMap (Node)         | 245.61   | 243.13   | 248.82   | ±0.4%     |
+| 100K build+rangeSearch TreeMap        | 1800.18  | 1586.05  | 2490.56  | ±19.93%   |
+| 100K build+rangeSearch TreeMap (Node) | 1364.8   | 1198.69  | 2119.02  | ±28.44%   |
+| 100K build+navigable TreeMap          | 1733.87  | 1721.11  | 1753.36  | ±0.69%    |
+| 100K build+navigable TreeMap (Node)   | 1423.19  | 1390.54  | 1517.41  | ±3.56%    |
+
+#### TreeMap (side-by-side)
+
+> Comparison table. The main table above is TreeMap only.
+> Native is `-` when there is no apples-to-apples equivalent in this benchmark.
+
+| Test Case                             | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
+|---------------------------------------|---------:|-------------:|------------:|---------:|
+| 1M set TreeMap                        |  1584.24 |            - |           - |      512 |
+| 1M set TreeMap (Node)                 |  1163.47 |            - |           - |      512 |
+| 1M set RBT                            |   1876.1 |            - |           - |      512 |
+| 1M set RBT (Node)                     |  1341.04 |            - |           - |      512 |
+| 1M set js-sdsl                        |   955.32 |            - |           - |        - |
+| 1M get TreeMap                        |   162.76 |            - |           - |      322 |
+| 1M get TreeMap (Node)                 |  1007.27 |            - |           - |      322 |
+| 1M get RBT                            |   159.61 |            - |           - |      322 |
+| 1M get RBT (Node)                     |  1059.56 |            - |           - |      322 |
+| 1M get js-sdsl                        |   814.55 |            - |           - |        - |
+| 1M build+get TreeMap                  |  1936.03 |            - |           - |      819 |
+| 1M build+get TreeMap (Node)           |  2351.42 |            - |           - |      819 |
+| 1M build+get RBT                      |  2009.46 |            - |           - |      819 |
+| 1M build+get RBT (Node)               |  2191.41 |            - |           - |      819 |
+| 1M build+get js-sdsl                  |  1767.13 |            - |           - |        - |
+| 100K rangeSearch TreeMap              |   114.35 |            - |           - |        - |
+| 100K rangeSearch TreeMap (Node)       |    82.85 |            - |           - |        - |
+| 100K navigable TreeMap                |   168.61 |            - |           - |        - |
+| 100K navigable TreeMap (Node)         |   245.61 |            - |           - |        - |
+| 100K build+rangeSearch TreeMap        |  1800.18 |            - |           - |        - |
+| 100K build+rangeSearch TreeMap (Node) |   1364.8 |            - |           - |        - |
+| 100K build+navigable TreeMap          |  1733.87 |            - |           - |        - |
+| 100K build+navigable TreeMap (Node)   |  1423.19 |            - |           - |        - |
+
+### TreeMultiSet
+
+| Test Case                                | Avg (ms) | Min (ms) | Max (ms) | Stability |
+|------------------------------------------|----------|----------|----------|-----------|
+| 1M add (TreeMultiSet expanded iteration) | 318.73   | 225.99   | 1280.19  | ±54.8%    |
+| 1M has-only (TreeMultiSet)               | 144.4    | 139.38   | 161.55   | ±1.57%    |
+| 1M count-only (TreeMultiSet)             | 146.14   | 137.88   | 170.81   | ±2.71%    |
+| 1M build+has (TreeMultiSet)              | 390.86   | 370.84   | 421.49   | ±2.87%    |
+| 1M build+count (TreeMultiSet)            | 382.27   | 371.02   | 416.14   | ±2.16%    |
+| 100K delete-one (TreeMultiSet)           | 249.65   | 240.62   | 257.99   | ±1.48%    |
+| 100K setCount (TreeMultiSet)             | 291.95   | 238.1    | 666.41   | ±21.59%   |
+| 1M expanded iteration (TreeMultiSet)     | 61.09    | 58.72    | 65.95    | ±0.71%    |
+| 1M entries view (TreeMultiSet)           | 20.35    | 19.5     | 21.21    | ±0.4%     |
+| 1M size property (TreeMultiSet)          | 0        | 0        | 0        | ±3.15%    |
+| 1M distinctSize property (TreeMultiSet)  | 0        | 0        | 0        | ±3.5%     |
+
+#### TreeMultiSet (side-by-side)
+
+> Comparison table. The main table above is TreeMultiSet only.
+> Native is `-` when there is no apples-to-apples equivalent in this benchmark.
+
+| Test Case                                | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
+|------------------------------------------|---------:|-------------:|------------:|---------:|
+| 1M add (TreeMultiSet expanded iteration) |   318.73 |            - |           - |      752 |
+| 1M has-only (TreeMultiSet)               |    144.4 |            - |           - |      756 |
+| 1M count-only (TreeMultiSet)             |   146.14 |            - |           - |     1332 |
+| 1M build+has (TreeMultiSet)              |   390.86 |            - |           - |     1406 |
+| 1M build+count (TreeMultiSet)            |   382.27 |            - |           - |     1909 |
+| 100K delete-one (TreeMultiSet)           |   249.65 |            - |           - |        - |
+| 100K setCount (TreeMultiSet)             |   291.95 |            - |           - |        - |
+| 1M expanded iteration (TreeMultiSet)     |    61.09 |            - |           - |        - |
+| 1M entries view (TreeMultiSet)           |    20.35 |            - |           - |        - |
+| 1M size property (TreeMultiSet)          |        0 |            - |           - |        - |
+| 1M distinctSize property (TreeMultiSet)  |        0 |            - |           - |        - |
+
+### TreeMultiMap
+
+| Test Case                                   | Avg (ms) | Min (ms) | Max (ms) | Stability |
+|---------------------------------------------|----------|----------|----------|-----------|
+| 1M add (TreeMultiMap bucketed)              | 539.87   | 427.65   | 1430.72  | ±41.48%   |
+| 1M has-only (TreeMultiMap)                  | 37.17    | 36.24    | 39.34    | ±0.49%    |
+| 1M get-only (TreeMultiMap)                  | 148.7    | 141.89   | 162.51   | ±2%       |
+| 1M count-only (TreeMultiMap)                | 231.71   | 225.61   | 260.61   | ±2.03%    |
+| 1M build+has (TreeMultiMap)                 | 605.14   | 471.31   | 1600.47  | ±47.42%   |
+| 1M build+get (TreeMultiMap)                 | 580.53   | 567.4    | 591.19   | ±1.03%    |
+| 100K hasEntry (TreeMultiMap Object.is)      | 478.71   | 461.88   | 499.68   | ±1.95%    |
+| 100K deleteValue (TreeMultiMap Object.is)   | 492.5    | 483.65   | 503.79   | ±0.97%    |
+| 100K firstEntry/lastEntry (TreeMultiMap)    | 0        | null     | null     | ±0%       |
+| 100K ceilingEntry/floorEntry (TreeMultiMap) | 0        | null     | null     | ±0%       |
+| 1M bucket iteration (TreeMultiMap)          | 28.37    | 27.16    | 29.86    | ±0.63%    |
+| 1M flatEntries iteration (TreeMultiMap)     | 135.69   | 129.69   | 141.56   | ±0.86%    |
+| 1M size property (TreeMultiMap)             | 0        | 0        | 0        | ±3.13%    |
+| 1M totalSize property (TreeMultiMap)        | 28.59    | 26.32    | 91.83    | ±7.13%    |
+
+#### TreeMultiMap (side-by-side)
+
+> Comparison table. The main table above is TreeMultiMap only.
+> Native is `-` when there is no apples-to-apples equivalent in this benchmark.
+
+| Test Case                                   | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
+|---------------------------------------------|---------:|-------------:|------------:|---------:|
+| 1M add (TreeMultiMap bucketed)              |   539.87 |            - |           - |      731 |
+| 1M has-only (TreeMultiMap)                  |    37.17 |            - |           - |      833 |
+| 1M get-only (TreeMultiMap)                  |    148.7 |            - |           - |     1553 |
+| 1M count-only (TreeMultiMap)                |   231.71 |            - |           - |     1548 |
+| 1M build+has (TreeMultiMap)                 |   605.14 |            - |           - |     1519 |
+| 1M build+get (TreeMultiMap)                 |   580.53 |            - |           - |     2263 |
+| 100K hasEntry (TreeMultiMap Object.is)      |   478.71 |            - |           - |        - |
+| 100K deleteValue (TreeMultiMap Object.is)   |    492.5 |            - |           - |        - |
+| 100K firstEntry/lastEntry (TreeMultiMap)    |        0 |            - |           - |        - |
+| 100K ceilingEntry/floorEntry (TreeMultiMap) |        0 |            - |           - |        - |
+| 1M bucket iteration (TreeMultiMap)          |    28.37 |            - |           - |      109 |
+| 1M flatEntries iteration (TreeMultiMap)     |   135.69 |            - |           - |      109 |
+| 1M size property (TreeMultiMap)             |        0 |            - |           - |        - |
+| 1M totalSize property (TreeMultiMap)        |    28.59 |            - |           - |        - |
 
 ### BST
 
 | Test Case                 | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |---------------------------|----------|----------|----------|-----------|
-| 10K add randomly          | 9.3217   | 8.4887   | 11.0732  | ±0.91%    |
-| 10K add & delete randomly | 18.19    | 15.83    | 20.4     | ±0.77%    |
-| 10K addMany               | 18.79    | 16.77    | 19.1     | ±0.44%    |
-| 10K get                   | 19.17    | 10.39    | 33.56    | ±4.13%    |
+| 10K add randomly          | 5.8064   | 5.3484   | 15.4658  | ±4.27%    |
+| 10K add & delete randomly | 10.21    | 9.92     | 12.41    | ±0.88%    |
+| 10K addMany               | 10.98    | 10.25    | 23.9     | ±3.17%    |
+| 10K get                   | 11.91    | 10.99    | 15.31    | ±2.1%     |
 
 #### BST (side-by-side)
 
@@ -290,65 +484,23 @@
 
 | Test Case                 | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 |---------------------------|---------:|-------------:|------------:|---------:|
-| 10K add randomly          |   9.3217 |            - |           - |        - |
-| 10K add & delete randomly |    18.19 |            - |           - |        - |
-| 10K addMany               |    18.79 |            - |           - |        - |
-| 10K get                   |    19.17 |            - |           - |        - |
-
-### Trie
-
-| Test Case     | Avg (ms) | Min (ms) | Max (ms) | Stability |
-|---------------|----------|----------|----------|-----------|
-| 100K add      | 40.46    | 22.37    | 53.08    | ±8.93%    |
-| 100K getWords | 217.66   | 128.8    | 240.19   | ±6.1%     |
-
-#### Trie (side-by-side)
-
-> Comparison table. The main table above is Trie only.
-> Native is `-` when there is no apples-to-apples equivalent in this benchmark.
-
-| Test Case     | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
-|---------------|---------:|-------------:|------------:|---------:|
-| 100K add      |    40.46 |            - |           - |        - |
-| 100K getWords |   217.66 |            - |           - |        - |
-
-### DirectedGraph
-
-| Test Case       | Avg (ms) | Min (ms) | Max (ms) | Stability |
-|-----------------|----------|----------|----------|-----------|
-| 1K addVertex    | 0.0968   | 0.0825   | 0.0993   | ±0.59%    |
-| 1K addEdge      | 6.088    | 5.38     | 6.5587   | ±0.58%    |
-| 1K getVertex    | 0.0769   | 0.0423   | 0.0903   | ±4.64%    |
-| 1K getEdge      | 21.93    | 16.5     | 58.25    | ±7.42%    |
-| tarjan          | 203.86   | 197.17   | 209.57   | ±0.66%    |
-| topologicalSort | 161.57   | 151.79   | 196.79   | ±2.87%    |
-
-#### DirectedGraph (side-by-side)
-
-> Comparison table. The main table above is DirectedGraph only.
-> Native is `-` when there is no apples-to-apples equivalent in this benchmark.
-
-| Test Case       | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
-|-----------------|---------:|-------------:|------------:|---------:|
-| 1K addVertex    |   0.0968 |            - |           - |        - |
-| 1K addEdge      |    6.088 |            - |           - |        - |
-| 1K getVertex    |   0.0769 |            - |           - |        - |
-| 1K getEdge      |    21.93 |            - |           - |        - |
-| tarjan          |   203.86 |            - |           - |        - |
-| topologicalSort |   161.57 |            - |           - |        - |
+| 10K add randomly          |   5.8064 |            - |           - |        - |
+| 10K add & delete randomly |    10.21 |            - |           - |        - |
+| 10K addMany               |    10.98 |            - |           - |        - |
+| 10K get                   |    11.91 |            - |           - |        - |
 
 ### BinaryTree
 
 | Test Case                | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |--------------------------|----------|----------|----------|-----------|
-| 1K add randomly          | 37.74    | 34.94    | 50.93    | ±1.53%    |
-| 1K add & delete randomly | 51.81    | 31.71    | 53.74    | ±2.14%    |
-| 1K addMany               | 30.83    | 17.73    | 48.65    | ±8.86%    |
-| 1K get                   | 37.96    | 35.49    | 49.23    | ±1.62%    |
-| 1K has                   | 61.61    | 53.7     | 63.33    | ±0.87%    |
-| 1K dfs                   | 317.7    | 316.03   | 319.37   | ±0.2%     |
-| 1K bfs                   | 94.89    | 65.73    | 168.44   | ±10.79%   |
-| 1K morris                | 93.69    | 64.2     | 125.72   | ±9.44%    |
+| 1K add randomly          | 10.65    | 10.42    | 11.19    | ±0.32%    |
+| 1K add & delete randomly | 11.23    | 10.49    | 26.02    | ±4.51%    |
+| 1K addMany               | 10.58    | 10.29    | 11.22    | ±0.35%    |
+| 1K get                   | 11.11    | 10.32    | 22.68    | ±3.53%    |
+| 1K has                   | 11       | 10.3     | 23.76    | ±4.21%    |
+| 1K dfs                   | 141.08   | 139.05   | 144.34   | ±0.46%    |
+| 1K bfs                   | 47.83    | 46.69    | 55.65    | ±0.98%    |
+| 1K morris                | 55.82    | 54.62    | 59.95    | ±0.44%    |
 
 #### BinaryTree (side-by-side)
 
@@ -357,14 +509,56 @@
 
 | Test Case                | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 |--------------------------|---------:|-------------:|------------:|---------:|
-| 1K add randomly          |    37.74 |            - |           - |        - |
-| 1K add & delete randomly |    51.81 |            - |           - |        - |
-| 1K addMany               |    30.83 |            - |           - |        - |
-| 1K get                   |    37.96 |            - |           - |        - |
-| 1K has                   |    61.61 |            - |           - |        - |
-| 1K dfs                   |    317.7 |            - |           - |        - |
-| 1K bfs                   |    94.89 |            - |           - |        - |
-| 1K morris                |    93.69 |            - |           - |        - |
+| 1K add randomly          |    10.65 |            - |           - |        - |
+| 1K add & delete randomly |    11.23 |            - |           - |        - |
+| 1K addMany               |    10.58 |            - |           - |        - |
+| 1K get                   |    11.11 |            - |           - |        - |
+| 1K has                   |       11 |            - |           - |        - |
+| 1K dfs                   |   141.08 |            - |           - |        - |
+| 1K bfs                   |    47.83 |            - |           - |        - |
+| 1K morris                |    55.82 |            - |           - |        - |
+
+### Trie
+
+| Test Case     | Avg (ms) | Min (ms) | Max (ms) | Stability |
+|---------------|----------|----------|----------|-----------|
+| 100K add      | 24.78    | 22.08    | 35.79    | ±3.49%    |
+| 100K getWords | 117.75   | 99.64    | 202.76   | ±9.14%    |
+
+#### Trie (side-by-side)
+
+> Comparison table. The main table above is Trie only.
+> Native is `-` when there is no apples-to-apples equivalent in this benchmark.
+
+| Test Case     | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
+|---------------|---------:|-------------:|------------:|---------:|
+| 100K add      |    24.78 |            - |           - |        - |
+| 100K getWords |   117.75 |            - |           - |        - |
+
+### DirectedGraph
+
+| Test Case       | Avg (ms) | Min (ms) | Max (ms) | Stability |
+|-----------------|----------|----------|----------|-----------|
+| 1K addVertex    | 0.0446   | 0.0436   | 0.0557   | ±0.63%    |
+| 1K addEdge      | 2.9426   | 2.7818   | 4.3713   | ±1.7%     |
+| 1K getVertex    | 0.0382   | 0.0374   | 0.0441   | ±0.51%    |
+| 1K getEdge      | 48.53    | 43.18    | 107.27   | ±6.34%    |
+| tarjan          | 263.6    | 253.45   | 298.73   | ±2.51%    |
+| topologicalSort | 221.51   | 213.7    | 246.27   | ±2.5%     |
+
+#### DirectedGraph (side-by-side)
+
+> Comparison table. The main table above is DirectedGraph only.
+> Native is `-` when there is no apples-to-apples equivalent in this benchmark.
+
+| Test Case       | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
+|-----------------|---------:|-------------:|------------:|---------:|
+| 1K addVertex    |   0.0446 |            - |           - |        - |
+| 1K addEdge      |   2.9426 |            - |           - |        - |
+| 1K getVertex    |   0.0382 |            - |           - |        - |
+| 1K getEdge      |    48.53 |            - |           - |        - |
+| tarjan          |    263.6 |            - |           - |        - |
+| topologicalSort |   221.51 |            - |           - |        - |
 
 [//]: # (No deletion!!! End of Replace Section)
 

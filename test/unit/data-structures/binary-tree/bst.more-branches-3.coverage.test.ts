@@ -22,7 +22,7 @@ describe('BST remaining reachable branch coverage (batch 3)', () => {
 
     const origIsPred = (t as any)._isPredicate;
     let calls = 0;
-    (t as any)._isPredicate = (x: any) => {
+    (t as any)._isPredicate = (_x: any) => {
       calls++;
       // search() calls _isPredicate multiple times (isPred calc + ensurePredicate + pruning closures).
       // Keep it true for the initial plumbing, then flip to false so pruning takes the key-pruning branch.

@@ -12,19 +12,19 @@ class NumIter extends IterableElementBase<number, number> {
     throw new Error('Method not implemented.');
   }
   override map<EM, RM>(
-    callback: ElementCallback<number, number, EM>,
-    options?: IterableElementBaseOptions<EM, RM> | undefined,
-    thisArg?: unknown
+    _callback: ElementCallback<number, number, EM>,
+    _options?: IterableElementBaseOptions<EM, RM> | undefined,
+    _thisArg?: unknown
   ): IterableElementBase<EM, RM> {
     throw new Error('Method not implemented.');
   }
-  override mapSame(callback: ElementCallback<number, number, number>, thisArg?: unknown): this {
+  override mapSame(_callback: ElementCallback<number, number, number>, _thisArg?: unknown): this {
     throw new Error('Method not implemented.');
   }
-  override filter(predicate: ElementCallback<number, number, boolean>, thisArg?: unknown): this {
+  override filter(_predicate: ElementCallback<number, number, boolean>, _thisArg?: unknown): this {
     throw new Error('Method not implemented.');
   }
-  protected override _getIterator(...args: unknown[]): IterableIterator<number> {
+  protected override _getIterator(..._args: unknown[]): IterableIterator<number> {
     throw new Error('Method not implemented.');
   }
   constructor(private readonly data: number[]) {

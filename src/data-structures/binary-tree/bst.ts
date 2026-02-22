@@ -799,7 +799,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     keyNodeOrEntry: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
     value?: V
   ): boolean {
-    const [newNode, newValue] = this._keyValueNodeOrEntryToNodeAndValue(keyNodeOrEntry, value);
+    const [newNode] = this._keyValueNodeOrEntryToNodeAndValue(keyNodeOrEntry, value);
     if (newNode === undefined) return false;
 
     if (this._root === undefined) {

@@ -4,7 +4,7 @@ import { withMutedConsole } from '../../../utils/patch';
 
 const isDebug = isDebugTest;
 
-function expectSingleDeleteResult<K, V>(removed: any, expectedKey: K) {
+function expectSingleDeleteResult<K, _V>(removed: any, expectedKey: K) {
   // Most tree delete APIs here return an array of { deleted, ... }.
   expect(removed).toBeInstanceOf(Array);
   expect(removed[0]).toBeDefined();

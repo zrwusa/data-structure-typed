@@ -4,9 +4,9 @@ export async function withMutedConsole<T>(fn: () => T | Promise<T>): Promise<T> 
   const originalError = console.error;
 
   // Keep it minimal: silence during the callback, always restore.
-  console.log = (message?: any, ...optionalParams: any[]) => undefined;
-  console.warn = (message?: any, ...optionalParams: any[]) => undefined;
-  console.error = (message?: any, ...optionalParams: any[]) => undefined;
+  console.log = (_message?: any, ..._optionalParams: any[]) => undefined;
+  console.warn = (_message?: any, ..._optionalParams: any[]) => undefined;
+  console.error = (_message?: any, ..._optionalParams: any[]) => undefined;
 
   try {
     return await fn();

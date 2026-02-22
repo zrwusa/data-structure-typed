@@ -1,7 +1,7 @@
 import { RedBlackTree } from '../../../../dist/esm/index.mjs';
 import { OrderedMap } from 'js-sdsl';
 
-import { getRandomIntArray, magnitude } from '../../../utils/index.mjs';
+import { getRandomIntArray, magnitude } from '../../../utils/perf.mjs';
 
 /**
  * Red-Black Tree (macro, ESM entry) perf harness

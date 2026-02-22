@@ -1,6 +1,6 @@
 import { Trie } from '../../../../dist/esm/index.mjs';
 import Benchmark from 'benchmark';
-import { getRandomWords, magnitude } from '../../../utils/index.mjs';
+import { getRandomWords, magnitude } from '../../../utils/perf.mjs';
 
 /**
  * Trie Benchmark Suite

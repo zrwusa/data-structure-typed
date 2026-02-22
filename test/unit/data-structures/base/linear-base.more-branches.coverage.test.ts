@@ -1,9 +1,6 @@
-import { LinearBase, LinearLinkedBase, LinkedListNode,  } from '../../../../src/data-structures/base/linear-base';
+import { LinearBase, LinearLinkedBase, LinkedListNode } from '../../../../src/data-structures/base/linear-base';
 import {
-  DoublyLinkedListNode,
-  DoublyLinkedListOptions,
   ElementCallback,
-  IterableElementBase,
   IterableElementBaseOptions
 } from '../../../../src';
 
@@ -87,19 +84,19 @@ class ArrayLinear extends LinearBase<number, any> {
     return false;
   }
 
-  filter(predicate: ElementCallback<number, any, boolean>, thisArg?: any): this {
+  filter(_predicate: ElementCallback<number, any, boolean>, _thisArg?: any): this {
     const out = this._createInstance();
 
     return out;
   }
 
   // @ts-ignore
-  map(callback: ElementCallback<number, any, number>, options: IterableElementBaseOptions<number, any> | undefined, thisArg: unknown | undefined): ArrayLinear {
+  map(_callback: ElementCallback<number, any, number>, options: IterableElementBaseOptions<number, any> | undefined, _thisArg: unknown | undefined): ArrayLinear {
     const out = this._createLike([], { ...(options ?? {}) });
     return out;
   }
 
-  mapSame(callback: ElementCallback<number, any, number>, thisArg: unknown | undefined): this {
+  mapSame(_callback: ElementCallback<number, any, number>, _thisArg: unknown | undefined): this {
     const out = this._createInstance();
 
     return out;
@@ -349,19 +346,19 @@ class NodeLinear extends LinearLinkedBase<number, any, LinkedListNode<number>> {
 
 
 
-  filter(predicate: ElementCallback<number, any, boolean>, thisArg?: any): this {
+  filter(_predicate: ElementCallback<number, any, boolean>, _thisArg?: any): this {
     const out = this._createInstance();
 
     return out;
   }
 
   // @ts-ignore
-  map(callback: ElementCallback<number, any, number>, options: IterableElementBaseOptions<number, any> | undefined, thisArg: unknown | undefined): ArrayLinear {
+  map(callback: ElementCallback<number, any, number>, options: IterableElementBaseOptions<number, any> | undefined, _thisArg: unknown | undefined): ArrayLinear {
     const out = this._createLike([], { ...(options ?? {}) });
     return out;
   }
 
-  mapSame(callback: ElementCallback<number, any, number>, thisArg: unknown | undefined): this {
+  mapSame(_callback: ElementCallback<number, any, number>, _thisArg: unknown | undefined): this {
     const out = this._createInstance();
 
     return out;

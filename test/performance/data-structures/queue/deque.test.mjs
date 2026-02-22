@@ -1,7 +1,7 @@
 import { Deque } from '../../../../dist/esm/index.mjs';
 import { Deque as SdslDeque } from 'js-sdsl';
 import Benchmark from 'benchmark';
-import { magnitude } from '../../../utils/index.mjs';
+import { magnitude } from '../../../utils/perf.mjs';
 
 const suite = new Benchmark.Suite();
 const { MILLION, HUNDRED_THOUSAND } = magnitude;

@@ -1,6 +1,6 @@
 import { MaxPriorityQueue } from '../../../../dist/esm/index.mjs';
 import Benchmark from 'benchmark';
-import { magnitude } from '../../../utils/index.mjs';
+import { magnitude } from '../../../utils/perf.mjs';
 
 /**
  * Max Priority Queue Benchmark Suite

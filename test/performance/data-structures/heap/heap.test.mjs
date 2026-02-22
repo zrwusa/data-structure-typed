@@ -1,6 +1,6 @@
 import { Heap } from '../../../../dist/esm/index.mjs';
 import Benchmark from 'benchmark';
-import { getRandomInt, magnitude } from '../../../utils/index.mjs';
+import { getRandomInt, magnitude } from '../../../utils/perf.mjs';
 
 const suite = new Benchmark.Suite();
 const { HUNDRED_THOUSAND } = magnitude;

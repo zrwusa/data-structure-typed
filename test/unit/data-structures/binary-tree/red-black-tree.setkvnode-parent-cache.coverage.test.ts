@@ -3,7 +3,7 @@ import { RedBlackTree, RedBlackTreeNode } from '../../../../src';
 class RBTBadKeyValue extends RedBlackTree<number, number> {
   // Force set(node) to hit `if (!this.isRealNode(newNode)) return false;`
   protected override _keyValueNodeOrEntryToNodeAndValue(
-    _keyNodeOrEntry: any,
+    __keyNodeOrEntry: any,
     _value?: any
   ): [RedBlackTreeNode<number, number> | undefined, number | undefined] {
     return [undefined, undefined];

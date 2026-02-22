@@ -1,7 +1,7 @@
 import { PriorityQueue } from '../../../../dist/esm/index.mjs';
 import { PriorityQueue as SdslPriorityQueue } from 'js-sdsl';
 import Benchmark from 'benchmark';
-import { magnitude } from '../../../utils/index.mjs';
+import { magnitude } from '../../../utils/perf.mjs';
 
 /**
  * Priority Queue Benchmark Suite

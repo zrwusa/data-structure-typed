@@ -3,7 +3,7 @@ import { RedBlackTree, RedBlackTreeNode } from '../../../../src';
 class RBTWithBadInsert extends RedBlackTree<number, number> {
   // Simulate an internal failure where _insert reports CREATED but does not establish a real root.
   // This is purely to cover the defensive branch in set(node).
-  protected override _insert(_node: RedBlackTreeNode<number, number>): any {
+  protected override _insert(__node: RedBlackTreeNode<number, number>): any {
     // Ensure root stays NIL/undefined
     (this as any)._setRoot(undefined);
     return 'CREATED';

@@ -1,7 +1,7 @@
 import { DoublyLinkedList } from '../../../../dist/esm/index.mjs';
 import { LinkList as SdslLinkList } from 'js-sdsl';
 import Benchmark from 'benchmark';
-import { magnitude } from '../../../utils/index.mjs';
+import { magnitude } from '../../../utils/perf.mjs';
 
 const suite = new Benchmark.Suite();
 const { HUNDRED_THOUSAND } = magnitude;

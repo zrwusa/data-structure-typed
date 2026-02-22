@@ -1,6 +1,6 @@
 import { SinglyLinkedList } from '../../../../dist/esm/index.mjs';
 import Benchmark from 'benchmark';
-import { magnitude } from '../../../utils/index.mjs';
+import { magnitude } from '../../../utils/perf.mjs';
 
 const suite = new Benchmark.Suite();
 const { HUNDRED_THOUSAND, TEN_THOUSAND } = magnitude;

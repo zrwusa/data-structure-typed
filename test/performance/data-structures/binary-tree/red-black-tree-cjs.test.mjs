@@ -1,7 +1,7 @@
 import { createRequire } from 'module';
 import * as path from 'path';
 
-import { getRandomIntArray, magnitude } from '../../../utils/index.mjs';
+import { getRandomIntArray, magnitude } from '../../../utils/perf.mjs';
 
 // IMPORTANT: For perf stability, load the CJS build directly (matches the standalone scripts).
 // Using package ESM entry (`import { ... } from '../../../../dist/esm/index.mjs'`) showed large slowdowns

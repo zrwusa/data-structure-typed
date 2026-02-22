@@ -515,7 +515,7 @@ describe('TreeMultiSet', () => {
       const ms = new TreeMultiSet<number>([3, 1, 2], { comparator: customComparator });
       expect([...ms.keysDistinct()]).toEqual([3, 2, 1]);  // descending order
 
-      const filtered = ms.filter((k, c) => k >= 2);
+      const filtered = ms.filter((k, _c) => k >= 2);
       expect([...filtered.keysDistinct()]).toEqual([3, 2]);  // still descending
     });
 

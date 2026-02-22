@@ -1,6 +1,6 @@
 import { DirectedGraph } from '../../../../dist/esm/index.mjs';
 import Benchmark from 'benchmark';
-import { getRandomIndex, getRandomWords, magnitude } from '../../../utils/index.mjs'
+import { getRandomIndex, getRandomWords, magnitude } from '../../../utils/perf.mjs'
 
 const suite = new Benchmark.Suite();
 const { THOUSAND } = magnitude;

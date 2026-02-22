@@ -664,7 +664,7 @@ export class BinaryTree<K = any, V = any, R = any>
     value?: V
   ): boolean {
 
-    const [newNode, newValue] = this._keyValueNodeOrEntryToNodeAndValue(keyNodeOrEntry, value);
+    const [newNode] = this._keyValueNodeOrEntryToNodeAndValue(keyNodeOrEntry, value);
     if (newNode === undefined) return false;
 
     if (!this._root) {

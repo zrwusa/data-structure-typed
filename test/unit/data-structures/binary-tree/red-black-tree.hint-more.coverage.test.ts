@@ -1,4 +1,4 @@
-import { RedBlackTree, RedBlackTreeNode } from '../../../../src';
+import { RedBlackTree } from '../../../../src';
 
 class RBTWithBadCreate extends RedBlackTree<number, number> {
   override createNode(key: number, value?: number): any {

@@ -2,7 +2,7 @@ import { RedBlackTree } from '../../../../src';
 
 class RBTBadFixup extends RedBlackTree<number, number> {
   // Simulate an unexpected internal failure so `_setKVNode` hits the defensive `else return undefined`.
-  protected override _insertFixup(_node: any): void {
+  protected override _insertFixup(__node: any): void {
     // Blow away root after "fixup".
     (this as any)._setRoot(undefined);
   }

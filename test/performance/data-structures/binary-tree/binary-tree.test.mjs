@@ -1,6 +1,6 @@
 import { BinaryTree } from '../../../../dist/esm/index.mjs';
 import Benchmark from 'benchmark';
-import { getRandomIntArray, magnitude } from '../../../utils/index.mjs';
+import { getRandomIntArray, magnitude } from '../../../utils/perf.mjs';
 
 /**
  * Binary Tree Benchmark Suite

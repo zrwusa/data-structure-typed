@@ -10,7 +10,7 @@ import {
 } from 'js-sdsl';
 
 import Benchmark from 'benchmark';
-import { getRandomIntArray, magnitude } from '../../../utils/index.mjs'
+import { getRandomIntArray, magnitude } from '../../../utils/perf.mjs'
 import { isCompetitor } from '../../../config.mjs';
 
 const suite = new Benchmark.Suite();
