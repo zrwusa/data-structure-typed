@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-22T00:35:50.364Z",
+  "timestamp": "2026-02-22T00:41:13.676Z",
   "javascript": [
     {
       "testName": "tree-map",
@@ -664,104 +664,104 @@
       "benchmarks": [
         {
           "Test Case": "1M set",
-          "Latency Avg (ms)": 269.95,
-          "Min (ms)": 183.27,
-          "Max (ms)": 551.58,
-          "Stability": "±19.05%"
+          "Latency Avg (ms)": 185.57,
+          "Min (ms)": 123.72,
+          "Max (ms)": 354.4,
+          "Stability": "±14.94%"
         },
         {
           "Test Case": "1M set (js-sdsl)",
-          "Latency Avg (ms)": 266.03,
-          "Min (ms)": 112.23,
-          "Max (ms)": 1664.4,
-          "Stability": "±73.51%"
+          "Latency Avg (ms)": 158.49,
+          "Min (ms)": 84.11,
+          "Max (ms)": 643.16,
+          "Stability": "±34.11%"
         },
         {
           "Test Case": "Native JS Map 1M set",
-          "Latency Avg (ms)": 156.27,
-          "Min (ms)": 139.4,
-          "Max (ms)": 299.13,
-          "Stability": "±10.65%"
+          "Latency Avg (ms)": 219.67,
+          "Min (ms)": 197.77,
+          "Max (ms)": 240.33,
+          "Stability": "±3.21%"
         },
         {
           "Test Case": "Native JS Set 1M add",
-          "Latency Avg (ms)": 130.39,
-          "Min (ms)": 109.04,
-          "Max (ms)": 337.7,
-          "Stability": "±15.01%"
+          "Latency Avg (ms)": 185.65,
+          "Min (ms)": 169.65,
+          "Max (ms)": 240.4,
+          "Stability": "±4.2%"
         },
         {
-          "Test Case": "1M add (js-sdsl HashSet)",
-          "Latency Avg (ms)": 93.5,
-          "Min (ms)": 63.28,
-          "Max (ms)": 131.12,
-          "Stability": "±10.07%"
+          "Test Case": "1M add HashSet (js-sdsl)",
+          "Latency Avg (ms)": 140.88,
+          "Min (ms)": 62.8,
+          "Max (ms)": 588.51,
+          "Stability": "±36.45%"
         },
         {
           "Test Case": "1M set & get",
-          "Latency Avg (ms)": 138.05,
-          "Min (ms)": 96.31,
-          "Max (ms)": 246.65,
-          "Stability": "±9.95%"
+          "Latency Avg (ms)": 247.06,
+          "Min (ms)": 195.24,
+          "Max (ms)": 280.69,
+          "Stability": "±6.84%"
         },
         {
           "Test Case": "1M set & get (js-sdsl)",
-          "Latency Avg (ms)": 79.08,
-          "Min (ms)": 69.43,
-          "Max (ms)": 166.53,
-          "Stability": "±9.61%"
+          "Latency Avg (ms)": 112.79,
+          "Min (ms)": 69.67,
+          "Max (ms)": 301.96,
+          "Stability": "±15.09%"
         },
         {
           "Test Case": "Native JS Map 1M set & get",
-          "Latency Avg (ms)": 196.06,
-          "Min (ms)": 185.54,
-          "Max (ms)": 208.32,
-          "Stability": "±1.47%"
+          "Latency Avg (ms)": 287.39,
+          "Min (ms)": 228.97,
+          "Max (ms)": 475.96,
+          "Stability": "±13.36%"
         },
         {
           "Test Case": "Native JS Set 1M add & has",
-          "Latency Avg (ms)": 167.2,
-          "Min (ms)": 151.73,
-          "Max (ms)": 227.99,
-          "Stability": "±4.85%"
+          "Latency Avg (ms)": 237.7,
+          "Min (ms)": 166.74,
+          "Max (ms)": 311.9,
+          "Stability": "±9.59%"
         },
         {
-          "Test Case": "1M add & has (js-sdsl HashSet)",
-          "Latency Avg (ms)": 128.99,
-          "Min (ms)": 116.33,
-          "Max (ms)": 184.92,
-          "Stability": "±4.62%"
+          "Test Case": "1M add & has HashSet (js-sdsl)",
+          "Latency Avg (ms)": 174.95,
+          "Min (ms)": 112.76,
+          "Max (ms)": 388.21,
+          "Stability": "±18.55%"
         },
         {
           "Test Case": "1M ObjKey set & get",
-          "Latency Avg (ms)": 237.35,
-          "Min (ms)": 218.41,
-          "Max (ms)": 327.62,
-          "Stability": "±7.05%"
+          "Latency Avg (ms)": 379.65,
+          "Min (ms)": 341.94,
+          "Max (ms)": 490.79,
+          "Stability": "±8.68%"
         },
         {
           "Test Case": "1M ObjKey set & get (js-sdsl)",
-          "Latency Avg (ms)": 460.64,
-          "Min (ms)": 400.65,
-          "Max (ms)": 537.96,
-          "Stability": "±8.34%"
+          "Latency Avg (ms)": 698.13,
+          "Min (ms)": 531.76,
+          "Max (ms)": 848.55,
+          "Stability": "±14.32%"
         },
         {
           "Test Case": "Native JS Map 1M ObjKey set & get",
-          "Latency Avg (ms)": 211.59,
-          "Min (ms)": 184.95,
-          "Max (ms)": 289.14,
-          "Stability": "±6.93%"
+          "Latency Avg (ms)": 299.71,
+          "Min (ms)": 201.71,
+          "Max (ms)": 437.48,
+          "Stability": "±14.71%"
         },
         {
           "Test Case": "Native JS Set 1M ObjKey add & has",
-          "Latency Avg (ms)": 176.75,
-          "Min (ms)": 162.69,
-          "Max (ms)": 274.61,
-          "Stability": "±7.02%"
+          "Latency Avg (ms)": 291.61,
+          "Min (ms)": 247.73,
+          "Max (ms)": 432.74,
+          "Stability": "±12.92%"
         }
       ],
-      "runTime": 94.5,
+      "runTime": 106.92,
       "file": "/Users/revone/.openclaw/workspace/data-structure-typed/test/performance/data-structures/hash/hash-map.test.mjs"
     },
     {

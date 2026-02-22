@@ -98,11 +98,9 @@ Understand how data-structure-typed performs, and when to use each structure.
 ### HashMap
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1M set | 269.95 | 183.27 | 551.58 | ±19.05% |
-| 1M add (js-sdsl HashSet) | 93.5 | 63.28 | 131.12 | ±10.07% |
-| 1M set & get | 138.05 | 96.31 | 246.65 | ±9.95% |
-| 1M add & has (js-sdsl HashSet) | 128.99 | 116.33 | 184.92 | ±4.62% |
-| 1M ObjKey set & get | 237.35 | 218.41 | 327.62 | ±7.05% |
+| 1M set | 185.57 | 123.72 | 354.4 | ±14.94% |
+| 1M set & get | 247.06 | 195.24 | 280.69 | ±6.84% |
+| 1M ObjKey set & get | 379.65 | 341.94 | 490.79 | ±8.68% |
 
 #### HashMap (side-by-side)
 
@@ -111,11 +109,9 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 1M set | 269.95 | 266.03 | 156.27 | 70.22 |
-| 1M add (js-sdsl HashSet) | 93.5 | - | - | - |
-| 1M set & get | 138.05 | 79.08 | 196.06 | 73.04 |
-| 1M add & has (js-sdsl HashSet) | 128.99 | - | - | - |
-| 1M ObjKey set & get | 237.35 | 460.64 | 211.59 | 92.55 |
+| 1M set | 185.57 | 158.49 | 219.67 | 70.22 |
+| 1M set & get | 247.06 | 112.79 | 287.39 | 73.04 |
+| 1M ObjKey set & get | 379.65 | 698.13 | 299.71 | 92.55 |
 
 
 ### Queue

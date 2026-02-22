@@ -38,7 +38,7 @@ suite.add('Native JS Set 1M add', function() {
   this.val = hs;
 });
 
-suite.add('1M add (js-sdsl HashSet)', function() {
+suite.add('1M add HashSet (js-sdsl)', function() {
   const hs = new SdslHashSet();
   for (let i = 0; i < MILLION; i++) {
     hs.insert(i);
@@ -102,7 +102,7 @@ suite.add('Native JS Set 1M add & has', function() {
   this.val = count;
 });
 
-suite.add('1M add & has (js-sdsl HashSet)', function() {
+suite.add('1M add & has HashSet (js-sdsl)', function() {
   const hs = new SdslHashSet();
   for (let i = 0; i < MILLION; i++) {
     hs.insert(i);
