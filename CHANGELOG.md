@@ -8,6 +8,33 @@ All notable changes to this project will be documented in this file.
 - [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - [`auto-changelog`](https://github.com/CookPete/auto-changelog)
 
+## [v2.4.0](https://github.com/zrwusa/data-structure-typed/compare/v2.3.0...v2.4.0) (22 February 2026)
+
+### Added
+
+- **TreeMultiSet**: New sorted multi-set implementation using Red-Black Tree composition
+- **TreeMultiMap**: Redesigned multi-map with bucket-based value storage `[K, V[]]`
+- **Benchmark system**: Full benchmark pipeline with JS + C++ support, incremental updates, js-sdsl comparisons
+
+### Changed
+
+- **MapMode optimization**: `_store` changed from `Map<K, V>` to `Map<K, Node>` for O(1) node lookups
+- **TreeMultiMap API**: Uses composition instead of inheritance, returns `[K, V[]]` for navigable methods
+- **Performance docs**: Updated with comprehensive benchmark comparisons (js-sdsl, C++ STL)
+
+### Removed
+
+- **AVLTreeCounter**: Removed legacy counter variant
+- **AVLTreeMultiMap**: Removed in favor of new TreeMultiMap design
+- **TreeCounter**: Removed legacy counter variant
+
+## [v2.3.0](https://github.com/zrwusa/data-structure-typed/compare/v2.2.3...v2.3.0) (February 2026)
+
+### Added
+
+- **TreeSet**: Spec-level sorted set implementation
+- **TreeMap**: Spec-level sorted map implementation
+
 ## [v2.2.8](https://github.com/zrwusa/data-structure-typed/compare/v2.2.3...main) (upcoming)
 
 ## [v2.2.3](https://github.com/zrwusa/data-structure-typed/compare/v2.2.2...v2.2.3) (6 January 2026)
