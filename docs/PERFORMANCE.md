@@ -54,11 +54,11 @@ Understand how data-structure-typed performs, and when to use each structure.
 ### DoublyLinkedList
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 100k push | 6.7661 | 5.4919 | 35.0854 | ±14.1% |
-| 100k unshift | 5.0279 | 4.4565 | 5.9666 | ±2.26% |
-| 100k unshift & shift | 4.0699 | 3.8907 | 4.8714 | ±0.88% |
-| 100k addAt(mid) | 1362.01 | 1167.39 | 1762.77 | ±16.81% |
-| 100k addBefore (cursor) | 5.6728 | 4.9101 | 18.7009 | ±7.43% |
+| 100k push | 8.0558 | 5.6144 | 54.1937 | ±17.51% |
+| 100k unshift | 6.7611 | 5.4572 | 7.4359 | ±1.44% |
+| 100k unshift & shift | 4.5245 | 4.129 | 4.8488 | ±0.47% |
+| 100k addAt(mid) | 1645.02 | 1331.61 | 2329.62 | ±26.54% |
+| 100k addBefore (cursor) | 6.4823 | 5.7978 | 15.2295 | ±5.35% |
 
 #### DoublyLinkedList (side-by-side)
 
@@ -67,11 +67,11 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 100k push | 6.7661 | - | 1.8963 | 5.42 |
-| 100k unshift | 5.0279 | - | 911.34 | 5.44 |
-| 100k unshift & shift | 4.0699 | - | 2237.02 | 5.43 |
-| 100k addAt(mid) | 1362.01 | - | - | 705.4 |
-| 100k addBefore (cursor) | 5.6728 | - | - | 6.14 |
+| 100k push | 8.0558 | 1.9328 | 2.0706 | 5.42 |
+| 100k unshift | 6.7611 | 1.8299 | 1058.07 | 5.44 |
+| 100k unshift & shift | 4.5245 | 2.2136 | 2296.49 | 5.43 |
+| 100k addAt(mid) | 1645.02 | - | - | 705.4 |
+| 100k addBefore (cursor) | 6.4823 | - | - | 6.14 |
 
 
 ### SinglyLinkedList
@@ -98,9 +98,11 @@ Understand how data-structure-typed performs, and when to use each structure.
 ### HashMap
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1M set | 93.86 | 42.27 | 535.95 | ±44.11% |
-| 1M set & get | 48.99 | 37.8 | 125.79 | ±9.97% |
-| 1M ObjKey set & get | 239.69 | 215.98 | 324.61 | ±7.47% |
+| 1M set | 269.95 | 183.27 | 551.58 | ±19.05% |
+| 1M add (js-sdsl HashSet) | 93.5 | 63.28 | 131.12 | ±10.07% |
+| 1M set & get | 138.05 | 96.31 | 246.65 | ±9.95% |
+| 1M add & has (js-sdsl HashSet) | 128.99 | 116.33 | 184.92 | ±4.62% |
+| 1M ObjKey set & get | 237.35 | 218.41 | 327.62 | ±7.05% |
 
 #### HashMap (side-by-side)
 
@@ -109,19 +111,38 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 1M set | 93.86 | 139.57 | 149.89 | 70.22 |
-| 1M set & get | 48.99 | 60.74 | 206.58 | 73.04 |
-| 1M ObjKey set & get | 239.69 | 396.33 | 207.42 | 92.55 |
+| 1M set | 269.95 | 266.03 | 156.27 | 70.22 |
+| 1M add (js-sdsl HashSet) | 93.5 | - | - | - |
+| 1M set & get | 138.05 | 79.08 | 196.06 | 73.04 |
+| 1M add & has (js-sdsl HashSet) | 128.99 | - | - | - |
+| 1M ObjKey set & get | 237.35 | 460.64 | 211.59 | 92.55 |
+
+
+### Queue
+| Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
+|-----------|----------|----------|----------|-----------|
+| 1M push | 28.91 | 24.9 | 73.74 | ±6.24% |
+| 100K push & shift | 3.0798 | 2.6563 | 17.8644 | ±11.62% |
+
+#### Queue (side-by-side)
+
+> Comparison table. The main table above is Queue only.
+> Native is `-` when there is no apples-to-apples equivalent in this benchmark.
+
+| Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
+| ----------- | ---------: | ---------: | ---------: | ---------: |
+| 1M push | 28.91 | 54.13 | 26.31 | - |
+| 100K push & shift | 3.0798 | 2.5642 | 1403.59 | - |
 
 
 ### Deque
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1M push | 8.9786 | 6.4005 | 15.2833 | ±6.6% |
-| 1M push & pop | 11.62 | 9.94 | 35.37 | ±6.66% |
-| 1M push & shift | 20.44 | 17.76 | 43.79 | ±5.55% |
-| 100K push & shift | 1.1801 | 1.1296 | 1.5006 | ±1.12% |
-| 100K unshift & shift | 1.247 | 1.1608 | 2.3719 | ±2.41% |
+| 1M push | 10.82 | 7.57 | 16.63 | ±5.46% |
+| 1M push & pop | 16.92 | 11.89 | 27.13 | ±7.55% |
+| 1M push & shift | 33.74 | 28.58 | 55.22 | ±3.46% |
+| 100K push & shift | 2.4481 | 1.6576 | 3.0384 | ±2.16% |
+| 100K unshift & shift | 2.4391 | 1.6261 | 4.5413 | ±3.37% |
 
 #### Deque (side-by-side)
 
@@ -130,11 +151,28 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 1M push | 8.9786 | - | 25.91 | 1.76 |
-| 1M push & pop | 11.62 | - | 28.49 | 2.2 |
-| 1M push & shift | 20.44 | - | - | 1.94 |
-| 100K push & shift | 1.1801 | - | 1065.93 | 0.19 |
-| 100K unshift & shift | 1.247 | - | 2043.21 | 0.19 |
+| 1M push | 10.82 | 17.59 | 29.7 | 1.76 |
+| 1M push & pop | 16.92 | 27.92 | 54.43 | 2.2 |
+| 1M push & shift | 33.74 | - | - | 1.94 |
+| 100K push & shift | 2.4481 | 2.5224 | 2007.91 | 0.19 |
+| 100K unshift & shift | 2.4391 | 2.5091 | 4067.39 | 0.19 |
+
+
+### PriorityQueue
+| Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
+|-----------|----------|----------|----------|-----------|
+| 100K add | 4.366 | 4.2775 | 5.0309 | ±0.55% |
+| 100K add & poll | 26.13 | 25.54 | 26.9 | ±0.4% |
+
+#### PriorityQueue (side-by-side)
+
+> Comparison table. The main table above is PriorityQueue only.
+> Native is `-` when there is no apples-to-apples equivalent in this benchmark.
+
+| Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
+| ----------- | ---------: | ---------: | ---------: | ---------: |
+| 100K add | 4.366 | 5.6519 | - | - |
+| 100K add & poll | 26.13 | 26.89 | - | - |
 
 
 ### Stack

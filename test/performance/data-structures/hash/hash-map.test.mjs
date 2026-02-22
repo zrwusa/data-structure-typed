@@ -1,5 +1,5 @@
 import { HashMap } from '../../../../dist/esm/index.mjs';
-import { HashMap as SdslHashMap } from 'js-sdsl';
+import { HashMap as SdslHashMap, HashSet as SdslHashSet } from 'js-sdsl';
 import Benchmark from 'benchmark';
 import { magnitude } from '../../../utils/index.mjs';
 
@@ -34,6 +34,14 @@ suite.add('Native JS Set 1M add', function() {
   const hs = new Set();
   for (let i = 0; i < MILLION; i++) {
     hs.add(i);
+  }
+  this.val = hs;
+});
+
+suite.add('1M add (js-sdsl HashSet)', function() {
+  const hs = new SdslHashSet();
+  for (let i = 0; i < MILLION; i++) {
+    hs.insert(i);
   }
   this.val = hs;
 });
@@ -88,6 +96,20 @@ suite.add('Native JS Set 1M add & has', function() {
   let count = 0;
   for (let i = 0; i < MILLION; i++) {
     if (hs.has(i)) {
+      count++;
+    }
+  }
+  this.val = count;
+});
+
+suite.add('1M add & has (js-sdsl HashSet)', function() {
+  const hs = new SdslHashSet();
+  for (let i = 0; i < MILLION; i++) {
+    hs.insert(i);
+  }
+  let count = 0;
+  for (let i = 0; i < MILLION; i++) {
+    if (hs.find(i).equals(hs.end()) === false) {
       count++;
     }
   }

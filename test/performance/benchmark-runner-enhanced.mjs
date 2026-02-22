@@ -251,8 +251,9 @@ function matchesGlobPattern(filePath, pattern) {
     const regex = globToRegex(pattern);
 
     // Match against: full regex OR simple substring of test name
+    // Note: pattern.includes(testName) was too loose and caused false positives for exclude patterns
     return regex.test(fileName) || regex.test(relPath) || 
-           testName === pattern || testName.includes(pattern) || pattern.includes(testName);
+           testName === pattern || testName.includes(pattern);
 }
 
 // Helper function to match files against CLI filters

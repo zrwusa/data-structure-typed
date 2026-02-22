@@ -1,4 +1,5 @@
 import { Deque } from '../../../../dist/esm/index.mjs';
+import { Deque as SdslDeque } from 'js-sdsl';
 import Benchmark from 'benchmark';
 import { magnitude } from '../../../utils/index.mjs';
 
@@ -96,6 +97,48 @@ suite.add('Native JS Array 100K unshift & shift', function() {
     array.shift();
   }
   this.val = array;
+});
+
+// js-sdsl Deque comparison
+suite.add('1M push (js-sdsl)', function() {
+  const deque = new SdslDeque();
+  for (let i = 0; i < MILLION; i++) {
+    deque.pushBack(i);
+  }
+  this.val = deque;
+});
+
+suite.add('1M push & pop (js-sdsl)', function() {
+  const deque = new SdslDeque();
+  for (let i = 0; i < MILLION; i++) {
+    deque.pushBack(i);
+  }
+  for (let i = 0; i < MILLION; i++) {
+    deque.popBack();
+  }
+  this.val = deque;
+});
+
+suite.add('100K push & shift (js-sdsl)', function() {
+  const deque = new SdslDeque();
+  for (let i = 0; i < HUNDRED_THOUSAND; i++) {
+    deque.pushBack(i);
+  }
+  for (let i = 0; i < HUNDRED_THOUSAND; i++) {
+    deque.popFront();
+  }
+  this.val = deque;
+});
+
+suite.add('100K unshift & shift (js-sdsl)', function() {
+  const deque = new SdslDeque();
+  for (let i = 0; i < HUNDRED_THOUSAND; i++) {
+    deque.pushFront(i);
+  }
+  for (let i = 0; i < HUNDRED_THOUSAND; i++) {
+    deque.popFront();
+  }
+  this.val = deque;
 });
 
 export { suite };

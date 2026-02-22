@@ -1,4 +1,5 @@
 import { DoublyLinkedList } from '../../../../dist/esm/index.mjs';
+import { LinkList as SdslLinkList } from 'js-sdsl';
 import Benchmark from 'benchmark';
 import { magnitude } from '../../../utils/index.mjs';
 
@@ -90,6 +91,34 @@ suite.add('100k addBefore (cursor)', function() {
     list.addBefore(cursor, i);
   }
 
+  this.val = list;
+});
+
+// js-sdsl LinkList comparison
+suite.add('100k push (js-sdsl)', function() {
+  const list = new SdslLinkList();
+  for (let i = 0; i < HUNDRED_THOUSAND; i++) {
+    list.pushBack(i);
+  }
+  this.val = list;
+});
+
+suite.add('100k unshift (js-sdsl)', function() {
+  const list = new SdslLinkList();
+  for (let i = 0; i < HUNDRED_THOUSAND; i++) {
+    list.pushFront(i);
+  }
+  this.val = list;
+});
+
+suite.add('100k unshift & shift (js-sdsl)', function() {
+  const list = new SdslLinkList();
+  for (let i = 0; i < HUNDRED_THOUSAND; i++) {
+    list.pushFront(i);
+  }
+  for (let i = 0; i < HUNDRED_THOUSAND; i++) {
+    list.popFront();
+  }
   this.val = list;
 });
 

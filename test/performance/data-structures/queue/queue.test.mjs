@@ -1,18 +1,11 @@
 import { Queue } from '../../../../dist/esm/index.mjs';
+import { Queue as SdslQueue } from 'js-sdsl';
 import Benchmark from 'benchmark';
 import { magnitude } from '../../../utils/index.mjs';
 
 /**
  * Queue Benchmark Suite
  * Measures performance of FIFO queue operations
- *
- * Fixes applied:
- * ✅ Removed competitor tests (js-sdsl comparison)
- * ✅ Removed all .on() event handlers
- * ✅ Removed .run() call
- * ✅ Each test creates independent instance
- * ✅ Added this.val for optimization prevention
- * ✅ Test names aligned with best practices
  */
 
 const suite = new Benchmark.Suite();
@@ -58,7 +51,27 @@ suite.add(`Native JS Array ${HUNDRED_THOUSAND.toLocaleString()} push & shift`, f
   for (let i = 0; i < HUNDRED_THOUSAND; i++) {
     arr.shift();
   }
-  this.val = arr;  // Prevent JIT optimization
+  this.val = arr;
+});
+
+// js-sdsl Queue comparison
+suite.add(`${MILLION.toLocaleString()} push (js-sdsl)`, function() {
+  const queue = new SdslQueue();
+  for (let i = 0; i < MILLION; i++) {
+    queue.push(i);
+  }
+  this.val = queue;
+});
+
+suite.add(`${HUNDRED_THOUSAND.toLocaleString()} push & shift (js-sdsl)`, function() {
+  const queue = new SdslQueue();
+  for (let i = 0; i < HUNDRED_THOUSAND; i++) {
+    queue.push(i);
+  }
+  for (let i = 0; i < HUNDRED_THOUSAND; i++) {
+    queue.pop();  // js-sdsl Queue uses pop() for dequeue
+  }
+  this.val = queue;
 });
 
 export { suite };
