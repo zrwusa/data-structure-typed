@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-22T00:20:45.535Z",
+  "timestamp": "2026-02-22T00:30:50.338Z",
   "javascript": [
     {
       "testName": "tree-map",
@@ -615,48 +615,48 @@
       "benchmarks": [
         {
           "Test Case": "100k push & shift",
-          "Latency Avg (ms)": 3.558,
-          "Min (ms)": 3.4763,
-          "Max (ms)": 3.6773,
-          "Stability": "±0.31%"
+          "Latency Avg (ms)": 3.7211,
+          "Min (ms)": 3.5731,
+          "Max (ms)": 4.1872,
+          "Stability": "±0.54%"
         },
         {
           "Test Case": "Native JS Array 100k push & shift",
-          "Latency Avg (ms)": 1190.88,
-          "Min (ms)": 946.53,
-          "Max (ms)": 1690.22,
-          "Stability": "±19.41%"
+          "Latency Avg (ms)": 1195.49,
+          "Min (ms)": 1156.36,
+          "Max (ms)": 1244.84,
+          "Stability": "±2.38%"
         },
         {
           "Test Case": "10K push & pop",
-          "Latency Avg (ms)": 116.31,
-          "Min (ms)": 107.23,
-          "Max (ms)": 142.69,
-          "Stability": "±3.64%"
+          "Latency Avg (ms)": 132.43,
+          "Min (ms)": 125.41,
+          "Max (ms)": 141.09,
+          "Stability": "±1.36%"
         },
         {
           "Test Case": "Native JS Array 10K push & pop",
-          "Latency Avg (ms)": 0.0631,
-          "Min (ms)": 0.0586,
-          "Max (ms)": 0.1262,
-          "Stability": "±2.87%"
+          "Latency Avg (ms)": 0.0658,
+          "Min (ms)": 0.0549,
+          "Max (ms)": 0.0732,
+          "Stability": "±1.1%"
         },
         {
           "Test Case": "10K addAt(mid)",
-          "Latency Avg (ms)": 9.5289,
-          "Min (ms)": 8.498,
-          "Max (ms)": 14.1707,
-          "Stability": "±3.05%"
+          "Latency Avg (ms)": 11.28,
+          "Min (ms)": 9.78,
+          "Max (ms)": 18.43,
+          "Stability": "±3.29%"
         },
         {
           "Test Case": "10K addBefore (cursor)",
-          "Latency Avg (ms)": 17.42,
-          "Min (ms)": 16.96,
-          "Max (ms)": 20.47,
-          "Stability": "±1%"
+          "Latency Avg (ms)": 31.89,
+          "Min (ms)": 26,
+          "Max (ms)": 37.57,
+          "Stability": "±2.94%"
         }
       ],
-      "runTime": 43.88,
+      "runTime": 45.07,
       "file": "/Users/revone/.openclaw/workspace/data-structure-typed/test/performance/data-structures/linked-list/singly-linked-list.test.mjs"
     },
     {
@@ -1556,31 +1556,31 @@
       "testName": "singly-linked-list",
       "benchmarks": [
         {
-          "Test Case": "100k push & shift",
-          "Latency Avg (ms)": 4.7,
-          "Min (ms)": 4.47,
-          "Max (ms)": 4.94,
+          "Test Case": "100K push_front & pop_front (head ops)",
+          "Latency Avg (ms)": 8.88,
+          "Min (ms)": 8.44,
+          "Max (ms)": 9.32,
           "Stability": "±2.50%"
         },
         {
-          "Test Case": "10K push & pop",
-          "Latency Avg (ms)": 0.46,
-          "Min (ms)": 0.44,
-          "Max (ms)": 0.49,
+          "Test Case": "10K push & pop (std::list)",
+          "Latency Avg (ms)": 0.91,
+          "Min (ms)": 0.86,
+          "Max (ms)": 0.95,
           "Stability": "±2.50%"
         },
         {
           "Test Case": "10K addAt(mid)/iterations:1",
-          "Latency Avg (ms)": 5.89,
-          "Min (ms)": 5.6,
-          "Max (ms)": 6.18,
+          "Latency Avg (ms)": 13.1,
+          "Min (ms)": 12.44,
+          "Max (ms)": 13.76,
           "Stability": "±2.50%"
         },
         {
           "Test Case": "10K addBefore (cursor)",
-          "Latency Avg (ms)": 0.51,
-          "Min (ms)": 0.48,
-          "Max (ms)": 0.53,
+          "Latency Avg (ms)": 0.85,
+          "Min (ms)": 0.81,
+          "Max (ms)": 0.89,
           "Stability": "±2.50%"
         }
       ],

@@ -96,8 +96,9 @@ export function runCppBenchmark(executablePath) {
 
             // Parse Google Benchmark output format
             // Pattern: "1,000,000 set 171506443 ns 171266200 ns 5"
+            // Also handles decimal numbers like "8.93 ms"
             const match = line.match(
-                /^(.+?)\s+(\d+)\s+(ns|us|ms|s)\s+(\d+)\s+(ns|us|ms|s)\s+(\d+)\s*$/
+                /^(.+?)\s+([\d.]+)\s+(ns|us|ms|s)\s+([\d.]+)\s+(ns|us|ms|s)\s+(\d+)\s*$/
             );
 
             if (match) {
