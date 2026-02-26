@@ -200,9 +200,16 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
 
   /**
    * Creates a new TreeMultiMap.
-   * @param keysNodesEntriesOrRaws - Initial entries
-   * @param options - Configuration options
+   * @param keysNodesEntriesOrRaws - Initial entries, or raw elements if `toEntryFn` is provided.
+   * @param options - Configuration options including optional `toEntryFn` to transform raw elements.
    * @remarks Time O(m log m), Space O(m) where m is the number of initial entries
+   * @example
+   * // Standard usage with entries
+   * const mmap = new TreeMultiMap([['a', ['x', 'y']], ['b', ['z']]]);
+   *
+   * // Using toEntryFn to transform raw objects
+   * const players = [{ score: 100, items: ['sword'] }, { score: 200, items: ['shield', 'bow'] }];
+   * const mmap = new TreeMultiMap(players, { toEntryFn: p => [p.score, p.items] });
    */
   constructor(
     keysNodesEntriesOrRaws: Iterable<K | [K | null | undefined, V[] | undefined] | null | undefined | R> = [],
@@ -210,10 +217,24 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   ) {
     const comparator = (options as any).comparator ?? TreeSet.createDefaultComparator<K>();
     this.#isDefaultComparator = (options as any).comparator === undefined;
+    const toEntryFn = (options as any).toEntryFn;
     this.#core = new RedBlackTree<K, V[], R>([], { ...(options as any), comparator, isMapMode: (options as any).isMapMode });
 
     for (const x of keysNodesEntriesOrRaws as any) {
       if (x === null || x === undefined) continue;
+
+      // If toEntryFn is provided, use it to transform raw element
+      if (toEntryFn) {
+        const [k, bucket] = toEntryFn(x);
+        if (k === null || k === undefined) continue;
+        if (bucket !== undefined) {
+          this.#core.set(k as K, Array.isArray(bucket) ? [...bucket] : [bucket] as V[]);
+        } else {
+          this.#core.set(k as K, [] as V[]);
+        }
+        continue;
+      }
+
       if (Array.isArray(x)) {
         const [k, bucket] = x;
         if (k === null || k === undefined) continue;

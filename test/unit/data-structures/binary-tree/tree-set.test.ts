@@ -184,4 +184,48 @@ describe('TreeSet (RedBlackTree-backed, no node exposure)', () => {
     expect(spy).toHaveBeenCalled();
     spy.mockRestore();
   });
+
+  test('toElementFn: construct from raw objects', () => {
+    interface User {
+      id: number;
+      name: string;
+    }
+
+    const users: User[] = [
+      { id: 3, name: 'Charlie' },
+      { id: 1, name: 'Alice' },
+      { id: 2, name: 'Bob' }
+    ];
+
+    const s = new TreeSet<number, User>(users, {
+      toElementFn: (u: User) => u.id
+    });
+
+    expect(s.size).toBe(3);
+    expect([...s]).toEqual([1, 2, 3]); // sorted
+    expect(s.has(1)).toBe(true);
+    expect(s.has(2)).toBe(true);
+    expect(s.has(3)).toBe(true);
+    expect(s.has(4)).toBe(false);
+  });
+
+  test('toElementFn: with duplicates (deduplication)', () => {
+    interface Item {
+      category: string;
+      name: string;
+    }
+
+    const items: Item[] = [
+      { category: 'fruit', name: 'apple' },
+      { category: 'vegetable', name: 'carrot' },
+      { category: 'fruit', name: 'banana' } // duplicate category
+    ];
+
+    const s = new TreeSet<string, Item>(items, {
+      toElementFn: (item: Item) => item.category
+    });
+
+    expect(s.size).toBe(2); // deduplicated
+    expect([...s]).toEqual(['fruit', 'vegetable']);
+  });
 });

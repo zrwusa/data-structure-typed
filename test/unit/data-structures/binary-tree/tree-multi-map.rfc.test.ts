@@ -96,4 +96,51 @@ describe('TreeMultiMap (RFC additions)', () => {
       [2, 'x']
     ]);
   });
+
+  it('toEntryFn: construct from raw objects', () => {
+    interface Player {
+      score: number;
+      items: string[];
+    }
+
+    const players: Player[] = [
+      { score: 200, items: ['sword', 'shield'] },
+      { score: 100, items: ['bow'] },
+      { score: 150, items: ['staff', 'wand', 'robe'] }
+    ];
+
+    const mm = new TreeMultiMap<number, string, Player>(players, {
+      toEntryFn: (p: Player) => [p.score, p.items]
+    });
+
+    expect(mm.size).toBe(3);
+    expect([...mm.keys()]).toEqual([100, 150, 200]); // sorted by key
+    expect(mm.get(100)).toEqual(['bow']);
+    expect(mm.get(150)).toEqual(['staff', 'wand', 'robe']);
+    expect(mm.get(200)).toEqual(['sword', 'shield']);
+    expect(mm.totalSize).toBe(6); // 1 + 3 + 2
+  });
+
+  it('toEntryFn: with single value converted to bucket', () => {
+    interface Event {
+      date: string;
+      title: string;
+    }
+
+    const events: Event[] = [
+      { date: '2024-01-01', title: 'New Year' },
+      { date: '2024-02-14', title: 'Valentine' },
+      { date: '2024-01-01', title: 'Party' } // same date
+    ];
+
+    // Note: toEntryFn returns [K, V | V[]], but TreeMultiMap normalizes to array
+    const mm = new TreeMultiMap<string, string, Event>(events, {
+      toEntryFn: (e: Event) => [e.date, [e.title]]
+    });
+
+    expect(mm.size).toBe(2); // 2 distinct dates
+    // The second entry for '2024-01-01' overwrites the first bucket
+    expect(mm.get('2024-01-01')).toEqual(['Party']);
+    expect(mm.get('2024-02-14')).toEqual(['Valentine']);
+  });
 });

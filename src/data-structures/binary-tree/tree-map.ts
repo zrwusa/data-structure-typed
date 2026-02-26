@@ -17,31 +17,51 @@ import { RedBlackTree } from './red-black-tree';
  * - Iteration order is ascending by key.
  * - No node exposure: all APIs use keys/values only.
  */
-export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
+export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | undefined]> {
   readonly #core: RedBlackTree<K, V>;
   readonly #isDefaultComparator: boolean;
   readonly #userComparator?: Comparator<K>;
+  readonly #toEntryFn?: (rawElement: R) => [K, V];
 
   /**
-   * Create a TreeMap from an iterable of `[key, value]` entries.
+   * Create a TreeMap from an iterable of `[key, value]` entries or raw elements.
    *
-   * @throws {TypeError} If any entry is not a 2-tuple-like value, or when using the default comparator
-   * and encountering unsupported/invalid keys (e.g. `NaN`, invalid `Date`).
+   * @param entries - Iterable of `[key, value]` tuples, or raw elements if `toEntryFn` is provided.
+   * @param options - Configuration options including optional `toEntryFn` to transform raw elements.
+   * @throws {TypeError} If any entry is not a 2-tuple-like value (when no toEntryFn), or when using
+   * the default comparator and encountering unsupported/invalid keys (e.g. `NaN`, invalid `Date`).
+   * @example
+   * // Standard usage with entries
+   * const map = new TreeMap([['a', 1], ['b', 2]]);
+   *
+   * // Using toEntryFn to transform raw objects
+   * const users = [{ id: 1, name: 'Alice' }, { id: 2, name: 'Bob' }];
+   * const map = new TreeMap(users, { toEntryFn: u => [u.id, u] });
    */
-  constructor(entries: Iterable<[K, V | undefined]> = [], options: TreeMapOptions<K> = {}) {
+  constructor(entries: Iterable<R> | Iterable<[K, V | undefined]> = [], options: TreeMapOptions<K, V, R> = {}) {
     this.#userComparator = options.comparator;
+    this.#toEntryFn = options.toEntryFn;
     const comparator = options.comparator ?? TreeMap.createDefaultComparator<K>();
     this.#isDefaultComparator = options.comparator === undefined;
 
     this.#core = new RedBlackTree<K, V>([], { comparator, isMapMode: options.isMapMode });
 
-    // Validate entries like native Map: each item must be a 2-tuple-like value.
-    for (const item of entries as unknown as Iterable<unknown>) {
-      if (!Array.isArray(item) || item.length < 2) {
-        throw new TypeError('TreeMap: each entry must be a [key, value] tuple');
+    for (const item of entries as Iterable<unknown>) {
+      let k: K;
+      let v: V | undefined;
+
+      if (this.#toEntryFn) {
+        // Use toEntryFn to transform raw element
+        [k, v] = this.#toEntryFn(item as R);
+      } else {
+        // Validate entries like native Map: each item must be a 2-tuple-like value.
+        if (!Array.isArray(item) || item.length < 2) {
+          throw new TypeError('TreeMap: each entry must be a [key, value] tuple');
+        }
+        k = item[0] as K;
+        v = item[1] as V | undefined;
       }
-      const k = item[0] as K;
-      const v = item[1] as V | undefined;
+
       this.set(k, v);
     }
   }

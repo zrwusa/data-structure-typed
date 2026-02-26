@@ -1,6 +1,6 @@
 import type { Comparator } from '../../common';
 
-export interface TreeMapOptions<K> {
+export interface TreeMapOptions<K, V, R> {
   comparator?: Comparator<K>;
 
   /**
@@ -10,6 +10,12 @@ export interface TreeMapOptions<K> {
    * - `false`: store values on tree nodes (Node Mode).
    */
   isMapMode?: boolean;
+
+  /**
+   * Transform raw elements into `[key, value]` entries.
+   * When provided, the constructor accepts `Iterable<R>` instead of `Iterable<[K, V]>`.
+   */
+  toEntryFn?: (rawElement: R) => [K, V];
 }
 
 export type TreeMapRangeOptions = {

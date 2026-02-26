@@ -1,6 +1,6 @@
 import type { Comparator } from '../../common';
 
-export interface TreeSetOptions<K> {
+export interface TreeSetOptions<K, R> {
   comparator?: Comparator<K>;
 
   /**
@@ -10,6 +10,12 @@ export interface TreeSetOptions<K> {
    * - `false`: store values on tree nodes (Node Mode).
    */
   isMapMode?: boolean;
+
+  /**
+   * Transform raw elements into keys.
+   * When provided, the constructor accepts `Iterable<R>` instead of `Iterable<K>`.
+   */
+  toElementFn?: (rawElement: R) => K;
 }
 
 export type TreeSetRangeOptions = {

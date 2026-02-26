@@ -542,4 +542,53 @@ describe('TreeMultiSet', () => {
       expect(ms.count(1)).toBe(1);
     });
   });
+
+  describe('toElementFn', () => {
+    it('construct from raw objects', () => {
+      interface Score {
+        playerId: string;
+        points: number;
+      }
+
+      const scores: Score[] = [
+        { playerId: 'p1', points: 100 },
+        { playerId: 'p2', points: 200 },
+        { playerId: 'p3', points: 100 }, // duplicate points
+        { playerId: 'p4', points: 150 }
+      ];
+
+      const ms = new TreeMultiSet<number, Score>(scores, {
+        toElementFn: (s: Score) => s.points
+      });
+
+      expect(ms.size).toBe(4);
+      expect(ms.distinctSize).toBe(3);
+      expect(ms.count(100)).toBe(2);
+      expect(ms.count(150)).toBe(1);
+      expect(ms.count(200)).toBe(1);
+      expect([...ms.keysDistinct()]).toEqual([100, 150, 200]); // sorted
+    });
+
+    it('toElementFn with custom comparator', () => {
+      interface Item {
+        priority: number;
+      }
+
+      const items: Item[] = [
+        { priority: 3 },
+        { priority: 1 },
+        { priority: 2 },
+        { priority: 1 }
+      ];
+
+      const ms = new TreeMultiSet<number, Item>(items, {
+        toElementFn: (item: Item) => item.priority,
+        comparator: (a, b) => b - a // descending
+      });
+
+      expect(ms.size).toBe(4);
+      expect([...ms.keysDistinct()]).toEqual([3, 2, 1]); // descending order
+      expect(ms.count(1)).toBe(2);
+    });
+  });
 });

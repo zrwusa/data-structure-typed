@@ -17,26 +17,40 @@ import { RedBlackTree } from './red-black-tree';
  * - Iteration order is ascending by key.
  * - No node exposure: all APIs use keys only.
  */
-export class TreeSet<K = any> implements Iterable<K> {
+export class TreeSet<K = any, R = K> implements Iterable<K> {
   readonly #core: RedBlackTree<K, undefined>;
   readonly #isDefaultComparator: boolean;
   readonly #userComparator?: Comparator<K>;
+  readonly #toElementFn?: (rawElement: R) => K;
 
   /**
-   * Create a TreeSet from an iterable of keys.
+   * Create a TreeSet from an iterable of keys or raw elements.
    *
+   * @param elements - Iterable of keys, or raw elements if `toElementFn` is provided.
+   * @param options - Configuration options including optional `toElementFn` to transform raw elements.
    * @throws {TypeError} When using the default comparator and encountering unsupported key types,
    * or invalid keys (e.g. `NaN`, invalid `Date`).
+   * @example
+   * // Standard usage with keys
+   * const set = new TreeSet([3, 1, 2]);
+   *
+   * // Using toElementFn to transform raw objects
+   * const users = [{ id: 3, name: 'Alice' }, { id: 1, name: 'Bob' }];
+   * const set = new TreeSet(users, { toElementFn: u => u.id });
    */
-  constructor(elements: Iterable<K> = [], options: TreeSetOptions<K> = {}) {
+  constructor(elements: Iterable<R> | Iterable<K> = [], options: TreeSetOptions<K, R> = {}) {
     this.#userComparator = options.comparator;
+    this.#toElementFn = options.toElementFn;
     const comparator = options.comparator ?? TreeSet.createDefaultComparator<K>();
     this.#isDefaultComparator = options.comparator === undefined;
 
     // RedBlackTree expects an iterable of keys/entries/nodes/raws; for TreeSet we only accept keys.
     this.#core = new RedBlackTree<K, undefined>([], { comparator, isMapMode: options.isMapMode });
 
-    for (const k of elements) this.add(k);
+    for (const item of elements as Iterable<unknown>) {
+      const k = this.#toElementFn ? this.#toElementFn(item as R) : (item as K);
+      this.add(k);
+    }
   }
 
   /**

@@ -612,40 +612,93 @@ function escapeRegex(str) {
 }
 
 /**
- * Generate HTML report with side-by-side comparison layout
+ * Generate HTML report with unified comparison table (matching PERFORMANCE.md structure)
  */
 function generateHtmlReport(report) {
     const { javascript = [], native = [] } = report;
 
-    const testGroups = new Map();
-    for (const test of javascript) {
-        if (!testGroups.has(test.testName)) {
-            testGroups.set(test.testName, { testName: test.testName, js: null, native: null });
+    // Build C++ lookup map
+    const cppMap = new Map();
+    for (const nativeTest of native) {
+        const nativeTestName = nativeTest.testName;
+        for (const benchmark of nativeTest.benchmarks) {
+            const testCaseName = benchmark['Test Case'];
+            const cppValue = benchmark['Latency Avg (ms)'];
+            const normalizedCase = normalizeCaseName(testCaseName);
+
+            cppMap.set(`${nativeTestName}|${testCaseName}`, cppValue);
+            if (normalizedCase !== testCaseName) {
+                cppMap.set(`${nativeTestName}|${normalizedCase}`, cppValue);
+            }
+            cppMap.set(`${nativeTestName}|${formatNumberAbbr(testCaseName)}`, cppValue);
+            if (normalizedCase !== testCaseName) {
+                cppMap.set(`${nativeTestName}|${formatNumberAbbr(normalizedCase)}`, cppValue);
+            }
+
+            const ruleMappings = getNativeMappings(testCaseName, nativeTestName);
+            for (const mapping of ruleMappings) {
+                cppMap.set(`${nativeTestName}|${mapping}`, cppValue);
+            }
         }
-        testGroups.get(test.testName).js = test;
     }
-    for (const test of native) {
-        if (!testGroups.has(test.testName)) {
-            testGroups.set(test.testName, { testName: test.testName, js: null, native: null });
+
+    // Group JS benchmarks by display name
+    const groups = new Map();
+    const testNameToDisplay = new Map();
+
+    for (const jsResult of javascript) {
+        const testName = jsResult.testName;
+        const displayName = testNameMap[testName] || testName;
+        testNameToDisplay.set(testName, displayName);
+
+        if (!groups.has(displayName)) {
+            groups.set(displayName, { testName, items: [] });
         }
-        testGroups.get(test.testName).native = test;
+
+        for (const benchmark of jsResult.benchmarks) {
+            groups.get(displayName).items.push({
+                testName: testName,
+                benchmark: benchmark
+            });
+        }
     }
+
+    // Sort groups by runner-config.json order
+    const orderConfig = loadOrderConfig();
+    const sortedDisplayNames = Array.from(groups.keys()).sort((a, b) => {
+        const getTestName = (displayName) => {
+            const group = groups.get(displayName);
+            return group?.testName || displayName.toLowerCase().replace(/\s+/g, '-');
+        };
+
+        const testNameA = getTestName(a);
+        const testNameB = getTestName(b);
+
+        const indexA = orderConfig.indexOf(testNameA);
+        const indexB = orderConfig.indexOf(testNameB);
+
+        if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+        if (indexA !== -1) return -1;
+        if (indexB !== -1) return 1;
+        return a.localeCompare(b);
+    });
 
     let html = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Performance Benchmark Report</title>
+  <title>Performance Benchmark Report - data-structure-typed</title>
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: #f5f5f5;
       color: #333;
       padding: 20px;
+      line-height: 1.6;
     }
     .container {
-      max-width: 1200px;
+      max-width: 1000px;
       margin: 0 auto;
       background: white;
       border-radius: 8px;
@@ -661,7 +714,17 @@ function generateHtmlReport(report) {
     .timestamp {
       color: #7f8c8d;
       font-size: 14px;
+      margin-bottom: 10px;
+    }
+    .back-link {
       margin-bottom: 30px;
+    }
+    .back-link a {
+      color: #3498db;
+      text-decoration: none;
+    }
+    .back-link a:hover {
+      text-decoration: underline;
     }
     .summary {
       background: #ecf0f1;
@@ -687,6 +750,33 @@ function generateHtmlReport(report) {
       color: #2c3e50;
       margin-top: 5px;
     }
+    .toc {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 6px;
+      margin-bottom: 30px;
+    }
+    .toc h3 {
+      margin-top: 0;
+      color: #2c3e50;
+    }
+    .toc ul {
+      column-count: 3;
+      column-gap: 20px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .toc li {
+      margin-bottom: 8px;
+    }
+    .toc a {
+      color: #3498db;
+      text-decoration: none;
+    }
+    .toc a:hover {
+      text-decoration: underline;
+    }
     .test-section {
       margin-bottom: 40px;
       padding: 20px;
@@ -698,59 +788,72 @@ function generateHtmlReport(report) {
       font-size: 18px;
       font-weight: 600;
       color: #2c3e50;
-      margin-bottom: 20px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      margin-bottom: 15px;
     }
-    .comparison {
-      display: flex;
-      gap: 20px;
-      margin-bottom: 20px;
-    }
-    .comparison-column {
-      flex: 1;
-    }
-    .comparison-header {
-      font-weight: 600;
-      padding-bottom: 10px;
-      margin-bottom: 10px;
-      border-bottom: 2px solid #3498db;
-      font-size: 14px;
-    }
-    .lang-js {
-      color: #f39c12;
-    }
-    .lang-cpp {
-      color: #e74c3c;
+    .note {
+      font-size: 13px;
+      color: #7f8c8d;
+      margin-bottom: 15px;
+      font-style: italic;
     }
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       background: white;
       border-radius: 6px;
       overflow: hidden;
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      font-size: 13px;
     }
     th {
       background: #34495e;
       color: white;
-      padding: 12px 15px;
-      text-align: left;
+      padding: 10px 12px;
+      text-align: right;
       font-weight: 600;
-      font-size: 13px;
+    }
+    th:first-child {
+      text-align: left;
     }
     td {
-      padding: 12px 15px;
+      padding: 10px 12px;
       border-bottom: 1px solid #ecf0f1;
-      font-size: 13px;
+      text-align: right;
+    }
+    td:first-child {
+      text-align: left;
+      font-weight: 500;
     }
     tr:hover {
       background: #f5f5f5;
     }
-    .metric {
-      font-weight: 500;
+    .metric-dst {
       color: #27ae60;
+      font-weight: 600;
+    }
+    .metric-sdsl {
+      color: #8e44ad;
+    }
+    .metric-native {
+      color: #e67e22;
+    }
+    .metric-cpp {
+      color: #e74c3c;
+    }
+    .na {
+      color: #bdc3c7;
+    }
+    @media (max-width: 768px) {
+      .toc ul {
+        column-count: 1;
+      }
+      table {
+        font-size: 12px;
+      }
+      th, td {
+        padding: 8px 6px;
+      }
     }
   </style>
 </head>
@@ -758,70 +861,119 @@ function generateHtmlReport(report) {
   <div class="container">
     <h1>📊 Performance Benchmark Report</h1>
     <div class="timestamp">Generated: ${new Date().toLocaleString()}</div>
+    <div class="back-link">
+      <a href="https://github.com/zrwusa/data-structure-typed">← Back to Repository</a> |
+      <a href="https://github.com/zrwusa/data-structure-typed/blob/main/docs/PERFORMANCE.md">View Markdown Version</a>
+    </div>
     
     <div class="summary">
       <div class="summary-stat">
-        <div class="summary-label">data-structure-typed Tests</div>
-        <div class="summary-value">${javascript.length}</div>
+        <div class="summary-label">Data Structures</div>
+        <div class="summary-value">${sortedDisplayNames.length}</div>
+      </div>
+      <div class="summary-stat">
+        <div class="summary-label">JS Tests</div>
+        <div class="summary-value">${javascript.reduce((sum, t) => sum + t.benchmarks.length, 0)}</div>
       </div>
       <div class="summary-stat">
         <div class="summary-label">C++ Tests</div>
-        <div class="summary-value">${native.length}</div>
+        <div class="summary-value">${native.reduce((sum, t) => sum + t.benchmarks.length, 0)}</div>
       </div>
-      <div class="summary-stat">
-        <div class="summary-label">Total Tests</div>
-        <div class="summary-value">${javascript.length + native.length}</div>
-      </div>
+    </div>
+
+    <div class="toc">
+      <h3>📋 Table of Contents</h3>
+      <ul>
+        ${sortedDisplayNames.map(name => `<li><a href="#${name.toLowerCase().replace(/\s+/g, '-')}">${name}</a></li>`).join('\n        ')}
+      </ul>
     </div>
 `;
 
-    // Group by test name and generate side-by-side comparisons
-    for (const [testName, group] of testGroups) {
-        html += `<div class="test-section">`;
-        html += `<div class="test-name">${testName}</div>`;
-        html += `<div class="comparison">`;
+    // Helper: keep non-DST variants out of the main table.
+    const isVariantCase = (name) => {
+        if (!name) return false;
+        return (
+            name.includes('(js-sdsl)') ||
+            name.includes('(Node Mode)') ||
+            name.startsWith('Native JS ')
+        );
+    };
 
-        // JavaScript table (left side)
-        if (group.js) {
-            html += `<div class="comparison-column">`;
-            html += `<div class="comparison-header lang-js">data-structure-typed</div>`;
-            html += `<table>`;
-            html += `<thead><tr><th>Test Case</th><th>Avg (ms)</th><th>Min (ms)</th><th>Max (ms)</th><th>Stability</th></tr></thead>`;
-            html += `<tbody>`;
-            for (const benchmark of group.js.benchmarks) {
-                html += `<tr>`;
-                html += `<td>${formatNumberAbbr(benchmark['Test Case'])}</td>`;
-                html += `<td class="metric">${benchmark['Latency Avg (ms)']}</td>`;
-                html += `<td>${benchmark['Min (ms)']}</td>`;
-                html += `<td>${benchmark['Max (ms)']}</td>`;
-                html += `<td>${benchmark['Stability']}</td>`;
-                html += `</tr>`;
-            }
-            html += `</tbody></table>`;
-            html += `</div>`;
+    for (const displayName of sortedDisplayNames) {
+        const group = groups.get(displayName);
+        const items = group.items;
+        const suiteName = group.testName.replace(/-esm$/, '');
+
+        const anchor = displayName.toLowerCase().replace(/\s+/g, '-');
+        html += `<div class="test-section" id="${anchor}">`;
+        html += `<div class="test-name">${displayName}</div>`;
+
+        // Build lookup maps for this suite
+        const jsAvgByCase = new Map();
+        for (const item of items) {
+            const rawName = item.benchmark['Test Case'];
+            jsAvgByCase.set(rawName, item.benchmark['Latency Avg (ms)']);
+            jsAvgByCase.set(formatNumberAbbr(rawName), item.benchmark['Latency Avg (ms)']);
         }
 
-        // C++ table (right side)
-        if (group.native) {
-            html += `<div class="comparison-column">`;
-            html += `<div class="comparison-header lang-cpp">C++</div>`;
-            html += `<table>`;
-            html += `<thead><tr><th>Test Case</th><th>Avg (ms)</th><th>Min (ms)</th><th>Max (ms)</th><th>Stability</th></tr></thead>`;
-            html += `<tbody>`;
-            for (const benchmark of group.native.benchmarks) {
-                html += `<tr>`;
-                html += `<td>${formatNumberAbbr(benchmark['Test Case'])}</td>`;
-                html += `<td class="metric">${benchmark['Latency Avg (ms)']}</td>`;
-                html += `<td>${benchmark['Min (ms)']}</td>`;
-                html += `<td>${benchmark['Max (ms)']}</td>`;
-                html += `<td>${benchmark['Stability']}</td>`;
-                html += `</tr>`;
-            }
-            html += `</tbody></table>`;
-            html += `</div>`;
+        const pickOpt = (k) => jsAvgByCase.get(k);
+        const pick = (k) => pickOpt(k) ?? '-';
+        const cppPick = (k) =>
+            cppMap.get(`${suiteName}|${k}`) ??
+            cppMap.get(`${suiteName}|${formatNumberAbbr(k)}`) ??
+            '-';
+
+        // Gather base cases (non-variant)
+        const baseCases = [];
+        for (const it of items) {
+            const raw = it.benchmark?.['Test Case'];
+            if (!raw) continue;
+            if (isVariantCase(raw)) continue;
+            if (!baseCases.includes(raw)) baseCases.push(raw);
         }
 
-        html += `</div></div>`;
+        const hasNodeMode = items.some(it => (it.benchmark?.['Test Case'] ?? '').includes('(Node Mode)'));
+        const isBinaryTreeSuite = ['red-black-tree', 'avl-tree', 'bst', 'binary-tree', 'tree-map', 'tree-set'].includes(suiteName);
+        const showNodeMode = isBinaryTreeSuite && hasNodeMode;
+        const hasCpp = native.length > 0;
+
+        html += `<p class="note">Comparison table: DST is data-structure-typed. Values in ms (lower is better). "-" = no equivalent test.</p>`;
+
+        // Build header
+        const headers = ['Test Case', 'DST (ms)'];
+        if (showNodeMode) headers.push('Node Mode (ms)');
+        headers.push('js-sdsl (ms)', 'Native (ms)');
+        if (hasCpp) headers.push('C++ (ms)');
+
+        html += `<table>`;
+        html += `<thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead>`;
+        html += `<tbody>`;
+
+        for (const base of baseCases) {
+            const abbr = formatNumberAbbr(base);
+            const dst = pick(base);
+            const nodeMode = pick(`${base} (Node Mode)`);
+            const sdsl = pick(`${base} (js-sdsl)`);
+            const nativeMs = (
+                pickOpt(`Native JS ${base}`) ??
+                pickOpt(`Native JS Array ${base}`) ??
+                pickOpt(`Native JS Map ${base}`) ??
+                pickOpt(`Native JS Set ${base}`)
+            );
+            const cpp = cppPick(base);
+
+            html += `<tr>`;
+            html += `<td>${abbr}</td>`;
+            html += `<td class="${dst !== '-' ? 'metric-dst' : 'na'}">${dst}</td>`;
+            if (showNodeMode) html += `<td class="${nodeMode !== '-' ? 'metric-dst' : 'na'}">${nodeMode}</td>`;
+            html += `<td class="${sdsl !== '-' ? 'metric-sdsl' : 'na'}">${sdsl}</td>`;
+            html += `<td class="${nativeMs ? 'metric-native' : 'na'}">${nativeMs ?? '-'}</td>`;
+            if (hasCpp) html += `<td class="${cpp !== '-' ? 'metric-cpp' : 'na'}">${cpp}</td>`;
+            html += `</tr>`;
+        }
+
+        html += `</tbody></table>`;
+        html += `</div>`;
     }
 
     html += `</div></body></html>`;
@@ -854,9 +1006,9 @@ async function main() {
     );
     console.log(`\n${CYAN}📁 Output files:${END}`);
     console.log(`  ${GREEN}✓${END} HTML Report:        benchmark/report.html`);
-    console.log(`    └─ 📊 Comparison Layout: Left JS | Right C++`);
-    console.log(`    └─ 🎨 Summary Stats + Test Sections`);
-    console.log(`    └─ 📋 2 Tables Per Data Structure`);
+    console.log(`    └─ 📊 Unified comparison table (DST | js-sdsl | Native | C++)`);
+    console.log(`    └─ 🎨 Same structure as PERFORMANCE.md`);
+    console.log(`    └─ 📋 Table of Contents + Anchor Navigation`);
     console.log(`    └─ ✨ Number Abbreviation: 10M, 100K, 1K`);
     console.log(`\n  ${GREEN}✓${END} Markdown Tables:    docs/PERFORMANCE.md`);
     console.log(`    └─ Comparison tables with C++ Avg column`);

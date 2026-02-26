@@ -1,6 +1,6 @@
 import type { Comparator } from '../../common';
 
-export interface TreeMultiSetOptions<K> {
+export interface TreeMultiSetOptions<K, R> {
   comparator?: Comparator<K>;
 
   /**
@@ -10,4 +10,10 @@ export interface TreeMultiSetOptions<K> {
    * - `false`: Node Mode.
    */
   isMapMode?: boolean;
+
+  /**
+   * Transform raw elements into keys.
+   * When provided, the constructor accepts `Iterable<R>` instead of `Iterable<K>`.
+   */
+  toElementFn?: (rawElement: R) => K;
 }

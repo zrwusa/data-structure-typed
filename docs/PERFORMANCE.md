@@ -2,7 +2,7 @@
 
 Understand how data-structure-typed performs, and when to use each structure.
 
-**[Back to README](../README.md) • [Architecture Details](./ARCHITECTURE.md) • [Code Examples](./GUIDES.md)**
+**[Back to README](../README.md) • [Architecture Details](./ARCHITECTURE.md) • [Code Examples](./GUIDES.md) • [📈 Interactive HTML Report](../benchmark/report.html)**
 
 ---
 
@@ -67,11 +67,11 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 100k push | 8.0558 | 1.9328 | 2.0706 | 5.42 |
-| 100k unshift | 6.7611 | 1.8299 | 1058.07 | 5.44 |
-| 100k unshift & shift | 4.5245 | 2.2136 | 2296.49 | 5.43 |
-| 100k addAt(mid) | 1645.02 | - | - | 705.4 |
-| 100k addBefore (cursor) | 6.4823 | - | - | 6.14 |
+| 100k push | 8.0558 | 1.9328 | 2.0706 | 5.7 |
+| 100k unshift | 6.7611 | 1.8299 | 1058.07 | 5.85 |
+| 100k unshift & shift | 4.5245 | 2.2136 | 2296.49 | 5.74 |
+| 100k addAt(mid) | 1645.02 | - | - | 754.81 |
+| 100k addBefore (cursor) | 6.4823 | - | - | 6.18 |
 
 
 ### SinglyLinkedList
@@ -89,10 +89,10 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 100K unshift & shift | 5.24 | - | 4029.88 | 10.1 |
-| 10K unshift & shift | 0.6349 | - | 13.23 | 1 |
-| 10K addAt(mid) | 18.11 | - | - | 12.7 |
-| 10K addBefore (cursor) | 30.11 | - | - | 1.13 |
+| 100K unshift & shift | 5.24 | - | 4029.88 | 4.8 |
+| 10K unshift & shift | 0.6349 | - | 13.23 | 0.47 |
+| 10K addAt(mid) | 18.11 | - | - | 5.77 |
+| 10K addBefore (cursor) | 30.11 | - | - | 0.53 |
 
 
 ### HashMap
@@ -109,9 +109,9 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 1M set | 185.57 | 158.49 | 219.67 | 70.22 |
-| 1M set & get | 247.06 | 112.79 | 287.39 | 73.04 |
-| 1M ObjKey set & get | 379.65 | 698.13 | 299.71 | 92.55 |
+| 1M set | 185.57 | 158.49 | 219.67 | 76.26 |
+| 1M set & get | 247.06 | 112.79 | 287.39 | 75.25 |
+| 1M ObjKey set & get | 379.65 | 698.13 | 299.71 | 84.4 |
 
 
 ### Queue
@@ -127,8 +127,8 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 1M push | 28.91 | 54.13 | 26.31 | - |
-| 100K push & shift | 3.0798 | 2.5642 | 1403.59 | - |
+| 1M push | 28.91 | 54.13 | 26.31 | 1.7 |
+| 100K push & shift | 3.0798 | 2.5642 | 1403.59 | 0.2 |
 
 
 ### Deque
@@ -167,15 +167,15 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 100K add | 4.366 | 5.6519 | - | - |
-| 100K add & poll | 26.13 | 26.89 | - | - |
+| 100K add | 4.366 | 5.6519 | - | 1.05 |
+| 100K add & poll | 26.13 | 26.89 | - | 4.53 |
 
 
 ### Stack
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1M push | 26.35 | 24.73 | 33.75 | ±2.09% |
-| 1M push & pop | 29.46 | 25.81 | 102.67 | ±8.59% |
+| 1M push | 39 | 29.66 | 74.41 | ±6.5% |
+| 1M push & pop | 44.2 | 35.59 | 99.21 | ±8.95% |
 
 #### Stack (side-by-side)
 
@@ -184,8 +184,8 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 1M push | 26.35 | 30.57 | 26.72 | 1.65 |
-| 1M push & pop | 29.46 | 30.9 | 30.61 | 2.62 |
+| 1M push | 39 | 37.22 | 35.76 | 1.65 |
+| 1M push & pop | 44.2 | 48.32 | 38.89 | 2.62 |
 
 
 ### RedBlackTree

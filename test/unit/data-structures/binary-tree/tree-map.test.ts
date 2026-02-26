@@ -267,4 +267,50 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
     expect(spy).toHaveBeenCalled();
     spy.mockRestore();
   });
+
+  test('toEntryFn: construct from raw objects', () => {
+    interface User {
+      id: number;
+      name: string;
+      age: number;
+    }
+
+    const users: User[] = [
+      { id: 3, name: 'Charlie', age: 35 },
+      { id: 1, name: 'Alice', age: 30 },
+      { id: 2, name: 'Bob', age: 25 }
+    ];
+
+    const m = new TreeMap<number, User, User>(users, {
+      toEntryFn: (u: User) => [u.id, u]
+    });
+
+    expect(m.size).toBe(3);
+    expect([...m.keys()]).toEqual([1, 2, 3]); // sorted by key
+    expect(m.get(1)?.name).toBe('Alice');
+    expect(m.get(2)?.name).toBe('Bob');
+    expect(m.get(3)?.name).toBe('Charlie');
+  });
+
+  test('toEntryFn: with custom comparator', () => {
+    interface Product {
+      sku: string;
+      price: number;
+    }
+
+    const products: Product[] = [
+      { sku: 'B001', price: 29.99 },
+      { sku: 'A001', price: 19.99 },
+      { sku: 'C001', price: 39.99 }
+    ];
+
+    const m = new TreeMap<string, number, Product>(products, {
+      toEntryFn: (p: Product) => [p.sku, p.price],
+      comparator: (a, b) => a.localeCompare(b)
+    });
+
+    expect(m.size).toBe(3);
+    expect([...m.keys()]).toEqual(['A001', 'B001', 'C001']);
+    expect(m.get('A001')).toBe(19.99);
+  });
 });
