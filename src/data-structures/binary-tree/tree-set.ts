@@ -17,11 +17,10 @@ import { RedBlackTree } from './red-black-tree';
  * - Iteration order is ascending by key.
  * - No node exposure: all APIs use keys only.
  */
-export class TreeSet<K = any, R = K> implements Iterable<K> {
+export class TreeSet<K = any> implements Iterable<K> {
   readonly #core: RedBlackTree<K, undefined>;
   readonly #isDefaultComparator: boolean;
   readonly #userComparator?: Comparator<K>;
-  readonly #toElementFn?: (rawElement: R) => K;
 
   /**
    * Create a TreeSet from an iterable of keys or raw elements.
@@ -38,9 +37,9 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    * const users = [{ id: 3, name: 'Alice' }, { id: 1, name: 'Bob' }];
    * const set = new TreeSet(users, { toElementFn: u => u.id });
    */
-  constructor(elements: Iterable<R> | Iterable<K> = [], options: TreeSetOptions<K, R> = {}) {
+  constructor(elements: Iterable<K> | Iterable<unknown> = [], options: TreeSetOptions<K> = {}) {
     this.#userComparator = options.comparator;
-    this.#toElementFn = options.toElementFn;
+    const toElementFn = options.toElementFn as ((item: unknown) => K) | undefined;
     const comparator = options.comparator ?? TreeSet.createDefaultComparator<K>();
     this.#isDefaultComparator = options.comparator === undefined;
 
@@ -48,7 +47,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
     this.#core = new RedBlackTree<K, undefined>([], { comparator, isMapMode: options.isMapMode });
 
     for (const item of elements as Iterable<unknown>) {
-      const k = this.#toElementFn ? this.#toElementFn(item as R) : (item as K);
+      const k = toElementFn ? toElementFn(item) : (item as K);
       this.add(k);
     }
   }
@@ -208,10 +207,10 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    */
   map<MK>(
     callbackfn: TreeSetElementCallback<K, MK, TreeSet<K>>,
-    options: TreeSetOptions<MK> = {},
+    options: Omit<TreeSetOptions<MK>, 'toElementFn'> & { comparator?: (a: MK, b: MK) => number } = {},
     thisArg?: unknown
   ): TreeSet<MK> {
-    const out = new TreeSet<MK>([], options);
+    const out = new TreeSet<MK>([], options as TreeSetOptions<MK>);
     let index = 0;
     for (const v of this) {
       const mk = thisArg === undefined

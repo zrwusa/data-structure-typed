@@ -2,7 +2,7 @@
 
 Understand how data-structure-typed performs, and when to use each structure.
 
-**[Back to README](../README.md) • [Architecture Details](./ARCHITECTURE.md) • [Code Examples](./GUIDES.md) • [📈 Interactive HTML Report](../benchmark/report.html)**
+**[Back to README](../README.md) • [Architecture Details](./ARCHITECTURE.md) • [Code Examples](./GUIDES.md) • [📈 Interactive HTML Report](./benchmark.html)**
 
 ---
 

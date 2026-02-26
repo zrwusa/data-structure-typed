@@ -978,9 +978,13 @@ function generateHtmlReport(report) {
 
     html += `</div></body></html>`;
 
-    const htmlPath = path.join(reportDistPath, 'report.html');
-    fs.writeFileSync(htmlPath, html, 'utf-8');
-    console.log(`${GREEN}✓ HTML report written to: ${htmlPath}${END}`);
+    // Write to both locations: benchmark/ (legacy) and docs/ (for publishing)
+    const htmlPathBenchmark = path.join(reportDistPath, 'report.html');
+    const htmlPathDocs = path.join(docsPath, 'benchmark.html');
+    fs.writeFileSync(htmlPathBenchmark, html, 'utf-8');
+    fs.writeFileSync(htmlPathDocs, html, 'utf-8');
+    console.log(`${GREEN}✓ HTML report written to: ${htmlPathBenchmark}${END}`);
+    console.log(`${GREEN}✓ HTML report written to: ${htmlPathDocs} (for docs publishing)${END}`);
 }
 
 async function main() {

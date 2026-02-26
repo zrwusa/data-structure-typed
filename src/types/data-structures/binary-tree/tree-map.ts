@@ -1,6 +1,6 @@
 import type { Comparator } from '../../common';
 
-export interface TreeMapOptions<K, V, R> {
+export interface TreeMapOptions<K, V, R = [K, V]> {
   comparator?: Comparator<K>;
 
   /**

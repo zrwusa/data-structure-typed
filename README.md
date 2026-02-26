@@ -92,7 +92,7 @@ for (let i = 0; i < 100000; i++) {
 
 - **Tree-shakable** ESM / CJS / legacy builds
 
-📊 [Full benchmarks →](./docs/PERFORMANCE.md)
+📊 [Full benchmarks →](./docs/benchmark.html)
 
 ---
 

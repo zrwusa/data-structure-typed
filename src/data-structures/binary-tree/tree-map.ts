@@ -17,11 +17,10 @@ import { RedBlackTree } from './red-black-tree';
  * - Iteration order is ascending by key.
  * - No node exposure: all APIs use keys/values only.
  */
-export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | undefined]> {
+export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
   readonly #core: RedBlackTree<K, V>;
   readonly #isDefaultComparator: boolean;
   readonly #userComparator?: Comparator<K>;
-  readonly #toEntryFn?: (rawElement: R) => [K, V];
 
   /**
    * Create a TreeMap from an iterable of `[key, value]` entries or raw elements.
@@ -38,9 +37,12 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    * const users = [{ id: 1, name: 'Alice' }, { id: 2, name: 'Bob' }];
    * const map = new TreeMap(users, { toEntryFn: u => [u.id, u] });
    */
-  constructor(entries: Iterable<R> | Iterable<[K, V | undefined]> = [], options: TreeMapOptions<K, V, R> = {}) {
+  constructor(
+    entries: Iterable<[K, V | undefined]> | Iterable<unknown> = [],
+    options: TreeMapOptions<K, V> = {}
+  ) {
     this.#userComparator = options.comparator;
-    this.#toEntryFn = options.toEntryFn;
+    const toEntryFn = options.toEntryFn as ((item: unknown) => [K, V]) | undefined;
     const comparator = options.comparator ?? TreeMap.createDefaultComparator<K>();
     this.#isDefaultComparator = options.comparator === undefined;
 
@@ -50,9 +52,9 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
       let k: K;
       let v: V | undefined;
 
-      if (this.#toEntryFn) {
+      if (toEntryFn) {
         // Use toEntryFn to transform raw element
-        [k, v] = this.#toEntryFn(item as R);
+        [k, v] = toEntryFn(item);
       } else {
         // Validate entries like native Map: each item must be a 2-tuple-like value.
         if (!Array.isArray(item) || item.length < 2) {
@@ -230,10 +232,10 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    */
   map<MK, MV>(
     callbackfn: TreeMapEntryCallback<K, V, [MK, MV], TreeMap<K, V>>,
-    options: TreeMapOptions<MK> = {},
+    options: Omit<TreeMapOptions<MK, MV>, 'toEntryFn'> & { comparator?: (a: MK, b: MK) => number } = {},
     thisArg?: unknown
   ): TreeMap<MK, MV> {
-    const out = new TreeMap<MK, MV>([], options);
+    const out = new TreeMap<MK, MV>([], options as TreeMapOptions<MK, MV>);
     let index = 0;
     for (const [k, v] of this) {
       const [mk, mv] = thisArg === undefined

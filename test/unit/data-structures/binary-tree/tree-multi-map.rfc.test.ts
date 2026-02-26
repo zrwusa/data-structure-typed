@@ -109,8 +109,8 @@ describe('TreeMultiMap (RFC additions)', () => {
       { score: 150, items: ['staff', 'wand', 'robe'] }
     ];
 
-    const mm = new TreeMultiMap<number, string, Player>(players, {
-      toEntryFn: (p: Player) => [p.score, p.items]
+    const mm = new TreeMultiMap<number, string>(players, {
+      toEntryFn: ((p: Player) => [p.score, p.items]) as (raw: unknown) => [number, string[]]
     });
 
     expect(mm.size).toBe(3);
@@ -134,8 +134,8 @@ describe('TreeMultiMap (RFC additions)', () => {
     ];
 
     // Note: toEntryFn returns [K, V | V[]], but TreeMultiMap normalizes to array
-    const mm = new TreeMultiMap<string, string, Event>(events, {
-      toEntryFn: (e: Event) => [e.date, [e.title]]
+    const mm = new TreeMultiMap<string, string>(events, {
+      toEntryFn: ((e: Event) => [e.date, [e.title]]) as (raw: unknown) => [string, string[]]
     });
 
     expect(mm.size).toBe(2); // 2 distinct dates
