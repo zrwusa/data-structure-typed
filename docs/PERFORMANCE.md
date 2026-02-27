@@ -192,17 +192,12 @@ Understand how data-structure-typed performs, and when to use each structure.
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
 | 1M get | 98.26 | 80.32 | 115.15 | ±20.53% |
-| 1M get (classic) | 252.47 | 249.88 | 256.63 | ±1.27% |
 | 200K rangeSearch SEQ | 1159.85 | 1128.33 | 1214.44 | ±4.03% |
 | 200K rangeSearch RAND | 1653.12 | 1635.4 | 1665.34 | ±0.82% |
 | 1M upd SEQ | 78.07 | 67.57 | 95.58 | ±17.15% |
-| 1M upd SEQ (classic) | 257.58 | 251.72 | 270.58 | ±3.65% |
 | 1M upd RAND | 115.32 | 110.25 | 122.15 | ±4.73% |
-| 1M upd RAND (classic) | 402.83 | 397.5 | 408.04 | ±1.22% |
 | 1M ins SEQ | 543.99 | 454.35 | 870.08 | ±41.66% |
-| 1M ins SEQ (classic) | 191.86 | 187.36 | 195.68 | ±2.52% |
 | 1M ins RAND | 1025.02 | 1016.9 | 1031.95 | ±0.67% |
-| 1M ins RAND (classic) | 919.42 | 913.39 | 922.31 | ±0.50% |
 | 1M keys-only | 2.7854 | 1.182 | 4.6744 | ±56.05% |
 
 #### RedBlackTree (side-by-side)
@@ -210,87 +205,58 @@ Understand how data-structure-typed performs, and when to use each structure.
 > Comparison table. The main table above is RedBlackTree only.
 > Native is `-` when there is no apples-to-apples equivalent in this benchmark.
 
-| Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
-| ----------- | ---------: | ---------: | ---------: | ---------: |
-| 1M get | 98.26 | 136.64 | - | 52.97 |
-| 1M get (classic) | 252.47 | - | - | 55.68 |
-| 200K rangeSearch SEQ | 1159.85 | - | - | - |
-| 200K rangeSearch RAND | 1653.12 | - | - | - |
-| 1M upd SEQ | 78.07 | 170.45 | - | 68.43 |
-| 1M upd SEQ (classic) | 257.58 | - | - | 59.87 |
-| 1M upd RAND | 115.32 | 297.87 | - | 158.14 |
-| 1M upd RAND (classic) | 402.83 | - | - | 158.48 |
-| 1M ins SEQ | 543.99 | 85.06 | - | 162.72 |
-| 1M ins SEQ (classic) | 191.86 | - | - | 219.89 |
-| 1M ins RAND | 1025.02 | 623.31 | - | 483.56 |
-| 1M ins RAND (classic) | 919.42 | - | - | 392.74 |
-| 1M keys-only | 2.7854 | - | - | 0.09 |
+| Test Case | DST (ms) | classic (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
+| ----------- | ---------: | ---------: | ---------: | ---------: | ---------: |
+| 1M get | 98.26 | 252.47 | 136.64 | - | 52.97 |
+| 200K rangeSearch SEQ | 1159.85 | - | - | - | - |
+| 200K rangeSearch RAND | 1653.12 | - | - | - | - |
+| 1M upd SEQ | 78.07 | 257.58 | 170.45 | - | 68.43 |
+| 1M upd RAND | 115.32 | 402.83 | 297.87 | - | 158.14 |
+| 1M ins SEQ | 543.99 | 191.86 | 85.06 | - | 162.72 |
+| 1M ins RAND | 1025.02 | 919.42 | 623.31 | - | 483.56 |
+| 1M keys-only | 2.7854 | - | - | - | 0.09 |
 
 
 ### TreeSet
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1M add | 1009.56 | 993.91 | 1028.35 | ±1.1% |
-| 1M add (classic) | 905.51 | 894.33 | 925.11 | ±1.14% |
-| 1M add js-sdsl | 649.55 | 630.2 | 680.33 | ±2.15% |
-| 1M has | 69.7 | 67.06 | 74.79 | ±0.79% |
-| 1M has (classic) | 796.57 | 779.11 | 803.84 | ±0.84% |
-| 1M has js-sdsl | 699.89 | 692.19 | 726.08 | ±1.36% |
-| 100K rangeSearch | 18.79 | 18.13 | 19.59 | ±0.54% |
-| 100K rangeSearch (classic) | 18.56 | 17.73 | 19.52 | ±0.61% |
-| 100K navigable | 106.38 | 103.94 | 110.56 | ±0.6% |
-| 100K navigable (classic) | 106.32 | 102.2 | 119.55 | ±1.71% |
+| 1M add | 1436.16 | 1241.63 | 1774.15 | ±13.85% |
+| 1M has | 93.56 | 69.66 | 106.57 | ±4.35% |
+| 100K rangeSearch | 26.16 | 19.29 | 83.27 | ±9.13% |
+| 100K navigable | 216.95 | 175.82 | 222.94 | ±2.81% |
 
 #### TreeSet (side-by-side)
 
 > Comparison table. The main table above is TreeSet only.
 > Native is `-` when there is no apples-to-apples equivalent in this benchmark.
 
-| Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
-| ----------- | ---------: | ---------: | ---------: | ---------: |
-| 1M add | 1009.56 | - | - | - |
-| 1M add (classic) | 905.51 | - | - | - |
-| 1M add js-sdsl | 649.55 | - | - | - |
-| 1M has | 69.7 | - | - | - |
-| 1M has (classic) | 796.57 | - | - | - |
-| 1M has js-sdsl | 699.89 | - | - | - |
-| 100K rangeSearch | 18.79 | - | - | - |
-| 100K rangeSearch (classic) | 18.56 | - | - | - |
-| 100K navigable | 106.38 | - | - | - |
-| 100K navigable (classic) | 106.32 | - | - | - |
+| Test Case | DST (ms) | classic (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
+| ----------- | ---------: | ---------: | ---------: | ---------: | ---------: |
+| 1M add | 1436.16 | 1163.96 | 951.1 | - | - |
+| 1M has | 93.56 | 1209.91 | 989.43 | - | - |
+| 100K rangeSearch | 26.16 | 27.13 | - | - | - |
+| 100K navigable | 216.95 | 169.63 | - | - | - |
 
 
 ### TreeMap
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1M set | 1105.75 | 997.87 | 1705.54 | ±22.13% |
-| 1M set (classic) | 893.31 | 877.49 | 915.4 | ±1.25% |
-| 1M set js-sdsl | 634.87 | 626.06 | 644.57 | ±0.88% |
-| 1M get | 134.17 | 125.47 | 141.18 | ±0.9% |
-| 1M get (classic) | 813.85 | 768.08 | 830.56 | ±2.08% |
-| 1M get js-sdsl | 629.56 | 624.45 | 635.48 | ±0.52% |
-| 100K rangeSearch | 38.01 | 30.29 | 46.33 | ±4.56% |
-| 100K rangeSearch (classic) | 42.9 | 41.29 | 45.59 | ±0.71% |
-| 100K navigable | 168.05 | 164.04 | 179.93 | ±1.23% |
-| 100K navigable (classic) | 263.18 | 260.94 | 267.6 | ±0.39% |
+| 1M set | 1466.93 | 1292.1 | 1622.19 | ±9.52% |
+| 1M get | 132.86 | 103.39 | 146.17 | ±5.57% |
+| 100K rangeSearch | 51.74 | 38.43 | 140.62 | ±11.13% |
+| 100K navigable | 346.3 | 323.05 | 350.08 | ±1.35% |
 
 #### TreeMap (side-by-side)
 
 > Comparison table. The main table above is TreeMap only.
 > Native is `-` when there is no apples-to-apples equivalent in this benchmark.
 
-| Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
-| ----------- | ---------: | ---------: | ---------: | ---------: |
-| 1M set | 1105.75 | - | - | - |
-| 1M set (classic) | 893.31 | - | - | - |
-| 1M set js-sdsl | 634.87 | - | - | - |
-| 1M get | 134.17 | - | - | - |
-| 1M get (classic) | 813.85 | - | - | - |
-| 1M get js-sdsl | 629.56 | - | - | - |
-| 100K rangeSearch | 38.01 | - | - | - |
-| 100K rangeSearch (classic) | 42.9 | - | - | - |
-| 100K navigable | 168.05 | - | - | - |
-| 100K navigable (classic) | 263.18 | - | - | - |
+| Test Case | DST (ms) | classic (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
+| ----------- | ---------: | ---------: | ---------: | ---------: | ---------: |
+| 1M set | 1466.93 | 1340.06 | 955.12 | - | - |
+| 1M get | 132.86 | 1119.75 | 932.83 | - | - |
+| 100K rangeSearch | 51.74 | 61 | - | - | - |
+| 100K navigable | 346.3 | 476.08 | - | - | - |
 
 
 ### TreeMultiSet
