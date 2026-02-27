@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-27T09:58:22.397Z",
+  "timestamp": "2026-02-27T10:50:08.113Z",
   "javascript": [
     {
       "testName": "tree-map",
@@ -1147,20 +1147,20 @@
       "benchmarks": [
         {
           "Test Case": "100,000 add",
-          "Latency Avg (ms)": 257.47,
-          "Min (ms)": 82.81,
-          "Max (ms)": 2186.79,
-          "Stability": "±82.38%"
+          "Latency Avg (ms)": 131.91,
+          "Min (ms)": 80.63,
+          "Max (ms)": 219.12,
+          "Stability": "±12.1%"
         },
         {
-          "Test Case": "100,000 getWords",
-          "Latency Avg (ms)": 15858.61,
-          "Min (ms)": 15402.9,
-          "Max (ms)": 16681.99,
-          "Stability": "±4.01%"
+          "Test Case": "100,000 getWords (single)",
+          "Latency Avg (ms)": 74.29,
+          "Min (ms)": 59.96,
+          "Max (ms)": 83.38,
+          "Stability": "±2.59%"
         }
       ],
-      "runTime": 166.86,
+      "runTime": 13.24,
       "file": "/Users/revone/projects/data-structure-typed/test/performance/data-structures/trie/trie.test.mjs"
     },
     {

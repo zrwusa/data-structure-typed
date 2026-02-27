@@ -28,16 +28,13 @@ suite.add(`${HUNDRED_THOUSAND.toLocaleString()} add`, function() {
     this.val = trie;  // Prevent JIT optimization
 });
 
-// Test 2: 100K getWords (with pre-built trie)
+// Pre-built trie for getWords test
+const preBuiltTrie = new Trie(randomWords);
+
+// Test 2: getWords on 100K trie (single call, returns all words)
 suite.add(`${HUNDRED_THOUSAND.toLocaleString()} getWords`, function() {
-    const trie = new Trie();
-    for (let i = 0; i < randomWords.length; i++) {
-        trie.add(randomWords[i]);
-    }
-    for (let i = 0; i < randomWords.length; i++) {
-        trie.getWords(randomWords[i]);
-    }
-    this.val = trie;  // Prevent JIT optimization
+    const result = preBuiltTrie.getWords('', Number.MAX_SAFE_INTEGER, true);
+    this.val = result;  // Prevent JIT optimization
 });
 
 export { suite };
