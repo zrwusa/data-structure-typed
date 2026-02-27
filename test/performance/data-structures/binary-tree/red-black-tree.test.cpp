@@ -62,7 +62,7 @@ static void UpdSeq1M(benchmark::State& state) {
 BENCHMARK(UpdSeq1M)->Name(formatNumber(MILLION) + " upd SEQ");
 
 static void UpdSeq1M_NodeMode(benchmark::State& state) {
-  // Node Mode JS still updates node.value, so std::map is the closest native analogue.
+  // classic JS still updates node.value, so std::map is the closest native analogue.
   for (auto _ : state) {
     std::map<int,int> mp;
     for (int i = 0; i < KEY_POOL; i++) mp[i] = 0;
@@ -70,7 +70,7 @@ static void UpdSeq1M_NodeMode(benchmark::State& state) {
     benchmark::DoNotOptimize(mp);
   }
 }
-BENCHMARK(UpdSeq1M_NodeMode)->Name(formatNumber(MILLION) + " upd SEQ (Node Mode)");
+BENCHMARK(UpdSeq1M_NodeMode)->Name(formatNumber(MILLION) + " upd SEQ (classic)");
 
 // -----------------
 // UPDATE (RAND)
@@ -93,7 +93,7 @@ static void UpdRand1M_NodeMode(benchmark::State& state) {
     benchmark::DoNotOptimize(mp);
   }
 }
-BENCHMARK(UpdRand1M_NodeMode)->Name(formatNumber(MILLION) + " upd RAND (Node Mode)");
+BENCHMARK(UpdRand1M_NodeMode)->Name(formatNumber(MILLION) + " upd RAND (classic)");
 
 // -----------------
 // INSERT (SEQ)
@@ -114,7 +114,7 @@ static void InsSeq1M_NodeMode(benchmark::State& state) {
     benchmark::DoNotOptimize(st);
   }
 }
-BENCHMARK(InsSeq1M_NodeMode)->Name(formatNumber(MILLION) + " ins SEQ (Node Mode)");
+BENCHMARK(InsSeq1M_NodeMode)->Name(formatNumber(MILLION) + " ins SEQ (classic)");
 
 // -----------------
 // INSERT (RAND unique)
@@ -138,7 +138,7 @@ static void InsRand1M_NodeMode(benchmark::State& state) {
     benchmark::DoNotOptimize(st);
   }
 }
-BENCHMARK(InsRand1M_NodeMode)->Name(formatNumber(MILLION) + " ins RAND (Node Mode)");
+BENCHMARK(InsRand1M_NodeMode)->Name(formatNumber(MILLION) + " ins RAND (classic)");
 
 // -----------------
 // keys-only baseline
@@ -183,7 +183,7 @@ static void Get1M_NodeMode(benchmark::State& state) {
     benchmark::DoNotOptimize(count);
   }
 }
-BENCHMARK(Get1M_NodeMode)->Name(formatNumber(MILLION) + " get (Node Mode)");
+BENCHMARK(Get1M_NodeMode)->Name(formatNumber(MILLION) + " get (classic)");
 
 // -----------------
 // rangeSearch

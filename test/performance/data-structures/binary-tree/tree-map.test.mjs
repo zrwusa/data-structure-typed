@@ -37,7 +37,7 @@ suite
     for (let i = 0; i < randomKeys.length; i++) mp.set(randomKeys[i], randomKeys[i]);
     this.val = mp;
   })
-  .add(`${N_SET.toLocaleString()} set js-sdsl`, function () {
+  .add(`${N_SET.toLocaleString()} set (js-sdsl)`, function () {
     const mp = new OrderedMap();
     for (let i = 0; i < randomKeys.length; i++) mp.setElement(randomKeys[i], randomKeys[i]);
     this.val = mp;
@@ -50,7 +50,7 @@ suite
   .add(`${N_GET.toLocaleString()} get (classic)`, function () {
     for (let i = 0; i < randomKeys.length; i++) treeMapOff.get(randomKeys[i]);
   })
-  .add(`${N_GET.toLocaleString()} get js-sdsl`, function () {
+  .add(`${N_GET.toLocaleString()} get (js-sdsl)`, function () {
     for (let i = 0; i < randomKeys.length; i++) sdsl.getElementByKey(randomKeys[i]);
   })
 

@@ -40,7 +40,7 @@ suite
     for (let i = 0; i < randomAdd.length; i++) st.add(randomAdd[i]);
     this.val = st;
   })
-  .add(`${N_ADD.toLocaleString()} add js-sdsl`, function () {
+  .add(`${N_ADD.toLocaleString()} add (js-sdsl)`, function () {
     const st = new OrderedSet();
     for (let i = 0; i < randomAdd.length; i++) st.insert(randomAdd[i]);
     this.val = st;
@@ -53,7 +53,7 @@ suite
   .add(`${N_QUERY.toLocaleString()} has (classic)`, function () {
     for (let i = 0; i < randomQuery.length; i++) treeSetOff.has(randomQuery[i]);
   })
-  .add(`${N_QUERY.toLocaleString()} has js-sdsl`, function () {
+  .add(`${N_QUERY.toLocaleString()} has (js-sdsl)`, function () {
     for (let i = 0; i < randomQuery.length; i++) sdslSet.find(randomQuery[i]).equals(sdslEnd);
   })
 

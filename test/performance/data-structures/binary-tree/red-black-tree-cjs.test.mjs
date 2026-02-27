@@ -5,7 +5,7 @@ import { getRandomIntArray, magnitude } from '../../../utils/perf.mjs';
 
 // IMPORTANT: For perf stability, load the CJS build directly (matches the standalone scripts).
 // Using package ESM entry (`import { ... } from '../../../../dist/esm/index.mjs'`) showed large slowdowns
-// for Node Mode get in this environment.
+// for classic get in this environment.
 const require = createRequire(import.meta.url);
 const { RedBlackTree } = require(path.resolve(process.cwd(), '../data-structure-typed/dist/cjs/index.cjs'));
 const { OrderedMap } = require('js-sdsl');
@@ -159,7 +159,7 @@ export async function getResults() {
         if (count === 42) console.log('');
     }));
 
-    results.push(withRepeats(`${GET_N.toLocaleString()} get (Node Mode)`, () => {
+    results.push(withRepeats(`${GET_N.toLocaleString()} get (classic)`, () => {
         let count = 0;
         for (let i = 0; i < GET_N; i++) if (rbNodeMode.get(i) !== undefined) count++;
         if (count === 42) console.log('');
@@ -178,7 +178,7 @@ export async function getResults() {
         for (let i = 0; i < N; i++) rbTree.set(i % KEY_POOL, i);
     }));
 
-    results.push(withRepeats(`${MILLION.toLocaleString()} upd SEQ (Node Mode)`, () => {
+    results.push(withRepeats(`${MILLION.toLocaleString()} upd SEQ (classic)`, () => {
         const rbTree = new RedBlackTree([], { isMapMode: false });
         for (let i = 0; i < KEY_POOL; i++) rbTree.set(i, 0);
         for (let i = 0; i < N; i++) rbTree.set(i % KEY_POOL, i);
@@ -197,7 +197,7 @@ export async function getResults() {
         for (let i = 0; i < N; i++) rbTree.set(randUpdateKeys[i], i);
     }));
 
-    results.push(withRepeats(`${MILLION.toLocaleString()} upd RAND (Node Mode)`, () => {
+    results.push(withRepeats(`${MILLION.toLocaleString()} upd RAND (classic)`, () => {
         const rbTree = new RedBlackTree([], { isMapMode: false });
         for (let i = 0; i < KEY_POOL; i++) rbTree.set(i, 0);
         for (let i = 0; i < N; i++) rbTree.set(randUpdateKeys[i], i);
@@ -215,7 +215,7 @@ export async function getResults() {
         for (let i = 0; i < N; i++) rbTree.set(i, i);
     }));
 
-    results.push(withRepeats(`${MILLION.toLocaleString()} ins SEQ (Node Mode)`, () => {
+    results.push(withRepeats(`${MILLION.toLocaleString()} ins SEQ (classic)`, () => {
         const rbTree = new RedBlackTree([], { isMapMode: false });
         for (let i = 0; i < N; i++) rbTree.add(i);
     }));
@@ -234,7 +234,7 @@ export async function getResults() {
         }
     }));
 
-    results.push(withRepeats(`${MILLION.toLocaleString()} ins RAND (Node Mode)`, () => {
+    results.push(withRepeats(`${MILLION.toLocaleString()} ins RAND (classic)`, () => {
         const rbTree = new RedBlackTree([], { isMapMode: false });
         for (let i = 0; i < N; i++) rbTree.add(randUniqueKeys[i]);
     }));
