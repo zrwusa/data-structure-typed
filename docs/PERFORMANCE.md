@@ -191,14 +191,14 @@ Understand how data-structure-typed performs, and when to use each structure.
 ### RedBlackTree
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1M get | 98.26 | 80.32 | 115.15 | ±20.53% |
-| 200K rangeSearch SEQ | 1159.85 | 1128.33 | 1214.44 | ±4.03% |
-| 200K rangeSearch RAND | 1653.12 | 1635.4 | 1665.34 | ±0.82% |
-| 1M upd SEQ | 78.07 | 67.57 | 95.58 | ±17.15% |
-| 1M upd RAND | 115.32 | 110.25 | 122.15 | ±4.73% |
-| 1M ins SEQ | 543.99 | 454.35 | 870.08 | ±41.66% |
-| 1M ins RAND | 1025.02 | 1016.9 | 1031.95 | ±0.67% |
-| 1M keys-only | 2.7854 | 1.182 | 4.6744 | ±56.05% |
+| 1M get | 124.23 | 102.71 | 139.05 | ±19.09% |
+| 200K rangeSearch SEQ | 2352.38 | 2317.75 | 2415.02 | ±2.00% |
+| 200K rangeSearch RAND | 2294.43 | 1597.55 | 2729.45 | ±29.62% |
+| 1M upd SEQ | 83.8 | 75.95 | 95.37 | ±10.69% |
+| 1M upd RAND | 114.57 | 105.92 | 128.24 | ±9.21% |
+| 1M ins SEQ | 529.39 | 464.87 | 767.48 | ±31.24% |
+| 1M ins RAND | 1003.8 | 989.44 | 1024.58 | ±1.63% |
+| 1M keys-only | 4.2214 | 2.7184 | 5.8273 | ±41.84% |
 
 #### RedBlackTree (side-by-side)
 
@@ -207,14 +207,14 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | classic (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: | ---------: |
-| 1M get | 98.26 | 252.47 | 136.64 | - | 52.97 |
-| 200K rangeSearch SEQ | 1159.85 | - | - | - | - |
-| 200K rangeSearch RAND | 1653.12 | - | - | - | - |
-| 1M upd SEQ | 78.07 | 257.58 | 170.45 | - | 68.43 |
-| 1M upd RAND | 115.32 | 402.83 | 297.87 | - | 158.14 |
-| 1M ins SEQ | 543.99 | 191.86 | 85.06 | - | 162.72 |
-| 1M ins RAND | 1025.02 | 919.42 | 623.31 | - | 483.56 |
-| 1M keys-only | 2.7854 | - | - | - | 0.09 |
+| 1M get | 124.23 | 523.1 | - | - | 52.97 |
+| 200K rangeSearch SEQ | 2352.38 | - | - | - | - |
+| 200K rangeSearch RAND | 2294.43 | - | - | - | - |
+| 1M upd SEQ | 83.8 | 254.04 | - | - | 68.43 |
+| 1M upd RAND | 114.57 | 393.71 | - | - | 158.14 |
+| 1M ins SEQ | 529.39 | 202.71 | - | - | 162.72 |
+| 1M ins RAND | 1003.8 | 903.1 | - | - | 483.56 |
+| 1M keys-only | 4.2214 | - | - | - | 0.09 |
 
 
 ### TreeSet
@@ -425,6 +425,31 @@ Understand how data-structure-typed performs, and when to use each structure.
 | 1K getEdge | 74.8 | - | - | - |
 | tarjan | 0.3806 | - | - | - |
 | topologicalSort | 0.2369 | - | - | - |
+
+
+### red-black-tree-cjs
+| Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
+|-----------|----------|----------|----------|-----------|
+| 1M get | 123.51 | 99.96 | 141.18 | ±21.53% |
+| 1M upd SEQ | 138.08 | 119.8 | 154.69 | ±14.65% |
+| 1M upd RAND | 169.94 | 153.81 | 177.44 | ±6.93% |
+| 1M ins SEQ | 772.3 | 664.22 | 1188.71 | ±37.43% |
+| 1M ins RAND | 1337.02 | 1009.75 | 1463.93 | ±17.20% |
+| 1M keys-only | 4.2044 | 2.7263 | 5.9702 | ±42.33% |
+
+#### red-black-tree-cjs (side-by-side)
+
+> Comparison table. The main table above is red-black-tree-cjs only.
+> Native is `-` when there is no apples-to-apples equivalent in this benchmark.
+
+| Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
+| ----------- | ---------: | ---------: | ---------: | ---------: |
+| 1M get | 123.51 | 234.37 | - | - |
+| 1M upd SEQ | 138.08 | 343.47 | - | - |
+| 1M upd RAND | 169.94 | 633.05 | - | - |
+| 1M ins SEQ | 772.3 | 138.62 | - | - |
+| 1M ins RAND | 1337.02 | 942.67 | - | - |
+| 1M keys-only | 4.2044 | - | - | - |
 
 
 
