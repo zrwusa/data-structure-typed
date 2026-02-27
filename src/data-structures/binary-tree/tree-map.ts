@@ -17,7 +17,7 @@ import { RedBlackTree } from './red-black-tree';
  * - Iteration order is ascending by key.
  * - No node exposure: all APIs use keys/values only.
  */
-export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
+export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | undefined]> {
   readonly #core: RedBlackTree<K, V>;
   readonly #isDefaultComparator: boolean;
   readonly #userComparator?: Comparator<K>;
@@ -35,11 +35,11 @@ export class TreeMap<K = any, V = any> implements Iterable<[K, V | undefined]> {
    *
    * // Using toEntryFn to transform raw objects
    * const users = [{ id: 1, name: 'Alice' }, { id: 2, name: 'Bob' }];
-   * const map = new TreeMap(users, { toEntryFn: u => [u.id, u] });
+   * const map = new TreeMap<number, User, User>(users, { toEntryFn: u => [u.id, u] });
    */
   constructor(
-    entries: Iterable<[K, V | undefined]> | Iterable<unknown> = [],
-    options: TreeMapOptions<K, V> = {}
+    entries: Iterable<R> | Iterable<[K, V | undefined]> = [],
+    options: TreeMapOptions<K, V, R> = {}
   ) {
     this.#userComparator = options.comparator;
     const toEntryFn = options.toEntryFn as ((item: unknown) => [K, V]) | undefined;

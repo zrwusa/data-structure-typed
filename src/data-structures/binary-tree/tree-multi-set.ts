@@ -12,7 +12,7 @@ import type { Comparator, TreeMultiSetOptions } from '../../types';
 import { RedBlackTree } from './red-black-tree';
 import { TreeSet } from './tree-set';
 
-export class TreeMultiSet<K = any> implements Iterable<K> {
+export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
   readonly #core: RedBlackTree<K, number>;
   readonly #isDefaultComparator: boolean;
   private _size = 0; // total occurrences (sumCounts)
@@ -28,9 +28,9 @@ export class TreeMultiSet<K = any> implements Iterable<K> {
    *
    * // Using toElementFn to transform raw objects
    * const items = [{ score: 100 }, { score: 200 }, { score: 100 }];
-   * const mset = new TreeMultiSet(items, { toElementFn: item => item.score });
+   * const mset = new TreeMultiSet<number, Item>(items, { toElementFn: item => item.score });
    */
-  constructor(elements: Iterable<K> | Iterable<unknown> = [], options: TreeMultiSetOptions<K> = {}) {
+  constructor(elements: Iterable<R> | Iterable<K> = [], options: TreeMultiSetOptions<K, R> = {}) {
     const toElementFn = options.toElementFn as ((item: unknown) => K) | undefined;
     const comparator = options.comparator ?? TreeSet.createDefaultComparator<K>();
     this.#isDefaultComparator = options.comparator === undefined;

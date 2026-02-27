@@ -197,8 +197,8 @@ describe('TreeSet (RedBlackTree-backed, no node exposure)', () => {
       { id: 2, name: 'Bob' }
     ];
 
-    const s = new TreeSet<number>(users, {
-      toElementFn: ((u: User) => u.id) as (raw: unknown) => number
+    const s = new TreeSet<number, User>(users, {
+      toElementFn: u => u.id
     });
 
     expect(s.size).toBe(3);
@@ -221,8 +221,8 @@ describe('TreeSet (RedBlackTree-backed, no node exposure)', () => {
       { category: 'fruit', name: 'banana' } // duplicate category
     ];
 
-    const s = new TreeSet<string>(items, {
-      toElementFn: ((item: Item) => item.category) as (raw: unknown) => string
+    const s = new TreeSet<string, Item>(items, {
+      toElementFn: item => item.category
     });
 
     expect(s.size).toBe(2); // deduplicated

@@ -281,8 +281,8 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
       { id: 2, name: 'Bob', age: 25 }
     ];
 
-    const m = new TreeMap<number, User>(users, {
-      toEntryFn: ((u: User) => [u.id, u]) as (raw: unknown) => [number, User]
+    const m = new TreeMap<number, User, User>(users, {
+      toEntryFn: u => [u.id, u]
     });
 
     expect(m.size).toBe(3);
@@ -304,8 +304,8 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
       { sku: 'C001', price: 39.99 }
     ];
 
-    const m = new TreeMap<string, number>(products, {
-      toEntryFn: ((p: Product) => [p.sku, p.price]) as (raw: unknown) => [string, number],
+    const m = new TreeMap<string, number, Product>(products, {
+      toEntryFn: p => [p.sku, p.price],
       comparator: (a, b) => a.localeCompare(b)
     });
 

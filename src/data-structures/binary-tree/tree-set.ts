@@ -17,7 +17,7 @@ import { RedBlackTree } from './red-black-tree';
  * - Iteration order is ascending by key.
  * - No node exposure: all APIs use keys only.
  */
-export class TreeSet<K = any> implements Iterable<K> {
+export class TreeSet<K = any, R = K> implements Iterable<K> {
   readonly #core: RedBlackTree<K, undefined>;
   readonly #isDefaultComparator: boolean;
   readonly #userComparator?: Comparator<K>;
@@ -35,9 +35,9 @@ export class TreeSet<K = any> implements Iterable<K> {
    *
    * // Using toElementFn to transform raw objects
    * const users = [{ id: 3, name: 'Alice' }, { id: 1, name: 'Bob' }];
-   * const set = new TreeSet(users, { toElementFn: u => u.id });
+   * const set = new TreeSet<number, User>(users, { toElementFn: u => u.id });
    */
-  constructor(elements: Iterable<K> | Iterable<unknown> = [], options: TreeSetOptions<K> = {}) {
+  constructor(elements: Iterable<R> | Iterable<K> = [], options: TreeSetOptions<K, R> = {}) {
     this.#userComparator = options.comparator;
     const toElementFn = options.toElementFn as ((item: unknown) => K) | undefined;
     const comparator = options.comparator ?? TreeSet.createDefaultComparator<K>();

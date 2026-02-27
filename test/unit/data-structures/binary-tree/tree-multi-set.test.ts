@@ -557,8 +557,8 @@ describe('TreeMultiSet', () => {
         { playerId: 'p4', points: 150 }
       ];
 
-      const ms = new TreeMultiSet<number>(scores, {
-        toElementFn: ((s: Score) => s.points) as (raw: unknown) => number
+      const ms = new TreeMultiSet<number, Score>(scores, {
+        toElementFn: s => s.points
       });
 
       expect(ms.size).toBe(4);
@@ -581,8 +581,8 @@ describe('TreeMultiSet', () => {
         { priority: 1 }
       ];
 
-      const ms = new TreeMultiSet<number>(items, {
-        toElementFn: ((item: Item) => item.priority) as (raw: unknown) => number,
+      const ms = new TreeMultiSet<number, Item>(items, {
+        toElementFn: item => item.priority,
         comparator: (a, b) => b - a // descending
       });
 
