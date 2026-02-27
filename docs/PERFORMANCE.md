@@ -217,35 +217,6 @@ Understand how data-structure-typed performs, and when to use each structure.
 | 1M keys-only | 3.8192 | - | - | - | 0.09 |
 
 
-### AVLTree
-| Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
-|-----------|----------|----------|----------|-----------|
-| 100K add randomly | 146.42 | 139.05 | 191.55 | ±3.4% |
-| 100K add | 120.24 | 114.57 | 143 | ±1.83% |
-| 100K get | 4.6116 | 4.112 | 5.875 | ±1.85% |
-| 100K getNode | 31.34 | 29.81 | 36.57 | ±1.08% |
-| 100K iterator | 6.1388 | 5.6668 | 7.466 | ±1.35% |
-| 100K add & delete orderly | 180.78 | 175.71 | 215.2 | ±2.45% |
-| 100K add & delete randomly | 218.68 | 211.13 | 227.68 | ±1.05% |
-| AVL Tree 100K rangeSearch queries | 1352.3 | 1333.26 | 1370.64 | ±1.12% |
-
-#### AVLTree (side-by-side)
-
-> Comparison table. The main table above is AVLTree only.
-> Native is `-` when there is no apples-to-apples equivalent in this benchmark.
-
-| Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
-| ----------- | ---------: | ---------: | ---------: | ---------: |
-| 100K add randomly | 146.42 | - | - | 16.62 |
-| 100K add | 120.24 | - | - | 15.48 |
-| 100K get | 4.6116 | - | - | 7.21 |
-| 100K getNode | 31.34 | - | - | 8.51 |
-| 100K iterator | 6.1388 | - | - | 1.06 |
-| 100K add & delete orderly | 180.78 | - | - | 21.56 |
-| 100K add & delete randomly | 218.68 | - | - | 27.96 |
-| AVL Tree 100K rangeSearch queries | 1352.3 | - | - | 111.9 |
-
-
 ### TreeSet
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|

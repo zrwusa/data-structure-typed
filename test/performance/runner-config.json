@@ -1,7 +1,6 @@
 {
   "label": "default-plan",
   "include": [
-    "binary-tree/avl-tree.test.mjs",
     "binary-tree/binary-tree.test.mjs",
     "binary-tree/bst.test.mjs",
     "binary-tree/red-black-tree.test.mjs",
