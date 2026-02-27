@@ -441,6 +441,7 @@ function generateMarkdownComparison(report) {
             return (
                 name.includes('(js-sdsl)') ||
                 name.includes('(Node Mode)') ||
+                name.includes('(classic)') ||
                 name.startsWith('Native JS ')
             );
         };
@@ -495,7 +496,10 @@ function generateMarkdownComparison(report) {
                 markdown += `> Comparison table. The main table above is ${displayName} only.\n`;
                 markdown += `> Native is \`-\` when there is no apples-to-apples equivalent in this benchmark.\n\n`;
 
-                const hasNodeMode = items.some(it => (it.benchmark?.['Test Case'] ?? '').includes('(Node Mode)'));
+                const hasClassic = items.some(it => {
+                    const tc = it.benchmark?.['Test Case'] ?? '';
+                    return tc.includes('(Node Mode)') || tc.includes('(classic)');
+                });
                 // Keep the js-sdsl column even when a suite has no js-sdsl baseline cases.
                 // Missing values should render as "-" instead of hiding the entire column.
                 const hasSdsl = true;
@@ -503,13 +507,13 @@ function generateMarkdownComparison(report) {
                 // Missing values should render as "-" instead of hiding the entire column.
                 const hasNative = true;
 
-                // Node Mode is only meaningful for binary-tree family; hide it elsewhere.
-                const isBinaryTreeSuite = ['red-black-tree', 'avl-tree', 'bst', 'binary-tree'].includes(suiteName);
-                const showNodeMode = isBinaryTreeSuite && hasNodeMode;
+                // Classic/Node Mode is only meaningful for binary-tree family; hide it elsewhere.
+                const isBinaryTreeSuite = ['red-black-tree', 'avl-tree', 'bst', 'binary-tree', 'tree-map', 'tree-set'].includes(suiteName);
+                const showClassic = isBinaryTreeSuite && hasClassic;
 
                 const columns = [
                     { key: 'dst', label: 'DST (ms)', align: 'right' },
-                    ...(showNodeMode ? [{ key: 'node', label: 'Node Mode (ms)', align: 'right' }] : []),
+                    ...(showClassic ? [{ key: 'classic', label: 'classic (ms)', align: 'right' }] : []),
                     ...(hasSdsl ? [{ key: 'sdsl', label: 'js-sdsl (ms)', align: 'right' }] : []),
                     ...(hasNative ? [{ key: 'native', label: 'Native (ms)', align: 'right' }] : []),
                     ...(hasCpp ? [{ key: 'cpp', label: 'C++ (ms)', align: 'right' }] : [])
@@ -524,7 +528,7 @@ function generateMarkdownComparison(report) {
                 for (const base of baseCases) {
                     const abbr = formatNumberAbbr(base);
                     const dst = pick(base);
-                    const nodeMode = pick(`${base} (Node Mode)`);
+                    const classic = pickOpt(`${base} (classic)`) ?? pick(`${base} (Node Mode)`);
                     const sdsl = pick(`${base} (js-sdsl)`);
                     // Native rows usually have a prefix; try common variants.
                     const nativeMs = (
@@ -538,7 +542,7 @@ function generateMarkdownComparison(report) {
                     const row = [
                         abbr,
                         dst,
-                        ...(showNodeMode ? [nodeMode] : []),
+                        ...(showClassic ? [classic] : []),
                         ...(hasSdsl ? [sdsl] : []),
                         ...(hasNative ? [nativeMs ?? '-'] : []),
                         ...(hasCpp ? [cpp] : [])
@@ -895,6 +899,7 @@ function generateHtmlReport(report) {
         return (
             name.includes('(js-sdsl)') ||
             name.includes('(Node Mode)') ||
+            name.includes('(classic)') ||
             name.startsWith('Native JS ')
         );
     };
@@ -932,16 +937,19 @@ function generateHtmlReport(report) {
             if (!baseCases.includes(raw)) baseCases.push(raw);
         }
 
-        const hasNodeMode = items.some(it => (it.benchmark?.['Test Case'] ?? '').includes('(Node Mode)'));
+        const hasClassic = items.some(it => {
+            const tc = it.benchmark?.['Test Case'] ?? '';
+            return tc.includes('(Node Mode)') || tc.includes('(classic)');
+        });
         const isBinaryTreeSuite = ['red-black-tree', 'avl-tree', 'bst', 'binary-tree', 'tree-map', 'tree-set'].includes(suiteName);
-        const showNodeMode = isBinaryTreeSuite && hasNodeMode;
+        const showClassic = isBinaryTreeSuite && hasClassic;
         const hasCpp = native.length > 0;
 
         html += `<p class="note">Comparison table: DST is data-structure-typed. Values in ms (lower is better). "-" = no equivalent test.</p>`;
 
         // Build header
         const headers = ['Test Case', 'DST (ms)'];
-        if (showNodeMode) headers.push('Node Mode (ms)');
+        if (showClassic) headers.push('classic (ms)');
         headers.push('js-sdsl (ms)', 'Native (ms)');
         if (hasCpp) headers.push('C++ (ms)');
 
@@ -952,7 +960,7 @@ function generateHtmlReport(report) {
         for (const base of baseCases) {
             const abbr = formatNumberAbbr(base);
             const dst = pick(base);
-            const nodeMode = pick(`${base} (Node Mode)`);
+            const classic = pickOpt(`${base} (classic)`) ?? pick(`${base} (Node Mode)`);
             const sdsl = pick(`${base} (js-sdsl)`);
             const nativeMs = (
                 pickOpt(`Native JS ${base}`) ??
@@ -965,7 +973,7 @@ function generateHtmlReport(report) {
             html += `<tr>`;
             html += `<td>${abbr}</td>`;
             html += `<td class="${dst !== '-' ? 'metric-dst' : 'na'}">${dst}</td>`;
-            if (showNodeMode) html += `<td class="${nodeMode !== '-' ? 'metric-dst' : 'na'}">${nodeMode}</td>`;
+            if (showClassic) html += `<td class="${classic !== '-' ? 'metric-dst' : 'na'}">${classic}</td>`;
             html += `<td class="${sdsl !== '-' ? 'metric-sdsl' : 'na'}">${sdsl}</td>`;
             html += `<td class="${nativeMs ? 'metric-native' : 'na'}">${nativeMs ?? '-'}</td>`;
             if (hasCpp) html += `<td class="${cpp !== '-' ? 'metric-cpp' : 'na'}">${cpp}</td>`;
