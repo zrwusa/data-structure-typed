@@ -493,8 +493,8 @@ Understand how data-structure-typed performs, and when to use each structure.
 ### Trie
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 100K add | 257.47 | 82.81 | 2186.79 | ±82.38% |
-| 100K getWords | 15858.61 | 15402.9 | 16681.99 | ±4.01% |
+| 100K add | 183.99 | 104.68 | 991.74 | ±51.77% |
+| 100K getWords | 71.33 | 55.87 | 106.63 | ±3.96% |
 
 #### Trie (side-by-side)
 
@@ -503,8 +503,8 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 100K add | 257.47 | - | - | - |
-| 100K getWords | 15858.61 | - | - | - |
+| 100K add | 183.99 | - | - | - |
+| 100K getWords | 71.33 | - | - | - |
 
 
 ### DirectedGraph
