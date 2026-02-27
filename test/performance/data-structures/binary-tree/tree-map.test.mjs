@@ -32,7 +32,7 @@ suite
     for (let i = 0; i < randomKeys.length; i++) mp.set(randomKeys[i], randomKeys[i]);
     this.val = mp;
   })
-  .add(`${N_SET.toLocaleString()} set (Node)`, function () {
+  .add(`${N_SET.toLocaleString()} set (classic)`, function () {
     const mp = new TreeMap([], { isMapMode: false });
     for (let i = 0; i < randomKeys.length; i++) mp.set(randomKeys[i], randomKeys[i]);
     this.val = mp;
@@ -47,7 +47,7 @@ suite
   .add(`${N_GET.toLocaleString()} get`, function () {
     for (let i = 0; i < randomKeys.length; i++) treeMapOn.get(randomKeys[i]);
   })
-  .add(`${N_GET.toLocaleString()} get (Node)`, function () {
+  .add(`${N_GET.toLocaleString()} get (classic)`, function () {
     for (let i = 0; i < randomKeys.length; i++) treeMapOff.get(randomKeys[i]);
   })
   .add(`${N_GET.toLocaleString()} get js-sdsl`, function () {
@@ -59,7 +59,7 @@ suite
     const out = treeMapOn.rangeSearch([0, N_RANGE - 1]);
     this.val = out.length;
   })
-  .add(`${N_RANGE.toLocaleString()} rangeSearch (Node)`, function () {
+  .add(`${N_RANGE.toLocaleString()} rangeSearch (classic)`, function () {
     const out = treeMapOff.rangeSearch([0, N_RANGE - 1]);
     this.val = out.length;
   })
@@ -71,7 +71,7 @@ suite
       treeMapOn.lower(i);
     }
   })
-  .add(`${N_RANGE.toLocaleString()} navigable (Node)`, function () {
+  .add(`${N_RANGE.toLocaleString()} navigable (classic)`, function () {
     for (let i = 0; i < N_RANGE; i++) {
       treeMapOff.ceiling(i);
       treeMapOff.floor(i);

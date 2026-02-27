@@ -1,340 +1,158 @@
 {
-  "timestamp": "2026-02-27T10:54:06.572Z",
+  "timestamp": "2026-02-27T11:21:13.486Z",
   "javascript": [
     {
       "testName": "tree-map",
       "benchmarks": [
         {
-          "Test Case": "1,000,000 set TreeMap",
-          "Latency Avg (ms)": 1130.7,
-          "Min (ms)": 996.21,
-          "Max (ms)": 1861.87,
-          "Stability": "±26.38%"
+          "Test Case": "1,000,000 set",
+          "Latency Avg (ms)": 1471.03,
+          "Min (ms)": 1313.28,
+          "Max (ms)": 1512.06,
+          "Stability": "±5.61%"
         },
         {
-          "Test Case": "1,000,000 set TreeMap (Node)",
-          "Latency Avg (ms)": 904.29,
-          "Min (ms)": 890.44,
-          "Max (ms)": 914.89,
-          "Stability": "±0.81%"
-        },
-        {
-          "Test Case": "1,000,000 set RBT",
-          "Latency Avg (ms)": 1146.79,
-          "Min (ms)": 1044.9,
-          "Max (ms)": 1535.27,
-          "Stability": "±17.49%"
-        },
-        {
-          "Test Case": "1,000,000 set RBT (Node)",
-          "Latency Avg (ms)": 968.9,
-          "Min (ms)": 960.13,
-          "Max (ms)": 980.74,
-          "Stability": "±0.74%"
+          "Test Case": "1,000,000 set (Node)",
+          "Latency Avg (ms)": 1351.78,
+          "Min (ms)": 1322.78,
+          "Max (ms)": 1381.24,
+          "Stability": "±1.87%"
         },
         {
           "Test Case": "1,000,000 set js-sdsl",
-          "Latency Avg (ms)": 640.34,
-          "Min (ms)": 608.96,
-          "Max (ms)": 676.46,
-          "Stability": "±3.07%"
+          "Latency Avg (ms)": 1154.98,
+          "Min (ms)": 632.73,
+          "Max (ms)": 1712.98,
+          "Stability": "±29.85%"
         },
         {
-          "Test Case": "1,000,000 get TreeMap",
-          "Latency Avg (ms)": 156.38,
-          "Min (ms)": 152.87,
-          "Max (ms)": 160.55,
-          "Stability": "±0.59%"
+          "Test Case": "1,000,000 get",
+          "Latency Avg (ms)": 143.05,
+          "Min (ms)": 130.9,
+          "Max (ms)": 191.75,
+          "Stability": "±3.61%"
         },
         {
-          "Test Case": "1,000,000 get TreeMap (Node)",
-          "Latency Avg (ms)": 867.81,
-          "Min (ms)": 861.74,
-          "Max (ms)": 872.7,
-          "Stability": "±0.46%"
-        },
-        {
-          "Test Case": "1,000,000 get RBT",
-          "Latency Avg (ms)": 156.19,
-          "Min (ms)": 152.85,
-          "Max (ms)": 159.65,
-          "Stability": "±0.51%"
-        },
-        {
-          "Test Case": "1,000,000 get RBT (Node)",
-          "Latency Avg (ms)": 916.83,
-          "Min (ms)": 907.22,
-          "Max (ms)": 931.59,
-          "Stability": "±0.96%"
+          "Test Case": "1,000,000 get (Node)",
+          "Latency Avg (ms)": 1071.85,
+          "Min (ms)": 739.91,
+          "Max (ms)": 1167.41,
+          "Stability": "±12.97%"
         },
         {
           "Test Case": "1,000,000 get js-sdsl",
-          "Latency Avg (ms)": 672.22,
-          "Min (ms)": 660.56,
-          "Max (ms)": 686.89,
-          "Stability": "±1.05%"
+          "Latency Avg (ms)": 976.09,
+          "Min (ms)": 917.25,
+          "Max (ms)": 1024.45,
+          "Stability": "±3.74%"
         },
         {
-          "Test Case": "1,000,000 build+get TreeMap",
-          "Latency Avg (ms)": 1262.71,
-          "Min (ms)": 1203.82,
-          "Max (ms)": 1589.5,
-          "Stability": "±10.56%"
+          "Test Case": "100,000 rangeSearch",
+          "Latency Avg (ms)": 58.96,
+          "Min (ms)": 40.94,
+          "Max (ms)": 254.71,
+          "Stability": "±17.97%"
         },
         {
-          "Test Case": "1,000,000 build+get TreeMap (Node)",
-          "Latency Avg (ms)": 1712.26,
-          "Min (ms)": 1668.78,
-          "Max (ms)": 1765.61,
-          "Stability": "±1.93%"
+          "Test Case": "100,000 rangeSearch (Node)",
+          "Latency Avg (ms)": 48.68,
+          "Min (ms)": 34.42,
+          "Max (ms)": 62.61,
+          "Stability": "±6.4%"
         },
         {
-          "Test Case": "1,000,000 build+get RBT",
-          "Latency Avg (ms)": 1215.09,
-          "Min (ms)": 1200.03,
-          "Max (ms)": 1266.32,
-          "Stability": "±1.76%"
+          "Test Case": "100,000 navigable",
+          "Latency Avg (ms)": 214.91,
+          "Min (ms)": 138.28,
+          "Max (ms)": 274.6,
+          "Stability": "±9.68%"
         },
         {
-          "Test Case": "1,000,000 build+get RBT (Node)",
-          "Latency Avg (ms)": 1811.83,
-          "Min (ms)": 1791.31,
-          "Max (ms)": 1836.34,
-          "Stability": "±0.87%"
-        },
-        {
-          "Test Case": "1,000,000 build+get js-sdsl",
-          "Latency Avg (ms)": 1213.71,
-          "Min (ms)": 1193.46,
-          "Max (ms)": 1244.24,
-          "Stability": "±1.52%"
-        },
-        {
-          "Test Case": "100,000 rangeSearch TreeMap",
-          "Latency Avg (ms)": 53.07,
-          "Min (ms)": 44.18,
-          "Max (ms)": 93.97,
-          "Stability": "±5.99%"
-        },
-        {
-          "Test Case": "100,000 rangeSearch TreeMap (Node)",
-          "Latency Avg (ms)": 54.02,
-          "Min (ms)": 52.58,
-          "Max (ms)": 61.28,
-          "Stability": "±0.73%"
-        },
-        {
-          "Test Case": "100,000 navigable TreeMap",
-          "Latency Avg (ms)": 174.8,
-          "Min (ms)": 169.03,
-          "Max (ms)": 184.16,
-          "Stability": "±0.95%"
-        },
-        {
-          "Test Case": "100,000 navigable TreeMap (Node)",
-          "Latency Avg (ms)": 272.56,
-          "Min (ms)": 267.11,
-          "Max (ms)": 279.11,
-          "Stability": "±0.66%"
-        },
-        {
-          "Test Case": "100,000 build+rangeSearch TreeMap",
-          "Latency Avg (ms)": 1183.72,
-          "Min (ms)": 1038.01,
-          "Max (ms)": 1985.82,
-          "Stability": "±27.64%"
-        },
-        {
-          "Test Case": "100,000 build+rangeSearch TreeMap (Node)",
-          "Latency Avg (ms)": 954.72,
-          "Min (ms)": 949.15,
-          "Max (ms)": 964.84,
-          "Stability": "±0.52%"
-        },
-        {
-          "Test Case": "100,000 build+navigable TreeMap",
-          "Latency Avg (ms)": 1205.71,
-          "Min (ms)": 1186.63,
-          "Max (ms)": 1218.09,
-          "Stability": "±1.13%"
-        },
-        {
-          "Test Case": "100,000 build+navigable TreeMap (Node)",
-          "Latency Avg (ms)": 1178.08,
-          "Min (ms)": 1171.1,
-          "Max (ms)": 1190.9,
-          "Stability": "±0.67%"
+          "Test Case": "100,000 navigable (Node)",
+          "Latency Avg (ms)": 389.39,
+          "Min (ms)": 384.1,
+          "Max (ms)": 392.03,
+          "Stability": "±0.49%"
         }
       ],
-      "runTime": 296.33,
+      "runTime": 111.21,
       "file": "/Users/revone/projects/data-structure-typed/test/performance/data-structures/binary-tree/tree-map.test.mjs"
     },
     {
       "testName": "tree-set",
       "benchmarks": [
         {
-          "Test Case": "1,000,000 add TreeSet",
-          "Latency Avg (ms)": 1011.82,
-          "Min (ms)": 994.7,
-          "Max (ms)": 1026.94,
-          "Stability": "±1.26%"
+          "Test Case": "1,000,000 add",
+          "Latency Avg (ms)": 1488.52,
+          "Min (ms)": 1320.69,
+          "Max (ms)": 1567.98,
+          "Stability": "±6.17%"
         },
         {
-          "Test Case": "1,000,000 add TreeSet (Node)",
-          "Latency Avg (ms)": 912.3,
-          "Min (ms)": 901.4,
-          "Max (ms)": 945.46,
-          "Stability": "±1.58%"
-        },
-        {
-          "Test Case": "1,000,000 add RBT",
-          "Latency Avg (ms)": 1167.06,
-          "Min (ms)": 1046.4,
-          "Max (ms)": 1733.11,
-          "Stability": "±24.94%"
-        },
-        {
-          "Test Case": "1,000,000 add RBT (Node)",
-          "Latency Avg (ms)": 975.7,
-          "Min (ms)": 958.94,
-          "Max (ms)": 989.59,
-          "Stability": "±1.16%"
+          "Test Case": "1,000,000 add (Node)",
+          "Latency Avg (ms)": 1267.12,
+          "Min (ms)": 909.5,
+          "Max (ms)": 1355.38,
+          "Stability": "±11.83%"
         },
         {
           "Test Case": "1,000,000 add js-sdsl",
-          "Latency Avg (ms)": 642.32,
-          "Min (ms)": 624.09,
-          "Max (ms)": 653.38,
-          "Stability": "±1.23%"
+          "Latency Avg (ms)": 1043.63,
+          "Min (ms)": 1016.77,
+          "Max (ms)": 1070.74,
+          "Stability": "±1.88%"
         },
         {
-          "Test Case": "1,000,000 has TreeSet",
-          "Latency Avg (ms)": 65.41,
-          "Min (ms)": 62.46,
-          "Max (ms)": 74.83,
-          "Stability": "±1.25%"
+          "Test Case": "1,000,000 has",
+          "Latency Avg (ms)": 101.73,
+          "Min (ms)": 93.16,
+          "Max (ms)": 104.32,
+          "Stability": "±1.16%"
         },
         {
-          "Test Case": "1,000,000 has TreeSet (Node)",
-          "Latency Avg (ms)": 809.01,
-          "Min (ms)": 804.67,
-          "Max (ms)": 814.93,
-          "Stability": "±0.34%"
-        },
-        {
-          "Test Case": "1,000,000 has RBT",
-          "Latency Avg (ms)": 67.48,
-          "Min (ms)": 63.98,
-          "Max (ms)": 83.28,
-          "Stability": "±1.56%"
-        },
-        {
-          "Test Case": "1,000,000 has RBT (Node)",
-          "Latency Avg (ms)": 1034.91,
-          "Min (ms)": 928.36,
-          "Max (ms)": 1541.14,
-          "Stability": "±20.05%"
+          "Test Case": "1,000,000 has (Node)",
+          "Latency Avg (ms)": 1151.55,
+          "Min (ms)": 844.53,
+          "Max (ms)": 1267.12,
+          "Stability": "±14.46%"
         },
         {
           "Test Case": "1,000,000 has js-sdsl",
-          "Latency Avg (ms)": 761.43,
-          "Min (ms)": 705.57,
-          "Max (ms)": 850.11,
-          "Stability": "±5.98%"
+          "Latency Avg (ms)": 1043.32,
+          "Min (ms)": 994.82,
+          "Max (ms)": 1077.98,
+          "Stability": "±2.5%"
         },
         {
-          "Test Case": "1,000,000 build+has TreeSet",
-          "Latency Avg (ms)": 1096.77,
-          "Min (ms)": 1059.07,
-          "Max (ms)": 1161.07,
-          "Stability": "±2.81%"
+          "Test Case": "100,000 rangeSearch",
+          "Latency Avg (ms)": 26.87,
+          "Min (ms)": 20.21,
+          "Max (ms)": 28.78,
+          "Stability": "±1.7%"
         },
         {
-          "Test Case": "1,000,000 build+has TreeSet (Node)",
-          "Latency Avg (ms)": 1732.51,
-          "Min (ms)": 1712.26,
-          "Max (ms)": 1764.37,
-          "Stability": "±1.06%"
+          "Test Case": "100,000 rangeSearch (Node)",
+          "Latency Avg (ms)": 22.66,
+          "Min (ms)": 16.67,
+          "Max (ms)": 27.51,
+          "Stability": "±5.08%"
         },
         {
-          "Test Case": "1,000,000 build+has RBT",
-          "Latency Avg (ms)": 1155.43,
-          "Min (ms)": 1118.08,
-          "Max (ms)": 1211.51,
-          "Stability": "±3.17%"
+          "Test Case": "100,000 navigable",
+          "Latency Avg (ms)": 206.41,
+          "Min (ms)": 120.21,
+          "Max (ms)": 234.75,
+          "Stability": "±8.23%"
         },
         {
-          "Test Case": "1,000,000 build+has RBT (Node)",
-          "Latency Avg (ms)": 1867.76,
-          "Min (ms)": 1826.38,
-          "Max (ms)": 1890.86,
-          "Stability": "±1.36%"
-        },
-        {
-          "Test Case": "1,000,000 build+has js-sdsl",
-          "Latency Avg (ms)": 1311.66,
-          "Min (ms)": 1280.72,
-          "Max (ms)": 1417.29,
-          "Stability": "±4.19%"
-        },
-        {
-          "Test Case": "100,000 rangeSearch TreeSet",
-          "Latency Avg (ms)": 20.83,
-          "Min (ms)": 18.93,
-          "Max (ms)": 22.13,
-          "Stability": "±0.88%"
-        },
-        {
-          "Test Case": "100,000 rangeSearch TreeSet (Node)",
-          "Latency Avg (ms)": 20.74,
-          "Min (ms)": 19.48,
-          "Max (ms)": 26.37,
-          "Stability": "±1.34%"
-        },
-        {
-          "Test Case": "100,000 navigable TreeSet",
-          "Latency Avg (ms)": 110.15,
-          "Min (ms)": 107.45,
-          "Max (ms)": 116.24,
-          "Stability": "±0.8%"
-        },
-        {
-          "Test Case": "100,000 navigable TreeSet (Node)",
-          "Latency Avg (ms)": 106.73,
-          "Min (ms)": 103.46,
-          "Max (ms)": 114.13,
-          "Stability": "±1.03%"
-        },
-        {
-          "Test Case": "100,000 build+rangeSearch TreeSet",
-          "Latency Avg (ms)": 1059.08,
-          "Min (ms)": 1036.84,
-          "Max (ms)": 1083.08,
-          "Stability": "±1.61%"
-        },
-        {
-          "Test Case": "100,000 build+rangeSearch TreeSet (Node)",
-          "Latency Avg (ms)": 929.91,
-          "Min (ms)": 906.75,
-          "Max (ms)": 960.4,
-          "Stability": "±2.43%"
-        },
-        {
-          "Test Case": "100,000 build+navigable TreeSet",
-          "Latency Avg (ms)": 1201.07,
-          "Min (ms)": 1103.44,
-          "Max (ms)": 1738.74,
-          "Stability": "±18.27%"
-        },
-        {
-          "Test Case": "100,000 build+navigable TreeSet (Node)",
-          "Latency Avg (ms)": 1004.24,
-          "Min (ms)": 994.89,
-          "Max (ms)": 1017.57,
-          "Stability": "±0.79%"
+          "Test Case": "100,000 navigable (Node)",
+          "Latency Avg (ms)": 223.21,
+          "Min (ms)": 180.03,
+          "Max (ms)": 239.28,
+          "Stability": "±4.81%"
         }
       ],
-      "runTime": 287.21,
+      "runTime": 110.36,
       "file": "/Users/revone/projects/data-structure-typed/test/performance/data-structures/binary-tree/tree-set.test.mjs"
     },
     {
@@ -1044,7 +862,6 @@
       "runTime": 83.49,
       "file": "/Users/revone/projects/data-structure-typed/test/performance/data-structures/binary-tree/red-black-tree.test.mjs"
     },
-
     {
       "testName": "bst",
       "benchmarks": [
@@ -1814,8 +1631,8 @@
     }
   ],
   "summary": {
-    "jsTestCount": 17,
-    "cppTestCount": 14,
-    "totalTests": 31
+    "jsTestCount": 16,
+    "cppTestCount": 12,
+    "totalTests": 28
   }
 }
