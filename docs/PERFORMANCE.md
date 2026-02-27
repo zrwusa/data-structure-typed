@@ -54,11 +54,11 @@ Understand how data-structure-typed performs, and when to use each structure.
 ### DoublyLinkedList
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 100k push | 8.0558 | 5.6144 | 54.1937 | ±17.51% |
-| 100k unshift | 6.7611 | 5.4572 | 7.4359 | ±1.44% |
-| 100k unshift & shift | 4.5245 | 4.129 | 4.8488 | ±0.47% |
-| 100k addAt(mid) | 1645.02 | 1331.61 | 2329.62 | ±26.54% |
-| 100k addBefore (cursor) | 6.4823 | 5.7978 | 15.2295 | ±5.35% |
+| 100k push | 5.1068 | 4.2918 | 14.02 | ±6.05% |
+| 100k unshift | 5.6251 | 4.6454 | 15.9079 | ±7% |
+| 100k unshift & shift | 3.9617 | 3.858 | 4.1419 | ±0.33% |
+| 100k addAt(mid) | 1377.93 | 1195.1 | 1652.06 | ±15.36% |
+| 100k addBefore (cursor) | 6.8479 | 5.236 | 32.4613 | ±14.75% |
 
 #### DoublyLinkedList (side-by-side)
 
@@ -67,20 +67,20 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 100k push | 8.0558 | 1.9328 | 2.0706 | 5.7 |
-| 100k unshift | 6.7611 | 1.8299 | 1058.07 | 5.85 |
-| 100k unshift & shift | 4.5245 | 2.2136 | 2296.49 | 5.74 |
-| 100k addAt(mid) | 1645.02 | - | - | 754.81 |
-| 100k addBefore (cursor) | 6.4823 | - | - | 6.18 |
+| 100k push | 5.1068 | 1.9662 | 1.9327 | 5.7 |
+| 100k unshift | 5.6251 | 1.6535 | 897.47 | 5.85 |
+| 100k unshift & shift | 3.9617 | 1.9021 | 2229.86 | 5.74 |
+| 100k addAt(mid) | 1377.93 | - | - | 754.81 |
+| 100k addBefore (cursor) | 6.8479 | - | - | 6.18 |
 
 
 ### SinglyLinkedList
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 100K unshift & shift | 5.24 | 3.3731 | 6.9825 | ±6.31% |
-| 10K unshift & shift | 0.6349 | 0.4499 | 0.7052 | ±2.5% |
-| 10K addAt(mid) | 18.11 | 9.37 | 24.22 | ±4.8% |
-| 10K addBefore (cursor) | 30.11 | 17.53 | 44.66 | ±7.08% |
+| 100K unshift & shift | 3.657 | 3.5484 | 4.0251 | ±0.46% |
+| 10K unshift & shift | 0.3519 | 0.345 | 0.3897 | ±0.37% |
+| 10K addAt(mid) | 9.6426 | 8.4035 | 13.8878 | ±3.14% |
+| 10K addBefore (cursor) | 17.47 | 16.84 | 20.98 | ±1.1% |
 
 #### SinglyLinkedList (side-by-side)
 
@@ -89,18 +89,18 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 100K unshift & shift | 5.24 | - | 4029.88 | 4.8 |
-| 10K unshift & shift | 0.6349 | - | 13.23 | 0.47 |
-| 10K addAt(mid) | 18.11 | - | - | 5.77 |
-| 10K addBefore (cursor) | 30.11 | - | - | 0.53 |
+| 100K unshift & shift | 3.657 | - | 1954.99 | 4.8 |
+| 10K unshift & shift | 0.3519 | - | 6.3455 | 0.47 |
+| 10K addAt(mid) | 9.6426 | - | - | 5.77 |
+| 10K addBefore (cursor) | 17.47 | - | - | 0.53 |
 
 
 ### HashMap
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1M set | 185.57 | 123.72 | 354.4 | ±14.94% |
-| 1M set & get | 247.06 | 195.24 | 280.69 | ±6.84% |
-| 1M ObjKey set & get | 379.65 | 341.94 | 490.79 | ±8.68% |
+| 1M set | 65.43 | 43.78 | 217.35 | ±20.66% |
+| 1M set & get | 81.86 | 39.81 | 303.57 | ±19.79% |
+| 1M ObjKey set & get | 249 | 218.53 | 374.97 | ±11.59% |
 
 #### HashMap (side-by-side)
 
@@ -109,16 +109,16 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 1M set | 185.57 | 158.49 | 219.67 | 76.26 |
-| 1M set & get | 247.06 | 112.79 | 287.39 | 75.25 |
-| 1M ObjKey set & get | 379.65 | 698.13 | 299.71 | 84.4 |
+| 1M set | 65.43 | 89.7 | 158.98 | 76.26 |
+| 1M set & get | 81.86 | 72.97 | 212.83 | 75.25 |
+| 1M ObjKey set & get | 249 | 399.01 | 223.97 | 84.4 |
 
 
 ### Queue
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1M push | 28.91 | 24.9 | 73.74 | ±6.24% |
-| 100K push & shift | 3.0798 | 2.6563 | 17.8644 | ±11.62% |
+| 1M push | 29.46 | 25.57 | 38.92 | ±2.7% |
+| 100K push & shift | 3.3554 | 2.9757 | 8.4665 | ±3.66% |
 
 #### Queue (side-by-side)
 
@@ -127,18 +127,18 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 1M push | 28.91 | 54.13 | 26.31 | 1.7 |
-| 100K push & shift | 3.0798 | 2.5642 | 1403.59 | 0.2 |
+| 1M push | 29.46 | 33.31 | 25.29 | 1.7 |
+| 100K push & shift | 3.3554 | 3.0014 | 1160.09 | 0.2 |
 
 
 ### Deque
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1M push | 10.82 | 7.57 | 16.63 | ±5.46% |
-| 1M push & pop | 16.92 | 11.89 | 27.13 | ±7.55% |
-| 1M push & shift | 33.74 | 28.58 | 55.22 | ±3.46% |
-| 100K push & shift | 2.4481 | 1.6576 | 3.0384 | ±2.16% |
-| 100K unshift & shift | 2.4391 | 1.6261 | 4.5413 | ±3.37% |
+| 1M push | 10.98 | 6.38 | 25.07 | ±9.38% |
+| 1M push & pop | 11.56 | 9.77 | 19.2 | ±3.93% |
+| 1M push & shift | 10.95 | 10.19 | 30.6 | ±5.09% |
+| 100K push & shift | 1.395 | 1.0432 | 3.1726 | ±7.27% |
+| 100K unshift & shift | 1.1966 | 1.0944 | 2.2177 | ±3.18% |
 
 #### Deque (side-by-side)
 
@@ -147,18 +147,18 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 1M push | 10.82 | 17.59 | 29.7 | 1.76 |
-| 1M push & pop | 16.92 | 27.92 | 54.43 | 2.2 |
-| 1M push & shift | 33.74 | - | - | 1.94 |
-| 100K push & shift | 2.4481 | 2.5224 | 2007.91 | 0.19 |
-| 100K unshift & shift | 2.4391 | 2.5091 | 4067.39 | 0.19 |
+| 1M push | 10.98 | 7.8495 | 24.28 | 1.76 |
+| 1M push & pop | 11.56 | 12.14 | 30.68 | 2.2 |
+| 1M push & shift | 10.95 | - | - | 1.94 |
+| 100K push & shift | 1.395 | 1.1509 | 1255.31 | 0.19 |
+| 100K unshift & shift | 1.1966 | 1.1638 | 1980.94 | 0.19 |
 
 
 ### PriorityQueue
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 100K add | 4.366 | 4.2775 | 5.0309 | ±0.55% |
-| 100K add & poll | 26.13 | 25.54 | 26.9 | ±0.4% |
+| 100K add | 4.5393 | 3.9926 | 10.2987 | ±4.68% |
+| 100K add & poll | 22.77 | 21.62 | 30.58 | ±1.49% |
 
 #### PriorityQueue (side-by-side)
 
@@ -167,15 +167,15 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 100K add | 4.366 | 5.6519 | - | 1.05 |
-| 100K add & poll | 26.13 | 26.89 | - | 4.53 |
+| 100K add | 4.5393 | 5.0825 | - | 1.05 |
+| 100K add & poll | 22.77 | 23.18 | - | 4.53 |
 
 
 ### Stack
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1M push | 39 | 29.66 | 74.41 | ±6.5% |
-| 1M push & pop | 44.2 | 35.59 | 99.21 | ±8.95% |
+| 1M push | 28.46 | 23.99 | 81.05 | ±9.49% |
+| 1M push & pop | 28.99 | 26.58 | 37.31 | ±1.94% |
 
 #### Stack (side-by-side)
 
@@ -184,21 +184,21 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 1M push | 39 | 37.22 | 35.76 | 1.65 |
-| 1M push & pop | 44.2 | 48.32 | 38.89 | 2.62 |
+| 1M push | 28.46 | 31.41 | 24.84 | 1.65 |
+| 1M push & pop | 28.99 | 32.2 | 28.46 | 2.62 |
 
 
 ### RedBlackTree
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1M get | 100.68 | 85.62 | 112.14 | ±16.94% |
-| 200K rangeSearch SEQ | 1279.47 | 1235.27 | 1366.88 | ±5.59% |
-| 200K rangeSearch RAND | 1969.15 | 1885.88 | 2168.54 | ±7.23% |
-| 1M upd SEQ | 79.06 | 71.1 | 95.84 | ±15.75% |
-| 1M upd RAND | 113.1 | 106.36 | 118.28 | ±5.08% |
-| 1M ins SEQ | 567.61 | 463.22 | 946.06 | ±46.30% |
-| 1M ins RAND | 1611.63 | 1585.89 | 1631.64 | ±1.37% |
-| 1M keys-only | 4.0047 | 2.711 | 5.4122 | ±37.29% |
+| 1M get | 98.97 | 83.42 | 112.38 | ±17.87% |
+| 200K rangeSearch SEQ | 1150.86 | 1110.75 | 1213.28 | ±4.92% |
+| 200K rangeSearch RAND | 1612.65 | 1602.88 | 1627.28 | ±0.81% |
+| 1M upd SEQ | 81.06 | 72.06 | 93.19 | ±13.68% |
+| 1M upd RAND | 110.29 | 94.89 | 115.77 | ±9.78% |
+| 1M ins SEQ | 544.99 | 461.28 | 864.21 | ±40.65% |
+| 1M ins RAND | 1025.93 | 1008.09 | 1040.16 | ±1.56% |
+| 1M keys-only | 3.8192 | 2.7242 | 5.2749 | ±36.24% |
 
 #### RedBlackTree (side-by-side)
 
@@ -207,27 +207,27 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | Node Mode (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: | ---------: |
-| 1M get | 100.68 | 254.42 | 138.51 | - | 52.97 |
-| 200K rangeSearch SEQ | 1279.47 | - | - | - | - |
-| 200K rangeSearch RAND | 1969.15 | - | - | - | - |
-| 1M upd SEQ | 79.06 | 225.95 | 171.15 | - | 68.43 |
-| 1M upd RAND | 113.1 | 393.78 | 302.59 | - | 158.14 |
-| 1M ins SEQ | 567.61 | 196.91 | 89.1 | - | 162.72 |
-| 1M ins RAND | 1611.63 | 1169.56 | 825.66 | - | 483.56 |
-| 1M keys-only | 4.0047 | - | - | - | 0.09 |
+| 1M get | 98.97 | 259.04 | 137.55 | - | 52.97 |
+| 200K rangeSearch SEQ | 1150.86 | - | - | - | - |
+| 200K rangeSearch RAND | 1612.65 | - | - | - | - |
+| 1M upd SEQ | 81.06 | 229.33 | 174.39 | - | 68.43 |
+| 1M upd RAND | 110.29 | 378.95 | 301.59 | - | 158.14 |
+| 1M ins SEQ | 544.99 | 194 | 86.56 | - | 162.72 |
+| 1M ins RAND | 1025.93 | 906.98 | 636.16 | - | 483.56 |
+| 1M keys-only | 3.8192 | - | - | - | 0.09 |
 
 
 ### AVLTree
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 100K add randomly | 147.71 | 139.72 | 165.99 | ±1.82% |
-| 100K add | 120.95 | 116.96 | 137.67 | ±1.33% |
-| 100K get | 4.6144 | 4.1946 | 5.3585 | ±1.46% |
-| 100K getNode | 29.31 | 28.32 | 31.6 | ±0.64% |
-| 100K iterator | 6.5625 | 5.9973 | 8.4057 | ±1.68% |
-| 100K add & delete orderly | 181.9 | 178.51 | 189.75 | ±0.85% |
-| 100K add & delete randomly | 224.47 | 215.79 | 246.42 | ±1.71% |
-| AVL Tree 100K rangeSearch queries | 1388.54 | 1359.91 | 1417.61 | ±2.01% |
+| 100K add randomly | 146.42 | 139.05 | 191.55 | ±3.4% |
+| 100K add | 120.24 | 114.57 | 143 | ±1.83% |
+| 100K get | 4.6116 | 4.112 | 5.875 | ±1.85% |
+| 100K getNode | 31.34 | 29.81 | 36.57 | ±1.08% |
+| 100K iterator | 6.1388 | 5.6668 | 7.466 | ±1.35% |
+| 100K add & delete orderly | 180.78 | 175.71 | 215.2 | ±2.45% |
+| 100K add & delete randomly | 218.68 | 211.13 | 227.68 | ±1.05% |
+| AVL Tree 100K rangeSearch queries | 1352.3 | 1333.26 | 1370.64 | ±1.12% |
 
 #### AVLTree (side-by-side)
 
@@ -236,42 +236,42 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 100K add randomly | 147.71 | - | - | 16.62 |
-| 100K add | 120.95 | - | - | 15.48 |
-| 100K get | 4.6144 | - | - | 7.21 |
-| 100K getNode | 29.31 | - | - | 8.51 |
-| 100K iterator | 6.5625 | - | - | 1.06 |
-| 100K add & delete orderly | 181.9 | - | - | 21.56 |
-| 100K add & delete randomly | 224.47 | - | - | 27.96 |
-| AVL Tree 100K rangeSearch queries | 1388.54 | - | - | 111.9 |
+| 100K add randomly | 146.42 | - | - | 16.62 |
+| 100K add | 120.24 | - | - | 15.48 |
+| 100K get | 4.6116 | - | - | 7.21 |
+| 100K getNode | 31.34 | - | - | 8.51 |
+| 100K iterator | 6.1388 | - | - | 1.06 |
+| 100K add & delete orderly | 180.78 | - | - | 21.56 |
+| 100K add & delete randomly | 218.68 | - | - | 27.96 |
+| AVL Tree 100K rangeSearch queries | 1352.3 | - | - | 111.9 |
 
 
 ### TreeSet
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1M add TreeSet | 1817.81 | 1533.15 | 2706.38 | ±25.9% |
-| 1M add TreeSet (Node) | 1476.13 | 1148.9 | 3279.63 | ±49.85% |
-| 1M add RBT | 1956.77 | 1612.71 | 3418.44 | ±38.5% |
-| 1M add RBT (Node) | 1454.84 | 1195.1 | 2613.68 | ±41.02% |
-| 1M add js-sdsl | 1139.28 | 809.72 | 2722.45 | ±71.46% |
-| 1M has TreeSet | 89.75 | 86.56 | 99.35 | ±0.95% |
-| 1M has TreeSet (Node) | 929.28 | 927.12 | 933.02 | ±0.2% |
-| 1M has RBT | 91.74 | 83.2 | 100.99 | ±2.08% |
-| 1M has RBT (Node) | 1095.73 | 1051.17 | 1164.12 | ±3.93% |
-| 1M has js-sdsl | 849.02 | 838.57 | 875.56 | ±1.42% |
-| 1M build+has TreeSet | 2096.95 | 1624.92 | 3921.13 | ±60.38% |
-| 1M build+has TreeSet (Node) | 2072.15 | 2019.66 | 2115.15 | ±1.84% |
-| 1M build+has RBT | 2172.55 | 1674.07 | 4259.19 | ±49.52% |
-| 1M build+has RBT (Node) | 2187.87 | 2163.01 | 2203.74 | ±0.79% |
-| 1M build+has js-sdsl | 1610.39 | 1574.07 | 1647.04 | ±1.94% |
-| 100K rangeSearch TreeSet | 37.37 | 35.19 | 40.18 | ±0.86% |
-| 100K rangeSearch TreeSet (Node) | 36.88 | 35.59 | 42.99 | ±1.02% |
-| 100K navigable TreeSet | 153.24 | 150.21 | 158.68 | ±0.72% |
-| 100K navigable TreeSet (Node) | 151.69 | 149.84 | 154.73 | ±0.5% |
-| 100K build+rangeSearch TreeSet | 1921 | 1594.35 | 3251.16 | ±35.83% |
-| 100K build+rangeSearch TreeSet (Node) | 1451.29 | 1157.2 | 3130.5 | ±47.2% |
-| 100K build+navigable TreeSet | 1717.88 | 1690.85 | 1738.33 | ±0.98% |
-| 100K build+navigable TreeSet (Node) | 1323.3 | 1278.1 | 1426.23 | ±4.21% |
+| 1M add TreeSet | 1011.82 | 994.7 | 1026.94 | ±1.26% |
+| 1M add TreeSet (Node) | 912.3 | 901.4 | 945.46 | ±1.58% |
+| 1M add RBT | 1167.06 | 1046.4 | 1733.11 | ±24.94% |
+| 1M add RBT (Node) | 975.7 | 958.94 | 989.59 | ±1.16% |
+| 1M add js-sdsl | 642.32 | 624.09 | 653.38 | ±1.23% |
+| 1M has TreeSet | 65.41 | 62.46 | 74.83 | ±1.25% |
+| 1M has TreeSet (Node) | 809.01 | 804.67 | 814.93 | ±0.34% |
+| 1M has RBT | 67.48 | 63.98 | 83.28 | ±1.56% |
+| 1M has RBT (Node) | 1034.91 | 928.36 | 1541.14 | ±20.05% |
+| 1M has js-sdsl | 761.43 | 705.57 | 850.11 | ±5.98% |
+| 1M build+has TreeSet | 1096.77 | 1059.07 | 1161.07 | ±2.81% |
+| 1M build+has TreeSet (Node) | 1732.51 | 1712.26 | 1764.37 | ±1.06% |
+| 1M build+has RBT | 1155.43 | 1118.08 | 1211.51 | ±3.17% |
+| 1M build+has RBT (Node) | 1867.76 | 1826.38 | 1890.86 | ±1.36% |
+| 1M build+has js-sdsl | 1311.66 | 1280.72 | 1417.29 | ±4.19% |
+| 100K rangeSearch TreeSet | 20.83 | 18.93 | 22.13 | ±0.88% |
+| 100K rangeSearch TreeSet (Node) | 20.74 | 19.48 | 26.37 | ±1.34% |
+| 100K navigable TreeSet | 110.15 | 107.45 | 116.24 | ±0.8% |
+| 100K navigable TreeSet (Node) | 106.73 | 103.46 | 114.13 | ±1.03% |
+| 100K build+rangeSearch TreeSet | 1059.08 | 1036.84 | 1083.08 | ±1.61% |
+| 100K build+rangeSearch TreeSet (Node) | 929.91 | 906.75 | 960.4 | ±2.43% |
+| 100K build+navigable TreeSet | 1201.07 | 1103.44 | 1738.74 | ±18.27% |
+| 100K build+navigable TreeSet (Node) | 1004.24 | 994.89 | 1017.57 | ±0.79% |
 
 #### TreeSet (side-by-side)
 
@@ -280,57 +280,57 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 1M add TreeSet | 1817.81 | - | - | 462 |
-| 1M add TreeSet (Node) | 1476.13 | - | - | 462 |
-| 1M add RBT | 1956.77 | - | - | 462 |
-| 1M add RBT (Node) | 1454.84 | - | - | 462 |
-| 1M add js-sdsl | 1139.28 | - | - | - |
-| 1M has TreeSet | 89.75 | - | - | 444 |
-| 1M has TreeSet (Node) | 929.28 | - | - | 444 |
-| 1M has RBT | 91.74 | - | - | 444 |
-| 1M has RBT (Node) | 1095.73 | - | - | 444 |
-| 1M has js-sdsl | 849.02 | - | - | - |
-| 1M build+has TreeSet | 2096.95 | - | - | 837 |
-| 1M build+has TreeSet (Node) | 2072.15 | - | - | 837 |
-| 1M build+has RBT | 2172.55 | - | - | 837 |
-| 1M build+has RBT (Node) | 2187.87 | - | - | 837 |
-| 1M build+has js-sdsl | 1610.39 | - | - | - |
-| 100K rangeSearch TreeSet | 37.37 | - | - | - |
-| 100K rangeSearch TreeSet (Node) | 36.88 | - | - | - |
-| 100K navigable TreeSet | 153.24 | - | - | - |
-| 100K navigable TreeSet (Node) | 151.69 | - | - | - |
-| 100K build+rangeSearch TreeSet | 1921 | - | - | - |
-| 100K build+rangeSearch TreeSet (Node) | 1451.29 | - | - | - |
-| 100K build+navigable TreeSet | 1717.88 | - | - | - |
-| 100K build+navigable TreeSet (Node) | 1323.3 | - | - | - |
+| 1M add TreeSet | 1011.82 | - | - | 462 |
+| 1M add TreeSet (Node) | 912.3 | - | - | 462 |
+| 1M add RBT | 1167.06 | - | - | 462 |
+| 1M add RBT (Node) | 975.7 | - | - | 462 |
+| 1M add js-sdsl | 642.32 | - | - | - |
+| 1M has TreeSet | 65.41 | - | - | 444 |
+| 1M has TreeSet (Node) | 809.01 | - | - | 444 |
+| 1M has RBT | 67.48 | - | - | 444 |
+| 1M has RBT (Node) | 1034.91 | - | - | 444 |
+| 1M has js-sdsl | 761.43 | - | - | - |
+| 1M build+has TreeSet | 1096.77 | - | - | 837 |
+| 1M build+has TreeSet (Node) | 1732.51 | - | - | 837 |
+| 1M build+has RBT | 1155.43 | - | - | 837 |
+| 1M build+has RBT (Node) | 1867.76 | - | - | 837 |
+| 1M build+has js-sdsl | 1311.66 | - | - | - |
+| 100K rangeSearch TreeSet | 20.83 | - | - | - |
+| 100K rangeSearch TreeSet (Node) | 20.74 | - | - | - |
+| 100K navigable TreeSet | 110.15 | - | - | - |
+| 100K navigable TreeSet (Node) | 106.73 | - | - | - |
+| 100K build+rangeSearch TreeSet | 1059.08 | - | - | - |
+| 100K build+rangeSearch TreeSet (Node) | 929.91 | - | - | - |
+| 100K build+navigable TreeSet | 1201.07 | - | - | - |
+| 100K build+navigable TreeSet (Node) | 1004.24 | - | - | - |
 
 
 ### TreeMap
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1M set TreeMap | 1584.24 | 1544.63 | 1740.12 | ±5.08% |
-| 1M set TreeMap (Node) | 1163.47 | 1140.21 | 1187.8 | ±1.2% |
-| 1M set RBT | 1876.1 | 1638.01 | 2894.16 | ±27.93% |
-| 1M set RBT (Node) | 1341.04 | 1212.84 | 2075.29 | ±22.33% |
-| 1M set js-sdsl | 955.32 | 812.96 | 1656.95 | ±30.06% |
-| 1M get TreeMap | 162.76 | 159.63 | 169.33 | ±0.76% |
-| 1M get TreeMap (Node) | 1007.27 | 1004.6 | 1009.58 | ±0.17% |
-| 1M get RBT | 159.61 | 139.31 | 169.48 | ±2.2% |
-| 1M get RBT (Node) | 1059.56 | 1054.12 | 1067.31 | ±0.41% |
-| 1M get js-sdsl | 814.55 | 807.37 | 832.64 | ±0.81% |
-| 1M build+get TreeMap | 1936.03 | 1792.06 | 2519.08 | ±15.73% |
-| 1M build+get TreeMap (Node) | 2351.42 | 2042.67 | 3044.57 | ±20.62% |
-| 1M build+get RBT | 2009.46 | 1781.2 | 3079.96 | ±27.4% |
-| 1M build+get RBT (Node) | 2191.41 | 2154.05 | 2228.17 | ±1.37% |
-| 1M build+get js-sdsl | 1767.13 | 1506.48 | 2657.98 | ±26.33% |
-| 100K rangeSearch TreeMap | 114.35 | 72.07 | 917.58 | ±50.59% |
-| 100K rangeSearch TreeMap (Node) | 82.85 | 80.41 | 102.84 | ±1.59% |
-| 100K navigable TreeMap | 168.61 | 164.97 | 175.78 | ±0.75% |
-| 100K navigable TreeMap (Node) | 245.61 | 243.13 | 248.82 | ±0.4% |
-| 100K build+rangeSearch TreeMap | 1800.18 | 1586.05 | 2490.56 | ±19.93% |
-| 100K build+rangeSearch TreeMap (Node) | 1364.8 | 1198.69 | 2119.02 | ±28.44% |
-| 100K build+navigable TreeMap | 1733.87 | 1721.11 | 1753.36 | ±0.69% |
-| 100K build+navigable TreeMap (Node) | 1423.19 | 1390.54 | 1517.41 | ±3.56% |
+| 1M set TreeMap | 1130.7 | 996.21 | 1861.87 | ±26.38% |
+| 1M set TreeMap (Node) | 904.29 | 890.44 | 914.89 | ±0.81% |
+| 1M set RBT | 1146.79 | 1044.9 | 1535.27 | ±17.49% |
+| 1M set RBT (Node) | 968.9 | 960.13 | 980.74 | ±0.74% |
+| 1M set js-sdsl | 640.34 | 608.96 | 676.46 | ±3.07% |
+| 1M get TreeMap | 156.38 | 152.87 | 160.55 | ±0.59% |
+| 1M get TreeMap (Node) | 867.81 | 861.74 | 872.7 | ±0.46% |
+| 1M get RBT | 156.19 | 152.85 | 159.65 | ±0.51% |
+| 1M get RBT (Node) | 916.83 | 907.22 | 931.59 | ±0.96% |
+| 1M get js-sdsl | 672.22 | 660.56 | 686.89 | ±1.05% |
+| 1M build+get TreeMap | 1262.71 | 1203.82 | 1589.5 | ±10.56% |
+| 1M build+get TreeMap (Node) | 1712.26 | 1668.78 | 1765.61 | ±1.93% |
+| 1M build+get RBT | 1215.09 | 1200.03 | 1266.32 | ±1.76% |
+| 1M build+get RBT (Node) | 1811.83 | 1791.31 | 1836.34 | ±0.87% |
+| 1M build+get js-sdsl | 1213.71 | 1193.46 | 1244.24 | ±1.52% |
+| 100K rangeSearch TreeMap | 53.07 | 44.18 | 93.97 | ±5.99% |
+| 100K rangeSearch TreeMap (Node) | 54.02 | 52.58 | 61.28 | ±0.73% |
+| 100K navigable TreeMap | 174.8 | 169.03 | 184.16 | ±0.95% |
+| 100K navigable TreeMap (Node) | 272.56 | 267.11 | 279.11 | ±0.66% |
+| 100K build+rangeSearch TreeMap | 1183.72 | 1038.01 | 1985.82 | ±27.64% |
+| 100K build+rangeSearch TreeMap (Node) | 954.72 | 949.15 | 964.84 | ±0.52% |
+| 100K build+navigable TreeMap | 1205.71 | 1186.63 | 1218.09 | ±1.13% |
+| 100K build+navigable TreeMap (Node) | 1178.08 | 1171.1 | 1190.9 | ±0.67% |
 
 #### TreeMap (side-by-side)
 
@@ -339,45 +339,45 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 1M set TreeMap | 1584.24 | - | - | 512 |
-| 1M set TreeMap (Node) | 1163.47 | - | - | 512 |
-| 1M set RBT | 1876.1 | - | - | 512 |
-| 1M set RBT (Node) | 1341.04 | - | - | 512 |
-| 1M set js-sdsl | 955.32 | - | - | - |
-| 1M get TreeMap | 162.76 | - | - | 322 |
-| 1M get TreeMap (Node) | 1007.27 | - | - | 322 |
-| 1M get RBT | 159.61 | - | - | 322 |
-| 1M get RBT (Node) | 1059.56 | - | - | 322 |
-| 1M get js-sdsl | 814.55 | - | - | - |
-| 1M build+get TreeMap | 1936.03 | - | - | 819 |
-| 1M build+get TreeMap (Node) | 2351.42 | - | - | 819 |
-| 1M build+get RBT | 2009.46 | - | - | 819 |
-| 1M build+get RBT (Node) | 2191.41 | - | - | 819 |
-| 1M build+get js-sdsl | 1767.13 | - | - | - |
-| 100K rangeSearch TreeMap | 114.35 | - | - | - |
-| 100K rangeSearch TreeMap (Node) | 82.85 | - | - | - |
-| 100K navigable TreeMap | 168.61 | - | - | - |
-| 100K navigable TreeMap (Node) | 245.61 | - | - | - |
-| 100K build+rangeSearch TreeMap | 1800.18 | - | - | - |
-| 100K build+rangeSearch TreeMap (Node) | 1364.8 | - | - | - |
-| 100K build+navigable TreeMap | 1733.87 | - | - | - |
-| 100K build+navigable TreeMap (Node) | 1423.19 | - | - | - |
+| 1M set TreeMap | 1130.7 | - | - | 512 |
+| 1M set TreeMap (Node) | 904.29 | - | - | 512 |
+| 1M set RBT | 1146.79 | - | - | 512 |
+| 1M set RBT (Node) | 968.9 | - | - | 512 |
+| 1M set js-sdsl | 640.34 | - | - | - |
+| 1M get TreeMap | 156.38 | - | - | 322 |
+| 1M get TreeMap (Node) | 867.81 | - | - | 322 |
+| 1M get RBT | 156.19 | - | - | 322 |
+| 1M get RBT (Node) | 916.83 | - | - | 322 |
+| 1M get js-sdsl | 672.22 | - | - | - |
+| 1M build+get TreeMap | 1262.71 | - | - | 819 |
+| 1M build+get TreeMap (Node) | 1712.26 | - | - | 819 |
+| 1M build+get RBT | 1215.09 | - | - | 819 |
+| 1M build+get RBT (Node) | 1811.83 | - | - | 819 |
+| 1M build+get js-sdsl | 1213.71 | - | - | - |
+| 100K rangeSearch TreeMap | 53.07 | - | - | - |
+| 100K rangeSearch TreeMap (Node) | 54.02 | - | - | - |
+| 100K navigable TreeMap | 174.8 | - | - | - |
+| 100K navigable TreeMap (Node) | 272.56 | - | - | - |
+| 100K build+rangeSearch TreeMap | 1183.72 | - | - | - |
+| 100K build+rangeSearch TreeMap (Node) | 954.72 | - | - | - |
+| 100K build+navigable TreeMap | 1205.71 | - | - | - |
+| 100K build+navigable TreeMap (Node) | 1178.08 | - | - | - |
 
 
 ### TreeMultiSet
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1M add (TreeMultiSet expanded iteration) | 318.73 | 225.99 | 1280.19 | ±54.8% |
-| 1M has-only (TreeMultiSet) | 144.4 | 139.38 | 161.55 | ±1.57% |
-| 1M count-only (TreeMultiSet) | 146.14 | 137.88 | 170.81 | ±2.71% |
-| 1M build+has (TreeMultiSet) | 390.86 | 370.84 | 421.49 | ±2.87% |
-| 1M build+count (TreeMultiSet) | 382.27 | 371.02 | 416.14 | ±2.16% |
-| 100K delete-one (TreeMultiSet) | 249.65 | 240.62 | 257.99 | ±1.48% |
-| 100K setCount (TreeMultiSet) | 291.95 | 238.1 | 666.41 | ±21.59% |
-| 1M expanded iteration (TreeMultiSet) | 61.09 | 58.72 | 65.95 | ±0.71% |
-| 1M entries view (TreeMultiSet) | 20.35 | 19.5 | 21.21 | ±0.4% |
-| 1M size property (TreeMultiSet) | 0 | 0 | 0 | ±3.15% |
-| 1M distinctSize property (TreeMultiSet) | 0 | 0 | 0 | ±3.5% |
+| 1M add (TreeMultiSet expanded iteration) | 233.76 | 221.86 | 263.58 | ±2.47% |
+| 1M has-only (TreeMultiSet) | 130.14 | 123.61 | 139.99 | ±1.51% |
+| 1M count-only (TreeMultiSet) | 73.21 | 70.53 | 83.71 | ±1.1% |
+| 1M build+has (TreeMultiSet) | 368.22 | 354.26 | 387.34 | ±2.15% |
+| 1M build+count (TreeMultiSet) | 307.33 | 295.46 | 324.15 | ±1.58% |
+| 100K delete-one (TreeMultiSet) | 246.79 | 233.35 | 270.91 | ±2.28% |
+| 100K setCount (TreeMultiSet) | 251.85 | 229.99 | 383.39 | ±8.13% |
+| 1M expanded iteration (TreeMultiSet) | 59.63 | 57.28 | 65.64 | ±0.76% |
+| 1M entries view (TreeMultiSet) | 19.68 | 19.18 | 20.91 | ±0.45% |
+| 1M size property (TreeMultiSet) | 0 | 0 | 0 | ±2.77% |
+| 1M distinctSize property (TreeMultiSet) | 0 | 0 | 0 | ±2.63% |
 
 #### TreeMultiSet (side-by-side)
 
@@ -386,15 +386,15 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 1M add (TreeMultiSet expanded iteration) | 318.73 | - | - | 752 |
-| 1M has-only (TreeMultiSet) | 144.4 | - | - | 756 |
-| 1M count-only (TreeMultiSet) | 146.14 | - | - | 1332 |
-| 1M build+has (TreeMultiSet) | 390.86 | - | - | 1406 |
-| 1M build+count (TreeMultiSet) | 382.27 | - | - | 1909 |
-| 100K delete-one (TreeMultiSet) | 249.65 | - | - | - |
-| 100K setCount (TreeMultiSet) | 291.95 | - | - | - |
-| 1M expanded iteration (TreeMultiSet) | 61.09 | - | - | - |
-| 1M entries view (TreeMultiSet) | 20.35 | - | - | - |
+| 1M add (TreeMultiSet expanded iteration) | 233.76 | - | - | 752 |
+| 1M has-only (TreeMultiSet) | 130.14 | - | - | 756 |
+| 1M count-only (TreeMultiSet) | 73.21 | - | - | 1332 |
+| 1M build+has (TreeMultiSet) | 368.22 | - | - | 1406 |
+| 1M build+count (TreeMultiSet) | 307.33 | - | - | 1909 |
+| 100K delete-one (TreeMultiSet) | 246.79 | - | - | - |
+| 100K setCount (TreeMultiSet) | 251.85 | - | - | - |
+| 1M expanded iteration (TreeMultiSet) | 59.63 | - | - | - |
+| 1M entries view (TreeMultiSet) | 19.68 | - | - | - |
 | 1M size property (TreeMultiSet) | 0 | - | - | - |
 | 1M distinctSize property (TreeMultiSet) | 0 | - | - | - |
 
@@ -402,20 +402,20 @@ Understand how data-structure-typed performs, and when to use each structure.
 ### TreeMultiMap
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1M add (TreeMultiMap bucketed) | 539.87 | 427.65 | 1430.72 | ±41.48% |
-| 1M has-only (TreeMultiMap) | 37.17 | 36.24 | 39.34 | ±0.49% |
-| 1M get-only (TreeMultiMap) | 148.7 | 141.89 | 162.51 | ±2% |
-| 1M count-only (TreeMultiMap) | 231.71 | 225.61 | 260.61 | ±2.03% |
-| 1M build+has (TreeMultiMap) | 605.14 | 471.31 | 1600.47 | ±47.42% |
-| 1M build+get (TreeMultiMap) | 580.53 | 567.4 | 591.19 | ±1.03% |
-| 100K hasEntry (TreeMultiMap Object.is) | 478.71 | 461.88 | 499.68 | ±1.95% |
-| 100K deleteValue (TreeMultiMap Object.is) | 492.5 | 483.65 | 503.79 | ±0.97% |
+| 1M add (TreeMultiMap bucketed) | 388.73 | 379.76 | 397.83 | ±1.15% |
+| 1M has-only (TreeMultiMap) | 30.79 | 29.68 | 32.17 | ±0.66% |
+| 1M get-only (TreeMultiMap) | 73.67 | 71.02 | 78.12 | ±0.81% |
+| 1M count-only (TreeMultiMap) | 206.68 | 196.04 | 240.2 | ±2.87% |
+| 1M build+has (TreeMultiMap) | 452.55 | 405.87 | 605.82 | ±10.59% |
+| 1M build+get (TreeMultiMap) | 477.45 | 448.38 | 613.55 | ±7.26% |
+| 100K hasEntry (TreeMultiMap Object.is) | 450.09 | 420.59 | 526.53 | ±6.07% |
+| 100K deleteValue (TreeMultiMap Object.is) | 435.96 | 425.2 | 480.98 | ±2.72% |
 | 100K firstEntry/lastEntry (TreeMultiMap) | 0 | null | null | ±0% |
 | 100K ceilingEntry/floorEntry (TreeMultiMap) | 0 | null | null | ±0% |
-| 1M bucket iteration (TreeMultiMap) | 28.37 | 27.16 | 29.86 | ±0.63% |
-| 1M flatEntries iteration (TreeMultiMap) | 135.69 | 129.69 | 141.56 | ±0.86% |
-| 1M size property (TreeMultiMap) | 0 | 0 | 0 | ±3.13% |
-| 1M totalSize property (TreeMultiMap) | 28.59 | 26.32 | 91.83 | ±7.13% |
+| 1M bucket iteration (TreeMultiMap) | 28.09 | 26.9 | 29.48 | ±0.62% |
+| 1M flatEntries iteration (TreeMultiMap) | 135.75 | 132.38 | 142.79 | ±0.7% |
+| 1M size property (TreeMultiMap) | 0 | 0 | 0 | ±3.77% |
+| 1M totalSize property (TreeMultiMap) | 27.13 | 25.8 | 30.75 | ±0.87% |
 
 #### TreeMultiMap (side-by-side)
 
@@ -424,29 +424,29 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 1M add (TreeMultiMap bucketed) | 539.87 | - | - | 731 |
-| 1M has-only (TreeMultiMap) | 37.17 | - | - | 833 |
-| 1M get-only (TreeMultiMap) | 148.7 | - | - | 1553 |
-| 1M count-only (TreeMultiMap) | 231.71 | - | - | 1548 |
-| 1M build+has (TreeMultiMap) | 605.14 | - | - | 1519 |
-| 1M build+get (TreeMultiMap) | 580.53 | - | - | 2263 |
-| 100K hasEntry (TreeMultiMap Object.is) | 478.71 | - | - | - |
-| 100K deleteValue (TreeMultiMap Object.is) | 492.5 | - | - | - |
+| 1M add (TreeMultiMap bucketed) | 388.73 | - | - | 731 |
+| 1M has-only (TreeMultiMap) | 30.79 | - | - | 833 |
+| 1M get-only (TreeMultiMap) | 73.67 | - | - | 1553 |
+| 1M count-only (TreeMultiMap) | 206.68 | - | - | 1548 |
+| 1M build+has (TreeMultiMap) | 452.55 | - | - | 1519 |
+| 1M build+get (TreeMultiMap) | 477.45 | - | - | 2263 |
+| 100K hasEntry (TreeMultiMap Object.is) | 450.09 | - | - | - |
+| 100K deleteValue (TreeMultiMap Object.is) | 435.96 | - | - | - |
 | 100K firstEntry/lastEntry (TreeMultiMap) | 0 | - | - | - |
 | 100K ceilingEntry/floorEntry (TreeMultiMap) | 0 | - | - | - |
-| 1M bucket iteration (TreeMultiMap) | 28.37 | - | - | 109 |
-| 1M flatEntries iteration (TreeMultiMap) | 135.69 | - | - | 109 |
+| 1M bucket iteration (TreeMultiMap) | 28.09 | - | - | 109 |
+| 1M flatEntries iteration (TreeMultiMap) | 135.75 | - | - | 109 |
 | 1M size property (TreeMultiMap) | 0 | - | - | - |
-| 1M totalSize property (TreeMultiMap) | 28.59 | - | - | - |
+| 1M totalSize property (TreeMultiMap) | 27.13 | - | - | - |
 
 
 ### BST
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 10K add randomly | 5.8064 | 5.3484 | 15.4658 | ±4.27% |
-| 10K add & delete randomly | 10.21 | 9.92 | 12.41 | ±0.88% |
-| 10K addMany | 10.98 | 10.25 | 23.9 | ±3.17% |
-| 10K get | 11.91 | 10.99 | 15.31 | ±2.1% |
+| 10K add randomly | 6.2675 | 5.7848 | 8.2385 | ±1.17% |
+| 10K add & delete randomly | 11.03 | 10.63 | 13.23 | ±0.74% |
+| 10K addMany | 11.93 | 11.12 | 12.53 | ±0.66% |
+| 10K get | 16.92 | 11.35 | 231.5 | ±46.92% |
 
 #### BST (side-by-side)
 
@@ -455,23 +455,23 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 10K add randomly | 5.8064 | - | - | - |
-| 10K add & delete randomly | 10.21 | - | - | - |
-| 10K addMany | 10.98 | - | - | - |
-| 10K get | 11.91 | - | - | - |
+| 10K add randomly | 6.2675 | - | - | - |
+| 10K add & delete randomly | 11.03 | - | - | - |
+| 10K addMany | 11.93 | - | - | - |
+| 10K get | 16.92 | - | - | - |
 
 
 ### BinaryTree
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1K add randomly | 10.65 | 10.42 | 11.19 | ±0.32% |
-| 1K add & delete randomly | 11.23 | 10.49 | 26.02 | ±4.51% |
-| 1K addMany | 10.58 | 10.29 | 11.22 | ±0.35% |
-| 1K get | 11.11 | 10.32 | 22.68 | ±3.53% |
-| 1K has | 11 | 10.3 | 23.76 | ±4.21% |
-| 1K dfs | 141.08 | 139.05 | 144.34 | ±0.46% |
-| 1K bfs | 47.83 | 46.69 | 55.65 | ±0.98% |
-| 1K morris | 55.82 | 54.62 | 59.95 | ±0.44% |
+| 1K add randomly | 11.09 | 10.35 | 13.04 | ±0.98% |
+| 1K add & delete randomly | 11.2 | 10.81 | 11.87 | ±0.44% |
+| 1K addMany | 11.06 | 10.78 | 12.88 | ±0.65% |
+| 1K get | 11.08 | 10.64 | 11.76 | ±0.51% |
+| 1K has | 14.68 | 10.92 | 194.04 | ±46.06% |
+| 1K dfs | 108.11 | 103.04 | 113.7 | ±0.75% |
+| 1K bfs | 46.99 | 45.17 | 54.89 | ±1.35% |
+| 1K morris | 41.61 | 39.97 | 43.66 | ±0.67% |
 
 #### BinaryTree (side-by-side)
 
@@ -480,21 +480,21 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 1K add randomly | 10.65 | - | - | - |
-| 1K add & delete randomly | 11.23 | - | - | - |
-| 1K addMany | 10.58 | - | - | - |
-| 1K get | 11.11 | - | - | - |
-| 1K has | 11 | - | - | - |
-| 1K dfs | 141.08 | - | - | - |
-| 1K bfs | 47.83 | - | - | - |
-| 1K morris | 55.82 | - | - | - |
+| 1K add randomly | 11.09 | - | - | - |
+| 1K add & delete randomly | 11.2 | - | - | - |
+| 1K addMany | 11.06 | - | - | - |
+| 1K get | 11.08 | - | - | - |
+| 1K has | 14.68 | - | - | - |
+| 1K dfs | 108.11 | - | - | - |
+| 1K bfs | 46.99 | - | - | - |
+| 1K morris | 41.61 | - | - | - |
 
 
 ### Trie
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 100K add | 24.78 | 22.08 | 35.79 | ±3.49% |
-| 100K getWords | 117.75 | 99.64 | 202.76 | ±9.14% |
+| 100K add | 257.47 | 82.81 | 2186.79 | ±82.38% |
+| 100K getWords | 15858.61 | 15402.9 | 16681.99 | ±4.01% |
 
 #### Trie (side-by-side)
 
@@ -503,19 +503,19 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 100K add | 24.78 | - | - | - |
-| 100K getWords | 117.75 | - | - | - |
+| 100K add | 257.47 | - | - | - |
+| 100K getWords | 15858.61 | - | - | - |
 
 
 ### DirectedGraph
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1K addVertex | 0.0446 | 0.0436 | 0.0557 | ±0.63% |
-| 1K addEdge | 2.9426 | 2.7818 | 4.3713 | ±1.7% |
-| 1K getVertex | 0.0382 | 0.0374 | 0.0441 | ±0.51% |
-| 1K getEdge | 48.53 | 43.18 | 107.27 | ±6.34% |
-| tarjan | 263.6 | 253.45 | 298.73 | ±2.51% |
-| topologicalSort | 221.51 | 213.7 | 246.27 | ±2.5% |
+| 1K addVertex | 0.0532 | 0.0492 | 0.0626 | ±1% |
+| 1K addEdge | 0 | null | null | ±0% |
+| 1K getVertex | 38.93 | 37.39 | 40.44 | ±0.4% |
+| 1K getEdge | 77.81 | 74.74 | 87.38 | ±0.78% |
+| tarjan | 0.4219 | 0.3991 | 0.4419 | ±0.39% |
+| topologicalSort | 0.2641 | 0.2567 | 0.2835 | ±0.48% |
 
 #### DirectedGraph (side-by-side)
 
@@ -524,12 +524,12 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 1K addVertex | 0.0446 | - | - | - |
-| 1K addEdge | 2.9426 | - | - | - |
-| 1K getVertex | 0.0382 | - | - | - |
-| 1K getEdge | 48.53 | - | - | - |
-| tarjan | 263.6 | - | - | - |
-| topologicalSort | 221.51 | - | - | - |
+| 1K addVertex | 0.0532 | - | - | - |
+| 1K addEdge | 0 | - | - | - |
+| 1K getVertex | 38.93 | - | - | - |
+| 1K getEdge | 77.81 | - | - | - |
+| tarjan | 0.4219 | - | - | - |
+| topologicalSort | 0.2641 | - | - | - |
 
 
 
