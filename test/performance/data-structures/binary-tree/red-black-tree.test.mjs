@@ -1,5 +1,4 @@
 import { RedBlackTree } from '../../../../dist/esm/index.mjs';
-import { OrderedMap } from 'js-sdsl';
 
 import { getRandomIntArray, magnitude } from '../../../utils/perf.mjs';
 
@@ -132,11 +131,9 @@ export async function getResults() {
     console.log('pre-building get trees (not timed)...');
     const rbMapMode = new RedBlackTree([], { isMapMode: true });
     const rbNodeMode = new RedBlackTree([], { isMapMode: false });
-    const sdslOrderedMap = new OrderedMap();
     for (let i = 0; i < GET_N; i++) {
         rbMapMode.set(i, i);
         rbNodeMode.add(i);
-        sdslOrderedMap.setElement(i, i);
     }
     console.log('pre-build done');
 
@@ -156,12 +153,6 @@ export async function getResults() {
     results.push(withRepeats(`${GET_N.toLocaleString()} get (classic)`, () => {
         let count = 0;
         for (let i = 0; i < GET_N; i++) if (rbNodeMode.get(i) !== undefined) count++;
-        if (count === 42) console.log('');
-    }));
-
-    results.push(withRepeats(`${GET_N.toLocaleString()} get (js-sdsl)`, () => {
-        let count = 0;
-        for (let i = 0; i < GET_N; i++) if (sdslOrderedMap.getElementByKey(i) !== undefined) count++;
         if (count === 42) console.log('');
     }));
 
@@ -201,12 +192,6 @@ export async function getResults() {
         for (let i = 0; i < N; i++) rbTree.set(i % KEY_POOL, i);
     }));
 
-    results.push(withRepeats(`${MILLION.toLocaleString()} upd SEQ (js-sdsl)`, () => {
-        const mp = new OrderedMap();
-        for (let i = 0; i < KEY_POOL; i++) mp.setElement(i, 0);
-        for (let i = 0; i < N; i++) mp.setElement(i % KEY_POOL, i);
-    }));
-
     // UPDATE (RAND)
     results.push(withRepeats(`${MILLION.toLocaleString()} upd RAND`, () => {
         const rbTree = new RedBlackTree([], { isMapMode: true });
@@ -220,12 +205,6 @@ export async function getResults() {
         for (let i = 0; i < N; i++) rbTree.set(randUpdateKeys[i], i);
     }));
 
-    results.push(withRepeats(`${MILLION.toLocaleString()} upd RAND (js-sdsl)`, () => {
-        const mp = new OrderedMap();
-        for (let i = 0; i < KEY_POOL; i++) mp.setElement(i, 0);
-        for (let i = 0; i < N; i++) mp.setElement(randUpdateKeys[i], i);
-    }));
-
     // INSERT (SEQ)
     results.push(withRepeats(`${N.toLocaleString()} ins SEQ`, () => {
         const rbTree = new RedBlackTree([], { isMapMode: true });
@@ -235,11 +214,6 @@ export async function getResults() {
     results.push(withRepeats(`${MILLION.toLocaleString()} ins SEQ (classic)`, () => {
         const rbTree = new RedBlackTree([], { isMapMode: false });
         for (let i = 0; i < N; i++) rbTree.add(i);
-    }));
-
-    results.push(withRepeats(`${N.toLocaleString()} ins SEQ (js-sdsl)`, () => {
-        const mp = new OrderedMap();
-        for (let i = 0; i < N; i++) mp.setElement(i, i);
     }));
 
     // INSERT (RAND unique)
@@ -254,14 +228,6 @@ export async function getResults() {
     results.push(withRepeats(`${MILLION.toLocaleString()} ins RAND (classic)`, () => {
         const rbTree = new RedBlackTree([], { isMapMode: false });
         for (let i = 0; i < N; i++) rbTree.add(randUniqueKeys[i]);
-    }));
-
-    results.push(withRepeats(`${MILLION.toLocaleString()} ins RAND (js-sdsl)`, () => {
-        const mp = new OrderedMap();
-        for (let i = 0; i < N; i++) {
-            const k = randUniqueKeys[i];
-            mp.setElement(k, k);
-        }
     }));
 
     // Baseline: keys-only
