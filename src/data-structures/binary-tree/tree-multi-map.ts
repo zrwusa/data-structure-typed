@@ -7,6 +7,7 @@
  */
 
 import type { Comparator, TreeMultiMapOptions } from '../../types';
+import { Range } from '../../common';
 import { RedBlackTree, RedBlackTreeNode } from './red-black-tree';
 import { TreeSet } from './tree-set';
 
@@ -213,19 +214,19 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    */
   constructor(
     keysNodesEntriesOrRaws: Iterable<K | [K | null | undefined, V[] | undefined] | null | undefined | R> = [],
-    options: TreeMultiMapOptions<K, V[], R> = {} as any
+    options: TreeMultiMapOptions<K, V[], R> = {}
   ) {
-    const comparator = (options as any).comparator ?? TreeSet.createDefaultComparator<K>();
-    this.#isDefaultComparator = (options as any).comparator === undefined;
-    const toEntryFn = (options as any).toEntryFn;
-    this.#core = new RedBlackTree<K, V[], R>([], { ...(options as any), comparator, isMapMode: (options as any).isMapMode });
+    const comparator = options.comparator ?? TreeSet.createDefaultComparator<K>();
+    this.#isDefaultComparator = options.comparator === undefined;
+    const toEntryFn = options.toEntryFn;
+    this.#core = new RedBlackTree<K, V[], R>([], { ...options, comparator, isMapMode: options.isMapMode });
 
-    for (const x of keysNodesEntriesOrRaws as any) {
+    for (const x of keysNodesEntriesOrRaws) {
       if (x === null || x === undefined) continue;
 
       // If toEntryFn is provided, use it to transform raw element
       if (toEntryFn) {
-        const [k, bucket] = toEntryFn(x);
+        const [k, bucket] = toEntryFn(x as R);
         if (k === null || k === undefined) continue;
         if (bucket !== undefined) {
           this.#core.set(k as K, Array.isArray(bucket) ? [...bucket] : [bucket] as V[]);
@@ -617,8 +618,8 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    * Prints the internal tree structure (for debugging).
    * @remarks Time O(n), Space O(n)
    */
-  print(...args: any[]): void {
-    return (this.#core as any).print(...args);
+  print(): void {
+    this.#core.print();
   }
 
   /**
@@ -640,7 +641,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
     for (const [k, v] of this) {
       if (predicate(v, k, this)) filtered.push([k, v]);
     }
-    return new TreeMultiMap<K, V, R>(filtered, { comparator: this.comparator as any });
+    return new TreeMultiMap<K, V, R>(filtered, { comparator: this.comparator });
   }
 
   /**
@@ -654,7 +655,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
     for (const [k, v] of this) {
       mapped.push(mapper(v, k, this));
     }
-    return new TreeMultiMap<K, V2, R>(mapped, { comparator: this.comparator as any });
+    return new TreeMultiMap<K, V2, R>(mapped, { comparator: this.comparator });
   }
 
   /**
@@ -673,11 +674,11 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    * Sets multiple entries at once.
    * @remarks Time O(m log n), Space O(m) where m is input size
    */
-  setMany(keysNodesEntriesOrRaws: Iterable<any>): boolean[] {
+  setMany(keysNodesEntriesOrRaws: Iterable<K | [K | null | undefined, V[] | undefined]>): boolean[] {
     const results: boolean[] = [];
     for (const x of keysNodesEntriesOrRaws) {
       // Call implementation directly: entry can be K or [K, V[]] or [K, undefined]
-      results.push(this.set(x as any, undefined as any));
+      results.push(this.set(x));
     }
     return results;
   }
@@ -686,12 +687,11 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    * Searches for entries within a key range.
    * @remarks Time O(log n + k), Space O(k) where k is result size
    */
-  rangeSearch<C extends (node: RedBlackTreeNode<K, V[]>) => any>(
-    range: any,
-    callback?: C,
-    isBalanced?: any
+  rangeSearch<C extends (node: RedBlackTreeNode<K, V[]>) => unknown>(
+    range: Range<K> | [K, K],
+    callback?: C
   ): ReturnType<C>[] {
-    return this.#core.rangeSearch(range, callback as any, isBalanced);
+    return this.#core.rangeSearch(range, callback as (node: RedBlackTreeNode<K, V[]>) => ReturnType<C>);
   }
 
   /**
@@ -699,7 +699,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    * @remarks Time O(n log n), Space O(n)
    */
   clone(): TreeMultiMap<K, V, R> {
-    return new TreeMultiMap<K, V, R>(this, { comparator: this.comparator as any, isMapMode: (this.#core as any)._isMapMode });
+    return new TreeMultiMap<K, V, R>(this, { comparator: this.comparator, isMapMode: this.#core.isMapMode });
   }
 
   /**
@@ -707,6 +707,6 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    * @remarks Time O(1), Space O(1)
    */
   get comparator(): Comparator<K> {
-    return (this.#core as any)._comparator;
+    return this.#core.comparator;
   }
 }
