@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-27T12:15:15.758Z",
+  "timestamp": "2026-02-27T19:01:42.454Z",
   "javascript": [
     {
       "testName": "tree-map",
@@ -1084,118 +1084,83 @@
       "benchmarks": [
         {
           "Test Case": "1,000,000 get",
-          "Latency Avg (ms)": 123.51,
-          "Min (ms)": 99.96,
-          "Max (ms)": 141.18,
-          "Stability": "±21.53%"
+          "Latency Avg (ms)": 97.57,
+          "Min (ms)": 75.66,
+          "Max (ms)": 115.14,
+          "Stability": "±22.94%"
         },
         {
           "Test Case": "1,000,000 get (classic)",
-          "Latency Avg (ms)": 435.19,
-          "Min (ms)": 233.27,
-          "Max (ms)": 497.53,
-          "Stability": "±32.61%"
-        },
-        {
-          "Test Case": "1,000,000 get (js-sdsl)",
-          "Latency Avg (ms)": 234.37,
-          "Min (ms)": 128.88,
-          "Max (ms)": 268.96,
-          "Stability": "±31.39%"
-        },
-        {
-          "Test Case": "1,000,000 upd SEQ",
-          "Latency Avg (ms)": 138.08,
-          "Min (ms)": 119.8,
-          "Max (ms)": 154.69,
-          "Stability": "±14.65%"
-        },
-        {
-          "Test Case": "1,000,000 upd SEQ (classic)",
-          "Latency Avg (ms)": 575.01,
-          "Min (ms)": 439.51,
-          "Max (ms)": 618.99,
-          "Stability": "±16.42%"
-        },
-        {
-          "Test Case": "1,000,000 upd SEQ (js-sdsl)",
-          "Latency Avg (ms)": 343.47,
-          "Min (ms)": 202.62,
-          "Max (ms)": 383.2,
-          "Stability": "±28.50%"
-        },
-        {
-          "Test Case": "1,000,000 upd RAND",
-          "Latency Avg (ms)": 169.94,
-          "Min (ms)": 153.81,
-          "Max (ms)": 177.44,
-          "Stability": "±6.93%"
-        },
-        {
-          "Test Case": "1,000,000 upd RAND (classic)",
-          "Latency Avg (ms)": 710.51,
-          "Min (ms)": 405.69,
-          "Max (ms)": 804.19,
-          "Stability": "±29.86%"
-        },
-        {
-          "Test Case": "1,000,000 upd RAND (js-sdsl)",
-          "Latency Avg (ms)": 633.05,
-          "Min (ms)": 627.2,
-          "Max (ms)": 638.42,
-          "Stability": "±0.95%"
-        },
-        {
-          "Test Case": "1,000,000 ins SEQ",
-          "Latency Avg (ms)": 772.3,
-          "Min (ms)": 664.22,
-          "Max (ms)": 1188.71,
-          "Stability": "±37.43%"
-        },
-        {
-          "Test Case": "1,000,000 ins SEQ (classic)",
-          "Latency Avg (ms)": 300.54,
-          "Min (ms)": 297.57,
-          "Max (ms)": 304.51,
-          "Stability": "±1.24%"
-        },
-        {
-          "Test Case": "1,000,000 ins SEQ (js-sdsl)",
-          "Latency Avg (ms)": 138.62,
-          "Min (ms)": 135.19,
-          "Max (ms)": 141.88,
-          "Stability": "±2.22%"
-        },
-        {
-          "Test Case": "1,000,000 ins RAND",
-          "Latency Avg (ms)": 1337.02,
-          "Min (ms)": 1009.75,
-          "Max (ms)": 1463.93,
-          "Stability": "±17.20%"
-        },
-        {
-          "Test Case": "1,000,000 ins RAND (classic)",
-          "Latency Avg (ms)": 1340.59,
-          "Min (ms)": 1324.2,
-          "Max (ms)": 1361.06,
+          "Latency Avg (ms)": 274.37,
+          "Min (ms)": 269.01,
+          "Max (ms)": 277.64,
           "Stability": "±1.62%"
         },
         {
-          "Test Case": "1,000,000 ins RAND (js-sdsl)",
-          "Latency Avg (ms)": 942.67,
-          "Min (ms)": 910.51,
-          "Max (ms)": 966.97,
-          "Stability": "±3.13%"
+          "Test Case": "1,000,000 upd SEQ",
+          "Latency Avg (ms)": 85.76,
+          "Min (ms)": 78.96,
+          "Max (ms)": 92.92,
+          "Stability": "±8.16%"
+        },
+        {
+          "Test Case": "1,000,000 upd SEQ (classic)",
+          "Latency Avg (ms)": 325.37,
+          "Min (ms)": 252.91,
+          "Max (ms)": 348.45,
+          "Stability": "±15.51%"
+        },
+        {
+          "Test Case": "1,000,000 upd RAND",
+          "Latency Avg (ms)": 113.48,
+          "Min (ms)": 101.84,
+          "Max (ms)": 120.9,
+          "Stability": "±7.77%"
+        },
+        {
+          "Test Case": "1,000,000 upd RAND (classic)",
+          "Latency Avg (ms)": 451.95,
+          "Min (ms)": 421.5,
+          "Max (ms)": 468.18,
+          "Stability": "±5.01%"
+        },
+        {
+          "Test Case": "1,000,000 ins SEQ",
+          "Latency Avg (ms)": 493.45,
+          "Min (ms)": 436.86,
+          "Max (ms)": 670.44,
+          "Stability": "±25.42%"
+        },
+        {
+          "Test Case": "1,000,000 ins SEQ (classic)",
+          "Latency Avg (ms)": 177.73,
+          "Min (ms)": 175.49,
+          "Max (ms)": 179.29,
+          "Stability": "±1.23%"
+        },
+        {
+          "Test Case": "1,000,000 ins RAND",
+          "Latency Avg (ms)": 1023.19,
+          "Min (ms)": 976.56,
+          "Max (ms)": 1094.17,
+          "Stability": "±5.36%"
+        },
+        {
+          "Test Case": "1,000,000 ins RAND (classic)",
+          "Latency Avg (ms)": 882.84,
+          "Min (ms)": 870.38,
+          "Max (ms)": 893.99,
+          "Stability": "±1.24%"
         },
         {
           "Test Case": "1,000,000 keys-only",
-          "Latency Avg (ms)": 4.2044,
-          "Min (ms)": 2.7263,
-          "Max (ms)": 5.9702,
-          "Stability": "±42.33%"
+          "Latency Avg (ms)": 4.2208,
+          "Min (ms)": 2.7142,
+          "Max (ms)": 5.9026,
+          "Stability": "±41.83%"
         }
       ],
-      "runTime": 98.69,
+      "runTime": 45.83,
       "file": "/Users/revone/projects/data-structure-typed/test/performance/data-structures/binary-tree/red-black-tree-cjs.test.mjs"
     }
   ],
