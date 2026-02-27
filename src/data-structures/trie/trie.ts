@@ -564,19 +564,17 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
     const words: string[] = [];
     let found = 0;
 
-    function dfs(node: TrieNode, word: string) {
-      for (const char of node.children.keys()) {
-        const charNode = node.children.get(char);
-        if (charNode !== undefined) {
-          dfs(charNode, word.concat(char));
-        }
+    const dfs = (node: TrieNode, word: string): void => {
+      for (const [char, childNode] of node.children) {
+        if (found >= max) return;
+        dfs(childNode, word + char);
       }
       if (node.isEnd) {
-        if (found > max - 1) return;
+        if (found >= max) return;
         words.push(word);
         found++;
       }
-    }
+    };
 
     let startNode = this.root;
 
