@@ -42,19 +42,19 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
     options: TreeMapOptions<K, V, R> = {}
   ) {
     this.#userComparator = options.comparator;
-    const toEntryFn = options.toEntryFn as ((item: unknown) => [K, V]) | undefined;
+    const toEntryFn = options.toEntryFn;
     const comparator = options.comparator ?? TreeMap.createDefaultComparator<K>();
     this.#isDefaultComparator = options.comparator === undefined;
 
     this.#core = new RedBlackTree<K, V>([], { comparator, isMapMode: options.isMapMode });
 
-    for (const item of entries as Iterable<unknown>) {
+    for (const item of entries) {
       let k: K;
       let v: V | undefined;
 
       if (toEntryFn) {
         // Use toEntryFn to transform raw element
-        [k, v] = toEntryFn(item);
+        [k, v] = toEntryFn(item as R);
       } else {
         // Validate entries like native Map: each item must be a 2-tuple-like value.
         if (!Array.isArray(item) || item.length < 2) {

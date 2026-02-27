@@ -31,13 +31,13 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * const mset = new TreeMultiSet<number, Item>(items, { toElementFn: item => item.score });
    */
   constructor(elements: Iterable<R> | Iterable<K> = [], options: TreeMultiSetOptions<K, R> = {}) {
-    const toElementFn = options.toElementFn as ((item: unknown) => K) | undefined;
+    const toElementFn = options.toElementFn;
     const comparator = options.comparator ?? TreeSet.createDefaultComparator<K>();
     this.#isDefaultComparator = options.comparator === undefined;
     this.#core = new RedBlackTree<K, number>([], { comparator, isMapMode: options.isMapMode });
 
-    for (const item of elements as Iterable<unknown>) {
-      const k = toElementFn ? toElementFn(item) : (item as K);
+    for (const item of elements) {
+      const k = toElementFn ? toElementFn(item as R) : (item as K);
       this.add(k);
     }
   }
