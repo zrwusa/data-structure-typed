@@ -2,7 +2,9 @@ import { SinglyLinkedList, SinglyLinkedListNode, Stack } from '../../../../src';
 
 describe('SinglyLinkedListNode', () => {
   it('should SinglyLinkedList', () => {
-    const node1 = new SinglyLinkedListNode<number>(2);
+    // SinglyLinkedListNode is now an interface (plain object)
+    const list = new SinglyLinkedList<number>([2]);
+    const node1 = list.head!;
     expect(node1.value).toBe(2);
     node1.value = 1;
     expect(node1.value).toBe(1);

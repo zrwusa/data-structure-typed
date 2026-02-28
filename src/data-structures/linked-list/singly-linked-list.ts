@@ -7,28 +7,23 @@
  */
 
 import type { ElementCallback, SinglyLinkedListOptions } from '../../types';
-import { LinearLinkedBase, LinkedListNode } from '../base/linear-base';
+import { LinearLinkedBase } from '../base/linear-base';
 
 /**
- * Node of a singly linked list; stores value and the next link.
- * @remarks Time O(1), Space O(1)
+ * Plain object node for singly linked list (optimized for performance).
  * @template E
  */
-export class SinglyLinkedListNode<E = any> extends LinkedListNode<E> {
-  /**
-   * Next node link (narrowed type).
-   */
-  declare next: SinglyLinkedListNode<E> | undefined;
+export interface SinglyLinkedListNode<E = any> {
+  value: E;
+  next: SinglyLinkedListNode<E> | undefined;
+}
 
-  /**
-   * Create a list node.
-   * @remarks Time O(1), Space O(1)
-   * @param value - Element value to store.
-   * @returns New node instance.
-   */
-  constructor(value: E) {
-    super(value);
-  }
+/**
+ * Create a new SLL node (plain object, no class overhead).
+ * @internal
+ */
+function createNode<E>(value: E): SinglyLinkedListNode<E> {
+  return { value, next: undefined };
 }
 
 /**
@@ -345,6 +340,26 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
   }
 
   /**
+   * Fast path: append a value directly (skips isNode check).
+   * @remarks Time O(1), Space O(1)
+   * @param value - Element value to append.
+   * @returns True when appended.
+   */
+
+  pushValue(value: E): boolean {
+    const node: SinglyLinkedListNode<E> = { value, next: undefined };
+    if (!this._head) {
+      this._head = this._tail = node;
+    } else {
+      this._tail!.next = node;
+      this._tail = node;
+    }
+    this._length++;
+    if (this._maxLen > 0 && this._length > this._maxLen) this.shift();
+    return true;
+  }
+
+  /**
    * Remove and return the tail element.
    * @remarks Time O(N), Space O(1)
    * @returns Removed element or undefined.
@@ -398,6 +413,23 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
       newNode.next = this.head;
       this._head = newNode;
     }
+    this._length++;
+    return true;
+  }
+
+  /**
+   * Fast path: prepend a value directly (skips isNode check).
+   * @remarks Time O(1), Space O(1)
+   * @param value - Element value to prepend.
+   * @returns True when prepended.
+   */
+
+  unshiftValue(value: E): boolean {
+    const node: SinglyLinkedListNode<E> = { value, next: this._head };
+    if (!this._head) {
+      this._tail = node;
+    }
+    this._head = node;
     this._length++;
     return true;
   }
@@ -477,7 +509,12 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
   isNode(
     elementNodeOrPredicate: E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean)
   ): elementNodeOrPredicate is SinglyLinkedListNode<E> {
-    return elementNodeOrPredicate instanceof SinglyLinkedListNode;
+    return (
+      typeof elementNodeOrPredicate === 'object' &&
+      elementNodeOrPredicate !== null &&
+      'value' in elementNodeOrPredicate &&
+      'next' in elementNodeOrPredicate
+    );
   }
 
   /**
@@ -877,7 +914,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    */
 
   protected createNode(value: E): SinglyLinkedListNode<E> {
-    return new SinglyLinkedListNode<E>(value);
+    return createNode<E>(value);
   }
 
   /**
@@ -1018,11 +1055,15 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
   }
 }
 
+function isNodeObject<E>(input: unknown): input is SinglyLinkedListNode<E> {
+  return typeof input === 'object' && input !== null && 'value' in input && 'next' in input;
+}
+
 function elementOrPredicate<E>(
   input: E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean),
   equals: (a: E, b: E) => boolean
 ) {
-  if (input instanceof SinglyLinkedListNode) return (node: SinglyLinkedListNode<E>) => node === input;
+  if (isNodeObject<E>(input)) return (node: SinglyLinkedListNode<E>) => node === input;
   if (typeof input === 'function') return input as (node: SinglyLinkedListNode<E>) => boolean;
   const value = input as E;
   return (node: SinglyLinkedListNode<E>) => equals(node.value, value);
