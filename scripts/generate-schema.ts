@@ -60,6 +60,27 @@ interface ClassChunk {
   tags: string[];
   methodCount: number;
   complexitySummary: Record<string, string>;
+  relations: KnowledgeTriple[];
+}
+
+interface KnowledgeTriple {
+  subject: string;
+  predicate: string;
+  object: string;
+}
+
+interface RetrievalChunk {
+  chunkId: string;
+  sourceId: string;
+  section: 'overview' | 'operation' | 'complexity' | 'example' | 'usage';
+  title: string;
+  content: string;
+  embeddingText: string;
+  metadata: {
+    category: string;
+    tags: string[];
+    complexity?: string;
+  };
 }
 
 interface ComplexityIndex {
@@ -71,6 +92,7 @@ interface ComplexityIndex {
 
 interface QAPair {
   instruction: string;
+  context?: string;
   output: string;
   type: 'factual' | 'reasoning' | 'comparison' | 'howto';
 }
@@ -87,10 +109,19 @@ interface AISchema {
   // Layer 2: Class Chunks (class-level)
   classes: ClassChunk[];
 
-  // Layer 3: Complexity Index
+  // Layer 3: Retrieval Chunks (section-level, for RAG)
+  retrievalChunks: RetrievalChunk[];
+
+  // Layer 4: Knowledge Graph (triples)
+  knowledgeGraph: {
+    triples: KnowledgeTriple[];
+    totalTriples: number;
+  };
+
+  // Layer 5: Complexity Index
   complexityIndex: ComplexityIndex;
 
-  // Layer 4: Training Data
+  // Layer 6: Training Data
   trainingData: {
     qa: QAPair[];
     totalPairs: number;
@@ -101,6 +132,8 @@ interface AISchema {
     totalAtoms: number;
     totalClasses: number;
     totalMethods: number;
+    totalChunks: number;
+    totalTriples: number;
     categoryCounts: Record<string, number>;
   };
 }
@@ -439,6 +472,146 @@ function generateQAPairs(atoms: KnowledgeAtom[], classes: ClassChunk[]): QAPair[
   return pairs;
 }
 
+// Generate knowledge triples for a class
+function generateClassTriples(className: string, category: string, extendsClass?: string, tags: string[] = [], methods: string[] = []): KnowledgeTriple[] {
+  const triples: KnowledgeTriple[] = [];
+
+  // isA relation
+  triples.push({ subject: className, predicate: 'isA', object: category });
+
+  // extends relation
+  if (extendsClass) {
+    const parentName = extendsClass.split('<')[0].trim();
+    triples.push({ subject: className, predicate: 'extends', object: parentName });
+  }
+
+  // hasProperty relations from tags
+  for (const tag of tags.slice(0, 5)) {
+    triples.push({ subject: className, predicate: 'hasProperty', object: tag });
+  }
+
+  // hasOperation relations
+  for (const method of methods.slice(0, 10)) {
+    triples.push({ subject: className, predicate: 'hasOperation', object: method });
+  }
+
+  return triples;
+}
+
+// Generate knowledge triples for a method
+function generateMethodTriples(methodId: string, className: string, complexity?: { time?: ComplexityInfo }, behavior?: Behavior): KnowledgeTriple[] {
+  const triples: KnowledgeTriple[] = [];
+  const methodName = methodId.split('.')[1];
+
+  // belongsTo relation
+  triples.push({ subject: methodId, predicate: 'belongsTo', object: className });
+
+  // timeComplexity relation
+  if (complexity?.time?.average) {
+    triples.push({ subject: methodId, predicate: 'hasTimeComplexity', object: complexity.time.average });
+  }
+
+  // behavior relations
+  if (behavior?.mutates) {
+    triples.push({ subject: methodId, predicate: 'mutatesState', object: 'true' });
+  }
+  if (behavior?.pure) {
+    triples.push({ subject: methodId, predicate: 'isPure', object: 'true' });
+  }
+
+  return triples;
+}
+
+// Generate retrieval chunks for a class
+function generateRetrievalChunks(
+  className: string,
+  category: string,
+  description: string,
+  tags: string[],
+  methods: { name: string; desc: string; complexity?: string }[],
+  complexitySummary: Record<string, string>
+): RetrievalChunk[] {
+  const chunks: RetrievalChunk[] = [];
+
+  // Overview chunk
+  chunks.push({
+    chunkId: `${className.toLowerCase()}-overview`,
+    sourceId: className,
+    section: 'overview',
+    title: `${className} Overview`,
+    content: description || `${className} is a ${category} data structure.`,
+    embeddingText: `${className} overview: ${description} Category: ${category}. Tags: ${tags.join(', ')}`,
+    metadata: { category, tags }
+  });
+
+  // Complexity summary chunk
+  if (Object.keys(complexitySummary).length > 0) {
+    const complexityContent = Object.entries(complexitySummary)
+      .map(([method, complexity]) => `${method}: ${complexity}`)
+      .join(', ');
+    chunks.push({
+      chunkId: `${className.toLowerCase()}-complexity`,
+      sourceId: className,
+      section: 'complexity',
+      title: `${className} Time Complexity`,
+      content: complexityContent,
+      embeddingText: `${className} time complexity: ${complexityContent}`,
+      metadata: { category, tags }
+    });
+  }
+
+  // Operation chunks (group by operation type)
+  const insertionMethods = methods.filter(m => 
+    ['push', 'add', 'set', 'insert', 'unshift'].some(op => m.name.toLowerCase().includes(op))
+  );
+  if (insertionMethods.length > 0) {
+    const content = insertionMethods.map(m => `${m.name}: ${m.desc}${m.complexity ? ` (${m.complexity})` : ''}`).join('. ');
+    chunks.push({
+      chunkId: `${className.toLowerCase()}-insertion-ops`,
+      sourceId: className,
+      section: 'operation',
+      title: `${className} Insertion Operations`,
+      content,
+      embeddingText: `${className} insertion operations: ${content}`,
+      metadata: { category, tags, complexity: insertionMethods[0]?.complexity }
+    });
+  }
+
+  const deletionMethods = methods.filter(m => 
+    ['pop', 'delete', 'remove', 'shift', 'clear'].some(op => m.name.toLowerCase().includes(op))
+  );
+  if (deletionMethods.length > 0) {
+    const content = deletionMethods.map(m => `${m.name}: ${m.desc}${m.complexity ? ` (${m.complexity})` : ''}`).join('. ');
+    chunks.push({
+      chunkId: `${className.toLowerCase()}-deletion-ops`,
+      sourceId: className,
+      section: 'operation',
+      title: `${className} Deletion Operations`,
+      content,
+      embeddingText: `${className} deletion operations: ${content}`,
+      metadata: { category, tags, complexity: deletionMethods[0]?.complexity }
+    });
+  }
+
+  const lookupMethods = methods.filter(m => 
+    ['get', 'peek', 'find', 'search', 'has', 'at'].some(op => m.name.toLowerCase().includes(op))
+  );
+  if (lookupMethods.length > 0) {
+    const content = lookupMethods.map(m => `${m.name}: ${m.desc}${m.complexity ? ` (${m.complexity})` : ''}`).join('. ');
+    chunks.push({
+      chunkId: `${className.toLowerCase()}-lookup-ops`,
+      sourceId: className,
+      section: 'operation',
+      title: `${className} Lookup Operations`,
+      content,
+      embeddingText: `${className} lookup operations: ${content}`,
+      metadata: { category, tags, complexity: lookupMethods[0]?.complexity }
+    });
+  }
+
+  return chunks;
+}
+
 function buildComplexityIndex(atoms: KnowledgeAtom[]): ComplexityIndex {
   const index: ComplexityIndex = {};
 
@@ -474,6 +647,8 @@ async function generateSchema(): Promise<void> {
 
   const atoms: KnowledgeAtom[] = [];
   const classes: ClassChunk[] = [];
+  const retrievalChunks: RetrievalChunk[] = [];
+  const allTriples: KnowledgeTriple[] = [];
   const categoryCounts: Record<string, number> = {};
 
   for (const sourceFile of sourceFiles) {
@@ -549,7 +724,32 @@ async function generateSchema(): Promise<void> {
         };
 
         atoms.push(methodAtom);
+
+        // Generate method triples
+        const methodTriples = generateMethodTriples(
+          `${className}.${methodName}`,
+          className,
+          Object.keys(complexity).length > 0 ? complexity : undefined,
+          behavior
+        );
+        allTriples.push(...methodTriples);
       }
+
+      // Generate knowledge triples for class
+      const methodNames = methods.map(m => m.getName());
+      const classTriples = generateClassTriples(className, category, extendsClause, classTags, methodNames);
+      allTriples.push(...classTriples);
+
+      // Generate retrieval chunks
+      const methodInfoForChunks = methods.map(m => ({
+        name: m.getName(),
+        desc: getDescription(m),
+        complexity: getComplexityFromRemarks(m).time?.average
+      }));
+      const classRetrievalChunks = generateRetrievalChunks(
+        className, category, classDesc, classTags, methodInfoForChunks, complexitySummary
+      );
+      retrievalChunks.push(...classRetrievalChunks);
 
       // Class chunk
       const classChunk: ClassChunk = {
@@ -563,7 +763,8 @@ async function generateSchema(): Promise<void> {
         genericParameters: genericParams,
         tags: classTags,
         methodCount: methods.length,
-        complexitySummary
+        complexitySummary,
+        relations: classTriples
       };
       classes.push(classChunk);
     }
@@ -595,6 +796,11 @@ async function generateSchema(): Promise<void> {
     generatedAt: new Date().toISOString(),
     atoms,
     classes,
+    retrievalChunks,
+    knowledgeGraph: {
+      triples: allTriples,
+      totalTriples: allTriples.length
+    },
     complexityIndex,
     trainingData: {
       qa,
@@ -604,6 +810,8 @@ async function generateSchema(): Promise<void> {
       totalAtoms: atoms.length,
       totalClasses: classes.length,
       totalMethods: atoms.filter(a => a.type === 'method').length,
+      totalChunks: retrievalChunks.length,
+      totalTriples: allTriples.length,
       categoryCounts
     }
   };
@@ -622,14 +830,28 @@ async function generateSchema(): Promise<void> {
   const trainingLines = qa.map(q => JSON.stringify(q));
   fs.writeFileSync(trainingPath, trainingLines.join('\n'));
 
+  // Write retrieval chunks (for RAG vector DB)
+  const chunksPath = path.join(__dirname, '..', 'docs', 'retrieval-chunks.jsonl');
+  const chunkLines = retrievalChunks.map(c => JSON.stringify(c));
+  fs.writeFileSync(chunksPath, chunkLines.join('\n'));
+
+  // Write knowledge triples (for knowledge graph)
+  const triplesPath = path.join(__dirname, '..', 'docs', 'knowledge-triples.jsonl');
+  const tripleLines = allTriples.map(t => JSON.stringify(t));
+  fs.writeFileSync(triplesPath, tripleLines.join('\n'));
+
   console.log(`\n✅ Schema generated successfully!`);
   console.log(`   📄 ${outputPath} (full schema)`);
   console.log(`   📄 ${embeddingsPath} (embedding texts)`);
+  console.log(`   📄 ${chunksPath} (RAG retrieval chunks)`);
+  console.log(`   📄 ${triplesPath} (knowledge graph triples)`);
   console.log(`   📄 ${trainingPath} (training QA pairs)`);
   console.log(`\n📊 Stats:`);
   console.log(`   🧬 ${atoms.length} knowledge atoms`);
   console.log(`   📦 ${classes.length} classes`);
   console.log(`   🔧 ${atoms.filter(a => a.type === 'method').length} methods`);
+  console.log(`   📑 ${retrievalChunks.length} retrieval chunks`);
+  console.log(`   🔗 ${allTriples.length} knowledge triples`);
   console.log(`   ❓ ${qa.length} QA pairs`);
   console.log(`   🏷️ Complexity buckets: ${Object.keys(complexityIndex).join(', ')}`);
 }
