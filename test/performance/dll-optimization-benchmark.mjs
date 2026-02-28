@@ -34,6 +34,12 @@ results.push(benchmark('DST push', () => {
   for (let i = 0; i < N; i++) list.push(i);
 }));
 
+// DST DoublyLinkedList pushValue (fast path)
+results.push(benchmark('DST pushValue', () => {
+  const list = new DoublyLinkedList();
+  for (let i = 0; i < N; i++) list.pushValue(i);
+}));
+
 // js-sdsl LinkList pushBack
 results.push(benchmark('js-sdsl pushBack', () => {
   const list = new LinkList();
@@ -44,6 +50,12 @@ results.push(benchmark('js-sdsl pushBack', () => {
 results.push(benchmark('DST unshift', () => {
   const list = new DoublyLinkedList();
   for (let i = 0; i < N; i++) list.unshift(i);
+}));
+
+// DST DoublyLinkedList unshiftValue (fast path)
+results.push(benchmark('DST unshiftValue', () => {
+  const list = new DoublyLinkedList();
+  for (let i = 0; i < N; i++) list.unshiftValue(i);
 }));
 
 // js-sdsl LinkList pushFront
