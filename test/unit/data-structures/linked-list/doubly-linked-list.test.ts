@@ -2,7 +2,10 @@ import { DoublyLinkedList, DoublyLinkedListNode } from '../../../../src';
 
 describe('DoublyLinkedListNode', () => {
   it('should DoublyLinkedListNode', () => {
-    const node1 = new DoublyLinkedListNode<number>(2);
+    // DoublyLinkedListNode is now an interface (plain object)
+    // Create via list and access node
+    const list = new DoublyLinkedList<number>([2]);
+    const node1 = list.head!;
     expect(node1.value).toBe(2);
     node1.value = 1;
     expect(node1.value).toBe(1);
