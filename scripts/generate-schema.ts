@@ -408,65 +408,346 @@ function findRelatedMethods(methodName: string, className: string, allAtoms: Kno
 function generateQAPairs(atoms: KnowledgeAtom[], classes: ClassChunk[]): QAPair[] {
   const pairs: QAPair[] = [];
 
-  // Factual QA from methods
+  // ============ Method-level QA ============
   for (const atom of atoms) {
     if (atom.type !== 'method') continue;
 
-    // How-to questions
-    if (atom.behavior?.mutates) {
+    const methodName = atom.id.split('.')[1];
+    const className = atom.parent || '';
+
+    // 1. Complexity questions (multiple phrasings)
+    if (atom.complexity?.time?.average) {
+      const complexity = atom.complexity.time.average;
+      
       pairs.push({
-        instruction: `How do I ${atom.id.split('.')[1].replace(/([A-Z])/g, ' $1').toLowerCase().trim()} in ${atom.parent}?`,
+        instruction: `What is the time complexity of ${atom.id}()?`,
+        output: `${atom.id}() runs in ${complexity} time complexity.`,
+        type: 'factual'
+      });
+
+      pairs.push({
+        instruction: `How fast is ${methodName} in ${className}?`,
+        output: `${className}.${methodName}() operates in ${complexity} time.`,
+        type: 'factual'
+      });
+
+      // Is it efficient?
+      if (complexity === 'O(1)') {
+        pairs.push({
+          instruction: `Is ${atom.id}() efficient?`,
+          output: `Yes, ${atom.id}() is very efficient with constant time ${complexity} complexity.`,
+          type: 'factual'
+        });
+      }
+    }
+
+    // 2. How-to questions (multiple phrasings)
+    if (atom.behavior?.mutates && atom.parameters && atom.parameters.length > 0) {
+      pairs.push({
+        instruction: `How do I ${methodName.replace(/([A-Z])/g, ' $1').toLowerCase().trim()} in ${className}?`,
         output: `Use ${atom.id}(). ${atom.semanticSummary}`,
+        type: 'howto'
+      });
+
+      pairs.push({
+        instruction: `How to call ${methodName} on a ${className}?`,
+        output: `Call ${className}.${methodName}(${atom.parameters.map(p => p.name).join(', ')}). ${atom.technicalSummary}`,
         type: 'howto'
       });
     }
 
-    // Complexity questions
-    if (atom.complexity?.time?.average) {
+    // 3. What does X do?
+    if (atom.technicalSummary) {
       pairs.push({
-        instruction: `What is the time complexity of ${atom.id}()?`,
-        output: `${atom.id}() runs in ${atom.complexity.time.average} time complexity.`,
+        instruction: `What does ${atom.id}() do?`,
+        output: atom.technicalSummary,
         type: 'factual'
+      });
+    }
+
+    // 4. Code example questions
+    if (['push', 'pop', 'add', 'delete', 'get', 'set'].includes(methodName.toLowerCase())) {
+      const paramExample = atom.parameters?.map(p => {
+        if (p.type.includes('number')) return '42';
+        if (p.type.includes('string')) return '"value"';
+        return 'element';
+      }).join(', ') || '';
+
+      pairs.push({
+        instruction: `Show me an example of using ${atom.id}()`,
+        output: `const ds = new ${className}();\nds.${methodName}(${paramExample}); // ${atom.technicalSummary}`,
+        type: 'howto'
       });
     }
   }
 
-  // Class-level QA
+  // ============ Class-level QA ============
   for (const cls of classes) {
-    // What is X?
+    // 1. What is X? (multiple phrasings)
     pairs.push({
       instruction: `What is ${cls.name} in data-structure-typed?`,
       output: cls.semanticSummary,
       type: 'factual'
     });
 
-    // When to use X?
+    pairs.push({
+      instruction: `Explain ${cls.name} data structure`,
+      output: `${cls.name} is a ${cls.category} data structure. ${cls.semanticSummary}`,
+      type: 'factual'
+    });
+
+    // 2. When to use X? (multiple phrasings)
     if (cls.tags.length > 0) {
       pairs.push({
         instruction: `When should I use ${cls.name}?`,
         output: `Use ${cls.name} when you need ${cls.tags.slice(0, 3).join(', ')} operations. ${cls.semanticSummary}`,
         type: 'reasoning'
       });
+
+      pairs.push({
+        instruction: `What are the use cases for ${cls.name}?`,
+        output: `${cls.name} is ideal for: ${cls.tags.slice(0, 5).join(', ')}. ${cls.semanticSummary}`,
+        type: 'reasoning'
+      });
+    }
+
+    // 3. Complexity summary
+    if (Object.keys(cls.complexitySummary).length > 0) {
+      const mainOps = Object.entries(cls.complexitySummary).slice(0, 5);
+      pairs.push({
+        instruction: `What are the time complexities for ${cls.name} operations?`,
+        output: mainOps.map(([op, c]) => `${op}: ${c}`).join(', '),
+        type: 'factual'
+      });
+    }
+
+    // 4. Basic usage example
+    pairs.push({
+      instruction: `How to create a ${cls.name}?`,
+      output: `const ds = new ${cls.name}(); // Creates an empty ${cls.name}`,
+      type: 'howto'
+    });
+
+    // 5. What operations does X support?
+    if (Object.keys(cls.complexitySummary).length > 0) {
+      pairs.push({
+        instruction: `What operations does ${cls.name} support?`,
+        output: `${cls.name} supports: ${Object.keys(cls.complexitySummary).slice(0, 8).join(', ')}`,
+        type: 'factual'
+      });
     }
   }
 
-  // Comparison QA
-  const comparisons: [string, string, string][] = [
-    ['Stack', 'Queue', 'Stack is LIFO (last-in-first-out) while Queue is FIFO (first-in-first-out).'],
-    ['Deque', 'Queue', 'Deque allows insertion and deletion at both ends, while Queue only at front/back.'],
-    ['TreeMap', 'HashMap', 'TreeMap maintains sorted key order with O(log n) ops, HashMap is unordered with O(1) average.'],
-    ['DoublyLinkedList', 'SinglyLinkedList', 'DoublyLinkedList has prev pointers allowing bidirectional traversal, SinglyLinkedList only has next pointers.'],
-    ['RedBlackTree', 'AVLTree', 'Both are self-balancing. AVL is more strictly balanced (faster lookups), Red-Black has faster insertions.']
+  // ============ Scenario-based QA ============
+  const scenarios: { question: string; answer: string; structures: string[] }[] = [
+    {
+      question: "I need to implement an undo/redo system. Which data structure should I use?",
+      answer: "Use Stack. Stack's LIFO (Last-In-First-Out) nature is perfect for undo/redo - push actions onto the stack, pop to undo.",
+      structures: ['Stack']
+    },
+    {
+      question: "How to efficiently find the top K largest elements?",
+      answer: "Use MinHeap or MinPriorityQueue with size K. Insert elements and remove minimum when size exceeds K. Final heap contains top K.",
+      structures: ['MinHeap', 'MinPriorityQueue', 'Heap']
+    },
+    {
+      question: "I need fast lookup by key and sorted iteration. What should I use?",
+      answer: "Use TreeMap. It provides O(log n) lookup by key AND maintains sorted order for iteration.",
+      structures: ['TreeMap']
+    },
+    {
+      question: "Which structure for a task scheduler with priorities?",
+      answer: "Use PriorityQueue or MaxPriorityQueue. Tasks with higher priority are dequeued first in O(log n) time.",
+      structures: ['PriorityQueue', 'MaxPriorityQueue']
+    },
+    {
+      question: "I need fast insertions at both the front and back. What's best?",
+      answer: "Use Deque. It provides O(1) push/pop at both ends, unlike Array which is O(n) for shift/unshift.",
+      structures: ['Deque']
+    },
+    {
+      question: "How to implement autocomplete efficiently?",
+      answer: "Use Trie. It enables O(m) prefix search where m is the prefix length, perfect for autocomplete suggestions.",
+      structures: ['Trie']
+    },
+    {
+      question: "I need a sorted set with no duplicates. What should I use?",
+      answer: "Use TreeSet. It maintains unique elements in sorted order with O(log n) add/has/delete operations.",
+      structures: ['TreeSet']
+    },
+    {
+      question: "Which structure to detect cycles in a graph?",
+      answer: "Use DirectedGraph with DFS. The tarjan() method finds strongly connected components and can detect cycles.",
+      structures: ['DirectedGraph']
+    },
+    {
+      question: "I need O(1) average lookup but don't care about order. What to use?",
+      answer: "Use HashMap. It provides O(1) average time for get/set/delete operations.",
+      structures: ['HashMap']
+    },
+    {
+      question: "How to maintain a leaderboard that updates frequently?",
+      answer: "Use TreeMap or RedBlackTree. Both maintain sorted order with O(log n) updates, avoiding costly re-sorting.",
+      structures: ['TreeMap', 'RedBlackTree']
+    },
+    {
+      question: "I need to store key-value pairs where keys can have multiple values. What to use?",
+      answer: "Use TreeMultiMap. It allows multiple values per key while maintaining sorted key order.",
+      structures: ['TreeMultiMap']
+    },
+    {
+      question: "Which is faster for random insertions: LinkedList or Array?",
+      answer: "DoublyLinkedList is faster for insertions at known positions (O(1) with node reference), while Array requires O(n) shifting.",
+      structures: ['DoublyLinkedList']
+    }
   ];
 
-  for (const [a, b, diff] of comparisons) {
-    if (classes.some(c => c.name === a) && classes.some(c => c.name === b)) {
+  for (const scenario of scenarios) {
+    if (scenario.structures.some(s => classes.some(c => c.name === s))) {
       pairs.push({
-        instruction: `What is the difference between ${a} and ${b}?`,
-        output: diff,
-        type: 'comparison'
+        instruction: scenario.question,
+        output: scenario.answer,
+        type: 'reasoning'
       });
     }
+  }
+
+  // ============ Comparison QA (expanded) ============
+  const comparisons: { a: string; b: string; diff: string; questions: string[] }[] = [
+    {
+      a: 'Stack', b: 'Queue',
+      diff: 'Stack is LIFO (last-in-first-out) - last element added is first removed. Queue is FIFO (first-in-first-out) - first element added is first removed.',
+      questions: ['What is the difference between Stack and Queue?', 'Stack vs Queue?', 'When to use Stack instead of Queue?']
+    },
+    {
+      a: 'Deque', b: 'Queue',
+      diff: 'Deque (double-ended queue) allows O(1) insertion and deletion at both ends. Queue only allows push at back and shift from front.',
+      questions: ['What is the difference between Deque and Queue?', 'Deque vs Queue?']
+    },
+    {
+      a: 'TreeMap', b: 'HashMap',
+      diff: 'TreeMap maintains sorted key order with O(log n) operations. HashMap is unordered with O(1) average operations. Use TreeMap when you need sorted iteration, HashMap for fastest lookups.',
+      questions: ['What is the difference between TreeMap and HashMap?', 'TreeMap vs HashMap?', 'Should I use TreeMap or HashMap?']
+    },
+    {
+      a: 'DoublyLinkedList', b: 'SinglyLinkedList',
+      diff: 'DoublyLinkedList has prev and next pointers, allowing bidirectional traversal and O(1) deletion with node reference. SinglyLinkedList only has next pointers, using less memory but requiring O(n) for backward operations.',
+      questions: ['What is the difference between DoublyLinkedList and SinglyLinkedList?', 'DoublyLinkedList vs SinglyLinkedList?']
+    },
+    {
+      a: 'RedBlackTree', b: 'AVLTree',
+      diff: 'Both are self-balancing BSTs. AVL trees are more strictly balanced (max height difference of 1), providing faster lookups. Red-Black trees have relaxed balancing, providing faster insertions/deletions with slightly slower lookups.',
+      questions: ['What is the difference between RedBlackTree and AVLTree?', 'RedBlackTree vs AVLTree?']
+    },
+    {
+      a: 'TreeSet', b: 'TreeMap',
+      diff: 'TreeSet stores unique values in sorted order. TreeMap stores key-value pairs with keys in sorted order. TreeSet is essentially a TreeMap where value equals key.',
+      questions: ['What is the difference between TreeSet and TreeMap?']
+    },
+    {
+      a: 'Heap', b: 'PriorityQueue',
+      diff: 'PriorityQueue is built on top of Heap. Heap is the underlying data structure, PriorityQueue provides a higher-level API for priority-based operations.',
+      questions: ['What is the difference between Heap and PriorityQueue?']
+    },
+    {
+      a: 'MinHeap', b: 'MaxHeap',
+      diff: 'MinHeap keeps the smallest element at the root (peek returns minimum). MaxHeap keeps the largest element at the root (peek returns maximum).',
+      questions: ['What is the difference between MinHeap and MaxHeap?', 'MinHeap vs MaxHeap?']
+    },
+    {
+      a: 'DirectedGraph', b: 'UndirectedGraph',
+      diff: 'DirectedGraph has edges with direction (A→B does not imply B→A). UndirectedGraph has bidirectional edges (A-B means both can reach each other).',
+      questions: ['What is the difference between DirectedGraph and UndirectedGraph?']
+    },
+    {
+      a: 'Array', b: 'Deque',
+      diff: 'Native Array has O(n) shift/unshift operations due to element reindexing. Deque provides O(1) operations at both ends using circular buffer.',
+      questions: ['Why use Deque instead of Array?', 'Deque vs Array performance?']
+    }
+  ];
+
+  for (const comp of comparisons) {
+    const hasA = classes.some(c => c.name === comp.a);
+    const hasB = classes.some(c => c.name === comp.b);
+    if (hasA || hasB) {
+      for (const question of comp.questions) {
+        pairs.push({
+          instruction: question,
+          output: comp.diff,
+          type: 'comparison'
+        });
+      }
+    }
+  }
+
+  // ============ Error/Misconception QA ============
+  const misconceptions: { question: string; answer: string }[] = [
+    {
+      question: "Is Array.shift() efficient in JavaScript?",
+      answer: "No, Array.shift() is O(n) because all elements must be reindexed. Use Deque for O(1) shift operations."
+    },
+    {
+      question: "Can I use HashMap when I need sorted keys?",
+      answer: "No, HashMap does not maintain order. Use TreeMap for sorted keys or LinkedHashMap for insertion order."
+    },
+    {
+      question: "Is BST always O(log n)?",
+      answer: "No, an unbalanced BST can degrade to O(n). Use AVLTree or RedBlackTree for guaranteed O(log n) operations."
+    },
+    {
+      question: "Should I always use HashMap for fastest lookups?",
+      answer: "HashMap has O(1) average but O(n) worst case. If you need guaranteed performance, TreeMap offers consistent O(log n)."
+    }
+  ];
+
+  for (const m of misconceptions) {
+    pairs.push({
+      instruction: m.question,
+      output: m.answer,
+      type: 'reasoning'
+    });
+  }
+
+  // ============ Multi-structure QA ============
+  // Group classes by category
+  const byCategory: Record<string, string[]> = {};
+  for (const cls of classes) {
+    if (!byCategory[cls.category]) byCategory[cls.category] = [];
+    byCategory[cls.category].push(cls.name);
+  }
+
+  for (const [category, names] of Object.entries(byCategory)) {
+    if (names.length > 1 && category !== 'other') {
+      pairs.push({
+        instruction: `What ${category} data structures are available?`,
+        output: `Available ${category} structures: ${names.join(', ')}`,
+        type: 'factual'
+      });
+    }
+  }
+
+  // ============ Complexity-based QA ============
+  // Find all O(1) operations
+  const o1Methods = atoms.filter(a => a.type === 'method' && a.complexity?.time?.average === 'O(1)');
+  if (o1Methods.length > 0) {
+    const grouped: Record<string, string[]> = {};
+    for (const m of o1Methods) {
+      const method = m.id.split('.')[1];
+      if (!grouped[method]) grouped[method] = [];
+      grouped[method].push(m.parent || '');
+    }
+
+    pairs.push({
+      instruction: "Which data structures have O(1) push?",
+      output: `Structures with O(1) push: ${grouped['push']?.join(', ') || 'Stack, Deque, DoublyLinkedList'}`,
+      type: 'factual'
+    });
+
+    pairs.push({
+      instruction: "Which data structures have O(1) pop?",
+      output: `Structures with O(1) pop: ${grouped['pop']?.join(', ') || 'Stack, Deque, DoublyLinkedList'}`,
+      type: 'factual'
+    });
   }
 
   return pairs;
