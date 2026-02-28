@@ -7,23 +7,49 @@
  */
 
 import type { ElementCallback, SinglyLinkedListOptions } from '../../types';
-import { LinearLinkedBase } from '../base/linear-base';
+import { LinearLinkedBase, LinkedListNode } from '../base/linear-base';
 
 /**
- * Plain object node for singly linked list (optimized for performance).
+ * Node of a singly linked list; stores value and the next link.
+ * @remarks Time O(1), Space O(1)
  * @template E
  */
-export interface SinglyLinkedListNode<E = any> {
-  value: E;
-  next: SinglyLinkedListNode<E> | undefined;
-}
+export class SinglyLinkedListNode<E = any> extends LinkedListNode<E> {
+  /**
+   * Create a list node.
+   * @remarks Time O(1), Space O(1)
+   * @param value - Element value to store.
+   * @returns New node instance.
+   */
 
-/**
- * Create a new SLL node (plain object, no class overhead).
- * @internal
- */
-function createNode<E>(value: E): SinglyLinkedListNode<E> {
-  return { value, next: undefined };
+  constructor(value: E) {
+    super(value);
+    this._value = value;
+    this._next = undefined;
+  }
+
+  protected override _next: SinglyLinkedListNode<E> | undefined;
+
+  /**
+   * Get the next node.
+   * @remarks Time O(1), Space O(1)
+   * @returns Next node or undefined.
+   */
+
+  override get next(): SinglyLinkedListNode<E> | undefined {
+    return this._next;
+  }
+
+  /**
+   * Set the next node.
+   * @remarks Time O(1), Space O(1)
+   * @param value - Next node or undefined.
+   * @returns void
+   */
+
+  override set next(value: SinglyLinkedListNode<E> | undefined) {
+    this._next = value;
+  }
 }
 
 /**
@@ -472,12 +498,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
   isNode(
     elementNodeOrPredicate: E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean)
   ): elementNodeOrPredicate is SinglyLinkedListNode<E> {
-    return (
-      typeof elementNodeOrPredicate === 'object' &&
-      elementNodeOrPredicate !== null &&
-      'value' in elementNodeOrPredicate &&
-      'next' in elementNodeOrPredicate
-    );
+    return elementNodeOrPredicate instanceof SinglyLinkedListNode;
   }
 
   /**
@@ -877,7 +898,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    */
 
   protected createNode(value: E): SinglyLinkedListNode<E> {
-    return createNode<E>(value);
+    return new SinglyLinkedListNode<E>(value);
   }
 
   /**
@@ -1018,15 +1039,11 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
   }
 }
 
-function isNodeObject<E>(input: unknown): input is SinglyLinkedListNode<E> {
-  return typeof input === 'object' && input !== null && 'value' in input && 'next' in input;
-}
-
 function elementOrPredicate<E>(
   input: E | SinglyLinkedListNode<E> | ((node: SinglyLinkedListNode<E>) => boolean),
   equals: (a: E, b: E) => boolean
 ) {
-  if (isNodeObject<E>(input)) return (node: SinglyLinkedListNode<E>) => node === input;
+  if (input instanceof SinglyLinkedListNode) return (node: SinglyLinkedListNode<E>) => node === input;
   if (typeof input === 'function') return input as (node: SinglyLinkedListNode<E>) => boolean;
   const value = input as E;
   return (node: SinglyLinkedListNode<E>) => equals(node.value, value);

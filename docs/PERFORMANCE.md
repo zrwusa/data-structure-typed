@@ -54,11 +54,11 @@ Understand how data-structure-typed performs, and when to use each structure.
 ### DoublyLinkedList
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 100k push | 6.2519 | 4.7194 | 19.14 | ±6.56% |
-| 100k unshift | 5.1345 | 4.3093 | 21.8298 | ±12.08% |
-| 100k unshift & shift | 3.834 | 3.7556 | 4.3002 | ±0.49% |
-| 100k addAt(mid) | 1387.08 | 1135.41 | 1836.53 | ±21.9% |
-| 100k addBefore (cursor) | 5.5929 | 4.9605 | 9.1778 | ±3.64% |
+| 100k push | 7.7141 | 2.4482 | 12.7621 | ±23.03% |
+| 100k unshift | 7.7411 | 2.478 | 10.8007 | ±28.88% |
+| 100k unshift & shift | 1.7079 | 1.5756 | 1.9875 | ±1.28% |
+| 100k addAt(mid) | 1381.28 | 1107.67 | 1964.85 | ±26.04% |
+| 100k addBefore (cursor) | 3.1585 | 2.833 | 4.2798 | ±2.2% |
 
 #### DoublyLinkedList (side-by-side)
 
@@ -67,11 +67,11 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | js-sdsl (ms) | Native (ms) | C++ (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 100k push | 6.2519 | 1.7794 | 1.8739 | 5.7 |
-| 100k unshift | 5.1345 | 1.6322 | 891.36 | 5.85 |
-| 100k unshift & shift | 3.834 | 2.0059 | 1992.65 | 5.74 |
-| 100k addAt(mid) | 1387.08 | - | - | 754.81 |
-| 100k addBefore (cursor) | 5.5929 | - | - | 6.18 |
+| 100k push | 7.7141 | 1.7558 | 1.8894 | 5.7 |
+| 100k unshift | 7.7411 | 2.9985 | 893.12 | 5.85 |
+| 100k unshift & shift | 1.7079 | 2.0331 | 2036.49 | 5.74 |
+| 100k addAt(mid) | 1381.28 | - | - | 754.81 |
+| 100k addBefore (cursor) | 3.1585 | - | - | 6.18 |
 
 
 ### SinglyLinkedList

@@ -7,16 +7,73 @@
  */
 
 import type { DoublyLinkedListOptions, ElementCallback, LinearBaseOptions } from '../../types';
-import { LinearLinkedBase } from '../base/linear-base';
+import { LinearLinkedBase, LinkedListNode } from '../base/linear-base';
 
 /**
- * Node interface for doubly linked list (plain object).
+ * Node of a doubly linked list; stores value and prev/next links.
+ * @remarks Time O(1), Space O(1)
  * @template E
  */
-export interface DoublyLinkedListNode<E = any> {
-  value: E;
-  next: DoublyLinkedListNode<E> | undefined;
-  prev: DoublyLinkedListNode<E> | undefined;
+export class DoublyLinkedListNode<E = any> extends LinkedListNode<E> {
+  /**
+   * Create a node.
+   * @remarks Time O(1), Space O(1)
+   * @param value - Element value to store.
+   * @returns New node instance.
+   */
+
+  constructor(value: E) {
+    super(value);
+    this._value = value;
+    this._next = undefined;
+    this._prev = undefined;
+  }
+
+  protected override _next: DoublyLinkedListNode<E> | undefined;
+
+  /**
+   * Get the next node link.
+   * @remarks Time O(1), Space O(1)
+   * @returns Next node or undefined.
+   */
+
+  override get next(): DoublyLinkedListNode<E> | undefined {
+    return this._next;
+  }
+
+  /**
+   * Set the next node link.
+   * @remarks Time O(1), Space O(1)
+   * @param value - Next node or undefined.
+   * @returns void
+   */
+
+  override set next(value: DoublyLinkedListNode<E> | undefined) {
+    this._next = value;
+  }
+
+  protected _prev: DoublyLinkedListNode<E> | undefined;
+
+  /**
+   * Get the previous node link.
+   * @remarks Time O(1), Space O(1)
+   * @returns Previous node or undefined.
+   */
+
+  get prev(): DoublyLinkedListNode<E> | undefined {
+    return this._prev;
+  }
+
+  /**
+   * Set the previous node link.
+   * @remarks Time O(1), Space O(1)
+   * @param value - Previous node or undefined.
+   * @returns void
+   */
+
+  set prev(value: DoublyLinkedListNode<E> | undefined) {
+    this._prev = value;
+  }
 }
 
 /**
@@ -129,7 +186,6 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
 
   /**
    * Create a DoublyLinkedList and optionally bulk-insert elements.
-   * Uses sentinel pattern for O(1) operations without null checks.
    * @remarks Time O(N), Space O(N)
    * @param [elements] - Iterable of elements or nodes (or raw records if toElementFn is provided).
    * @param [options] - Options such as maxLen and toElementFn.
@@ -141,10 +197,8 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
     options?: DoublyLinkedListOptions<E, R>
   ) {
     super(options);
-    // Initialize sentinel node (circular, points to itself when empty)
-    this._sentinel = { value: undefined as E, next: undefined, prev: undefined };
-    this._sentinel.next = this._sentinel;
-    this._sentinel.prev = this._sentinel;
+    this._head = undefined;
+    this._tail = undefined;
     this._length = 0;
 
     if (options?.maxLen && Number.isInteger(options.maxLen) && options.maxLen > 0) {
@@ -154,32 +208,28 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
     this.pushMany(elements);
   }
 
-  /**
-   * Sentinel node for circular doubly linked list.
-   * sentinel.next is first real node, sentinel.prev is last real node.
-   */
-  protected _sentinel: DoublyLinkedListNode<E>;
+  protected _head: DoublyLinkedListNode<E> | undefined;
 
   /**
    * Get the head node.
    * @remarks Time O(1), Space O(1)
-   * @returns Head node or undefined if empty.
+   * @returns Head node or undefined.
    */
 
   get head(): DoublyLinkedListNode<E> | undefined {
-    if (this._sentinel.next === this._sentinel) return undefined;
-    return this._sentinel.next;
+    return this._head;
   }
+
+  protected _tail: DoublyLinkedListNode<E> | undefined;
 
   /**
    * Get the tail node.
    * @remarks Time O(1), Space O(1)
-   * @returns Tail node or undefined if empty.
+   * @returns Tail node or undefined.
    */
 
   get tail(): DoublyLinkedListNode<E> | undefined {
-    if (this._sentinel.prev === this._sentinel) return undefined;
-    return this._sentinel.prev;
+    return this._tail;
   }
 
   protected _length = 0;
@@ -201,7 +251,7 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    */
 
   get first(): E | undefined {
-    return this._sentinel.next === this._sentinel ? undefined : this._sentinel.next!.value;
+    return this.head?.value;
   }
 
   /**
@@ -211,7 +261,7 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    */
 
   get last(): E | undefined {
-    return this._sentinel.prev === this._sentinel ? undefined : this._sentinel.prev!.value;
+    return this.tail?.value;
   }
 
   /**
@@ -238,19 +288,13 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * Type guard: check whether the input is a DoublyLinkedListNode.
    * @remarks Time O(1), Space O(1)
    * @param elementNodeOrPredicate - Element, node, or predicate.
-   * @returns True if the value is a DoublyLinkedListNode (plain object with value/next/prev).
+   * @returns True if the value is a DoublyLinkedListNode.
    */
 
   isNode(
     elementNodeOrPredicate: E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)
   ): elementNodeOrPredicate is DoublyLinkedListNode<E> {
-    return (
-      typeof elementNodeOrPredicate === 'object' &&
-      elementNodeOrPredicate !== null &&
-      'value' in elementNodeOrPredicate &&
-      'next' in elementNodeOrPredicate &&
-      'prev' in elementNodeOrPredicate
-    );
+    return elementNodeOrPredicate instanceof DoublyLinkedListNode;
   }
 
   /**
@@ -262,13 +306,16 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
 
   push(elementOrNode: E | DoublyLinkedListNode<E>): boolean {
     const newNode = this._ensureNode(elementOrNode);
-    // Insert before sentinel (at end of list)
-    newNode.prev = this._sentinel.prev;
-    newNode.next = this._sentinel;
-    this._sentinel.prev!.next = newNode;
-    this._sentinel.prev = newNode;
+    if (!this.head) {
+      this._head = newNode;
+      this._tail = newNode;
+    } else {
+      newNode.prev = this.tail;
+      this.tail!.next = newNode;
+      this._tail = newNode;
+    }
     this._length++;
-    if (this._maxLen > 0 && this._length > this._maxLen) this.shift();
+    if (this._maxLen > 0 && this.length > this._maxLen) this.shift();
     return true;
   }
 
@@ -279,10 +326,15 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    */
 
   pop(): E | undefined {
-    if (this._sentinel.prev === this._sentinel) return undefined;
-    const removed = this._sentinel.prev!;
-    removed.prev!.next = this._sentinel;
-    this._sentinel.prev = removed.prev;
+    if (!this.tail) return undefined;
+    const removed = this.tail;
+    if (this.head === this.tail) {
+      this._head = undefined;
+      this._tail = undefined;
+    } else {
+      this._tail = removed.prev;
+      this.tail!.next = undefined;
+    }
     this._length--;
     return removed.value;
   }
@@ -294,10 +346,15 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    */
 
   shift(): E | undefined {
-    if (this._sentinel.next === this._sentinel) return undefined;
-    const removed = this._sentinel.next!;
-    removed.next!.prev = this._sentinel;
-    this._sentinel.next = removed.next;
+    if (!this.head) return undefined;
+    const removed = this.head;
+    if (this.head === this.tail) {
+      this._head = undefined;
+      this._tail = undefined;
+    } else {
+      this._head = removed.next;
+      this.head!.prev = undefined;
+    }
     this._length--;
     return removed.value;
   }
@@ -311,11 +368,14 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
 
   unshift(elementOrNode: E | DoublyLinkedListNode<E>): boolean {
     const newNode = this._ensureNode(elementOrNode);
-    // Insert after sentinel (at start of list)
-    newNode.next = this._sentinel.next;
-    newNode.prev = this._sentinel;
-    this._sentinel.next!.prev = newNode;
-    this._sentinel.next = newNode;
+    if (!this.head) {
+      this._head = newNode;
+      this._tail = newNode;
+    } else {
+      newNode.next = this.head;
+      this.head!.prev = newNode;
+      this._head = newNode;
+    }
     this._length++;
     if (this._maxLen > 0 && this._length > this._maxLen) this.pop();
     return true;
@@ -362,7 +422,7 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
 
   at(index: number): E | undefined {
     if (index < 0 || index >= this._length) return undefined;
-    let current = this._sentinel.next;
+    let current = this.head;
     for (let i = 0; i < index; i++) current = current!.next;
     return current!.value;
   }
@@ -376,7 +436,7 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
 
   getNodeAt(index: number): DoublyLinkedListNode<E> | undefined {
     if (index < 0 || index >= this._length) return undefined;
-    let current = this._sentinel.next;
+    let current = this.head;
     for (let i = 0; i < index; i++) current = current!.next;
     return current;
   }
@@ -396,26 +456,26 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
     if (this.isNode(elementNodeOrPredicate)) {
       const target = elementNodeOrPredicate;
 
-      let cur = this._sentinel.next;
-      while (cur !== this._sentinel) {
+      let cur = this.head;
+      while (cur) {
         if (cur === target) return target;
-        cur = cur!.next;
+        cur = cur.next;
       }
 
       const isMatch = (node: DoublyLinkedListNode<E>) => this._equals(node.value, target.value);
-      cur = this._sentinel.next;
-      while (cur !== this._sentinel) {
-        if (isMatch(cur!)) return cur;
-        cur = cur!.next;
+      cur = this.head;
+      while (cur) {
+        if (isMatch(cur)) return cur;
+        cur = cur.next;
       }
       return undefined;
     }
 
     const predicate = this._ensurePredicate(elementNodeOrPredicate);
-    let current = this._sentinel.next;
-    while (current !== this._sentinel) {
-      if (predicate(current!)) return current;
-      current = current!.next;
+    let current = this.head;
+    while (current) {
+      if (predicate(current)) return current;
+      current = current.next;
     }
     return undefined;
   }
@@ -446,7 +506,7 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
 
   /**
    * Insert a new element/node before an existing one.
-   * @remarks Time O(1), Space O(1)
+   * @remarks Time O(N), Space O(1)
    * @param existingElementOrNode - Existing element or node.
    * @param newElementOrNode - Element or node to insert.
    * @returns True if inserted.
@@ -463,16 +523,17 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
 
     const newNode = this._ensureNode(newElementOrNode);
     newNode.prev = existingNode.prev;
+    if (existingNode.prev) existingNode.prev.next = newNode;
     newNode.next = existingNode;
-    existingNode.prev!.next = newNode;
     existingNode.prev = newNode;
+    if (existingNode === this.head) this._head = newNode;
     this._length++;
     return true;
   }
 
   /**
    * Insert a new element/node after an existing one.
-   * @remarks Time O(1), Space O(1)
+   * @remarks Time O(N), Space O(1)
    * @param existingElementOrNode - Existing element or node.
    * @param newElementOrNode - Element or node to insert.
    * @returns True if inserted.
@@ -486,9 +547,10 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
 
     const newNode = this._ensureNode(newElementOrNode);
     newNode.next = existingNode.next;
+    if (existingNode.next) existingNode.next.prev = newNode;
     newNode.prev = existingNode;
-    existingNode.next!.prev = newNode;
     existingNode.next = newNode;
+    if (existingNode === this.tail) this._tail = newNode;
     this._length++;
     return true;
   }
@@ -540,10 +602,15 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
     const node = this.getNode(elementOrNode);
     if (!node) return false;
 
-    // With sentinel pattern, all nodes have valid prev/next (may be sentinel)
-    node.prev!.next = node.next;
-    node.next!.prev = node.prev;
-    this._length--;
+    if (node === this.head) this.shift();
+    else if (node === this.tail) this.pop();
+    else {
+      const prevNode = node.prev!;
+      const nextNode = node.next!;
+      prevNode.next = nextNode;
+      nextNode.prev = prevNode;
+      this._length--;
+    }
     return true;
   }
 
@@ -559,13 +626,13 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
 
   /**
    * Remove all nodes and reset length.
-   * @remarks Time O(1), Space O(1)
+   * @remarks Time O(N), Space O(1)
    * @returns void
    */
 
   clear(): void {
-    this._sentinel.next = this._sentinel;
-    this._sentinel.prev = this._sentinel;
+    this._head = undefined;
+    this._tail = undefined;
     this._length = 0;
   }
 
@@ -580,10 +647,10 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
     elementNodeOrPredicate: E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)
   ): E | undefined {
     const predicate = this._ensurePredicate(elementNodeOrPredicate);
-    let current = this._sentinel.next;
-    while (current !== this._sentinel) {
-      if (predicate(current!)) return current!.value;
-      current = current!.next;
+    let current = this.head;
+    while (current) {
+      if (predicate(current)) return current.value;
+      current = current.next;
     }
     return undefined;
   }
@@ -599,10 +666,10 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
     elementNodeOrPredicate: E | DoublyLinkedListNode<E> | ((node: DoublyLinkedListNode<E>) => boolean)
   ): E | undefined {
     const predicate = this._ensurePredicate(elementNodeOrPredicate);
-    let current = this._sentinel.prev;
-    while (current !== this._sentinel) {
-      if (predicate(current!)) return current!.value;
-      current = current!.prev;
+    let current = this.tail;
+    while (current) {
+      if (predicate(current)) return current.value;
+      current = current.prev;
     }
     return undefined;
   }
@@ -614,15 +681,13 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    */
 
   reverse(): this {
-    let current = this._sentinel.next;
-    // Swap next and prev for all nodes including sentinel
-    while (current !== this._sentinel) {
-      const next = current!.next;
-      [current!.prev, current!.next] = [current!.next, current!.prev];
+    let current = this.head;
+    [this._head, this._tail] = [this.tail, this.head];
+    while (current) {
+      const next = current.next;
+      [current.prev, current.next] = [current.next, current.prev];
       current = next;
     }
-    // Swap sentinel's next and prev
-    [this._sentinel.prev, this._sentinel.next] = [this._sentinel.next, this._sentinel.prev];
     return this;
   }
 
@@ -714,7 +779,7 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
 
   protected _ensureNode(elementOrNode: E | DoublyLinkedListNode<E>) {
     if (this.isNode(elementOrNode)) return elementOrNode;
-    return { value: elementOrNode, next: undefined, prev: undefined };
+    return new DoublyLinkedListNode<E>(elementOrNode);
   }
 
   /**
@@ -786,26 +851,26 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
   }
 
   protected *_getIterator(): IterableIterator<E> {
-    let current = this._sentinel.next;
-    while (current !== this._sentinel) {
-      yield current!.value;
-      current = current!.next;
+    let current = this.head;
+    while (current) {
+      yield current.value;
+      current = current.next;
     }
   }
 
   protected *_getReverseIterator(): IterableIterator<E> {
-    let current = this._sentinel.prev;
-    while (current !== this._sentinel) {
-      yield current!.value;
-      current = current!.prev;
+    let current = this.tail;
+    while (current) {
+      yield current.value;
+      current = current.prev;
     }
   }
 
   protected *_getNodeIterator(): IterableIterator<DoublyLinkedListNode<E>> {
-    let current = this._sentinel.next;
-    while (current !== this._sentinel) {
-      yield current!;
-      current = current!.next;
+    let current = this.head;
+    while (current) {
+      yield current;
+      current = current.next;
     }
   }
 }

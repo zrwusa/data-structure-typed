@@ -49,8 +49,7 @@ describe('DoublyLinkedList additional branch coverage', () => {
     l.pushMany([1, 3]);
 
     const existing = l.getNodeAt(0)!;
-    // DoublyLinkedListNode is now a plain object interface
-    const newNode = { value: 2, next: undefined, prev: undefined };
+    const newNode = new DoublyLinkedListNode(2);
 
     // addAfter calls _ensureNode(newElementOrNode)
     expect(l.addAfter(existing, newNode)).toBe(true);

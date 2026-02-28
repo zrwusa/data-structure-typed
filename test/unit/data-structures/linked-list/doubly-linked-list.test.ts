@@ -2,10 +2,7 @@ import { DoublyLinkedList, DoublyLinkedListNode } from '../../../../src';
 
 describe('DoublyLinkedListNode', () => {
   it('should DoublyLinkedListNode', () => {
-    // DoublyLinkedListNode is now an interface (plain object)
-    // Create via list and access node
-    const list = new DoublyLinkedList<number>([2]);
-    const node1 = list.head!;
+    const node1 = new DoublyLinkedListNode<number>(2);
     expect(node1.value).toBe(2);
     node1.value = 1;
     expect(node1.value).toBe(1);
@@ -764,20 +761,20 @@ describe('classic use', () => {
 
       // Play the next song in the playlist
       playNext(): Song | undefined {
-        if (this.currentSong === this.playlist.tail) {
+        if (!this.currentSong?.next) {
           this.currentSong = this.playlist.head; // Loop to the first song
         } else {
-          this.currentSong = this.currentSong?.next;
+          this.currentSong = this.currentSong.next;
         }
         return this.currentSong?.value;
       }
 
       // Play the previous song in the playlist
       playPrevious(): Song | undefined {
-        if (this.currentSong === this.playlist.head) {
+        if (!this.currentSong?.prev) {
           this.currentSong = this.playlist.tail; // Loop to the last song
         } else {
-          this.currentSong = this.currentSong?.prev;
+          this.currentSong = this.currentSong.prev;
         }
         return this.currentSong?.value;
       }
@@ -795,12 +792,7 @@ describe('classic use', () => {
         // Loop through the playlist twice
         for (let i = 0; i < this.playlist.length * 2; i++) {
           playedSongs.push(this.currentSong!.value);
-          // Check if at tail, loop back to head
-          if (this.currentSong === this.playlist.tail) {
-            this.currentSong = this.playlist.head;
-          } else {
-            this.currentSong = this.currentSong!.next;
-          }
+          this.currentSong = this.currentSong!.next || this.playlist.head; // Loop back to the start if needed
         }
 
         // Reset the current song to the initial song

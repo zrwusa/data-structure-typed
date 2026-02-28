@@ -213,8 +213,7 @@ describe('SinglyLinkedList coverage', () => {
 
   it('_getPrevNode not-found branch via foreign node', () => {
     const list = new SinglyLinkedList<number>([1, 2, 3]);
-    // SinglyLinkedListNode is now a plain object interface
-    const foreign = { value: 2, next: undefined };
+    const foreign = new SinglyLinkedListNode(2);
 
     // Access protected for branch coverage.
     expect((list as any)._getPrevNode(foreign)).toBeUndefined();
