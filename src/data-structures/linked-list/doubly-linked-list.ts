@@ -281,22 +281,6 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
   }
 
   /**
-   * Fast path: append a value directly (skips isNode check).
-   * @remarks Time O(1), Space O(1)
-   * @param value - Element value to append.
-   * @returns True when appended.
-   */
-
-  pushValue(value: E): boolean {
-    const node: DoublyLinkedListNode<E> = { value, prev: this._sentinel.prev, next: this._sentinel };
-    this._sentinel.prev!.next = node;
-    this._sentinel.prev = node;
-    this._length++;
-    if (this._maxLen > 0 && this._length > this._maxLen) this.shift();
-    return true;
-  }
-
-  /**
    * Remove and return the tail element.
    * @remarks Time O(1), Space O(1)
    * @returns Removed element or undefined.
@@ -340,22 +324,6 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
     newNode.prev = this._sentinel;
     this._sentinel.next!.prev = newNode;
     this._sentinel.next = newNode;
-    this._length++;
-    if (this._maxLen > 0 && this._length > this._maxLen) this.pop();
-    return true;
-  }
-
-  /**
-   * Fast path: prepend a value directly (skips isNode check).
-   * @remarks Time O(1), Space O(1)
-   * @param value - Element value to prepend.
-   * @returns True when prepended.
-   */
-
-  unshiftValue(value: E): boolean {
-    const node: DoublyLinkedListNode<E> = { value, next: this._sentinel.next, prev: this._sentinel };
-    this._sentinel.next!.prev = node;
-    this._sentinel.next = node;
     this._length++;
     if (this._maxLen > 0 && this._length > this._maxLen) this.pop();
     return true;

@@ -340,26 +340,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
   }
 
   /**
-   * Fast path: append a value directly (skips isNode check).
-   * @remarks Time O(1), Space O(1)
-   * @param value - Element value to append.
-   * @returns True when appended.
-   */
-
-  pushValue(value: E): boolean {
-    const node: SinglyLinkedListNode<E> = { value, next: undefined };
-    if (!this._head) {
-      this._head = this._tail = node;
-    } else {
-      this._tail!.next = node;
-      this._tail = node;
-    }
-    this._length++;
-    if (this._maxLen > 0 && this._length > this._maxLen) this.shift();
-    return true;
-  }
-
-  /**
    * Remove and return the tail element.
    * @remarks Time O(N), Space O(1)
    * @returns Removed element or undefined.
@@ -413,23 +393,6 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
       newNode.next = this.head;
       this._head = newNode;
     }
-    this._length++;
-    return true;
-  }
-
-  /**
-   * Fast path: prepend a value directly (skips isNode check).
-   * @remarks Time O(1), Space O(1)
-   * @param value - Element value to prepend.
-   * @returns True when prepended.
-   */
-
-  unshiftValue(value: E): boolean {
-    const node: SinglyLinkedListNode<E> = { value, next: this._head };
-    if (!this._head) {
-      this._tail = node;
-    }
-    this._head = node;
     this._length++;
     return true;
   }
