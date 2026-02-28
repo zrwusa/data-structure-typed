@@ -10,21 +10,13 @@ import type { DoublyLinkedListOptions, ElementCallback, LinearBaseOptions } from
 import { LinearLinkedBase } from '../base/linear-base';
 
 /**
- * Plain object node for doubly linked list (optimized for performance).
+ * Node interface for doubly linked list (plain object).
  * @template E
  */
 export interface DoublyLinkedListNode<E = any> {
   value: E;
   next: DoublyLinkedListNode<E> | undefined;
   prev: DoublyLinkedListNode<E> | undefined;
-}
-
-/**
- * Create a new DLL node (plain object, no class overhead).
- * @internal
- */
-function createNode<E>(value: E): DoublyLinkedListNode<E> {
-  return { value, next: undefined, prev: undefined };
 }
 
 /**
@@ -150,7 +142,7 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
   ) {
     super(options);
     // Initialize sentinel node (circular, points to itself when empty)
-    this._sentinel = createNode<E>(undefined as E);
+    this._sentinel = { value: undefined as E, next: undefined, prev: undefined };
     this._sentinel.next = this._sentinel;
     this._sentinel.prev = this._sentinel;
     this._length = 0;
@@ -722,7 +714,7 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
 
   protected _ensureNode(elementOrNode: E | DoublyLinkedListNode<E>) {
     if (this.isNode(elementOrNode)) return elementOrNode;
-    return createNode<E>(elementOrNode);
+    return { value: elementOrNode, next: undefined, prev: undefined };
   }
 
   /**
