@@ -8,23 +8,53 @@ import { IterableElementBase } from './iterable-element-base';
  */
 export class LinkedListNode<E = any> {
   /**
-   * Element value.
-   */
-  value: E;
-
-  /**
-   * Next node link.
-   */
-  next: LinkedListNode<E> | undefined;
-
-  /**
    * Initialize a node.
    * @param value - Element value.
    * @remarks Time O(1), Space O(1)
    */
   constructor(value: E) {
-    this.value = value;
-    this.next = undefined;
+    this._value = value;
+    this._next = undefined;
+  }
+
+  protected _value: E;
+
+  /**
+   * Element payload getter.
+   * @returns Element value.
+   * @remarks Time O(1), Space O(1)
+   */
+  get value(): E {
+    return this._value;
+  }
+
+  /**
+   * Element payload setter.
+   * @param value - New value.
+   * @remarks Time O(1), Space O(1)
+   */
+  set value(value: E) {
+    this._value = value;
+  }
+
+  protected _next: LinkedListNode<E> | undefined;
+
+  /**
+   * Next node getter.
+   * @returns Next node or `undefined`.
+   * @remarks Time O(1), Space O(1)
+   */
+  get next(): LinkedListNode<E> | undefined {
+    return this._next;
+  }
+
+  /**
+   * Next node setter.
+   * @param value - Next node or `undefined`.
+   * @remarks Time O(1), Space O(1)
+   */
+  set next(value: LinkedListNode<E> | undefined) {
+    this._next = value;
   }
 }
 

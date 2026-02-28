@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-02-28T10:20:04.126Z",
+  "timestamp": "2026-02-28T19:13:09.075Z",
   "javascript": [
     {
       "testName": "tree-map",
@@ -349,83 +349,83 @@
       "benchmarks": [
         {
           "Test Case": "100k push",
-          "Latency Avg (ms)": 7.7141,
-          "Min (ms)": 2.4482,
-          "Max (ms)": 12.7621,
-          "Stability": "±23.03%"
+          "Latency Avg (ms)": 5.3214,
+          "Min (ms)": 4.322,
+          "Max (ms)": 23.8263,
+          "Stability": "±11.96%"
         },
         {
           "Test Case": "Native JS Array 100k push",
-          "Latency Avg (ms)": 1.8894,
-          "Min (ms)": 1.7513,
-          "Max (ms)": 2.4673,
-          "Stability": "±1.4%"
+          "Latency Avg (ms)": 1.893,
+          "Min (ms)": 1.7409,
+          "Max (ms)": 2.3961,
+          "Stability": "±1.02%"
         },
         {
           "Test Case": "100k unshift",
-          "Latency Avg (ms)": 7.7411,
-          "Min (ms)": 2.478,
-          "Max (ms)": 10.8007,
-          "Stability": "±28.88%"
+          "Latency Avg (ms)": 5.6022,
+          "Min (ms)": 4.6106,
+          "Max (ms)": 16.7947,
+          "Stability": "±8.28%"
         },
         {
           "Test Case": "Native JS Array 100k unshift",
-          "Latency Avg (ms)": 893.12,
-          "Min (ms)": 880.24,
-          "Max (ms)": 906.21,
-          "Stability": "±1.17%"
+          "Latency Avg (ms)": 889.89,
+          "Min (ms)": 882.86,
+          "Max (ms)": 910.48,
+          "Stability": "±1.08%"
         },
         {
           "Test Case": "100k unshift & shift",
-          "Latency Avg (ms)": 1.7079,
-          "Min (ms)": 1.5756,
-          "Max (ms)": 1.9875,
-          "Stability": "±1.28%"
+          "Latency Avg (ms)": 3.9145,
+          "Min (ms)": 3.7706,
+          "Max (ms)": 5.0804,
+          "Stability": "±1.32%"
         },
         {
           "Test Case": "Native JS Array 100k unshift & shift",
-          "Latency Avg (ms)": 2036.49,
-          "Min (ms)": 1843.8,
-          "Max (ms)": 2292.75,
-          "Stability": "±9.56%"
+          "Latency Avg (ms)": 2119.81,
+          "Min (ms)": 1830.75,
+          "Max (ms)": 2570.59,
+          "Stability": "±12.51%"
         },
         {
           "Test Case": "100k addAt(mid)",
-          "Latency Avg (ms)": 1381.28,
-          "Min (ms)": 1107.67,
-          "Max (ms)": 1964.85,
-          "Stability": "±26.04%"
+          "Latency Avg (ms)": 1391.45,
+          "Min (ms)": 1191.73,
+          "Max (ms)": 1772.25,
+          "Stability": "±17.46%"
         },
         {
           "Test Case": "100k addBefore (cursor)",
-          "Latency Avg (ms)": 3.1585,
-          "Min (ms)": 2.833,
-          "Max (ms)": 4.2798,
-          "Stability": "±2.2%"
+          "Latency Avg (ms)": 7.3741,
+          "Min (ms)": 5.1968,
+          "Max (ms)": 43.4887,
+          "Stability": "±15.39%"
         },
         {
           "Test Case": "100k push (js-sdsl)",
-          "Latency Avg (ms)": 1.7558,
-          "Min (ms)": 1.0453,
-          "Max (ms)": 3.9009,
-          "Stability": "±11.29%"
+          "Latency Avg (ms)": 1.7305,
+          "Min (ms)": 1.0652,
+          "Max (ms)": 4.5972,
+          "Stability": "±12.25%"
         },
         {
           "Test Case": "100k unshift (js-sdsl)",
-          "Latency Avg (ms)": 2.9985,
-          "Min (ms)": 1.5897,
-          "Max (ms)": 8.9621,
-          "Stability": "±8.6%"
+          "Latency Avg (ms)": 1.6119,
+          "Min (ms)": 1.0228,
+          "Max (ms)": 4.6995,
+          "Stability": "±10.78%"
         },
         {
           "Test Case": "100k unshift & shift (js-sdsl)",
-          "Latency Avg (ms)": 2.0331,
-          "Min (ms)": 1.9397,
-          "Max (ms)": 2.4879,
-          "Stability": "±0.85%"
+          "Latency Avg (ms)": 1.9446,
+          "Min (ms)": 1.6442,
+          "Max (ms)": 2.8043,
+          "Stability": "±1.53%"
         }
       ],
-      "runTime": 103.15,
+      "runTime": 100.39,
       "file": "/Users/revone/projects/data-structure-typed/test/performance/data-structures/linked-list/doubly-linked-list.test.mjs"
     },
     {
