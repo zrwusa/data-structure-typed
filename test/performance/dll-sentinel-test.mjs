@@ -1,186 +1,133 @@
-import { DoublyLinkedList } from '../../dist/esm/index.mjs';
+/**
+ * Test: DLL with Sentinel pattern
+ */
+
 import { LinkList } from 'js-sdsl';
+
+// Simple sentinel-based DLL implementation for testing
+class SentinelNode {
+  constructor(value) {
+    this.value = value;
+    this.next = undefined;
+    this.prev = undefined;
+  }
+}
+
+class SentinelDLL {
+  constructor() {
+    this._sentinel = new SentinelNode(undefined);
+    this._sentinel.next = this._sentinel;
+    this._sentinel.prev = this._sentinel;
+    this._length = 0;
+  }
+
+  get length() {
+    return this._length;
+  }
+
+  push(value) {
+    const node = new SentinelNode(value);
+    // No null check needed
+    node.prev = this._sentinel.prev;
+    node.next = this._sentinel;
+    this._sentinel.prev.next = node;
+    this._sentinel.prev = node;
+    this._length++;
+    return true;
+  }
+
+  unshift(value) {
+    const node = new SentinelNode(value);
+    node.next = this._sentinel.next;
+    node.prev = this._sentinel;
+    this._sentinel.next.prev = node;
+    this._sentinel.next = node;
+    this._length++;
+    return true;
+  }
+
+  pop() {
+    if (this._length === 0) return undefined;
+    const node = this._sentinel.prev;
+    node.prev.next = this._sentinel;
+    this._sentinel.prev = node.prev;
+    this._length--;
+    return node.value;
+  }
+
+  shift() {
+    if (this._length === 0) return undefined;
+    const node = this._sentinel.next;
+    node.next.prev = this._sentinel;
+    this._sentinel.next = node.next;
+    this._length--;
+    return node.value;
+  }
+}
 
 const N = 100_000;
 const ITERATIONS = 20;
 
-function benchmark(name, fn) {
-  for (let w = 0; w < 3; w++) fn();
-  const times = [];
-  for (let i = 0; i < ITERATIONS; i++) {
-    const start = performance.now();
-    fn();
-    times.push(performance.now() - start);
-  }
-  return { name, avg: times.reduce((a, b) => a + b, 0) / times.length };
+// Warm up
+for (let i = 0; i < 1000; i++) {
+  const list = new SentinelDLL();
+  list.push(i);
 }
 
-// 普通方式 (null check)
-class NormalNode {
-  constructor(v) { this.value = v; this.next = undefined; this.prev = undefined; }
+// Test Sentinel DLL push
+const sentinelPushTimes = [];
+for (let iter = 0; iter < ITERATIONS; iter++) {
+  const list = new SentinelDLL();
+  const start = performance.now();
+  for (let i = 0; i < N; i++) {
+    list.push(i);
+  }
+  sentinelPushTimes.push(performance.now() - start);
 }
 
-class NormalDLL {
-  constructor() {
-    this._head = undefined;
-    this._tail = undefined;
-    this._length = 0;
+// Test Sentinel DLL unshift
+const sentinelUnshiftTimes = [];
+for (let iter = 0; iter < ITERATIONS; iter++) {
+  const list = new SentinelDLL();
+  const start = performance.now();
+  for (let i = 0; i < N; i++) {
+    list.unshift(i);
   }
-  
-  push(value) {
-    const n = new NormalNode(value);
-    if (!this._head) {
-      this._head = n;
-      this._tail = n;
-    } else {
-      n.prev = this._tail;
-      this._tail.next = n;
-      this._tail = n;
-    }
-    this._length++;
-  }
-  
-  unshift(value) {
-    const n = new NormalNode(value);
-    if (!this._head) {
-      this._head = n;
-      this._tail = n;
-    } else {
-      n.next = this._head;
-      this._head.prev = n;
-      this._head = n;
-    }
-    this._length++;
-  }
+  sentinelUnshiftTimes.push(performance.now() - start);
 }
 
-// Sentinel 方式 (like js-sdsl)
-class SentinelDLL {
-  constructor() {
-    // sentinel node - circular
-    this._sentinel = { value: undefined, next: undefined, prev: undefined };
-    this._sentinel.next = this._sentinel;
-    this._sentinel.prev = this._sentinel;
-    this._length = 0;
+// Test js-sdsl push
+const sdslPushTimes = [];
+for (let iter = 0; iter < ITERATIONS; iter++) {
+  const list = new LinkList();
+  const start = performance.now();
+  for (let i = 0; i < N; i++) {
+    list.pushBack(i);
   }
-  
-  push(value) {
-    const tail = this._sentinel.prev;
-    const n = { value, prev: tail, next: this._sentinel };
-    tail.next = n;
-    this._sentinel.prev = n;
-    this._length++;
-  }
-  
-  unshift(value) {
-    const head = this._sentinel.next;
-    const n = { value, prev: this._sentinel, next: head };
-    this._sentinel.next = n;
-    head.prev = n;
-    this._length++;
-  }
-  
-  get first() { return this._length > 0 ? this._sentinel.next.value : undefined; }
-  get last() { return this._length > 0 ? this._sentinel.prev.value : undefined; }
+  sdslPushTimes.push(performance.now() - start);
 }
 
-// Sentinel with class nodes
-class SentinelNodeDLL {
-  constructor() {
-    this._sentinel = new NormalNode(undefined);
-    this._sentinel.next = this._sentinel;
-    this._sentinel.prev = this._sentinel;
-    this._length = 0;
+// Test js-sdsl unshift
+const sdslUnshiftTimes = [];
+for (let iter = 0; iter < ITERATIONS; iter++) {
+  const list = new LinkList();
+  const start = performance.now();
+  for (let i = 0; i < N; i++) {
+    list.pushFront(i);
   }
-  
-  push(value) {
-    const tail = this._sentinel.prev;
-    const n = new NormalNode(value);
-    n.prev = tail;
-    n.next = this._sentinel;
-    tail.next = n;
-    this._sentinel.prev = n;
-    this._length++;
-  }
-  
-  unshift(value) {
-    const head = this._sentinel.next;
-    const n = new NormalNode(value);
-    n.prev = this._sentinel;
-    n.next = head;
-    this._sentinel.next = n;
-    head.prev = n;
-    this._length++;
-  }
+  sdslUnshiftTimes.push(performance.now() - start);
 }
 
-console.log(`\n=== Sentinel vs Normal Pattern ===`);
+const avg = arr => arr.reduce((a, b) => a + b, 0) / arr.length;
+const min = arr => Math.min(...arr);
+
+console.log('=== Sentinel DLL Benchmark ===');
 console.log(`N = ${N.toLocaleString()}, ITERATIONS = ${ITERATIONS}\n`);
-
-const results = [];
-
-results.push(benchmark('js-sdsl LinkList', () => {
-  const list = new LinkList();
-  for (let i = 0; i < N; i++) list.pushBack(i);
-}));
-
-results.push(benchmark('Sentinel (plain obj)', () => {
-  const list = new SentinelDLL();
-  for (let i = 0; i < N; i++) list.push(i);
-}));
-
-results.push(benchmark('Sentinel (class node)', () => {
-  const list = new SentinelNodeDLL();
-  for (let i = 0; i < N; i++) list.push(i);
-}));
-
-results.push(benchmark('Normal (null check)', () => {
-  const list = new NormalDLL();
-  for (let i = 0; i < N; i++) list.push(i);
-}));
-
-results.push(benchmark('DST DoublyLinkedList', () => {
-  const list = new DoublyLinkedList();
-  for (let i = 0; i < N; i++) list.push(i);
-}));
-
-console.log('| Implementation | Avg (ms) | vs js-sdsl |');
-console.log('|----------------|----------|------------|');
-const sdslTime = results[0].avg;
-for (const r of results) {
-  const ratio = (r.avg / sdslTime).toFixed(2);
-  console.log(`| ${r.name.padEnd(22)} | ${r.avg.toFixed(2).padStart(8)} | ${ratio.padStart(10)}x |`);
-}
-
-// Also test unshift
-console.log(`\n--- Unshift Test ---\n`);
-
-const unshiftResults = [];
-
-unshiftResults.push(benchmark('js-sdsl pushFront', () => {
-  const list = new LinkList();
-  for (let i = 0; i < N; i++) list.pushFront(i);
-}));
-
-unshiftResults.push(benchmark('Sentinel unshift', () => {
-  const list = new SentinelDLL();
-  for (let i = 0; i < N; i++) list.unshift(i);
-}));
-
-unshiftResults.push(benchmark('Normal unshift', () => {
-  const list = new NormalDLL();
-  for (let i = 0; i < N; i++) list.unshift(i);
-}));
-
-unshiftResults.push(benchmark('DST unshift', () => {
-  const list = new DoublyLinkedList();
-  for (let i = 0; i < N; i++) list.unshift(i);
-}));
-
-console.log('| Implementation | Avg (ms) | vs js-sdsl |');
-console.log('|----------------|----------|------------|');
-const sdslUnshiftTime = unshiftResults[0].avg;
-for (const r of unshiftResults) {
-  const ratio = (r.avg / sdslUnshiftTime).toFixed(2);
-  console.log(`| ${r.name.padEnd(22)} | ${r.avg.toFixed(2).padStart(8)} | ${ratio.padStart(10)}x |`);
-}
+console.log('| Operation | Avg (ms) | Min (ms) |');
+console.log('|-----------|----------|----------|');
+console.log(`| Sentinel push     | ${avg(sentinelPushTimes).toFixed(2).padStart(8)} | ${min(sentinelPushTimes).toFixed(2).padStart(8)} |`);
+console.log(`| js-sdsl pushBack  | ${avg(sdslPushTimes).toFixed(2).padStart(8)} | ${min(sdslPushTimes).toFixed(2).padStart(8)} |`);
+console.log(`| Sentinel unshift  | ${avg(sentinelUnshiftTimes).toFixed(2).padStart(8)} | ${min(sentinelUnshiftTimes).toFixed(2).padStart(8)} |`);
+console.log(`| js-sdsl pushFront | ${avg(sdslUnshiftTimes).toFixed(2).padStart(8)} | ${min(sdslUnshiftTimes).toFixed(2).padStart(8)} |`);
+console.log(`\nPush ratio: ${(avg(sentinelPushTimes) / avg(sdslPushTimes)).toFixed(2)}x`);
+console.log(`Unshift ratio: ${(avg(sentinelUnshiftTimes) / avg(sdslUnshiftTimes)).toFixed(2)}x`);

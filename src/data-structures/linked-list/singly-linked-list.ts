@@ -16,39 +16,18 @@ import { LinearLinkedBase, LinkedListNode } from '../base/linear-base';
  */
 export class SinglyLinkedListNode<E = any> extends LinkedListNode<E> {
   /**
+   * Next node link (narrowed type).
+   */
+  declare next: SinglyLinkedListNode<E> | undefined;
+
+  /**
    * Create a list node.
    * @remarks Time O(1), Space O(1)
    * @param value - Element value to store.
    * @returns New node instance.
    */
-
   constructor(value: E) {
     super(value);
-    this._value = value;
-    this._next = undefined;
-  }
-
-  protected override _next: SinglyLinkedListNode<E> | undefined;
-
-  /**
-   * Get the next node.
-   * @remarks Time O(1), Space O(1)
-   * @returns Next node or undefined.
-   */
-
-  override get next(): SinglyLinkedListNode<E> | undefined {
-    return this._next;
-  }
-
-  /**
-   * Set the next node.
-   * @remarks Time O(1), Space O(1)
-   * @param value - Next node or undefined.
-   * @returns void
-   */
-
-  override set next(value: SinglyLinkedListNode<E> | undefined) {
-    this._next = value;
   }
 }
 

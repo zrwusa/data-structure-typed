@@ -761,20 +761,20 @@ describe('classic use', () => {
 
       // Play the next song in the playlist
       playNext(): Song | undefined {
-        if (!this.currentSong?.next) {
+        if (this.currentSong === this.playlist.tail) {
           this.currentSong = this.playlist.head; // Loop to the first song
         } else {
-          this.currentSong = this.currentSong.next;
+          this.currentSong = this.currentSong?.next;
         }
         return this.currentSong?.value;
       }
 
       // Play the previous song in the playlist
       playPrevious(): Song | undefined {
-        if (!this.currentSong?.prev) {
+        if (this.currentSong === this.playlist.head) {
           this.currentSong = this.playlist.tail; // Loop to the last song
         } else {
-          this.currentSong = this.currentSong.prev;
+          this.currentSong = this.currentSong?.prev;
         }
         return this.currentSong?.value;
       }
@@ -792,7 +792,12 @@ describe('classic use', () => {
         // Loop through the playlist twice
         for (let i = 0; i < this.playlist.length * 2; i++) {
           playedSongs.push(this.currentSong!.value);
-          this.currentSong = this.currentSong!.next || this.playlist.head; // Loop back to the start if needed
+          // Check if at tail, loop back to head
+          if (this.currentSong === this.playlist.tail) {
+            this.currentSong = this.playlist.head;
+          } else {
+            this.currentSong = this.currentSong!.next;
+          }
         }
 
         // Reset the current song to the initial song
