@@ -44,7 +44,7 @@
     "build:types": "rm -rf dist/types && tsc -p tsconfig.types.json",
     "build:ecut": "npm run build:node && npm run build:types && npm run build:umd",
     "build:leetcode": "tsup --config tsup.leetcode.config.js",
-    "build:docs": "npm run gen:examples && typedoc --out docs ./src",
+    "build:docs": "npm run gen:examples && npm run generate:schema && typedoc --out docs ./src",
     "build:docs-class": "npm run gen:examples && typedoc --out docs ./src/data-structures",
     "gen:examples": "ts-node scripts/test-to-example.ts",
     "test:in-band": "jest --runInBand",

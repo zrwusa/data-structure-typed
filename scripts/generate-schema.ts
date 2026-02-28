@@ -122,6 +122,31 @@ function getDescription(declaration: ClassDeclaration | MethodDeclaration): stri
   return undefined;
 }
 
+// Extract complexity from @remarks tag (format: "Time O(...), Space O(...)")
+function getComplexityFromRemarks(declaration: ClassDeclaration | MethodDeclaration): {
+  time?: ComplexityInfo;
+  space?: ComplexityInfo;
+} {
+  const remarks = getJSDocTagValue(declaration, 'remarks');
+  if (!remarks) return {};
+
+  const result: { time?: ComplexityInfo; space?: ComplexityInfo } = {};
+
+  // Match "Time O(...)" pattern
+  const timeMatch = remarks.match(/Time\s+(O\([^)]+\))/i);
+  if (timeMatch) {
+    result.time = { best: timeMatch[1], average: timeMatch[1], worst: timeMatch[1] };
+  }
+
+  // Match "Space O(...)" pattern  
+  const spaceMatch = remarks.match(/Space\s+(O\([^)]+\))/i);
+  if (spaceMatch) {
+    result.space = { best: spaceMatch[1], average: spaceMatch[1], worst: spaceMatch[1] };
+  }
+
+  return result;
+}
+
 // Parse complexity string into structured format
 function parseComplexity(complexityStr: string | undefined): ComplexityInfo | undefined {
   if (!complexityStr) return undefined;
@@ -175,9 +200,16 @@ function extractMethodInfo(method: MethodDeclaration): MethodInfo {
   // Return type
   const returnType = simplifyType(method.getReturnType().getText());
 
-  // Extract complexity from JSDoc
-  const timeComplexity = parseComplexity(getJSDocTagValue(method, 'timeComplexity'));
-  const spaceComplexity = parseComplexity(getJSDocTagValue(method, 'spaceComplexity'));
+  // Extract complexity from JSDoc (@timeComplexity tag or @remarks)
+  let timeComplexity = parseComplexity(getJSDocTagValue(method, 'timeComplexity'));
+  let spaceComplexity = parseComplexity(getJSDocTagValue(method, 'spaceComplexity'));
+
+  // Fallback to @remarks format if no explicit tags
+  if (!timeComplexity || !spaceComplexity) {
+    const fromRemarks = getComplexityFromRemarks(method);
+    if (!timeComplexity && fromRemarks.time) timeComplexity = fromRemarks.time;
+    if (!spaceComplexity && fromRemarks.space) spaceComplexity = fromRemarks.space;
+  }
 
   // Description
   const description = getDescription(method);
