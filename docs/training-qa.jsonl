@@ -1,0 +1,743 @@
+{"instruction":"What is the time complexity of IterableElementBase.[Symbol.iterator]()?","output":"IterableElementBase.[Symbol.iterator]() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableElementBase.values()?","output":"IterableElementBase.values() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableElementBase.every()?","output":"IterableElementBase.every() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableElementBase.some()?","output":"IterableElementBase.some() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableElementBase.forEach()?","output":"IterableElementBase.forEach() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableElementBase.has()?","output":"IterableElementBase.has() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableElementBase.reduce()?","output":"IterableElementBase.reduce() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableElementBase.toArray()?","output":"IterableElementBase.toArray() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableElementBase.toVisual()?","output":"IterableElementBase.toVisual() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableElementBase.print()?","output":"IterableElementBase.print() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableElementBase.isEmpty()?","output":"IterableElementBase.isEmpty() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I clear in IterableElementBase?","output":"Use IterableElementBase.clear(). IterableElementBase.clear() Removes all elements from the structure. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of IterableElementBase.clear()?","output":"IterableElementBase.clear() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableElementBase.clone()?","output":"IterableElementBase.clone() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableElementBase.map()?","output":"IterableElementBase.map() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableElementBase.mapSame()?","output":"IterableElementBase.mapSame() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableElementBase.filter()?","output":"IterableElementBase.filter() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableEntryBase.[Symbol.iterator]()?","output":"IterableEntryBase.[Symbol.iterator]() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableEntryBase.entries()?","output":"IterableEntryBase.entries() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableEntryBase.keys()?","output":"IterableEntryBase.keys() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableEntryBase.values()?","output":"IterableEntryBase.values() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableEntryBase.every()?","output":"IterableEntryBase.every() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableEntryBase.some()?","output":"IterableEntryBase.some() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableEntryBase.forEach()?","output":"IterableEntryBase.forEach() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableEntryBase.find()?","output":"IterableEntryBase.find() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableEntryBase.has()?","output":"IterableEntryBase.has() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableEntryBase.hasValue()?","output":"IterableEntryBase.hasValue() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableEntryBase.get()?","output":"IterableEntryBase.get() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableEntryBase.reduce()?","output":"IterableEntryBase.reduce() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableEntryBase.toArray()?","output":"IterableEntryBase.toArray() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableEntryBase.toVisual()?","output":"IterableEntryBase.toVisual() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableEntryBase.print()?","output":"IterableEntryBase.print() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableEntryBase.isEmpty()?","output":"IterableEntryBase.isEmpty() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I clear in IterableEntryBase?","output":"Use IterableEntryBase.clear(). IterableEntryBase.clear() Remove all entries. Runs in O(n) time.","type":"howto"}
+{"instruction":"What is the time complexity of IterableEntryBase.clear()?","output":"IterableEntryBase.clear() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableEntryBase.clone()?","output":"IterableEntryBase.clone() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableEntryBase.map()?","output":"IterableEntryBase.map() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of IterableEntryBase.filter()?","output":"IterableEntryBase.filter() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of LinearBase.indexOf()?","output":"LinearBase.indexOf() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of LinearBase.lastIndexOf()?","output":"LinearBase.lastIndexOf() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of LinearBase.findIndex()?","output":"LinearBase.findIndex() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of LinearBase.concat()?","output":"LinearBase.concat() runs in O(sum(length) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of LinearBase.sort()?","output":"LinearBase.sort() runs in O(n log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of LinearBase.splice()?","output":"LinearBase.splice() runs in O(n + m) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of LinearBase.join()?","output":"LinearBase.join() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of LinearBase.toReversedArray()?","output":"LinearBase.toReversedArray() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of LinearBase.slice()?","output":"LinearBase.slice() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of LinearBase.fill()?","output":"LinearBase.fill() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"How do I set at in LinearBase?","output":"Use LinearBase.setAt(). LinearBase.setAt() Set the value at an index. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of LinearBase.setAt()?","output":"LinearBase.setAt() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of LinearBase.clone()?","output":"LinearBase.clone() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of LinearBase.reverse()?","output":"LinearBase.reverse() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"How do I push in LinearBase?","output":"Use LinearBase.push(). LinearBase.push() Append one element or node to the tail. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of LinearBase.push()?","output":"LinearBase.push() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I push many in LinearBase?","output":"Use LinearBase.pushMany(). LinearBase.pushMany() Append many elements/nodes at once. Runs in O(n) time.","type":"howto"}
+{"instruction":"What is the time complexity of LinearBase.pushMany()?","output":"LinearBase.pushMany() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"How do I delete in LinearBase?","output":"Use LinearBase.delete(). LinearBase.delete() Remove one element or node if present. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of LinearBase.delete()?","output":"LinearBase.delete() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of LinearBase.at()?","output":"LinearBase.at() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I delete at in LinearBase?","output":"Use LinearBase.deleteAt(). LinearBase.deleteAt() Remove element at a position. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of LinearBase.deleteAt()?","output":"LinearBase.deleteAt() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I add at in LinearBase?","output":"Use LinearBase.addAt(). LinearBase.addAt() Insert an element/node at a position. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of LinearBase.addAt()?","output":"LinearBase.addAt() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of LinearLinkedBase.indexOf()?","output":"LinearLinkedBase.indexOf() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of LinearLinkedBase.lastIndexOf()?","output":"LinearLinkedBase.lastIndexOf() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of LinearLinkedBase.concat()?","output":"LinearLinkedBase.concat() runs in O(sum(length) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of LinearLinkedBase.slice()?","output":"LinearLinkedBase.slice() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of LinearLinkedBase.splice()?","output":"LinearLinkedBase.splice() runs in O(n + m) time complexity.","type":"factual"}
+{"instruction":"How do I delete in LinearLinkedBase?","output":"Use LinearLinkedBase.delete(). LinearLinkedBase.delete() Delete by element or node in a linked list. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of LinearLinkedBase.delete()?","output":"LinearLinkedBase.delete() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I add before in LinearLinkedBase?","output":"Use LinearLinkedBase.addBefore(). LinearLinkedBase.addBefore() Insert new element/node before an existing node. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of LinearLinkedBase.addBefore()?","output":"LinearLinkedBase.addBefore() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I add after in LinearLinkedBase?","output":"Use LinearLinkedBase.addAfter(). LinearLinkedBase.addAfter() Insert new element/node after an existing node. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of LinearLinkedBase.addAfter()?","output":"LinearLinkedBase.addAfter() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of LinearLinkedBase.getNodeAt()?","output":"LinearLinkedBase.getNodeAt() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AVLTree.createNode()?","output":"AVLTree.createNode() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AVLTree.isNode()?","output":"AVLTree.isNode() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I set in AVLTree?","output":"Use AVLTree.set(). AVLTree.set() Sets a new node to the AVL tree and balances the tree path. Runs in O(log N) time.","type":"howto"}
+{"instruction":"What is the time complexity of AVLTree.set()?","output":"AVLTree.set() runs in O(log N) time complexity.","type":"factual"}
+{"instruction":"How do I delete in AVLTree?","output":"Use AVLTree.delete(). AVLTree.delete() Deletes a node from the AVL tree and re-balances the tree. Runs in O(log N) time.","type":"howto"}
+{"instruction":"What is the time complexity of AVLTree.delete()?","output":"AVLTree.delete() runs in O(log N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AVLTree.perfectlyBalance()?","output":"AVLTree.perfectlyBalance() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AVLTree.map()?","output":"AVLTree.map() runs in O(N log N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.createNode()?","output":"BinaryTree.createNode() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.createTree()?","output":"BinaryTree.createTree() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.ensureNode()?","output":"BinaryTree.ensureNode() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.isNode()?","output":"BinaryTree.isNode() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.isRaw()?","output":"BinaryTree.isRaw() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.isRealNode()?","output":"BinaryTree.isRealNode() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.isRealNodeOrNull()?","output":"BinaryTree.isRealNodeOrNull() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.isNIL()?","output":"BinaryTree.isNIL() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.isRange()?","output":"BinaryTree.isRange() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.isLeaf()?","output":"BinaryTree.isLeaf() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.isEntry()?","output":"BinaryTree.isEntry() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.isValidKey()?","output":"BinaryTree.isValidKey() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I add in BinaryTree?","output":"Use BinaryTree.add(). BinaryTree.add() Adds a new node to the tree. Runs in O(log N) time.","type":"howto"}
+{"instruction":"What is the time complexity of BinaryTree.add()?","output":"BinaryTree.add() runs in O(log N) time complexity.","type":"factual"}
+{"instruction":"How do I set in BinaryTree?","output":"Use BinaryTree.set(). BinaryTree.set() Adds or updates a new node to the tree. Runs in O(log N) time.","type":"howto"}
+{"instruction":"What is the time complexity of BinaryTree.set()?","output":"BinaryTree.set() runs in O(log N) time complexity.","type":"factual"}
+{"instruction":"How do I add many in BinaryTree?","output":"Use BinaryTree.addMany(). BinaryTree.addMany() Adds multiple items to the tree. Runs in O(N * M) time.","type":"howto"}
+{"instruction":"What is the time complexity of BinaryTree.addMany()?","output":"BinaryTree.addMany() runs in O(N * M) time complexity.","type":"factual"}
+{"instruction":"How do I set many in BinaryTree?","output":"Use BinaryTree.setMany(). BinaryTree.setMany() Adds or updates multiple items to the tree. Runs in O(N * M) time.","type":"howto"}
+{"instruction":"What is the time complexity of BinaryTree.setMany()?","output":"BinaryTree.setMany() runs in O(N * M) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.merge()?","output":"BinaryTree.merge() runs in O(N * M) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.refill()?","output":"BinaryTree.refill() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I delete in BinaryTree?","output":"Use BinaryTree.delete(). BinaryTree.delete() Deletes a node from the tree. Runs in O(log N) time.","type":"howto"}
+{"instruction":"What is the time complexity of BinaryTree.delete()?","output":"BinaryTree.delete() runs in O(log N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.search()?","output":"BinaryTree.search() runs in O(log N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.getNode()?","output":"BinaryTree.getNode() runs in O(log N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.get()?","output":"BinaryTree.get() runs in O(log N) time complexity.","type":"factual"}
+{"instruction":"How do I clear in BinaryTree?","output":"Use BinaryTree.clear(). BinaryTree.clear() Clears the tree of all nodes and values. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of BinaryTree.clear()?","output":"BinaryTree.clear() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.isEmpty()?","output":"BinaryTree.isEmpty() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.isPerfectlyBalanced()?","output":"BinaryTree.isPerfectlyBalanced() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.isBST()?","output":"BinaryTree.isBST() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.getDepth()?","output":"BinaryTree.getDepth() runs in O(H) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.getHeight()?","output":"BinaryTree.getHeight() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.getMinHeight()?","output":"BinaryTree.getMinHeight() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.getPathToRoot()?","output":"BinaryTree.getPathToRoot() runs in O(H) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.getLeftMost()?","output":"BinaryTree.getLeftMost() runs in O(H) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.getRightMost()?","output":"BinaryTree.getRightMost() runs in O(H) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.getPredecessor()?","output":"BinaryTree.getPredecessor() runs in O(H) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.getSuccessor()?","output":"BinaryTree.getSuccessor() runs in O(H) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.dfs()?","output":"BinaryTree.dfs() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.bfs()?","output":"BinaryTree.bfs() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.leaves()?","output":"BinaryTree.leaves() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.listLevels()?","output":"BinaryTree.listLevels() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.morris()?","output":"BinaryTree.morris() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.clone()?","output":"BinaryTree.clone() runs in O(N * M) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.filter()?","output":"BinaryTree.filter() runs in O(N * M) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.map()?","output":"BinaryTree.map() runs in O(N * M) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.toVisual()?","output":"BinaryTree.toVisual() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BinaryTree.print()?","output":"BinaryTree.print() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BST.createNode()?","output":"BST.createNode() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BST.ensureNode()?","output":"BST.ensureNode() runs in O(log N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BST.isNode()?","output":"BST.isNode() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BST.isValidKey()?","output":"BST.isValidKey() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BST.dfs()?","output":"BST.dfs() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BST.bfs()?","output":"BST.bfs() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BST.listLevels()?","output":"BST.listLevels() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BST.getNode()?","output":"BST.getNode() runs in O(log N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BST.search()?","output":"BST.search() runs in O(H + M) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BST.rangeSearch()?","output":"BST.rangeSearch() runs in O(H + M) time complexity.","type":"factual"}
+{"instruction":"How do I set in BST?","output":"Use BST.set(). BST.set() Adds a new node to the BST based on key comparison. Runs in O(log N) time.","type":"howto"}
+{"instruction":"What is the time complexity of BST.set()?","output":"BST.set() runs in O(log N) time complexity.","type":"factual"}
+{"instruction":"How do I set many in BST?","output":"Use BST.setMany(). BST.setMany() Adds multiple items to the tree. Runs in O(N log N) time.","type":"howto"}
+{"instruction":"What is the time complexity of BST.setMany()?","output":"BST.setMany() runs in O(N log N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BST.lesserOrGreaterTraverse()?","output":"BST.lesserOrGreaterTraverse() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BST.perfectlyBalance()?","output":"BST.perfectlyBalance() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BST.isAVLBalanced()?","output":"BST.isAVLBalanced() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of BST.map()?","output":"BST.map() runs in O(N * H) time complexity.","type":"factual"}
+{"instruction":"How do I delete where in BST?","output":"Use BST.deleteWhere(). BST.deleteWhere() Deletes nodes that match a key, node, entry, predicate, or range.","type":"howto"}
+{"instruction":"What is the time complexity of RedBlackTree.createNode()?","output":"RedBlackTree.createNode() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of RedBlackTree.isNode()?","output":"RedBlackTree.isNode() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I clear in RedBlackTree?","output":"Use RedBlackTree.clear(). RedBlackTree.clear() Remove all nodes and clear the key→value store (if in map mode). Runs in O(n) time.","type":"howto"}
+{"instruction":"What is the time complexity of RedBlackTree.clear()?","output":"RedBlackTree.clear() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"How do I set with hint node in RedBlackTree?","output":"Use RedBlackTree.setWithHintNode(). RedBlackTree.setWithHintNode() Insert/update using a hint node to speed up nearby insertions.\n\nclose to the expected insertion position (often the previously returned node in a loop).\n\nWhen the hint is a good fit (sorted / nearly-sorted insertion), this can avoid most of the\nnormal root-to-leaf search and reduce constant factors.\n\nWhen the hint does not match (random workloads), this will fall back to the normal set path. Runs in O(log n) time.","type":"howto"}
+{"instruction":"What is the time complexity of RedBlackTree.setWithHintNode()?","output":"RedBlackTree.setWithHintNode() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"How do I set with hint in RedBlackTree?","output":"Use RedBlackTree.setWithHint(). RedBlackTree.setWithHint() Boolean wrapper for setWithHintNode. Runs in O(log n) time.","type":"howto"}
+{"instruction":"What is the time complexity of RedBlackTree.setWithHint()?","output":"RedBlackTree.setWithHint() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"How do I set in RedBlackTree?","output":"Use RedBlackTree.set(). RedBlackTree.set() Insert or update a key/value (map mode) or key-only (set mode).\n\nThis method is optimized for:\n- monotonic inserts via min/max boundary fast paths\n- updates via a single-pass search (no double walk) Runs in O(log n) time.","type":"howto"}
+{"instruction":"What is the time complexity of RedBlackTree.set()?","output":"RedBlackTree.set() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"How do I delete in RedBlackTree?","output":"Use RedBlackTree.delete(). RedBlackTree.delete() Delete a node by key/node/entry and rebalance as needed. Runs in O(log n) time.","type":"howto"}
+{"instruction":"What is the time complexity of RedBlackTree.delete()?","output":"RedBlackTree.delete() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of RedBlackTree.map()?","output":"RedBlackTree.map() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"How do I set in TreeMap?","output":"Use TreeMap.set(). TreeMap.set() Set or overwrite a value for a key. Runs in O(log n) time.","type":"howto"}
+{"instruction":"What is the time complexity of TreeMap.set()?","output":"TreeMap.set() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMap.get()?","output":"TreeMap.get() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMap.has()?","output":"TreeMap.has() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"How do I delete in TreeMap?","output":"Use TreeMap.delete(). TreeMap.delete() Delete a key. Runs in O(log n) time.","type":"howto"}
+{"instruction":"What is the time complexity of TreeMap.delete()?","output":"TreeMap.delete() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"How do I clear in TreeMap?","output":"Use TreeMap.clear(). TreeMap.clear() Remove all entries.","type":"howto"}
+{"instruction":"What is the time complexity of TreeMap.map()?","output":"TreeMap.map() runs in O(n log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMap.filter()?","output":"TreeMap.filter() runs in O(n log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMap.reduce()?","output":"TreeMap.reduce() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMap.every()?","output":"TreeMap.every() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMap.some()?","output":"TreeMap.some() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMap.find()?","output":"TreeMap.find() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMap.toArray()?","output":"TreeMap.toArray() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMap.print()?","output":"TreeMap.print() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.isEmpty()?","output":"TreeMultiMap.isEmpty() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I clear in TreeMultiMap?","output":"Use TreeMultiMap.clear(). TreeMultiMap.clear() Removes all entries from the map. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of TreeMultiMap.clear()?","output":"TreeMultiMap.clear() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.count()?","output":"TreeMultiMap.count() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.has()?","output":"TreeMultiMap.has() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.get()?","output":"TreeMultiMap.get() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"How do I add in TreeMultiMap?","output":"Use TreeMultiMap.add(). TreeMultiMap.add() Append a single value. Runs in O(log n) time.","type":"howto"}
+{"instruction":"What is the time complexity of TreeMultiMap.add()?","output":"TreeMultiMap.add() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"How do I set in TreeMultiMap?","output":"Use TreeMultiMap.set(). TreeMultiMap.set() ","type":"howto"}
+{"instruction":"How do I delete in TreeMultiMap?","output":"Use TreeMultiMap.delete(). TreeMultiMap.delete() Deletes a key and its entire bucket. Runs in O(log n) time.","type":"howto"}
+{"instruction":"What is the time complexity of TreeMultiMap.delete()?","output":"TreeMultiMap.delete() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.hasEntry()?","output":"TreeMultiMap.hasEntry() runs in O(log n + m) time complexity.","type":"factual"}
+{"instruction":"How do I delete value in TreeMultiMap?","output":"Use TreeMultiMap.deleteValue(). TreeMultiMap.deleteValue() Delete a single occurrence of a value from a key's bucket. Runs in O(log n + m) time.","type":"howto"}
+{"instruction":"What is the time complexity of TreeMultiMap.deleteValue()?","output":"TreeMultiMap.deleteValue() runs in O(log n + m) time complexity.","type":"factual"}
+{"instruction":"How do I delete values in TreeMultiMap?","output":"Use TreeMultiMap.deleteValues(). TreeMultiMap.deleteValues() Delete all occurrences of a value from a key's bucket. Runs in O(log n + m) time.","type":"howto"}
+{"instruction":"What is the time complexity of TreeMultiMap.deleteValues()?","output":"TreeMultiMap.deleteValues() runs in O(log n + m) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.[Symbol.iterator]()?","output":"TreeMultiMap.[Symbol.iterator]() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.keys()?","output":"TreeMultiMap.keys() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.values()?","output":"TreeMultiMap.values() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.entriesOf()?","output":"TreeMultiMap.entriesOf() runs in O(log n + m) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.valuesOf()?","output":"TreeMultiMap.valuesOf() runs in O(log n + m) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.flatEntries()?","output":"TreeMultiMap.flatEntries() runs in O(T) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.first()?","output":"TreeMultiMap.first() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.last()?","output":"TreeMultiMap.last() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"How do I poll first in TreeMultiMap?","output":"Use TreeMultiMap.pollFirst(). TreeMultiMap.pollFirst() Removes and returns the entry with the smallest key. Runs in O(log n) time.","type":"howto"}
+{"instruction":"What is the time complexity of TreeMultiMap.pollFirst()?","output":"TreeMultiMap.pollFirst() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"How do I poll last in TreeMultiMap?","output":"Use TreeMultiMap.pollLast(). TreeMultiMap.pollLast() Removes and returns the entry with the largest key. Runs in O(log n) time.","type":"howto"}
+{"instruction":"What is the time complexity of TreeMultiMap.pollLast()?","output":"TreeMultiMap.pollLast() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.ceiling()?","output":"TreeMultiMap.ceiling() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.floor()?","output":"TreeMultiMap.floor() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.higher()?","output":"TreeMultiMap.higher() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.lower()?","output":"TreeMultiMap.lower() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.print()?","output":"TreeMultiMap.print() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.forEach()?","output":"TreeMultiMap.forEach() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.filter()?","output":"TreeMultiMap.filter() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.map()?","output":"TreeMultiMap.map() runs in O(n log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.reduce()?","output":"TreeMultiMap.reduce() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"How do I set many in TreeMultiMap?","output":"Use TreeMultiMap.setMany(). TreeMultiMap.setMany() Sets multiple entries at once. Runs in O(m log n) time.","type":"howto"}
+{"instruction":"What is the time complexity of TreeMultiMap.setMany()?","output":"TreeMultiMap.setMany() runs in O(m log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.rangeSearch()?","output":"TreeMultiMap.rangeSearch() runs in O(log n + k) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiMap.clone()?","output":"TreeMultiMap.clone() runs in O(n log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiSet.isEmpty()?","output":"TreeMultiSet.isEmpty() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiSet.has()?","output":"TreeMultiSet.has() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiSet.count()?","output":"TreeMultiSet.count() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"How do I add in TreeMultiSet?","output":"Use TreeMultiSet.add(). TreeMultiSet.add() Add `n` occurrences of `key`. Runs in O(log n) time.","type":"howto"}
+{"instruction":"What is the time complexity of TreeMultiSet.add()?","output":"TreeMultiSet.add() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"How do I set count in TreeMultiSet?","output":"Use TreeMultiSet.setCount(). TreeMultiSet.setCount() Set count for `key` to exactly `n`. Runs in O(log n) time.","type":"howto"}
+{"instruction":"What is the time complexity of TreeMultiSet.setCount()?","output":"TreeMultiSet.setCount() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"How do I delete in TreeMultiSet?","output":"Use TreeMultiSet.delete(). TreeMultiSet.delete() Delete `n` occurrences of `key` (default 1). Runs in O(log n) time.","type":"howto"}
+{"instruction":"What is the time complexity of TreeMultiSet.delete()?","output":"TreeMultiSet.delete() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"How do I delete all in TreeMultiSet?","output":"Use TreeMultiSet.deleteAll(). TreeMultiSet.deleteAll() Delete all occurrences of the given key. Runs in O(log n) time.","type":"howto"}
+{"instruction":"What is the time complexity of TreeMultiSet.deleteAll()?","output":"TreeMultiSet.deleteAll() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiSet.keysDistinct()?","output":"TreeMultiSet.keysDistinct() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiSet.entries()?","output":"TreeMultiSet.entries() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiSet.[Symbol.iterator]()?","output":"TreeMultiSet.[Symbol.iterator]() runs in O(size) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiSet.toArray()?","output":"TreeMultiSet.toArray() runs in O(size) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiSet.toDistinctArray()?","output":"TreeMultiSet.toDistinctArray() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiSet.toEntries()?","output":"TreeMultiSet.toEntries() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"How do I clear in TreeMultiSet?","output":"Use TreeMultiSet.clear(). TreeMultiSet.clear() Remove all elements from the multiset. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of TreeMultiSet.clear()?","output":"TreeMultiSet.clear() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiSet.first()?","output":"TreeMultiSet.first() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiSet.last()?","output":"TreeMultiSet.last() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"How do I poll first in TreeMultiSet?","output":"Use TreeMultiSet.pollFirst(). TreeMultiSet.pollFirst() Removes all occurrences of the smallest key and returns it. Runs in O(log n) time.","type":"howto"}
+{"instruction":"What is the time complexity of TreeMultiSet.pollFirst()?","output":"TreeMultiSet.pollFirst() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"How do I poll last in TreeMultiSet?","output":"Use TreeMultiSet.pollLast(). TreeMultiSet.pollLast() Removes all occurrences of the largest key and returns it. Runs in O(log n) time.","type":"howto"}
+{"instruction":"What is the time complexity of TreeMultiSet.pollLast()?","output":"TreeMultiSet.pollLast() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiSet.ceiling()?","output":"TreeMultiSet.ceiling() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiSet.floor()?","output":"TreeMultiSet.floor() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiSet.higher()?","output":"TreeMultiSet.higher() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiSet.lower()?","output":"TreeMultiSet.lower() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiSet.forEach()?","output":"TreeMultiSet.forEach() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiSet.filter()?","output":"TreeMultiSet.filter() runs in O(n log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiSet.reduce()?","output":"TreeMultiSet.reduce() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiSet.map()?","output":"TreeMultiSet.map() runs in O(n log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiSet.clone()?","output":"TreeMultiSet.clone() runs in O(n log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiSet.rangeSearch()?","output":"TreeMultiSet.rangeSearch() runs in O(log n + k) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeMultiSet.print()?","output":"TreeMultiSet.print() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"How do I add in TreeSet?","output":"Use TreeSet.add(). TreeSet.add() Add a key to the set (no-op if already present). Runs in O(log n) time.","type":"howto"}
+{"instruction":"What is the time complexity of TreeSet.add()?","output":"TreeSet.add() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeSet.has()?","output":"TreeSet.has() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"How do I delete in TreeSet?","output":"Use TreeSet.delete(). TreeSet.delete() Delete a key. Runs in O(log n) time.","type":"howto"}
+{"instruction":"What is the time complexity of TreeSet.delete()?","output":"TreeSet.delete() runs in O(log n) time complexity.","type":"factual"}
+{"instruction":"How do I clear in TreeSet?","output":"Use TreeSet.clear(). TreeSet.clear() Remove all keys.","type":"howto"}
+{"instruction":"What is the time complexity of TreeSet.map()?","output":"TreeSet.map() runs in O(n log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeSet.filter()?","output":"TreeSet.filter() runs in O(n log n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeSet.reduce()?","output":"TreeSet.reduce() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeSet.every()?","output":"TreeSet.every() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeSet.some()?","output":"TreeSet.some() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeSet.find()?","output":"TreeSet.find() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeSet.toArray()?","output":"TreeSet.toArray() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of TreeSet.print()?","output":"TreeSet.print() runs in O(n) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AbstractGraph.createVertex()?","output":"AbstractGraph.createVertex() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AbstractGraph.createEdge()?","output":"AbstractGraph.createEdge() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I delete edge in AbstractGraph?","output":"Use AbstractGraph.deleteEdge(). AbstractGraph.deleteEdge() Delete an edge by instance. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of AbstractGraph.deleteEdge()?","output":"AbstractGraph.deleteEdge() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AbstractGraph.getEdge()?","output":"AbstractGraph.getEdge() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AbstractGraph.degreeOf()?","output":"AbstractGraph.degreeOf() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I edge set in AbstractGraph?","output":"Use AbstractGraph.edgeSet(). AbstractGraph.edgeSet() All edges in the graph (unique, order not guaranteed). Runs in O(E) time.","type":"howto"}
+{"instruction":"What is the time complexity of AbstractGraph.edgeSet()?","output":"AbstractGraph.edgeSet() runs in O(E) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AbstractGraph.edgesOf()?","output":"AbstractGraph.edgesOf() runs in O(deg) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AbstractGraph.getNeighbors()?","output":"AbstractGraph.getNeighbors() runs in O(deg) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AbstractGraph.getEndsOfEdge()?","output":"AbstractGraph.getEndsOfEdge() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AbstractGraph.getVertex()?","output":"AbstractGraph.getVertex() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AbstractGraph.hasVertex()?","output":"AbstractGraph.hasVertex() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I add vertex in AbstractGraph?","output":"Use AbstractGraph.addVertex(). AbstractGraph.addVertex() Add a vertex by key/value or by pre-built vertex. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of AbstractGraph.addVertex()?","output":"AbstractGraph.addVertex() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AbstractGraph.isVertexKey()?","output":"AbstractGraph.isVertexKey() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I delete vertex in AbstractGraph?","output":"Use AbstractGraph.deleteVertex(). AbstractGraph.deleteVertex() Delete a vertex and its incident edges. Runs in O(deg) time.","type":"howto"}
+{"instruction":"What is the time complexity of AbstractGraph.deleteVertex()?","output":"AbstractGraph.deleteVertex() runs in O(deg) time complexity.","type":"factual"}
+{"instruction":"How do I remove many vertices in AbstractGraph?","output":"Use AbstractGraph.removeManyVertices(). AbstractGraph.removeManyVertices() Delete multiple vertices. Runs in O(sum(deg) time.","type":"howto"}
+{"instruction":"What is the time complexity of AbstractGraph.removeManyVertices()?","output":"AbstractGraph.removeManyVertices() runs in O(sum(deg) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AbstractGraph.hasEdge()?","output":"AbstractGraph.hasEdge() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I add edge in AbstractGraph?","output":"Use AbstractGraph.addEdge(). AbstractGraph.addEdge() Add an edge by instance or by `(src, dest, weight?, value?)`. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of AbstractGraph.addEdge()?","output":"AbstractGraph.addEdge() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I set edge weight in AbstractGraph?","output":"Use AbstractGraph.setEdgeWeight(). AbstractGraph.setEdgeWeight() Set the weight of an existing edge. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of AbstractGraph.setEdgeWeight()?","output":"AbstractGraph.setEdgeWeight() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AbstractGraph.getAllPathsBetween()?","output":"AbstractGraph.getAllPathsBetween() runs in O(paths) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AbstractGraph.getPathSumWeight()?","output":"AbstractGraph.getPathSumWeight() runs in O(L) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AbstractGraph.getMinCostBetween()?","output":"AbstractGraph.getMinCostBetween() runs in O((V + E) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AbstractGraph.getMinPathBetween()?","output":"AbstractGraph.getMinPathBetween() runs in O((V + E) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AbstractGraph.dijkstraWithoutHeap()?","output":"AbstractGraph.dijkstraWithoutHeap() runs in O(V^2 + E) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AbstractGraph.bellmanFord()?","output":"AbstractGraph.bellmanFord() runs in O(V * E) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AbstractGraph.floydWarshall()?","output":"AbstractGraph.floydWarshall() runs in O(V^3) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AbstractGraph.filter()?","output":"AbstractGraph.filter() runs in O(V + E) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AbstractGraph.filterEntries()?","output":"AbstractGraph.filterEntries() runs in O(V) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of AbstractGraph.clone()?","output":"AbstractGraph.clone() runs in O(V + E) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DirectedGraph.fromKeys()?","output":"DirectedGraph.fromKeys() runs in O(V) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DirectedGraph.fromEntries()?","output":"DirectedGraph.fromEntries() runs in O(V) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DirectedGraph.createVertex()?","output":"DirectedGraph.createVertex() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DirectedGraph.createEdge()?","output":"DirectedGraph.createEdge() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DirectedGraph.getEdge()?","output":"DirectedGraph.getEdge() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I delete edge src to dest in DirectedGraph?","output":"Use DirectedGraph.deleteEdgeSrcToDest(). DirectedGraph.deleteEdgeSrcToDest() Delete edge `src -> dest` if present. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of DirectedGraph.deleteEdgeSrcToDest()?","output":"DirectedGraph.deleteEdgeSrcToDest() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I delete edge in DirectedGraph?","output":"Use DirectedGraph.deleteEdge(). DirectedGraph.deleteEdge() Delete an edge by instance or by `(srcKey, destKey)`. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of DirectedGraph.deleteEdge()?","output":"DirectedGraph.deleteEdge() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I delete vertex in DirectedGraph?","output":"Use DirectedGraph.deleteVertex(). DirectedGraph.deleteVertex() ","type":"howto"}
+{"instruction":"How do I delete edges between in DirectedGraph?","output":"Use DirectedGraph.deleteEdgesBetween(). DirectedGraph.deleteEdgesBetween() ","type":"howto"}
+{"instruction":"What is the time complexity of DirectedGraph.incomingEdgesOf()?","output":"DirectedGraph.incomingEdgesOf() runs in O(deg_in) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DirectedGraph.outgoingEdgesOf()?","output":"DirectedGraph.outgoingEdgesOf() runs in O(deg_out) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DirectedGraph.degreeOf()?","output":"DirectedGraph.degreeOf() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DirectedGraph.edgesOf()?","output":"DirectedGraph.edgesOf() runs in O(deg_in + deg_out) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DirectedGraph.getDestinations()?","output":"DirectedGraph.getDestinations() runs in O(deg_out) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DirectedGraph.topologicalSort()?","output":"DirectedGraph.topologicalSort() runs in O(V + E) time complexity.","type":"factual"}
+{"instruction":"How do I edge set in DirectedGraph?","output":"Use DirectedGraph.edgeSet(). DirectedGraph.edgeSet() ","type":"howto"}
+{"instruction":"What is the time complexity of DirectedGraph.getEndsOfEdge()?","output":"DirectedGraph.getEndsOfEdge() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DirectedGraph.isEmpty()?","output":"DirectedGraph.isEmpty() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I clear in DirectedGraph?","output":"Use DirectedGraph.clear(). DirectedGraph.clear() Remove all vertices and edges. Runs in O(V + E) time.","type":"howto"}
+{"instruction":"What is the time complexity of DirectedGraph.clear()?","output":"DirectedGraph.clear() runs in O(V + E) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DirectedGraph.clone()?","output":"DirectedGraph.clone() runs in O(V + E) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DirectedGraph.tarjan()?","output":"DirectedGraph.tarjan() runs in O(V + E) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DirectedGraph.getDFNMap()?","output":"DirectedGraph.getDFNMap() runs in O(V) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DirectedGraph.getLowMap()?","output":"DirectedGraph.getLowMap() runs in O(V) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DirectedGraph.getSCCs()?","output":"DirectedGraph.getSCCs() runs in O(#SCC + V) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of MapGraph.createVertex()?","output":"MapGraph.createVertex() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of MapGraph.createEdge()?","output":"MapGraph.createEdge() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of MapGraph.clone()?","output":"MapGraph.clone() runs in O(V + E) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of UndirectedGraph.fromKeys()?","output":"UndirectedGraph.fromKeys() runs in O(V) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of UndirectedGraph.fromEntries()?","output":"UndirectedGraph.fromEntries() runs in O(V) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of UndirectedGraph.createVertex()?","output":"UndirectedGraph.createVertex() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of UndirectedGraph.createEdge()?","output":"UndirectedGraph.createEdge() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of UndirectedGraph.getEdge()?","output":"UndirectedGraph.getEdge() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I delete edge between in UndirectedGraph?","output":"Use UndirectedGraph.deleteEdgeBetween(). UndirectedGraph.deleteEdgeBetween() Delete a single undirected edge between two vertices. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of UndirectedGraph.deleteEdgeBetween()?","output":"UndirectedGraph.deleteEdgeBetween() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I delete edge in UndirectedGraph?","output":"Use UndirectedGraph.deleteEdge(). UndirectedGraph.deleteEdge() Delete an edge by instance or by a pair of keys. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of UndirectedGraph.deleteEdge()?","output":"UndirectedGraph.deleteEdge() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I delete vertex in UndirectedGraph?","output":"Use UndirectedGraph.deleteVertex(). UndirectedGraph.deleteVertex() Delete a vertex and remove it from all neighbor lists. Runs in O(deg) time.","type":"howto"}
+{"instruction":"What is the time complexity of UndirectedGraph.deleteVertex()?","output":"UndirectedGraph.deleteVertex() runs in O(deg) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of UndirectedGraph.degreeOf()?","output":"UndirectedGraph.degreeOf() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of UndirectedGraph.edgesOf()?","output":"UndirectedGraph.edgesOf() runs in O(deg) time complexity.","type":"factual"}
+{"instruction":"How do I edge set in UndirectedGraph?","output":"Use UndirectedGraph.edgeSet(). UndirectedGraph.edgeSet() Unique set of undirected edges across endpoints. Runs in O(E) time.","type":"howto"}
+{"instruction":"What is the time complexity of UndirectedGraph.edgeSet()?","output":"UndirectedGraph.edgeSet() runs in O(E) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of UndirectedGraph.getEndsOfEdge()?","output":"UndirectedGraph.getEndsOfEdge() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of UndirectedGraph.isEmpty()?","output":"UndirectedGraph.isEmpty() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I clear in UndirectedGraph?","output":"Use UndirectedGraph.clear(). UndirectedGraph.clear() Remove all vertices and edges. Runs in O(V + E) time.","type":"howto"}
+{"instruction":"What is the time complexity of UndirectedGraph.clear()?","output":"UndirectedGraph.clear() runs in O(V + E) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of UndirectedGraph.clone()?","output":"UndirectedGraph.clone() runs in O(V + E) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of UndirectedGraph.tarjan()?","output":"UndirectedGraph.tarjan() runs in O(V + E) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of UndirectedGraph.getBridges()?","output":"UndirectedGraph.getBridges() runs in O(B) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of UndirectedGraph.getCutVertices()?","output":"UndirectedGraph.getCutVertices() runs in O(C) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of UndirectedGraph.getDFNMap()?","output":"UndirectedGraph.getDFNMap() runs in O(V) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of UndirectedGraph.getLowMap()?","output":"UndirectedGraph.getLowMap() runs in O(V) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of HashMap.isEmpty()?","output":"HashMap.isEmpty() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I clear in HashMap?","output":"Use HashMap.clear(). HashMap.clear() Remove all entries and reset counters. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of HashMap.clear()?","output":"HashMap.clear() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of HashMap.isEntry()?","output":"HashMap.isEntry() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I set in HashMap?","output":"Use HashMap.set(). HashMap.set() Insert or replace a single entry. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of HashMap.set()?","output":"HashMap.set() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I set many in HashMap?","output":"Use HashMap.setMany(). HashMap.setMany() Insert many entries from an iterable. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of HashMap.setMany()?","output":"HashMap.setMany() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of HashMap.get()?","output":"HashMap.get() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of HashMap.has()?","output":"HashMap.has() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I delete in HashMap?","output":"Use HashMap.delete(). HashMap.delete() Delete an entry by key. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of HashMap.delete()?","output":"HashMap.delete() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I set hash fn in HashMap?","output":"Use HashMap.setHashFn(). HashMap.setHashFn() Replace the hash function and rehash the non-object store. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of HashMap.setHashFn()?","output":"HashMap.setHashFn() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of HashMap.clone()?","output":"HashMap.clone() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of HashMap.map()?","output":"HashMap.map() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of HashMap.filter()?","output":"HashMap.filter() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of LinkedHashMap.begin()?","output":"LinkedHashMap.begin() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of LinkedHashMap.reverseBegin()?","output":"LinkedHashMap.reverseBegin() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I set in LinkedHashMap?","output":"Use LinkedHashMap.set(). LinkedHashMap.set() Insert or replace a single entry; preserves insertion order. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of LinkedHashMap.set()?","output":"LinkedHashMap.set() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I set many in LinkedHashMap?","output":"Use LinkedHashMap.setMany(). LinkedHashMap.setMany() ","type":"howto"}
+{"instruction":"What is the time complexity of LinkedHashMap.at()?","output":"LinkedHashMap.at() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I delete in LinkedHashMap?","output":"Use LinkedHashMap.delete(). LinkedHashMap.delete() ","type":"howto"}
+{"instruction":"How do I delete where in LinkedHashMap?","output":"Use LinkedHashMap.deleteWhere(). LinkedHashMap.deleteWhere() Delete the first entry that matches a predicate. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of LinkedHashMap.deleteWhere()?","output":"LinkedHashMap.deleteWhere() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I delete at in LinkedHashMap?","output":"Use LinkedHashMap.deleteAt(). LinkedHashMap.deleteAt() Delete the entry at a given index. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of LinkedHashMap.deleteAt()?","output":"LinkedHashMap.deleteAt() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I clear in LinkedHashMap?","output":"Use LinkedHashMap.clear(). LinkedHashMap.clear() ","type":"howto"}
+{"instruction":"What is the time complexity of LinkedHashMap.map()?","output":"LinkedHashMap.map() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Heap.from()?","output":"Heap.from() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Heap.heapify()?","output":"Heap.heapify() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I add in Heap?","output":"Use Heap.add(). Heap.add() Insert an element. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of Heap.add()?","output":"Heap.add() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I add many in Heap?","output":"Use Heap.addMany(). Heap.addMany() Insert many elements from an iterable. Runs in O(N log N) time.","type":"howto"}
+{"instruction":"What is the time complexity of Heap.addMany()?","output":"Heap.addMany() runs in O(N log N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Heap.poll()?","output":"Heap.poll() runs in O(log N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Heap.peek()?","output":"Heap.peek() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Heap.isEmpty()?","output":"Heap.isEmpty() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I clear in Heap?","output":"Use Heap.clear(). Heap.clear() Remove all elements. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of Heap.clear()?","output":"Heap.clear() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Heap.refill()?","output":"Heap.refill() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Heap.has()?","output":"Heap.has() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I delete in Heap?","output":"Use Heap.delete(). Heap.delete() Delete one occurrence of an element. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of Heap.delete()?","output":"Heap.delete() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I delete by in Heap?","output":"Use Heap.deleteBy(). Heap.deleteBy() Delete the first element that matches a predicate. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of Heap.deleteBy()?","output":"Heap.deleteBy() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I set equality in Heap?","output":"Use Heap.setEquality(). Heap.setEquality() Set the equality comparator used by has/delete operations. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of Heap.setEquality()?","output":"Heap.setEquality() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Heap.dfs()?","output":"Heap.dfs() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Heap.fix()?","output":"Heap.fix() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Heap.sort()?","output":"Heap.sort() runs in O(N log N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Heap.clone()?","output":"Heap.clone() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Heap.filter()?","output":"Heap.filter() runs in O(N log N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Heap.map()?","output":"Heap.map() runs in O(N log N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Heap.mapSame()?","output":"Heap.mapSame() runs in O(N log N) time complexity.","type":"factual"}
+{"instruction":"How do I clear in FibonacciHeap?","output":"Use FibonacciHeap.clear(). FibonacciHeap.clear() ","type":"howto"}
+{"instruction":"How do I add in FibonacciHeap?","output":"Use FibonacciHeap.add(). FibonacciHeap.add() ","type":"howto"}
+{"instruction":"How do I push in FibonacciHeap?","output":"Use FibonacciHeap.push(). FibonacciHeap.push() Push an element into the root list. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of FibonacciHeap.push()?","output":"FibonacciHeap.push() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of FibonacciHeap.consumeLinkedList()?","output":"FibonacciHeap.consumeLinkedList() runs in O(K) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of FibonacciHeap.mergeWithChild()?","output":"FibonacciHeap.mergeWithChild() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I pop in FibonacciHeap?","output":"Use FibonacciHeap.pop(). FibonacciHeap.pop() Remove and return the minimum element, consolidating the root list. Runs in O(log N) time.","type":"howto"}
+{"instruction":"What is the time complexity of FibonacciHeap.pop()?","output":"FibonacciHeap.pop() runs in O(log N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of FibonacciHeap.merge()?","output":"FibonacciHeap.merge() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DoublyLinkedList.fromArray()?","output":"DoublyLinkedList.fromArray() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DoublyLinkedList.isNode()?","output":"DoublyLinkedList.isNode() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I push in DoublyLinkedList?","output":"Use DoublyLinkedList.push(). DoublyLinkedList.push() Append an element/node to the tail. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of DoublyLinkedList.push()?","output":"DoublyLinkedList.push() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I pop in DoublyLinkedList?","output":"Use DoublyLinkedList.pop(). DoublyLinkedList.pop() Remove and return the tail element. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of DoublyLinkedList.pop()?","output":"DoublyLinkedList.pop() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I shift in DoublyLinkedList?","output":"Use DoublyLinkedList.shift(). DoublyLinkedList.shift() Remove and return the head element. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of DoublyLinkedList.shift()?","output":"DoublyLinkedList.shift() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I unshift in DoublyLinkedList?","output":"Use DoublyLinkedList.unshift(). DoublyLinkedList.unshift() Prepend an element/node to the head. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of DoublyLinkedList.unshift()?","output":"DoublyLinkedList.unshift() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I push many in DoublyLinkedList?","output":"Use DoublyLinkedList.pushMany(). DoublyLinkedList.pushMany() Append a sequence of elements/nodes. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of DoublyLinkedList.pushMany()?","output":"DoublyLinkedList.pushMany() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I unshift many in DoublyLinkedList?","output":"Use DoublyLinkedList.unshiftMany(). DoublyLinkedList.unshiftMany() Prepend a sequence of elements/nodes. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of DoublyLinkedList.unshiftMany()?","output":"DoublyLinkedList.unshiftMany() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DoublyLinkedList.at()?","output":"DoublyLinkedList.at() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DoublyLinkedList.getNodeAt()?","output":"DoublyLinkedList.getNodeAt() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DoublyLinkedList.getNode()?","output":"DoublyLinkedList.getNode() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I add at in DoublyLinkedList?","output":"Use DoublyLinkedList.addAt(). DoublyLinkedList.addAt() Insert a new element/node at an index, shifting following nodes. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of DoublyLinkedList.addAt()?","output":"DoublyLinkedList.addAt() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I add before in DoublyLinkedList?","output":"Use DoublyLinkedList.addBefore(). DoublyLinkedList.addBefore() Insert a new element/node before an existing one. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of DoublyLinkedList.addBefore()?","output":"DoublyLinkedList.addBefore() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I add after in DoublyLinkedList?","output":"Use DoublyLinkedList.addAfter(). DoublyLinkedList.addAfter() Insert a new element/node after an existing one. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of DoublyLinkedList.addAfter()?","output":"DoublyLinkedList.addAfter() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I set at in DoublyLinkedList?","output":"Use DoublyLinkedList.setAt(). DoublyLinkedList.setAt() Set the element value at an index. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of DoublyLinkedList.setAt()?","output":"DoublyLinkedList.setAt() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I delete at in DoublyLinkedList?","output":"Use DoublyLinkedList.deleteAt(). DoublyLinkedList.deleteAt() Delete the element at an index. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of DoublyLinkedList.deleteAt()?","output":"DoublyLinkedList.deleteAt() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I delete in DoublyLinkedList?","output":"Use DoublyLinkedList.delete(). DoublyLinkedList.delete() Delete the first match by value/node. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of DoublyLinkedList.delete()?","output":"DoublyLinkedList.delete() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DoublyLinkedList.isEmpty()?","output":"DoublyLinkedList.isEmpty() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I clear in DoublyLinkedList?","output":"Use DoublyLinkedList.clear(). DoublyLinkedList.clear() Remove all nodes and reset length. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of DoublyLinkedList.clear()?","output":"DoublyLinkedList.clear() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DoublyLinkedList.search()?","output":"DoublyLinkedList.search() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DoublyLinkedList.getBackward()?","output":"DoublyLinkedList.getBackward() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DoublyLinkedList.reverse()?","output":"DoublyLinkedList.reverse() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I set equality in DoublyLinkedList?","output":"Use DoublyLinkedList.setEquality(). DoublyLinkedList.setEquality() Set the equality comparator used to compare values. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of DoublyLinkedList.setEquality()?","output":"DoublyLinkedList.setEquality() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DoublyLinkedList.clone()?","output":"DoublyLinkedList.clone() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DoublyLinkedList.filter()?","output":"DoublyLinkedList.filter() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DoublyLinkedList.mapSame()?","output":"DoublyLinkedList.mapSame() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of DoublyLinkedList.map()?","output":"DoublyLinkedList.map() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of SinglyLinkedList.from()?","output":"SinglyLinkedList.from() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I push in SinglyLinkedList?","output":"Use SinglyLinkedList.push(). SinglyLinkedList.push() Append an element/node to the tail. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of SinglyLinkedList.push()?","output":"SinglyLinkedList.push() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I pop in SinglyLinkedList?","output":"Use SinglyLinkedList.pop(). SinglyLinkedList.pop() Remove and return the tail element. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of SinglyLinkedList.pop()?","output":"SinglyLinkedList.pop() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I shift in SinglyLinkedList?","output":"Use SinglyLinkedList.shift(). SinglyLinkedList.shift() Remove and return the head element. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of SinglyLinkedList.shift()?","output":"SinglyLinkedList.shift() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I unshift in SinglyLinkedList?","output":"Use SinglyLinkedList.unshift(). SinglyLinkedList.unshift() Prepend an element/node to the head. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of SinglyLinkedList.unshift()?","output":"SinglyLinkedList.unshift() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I push many in SinglyLinkedList?","output":"Use SinglyLinkedList.pushMany(). SinglyLinkedList.pushMany() Append a sequence of elements/nodes. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of SinglyLinkedList.pushMany()?","output":"SinglyLinkedList.pushMany() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I unshift many in SinglyLinkedList?","output":"Use SinglyLinkedList.unshiftMany(). SinglyLinkedList.unshiftMany() Prepend a sequence of elements/nodes. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of SinglyLinkedList.unshiftMany()?","output":"SinglyLinkedList.unshiftMany() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of SinglyLinkedList.search()?","output":"SinglyLinkedList.search() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of SinglyLinkedList.at()?","output":"SinglyLinkedList.at() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of SinglyLinkedList.isNode()?","output":"SinglyLinkedList.isNode() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of SinglyLinkedList.getNodeAt()?","output":"SinglyLinkedList.getNodeAt() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I delete at in SinglyLinkedList?","output":"Use SinglyLinkedList.deleteAt(). SinglyLinkedList.deleteAt() Delete the element at an index. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of SinglyLinkedList.deleteAt()?","output":"SinglyLinkedList.deleteAt() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I delete in SinglyLinkedList?","output":"Use SinglyLinkedList.delete(). SinglyLinkedList.delete() Delete the first match by value/node. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of SinglyLinkedList.delete()?","output":"SinglyLinkedList.delete() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I add at in SinglyLinkedList?","output":"Use SinglyLinkedList.addAt(). SinglyLinkedList.addAt() Insert a new element/node at an index, shifting following nodes. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of SinglyLinkedList.addAt()?","output":"SinglyLinkedList.addAt() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I set at in SinglyLinkedList?","output":"Use SinglyLinkedList.setAt(). SinglyLinkedList.setAt() Set the element value at an index. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of SinglyLinkedList.setAt()?","output":"SinglyLinkedList.setAt() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of SinglyLinkedList.isEmpty()?","output":"SinglyLinkedList.isEmpty() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I clear in SinglyLinkedList?","output":"Use SinglyLinkedList.clear(). SinglyLinkedList.clear() Remove all nodes and reset length. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of SinglyLinkedList.clear()?","output":"SinglyLinkedList.clear() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of SinglyLinkedList.reverse()?","output":"SinglyLinkedList.reverse() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of SinglyLinkedList.getNode()?","output":"SinglyLinkedList.getNode() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I add before in SinglyLinkedList?","output":"Use SinglyLinkedList.addBefore(). SinglyLinkedList.addBefore() Insert a new element/node before an existing one. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of SinglyLinkedList.addBefore()?","output":"SinglyLinkedList.addBefore() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I add after in SinglyLinkedList?","output":"Use SinglyLinkedList.addAfter(). SinglyLinkedList.addAfter() Insert a new element/node after an existing one. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of SinglyLinkedList.addAfter()?","output":"SinglyLinkedList.addAfter() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of SinglyLinkedList.splice()?","output":"SinglyLinkedList.splice() runs in O(N + M) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of SinglyLinkedList.countOccurrences()?","output":"SinglyLinkedList.countOccurrences() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I set equality in SinglyLinkedList?","output":"Use SinglyLinkedList.setEquality(). SinglyLinkedList.setEquality() Set the equality comparator used to compare values. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of SinglyLinkedList.setEquality()?","output":"SinglyLinkedList.setEquality() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I delete where in SinglyLinkedList?","output":"Use SinglyLinkedList.deleteWhere(). SinglyLinkedList.deleteWhere() Delete the first node whose value matches a predicate. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of SinglyLinkedList.deleteWhere()?","output":"SinglyLinkedList.deleteWhere() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of SinglyLinkedList.clone()?","output":"SinglyLinkedList.clone() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of SinglyLinkedList.filter()?","output":"SinglyLinkedList.filter() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of SinglyLinkedList.mapSame()?","output":"SinglyLinkedList.mapSame() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of SinglyLinkedList.map()?","output":"SinglyLinkedList.map() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I add in SkipList?","output":"Use SkipList.add(). SkipList.add() ","type":"howto"}
+{"instruction":"How do I delete in SkipList?","output":"Use SkipList.delete(). SkipList.delete() ","type":"howto"}
+{"instruction":"How do I set in Matrix?","output":"Use Matrix.set(). Matrix.set() The set function updates the value at a specified row and column in a two-dimensional array.","type":"howto"}
+{"instruction":"How do I add in Matrix?","output":"Use Matrix.add(). Matrix.add() The `add` function adds two matrices together, returning a new matrix with the result.","type":"howto"}
+{"instruction":"What is the time complexity of Deque.fromArray()?","output":"Deque.fromArray() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I push in Deque?","output":"Use Deque.push(). Deque.push() Append one element at the back. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of Deque.push()?","output":"Deque.push() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I pop in Deque?","output":"Use Deque.pop(). Deque.pop() Remove and return the last element. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of Deque.pop()?","output":"Deque.pop() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I shift in Deque?","output":"Use Deque.shift(). Deque.shift() Remove and return the first element. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of Deque.shift()?","output":"Deque.shift() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I unshift in Deque?","output":"Use Deque.unshift(). Deque.unshift() Prepend one element at the front. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of Deque.unshift()?","output":"Deque.unshift() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I push many in Deque?","output":"Use Deque.pushMany(). Deque.pushMany() Append a sequence of elements. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of Deque.pushMany()?","output":"Deque.pushMany() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I unshift many in Deque?","output":"Use Deque.unshiftMany(). Deque.unshiftMany() Prepend a sequence of elements. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of Deque.unshiftMany()?","output":"Deque.unshiftMany() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Deque.isEmpty()?","output":"Deque.isEmpty() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I clear in Deque?","output":"Use Deque.clear(). Deque.clear() Remove all elements and reset structure. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of Deque.clear()?","output":"Deque.clear() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Deque.at()?","output":"Deque.at() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I set at in Deque?","output":"Use Deque.setAt(). Deque.setAt() Replace the element at a given position. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of Deque.setAt()?","output":"Deque.setAt() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I add at in Deque?","output":"Use Deque.addAt(). Deque.addAt() Insert repeated copies of an element at a position. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of Deque.addAt()?","output":"Deque.addAt() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Deque.cut()?","output":"Deque.cut() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Deque.splice()?","output":"Deque.splice() runs in O(N + M) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Deque.cutRest()?","output":"Deque.cutRest() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I delete at in Deque?","output":"Use Deque.deleteAt(). Deque.deleteAt() Delete the element at a given position. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of Deque.deleteAt()?","output":"Deque.deleteAt() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I delete in Deque?","output":"Use Deque.delete(). Deque.delete() Delete the first occurrence of a value. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of Deque.delete()?","output":"Deque.delete() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I delete where in Deque?","output":"Use Deque.deleteWhere(). Deque.deleteWhere() Delete the first element matching a predicate. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of Deque.deleteWhere()?","output":"Deque.deleteWhere() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I set equality in Deque?","output":"Use Deque.setEquality(). Deque.setEquality() Set the equality comparator used by delete operations. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of Deque.setEquality()?","output":"Deque.setEquality() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Deque.reverse()?","output":"Deque.reverse() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Deque.unique()?","output":"Deque.unique() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Deque.shrinkToFit()?","output":"Deque.shrinkToFit() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Deque.clone()?","output":"Deque.clone() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Deque.filter()?","output":"Deque.filter() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Deque.mapSame()?","output":"Deque.mapSame() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Deque.map()?","output":"Deque.map() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Queue.fromArray()?","output":"Queue.fromArray() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Queue.isEmpty()?","output":"Queue.isEmpty() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I push in Queue?","output":"Use Queue.push(). Queue.push() Enqueue one element at the back. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of Queue.push()?","output":"Queue.push() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I push many in Queue?","output":"Use Queue.pushMany(). Queue.pushMany() Enqueue many elements from an iterable. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of Queue.pushMany()?","output":"Queue.pushMany() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I shift in Queue?","output":"Use Queue.shift(). Queue.shift() Dequeue one element from the front (amortized via offset). Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of Queue.shift()?","output":"Queue.shift() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I delete in Queue?","output":"Use Queue.delete(). Queue.delete() Delete the first occurrence of a specific element. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of Queue.delete()?","output":"Queue.delete() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Queue.at()?","output":"Queue.at() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I delete at in Queue?","output":"Use Queue.deleteAt(). Queue.deleteAt() Delete the element at a given index. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of Queue.deleteAt()?","output":"Queue.deleteAt() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I add at in Queue?","output":"Use Queue.addAt(). Queue.addAt() Insert a new element at a given index. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of Queue.addAt()?","output":"Queue.addAt() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I set at in Queue?","output":"Use Queue.setAt(). Queue.setAt() Replace the element at a given index. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of Queue.setAt()?","output":"Queue.setAt() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Queue.reverse()?","output":"Queue.reverse() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I clear in Queue?","output":"Use Queue.clear(). Queue.clear() Remove all elements and reset offset. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of Queue.clear()?","output":"Queue.clear() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Queue.compact()?","output":"Queue.compact() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Queue.splice()?","output":"Queue.splice() runs in O(N + M) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Queue.clone()?","output":"Queue.clone() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Queue.filter()?","output":"Queue.filter() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Queue.map()?","output":"Queue.map() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Queue.mapSame()?","output":"Queue.mapSame() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of LinkedListQueue.clone()?","output":"LinkedListQueue.clone() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Stack.fromArray()?","output":"Stack.fromArray() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Stack.isEmpty()?","output":"Stack.isEmpty() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Stack.peek()?","output":"Stack.peek() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I push in Stack?","output":"Use Stack.push(). Stack.push() Push one element onto the top. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of Stack.push()?","output":"Stack.push() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I pop in Stack?","output":"Use Stack.pop(). Stack.pop() Pop and return the top element. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of Stack.pop()?","output":"Stack.pop() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I push many in Stack?","output":"Use Stack.pushMany(). Stack.pushMany() Push many elements from an iterable. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of Stack.pushMany()?","output":"Stack.pushMany() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I delete in Stack?","output":"Use Stack.delete(). Stack.delete() Delete the first occurrence of a specific element. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of Stack.delete()?","output":"Stack.delete() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I delete at in Stack?","output":"Use Stack.deleteAt(). Stack.deleteAt() Delete the element at an index. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of Stack.deleteAt()?","output":"Stack.deleteAt() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I delete where in Stack?","output":"Use Stack.deleteWhere(). Stack.deleteWhere() Delete the first element that satisfies a predicate. Runs in O(N) time.","type":"howto"}
+{"instruction":"What is the time complexity of Stack.deleteWhere()?","output":"Stack.deleteWhere() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I clear in Stack?","output":"Use Stack.clear(). Stack.clear() Remove all elements and reset storage. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of Stack.clear()?","output":"Stack.clear() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Stack.clone()?","output":"Stack.clone() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Stack.filter()?","output":"Stack.filter() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Stack.mapSame()?","output":"Stack.mapSame() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Stack.map()?","output":"Stack.map() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"How do I set equality in Stack?","output":"Use Stack.setEquality(). Stack.setEquality() Set the equality comparator used by delete/search operations. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of Stack.setEquality()?","output":"Stack.setEquality() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I add children in TreeNode?","output":"Use TreeNode.addChildren(). TreeNode.addChildren() The function `addChildren` adds one or more child nodes to the current node.","type":"howto"}
+{"instruction":"How do I add in Trie?","output":"Use Trie.add(). Trie.add() Insert one word into the trie. Runs in O(L) time.","type":"howto"}
+{"instruction":"What is the time complexity of Trie.add()?","output":"Trie.add() runs in O(L) time complexity.","type":"factual"}
+{"instruction":"How do I add many in Trie?","output":"Use Trie.addMany(). Trie.addMany() Insert many words from an iterable. Runs in O(ΣL) time.","type":"howto"}
+{"instruction":"What is the time complexity of Trie.addMany()?","output":"Trie.addMany() runs in O(ΣL) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Trie.has()?","output":"Trie.has() runs in O(L) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Trie.isEmpty()?","output":"Trie.isEmpty() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I clear in Trie?","output":"Use Trie.clear(). Trie.clear() Remove all words and reset to a fresh root. Runs in O(1) time.","type":"howto"}
+{"instruction":"What is the time complexity of Trie.clear()?","output":"Trie.clear() runs in O(1) time complexity.","type":"factual"}
+{"instruction":"How do I delete in Trie?","output":"Use Trie.delete(). Trie.delete() Delete one word if present. Runs in O(L) time.","type":"howto"}
+{"instruction":"What is the time complexity of Trie.delete()?","output":"Trie.delete() runs in O(L) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Trie.getHeight()?","output":"Trie.getHeight() runs in O(N) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Trie.hasPurePrefix()?","output":"Trie.hasPurePrefix() runs in O(L) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Trie.hasPrefix()?","output":"Trie.hasPrefix() runs in O(L) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Trie.hasCommonPrefix()?","output":"Trie.hasCommonPrefix() runs in O(min(H,L) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Trie.getLongestCommonPrefix()?","output":"Trie.getLongestCommonPrefix() runs in O(H) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Trie.getWords()?","output":"Trie.getWords() runs in O(K·L) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Trie.clone()?","output":"Trie.clone() runs in O(ΣL) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Trie.filter()?","output":"Trie.filter() runs in O(ΣL) time complexity.","type":"factual"}
+{"instruction":"What is the time complexity of Trie.mapSame()?","output":"Trie.mapSame() runs in O(ΣL) time complexity.","type":"factual"}
+{"instruction":"What is IterableElementBase in data-structure-typed?","output":"Base class that makes a data structure iterable and provides common\nelement-wise utilities (e.g., map/filter/reduce/find).","type":"factual"}
+{"instruction":"What is IterableEntryBase in data-structure-typed?","output":"Iterable view over key-value entries.","type":"factual"}
+{"instruction":"What is LinkedListNode in data-structure-typed?","output":"Singly-linked list node.","type":"factual"}
+{"instruction":"When should I use LinkedListNode?","output":"Use LinkedListNode when you need node-based, pointer-based operations. Singly-linked list node.","type":"reasoning"}
+{"instruction":"What is LinearBase in data-structure-typed?","output":"Abstract linear container with array-like utilities.","type":"factual"}
+{"instruction":"What is LinearLinkedBase in data-structure-typed?","output":"Linked-list specialized linear container.","type":"factual"}
+{"instruction":"When should I use LinearLinkedBase?","output":"Use LinearLinkedBase when you need node-based, pointer-based operations. Linked-list specialized linear container.","type":"reasoning"}
+{"instruction":"What is AVLTreeNode in data-structure-typed?","output":"Represents a Node in an AVL (Adelson-Velsky and Landis) Tree.\nIt extends a BSTNode and ensures the 'height' property is maintained.","type":"factual"}
+{"instruction":"When should I use AVLTreeNode?","output":"Use AVLTreeNode when you need tree, hierarchical, recursive operations. Represents a Node in an AVL (Adelson-Velsky and Landis) Tree.\nIt extends a BSTNode and ensures the 'height' property is maintained.","type":"reasoning"}
+{"instruction":"What is AVLTree in data-structure-typed?","output":"Represents a self-balancing AVL (Adelson-Velsky and Landis) Tree.\nThis tree extends BST and performs rotations on set/delete to maintain balance.","type":"factual"}
+{"instruction":"When should I use AVLTree?","output":"Use AVLTree when you need tree, hierarchical, recursive operations. Represents a self-balancing AVL (Adelson-Velsky and Landis) Tree.\nThis tree extends BST and performs rotations on set/delete to maintain balance.","type":"reasoning"}
+{"instruction":"What is BinaryIndexedTree in data-structure-typed?","output":"BinaryIndexedTree is a tree data structure","type":"factual"}
+{"instruction":"When should I use BinaryIndexedTree?","output":"Use BinaryIndexedTree when you need tree, hierarchical, recursive operations. BinaryIndexedTree is a tree data structure","type":"reasoning"}
+{"instruction":"What is BinaryTreeNode in data-structure-typed?","output":"BinaryTreeNode is a tree data structure","type":"factual"}
+{"instruction":"When should I use BinaryTreeNode?","output":"Use BinaryTreeNode when you need tree, hierarchical, recursive operations. BinaryTreeNode is a tree data structure","type":"reasoning"}
+{"instruction":"What is BinaryTree in data-structure-typed?","output":"A general Binary Tree implementation.","type":"factual"}
+{"instruction":"When should I use BinaryTree?","output":"Use BinaryTree when you need tree, hierarchical, recursive operations. A general Binary Tree implementation.","type":"reasoning"}
+{"instruction":"What is BSTNode in data-structure-typed?","output":"Represents a Node in a Binary Search Tree.","type":"factual"}
+{"instruction":"When should I use BSTNode?","output":"Use BSTNode when you need tree, hierarchical, recursive operations. Represents a Node in a Binary Search Tree.","type":"reasoning"}
+{"instruction":"What is BST in data-structure-typed?","output":"Represents a Binary Search Tree (BST).\nKeys are ordered, allowing for faster search operations compared to a standard Binary Tree.","type":"factual"}
+{"instruction":"When should I use BST?","output":"Use BST when you need tree, hierarchical, recursive operations. Represents a Binary Search Tree (BST).\nKeys are ordered, allowing for faster search operations compared to a standard Binary Tree.","type":"reasoning"}
+{"instruction":"What is RedBlackTreeNode in data-structure-typed?","output":"RedBlackTreeNode is a tree data structure","type":"factual"}
+{"instruction":"When should I use RedBlackTreeNode?","output":"Use RedBlackTreeNode when you need tree, hierarchical, recursive operations. RedBlackTreeNode is a tree data structure","type":"reasoning"}
+{"instruction":"What is RedBlackTree in data-structure-typed?","output":"Represents a Red-Black Tree (self-balancing BST) supporting map-like mode and stable O(log n) updates.","type":"factual"}
+{"instruction":"When should I use RedBlackTree?","output":"Use RedBlackTree when you need tree, hierarchical, recursive operations. Represents a Red-Black Tree (self-balancing BST) supporting map-like mode and stable O(log n) updates.","type":"reasoning"}
+{"instruction":"What is SegmentTreeNode in data-structure-typed?","output":"SegmentTreeNode is a tree data structure","type":"factual"}
+{"instruction":"When should I use SegmentTreeNode?","output":"Use SegmentTreeNode when you need tree, hierarchical, recursive operations. SegmentTreeNode is a tree data structure","type":"reasoning"}
+{"instruction":"What is SegmentTree in data-structure-typed?","output":"SegmentTree is a tree data structure","type":"factual"}
+{"instruction":"When should I use SegmentTree?","output":"Use SegmentTree when you need tree, hierarchical, recursive operations. SegmentTree is a tree data structure","type":"reasoning"}
+{"instruction":"What is TreeMap in data-structure-typed?","output":"An ordered Map backed by a red-black tree.\n\n- Iteration order is ascending by key.\n- No node exposure: all APIs use keys/values only.","type":"factual"}
+{"instruction":"When should I use TreeMap?","output":"Use TreeMap when you need tree, hierarchical, recursive operations. An ordered Map backed by a red-black tree.\n\n- Iteration order is ascending by key.\n- No node exposure: all APIs use keys/values only.","type":"reasoning"}
+{"instruction":"What is TreeMultiMapNode in data-structure-typed?","output":"Node type used by TreeMultiMap (alias to RedBlackTreeNode for backward compatibility).","type":"factual"}
+{"instruction":"When should I use TreeMultiMapNode?","output":"Use TreeMultiMapNode when you need tree, hierarchical, recursive operations. Node type used by TreeMultiMap (alias to RedBlackTreeNode for backward compatibility).","type":"reasoning"}
+{"instruction":"What is TreeMultiMap in data-structure-typed?","output":"TreeMultiMap (ordered MultiMap) — key → bucket (Array of values).\n\nSemantics (RFC):\n- Bucketed design: each key appears once; duplicates live in the bucket.\n- `get(key)` returns a **live** bucket reference.\n- Default iteration yields bucket entries: `[K, V[]]`.\n- Navigable operations (`first/last/ceiling/...`) return entry tuples like TreeMap.","type":"factual"}
+{"instruction":"When should I use TreeMultiMap?","output":"Use TreeMultiMap when you need tree, hierarchical, recursive operations. TreeMultiMap (ordered MultiMap) — key → bucket (Array of values).\n\nSemantics (RFC):\n- Bucketed design: each key appears once; duplicates live in the bucket.\n- `get(key)` returns a **live** bucket reference.\n- Default iteration yields bucket entries: `[K, V[]]`.\n- Navigable operations (`first/last/ceiling/...`) return entry tuples like TreeMap.","type":"reasoning"}
+{"instruction":"What is TreeMultiSet in data-structure-typed?","output":"TreeMultiSet is a tree data structure","type":"factual"}
+{"instruction":"When should I use TreeMultiSet?","output":"Use TreeMultiSet when you need tree, hierarchical, recursive operations. TreeMultiSet is a tree data structure","type":"reasoning"}
+{"instruction":"What is TreeSet in data-structure-typed?","output":"An ordered Set backed by a red-black tree.\n\n- Iteration order is ascending by key.\n- No node exposure: all APIs use keys only.","type":"factual"}
+{"instruction":"When should I use TreeSet?","output":"Use TreeSet when you need tree, hierarchical, recursive operations. An ordered Set backed by a red-black tree.\n\n- Iteration order is ascending by key.\n- No node exposure: all APIs use keys only.","type":"reasoning"}
+{"instruction":"What is AbstractVertex in data-structure-typed?","output":"AbstractVertex is a graph data structure","type":"factual"}
+{"instruction":"When should I use AbstractVertex?","output":"Use AbstractVertex when you need graph, vertices, edges operations. AbstractVertex is a graph data structure","type":"reasoning"}
+{"instruction":"What is AbstractEdge in data-structure-typed?","output":"AbstractEdge is a graph data structure","type":"factual"}
+{"instruction":"When should I use AbstractEdge?","output":"Use AbstractEdge when you need graph, vertices, edges operations. AbstractEdge is a graph data structure","type":"reasoning"}
+{"instruction":"What is AbstractGraph in data-structure-typed?","output":"Abstract graph over vertices and edges.","type":"factual"}
+{"instruction":"When should I use AbstractGraph?","output":"Use AbstractGraph when you need graph, vertices, edges operations. Abstract graph over vertices and edges.","type":"reasoning"}
+{"instruction":"What is DirectedVertex in data-structure-typed?","output":"DirectedVertex is a graph data structure","type":"factual"}
+{"instruction":"When should I use DirectedVertex?","output":"Use DirectedVertex when you need graph, vertices, edges operations. DirectedVertex is a graph data structure","type":"reasoning"}
+{"instruction":"What is DirectedEdge in data-structure-typed?","output":"DirectedEdge is a graph data structure","type":"factual"}
+{"instruction":"When should I use DirectedEdge?","output":"Use DirectedEdge when you need graph, vertices, edges operations. DirectedEdge is a graph data structure","type":"reasoning"}
+{"instruction":"What is DirectedGraph in data-structure-typed?","output":"Directed graph implementation.","type":"factual"}
+{"instruction":"When should I use DirectedGraph?","output":"Use DirectedGraph when you need graph, vertices, edges operations. Directed graph implementation.","type":"reasoning"}
+{"instruction":"What is MapVertex in data-structure-typed?","output":"MapVertex is a graph data structure","type":"factual"}
+{"instruction":"When should I use MapVertex?","output":"Use MapVertex when you need graph, vertices, edges operations. MapVertex is a graph data structure","type":"reasoning"}
+{"instruction":"What is MapEdge in data-structure-typed?","output":"MapEdge is a graph data structure","type":"factual"}
+{"instruction":"When should I use MapEdge?","output":"Use MapEdge when you need graph, vertices, edges operations. MapEdge is a graph data structure","type":"reasoning"}
+{"instruction":"What is MapGraph in data-structure-typed?","output":"Directed graph variant carrying geospatial coordinates.","type":"factual"}
+{"instruction":"When should I use MapGraph?","output":"Use MapGraph when you need graph, vertices, edges operations. Directed graph variant carrying geospatial coordinates.","type":"reasoning"}
+{"instruction":"What is UndirectedVertex in data-structure-typed?","output":"UndirectedVertex is a graph data structure","type":"factual"}
+{"instruction":"When should I use UndirectedVertex?","output":"Use UndirectedVertex when you need graph, vertices, edges operations. UndirectedVertex is a graph data structure","type":"reasoning"}
+{"instruction":"What is UndirectedEdge in data-structure-typed?","output":"UndirectedEdge is a graph data structure","type":"factual"}
+{"instruction":"When should I use UndirectedEdge?","output":"Use UndirectedEdge when you need graph, vertices, edges operations. UndirectedEdge is a graph data structure","type":"reasoning"}
+{"instruction":"What is UndirectedGraph in data-structure-typed?","output":"Undirected graph implementation.","type":"factual"}
+{"instruction":"When should I use UndirectedGraph?","output":"Use UndirectedGraph when you need graph, vertices, edges operations. Undirected graph implementation.","type":"reasoning"}
+{"instruction":"What is HashMap in data-structure-typed?","output":"Hash-based map. Supports object keys and custom hashing; offers O(1) average set/get/has.","type":"factual"}
+{"instruction":"When should I use HashMap?","output":"Use HashMap when you need hash, key-value, constant-time-lookup operations. Hash-based map. Supports object keys and custom hashing; offers O(1) average set/get/has.","type":"reasoning"}
+{"instruction":"What is LinkedHashMap in data-structure-typed?","output":"Hash-based map that preserves insertion order via a doubly-linked list.","type":"factual"}
+{"instruction":"When should I use LinkedHashMap?","output":"Use LinkedHashMap when you need hash, key-value, constant-time-lookup operations. Hash-based map that preserves insertion order via a doubly-linked list.","type":"reasoning"}
+{"instruction":"What is Heap in data-structure-typed?","output":"Binary heap with pluggable comparator; supports fast insertion and removal of the top element.","type":"factual"}
+{"instruction":"When should I use Heap?","output":"Use Heap when you need heap, priority, complete-tree operations. Binary heap with pluggable comparator; supports fast insertion and removal of the top element.","type":"reasoning"}
+{"instruction":"What is FibonacciHeapNode in data-structure-typed?","output":"Node container used by FibonacciHeap.","type":"factual"}
+{"instruction":"When should I use FibonacciHeapNode?","output":"Use FibonacciHeapNode when you need heap, priority, complete-tree operations. Node container used by FibonacciHeap.","type":"reasoning"}
+{"instruction":"What is FibonacciHeap in data-structure-typed?","output":"Fibonacci heap (min-heap) optimized for fast merges and amortized operations.","type":"factual"}
+{"instruction":"When should I use FibonacciHeap?","output":"Use FibonacciHeap when you need heap, priority, complete-tree operations. Fibonacci heap (min-heap) optimized for fast merges and amortized operations.","type":"reasoning"}
+{"instruction":"What is MaxHeap in data-structure-typed?","output":"MaxHeap is a heap data structure","type":"factual"}
+{"instruction":"When should I use MaxHeap?","output":"Use MaxHeap when you need heap, priority, complete-tree operations. MaxHeap is a heap data structure","type":"reasoning"}
+{"instruction":"What is MinHeap in data-structure-typed?","output":"MinHeap is a heap data structure","type":"factual"}
+{"instruction":"When should I use MinHeap?","output":"Use MinHeap when you need heap, priority, complete-tree operations. MinHeap is a heap data structure","type":"reasoning"}
+{"instruction":"What is DoublyLinkedListNode in data-structure-typed?","output":"Node of a doubly linked list; stores value and prev/next links.","type":"factual"}
+{"instruction":"When should I use DoublyLinkedListNode?","output":"Use DoublyLinkedListNode when you need linear, sequential, ordered operations. Node of a doubly linked list; stores value and prev/next links.","type":"reasoning"}
+{"instruction":"What is DoublyLinkedList in data-structure-typed?","output":"Doubly linked list with O(1) push/pop/unshift/shift and linear scans.","type":"factual"}
+{"instruction":"When should I use DoublyLinkedList?","output":"Use DoublyLinkedList when you need linear, sequential, ordered operations. Doubly linked list with O(1) push/pop/unshift/shift and linear scans.","type":"reasoning"}
+{"instruction":"What is SinglyLinkedListNode in data-structure-typed?","output":"Node of a singly linked list; stores value and the next link.","type":"factual"}
+{"instruction":"When should I use SinglyLinkedListNode?","output":"Use SinglyLinkedListNode when you need linear, sequential, ordered operations. Node of a singly linked list; stores value and the next link.","type":"reasoning"}
+{"instruction":"What is SinglyLinkedList in data-structure-typed?","output":"Singly linked list with O(1) push/pop-like ends operations and linear scans.","type":"factual"}
+{"instruction":"When should I use SinglyLinkedList?","output":"Use SinglyLinkedList when you need linear, sequential, ordered operations. Singly linked list with O(1) push/pop-like ends operations and linear scans.","type":"reasoning"}
+{"instruction":"What is SkipListNode in data-structure-typed?","output":"SkipListNode is a linear data structure","type":"factual"}
+{"instruction":"When should I use SkipListNode?","output":"Use SkipListNode when you need linear, sequential, ordered operations. SkipListNode is a linear data structure","type":"reasoning"}
+{"instruction":"What is SkipList in data-structure-typed?","output":"SkipList is a linear data structure","type":"factual"}
+{"instruction":"When should I use SkipList?","output":"Use SkipList when you need linear, sequential, ordered operations. SkipList is a linear data structure","type":"reasoning"}
+{"instruction":"What is Matrix in data-structure-typed?","output":"Matrix is a matrix data structure","type":"factual"}
+{"instruction":"When should I use Matrix?","output":"Use Matrix when you need matrix, 2d-array, grid operations. Matrix is a matrix data structure","type":"reasoning"}
+{"instruction":"What is Character in data-structure-typed?","output":"Character is a matrix data structure","type":"factual"}
+{"instruction":"When should I use Character?","output":"Use Character when you need matrix, 2d-array, grid operations. Character is a matrix data structure","type":"reasoning"}
+{"instruction":"What is Navigator in data-structure-typed?","output":"Navigator is a matrix data structure","type":"factual"}
+{"instruction":"When should I use Navigator?","output":"Use Navigator when you need matrix, 2d-array, grid operations. Navigator is a matrix data structure","type":"reasoning"}
+{"instruction":"What is MaxPriorityQueue in data-structure-typed?","output":"Max-oriented priority queue (max-heap) built on {@link PriorityQueue}.\nThe default comparator orders primitive values in descending order. If you store objects,\nyou must provide a custom comparator via {@link PriorityQueueOptions}.","type":"factual"}
+{"instruction":"When should I use MaxPriorityQueue?","output":"Use MaxPriorityQueue when you need linear, sequential, ordered operations. Max-oriented priority queue (max-heap) built on {@link PriorityQueue}.\nThe default comparator orders primitive values in descending order. If you store objects,\nyou must provide a custom comparator via {@link PriorityQueueOptions}.","type":"reasoning"}
+{"instruction":"What is MinPriorityQueue in data-structure-typed?","output":"Min-oriented priority queue (min-heap) built on {@link PriorityQueue}.\nThe queue removes the smallest element first under the provided comparator.\nProvide a custom comparator if you store non-primitive objects.","type":"factual"}
+{"instruction":"When should I use MinPriorityQueue?","output":"Use MinPriorityQueue when you need linear, sequential, ordered operations. Min-oriented priority queue (min-heap) built on {@link PriorityQueue}.\nThe queue removes the smallest element first under the provided comparator.\nProvide a custom comparator if you store non-primitive objects.","type":"reasoning"}
+{"instruction":"What is PriorityQueue in data-structure-typed?","output":"PriorityQueue is a linear data structure","type":"factual"}
+{"instruction":"When should I use PriorityQueue?","output":"Use PriorityQueue when you need linear, sequential, ordered operations. PriorityQueue is a linear data structure","type":"reasoning"}
+{"instruction":"What is Deque in data-structure-typed?","output":"Deque implemented with circular buckets allowing O(1) amortized push/pop at both ends.","type":"factual"}
+{"instruction":"When should I use Deque?","output":"Use Deque when you need linear, sequential, ordered operations. Deque implemented with circular buckets allowing O(1) amortized push/pop at both ends.","type":"reasoning"}
+{"instruction":"What is Queue in data-structure-typed?","output":"Array-backed queue with amortized O(1) enqueue/dequeue via an offset pointer and optional auto-compaction.","type":"factual"}
+{"instruction":"When should I use Queue?","output":"Use Queue when you need linear, sequential, ordered operations. Array-backed queue with amortized O(1) enqueue/dequeue via an offset pointer and optional auto-compaction.","type":"reasoning"}
+{"instruction":"What is LinkedListQueue in data-structure-typed?","output":"Queue implemented over a singly linked list; preserves head/tail operations with linear scans for queries.","type":"factual"}
+{"instruction":"When should I use LinkedListQueue?","output":"Use LinkedListQueue when you need linear, sequential, ordered operations. Queue implemented over a singly linked list; preserves head/tail operations with linear scans for queries.","type":"reasoning"}
+{"instruction":"What is Stack in data-structure-typed?","output":"LIFO stack with array storage and optional record→element conversion.","type":"factual"}
+{"instruction":"When should I use Stack?","output":"Use Stack when you need linear, sequential, ordered operations. LIFO stack with array storage and optional record→element conversion.","type":"reasoning"}
+{"instruction":"What is TreeNode in data-structure-typed?","output":"TreeNode is a other data structure","type":"factual"}
+{"instruction":"What is TrieNode in data-structure-typed?","output":"Node used by Trie to store one character and its children.","type":"factual"}
+{"instruction":"When should I use TrieNode?","output":"Use TrieNode when you need trie, prefix-tree, string-search operations. Node used by Trie to store one character and its children.","type":"reasoning"}
+{"instruction":"What is Trie in data-structure-typed?","output":"Prefix tree (Trie) for fast prefix queries and word storage.","type":"factual"}
+{"instruction":"When should I use Trie?","output":"Use Trie when you need trie, prefix-tree, string-search operations. Prefix tree (Trie) for fast prefix queries and word storage.","type":"reasoning"}
+{"instruction":"What is the difference between Stack and Queue?","output":"Stack is LIFO (last-in-first-out) while Queue is FIFO (first-in-first-out).","type":"comparison"}
+{"instruction":"What is the difference between Deque and Queue?","output":"Deque allows insertion and deletion at both ends, while Queue only at front/back.","type":"comparison"}
+{"instruction":"What is the difference between TreeMap and HashMap?","output":"TreeMap maintains sorted key order with O(log n) ops, HashMap is unordered with O(1) average.","type":"comparison"}
+{"instruction":"What is the difference between DoublyLinkedList and SinglyLinkedList?","output":"DoublyLinkedList has prev pointers allowing bidirectional traversal, SinglyLinkedList only has next pointers.","type":"comparison"}
+{"instruction":"What is the difference between RedBlackTree and AVLTree?","output":"Both are self-balancing. AVL is more strictly balanced (faster lookups), Red-Black has faster insertions.","type":"comparison"}
