@@ -404,4 +404,20 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
     return out;
   }
+
+  /**
+   * Creates a shallow clone of this set.
+   * @remarks Time O(n log n), Space O(n)
+   * @example
+   * const original = new TreeSet([1, 2, 3]);
+   * const copy = original.clone();
+   * copy.add(4);
+   * original.has(4); // false (original unchanged)
+   */
+  clone(): TreeSet<K> {
+    return new TreeSet<K>(this, {
+      comparator: this.#isDefaultComparator ? undefined : this.#userComparator,
+      isMapMode: (this.#core as any)._isMapMode
+    });
+  }
 }

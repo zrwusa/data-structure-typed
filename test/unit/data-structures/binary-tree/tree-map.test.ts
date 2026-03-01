@@ -313,4 +313,56 @@ describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
     expect([...m.keys()]).toEqual(['A001', 'B001', 'C001']);
     expect(m.get('A001')).toBe(19.99);
   });
+
+  describe('clone', () => {
+    test('clone creates independent copy', () => {
+      const original = new TreeMap<string, number>([
+        ['a', 1],
+        ['b', 2],
+        ['c', 3]
+      ]);
+      const copy = original.clone();
+
+      expect(copy.size).toBe(3);
+      expect([...copy.entries()]).toEqual([...original.entries()]);
+
+      // Modify copy, original unchanged
+      copy.set('d', 4);
+      expect(copy.has('d')).toBe(true);
+      expect(original.has('d')).toBe(false);
+
+      // Modify original, copy unchanged
+      original.delete('a');
+      expect(original.has('a')).toBe(false);
+      expect(copy.has('a')).toBe(true);
+    });
+
+    test('clone preserves custom comparator', () => {
+      const original = new TreeMap<string, number>(
+        [
+          ['B', 2],
+          ['A', 1],
+          ['C', 3]
+        ],
+        { comparator: (a, b) => b.localeCompare(a) } // reverse order
+      );
+      const copy = original.clone();
+
+      expect([...copy.keys()]).toEqual(['C', 'B', 'A']); // reverse order preserved
+      copy.set('D', 4);
+      expect([...copy.keys()]).toEqual(['D', 'C', 'B', 'A']);
+    });
+
+    test('clone with number keys', () => {
+      const original = new TreeMap<number, string>([
+        [3, 'c'],
+        [1, 'a'],
+        [2, 'b']
+      ]);
+      const copy = original.clone();
+
+      expect([...copy.keys()]).toEqual([1, 2, 3]);
+      expect(copy.get(2)).toBe('b');
+    });
+  });
 });

@@ -228,4 +228,43 @@ describe('TreeSet (RedBlackTree-backed, no node exposure)', () => {
     expect(s.size).toBe(2); // deduplicated
     expect([...s]).toEqual(['fruit', 'vegetable']);
   });
+
+  describe('clone', () => {
+    test('clone creates independent copy', () => {
+      const original = new TreeSet<number>([3, 1, 2]);
+      const copy = original.clone();
+
+      expect(copy.size).toBe(3);
+      expect([...copy]).toEqual([...original]);
+
+      // Modify copy, original unchanged
+      copy.add(4);
+      expect(copy.has(4)).toBe(true);
+      expect(original.has(4)).toBe(false);
+
+      // Modify original, copy unchanged
+      original.delete(1);
+      expect(original.has(1)).toBe(false);
+      expect(copy.has(1)).toBe(true);
+    });
+
+    test('clone preserves custom comparator', () => {
+      const original = new TreeSet<string>(['B', 'A', 'C'], {
+        comparator: (a, b) => b.localeCompare(a) // reverse order
+      });
+      const copy = original.clone();
+
+      expect([...copy]).toEqual(['C', 'B', 'A']); // reverse order preserved
+      copy.add('D');
+      expect([...copy]).toEqual(['D', 'C', 'B', 'A']);
+    });
+
+    test('clone with string keys', () => {
+      const original = new TreeSet<string>(['banana', 'apple', 'cherry']);
+      const copy = original.clone();
+
+      expect([...copy]).toEqual(['apple', 'banana', 'cherry']);
+      expect(copy.has('banana')).toBe(true);
+    });
+  });
 });

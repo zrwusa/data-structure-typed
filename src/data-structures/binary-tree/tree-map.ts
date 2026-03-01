@@ -436,4 +436,20 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
 
     return out;
   }
+
+  /**
+   * Creates a shallow clone of this map.
+   * @remarks Time O(n log n), Space O(n)
+   * @example
+   * const original = new TreeMap([['a', 1], ['b', 2]]);
+   * const copy = original.clone();
+   * copy.set('c', 3);
+   * original.has('c'); // false (original unchanged)
+   */
+  clone(): TreeMap<K, V> {
+    return new TreeMap<K, V>(this, {
+      comparator: this.#isDefaultComparator ? undefined : this.#userComparator,
+      isMapMode: (this.#core as any)._isMapMode
+    });
+  }
 }
