@@ -1308,27 +1308,33 @@ async function generateSchema(): Promise<void> {
     }
   };
 
+  // Ensure output directory exists
+  const aiDocsDir = path.join(__dirname, '..', 'docs', 'ai');
+  if (!fs.existsSync(aiDocsDir)) {
+    fs.mkdirSync(aiDocsDir, { recursive: true });
+  }
+
   // Write main schema
-  const outputPath = path.join(__dirname, '..', 'docs', 'schema.json');
+  const outputPath = path.join(aiDocsDir, 'schema.json');
   fs.writeFileSync(outputPath, JSON.stringify(schema, null, 2));
 
   // Write embeddings-only file (smaller, for vector DB)
-  const embeddingsPath = path.join(__dirname, '..', 'docs', 'embeddings.jsonl');
+  const embeddingsPath = path.join(aiDocsDir, 'embeddings.jsonl');
   const embeddingsLines = atoms.map(a => JSON.stringify({ id: a.id, text: a.embeddingText, tags: a.tags }));
   fs.writeFileSync(embeddingsPath, embeddingsLines.join('\n'));
 
   // Write training data separately
-  const trainingPath = path.join(__dirname, '..', 'docs', 'training-qa.jsonl');
+  const trainingPath = path.join(aiDocsDir, 'training-qa.jsonl');
   const trainingLines = qa.map(q => JSON.stringify(q));
   fs.writeFileSync(trainingPath, trainingLines.join('\n'));
 
   // Write retrieval chunks (for RAG vector DB)
-  const chunksPath = path.join(__dirname, '..', 'docs', 'retrieval-chunks.jsonl');
+  const chunksPath = path.join(aiDocsDir, 'retrieval-chunks.jsonl');
   const chunkLines = retrievalChunks.map(c => JSON.stringify(c));
   fs.writeFileSync(chunksPath, chunkLines.join('\n'));
 
   // Write knowledge triples (for knowledge graph)
-  const triplesPath = path.join(__dirname, '..', 'docs', 'knowledge-triples.jsonl');
+  const triplesPath = path.join(aiDocsDir, 'knowledge-triples.jsonl');
   const tripleLines = allTriples.map(t => JSON.stringify(t));
   fs.writeFileSync(triplesPath, tripleLines.join('\n'));
 

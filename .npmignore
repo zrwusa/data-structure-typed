@@ -1,21 +1,40 @@
+# IDE and editor
 .idea
 .vscode
+.editorconfig
+
+# Git and versioning
+.gitattributes
 .auto-changelog
 .auto-changelog-template.hbs
-.dependency-cruiser.js
-.editorconfig
-.gitattributes
-.prettierignore
 
+# Lint and config
+.dependency-cruiser.js
+.prettierignore
+.prettierrc.js
+eslint.config.mjs
+jest.config.js
+tsconfig.json
+tsconfig.types.json
+tsconfig.prod.json
+tsup.config.js
+tsup.umd.config.js
+
+# Development directories
 /notes
 /backup
-
 /scripts
-/tsconfig.prod.json
+/test
+/benchmark
+/build
 
+# Documentation (use online docs instead)
 /docs
 /coverage
 
-jest.config.js
-.prettierrc.js
-tsconfig.json
+# Source maps (optional - remove if you want debugging)
+*.map
+
+# C++ benchmark files
+CMakeLists.txt
+*.cpp

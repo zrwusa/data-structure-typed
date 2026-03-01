@@ -15,15 +15,14 @@ npm-debug.*
 /lib
 /dist
 /umd
-docs/assets
-docs/classes
-docs/functions
-docs/interfaces
-docs/media
-docs/.nojekyll
-docs/hierarchy.html
-docs/index.html
-docs/modules.html
+# TypeDoc generated (docs/api/)
+docs/api/
+
+# AI schema generated (docs/ai/)
+docs/ai/
+
+# Generated benchmark report in docs
+docs/benchmark.html
 /coverage
 
 # Benchmark artifacts (generated)
