@@ -156,7 +156,7 @@ export async function getResults() {
         if (count === 42) console.log('');
     }));
 
-    results.push(withRepeats(`${GET_N.toLocaleString()} get (classic)`, () => {
+    results.push(withRepeats(`${GET_N.toLocaleString()} get (DST classic)`, () => {
         let count = 0;
         for (let i = 0; i < GET_N; i++) if (rbNodeMode.get(i) !== undefined) count++;
         if (count === 42) console.log('');
@@ -169,7 +169,7 @@ export async function getResults() {
         for (let i = 0; i < N; i++) rbTree.set(i % KEY_POOL, i);
     }));
 
-    results.push(withRepeats(`${MILLION.toLocaleString()} upd SEQ (classic)`, () => {
+    results.push(withRepeats(`${MILLION.toLocaleString()} upd SEQ (DST classic)`, () => {
         const rbTree = new RedBlackTree([], { isMapMode: false });
         for (let i = 0; i < KEY_POOL; i++) rbTree.set(i, 0);
         for (let i = 0; i < N; i++) rbTree.set(i % KEY_POOL, i);
@@ -182,7 +182,7 @@ export async function getResults() {
         for (let i = 0; i < N; i++) rbTree.set(randUpdateKeys[i], i);
     }));
 
-    results.push(withRepeats(`${MILLION.toLocaleString()} upd RAND (classic)`, () => {
+    results.push(withRepeats(`${MILLION.toLocaleString()} upd RAND (DST classic)`, () => {
         const rbTree = new RedBlackTree([], { isMapMode: false });
         for (let i = 0; i < KEY_POOL; i++) rbTree.set(i, 0);
         for (let i = 0; i < N; i++) rbTree.set(randUpdateKeys[i], i);
@@ -194,7 +194,7 @@ export async function getResults() {
         for (let i = 0; i < N; i++) rbTree.set(i, i);
     }));
 
-    results.push(withRepeats(`${MILLION.toLocaleString()} ins SEQ (classic)`, () => {
+    results.push(withRepeats(`${MILLION.toLocaleString()} ins SEQ (DST classic)`, () => {
         const rbTree = new RedBlackTree([], { isMapMode: false });
         for (let i = 0; i < N; i++) rbTree.add(i);
     }));
@@ -208,7 +208,7 @@ export async function getResults() {
         }
     }));
 
-    results.push(withRepeats(`${MILLION.toLocaleString()} ins RAND (classic)`, () => {
+    results.push(withRepeats(`${MILLION.toLocaleString()} ins RAND (DST classic)`, () => {
         const rbTree = new RedBlackTree([], { isMapMode: false });
         for (let i = 0; i < N; i++) rbTree.add(randUniqueKeys[i]);
     }));

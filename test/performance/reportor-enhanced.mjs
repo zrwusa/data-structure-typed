@@ -441,7 +441,7 @@ function generateMarkdownComparison(report) {
             return (
                 name.includes('(js-sdsl)') ||
                 name.includes('(Node Mode)') ||
-                name.includes('(classic)') ||
+                name.includes('(DST classic)') ||
                 name.startsWith('Native JS ')
             );
         };
@@ -498,7 +498,7 @@ function generateMarkdownComparison(report) {
 
                 const hasClassic = items.some(it => {
                     const tc = it.benchmark?.['Test Case'] ?? '';
-                    return tc.includes('(Node Mode)') || tc.includes('(classic)');
+                    return tc.includes('(Node Mode)') || tc.includes('(DST classic)');
                 });
                 // Keep the js-sdsl column even when a suite has no js-sdsl baseline cases.
                 // Missing values should render as "-" instead of hiding the entire column.
@@ -513,7 +513,7 @@ function generateMarkdownComparison(report) {
 
                 const columns = [
                     { key: 'dst', label: 'DST (ms)', align: 'right' },
-                    ...(showClassic ? [{ key: 'classic', label: 'classic (ms)', align: 'right' }] : []),
+                    ...(showClassic ? [{ key: 'classic', label: 'DST classic (ms)', align: 'right' }] : []),
                     ...(hasSdsl ? [{ key: 'sdsl', label: 'js-sdsl (ms)', align: 'right' }] : []),
                     ...(hasNative ? [{ key: 'native', label: 'Native (ms)', align: 'right' }] : []),
                     ...(hasCpp ? [{ key: 'cpp', label: 'C++ (ms)', align: 'right' }] : [])
@@ -528,7 +528,7 @@ function generateMarkdownComparison(report) {
                 for (const base of baseCases) {
                     const abbr = formatNumberAbbr(base);
                     const dst = pick(base);
-                    const classic = pickOpt(`${base} (classic)`) ?? pick(`${base} (Node Mode)`);
+                    const classic = pickOpt(`${base} (DST classic)`) ?? pick(`${base} (Node Mode)`);
                     const sdsl = pick(`${base} (js-sdsl)`);
                     // Native rows usually have a prefix; try common variants.
                     const nativeMs = (
@@ -899,7 +899,7 @@ function generateHtmlReport(report) {
         return (
             name.includes('(js-sdsl)') ||
             name.includes('(Node Mode)') ||
-            name.includes('(classic)') ||
+            name.includes('(DST classic)') ||
             name.startsWith('Native JS ')
         );
     };
@@ -939,7 +939,7 @@ function generateHtmlReport(report) {
 
         const hasClassic = items.some(it => {
             const tc = it.benchmark?.['Test Case'] ?? '';
-            return tc.includes('(Node Mode)') || tc.includes('(classic)');
+            return tc.includes('(Node Mode)') || tc.includes('(DST classic)');
         });
         const isBinaryTreeSuite = ['red-black-tree', 'avl-tree', 'bst', 'binary-tree', 'tree-map', 'tree-set'].includes(suiteName);
         const showClassic = isBinaryTreeSuite && hasClassic;
@@ -949,7 +949,7 @@ function generateHtmlReport(report) {
 
         // Build header
         const headers = ['Test Case', 'DST (ms)'];
-        if (showClassic) headers.push('classic (ms)');
+        if (showClassic) headers.push('DST classic (ms)');
         headers.push('js-sdsl (ms)', 'Native (ms)');
         if (hasCpp) headers.push('C++ (ms)');
 
@@ -960,7 +960,7 @@ function generateHtmlReport(report) {
         for (const base of baseCases) {
             const abbr = formatNumberAbbr(base);
             const dst = pick(base);
-            const classic = pickOpt(`${base} (classic)`) ?? pick(`${base} (Node Mode)`);
+            const classic = pickOpt(`${base} (DST classic)`) ?? pick(`${base} (Node Mode)`);
             const sdsl = pick(`${base} (js-sdsl)`);
             const nativeMs = (
                 pickOpt(`Native JS ${base}`) ??

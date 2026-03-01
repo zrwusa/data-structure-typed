@@ -24,20 +24,19 @@
     "**/max-priority-queue*"
   ],
   "order": [
-    "doubly-linked-list",
-    "singly-linked-list",
-    "linked-hash-map",
     "hash-map",
     "queue",
     "deque",
+    "doubly-linked-list",
+    "singly-linked-list",
+    "linked-hash-map",
     "priority-queue",
-    "stack",
-    "red-black-tree",
-    "avl-tree",
     "tree-set",
     "tree-map",
     "tree-multi-set",
     "tree-multi-map",
+    "red-black-tree",
+    "avl-tree",
     "bst",
     "binary-tree",
     "binary-tree-overall",
@@ -45,6 +44,7 @@
     "graph",
     "directed-graph",
     "undirected-graph",
-    "map-graph"
+    "map-graph",
+    "stack"
   ]
 }
