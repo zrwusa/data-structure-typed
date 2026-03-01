@@ -449,7 +449,7 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
   clone(): TreeMap<K, V> {
     return new TreeMap<K, V>(this, {
       comparator: this.#isDefaultComparator ? undefined : this.#userComparator,
-      isMapMode: (this.#core as any)._isMapMode
+      isMapMode: this.#core.isMapMode
     });
   }
 }

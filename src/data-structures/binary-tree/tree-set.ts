@@ -417,7 +417,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
   clone(): TreeSet<K> {
     return new TreeSet<K>(this, {
       comparator: this.#isDefaultComparator ? undefined : this.#userComparator,
-      isMapMode: (this.#core as any)._isMapMode
+      isMapMode: this.#core.isMapMode
     });
   }
 }
