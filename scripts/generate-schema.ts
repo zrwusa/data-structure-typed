@@ -708,6 +708,217 @@ function generateQAPairs(atoms: KnowledgeAtom[], classes: ClassChunk[]): QAPair[
     });
   }
 
+  // ============ Boundary Condition QA ============
+  const boundaryConditions: { structure: string; method: string; condition: string; result: string }[] = [
+    { structure: 'Stack', method: 'pop', condition: 'empty', result: 'Returns undefined when stack is empty.' },
+    { structure: 'Stack', method: 'peek', condition: 'empty', result: 'Returns undefined when stack is empty.' },
+    { structure: 'Queue', method: 'shift', condition: 'empty', result: 'Returns undefined when queue is empty.' },
+    { structure: 'Deque', method: 'pop', condition: 'empty', result: 'Returns undefined when deque is empty.' },
+    { structure: 'Deque', method: 'shift', condition: 'empty', result: 'Returns undefined when deque is empty.' },
+    { structure: 'HashMap', method: 'get', condition: 'key not found', result: 'Returns undefined if the key does not exist.' },
+    { structure: 'TreeMap', method: 'get', condition: 'key not found', result: 'Returns undefined if the key does not exist.' },
+    { structure: 'DoublyLinkedList', method: 'pop', condition: 'empty', result: 'Returns undefined when list is empty.' },
+    { structure: 'DoublyLinkedList', method: 'shift', condition: 'empty', result: 'Returns undefined when list is empty.' },
+    { structure: 'Heap', method: 'pop', condition: 'empty', result: 'Returns undefined when heap is empty.' },
+    { structure: 'Heap', method: 'peek', condition: 'empty', result: 'Returns undefined when heap is empty.' },
+    { structure: 'PriorityQueue', method: 'poll', condition: 'empty', result: 'Returns undefined when queue is empty.' },
+    { structure: 'BST', method: 'get', condition: 'key not found', result: 'Returns undefined if the key does not exist in the tree.' },
+    { structure: 'RedBlackTree', method: 'get', condition: 'key not found', result: 'Returns undefined if the key does not exist.' },
+    { structure: 'Trie', method: 'get', condition: 'word not found', result: 'Returns false if the word is not in the trie.' }
+  ];
+
+  for (const bc of boundaryConditions) {
+    if (classes.some(c => c.name === bc.structure)) {
+      pairs.push({
+        instruction: `What happens when calling ${bc.structure}.${bc.method}() on ${bc.condition === 'empty' ? 'an empty ' + bc.structure : bc.condition}?`,
+        output: bc.result,
+        type: 'factual'
+      });
+
+      pairs.push({
+        instruction: `What does ${bc.structure}.${bc.method}() return when ${bc.condition}?`,
+        output: bc.result,
+        type: 'factual'
+      });
+    }
+  }
+
+  // ============ Return Value QA ============
+  const returnValues: { structure: string; method: string; returns: string; description: string }[] = [
+    { structure: 'Stack', method: 'push', returns: 'boolean', description: 'Returns true when element is successfully pushed.' },
+    { structure: 'Stack', method: 'pop', returns: 'E | undefined', description: 'Returns the popped element, or undefined if empty.' },
+    { structure: 'HashMap', method: 'set', returns: 'boolean', description: 'Returns true when the key-value pair is set.' },
+    { structure: 'HashMap', method: 'delete', returns: 'boolean', description: 'Returns true if key existed and was deleted, false otherwise.' },
+    { structure: 'TreeMap', method: 'set', returns: 'boolean', description: 'Returns true when the key-value pair is added or updated.' },
+    { structure: 'TreeSet', method: 'add', returns: 'boolean', description: 'Returns true if element was added, false if already exists.' },
+    { structure: 'Deque', method: 'push', returns: 'boolean', description: 'Returns true when element is added to back.' },
+    { structure: 'DoublyLinkedList', method: 'delete', returns: 'boolean', description: 'Returns true if element was found and deleted.' },
+    { structure: 'Trie', method: 'add', returns: 'boolean', description: 'Returns true when word is added to the trie.' },
+    { structure: 'Trie', method: 'has', returns: 'boolean', description: 'Returns true if the exact word exists in the trie.' },
+    { structure: 'DirectedGraph', method: 'addVertex', returns: 'boolean', description: 'Returns true if vertex was added successfully.' },
+    { structure: 'DirectedGraph', method: 'addEdge', returns: 'boolean', description: 'Returns true if edge was added successfully.' }
+  ];
+
+  for (const rv of returnValues) {
+    if (classes.some(c => c.name === rv.structure)) {
+      pairs.push({
+        instruction: `What does ${rv.structure}.${rv.method}() return?`,
+        output: `${rv.structure}.${rv.method}() returns ${rv.returns}. ${rv.description}`,
+        type: 'factual'
+      });
+
+      pairs.push({
+        instruction: `What is the return type of ${rv.structure}.${rv.method}()?`,
+        output: `${rv.returns}. ${rv.description}`,
+        type: 'factual'
+      });
+    }
+  }
+
+  // ============ Best Practices QA ============
+  const bestPractices: { question: string; answer: string }[] = [
+    {
+      question: "What's the best way to iterate over a TreeMap?",
+      answer: "Use for...of loop: `for (const [key, value] of treeMap) { }`. TreeMap iterates in sorted key order."
+    },
+    {
+      question: "How to efficiently check if an element exists before adding?",
+      answer: "Use the has() method first, or just call add()/set() which returns false if already exists."
+    },
+    {
+      question: "What's the best way to get the size of a data structure?",
+      answer: "Use the .size property (O(1)) rather than converting to array and checking length."
+    },
+    {
+      question: "How to safely pop from a Stack that might be empty?",
+      answer: "Check isEmpty() first, or handle the undefined return: `const item = stack.pop(); if (item !== undefined) { ... }`"
+    },
+    {
+      question: "What's the best way to clear all elements?",
+      answer: "Use clear() method which is O(1) for most structures. Avoid popping in a loop."
+    },
+    {
+      question: "How to iterate a DoublyLinkedList in reverse?",
+      answer: "Use getBackward() method which returns an iterator from tail to head."
+    },
+    {
+      question: "How to find elements in a sorted structure?",
+      answer: "Use rangeSearch(min, max) for TreeMap/TreeSet to find all elements in a range in O(log n + k)."
+    },
+    {
+      question: "What's the best way to merge two heaps?",
+      answer: "For FibonacciHeap use merge() in O(1). For regular Heap, add all elements which is O(n log n)."
+    },
+    {
+      question: "How to get the minimum/maximum from a tree?",
+      answer: "Use first()/last() methods which return min/max in O(log n) time."
+    },
+    {
+      question: "How to clone a data structure?",
+      answer: "Use clone() method which creates a deep copy. Available on most structures."
+    }
+  ];
+
+  for (const bp of bestPractices) {
+    pairs.push({
+      instruction: bp.question,
+      output: bp.answer,
+      type: 'howto'
+    });
+  }
+
+  // ============ Alternative Structure QA ============
+  const alternatives: { need: string; avoid: string; use: string; reason: string }[] = [
+    {
+      need: 'fast shift/unshift operations',
+      avoid: 'Array',
+      use: 'Deque',
+      reason: 'Array.shift() is O(n) due to reindexing. Deque provides O(1) for both ends.'
+    },
+    {
+      need: 'sorted key-value storage',
+      avoid: 'Object or Map',
+      use: 'TreeMap',
+      reason: 'Native Object/Map do not maintain sorted order. TreeMap keeps keys sorted.'
+    },
+    {
+      need: 'priority-based processing',
+      avoid: 'sorted Array',
+      use: 'PriorityQueue or Heap',
+      reason: 'Maintaining sorted array is O(n) per insert. Heap is O(log n).'
+    },
+    {
+      need: 'unique sorted elements',
+      avoid: 'Array with sort and dedupe',
+      use: 'TreeSet',
+      reason: 'TreeSet maintains sorted unique elements with O(log n) operations automatically.'
+    },
+    {
+      need: 'fast prefix search',
+      avoid: 'Array.filter with startsWith',
+      use: 'Trie',
+      reason: 'Array search is O(n*m). Trie prefix search is O(m + k) where k is result count.'
+    },
+    {
+      need: 'graph traversal algorithms',
+      avoid: 'nested objects or adjacency matrix',
+      use: 'DirectedGraph or UndirectedGraph',
+      reason: 'Graph classes provide built-in BFS, DFS, Dijkstra, and cycle detection.'
+    },
+    {
+      need: 'LIFO with fast operations',
+      avoid: 'Array.push/pop at index 0',
+      use: 'Stack',
+      reason: 'Stack provides clear semantics and consistent O(1) operations.'
+    },
+    {
+      need: 'guaranteed O(log n) tree operations',
+      avoid: 'plain BST',
+      use: 'AVLTree or RedBlackTree',
+      reason: 'Plain BST can degrade to O(n). Self-balancing trees guarantee O(log n).'
+    }
+  ];
+
+  for (const alt of alternatives) {
+    pairs.push({
+      instruction: `What should I use instead of ${alt.avoid} for ${alt.need}?`,
+      output: `Use ${alt.use}. ${alt.reason}`,
+      type: 'reasoning'
+    });
+
+    pairs.push({
+      instruction: `Why is ${alt.use} better than ${alt.avoid} for ${alt.need}?`,
+      output: alt.reason,
+      type: 'reasoning'
+    });
+  }
+
+  // ============ Type/Parameter QA ============
+  const typeQuestions: { structure: string; method: string; paramInfo: string }[] = [
+    { structure: 'TreeMap', method: 'set', paramInfo: 'Takes (key: K, value: V) where K must be comparable (has < > operators or custom comparator).' },
+    { structure: 'HashMap', method: 'set', paramInfo: 'Takes (key: K, value: V) where K can be any type that works with Map.' },
+    { structure: 'Heap', method: 'add', paramInfo: 'Takes element: E. Elements must be comparable or provide a custom comparator in constructor.' },
+    { structure: 'Trie', method: 'add', paramInfo: 'Takes word: string. Only string keys are supported.' },
+    { structure: 'DirectedGraph', method: 'addEdge', paramInfo: 'Takes (src: VertexKey, dest: VertexKey, weight?: number). Creates directed edge from src to dest.' },
+    { structure: 'PriorityQueue', method: 'add', paramInfo: 'Takes element: E. Priority determined by comparator (default: min-heap by value).' }
+  ];
+
+  for (const tq of typeQuestions) {
+    if (classes.some(c => c.name === tq.structure)) {
+      pairs.push({
+        instruction: `What parameters does ${tq.structure}.${tq.method}() accept?`,
+        output: tq.paramInfo,
+        type: 'factual'
+      });
+
+      pairs.push({
+        instruction: `What type of arguments does ${tq.structure}.${tq.method}() take?`,
+        output: tq.paramInfo,
+        type: 'factual'
+      });
+    }
+  }
+
   // ============ Multi-structure QA ============
   // Group classes by category
   const byCategory: Record<string, string[]> = {};

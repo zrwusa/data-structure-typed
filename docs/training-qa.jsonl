@@ -2253,6 +2253,98 @@
 {"instruction":"Can I use HashMap when I need sorted keys?","output":"No, HashMap does not maintain order. Use TreeMap for sorted keys or LinkedHashMap for insertion order.","type":"reasoning"}
 {"instruction":"Is BST always O(log n)?","output":"No, an unbalanced BST can degrade to O(n). Use AVLTree or RedBlackTree for guaranteed O(log n) operations.","type":"reasoning"}
 {"instruction":"Should I always use HashMap for fastest lookups?","output":"HashMap has O(1) average but O(n) worst case. If you need guaranteed performance, TreeMap offers consistent O(log n).","type":"reasoning"}
+{"instruction":"What happens when calling Stack.pop() on an empty Stack?","output":"Returns undefined when stack is empty.","type":"factual"}
+{"instruction":"What does Stack.pop() return when empty?","output":"Returns undefined when stack is empty.","type":"factual"}
+{"instruction":"What happens when calling Stack.peek() on an empty Stack?","output":"Returns undefined when stack is empty.","type":"factual"}
+{"instruction":"What does Stack.peek() return when empty?","output":"Returns undefined when stack is empty.","type":"factual"}
+{"instruction":"What happens when calling Queue.shift() on an empty Queue?","output":"Returns undefined when queue is empty.","type":"factual"}
+{"instruction":"What does Queue.shift() return when empty?","output":"Returns undefined when queue is empty.","type":"factual"}
+{"instruction":"What happens when calling Deque.pop() on an empty Deque?","output":"Returns undefined when deque is empty.","type":"factual"}
+{"instruction":"What does Deque.pop() return when empty?","output":"Returns undefined when deque is empty.","type":"factual"}
+{"instruction":"What happens when calling Deque.shift() on an empty Deque?","output":"Returns undefined when deque is empty.","type":"factual"}
+{"instruction":"What does Deque.shift() return when empty?","output":"Returns undefined when deque is empty.","type":"factual"}
+{"instruction":"What happens when calling HashMap.get() on key not found?","output":"Returns undefined if the key does not exist.","type":"factual"}
+{"instruction":"What does HashMap.get() return when key not found?","output":"Returns undefined if the key does not exist.","type":"factual"}
+{"instruction":"What happens when calling TreeMap.get() on key not found?","output":"Returns undefined if the key does not exist.","type":"factual"}
+{"instruction":"What does TreeMap.get() return when key not found?","output":"Returns undefined if the key does not exist.","type":"factual"}
+{"instruction":"What happens when calling DoublyLinkedList.pop() on an empty DoublyLinkedList?","output":"Returns undefined when list is empty.","type":"factual"}
+{"instruction":"What does DoublyLinkedList.pop() return when empty?","output":"Returns undefined when list is empty.","type":"factual"}
+{"instruction":"What happens when calling DoublyLinkedList.shift() on an empty DoublyLinkedList?","output":"Returns undefined when list is empty.","type":"factual"}
+{"instruction":"What does DoublyLinkedList.shift() return when empty?","output":"Returns undefined when list is empty.","type":"factual"}
+{"instruction":"What happens when calling Heap.pop() on an empty Heap?","output":"Returns undefined when heap is empty.","type":"factual"}
+{"instruction":"What does Heap.pop() return when empty?","output":"Returns undefined when heap is empty.","type":"factual"}
+{"instruction":"What happens when calling Heap.peek() on an empty Heap?","output":"Returns undefined when heap is empty.","type":"factual"}
+{"instruction":"What does Heap.peek() return when empty?","output":"Returns undefined when heap is empty.","type":"factual"}
+{"instruction":"What happens when calling PriorityQueue.poll() on an empty PriorityQueue?","output":"Returns undefined when queue is empty.","type":"factual"}
+{"instruction":"What does PriorityQueue.poll() return when empty?","output":"Returns undefined when queue is empty.","type":"factual"}
+{"instruction":"What happens when calling BST.get() on key not found?","output":"Returns undefined if the key does not exist in the tree.","type":"factual"}
+{"instruction":"What does BST.get() return when key not found?","output":"Returns undefined if the key does not exist in the tree.","type":"factual"}
+{"instruction":"What happens when calling RedBlackTree.get() on key not found?","output":"Returns undefined if the key does not exist.","type":"factual"}
+{"instruction":"What does RedBlackTree.get() return when key not found?","output":"Returns undefined if the key does not exist.","type":"factual"}
+{"instruction":"What happens when calling Trie.get() on word not found?","output":"Returns false if the word is not in the trie.","type":"factual"}
+{"instruction":"What does Trie.get() return when word not found?","output":"Returns false if the word is not in the trie.","type":"factual"}
+{"instruction":"What does Stack.push() return?","output":"Stack.push() returns boolean. Returns true when element is successfully pushed.","type":"factual"}
+{"instruction":"What is the return type of Stack.push()?","output":"boolean. Returns true when element is successfully pushed.","type":"factual"}
+{"instruction":"What does Stack.pop() return?","output":"Stack.pop() returns E | undefined. Returns the popped element, or undefined if empty.","type":"factual"}
+{"instruction":"What is the return type of Stack.pop()?","output":"E | undefined. Returns the popped element, or undefined if empty.","type":"factual"}
+{"instruction":"What does HashMap.set() return?","output":"HashMap.set() returns boolean. Returns true when the key-value pair is set.","type":"factual"}
+{"instruction":"What is the return type of HashMap.set()?","output":"boolean. Returns true when the key-value pair is set.","type":"factual"}
+{"instruction":"What does HashMap.delete() return?","output":"HashMap.delete() returns boolean. Returns true if key existed and was deleted, false otherwise.","type":"factual"}
+{"instruction":"What is the return type of HashMap.delete()?","output":"boolean. Returns true if key existed and was deleted, false otherwise.","type":"factual"}
+{"instruction":"What does TreeMap.set() return?","output":"TreeMap.set() returns boolean. Returns true when the key-value pair is added or updated.","type":"factual"}
+{"instruction":"What is the return type of TreeMap.set()?","output":"boolean. Returns true when the key-value pair is added or updated.","type":"factual"}
+{"instruction":"What does TreeSet.add() return?","output":"TreeSet.add() returns boolean. Returns true if element was added, false if already exists.","type":"factual"}
+{"instruction":"What is the return type of TreeSet.add()?","output":"boolean. Returns true if element was added, false if already exists.","type":"factual"}
+{"instruction":"What does Deque.push() return?","output":"Deque.push() returns boolean. Returns true when element is added to back.","type":"factual"}
+{"instruction":"What is the return type of Deque.push()?","output":"boolean. Returns true when element is added to back.","type":"factual"}
+{"instruction":"What does DoublyLinkedList.delete() return?","output":"DoublyLinkedList.delete() returns boolean. Returns true if element was found and deleted.","type":"factual"}
+{"instruction":"What is the return type of DoublyLinkedList.delete()?","output":"boolean. Returns true if element was found and deleted.","type":"factual"}
+{"instruction":"What does Trie.add() return?","output":"Trie.add() returns boolean. Returns true when word is added to the trie.","type":"factual"}
+{"instruction":"What is the return type of Trie.add()?","output":"boolean. Returns true when word is added to the trie.","type":"factual"}
+{"instruction":"What does Trie.has() return?","output":"Trie.has() returns boolean. Returns true if the exact word exists in the trie.","type":"factual"}
+{"instruction":"What is the return type of Trie.has()?","output":"boolean. Returns true if the exact word exists in the trie.","type":"factual"}
+{"instruction":"What does DirectedGraph.addVertex() return?","output":"DirectedGraph.addVertex() returns boolean. Returns true if vertex was added successfully.","type":"factual"}
+{"instruction":"What is the return type of DirectedGraph.addVertex()?","output":"boolean. Returns true if vertex was added successfully.","type":"factual"}
+{"instruction":"What does DirectedGraph.addEdge() return?","output":"DirectedGraph.addEdge() returns boolean. Returns true if edge was added successfully.","type":"factual"}
+{"instruction":"What is the return type of DirectedGraph.addEdge()?","output":"boolean. Returns true if edge was added successfully.","type":"factual"}
+{"instruction":"What's the best way to iterate over a TreeMap?","output":"Use for...of loop: `for (const [key, value] of treeMap) { }`. TreeMap iterates in sorted key order.","type":"howto"}
+{"instruction":"How to efficiently check if an element exists before adding?","output":"Use the has() method first, or just call add()/set() which returns false if already exists.","type":"howto"}
+{"instruction":"What's the best way to get the size of a data structure?","output":"Use the .size property (O(1)) rather than converting to array and checking length.","type":"howto"}
+{"instruction":"How to safely pop from a Stack that might be empty?","output":"Check isEmpty() first, or handle the undefined return: `const item = stack.pop(); if (item !== undefined) { ... }`","type":"howto"}
+{"instruction":"What's the best way to clear all elements?","output":"Use clear() method which is O(1) for most structures. Avoid popping in a loop.","type":"howto"}
+{"instruction":"How to iterate a DoublyLinkedList in reverse?","output":"Use getBackward() method which returns an iterator from tail to head.","type":"howto"}
+{"instruction":"How to find elements in a sorted structure?","output":"Use rangeSearch(min, max) for TreeMap/TreeSet to find all elements in a range in O(log n + k).","type":"howto"}
+{"instruction":"What's the best way to merge two heaps?","output":"For FibonacciHeap use merge() in O(1). For regular Heap, add all elements which is O(n log n).","type":"howto"}
+{"instruction":"How to get the minimum/maximum from a tree?","output":"Use first()/last() methods which return min/max in O(log n) time.","type":"howto"}
+{"instruction":"How to clone a data structure?","output":"Use clone() method which creates a deep copy. Available on most structures.","type":"howto"}
+{"instruction":"What should I use instead of Array for fast shift/unshift operations?","output":"Use Deque. Array.shift() is O(n) due to reindexing. Deque provides O(1) for both ends.","type":"reasoning"}
+{"instruction":"Why is Deque better than Array for fast shift/unshift operations?","output":"Array.shift() is O(n) due to reindexing. Deque provides O(1) for both ends.","type":"reasoning"}
+{"instruction":"What should I use instead of Object or Map for sorted key-value storage?","output":"Use TreeMap. Native Object/Map do not maintain sorted order. TreeMap keeps keys sorted.","type":"reasoning"}
+{"instruction":"Why is TreeMap better than Object or Map for sorted key-value storage?","output":"Native Object/Map do not maintain sorted order. TreeMap keeps keys sorted.","type":"reasoning"}
+{"instruction":"What should I use instead of sorted Array for priority-based processing?","output":"Use PriorityQueue or Heap. Maintaining sorted array is O(n) per insert. Heap is O(log n).","type":"reasoning"}
+{"instruction":"Why is PriorityQueue or Heap better than sorted Array for priority-based processing?","output":"Maintaining sorted array is O(n) per insert. Heap is O(log n).","type":"reasoning"}
+{"instruction":"What should I use instead of Array with sort and dedupe for unique sorted elements?","output":"Use TreeSet. TreeSet maintains sorted unique elements with O(log n) operations automatically.","type":"reasoning"}
+{"instruction":"Why is TreeSet better than Array with sort and dedupe for unique sorted elements?","output":"TreeSet maintains sorted unique elements with O(log n) operations automatically.","type":"reasoning"}
+{"instruction":"What should I use instead of Array.filter with startsWith for fast prefix search?","output":"Use Trie. Array search is O(n*m). Trie prefix search is O(m + k) where k is result count.","type":"reasoning"}
+{"instruction":"Why is Trie better than Array.filter with startsWith for fast prefix search?","output":"Array search is O(n*m). Trie prefix search is O(m + k) where k is result count.","type":"reasoning"}
+{"instruction":"What should I use instead of nested objects or adjacency matrix for graph traversal algorithms?","output":"Use DirectedGraph or UndirectedGraph. Graph classes provide built-in BFS, DFS, Dijkstra, and cycle detection.","type":"reasoning"}
+{"instruction":"Why is DirectedGraph or UndirectedGraph better than nested objects or adjacency matrix for graph traversal algorithms?","output":"Graph classes provide built-in BFS, DFS, Dijkstra, and cycle detection.","type":"reasoning"}
+{"instruction":"What should I use instead of Array.push/pop at index 0 for LIFO with fast operations?","output":"Use Stack. Stack provides clear semantics and consistent O(1) operations.","type":"reasoning"}
+{"instruction":"Why is Stack better than Array.push/pop at index 0 for LIFO with fast operations?","output":"Stack provides clear semantics and consistent O(1) operations.","type":"reasoning"}
+{"instruction":"What should I use instead of plain BST for guaranteed O(log n) tree operations?","output":"Use AVLTree or RedBlackTree. Plain BST can degrade to O(n). Self-balancing trees guarantee O(log n).","type":"reasoning"}
+{"instruction":"Why is AVLTree or RedBlackTree better than plain BST for guaranteed O(log n) tree operations?","output":"Plain BST can degrade to O(n). Self-balancing trees guarantee O(log n).","type":"reasoning"}
+{"instruction":"What parameters does TreeMap.set() accept?","output":"Takes (key: K, value: V) where K must be comparable (has < > operators or custom comparator).","type":"factual"}
+{"instruction":"What type of arguments does TreeMap.set() take?","output":"Takes (key: K, value: V) where K must be comparable (has < > operators or custom comparator).","type":"factual"}
+{"instruction":"What parameters does HashMap.set() accept?","output":"Takes (key: K, value: V) where K can be any type that works with Map.","type":"factual"}
+{"instruction":"What type of arguments does HashMap.set() take?","output":"Takes (key: K, value: V) where K can be any type that works with Map.","type":"factual"}
+{"instruction":"What parameters does Heap.add() accept?","output":"Takes element: E. Elements must be comparable or provide a custom comparator in constructor.","type":"factual"}
+{"instruction":"What type of arguments does Heap.add() take?","output":"Takes element: E. Elements must be comparable or provide a custom comparator in constructor.","type":"factual"}
+{"instruction":"What parameters does Trie.add() accept?","output":"Takes word: string. Only string keys are supported.","type":"factual"}
+{"instruction":"What type of arguments does Trie.add() take?","output":"Takes word: string. Only string keys are supported.","type":"factual"}
+{"instruction":"What parameters does DirectedGraph.addEdge() accept?","output":"Takes (src: VertexKey, dest: VertexKey, weight?: number). Creates directed edge from src to dest.","type":"factual"}
+{"instruction":"What type of arguments does DirectedGraph.addEdge() take?","output":"Takes (src: VertexKey, dest: VertexKey, weight?: number). Creates directed edge from src to dest.","type":"factual"}
+{"instruction":"What parameters does PriorityQueue.add() accept?","output":"Takes element: E. Priority determined by comparator (default: min-heap by value).","type":"factual"}
+{"instruction":"What type of arguments does PriorityQueue.add() take?","output":"Takes element: E. Priority determined by comparator (default: min-heap by value).","type":"factual"}
 {"instruction":"What tree data structures are available?","output":"Available tree structures: AVLTreeNode, AVLTree, BinaryIndexedTree, BinaryTreeNode, BinaryTree, BSTNode, BST, RedBlackTreeNode, RedBlackTree, SegmentTreeNode, SegmentTree, TreeMap, TreeMultiMapNode, TreeMultiMap, TreeMultiSet, TreeSet","type":"factual"}
 {"instruction":"What graph data structures are available?","output":"Available graph structures: AbstractVertex, AbstractEdge, AbstractGraph, DirectedVertex, DirectedEdge, DirectedGraph, MapVertex, MapEdge, MapGraph, UndirectedVertex, UndirectedEdge, UndirectedGraph","type":"factual"}
 {"instruction":"What hash data structures are available?","output":"Available hash structures: HashMap, LinkedHashMap","type":"factual"}
