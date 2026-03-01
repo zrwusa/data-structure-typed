@@ -56,8 +56,19 @@ cd "$docs_dir"
 shopt -s extglob
 rm -r !(.gitignore|favicon.ico|.idea)
 
-# Copy all files from source directory to destination directory
-cp -r "$source_dir/docs/"* "$docs_dir"
+# Copy files from source directory to destination directory
+# 1. Copy TypeDoc API docs (docs/api/*) to root
+cp -r "$source_dir/docs/api/"* "$docs_dir"
+# 2. Copy markdown docs (docs/*.md)
+cp "$source_dir/docs/"*.md "$docs_dir" 2>/dev/null || true
+# 3. Copy AI schema files (docs/ai/)
+cp -r "$source_dir/docs/ai" "$docs_dir"
+# 4. Copy RFCs (docs/rfcs/)
+cp -r "$source_dir/docs/rfcs" "$docs_dir" 2>/dev/null || true
+# 5. Copy other generated files
+cp "$source_dir/docs/benchmark.html" "$docs_dir" 2>/dev/null || true
+# 6. Copy coverage milestones
+cp -r "$source_dir/docs/coverage-milestones" "$docs_dir" 2>/dev/null || true
 
 # Change to the destination directory
 cd "$docs_dir"
