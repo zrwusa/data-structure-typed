@@ -14,19 +14,55 @@ A comprehensive TypeScript data structures library with production-ready impleme
 ![NPM](https://img.shields.io/npm/l/data-structure-typed)
 ![npm](https://img.shields.io/npm/v/data-structure-typed)
 
-**📚 [Installation](#-installation) • [Quick Start](#-quick-start-30-seconds) • [Full Docs](#-documentation) • [API Reference](./docs/REFERENCE.md) • [Playground](#playground) • [Examples](./docs/GUIDES.md)**
+**📦 [Installation](#-installation) • 🎮 [Playground](#-playground) • ⚡ [Quick Start](#-quick-start-30-seconds) • 📖 [Docs](#-documentation) • 📋 [API](./docs/REFERENCE.md) • 💡 [Examples](./docs/GUIDES.md)**
 
 ---
 
 ## Table of Contents
 
-1. [Who Should Use This?](#-who-should-use-this)
-2. [Why Not Just Array or Map?](#-why-not-just-array-or-map)
-3. [Key Features](#-key-features)
-4. [Installation](#-installation)
-5. [Quick Start](#-quick-start-30-seconds)
-6. [Data Structures](#-data-structures-available)
-7. [Documentation](#-documentation)
+1. [Installation](#-installation)
+2. [Playground](#-playground)
+3. [Quick Start](#-quick-start-30-seconds)
+4. [Who Should Use This?](#-who-should-use-this)
+5. [Why Not Just Array or Map?](#-why-not-just-array-or-map)
+6. [Key Features](#-key-features)
+7. [Data Structures](#-data-structures-available)
+8. [Documentation](#-documentation)
+
+---
+
+## 📦 Installation
+
+```bash
+npm i data-structure-typed
+```
+
+```bash
+yarn add data-structure-typed
+```
+
+```bash
+pnpm add data-structure-typed
+```
+
+### Individual Packages
+
+Use only what you need:
+
+```bash
+npm i heap-typed deque-typed red-black-tree-typed
+```
+
+---
+
+## 🎮 Playground
+
+Try it instantly:
+
+- [Node.js TypeScript](https://stackblitz.com/edit/stackblitz-starters-e1vdy3zw?file=src%2Findex.ts)
+- [Node.js JavaScript](https://stackblitz.com/edit/stackblitz-starters-oczhrfzn?file=src%2Findex.js)
+- [React TypeScript](https://stackblitz.com/edit/vitejs-vite-7bva1zhd?file=src%2FApp.tsx)
+- [NestJS](https://stackblitz.com/edit/nestjs-typescript-starter-q9n7okgc?file=src%2Fproduct%2Fservices%2Fproduct-price-index.service.ts)
 
 ---
 
@@ -142,30 +178,6 @@ const sorted = [...tree];              // Spread operator
 for (const item of tree) {
 }           // for...of loop
 const set = new Set(tree);             // Set constructor
-```
-
----
-
-## 📥 Installation
-
-```bash
-pnpm add data-structure-typed
-```
-
-```bash
-npm i data-structure-typed --save
-```
-
-```bash
-yarn add data-structure-typed
-```
-
-### Individual Packages
-
-Use only what you need:
-
-```bash
-pnpm add heap-typed deque-typed red-black-tree-typed
 ```
 
 ---
@@ -495,24 +507,6 @@ import { RedBlackTree, Deque, MaxPriorityQueue } from 'data-structure-typed';
 const tree = new RedBlackTree([5, 2, 8]);
 console.log([...tree]);  // [2, 5, 8] - Automatically sorted!
 ```
-
-## Playground
-
-🏃🏻‍♀️ Try it instantly:
-
-- [Node.js TypeScript](https://stackblitz.com/edit/stackblitz-starters-e1vdy3zw?file=src%2Findex.ts)
-- [Node.js JavaScript](https://stackblitz.com/edit/stackblitz-starters-oczhrfzn?file=src%2Findex.js)
-- [React TypeScript](https://stackblitz.com/edit/vitejs-vite-7bva1zhd?file=src%2FApp.tsx)
-- [NestJS](https://stackblitz.com/edit/nestjs-typescript-starter-q9n7okgc?file=src%2Fproduct%2Fservices%2Fproduct-price-index.service.ts)
-
-
-### Step 4: Learn More
-
-👉 Check [CONCEPTS.md](./docs/CONCEPTS.md) for core concepts  
-👉 See [GUIDES.md](./docs/GUIDES.md) for production examples  
-👉 Read [REFERENCE.md](./docs/REFERENCE.md) for complete API
-
----
 
 ## 📊 Comparison Chart
 
