@@ -30,3 +30,6 @@ docs/benchmark.html
 /benchmark/report.html
 /benchmark/report.*.json
 build/
+
+# Marketing materials (internal)
+docs/marketing/

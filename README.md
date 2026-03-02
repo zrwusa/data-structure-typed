@@ -4,6 +4,8 @@ English | [简体中文](./README_CN.md)
 
 A comprehensive TypeScript data structures library with production-ready implementations.
 
+**We TypeScript/JavaScript devs want something like C++'s `STL`, Java's `java.util` Collections, or Python's `collections` — but with an API that feels as intuitive and ergonomic as JavaScript's native `Array`.** If that's what you're looking for, you're in the right place. This is a zero-dependency library, and you can also install individual data structure packages separately if you prefer a more modular setup.
+
 ![npm](https://img.shields.io/npm/dm/data-structure-typed)
 ![GitHub contributors](https://img.shields.io/github/contributors/zrwusa/data-structure-typed)
 ![GITHUB Star](https://img.shields.io/github/stars/zrwusa/data-structure-typed)

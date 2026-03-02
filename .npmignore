@@ -38,3 +38,6 @@ tsup.umd.config.js
 # C++ benchmark files
 CMakeLists.txt
 *.cpp
+
+# Marketing materials
+docs/marketing/
