@@ -47,7 +47,10 @@ directories=(
     "queue-typed"
     "red-black-tree-typed"
     "stack-typed"
+    "tree-map-typed"
+    "tree-set-typed"
     "tree-multimap-typed"
+    "tree-multiset-typed"
     "trie-typed"
     "undirected-graph-typed"
 )
