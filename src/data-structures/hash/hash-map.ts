@@ -197,7 +197,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
     return this._objMap;
   }
 
-  protected _toEntryFn?: (rawElement: R) => [K, V];
+  protected readonly _toEntryFn?: (rawElement: R) => [K, V];
 
   /**
    * Get the raw→entry converter function if present.
@@ -530,7 +530,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     return this._tail;
   }
 
-  protected _toEntryFn?: (rawElement: R) => [K, V] = (rawElement: R) => {
+  protected readonly _toEntryFn?: (rawElement: R) => [K, V] = (rawElement: R) => {
     if (this.isEntry(rawElement)) {
       return rawElement;
     }
@@ -538,6 +538,7 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
       'If `entryOrRawElements` does not adhere to [key,value], provide `options.toEntryFn` to transform raw records.'
     );
   };
+
   get toEntryFn() {
     return this._toEntryFn;
   }

@@ -377,7 +377,7 @@ export class BinaryTree<K = any, V = any, R = any>
     if (keysNodesEntriesOrRaws) this.setMany(keysNodesEntriesOrRaws);
   }
 
-  protected _isMapMode = true;
+  protected readonly _isMapMode: boolean = true;
 
   /**
    * Gets whether the tree is in Map mode.
@@ -389,7 +389,7 @@ export class BinaryTree<K = any, V = any, R = any>
     return this._isMapMode;
   }
 
-  protected _isDuplicate = false;
+  protected readonly _isDuplicate: boolean = false;
 
   /**
    * Gets whether the tree allows duplicate keys.
@@ -440,7 +440,7 @@ export class BinaryTree<K = any, V = any, R = any>
     return this._size;
   }
 
-  protected _NIL: BinaryTreeNode<K, V> = new BinaryTreeNode<K, V>(NaN as K) as unknown as BinaryTreeNode<K, V>;
+  protected readonly _NIL: BinaryTreeNode<K, V> = new BinaryTreeNode<K, V>(NaN as K) as unknown as BinaryTreeNode<K, V>;
 
   /**
    * Gets the sentinel NIL node (used in self-balancing trees like Red-Black Tree).
@@ -452,7 +452,7 @@ export class BinaryTree<K = any, V = any, R = any>
     return this._NIL;
   }
 
-  protected _toEntryFn?: ToEntryFn<K, V, R>;
+  protected readonly _toEntryFn?: ToEntryFn<K, V, R>;
 
   /**
    * Gets the function used to convert raw data objects (R) into [key, value] entries.
@@ -2136,7 +2136,8 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param node - The node.
    * @returns The node's key or undefined.
    */
-  protected _DEFAULT_NODE_CALLBACK = (node: BinaryTreeNode<K, V> | null | undefined) => (node ? node.key : undefined);
+  protected readonly _DEFAULT_NODE_CALLBACK: NodeCallback<BinaryTreeNode<K, V> | null | undefined, K | undefined> = 
+    (node): K | undefined => node?.key;
 
   /**
    * (Protected) Snapshots the current tree's configuration options.
