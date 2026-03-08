@@ -639,7 +639,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
     return out;
   }
 
-  protected _DEFAULT_COMPARATOR = (a: E, b: E): number => {
+  protected readonly _DEFAULT_COMPARATOR: Comparator<E> = (a: E, b: E): number => {
     if (typeof a === 'object' || typeof b === 'object') {
       throw TypeError('When comparing object types, define a custom comparator in options.');
     }
@@ -648,11 +648,8 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
     return 0;
   };
 
-  protected _comparator: Comparator<E> = this._DEFAULT_COMPARATOR; /**
-   * Get the comparator used to order elements.
-   * @remarks Time O(1), Space O(1)
-   * @returns Comparator function.
-   */
+  protected readonly _comparator: Comparator<E> = this._DEFAULT_COMPARATOR;
+
   /**
    * Get the comparator used to order elements.
    * @remarks Time O(1), Space O(1)
@@ -813,7 +810,8 @@ export class FibonacciHeap<E> {
     return this._min;
   }
 
-  protected _comparator: Comparator<E>;
+  protected readonly _comparator: Comparator<E>;
+
   get comparator(): Comparator<E> {
     return this._comparator;
   }

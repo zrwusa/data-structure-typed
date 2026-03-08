@@ -391,7 +391,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
 
    * @remarks Time O(1) Space O(1)
    */
-  protected _comparator: Comparator<K>;
+  protected readonly _comparator: Comparator<K>;
 
   /**
    * Gets the comparator function used by the tree.

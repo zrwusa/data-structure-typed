@@ -35,7 +35,7 @@ export abstract class IterableElementBase<E, R> implements Iterable<E> {
    * @remarks
    * Time O(1), Space O(1).
    */
-  protected _toElementFn?: (rawElement: R) => E;
+  protected readonly _toElementFn?: (rawElement: R) => E;
 
   /**
    * Exposes the current `toElementFn`, if configured.
