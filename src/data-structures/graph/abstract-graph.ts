@@ -987,8 +987,9 @@ export abstract class AbstractGraph<
     const Ctor = this.constructor as new () => this;
     const instance = new Ctor();
     const graph = (_options as { graph?: GraphOptions<V> })?.graph;
-    if (graph) (instance as unknown as { _options: GraphOptions<V> })._options = { ...instance['_options'], ...graph };
-    else (instance as unknown as { _options: GraphOptions<V> })._options = { ...instance['_options'], ...this._options };
+    // Use bracket notation for protected field access on dynamically created instance
+    if (graph) instance['_options'] = { ...instance['_options'], ...graph };
+    else instance['_options'] = { ...instance['_options'], ...this._options };
     return instance;
   }
 
@@ -1009,28 +1010,27 @@ export abstract class AbstractGraph<
     // 1) Add vertices
     if (iter) {
       for (const [k, v] of iter) {
-        (g as any).addVertex(k as VertexKey, v as V | undefined);
+        g.addVertex(k as VertexKey, v as V | undefined);
       }
     } else {
       for (const [k, v] of this) {
-        (g as any).addVertex(k as VertexKey, v as V | undefined);
+        g.addVertex(k as VertexKey, v as V | undefined);
       }
     }
     // 2) Add edges whose endpoints exist in the new graph
     const edges = this.edgeSet();
-    for (const e of edges as any[]) {
-      const ends = this.getEndsOfEdge(e as any) as unknown as [any, any] | undefined;
+    for (const e of edges) {
+      const ends = this.getEndsOfEdge(e);
       if (!ends) continue;
       const [va, vb] = ends;
-      const ka = (va as any).key as VertexKey;
-      const kb = (vb as any).key as VertexKey;
-      const hasA = (g as any).hasVertex ? (g as any).hasVertex(ka) : false;
-      const hasB = (g as any).hasVertex ? (g as any).hasVertex(kb) : false;
+      const ka = va.key;
+      const kb = vb.key;
+      // Defensive check for edge cases where hasVertex may be overridden/undefined
+      const hasA = typeof g.hasVertex === 'function' ? g.hasVertex(ka) : false;
+      const hasB = typeof g.hasVertex === 'function' ? g.hasVertex(kb) : false;
       if (hasA && hasB) {
-        const w = (e as any).weight;
-        const val = (e as any).value;
-        const newEdge = (g as any).createEdge(ka, kb, w, val);
-        (g as any)._addEdge(newEdge);
+        const newEdge = g.createEdge(ka, kb, e.weight, e.value);
+        (g as this & { _addEdge(edge: EO): boolean })._addEdge(newEdge);
       }
     }
     return g;

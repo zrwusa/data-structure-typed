@@ -229,7 +229,7 @@ export abstract class IterableElementBase<E, R> implements Iterable<E> {
       index = 1;
     }
 
-    for (const value of iter as unknown as Iterable<E>) {
+    for (const value of iter) {
       acc = callbackfn(acc, value, index++, this);
     }
     return acc;

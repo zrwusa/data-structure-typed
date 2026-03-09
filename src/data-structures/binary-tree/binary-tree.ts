@@ -1014,7 +1014,7 @@ export class BinaryTree<K = any, V = any, R = any>
   ): BinaryTreeNode<K, V> | null | undefined {
     if (this._isMapMode && keyNodeEntryOrPredicate !== null && keyNodeEntryOrPredicate !== undefined) {
       if (!this._isPredicate(keyNodeEntryOrPredicate)) {
-        const key = this._extractKey(keyNodeEntryOrPredicate as any);
+        const key = this._extractKey(keyNodeEntryOrPredicate);
         if (key === null || key === undefined) return;
         return this._store.get(key);
       }
@@ -1078,7 +1078,7 @@ export class BinaryTree<K = any, V = any, R = any>
   ): boolean {
     if (this._isMapMode && keyNodeEntryOrPredicate !== undefined && keyNodeEntryOrPredicate !== null) {
       if (!this._isPredicate(keyNodeEntryOrPredicate)) {
-        const key = this._extractKey(keyNodeEntryOrPredicate as any);
+        const key = this._extractKey(keyNodeEntryOrPredicate);
         if (key === null || key === undefined) return false;
         return this._store.has(key);
       }
@@ -2136,7 +2136,7 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param node - The node.
    * @returns The node's key or undefined.
    */
-  protected readonly _DEFAULT_NODE_CALLBACK: NodeCallback<BinaryTreeNode<K, V> | null | undefined, K | undefined> = 
+  protected readonly _DEFAULT_NODE_CALLBACK: NodeCallback<BinaryTreeNode<K, V> | null | undefined, K | undefined> =
     (node): K | undefined => node?.key;
 
   /**

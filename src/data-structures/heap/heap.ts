@@ -643,8 +643,8 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
     if (typeof a === 'object' || typeof b === 'object') {
       throw TypeError('When comparing object types, define a custom comparator in options.');
     }
-    if ((a as unknown as number) > (b as unknown as number)) return 1;
-    if ((a as unknown as number) < (b as unknown as number)) return -1;
+    if (a > b) return 1;
+    if (a < b) return -1;
     return 0;
   };
 

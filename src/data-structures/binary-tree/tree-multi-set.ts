@@ -486,7 +486,7 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
     callback?: C
   ): (C extends undefined ? K : ReturnType<C>)[] {
     const cb = callback ?? ((k: K) => k);
-    return this.#core.rangeSearch(range, node => cb(node.key)) as any;
+    return this.#core.rangeSearch(range, node => cb(node.key));
   }
 
   /**

@@ -713,8 +713,9 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
       const cur = node;
       node = node.next;
       if (predicate(cur.key as K, cur.value as V | undefined, i++, this)) {
-        if (isWeakKey(cur.key as unknown as object)) {
-          this._objMap.delete(cur.key as unknown as object);
+        const keyToCheck: unknown = cur.key;
+        if (isWeakKey(keyToCheck)) {
+          this._objMap.delete(keyToCheck);
         } else {
           const hash = this._hashFn(cur.key as K);
           delete this._noObjMap[hash];
