@@ -423,8 +423,8 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
   at(index: number): E | undefined {
     if (index < 0 || index >= this._length) return undefined;
     let current = this.head;
-    for (let i = 0; i < index; i++) current = current!.next;
-    return current!.value;
+    for (let i = 0; i < index && current; i++) current = current.next;
+    return current?.value;
   }
 
   /**
@@ -437,7 +437,7 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
   getNodeAt(index: number): DoublyLinkedListNode<E> | undefined {
     if (index < 0 || index >= this._length) return undefined;
     let current = this.head;
-    for (let i = 0; i < index; i++) current = current!.next;
+    for (let i = 0; i < index && current; i++) current = current.next;
     return current;
   }
 

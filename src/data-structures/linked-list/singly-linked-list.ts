@@ -381,8 +381,8 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
       return value;
     }
     let current = this.head;
-    while (current.next !== this.tail) current = current.next!;
-    const value = this.tail!.value;
+    while (current.next && current.next !== this.tail) current = current.next;
+    const value = this.tail?.value;
     current.next = undefined;
     this._tail = current;
     this._length--;
@@ -484,8 +484,8 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
   at(index: number): E | undefined {
     if (index < 0 || index >= this._length) return undefined;
     let current = this.head;
-    for (let i = 0; i < index; i++) current = current!.next;
-    return current!.value;
+    for (let i = 0; i < index && current; i++) current = current.next;
+    return current?.value;
   }
 
   /**
@@ -511,7 +511,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
   getNodeAt(index: number): SinglyLinkedListNode<E> | undefined {
     if (index < 0 || index >= this._length) return undefined;
     let current = this.head;
-    for (let i = 0; i < index; i++) current = current!.next;
+    for (let i = 0; i < index && current; i++) current = current.next;
     return current;
   }
 
