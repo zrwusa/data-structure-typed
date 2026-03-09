@@ -247,7 +247,7 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * @remarks Time O(1), Space O(1)
    */
   get comparator(): Comparator<K> {
-    return (this.#core as any)._comparator;
+    return this.#core.comparator;
   }
 
   // ━━━ clear ━━━
@@ -398,7 +398,7 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
   filter(predicate: (key: K, count: number) => boolean): TreeMultiSet<K> {
     const result = new TreeMultiSet<K>([], {
       comparator: this.#isDefaultComparator ? undefined : this.comparator,
-      isMapMode: (this.#core as any)._isMapMode
+      isMapMode: this.#core.isMapMode
     });
     for (const [k, c] of this.entries()) {
       if (predicate(k, c)) {
@@ -443,7 +443,7 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
   ): TreeMultiSet<K2> {
     const result = new TreeMultiSet<K2>([], {
       comparator: options?.comparator,
-      isMapMode: (this.#core as any)._isMapMode
+      isMapMode: this.#core.isMapMode
     });
     for (const [k, c] of this.entries()) {
       const [newKey, newCount] = mapper(k, c);
@@ -464,7 +464,7 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
   clone(): TreeMultiSet<K> {
     const result = new TreeMultiSet<K>([], {
       comparator: this.#isDefaultComparator ? undefined : this.comparator,
-      isMapMode: (this.#core as any)._isMapMode
+      isMapMode: this.#core.isMapMode
     });
     for (const [k, c] of this.entries()) {
       result.add(k, c);

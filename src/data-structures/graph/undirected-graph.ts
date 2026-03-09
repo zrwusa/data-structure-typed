@@ -232,8 +232,8 @@ export class UndirectedGraph<
    */
   static fromKeys<K extends VertexKey>(
     keys: Iterable<K>
-  ): UndirectedGraph<K, any, UndirectedVertex<K>, UndirectedEdge<any>> {
-    const g: UndirectedGraph<K, any, UndirectedVertex<K>, UndirectedEdge<any>> = new UndirectedGraph<K, any>({
+  ): UndirectedGraph<K, undefined, UndirectedVertex<K>, UndirectedEdge<undefined>> {
+    const g: UndirectedGraph<K, undefined, UndirectedVertex<K>, UndirectedEdge<undefined>> = new UndirectedGraph<K, undefined>({
       vertexValueInitializer: (k: VertexKey) => k as K
     });
     for (const k of keys) g.addVertex(k);
@@ -249,8 +249,8 @@ export class UndirectedGraph<
    */
   static fromEntries<V>(
     entries: Iterable<[VertexKey, V]>
-  ): UndirectedGraph<V, any, UndirectedVertex<V>, UndirectedEdge<any>> {
-    const g: UndirectedGraph<V, any, UndirectedVertex<V>, UndirectedEdge<any>> = new UndirectedGraph<V, any>();
+  ): UndirectedGraph<V, undefined, UndirectedVertex<V>, UndirectedEdge<undefined>> {
+    const g: UndirectedGraph<V, undefined, UndirectedVertex<V>, UndirectedEdge<undefined>> = new UndirectedGraph<V, undefined>();
     for (const [k, v] of entries) g.addVertex(k, v);
     return g;
   }

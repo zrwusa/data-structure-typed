@@ -1,3 +1,3 @@
 import { IterableElementBaseOptions } from '../base';
 
-export type StackOptions<E, R> = IterableElementBaseOptions<E, R> & {};
+export type StackOptions<E, R> = IterableElementBaseOptions<E, R>;

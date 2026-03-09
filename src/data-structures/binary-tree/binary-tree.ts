@@ -440,7 +440,7 @@ export class BinaryTree<K = any, V = any, R = any>
     return this._size;
   }
 
-  protected readonly _NIL: BinaryTreeNode<K, V> = new BinaryTreeNode<K, V>(NaN as K) as unknown as BinaryTreeNode<K, V>;
+  protected readonly _NIL = new BinaryTreeNode<K, V>(NaN as K);
 
   /**
    * Gets the sentinel NIL node (used in self-balancing trees like Red-Black Tree).

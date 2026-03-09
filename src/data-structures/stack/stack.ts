@@ -161,7 +161,7 @@ import { IterableElementBase } from '../base';
  *     console.log(stack.elements.join('/')); // 'c';
  */
 export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
-  protected _equals: (a: E, b: E) => boolean = Object.is as unknown as (a: E, b: E) => boolean;
+  protected _equals: (a: E, b: E) => boolean = (a, b) => Object.is(a, b);
 
   /**
    * Create a Stack and optionally bulk-push elements.

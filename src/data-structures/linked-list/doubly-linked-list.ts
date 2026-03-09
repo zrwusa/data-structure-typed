@@ -182,7 +182,7 @@ export class DoublyLinkedListNode<E = any> extends LinkedListNode<E> {
  *     console.log(foundEntry?.value); // 'Bob';
  */
 export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, DoublyLinkedListNode<E>> {
-  protected _equals: (a: E, b: E) => boolean = Object.is as unknown as (a: E, b: E) => boolean;
+  protected _equals: (a: E, b: E) => boolean = (a, b) => Object.is(a, b);
 
   /**
    * Create a DoublyLinkedList and optionally bulk-insert elements.

@@ -684,13 +684,15 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    */
 
   protected _createInstance(options?: TrieOptions<R>): this {
-    const Ctor: any = this.constructor;
-    const next: any = new Ctor([], {
+    const Ctor = this.constructor as new (
+      elements?: Iterable<string> | Iterable<R>,
+      options?: TrieOptions<R>
+    ) => this;
+    return new Ctor([], {
       toElementFn: this.toElementFn,
       caseSensitive: this.caseSensitive,
       ...(options ?? {})
     });
-    return next as this;
   }
 
   /**
@@ -703,8 +705,11 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    */
 
   protected _createLike<RM>(elements: Iterable<string> | Iterable<RM> = [], options?: TrieOptions<RM>): Trie<RM> {
-    const Ctor: any = this.constructor;
-    return new Ctor(elements, options) as Trie<RM>;
+    const Ctor = this.constructor as new (
+      elements?: Iterable<string> | Iterable<RM>,
+      options?: TrieOptions<RM>
+    ) => Trie<RM>;
+    return new Ctor(elements, options);
   }
 
   /**

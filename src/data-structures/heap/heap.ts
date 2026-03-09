@@ -703,9 +703,11 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    */
 
   protected _createInstance(options?: HeapOptions<E, R>): this {
-    const Ctor: any = this.constructor;
-    const next: any = new Ctor([], { comparator: this.comparator, toElementFn: this.toElementFn, ...(options ?? {}) });
-    return next as this;
+    const Ctor = this.constructor as new (
+      elements?: Iterable<E> | Iterable<R>,
+      options?: HeapOptions<E, R>
+    ) => this;
+    return new Ctor([], { comparator: this.comparator, toElementFn: this.toElementFn, ...(options ?? {}) });
   }
 
   /**
@@ -722,8 +724,11 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
     elements: Iterable<EM> | Iterable<RM> = [],
     options?: HeapOptions<EM, RM>
   ): Heap<EM, RM> {
-    const Ctor: any = this.constructor;
-    return new Ctor(elements, options) as Heap<EM, RM>;
+    const Ctor = this.constructor as new (
+      elements?: Iterable<EM> | Iterable<RM>,
+      options?: HeapOptions<EM, RM>
+    ) => Heap<EM, RM>;
+    return new Ctor(elements, options);
   }
 
   /**

@@ -246,7 +246,7 @@ export class SinglyLinkedListNode<E = any> extends LinkedListNode<E> {
  *     console.log(editor.getText()); // 'Haello';
  */
 export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, SinglyLinkedListNode<E>> {
-  protected _equals: (a: E, b: E) => boolean = Object.is as unknown as (a: E, b: E) => boolean;
+  protected _equals: (a: E, b: E) => boolean = (a, b) => Object.is(a, b);
 
   /**
    * Create a SinglyLinkedList and optionally bulk-insert elements.
@@ -1003,7 +1003,10 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    */
 
   protected _createInstance(options?: SinglyLinkedListOptions<E, R>): this {
-    const Ctor: any = this.constructor;
+    const Ctor = this.constructor as new (
+      elements?: Iterable<E> | Iterable<R> | Iterable<SinglyLinkedListNode<E>>,
+      options?: SinglyLinkedListOptions<E, R>
+    ) => this;
     return new Ctor([], options);
   }
 
@@ -1021,8 +1024,11 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
     elements: Iterable<EM> | Iterable<RM> | Iterable<SinglyLinkedListNode<EM>> = [],
     options?: SinglyLinkedListOptions<EM, RM>
   ): SinglyLinkedList<EM, RM> {
-    const Ctor: any = this.constructor;
-    return new Ctor(elements, options) as SinglyLinkedList<EM, RM>;
+    const Ctor = this.constructor as new (
+      elements?: Iterable<EM> | Iterable<RM> | Iterable<SinglyLinkedListNode<EM>>,
+      options?: SinglyLinkedListOptions<EM, RM>
+    ) => SinglyLinkedList<EM, RM>;
+    return new Ctor(elements, options);
   }
 
   /**

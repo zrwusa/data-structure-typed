@@ -65,7 +65,7 @@ export abstract class AbstractGraph<
    */
   constructor(options?: Partial<Record<string, unknown>>) {
     super();
-    const graph = (options as any)?.graph as GraphOptions<V> | undefined;
+    const graph = (options as { graph?: GraphOptions<V> })?.graph;
     this._options = { defaultEdgeWeight: 1, ...(graph ?? {}) };
   }
 
@@ -984,11 +984,11 @@ export abstract class AbstractGraph<
    * @remarks Time O(1), Space O(1)
    */
   protected _createInstance(_options?: Partial<Record<string, unknown>>): this {
-    const Ctor: any = (this as any).constructor;
-    const instance: this = new Ctor();
-    const graph = (_options as any)?.graph as GraphOptions<V> | undefined;
-    if (graph) (instance as any)._options = { ...(instance as any)._options, ...graph };
-    else (instance as any)._options = { ...(instance as any)._options, ...(this as any)._options };
+    const Ctor = this.constructor as new () => this;
+    const instance = new Ctor();
+    const graph = (_options as { graph?: GraphOptions<V> })?.graph;
+    if (graph) (instance as unknown as { _options: GraphOptions<V> })._options = { ...instance['_options'], ...graph };
+    else (instance as unknown as { _options: GraphOptions<V> })._options = { ...instance['_options'], ...this._options };
     return instance;
   }
 

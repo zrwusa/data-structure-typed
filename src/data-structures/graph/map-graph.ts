@@ -111,7 +111,7 @@ export class MapGraph<
    * @remarks Time O(1), Space O(1)
    */
   protected override _snapshotOptions(): Record<string, unknown> {
-    return { ...(super._snapshotOptions() as any), originCoord: this.originCoord, bottomRight: this.bottomRight };
+    return { ...super._snapshotOptions(), originCoord: this.originCoord, bottomRight: this.bottomRight };
   }
 
   /**

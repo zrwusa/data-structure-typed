@@ -207,8 +207,8 @@ export class DirectedGraph<
    * @returns DirectedGraph with all keys added.
    * @remarks Time O(V), Space O(V)
    */
-  static fromKeys<K extends VertexKey>(keys: Iterable<K>): DirectedGraph<K, any, DirectedVertex<K>, DirectedEdge<any>> {
-    const g: DirectedGraph<K, any, DirectedVertex<K>, DirectedEdge<any>> = new DirectedGraph<K, any>({
+  static fromKeys<K extends VertexKey>(keys: Iterable<K>): DirectedGraph<K, undefined, DirectedVertex<K>, DirectedEdge<undefined>> {
+    const g: DirectedGraph<K, undefined, DirectedVertex<K>, DirectedEdge<undefined>> = new DirectedGraph<K, undefined>({
       vertexValueInitializer: (k: VertexKey) => k as K
     });
     for (const k of keys) g.addVertex(k);
@@ -224,8 +224,8 @@ export class DirectedGraph<
    */
   static fromEntries<V>(
     entries: Iterable<[VertexKey, V]>
-  ): DirectedGraph<V, any, DirectedVertex<V>, DirectedEdge<any>> {
-    const g: DirectedGraph<V, any, DirectedVertex<V>, DirectedEdge<any>> = new DirectedGraph<V, any>();
+  ): DirectedGraph<V, undefined, DirectedVertex<V>, DirectedEdge<undefined>> {
+    const g: DirectedGraph<V, undefined, DirectedVertex<V>, DirectedEdge<undefined>> = new DirectedGraph<V, undefined>();
     for (const [k, v] of entries) g.addVertex(k, v);
     return g;
   }

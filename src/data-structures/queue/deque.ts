@@ -144,7 +144,7 @@ import { LinearBase } from '../base/linear-base';
  *     console.log(dataWindow.length); // 3;
  */
 export class Deque<E = any, R = any> extends LinearBase<E, R> {
-  protected _equals: (a: E, b: E) => boolean = Object.is as unknown as (a: E, b: E) => boolean;
+  protected _equals: (a: E, b: E) => boolean = (a, b) => Object.is(a, b);
 
   /**
    * Create a Deque and optionally bulk-insert elements.
