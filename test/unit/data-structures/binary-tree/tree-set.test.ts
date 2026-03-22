@@ -185,6 +185,42 @@ describe('TreeSet (RedBlackTree-backed, no node exposure)', () => {
     spy.mockRestore();
   });
 
+  test('map/filter/reduce with TreeSet objects stays expressive', () => {
+    const users = new TreeSet([
+      { id: 1, name: 'Alice', age: 24 },
+      { id: 2, name: 'Bob', age: 31 },
+      { id: 3, name: 'Charlie', age: 29 },
+      { id: 4, name: 'David', age: 22 },
+    ], {
+      comparator: (a, b) => a.age - b.age
+    });
+
+    expect(users.toArray()).toEqual([
+      { id: 4, name: 'David', age: 22 },
+      { id: 1, name: 'Alice', age: 24 },
+      { id: 3, name: 'Charlie', age: 29 },
+      { id: 2, name: 'Bob', age: 31 },
+    ]);
+
+    const filtered = users.filter(user => user.age > 26);
+    expect(filtered.toArray()).toEqual([
+      { id: 3, name: 'Charlie', age: 29 },
+      { id: 2, name: 'Bob', age: 31 },
+    ]);
+
+    const mapped = filtered.map(user => ({
+      ...user,
+      senior: user.age >= 30
+    }), { comparator: (a, b) => a.age - b.age });
+    expect(mapped.toArray()).toEqual([
+      { id: 3, name: 'Charlie', age: 29, senior: false },
+      { id: 2, name: 'Bob', age: 31, senior: true },
+    ]);
+
+    const totalAge = mapped.reduce((sum, user) => sum + user.age, 0);
+    expect(totalAge).toBe(60);
+  });
+
   test('toElementFn: construct from raw objects', () => {
     interface User {
       id: number;
