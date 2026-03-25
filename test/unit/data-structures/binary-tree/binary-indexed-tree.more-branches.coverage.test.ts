@@ -8,11 +8,11 @@ describe('BinaryIndexedTree remaining branch coverage', () => {
 
   it('read() throws when count is not an integer', () => {
     const bit = new BinaryIndexedTree({ max: 10 });
-    expect(() => bit.read(1.5)).toThrow('count must be an integer');
+    expect(() => bit.read(1.5)).toThrow('Invalid count');
   });
 
   it('index validation throws when index is not an integer', () => {
     const bit = new BinaryIndexedTree({ max: 10 });
-    expect(() => bit.readSingle(1.2 as any)).toThrow('index must be an integer');
+    expect(() => bit.readSingle(1.2 as any)).toThrow('Invalid index');
   });
 });

@@ -78,9 +78,7 @@ export const getMSB = (value: number): number => {
  * calling the `rangeCheck` function, the message "Index out of bounds." will be used.
  */
 export const rangeCheck = (index: number, min: number, max: number, message = 'Index out of bounds.'): void => {
-  if (index < min || index > max) {
-    throw new RangeError(`${message} Index ${index} is out of range [${min}, ${max}].`);
-  }
+  if (index < min || index > max) throw new RangeError(message);
 };
 
 /**
