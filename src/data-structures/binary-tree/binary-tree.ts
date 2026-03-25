@@ -670,7 +670,7 @@ export class BinaryTree<K = any, V = any, R = any>
     if (!this._root) {
       this._setRoot(newNode);
       if (this._isMapMode && newNode !== null && newNode !== undefined) this._store.set(newNode.key, newNode);
-      this._size = 1;
+      if (newNode !== null) this._size = 1;
       return true;
     }
 
@@ -708,7 +708,7 @@ export class BinaryTree<K = any, V = any, R = any>
         potentialParent.right = newNode;
       }
       if (this._isMapMode && newNode !== null && newNode !== undefined) this._store.set(newNode.key, newNode);
-      this._size++;
+      if (newNode !== null) this._size++;
       return true;
     }
 

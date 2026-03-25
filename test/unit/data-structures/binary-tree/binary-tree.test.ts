@@ -177,7 +177,7 @@ describe('BinaryTree', () => {
     if (node1) {
       const result = binTree.delete(node1);
       expect(result).toHaveLength(1);
-      expect(binTree.size).toBe(4);
+      expect(binTree.size).toBe(3); // null nodes don't count toward size (#70)
       expect(binTree.getMinHeight(binTree.root, 'RECURSIVE')).toBe(1);
     }
   });
@@ -246,10 +246,9 @@ describe('BinaryTree', () => {
     // cloned.delete(null);
     // cloned.delete(null);
     // cloned.delete(null);
-    expect(binTree.size).toBe(10);
-    expect(cloned.size).toBe(3);
-    // expect(cloned.size).toBe(0);
-    // expect(cloned.isEmpty()).toBe(true);
+    expect(binTree.size).toBe(7); // null nodes don't count toward size (#70)
+    expect(cloned.size).toBe(0); // all real nodes deleted, nulls don't count
+    expect(cloned.isEmpty()).toBe(true);
   });
 
   it('isPerfectlyBalanced(): toggles with pointer tampering and skewed levels', () => {
