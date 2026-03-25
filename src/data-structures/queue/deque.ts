@@ -154,6 +154,8 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @returns New Deque instance.
    */
 
+  constructor(elements?: IterableWithSizeOrLength<E>, options?: DequeOptions<E, R>);
+  constructor(elements: IterableWithSizeOrLength<R>, options: DequeOptions<E, R> & { toElementFn: (rawElement: R) => E });
   constructor(elements: IterableWithSizeOrLength<E> | IterableWithSizeOrLength<R> = [], options?: DequeOptions<E, R>) {
     super(options);
 

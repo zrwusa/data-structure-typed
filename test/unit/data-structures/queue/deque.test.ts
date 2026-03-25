@@ -934,3 +934,43 @@ describe('classic uses', () => {
     expect(dataWindow.length).toBe(3); // Final window contains last 3 elements
   });
 });
+
+describe('Deque type inference (#97)', () => {
+  it('should infer element type from toElementFn return type', () => {
+    const objArr: Array<{ key: number }> = [{ key: 1 }, { key: 6 }, { key: 7 }, { key: 3 }];
+    const deque = new Deque(objArr, { toElementFn: (item) => item.key });
+
+    expect(deque.first).toBe(1);
+    expect(deque.last).toBe(3);
+    expect(deque.length).toBe(4);
+    expect([...deque]).toEqual([1, 6, 7, 3]);
+
+    // Verify it behaves as Deque<number>
+    deque.push(99);
+    expect(deque.last).toBe(99);
+  });
+
+  it('should infer element type from direct array', () => {
+    const deque = new Deque([10, 20, 30]);
+    expect(deque.first).toBe(10);
+    expect(deque.length).toBe(3);
+  });
+
+  it('should infer string element type', () => {
+    const deque = new Deque(['a', 'b', 'c']);
+    expect(deque.first).toBe('a');
+  });
+
+  it('should work with complex toElementFn', () => {
+    const data = [
+      { name: 'Alice', score: 95 },
+      { name: 'Bob', score: 87 },
+      { name: 'Carol', score: 92 }
+    ];
+    const deque = new Deque(data, { toElementFn: (item) => item.name });
+
+    expect(deque.first).toBe('Alice');
+    expect(deque.last).toBe('Carol');
+    expect([...deque]).toEqual(['Alice', 'Bob', 'Carol']);
+  });
+});
