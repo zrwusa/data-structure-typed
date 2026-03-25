@@ -918,6 +918,25 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * @param [thisArg] - See parameter type for details.
    * @returns A new RedBlackTree with mapped entries.
    */
+  /**
+   * Red-Black trees are self-balancing — `perfectlyBalance` rebuilds via
+   * sorted bulk insert, which naturally produces a balanced RBT.
+   * @remarks Time O(N), Space O(N)
+   */
+  override perfectlyBalance(iterationType?: IterationType): boolean {
+    // Extract sorted entries, clear, re-insert — RBT self-balances on insert
+    const entries: [K, V | undefined][] = [];
+    for (const [key, value] of this) entries.push([key, value]);
+    if (entries.length <= 1) return true;
+    this.clear();
+    this.setMany(
+      entries.map(([k]) => k),
+      entries.map(([, v]) => v),
+      true // isBalanceAdd
+    );
+    return true;
+  }
+
   override map<MK = K, MV = V, MR = any>(
     callback: EntryCallback<K, V | undefined, [MK, MV]>,
     options?: Partial<RedBlackTreeOptions<MK, MV, MR>>,

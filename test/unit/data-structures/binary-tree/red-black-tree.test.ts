@@ -934,3 +934,38 @@ describe('classic use', () => {
     expect(stocksInRange.some((s: any) => s.symbol === 'MSFT')).toBe(true);
   });
 });
+
+describe('RedBlackTree perfectlyBalance and clone (#79)', () => {
+  it('perfectlyBalance preserves all entries and maintains RBT invariants', () => {
+    const rbt = new RedBlackTree<number, string>();
+    // Insert in worst-case order (sorted)
+    for (let i = 1; i <= 20; i++) rbt.set([i, `v${i}`]);
+    expect(rbt.size).toBe(20);
+
+    rbt.perfectlyBalance();
+
+    expect(rbt.size).toBe(20);
+    expect(rbt.isBST()).toBe(true);
+    // All entries preserved
+    for (let i = 1; i <= 20; i++) {
+      expect(rbt.get(i)).toBe(`v${i}`);
+    }
+  });
+
+  it('clone produces identical key-value pairs', () => {
+    const rbt = new RedBlackTree<number, string>();
+    rbt.set([5, 'e']); rbt.set([3, 'c']); rbt.set([7, 'g']); rbt.set([1, 'a']); rbt.set([9, 'i']);
+
+    const cloned = rbt.clone();
+    expect(cloned.size).toBe(rbt.size);
+    expect([...cloned].map(([k]) => k).sort()).toEqual([...rbt].map(([k]) => k).sort());
+    for (const [key, value] of rbt) {
+      expect(cloned.get(key)).toBe(value);
+    }
+
+    // Mutating clone doesn't affect original
+    cloned.delete(5);
+    expect(cloned.size).toBe(4);
+    expect(rbt.size).toBe(5);
+  });
+});
