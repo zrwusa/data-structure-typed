@@ -654,8 +654,73 @@ describe('LinkedHashMap', () => {
       expect(hashMap.get('one')).toBeUndefined();
       expect(hashMap.size).toBe(1);
       hashMap.deleteAt(0);
-      // expect(hashMap.get('two')).toBe(undefined); // TODO #99
+      expect(hashMap.get('two')).toBeUndefined();
       expect(hashMap.size).toBe(0);
+    });
+
+    it('deleteAt should remove entry from both linked list and hash table', () => {
+      hashMap.set('a', 1);
+      hashMap.set('b', 2);
+      hashMap.set('c', 3);
+
+      // Delete middle element
+      hashMap.deleteAt(1);
+      expect(hashMap.get('b')).toBeUndefined();
+      expect(hashMap.size).toBe(2);
+      expect(hashMap.has('b')).toBe(false);
+      expect([...hashMap.keys()]).toEqual(['a', 'c']);
+
+      // Delete last element
+      hashMap.deleteAt(1);
+      expect(hashMap.get('c')).toBeUndefined();
+      expect(hashMap.size).toBe(1);
+      expect([...hashMap.keys()]).toEqual(['a']);
+
+      // Delete first (only remaining) element
+      hashMap.deleteAt(0);
+      expect(hashMap.get('a')).toBeUndefined();
+      expect(hashMap.size).toBe(0);
+      expect(hashMap.isEmpty()).toBe(true);
+    });
+
+    it('deleteAt should allow re-setting a key after deletion', () => {
+      hashMap.set('x', 10);
+      hashMap.set('y', 20);
+      hashMap.deleteAt(0); // remove 'x'
+      expect(hashMap.get('x')).toBeUndefined();
+
+      // Re-set the same key
+      hashMap.set('x', 99);
+      expect(hashMap.get('x')).toBe(99);
+      expect(hashMap.size).toBe(2);
+      expect([...hashMap.keys()]).toEqual(['y', 'x']);
+    });
+
+    it('deleteAt after delete should work correctly', () => {
+      hashMap.set('one', 1);
+      hashMap.set('two', 2);
+      hashMap.set('three', 3);
+
+      // delete by key first
+      hashMap.delete('two');
+      expect(hashMap.size).toBe(2);
+
+      // then deleteAt
+      hashMap.deleteAt(0); // removes 'one'
+      expect(hashMap.get('one')).toBeUndefined();
+      expect(hashMap.size).toBe(1);
+      expect([...hashMap.keys()]).toEqual(['three']);
+
+      hashMap.deleteAt(0); // removes 'three'
+      expect(hashMap.get('three')).toBeUndefined();
+      expect(hashMap.size).toBe(0);
+    });
+
+    it('deleteAt with out-of-range index should throw', () => {
+      hashMap.set('a', 1);
+      expect(() => hashMap.deleteAt(-1)).toThrow();
+      expect(() => hashMap.deleteAt(1)).toThrow();
+      expect(() => hashMap.deleteAt(100)).toThrow();
     });
 
     it('should clear the LinkedHashMap', () => {
