@@ -8,6 +8,7 @@
 
 import type { ElementCallback, TrieOptions } from '../../types';
 import { IterableElementBase } from '../base';
+import { ERR } from '../../common';
 
 /**
  * Node used by Trie to store one character and its children.
@@ -651,7 +652,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
     for (const x of this) {
       const v = thisArg === undefined ? callback(x, i++, this) : callback.call(thisArg, x, i++, this);
       if (typeof v !== 'string') {
-        throw new TypeError(`Trie.map callback must return string; got ${typeof v}`);
+        throw new TypeError(ERR.callbackReturnType('string', typeof v, 'Trie.map'));
       }
       newTrie.add(v);
     }

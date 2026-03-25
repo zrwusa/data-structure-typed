@@ -6,6 +6,7 @@
  */
 import type { HeapOptions } from '../../types';
 import { Heap } from './heap';
+import { ERR } from '../../common';
 
 /**
  * @template E
@@ -33,9 +34,7 @@ export class MaxHeap<E = any, R = any> extends Heap<E, R> {
     super(elements, {
       comparator: (a: E, b: E): number => {
         if (typeof a === 'object' || typeof b === 'object') {
-          throw TypeError(
-            `When comparing object types, a custom comparator must be defined in the constructor's options parameter.`
-          );
+          throw new TypeError(ERR.comparatorRequired('MaxHeap'));
         }
         if (a < b) return 1;
         if (a > b) return -1;

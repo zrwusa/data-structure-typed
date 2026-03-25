@@ -4,7 +4,7 @@ describe('Heap remaining branch coverage', () => {
   it('Heap.map with options undefined hits (options ?? {}) path and throws for missing comparator', () => {
     const h = new Heap<number>();
     h.add(1);
-    expect(() => (h as any).map((x: number) => x, undefined)).toThrow(/requires options\.comparator/i);
+    expect(() => (h as any).map((x: number) => x, undefined)).toThrow(/Comparator is required/i);
   });
 
   it('Heap.mapSame without thisArg hits thisArg===undefined branch', () => {

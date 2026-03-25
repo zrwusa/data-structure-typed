@@ -8,6 +8,7 @@
 
 import type { Comparator, DFSOrderPattern, ElementCallback, HeapOptions } from '../../types';
 import { IterableElementBase } from '../base';
+import { ERR } from '../../common';
 
 /**
  * Binary heap with pluggable comparator; supports fast insertion and removal of the top element.
@@ -611,7 +612,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
     thisArg?: unknown
   ): Heap<EM, RM> {
     const { comparator, toElementFn, ...rest } = options ?? {};
-    if (!comparator) throw new TypeError('Heap.map requires options.comparator for EM');
+    if (!comparator) throw new TypeError(ERR.comparatorRequired('Heap.map'));
     const out = this._createLike<EM, RM>([], { ...rest, comparator, toElementFn });
     let i = 0;
     for (const x of this) {
@@ -641,7 +642,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
 
   protected readonly _DEFAULT_COMPARATOR: Comparator<E> = (a: E, b: E): number => {
     if (typeof a === 'object' || typeof b === 'object') {
-      throw TypeError('When comparing object types, define a custom comparator in options.');
+      throw new TypeError(ERR.comparatorRequired('Heap'));
     }
     if (a > b) return 1;
     if (a < b) return -1;
@@ -783,7 +784,7 @@ export class FibonacciHeap<E> {
   constructor(comparator?: Comparator<E>) {
     this.clear();
     this._comparator = comparator || this._defaultComparator;
-    if (typeof this.comparator !== 'function') throw new Error('FibonacciHeap: comparator must be a function.');
+    if (typeof this.comparator !== 'function') throw new TypeError(ERR.notAFunction('comparator', 'FibonacciHeap'));
   }
 
   protected _root?: FibonacciHeapNode<E>;

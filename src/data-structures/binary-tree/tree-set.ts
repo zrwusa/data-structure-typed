@@ -9,6 +9,7 @@
 
 import type { Comparator } from '../../types';
 import type { TreeSetElementCallback, TreeSetOptions, TreeSetRangeOptions, TreeSetReduceCallback } from '../../types';
+import { ERR } from '../../common';
 import { RedBlackTree } from './red-black-tree';
 
 /**
@@ -66,7 +67,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
     return (a: K, b: K): number => {
       // numbers
       if (typeof a === 'number' && typeof b === 'number') {
-        if (Number.isNaN(a) || Number.isNaN(b)) throw new TypeError('TreeSet: NaN is not a valid key');
+        if (Number.isNaN(a) || Number.isNaN(b)) throw new TypeError(ERR.invalidNaN('TreeSet'));
         // treat -0 and 0 as equal
         const aa = Object.is(a, -0) ? 0 : a;
         const bb = Object.is(b, -0) ? 0 : b;
@@ -82,11 +83,11 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
       if (a instanceof Date && b instanceof Date) {
         const ta = a.getTime();
         const tb = b.getTime();
-        if (Number.isNaN(ta) || Number.isNaN(tb)) throw new TypeError('TreeSet: invalid Date key');
+        if (Number.isNaN(ta) || Number.isNaN(tb)) throw new TypeError(ERR.invalidDate('TreeSet'));
         return ta > tb ? 1 : ta < tb ? -1 : 0;
       }
 
-      throw new TypeError('TreeSet: comparator is required for non-number/non-string/non-Date keys');
+      throw new TypeError(ERR.comparatorRequired('TreeSet'));
     };
   }
 
@@ -108,19 +109,19 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
     if (!this.#isDefaultComparator) return;
 
     if (typeof key === 'number') {
-      if (Number.isNaN(key)) throw new TypeError('TreeSet: NaN is not a valid key');
+      if (Number.isNaN(key)) throw new TypeError(ERR.invalidNaN('TreeSet'));
       return;
     }
 
     if (typeof key === 'string') return;
 
     if (key instanceof Date) {
-      if (Number.isNaN(key.getTime())) throw new TypeError('TreeSet: invalid Date key');
+      if (Number.isNaN(key.getTime())) throw new TypeError(ERR.invalidDate('TreeSet'));
       return;
     }
 
     // Other key types should have provided a comparator, so reaching here means misuse.
-    throw new TypeError('TreeSet: comparator is required for non-number/non-string/non-Date keys');
+    throw new TypeError(ERR.comparatorRequired('TreeSet'));
   }
 
   /**

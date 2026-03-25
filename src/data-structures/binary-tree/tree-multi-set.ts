@@ -9,6 +9,7 @@
  */
 
 import type { Comparator, TreeMultiSetOptions } from '../../types';
+import { ERR } from '../../common';
 import { RedBlackTree } from './red-black-tree';
 import { TreeSet } from './tree-set';
 
@@ -50,18 +51,18 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
     if (!this.#isDefaultComparator) return;
 
     if (typeof key === 'number') {
-      if (Number.isNaN(key)) throw new TypeError('TreeMultiSet: NaN is not a valid key');
+      if (Number.isNaN(key)) throw new TypeError(ERR.invalidNaN('TreeMultiSet'));
       return;
     }
 
     if (typeof key === 'string') return;
 
     if (key instanceof Date) {
-      if (Number.isNaN(key.getTime())) throw new TypeError('TreeMultiSet: invalid Date key');
+      if (Number.isNaN(key.getTime())) throw new TypeError(ERR.invalidDate('TreeMultiSet'));
       return;
     }
 
-    throw new TypeError('TreeMultiSet: comparator is required for non-number/non-string/non-Date keys');
+    throw new TypeError(ERR.comparatorRequired('TreeMultiSet'));
   }
 
   /**
@@ -69,7 +70,7 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * @remarks Time O(1), Space O(1)
    */
   private _validateCount(n: number): void {
-    if (!Number.isSafeInteger(n) || n < 0) throw new RangeError('TreeMultiSet: count must be a safe integer >= 0');
+    if (!Number.isSafeInteger(n) || n < 0) throw new RangeError(ERR.invalidArgument('count must be a safe integer >= 0.', 'TreeMultiSet'));
   }
 
   /**

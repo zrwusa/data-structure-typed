@@ -7,6 +7,7 @@
  */
 import type { PriorityQueueOptions } from '../../types';
 import { PriorityQueue } from './priority-queue';
+import { ERR } from '../../common';
 
 /**
  * Max-oriented priority queue (max-heap) built on {@link PriorityQueue}.
@@ -28,9 +29,7 @@ export class MaxPriorityQueue<E = any, R = any> extends PriorityQueue<E, R> {
     super(elements, {
       comparator: (a: E, b: E): number => {
         if (typeof a === 'object' || typeof b === 'object') {
-          throw TypeError(
-            `When comparing object types, a custom comparator must be defined in the constructor's options parameter.`
-          );
+          throw new TypeError(ERR.comparatorRequired('MaxPriorityQueue'));
         }
         if (a < b) return 1;
         if (a > b) return -1;

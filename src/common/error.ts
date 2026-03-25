@@ -3,12 +3,14 @@
  * Keep using native Error/TypeError/RangeError — this only standardizes messages.
  */
 export const ERR = {
+  // Range / index
   indexOutOfRange: (index: number, min: number, max: number, ctx?: string) =>
     `${ctx ? ctx + ': ' : ''}Index ${index} is out of range [${min}, ${max}].`,
 
   invalidIndex: (ctx?: string) =>
     `${ctx ? ctx + ': ' : ''}Index must be an integer.`,
 
+  // Type / argument
   invalidArgument: (reason: string, ctx?: string) =>
     `${ctx ? ctx + ': ' : ''}${reason}`,
 
@@ -18,15 +20,41 @@ export const ERR = {
   invalidKey: (reason: string, ctx?: string) =>
     `${ctx ? ctx + ': ' : ''}${reason}`,
 
+  notAFunction: (name: string, ctx?: string) =>
+    `${ctx ? ctx + ': ' : ''}${name} must be a function.`,
+
+  invalidEntry: (ctx?: string) =>
+    `${ctx ? ctx + ': ' : ''}Each entry must be a [key, value] tuple.`,
+
+  invalidNaN: (ctx?: string) =>
+    `${ctx ? ctx + ': ' : ''}NaN is not a valid key.`,
+
+  invalidDate: (ctx?: string) =>
+    `${ctx ? ctx + ': ' : ''}Invalid Date key.`,
+
+  reduceEmpty: (ctx?: string) =>
+    `${ctx ? ctx + ': ' : ''}Reduce of empty structure with no initial value.`,
+
+  callbackReturnType: (expected: string, got: string, ctx?: string) =>
+    `${ctx ? ctx + ': ' : ''}Callback must return ${expected}; got ${got}.`,
+
+  // State / operation
   invalidOperation: (reason: string, ctx?: string) =>
     `${ctx ? ctx + ': ' : ''}${reason}`,
 
+  // Matrix
   matrixDimensionMismatch: (op: string) =>
-    `Matrix: dimensions must be compatible for ${op}.`,
+    `Matrix: Dimensions must be compatible for ${op}.`,
 
   matrixSingular: () =>
-    'Matrix: singular matrix, inverse does not exist.',
+    'Matrix: Singular matrix, inverse does not exist.',
 
-  notAFunction: (name: string, ctx?: string) =>
-    `${ctx ? ctx + ': ' : ''}${name} must be a function.`
+  matrixNotSquare: () =>
+    'Matrix: Must be square for inversion.',
+
+  matrixNotRectangular: () =>
+    'Matrix: Must be rectangular for transposition.',
+
+  matrixRowMismatch: (expected: number, got: number) =>
+    `Matrix: Expected row length ${expected}, but got ${got}.`
 } as const;

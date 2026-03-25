@@ -15,6 +15,7 @@ import type {
 } from '../../types';
 import { IterableEntryBase } from '../base';
 import { isWeakKey, rangeCheck } from '../../utils';
+import { ERR } from '../../common';
 
 /**
  * Hash-based map. Supports object keys and custom hashing; offers O(1) average set/get/has.
@@ -534,8 +535,8 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
     if (this.isEntry(rawElement)) {
       return rawElement;
     }
-    throw new Error(
-      'If `entryOrRawElements` does not adhere to [key,value], provide `options.toEntryFn` to transform raw records.'
+    throw new TypeError(
+      ERR.invalidArgument('If elements do not adhere to [key, value], provide options.toEntryFn to transform raw records.', 'HashMap')
     );
   };
 

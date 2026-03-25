@@ -159,7 +159,7 @@ describe('Stack iterative methods', () => {
         // @ts-ignore
         toElementFn: {}
       });
-    }).toThrow('toElementFn must be a function type');
+    }).toThrow('toElementFn must be a function');
   });
 });
 

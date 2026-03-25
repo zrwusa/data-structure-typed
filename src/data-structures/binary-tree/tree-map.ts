@@ -10,6 +10,7 @@
 import type { Comparator } from '../../types';
 import type { TreeMapEntryCallback, TreeMapOptions, TreeMapRangeOptions, TreeMapReduceCallback } from '../../types';
 import { RedBlackTree } from './red-black-tree';
+import { ERR } from '../../common';
 
 /**
  * An ordered Map backed by a red-black tree.
@@ -58,7 +59,7 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
       } else {
         // Validate entries like native Map: each item must be a 2-tuple-like value.
         if (!Array.isArray(item) || item.length < 2) {
-          throw new TypeError('TreeMap: each entry must be a [key, value] tuple');
+          throw new TypeError(ERR.invalidEntry('TreeMap'));
         }
         k = item[0] as K;
         v = item[1] as V | undefined;
@@ -81,7 +82,7 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
   static createDefaultComparator<K>(): Comparator<K> {
     return (a: K, b: K): number => {
       if (typeof a === 'number' && typeof b === 'number') {
-        if (Number.isNaN(a) || Number.isNaN(b)) throw new TypeError('TreeMap: NaN is not a valid key');
+        if (Number.isNaN(a) || Number.isNaN(b)) throw new TypeError(ERR.invalidNaN('TreeMap'));
         const aa = Object.is(a, -0) ? 0 : a;
         const bb = Object.is(b, -0) ? 0 : b;
         return aa > bb ? 1 : aa < bb ? -1 : 0;
@@ -94,11 +95,11 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
       if (a instanceof Date && b instanceof Date) {
         const ta = a.getTime();
         const tb = b.getTime();
-        if (Number.isNaN(ta) || Number.isNaN(tb)) throw new TypeError('TreeMap: invalid Date key');
+        if (Number.isNaN(ta) || Number.isNaN(tb)) throw new TypeError(ERR.invalidDate('TreeMap'));
         return ta > tb ? 1 : ta < tb ? -1 : 0;
       }
 
-      throw new TypeError('TreeMap: comparator is required for non-number/non-string/non-Date keys');
+      throw new TypeError(ERR.comparatorRequired('TreeMap'));
     };
   }
 
@@ -106,18 +107,18 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
     if (!this.#isDefaultComparator) return;
 
     if (typeof key === 'number') {
-      if (Number.isNaN(key)) throw new TypeError('TreeMap: NaN is not a valid key');
+      if (Number.isNaN(key)) throw new TypeError(ERR.invalidNaN('TreeMap'));
       return;
     }
 
     if (typeof key === 'string') return;
 
     if (key instanceof Date) {
-      if (Number.isNaN(key.getTime())) throw new TypeError('TreeMap: invalid Date key');
+      if (Number.isNaN(key.getTime())) throw new TypeError(ERR.invalidDate('TreeMap'));
       return;
     }
 
-    throw new TypeError('TreeMap: comparator is required for non-number/non-string/non-Date keys');
+    throw new TypeError(ERR.comparatorRequired('TreeMap'));
   }
 
   /**

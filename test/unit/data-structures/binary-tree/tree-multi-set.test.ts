@@ -501,7 +501,7 @@ describe('TreeMultiSet', () => {
     it('rejects non-primitive types without comparator', () => {
       const ms = new TreeMultiSet<{ id: number }>();
       expect(() => ms.add({ id: 1 })).toThrow(TypeError);
-      expect(() => ms.add({ id: 1 })).toThrow('comparator is required');
+      expect(() => ms.add({ id: 1 })).toThrow('Comparator is required');
     });
 
     it('comparator getter returns the comparator', () => {

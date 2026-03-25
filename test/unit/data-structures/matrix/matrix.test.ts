@@ -80,7 +80,7 @@ describe('Matrix', () => {
         [8, 9, 10]
       ]);
 
-      expect(() => matrixA.add(matrixB)).toThrowError('Matrix dimensions must match for addition.');
+      expect(() => matrixA.add(matrixB)).toThrow('Dimensions must be compatible for addition');
     });
 
     it('should throw an error for matrices with mismatched dimensions', () => {
@@ -93,7 +93,7 @@ describe('Matrix', () => {
         [8, 9, 10]
       ]);
 
-      expect(() => matrixA.add(matrixB)).toThrowError('Matrix dimensions must match for addition.');
+      expect(() => matrixA.add(matrixB)).toThrow('Dimensions must be compatible for addition');
     });
   });
 
@@ -156,7 +156,7 @@ describe('Matrix', () => {
         [8, 9, 10]
       ]);
 
-      expect(() => matrixA.subtract(matrixB)).toThrowError('Matrix dimensions must match for subtraction.');
+      expect(() => matrixA.subtract(matrixB)).toThrow('Dimensions must be compatible for subtraction');
     });
   });
 
@@ -214,8 +214,8 @@ describe('Matrix', () => {
         [8, 9, 1]
       ]);
 
-      expect(() => matrixA.multiply(matrixB)).toThrowError(
-        'Matrix dimensions must be compatible for multiplication (A.cols = B.rows).'
+      expect(() => matrixA.multiply(matrixB)).toThrow(
+        'Dimensions must be compatible for multiplication'
       );
     });
   });
@@ -256,7 +256,7 @@ describe('Matrix', () => {
       ]);
 
       // Using a lambda to call transpose because Jest expects the error to be thrown within a function
-      expect(() => originalMatrix.transpose()).toThrowError('Matrix must be rectangular for transposition.');
+      expect(() => originalMatrix.transpose()).toThrow('Must be rectangular for transposition');
     });
   });
 
@@ -308,7 +308,7 @@ describe('Matrix', () => {
       ];
 
       const matrix = new Matrix(data);
-      expect(() => matrix.inverse()).toThrow('Matrix must be square for inversion.');
+      expect(() => matrix.inverse()).toThrow('Must be square for inversion');
     });
 
     it('should clone', () => {
@@ -353,8 +353,8 @@ describe('Matrix', () => {
         [8, 9, 10],
         [18, 19, 110]
       ]);
-      expect(() => matrix1.dot(matrix2)).toThrowError(
-        'Number of columns in the first matrix must be equal to the number of rows in the second matrix for dot product.'
+      expect(() => matrix1.dot(matrix2)).toThrow(
+        'Dimensions must be compatible for dot product'
       );
     });
 
@@ -369,8 +369,8 @@ describe('Matrix', () => {
         [9, 10]
       ]);
 
-      expect(() => matrixA.dot(matrixB)).toThrowError(
-        'Number of columns in the first matrix must be equal to the number of rows in the second matrix for dot product.'
+      expect(() => matrixA.dot(matrixB)).toThrow(
+        'Dimensions must be compatible for dot product'
       );
     });
   });

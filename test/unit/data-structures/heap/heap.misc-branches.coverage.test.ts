@@ -45,7 +45,7 @@ describe('Heap / FibonacciHeap misc branch coverage', () => {
     h.add(1);
     h.add(2);
 
-    expect(() => h.map(x => ({ x }), {} as any)).toThrow(/requires options\.comparator/i);
+    expect(() => h.map(x => ({ x }), {} as any)).toThrow(/Comparator is required/i);
 
     const ctx = { mul: 10 };
     const mapped = h.map(
@@ -79,7 +79,7 @@ describe('Heap / FibonacciHeap misc branch coverage', () => {
   });
 
   it('FibonacciHeap constructor throws when comparator is not a function', () => {
-    expect(() => new FibonacciHeap<number>(123 as any)).toThrow(/comparator must be a function/i);
+    expect(() => new FibonacciHeap<number>(123 as any)).toThrow(/must be a function/i);
   });
 
   it('FibonacciHeap.consumeLinkedList(undefined) returns [] (covers !head guard)', () => {

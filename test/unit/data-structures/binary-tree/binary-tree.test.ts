@@ -838,7 +838,7 @@ describe('BinaryTree.toEntryFn', () => {
           obj: { id: number };
         }) => BTNEntry<number, number>
       });
-    }).toThrow('toEntryFn must be a function type');
+    }).toThrow('toEntryFn must be a function');
   });
 
   it('toEntryFn + setMany(): IN order equals dfs/Morris', () => {

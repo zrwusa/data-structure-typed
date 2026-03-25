@@ -2626,7 +2626,7 @@ describe('BST Comparator Tests', () => {
 
       expect(() => {
         bst['_compare']({ value: 1 }, { value: 2 });
-      }).toThrow("When comparing object type keys, a custom comparator must be provided in the constructor's options!");
+      }).toThrow('Comparator is required');
     });
   });
 

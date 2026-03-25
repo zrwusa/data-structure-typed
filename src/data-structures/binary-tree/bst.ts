@@ -26,7 +26,7 @@ import { BinaryTree } from './binary-tree';
 import { IBinaryTree } from '../../interfaces';
 import { Queue } from '../queue';
 import { isComparable } from '../../utils';
-import { Range } from '../../common';
+import { ERR, Range } from '../../common';
 
 /**
  * Represents a Node in a Binary Search Tree.
@@ -1525,8 +1525,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
 
       // If keys are objects and no comparator is provided, throw an error
       if (typeof a === 'object' || typeof b === 'object') {
-        throw TypeError(
-          `When comparing object type keys, a custom comparator must be provided in the constructor's options!`
+        throw new TypeError(
+          ERR.comparatorRequired('BST')
         );
       }
 

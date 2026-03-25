@@ -22,7 +22,7 @@ describe('HashMap / LinkedHashMap additional branch coverage', () => {
 
   it('LinkedHashMap.toEntryFn default throws when rawElement is not an entry (covers toEntryFn error)', () => {
     const m = new LinkedHashMap<number, number, any>();
-    expect(() => (m as any).toEntryFn({ k: 1, v: 2 })).toThrow(/provide `options\.toEntryFn`/i);
+    expect(() => (m as any).toEntryFn({ k: 1, v: 2 })).toThrow(/provide options\.toEntryFn/i);
   });
 
   it('LinkedHashMap set/get/delete branches for weak keys and missing nodes', () => {

@@ -22,7 +22,7 @@ describe('Matrix additional branch coverage', () => {
         if (row === col) return 0;
         return 1;
       };
-      expect(() => m.inverse()).toThrow(/division by zero/i);
+      expect(() => m.inverse()).toThrow(/Singular matrix/i);
     } finally {
       (Matrix as any).prototype.get = origGet;
     }

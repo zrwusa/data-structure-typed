@@ -7,7 +7,7 @@
  */
 
 import type { Comparator, TreeMultiMapOptions } from '../../types';
-import { Range } from '../../common';
+import { ERR, Range } from '../../common';
 import { RedBlackTree, RedBlackTreeNode } from './red-black-tree';
 import { TreeSet } from './tree-set';
 
@@ -261,15 +261,15 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
     // reuse TreeSet strict validation (same policy)
     // NOTE: TreeSet._validateKey is private, so we replicate the checks.
     if (typeof key === 'number') {
-      if (Number.isNaN(key)) throw new TypeError('TreeMultiMap: NaN is not a valid key');
+      if (Number.isNaN(key)) throw new TypeError(ERR.invalidNaN('TreeMultiMap'));
       return;
     }
     if (typeof key === 'string') return;
     if (key instanceof Date) {
-      if (Number.isNaN(key.getTime())) throw new TypeError('TreeMultiMap: invalid Date key');
+      if (Number.isNaN(key.getTime())) throw new TypeError(ERR.invalidDate('TreeMultiMap'));
       return;
     }
-    throw new TypeError('TreeMultiMap: comparator is required for non-number/non-string/non-Date keys');
+    throw new TypeError(ERR.comparatorRequired('TreeMultiMap'));
   }
 
   /**
