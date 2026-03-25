@@ -13,6 +13,7 @@ import type {
   FamilyPosition, NodePredicate,
   OptNode,
   RBTNColor,
+  IterationType,
   RedBlackTreeOptions
 } from '../../types';
 import { BST } from './bst';
