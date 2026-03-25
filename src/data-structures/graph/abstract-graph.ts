@@ -1104,7 +1104,7 @@ export abstract class AbstractGraph<
    * @param options.showWeight - Whether to show edge weights (default: true).
    * @returns The visual string.
    */
-  toVisual(options?: { showWeight?: boolean }): string {
+  override toVisual(options?: { showWeight?: boolean }): string {
     const showWeight = options?.showWeight ?? true;
     const vertices = [...this._vertexMap.values()];
     const vertexCount = vertices.length;
@@ -1179,7 +1179,7 @@ export abstract class AbstractGraph<
    * Print the graph to console.
    * @param options - Display settings passed to `toVisual`.
    */
-  print(options?: { showWeight?: boolean }): void {
+  override print(options?: { showWeight?: boolean }): void {
     console.log(this.toVisual(options));
   }
 }
