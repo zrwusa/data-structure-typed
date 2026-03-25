@@ -180,6 +180,10 @@ export class DirectedGraph<
     super(options);
   }
 
+  protected override get _edgeConnector(): string {
+    return '->';
+  }
+
   protected _outEdgeMap: Map<VO, EO[]> = new Map<VO, EO[]>();
 
   get outEdgeMap(): Map<VO, EO[]> {

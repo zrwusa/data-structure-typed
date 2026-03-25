@@ -1078,4 +1078,108 @@ export abstract class AbstractGraph<
   protected _getVertexKey(vertexOrKey: VO | VertexKey): VertexKey {
     return vertexOrKey instanceof AbstractVertex ? vertexOrKey.key : vertexOrKey;
   }
+
+  /**
+   * The edge connector string used in visual output.
+   * Override in subclasses (e.g., '--' for undirected, '->' for directed).
+   */
+  protected get _edgeConnector(): string {
+    return '--';
+  }
+
+  /**
+   * Generate a text-based visual representation of the graph.
+   *
+   * **Adjacency list format:**
+   * ```
+   * Graph (5 vertices, 6 edges):
+   * A -> B (1), C (2)
+   * B -> D (3)
+   * C -> (no outgoing edges)
+   * D -> A (1)
+   * E (isolated)
+   * ```
+   *
+   * @param options - Optional display settings.
+   * @param options.showWeight - Whether to show edge weights (default: true).
+   * @returns The visual string.
+   */
+  toVisual(options?: { showWeight?: boolean }): string {
+    const showWeight = options?.showWeight ?? true;
+    const vertices = [...this._vertexMap.values()];
+    const vertexCount = vertices.length;
+    const edgeCount = this.edgeSet().length;
+
+    const lines: string[] = [`Graph (${vertexCount} vertices, ${edgeCount} edges):`];
+
+    for (const vertex of vertices) {
+      const neighbors = this.getNeighbors(vertex);
+      if (neighbors.length === 0) {
+        lines.push(`  ${vertex.key} (isolated)`);
+      } else {
+        const edgeStrs = neighbors.map(neighbor => {
+          const edge = this.getEdge(vertex, neighbor);
+          if (edge && showWeight && edge.weight !== undefined && edge.weight !== 1) {
+            return `${neighbor.key} (${edge.weight})`;
+          }
+          return `${neighbor.key}`;
+        });
+        lines.push(`  ${vertex.key} ${this._edgeConnector} ${edgeStrs.join(', ')}`);
+      }
+    }
+
+    return lines.join('\n');
+  }
+
+  /**
+   * Generate DOT language representation for Graphviz.
+   *
+   * @param options - Optional display settings.
+   * @param options.name - Graph name (default: 'G').
+   * @param options.showWeight - Whether to label edges with weight (default: true).
+   * @returns DOT format string.
+   */
+  toDot(options?: { name?: string; showWeight?: boolean }): string {
+    const name = options?.name ?? 'G';
+    const showWeight = options?.showWeight ?? true;
+    const isDirected = this._edgeConnector === '->';
+    const graphType = isDirected ? 'digraph' : 'graph';
+    const edgeOp = isDirected ? '->' : '--';
+
+    const lines: string[] = [`${graphType} ${name} {`];
+
+    // Add all vertices (ensures isolated vertices appear)
+    for (const vertex of this._vertexMap.values()) {
+      lines.push(`  "${vertex.key}";`);
+    }
+
+    // Add edges
+    const visited = new Set<string>();
+    for (const vertex of this._vertexMap.values()) {
+      for (const neighbor of this.getNeighbors(vertex)) {
+        const edgeId = isDirected
+          ? `${vertex.key}->${neighbor.key}`
+          : [vertex.key, neighbor.key].sort().join('--');
+        if (visited.has(edgeId)) continue;
+        visited.add(edgeId);
+
+        const edge = this.getEdge(vertex, neighbor);
+        const label = edge && showWeight && edge.weight !== undefined && edge.weight !== 1
+          ? ` [label="${edge.weight}"]`
+          : '';
+        lines.push(`  "${vertex.key}" ${edgeOp} "${neighbor.key}"${label};`);
+      }
+    }
+
+    lines.push('}');
+    return lines.join('\n');
+  }
+
+  /**
+   * Print the graph to console.
+   * @param options - Display settings passed to `toVisual`.
+   */
+  print(options?: { showWeight?: boolean }): void {
+    console.log(this.toVisual(options));
+  }
 }
