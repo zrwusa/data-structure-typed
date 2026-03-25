@@ -797,6 +797,16 @@ export class LinkedHashMap<K = any, V = any, R = [K, V]> extends IterableEntryBa
   }
 
   protected _deleteNode(node: HashMapLinkedNode<K, V | undefined>): boolean {
+    // Remove from hash table
+    const key: unknown = node.key;
+    if (isWeakKey(key)) {
+      this._objMap.delete(key);
+    } else {
+      const hash = this._hashFn(key as K);
+      delete this._noObjMap[hash];
+    }
+
+    // Remove from linked list
     const { prev, next } = node;
     prev.next = next;
     next.prev = prev;
