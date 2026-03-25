@@ -824,6 +824,11 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @returns True if compaction was performed (bucket count reduced).
    */
+  /**
+   * Compact the deque by removing unused buckets.
+   * @remarks Time O(N), Space O(1)
+   * @returns True if compaction was performed (bucket count reduced).
+   */
   compact(): boolean {
     const before = this._bucketCount;
     this.shrinkToFit();
