@@ -716,7 +716,7 @@ describe('Deque', () => {
   });
 
   it('should pop work well when bucket boundary is reached', () => {
-    const deque = new Deque<number>([1, 6, 7, 3, 2, 4, 5], { bucketSize: 3 });
+    const deque = new Deque<number>([1, 6, 7, 3, 2, 4, 5], { bucketSize: 3, autoCompactRatio: 0 });
     expect(deque.length).toBe(7);
     expect(deque.has(1)).toBe(true);
     expect(deque.bucketFirst).toBe(0);
@@ -758,7 +758,7 @@ describe('Deque', () => {
   });
 
   it('should shift work well when bucket boundary is reached and should shrinkToFit', () => {
-    const deque = new Deque<number>([1, 6, 7, 3, 2, 4, 5], { bucketSize: 3 });
+    const deque = new Deque<number>([1, 6, 7, 3, 2, 4, 5], { bucketSize: 3, autoCompactRatio: 0 });
     expect(deque.length).toBe(7);
     expect(deque.has(1)).toBe(true);
     expect(deque.bucketFirst).toBe(0);
@@ -937,48 +937,50 @@ describe('classic uses', () => {
 
 describe('Deque compact and auto-compacting (#92)', () => {
   it('compact() should remove unused buckets', () => {
-    const deque = new Deque<number>([], { bucketSize: 3 });
+    // Disable auto-compact so we can test manual compact
+    const deque = new Deque<number>([], { bucketSize: 3, autoCompactRatio: 0 });
     for (let i = 0; i < 20; i++) deque.push(i);
     for (let i = 0; i < 15; i++) deque.shift();
 
     const beforeCount = deque.bucketCount;
     const compacted = deque.compact();
     expect(compacted).toBe(true);
-    expect(deque.bucketCount).toBeLessThanOrEqual(beforeCount);
+    expect(deque.bucketCount).toBeLessThan(beforeCount);
     expect(deque.length).toBe(5);
     expect([...deque]).toEqual([15, 16, 17, 18, 19]);
   });
 
   it('compact() should return false when nothing to compact', () => {
-    const deque = new Deque([1, 2, 3], { bucketSize: 3 });
+    const deque = new Deque([1, 2, 3], { bucketSize: 3, autoCompactRatio: 0 });
     deque.compact(); // first compact
     const result = deque.compact(); // second should be no-op
     expect(result).toBe(false);
   });
 
-  it('autoCompactRatio should trigger automatic compaction after shift', () => {
-    const deque = new Deque<number>([], { bucketSize: 2, autoCompactRatio: 0.5 });
-    for (let i = 0; i < 100; i++) deque.push(i);
+  it('autoCompactRatio should trigger automatic compaction after enough shifts', () => {
+    // bucketSize=4 means auto-compact checks every 4 shift/pop ops
+    const deque = new Deque<number>([], { bucketSize: 4, autoCompactRatio: 0.5 });
+    for (let i = 0; i < 200; i++) deque.push(i);
     const initialBuckets = deque.bucketCount;
 
-    // Shift most elements — should trigger auto-compact
-    for (let i = 0; i < 90; i++) deque.shift();
+    // Shift most elements — enough ops to trigger counter + low utilization
+    for (let i = 0; i < 180; i++) deque.shift();
 
-    expect(deque.length).toBe(10);
+    expect(deque.length).toBe(20);
     expect(deque.bucketCount).toBeLessThan(initialBuckets);
-    expect([...deque][0]).toBe(90);
+    expect([...deque][0]).toBe(180);
   });
 
   it('autoCompactRatio=0 should disable auto-compaction', () => {
-    const deque = new Deque<number>([], { bucketSize: 2, autoCompactRatio: 0 });
-    for (let i = 0; i < 100; i++) deque.push(i);
+    const deque = new Deque<number>([], { bucketSize: 4, autoCompactRatio: 0 });
+    for (let i = 0; i < 200; i++) deque.push(i);
     const initialBuckets = deque.bucketCount;
 
-    for (let i = 0; i < 90; i++) deque.shift();
+    for (let i = 0; i < 180; i++) deque.shift();
 
     // Buckets should NOT have been compacted automatically
     expect(deque.bucketCount).toBe(initialBuckets);
-    expect(deque.length).toBe(10);
+    expect(deque.length).toBe(20);
   });
 
   it('autoCompactRatio getter/setter', () => {
@@ -989,14 +991,42 @@ describe('Deque compact and auto-compacting (#92)', () => {
   });
 
   it('auto-compact after pop', () => {
-    const deque = new Deque<number>([], { bucketSize: 2, autoCompactRatio: 0.5 });
+    const deque = new Deque<number>([], { bucketSize: 4, autoCompactRatio: 0.5 });
+    for (let i = 0; i < 200; i++) deque.push(i);
+
+    for (let i = 0; i < 180; i++) deque.pop();
+
+    expect(deque.length).toBe(20);
+    expect([...deque][0]).toBe(0);
+    expect([...deque][19]).toBe(19);
+  });
+
+  it('auto-compact only checks every bucketSize operations', () => {
+    const deque = new Deque<number>([], { bucketSize: 8, autoCompactRatio: 0.5 });
+    for (let i = 0; i < 100; i++) deque.push(i);
+    const initialBuckets = deque.bucketCount;
+
+    // Shift only 3 elements — not enough to trigger check (< bucketSize=8)
+    for (let i = 0; i < 3; i++) deque.shift();
+    expect(deque.bucketCount).toBe(initialBuckets); // no compaction yet
+  });
+
+  it('elements are preserved correctly after auto-compact', () => {
+    const deque = new Deque<number>([], { bucketSize: 4, autoCompactRatio: 0.5 });
     for (let i = 0; i < 100; i++) deque.push(i);
 
-    for (let i = 0; i < 90; i++) deque.pop();
+    for (let i = 0; i < 80; i++) deque.shift();
 
-    expect(deque.length).toBe(10);
-    expect([...deque][0]).toBe(0);
-    expect([...deque][9]).toBe(9);
+    // Verify all remaining elements are intact
+    const remaining = [...deque];
+    expect(remaining).toEqual(Array.from({ length: 20 }, (_, i) => i + 80));
+
+    // Operations still work after auto-compact
+    deque.push(999);
+    deque.unshift(-1);
+    expect(deque.first).toBe(-1);
+    expect(deque.last).toBe(999);
+    expect(deque.length).toBe(22);
   });
 });
 

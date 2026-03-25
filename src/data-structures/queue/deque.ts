@@ -198,6 +198,8 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
 
   /**
    * Get the auto-compaction ratio.
+   * When `elements / (bucketCount * bucketSize)` drops below this ratio after
+   * enough shift/pop operations, the deque auto-compacts.
    * @remarks Time O(1), Space O(1)
    * @returns Current ratio threshold. 0 means auto-compact is disabled.
    */
@@ -208,11 +210,17 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
   /**
    * Set the auto-compaction ratio.
    * @remarks Time O(1), Space O(1)
-   * @param value - Ratio in [0,1]. Compacts when used/total buckets < ratio after shift/pop. 0 disables.
+   * @param value - Ratio in [0,1]. 0 disables auto-compact.
    */
   set autoCompactRatio(value: number) {
     this._autoCompactRatio = value;
   }
+
+  /**
+   * Counter for shift/pop operations since last compaction check.
+   * Only checks ratio every `_bucketSize` operations to minimize overhead.
+   */
+  protected _compactCounter = 0;
 
   protected _bucketFirst = 0;
 
@@ -794,26 +802,28 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    */
 
   /**
-   * Compact the deque by removing unused buckets.
-   * Alias for `shrinkToFit` with a return value indicating whether compaction occurred.
-   * @remarks Time O(N), Space O(1)
-   * @returns True if compaction was performed.
-   */
-  /**
-   * (Protected) Trigger auto-compaction if the used bucket ratio drops below threshold.
+   * (Protected) Trigger auto-compaction if space utilization drops below threshold.
+   * Only checks every `_bucketSize` operations to minimize hot-path overhead.
+   * Uses element-based ratio: `elements / (bucketCount * bucketSize)`.
    */
   protected _autoCompact(): void {
     if (this._autoCompactRatio <= 0 || this._bucketCount <= 1) return;
 
-    const usedBuckets = this._bucketFirst <= this._bucketLast
-      ? this._bucketLast - this._bucketFirst + 1
-      : this._bucketCount - this._bucketFirst + this._bucketLast + 1;
+    this._compactCounter++;
+    if (this._compactCounter < this._bucketSize) return;
+    this._compactCounter = 0;
 
-    if (usedBuckets / this._bucketCount < this._autoCompactRatio) {
+    const utilization = this._length / (this._bucketCount * this._bucketSize);
+    if (utilization < this._autoCompactRatio) {
       this.shrinkToFit();
     }
   }
 
+  /**
+   * Compact the deque by removing unused buckets.
+   * @remarks Time O(N), Space O(1)
+   * @returns True if compaction was performed (bucket count reduced).
+   */
   compact(): boolean {
     const before = this._bucketCount;
     this.shrinkToFit();
@@ -839,6 +849,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
     this._bucketLast = newBuckets.length - 1;
     this._buckets = newBuckets;
     this._bucketCount = newBuckets.length;
+    this._compactCounter = 0;
   }
 
   /**
