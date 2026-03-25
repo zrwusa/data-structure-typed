@@ -1183,3 +1183,95 @@ describe('classic use', () => {
     expect(minPath?.[minPath.length - 1].key).toBe('Router-E');
   });
 });
+
+describe('DirectedGraph visual output (#113)', () => {
+  it('toVisual should show adjacency list with directed edges', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'B', 1);
+    g.addEdge('A', 'C', 2);
+
+    const visual = g.toVisual();
+    expect(visual).toContain('3 vertices');
+    expect(visual).toContain('2 edges');
+    expect(visual).toContain('A -> B, C (2)');
+  });
+
+  it('toVisual should show isolated vertices', () => {
+    const g = new DirectedGraph();
+    g.addVertex('X');
+    g.addVertex('Y');
+    g.addEdge('X', 'Y');
+    g.addVertex('Z');
+
+    const visual = g.toVisual();
+    expect(visual).toContain('Z (isolated)');
+    expect(visual).toContain('X -> Y');
+  });
+
+  it('toVisual with showWeight=false should hide weights', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addEdge('A', 'B', 5);
+
+    const visual = g.toVisual({ showWeight: false });
+    expect(visual).not.toContain('(5)');
+    expect(visual).toContain('A -> B');
+  });
+
+  it('toDot should produce valid DOT for directed graph', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'B', 1);
+    g.addEdge('B', 'C', 3);
+
+    const dot = g.toDot();
+    expect(dot).toContain('digraph G {');
+    expect(dot).toContain('"A";');
+    expect(dot).toContain('"B";');
+    expect(dot).toContain('"C";');
+    expect(dot).toContain('"A" -> "B"');
+    expect(dot).toContain('"B" -> "C" [label="3"]');
+    expect(dot).toContain('}');
+  });
+
+  it('toDot with custom name and showWeight=false', () => {
+    const g = new DirectedGraph();
+    g.addVertex('1');
+    g.addVertex('2');
+    g.addEdge('1', '2', 10);
+
+    const dot = g.toDot({ name: 'MyGraph', showWeight: false });
+    expect(dot).toContain('digraph MyGraph {');
+    expect(dot).not.toContain('[label=');
+  });
+
+  it('toDot should include isolated vertices', () => {
+    const g = new DirectedGraph();
+    g.addVertex('alone');
+
+    const dot = g.toDot();
+    expect(dot).toContain('"alone";');
+  });
+
+  it('print should not throw', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addEdge('A', 'B');
+
+    expect(() => g.print()).not.toThrow();
+  });
+
+  it('toVisual on empty graph', () => {
+    const g = new DirectedGraph();
+    const visual = g.toVisual();
+    expect(visual).toContain('0 vertices');
+    expect(visual).toContain('0 edges');
+  });
+});

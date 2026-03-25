@@ -780,3 +780,32 @@ describe('classic use', () => {
     expect(dianaConnections[1]).toBe(undefined);
   });
 });
+
+describe('UndirectedGraph visual output (#113)', () => {
+  it('toVisual should show adjacency list with undirected edges', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'B', 1);
+    g.addEdge('B', 'C', 5);
+
+    const visual = g.toVisual();
+    expect(visual).toContain('3 vertices');
+    expect(visual).toContain('2 edges');
+    expect(visual).toContain('A -- B');
+    expect(visual).toContain('B -- A, C (5)');
+  });
+
+  it('toDot should produce valid DOT for undirected graph', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('X');
+    g.addVertex('Y');
+    g.addEdge('X', 'Y', 3);
+
+    const dot = g.toDot();
+    expect(dot).toContain('graph G {');
+    expect(dot).toContain('"X" -- "Y" [label="3"]');
+    expect(dot).not.toContain('digraph');
+  });
+});
