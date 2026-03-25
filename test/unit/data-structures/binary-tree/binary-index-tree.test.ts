@@ -65,8 +65,8 @@ describe('BinaryIndexedTree', () => {
     });
   });
   it('should validate the index', function () {
-    expect(() => bit.readSingle(-1)).toThrow('Index out of range');
-    expect(() => bit.readSingle(10)).toThrow('Index out of range');
+    expect(() => bit.readSingle(-1)).toThrow('out of range');
+    expect(() => bit.readSingle(10)).toThrow('out of range');
   });
 
   it('should read a single frequency correctly', function () {
@@ -75,8 +75,8 @@ describe('BinaryIndexedTree', () => {
     }
   });
   it('should validate the index', function () {
-    expect(() => bit.update(-1, 100)).toThrow('Index out of range');
-    expect(() => bit.update(10, 100)).toThrow('Index out of range');
+    expect(() => bit.update(-1, 100)).toThrow('out of range');
+    expect(() => bit.update(10, 100)).toThrow('out of range');
   });
   it('should frequency and max', function () {
     const frequency = 200;
@@ -99,8 +99,8 @@ describe('BinaryIndexedTree', () => {
     }
   });
   it('should validate the index', function () {
-    expect(() => bit.writeSingle(-1, 100)).toThrow('Index out of range');
-    expect(() => bit.writeSingle(10, 100)).toThrow('Index out of range');
+    expect(() => bit.writeSingle(-1, 100)).toThrow('out of range');
+    expect(() => bit.writeSingle(10, 100)).toThrow('out of range');
   });
 
   it('should writeSingle to be correctly invoked', function () {
@@ -215,7 +215,7 @@ describe('descending sequence', function () {
 
   describe('upperBound', function () {
     it('should validate the non-descending', function () {
-      expect(() => bit.upperBound(20)).toThrow('Must not be descending');
+      expect(() => bit.upperBound(20)).toThrow('must not be descending');
       bit.update(2, 12);
       bit.update(7, 4);
       loopUpperBoundTests(bit, values);
@@ -224,7 +224,7 @@ describe('descending sequence', function () {
 
   describe('BinaryIndexedTree lowerBound', function () {
     it('should validate the non-descending', function () {
-      expect(() => bit.lowerBound(20)).toThrow('Sequence is not non-descending');
+      expect(() => bit.lowerBound(20)).toThrow('not non-descending');
       bit.update(2, 12);
       bit.update(7, 4);
       loopLowerBoundTests(bit, values);

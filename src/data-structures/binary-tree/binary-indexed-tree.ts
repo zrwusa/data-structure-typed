@@ -6,6 +6,7 @@
  * @license MIT License
  */
 import { getMSB } from '../../utils';
+import { ERR } from '../../common';
 
 /**
  *
@@ -124,7 +125,7 @@ export class BinaryIndexedTree {
    */
   read(count: number): number {
     if (!Number.isInteger(count)) {
-      throw new Error('Invalid count');
+      throw new Error(ERR.invalidArgument('count must be an integer', 'BinaryIndexedTree'));
     }
     return this._read(Math.max(Math.min(count, this.max), 0));
   }
@@ -137,7 +138,7 @@ export class BinaryIndexedTree {
    */
   lowerBound(sum: number): number {
     if (this.negativeCount > 0) {
-      throw new Error('Sequence is not non-descending');
+      throw new Error(ERR.invalidOperation('Sequence is not non-descending.', 'BinaryIndexedTree'));
     }
     return this._binarySearch(sum, (x, y) => x < y);
   }
@@ -151,7 +152,7 @@ export class BinaryIndexedTree {
    */
   upperBound(sum: number): number {
     if (this.negativeCount > 0) {
-      throw new Error('Must not be descending');
+      throw new Error(ERR.invalidOperation('Sequence must not be descending.', 'BinaryIndexedTree'));
     }
     return this._binarySearch(sum, (x, y) => x <= y);
   }
@@ -209,10 +210,10 @@ export class BinaryIndexedTree {
    */
   protected _checkIndex(index: number): void {
     if (!Number.isInteger(index)) {
-      throw new Error('Invalid index: Index must be an integer.');
+      throw new TypeError(ERR.invalidIndex('BinaryIndexedTree'));
     }
     if (index < 0 || index >= this.max) {
-      throw new Error('Index out of range: Index must be within the range [0, this.max).');
+      throw new RangeError(ERR.indexOutOfRange(index, 0, this.max - 1, 'BinaryIndexedTree'));
     }
   }
 
