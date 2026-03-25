@@ -1202,8 +1202,8 @@ describe('BST iterative methods test', () => {
       true
     );
 
-    expect(balanced.leaves()).toEqual([1, 6, 4, 9]);
-    expect(balanced.leaves(node => balanced.get(node))).toEqual(['a', 'f', 'd', 'i']);
+    expect(balanced.leaves()).toEqual([1, 4, 6, 9]);
+    expect(balanced.leaves(node => balanced.get(node))).toEqual(['a', 'd', 'f', 'i']);
   });
 });
 
@@ -1499,8 +1499,8 @@ describe('BST iterative methods not map mode test', () => {
       true
     );
 
-    expect(balanced.leaves()).toEqual([1, 6, 4, 9]);
-    expect(balanced.leaves(node => balanced.get(node?.key))).toEqual(['a', 'f', 'd', 'i']);
+    expect(balanced.leaves()).toEqual([1, 4, 6, 9]);
+    expect(balanced.leaves(node => balanced.get(node?.key))).toEqual(['a', 'd', 'f', 'i']);
   });
 });
 

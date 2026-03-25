@@ -2259,40 +2259,60 @@ export class BinaryTree<K = any, V = any, R = any>
     options: BinaryTreePrintOptions
   ): NodeDisplayLayout {
     const { isShowNull, isShowUndefined, isShowRedBlackNIL } = options;
-    const emptyDisplayLayout = <NodeDisplayLayout>[['─'], 1, 0, 0]; // Represents an empty spot
+    const emptyDisplayLayout = <NodeDisplayLayout>[['─'], 1, 0, 0];
 
-    if (node === null && !isShowNull) {
-      return emptyDisplayLayout;
-    } else if (node === undefined && !isShowUndefined) {
-      return emptyDisplayLayout;
-    } else if (this.isNIL(node) && !isShowRedBlackNIL) {
-      return emptyDisplayLayout;
-    } else if (node !== null && node !== undefined) {
-      // Real node
-      const key = node.key,
-        line = this.isNIL(node) ? 'S' : String(key),
-        width = line.length;
+    // Iterative post-order: compute display layout bottom-up using an explicit stack.
+    // Stages: 0=process left, 1=process right, 2=merge
+    type Frame = {
+      node: BinaryTreeNode<K, V> | null | undefined;
+      stage: 0 | 1 | 2;
+      leftLayout: NodeDisplayLayout;
+      rightLayout: NodeDisplayLayout;
+    };
 
-      return _buildNodeDisplay(
-        line,
-        width,
-        this._displayAux(node.left, options),
-        this._displayAux(node.right, options)
-      );
-    } else {
-      // Null or Undefined
-      const line = node === undefined ? 'U' : 'N',
-        width = line.length;
+    const newFrame = (n: BinaryTreeNode<K, V> | null | undefined): Frame => ({
+      node: n, stage: 0, leftLayout: emptyDisplayLayout, rightLayout: emptyDisplayLayout
+    });
 
-      // Treat as a leaf
-      return _buildNodeDisplay(line, width, [[''], 1, 0, 0], [[''], 1, 0, 0]);
+    const stack: Frame[] = [newFrame(node)];
+    let result: NodeDisplayLayout = emptyDisplayLayout;
+
+    const setChildResult = (layout: NodeDisplayLayout) => {
+      if (stack.length === 0) { result = layout; return; }
+      const parent = stack[stack.length - 1];
+      if (parent.stage === 1) parent.leftLayout = layout;
+      else parent.rightLayout = layout;
+    };
+
+    while (stack.length > 0) {
+      const frame = stack[stack.length - 1];
+      const cur = frame.node;
+
+      if (frame.stage === 0) {
+        // Leaf / empty node — resolve immediately
+        if (this._isDisplayLeaf(cur, options)) {
+          stack.pop();
+          const layout = this._resolveDisplayLeaf(cur, options, emptyDisplayLayout);
+          setChildResult(layout);
+          continue;
+        }
+        frame.stage = 1;
+        stack.push(newFrame(cur!.left));
+      } else if (frame.stage === 1) {
+        frame.stage = 2;
+        stack.push(newFrame(cur!.right));
+      } else {
+        stack.pop();
+        const line = this.isNIL(cur) ? 'S' : String(cur!.key);
+        const layout = BinaryTree._buildNodeDisplay(line, line.length, frame.leftLayout, frame.rightLayout);
+        setChildResult(layout);
+      }
     }
 
-    /**
-     * (Inner) Builds the display lines for a node.
-     * @remarks Time/Space: Proportional to the width and height of the subtrees.
-     */
-    function _buildNodeDisplay(line: string, width: number, left: NodeDisplayLayout, right: NodeDisplayLayout) {
+    return result;
+  }
+
+  protected static _buildNodeDisplay(line: string, width: number, left: NodeDisplayLayout, right: NodeDisplayLayout) {
       const [leftLines, leftWidth, leftHeight, leftMiddle] = left;
       const [rightLines, rightWidth, rightHeight, rightMiddle] = right;
       const firstLine =
@@ -2325,7 +2345,57 @@ export class BinaryTree<K = any, V = any, R = any>
         Math.max(leftHeight, rightHeight) + 2,
         leftWidth + Math.floor(width / 2)
       ];
+  }
+
+  /**
+   * Check if a node is a display leaf (empty, null, undefined, NIL, or real leaf).
+   */
+  protected _isDisplayLeaf(
+    node: BinaryTreeNode<K, V> | null | undefined,
+    options: BinaryTreePrintOptions
+  ): boolean {
+    const { isShowNull, isShowUndefined, isShowRedBlackNIL } = options;
+    // Empty/hidden nodes are always leaves
+    if (node === null && !isShowNull) return true;
+    if (node === undefined && !isShowUndefined) return true;
+    if (this.isNIL(node) && !isShowRedBlackNIL) return true;
+    // Shown null/undefined are leaves (no children to recurse into)
+    if (node === null || node === undefined) return true;
+    // Real node: check if it has any children that would be displayed
+    const hasDisplayableLeft = this._hasDisplayableChild(node.left, options);
+    const hasDisplayableRight = this._hasDisplayableChild(node.right, options);
+    return !hasDisplayableLeft && !hasDisplayableRight;
+  }
+
+  protected _hasDisplayableChild(
+    child: BinaryTreeNode<K, V> | null | undefined,
+    options: BinaryTreePrintOptions
+  ): boolean {
+    if (child === null) return !!options.isShowNull;
+    if (child === undefined) return !!options.isShowUndefined;
+    if (this.isNIL(child)) return !!options.isShowRedBlackNIL;
+    return true; // real node is always displayable
+  }
+
+  /**
+   * Resolve a display leaf node to its layout.
+   */
+  protected _resolveDisplayLeaf(
+    node: BinaryTreeNode<K, V> | null | undefined,
+    options: BinaryTreePrintOptions,
+    emptyDisplayLayout: NodeDisplayLayout
+  ): NodeDisplayLayout {
+    const { isShowNull, isShowUndefined, isShowRedBlackNIL } = options;
+    if (node === null && !isShowNull) return emptyDisplayLayout;
+    if (node === undefined && !isShowUndefined) return emptyDisplayLayout;
+    if (this.isNIL(node) && !isShowRedBlackNIL) return emptyDisplayLayout;
+    if (node !== null && node !== undefined) {
+      const line = this.isNIL(node) ? 'S' : String(node.key);
+      return BinaryTree._buildNodeDisplay(line, line.length, emptyDisplayLayout, emptyDisplayLayout);
     }
+    // Shown null / undefined
+    const line = node === undefined ? 'U' : 'N';
+    return BinaryTree._buildNodeDisplay(line, line.length, [[''], 1, 0, 0], [[''], 1, 0, 0]);
   }
 
   /**
