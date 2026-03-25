@@ -1605,7 +1605,7 @@ export class BinaryTree<K = any, V = any, R = any>
 
   /**
    * Finds all leaf nodes in the tree.
-   * @remarks Time O(N), visits every node. Space O(H) for recursive stack or O(N) for iterative queue.
+   * @remarks Time O(N), visits every node. Space O(H) for recursive or iterative stack.
    *
    * @template C - The type of the callback function.
    * @param [callback=this._DEFAULT_NODE_CALLBACK] - Function to call on each leaf node.
@@ -1636,17 +1636,18 @@ export class BinaryTree<K = any, V = any, R = any>
 
       dfs(startNode);
     } else {
-      // BFS-based
-      const queue = new Queue([startNode]);
+      // DFS-based (stack) to match recursive order
+      const stack = [startNode];
 
-      while (queue.length > 0) {
-        const cur = queue.shift();
+      while (stack.length > 0) {
+        const cur = stack.pop()!;
         if (this.isRealNode(cur)) {
           if (this.isLeaf(cur)) {
             leaves.push(callback(cur));
           }
-          if (this.isRealNode(cur.left)) queue.push(cur.left);
-          if (this.isRealNode(cur.right)) queue.push(cur.right);
+          // Push right first so left is processed first (LIFO)
+          if (this.isRealNode(cur.right)) stack.push(cur.right);
+          if (this.isRealNode(cur.left)) stack.push(cur.left);
         }
       }
     }

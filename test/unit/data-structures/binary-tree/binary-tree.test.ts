@@ -1380,6 +1380,19 @@ describe('BinaryTree (map mode) - higher-order & iteration', () => {
     expect(binaryTree.leaves()).toEqual([]);
   });
 
+  it('leaves(): RECURSIVE and ITERATIVE return same order (#102)', () => {
+    const bt = new BinaryTree<number>();
+    //        1
+    //       / \
+    //      2   3
+    //     / \   \
+    //    4   5   6
+    bt.add(1); bt.add(2); bt.add(3); bt.add(4); bt.add(5); bt.add(6);
+    const recursive = bt.leaves(n => n!.key, bt.root, 'RECURSIVE');
+    const iterative = bt.leaves(n => n!.key, bt.root, 'ITERATIVE');
+    expect(iterative).toEqual(recursive);
+  });
+
   it('bfs(includeNull=true, no callback): yields undefined placeholders', () => {
     const binTree = new BinaryTree();
     binTree.setMany([-10, -10, -10, 9, 9, 20, null, null, 15, 7, 8, null, 2, null, 6, null, null, 8, 8, 8]);
