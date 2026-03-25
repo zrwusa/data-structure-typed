@@ -160,8 +160,9 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
     super(options);
 
     if (options) {
-      const { bucketSize } = options;
+      const { bucketSize, autoCompactRatio } = options;
       if (typeof bucketSize === 'number') this._bucketSize = bucketSize;
+      if (typeof autoCompactRatio === 'number') this._autoCompactRatio = autoCompactRatio;
     }
 
     let _size: number;
@@ -191,6 +192,26 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
 
   get bucketSize() {
     return this._bucketSize;
+  }
+
+  protected _autoCompactRatio = 0.5;
+
+  /**
+   * Get the auto-compaction ratio.
+   * @remarks Time O(1), Space O(1)
+   * @returns Current ratio threshold. 0 means auto-compact is disabled.
+   */
+  get autoCompactRatio(): number {
+    return this._autoCompactRatio;
+  }
+
+  /**
+   * Set the auto-compaction ratio.
+   * @remarks Time O(1), Space O(1)
+   * @param value - Ratio in [0,1]. Compacts when used/total buckets < ratio after shift/pop. 0 disables.
+   */
+  set autoCompactRatio(value: number) {
+    this._autoCompactRatio = value;
   }
 
   protected _bucketFirst = 0;
@@ -368,6 +389,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
       }
     }
     this._length -= 1;
+    this._autoCompact();
     return element;
   }
 
@@ -392,6 +414,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
       }
     }
     this._length -= 1;
+    this._autoCompact();
     return element;
   }
 
@@ -769,6 +792,33 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @returns void
    */
+
+  /**
+   * Compact the deque by removing unused buckets.
+   * Alias for `shrinkToFit` with a return value indicating whether compaction occurred.
+   * @remarks Time O(N), Space O(1)
+   * @returns True if compaction was performed.
+   */
+  /**
+   * (Protected) Trigger auto-compaction if the used bucket ratio drops below threshold.
+   */
+  protected _autoCompact(): void {
+    if (this._autoCompactRatio <= 0 || this._bucketCount <= 1) return;
+
+    const usedBuckets = this._bucketFirst <= this._bucketLast
+      ? this._bucketLast - this._bucketFirst + 1
+      : this._bucketCount - this._bucketFirst + this._bucketLast + 1;
+
+    if (usedBuckets / this._bucketCount < this._autoCompactRatio) {
+      this.shrinkToFit();
+    }
+  }
+
+  compact(): boolean {
+    const before = this._bucketCount;
+    this.shrinkToFit();
+    return this._bucketCount < before;
+  }
 
   shrinkToFit(): void {
     if (this._length === 0) return;

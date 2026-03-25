@@ -935,6 +935,71 @@ describe('classic uses', () => {
   });
 });
 
+describe('Deque compact and auto-compacting (#92)', () => {
+  it('compact() should remove unused buckets', () => {
+    const deque = new Deque<number>([], { bucketSize: 3 });
+    for (let i = 0; i < 20; i++) deque.push(i);
+    for (let i = 0; i < 15; i++) deque.shift();
+
+    const beforeCount = deque.bucketCount;
+    const compacted = deque.compact();
+    expect(compacted).toBe(true);
+    expect(deque.bucketCount).toBeLessThanOrEqual(beforeCount);
+    expect(deque.length).toBe(5);
+    expect([...deque]).toEqual([15, 16, 17, 18, 19]);
+  });
+
+  it('compact() should return false when nothing to compact', () => {
+    const deque = new Deque([1, 2, 3], { bucketSize: 3 });
+    deque.compact(); // first compact
+    const result = deque.compact(); // second should be no-op
+    expect(result).toBe(false);
+  });
+
+  it('autoCompactRatio should trigger automatic compaction after shift', () => {
+    const deque = new Deque<number>([], { bucketSize: 2, autoCompactRatio: 0.5 });
+    for (let i = 0; i < 100; i++) deque.push(i);
+    const initialBuckets = deque.bucketCount;
+
+    // Shift most elements — should trigger auto-compact
+    for (let i = 0; i < 90; i++) deque.shift();
+
+    expect(deque.length).toBe(10);
+    expect(deque.bucketCount).toBeLessThan(initialBuckets);
+    expect([...deque][0]).toBe(90);
+  });
+
+  it('autoCompactRatio=0 should disable auto-compaction', () => {
+    const deque = new Deque<number>([], { bucketSize: 2, autoCompactRatio: 0 });
+    for (let i = 0; i < 100; i++) deque.push(i);
+    const initialBuckets = deque.bucketCount;
+
+    for (let i = 0; i < 90; i++) deque.shift();
+
+    // Buckets should NOT have been compacted automatically
+    expect(deque.bucketCount).toBe(initialBuckets);
+    expect(deque.length).toBe(10);
+  });
+
+  it('autoCompactRatio getter/setter', () => {
+    const deque = new Deque<number>();
+    expect(deque.autoCompactRatio).toBe(0.5); // default
+    deque.autoCompactRatio = 0.8;
+    expect(deque.autoCompactRatio).toBe(0.8);
+  });
+
+  it('auto-compact after pop', () => {
+    const deque = new Deque<number>([], { bucketSize: 2, autoCompactRatio: 0.5 });
+    for (let i = 0; i < 100; i++) deque.push(i);
+
+    for (let i = 0; i < 90; i++) deque.pop();
+
+    expect(deque.length).toBe(10);
+    expect([...deque][0]).toBe(0);
+    expect([...deque][9]).toBe(9);
+  });
+});
+
 describe('Deque type inference (#97)', () => {
   it('should infer element type from toElementFn return type', () => {
     const objArr: Array<{ key: number }> = [{ key: 1 }, { key: 6 }, { key: 7 }, { key: 3 }];
