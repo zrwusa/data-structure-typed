@@ -567,6 +567,101 @@ export class UndirectedGraph<
   }
 
   /**
+   * Find biconnected components using edge-stack Tarjan variant.
+   * A biconnected component is a maximal biconnected subgraph.
+   * @returns Array of edge arrays, each representing a biconnected component.
+   * @remarks Time O(V + E), Space O(V + E)
+   */
+  getBiconnectedComponents(): EO[][] {
+    const dfn = new Map<VO, number>();
+    const low = new Map<VO, number>();
+    const edgeStack: EO[] = [];
+    const components: EO[][] = [];
+    let time = 0;
+
+    const dfs = (vertex: VO, parent: VO | undefined) => {
+      dfn.set(vertex, time);
+      low.set(vertex, time);
+      time++;
+
+      const neighbors = this.getNeighbors(vertex);
+      let childCount = 0;
+
+      for (const neighbor of neighbors) {
+        const edge = this.getEdge(vertex, neighbor);
+        if (!edge) continue;
+
+        if (!dfn.has(neighbor)) {
+          childCount++;
+          edgeStack.push(edge);
+          dfs(neighbor, vertex);
+          low.set(vertex, Math.min(low.get(vertex)!, low.get(neighbor)!));
+
+          // Articulation point found — pop edges to form a component
+          if (
+            (parent === undefined && childCount > 1) ||
+            (parent !== undefined && low.get(neighbor)! >= dfn.get(vertex)!)
+          ) {
+            const component: EO[] = [];
+            let e: EO | undefined;
+            do {
+              e = edgeStack.pop();
+              if (e) component.push(e);
+            } while (e && e !== edge);
+            if (component.length > 0) components.push(component);
+          }
+        } else if (neighbor !== parent && dfn.get(neighbor)! < dfn.get(vertex)!) {
+          // Back edge (only push once per undirected edge)
+          edgeStack.push(edge);
+          low.set(vertex, Math.min(low.get(vertex)!, dfn.get(neighbor)!));
+        }
+      }
+    };
+
+    for (const vertex of this.vertexMap.values()) {
+      if (!dfn.has(vertex)) {
+        dfs(vertex, undefined);
+        // Remaining edges form a component
+        if (edgeStack.length > 0) {
+          components.push([...edgeStack]);
+          edgeStack.length = 0;
+        }
+      }
+    }
+
+    return components;
+  }
+
+  /**
+   * Detect whether the graph contains a cycle.
+   * Uses DFS with parent tracking.
+   * @returns `true` if a cycle exists, `false` otherwise.
+   * @remarks Time O(V + E), Space O(V)
+   */
+  hasCycle(): boolean {
+    const visited = new Set<VO>();
+
+    const dfs = (vertex: VO, parent: VO | undefined): boolean => {
+      visited.add(vertex);
+      for (const neighbor of this.getNeighbors(vertex)) {
+        if (!visited.has(neighbor)) {
+          if (dfs(neighbor, vertex)) return true;
+        } else if (neighbor !== parent) {
+          return true; // back edge = cycle
+        }
+      }
+      return false;
+    };
+
+    for (const vertex of this.vertexMap.values()) {
+      if (!visited.has(vertex)) {
+        if (dfs(vertex, undefined)) return true;
+      }
+    }
+    return false;
+  }
+
+  /**
    * Get bridges discovered by `tarjan()`.
    * @returns Array of edges that are bridges.
    * @remarks Time O(B), Space O(1)

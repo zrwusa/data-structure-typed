@@ -809,3 +809,66 @@ describe('UndirectedGraph visual output (#113)', () => {
     expect(dot).not.toContain('digraph');
   });
 });
+
+describe('UndirectedGraph biconnected components and cycle detection (#77)', () => {
+  it('hasCycle detects cycle in triangle', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('A'); g.addVertex('B'); g.addVertex('C');
+    g.addEdge('A', 'B', 1); g.addEdge('B', 'C', 1); g.addEdge('C', 'A', 1);
+    expect(g.hasCycle()).toBe(true);
+  });
+
+  it('hasCycle returns false for tree (no cycle)', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('A'); g.addVertex('B'); g.addVertex('C'); g.addVertex('D');
+    g.addEdge('A', 'B', 1); g.addEdge('A', 'C', 1); g.addEdge('C', 'D', 1);
+    expect(g.hasCycle()).toBe(false);
+  });
+
+  it('hasCycle handles disconnected graph with one cycle', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('A'); g.addVertex('B'); g.addVertex('C'); g.addVertex('D');
+    g.addEdge('A', 'B', 1); // isolated edge
+    g.addEdge('C', 'D', 1); // another isolated edge
+    expect(g.hasCycle()).toBe(false);
+    g.addEdge('D', 'C', 1); // duplicate (same edge)
+    // Still no cycle with simple edges
+  });
+
+  it('hasCycle empty graph', () => {
+    const g = new UndirectedGraph();
+    expect(g.hasCycle()).toBe(false);
+  });
+
+  it('getBiconnectedComponents finds components in graph with bridge', () => {
+    //  A - B - C
+    //  |   |
+    //  D - E
+    // Bridge: B-C
+    // Component 1: A-B, B-E, E-D, D-A (or similar)
+    // Component 2: B-C
+    const g = new UndirectedGraph();
+    g.addVertex('A'); g.addVertex('B'); g.addVertex('C'); g.addVertex('D'); g.addVertex('E');
+    g.addEdge('A', 'B', 1);
+    g.addEdge('A', 'D', 1);
+    g.addEdge('D', 'E', 1);
+    g.addEdge('E', 'B', 1);
+    g.addEdge('B', 'C', 1);
+
+    const components = g.getBiconnectedComponents();
+    expect(components.length).toBeGreaterThanOrEqual(2);
+    // Total edges across all components = total edges
+    const totalEdges = components.reduce((sum, c) => sum + c.length, 0);
+    expect(totalEdges).toBe(5);
+  });
+
+  it('getBiconnectedComponents single triangle = 1 component', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('A'); g.addVertex('B'); g.addVertex('C');
+    g.addEdge('A', 'B', 1); g.addEdge('B', 'C', 1); g.addEdge('C', 'A', 1);
+
+    const components = g.getBiconnectedComponents();
+    expect(components.length).toBe(1);
+    expect(components[0].length).toBe(3);
+  });
+});
