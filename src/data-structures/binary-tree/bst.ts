@@ -1523,6 +1523,14 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
         return 0;
       }
 
+      // Date keys: compare by getTime()
+      if (a instanceof Date && b instanceof Date) {
+        const ta = a.getTime();
+        const tb = b.getTime();
+        if (Number.isNaN(ta) || Number.isNaN(tb)) throw new TypeError(ERR.invalidDate('BST'));
+        return ta > tb ? 1 : ta < tb ? -1 : 0;
+      }
+
       // If keys are objects and no comparator is provided, throw an error
       if (typeof a === 'object' || typeof b === 'object') {
         throw new TypeError(

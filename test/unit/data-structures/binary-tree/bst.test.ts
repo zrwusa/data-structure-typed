@@ -1518,6 +1518,29 @@ describe('BST constructor and comparator edge cases', () => {
     const bst = new BST<any>();
     expect(() => bst.comparator({ a: 1 }, { a: 2 })).toThrow();
   });
+
+  it('should support Date keys without custom comparator (#107)', () => {
+    const bst = new BST<Date>();
+    const d1 = new Date('2024-01-01');
+    const d2 = new Date('2024-06-15');
+    const d3 = new Date('2024-03-10');
+    bst.add(d1);
+    bst.add(d2);
+    bst.add(d3);
+    expect(bst.size).toBe(3);
+    // DFS in-order should return sorted dates
+    const keys = bst.dfs(node => node!.key, 'IN');
+    expect(keys).toEqual([d1, d3, d2]);
+    expect(bst.has(d2)).toBe(true);
+    expect(bst.has(new Date('2099-01-01'))).toBe(false);
+  });
+
+  it('should ignore invalid Date keys (#107)', () => {
+    const bst = new BST<Date>();
+    bst.add(new Date('2024-01-01'));
+    bst.add(new Date('invalid'));
+    expect(bst.size).toBe(1); // invalid date silently rejected
+  });
 });
 
 describe('BST addMany edge cases', () => {
