@@ -1274,4 +1274,80 @@ describe('DirectedGraph visual output (#113)', () => {
     expect(visual).toContain('0 vertices');
     expect(visual).toContain('0 edges');
   });
+
+  it('self-loop edge', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    g.addEdge('A', 'A', 1);
+
+    const visual = g.toVisual();
+    expect(visual).toContain('A -> A');
+
+    const dot = g.toDot();
+    expect(dot).toContain('"A" -> "A"');
+  });
+
+  it('numeric vertex keys', () => {
+    const g = new DirectedGraph<number>();
+    g.addVertex(1);
+    g.addVertex(2);
+    g.addVertex(3);
+    g.addEdge(1, 2, 10);
+    g.addEdge(2, 3);
+
+    const visual = g.toVisual();
+    expect(visual).toContain('1 -> 2 (10)');
+    expect(visual).toContain('2 -> 3');
+    expect(visual).toContain('3 (isolated)');
+  });
+
+  it('weight=0 edge should display weight', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addEdge('A', 'B', 0);
+
+    const visual = g.toVisual();
+    // weight=0 differs from default(1), should show
+    expect(visual).toContain('A -> B (0)');
+
+    const dot = g.toDot();
+    expect(dot).toContain('[label="0"]');
+  });
+
+  it('single vertex no edges', () => {
+    const g = new DirectedGraph();
+    g.addVertex('lonely');
+
+    const visual = g.toVisual();
+    expect(visual).toContain('1 vertices');
+    expect(visual).toContain('0 edges');
+    expect(visual).toContain('lonely (isolated)');
+  });
+
+  it('many vertices performance', () => {
+    const g = new DirectedGraph<number>();
+    for (let i = 0; i < 100; i++) g.addVertex(i);
+    for (let i = 0; i < 99; i++) g.addEdge(i, i + 1);
+
+    const visual = g.toVisual();
+    expect(visual).toContain('100 vertices');
+    expect(visual).toContain('99 edges');
+
+    const dot = g.toDot();
+    expect(dot).toContain('digraph G {');
+    expect(dot.split('\n').length).toBeGreaterThan(200);
+  });
+
+  it('multiple edges from same vertex', () => {
+    const g = new DirectedGraph();
+    g.addVertex('hub');
+    for (let i = 0; i < 5; i++) {
+      g.addVertex(`n${i}`);
+      g.addEdge('hub', `n${i}`, i + 1);
+    }
+
+    const visual = g.toVisual();
+    expect(visual).toContain('hub -> n0, n1 (2), n2 (3), n3 (4), n4 (5)');
+  });
 });
