@@ -804,11 +804,11 @@ describe('Deque', () => {
     expect(deque.bucketLast).toBe(1);
     expect(deque.firstInBucket).toBe(2);
     expect(deque.lastInBucket).toBe(1);
-    expect(deque.bucketCount).toBe(3);
+    expect(deque.bucketCount).toBe(2);
     expect(deque.buckets).toEqual([
       [7, 3, 2],
       [4, 5]
-    ]); // TODO may be a problem
+    ]);
   });
 });
 

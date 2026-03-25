@@ -771,8 +771,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
   shrinkToFit(): void {
     if (this._length === 0) return;
     const newBuckets = [] as E[][];
-    if (this._bucketFirst === this._bucketLast) return;
-    else if (this._bucketFirst < this._bucketLast) {
+    if (this._bucketFirst <= this._bucketLast) {
       for (let i = this._bucketFirst; i <= this._bucketLast; ++i) {
         newBuckets.push(this._buckets[i]);
       }
@@ -787,6 +786,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
     this._bucketFirst = 0;
     this._bucketLast = newBuckets.length - 1;
     this._buckets = newBuckets;
+    this._bucketCount = newBuckets.length;
   }
 
   /**
