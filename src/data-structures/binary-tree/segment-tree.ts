@@ -60,6 +60,16 @@ export class SegmentTree<E = number> implements Iterable<E> {
 
   // ─── Convenience factories ─────────────────────────────────
 
+  /**
+   * Create a sum segment tree.
+   * @example
+   * ```ts
+   * const st = SegmentTree.sum([1, 2, 3, 4, 5]);
+   * st.query(0, 2); // 6 (1+2+3)
+   * st.update(1, 10);
+   * st.query(0, 2); // 14 (1+10+3)
+   * ```
+   */
   static sum(elements: number[]): SegmentTree<number> {
     return new SegmentTree<number>(elements, {
       merger: (a, b) => a + b,
@@ -67,6 +77,14 @@ export class SegmentTree<E = number> implements Iterable<E> {
     });
   }
 
+  /**
+   * Create a min segment tree.
+   * @example
+   * ```ts
+   * const st = SegmentTree.min([3, 1, 4, 1, 5]);
+   * st.query(0, 3); // 1
+   * ```
+   */
   static min(elements: number[]): SegmentTree<number> {
     return new SegmentTree<number>(elements, {
       merger: (a, b) => Math.min(a, b),
@@ -74,6 +92,14 @@ export class SegmentTree<E = number> implements Iterable<E> {
     });
   }
 
+  /**
+   * Create a max segment tree.
+   * @example
+   * ```ts
+   * const st = SegmentTree.max([3, 1, 4, 1, 5]);
+   * st.query(1, 4); // 5
+   * ```
+   */
   static max(elements: number[]): SegmentTree<number> {
     return new SegmentTree<number>(elements, {
       merger: (a, b) => Math.max(a, b),
@@ -86,6 +112,12 @@ export class SegmentTree<E = number> implements Iterable<E> {
   /**
    * Point update: set element at index to value.
    * Time: O(log n)
+   * @example
+   * ```ts
+   * const st = SegmentTree.sum([1, 2, 3]);
+   * st.update(1, 10); // [1, 10, 3]
+   * st.query(0, 2);   // 14
+   * ```
    */
   update(index: number, value: E): void {
     if (index < 0 || index >= this._n) return;
@@ -104,6 +136,11 @@ export class SegmentTree<E = number> implements Iterable<E> {
   /**
    * Range query: returns merger result over [start, end] (inclusive).
    * Time: O(log n)
+   * @example
+   * ```ts
+   * const st = SegmentTree.sum([1, 2, 3, 4, 5]);
+   * st.query(1, 3); // 9 (2+3+4)
+   * ```
    */
   query(start: number, end: number): E {
     if (start < 0) start = 0;

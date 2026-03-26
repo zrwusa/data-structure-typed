@@ -163,6 +163,12 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
   /**
    * Insert or update a key-value pair. Returns `this` for chaining.
    * Unique keys only — if key exists, value is updated in place.
+   * @example
+   * ```ts
+   * const sl = new SkipList<number, string>();
+   * sl.set(1, 'a').set(2, 'b').set(3, 'c');
+   * sl.get(2); // 'b'
+   * ```
    */
   set(key: K, value: V): this {
     const cmp = this.#comparator;
@@ -238,6 +244,12 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Returns the first (smallest key) entry, or `undefined` if empty.
+   * @example
+   * ```ts
+   * const sl = new SkipList([[3, 'c'], [1, 'a'], [2, 'b']]);
+   * sl.first();  // [1, 'a']
+   * sl.last();   // [3, 'c']
+   * ```
    */
   first(): [K, V | undefined] | undefined {
     const node = this._head.forward[0];
@@ -279,6 +291,14 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Least entry ≥ key, or `undefined`.
+   * @example
+   * ```ts
+   * const sl = new SkipList([[1, 'a'], [3, 'c'], [5, 'e']]);
+   * sl.ceiling(2);  // [3, 'c']
+   * sl.floor(4);    // [3, 'c']
+   * sl.higher(3);   // [5, 'e']
+   * sl.lower(3);    // [1, 'a']
+   * ```
    */
   ceiling(key: K): [K, V | undefined] | undefined {
     const cmp = this.#comparator;
@@ -346,6 +366,12 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Returns entries within the given key range.
+   * @example
+   * ```ts
+   * const sl = new SkipList([[1,'a'],[2,'b'],[3,'c'],[4,'d'],[5,'e']]);
+   * sl.rangeSearch([2, 4]); // [[2,'b'],[3,'c'],[4,'d']]
+   * sl.rangeSearch([2, 4], { lowInclusive: false }); // [[3,'c'],[4,'d']]
+   * ```
    */
   rangeSearch(range: [K, K], options: SkipListRangeOptions = {}): Array<[K, V | undefined]> {
     const { lowInclusive = true, highInclusive = true } = options;

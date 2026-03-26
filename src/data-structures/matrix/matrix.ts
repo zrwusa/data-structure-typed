@@ -11,6 +11,17 @@ import { ERR } from '../../common';
 /**
  *
  */
+/**
+ * Matrix — a numeric matrix with standard linear algebra operations.
+ *
+ * @example
+ * ```ts
+ * const m = Matrix.from([[1, 2], [3, 4]]);
+ * const t = m.transpose();    // [[1, 3], [2, 4]]
+ * const sum = m.add(m);       // [[2, 4], [6, 8]]
+ * const id = Matrix.identity(3); // 3×3 identity matrix
+ * ```
+ */
 export class Matrix {
   /**
    * The constructor function initializes a matrix object with the provided data and options, or with
@@ -515,6 +526,10 @@ export class Matrix {
 
   /**
    * Creates a rows×cols zero matrix.
+   * @example
+   * ```ts
+   * const z = Matrix.zeros(2, 3); // [[0,0,0],[0,0,0]]
+   * ```
    */
   static zeros(rows: number, cols: number): Matrix {
     const data: number[][] = Array.from({ length: rows }, () => new Array(cols).fill(0));
@@ -523,6 +538,10 @@ export class Matrix {
 
   /**
    * Creates an n×n identity matrix.
+   * @example
+   * ```ts
+   * const I = Matrix.identity(3); // [[1,0,0],[0,1,0],[0,0,1]]
+   * ```
    */
   static identity(n: number): Matrix {
     const data: number[][] = Array.from({ length: n }, (_, i) =>
@@ -532,7 +551,12 @@ export class Matrix {
   }
 
   /**
-   * Creates a Matrix from a plain 2D array.
+   * Creates a Matrix from a plain 2D array (deep copy).
+   * @example
+   * ```ts
+   * const m = Matrix.from([[1, 2], [3, 4]]);
+   * m.get(0, 1); // 2
+   * ```
    */
   static from(data: number[][]): Matrix {
     return new Matrix(data.map(row => [...row]));

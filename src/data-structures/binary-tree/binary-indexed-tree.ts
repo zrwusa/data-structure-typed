@@ -56,6 +56,12 @@ export class BinaryIndexedTree implements Iterable<number> {
   /**
    * Point update: add delta to the value at index (0-based).
    * Time: O(log n)
+   * @example
+   * ```ts
+   * const bit = new BinaryIndexedTree([1, 2, 3, 4]);
+   * bit.update(1, 5);    // add 5 to index 1
+   * bit.query(1);        // prefix sum [0..1] = 1 + 7 = 8
+   * ```
    */
   update(index: number, delta: number): void {
     this._checkIndex(index);
@@ -75,6 +81,11 @@ export class BinaryIndexedTree implements Iterable<number> {
   /**
    * Get the point value at index (0-based).
    * Time: O(log n)
+   * @example
+   * ```ts
+   * const bit = new BinaryIndexedTree([1, 2, 3, 4]);
+   * bit.get(2); // 3
+   * ```
    */
   get(index: number): number {
     this._checkIndex(index);
@@ -93,6 +104,11 @@ export class BinaryIndexedTree implements Iterable<number> {
   /**
    * Range sum query: returns sum of elements [start..end] (inclusive, 0-based).
    * Time: O(log n)
+   * @example
+   * ```ts
+   * const bit = new BinaryIndexedTree([1, 2, 3, 4, 5]);
+   * bit.queryRange(1, 3); // 9 (2+3+4)
+   * ```
    */
   queryRange(start: number, end: number): number {
     this._checkIndex(start);
