@@ -168,22 +168,35 @@ describe('RedBlackTree cache coverage', () => {
     });
   });
 
-  describe('cache update else branch (newNode is new min or max but parent is not cached endpoint)', () => {
-    it('updates min cache when inserting new smallest via non-min parent', () => {
+  describe('cache update via parent===hMax/hMin fast path', () => {
+    it('line 601: parent === hMax && lastCompared > 0 (append to max)', () => {
+      // Need: parent of new node IS current hMax, and new node > parent.
+      // Insert ascending sequence so each new node's parent is current max.
       const t = new RedBlackTree<number, number>();
-      // Build tree: 50, 30, 70, 20, 40
-      for (const k of [50, 30, 70, 20, 40]) t.add(k, k);
-      // Current min is 20. Insert 10 — parent will be 20 (which IS min), so try smaller
-      // Insert 15 first, then 5 — 5's parent will be 20 and 5 < current min
-      t.add(15, 15); // parent is 20 which is min, lastCompared < 0 → line 603
-      t.add(5, 5);   // covers else branch — 5 < hMin.key (15 or 20 depending on tree shape)
-      expect(t.getLeftMost()).toBe(5);
+      t.add(10, 10); // root, min=max=10
+      t.add(20, 20); // parent=10 (=hMax), lastCompared>0 → line 601
+      expect(t.getRightMost()).toBe(20);
+      t.add(30, 30); // after rebalance, parent of 30 might be 20 (=hMax) → line 601
+      expect(t.getRightMost()).toBe(30);
     });
 
-    it('updates max cache when inserting new largest via non-max parent', () => {
+    it('line 603: parent === hMin && lastCompared < 0 (prepend to min)', () => {
       const t = new RedBlackTree<number, number>();
-      for (const k of [50, 30, 70, 60, 80]) t.add(k, k);
-      t.add(85, 85); // parent is 80 which is max, lastCompared > 0 → line 601
+      t.add(30, 30); // root, min=max=30
+      t.add(20, 20); // parent=30 (=hMin), lastCompared<0 → line 603
+      expect(t.getLeftMost()).toBe(20);
+      t.add(10, 10); // parent might be 20 (=hMin) → line 603
+      expect(t.getLeftMost()).toBe(10);
+    });
+
+    it('else branch: new min/max but parent is neither hMin nor hMax', () => {
+      const t = new RedBlackTree<number, number>();
+      // Build a tree where min/max are leaves deep in the tree
+      for (const k of [50, 30, 70, 20, 40, 60, 80]) t.add(k, k);
+      // Now insert 5: parent=20 (which may not be hMin after rebalancing)
+      // and 90: parent=80 (which may not be hMax)
+      t.add(5, 5);
+      expect(t.getLeftMost()).toBe(5);
       t.add(90, 90);
       expect(t.getRightMost()).toBe(90);
     });

@@ -411,4 +411,83 @@ describe('RedBlackTree hint coverage', () => {
       expect(out?.key).toBe(2);
     });
   });
+
+  describe('setWithHint boolean wrapper', () => {
+    it('returns true on insert, true on update', () => {
+      const t = new RedBlackTree<number, number>([], { isMapMode: true });
+      t.add(10, 10);
+      const hint = t.getNode(10)!;
+      expect(t.setWithHint(20, 20, hint)).toBe(true);
+      expect(t.setWithHint(20, 99, hint)).toBe(true); // update via fallback
+    });
+  });
+
+  describe('setWithHintNode c0<0 fallback (line 692)', () => {
+    it('falls back when hint.left occupied and pred.right also occupied', () => {
+      const t = new RedBlackTree<number, number>([], { isMapMode: true });
+      // Build: 10, 20, 30, 15, 25
+      for (const k of [10, 20, 30, 15, 25]) t.add(k, k);
+      const hint20 = t.getNode(20)!;
+      // key=12 < 20 → c0 < 0
+      // hint.left = 15 (real, not NIL) → skip left-attach
+      // pred(20) = 15, pred.right might be real → skip pred-attach → fallback line 692
+      const n = t.setWithHintNode(12, 12, hint20);
+      expect(n?.key).toBe(12);
+      expect(t.has(12)).toBe(true);
+    });
+  });
+
+  describe('setWithHintNode c0>0 right-attach path', () => {
+    it('attaches to hint.right when slot is empty (line ~697)', () => {
+      const t = new RedBlackTree<number, number>([], { isMapMode: true });
+      // Build tree: 10, 20 — hint at node 20 which has no right child
+      t.add(10, 10);
+      t.add(20, 20);
+      const hint20 = t.getNode(20)!;
+      // key 25 > 20, hint.right is NIL → direct right-attach
+      const n = t.setWithHintNode(25, 25, hint20);
+      expect(n?.key).toBe(25);
+      expect(t.has(25)).toBe(true);
+      expect(t.size).toBe(3);
+    });
+
+    it('attaches to successor.left when hint.right is occupied (line ~737)', () => {
+      const t = new RedBlackTree<number, number>([], { isMapMode: true });
+      // Build: 10, 20, 30 — hint at 20, key 25 > 20, 20.right=30, succ=30, 30.left=NIL
+      t.add(10, 10);
+      t.add(20, 20);
+      t.add(30, 30);
+      const hint20 = t.getNode(20)!;
+      // 25 > 20, hint.right = 30 (occupied), successor = 30, 30.left = NIL → left-attach
+      const n = t.setWithHintNode(25, 25, hint20);
+      expect(n?.key).toBe(25);
+      expect(t.has(25)).toBe(true);
+      expect(t.size).toBe(4);
+    });
+
+    it('falls back when hint.right occupied and succ.left also occupied (line 732)', () => {
+      const t = new RedBlackTree<number, number>([], { isMapMode: true });
+      // Build: 10, 20, 30, 25, 15
+      for (const k of [10, 20, 30, 25, 15]) t.add(k, k);
+      const hint20 = t.getNode(20)!;
+      // key=27 > 20 → c0 > 0
+      // hint.right might be 30 or 25 (depends on shape), both real → skip right-attach
+      // succ(20) = 25, 25.left might be occupied → skip succ-attach → fallback line 732
+      const n = t.setWithHintNode(27, 27, hint20);
+      expect(n?.key).toBe(27);
+      expect(t.has(27)).toBe(true);
+    });
+
+    it('falls back to _setKVNode when successor key <= key', () => {
+      const t = new RedBlackTree<number, number>([], { isMapMode: true });
+      t.add(10, 10);
+      t.add(20, 20);
+      t.add(30, 30);
+      const hint10 = t.getNode(10)!;
+      // key 20, hint=10, c0 > 0, hint.right = 20 (occupied), succ=20, succ.key 20 <= 20 → fallback
+      const n = t.setWithHintNode(20, 999, hint10);
+      expect(n?.key).toBe(20);
+      expect(t.get(20)).toBe(999); // updated
+    });
+  });
 });
