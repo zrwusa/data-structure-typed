@@ -898,4 +898,165 @@ describe('UndirectedGraph biconnected components and cycle detection (#77)', () 
     const result = g.dijkstra('A');
     expect(result?.distMap.get(g.getVertex('C')!)).toBe(3);
   });
+
+  it('@example [UndirectedGraph.hasVertex] Check vertex existence', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('A');
+    expect(g.hasVertex('A')).toBe(true);
+    expect(g.hasVertex('Z')).toBe(false);
+  });
+
+  it('@example [UndirectedGraph.hasEdge] Check edge existence', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addEdge('A', 'B');
+    expect(g.hasEdge('A', 'B')).toBe(true);
+    expect(g.hasEdge('B', 'A')).toBe(true);
+  });
+
+  it('@example [UndirectedGraph.deleteVertex] Remove vertex and edges', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addEdge('A', 'B');
+    g.deleteVertex('A');
+    expect(g.hasVertex('A')).toBe(false);
+  });
+
+  it('@example [UndirectedGraph.getVertex] Get vertex object', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('X');
+    expect(g.getVertex('X')?.key).toBe('X');
+  });
+
+  it('@example [UndirectedGraph.getEdge] Get edge between vertices', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addEdge('A', 'B', 7);
+    expect(g.getEdge('A', 'B')?.weight).toBe(7);
+  });
+
+  it('@example [UndirectedGraph.bellmanFord] Shortest paths', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'B', 1);
+    g.addEdge('B', 'C', 2);
+    const result = g.bellmanFord('A');
+    expect(result?.distMap.get(g.getVertex('C')!)).toBe(3);
+  });
+
+  it('@example [UndirectedGraph.floydWarshall] All-pairs shortest paths', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'B', 1);
+    g.addEdge('B', 'C', 2);
+    const { costs } = g.floydWarshall(); // costs is number[][]
+    expect(costs.length).toBe(3);
+    const flatCosts = costs.flat().filter(c => c !== Infinity && c > 0);
+    expect(flatCosts).toContain(3);
+  });
+
+  it('@example [UndirectedGraph.tarjan] Find articulation points and bridges', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'B');
+    g.addEdge('B', 'C');
+    const result = g.tarjan();
+    expect(result).toBeDefined();
+  });
+
+  it('@example [UndirectedGraph.hasCycle] Detect cycle', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'B');
+    g.addEdge('B', 'C');
+    expect(g.hasCycle()).toBe(false);
+    g.addEdge('C', 'A');
+    expect(g.hasCycle()).toBe(true);
+  });
+
+  it('@example [UndirectedGraph.getCycles] Get all cycles', () => {
+    const g = new UndirectedGraph();
+    g.addVertex(1);
+    g.addVertex(2);
+    g.addVertex(3);
+    g.addEdge(1, 2);
+    g.addEdge(2, 3);
+    g.addEdge(3, 1);
+    expect(g.getCycles().length).toBeGreaterThan(0);
+  });
+
+  it('@example [UndirectedGraph.getAllPathsBetween] Find all paths', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'B');
+    g.addEdge('A', 'C');
+    g.addEdge('B', 'C');
+    const paths = g.getAllPathsBetween('A', 'C');
+    expect(paths.length).toBe(2);
+  });
+
+  it('@example [UndirectedGraph.getMinPathBetween] Shortest path', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'B', 1);
+    g.addEdge('B', 'C', 1);
+    g.addEdge('A', 'C', 10);
+    const path = g.getMinPathBetween('A', 'C');
+    expect(path?.length).toBe(3);
+  });
+
+  it('@example [UndirectedGraph.getBridges] Find bridge edges', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'B');
+    g.addEdge('B', 'C');
+    const bridges = g.getBridges();
+    expect(bridges.length).toBe(2);
+  });
+
+  it('@example [UndirectedGraph.getCutVertices] Find articulation points', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'B');
+    g.addEdge('B', 'C');
+    const cuts = g.getCutVertices();
+    expect(cuts.length).toBe(1);
+    expect(cuts[0].key).toBe('B');
+  });
+
+  it('@example [UndirectedGraph.edgeSet] Get all edges', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addEdge('A', 'B');
+    expect(g.edgeSet().length).toBe(1);
+  });
+
+  it('@example [UndirectedGraph.toDot] Export DOT format', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addEdge('A', 'B');
+    const dot = g.toDot();
+    expect(dot).toContain('graph');
+  });
 });

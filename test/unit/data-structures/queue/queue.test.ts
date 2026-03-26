@@ -751,4 +751,67 @@ describe('classic uses', () => {
     const q = new Queue<number>([1, 2, 3]);
     expect(() => q.print()).not.toThrow();
   });
+
+  it('@example [Queue.at] Access element by index', () => {
+    const q = new Queue<string>(['a', 'b', 'c']);
+    expect(q.at(0)).toBe('a');
+    expect(q.at(2)).toBe('c');
+  });
+
+  it('@example [Queue.delete] Remove specific element', () => {
+    const q = new Queue<number>([1, 2, 3, 2]);
+    q.delete(2);
+    expect(q.length).toBe(3);
+  });
+
+  it('@example [Queue.find] Find element matching condition', () => {
+    const q = new Queue<number>([1, 2, 3, 4]);
+    expect(q.find(x => x > 2)).toBe(3);
+  });
+
+  it('@example [Queue.indexOf] Get index of element', () => {
+    const q = new Queue<string>(['a', 'b', 'c']);
+    expect(q.indexOf('b')).toBe(1);
+    expect(q.indexOf('z')).toBe(-1);
+  });
+
+  it('@example [Queue.map] Transform elements', () => {
+    const q = new Queue<number>([1, 2, 3]);
+    const doubled = q.map(x => x * 2);
+    expect(doubled.toArray()).toEqual([2, 4, 6]);
+  });
+
+  it('@example [Queue.reduce] Aggregate elements', () => {
+    const q = new Queue<number>([1, 2, 3, 4]);
+    const sum = q.reduce((acc, x) => acc + x, 0);
+    expect(sum).toBe(10);
+  });
+
+  it('@example [Queue.toArray] Convert to array', () => {
+    const q = new Queue<number>([3, 1, 2]);
+    expect(q.toArray()).toEqual([3, 1, 2]);
+  });
+
+  it('@example [Queue.compact] Reclaim unused memory', () => {
+    const q = new Queue<number>([1, 2, 3, 4, 5]);
+    q.shift();
+    q.shift();
+    q.compact();
+    expect(q.length).toBe(3);
+  });
+
+  it('@example [Queue.every] Test all elements', () => {
+    const q = new Queue<number>([2, 4, 6]);
+    expect(q.every(x => x % 2 === 0)).toBe(true);
+  });
+
+  it('@example [Queue.some] Test any element', () => {
+    const q = new Queue<number>([1, 3, 5, 4]);
+    expect(q.some(x => x % 2 === 0)).toBe(true);
+  });
+
+  it('@example [Queue.values] Iterate values', () => {
+    const q = new Queue<number>([1, 2, 3]);
+    expect([...q.values()]).toEqual([1, 2, 3]);
+  });
 });

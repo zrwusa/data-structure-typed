@@ -3674,4 +3674,43 @@ describe('classic use', () => {
     // print() outputs to console, returns void
     expect(() => bst.print()).not.toThrow();
   });
+
+  it('@example [BST.every] Test all nodes', () => {
+    const bst = new BST<number>([5, 3, 7]);
+    expect(bst.every((v, key) => key > 0)).toBe(true);
+  });
+
+  it('@example [BST.some] Test any node', () => {
+    const bst = new BST<number>([5, 3, 7]);
+    expect(bst.some((v, key) => key === 7)).toBe(true);
+  });
+
+  it('@example [BST.find] Find matching entry', () => {
+    const bst = new BST<number, string>([[1, 'a'], [2, 'b'], [3, 'c']]);
+    const found = bst.find(v => v === 'b');
+    expect(found?.[0]).toBe(2);
+    expect(found?.[1]).toBe('b');
+  });
+
+  it('@example [BST.listLevels] Level-order grouping', () => {
+    const bst = new BST<number>([5, 3, 7, 1, 4]);
+    const levels = bst.listLevels(node => node.key);
+    expect(levels.length).toBeGreaterThan(0);
+    expect(levels[0].length).toBe(1); // root level has 1 node
+    const allKeys = levels.flat().sort((a, b) => a - b);
+    expect(allKeys).toEqual([1, 3, 4, 5, 7]);
+  });
+
+  it('@example [BST.setMany] Set multiple key-value pairs', () => {
+    const bst = new BST<number, string>();
+    bst.setMany([[1, 'a'], [2, 'b'], [3, 'c']]);
+    expect(bst.size).toBe(3);
+    expect(bst.get(2)).toBe('b');
+  });
+
+  it('@example [BST.getNodes] Get nodes matching condition', () => {
+    const bst = new BST<number>([5, 3, 7, 1, 9]);
+    const bigNodes = bst.getNodes(node => node.key > 5);
+    expect(bigNodes.length).toBe(2);
+  });
 });

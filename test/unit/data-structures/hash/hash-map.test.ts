@@ -1283,4 +1283,26 @@ describe('classic uses', () => {
     const map = new HashMap<string, number>([['a', 1]]);
     expect(() => map.print()).not.toThrow();
   });
+
+  it('@example [HashMap.every] Test all entries', () => {
+    const map = new HashMap<string, number>([['a', 1], ['b', 2]]);
+    expect(map.every(v => v > 0)).toBe(true);
+  });
+
+  it('@example [HashMap.some] Test any entry', () => {
+    const map = new HashMap<string, number>([['a', 1], ['b', 5]]);
+    expect(map.some(v => v > 3)).toBe(true);
+  });
+
+  it('@example [HashMap.find] Find matching entry', () => {
+    const map = new HashMap<string, number>([['a', 10], ['b', 20]]);
+    const found = map.find(v => v > 15);
+    expect(found?.[0]).toBe('b');
+    expect(found?.[1]).toBe(20);
+  });
+
+  it('@example [HashMap.toArray] Convert to array', () => {
+    const map = new HashMap<string, number>([['a', 1]]);
+    expect(map.toArray().length).toBe(1);
+  });
 });

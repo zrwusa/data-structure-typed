@@ -1388,4 +1388,173 @@ describe('DirectedGraph visual output (#113)', () => {
     const result = g.dijkstra('A');
     expect(result?.distMap.get(g.getVertex('C')!)).toBe(3);
   });
+
+  it('@example [DirectedGraph.hasVertex] Check vertex existence', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    expect(g.hasVertex('A')).toBe(true);
+    expect(g.hasVertex('Z')).toBe(false);
+  });
+
+  it('@example [DirectedGraph.hasEdge] Check edge existence', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addEdge('A', 'B');
+    expect(g.hasEdge('A', 'B')).toBe(true);
+    expect(g.hasEdge('B', 'A')).toBe(false);
+  });
+
+  it('@example [DirectedGraph.deleteVertex] Remove a vertex', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addEdge('A', 'B');
+    g.deleteVertex('A');
+    expect(g.hasVertex('A')).toBe(false);
+    expect(g.hasEdge('A', 'B')).toBe(false);
+  });
+
+  it('@example [DirectedGraph.getVertex] Get vertex object', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    const v = g.getVertex('A');
+    expect(v?.key).toBe('A');
+  });
+
+  it('@example [DirectedGraph.getEdge] Get edge between vertices', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addEdge('A', 'B', 5);
+    const edge = g.getEdge('A', 'B');
+    expect(edge?.weight).toBe(5);
+  });
+
+  it('@example [DirectedGraph.bellmanFord] Shortest paths with negative weights', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'B', 1);
+    g.addEdge('B', 'C', -2);
+    g.addEdge('A', 'C', 10);
+    const result = g.bellmanFord('A');
+    expect(result?.distMap.get(g.getVertex('C')!)).toBe(-1);
+  });
+
+  it('@example [DirectedGraph.floydWarshall] All-pairs shortest paths', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'B', 1);
+    g.addEdge('B', 'C', 2);
+    // costs is a 2D number array indexed by vertex position
+    const { costs } = g.floydWarshall();
+    expect(costs.length).toBe(3);
+    // A→B→C should have total cost 3 at some index pair
+    const flatCosts = costs.flat().filter(c => c !== Infinity && c > 0);
+    expect(flatCosts).toContain(3);
+  });
+
+  it('@example [DirectedGraph.tarjan] Find strongly connected components', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'B');
+    g.addEdge('B', 'C');
+    g.addEdge('C', 'A');
+    const { SCCs } = g.tarjan();
+    // A→B→C→A forms one SCC with 3 members
+    const sccArrays = [...SCCs.values()];
+    expect(sccArrays.some(scc => scc.length === 3)).toBe(true);
+  });
+
+  it('@example [DirectedGraph.getSCCs] Get strongly connected components', () => {
+    const g = new DirectedGraph();
+    g.addVertex(1);
+    g.addVertex(2);
+    g.addVertex(3);
+    g.addEdge(1, 2);
+    g.addEdge(2, 3);
+    g.addEdge(3, 1);
+    const sccs = g.getSCCs(); // Map<number, VO[]>
+    expect(sccs.size).toBeGreaterThanOrEqual(1);
+  });
+
+  it('@example [DirectedGraph.getCycles] Detect cycles', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'B');
+    g.addEdge('B', 'C');
+    g.addEdge('C', 'A'); // cycle of length 3
+    const cycles = g.getCycles(); // VertexKey[][]
+    expect(cycles.length).toBeGreaterThan(0);
+  });
+
+  it('@example [DirectedGraph.getAllPathsBetween] Find all paths', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'B');
+    g.addEdge('A', 'C');
+    g.addEdge('B', 'C');
+    const paths = g.getAllPathsBetween('A', 'C');
+    expect(paths.length).toBe(2);
+  });
+
+  it('@example [DirectedGraph.getMinPathBetween] Shortest path between two vertices', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'B', 1);
+    g.addEdge('B', 'C', 1);
+    g.addEdge('A', 'C', 10);
+    const path = g.getMinPathBetween('A', 'C');
+    expect(path?.length).toBe(3);
+  });
+
+  it('@example [DirectedGraph.edgeSet] Get all edges', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addEdge('A', 'B', 3);
+    expect(g.edgeSet().length).toBe(1);
+  });
+
+  it('@example [DirectedGraph.incomingEdgesOf] Get incoming edges', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'C');
+    g.addEdge('B', 'C');
+    expect(g.incomingEdgesOf('C').length).toBe(2);
+  });
+
+  it('@example [DirectedGraph.outgoingEdgesOf] Get outgoing edges', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'B');
+    g.addEdge('A', 'C');
+    expect(g.outgoingEdgesOf('A').length).toBe(2);
+  });
+
+  it('@example [DirectedGraph.toDot] Export to DOT format', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addEdge('A', 'B');
+    const dot = g.toDot();
+    expect(dot).toContain('digraph');
+    expect(dot).toContain('A');
+  });
 });

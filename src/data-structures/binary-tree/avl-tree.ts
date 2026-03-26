@@ -366,6 +366,9 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    
    
    
+   
+   
+   
     * @example
  * // basic BST creation and add operation
  *  // Create a simple BST with numeric keys
@@ -418,6 +421,9 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    
    
    
+   
+   
+   
     * @example
  * // Remove nodes and verify structure
  *  const avl = new AVLTree<number>([5, 3, 7, 1, 4, 6, 8]);
@@ -445,6 +451,7 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    *
    * @param [iterationType=this.iterationType] - The traversal method for the initial node export.
    * @returns True if successful, false if the tree was empty.
+   
     * @example
  * // Rebalance the tree
  *  const avl = new AVLTree<number>();
@@ -494,6 +501,8 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    * @param [options] - Options for the new AVLTree.
    * @param [thisArg] - `this` context for the callback.
    * @returns A new, mapped AVLTree.
+   
+   
    
     * @example
  * // Transform to new tree

@@ -1200,4 +1200,77 @@ describe('classic use', () => {
 
     expect(trie.getLongestCommonPrefix()).toBe('fl');
   });
+
+  it('@example [Trie.addMany] Add multiple words', () => {
+    const trie = new Trie();
+    trie.addMany(['cat', 'car', 'card']);
+    expect(trie.has('cat')).toBe(true);
+    expect(trie.has('car')).toBe(true);
+    expect(trie.size).toBe(3);
+  });
+
+  it('@example [Trie.clone] Create independent copy', () => {
+    const trie = new Trie(['hello', 'world']);
+    const copy = trie.clone();
+    copy.delete('hello');
+    expect(trie.has('hello')).toBe(true);
+  });
+
+  it('@example [Trie.clear] Remove all words', () => {
+    const trie = new Trie(['a', 'b', 'c']);
+    trie.clear();
+    expect(trie.isEmpty()).toBe(true);
+  });
+
+  it('@example [Trie.isEmpty] Check if empty', () => {
+    const trie = new Trie();
+    expect(trie.isEmpty()).toBe(true);
+    trie.add('word');
+    expect(trie.isEmpty()).toBe(false);
+  });
+
+  it('@example [Trie.every] Test all words', () => {
+    const trie = new Trie(['abc', 'abcd', 'abcde']);
+    expect(trie.every(w => w.startsWith('abc'))).toBe(true);
+  });
+
+  it('@example [Trie.some] Test any word', () => {
+    const trie = new Trie(['cat', 'dog', 'bird']);
+    expect(trie.some(w => w.length === 3)).toBe(true);
+  });
+
+  it('@example [Trie.find] Find matching word', () => {
+    const trie = new Trie(['apple', 'banana', 'cherry']);
+    expect(trie.find(w => w.startsWith('ban'))).toBe('banana');
+  });
+
+  it('@example [Trie.forEach] Iterate all words', () => {
+    const trie = new Trie(['a', 'b', 'c']);
+    const words: string[] = [];
+    trie.forEach(w => words.push(w));
+    expect(words.sort()).toEqual(['a', 'b', 'c']);
+  });
+
+  it('@example [Trie.filter] Filter words', () => {
+    const trie = new Trie(['cat', 'car', 'dog', 'card']);
+    const result = trie.filter(w => w.startsWith('ca'));
+    expect(result.size).toBe(3);
+  });
+
+  it('@example [Trie.map] Transform words', () => {
+    const trie = new Trie(['hello', 'world']);
+    const upper = trie.map(w => w.toUpperCase());
+    expect(upper.has('HELLO')).toBe(true);
+  });
+
+  it('@example [Trie.reduce] Aggregate words', () => {
+    const trie = new Trie(['hi', 'hey', 'hello']);
+    const totalChars = trie.reduce((acc, w) => acc + w.length, 0);
+    expect(totalChars).toBe(10);
+  });
+
+  it('@example [Trie.toArray] Convert to array', () => {
+    const trie = new Trie(['b', 'a', 'c']);
+    expect(trie.toArray().sort()).toEqual(['a', 'b', 'c']);
+  });
 });

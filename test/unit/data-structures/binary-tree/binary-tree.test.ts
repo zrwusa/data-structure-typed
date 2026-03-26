@@ -2048,4 +2048,40 @@ describe('Classic usage examples', () => {
     // BinaryTree doesn't guarantee BST order
     expect(typeof tree.isBST()).toBe('boolean');
   });
+
+  it('@example [BinaryTree.every] Test all nodes', () => {
+    const tree = new BinaryTree<number>([1, 2, 3]);
+    expect(tree.every((v, key) => key > 0)).toBe(true);
+  });
+
+  it('@example [BinaryTree.some] Test any node', () => {
+    const tree = new BinaryTree<number>([1, 2, 3]);
+    expect(tree.some((v, key) => key === 2)).toBe(true);
+  });
+
+  it('@example [BinaryTree.find] Find matching entry', () => {
+    const tree = new BinaryTree<number, string>([[1, 'a'], [2, 'b']]);
+    const found = tree.find(v => v === 'b');
+    expect(found?.[0]).toBe(2);
+    expect(found?.[1]).toBe('b');
+  });
+
+  it('@example [BinaryTree.listLevels] Level-order grouping', () => {
+    const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
+    const levels = tree.listLevels(node => node.key);
+    expect(levels[0]).toEqual([1]);
+    expect(levels[1].sort()).toEqual([2, 3]);
+  });
+
+  it('@example [BinaryTree.morris] Morris traversal (O(1) space)', () => {
+    const tree = new BinaryTree<number>([1, 2, 3]);
+    const result = tree.morris(node => node.key, 'IN');
+    expect(result.length).toBe(3);
+  });
+
+  it('@example [BinaryTree.getNodes] Get nodes by condition', () => {
+    const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
+    const nodes = tree.getNodes(node => node.key > 3);
+    expect(nodes.length).toBe(2);
+  });
 });

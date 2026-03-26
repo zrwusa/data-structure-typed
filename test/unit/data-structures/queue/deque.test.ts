@@ -1128,4 +1128,71 @@ describe('Deque type inference (#97)', () => {
     const dq = new Deque<number>([1, 2, 3]);
     expect(() => dq.print()).not.toThrow();
   });
+
+  it('@example [Deque.at] Access by index', () => {
+    const dq = new Deque<string>(['a', 'b', 'c']);
+    expect(dq.at(0)).toBe('a');
+    expect(dq.at(2)).toBe('c');
+  });
+
+  it('@example [Deque.delete] Remove element', () => {
+    const dq = new Deque<number>([1, 2, 3]);
+    dq.delete(2);
+    expect(dq.length).toBe(2);
+  });
+
+  it('@example [Deque.find] Find matching element', () => {
+    const dq = new Deque<number>([1, 2, 3, 4]);
+    expect(dq.find(x => x > 2)).toBe(3);
+  });
+
+  it('@example [Deque.indexOf] Get element index', () => {
+    const dq = new Deque<string>(['x', 'y', 'z']);
+    expect(dq.indexOf('y')).toBe(1);
+  });
+
+  it('@example [Deque.map] Transform elements', () => {
+    const dq = new Deque<number>([1, 2, 3]);
+    const result = dq.map(x => x * 10);
+    expect(result.toArray()).toEqual([10, 20, 30]);
+  });
+
+  it('@example [Deque.reduce] Aggregate elements', () => {
+    const dq = new Deque<number>([1, 2, 3]);
+    expect(dq.reduce((acc, x) => acc + x, 0)).toBe(6);
+  });
+
+  it('@example [Deque.compact] Reclaim memory', () => {
+    const dq = new Deque<number>([1, 2, 3, 4, 5]);
+    dq.shift();
+    dq.shift();
+    dq.compact();
+    expect(dq.length).toBe(3);
+  });
+
+  it('@example [Deque.every] Test all elements', () => {
+    const dq = new Deque<number>([2, 4, 6]);
+    expect(dq.every(x => x % 2 === 0)).toBe(true);
+  });
+
+  it('@example [Deque.some] Test any element', () => {
+    const dq = new Deque<number>([1, 3, 4]);
+    expect(dq.some(x => x > 3)).toBe(true);
+  });
+
+  it('@example [Deque.sort] Sort in place', () => {
+    const dq = new Deque<number>([3, 1, 2]);
+    dq.sort((a, b) => a - b);
+    expect(dq.toArray()).toEqual([1, 2, 3]);
+  });
+
+  it('@example [Deque.toArray] Convert to array', () => {
+    const dq = new Deque<number>([1, 2, 3]);
+    expect(dq.toArray()).toEqual([1, 2, 3]);
+  });
+
+  it('@example [Deque.values] Iterate values', () => {
+    const dq = new Deque<number>([1, 2, 3]);
+    expect([...dq.values()]).toEqual([1, 2, 3]);
+  });
 });

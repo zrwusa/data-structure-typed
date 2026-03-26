@@ -226,6 +226,13 @@ export class UndirectedGraph<
    * @param v2 - The other vertex or key.
    * @returns Edge instance or `undefined`.
    * @remarks Time O(1) avg, Space O(1)
+    * @example
+ * // Get edge between vertices
+ *  const g = new UndirectedGraph();
+ *     g.addVertex('A');
+ *     g.addVertex('B');
+ *     g.addEdge('A', 'B', 7);
+ *     console.log(g.getEdge('A', 'B')?.weight); // 7;
    */
   getEdge(v1: VO | VertexKey | undefined, v2: VO | VertexKey | undefined): EO | undefined {
     let edgeMap: EO[] | undefined = [];
@@ -275,6 +282,7 @@ export class UndirectedGraph<
    * @param otherSideVertexKey - Required second endpoint when deleting by pair.
    * @returns Removed edge or `undefined`.
    * @remarks Time O(1) avg, Space O(1)
+   
    
    
     * @example
@@ -331,6 +339,14 @@ export class UndirectedGraph<
    * @param vertexOrKey - Vertex or key.
    * @returns `true` if removed; otherwise `false`.
    * @remarks Time O(deg), Space O(1)
+    * @example
+ * // Remove vertex and edges
+ *  const g = new UndirectedGraph();
+ *     g.addVertex('A');
+ *     g.addVertex('B');
+ *     g.addEdge('A', 'B');
+ *     g.deleteVertex('A');
+ *     console.log(g.hasVertex('A')); // false;
    */
   deleteVertex(vertexOrKey: VO | VertexKey): boolean {
     let vertexKey: VertexKey;
@@ -401,6 +417,13 @@ export class UndirectedGraph<
    * Unique set of undirected edges across endpoints.
    * @returns Array of edges.
    * @remarks Time O(E), Space O(E)
+    * @example
+ * // Get all edges
+ *  const g = new UndirectedGraph();
+ *     g.addVertex('A');
+ *     g.addVertex('B');
+ *     g.addEdge('A', 'B');
+ *     console.log(g.edgeSet().length); // 1;
    */
   edgeSet(): EO[] {
     const edgeSet: Set<EO> = new Set();
@@ -415,6 +438,7 @@ export class UndirectedGraph<
     /**
    * UndirectedGraph connectivity and neighbors
   
+   
    
     * @example
  * // UndirectedGraph connectivity and neighbors
@@ -513,6 +537,16 @@ export class UndirectedGraph<
    * Tarjan-based bridge and articulation point detection.
    * @returns `{ dfnMap, lowMap, bridges, cutVertices }`.
    * @remarks Time O(V + E), Space O(V + E)
+    * @example
+ * // Find articulation points and bridges
+ *  const g = new UndirectedGraph();
+ *     g.addVertex('A');
+ *     g.addVertex('B');
+ *     g.addVertex('C');
+ *     g.addEdge('A', 'B');
+ *     g.addEdge('B', 'C');
+ *     const result = g.tarjan();
+ *     console.log(result); // defined;
    */
   tarjan(): { dfnMap: Map<VO, number>; lowMap: Map<VO, number>; bridges: EO[]; cutVertices: VO[] } {
     const dfnMap = new Map<VO, number>();
@@ -644,6 +678,17 @@ export class UndirectedGraph<
    * Uses DFS with parent tracking.
    * @returns `true` if a cycle exists, `false` otherwise.
    * @remarks Time O(V + E), Space O(V)
+    * @example
+ * // Detect cycle
+ *  const g = new UndirectedGraph();
+ *     g.addVertex('A');
+ *     g.addVertex('B');
+ *     g.addVertex('C');
+ *     g.addEdge('A', 'B');
+ *     g.addEdge('B', 'C');
+ *     console.log(g.hasCycle()); // false;
+ *     g.addEdge('C', 'A');
+ *     console.log(g.hasCycle()); // true;
    */
   hasCycle(): boolean {
     const visited = new Set<VO>();
@@ -672,6 +717,16 @@ export class UndirectedGraph<
    * Get bridges discovered by `tarjan()`.
    * @returns Array of edges that are bridges.
    * @remarks Time O(B), Space O(1)
+    * @example
+ * // Find bridge edges
+ *  const g = new UndirectedGraph();
+ *     g.addVertex('A');
+ *     g.addVertex('B');
+ *     g.addVertex('C');
+ *     g.addEdge('A', 'B');
+ *     g.addEdge('B', 'C');
+ *     const bridges = g.getBridges();
+ *     console.log(bridges.length); // 2;
    */
   getBridges() {
     return this.tarjan().bridges;
@@ -681,6 +736,17 @@ export class UndirectedGraph<
    * Get articulation points discovered by `tarjan()`.
    * @returns Array of cut vertices.
    * @remarks Time O(C), Space O(1)
+    * @example
+ * // Find articulation points
+ *  const g = new UndirectedGraph();
+ *     g.addVertex('A');
+ *     g.addVertex('B');
+ *     g.addVertex('C');
+ *     g.addEdge('A', 'B');
+ *     g.addEdge('B', 'C');
+ *     const cuts = g.getCutVertices();
+ *     console.log(cuts.length); // 1;
+ *     console.log(cuts[0].key); // 'B';
    */
   getCutVertices() {
     return this.tarjan().cutVertices;

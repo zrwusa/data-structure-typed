@@ -900,4 +900,70 @@ describe('classic uses', () => {
     const list = new SinglyLinkedList<number>([1, 2, 3]);
     expect(() => list.print()).not.toThrow();
   });
+
+  it('@example [SinglyLinkedList.delete] Remove first occurrence', () => {
+    const list = new SinglyLinkedList<number>([1, 2, 3, 2]);
+    list.delete(2);
+    expect(list.toArray()).toEqual([1, 3, 2]);
+  });
+
+  it('@example [SinglyLinkedList.deleteAt] Remove by index', () => {
+    const list = new SinglyLinkedList<string>(['a', 'b', 'c']);
+    list.deleteAt(1);
+    expect(list.toArray()).toEqual(['a', 'c']);
+  });
+
+  it('@example [SinglyLinkedList.addAt] Insert at index', () => {
+    const list = new SinglyLinkedList<number>([1, 3]);
+    list.addAt(1, 2);
+    expect(list.toArray()).toEqual([1, 2, 3]);
+  });
+
+  it('@example [SinglyLinkedList.indexOf] Find element index', () => {
+    const list = new SinglyLinkedList<string>(['a', 'b', 'c']);
+    expect(list.indexOf('b')).toBe(1);
+    expect(list.indexOf('z')).toBe(-1);
+  });
+
+  it('@example [SinglyLinkedList.find] Find matching element', () => {
+    const list = new SinglyLinkedList<number>([1, 2, 3, 4]);
+    expect(list.find(x => x > 2)).toBe(3);
+  });
+
+  it('@example [SinglyLinkedList.has] Check element exists', () => {
+    const list = new SinglyLinkedList<number>([1, 2, 3]);
+    expect(list.has(2)).toBe(true);
+    expect(list.has(9)).toBe(false);
+  });
+
+  it('@example [SinglyLinkedList.toArray] Convert to array', () => {
+    const list = new SinglyLinkedList<number>([3, 1, 2]);
+    expect(list.toArray()).toEqual([3, 1, 2]);
+  });
+
+  it('@example [SinglyLinkedList.sort] Sort list', () => {
+    const list = new SinglyLinkedList<number>([3, 1, 2]);
+    list.sort((a, b) => a - b);
+    expect(list.toArray()).toEqual([1, 2, 3]);
+  });
+
+  it('@example [SinglyLinkedList.getNodeAt] Get node at index', () => {
+    const list = new SinglyLinkedList<string>(['a', 'b', 'c']);
+    expect(list.getNodeAt(1)?.value).toBe('b');
+  });
+
+  it('@example [SinglyLinkedList.every] Test all elements', () => {
+    const list = new SinglyLinkedList<number>([2, 4, 6]);
+    expect(list.every(x => x % 2 === 0)).toBe(true);
+  });
+
+  it('@example [SinglyLinkedList.some] Test any element', () => {
+    const list = new SinglyLinkedList<number>([1, 3, 4]);
+    expect(list.some(x => x % 2 === 0)).toBe(true);
+  });
+
+  it('@example [SinglyLinkedList.values] Iterate values', () => {
+    const list = new SinglyLinkedList<number>([1, 2, 3]);
+    expect([...list.values()]).toEqual([1, 2, 3]);
+  });
 });

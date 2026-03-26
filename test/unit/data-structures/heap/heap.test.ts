@@ -814,4 +814,49 @@ describe('classic use', () => {
     heap.forEach(x => items.push(x));
     expect(items.length).toBe(3);
   });
+
+  it('@example [Heap.delete] Remove specific element', () => {
+    const heap = new Heap<number>([3, 1, 4, 1, 5], { comparator: (a, b) => a - b });
+    heap.delete(4);
+    expect(heap.toArray().includes(4)).toBe(false);
+  });
+
+  it('@example [Heap.addMany] Add multiple elements', () => {
+    const heap = new Heap<number>([], { comparator: (a, b) => a - b });
+    heap.addMany([5, 3, 7, 1]);
+    expect(heap.peek()).toBe(1);
+    expect(heap.size).toBe(4);
+  });
+
+  it('@example [Heap.toArray] Convert to array', () => {
+    const heap = new Heap<number>([3, 1, 2], { comparator: (a, b) => a - b });
+    expect(heap.toArray().length).toBe(3);
+  });
+
+  it('@example [Heap.every] Test all elements', () => {
+    const heap = new Heap<number>([2, 4, 6], { comparator: (a, b) => a - b });
+    expect(heap.every(x => x > 0)).toBe(true);
+  });
+
+  it('@example [Heap.some] Test any element', () => {
+    const heap = new Heap<number>([1, 3, 5], { comparator: (a, b) => a - b });
+    expect(heap.some(x => x > 4)).toBe(true);
+  });
+
+  it('@example [Heap.find] Find matching element', () => {
+    const heap = new Heap<number>([10, 20, 30], { comparator: (a, b) => a - b });
+    expect(heap.find(x => x > 15)).toBe(20);
+  });
+
+  it('@example [Heap.map] Transform elements', () => {
+    const heap = new Heap<number>([1, 2, 3], { comparator: (a, b) => a - b });
+    const doubled = heap.map(x => x * 2, { comparator: (a, b) => a - b });
+    expect(doubled.peek()).toBe(2);
+  });
+
+  it('@example [Heap.reduce] Aggregate elements', () => {
+    const heap = new Heap<number>([1, 2, 3], { comparator: (a, b) => a - b });
+    const sum = heap.reduce((acc, x) => acc + x, 0);
+    expect(sum).toBe(6);
+  });
 });

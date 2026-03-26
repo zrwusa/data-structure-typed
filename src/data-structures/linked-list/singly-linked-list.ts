@@ -298,6 +298,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @returns True when appended.
    
    
+   
     * @example
  * // basic SinglyLinkedList creation and push operation
  *  // Create a simple SinglyLinkedList with initial values
@@ -332,6 +333,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * Remove and return the tail element.
    * @remarks Time O(N), Space O(1)
    * @returns Removed element or undefined.
+   
    
    
     * @example
@@ -375,6 +377,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @returns Removed element or undefined.
    
    
+   
     * @example
  * // Remove from the front
  *  const list = new SinglyLinkedList<number>([10, 20, 30]);
@@ -396,6 +399,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(1), Space O(1)
    * @param elementOrNode - Element or node to prepend.
    * @returns True when prepended.
+   
    
    
     * @example
@@ -490,6 +494,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @returns Element or undefined.
    
    
+   
     * @example
  * // Access element by index
  *  const list = new SinglyLinkedList<string>(['a', 'b', 'c', 'd']);
@@ -523,6 +528,10 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(N), Space O(1)
    * @param index - Zero-based index.
    * @returns Node or undefined.
+    * @example
+ * // Get node at index
+ *  const list = new SinglyLinkedList<string>(['a', 'b', 'c']);
+ *     console.log(list.getNodeAt(1)?.value); // 'b';
    */
 
   getNodeAt(index: number): SinglyLinkedListNode<E> | undefined {
@@ -537,6 +546,11 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(N), Space O(1)
    * @param index - Zero-based index.
    * @returns Removed element or undefined.
+    * @example
+ * // Remove by index
+ *  const list = new SinglyLinkedList<string>(['a', 'b', 'c']);
+ *     list.deleteAt(1);
+ *     console.log(list.toArray()); // ['a', 'c'];
    */
 
   deleteAt(index: number): E | undefined {
@@ -556,6 +570,11 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(N), Space O(1)
    * @param [elementOrNode] - Element or node to remove; if omitted/undefined, nothing happens.
    * @returns True if removed.
+    * @example
+ * // Remove first occurrence
+ *  const list = new SinglyLinkedList<number>([1, 2, 3, 2]);
+ *     list.delete(2);
+ *     console.log(list.toArray()); // [1, 3, 2];
    */
 
   delete(elementOrNode: E | SinglyLinkedListNode<E> | undefined): boolean {
@@ -581,6 +600,11 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param index - Zero-based index.
    * @param newElementOrNode - Element or node to insert.
    * @returns True if inserted.
+    * @example
+ * // Insert at index
+ *  const list = new SinglyLinkedList<number>([1, 3]);
+ *     list.addAt(1, 2);
+ *     console.log(list.toArray()); // [1, 2, 3];
    */
 
   addAt(index: number, newElementOrNode: E | SinglyLinkedListNode<E>): boolean {
@@ -614,6 +638,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * Check whether the list is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if length is 0.
+   
     * @example
  * // Check empty
  *  console.log(new SinglyLinkedList().isEmpty()); // true;
@@ -627,6 +652,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * Remove all nodes and reset length.
    * @remarks Time O(N), Space O(1)
    * @returns void
+   
     * @example
  * // Remove all
  *  const list = new SinglyLinkedList<number>([1, 2, 3]);
@@ -644,6 +670,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * Reverse the list in place.
    * @remarks Time O(N), Space O(1)
    * @returns This list.
+   
    
    
     * @example
@@ -859,6 +886,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * Deep clone this list (values are copied by reference).
    * @remarks Time O(N), Space O(N)
    * @returns A new list with the same element sequence.
+   
     * @example
  * // Deep copy
  *  const list = new SinglyLinkedList<number>([1, 2, 3]);
@@ -880,6 +908,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param callback - Predicate (value, index, list) → boolean to keep value.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new list with kept values.
+   
    
    
     * @example
@@ -933,6 +962,7 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param [options] - Options for the output list (e.g., maxLen, toElementFn).
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new SinglyLinkedList with mapped values.
+   
    
    
     * @example

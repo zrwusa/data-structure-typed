@@ -1217,4 +1217,81 @@ describe('classic use', () => {
     const list = new DoublyLinkedList<number>([1, 2, 3]);
     expect(() => list.print()).not.toThrow();
   });
+
+  it('@example [DoublyLinkedList.delete] Remove first occurrence', () => {
+    const list = new DoublyLinkedList<number>([1, 2, 3, 2]);
+    list.delete(2);
+    expect(list.toArray()).toEqual([1, 3, 2]);
+  });
+
+  it('@example [DoublyLinkedList.deleteAt] Remove by index', () => {
+    const list = new DoublyLinkedList<string>(['a', 'b', 'c']);
+    list.deleteAt(1);
+    expect(list.toArray()).toEqual(['a', 'c']);
+  });
+
+  it('@example [DoublyLinkedList.addAt] Insert at position', () => {
+    const list = new DoublyLinkedList<number>([1, 3]);
+    list.addAt(1, 2);
+    expect(list.toArray()).toEqual([1, 2, 3]);
+  });
+
+  it('@example [DoublyLinkedList.indexOf] Find element index', () => {
+    const list = new DoublyLinkedList<string>(['a', 'b', 'c']);
+    expect(list.indexOf('b')).toBe(1);
+  });
+
+  it('@example [DoublyLinkedList.find] Find matching element', () => {
+    const list = new DoublyLinkedList<number>([1, 2, 3]);
+    expect(list.find(x => x > 1)).toBe(2);
+  });
+
+  it('@example [DoublyLinkedList.has] Check element exists', () => {
+    const list = new DoublyLinkedList<number>([1, 2, 3]);
+    expect(list.has(2)).toBe(true);
+  });
+
+  it('@example [DoublyLinkedList.toArray] Convert to array', () => {
+    const list = new DoublyLinkedList<number>([3, 1, 2]);
+    expect(list.toArray()).toEqual([3, 1, 2]);
+  });
+
+  it('@example [DoublyLinkedList.sort] Sort list', () => {
+    const list = new DoublyLinkedList<number>([3, 1, 2]);
+    list.sort((a, b) => a - b);
+    expect(list.toArray()).toEqual([1, 2, 3]);
+  });
+
+  it('@example [DoublyLinkedList.getNodeAt] Get node at index', () => {
+    const list = new DoublyLinkedList<string>(['a', 'b', 'c']);
+    expect(list.getNodeAt(1)?.value).toBe('b');
+  });
+
+  it('@example [DoublyLinkedList.search] Search with predicate', () => {
+    const list = new DoublyLinkedList<number>([10, 20, 30]);
+    const found = list.search(node => node.value > 15);
+    expect(found).toBe(20);
+  });
+
+  it('@example [DoublyLinkedList.getBackward] Find value scanning from tail', () => {
+    const list = new DoublyLinkedList<number>([1, 2, 3, 4]);
+    // getBackward scans from tail to head, returns first match
+    const found = list.getBackward(node => node.value < 4);
+    expect(found).toBe(3);
+  });
+
+  it('@example [DoublyLinkedList.every] Test all elements', () => {
+    const list = new DoublyLinkedList<number>([2, 4, 6]);
+    expect(list.every(x => x % 2 === 0)).toBe(true);
+  });
+
+  it('@example [DoublyLinkedList.some] Test any element', () => {
+    const list = new DoublyLinkedList<number>([1, 3, 4]);
+    expect(list.some(x => x > 3)).toBe(true);
+  });
+
+  it('@example [DoublyLinkedList.values] Iterate values', () => {
+    const list = new DoublyLinkedList<number>([1, 2, 3]);
+    expect([...list.values()]).toEqual([1, 2, 3]);
+  });
 });

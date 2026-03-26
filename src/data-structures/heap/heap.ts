@@ -187,6 +187,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @returns Heap size.
    
    
+   
     * @example
  * // Track heap capacity
  *  const heap = new Heap<number>();
@@ -252,6 +253,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @returns True.
    
    
+   
     * @example
  * // basic Heap creation and add operation
  *  // Create a min heap (default)
@@ -279,6 +281,12 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N log N), Space O(1)
    * @param elements - Iterable of elements or raw values.
    * @returns Array of per-element success flags.
+    * @example
+ * // Add multiple elements
+ *  const heap = new Heap<number>([], { comparator: (a, b) => a - b });
+ *     heap.addMany([5, 3, 7, 1]);
+ *     console.log(heap.peek()); // 1;
+ *     console.log(heap.size); // 4;
    */
 
   addMany(elements: Iterable<E | R>): boolean[] {
@@ -299,6 +307,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Remove and return the top element.
    * @remarks Time O(log N), Space O(1)
    * @returns Top element or undefined.
+   
    
    
     * @example
@@ -343,6 +352,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Get the current top element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Top element or undefined.
+   
    
    
     * @example
@@ -414,6 +424,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Check whether the heap is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if size is 0.
+   
     * @example
  * // Check if heap is empty
  *  const heap = new Heap<number>([], { comparator: (a, b) => a - b });
@@ -430,6 +441,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Remove all elements.
    * @remarks Time O(1), Space O(1)
    * @returns void
+   
     * @example
  * // Remove all elements
  *  const heap = new Heap<number>([1, 2, 3], { comparator: (a, b) => a - b });
@@ -470,6 +482,11 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N), Space O(1)
    * @param element - Element to delete.
    * @returns True if an element was removed.
+    * @example
+ * // Remove specific element
+ *  const heap = new Heap<number>([3, 1, 4, 1, 5], { comparator: (a, b) => a - b });
+ *     heap.delete(4);
+ *     console.log(heap.toArray().includes(4)); // false;
    */
 
   delete(element: E): boolean {
@@ -585,6 +602,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @returns Sorted array of elements.
    
    
+   
     * @example
  * // Sort elements using heap
  *  const heap = new Heap<number>([5, 1, 3, 2, 4]);
@@ -607,6 +625,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Deep clone this heap.
    * @remarks Time O(N), Space O(N)
    * @returns A new heap with the same elements.
+   
     * @example
  * // Create independent copy
  *  const heap = new Heap<number>([3, 1, 4], { comparator: (a, b) => a - b });
@@ -628,6 +647,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @param callback - Predicate (element, index, heap) → boolean to keep element.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new heap with the kept elements.
+   
     * @example
  * // Filter elements
  *  const heap = new Heap<number>([1, 2, 3, 4, 5], { comparator: (a, b) => a - b });
@@ -657,6 +677,11 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @param options - Options for the output heap, including comparator for EM.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new heap with mapped elements.
+    * @example
+ * // Transform elements
+ *  const heap = new Heap<number>([1, 2, 3], { comparator: (a, b) => a - b });
+ *     const doubled = heap.map(x => x * 2, { comparator: (a, b) => a - b });
+ *     console.log(doubled.peek()); // 2;
    */
 
   map<EM, RM>(

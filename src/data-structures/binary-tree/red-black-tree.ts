@@ -341,6 +341,8 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * Remove all nodes and clear internal caches.
    * @remarks Time O(n) average, Space O(1)
    
+   
+   
     * @example
  * // Remove all nodes
  *  const rbt = new RedBlackTree<number>([1, 2, 3]);
@@ -746,6 +748,9 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    
    
    
+   
+   
+   
     * @example
  * // basic Red-Black Tree with simple number keys
  *  // Create a simple Red-Black Tree with numeric keys
@@ -824,6 +829,8 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * @remarks Time O(log n) average, Space O(1)
    * @param keyNodeEntryRawOrPredicate - Key, node, or [key, value] entry identifying the node to delete.
    * @returns Array with deletion metadata (removed node, rebalancing hint if any).
+   
+   
    
    
    
@@ -936,6 +943,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * Red-Black trees are self-balancing — `perfectlyBalance` rebuilds via
    * sorted bulk insert, which naturally produces a balanced RBT.
    * @remarks Time O(N), Space O(N)
+   
     * @example
  * // Rebalance the tree
  *  const rbt = new RedBlackTree<number>();
@@ -962,6 +970,8 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     /**
    * Transform to new tree
   
+   
+   
     * @example
  * // Transform to new tree
  *  const rbt = new RedBlackTree<number, number>([[1, 10], [2, 20], [3, 30]]);

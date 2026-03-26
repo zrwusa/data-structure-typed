@@ -490,4 +490,52 @@ describe('classic uses', () => {
     const stack = new Stack<number>([1, 2, 3]);
     expect(() => stack.print()).not.toThrow();
   });
+
+  it('@example [Stack.every] Test all elements', () => {
+    const stack = new Stack<number>([2, 4, 6]);
+    expect(stack.every(x => x % 2 === 0)).toBe(true);
+  });
+
+  it('@example [Stack.some] Test any element', () => {
+    const stack = new Stack<number>([1, 3, 4]);
+    expect(stack.some(x => x % 2 === 0)).toBe(true);
+  });
+
+  it('@example [Stack.find] Find matching element', () => {
+    const stack = new Stack<number>([1, 2, 3, 4]);
+    expect(stack.find(x => x > 2)).toBe(3);
+  });
+
+  it('@example [Stack.has] Check element exists', () => {
+    const stack = new Stack<number>([1, 2, 3]);
+    expect(stack.has(2)).toBe(true);
+    expect(stack.has(9)).toBe(false);
+  });
+
+  it('@example [Stack.map] Transform elements', () => {
+    const stack = new Stack<number>([1, 2, 3]);
+    const doubled = stack.map(x => x * 2);
+    expect(doubled.toArray()).toEqual([2, 4, 6]);
+  });
+
+  it('@example [Stack.reduce] Aggregate elements', () => {
+    const stack = new Stack<number>([1, 2, 3]);
+    expect(stack.reduce((acc, x) => acc + x, 0)).toBe(6);
+  });
+
+  it('@example [Stack.toArray] Convert to array', () => {
+    const stack = new Stack<number>([1, 2, 3]);
+    expect(stack.toArray()).toEqual([1, 2, 3]);
+  });
+
+  it('@example [Stack.delete] Remove element', () => {
+    const stack = new Stack<number>([1, 2, 3]);
+    stack.delete(2);
+    expect(stack.toArray()).toEqual([1, 3]);
+  });
+
+  it('@example [Stack.values] Iterate values', () => {
+    const stack = new Stack<number>([1, 2, 3]);
+    expect([...stack.values()]).toEqual([1, 2, 3]);
+  });
 });

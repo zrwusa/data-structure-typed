@@ -284,6 +284,8 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    * Whether the map is empty.
    * @remarks Time O(1), Space O(1)
    
+   
+   
     * @example
  * // Check if tree has no nodes
  *  const tmm = new TreeMultiMap<number>();
@@ -298,6 +300,8 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Removes all entries from the map.
    * @remarks Time O(1), Space O(1)
+   
+   
    
     * @example
  * // Remove all nodes
@@ -338,6 +342,9 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
     * @example
  * // Check key existence
  *  const mm = new TreeMultiMap<number, string>([
@@ -356,6 +363,9 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Live bucket reference (do not auto-delete key if bucket becomes empty via mutation).
    * @remarks Time O(log n), Space O(1)
+   
+   
+   
    
    
    
@@ -394,6 +404,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Alias for compatibility with existing TreeMultiMap semantics.
    * @remarks Time O(log n), Space O(1) for single value; O(log n + m) for bucket append
+   
+   
+   
+   
    
    
    
@@ -441,6 +455,9 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Deletes a key and its entire bucket.
    * @remarks Time O(log n), Space O(1)
+   
+   
+   
    
    
    
@@ -523,6 +540,8 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    * Iterates over all keys.
    * @remarks Time O(n), Space O(1)
    
+   
+   
     * @example
  * // Iterate over keys in sorted order
  *  const tmm = new TreeMultiMap<number>([30, 10, 50, 20, 40]);
@@ -535,6 +554,8 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Iterates over all buckets.
    * @remarks Time O(n), Space O(1)
+   
+   
    
     * @example
  * // Iterate over values in key order
@@ -584,6 +605,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    * @remarks Time O(log n), Space O(1)
   
    
+   
     * @example
  * // Access the minimum entry
  *  const mm = new TreeMultiMap<number, string>([
@@ -605,6 +627,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    * Returns the entry with the largest key.
    * @remarks Time O(log n), Space O(1)
   
+   
    
     * @example
  * // Access the maximum entry
@@ -660,6 +683,8 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
     * @example
  * // Least entry ≥ key
  *  const mm = new TreeMultiMap<number, string>([
@@ -683,6 +708,8 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    * Returns the entry with the largest key <= given key.
    * @remarks Time O(log n), Space O(1)
   
+   
+   
    
    
    
@@ -710,6 +737,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    * @remarks Time O(log n), Space O(1)
   
    
+   
     * @example
  * // Find the least key strictly > target
  *  const tmm = new TreeMultiMap<number>([10, 20, 30, 40]);
@@ -728,6 +756,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    * Returns the entry with the largest key < given key.
    * @remarks Time O(log n), Space O(1)
   
+   
    
     * @example
  * // Find the greatest key strictly < target
@@ -749,6 +778,8 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    * Prints the internal tree structure (for debugging).
    * @remarks Time O(n), Space O(n)
    
+   
+   
     * @example
  * // Display tree structure
  *  const tmm = new TreeMultiMap<number>([5, 3, 7]);
@@ -762,6 +793,8 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Executes a callback for each entry.
    * @remarks Time O(n), Space O(1)
+   
+   
    
     * @example
  * // Execute callback for each entry
@@ -780,6 +813,8 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    * Creates a new map with entries that pass the predicate.
    * @remarks Time O(n), Space O(n)
    
+   
+   
     * @example
  * // Filter entries by condition
  *  const tmm = new TreeMultiMap<number>([1, 2, 3, 4, 5, 6]);
@@ -797,6 +832,8 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Creates a new map by transforming each entry.
    * @remarks Time O(n log n), Space O(n)
+   
+   
    
     * @example
  * // Transform to new tree
@@ -818,6 +855,8 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    * Reduces all entries to a single value.
    * @remarks Time O(n), Space O(1)
    
+   
+   
     * @example
  * // Aggregate all values
  *  const tmm = new TreeMultiMap<number, number>([[1, 10], [2, 20], [3, 30]]);
@@ -835,6 +874,12 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Sets multiple entries at once.
    * @remarks Time O(m log n), Space O(m) where m is input size
+    * @example
+ * // Set multiple key-value pairs
+ *  const tmm = new TreeMultiMap<number, string>();
+ *     tmm.setMany([[1, 'a'], [2, 'b'], [3, 'c']]);
+ *     console.log(tmm.size); // 3;
+ *     console.log(tmm.get(2)); // 'b';
    */
   setMany(keysNodesEntriesOrRaws: Iterable<K | [K | null | undefined, V[] | undefined]>): boolean[] {
     const results: boolean[] = [];
@@ -848,6 +893,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Searches for entries within a key range.
    * @remarks Time O(log n + k), Space O(k) where k is result size
+   
    
    
     * @example
@@ -865,6 +911,8 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Creates a shallow clone of this map.
    * @remarks Time O(n log n), Space O(n)
+   
+   
    
     * @example
  * // Create independent copy

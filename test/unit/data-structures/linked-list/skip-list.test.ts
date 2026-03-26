@@ -447,4 +447,113 @@ describe('SkipList edge cases', () => {
     cloned.set(3, 'c');
     expect([...cloned.keys()]).toEqual([3, 2, 1]); // still reverse
   });
+
+  it('@example [SkipList.clone] Create independent copy', () => {
+    const sl = new SkipList<number, string>([[1, 'a'], [2, 'b']]);
+    const copy = sl.clone();
+    copy.delete(1);
+    expect(sl.has(1)).toBe(true);
+  });
+
+  it('@example [SkipList.clear] Remove all entries', () => {
+    const sl = new SkipList<number, string>([[1, 'a'], [2, 'b']]);
+    sl.clear();
+    expect(sl.isEmpty()).toBe(true);
+  });
+
+  it('@example [SkipList.isEmpty] Check if empty', () => {
+    const sl = new SkipList<number, string>();
+    expect(sl.isEmpty()).toBe(true);
+  });
+
+  it('@example [SkipList.entries] Iterate key-value pairs', () => {
+    const sl = new SkipList<number, string>([[2, 'b'], [1, 'a'], [3, 'c']]);
+    expect([...sl.entries()]).toEqual([[1, 'a'], [2, 'b'], [3, 'c']]);
+  });
+
+  it('@example [SkipList.keys] Get all keys sorted', () => {
+    const sl = new SkipList<number, string>([[3, 'c'], [1, 'a']]);
+    expect([...sl.keys()]).toEqual([1, 3]);
+  });
+
+  it('@example [SkipList.values] Get all values', () => {
+    const sl = new SkipList<number, string>([[1, 'a'], [2, 'b']]);
+    expect([...sl.values()]).toEqual(['a', 'b']);
+  });
+
+  it('@example [SkipList.every] Test all entries', () => {
+    const sl = new SkipList<number, string>([[1, 'a'], [2, 'b']]);
+    expect(sl.every((v, k) => k > 0)).toBe(true);
+  });
+
+  it('@example [SkipList.some] Test any entry', () => {
+    const sl = new SkipList<number, string>([[1, 'a'], [2, 'b']]);
+    expect(sl.some((v, k) => k === 2)).toBe(true);
+  });
+
+  it('@example [SkipList.find] Find matching entry', () => {
+    const sl = new SkipList<number, string>([[1, 'alpha'], [2, 'beta']]);
+    const found = sl.find(v => v === 'beta');
+    expect(found?.[0]).toBe(2);
+    expect(found?.[1]).toBe('beta');
+  });
+
+  it('@example [SkipList.forEach] Iterate entries', () => {
+    const sl = new SkipList<number, string>([[1, 'a'], [2, 'b']]);
+    const keys: number[] = [];
+    sl.forEach((v, k) => keys.push(k));
+    expect(keys).toEqual([1, 2]);
+  });
+
+  it('@example [SkipList.filter] Filter entries', () => {
+    const sl = new SkipList<number, string>([[1, 'a'], [2, 'b'], [3, 'c']]);
+    const result = sl.filter((v, k) => k > 1);
+    expect(result.size).toBe(2);
+  });
+
+  it('@example [SkipList.map] Transform entries', () => {
+    const sl = new SkipList<number, string>([[1, 'a'], [2, 'b']]);
+    const mapped = sl.map((v, k) => [k, v?.toUpperCase()] as [number, string]);
+    expect([...mapped.values()]).toEqual(['A', 'B']);
+  });
+
+  it('@example [SkipList.reduce] Aggregate entries', () => {
+    const sl = new SkipList<number, number>([[1, 10], [2, 20]]);
+    const sum = sl.reduce((acc, v) => acc + (v ?? 0), 0);
+    expect(sum).toBe(30);
+  });
+
+  it('@example [SkipList.toArray] Convert to array', () => {
+    const sl = new SkipList<number, string>([[2, 'b'], [1, 'a']]);
+    expect(sl.toArray()).toEqual([[1, 'a'], [2, 'b']]);
+  });
+
+  it('@example [SkipList.higher] Strictly greater entry', () => {
+    const sl = new SkipList<number, string>([[10, 'a'], [20, 'b'], [30, 'c']]);
+    expect(sl.higher(15)).toEqual([20, 'b']);
+    expect(sl.higher(30)).toBeUndefined();
+  });
+
+  it('@example [SkipList.lower] Strictly less entry', () => {
+    const sl = new SkipList<number, string>([[10, 'a'], [20, 'b'], [30, 'c']]);
+    expect(sl.lower(25)).toEqual([20, 'b']);
+    expect(sl.lower(10)).toBeUndefined();
+  });
+
+  it('@example [SkipList.pollFirst] Remove and return smallest', () => {
+    const sl = new SkipList<number, string>([[1, 'a'], [2, 'b'], [3, 'c']]);
+    expect(sl.pollFirst()).toEqual([1, 'a']);
+    expect(sl.size).toBe(2);
+  });
+
+  it('@example [SkipList.pollLast] Remove and return largest', () => {
+    const sl = new SkipList<number, string>([[1, 'a'], [2, 'b'], [3, 'c']]);
+    expect(sl.pollLast()).toEqual([3, 'c']);
+    expect(sl.size).toBe(2);
+  });
+
+  it('@example [SkipList.print] Display skip list', () => {
+    const sl = new SkipList<number, string>([[1, 'a']]);
+    expect(() => sl.print()).not.toThrow();
+  });
 });

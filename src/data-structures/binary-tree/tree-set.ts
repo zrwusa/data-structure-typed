@@ -171,6 +171,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
   /**
    * Whether the set is empty.
    
+   
+   
     * @example
  * // Check if tree has no nodes
  *  const ts = new TreeSet<number>();
@@ -206,6 +208,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    * @remarks Expected time O(log n)
    
    
+   
     * @example
  * // Unique tags with sorted order
  *  const tags = new TreeSet<string>(['javascript', 'typescript', 'react', 'typescript', 'node']);
@@ -234,6 +237,9 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
     * @example
  * // Checking membership in a sorted collection
  *  const allowed = new TreeSet<string>(['admin', 'editor', 'viewer']);
@@ -250,6 +256,9 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    * Delete a key.
    * @returns `true` if the key existed; otherwise `false`.
    * @remarks Expected time O(log n)
+   
+   
+   
    
    
    
@@ -273,6 +282,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
   /**
    * Remove all keys.
    
+   
+   
     * @example
  * // Remove all nodes
  *  const ts = new TreeSet<number>([1, 2, 3]);
@@ -286,6 +297,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Iterate over keys in ascending order.
+   
+   
    
     * @example
  * // Iterate over keys in sorted order
@@ -301,6 +314,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    *
    * Note: for Set-like containers, `values()` is the same as `keys()`.
    
+   
+   
     * @example
  * // Iterate over values in key order
  *  const ts = new TreeSet<number, string>([[2, 'b'], [1, 'a'], [3, 'c']]);
@@ -314,6 +329,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    * Iterate over `[value, value]` pairs (native Set convention).
    *
    * Note: TreeSet stores only keys internally; `[k, k]` is created on-the-fly during iteration.
+   
+   
    
     * @example
  * // Iterate over key-value pairs
@@ -334,6 +351,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    *
    * Callback follows native Set convention: `(value, value2, set)`.
    
+   
+   
     * @example
  * // Execute callback for each entry
  *  const ts = new TreeSet<number>([3, 1, 2]);
@@ -350,6 +369,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    *
    * This mirrors `RedBlackTree.map`: mapping produces a new ordered container.
    * @remarks Time O(n log n) expected, Space O(n)
+   
+   
    
     * @example
  * // Transform to new tree
@@ -377,6 +398,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    * Create a new TreeSet containing only values that satisfy the predicate.
    * @remarks Time O(n log n) expected, Space O(n)
    
+   
+   
     * @example
  * // Filter entries by condition
  *  const ts = new TreeSet<number>([1, 2, 3, 4, 5, 6]);
@@ -399,6 +422,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    * Reduce values into a single accumulator.
    * @remarks Time O(n), Space O(1)
    
+   
+   
     * @example
  * // Aggregate all values
  *  const ts = new TreeSet<number, number>([[1, 10], [2, 20], [3, 30]]);
@@ -415,6 +440,11 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
   /**
    * Test whether all values satisfy a predicate.
    * @remarks Time O(n), Space O(1)
+   
+    * @example
+ * // Test all nodes
+ *  const ts = new TreeSet<number>([5, 3, 7]);
+ *     console.log(ts.every((v, key) => key > 0)); // true;
    */
   every(callbackfn: TreeSetElementCallback<K, boolean, TreeSet<K>>, thisArg?: unknown): boolean {
     let index = 0;
@@ -430,6 +460,11 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
   /**
    * Test whether any value satisfies a predicate.
    * @remarks Time O(n), Space O(1)
+   
+    * @example
+ * // Test any node
+ *  const ts = new TreeSet<number>([5, 3, 7]);
+ *     console.log(ts.some((v, key) => key === 7)); // true;
    */
   some(callbackfn: TreeSetElementCallback<K, boolean, TreeSet<K>>, thisArg?: unknown): boolean {
     let index = 0;
@@ -445,6 +480,13 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
   /**
    * Find the first value that satisfies a predicate.
    * @remarks Time O(n), Space O(1)
+   
+    * @example
+ * // Find matching entry
+ *  const ts = new TreeSet<number, string>([[1, 'a'], [2, 'b'], [3, 'c']]);
+ *     const found = ts.find(v => v === 'b');
+ *     console.log(found?.[0]); // 2;
+ *     console.log(found?.[1]); // 'b';
    */
   find(callbackfn: TreeSetElementCallback<K, boolean, TreeSet<K>>, thisArg?: unknown): K | undefined {
     let index = 0;
@@ -461,6 +503,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    * Materialize the set into an array of keys.
    * @remarks Time O(n), Space O(n)
    
+   
+   
     * @example
  * // Convert to sorted array
  *  const ts = new TreeSet<number>([30, 10, 20]);
@@ -473,6 +517,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
   /**
    * Print a human-friendly representation.
    * @remarks Time O(n), Space O(n)
+   
+   
    
     * @example
  * // Display tree structure
@@ -489,6 +535,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Smallest key in the set.
+   
    
    
     * @example
@@ -527,6 +574,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    * Largest key in the set.
    
    
+   
     * @example
  * // Get the maximum element
  *  const temps = new TreeSet<number>([18, 22, 15, 30, 25]);
@@ -539,6 +587,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Remove and return the smallest key.
+   
    
    
     * @example
@@ -560,6 +609,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    * Remove and return the largest key.
    
    
+   
     * @example
  * // Remove and return maximum
  *  const stack = new TreeSet<number>([10, 20, 30]);
@@ -576,6 +626,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Smallest key that is >= the given key.
+   
+   
    
    
    
@@ -608,6 +660,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
     * @example
  * // Largest element ≤ target
  *  const breakpoints = new TreeSet<number>([320, 768, 1024, 1280, 1920]);
@@ -624,6 +678,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Smallest key that is > the given key.
+   
+   
    
    
    
@@ -646,6 +702,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
     * @example
  * // Largest element strictly < target
  *  const tiers = new TreeSet<number>([100, 200, 500, 1000]);
@@ -663,6 +721,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    *
    * @param range `[low, high]`
    * @param options Inclusive/exclusive bounds (defaults to inclusive).
+   
+   
    
    
    
@@ -710,6 +770,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    * Creates a shallow clone of this set.
    * @remarks Time O(n log n), Space O(n)
   
+   
+   
    
     * @example
  * // Create independent copy

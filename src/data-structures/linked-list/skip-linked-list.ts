@@ -140,16 +140,40 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
     return this.#comparator;
   }
 
+    /**
+   * Check if empty
+   * @example
+ * // Check if empty
+ *  const sl = new SkipList<number, string>();
+ *     console.log(sl.isEmpty()); // true;
+   */
   isEmpty(): boolean {
     return this._size === 0;
   }
 
+    /**
+   * Remove all entries
+   * @example
+ * // Remove all entries
+ *  const sl = new SkipList<number, string>([[1, 'a'], [2, 'b']]);
+ *     sl.clear();
+ *     console.log(sl.isEmpty()); // true;
+   */
   clear(): void {
     this._head = new SkipListNode<K, V>(undefined as K, undefined as V, this._maxLevel);
     this._level = 0;
     this._size = 0;
   }
 
+    /**
+   * Create independent copy
+   * @example
+ * // Create independent copy
+ *  const sl = new SkipList<number, string>([[1, 'a'], [2, 'b']]);
+ *     const copy = sl.clone();
+ *     copy.delete(1);
+ *     console.log(sl.has(1)); // true;
+   */
   clone(): this {
     return new SkipList<K, V, R>(this as Iterable<[K, V | undefined]>, {
       comparator: this.#isDefaultComparator ? undefined : this.#comparator,
@@ -164,6 +188,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
    * Insert or update a key-value pair. Returns `this` for chaining.
    * Unique keys only — if key exists, value is updated in place.
   
+   
    
     * @example
  * // In-memory sorted key-value store
@@ -217,6 +242,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
    * Overrides base O(n) with O(log n) skip-list search.
    
    
+   
     * @example
  * // Building a sorted index
  *  type Product = { id: number; name: string; price: number };
@@ -248,6 +274,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
    * Overrides base O(n) with O(log n) skip-list search.
    
    
+   
     * @example
  * // Check key existence
  *  const sl = new SkipList<number, string>([[1, 'a'], [3, 'c'], [5, 'e']]);
@@ -260,6 +287,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Delete a key. Returns `true` if the key was found and removed.
+   
    
    
     * @example
@@ -301,6 +329,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
    * Returns the first (smallest key) entry, or `undefined` if empty.
   
    
+   
     * @example
  * // Access the minimum entry
  *  const sl = new SkipList<number, string>([[5, 'e'], [1, 'a'], [3, 'c']]);
@@ -313,6 +342,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Returns the last (largest key) entry, or `undefined` if empty.
+   
    
    
     * @example
@@ -332,6 +362,11 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Remove and return the first (smallest key) entry.
+    * @example
+ * // Remove and return smallest
+ *  const sl = new SkipList<number, string>([[1, 'a'], [2, 'b'], [3, 'c']]);
+ *     console.log(sl.pollFirst()); // [1, 'a'];
+ *     console.log(sl.size); // 2;
    */
   pollFirst(): [K, V | undefined] | undefined {
     const entry = this.first();
@@ -342,6 +377,11 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Remove and return the last (largest key) entry.
+    * @example
+ * // Remove and return largest
+ *  const sl = new SkipList<number, string>([[1, 'a'], [2, 'b'], [3, 'c']]);
+ *     console.log(sl.pollLast()); // [3, 'c'];
+ *     console.log(sl.size); // 2;
    */
   pollLast(): [K, V | undefined] | undefined {
     const entry = this.last();
@@ -353,6 +393,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
   /**
    * Least entry ≥ key, or `undefined`.
   
+   
    
     * @example
  * // Least entry ≥ key
@@ -374,6 +415,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Greatest entry ≤ key, or `undefined`.
+   
    
    
     * @example
@@ -400,6 +442,11 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Least entry strictly > key, or `undefined`.
+    * @example
+ * // Strictly greater entry
+ *  const sl = new SkipList<number, string>([[10, 'a'], [20, 'b'], [30, 'c']]);
+ *     console.log(sl.higher(15)); // [20, 'b'];
+ *     console.log(sl.higher(30)); // undefined;
    */
   higher(key: K): [K, V | undefined] | undefined {
     const cmp = this.#comparator;
@@ -415,6 +462,11 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Greatest entry strictly < key, or `undefined`.
+    * @example
+ * // Strictly less entry
+ *  const sl = new SkipList<number, string>([[10, 'a'], [20, 'b'], [30, 'c']]);
+ *     console.log(sl.lower(25)); // [20, 'b'];
+ *     console.log(sl.lower(10)); // undefined;
    */
   lower(key: K): [K, V | undefined] | undefined {
     const cmp = this.#comparator;
@@ -434,6 +486,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
   /**
    * Returns entries within the given key range.
   
+   
    
     * @example
  * // Find entries in a range
@@ -476,6 +529,11 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Creates a new SkipList with entries transformed by callback.
+    * @example
+ * // Transform entries
+ *  const sl = new SkipList<number, string>([[1, 'a'], [2, 'b']]);
+ *     const mapped = sl.map((v, k) => [k, v?.toUpperCase()] as [number, string]);
+ *     console.log([...mapped.values()]); // ['A', 'B'];
    */
   map<MK, MV>(
     callback: EntryCallback<K, V | undefined, [MK, MV]>,
@@ -492,6 +550,11 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Creates a new SkipList with entries that pass the predicate.
+    * @example
+ * // Filter entries
+ *  const sl = new SkipList<number, string>([[1, 'a'], [2, 'b'], [3, 'c']]);
+ *     const result = sl.filter((v, k) => k > 1);
+ *     console.log(result.size); // 2;
    */
   filter(
     callbackfn: EntryCallback<K, V | undefined, boolean>,
