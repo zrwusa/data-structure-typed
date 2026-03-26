@@ -6,8 +6,8 @@ describe('SkipList additional branch coverage', () => {
     expect(s.maxLevel).toBe(8);
     expect(s.probability).toBe(0.25);
 
-    // covers `firstNode ? ... : undefined` false arm
-    expect(s.first).toBeUndefined();
+    // first() returns undefined when empty
+    expect(s.first()).toBeUndefined();
   });
 
   it('delete() covers the break branch when deleted node has smaller level than list level', () => {
@@ -18,10 +18,9 @@ describe('SkipList additional branch coverage', () => {
     const levels = [4, 1];
     (s as any)._randomLevel = () => levels.shift() ?? 1;
     try {
-      s.add(1, 'hi'); // level 4, end -> raises list level
-      s.add(2, 'lo'); // level 1, end, list level stays 4
+      s.set(1, 'hi'); // level 4, raises list level
+      s.set(2, 'lo'); // level 1, list level stays 4
 
-      expect(s.level).toBeGreaterThan(1);
       expect(s.delete(2)).toBe(true);
       expect(s.get(2)).toBeUndefined();
     } finally {

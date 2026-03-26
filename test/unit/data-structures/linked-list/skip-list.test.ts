@@ -4,182 +4,413 @@ describe('classic use', () => {
   it('@example In-memory sorted key-value store', () => {
     const store = new SkipList<number, string>();
 
-    store.add(3, 'three');
-    store.add(1, 'one');
-    store.add(5, 'five');
-    store.add(2, 'two');
+    store.set(3, 'three');
+    store.set(1, 'one');
+    store.set(5, 'five');
+    store.set(2, 'two');
 
     expect(store.get(3)).toBe('three');
     expect(store.get(1)).toBe('one');
     expect(store.get(5)).toBe('five');
 
     // Update existing key
-    store.add(3, 'THREE');
+    store.set(3, 'THREE');
     expect(store.get(3)).toBe('THREE');
   });
 
   it('@example Fast lookup with deletion', () => {
     const cache = new SkipList<string, number>();
 
-    cache.add('alpha', 1);
-    cache.add('beta', 2);
-    cache.add('gamma', 3);
-    cache.add('delta', 4);
+    cache.set('alpha', 1);
+    cache.set('beta', 2);
+    cache.set('gamma', 3);
 
-    expect(cache.get('beta')).toBe(2);
-
-    // Remove an entry
-    expect(cache.delete('beta')).toBe(true);
-    expect(cache.get('beta')).toBeUndefined();
-
-    // Non-existent key
-    expect(cache.delete('omega')).toBe(false);
-    expect(cache.get('omega')).toBeUndefined();
+    expect(cache.has('beta')).toBe(true);
+    cache.delete('beta');
+    expect(cache.has('beta')).toBe(false);
+    expect(cache.size).toBe(2);
   });
 
   it('@example Building a sorted index', () => {
-    const index = new SkipList<number, string>();
-
-    // Insert scores with player names
-    const entries: [number, string][] = [
-      [88, 'Alice'],
-      [72, 'Bob'],
-      [95, 'Charlie'],
-      [81, 'Diana'],
-      [90, 'Eve']
+    type Product = { id: number; name: string; price: number };
+    const products: Product[] = [
+      { id: 1, name: 'Widget', price: 25 },
+      { id: 2, name: 'Gadget', price: 50 },
+      { id: 3, name: 'Doohickey', price: 15 }
     ];
 
-    for (const [score, name] of entries) {
-      index.add(score, name);
-    }
+    const index = new SkipList<number, Product>(products, {
+      toEntryFn: p => [p.price, p]
+    });
 
-    // O(log n) lookups
-    expect(index.get(95)).toBe('Charlie');
-    expect(index.get(81)).toBe('Diana');
-    expect(index.get(60)).toBeUndefined();
+    // Iterate in sorted order by price
+    const names = [...index.values()].map(p => p!.name);
+    expect(names).toEqual(['Doohickey', 'Widget', 'Gadget']);
+
+    // Range search: products between $20 and $60
+    const range = index.rangeSearch([20, 60]);
+    expect(range.map(([, p]) => p!.name)).toEqual(['Widget', 'Gadget']);
   });
 });
 
-describe('SkipList', () => {
-  let skipList: SkipList<number, string>;
+describe('SkipList core CRUD', () => {
+  let sl: SkipList<number, string>;
 
   beforeEach(() => {
-    skipList = new SkipList<number, string>();
+    sl = new SkipList<number, string>();
+    sl.set(10, 'ten');
+    sl.set(20, 'twenty');
+    sl.set(30, 'thirty');
+    sl.set(40, 'forty');
+    sl.set(50, 'fifty');
   });
 
-  it('should insert and retrieve elements correctly', () => {
-    skipList.add(1, 'One');
-    skipList.add(2, 'Two');
-    skipList.add(3, 'Three');
-
-    expect(skipList.get(1)).toBe('One');
-    expect(skipList.get(2)).toBe('Two');
-    expect(skipList.get(3)).toBe('Three');
+  it('should set and get values', () => {
+    expect(sl.get(10)).toBe('ten');
+    expect(sl.get(30)).toBe('thirty');
+    expect(sl.get(50)).toBe('fifty');
   });
 
   it('should return undefined for non-existent keys', () => {
-    skipList.add(1, 'One');
-    skipList.add(2, 'Two');
-
-    expect(skipList.get(3)).toBeUndefined();
-    expect(skipList.get(0)).toBeUndefined();
+    expect(sl.get(15)).toBeUndefined();
+    expect(sl.get(0)).toBeUndefined();
+    expect(sl.get(100)).toBeUndefined();
   });
 
-  it('should delete elements correctly', () => {
-    skipList.add(1, 'One');
-    skipList.add(2, 'Two');
-    skipList.add(3, 'Three');
-
-    skipList.delete(2);
-
-    expect(skipList.get(2)).toBeUndefined();
+  it('should update value for existing key', () => {
+    sl.set(20, 'TWENTY');
+    expect(sl.get(20)).toBe('TWENTY');
+    expect(sl.size).toBe(5); // no duplicate
   });
 
-  it('should handle random data correctly', () => {
-    const randomData: Array<[number, string]> = [
-      [5, 'Five'],
-      [1, 'One'],
-      [3, 'Three'],
-      [2, 'Two'],
-      [4, 'Four']
-    ];
+  it('should report has correctly', () => {
+    expect(sl.has(10)).toBe(true);
+    expect(sl.has(15)).toBe(false);
+  });
 
-    for (const [key, value] of randomData) {
-      skipList.add(key, value);
-    }
+  it('should delete existing keys', () => {
+    expect(sl.delete(30)).toBe(true);
+    expect(sl.get(30)).toBeUndefined();
+    expect(sl.size).toBe(4);
+  });
 
-    expect(skipList.get(3)).toBe('Three');
-    expect(skipList.get(5)).toBe('Five');
-    expect(skipList.get(4)).toBe('Four');
+  it('should return false when deleting non-existent key', () => {
+    expect(sl.delete(99)).toBe(false);
+    expect(sl.size).toBe(5);
+  });
+
+  it('should track size correctly', () => {
+    expect(sl.size).toBe(5);
+    sl.set(60, 'sixty');
+    expect(sl.size).toBe(6);
+    sl.set(60, 'SIXTY'); // update, not insert
+    expect(sl.size).toBe(6);
+    sl.delete(10);
+    expect(sl.size).toBe(5);
+  });
+
+  it('should support chaining via set', () => {
+    const result = sl.set(100, 'hundred').set(200, 'two hundred');
+    expect(result).toBe(sl);
+    expect(sl.size).toBe(7);
   });
 });
 
-describe('SkipList Test2', () => {
-  let skipList: SkipList<number, string>;
+describe('SkipList size & lifecycle', () => {
+  it('isEmpty should work', () => {
+    const sl = new SkipList<number, string>();
+    expect(sl.isEmpty()).toBe(true);
+    sl.set(1, 'a');
+    expect(sl.isEmpty()).toBe(false);
+  });
+
+  it('clear should reset everything', () => {
+    const sl = new SkipList<number, string>([[1, 'a'], [2, 'b'], [3, 'c']]);
+    expect(sl.size).toBe(3);
+    sl.clear();
+    expect(sl.size).toBe(0);
+    expect(sl.isEmpty()).toBe(true);
+    expect(sl.get(1)).toBeUndefined();
+  });
+
+  it('clone should create independent copy', () => {
+    const sl = new SkipList<number, string>([[1, 'a'], [2, 'b'], [3, 'c']]);
+    const copy = sl.clone();
+
+    expect(copy.size).toBe(3);
+    expect(copy.get(2)).toBe('b');
+
+    // Modify clone, original unchanged
+    copy.set(4, 'd');
+    copy.delete(1);
+    expect(copy.size).toBe(3);
+    expect(sl.size).toBe(3);
+    expect(sl.has(1)).toBe(true);
+    expect(sl.has(4)).toBe(false);
+  });
+});
+
+describe('SkipList navigation', () => {
+  let sl: SkipList<number, string>;
 
   beforeEach(() => {
-    skipList = new SkipList();
-    skipList.add(1, 'One');
-    skipList.add(2, 'Two');
-    skipList.add(3, 'Three');
-    skipList.add(4, 'Four');
+    sl = new SkipList<number, string>([[10, 'a'], [20, 'b'], [30, 'c'], [40, 'd'], [50, 'e']]);
   });
 
-  it('first() should return the first element', () => {
-    expect(skipList.first).toBe('One');
+  it('first and last', () => {
+    expect(sl.first()).toEqual([10, 'a']);
+    expect(sl.last()).toEqual([50, 'e']);
   });
 
-  it('last() should return the last element', () => {
-    expect(skipList.last).toBe('Four');
+  it('first and last on empty', () => {
+    const empty = new SkipList<number, string>();
+    expect(empty.first()).toBeUndefined();
+    expect(empty.last()).toBeUndefined();
   });
 
-  it('higher(key) should return the first element greater than the given key', () => {
-    expect(skipList.higher(2)).toBe('Three');
-    expect(skipList.higher(3)).toBe('Four');
-    expect(skipList.higher(4)).toBeUndefined();
+  it('pollFirst removes and returns first', () => {
+    const entry = sl.pollFirst();
+    expect(entry).toEqual([10, 'a']);
+    expect(sl.size).toBe(4);
+    expect(sl.first()).toEqual([20, 'b']);
   });
 
-  it('lower(key) should return the last element less than the given key', () => {
-    expect(skipList.lower(2)).toBe('One');
-    expect(skipList.lower(1)).toBe(undefined);
+  it('pollLast removes and returns last', () => {
+    const entry = sl.pollLast();
+    expect(entry).toEqual([50, 'e']);
+    expect(sl.size).toBe(4);
+    expect(sl.last()).toEqual([40, 'd']);
+  });
+
+  it('pollFirst on empty returns undefined', () => {
+    const empty = new SkipList<number, string>();
+    expect(empty.pollFirst()).toBeUndefined();
+  });
+
+  it('pollLast on empty returns undefined', () => {
+    const empty = new SkipList<number, string>();
+    expect(empty.pollLast()).toBeUndefined();
+  });
+
+  it('ceiling', () => {
+    expect(sl.ceiling(20)).toEqual([20, 'b']); // exact match
+    expect(sl.ceiling(25)).toEqual([30, 'c']); // next higher
+    expect(sl.ceiling(5)).toEqual([10, 'a']);   // before first
+    expect(sl.ceiling(55)).toBeUndefined();     // beyond last
+  });
+
+  it('floor', () => {
+    expect(sl.floor(20)).toEqual([20, 'b']); // exact match
+    expect(sl.floor(25)).toEqual([20, 'b']); // next lower
+    expect(sl.floor(50)).toEqual([50, 'e']); // exact last
+    expect(sl.floor(5)).toBeUndefined();     // before first
+  });
+
+  it('higher', () => {
+    expect(sl.higher(20)).toEqual([30, 'c']); // strictly greater
+    expect(sl.higher(25)).toEqual([30, 'c']); // between keys
+    expect(sl.higher(50)).toBeUndefined();    // nothing higher
+    expect(sl.higher(5)).toEqual([10, 'a']);   // before first
+  });
+
+  it('lower', () => {
+    expect(sl.lower(20)).toEqual([10, 'a']); // strictly less
+    expect(sl.lower(25)).toEqual([20, 'b']); // between keys
+    expect(sl.lower(10)).toBeUndefined();    // nothing lower
+    expect(sl.lower(55)).toEqual([50, 'e']); // beyond last
+  });
+
+  it('rangeSearch with defaults (inclusive)', () => {
+    const result = sl.rangeSearch([20, 40]);
+    expect(result).toEqual([[20, 'b'], [30, 'c'], [40, 'd']]);
+  });
+
+  it('rangeSearch with exclusive bounds', () => {
+    const result = sl.rangeSearch([20, 40], { lowInclusive: false, highInclusive: false });
+    expect(result).toEqual([[30, 'c']]);
+  });
+
+  it('rangeSearch with mixed bounds', () => {
+    expect(sl.rangeSearch([20, 40], { lowInclusive: false })).toEqual([[30, 'c'], [40, 'd']]);
+    expect(sl.rangeSearch([20, 40], { highInclusive: false })).toEqual([[20, 'b'], [30, 'c']]);
+  });
+
+  it('rangeSearch empty result', () => {
+    expect(sl.rangeSearch([22, 28])).toEqual([]);
   });
 });
 
-describe('bug fixes', () => {
-  it('should update value when adding with existing key', () => {
-    const sl = new SkipList<number, string>();
-    sl.add(1, 'a');
-    sl.add(2, 'b');
-    sl.add(3, 'c');
+describe('SkipList iteration', () => {
+  let sl: SkipList<number, string>;
 
-    // Update existing key
-    sl.add(2, 'B');
-    expect(sl.get(2)).toBe('B');
-
-    // Other keys unchanged
-    expect(sl.get(1)).toBe('a');
-    expect(sl.get(3)).toBe('c');
+  beforeEach(() => {
+    sl = new SkipList<number, string>([[3, 'c'], [1, 'a'], [5, 'e'], [2, 'b'], [4, 'd']]);
   });
 
-  it('should not create duplicate nodes on key update', () => {
-    const sl = new SkipList<number, string>();
-    sl.add(1, 'a');
-    sl.add(2, 'b');
-    sl.add(3, 'c');
+  it('should iterate in sorted order with for...of', () => {
+    const entries: [number, string | undefined][] = [];
+    for (const entry of sl) entries.push(entry);
+    expect(entries).toEqual([[1, 'a'], [2, 'b'], [3, 'c'], [4, 'd'], [5, 'e']]);
+  });
 
-    // Update key 2 multiple times
-    sl.add(2, 'x');
-    sl.add(2, 'y');
-    sl.add(2, 'z');
+  it('should spread into array', () => {
+    const arr = [...sl];
+    expect(arr).toEqual([[1, 'a'], [2, 'b'], [3, 'c'], [4, 'd'], [5, 'e']]);
+  });
 
-    expect(sl.get(2)).toBe('z');
+  it('should work with Array.from', () => {
+    const arr = Array.from(sl);
+    expect(arr).toEqual([[1, 'a'], [2, 'b'], [3, 'c'], [4, 'd'], [5, 'e']]);
+  });
 
-    // Delete should remove the single node
+  it('keys should return keys in sorted order', () => {
+    expect([...sl.keys()]).toEqual([1, 2, 3, 4, 5]);
+  });
+
+  it('values should return values in sorted order', () => {
+    expect([...sl.values()]).toEqual(['a', 'b', 'c', 'd', 'e']);
+  });
+
+  it('entries should return entries in sorted order', () => {
+    const entries = [...sl.entries()];
+    expect(entries).toEqual([[1, 'a'], [2, 'b'], [3, 'c'], [4, 'd'], [5, 'e']]);
+  });
+
+  it('forEach should visit entries in sorted order', () => {
+    const visited: [number, string | undefined][] = [];
+    sl.forEach((v, k) => visited.push([k, v]));
+    expect(visited).toEqual([[1, 'a'], [2, 'b'], [3, 'c'], [4, 'd'], [5, 'e']]);
+  });
+
+  it('toArray should return sorted entries', () => {
+    expect(sl.toArray()).toEqual([[1, 'a'], [2, 'b'], [3, 'c'], [4, 'd'], [5, 'e']]);
+  });
+});
+
+describe('SkipList functional', () => {
+  let sl: SkipList<number, number>;
+
+  beforeEach(() => {
+    sl = new SkipList<number, number>([[1, 10], [2, 20], [3, 30], [4, 40], [5, 50]]);
+  });
+
+  it('map should transform entries', () => {
+    const mapped = sl.map((v, k) => [k * 10, (v ?? 0) * 2]);
+    expect(mapped.toArray()).toEqual([[10, 20], [20, 40], [30, 60], [40, 80], [50, 100]]);
+  });
+
+  it('filter should select entries', () => {
+    const filtered = sl.filter((v) => (v ?? 0) > 20);
+    expect(filtered.toArray()).toEqual([[3, 30], [4, 40], [5, 50]]);
+    expect(filtered.size).toBe(3);
+  });
+
+  it('reduce should accumulate', () => {
+    const sum = sl.reduce((acc, v) => acc + (v ?? 0), 0);
+    expect(sum).toBe(150);
+  });
+
+  it('every should check all entries', () => {
+    expect(sl.every((v) => (v ?? 0) > 0)).toBe(true);
+    expect(sl.every((v) => (v ?? 0) > 20)).toBe(false);
+  });
+
+  it('some should check at least one', () => {
+    expect(sl.some((v) => (v ?? 0) === 30)).toBe(true);
+    expect(sl.some((v) => (v ?? 0) === 99)).toBe(false);
+  });
+
+  it('find should return first matching entry', () => {
+    expect(sl.find((v) => (v ?? 0) > 20)).toEqual([3, 30]);
+    expect(sl.find((v) => (v ?? 0) > 100)).toBeUndefined();
+  });
+});
+
+describe('SkipList constructor options', () => {
+  it('should accept custom comparator', () => {
+    // Reverse order
+    const sl = new SkipList<number, string>([[1, 'a'], [3, 'c'], [2, 'b']], {
+      comparator: (a, b) => b - a
+    });
+    expect([...sl.keys()]).toEqual([3, 2, 1]);
+  });
+
+  it('should accept toEntryFn', () => {
+    type User = { id: number; name: string };
+    const users: User[] = [
+      { id: 3, name: 'Charlie' },
+      { id: 1, name: 'Alice' },
+      { id: 2, name: 'Bob' }
+    ];
+    const sl = new SkipList<number, User, User>(users, {
+      toEntryFn: u => [u.id, u]
+    });
+    expect(sl.size).toBe(3);
+    expect(sl.get(1)?.name).toBe('Alice');
+    expect([...sl.keys()]).toEqual([1, 2, 3]);
+  });
+
+  it('should accept maxLevel and probability', () => {
+    const sl = new SkipList<number, string>([], { maxLevel: 8, probability: 0.25 });
+    expect(sl.maxLevel).toBe(8);
+    expect(sl.probability).toBe(0.25);
+  });
+
+  it('should throw on invalid entries', () => {
+    expect(() => new SkipList([42 as any])).toThrow();
+  });
+
+  it('should support string keys with default comparator', () => {
+    const sl = new SkipList<string, number>([['banana', 2], ['apple', 1], ['cherry', 3]]);
+    expect([...sl.keys()]).toEqual(['apple', 'banana', 'cherry']);
+  });
+
+  it('should support Date keys with default comparator', () => {
+    const d1 = new Date('2020-01-01');
+    const d2 = new Date('2021-01-01');
+    const d3 = new Date('2019-01-01');
+    const sl = new SkipList<Date, string>([[d1, 'a'], [d2, 'b'], [d3, 'c']]);
+    expect([...sl.keys()]).toEqual([d3, d1, d2]);
+  });
+});
+
+describe('SkipList edge cases', () => {
+  it('should handle single element', () => {
+    const sl = new SkipList<number, string>([[1, 'a']]);
+    expect(sl.first()).toEqual([1, 'a']);
+    expect(sl.last()).toEqual([1, 'a']);
+    expect(sl.size).toBe(1);
+    sl.delete(1);
+    expect(sl.isEmpty()).toBe(true);
+  });
+
+  it('should handle large number of insertions', () => {
+    const sl = new SkipList<number, number>();
+    for (let i = 0; i < 1000; i++) {
+      sl.set(i, i * 10);
+    }
+    expect(sl.size).toBe(1000);
+    expect(sl.get(500)).toBe(5000);
+    expect(sl.first()).toEqual([0, 0]);
+    expect(sl.last()).toEqual([999, 9990]);
+  });
+
+  it('should handle delete all elements', () => {
+    const sl = new SkipList<number, string>([[1, 'a'], [2, 'b'], [3, 'c']]);
+    sl.delete(1);
     sl.delete(2);
-    expect(sl.get(2)).toBeUndefined();
+    sl.delete(3);
+    expect(sl.isEmpty()).toBe(true);
+    expect(sl.first()).toBeUndefined();
+    expect(sl.last()).toBeUndefined();
+  });
 
-    // Other keys still intact
-    expect(sl.get(1)).toBe('a');
-    expect(sl.get(3)).toBe('c');
+  it('clone preserves custom comparator', () => {
+    const sl = new SkipList<number, string>([[1, 'a'], [2, 'b']], {
+      comparator: (a, b) => b - a // reverse
+    });
+    const cloned = sl.clone();
+    cloned.set(3, 'c');
+    expect([...cloned.keys()]).toEqual([3, 2, 1]); // still reverse
   });
 });
