@@ -27,9 +27,6 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * Iterate over `[key, value]` pairs (may yield `undefined` values).
    * @returns Iterator of `[K, V | undefined]`.
    * @remarks Time O(n), Space O(1)
-   * @example
-   * const bst = new BST<number, string>([[3, 'c'], [1, 'a'], [2, 'b']]);
-   * console.log([...bst.entries()]); // [[1, 'a'], [2, 'b'], [3, 'c']]
    */
   *entries(): IterableIterator<[K, V | undefined]> {
     for (const item of this) {
@@ -41,9 +38,6 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * Iterate over keys only.
    * @returns Iterator of keys.
    * @remarks Time O(n), Space O(1)
-   * @example
-   * const bst = new BST<number>([30, 10, 20]);
-   * console.log([...bst.keys()]); // [10, 20, 30]
    */
   *keys(): IterableIterator<K> {
     for (const item of this) {
@@ -55,9 +49,6 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * Iterate over values only.
    * @returns Iterator of values.
    * @remarks Time O(n), Space O(1)
-   * @example
-   * const bst = new BST<number, string>([[2, 'b'], [1, 'a'], [3, 'c']]);
-   * console.log([...bst.values()]); // ['a', 'b', 'c']
    */
   *values(): IterableIterator<V> {
     for (const item of this) {
@@ -71,9 +62,6 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * @param thisArg - Optional `this` for callback.
    * @returns `true` if all pass; otherwise `false`.
    * @remarks Time O(n), Space O(1)
-   * @example
-   * const bst = new BST<number>([2, 4, 6]);
-   * console.log(bst.every((v, k) => k > 0)); // true
    */
   every(predicate: EntryCallback<K, V, boolean>, thisArg?: any): boolean {
     let index = 0;
@@ -91,9 +79,6 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * @param thisArg - Optional `this` for callback.
    * @returns `true` if any passes; otherwise `false`.
    * @remarks Time O(n), Space O(1)
-   * @example
-   * const bst = new BST<number>([1, 3, 5]);
-   * console.log(bst.some((v, k) => k === 3)); // true
    */
   some(predicate: EntryCallback<K, V, boolean>, thisArg?: any): boolean {
     let index = 0;
@@ -110,11 +95,6 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * @param callbackfn - `(key, value, index, self) => void`.
    * @param thisArg - Optional `this` for callback.
    * @remarks Time O(n), Space O(1)
-   * @example
-   * const bst = new BST<number>([3, 1, 2]);
-   * const keys: number[] = [];
-   * bst.forEach((v, k) => keys.push(k));
-   * console.log(keys); // [1, 2, 3]
    */
   forEach(callbackfn: EntryCallback<K, V, void>, thisArg?: any): void {
     let index = 0;
@@ -130,10 +110,6 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * @param thisArg - Optional `this` for callback.
    * @returns Matching `[key, value]` or `undefined`.
    * @remarks Time O(n), Space O(1)
-   * @example
-   * const bst = new BST<number, string>([[1, 'a'], [2, 'b']]);
-   * const found = bst.find(v => v === 'b');
-   * console.log(found); // [2, 'b']
    */
   find(callbackfn: EntryCallback<K, V, boolean>, thisArg?: any): [K, V] | undefined {
     let index = 0;
@@ -191,10 +167,6 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * @param initialValue - Initial accumulator.
    * @returns Final accumulator.
    * @remarks Time O(n), Space O(1)
-   * @example
-   * const bst = new BST<number, number>([[1, 10], [2, 20], [3, 30]]);
-   * const sum = bst.reduce((acc, v) => acc + (v ?? 0), 0);
-   * console.log(sum); // 60
    */
   reduce<U>(callbackfn: ReduceEntryCallback<K, V, U>, initialValue: U): U {
     let accumulator = initialValue;
@@ -210,9 +182,6 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * Converts data structure to `[key, value]` pairs.
    * @returns Array of entries.
    * @remarks Time O(n), Space O(n)
-   * @example
-   * const bst = new BST<number>([30, 10, 20]);
-   * console.log(bst.toArray().map(([k]) => k)); // [10, 20, 30]
    */
   toArray() {
     return [...this];
