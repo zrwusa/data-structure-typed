@@ -460,6 +460,113 @@ describe('Matrix', () => {
     });
   });
 
+  describe('standard interface', () => {
+    it('size returns [rows, cols]', () => {
+      const m = new Matrix([[1, 2, 3], [4, 5, 6]]);
+      expect(m.size).toEqual([2, 3]);
+    });
+
+    it('isEmpty returns false for non-empty matrix', () => {
+      const m = new Matrix([[1, 2]]);
+      expect(m.isEmpty()).toBe(false);
+    });
+
+    it('isEmpty returns true for 0-row matrix', () => {
+      const m = new Matrix([]);
+      expect(m.isEmpty()).toBe(true);
+    });
+
+    it('toArray returns deep copy', () => {
+      const data = [[1, 2], [3, 4]];
+      const m = new Matrix(data);
+      const arr = m.toArray();
+      expect(arr).toEqual([[1, 2], [3, 4]]);
+      arr[0][0] = 999;
+      expect(m.get(0, 0)).toBe(1); // original unchanged
+    });
+
+    it('flatten returns row-major flat array', () => {
+      const m = new Matrix([[1, 2, 3], [4, 5, 6]]);
+      expect(m.flatten()).toEqual([1, 2, 3, 4, 5, 6]);
+    });
+
+    it('Iterable iterates rows', () => {
+      const m = new Matrix([[1, 2], [3, 4], [5, 6]]);
+      const rows = [...m];
+      expect(rows).toEqual([[1, 2], [3, 4], [5, 6]]);
+    });
+
+    it('Iterable rows are independent copies', () => {
+      const m = new Matrix([[1, 2], [3, 4]]);
+      const rows = [...m];
+      rows[0][0] = 999;
+      expect(m.get(0, 0)).toBe(1); // original unchanged
+    });
+
+    it('forEach visits all elements with row/col', () => {
+      const m = new Matrix([[1, 2], [3, 4]]);
+      const visited: [number, number, number][] = [];
+      m.forEach((v, r, c) => visited.push([r, c, v]));
+      expect(visited).toEqual([[0, 0, 1], [0, 1, 2], [1, 0, 3], [1, 1, 4]]);
+    });
+
+    it('map transforms elements', () => {
+      const m = new Matrix([[1, 2], [3, 4]]);
+      const doubled = m.map(v => v * 2);
+      expect(doubled.data).toEqual([[2, 4], [6, 8]]);
+      expect(m.data).toEqual([[1, 2], [3, 4]]); // original unchanged
+    });
+
+    it('map receives row/col indices', () => {
+      const m = new Matrix([[0, 0], [0, 0]]);
+      const withCoords = m.map((_, r, c) => r * 10 + c);
+      expect(withCoords.data).toEqual([[0, 1], [10, 11]]);
+    });
+
+    it('clone is a deep copy', () => {
+      const m = new Matrix([[1, 2], [3, 4]]);
+      const copy = m.clone();
+      copy.set(0, 0, 99);
+      expect(m.get(0, 0)).toBe(1); // original unchanged
+    });
+  });
+
+  describe('factory methods', () => {
+    it('zeros creates all-zero matrix', () => {
+      const m = Matrix.zeros(3, 4);
+      expect(m.rows).toBe(3);
+      expect(m.cols).toBe(4);
+      m.forEach(v => expect(v).toBe(0));
+    });
+
+    it('identity creates identity matrix', () => {
+      const m = Matrix.identity(3);
+      expect(m.rows).toBe(3);
+      expect(m.cols).toBe(3);
+      expect(m.get(0, 0)).toBe(1);
+      expect(m.get(1, 1)).toBe(1);
+      expect(m.get(2, 2)).toBe(1);
+      expect(m.get(0, 1)).toBe(0);
+      expect(m.get(1, 0)).toBe(0);
+    });
+
+    it('identity matrix multiplied with any matrix = original', () => {
+      const a = new Matrix([[1, 2, 3], [4, 5, 6]]);
+      const id = Matrix.identity(3);
+      const result = a.multiply(id);
+      expect(result?.data).toEqual([[1, 2, 3], [4, 5, 6]]);
+    });
+
+    it('from creates matrix from data', () => {
+      const data = [[1, 2], [3, 4]];
+      const m = Matrix.from(data);
+      expect(m.data).toEqual(data);
+      // Should be a copy
+      data[0][0] = 99;
+      expect(m.get(0, 0)).toBe(1);
+    });
+  });
+
   describe('bug fixes', () => {
     it('should handle zero values correctly in add', () => {
       const a = new Matrix([

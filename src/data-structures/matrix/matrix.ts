@@ -412,13 +412,124 @@ export class Matrix {
    * and properties as the current instance.
    */
   clone(): Matrix {
-    return new Matrix(this.data, {
-      rows: this.rows,
-      cols: this.cols,
+    return new Matrix(
+      this._data.map(row => [...row]),
+      {
+        rows: this.rows,
+        cols: this.cols,
+        addFn: this.addFn,
+        subtractFn: this.subtractFn,
+        multiplyFn: this.multiplyFn
+      }
+    );
+  }
+
+  // ─── Standard interface ─────────────────────────────────────
+
+  /**
+   * Returns [rows, cols] dimensions tuple.
+   */
+  get size(): [number, number] {
+    return [this._rows, this._cols];
+  }
+
+  isEmpty(): boolean {
+    return this._rows === 0 || this._cols === 0;
+  }
+
+  /**
+   * Returns a deep copy of the data as a plain 2D array.
+   */
+  toArray(): number[][] {
+    return this._data.map(row => [...row]);
+  }
+
+  /**
+   * Returns a flat row-major array.
+   */
+  flatten(): number[] {
+    const result: number[] = [];
+    for (const row of this._data) {
+      for (const v of row) result.push(v);
+    }
+    return result;
+  }
+
+  /**
+   * Iterates over rows.
+   */
+  [Symbol.iterator](): IterableIterator<number[]> {
+    const data = this._data;
+    let i = 0;
+    return {
+      [Symbol.iterator]() {
+        return this;
+      },
+      next(): IteratorResult<number[]> {
+        if (i < data.length) {
+          return { value: [...data[i++]], done: false };
+        }
+        return { value: undefined as any, done: true };
+      }
+    };
+  }
+
+  /**
+   * Visits each element with its row and column index.
+   */
+  forEach(callback: (value: number, row: number, col: number) => void): void {
+    for (let i = 0; i < this._rows; i++) {
+      for (let j = 0; j < this._cols; j++) {
+        callback(this._data[i][j], i, j);
+      }
+    }
+  }
+
+  /**
+   * Maps each element (number → number) and returns a new Matrix.
+   */
+  map(callback: (value: number, row: number, col: number) => number): Matrix {
+    const resultData: number[][] = [];
+    for (let i = 0; i < this._rows; i++) {
+      resultData[i] = [];
+      for (let j = 0; j < this._cols; j++) {
+        resultData[i][j] = callback(this._data[i][j], i, j);
+      }
+    }
+    return new Matrix(resultData, {
+      rows: this._rows,
+      cols: this._cols,
       addFn: this.addFn,
       subtractFn: this.subtractFn,
       multiplyFn: this.multiplyFn
     });
+  }
+
+  // ─── Factory methods ────────────────────────────────────────
+
+  /**
+   * Creates a rows×cols zero matrix.
+   */
+  static zeros(rows: number, cols: number): Matrix {
+    const data: number[][] = Array.from({ length: rows }, () => new Array(cols).fill(0));
+    return new Matrix(data);
+  }
+
+  /**
+   * Creates an n×n identity matrix.
+   */
+  static identity(n: number): Matrix {
+    const data: number[][] = Array.from({ length: n }, (_, i) =>
+      Array.from({ length: n }, (_, j) => (i === j ? 1 : 0))
+    );
+    return new Matrix(data);
+  }
+
+  /**
+   * Creates a Matrix from a plain 2D array.
+   */
+  static from(data: number[][]): Matrix {
+    return new Matrix(data.map(row => [...row]));
   }
 
   protected _addFn(a: number | undefined, b: number): number | undefined {
