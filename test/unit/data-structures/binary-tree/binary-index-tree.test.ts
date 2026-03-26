@@ -2,401 +2,308 @@ import { BinaryIndexedTree } from '../../../../src';
 
 describe('classic use', () => {
   it('@example Prefix sum queries and point updates', () => {
-    const bit = new BinaryIndexedTree({ max: 10 });
+    // 6-element BIT: index 0..5
+    const bit = new BinaryIndexedTree(6);
 
-    // Add frequencies at positions
-    bit.update(1, 5);
-    bit.update(3, 3);
-    bit.update(5, 7);
-    bit.update(7, 2);
+    bit.update(0, 3);
+    bit.update(1, 2);
+    bit.update(2, 7);
+    bit.update(3, 1);
+    bit.update(4, 5);
+    bit.update(5, 4);
 
-    // Prefix sum up to position 5: 5 + 3 + 7 = 15
-    expect(bit.getPrefixSum(5)).toBe(15);
-
-    // Read single frequency at position 3
-    expect(bit.readSingle(3)).toBe(3);
-
-    // Update position 3 by adding 4 more
-    bit.update(3, 4);
-    expect(bit.readSingle(3)).toBe(7);
-    expect(bit.getPrefixSum(5)).toBe(19);
+    // Prefix sum [0..2] = 3+2+7 = 12
+    expect(bit.query(2)).toBe(12);
+    // Range sum [1..3] = 2+7+1 = 10
+    expect(bit.queryRange(1, 3)).toBe(10);
+    // Point value at index 2
+    expect(bit.get(2)).toBe(7);
   });
 
-  it('@example Counting inversions with cumulative frequency', () => {
-    // Track frequency of scores (1-5 scale)
-    const freq = new BinaryIndexedTree({ max: 6 });
+  it('@example Counting frequency of ratings', () => {
+    // Track frequency of scores (0-4 scale, 5 possible values)
+    const freq = new BinaryIndexedTree(5);
 
-    // Record ratings: 3, 1, 4, 1, 5, 2
-    for (const rating of [3, 1, 4, 1, 5, 2]) {
+    // Record ratings: 2,0,3,0,4,1
+    for (const rating of [2, 0, 3, 0, 4, 1]) {
       freq.update(rating, 1);
     }
 
-    // How many ratings are ≤ 3?
-    expect(freq.getPrefixSum(3)).toBe(4); // two 1s, one 2, one 3
+    // How many ratings are ≤ 2? (prefix sum [0..2])
+    expect(freq.query(2)).toBe(4); // two 0s, one 1, one 2
 
-    // How many ratings are exactly 1?
-    expect(freq.readSingle(1)).toBe(2);
+    // How many ratings are exactly 0?
+    expect(freq.get(0)).toBe(2);
 
-    // Find the rating where cumulative count first reaches 3
-    expect(freq.lowerBound(3)).toBe(2);
+    // Find rating where cumulative count first reaches 3
+    // freq=[2,1,1,1,1], prefix=[2,3,...] → prefix[1]=3 >= 3
+    expect(freq.lowerBound(3)).toBe(1);
   });
 
-  it('@example Dynamic frequency table with writeSingle', () => {
-    const table = new BinaryIndexedTree({ max: 8 });
+  it('@example Building from array', () => {
+    const bit = new BinaryIndexedTree([10, 20, 30, 40, 50]);
 
-    // Set absolute frequencies
-    table.writeSingle(1, 10);
-    table.writeSingle(2, 20);
-    table.writeSingle(3, 30);
+    expect(bit.get(2)).toBe(30);
+    expect(bit.query(2)).toBe(60);   // 10+20+30
+    expect(bit.query(4)).toBe(150);  // total
 
-    expect(table.readSingle(1)).toBe(10);
-    expect(table.readSingle(2)).toBe(20);
-    expect(table.getPrefixSum(3)).toBe(60);
-
-    // Overwrite frequency at position 2
-    table.writeSingle(2, 5);
-    expect(table.readSingle(2)).toBe(5);
-    expect(table.getPrefixSum(3)).toBe(45);
+    // Increment index 1 by 5
+    bit.update(1, 5);
+    expect(bit.get(1)).toBe(25);
+    expect(bit.query(2)).toBe(65);
   });
 });
 
-describe('BinaryIndexedTree simple', () => {
+describe('BinaryIndexedTree constructor', () => {
+  it('should construct from size', () => {
+    const bit = new BinaryIndexedTree(5);
+    expect(bit.size).toBe(5);
+    expect(bit.isEmpty()).toBe(false);
+    for (let i = 0; i < 5; i++) expect(bit.get(i)).toBe(0);
+  });
+
+  it('should construct from array', () => {
+    const arr = [1, 8, 6, 10, 7];
+    const bit = new BinaryIndexedTree(arr);
+    expect(bit.size).toBe(5);
+    arr.forEach((v, i) => expect(bit.get(i)).toBe(v));
+  });
+
+  it('should construct with size 0', () => {
+    const bit = new BinaryIndexedTree(0);
+    expect(bit.isEmpty()).toBe(true);
+    expect(bit.size).toBe(0);
+  });
+
+  it('should construct from empty array', () => {
+    const bit = new BinaryIndexedTree([]);
+    expect(bit.isEmpty()).toBe(true);
+  });
+
+  it('should throw for non-integer size', () => {
+    expect(() => new BinaryIndexedTree(3.5)).toThrow();
+  });
+
+  it('should throw for negative size', () => {
+    expect(() => new BinaryIndexedTree(-1)).toThrow();
+  });
+});
+
+describe('BinaryIndexedTree CRUD', () => {
   let bit: BinaryIndexedTree;
+  const arr = [1, 8, 6, 10, 7, 9, 0, 2, 6, 3];
 
   beforeEach(() => {
-    //Create a new BinaryIndexedTree instance before each test case
-    bit = new BinaryIndexedTree({
-      frequency: 0,
-      max: 10
-    }); // Modify the value of max as needed
+    bit = new BinaryIndexedTree(arr);
   });
 
-  it('should initialize correctly', () => {
-    expect(bit.freq).toBe(0);
-    expect(bit.max).toBe(10);
-    expect(bit.freqMap).toEqual({
-      0: 0
-    }); // Modify the initialized record value according to the actual situation
-    // More initialization checks can be added
+  it('get should return exact values', () => {
+    arr.forEach((v, i) => expect(bit.get(i)).toBe(v));
   });
 
-  it('should read a single value correctly', () => {
-    // Test the function of reading a single value
-    bit.writeSingle(5, 5); //Write test data
-    expect(bit.readSingle(5)).toBe(5); // Read and verify
+  it('update should add delta correctly', () => {
+    bit.update(0, 5);
+    expect(bit.get(0)).toBe(6);
+    bit.update(3, -3);
+    expect(bit.get(3)).toBe(7);
   });
 
-  it('should update a value correctly', () => {
-    // Test the ability to update a single value
-    bit.writeSingle(5, 5); //Write test data
-    bit.update(5, 2); // update value
-    expect(bit.readSingle(5)).toBe(7); // Verify the updated value
+  it('set should replace value absolutely', () => {
+    bit.set(2, 100);
+    expect(bit.get(2)).toBe(100);
+    bit.set(2, 5);
+    expect(bit.get(2)).toBe(5);
   });
 
-  it('should find lower bound correctly', () => {
-    //Test the function of finding the lower bound
-    bit.writeSingle(2, 10);
-    bit.writeSingle(5, 20);
-    bit.writeSingle(8, 30);
-    expect(bit.lowerBound(15)).toBe(5); // Find and verify the lower bound
+  it('update and set should affect prefix sums', () => {
+    const origTotal = arr.reduce((a, b) => a + b, 0);
+    expect(bit.query(9)).toBe(origTotal);
+
+    bit.update(3, 10);
+    expect(bit.query(9)).toBe(origTotal + 10);
+
+    bit.set(0, 100);
+    expect(bit.get(0)).toBe(100);
+    expect(bit.query(0)).toBe(100);
   });
 
-  it('should find upper bound correctly', () => {
-    //Test the function of finding the upper bound
-    bit.writeSingle(2, 10);
-    bit.writeSingle(5, 20);
-    bit.writeSingle(8, 30);
-    expect(bit.upperBound(25)).toBe(5); // Find and verify the upper bound
+  it('should throw for out-of-range index', () => {
+    expect(() => bit.get(-1)).toThrow('out of range');
+    expect(() => bit.get(10)).toThrow('out of range');
+    expect(() => bit.update(-1, 1)).toThrow('out of range');
+    expect(() => bit.update(10, 1)).toThrow('out of range');
+    expect(() => bit.set(-1, 1)).toThrow('out of range');
+    expect(() => bit.query(-1)).toThrow('out of range');
+  });
+
+  it('should throw for non-integer index', () => {
+    expect(() => bit.get(1.5)).toThrow();
   });
 });
 
-describe('BinaryIndexedTree', () => {
-  const frequency = 999;
-  const max = 10;
+describe('BinaryIndexedTree query', () => {
   let bit: BinaryIndexedTree;
+  const arr = [1, 2, 3, 4, 5];
 
-  beforeEach(function () {
-    bit = new BinaryIndexedTree({
-      frequency,
-      max
-    });
-  });
-  it('should validate the index', function () {
-    expect(() => bit.readSingle(-1)).toThrow('out of range');
-    expect(() => bit.readSingle(10)).toThrow('out of range');
+  beforeEach(() => {
+    bit = new BinaryIndexedTree(arr);
   });
 
-  it('should read a single frequency correctly', function () {
-    for (let i = 0; i < max; i++) {
-      expect(bit.readSingle(i)).toBe(frequency);
-    }
-  });
-  it('should validate the index', function () {
-    expect(() => bit.update(-1, 100)).toThrow('out of range');
-    expect(() => bit.update(10, 100)).toThrow('out of range');
-  });
-  it('should frequency and max', function () {
-    const frequency = 200;
-    const max = 1000;
-    const bit = new BinaryIndexedTree({
-      frequency,
-      max
-    });
-
-    expect(bit.freq).toBe(frequency);
-    expect(bit.max).toBe(max);
+  it('query returns prefix sum [0..i]', () => {
+    expect(bit.query(0)).toBe(1);
+    expect(bit.query(1)).toBe(3);
+    expect(bit.query(2)).toBe(6);
+    expect(bit.query(3)).toBe(10);
+    expect(bit.query(4)).toBe(15);
   });
 
-  it('should update the frequency with the given delta', function () {
-    for (let i = 0; i < max; i++) {
-      bit.update(i, i * 2);
-    }
-    for (let i = 0; i < max; i++) {
-      expect(bit.readSingle(i)).toBe(i * 2 + frequency);
-    }
-  });
-  it('should validate the index', function () {
-    expect(() => bit.writeSingle(-1, 100)).toThrow('out of range');
-    expect(() => bit.writeSingle(10, 100)).toThrow('out of range');
+  it('queryRange returns range sum [start..end]', () => {
+    expect(bit.queryRange(0, 4)).toBe(15);
+    expect(bit.queryRange(1, 3)).toBe(9);
+    expect(bit.queryRange(2, 2)).toBe(3);
+    expect(bit.queryRange(0, 0)).toBe(1);
   });
 
-  it('should writeSingle to be correctly invoked', function () {
-    for (let i = 0; i < max; i++) {
-      bit.writeSingle(i, i * 2);
-    }
-    for (let i = 0; i < max; i++) {
-      expect(bit.readSingle(i)).toBe(i * 2);
-    }
+  it('queryRange with start === 0 uses fast path', () => {
+    expect(bit.queryRange(0, 2)).toBe(6);
   });
 
-  it('should read the frequency', function () {
-    for (let c = 0; c <= max; c++) {
-      expect(bit.read(c)).toBe(c * frequency);
-    }
-  });
-
-  const values = [-5, 0, 5, 10, 95, 100, 1000];
-  it('should find the upper-bound index', function () {
-    loopUpperBoundTests(bit, values);
-  });
-
-  it('should find the lower-bound index', function () {
-    loopLowerBoundTests(bit, values);
+  it('queryRange with start > end returns 0', () => {
+    expect(bit.queryRange(3, 1)).toBe(0);
   });
 });
 
-describe('designated values', function () {
-  const array = [1, 8, 6, 10, 7, 9, 0, 2, 6, 3];
-  const sumArray = (sum => array.map(value => (sum += value)))(0);
-  let bit: BinaryIndexedTree;
-
-  beforeEach(function () {
-    bit = new BinaryIndexedTree({
-      max: array.length
-    });
-    array.forEach((value, i) => bit.writeSingle(i, value));
+describe('BinaryIndexedTree lowerBound and upperBound', () => {
+  it('lowerBound finds smallest index where prefixSum >= target', () => {
+    const bit = new BinaryIndexedTree([1, 2, 3, 4, 5]);
+    // prefix sums: [1, 3, 6, 10, 15]
+    expect(bit.lowerBound(1)).toBe(0);   // prefix[0]=1 >= 1
+    expect(bit.lowerBound(2)).toBe(1);   // prefix[1]=3 >= 2
+    expect(bit.lowerBound(3)).toBe(1);   // prefix[1]=3 >= 3
+    expect(bit.lowerBound(4)).toBe(2);   // prefix[2]=6 >= 4
+    expect(bit.lowerBound(6)).toBe(2);   // prefix[2]=6 >= 6
+    expect(bit.lowerBound(7)).toBe(3);   // prefix[3]=10 >= 7
+    expect(bit.lowerBound(15)).toBe(4);  // prefix[4]=15 >= 15
+    expect(bit.lowerBound(16)).toBe(5);  // beyond total → size
   });
 
-  describe('readSingle', function () {
-    it('should read a single frequency correctly', function () {
-      array.forEach((value, i) => {
-        expect(bit.readSingle(i)).toBe(array[i]);
-      });
-    });
+  it('upperBound finds smallest index where prefixSum > target', () => {
+    const bit = new BinaryIndexedTree([1, 2, 3, 4, 5]);
+    // prefix sums: [1, 3, 6, 10, 15]
+    expect(bit.upperBound(0)).toBe(0);   // prefix[0]=1 > 0
+    expect(bit.upperBound(1)).toBe(1);   // prefix[1]=3 > 1
+    expect(bit.upperBound(3)).toBe(2);   // prefix[2]=6 > 3
+    expect(bit.upperBound(6)).toBe(3);   // prefix[3]=10 > 6
+    expect(bit.upperBound(10)).toBe(4);  // prefix[4]=15 > 10
+    expect(bit.upperBound(15)).toBe(5);  // beyond total → size
   });
 
-  describe('update', function () {
-    it('should update the frequency with the given delta', function () {
-      array.forEach((value, i) => bit.update(i, value + i));
-      array.forEach((value, i) => {
-        expect(bit.readSingle(i)).toBe(array[i] * 2 + i);
-      });
-    });
+  it('lowerBound with designated values array', () => {
+    const arr = [1, 8, 6, 10, 7, 9, 0, 2, 6, 3];
+    const bit = new BinaryIndexedTree(arr);
+    const targets = [0, 15, 25, 43, 52, 100];
+
+    for (const target of targets) {
+      const idx = bit.lowerBound(target);
+      if (idx > 0) {
+        expect(bit.query(idx - 1)).toBeLessThan(target);
+      }
+      if (idx < bit.size) {
+        expect(bit.query(idx)).toBeGreaterThanOrEqual(target);
+      } else {
+        expect(idx).toBe(bit.size);
+      }
+    }
   });
 
-  describe('writeSingle', function () {
-    it('should write a single frequency correctly', function () {
-      array.forEach((value, i) => bit.writeSingle(i, value + i));
-      array.forEach((value, i) => {
-        expect(bit.readSingle(i)).toBe(array[i] + i);
-      });
-    });
-  });
+  it('upperBound with designated values array', () => {
+    const arr = [1, 8, 6, 10, 7, 9, 0, 2, 6, 3];
+    const bit = new BinaryIndexedTree(arr);
+    const targets = [0, 15, 25, 43, 52, 100];
 
-  describe('read', function () {
-    it('should read the cumulative frequency correctly', function () {
-      expect(bit.read(0)).toBe(0);
-      sumArray.forEach((sum, i) => {
-        expect(bit.read(i + 1)).toBe(sum);
-      });
-    });
-  });
-
-  const values = [-5, 0, 15, 25, 43, 53, 100];
-
-  describe('upperBound', function () {
-    it('should find the upper-bound index', function () {
-      loopUpperBoundTests(bit, values);
-    });
-  });
-
-  describe('lowerBound', function () {
-    it('should find the lower-bound index', function () {
-      loopLowerBoundTests(bit, values);
-    });
+    for (const target of targets) {
+      const idx = bit.upperBound(target);
+      if (idx > 0) {
+        expect(bit.query(idx - 1)).toBeLessThanOrEqual(target);
+      }
+      if (idx < bit.size) {
+        expect(bit.query(idx)).toBeGreaterThan(target);
+      } else {
+        expect(idx).toBe(bit.size);
+      }
+    }
   });
 });
 
-describe('descending sequence', function () {
-  const array = [1, 8, -6, 10, 7, 9, 0, -2, 6, 3];
-  let bit: BinaryIndexedTree;
-
-  beforeEach(function () {
-    bit = new BinaryIndexedTree({
-      max: array.length
-    });
-    array.forEach((value, i) => bit.writeSingle(i, value));
+describe('BinaryIndexedTree standard interface', () => {
+  it('clear resets all values to 0', () => {
+    const bit = new BinaryIndexedTree([1, 2, 3]);
+    bit.clear();
+    expect(bit.get(0)).toBe(0);
+    expect(bit.get(1)).toBe(0);
+    expect(bit.query(2)).toBe(0);
   });
 
-  it('should have a correct negativeCount property', function () {
-    expect(bit.negativeCount).toBe(2);
-    bit.update(2, 6);
-    expect(bit.negativeCount).toBe(1);
-    bit.update(7, 3);
-    expect(bit.negativeCount).toBe(0);
-    bit.update(8, -7);
-    expect(bit.negativeCount).toBe(1);
+  it('clone creates independent copy', () => {
+    const bit = new BinaryIndexedTree([1, 2, 3, 4]);
+    const copy = bit.clone();
+
+    copy.update(0, 100);
+    expect(copy.get(0)).toBe(101);
+    expect(bit.get(0)).toBe(1); // original unchanged
   });
 
-  const values = [-5, 0, 15, 25, 43, 53, 100];
-
-  describe('upperBound', function () {
-    it('should validate the non-descending', function () {
-      expect(() => bit.upperBound(20)).toThrow('must not be descending');
-      bit.update(2, 12);
-      bit.update(7, 4);
-      loopUpperBoundTests(bit, values);
-    });
+  it('toArray returns point values', () => {
+    const arr = [3, 1, 4, 1, 5, 9];
+    const bit = new BinaryIndexedTree(arr);
+    expect(bit.toArray()).toEqual(arr);
   });
 
-  describe('BinaryIndexedTree lowerBound', function () {
-    it('should validate the non-descending', function () {
-      expect(() => bit.lowerBound(20)).toThrow('not non-descending');
-      bit.update(2, 12);
-      bit.update(7, 4);
-      loopLowerBoundTests(bit, values);
-    });
-  });
-});
-
-describe('BinaryIndexedTree additional tests', () => {
-  it('should handle read method correctly', () => {
-    const bit = new BinaryIndexedTree({
-      max: 10
-    });
-    bit.writeSingle(2, 10);
-    bit.writeSingle(5, 20);
-    bit.writeSingle(8, 30);
-    expect(bit.read(5)).toBe(10); // Ensure read method accumulates correctly
+  it('Iterable — for...of and spread', () => {
+    const arr = [1, 2, 3, 4, 5];
+    const bit = new BinaryIndexedTree(arr);
+    expect([...bit]).toEqual(arr);
   });
 
-  it('should handle consecutive operations', () => {
-    const bit = new BinaryIndexedTree({
-      max: 10
-    });
-    bit.writeSingle(2, 10);
-    bit.update(2, 5);
-    expect(bit.readSingle(2)).toBe(15);
-    bit.writeSingle(5, 20);
-    expect(bit.readSingle(5)).toBe(20);
-    expect(bit.lowerBound(15)).toBe(2);
+  it('forEach visits all elements', () => {
+    const arr = [10, 20, 30];
+    const bit = new BinaryIndexedTree(arr);
+    const pairs: [number, number][] = [];
+    bit.forEach((v, i) => pairs.push([i, v]));
+    expect(pairs).toEqual([[0, 10], [1, 20], [2, 30]]);
   });
 
-  it('should handle frequent increment updates', () => {
-    const bit = new BinaryIndexedTree({
-      max: 10
-    });
-    for (let i = 0; i < 10; i++) {
-      bit.update(2, 5);
-    }
-    expect(bit.readSingle(2)).toBe(50);
-  });
-
-  it('should handle edge cases', () => {
-    const bit = new BinaryIndexedTree({
-      max: 10
-    });
-    bit.writeSingle(9, 100);
-    expect(bit.readSingle(9)).toBe(100);
-    expect(bit.lowerBound(200)).toBe(10);
+  it('isEmpty works', () => {
+    expect(new BinaryIndexedTree(0).isEmpty()).toBe(true);
+    expect(new BinaryIndexedTree(1).isEmpty()).toBe(false);
   });
 });
 
-function loopUpperBoundTests(bit: BinaryIndexedTree, values: number[]) {
-  for (const value of values) {
-    const index = bit.upperBound(value);
-    if (index > 0) {
-      expect(bit.read(index)).toBeLessThanOrEqual(value);
-    } else {
-      expect(index).toBe(0);
-    }
-    if (index < bit.max) {
-      expect(bit.read(index + 1)).toBeGreaterThan(value);
-    } else {
-      expect(index).toBe(bit.max);
-    }
-  }
-}
-
-function loopLowerBoundTests(bit: BinaryIndexedTree, values: number[]) {
-  for (const value of values) {
-    const index = bit.lowerBound(value);
-    if (index > 0) {
-      expect(bit.read(index)).toBeLessThan(value);
-    } else {
-      expect(index).toBe(0);
-    }
-    if (index < bit.max) {
-      expect(bit.read(index + 1)).toBeGreaterThanOrEqual(value);
-    } else {
-      expect(index).toBe(bit.max);
-    }
-  }
-}
-
-describe('', () => {
-  class NumArrayDC {
-    protected _tree: BinaryIndexedTree;
-    protected readonly _nums: number[];
-
-    constructor(nums: number[]) {
-      this._nums = nums;
-      this._tree = new BinaryIndexedTree({
-        max: nums.length + 1
-      });
-      for (let i = 0; i < nums.length; i++) {
-        this._tree.update(i + 1, nums[i]);
+describe('BinaryIndexedTree LeetCode-style usage', () => {
+  it('NumArray range sum query', () => {
+    class NumArray {
+      private bit: BinaryIndexedTree;
+      private nums: number[];
+      constructor(nums: number[]) {
+        this.nums = [...nums];
+        this.bit = new BinaryIndexedTree(nums);
+      }
+      update(index: number, val: number): void {
+        this.bit.update(index, val - this.nums[index]);
+        this.nums[index] = val;
+      }
+      sumRange(left: number, right: number): number {
+        return this.bit.queryRange(left, right);
       }
     }
 
-    update(index: number, value: number): void {
-      this._tree.update(index + 1, value - this._nums[index]);
-      this._nums[index] = value;
-    }
-
-    sumRange(left: number, right: number): number {
-      return this._tree.getPrefixSum(right + 1) - this._tree.getPrefixSum(left);
-    }
-  }
-
-  it('', () => {
-    const numArray = new NumArrayDC([1, 3, 5, 8, 2, 9, 4, 5, 8, 1, 3, 2]);
-    expect(numArray.sumRange(0, 8)).toBe(45);
-    expect(numArray.sumRange(0, 2)).toBe(9);
-    numArray.update(1, 2);
-    expect(numArray.sumRange(0, 2)).toBe(8);
-    expect(numArray.sumRange(3, 4)).toBe(10);
-    numArray.update(3, 2);
-    expect(numArray.sumRange(3, 4)).toBe(4);
+    const na = new NumArray([1, 3, 5, 8, 2, 9, 4, 5, 8, 1, 3, 2]);
+    expect(na.sumRange(0, 8)).toBe(45);
+    expect(na.sumRange(0, 2)).toBe(9);
+    na.update(1, 2);
+    expect(na.sumRange(0, 2)).toBe(8);
+    expect(na.sumRange(3, 4)).toBe(10);
+    na.update(3, 2);
+    expect(na.sumRange(3, 4)).toBe(4);
   });
 });
