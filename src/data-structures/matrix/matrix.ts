@@ -193,6 +193,7 @@ export class Matrix {
    
    
    
+   
     * @example
  * // Get and set individual cells
  *  const m = new Matrix([
@@ -231,6 +232,7 @@ export class Matrix {
    
    
    
+   
     * @example
  * // Modify individual cells
  *  const m = Matrix.zeros(2, 2);
@@ -262,6 +264,7 @@ export class Matrix {
    * @param {Matrix} matrix - The `matrix` parameter is an instance of the `Matrix` class.
    * @returns The `add` method returns a new `Matrix` object that represents the result of adding the
    * current matrix with the provided `matrix` parameter.
+   
    
    
    
@@ -325,6 +328,7 @@ export class Matrix {
    
    
    
+   
     * @example
  * // Element-wise subtraction
  *  const a = Matrix.from([[5, 6], [7, 8]]);
@@ -363,6 +367,7 @@ export class Matrix {
    * as a new matrix.
    * @param {Matrix} matrix - The `matrix` parameter is an instance of the `Matrix` class.
    * @returns a new Matrix object.
+   
    
    
    
@@ -431,6 +436,7 @@ export class Matrix {
    
    
    
+   
     * @example
  * // Matrix transpose (square matrix)
  *  const m = new Matrix([
@@ -478,6 +484,7 @@ export class Matrix {
   /**
    * The `inverse` function calculates the inverse of a square matrix using Gaussian elimination.
    * @returns a Matrix object, which represents the inverse of the original matrix.
+   
    
    
    
@@ -573,6 +580,7 @@ export class Matrix {
    * The dot function calculates the dot product of two matrices and returns a new matrix.
    * @param {Matrix} matrix - The `matrix` parameter is an instance of the `Matrix` class.
    * @returns a new Matrix object.
+   
    
    
    

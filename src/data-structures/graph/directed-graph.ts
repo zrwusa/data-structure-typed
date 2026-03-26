@@ -218,6 +218,7 @@ export class DirectedGraph<
    * @returns Edge instance or `undefined`.
    * @remarks Time O(1) avg, Space O(1)
    
+   
     * @example
  * // Get edge between vertices
  *  const g = new DirectedGraph();
@@ -282,6 +283,7 @@ export class DirectedGraph<
    
    
    
+   
     * @example
  * // DirectedGraph deleteEdge and vertex operations
  *  const graph = new DirectedGraph<string>();
@@ -341,6 +343,7 @@ export class DirectedGraph<
     /**
    * Remove a vertex
   
+   
     * @example
  * // Remove a vertex
  *  const g = new DirectedGraph();
@@ -400,6 +403,7 @@ export class DirectedGraph<
    * @returns Array of incoming edges.
    * @remarks Time O(deg_in), Space O(deg_in)
    
+   
     * @example
  * // Get incoming edges
  *  const g = new DirectedGraph();
@@ -423,6 +427,7 @@ export class DirectedGraph<
    * @param vertexOrKey - Vertex or key.
    * @returns Array of outgoing edges.
    * @remarks Time O(deg_out), Space O(deg_out)
+   
    
     * @example
  * // Get outgoing edges
@@ -520,6 +525,7 @@ export class DirectedGraph<
    
    
    
+   
     * @example
  * // DirectedGraph topologicalSort for task scheduling
  *  const graph = new DirectedGraph<string>();
@@ -583,6 +589,7 @@ export class DirectedGraph<
     /**
    * Get all edges
   
+   
     * @example
  * // Get all edges
  *  const g = new DirectedGraph();
@@ -602,6 +609,7 @@ export class DirectedGraph<
     /**
    * Get outgoing neighbors
   
+   
    
     * @example
  * // Get outgoing neighbors
@@ -680,6 +688,7 @@ export class DirectedGraph<
    * Tarjan's algorithm for strongly connected components.
    * @returns `{ dfnMap, lowMap, SCCs }`.
    * @remarks Time O(V + E), Space O(V + E)
+   
    
     * @example
  * // Find strongly connected components
@@ -768,6 +777,7 @@ export class DirectedGraph<
    * Strongly connected components computed by `tarjan()`.
    * @returns Map from SCC id to vertices.
    * @remarks Time O(#SCC + V), Space O(V)
+   
    
     * @example
  * // Get strongly connected components

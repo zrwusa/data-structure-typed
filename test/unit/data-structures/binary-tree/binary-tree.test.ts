@@ -2021,6 +2021,15 @@ describe('Classic usage examples', () => {
     expect(tree.toArray().length).toBe(3);
   });
 
+  it('@example [BinaryTree.add] Add a single node', () => {
+    const tree = new BinaryTree<number>();
+    tree.add(1);
+    tree.add(2);
+    tree.add(3);
+    expect(tree.size).toBe(3);
+    expect(tree.has(1)).toBe(true);
+  });
+
   it('@example [BinaryTree.addMany] Bulk add', () => {
     const tree = new BinaryTree<number>();
     tree.addMany([1, 2, 3, 4, 5]);

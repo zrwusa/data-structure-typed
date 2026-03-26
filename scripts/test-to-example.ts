@@ -58,6 +58,8 @@ const classMap: Record<string, string> = {
  * Used for [Class.method] tagged examples where file name ≠ class name.
  */
 const classToSourceFile: Record<string, string> = {
+  IterableEntryBase: 'base/iterable-entry-base.ts',
+  IterableElementBase: 'base/iterable-element-base.ts',
   SegmentTree: 'binary-tree/segment-tree.ts',
   BinaryIndexedTree: 'binary-tree/binary-indexed-tree.ts',
   RedBlackTree: 'binary-tree/red-black-tree.ts',
@@ -448,11 +450,8 @@ function addExampleToMethod(
   });
 
   if (!member) {
-    // Method not found in this class (inherited, not overridden).
-    // Fallback: inject @example into the class-level JSDoc so users see it
-    // when viewing this subclass's documentation page.
-    addExamplesToSourceFile(sourceFilePath, className, [example]);
-    return true;
+    // Method not found in this class — likely inherited from base (not overridden).
+    return false;
   }
 
   const memberStart = member.getStart(sf);
@@ -547,8 +546,22 @@ function updateExamples(testDir: string, sourceBaseDir: string): void {
         continue;
       }
       const srcPath = path.resolve(sourceBaseDir, 'data-structures', relFile);
-      addExampleToMethod(srcPath, ex.className!, ex.methodName!, ex);
-      totalMethod++;
+      const injected = addExampleToMethod(srcPath, ex.className!, ex.methodName!, ex);
+      if (injected) {
+        totalMethod++;
+      } else {
+        // Method not found in this class — try base class source files
+        const baseFallbacks = ['IterableEntryBase', 'IterableElementBase'];
+        for (const base of baseFallbacks) {
+          const baseFile = classToSourceFile[base];
+          if (!baseFile) continue;
+          const basePath = path.resolve(sourceBaseDir, 'data-structures', baseFile);
+          if (addExampleToMethod(basePath, base, ex.methodName!, ex)) {
+            totalMethod++;
+            break;
+          }
+        }
+      }
 
       // Propagate to subclasses that override or inherit this method
       const descendants = getDescendants(ex.className!);

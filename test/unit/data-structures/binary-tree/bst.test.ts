@@ -3637,6 +3637,15 @@ describe('classic use', () => {
     expect(found.length).toBeGreaterThanOrEqual(1);
   });
 
+  it('@example [BST.add] Add a single element', () => {
+    const bst = new BST<number>();
+    bst.add(5);
+    bst.add(3);
+    bst.add(7);
+    expect(bst.size).toBe(3);
+    expect([...bst.keys()]).toEqual([3, 5, 7]);
+  });
+
   it('@example [BST.addMany] Add multiple elements at once', () => {
     const bst = new BST<number>();
     bst.addMany([5, 3, 7, 1, 9]);

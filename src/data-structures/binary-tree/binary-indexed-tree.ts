@@ -60,6 +60,7 @@ export class BinaryIndexedTree implements Iterable<number> {
    
    
    
+   
     * @example
  * // Increment a value by delta
  *  const bit = new BinaryIndexedTree([0, 0, 0, 0, 0]);
@@ -78,6 +79,7 @@ export class BinaryIndexedTree implements Iterable<number> {
    * Time: O(log n)
    
   
+   
    
    
    
@@ -107,6 +109,7 @@ export class BinaryIndexedTree implements Iterable<number> {
    
    
    
+   
     * @example
  * // Read point value at index
  *  const bit = new BinaryIndexedTree([5, 3, 8, 1]);
@@ -123,6 +126,7 @@ export class BinaryIndexedTree implements Iterable<number> {
    * Time: O(log n)
    
   
+   
    
    
    
@@ -157,6 +161,7 @@ export class BinaryIndexedTree implements Iterable<number> {
    
    
    
+   
     * @example
  * // Range sum query
  *  const bit = new BinaryIndexedTree([1, 2, 3, 4, 5]);
@@ -181,6 +186,7 @@ export class BinaryIndexedTree implements Iterable<number> {
    * Time: O(log n)
    
   
+   
    
    
    
