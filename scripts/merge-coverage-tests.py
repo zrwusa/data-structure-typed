@@ -74,17 +74,23 @@ MERGE_GROUPS = {
         'misc': ['misc-branches', 'more', 'node-family',
                  'more-branches-2', 'more-branches-3', 'more-branches-4', 'more-branches-5'],
     },
+    'binary-tree': {
+        'misc': ['more-branches', 'remaining-branches'],
+    },
+
 }
 
 # Simple merges: all coverage files for a prefix merge into one <prefix>.coverage.test.ts
 # These are data structures with few coverage files that don't need sub-groups
 SIMPLE_MERGE_PREFIXES = [
-    'binary-tree', 'avl-tree', 'binary-indexed-tree', 'segment-tree',
     'abstract-graph', 'directed-graph', 'undirected-graph', 'map-graph',
-    'deque', 'queue', 'heap', 'max-heap', 'max-priority-queue', 'priority-queue',
-    'hash-map', 'doubly-linked-list', 'singly-linked-list', 'skip-linked-list',
-    'linked-list', 'linear-base', 'iterable-element-base',
-    'matrix', 'stack', 'tree', 'trie', 'tree-multi-map',
+    'deque', 'queue', 'heap',
+    'hash-map',
+    'singly-linked-list',
+    'matrix',
+    'linear-base', 'iterable-element-base',
+    # Single-file (no merge needed):
+    # 'max-heap', 'max-priority-queue', 'priority-queue', 'stack', 'tree', 'trie', 'tree-multi-map'
 ]
 
 
@@ -296,18 +302,18 @@ def main():
         print(f"{'='*50}")
         total += process_grouped_merge(prefix, groups, directory)
 
-    # Simple merges disabled for now — import merging needs more work
-    # for prefix in SIMPLE_MERGE_PREFIXES:
-    #     directory = find_directory_for_prefix(prefix)
-    #     if not directory:
-    #         continue
-    #     files = find_coverage_files(directory, prefix)
-    #     if len(files) <= 1:
-    #         continue
-    #     print(f"\n{'='*50}")
-    #     print(f"  {NAME_MAP.get(prefix, prefix)} (simple merge)")
-    #     print(f"{'='*50}")
-    #     total += process_simple_merge(prefix, directory)
+    # Process simple merges (standard imports only)
+    for prefix in SIMPLE_MERGE_PREFIXES:
+        directory = find_directory_for_prefix(prefix)
+        if not directory:
+            continue
+        files = find_coverage_files(directory, prefix)
+        if len(files) <= 1:
+            continue
+        print(f"\n{'='*50}")
+        print(f"  {NAME_MAP.get(prefix, prefix)} (simple merge)")
+        print(f"{'='*50}")
+        total += process_simple_merge(prefix, directory)
 
     print(f"\n✅ Done. Removed {total} fragmented files.")
 
