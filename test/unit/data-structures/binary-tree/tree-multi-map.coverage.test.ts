@@ -243,6 +243,29 @@ describe('TreeMultiMap coverage', () => {
     expect(tmm.get(3)).toEqual([]);
   });
 
+  it('filter and reduce', () => {
+    const tmm = new TreeMultiMap<number, string>([[1, ['a']], [2, ['b']], [3, ['c']]]);
+    const filtered = tmm.filter((_v, k) => k >= 2);
+    expect(filtered.size).toBe(2);
+
+    const sum = tmm.reduce((acc, _v, k) => acc + k, 0);
+    expect(sum).toBe(6);
+  });
+
+  it('ceiling/floor/higher/lower with matching keys', () => {
+    const tmm = new TreeMultiMap<number, string>([[10, ['a']], [20, ['b']], [30, ['c']]]);
+    expect(tmm.ceiling(15)).toEqual([20, ['b']]);
+    expect(tmm.floor(25)).toEqual([20, ['b']]);
+    expect(tmm.higher(10)).toEqual([20, ['b']]);
+    expect(tmm.lower(30)).toEqual([20, ['b']]);
+  });
+
+  it('rangeSearch returns nodes', () => {
+    const tmm = new TreeMultiMap<number, string>([[10, ['a']], [20, ['b']], [30, ['c']]]);
+    const results = tmm.rangeSearch([10, 30], node => [node.key, node.value]);
+    expect(results.length).toBe(3);
+  });
+
   it('constructor with toEntryFn returning undefined bucket', () => {
     type Raw = { id: number; tags?: string[] };
     const data: Raw[] = [

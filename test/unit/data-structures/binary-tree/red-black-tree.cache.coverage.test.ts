@@ -167,4 +167,25 @@ describe('RedBlackTree cache coverage', () => {
       expect(t.getNode(10)?.key).toBe(10);
     });
   });
+
+  describe('cache update else branch (newNode is new min or max but parent is not cached endpoint)', () => {
+    it('updates min cache when inserting new smallest via non-min parent', () => {
+      const t = new RedBlackTree<number, number>();
+      // Build tree: 50, 30, 70, 20, 40
+      for (const k of [50, 30, 70, 20, 40]) t.add(k, k);
+      // Current min is 20. Insert 10 — parent will be 20 (which IS min), so try smaller
+      // Insert 15 first, then 5 — 5's parent will be 20 and 5 < current min
+      t.add(15, 15); // parent is 20 which is min, lastCompared < 0 → line 603
+      t.add(5, 5);   // covers else branch — 5 < hMin.key (15 or 20 depending on tree shape)
+      expect(t.getLeftMost()).toBe(5);
+    });
+
+    it('updates max cache when inserting new largest via non-max parent', () => {
+      const t = new RedBlackTree<number, number>();
+      for (const k of [50, 30, 70, 60, 80]) t.add(k, k);
+      t.add(85, 85); // parent is 80 which is max, lastCompared > 0 → line 601
+      t.add(90, 90);
+      expect(t.getRightMost()).toBe(90);
+    });
+  });
 });

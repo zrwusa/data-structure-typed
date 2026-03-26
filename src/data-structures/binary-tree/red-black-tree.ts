@@ -146,15 +146,7 @@ export class RedBlackTreeNode<K = any, V = any> {
     return this._count;
   }
 
-  /**
-   * Sets the count of nodes in the subtree.
-   * @remarks Time O(1), Space O(1)
-   *
-   * @param value - The new count.
-   */
-  set count(value: number) {
-    this._count = value;
-  }
+  // count setter removed — was dead code (no callers found)
 
   /**
    * Gets the position of the node relative to its parent.
@@ -173,6 +165,7 @@ export class RedBlackTreeNode<K = any, V = any> {
       return this.left || this.right ? 'ROOT_RIGHT' : 'RIGHT';
     }
 
+    /* istanbul ignore next -- defensive: unreachable if tree structure is correct */
     return 'MAL_NODE';
   }
 }
@@ -842,39 +835,38 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     const nextMax = willDeleteMax ? this._predecessorOf(nodeToDelete) : undefined;
 
     let originalColor = nodeToDelete.color;
-    let replacementNode: RedBlackTreeNode<K, V> | undefined;
+    const NIL = this.NIL;
+    let replacementNode: RedBlackTreeNode<K, V> = NIL;
 
     if (!this.isRealNode(nodeToDelete.left)) {
-      if (nodeToDelete.right !== null) {
-        replacementNode = nodeToDelete.right;
-        this._transplant(nodeToDelete, nodeToDelete.right);
-      }
+      // No real left child → replace with right (may be NIL)
+      replacementNode = nodeToDelete.right ?? NIL;
+      this._transplant(nodeToDelete, replacementNode);
     } else if (!this.isRealNode(nodeToDelete.right)) {
+      // No real right child → replace with left
       replacementNode = nodeToDelete.left;
-      this._transplant(nodeToDelete, nodeToDelete.left);
+      this._transplant(nodeToDelete, replacementNode);
     } else {
+      // Two children → find in-order successor
       const successor = this.getLeftMost(node => node, nodeToDelete.right);
       if (successor) {
         originalColor = successor.color;
-        if (successor.right !== null) replacementNode = successor.right;
+        replacementNode = successor.right ?? NIL;
 
         if (successor.parent === nodeToDelete) {
-          if (this.isRealNode(replacementNode)) {
-            replacementNode.parent = successor;
-          }
+          // Even if replacementNode is NIL, set its parent for fixup
+          replacementNode.parent = successor;
         } else {
-          if (successor.right !== null) {
-            this._transplant(successor, successor.right);
-            successor.right = nodeToDelete.right;
-          }
-          if (this.isRealNode(successor.right)) {
+          this._transplant(successor, replacementNode);
+          successor.right = nodeToDelete.right;
+          if (successor.right) {
             successor.right.parent = successor;
           }
         }
 
         this._transplant(nodeToDelete, successor);
         successor.left = nodeToDelete.left;
-        if (this.isRealNode(successor.left)) {
+        if (successor.left) {
           successor.left.parent = successor;
         }
         successor.color = nodeToDelete.color;
@@ -1151,60 +1143,71 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * @returns void
    */
   protected _deleteFixup(node: RedBlackTreeNode<K, V> | undefined): void {
-    if (!node || node === this.root || node.color === 'BLACK') {
-      if (node) {
-        node.color = 'BLACK';
-      }
-      return;
-    }
+    // Standard CLRS RB-DELETE-FIXUP: restore black-height invariant.
+    // `node` is the child that replaced the deleted node (may be NIL sentinel).
+    // If RED → just recolor BLACK (trivial fix). If BLACK → double-black repair.
+    if (!node) return;
 
-    while (node && node !== this.root && node.color === 'BLACK') {
-      const parent: RedBlackTreeNode<K, V> | undefined = node.parent;
+    const NIL = this.NIL;
 
-      if (!parent) {
-        break;
-      }
+    while (node !== this.root && node.color === 'BLACK') {
+      const parent = node.parent;
+      if (!parent) break;
 
-      if (node === parent.left) {
-        let sibling = parent.right;
+      const nodeIsLeft = node === parent.left;
+      let sibling = nodeIsLeft ? parent.right : parent.left;
 
-        if (sibling?.color === 'RED') {
-          sibling.color = 'BLACK';
-          parent.color = 'RED';
+      // Case 1: sibling is RED → rotate to get a BLACK sibling
+      if (sibling && sibling.color === 'RED') {
+        sibling.color = 'BLACK';
+        parent.color = 'RED';
+        if (nodeIsLeft) {
           this._leftRotate(parent);
           sibling = parent.right;
-        }
-
-        if ((sibling?.left?.color ?? 'BLACK') === 'BLACK') {
-          if (sibling) sibling.color = 'RED';
-          node = parent;
         } else {
-          if (sibling?.left) sibling.left.color = 'BLACK';
+          this._rightRotate(parent);
+          sibling = parent.left;
+        }
+      }
+
+      const sibLeft = sibling?.left;
+      const sibRight = sibling?.right;
+      const sibLeftBlack = !sibLeft || sibLeft === NIL || sibLeft.color === 'BLACK';
+      const sibRightBlack = !sibRight || sibRight === NIL || sibRight.color === 'BLACK';
+
+      if (sibLeftBlack && sibRightBlack) {
+        // Case 2: sibling's children are both BLACK → recolor sibling RED, move up
+        if (sibling) sibling.color = 'RED';
+        node = parent;
+      } else {
+        if (nodeIsLeft) {
+          // Case 3: sibling's right child is BLACK → rotate sibling right first
+          if (sibRightBlack) {
+            if (sibLeft) sibLeft.color = 'BLACK';
+            if (sibling) sibling.color = 'RED';
+            this._rightRotate(sibling);
+            sibling = parent.right;
+          }
+          // Case 4: sibling's right child is RED → final rotation
           if (sibling) sibling.color = parent.color;
           parent.color = 'BLACK';
-          this._rightRotate(parent);
-          node = this.root;
-        }
-      } else {
-        let sibling = parent.left;
-
-        if (sibling?.color === 'RED') {
-          sibling.color = 'BLACK';
-          if (parent) parent.color = 'RED';
-          this._rightRotate(parent);
-          if (parent) sibling = parent.left;
-        }
-
-        if ((sibling?.right?.color ?? 'BLACK') === 'BLACK') {
-          if (sibling) sibling.color = 'RED';
-          node = parent;
-        } else {
           if (sibling?.right) sibling.right.color = 'BLACK';
-          if (sibling) sibling.color = parent.color;
-          if (parent) parent.color = 'BLACK';
           this._leftRotate(parent);
-          node = this.root;
+        } else {
+          // Case 3 (mirror): sibling's left child is BLACK → rotate sibling left first
+          if (sibLeftBlack) {
+            if (sibRight) sibRight.color = 'BLACK';
+            if (sibling) sibling.color = 'RED';
+            this._leftRotate(sibling);
+            sibling = parent.left;
+          }
+          // Case 4 (mirror): sibling's left child is RED → final rotation
+          if (sibling) sibling.color = parent.color;
+          parent.color = 'BLACK';
+          if (sibling?.left) sibling.left.color = 'BLACK';
+          this._rightRotate(parent);
         }
+        node = this.root;
       }
     }
 

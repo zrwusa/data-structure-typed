@@ -196,14 +196,13 @@ describe('Overall BinaryTree Test', () => {
     expect(rbTree.size).toBe(7);
     expect(rbTree.root?.key).toBe(3);
     expect(rbTree.root?.left?.key).toBe(1);
-    expect(rbTree.root?.right?.key).toBe(9);
-    expect(rbTree.root?.right?.left?.key).toBe(5);
+    expect(rbTree.root?.right?.key).toBe(5);
+    expect(rbTree.root?.right?.left?.key).toBe(4);
     expect(rbTree.getNode(6)?.left?.key).toBe(NaN);
     expect(rbTree.getHeight()).toBe(3);
     expect(rbTree.has(9)).toBe(true);
     expect(rbTree.has(7)).toBe(false);
-    // expect(rbTree.bfs()).toEqual([3, 1, 5, 2, 4, 9, 6]);
-    expect(rbTree.bfs()).toEqual([3, 1, 9, 2, 5, 4, 6]);
+    expect(rbTree.bfs()).toEqual([3, 1, 5, 2, 4, 9, 6]);
     const clonedRbTree = rbTree.clone();
     expect(clonedRbTree.size).toBe(7);
     expect(clonedRbTree.root?.key).toBe(3);
