@@ -242,8 +242,28 @@ export function load(app: Application) {
       for (const sig of signatures) {
         if (!sig) continue;
 
-        // Case 1: Method already has @example from source — rewrite class names
-        if (sig.comment?.blockTags?.length) {
+        // Check if we have a tagged test for this class.method
+        const key = `${className}.${methodName}`;
+        const testEx = testExamples.get(key);
+
+        if (testEx) {
+          // Priority: always use the class's own tagged test
+          if (!sig.comment) {
+            sig.comment = new Comment();
+          }
+          if (!sig.comment.blockTags) {
+            sig.comment.blockTags = [];
+          }
+          // Remove any inherited @example
+          sig.comment.blockTags = sig.comment.blockTags.filter(t => t.tag !== '@example');
+          // Inject from own test
+          const codeBlock = '```ts\n' + testEx.body + '\n```';
+          sig.comment.blockTags.push(
+            new CommentTag('@example', [{ kind: 'code', text: codeBlock }])
+          );
+          injected++;
+        } else if (sig.comment?.blockTags?.length) {
+          // No own test — fall back to rewriting inherited @example class names
           for (const tag of sig.comment.blockTags) {
             if (tag.tag !== '@example') continue;
             for (const part of tag.content) {
@@ -253,28 +273,6 @@ export function load(app: Application) {
                 if (part.text !== original) rewritten++;
               }
             }
-          }
-        }
-
-        // Case 2: No @example — check if we have a tagged test for this class.method
-        const hasExample = sig.comment?.blockTags?.some(t => t.tag === '@example');
-        if (!hasExample) {
-          const key = `${className}.${methodName}`;
-          const testEx = testExamples.get(key);
-          if (testEx) {
-            // Create comment if needed
-            if (!sig.comment) {
-              sig.comment = new Comment();
-            }
-            if (!sig.comment.blockTags) {
-              sig.comment.blockTags = [];
-            }
-            // Add @example tag with test body
-            const codeBlock = '```ts\n' + testEx.body + '\n```';
-            sig.comment.blockTags.push(
-              new CommentTag('@example', [{ kind: 'code', text: codeBlock }])
-            );
-            injected++;
           }
         }
       }
