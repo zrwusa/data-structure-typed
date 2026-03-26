@@ -23,6 +23,65 @@ import { Heap } from './heap';
  * 7. Efficient Sorting Algorithms: For example, heap sort. MinHeap sort uses the properties of a heap to sort elements.
  * 8. Graph Algorithms: Such as Dijkstra's shortest path algorithm and Prim's minimum spanning tree algorithm, which use heaps to improve performance.
  * @example
+ * // Merge K sorted arrays
+ *  const arrays = [
+ *       [1, 4, 7],
+ *       [2, 5, 8],
+ *       [3, 6, 9]
+ *     ];
+ *
+ *     // Use min heap to merge: track (value, arrayIndex, elementIndex)
+ *     const heap = new MinHeap<[number, number, number]>([], {
+ *       comparator: (a, b) => a[0] - b[0]
+ *     });
+ *
+ *     // Initialize with first element of each array
+ *     arrays.forEach((arr, i) => heap.add([arr[0], i, 0]));
+ *
+ *     const merged: number[] = [];
+ *     while (heap.size > 0) {
+ *       const [val, arrIdx, elemIdx] = heap.poll()!;
+ *       merged.push(val);
+ *       if (elemIdx + 1 < arrays[arrIdx].length) {
+ *         heap.add([arrays[arrIdx][elemIdx + 1], arrIdx, elemIdx + 1]);
+ *       }
+ *     }
+ *
+ *     console.log(merged); // [1, 2, 3, 4, 5, 6, 7, 8, 9];
+ * @example
+ * // Dijkstra-style shortest distance tracking
+ *  // Simulating distance updates: (distance, nodeId)
+ *     const heap = new MinHeap<[number, string]>([], {
+ *       comparator: (a, b) => a[0] - b[0]
+ *     });
+ *
+ *     heap.add([0, 'start']);
+ *     heap.add([10, 'A']);
+ *     heap.add([5, 'B']);
+ *     heap.add([3, 'C']);
+ *
+ *     // Process nearest node first
+ *     console.log(heap.poll()); // [0, 'start'];
+ *     console.log(heap.poll()); // [3, 'C'];
+ *     console.log(heap.poll()); // [5, 'B'];
+ *     console.log(heap.poll()); // [10, 'A'];
+ * @example
+ * // Running median with min heap (upper half)
+ *  const upperHalf = new MinHeap<number>();
+ *
+ *     // Add larger numbers to min heap
+ *     for (const n of [5, 8, 3, 9, 1]) {
+ *       upperHalf.add(n);
+ *     }
+ *
+ *     // Smallest of the upper half is always accessible
+ *     console.log(upperHalf.peek()); // 1;
+ *     console.log(upperHalf.size); // 5;
+ *
+ *     // Remove smallest repeatedly
+ *     console.log(upperHalf.poll()); // 1;
+ *     console.log(upperHalf.poll()); // 3;
+ *     console.log(upperHalf.peek()); // 5;
  */
 export class MinHeap<E = any, R = any> extends Heap<E, R> {
   /**

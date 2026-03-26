@@ -10,11 +10,11 @@ const config = JSON.parse(fileContent);
 
 function toPascalCase(str: string): string {
   return str
-    .replace(/([a-z])([A-Z])/g, '$1 $2') // Add space between lowercase and uppercase letters
-    .replace(/[^a-zA-Z0-9]+/g, ' ') // Replace non-alphanumeric characters with spaces
-    .split(' ') // Separate strings by spaces
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // The first letter is capitalized, the rest are lowercase
-    .join(''); // Combine into a string
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/[^a-zA-Z0-9]+/g, ' ')
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join('');
 }
 
 const isReplaceMD = true;
@@ -53,11 +53,46 @@ const classMap: Record<string, string> = {
   AvlTreeCounter: 'AVLTreeCounter'
 };
 
+/**
+ * Class name → source file path (relative to src/data-structures/).
+ * Used for [Class.method] tagged examples where file name ≠ class name.
+ */
+const classToSourceFile: Record<string, string> = {
+  SegmentTree: 'binary-tree/segment-tree.ts',
+  BinaryIndexedTree: 'binary-tree/binary-indexed-tree.ts',
+  RedBlackTree: 'binary-tree/red-black-tree.ts',
+  AVLTree: 'binary-tree/avl-tree.ts',
+  BST: 'binary-tree/bst.ts',
+  BinaryTree: 'binary-tree/binary-tree.ts',
+  TreeMap: 'binary-tree/tree-map.ts',
+  TreeSet: 'binary-tree/tree-set.ts',
+  TreeMultiMap: 'binary-tree/tree-multi-map.ts',
+  TreeMultiSet: 'binary-tree/tree-multi-set.ts',
+  SkipList: 'linked-list/skip-linked-list.ts',
+  SinglyLinkedList: 'linked-list/singly-linked-list.ts',
+  DoublyLinkedList: 'linked-list/doubly-linked-list.ts',
+  HashMap: 'hash/hash-map.ts',
+  LinkedHashMap: 'hash/hash-map.ts',
+  Heap: 'heap/heap.ts',
+  MinHeap: 'heap/min-heap.ts',
+  MaxHeap: 'heap/max-heap.ts',
+  MinPriorityQueue: 'priority-queue/min-priority-queue.ts',
+  MaxPriorityQueue: 'priority-queue/max-priority-queue.ts',
+  PriorityQueue: 'priority-queue/priority-queue.ts',
+  Queue: 'queue/queue.ts',
+  Deque: 'queue/deque.ts',
+  Stack: 'stack/stack.ts',
+  DirectedGraph: 'graph/directed-graph.ts',
+  UndirectedGraph: 'graph/undirected-graph.ts',
+  MapGraph: 'graph/map-graph.ts',
+  Trie: 'trie/trie.ts',
+  Matrix: 'matrix/matrix.ts'
+};
+
 const fileName = 'README.md';
 
-/**
- * Recursively retrieve all `.ts` files in a directory.
- */
+// ─── File helpers ─────────────────────────────────────────────
+
 function getAllTestFiles(dir: string): string[] {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   const files = entries
@@ -70,10 +105,8 @@ function getAllTestFiles(dir: string): string[] {
   return files;
 }
 
-/**
- *Calculate the end position of the parenthesis balance
- * Used to extract the actual parameter in expect() precisely
- */
+// ─── Parenthesis balancing ────────────────────────────────────
+
 function findBalancedParenClose(str: string, startIdx: number): number {
   let depth = 0;
   for (let i = startIdx; i < str.length; i++) {
@@ -83,11 +116,10 @@ function findBalancedParenClose(str: string, startIdx: number): number {
       depth--;
       if (depth === 0) return i;
     } else if (char === '"' || char === "'" || char === '`') {
-      // Skip strings
       const quote = char;
       i++;
       while (i < str.length && str[i] !== quote) {
-        if (str[i] === '\\') i++; // Skip escape characters
+        if (str[i] === '\\') i++;
         i++;
       }
     }
@@ -95,22 +127,17 @@ function findBalancedParenClose(str: string, startIdx: number): number {
   return -1;
 }
 
-/**
- * Accurately convert expect statements from the AST perspective
- * Avoid parentheses nesting issues for regular expressions
- */
+// ─── expect → comment conversion (AST) ───────────────────────
+
 function transformExpectStatementsWithAST(codeBlock: string): string {
   const sourceFile = ts.createSourceFile('temp.ts', codeBlock, ts.ScriptTarget.Latest, true);
-
   const replacements: Array<{ start: number; end: number; replacement: string }> = [];
 
   function visit(node: ts.Node) {
-    // Look for expect(...). method(...).
     if (ts.isCallExpression(node) && node.expression && ts.isPropertyAccessExpression(node.expression)) {
       const propAccess = node.expression;
       const methodName = propAccess.name.text;
 
-      // Check if it's an expect() call
       if (propAccess.expression && ts.isCallExpression(propAccess.expression)) {
         const expectCall = propAccess.expression;
 
@@ -121,9 +148,7 @@ function transformExpectStatementsWithAST(codeBlock: string): string {
         ) {
           const actual = expectCall.arguments[0]?.getFullText(sourceFile)?.trim() || '';
           const expected = node.arguments[0]?.getFullText(sourceFile)?.trim() || '';
-          const notModifier = propAccess.name.parent ? '' : '';
 
-          // Check for .not modifiers
           const hasNot =
             propAccess.expression.parent &&
             ts.isPropertyAccessExpression(propAccess.expression.parent) &&
@@ -131,7 +156,6 @@ function transformExpectStatementsWithAST(codeBlock: string): string {
 
           const notStr = hasNot ? 'not ' : '';
           const comment = convertMatcherToComment(methodName, expected);
-
           const replacement = `console.log(${actual}); // ${notStr}${comment}`;
 
           replacements.push({
@@ -142,107 +166,107 @@ function transformExpectStatementsWithAST(codeBlock: string): string {
         }
       }
     }
-
     ts.forEachChild(node, visit);
   }
 
   visit(sourceFile);
 
-  // Replace from back to front to avoid offset changes
   replacements.sort((a, b) => b.start - a.start);
   let result = codeBlock;
   for (const replacement of replacements) {
     result = result.slice(0, replacement.start) + replacement.replacement + result.slice(replacement.end);
   }
-
   return result;
 }
 
-/**
- * Convert Jest matcher to annotation
- */
 function convertMatcherToComment(method: string, expected: string): string {
   const matchers: Record<string, (exp: string) => string> = {
-    // Boolean/type check
     toBeUndefined: () => 'undefined',
     toBeNull: () => 'null',
     toBeTruthy: () => 'truthy',
     toBeFalsy: () => 'falsy',
     toBeDefined: () => 'defined',
-
-    // Numerical comparison
     toBeGreaterThan: (exp: string) => `> ${exp}`,
     toBeGreaterThanOrEqual: (exp: string) => `>= ${exp}`,
     toBeLessThan: (exp: string) => `< ${exp}`,
     toBeLessThanOrEqual: (exp: string) => `<= ${exp}`,
-
-    // Equivalent check
     toBe: (exp: string) => exp,
     toEqual: (exp: string) => exp,
     toStrictEqual: (exp: string) => exp,
-
-    // Container inspection
     toContain: (exp: string) => `contains ${exp}`,
     toContainEqual: (exp: string) => `contains ${exp}`,
     toHaveLength: (exp: string) => `length: ${exp}`,
     toHaveProperty: (exp: string) => `has property ${exp}`,
-
-    // string/regular
     toMatch: (exp: string) => `matches ${exp}`,
-
-    // Anomaly check
     toThrow: (exp: string) => (exp ? `throws ${exp}` : 'throws')
   };
 
   const matcherFn = matchers[method];
-  if (!matcherFn) return method; // Unknown matcher
+  if (!matcherFn) return method;
 
-  // For matchers that don't require parameters
   if (['toBeUndefined', 'toBeNull', 'toBeTruthy', 'toBeFalsy', 'toBeDefined'].includes(method)) {
     return matcherFn('');
   }
 
-  // Cleanup of expected parameters for multiple rows
   const cleanExpected = expected.replace(/\n/g, '\n //');
   return matcherFn(cleanExpected);
 }
 
-/**
- * Extract test cases with `@example` from TypeScript files using AST.
- */
-function extractExamplesFromFile(filePath: string): { name: string; body: string }[] {
-  const fileContent = fs.readFileSync(filePath, 'utf-8');
-  const sourceFile = ts.createSourceFile(filePath, fileContent, ts.ScriptTarget.Latest, true);
-  const examples: { name: string; body: string }[] = [];
+// ─── Extract examples from test files ─────────────────────────
+
+interface ExampleEntry {
+  name: string;
+  body: string;
+  /** If tagged [Class.method], set className + methodName */
+  className?: string;
+  methodName?: string;
+}
+
+const TAG_RE = /^\[([A-Za-z]+)(?:\.([A-Za-z]+))?\]\s+(.+)$/;
+
+function extractExamplesFromFile(filePath: string): ExampleEntry[] {
+  const content = fs.readFileSync(filePath, 'utf-8');
+  const sourceFile = ts.createSourceFile(filePath, content, ts.ScriptTarget.Latest, true);
+  const examples: ExampleEntry[] = [];
 
   function visit(node: ts.Node) {
     if (
-      ts.isCallExpression(node) && // Ensure it's a function call
-      node.arguments.length >= 2 && // At least two arguments
-      ts.isStringLiteral(node.arguments[0]) && // First argument is a string
-      node.arguments[0].text.startsWith('@example') && // Matches @example
-      ts.isArrowFunction(node.arguments[1]) // Second argument is an arrow function
+      ts.isCallExpression(node) &&
+      node.arguments.length >= 2 &&
+      ts.isStringLiteral(node.arguments[0]) &&
+      node.arguments[0].text.startsWith('@example') &&
+      ts.isArrowFunction(node.arguments[1])
     ) {
-      const exampleName = node.arguments[0].text.replace('@example ', '').trim();
+      const rawName = node.arguments[0].text.replace('@example ', '').trim();
       const bodyNode = node.arguments[1].body;
       let exampleBody: string;
 
       if (ts.isBlock(bodyNode)) {
-        // If it's a block, remove outer {}
         exampleBody = bodyNode.statements
           .map(stmt => stmt.getFullText(sourceFile))
           .join('')
           .trim();
       } else {
-        // If it's a single expression, use it directly
         exampleBody = bodyNode.getFullText(sourceFile).trim();
       }
 
-      // Use AST to convert expect statements
       const transformedBody = transformExpectStatementsWithAST(exampleBody).trim();
-      examples.push({ name: exampleName, body: transformedBody });
-    }
 
+      // Parse [Class.method] or [Class] tag
+      const tagMatch = rawName.match(TAG_RE);
+      if (tagMatch) {
+        const [, className, methodName, description] = tagMatch;
+        examples.push({
+          name: description,
+          body: transformedBody,
+          className,
+          methodName: methodName || undefined
+        });
+      } else {
+        // No tag — class-level (legacy behavior)
+        examples.push({ name: rawName, body: transformedBody });
+      }
+    }
     ts.forEachChild(node, visit);
   }
 
@@ -250,13 +274,12 @@ function extractExamplesFromFile(filePath: string): { name: string; body: string
   return examples;
 }
 
-/**
- * Add examples to the corresponding class in the source file.
- */
+// ─── Inject into class-level JSDoc ────────────────────────────
+
 function addExamplesToSourceFile(
   sourceFilePath: string,
   className: string,
-  examples: { name: string; body: string }[]
+  examples: ExampleEntry[]
 ): void {
   if (!fs.existsSync(sourceFilePath)) {
     console.warn(`Source file not found: ${sourceFilePath}`);
@@ -264,18 +287,15 @@ function addExamplesToSourceFile(
   }
 
   const sourceContent = fs.readFileSync(sourceFilePath, 'utf-8');
-  const sourceFile = ts.createSourceFile(sourceFilePath, sourceContent, ts.ScriptTarget.Latest, true);
-  const classNode = sourceFile.statements.find(stmt => ts.isClassDeclaration(stmt) && stmt.name?.text === className) as
-    | ts.ClassDeclaration
-    | undefined;
+  const sf = ts.createSourceFile(sourceFilePath, sourceContent, ts.ScriptTarget.Latest, true);
+  const classNode = sf.statements.find(
+    stmt => ts.isClassDeclaration(stmt) && stmt.name?.text === className
+  ) as ts.ClassDeclaration | undefined;
 
   if (!classNode) return;
 
-  // getFullStart() includes leading comments/trivia
   const fullStart = classNode.getFullStart();
-  const classStart = classNode.getStart(sourceFile); // usually points at `export class ...`
-
-  // Search only in the leading trivia region for the nearest JSDoc block
+  const classStart = classNode.getStart(sf);
   const leadingRegion = sourceContent.slice(fullStart, classStart);
   const commentStartInLeading = leadingRegion.lastIndexOf('/**');
 
@@ -286,7 +306,6 @@ function addExamplesToSourceFile(
 
   const commentStart = fullStart + commentStartInLeading;
   const commentEnd = sourceContent.indexOf('*/', commentStart);
-
   if (commentEnd === -1 || commentEnd > classStart) {
     console.warn(`Malformed comment for class: ${className}`);
     return;
@@ -295,13 +314,12 @@ function addExamplesToSourceFile(
   const commentEndInclusive = commentEnd + 2;
   const existingCommentBlock = sourceContent.slice(commentStart, commentEndInclusive);
   const existingCommentMatch = existingCommentBlock.match(/\/\*\*([\s\S]*?)\*\//);
-
   if (!existingCommentMatch) {
     console.warn(`No existing comment found for class: ${className}`);
     return;
   }
 
-  const existingCommentInner = existingCommentMatch[1]; // keep inner as-is, including leading newline
+  const existingCommentInner = existingCommentMatch[1];
 
   const exampleSection =
     examples
@@ -315,74 +333,100 @@ function addExamplesToSourceFile(
       .join('\n') + '\n';
 
   let newInner: string;
-
   if (existingCommentInner.includes('@example')) {
-    // Replace from the first " * @example" to the end of the block (before */)
     newInner = existingCommentInner.replace(/ \* @example[\s\S]*?(?=\*\/|$)/g, exampleSection);
   } else {
     newInner = existingCommentInner.replace(/\s*$/, '\n') + exampleSection;
   }
 
-  // Rebuild full comment block
   const newCommentBlock = `/**${newInner.replace(/^\n?/, '\n').replace(/\s*$/, '\n')} */`;
   const updatedContent =
     sourceContent.slice(0, commentStart) + newCommentBlock + sourceContent.slice(commentEndInclusive);
 
   fs.writeFileSync(sourceFilePath, updatedContent, 'utf-8');
-  console.log(`Updated examples in ${sourceFilePath}`);
+  console.log(`  ✅ [class] ${className} ← ${examples.length} example(s)`);
 }
 
-/**
- * Process all test files and update README.md and source files.
- */
-function updateExamples(testDir: string, sourceBaseDir: string): void {
-  const testFiles = getAllTestFiles(testDir);
-  for (const file of testFiles) {
-    const examples = extractExamplesFromFile(file);
-    if (examples.length === 0) {
-      console.log(`No @example found in test file: ${file}`);
-      continue;
-    }
+// ─── Inject into method-level JSDoc ───────────────────────────
 
-    const relativePath = path.relative(testDir, file);
-    const sourceFilePath = path.resolve(sourceBaseDir, relativePath.replace('.test.ts', '.ts'));
-
-    let className = toPascalCase(path.basename(sourceFilePath, '.ts'));
-    if (className === 'Bst') className = 'BST';
-    if (className === 'AvlTree') className = 'AVLTree';
-    className = classMap[className] || className;
-
-    addExamplesToSourceFile(sourceFilePath, className, examples);
-
-    const dirKey = dirMap[className];
-
-    if (!dirKey) {
-      console.warn(`No directory mapping found for class: ${className}`);
-      continue;
-    }
-
-    const newExamples = examples.map(example => {
-      const indentedBody = ' ' + example.body;
-      return `### ${example.name}\n\`\`\`typescript\n${indentedBody}\n\`\`\``;
-    });
-
-    if (isReplaceMD && newExamples.length > 0) {
-      if (dirKey instanceof Array && dirKey.length > 0) {
-        for (const readmeRoot of dirKey) {
-          const readmePath = path.resolve(pkgRootDir, readmeRoot, fileName);
-          replaceExamplesInReadme(readmePath, newExamples);
-        }
-      } else if (typeof dirKey === 'string') {
-        const readmePath = path.resolve(pkgRootDir, dirKey, fileName);
-        replaceExamplesInReadme(readmePath, newExamples);
-      }
-    }
+function addExampleToMethod(
+  sourceFilePath: string,
+  className: string,
+  methodName: string,
+  example: ExampleEntry
+): void {
+  if (!fs.existsSync(sourceFilePath)) {
+    console.warn(`Source file not found: ${sourceFilePath}`);
+    return;
   }
+
+  let sourceContent = fs.readFileSync(sourceFilePath, 'utf-8');
+  const sf = ts.createSourceFile(sourceFilePath, sourceContent, ts.ScriptTarget.Latest, true);
+
+  // Find the class
+  const classNode = sf.statements.find(
+    stmt => ts.isClassDeclaration(stmt) && stmt.name?.text === className
+  ) as ts.ClassDeclaration | undefined;
+
+  if (!classNode) {
+    console.warn(`  ⚠️  Class "${className}" not found in ${sourceFilePath}`);
+    return;
+  }
+
+  // Find the method member
+  const member = classNode.members.find(m => {
+    if (ts.isMethodDeclaration(m) || ts.isGetAccessorDeclaration(m) || ts.isSetAccessorDeclaration(m)) {
+      return m.name && ts.isIdentifier(m.name) && m.name.text === methodName;
+    }
+    return false;
+  });
+
+  if (!member) {
+    console.warn(`  ⚠️  Method "${className}.${methodName}" not found`);
+    return;
+  }
+
+  const memberStart = member.getStart(sf);
+  const memberFullStart = member.getFullStart();
+
+  // Look for existing JSDoc in leading trivia
+  const leadingRegion = sourceContent.slice(memberFullStart, memberStart);
+  const jsdocEndInLeading = leadingRegion.lastIndexOf('*/');
+
+  const indentedBody = ' ' + example.body;
+  const exampleBlock = ` * @example\n * // ${example.name}\n${indentedBody
+    .split('\n')
+    .map(line => (line.trim() === '' ? ` *` : ` * ${line}`))
+    .join('\n')}\n`;
+
+  if (jsdocEndInLeading !== -1) {
+    // Existing JSDoc found
+    const jsdocStart = leadingRegion.lastIndexOf('/**', jsdocEndInLeading);
+    const absJsdocStart = memberFullStart + jsdocStart;
+    const absJsdocEnd = memberFullStart + jsdocEndInLeading + 2;
+    const existingJsdoc = sourceContent.slice(absJsdocStart, absJsdocEnd);
+
+    if (existingJsdoc.includes('@example')) {
+      console.log(`  ℹ️  ${className}.${methodName} already has @example, skipping`);
+      return;
+    }
+
+    // Insert before closing */
+    const insertPos = memberFullStart + jsdocEndInLeading;
+    sourceContent = sourceContent.slice(0, insertPos) + exampleBlock + '   ' + sourceContent.slice(insertPos);
+  } else {
+    // No JSDoc — create one
+    const indent = '  '; // 2-space class member indent
+    const newJsdoc = `${indent}/**\n${indent} * ${example.name}\n${indent}${exampleBlock}${indent} */\n${indent}`;
+    sourceContent = sourceContent.slice(0, memberStart) + newJsdoc + sourceContent.slice(memberStart);
+  }
+
+  fs.writeFileSync(sourceFilePath, sourceContent);
+  console.log(`  ✅ [method] ${className}.${methodName} ← "${example.name}"`);
 }
 
-/**
- * Replace content between markers in README.md.
- */
+// ─── README.md update ─────────────────────────────────────────
+
 function replaceExamplesInReadme(readmePath: string, newExamples: string[]): void {
   let readmeContent: string;
   try {
@@ -394,7 +438,6 @@ function replaceExamplesInReadme(readmePath: string, newExamples: string[]): voi
 
   const startIdx = readmeContent.indexOf(START_MARKER);
   const endIdx = readmeContent.indexOf(END_MARKER);
-
   if (startIdx === -1 || endIdx === -1) {
     throw new Error(`Markers not found in ${readmePath}`);
   }
@@ -404,10 +447,89 @@ function replaceExamplesInReadme(readmePath: string, newExamples: string[]): voi
   const updatedContent = `${before}\n\n${newExamples.join('\n\n')}\n\n${after}`;
 
   fs.writeFileSync(readmePath, updatedContent, 'utf-8');
-  console.log(`${fileName} updated with new examples.`);
+  console.log(`  📄 ${readmePath} updated`);
 }
 
-// Run the script
+// ─── Main orchestrator ────────────────────────────────────────
+
+function updateExamples(testDir: string, sourceBaseDir: string): void {
+  const testFiles = getAllTestFiles(testDir);
+  let totalMethod = 0;
+  let totalClass = 0;
+
+  for (const file of testFiles) {
+    const examples = extractExamplesFromFile(file);
+    if (examples.length === 0) continue;
+
+    // Split into tagged (method/class-level) and untagged (legacy class-level)
+    const taggedMethod = examples.filter(e => e.className && e.methodName);
+    const taggedClass = examples.filter(e => e.className && !e.methodName);
+    const untagged = examples.filter(e => !e.className);
+
+    // --- Method-level: [Class.method] tagged ---
+    for (const ex of taggedMethod) {
+      const relFile = classToSourceFile[ex.className!];
+      if (!relFile) {
+        console.warn(`  ⚠️  Unknown class "${ex.className}" in tag`);
+        continue;
+      }
+      const srcPath = path.resolve(sourceBaseDir, 'data-structures', relFile);
+      addExampleToMethod(srcPath, ex.className!, ex.methodName!, ex);
+      totalMethod++;
+    }
+
+    // --- Class-level: [Class] tagged ---
+    for (const ex of taggedClass) {
+      const relFile = classToSourceFile[ex.className!];
+      if (!relFile) {
+        console.warn(`  ⚠️  Unknown class "${ex.className}" in tag`);
+        continue;
+      }
+      const srcPath = path.resolve(sourceBaseDir, 'data-structures', relFile);
+      addExamplesToSourceFile(srcPath, ex.className!, [ex]);
+      totalClass++;
+    }
+
+    // --- Untagged: legacy file-name → class mapping ---
+    if (untagged.length > 0) {
+      const relativePath = path.relative(testDir, file);
+      const sourceFilePath = path.resolve(sourceBaseDir, relativePath.replace('.test.ts', '.ts'));
+
+      let className = toPascalCase(path.basename(sourceFilePath, '.ts'));
+      if (className === 'Bst') className = 'BST';
+      if (className === 'AvlTree') className = 'AVLTree';
+      className = classMap[className] || className;
+
+      addExamplesToSourceFile(sourceFilePath, className, untagged);
+      totalClass++;
+
+      // README update for individual packages
+      const dirKey = dirMap[className];
+      if (dirKey && isReplaceMD) {
+        const newExamples = untagged.map(example => {
+          const indentedBody = ' ' + example.body;
+          return `### ${example.name}\n\`\`\`typescript\n${indentedBody}\n\`\`\``;
+        });
+
+        if (newExamples.length > 0) {
+          if (dirKey instanceof Array) {
+            for (const readmeRoot of dirKey) {
+              const readmePath = path.resolve(pkgRootDir, readmeRoot, fileName);
+              replaceExamplesInReadme(readmePath, newExamples);
+            }
+          } else {
+            const readmePath = path.resolve(pkgRootDir, dirKey, fileName);
+            replaceExamplesInReadme(readmePath, newExamples);
+          }
+        }
+      }
+    }
+  }
+
+  console.log(`\n✅ Done: ${totalMethod} method-level, ${totalClass} class-level injections`);
+}
+
+// Run
 const testDir = path.resolve(__dirname, '../test/unit');
 const sourceBaseDir = path.resolve(__dirname, '../src');
 updateExamples(testDir, sourceBaseDir);

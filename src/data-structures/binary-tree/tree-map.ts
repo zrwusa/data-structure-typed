@@ -17,6 +17,113 @@ import { ERR } from '../../common';
  *
  * - Iteration order is ascending by key.
  * - No node exposure: all APIs use keys/values only.
+ * @example
+ * // Sorted dictionary for a contact book
+ *  const contacts = new TreeMap<string, string>([
+ *       ['Bob', '555-0102'],
+ *       ['Alice', '555-0101'],
+ *       ['Charlie', '555-0103']
+ *     ]);
+ *
+ *     // Contacts are automatically sorted by name
+ *     console.log([...contacts.keys()]); // ['Alice', 'Bob', 'Charlie'];
+ *     console.log(contacts.get('Bob')); // '555-0102';
+ *
+ *     // Find the first contact alphabetically after 'B'
+ *     console.log(contacts.ceiling('B')); // ['Bob', '555-0102'];
+ *
+ *     // Find contacts in range
+ *     console.log(contacts.rangeSearch(['Alice', 'Bob'])); // [
+ *  //      ['Alice', '555-0101'],
+ *  //      ['Bob', '555-0102']
+ *  //    ];
+ * @example
+ * // Leaderboard with ranked scores
+ *  // Use score as key (descending), player name as value
+ *     const leaderboard = new TreeMap<number, string>([], {
+ *       comparator: (a, b) => b - a // descending
+ *     });
+ *
+ *     leaderboard.set(1500, 'Alice');
+ *     leaderboard.set(2200, 'Bob');
+ *     leaderboard.set(1800, 'Charlie');
+ *     leaderboard.set(2500, 'Diana');
+ *
+ *     // Top 3 players (first 3 in descending order)
+ *     const top3 = [...leaderboard.entries()].slice(0, 3);
+ *     console.log(top3); // [
+ *  //      [2500, 'Diana'],
+ *  //      [2200, 'Bob'],
+ *  //      [1800, 'Charlie']
+ *  //    ];
+ *
+ *     // Highest scorer
+ *     console.log(leaderboard.first()); // [2500, 'Diana'];
+ *
+ *     // Remove lowest scorer
+ *     console.log(leaderboard.pollLast()); // [1500, 'Alice'];
+ *     console.log(leaderboard.size); // 3;
+ * @example
+ * // Event scheduler with time-based lookup
+ *  const events = new TreeMap<Date, string>();
+ *
+ *     const meeting = new Date('2024-01-15T10:00:00Z');
+ *     const lunch = new Date('2024-01-15T12:00:00Z');
+ *     const review = new Date('2024-01-15T15:00:00Z');
+ *     const standup = new Date('2024-01-15T09:00:00Z');
+ *
+ *     events.set(meeting, 'Team Meeting');
+ *     events.set(lunch, 'Lunch Break');
+ *     events.set(review, 'Code Review');
+ *     events.set(standup, 'Daily Standup');
+ *
+ *     // Events are sorted chronologically
+ *     console.log([...events.values()]); // [
+ *  //      'Daily Standup',
+ *  //      'Team Meeting',
+ *  //      'Lunch Break',
+ *  //      'Code Review'
+ *  //    ];
+ *
+ *     // Next event after 11:00
+ *     const after11 = new Date('2024-01-15T11:00:00Z');
+ *     console.log(events.ceiling(after11)?.[1]); // 'Lunch Break';
+ *
+ *     // Events between 9:30 and 13:00
+ *     const from = new Date('2024-01-15T09:30:00Z');
+ *     const to = new Date('2024-01-15T13:00:00Z');
+ *     const window = events.rangeSearch([from, to]);
+ *     console.log(window.map(([, v]) => v)); // ['Team Meeting', 'Lunch Break'];
+ * @example
+ * // Inventory system with price-sorted products
+ *  interface Product {
+ *       name: string;
+ *       price: number;
+ *       stock: number;
+ *     }
+ *
+ *     const inventory = new TreeMap<string, Product, Product>(
+ *       [
+ *         { name: 'Widget', price: 9.99, stock: 100 },
+ *         { name: 'Gadget', price: 24.99, stock: 50 },
+ *         { name: 'Doohickey', price: 4.99, stock: 200 }
+ *       ],
+ *       { toEntryFn: p => [p.name, p] }
+ *     );
+ *
+ *     // Sorted alphabetically by product name
+ *     console.log([...inventory.keys()]); // ['Doohickey', 'Gadget', 'Widget'];
+ *
+ *     // Filter high-stock items
+ *     const highStock = inventory.filter(p => (p?.stock ?? 0) > 75);
+ *     console.log([...highStock.keys()]); // ['Doohickey', 'Widget'];
+ *
+ *     // Calculate total inventory value
+ *     const totalValue = inventory.reduce(
+ *       (sum, p) => sum + (p ? p.price * p.stock : 0),
+ *       0
+ *     );
+ *     console.log(totalValue); // toBeCloseTo;
  */
 export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | undefined]> {
   readonly #core: RedBlackTree<K, V>;

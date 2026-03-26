@@ -15,12 +15,84 @@ import { ERR } from '../../common';
  * Matrix — a numeric matrix with standard linear algebra operations.
  *
  * @example
- * ```ts
- * const m = Matrix.from([[1, 2], [3, 4]]);
- * const t = m.transpose();    // [[1, 3], [2, 4]]
- * const sum = m.add(m);       // [[2, 4], [6, 8]]
- * const id = Matrix.identity(3); // 3×3 identity matrix
- * ```
+ * // Basic matrix arithmetic
+ *  const a = new Matrix([
+ *       [1, 2],
+ *       [3, 4]
+ *     ]);
+ *     const b = new Matrix([
+ *       [5, 6],
+ *       [7, 8]
+ *     ]);
+ *
+ *     const sum = a.add(b);
+ *     console.log(sum?.data); // [
+ *  //      [6, 8],
+ *  //      [10, 12]
+ *  //    ];
+ *
+ *     const diff = b.subtract(a);
+ *     console.log(diff?.data); // [
+ *  //      [4, 4],
+ *  //      [4, 4]
+ *  //    ];
+ * @example
+ * // Matrix multiplication for transformations
+ *  // 2x3 matrix * 3x2 matrix = 2x2 matrix
+ *     const a = new Matrix([
+ *       [1, 2, 3],
+ *       [4, 5, 6]
+ *     ]);
+ *     const b = new Matrix([
+ *       [7, 8],
+ *       [9, 10],
+ *       [11, 12]
+ *     ]);
+ *
+ *     const product = a.multiply(b);
+ *     console.log(product?.rows); // 2;
+ *     console.log(product?.cols); // 2;
+ *     // Row 0: 1*7+2*9+3*11=58, 1*8+2*10+3*12=64
+ *     // Row 1: 4*7+5*9+6*11=139, 4*8+5*10+6*12=154
+ *     console.log(product?.data); // [
+ *  //      [58, 64],
+ *  //      [139, 154]
+ *  //    ];
+ * @example
+ * // Matrix transpose (square matrix)
+ *  const m = new Matrix([
+ *       [1, 2, 3],
+ *       [4, 5, 6],
+ *       [7, 8, 9]
+ *     ]);
+ *
+ *     const transposed = m.transpose();
+ *     console.log(transposed.rows); // 3;
+ *     console.log(transposed.cols); // 3;
+ *     console.log(transposed.data); // [
+ *  //      [1, 4, 7],
+ *  //      [2, 5, 8],
+ *  //      [3, 6, 9]
+ *  //    ];
+ *
+ *     // Transpose of transpose = original
+ *     console.log(transposed.transpose().data); // m.data;
+ * @example
+ * // Get and set individual cells
+ *  const m = new Matrix([
+ *       [0, 0, 0],
+ *       [0, 0, 0]
+ *     ]);
+ *
+ *     m.set(0, 1, 42);
+ *     m.set(1, 2, 99);
+ *
+ *     console.log(m.get(0, 1)); // 42;
+ *     console.log(m.get(1, 2)); // 99;
+ *     console.log(m.get(0, 0)); // 0;
+ *
+ *     // Out of bounds returns undefined
+ *     console.log(m.get(5, 5)); // undefined;
  */
 export class Matrix {
   /**

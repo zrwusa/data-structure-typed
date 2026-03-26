@@ -23,6 +23,52 @@ import { ERR } from '../../common';
  * 7. Efficient Sorting Algorithms: For example, heap sort. Heap sort uses the properties of a heap to sort elements.
  * 8. Graph Algorithms: Such as Dijkstra's shortest path algorithm and Prim's minimum-spanning tree algorithm, which use heaps to improve performance.
  * @example
+ * // Find the K largest elements
+ *  const data = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5];
+ *     const heap = new MaxHeap(data);
+ *
+ *     // Extract top 3 elements
+ *     const top3 = [];
+ *     for (let i = 0; i < 3; i++) {
+ *       top3.push(heap.poll());
+ *     }
+ *     console.log(top3); // [9, 6, 5];
+ * @example
+ * // Priority-based task processing
+ *  interface Task {
+ *       name: string;
+ *       priority: number;
+ *     }
+ *
+ *     const heap = new MaxHeap<Task>([], {
+ *       comparator: (a, b) => b.priority - a.priority
+ *     });
+ *
+ *     heap.add({ name: 'Low priority', priority: 1 });
+ *     heap.add({ name: 'Critical fix', priority: 10 });
+ *     heap.add({ name: 'Medium task', priority: 5 });
+ *
+ *     // Highest priority first
+ *     console.log(heap.poll()?.name); // 'Critical fix';
+ *     console.log(heap.poll()?.name); // 'Medium task';
+ *     console.log(heap.poll()?.name); // 'Low priority';
+ * @example
+ * // Real-time top score tracking
+ *  const scores = new MaxHeap<number>();
+ *
+ *     // Stream of scores coming in
+ *     for (const score of [72, 85, 91, 68, 95, 78, 88]) {
+ *       scores.add(score);
+ *     }
+ *
+ *     // Current highest score without removing
+ *     console.log(scores.peek()); // 95;
+ *     console.log(scores.size); // 7;
+ *
+ *     // Remove top 2 scores
+ *     console.log(scores.poll()); // 95;
+ *     console.log(scores.poll()); // 91;
+ *     console.log(scores.peek()); // 88;
  */
 export class MaxHeap<E = any, R = any> extends Heap<E, R> {
   /**
