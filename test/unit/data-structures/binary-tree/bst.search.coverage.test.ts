@@ -1,5 +1,4 @@
 import { BST, Range } from '../../../../src';
-import { Range } from '../../../../src/common';
 
 describe('BST search coverage', () => {
 
@@ -68,7 +67,13 @@ describe('BST search coverage', () => {
       expect(one[0].key).toBe(1);
     });
 
-    it('rangeSearch overload [low, high] is accepted', () => {
+    it('rangeSearch with Range instance', () => {
+    const bst = new BST<number, number>([5, 7, 10, 12, 15].map(k => [k, k]));
+    const r = new Range(7, 12);
+    expect(bst.rangeSearch(r)).toEqual([7, 10, 12]);
+  });
+
+  it('rangeSearch overload [low, high] is accepted', () => {
       const bst = new BST<number, number>([10, 5, 15, 3, 7, 12, 18]);
       expect(bst.rangeSearch([7, 12])).toEqual([7, 10, 12]);
     });
@@ -92,5 +97,65 @@ describe('BST search coverage', () => {
       const out = t.getNode(10 as any, null as any);
       expect(out).toBeUndefined();
     });
+  });
+});
+
+describe('BST ceiling/higher with callback + iterationType', () => {
+  const bst = new BST<number, number>([5, 10, 15, 20, 25].map(k => [k, k]));
+
+  it('ceiling with iterationType string', () => {
+    expect(bst.ceiling(10, 'ITERATIVE')).toBe(10);
+    expect(bst.ceiling(10, 'RECURSIVE')).toBe(10);
+  });
+
+  it('ceiling with node callback', () => {
+    expect(bst.ceiling(10, n => n.key * 2)).toBe(20);
+  });
+
+  it('ceiling with node callback + iterationType', () => {
+    expect(bst.ceiling(10, n => n.key * 2, 'ITERATIVE')).toBe(20);
+  });
+
+  it('ceiling returns undefined when not found', () => {
+    expect(bst.ceiling(99)).toBeUndefined();
+  });
+
+  it('higher with iterationType string', () => {
+    expect(bst.higher(10, 'ITERATIVE')).toBe(15);
+    expect(bst.higher(10, 'RECURSIVE')).toBe(15);
+  });
+
+  it('higher with node callback', () => {
+    expect(bst.higher(10, n => n.key * 3)).toBe(45);
+  });
+
+  it('higher with node callback + iterationType', () => {
+    expect(bst.higher(10, n => n.key * 3, 'ITERATIVE')).toBe(45);
+  });
+
+  it('higher returns undefined when not found', () => {
+    expect(bst.higher(99)).toBeUndefined();
+  });
+});
+
+describe('BST getNode with entry input', () => {
+  const bst = new BST<number, number>([5, 10, 15].map(k => [k, k]));
+
+  it('getNode with [key, value] entry', () => {
+    expect(bst.getNode([10, 10])?.key).toBe(10);
+    expect(bst.getNode([99, 99])).toBeUndefined();
+  });
+
+  it('getNode with null/undefined entry key returns undefined', () => {
+    expect(bst.getNode([null, 10] as any)).toBeUndefined();
+  });
+});
+
+describe('BST isValidKey', () => {
+  it('returns false for invalid keys', () => {
+    const bst = new BST<number, number>();
+    expect(bst.isValidKey(null)).toBe(false);
+    expect(bst.isValidKey(undefined)).toBe(false);
+    expect(bst.isValidKey({})).toBe(false);
   });
 });

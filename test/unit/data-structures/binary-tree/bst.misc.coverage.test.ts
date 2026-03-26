@@ -417,3 +417,72 @@ describe('BST misc coverage', () => {
     });
   });
 });
+
+describe('BST Date key comparator', () => {
+  it('compares valid Date keys via isComparable path', () => {
+    const bst = new BST<Date, string>();
+    const d1 = new Date('2024-01-01');
+    const d2 = new Date('2024-06-01');
+    const d3 = new Date('2023-01-01');
+    bst.add(d1, 'jan');
+    bst.add(d2, 'jun');
+    bst.add(d3, 'old');
+    expect(bst.has(d2)).toBe(true);
+    expect(bst.getLeftMost()).toEqual(d3);
+    expect(bst.getRightMost()).toEqual(d2);
+  });
+});
+
+describe('BST floor/lower with predicate (targetKey undefined path)', () => {
+  const bst = new BST<number, number>([5, 10, 15, 20].map(k => [k, k]));
+
+  it('floor with predicate', () => {
+    expect(bst.floor(n => n.key <= 12)).toBe(10);
+  });
+
+  it('floor with null input returns undefined', () => {
+    expect(bst.floor(null as any)).toBeUndefined();
+  });
+
+  it('lower with predicate', () => {
+    expect(bst.lower(n => n.key < 15)).toBe(10);
+  });
+
+  it('lower with null input returns undefined', () => {
+    expect(bst.lower(null as any)).toBeUndefined();
+  });
+
+  it('ceiling with null input returns undefined', () => {
+    expect(bst.ceiling(null as any)).toBeUndefined();
+  });
+
+  it('higher with null input returns undefined', () => {
+    expect(bst.higher(null as any)).toBeUndefined();
+  });
+
+  it('floor with entry [null, val] returns undefined', () => {
+    expect(bst.floor([null, 10] as any)).toBeUndefined();
+  });
+
+  it('lower with entry [null, val] returns undefined', () => {
+    expect(bst.lower([null, 10] as any)).toBeUndefined();
+  });
+
+  it('floor with node callback', () => {
+    const result = bst.floor(12, n => n.key * 2);
+    expect(result).toBe(20);
+  });
+
+  it('lower with node callback', () => {
+    const result = bst.lower(15, n => n.key * 2);
+    expect(result).toBe(20);
+  });
+
+  it('floor with callback + iterationType', () => {
+    expect(bst.floor(12, n => n.key * 2, 'ITERATIVE')).toBe(20);
+  });
+
+  it('lower with callback + iterationType', () => {
+    expect(bst.lower(15, n => n.key * 2, 'ITERATIVE')).toBe(20);
+  });
+});
