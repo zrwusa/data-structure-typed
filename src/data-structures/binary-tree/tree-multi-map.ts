@@ -31,169 +31,10 @@ export class TreeMultiMapNode<K = any, V = any> extends RedBlackTreeNode<K, V[]>
  * - Default iteration yields bucket entries: `[K, V[]]`.
  * - Navigable operations (`first/last/ceiling/...`) return entry tuples like TreeMap.
  * @example
- * // players ranked by score with their equipment
- *  type Equipment = {
- *       name: string; // Equipment name
- *       quality: 'legendary' | 'epic' | 'rare' | 'common';
- *       level: number;
- *     };
- *
- *     type Player = {
- *       name: string;
- *       score: number;
- *       equipments: Equipment[];
- *     };
- *
- *     // Mock player data with their scores and equipment
- *     const players: Player[] = [
- *       {
- *         name: 'DragonSlayer',
- *         score: 8750,
- *         equipments: [
- *           { name: 'AWM', quality: 'legendary', level: 85 },
- *           { name: 'Level 3 Helmet', quality: 'epic', level: 80 },
- *           { name: 'Extended Quickdraw Mag', quality: 'rare', level: 75 },
- *           { name: 'Compensator', quality: 'epic', level: 78 },
- *           { name: 'Vertical Grip', quality: 'rare', level: 72 }
- *         ]
- *       },
- *       {
- *         name: 'ShadowNinja',
- *         score: 7200,
- *         equipments: [
- *           { name: 'M416', quality: 'epic', level: 75 },
- *           { name: 'Ghillie Suit', quality: 'rare', level: 70 },
- *           { name: 'Red Dot Sight', quality: 'common', level: 65 },
- *           { name: 'Extended QuickDraw Mag', quality: 'rare', level: 68 }
- *         ]
- *       },
- *       {
- *         name: 'RuneMaster',
- *         score: 9100,
- *         equipments: [
- *           { name: 'KAR98K', quality: 'legendary', level: 90 },
- *           { name: 'Level 3 Vest', quality: 'legendary', level: 85 },
- *           { name: 'Holographic Sight', quality: 'epic', level: 82 },
- *           { name: 'Suppressor', quality: 'legendary', level: 88 },
- *           { name: 'Level 3 Backpack', quality: 'epic', level: 80 }
- *         ]
- *       },
- *       {
- *         name: 'BattleKing',
- *         score: 8500,
- *         equipments: [
- *           { name: 'AUG', quality: 'epic', level: 82 },
- *           { name: 'Red Dot Sight', quality: 'rare', level: 75 },
- *           { name: 'Extended Mag', quality: 'common', level: 70 },
- *           { name: 'Tactical Stock', quality: 'rare', level: 76 }
- *         ]
- *       },
- *       {
- *         name: 'SniperElite',
- *         score: 7800,
- *         equipments: [
- *           { name: 'M24', quality: 'legendary', level: 88 },
- *           { name: 'Compensator', quality: 'epic', level: 80 },
- *           { name: 'Scope 8x', quality: 'legendary', level: 85 },
- *           { name: 'Level 2 Helmet', quality: 'rare', level: 75 }
- *         ]
- *       },
- *       {
- *         name: 'RushMaster',
- *         score: 7500,
- *         equipments: [
- *           { name: 'Vector', quality: 'rare', level: 72 },
- *           { name: 'Level 2 Helmet', quality: 'common', level: 65 },
- *           { name: 'Quickdraw Mag', quality: 'common', level: 60 },
- *           { name: 'Laser Sight', quality: 'rare', level: 68 }
- *         ]
- *       },
- *       {
- *         name: 'GhostWarrior',
- *         score: 8200,
- *         equipments: [
- *           { name: 'SCAR-L', quality: 'epic', level: 78 },
- *           { name: 'Extended Quickdraw Mag', quality: 'rare', level: 70 },
- *           { name: 'Holographic Sight', quality: 'epic', level: 75 },
- *           { name: 'Suppressor', quality: 'rare', level: 72 },
- *           { name: 'Vertical Grip', quality: 'common', level: 65 }
- *         ]
- *       },
- *       {
- *         name: 'DeathDealer',
- *         score: 7300,
- *         equipments: [
- *           { name: 'SKS', quality: 'epic', level: 76 },
- *           { name: 'Holographic Sight', quality: 'rare', level: 68 },
- *           { name: 'Extended Mag', quality: 'common', level: 65 }
- *         ]
- *       },
- *       {
- *         name: 'StormRider',
- *         score: 8900,
- *         equipments: [
- *           { name: 'MK14', quality: 'legendary', level: 92 },
- *           { name: 'Level 3 Backpack', quality: 'legendary', level: 85 },
- *           { name: 'Scope 8x', quality: 'epic', level: 80 },
- *           { name: 'Suppressor', quality: 'legendary', level: 88 },
- *           { name: 'Tactical Stock', quality: 'rare', level: 75 }
- *         ]
- *       },
- *       {
- *         name: 'CombatLegend',
- *         score: 7600,
- *         equipments: [
- *           { name: 'UMP45', quality: 'rare', level: 74 },
- *           { name: 'Level 2 Vest', quality: 'common', level: 67 },
- *           { name: 'Red Dot Sight', quality: 'common', level: 62 },
- *           { name: 'Extended Mag', quality: 'rare', level: 70 }
- *         ]
- *       }
- *     ];
- *
- *     // Create a TreeMultiMap for player rankings
- *     const playerRankings = new TreeMultiMap<number, Equipment, Player>(players, {
- *       toEntryFn: ({ score, equipments }) => [score, equipments],
- *       isMapMode: false
- *     });
- *
- *     const topPlayersEquipments = playerRankings.rangeSearch([8900, 10000], node => playerRankings.get(node.key));
- *     console.log(topPlayersEquipments); // [
- *  //      [
- *  //        {
- *  //          name: 'MK14',
- *  //          quality: 'legendary',
- *  //          level: 92
- *  //        },
- *  //        { name: 'Level 3 Backpack', quality: 'legendary', level: 85 },
- *  //        {
- *  //          name: 'Scope 8x',
- *  //          quality: 'epic',
- *  //          level: 80
- *  //        },
- *  //        { name: 'Suppressor', quality: 'legendary', level: 88 },
- *  //        {
- *  //          name: 'Tactical Stock',
- *  //          quality: 'rare',
- *  //          level: 75
- *  //        }
- *  //      ],
- *  //      [
- *  //        { name: 'KAR98K', quality: 'legendary', level: 90 },
- *  //        {
- *  //          name: 'Level 3 Vest',
- *  //          quality: 'legendary',
- *  //          level: 85
- *  //        },
- *  //        { name: 'Holographic Sight', quality: 'epic', level: 82 },
- *  //        {
- *  //          name: 'Suppressor',
- *  //          quality: 'legendary',
- *  //          level: 88
- *  //        },
- *  //        { name: 'Level 3 Backpack', quality: 'epic', level: 80 }
- *  //      ]
- *  //    ];
+ * // Morris traversal (O(1) space)
+ *  const tmm = new TreeMultiMap<number>([5, 3, 7]);
+ *     const result = tmm.morris(n => n.key, 'IN');
+ *     console.log(result.length); // > 0;
  */
 export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]]> {
   readonly #core: RedBlackTree<K, V[], R>;
@@ -286,12 +127,13 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
     * @example
- * // Check if tree has no nodes
- *  const tmm = new TreeMultiMap<number>();
- *     console.log(tmm.isEmpty()); // true;
- *     tmm.add(1);
- *     console.log(tmm.isEmpty()); // false;
+ * // Check if empty
+ *  console.log(new TreeMultiMap().isEmpty()); // true;
    */
   isEmpty(): boolean {
     return this.size === 0;
@@ -303,11 +145,14 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
     * @example
- * // Remove all nodes
+ * // Remove all entries
  *  const tmm = new TreeMultiMap<number>([1, 2, 3]);
  *     tmm.clear();
- *     console.log(tmm.size); // 0;
  *     console.log(tmm.isEmpty()); // true;
    */
   clear(): void {
@@ -345,6 +190,11 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
+   
     * @example
  * // Check key existence
  *  const mm = new TreeMultiMap<number, string>([
@@ -372,6 +222,11 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
+   
     * @example
  * // Retrieve grouped values by key
  *  const scores = new TreeMultiMap<string, number>([
@@ -390,6 +245,15 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Append a single value.
    * @remarks Time O(log n), Space O(1)
+   
+    * @example
+ * // Insert a key
+ *  const tmm = new TreeMultiMap<number>();
+ *     tmm.add(10);
+ *     tmm.add(5);
+ *     tmm.add(15);
+ *     console.log(tmm.size); // 3;
+ *     console.log(tmm.has(10)); // true;
    */
   add(key: K, value: V): boolean {
     this._validateKey(key);
@@ -404,6 +268,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Alias for compatibility with existing TreeMultiMap semantics.
    * @remarks Time O(log n), Space O(1) for single value; O(log n + m) for bucket append
+   
+   
+   
+   
    
    
    
@@ -455,6 +323,11 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Deletes a key and its entire bucket.
    * @remarks Time O(log n), Space O(1)
+   
+   
+   
+   
+   
    
    
    
@@ -542,10 +415,14 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
     * @example
- * // Iterate over keys in sorted order
- *  const tmm = new TreeMultiMap<number>([30, 10, 50, 20, 40]);
- *     console.log([...tmm.keys()]); // [10, 20, 30, 40, 50];
+ * // Get sorted keys
+ *  const tmm = new TreeMultiMap<number>([30, 10, 20]);
+ *     console.log([...tmm.keys()]); // [10, 20, 30];
    */
   *keys(): IterableIterator<K> {
     yield* this.#core.keys();
@@ -557,8 +434,12 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
     * @example
- * // Iterate over values in key order
+ * // Get values in key order
  *  const tmm = new TreeMultiMap<number, string>([[2, 'b'], [1, 'a'], [3, 'c']]);
  *     console.log([...tmm.values()]); // ['a', 'b', 'c'];
    */
@@ -606,6 +487,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   
    
    
+   
     * @example
  * // Access the minimum entry
  *  const mm = new TreeMultiMap<number, string>([
@@ -627,6 +509,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    * Returns the entry with the largest key.
    * @remarks Time O(log n), Space O(1)
   
+   
    
    
     * @example
@@ -685,6 +568,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
     * @example
  * // Least entry ≥ key
  *  const mm = new TreeMultiMap<number, string>([
@@ -708,6 +595,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    * Returns the entry with the largest key <= given key.
    * @remarks Time O(log n), Space O(1)
   
+   
+   
+   
+   
    
    
    
@@ -738,11 +629,13 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   
    
    
+   
+   
+   
     * @example
- * // Find the least key strictly > target
- *  const tmm = new TreeMultiMap<number>([10, 20, 30, 40]);
+ * // Least key > target
+ *  const tmm = new TreeMultiMap<number>([10, 20, 30]);
  *     console.log(tmm.higher(20)); // 30;
- *     console.log(tmm.higher(40)); // undefined;
    */
   higher(key: K): [K, V[]] | undefined {
     this._validateKey(key);
@@ -758,11 +651,13 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   
    
    
+   
+   
+   
     * @example
- * // Find the greatest key strictly < target
- *  const tmm = new TreeMultiMap<number>([10, 20, 30, 40]);
- *     console.log(tmm.lower(30)); // 20;
- *     console.log(tmm.lower(10)); // undefined;
+ * // Greatest key < target
+ *  const tmm = new TreeMultiMap<number>([10, 20, 30]);
+ *     console.log(tmm.lower(20)); // 10;
    */
   lower(key: K): [K, V[]] | undefined {
     this._validateKey(key);
@@ -780,10 +675,13 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
     * @example
- * // Display tree structure
+ * // Display tree
  *  const tmm = new TreeMultiMap<number>([5, 3, 7]);
- *     // print() outputs to console, returns void
  *     expect(() => tmm.print()).not.toThrow();
    */
   print(): void {
@@ -796,11 +694,15 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
     * @example
- * // Execute callback for each entry
+ * // Execute for each entry
  *  const tmm = new TreeMultiMap<number>([3, 1, 2]);
  *     const keys: number[] = [];
- *     tmm.forEach((value, key) => keys.push(key));
+ *     tmm.forEach((v, k) => keys.push(k));
  *     console.log(keys); // [1, 2, 3];
    */
   forEach(callback: (value: V[], key: K, map: this) => void): void {
@@ -815,11 +717,15 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
     * @example
- * // Filter entries by condition
- *  const tmm = new TreeMultiMap<number>([1, 2, 3, 4, 5, 6]);
- *     const evens = tmm.filter((_, key) => key % 2 === 0);
- *     console.log([...evens.keys()]); // [2, 4, 6];
+ * // Filter entries
+ *  const tmm = new TreeMultiMap<number>([1, 2, 3, 4, 5]);
+ *     const evens = tmm.filter((v, k) => k % 2 === 0);
+ *     console.log([...evens.keys()]); // [2, 4];
    */
   filter(predicate: (value: V[], key: K, map: this) => boolean): TreeMultiMap<K, V, R> {
     const filtered: [K, V[]][] = [];
@@ -835,11 +741,15 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
     * @example
  * // Transform to new tree
- *  const tmm = new TreeMultiMap<number, number>([[1, 10], [2, 20], [3, 30]]);
- *     const doubled = tmm.map((value, key) => [key, (value ?? 0) * 2] as [number, number]);
- *     console.log([...doubled.values()]); // [20, 40, 60];
+ *  const tmm = new TreeMultiMap<number, number>([[1, 10], [2, 20]]);
+ *     const doubled = tmm.map((v, k) => [k, (v ?? 0) * 2] as [number, number]);
+ *     console.log([...doubled.values()]); // [20, 40];
    */
   map<V2>(
     mapper: (value: V[], key: K, map: this) => [K, V2[]]
@@ -857,10 +767,14 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
     * @example
- * // Aggregate all values
+ * // Aggregate values
  *  const tmm = new TreeMultiMap<number, number>([[1, 10], [2, 20], [3, 30]]);
- *     const sum = tmm.reduce((acc, value) => acc + (value ?? 0), 0);
+ *     const sum = tmm.reduce((acc, v) => acc + (v ?? 0), 0);
  *     console.log(sum); // 60;
    */
   reduce<U>(callback: (accumulator: U, value: V[], key: K, map: this) => U, initialValue: U): U {
@@ -874,12 +788,14 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Sets multiple entries at once.
    * @remarks Time O(m log n), Space O(m) where m is input size
+   
+   
+   
     * @example
  * // Set multiple key-value pairs
  *  const tmm = new TreeMultiMap<number, string>();
  *     tmm.setMany([[1, 'a'], [2, 'b'], [3, 'c']]);
  *     console.log(tmm.size); // 3;
- *     console.log(tmm.get(2)); // 'b';
    */
   setMany(keysNodesEntriesOrRaws: Iterable<K | [K | null | undefined, V[] | undefined]>): boolean[] {
     const results: boolean[] = [];
@@ -896,8 +812,11 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
     * @example
- * // Find all keys in a range
+ * // Find keys in range
  *  const tmm = new TreeMultiMap<number>([10, 20, 30, 40, 50]);
  *     console.log(tmm.rangeSearch([15, 35])); // [20, 30];
    */
@@ -914,13 +833,16 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
     * @example
  * // Create independent copy
- *  const tmm = new TreeMultiMap<number>([3, 1, 5]);
+ *  const tmm = new TreeMultiMap<number>([5, 3, 7]);
  *     const copy = tmm.clone();
- *     copy.delete(1);
- *     console.log(tmm.has(1)); // true;
- *     console.log(copy.has(1)); // false;
+ *     copy.delete(3);
+ *     console.log(tmm.has(3)); // true;
    */
   clone(): TreeMultiMap<K, V, R> {
     return new TreeMultiMap<K, V, R>(this, { comparator: this.comparator, isMapMode: this.#core.isMapMode });

@@ -343,11 +343,14 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    
    
    
+   
+   
+   
+   
     * @example
- * // Remove all nodes
+ * // Remove all entries
  *  const rbt = new RedBlackTree<number>([1, 2, 3]);
  *     rbt.clear();
- *     console.log(rbt.size); // 0;
  *     console.log(rbt.isEmpty()); // true;
    */
   override clear() {
@@ -751,6 +754,9 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    
    
    
+   
+   
+   
     * @example
  * // basic Red-Black Tree with simple number keys
  *  // Create a simple Red-Black Tree with numeric keys
@@ -835,12 +841,16 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    
    
    
+   
+   
+   
+   
     * @example
- * // Remove nodes and verify structure
- *  const rbt = new RedBlackTree<number>([5, 3, 7, 1, 4, 6, 8]);
- *     rbt.delete(3);
- *     console.log(rbt.has(3)); // false;
- *     console.log(rbt.size); // 6;
+ * // Remove and rebalance
+ *  const rbt = new RedBlackTree<number>([10, 5, 15, 3, 7]);
+ *     rbt.delete(5);
+ *     console.log(rbt.has(5)); // false;
+ *     console.log(rbt.size); // 4;
    */
   override delete(
     keyNodeEntryRawOrPredicate: BTNRep<K, V, RedBlackTreeNode<K, V>> | NodePredicate<RedBlackTreeNode<K, V> | null>
@@ -944,12 +954,12 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * sorted bulk insert, which naturally produces a balanced RBT.
    * @remarks Time O(N), Space O(N)
    
+   
+   
+   
     * @example
- * // Rebalance the tree
- *  const rbt = new RedBlackTree<number>();
- *     // Insert in sorted order (worst case for BST)
- *     for (let i = 1; i <= 7; i++) rbt.add(i);
- *     console.log(rbt.isAVLBalanced()); // false;
+ * // Rebalance tree
+ *  const rbt = new RedBlackTree<number>([1, 2, 3, 4, 5]);
  *     rbt.perfectlyBalance();
  *     console.log(rbt.isAVLBalanced()); // true;
    */
@@ -972,11 +982,15 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
   
    
    
+   
+   
+   
+   
     * @example
  * // Transform to new tree
- *  const rbt = new RedBlackTree<number, number>([[1, 10], [2, 20], [3, 30]]);
- *     const doubled = rbt.map((value, key) => [key, (value ?? 0) * 2] as [number, number]);
- *     console.log([...doubled.values()]); // [20, 40, 60];
+ *  const rbt = new RedBlackTree<number, number>([[1, 10], [2, 20]]);
+ *     const doubled = rbt.map((v, k) => [k, (v ?? 0) * 2] as [number, number]);
+ *     console.log([...doubled.values()]); // [20, 40];
    */
   override map<MK = K, MV = V, MR = any>(
     callback: EntryCallback<K, V | undefined, [MK, MV]>,

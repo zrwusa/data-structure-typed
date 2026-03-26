@@ -18,112 +18,10 @@ import { ERR } from '../../common';
  * - Iteration order is ascending by key.
  * - No node exposure: all APIs use keys/values only.
  * @example
- * // Sorted dictionary for a contact book
- *  const contacts = new TreeMap<string, string>([
- *       ['Bob', '555-0102'],
- *       ['Alice', '555-0101'],
- *       ['Charlie', '555-0103']
- *     ]);
- *
- *     // Contacts are automatically sorted by name
- *     console.log([...contacts.keys()]); // ['Alice', 'Bob', 'Charlie'];
- *     console.log(contacts.get('Bob')); // '555-0102';
- *
- *     // Find the first contact alphabetically after 'B'
- *     console.log(contacts.ceiling('B')); // ['Bob', '555-0102'];
- *
- *     // Find contacts in range
- *     console.log(contacts.rangeSearch(['Alice', 'Bob'])); // [
- *  //      ['Alice', '555-0101'],
- *  //      ['Bob', '555-0102']
- *  //    ];
- * @example
- * // Leaderboard with ranked scores
- *  // Use score as key (descending), player name as value
- *     const leaderboard = new TreeMap<number, string>([], {
- *       comparator: (a, b) => b - a // descending
- *     });
- *
- *     leaderboard.set(1500, 'Alice');
- *     leaderboard.set(2200, 'Bob');
- *     leaderboard.set(1800, 'Charlie');
- *     leaderboard.set(2500, 'Diana');
- *
- *     // Top 3 players (first 3 in descending order)
- *     const top3 = [...leaderboard.entries()].slice(0, 3);
- *     console.log(top3); // [
- *  //      [2500, 'Diana'],
- *  //      [2200, 'Bob'],
- *  //      [1800, 'Charlie']
- *  //    ];
- *
- *     // Highest scorer
- *     console.log(leaderboard.first()); // [2500, 'Diana'];
- *
- *     // Remove lowest scorer
- *     console.log(leaderboard.pollLast()); // [1500, 'Alice'];
- *     console.log(leaderboard.size); // 3;
- * @example
- * // Event scheduler with time-based lookup
- *  const events = new TreeMap<Date, string>();
- *
- *     const meeting = new Date('2024-01-15T10:00:00Z');
- *     const lunch = new Date('2024-01-15T12:00:00Z');
- *     const review = new Date('2024-01-15T15:00:00Z');
- *     const standup = new Date('2024-01-15T09:00:00Z');
- *
- *     events.set(meeting, 'Team Meeting');
- *     events.set(lunch, 'Lunch Break');
- *     events.set(review, 'Code Review');
- *     events.set(standup, 'Daily Standup');
- *
- *     // Events are sorted chronologically
- *     console.log([...events.values()]); // [
- *  //      'Daily Standup',
- *  //      'Team Meeting',
- *  //      'Lunch Break',
- *  //      'Code Review'
- *  //    ];
- *
- *     // Next event after 11:00
- *     const after11 = new Date('2024-01-15T11:00:00Z');
- *     console.log(events.ceiling(after11)?.[1]); // 'Lunch Break';
- *
- *     // Events between 9:30 and 13:00
- *     const from = new Date('2024-01-15T09:30:00Z');
- *     const to = new Date('2024-01-15T13:00:00Z');
- *     const window = events.rangeSearch([from, to]);
- *     console.log(window.map(([, v]) => v)); // ['Team Meeting', 'Lunch Break'];
- * @example
- * // Inventory system with price-sorted products
- *  interface Product {
- *       name: string;
- *       price: number;
- *       stock: number;
- *     }
- *
- *     const inventory = new TreeMap<string, Product, Product>(
- *       [
- *         { name: 'Widget', price: 9.99, stock: 100 },
- *         { name: 'Gadget', price: 24.99, stock: 50 },
- *         { name: 'Doohickey', price: 4.99, stock: 200 }
- *       ],
- *       { toEntryFn: p => [p.name, p] }
- *     );
- *
- *     // Sorted alphabetically by product name
- *     console.log([...inventory.keys()]); // ['Doohickey', 'Gadget', 'Widget'];
- *
- *     // Filter high-stock items
- *     const highStock = inventory.filter(p => (p?.stock ?? 0) > 75);
- *     console.log([...highStock.keys()]); // ['Doohickey', 'Widget'];
- *
- *     // Calculate total inventory value
- *     const totalValue = inventory.reduce(
- *       (sum, p) => sum + (p ? p.price * p.stock : 0),
- *       0
- *     );
- *     console.log(totalValue); // toBeCloseTo;
+ * // Set multiple key-value pairs
+ *  const tm = new TreeMap<number, string>();
+ *     tm.setMany([[1, 'a'], [2, 'b'], [3, 'c']]);
+ *     console.log(tm.size); // 3;
  */
 export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | undefined]> {
   readonly #core: RedBlackTree<K, V>;
@@ -242,12 +140,13 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
     * @example
- * // Check if tree has no nodes
- *  const tm = new TreeMap<number>();
- *     console.log(tm.isEmpty()); // true;
- *     tm.add(1);
- *     console.log(tm.isEmpty()); // false;
+ * // Check if empty
+ *  console.log(new TreeMap().isEmpty()); // true;
    */
   isEmpty(): boolean {
     return this.size === 0;
@@ -256,6 +155,10 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
   /**
    * Set or overwrite a value for a key.
    * @remarks Expected time O(log n)
+   
+   
+   
+   
    
    
    
@@ -307,6 +210,11 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
+   
     * @example
  * // Configuration registry with typed lookups
  *  const config = new TreeMap<string, number>([
@@ -327,6 +235,11 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
   /**
    * Test whether a key exists.
    * @remarks Expected time O(log n)
+   
+   
+   
+   
+   
    
    
    
@@ -365,6 +278,11 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
+   
     * @example
  * // Session management with expiry
  *  const sessions = new TreeMap<string, number>([
@@ -389,11 +307,14 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
     * @example
- * // Remove all nodes
+ * // Remove all entries
  *  const tm = new TreeMap<number>([1, 2, 3]);
  *     tm.clear();
- *     console.log(tm.size); // 0;
  *     console.log(tm.isEmpty()); // true;
    */
   clear(): void {
@@ -405,10 +326,14 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
     * @example
- * // Iterate over keys in sorted order
- *  const tm = new TreeMap<number>([30, 10, 50, 20, 40]);
- *     console.log([...tm.keys()]); // [10, 20, 30, 40, 50];
+ * // Get sorted keys
+ *  const tm = new TreeMap<number>([30, 10, 20]);
+ *     console.log([...tm.keys()]); // [10, 20, 30];
    */
   keys(): IterableIterator<K> {
     return this.#core.keys();
@@ -427,8 +352,12 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
     * @example
- * // Iterate over values in key order
+ * // Get values in key order
  *  const tm = new TreeMap<number, string>([[2, 'b'], [1, 'a'], [3, 'c']]);
  *     console.log([...tm.values()]); // ['a', 'b', 'c'];
    */
@@ -443,11 +372,14 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
     * @example
- * // Iterate over key-value pairs
- *  const tm = new TreeMap<number, string>([[3, 'c'], [1, 'a'], [5, 'e']]);
- *     const pairs = [...tm.entries()];
- *     console.log(pairs); // [[1, 'a'], [3, 'c'], [5, 'e']];
+ * // Iterate key-value pairs in order
+ *  const tm = new TreeMap<number, string>([[3, 'c'], [1, 'a'], [2, 'b']]);
+ *     console.log([...tm.entries()]); // [[1, 'a'], [2, 'b'], [3, 'c']];
    */
   *entries(): IterableIterator<[K, V | undefined]> {
     for (const k of this.keys()) yield this._entryFromKey(k);
@@ -464,11 +396,15 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
     * @example
- * // Execute callback for each entry
+ * // Execute for each entry
  *  const tm = new TreeMap<number>([3, 1, 2]);
  *     const keys: number[] = [];
- *     tm.forEach((value, key) => keys.push(key));
+ *     tm.forEach((v, k) => keys.push(k));
  *     console.log(keys); // [1, 2, 3];
    */
   forEach(cb: (value: V | undefined, key: K, map: TreeMap<K, V>) => void, thisArg?: any): void {
@@ -483,11 +419,15 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
     * @example
  * // Transform to new tree
- *  const tm = new TreeMap<number, number>([[1, 10], [2, 20], [3, 30]]);
- *     const doubled = tm.map((value, key) => [key, (value ?? 0) * 2] as [number, number]);
- *     console.log([...doubled.values()]); // [20, 40, 60];
+ *  const tm = new TreeMap<number, number>([[1, 10], [2, 20]]);
+ *     const doubled = tm.map((v, k) => [k, (v ?? 0) * 2] as [number, number]);
+ *     console.log([...doubled.values()]); // [20, 40];
    */
   map<MK, MV>(
     callbackfn: TreeMapEntryCallback<K, V, [MK, MV], TreeMap<K, V>>,
@@ -511,11 +451,15 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
     * @example
- * // Filter entries by condition
- *  const tm = new TreeMap<number>([1, 2, 3, 4, 5, 6]);
- *     const evens = tm.filter((_, key) => key % 2 === 0);
- *     console.log([...evens.keys()]); // [2, 4, 6];
+ * // Filter entries
+ *  const tm = new TreeMap<number>([1, 2, 3, 4, 5]);
+ *     const evens = tm.filter((v, k) => k % 2 === 0);
+ *     console.log([...evens.keys()]); // [2, 4];
    */
   filter(callbackfn: TreeMapEntryCallback<K, V, boolean, TreeMap<K, V>>, thisArg?: unknown): TreeMap<K, V> {
     const out = new TreeMap<K, V>([], { comparator: this.#userComparator });
@@ -535,10 +479,14 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
     * @example
- * // Aggregate all values
+ * // Aggregate values
  *  const tm = new TreeMap<number, number>([[1, 10], [2, 20], [3, 30]]);
- *     const sum = tm.reduce((acc, value) => acc + (value ?? 0), 0);
+ *     const sum = tm.reduce((acc, v) => acc + (v ?? 0), 0);
  *     console.log(sum); // 60;
    */
   reduce<A>(callbackfn: TreeMapReduceCallback<K, V, A, TreeMap<K, V>>, initialValue: A): A {
@@ -552,10 +500,14 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    * Test whether all entries satisfy a predicate.
    * @remarks Time O(n), Space O(1)
    
+   
+   
+   
+   
     * @example
- * // Test all nodes
- *  const tm = new TreeMap<number>([5, 3, 7]);
- *     console.log(tm.every((v, key) => key > 0)); // true;
+ * // Test all entries
+ *  const tm = new TreeMap<number>([2, 4, 6]);
+ *     console.log(tm.every((v, k) => k > 0)); // true;
    */
   every(callbackfn: TreeMapEntryCallback<K, V, boolean, TreeMap<K, V>>, thisArg?: unknown): boolean {
     let index = 0;
@@ -572,10 +524,14 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    * Test whether any entry satisfies a predicate.
    * @remarks Time O(n), Space O(1)
    
+   
+   
+   
+   
     * @example
- * // Test any node
- *  const tm = new TreeMap<number>([5, 3, 7]);
- *     console.log(tm.some((v, key) => key === 7)); // true;
+ * // Test any entry
+ *  const tm = new TreeMap<number>([1, 3, 5]);
+ *     console.log(tm.some((v, k) => k === 3)); // true;
    */
   some(callbackfn: TreeMapEntryCallback<K, V, boolean, TreeMap<K, V>>, thisArg?: unknown): boolean {
     let index = 0;
@@ -593,12 +549,15 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    * @returns The first matching `[key, value]` tuple, or `undefined`.
    * @remarks Time O(n), Space O(1)
    
+   
+   
+   
+   
     * @example
  * // Find matching entry
- *  const tm = new TreeMap<number, string>([[1, 'a'], [2, 'b'], [3, 'c']]);
+ *  const tm = new TreeMap<number, string>([[1, 'a'], [2, 'b']]);
  *     const found = tm.find(v => v === 'b');
  *     console.log(found?.[0]); // 2;
- *     console.log(found?.[1]); // 'b';
    */
   find(callbackfn: TreeMapEntryCallback<K, V, boolean, TreeMap<K, V>>, thisArg?: unknown): [K, V | undefined] | undefined {
     let index = 0;
@@ -617,6 +576,10 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
     * @example
  * // Convert to sorted array
  *  const tm = new TreeMap<number>([30, 10, 20]);
@@ -632,10 +595,13 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
     * @example
- * // Display tree structure
+ * // Display tree
  *  const tm = new TreeMap<number>([5, 3, 7]);
- *     // print() outputs to console, returns void
  *     expect(() => tm.print()).not.toThrow();
    */
   print(): void {
@@ -648,6 +614,7 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
 
   /**
    * Smallest entry by key.
+   
    
    
    
@@ -688,6 +655,7 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
     * @example
  * // Access the maximum entry
  *  const scores = new TreeMap<number, string>([
@@ -706,6 +674,7 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
 
   /**
    * Remove and return the smallest entry.
+   
    
    
    
@@ -734,6 +703,7 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
     * @example
  * // Remove the maximum entry
  *  const bids = new TreeMap<number, string>([
@@ -756,6 +726,10 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
 
   /**
    * Smallest entry whose key is >= the given key.
+   
+   
+   
+   
    
    
    
@@ -808,6 +782,10 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
     * @example
  * // Find the largest key ≤ target
  *  const versions = new TreeMap<number, string>([
@@ -832,6 +810,10 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
 
   /**
    * Smallest entry whose key is > the given key.
+   
+   
+   
+   
    
    
    
@@ -868,6 +850,10 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
     * @example
  * // Find the largest key strictly < target
  *  const temps = new TreeMap<number, string>([
@@ -893,6 +879,10 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    *
    * @param range `[low, high]`
    * @param options Inclusive/exclusive bounds (defaults to inclusive).
+   
+   
+   
+   
    
    
    
@@ -957,13 +947,16 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    
    
    
+   
+   
+   
+   
     * @example
  * // Create independent copy
- *  const tm = new TreeMap<number>([3, 1, 5]);
+ *  const tm = new TreeMap<number>([5, 3, 7]);
  *     const copy = tm.clone();
- *     copy.delete(1);
- *     console.log(tm.has(1)); // true;
- *     console.log(copy.has(1)); // false;
+ *     copy.delete(3);
+ *     console.log(tm.has(3)); // true;
    */
   clone(): TreeMap<K, V> {
     return new TreeMap<K, V>(this, {

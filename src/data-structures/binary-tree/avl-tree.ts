@@ -190,124 +190,10 @@ export class AVLTreeNode<K = any, V = any> {
  * 7. Path Length: The path length from the root to any leaf is longer compared to an unbalanced BST, but shorter than a linear chain of nodes.
  *
  * @example
- * // AVLTree has and get operations
- *  const tree = new AVLTree<number>([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
- *
- *     // Check if element exists
- *     console.log(tree.has(6)); // true;
- *     console.log(tree.has(99)); // false;
- *
- *     // Get node by key
- *     const node = tree.getNode(6);
- *     console.log(node?.key); // 6;
- *
- *     // Verify tree is balanced
- *     console.log(tree.isAVLBalanced()); // true;
- * @example
- * // AVLTree for university ranking system with strict balance
- *  interface University {
- *       name: string;
- *       rank: number;
- *       students: number;
- *     }
- *
- *     // AVLTree provides highest search efficiency with strict balance
- *     // (every node's left/right subtrees differ by at most 1 in height)
- *     const universityTree = new AVLTree<number, University>([
- *       [1, { name: 'MIT', rank: 1, students: 1200 }],
- *       [5, { name: 'Stanford', rank: 5, students: 1800 }],
- *       [3, { name: 'Harvard', rank: 3, students: 2300 }],
- *       [2, { name: 'Caltech', rank: 2, students: 400 }],
- *       [4, { name: 'CMU', rank: 4, students: 1500 }]
- *     ]);
- *
- *     // Quick lookup by rank
- *     const mit = universityTree.get(1);
- *     console.log(mit?.name); // 'MIT';
- *
- *     const cmulevel = universityTree.getHeight(4);
- *     console.log(typeof cmulevel); // 'number';
- *
- *     // Tree maintains strict balance during insertions and deletions
- *     console.log(universityTree.isAVLBalanced()); // true;
- *
- *     // Add more universities
- *     universityTree.set(6, { name: 'Oxford', rank: 6, students: 2000 });
- *     console.log(universityTree.isAVLBalanced()); // true;
- *
- *     // Delete and verify balance is maintained
- *     universityTree.delete(2);
- *     console.log(universityTree.has(2)); // false;
- *     console.log(universityTree.isAVLBalanced()); // true;
- *
- *     // Get all remaining universities in rank order
- *     const remainingRanks = [...universityTree.keys()];
- *     console.log(remainingRanks); // [1, 3, 4, 5, 6];
- *     console.log(universityTree.size); // 5;
- * @example
- * // Find elements in a range
- *  // In interval queries, AVL trees, with their strictly balanced structure and lower height, offer better query efficiency, making them ideal for frequent and high-performance interval queries. In contrast, Red-Black trees, with lower update costs, are more suitable for scenarios involving frequent insertions and deletions where the requirements for interval queries are less demanding.
- *     type Datum = { timestamp: Date; temperature: number };
- *     // Fixed dataset of CPU temperature readings
- *     const cpuData: Datum[] = [
- *       { timestamp: new Date('2024-12-02T00:00:00'), temperature: 55.1 },
- *       { timestamp: new Date('2024-12-02T00:01:00'), temperature: 56.3 },
- *       { timestamp: new Date('2024-12-02T00:02:00'), temperature: 54.8 },
- *       { timestamp: new Date('2024-12-02T00:03:00'), temperature: 57.2 },
- *       { timestamp: new Date('2024-12-02T00:04:00'), temperature: 58.0 },
- *       { timestamp: new Date('2024-12-02T00:05:00'), temperature: 59.4 },
- *       { timestamp: new Date('2024-12-02T00:06:00'), temperature: 60.1 },
- *       { timestamp: new Date('2024-12-02T00:07:00'), temperature: 61.3 },
- *       { timestamp: new Date('2024-12-02T00:08:00'), temperature: 62.0 },
- *       { timestamp: new Date('2024-12-02T00:09:00'), temperature: 63.5 },
- *       { timestamp: new Date('2024-12-02T00:10:00'), temperature: 64.0 },
- *       { timestamp: new Date('2024-12-02T00:11:00'), temperature: 62.8 },
- *       { timestamp: new Date('2024-12-02T00:12:00'), temperature: 61.5 },
- *       { timestamp: new Date('2024-12-02T00:13:00'), temperature: 60.2 },
- *       { timestamp: new Date('2024-12-02T00:14:00'), temperature: 59.8 },
- *       { timestamp: new Date('2024-12-02T00:15:00'), temperature: 58.6 },
- *       { timestamp: new Date('2024-12-02T00:16:00'), temperature: 57.4 },
- *       { timestamp: new Date('2024-12-02T00:17:00'), temperature: 56.2 },
- *       { timestamp: new Date('2024-12-02T00:18:00'), temperature: 55.7 },
- *       { timestamp: new Date('2024-12-02T00:19:00'), temperature: 54.5 },
- *       { timestamp: new Date('2024-12-02T00:20:00'), temperature: 53.2 },
- *       { timestamp: new Date('2024-12-02T00:21:00'), temperature: 52.8 },
- *       { timestamp: new Date('2024-12-02T00:22:00'), temperature: 51.9 },
- *       { timestamp: new Date('2024-12-02T00:23:00'), temperature: 50.5 },
- *       { timestamp: new Date('2024-12-02T00:24:00'), temperature: 49.8 },
- *       { timestamp: new Date('2024-12-02T00:25:00'), temperature: 48.7 },
- *       { timestamp: new Date('2024-12-02T00:26:00'), temperature: 47.5 },
- *       { timestamp: new Date('2024-12-02T00:27:00'), temperature: 46.3 },
- *       { timestamp: new Date('2024-12-02T00:28:00'), temperature: 45.9 },
- *       { timestamp: new Date('2024-12-02T00:29:00'), temperature: 45.0 }
- *     ];
- *
- *     // Create an AVL tree to store CPU temperature data
- *     const cpuTemperatureTree = new AVLTree<Date, number, Datum>(cpuData, {
- *       toEntryFn: ({ timestamp, temperature }) => [timestamp, temperature]
- *     });
- *
- *     // Query a specific time range (e.g., from 00:05 to 00:15)
- *     const rangeStart = new Date('2024-12-02T00:05:00');
- *     const rangeEnd = new Date('2024-12-02T00:15:00');
- *     const rangeResults = cpuTemperatureTree.rangeSearch([rangeStart, rangeEnd], node => ({
- *       minute: node ? node.key.getMinutes() : 0,
- *       temperature: cpuTemperatureTree.get(node ? node.key : undefined)
- *     }));
- *
- *     console.log(rangeResults); // [
- *  //      { minute: 5, temperature: 59.4 },
- *  //      { minute: 6, temperature: 60.1 },
- *  //      { minute: 7, temperature: 61.3 },
- *  //      { minute: 8, temperature: 62 },
- *  //      { minute: 9, temperature: 63.5 },
- *  //      { minute: 10, temperature: 64 },
- *  //      { minute: 11, temperature: 62.8 },
- *  //      { minute: 12, temperature: 61.5 },
- *  //      { minute: 13, temperature: 60.2 },
- *  //      { minute: 14, temperature: 59.8 },
- *  //      { minute: 15, temperature: 58.6 }
- *  //    ];
+ * // Get nodes matching condition
+ *  const avl = new AVLTree<number>([5, 3, 7, 1, 9]);
+ *     const bigNodes = avl.getNodes(node => node.key > 5);
+ *     console.log(bigNodes.length); // 2;
  */
 export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements IBinaryTree<K, V, R> {
   /**
@@ -360,6 +246,9 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    * @param keyNodeOrEntry - The key, node, or entry to set.
    * @param [value] - The value, if providing just a key.
    * @returns True if the addition was successful, false otherwise.
+   
+   
+   
    
    
    
@@ -424,6 +313,9 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    
    
    
+   
+   
+   
     * @example
  * // Remove nodes and verify structure
  *  const avl = new AVLTree<number>([5, 3, 7, 1, 4, 6, 8]);
@@ -451,6 +343,7 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    *
    * @param [iterationType=this.iterationType] - The traversal method for the initial node export.
    * @returns True if successful, false if the tree was empty.
+   
    
     * @example
  * // Rebalance the tree
@@ -501,6 +394,8 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    * @param [options] - Options for the new AVLTree.
    * @param [thisArg] - `this` context for the callback.
    * @returns A new, mapped AVLTree.
+   
+   
    
    
    

@@ -448,9 +448,11 @@ function addExampleToMethod(
   });
 
   if (!member) {
-    // Method not found in this class — likely inherited from base (not overridden).
-    // TypeDoc will inherit the base class's @example automatically.
-    return false;
+    // Method not found in this class (inherited, not overridden).
+    // Fallback: inject @example into the class-level JSDoc so users see it
+    // when viewing this subclass's documentation page.
+    addExamplesToSourceFile(sourceFilePath, className, [example]);
+    return true;
   }
 
   const memberStart = member.getStart(sf);

@@ -968,4 +968,453 @@ describe('RedBlackTree perfectlyBalance and clone (#79)', () => {
     expect(cloned.size).toBe(4);
     expect(rbt.size).toBe(5);
   });
+
+  it('@example [RedBlackTree.add] Add element with auto-balancing', () => {
+    const rbt = new RedBlackTree<number>();
+    rbt.add(10);
+    rbt.add(5);
+    rbt.add(15);
+    expect(rbt.size).toBe(3);
+    expect(rbt.isBST()).toBe(true);
+  });
+
+  it('@example [RedBlackTree.delete] Delete with rebalancing', () => {
+    const rbt = new RedBlackTree<number>([5, 3, 7, 1, 4, 6, 8]);
+    rbt.delete(3);
+    expect(rbt.has(3)).toBe(false);
+    expect(rbt.size).toBe(6);
+    expect(rbt.isBST()).toBe(true);
+  });
+
+  it('@example [RedBlackTree.get] Retrieve value by key', () => {
+    const rbt = new RedBlackTree<number, string>([[5, 'five'], [3, 'three'], [7, 'seven']]);
+    expect(rbt.get(3)).toBe('three');
+    expect(rbt.get(99)).toBeUndefined();
+  });
+
+  it('@example [RedBlackTree.has] Check key existence', () => {
+    const rbt = new RedBlackTree<number>([5, 3, 7]);
+    expect(rbt.has(3)).toBe(true);
+    expect(rbt.has(99)).toBe(false);
+  });
+
+  it('@example [RedBlackTree.ceiling] Least key ≥ target', () => {
+    const rbt = new RedBlackTree<number>([10, 20, 30, 40, 50]);
+    expect(rbt.ceiling(25)).toBe(30);
+    expect(rbt.ceiling(55)).toBeUndefined();
+  });
+
+  it('@example [RedBlackTree.floor] Greatest key ≤ target', () => {
+    const rbt = new RedBlackTree<number>([10, 20, 30, 40, 50]);
+    expect(rbt.floor(25)).toBe(20);
+  });
+
+  it('@example [RedBlackTree.higher] Strictly greater', () => {
+    const rbt = new RedBlackTree<number>([10, 20, 30]);
+    expect(rbt.higher(20)).toBe(30);
+  });
+
+  it('@example [RedBlackTree.lower] Strictly less', () => {
+    const rbt = new RedBlackTree<number>([10, 20, 30]);
+    expect(rbt.lower(20)).toBe(10);
+  });
+
+  it('@example [RedBlackTree.rangeSearch] Find keys in range', () => {
+    const rbt = new RedBlackTree<number>([10, 20, 30, 40, 50]);
+    expect(rbt.rangeSearch([15, 35])).toEqual([20, 30]);
+  });
+
+  it('@example [RedBlackTree.entries] Iterate key-value pairs', () => {
+    const rbt = new RedBlackTree<number, string>([[3, 'c'], [1, 'a'], [2, 'b']]);
+    expect([...rbt.entries()]).toEqual([[1, 'a'], [2, 'b'], [3, 'c']]);
+  });
+
+  it('@example [RedBlackTree.keys] Get sorted keys', () => {
+    const rbt = new RedBlackTree<number>([30, 10, 20]);
+    expect([...rbt.keys()]).toEqual([10, 20, 30]);
+  });
+
+  it('@example [RedBlackTree.values] Get values in key order', () => {
+    const rbt = new RedBlackTree<number, string>([[2, 'b'], [1, 'a'], [3, 'c']]);
+    expect([...rbt.values()]).toEqual(['a', 'b', 'c']);
+  });
+
+  it('@example [RedBlackTree.forEach] Execute for each entry', () => {
+    const rbt = new RedBlackTree<number>([3, 1, 2]);
+    const keys: number[] = [];
+    rbt.forEach((v, key) => keys.push(key));
+    expect(keys).toEqual([1, 2, 3]);
+  });
+
+  it('@example [RedBlackTree.filter] Filter entries', () => {
+    const rbt = new RedBlackTree<number>([1, 2, 3, 4, 5, 6]);
+    const evens = rbt.filter((_, key) => key % 2 === 0);
+    expect([...evens.keys()]).toEqual([2, 4, 6]);
+  });
+
+  it('@example [RedBlackTree.map] Transform to new tree', () => {
+    const rbt = new RedBlackTree<number, number>([[1, 10], [2, 20]]);
+    const doubled = rbt.map((v, k) => [k, (v ?? 0) * 2] as [number, number]);
+    expect([...doubled.values()]).toEqual([20, 40]);
+  });
+
+  it('@example [RedBlackTree.reduce] Aggregate values', () => {
+    const rbt = new RedBlackTree<number, number>([[1, 10], [2, 20], [3, 30]]);
+    const sum = rbt.reduce((acc, v) => acc + (v ?? 0), 0);
+    expect(sum).toBe(60);
+  });
+
+  it('@example [RedBlackTree.every] Test all nodes', () => {
+    const rbt = new RedBlackTree<number>([2, 4, 6]);
+    expect(rbt.every((_, key) => key > 0)).toBe(true);
+  });
+
+  it('@example [RedBlackTree.some] Test any node', () => {
+    const rbt = new RedBlackTree<number>([1, 2, 3]);
+    expect(rbt.some((_, key) => key === 3)).toBe(true);
+  });
+
+  it('@example [RedBlackTree.find] Find matching entry', () => {
+    const rbt = new RedBlackTree<number, string>([[1, 'a'], [2, 'b']]);
+    const found = rbt.find(v => v === 'b');
+    expect(found?.[0]).toBe(2);
+  });
+
+  it('@example [RedBlackTree.clone] Create independent copy', () => {
+    const rbt = new RedBlackTree<number>([3, 1, 5]);
+    const copy = rbt.clone();
+    copy.delete(1);
+    expect(rbt.has(1)).toBe(true);
+  });
+
+  it('@example [RedBlackTree.merge] Combine two trees', () => {
+    const rbt1 = new RedBlackTree<number>([1, 3, 5]);
+    const rbt2 = new RedBlackTree<number>([2, 4, 6]);
+    rbt1.merge(rbt2);
+    expect([...rbt1.keys()]).toEqual([1, 2, 3, 4, 5, 6]);
+  });
+
+  it('@example [RedBlackTree.clear] Remove all nodes', () => {
+    const rbt = new RedBlackTree<number>([1, 2, 3]);
+    rbt.clear();
+    expect(rbt.isEmpty()).toBe(true);
+  });
+
+  it('@example [RedBlackTree.isEmpty] Check empty', () => {
+    const rbt = new RedBlackTree<number>();
+    expect(rbt.isEmpty()).toBe(true);
+  });
+
+  it('@example [RedBlackTree.toArray] Convert to sorted array', () => {
+    const rbt = new RedBlackTree<number>([30, 10, 20]);
+    expect(rbt.toArray().map(([k]) => k)).toEqual([10, 20, 30]);
+  });
+
+  it('@example [RedBlackTree.dfs] Depth-first traversal', () => {
+    const rbt = new RedBlackTree<number>([5, 3, 7, 1, 4]);
+    const inOrder = rbt.dfs(node => node.key, 'IN');
+    expect(inOrder).toEqual([1, 3, 4, 5, 7]);
+  });
+
+  it('@example [RedBlackTree.bfs] Breadth-first traversal', () => {
+    const rbt = new RedBlackTree<number>([5, 3, 7]);
+    const bfsKeys = rbt.bfs(node => node.key);
+    expect(bfsKeys.length).toBe(3);
+  });
+
+  it('@example [RedBlackTree.addMany] Bulk add', () => {
+    const rbt = new RedBlackTree<number>();
+    rbt.addMany([5, 3, 7, 1, 9]);
+    expect(rbt.size).toBe(5);
+  });
+
+  it('@example [RedBlackTree.leaves] Get leaf nodes', () => {
+    const rbt = new RedBlackTree<number>([5, 3, 7, 1, 4, 6, 8]);
+    const leafKeys = rbt.leaves(node => node.key);
+    expect(leafKeys.sort((a, b) => a - b)).toEqual([1, 4, 6, 8]);
+  });
+
+  it('@example [RedBlackTree.print] Display tree structure', () => {
+    const rbt = new RedBlackTree<number>([5, 3, 7]);
+    expect(() => rbt.print()).not.toThrow();
+  });
+
+  it('@example [RedBlackTree.isBST] Validate BST property', () => {
+    const rbt = new RedBlackTree<number>([5, 3, 7]);
+    expect(rbt.isBST()).toBe(true);
+  });
+
+  it('@example [RedBlackTree.isAVLBalanced] Check if tree is height-balanced', () => {
+    const rbt = new RedBlackTree<number>([4, 2, 6, 1, 3, 5, 7]);
+    // RBT ensures near-balance but not strict AVL
+    expect(typeof rbt.isAVLBalanced()).toBe('boolean');
+  });
+
+  it('@example [RedBlackTree.perfectlyBalance] Rebalance tree', () => {
+    const rbt = new RedBlackTree<number>([1, 2, 3, 4, 5]);
+    rbt.perfectlyBalance();
+    expect(rbt.isAVLBalanced()).toBe(true);
+  });
+
+  it('@example [RedBlackTree.getHeight] Tree height', () => {
+    const rbt = new RedBlackTree<number>([1, 2, 3, 4, 5, 6, 7]);
+    expect(rbt.getHeight()).toBeGreaterThanOrEqual(2);
+  });
+
+  it('@example [RedBlackTree.getNode] Get node by key', () => {
+    const rbt = new RedBlackTree<number, string>([[5, 'root'], [3, 'left']]);
+    expect(rbt.getNode(3)?.value).toBe('left');
+  });
+
+  it('@example [RedBlackTree.search] Search by predicate', () => {
+    const rbt = new RedBlackTree<number>([1, 2, 3, 4, 5]);
+    const found = rbt.search(node => node.key > 3, true);
+    expect(found.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('@example [RedBlackTree.getNodes] Get nodes by condition', () => {
+    const rbt = new RedBlackTree<number>([5, 3, 7, 1, 9]);
+    const big = rbt.getNodes(node => node.key > 5);
+    expect(big.length).toBe(2);
+  });
+
+  it('@example [RedBlackTree.listLevels] Level-order grouping', () => {
+    const rbt = new RedBlackTree<number>([5, 3, 7, 1, 9]);
+    const levels = rbt.listLevels(node => node.key);
+    expect(levels.length).toBeGreaterThan(0);
+    const allKeys = levels.flat().filter(k => !isNaN(k)).sort((a, b) => a - b);
+    expect(allKeys).toEqual([1, 3, 5, 7, 9]);
+  });
+
+  it('@example [RedBlackTree.setMany] Set multiple entries', () => {
+    const rbt = new RedBlackTree<number, string>();
+    rbt.setMany([[1, 'a'], [2, 'b'], [3, 'c']]);
+    expect(rbt.size).toBe(3);
+  });
+
+  it('@example [RedBlackTree.add] Insert a key', () => {
+    const rbt = new RedBlackTree<number>();
+    rbt.add(10);
+    rbt.add(5);
+    rbt.add(15);
+    expect(rbt.size).toBe(3);
+    expect(rbt.has(10)).toBe(true);
+  });
+
+  it('@example [RedBlackTree.delete] Remove and rebalance', () => {
+    const rbt = new RedBlackTree<number>([10, 5, 15, 3, 7]);
+    rbt.delete(5);
+    expect(rbt.has(5)).toBe(false);
+    expect(rbt.size).toBe(4);
+  });
+
+  it('@example [RedBlackTree.get] Retrieve value by key', () => {
+    const rbt = new RedBlackTree<number, string>([[1, 'one'], [2, 'two']]);
+    expect(rbt.get(1)).toBe('one');
+  });
+
+  it('@example [RedBlackTree.has] Check key existence', () => {
+    const rbt = new RedBlackTree<number>([5, 3, 7]);
+    expect(rbt.has(3)).toBe(true);
+    expect(rbt.has(99)).toBe(false);
+  });
+
+  it('@example [RedBlackTree.entries] Iterate key-value pairs in order', () => {
+    const rbt = new RedBlackTree<number, string>([[3, 'c'], [1, 'a'], [2, 'b']]);
+    expect([...rbt.entries()]).toEqual([[1, 'a'], [2, 'b'], [3, 'c']]);
+  });
+
+  it('@example [RedBlackTree.keys] Get sorted keys', () => {
+    const rbt = new RedBlackTree<number>([30, 10, 20]);
+    expect([...rbt.keys()]).toEqual([10, 20, 30]);
+  });
+
+  it('@example [RedBlackTree.values] Get values in key order', () => {
+    const rbt = new RedBlackTree<number, string>([[2, 'b'], [1, 'a'], [3, 'c']]);
+    expect([...rbt.values()]).toEqual(['a', 'b', 'c']);
+  });
+
+  it('@example [RedBlackTree.forEach] Execute for each entry', () => {
+    const rbt = new RedBlackTree<number>([3, 1, 2]);
+    const keys: number[] = [];
+    rbt.forEach((v, k) => keys.push(k));
+    expect(keys).toEqual([1, 2, 3]);
+  });
+
+  it('@example [RedBlackTree.every] Test all entries', () => {
+    const rbt = new RedBlackTree<number>([2, 4, 6]);
+    expect(rbt.every((v, k) => k > 0)).toBe(true);
+  });
+
+  it('@example [RedBlackTree.some] Test any entry', () => {
+    const rbt = new RedBlackTree<number>([1, 3, 5]);
+    expect(rbt.some((v, k) => k === 3)).toBe(true);
+  });
+
+  it('@example [RedBlackTree.find] Find matching entry', () => {
+    const rbt = new RedBlackTree<number, string>([[1, 'a'], [2, 'b']]);
+    const found = rbt.find(v => v === 'b');
+    expect(found?.[0]).toBe(2);
+  });
+
+  it('@example [RedBlackTree.filter] Filter entries', () => {
+    const rbt = new RedBlackTree<number>([1, 2, 3, 4, 5]);
+    const evens = rbt.filter((v, k) => k % 2 === 0);
+    expect([...evens.keys()]).toEqual([2, 4]);
+  });
+
+  it('@example [RedBlackTree.map] Transform to new tree', () => {
+    const rbt = new RedBlackTree<number, number>([[1, 10], [2, 20]]);
+    const doubled = rbt.map((v, k) => [k, (v ?? 0) * 2] as [number, number]);
+    expect([...doubled.values()]).toEqual([20, 40]);
+  });
+
+  it('@example [RedBlackTree.reduce] Aggregate values', () => {
+    const rbt = new RedBlackTree<number, number>([[1, 10], [2, 20], [3, 30]]);
+    const sum = rbt.reduce((acc, v) => acc + (v ?? 0), 0);
+    expect(sum).toBe(60);
+  });
+
+  it('@example [RedBlackTree.toArray] Convert to sorted array', () => {
+    const rbt = new RedBlackTree<number>([30, 10, 20]);
+    expect(rbt.toArray().map(([k]) => k)).toEqual([10, 20, 30]);
+  });
+
+  it('@example [RedBlackTree.ceiling] Least key ≥ target', () => {
+    const rbt = new RedBlackTree<number>([10, 20, 30, 40]);
+    expect(rbt.ceiling(25)).toBe(30);
+  });
+
+  it('@example [RedBlackTree.floor] Greatest key ≤ target', () => {
+    const rbt = new RedBlackTree<number>([10, 20, 30, 40]);
+    expect(rbt.floor(25)).toBe(20);
+  });
+
+  it('@example [RedBlackTree.higher] Least key > target', () => {
+    const rbt = new RedBlackTree<number>([10, 20, 30]);
+    expect(rbt.higher(20)).toBe(30);
+  });
+
+  it('@example [RedBlackTree.lower] Greatest key < target', () => {
+    const rbt = new RedBlackTree<number>([10, 20, 30]);
+    expect(rbt.lower(20)).toBe(10);
+  });
+
+  it('@example [RedBlackTree.rangeSearch] Find keys in range', () => {
+    const rbt = new RedBlackTree<number>([10, 20, 30, 40, 50]);
+    expect(rbt.rangeSearch([15, 35])).toEqual([20, 30]);
+  });
+
+  it('@example [RedBlackTree.dfs] Depth-first traversal', () => {
+    const rbt = new RedBlackTree<number>([5, 3, 7, 1, 4]);
+    const inOrder = rbt.dfs(node => node.key, 'IN');
+    expect(inOrder).toEqual([1, 3, 4, 5, 7]);
+  });
+
+  it('@example [RedBlackTree.bfs] Breadth-first traversal', () => {
+    const rbt = new RedBlackTree<number>([5, 3, 7]);
+    const levelOrder = rbt.bfs(node => node.key);
+    expect(levelOrder.length).toBe(3);
+  });
+
+  it('@example [RedBlackTree.clone] Create independent copy', () => {
+    const rbt = new RedBlackTree<number>([5, 3, 7]);
+    const copy = rbt.clone();
+    copy.delete(3);
+    expect(rbt.has(3)).toBe(true);
+  });
+
+  it('@example [RedBlackTree.merge] Combine trees', () => {
+    const rbt1 = new RedBlackTree<number>([1, 3]);
+    const rbt2 = new RedBlackTree<number>([2, 4]);
+    rbt1.merge(rbt2);
+    expect([...rbt1.keys()]).toEqual([1, 2, 3, 4]);
+  });
+
+  it('@example [RedBlackTree.clear] Remove all entries', () => {
+    const rbt = new RedBlackTree<number>([1, 2, 3]);
+    rbt.clear();
+    expect(rbt.isEmpty()).toBe(true);
+  });
+
+  it('@example [RedBlackTree.isEmpty] Check if empty', () => {
+    expect(new RedBlackTree().isEmpty()).toBe(true);
+  });
+
+  it('@example [RedBlackTree.print] Display tree', () => {
+    const rbt = new RedBlackTree<number>([5, 3, 7]);
+    expect(() => rbt.print()).not.toThrow();
+  });
+
+  it('@example [RedBlackTree.isBST] Validate BST property', () => {
+    const rbt = new RedBlackTree<number>([5, 3, 7, 1, 4]);
+    expect(rbt.isBST()).toBe(true);
+  });
+
+  it('@example [RedBlackTree.isAVLBalanced] Check height balance', () => {
+    const rbt = new RedBlackTree<number>([1, 2, 3, 4, 5, 6, 7]);
+    // RBT is balanced but not necessarily AVL-balanced
+    expect(typeof rbt.isAVLBalanced()).toBe('boolean');
+  });
+
+  it('@example [RedBlackTree.addMany] Add multiple keys', () => {
+    const rbt = new RedBlackTree<number>();
+    rbt.addMany([5, 3, 7, 1, 9]);
+    expect(rbt.size).toBe(5);
+  });
+
+  it('@example [RedBlackTree.leaves] Get leaf nodes', () => {
+    const rbt = new RedBlackTree<number>([5, 3, 7, 1, 4, 6, 8]);
+    const leafKeys = rbt.leaves(n => n.key);
+    expect(leafKeys.length).toBeGreaterThan(0);
+  });
+
+  it('@example [RedBlackTree.getHeight] Tree height', () => {
+    const rbt = new RedBlackTree<number>([5, 3, 7, 1]);
+    expect(rbt.getHeight()).toBeGreaterThanOrEqual(2);
+  });
+
+  it('@example [RedBlackTree.getNode] Get node by key', () => {
+    const rbt = new RedBlackTree<number, string>([[5, 'root'], [3, 'left']]);
+    expect(rbt.getNode(3)?.value).toBe('left');
+  });
+
+  it('@example [RedBlackTree.perfectlyBalance] Rebalance tree', () => {
+    const rbt = new RedBlackTree<number>([1, 2, 3, 4, 5]);
+    rbt.perfectlyBalance();
+    expect(rbt.isAVLBalanced()).toBe(true);
+  });
+
+  it('@example [RedBlackTree.search] Search nodes by predicate', () => {
+    const rbt = new RedBlackTree<number>([5, 3, 7, 1, 9]);
+    const found = rbt.search(n => n.key > 5, true);
+    expect(found.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('@example [RedBlackTree.listLevels] Level-order grouping', () => {
+    const rbt = new RedBlackTree<number>([5, 3, 7, 1, 4]);
+    const levels = rbt.listLevels(n => n.key);
+    expect(levels.length).toBeGreaterThan(0);
+    // Filter out NIL sentinels (NaN keys)
+    const allKeys = levels.flat().filter(k => !isNaN(k)).sort((a, b) => a - b);
+    expect(allKeys).toEqual([1, 3, 4, 5, 7]);
+  });
+
+  it('@example [RedBlackTree.getNodes] Get nodes matching condition', () => {
+    const rbt = new RedBlackTree<number>([5, 3, 7, 1, 9]);
+    const big = rbt.getNodes(n => n.key > 5);
+    expect(big.length).toBe(2);
+  });
+
+  it('@example [RedBlackTree.morris] Morris traversal (O(1) space)', () => {
+    const rbt = new RedBlackTree<number>([5, 3, 7]);
+    const result = rbt.morris(n => n.key, 'IN');
+    expect(result.length).toBeGreaterThan(0);
+  });
+
+  it('@example [RedBlackTree.setMany] Set multiple key-value pairs', () => {
+    const rbt = new RedBlackTree<number, string>();
+    rbt.setMany([[1, 'a'], [2, 'b'], [3, 'c']]);
+    expect(rbt.size).toBe(3);
+  });
 });

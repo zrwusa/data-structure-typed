@@ -583,6 +583,7 @@ export class BinaryTree<K = any, V = any, R = any>
    
    
    
+   
     * @example
  * // basic BinaryTree creation and insertion
  *  // Create a BinaryTree with entries
@@ -670,6 +671,7 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param keysNodesEntriesOrRaws - An iterable of items to set.
    * @returns An array of booleans indicating the success of each individual `set` operation.
    
+   
     * @example
  * // Bulk add
  *  const tree = new BinaryTree<number>();
@@ -727,6 +729,7 @@ export class BinaryTree<K = any, V = any, R = any>
    *
    * @param anotherTree - The tree to merge.
    
+   
     * @example
  * // Combine trees
  *  const t1 = new BinaryTree<number>([1, 2]);
@@ -761,6 +764,7 @@ export class BinaryTree<K = any, V = any, R = any>
    *
    * @param keyNodeEntryRawOrPredicate - The node to delete.
    * @returns An array containing deletion results (for compatibility with self-balancing trees).
+   
    
    
    
@@ -933,6 +937,7 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [startNode=this._root] - The node to start the search from.
    * @param [iterationType=this.iterationType] - The traversal method.
    * @returns An array of matching nodes.
+   
     * @example
  * // Get nodes by condition
  *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
@@ -976,6 +981,7 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [iterationType=this.iterationType] - The traversal method.
    * @returns The first matching node, or undefined if not found.
    
+   
     * @example
  * // Get node by key
  *  const tree = new BinaryTree<number, string>([[1, 'root'], [2, 'child']]);
@@ -1013,6 +1019,7 @@ export class BinaryTree<K = any, V = any, R = any>
    
    
    
+   
     * @example
  * // Retrieve value by key
  *  const tree = new BinaryTree<number, string>([[1, 'root'], [2, 'left'], [3, 'right']]);
@@ -1040,6 +1047,7 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [startNode] - The node to start the search from.
    * @param [iterationType] - The traversal method.
    * @returns True if a matching node exists, false otherwise.
+   
    
    
    
@@ -1109,6 +1117,7 @@ export class BinaryTree<K = any, V = any, R = any>
    * Clears the tree of all nodes and values.
    * @remarks Time O(N) if in Map mode (due to `_store.clear()`), O(1) otherwise. Space O(1)
    
+   
     * @example
  * // Remove all nodes
  *  const tree = new BinaryTree<number>([1, 2, 3]);
@@ -1125,6 +1134,7 @@ export class BinaryTree<K = any, V = any, R = any>
    * @remarks Time O(1), Space O(1)
    *
    * @returns True if the tree has no nodes, false otherwise.
+   
    
     * @example
  * // Check empty
@@ -1154,6 +1164,7 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [startNode=this._root] - The node to start checking from.
    * @param [iterationType=this.iterationType] - The traversal method.
    * @returns True if it's a valid BST, false otherwise.
+   
    
     * @example
  * // Check BST property
@@ -1214,6 +1225,7 @@ export class BinaryTree<K = any, V = any, R = any>
    
    
    
+   
     * @example
  * // Get depth of a node
  *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
@@ -1244,6 +1256,7 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [startNode=this._root] - The node to start measuring from.
    * @param [iterationType=this.iterationType] - The traversal method.
    * @returns The height ( -1 for an empty tree, 0 for a single-node tree).
+   
    
    
    
@@ -1521,6 +1534,7 @@ export class BinaryTree<K = any, V = any, R = any>
   
    
    
+   
     * @example
  * // Depth-first search traversal
  *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
@@ -1575,6 +1589,7 @@ export class BinaryTree<K = any, V = any, R = any>
     /**
    * BinaryTree level-order traversal
   
+   
    
    
     * @example
@@ -1692,6 +1707,7 @@ export class BinaryTree<K = any, V = any, R = any>
     /**
    * Get leaf nodes
   
+   
     * @example
  * // Get leaf nodes
  *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
@@ -1760,7 +1776,8 @@ export class BinaryTree<K = any, V = any, R = any>
 
     /**
    * Level-order grouping
-   * @example
+  
+    * @example
  * // Level-order grouping
  *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
  *     const levels = tree.listLevels(node => node.key);
@@ -1846,7 +1863,8 @@ export class BinaryTree<K = any, V = any, R = any>
 
     /**
    * Morris traversal (O(1) space)
-   * @example
+  
+    * @example
  * // Morris traversal (O(1) space)
  *  const tree = new BinaryTree<number>([1, 2, 3]);
  *     const result = tree.morris(node => node.key, 'IN');
@@ -1976,6 +1994,7 @@ export class BinaryTree<K = any, V = any, R = any>
    *
    * @returns A new, cloned instance of the tree.
    
+   
     * @example
  * // Deep copy
  *  const tree = new BinaryTree<number>([1, 2, 3]);
@@ -1996,6 +2015,7 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param predicate - A function to test each [key, value] pair.
    * @param [thisArg] - `this` context for the predicate.
    * @returns A new, filtered tree.
+   
    
     * @example
  * // Filter nodes by condition
@@ -2021,6 +2041,7 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [options] - Options for the new tree.
    * @param [thisArg] - `this` context for the callback.
    * @returns A new, mapped tree.
+   
    
     * @example
  * // Transform to new tree
@@ -2079,6 +2100,7 @@ export class BinaryTree<K = any, V = any, R = any>
    *
    * @param [options] - Options to control the output.
    * @param [startNode=this._root] - The node to start printing from.
+   
    
     * @example
  * // Display tree
