@@ -89,6 +89,30 @@ const classToSourceFile: Record<string, string> = {
   Matrix: 'matrix/matrix.ts'
 };
 
+/**
+ * Inheritance chains: base class → direct subclasses.
+ * When a [Base.method] @example is injected, it propagates to all
+ * subclasses that override (or inherit) that method.
+ */
+const inheritanceMap: Record<string, string[]> = {
+  BinaryTree: ['BST'],
+  BST: ['AVLTree', 'RedBlackTree'],
+  RedBlackTree: ['TreeMap', 'TreeSet', 'TreeMultiMap', 'TreeMultiSet'],
+  Heap: ['MinHeap', 'MaxHeap', 'PriorityQueue'],
+  PriorityQueue: ['MinPriorityQueue', 'MaxPriorityQueue'],
+  // DirectedGraph / UndirectedGraph don't have deep subclass chains we need
+};
+
+/** Get all descendants of a class (recursive). */
+function getDescendants(className: string): string[] {
+  const direct = inheritanceMap[className] || [];
+  const all: string[] = [...direct];
+  for (const child of direct) {
+    all.push(...getDescendants(child));
+  }
+  return all;
+}
+
 const fileName = 'README.md';
 
 // ─── File helpers ─────────────────────────────────────────────
@@ -382,7 +406,8 @@ function addExampleToMethod(
   });
 
   if (!member) {
-    console.warn(`  ⚠️  Method "${className}.${methodName}" not found`);
+    // Method not found in this class — likely inherited from base (not overridden).
+    // TypeDoc will inherit the base class's @example automatically.
     return;
   }
 
@@ -476,6 +501,16 @@ function updateExamples(testDir: string, sourceBaseDir: string): void {
       const srcPath = path.resolve(sourceBaseDir, 'data-structures', relFile);
       addExampleToMethod(srcPath, ex.className!, ex.methodName!, ex);
       totalMethod++;
+
+      // Propagate to subclasses that override or inherit this method
+      const descendants = getDescendants(ex.className!);
+      for (const desc of descendants) {
+        const descFile = classToSourceFile[desc];
+        if (!descFile) continue;
+        const descPath = path.resolve(sourceBaseDir, 'data-structures', descFile);
+        addExampleToMethod(descPath, desc, ex.methodName!, ex);
+        totalMethod++;
+      }
     }
 
     // --- Class-level: [Class] tagged ---

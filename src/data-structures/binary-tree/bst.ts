@@ -464,6 +464,36 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     return super.dfs(callback, pattern, onlyOne, startNode, iterationType);
   }
 
+    /**
+   * BinaryTree level-order traversal
+   * @example
+ * // BinaryTree level-order traversal
+ *  const tree = new BinaryTree([
+ *       [1, 'one'],
+ *       [2, 'two'],
+ *       [3, 'three'],
+ *       [4, 'four'],
+ *       [5, 'five'],
+ *       [6, 'six'],
+ *       [7, 'seven']
+ *     ]);
+ *
+ *     // Binary tree maintains level-order insertion
+ *     // Complete binary tree structure
+ *     console.log(tree.size); // 7;
+ *
+ *     // Verify all keys are present
+ *     console.log(tree.has(1)); // true;
+ *     console.log(tree.has(4)); // true;
+ *     console.log(tree.has(7)); // true;
+ *
+ *     // Iterate through tree
+ *     const keys: number[] = [];
+ *     for (const [key] of tree) {
+ *       keys.push(key);
+ *     }
+ *     console.log(keys.length); // 7;
+   */
   override bfs(): (K | undefined)[];
   override bfs<C extends NodeCallback<BSTNode<K, V>>>(
     callback: C,

@@ -100,6 +100,34 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
   /**
    * Whether the multiset contains the given key.
    * @remarks Time O(log n), Space O(1)
+    * @example
+ * // BinaryTree get and has operations
+ *  const tree = new BinaryTree(
+ *       [
+ *         [5, 'five'],
+ *         [3, 'three'],
+ *         [7, 'seven'],
+ *         [1, 'one'],
+ *         [4, 'four'],
+ *         [6, 'six'],
+ *         [8, 'eight']
+ *       ],
+ *       { isMapMode: false }
+ *     );
+ *
+ *     // Check if key exists
+ *     console.log(tree.has(5)); // true;
+ *     console.log(tree.has(10)); // false;
+ *
+ *     // Get value by key
+ *     console.log(tree.get(3)); // 'three';
+ *     console.log(tree.get(7)); // 'seven';
+ *     console.log(tree.get(100)); // undefined;
+ *
+ *     // Get node structure
+ *     const node = tree.getNode(5);
+ *     console.log(node?.key); // 5;
+ *     console.log(node?.value); // 'five';
    */
   has(key: K): boolean {
     this._validateKey(key);
