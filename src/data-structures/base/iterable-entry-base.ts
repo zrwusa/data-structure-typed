@@ -32,6 +32,12 @@ export abstract class IterableEntryBase<K = any, V = any> {
    
    
    
+   
+   
+   
+   
+   
+   
     * @example
  * // Iterate key-value pairs
  *  const sl = new SkipList<number, string>([[2, 'b'], [1, 'a'], [3, 'c']]);
@@ -47,6 +53,12 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * Iterate over keys only.
    * @returns Iterator of keys.
    * @remarks Time O(n), Space O(1)
+   
+   
+   
+   
+   
+   
    
    
    
@@ -77,6 +89,17 @@ export abstract class IterableEntryBase<K = any, V = any> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Iterate values
  *  const stack = new Stack<number>([1, 2, 3]);
@@ -94,6 +117,19 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * @param thisArg - Optional `this` for callback.
    * @returns `true` if all pass; otherwise `false`.
    * @remarks Time O(n), Space O(1)
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -139,6 +175,19 @@ export abstract class IterableEntryBase<K = any, V = any> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Test any word
  *  const trie = new Trie(['cat', 'dog', 'bird']);
@@ -159,6 +208,17 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * @param callbackfn - `(key, value, index, self) => void`.
    * @param thisArg - Optional `this` for callback.
    * @remarks Time O(n), Space O(1)
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -202,6 +262,19 @@ export abstract class IterableEntryBase<K = any, V = any> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Find matching word
  *  const trie = new Trie(['apple', 'banana', 'cherry']);
@@ -221,6 +294,12 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * @param key - Key to test.
    * @returns `true` if found; otherwise `false`.
    * @remarks Time O(n) generic, Space O(1)
+   
+   
+   
+   
+   
+   
    
    
    
@@ -260,6 +339,9 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * @remarks Time O(n) generic, Space O(1)
    
    
+   
+   
+   
     * @example
  * // Retrieve value by key
  *  const rbt = new RedBlackTree<number, string>([[1, 'one'], [2, 'two']]);
@@ -279,6 +361,19 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * @param initialValue - Initial accumulator.
    * @returns Final accumulator.
    * @remarks Time O(n), Space O(1)
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
    
    
@@ -323,6 +418,19 @@ export abstract class IterableEntryBase<K = any, V = any> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Convert to array
  *  const trie = new Trie(['b', 'a', 'c']);
@@ -353,6 +461,16 @@ export abstract class IterableEntryBase<K = any, V = any> {
    
    
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     * @example
  * // Display stack
  *  const stack = new Stack<number>([1, 2, 3]);
@@ -368,6 +486,9 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * @remarks Time O(1) typical, Space O(1)
    
    
+   
+   
+   
     * @example
  * // Check if empty
  *  console.log(new RedBlackTree().isEmpty()); // true;
@@ -377,6 +498,7 @@ export abstract class IterableEntryBase<K = any, V = any> {
   /**
    * Remove all entries.
    * @remarks Time O(n) typical, Space O(1)
+   
     * @example
  * // Remove all nodes
  *  const bst = new BST<number>([1, 2, 3]);
@@ -390,6 +512,9 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * Deep clone preserving the concrete subtype.
    * @returns A new instance of the same concrete class (`this` type).
    * @remarks Time O(n) typical, Space O(n)
+   
+   
+   
    
    
     * @example
@@ -411,6 +536,9 @@ export abstract class IterableEntryBase<K = any, V = any> {
    * Filter entries and return the same-species structure.
    * @returns A new instance of the same concrete class (`this` type).
    * @remarks Time O(n), Space O(n)
+   
+   
+   
    
    
     * @example
