@@ -139,6 +139,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
     * @example
  * // Check if empty
  *  console.log(new TreeMultiMap().isEmpty()); // true;
@@ -150,6 +154,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Removes all entries from the map.
    * @remarks Time O(1), Space O(1)
+   
+   
+   
+   
    
    
    
@@ -221,6 +229,11 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
+   
     * @example
  * // Check key existence
  *  const mm = new TreeMultiMap<number, string>([
@@ -239,6 +252,11 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Live bucket reference (do not auto-delete key if bucket becomes empty via mutation).
    * @remarks Time O(log n), Space O(1)
+   
+   
+   
+   
+   
    
    
    
@@ -290,6 +308,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
     * @example
  * // Insert a key
  *  const tmm = new TreeMultiMap<number>();
@@ -312,6 +334,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Alias for compatibility with existing TreeMultiMap semantics.
    * @remarks Time O(log n), Space O(1) for single value; O(log n + m) for bucket append
+   
+   
+   
+   
    
    
    
@@ -375,6 +401,11 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Deletes a key and its entire bucket.
    * @remarks Time O(log n), Space O(1)
+   
+   
+   
+   
+   
    
    
    
@@ -489,6 +520,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
     * @example
  * // Get sorted keys
  *  const tmm = new TreeMultiMap<number>([30, 10, 20]);
@@ -501,6 +536,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Iterates over all buckets.
    * @remarks Time O(n), Space O(1)
+   
+   
+   
+   
    
    
    
@@ -568,6 +607,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
     * @example
  * // Access the minimum entry
  *  const mm = new TreeMultiMap<number, string>([
@@ -589,6 +629,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    * Returns the entry with the largest key.
    * @remarks Time O(log n), Space O(1)
   
+   
    
    
    
@@ -662,6 +703,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
     * @example
  * // Least entry ≥ key
  *  const mm = new TreeMultiMap<number, string>([
@@ -685,6 +730,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    * Returns the entry with the largest key <= given key.
    * @remarks Time O(log n), Space O(1)
   
+   
+   
+   
+   
    
    
    
@@ -736,6 +785,9 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
     * @example
  * // Least key > target
  *  const tmm = new TreeMultiMap<number>([10, 20, 30]);
@@ -753,6 +805,9 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    * Returns the entry with the largest key < given key.
    * @remarks Time O(log n), Space O(1)
   
+   
+   
+   
    
    
    
@@ -797,6 +852,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
     * @example
  * // Display tree
  *  const tmm = new TreeMultiMap<number>([5, 3, 7]);
@@ -809,6 +868,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Executes a callback for each entry.
    * @remarks Time O(n), Space O(1)
+   
+   
+   
+   
    
    
    
@@ -855,6 +918,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
     * @example
  * // Filter entries
  *  const tmm = new TreeMultiMap<number>([1, 2, 3, 4, 5]);
@@ -872,6 +939,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Creates a new map by transforming each entry.
    * @remarks Time O(n log n), Space O(n)
+   
+   
+   
+   
    
    
    
@@ -921,6 +992,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
+   
     * @example
  * // Aggregate values
  *  const tmm = new TreeMultiMap<number, number>([[1, 10], [2, 20], [3, 30]]);
@@ -938,6 +1013,9 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Sets multiple entries at once.
    * @remarks Time O(m log n), Space O(m) where m is input size
+   
+   
+   
    
    
    
@@ -977,6 +1055,9 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
    
    
    
+   
+   
+   
     * @example
  * // Find keys in range
  *  const tmm = new TreeMultiMap<number>([10, 20, 30, 40, 50]);
@@ -992,6 +1073,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Creates a shallow clone of this map.
    * @remarks Time O(n log n), Space O(n)
+   
+   
+   
+   
    
    
    

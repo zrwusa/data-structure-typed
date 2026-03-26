@@ -1,6 +1,6 @@
 /**
  * Post-process TypeDoc HTML:
- * 1. Rewrite class names in inherited @example blocks
+ * 1. Rewrite class names in inherited @example blocks (handles span-wrapped tokens)
  * 2. Copy @example from base class methods to subclass methods that lack them
  *
  * Run after `typedoc`: `ts-node scripts/postprocess-docs.ts`
@@ -39,15 +39,32 @@ const classToVar: Record<string, string> = {
 
 // ─── Helpers ──────────────────────────────────────────────────
 
-function rewriteText(text: string, targetClass: string, parentClasses: string[]): string {
-  if (!text || typeof text !== 'string') return text;
-  let result = text;
+/**
+ * Rewrite class and variable names in TypeDoc HTML.
+ * TypeDoc wraps tokens in <span> tags, so we can't use simple `new ClassName` regex.
+ * Instead we target:
+ *   - Class names: `>ClassName<` (inside span content)
+ *   - Variable names: `>varName<` (inside span content, only in code blocks)
+ */
+function rewriteHtml(html: string, targetClass: string, parentClasses: string[]): string {
+  if (!html || typeof html !== 'string') return html;
+  let result = html;
   const targetVar = classToVar[targetClass] || targetClass.charAt(0).toLowerCase() + targetClass.slice(1);
 
   for (const parent of parentClasses) {
     const parentVar = classToVar[parent] || parent.charAt(0).toLowerCase() + parent.slice(1);
+
+    // Replace class name inside span tags: >BinaryTree< → >RedBlackTree<
+    result = result.replace(new RegExp(`>${parent}<`, 'g'), `>${targetClass}<`);
+
+    // Replace class name in plain text (non-HTML contexts, e.g. injected blocks)
     result = result.replace(new RegExp(`\\bnew ${parent}\\b`, 'g'), `new ${targetClass}`);
+
+    // Replace variable names inside span tags: >tree< → >rbt<
     if (parentVar !== targetVar) {
+      // Only replace exact span content matches to avoid false positives
+      result = result.replace(new RegExp(`>${parentVar}<`, 'g'), `>${targetVar}<`);
+      // Plain text variable references
       result = result.replace(new RegExp(`\\b(const|let|var)\\s+${parentVar}\\b`, 'g'), `$1 ${targetVar}`);
       result = result.replace(new RegExp(`\\b${parentVar}([.\\[,);\\s<])`, 'g'), `${targetVar}$1`);
       result = result.replace(new RegExp(`\\b${parentVar}$`, 'gm'), targetVar);
@@ -56,40 +73,16 @@ function rewriteText(text: string, targetClass: string, parentClasses: string[])
   return result;
 }
 
-interface MethodSection {
-  name: string;
-  fullHtml: string;
-  hasExample: boolean;
-  exampleHtml: string; // the <h4>Example</h4>...<pre>...</pre> block
-}
-
 /**
- * Parse HTML into method sections, extracting example blocks.
+ * Extract the example HTML block from a method section.
+ * Returns the full block from <h4>Example</h4> through the end of its container.
  */
-function parseSections(html: string): MethodSection[] {
-  const parts = html.split(/(<section class="tsd-panel tsd-member)/);
-  const sections: MethodSection[] = [];
-
-  for (let i = 1; i < parts.length; i += 2) {
-    const sectionHtml = parts[i] + (parts[i + 1] || '');
-    const nameMatch = sectionHtml.match(/id="([a-zA-Z_]+)"/);
-    if (!nameMatch) continue;
-    const name = nameMatch[1];
-    if (name.startsWith('_')) continue;
-
-    const hasExample = sectionHtml.includes('Example');
-
-    // Extract example block (everything from first <h4>Example</h4> to end of its container)
-    let exampleHtml = '';
-    if (hasExample) {
-      // TypeDoc wraps examples in <div class="tsd-comment ..."> containing <h4>Example</h4><pre>...
-      const exMatch = sectionHtml.match(/<h4[^>]*>Example[\s\S]*?(?=<\/section|<section|$)/);
-      if (exMatch) exampleHtml = exMatch[0];
-    }
-
-    sections.push({ name, fullHtml: sectionHtml, hasExample, exampleHtml });
-  }
-  return sections;
+function extractExampleBlock(sectionHtml: string): string {
+  // Find Example heading and everything up to next heading or section end
+  const match = sectionHtml.match(
+    /(<h4[^>]*>Example[\s\S]*?<\/pre>)/
+  );
+  return match ? match[1] : '';
 }
 
 // ─── Main ─────────────────────────────────────────────────────
@@ -100,8 +93,8 @@ function main() {
     process.exit(1);
   }
 
-  // Phase 1: Load all parent class example maps
-  const parentExamples: Record<string, Record<string, string>> = {}; // className → { methodName → exampleHtml }
+  // Phase 1: Load all parent class method examples
+  const parentExamples: Record<string, Record<string, string>> = {};
 
   const allParentClasses = new Set<string>();
   for (const parents of Object.values(childToParents)) {
@@ -112,82 +105,110 @@ function main() {
     const htmlFile = path.join(DOCS_DIR, `${parentClass}.html`);
     if (!fs.existsSync(htmlFile)) continue;
     const html = fs.readFileSync(htmlFile, 'utf-8');
-    const sections = parseSections(html);
+
     parentExamples[parentClass] = {};
-    for (const s of sections) {
-      if (s.hasExample && s.exampleHtml) {
-        parentExamples[parentClass][s.name] = s.exampleHtml;
+
+    // Split into sections by method id
+    const regex = /id="([a-zA-Z_]+)"[\s\S]*?(?=<a id="[a-zA-Z_]+"|\s*<\/section>\s*<section|\s*$)/g;
+
+    // Use a simpler approach: find all method sections
+    const sectionStarts: { name: string; pos: number }[] = [];
+    const idRegex = /<a id="([a-zA-Z_]+)" class="tsd-anchor"><\/a>/g;
+    let m;
+    while ((m = idRegex.exec(html)) !== null) {
+      const name = m[1];
+      if (!name.startsWith('_') && !name.includes('.') && !name.includes('-')) {
+        sectionStarts.push({ name, pos: m.index });
+      }
+    }
+
+    for (let i = 0; i < sectionStarts.length; i++) {
+      const start = sectionStarts[i].pos;
+      const end = i + 1 < sectionStarts.length ? sectionStarts[i + 1].pos : html.length;
+      const sectionHtml = html.slice(start, end);
+
+      if (sectionHtml.includes('Example')) {
+        const exBlock = extractExampleBlock(sectionHtml);
+        if (exBlock) {
+          parentExamples[parentClass][sectionStarts[i].name] = exBlock;
+        }
       }
     }
   }
 
   // Phase 2: Process each child class
-  let totalRewrites = 0;
+  let totalFiles = 0;
   let totalInjections = 0;
 
   for (const [childClass, parents] of Object.entries(childToParents)) {
     const htmlFile = path.join(DOCS_DIR, `${childClass}.html`);
     if (!fs.existsSync(htmlFile)) continue;
 
-    let html = fs.readFileSync(htmlFile, 'utf-8');
+    const original = fs.readFileSync(htmlFile, 'utf-8');
+    let html = original;
 
-    // Step 1: Rewrite existing examples (class names)
-    html = rewriteText(html, childClass, parents);
+    // Step 1: Rewrite existing class/variable names in the whole file
+    html = rewriteHtml(html, childClass, parents);
 
-    // Step 2: Inject missing examples from parent classes
-    const childSections = parseSections(html);
+    // Step 2: Find methods without examples and inject from parents
     let injected = 0;
+    const sectionStarts: { name: string; pos: number }[] = [];
+    const idRegex = /<a id="([a-zA-Z_]+)" class="tsd-anchor"><\/a>/g;
+    let m;
+    while ((m = idRegex.exec(html)) !== null) {
+      const name = m[1];
+      if (!name.startsWith('_') && !name.includes('.') && !name.includes('-')) {
+        sectionStarts.push({ name, pos: m.index });
+      }
+    }
 
-    for (const section of childSections) {
-      if (section.hasExample) continue; // already has example
-      if (section.name.startsWith('_')) continue;
+    for (let i = 0; i < sectionStarts.length; i++) {
+      const start = sectionStarts[i].pos;
+      const end = i + 1 < sectionStarts.length ? sectionStarts[i + 1].pos : html.length;
+      const sectionHtml = html.slice(start, end);
+
+      if (sectionHtml.includes('Example')) continue; // already has example
+
+      const methodName = sectionStarts[i].name;
 
       // Find example from closest parent
       let donorExample = '';
       for (const parent of parents) {
-        if (parentExamples[parent]?.[section.name]) {
-          donorExample = parentExamples[parent][section.name];
+        if (parentExamples[parent]?.[methodName]) {
+          donorExample = parentExamples[parent][methodName];
           break;
         }
       }
       if (!donorExample) continue;
 
       // Rewrite class names in the donated example
-      const rewritten = rewriteText(donorExample, childClass, parents);
+      const rewritten = rewriteHtml(donorExample, childClass, parents);
 
-      // Inject into the section: insert before </section>
-      // Find this section in the HTML and add example before closing
-      const sectionIdPattern = new RegExp(
-        `(id="${section.name}"[\\s\\S]*?)(</section>)`,
-        'g'
-      );
+      // Insert before the section's </section>
+      const closeSectionPos = html.indexOf('</section>', start);
+      if (closeSectionPos === -1 || closeSectionPos > end + 500) continue;
 
-      // We need to find the RIGHT section (there might be multiple with similar patterns)
-      // Use a more specific match: the section containing the exact id
-      const marker = `id="${section.name}"`;
-      const pos = html.indexOf(marker);
-      if (pos === -1) continue;
+      const wrapper = `<div class="tsd-comment tsd-typography">${rewritten}</div>`;
+      html = html.slice(0, closeSectionPos) + wrapper + html.slice(closeSectionPos);
 
-      // Find the next </section> after this position
-      const closePos = html.indexOf('</section>', pos);
-      if (closePos === -1) continue;
-
-      // Insert the example block before </section>
-      const exampleBlock = `<div class="tsd-comment tsd-typography injected-example">${rewritten}</div>`;
-      html = html.slice(0, closePos) + exampleBlock + html.slice(closePos);
+      // Adjust positions for subsequent sections
+      const delta = wrapper.length;
+      for (let j = i + 1; j < sectionStarts.length; j++) {
+        sectionStarts[j].pos += delta;
+      }
       injected++;
     }
 
-    const original = fs.readFileSync(htmlFile, 'utf-8');
     if (html !== original) {
       fs.writeFileSync(htmlFile, html, 'utf-8');
-      console.log(`  ✅ ${childClass}.html — rewrote from ${parents.join(', ')}${injected ? `, injected ${injected} examples` : ''}`);
-      totalRewrites++;
+      const injectMsg = injected ? `, injected ${injected} examples` : '';
+      console.log(`  ✅ ${childClass}.html — rewrote from ${parents.join(', ')}${injectMsg}`);
+      totalFiles++;
       totalInjections += injected;
     }
   }
 
-  console.log(`\n✅ Post-processed ${totalRewrites} files, injected ${totalInjections} examples`);
+  console.log(`\n✅ Post-processed ${totalFiles} files, injected ${totalInjections} examples`);
 }
 
 main();

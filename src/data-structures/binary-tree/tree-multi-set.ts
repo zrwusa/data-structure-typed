@@ -107,6 +107,10 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
     * @example
  * // Check if empty
  *  console.log(new TreeMultiSet().isEmpty()); // true;
@@ -118,6 +122,10 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
   /**
    * Whether the multiset contains the given key.
    * @remarks Time O(log n), Space O(1)
+   
+   
+   
+   
    
    
    
@@ -160,6 +168,10 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * Add `n` occurrences of `key`.
    * @returns True if the multiset changed.
    * @remarks Time O(log n), Space O(1)
+   
+   
+   
+   
    
    
    
@@ -216,6 +228,10 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * Delete `n` occurrences of `key` (default 1).
    * @returns True if any occurrence was removed.
    * @remarks Time O(log n), Space O(1)
+   
+   
+   
+   
    
    
    
@@ -299,6 +315,10 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
     * @example
  * // Iterate key-value pairs in order
  *  const tms = new TreeMultiSet<number, string>([[3, 'c'], [1, 'a'], [2, 'b']]);
@@ -323,6 +343,10 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
   /**
    * Returns an array with all elements (expanded).
    * @remarks Time O(size), Space O(size)
+   
+   
+   
+   
    
    
    
@@ -377,6 +401,10 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * Remove all elements from the multiset.
    * @remarks Time O(1), Space O(1)
   
+   
+   
+   
+   
    
    
    
@@ -472,6 +500,9 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
     * @example
  * // Least key ≥ target
  *  const tms = new TreeMultiSet<number>([10, 20, 30, 40]);
@@ -486,6 +517,9 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * Returns the largest key <= given key, or undefined.
    * @remarks Time O(log n), Space O(1)
   
+   
+   
+   
    
    
    
@@ -522,6 +556,9 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
     * @example
  * // Least key > target
  *  const tms = new TreeMultiSet<number>([10, 20, 30]);
@@ -536,6 +573,9 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * Returns the largest key < given key, or undefined.
    * @remarks Time O(log n), Space O(1)
   
+   
+   
+   
    
    
    
@@ -578,6 +618,10 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
     * @example
  * // Execute for each entry
  *  const tms = new TreeMultiSet<number>([3, 1, 2]);
@@ -595,6 +639,10 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * Creates a new TreeMultiSet with entries that match the predicate.
    * @remarks Time O(n log n), Space O(n)
   
+   
+   
+   
+   
    
    
    
@@ -648,6 +696,10 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
     * @example
  * // Aggregate values
  *  const tms = new TreeMultiSet<number, number>([[1, 10], [2, 20], [3, 30]]);
@@ -667,6 +719,10 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * When multiple keys map to the same new key, counts are merged (added).
    * @remarks Time O(n log n), Space O(n)
   
+   
+   
+   
+   
    
    
    
@@ -722,6 +778,10 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
+   
     * @example
  * // Create independent copy
  *  const tms = new TreeMultiSet<number>([5, 3, 7]);
@@ -757,6 +817,9 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    
    
    
+   
+   
+   
     * @example
  * // Find keys in range
  *  const tms = new TreeMultiSet<number>([10, 20, 30, 40, 50]);
@@ -774,6 +837,10 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * Prints the internal tree structure (for debugging).
    * @remarks Time O(n), Space O(n)
   
+   
+   
+   
+   
    
    
    
