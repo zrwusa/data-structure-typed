@@ -155,10 +155,10 @@ Understand how data-structure-typed performs, and when to use each structure.
 ### TreeSet
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1M add | 962.76 | 939.01 | 984.79 | ±1.48% |
-| 1M has | 69.63 | 67.37 | 74.11 | ±0.71% |
-| 100K rangeSearch | 18.37 | 17.79 | 19.13 | ±0.52% |
-| 100K navigable | 105.45 | 98.12 | 137.95 | ±2.93% |
+| 1M add | 995.72 | 948.08 | 1124.92 | ±6.28% |
+| 1M has | 67.80 | 64.53 | 86.26 | ±1.67% |
+| 100K rangeSearch | 17.34 | 16.79 | 18.81 | ±0.46% |
+| 100K navigable | 118.65 | 117.95 | 119.38 | ±0.14% |
 
 #### TreeSet (side-by-side)
 
@@ -167,19 +167,19 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | DST classic (ms) | Native (ms) | C++ (ms) | js-sdsl (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: | ---------: |
-| 1M add | 962.76 | 830.76 | - | 462.00 | 640.31 |
-| 1M has | 69.63 | 878.36 | - | 444.00 | 760.31 |
-| 100K rangeSearch | 18.37 | 18.25 | - | - | - |
-| 100K navigable | 105.45 | 108.48 | - | - | - |
+| 1M add | 995.72 | 807.88 | - | 462.00 | 677.58 |
+| 1M has | 67.80 | 747.62 | - | 444.00 | 655.62 |
+| 100K rangeSearch | 17.34 | 16.70 | - | - | - |
+| 100K navigable | 118.65 | 123.91 | - | - | - |
 
 
 ### TreeMap
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1M set | 996.95 | 986.87 | 1023.16 | ±1.15% |
-| 1M get | 125.23 | 118.97 | 132.21 | ±1.11% |
-| 100K rangeSearch | 47.43 | 34.21 | 265.16 | ±23.37% |
-| 100K navigable | 168.30 | 165.26 | 171.57 | ±0.49% |
+| 1M set | 978.72 | 934.59 | 1130.02 | ±6.39% |
+| 1M get | 127.82 | 123.10 | 133.96 | ±1.2% |
+| 100K rangeSearch | 38.17 | 34.80 | 100.14 | ±6.97% |
+| 100K navigable | 160.66 | 151.89 | 307.88 | ±9.6% |
 
 #### TreeMap (side-by-side)
 
@@ -188,26 +188,26 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | DST classic (ms) | Native (ms) | C++ (ms) | js-sdsl (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: | ---------: |
-| 1M set | 996.95 | 886.30 | - | 512.00 | 624.82 |
-| 1M get | 125.23 | 723.44 | - | 322.00 | 623.70 |
-| 100K rangeSearch | 47.43 | 37.01 | - | - | - |
-| 100K navigable | 168.30 | 221.85 | - | - | - |
+| 1M set | 978.72 | 831.32 | - | 512.00 | 623.23 |
+| 1M get | 127.82 | 719.05 | - | 322.00 | 626.87 |
+| 100K rangeSearch | 38.17 | 34.42 | - | - | - |
+| 100K navigable | 160.66 | 213.76 | - | - | - |
 
 
 ### TreeMultiSet
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1M add (TreeMultiSet expanded iteration) | 218.78 | 203.62 | 271.24 | ±3.81% |
-| 1M has-only (TreeMultiSet) | 81.70 | 79.17 | 88.22 | ±0.78% |
-| 1M count-only (TreeMultiSet) | 83.77 | 79.32 | 101.94 | ±1.67% |
-| 1M build+has (TreeMultiSet) | 341.28 | 287.81 | 790.70 | ±26.39% |
-| 1M build+count (TreeMultiSet) | 304.69 | 286.50 | 355.80 | ±4.01% |
-| 100K delete-one (TreeMultiSet) | 232.04 | 219.23 | 243.31 | ±1.62% |
-| 100K setCount (TreeMultiSet) | 231.53 | 216.92 | 250.05 | ±2.5% |
-| 1M expanded iteration (TreeMultiSet) | 56.11 | 53.92 | 65.49 | ±1.11% |
-| 1M entries view (TreeMultiSet) | 18.94 | 18.34 | 19.94 | ±0.42% |
-| 1M size property (TreeMultiSet) | 0.00 | 0.00 | 0.00 | ±3.53% |
-| 1M distinctSize property (TreeMultiSet) | 0.00 | 0.00 | 0.00 | ±3.39% |
+| 1M add (TreeMultiSet expanded iteration) | 217.73 | 191.17 | 319.78 | ±8.07% |
+| 1M has-only (TreeMultiSet) | 67.67 | 66.08 | 72.83 | ±0.72% |
+| 1M count-only (TreeMultiSet) | 55.74 | 53.94 | 57.60 | ±0.49% |
+| 1M build+has (TreeMultiSet) | 260.84 | 248.30 | 300.22 | ±2.79% |
+| 1M build+count (TreeMultiSet) | 267.81 | 242.77 | 339.53 | ±5.97% |
+| 100K delete-one (TreeMultiSet) | 217.76 | 201.92 | 254.80 | ±2.97% |
+| 100K setCount (TreeMultiSet) | 214.66 | 201.65 | 264.54 | ±3.65% |
+| 1M expanded iteration (TreeMultiSet) | 54.41 | 53.14 | 62.22 | ±0.78% |
+| 1M entries view (TreeMultiSet) | 15.67 | 14.81 | 17.19 | ±0.72% |
+| 1M size property (TreeMultiSet) | 0.00 | 0.00 | 0.00 | ±3.47% |
+| 1M distinctSize property (TreeMultiSet) | 0.00 | 0.00 | 0.00 | ±3.88% |
 
 #### TreeMultiSet (side-by-side)
 
@@ -216,15 +216,15 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | Native (ms) | C++ (ms) | js-sdsl (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 1M add (TreeMultiSet expanded iteration) | 218.78 | - | 752.00 | - |
-| 1M has-only (TreeMultiSet) | 81.70 | - | 756.00 | - |
-| 1M count-only (TreeMultiSet) | 83.77 | - | 1332.00 | - |
-| 1M build+has (TreeMultiSet) | 341.28 | - | 1406.00 | - |
-| 1M build+count (TreeMultiSet) | 304.69 | - | 1909.00 | - |
-| 100K delete-one (TreeMultiSet) | 232.04 | - | - | - |
-| 100K setCount (TreeMultiSet) | 231.53 | - | - | - |
-| 1M expanded iteration (TreeMultiSet) | 56.11 | - | - | - |
-| 1M entries view (TreeMultiSet) | 18.94 | - | - | - |
+| 1M add (TreeMultiSet expanded iteration) | 217.73 | - | 752.00 | - |
+| 1M has-only (TreeMultiSet) | 67.67 | - | 756.00 | - |
+| 1M count-only (TreeMultiSet) | 55.74 | - | 1332.00 | - |
+| 1M build+has (TreeMultiSet) | 260.84 | - | 1406.00 | - |
+| 1M build+count (TreeMultiSet) | 267.81 | - | 1909.00 | - |
+| 100K delete-one (TreeMultiSet) | 217.76 | - | - | - |
+| 100K setCount (TreeMultiSet) | 214.66 | - | - | - |
+| 1M expanded iteration (TreeMultiSet) | 54.41 | - | - | - |
+| 1M entries view (TreeMultiSet) | 15.67 | - | - | - |
 | 1M size property (TreeMultiSet) | 0.00 | - | - | - |
 | 1M distinctSize property (TreeMultiSet) | 0.00 | - | - | - |
 
@@ -232,20 +232,20 @@ Understand how data-structure-typed performs, and when to use each structure.
 ### TreeMultiMap
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1M add (TreeMultiMap bucketed) | 387.80 | 361.45 | 418.01 | ±2.75% |
-| 1M has-only (TreeMultiMap) | 30.32 | 29.05 | 31.78 | ±0.6% |
-| 1M get-only (TreeMultiMap) | 82.50 | 80.72 | 88.31 | ±0.66% |
-| 1M count-only (TreeMultiMap) | 133.45 | 128.56 | 144.22 | ±1.11% |
-| 1M build+has (TreeMultiMap) | 409.86 | 373.79 | 437.28 | ±3.13% |
-| 1M build+get (TreeMultiMap) | 469.61 | 455.85 | 484.46 | ±1.4% |
-| 100K hasEntry (TreeMultiMap Object.is) | 415.70 | 408.06 | 425.09 | ±0.82% |
-| 100K deleteValue (TreeMultiMap Object.is) | 447.52 | 438.21 | 465.37 | ±1.38% |
+| 1M add (TreeMultiMap bucketed) | 366.19 | 346.31 | 454.65 | ±5.51% |
+| 1M has-only (TreeMultiMap) | 35.37 | 34.94 | 36.94 | ±0.39% |
+| 1M get-only (TreeMultiMap) | 58.37 | 56.05 | 73.86 | ±1.37% |
+| 1M count-only (TreeMultiMap) | 105.34 | 94.16 | 124.54 | ±2.71% |
+| 1M build+has (TreeMultiMap) | 396.87 | 373.62 | 538.68 | ±8.08% |
+| 1M build+get (TreeMultiMap) | 416.59 | 412.46 | 424.84 | ±0.62% |
+| 100K hasEntry (TreeMultiMap Object.is) | 375.85 | 346.85 | 396.95 | ±2.39% |
+| 100K deleteValue (TreeMultiMap Object.is) | 411.69 | 388.10 | 577.77 | ±9.06% |
 | 100K firstEntry/lastEntry (TreeMultiMap) | 0.00 | - | - | ±0% |
 | 100K ceilingEntry/floorEntry (TreeMultiMap) | 0.00 | - | - | ±0% |
-| 1M bucket iteration (TreeMultiMap) | 27.96 | 26.59 | 31.51 | ±0.8% |
-| 1M flatEntries iteration (TreeMultiMap) | 137.60 | 132.71 | 142.72 | ±0.66% |
-| 1M size property (TreeMultiMap) | 0.00 | 0.00 | 0.00 | ±3.3% |
-| 1M totalSize property (TreeMultiMap) | 26.89 | 25.79 | 28.54 | ±0.66% |
+| 1M bucket iteration (TreeMultiMap) | 22.55 | 21.91 | 25.20 | ±0.68% |
+| 1M flatEntries iteration (TreeMultiMap) | 106.47 | 104.33 | 110.52 | ±0.6% |
+| 1M size property (TreeMultiMap) | 0.00 | 0.00 | 0.00 | ±4.08% |
+| 1M totalSize property (TreeMultiMap) | 21.74 | 21.09 | 25.40 | ±0.8% |
 
 #### TreeMultiMap (side-by-side)
 
@@ -254,33 +254,33 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | Native (ms) | C++ (ms) | js-sdsl (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: |
-| 1M add (TreeMultiMap bucketed) | 387.80 | - | 731.00 | - |
-| 1M has-only (TreeMultiMap) | 30.32 | - | 833.00 | - |
-| 1M get-only (TreeMultiMap) | 82.50 | - | 1553.00 | - |
-| 1M count-only (TreeMultiMap) | 133.45 | - | 1548.00 | - |
-| 1M build+has (TreeMultiMap) | 409.86 | - | 1519.00 | - |
-| 1M build+get (TreeMultiMap) | 469.61 | - | 2263.00 | - |
-| 100K hasEntry (TreeMultiMap Object.is) | 415.70 | - | - | - |
-| 100K deleteValue (TreeMultiMap Object.is) | 447.52 | - | - | - |
+| 1M add (TreeMultiMap bucketed) | 366.19 | - | 731.00 | - |
+| 1M has-only (TreeMultiMap) | 35.37 | - | 833.00 | - |
+| 1M get-only (TreeMultiMap) | 58.37 | - | 1553.00 | - |
+| 1M count-only (TreeMultiMap) | 105.34 | - | 1548.00 | - |
+| 1M build+has (TreeMultiMap) | 396.87 | - | 1519.00 | - |
+| 1M build+get (TreeMultiMap) | 416.59 | - | 2263.00 | - |
+| 100K hasEntry (TreeMultiMap Object.is) | 375.85 | - | - | - |
+| 100K deleteValue (TreeMultiMap Object.is) | 411.69 | - | - | - |
 | 100K firstEntry/lastEntry (TreeMultiMap) | 0.00 | - | - | - |
 | 100K ceilingEntry/floorEntry (TreeMultiMap) | 0.00 | - | - | - |
-| 1M bucket iteration (TreeMultiMap) | 27.96 | - | 109.00 | - |
-| 1M flatEntries iteration (TreeMultiMap) | 137.60 | - | 109.00 | - |
+| 1M bucket iteration (TreeMultiMap) | 22.55 | - | 109.00 | - |
+| 1M flatEntries iteration (TreeMultiMap) | 106.47 | - | 109.00 | - |
 | 1M size property (TreeMultiMap) | 0.00 | - | - | - |
-| 1M totalSize property (TreeMultiMap) | 26.89 | - | - | - |
+| 1M totalSize property (TreeMultiMap) | 21.74 | - | - | - |
 
 
 ### RedBlackTree
 | Test Case | Avg (ms) | Min (ms) | Max (ms) | Stability |
 |-----------|----------|----------|----------|-----------|
-| 1M get | 108.02 | 102.20 | 115.34 | ±6.33% |
-| 200K rangeSearch SEQ | 1393.24 | 1256.17 | 1632.61 | ±13.97% |
-| 200K rangeSearch RAND | 1829.00 | 1807.24 | 1877.38 | ±1.97% |
-| 1M upd SEQ | 73.96 | 63.61 | 90.50 | ±17.50% |
-| 1M upd RAND | 105.66 | 99.83 | 108.31 | ±4.15% |
-| 1M ins SEQ | 485.12 | 475.89 | 504.56 | ±2.96% |
-| 1M ins RAND | 1067.21 | 1053.08 | 1080.31 | ±1.14% |
-| 1M keys-only | 7.52 | 1.55 | 13.81 | ±92.85% |
+| 1M get | 99.24 | 82.27 | 109.67 | ±16.59% |
+| 200K rangeSearch SEQ | 1365.15 | 1251.75 | 1491.01 | ±9.18% |
+| 200K rangeSearch RAND | 1565.26 | 1528.89 | 1613.47 | ±2.69% |
+| 1M upd SEQ | 84.75 | 82.26 | 86.85 | ±3.10% |
+| 1M upd RAND | 113.72 | 112.51 | 116.12 | ±1.70% |
+| 1M ins SEQ | 535.64 | 459.83 | 795.68 | ±33.88% |
+| 1M ins RAND | 989.88 | 973.81 | 1001.58 | ±1.43% |
+| 1M keys-only | 4.22 | 2.71 | 5.81 | ±41.71% |
 
 #### RedBlackTree (side-by-side)
 
@@ -289,14 +289,14 @@ Understand how data-structure-typed performs, and when to use each structure.
 
 | Test Case | DST (ms) | DST classic (ms) | Native (ms) | C++ (ms) | js-sdsl (ms) |
 | ----------- | ---------: | ---------: | ---------: | ---------: | ---------: |
-| 1M get | 108.02 | 377.88 | - | 52.97 | - |
-| 200K rangeSearch SEQ | 1393.24 | - | - | - | - |
-| 200K rangeSearch RAND | 1829.00 | - | - | - | - |
-| 1M upd SEQ | 73.96 | 333.38 | - | 68.43 | - |
-| 1M upd RAND | 105.66 | 455.76 | - | 158.14 | - |
-| 1M ins SEQ | 485.12 | 202.03 | - | 162.72 | - |
-| 1M ins RAND | 1067.21 | 985.75 | - | 483.56 | - |
-| 1M keys-only | 7.52 | - | - | 0.09 | - |
+| 1M get | 99.24 | 304.72 | - | 52.97 | - |
+| 200K rangeSearch SEQ | 1365.15 | - | - | - | - |
+| 200K rangeSearch RAND | 1565.26 | - | - | - | - |
+| 1M upd SEQ | 84.75 | 302.03 | - | 68.43 | - |
+| 1M upd RAND | 113.72 | 422.53 | - | 158.14 | - |
+| 1M ins SEQ | 535.64 | 211.38 | - | 162.72 | - |
+| 1M ins RAND | 989.88 | 882.76 | - | 483.56 | - |
+| 1M keys-only | 4.22 | - | - | 0.09 | - |
 
 
 ### BST

@@ -1147,12 +1147,13 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     if (!node) return;
 
     const NIL = this.NIL;
+    let current: RedBlackTreeNode<K, V> = node;
 
-    while (node !== this.root && node.color === 'BLACK') {
-      const parent = node.parent;
+    while (current !== this.root && current.color === 'BLACK') {
+      const parent: RedBlackTreeNode<K, V> | undefined = current.parent;
       if (!parent) break;
 
-      const nodeIsLeft = node === parent.left;
+      const nodeIsLeft = current === parent.left;
       let sibling = nodeIsLeft ? parent.right : parent.left;
 
       // Case 1: sibling is RED → rotate to get a BLACK sibling
@@ -1176,14 +1177,14 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
       if (sibLeftBlack && sibRightBlack) {
         // Case 2: sibling's children are both BLACK → recolor sibling RED, move up
         if (sibling) sibling.color = 'RED';
-        node = parent;
+        current = parent;
       } else {
         if (nodeIsLeft) {
           // Case 3: sibling's right child is BLACK → rotate sibling right first
           if (sibRightBlack) {
             if (sibLeft) sibLeft.color = 'BLACK';
             if (sibling) sibling.color = 'RED';
-            this._rightRotate(sibling);
+            if (sibling) this._rightRotate(sibling);
             sibling = parent.right;
           }
           // Case 4: sibling's right child is RED → final rotation
@@ -1196,7 +1197,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
           if (sibLeftBlack) {
             if (sibRight) sibRight.color = 'BLACK';
             if (sibling) sibling.color = 'RED';
-            this._leftRotate(sibling);
+            if (sibling) this._leftRotate(sibling);
             sibling = parent.left;
           }
           // Case 4 (mirror): sibling's left child is RED → final rotation
@@ -1205,13 +1206,11 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
           if (sibling?.left) sibling.left.color = 'BLACK';
           this._rightRotate(parent);
         }
-        node = this.root;
+        current = this.root!;
       }
     }
 
-    if (node) {
-      node.color = 'BLACK';
-    }
+    current.color = 'BLACK';
   }
 
   /**

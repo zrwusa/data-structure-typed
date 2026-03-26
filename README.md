@@ -139,11 +139,11 @@ for (let i = 0; i < 100000; i++) {
 | DoublyLinkedList | 100k push | 5.70 | 2.40 | 5.70 | 1.90 |
 | SinglyLinkedList | 100K unshift & shift | 3.77 | 1958.39 | 4.80 | - |
 | PriorityQueue | 100K add | 4.00 | - | 1.05 | 4.96 |
-| TreeSet | 1M add | 962.76 | - | 462.00 | 640.31 |
-| TreeMap | 1M set | 996.95 | - | 512.00 | 624.82 |
-| TreeMultiSet | 1M add (TreeMultiSet expanded iteration) | 218.78 | - | 752.00 | - |
-| TreeMultiMap | 1M add (TreeMultiMap bucketed) | 387.80 | - | 731.00 | - |
-| RedBlackTree | 1M get | 108.02 | - | 52.97 | - |
+| TreeSet | 1M add | 995.72 | - | 462.00 | 677.58 |
+| TreeMap | 1M set | 978.72 | - | 512.00 | 623.23 |
+| TreeMultiSet | 1M add (TreeMultiSet expanded iteration) | 217.73 | - | 752.00 | - |
+| TreeMultiMap | 1M add (TreeMultiMap bucketed) | 366.19 | - | 731.00 | - |
+| RedBlackTree | 1M get | 99.24 | - | 52.97 | - |
 | BST | 10K add randomly | 5.50 | - | - | - |
 | BinaryTree | 1K add randomly | 9.77 | - | - | - |
 | HashMap | 1M set | 146.17 | 144.83 | 76.26 | 94.16 |
