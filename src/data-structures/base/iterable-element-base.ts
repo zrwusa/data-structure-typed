@@ -1,5 +1,4 @@
 import type { ElementCallback, IterableElementBaseOptions, ReduceElementCallback } from '../../types';
-import { ERR } from '../../common';
 
 /**
  * Base class that makes a data structure iterable and provides common
@@ -26,7 +25,7 @@ export abstract class IterableElementBase<E, R> implements Iterable<E> {
     if (options) {
       const { toElementFn } = options;
       if (typeof toElementFn === 'function') this._toElementFn = toElementFn;
-      else if (toElementFn) throw new TypeError(ERR.notAFunction('toElementFn'));
+      else if (toElementFn) throw new TypeError('toElementFn must be a function type');
     }
   }
 
@@ -36,7 +35,7 @@ export abstract class IterableElementBase<E, R> implements Iterable<E> {
    * @remarks
    * Time O(1), Space O(1).
    */
-  protected readonly _toElementFn?: (rawElement: R) => E;
+  protected _toElementFn?: (rawElement: R) => E;
 
   /**
    * Exposes the current `toElementFn`, if configured.
@@ -225,12 +224,12 @@ export abstract class IterableElementBase<E, R> implements Iterable<E> {
       acc = initialValue as U;
     } else {
       const first = iter.next();
-      if (first.done) throw new TypeError(ERR.reduceEmpty());
+      if (first.done) throw new TypeError('Reduce of empty structure with no initial value');
       acc = first.value as unknown as U;
       index = 1;
     }
 
-    for (const value of iter) {
+    for (const value of iter as unknown as Iterable<E>) {
       acc = callbackfn(acc, value, index++, this);
     }
     return acc;
