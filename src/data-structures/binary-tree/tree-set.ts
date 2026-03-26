@@ -197,6 +197,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
   /**
    * Add a key to the set (no-op if already present).
    * @remarks Expected time O(log n)
+   
     * @example
  * // Unique tags with sorted order
  *  const tags = new TreeSet<string>(['javascript', 'typescript', 'react', 'typescript', 'node']);
@@ -219,6 +220,9 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
   /**
    * Test whether a key exists.
    * @remarks Expected time O(log n)
+   
+   
+   
     * @example
  * // Checking membership in a sorted collection
  *  const allowed = new TreeSet<string>(['admin', 'editor', 'viewer']);
@@ -235,6 +239,9 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    * Delete a key.
    * @returns `true` if the key existed; otherwise `false`.
    * @remarks Expected time O(log n)
+   
+   
+   
     * @example
  * // Removing elements while maintaining order
  *  const nums = new TreeSet<number>([1, 3, 5, 7, 9]);
@@ -409,6 +416,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Smallest key in the set.
+   
     * @example
  * // Student grade ranking with custom comparator
  *  interface Student {
@@ -443,6 +451,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Largest key in the set.
+   
     * @example
  * // Get the maximum element
  *  const temps = new TreeSet<number>([18, 22, 15, 30, 25]);
@@ -455,6 +464,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Remove and return the smallest key.
+   
     * @example
  * // Remove and return minimum
  *  const queue = new TreeSet<number>([5, 1, 8, 3]);
@@ -472,6 +482,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Remove and return the largest key.
+   
     * @example
  * // Remove and return maximum
  *  const stack = new TreeSet<number>([10, 20, 30]);
@@ -488,6 +499,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Smallest key that is >= the given key.
+   
+   
     * @example
  * // Finding nearest available time slot
  *  // Available appointment times (minutes from midnight)
@@ -512,6 +525,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Largest key that is <= the given key.
+   
+   
     * @example
  * // Largest element ≤ target
  *  const breakpoints = new TreeSet<number>([320, 768, 1024, 1280, 1920]);
@@ -528,6 +543,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Smallest key that is > the given key.
+   
+   
     * @example
  * // Smallest element strictly > target
  *  const levels = new TreeSet<number>([1, 5, 10, 25, 50, 100]);
@@ -542,6 +559,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Largest key that is < the given key.
+   
+   
     * @example
  * // Largest element strictly < target
  *  const tiers = new TreeSet<number>([100, 200, 500, 1000]);
@@ -559,6 +578,8 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    *
    * @param range `[low, high]`
    * @param options Inclusive/exclusive bounds (defaults to inclusive).
+   
+   
     * @example
  * // IP address blocklist with range checking
  *  // Simplified: use numeric IP representation

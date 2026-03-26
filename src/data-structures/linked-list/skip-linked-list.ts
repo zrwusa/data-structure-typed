@@ -163,12 +163,23 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
   /**
    * Insert or update a key-value pair. Returns `this` for chaining.
    * Unique keys only — if key exists, value is updated in place.
-   * @example
-   * ```ts
-   * const sl = new SkipList<number, string>();
-   * sl.set(1, 'a').set(2, 'b').set(3, 'c');
-   * sl.get(2); // 'b'
-   * ```
+  
+    * @example
+ * // In-memory sorted key-value store
+ *  const store = new SkipList<number, string>();
+ *
+ *     store.set(3, 'three');
+ *     store.set(1, 'one');
+ *     store.set(5, 'five');
+ *     store.set(2, 'two');
+ *
+ *     console.log(store.get(3)); // 'three';
+ *     console.log(store.get(1)); // 'one';
+ *     console.log(store.get(5)); // 'five';
+ *
+ *     // Update existing key
+ *     store.set(3, 'THREE');
+ *     console.log(store.get(3)); // 'THREE';
    */
   set(key: K, value: V): this {
     const cmp = this.#comparator;
@@ -203,6 +214,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
   /**
    * Get the value for a key, or `undefined` if not found.
    * Overrides base O(n) with O(log n) skip-list search.
+   
     * @example
  * // Building a sorted index
  *  type Product = { id: number; name: string; price: number };
@@ -232,6 +244,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
   /**
    * Check if a key exists.
    * Overrides base O(n) with O(log n) skip-list search.
+   
     * @example
  * // Check key existence
  *  const sl = new SkipList<number, string>([[1, 'a'], [3, 'c'], [5, 'e']]);
@@ -244,6 +257,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Delete a key. Returns `true` if the key was found and removed.
+   
     * @example
  * // Fast lookup with deletion
  *  const cache = new SkipList<string, number>();
@@ -281,12 +295,11 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Returns the first (smallest key) entry, or `undefined` if empty.
-   * @example
-   * ```ts
-   * const sl = new SkipList([[3, 'c'], [1, 'a'], [2, 'b']]);
-   * sl.first();  // [1, 'a']
-   * sl.last();   // [3, 'c']
-   * ```
+  
+    * @example
+ * // Access the minimum entry
+ *  const sl = new SkipList<number, string>([[5, 'e'], [1, 'a'], [3, 'c']]);
+ *     console.log(sl.first()); // [1, 'a'];
    */
   first(): [K, V | undefined] | undefined {
     const node = this._head.forward[0];
@@ -295,6 +308,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Returns the last (largest key) entry, or `undefined` if empty.
+   
     * @example
  * // Access the maximum entry
  *  const sl = new SkipList<number, string>([[5, 'e'], [1, 'a'], [3, 'c']]);
@@ -332,14 +346,12 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Least entry ≥ key, or `undefined`.
-   * @example
-   * ```ts
-   * const sl = new SkipList([[1, 'a'], [3, 'c'], [5, 'e']]);
-   * sl.ceiling(2);  // [3, 'c']
-   * sl.floor(4);    // [3, 'c']
-   * sl.higher(3);   // [5, 'e']
-   * sl.lower(3);    // [1, 'a']
-   * ```
+  
+    * @example
+ * // Least entry ≥ key
+ *  const sl = new SkipList<number, string>([[10, 'a'], [20, 'b'], [30, 'c']]);
+ *     console.log(sl.ceiling(15)); // [20, 'b'];
+ *     console.log(sl.ceiling(20)); // [20, 'b'];
    */
   ceiling(key: K): [K, V | undefined] | undefined {
     const cmp = this.#comparator;
@@ -355,6 +367,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Greatest entry ≤ key, or `undefined`.
+   
     * @example
  * // Greatest entry ≤ key
  *  const sl = new SkipList<number, string>([[10, 'a'], [20, 'b'], [30, 'c']]);
@@ -412,12 +425,12 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Returns entries within the given key range.
-   * @example
-   * ```ts
-   * const sl = new SkipList([[1,'a'],[2,'b'],[3,'c'],[4,'d'],[5,'e']]);
-   * sl.rangeSearch([2, 4]); // [[2,'b'],[3,'c'],[4,'d']]
-   * sl.rangeSearch([2, 4], { lowInclusive: false }); // [[3,'c'],[4,'d']]
-   * ```
+  
+    * @example
+ * // Find entries in a range
+ *  const sl = new SkipList<number, string>([[1, 'a'], [2, 'b'], [3, 'c'], [4, 'd'], [5, 'e']]);
+ *     const result = sl.rangeSearch([2, 4]);
+ *     console.log(result); // [[2, 'b'], [3, 'c'], [4, 'd']];
    */
   rangeSearch(range: [K, K], options: SkipListRangeOptions = {}): Array<[K, V | undefined]> {
     const { lowInclusive = true, highInclusive = true } = options;

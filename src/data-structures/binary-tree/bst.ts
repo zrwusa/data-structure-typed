@@ -434,11 +434,13 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
 
     /**
    * Depth-first search traversal
-   * @example
- * // Depth-first search traversal
- *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
- *     const inOrder = tree.dfs(node => node.key, 'IN');
- *     console.log(inOrder); // [4, 2, 5, 1, 3];
+  
+   
+    * @example
+ * // Depth-first traversal
+ *  const bst = new BST<number>([5, 3, 7, 1, 4]);
+ *     const inOrder = bst.dfs(node => node.key, 'IN');
+ *     console.log(inOrder); // [1, 3, 4, 5, 7];
    */
   override dfs(): (K | undefined)[];
 
@@ -474,9 +476,10 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
 
     /**
    * BinaryTree level-order traversal
-   * @example
+  
+    * @example
  * // BinaryTree level-order traversal
- *  const tree = new BinaryTree([
+ *  const bst = new BST([
  *       [1, 'one'],
  *       [2, 'two'],
  *       [3, 'three'],
@@ -486,18 +489,18 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
  *       [7, 'seven']
  *     ]);
  *
- *     // Binary tree maintains level-order insertion
- *     // Complete binary tree structure
- *     console.log(tree.size); // 7;
+ *     // Binary bst maintains level-order insertion
+ *     // Complete binary bst structure
+ *     console.log(bst.size); // 7;
  *
  *     // Verify all keys are present
- *     console.log(tree.has(1)); // true;
- *     console.log(tree.has(4)); // true;
- *     console.log(tree.has(7)); // true;
+ *     console.log(bst.has(1)); // true;
+ *     console.log(bst.has(4)); // true;
+ *     console.log(bst.has(7)); // true;
  *
- *     // Iterate through tree
+ *     // Iterate through bst
  *     const keys: number[] = [];
- *     for (const [key] of tree) {
+ *     for (const [key] of bst) {
  *       keys.push(key);
  *     }
  *     console.log(keys.length); // 7;
@@ -776,7 +779,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
 
     /**
    * Find all keys in a range
-   * @example
+  
+    * @example
  * // Find all keys in a range
  *  const bst = new BST<number>([10, 20, 30, 40, 50]);
  *     console.log(bst.rangeSearch([15, 35])); // [20, 30];
@@ -818,6 +822,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * @param keyNodeOrEntry - The key, node, or entry to set.
    * @param [value] - The value, if providing just a key.
    * @returns True if the addition was successful, false otherwise.
+   
+   
     * @example
  * // basic BST creation and add operation
  *  // Create a simple BST with numeric keys
@@ -1001,6 +1007,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Equivalent to Java TreeMap.ceiling.
    * Time Complexity: O(log n) average, O(h) worst case.
    * Space Complexity: O(h) for recursion, O(1) for iteration.
+   
     * @example
  * // Find the least key ≥ target
  *  const bst = new BST<number>([10, 20, 30, 40, 50]);
@@ -1072,6 +1079,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Equivalent to Java TreeMap.higher.
    * Time Complexity: O(log n) average, O(h) worst case.
    * Space Complexity: O(h) for recursion, O(1) for iteration.
+   
     * @example
  * // Find the least key strictly > target
  *  const bst = new BST<number>([10, 20, 30, 40]);
@@ -1142,6 +1150,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Equivalent to Java TreeMap.floor.
    * Time Complexity: O(log n) average, O(h) worst case.
    * Space Complexity: O(h) for recursion, O(1) for iteration.
+   
     * @example
  * // Find the greatest key ≤ target
  *  const bst = new BST<number>([10, 20, 30, 40, 50]);
@@ -1256,6 +1265,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Equivalent to Java TreeMap.lower.
    * Time Complexity: O(log n) average, O(h) worst case.
    * Space Complexity: O(h) for recursion, O(1) for iteration.
+   
     * @example
  * // Find the greatest key strictly < target
  *  const bst = new BST<number>([10, 20, 30, 40]);

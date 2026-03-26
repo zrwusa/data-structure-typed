@@ -249,6 +249,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Get the first element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns First element or undefined.
+   
     * @example
  * // Deque peek at both ends
  *  const deque = new Deque<number>([10, 20, 30, 40, 50]);
@@ -274,6 +275,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Get the last element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Last element or undefined.
+   
     * @example
  * // Peek at the back element
  *  const dq = new Deque<string>(['a', 'b', 'c']);
@@ -313,6 +315,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1) amortized, Space O(1)
    * @param element - Element to append.
    * @returns True when appended.
+   
     * @example
  * // basic Deque creation and push/pop operations
  *  // Create a simple Deque with initial values
@@ -356,6 +359,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Remove and return the last element.
    * @remarks Time O(1), Space O(1)
    * @returns Removed element or undefined.
+   
     * @example
  * // Remove from the back
  *  const dq = new Deque<number>([1, 2, 3]);
@@ -386,6 +390,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Remove and return the first element.
    * @remarks Time O(1) amortized, Space O(1)
    * @returns Removed element or undefined.
+   
     * @example
  * // Remove from the front
  *  const dq = new Deque<number>([1, 2, 3]);
@@ -417,6 +422,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1) amortized, Space O(1)
    * @param element - Element to prepend.
    * @returns True when prepended.
+   
     * @example
  * // Deque shift and unshift operations
  *  const deque = new Deque<number>([20, 30, 40]);
@@ -759,6 +765,7 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Reverse the deque by reversing buckets and pointers.
    * @remarks Time O(N), Space O(N)
    * @returns This deque.
+   
     * @example
  * // Deque for...of iteration and reverse
  *  const deque = new Deque<string>(['A', 'B', 'C', 'D']);

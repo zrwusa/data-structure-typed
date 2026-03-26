@@ -202,19 +202,26 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param key - Key.
    * @param value - Value.
    * @returns True when the operation succeeds.
+   
+   
     * @example
- * // should maintain insertion order
- *  const linkedHashMap = new LinkedHashMap<number, string>();
- *     linkedHashMap.set(1, 'A');
- *     linkedHashMap.set(2, 'B');
- *     linkedHashMap.set(3, 'C');
+ * // basic HashMap creation and set operation
+ *  // Create a simple HashMap with key-value pairs
+ *     const map = new HashMap<number, string>([
+ *       [1, 'one'],
+ *       [2, 'two'],
+ *       [3, 'three']
+ *     ]);
  *
- *     const result = Array.from(linkedHashMap);
- *     console.log(result); // [
- *  //      [1, 'A'],
- *  //      [2, 'B'],
- *  //      [3, 'C']
- *  //    ];
+ *     // Verify size
+ *     console.log(map.size); // 3;
+ *
+ *     // Set a new key-value pair
+ *     map.set(4, 'four');
+ *     console.log(map.size); // 4;
+ *
+ *     // Verify entries
+ *     console.log([...map.entries()]); // length: 4;
    */
   set(key: K, value: V): boolean {
     if (this._isObjKey(key)) {
@@ -250,6 +257,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(1), Space O(1)
    * @param key - Key to look up.
    * @returns Value or undefined.
+   
     * @example
  * // HashMap get and has operations
  *  const map = new HashMap<string, number>([
@@ -283,6 +291,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(1), Space O(1)
    * @param key - Key to test.
    * @returns True if present.
+   
     * @example
  * // Check key existence
  *  const map = new HashMap<string, number>([['a', 1], ['b', 2]]);
@@ -301,6 +310,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(1), Space O(1)
    * @param key - Key to delete.
    * @returns True if the key was found and removed.
+   
     * @example
  * // Remove entries by key
  *  const map = new HashMap<string, number>([['x', 10], ['y', 20], ['z', 30]]);
@@ -353,6 +363,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param callbackfn - Mapping function (key, value, index, map) → newValue.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new map with transformed values.
+   
     * @example
  * // Transform all values
  *  const prices = new HashMap<string, number>([['apple', 1], ['banana', 2]]);
@@ -374,6 +385,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param predicate - Predicate (key, value, index, map) → boolean.
    * @param [thisArg] - Value for `this` inside the predicate.
    * @returns A new map containing entries that satisfied the predicate.
+   
     * @example
  * // HashMap iteration and filter operations
  *  const map = new HashMap<number, string>([

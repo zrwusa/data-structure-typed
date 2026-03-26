@@ -269,6 +269,7 @@ export class DirectedGraph<
    * @param destVertexKey - Optional destination vertex/key when deleting by pair.
    * @returns Removed edge or `undefined`.
    * @remarks Time O(1) avg, Space O(1)
+   
     * @example
  * // DirectedGraph deleteEdge and vertex operations
  *  const graph = new DirectedGraph<string>();
@@ -470,6 +471,7 @@ export class DirectedGraph<
    * @param propertyName - `'key'` to map to keys; `'vertex'` to keep instances.
    * @returns Array of keys/vertices, or `undefined` when cycle is found.
    * @remarks Time O(V + E), Space O(V)
+   
     * @example
  * // DirectedGraph topologicalSort for task scheduling
  *  const graph = new DirectedGraph<string>();

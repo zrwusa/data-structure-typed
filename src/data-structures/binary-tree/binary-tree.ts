@@ -580,6 +580,7 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param keyNodeOrEntry - The key, node, or entry to set or update.
    * @param [value] - The value, if providing just a key.
    * @returns True if the addition was successful, false otherwise.
+   
     * @example
  * // basic BinaryTree creation and insertion
  *  // Create a BinaryTree with entries
@@ -745,6 +746,7 @@ export class BinaryTree<K = any, V = any, R = any>
    *
    * @param keyNodeEntryRawOrPredicate - The node to delete.
    * @returns An array containing deletion results (for compatibility with self-balancing trees).
+   
     * @example
  * // Remove a node
  *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
@@ -981,6 +983,7 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [startNode=this._root] - The node to start searching from (if not in Map mode).
    * @param [iterationType=this.iterationType] - The traversal method (if not in Map mode).
    * @returns The associated value, or undefined.
+   
     * @example
  * // Retrieve value by key
  *  const tree = new BinaryTree<number, string>([[1, 'root'], [2, 'left'], [3, 'right']]);
@@ -1008,6 +1011,7 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [startNode] - The node to start the search from.
    * @param [iterationType] - The traversal method.
    * @returns True if a matching node exists, false otherwise.
+   
     * @example
  * // BinaryTree get and has operations
  *  const tree = new BinaryTree(
@@ -1160,6 +1164,7 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param dist - The node to find the depth of.
    * @param [startNode=this._root] - The node to measure depth from (defaults to root).
    * @returns The depth (0 if `dist` is `startNode`).
+   
     * @example
  * // Get depth of a node
  *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
@@ -1190,6 +1195,7 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [startNode=this._root] - The node to start measuring from.
    * @param [iterationType=this.iterationType] - The traversal method.
    * @returns The height ( -1 for an empty tree, 0 for a single-node tree).
+   
     * @example
  * // Get tree height
  *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
@@ -1461,7 +1467,8 @@ export class BinaryTree<K = any, V = any, R = any>
 
     /**
    * Depth-first search traversal
-   * @example
+  
+    * @example
  * // Depth-first search traversal
  *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
  *     const inOrder = tree.dfs(node => node.key, 'IN');
@@ -1514,7 +1521,8 @@ export class BinaryTree<K = any, V = any, R = any>
 
     /**
    * BinaryTree level-order traversal
-   * @example
+  
+    * @example
  * // BinaryTree level-order traversal
  *  const tree = new BinaryTree([
  *       [1, 'one'],

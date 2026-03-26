@@ -56,12 +56,14 @@ export class BinaryIndexedTree implements Iterable<number> {
   /**
    * Point update: add delta to the value at index (0-based).
    * Time: O(log n)
-   * @example
-   * ```ts
-   * const bit = new BinaryIndexedTree([1, 2, 3, 4]);
-   * bit.update(1, 5);    // add 5 to index 1
-   * bit.query(1);        // prefix sum [0..1] = 1 + 7 = 8
-   * ```
+  
+    * @example
+ * // Increment a value by delta
+ *  const bit = new BinaryIndexedTree([0, 0, 0, 0, 0]);
+ *     bit.update(2, 7);
+ *     console.log(bit.get(2)); // 7;
+ *     bit.update(2, 3);
+ *     console.log(bit.get(2)); // 10;
    */
   update(index: number, delta: number): void {
     this._checkIndex(index);
@@ -72,17 +74,19 @@ export class BinaryIndexedTree implements Iterable<number> {
    * Point set: set the value at index to an absolute value (0-based).
    * Time: O(log n)
    
-   * @example
-   * ```ts
-   * const bit = new BinaryIndexedTree([10, 20, 30, 40, 50]);
-   * bit.get(2); // 30
-   * bit.query(2); // 60
-   * bit.query(4); // 150
-   * // Increment index 1 by 5
-   * bit.update(1, 5);
-   * bit.get(1); // 25
-   * bit.query(2); // 65
-   * ```
+  
+    * @example
+ * // Building from array
+ *  const bit = new BinaryIndexedTree([10, 20, 30, 40, 50]);
+ *
+ *     console.log(bit.get(2)); // 30;
+ *     console.log(bit.query(2)); // 60;   // 10+20+30
+ *     console.log(bit.query(4)); // 150;  // total
+ *
+ *     // Increment index 1 by 5
+ *     bit.update(1, 5);
+ *     console.log(bit.get(1)); // 25;
+ *     console.log(bit.query(2)); // 65;
    */
   set(index: number, value: number): void {
     this._checkIndex(index);
@@ -93,11 +97,12 @@ export class BinaryIndexedTree implements Iterable<number> {
   /**
    * Get the point value at index (0-based).
    * Time: O(log n)
-   * @example
-   * ```ts
-   * const bit = new BinaryIndexedTree([1, 2, 3, 4]);
-   * bit.get(2); // 3
-   * ```
+  
+    * @example
+ * // Read point value at index
+ *  const bit = new BinaryIndexedTree([5, 3, 8, 1]);
+ *     console.log(bit.get(0)); // 5;
+ *     console.log(bit.get(2)); // 8;
    */
   get(index: number): number {
     this._checkIndex(index);
@@ -108,23 +113,25 @@ export class BinaryIndexedTree implements Iterable<number> {
    * Prefix sum query: returns sum of elements [0..index] (inclusive, 0-based).
    * Time: O(log n)
    
-   * @example
-   * ```ts
-   * // 6-element BIT: index 0..5
-   * const bit = new BinaryIndexedTree(6);
-   * bit.update(0, 3);
-   * bit.update(1, 2);
-   * bit.update(2, 7);
-   * bit.update(3, 1);
-   * bit.update(4, 5);
-   * bit.update(5, 4);
-   * // Prefix sum [0..2] = 3+2+7 = 12
-   * bit.query(2); // 12
-   * // Range sum [1..3] = 2+7+1 = 10
-   * bit.queryRange(1, 3); // 10
-   * // Point value at index 2
-   * bit.get(2); // 7
-   * ```
+  
+    * @example
+ * // Prefix sum queries and point updates
+ *  // 6-element BIT: index 0..5
+ *     const bit = new BinaryIndexedTree(6);
+ *
+ *     bit.update(0, 3);
+ *     bit.update(1, 2);
+ *     bit.update(2, 7);
+ *     bit.update(3, 1);
+ *     bit.update(4, 5);
+ *     bit.update(5, 4);
+ *
+ *     // Prefix sum [0..2] = 3+2+7 = 12
+ *     console.log(bit.query(2)); // 12;
+ *     // Range sum [1..3] = 2+7+1 = 10
+ *     console.log(bit.queryRange(1, 3)); // 10;
+ *     // Point value at index 2
+ *     console.log(bit.get(2)); // 7;
    */
   query(index: number): number {
     this._checkIndex(index);
@@ -134,11 +141,13 @@ export class BinaryIndexedTree implements Iterable<number> {
   /**
    * Range sum query: returns sum of elements [start..end] (inclusive, 0-based).
    * Time: O(log n)
-   * @example
-   * ```ts
-   * const bit = new BinaryIndexedTree([1, 2, 3, 4, 5]);
-   * bit.queryRange(1, 3); // 9 (2+3+4)
-   * ```
+  
+    * @example
+ * // Range sum query
+ *  const bit = new BinaryIndexedTree([1, 2, 3, 4, 5]);
+ *     console.log(bit.queryRange(1, 3)); // 9; // 2+3+4
+ *     console.log(bit.queryRange(0, 4)); // 15; // 1+2+3+4+5
+ *     console.log(bit.queryRange(2, 2)); // 3;
    */
   queryRange(start: number, end: number): number {
     this._checkIndex(start);
@@ -156,22 +165,26 @@ export class BinaryIndexedTree implements Iterable<number> {
    * Returns size if no such index exists.
    * Time: O(log n)
    
-   * @example
-   * ```ts
-   * // Track frequency of scores (0-4 scale, 5 possible values)
-   * const freq = new BinaryIndexedTree(5);
-   * // Record ratings: 2,0,3,0,4,1
-   * for (const rating of [2, 0, 3, 0, 4, 1]) {
-   *   freq.update(rating, 1);
-   * }
-   * // How many ratings are ≤ 2? (prefix sum [0..2])
-   * freq.query(2); // 4
-   * // How many ratings are exactly 0?
-   * freq.get(0); // 2
-   * // Find rating where cumulative count first reaches 3
-   * // freq=[2,1,1,1,1], prefix=[2,3,...] → prefix[1]=3 >= 3
-   * freq.lowerBound(3); // 1
-   * ```
+  
+    * @example
+ * // Counting frequency of ratings
+ *  // Track frequency of scores (0-4 scale, 5 possible values)
+ *     const freq = new BinaryIndexedTree(5);
+ *
+ *     // Record ratings: 2,0,3,0,4,1
+ *     for (const rating of [2, 0, 3, 0, 4, 1]) {
+ *       freq.update(rating, 1);
+ *     }
+ *
+ *     // How many ratings are ≤ 2? (prefix sum [0..2])
+ *     console.log(freq.query(2)); // 4; // two 0s, one 1, one 2
+ *
+ *     // How many ratings are exactly 0?
+ *     console.log(freq.get(0)); // 2;
+ *
+ *     // Find rating where cumulative count first reaches 3
+ *     // freq=[2,1,1,1,1], prefix=[2,3,...] → prefix[1]=3 >= 3
+ *     console.log(freq.lowerBound(3)); // 1;
    */
   lowerBound(sum: number): number {
     let pos = 0;

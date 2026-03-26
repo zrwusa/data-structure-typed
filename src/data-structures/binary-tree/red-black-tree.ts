@@ -733,6 +733,9 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * - updates via a single-pass search (no double walk)
    *
    * @remarks Time O(log n) average, Space O(1)
+   
+   
+   
     * @example
  * // basic Red-Black Tree with simple number keys
  *  // Create a simple Red-Black Tree with numeric keys
@@ -811,12 +814,14 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * @remarks Time O(log n) average, Space O(1)
    * @param keyNodeEntryRawOrPredicate - Key, node, or [key, value] entry identifying the node to delete.
    * @returns Array with deletion metadata (removed node, rebalancing hint if any).
+   
+   
     * @example
- * // Remove a node
- *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
- *     tree.delete(3);
- *     console.log(tree.has(3)); // false;
- *     console.log(tree.size); // 4;
+ * // Remove nodes and verify structure
+ *  const rbt = new RedBlackTree<number>([5, 3, 7, 1, 4, 6, 8]);
+ *     rbt.delete(3);
+ *     console.log(rbt.has(3)); // false;
+ *     console.log(rbt.size); // 6;
    */
   override delete(
     keyNodeEntryRawOrPredicate: BTNRep<K, V, RedBlackTreeNode<K, V>> | NodePredicate<RedBlackTreeNode<K, V> | null>

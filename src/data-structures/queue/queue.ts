@@ -157,6 +157,7 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Get the number of elements currently in the queue.
    * @remarks Time O(1), Space O(1)
    * @returns Current length.
+   
     * @example
  * // Track queue length
  *  const q = new Queue<number>();
@@ -174,6 +175,7 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Get the first element (front) without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Front element or undefined.
+   
     * @example
  * // View the front element
  *  const q = new Queue<string>(['first', 'second', 'third']);
@@ -211,6 +213,7 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Check whether the queue is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if length is 0.
+   
     * @example
  * // Queue for...of iteration and isEmpty check
  *  const queue = new Queue<string>(['A', 'B', 'C', 'D']);
@@ -240,6 +243,7 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @param element - Element to enqueue.
    * @returns True on success.
+   
     * @example
  * // basic Queue creation and push operation
  *  // Create a simple Queue with initial values
@@ -278,6 +282,7 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Dequeue one element from the front (amortized via offset).
    * @remarks Time O(1) amortized, Space O(1)
    * @returns Removed element or undefined.
+   
     * @example
  * // Queue shift and peek operations
  *  const queue = new Queue<number>([10, 20, 30, 40]);

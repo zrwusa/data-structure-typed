@@ -318,6 +318,9 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Whether the map contains the given key.
    * @remarks Time O(log n), Space O(1)
+   
+   
+   
     * @example
  * // Check key existence
  *  const mm = new TreeMultiMap<number, string>([
@@ -336,6 +339,9 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Live bucket reference (do not auto-delete key if bucket becomes empty via mutation).
    * @remarks Time O(log n), Space O(1)
+   
+   
+   
     * @example
  * // Retrieve grouped values by key
  *  const scores = new TreeMultiMap<string, number>([
@@ -368,6 +374,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Alias for compatibility with existing TreeMultiMap semantics.
    * @remarks Time O(log n), Space O(1) for single value; O(log n + m) for bucket append
+   
+   
+   
+   
     * @example
  * // Multi-value dictionary for tag grouping
  *  const tags = new TreeMultiMap<string, string>([
@@ -407,6 +417,9 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Deletes a key and its entire bucket.
    * @remarks Time O(log n), Space O(1)
+   
+   
+   
     * @example
  * // Remove a key and all its values
  *  const mm = new TreeMultiMap<number, string>([
@@ -532,9 +545,16 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Returns the entry with the smallest key.
    * @remarks Time O(log n), Space O(1)
-   * @example
-   * const map = new TreeMultiMap([[1, ['a']], [2, ['b']]]);
-   * map.first();  // [1, ['a']]
+  
+    * @example
+ * // Access the minimum entry
+ *  const mm = new TreeMultiMap<number, string>([
+ *       [5, ['e']],
+ *       [1, ['a']],
+ *       [3, ['c']]
+ *     ]);
+ *
+ *     console.log(mm.first()); // [1, ['a']];
    */
   first(): [K, V[]] | undefined {
     const k = this.#core.getLeftMost();
@@ -546,9 +566,16 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Returns the entry with the largest key.
    * @remarks Time O(log n), Space O(1)
-   * @example
-   * const map = new TreeMultiMap([[1, ['a']], [2, ['b']]]);
-   * map.last();  // [2, ['b']]
+  
+    * @example
+ * // Access the maximum entry
+ *  const mm = new TreeMultiMap<number, string>([
+ *       [5, ['e']],
+ *       [1, ['a']],
+ *       [3, ['c']]
+ *     ]);
+ *
+ *     console.log(mm.last()); // [5, ['e']];
    */
   last(): [K, V[]] | undefined {
     const k = this.#core.getRightMost();
@@ -590,10 +617,18 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Returns the entry with the smallest key >= given key.
    * @remarks Time O(log n), Space O(1)
-   * @example
-   * const map = new TreeMultiMap([[10, ['a']], [20, ['b']], [30, ['c']]]);
-   * map.ceiling(15);  // [20, ['b']]
-   * map.ceiling(20);  // [20, ['b']]
+  
+   
+    * @example
+ * // Least entry ≥ key
+ *  const mm = new TreeMultiMap<number, string>([
+ *       [10, ['a']],
+ *       [20, ['b']],
+ *       [30, ['c']]
+ *     ]);
+ *
+ *     console.log(mm.ceiling(15)); // [20, ['b']];
+ *     console.log(mm.ceiling(20)); // [20, ['b']];
    */
   ceiling(key: K): [K, V[]] | undefined {
     this._validateKey(key);
@@ -606,10 +641,18 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Returns the entry with the largest key <= given key.
    * @remarks Time O(log n), Space O(1)
-   * @example
-   * const map = new TreeMultiMap([[10, ['a']], [20, ['b']], [30, ['c']]]);
-   * map.floor(25);  // [20, ['b']]
-   * map.floor(20);  // [20, ['b']]
+  
+   
+    * @example
+ * // Greatest entry ≤ key
+ *  const mm = new TreeMultiMap<number, string>([
+ *       [10, ['a']],
+ *       [20, ['b']],
+ *       [30, ['c']]
+ *     ]);
+ *
+ *     console.log(mm.floor(25)); // [20, ['b']];
+ *     console.log(mm.floor(5)); // undefined;
    */
   floor(key: K): [K, V[]] | undefined {
     this._validateKey(key);
@@ -622,10 +665,12 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Returns the entry with the smallest key > given key.
    * @remarks Time O(log n), Space O(1)
-   * @example
-   * const map = new TreeMultiMap([[10, ['a']], [20, ['b']], [30, ['c']]]);
-   * map.higher(10);  // [20, ['b']]
-   * map.higher(15);  // [20, ['b']]
+  
+    * @example
+ * // Find the least key strictly > target
+ *  const tmm = new TreeMultiMap<number>([10, 20, 30, 40]);
+ *     console.log(tmm.higher(20)); // 30;
+ *     console.log(tmm.higher(40)); // undefined;
    */
   higher(key: K): [K, V[]] | undefined {
     this._validateKey(key);
@@ -638,10 +683,12 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Returns the entry with the largest key < given key.
    * @remarks Time O(log n), Space O(1)
-   * @example
-   * const map = new TreeMultiMap([[10, ['a']], [20, ['b']], [30, ['c']]]);
-   * map.lower(20);  // [10, ['a']]
-   * map.lower(15);  // [10, ['a']]
+  
+    * @example
+ * // Find the greatest key strictly < target
+ *  const tmm = new TreeMultiMap<number>([10, 20, 30, 40]);
+ *     console.log(tmm.lower(30)); // 20;
+ *     console.log(tmm.lower(10)); // undefined;
    */
   lower(key: K): [K, V[]] | undefined {
     this._validateKey(key);
@@ -725,10 +772,11 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Searches for entries within a key range.
    * @remarks Time O(log n + k), Space O(k) where k is result size
+   
     * @example
  * // Find all keys in a range
- *  const bst = new BST<number>([10, 20, 30, 40, 50]);
- *     console.log(bst.rangeSearch([15, 35])); // [20, 30];
+ *  const tmm = new TreeMultiMap<number>([10, 20, 30, 40, 50]);
+ *     console.log(tmm.rangeSearch([15, 35])); // [20, 30];
    */
   rangeSearch<C extends (node: RedBlackTreeNode<K, V[]>) => unknown>(
     range: Range<K> | [K, K],

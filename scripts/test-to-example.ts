@@ -113,6 +113,48 @@ function getDescendants(className: string): string[] {
   return all;
 }
 
+/**
+ * Class name → preferred variable name for examples.
+ */
+const classToVarName: Record<string, string> = {
+  BinaryTree: 'tree',
+  BST: 'bst',
+  AVLTree: 'avl',
+  RedBlackTree: 'rbt',
+  TreeMap: 'tm',
+  TreeSet: 'ts',
+  TreeMultiMap: 'tmm',
+  TreeMultiSet: 'tms',
+  Heap: 'heap',
+  MinHeap: 'minHeap',
+  MaxHeap: 'maxHeap',
+  PriorityQueue: 'pq',
+  MinPriorityQueue: 'minPQ',
+  MaxPriorityQueue: 'maxPQ',
+};
+
+/**
+ * Rewrite example code: replace source class name with target class name.
+ * e.g., `new BST<number>(...)` → `new RedBlackTree<number>(...)`
+ *        `const bst = ...`    → `const rbt = ...`
+ */
+function rewriteExampleForClass(body: string, sourceClass: string, targetClass: string): string {
+  const sourceVar = classToVarName[sourceClass] || sourceClass.charAt(0).toLowerCase() + sourceClass.slice(1);
+  const targetVar = classToVarName[targetClass] || targetClass.charAt(0).toLowerCase() + targetClass.slice(1);
+
+  let result = body;
+  // Replace constructor: new BST → new RedBlackTree
+  result = result.replace(new RegExp(`\\bnew ${sourceClass}\\b`, 'g'), `new ${targetClass}`);
+  // Replace variable declarations: const bst → const rbt
+  result = result.replace(new RegExp(`\\b(const|let|var)\\s+${sourceVar}\\b`, 'g'), `$1 ${targetVar}`);
+  // Replace variable usage: bst. → rbt.  (only whole-word before dot/bracket/comma/paren/semicolon/space)
+  result = result.replace(new RegExp(`\\b${sourceVar}([.\\[,);\\s])`, 'g'), `${targetVar}$1`);
+  // Replace variable at end of line
+  result = result.replace(new RegExp(`\\b${sourceVar}$`, 'gm'), targetVar);
+
+  return result;
+}
+
 const fileName = 'README.md';
 
 // ─── File helpers ─────────────────────────────────────────────
@@ -378,10 +420,10 @@ function addExampleToMethod(
   className: string,
   methodName: string,
   example: ExampleEntry
-): void {
+): boolean {
   if (!fs.existsSync(sourceFilePath)) {
     console.warn(`Source file not found: ${sourceFilePath}`);
-    return;
+    return false;
   }
 
   let sourceContent = fs.readFileSync(sourceFilePath, 'utf-8');
@@ -394,7 +436,7 @@ function addExampleToMethod(
 
   if (!classNode) {
     console.warn(`  ⚠️  Class "${className}" not found in ${sourceFilePath}`);
-    return;
+    return false;
   }
 
   // Find the method member
@@ -408,7 +450,7 @@ function addExampleToMethod(
   if (!member) {
     // Method not found in this class — likely inherited from base (not overridden).
     // TypeDoc will inherit the base class's @example automatically.
-    return;
+    return false;
   }
 
   const memberStart = member.getStart(sf);
@@ -432,13 +474,16 @@ function addExampleToMethod(
     const existingJsdoc = sourceContent.slice(absJsdocStart, absJsdocEnd);
 
     if (existingJsdoc.includes('@example')) {
-      console.log(`  ℹ️  ${className}.${methodName} already has @example, skipping`);
-      return;
+      // Replace existing @example block(s) with new one
+      const updatedJsdoc = existingJsdoc.replace(/ \* @example[\s\S]*?(?= \* @[a-z]|\s*\*\/)/g, '');
+      const updatedEnd = updatedJsdoc.lastIndexOf('*/');
+      const newJsdoc = updatedJsdoc.slice(0, updatedEnd) + exampleBlock + '   ' + updatedJsdoc.slice(updatedEnd);
+      sourceContent = sourceContent.slice(0, absJsdocStart) + newJsdoc + sourceContent.slice(absJsdocEnd);
+    } else {
+      // Insert before closing */
+      const insertPos = memberFullStart + jsdocEndInLeading;
+      sourceContent = sourceContent.slice(0, insertPos) + exampleBlock + '   ' + sourceContent.slice(insertPos);
     }
-
-    // Insert before closing */
-    const insertPos = memberFullStart + jsdocEndInLeading;
-    sourceContent = sourceContent.slice(0, insertPos) + exampleBlock + '   ' + sourceContent.slice(insertPos);
   } else {
     // No JSDoc — create one
     const indent = '  '; // 2-space class member indent
@@ -448,6 +493,7 @@ function addExampleToMethod(
 
   fs.writeFileSync(sourceFilePath, sourceContent);
   console.log(`  ✅ [method] ${className}.${methodName} ← "${example.name}"`);
+  return true;
 }
 
 // ─── README.md update ─────────────────────────────────────────
@@ -508,7 +554,13 @@ function updateExamples(testDir: string, sourceBaseDir: string): void {
         const descFile = classToSourceFile[desc];
         if (!descFile) continue;
         const descPath = path.resolve(sourceBaseDir, 'data-structures', descFile);
-        addExampleToMethod(descPath, desc, ex.methodName!, ex);
+        // Rewrite example code with target class name
+        const rewrittenBody = rewriteExampleForClass(ex.body, ex.className!, desc);
+        const rewrittenEx: ExampleEntry = {
+          ...ex,
+          body: rewrittenBody
+        };
+        addExampleToMethod(descPath, desc, ex.methodName!, rewrittenEx);
         totalMethod++;
       }
     }

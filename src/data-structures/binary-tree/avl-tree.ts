@@ -360,28 +360,37 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    * @param keyNodeOrEntry - The key, node, or entry to set.
    * @param [value] - The value, if providing just a key.
    * @returns True if the addition was successful, false otherwise.
+   
+   
+   
     * @example
- * // basic AVLTree creation and add operation
- *  // Create a simple AVLTree with initial values
- *     const tree = new AVLTree([5, 2, 8, 1, 9]);
+ * // basic BST creation and add operation
+ *  // Create a simple BST with numeric keys
+ *     const avl = new AVLTree<number>([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
  *
- *     tree.print();
- *     //   _2___
- *     //  /     \
- *     //  1    _8_
- *     //      /   \
- *     //      5   9
+ *     // Keep the example output in source comments but avoid noisy test logs.
+ *     await withMutedConsole(() => avl.print());
+ *     //         _______8__________
+ *     //        /                  \
+ *     //     ___4___          ____12_____
+ *     //    /       \        /           \
+ *     //   _2_     _6_     _10__       _14__
+ *     //  /   \   /   \   /     \     /     \
+ *     //  1   3   5   7   9    11    13    15__
+ *     //                                       \
+ *     //                                      16
  *
- *     // Verify the tree maintains sorted order
- *     console.log([...tree.keys()]); // [1, 2, 5, 8, 9];
+ *     // Verify size
+ *     console.log(avl.size); // 16;
  *
- *     // Check size
- *     console.log(tree.size); // 5;
+ *     // Add new elements
+ *     avl.set(17);
+ *     avl.set(0);
+ *     console.log(avl.size); // 18;
  *
- *     // Add a new element
- *     tree.set(3);
- *     console.log(tree.size); // 6;
- *     console.log([...tree.keys()]); // [1, 2, 3, 5, 8, 9];
+ *     // Verify keys are searchable
+ *     console.log(avl.has(11)); // true;
+ *     console.log(avl.has(100)); // false;
    */
   override set(
     keyNodeOrEntry: K | AVLTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
@@ -400,23 +409,15 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    *
    * @param keyNodeOrEntry - The node to delete.
    * @returns An array containing deletion results.
+   
+   
+   
     * @example
- * // AVLTree delete and balance verification
- *  const tree = new AVLTree([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
- *
- *     // Delete an element
- *     tree.delete(10);
- *     console.log(tree.has(10)); // false;
- *
- *     // Tree should remain balanced after deletion
- *     console.log(tree.isAVLBalanced()); // true;
- *
- *     // Size decreased
- *     console.log(tree.size); // 15;
- *
- *     // Remaining elements are still sorted
- *     const keys = [...tree.keys()];
- *     console.log(keys); // [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16];
+ * // Remove nodes and verify structure
+ *  const avl = new AVLTree<number>([5, 3, 7, 1, 4, 6, 8]);
+ *     avl.delete(3);
+ *     console.log(avl.has(3)); // false;
+ *     console.log(avl.size); // 6;
    */
   override delete(
     keyNodeOrEntry: K | AVLTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined

@@ -185,6 +185,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Get the number of elements.
    * @remarks Time O(1), Space O(1)
    * @returns Heap size.
+   
     * @example
  * // Track heap capacity
  *  const heap = new Heap<number>();
@@ -248,6 +249,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(1) amortized, Space O(1)
    * @param element - Element to insert.
    * @returns True.
+   
     * @example
  * // basic Heap creation and add operation
  *  // Create a min heap (default)
@@ -295,6 +297,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Remove and return the top element.
    * @remarks Time O(log N), Space O(1)
    * @returns Top element or undefined.
+   
     * @example
  * // Heap with custom comparator (MaxHeap behavior)
  *  interface Task {
@@ -337,6 +340,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Get the current top element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Top element or undefined.
+   
     * @example
  * // Heap for event processing with priority
  *  interface Event {
@@ -564,6 +568,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Return all elements in ascending order by repeatedly polling.
    * @remarks Time O(N log N), Space O(N)
    * @returns Sorted array of elements.
+   
     * @example
  * // Sort elements using heap
  *  const heap = new Heap<number>([5, 1, 3, 2, 4]);

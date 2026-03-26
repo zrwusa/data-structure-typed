@@ -275,6 +275,7 @@ export class UndirectedGraph<
    * @param otherSideVertexKey - Required second endpoint when deleting by pair.
    * @returns Removed edge or `undefined`.
    * @remarks Time O(1) avg, Space O(1)
+   
     * @example
  * // UndirectedGraph deleteEdge and vertex operations
  *  const graph = new UndirectedGraph<string>();
@@ -412,7 +413,8 @@ export class UndirectedGraph<
 
     /**
    * UndirectedGraph connectivity and neighbors
-   * @example
+  
+    * @example
  * // UndirectedGraph connectivity and neighbors
  *  const graph = new UndirectedGraph<string>();
  *

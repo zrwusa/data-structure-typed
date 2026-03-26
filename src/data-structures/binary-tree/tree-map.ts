@@ -247,6 +247,10 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
   /**
    * Set or overwrite a value for a key.
    * @remarks Expected time O(log n)
+   
+   
+   
+   
     * @example
  * // Sorted dictionary for a contact book
  *  const contacts = new TreeMap<string, string>([
@@ -277,6 +281,9 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
   /**
    * Get the value under a key.
    * @remarks Expected time O(log n)
+   
+   
+   
     * @example
  * // Configuration registry with typed lookups
  *  const config = new TreeMap<string, number>([
@@ -297,6 +304,9 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
   /**
    * Test whether a key exists.
    * @remarks Expected time O(log n)
+   
+   
+   
     * @example
  * // Feature flag checking
  *  const flags = new TreeMap<string, boolean>([
@@ -317,6 +327,9 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    * Delete a key.
    * @returns `true` if the key existed; otherwise `false`.
    * @remarks Expected time O(log n)
+   
+   
+   
     * @example
  * // Session management with expiry
  *  const sessions = new TreeMap<string, number>([
@@ -504,6 +517,7 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
 
   /**
    * Smallest entry by key.
+   
     * @example
  * // Leaderboard with ranked scores
  *  // Use score as key (descending), player name as value
@@ -538,6 +552,7 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
 
   /**
    * Largest entry by key.
+   
     * @example
  * // Access the maximum entry
  *  const scores = new TreeMap<number, string>([
@@ -556,6 +571,7 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
 
   /**
    * Remove and return the smallest entry.
+   
     * @example
  * // Process items from lowest priority
  *  const tasks = new TreeMap<number, string>([
@@ -578,6 +594,7 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
 
   /**
    * Remove and return the largest entry.
+   
     * @example
  * // Remove the maximum entry
  *  const bids = new TreeMap<number, string>([
@@ -600,6 +617,8 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
 
   /**
    * Smallest entry whose key is >= the given key.
+   
+   
     * @example
  * // Event scheduler with time-based lookup
  *  const events = new TreeMap<Date, string>();
@@ -640,6 +659,8 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
 
   /**
    * Largest entry whose key is <= the given key.
+   
+   
     * @example
  * // Find the largest key ≤ target
  *  const versions = new TreeMap<number, string>([
@@ -664,6 +685,8 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
 
   /**
    * Smallest entry whose key is > the given key.
+   
+   
     * @example
  * // Find the smallest key strictly > target
  *  const prices = new TreeMap<number, string>([
@@ -688,6 +711,8 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
 
   /**
    * Largest entry whose key is < the given key.
+   
+   
     * @example
  * // Find the largest key strictly < target
  *  const temps = new TreeMap<number, string>([
@@ -713,6 +738,8 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    *
    * @param range `[low, high]`
    * @param options Inclusive/exclusive bounds (defaults to inclusive).
+   
+   
     * @example
  * // Inventory system with price-sorted products
  *  interface Product {

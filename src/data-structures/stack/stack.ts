@@ -193,6 +193,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Check whether the stack is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if size is 0.
+   
     * @example
  * // Check if stack has elements
  *  const stack = new Stack<number>();
@@ -209,6 +210,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Get the top element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Top element or undefined.
+   
     * @example
  * // View the top element without removing it
  *  const stack = new Stack<string>(['a', 'b', 'c']);
@@ -225,6 +227,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @param element - Element to push.
    * @returns True when pushed.
+   
     * @example
  * // basic Stack creation and push operation
  *  // Create a simple Stack with initial values
@@ -250,6 +253,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Pop and return the top element.
    * @remarks Time O(1), Space O(1)
    * @returns Removed element or undefined.
+   
     * @example
  * // Stack pop operation (LIFO - Last In First Out)
  *  const stack = new Stack<number>([10, 20, 30, 40, 50]);
