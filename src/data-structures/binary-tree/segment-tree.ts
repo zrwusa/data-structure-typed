@@ -171,6 +171,11 @@ export class SegmentTree<E = number> implements Iterable<E> {
   /**
    * Get element at index.
    * Time: O(1)
+    * @example
+ * // Point access on segment tree
+ *  const st = SegmentTree.sum([10, 20, 30, 40]);
+ *     console.log(st.get(0)); // 10;
+ *     console.log(st.get(2)); // 30;
    */
   get(index: number): E {
     if (index < 0 || index >= this._n) return this._identity;
@@ -184,6 +189,14 @@ export class SegmentTree<E = number> implements Iterable<E> {
    * Returns left-1 if predicate(identity) is false.
    * Returns n-1 if predicate holds for the entire range [left, n-1].
    * Time: O(log n)
+    * @example
+ * // Find rightmost position where predicate holds
+ *  // Prefix sums: find the rightmost index where prefix sum < 10
+ *     const st = SegmentTree.sum([3, 1, 4, 1, 5]);
+ *     // maxRight(0, sum => sum < 10) — prefix [3,4,8,9,14]
+ *     // sum < 10 holds through index 3 (prefix=9), fails at 4 (prefix=14)
+ *     const result = st.maxRight(0, sum => sum < 10);
+ *     console.log(result); // 3;
    */
   maxRight(left: number, predicate: (segValue: E) => boolean): number {
     if (left >= this._n) return this._n - 1;
@@ -233,6 +246,13 @@ export class SegmentTree<E = number> implements Iterable<E> {
    * Returns right+1 if predicate(identity) is false.
    * Returns 0 if predicate holds for the entire range [0, right].
    * Time: O(log n)
+    * @example
+ * // Find leftmost position where predicate holds
+ *  const st = SegmentTree.sum([3, 1, 4, 1, 5]);
+ *     // minLeft(5, sum => sum < 7) — suffix sums from right
+ *     // From right: [5]=5 < 7, [1,5]=6 < 7, [4,1,5]=10 ≥ 7
+ *     const result = st.minLeft(5, sum => sum < 7);
+ *     console.log(result); // 3;
    */
   minLeft(right: number, predicate: (segValue: E) => boolean): number {
     if (right < 0) return 0;

@@ -1126,14 +1126,14 @@ describe('classic uses', () => {
     expect(doubled.get('banana')).toBe(4);
   });
 
-  it('@example [HashMap.reduce] Aggregate values', () => {
+  it('@example Aggregate values', () => {
     const counts = new HashMap<string, number>([['a', 5], ['b', 3], ['c', 8]]);
 
     const total = counts.reduce((sum, v) => sum + (v ?? 0), 0);
     expect(total).toBe(16);
   });
 
-  it('@example [HashMap.forEach] Iterate over entries', () => {
+  it('@example Iterate over entries', () => {
     const map = new HashMap<string, number>([['x', 1], ['y', 2]]);
     const keys: string[] = [];
 

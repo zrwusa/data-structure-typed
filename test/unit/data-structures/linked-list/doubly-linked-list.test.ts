@@ -1172,7 +1172,7 @@ describe('classic use', () => {
     expect([...list]).toEqual([3, 2, 1]);
   });
 
-  it('@example [DoublyLinkedList.find] Find first matching element', () => {
+  it('@example Find first matching element', () => {
     const list = new DoublyLinkedList<number>([5, 10, 15, 20]);
     expect(list.find(n => n >= 12)).toBe(15);
   });
@@ -1183,7 +1183,7 @@ describe('classic use', () => {
     expect([...evens]).toEqual([2, 4]);
   });
 
-  it('@example [DoublyLinkedList.forEach] Iterate over elements', () => {
+  it('@example Iterate over elements', () => {
     const list = new DoublyLinkedList<number>([1, 2, 3]);
     const sum: number[] = [];
     list.forEach(n => sum.push(n));

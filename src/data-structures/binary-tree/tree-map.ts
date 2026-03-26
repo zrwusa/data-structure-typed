@@ -277,6 +277,17 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
   /**
    * Get the value under a key.
    * @remarks Expected time O(log n)
+    * @example
+ * // Configuration registry with typed lookups
+ *  const config = new TreeMap<string, number>([
+ *       ['maxRetries', 3],
+ *       ['timeout', 5000],
+ *       ['poolSize', 10]
+ *     ]);
+ *
+ *     console.log(config.get('timeout')); // 5000;
+ *     console.log(config.get('missing')); // undefined;
+ *     console.log(config.size); // 3;
    */
   get(key: K): V | undefined {
     this._validateKey(key);
@@ -286,6 +297,16 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
   /**
    * Test whether a key exists.
    * @remarks Expected time O(log n)
+    * @example
+ * // Feature flag checking
+ *  const flags = new TreeMap<string, boolean>([
+ *       ['darkMode', true],
+ *       ['betaFeature', false],
+ *       ['notifications', true]
+ *     ]);
+ *
+ *     console.log(flags.has('darkMode')); // true;
+ *     console.log(flags.has('unknownFlag')); // false;
    */
   has(key: K): boolean {
     this._validateKey(key);
@@ -296,6 +317,18 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
    * Delete a key.
    * @returns `true` if the key existed; otherwise `false`.
    * @remarks Expected time O(log n)
+    * @example
+ * // Session management with expiry
+ *  const sessions = new TreeMap<string, number>([
+ *       ['sess_abc', Date.now()],
+ *       ['sess_def', Date.now()],
+ *       ['sess_ghi', Date.now()]
+ *     ]);
+ *
+ *     console.log(sessions.size); // 3;
+ *     sessions.delete('sess_def');
+ *     console.log(sessions.has('sess_def')); // false;
+ *     console.log(sessions.size); // 2;
    */
   delete(key: K): boolean {
     this._validateKey(key);
@@ -505,6 +538,16 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
 
   /**
    * Largest entry by key.
+    * @example
+ * // Access the maximum entry
+ *  const scores = new TreeMap<number, string>([
+ *       [85, 'Bob'],
+ *       [92, 'Alice'],
+ *       [78, 'Charlie']
+ *     ]);
+ *
+ *     console.log(scores.last()); // [92, 'Alice'];
+ *     console.log(scores.first()); // [78, 'Charlie'];
    */
   last(): [K, V | undefined] | undefined {
     const k = this.#core.getRightMost();
@@ -513,6 +556,18 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
 
   /**
    * Remove and return the smallest entry.
+    * @example
+ * // Process items from lowest priority
+ *  const tasks = new TreeMap<number, string>([
+ *       [3, 'Low'],
+ *       [1, 'Critical'],
+ *       [2, 'Medium']
+ *     ]);
+ *
+ *     // Process lowest priority first
+ *     console.log(tasks.pollFirst()); // [1, 'Critical'];
+ *     console.log(tasks.pollFirst()); // [2, 'Medium'];
+ *     console.log(tasks.size); // 1;
    */
   pollFirst(): [K, V | undefined] | undefined {
     const entry = this.first();
@@ -523,6 +578,18 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
 
   /**
    * Remove and return the largest entry.
+    * @example
+ * // Remove the maximum entry
+ *  const bids = new TreeMap<number, string>([
+ *       [100, 'Alice'],
+ *       [150, 'Bob'],
+ *       [120, 'Charlie']
+ *     ]);
+ *
+ *     // Remove highest bid
+ *     console.log(bids.pollLast()); // [150, 'Bob'];
+ *     console.log(bids.size); // 2;
+ *     console.log(bids.last()); // [120, 'Charlie'];
    */
   pollLast(): [K, V | undefined] | undefined {
     const entry = this.last();
@@ -573,6 +640,21 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
 
   /**
    * Largest entry whose key is <= the given key.
+    * @example
+ * // Find the largest key ≤ target
+ *  const versions = new TreeMap<number, string>([
+ *       [1, 'v1.0'],
+ *       [3, 'v3.0'],
+ *       [5, 'v5.0'],
+ *       [7, 'v7.0']
+ *     ]);
+ *
+ *     // Largest version ≤ 4
+ *     console.log(versions.floor(4)); // [3, 'v3.0'];
+ *     // Largest version ≤ 5 (exact match)
+ *     console.log(versions.floor(5)); // [5, 'v5.0'];
+ *     // No version ≤ 0
+ *     console.log(versions.floor(0)); // undefined;
    */
   floor(key: K): [K, V | undefined] | undefined {
     this._validateKey(key);
@@ -582,6 +664,21 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
 
   /**
    * Smallest entry whose key is > the given key.
+    * @example
+ * // Find the smallest key strictly > target
+ *  const prices = new TreeMap<number, string>([
+ *       [10, 'Basic'],
+ *       [25, 'Standard'],
+ *       [50, 'Premium'],
+ *       [100, 'Enterprise']
+ *     ]);
+ *
+ *     // Next tier above $25
+ *     console.log(prices.higher(25)); // [50, 'Premium'];
+ *     // Next tier above $99
+ *     console.log(prices.higher(99)); // [100, 'Enterprise'];
+ *     // Nothing above $100
+ *     console.log(prices.higher(100)); // undefined;
    */
   higher(key: K): [K, V | undefined] | undefined {
     this._validateKey(key);
@@ -591,6 +688,19 @@ export class TreeMap<K = any, V = any, R = [K, V]> implements Iterable<[K, V | u
 
   /**
    * Largest entry whose key is < the given key.
+    * @example
+ * // Find the largest key strictly < target
+ *  const temps = new TreeMap<number, string>([
+ *       [0, 'Freezing'],
+ *       [20, 'Cool'],
+ *       [30, 'Warm'],
+ *       [40, 'Hot']
+ *     ]);
+ *
+ *     // Largest reading below 30
+ *     console.log(temps.lower(30)); // [20, 'Cool'];
+ *     // Nothing below 0
+ *     console.log(temps.lower(0)); // undefined;
    */
   lower(key: K): [K, V | undefined] | undefined {
     this._validateKey(key);

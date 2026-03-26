@@ -853,7 +853,7 @@ describe('classic uses', () => {
     expect([...list]).toEqual([4, 3, 2, 1]);
   });
 
-  it('@example [SinglyLinkedList.find] Find first matching element', () => {
+  it('@example Find first matching element', () => {
     const list = new SinglyLinkedList<number>([1, 2, 3, 4, 5]);
     expect(list.find(n => n > 3)).toBe(4);
     expect(list.find(n => n > 10)).toBeUndefined();
@@ -865,7 +865,7 @@ describe('classic uses', () => {
     expect([...doubled]).toEqual([2, 4, 6]);
   });
 
-  it('@example [SinglyLinkedList.forEach] Iterate over elements', () => {
+  it('@example Iterate over elements', () => {
     const list = new SinglyLinkedList<number>([10, 20, 30]);
     const result: number[] = [];
     list.forEach(n => result.push(n));

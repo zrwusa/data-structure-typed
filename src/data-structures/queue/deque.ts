@@ -77,6 +77,10 @@ import { LinearBase } from '../base/linear-base';
  *     console.log(windowResults[2].windowSize); // 3; // Windows are at max size from 3rd onwards
  *     console.log(windowResults[4].windowSize); // 3; // Last window still has 3 elements
  *     console.log(dataWindow.length); // 3;
+ * @example
+ * // Convert deque to array
+ *  const dq = new Deque<number>([10, 20, 30]);
+ *     console.log(dq.toArray()); // [10, 20, 30];
  */
 export class Deque<E = any, R = any> extends LinearBase<E, R> {
   protected _equals: (a: E, b: E) => boolean = (a, b) => Object.is(a, b);
@@ -270,6 +274,11 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Get the last element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Last element or undefined.
+    * @example
+ * // Peek at the back element
+ *  const dq = new Deque<string>(['a', 'b', 'c']);
+ *     console.log(dq.last); // 'c';
+ *     console.log(dq.first); // 'a';
    */
 
   get last(): E | undefined {
@@ -347,6 +356,11 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Remove and return the last element.
    * @remarks Time O(1), Space O(1)
    * @returns Removed element or undefined.
+    * @example
+ * // Remove from the back
+ *  const dq = new Deque<number>([1, 2, 3]);
+ *     console.log(dq.pop()); // 3;
+ *     console.log(dq.length); // 2;
    */
 
   pop(): E | undefined {
@@ -372,6 +386,11 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Remove and return the first element.
    * @remarks Time O(1) amortized, Space O(1)
    * @returns Removed element or undefined.
+    * @example
+ * // Remove from the front
+ *  const dq = new Deque<number>([1, 2, 3]);
+ *     console.log(dq.shift()); // 1;
+ *     console.log(dq.length); // 2;
    */
 
   shift(): E | undefined {

@@ -758,7 +758,7 @@ describe('classic use', () => {
     expect(mergeSortedSequences(sequences)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
   });
 
-  it('@example [Heap.toArray] Get all elements as array', () => {
+  it('@example Get all elements as array', () => {
     const heap = new Heap<number>([5, 1, 3, 2, 4]);
     const arr = heap.toArray();
     expect(arr.length).toBe(5);

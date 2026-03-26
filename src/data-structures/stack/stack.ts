@@ -127,6 +127,10 @@ import { IterableElementBase } from '../base';
  *       else if (segment && segment !== '.') stack.push(segment);
  *     });
  *     console.log(stack.elements.join('/')); // 'c';
+ * @example
+ * // Convert stack to array
+ *  const stack = new Stack<number>([1, 2, 3]);
+ *     console.log(stack.toArray()); // [1, 2, 3];
  */
 export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
   protected _equals: (a: E, b: E) => boolean = (a, b) => Object.is(a, b);
@@ -189,6 +193,12 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Check whether the stack is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if size is 0.
+    * @example
+ * // Check if stack has elements
+ *  const stack = new Stack<number>();
+ *     console.log(stack.isEmpty()); // true;
+ *     stack.push(1);
+ *     console.log(stack.isEmpty()); // false;
    */
 
   isEmpty(): boolean {
@@ -199,6 +209,11 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Get the top element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Top element or undefined.
+    * @example
+ * // View the top element without removing it
+ *  const stack = new Stack<string>(['a', 'b', 'c']);
+ *     console.log(stack.peek()); // 'c';
+ *     console.log(stack.size); // 3;
    */
 
   peek(): E | undefined {

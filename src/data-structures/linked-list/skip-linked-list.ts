@@ -232,6 +232,11 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
   /**
    * Check if a key exists.
    * Overrides base O(n) with O(log n) skip-list search.
+    * @example
+ * // Check key existence
+ *  const sl = new SkipList<number, string>([[1, 'a'], [3, 'c'], [5, 'e']]);
+ *     console.log(sl.has(3)); // true;
+ *     console.log(sl.has(4)); // false;
    */
   override has(key: K): boolean {
     return this._findNode(key) !== undefined;
@@ -290,6 +295,10 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Returns the last (largest key) entry, or `undefined` if empty.
+    * @example
+ * // Access the maximum entry
+ *  const sl = new SkipList<number, string>([[5, 'e'], [1, 'a'], [3, 'c']]);
+ *     console.log(sl.last()); // [5, 'e'];
    */
   last(): [K, V | undefined] | undefined {
     let current = this._head;
@@ -346,6 +355,11 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Greatest entry ≤ key, or `undefined`.
+    * @example
+ * // Greatest entry ≤ key
+ *  const sl = new SkipList<number, string>([[10, 'a'], [20, 'b'], [30, 'c']]);
+ *     console.log(sl.floor(25)); // [20, 'b'];
+ *     console.log(sl.floor(5)); // undefined;
    */
   floor(key: K): [K, V | undefined] | undefined {
     const cmp = this.#comparator;

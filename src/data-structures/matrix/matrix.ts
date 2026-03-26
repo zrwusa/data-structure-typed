@@ -223,6 +223,13 @@ export class Matrix {
    * @returns a boolean value. It returns true if the index (row, col) is valid and the value is
    * successfully set in the data array. It returns false if the index is invalid and the value is not
    * set.
+    * @example
+ * // Modify individual cells
+ *  const m = Matrix.zeros(2, 2);
+ *     console.log(m.set(0, 0, 5)); // true;
+ *     console.log(m.set(1, 1, 10)); // true;
+ *     console.log(m.get(0, 0)); // 5;
+ *     console.log(m.get(1, 1)); // 10;
    */
   set(row: number, col: number, value: number): boolean {
     if (this.isValidIndex(row, col)) {
@@ -302,6 +309,12 @@ export class Matrix {
    * @param {Matrix} matrix - The `matrix` parameter is an instance of the `Matrix` class. It
    * represents the matrix that you want to subtract from the current matrix.
    * @returns a new Matrix object with the result of the subtraction operation.
+    * @example
+ * // Element-wise subtraction
+ *  const a = Matrix.from([[5, 6], [7, 8]]);
+ *     const b = Matrix.from([[1, 2], [3, 4]]);
+ *     const result = a.subtract(b);
+ *     console.log(result?.toArray()); // [[4, 4], [4, 4]];
    */
   subtract(matrix: Matrix): Matrix | undefined {
     if (!this.isMatchForCalculate(matrix)) {
@@ -441,6 +454,17 @@ export class Matrix {
   /**
    * The `inverse` function calculates the inverse of a square matrix using Gaussian elimination.
    * @returns a Matrix object, which represents the inverse of the original matrix.
+    * @example
+ * // Compute the inverse of a 2x2 matrix
+ *  const m = Matrix.from([[4, 7], [2, 6]]);
+ *     const inv = m.inverse();
+ *     console.log(inv); // defined;
+ *     // A * A^-1 should ≈ Identity
+ *     const product = m.multiply(inv!);
+ *     console.log(product?.get(0, 0)); // toBeCloseTo;
+ *     console.log(product?.get(0, 1)); // toBeCloseTo;
+ *     console.log(product?.get(1, 0)); // toBeCloseTo;
+ *     console.log(product?.get(1, 1)); // toBeCloseTo;
    */
   inverse(): Matrix | undefined {
     // Check if the matrix is square
@@ -521,6 +545,12 @@ export class Matrix {
    * The dot function calculates the dot product of two matrices and returns a new matrix.
    * @param {Matrix} matrix - The `matrix` parameter is an instance of the `Matrix` class.
    * @returns a new Matrix object.
+    * @example
+ * // Dot product of two matrices
+ *  const a = Matrix.from([[1, 2], [3, 4]]);
+ *     const b = Matrix.from([[5, 6], [7, 8]]);
+ *     const result = a.dot(b);
+ *     console.log(result?.toArray()); // [[19, 22], [43, 50]];
    */
   dot(matrix: Matrix): Matrix | undefined {
     if (this.cols !== matrix.rows) {

@@ -345,6 +345,13 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @remarks Time O(L), Space O(1)
    * @param word - Word to search for.
    * @returns True if present.
+    * @example
+ * // Check if a word exists
+ *  const dict = new Trie(['apple', 'app', 'application']);
+ *
+ *     console.log(dict.has('app')); // true;
+ *     console.log(dict.has('apple')); // true;
+ *     console.log(dict.has('ap')); // false;
    */
 
   override has(word: string): boolean {
@@ -488,6 +495,13 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @remarks Time O(L), Space O(1)
    * @param input - String to test as prefix.
    * @returns True if input matches a path from root.
+    * @example
+ * // Check if a prefix exists
+ *  const trie = new Trie(['hello', 'help', 'world']);
+ *
+ *     console.log(trie.hasPrefix('hel')); // true;
+ *     console.log(trie.hasPrefix('wor')); // true;
+ *     console.log(trie.hasPrefix('xyz')); // false;
    */
 
   hasPrefix(input: string): boolean {
@@ -526,6 +540,11 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * Return the longest common prefix among all words.
    * @remarks Time O(H), Space O(1)
    * @returns The longest common prefix string.
+    * @example
+ * // Find shared prefix
+ *  const trie = new Trie(['flower', 'flow', 'flight']);
+ *
+ *     console.log(trie.getLongestCommonPrefix()); // 'fl';
    */
 
   getLongestCommonPrefix(): string {

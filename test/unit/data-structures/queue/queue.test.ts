@@ -707,7 +707,7 @@ describe('classic uses', () => {
     expect(q.length).toBe(3);
   });
 
-  it('@example [Queue.toArray] Convert queue to array', () => {
+  it('@example Convert queue to array', () => {
     const q = new Queue<number>([10, 20, 30]);
     expect(q.toArray()).toEqual([10, 20, 30]);
   });

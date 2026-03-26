@@ -219,6 +219,12 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
   /**
    * Test whether a key exists.
    * @remarks Expected time O(log n)
+    * @example
+ * // Checking membership in a sorted collection
+ *  const allowed = new TreeSet<string>(['admin', 'editor', 'viewer']);
+ *
+ *     console.log(allowed.has('admin')); // true;
+ *     console.log(allowed.has('guest')); // false;
    */
   has(key: K): boolean {
     this._validateKey(key);
@@ -229,6 +235,13 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    * Delete a key.
    * @returns `true` if the key existed; otherwise `false`.
    * @remarks Expected time O(log n)
+    * @example
+ * // Removing elements while maintaining order
+ *  const nums = new TreeSet<number>([1, 3, 5, 7, 9]);
+ *
+ *     console.log(nums.delete(5)); // true;
+ *     console.log(nums.delete(5)); // false; // already gone
+ *     console.log([...nums]); // [1, 3, 7, 9];
    */
   delete(key: K): boolean {
     this._validateKey(key);
@@ -430,6 +443,11 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Largest key in the set.
+    * @example
+ * // Get the maximum element
+ *  const temps = new TreeSet<number>([18, 22, 15, 30, 25]);
+ *     console.log(temps.last()); // 30;
+ *     console.log(temps.first()); // 15;
    */
   last(): K | undefined {
     return this.#core.getRightMost();
@@ -437,6 +455,13 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Remove and return the smallest key.
+    * @example
+ * // Remove and return minimum
+ *  const queue = new TreeSet<number>([5, 1, 8, 3]);
+ *
+ *     console.log(queue.pollFirst()); // 1;
+ *     console.log(queue.pollFirst()); // 3;
+ *     console.log(queue.size); // 2;
    */
   pollFirst(): K | undefined {
     const k = this.first();
@@ -447,6 +472,12 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Remove and return the largest key.
+    * @example
+ * // Remove and return maximum
+ *  const stack = new TreeSet<number>([10, 20, 30]);
+ *
+ *     console.log(stack.pollLast()); // 30;
+ *     console.log(stack.size); // 2;
    */
   pollLast(): K | undefined {
     const k = this.last();
@@ -481,6 +512,14 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Largest key that is <= the given key.
+    * @example
+ * // Largest element ≤ target
+ *  const breakpoints = new TreeSet<number>([320, 768, 1024, 1280, 1920]);
+ *
+ *     // Current width is 800 → which breakpoint applies?
+ *     console.log(breakpoints.floor(800)); // 768;
+ *     console.log(breakpoints.floor(1024)); // 1024; // exact match
+ *     console.log(breakpoints.floor(100)); // undefined;
    */
   floor(key: K): K | undefined {
     this._validateKey(key);
@@ -489,6 +528,12 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Smallest key that is > the given key.
+    * @example
+ * // Smallest element strictly > target
+ *  const levels = new TreeSet<number>([1, 5, 10, 25, 50, 100]);
+ *
+ *     console.log(levels.higher(10)); // 25;
+ *     console.log(levels.higher(100)); // undefined;
    */
   higher(key: K): K | undefined {
     this._validateKey(key);
@@ -497,6 +542,12 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Largest key that is < the given key.
+    * @example
+ * // Largest element strictly < target
+ *  const tiers = new TreeSet<number>([100, 200, 500, 1000]);
+ *
+ *     console.log(tiers.lower(500)); // 200;
+ *     console.log(tiers.lower(100)); // undefined;
    */
   lower(key: K): K | undefined {
     this._validateKey(key);

@@ -449,7 +449,7 @@ describe('classic uses', () => {
     expect(stack.isEmpty()).toBe(false);
   });
 
-  it('@example [Stack.toArray] Convert stack to array', () => {
+  it('@example Convert stack to array', () => {
     const stack = new Stack<number>([1, 2, 3]);
     expect(stack.toArray()).toEqual([1, 2, 3]);
   });

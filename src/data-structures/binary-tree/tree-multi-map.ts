@@ -318,6 +318,15 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Whether the map contains the given key.
    * @remarks Time O(log n), Space O(1)
+    * @example
+ * // Check key existence
+ *  const mm = new TreeMultiMap<number, string>([
+ *       [1, ['a']],
+ *       [3, ['c']]
+ *     ]);
+ *
+ *     console.log(mm.has(1)); // true;
+ *     console.log(mm.has(2)); // false;
    */
   has(key: K): boolean {
     this._validateKey(key);
@@ -327,6 +336,15 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Live bucket reference (do not auto-delete key if bucket becomes empty via mutation).
    * @remarks Time O(log n), Space O(1)
+    * @example
+ * // Retrieve grouped values by key
+ *  const scores = new TreeMultiMap<string, number>([
+ *       ['Alice', [95, 88, 92]],
+ *       ['Bob', [80, 85]]
+ *     ]);
+ *
+ *     console.log(scores.get('Alice')); // [95, 88, 92];
+ *     console.log(scores.get('Unknown')); // undefined;
    */
   get(key: K): V[] | undefined {
     this._validateKey(key);
@@ -350,6 +368,16 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Alias for compatibility with existing TreeMultiMap semantics.
    * @remarks Time O(log n), Space O(1) for single value; O(log n + m) for bucket append
+    * @example
+ * // Multi-value dictionary for tag grouping
+ *  const tags = new TreeMultiMap<string, string>([
+ *       ['frontend', ['react', 'vue']],
+ *       ['backend', ['node', 'python']]
+ *     ]);
+ *
+ *     console.log(tags.get('frontend')); // ['react', 'vue'];
+ *     console.log(tags.size); // 2;
+ *     console.log([...tags.keys()]); // ['backend', 'frontend'];
    */
   set(entry: [K | null | undefined, V[] | undefined] | K | null | undefined, value?: V): boolean;
   set(key: K, value: V): boolean;
@@ -379,6 +407,17 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Deletes a key and its entire bucket.
    * @remarks Time O(log n), Space O(1)
+    * @example
+ * // Remove a key and all its values
+ *  const mm = new TreeMultiMap<number, string>([
+ *       [1, ['a', 'b']],
+ *       [2, ['c']],
+ *       [3, ['d']]
+ *     ]);
+ *
+ *     mm.delete(2);
+ *     console.log(mm.has(2)); // false;
+ *     console.log(mm.size); // 2;
    */
   delete(key: K): boolean {
     this._validateKey(key);

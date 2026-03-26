@@ -179,6 +179,17 @@ export class SinglyLinkedListNode<E = any> extends LinkedListNode<E> {
  *     editor.moveCursor(1);
  *     editor.insert('a');
  *     console.log(editor.getText()); // 'Haello';
+ * @example
+ * // Find first matching element
+ *  const list = new SinglyLinkedList<number>([1, 2, 3, 4, 5]);
+ *     console.log(list.find(n => n > 3)); // 4;
+ *     console.log(list.find(n => n > 10)); // undefined;
+ * @example
+ * // Iterate over elements
+ *  const list = new SinglyLinkedList<number>([10, 20, 30]);
+ *     const result: number[] = [];
+ *     list.forEach(n => result.push(n));
+ *     console.log(result); // [10, 20, 30];
  */
 export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, SinglyLinkedListNode<E>> {
   protected _equals: (a: E, b: E) => boolean = (a, b) => Object.is(a, b);
@@ -358,6 +369,11 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * Remove and return the head element.
    * @remarks Time O(1), Space O(1)
    * @returns Removed element or undefined.
+    * @example
+ * // Remove from the front
+ *  const list = new SinglyLinkedList<number>([10, 20, 30]);
+ *     console.log(list.shift()); // 10;
+ *     console.log(list.length); // 2;
    */
 
   shift(): E | undefined {
@@ -464,6 +480,12 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(N), Space O(1)
    * @param index - Zero-based index.
    * @returns Element or undefined.
+    * @example
+ * // Access element by index
+ *  const list = new SinglyLinkedList<string>(['a', 'b', 'c', 'd']);
+ *     console.log(list.at(0)); // 'a';
+ *     console.log(list.at(2)); // 'c';
+ *     console.log(list.at(3)); // 'd';
    */
 
   at(index: number): E | undefined {
@@ -604,6 +626,11 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * Reverse the list in place.
    * @remarks Time O(N), Space O(1)
    * @returns This list.
+    * @example
+ * // Reverse the list in-place
+ *  const list = new SinglyLinkedList<number>([1, 2, 3, 4]);
+ *     list.reverse();
+ *     console.log([...list]); // [4, 3, 2, 1];
    */
 
   reverse(): this {
@@ -877,6 +904,11 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param [options] - Options for the output list (e.g., maxLen, toElementFn).
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new SinglyLinkedList with mapped values.
+    * @example
+ * // Transform elements
+ *  const list = new SinglyLinkedList<number>([1, 2, 3]);
+ *     const doubled = list.map(n => n * 2);
+ *     console.log([...doubled]); // [2, 4, 6];
    */
 
   map<EM, RM = any>(

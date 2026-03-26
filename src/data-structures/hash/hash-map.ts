@@ -80,6 +80,19 @@ import { ERR } from '../../common';
  *     // Get all active sessions
  *     const activeCount = [...sessionCache.values()].length;
  *     console.log(activeCount); // 2;
+ * @example
+ * // Aggregate values
+ *  const counts = new HashMap<string, number>([['a', 5], ['b', 3], ['c', 8]]);
+ *
+ *     const total = counts.reduce((sum, v) => sum + (v ?? 0), 0);
+ *     console.log(total); // 16;
+ * @example
+ * // Iterate over entries
+ *  const map = new HashMap<string, number>([['x', 1], ['y', 2]]);
+ *     const keys: string[] = [];
+ *
+ *     map.forEach((v, k) => keys.push(k));
+ *     console.log(keys.sort()); // ['x', 'y'];
  */
 export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, V> {
   /**
@@ -270,6 +283,12 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(1), Space O(1)
    * @param key - Key to test.
    * @returns True if present.
+    * @example
+ * // Check key existence
+ *  const map = new HashMap<string, number>([['a', 1], ['b', 2]]);
+ *
+ *     console.log(map.has('a')); // true;
+ *     console.log(map.has('z')); // false;
    */
   override has(key: K): boolean {
     if (this._isObjKey(key)) return this.objMap.has(key);
@@ -282,6 +301,13 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(1), Space O(1)
    * @param key - Key to delete.
    * @returns True if the key was found and removed.
+    * @example
+ * // Remove entries by key
+ *  const map = new HashMap<string, number>([['x', 10], ['y', 20], ['z', 30]]);
+ *
+ *     console.log(map.delete('y')); // true;
+ *     console.log(map.has('y')); // false;
+ *     console.log(map.size); // 2;
    */
   delete(key: K): boolean {
     if (this._isObjKey(key)) {
@@ -327,6 +353,13 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param callbackfn - Mapping function (key, value, index, map) → newValue.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new map with transformed values.
+    * @example
+ * // Transform all values
+ *  const prices = new HashMap<string, number>([['apple', 1], ['banana', 2]]);
+ *
+ *     const doubled = prices.map(v => (v ?? 0) * 2);
+ *     console.log(doubled.get('apple')); // 2;
+ *     console.log(doubled.get('banana')); // 4;
    */
   map<VM>(callbackfn: EntryCallback<K, V, VM>, thisArg?: any): any {
     const out = this._createLike<K, VM, [K, VM]>();

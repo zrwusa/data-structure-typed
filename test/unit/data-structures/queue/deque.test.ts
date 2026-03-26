@@ -952,7 +952,7 @@ describe('classic uses', () => {
     expect(dq.first).toBe('a');
   });
 
-  it('@example [Deque.toArray] Convert deque to array', () => {
+  it('@example Convert deque to array', () => {
     const dq = new Deque<number>([10, 20, 30]);
     expect(dq.toArray()).toEqual([10, 20, 30]);
   });

@@ -136,6 +136,16 @@ export class DoublyLinkedListNode<E = any> extends LinkedListNode<E> {
  *     // Access entry (in real LRU, this would move it to end)
  *     const foundEntry = [...cacheList].find(entry => entry.key === 'user:2');
  *     console.log(foundEntry?.value); // 'Bob';
+ * @example
+ * // Find first matching element
+ *  const list = new DoublyLinkedList<number>([5, 10, 15, 20]);
+ *     console.log(list.find(n => n >= 12)); // 15;
+ * @example
+ * // Iterate over elements
+ *  const list = new DoublyLinkedList<number>([1, 2, 3]);
+ *     const sum: number[] = [];
+ *     list.forEach(n => sum.push(n));
+ *     console.log(sum); // [1, 2, 3];
  */
 export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, DoublyLinkedListNode<E>> {
   protected _equals: (a: E, b: E) => boolean = (a, b) => Object.is(a, b);
@@ -329,6 +339,11 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * Remove and return the head element.
    * @remarks Time O(1), Space O(1)
    * @returns Removed element or undefined.
+    * @example
+ * // Remove from the front
+ *  const list = new DoublyLinkedList<number>([10, 20, 30]);
+ *     console.log(list.shift()); // 10;
+ *     console.log(list.first); // 20;
    */
 
   shift(): E | undefined {
@@ -350,6 +365,11 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @remarks Time O(1), Space O(1)
    * @param elementOrNode - Element or node to prepend.
    * @returns True when prepended.
+    * @example
+ * // Add to the front
+ *  const list = new DoublyLinkedList<number>([2, 3]);
+ *     list.unshift(1);
+ *     console.log([...list]); // [1, 2, 3];
    */
 
   unshift(elementOrNode: E | DoublyLinkedListNode<E>): boolean {
@@ -404,6 +424,11 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @remarks Time O(N), Space O(1)
    * @param index - Zero-based index.
    * @returns Element or undefined.
+    * @example
+ * // Access by index
+ *  const list = new DoublyLinkedList<string>(['a', 'b', 'c']);
+ *     console.log(list.at(1)); // 'b';
+ *     console.log(list.at(2)); // 'c';
    */
 
   at(index: number): E | undefined {
@@ -664,6 +689,11 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * Reverse the list in place.
    * @remarks Time O(N), Space O(1)
    * @returns This list.
+    * @example
+ * // Reverse in-place
+ *  const list = new DoublyLinkedList<number>([1, 2, 3]);
+ *     list.reverse();
+ *     console.log([...list]); // [3, 2, 1];
    */
 
   reverse(): this {
@@ -707,6 +737,11 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @param callback - Predicate (value, index, list) → boolean to keep value.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new list with kept values.
+    * @example
+ * // Filter elements
+ *  const list = new DoublyLinkedList<number>([1, 2, 3, 4, 5]);
+ *     const evens = list.filter(n => n % 2 === 0);
+ *     console.log([...evens]); // [2, 4];
    */
 
   filter(callback: ElementCallback<E, R, boolean>, thisArg?: any): this {

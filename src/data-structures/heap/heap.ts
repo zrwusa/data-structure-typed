@@ -140,6 +140,12 @@ import { ERR } from '../../common';
  *       ['Task5', 4]
  *     ]);
  *     console.log(scheduleTasks(tasks, 2)); // expectedMap;
+ * @example
+ * // Get all elements as array
+ *  const heap = new Heap<number>([5, 1, 3, 2, 4]);
+ *     const arr = heap.toArray();
+ *     console.log(arr.length); // 5;
+ *     console.log(arr.sort()); // [1, 2, 3, 4, 5];
  */
 export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
   protected _equals: (a: E, b: E) => boolean = Object.is;
@@ -179,6 +185,15 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Get the number of elements.
    * @remarks Time O(1), Space O(1)
    * @returns Heap size.
+    * @example
+ * // Track heap capacity
+ *  const heap = new Heap<number>();
+ *     console.log(heap.size); // 0;
+ *     heap.add(10);
+ *     heap.add(20);
+ *     console.log(heap.size); // 2;
+ *     heap.poll();
+ *     console.log(heap.size); // 1;
    */
 
   get size(): number {
@@ -549,6 +564,11 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Return all elements in ascending order by repeatedly polling.
    * @remarks Time O(N log N), Space O(N)
    * @returns Sorted array of elements.
+    * @example
+ * // Sort elements using heap
+ *  const heap = new Heap<number>([5, 1, 3, 2, 4]);
+ *     const sorted = heap.sort();
+ *     console.log(sorted); // [1, 2, 3, 4, 5];
    */
 
   sort(): E[] {

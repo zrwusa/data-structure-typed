@@ -83,6 +83,10 @@ import { LinearBase } from '../base/linear-base';
  *
  *     // Queue should be empty after processing all messages
  *     console.log(messageQueue.length); // 0;
+ * @example
+ * // Convert queue to array
+ *  const q = new Queue<number>([10, 20, 30]);
+ *     console.log(q.toArray()); // [10, 20, 30];
  */
 export class Queue<E = any, R = any> extends LinearBase<E, R> {
   /**
@@ -153,6 +157,13 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Get the number of elements currently in the queue.
    * @remarks Time O(1), Space O(1)
    * @returns Current length.
+    * @example
+ * // Track queue length
+ *  const q = new Queue<number>();
+ *     console.log(q.length); // 0;
+ *     q.push(1);
+ *     q.push(2);
+ *     console.log(q.length); // 2;
    */
 
   get length(): number {
@@ -163,6 +174,11 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Get the first element (front) without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Front element or undefined.
+    * @example
+ * // View the front element
+ *  const q = new Queue<string>(['first', 'second', 'third']);
+ *     console.log(q.first); // 'first';
+ *     console.log(q.length); // 3;
    */
 
   get first(): E | undefined {
