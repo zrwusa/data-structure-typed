@@ -882,4 +882,234 @@ describe('classic use', () => {
     const vals = [...heap.values()];
     expect(vals.length).toBe(3);
   });
+
+  it('@example [MinHeap.add] Add to min heap', () => {
+    const heap = new MinHeap<number>([5, 3, 7]);
+    heap.add(1);
+    expect(heap.peek()).toBe(1);
+  });
+
+  it('@example [MinHeap.poll] Remove minimum', () => {
+    const heap = new MinHeap<number>([3, 1, 2]);
+    expect(heap.poll()).toBe(1);
+    expect(heap.peek()).toBe(2);
+  });
+
+  it('@example [MinHeap.peek] View minimum', () => {
+    const heap = new MinHeap<number>([5, 3, 7]);
+    expect(heap.peek()).toBe(3);
+  });
+
+  it('@example [MinHeap.sort] Sort elements', () => {
+    const heap = new MinHeap<number>([3, 1, 2]);
+    expect(heap.sort()).toEqual([1, 2, 3]);
+  });
+
+  it('@example [MinHeap.delete] Remove element', () => {
+    const heap = new MinHeap<number>([3, 1, 2]);
+    heap.delete(1);
+    expect(heap.peek()).toBe(2);
+  });
+
+  it('@example [MinHeap.addMany] Add multiple', () => {
+    const heap = new MinHeap<number>();
+    heap.addMany([5, 3, 7, 1]);
+    expect(heap.peek()).toBe(1);
+  });
+
+  it('@example [MinHeap.has] Check existence', () => {
+    const heap = new MinHeap<number>([3, 1, 2]);
+    expect(heap.has(1)).toBe(true);
+    expect(heap.has(99)).toBe(false);
+  });
+
+  it('@example [MinHeap.toArray] Convert to array', () => {
+    const heap = new MinHeap<number>([3, 1, 2]);
+    expect(heap.toArray().length).toBe(3);
+  });
+
+  it('@example [MinHeap.clear] Remove all', () => {
+    const heap = new MinHeap<number>([1, 2, 3]);
+    heap.clear();
+    expect(heap.isEmpty()).toBe(true);
+  });
+
+  it('@example [MinHeap.clone] Deep clone', () => {
+    const heap = new MinHeap<number>([3, 1, 2]);
+    const copy = heap.clone();
+    copy.poll();
+    expect(heap.size).toBe(3);
+  });
+
+  it('@example [MinHeap.isEmpty] Check empty', () => {
+    expect(new MinHeap<number>().isEmpty()).toBe(true);
+  });
+
+  it('@example [MinHeap.every] Test all', () => {
+    const heap = new MinHeap<number>([2, 4, 6]);
+    expect(heap.every(x => x > 0)).toBe(true);
+  });
+
+  it('@example [MinHeap.some] Test any', () => {
+    const heap = new MinHeap<number>([1, 3, 5]);
+    expect(heap.some(x => x === 3)).toBe(true);
+  });
+
+  it('@example [MinHeap.find] Find element', () => {
+    const heap = new MinHeap<number>([3, 1, 2]);
+    expect(heap.find(x => x === 2)).toBe(2);
+  });
+
+  it('@example [MinHeap.filter] Filter elements', () => {
+    const heap = new MinHeap<number>([1, 2, 3, 4, 5]);
+    const evens = heap.filter(x => x % 2 === 0);
+    expect(evens.size).toBe(2);
+  });
+
+  it('@example [MinHeap.map] Transform', () => {
+    const heap = new MinHeap<number>([1, 2, 3]);
+    const doubled = heap.map(x => x * 2, { comparator: (a, b) => a - b });
+    expect(doubled.peek()).toBe(2);
+  });
+
+  it('@example [MinHeap.reduce] Aggregate', () => {
+    const heap = new MinHeap<number>([1, 2, 3]);
+    expect(heap.reduce((acc, x) => acc + x, 0)).toBe(6);
+  });
+
+  it('@example [MinHeap.forEach] Iterate', () => {
+    const heap = new MinHeap<number>([3, 1, 2]);
+    const items: number[] = [];
+    heap.forEach(x => items.push(x));
+    expect(items.length).toBe(3);
+  });
+
+  it('@example [MinHeap.print] Display', () => {
+    const heap = new MinHeap<number>([3, 1, 2]);
+    expect(() => heap.print()).not.toThrow();
+  });
+
+  it('@example [MinHeap.values] Get values', () => {
+    const heap = new MinHeap<number>([3, 1, 2]);
+    expect([...heap.values()].length).toBe(3);
+  });
+
+  it('@example [MinHeap.dfs] Depth-first traversal', () => {
+    const heap = new MinHeap<number>([3, 1, 2]);
+    expect(heap.dfs('IN').length).toBe(3);
+  });
+
+  it('@example [MaxHeap.add] Add to max heap', () => {
+    const heap = new MaxHeap<number>([5, 3, 7]);
+    heap.add(10);
+    expect(heap.peek()).toBe(10);
+  });
+
+  it('@example [MaxHeap.poll] Remove maximum', () => {
+    const heap = new MaxHeap<number>([3, 1, 2]);
+    expect(heap.poll()).toBe(3);
+  });
+
+  it('@example [MaxHeap.peek] View maximum', () => {
+    const heap = new MaxHeap<number>([5, 3, 7]);
+    expect(heap.peek()).toBe(7);
+  });
+
+  it('@example [MaxHeap.sort] Sort descending', () => {
+    const heap = new MaxHeap<number>([3, 1, 2]);
+    expect(heap.sort()).toEqual([3, 2, 1]);
+  });
+
+  it('@example [MaxHeap.delete] Remove element', () => {
+    const heap = new MaxHeap<number>([3, 1, 2]);
+    heap.delete(3);
+    expect(heap.peek()).toBe(2);
+  });
+
+  it('@example [MaxHeap.addMany] Add multiple', () => {
+    const heap = new MaxHeap<number>();
+    heap.addMany([5, 3, 7, 1]);
+    expect(heap.peek()).toBe(7);
+  });
+
+  it('@example [MaxHeap.has] Check existence', () => {
+    const heap = new MaxHeap<number>([3, 1, 2]);
+    expect(heap.has(3)).toBe(true);
+  });
+
+  it('@example [MaxHeap.toArray] Convert to array', () => {
+    const heap = new MaxHeap<number>([3, 1, 2]);
+    expect(heap.toArray().length).toBe(3);
+  });
+
+  it('@example [MaxHeap.clear] Remove all', () => {
+    const heap = new MaxHeap<number>([1, 2]);
+    heap.clear();
+    expect(heap.isEmpty()).toBe(true);
+  });
+
+  it('@example [MaxHeap.clone] Deep clone', () => {
+    const heap = new MaxHeap<number>([3, 1, 2]);
+    const copy = heap.clone();
+    copy.poll();
+    expect(heap.size).toBe(3);
+  });
+
+  it('@example [MaxHeap.isEmpty] Check empty', () => {
+    expect(new MaxHeap<number>().isEmpty()).toBe(true);
+  });
+
+  it('@example [MaxHeap.every] Test all', () => {
+    const heap = new MaxHeap<number>([2, 4, 6]);
+    expect(heap.every(x => x > 0)).toBe(true);
+  });
+
+  it('@example [MaxHeap.some] Test any', () => {
+    const heap = new MaxHeap<number>([1, 3, 5]);
+    expect(heap.some(x => x === 3)).toBe(true);
+  });
+
+  it('@example [MaxHeap.find] Find element', () => {
+    const heap = new MaxHeap<number>([3, 1, 2]);
+    expect(heap.find(x => x === 2)).toBe(2);
+  });
+
+  it('@example [MaxHeap.filter] Filter', () => {
+    const heap = new MaxHeap<number>([1, 2, 3, 4, 5]);
+    const big = heap.filter(x => x > 3);
+    expect(big.size).toBe(2);
+  });
+
+  it('@example [MaxHeap.map] Transform', () => {
+    const heap = new MaxHeap<number>([1, 2, 3]);
+    const doubled = heap.map(x => x * 2, { comparator: (a, b) => b - a });
+    expect(doubled.peek()).toBe(6);
+  });
+
+  it('@example [MaxHeap.reduce] Aggregate', () => {
+    const heap = new MaxHeap<number>([1, 2, 3]);
+    expect(heap.reduce((acc, x) => acc + x, 0)).toBe(6);
+  });
+
+  it('@example [MaxHeap.forEach] Iterate', () => {
+    const heap = new MaxHeap<number>([3, 1, 2]);
+    const items: number[] = [];
+    heap.forEach(x => items.push(x));
+    expect(items.length).toBe(3);
+  });
+
+  it('@example [MaxHeap.print] Display', () => {
+    const heap = new MaxHeap<number>([3, 1, 2]);
+    expect(() => heap.print()).not.toThrow();
+  });
+
+  it('@example [MaxHeap.values] Get values', () => {
+    const heap = new MaxHeap<number>([3, 1, 2]);
+    expect([...heap.values()].length).toBe(3);
+  });
+
+  it('@example [MaxHeap.dfs] Depth-first traversal', () => {
+    const heap = new MaxHeap<number>([3, 1, 2]);
+    expect(heap.dfs('IN').length).toBe(3);
+  });
 });

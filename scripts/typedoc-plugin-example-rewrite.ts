@@ -22,7 +22,7 @@ const classToTestFile: Record<string, string> = {
   RedBlackTree: 'test/unit/data-structures/binary-tree/red-black-tree.test.ts',
   TreeMap: 'test/unit/data-structures/binary-tree/tree-map.test.ts',
   TreeSet: 'test/unit/data-structures/binary-tree/tree-set.test.ts',
-  TreeMultiMap: 'test/unit/data-structures/binary-tree/tree-multi-map.test.ts',
+  TreeMultiMap: 'test/unit/data-structures/binary-tree/tree-multi-map.simplified.test.ts',
   TreeMultiSet: 'test/unit/data-structures/binary-tree/tree-multi-set.test.ts',
   Heap: 'test/unit/data-structures/heap/heap.test.ts',
   MinHeap: 'test/unit/data-structures/heap/heap.test.ts',
@@ -38,7 +38,7 @@ const classToTestFile: Record<string, string> = {
   UndirectedGraph: 'test/unit/data-structures/graph/undirected-graph.test.ts',
   Trie: 'test/unit/data-structures/trie/trie.test.ts',
   SegmentTree: 'test/unit/data-structures/binary-tree/segment-tree.test.ts',
-  BinaryIndexedTree: 'test/unit/data-structures/binary-tree/binary-indexed-tree.test.ts',
+  BinaryIndexedTree: 'test/unit/data-structures/binary-tree/binary-indexed-tree.coverage.test.ts',
   Matrix: 'test/unit/data-structures/matrix/matrix.test.ts',
 };
 

@@ -553,5 +553,251 @@ describe('TreeMultiMap (Simplified API)', () => {
       expect(mm.has(3)).toBe(true);
       expect(mm.get(1)).toEqual([]);
     });
+
+    it('@example [TreeMultiMap.add] Add key-value pair', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(1, 'a');
+      mm.add(1, 'b');
+      mm.add(2, 'c');
+      expect(mm.get(1)).toEqual(['a', 'b']);
+    });
+
+    it('@example [TreeMultiMap.delete] Remove key', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(1, 'a');
+      mm.add(2, 'b');
+      mm.delete(1);
+      expect(mm.has(1)).toBe(false);
+    });
+
+    it('@example [TreeMultiMap.get] Get values for key', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(1, 'a');
+      mm.add(1, 'b');
+      expect(mm.get(1)).toEqual(['a', 'b']);
+    });
+
+    it('@example [TreeMultiMap.has] Check key existence', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(1, 'a');
+      expect(mm.has(1)).toBe(true);
+      expect(mm.has(2)).toBe(false);
+    });
+
+    it('@example [TreeMultiMap.set] Set values for key', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.set(1, 'a');
+      mm.set(1, 'b');
+      expect(mm.get(1)).toEqual(['a', 'b']);
+    });
+
+    it('@example [TreeMultiMap.setMany] Set multiple entries', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.setMany([[1, ['a']], [2, ['b']]]);
+      expect(mm.size).toBe(2);
+    });
+
+    it('@example [TreeMultiMap.clear] Remove all entries', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(1, 'a');
+      mm.clear();
+      expect(mm.isEmpty()).toBe(true);
+    });
+
+    it('@example [TreeMultiMap.clone] Deep clone', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(1, 'a');
+      const copy = mm.clone();
+      copy.delete(1);
+      expect(mm.has(1)).toBe(true);
+    });
+
+    it('@example [TreeMultiMap.isEmpty] Check if empty', () => {
+      expect(new TreeMultiMap().isEmpty()).toBe(true);
+    });
+
+    it('@example [TreeMultiMap.count] Count values for key', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(1, 'a');
+      mm.add(1, 'b');
+      expect(mm.count(1)).toBe(2);
+    });
+
+    it('@example [TreeMultiMap.totalSize] Total number of values', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(1, 'a');
+      mm.add(1, 'b');
+      mm.add(2, 'c');
+      expect(mm.totalSize).toBe(3);
+    });
+
+    it('@example [TreeMultiMap.first] First entry', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(3, 'c');
+      mm.add(1, 'a');
+      expect(mm.first()?.[0]).toBe(1);
+    });
+
+    it('@example [TreeMultiMap.last] Last entry', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(1, 'a');
+      mm.add(3, 'c');
+      expect(mm.last()?.[0]).toBe(3);
+    });
+
+    it('@example [TreeMultiMap.pollFirst] Remove and return first', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(2, 'b');
+      mm.add(1, 'a');
+      const first = mm.pollFirst();
+      expect(first?.[0]).toBe(1);
+      expect(mm.has(1)).toBe(false);
+    });
+
+    it('@example [TreeMultiMap.pollLast] Remove and return last', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(1, 'a');
+      mm.add(3, 'c');
+      const last = mm.pollLast();
+      expect(last?.[0]).toBe(3);
+    });
+
+    it('@example [TreeMultiMap.ceiling] Least key ≥ target', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(10, 'a');
+      mm.add(20, 'b');
+      mm.add(30, 'c');
+      expect(mm.ceiling(15)?.[0]).toBe(20);
+    });
+
+    it('@example [TreeMultiMap.floor] Greatest key ≤ target', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(10, 'a');
+      mm.add(20, 'b');
+      mm.add(30, 'c');
+      expect(mm.floor(25)?.[0]).toBe(20);
+    });
+
+    it('@example [TreeMultiMap.higher] Least key > target', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(10, 'a');
+      mm.add(20, 'b');
+      expect(mm.higher(10)?.[0]).toBe(20);
+    });
+
+    it('@example [TreeMultiMap.lower] Greatest key < target', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(10, 'a');
+      mm.add(20, 'b');
+      expect(mm.lower(20)?.[0]).toBe(10);
+    });
+
+    it('@example [TreeMultiMap.keys] Iterate keys', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(3, 'c');
+      mm.add(1, 'a');
+      expect([...mm.keys()]).toEqual([1, 3]);
+    });
+
+    it('@example [TreeMultiMap.values] Iterate value arrays', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(1, 'a');
+      mm.add(1, 'b');
+      expect([...mm.values()]).toEqual([['a', 'b']]);
+    });
+
+    it('@example [TreeMultiMap.entriesOf] Get entries for key', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(1, 'a');
+      mm.add(1, 'b');
+      expect([...mm.entriesOf(1)]).toEqual([[1, 'a'], [1, 'b']]);
+    });
+
+    it('@example [TreeMultiMap.valuesOf] Get flat values for key', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(1, 'a');
+      mm.add(1, 'b');
+      expect([...mm.valuesOf(1)]).toEqual(['a', 'b']);
+    });
+
+    it('@example [TreeMultiMap.flatEntries] All key-value pairs flattened', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(1, 'a');
+      mm.add(1, 'b');
+      mm.add(2, 'c');
+      expect([...mm.flatEntries()]).toEqual([[1, 'a'], [1, 'b'], [2, 'c']]);
+    });
+
+    it('@example [TreeMultiMap.hasEntry] Check specific key-value', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(1, 'a');
+      expect(mm.hasEntry(1, 'a')).toBe(true);
+      expect(mm.hasEntry(1, 'z')).toBe(false);
+    });
+
+    it('@example [TreeMultiMap.deleteValue] Delete specific value', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(1, 'a');
+      mm.add(1, 'b');
+      mm.deleteValue(1, 'a');
+      expect(mm.get(1)).toEqual(['b']);
+    });
+
+    it('@example [TreeMultiMap.deleteValues] Delete all matching values', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(1, 'a');
+      mm.add(1, 'a');
+      mm.add(1, 'b');
+      const count = mm.deleteValues(1, 'a');
+      expect(count).toBe(2);
+    });
+
+    it('@example [TreeMultiMap.forEach] Iterate entries', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(1, 'a');
+      mm.add(2, 'b');
+      const keys: number[] = [];
+      mm.forEach((v, k) => keys.push(k));
+      expect(keys).toEqual([1, 2]);
+    });
+
+    it('@example [TreeMultiMap.filter] Filter entries', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(1, 'a');
+      mm.add(2, 'b');
+      mm.add(3, 'c');
+      const filtered = mm.filter((v, k) => k > 1);
+      expect([...filtered.keys()]).toEqual([2, 3]);
+    });
+
+    it('@example [TreeMultiMap.map] Transform values', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(1, 'a');
+      const mapped = mm.map((v, k) => [k, v.map(s => s.toUpperCase())] as [number, string[]]);
+      expect(mapped.get(1)).toEqual(['A']);
+    });
+
+    it('@example [TreeMultiMap.reduce] Aggregate', () => {
+      const mm = new TreeMultiMap<number, number>();
+      mm.add(1, 10);
+      mm.add(2, 20);
+      const sum = mm.reduce((acc, v) => acc + v.reduce((a, b) => a + b, 0), 0);
+      expect(sum).toBe(30);
+    });
+
+    it('@example [TreeMultiMap.rangeSearch] Find keys in range', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(10, 'a');
+      mm.add(20, 'b');
+      mm.add(30, 'c');
+      const result = mm.rangeSearch([15, 25]);
+      expect(result.length).toBe(1);
+    });
+
+    it('@example [TreeMultiMap.print] Display tree', () => {
+      const mm = new TreeMultiMap<number, string>();
+      mm.add(1, 'a');
+      expect(() => mm.print()).not.toThrow();
+    });
   });
 });

@@ -61,4 +61,49 @@ describe('BinaryIndexedTree remaining branch coverage', () => {
     const iter = bit[Symbol.iterator]();
     expect(iter[Symbol.iterator]()).toBe(iter);
   });
+
+  it('@example [BinaryIndexedTree.update] Add delta at index', () => {
+    const bit = new BinaryIndexedTree([1, 2, 3, 4, 5]);
+    bit.update(2, 7);
+    expect(bit.get(2)).toBe(10);
+  });
+
+  it('@example [BinaryIndexedTree.get] Get value at index', () => {
+    const bit = new BinaryIndexedTree([1, 2, 3]);
+    expect(bit.get(0)).toBe(1);
+    expect(bit.get(2)).toBe(3);
+  });
+
+  it('@example [BinaryIndexedTree.query] Prefix sum', () => {
+    const bit = new BinaryIndexedTree([1, 2, 3, 4]);
+    expect(bit.query(2)).toBe(6);
+  });
+
+  it('@example [BinaryIndexedTree.queryRange] Range sum', () => {
+    const bit = new BinaryIndexedTree([1, 2, 3, 4]);
+    expect(bit.queryRange(1, 2)).toBe(5);
+  });
+
+  it('@example [BinaryIndexedTree.set] Set value at index', () => {
+    const bit = new BinaryIndexedTree([1, 2, 3]);
+    bit.set(1, 10);
+    expect(bit.get(1)).toBe(10);
+  });
+
+  it('@example [BinaryIndexedTree.toArray] Convert to array', () => {
+    const bit = new BinaryIndexedTree([1, 2, 3]);
+    expect(bit.toArray()).toEqual([1, 2, 3]);
+  });
+
+  it('@example [BinaryIndexedTree.lowerBound] Find index with prefix sum ≥ target', () => {
+    const bit = new BinaryIndexedTree([1, 2, 3, 4]);
+    const idx = bit.lowerBound(4);
+    expect(idx).toBeGreaterThanOrEqual(0);
+  });
+
+  it('@example [BinaryIndexedTree.upperBound] Find index with prefix sum > target', () => {
+    const bit = new BinaryIndexedTree([1, 2, 3, 4]);
+    const idx = bit.upperBound(4);
+    expect(idx).toBeGreaterThanOrEqual(0);
+  });
 });

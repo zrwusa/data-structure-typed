@@ -590,5 +590,215 @@ describe('TreeMultiSet', () => {
       expect([...ms.keysDistinct()]).toEqual([3, 2, 1]); // descending order
       expect(ms.count(1)).toBe(2);
     });
+
+    it('@example [TreeMultiSet.add] Add elements', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(1);
+      ms.add(1);
+      ms.add(2);
+      expect(ms.count(1)).toBe(2);
+      expect(ms.size).toBe(3);
+    });
+
+    it('@example [TreeMultiSet.delete] Remove one occurrence', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(1, 3);
+      ms.delete(1);
+      expect(ms.count(1)).toBe(2);
+    });
+
+    it('@example [TreeMultiSet.deleteAll] Remove all occurrences', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(1, 3);
+      ms.deleteAll(1);
+      expect(ms.has(1)).toBe(false);
+    });
+
+    it('@example [TreeMultiSet.has] Check existence', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(1);
+      expect(ms.has(1)).toBe(true);
+      expect(ms.has(2)).toBe(false);
+    });
+
+    it('@example [TreeMultiSet.count] Get occurrence count', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(1, 5);
+      expect(ms.count(1)).toBe(5);
+    });
+
+    it('@example [TreeMultiSet.setCount] Set occurrence count', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.setCount(1, 3);
+      expect(ms.count(1)).toBe(3);
+    });
+
+    it('@example [TreeMultiSet.clear] Remove all', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(1);
+      ms.clear();
+      expect(ms.isEmpty()).toBe(true);
+    });
+
+    it('@example [TreeMultiSet.clone] Deep clone', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(1, 3);
+      const copy = ms.clone();
+      copy.deleteAll(1);
+      expect(ms.has(1)).toBe(true);
+    });
+
+    it('@example [TreeMultiSet.isEmpty] Check empty', () => {
+      expect(new TreeMultiSet().isEmpty()).toBe(true);
+    });
+
+    it('@example [TreeMultiSet.distinctSize] Unique key count', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(1, 3);
+      ms.add(2, 2);
+      expect(ms.distinctSize).toBe(2);
+    });
+
+    it('@example [TreeMultiSet.first] Smallest element', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(3);
+      ms.add(1);
+      expect(ms.first()).toBe(1);
+    });
+
+    it('@example [TreeMultiSet.last] Largest element', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(1);
+      ms.add(3);
+      expect(ms.last()).toBe(3);
+    });
+
+    it('@example [TreeMultiSet.pollFirst] Remove and return smallest', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(2);
+      ms.add(1);
+      expect(ms.pollFirst()).toBe(1);
+      expect(ms.has(1)).toBe(false);
+    });
+
+    it('@example [TreeMultiSet.pollLast] Remove and return largest', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(1);
+      ms.add(3);
+      expect(ms.pollLast()).toBe(3);
+    });
+
+    it('@example [TreeMultiSet.ceiling] Least key ≥ target', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(10);
+      ms.add(20);
+      ms.add(30);
+      expect(ms.ceiling(15)).toBe(20);
+    });
+
+    it('@example [TreeMultiSet.floor] Greatest key ≤ target', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(10);
+      ms.add(20);
+      ms.add(30);
+      expect(ms.floor(25)).toBe(20);
+    });
+
+    it('@example [TreeMultiSet.higher] Least key > target', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(10);
+      ms.add(20);
+      expect(ms.higher(10)).toBe(20);
+    });
+
+    it('@example [TreeMultiSet.lower] Greatest key < target', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(10);
+      ms.add(20);
+      expect(ms.lower(20)).toBe(10);
+    });
+
+    it('@example [TreeMultiSet.toArray] All elements (with duplicates)', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(1, 2);
+      ms.add(2);
+      expect(ms.toArray()).toEqual([1, 1, 2]);
+    });
+
+    it('@example [TreeMultiSet.toDistinctArray] Unique keys only', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(1, 3);
+      ms.add(2);
+      expect(ms.toDistinctArray()).toEqual([1, 2]);
+    });
+
+    it('@example [TreeMultiSet.toEntries] Key-count pairs', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(1, 2);
+      ms.add(3);
+      expect(ms.toEntries()).toEqual([[1, 2], [3, 1]]);
+    });
+
+    it('@example [TreeMultiSet.keysDistinct] Iterate unique keys', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(1, 2);
+      ms.add(2);
+      expect([...ms.keysDistinct()]).toEqual([1, 2]);
+    });
+
+    it('@example [TreeMultiSet.entries] Iterate entries', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(1, 2);
+      expect([...ms.entries()].length).toBeGreaterThan(0);
+    });
+
+    it('@example [TreeMultiSet.forEach] Iterate', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(1, 2);
+      ms.add(2);
+      const pairs: [number, number][] = [];
+      ms.forEach((k, c) => pairs.push([k, c]));
+      expect(pairs).toEqual([[1, 2], [2, 1]]);
+    });
+
+    it('@example [TreeMultiSet.filter] Filter', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(1, 3);
+      ms.add(2, 1);
+      ms.add(3, 2);
+      const filtered = ms.filter((k, c) => c > 1);
+      expect([...filtered.keysDistinct()]).toEqual([1, 3]);
+    });
+
+    it('@example [TreeMultiSet.map] Transform', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(1, 2);
+      ms.add(2, 3);
+      const doubled = ms.map((k, c) => [k * 10, c] as [number, number]);
+      expect([...doubled.keysDistinct()]).toEqual([10, 20]);
+    });
+
+    it('@example [TreeMultiSet.reduce] Aggregate', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(1, 2);
+      ms.add(2, 3);
+      const sum = ms.reduce((acc, k, c) => acc + k * c, 0);
+      expect(sum).toBe(8);
+    });
+
+    it('@example [TreeMultiSet.rangeSearch] Find in range', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(10);
+      ms.add(20);
+      ms.add(30);
+      const result = ms.rangeSearch([15, 25]);
+      expect(result.length).toBe(1);
+    });
+
+    it('@example [TreeMultiSet.print] Display', () => {
+      const ms = new TreeMultiSet<number>();
+      ms.add(1);
+      expect(() => ms.print()).not.toThrow();
+    });
   });
 });
