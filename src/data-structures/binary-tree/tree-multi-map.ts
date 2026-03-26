@@ -725,6 +725,10 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   /**
    * Searches for entries within a key range.
    * @remarks Time O(log n + k), Space O(k) where k is result size
+    * @example
+ * // Find all keys in a range
+ *  const bst = new BST<number>([10, 20, 30, 40, 50]);
+ *     console.log(bst.rangeSearch([15, 35])); // [20, 30];
    */
   rangeSearch<C extends (node: RedBlackTreeNode<K, V[]>) => unknown>(
     range: Range<K> | [K, K],

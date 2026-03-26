@@ -186,6 +186,12 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * Delete `n` occurrences of `key` (default 1).
    * @returns True if any occurrence was removed.
    * @remarks Time O(log n), Space O(1)
+    * @example
+ * // Remove a node
+ *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
+ *     tree.delete(3);
+ *     console.log(tree.has(3)); // false;
+ *     console.log(tree.size); // 4;
    */
   delete(key: K, n = 1): boolean {
     this._validateKey(key);

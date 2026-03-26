@@ -811,6 +811,12 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * @remarks Time O(log n) average, Space O(1)
    * @param keyNodeEntryRawOrPredicate - Key, node, or [key, value] entry identifying the node to delete.
    * @returns Array with deletion metadata (removed node, rebalancing hint if any).
+    * @example
+ * // Remove a node
+ *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
+ *     tree.delete(3);
+ *     console.log(tree.has(3)); // false;
+ *     console.log(tree.size); // 4;
    */
   override delete(
     keyNodeEntryRawOrPredicate: BTNRep<K, V, RedBlackTreeNode<K, V>> | NodePredicate<RedBlackTreeNode<K, V> | null>

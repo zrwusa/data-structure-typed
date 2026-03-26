@@ -1921,4 +1921,34 @@ describe('Classic usage examples', () => {
     // Verify complete binary tree structure
     expect(fileSystem.has(8)).toBe(true);
   });
+
+  it('@example [BinaryTree.get] Retrieve value by key', () => {
+    const tree = new BinaryTree<number, string>([[1, 'root'], [2, 'left'], [3, 'right']]);
+    expect(tree.get(2)).toBe('left');
+    expect(tree.get(99)).toBeUndefined();
+  });
+
+  it('@example [BinaryTree.delete] Remove a node', () => {
+    const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
+    tree.delete(3);
+    expect(tree.has(3)).toBe(false);
+    expect(tree.size).toBe(4);
+  });
+
+  it('@example [BinaryTree.dfs] Depth-first search traversal', () => {
+    const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
+    const inOrder = tree.dfs(node => node.key, 'IN');
+    expect(inOrder).toEqual([4, 2, 5, 1, 3]);
+  });
+
+  it('@example [BinaryTree.getHeight] Get tree height', () => {
+    const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
+    expect(tree.getHeight()).toBe(2);
+  });
+
+  it('@example [BinaryTree.getDepth] Get depth of a node', () => {
+    const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
+    const node = tree.getNode(4);
+    expect(tree.getDepth(node!)).toBe(2);
+  });
 });

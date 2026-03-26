@@ -745,6 +745,12 @@ export class BinaryTree<K = any, V = any, R = any>
    *
    * @param keyNodeEntryRawOrPredicate - The node to delete.
    * @returns An array containing deletion results (for compatibility with self-balancing trees).
+    * @example
+ * // Remove a node
+ *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
+ *     tree.delete(3);
+ *     console.log(tree.has(3)); // false;
+ *     console.log(tree.size); // 4;
    */
   delete(
     keyNodeEntryRawOrPredicate: BTNRep<K, V, BinaryTreeNode<K, V>> | NodePredicate<BinaryTreeNode<K, V> | null>
@@ -975,6 +981,11 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [startNode=this._root] - The node to start searching from (if not in Map mode).
    * @param [iterationType=this.iterationType] - The traversal method (if not in Map mode).
    * @returns The associated value, or undefined.
+    * @example
+ * // Retrieve value by key
+ *  const tree = new BinaryTree<number, string>([[1, 'root'], [2, 'left'], [3, 'right']]);
+ *     console.log(tree.get(2)); // 'left';
+ *     console.log(tree.get(99)); // undefined;
    */
   override get(
     keyNodeEntryOrPredicate: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
@@ -1149,6 +1160,11 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param dist - The node to find the depth of.
    * @param [startNode=this._root] - The node to measure depth from (defaults to root).
    * @returns The depth (0 if `dist` is `startNode`).
+    * @example
+ * // Get depth of a node
+ *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
+ *     const node = tree.getNode(4);
+ *     console.log(tree.getDepth(node!)); // 2;
    */
   getDepth(
     dist: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
@@ -1174,6 +1190,10 @@ export class BinaryTree<K = any, V = any, R = any>
    * @param [startNode=this._root] - The node to start measuring from.
    * @param [iterationType=this.iterationType] - The traversal method.
    * @returns The height ( -1 for an empty tree, 0 for a single-node tree).
+    * @example
+ * // Get tree height
+ *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
+ *     console.log(tree.getHeight()); // 2;
    */
   getHeight(
     startNode: K | BinaryTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined = this._root,
@@ -1439,6 +1459,14 @@ export class BinaryTree<K = any, V = any, R = any>
     return y;
   }
 
+    /**
+   * Depth-first search traversal
+   * @example
+ * // Depth-first search traversal
+ *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
+ *     const inOrder = tree.dfs(node => node.key, 'IN');
+ *     console.log(inOrder); // [4, 2, 5, 1, 3];
+   */
   dfs(): (K | undefined)[];
 
   dfs<C extends NodeCallback<BinaryTreeNode<K, V>>>(

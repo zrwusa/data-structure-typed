@@ -432,6 +432,14 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     return isComparable(key);
   }
 
+    /**
+   * Depth-first search traversal
+   * @example
+ * // Depth-first search traversal
+ *  const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
+ *     const inOrder = tree.dfs(node => node.key, 'IN');
+ *     console.log(inOrder); // [4, 2, 5, 1, 3];
+   */
   override dfs(): (K | undefined)[];
 
   override dfs<C extends NodeCallback<BSTNode<K, V>>>(
@@ -766,6 +774,13 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     );
   }
 
+    /**
+   * Find all keys in a range
+   * @example
+ * // Find all keys in a range
+ *  const bst = new BST<number>([10, 20, 30, 40, 50]);
+ *     console.log(bst.rangeSearch([15, 35])); // [20, 30];
+   */
   rangeSearch(range: Range<K> | [K, K]): (K | undefined)[];
 
   rangeSearch<C extends NodeCallback<BSTNode<K, V>>>(
@@ -986,6 +1001,12 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Equivalent to Java TreeMap.ceiling.
    * Time Complexity: O(log n) average, O(h) worst case.
    * Space Complexity: O(h) for recursion, O(1) for iteration.
+    * @example
+ * // Find the least key ≥ target
+ *  const bst = new BST<number>([10, 20, 30, 40, 50]);
+ *     console.log(bst.ceiling(25)); // 30;
+ *     console.log(bst.ceiling(30)); // 30;
+ *     console.log(bst.ceiling(55)); // undefined;
    */
   ceiling(
     keyNodeEntryOrPredicate:
@@ -1051,6 +1072,11 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Equivalent to Java TreeMap.higher.
    * Time Complexity: O(log n) average, O(h) worst case.
    * Space Complexity: O(h) for recursion, O(1) for iteration.
+    * @example
+ * // Find the least key strictly > target
+ *  const bst = new BST<number>([10, 20, 30, 40]);
+ *     console.log(bst.higher(20)); // 30;
+ *     console.log(bst.higher(40)); // undefined;
    */
   higher(
     keyNodeEntryOrPredicate:
@@ -1116,6 +1142,12 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Equivalent to Java TreeMap.floor.
    * Time Complexity: O(log n) average, O(h) worst case.
    * Space Complexity: O(h) for recursion, O(1) for iteration.
+    * @example
+ * // Find the greatest key ≤ target
+ *  const bst = new BST<number>([10, 20, 30, 40, 50]);
+ *     console.log(bst.floor(25)); // 20;
+ *     console.log(bst.floor(10)); // 10;
+ *     console.log(bst.floor(5)); // undefined;
    */
   floor(
     keyNodeEntryOrPredicate:
@@ -1224,6 +1256,11 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Equivalent to Java TreeMap.lower.
    * Time Complexity: O(log n) average, O(h) worst case.
    * Space Complexity: O(h) for recursion, O(1) for iteration.
+    * @example
+ * // Find the greatest key strictly < target
+ *  const bst = new BST<number>([10, 20, 30, 40]);
+ *     console.log(bst.lower(30)); // 20;
+ *     console.log(bst.lower(10)); // undefined;
    */
   lower(
     keyNodeEntryOrPredicate:

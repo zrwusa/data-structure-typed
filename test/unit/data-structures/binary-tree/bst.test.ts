@@ -3492,4 +3492,60 @@ describe('classic use', () => {
     const heightOf2 = bst.getHeight(2);
     expect(heightOf2).toBe(1);
   });
+
+  it('@example [BST.delete] Remove nodes and verify structure', () => {
+    const bst = new BST<number>([5, 3, 7, 1, 4, 6, 8]);
+    bst.delete(3);
+    expect(bst.has(3)).toBe(false);
+    expect(bst.size).toBe(6);
+  });
+
+  it('@example [BST.get] Retrieve values by key', () => {
+    const bst = new BST<number, string>([[5, 'five'], [3, 'three'], [7, 'seven']]);
+    expect(bst.get(3)).toBe('three');
+    expect(bst.get(99)).toBeUndefined();
+  });
+
+  it('@example [BST.has] Check if a key exists', () => {
+    const bst = new BST<number>([5, 3, 7, 1]);
+    expect(bst.has(3)).toBe(true);
+    expect(bst.has(99)).toBe(false);
+  });
+
+  it('@example [BST.ceiling] Find the least key ≥ target', () => {
+    const bst = new BST<number>([10, 20, 30, 40, 50]);
+    expect(bst.ceiling(25)).toBe(30);
+    expect(bst.ceiling(30)).toBe(30);
+    expect(bst.ceiling(55)).toBeUndefined();
+  });
+
+  it('@example [BST.floor] Find the greatest key ≤ target', () => {
+    const bst = new BST<number>([10, 20, 30, 40, 50]);
+    expect(bst.floor(25)).toBe(20);
+    expect(bst.floor(10)).toBe(10);
+    expect(bst.floor(5)).toBeUndefined();
+  });
+
+  it('@example [BST.higher] Find the least key strictly > target', () => {
+    const bst = new BST<number>([10, 20, 30, 40]);
+    expect(bst.higher(20)).toBe(30);
+    expect(bst.higher(40)).toBeUndefined();
+  });
+
+  it('@example [BST.lower] Find the greatest key strictly < target', () => {
+    const bst = new BST<number>([10, 20, 30, 40]);
+    expect(bst.lower(30)).toBe(20);
+    expect(bst.lower(10)).toBeUndefined();
+  });
+
+  it('@example [BST.rangeSearch] Find all keys in a range', () => {
+    const bst = new BST<number>([10, 20, 30, 40, 50]);
+    expect(bst.rangeSearch([15, 35])).toEqual([20, 30]);
+  });
+
+  it('@example [BST.dfs] Depth-first traversal', () => {
+    const bst = new BST<number>([5, 3, 7, 1, 4]);
+    const inOrder = bst.dfs(node => node.key, 'IN');
+    expect(inOrder).toEqual([1, 3, 4, 5, 7]);
+  });
 });
