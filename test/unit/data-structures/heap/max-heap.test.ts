@@ -1,5 +1,57 @@
 import { Comparator, MaxHeap } from '../../../../src';
 
+describe('classic use', () => {
+  it('@example Find the K largest elements', () => {
+    const data = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5];
+    const heap = new MaxHeap(data);
+
+    // Extract top 3 elements
+    const top3 = [];
+    for (let i = 0; i < 3; i++) {
+      top3.push(heap.poll());
+    }
+    expect(top3).toEqual([9, 6, 5]);
+  });
+
+  it('@example Priority-based task processing', () => {
+    interface Task {
+      name: string;
+      priority: number;
+    }
+
+    const heap = new MaxHeap<Task>([], {
+      comparator: (a, b) => b.priority - a.priority
+    });
+
+    heap.add({ name: 'Low priority', priority: 1 });
+    heap.add({ name: 'Critical fix', priority: 10 });
+    heap.add({ name: 'Medium task', priority: 5 });
+
+    // Highest priority first
+    expect(heap.poll()?.name).toBe('Critical fix');
+    expect(heap.poll()?.name).toBe('Medium task');
+    expect(heap.poll()?.name).toBe('Low priority');
+  });
+
+  it('@example Real-time top score tracking', () => {
+    const scores = new MaxHeap<number>();
+
+    // Stream of scores coming in
+    for (const score of [72, 85, 91, 68, 95, 78, 88]) {
+      scores.add(score);
+    }
+
+    // Current highest score without removing
+    expect(scores.peek()).toBe(95);
+    expect(scores.size).toBe(7);
+
+    // Remove top 2 scores
+    expect(scores.poll()).toBe(95);
+    expect(scores.poll()).toBe(91);
+    expect(scores.peek()).toBe(88);
+  });
+});
+
 describe('MaxHeap', () => {
   const numberComparator: Comparator<number> = (a, b) => b - a;
   let maxHeap: MaxHeap<number>;

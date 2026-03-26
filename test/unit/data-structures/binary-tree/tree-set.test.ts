@@ -1,5 +1,82 @@
 import { TreeSet } from '../../../../src';
 
+describe('classic use', () => {
+  it('@example Unique tags with sorted order', () => {
+    const tags = new TreeSet<string>(['javascript', 'typescript', 'react', 'typescript', 'node']);
+
+    // Duplicates removed, sorted alphabetically
+    expect([...tags]).toEqual(['javascript', 'node', 'react', 'typescript']);
+    expect(tags.size).toBe(4);
+
+    tags.add('angular');
+    expect(tags.first()).toBe('angular');
+    expect(tags.last()).toBe('typescript');
+  });
+
+  it('@example Finding nearest available time slot', () => {
+    // Available appointment times (minutes from midnight)
+    const slots = new TreeSet<number>([540, 600, 660, 720, 840, 900]);
+
+    // Customer wants something around 10:30 (630 min)
+    const nearest = slots.ceiling(630);
+    expect(nearest).toBe(660); // 11:00 AM
+
+    // What's the latest slot before 2:00 PM (840)?
+    const before2pm = slots.lower(840);
+    expect(before2pm).toBe(720); // 12:00 PM
+
+    // Book the 11:00 slot
+    slots.delete(660);
+    expect(slots.ceiling(630)).toBe(720); // Next available is 12:00
+  });
+
+  it('@example Student grade ranking with custom comparator', () => {
+    interface Student {
+      name: string;
+      gpa: number;
+    }
+
+    const ranking = new TreeSet<Student>(
+      [
+        { name: 'Alice', gpa: 3.8 },
+        { name: 'Bob', gpa: 3.5 },
+        { name: 'Charlie', gpa: 3.9 },
+        { name: 'Diana', gpa: 3.5 }
+      ],
+      { comparator: (a, b) => b.gpa - a.gpa || a.name.localeCompare(b.name) }
+    );
+
+    // Sorted by GPA descending, then name ascending
+    const names = [...ranking].map(s => s.name);
+    expect(names).toEqual(['Charlie', 'Alice', 'Bob', 'Diana']);
+
+    // Top student
+    expect(ranking.first()?.name).toBe('Charlie');
+
+    // Filter students with GPA >= 3.8
+    const honors = ranking.filter(s => s.gpa >= 3.8);
+    expect(honors.toArray().map(s => s.name)).toEqual(['Charlie', 'Alice']);
+  });
+
+  it('@example IP address blocklist with range checking', () => {
+    // Simplified: use numeric IP representation
+    const blocklist = new TreeSet<number>([
+      167772160, // 10.0.0.0
+      167772416, // 10.0.1.0
+      167772672, // 10.0.2.0
+      167773184  // 10.0.4.0
+    ]);
+
+    // Check if any blocked IP is in range 10.0.1.0 - 10.0.3.0
+    const inRange = blocklist.rangeSearch([167772416, 167772928]);
+    expect(inRange).toEqual([167772416, 167772672]);
+
+    // Quick membership check
+    expect(blocklist.has(167772416)).toBe(true);
+    expect(blocklist.has(167772800)).toBe(false);
+  });
+});
+
 describe('TreeSet (RedBlackTree-backed, no node exposure)', () => {
   test('basic operations: add/has/delete/size/isEmpty/clear', () => {
     const s = new TreeSet<number>();

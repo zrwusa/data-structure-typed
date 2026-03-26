@@ -1,5 +1,69 @@
 import { MapEdge, MapGraph, MapVertex } from '../../../../src';
 
+describe('classic use', () => {
+  it('@example City navigation with shortest path', () => {
+    const map = new MapGraph([0, 0], [10, 10]);
+
+    map.addVertex(new MapVertex('Home', '', 0, 0));
+    map.addVertex(new MapVertex('Office', '', 3, 4));
+    map.addVertex(new MapVertex('Cafe', '', 1, 2));
+    map.addVertex(new MapVertex('Park', '', 2, 1));
+
+    map.addEdge('Home', 'Cafe', 2.2);
+    map.addEdge('Cafe', 'Office', 3.5);
+    map.addEdge('Home', 'Park', 2.0);
+    map.addEdge('Park', 'Office', 4.0);
+    map.addEdge('Home', 'Office', 7.0);
+
+    // Find shortest path
+    const result = map.dijkstra('Home', 'Office', true, true);
+    expect(result?.minDist).toBe(5.7); // Home → Cafe → Office
+    expect(result?.minPath.map(v => v.key)).toEqual(['Home', 'Cafe', 'Office']);
+  });
+
+  it('@example Delivery route optimization', () => {
+    const routes = new MapGraph([0, 0], [10, 10]);
+
+    routes.addVertex(new MapVertex('Warehouse', '', 0, 0));
+    routes.addVertex(new MapVertex('Customer A', '', 2, 3));
+    routes.addVertex(new MapVertex('Customer B', '', 5, 1));
+    routes.addVertex(new MapVertex('Customer C', '', 3, 5));
+
+    routes.addEdge('Warehouse', 'Customer A', 3.6);
+    routes.addEdge('Warehouse', 'Customer B', 5.1);
+    routes.addEdge('Customer A', 'Customer C', 2.2);
+    routes.addEdge('Customer A', 'Customer B', 3.6);
+    routes.addEdge('Customer B', 'Customer C', 4.5);
+
+    // Check outgoing neighbors of Customer A
+    const neighbors = routes.getNeighbors('Customer A');
+    expect(neighbors.map(n => n.key).sort()).toEqual(['Customer B', 'Customer C']);
+
+    // Shortest path from Warehouse to Customer C
+    const path = routes.getMinPathBetween('Warehouse', 'Customer C', true);
+    expect(path?.map(v => v.key)).toEqual(['Warehouse', 'Customer A', 'Customer C']);
+  });
+
+  it('@example Campus map with building connections', () => {
+    const campus = new MapGraph([0, 0], [5, 5]);
+
+    campus.addVertex(new MapVertex('Library', '', 0, 0));
+    campus.addVertex(new MapVertex('Lab', '', 1, 1));
+    campus.addVertex(new MapVertex('Cafeteria', '', 2, 0));
+
+    campus.addEdge('Library', 'Lab', 5);
+    campus.addEdge('Lab', 'Cafeteria', 3);
+    campus.addEdge('Library', 'Cafeteria', 10);
+
+    expect(campus.hasVertex('Library')).toBe(true);
+    expect(campus.hasVertex('Gym')).toBe(false);
+
+    // Direct distance vs shortest path
+    const direct = campus.dijkstra('Library', 'Cafeteria', true, true);
+    expect(direct?.minDist).toBe(8); // Library → Lab → Cafeteria
+  });
+});
+
 describe('MapGraph Operation Test', () => {
   let mapGraph: MapGraph;
   beforeEach(() => {

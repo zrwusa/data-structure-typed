@@ -3,6 +3,72 @@ import { PriorityQueue as CPriorityQueue } from 'js-sdsl';
 import { isDebugTest } from '../../../config';
 
 const isDebug = isDebugTest;
+
+describe('classic use', () => {
+  it('@example Hospital emergency room triage', () => {
+    interface Patient {
+      name: string;
+      severity: number; // 1 = critical, 5 = minor
+    }
+
+    const er = new PriorityQueue<Patient>([], {
+      comparator: (a, b) => a.severity - b.severity
+    });
+
+    er.add({ name: 'Flu symptoms', severity: 4 });
+    er.add({ name: 'Heart attack', severity: 1 });
+    er.add({ name: 'Broken arm', severity: 3 });
+    er.add({ name: 'Stroke', severity: 1 });
+
+    // Most critical patients first
+    expect(er.poll()?.severity).toBe(1);
+    expect(er.poll()?.severity).toBe(1);
+    expect(er.poll()?.severity).toBe(3);
+    expect(er.poll()?.severity).toBe(4);
+  });
+
+  it('@example Task scheduler with deadlines', () => {
+    interface Task {
+      name: string;
+      deadline: number; // hours until due
+    }
+
+    const scheduler = new PriorityQueue<Task>([], {
+      comparator: (a, b) => a.deadline - b.deadline
+    });
+
+    scheduler.add({ name: 'Report', deadline: 24 });
+    scheduler.add({ name: 'Email', deadline: 2 });
+    scheduler.add({ name: 'Meeting prep', deadline: 4 });
+    scheduler.add({ name: 'Code review', deadline: 8 });
+
+    // Process most urgent first
+    expect(scheduler.peek()?.name).toBe('Email');
+    expect(scheduler.size).toBe(4);
+
+    const order = [];
+    while (scheduler.size > 0) {
+      order.push(scheduler.poll()!.name);
+    }
+    expect(order).toEqual(['Email', 'Meeting prep', 'Code review', 'Report']);
+  });
+
+  it('@example Bandwidth allocation with priorities', () => {
+    const bandwidth = new PriorityQueue<[number, string]>([], {
+      comparator: (a, b) => a[0] - b[0]
+    });
+
+    bandwidth.add([1, 'Video call']);     // highest priority
+    bandwidth.add([3, 'File download']);
+    bandwidth.add([2, 'Web browsing']);
+    bandwidth.add([1, 'Voice call']);
+
+    // Allocate bandwidth to highest priority first
+    expect(bandwidth.poll()?.[1]).toBe('Video call');
+    expect(bandwidth.poll()?.[1]).toBe('Voice call');
+    expect(bandwidth.size).toBe(2);
+  });
+});
 describe('PriorityQueue Operation Test', () => {
   it('should PriorityQueue poll, pee, heapify, toArray work well', function () {
     const minPQ = new PriorityQueue<number>([], {

@@ -1,7 +1,64 @@
 import { BinaryIndexedTree } from '../../../../src';
-// import {isDebugTest} from '../../../config';
 
-// const isDebug = isDebugTest;
+describe('classic use', () => {
+  it('@example Prefix sum queries and point updates', () => {
+    const bit = new BinaryIndexedTree({ max: 10 });
+
+    // Add frequencies at positions
+    bit.update(1, 5);
+    bit.update(3, 3);
+    bit.update(5, 7);
+    bit.update(7, 2);
+
+    // Prefix sum up to position 5: 5 + 3 + 7 = 15
+    expect(bit.getPrefixSum(5)).toBe(15);
+
+    // Read single frequency at position 3
+    expect(bit.readSingle(3)).toBe(3);
+
+    // Update position 3 by adding 4 more
+    bit.update(3, 4);
+    expect(bit.readSingle(3)).toBe(7);
+    expect(bit.getPrefixSum(5)).toBe(19);
+  });
+
+  it('@example Counting inversions with cumulative frequency', () => {
+    // Track frequency of scores (1-5 scale)
+    const freq = new BinaryIndexedTree({ max: 6 });
+
+    // Record ratings: 3, 1, 4, 1, 5, 2
+    for (const rating of [3, 1, 4, 1, 5, 2]) {
+      freq.update(rating, 1);
+    }
+
+    // How many ratings are ≤ 3?
+    expect(freq.getPrefixSum(3)).toBe(4); // two 1s, one 2, one 3
+
+    // How many ratings are exactly 1?
+    expect(freq.readSingle(1)).toBe(2);
+
+    // Find the rating where cumulative count first reaches 3
+    expect(freq.lowerBound(3)).toBe(2);
+  });
+
+  it('@example Dynamic frequency table with writeSingle', () => {
+    const table = new BinaryIndexedTree({ max: 8 });
+
+    // Set absolute frequencies
+    table.writeSingle(1, 10);
+    table.writeSingle(2, 20);
+    table.writeSingle(3, 30);
+
+    expect(table.readSingle(1)).toBe(10);
+    expect(table.readSingle(2)).toBe(20);
+    expect(table.getPrefixSum(3)).toBe(60);
+
+    // Overwrite frequency at position 2
+    table.writeSingle(2, 5);
+    expect(table.readSingle(2)).toBe(5);
+    expect(table.getPrefixSum(3)).toBe(45);
+  });
+});
 
 describe('BinaryIndexedTree simple', () => {
   let bit: BinaryIndexedTree;

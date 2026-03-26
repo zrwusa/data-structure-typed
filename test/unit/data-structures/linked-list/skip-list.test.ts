@@ -1,5 +1,65 @@
 import { SkipList } from '../../../../src';
 
+describe('classic use', () => {
+  it('@example In-memory sorted key-value store', () => {
+    const store = new SkipList<number, string>();
+
+    store.add(3, 'three');
+    store.add(1, 'one');
+    store.add(5, 'five');
+    store.add(2, 'two');
+
+    expect(store.get(3)).toBe('three');
+    expect(store.get(1)).toBe('one');
+    expect(store.get(5)).toBe('five');
+
+    // Update existing key
+    store.add(3, 'THREE');
+    expect(store.get(3)).toBe('THREE');
+  });
+
+  it('@example Fast lookup with deletion', () => {
+    const cache = new SkipList<string, number>();
+
+    cache.add('alpha', 1);
+    cache.add('beta', 2);
+    cache.add('gamma', 3);
+    cache.add('delta', 4);
+
+    expect(cache.get('beta')).toBe(2);
+
+    // Remove an entry
+    expect(cache.delete('beta')).toBe(true);
+    expect(cache.get('beta')).toBeUndefined();
+
+    // Non-existent key
+    expect(cache.delete('omega')).toBe(false);
+    expect(cache.get('omega')).toBeUndefined();
+  });
+
+  it('@example Building a sorted index', () => {
+    const index = new SkipList<number, string>();
+
+    // Insert scores with player names
+    const entries: [number, string][] = [
+      [88, 'Alice'],
+      [72, 'Bob'],
+      [95, 'Charlie'],
+      [81, 'Diana'],
+      [90, 'Eve']
+    ];
+
+    for (const [score, name] of entries) {
+      index.add(score, name);
+    }
+
+    // O(log n) lookups
+    expect(index.get(95)).toBe('Charlie');
+    expect(index.get(81)).toBe('Diana');
+    expect(index.get(60)).toBeUndefined();
+  });
+});
+
 describe('SkipList', () => {
   let skipList: SkipList<number, string>;
 

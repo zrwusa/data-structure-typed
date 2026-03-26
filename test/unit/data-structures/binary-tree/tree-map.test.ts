@@ -1,5 +1,118 @@
 import { TreeMap } from '../../../../src';
 
+describe('classic use', () => {
+  it('@example Sorted dictionary for a contact book', () => {
+    const contacts = new TreeMap<string, string>([
+      ['Bob', '555-0102'],
+      ['Alice', '555-0101'],
+      ['Charlie', '555-0103']
+    ]);
+
+    // Contacts are automatically sorted by name
+    expect([...contacts.keys()]).toEqual(['Alice', 'Bob', 'Charlie']);
+    expect(contacts.get('Bob')).toBe('555-0102');
+
+    // Find the first contact alphabetically after 'B'
+    expect(contacts.ceiling('B')).toEqual(['Bob', '555-0102']);
+
+    // Find contacts in range
+    expect(contacts.rangeSearch(['Alice', 'Bob'])).toEqual([
+      ['Alice', '555-0101'],
+      ['Bob', '555-0102']
+    ]);
+  });
+
+  it('@example Leaderboard with ranked scores', () => {
+    // Use score as key (descending), player name as value
+    const leaderboard = new TreeMap<number, string>([], {
+      comparator: (a, b) => b - a // descending
+    });
+
+    leaderboard.set(1500, 'Alice');
+    leaderboard.set(2200, 'Bob');
+    leaderboard.set(1800, 'Charlie');
+    leaderboard.set(2500, 'Diana');
+
+    // Top 3 players (first 3 in descending order)
+    const top3 = [...leaderboard.entries()].slice(0, 3);
+    expect(top3).toEqual([
+      [2500, 'Diana'],
+      [2200, 'Bob'],
+      [1800, 'Charlie']
+    ]);
+
+    // Highest scorer
+    expect(leaderboard.first()).toEqual([2500, 'Diana']);
+
+    // Remove lowest scorer
+    expect(leaderboard.pollLast()).toEqual([1500, 'Alice']);
+    expect(leaderboard.size).toBe(3);
+  });
+
+  it('@example Event scheduler with time-based lookup', () => {
+    const events = new TreeMap<Date, string>();
+
+    const meeting = new Date('2024-01-15T10:00:00Z');
+    const lunch = new Date('2024-01-15T12:00:00Z');
+    const review = new Date('2024-01-15T15:00:00Z');
+    const standup = new Date('2024-01-15T09:00:00Z');
+
+    events.set(meeting, 'Team Meeting');
+    events.set(lunch, 'Lunch Break');
+    events.set(review, 'Code Review');
+    events.set(standup, 'Daily Standup');
+
+    // Events are sorted chronologically
+    expect([...events.values()]).toEqual([
+      'Daily Standup',
+      'Team Meeting',
+      'Lunch Break',
+      'Code Review'
+    ]);
+
+    // Next event after 11:00
+    const after11 = new Date('2024-01-15T11:00:00Z');
+    expect(events.ceiling(after11)?.[1]).toBe('Lunch Break');
+
+    // Events between 9:30 and 13:00
+    const from = new Date('2024-01-15T09:30:00Z');
+    const to = new Date('2024-01-15T13:00:00Z');
+    const window = events.rangeSearch([from, to]);
+    expect(window.map(([, v]) => v)).toEqual(['Team Meeting', 'Lunch Break']);
+  });
+
+  it('@example Inventory system with price-sorted products', () => {
+    interface Product {
+      name: string;
+      price: number;
+      stock: number;
+    }
+
+    const inventory = new TreeMap<string, Product, Product>(
+      [
+        { name: 'Widget', price: 9.99, stock: 100 },
+        { name: 'Gadget', price: 24.99, stock: 50 },
+        { name: 'Doohickey', price: 4.99, stock: 200 }
+      ],
+      { toEntryFn: p => [p.name, p] }
+    );
+
+    // Sorted alphabetically by product name
+    expect([...inventory.keys()]).toEqual(['Doohickey', 'Gadget', 'Widget']);
+
+    // Filter high-stock items
+    const highStock = inventory.filter(p => (p?.stock ?? 0) > 75);
+    expect([...highStock.keys()]).toEqual(['Doohickey', 'Widget']);
+
+    // Calculate total inventory value
+    const totalValue = inventory.reduce(
+      (sum, p) => sum + (p ? p.price * p.stock : 0),
+      0
+    );
+    expect(totalValue).toBeCloseTo(9.99 * 100 + 24.99 * 50 + 4.99 * 200, 2);
+  });
+});
+
 describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {
   test('basic operations: set/get/has/delete/size/isEmpty/clear', () => {
     const m = new TreeMap<number, string>();

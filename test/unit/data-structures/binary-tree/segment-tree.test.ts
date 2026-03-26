@@ -1,5 +1,52 @@
 import { SegmentTree, SegmentTreeNode } from '../../../../src';
 
+describe('classic use', () => {
+  it('@example Range sum query on an array', () => {
+    const values = [1, 3, 5, 7, 9, 11];
+    const tree = new SegmentTree(values);
+
+    // Query sum of range [1, 3] → 3 + 5 + 7 = 15
+    expect(tree.querySumByRange(1, 3)).toBe(15);
+
+    // Query entire range
+    expect(tree.querySumByRange(0, 5)).toBe(36);
+
+    // Query single element
+    expect(tree.querySumByRange(2, 2)).toBe(5);
+  });
+
+  it('@example Dynamic range sum with updates', () => {
+    // Monthly revenue data (in thousands)
+    const revenue = [120, 95, 140, 110, 85, 130, 150, 100, 160, 125, 90, 175];
+    const tree = new SegmentTree(revenue);
+
+    // Q1 revenue (Jan-Mar)
+    expect(tree.querySumByRange(0, 2)).toBe(355);
+
+    // Update March revenue from 140 to 200
+    tree.updateNode(2, 200);
+
+    // Q1 revenue after update
+    expect(tree.querySumByRange(0, 2)).toBe(415);
+
+    // H1 revenue (Jan-Jun)
+    expect(tree.querySumByRange(0, 5)).toBe(740);
+  });
+
+  it('@example Temperature monitoring with range queries', () => {
+    // Hourly temperatures for a day (24 readings)
+    const temps = [18, 17, 16, 15, 16, 18, 21, 24, 27, 29, 31, 32, 33, 32, 31, 29, 27, 25, 23, 21, 20, 19, 18, 17];
+    const tree = new SegmentTree(temps);
+
+    // Average temperature during work hours (9-17)
+    const workSum = tree.querySumByRange(9, 17);
+    expect(workSum / 9).toBeCloseTo(29.89, 1);
+
+    // Sum of morning temps (6-11)
+    expect(tree.querySumByRange(6, 11)).toBe(164);
+  });
+});
+
 describe('SegmentTreeNode', () => {
   it('should initialize with correct start, end, sum, and optional value', () => {
     const node = new SegmentTreeNode(0, 1, 10, 2);

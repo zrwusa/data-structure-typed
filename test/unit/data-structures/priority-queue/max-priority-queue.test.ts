@@ -1,5 +1,68 @@
 import { MaxPriorityQueue } from '../../../../src';
 
+describe('classic use', () => {
+  it('@example Job scheduling by priority', () => {
+    const jobs = new MaxPriorityQueue<number>();
+
+    jobs.add(3); // low priority
+    jobs.add(7); // high priority
+    jobs.add(5); // medium priority
+    jobs.add(10); // critical
+
+    // Highest priority job first
+    expect(jobs.poll()).toBe(10);
+    expect(jobs.poll()).toBe(7);
+    expect(jobs.poll()).toBe(5);
+    expect(jobs.poll()).toBe(3);
+  });
+
+  it('@example Auction system with highest bid tracking', () => {
+    interface Bid {
+      bidder: string;
+      amount: number;
+    }
+
+    const auction = new MaxPriorityQueue<Bid>([], {
+      comparator: (a, b) => b.amount - a.amount
+    });
+
+    auction.add({ bidder: 'Alice', amount: 100 });
+    auction.add({ bidder: 'Bob', amount: 250 });
+    auction.add({ bidder: 'Charlie', amount: 175 });
+
+    // Current highest bid
+    expect(auction.peek()?.bidder).toBe('Bob');
+    expect(auction.peek()?.amount).toBe(250);
+
+    // Process winning bid
+    const winner = auction.poll()!;
+    expect(winner.bidder).toBe('Bob');
+    expect(auction.peek()?.bidder).toBe('Charlie');
+  });
+
+  it('@example CPU process scheduling', () => {
+    const cpuQueue = new MaxPriorityQueue<[number, string]>([], {
+      comparator: (a, b) => b[0] - a[0]
+    });
+
+    cpuQueue.add([5, 'System process']);
+    cpuQueue.add([1, 'Background task']);
+    cpuQueue.add([8, 'User interaction']);
+    cpuQueue.add([3, 'Network sync']);
+
+    const order = [];
+    while (cpuQueue.size > 0) {
+      order.push(cpuQueue.poll()![1]);
+    }
+    expect(order).toEqual([
+      'User interaction',
+      'System process',
+      'Network sync',
+      'Background task'
+    ]);
+  });
+});
+
 describe('MaxPriorityQueue Operation Test', () => {
   it('should add elements and maintain heap property', () => {
     const priorityQueue = new MaxPriorityQueue<number>();
