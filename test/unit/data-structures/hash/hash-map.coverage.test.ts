@@ -95,4 +95,55 @@ describe('HashMap misc coverage', () => {
       spy.mockRestore();
     });
   });
+
+  describe('getter coverage', () => {
+    it('toEntryFn returns the converter function', () => {
+      const fn = (raw: number): [number, string] => [raw, String(raw)];
+      const hm = new HashMap<number, string>([], { toEntryFn: fn });
+      expect(hm.toEntryFn).toBe(fn);
+    });
+
+    it('toEntryFn returns undefined when not set', () => {
+      const hm = new HashMap<number, string>();
+      expect(hm.toEntryFn).toBeUndefined();
+    });
+
+    it('hashFn returns the hash function', () => {
+      const hm = new HashMap<number, string>();
+      expect(typeof hm.hashFn).toBe('function');
+    });
+  });
+
+  describe('setHashFn and rehash', () => {
+    it('setHashFn rehashes non-object keys', () => {
+      const hm = new HashMap<string, number>();
+      hm.set('a', 1);
+      hm.set('b', 2);
+      const customHash = (k: string) => `custom_${k}`;
+      const result = hm.setHashFn(customHash);
+      expect(result).toBe(hm); // returns this
+      expect(hm.get('a')).toBe(1);
+      expect(hm.get('b')).toBe(2);
+      expect(hm.hashFn).toBe(customHash);
+    });
+
+    it('setHashFn with same function is no-op', () => {
+      const hm = new HashMap<string, number>();
+      const fn = hm.hashFn;
+      const result = hm.setHashFn(fn);
+      expect(result).toBe(hm);
+    });
+  });
+
+  describe('LinkedHashMap begin iterator', () => {
+    it('iterates multiple entries via begin()', () => {
+      const { LinkedHashMap } = require('../../../../src');
+      const lhm = new LinkedHashMap<number, string>([[1, 'a'], [2, 'b'], [3, 'c']]);
+      const entries: [number, string][] = [];
+      for (const entry of lhm.begin()) {
+        entries.push(entry as [number, string]);
+      }
+      expect(entries.length).toBe(3);
+    });
+  });
 });

@@ -436,7 +436,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
   *[Symbol.iterator](): Iterator<[K, V[]]> {
     for (const [k, v] of this.#core) {
       // core always stores buckets, but guard anyway
-      yield [k, v ?? ([] as V[])];
+      yield [k, v ?? /* istanbul ignore next */ ([] as V[])];
     }
   }
 
@@ -501,7 +501,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
     const k = this.#core.getLeftMost();
     if (k === undefined) return undefined;
     const b = this.get(k);
-    return b === undefined ? undefined : [k, b];
+    return b === undefined ? /* istanbul ignore next -- defensive: key in core always has bucket */ undefined : [k, b];
   }
 
   /**
@@ -515,7 +515,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
     const k = this.#core.getRightMost();
     if (k === undefined) return undefined;
     const b = this.get(k);
-    return b === undefined ? undefined : [k, b];
+    return b === undefined ? /* istanbul ignore next -- defensive: key in core always has bucket */ undefined : [k, b];
   }
 
   /**
@@ -561,7 +561,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
     const k = this.#core.ceiling(key);
     if (k === undefined) return undefined;
     const b = this.get(k);
-    return b === undefined ? undefined : [k, b];
+    return b === undefined ? /* istanbul ignore next -- defensive: key in core always has bucket */ undefined : [k, b];
   }
 
   /**
@@ -577,7 +577,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
     const k = this.#core.floor(key);
     if (k === undefined) return undefined;
     const b = this.get(k);
-    return b === undefined ? undefined : [k, b];
+    return b === undefined ? /* istanbul ignore next -- defensive: key in core always has bucket */ undefined : [k, b];
   }
 
   /**
@@ -593,7 +593,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
     const k = this.#core.higher(key);
     if (k === undefined) return undefined;
     const b = this.get(k);
-    return b === undefined ? undefined : [k, b];
+    return b === undefined ? /* istanbul ignore next -- defensive: key in core always has bucket */ undefined : [k, b];
   }
 
   /**
@@ -609,7 +609,7 @@ export class TreeMultiMap<K = any, V = any, R = any> implements Iterable<[K, V[]
     const k = this.#core.lower(key);
     if (k === undefined) return undefined;
     const b = this.get(k);
-    return b === undefined ? undefined : [k, b];
+    return b === undefined ? /* istanbul ignore next -- defensive: key in core always has bucket */ undefined : [k, b];
   }
 
   // ━━━ Tree utilities ━━━

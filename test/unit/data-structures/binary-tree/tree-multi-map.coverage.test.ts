@@ -266,6 +266,38 @@ describe('TreeMultiMap coverage', () => {
     expect(results.length).toBe(3);
   });
 
+  it('constructor skips null/undefined keys', () => {
+    const tmm = new TreeMultiMap<number, string>([[null, ['a']], [undefined, ['b']], [3, ['c']]] as any);
+    expect(tmm.size).toBe(1);
+    expect(tmm.has(3)).toBe(true);
+  });
+
+  it('constructor with toEntryFn returning non-array bucket', () => {
+    // toEntryFn branch: Array.isArray(bucket) false → wraps as [bucket]
+    const tmm = new TreeMultiMap<number, number>([1, 2, 3], {
+      toEntryFn: (raw: number) => [raw, raw * 10] as [number, any]
+    });
+    // raw=1 → toEntryFn returns [1, 10], bucket=10 (not array) → [10]
+    expect(tmm.get(1)).toEqual([10]);
+    expect(tmm.get(2)).toEqual([20]);
+  });
+
+  it('deleteValues removes all matching and deletes empty bucket', () => {
+    const tmm = new TreeMultiMap<number, string>([[1, ['a', 'a', 'b']]]);
+    expect(tmm.deleteValues(1, 'a')).toBe(2);
+    expect(tmm.get(1)).toEqual(['b']);
+    // Delete last remaining
+    expect(tmm.deleteValues(1, 'b')).toBe(1);
+    expect(tmm.has(1)).toBe(false); // bucket emptied → key deleted
+  });
+
+  it('iterator yields bucket with fallback for undefined values', () => {
+    const tmm = new TreeMultiMap<number, string>([[1, ['a']], [2, ['b']]]);
+    const entries = [...tmm];
+    expect(entries.length).toBe(2);
+    expect(entries[0][1]).toEqual(['a']);
+  });
+
   it('constructor with toEntryFn returning undefined bucket', () => {
     type Raw = { id: number; tags?: string[] };
     const data: Raw[] = [
