@@ -86,6 +86,17 @@ function normalizeCaseName(text) {
     return text.replace(/\/iterations:\d+$/, '');
 }
 
+/**
+ * Format a numeric ms value to exactly 2 decimal places.
+ * Non-numeric values (like '-') are returned as-is.
+ */
+function formatMs(value) {
+    if (value === '-' || value === null || value === undefined) return '-';
+    const num = typeof value === 'string' ? parseFloat(value) : value;
+    if (isNaN(num)) return String(value);
+    return num.toFixed(2);
+}
+
 function formatNumberAbbr(text) {
     if (!text || typeof text !== 'string') return text;
 
@@ -114,6 +125,30 @@ function formatNumberAbbr(text) {
  */
 function getNativeMappings(testCaseName, testName) {
     const mappings = [];
+
+    // Generic fallback: bare case names (e.g. "1M add") → append C++ type suffix
+    // This handles tree-set/tree-map/etc. where JS names lack a data structure suffix
+    const suiteToStdType = {
+        'tree-set': 'std::set',
+        'tree-map': 'std::map',
+        'tree-multi-set': 'std::multiset',
+        'tree-multi-map': 'std::multimap',
+        'red-black-tree': 'std::set',
+        'avl-tree': 'std::set',
+        'bst': 'std::set',
+        'heap': 'std::priority_queue',
+        'priority-queue': 'std::priority_queue',
+        'stack': 'std::stack',
+    };
+    if (suiteToStdType[testName]) {
+        // "1M add" → "1M add std::set"
+        const stdType = suiteToStdType[testName];
+        mappings.push(`${testCaseName} ${stdType}`);
+        // Reverse: "1M add std::set" → "1M add"
+        if (testCaseName.endsWith(` ${stdType}`)) {
+            mappings.push(testCaseName.replace(` ${stdType}`, ''));
+        }
+    }
 
     // Queue: "Native JS Array" ↔ "Native std::deque"
     if (testName === 'queue' && testCaseName.startsWith('Native JS Array')) {
@@ -459,7 +494,7 @@ function generateMarkdownComparison(report) {
             jsAvgByCase.set(formatNumberAbbr(rawName), jsAvg);
 
             if (!isVariantCase(rawName)) {
-                markdown += `| ${testCaseName} | ${jsAvg} | ${jsMin} | ${jsMax} | ${jsStability} |\n`;
+                markdown += `| ${testCaseName} | ${formatMs(jsAvg)} | ${formatMs(jsMin)} | ${formatMs(jsMax)} | ${jsStability} |\n`;
             }
         }
 
@@ -514,9 +549,9 @@ function generateMarkdownComparison(report) {
                 const columns = [
                     { key: 'dst', label: 'DST (ms)', align: 'right' },
                     ...(showClassic ? [{ key: 'classic', label: 'DST classic (ms)', align: 'right' }] : []),
-                    ...(hasSdsl ? [{ key: 'sdsl', label: 'js-sdsl (ms)', align: 'right' }] : []),
                     ...(hasNative ? [{ key: 'native', label: 'Native (ms)', align: 'right' }] : []),
-                    ...(hasCpp ? [{ key: 'cpp', label: 'C++ (ms)', align: 'right' }] : [])
+                    ...(hasCpp ? [{ key: 'cpp', label: 'C++ (ms)', align: 'right' }] : []),
+                    ...(hasSdsl ? [{ key: 'sdsl', label: 'js-sdsl (ms)', align: 'right' }] : [])
                 ];
 
                 const header = ['Test Case', ...columns.map(c => c.label)];
@@ -541,11 +576,11 @@ function generateMarkdownComparison(report) {
 
                     const row = [
                         abbr,
-                        dst,
-                        ...(showClassic ? [classic] : []),
-                        ...(hasSdsl ? [sdsl] : []),
-                        ...(hasNative ? [nativeMs ?? '-'] : []),
-                        ...(hasCpp ? [cpp] : [])
+                        formatMs(dst),
+                        ...(showClassic ? [formatMs(classic)] : []),
+                        ...(hasNative ? [formatMs(nativeMs ?? '-')] : []),
+                        ...(hasCpp ? [formatMs(cpp)] : []),
+                        ...(hasSdsl ? [formatMs(sdsl)] : [])
                     ];
 
                     markdown += `| ${row.join(' | ')} |\n`;
@@ -606,6 +641,159 @@ function updatePerformanceMarkdown(markdownContent) {
 
     fs.writeFileSync(mdPath, updated, 'utf-8');
     console.log(`${GREEN}✓ Updated ${mdPath}${END}`);
+}
+
+/**
+ * Generate a summary table for README.md — one representative row per data structure.
+ * Picks the most representative test case (usually the largest set/add operation).
+ */
+function generateReadmeSummary(report) {
+    const { javascript = [], native = [] } = report;
+
+    // Build C++ lookup (reuse same logic)
+    const cppMap = new Map();
+    for (const nativeTest of native) {
+        for (const benchmark of nativeTest.benchmarks) {
+            const testCaseName = benchmark['Test Case'];
+            const cppValue = benchmark['Latency Avg (ms)'];
+            cppMap.set(`${nativeTest.testName}|${testCaseName}`, cppValue);
+            cppMap.set(`${nativeTest.testName}|${formatNumberAbbr(testCaseName)}`, cppValue);
+            const normalizedCase = normalizeCaseName(testCaseName);
+            if (normalizedCase !== testCaseName) {
+                cppMap.set(`${nativeTest.testName}|${normalizedCase}`, cppValue);
+                cppMap.set(`${nativeTest.testName}|${formatNumberAbbr(normalizedCase)}`, cppValue);
+            }
+            const ruleMappings = getNativeMappings(testCaseName, nativeTest.testName);
+            for (const mapping of ruleMappings) {
+                cppMap.set(`${nativeTest.testName}|${mapping}`, cppValue);
+            }
+        }
+    }
+
+    // Representative test case selection: prefer the first non-variant test case
+    const isVariantCase = (name) => {
+        if (!name) return false;
+        return (
+            name.includes('(js-sdsl)') ||
+            name.includes('(Node Mode)') ||
+            name.includes('(DST classic)') ||
+            name.startsWith('Native JS ')
+        );
+    };
+
+    const orderConfig = loadOrderConfig();
+    const rows = [];
+
+    // Group by display name and sort by runner-config order
+    const groups = new Map();
+    for (const jsResult of javascript) {
+        const testName = jsResult.testName;
+        // Skip CJS duplicates
+        if (testName.endsWith('-cjs')) continue;
+        const displayName = testNameMap[testName] || testName;
+        if (!groups.has(displayName)) {
+            groups.set(displayName, { testName, benchmarks: [] });
+        }
+        for (const b of jsResult.benchmarks) {
+            groups.get(displayName).benchmarks.push(b);
+        }
+    }
+
+    const sortedNames = Array.from(groups.keys()).sort((a, b) => {
+        const getTestName = (dn) => groups.get(dn)?.testName || '';
+        const idxA = orderConfig.indexOf(getTestName(a));
+        const idxB = orderConfig.indexOf(getTestName(b));
+        if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+        if (idxA !== -1) return -1;
+        if (idxB !== -1) return 1;
+        return a.localeCompare(b);
+    });
+
+    for (const displayName of sortedNames) {
+        const { testName, benchmarks } = groups.get(displayName);
+        const suiteName = testName.replace(/-esm$/, '');
+
+        // Pick first non-variant benchmark as representative
+        const representative = benchmarks.find(b => !isVariantCase(b['Test Case']));
+        if (!representative) continue;
+
+        const rawCase = representative['Test Case'];
+        const caseName = formatNumberAbbr(rawCase);
+        const dstMs = formatMs(representative['Latency Avg (ms)']);
+
+        // Look up Native JS
+        const jsAvgByCase = new Map();
+        for (const b of benchmarks) {
+            jsAvgByCase.set(b['Test Case'], b['Latency Avg (ms)']);
+            jsAvgByCase.set(formatNumberAbbr(b['Test Case']), b['Latency Avg (ms)']);
+        }
+        const nativeMs = formatMs(
+            jsAvgByCase.get(`Native JS ${rawCase}`) ??
+            jsAvgByCase.get(`Native JS Array ${rawCase}`) ??
+            jsAvgByCase.get(`Native JS Map ${rawCase}`) ??
+            jsAvgByCase.get(`Native JS Set ${rawCase}`) ??
+            '-'
+        );
+
+        // Look up C++
+        const cppMs = formatMs(
+            cppMap.get(`${suiteName}|${rawCase}`) ??
+            cppMap.get(`${suiteName}|${formatNumberAbbr(rawCase)}`) ??
+            '-'
+        );
+
+        // Look up js-sdsl
+        const sdslMs = formatMs(
+            jsAvgByCase.get(`${rawCase} (js-sdsl)`) ?? '-'
+        );
+
+        rows.push({ displayName, caseName, dstMs, nativeMs, cppMs, sdslMs });
+    }
+
+    if (rows.length === 0) return '';
+
+    let md = `| Data Structure | Test Case | DST (ms) | Native (ms) | C++ (ms) | js-sdsl (ms) |\n`;
+    md += `|----------------|-----------|----------|-------------|----------|---------------|\n`;
+    for (const r of rows) {
+        md += `| ${r.displayName} | ${r.caseName} | ${r.dstMs} | ${r.nativeMs} | ${r.cppMs} | ${r.sdslMs} |\n`;
+    }
+
+    return md;
+}
+
+/**
+ * Update README.md with summary performance table
+ */
+function updateReadmeSummary(summaryContent) {
+    const readmePath = path.join(parentDirectory, 'README.md');
+
+    if (!fs.existsSync(readmePath)) {
+        console.warn(`${YELLOW}⚠ README.md not found${END}`);
+        return;
+    }
+
+    let content = fs.readFileSync(readmePath, 'utf-8');
+
+    const startMarker = '[//]: # (No deletion!!! Start of README Performance Section)';
+    const endMarker = '[//]: # (No deletion!!! End of README Performance Section)';
+
+    if (!content.includes(startMarker) || !content.includes(endMarker)) {
+        console.warn(`${YELLOW}⚠ README performance markers not found${END}`);
+        return;
+    }
+
+    const regex = new RegExp(
+        `${escapeRegex(startMarker)}[\\s\\S]*?${escapeRegex(endMarker)}`,
+        'g'
+    );
+
+    const updated = content.replace(
+        regex,
+        `${startMarker}\n\n${summaryContent}\n${endMarker}`
+    );
+
+    fs.writeFileSync(readmePath, updated, 'utf-8');
+    console.log(`${GREEN}✓ Updated README.md performance summary${END}`);
 }
 
 /**
@@ -950,8 +1138,9 @@ function generateHtmlReport(report) {
         // Build header
         const headers = ['Test Case', 'DST (ms)'];
         if (showClassic) headers.push('DST classic (ms)');
-        headers.push('js-sdsl (ms)', 'Native (ms)');
+        headers.push('Native (ms)');
         if (hasCpp) headers.push('C++ (ms)');
+        headers.push('js-sdsl (ms)');
 
         html += `<table>`;
         html += `<thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead>`;
@@ -972,11 +1161,11 @@ function generateHtmlReport(report) {
 
             html += `<tr>`;
             html += `<td>${abbr}</td>`;
-            html += `<td class="${dst !== '-' ? 'metric-dst' : 'na'}">${dst}</td>`;
-            if (showClassic) html += `<td class="${classic !== '-' ? 'metric-dst' : 'na'}">${classic}</td>`;
-            html += `<td class="${sdsl !== '-' ? 'metric-sdsl' : 'na'}">${sdsl}</td>`;
-            html += `<td class="${nativeMs ? 'metric-native' : 'na'}">${nativeMs ?? '-'}</td>`;
-            if (hasCpp) html += `<td class="${cpp !== '-' ? 'metric-cpp' : 'na'}">${cpp}</td>`;
+            html += `<td class="${dst !== '-' ? 'metric-dst' : 'na'}">${formatMs(dst)}</td>`;
+            if (showClassic) html += `<td class="${classic !== '-' ? 'metric-dst' : 'na'}">${formatMs(classic)}</td>`;
+            html += `<td class="${nativeMs ? 'metric-native' : 'na'}">${formatMs(nativeMs ?? '-')}</td>`;
+            if (hasCpp) html += `<td class="${cpp !== '-' ? 'metric-cpp' : 'na'}">${formatMs(cpp)}</td>`;
+            html += `<td class="${sdsl !== '-' ? 'metric-sdsl' : 'na'}">${formatMs(sdsl)}</td>`;
             html += `</tr>`;
         }
 
@@ -1011,6 +1200,15 @@ async function main() {
         updatePerformanceMarkdown(markdown);
     } else {
         console.log(`${YELLOW}ℹ No Markdown tables generated${END}`);
+    }
+
+    // Generate README.md summary table
+    console.log(`${CYAN}→ Generating README.md performance summary...${END}`);
+    const summary = generateReadmeSummary(report);
+    if (summary) {
+        updateReadmeSummary(summary);
+    } else {
+        console.log(`${YELLOW}ℹ No README summary generated${END}`);
     }
 
     console.log(

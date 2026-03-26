@@ -130,7 +130,30 @@ for (let i = 0; i < 100000; i++) {
 
 - **Tree-shakable** ESM / CJS / legacy builds
 
-📊 [Full benchmarks →](./docs/benchmark.html)
+[//]: # (No deletion!!! Start of README Performance Section)
+
+| Data Structure | Test Case | DST (ms) | Native (ms) | C++ (ms) | js-sdsl (ms) |
+|----------------|-----------|----------|-------------|----------|---------------|
+| Queue | 1M push | 26.93 | 23.83 | 1.70 | 27.59 |
+| Deque | 1M push | 9.77 | 26.81 | 1.76 | 7.79 |
+| DoublyLinkedList | 100k push | 5.70 | 2.40 | 5.70 | 1.90 |
+| SinglyLinkedList | 100K unshift & shift | 3.77 | 1958.39 | 4.80 | - |
+| PriorityQueue | 100K add | 4.00 | - | 1.05 | 4.96 |
+| TreeSet | 1M add | 962.76 | - | 462.00 | 640.31 |
+| TreeMap | 1M set | 996.95 | - | 512.00 | 624.82 |
+| TreeMultiSet | 1M add (TreeMultiSet expanded iteration) | 218.78 | - | 752.00 | - |
+| TreeMultiMap | 1M add (TreeMultiMap bucketed) | 387.80 | - | 731.00 | - |
+| RedBlackTree | 1M get | 108.02 | - | 52.97 | - |
+| BST | 10K add randomly | 5.50 | - | - | - |
+| BinaryTree | 1K add randomly | 9.77 | - | - | - |
+| HashMap | 1M set | 146.17 | 144.83 | 76.26 | 94.16 |
+| Trie | 100K add | 141.10 | - | - | - |
+| DirectedGraph | 1K addVertex | 0.05 | - | - | - |
+| Stack | 1M push | 46.38 | 30.28 | 1.65 | 32.38 |
+
+[//]: # (No deletion!!! End of README Performance Section)
+
+📊 [Full benchmarks →](./docs/PERFORMANCE.md) | [Interactive report →](./docs/benchmark.html)
 
 ---
 

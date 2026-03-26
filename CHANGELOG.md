@@ -8,7 +8,28 @@ All notable changes to this project will be documented in this file.
 - [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - [`auto-changelog`](https://github.com/CookPete/auto-changelog)
 
-## [v2.4.4](https://github.com/zrwusa/data-structure-typed/compare/v2.4.3...main) (upcoming)
+## [v2.4.5](https://github.com/zrwusa/data-structure-typed/compare/v2.4.3...main) (upcoming)
+
+### Changes
+
+- fix(binary-tree): null nodes no longer count toward size [`#70`](https://github.com/zrwusa/data-structure-typed/pull/70)
+- feat(graph): add biconnected components and cycle detection for undirected graph [`#77`](https://github.com/zrwusa/data-structure-typed/pull/77)
+- fix(rbt): override perfectlyBalance to preserve RBT invariants [`#79`](https://github.com/zrwusa/data-structure-typed/pull/79)
+- feat(bst): support Date keys in default comparator [`#107`](https://github.com/zrwusa/data-structure-typed/pull/107)
+- refactor(binary-tree): iterative _displayAux to prevent stack overflow on deep trees [`#104`](https://github.com/zrwusa/data-structure-typed/pull/104)
+- fix(binary-tree): leaves() iterative mode uses DFS stack to match recursive order [`#102`](https://github.com/zrwusa/data-structure-typed/pull/102)
+- refactor: migrate all throw sites to ERR message templates [`#130`](https://github.com/zrwusa/data-structure-typed/pull/130)
+- refactor: lightweight centralized error messages via ERR templates [`#130`](https://github.com/zrwusa/data-structure-typed/pull/130)
+- feat: centralized error handling with DSTError/DSTRangeError/DSTTypeError [`#130`](https://github.com/zrwusa/data-structure-typed/pull/130)
+- refactor(deque): improve auto-compact with counter + element-based ratio [`#92`](https://github.com/zrwusa/data-structure-typed/pull/92)
+- perf(deque): optimize auto-compact with counter-based checking and element ratio [`#92`](https://github.com/zrwusa/data-structure-typed/pull/92)
+- feat(deque): add compact() method and autoCompactRatio option [`#92`](https://github.com/zrwusa/data-structure-typed/pull/92)
+- fix(deque): add constructor overloads for better type inference [`#97`](https://github.com/zrwusa/data-structure-typed/pull/97)
+- test(graph): add edge case tests for visual output [`#113`](https://github.com/zrwusa/data-structure-typed/pull/113)
+- test(graph): add visual output tests for DirectedGraph and UndirectedGraph [`#113`](https://github.com/zrwusa/data-structure-typed/pull/113)
+- feat(graph): add print, toVisual, and toDot methods for all graphs [`#113`](https://github.com/zrwusa/data-structure-typed/pull/113)
+- fix(hash-map): deleteAt/deleteWhere now removes entry from hash table [`#99`](https://github.com/zrwusa/data-structure-typed/pull/99)
+- fix(deque): shrinkToFit now updates _bucketCount and handles single-bucket case [`#98`](https://github.com/zrwusa/data-structure-typed/pull/98)
 
 ## [v2.4.3](https://github.com/zrwusa/data-structure-typed/compare/v2.2.3...v2.4.3) (3 March 2026)
 

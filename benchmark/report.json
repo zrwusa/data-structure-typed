@@ -1,81 +1,81 @@
 {
-  "timestamp": "2026-03-01T01:13:29.232Z",
+  "timestamp": "2026-03-26T07:44:44.425Z",
   "javascript": [
     {
       "testName": "tree-map",
       "benchmarks": [
         {
           "Test Case": "1,000,000 set",
-          "Latency Avg (ms)": 1202.31,
-          "Min (ms)": 1033.48,
-          "Max (ms)": 1405.71,
-          "Stability": "±13.3%"
+          "Latency Avg (ms)": 996.95,
+          "Min (ms)": 986.87,
+          "Max (ms)": 1023.16,
+          "Stability": "±1.15%"
         },
         {
           "Test Case": "1,000,000 set (DST classic)",
-          "Latency Avg (ms)": 915.59,
-          "Min (ms)": 893.35,
-          "Max (ms)": 955.02,
-          "Stability": "±2.21%"
+          "Latency Avg (ms)": 886.3,
+          "Min (ms)": 868.59,
+          "Max (ms)": 905.21,
+          "Stability": "±1.31%"
         },
         {
           "Test Case": "1,000,000 set (js-sdsl)",
-          "Latency Avg (ms)": 646.28,
-          "Min (ms)": 625.19,
-          "Max (ms)": 664.14,
-          "Stability": "±2.19%"
+          "Latency Avg (ms)": 624.82,
+          "Min (ms)": 606.89,
+          "Max (ms)": 635.56,
+          "Stability": "±1.29%"
         },
         {
           "Test Case": "1,000,000 get",
-          "Latency Avg (ms)": 137.26,
-          "Min (ms)": 134.24,
-          "Max (ms)": 141.61,
-          "Stability": "±0.64%"
+          "Latency Avg (ms)": 125.23,
+          "Min (ms)": 118.97,
+          "Max (ms)": 132.21,
+          "Stability": "±1.11%"
         },
         {
           "Test Case": "1,000,000 get (DST classic)",
-          "Latency Avg (ms)": 808.52,
-          "Min (ms)": 800.64,
-          "Max (ms)": 815.57,
-          "Stability": "±0.53%"
+          "Latency Avg (ms)": 723.44,
+          "Min (ms)": 713.95,
+          "Max (ms)": 745.09,
+          "Stability": "±1.22%"
         },
         {
           "Test Case": "1,000,000 get (js-sdsl)",
-          "Latency Avg (ms)": 615.87,
-          "Min (ms)": 607.96,
-          "Max (ms)": 627.88,
-          "Stability": "±0.75%"
+          "Latency Avg (ms)": 623.7,
+          "Min (ms)": 617.47,
+          "Max (ms)": 637.74,
+          "Stability": "±0.73%"
         },
         {
           "Test Case": "100,000 rangeSearch",
-          "Latency Avg (ms)": 41.31,
-          "Min (ms)": 30.39,
-          "Max (ms)": 55.1,
-          "Stability": "±7.21%"
+          "Latency Avg (ms)": 47.43,
+          "Min (ms)": 34.21,
+          "Max (ms)": 265.16,
+          "Stability": "±23.37%"
         },
         {
           "Test Case": "100,000 rangeSearch (DST classic)",
-          "Latency Avg (ms)": 41.22,
-          "Min (ms)": 39.53,
-          "Max (ms)": 42.88,
-          "Stability": "±0.56%"
+          "Latency Avg (ms)": 37.01,
+          "Min (ms)": 34.69,
+          "Max (ms)": 42.35,
+          "Stability": "±0.99%"
         },
         {
           "Test Case": "100,000 navigable",
-          "Latency Avg (ms)": 177.14,
-          "Min (ms)": 167.52,
-          "Max (ms)": 247.28,
-          "Stability": "±4.97%"
+          "Latency Avg (ms)": 168.3,
+          "Min (ms)": 165.26,
+          "Max (ms)": 171.57,
+          "Stability": "±0.49%"
         },
         {
           "Test Case": "100,000 navigable (DST classic)",
-          "Latency Avg (ms)": 272.68,
-          "Min (ms)": 263.55,
-          "Max (ms)": 314.07,
-          "Stability": "±2.6%"
+          "Latency Avg (ms)": 221.85,
+          "Min (ms)": 217.99,
+          "Max (ms)": 230.21,
+          "Stability": "±0.75%"
         }
       ],
-      "runTime": 95.68,
+      "runTime": 90.99,
       "file": "/Users/revone/projects/data-structure-typed/test/performance/data-structures/binary-tree/tree-map.test.mjs"
     },
     {
@@ -83,76 +83,76 @@
       "benchmarks": [
         {
           "Test Case": "1,000,000 add",
-          "Latency Avg (ms)": 1008.11,
-          "Min (ms)": 995.58,
-          "Max (ms)": 1020.75,
-          "Stability": "±0.98%"
+          "Latency Avg (ms)": 962.76,
+          "Min (ms)": 939.01,
+          "Max (ms)": 984.79,
+          "Stability": "±1.48%"
         },
         {
           "Test Case": "1,000,000 add (DST classic)",
-          "Latency Avg (ms)": 895.5,
-          "Min (ms)": 883.07,
-          "Max (ms)": 911.08,
-          "Stability": "±1.06%"
+          "Latency Avg (ms)": 830.76,
+          "Min (ms)": 813.17,
+          "Max (ms)": 885.88,
+          "Stability": "±2.35%"
         },
         {
           "Test Case": "1,000,000 add (js-sdsl)",
-          "Latency Avg (ms)": 646.7,
-          "Min (ms)": 629.71,
-          "Max (ms)": 666.34,
-          "Stability": "±1.54%"
+          "Latency Avg (ms)": 640.31,
+          "Min (ms)": 629.55,
+          "Max (ms)": 659.98,
+          "Stability": "±1.37%"
         },
         {
           "Test Case": "1,000,000 has",
-          "Latency Avg (ms)": 70.16,
-          "Min (ms)": 67.89,
-          "Max (ms)": 73.92,
-          "Stability": "±0.65%"
+          "Latency Avg (ms)": 69.63,
+          "Min (ms)": 67.37,
+          "Max (ms)": 74.11,
+          "Stability": "±0.71%"
         },
         {
           "Test Case": "1,000,000 has (DST classic)",
-          "Latency Avg (ms)": 836.26,
-          "Min (ms)": 791.01,
-          "Max (ms)": 972.81,
-          "Stability": "±7.79%"
+          "Latency Avg (ms)": 878.36,
+          "Min (ms)": 859.6,
+          "Max (ms)": 905.73,
+          "Stability": "±2.14%"
         },
         {
           "Test Case": "1,000,000 has (js-sdsl)",
-          "Latency Avg (ms)": 693.56,
-          "Min (ms)": 681.2,
-          "Max (ms)": 725.22,
-          "Stability": "±1.68%"
+          "Latency Avg (ms)": 760.31,
+          "Min (ms)": 751.18,
+          "Max (ms)": 767.44,
+          "Stability": "±0.63%"
         },
         {
           "Test Case": "100,000 rangeSearch",
-          "Latency Avg (ms)": 24.24,
-          "Min (ms)": 18.02,
-          "Max (ms)": 68.62,
-          "Stability": "±11.89%"
+          "Latency Avg (ms)": 18.37,
+          "Min (ms)": 17.79,
+          "Max (ms)": 19.13,
+          "Stability": "±0.52%"
         },
         {
           "Test Case": "100,000 rangeSearch (DST classic)",
-          "Latency Avg (ms)": 20.63,
-          "Min (ms)": 17.42,
-          "Max (ms)": 39.19,
-          "Stability": "±5.95%"
+          "Latency Avg (ms)": 18.25,
+          "Min (ms)": 17.64,
+          "Max (ms)": 19.09,
+          "Stability": "±0.53%"
         },
         {
           "Test Case": "100,000 navigable",
-          "Latency Avg (ms)": 106.8,
-          "Min (ms)": 103.05,
-          "Max (ms)": 117.09,
-          "Stability": "±1.01%"
+          "Latency Avg (ms)": 105.45,
+          "Min (ms)": 98.12,
+          "Max (ms)": 137.95,
+          "Stability": "±2.93%"
         },
         {
           "Test Case": "100,000 navigable (DST classic)",
-          "Latency Avg (ms)": 107.55,
-          "Min (ms)": 104.7,
-          "Max (ms)": 110.1,
-          "Stability": "±0.51%"
+          "Latency Avg (ms)": 108.48,
+          "Min (ms)": 105.42,
+          "Max (ms)": 112.62,
+          "Stability": "±0.61%"
         }
       ],
-      "runTime": 88.96,
+      "runTime": 90.69,
       "file": "/Users/revone/projects/data-structure-typed/test/performance/data-structures/binary-tree/tree-set.test.mjs"
     },
     {
@@ -160,59 +160,59 @@
       "benchmarks": [
         {
           "Test Case": "1,000,000 add (TreeMultiMap, bucketed)",
-          "Latency Avg (ms)": 383.94,
-          "Min (ms)": 368.46,
-          "Max (ms)": 400.76,
-          "Stability": "±1.96%"
+          "Latency Avg (ms)": 387.8,
+          "Min (ms)": 361.45,
+          "Max (ms)": 418.01,
+          "Stability": "±2.75%"
         },
         {
           "Test Case": "1,000,000 has-only (TreeMultiMap)",
-          "Latency Avg (ms)": 30.66,
-          "Min (ms)": 27.91,
-          "Max (ms)": 41.47,
-          "Stability": "±1.59%"
+          "Latency Avg (ms)": 30.32,
+          "Min (ms)": 29.05,
+          "Max (ms)": 31.78,
+          "Stability": "±0.6%"
         },
         {
           "Test Case": "1,000,000 get-only (TreeMultiMap)",
-          "Latency Avg (ms)": 59.91,
-          "Min (ms)": 58.21,
-          "Max (ms)": 69.46,
-          "Stability": "±0.88%"
+          "Latency Avg (ms)": 82.5,
+          "Min (ms)": 80.72,
+          "Max (ms)": 88.31,
+          "Stability": "±0.66%"
         },
         {
           "Test Case": "1,000,000 count-only (TreeMultiMap)",
-          "Latency Avg (ms)": 117.57,
-          "Min (ms)": 113.12,
-          "Max (ms)": 122.55,
-          "Stability": "±0.96%"
+          "Latency Avg (ms)": 133.45,
+          "Min (ms)": 128.56,
+          "Max (ms)": 144.22,
+          "Stability": "±1.11%"
         },
         {
           "Test Case": "1,000,000 build+has (TreeMultiMap)",
-          "Latency Avg (ms)": 460.25,
-          "Min (ms)": 407.09,
-          "Max (ms)": 857.88,
-          "Stability": "±21.75%"
+          "Latency Avg (ms)": 409.86,
+          "Min (ms)": 373.79,
+          "Max (ms)": 437.28,
+          "Stability": "±3.13%"
         },
         {
           "Test Case": "1,000,000 build+get (TreeMultiMap)",
-          "Latency Avg (ms)": 448.62,
-          "Min (ms)": 426.65,
-          "Max (ms)": 481.25,
-          "Stability": "±2.54%"
+          "Latency Avg (ms)": 469.61,
+          "Min (ms)": 455.85,
+          "Max (ms)": 484.46,
+          "Stability": "±1.4%"
         },
         {
           "Test Case": "100,000 hasEntry (TreeMultiMap, Object.is)",
-          "Latency Avg (ms)": 421.91,
-          "Min (ms)": 408.28,
-          "Max (ms)": 454.67,
-          "Stability": "±2.78%"
+          "Latency Avg (ms)": 415.7,
+          "Min (ms)": 408.06,
+          "Max (ms)": 425.09,
+          "Stability": "±0.82%"
         },
         {
           "Test Case": "100,000 deleteValue (TreeMultiMap, Object.is)",
-          "Latency Avg (ms)": 482.6,
-          "Min (ms)": 450.96,
-          "Max (ms)": 595.74,
-          "Stability": "±7.51%"
+          "Latency Avg (ms)": 447.52,
+          "Min (ms)": 438.21,
+          "Max (ms)": 465.37,
+          "Stability": "±1.38%"
         },
         {
           "Test Case": "100,000 firstEntry/lastEntry (TreeMultiMap)",
@@ -230,34 +230,34 @@
         },
         {
           "Test Case": "1,000,000 bucket iteration (TreeMultiMap)",
-          "Latency Avg (ms)": 26.93,
-          "Min (ms)": 25.86,
-          "Max (ms)": 29.3,
-          "Stability": "±0.6%"
+          "Latency Avg (ms)": 27.96,
+          "Min (ms)": 26.59,
+          "Max (ms)": 31.51,
+          "Stability": "±0.8%"
         },
         {
           "Test Case": "1,000,000 flatEntries iteration (TreeMultiMap)",
-          "Latency Avg (ms)": 123.65,
-          "Min (ms)": 114.07,
-          "Max (ms)": 129.26,
-          "Stability": "±1.26%"
+          "Latency Avg (ms)": 137.6,
+          "Min (ms)": 132.71,
+          "Max (ms)": 142.72,
+          "Stability": "±0.66%"
         },
         {
           "Test Case": "1,000,000 size property (TreeMultiMap)",
           "Latency Avg (ms)": 0,
           "Min (ms)": 0,
           "Max (ms)": 0,
-          "Stability": "±3.58%"
+          "Stability": "±3.3%"
         },
         {
           "Test Case": "1,000,000 totalSize property (TreeMultiMap)",
-          "Latency Avg (ms)": 25.87,
-          "Min (ms)": 25.22,
-          "Max (ms)": 27.1,
-          "Stability": "±0.49%"
+          "Latency Avg (ms)": 26.89,
+          "Min (ms)": 25.79,
+          "Max (ms)": 28.54,
+          "Stability": "±0.66%"
         }
       ],
-      "runTime": 83.58,
+      "runTime": 84.17,
       "file": "/Users/revone/projects/data-structure-typed/test/performance/data-structures/binary-tree/tree-multi-map.test.mjs"
     },
     {
@@ -265,83 +265,83 @@
       "benchmarks": [
         {
           "Test Case": "1,000,000 add (TreeMultiSet, expanded iteration)",
-          "Latency Avg (ms)": 312.35,
-          "Min (ms)": 216.63,
-          "Max (ms)": 757.24,
-          "Stability": "±34.52%"
+          "Latency Avg (ms)": 218.78,
+          "Min (ms)": 203.62,
+          "Max (ms)": 271.24,
+          "Stability": "±3.81%"
         },
         {
           "Test Case": "1,000,000 has-only (TreeMultiSet)",
-          "Latency Avg (ms)": 82.36,
-          "Min (ms)": 79.46,
-          "Max (ms)": 95.48,
-          "Stability": "±1.27%"
+          "Latency Avg (ms)": 81.7,
+          "Min (ms)": 79.17,
+          "Max (ms)": 88.22,
+          "Stability": "±0.78%"
         },
         {
           "Test Case": "1,000,000 count-only (TreeMultiSet)",
-          "Latency Avg (ms)": 81.14,
-          "Min (ms)": 77.44,
-          "Max (ms)": 91.64,
-          "Stability": "±1.16%"
+          "Latency Avg (ms)": 83.77,
+          "Min (ms)": 79.32,
+          "Max (ms)": 101.94,
+          "Stability": "±1.67%"
         },
         {
           "Test Case": "1,000,000 build+has (TreeMultiSet)",
-          "Latency Avg (ms)": 302.84,
-          "Min (ms)": 288.97,
-          "Max (ms)": 315.15,
-          "Stability": "±1.63%"
+          "Latency Avg (ms)": 341.28,
+          "Min (ms)": 287.81,
+          "Max (ms)": 790.7,
+          "Stability": "±26.39%"
         },
         {
           "Test Case": "1,000,000 build+count (TreeMultiSet)",
-          "Latency Avg (ms)": 301.17,
-          "Min (ms)": 291.09,
-          "Max (ms)": 314.24,
-          "Stability": "±1.66%"
+          "Latency Avg (ms)": 304.69,
+          "Min (ms)": 286.5,
+          "Max (ms)": 355.8,
+          "Stability": "±4.01%"
         },
         {
           "Test Case": "100,000 delete-one (TreeMultiSet)",
-          "Latency Avg (ms)": 246.21,
-          "Min (ms)": 216.01,
-          "Max (ms)": 416.06,
-          "Stability": "±11.77%"
+          "Latency Avg (ms)": 232.04,
+          "Min (ms)": 219.23,
+          "Max (ms)": 243.31,
+          "Stability": "±1.62%"
         },
         {
           "Test Case": "100,000 setCount (TreeMultiSet)",
-          "Latency Avg (ms)": 230.69,
-          "Min (ms)": 217.77,
-          "Max (ms)": 263.1,
-          "Stability": "±2.56%"
+          "Latency Avg (ms)": 231.53,
+          "Min (ms)": 216.92,
+          "Max (ms)": 250.05,
+          "Stability": "±2.5%"
         },
         {
           "Test Case": "1,000,000 expanded iteration (TreeMultiSet)",
-          "Latency Avg (ms)": 52.86,
-          "Min (ms)": 50.49,
-          "Max (ms)": 63.29,
-          "Stability": "±1.29%"
+          "Latency Avg (ms)": 56.11,
+          "Min (ms)": 53.92,
+          "Max (ms)": 65.49,
+          "Stability": "±1.11%"
         },
         {
           "Test Case": "1,000,000 entries view (TreeMultiSet)",
-          "Latency Avg (ms)": 17.01,
-          "Min (ms)": 16.35,
-          "Max (ms)": 18.43,
-          "Stability": "±0.7%"
+          "Latency Avg (ms)": 18.94,
+          "Min (ms)": 18.34,
+          "Max (ms)": 19.94,
+          "Stability": "±0.42%"
         },
         {
           "Test Case": "1,000,000 size property (TreeMultiSet)",
           "Latency Avg (ms)": 0,
           "Min (ms)": 0,
           "Max (ms)": 0,
-          "Stability": "±3.14%"
+          "Stability": "±3.53%"
         },
         {
           "Test Case": "1,000,000 distinctSize property (TreeMultiSet)",
           "Latency Avg (ms)": 0,
           "Min (ms)": 0,
           "Max (ms)": 0,
-          "Stability": "±2.95%"
+          "Stability": "±3.39%"
         }
       ],
-      "runTime": 69.71,
+      "runTime": 70.39,
       "file": "/Users/revone/projects/data-structure-typed/test/performance/data-structures/binary-tree/tree-multi-set.test.mjs"
     },
     {
@@ -349,83 +349,83 @@
       "benchmarks": [
         {
           "Test Case": "100k push",
-          "Latency Avg (ms)": 5.3214,
-          "Min (ms)": 4.322,
-          "Max (ms)": 23.8263,
-          "Stability": "±11.96%"
+          "Latency Avg (ms)": 5.7033,
+          "Min (ms)": 4.8003,
+          "Max (ms)": 7.268,
+          "Stability": "±1.57%"
         },
         {
           "Test Case": "Native JS Array 100k push",
-          "Latency Avg (ms)": 1.9249,
-          "Min (ms)": 1.8119,
-          "Max (ms)": 2.4446,
-          "Stability": "±1.22%"
+          "Latency Avg (ms)": 2.3967,
+          "Min (ms)": 2.1894,
+          "Max (ms)": 3.0049,
+          "Stability": "±1.25%"
         },
         {
           "Test Case": "100k unshift",
-          "Latency Avg (ms)": 4.9967,
-          "Min (ms)": 4.4608,
-          "Max (ms)": 5.9655,
-          "Stability": "±2.31%"
+          "Latency Avg (ms)": 5.5662,
+          "Min (ms)": 4.6342,
+          "Max (ms)": 13.655,
+          "Stability": "±5.7%"
         },
         {
           "Test Case": "Native JS Array 100k unshift",
-          "Latency Avg (ms)": 899.44,
-          "Min (ms)": 888.66,
-          "Max (ms)": 908.46,
-          "Stability": "±0.75%"
+          "Latency Avg (ms)": 884.06,
+          "Min (ms)": 871.98,
+          "Max (ms)": 898.76,
+          "Stability": "±1.11%"
         },
         {
           "Test Case": "100k unshift & shift",
-          "Latency Avg (ms)": 3.9145,
-          "Min (ms)": 3.7706,
-          "Max (ms)": 5.0804,
-          "Stability": "±1.32%"
+          "Latency Avg (ms)": 4.042,
+          "Min (ms)": 3.8713,
+          "Max (ms)": 5.3421,
+          "Stability": "±1.3%"
         },
         {
           "Test Case": "Native JS Array 100k unshift & shift",
-          "Latency Avg (ms)": 2068.08,
-          "Min (ms)": 1832.22,
-          "Max (ms)": 2470.61,
-          "Stability": "±12.07%"
+          "Latency Avg (ms)": 2050.71,
+          "Min (ms)": 1893.01,
+          "Max (ms)": 2362.49,
+          "Stability": "±9.61%"
         },
         {
           "Test Case": "100k addAt(mid)",
-          "Latency Avg (ms)": 1362.72,
-          "Min (ms)": 1126.99,
-          "Max (ms)": 1773.23,
-          "Stability": "±20.03%"
+          "Latency Avg (ms)": 1865.99,
+          "Min (ms)": 1778.94,
+          "Max (ms)": 1992.65,
+          "Stability": "±5.43%"
         },
         {
           "Test Case": "100k addBefore (cursor)",
-          "Latency Avg (ms)": 6.7036,
-          "Min (ms)": 5.3368,
-          "Max (ms)": 15.0458,
-          "Stability": "±5.16%"
+          "Latency Avg (ms)": 6.8126,
+          "Min (ms)": 5.321,
+          "Max (ms)": 17.7742,
+          "Stability": "±4.44%"
         },
         {
           "Test Case": "100k push (js-sdsl)",
-          "Latency Avg (ms)": 1.7305,
-          "Min (ms)": 1.0652,
-          "Max (ms)": 4.5972,
-          "Stability": "±12.25%"
+          "Latency Avg (ms)": 1.8998,
+          "Min (ms)": 1.4095,
+          "Max (ms)": 6.6419,
+          "Stability": "±13.09%"
         },
         {
           "Test Case": "100k unshift (js-sdsl)",
-          "Latency Avg (ms)": 1.6119,
-          "Min (ms)": 1.0228,
-          "Max (ms)": 4.6995,
-          "Stability": "±10.78%"
+          "Latency Avg (ms)": 1.5223,
+          "Min (ms)": 0.9863,
+          "Max (ms)": 4.8505,
+          "Stability": "±14.33%"
         },
         {
           "Test Case": "100k unshift & shift (js-sdsl)",
-          "Latency Avg (ms)": 1.9446,
-          "Min (ms)": 1.6442,
-          "Max (ms)": 2.8043,
-          "Stability": "±1.53%"
+          "Latency Avg (ms)": 1.8873,
+          "Min (ms)": 1.5566,
+          "Max (ms)": 4.0526,
+          "Stability": "±7.44%"
         }
       ],
-      "runTime": 99.4,
+      "runTime": 106.3,
       "file": "/Users/revone/projects/data-structure-typed/test/performance/data-structures/linked-list/doubly-linked-list.test.mjs"
     },
     {
@@ -433,48 +433,48 @@
       "benchmarks": [
         {
           "Test Case": "100K unshift & shift",
-          "Latency Avg (ms)": 3.6711,
-          "Min (ms)": 3.5545,
-          "Max (ms)": 4.4486,
-          "Stability": "±0.71%"
+          "Latency Avg (ms)": 3.7727,
+          "Min (ms)": 3.6235,
+          "Max (ms)": 3.986,
+          "Stability": "±0.41%"
         },
         {
           "Test Case": "Native JS Array 100K unshift & shift",
-          "Latency Avg (ms)": 2102.83,
-          "Min (ms)": 1973.13,
-          "Max (ms)": 2241.06,
-          "Stability": "±5.76%"
+          "Latency Avg (ms)": 1958.39,
+          "Min (ms)": 1797.56,
+          "Max (ms)": 2287.99,
+          "Stability": "±10.11%"
         },
         {
           "Test Case": "10K unshift & shift",
-          "Latency Avg (ms)": 0.3542,
-          "Min (ms)": 0.3445,
-          "Max (ms)": 0.4379,
-          "Stability": "±0.73%"
+          "Latency Avg (ms)": 0.3744,
+          "Min (ms)": 0.3572,
+          "Max (ms)": 0.4418,
+          "Stability": "±0.78%"
         },
         {
           "Test Case": "Native JS Array 10K unshift & shift",
-          "Latency Avg (ms)": 6.2404,
-          "Min (ms)": 6.0055,
-          "Max (ms)": 6.5491,
-          "Stability": "±0.39%"
+          "Latency Avg (ms)": 6.2638,
+          "Min (ms)": 6.011,
+          "Max (ms)": 6.609,
+          "Stability": "±0.45%"
         },
         {
           "Test Case": "10K addAt(mid)",
-          "Latency Avg (ms)": 9.3436,
-          "Min (ms)": 8.4129,
-          "Max (ms)": 12.4682,
-          "Stability": "±2.8%"
+          "Latency Avg (ms)": 18.61,
+          "Min (ms)": 17.61,
+          "Max (ms)": 25.55,
+          "Stability": "±1.66%"
         },
         {
           "Test Case": "10K addBefore (cursor)",
-          "Latency Avg (ms)": 17.48,
-          "Min (ms)": 16.72,
-          "Max (ms)": 21.55,
-          "Stability": "±1.07%"
+          "Latency Avg (ms)": 17.56,
+          "Min (ms)": 16.67,
+          "Max (ms)": 20.17,
+          "Stability": "±1.11%"
         }
       ],
-      "runTime": 52.13,
+      "runTime": 52.15,
       "file": "/Users/revone/projects/data-structure-typed/test/performance/data-structures/linked-list/singly-linked-list.test.mjs"
     },
     {
@@ -482,104 +482,104 @@
       "benchmarks": [
         {
           "Test Case": "1M set",
-          "Latency Avg (ms)": 66.53,
-          "Min (ms)": 42.42,
-          "Max (ms)": 301.87,
-          "Stability": "±29.92%"
+          "Latency Avg (ms)": 146.17,
+          "Min (ms)": 84.97,
+          "Max (ms)": 644.99,
+          "Stability": "±33.94%"
         },
         {
           "Test Case": "1M set (js-sdsl)",
-          "Latency Avg (ms)": 109.34,
-          "Min (ms)": 64.34,
-          "Max (ms)": 553.51,
-          "Stability": "±31.19%"
+          "Latency Avg (ms)": 94.16,
+          "Min (ms)": 60.78,
+          "Max (ms)": 130.94,
+          "Stability": "±8.83%"
         },
         {
           "Test Case": "Native JS Map 1M set",
-          "Latency Avg (ms)": 172.25,
-          "Min (ms)": 140.33,
-          "Max (ms)": 420.81,
-          "Stability": "±17.54%"
+          "Latency Avg (ms)": 144.83,
+          "Min (ms)": 117.57,
+          "Max (ms)": 161.23,
+          "Stability": "±3.95%"
         },
         {
           "Test Case": "Native JS Set 1M add",
-          "Latency Avg (ms)": 125.94,
-          "Min (ms)": 112.49,
-          "Max (ms)": 150.04,
-          "Stability": "±3%"
+          "Latency Avg (ms)": 119.52,
+          "Min (ms)": 109.12,
+          "Max (ms)": 147.44,
+          "Stability": "±3.03%"
         },
         {
           "Test Case": "1M add HashSet (js-sdsl)",
-          "Latency Avg (ms)": 67.91,
-          "Min (ms)": 55.57,
-          "Max (ms)": 203.59,
-          "Stability": "±11.03%"
+          "Latency Avg (ms)": 136.93,
+          "Min (ms)": 54.42,
+          "Max (ms)": 1926.43,
+          "Stability": "±76.08%"
         },
         {
           "Test Case": "1M set & get",
-          "Latency Avg (ms)": 59.91,
-          "Min (ms)": 38.13,
-          "Max (ms)": 291.26,
-          "Stability": "±23.52%"
+          "Latency Avg (ms)": 141.88,
+          "Min (ms)": 106.42,
+          "Max (ms)": 178.02,
+          "Stability": "±6.1%"
         },
         {
           "Test Case": "1M set & get (js-sdsl)",
-          "Latency Avg (ms)": 71.7,
-          "Min (ms)": 61.54,
-          "Max (ms)": 124.9,
-          "Stability": "±6.22%"
+          "Latency Avg (ms)": 67.16,
+          "Min (ms)": 60.79,
+          "Max (ms)": 128.97,
+          "Stability": "±6.46%"
         },
         {
           "Test Case": "Native JS Map 1M set & get",
-          "Latency Avg (ms)": 200.64,
-          "Min (ms)": 192.1,
-          "Max (ms)": 220.67,
-          "Stability": "±1.92%"
+          "Latency Avg (ms)": 200.47,
+          "Min (ms)": 190.37,
+          "Max (ms)": 219.71,
+          "Stability": "±1.76%"
         },
         {
           "Test Case": "Native JS Set 1M add & has",
-          "Latency Avg (ms)": 168.58,
-          "Min (ms)": 154.22,
-          "Max (ms)": 256,
-          "Stability": "±7.25%"
+          "Latency Avg (ms)": 163.75,
+          "Min (ms)": 152.11,
+          "Max (ms)": 231.2,
+          "Stability": "±5.16%"
         },
         {
           "Test Case": "1M add & has HashSet (js-sdsl)",
-          "Latency Avg (ms)": 118.66,
-          "Min (ms)": 106.45,
-          "Max (ms)": 178.72,
-          "Stability": "±5.15%"
+          "Latency Avg (ms)": 119.35,
+          "Min (ms)": 103.84,
+          "Max (ms)": 186.74,
+          "Stability": "±7.49%"
         },
         {
           "Test Case": "1M ObjKey set & get",
-          "Latency Avg (ms)": 229.74,
-          "Min (ms)": 214.13,
-          "Max (ms)": 257.72,
-          "Stability": "±2.87%"
+          "Latency Avg (ms)": 223.16,
+          "Min (ms)": 210.45,
+          "Max (ms)": 300.73,
+          "Stability": "±5.48%"
         },
         {
           "Test Case": "1M ObjKey set & get (js-sdsl)",
-          "Latency Avg (ms)": 388.35,
-          "Min (ms)": 371.06,
-          "Max (ms)": 455.26,
-          "Stability": "±4.38%"
+          "Latency Avg (ms)": 382.79,
+          "Min (ms)": 361.5,
+          "Max (ms)": 447.88,
+          "Stability": "±4.89%"
         },
         {
           "Test Case": "Native JS Map 1M ObjKey set & get",
-          "Latency Avg (ms)": 199.67,
-          "Min (ms)": 185.56,
-          "Max (ms)": 219.35,
-          "Stability": "±2%"
+          "Latency Avg (ms)": 206.62,
+          "Min (ms)": 181.44,
+          "Max (ms)": 290.89,
+          "Stability": "±7.77%"
         },
         {
           "Test Case": "Native JS Set 1M ObjKey add & has",
-          "Latency Avg (ms)": 179.84,
-          "Min (ms)": 163.55,
-          "Max (ms)": 250.69,
-          "Stability": "±5.74%"
+          "Latency Avg (ms)": 183.34,
+          "Min (ms)": 162.23,
+          "Max (ms)": 262.93,
+          "Stability": "±8.85%"
         }
       ],
-      "runTime": 91.66,
+      "runTime": 94.61,
       "file": "/Users/revone/projects/data-structure-typed/test/performance/data-structures/hash/hash-map.test.mjs"
     },
     {
@@ -587,97 +587,97 @@
       "benchmarks": [
         {
           "Test Case": "1M push",
-          "Latency Avg (ms)": 11.31,
-          "Min (ms)": 6.41,
-          "Max (ms)": 27.72,
-          "Stability": "±11.53%"
+          "Latency Avg (ms)": 9.7662,
+          "Min (ms)": 6.2711,
+          "Max (ms)": 21.6251,
+          "Stability": "±9.28%"
         },
         {
           "Test Case": "Native JS Array 1M push",
-          "Latency Avg (ms)": 27.45,
-          "Min (ms)": 21.72,
-          "Max (ms)": 113.17,
-          "Stability": "±12.61%"
+          "Latency Avg (ms)": 26.81,
+          "Min (ms)": 21.9,
+          "Max (ms)": 97.07,
+          "Stability": "±10.58%"
         },
         {
           "Test Case": "1M push & pop",
-          "Latency Avg (ms)": 11.72,
-          "Min (ms)": 9.99,
-          "Max (ms)": 25.63,
-          "Stability": "±6.45%"
+          "Latency Avg (ms)": 14.75,
+          "Min (ms)": 11.8,
+          "Max (ms)": 31.16,
+          "Stability": "±5.06%"
         },
         {
           "Test Case": "Native JS Array 1M push & pop",
-          "Latency Avg (ms)": 34.11,
-          "Min (ms)": 25.71,
-          "Max (ms)": 123.89,
-          "Stability": "±10.62%"
+          "Latency Avg (ms)": 27.96,
+          "Min (ms)": 25.55,
+          "Max (ms)": 57.87,
+          "Stability": "±3.77%"
         },
         {
           "Test Case": "1M push & shift",
-          "Latency Avg (ms)": 11.72,
-          "Min (ms)": 10.2,
-          "Max (ms)": 27.9,
-          "Stability": "±4.94%"
+          "Latency Avg (ms)": 14.61,
+          "Min (ms)": 13.31,
+          "Max (ms)": 40.42,
+          "Stability": "±5.25%"
         },
         {
           "Test Case": "100K push & shift",
-          "Latency Avg (ms)": 1.1668,
-          "Min (ms)": 1.041,
-          "Max (ms)": 3.6789,
-          "Stability": "±6.23%"
+          "Latency Avg (ms)": 1.2907,
+          "Min (ms)": 1.1935,
+          "Max (ms)": 3.373,
+          "Stability": "±3.91%"
         },
         {
           "Test Case": "Native JS Array 100K push & shift",
-          "Latency Avg (ms)": 1249.1,
-          "Min (ms)": 1067.09,
-          "Max (ms)": 1685.18,
-          "Stability": "±15.93%"
+          "Latency Avg (ms)": 1243.77,
+          "Min (ms)": 903.86,
+          "Max (ms)": 1822.35,
+          "Stability": "±23.85%"
         },
         {
           "Test Case": "100K unshift & shift",
-          "Latency Avg (ms)": 1.1694,
-          "Min (ms)": 1.0857,
-          "Max (ms)": 2.3223,
-          "Stability": "±3%"
+          "Latency Avg (ms)": 1.2576,
+          "Min (ms)": 1.1438,
+          "Max (ms)": 2.753,
+          "Stability": "±3.59%"
         },
         {
           "Test Case": "Native JS Array 100K unshift & shift",
-          "Latency Avg (ms)": 2055.37,
-          "Min (ms)": 1865.93,
-          "Max (ms)": 2246.25,
-          "Stability": "±7.22%"
+          "Latency Avg (ms)": 1867.28,
+          "Min (ms)": 1785.2,
+          "Max (ms)": 2146.93,
+          "Stability": "±7.86%"
         },
         {
           "Test Case": "1M push (js-sdsl)",
-          "Latency Avg (ms)": 8.5192,
-          "Min (ms)": 6.094,
-          "Max (ms)": 24.667,
-          "Stability": "±9.61%"
+          "Latency Avg (ms)": 7.7944,
+          "Min (ms)": 6.0314,
+          "Max (ms)": 19.5365,
+          "Stability": "±7.91%"
         },
         {
           "Test Case": "1M push & pop (js-sdsl)",
-          "Latency Avg (ms)": 15.36,
-          "Min (ms)": 10.27,
-          "Max (ms)": 43.68,
-          "Stability": "±9.97%"
+          "Latency Avg (ms)": 12.34,
+          "Min (ms)": 10.02,
+          "Max (ms)": 28.99,
+          "Stability": "±6.15%"
         },
         {
           "Test Case": "100K push & shift (js-sdsl)",
-          "Latency Avg (ms)": 1.1755,
-          "Min (ms)": 1.0678,
-          "Max (ms)": 3.355,
-          "Stability": "±4.54%"
+          "Latency Avg (ms)": 1.1725,
+          "Min (ms)": 1.0587,
+          "Max (ms)": 3.4214,
+          "Stability": "±5.16%"
         },
         {
           "Test Case": "100K unshift & shift (js-sdsl)",
-          "Latency Avg (ms)": 1.1678,
-          "Min (ms)": 1.0778,
-          "Max (ms)": 2.5959,
-          "Stability": "±3.42%"
+          "Latency Avg (ms)": 1.1705,
+          "Min (ms)": 1.074,
+          "Max (ms)": 1.9335,
+          "Stability": "±2.56%"
         }
       ],
-      "runTime": 112.2,
+      "runTime": 109.07,
       "file": "/Users/revone/projects/data-structure-typed/test/performance/data-structures/queue/deque.test.mjs"
     },
     {
@@ -685,48 +685,48 @@
       "benchmarks": [
         {
           "Test Case": "1M push",
-          "Latency Avg (ms)": 27.02,
-          "Min (ms)": 21.9,
-          "Max (ms)": 67.63,
-          "Stability": "±6.68%"
+          "Latency Avg (ms)": 46.38,
+          "Min (ms)": 31.28,
+          "Max (ms)": 258.38,
+          "Stability": "±26.06%"
         },
         {
           "Test Case": "1M push (js-sdsl)",
-          "Latency Avg (ms)": 27.35,
-          "Min (ms)": 23.1,
-          "Max (ms)": 86.02,
-          "Stability": "±11.23%"
+          "Latency Avg (ms)": 32.38,
+          "Min (ms)": 26.91,
+          "Max (ms)": 38.9,
+          "Stability": "±2.8%"
         },
         {
           "Test Case": "Native JS Array 1M push",
-          "Latency Avg (ms)": 27.26,
-          "Min (ms)": 22.22,
-          "Max (ms)": 108.86,
-          "Stability": "±12.1%"
+          "Latency Avg (ms)": 30.28,
+          "Min (ms)": 23.91,
+          "Max (ms)": 123,
+          "Stability": "±13.74%"
         },
         {
           "Test Case": "1M push & pop",
-          "Latency Avg (ms)": 27.96,
-          "Min (ms)": 26.14,
-          "Max (ms)": 36.02,
-          "Stability": "±1.41%"
+          "Latency Avg (ms)": 34.59,
+          "Min (ms)": 27.52,
+          "Max (ms)": 121.56,
+          "Stability": "±14.83%"
         },
         {
           "Test Case": "1M push & pop (js-sdsl)",
-          "Latency Avg (ms)": 32.35,
-          "Min (ms)": 28.48,
-          "Max (ms)": 45.98,
-          "Stability": "±2.76%"
+          "Latency Avg (ms)": 34.45,
+          "Min (ms)": 28.43,
+          "Max (ms)": 118.24,
+          "Stability": "±11.71%"
         },
         {
           "Test Case": "Native JS Array 1M push & pop",
-          "Latency Avg (ms)": 32,
-          "Min (ms)": 25.19,
-          "Max (ms)": 193.85,
-          "Stability": "±21.56%"
+          "Latency Avg (ms)": 34.53,
+          "Min (ms)": 28.04,
+          "Max (ms)": 174.64,
+          "Stability": "±18.45%"
         }
       ],
-      "runTime": 42.44,
+      "runTime": 43.75,
       "file": "/Users/revone/projects/data-structure-typed/test/performance/data-structures/stack/stack.test.mjs"
     },
     {
@@ -734,97 +734,97 @@
       "benchmarks": [
         {
           "Test Case": "1,000,000 get",
-          "Latency Avg (ms)": 100.34,
-          "Min (ms)": 82.76,
-          "Max (ms)": 113.78,
-          "Stability": "±18.68%"
+          "Latency Avg (ms)": 108.02,
+          "Min (ms)": 102.2,
+          "Max (ms)": 115.34,
+          "Stability": "±6.33%"
         },
         {
           "Test Case": "1,000,000 get (DST classic)",
-          "Latency Avg (ms)": 250.81,
-          "Min (ms)": 242.83,
-          "Max (ms)": 258.81,
-          "Stability": "±3.11%"
+          "Latency Avg (ms)": 377.88,
+          "Min (ms)": 371.5,
+          "Max (ms)": 397.08,
+          "Stability": "±3.55%"
         },
         {
           "Test Case": "200,000 rangeSearch SEQ",
-          "Latency Avg (ms)": 1132.89,
-          "Min (ms)": 1088.54,
-          "Max (ms)": 1177.35,
-          "Stability": "±3.71%"
+          "Latency Avg (ms)": 1393.24,
+          "Min (ms)": 1256.17,
+          "Max (ms)": 1632.61,
+          "Stability": "±13.97%"
         },
         {
           "Test Case": "200,000 rangeSearch RAND",
-          "Latency Avg (ms)": 1622.14,
-          "Min (ms)": 1598.24,
-          "Max (ms)": 1636.07,
-          "Stability": "±1.13%"
+          "Latency Avg (ms)": 1829,
+          "Min (ms)": 1807.24,
+          "Max (ms)": 1877.38,
+          "Stability": "±1.97%"
         },
         {
           "Test Case": "1,000,000 upd SEQ",
-          "Latency Avg (ms)": 78.74,
-          "Min (ms)": 68.47,
-          "Max (ms)": 97.6,
-          "Stability": "±17.82%"
+          "Latency Avg (ms)": 73.96,
+          "Min (ms)": 63.61,
+          "Max (ms)": 90.5,
+          "Stability": "±17.50%"
         },
         {
           "Test Case": "1,000,000 upd SEQ (DST classic)",
-          "Latency Avg (ms)": 229.66,
-          "Min (ms)": 223.44,
-          "Max (ms)": 235.46,
-          "Stability": "±2.96%"
+          "Latency Avg (ms)": 333.38,
+          "Min (ms)": 328.12,
+          "Max (ms)": 337.92,
+          "Stability": "±1.33%"
         },
         {
           "Test Case": "1,000,000 upd RAND",
-          "Latency Avg (ms)": 112.75,
-          "Min (ms)": 107.35,
-          "Max (ms)": 116.96,
-          "Stability": "±3.87%"
+          "Latency Avg (ms)": 105.66,
+          "Min (ms)": 99.83,
+          "Max (ms)": 108.31,
+          "Stability": "±4.15%"
         },
         {
           "Test Case": "1,000,000 upd RAND (DST classic)",
-          "Latency Avg (ms)": 395.8,
-          "Min (ms)": 372.34,
-          "Max (ms)": 420.66,
-          "Stability": "±5.84%"
+          "Latency Avg (ms)": 455.76,
+          "Min (ms)": 433.73,
+          "Max (ms)": 475.08,
+          "Stability": "±4.06%"
         },
         {
           "Test Case": "1,000,000 ins SEQ",
-          "Latency Avg (ms)": 543.61,
-          "Min (ms)": 469.08,
-          "Max (ms)": 815.31,
-          "Stability": "±34.71%"
+          "Latency Avg (ms)": 485.12,
+          "Min (ms)": 475.89,
+          "Max (ms)": 504.56,
+          "Stability": "±2.96%"
         },
         {
           "Test Case": "1,000,000 ins SEQ (DST classic)",
-          "Latency Avg (ms)": 195.98,
-          "Min (ms)": 193.93,
-          "Max (ms)": 197.67,
-          "Stability": "±0.87%"
+          "Latency Avg (ms)": 202.03,
+          "Min (ms)": 197.37,
+          "Max (ms)": 207.17,
+          "Stability": "±2.71%"
         },
         {
           "Test Case": "1,000,000 ins RAND",
-          "Latency Avg (ms)": 1028.89,
-          "Min (ms)": 1013.49,
-          "Max (ms)": 1049.95,
-          "Stability": "±1.80%"
+          "Latency Avg (ms)": 1067.21,
+          "Min (ms)": 1053.08,
+          "Max (ms)": 1080.31,
+          "Stability": "±1.14%"
         },
         {
           "Test Case": "1,000,000 ins RAND (DST classic)",
-          "Latency Avg (ms)": 903.14,
-          "Min (ms)": 896.26,
-          "Max (ms)": 911.89,
-          "Stability": "±0.93%"
+          "Latency Avg (ms)": 985.75,
+          "Min (ms)": 977.03,
+          "Max (ms)": 1006.62,
+          "Stability": "±1.52%"
         },
         {
           "Test Case": "1,000,000 keys-only",
-          "Latency Avg (ms)": 3.4756,
-          "Min (ms)": 2.3173,
-          "Max (ms)": 4.8913,
-          "Stability": "±43.61%"
+          "Latency Avg (ms)": 7.5158,
+          "Min (ms)": 1.5468,
+          "Max (ms)": 13.8077,
+          "Stability": "±92.85%"
         }
       ],
-      "runTime": 62.85,
+      "runTime": 118.84,
       "file": "/Users/revone/projects/data-structure-typed/test/performance/data-structures/binary-tree/red-black-tree.test.mjs"
     },
     {
@@ -832,34 +832,34 @@
       "benchmarks": [
         {
           "Test Case": "10,000 add randomly",
-          "Latency Avg (ms)": 5.7348,
-          "Min (ms)": 5.4151,
-          "Max (ms)": 7.3027,
-          "Stability": "±0.91%"
+          "Latency Avg (ms)": 5.5009,
+          "Min (ms)": 5.1126,
+          "Max (ms)": 5.9326,
+          "Stability": "±0.6%"
         },
         {
           "Test Case": "10,000 add & delete randomly",
-          "Latency Avg (ms)": 10.5,
-          "Min (ms)": 10.24,
-          "Max (ms)": 11.2,
-          "Stability": "±0.34%"
+          "Latency Avg (ms)": 10.01,
+          "Min (ms)": 9.75,
+          "Max (ms)": 10.79,
+          "Stability": "±0.4%"
         },
         {
           "Test Case": "10,000 addMany",
-          "Latency Avg (ms)": 10.7,
-          "Min (ms)": 10.01,
-          "Max (ms)": 11.81,
-          "Stability": "±0.64%"
+          "Latency Avg (ms)": 11.62,
+          "Min (ms)": 10,
+          "Max (ms)": 68.37,
+          "Stability": "±15.54%"
         },
         {
           "Test Case": "10,000 get",
-          "Latency Avg (ms)": 11.45,
-          "Min (ms)": 10.59,
-          "Max (ms)": 14.42,
-          "Stability": "±1.26%"
+          "Latency Avg (ms)": 10.65,
+          "Min (ms)": 10.35,
+          "Max (ms)": 11.67,
+          "Stability": "±0.48%"
         }
       ],
-      "runTime": 21.49,
+      "runTime": 21.59,
       "file": "/Users/revone/projects/data-structure-typed/test/performance/data-structures/binary-tree/bst.test.mjs"
     },
     {
@@ -867,20 +867,20 @@
       "benchmarks": [
         {
           "Test Case": "100,000 add",
-          "Latency Avg (ms)": 133.91,
-          "Min (ms)": 72.83,
-          "Max (ms)": 657.68,
-          "Stability": "±33.82%"
+          "Latency Avg (ms)": 141.1,
+          "Min (ms)": 78.57,
+          "Max (ms)": 1348.32,
+          "Stability": "±65.27%"
         },
         {
           "Test Case": "100,000 getWords",
-          "Latency Avg (ms)": 68.55,
-          "Min (ms)": 50.84,
-          "Max (ms)": 377.6,
-          "Stability": "±24.68%"
+          "Latency Avg (ms)": 57.16,
+          "Min (ms)": 52.58,
+          "Max (ms)": 63.12,
+          "Stability": "±1.37%"
         }
       ],
-      "runTime": 12.88,
+      "runTime": 14.12,
       "file": "/Users/revone/projects/data-structure-typed/test/performance/data-structures/trie/trie.test.mjs"
     },
     {
@@ -888,10 +888,10 @@
       "benchmarks": [
         {
           "Test Case": "1,000 addVertex",
-          "Latency Avg (ms)": 0.0467,
-          "Min (ms)": 0.0444,
-          "Max (ms)": 0.0602,
-          "Stability": "±1.18%"
+          "Latency Avg (ms)": 0.0501,
+          "Min (ms)": 0.0484,
+          "Max (ms)": 0.0528,
+          "Stability": "±0.43%"
         },
         {
           "Test Case": "1,000 addEdge",
@@ -902,34 +902,34 @@
         },
         {
           "Test Case": "1,000 getVertex",
-          "Latency Avg (ms)": 36.39,
-          "Min (ms)": 35.36,
-          "Max (ms)": 38.07,
-          "Stability": "±0.48%"
+          "Latency Avg (ms)": 37.54,
+          "Min (ms)": 36.05,
+          "Max (ms)": 38.86,
+          "Stability": "±0.39%"
         },
         {
           "Test Case": "1,000 getEdge",
-          "Latency Avg (ms)": 72.7,
-          "Min (ms)": 70.35,
-          "Max (ms)": 75.37,
-          "Stability": "±0.48%"
+          "Latency Avg (ms)": 74.48,
+          "Min (ms)": 72.6,
+          "Max (ms)": 77.63,
+          "Stability": "±0.44%"
         },
         {
           "Test Case": "tarjan",
-          "Latency Avg (ms)": 0.3466,
-          "Min (ms)": 0.2994,
-          "Max (ms)": 0.9163,
-          "Stability": "±4.44%"
+          "Latency Avg (ms)": 0.3772,
+          "Min (ms)": 0.3413,
+          "Max (ms)": 0.4213,
+          "Stability": "±0.93%"
         },
         {
           "Test Case": "topologicalSort",
-          "Latency Avg (ms)": 0.2077,
-          "Min (ms)": 0.1988,
-          "Max (ms)": 0.2194,
-          "Stability": "±0.44%"
+          "Latency Avg (ms)": 0.241,
+          "Min (ms)": 0.2316,
+          "Max (ms)": 0.2615,
+          "Stability": "±0.51%"
         }
       ],
-      "runTime": 27.45,
+      "runTime": 27.56,
       "file": "/Users/revone/projects/data-structure-typed/test/performance/data-structures/graph/directed-graph.test.mjs"
     },
     {
@@ -937,62 +937,62 @@
       "benchmarks": [
         {
           "Test Case": "1,000 add randomly",
-          "Latency Avg (ms)": 10.4,
-          "Min (ms)": 10.04,
-          "Max (ms)": 10.86,
-          "Stability": "±0.35%"
+          "Latency Avg (ms)": 9.7693,
+          "Min (ms)": 9.5189,
+          "Max (ms)": 10.2783,
+          "Stability": "±0.36%"
         },
         {
           "Test Case": "1,000 add & delete randomly",
-          "Latency Avg (ms)": 10.74,
-          "Min (ms)": 10.21,
-          "Max (ms)": 12.52,
-          "Stability": "±0.74%"
+          "Latency Avg (ms)": 10.05,
+          "Min (ms)": 9.67,
+          "Max (ms)": 11.34,
+          "Stability": "±0.69%"
         },
         {
           "Test Case": "1,000 addMany",
-          "Latency Avg (ms)": 10.69,
-          "Min (ms)": 10.26,
-          "Max (ms)": 11.42,
-          "Stability": "±0.44%"
+          "Latency Avg (ms)": 10.79,
+          "Min (ms)": 9.2,
+          "Max (ms)": 84.26,
+          "Stability": "±19.64%"
         },
         {
           "Test Case": "1,000 get",
-          "Latency Avg (ms)": 11.31,
-          "Min (ms)": 10.35,
-          "Max (ms)": 42.95,
-          "Stability": "±7.42%"
+          "Latency Avg (ms)": 9.644,
+          "Min (ms)": 9.1508,
+          "Max (ms)": 12.5234,
+          "Stability": "±1.33%"
         },
         {
           "Test Case": "1,000 has",
-          "Latency Avg (ms)": 10.95,
-          "Min (ms)": 10.57,
-          "Max (ms)": 12.23,
-          "Stability": "±0.62%"
+          "Latency Avg (ms)": 9.4952,
+          "Min (ms)": 9.2009,
+          "Max (ms)": 11.909,
+          "Stability": "±0.76%"
         },
         {
           "Test Case": "1,000 dfs",
-          "Latency Avg (ms)": 104.22,
-          "Min (ms)": 100.77,
-          "Max (ms)": 129.5,
-          "Stability": "±1.92%"
+          "Latency Avg (ms)": 92.87,
+          "Min (ms)": 90.46,
+          "Max (ms)": 96.24,
+          "Stability": "±0.62%"
         },
         {
           "Test Case": "1,000 bfs",
-          "Latency Avg (ms)": 44.83,
-          "Min (ms)": 41.87,
-          "Max (ms)": 53.37,
-          "Stability": "±1.12%"
+          "Latency Avg (ms)": 37.34,
+          "Min (ms)": 36.18,
+          "Max (ms)": 42.3,
+          "Stability": "±0.7%"
         },
         {
           "Test Case": "1,000 morris",
-          "Latency Avg (ms)": 41.22,
-          "Min (ms)": 38.93,
-          "Max (ms)": 60.17,
-          "Stability": "±2.26%"
+          "Latency Avg (ms)": 37.49,
+          "Min (ms)": 36.29,
+          "Max (ms)": 39.54,
+          "Stability": "±0.51%"
         }
       ],
-      "runTime": 43.98,
+      "runTime": 44.11,
       "file": "/Users/revone/projects/data-structure-typed/test/performance/data-structures/binary-tree/binary-tree.test.mjs"
     },
     {
@@ -1000,34 +1000,34 @@
       "benchmarks": [
         {
           "Test Case": "100,000 add",
-          "Latency Avg (ms)": 4.191,
-          "Min (ms)": 3.9548,
-          "Max (ms)": 5.0848,
-          "Stability": "±1.05%"
+          "Latency Avg (ms)": 3.9978,
+          "Min (ms)": 3.7973,
+          "Max (ms)": 4.405,
+          "Stability": "±0.6%"
         },
         {
           "Test Case": "100,000 add (js-sdsl)",
-          "Latency Avg (ms)": 5.0274,
-          "Min (ms)": 4.8248,
-          "Max (ms)": 5.6758,
-          "Stability": "±0.8%"
+          "Latency Avg (ms)": 4.9616,
+          "Min (ms)": 4.6762,
+          "Max (ms)": 6.4027,
+          "Stability": "±1.31%"
         },
         {
           "Test Case": "100,000 add & poll",
-          "Latency Avg (ms)": 22.25,
-          "Min (ms)": 21.56,
-          "Max (ms)": 28.32,
-          "Stability": "±0.99%"
+          "Latency Avg (ms)": 22.51,
+          "Min (ms)": 21.23,
+          "Max (ms)": 42.99,
+          "Stability": "±3.19%"
         },
         {
           "Test Case": "100,000 add & poll (js-sdsl)",
-          "Latency Avg (ms)": 23.58,
-          "Min (ms)": 22.3,
-          "Max (ms)": 26.43,
-          "Stability": "±1.03%"
+          "Latency Avg (ms)": 22.97,
+          "Min (ms)": 21.73,
+          "Max (ms)": 25.46,
+          "Stability": "±0.73%"
         }
       ],
-      "runTime": 21.86,
+      "runTime": 21.83,
       "file": "/Users/revone/projects/data-structure-typed/test/performance/data-structures/priority-queue/priority-queue.test.mjs"
     },
     {
@@ -1035,48 +1035,48 @@
       "benchmarks": [
         {
           "Test Case": "1,000,000 push",
-          "Latency Avg (ms)": 28.71,
-          "Min (ms)": 25.04,
-          "Max (ms)": 77.02,
-          "Stability": "±7.51%"
+          "Latency Avg (ms)": 26.93,
+          "Min (ms)": 24.41,
+          "Max (ms)": 51.97,
+          "Stability": "±4.28%"
         },
         {
           "Test Case": "100,000 push & shift",
-          "Latency Avg (ms)": 3.6317,
-          "Min (ms)": 3.0642,
-          "Max (ms)": 16.425,
-          "Stability": "±9.21%"
+          "Latency Avg (ms)": 3.4515,
+          "Min (ms)": 2.7218,
+          "Max (ms)": 15.2629,
+          "Stability": "±8.97%"
         },
         {
           "Test Case": "Native JS Array 1,000,000 push",
-          "Latency Avg (ms)": 24.75,
-          "Min (ms)": 21.5,
-          "Max (ms)": 35.42,
-          "Stability": "±2.8%"
+          "Latency Avg (ms)": 23.83,
+          "Min (ms)": 21.12,
+          "Max (ms)": 45.66,
+          "Stability": "±3.62%"
         },
         {
           "Test Case": "Native JS Array 100,000 push & shift",
-          "Latency Avg (ms)": 1099.86,
-          "Min (ms)": 911.21,
-          "Max (ms)": 1323.42,
-          "Stability": "±11.06%"
+          "Latency Avg (ms)": 1152.77,
+          "Min (ms)": 964.6,
+          "Max (ms)": 1612.75,
+          "Stability": "±20%"
         },
         {
           "Test Case": "1,000,000 push (js-sdsl)",
-          "Latency Avg (ms)": 31.73,
-          "Min (ms)": 29.22,
-          "Max (ms)": 59.13,
-          "Stability": "±3.27%"
+          "Latency Avg (ms)": 27.59,
+          "Min (ms)": 24.12,
+          "Max (ms)": 48.41,
+          "Stability": "±4.38%"
         },
         {
           "Test Case": "100,000 push & shift (js-sdsl)",
-          "Latency Avg (ms)": 3.0023,
-          "Min (ms)": 2.5094,
-          "Max (ms)": 13.7253,
-          "Stability": "±9.06%"
+          "Latency Avg (ms)": 2.7081,
+          "Min (ms)": 2.3682,
+          "Max (ms)": 10.1145,
+          "Stability": "±6.61%"
         }
       ],
-      "runTime": 53.55,
+      "runTime": 54.52,
       "file": "/Users/revone/projects/data-structure-typed/test/performance/data-structures/queue/queue.test.mjs"
     },
     {

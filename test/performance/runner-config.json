@@ -24,7 +24,6 @@
     "**/max-priority-queue*"
   ],
   "order": [
-    "hash-map",
     "queue",
     "deque",
     "doubly-linked-list",
@@ -40,6 +39,7 @@
     "bst",
     "binary-tree",
     "binary-tree-overall",
+    "hash-map",
     "trie",
     "graph",
     "directed-graph",
