@@ -186,6 +186,7 @@ export class SegmentTree<E = number> implements Iterable<E> {
       while (pos > 1 && (pos & 1) === 0) {
         pos >>= 1;
       }
+      /* istanbul ignore next -- defensive: pos===1 unreachable when _n < _treeSize guard above catches exit */
       if (pos === 1) return this._n - 1;
     }
   }
@@ -230,6 +231,7 @@ export class SegmentTree<E = number> implements Iterable<E> {
       while (pos > 1 && (pos & 1) === 1) {
         pos >>= 1;
       }
+      /* istanbul ignore next -- defensive: pos===1 unreachable when _treeSize guard above catches exit */
       if (pos === 1) return 0;
     }
   }

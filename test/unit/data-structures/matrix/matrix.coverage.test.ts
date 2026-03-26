@@ -82,11 +82,21 @@ describe('Matrix misc coverage', () => {
     });
   });
 
-  describe('iterator', () => {
+  describe('iterator and print', () => {
     it('iterator [Symbol.iterator] returns itself', () => {
       const m = new Matrix([[1, 2], [3, 4]]);
       const iter = m[Symbol.iterator]();
       expect(iter[Symbol.iterator]()).toBe(iter);
+    });
+
+    it('print outputs tab-separated rows', () => {
+      const m = new Matrix([[1, 2], [3, 4]]);
+      const spy = jest.spyOn(console, 'log').mockImplementation();
+      m.print();
+      expect(spy).toHaveBeenCalledTimes(2);
+      expect(spy).toHaveBeenCalledWith('1\t2');
+      expect(spy).toHaveBeenCalledWith('3\t4');
+      spy.mockRestore();
     });
   });
 

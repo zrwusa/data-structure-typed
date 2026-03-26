@@ -18,6 +18,12 @@ describe('SkipList additional branch coverage', () => {
     expect([...s.keys()]).toEqual([1n, 2n, 3n]);
   });
 
+  it('default comparator throws for unsupported types', () => {
+    const s = new SkipList<object, string>();
+    s.set({}, 'a'); // first insert, no comparison needed
+    expect(() => s.set({}, 'b')).toThrow(); // second insert triggers comparator
+  });
+
   it('comparator getter returns the comparator', () => {
     const cmp = (a: number, b: number) => b - a;
     const s = new SkipList<number, string>([], { comparator: cmp });

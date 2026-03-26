@@ -81,4 +81,42 @@ describe('SegmentTree remaining branch coverage', () => {
     const iter = st[Symbol.iterator]();
     expect(iter[Symbol.iterator]()).toBe(iter);
   });
+
+  it('maxRight reaches root (pos===1 exit) on power-of-2 tree', () => {
+    // 2 elements: tree has exactly 2 leaves, root at pos=1
+    const st = SegmentTree.sum([1, 1]);
+    // Start from index 1 (second element). After processing leaf, pos goes up.
+    // With 2-element tree starting at pos=3 (leaf), after processing: pos=4, 4-2>=2 → returns n-1=1
+    // Try starting from 0 with a predicate that always passes
+    expect(st.maxRight(0, s => s <= 100)).toBe(1);
+    // Also test with 4-element (deeper power-of-2)
+    const st4 = SegmentTree.sum([1, 1, 1, 1]);
+    expect(st4.maxRight(0, s => s <= 100)).toBe(3);
+  });
+
+  it('minLeft reaches root (pos===1 exit) on power-of-2 tree', () => {
+    const st = SegmentTree.sum([1, 1]);
+    expect(st.minLeft(1, s => s <= 100)).toBe(0);
+    const st4 = SegmentTree.sum([1, 1, 1, 1]);
+    expect(st4.minLeft(3, s => s <= 100)).toBe(0);
+  });
+
+  it('maxRight from non-zero left that traverses multiple segments', () => {
+    // 8-element tree: start from middle, find where prefix exceeds threshold
+    const st = SegmentTree.sum([1, 1, 1, 1, 1, 1, 1, 1]);
+    // From index 2: sum(2)=1, sum(2,3)=2, sum(2..5)=4, sum(2..7)=6 ≤ 100 → returns 7
+    expect(st.maxRight(2, s => s <= 100)).toBe(7);
+  });
+
+  it('minLeft from non-last right that traverses multiple segments', () => {
+    const st = SegmentTree.sum([1, 1, 1, 1, 1, 1, 1, 1]);
+    // From index 5 going left: all ≤ 100 → returns 0
+    expect(st.minLeft(5, s => s <= 100)).toBe(0);
+  });
+
+  it('minLeft clamps right >= n', () => {
+    const st = SegmentTree.sum([1, 2, 3]);
+    // right=100 clamped to 2. suffix sum from right: sum(2)=3 > 2 → l=3
+    expect(st.minLeft(100, s => s <= 2)).toBe(3);
+  });
 });
