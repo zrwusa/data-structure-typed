@@ -14,20 +14,6 @@ import * as path from 'path';
 
 // ─── Config ───────────────────────────────────────────────────
 
-/** Map of parent class names to their known variable names in examples */
-const classToVar: Record<string, string> = {
-  BinaryTree: 'tree', BST: 'bst', AVLTree: 'avl', RedBlackTree: 'rbt',
-  TreeMap: 'tm', TreeSet: 'ts', TreeMultiMap: 'tmm', TreeMultiSet: 'tms',
-  AVLTreeMultiMap: 'avlmm', AVLTreeCounter: 'avlc',
-  Heap: 'heap', MinHeap: 'minHeap', MaxHeap: 'maxHeap',
-  PriorityQueue: 'pq', MinPriorityQueue: 'minPQ', MaxPriorityQueue: 'maxPQ',
-  SkipList: 'sl', HashMap: 'hm',
-  Queue: 'q', Deque: 'dq', Stack: 'stack',
-  SinglyLinkedList: 'sll', DoublyLinkedList: 'dll',
-  DirectedGraph: 'g', UndirectedGraph: 'g',
-  Trie: 'trie', SegmentTree: 'st', BinaryIndexedTree: 'bit', Matrix: 'mat',
-};
-
 /** Test file patterns: className → test file path (relative to project root) */
 const classToTestFile: Record<string, string> = {
   BinaryTree: 'test/unit/data-structures/binary-tree/binary-tree.test.ts',
@@ -165,47 +151,6 @@ function convertExpectsToComments(body: string): string {
   return result.join('\n');
 }
 
-// ─── Rewrite helpers ──────────────────────────────────────────
-
-function rewriteExampleText(text: string, targetClass: string, sourceClasses: string[]): string {
-  let result = text;
-  const targetVar = classToVar[targetClass] || targetClass.charAt(0).toLowerCase() + targetClass.slice(1);
-
-  for (const src of sourceClasses) {
-    const srcVar = classToVar[src] || src.charAt(0).toLowerCase() + src.slice(1);
-    result = result.replace(new RegExp(`\\bnew ${src}\\b`, 'g'), `new ${targetClass}`);
-    if (srcVar !== targetVar) {
-      result = result.replace(new RegExp(`\\b(const|let|var)\\s+${srcVar}\\b`, 'g'), `$1 ${targetVar}`);
-      result = result.replace(new RegExp(`\\b${srcVar}\\.`, 'g'), `${targetVar}.`);
-      result = result.replace(new RegExp(`\\b${srcVar}([\\[,);\\s])`, 'g'), `${targetVar}$1`);
-    }
-  }
-  return result;
-}
-
-/**
- * Collect the inheritance chain for a class reflection (closest ancestor first).
- */
-function getAncestorNames(ref: DeclarationReflection): string[] {
-  const ancestors: string[] = [];
-  let current = ref;
-  while (current.extendedTypes?.length) {
-    const parentType = current.extendedTypes[0];
-    // TypeDoc reference type has .name
-    const parentName = (parentType as any).name || (parentType as any)._target?.name;
-    if (!parentName || ancestors.includes(parentName)) break;
-    ancestors.push(parentName);
-    // Try to find the parent reflection
-    const parentRef = current.project?.getChildByName(parentName);
-    if (parentRef && parentRef instanceof DeclarationReflection) {
-      current = parentRef;
-    } else {
-      break;
-    }
-  }
-  return ancestors;
-}
-
 // ─── Plugin entry ─────────────────────────────────────────────
 
 export function load(app: Application) {
@@ -214,8 +159,8 @@ export function load(app: Application) {
   app.converter.on(Converter.EVENT_RESOLVE_END, (context) => {
     // Parse all test examples
     const testExamples = parseTestExamples(projectRoot);
-    let rewritten = 0;
     let injected = 0;
+    let stripped = 0;
 
     // Walk all reflections
     for (const ref of Object.values(context.project.reflections)) {
@@ -233,9 +178,6 @@ export function load(app: Application) {
       const methodName = ref.name;
       if (methodName.startsWith('_')) continue;
 
-      // Get ancestor chain for rewriting
-      const ancestors = getAncestorNames(parentClass);
-
       // Check all signatures (methods have signatures)
       const signatures = ref.signatures || (ref.getSignature ? [ref.getSignature] : []);
 
@@ -247,37 +189,28 @@ export function load(app: Application) {
         const testEx = testExamples.get(key);
 
         if (testEx) {
-          // Priority: always use the class's own tagged test
+          // Use the class's own tagged test — replace any inherited @example
           if (!sig.comment) {
             sig.comment = new Comment();
           }
           if (!sig.comment.blockTags) {
             sig.comment.blockTags = [];
           }
-          // Remove any inherited @example
           sig.comment.blockTags = sig.comment.blockTags.filter(t => t.tag !== '@example');
-          // Inject from own test
           const codeBlock = '```ts\n' + testEx.body + '\n```';
           sig.comment.blockTags.push(
             new CommentTag('@example', [{ kind: 'code', text: codeBlock }])
           );
           injected++;
-        } else if (sig.comment?.blockTags?.length) {
-          // No own test — fall back to rewriting inherited @example class names
-          for (const tag of sig.comment.blockTags) {
-            if (tag.tag !== '@example') continue;
-            for (const part of tag.content) {
-              if (part.kind === 'code' || part.kind === 'text') {
-                const original = part.text;
-                part.text = rewriteExampleText(part.text, className, ancestors);
-                if (part.text !== original) rewritten++;
-              }
-            }
-          }
+        } else if (sig.comment?.blockTags?.some(t => t.tag === '@example')) {
+          // No own test but has inherited @example — strip it
+          // (avoid showing parent class examples with wrong tree structure)
+          sig.comment!.blockTags = sig.comment!.blockTags!.filter(t => t.tag !== '@example');
+          stripped++;
         }
       }
     }
 
-    console.log(`  📝 TypeDoc plugin: ${rewritten} examples rewritten, ${injected} injected from tests`);
+    console.log(`  📝 TypeDoc plugin: ${injected} injected from tests, ${stripped} inherited examples stripped`);
   });
 }

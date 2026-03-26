@@ -438,5 +438,88 @@ describe('TreeSet (RedBlackTree-backed, no node exposure)', () => {
       expect([...copy]).toEqual(['apple', 'banana', 'cherry']);
       expect(copy.has('banana')).toBe(true);
     });
+
+    it('@example [TreeSet.entries] Iterate entries', () => {
+      const ts = new TreeSet<number>([3, 1, 2]);
+      expect([...ts.entries()].map(([k]) => k)).toEqual([1, 2, 3]);
+    });
+
+    it('@example [TreeSet.keys] Get sorted keys', () => {
+      const ts = new TreeSet<number>([30, 10, 20]);
+      expect([...ts.keys()]).toEqual([10, 20, 30]);
+    });
+
+    it('@example [TreeSet.values] Get values (same as keys for Set)', () => {
+      const ts = new TreeSet<number>([2, 1, 3]);
+      expect([...ts.values()]).toEqual([1, 2, 3]);
+    });
+
+    it('@example [TreeSet.forEach] Execute for each', () => {
+      const ts = new TreeSet<number>([3, 1, 2]);
+      const keys: number[] = [];
+      ts.forEach(k => keys.push(k));
+      expect(keys).toEqual([1, 2, 3]);
+    });
+
+    it('@example [TreeSet.every] Test all', () => {
+      const ts = new TreeSet<number>([2, 4, 6]);
+      expect(ts.every(k => k > 0)).toBe(true);
+    });
+
+    it('@example [TreeSet.some] Test any', () => {
+      const ts = new TreeSet<number>([1, 3, 5]);
+      expect(ts.some(k => k === 3)).toBe(true);
+    });
+
+    it('@example [TreeSet.find] Find entry', () => {
+      const ts = new TreeSet<number>([1, 2, 3]);
+      const found = ts.find(k => k === 2);
+      expect(found).toBe(2);
+    });
+
+    it('@example [TreeSet.filter] Filter', () => {
+      const ts = new TreeSet<number>([1, 2, 3, 4, 5]);
+      const evens = ts.filter(k => k % 2 === 0);
+      expect([...evens]).toEqual([2, 4]);
+    });
+
+    it('@example [TreeSet.map] Transform', () => {
+      const ts = new TreeSet<number>([1, 2, 3]);
+      const doubled = ts.map(k => k * 2);
+      expect([...doubled]).toEqual([2, 4, 6]);
+    });
+
+    it('@example [TreeSet.reduce] Aggregate', () => {
+      const ts = new TreeSet<number>([1, 2, 3]);
+      const sum = ts.reduce((acc, k) => acc + k, 0);
+      expect(sum).toBe(6);
+    });
+
+    it('@example [TreeSet.toArray] Convert to array', () => {
+      const ts = new TreeSet<number>([3, 1, 2]);
+      expect(ts.toArray()).toEqual([1, 2, 3]);
+    });
+
+    it('@example [TreeSet.clone] Deep clone', () => {
+      const ts = new TreeSet<number>([1, 2, 3]);
+      const copy = ts.clone();
+      copy.delete(1);
+      expect(ts.has(1)).toBe(true);
+    });
+
+    it('@example [TreeSet.clear] Remove all', () => {
+      const ts = new TreeSet<number>([1, 2]);
+      ts.clear();
+      expect(ts.isEmpty()).toBe(true);
+    });
+
+    it('@example [TreeSet.isEmpty] Check empty', () => {
+      expect(new TreeSet().isEmpty()).toBe(true);
+    });
+
+    it('@example [TreeSet.print] Display tree', () => {
+      const ts = new TreeSet<number>([1, 2, 3]);
+      expect(() => ts.print()).not.toThrow();
+    });
   });
 });

@@ -2093,4 +2093,16 @@ describe('Classic usage examples', () => {
     const nodes = tree.getNodes(node => node.key > 3);
     expect(nodes.length).toBe(2);
   });
+
+  it('@example [BinaryTree.search] Search by predicate', () => {
+    const tree = new BinaryTree<number>([5, 3, 7, 1, 9]);
+    const found = tree.search(n => n.key > 5, true);
+    expect(found.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('@example [BinaryTree.setMany] Set multiple entries', () => {
+    const tree = new BinaryTree<number, string>();
+    tree.setMany([[1, 'a'], [2, 'b'], [3, 'c']]);
+    expect(tree.size).toBe(3);
+  });
 });

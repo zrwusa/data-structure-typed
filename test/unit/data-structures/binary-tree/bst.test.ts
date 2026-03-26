@@ -3722,4 +3722,28 @@ describe('classic use', () => {
     const bigNodes = bst.getNodes(node => node.key > 5);
     expect(bigNodes.length).toBe(2);
   });
+
+  it('@example [BST.bfs] Breadth-first traversal', () => {
+    const bst = new BST<number>([5, 3, 7]);
+    const result = bst.bfs(node => node.key);
+    expect(result.length).toBe(3);
+  });
+
+  it('@example [BST.getHeight] Tree height', () => {
+    const bst = new BST<number>([5, 3, 7, 1]);
+    expect(bst.getHeight()).toBeGreaterThanOrEqual(2);
+  });
+
+  it('@example [BST.morris] Morris traversal', () => {
+    const bst = new BST<number>([5, 3, 7]);
+    const result = bst.morris(n => n.key, 'IN');
+    expect(result).toEqual([3, 5, 7]);
+  });
+
+  it('@example [BST.set] Set a key-value pair', () => {
+    const bst = new BST<number, string>();
+    bst.set(1, 'one');
+    bst.set(2, 'two');
+    expect(bst.get(1)).toBe('one');
+  });
 });

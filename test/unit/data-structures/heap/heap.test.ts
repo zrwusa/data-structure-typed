@@ -859,4 +859,27 @@ describe('classic use', () => {
     const sum = heap.reduce((acc, x) => acc + x, 0);
     expect(sum).toBe(6);
   });
+
+  it('@example [Heap.dfs] Depth-first traversal', () => {
+    const heap = new Heap<number>([3, 1, 2], { comparator: (a, b) => a - b });
+    const result = heap.dfs('IN');
+    expect(result.length).toBe(3);
+  });
+
+  it('@example [Heap.has] Check element existence', () => {
+    const heap = new Heap<number>([3, 1, 2], { comparator: (a, b) => a - b });
+    expect(heap.has(1)).toBe(true);
+    expect(heap.has(99)).toBe(false);
+  });
+
+  it('@example [Heap.print] Display heap', () => {
+    const heap = new Heap<number>([3, 1, 2], { comparator: (a, b) => a - b });
+    expect(() => heap.print()).not.toThrow();
+  });
+
+  it('@example [Heap.values] Get values', () => {
+    const heap = new Heap<number>([3, 1, 2], { comparator: (a, b) => a - b });
+    const vals = [...heap.values()];
+    expect(vals.length).toBe(3);
+  });
 });

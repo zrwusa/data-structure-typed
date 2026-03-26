@@ -726,4 +726,220 @@ describe('classic use', () => {
     // Verify tree is balanced
     expect(tree.isAVLBalanced()).toBe(true);
   });
+
+  it('@example [AVLTree.add] Insert a key', () => {
+    const avl = new AVLTree<number>();
+    avl.add(10);
+    avl.add(5);
+    avl.add(15);
+    expect(avl.size).toBe(3);
+    expect(avl.has(10)).toBe(true);
+  });
+
+  it('@example [AVLTree.get] Retrieve value by key', () => {
+    const avl = new AVLTree<number, string>([[1, 'one'], [2, 'two']]);
+    expect(avl.get(1)).toBe('one');
+  });
+
+  it('@example [AVLTree.has] Check key existence', () => {
+    const avl = new AVLTree<number>([5, 3, 7]);
+    expect(avl.has(3)).toBe(true);
+    expect(avl.has(99)).toBe(false);
+  });
+
+  it('@example [AVLTree.entries] Iterate key-value pairs in order', () => {
+    const avl = new AVLTree<number, string>([[3, 'c'], [1, 'a'], [2, 'b']]);
+    expect([...avl.entries()]).toEqual([[1, 'a'], [2, 'b'], [3, 'c']]);
+  });
+
+  it('@example [AVLTree.keys] Get sorted keys', () => {
+    const avl = new AVLTree<number>([30, 10, 20]);
+    expect([...avl.keys()]).toEqual([10, 20, 30]);
+  });
+
+  it('@example [AVLTree.values] Get values in key order', () => {
+    const avl = new AVLTree<number, string>([[2, 'b'], [1, 'a'], [3, 'c']]);
+    expect([...avl.values()]).toEqual(['a', 'b', 'c']);
+  });
+
+  it('@example [AVLTree.forEach] Execute for each entry', () => {
+    const avl = new AVLTree<number>([3, 1, 2]);
+    const keys: number[] = [];
+    avl.forEach((v, k) => keys.push(k));
+    expect(keys).toEqual([1, 2, 3]);
+  });
+
+  it('@example [AVLTree.every] Test all entries', () => {
+    const avl = new AVLTree<number>([2, 4, 6]);
+    expect(avl.every((v, k) => k > 0)).toBe(true);
+  });
+
+  it('@example [AVLTree.some] Test any entry', () => {
+    const avl = new AVLTree<number>([1, 3, 5]);
+    expect(avl.some((v, k) => k === 3)).toBe(true);
+  });
+
+  it('@example [AVLTree.find] Find matching entry', () => {
+    const avl = new AVLTree<number, string>([[1, 'a'], [2, 'b']]);
+    const found = avl.find(v => v === 'b');
+    expect(found?.[0]).toBe(2);
+  });
+
+  it('@example [AVLTree.filter] Filter entries', () => {
+    const avl = new AVLTree<number>([1, 2, 3, 4, 5]);
+    const evens = avl.filter((v, k) => k % 2 === 0);
+    expect([...evens.keys()]).toEqual([2, 4]);
+  });
+
+  it('@example [AVLTree.map] Transform to new tree', () => {
+    const avl = new AVLTree<number, number>([[1, 10], [2, 20]]);
+    const doubled = avl.map((v, k) => [k, (v ?? 0) * 2] as [number, number]);
+    expect([...doubled.values()]).toEqual([20, 40]);
+  });
+
+  it('@example [AVLTree.reduce] Aggregate values', () => {
+    const avl = new AVLTree<number, number>([[1, 10], [2, 20], [3, 30]]);
+    const sum = avl.reduce((acc, v) => acc + (v ?? 0), 0);
+    expect(sum).toBe(60);
+  });
+
+  it('@example [AVLTree.toArray] Convert to sorted array', () => {
+    const avl = new AVLTree<number>([30, 10, 20]);
+    expect(avl.toArray().map(([k]) => k)).toEqual([10, 20, 30]);
+  });
+
+  it('@example [AVLTree.ceiling] Least key ≥ target', () => {
+    const avl = new AVLTree<number>([10, 20, 30, 40]);
+    expect(avl.ceiling(25)).toBe(30);
+  });
+
+  it('@example [AVLTree.floor] Greatest key ≤ target', () => {
+    const avl = new AVLTree<number>([10, 20, 30, 40]);
+    expect(avl.floor(25)).toBe(20);
+  });
+
+  it('@example [AVLTree.higher] Least key > target', () => {
+    const avl = new AVLTree<number>([10, 20, 30]);
+    expect(avl.higher(20)).toBe(30);
+  });
+
+  it('@example [AVLTree.lower] Greatest key < target', () => {
+    const avl = new AVLTree<number>([10, 20, 30]);
+    expect(avl.lower(20)).toBe(10);
+  });
+
+  it('@example [AVLTree.rangeSearch] Find keys in range', () => {
+    const avl = new AVLTree<number>([10, 20, 30, 40, 50]);
+    expect(avl.rangeSearch([15, 35])).toEqual([20, 30]);
+  });
+
+  it('@example [AVLTree.dfs] Depth-first traversal', () => {
+    const avl = new AVLTree<number>([5, 3, 7, 1, 4]);
+    const inOrder = avl.dfs(node => node.key, 'IN');
+    expect(inOrder).toEqual([1, 3, 4, 5, 7]);
+  });
+
+  it('@example [AVLTree.bfs] Breadth-first traversal', () => {
+    const avl = new AVLTree<number>([5, 3, 7]);
+    const levelOrder = avl.bfs(node => node.key);
+    expect(levelOrder.length).toBe(3);
+  });
+
+  it('@example [AVLTree.clone] Create independent copy', () => {
+    const avl = new AVLTree<number>([5, 3, 7]);
+    const copy = avl.clone();
+    copy.delete(3);
+    expect(avl.has(3)).toBe(true);
+  });
+
+  it('@example [AVLTree.merge] Combine trees', () => {
+    const avl1 = new AVLTree<number>([1, 3]);
+    const avl2 = new AVLTree<number>([2, 4]);
+    avl1.merge(avl2);
+    expect([...avl1.keys()]).toEqual([1, 2, 3, 4]);
+  });
+
+  it('@example [AVLTree.clear] Remove all entries', () => {
+    const avl = new AVLTree<number>([1, 2, 3]);
+    avl.clear();
+    expect(avl.isEmpty()).toBe(true);
+  });
+
+  it('@example [AVLTree.isEmpty] Check if empty', () => {
+    expect(new AVLTree().isEmpty()).toBe(true);
+  });
+
+  it('@example [AVLTree.print] Display tree', () => {
+    const avl = new AVLTree<number>([5, 3, 7]);
+    expect(() => avl.print()).not.toThrow();
+  });
+
+  it('@example [AVLTree.isBST] Validate BST property', () => {
+    const avl = new AVLTree<number>([5, 3, 7, 1, 4]);
+    expect(avl.isBST()).toBe(true);
+  });
+
+  it('@example [AVLTree.isAVLBalanced] Check AVL balance', () => {
+    const avl = new AVLTree<number>([1, 2, 3, 4, 5, 6, 7]);
+    expect(avl.isAVLBalanced()).toBe(true);
+  });
+
+  it('@example [AVLTree.addMany] Add multiple keys', () => {
+    const avl = new AVLTree<number>();
+    avl.addMany([5, 3, 7, 1, 9]);
+    expect(avl.size).toBe(5);
+  });
+
+  it('@example [AVLTree.leaves] Get leaf nodes', () => {
+    const avl = new AVLTree<number>([5, 3, 7, 1, 4, 6, 8]);
+    const leafKeys = avl.leaves(n => n.key);
+    expect(leafKeys.length).toBeGreaterThan(0);
+  });
+
+  it('@example [AVLTree.getHeight] Tree height', () => {
+    const avl = new AVLTree<number>([5, 3, 7, 1]);
+    expect(avl.getHeight()).toBeGreaterThanOrEqual(2);
+  });
+
+  it('@example [AVLTree.getNode] Get node by key', () => {
+    const avl = new AVLTree<number, string>([[5, 'root'], [3, 'left']]);
+    expect(avl.getNode(3)?.value).toBe('left');
+  });
+
+  it('@example [AVLTree.perfectlyBalance] Rebalance tree', () => {
+    const avl = new AVLTree<number>([1, 2, 3, 4, 5]);
+    avl.perfectlyBalance();
+    expect(avl.isAVLBalanced()).toBe(true);
+  });
+
+  it('@example [AVLTree.search] Search nodes by predicate', () => {
+    const avl = new AVLTree<number>([5, 3, 7, 1, 9]);
+    const found = avl.search(n => n.key > 5, true);
+    expect(found.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('@example [AVLTree.listLevels] Level-order grouping', () => {
+    const avl = new AVLTree<number>([5, 3, 7, 1, 4]);
+    const levels = avl.listLevels(n => n.key);
+    expect(levels.length).toBeGreaterThan(0);
+    expect(levels.flat().sort((a, b) => a - b)).toEqual([1, 3, 4, 5, 7]);
+  });
+
+  it('@example [AVLTree.getNodes] Get nodes matching condition', () => {
+    const avl = new AVLTree<number>([5, 3, 7, 1, 9]);
+    const big = avl.getNodes(n => n.key > 5);
+    expect(big.length).toBe(2);
+  });
+
+  it('@example [AVLTree.morris] Morris traversal (O(1) space)', () => {
+    const avl = new AVLTree<number>([5, 3, 7]);
+    const result = avl.morris(n => n.key, 'IN');
+    expect(result).toEqual([3, 5, 7]);
+  });
+
+  it('@example [AVLTree.setMany] Set multiple key-value pairs', () => {
+    const avl = new AVLTree<number, string>();
+    avl.setMany([[1, 'a'], [2, 'b'], [3, 'c']]);
+    expect(avl.size).toBe(3);
+  });
 });
