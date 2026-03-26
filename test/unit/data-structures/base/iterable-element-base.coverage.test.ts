@@ -1,3 +1,4 @@
+import { ElementCallback, IterableElementBaseOptions } from '../../../../src';
 import { IterableElementBase } from '../../../../src/data-structures/base/iterable-element-base';
 
 class TestIterable extends IterableElementBase<number, number> {
@@ -44,10 +45,41 @@ class TestIterable extends IterableElementBase<number, number> {
   }
 }
 
-/**
- * Coverage-focused tests for IterableElementBase.
- * Keep existing @example tests intact.
- */
+class NumIter extends IterableElementBase<number, number> {
+  override isEmpty(): boolean {
+    throw new Error('Method not implemented.');
+  }
+  override clear(): void {
+    throw new Error('Method not implemented.');
+  }
+  override clone(): this {
+    throw new Error('Method not implemented.');
+  }
+  override map<EM, RM>(
+    _callback: ElementCallback<number, number, EM>,
+    _options?: IterableElementBaseOptions<EM, RM> | undefined,
+    _thisArg?: unknown
+  ): IterableElementBase<EM, RM> {
+    throw new Error('Method not implemented.');
+  }
+  override mapSame(_callback: ElementCallback<number, number, number>, _thisArg?: unknown): this {
+    throw new Error('Method not implemented.');
+  }
+  override filter(_predicate: ElementCallback<number, number, boolean>, _thisArg?: unknown): this {
+    throw new Error('Method not implemented.');
+  }
+  protected override _getIterator(..._args: unknown[]): IterableIterator<number> {
+    throw new Error('Method not implemented.');
+  }
+  constructor(private readonly data: number[]) {
+    super();
+  }
+
+  override *[Symbol.iterator](): IterableIterator<number> {
+    for (const n of this.data) yield n;
+  }
+}
+
 describe('IterableElementBase coverage', () => {
   it('constructor rejects non-function toElementFn when truthy', () => {
     expect(() => new TestIterable([], { toElementFn: 123 as any })).toThrow(TypeError);
@@ -102,5 +134,27 @@ describe('IterableElementBase coverage', () => {
     t.print();
     expect(spy).toHaveBeenCalled();
     spy.mockRestore();
+  });
+
+  it('every() uses thisArg branch (fn.call) and can early-return false', () => {
+    const it = new NumIter([1, 2, 3]);
+
+    const ctx = { limit: 2 };
+    const res = it.every(function (this: any, v: number) {
+      return v <= this.limit;
+    }, ctx);
+
+    expect(res).toBe(false);
+  });
+
+  it('some() uses thisArg branch (fn.call) and can early-return true', () => {
+    const it = new NumIter([1, 2, 3]);
+
+    const ctx = { pick: 2 };
+    const res = it.some(function (this: any, v: number) {
+      return v === this.pick;
+    }, ctx);
+
+    expect(res).toBe(true);
   });
 });
