@@ -341,6 +341,73 @@ const rbTree = new RedBlackTree([1, 2, 3, 4, 5]);
 // Trade-off: Slower insertions/deletions (more rebalancing)
 ```
 
+### SkipList: Probabilistic Balancing
+
+Unlike Red-Black Tree or AVL Tree which rebalance deterministically, **SkipList** uses randomization:
+
+```
+Level 3: ──────────────────────────► 50
+Level 2: ────────► 20 ──────────────► 50
+Level 1: ──► 10 ──► 20 ──► 30 ──► 50 ──► 70
+```
+
+Each node is promoted to a higher level with probability 0.5 (configurable). This gives O(log n) **average** performance — equivalent to Red-Black Tree in practice, but implemented with much simpler code.
+
+**When to use SkipList vs TreeMap:**
+- Both provide identical APIs (`NavigableMap` semantics)
+- SkipList: simpler codebase, constant factors slightly higher
+- TreeMap (Red-Black Tree): guaranteed O(log n) worst-case
+
+---
+
+## Range Query Structures
+
+### SegmentTree
+
+Stores aggregated values in a complete binary tree backed by a flat array:
+
+```
+Array:      [1, 3, 5, 7]
+            
+Tree:           16         (root = sum all)
+              /    \
+            4       12     (sum of halves)
+           / \     / \
+          1   3   5   7    (leaves = original values)
+
+Internal array: [_, 16, 4, 12, 1, 3, 5, 7]  (1-indexed)
+```
+
+Query `[1,2]` (3+5=8): combines nodes covering exactly that range in O(log n).
+
+Supports any associative operation via `merger` function: sum, min, max, GCD, product, etc.
+
+### BinaryIndexedTree (Fenwick Tree)
+
+A more compact structure for prefix sums only:
+
+```
+Array:      [1, 3, 5, 7, 9]
+
+BIT tree (1-indexed):
+  T[1] = 1         (covers [1,1])
+  T[2] = 1+3 = 4   (covers [1,2])
+  T[3] = 5         (covers [3,3])
+  T[4] = 1+3+5+7=16 (covers [1,4])
+  T[5] = 9         (covers [5,5])
+```
+
+Prefix sum uses bit tricks (`i -= i & -i`) to traverse only O(log n) nodes.
+
+**SegmentTree vs BinaryIndexedTree:**
+| | SegmentTree | BinaryIndexedTree |
+|---|---|---|
+| Operations | sum/min/max/any | sum only |
+| Update | O(log n) | O(log n) |
+| Query | O(log n) | O(log n) |
+| Space | O(2n) | O(n) |
+| Complexity | Higher | Lower |
+
 ---
 
 ## V8 JIT Optimizations

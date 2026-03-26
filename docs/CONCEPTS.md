@@ -92,6 +92,10 @@ For those who love understanding concepts through metaphors:
 | **Heap**               | A special binary tree stored in an array where parent always maintains priority relationship to children.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Efficient priority queue; heap sort                                            |
 | **Trie**               | A tree of characters used for prefix-based searching.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | Autocomplete, spell checking                                                   |
 | **Graph**              | A network of vertices (nodes) connected by edges.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Model relationships, networks                                                  |
+| **SkipList**           | A linked list with extra "express lanes" — higher levels skip over many nodes, giving probabilistic O(log n) like a balanced BST without rotations.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Sorted key-value store; simpler than Red-Black Tree, same average performance  |
+| **SegmentTree**        | A binary tree where each node stores the aggregate (sum/min/max) of a range. Queries work by combining only the nodes that cover the target range.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Range sum/min/max queries with point updates; e.g. profit over date range      |
+| **BinaryIndexedTree**  | A compact array where each cell stores partial sums using bit manipulation tricks. Much simpler than SegmentTree but only supports prefix sums.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | Prefix sums, frequency counting, inversion counting                            |
+| **Matrix**             | A 2D grid of numbers supporting standard linear algebra operations.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | 2D grid transformations, linear algebra                                        |
 
 ---
 
@@ -369,6 +373,18 @@ Need prefix matching?
 Need graph algorithms?
   ↓
   Yes → DirectedGraph / UndirectedGraph
+  No  → Continue
+
+Need range queries on an indexed sequence?
+  ↓
+  Yes → SegmentTree (O(log n) query + update, supports sum/min/max/gcd/custom)
+    Only need prefix sums? → BinaryIndexedTree (simpler, less memory)
+  No  → Continue
+
+Need a sorted key-value map?
+  ↓
+  Yes → TreeMap (guaranteed O(log n) via Red-Black Tree)
+    Want simpler implementation, same API? → SkipList (O(log n) average, probabilistic)
   No  → Use Array
 ```
 

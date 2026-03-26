@@ -294,6 +294,10 @@ queue.push(6);  // Add to back: O(1)
 | **Stack**                | Undo/redo, expression parsing     | O(1)            | [npm](https://www.npmjs.com/package/stack-typed)          |
 | **LinkedList**           | Dynamic sizing, no index shift    | O(1)*           | [npm](https://www.npmjs.com/package/linked-list-typed)    |
 | **AVLTree**              | Stricter balance than RB-Tree     | O(log n)        | [npm](https://www.npmjs.com/package/avl-tree-typed)       |
+| **SkipList**             | Sorted KV, TreeMap alternative    | O(log n) avg    | —                                                         |
+| **SegmentTree**          | Range sum/min/max/custom queries  | O(log n)        | —                                                         |
+| **BinaryIndexedTree**    | Prefix sums, frequency counting   | O(log n)        | —                                                         |
+| **Matrix**               | 2D grid arithmetic                | O(n²) add       | —                                                         |
 
 👉 [See all 20+ structures →](./docs/REFERENCE.md)
 
@@ -548,6 +552,12 @@ Need prefix/text matching?
 
 Need graph operations?
   → DirectedGraph/UndirectedGraph
+
+Need range queries on array (sum/min/max)?
+  → SegmentTree (any merge op) or BinaryIndexedTree (prefix sums only)
+
+Need sorted key-value with same API as TreeMap?
+  → SkipList (O(log n) avg, probabilistic balancing)
 
 Otherwise?
   → Use Array (simplest case)

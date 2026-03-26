@@ -31,8 +31,12 @@ The authoritative guide to all APIs, structures, and methods. Use this when you 
 | **AVL Tree**      | Balanced sorted           | O(log n) guaranteed      | O(n)   |
 | **Heap**          | Priority queue            | O(log n) add/remove      | O(n)   |
 | **PriorityQueue** | Task scheduling           | O(log n) add/poll        | O(n)   |
-| **Trie**          | Prefix search             | O(m+k) search            | O(26n) |
-| **Graph**         | Networks, paths           | Varies                   | O(V+E) |
+| **Trie**              | Prefix search                         | O(m+k) search                | O(26n)     |
+| **Graph**             | Networks, paths                       | Varies                       | O(V+E)     |
+| **SkipList**          | Sorted KV (probabilistic)             | O(log n) avg all ops         | O(n log n) |
+| **SegmentTree**       | Range queries (sum/min/max/custom)    | O(log n) query/update        | O(n)       |
+| **BinaryIndexedTree** | Prefix sums, frequency counting       | O(log n) query/update        | O(n)       |
+| **Matrix**            | 2D grid arithmetic                    | O(n²) add, O(n³) multiply    | O(n²)      |
 
 ---
 
@@ -450,6 +454,176 @@ console.log(...inactive);
 ```typescript
 const data = [64, 34, 25, 12, 22, 11, 90];
 const sorted = [...new RedBlackTree(data).keys()]; // Instant sort!
+```
+
+---
+
+## SkipList & SkipListSet
+
+Probabilistic sorted containers. Interchangeable with `TreeMap`/`TreeSet`.
+
+```typescript
+import { SkipList } from 'data-structure-typed';
+
+// Same API as TreeMap — drop-in replacement
+const sl = new SkipList<number, string>([[3, 'c'], [1, 'a'], [2, 'b']]);
+sl.set(4, 'd');                    // upsert — returns this (chainable)
+sl.get(2);                         // 'b'
+sl.has(5);                         // false
+sl.delete(1);                      // true
+
+// Navigation
+sl.first();                        // [2, 'b']
+sl.last();                         // [4, 'd']
+sl.ceiling(2);                     // [2, 'b'] — smallest >= 2
+sl.floor(3);                       // [3, 'c'] — largest <= 3
+sl.higher(2);                      // [3, 'c'] — strictly > 2
+sl.lower(3);                       // [2, 'b'] — strictly < 3
+sl.rangeSearch([2, 4]);            // [[2,'b'],[3,'c'],[4,'d']]
+sl.pollFirst();                    // [2, 'b'] — remove+return first
+
+// Iteration (sorted order)
+for (const [k, v] of sl) console.log(k, v);
+[...sl.keys()];   // [3, 4]
+[...sl.values()]; // ['c', 'd']
+
+// Functional
+sl.filter((v, k) => k > 2).toArray();   // [[3,'c'],[4,'d']]
+sl.map((v, k) => [k * 10, v]);          // new SkipList
+sl.reduce((acc, v) => acc + v!, '');    // 'cd'
+
+// Custom comparator
+const reversed = new SkipList<number, string>([], {
+  comparator: (a, b) => b - a
+});
+
+// From objects via toEntryFn
+type User = { id: number; name: string };
+const users = new SkipList<number, User, User>(data, {
+  toEntryFn: u => [u.id, u]
+});
+```
+
+---
+
+## SegmentTree
+
+Range queries with any associative merge operation.
+
+```typescript
+import { SegmentTree } from 'data-structure-typed';
+
+// Convenience factories (covers 90% of use cases)
+const sumTree = SegmentTree.sum([1, 3, 5, 7, 9]);
+const minTree = SegmentTree.min([5, 2, 8, 1, 9]);
+const maxTree = SegmentTree.max([5, 2, 8, 1, 9]);
+
+// Range query O(log n)
+sumTree.query(1, 3);   // 15 (3+5+7)
+minTree.query(0, 4);   // 1
+maxTree.query(0, 2);   // 8
+
+// Point update O(log n)
+sumTree.update(2, 10); // replaces 5 with 10
+sumTree.query(1, 3);   // 20 (3+10+7)
+
+// Single element access O(1)
+sumTree.get(2);        // 10
+
+// Custom merge (gcd, product, etc.)
+const gcd = (a: number, b: number): number => b === 0 ? a : gcd(b, a % b);
+const gcdTree = new SegmentTree([12, 8, 6, 18], { merger: gcd, identity: 0 });
+gcdTree.query(0, 3);   // 2
+
+// Binary search on tree (ACL-style)
+// maxRight(l, pred): find max r where pred(query(l, r)) is true
+sumTree.maxRight(0, s => s <= 10);  // rightmost index where prefix ≤ 10
+
+// Standard interface
+[...sumTree];          // leaf values as array
+sumTree.toArray();     // same
+sumTree.size;          // 5
+sumTree.clone();       // independent copy
+```
+
+---
+
+## BinaryIndexedTree (Fenwick Tree)
+
+Prefix sums and point updates in O(log n). Lighter than SegmentTree; use when you only need sums.
+
+```typescript
+import { BinaryIndexedTree } from 'data-structure-typed';
+
+// Construct from size or array
+const bit = new BinaryIndexedTree(6);
+const bit2 = new BinaryIndexedTree([1, 3, 5, 7, 9, 11]);
+
+// Point update: add delta
+bit2.update(2, 4);    // index 2 += 4 → value becomes 9
+
+// Point set: absolute value
+bit2.set(0, 100);     // index 0 = 100
+
+// Point query
+bit2.get(2);          // 9
+
+// Prefix sum [0..i]
+bit2.query(3);        // sum of [0..3]
+
+// Range sum [start..end]
+bit2.queryRange(1, 3); // sum of [1..3]
+
+// Binary search — requires non-negative values
+bit2.lowerBound(10);  // smallest i where prefix sum [0..i] >= 10
+bit2.upperBound(10);  // smallest i where prefix sum [0..i] > 10
+
+// Standard interface
+[...bit2];            // point values as array
+bit2.toArray();       // same
+bit2.size;            // 6
+bit2.clone();
+bit2.clear();
+```
+
+---
+
+## Matrix
+
+2D grid arithmetic. Correct, minimal — not competing with NumPy.
+
+```typescript
+import { Matrix } from 'data-structure-typed';
+
+// Construction
+const m = new Matrix([[1, 2, 3], [4, 5, 6]]);
+Matrix.zeros(3, 4);       // 3×4 zero matrix
+Matrix.identity(3);       // 3×3 identity matrix
+Matrix.from([[1, 2], [3, 4]]); // from plain array
+
+// Element access
+m.get(0, 1);              // 2
+m.set(0, 1, 99);          // returns boolean
+m.size;                   // [2, 3]
+m.rows;                   // 2
+m.cols;                   // 3
+
+// Arithmetic (returns new Matrix)
+a.add(b);
+a.subtract(b);
+a.multiply(b);            // matrix multiplication
+a.dot(b);                 // dot product
+a.transpose();            // supports rectangular matrices
+a.inverse();              // square matrices only
+
+// Standard interface
+[...m];                   // array of rows (copies)
+m.toArray();              // deep copy as number[][]
+m.flatten();              // [1,2,3,4,5,6] row-major
+m.forEach((v, r, c) => ...);
+m.map(v => v * 2);        // new Matrix
+m.clone();                // independent copy
+m.isEmpty();              // true if 0 rows or 0 cols
 ```
 
 ---
