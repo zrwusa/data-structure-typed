@@ -66,10 +66,33 @@ describe('HashMap misc coverage', () => {
   });
 
   describe('LinkedtoEntryFn branch', () => {
-  it('default toEntryFn returns tuple when rawElement is an entry (isEntry true branch)', () => {
+    it('default toEntryFn returns tuple when rawElement is an entry (isEntry true branch)', () => {
       const m = new LinkedHashMap<number, string>();
       const fn = m.toEntryFn as (raw: any) => [number, string];
       expect(fn([1, 'a'])).toEqual([1, 'a']);
+    });
+  });
+
+  describe('IterableEntryBase inherited methods', () => {
+    it('hasValue returns true/false', () => {
+      const hm = new HashMap<number, string>([[1, 'a'], [2, 'b']]);
+      expect(hm.hasValue('a')).toBe(true);
+      expect(hm.hasValue('z')).toBe(false);
+    });
+
+    it('toArray returns array of entries', () => {
+      const hm = new HashMap<number, string>([[1, 'a']]);
+      const arr = hm.toArray();
+      expect(arr.length).toBe(1);
+      expect(arr[0]).toEqual([1, 'a']);
+    });
+
+    it('print does not throw', () => {
+      const hm = new HashMap<number, string>([[1, 'a']]);
+      const spy = jest.spyOn(console, 'log').mockImplementation();
+      hm.print();
+      expect(spy).toHaveBeenCalled();
+      spy.mockRestore();
     });
   });
 });

@@ -242,4 +242,17 @@ describe('TreeMultiMap coverage', () => {
     expect(tmm.get(2)).toEqual(['b', 'c']);
     expect(tmm.get(3)).toEqual([]);
   });
+
+  it('constructor with toEntryFn returning undefined bucket', () => {
+    type Raw = { id: number; tags?: string[] };
+    const data: Raw[] = [
+      { id: 1, tags: ['a', 'b'] },
+      { id: 2 }  // no tags → undefined bucket
+    ];
+    const tmm = new TreeMultiMap<number, string, Raw>(data, {
+      toEntryFn: (r) => [r.id, r.tags as string[]]
+    });
+    expect(tmm.get(1)).toEqual(['a', 'b']);
+    expect(tmm.get(2)).toEqual([]);  // covers line 234: bucket undefined → set empty array
+  });
 });
