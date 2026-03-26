@@ -57,6 +57,7 @@ export class BinaryIndexedTree implements Iterable<number> {
    * Point update: add delta to the value at index (0-based).
    * Time: O(log n)
   
+   
     * @example
  * // Increment a value by delta
  *  const bit = new BinaryIndexedTree([0, 0, 0, 0, 0]);
@@ -75,6 +76,7 @@ export class BinaryIndexedTree implements Iterable<number> {
    * Time: O(log n)
    
   
+   
     * @example
  * // Building from array
  *  const bit = new BinaryIndexedTree([10, 20, 30, 40, 50]);
@@ -98,6 +100,7 @@ export class BinaryIndexedTree implements Iterable<number> {
    * Get the point value at index (0-based).
    * Time: O(log n)
   
+   
     * @example
  * // Read point value at index
  *  const bit = new BinaryIndexedTree([5, 3, 8, 1]);
@@ -114,6 +117,7 @@ export class BinaryIndexedTree implements Iterable<number> {
    * Time: O(log n)
    
   
+   
     * @example
  * // Prefix sum queries and point updates
  *  // 6-element BIT: index 0..5
@@ -142,6 +146,7 @@ export class BinaryIndexedTree implements Iterable<number> {
    * Range sum query: returns sum of elements [start..end] (inclusive, 0-based).
    * Time: O(log n)
   
+   
     * @example
  * // Range sum query
  *  const bit = new BinaryIndexedTree([1, 2, 3, 4, 5]);
@@ -166,6 +171,7 @@ export class BinaryIndexedTree implements Iterable<number> {
    * Time: O(log n)
    
   
+   
     * @example
  * // Counting frequency of ratings
  *  // Track frequency of scores (0-4 scale, 5 possible values)

@@ -1350,4 +1350,42 @@ describe('DirectedGraph visual output (#113)', () => {
     const visual = g.toVisual();
     expect(visual).toContain('hub -> n0, n1 (2), n2 (3), n3 (4), n4 (5)');
   });
+
+  it('@example [DirectedGraph.addVertex] Add a vertex', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    expect(g.hasVertex('A')).toBe(true);
+  });
+
+  it('@example [DirectedGraph.addEdge] Add a directed edge', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addEdge('A', 'B', 5);
+    expect(g.hasEdge('A', 'B')).toBe(true);
+    expect(g.hasEdge('B', 'A')).toBe(false);
+  });
+
+  it('@example [DirectedGraph.getNeighbors] Get outgoing neighbors', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'B');
+    g.addEdge('A', 'C');
+    const neighbors = g.getNeighbors('A');
+    expect(neighbors.map(v => v.key).sort()).toEqual(['B', 'C']);
+  });
+
+  it('@example [DirectedGraph.dijkstra] Shortest path', () => {
+    const g = new DirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'B', 1);
+    g.addEdge('B', 'C', 2);
+    g.addEdge('A', 'C', 10);
+    const result = g.dijkstra('A');
+    expect(result?.distMap.get(g.getVertex('C')!)).toBe(3);
+  });
 });

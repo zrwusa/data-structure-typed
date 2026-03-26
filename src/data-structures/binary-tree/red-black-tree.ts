@@ -340,6 +340,13 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
   /**
    * Remove all nodes and clear internal caches.
    * @remarks Time O(n) average, Space O(1)
+   
+    * @example
+ * // Remove all nodes
+ *  const rbt = new RedBlackTree<number>([1, 2, 3]);
+ *     rbt.clear();
+ *     console.log(rbt.size); // 0;
+ *     console.log(rbt.isEmpty()); // true;
    */
   override clear() {
     super.clear();
@@ -736,6 +743,9 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    
    
    
+   
+   
+   
     * @example
  * // basic Red-Black Tree with simple number keys
  *  // Create a simple Red-Black Tree with numeric keys
@@ -814,6 +824,8 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * @remarks Time O(log n) average, Space O(1)
    * @param keyNodeEntryRawOrPredicate - Key, node, or [key, value] entry identifying the node to delete.
    * @returns Array with deletion metadata (removed node, rebalancing hint if any).
+   
+   
    
    
     * @example
@@ -924,6 +936,14 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * Red-Black trees are self-balancing — `perfectlyBalance` rebuilds via
    * sorted bulk insert, which naturally produces a balanced RBT.
    * @remarks Time O(N), Space O(N)
+    * @example
+ * // Rebalance the tree
+ *  const rbt = new RedBlackTree<number>();
+ *     // Insert in sorted order (worst case for BST)
+ *     for (let i = 1; i <= 7; i++) rbt.add(i);
+ *     console.log(rbt.isAVLBalanced()); // false;
+ *     rbt.perfectlyBalance();
+ *     console.log(rbt.isAVLBalanced()); // true;
    */
   override perfectlyBalance(iterationType?: IterationType): boolean {
     // Extract sorted entries, clear, re-insert — RBT self-balances on insert
@@ -939,6 +959,15 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
     return true;
   }
 
+    /**
+   * Transform to new tree
+  
+    * @example
+ * // Transform to new tree
+ *  const rbt = new RedBlackTree<number, number>([[1, 10], [2, 20], [3, 30]]);
+ *     const doubled = rbt.map((value, key) => [key, (value ?? 0) * 2] as [number, number]);
+ *     console.log([...doubled.values()]); // [20, 40, 60];
+   */
   override map<MK = K, MV = V, MR = any>(
     callback: EntryCallback<K, V | undefined, [MK, MV]>,
     options?: Partial<RedBlackTreeOptions<MK, MV, MR>>,

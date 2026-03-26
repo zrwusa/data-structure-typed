@@ -276,6 +276,7 @@ export class UndirectedGraph<
    * @returns Removed edge or `undefined`.
    * @remarks Time O(1) avg, Space O(1)
    
+   
     * @example
  * // UndirectedGraph deleteEdge and vertex operations
  *  const graph = new UndirectedGraph<string>();
@@ -414,6 +415,7 @@ export class UndirectedGraph<
     /**
    * UndirectedGraph connectivity and neighbors
   
+   
     * @example
  * // UndirectedGraph connectivity and neighbors
  *  const graph = new UndirectedGraph<string>();

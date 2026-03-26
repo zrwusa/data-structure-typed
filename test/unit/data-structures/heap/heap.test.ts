@@ -780,4 +780,38 @@ describe('classic use', () => {
     heap.poll();
     expect(heap.size).toBe(1);
   });
+
+  it('@example [Heap.clone] Create independent copy', () => {
+    const heap = new Heap<number>([3, 1, 4], { comparator: (a, b) => a - b });
+    const copy = heap.clone();
+    copy.poll();
+    expect(heap.size).toBe(3);
+    expect(copy.size).toBe(2);
+  });
+
+  it('@example [Heap.isEmpty] Check if heap is empty', () => {
+    const heap = new Heap<number>([], { comparator: (a, b) => a - b });
+    expect(heap.isEmpty()).toBe(true);
+    heap.add(1);
+    expect(heap.isEmpty()).toBe(false);
+  });
+
+  it('@example [Heap.clear] Remove all elements', () => {
+    const heap = new Heap<number>([1, 2, 3], { comparator: (a, b) => a - b });
+    heap.clear();
+    expect(heap.isEmpty()).toBe(true);
+  });
+
+  it('@example [Heap.filter] Filter elements', () => {
+    const heap = new Heap<number>([1, 2, 3, 4, 5], { comparator: (a, b) => a - b });
+    const evens = heap.filter(x => x % 2 === 0);
+    expect(evens.size).toBe(2);
+  });
+
+  it('@example [Heap.forEach] Iterate over elements', () => {
+    const heap = new Heap<number>([3, 1, 2], { comparator: (a, b) => a - b });
+    const items: number[] = [];
+    heap.forEach(x => items.push(x));
+    expect(items.length).toBe(3);
+  });
 });

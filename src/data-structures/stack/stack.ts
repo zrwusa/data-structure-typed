@@ -164,6 +164,10 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Get the number of stored elements.
    * @remarks Time O(1), Space O(1)
    * @returns Current size.
+    * @example
+ * // Get number of elements
+ *  const stack = new Stack<number>([1, 2, 3]);
+ *     console.log(stack.size); // 3;
    */
 
   get size(): number {
@@ -194,6 +198,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @returns True if size is 0.
    
+   
     * @example
  * // Check if stack has elements
  *  const stack = new Stack<number>();
@@ -211,6 +216,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @returns Top element or undefined.
    
+   
     * @example
  * // View the top element without removing it
  *  const stack = new Stack<string>(['a', 'b', 'c']);
@@ -227,6 +233,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @param element - Element to push.
    * @returns True when pushed.
+   
    
     * @example
  * // basic Stack creation and push operation
@@ -253,6 +260,7 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Pop and return the top element.
    * @remarks Time O(1), Space O(1)
    * @returns Removed element or undefined.
+   
    
     * @example
  * // Stack pop operation (LIFO - Last In First Out)
@@ -340,6 +348,11 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Remove all elements and reset storage.
    * @remarks Time O(1), Space O(1)
    * @returns void
+    * @example
+ * // Remove all elements
+ *  const stack = new Stack<number>([1, 2, 3]);
+ *     stack.clear();
+ *     console.log(stack.isEmpty()); // true;
    */
 
   clear(): void {
@@ -350,6 +363,13 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Deep clone this stack.
    * @remarks Time O(N), Space O(N)
    * @returns A new stack with the same content.
+    * @example
+ * // Create independent copy
+ *  const stack = new Stack<number>([1, 2, 3]);
+ *     const copy = stack.clone();
+ *     copy.pop();
+ *     console.log(stack.size); // 3;
+ *     console.log(copy.size); // 2;
    */
 
   clone(): this {
@@ -364,6 +384,11 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @param predicate - Predicate (value, index, stack) → boolean to keep value.
    * @param [thisArg] - Value for `this` inside the predicate.
    * @returns A new stack with kept values.
+    * @example
+ * // Filter elements
+ *  const stack = new Stack<number>([1, 2, 3, 4, 5]);
+ *     const evens = stack.filter(x => x % 2 === 0);
+ *     console.log(evens.toArray()); // [2, 4];
    */
 
   filter(predicate: ElementCallback<E, R, boolean>, thisArg?: unknown): this {

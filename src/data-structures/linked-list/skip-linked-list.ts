@@ -164,6 +164,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
    * Insert or update a key-value pair. Returns `this` for chaining.
    * Unique keys only — if key exists, value is updated in place.
   
+   
     * @example
  * // In-memory sorted key-value store
  *  const store = new SkipList<number, string>();
@@ -215,6 +216,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
    * Get the value for a key, or `undefined` if not found.
    * Overrides base O(n) with O(log n) skip-list search.
    
+   
     * @example
  * // Building a sorted index
  *  type Product = { id: number; name: string; price: number };
@@ -245,6 +247,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
    * Check if a key exists.
    * Overrides base O(n) with O(log n) skip-list search.
    
+   
     * @example
  * // Check key existence
  *  const sl = new SkipList<number, string>([[1, 'a'], [3, 'c'], [5, 'e']]);
@@ -257,6 +260,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Delete a key. Returns `true` if the key was found and removed.
+   
    
     * @example
  * // Fast lookup with deletion
@@ -296,6 +300,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
   /**
    * Returns the first (smallest key) entry, or `undefined` if empty.
   
+   
     * @example
  * // Access the minimum entry
  *  const sl = new SkipList<number, string>([[5, 'e'], [1, 'a'], [3, 'c']]);
@@ -308,6 +313,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Returns the last (largest key) entry, or `undefined` if empty.
+   
    
     * @example
  * // Access the maximum entry
@@ -347,6 +353,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
   /**
    * Least entry ≥ key, or `undefined`.
   
+   
     * @example
  * // Least entry ≥ key
  *  const sl = new SkipList<number, string>([[10, 'a'], [20, 'b'], [30, 'c']]);
@@ -367,6 +374,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Greatest entry ≤ key, or `undefined`.
+   
    
     * @example
  * // Greatest entry ≤ key
@@ -426,6 +434,7 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
   /**
    * Returns entries within the given key range.
   
+   
     * @example
  * // Find entries in a range
  *  const sl = new SkipList<number, string>([[1, 'a'], [2, 'b'], [3, 'c'], [4, 'd'], [5, 'e']]);

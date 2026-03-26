@@ -92,6 +92,13 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
   /**
    * Whether the multiset is empty.
    * @remarks Time O(1), Space O(1)
+   
+    * @example
+ * // Check if tree has no nodes
+ *  const tms = new TreeMultiSet<number>();
+ *     console.log(tms.isEmpty()); // true;
+ *     tms.add(1);
+ *     console.log(tms.isEmpty()); // false;
    */
   isEmpty(): boolean {
     return this.size === 0;
@@ -100,6 +107,8 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
   /**
    * Whether the multiset contains the given key.
    * @remarks Time O(log n), Space O(1)
+   
+   
    
    
     * @example
@@ -167,6 +176,8 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * @remarks Time O(log n), Space O(1)
    
    
+   
+   
     * @example
  * // Remove nodes and verify structure
  *  const tms = new TreeMultiSet<number>([5, 3, 7, 1, 4, 6, 8]);
@@ -217,6 +228,12 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
   /**
    * Iterates over entries as [key, count] pairs.
    * @remarks Time O(n), Space O(1)
+   
+    * @example
+ * // Iterate over key-value pairs
+ *  const tms = new TreeMultiSet<number, string>([[3, 'c'], [1, 'a'], [5, 'e']]);
+ *     const pairs = [...tms.entries()];
+ *     console.log(pairs); // [[1, 'a'], [3, 'c'], [5, 'e']];
    */
   *entries(): IterableIterator<[K, number]> {
     for (const [k, v] of this.#core) {
@@ -237,6 +254,11 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
   /**
    * Returns an array with all elements (expanded).
    * @remarks Time O(size), Space O(size)
+   
+    * @example
+ * // Convert to sorted array
+ *  const tms = new TreeMultiSet<number>([30, 10, 20]);
+ *     console.log(tms.toArray().map(([k]) => k)); // [10, 20, 30];
    */
   toArray(): K[] {
     return [...this];
@@ -271,10 +293,14 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
   /**
    * Remove all elements from the multiset.
    * @remarks Time O(1), Space O(1)
-   * @example
-   * const ms = new TreeMultiSet([1, 2, 2, 3]);
-   * ms.clear();
-   * ms.size;  // 0
+  
+   
+    * @example
+ * // Remove all nodes
+ *  const tms = new TreeMultiSet<number>([1, 2, 3]);
+ *     tms.clear();
+ *     console.log(tms.size); // 0;
+ *     console.log(tms.isEmpty()); // true;
    */
   clear(): void {
     this.#core.clear();
@@ -339,6 +365,7 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * Returns the smallest key >= given key, or undefined.
    * @remarks Time O(log n), Space O(1)
   
+   
     * @example
  * // Find the least key ≥ target
  *  const tms = new TreeMultiSet<number>([10, 20, 30, 40, 50]);
@@ -355,6 +382,7 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * Returns the largest key <= given key, or undefined.
    * @remarks Time O(log n), Space O(1)
   
+   
     * @example
  * // Find the greatest key ≤ target
  *  const tms = new TreeMultiSet<number>([10, 20, 30, 40, 50]);
@@ -371,6 +399,7 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * Returns the smallest key > given key, or undefined.
    * @remarks Time O(log n), Space O(1)
   
+   
     * @example
  * // Find the least key strictly > target
  *  const tms = new TreeMultiSet<number>([10, 20, 30, 40]);
@@ -386,6 +415,7 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * Returns the largest key < given key, or undefined.
    * @remarks Time O(log n), Space O(1)
   
+   
     * @example
  * // Find the greatest key strictly < target
  *  const tms = new TreeMultiSet<number>([10, 20, 30, 40]);
@@ -402,10 +432,14 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
   /**
    * Iterates over distinct keys with their counts.
    * @remarks Time O(n), Space O(1)
-   * @example
-   * const ms = new TreeMultiSet([1, 1, 2, 3, 3, 3]);
-   * ms.forEach((key, count) => console.log(`${key}: ${count}`));
-   * // 1: 2, 2: 1, 3: 3
+  
+   
+    * @example
+ * // Execute callback for each entry
+ *  const tms = new TreeMultiSet<number>([3, 1, 2]);
+ *     const keys: number[] = [];
+ *     tms.forEach((value, key) => keys.push(key));
+ *     console.log(keys); // [1, 2, 3];
    */
   forEach(callback: (key: K, count: number) => void): void {
     for (const [k, c] of this.entries()) {
@@ -416,10 +450,13 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
   /**
    * Creates a new TreeMultiSet with entries that match the predicate.
    * @remarks Time O(n log n), Space O(n)
-   * @example
-   * const ms = new TreeMultiSet([1, 1, 2, 3, 3, 3]);
-   * const filtered = ms.filter((key, count) => count >= 2);
-   * // TreeMultiSet { 1: 2, 3: 3 }
+  
+   
+    * @example
+ * // Filter entries by condition
+ *  const tms = new TreeMultiSet<number>([1, 2, 3, 4, 5, 6]);
+ *     const evens = tms.filter((_, key) => key % 2 === 0);
+ *     console.log([...evens.keys()]); // [2, 4, 6];
    */
   filter(predicate: (key: K, count: number) => boolean): TreeMultiSet<K> {
     const result = new TreeMultiSet<K>([], {
@@ -437,9 +474,13 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
   /**
    * Reduces the multiset to a single value.
    * @remarks Time O(n), Space O(1)
-   * @example
-   * const ms = new TreeMultiSet([1, 1, 2, 3, 3, 3]);
-   * const total = ms.reduce((acc, key, count) => acc + count, 0);  // 6
+  
+   
+    * @example
+ * // Aggregate all values
+ *  const tms = new TreeMultiSet<number, number>([[1, 10], [2, 20], [3, 30]]);
+ *     const sum = tms.reduce((acc, value) => acc + (value ?? 0), 0);
+ *     console.log(sum); // 60;
    */
   reduce<U>(callback: (accumulator: U, key: K, count: number) => U, initialValue: U): U {
     let acc = initialValue;
@@ -453,15 +494,13 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * Maps keys and counts to a new TreeMultiSet.
    * When multiple keys map to the same new key, counts are merged (added).
    * @remarks Time O(n log n), Space O(n)
-   * @example
-   * const ms = new TreeMultiSet([1, 1, 2, 3, 3, 3]);
-   * const mapped = ms.map((key, count) => [key * 10, count]);
-   * // TreeMultiSet { 10: 2, 20: 1, 30: 3 }
-   * @example
-   * // Collision: counts merge
-   * const ms = new TreeMultiSet([1, 2, 3]);
-   * const merged = ms.map((key, count) => [key % 2, count]);
-   * // { 0: 1, 1: 2 }  (1 and 3 both map to 1, counts add)
+  
+   
+    * @example
+ * // Transform to new tree
+ *  const tms = new TreeMultiSet<number, number>([[1, 10], [2, 20], [3, 30]]);
+ *     const doubled = tms.map((value, key) => [key, (value ?? 0) * 2] as [number, number]);
+ *     console.log([...doubled.values()]); // [20, 40, 60];
    */
   map<K2>(
     mapper: (key: K, count: number) => [K2, number],
@@ -481,11 +520,15 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
   /**
    * Creates an independent copy of this multiset.
    * @remarks Time O(n log n), Space O(n)
-   * @example
-   * const ms = new TreeMultiSet([1, 1, 2]);
-   * const copy = ms.clone();
-   * copy.add(3);
-   * ms.has(3);  // false (original unchanged)
+  
+   
+    * @example
+ * // Create independent copy
+ *  const tms = new TreeMultiSet<number>([3, 1, 5]);
+ *     const copy = tms.clone();
+ *     copy.delete(1);
+ *     console.log(tms.has(1)); // true;
+ *     console.log(copy.has(1)); // false;
    */
   clone(): TreeMultiSet<K> {
     const result = new TreeMultiSet<K>([], {
@@ -504,6 +547,7 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
    * Returns keys within the given range.
    * @remarks Time O(log n + k), Space O(k) where k is result size
   
+   
     * @example
  * // Find all keys in a range
  *  const tms = new TreeMultiSet<number>([10, 20, 30, 40, 50]);
@@ -520,9 +564,13 @@ export class TreeMultiSet<K = any, R = K> implements Iterable<K> {
   /**
    * Prints the internal tree structure (for debugging).
    * @remarks Time O(n), Space O(n)
-   * @example
-   * const ms = new TreeMultiSet([1, 2, 3]);
-   * ms.print();
+  
+   
+    * @example
+ * // Display tree structure
+ *  const tms = new TreeMultiSet<number>([5, 3, 7]);
+ *     // print() outputs to console, returns void
+ *     expect(() => tms.print()).not.toThrow();
    */
   print(): void {
     this.#core.print();

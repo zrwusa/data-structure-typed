@@ -270,6 +270,7 @@ export class DirectedGraph<
    * @returns Removed edge or `undefined`.
    * @remarks Time O(1) avg, Space O(1)
    
+   
     * @example
  * // DirectedGraph deleteEdge and vertex operations
  *  const graph = new DirectedGraph<string>();
@@ -472,6 +473,7 @@ export class DirectedGraph<
    * @returns Array of keys/vertices, or `undefined` when cycle is found.
    * @remarks Time O(V + E), Space O(V)
    
+   
     * @example
  * // DirectedGraph topologicalSort for task scheduling
  *  const graph = new DirectedGraph<string>();
@@ -540,6 +542,19 @@ export class DirectedGraph<
     return edgeMap;
   }
 
+    /**
+   * Get outgoing neighbors
+   * @example
+ * // Get outgoing neighbors
+ *  const g = new DirectedGraph();
+ *     g.addVertex('A');
+ *     g.addVertex('B');
+ *     g.addVertex('C');
+ *     g.addEdge('A', 'B');
+ *     g.addEdge('A', 'C');
+ *     const neighbors = g.getNeighbors('A');
+ *     console.log(neighbors.map(v => v.key).sort()); // ['B', 'C'];
+   */
   getNeighbors(vertexOrKey: VO | VertexKey): VO[] {
     const neighbors: VO[] = [];
     const vertex = this._getVertex(vertexOrKey);

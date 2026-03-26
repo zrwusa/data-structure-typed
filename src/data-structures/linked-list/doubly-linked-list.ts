@@ -269,6 +269,7 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @param elementOrNode - Element or node to append.
    * @returns True when appended.
    
+   
     * @example
  * // basic DoublyLinkedList creation and push operation
  *  // Create a simple DoublyLinkedList with initial values
@@ -306,6 +307,7 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @remarks Time O(1), Space O(1)
    * @returns Removed element or undefined.
    
+   
     * @example
  * // DoublyLinkedList pop and shift operations
  *  const list = new DoublyLinkedList<number>([10, 20, 30, 40, 50]);
@@ -342,6 +344,7 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @remarks Time O(1), Space O(1)
    * @returns Removed element or undefined.
    
+   
     * @example
  * // Remove from the front
  *  const list = new DoublyLinkedList<number>([10, 20, 30]);
@@ -368,6 +371,7 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @remarks Time O(1), Space O(1)
    * @param elementOrNode - Element or node to prepend.
    * @returns True when prepended.
+   
    
     * @example
  * // Add to the front
@@ -428,6 +432,7 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @remarks Time O(N), Space O(1)
    * @param index - Zero-based index.
    * @returns Element or undefined.
+   
    
     * @example
  * // Access by index
@@ -634,6 +639,9 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * Check whether the list is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if length is 0.
+    * @example
+ * // Check empty
+ *  console.log(new DoublyLinkedList().isEmpty()); // true;
    */
 
   isEmpty(): boolean {
@@ -644,6 +652,11 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * Remove all nodes and reset length.
    * @remarks Time O(N), Space O(1)
    * @returns void
+    * @example
+ * // Remove all
+ *  const list = new DoublyLinkedList<number>([1, 2]);
+ *     list.clear();
+ *     console.log(list.isEmpty()); // true;
    */
 
   clear(): void {
@@ -695,6 +708,7 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @remarks Time O(N), Space O(1)
    * @returns This list.
    
+   
     * @example
  * // Reverse in-place
  *  const list = new DoublyLinkedList<number>([1, 2, 3]);
@@ -729,6 +743,12 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * Deep clone this list (values are copied by reference).
    * @remarks Time O(N), Space O(N)
    * @returns A new list with the same element sequence.
+    * @example
+ * // Deep copy
+ *  const list = new DoublyLinkedList<number>([1, 2, 3]);
+ *     const copy = list.clone();
+ *     copy.pop();
+ *     console.log(list.length); // 3;
    */
 
   clone(): this {
@@ -743,6 +763,7 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @param callback - Predicate (value, index, list) → boolean to keep value.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new list with kept values.
+   
    
     * @example
  * // Filter elements
@@ -785,6 +806,7 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @param [options] - Options for the output list (e.g., maxLen, toElementFn).
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new DoublyLinkedList with mapped values.
+   
    
     * @example
  * // DoublyLinkedList for...of iteration and map operation

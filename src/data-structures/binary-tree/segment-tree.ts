@@ -80,6 +80,7 @@ export class SegmentTree<E = number> implements Iterable<E> {
   /**
    * Create a min segment tree.
   
+   
     * @example
  * // Temperature monitoring with range queries
  *  // Hourly temperatures for a day (24 readings)
@@ -121,6 +122,7 @@ export class SegmentTree<E = number> implements Iterable<E> {
    * Point update: set element at index to value.
    * Time: O(log n)
   
+   
     * @example
  * // Dynamic range sum with updates
  *  // Monthly revenue data (in thousands)
@@ -157,6 +159,7 @@ export class SegmentTree<E = number> implements Iterable<E> {
    * Range query: returns merger result over [start, end] (inclusive).
    * Time: O(log n)
   
+   
     * @example
  * // Range sum query on an array
  *  const tree = SegmentTree.sum([1, 3, 5, 7, 9, 11]);
@@ -200,6 +203,7 @@ export class SegmentTree<E = number> implements Iterable<E> {
    * Get element at index.
    * Time: O(1)
    
+   
     * @example
  * // Point access on segment tree
  *  const st = SegmentTree.sum([10, 20, 30, 40]);
@@ -218,6 +222,7 @@ export class SegmentTree<E = number> implements Iterable<E> {
    * Returns left-1 if predicate(identity) is false.
    * Returns n-1 if predicate holds for the entire range [left, n-1].
    * Time: O(log n)
+   
    
     * @example
  * // Find rightmost position where predicate holds
@@ -276,6 +281,7 @@ export class SegmentTree<E = number> implements Iterable<E> {
    * Returns right+1 if predicate(identity) is false.
    * Returns 0 if predicate holds for the entire range [0, right].
    * Time: O(log n)
+   
    
     * @example
  * // Find leftmost position where predicate holds

@@ -1189,4 +1189,32 @@ describe('classic use', () => {
     list.forEach(n => sum.push(n));
     expect(sum).toEqual([1, 2, 3]);
   });
+
+  it('@example [DoublyLinkedList.clone] Deep copy', () => {
+    const list = new DoublyLinkedList<number>([1, 2, 3]);
+    const copy = list.clone();
+    copy.pop();
+    expect(list.length).toBe(3);
+  });
+
+  it('@example [DoublyLinkedList.clear] Remove all', () => {
+    const list = new DoublyLinkedList<number>([1, 2]);
+    list.clear();
+    expect(list.isEmpty()).toBe(true);
+  });
+
+  it('@example [DoublyLinkedList.isEmpty] Check empty', () => {
+    expect(new DoublyLinkedList().isEmpty()).toBe(true);
+  });
+
+  it('@example [DoublyLinkedList.reduce] Aggregate values', () => {
+    const list = new DoublyLinkedList<number>([1, 2, 3]);
+    const sum = list.reduce((acc, val) => acc + val, 0);
+    expect(sum).toBe(6);
+  });
+
+  it('@example [DoublyLinkedList.print] Display', () => {
+    const list = new DoublyLinkedList<number>([1, 2, 3]);
+    expect(() => list.print()).not.toThrow();
+  });
 });

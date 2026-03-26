@@ -186,6 +186,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @returns Heap size.
    
+   
     * @example
  * // Track heap capacity
  *  const heap = new Heap<number>();
@@ -250,6 +251,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @param element - Element to insert.
    * @returns True.
    
+   
     * @example
  * // basic Heap creation and add operation
  *  // Create a min heap (default)
@@ -298,6 +300,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(log N), Space O(1)
    * @returns Top element or undefined.
    
+   
     * @example
  * // Heap with custom comparator (MaxHeap behavior)
  *  interface Task {
@@ -340,6 +343,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Get the current top element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Top element or undefined.
+   
    
     * @example
  * // Heap for event processing with priority
@@ -410,6 +414,12 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Check whether the heap is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if size is 0.
+    * @example
+ * // Check if heap is empty
+ *  const heap = new Heap<number>([], { comparator: (a, b) => a - b });
+ *     console.log(heap.isEmpty()); // true;
+ *     heap.add(1);
+ *     console.log(heap.isEmpty()); // false;
    */
 
   isEmpty(): boolean {
@@ -420,6 +430,11 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Remove all elements.
    * @remarks Time O(1), Space O(1)
    * @returns void
+    * @example
+ * // Remove all elements
+ *  const heap = new Heap<number>([1, 2, 3], { comparator: (a, b) => a - b });
+ *     heap.clear();
+ *     console.log(heap.isEmpty()); // true;
    */
 
   clear(): void {
@@ -569,6 +584,7 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(N log N), Space O(N)
    * @returns Sorted array of elements.
    
+   
     * @example
  * // Sort elements using heap
  *  const heap = new Heap<number>([5, 1, 3, 2, 4]);
@@ -591,6 +607,13 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Deep clone this heap.
    * @remarks Time O(N), Space O(N)
    * @returns A new heap with the same elements.
+    * @example
+ * // Create independent copy
+ *  const heap = new Heap<number>([3, 1, 4], { comparator: (a, b) => a - b });
+ *     const copy = heap.clone();
+ *     copy.poll();
+ *     console.log(heap.size); // 3;
+ *     console.log(copy.size); // 2;
    */
 
   clone(): this {
@@ -605,6 +628,11 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @param callback - Predicate (element, index, heap) → boolean to keep element.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new heap with the kept elements.
+    * @example
+ * // Filter elements
+ *  const heap = new Heap<number>([1, 2, 3, 4, 5], { comparator: (a, b) => a - b });
+ *     const evens = heap.filter(x => x % 2 === 0);
+ *     console.log(evens.size); // 2;
    */
 
   filter(callback: ElementCallback<E, R, boolean>, thisArg?: unknown): this {

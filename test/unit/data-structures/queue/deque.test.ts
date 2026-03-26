@@ -1091,4 +1091,41 @@ describe('Deque type inference (#97)', () => {
     expect(deque.last).toBe('Carol');
     expect([...deque]).toEqual(['Alice', 'Bob', 'Carol']);
   });
+
+  it('@example [Deque.clone] Create independent copy', () => {
+    const dq = new Deque<number>([1, 2, 3]);
+    const copy = dq.clone();
+    copy.pop();
+    expect(dq.length).toBe(3);
+    expect(copy.length).toBe(2);
+  });
+
+  it('@example [Deque.clear] Remove all elements', () => {
+    const dq = new Deque<number>([1, 2, 3]);
+    dq.clear();
+    expect(dq.length).toBe(0);
+  });
+
+  it('@example [Deque.isEmpty] Check if empty', () => {
+    const dq = new Deque();
+    expect(dq.isEmpty()).toBe(true);
+  });
+
+  it('@example [Deque.forEach] Iterate', () => {
+    const dq = new Deque<number>([1, 2, 3]);
+    const items: number[] = [];
+    dq.forEach(x => items.push(x));
+    expect(items).toEqual([1, 2, 3]);
+  });
+
+  it('@example [Deque.filter] Filter elements', () => {
+    const dq = new Deque<number>([1, 2, 3, 4]);
+    const result = dq.filter(x => x > 2);
+    expect(result.length).toBe(2);
+  });
+
+  it('@example [Deque.print] Display deque', () => {
+    const dq = new Deque<number>([1, 2, 3]);
+    expect(() => dq.print()).not.toThrow();
+  });
 });

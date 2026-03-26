@@ -453,4 +453,41 @@ describe('classic uses', () => {
     const stack = new Stack<number>([1, 2, 3]);
     expect(stack.toArray()).toEqual([1, 2, 3]);
   });
+
+  it('@example [Stack.clone] Create independent copy', () => {
+    const stack = new Stack<number>([1, 2, 3]);
+    const copy = stack.clone();
+    copy.pop();
+    expect(stack.size).toBe(3);
+    expect(copy.size).toBe(2);
+  });
+
+  it('@example [Stack.clear] Remove all elements', () => {
+    const stack = new Stack<number>([1, 2, 3]);
+    stack.clear();
+    expect(stack.isEmpty()).toBe(true);
+  });
+
+  it('@example [Stack.size] Get number of elements', () => {
+    const stack = new Stack<number>([1, 2, 3]);
+    expect(stack.size).toBe(3);
+  });
+
+  it('@example [Stack.forEach] Iterate over elements', () => {
+    const stack = new Stack<number>([1, 2, 3]);
+    const items: number[] = [];
+    stack.forEach(item => items.push(item));
+    expect(items).toEqual([1, 2, 3]);
+  });
+
+  it('@example [Stack.filter] Filter elements', () => {
+    const stack = new Stack<number>([1, 2, 3, 4, 5]);
+    const evens = stack.filter(x => x % 2 === 0);
+    expect(evens.toArray()).toEqual([2, 4]);
+  });
+
+  it('@example [Stack.print] Display stack', () => {
+    const stack = new Stack<number>([1, 2, 3]);
+    expect(() => stack.print()).not.toThrow();
+  });
 });

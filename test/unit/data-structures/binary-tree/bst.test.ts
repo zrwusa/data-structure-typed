@@ -3548,4 +3548,130 @@ describe('classic use', () => {
     const inOrder = bst.dfs(node => node.key, 'IN');
     expect(inOrder).toEqual([1, 3, 4, 5, 7]);
   });
+
+  it('@example [BST.entries] Iterate over key-value pairs', () => {
+    const bst = new BST<number, string>([[3, 'c'], [1, 'a'], [5, 'e']]);
+    const pairs = [...bst.entries()];
+    expect(pairs).toEqual([[1, 'a'], [3, 'c'], [5, 'e']]);
+  });
+
+  it('@example [BST.keys] Iterate over keys in sorted order', () => {
+    const bst = new BST<number>([30, 10, 50, 20, 40]);
+    expect([...bst.keys()]).toEqual([10, 20, 30, 40, 50]);
+  });
+
+  it('@example [BST.values] Iterate over values in key order', () => {
+    const bst = new BST<number, string>([[2, 'b'], [1, 'a'], [3, 'c']]);
+    expect([...bst.values()]).toEqual(['a', 'b', 'c']);
+  });
+
+  it('@example [BST.forEach] Execute callback for each entry', () => {
+    const bst = new BST<number>([3, 1, 2]);
+    const keys: number[] = [];
+    bst.forEach((value, key) => keys.push(key));
+    expect(keys).toEqual([1, 2, 3]);
+  });
+
+  it('@example [BST.filter] Filter entries by condition', () => {
+    const bst = new BST<number>([1, 2, 3, 4, 5, 6]);
+    const evens = bst.filter((_, key) => key % 2 === 0);
+    expect([...evens.keys()]).toEqual([2, 4, 6]);
+  });
+
+  it('@example [BST.map] Transform to new tree', () => {
+    const bst = new BST<number, number>([[1, 10], [2, 20], [3, 30]]);
+    const doubled = bst.map((value, key) => [key, (value ?? 0) * 2] as [number, number]);
+    expect([...doubled.values()]).toEqual([20, 40, 60]);
+  });
+
+  it('@example [BST.reduce] Aggregate all values', () => {
+    const bst = new BST<number, number>([[1, 10], [2, 20], [3, 30]]);
+    const sum = bst.reduce((acc, value) => acc + (value ?? 0), 0);
+    expect(sum).toBe(60);
+  });
+
+  it('@example [BST.clone] Create independent copy', () => {
+    const bst = new BST<number>([3, 1, 5]);
+    const copy = bst.clone();
+    copy.delete(1);
+    expect(bst.has(1)).toBe(true);
+    expect(copy.has(1)).toBe(false);
+  });
+
+  it('@example [BST.merge] Combine two trees', () => {
+    const bst1 = new BST<number>([1, 3, 5]);
+    const bst2 = new BST<number>([2, 4, 6]);
+    bst1.merge(bst2);
+    expect([...bst1.keys()]).toEqual([1, 2, 3, 4, 5, 6]);
+  });
+
+  it('@example [BST.clear] Remove all nodes', () => {
+    const bst = new BST<number>([1, 2, 3]);
+    bst.clear();
+    expect(bst.size).toBe(0);
+    expect(bst.isEmpty()).toBe(true);
+  });
+
+  it('@example [BST.isEmpty] Check if tree has no nodes', () => {
+    const bst = new BST<number>();
+    expect(bst.isEmpty()).toBe(true);
+    bst.add(1);
+    expect(bst.isEmpty()).toBe(false);
+  });
+
+  it('@example [BST.toArray] Convert to sorted array', () => {
+    const bst = new BST<number>([30, 10, 20]);
+    expect(bst.toArray().map(([k]) => k)).toEqual([10, 20, 30]);
+  });
+
+  it('@example [BST.getNode] Get node object by key', () => {
+    const bst = new BST<number, string>([[5, 'root'], [3, 'left'], [7, 'right']]);
+    const node = bst.getNode(3);
+    expect(node?.key).toBe(3);
+    expect(node?.value).toBe('left');
+  });
+
+  it('@example [BST.search] Search nodes by predicate', () => {
+    const bst = new BST<number, string>([[1, 'a'], [2, 'b'], [3, 'c'], [4, 'd']]);
+    const found = bst.search(node => node.key > 2, true);
+    expect(found.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('@example [BST.addMany] Add multiple elements at once', () => {
+    const bst = new BST<number>();
+    bst.addMany([5, 3, 7, 1, 9]);
+    expect(bst.size).toBe(5);
+    expect([...bst.keys()]).toEqual([1, 3, 5, 7, 9]);
+  });
+
+  it('@example [BST.leaves] Get all leaf nodes', () => {
+    const bst = new BST<number>([5, 3, 7, 1, 4, 6, 8]);
+    const leafKeys = bst.leaves(node => node.key);
+    expect(leafKeys.sort((a, b) => a - b)).toEqual([1, 4, 6, 8]);
+  });
+
+  it('@example [BST.isBST] Validate binary search tree property', () => {
+    const bst = new BST<number>([5, 3, 7, 1, 4]);
+    expect(bst.isBST()).toBe(true);
+  });
+
+  it('@example [BST.isAVLBalanced] Check if tree is height-balanced', () => {
+    const bst = new BST<number>([3, 1, 5, 2, 4]);
+    expect(bst.isAVLBalanced()).toBe(true);
+  });
+
+  it('@example [BST.perfectlyBalance] Rebalance the tree', () => {
+    const bst = new BST<number>();
+    // Insert in sorted order (worst case for BST)
+    for (let i = 1; i <= 7; i++) bst.add(i);
+    expect(bst.isAVLBalanced()).toBe(false);
+    bst.perfectlyBalance();
+    expect(bst.isAVLBalanced()).toBe(true);
+  });
+
+  it('@example [BST.print] Display tree structure', () => {
+    const bst = new BST<number>([5, 3, 7]);
+    // print() outputs to console, returns void
+    expect(() => bst.print()).not.toThrow();
+  });
 });

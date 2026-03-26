@@ -171,6 +171,10 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * Check whether the map is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if size is 0.
+    * @example
+ * // Check if empty
+ *  const map = new HashMap();
+ *     console.log(map.isEmpty()); // true;
    */
   isEmpty(): boolean {
     return this._size === 0;
@@ -180,6 +184,11 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * Remove all entries and reset counters.
    * @remarks Time O(N), Space O(1)
    * @returns void
+    * @example
+ * // Remove all entries
+ *  const map = new HashMap<string, number>([['a', 1], ['b', 2]]);
+ *     map.clear();
+ *     console.log(map.isEmpty()); // true;
    */
   clear(): void {
     this._store = {};
@@ -202,6 +211,8 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param key - Key.
    * @param value - Value.
    * @returns True when the operation succeeds.
+   
+   
    
    
     * @example
@@ -240,6 +251,11 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(N), Space O(N)
    * @param entryOrRawElements - Iterable of entries or raw elements to insert.
    * @returns Array of per-entry results.
+    * @example
+ * // Add multiple entries
+ *  const map = new HashMap<string, number>();
+ *     map.setMany([['a', 1], ['b', 2], ['c', 3]]);
+ *     console.log(map.size); // 3;
    */
   setMany(entryOrRawElements: Iterable<R | [K, V]>): boolean[] {
     const results: boolean[] = [];
@@ -257,6 +273,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(1), Space O(1)
    * @param key - Key to look up.
    * @returns Value or undefined.
+   
    
     * @example
  * // HashMap get and has operations
@@ -292,6 +309,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param key - Key to test.
    * @returns True if present.
    
+   
     * @example
  * // Check key existence
  *  const map = new HashMap<string, number>([['a', 1], ['b', 2]]);
@@ -310,6 +328,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(1), Space O(1)
    * @param key - Key to delete.
    * @returns True if the key was found and removed.
+   
    
     * @example
  * // Remove entries by key
@@ -350,6 +369,12 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * Deep clone this map, preserving hashing behavior.
    * @remarks Time O(N), Space O(N)
    * @returns A new map with the same content.
+    * @example
+ * // Create independent copy
+ *  const map = new HashMap<string, number>([['a', 1]]);
+ *     const copy = map.clone();
+ *     copy.set('a', 99);
+ *     console.log(map.get('a')); // 1;
    */
   clone(): this {
     const opts = { hashFn: this._hashFn, toEntryFn: this._toEntryFn };
@@ -363,6 +388,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param callbackfn - Mapping function (key, value, index, map) → newValue.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new map with transformed values.
+   
    
     * @example
  * // Transform all values
@@ -385,6 +411,7 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param predicate - Predicate (key, value, index, map) → boolean.
    * @param [thisArg] - Value for `this` inside the predicate.
    * @returns A new map containing entries that satisfied the predicate.
+   
    
     * @example
  * // HashMap iteration and filter operations

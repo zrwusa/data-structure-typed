@@ -436,6 +436,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Depth-first search traversal
   
    
+   
+   
     * @example
  * // Depth-first traversal
  *  const bst = new BST<number>([5, 3, 7, 1, 4]);
@@ -477,6 +479,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     /**
    * BinaryTree level-order traversal
   
+   
     * @example
  * // BinaryTree level-order traversal
  *  const bst = new BST([
@@ -564,6 +567,13 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * @param [startNode=this._root] - The node to start the search from.
    * @param [iterationType=this.iterationType] - The traversal method.
    * @returns The first matching node, or undefined if not found.
+   
+    * @example
+ * // Get node object by key
+ *  const bst = new BST<number, string>([[5, 'root'], [3, 'left'], [7, 'right']]);
+ *     const node = bst.getNode(3);
+ *     console.log(node?.key); // 3;
+ *     console.log(node?.value); // 'left';
    */
   override getNode(
     keyNodeEntryOrPredicate:
@@ -625,6 +635,14 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
   }
 
 
+    /**
+   * Search nodes by predicate
+   * @example
+ * // Search nodes by predicate
+ *  const bst = new BST<number, string>([[1, 'a'], [2, 'b'], [3, 'c'], [4, 'd']]);
+ *     const found = bst.search(node => node.key > 2, true);
+ *     console.log(found.length); // >= 1;
+   */
   override search(
     keyNodeEntryOrPredicate:
       | K
@@ -780,6 +798,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
     /**
    * Find all keys in a range
   
+   
     * @example
  * // Find all keys in a range
  *  const bst = new BST<number>([10, 20, 30, 40, 50]);
@@ -822,6 +841,8 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * @param keyNodeOrEntry - The key, node, or entry to set.
    * @param [value] - The value, if providing just a key.
    * @returns True if the addition was successful, false otherwise.
+   
+   
    
    
     * @example
@@ -1008,6 +1029,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Time Complexity: O(log n) average, O(h) worst case.
    * Space Complexity: O(h) for recursion, O(1) for iteration.
    
+   
     * @example
  * // Find the least key ≥ target
  *  const bst = new BST<number>([10, 20, 30, 40, 50]);
@@ -1080,6 +1102,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Time Complexity: O(log n) average, O(h) worst case.
    * Space Complexity: O(h) for recursion, O(1) for iteration.
    
+   
     * @example
  * // Find the least key strictly > target
  *  const bst = new BST<number>([10, 20, 30, 40]);
@@ -1150,6 +1173,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Equivalent to Java TreeMap.floor.
    * Time Complexity: O(log n) average, O(h) worst case.
    * Space Complexity: O(h) for recursion, O(1) for iteration.
+   
    
     * @example
  * // Find the greatest key ≤ target
@@ -1265,6 +1289,7 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * Equivalent to Java TreeMap.lower.
    * Time Complexity: O(log n) average, O(h) worst case.
    * Space Complexity: O(h) for recursion, O(1) for iteration.
+   
    
     * @example
  * // Find the greatest key strictly < target
@@ -1438,6 +1463,14 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    *
    * @param [iterationType=this.iterationType] - The traversal method for the initial node export.
    * @returns True if successful, false if the tree was empty.
+    * @example
+ * // Rebalance the tree
+ *  const bst = new BST<number>();
+ *     // Insert in sorted order (worst case for BST)
+ *     for (let i = 1; i <= 7; i++) bst.add(i);
+ *     console.log(bst.isAVLBalanced()); // false;
+ *     bst.perfectlyBalance();
+ *     console.log(bst.isAVLBalanced()); // true;
    */
   perfectlyBalance(iterationType: IterationType = this.iterationType): boolean {
     const nodes = this.dfs(node => node, 'IN', false, this._root, iterationType);
@@ -1470,6 +1503,10 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    *
    * @param [iterationType=this.iterationType] - The traversal method.
    * @returns True if the tree is AVL balanced, false otherwise.
+    * @example
+ * // Check if tree is height-balanced
+ *  const bst = new BST<number>([3, 1, 5, 2, 4]);
+ *     console.log(bst.isAVLBalanced()); // true;
    */
   isAVLBalanced(iterationType: IterationType = this.iterationType): boolean {
     if (!this._root) return true;
@@ -1527,6 +1564,12 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * @param [options] - Options for the new BST.
    * @param [thisArg] - `this` context for the callback.
    * @returns A new, mapped BST.
+   
+    * @example
+ * // Transform to new tree
+ *  const bst = new BST<number, number>([[1, 10], [2, 20], [3, 30]]);
+ *     const doubled = bst.map((value, key) => [key, (value ?? 0) * 2] as [number, number]);
+ *     console.log([...doubled.values()]); // [20, 40, 60];
    */
   override map<MK = K, MV = V, MR = any>(
     callback: EntryCallback<K, V | undefined, [MK, MV]>,

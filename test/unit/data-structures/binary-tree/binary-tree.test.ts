@@ -1951,4 +1951,101 @@ describe('Classic usage examples', () => {
     const node = tree.getNode(4);
     expect(tree.getDepth(node!)).toBe(2);
   });
+
+  it('@example [BinaryTree.entries] Iterate key-value pairs', () => {
+    const tree = new BinaryTree<number, string>([[1, 'a'], [2, 'b'], [3, 'c']]);
+    expect([...tree.entries()].length).toBe(3);
+  });
+
+  it('@example [BinaryTree.keys] Get all keys', () => {
+    const tree = new BinaryTree<number>([1, 2, 3]);
+    expect([...tree.keys()].sort()).toEqual([1, 2, 3]);
+  });
+
+  it('@example [BinaryTree.values] Get all values', () => {
+    const tree = new BinaryTree<number, string>([[1, 'a'], [2, 'b']]);
+    expect([...tree.values()]).toContain('a');
+  });
+
+  it('@example [BinaryTree.forEach] Execute for each node', () => {
+    const tree = new BinaryTree<number>([1, 2, 3]);
+    let count = 0;
+    tree.forEach(() => count++);
+    expect(count).toBe(3);
+  });
+
+  it('@example [BinaryTree.filter] Filter nodes by condition', () => {
+    const tree = new BinaryTree<number>([1, 2, 3, 4]);
+    const result = tree.filter((_, key) => key > 2);
+    expect(result.size).toBe(2);
+  });
+
+  it('@example [BinaryTree.map] Transform to new tree', () => {
+    const tree = new BinaryTree<number, number>([[1, 10], [2, 20]]);
+    const mapped = tree.map((v, key) => [key, (v ?? 0) + 1] as [number, number]);
+    expect([...mapped.values()]).toContain(11);
+  });
+
+  it('@example [BinaryTree.reduce] Aggregate values', () => {
+    const tree = new BinaryTree<number, number>([[1, 10], [2, 20], [3, 30]]);
+    const sum = tree.reduce((acc, v) => acc + (v ?? 0), 0);
+    expect(sum).toBe(60);
+  });
+
+  it('@example [BinaryTree.clone] Deep copy', () => {
+    const tree = new BinaryTree<number>([1, 2, 3]);
+    const copy = tree.clone();
+    copy.delete(1);
+    expect(tree.has(1)).toBe(true);
+  });
+
+  it('@example [BinaryTree.merge] Combine trees', () => {
+    const t1 = new BinaryTree<number>([1, 2]);
+    const t2 = new BinaryTree<number>([3, 4]);
+    t1.merge(t2);
+    expect(t1.size).toBe(4);
+  });
+
+  it('@example [BinaryTree.clear] Remove all nodes', () => {
+    const tree = new BinaryTree<number>([1, 2, 3]);
+    tree.clear();
+    expect(tree.isEmpty()).toBe(true);
+  });
+
+  it('@example [BinaryTree.isEmpty] Check empty', () => {
+    expect(new BinaryTree().isEmpty()).toBe(true);
+  });
+
+  it('@example [BinaryTree.toArray] Convert to array', () => {
+    const tree = new BinaryTree<number>([1, 2, 3]);
+    expect(tree.toArray().length).toBe(3);
+  });
+
+  it('@example [BinaryTree.addMany] Bulk add', () => {
+    const tree = new BinaryTree<number>();
+    tree.addMany([1, 2, 3, 4, 5]);
+    expect(tree.size).toBe(5);
+  });
+
+  it('@example [BinaryTree.leaves] Get leaf nodes', () => {
+    const tree = new BinaryTree<number>([1, 2, 3, 4, 5]);
+    const leafKeys = tree.leaves(node => node.key);
+    expect(leafKeys.length).toBeGreaterThan(0);
+  });
+
+  it('@example [BinaryTree.print] Display tree', () => {
+    const tree = new BinaryTree<number>([1, 2, 3]);
+    expect(() => tree.print()).not.toThrow();
+  });
+
+  it('@example [BinaryTree.getNode] Get node by key', () => {
+    const tree = new BinaryTree<number, string>([[1, 'root'], [2, 'child']]);
+    expect(tree.getNode(2)?.value).toBe('child');
+  });
+
+  it('@example [BinaryTree.isBST] Check BST property', () => {
+    const tree = new BinaryTree<number>([1, 2, 3]);
+    // BinaryTree doesn't guarantee BST order
+    expect(typeof tree.isBST()).toBe('boolean');
+  });
 });

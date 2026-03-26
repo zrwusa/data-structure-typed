@@ -1225,4 +1225,62 @@ describe('classic uses', () => {
     expect(map.size).toBe(0);
     expect(map.has('a')).toBe(false);
   });
+
+  it('@example [HashMap.entries] Iterate key-value pairs', () => {
+    const map = new HashMap<string, number>([['a', 1], ['b', 2]]);
+    const entries = [...map.entries()];
+    expect(entries.length).toBe(2);
+  });
+
+  it('@example [HashMap.keys] Get all keys', () => {
+    const map = new HashMap<string, number>([['x', 1], ['y', 2]]);
+    expect([...map.keys()].sort()).toEqual(['x', 'y']);
+  });
+
+  it('@example [HashMap.values] Get all values', () => {
+    const map = new HashMap<string, number>([['a', 10], ['b', 20]]);
+    expect([...map.values()].sort()).toEqual([10, 20]);
+  });
+
+  it('@example [HashMap.forEach] Execute for each entry', () => {
+    const map = new HashMap<string, number>([['a', 1], ['b', 2]]);
+    let sum = 0;
+    map.forEach(val => { sum += val; });
+    expect(sum).toBe(3);
+  });
+
+  it('@example [HashMap.reduce] Aggregate values', () => {
+    const map = new HashMap<string, number>([['a', 10], ['b', 20], ['c', 30]]);
+    const total = map.reduce((acc, val) => acc + val, 0);
+    expect(total).toBe(60);
+  });
+
+  it('@example [HashMap.clone] Create independent copy', () => {
+    const map = new HashMap<string, number>([['a', 1]]);
+    const copy = map.clone();
+    copy.set('a', 99);
+    expect(map.get('a')).toBe(1);
+  });
+
+  it('@example [HashMap.clear] Remove all entries', () => {
+    const map = new HashMap<string, number>([['a', 1], ['b', 2]]);
+    map.clear();
+    expect(map.isEmpty()).toBe(true);
+  });
+
+  it('@example [HashMap.isEmpty] Check if empty', () => {
+    const map = new HashMap();
+    expect(map.isEmpty()).toBe(true);
+  });
+
+  it('@example [HashMap.setMany] Add multiple entries', () => {
+    const map = new HashMap<string, number>();
+    map.setMany([['a', 1], ['b', 2], ['c', 3]]);
+    expect(map.size).toBe(3);
+  });
+
+  it('@example [HashMap.print] Display map contents', () => {
+    const map = new HashMap<string, number>([['a', 1]]);
+    expect(() => map.print()).not.toThrow();
+  });
 });

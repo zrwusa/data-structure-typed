@@ -871,4 +871,33 @@ describe('classic uses', () => {
     list.forEach(n => result.push(n));
     expect(result).toEqual([10, 20, 30]);
   });
+
+  it('@example [SinglyLinkedList.clone] Deep copy', () => {
+    const list = new SinglyLinkedList<number>([1, 2, 3]);
+    const copy = list.clone();
+    copy.pop();
+    expect(list.length).toBe(3);
+    expect(copy.length).toBe(2);
+  });
+
+  it('@example [SinglyLinkedList.clear] Remove all', () => {
+    const list = new SinglyLinkedList<number>([1, 2, 3]);
+    list.clear();
+    expect(list.isEmpty()).toBe(true);
+  });
+
+  it('@example [SinglyLinkedList.isEmpty] Check empty', () => {
+    expect(new SinglyLinkedList().isEmpty()).toBe(true);
+  });
+
+  it('@example [SinglyLinkedList.reduce] Aggregate values', () => {
+    const list = new SinglyLinkedList<number>([1, 2, 3, 4]);
+    const sum = list.reduce((acc, val) => acc + val, 0);
+    expect(sum).toBe(10);
+  });
+
+  it('@example [SinglyLinkedList.print] Display list', () => {
+    const list = new SinglyLinkedList<number>([1, 2, 3]);
+    expect(() => list.print()).not.toThrow();
+  });
 });

@@ -871,4 +871,31 @@ describe('UndirectedGraph biconnected components and cycle detection (#77)', () 
     expect(components.length).toBe(1);
     expect(components[0].length).toBe(3);
   });
+
+  it('@example [UndirectedGraph.addVertex] Add a vertex', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('A');
+    expect(g.hasVertex('A')).toBe(true);
+  });
+
+  it('@example [UndirectedGraph.addEdge] Add an undirected edge', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addEdge('A', 'B', 3);
+    expect(g.hasEdge('A', 'B')).toBe(true);
+    expect(g.hasEdge('B', 'A')).toBe(true);
+  });
+
+  it('@example [UndirectedGraph.dijkstra] Shortest path', () => {
+    const g = new UndirectedGraph();
+    g.addVertex('A');
+    g.addVertex('B');
+    g.addVertex('C');
+    g.addEdge('A', 'B', 1);
+    g.addEdge('B', 'C', 2);
+    g.addEdge('A', 'C', 10);
+    const result = g.dijkstra('A');
+    expect(result?.distMap.get(g.getVertex('C')!)).toBe(3);
+  });
 });

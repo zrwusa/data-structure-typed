@@ -285,6 +285,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @param word - Word to insert.
    * @returns True if the word was newly added.
    
+   
     * @example
  * // basic Trie creation and add words
  *  // Create a simple Trie with initial words
@@ -347,6 +348,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @param word - Word to search for.
    * @returns True if present.
    
+   
     * @example
  * // Check if a word exists
  *  const dict = new Trie(['apple', 'app', 'application']);
@@ -393,6 +395,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @remarks Time O(L), Space O(1)
    * @param word - Word to delete.
    * @returns True if a word was removed.
+   
    
     * @example
  * // Trie delete and iteration
@@ -499,6 +502,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @param input - String to test as prefix.
    * @returns True if input matches a path from root.
    
+   
     * @example
  * // Check if a prefix exists
  *  const trie = new Trie(['hello', 'help', 'world']);
@@ -545,6 +549,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @remarks Time O(H), Space O(1)
    * @returns The longest common prefix string.
    
+   
     * @example
  * // Find shared prefix
  *  const trie = new Trie(['flower', 'flow', 'flight']);
@@ -571,6 +576,7 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @param [max] - Maximum number of words to return; default is Number.MAX_SAFE_INTEGER.
    * @param [isAllWhenEmptyPrefix] - When true, collect from root even if prefix is empty.
    * @returns Array of collected words (at most max).
+   
    
     * @example
  * // Trie getWords and prefix search

@@ -719,4 +719,36 @@ describe('classic uses', () => {
     q.push(2);
     expect(q.length).toBe(2);
   });
+
+  it('@example [Queue.clone] Create independent copy', () => {
+    const q = new Queue<number>([1, 2, 3]);
+    const copy = q.clone();
+    copy.shift();
+    expect(q.length).toBe(3);
+    expect(copy.length).toBe(2);
+  });
+
+  it('@example [Queue.clear] Remove all elements', () => {
+    const q = new Queue<number>([1, 2, 3]);
+    q.clear();
+    expect(q.length).toBe(0);
+  });
+
+  it('@example [Queue.forEach] Iterate over elements', () => {
+    const q = new Queue<string>(['a', 'b', 'c']);
+    const items: string[] = [];
+    q.forEach(item => items.push(item));
+    expect(items).toEqual(['a', 'b', 'c']);
+  });
+
+  it('@example [Queue.filter] Filter elements', () => {
+    const q = new Queue<number>([1, 2, 3, 4, 5]);
+    const evens = q.filter(x => x % 2 === 0);
+    expect(evens.length).toBe(2);
+  });
+
+  it('@example [Queue.print] Display queue', () => {
+    const q = new Queue<number>([1, 2, 3]);
+    expect(() => q.print()).not.toThrow();
+  });
 });
