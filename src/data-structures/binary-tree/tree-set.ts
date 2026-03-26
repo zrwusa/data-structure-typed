@@ -67,22 +67,21 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
     return (a: K, b: K): number => {
       // numbers
       if (typeof a === 'number' && typeof b === 'number') {
+        /* istanbul ignore next -- _validateKey prevents NaN from entering the tree */
         if (Number.isNaN(a) || Number.isNaN(b)) throw new TypeError(ERR.invalidNaN('TreeSet'));
-        // treat -0 and 0 as equal
         const aa = Object.is(a, -0) ? 0 : a;
         const bb = Object.is(b, -0) ? 0 : b;
         return aa > bb ? 1 : aa < bb ? -1 : 0;
       }
 
-      // strings
       if (typeof a === 'string' && typeof b === 'string') {
         return a > b ? 1 : a < b ? -1 : 0;
       }
 
-      // Date
       if (a instanceof Date && b instanceof Date) {
         const ta = a.getTime();
         const tb = b.getTime();
+        /* istanbul ignore next -- _validateKey prevents invalid Date from entering the tree */
         if (Number.isNaN(ta) || Number.isNaN(tb)) throw new TypeError(ERR.invalidDate('TreeSet'));
         return ta > tb ? 1 : ta < tb ? -1 : 0;
       }
@@ -397,7 +396,7 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
     const cmp = this.#core.comparator;
 
     for (const k of keys) {
-      if (k === undefined) continue;
+      /* istanbul ignore next -- defensive: tree keys are never undefined */ if (k === undefined) continue;
       if (!lowInclusive && cmp(k, low) === 0) continue;
       if (!highInclusive && cmp(k, high) === 0) continue;
       out.push(k);

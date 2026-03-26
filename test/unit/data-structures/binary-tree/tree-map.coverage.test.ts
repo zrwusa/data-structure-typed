@@ -24,21 +24,42 @@ describe('TreeMap branch coverage', () => {
   });
 
   describe('comparator NaN/Date branches', () => {
-    it('comparator throws on NaN in comparison', () => {
+    it('comparator throws on NaN in comparison (a=NaN)', () => {
       const tm = new TreeMap<number, string>([[1, 'a']]);
-      expect(() => tm.set(NaN, 'b')).toThrow(/NaN/);
+      expect(() => tm.set(NaN, 'b')).toThrow(/NaN/); // compare(NaN, 1) → isNaN(a)
     });
+
+
 
     it('comparator throws on invalid Date in comparison', () => {
       const tm = new TreeMap<Date, string>([[new Date('2020-01-01'), 'a']]);
       expect(() => tm.set(new Date('invalid'), 'b')).toThrow(/Date/);
     });
 
-    it('comparator handles -0 as 0', () => {
+    it('Date comparison covers all return branches', () => {
+      const tm = new TreeMap<Date, string>();
+      const d1 = new Date('2020-01-01');
+      const d2 = new Date('2020-06-01');
+      const d3 = new Date('2020-01-01');
+      tm.set(d1, 'a');
+      tm.set(d2, 'b'); // ta < tb
+      tm.set(d3, 'c'); // ta === tb → update
+      expect(tm.size).toBe(2);
+      expect(tm.get(d1)).toBe('c');
+    });
+
+    it('comparator handles -0 as 0 (both sides)', () => {
       const tm = new TreeMap<number, string>();
-      tm.set(-0, 'negzero');
       tm.set(0, 'zero');
-      expect(tm.size).toBe(1); // treated as same key
+      tm.set(-0, 'negzero'); // a=-0 compared with b=0
+      expect(tm.size).toBe(1);
+      const tm2 = new TreeMap<number, string>();
+      tm2.set(-0, 'negzero');
+      tm2.set(0, 'zero'); // a=0 compared with b=-0
+      expect(tm2.size).toBe(1);
+      tm2.set(1, 'one');
+      tm2.set(-0, 'z'); // a=-0 compared with b=1 then b=0
+      expect(tm2.size).toBe(2);
     });
   });
 

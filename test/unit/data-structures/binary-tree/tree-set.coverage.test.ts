@@ -19,21 +19,42 @@ describe('TreeSet branch coverage', () => {
   });
 
   describe('comparator branches', () => {
-    it('NaN in comparison throws', () => {
+    it('NaN in comparison throws (a=NaN)', () => {
       const ts = new TreeSet<number>([1]);
-      expect(() => ts.add(NaN)).toThrow(/NaN/);
+      expect(() => ts.add(NaN)).toThrow(/NaN/); // compare(NaN, 1) → isNaN(a)
     });
+
+
 
     it('invalid Date in comparison throws', () => {
       const ts = new TreeSet<Date>([new Date('2020-01-01')]);
       expect(() => ts.add(new Date('invalid'))).toThrow(/Date/);
     });
 
-    it('-0 treated as 0', () => {
+    it('Date comparison covers all return branches', () => {
+      const ts = new TreeSet<Date>();
+      const d1 = new Date('2020-01-01');
+      const d2 = new Date('2020-06-01');
+      const d3 = new Date('2020-01-01'); // equal to d1
+      ts.add(d1);
+      ts.add(d2); // ta < tb → -1
+      ts.add(d3); // ta === tb → 0 (duplicate, no insert)
+      expect(ts.size).toBe(2);
+    });
+
+    it('-0 treated as 0 (both sides)', () => {
       const ts = new TreeSet<number>();
-      ts.add(-0);
       ts.add(0);
+      ts.add(-0); // a=-0 compared with b=0
       expect(ts.size).toBe(1);
+      const ts2 = new TreeSet<number>();
+      ts2.add(-0);
+      ts2.add(0); // a=0 compared with b=-0
+      expect(ts2.size).toBe(1);
+      // Both sides: add 1 first, then -0 to ensure a=-0 branch
+      ts2.add(1);
+      ts2.add(-0);
+      expect(ts2.size).toBe(2);
     });
   });
 
