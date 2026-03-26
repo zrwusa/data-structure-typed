@@ -36,9 +36,49 @@ describe('SegmentTree remaining branch coverage', () => {
   it('works with large arrays', () => {
     const arr = Array.from({ length: 1000 }, (_, i) => i + 1);
     const st = SegmentTree.sum(arr);
-    // Sum of 1..1000 = 500500
     expect(st.query(0, 999)).toBe(500500);
-    // Sum of first 100: 100*101/2 = 5050
     expect(st.query(0, 99)).toBe(5050);
+  });
+
+  it('maxRight traverses left (dig deeper) branch', () => {
+    // Need a case where the left child's combined value exceeds the predicate
+    // so the algorithm digs into the left subtree
+    const st = SegmentTree.sum([100, 1, 1, 1, 1, 1, 1, 1]);
+    // maxRight(0, s => s <= 50): first element alone (100) fails, so r = -1
+    expect(st.maxRight(0, s => s <= 50)).toBe(-1);
+    // maxRight(1, s => s <= 3): from index 1: sum(1)=1 ok, sum(1,2)=2 ok, sum(1,2,3)=3 ok, sum(1,2,3,4)=4 > 3
+    expect(st.maxRight(1, s => s <= 3)).toBe(3);
+  });
+
+  it('minLeft traverses right (dig deeper) branch', () => {
+    const st = SegmentTree.sum([1, 1, 1, 1, 1, 1, 1, 100]);
+    // minLeft(7, s => s <= 50): last element alone (100) fails, so l = 8
+    expect(st.minLeft(7, s => s <= 50)).toBe(8);
+    // minLeft(6, s => s <= 3): from index 6 going left: sum(6)=1, sum(5,6)=2, sum(4,5,6)=3, sum(3..6)=4 > 3
+    expect(st.minLeft(6, s => s <= 3)).toBe(4);
+  });
+
+  it('maxRight with left >= n', () => {
+    const st = SegmentTree.sum([1, 2, 3]);
+    expect(st.maxRight(10, s => s <= 100)).toBe(2); // clamped
+  });
+
+  it('minLeft with right < 0', () => {
+    const st = SegmentTree.sum([1, 2, 3]);
+    expect(st.minLeft(-1, s => s <= 100)).toBe(0);
+  });
+
+  it('print does not throw', () => {
+    const st = SegmentTree.sum([1, 2, 3]);
+    const spy = jest.spyOn(console, 'log').mockImplementation();
+    st.print();
+    expect(spy).toHaveBeenCalledWith([1, 2, 3]);
+    spy.mockRestore();
+  });
+
+  it('iterator [Symbol.iterator] returns itself', () => {
+    const st = SegmentTree.sum([1, 2]);
+    const iter = st[Symbol.iterator]();
+    expect(iter[Symbol.iterator]()).toBe(iter);
   });
 });

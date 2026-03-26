@@ -47,4 +47,18 @@ describe('BinaryIndexedTree remaining branch coverage', () => {
     expect(bit.lowerBound(42)).toBe(0);
     expect(bit.upperBound(42)).toBe(1);
   });
+
+  it('print does not throw', () => {
+    const bit = new BinaryIndexedTree([1, 2, 3]);
+    const spy = jest.spyOn(console, 'log').mockImplementation();
+    bit.print();
+    expect(spy).toHaveBeenCalledWith([1, 2, 3]);
+    spy.mockRestore();
+  });
+
+  it('iterator [Symbol.iterator] returns itself', () => {
+    const bit = new BinaryIndexedTree([1, 2]);
+    const iter = bit[Symbol.iterator]();
+    expect(iter[Symbol.iterator]()).toBe(iter);
+  });
 });

@@ -10,6 +10,28 @@ describe('SkipList additional branch coverage', () => {
     expect(s.first()).toBeUndefined();
   });
 
+  it('bigint keys work with default comparator', () => {
+    const s = new SkipList<bigint, string>();
+    s.set(3n, 'c');
+    s.set(1n, 'a');
+    s.set(2n, 'b');
+    expect([...s.keys()]).toEqual([1n, 2n, 3n]);
+  });
+
+  it('comparator getter returns the comparator', () => {
+    const cmp = (a: number, b: number) => b - a;
+    const s = new SkipList<number, string>([], { comparator: cmp });
+    expect(s.comparator).toBe(cmp);
+  });
+
+  it('print does not throw', () => {
+    const s = new SkipList<number, string>([[1, 'a']]);
+    const spy = jest.spyOn(console, 'log').mockImplementation();
+    s.print();
+    expect(spy).toHaveBeenCalled();
+    spy.mockRestore();
+  });
+
   it('delete() covers the break branch when deleted node has smaller level than list level', () => {
     const s = new SkipList<number, string>();
 

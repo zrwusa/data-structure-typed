@@ -82,6 +82,14 @@ describe('Matrix misc coverage', () => {
     });
   });
 
+  describe('iterator', () => {
+    it('iterator [Symbol.iterator] returns itself', () => {
+      const m = new Matrix([[1, 2], [3, 4]]);
+      const iter = m[Symbol.iterator]();
+      expect(iter[Symbol.iterator]()).toBe(iter);
+    });
+  });
+
   describe('inverse pivotElement ?? 1 branch', () => {
   it('inverse() uses pivotElement fallback 1 when get(i,i) is nullish', () => {
       const origGet = Matrix.prototype.get;
