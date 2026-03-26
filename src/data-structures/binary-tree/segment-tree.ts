@@ -6,319 +6,306 @@
  * @license MIT License
  */
 
-import type { SegmentTreeNodeVal } from '../../types';
+export type SegmentTreeOptions<E> = {
+  merger: (a: E, b: E) => E;
+  identity: E;
+};
 
-export class SegmentTreeNode {
-  /**
-   * The constructor initializes the properties of a SegmentTreeNode object.
-   * @param {number} start - The `start` parameter represents the starting index of the segment covered
-   * by this node in a segment tree.
-   * @param {number} end - The `end` parameter represents the end index of the segment covered by this
-   * node in a segment tree.
-   * @param {number} sum - The `sum` parameter represents the sum of the values in the range covered by
-   * the segment tree node.
-   * @param {SegmentTreeNodeVal | undefined} [value] - The `value` parameter is an optional parameter
-   * of type `SegmentTreeNodeVal`. It represents the value associated with the segment tree node.
-   */
-  constructor(start: number, end: number, sum: number, value?: SegmentTreeNodeVal | undefined) {
-    this._start = start;
-    this._end = end;
-    this._sum = sum;
-    this._value = value || undefined;
+/**
+ * Generic Segment Tree with flat array internals.
+ *
+ * Supports any associative merge operation (sum, min, max, gcd, etc.).
+ * Reference: AtCoder Library segtree<S, op, e>.
+ *
+ * @example
+ * ```ts
+ * const sumTree = SegmentTree.sum([1, 2, 3, 4, 5]);
+ * sumTree.query(1, 3);    // 9 (2+3+4)
+ * sumTree.update(2, 10);  // [1, 2, 10, 4, 5]
+ * sumTree.query(1, 3);    // 16 (2+10+4)
+ *
+ * const minTree = SegmentTree.min([5, 2, 8, 1, 9]);
+ * minTree.query(0, 4);    // 1
+ * ```
+ */
+export class SegmentTree<E = number> implements Iterable<E> {
+  protected readonly _merger: (a: E, b: E) => E;
+  protected readonly _identity: E;
+  protected _n: number;         // number of leaf elements
+  protected _tree: E[];         // flat array, 1-indexed, size 2*_size
+  protected _treeSize: number;  // internal tree size (next power of 2 >= _n)
+
+  constructor(elements: E[], options: SegmentTreeOptions<E>) {
+    this._merger = options.merger;
+    this._identity = options.identity;
+    this._n = elements.length;
+
+    // Round up to next power of 2
+    this._treeSize = 1;
+    while (this._treeSize < this._n) this._treeSize <<= 1;
+
+    // Allocate and fill with identity
+    this._tree = new Array(2 * this._treeSize).fill(this._identity);
+
+    // Place elements in leaves
+    for (let i = 0; i < this._n; i++) {
+      this._tree[this._treeSize + i] = elements[i];
+    }
+
+    // Build internal nodes bottom-up
+    for (let i = this._treeSize - 1; i >= 1; i--) {
+      this._tree[i] = this._merger(this._tree[2 * i], this._tree[2 * i + 1]);
+    }
   }
 
-  protected _start = 0;
+  // ─── Convenience factories ─────────────────────────────────
 
-  /**
-   * The function returns the value of the protected variable _start.
-   * @returns The start value, which is of type number.
-   */
-  get start(): number {
-    return this._start;
+  static sum(elements: number[]): SegmentTree<number> {
+    return new SegmentTree<number>(elements, {
+      merger: (a, b) => a + b,
+      identity: 0
+    });
   }
 
-  /**
-   * The above function sets the value of the "start" property.
-   * @param {number} value - The value parameter is of type number.
-   */
-  set start(value: number) {
-    this._start = value;
+  static min(elements: number[]): SegmentTree<number> {
+    return new SegmentTree<number>(elements, {
+      merger: (a, b) => Math.min(a, b),
+      identity: Infinity
+    });
   }
 
-  protected _end = 0;
-
-  /**
-   * The function returns the value of the protected variable `_end`.
-   * @returns The value of the protected property `_end`.
-   */
-  get end(): number {
-    return this._end;
+  static max(elements: number[]): SegmentTree<number> {
+    return new SegmentTree<number>(elements, {
+      merger: (a, b) => Math.max(a, b),
+      identity: -Infinity
+    });
   }
 
-  /**
-   * The above function sets the value of the "end" property.
-   * @param {number} value - The value parameter is a number that represents the new value for the end
-   * property.
-   */
-  set end(value: number) {
-    this._end = value;
-  }
-
-  protected _value: SegmentTreeNodeVal | undefined = undefined;
+  // ─── Core operations ───────────────────────────────────────
 
   /**
-   * The function returns the value of a segment tree node.
-   * @returns The value being returned is either a `SegmentTreeNodeVal` object or `undefined`.
+   * Point update: set element at index to value.
+   * Time: O(log n)
    */
-  get value(): SegmentTreeNodeVal | undefined {
-    return this._value;
-  }
+  update(index: number, value: E): void {
+    if (index < 0 || index >= this._n) return;
 
-  /**
-   * The function sets the value of a segment tree node.
-   * @param {SegmentTreeNodeVal | undefined} value - The `value` parameter is of type
-   * `SegmentTreeNodeVal` or `undefined`.
-   */
-  set value(value: SegmentTreeNodeVal | undefined) {
-    this._value = value;
-  }
+    let pos = this._treeSize + index;
+    this._tree[pos] = value;
 
-  protected _sum = 0;
-
-  /**
-   * The function returns the value of the sum property.
-   * @returns The method is returning the value of the variable `_sum`.
-   */
-  get sum(): number {
-    return this._sum;
-  }
-
-  /**
-   * The above function sets the value of the sum property.
-   * @param {number} value - The parameter "value" is of type "number".
-   */
-  set sum(value: number) {
-    this._sum = value;
-  }
-
-  protected _left: SegmentTreeNode | undefined = undefined;
-
-  /**
-   * The function returns the left child of a segment tree node.
-   * @returns The `left` property of the `SegmentTreeNode` object is being returned. It is of type
-   * `SegmentTreeNode` or `undefined`.
-   */
-  get left(): SegmentTreeNode | undefined {
-    return this._left;
+    // Propagate up
+    pos >>= 1;
+    while (pos >= 1) {
+      this._tree[pos] = this._merger(this._tree[2 * pos], this._tree[2 * pos + 1]);
+      pos >>= 1;
+    }
   }
 
   /**
-   * The function sets the value of the left property of a SegmentTreeNode object.
-   * @param {SegmentTreeNode | undefined} value - The value parameter is of type SegmentTreeNode or
-   * undefined.
+   * Range query: returns merger result over [start, end] (inclusive).
+   * Time: O(log n)
    */
-  set left(value: SegmentTreeNode | undefined) {
-    this._left = value;
+  query(start: number, end: number): E {
+    if (start < 0) start = 0;
+    if (end >= this._n) end = this._n - 1;
+    if (start > end) return this._identity;
+
+    let resultLeft = this._identity;
+    let resultRight = this._identity;
+    let left = this._treeSize + start;
+    let right = this._treeSize + end + 1; // exclusive
+
+    while (left < right) {
+      if (left & 1) {
+        resultLeft = this._merger(resultLeft, this._tree[left]);
+        left++;
+      }
+      if (right & 1) {
+        right--;
+        resultRight = this._merger(this._tree[right], resultRight);
+      }
+      left >>= 1;
+      right >>= 1;
+    }
+
+    return this._merger(resultLeft, resultRight);
   }
 
-  protected _right: SegmentTreeNode | undefined = undefined;
+  /**
+   * Get element at index.
+   * Time: O(1)
+   */
+  get(index: number): E {
+    if (index < 0 || index >= this._n) return this._identity;
+    return this._tree[this._treeSize + index];
+  }
+
+  // ─── Binary search on tree (ACL-style) ─────────────────────
 
   /**
-   * The function returns the right child of a segment tree node.
-   * @returns The `getRight()` method is returning a value of type `SegmentTreeNode` or `undefined`.
+   * Find the largest r such that predicate(query(left, r)) is true.
+   * Returns left-1 if predicate(identity) is false.
+   * Returns n-1 if predicate holds for the entire range [left, n-1].
+   * Time: O(log n)
    */
-  get right(): SegmentTreeNode | undefined {
-    return this._right;
+  maxRight(left: number, predicate: (segValue: E) => boolean): number {
+    if (left >= this._n) return this._n - 1;
+
+    let acc = this._identity;
+    if (!predicate(acc)) return left - 1;
+
+    let pos = this._treeSize + left;
+
+    // Go up while we're a right child or predicate still holds
+    while (true) {
+      // Find the lowest relevant node
+      while (pos < this._treeSize) {
+        // Try going left
+        const combined = this._merger(acc, this._tree[2 * pos]);
+        if (predicate(combined)) {
+          acc = combined;
+          pos = 2 * pos + 1; // go right
+        } else {
+          pos = 2 * pos; // go left (dig deeper)
+        }
+      }
+
+      // At leaf level
+      const combined = this._merger(acc, this._tree[pos]);
+      if (!predicate(combined)) {
+        return pos - this._treeSize - 1;
+      }
+      acc = combined;
+
+      // Move to next segment
+      pos++;
+      // Check if we've gone past the end
+      if (pos - this._treeSize >= this._n) return this._n - 1;
+
+      // Go up while we're a right child
+      while (pos > 1 && (pos & 1) === 0) {
+        pos >>= 1;
+      }
+      if (pos === 1) return this._n - 1;
+    }
   }
 
   /**
-   * The function sets the right child of a segment tree node.
-   * @param {SegmentTreeNode | undefined} value - The `value` parameter is of type `SegmentTreeNode |
-   * undefined`. This means that it can accept either a `SegmentTreeNode` object or `undefined` as its
-   * value.
+   * Find the smallest l such that predicate(query(l, right)) is true.
+   * Returns right+1 if predicate(identity) is false.
+   * Returns 0 if predicate holds for the entire range [0, right].
+   * Time: O(log n)
    */
-  set right(value: SegmentTreeNode | undefined) {
-    this._right = value;
+  minLeft(right: number, predicate: (segValue: E) => boolean): number {
+    if (right < 0) return 0;
+    if (right >= this._n) right = this._n - 1;
+
+    let acc = this._identity;
+    if (!predicate(acc)) return right + 1;
+
+    let pos = this._treeSize + right;
+
+    while (true) {
+      while (pos < this._treeSize) {
+        const combined = this._merger(this._tree[2 * pos + 1], acc);
+        if (predicate(combined)) {
+          acc = combined;
+          pos = 2 * pos; // go left
+        } else {
+          pos = 2 * pos + 1; // go right (dig deeper)
+        }
+      }
+
+      const combined = this._merger(this._tree[pos], acc);
+      if (!predicate(combined)) {
+        return pos - this._treeSize + 1;
+      }
+      acc = combined;
+
+      // Move to previous segment
+      if (pos === this._treeSize) return 0;
+      pos--;
+
+      // Go up while we're a left child
+      while (pos > 1 && (pos & 1) === 1) {
+        pos >>= 1;
+      }
+      if (pos === 1) return 0;
+    }
+  }
+
+  // ─── Standard interface ────────────────────────────────────
+
+  get size(): number {
+    return this._n;
+  }
+
+  isEmpty(): boolean {
+    return this._n === 0;
+  }
+
+  clone(): SegmentTree<E> {
+    const elements: E[] = [];
+    for (let i = 0; i < this._n; i++) {
+      elements.push(this._tree[this._treeSize + i]);
+    }
+    return new SegmentTree<E>(elements, {
+      merger: this._merger,
+      identity: this._identity
+    });
+  }
+
+  toArray(): E[] {
+    const result: E[] = [];
+    for (let i = 0; i < this._n; i++) {
+      result.push(this._tree[this._treeSize + i]);
+    }
+    return result;
+  }
+
+  /**
+   * Iterates over leaf values in index order.
+   */
+  [Symbol.iterator](): IterableIterator<E> {
+    const tree = this._tree;
+    const treeSize = this._treeSize;
+    const n = this._n;
+    let i = 0;
+    return {
+      [Symbol.iterator]() {
+        return this;
+      },
+      next(): IteratorResult<E> {
+        if (i < n) {
+          return { value: tree[treeSize + i++], done: false };
+        }
+        return { value: undefined as any, done: true };
+      }
+    };
+  }
+
+  forEach(callback: (value: E, index: number) => void): void {
+    for (let i = 0; i < this._n; i++) {
+      callback(this._tree[this._treeSize + i], i);
+    }
+  }
+
+  print(): void {
+    console.log(this.toArray());
   }
 }
 
-export class SegmentTree {
-  /**
-   * The constructor initializes the values, start, end, and root properties of an object.
-   * @param {number[]} values - An array of numbers that will be used to build a binary search tree.
-   * @param {number} [start] - The `start` parameter is the index of the first element in the `values` array that should
-   * be included in the range. If no value is provided for `start`, it defaults to 0, which means the range starts from
-   * the beginning of the array.
-   * @param {number} [end] - The "end" parameter is the index of the last element in the "values" array that should be
-   * included in the range. If not provided, it defaults to the index of the last element in the "values" array.
-   */
-  constructor(values: number[], start?: number, end?: number) {
-    start = start || 0;
-    end = end || values.length - 1;
-    this._values = values;
-    this._start = start;
-    this._end = end;
+/**
+ * @deprecated Use SegmentTree directly — it now supports generic merge functions.
+ */
+export class SegmentTreeNode {
+  constructor(
+    public start: number,
+    public end: number,
+    public sum: number,
+    public value?: number
+  ) {}
 
-    if (values.length > 0) {
-      this._root = this.build(start, end);
-    } else {
-      this._root = undefined;
-      this._values = [];
-    }
-  }
-
-  protected _values: number[] = [];
-
-  /**
-   * The function returns an array of numbers.
-   * @returns An array of numbers is being returned.
-   */
-  get values(): number[] {
-    return this._values;
-  }
-
-  protected _start = 0;
-
-  /**
-   * The function returns the value of the protected variable _start.
-   * @returns The start value, which is of type number.
-   */
-  get start(): number {
-    return this._start;
-  }
-
-  protected _end: number;
-
-  /**
-   * The function returns the value of the protected variable `_end`.
-   * @returns The value of the protected property `_end`.
-   */
-  get end(): number {
-    return this._end;
-  }
-
-  protected _root: SegmentTreeNode | undefined;
-
-  /**
-   * The function returns the root node of a segment tree.
-   * @returns The `root` property of the class `SegmentTreeNode` or `undefined` if it is not defined.
-   */
-  get root(): SegmentTreeNode | undefined {
-    return this._root;
-  }
-
-  /**
-   * The build function creates a segment tree by recursively dividing the given range into smaller segments and assigning
-   * the sum of values to each segment.
-   * @param {number} start - The `start` parameter represents the starting index of the segment or range for which we are
-   * building the segment tree.
-   * @param {number} end - The "end" parameter represents the ending index of the segment or range for which we want to
-   * build a segment tree.
-   * @returns a SegmentTreeNode object.
-   */
-  build(start: number, end: number): SegmentTreeNode {
-    if (start > end) {
-      return new SegmentTreeNode(start, end, 0);
-    }
-    if (start === end) return new SegmentTreeNode(start, end, this._values[start]);
-
-    const mid = start + Math.floor((end - start) / 2);
-    const left = this.build(start, mid);
-    const right = this.build(mid + 1, end);
-    const cur = new SegmentTreeNode(start, end, left.sum + right.sum);
-    cur.left = left;
-    cur.right = right;
-    return cur;
-  }
-
-  /**
-   * The function updates the value of a node in a segment tree and recalculates the sum of its children if they exist.
-   * @param {number} index - The index parameter represents the index of the node in the segment tree that needs to be
-   * updated.
-   * @param {number} sum - The `sum` parameter represents the new value that should be assigned to the `sum` property of
-   * the `SegmentTreeNode` at the specified `index`.
-   * @param {SegmentTreeNodeVal} [value] - The `value` parameter is an optional value that can be assigned to the `value`
-   * property of the `SegmentTreeNode` object. It is not currently used in the code, but you can uncomment the line `//
-   * cur.value = value;` and pass a value for `value` in the
-   * @returns The function does not return anything.
-   */
-  updateNode(index: number, sum: number, value?: SegmentTreeNodeVal) {
-    const root = this.root || undefined;
-    if (!root) {
-      return;
-    }
-    const dfs = (cur: SegmentTreeNode, index: number, sum: number, value?: SegmentTreeNodeVal) => {
-      if (cur.start === cur.end && cur.start === index) {
-        cur.sum = sum;
-        if (value !== undefined) cur.value = value;
-        return;
-      }
-      const mid = cur.start + Math.floor((cur.end - cur.start) / 2);
-      if (index <= mid) {
-        if (cur.left) {
-          dfs(cur.left, index, sum, value);
-        }
-      } else {
-        if (cur.right) {
-          dfs(cur.right, index, sum, value);
-        }
-      }
-      if (cur.left && cur.right) {
-        cur.sum = cur.left.sum + cur.right.sum;
-      }
-    };
-
-    dfs(root, index, sum, value);
-  }
-
-  /**
-   * The function `querySumByRange` calculates the sum of values within a given range in a segment tree.
-   * @param {number} indexA - The starting index of the range for which you want to calculate the sum.
-   * @param {number} indexB - The parameter `indexB` represents the ending index of the range for which you want to
-   * calculate the sum.
-   * @returns The function `querySumByRange` returns a number.
-   */
-  querySumByRange(indexA: number, indexB: number): number {
-    const root = this.root || undefined;
-    if (!root) {
-      return 0;
-    }
-
-    if (indexA < 0 || indexB >= this.values.length || indexA > indexB) {
-      return NaN;
-    }
-
-    const dfs = (cur: SegmentTreeNode, i: number, j: number): number => {
-      if (i <= cur.start && j >= cur.end) {
-        // The range [i, j] completely covers the current node's range [cur.start, cur.end]
-        return cur.sum;
-      }
-      const mid = cur.start + Math.floor((cur.end - cur.start) / 2);
-      if (j <= mid) {
-        if (cur.left) {
-          return dfs(cur.left, i, j);
-        } else {
-          return NaN;
-        }
-      } else if (i > mid) {
-        if (cur.right) {
-          return dfs(cur.right, i, j);
-        } else {
-          return NaN;
-        }
-      } else {
-        // Query both left and right subtrees
-        let leftSum = 0;
-        let rightSum = 0;
-        if (cur.left) {
-          leftSum = dfs(cur.left, i, mid);
-        }
-        if (cur.right) {
-          rightSum = dfs(cur.right, mid + 1, j);
-        }
-        return leftSum + rightSum;
-      }
-    };
-    return dfs(root, indexA, indexB);
-  }
+  left?: SegmentTreeNode;
+  right?: SegmentTreeNode;
 }
