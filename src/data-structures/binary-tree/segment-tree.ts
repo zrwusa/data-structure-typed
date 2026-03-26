@@ -427,17 +427,4 @@ export class SegmentTree<E = number> implements Iterable<E> {
   }
 }
 
-/**
- * @deprecated Use SegmentTree directly — it now supports generic merge functions.
- */
-export class SegmentTreeNode {
-  constructor(
-    public start: number,
-    public end: number,
-    public sum: number,
-    public value?: number
-  ) {}
 
-  left?: SegmentTreeNode;
-  right?: SegmentTreeNode;
-}

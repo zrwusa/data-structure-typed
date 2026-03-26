@@ -1,4 +1,4 @@
-import { SegmentTree, SegmentTreeNode } from '../../../../src';
+import { SegmentTree } from '../../../../src';
 
 describe('classic use', () => {
   it('@example [SegmentTree.query] Range sum query on an array', () => {
@@ -43,26 +43,6 @@ describe('classic use', () => {
 
     // Sum of morning temps (6-11)
     expect(tree.query(6, 11)).toBe(164);
-  });
-});
-
-describe('SegmentTreeNode (deprecated, backward compat)', () => {
-  it('should initialize with correct start, end, sum, and optional value', () => {
-    const node = new SegmentTreeNode(0, 1, 10, 2);
-    expect(node.start).toBe(0);
-    expect(node.end).toBe(1);
-    expect(node.sum).toBe(10);
-    expect(node.value).toBe(2);
-  });
-
-  it('should allow setting left and right', () => {
-    const node = new SegmentTreeNode(0, 3, 15);
-    const leftNode = new SegmentTreeNode(0, 1, 5);
-    const rightNode = new SegmentTreeNode(2, 3, 10);
-    node.left = leftNode;
-    node.right = rightNode;
-    expect(node.left).toBe(leftNode);
-    expect(node.right).toBe(rightNode);
   });
 });
 

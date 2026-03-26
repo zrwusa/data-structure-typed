@@ -1,4 +1,4 @@
-import { TreeMultiMap, TreeMultiMapNode } from '../../../../src';
+import { TreeMultiMap, RedBlackTreeNode } from '../../../../src';
 
 /**
  * Coverage-focused tests for TreeMultiMap branches.
@@ -6,23 +6,23 @@ import { TreeMultiMap, TreeMultiMapNode } from '../../../../src';
  */
 describe('TreeMultiMap coverage', () => {
   it('TreeMultiMapNode.familyPosition covers ROOT/LEFT/RIGHT/ISOLATED cases', () => {
-    const isolated = new TreeMultiMapNode<number, number>(1);
+    const isolated = new RedBlackTreeNode<number, number>(1);
     expect(isolated.familyPosition).toBe('ISOLATED');
 
-    const root = new TreeMultiMapNode<number, number>(10);
-    const left = new TreeMultiMapNode<number, number>(5);
+    const root = new RedBlackTreeNode<number, number>(10);
+    const left = new RedBlackTreeNode<number, number>(5);
     root.left = left;
     expect(root.familyPosition).toBe('ROOT');
     expect(left.familyPosition).toBe('LEFT');
 
-    left.left = new TreeMultiMapNode<number, number>(2);
+    left.left = new RedBlackTreeNode<number, number>(2);
     expect(left.familyPosition).toBe('ROOT_LEFT');
 
-    const right = new TreeMultiMapNode<number, number>(15);
+    const right = new RedBlackTreeNode<number, number>(15);
     root.right = right;
     expect(right.familyPosition).toBe('RIGHT');
 
-    right.right = new TreeMultiMapNode<number, number>(20);
+    right.right = new RedBlackTreeNode<number, number>(20);
     expect(right.familyPosition).toBe('ROOT_RIGHT');
   });
 

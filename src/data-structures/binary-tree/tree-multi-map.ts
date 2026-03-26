@@ -12,17 +12,6 @@ import { RedBlackTree, RedBlackTreeNode } from './red-black-tree';
 import { TreeSet } from './tree-set';
 
 /**
- * Node type used by TreeMultiMap (alias to RedBlackTreeNode for backward compatibility).
- *
- * @deprecated Direct node manipulation is discouraged. Use TreeMultiMap methods instead.
- */
-export class TreeMultiMapNode<K = any, V = any> extends RedBlackTreeNode<K, V[]> {
-  constructor(key: K, value: V[] = []) {
-    super(key, value);
-  }
-}
-
-/**
  * TreeMultiMap (ordered MultiMap) — key → bucket (Array of values).
  *
  * Semantics (RFC):

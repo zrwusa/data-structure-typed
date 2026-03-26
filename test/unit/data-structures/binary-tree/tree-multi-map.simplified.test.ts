@@ -1,4 +1,4 @@
-import { TreeMultiMap, TreeMultiMapNode } from '../../../../src';
+import { TreeMultiMap } from '../../../../src';
 
 describe('classic use', () => {
   it('@example [TreeMultiMap.set] Multi-value dictionary for tag grouping', () => {
@@ -544,18 +544,6 @@ describe('TreeMultiMap (Simplified API)', () => {
       mm.add(2, 'b');
       const filtered = mm.filter(() => true);
       expect([...filtered.keys()]).toEqual([2, 1]);  // descending
-    });
-
-    it('TreeMultiMapNode (deprecated) can be created', () => {
-      const node = new TreeMultiMapNode(1, ['a', 'b']);
-      expect(node.key).toBe(1);
-      expect(node.value).toEqual(['a', 'b']);
-    });
-
-    it('TreeMultiMapNode with default value', () => {
-      const node = new TreeMultiMapNode(1);
-      expect(node.key).toBe(1);
-      expect(node.value).toEqual([]);
     });
 
     it('constructor with plain key entries (not array)', () => {
