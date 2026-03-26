@@ -833,4 +833,42 @@ describe('classic uses', () => {
     editor.insert('a');
     expect(editor.getText()).toBe('Haello'); // Output: "Haello"
   });
+
+  it('@example [SinglyLinkedList.shift] Remove from the front', () => {
+    const list = new SinglyLinkedList<number>([10, 20, 30]);
+    expect(list.shift()).toBe(10);
+    expect(list.length).toBe(2);
+  });
+
+  it('@example [SinglyLinkedList.at] Access element by index', () => {
+    const list = new SinglyLinkedList<string>(['a', 'b', 'c', 'd']);
+    expect(list.at(0)).toBe('a');
+    expect(list.at(2)).toBe('c');
+    expect(list.at(3)).toBe('d');
+  });
+
+  it('@example [SinglyLinkedList.reverse] Reverse the list in-place', () => {
+    const list = new SinglyLinkedList<number>([1, 2, 3, 4]);
+    list.reverse();
+    expect([...list]).toEqual([4, 3, 2, 1]);
+  });
+
+  it('@example [SinglyLinkedList.find] Find first matching element', () => {
+    const list = new SinglyLinkedList<number>([1, 2, 3, 4, 5]);
+    expect(list.find(n => n > 3)).toBe(4);
+    expect(list.find(n => n > 10)).toBeUndefined();
+  });
+
+  it('@example [SinglyLinkedList.map] Transform elements', () => {
+    const list = new SinglyLinkedList<number>([1, 2, 3]);
+    const doubled = list.map(n => n * 2);
+    expect([...doubled]).toEqual([2, 4, 6]);
+  });
+
+  it('@example [SinglyLinkedList.forEach] Iterate over elements', () => {
+    const list = new SinglyLinkedList<number>([10, 20, 30]);
+    const result: number[] = [];
+    list.forEach(n => result.push(n));
+    expect(result).toEqual([10, 20, 30]);
+  });
 });

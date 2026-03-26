@@ -52,6 +52,27 @@ describe('classic use', () => {
     expect(bit.get(1)).toBe(25);
     expect(bit.query(2)).toBe(65);
   });
+
+  it('@example [BinaryIndexedTree.update] Increment a value by delta', () => {
+    const bit = new BinaryIndexedTree([0, 0, 0, 0, 0]);
+    bit.update(2, 7);
+    expect(bit.get(2)).toBe(7);
+    bit.update(2, 3);
+    expect(bit.get(2)).toBe(10);
+  });
+
+  it('@example [BinaryIndexedTree.get] Read point value at index', () => {
+    const bit = new BinaryIndexedTree([5, 3, 8, 1]);
+    expect(bit.get(0)).toBe(5);
+    expect(bit.get(2)).toBe(8);
+  });
+
+  it('@example [BinaryIndexedTree.queryRange] Range sum query', () => {
+    const bit = new BinaryIndexedTree([1, 2, 3, 4, 5]);
+    expect(bit.queryRange(1, 3)).toBe(9); // 2+3+4
+    expect(bit.queryRange(0, 4)).toBe(15); // 1+2+3+4+5
+    expect(bit.queryRange(2, 2)).toBe(3); // single element
+  });
 });
 
 describe('BinaryIndexedTree constructor', () => {

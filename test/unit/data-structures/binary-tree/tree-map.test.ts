@@ -111,6 +111,125 @@ describe('classic use', () => {
     );
     expect(totalValue).toBeCloseTo(9.99 * 100 + 24.99 * 50 + 4.99 * 200, 2);
   });
+
+  it('@example [TreeMap.get] Configuration registry with typed lookups', () => {
+    const config = new TreeMap<string, number>([
+      ['maxRetries', 3],
+      ['timeout', 5000],
+      ['poolSize', 10]
+    ]);
+
+    expect(config.get('timeout')).toBe(5000);
+    expect(config.get('missing')).toBeUndefined();
+    expect(config.size).toBe(3);
+  });
+
+  it('@example [TreeMap.has] Feature flag checking', () => {
+    const flags = new TreeMap<string, boolean>([
+      ['darkMode', true],
+      ['betaFeature', false],
+      ['notifications', true]
+    ]);
+
+    expect(flags.has('darkMode')).toBe(true);
+    expect(flags.has('unknownFlag')).toBe(false);
+  });
+
+  it('@example [TreeMap.delete] Session management with expiry', () => {
+    const sessions = new TreeMap<string, number>([
+      ['sess_abc', Date.now()],
+      ['sess_def', Date.now()],
+      ['sess_ghi', Date.now()]
+    ]);
+
+    expect(sessions.size).toBe(3);
+    sessions.delete('sess_def');
+    expect(sessions.has('sess_def')).toBe(false);
+    expect(sessions.size).toBe(2);
+  });
+
+  it('@example [TreeMap.last] Access the maximum entry', () => {
+    const scores = new TreeMap<number, string>([
+      [85, 'Bob'],
+      [92, 'Alice'],
+      [78, 'Charlie']
+    ]);
+
+    expect(scores.last()).toEqual([92, 'Alice']);
+    expect(scores.first()).toEqual([78, 'Charlie']);
+  });
+
+  it('@example [TreeMap.floor] Find the largest key ≤ target', () => {
+    const versions = new TreeMap<number, string>([
+      [1, 'v1.0'],
+      [3, 'v3.0'],
+      [5, 'v5.0'],
+      [7, 'v7.0']
+    ]);
+
+    // Largest version ≤ 4
+    expect(versions.floor(4)).toEqual([3, 'v3.0']);
+    // Largest version ≤ 5 (exact match)
+    expect(versions.floor(5)).toEqual([5, 'v5.0']);
+    // No version ≤ 0
+    expect(versions.floor(0)).toBeUndefined();
+  });
+
+  it('@example [TreeMap.higher] Find the smallest key strictly > target', () => {
+    const prices = new TreeMap<number, string>([
+      [10, 'Basic'],
+      [25, 'Standard'],
+      [50, 'Premium'],
+      [100, 'Enterprise']
+    ]);
+
+    // Next tier above $25
+    expect(prices.higher(25)).toEqual([50, 'Premium']);
+    // Next tier above $99
+    expect(prices.higher(99)).toEqual([100, 'Enterprise']);
+    // Nothing above $100
+    expect(prices.higher(100)).toBeUndefined();
+  });
+
+  it('@example [TreeMap.lower] Find the largest key strictly < target', () => {
+    const temps = new TreeMap<number, string>([
+      [0, 'Freezing'],
+      [20, 'Cool'],
+      [30, 'Warm'],
+      [40, 'Hot']
+    ]);
+
+    // Largest reading below 30
+    expect(temps.lower(30)).toEqual([20, 'Cool']);
+    // Nothing below 0
+    expect(temps.lower(0)).toBeUndefined();
+  });
+
+  it('@example [TreeMap.pollFirst] Process items from lowest priority', () => {
+    const tasks = new TreeMap<number, string>([
+      [3, 'Low'],
+      [1, 'Critical'],
+      [2, 'Medium']
+    ]);
+
+    // Process lowest priority first
+    expect(tasks.pollFirst()).toEqual([1, 'Critical']);
+    expect(tasks.pollFirst()).toEqual([2, 'Medium']);
+    expect(tasks.size).toBe(1);
+  });
+
+  it('@example [TreeMap.pollLast] Remove the maximum entry', () => {
+    const bids = new TreeMap<number, string>([
+      [100, 'Alice'],
+      [150, 'Bob'],
+      [120, 'Charlie']
+    ]);
+
+    // Remove highest bid
+    expect(bids.pollLast()).toEqual([150, 'Bob']);
+    expect(bids.size).toBe(2);
+    expect(bids.last()).toEqual([120, 'Charlie']);
+  });
 });
 
 describe('TreeMap (RedBlackTree-backed, no node exposure)', () => {

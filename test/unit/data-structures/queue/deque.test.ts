@@ -933,6 +933,29 @@ describe('classic uses', () => {
     expect(windowResults[4].windowSize).toBe(3); // Last window still has 3 elements
     expect(dataWindow.length).toBe(3); // Final window contains last 3 elements
   });
+
+  it('@example [Deque.pop] Remove from the back', () => {
+    const dq = new Deque<number>([1, 2, 3]);
+    expect(dq.pop()).toBe(3);
+    expect(dq.length).toBe(2);
+  });
+
+  it('@example [Deque.shift] Remove from the front', () => {
+    const dq = new Deque<number>([1, 2, 3]);
+    expect(dq.shift()).toBe(1);
+    expect(dq.length).toBe(2);
+  });
+
+  it('@example [Deque.last] Peek at the back element', () => {
+    const dq = new Deque<string>(['a', 'b', 'c']);
+    expect(dq.last).toBe('c');
+    expect(dq.first).toBe('a');
+  });
+
+  it('@example [Deque.toArray] Convert deque to array', () => {
+    const dq = new Deque<number>([10, 20, 30]);
+    expect(dq.toArray()).toEqual([10, 20, 30]);
+  });
 });
 
 describe('Deque compact and auto-compacting (#92)', () => {

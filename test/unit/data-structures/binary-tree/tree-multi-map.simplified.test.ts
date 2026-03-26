@@ -1,5 +1,92 @@
 import { TreeMultiMap, TreeMultiMapNode } from '../../../../src';
 
+describe('classic use', () => {
+  it('@example [TreeMultiMap.set] Multi-value dictionary for tag grouping', () => {
+    const tags = new TreeMultiMap<string, string>([
+      ['frontend', ['react', 'vue']],
+      ['backend', ['node', 'python']]
+    ]);
+
+    expect(tags.get('frontend')).toEqual(['react', 'vue']);
+    expect(tags.size).toBe(2);
+    expect([...tags.keys()]).toEqual(['backend', 'frontend']); // sorted
+  });
+
+  it('@example [TreeMultiMap.get] Retrieve grouped values by key', () => {
+    const scores = new TreeMultiMap<string, number>([
+      ['Alice', [95, 88, 92]],
+      ['Bob', [80, 85]]
+    ]);
+
+    expect(scores.get('Alice')).toEqual([95, 88, 92]);
+    expect(scores.get('Unknown')).toBeUndefined();
+  });
+
+  it('@example [TreeMultiMap.has] Check key existence', () => {
+    const mm = new TreeMultiMap<number, string>([
+      [1, ['a']],
+      [3, ['c']]
+    ]);
+
+    expect(mm.has(1)).toBe(true);
+    expect(mm.has(2)).toBe(false);
+  });
+
+  it('@example [TreeMultiMap.delete] Remove a key and all its values', () => {
+    const mm = new TreeMultiMap<number, string>([
+      [1, ['a', 'b']],
+      [2, ['c']],
+      [3, ['d']]
+    ]);
+
+    mm.delete(2);
+    expect(mm.has(2)).toBe(false);
+    expect(mm.size).toBe(2);
+  });
+
+  it('@example [TreeMultiMap.first] Access the minimum entry', () => {
+    const mm = new TreeMultiMap<number, string>([
+      [5, ['e']],
+      [1, ['a']],
+      [3, ['c']]
+    ]);
+
+    expect(mm.first()).toEqual([1, ['a']]);
+  });
+
+  it('@example [TreeMultiMap.last] Access the maximum entry', () => {
+    const mm = new TreeMultiMap<number, string>([
+      [5, ['e']],
+      [1, ['a']],
+      [3, ['c']]
+    ]);
+
+    expect(mm.last()).toEqual([5, ['e']]);
+  });
+
+  it('@example [TreeMultiMap.ceiling] Least entry ≥ key', () => {
+    const mm = new TreeMultiMap<number, string>([
+      [10, ['a']],
+      [20, ['b']],
+      [30, ['c']]
+    ]);
+
+    expect(mm.ceiling(15)).toEqual([20, ['b']]);
+    expect(mm.ceiling(20)).toEqual([20, ['b']]);
+  });
+
+  it('@example [TreeMultiMap.floor] Greatest entry ≤ key', () => {
+    const mm = new TreeMultiMap<number, string>([
+      [10, ['a']],
+      [20, ['b']],
+      [30, ['c']]
+    ]);
+
+    expect(mm.floor(25)).toEqual([20, ['b']]);
+    expect(mm.floor(5)).toBeUndefined();
+  });
+});
+
 describe('TreeMultiMap (Simplified API)', () => {
   describe('Core methods', () => {
     it('constructor initializes empty map', () => {

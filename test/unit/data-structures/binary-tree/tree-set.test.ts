@@ -75,6 +75,65 @@ describe('classic use', () => {
     expect(blocklist.has(167772416)).toBe(true);
     expect(blocklist.has(167772800)).toBe(false);
   });
+
+  it('@example [TreeSet.has] Checking membership in a sorted collection', () => {
+    const allowed = new TreeSet<string>(['admin', 'editor', 'viewer']);
+
+    expect(allowed.has('admin')).toBe(true);
+    expect(allowed.has('guest')).toBe(false);
+  });
+
+  it('@example [TreeSet.delete] Removing elements while maintaining order', () => {
+    const nums = new TreeSet<number>([1, 3, 5, 7, 9]);
+
+    expect(nums.delete(5)).toBe(true);
+    expect(nums.delete(5)).toBe(false); // already gone
+    expect([...nums]).toEqual([1, 3, 7, 9]);
+  });
+
+  it('@example [TreeSet.last] Get the maximum element', () => {
+    const temps = new TreeSet<number>([18, 22, 15, 30, 25]);
+    expect(temps.last()).toBe(30);
+    expect(temps.first()).toBe(15);
+  });
+
+  it('@example [TreeSet.floor] Largest element ≤ target', () => {
+    const breakpoints = new TreeSet<number>([320, 768, 1024, 1280, 1920]);
+
+    // Current width is 800 → which breakpoint applies?
+    expect(breakpoints.floor(800)).toBe(768);
+    expect(breakpoints.floor(1024)).toBe(1024); // exact match
+    expect(breakpoints.floor(100)).toBeUndefined(); // below all
+  });
+
+  it('@example [TreeSet.higher] Smallest element strictly > target', () => {
+    const levels = new TreeSet<number>([1, 5, 10, 25, 50, 100]);
+
+    expect(levels.higher(10)).toBe(25);
+    expect(levels.higher(100)).toBeUndefined();
+  });
+
+  it('@example [TreeSet.lower] Largest element strictly < target', () => {
+    const tiers = new TreeSet<number>([100, 200, 500, 1000]);
+
+    expect(tiers.lower(500)).toBe(200);
+    expect(tiers.lower(100)).toBeUndefined();
+  });
+
+  it('@example [TreeSet.pollFirst] Remove and return minimum', () => {
+    const queue = new TreeSet<number>([5, 1, 8, 3]);
+
+    expect(queue.pollFirst()).toBe(1);
+    expect(queue.pollFirst()).toBe(3);
+    expect(queue.size).toBe(2);
+  });
+
+  it('@example [TreeSet.pollLast] Remove and return maximum', () => {
+    const stack = new TreeSet<number>([10, 20, 30]);
+
+    expect(stack.pollLast()).toBe(30);
+    expect(stack.size).toBe(2);
+  });
 });
 
 describe('TreeSet (RedBlackTree-backed, no node exposure)', () => {

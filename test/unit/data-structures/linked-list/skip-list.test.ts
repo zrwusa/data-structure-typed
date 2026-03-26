@@ -51,6 +51,40 @@ describe('classic use', () => {
     const range = index.rangeSearch([20, 60]);
     expect(range.map(([, p]) => p!.name)).toEqual(['Widget', 'Gadget']);
   });
+
+  it('@example [SkipList.has] Check key existence', () => {
+    const sl = new SkipList<number, string>([[1, 'a'], [3, 'c'], [5, 'e']]);
+    expect(sl.has(3)).toBe(true);
+    expect(sl.has(4)).toBe(false);
+  });
+
+  it('@example [SkipList.first] Access the minimum entry', () => {
+    const sl = new SkipList<number, string>([[5, 'e'], [1, 'a'], [3, 'c']]);
+    expect(sl.first()).toEqual([1, 'a']);
+  });
+
+  it('@example [SkipList.last] Access the maximum entry', () => {
+    const sl = new SkipList<number, string>([[5, 'e'], [1, 'a'], [3, 'c']]);
+    expect(sl.last()).toEqual([5, 'e']);
+  });
+
+  it('@example [SkipList.ceiling] Least entry ≥ key', () => {
+    const sl = new SkipList<number, string>([[10, 'a'], [20, 'b'], [30, 'c']]);
+    expect(sl.ceiling(15)).toEqual([20, 'b']);
+    expect(sl.ceiling(20)).toEqual([20, 'b']);
+  });
+
+  it('@example [SkipList.floor] Greatest entry ≤ key', () => {
+    const sl = new SkipList<number, string>([[10, 'a'], [20, 'b'], [30, 'c']]);
+    expect(sl.floor(25)).toEqual([20, 'b']);
+    expect(sl.floor(5)).toBeUndefined();
+  });
+
+  it('@example [SkipList.rangeSearch] Find entries in a range', () => {
+    const sl = new SkipList<number, string>([[1, 'a'], [2, 'b'], [3, 'c'], [4, 'd'], [5, 'e']]);
+    const result = sl.rangeSearch([2, 4]);
+    expect(result).toEqual([[2, 'b'], [3, 'c'], [4, 'd']]);
+  });
 });
 
 describe('SkipList core CRUD', () => {

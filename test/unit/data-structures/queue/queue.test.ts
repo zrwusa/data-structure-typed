@@ -700,4 +700,23 @@ describe('classic uses', () => {
     // Queue should be empty after processing all messages
     expect(messageQueue.length).toBe(0);
   });
+
+  it('@example [Queue.first] View the front element', () => {
+    const q = new Queue<string>(['first', 'second', 'third']);
+    expect(q.first).toBe('first');
+    expect(q.length).toBe(3);
+  });
+
+  it('@example [Queue.toArray] Convert queue to array', () => {
+    const q = new Queue<number>([10, 20, 30]);
+    expect(q.toArray()).toEqual([10, 20, 30]);
+  });
+
+  it('@example [Queue.length] Track queue length', () => {
+    const q = new Queue<number>();
+    expect(q.length).toBe(0);
+    q.push(1);
+    q.push(2);
+    expect(q.length).toBe(2);
+  });
 });

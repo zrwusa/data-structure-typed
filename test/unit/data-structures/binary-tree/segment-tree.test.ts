@@ -66,6 +66,31 @@ describe('SegmentTreeNode (deprecated, backward compat)', () => {
   });
 });
 
+describe('classic use (method-level)', () => {
+  it('@example [SegmentTree.get] Point access on segment tree', () => {
+    const st = SegmentTree.sum([10, 20, 30, 40]);
+    expect(st.get(0)).toBe(10);
+    expect(st.get(2)).toBe(30);
+  });
+
+  it('@example [SegmentTree.maxRight] Find rightmost position where predicate holds', () => {
+    // Prefix sums: find the rightmost index where prefix sum < 10
+    const st = SegmentTree.sum([3, 1, 4, 1, 5]);
+    // maxRight(0, sum => sum < 10) — prefix [3,4,8,9,14]
+    // sum < 10 holds through index 3 (prefix=9), fails at 4 (prefix=14)
+    const result = st.maxRight(0, sum => sum < 10);
+    expect(result).toBe(3); // rightmost index where prefix sum < 10
+  });
+
+  it('@example [SegmentTree.minLeft] Find leftmost position where predicate holds', () => {
+    const st = SegmentTree.sum([3, 1, 4, 1, 5]);
+    // minLeft(5, sum => sum < 7) — suffix sums from right
+    // From right: [5]=5 < 7, [1,5]=6 < 7, [4,1,5]=10 ≥ 7
+    const result = st.minLeft(5, sum => sum < 7);
+    expect(result).toBe(3); // leftmost position where suffix sum < 7
+  });
+});
+
 describe('SegmentTree sum', () => {
   it('should build from array and query correctly', () => {
     const tree = SegmentTree.sum([1, 2, 3, 4]);

@@ -435,4 +435,22 @@ describe('classic uses', () => {
     });
     expect(nextGreater).toEqual([5, 25, 25, -1]);
   });
+
+  it('@example [Stack.peek] View the top element without removing it', () => {
+    const stack = new Stack<string>(['a', 'b', 'c']);
+    expect(stack.peek()).toBe('c');
+    expect(stack.size).toBe(3); // unchanged
+  });
+
+  it('@example [Stack.isEmpty] Check if stack has elements', () => {
+    const stack = new Stack<number>();
+    expect(stack.isEmpty()).toBe(true);
+    stack.push(1);
+    expect(stack.isEmpty()).toBe(false);
+  });
+
+  it('@example [Stack.toArray] Convert stack to array', () => {
+    const stack = new Stack<number>([1, 2, 3]);
+    expect(stack.toArray()).toEqual([1, 2, 3]);
+  });
 });

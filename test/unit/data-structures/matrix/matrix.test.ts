@@ -83,6 +83,40 @@ describe('classic use', () => {
     // Out of bounds returns undefined
     expect(m.get(5, 5)).toBeUndefined();
   });
+
+  it('@example [Matrix.set] Modify individual cells', () => {
+    const m = Matrix.zeros(2, 2);
+    expect(m.set(0, 0, 5)).toBe(true);
+    expect(m.set(1, 1, 10)).toBe(true);
+    expect(m.get(0, 0)).toBe(5);
+    expect(m.get(1, 1)).toBe(10);
+  });
+
+  it('@example [Matrix.subtract] Element-wise subtraction', () => {
+    const a = Matrix.from([[5, 6], [7, 8]]);
+    const b = Matrix.from([[1, 2], [3, 4]]);
+    const result = a.subtract(b);
+    expect(result?.toArray()).toEqual([[4, 4], [4, 4]]);
+  });
+
+  it('@example [Matrix.dot] Dot product of two matrices', () => {
+    const a = Matrix.from([[1, 2], [3, 4]]);
+    const b = Matrix.from([[5, 6], [7, 8]]);
+    const result = a.dot(b);
+    expect(result?.toArray()).toEqual([[19, 22], [43, 50]]);
+  });
+
+  it('@example [Matrix.inverse] Compute the inverse of a 2x2 matrix', () => {
+    const m = Matrix.from([[4, 7], [2, 6]]);
+    const inv = m.inverse();
+    expect(inv).toBeDefined();
+    // A * A^-1 should ≈ Identity
+    const product = m.multiply(inv!);
+    expect(product?.get(0, 0)).toBeCloseTo(1, 5);
+    expect(product?.get(0, 1)).toBeCloseTo(0, 5);
+    expect(product?.get(1, 0)).toBeCloseTo(0, 5);
+    expect(product?.get(1, 1)).toBeCloseTo(1, 5);
+  });
 });
 
 describe('Matrix', () => {

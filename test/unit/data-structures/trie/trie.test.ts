@@ -1178,4 +1178,26 @@ describe('classic use', () => {
     // Test with non-matching prefix
     expect(autocomplete.getWords('xyz')).toEqual([]);
   });
+
+  it('@example [Trie.has] Check if a word exists', () => {
+    const dict = new Trie(['apple', 'app', 'application']);
+
+    expect(dict.has('app')).toBe(true);
+    expect(dict.has('apple')).toBe(true);
+    expect(dict.has('ap')).toBe(false); // prefix only, not a word
+  });
+
+  it('@example [Trie.hasPrefix] Check if a prefix exists', () => {
+    const trie = new Trie(['hello', 'help', 'world']);
+
+    expect(trie.hasPrefix('hel')).toBe(true);
+    expect(trie.hasPrefix('wor')).toBe(true);
+    expect(trie.hasPrefix('xyz')).toBe(false);
+  });
+
+  it('@example [Trie.getLongestCommonPrefix] Find shared prefix', () => {
+    const trie = new Trie(['flower', 'flow', 'flight']);
+
+    expect(trie.getLongestCommonPrefix()).toBe('fl');
+  });
 });

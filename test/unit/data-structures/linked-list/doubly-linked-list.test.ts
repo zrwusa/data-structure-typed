@@ -1147,4 +1147,46 @@ describe('classic use', () => {
     scheduler.clear();
     expect(scheduler.listProcesses()).toEqual([]);
   });
+
+  it('@example [DoublyLinkedList.shift] Remove from the front', () => {
+    const list = new DoublyLinkedList<number>([10, 20, 30]);
+    expect(list.shift()).toBe(10);
+    expect(list.first).toBe(20);
+  });
+
+  it('@example [DoublyLinkedList.unshift] Add to the front', () => {
+    const list = new DoublyLinkedList<number>([2, 3]);
+    list.unshift(1);
+    expect([...list]).toEqual([1, 2, 3]);
+  });
+
+  it('@example [DoublyLinkedList.at] Access by index', () => {
+    const list = new DoublyLinkedList<string>(['a', 'b', 'c']);
+    expect(list.at(1)).toBe('b');
+    expect(list.at(2)).toBe('c');
+  });
+
+  it('@example [DoublyLinkedList.reverse] Reverse in-place', () => {
+    const list = new DoublyLinkedList<number>([1, 2, 3]);
+    list.reverse();
+    expect([...list]).toEqual([3, 2, 1]);
+  });
+
+  it('@example [DoublyLinkedList.find] Find first matching element', () => {
+    const list = new DoublyLinkedList<number>([5, 10, 15, 20]);
+    expect(list.find(n => n >= 12)).toBe(15);
+  });
+
+  it('@example [DoublyLinkedList.filter] Filter elements', () => {
+    const list = new DoublyLinkedList<number>([1, 2, 3, 4, 5]);
+    const evens = list.filter(n => n % 2 === 0);
+    expect([...evens]).toEqual([2, 4]);
+  });
+
+  it('@example [DoublyLinkedList.forEach] Iterate over elements', () => {
+    const list = new DoublyLinkedList<number>([1, 2, 3]);
+    const sum: number[] = [];
+    list.forEach(n => sum.push(n));
+    expect(sum).toEqual([1, 2, 3]);
+  });
 });

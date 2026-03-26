@@ -757,4 +757,27 @@ describe('classic use', () => {
     ];
     expect(mergeSortedSequences(sequences)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
   });
+
+  it('@example [Heap.toArray] Get all elements as array', () => {
+    const heap = new Heap<number>([5, 1, 3, 2, 4]);
+    const arr = heap.toArray();
+    expect(arr.length).toBe(5);
+    expect(arr.sort()).toEqual([1, 2, 3, 4, 5]);
+  });
+
+  it('@example [Heap.sort] Sort elements using heap', () => {
+    const heap = new Heap<number>([5, 1, 3, 2, 4]);
+    const sorted = heap.sort();
+    expect(sorted).toEqual([1, 2, 3, 4, 5]);
+  });
+
+  it('@example [Heap.size] Track heap capacity', () => {
+    const heap = new Heap<number>();
+    expect(heap.size).toBe(0);
+    heap.add(10);
+    heap.add(20);
+    expect(heap.size).toBe(2);
+    heap.poll();
+    expect(heap.size).toBe(1);
+  });
 });
