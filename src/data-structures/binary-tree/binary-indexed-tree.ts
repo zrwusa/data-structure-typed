@@ -71,6 +71,18 @@ export class BinaryIndexedTree implements Iterable<number> {
   /**
    * Point set: set the value at index to an absolute value (0-based).
    * Time: O(log n)
+   
+   * @example
+   * ```ts
+   * const bit = new BinaryIndexedTree([10, 20, 30, 40, 50]);
+   * bit.get(2); // 30
+   * bit.query(2); // 60
+   * bit.query(4); // 150
+   * // Increment index 1 by 5
+   * bit.update(1, 5);
+   * bit.get(1); // 25
+   * bit.query(2); // 65
+   * ```
    */
   set(index: number, value: number): void {
     this._checkIndex(index);
@@ -95,6 +107,24 @@ export class BinaryIndexedTree implements Iterable<number> {
   /**
    * Prefix sum query: returns sum of elements [0..index] (inclusive, 0-based).
    * Time: O(log n)
+   
+   * @example
+   * ```ts
+   * // 6-element BIT: index 0..5
+   * const bit = new BinaryIndexedTree(6);
+   * bit.update(0, 3);
+   * bit.update(1, 2);
+   * bit.update(2, 7);
+   * bit.update(3, 1);
+   * bit.update(4, 5);
+   * bit.update(5, 4);
+   * // Prefix sum [0..2] = 3+2+7 = 12
+   * bit.query(2); // 12
+   * // Range sum [1..3] = 2+7+1 = 10
+   * bit.queryRange(1, 3); // 10
+   * // Point value at index 2
+   * bit.get(2); // 7
+   * ```
    */
   query(index: number): number {
     this._checkIndex(index);
@@ -125,6 +155,23 @@ export class BinaryIndexedTree implements Iterable<number> {
    * Requires all values to be non-negative (behavior undefined otherwise).
    * Returns size if no such index exists.
    * Time: O(log n)
+   
+   * @example
+   * ```ts
+   * // Track frequency of scores (0-4 scale, 5 possible values)
+   * const freq = new BinaryIndexedTree(5);
+   * // Record ratings: 2,0,3,0,4,1
+   * for (const rating of [2, 0, 3, 0, 4, 1]) {
+   *   freq.update(rating, 1);
+   * }
+   * // How many ratings are ≤ 2? (prefix sum [0..2])
+   * freq.query(2); // 4
+   * // How many ratings are exactly 0?
+   * freq.get(0); // 2
+   * // Find rating where cumulative count first reaches 3
+   * // freq=[2,1,1,1,1], prefix=[2,3,...] → prefix[1]=3 >= 3
+   * freq.lowerBound(3); // 1
+   * ```
    */
   lowerBound(sum: number): number {
     let pos = 0;

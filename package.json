@@ -46,7 +46,7 @@
     "build:leetcode": "tsup --config tsup.leetcode.config.js",
     "build:docs": "npm run gen:examples && npm run generate:schema && typedoc --out docs/api ./src",
     "build:docs-class": "npm run gen:examples && typedoc --out docs/api ./src/data-structures",
-    "gen:examples": "ts-node scripts/test-to-example.ts",
+    "gen:examples": "ts-node scripts/test-to-example.ts && node scripts/sync-examples.mjs",
     "test:in-band": "jest --runInBand",
     "test": "npm run test:in-band",
     "test:integration": "npm run update:subs && jest --config jest.integration.config.js && tsc test/integration/compile.test.ts && node test/integration/compile.mjs",
@@ -75,7 +75,8 @@
     "publish:subs": "npm run copy:to-subs && sh scripts/publish_all_subs.sh",
     "publish:docs": "sh scripts/publish_docs.sh",
     "publish:all": "npm run ci && npm publish && npm run publish:docs && npm run check:exist-latest && npm run publish:subs",
-    "generate:schema": "ts-node scripts/generate-schema.ts"
+    "generate:schema": "ts-node scripts/generate-schema.ts",
+    "sync:examples": "node scripts/sync-examples.mjs"
   },
   "repository": {
     "type": "git",

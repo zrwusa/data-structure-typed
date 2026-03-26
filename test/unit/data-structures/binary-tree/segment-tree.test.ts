@@ -1,7 +1,7 @@
 import { SegmentTree, SegmentTreeNode } from '../../../../src';
 
 describe('classic use', () => {
-  it('@example Range sum query on an array', () => {
+  it('@example [SegmentTree.query] Range sum query on an array', () => {
     const tree = SegmentTree.sum([1, 3, 5, 7, 9, 11]);
 
     // Query sum of range [1, 3] → 3 + 5 + 7 = 15
@@ -14,7 +14,7 @@ describe('classic use', () => {
     expect(tree.query(2, 2)).toBe(5);
   });
 
-  it('@example Dynamic range sum with updates', () => {
+  it('@example [SegmentTree.update] Dynamic range sum with updates', () => {
     // Monthly revenue data (in thousands)
     const revenue = [120, 95, 140, 110, 85, 130, 150, 100, 160, 125, 90, 175];
     const tree = SegmentTree.sum(revenue);
@@ -32,7 +32,7 @@ describe('classic use', () => {
     expect(tree.query(0, 5)).toBe(740);
   });
 
-  it('@example Temperature monitoring with range queries', () => {
+  it('@example [SegmentTree.min] Temperature monitoring with range queries', () => {
     // Hourly temperatures for a day (24 readings)
     const temps = [18, 17, 16, 15, 16, 18, 21, 24, 27, 29, 31, 32, 33, 32, 31, 29, 27, 25, 23, 21, 20, 19, 18, 17];
     const tree = SegmentTree.sum(temps);

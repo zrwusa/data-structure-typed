@@ -1,7 +1,7 @@
 import { BinaryIndexedTree } from '../../../../src';
 
 describe('classic use', () => {
-  it('@example Prefix sum queries and point updates', () => {
+  it('@example [BinaryIndexedTree.query] Prefix sum queries and point updates', () => {
     // 6-element BIT: index 0..5
     const bit = new BinaryIndexedTree(6);
 
@@ -20,7 +20,7 @@ describe('classic use', () => {
     expect(bit.get(2)).toBe(7);
   });
 
-  it('@example Counting frequency of ratings', () => {
+  it('@example [BinaryIndexedTree.lowerBound] Counting frequency of ratings', () => {
     // Track frequency of scores (0-4 scale, 5 possible values)
     const freq = new BinaryIndexedTree(5);
 
@@ -40,7 +40,7 @@ describe('classic use', () => {
     expect(freq.lowerBound(3)).toBe(1);
   });
 
-  it('@example Building from array', () => {
+  it('@example [BinaryIndexedTree.set] Building from array', () => {
     const bit = new BinaryIndexedTree([10, 20, 30, 40, 50]);
 
     expect(bit.get(2)).toBe(30);
