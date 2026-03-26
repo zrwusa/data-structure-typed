@@ -6,8 +6,9 @@
  * @license MIT License
  */
 
-import type { Comparator } from '../../types';
+import type { Comparator, EntryCallback, ReduceEntryCallback } from '../../types';
 import { ERR } from '../../common';
+import { IterableEntryBase } from '../base';
 
 export class SkipListNode<K, V> {
   key: K;
@@ -33,15 +34,6 @@ export type SkipListRangeOptions = {
   highInclusive?: boolean;
 };
 
-export type SkipListEntryCallback<K, V, R, SELF> = (value: V | undefined, key: K, index: number, map: SELF) => R;
-
-export type SkipListReduceCallback<K, V, A, SELF> = (
-  acc: A,
-  value: V | undefined,
-  key: K,
-  index: number,
-  map: SELF
-) => A;
 
 /**
  * SkipList — a probabilistic sorted key-value container.
@@ -59,7 +51,7 @@ export type SkipListReduceCallback<K, V, A, SELF> = (
  * for (const [k, v] of sl) console.log(k, v);  // 1 a, 2 b, 3 c, 4 d
  * ```
  */
-export class SkipList<K = any, V = any, R = [K, V]> implements Iterable<[K, V | undefined]> {
+export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, V | undefined> {
   readonly #comparator: Comparator<K>;
   readonly #isDefaultComparator: boolean;
 
@@ -67,6 +59,7 @@ export class SkipList<K = any, V = any, R = [K, V]> implements Iterable<[K, V | 
     entries: Iterable<R> | Iterable<[K, V | undefined]> = [],
     options: SkipListOptions<K, V, R> = {}
   ) {
+    super();
     const { comparator, toEntryFn, maxLevel, probability } = options;
 
     if (typeof maxLevel === 'number' && maxLevel > 0) this._maxLevel = maxLevel;
@@ -157,12 +150,12 @@ export class SkipList<K = any, V = any, R = [K, V]> implements Iterable<[K, V | 
     this._size = 0;
   }
 
-  clone(): SkipList<K, V> {
-    return new SkipList<K, V>(this, {
+  clone(): this {
+    return new SkipList<K, V, R>(this as Iterable<[K, V | undefined]>, {
       comparator: this.#isDefaultComparator ? undefined : this.#comparator,
       maxLevel: this._maxLevel,
       probability: this._probability
-    });
+    }) as this;
   }
 
   // ─── Core CRUD ───────────────────────────────────────────────
@@ -203,16 +196,18 @@ export class SkipList<K = any, V = any, R = [K, V]> implements Iterable<[K, V | 
 
   /**
    * Get the value for a key, or `undefined` if not found.
+   * Overrides base O(n) with O(log n) skip-list search.
    */
-  get(key: K): V | undefined {
+  override get(key: K): V | undefined {
     const node = this._findNode(key);
     return node ? node.value : undefined;
   }
 
   /**
    * Check if a key exists.
+   * Overrides base O(n) with O(log n) skip-list search.
    */
-  has(key: K): boolean {
+  override has(key: K): boolean {
     return this._findNode(key) !== undefined;
   }
 
@@ -383,44 +378,13 @@ export class SkipList<K = any, V = any, R = [K, V]> implements Iterable<[K, V | 
     return out;
   }
 
-  // ─── Iteration ───────────────────────────────────────────────
+  // ─── Functional (overrides) ──────────────────────────────────
 
-  [Symbol.iterator](): IterableIterator<[K, V | undefined]> {
-    return this.entries();
-  }
-
-  *keys(): IterableIterator<K> {
-    let node = this._head.forward[0];
-    while (node) {
-      yield node.key;
-      node = node.forward[0];
-    }
-  }
-
-  *values(): IterableIterator<V | undefined> {
-    let node = this._head.forward[0];
-    while (node) {
-      yield node.value;
-      node = node.forward[0];
-    }
-  }
-
-  *entries(): IterableIterator<[K, V | undefined]> {
-    let node = this._head.forward[0];
-    while (node) {
-      yield [node.key, node.value];
-      node = node.forward[0];
-    }
-  }
-
-  forEach(cb: (value: V | undefined, key: K, map: SkipList<K, V, R>) => void, thisArg?: any): void {
-    for (const [k, v] of this) cb.call(thisArg, v, k, this);
-  }
-
-  // ─── Functional ──────────────────────────────────────────────
-
+  /**
+   * Creates a new SkipList with entries transformed by callback.
+   */
   map<MK, MV>(
-    callback: SkipListEntryCallback<K, V, [MK, MV], SkipList<K, V, R>>,
+    callback: EntryCallback<K, V | undefined, [MK, MV]>,
     options?: SkipListOptions<MK, MV>
   ): SkipList<MK, MV> {
     const out = new SkipList<MK, MV>([], options ?? {});
@@ -432,11 +396,14 @@ export class SkipList<K = any, V = any, R = [K, V]> implements Iterable<[K, V | 
     return out;
   }
 
+  /**
+   * Creates a new SkipList with entries that pass the predicate.
+   */
   filter(
-    callbackfn: SkipListEntryCallback<K, V, boolean, SkipList<K, V, R>>,
+    callbackfn: EntryCallback<K, V | undefined, boolean>,
     thisArg?: unknown
-  ): SkipList<K, V> {
-    const out = new SkipList<K, V>([], {
+  ): this {
+    const out = new SkipList<K, V, R>([], {
       comparator: this.#isDefaultComparator ? undefined : this.#comparator,
       maxLevel: this._maxLevel,
       probability: this._probability
@@ -446,63 +413,20 @@ export class SkipList<K = any, V = any, R = [K, V]> implements Iterable<[K, V | 
       const ok = callbackfn.call(thisArg, v, k, i++, this);
       if (ok) out.set(k, v as V);
     }
-    return out;
+    return out as this;
   }
 
-  reduce<A>(
-    callbackfn: SkipListReduceCallback<K, V, A, SkipList<K, V, R>>,
-    initialValue: A
-  ): A {
-    let acc = initialValue;
-    let i = 0;
-    for (const [k, v] of this) acc = callbackfn(acc, v, k, i++, this);
-    return acc;
-  }
+  // ─── Iterator (required by IterableEntryBase) ────────────────
 
-  every(
-    callbackfn: SkipListEntryCallback<K, V, boolean, SkipList<K, V, R>>,
-    thisArg?: unknown
-  ): boolean {
-    let i = 0;
-    for (const [k, v] of this) {
-      const ok = callbackfn.call(thisArg, v, k, i++, this);
-      if (!ok) return false;
-    }
-    return true;
-  }
-
-  some(
-    callbackfn: SkipListEntryCallback<K, V, boolean, SkipList<K, V, R>>,
-    thisArg?: unknown
-  ): boolean {
-    let i = 0;
-    for (const [k, v] of this) {
-      const ok = callbackfn.call(thisArg, v, k, i++, this);
-      if (ok) return true;
-    }
-    return false;
-  }
-
-  find(
-    callbackfn: SkipListEntryCallback<K, V, boolean, SkipList<K, V, R>>,
-    thisArg?: unknown
-  ): [K, V | undefined] | undefined {
-    let i = 0;
-    for (const [k, v] of this) {
-      const ok = callbackfn.call(thisArg, v, k, i++, this);
-      if (ok) return [k, v];
-    }
-    return undefined;
-  }
-
-  // ─── Conversion ──────────────────────────────────────────────
-
-  toArray(): Array<[K, V | undefined]> {
-    return [...this];
-  }
-
-  print(): void {
-    console.log([...this]);
+  protected _getIterator(): IterableIterator<[K, V | undefined]> {
+    const head = this._head;
+    return (function* () {
+      let node = head.forward[0];
+      while (node) {
+        yield [node.key, node.value] as [K, V | undefined];
+        node = node.forward[0];
+      }
+    })();
   }
 
   // ─── Internal helpers ────────────────────────────────────────
