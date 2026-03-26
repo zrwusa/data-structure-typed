@@ -505,6 +505,12 @@ export class Matrix {
     });
   }
 
+  print(): void {
+    for (const row of this._data) {
+      console.log(row.join('\t'));
+    }
+  }
+
   // ─── Factory methods ────────────────────────────────────────
 
   /**
