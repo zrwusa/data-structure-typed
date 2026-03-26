@@ -1,7 +1,7 @@
 import { SkipList } from '../../../../src';
 
 describe('classic use', () => {
-  it('@example In-memory sorted key-value store', () => {
+  it('@example [SkipList.set] In-memory sorted key-value store', () => {
     const store = new SkipList<number, string>();
 
     store.set(3, 'three');
@@ -18,7 +18,7 @@ describe('classic use', () => {
     expect(store.get(3)).toBe('THREE');
   });
 
-  it('@example Fast lookup with deletion', () => {
+  it('@example [SkipList.delete] Fast lookup with deletion', () => {
     const cache = new SkipList<string, number>();
 
     cache.set('alpha', 1);
@@ -31,7 +31,7 @@ describe('classic use', () => {
     expect(cache.size).toBe(2);
   });
 
-  it('@example Building a sorted index', () => {
+  it('@example [SkipList.get] Building a sorted index', () => {
     type Product = { id: number; name: string; price: number };
     const products: Product[] = [
       { id: 1, name: 'Widget', price: 25 },

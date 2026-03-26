@@ -197,6 +197,17 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
   /**
    * Add a key to the set (no-op if already present).
    * @remarks Expected time O(log n)
+    * @example
+ * // Unique tags with sorted order
+ *  const tags = new TreeSet<string>(['javascript', 'typescript', 'react', 'typescript', 'node']);
+ *
+ *     // Duplicates removed, sorted alphabetically
+ *     console.log([...tags]); // ['javascript', 'node', 'react', 'typescript'];
+ *     console.log(tags.size); // 4;
+ *
+ *     tags.add('angular');
+ *     console.log(tags.first()); // 'angular';
+ *     console.log(tags.last()); // 'typescript';
    */
   add(key: K): this {
     this._validateKey(key);
@@ -385,6 +396,33 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Smallest key in the set.
+    * @example
+ * // Student grade ranking with custom comparator
+ *  interface Student {
+ *       name: string;
+ *       gpa: number;
+ *     }
+ *
+ *     const ranking = new TreeSet<Student>(
+ *       [
+ *         { name: 'Alice', gpa: 3.8 },
+ *         { name: 'Bob', gpa: 3.5 },
+ *         { name: 'Charlie', gpa: 3.9 },
+ *         { name: 'Diana', gpa: 3.5 }
+ *       ],
+ *       { comparator: (a, b) => b.gpa - a.gpa || a.name.localeCompare(b.name) }
+ *     );
+ *
+ *     // Sorted by GPA descending, then name ascending
+ *     const names = [...ranking].map(s => s.name);
+ *     console.log(names); // ['Charlie', 'Alice', 'Bob', 'Diana'];
+ *
+ *     // Top student
+ *     console.log(ranking.first()?.name); // 'Charlie';
+ *
+ *     // Filter students with GPA >= 3.8
+ *     const honors = ranking.filter(s => s.gpa >= 3.8);
+ *     console.log(honors.toArray().map(s => s.name)); // ['Charlie', 'Alice'];
    */
   first(): K | undefined {
     return this.#core.getLeftMost();
@@ -419,6 +457,22 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
 
   /**
    * Smallest key that is >= the given key.
+    * @example
+ * // Finding nearest available time slot
+ *  // Available appointment times (minutes from midnight)
+ *     const slots = new TreeSet<number>([540, 600, 660, 720, 840, 900]);
+ *
+ *     // Customer wants something around 10:30 (630 min)
+ *     const nearest = slots.ceiling(630);
+ *     console.log(nearest); // 660; // 11:00 AM
+ *
+ *     // What's the latest slot before 2:00 PM (840)?
+ *     const before2pm = slots.lower(840);
+ *     console.log(before2pm); // 720; // 12:00 PM
+ *
+ *     // Book the 11:00 slot
+ *     slots.delete(660);
+ *     console.log(slots.ceiling(630)); // 720;
    */
   ceiling(key: K): K | undefined {
     this._validateKey(key);
@@ -454,6 +508,23 @@ export class TreeSet<K = any, R = K> implements Iterable<K> {
    *
    * @param range `[low, high]`
    * @param options Inclusive/exclusive bounds (defaults to inclusive).
+    * @example
+ * // IP address blocklist with range checking
+ *  // Simplified: use numeric IP representation
+ *     const blocklist = new TreeSet<number>([
+ *       167772160, // 10.0.0.0
+ *       167772416, // 10.0.1.0
+ *       167772672, // 10.0.2.0
+ *       167773184  // 10.0.4.0
+ *     ]);
+ *
+ *     // Check if any blocked IP is in range 10.0.1.0 - 10.0.3.0
+ *     const inRange = blocklist.rangeSearch([167772416, 167772928]);
+ *     console.log(inRange); // [167772416, 167772672];
+ *
+ *     // Quick membership check
+ *     console.log(blocklist.has(167772416)); // true;
+ *     console.log(blocklist.has(167772800)); // false;
    */
   rangeSearch(range: [K, K], options: TreeSetRangeOptions = {}): K[] {
     const { lowInclusive = true, highInclusive = true } = options;

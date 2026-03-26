@@ -63,71 +63,6 @@ export class SinglyLinkedListNode<E = any> extends LinkedListNode<E> {
  * 4. High Efficiency in Insertion and Deletion: Adding or removing elements in a linked list does not require moving other elements, making these operations more efficient than in arrays.
  * Caution: Although our linked list classes provide methods such as at, setAt, addAt, and indexOf that are based on array indices, their time complexity, like that of the native Array.lastIndexOf, is 𝑂(𝑛). If you need to use these methods frequently, you might want to consider other data structures, such as Deque or Queue (designed for random access). Similarly, since the native Array.shift method has a time complexity of 𝑂(𝑛), using an array to simulate a queue can be inefficient. In such cases, you should use Queue or Deque, as these data structures leverage deferred array rearrangement, effectively reducing the average time complexity to 𝑂(1).
  * @example
- * // basic SinglyLinkedList creation and push operation
- *  // Create a simple SinglyLinkedList with initial values
- *     const list = new SinglyLinkedList([1, 2, 3, 4, 5]);
- *
- *     // Verify the list maintains insertion order
- *     console.log([...list]); // [1, 2, 3, 4, 5];
- *
- *     // Check length
- *     console.log(list.length); // 5;
- *
- *     // Push a new element to the end
- *     list.push(6);
- *     console.log(list.length); // 6;
- *     console.log([...list]); // [1, 2, 3, 4, 5, 6];
- * @example
- * // SinglyLinkedList pop and shift operations
- *  const list = new SinglyLinkedList<number>([10, 20, 30, 40, 50]);
- *
- *     // Pop removes from the end
- *     const last = list.pop();
- *     console.log(last); // 50;
- *
- *     // Shift removes from the beginning
- *     const first = list.shift();
- *     console.log(first); // 10;
- *
- *     // Verify remaining elements
- *     console.log([...list]); // [20, 30, 40];
- *     console.log(list.length); // 3;
- * @example
- * // SinglyLinkedList unshift and forward traversal
- *  const list = new SinglyLinkedList<number>([20, 30, 40]);
- *
- *     // Unshift adds to the beginning
- *     list.unshift(10);
- *     console.log([...list]); // [10, 20, 30, 40];
- *
- *     // Access elements (forward traversal only for singly linked)
- *     const second = list.at(1);
- *     console.log(second); // 20;
- *
- *     // SinglyLinkedList allows forward iteration only
- *     const elements: number[] = [];
- *     for (const item of list) {
- *       elements.push(item);
- *     }
- *     console.log(elements); // [10, 20, 30, 40];
- *
- *     console.log(list.length); // 4;
- * @example
- * // SinglyLinkedList filter and map operations
- *  const list = new SinglyLinkedList<number>([1, 2, 3, 4, 5]);
- *
- *     // Filter even numbers
- *     const filtered = list.filter(value => value % 2 === 0);
- *     console.log(filtered.length); // 2;
- *
- *     // Map to double values
- *     const doubled = list.map(value => value * 2);
- *     console.log(doubled.length); // 5;
- *
- *     // Use reduce to sum
- *     const sum = list.reduce((acc, value) => acc + value, 0);
- *     console.log(sum); // 15;
- * @example
  * // SinglyLinkedList for sequentially processed data stream
  *  interface LogEntry {
  *       timestamp: number;
@@ -350,6 +285,21 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(1), Space O(1)
    * @param elementOrNode - Element or node to append.
    * @returns True when appended.
+    * @example
+ * // basic SinglyLinkedList creation and push operation
+ *  // Create a simple SinglyLinkedList with initial values
+ *     const list = new SinglyLinkedList([1, 2, 3, 4, 5]);
+ *
+ *     // Verify the list maintains insertion order
+ *     console.log([...list]); // [1, 2, 3, 4, 5];
+ *
+ *     // Check length
+ *     console.log(list.length); // 5;
+ *
+ *     // Push a new element to the end
+ *     list.push(6);
+ *     console.log(list.length); // 6;
+ *     console.log([...list]); // [1, 2, 3, 4, 5, 6];
    */
 
   push(elementOrNode: E | SinglyLinkedListNode<E>): boolean {
@@ -369,6 +319,21 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * Remove and return the tail element.
    * @remarks Time O(N), Space O(1)
    * @returns Removed element or undefined.
+    * @example
+ * // SinglyLinkedList pop and shift operations
+ *  const list = new SinglyLinkedList<number>([10, 20, 30, 40, 50]);
+ *
+ *     // Pop removes from the end
+ *     const last = list.pop();
+ *     console.log(last); // 50;
+ *
+ *     // Shift removes from the beginning
+ *     const first = list.shift();
+ *     console.log(first); // 10;
+ *
+ *     // Verify remaining elements
+ *     console.log([...list]); // [20, 30, 40];
+ *     console.log(list.length); // 3;
    */
 
   pop(): E | undefined {
@@ -409,6 +374,26 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @remarks Time O(1), Space O(1)
    * @param elementOrNode - Element or node to prepend.
    * @returns True when prepended.
+    * @example
+ * // SinglyLinkedList unshift and forward traversal
+ *  const list = new SinglyLinkedList<number>([20, 30, 40]);
+ *
+ *     // Unshift adds to the beginning
+ *     list.unshift(10);
+ *     console.log([...list]); // [10, 20, 30, 40];
+ *
+ *     // Access elements (forward traversal only for singly linked)
+ *     const second = list.at(1);
+ *     console.log(second); // 20;
+ *
+ *     // SinglyLinkedList allows forward iteration only
+ *     const elements: number[] = [];
+ *     for (const item of list) {
+ *       elements.push(item);
+ *     }
+ *     console.log(elements); // [10, 20, 30, 40];
+ *
+ *     console.log(list.length); // 4;
    */
 
   unshift(elementOrNode: E | SinglyLinkedListNode<E>): boolean {
@@ -841,6 +826,21 @@ export class SinglyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, S
    * @param callback - Predicate (value, index, list) → boolean to keep value.
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new list with kept values.
+    * @example
+ * // SinglyLinkedList filter and map operations
+ *  const list = new SinglyLinkedList<number>([1, 2, 3, 4, 5]);
+ *
+ *     // Filter even numbers
+ *     const filtered = list.filter(value => value % 2 === 0);
+ *     console.log(filtered.length); // 2;
+ *
+ *     // Map to double values
+ *     const doubled = list.map(value => value * 2);
+ *     console.log(doubled.length); // 5;
+ *
+ *     // Use reduce to sum
+ *     const sum = list.reduce((acc, value) => acc + value, 0);
+ *     console.log(sum); // 15;
    */
 
   filter(callback: ElementCallback<E, R, boolean>, thisArg?: any): this {

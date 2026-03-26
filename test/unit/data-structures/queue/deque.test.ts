@@ -813,7 +813,7 @@ describe('Deque', () => {
 });
 
 describe('classic uses', () => {
-  it('@example basic Deque creation and push/pop operations', () => {
+  it('@example [Deque.push] basic Deque creation and push/pop operations', () => {
     // Create a simple Deque with initial values
     const deque = new Deque([1, 2, 3, 4, 5]);
 
@@ -832,7 +832,7 @@ describe('classic uses', () => {
     expect(last).toBe(6);
   });
 
-  it('@example Deque shift and unshift operations', () => {
+  it('@example [Deque.unshift] Deque shift and unshift operations', () => {
     const deque = new Deque<number>([20, 30, 40]);
 
     // Unshift adds to the front
@@ -848,7 +848,7 @@ describe('classic uses', () => {
     expect(deque.length).toBe(3);
   });
 
-  it('@example Deque peek at both ends', () => {
+  it('@example [Deque.first] Deque peek at both ends', () => {
     const deque = new Deque<number>([10, 20, 30, 40, 50]);
 
     // Get first element without removing
@@ -863,7 +863,7 @@ describe('classic uses', () => {
     expect(deque.length).toBe(5);
   });
 
-  it('@example Deque for...of iteration and reverse', () => {
+  it('@example [Deque.reverse] Deque for...of iteration and reverse', () => {
     const deque = new Deque<string>(['A', 'B', 'C', 'D']);
 
     // Iterate forward

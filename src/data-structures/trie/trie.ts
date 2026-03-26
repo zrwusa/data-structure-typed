@@ -113,32 +113,6 @@ export class TrieNode {
  * 10. IP Routing: Used in certain types of IP routing algorithms.
  * 11. Text Word Frequency Count: Counting and storing the frequency of words in a large amount of text data.
  * @example
- * // basic Trie creation and add words
- *  // Create a simple Trie with initial words
- *     const trie = new Trie(['apple', 'app', 'apply']);
- *
- *     // Verify size
- *     console.log(trie.size); // 3;
- *
- *     // Check if words exist
- *     console.log(trie.has('apple')); // true;
- *     console.log(trie.has('app')); // true;
- *
- *     // Add a new word
- *     trie.add('application');
- *     console.log(trie.size); // 4;
- * @example
- * // Trie getWords and prefix search
- *  const trie = new Trie(['apple', 'app', 'apply', 'application', 'apricot']);
- *
- *     // Get all words with prefix 'app'
- *     const appWords = trie.getWords('app');
- *     console.log(appWords); // contains 'app';
- *     console.log(appWords); // contains 'apple';
- *     console.log(appWords); // contains 'apply';
- *     console.log(appWords); // contains 'application';
- *     expect(appWords).not.toContain('apricot');
- * @example
  * // Trie isPrefix and isAbsolutePrefix checks
  *  const trie = new Trie(['tree', 'trial', 'trick', 'trip', 'trie']);
  *
@@ -153,23 +127,6 @@ export class TrieNode {
  *
  *     // Verify size
  *     console.log(trie.size); // 5;
- * @example
- * // Trie delete and iteration
- *  const trie = new Trie(['car', 'card', 'care', 'careful', 'can', 'cat']);
- *
- *     // Delete a word
- *     trie.delete('card');
- *     console.log(trie.has('card')); // false;
- *
- *     // Word with same prefix still exists
- *     console.log(trie.has('care')); // true;
- *
- *     // Size decreased
- *     console.log(trie.size); // 5;
- *
- *     // Iterate through all words
- *     const allWords = [...trie];
- *     console.log(allWords.length); // 5;
  * @example
  * // Trie for autocomplete search index
  *  // Trie is perfect for autocomplete: O(m + k) where m is prefix length, k is results
@@ -327,6 +284,21 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @remarks Time O(L), Space O(L)
    * @param word - Word to insert.
    * @returns True if the word was newly added.
+    * @example
+ * // basic Trie creation and add words
+ *  // Create a simple Trie with initial words
+ *     const trie = new Trie(['apple', 'app', 'apply']);
+ *
+ *     // Verify size
+ *     console.log(trie.size); // 3;
+ *
+ *     // Check if words exist
+ *     console.log(trie.has('apple')); // true;
+ *     console.log(trie.has('app')); // true;
+ *
+ *     // Add a new word
+ *     trie.add('application');
+ *     console.log(trie.size); // 4;
    */
 
   add(word: string): boolean {
@@ -412,6 +384,23 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @remarks Time O(L), Space O(1)
    * @param word - Word to delete.
    * @returns True if a word was removed.
+    * @example
+ * // Trie delete and iteration
+ *  const trie = new Trie(['car', 'card', 'care', 'careful', 'can', 'cat']);
+ *
+ *     // Delete a word
+ *     trie.delete('card');
+ *     console.log(trie.has('card')); // false;
+ *
+ *     // Word with same prefix still exists
+ *     console.log(trie.has('care')); // true;
+ *
+ *     // Size decreased
+ *     console.log(trie.size); // 5;
+ *
+ *     // Iterate through all words
+ *     const allWords = [...trie];
+ *     console.log(allWords.length); // 5;
    */
 
   delete(word: string): boolean {
@@ -558,6 +547,17 @@ export class Trie<R = any> extends IterableElementBase<string, R> {
    * @param [max] - Maximum number of words to return; default is Number.MAX_SAFE_INTEGER.
    * @param [isAllWhenEmptyPrefix] - When true, collect from root even if prefix is empty.
    * @returns Array of collected words (at most max).
+    * @example
+ * // Trie getWords and prefix search
+ *  const trie = new Trie(['apple', 'app', 'apply', 'application', 'apricot']);
+ *
+ *     // Get all words with prefix 'app'
+ *     const appWords = trie.getWords('app');
+ *     console.log(appWords); // contains 'app';
+ *     console.log(appWords); // contains 'apple';
+ *     console.log(appWords); // contains 'apply';
+ *     console.log(appWords); // contains 'application';
+ *     expect(appWords).not.toContain('apricot');
    */
 
   getWords(prefix = '', max = Number.MAX_SAFE_INTEGER, isAllWhenEmptyPrefix = false): string[] {

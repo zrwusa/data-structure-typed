@@ -23,48 +23,6 @@ import { LinearBase } from '../base/linear-base';
  * 6. Breadth-First Search (BFS): In traversal algorithms for graphs and trees, queues store elements that are to be visited.
  * 7. Real-time Queuing: Like queuing systems in banks or supermarkets.
  * @example
- * // basic Queue creation and push operation
- *  // Create a simple Queue with initial values
- *     const queue = new Queue([1, 2, 3, 4, 5]);
- *
- *     // Verify the queue maintains insertion order
- *     console.log([...queue]); // [1, 2, 3, 4, 5];
- *
- *     // Check length
- *     console.log(queue.length); // 5;
- * @example
- * // Queue shift and peek operations
- *  const queue = new Queue<number>([10, 20, 30, 40]);
- *
- *     // Peek at the front element without removing it
- *     console.log(queue.first); // 10;
- *
- *     // Remove and get the first element (FIFO)
- *     const first = queue.shift();
- *     console.log(first); // 10;
- *
- *     // Verify remaining elements and length decreased
- *     console.log([...queue]); // [20, 30, 40];
- *     console.log(queue.length); // 3;
- * @example
- * // Queue for...of iteration and isEmpty check
- *  const queue = new Queue<string>(['A', 'B', 'C', 'D']);
- *
- *     const elements: string[] = [];
- *     for (const item of queue) {
- *       elements.push(item);
- *     }
- *
- *     // Verify all elements are iterated in order
- *     console.log(elements); // ['A', 'B', 'C', 'D'];
- *
- *     // Process all elements
- *     while (queue.length > 0) {
- *       queue.shift();
- *     }
- *
- *     console.log(queue.length); // 0;
- * @example
  * // Queue as message broker for event processing
  *  interface Message {
  *       id: string;
@@ -237,6 +195,24 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Check whether the queue is empty.
    * @remarks Time O(1), Space O(1)
    * @returns True if length is 0.
+    * @example
+ * // Queue for...of iteration and isEmpty check
+ *  const queue = new Queue<string>(['A', 'B', 'C', 'D']);
+ *
+ *     const elements: string[] = [];
+ *     for (const item of queue) {
+ *       elements.push(item);
+ *     }
+ *
+ *     // Verify all elements are iterated in order
+ *     console.log(elements); // ['A', 'B', 'C', 'D'];
+ *
+ *     // Process all elements
+ *     while (queue.length > 0) {
+ *       queue.shift();
+ *     }
+ *
+ *     console.log(queue.length); // 0;
    */
 
   isEmpty(): boolean {
@@ -248,6 +224,16 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @param element - Element to enqueue.
    * @returns True on success.
+    * @example
+ * // basic Queue creation and push operation
+ *  // Create a simple Queue with initial values
+ *     const queue = new Queue([1, 2, 3, 4, 5]);
+ *
+ *     // Verify the queue maintains insertion order
+ *     console.log([...queue]); // [1, 2, 3, 4, 5];
+ *
+ *     // Check length
+ *     console.log(queue.length); // 5;
    */
 
   push(element: E): boolean {
@@ -276,6 +262,20 @@ export class Queue<E = any, R = any> extends LinearBase<E, R> {
    * Dequeue one element from the front (amortized via offset).
    * @remarks Time O(1) amortized, Space O(1)
    * @returns Removed element or undefined.
+    * @example
+ * // Queue shift and peek operations
+ *  const queue = new Queue<number>([10, 20, 30, 40]);
+ *
+ *     // Peek at the front element without removing it
+ *     console.log(queue.first); // 10;
+ *
+ *     // Remove and get the first element (FIFO)
+ *     const first = queue.shift();
+ *     console.log(first); // 10;
+ *
+ *     // Verify remaining elements and length decreased
+ *     console.log([...queue]); // [20, 30, 40];
+ *     console.log(queue.length); // 3;
    */
 
   shift(): E | undefined {

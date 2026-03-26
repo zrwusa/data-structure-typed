@@ -87,50 +87,6 @@ export class DoublyLinkedListNode<E = any> extends LinkedListNode<E> {
  * 4. High Efficiency in Insertion and Deletion: Adding or removing elements in a linked list does not require moving other elements, making these operations more efficient than in arrays.
  * Caution: Although our linked list classes provide methods such as at, setAt, addAt, and indexOf that are based on array indices, their time complexity, like that of the native Array.lastIndexOf, is 𝑂(𝑛). If you need to use these methods frequently, you might want to consider other data structures, such as Deque or Queue (designed for random access). Similarly, since the native Array.shift method has a time complexity of 𝑂(𝑛), using an array to simulate a queue can be inefficient. In such cases, you should use Queue or Deque, as these data structures leverage deferred array rearrangement, effectively reducing the average time complexity to 𝑂(1).
  * @example
- * // basic DoublyLinkedList creation and push operation
- *  // Create a simple DoublyLinkedList with initial values
- *     const list = new DoublyLinkedList([1, 2, 3, 4, 5]);
- *
- *     // Verify the list maintains insertion order
- *     console.log([...list]); // [1, 2, 3, 4, 5];
- *
- *     // Check length
- *     console.log(list.length); // 5;
- *
- *     // Push a new element to the end
- *     list.push(6);
- *     console.log(list.length); // 6;
- *     console.log([...list]); // [1, 2, 3, 4, 5, 6];
- * @example
- * // DoublyLinkedList pop and shift operations
- *  const list = new DoublyLinkedList<number>([10, 20, 30, 40, 50]);
- *
- *     // Pop removes from the end
- *     const last = list.pop();
- *     console.log(last); // 50;
- *
- *     // Shift removes from the beginning
- *     const first = list.shift();
- *     console.log(first); // 10;
- *
- *     // Verify remaining elements
- *     console.log([...list]); // [20, 30, 40];
- *     console.log(list.length); // 3;
- * @example
- * // DoublyLinkedList for...of iteration and map operation
- *  const list = new DoublyLinkedList<number>([1, 2, 3, 4, 5]);
- *
- *     // Iterate through list
- *     const doubled = list.map(value => value * 2);
- *     console.log(doubled.length); // 5;
- *
- *     // Use for...of loop
- *     const result: number[] = [];
- *     for (const item of list) {
- *       result.push(item);
- *     }
- *     console.log(result); // [1, 2, 3, 4, 5];
- * @example
  * // Browser history
  *  const browserHistory = new DoublyLinkedList<string>();
  *
@@ -302,6 +258,21 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @remarks Time O(1), Space O(1)
    * @param elementOrNode - Element or node to append.
    * @returns True when appended.
+    * @example
+ * // basic DoublyLinkedList creation and push operation
+ *  // Create a simple DoublyLinkedList with initial values
+ *     const list = new DoublyLinkedList([1, 2, 3, 4, 5]);
+ *
+ *     // Verify the list maintains insertion order
+ *     console.log([...list]); // [1, 2, 3, 4, 5];
+ *
+ *     // Check length
+ *     console.log(list.length); // 5;
+ *
+ *     // Push a new element to the end
+ *     list.push(6);
+ *     console.log(list.length); // 6;
+ *     console.log([...list]); // [1, 2, 3, 4, 5, 6];
    */
 
   push(elementOrNode: E | DoublyLinkedListNode<E>): boolean {
@@ -323,6 +294,21 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * Remove and return the tail element.
    * @remarks Time O(1), Space O(1)
    * @returns Removed element or undefined.
+    * @example
+ * // DoublyLinkedList pop and shift operations
+ *  const list = new DoublyLinkedList<number>([10, 20, 30, 40, 50]);
+ *
+ *     // Pop removes from the end
+ *     const last = list.pop();
+ *     console.log(last); // 50;
+ *
+ *     // Shift removes from the beginning
+ *     const first = list.shift();
+ *     console.log(first); // 10;
+ *
+ *     // Verify remaining elements
+ *     console.log([...list]); // [20, 30, 40];
+ *     console.log(list.length); // 3;
    */
 
   pop(): E | undefined {
@@ -757,6 +743,20 @@ export class DoublyLinkedList<E = any, R = any> extends LinearLinkedBase<E, R, D
    * @param [options] - Options for the output list (e.g., maxLen, toElementFn).
    * @param [thisArg] - Value for `this` inside the callback.
    * @returns A new DoublyLinkedList with mapped values.
+    * @example
+ * // DoublyLinkedList for...of iteration and map operation
+ *  const list = new DoublyLinkedList<number>([1, 2, 3, 4, 5]);
+ *
+ *     // Iterate through list
+ *     const doubled = list.map(value => value * 2);
+ *     console.log(doubled.length); // 5;
+ *
+ *     // Use for...of loop
+ *     const result: number[] = [];
+ *     for (const item of list) {
+ *       result.push(item);
+ *     }
+ *     console.log(result); // [1, 2, 3, 4, 5];
    */
 
   map<EM, RM>(

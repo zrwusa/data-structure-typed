@@ -997,7 +997,7 @@ describe('Trie basic', () => {
 });
 
 describe('classic use', () => {
-  it('@example basic Trie creation and add words', () => {
+  it('@example [Trie.add] basic Trie creation and add words', () => {
     // Create a simple Trie with initial words
     const trie = new Trie(['apple', 'app', 'apply']);
 
@@ -1013,7 +1013,7 @@ describe('classic use', () => {
     expect(trie.size).toBe(4);
   });
 
-  it('@example Trie getWords and prefix search', () => {
+  it('@example [Trie.getWords] Trie getWords and prefix search', () => {
     const trie = new Trie(['apple', 'app', 'apply', 'application', 'apricot']);
 
     // Get all words with prefix 'app'
@@ -1041,7 +1041,7 @@ describe('classic use', () => {
     expect(trie.size).toBe(5);
   });
 
-  it('@example Trie delete and iteration', () => {
+  it('@example [Trie.delete] Trie delete and iteration', () => {
     const trie = new Trie(['car', 'card', 'care', 'careful', 'can', 'cat']);
 
     // Delete a word

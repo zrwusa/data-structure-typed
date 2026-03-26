@@ -175,23 +175,6 @@ export class RedBlackTreeNode<K = any, V = any> {
  * 2. It is BST itself. Compared with Heap which is not completely ordered, RedBlackTree is completely ordered.
  *
  * @example
- * // basic Red-Black Tree with simple number keys
- *  // Create a simple Red-Black Tree with numeric keys
- *     const tree = new RedBlackTree([5, 2, 8, 1, 9]);
- *
- *     tree.print();
- *     //   _2___
- *     //  /     \
- *     //  1    _8_
- *     //      /   \
- *     //      5   9
- *
- *     // Verify the tree maintains sorted order
- *     console.log([...tree.keys()]); // [1, 2, 5, 8, 9];
- *
- *     // Check size
- *     console.log(tree.size); // 5;
- * @example
  * // Red-Black Tree with key-value pairs for lookups
  *  interface Employee {
  *       id: number;
@@ -750,6 +733,23 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
    * - updates via a single-pass search (no double walk)
    *
    * @remarks Time O(log n) average, Space O(1)
+    * @example
+ * // basic Red-Black Tree with simple number keys
+ *  // Create a simple Red-Black Tree with numeric keys
+ *     const tree = new RedBlackTree([5, 2, 8, 1, 9]);
+ *
+ *     tree.print();
+ *     //   _2___
+ *     //  /     \
+ *     //  1    _8_
+ *     //      /   \
+ *     //      5   9
+ *
+ *     // Verify the tree maintains sorted order
+ *     console.log([...tree.keys()]); // [1, 2, 5, 8, 9];
+ *
+ *     // Check size
+ *     console.log(tree.size); // 5;
    */
   override set(
     keyNodeOrEntry: K | RedBlackTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,

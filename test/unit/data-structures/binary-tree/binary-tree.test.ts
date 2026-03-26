@@ -1692,7 +1692,7 @@ describe('Coverage boosters v2 - hit remaining statements', () => {
 });
 
 describe('Classic usage examples', () => {
-  it('@example basic BinaryTree creation and insertion', () => {
+  it('@example [BinaryTree.set] basic BinaryTree creation and insertion', () => {
     // Create a BinaryTree with entries
     const entries: [number, string][] = [
       [6, 'six'],
@@ -1716,7 +1716,7 @@ describe('Classic usage examples', () => {
     expect(tree.size).toBe(10);
   });
 
-  it('@example BinaryTree get and has operations', () => {
+  it('@example [BinaryTree.has] BinaryTree get and has operations', () => {
     const tree = new BinaryTree(
       [
         [5, 'five'],
@@ -1745,7 +1745,7 @@ describe('Classic usage examples', () => {
     expect(node?.value).toBe('five');
   });
 
-  it('@example BinaryTree level-order traversal', () => {
+  it('@example [BinaryTree.bfs] BinaryTree level-order traversal', () => {
     const tree = new BinaryTree([
       [1, 'one'],
       [2, 'two'],

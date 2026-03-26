@@ -452,7 +452,7 @@ describe('FibonacciHeap Stress Test', () => {
 });
 
 describe('classic use', () => {
-  it('@example basic Heap creation and add operation', () => {
+  it('@example [Heap.add] basic Heap creation and add operation', () => {
     // Create a min heap (default)
     const minHeap = new Heap([5, 3, 7, 1, 9, 2]);
 
@@ -468,7 +468,7 @@ describe('classic use', () => {
     expect(min).toBe(1);
   });
 
-  it('@example Heap with custom comparator (MaxHeap behavior)', () => {
+  it('@example [Heap.poll] Heap with custom comparator (MaxHeap behavior)', () => {
     interface Task {
       id: number;
       priority: number;
@@ -494,7 +494,7 @@ describe('classic use', () => {
     expect(topTask?.name).toBe('Alert');
   });
 
-  it('@example Heap for event processing with priority', () => {
+  it('@example [Heap.peek] Heap for event processing with priority', () => {
     interface Event {
       id: number;
       type: 'critical' | 'warning' | 'info';

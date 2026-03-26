@@ -544,7 +544,7 @@ describe('AVLTree iterative methods not map mode', () => {
 });
 
 describe('classic use', () => {
-  it('@example basic AVLTree creation and add operation', () => {
+  it('@example [AVLTree.set] basic AVLTree creation and add operation', () => {
     // Create a simple AVLTree with initial values
     const tree = new AVLTree([5, 2, 8, 1, 9]);
 
@@ -582,7 +582,7 @@ describe('classic use', () => {
     expect(tree.isAVLBalanced()).toBe(true);
   });
 
-  it('@example AVLTree delete and balance verification', () => {
+  it('@example [AVLTree.delete] AVLTree delete and balance verification', () => {
     const tree = new AVLTree([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
 
     // Delete an element

@@ -1095,7 +1095,7 @@ describe('classic use', () => {
     expect(neighborsA[1].key).toBe('C');
   });
 
-  it('@example DirectedGraph deleteEdge and vertex operations', () => {
+  it('@example [DirectedGraph.deleteEdge] DirectedGraph deleteEdge and vertex operations', () => {
     const graph = new DirectedGraph<string>();
 
     // Build a small graph
@@ -1121,7 +1121,7 @@ describe('classic use', () => {
     expect(graph.size).toBe(2);
   });
 
-  it('@example DirectedGraph topologicalSort for task scheduling', () => {
+  it('@example [DirectedGraph.topologicalSort] DirectedGraph topologicalSort for task scheduling', () => {
     const graph = new DirectedGraph<string>();
 
     // Build a DAG (Directed Acyclic Graph) for task dependencies

@@ -612,7 +612,7 @@ describe('iterable methods', () => {
 });
 
 describe('classic use', () => {
-  it('@example basic DoublyLinkedList creation and push operation', () => {
+  it('@example [DoublyLinkedList.push] basic DoublyLinkedList creation and push operation', () => {
     // Create a simple DoublyLinkedList with initial values
     const list = new DoublyLinkedList([1, 2, 3, 4, 5]);
 
@@ -628,7 +628,7 @@ describe('classic use', () => {
     expect([...list]).toEqual([1, 2, 3, 4, 5, 6]);
   });
 
-  it('@example DoublyLinkedList pop and shift operations', () => {
+  it('@example [DoublyLinkedList.pop] DoublyLinkedList pop and shift operations', () => {
     const list = new DoublyLinkedList<number>([10, 20, 30, 40, 50]);
 
     // Pop removes from the end
@@ -644,7 +644,7 @@ describe('classic use', () => {
     expect(list.length).toBe(3);
   });
 
-  it('@example DoublyLinkedList for...of iteration and map operation', () => {
+  it('@example [DoublyLinkedList.map] DoublyLinkedList for...of iteration and map operation', () => {
     const list = new DoublyLinkedList<number>([1, 2, 3, 4, 5]);
 
     // Iterate through list

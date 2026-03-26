@@ -594,7 +594,7 @@ describe('Queue', () => {
 });
 
 describe('classic uses', () => {
-  it('@example basic Queue creation and push operation', () => {
+  it('@example [Queue.push] basic Queue creation and push operation', () => {
     // Create a simple Queue with initial values
     const queue = new Queue([1, 2, 3, 4, 5]);
 
@@ -605,7 +605,7 @@ describe('classic uses', () => {
     expect(queue.length).toBe(5);
   });
 
-  it('@example Queue shift and peek operations', () => {
+  it('@example [Queue.shift] Queue shift and peek operations', () => {
     const queue = new Queue<number>([10, 20, 30, 40]);
 
     // Peek at the front element without removing it
@@ -620,7 +620,7 @@ describe('classic uses', () => {
     expect(queue.length).toBe(3);
   });
 
-  it('@example Queue for...of iteration and isEmpty check', () => {
+  it('@example [Queue.isEmpty] Queue for...of iteration and isEmpty check', () => {
     const queue = new Queue<string>(['A', 'B', 'C', 'D']);
 
     const elements: string[] = [];

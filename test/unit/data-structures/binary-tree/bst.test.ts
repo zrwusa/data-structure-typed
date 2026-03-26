@@ -3292,7 +3292,7 @@ describe('BST Comparator Tests', () => {
 });
 
 describe('classic use', () => {
-  it('@example basic BST creation and add operation', async () => {
+  it('@example [BST.set] basic BST creation and add operation', async () => {
     // Create a simple BST with numeric keys
     const bst = new BST<number>([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
 

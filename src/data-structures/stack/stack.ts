@@ -21,38 +21,6 @@ import { IterableElementBase } from '../base';
  * 5. Expression Evaluation: Used for the evaluation of arithmetic or logical expressions, especially when dealing with parenthesis matching and operator precedence.
  * 6. Backtracking Algorithms: In problems where multiple branches need to be explored but only one branch can be explored at a time, stacks can be used to save the state at each branching point.
  * @example
- * // basic Stack creation and push operation
- *  // Create a simple Stack with initial values
- *     const stack = new Stack([1, 2, 3, 4, 5]);
- *
- *     // Verify the stack maintains insertion order (LIFO will be shown in pop)
- *     console.log([...stack]); // [1, 2, 3, 4, 5];
- *
- *     // Check length
- *     console.log(stack.size); // 5;
- *
- *     // Push a new element to the top
- *     stack.push(6);
- *     console.log(stack.size); // 6;
- * @example
- * // Stack pop operation (LIFO - Last In First Out)
- *  const stack = new Stack<number>([10, 20, 30, 40, 50]);
- *
- *     // Peek at the top element without removing
- *     const top = stack.peek();
- *     console.log(top); // 50;
- *
- *     // Pop removes from the top (LIFO order)
- *     const popped = stack.pop();
- *     console.log(popped); // 50;
- *
- *     // Next pop gets the previous element
- *     const next = stack.pop();
- *     console.log(next); // 40;
- *
- *     // Verify length decreased
- *     console.log(stack.size); // 3;
- * @example
  * // Function Call Stack
  *  const functionStack = new Stack<string>();
  *     functionStack.push('main');
@@ -242,6 +210,20 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(1), Space O(1)
    * @param element - Element to push.
    * @returns True when pushed.
+    * @example
+ * // basic Stack creation and push operation
+ *  // Create a simple Stack with initial values
+ *     const stack = new Stack([1, 2, 3, 4, 5]);
+ *
+ *     // Verify the stack maintains insertion order (LIFO will be shown in pop)
+ *     console.log([...stack]); // [1, 2, 3, 4, 5];
+ *
+ *     // Check length
+ *     console.log(stack.size); // 5;
+ *
+ *     // Push a new element to the top
+ *     stack.push(6);
+ *     console.log(stack.size); // 6;
    */
 
   push(element: E): boolean {
@@ -253,6 +235,24 @@ export class Stack<E = any, R = any> extends IterableElementBase<E, R> {
    * Pop and return the top element.
    * @remarks Time O(1), Space O(1)
    * @returns Removed element or undefined.
+    * @example
+ * // Stack pop operation (LIFO - Last In First Out)
+ *  const stack = new Stack<number>([10, 20, 30, 40, 50]);
+ *
+ *     // Peek at the top element without removing
+ *     const top = stack.peek();
+ *     console.log(top); // 50;
+ *
+ *     // Pop removes from the top (LIFO order)
+ *     const popped = stack.pop();
+ *     console.log(popped); // 50;
+ *
+ *     // Next pop gets the previous element
+ *     const next = stack.pop();
+ *     console.log(next); // 40;
+ *
+ *     // Verify length decreased
+ *     console.log(stack.size); // 3;
    */
 
   pop(): E | undefined {

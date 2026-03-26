@@ -77,65 +77,6 @@ export class UndirectedEdge<E = number> extends AbstractEdge<E> {
  *     console.log(neighborsA[0].key); // 'B';
  *     console.log(neighborsA[1].key); // 'C';
  * @example
- * // UndirectedGraph deleteEdge and vertex operations
- *  const graph = new UndirectedGraph<string>();
- *
- *     // Build a simple undirected graph
- *     graph.addVertex('X');
- *     graph.addVertex('Y');
- *     graph.addVertex('Z');
- *     graph.addEdge('X', 'Y', 1);
- *     graph.addEdge('Y', 'Z', 2);
- *     graph.addEdge('X', 'Z', 3);
- *
- *     // Delete an edge
- *     graph.deleteEdge('X', 'Y');
- *     console.log(graph.hasEdge('X', 'Y')); // false;
- *
- *     // Bidirectional deletion confirmed
- *     console.log(graph.hasEdge('Y', 'X')); // false;
- *
- *     // Other edges should remain
- *     console.log(graph.hasEdge('Y', 'Z')); // true;
- *     console.log(graph.hasEdge('Z', 'Y')); // true;
- *
- *     // Delete a vertex
- *     graph.deleteVertex('Y');
- *     console.log(graph.hasVertex('Y')); // false;
- *     console.log(graph.size); // 2;
- * @example
- * // UndirectedGraph connectivity and neighbors
- *  const graph = new UndirectedGraph<string>();
- *
- *     // Build a friendship network
- *     const people = ['Alice', 'Bob', 'Charlie', 'Diana', 'Eve'];
- *     for (const person of people) {
- *       graph.addVertex(person);
- *     }
- *
- *     // Add friendships (undirected edges)
- *     graph.addEdge('Alice', 'Bob', 1);
- *     graph.addEdge('Alice', 'Charlie', 1);
- *     graph.addEdge('Bob', 'Diana', 1);
- *     graph.addEdge('Charlie', 'Eve', 1);
- *     graph.addEdge('Diana', 'Eve', 1);
- *
- *     // Get friends of each person
- *     const aliceFriends = graph.getNeighbors('Alice');
- *     console.log(aliceFriends[0].key); // 'Bob';
- *     console.log(aliceFriends[1].key); // 'Charlie';
- *     console.log(aliceFriends.length); // 2;
- *
- *     const dianaFriends = graph.getNeighbors('Diana');
- *     console.log(dianaFriends[0].key); // 'Bob';
- *     console.log(dianaFriends[1].key); // 'Eve';
- *     console.log(dianaFriends.length); // 2;
- *
- *     // Verify bidirectional friendship
- *     const bobFriends = graph.getNeighbors('Bob');
- *     console.log(bobFriends[0].key); // 'Alice'; // Alice -> Bob -> Alice ✓
- *     console.log(bobFriends[1].key); // 'Diana';
- * @example
  * // UndirectedGraph for social network connectivity analysis
  *  interface Person {
  *       id: number;
@@ -334,6 +275,33 @@ export class UndirectedGraph<
    * @param otherSideVertexKey - Required second endpoint when deleting by pair.
    * @returns Removed edge or `undefined`.
    * @remarks Time O(1) avg, Space O(1)
+    * @example
+ * // UndirectedGraph deleteEdge and vertex operations
+ *  const graph = new UndirectedGraph<string>();
+ *
+ *     // Build a simple undirected graph
+ *     graph.addVertex('X');
+ *     graph.addVertex('Y');
+ *     graph.addVertex('Z');
+ *     graph.addEdge('X', 'Y', 1);
+ *     graph.addEdge('Y', 'Z', 2);
+ *     graph.addEdge('X', 'Z', 3);
+ *
+ *     // Delete an edge
+ *     graph.deleteEdge('X', 'Y');
+ *     console.log(graph.hasEdge('X', 'Y')); // false;
+ *
+ *     // Bidirectional deletion confirmed
+ *     console.log(graph.hasEdge('Y', 'X')); // false;
+ *
+ *     // Other edges should remain
+ *     console.log(graph.hasEdge('Y', 'Z')); // true;
+ *     console.log(graph.hasEdge('Z', 'Y')); // true;
+ *
+ *     // Delete a vertex
+ *     graph.deleteVertex('Y');
+ *     console.log(graph.hasVertex('Y')); // false;
+ *     console.log(graph.size); // 2;
    */
   deleteEdge(edgeOrOneSideVertexKey: EO | VertexKey, otherSideVertexKey?: VertexKey): EO | undefined {
     let oneSide: VO | undefined, otherSide: VO | undefined;
@@ -442,6 +410,41 @@ export class UndirectedGraph<
     return [...edgeSet];
   }
 
+    /**
+   * UndirectedGraph connectivity and neighbors
+   * @example
+ * // UndirectedGraph connectivity and neighbors
+ *  const graph = new UndirectedGraph<string>();
+ *
+ *     // Build a friendship network
+ *     const people = ['Alice', 'Bob', 'Charlie', 'Diana', 'Eve'];
+ *     for (const person of people) {
+ *       graph.addVertex(person);
+ *     }
+ *
+ *     // Add friendships (undirected edges)
+ *     graph.addEdge('Alice', 'Bob', 1);
+ *     graph.addEdge('Alice', 'Charlie', 1);
+ *     graph.addEdge('Bob', 'Diana', 1);
+ *     graph.addEdge('Charlie', 'Eve', 1);
+ *     graph.addEdge('Diana', 'Eve', 1);
+ *
+ *     // Get friends of each person
+ *     const aliceFriends = graph.getNeighbors('Alice');
+ *     console.log(aliceFriends[0].key); // 'Bob';
+ *     console.log(aliceFriends[1].key); // 'Charlie';
+ *     console.log(aliceFriends.length); // 2;
+ *
+ *     const dianaFriends = graph.getNeighbors('Diana');
+ *     console.log(dianaFriends[0].key); // 'Bob';
+ *     console.log(dianaFriends[1].key); // 'Eve';
+ *     console.log(dianaFriends.length); // 2;
+ *
+ *     // Verify bidirectional friendship
+ *     const bobFriends = graph.getNeighbors('Bob');
+ *     console.log(bobFriends[0].key); // 'Alice'; // Alice -> Bob -> Alice ✓
+ *     console.log(bobFriends[1].key); // 'Diana';
+   */
   getNeighbors(vertexOrKey: VO | VertexKey): VO[] {
     const neighbors: VO[] = [];
     const vertex = this._getVertex(vertexOrKey);

@@ -29,83 +29,6 @@ import { ERR } from '../../common';
  * If you try to insert another entry with the same key, the new one will replace the old entry.
  * 4. Unordered Collection: HashMap does not guarantee the order of entries, and the order may change over time.
  * @example
- * // should maintain insertion order
- *  const linkedHashMap = new LinkedHashMap<number, string>();
- *     linkedHashMap.set(1, 'A');
- *     linkedHashMap.set(2, 'B');
- *     linkedHashMap.set(3, 'C');
- *
- *     const result = Array.from(linkedHashMap);
- *     console.log(result); // [
- *  //      [1, 'A'],
- *  //      [2, 'B'],
- *  //      [3, 'C']
- *  //    ];
- * @example
- * // basic HashMap creation and set operation
- *  // Create a simple HashMap with key-value pairs
- *     const map = new HashMap<number, string>([
- *       [1, 'one'],
- *       [2, 'two'],
- *       [3, 'three']
- *     ]);
- *
- *     // Verify size
- *     console.log(map.size); // 3;
- *
- *     // Set a new key-value pair
- *     map.set(4, 'four');
- *     console.log(map.size); // 4;
- *
- *     // Verify entries
- *     console.log([...map.entries()]); // length: 4;
- * @example
- * // HashMap get and has operations
- *  const map = new HashMap<string, number>([
- *       ['apple', 1],
- *       ['banana', 2],
- *       ['cherry', 3]
- *     ]);
- *
- *     // Check if key exists
- *     console.log(map.has('apple')); // true;
- *     console.log(map.has('date')); // false;
- *
- *     // Get value by key
- *     console.log(map.get('banana')); // 2;
- *     console.log(map.get('grape')); // undefined;
- *
- *     // Get all keys and values
- *     const keys = [...map.keys()];
- *     const values = [...map.values()];
- *     console.log(keys); // contains 'apple';
- *     console.log(values); // contains 3;
- * @example
- * // HashMap iteration and filter operations
- *  const map = new HashMap<number, string>([
- *       [1, 'Alice'],
- *       [2, 'Bob'],
- *       [3, 'Charlie'],
- *       [4, 'Diana'],
- *       [5, 'Eve']
- *     ]);
- *
- *     // Iterate through entries
- *     const entries: [number, string][] = [];
- *     for (const [key, value] of map) {
- *       entries.push([key, value]);
- *     }
- *     console.log(entries); // length: 5;
- *
- *     // Filter operation (for iteration with collection methods)
- *     const filtered = [...map].filter(([key]) => key > 2);
- *     console.log(filtered.length); // 3;
- *
- *     // Map operation
- *     const values = [...map.values()].map(v => v.length);
- *     console.log(values); // contains 3; // 'Bob', 'Eve'
- *     console.log(values); // contains 7;
- * @example
  * // HashMap for user session caching O(1) performance
  *  interface UserSession {
  *       userId: number;
@@ -266,6 +189,19 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param key - Key.
    * @param value - Value.
    * @returns True when the operation succeeds.
+    * @example
+ * // should maintain insertion order
+ *  const linkedHashMap = new LinkedHashMap<number, string>();
+ *     linkedHashMap.set(1, 'A');
+ *     linkedHashMap.set(2, 'B');
+ *     linkedHashMap.set(3, 'C');
+ *
+ *     const result = Array.from(linkedHashMap);
+ *     console.log(result); // [
+ *  //      [1, 'A'],
+ *  //      [2, 'B'],
+ *  //      [3, 'C']
+ *  //    ];
    */
   set(key: K, value: V): boolean {
     if (this._isObjKey(key)) {
@@ -301,6 +237,27 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @remarks Time O(1), Space O(1)
    * @param key - Key to look up.
    * @returns Value or undefined.
+    * @example
+ * // HashMap get and has operations
+ *  const map = new HashMap<string, number>([
+ *       ['apple', 1],
+ *       ['banana', 2],
+ *       ['cherry', 3]
+ *     ]);
+ *
+ *     // Check if key exists
+ *     console.log(map.has('apple')); // true;
+ *     console.log(map.has('date')); // false;
+ *
+ *     // Get value by key
+ *     console.log(map.get('banana')); // 2;
+ *     console.log(map.get('grape')); // undefined;
+ *
+ *     // Get all keys and values
+ *     const keys = [...map.keys()];
+ *     const values = [...map.values()];
+ *     console.log(keys); // contains 'apple';
+ *     console.log(values); // contains 3;
    */
   override get(key: K): V | undefined {
     if (this._isObjKey(key)) return this.objMap.get(key);
@@ -384,6 +341,31 @@ export class HashMap<K = any, V = any, R = [K, V]> extends IterableEntryBase<K, 
    * @param predicate - Predicate (key, value, index, map) → boolean.
    * @param [thisArg] - Value for `this` inside the predicate.
    * @returns A new map containing entries that satisfied the predicate.
+    * @example
+ * // HashMap iteration and filter operations
+ *  const map = new HashMap<number, string>([
+ *       [1, 'Alice'],
+ *       [2, 'Bob'],
+ *       [3, 'Charlie'],
+ *       [4, 'Diana'],
+ *       [5, 'Eve']
+ *     ]);
+ *
+ *     // Iterate through entries
+ *     const entries: [number, string][] = [];
+ *     for (const [key, value] of map) {
+ *       entries.push([key, value]);
+ *     }
+ *     console.log(entries); // length: 5;
+ *
+ *     // Filter operation (for iteration with collection methods)
+ *     const filtered = [...map].filter(([key]) => key > 2);
+ *     console.log(filtered.length); // 3;
+ *
+ *     // Map operation
+ *     const values = [...map.values()].map(v => v.length);
+ *     console.log(values); // contains 3; // 'Bob', 'Eve'
+ *     console.log(values); // contains 7;
    */
 
   filter(predicate: EntryCallback<K, V, boolean>, thisArg?: any): any {

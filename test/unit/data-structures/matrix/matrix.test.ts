@@ -1,7 +1,7 @@
 import { Matrix } from '../../../../src';
 
 describe('classic use', () => {
-  it('@example Basic matrix arithmetic', () => {
+  it('@example [Matrix.add] Basic matrix arithmetic', () => {
     const a = new Matrix([
       [1, 2],
       [3, 4]
@@ -24,7 +24,7 @@ describe('classic use', () => {
     ]);
   });
 
-  it('@example Matrix multiplication for transformations', () => {
+  it('@example [Matrix.multiply] Matrix multiplication for transformations', () => {
     // 2x3 matrix * 3x2 matrix = 2x2 matrix
     const a = new Matrix([
       [1, 2, 3],
@@ -47,7 +47,7 @@ describe('classic use', () => {
     ]);
   });
 
-  it('@example Matrix transpose (square matrix)', () => {
+  it('@example [Matrix.transpose] Matrix transpose (square matrix)', () => {
     const m = new Matrix([
       [1, 2, 3],
       [4, 5, 6],
@@ -67,7 +67,7 @@ describe('classic use', () => {
     expect(transposed.transpose().data).toEqual(m.data);
   });
 
-  it('@example Get and set individual cells', () => {
+  it('@example [Matrix.get] Get and set individual cells', () => {
     const m = new Matrix([
       [0, 0, 0],
       [0, 0, 0]

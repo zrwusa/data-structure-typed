@@ -27,71 +27,6 @@ import { LinearBase } from '../base/linear-base';
  * 4. Efficiency: Adding and removing elements at both ends of a deque is usually very fast. However, when the dynamic array needs to expand, it may involve copying the entire array to a larger one, and this operation has a time complexity of O(n).
  * 5. Performance jitter: Deque may experience performance jitter, but DoublyLinkedList will not
  * @example
- * // basic Deque creation and push/pop operations
- *  // Create a simple Deque with initial values
- *     const deque = new Deque([1, 2, 3, 4, 5]);
- *
- *     // Verify the deque maintains insertion order
- *     console.log([...deque]); // [1, 2, 3, 4, 5];
- *
- *     // Check length
- *     console.log(deque.length); // 5;
- *
- *     // Push to the end
- *     deque.push(6);
- *     console.log(deque.length); // 6;
- *
- *     // Pop from the end
- *     const last = deque.pop();
- *     console.log(last); // 6;
- * @example
- * // Deque shift and unshift operations
- *  const deque = new Deque<number>([20, 30, 40]);
- *
- *     // Unshift adds to the front
- *     deque.unshift(10);
- *     console.log([...deque]); // [10, 20, 30, 40];
- *
- *     // Shift removes from the front (O(1) complexity!)
- *     const first = deque.shift();
- *     console.log(first); // 10;
- *
- *     // Verify remaining elements
- *     console.log([...deque]); // [20, 30, 40];
- *     console.log(deque.length); // 3;
- * @example
- * // Deque peek at both ends
- *  const deque = new Deque<number>([10, 20, 30, 40, 50]);
- *
- *     // Get first element without removing
- *     const first = deque.at(0);
- *     console.log(first); // 10;
- *
- *     // Get last element without removing
- *     const last = deque.at(deque.length - 1);
- *     console.log(last); // 50;
- *
- *     // Length unchanged
- *     console.log(deque.length); // 5;
- * @example
- * // Deque for...of iteration and reverse
- *  const deque = new Deque<string>(['A', 'B', 'C', 'D']);
- *
- *     // Iterate forward
- *     const forward: string[] = [];
- *     for (const item of deque) {
- *       forward.push(item);
- *     }
- *     console.log(forward); // ['A', 'B', 'C', 'D'];
- *
- *     // Reverse the deque
- *     deque.reverse();
- *     const backward: string[] = [];
- *     for (const item of deque) {
- *       backward.push(item);
- *     }
- *     console.log(backward); // ['D', 'C', 'B', 'A'];
- * @example
  * // Deque as sliding window for stream processing
  *  interface DataPoint {
  *       timestamp: number;
@@ -310,6 +245,20 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Get the first element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns First element or undefined.
+    * @example
+ * // Deque peek at both ends
+ *  const deque = new Deque<number>([10, 20, 30, 40, 50]);
+ *
+ *     // Get first element without removing
+ *     const first = deque.at(0);
+ *     console.log(first); // 10;
+ *
+ *     // Get last element without removing
+ *     const last = deque.at(deque.length - 1);
+ *     console.log(last); // 50;
+ *
+ *     // Length unchanged
+ *     console.log(deque.length); // 5;
    */
 
   get first(): E | undefined {
@@ -355,6 +304,24 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1) amortized, Space O(1)
    * @param element - Element to append.
    * @returns True when appended.
+    * @example
+ * // basic Deque creation and push/pop operations
+ *  // Create a simple Deque with initial values
+ *     const deque = new Deque([1, 2, 3, 4, 5]);
+ *
+ *     // Verify the deque maintains insertion order
+ *     console.log([...deque]); // [1, 2, 3, 4, 5];
+ *
+ *     // Check length
+ *     console.log(deque.length); // 5;
+ *
+ *     // Push to the end
+ *     deque.push(6);
+ *     console.log(deque.length); // 6;
+ *
+ *     // Pop from the end
+ *     const last = deque.pop();
+ *     console.log(last); // 6;
    */
 
   push(element: E): boolean {
@@ -431,6 +398,21 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * @remarks Time O(1) amortized, Space O(1)
    * @param element - Element to prepend.
    * @returns True when prepended.
+    * @example
+ * // Deque shift and unshift operations
+ *  const deque = new Deque<number>([20, 30, 40]);
+ *
+ *     // Unshift adds to the front
+ *     deque.unshift(10);
+ *     console.log([...deque]); // [10, 20, 30, 40];
+ *
+ *     // Shift removes from the front (O(1) complexity!)
+ *     const first = deque.shift();
+ *     console.log(first); // 10;
+ *
+ *     // Verify remaining elements
+ *     console.log([...deque]); // [20, 30, 40];
+ *     console.log(deque.length); // 3;
    */
 
   unshift(element: E): boolean {
@@ -758,6 +740,24 @@ export class Deque<E = any, R = any> extends LinearBase<E, R> {
    * Reverse the deque by reversing buckets and pointers.
    * @remarks Time O(N), Space O(N)
    * @returns This deque.
+    * @example
+ * // Deque for...of iteration and reverse
+ *  const deque = new Deque<string>(['A', 'B', 'C', 'D']);
+ *
+ *     // Iterate forward
+ *     const forward: string[] = [];
+ *     for (const item of deque) {
+ *       forward.push(item);
+ *     }
+ *     console.log(forward); // ['A', 'B', 'C', 'D'];
+ *
+ *     // Reverse the deque
+ *     deque.reverse();
+ *     const backward: string[] = [];
+ *     for (const item of deque) {
+ *       backward.push(item);
+ *     }
+ *     console.log(backward); // ['D', 'C', 'B', 'A'];
    */
 
   reverse(): this {

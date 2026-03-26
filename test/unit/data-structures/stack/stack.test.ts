@@ -164,7 +164,7 @@ describe('Stack iterative methods', () => {
 });
 
 describe('classic uses', () => {
-  it('@example basic Stack creation and push operation', () => {
+  it('@example [Stack.push] basic Stack creation and push operation', () => {
     // Create a simple Stack with initial values
     const stack = new Stack([1, 2, 3, 4, 5]);
 
@@ -179,7 +179,7 @@ describe('classic uses', () => {
     expect(stack.size).toBe(6);
   });
 
-  it('@example Stack pop operation (LIFO - Last In First Out)', () => {
+  it('@example [Stack.pop] Stack pop operation (LIFO - Last In First Out)', () => {
     const stack = new Stack<number>([10, 20, 30, 40, 50]);
 
     // Peek at the top element without removing

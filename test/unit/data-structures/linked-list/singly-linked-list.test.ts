@@ -646,7 +646,7 @@ describe('iterable methods', () => {
 });
 
 describe('classic uses', () => {
-  it('@example basic SinglyLinkedList creation and push operation', () => {
+  it('@example [SinglyLinkedList.push] basic SinglyLinkedList creation and push operation', () => {
     // Create a simple SinglyLinkedList with initial values
     const list = new SinglyLinkedList([1, 2, 3, 4, 5]);
 
@@ -662,7 +662,7 @@ describe('classic uses', () => {
     expect([...list]).toEqual([1, 2, 3, 4, 5, 6]);
   });
 
-  it('@example SinglyLinkedList pop and shift operations', () => {
+  it('@example [SinglyLinkedList.pop] SinglyLinkedList pop and shift operations', () => {
     const list = new SinglyLinkedList<number>([10, 20, 30, 40, 50]);
 
     // Pop removes from the end
@@ -678,7 +678,7 @@ describe('classic uses', () => {
     expect(list.length).toBe(3);
   });
 
-  it('@example SinglyLinkedList unshift and forward traversal', () => {
+  it('@example [SinglyLinkedList.unshift] SinglyLinkedList unshift and forward traversal', () => {
     const list = new SinglyLinkedList<number>([20, 30, 40]);
 
     // Unshift adds to the beginning
@@ -699,7 +699,7 @@ describe('classic uses', () => {
     expect(list.length).toBe(4);
   });
 
-  it('@example SinglyLinkedList filter and map operations', () => {
+  it('@example [SinglyLinkedList.filter] SinglyLinkedList filter and map operations', () => {
     const list = new SinglyLinkedList<number>([1, 2, 3, 4, 5]);
 
     // Filter even numbers

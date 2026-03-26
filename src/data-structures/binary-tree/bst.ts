@@ -206,34 +206,6 @@ export class BSTNode<K = any, V = any> {
  * 7. No Auto-Balancing: Standard BSTs don't automatically balance themselves.
  *
  * @example
- * // basic BST creation and add operation
- *  // Create a simple BST with numeric keys
- *     const bst = new BST<number>([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
- *
- *     // Keep the example output in source comments but avoid noisy test logs.
- *     await withMutedConsole(() => bst.print());
- *     //         _______8__________
- *     //        /                  \
- *     //     ___4___          ____12_____
- *     //    /       \        /           \
- *     //   _2_     _6_     _10__       _14__
- *     //  /   \   /   \   /     \     /     \
- *     //  1   3   5   7   9    11    13    15__
- *     //                                       \
- *     //                                      16
- *
- *     // Verify size
- *     console.log(bst.size); // 16;
- *
- *     // Add new elements
- *     bst.set(17);
- *     bst.set(0);
- *     console.log(bst.size); // 18;
- *
- *     // Verify keys are searchable
- *     console.log(bst.has(11)); // true;
- *     console.log(bst.has(100)); // false;
- * @example
  * // BST delete and search after deletion
  *  const bst = new BST<number>([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
  *
@@ -801,6 +773,34 @@ export class BST<K = any, V = any, R = any> extends BinaryTree<K, V, R> implemen
    * @param keyNodeOrEntry - The key, node, or entry to set.
    * @param [value] - The value, if providing just a key.
    * @returns True if the addition was successful, false otherwise.
+    * @example
+ * // basic BST creation and add operation
+ *  // Create a simple BST with numeric keys
+ *     const bst = new BST<number>([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
+ *
+ *     // Keep the example output in source comments but avoid noisy test logs.
+ *     await withMutedConsole(() => bst.print());
+ *     //         _______8__________
+ *     //        /                  \
+ *     //     ___4___          ____12_____
+ *     //    /       \        /           \
+ *     //   _2_     _6_     _10__       _14__
+ *     //  /   \   /   \   /     \     /     \
+ *     //  1   3   5   7   9    11    13    15__
+ *     //                                       \
+ *     //                                      16
+ *
+ *     // Verify size
+ *     console.log(bst.size); // 16;
+ *
+ *     // Add new elements
+ *     bst.set(17);
+ *     bst.set(0);
+ *     console.log(bst.size); // 18;
+ *
+ *     // Verify keys are searchable
+ *     console.log(bst.has(11)); // true;
+ *     console.log(bst.has(100)); // false;
    */
   override set(
     keyNodeOrEntry: K | BSTNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,

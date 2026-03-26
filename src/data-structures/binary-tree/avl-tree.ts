@@ -190,28 +190,6 @@ export class AVLTreeNode<K = any, V = any> {
  * 7. Path Length: The path length from the root to any leaf is longer compared to an unbalanced BST, but shorter than a linear chain of nodes.
  *
  * @example
- * // basic AVLTree creation and add operation
- *  // Create a simple AVLTree with initial values
- *     const tree = new AVLTree([5, 2, 8, 1, 9]);
- *
- *     tree.print();
- *     //   _2___
- *     //  /     \
- *     //  1    _8_
- *     //      /   \
- *     //      5   9
- *
- *     // Verify the tree maintains sorted order
- *     console.log([...tree.keys()]); // [1, 2, 5, 8, 9];
- *
- *     // Check size
- *     console.log(tree.size); // 5;
- *
- *     // Add a new element
- *     tree.set(3);
- *     console.log(tree.size); // 6;
- *     console.log([...tree.keys()]); // [1, 2, 3, 5, 8, 9];
- * @example
  * // AVLTree has and get operations
  *  const tree = new AVLTree<number>([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
  *
@@ -225,23 +203,6 @@ export class AVLTreeNode<K = any, V = any> {
  *
  *     // Verify tree is balanced
  *     console.log(tree.isAVLBalanced()); // true;
- * @example
- * // AVLTree delete and balance verification
- *  const tree = new AVLTree([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
- *
- *     // Delete an element
- *     tree.delete(10);
- *     console.log(tree.has(10)); // false;
- *
- *     // Tree should remain balanced after deletion
- *     console.log(tree.isAVLBalanced()); // true;
- *
- *     // Size decreased
- *     console.log(tree.size); // 15;
- *
- *     // Remaining elements are still sorted
- *     const keys = [...tree.keys()];
- *     console.log(keys); // [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16];
  * @example
  * // AVLTree for university ranking system with strict balance
  *  interface University {
@@ -399,6 +360,28 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    * @param keyNodeOrEntry - The key, node, or entry to set.
    * @param [value] - The value, if providing just a key.
    * @returns True if the addition was successful, false otherwise.
+    * @example
+ * // basic AVLTree creation and add operation
+ *  // Create a simple AVLTree with initial values
+ *     const tree = new AVLTree([5, 2, 8, 1, 9]);
+ *
+ *     tree.print();
+ *     //   _2___
+ *     //  /     \
+ *     //  1    _8_
+ *     //      /   \
+ *     //      5   9
+ *
+ *     // Verify the tree maintains sorted order
+ *     console.log([...tree.keys()]); // [1, 2, 5, 8, 9];
+ *
+ *     // Check size
+ *     console.log(tree.size); // 5;
+ *
+ *     // Add a new element
+ *     tree.set(3);
+ *     console.log(tree.size); // 6;
+ *     console.log([...tree.keys()]); // [1, 2, 3, 5, 8, 9];
    */
   override set(
     keyNodeOrEntry: K | AVLTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined,
@@ -417,6 +400,23 @@ export class AVLTree<K = any, V = any, R = any> extends BST<K, V, R> implements 
    *
    * @param keyNodeOrEntry - The node to delete.
    * @returns An array containing deletion results.
+    * @example
+ * // AVLTree delete and balance verification
+ *  const tree = new AVLTree([11, 3, 15, 1, 8, 13, 16, 2, 6, 9, 12, 14, 4, 7, 10, 5]);
+ *
+ *     // Delete an element
+ *     tree.delete(10);
+ *     console.log(tree.has(10)); // false;
+ *
+ *     // Tree should remain balanced after deletion
+ *     console.log(tree.isAVLBalanced()); // true;
+ *
+ *     // Size decreased
+ *     console.log(tree.size); // 15;
+ *
+ *     // Remaining elements are still sorted
+ *     const keys = [...tree.keys()];
+ *     console.log(keys); // [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16];
    */
   override delete(
     keyNodeOrEntry: K | AVLTreeNode<K, V> | [K | null | undefined, V | undefined] | null | undefined

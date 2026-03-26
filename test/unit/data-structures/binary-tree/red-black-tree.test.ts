@@ -838,7 +838,7 @@ describe('real world data', () => {
 });
 
 describe('classic use', () => {
-  it('@example basic Red-Black Tree with simple number keys', () => {
+  it('@example [RedBlackTree.set] basic Red-Black Tree with simple number keys', () => {
     // Create a simple Red-Black Tree with numeric keys
     const tree = new RedBlackTree([5, 2, 8, 1, 9]);
 

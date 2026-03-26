@@ -26,105 +26,6 @@ import { ERR } from '../../common';
  * 7. Efficient Sorting Algorithms: For example, heap sort. Heap sort uses the properties of a heap to sort elements.
  * 8. Graph Algorithms: Such as Dijkstra's shortest path algorithm and Prime's minimum-spanning tree algorithm, which use heaps to improve performance.
  * @example
- * // basic Heap creation and add operation
- *  // Create a min heap (default)
- *     const minHeap = new Heap([5, 3, 7, 1, 9, 2]);
- *
- *     // Verify size
- *     console.log(minHeap.size); // 6;
- *
- *     // Add new element
- *     minHeap.add(4);
- *     console.log(minHeap.size); // 7;
- *
- *     // Min heap property: smallest element at root
- *     const min = minHeap.peek();
- *     console.log(min); // 1;
- * @example
- * // Heap with custom comparator (MaxHeap behavior)
- *  interface Task {
- *       id: number;
- *       priority: number;
- *       name: string;
- *     }
- *
- *     // Custom comparator for max heap behavior (higher priority first)
- *     const tasks: Task[] = [
- *       { id: 1, priority: 5, name: 'Email' },
- *       { id: 2, priority: 3, name: 'Chat' },
- *       { id: 3, priority: 8, name: 'Alert' }
- *     ];
- *
- *     const maxHeap = new Heap(tasks, {
- *       comparator: (a: Task, b: Task) => b.priority - a.priority
- *     });
- *
- *     console.log(maxHeap.size); // 3;
- *
- *     // Peek returns highest priority task
- *     const topTask = maxHeap.peek();
- *     console.log(topTask?.priority); // 8;
- *     console.log(topTask?.name); // 'Alert';
- * @example
- * // Heap for event processing with priority
- *  interface Event {
- *       id: number;
- *       type: 'critical' | 'warning' | 'info';
- *       timestamp: number;
- *       message: string;
- *     }
- *
- *     // Custom priority: critical > warning > info
- *     const priorityMap = { critical: 3, warning: 2, info: 1 };
- *
- *     const eventHeap = new Heap<Event>([], {
- *       comparator: (a: Event, b: Event) => {
- *         const priorityA = priorityMap[a.type];
- *         const priorityB = priorityMap[b.type];
- *         return priorityB - priorityA; // Higher priority first
- *       }
- *     });
- *
- *     // Add events in random order
- *     eventHeap.add({ id: 1, type: 'info', timestamp: 100, message: 'User logged in' });
- *     eventHeap.add({ id: 2, type: 'critical', timestamp: 101, message: 'Server down' });
- *     eventHeap.add({ id: 3, type: 'warning', timestamp: 102, message: 'High memory' });
- *     eventHeap.add({ id: 4, type: 'info', timestamp: 103, message: 'Cache cleared' });
- *     eventHeap.add({ id: 5, type: 'critical', timestamp: 104, message: 'Database error' });
- *
- *     console.log(eventHeap.size); // 5;
- *
- *     // Process events by priority (critical first)
- *     const processedOrder: Event[] = [];
- *     while (eventHeap.size > 0) {
- *       const event = eventHeap.poll();
- *       if (event) {
- *         processedOrder.push(event);
- *       }
- *     }
- *
- *     // Verify critical events came first
- *     console.log(processedOrder[0].type); // 'critical';
- *     console.log(processedOrder[1].type); // 'critical';
- *     console.log(processedOrder[2].type); // 'warning';
- *     console.log(processedOrder[3].type); // 'info';
- *     console.log(processedOrder[4].type); // 'info';
- *
- *     // Verify O(log n) operations
- *     const newHeap = new Heap<number>([5, 3, 7, 1]);
- *
- *     // Add - O(log n)
- *     newHeap.add(2);
- *     console.log(newHeap.size); // 5;
- *
- *     // Poll - O(log n)
- *     const removed = newHeap.poll();
- *     console.log(removed); // 1;
- *
- *     // Peek - O(1)
- *     const top = newHeap.peek();
- *     console.log(top); // 2;
- * @example
  * // Use Heap to solve top k problems
  *  function topKElements(arr: number[], k: number): number[] {
  *       const heap = new Heap<number>([], { comparator: (a, b) => b - a }); // Max heap
@@ -332,6 +233,21 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * @remarks Time O(1) amortized, Space O(1)
    * @param element - Element to insert.
    * @returns True.
+    * @example
+ * // basic Heap creation and add operation
+ *  // Create a min heap (default)
+ *     const minHeap = new Heap([5, 3, 7, 1, 9, 2]);
+ *
+ *     // Verify size
+ *     console.log(minHeap.size); // 6;
+ *
+ *     // Add new element
+ *     minHeap.add(4);
+ *     console.log(minHeap.size); // 7;
+ *
+ *     // Min heap property: smallest element at root
+ *     const min = minHeap.peek();
+ *     console.log(min); // 1;
    */
 
   add(element: E): boolean {
@@ -364,6 +280,31 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Remove and return the top element.
    * @remarks Time O(log N), Space O(1)
    * @returns Top element or undefined.
+    * @example
+ * // Heap with custom comparator (MaxHeap behavior)
+ *  interface Task {
+ *       id: number;
+ *       priority: number;
+ *       name: string;
+ *     }
+ *
+ *     // Custom comparator for max heap behavior (higher priority first)
+ *     const tasks: Task[] = [
+ *       { id: 1, priority: 5, name: 'Email' },
+ *       { id: 2, priority: 3, name: 'Chat' },
+ *       { id: 3, priority: 8, name: 'Alert' }
+ *     ];
+ *
+ *     const maxHeap = new Heap(tasks, {
+ *       comparator: (a: Task, b: Task) => b.priority - a.priority
+ *     });
+ *
+ *     console.log(maxHeap.size); // 3;
+ *
+ *     // Peek returns highest priority task
+ *     const topTask = maxHeap.peek();
+ *     console.log(topTask?.priority); // 8;
+ *     console.log(topTask?.name); // 'Alert';
    */
 
   poll(): E | undefined {
@@ -381,6 +322,65 @@ export class Heap<E = any, R = any> extends IterableElementBase<E, R> {
    * Get the current top element without removing it.
    * @remarks Time O(1), Space O(1)
    * @returns Top element or undefined.
+    * @example
+ * // Heap for event processing with priority
+ *  interface Event {
+ *       id: number;
+ *       type: 'critical' | 'warning' | 'info';
+ *       timestamp: number;
+ *       message: string;
+ *     }
+ *
+ *     // Custom priority: critical > warning > info
+ *     const priorityMap = { critical: 3, warning: 2, info: 1 };
+ *
+ *     const eventHeap = new Heap<Event>([], {
+ *       comparator: (a: Event, b: Event) => {
+ *         const priorityA = priorityMap[a.type];
+ *         const priorityB = priorityMap[b.type];
+ *         return priorityB - priorityA; // Higher priority first
+ *       }
+ *     });
+ *
+ *     // Add events in random order
+ *     eventHeap.add({ id: 1, type: 'info', timestamp: 100, message: 'User logged in' });
+ *     eventHeap.add({ id: 2, type: 'critical', timestamp: 101, message: 'Server down' });
+ *     eventHeap.add({ id: 3, type: 'warning', timestamp: 102, message: 'High memory' });
+ *     eventHeap.add({ id: 4, type: 'info', timestamp: 103, message: 'Cache cleared' });
+ *     eventHeap.add({ id: 5, type: 'critical', timestamp: 104, message: 'Database error' });
+ *
+ *     console.log(eventHeap.size); // 5;
+ *
+ *     // Process events by priority (critical first)
+ *     const processedOrder: Event[] = [];
+ *     while (eventHeap.size > 0) {
+ *       const event = eventHeap.poll();
+ *       if (event) {
+ *         processedOrder.push(event);
+ *       }
+ *     }
+ *
+ *     // Verify critical events came first
+ *     console.log(processedOrder[0].type); // 'critical';
+ *     console.log(processedOrder[1].type); // 'critical';
+ *     console.log(processedOrder[2].type); // 'warning';
+ *     console.log(processedOrder[3].type); // 'info';
+ *     console.log(processedOrder[4].type); // 'info';
+ *
+ *     // Verify O(log n) operations
+ *     const newHeap = new Heap<number>([5, 3, 7, 1]);
+ *
+ *     // Add - O(log n)
+ *     newHeap.add(2);
+ *     console.log(newHeap.size); // 5;
+ *
+ *     // Poll - O(log n)
+ *     const removed = newHeap.poll();
+ *     console.log(removed); // 1;
+ *
+ *     // Peek - O(1)
+ *     const top = newHeap.peek();
+ *     console.log(top); // 2;
    */
 
   peek(): E | undefined {

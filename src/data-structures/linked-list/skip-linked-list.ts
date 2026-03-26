@@ -203,6 +203,26 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
   /**
    * Get the value for a key, or `undefined` if not found.
    * Overrides base O(n) with O(log n) skip-list search.
+    * @example
+ * // Building a sorted index
+ *  type Product = { id: number; name: string; price: number };
+ *     const products: Product[] = [
+ *       { id: 1, name: 'Widget', price: 25 },
+ *       { id: 2, name: 'Gadget', price: 50 },
+ *       { id: 3, name: 'Doohickey', price: 15 }
+ *     ];
+ *
+ *     const index = new SkipList<number, Product>(products, {
+ *       toEntryFn: p => [p.price, p]
+ *     });
+ *
+ *     // Iterate in sorted order by price
+ *     const names = [...index.values()].map(p => p!.name);
+ *     console.log(names); // ['Doohickey', 'Widget', 'Gadget'];
+ *
+ *     // Range search: products between $20 and $60
+ *     const range = index.rangeSearch([20, 60]);
+ *     console.log(range.map(([, p]) => p!.name)); // ['Widget', 'Gadget'];
    */
   override get(key: K): V | undefined {
     const node = this._findNode(key);
@@ -219,6 +239,18 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
 
   /**
    * Delete a key. Returns `true` if the key was found and removed.
+    * @example
+ * // Fast lookup with deletion
+ *  const cache = new SkipList<string, number>();
+ *
+ *     cache.set('alpha', 1);
+ *     cache.set('beta', 2);
+ *     cache.set('gamma', 3);
+ *
+ *     console.log(cache.has('beta')); // true;
+ *     cache.delete('beta');
+ *     console.log(cache.has('beta')); // false;
+ *     console.log(cache.size); // 2;
    */
   delete(key: K): boolean {
     const cmp = this.#comparator;

@@ -1,7 +1,7 @@
 import { TreeMap } from '../../../../src';
 
 describe('classic use', () => {
-  it('@example Sorted dictionary for a contact book', () => {
+  it('@example [TreeMap.set] Sorted dictionary for a contact book', () => {
     const contacts = new TreeMap<string, string>([
       ['Bob', '555-0102'],
       ['Alice', '555-0101'],
@@ -22,7 +22,7 @@ describe('classic use', () => {
     ]);
   });
 
-  it('@example Leaderboard with ranked scores', () => {
+  it('@example [TreeMap.first] Leaderboard with ranked scores', () => {
     // Use score as key (descending), player name as value
     const leaderboard = new TreeMap<number, string>([], {
       comparator: (a, b) => b - a // descending
@@ -49,7 +49,7 @@ describe('classic use', () => {
     expect(leaderboard.size).toBe(3);
   });
 
-  it('@example Event scheduler with time-based lookup', () => {
+  it('@example [TreeMap.ceiling] Event scheduler with time-based lookup', () => {
     const events = new TreeMap<Date, string>();
 
     const meeting = new Date('2024-01-15T10:00:00Z');
@@ -81,7 +81,7 @@ describe('classic use', () => {
     expect(window.map(([, v]) => v)).toEqual(['Team Meeting', 'Lunch Break']);
   });
 
-  it('@example Inventory system with price-sorted products', () => {
+  it('@example [TreeMap.rangeSearch] Inventory system with price-sorted products', () => {
     interface Product {
       name: string;
       price: number;

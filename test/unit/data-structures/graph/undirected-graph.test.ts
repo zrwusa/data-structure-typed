@@ -660,7 +660,7 @@ describe('classic use', () => {
     expect(neighborsA[1].key).toBe('C');
   });
 
-  it('@example UndirectedGraph deleteEdge and vertex operations', () => {
+  it('@example [UndirectedGraph.deleteEdge] UndirectedGraph deleteEdge and vertex operations', () => {
     const graph = new UndirectedGraph<string>();
 
     // Build a simple undirected graph
@@ -688,7 +688,7 @@ describe('classic use', () => {
     expect(graph.size).toBe(2);
   });
 
-  it('@example UndirectedGraph connectivity and neighbors', () => {
+  it('@example [UndirectedGraph.getNeighbors] UndirectedGraph connectivity and neighbors', () => {
     const graph = new UndirectedGraph<string>();
 
     // Build a friendship network

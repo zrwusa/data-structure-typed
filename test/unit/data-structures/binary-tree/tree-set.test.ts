@@ -1,7 +1,7 @@
 import { TreeSet } from '../../../../src';
 
 describe('classic use', () => {
-  it('@example Unique tags with sorted order', () => {
+  it('@example [TreeSet.add] Unique tags with sorted order', () => {
     const tags = new TreeSet<string>(['javascript', 'typescript', 'react', 'typescript', 'node']);
 
     // Duplicates removed, sorted alphabetically
@@ -13,7 +13,7 @@ describe('classic use', () => {
     expect(tags.last()).toBe('typescript');
   });
 
-  it('@example Finding nearest available time slot', () => {
+  it('@example [TreeSet.ceiling] Finding nearest available time slot', () => {
     // Available appointment times (minutes from midnight)
     const slots = new TreeSet<number>([540, 600, 660, 720, 840, 900]);
 
@@ -30,7 +30,7 @@ describe('classic use', () => {
     expect(slots.ceiling(630)).toBe(720); // Next available is 12:00
   });
 
-  it('@example Student grade ranking with custom comparator', () => {
+  it('@example [TreeSet.first] Student grade ranking with custom comparator', () => {
     interface Student {
       name: string;
       gpa: number;
@@ -58,7 +58,7 @@ describe('classic use', () => {
     expect(honors.toArray().map(s => s.name)).toEqual(['Charlie', 'Alice']);
   });
 
-  it('@example IP address blocklist with range checking', () => {
+  it('@example [TreeSet.rangeSearch] IP address blocklist with range checking', () => {
     // Simplified: use numeric IP representation
     const blocklist = new TreeSet<number>([
       167772160, // 10.0.0.0

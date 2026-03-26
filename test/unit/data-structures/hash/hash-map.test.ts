@@ -909,7 +909,7 @@ describe('LinkedHashMap', () => {
 });
 
 describe('classic uses', () => {
-  it('@example should maintain insertion order', () => {
+  it('@example [HashMap.set] should maintain insertion order', () => {
     const linkedHashMap = new LinkedHashMap<number, string>();
     linkedHashMap.set(1, 'A');
     linkedHashMap.set(2, 'B');
@@ -983,7 +983,7 @@ describe('classic uses', () => {
 });
 
 describe('classic uses', () => {
-  it('@example basic HashMap creation and set operation', () => {
+  it('@example [HashMap.set] basic HashMap creation and set operation', () => {
     // Create a simple HashMap with key-value pairs
     const map = new HashMap<number, string>([
       [1, 'one'],
@@ -1002,7 +1002,7 @@ describe('classic uses', () => {
     expect([...map.entries()]).toHaveLength(4);
   });
 
-  it('@example HashMap get and has operations', () => {
+  it('@example [HashMap.get] HashMap get and has operations', () => {
     const map = new HashMap<string, number>([
       ['apple', 1],
       ['banana', 2],
@@ -1024,7 +1024,7 @@ describe('classic uses', () => {
     expect(values).toContain(3);
   });
 
-  it('@example HashMap iteration and filter operations', () => {
+  it('@example [HashMap.filter] HashMap iteration and filter operations', () => {
     const map = new HashMap<number, string>([
       [1, 'Alice'],
       [2, 'Bob'],

@@ -77,53 +77,6 @@ export class DirectedEdge<E = any> extends AbstractEdge<E> {
  *     console.log(neighborsA[0].key); // 'B';
  *     console.log(neighborsA[1].key); // 'C';
  * @example
- * // DirectedGraph deleteEdge and vertex operations
- *  const graph = new DirectedGraph<string>();
- *
- *     // Build a small graph
- *     graph.addVertex('X');
- *     graph.addVertex('Y');
- *     graph.addVertex('Z');
- *     graph.addEdge('X', 'Y', 1);
- *     graph.addEdge('Y', 'Z', 2);
- *
- *     // Delete an edge
- *     graph.deleteEdgeSrcToDest('X', 'Y');
- *     console.log(graph.hasEdge('X', 'Y')); // false;
- *
- *     // Edge in other direction should not exist
- *     console.log(graph.hasEdge('Y', 'X')); // false;
- *
- *     // Other edges should remain
- *     console.log(graph.hasEdge('Y', 'Z')); // true;
- *
- *     // Delete a vertex
- *     graph.deleteVertex('Y');
- *     console.log(graph.hasVertex('Y')); // false;
- *     console.log(graph.size); // 2;
- * @example
- * // DirectedGraph topologicalSort for task scheduling
- *  const graph = new DirectedGraph<string>();
- *
- *     // Build a DAG (Directed Acyclic Graph) for task dependencies
- *     graph.addVertex('Design');
- *     graph.addVertex('Implement');
- *     graph.addVertex('Test');
- *     graph.addVertex('Deploy');
- *
- *     // Add dependency edges
- *     graph.addEdge('Design', 'Implement', 1); // Design must come before Implement
- *     graph.addEdge('Implement', 'Test', 1); // Implement must come before Test
- *     graph.addEdge('Test', 'Deploy', 1); // Test must come before Deploy
- *
- *     // Topological sort gives valid execution order
- *     const executionOrder = graph.topologicalSort();
- *     console.log(executionOrder); // defined;
- *     console.log(executionOrder); // ['Design', 'Implement', 'Test', 'Deploy'];
- *
- *     // All vertices should be included
- *     console.log(executionOrder?.length); // 4;
- * @example
  * // DirectedGraph dijkstra shortest path for network routing
  *  // Build a weighted directed graph representing network nodes and costs
  *     const network = new DirectedGraph<string>();
@@ -316,6 +269,31 @@ export class DirectedGraph<
    * @param destVertexKey - Optional destination vertex/key when deleting by pair.
    * @returns Removed edge or `undefined`.
    * @remarks Time O(1) avg, Space O(1)
+    * @example
+ * // DirectedGraph deleteEdge and vertex operations
+ *  const graph = new DirectedGraph<string>();
+ *
+ *     // Build a small graph
+ *     graph.addVertex('X');
+ *     graph.addVertex('Y');
+ *     graph.addVertex('Z');
+ *     graph.addEdge('X', 'Y', 1);
+ *     graph.addEdge('Y', 'Z', 2);
+ *
+ *     // Delete an edge
+ *     graph.deleteEdgeSrcToDest('X', 'Y');
+ *     console.log(graph.hasEdge('X', 'Y')); // false;
+ *
+ *     // Edge in other direction should not exist
+ *     console.log(graph.hasEdge('Y', 'X')); // false;
+ *
+ *     // Other edges should remain
+ *     console.log(graph.hasEdge('Y', 'Z')); // true;
+ *
+ *     // Delete a vertex
+ *     graph.deleteVertex('Y');
+ *     console.log(graph.hasVertex('Y')); // false;
+ *     console.log(graph.size); // 2;
    */
   deleteEdge(edgeOrSrcVertexKey: EO | VertexKey, destVertexKey?: VertexKey): EO | undefined {
     let removed: EO | undefined = undefined;
@@ -492,6 +470,28 @@ export class DirectedGraph<
    * @param propertyName - `'key'` to map to keys; `'vertex'` to keep instances.
    * @returns Array of keys/vertices, or `undefined` when cycle is found.
    * @remarks Time O(V + E), Space O(V)
+    * @example
+ * // DirectedGraph topologicalSort for task scheduling
+ *  const graph = new DirectedGraph<string>();
+ *
+ *     // Build a DAG (Directed Acyclic Graph) for task dependencies
+ *     graph.addVertex('Design');
+ *     graph.addVertex('Implement');
+ *     graph.addVertex('Test');
+ *     graph.addVertex('Deploy');
+ *
+ *     // Add dependency edges
+ *     graph.addEdge('Design', 'Implement', 1); // Design must come before Implement
+ *     graph.addEdge('Implement', 'Test', 1); // Implement must come before Test
+ *     graph.addEdge('Test', 'Deploy', 1); // Test must come before Deploy
+ *
+ *     // Topological sort gives valid execution order
+ *     const executionOrder = graph.topologicalSort();
+ *     console.log(executionOrder); // defined;
+ *     console.log(executionOrder); // ['Design', 'Implement', 'Test', 'Deploy'];
+ *
+ *     // All vertices should be included
+ *     console.log(executionOrder?.length); // 4;
    */
   topologicalSort(propertyName?: 'vertex' | 'key'): Array<VO | VertexKey> | undefined {
     propertyName = propertyName ?? 'key';
