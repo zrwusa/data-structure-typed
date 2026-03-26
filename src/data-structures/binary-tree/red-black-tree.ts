@@ -1019,7 +1019,7 @@ export class RedBlackTree<K = any, V = any, R = any> extends BST<K, V, R> implem
  *     rbt.perfectlyBalance();
  *     console.log(rbt.isAVLBalanced()); // true;
    */
-  override perfectlyBalance(iterationType?: IterationType): boolean {
+  override perfectlyBalance(_iterationType?: IterationType): boolean {
     // Extract sorted entries, clear, re-insert — RBT self-balances on insert
     const entries: [K, V | undefined][] = [];
     for (const [key, value] of this) entries.push([key, value]);

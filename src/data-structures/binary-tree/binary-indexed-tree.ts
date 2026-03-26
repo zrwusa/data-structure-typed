@@ -302,6 +302,7 @@ export class BinaryIndexedTree implements Iterable<number> {
   [Symbol.iterator](): IterableIterator<number> {
     const size = this._size;
     let i = 0;
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     return {
       [Symbol.iterator]() {

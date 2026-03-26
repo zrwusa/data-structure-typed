@@ -2523,7 +2523,6 @@ export class BinaryTree<K = any, V = any, R = any>
     node: BinaryTreeNode<K, V> | null | undefined,
     options: BinaryTreePrintOptions
   ): NodeDisplayLayout {
-    const { isShowNull, isShowUndefined, isShowRedBlackNIL } = options;
     const emptyDisplayLayout = <NodeDisplayLayout>[['─'], 1, 0, 0];
 
     // Iterative post-order: compute display layout bottom-up using an explicit stack.

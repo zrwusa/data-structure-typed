@@ -6,7 +6,7 @@
  * @license MIT License
  */
 
-import type { Comparator, EntryCallback, ReduceEntryCallback } from '../../types';
+import type { Comparator, EntryCallback } from '../../types';
 import { ERR } from '../../common';
 import { IterableEntryBase } from '../base';
 
@@ -487,13 +487,12 @@ export class SkipList<K = any, V = any, R = [K, V]> extends IterableEntryBase<K,
   floor(key: K): [K, V | undefined] | undefined {
     const cmp = this.#comparator;
     let current = this._head;
-    let result: SkipListNode<K, V> | undefined;
     for (let i = this._level - 1; i >= 0; i--) {
       while (current.forward[i] && cmp(current.forward[i]!.key, key) <= 0) {
         current = current.forward[i]!;
       }
     }
-    result = current === this._head ? undefined : current;
+    const result = current === this._head ? undefined : current;
 
     // Check if we're exactly at or before key
     if (result && cmp(result.key, key) <= 0) return [result.key, result.value];
