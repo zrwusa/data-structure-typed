@@ -144,3 +144,42 @@ describe('SkipList Test2', () => {
     expect(skipList.lower(1)).toBe(undefined);
   });
 });
+
+describe('bug fixes', () => {
+  it('should update value when adding with existing key', () => {
+    const sl = new SkipList<number, string>();
+    sl.add(1, 'a');
+    sl.add(2, 'b');
+    sl.add(3, 'c');
+
+    // Update existing key
+    sl.add(2, 'B');
+    expect(sl.get(2)).toBe('B');
+
+    // Other keys unchanged
+    expect(sl.get(1)).toBe('a');
+    expect(sl.get(3)).toBe('c');
+  });
+
+  it('should not create duplicate nodes on key update', () => {
+    const sl = new SkipList<number, string>();
+    sl.add(1, 'a');
+    sl.add(2, 'b');
+    sl.add(3, 'c');
+
+    // Update key 2 multiple times
+    sl.add(2, 'x');
+    sl.add(2, 'y');
+    sl.add(2, 'z');
+
+    expect(sl.get(2)).toBe('z');
+
+    // Delete should remove the single node
+    sl.delete(2);
+    expect(sl.get(2)).toBeUndefined();
+
+    // Other keys still intact
+    expect(sl.get(1)).toBe('a');
+    expect(sl.get(3)).toBe('c');
+  });
+});

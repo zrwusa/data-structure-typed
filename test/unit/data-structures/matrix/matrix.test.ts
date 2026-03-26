@@ -459,4 +459,69 @@ describe('Matrix', () => {
       );
     });
   });
+
+  describe('bug fixes', () => {
+    it('should handle zero values correctly in add', () => {
+      const a = new Matrix([
+        [1, -1],
+        [0, 3]
+      ]);
+      const b = new Matrix([
+        [-1, 1],
+        [0, -3]
+      ]);
+      const result = a.add(b);
+      expect(result?.data).toEqual([
+        [0, 0],
+        [0, 0]
+      ]);
+    });
+
+    it('should handle zero values correctly in subtract', () => {
+      const a = new Matrix([
+        [5, 3],
+        [0, 7]
+      ]);
+      const b = new Matrix([
+        [5, 3],
+        [0, 7]
+      ]);
+      const result = a.subtract(b);
+      expect(result?.data).toEqual([
+        [0, 0],
+        [0, 0]
+      ]);
+    });
+
+    it('should transpose rectangular (non-square) matrices', () => {
+      const m = new Matrix([
+        [1, 2, 3],
+        [4, 5, 6]
+      ]);
+      const t = m.transpose();
+      expect(t.rows).toBe(3);
+      expect(t.cols).toBe(2);
+      expect(t.data).toEqual([
+        [1, 4],
+        [2, 5],
+        [3, 6]
+      ]);
+    });
+
+    it('should transpose a single-row matrix', () => {
+      const m = new Matrix([[1, 2, 3, 4]]);
+      const t = m.transpose();
+      expect(t.rows).toBe(4);
+      expect(t.cols).toBe(1);
+      expect(t.data).toEqual([[1], [2], [3], [4]]);
+    });
+
+    it('should transpose a single-column matrix', () => {
+      const m = new Matrix([[1], [2], [3]]);
+      const t = m.transpose();
+      expect(t.rows).toBe(1);
+      expect(t.cols).toBe(3);
+      expect(t.data).toEqual([[1, 2, 3]]);
+    });
+  });
 });

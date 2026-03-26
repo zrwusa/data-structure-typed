@@ -161,10 +161,7 @@ export class Matrix {
         const a = this.get(i, j),
           b = matrix.get(i, j);
         if (a !== undefined && b !== undefined) {
-          const added = this._addFn(a, b);
-          if (added) {
-            resultData[i][j] = added;
-          }
+          resultData[i][j] = this._addFn(a, b) ?? 0;
         }
       }
     }
@@ -197,10 +194,7 @@ export class Matrix {
         const a = this.get(i, j),
           b = matrix.get(i, j);
         if (a !== undefined && b !== undefined) {
-          const subtracted = this._subtractFn(a, b);
-          if (subtracted) {
-            resultData[i][j] = subtracted;
-          }
+          resultData[i][j] = this._subtractFn(a, b) ?? 0;
         }
       }
     }
@@ -259,7 +253,7 @@ export class Matrix {
    * @returns The transpose() function returns a new Matrix object with the transposed data.
    */
   transpose(): Matrix {
-    if (this.data.some(row => row.length !== this.rows)) {
+    if (this.data.some(row => row.length !== this.cols)) {
       throw new Error(ERR.matrixNotRectangular());
     }
 

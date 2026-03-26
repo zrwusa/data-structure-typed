@@ -65,7 +65,6 @@ export class SkipList<K, V> {
   }
 
   add(key: K, value: V): void {
-    const newNode = new SkipListNode(key, value, this._randomLevel());
     const update: SkipListNode<K, V>[] = new Array(this.maxLevel).fill(this.head);
     let current = this.head;
 
@@ -75,6 +74,15 @@ export class SkipList<K, V> {
       }
       update[i] = current;
     }
+
+    // If key already exists, update value in place
+    const existing = update[0].forward[0];
+    if (existing && existing.key === key) {
+      existing.value = value;
+      return;
+    }
+
+    const newNode = new SkipListNode(key, value, this._randomLevel());
 
     for (let i = 0; i < newNode.forward.length; i++) {
       newNode.forward[i] = update[i].forward[i];
