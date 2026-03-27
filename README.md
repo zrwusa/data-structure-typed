@@ -232,27 +232,37 @@ const set = new Set(tree);             // Set constructor
 ```typescript
 import { RedBlackTree } from 'data-structure-typed';
 
-const leaderboard = new RedBlackTree([
+// Descending comparator — highest scores first
+const leaderboard = new RedBlackTree<number, string>([
   [100, 'Alice'],
   [85, 'Bob'],
   [92, 'Charlie']
-]);
+], { comparator: (a, b) => b - a });
 
-// Get sorted scores (automatically maintained!)
+// Iterate — naturally descending, O(n)
 for (const [score, player] of leaderboard) {
   console.log(`${player}: ${score}`);
 }
-// Output:
-// Alice: 100
-// Charlie: 92
-// Bob: 85
+// Output: Alice: 100 → Charlie: 92 → Bob: 85
 
-// Update score
+// Update score — O(log n)
 leaderboard.delete(85);
-leaderboard.set(95, 'Bob');  // O(log n)
+leaderboard.set(95, 'Bob');
 
-// Query top players
-const topPlayers = [...leaderboard.values()].reverse().slice(0, 3);
+// Top-k — O(k log n), no array copy needed
+const top3: [number, string][] = [];
+let score = leaderboard.getLeftMost();        // highest score
+while (score !== undefined && top3.length < 3) {
+  top3.push([score, leaderboard.get(score)!]);
+  score = leaderboard.higher(score);          // next in tree order
+}
+
+// Range query — players scoring 90~100, O(log n + k)
+let s = leaderboard.ceiling(100);             // greatest score ≤ 100 in desc tree
+while (s !== undefined && s >= 90) {
+  console.log(`${leaderboard.get(s)}: ${s}`);
+  s = leaderboard.higher(s);
+}
 ```
 
 ### Task Queue (Scheduling)

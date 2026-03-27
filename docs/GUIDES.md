@@ -242,32 +242,59 @@ class Leaderboard {
     this.players.set(player.id, player.score);
   }
 
+  // O(k log n) — walk from highest score, no array copy
   getTopN(n: number): Player[] {
-    return [...this.scores.values()].slice(0, n);
+    const result: Player[] = [];
+    let key = this.scores.getLeftMost(); // highest in desc tree
+    while (key !== undefined && result.length < n) {
+      const player = this.scores.get(key);
+      if (player) result.push(player);
+      key = this.scores.higher(key);     // next in tree order
+    }
+    return result;
   }
 
+  // O(log n + k) — count entries above the target score
   getRank(playerId: string): number {
     if (!this.players.has(playerId)) return -1;
-
     const score = this.players.get(playerId)!;
     let rank = 1;
-
-    for (const [s] of this.scores) {
-      if (s > score) rank++;
-      else break;
+    let key = this.scores.getLeftMost();
+    while (key !== undefined && key > score) {
+      rank++;
+      key = this.scores.higher(key);
     }
-
     return rank;
   }
 
+  // O(log n + k) — navigate to target player, then walk ±range
   getAroundMe(playerId: string, range: number): Player[] {
-    const myRank = this.getRank(playerId);
-    if (myRank === -1) return [];
+    if (!this.players.has(playerId)) return [];
+    const myScore = this.players.get(playerId)!;
+    const result: Player[] = [];
 
-    const start = Math.max(1, myRank - range);
-    const end = Math.min(this.scores.size, myRank + range);
+    // Collect `range` players above me
+    const above: Player[] = [];
+    let key = this.scores.lower(myScore);
+    for (let i = 0; i < range && key !== undefined; i++) {
+      const p = this.scores.get(key);
+      if (p) above.unshift(p);
+      key = this.scores.lower(key);
+    }
 
-    return [...this.scores.values()].slice(start - 1, end);
+    // Me + `range` players below me
+    result.push(...above);
+    const me = this.scores.get(myScore);
+    if (me) result.push(me);
+
+    key = this.scores.higher(myScore);
+    for (let i = 0; i < range && key !== undefined; i++) {
+      const p = this.scores.get(key);
+      if (p) result.push(p);
+      key = this.scores.higher(key);
+    }
+
+    return result;
   }
 }
 
